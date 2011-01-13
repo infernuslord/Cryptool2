@@ -38,7 +38,7 @@ namespace Cryptool.Plugins.PeerToPeerProxy
 
         #endregion
 
-        [TaskPane("Autoconnect P2P network", "Autoconnect to the P2P network, when the workspace is executed.", null, 0, true, DisplayLevel.Beginner,
+        [TaskPane("Autoconnect P2P network", "Autoconnect to the P2P network, when the workspace is executed.", null, 0, true,
             ControlType.CheckBox)]
         public bool Autoconnect
         {

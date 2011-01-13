@@ -17,7 +17,7 @@ namespace Cryptool.Plugins.SubbyteArrayCryptoolStream
         private int end;
         private int maxOffset;
         
-        [TaskPane("Start Index of ByteArray","Start",null,0,true,DisplayLevel.Beginner,ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
+        [TaskPane("Start Index of ByteArray","Start",null,0,true,ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
         public int Start
         {
             get { return this.start; }
@@ -25,7 +25,7 @@ namespace Cryptool.Plugins.SubbyteArrayCryptoolStream
             OnPropertyChanged("Start");
             }
         }
-        [TaskPane("End Index of ByteArray", "End", null, 1, true, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
+        [TaskPane("End Index of ByteArray", "End", null, 1, true, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
         public int End
         {
             get { return this.end; }

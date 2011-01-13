@@ -53,7 +53,7 @@ namespace Cryptool.PrimesGenerator
 
 
     private BigInteger m_OutputString;
-    [PropertyInfo(Direction.OutputData, "BigInteger output", "A primenumber", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.OutputData, "BigInteger output", "A primenumber", "", true, false, QuickWatchFormat.Text, null)]
     public BigInteger OutputString
     {
       get { return this.m_OutputString; }

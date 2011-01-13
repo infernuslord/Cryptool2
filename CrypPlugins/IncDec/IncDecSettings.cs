@@ -42,8 +42,8 @@ namespace IncDec
       get { return currentMode; }     
     }
 
-    [ContextMenu("Mode", "Please select increment or decrement operator.", 0, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, null, new string[] { "Increment", "Decrement"})]
-    [TaskPane("Mode", "Please select increment or decrement operator.", "", 0, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "Increment", "Decrement" })]
+    [ContextMenu("Mode", "Please select increment or decrement operator.", 0, ContextMenuControlType.ComboBox, null, new string[] { "Increment", "Decrement"})]
+    [TaskPane("Mode", "Please select increment or decrement operator.", "", 0, false, ControlType.ComboBox, new string[] { "Increment", "Decrement" })]
     public int ModeSelect
     {
       get { return (int)this.currentMode; }
@@ -56,7 +56,7 @@ namespace IncDec
     }
 
     
-    [TaskPane("Inc/Dec value", "Value to add or subtract.", null, 1, false, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
+    [TaskPane("Inc/Dec value", "Value to add or subtract.", null, 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
     public int Value
     {
       get { return this.value; }

@@ -27,7 +27,7 @@ namespace Cryptool.Plugins.Variable
     {
         #region Variable Name
         private String variableName = "";
-        [TaskPane("Variable Name", "The variable this component is linked with.", null, 1, false, DisplayLevel.Beginner, ControlType.TextBox)]
+        [TaskPane("Variable Name", "The variable this component is linked with.", null, 1, false, ControlType.TextBox)]
         public String VariableName
         {
             get { return variableName; }

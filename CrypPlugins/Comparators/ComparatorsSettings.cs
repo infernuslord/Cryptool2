@@ -34,7 +34,7 @@ namespace Cryptool.Plugins.Comparators
         #endregion
 
         #region taskpane
-        [TaskPane("Comparator", "Choose the Comperator", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "==", "!=", "<", ">", "<=", ">=" })]
+        [TaskPane("Comparator", "Choose the Comperator", null, 1, false, ControlType.ComboBox, new string[] { "==", "!=", "<", ">", "<=", ">=" })]
         public int Comparator
         {
             get { return this.comparator; }

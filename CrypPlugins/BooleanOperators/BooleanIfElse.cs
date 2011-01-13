@@ -44,7 +44,7 @@ namespace Cryptool.Plugins.BooleanOperators
             this.settings = new BooleanIfElseSettings();
         }
 
-        [PropertyInfo(Direction.InputData, "Input", "input", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.InputData, "Input", "input", "")]
         public Boolean Input
         {
             get
@@ -58,7 +58,7 @@ namespace Cryptool.Plugins.BooleanOperators
             }            
         }
 
-        [PropertyInfo(Direction.OutputData, "Output_true", "output true", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.OutputData, "Output_true", "output true", "")]
         public Boolean Output_true
         {
             get 
@@ -72,7 +72,7 @@ namespace Cryptool.Plugins.BooleanOperators
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "Output_false", "output false", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.OutputData, "Output_false", "output false", "")]
         public Boolean Output_false
         {
             get

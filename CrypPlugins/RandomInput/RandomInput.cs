@@ -83,7 +83,7 @@ namespace RandomInput
       }
     }
 
-    [PropertyInfo(Direction.OutputData, "Stream Output", "Memory stream of given length.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+    [PropertyInfo(Direction.OutputData, "Stream Output", "Memory stream of given length.", "", false, false, QuickWatchFormat.Hex, null)]
     public CryptoolStream StreamOutput
     {
       get
@@ -108,7 +108,7 @@ namespace RandomInput
       set { } // readonly
     }
 
-    [PropertyInfo(Direction.OutputData, "ByteArray Output", "Byte array of given length.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+    [PropertyInfo(Direction.OutputData, "ByteArray Output", "Byte array of given length.", "", false, false, QuickWatchFormat.Hex, null)]
     public byte[] ByteArrayOutput
     {
       get

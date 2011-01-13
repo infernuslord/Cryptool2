@@ -54,7 +54,7 @@ namespace Cryptool.Plugins.BooleanOperators
 
         }
 
-        [PropertyInfo(Direction.InputData, "InputA", "inputA", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.InputData, "InputA", "inputA", "")]
         public Boolean InputA
         {
             get
@@ -69,7 +69,7 @@ namespace Cryptool.Plugins.BooleanOperators
             }
         }
 
-        [PropertyInfo(Direction.InputData, "InputB", "inputB", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.InputData, "InputB", "inputB", "")]
         public Boolean InputB
         {
             get
@@ -85,7 +85,7 @@ namespace Cryptool.Plugins.BooleanOperators
         }
 
 
-        [PropertyInfo(Direction.OutputData, "Output", "output", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.OutputData, "Output", "output", "")]
         public Boolean Output
         {
             get

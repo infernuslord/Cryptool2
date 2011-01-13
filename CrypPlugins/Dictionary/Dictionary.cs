@@ -72,7 +72,7 @@ namespace Dictionary
         }
 
         [Obsolete("Use string[] output instead")]
-        [PropertyInfo(Direction.OutputData, "Dictionary output (deprecated)", "Values from dictionary as single string (deprecated)", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "Dictionary output (deprecated)", "Values from dictionary as single string (deprecated)", "", false, false, QuickWatchFormat.Text, null)]
         public string OutputString
         {
             get
@@ -91,7 +91,7 @@ namespace Dictionary
             set { } // readonly
         }
 
-        [PropertyInfo(Direction.OutputData, "Dictionary Output", "Values from dictionary as array of strings", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "Dictionary Output", "Values from dictionary as array of strings", "", false, false, QuickWatchFormat.Text, null)]
         public string[] OutputList
         {
             get

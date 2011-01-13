@@ -100,7 +100,7 @@ namespace PrimeTest
     #region Properties
     private BigInteger m_InputNumber;
     PrimesBigInteger m_Value = null;
-    [PropertyInfo(Direction.InputData, "Text input", "Input a BigInteger", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text,null)]
+    [PropertyInfo(Direction.InputData, "Text input", "Input a BigInteger", "", true, false, QuickWatchFormat.Text,null)]
     public BigInteger InputNumber
     {
       get { return this.m_InputNumber; }
@@ -123,8 +123,8 @@ namespace PrimeTest
     }
 
     private bool m_Output;
-    // [QuickWatch(QuickWatchFormat.Text, DisplayLevel.Beginner, null)]
-    [PropertyInfo(Direction.OutputData, "Boolean output", "True if input is a prime number, otherwise false", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+    // [QuickWatch(QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.OutputData, "Boolean output", "True if input is a prime number, otherwise false", "", false, false, QuickWatchFormat.Text, null)]
     public bool Output
     {
       get { return this.m_Output; }

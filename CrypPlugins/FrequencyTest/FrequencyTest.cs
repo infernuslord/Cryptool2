@@ -45,7 +45,7 @@ namespace Cryptool.FrequencyTest
 
         #region Properties (Inputs/Outputs)
 
-        [PropertyInfo(Direction.InputData, "The string to be analyzed", "Text Input", "",true, true, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "The string to be analyzed", "Text Input", "",true, true, QuickWatchFormat.Text, null)]
         public string StringInput 
         {
             get
@@ -59,13 +59,13 @@ namespace Cryptool.FrequencyTest
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "Text output", "letter:absolute frequency of the letter:relative frequency of the letter (in %)", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "Text output", "letter:absolute frequency of the letter:relative frequency of the letter (in %)", "", false, false, QuickWatchFormat.Text, null)]
         public string StringOutput
         {
             get { return stringOutput; }
         }
 
-        [PropertyInfo(Direction.OutputData , "List output", "absolute frequency of a letter", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.None, "QuickWatchArray")]
+        [PropertyInfo(Direction.OutputData , "List output", "absolute frequency of a letter", "", false, false, QuickWatchFormat.None, "QuickWatchArray")]
         public int[] ArrayOutput
         {
             get { return arrayOutput; }
@@ -82,7 +82,7 @@ namespace Cryptool.FrequencyTest
             return sb.ToString();
         }
 
-        [PropertyInfo(Direction.OutputData, "Dictionary output", "Found grams and their quantities in different scalings", "", false, false, DisplayLevel.Experienced, QuickWatchFormat.None, "QuickWatchDictionary")]
+        [PropertyInfo(Direction.OutputData, "Dictionary output", "Found grams and their quantities in different scalings", "", false, false, QuickWatchFormat.None, "QuickWatchDictionary")]
         public IDictionary<string, double[]> DictionaryOutput
         {
             get { return grams; }

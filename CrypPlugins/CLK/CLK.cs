@@ -105,7 +105,7 @@ namespace Cryptool.CLK
 
     # region public interface
        
-    [PropertyInfo(Direction.OutputData, "Output", "Output.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.OutputData, "Output", "Output.", "", false, false, QuickWatchFormat.Text, null)]
     public bool Output
     {
         get { return output; }
@@ -119,7 +119,7 @@ namespace Cryptool.CLK
         }
     }
 
-    [PropertyInfo(Direction.OutputData, "Output of rounds", "Output.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.OutputData, "Output of rounds", "Output.", "", false, false, QuickWatchFormat.Text, null)]
     public int RoundOutput
     {
         get { return roundOutput; }
@@ -133,7 +133,7 @@ namespace Cryptool.CLK
         }
     }
 
-    [PropertyInfo(Direction.InputData, "EventInput", "EventInput", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.InputData, "EventInput", "EventInput", "", false, false, QuickWatchFormat.Text, null)]
     public object EventInput
     {
         get { return eventInput; }

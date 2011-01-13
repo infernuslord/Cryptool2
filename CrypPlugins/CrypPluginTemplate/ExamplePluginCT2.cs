@@ -46,7 +46,7 @@ namespace Cryptool.Plugins.ExamplePluginCT2
         /// HOWTO: Input interface to read the input data. 
         /// You can add more input properties of other type if needed.
         /// </summary>
-        [PropertyInfo(Direction.InputData, "Minuend", "Input number", null, DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.InputData, "Minuend", "Input number", null)]
         public int Minuend
         {
             get;
@@ -57,7 +57,7 @@ namespace Cryptool.Plugins.ExamplePluginCT2
         /// HOWTO: Output interface to write the output data.
         /// You can add more output properties ot other type if needed.
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "Difference", "Result", null, DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.OutputData, "Difference", "Result", null)]
         public int Difference
         {
             get;

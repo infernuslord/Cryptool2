@@ -38,8 +38,8 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
         /// <summary>
         /// Choose the modus to work with
         /// </summary>
-        [ContextMenu("Modus", "Select the modus you want to work with", 2, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, null, new String[] { "Autokey", "Vigenere" })]
-        [TaskPane("Modus", "Select the modus you want to work with", null, 2, false, DisplayLevel.Experienced, ControlType.ComboBox, new String[] { "Autokey", "Vigenere" })]
+        [ContextMenu("Modus", "Select the modus you want to work with", 2, ContextMenuControlType.ComboBox, null, new String[] { "Autokey", "Vigenere" })]
+        [TaskPane("Modus", "Select the modus you want to work with", null, 2, false, ControlType.ComboBox, new String[] { "Autokey", "Vigenere" })]
         public int Modus // Autokey or Repeatedkey
         {
             get { return this.modus; }
@@ -54,8 +54,8 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
         /// <summary>
         /// Choose the language frequency to work with
         /// </summary>
-        [ContextMenu("Expected Language", "Select the language you expect the plaintext to be", 2, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, null, new String[] { "English", "German", "French", "Spanish" })]
-        [TaskPane("Expected Language", "Select the language you expect the plaintext to be", null, 2, false, DisplayLevel.Experienced, ControlType.ComboBox, new String[] { "English", "German", "French", "Spanish" })]
+        [ContextMenu("Expected Language", "Select the language you expect the plaintext to be", 2, ContextMenuControlType.ComboBox, null, new String[] { "English", "German", "French", "Spanish" })]
+        [TaskPane("Expected Language", "Select the language you expect the plaintext to be", null, 2, false, ControlType.ComboBox, new String[] { "English", "German", "French", "Spanish" })]
         public int Language // Expected letter frequencies
         {
             get { return this.language; }
@@ -70,7 +70,7 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
         /// <summary>
         /// Choose the alphabet letters to work with
         /// </summary>
-        [TaskPane("Alphabet", "This is the used alphabet.", null, 7, false, DisplayLevel.Expert, ControlType.TextBox, null)]
+        [TaskPane("Alphabet", "This is the used alphabet.", null, 7, false, ControlType.TextBox, null)]
         public string AlphabetSymbols
         {
             get { return this.alphabet; }

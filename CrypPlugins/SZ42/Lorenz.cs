@@ -67,7 +67,7 @@ namespace Cryptool.Plugins.SZ42
 
         #region Data Properties
 
-        [PropertyInfo(Direction.InputData, "Text Input", "Input a string to be processed by the SZ42 cipher", null, false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "Text Input", "Input a string to be processed by the SZ42 cipher", null, false, false, QuickWatchFormat.Text, null)]
         public string InputString
         {
             get { return this.inputString; }
@@ -81,7 +81,7 @@ namespace Cryptool.Plugins.SZ42
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "Text output", "The string after processing with the SZ42 cipher", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "Text output", "The string after processing with the SZ42 cipher", "", false, false, QuickWatchFormat.Text, null)]
         public string OutputString
         {
             get { return this.outputString; }

@@ -61,7 +61,7 @@ namespace Cryptool.Plugins.BigNumber
         /// The inputs are defined.
         /// Only BigInteger are accepted.
         /// </summary>
-        [PropertyInfo(Direction.InputData, "x Input", "Number input 1", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.None, null)]
+        [PropertyInfo(Direction.InputData, "x Input", "Number input 1", "", true, false, QuickWatchFormat.None, null)]
         public BigInteger Input1
         {
             get
@@ -76,7 +76,7 @@ namespace Cryptool.Plugins.BigNumber
         }
 
         
-        [PropertyInfo(Direction.InputData, "y Input", "Number input 2", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.None, null)]
+        [PropertyInfo(Direction.InputData, "y Input", "Number input 2", "", true, false, QuickWatchFormat.None, null)]
         public BigInteger Input2
         {
             get
@@ -91,7 +91,7 @@ namespace Cryptool.Plugins.BigNumber
         }
 
         
-        [PropertyInfo(Direction.InputData, "Modulo", "Modulo input", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.InputData, "Modulo", "Modulo input", "")]
         public BigInteger Mod
         {
             get
@@ -108,7 +108,7 @@ namespace Cryptool.Plugins.BigNumber
         /// <summary>
         /// The output is defined.
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "Output", "Number output", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.OutputData, "Output", "Number output", "")]
         public BigInteger Output
         {
             get

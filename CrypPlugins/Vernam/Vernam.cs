@@ -64,7 +64,7 @@ namespace Cryptool.Vernam
             set { this.settings = (VernamSettings)value; }
         }
 
-        [PropertyInfo(Direction.InputData, "Text input", "Input a string to be processed by the Vernam cipher", null, true, false, DisplayLevel.Beginner,QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "Text input", "Input a string to be processed by the Vernam cipher", null, true, false,QuickWatchFormat.Text, null)]
         public string InputString
         {
             get { return this.inputString; }
@@ -78,7 +78,7 @@ namespace Cryptool.Vernam
             }
         }
 
-        [PropertyInfo(Direction.InputData, "Key", "Input key as byte array", null, true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "Key", "Input key as byte array", null, true, false, QuickWatchFormat.Text, null)]
         public byte[] InputKey
         {
             get { return this.inputKey; }
@@ -91,7 +91,7 @@ namespace Cryptool.Vernam
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "Stream output", "The string after processing with the Caesar cipher is converted to a stream. Default encoding is used.", null, false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "Stream output", "The string after processing with the Caesar cipher is converted to a stream. Default encoding is used.", null, false, false, QuickWatchFormat.Text, null)]
         public CryptoolStream OutputStream
         {
             get
@@ -111,7 +111,7 @@ namespace Cryptool.Vernam
             set { }
         }
 
-        [PropertyInfo(Direction.OutputData, "Text output","The string after processing with the Vernam cipher", null, false, false, DisplayLevel.Beginner,QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "Text output","The string after processing with the Vernam cipher", null, false, false,QuickWatchFormat.Text, null)]
         public string OutputString
         {
             get { return this.outputString; }

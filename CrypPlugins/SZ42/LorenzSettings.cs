@@ -64,7 +64,7 @@ namespace Cryptool.Plugins.SZ42
 
         #region General Settings
 
-        [TaskPane("Action", "Select the Algorithm action", "General Settings", 0, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "Encrypt", "Decrypt" })]
+        [TaskPane("Action", "Select the Algorithm action", "General Settings", 0, false, ControlType.ComboBox, new string[] { "Encrypt", "Decrypt" })]
         public int Action
         {
             get
@@ -81,7 +81,7 @@ namespace Cryptool.Plugins.SZ42
             }
         }
 
-        [TaskPane("Limitation", "Select the limitation type", "General Settings", 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "Chi2 One Back", "None" })]
+        [TaskPane("Limitation", "Select the limitation type", "General Settings", 1, false, ControlType.ComboBox, new string[] { "Chi2 One Back", "None" })]
         public int Limitation
         {
             get
@@ -102,7 +102,7 @@ namespace Cryptool.Plugins.SZ42
 
         #region Wheels Patterns
 
-        [TaskPane("Wheel χ1 Pattern ", "Set the wheel χ1 pattern", "Wheels Patterns", 2, false, DisplayLevel.Beginner, ControlType.TextBox, "")]
+        [TaskPane("Wheel χ1 Pattern ", "Set the wheel χ1 pattern", "Wheels Patterns", 2, false, ControlType.TextBox, "")]
         public string Patternχ1
         {
             get
@@ -119,7 +119,7 @@ namespace Cryptool.Plugins.SZ42
             }
         }
 
-        [TaskPane("Wheel χ2 Pattern ", "Set the wheel χ2 pattern", "Wheels Patterns", 3, false, DisplayLevel.Beginner, ControlType.TextBox, "")]
+        [TaskPane("Wheel χ2 Pattern ", "Set the wheel χ2 pattern", "Wheels Patterns", 3, false, ControlType.TextBox, "")]
         public string Patternχ2
         {
             get
@@ -136,7 +136,7 @@ namespace Cryptool.Plugins.SZ42
             }
         }
 
-        [TaskPane("Wheel χ3 Pattern ", "Set the wheel χ3 pattern", "Wheels Patterns", 4, false, DisplayLevel.Beginner, ControlType.TextBox, "")]
+        [TaskPane("Wheel χ3 Pattern ", "Set the wheel χ3 pattern", "Wheels Patterns", 4, false, ControlType.TextBox, "")]
         public string Patternχ3
         {
             get
@@ -153,7 +153,7 @@ namespace Cryptool.Plugins.SZ42
             }
         }
 
-        [TaskPane("Wheel χ4 Pattern ", "Set the wheel χ4 pattern", "Wheels Patterns", 5, false, DisplayLevel.Beginner, ControlType.TextBox, "")]
+        [TaskPane("Wheel χ4 Pattern ", "Set the wheel χ4 pattern", "Wheels Patterns", 5, false, ControlType.TextBox, "")]
         public string Patternχ4
         {
             get
@@ -170,7 +170,7 @@ namespace Cryptool.Plugins.SZ42
             }
         }
 
-        [TaskPane("Wheel χ5 Pattern ", "Set the wheel χ5 pattern", "Wheels Patterns", 6, false, DisplayLevel.Beginner, ControlType.TextBox, "")]
+        [TaskPane("Wheel χ5 Pattern ", "Set the wheel χ5 pattern", "Wheels Patterns", 6, false, ControlType.TextBox, "")]
         public string Patternχ5
         {
             get
@@ -187,7 +187,7 @@ namespace Cryptool.Plugins.SZ42
             }
         }
 
-        [TaskPane("Wheel Ψ1 Pattern", "Set the wheel Ψ1 pattern", "Wheels Patterns", 7, false, DisplayLevel.Beginner, ControlType.TextBox, "")]
+        [TaskPane("Wheel Ψ1 Pattern", "Set the wheel Ψ1 pattern", "Wheels Patterns", 7, false, ControlType.TextBox, "")]
         public string PatternΨ1 
         {
             get
@@ -204,7 +204,7 @@ namespace Cryptool.Plugins.SZ42
             }
         }
 
-        [TaskPane("Wheel Ψ2 Pattern", "Set the wheel Ψ2 pattern", "Wheels Patterns", 8, false, DisplayLevel.Beginner, ControlType.TextBox, "")]
+        [TaskPane("Wheel Ψ2 Pattern", "Set the wheel Ψ2 pattern", "Wheels Patterns", 8, false, ControlType.TextBox, "")]
         public string PatternΨ2
         {
             get
@@ -221,7 +221,7 @@ namespace Cryptool.Plugins.SZ42
             }
         }
 
-        [TaskPane("Wheel Ψ3 Pattern", "Set the wheel Ψ3 pattern", "Wheels Patterns", 9, false, DisplayLevel.Beginner, ControlType.TextBox, "")]
+        [TaskPane("Wheel Ψ3 Pattern", "Set the wheel Ψ3 pattern", "Wheels Patterns", 9, false, ControlType.TextBox, "")]
         public string PatternΨ3
         {
             get
@@ -238,7 +238,7 @@ namespace Cryptool.Plugins.SZ42
             }
         }
 
-        [TaskPane("Wheel Ψ4 Pattern", "Set the wheel Ψ4 pattern", "Wheels Patterns", 10, false, DisplayLevel.Beginner, ControlType.TextBox, "")]
+        [TaskPane("Wheel Ψ4 Pattern", "Set the wheel Ψ4 pattern", "Wheels Patterns", 10, false, ControlType.TextBox, "")]
         public string PatternΨ4
         {
             get
@@ -255,7 +255,7 @@ namespace Cryptool.Plugins.SZ42
             }
         }
 
-        [TaskPane("Wheel Ψ5 Pattern", "Set the wheel Ψ5 pattern", "Wheels Patterns", 11, false, DisplayLevel.Beginner, ControlType.TextBox, "")]
+        [TaskPane("Wheel Ψ5 Pattern", "Set the wheel Ψ5 pattern", "Wheels Patterns", 11, false, ControlType.TextBox, "")]
         public string PatternΨ5
         {
             get
@@ -272,7 +272,7 @@ namespace Cryptool.Plugins.SZ42
             }
         }
 
-        [TaskPane("Wheel μ61 Pattern", "Set the wheel μ61 pattern", "Wheels Patterns", 12, false, DisplayLevel.Beginner, ControlType.TextBox, "")]
+        [TaskPane("Wheel μ61 Pattern", "Set the wheel μ61 pattern", "Wheels Patterns", 12, false, ControlType.TextBox, "")]
         public string Patternμ61
         {
             get
@@ -289,7 +289,7 @@ namespace Cryptool.Plugins.SZ42
             }
         }
 
-        [TaskPane("Wheel μ37 Pattern", "Set the wheel μ37 pattern", "Wheels Patterns", 13, false, DisplayLevel.Beginner, ControlType.TextBox, "")]
+        [TaskPane("Wheel μ37 Pattern", "Set the wheel μ37 pattern", "Wheels Patterns", 13, false, ControlType.TextBox, "")]
         public string Patternμ37
         {
             get
@@ -310,7 +310,7 @@ namespace Cryptool.Plugins.SZ42
 
         #region Wheels Positions
 
-        [TaskPane("Wheel χ1 Position", "Set the wheel χ1 position", "Wheels Positions", 14, false, DisplayLevel.Beginner, ControlType.TextBox, "")]
+        [TaskPane("Wheel χ1 Position", "Set the wheel χ1 position", "Wheels Positions", 14, false, ControlType.TextBox, "")]
         public string Positionχ1
         {
             get
@@ -327,7 +327,7 @@ namespace Cryptool.Plugins.SZ42
             }
         }
 
-        [TaskPane("Wheel χ2 Position", "Set the wheel χ2 position", "Wheels Positions", 15, false, DisplayLevel.Beginner, ControlType.TextBox, "")]
+        [TaskPane("Wheel χ2 Position", "Set the wheel χ2 position", "Wheels Positions", 15, false, ControlType.TextBox, "")]
         public string Positionχ2
         {
             get
@@ -344,7 +344,7 @@ namespace Cryptool.Plugins.SZ42
             }
         }
 
-        [TaskPane("Wheel χ3 Position", "Set the wheel χ3 position", "Wheels Positions", 16, false, DisplayLevel.Beginner, ControlType.TextBox, "")]
+        [TaskPane("Wheel χ3 Position", "Set the wheel χ3 position", "Wheels Positions", 16, false, ControlType.TextBox, "")]
         public string Positionχ3
         {
             get
@@ -361,7 +361,7 @@ namespace Cryptool.Plugins.SZ42
             }
         }
 
-        [TaskPane("Wheel χ4 Position", "Set the wheel χ4 position", "Wheels Positions", 17, false, DisplayLevel.Beginner, ControlType.TextBox, "")]
+        [TaskPane("Wheel χ4 Position", "Set the wheel χ4 position", "Wheels Positions", 17, false, ControlType.TextBox, "")]
         public string Positionχ4
         {
             get
@@ -378,7 +378,7 @@ namespace Cryptool.Plugins.SZ42
             }
         }
 
-        [TaskPane("Wheel χ5 Position", "Set the wheel χ5 position", "Wheels Positions", 18, false, DisplayLevel.Beginner, ControlType.TextBox, "")]
+        [TaskPane("Wheel χ5 Position", "Set the wheel χ5 position", "Wheels Positions", 18, false, ControlType.TextBox, "")]
         public string Positionχ5
         {
             get
@@ -395,7 +395,7 @@ namespace Cryptool.Plugins.SZ42
             }
         }
 
-        [TaskPane("Wheel Ψ1 Position", "Set the wheel Ψ1 position", "Wheels Positions", 19, false, DisplayLevel.Beginner, ControlType.TextBox, "")]
+        [TaskPane("Wheel Ψ1 Position", "Set the wheel Ψ1 position", "Wheels Positions", 19, false, ControlType.TextBox, "")]
         public string PositionΨ1
         {
             get
@@ -412,7 +412,7 @@ namespace Cryptool.Plugins.SZ42
             }
         }
 
-        [TaskPane("Wheel Ψ2 Position", "Set the wheel Ψ2 position", "Wheels Positions", 20, false, DisplayLevel.Beginner, ControlType.TextBox, "")]
+        [TaskPane("Wheel Ψ2 Position", "Set the wheel Ψ2 position", "Wheels Positions", 20, false, ControlType.TextBox, "")]
         public string PositionΨ2
         {
             get
@@ -429,7 +429,7 @@ namespace Cryptool.Plugins.SZ42
             }
         }
 
-        [TaskPane("Wheel Ψ3 Position", "Set the wheel Ψ3 position", "Wheels Positions", 21, false, DisplayLevel.Beginner, ControlType.TextBox, "")]
+        [TaskPane("Wheel Ψ3 Position", "Set the wheel Ψ3 position", "Wheels Positions", 21, false, ControlType.TextBox, "")]
         public string PositionΨ3
         {
             get
@@ -446,7 +446,7 @@ namespace Cryptool.Plugins.SZ42
             }
         }
 
-        [TaskPane("Wheel Ψ4 Position", "Set the wheel Ψ4 position", "Wheels Positions", 22, false, DisplayLevel.Beginner, ControlType.TextBox, "")]
+        [TaskPane("Wheel Ψ4 Position", "Set the wheel Ψ4 position", "Wheels Positions", 22, false, ControlType.TextBox, "")]
         public string PositionΨ4
         {
             get
@@ -463,7 +463,7 @@ namespace Cryptool.Plugins.SZ42
             }
         }
 
-        [TaskPane("Wheel Ψ5 Position", "Set the wheel Ψ5 position", "Wheels Positions", 23, false, DisplayLevel.Beginner, ControlType.TextBox, "")]
+        [TaskPane("Wheel Ψ5 Position", "Set the wheel Ψ5 position", "Wheels Positions", 23, false, ControlType.TextBox, "")]
         public string PositionΨ5
         {
             get
@@ -480,7 +480,7 @@ namespace Cryptool.Plugins.SZ42
             }
         }
 
-        [TaskPane("Wheel μ61 Position", "Set the wheel μ61 position", "Wheels Positions", 24, false, DisplayLevel.Beginner, ControlType.TextBox, "")]
+        [TaskPane("Wheel μ61 Position", "Set the wheel μ61 position", "Wheels Positions", 24, false, ControlType.TextBox, "")]
         public string Positionμ61
         {
             get
@@ -497,7 +497,7 @@ namespace Cryptool.Plugins.SZ42
             }
         }
 
-        [TaskPane("Wheel μ37 Position", "Set the wheel μ37 position", "Wheels Positions", 25, false, DisplayLevel.Beginner, ControlType.TextBox, "")]
+        [TaskPane("Wheel μ37 Position", "Set the wheel μ37 position", "Wheels Positions", 25, false, ControlType.TextBox, "")]
         public string Positionμ37
         {
             get
@@ -518,7 +518,7 @@ namespace Cryptool.Plugins.SZ42
 
         #region Format Settings
 
-        [TaskPane("Input Parsed", "Set if the input is parsed or not", "Format Settings", 26, false, DisplayLevel.Beginner, ControlType.CheckBox, "")]
+        [TaskPane("Input Parsed", "Set if the input is parsed or not", "Format Settings", 26, false, ControlType.CheckBox, "")]
         public bool InputParsed
         {
             get
@@ -535,7 +535,7 @@ namespace Cryptool.Plugins.SZ42
             }
         }
 
-        [TaskPane("Output Parsed", "Set if the output is parsed or not", "Format Settings", 27, false, DisplayLevel.Beginner, ControlType.CheckBox, "")]
+        [TaskPane("Output Parsed", "Set if the output is parsed or not", "Format Settings", 27, false, ControlType.CheckBox, "")]
         public bool OutputParsed
         {
             get

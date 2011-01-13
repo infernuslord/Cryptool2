@@ -28,7 +28,7 @@ namespace Cryptool.Plugins.ArrayIndexer
 
         #region taskPane
         private int arrayIndex;
-        [TaskPane("Index of the Array", "Indexes of an array begin always with 0. Example: If you have an array of the length 8, you can index the values 0 to 7", null, 0, false, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
+        [TaskPane("Index of the Array", "Indexes of an array begin always with 0. Example: If you have an array of the length 8, you can index the values 0 to 7", null, 0, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
         public int ArrayIndex
         {
             get

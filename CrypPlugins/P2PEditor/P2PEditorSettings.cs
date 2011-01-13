@@ -76,7 +76,7 @@ namespace Cryptool.P2PEditor
 
         [TaskPane("username_caption",
             "username_tooltip"
-            , null, 0, false, DisplayLevel.Beginner, ControlType.TextBox)]
+            , null, 0, false, ControlType.TextBox)]
         public string PeerName
         {
             get { return settings.PeerName; }
@@ -93,7 +93,7 @@ namespace Cryptool.P2PEditor
 
         [TaskPane("password_caption",
             "password_tooltip"
-            , null, 1, false, DisplayLevel.Beginner, ControlType.TextBoxHidden)]
+            , null, 1, false, ControlType.TextBoxHidden)]
         public string Password
         {
             get { return settings.Password; }
@@ -108,7 +108,7 @@ namespace Cryptool.P2PEditor
             }
         }
 
-        [TaskPane("worldname_caption", "worldname_tooltip", null, 2, false, DisplayLevel.Beginner, ControlType.TextBox)]
+        [TaskPane("worldname_caption", "worldname_tooltip", null, 2, false, ControlType.TextBox)]
         public string WorldName
         {
             get { return settings.WorldName; }
@@ -124,7 +124,7 @@ namespace Cryptool.P2PEditor
         }
 
         // TODO New ControlType needed to choose dialogs? OpenFileDialog not fitting.
-        [TaskPane("workspacePath_caption", "workspacePath_tooltip", null, 3, true, DisplayLevel.Beginner, ControlType.TextBox)]
+        [TaskPane("workspacePath_caption", "workspacePath_tooltip", null, 3, true, ControlType.TextBox)]
         public string WorkspacePath
         {
             get { return settings.WorkspacePath; }
@@ -139,7 +139,7 @@ namespace Cryptool.P2PEditor
             }
         }
 
-        [TaskPane("start_caption", "start_tooltip", null, 3, true, DisplayLevel.Beginner, ControlType.Button)]
+        [TaskPane("start_caption", "start_tooltip", null, 3, true, ControlType.Button)]
         public void ButtonStart()
         {
             if (!P2PManager.IsConnected)
@@ -154,7 +154,7 @@ namespace Cryptool.P2PEditor
             }
         }
 
-        [TaskPane("stop_caption", "stop_tooltip", null, 4, true, DisplayLevel.Beginner, ControlType.Button)]
+        [TaskPane("stop_caption", "stop_tooltip", null, 4, true, ControlType.Button)]
         public void ButtonStop()
         {
             if (P2PManager.IsConnected)
@@ -169,7 +169,7 @@ namespace Cryptool.P2PEditor
             }
         }
 
-        [TaskPane("distributedJobListRefreshInterval_caption", "distributedJobListRefreshInterval_tooltip", GroupExperienced, 0, false, DisplayLevel.Experienced,
+        [TaskPane("distributedJobListRefreshInterval_caption", "distributedJobListRefreshInterval_tooltip", GroupExperienced, 0, false,
             ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
         public int DistributedJobListRefreshInterval
         {
@@ -185,7 +185,7 @@ namespace Cryptool.P2PEditor
             }
         }
 
-        [TaskPane("connectOnStartup_caption", "connectOnStartup_tooltip", GroupExperienced, 1, true, DisplayLevel.Experienced,
+        [TaskPane("connectOnStartup_caption", "connectOnStartup_tooltip", GroupExperienced, 1, true,
             ControlType.CheckBox)]
         public bool ConnectOnStartup
         {
@@ -201,7 +201,7 @@ namespace Cryptool.P2PEditor
             }
         }
 
-        [TaskPane("linkmanager_caption", "linkmanager_tooltip", GroupExpert, 0, false, DisplayLevel.Expert,
+        [TaskPane("linkmanager_caption", "linkmanager_tooltip", GroupExpert, 0, false,
             ControlType.ComboBox, new[] {"Snal"})]
         public int LinkManager
         {
@@ -217,7 +217,7 @@ namespace Cryptool.P2PEditor
             }
         }
 
-        [TaskPane("bootstrapper_caption", "bootstrapper_tooltip", GroupExpert, 1, false, DisplayLevel.Expert
+        [TaskPane("bootstrapper_caption", "bootstrapper_tooltip", GroupExpert, 1, false
             , ControlType.ComboBox, new[] {"LocalMachineBootstrapper", "IrcBootstrapper"})]
         public int Bootstrapper
         {
@@ -233,7 +233,7 @@ namespace Cryptool.P2PEditor
             }
         }
 
-        [TaskPane("architecture_caption", "architecture_tooltip", GroupExpert, 2, false, DisplayLevel.Expert,
+        [TaskPane("architecture_caption", "architecture_tooltip", GroupExpert, 2, false,
             ControlType.ComboBox, new[] { "FullMesh", "Chord", "Server" , "SQLDB" , "WebDHT" })]
         public int Architecture
         {
@@ -250,7 +250,7 @@ namespace Cryptool.P2PEditor
             }
         }
 
-        [TaskPane("localPort_caption", "localPort_tooltip", GroupExpert, 4, false, DisplayLevel.Expert,
+        [TaskPane("localPort_caption", "localPort_tooltip", GroupExpert, 4, false,
             ControlType.NumericUpDown, ValidationType.RangeInteger, 0, 65535)]
         public int LocalPort
         {
@@ -266,7 +266,7 @@ namespace Cryptool.P2PEditor
             }
         }
 
-        [TaskPane("useLocalAddressDetection_caption", "useLocalAddressDetection_tooltip", GroupExpert, 5, false, DisplayLevel.Expert,
+        [TaskPane("useLocalAddressDetection_caption", "useLocalAddressDetection_tooltip", GroupExpert, 5, false,
             ControlType.CheckBox)]
         public bool UseLocalAddressDetection
         {
@@ -282,7 +282,7 @@ namespace Cryptool.P2PEditor
             }
         }
 
-        [TaskPane("log2monitor_caption", "log2monitor_tooltip", GroupExpert, 6, false, DisplayLevel.Expert,
+        [TaskPane("log2monitor_caption", "log2monitor_tooltip", GroupExpert, 6, false,
             ControlType.CheckBox)]
         public bool Log2Monitor
         {
@@ -298,7 +298,7 @@ namespace Cryptool.P2PEditor
             }
         }
 
-        [TaskPane("serverHost_caption", "serverHost_tooltip", GroupServer, 1, false, DisplayLevel.Expert, ControlType.TextBox)]
+        [TaskPane("serverHost_caption", "serverHost_tooltip", GroupServer, 1, false, ControlType.TextBox)]
         public string ServerHost
         {
             get { return settings.ServerHost; }
@@ -313,7 +313,7 @@ namespace Cryptool.P2PEditor
             }
         }
 
-        [TaskPane("serverPort_caption", "serverPort_tooltip", GroupServer, 4, false, DisplayLevel.Expert,
+        [TaskPane("serverPort_caption", "serverPort_tooltip", GroupServer, 4, false,
             ControlType.NumericUpDown, ValidationType.RangeInteger, 0, 65535)]
         public int ServerPort
         {

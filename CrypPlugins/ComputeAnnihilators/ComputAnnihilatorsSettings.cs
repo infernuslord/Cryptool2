@@ -39,8 +39,8 @@ namespace Cryptool.ComputeAnnihilators
                 OnPropertyChanged("ActionSetting");
             }
         }
-        [ContextMenu("Action", "Choose application.", 1, DisplayLevel.Experienced, ContextMenuControlType.ComboBox, null, new string[] { "Combiner", "function", "setofSequence" })]
-        [TaskPane("Action", "Choose application", null, 1, false, DisplayLevel.Experienced, ControlType.RadioButton, new string[] { "Z-functions of combiner", "Annihilators of Boolean function", "Annihilators of sets of BitsSequences" })]
+        [ContextMenu("Action", "Choose application.", 1, ContextMenuControlType.ComboBox, null, new string[] { "Combiner", "function", "setofSequence" })]
+        [TaskPane("Action", "Choose application", null, 1, false, ControlType.RadioButton, new string[] { "Z-functions of combiner", "Annihilators of Boolean function", "Annihilators of sets of BitsSequences" })]
         public int ActionSetting
         {
             get
@@ -54,7 +54,7 @@ namespace Cryptool.ComputeAnnihilators
                 OnPropertyChanged("ActionSetting");
             }
         }
-        [TaskPane("Degree ", "most degree of the searched annihilator", null, 2, false, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger,0, int.MaxValue)]
+        [TaskPane("Degree ", "most degree of the searched annihilator", null, 2, false, ControlType.NumericUpDown, ValidationType.RangeInteger,0, int.MaxValue)]
         public int Degree
         {
             get { return this.degree; }
@@ -75,8 +75,8 @@ namespace Cryptool.ComputeAnnihilators
                 OnPropertyChanged("OutputSetting");
             }
         }
-        [ContextMenu("Output Type", "display in Textoutput or delivre to plugin system of equation", 4, DisplayLevel.Experienced, ContextMenuControlType.ComboBox, null, new string[] { "todisplay", "plugininput", "both" })]
-        [TaskPane("Output Type", "display in Textoutput or delivre to plugin system of equation", "required only in Z-functions", 4, false, DisplayLevel.Experienced, ControlType.RadioButton, new string[] { "Display in Textoutput ", "Input of other Plug-in", "both" })]
+        [ContextMenu("Output Type", "display in Textoutput or delivre to plugin system of equation", 4, ContextMenuControlType.ComboBox, null, new string[] { "todisplay", "plugininput", "both" })]
+        [TaskPane("Output Type", "display in Textoutput or delivre to plugin system of equation", "required only in Z-functions", 4, false, ControlType.RadioButton, new string[] { "Display in Textoutput ", "Input of other Plug-in", "both" })]
         public int OutputSetting
         {
             get
@@ -90,7 +90,7 @@ namespace Cryptool.ComputeAnnihilators
                 OnPropertyChanged("OutputSetting");
             }
         }
-        [TaskPane("Outputs Z", "express a set of output Z to determine Z-function to output", "required only in Z-functions", 5, false, DisplayLevel.Beginner, ControlType.TextBox, ValidationType.RegEx, "^(1|[\\*]|0)*")]
+        [TaskPane("Outputs Z", "express a set of output Z to determine Z-function to output", "required only in Z-functions", 5, false, ControlType.TextBox, ValidationType.RegEx, "^(1|[\\*]|0)*")]
         public string OutputSet
         {
             get { return this.outputset; }

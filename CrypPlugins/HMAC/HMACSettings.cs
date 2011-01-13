@@ -29,8 +29,8 @@ namespace Cryptool.HMAC
 
         private HashFunction selectedHashFunction = HashFunction.MD5;
 
-        [ContextMenu("Hash Function", "Select the hash function to use for the message digest", 1, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, null, new string[] { "MD5", "RIPEMD160", "SHA1", "SHA256", "SHA384", "SHA512" })]
-        [TaskPane("Hash Function", "Select the hash function to use for the message digest", "", 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "MD5", "RIPEMD160", "SHA1", "SHA256", "SHA384", "SHA512" })]
+        [ContextMenu("Hash Function", "Select the hash function to use for the message digest", 1, ContextMenuControlType.ComboBox, null, new string[] { "MD5", "RIPEMD160", "SHA1", "SHA256", "SHA384", "SHA512" })]
+        [TaskPane("Hash Function", "Select the hash function to use for the message digest", "", 1, false, ControlType.ComboBox, new string[] { "MD5", "RIPEMD160", "SHA1", "SHA256", "SHA384", "SHA512" })]
         public int SelectedHashFunction
         {
             get { return (int)this.selectedHashFunction; }

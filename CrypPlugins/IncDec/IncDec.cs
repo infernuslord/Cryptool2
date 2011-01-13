@@ -57,7 +57,7 @@ namespace IncDec
     }
 
 
-    [PropertyInfo(Direction.InputData, "Input.", "Input to increment or decrement.", null, false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.InputData, "Input.", "Input to increment or decrement.", null, false, false, QuickWatchFormat.Text, null)]
     public int Input
     {
       get { return input; }
@@ -86,7 +86,7 @@ namespace IncDec
     }
 
     private int output;
-    [PropertyInfo(Direction.OutputData, "Output.", "Output.", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.OutputData, "Output.", "Output.", "", false, false, QuickWatchFormat.Text, null)]
     public int Output
     {
       get { return output; }

@@ -75,7 +75,7 @@ namespace Cryptool.Plugins.CostFunction
         #endregion
         #region CostFunctionInOut
 
-        [PropertyInfo(Direction.InputData, "Text Input", "Input your Text here", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.InputData, "Text Input", "Input your Text here", "")]
         public byte[] InputText
         {
             get
@@ -105,7 +105,7 @@ namespace Cryptool.Plugins.CostFunction
         }
         #endregion
         /* obsolete
-        [PropertyInfo(Direction.OutputData, "Text Output", "Your Text will be send here", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.OutputData, "Text Output", "Your Text will be send here", "")]
         public byte[] OutputText
         {
             get
@@ -119,7 +119,7 @@ namespace Cryptool.Plugins.CostFunction
             }
         }
         */
-        [PropertyInfo(Direction.OutputData, "Value", "The value of the function will be send here", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.OutputData, "Value", "The value of the function will be send here", "")]
         public double Value
         {
             get
@@ -133,7 +133,7 @@ namespace Cryptool.Plugins.CostFunction
             }
         }
 
-        [PropertyInfo(Direction.ControlSlave, "SDES Slave", "Direct access to SDES.", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.ControlSlave, "SDES Slave", "Direct access to SDES.", "")]
         public IControlCost ControlSlave
         {
             get

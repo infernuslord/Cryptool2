@@ -18,8 +18,8 @@ namespace Cryptool.VigenereAnalyser
         public int internalKeyLengthAnalysis = 0;
         public int columnAnalysis = 0;
         private bool hasChanges = false;
-        [ContextMenu("Expected Letter Frequency of a language", "Select the Null hypothesis for the Chi-square statistic", 2, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, null, new String[] { "English", "German", "French", "Spanish", "Italian", "Portugeese" })]
-        [TaskPane("Expected Letter Frequency of a language", "Select the Null hypothesis for the Chi-square statistic", null, 2, false, DisplayLevel.Experienced, ControlType.ComboBox, new String[] { "English", "German", "French", "Spanish", "Italian", "Portugeese" })]
+        [ContextMenu("Expected Letter Frequency of a language", "Select the Null hypothesis for the Chi-square statistic", 2, ContextMenuControlType.ComboBox, null, new String[] { "English", "German", "French", "Spanish", "Italian", "Portugeese" })]
+        [TaskPane("Expected Letter Frequency of a language", "Select the Null hypothesis for the Chi-square statistic", null, 2, false, ControlType.ComboBox, new String[] { "English", "German", "French", "Spanish", "Italian", "Portugeese" })]
         public int ELF // Expected Letter Frequencies
         {
             get { return this.elf; }
@@ -30,8 +30,8 @@ namespace Cryptool.VigenereAnalyser
                 OnPropertyChanged("ELF");
             }
         }
-        [ContextMenu("Expected Index of coincidence", "Adjust the expected index of coincidence", 2, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, null, new String[] { "English", "German", "French", "Spanish", "Italian", "Portugeese" })]
-        [TaskPane("Expected Index of coincidence", "Adjust the expected index of coincidence", null, 2, false, DisplayLevel.Experienced, ControlType.ComboBox, new String[] { "English", "German", "French", "Spanish", "Italian", "Portugeese" })]
+        [ContextMenu("Expected Index of coincidence", "Adjust the expected index of coincidence", 2, ContextMenuControlType.ComboBox, null, new String[] { "English", "German", "French", "Spanish", "Italian", "Portugeese" })]
+        [TaskPane("Expected Index of coincidence", "Adjust the expected index of coincidence", null, 2, false, ControlType.ComboBox, new String[] { "English", "German", "French", "Spanish", "Italian", "Portugeese" })]
         public int EIC // Expected Letter Frequencies
         {
             get { return this.eic; }
@@ -43,7 +43,7 @@ namespace Cryptool.VigenereAnalyser
             }
         }
 
-        [TaskPane("Maximum Keylength", "Enter maximum keylength to be analysed by the 'Sampled Index of coincidence' method. default = 15", "", 1, false, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, 100)]
+        [TaskPane("Maximum Keylength", "Enter maximum keylength to be analysed by the 'Sampled Index of coincidence' method. default = 15", "", 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, 100)]
         public int Max_Keylength
         {
             get { return this.max_keylength; }
@@ -56,8 +56,8 @@ namespace Cryptool.VigenereAnalyser
                 }
             }
         }
-        [ContextMenu("Method of keylength analysis", "Select the internal or external method for analysis of the keylength", 2, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, null, new String[] { "Kasiski and Friedman tests (external)","Sampled index of coincidence(internal)" })]
-        [TaskPane("Method of keylength analysis", "Select the internal or external method for analysis of the keylength", null, 2, false, DisplayLevel.Experienced, ControlType.ComboBox, new String[] { "Kasiski and Friedman tests (external)", "Sampled index of coincidence (internal)" })]
+        [ContextMenu("Method of keylength analysis", "Select the internal or external method for analysis of the keylength", 2, ContextMenuControlType.ComboBox, null, new String[] { "Kasiski and Friedman tests (external)","Sampled index of coincidence(internal)" })]
+        [TaskPane("Method of keylength analysis", "Select the internal or external method for analysis of the keylength", null, 2, false, ControlType.ComboBox, new String[] { "Kasiski and Friedman tests (external)", "Sampled index of coincidence (internal)" })]
         public int InternalKeyLengthAnalysis 
         {
             get { return this.internalKeyLengthAnalysis; }
@@ -68,8 +68,8 @@ namespace Cryptool.VigenereAnalyser
                 OnPropertyChanged("InternalKeyLengthAnalysis");
             }
         }
-        [ContextMenu("Method of column analysis", "Select the method of analysis of the ciphertext columns", 2, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, null, new String[] { "Use most frequent letter", "Use sum of squares" })]
-        [TaskPane("Method of column analysis", "Select the method of analysis of the ciphertext columns", null, 2, false, DisplayLevel.Experienced, ControlType.ComboBox, new String[] { "Use most frequent letter", "Use sum of squares" })]
+        [ContextMenu("Method of column analysis", "Select the method of analysis of the ciphertext columns", 2, ContextMenuControlType.ComboBox, null, new String[] { "Use most frequent letter", "Use sum of squares" })]
+        [TaskPane("Method of column analysis", "Select the method of analysis of the ciphertext columns", null, 2, false, ControlType.ComboBox, new String[] { "Use most frequent letter", "Use sum of squares" })]
         public int ColumnAnalysis
         {
             get { return this.columnAnalysis; }

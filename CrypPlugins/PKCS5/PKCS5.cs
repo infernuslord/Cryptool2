@@ -185,7 +185,7 @@ namespace PKCS5
     /// Gets or sets the input data.
     /// </summary>
     /// <value>The input key.</value>
-    [PropertyInfo(Direction.InputData, "Key", "Key to be hashed", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+    [PropertyInfo(Direction.InputData, "Key", "Key to be hashed", "", true, false, QuickWatchFormat.Hex, null)]
     public System.Object Key
     {
       get
@@ -264,7 +264,7 @@ namespace PKCS5
     /// Gets or sets the salt data.
     /// </summary>
     /// <value>The salt data.</value>
-    [PropertyInfo(Direction.InputData, "Salt", "Salt - Input salt data to change the PKCS hash", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+    [PropertyInfo(Direction.InputData, "Salt", "Salt - Input salt data to change the PKCS hash", "", false, false, QuickWatchFormat.Hex, null)]
     public Object Salt
     {
       get
@@ -354,7 +354,7 @@ namespace PKCS5
     /// </summary>
     /// <value>The output data stream.</value>
     [PropertyInfo(Direction.OutputData, "Hashed Stream", "Output stream of the hashed value", "",
-      true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+      true, false, QuickWatchFormat.Hex, null)]
     public CryptoolStream HashOutputStream
     {
       get
@@ -379,7 +379,7 @@ namespace PKCS5
     /// </summary>
     /// <value>The output data.</value>
     [PropertyInfo(Direction.OutputData, "Hashed Data", "Output data of the hashed value", "",
-      true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+      true, false, QuickWatchFormat.Hex, null)]
     public byte[] HashOutputData
     {
       get

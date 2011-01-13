@@ -42,7 +42,7 @@ namespace Cryptool.ComputeXZ
             get { return (ISettings)this.settings; }
             set { this.settings = (ComputeXZSettings)value; }
         }
-        [PropertyInfo(Direction.InputData, "outputfunction", "outputfunction of Combiner", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "outputfunction", "outputfunction of Combiner", "", true, false, QuickWatchFormat.Text, null)]
         public string Outputfunction
         {
             get { return this.outputfunction; }
@@ -55,7 +55,7 @@ namespace Cryptool.ComputeXZ
                 }
             }
         }
-        [PropertyInfo(Direction.InputData, "memoryupdatefunction of combiner", " to input if combiner has memory ", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "memoryupdatefunction of combiner", " to input if combiner has memory ", "", false, false, QuickWatchFormat.Text, null)]
         public string Memoryupdatefunction
         {
             get { return this.memoryupdatefunction; }
@@ -68,7 +68,7 @@ namespace Cryptool.ComputeXZ
                 }
             }
         }
-        [PropertyInfo(Direction.OutputData, "the stes XZ as string", "to display XZ in Textoutput", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "the stes XZ as string", "to display XZ in Textoutput", "", false, false, QuickWatchFormat.Text, null)]
         public string OutputString
         {
             get { return this.outputString; }
@@ -79,7 +79,7 @@ namespace Cryptool.ComputeXZ
             }
 
         }
-        [PropertyInfo(Direction.OutputData, " the sets XZ as (Hashtable(Z,XZ))", " to use as Input of Pugin compute Annihiators", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, " the sets XZ as (Hashtable(Z,XZ))", " to use as Input of Pugin compute Annihiators", "", false, false, QuickWatchFormat.Text, null)]
         public Hashtable OutputXZ
         {
             get { return this.outputXZ; }

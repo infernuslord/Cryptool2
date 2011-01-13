@@ -375,7 +375,7 @@ namespace Cryptool.Plugins.QuadraticSieve
         /// <summary>
         /// Getter / Setter for the input number which should be factorized
         /// </summary>
-        [PropertyInfo(Direction.InputData, "Number input", "Enter the number you want to factorize", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.InputData, "Number input", "Enter the number you want to factorize", "")]
         public BigInteger InputNumber
         {
             get
@@ -392,7 +392,7 @@ namespace Cryptool.Plugins.QuadraticSieve
         /// <summary>
         /// Getter / Setter for the factors calculated by msieve
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "Factors output", "Your factors will be sent here", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.OutputData, "Factors output", "Your factors will be sent here", "")]
         public BigInteger[] OutputFactors
         {
             get

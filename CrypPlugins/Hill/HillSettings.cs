@@ -14,21 +14,21 @@ namespace Cryptool.Hill
         private int dim;
         private int modul;
 
-        [ControlType(ControlType.TextBox, DisplayLevel.Beginner, true, "", "", new string[] { })]
+        [ControlType(ControlType.TextBox, true, "", "", new string[] { })]
         public Stream InputData
         {
             get { return this.inputData; }
             set { this.inputData = value; }
         }
 
-        [ControlType(ControlType.TextBox, DisplayLevel.Beginner, true, "", "", new string[] { })]
+        [ControlType(ControlType.TextBox, true, "", "", new string[] { })]
         public int Dim
         {
             get { return this.dim; }
             set { this.dim = value; }
         }
 
-        [ControlType(ControlType.TextBox, DisplayLevel.Beginner, true, "", "", new string[] { })]
+        [ControlType(ControlType.TextBox, true, "", "", new string[] { })]
         public int Modul
         {
             get { return this.modul; }

@@ -42,7 +42,7 @@ namespace Cryptool.Plugins.CostFunction
             UpdateTaskPaneVisibility();
         }
 
-        [TaskPane("FunctionType", "Select the type of function", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "Index of coincidence", "Entropy", "Bigrams: log 2", "Bigrams: Sinkov", "Bigrams: Percentaged", "Regular Expression", "Weighted Bigrams/Trigrams"})]
+        [TaskPane("FunctionType", "Select the type of function", null, 1, false, ControlType.ComboBox, new string[] { "Index of coincidence", "Entropy", "Bigrams: log 2", "Bigrams: Sinkov", "Bigrams: Percentaged", "Regular Expression", "Weighted Bigrams/Trigrams"})]
         public int FunctionType
         {
             get { return this.functionType; }
@@ -54,7 +54,7 @@ namespace Cryptool.Plugins.CostFunction
             }
         }
 
-        [TaskPane("Bytes to use", "Which amount of bytes should be used for calculating?", null, 4, false, DisplayLevel.Beginner, ControlType.TextBox)]
+        [TaskPane("Bytes to use", "Which amount of bytes should be used for calculating?", null, 4, false, ControlType.TextBox)]
         public String BytesToUse
         {
             get
@@ -77,7 +77,7 @@ namespace Cryptool.Plugins.CostFunction
 
         public string customFilePath;
         public int statisticscorpus = 0;
-        [TaskPane("Text Corpus File to use", "Select a text corpus file (Default is (DE))", null, 7, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "Text corpus (DE)", "Text corpus (EN)", "Custom (...)" })]
+        [TaskPane("Text Corpus File to use", "Select a text corpus file (Default is (DE))", null, 7, false, ControlType.ComboBox, new string[] { "Text corpus (DE)", "Text corpus (EN)", "Custom (...)" })]
         public int StatisticsCorpus
         {
             get
@@ -110,7 +110,7 @@ namespace Cryptool.Plugins.CostFunction
             }
         }
         public int entropyselect;
-        [TaskPane("Select Entropy function", "Select an Entropy function", null, 9, false, DisplayLevel.Expert, ControlType.ComboBox, new string[] { "External (NativeCryptography, default)", "Internal" })]
+        [TaskPane("Select Entropy function", "Select an Entropy function", null, 9, false, ControlType.ComboBox, new string[] { "External (NativeCryptography, default)", "Internal" })]
         public int entropy
         {
             get
@@ -127,7 +127,7 @@ namespace Cryptool.Plugins.CostFunction
 
         public string customfwtpath;
         public int fwt = 0; //fwt = fitness weight table
-        [TaskPane("Fitness Weight Table to use", "Select a fitness weight table", null, 8, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "Matthews", "Toemeh-Arumugam", "Custom Weight table (*.csv)" })]
+        [TaskPane("Fitness Weight Table to use", "Select a fitness weight table", null, 8, false, ControlType.ComboBox, new string[] { "Matthews", "Toemeh-Arumugam", "Custom Weight table (*.csv)" })]
         public int weighttable
         {
             get
@@ -213,7 +213,7 @@ namespace Cryptool.Plugins.CostFunction
 
 
         private string regEx;
-        [TaskPane("Regular Expression", "Regular Expression match", null, 5, false, DisplayLevel.Beginner, ControlType.TextBox)]
+        [TaskPane("Regular Expression", "Regular Expression match", null, 5, false, ControlType.TextBox)]
         public String RegEx
         {
             get
@@ -228,7 +228,7 @@ namespace Cryptool.Plugins.CostFunction
         }
 
         private bool caseInsensitiv;
-        [TaskPane("Case Insensitiv", "If checked, the regular expression will be used in a case insensitiv manner.", null, 6, false, DisplayLevel.Beginner, ControlType.CheckBox)]
+        [TaskPane("Case Insensitiv", "If checked, the regular expression will be used in a case insensitiv manner.", null, 6, false, ControlType.CheckBox)]
         public bool CaseInsensitiv
         {
             get { return caseInsensitiv; }

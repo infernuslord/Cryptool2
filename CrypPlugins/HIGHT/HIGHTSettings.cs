@@ -39,8 +39,8 @@ namespace Cryptool.HIGHT
         private int action = 0; //0=encrypt, 1=decrypt
         private int padding = 0; //0="Zeros"=default, 1="None", 2="PKCS7"
 
-        [ContextMenu("Action","Do you want the input data to be encrypted or decrypted?", 1, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, new int[] { 1, 2}, "Encrypt","Decrypt")]
-        [TaskPane("Action", "Do you want the input data to be encrypted or decrypted?", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "Encrypt", "Decrypt" })]
+        [ContextMenu("Action","Do you want the input data to be encrypted or decrypted?", 1, ContextMenuControlType.ComboBox, new int[] { 1, 2}, "Encrypt","Decrypt")]
+        [TaskPane("Action", "Do you want the input data to be encrypted or decrypted?", null, 1, false, ControlType.ComboBox, new string[] { "Encrypt", "Decrypt" })]
         public int Action
         {
             get { return this.action; }
@@ -51,8 +51,8 @@ namespace Cryptool.HIGHT
             }
         }
 
-        [ContextMenu("Padding mode", "Select a mode to fill partial data blocks.", 2, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, null, "Zeros", "None", "PKCS7")]
-        [TaskPane("Padding Mode", "Select a mode to fill partial data blocks.", null, 2, false, DisplayLevel.Experienced, ControlType.ComboBox, new String[] { "Zeros", "None", "PKCS7" })]
+        [ContextMenu("Padding mode", "Select a mode to fill partial data blocks.", 2, ContextMenuControlType.ComboBox, null, "Zeros", "None", "PKCS7")]
+        [TaskPane("Padding Mode", "Select a mode to fill partial data blocks.", null, 2, false, ControlType.ComboBox, new String[] { "Zeros", "None", "PKCS7" })]
         public int Padding
         {
             get { return this.padding; }

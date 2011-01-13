@@ -78,7 +78,7 @@ namespace Cryptool.Plugins.RSA
         /// <summary>
         /// Getter/Setter for the number of cores which should be used by RSA
         /// </summary>
-        [TaskPane("CoresUsed", "Choose how many cores should be used", null, 1, false, DisplayLevel.Beginner, ControlType.DynamicComboBox, new string[] { "CoresAvailable" })]
+        [TaskPane("CoresUsed", "Choose how many cores should be used", null, 1, false, ControlType.DynamicComboBox, new string[] { "CoresAvailable" })]
         public int CoresUsed
         {
             get { return this.coresUsed; }
@@ -96,8 +96,8 @@ namespace Cryptool.Plugins.RSA
         /// <summary>
         /// Getter/Setter for the action (encryption or decryption)
         /// </summary>
-        [ContextMenu("Action", "Do you want the input data to be encrypted or decrypted?", 1, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, new int[] { 1, 2 }, "Encryption", "Decryption")]
-        [TaskPane("Action", "Do you want the input data to be encrypted or decrypted?", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "Encryption", "Decryption" })]
+        [ContextMenu("Action", "Do you want the input data to be encrypted or decrypted?", 1, ContextMenuControlType.ComboBox, new int[] { 1, 2 }, "Encryption", "Decryption")]
+        [TaskPane("Action", "Do you want the input data to be encrypted or decrypted?", null, 1, false, ControlType.ComboBox, new string[] { "Encryption", "Decryption" })]
         public int Action
         {
             get { return this.action; }

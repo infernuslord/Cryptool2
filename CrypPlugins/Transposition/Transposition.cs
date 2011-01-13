@@ -117,7 +117,7 @@ namespace Transposition
 
         # region Properties
 
-        [PropertyInfo(Direction.InputData, "Input", "input", "Text to be encrypted.", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "Input", "input", "Text to be encrypted.", false, false, QuickWatchFormat.Text, null)]
         public Byte[] Input
         {
             get
@@ -132,7 +132,7 @@ namespace Transposition
             }
         }
 
-        [PropertyInfo(Direction.InputData, "Keyword", "keyword", "Keyword used for encryption", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "Keyword", "keyword", "Keyword used for encryption", false, false, QuickWatchFormat.Text, null)]
         public string Keyword
         {
             get
@@ -147,7 +147,7 @@ namespace Transposition
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "Output", "output", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.OutputData, "Output", "output", "")]
         public byte[] Output
         {
             get
@@ -1093,7 +1093,7 @@ namespace Transposition
         # endregion
 
         private IControlEncryption controlSlave;
-        [PropertyInfo(Direction.ControlSlave, "Transposition Slave", "Transposition Slave", "", DisplayLevel.Experienced)]
+        [PropertyInfo(Direction.ControlSlave, "Transposition Slave", "Transposition Slave", "")]
         public IControlEncryption ControlSlave
         {
             get

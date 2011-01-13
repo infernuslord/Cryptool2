@@ -53,16 +53,16 @@ namespace Cryptool.NLFSR
             }
         }
 
-        [TaskPane("Draw NLFSR", "Initializes NLFSR and draws the presentation. This is used to view the NLFSR before pressing play.", null, 0, false, DisplayLevel.Beginner, ControlType.Button)]
+        [TaskPane("Draw NLFSR", "Initializes NLFSR and draws the presentation. This is used to view the NLFSR before pressing play.", null, 0, false, ControlType.Button)]
         public void initNLFSR()
         {
             OnPropertyChanged("InitNLFSR");
         }
         
         private int rounds = 1; //how many bits will be generated
-        //[ContextMenu("Rounds", "How many bits shall be generated?", 1, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, new int[] { 10, 50, 100 }, "10 bits", "50 bits", "100 bits")]
-        //[TaskPane("Rounds", "How many bits shall be generated?", null, 1, false, DisplayLevel.Beginner, ControlType.TextBox)]
-        [TaskPane("Number of rounds", "How many bits shall be generated? Note: This only applies if no boolean clock is used.", null, 2, false, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
+        //[ContextMenu("Rounds", "How many bits shall be generated?", 1, ContextMenuControlType.ComboBox, new int[] { 10, 50, 100 }, "10 bits", "50 bits", "100 bits")]
+        //[TaskPane("Rounds", "How many bits shall be generated?", null, 1, false, ControlType.TextBox)]
+        [TaskPane("Number of rounds", "How many bits shall be generated? Note: This only applies if no boolean clock is used.", null, 2, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
         public int Rounds
         {
             get { return this.rounds; }
@@ -74,7 +74,7 @@ namespace Cryptool.NLFSR
         }
 
         string polynomial;
-        [TaskPane("Feedback function", "Define the feedback function. For example x5 * x2 + 1.", null, 0, false, DisplayLevel.Beginner, ControlType.TextBox)]
+        [TaskPane("Feedback function", "Define the feedback function. For example x5 * x2 + 1.", null, 0, false, ControlType.TextBox)]
         public string Polynomial
         {
             get { return this.polynomial; }
@@ -87,7 +87,7 @@ namespace Cryptool.NLFSR
         }
 
         string seed;
-        [TaskPane("Seed", "Define the seed of the LFSR. For example 11100", null, 1, false, DisplayLevel.Beginner, ControlType.TextBox)]
+        [TaskPane("Seed", "Define the seed of the LFSR. For example 11100", null, 1, false, ControlType.TextBox)]
         public string Seed
         {
             get { return this.seed; }
@@ -100,8 +100,8 @@ namespace Cryptool.NLFSR
         }
 
         private bool noQuickwatch = false;
-        [ContextMenu("Do not display Quickwatch", "With this checkbox enabled, no quickwatch will be generated for better performance.", 0, DisplayLevel.Experienced, ContextMenuControlType.CheckBox, null, new string[] { "Display Quickwatch?" })]
-        [TaskPane("Do not display Quickwatch", "With this checkbox enabled, no quickwatch will be generated for better performance.", null, 3, true, DisplayLevel.Beginner, ControlType.CheckBox, "", null)]
+        [ContextMenu("Do not display Quickwatch", "With this checkbox enabled, no quickwatch will be generated for better performance.", 0, ContextMenuControlType.CheckBox, null, new string[] { "Display Quickwatch?" })]
+        [TaskPane("Do not display Quickwatch", "With this checkbox enabled, no quickwatch will be generated for better performance.", null, 3, true, ControlType.CheckBox, "", null)]
         public bool NoQuickwatch
         {
             get { return this.noQuickwatch; }
@@ -114,8 +114,8 @@ namespace Cryptool.NLFSR
         }
 
         private bool saveCurrentState = false;
-        [ContextMenu("Save the state of the NLFSR", "With this checkbox enabled, the current state will be restored after opening a .cte.", 0, DisplayLevel.Experienced, ContextMenuControlType.CheckBox, null, new string[] { "Save current state?" })]
-        [TaskPane("Save the state of the NLFSR", "With this checkbox enabled, the current state will be restored after opening a .cte.", null, 3, true, DisplayLevel.Experienced, ControlType.CheckBox, "", null)]
+        [ContextMenu("Save the state of the NLFSR", "With this checkbox enabled, the current state will be restored after opening a .cte.", 0, ContextMenuControlType.CheckBox, null, new string[] { "Save current state?" })]
+        [TaskPane("Save the state of the NLFSR", "With this checkbox enabled, the current state will be restored after opening a .cte.", null, 3, true, ControlType.CheckBox, "", null)]
         public bool SaveCurrentState
         {
             get { return this.saveCurrentState; }
@@ -128,8 +128,8 @@ namespace Cryptool.NLFSR
         }
 
         private bool useClockingBit = false;
-        [ContextMenu("Generate add. output bit", "With this checkbox enabled, the additional output bit will be generated.", 0, DisplayLevel.Experienced, ContextMenuControlType.CheckBox, null, new string[] { "Generate additional output bit?" })]
-        [TaskPane("Generate add. output bit", "With this checkbox enabled, the additional output bit will be generated.", "Additional Output Bit", 0, false, DisplayLevel.Beginner, ControlType.CheckBox, "", null)]
+        [ContextMenu("Generate add. output bit", "With this checkbox enabled, the additional output bit will be generated.", 0, ContextMenuControlType.CheckBox, null, new string[] { "Generate additional output bit?" })]
+        [TaskPane("Generate add. output bit", "With this checkbox enabled, the additional output bit will be generated.", "Additional Output Bit", 0, false, ControlType.CheckBox, "", null)]
         public bool UseClockingBit
         {
             get { return this.useClockingBit; }
@@ -146,7 +146,7 @@ namespace Cryptool.NLFSR
         }
         
         private int clockingBit = 0;
-        [TaskPane("Additional output bit #", "Which bit shall be generated as an additional output? For example as an clocking bit.", "Additional Output Bit", 1, false, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
+        [TaskPane("Additional output bit #", "Which bit shall be generated as an additional output? For example as an clocking bit.", "Additional Output Bit", 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
         public int ClockingBit
         {
             get { return this.clockingBit; }
@@ -159,8 +159,8 @@ namespace Cryptool.NLFSR
         }
 
         private bool useBoolClock = false;
-        [ContextMenu("Use BoolClock", "With this checkbox enabled, BoolClock will be used.", 0, DisplayLevel.Experienced, ContextMenuControlType.CheckBox, null, new string[] { "Use Boolean clock?" })]
-        [TaskPane("Use BoolClock", "With this checkbox enabled, BoolClock will be used.", "Clock Properties", 0, false, DisplayLevel.Beginner, ControlType.CheckBox, "", null)]
+        [ContextMenu("Use BoolClock", "With this checkbox enabled, BoolClock will be used.", 0, ContextMenuControlType.CheckBox, null, new string[] { "Use Boolean clock?" })]
+        [TaskPane("Use BoolClock", "With this checkbox enabled, BoolClock will be used.", "Clock Properties", 0, false, ControlType.CheckBox, "", null)]
         public bool UseBoolClock
         {
             get { return this.useBoolClock; }
@@ -177,8 +177,8 @@ namespace Cryptool.NLFSR
         }
 
         private bool alwaysCreateOutput = false;
-        [ContextMenu("Always create output", "With this checkbox enabled, an output will be generated, even though the clock is set to false. The output bit will be the bit from the last clock cycle.", 1, DisplayLevel.Experienced, ContextMenuControlType.CheckBox, null, new string[] { "Always generate output?" })]
-        [TaskPane("Always create output", "With this checkbox enabled, an output will be generated, even though the clock is set to false. The output bit will be the bit from the last clock cycle.", "Clock Properties", 1, false, DisplayLevel.Beginner, ControlType.CheckBox, "", null)]
+        [ContextMenu("Always create output", "With this checkbox enabled, an output will be generated, even though the clock is set to false. The output bit will be the bit from the last clock cycle.", 1, ContextMenuControlType.CheckBox, null, new string[] { "Always generate output?" })]
+        [TaskPane("Always create output", "With this checkbox enabled, an output will be generated, even though the clock is set to false. The output bit will be the bit from the last clock cycle.", "Clock Properties", 1, false, ControlType.CheckBox, "", null)]
         public bool AlwaysCreateOutput
         {
             get { return this.alwaysCreateOutput; }

@@ -43,8 +43,8 @@ namespace Cryptool.CLK
       set { hasChanges = value; }
     }
 
-    [ContextMenu("Set clock output to", " true / false ", 0, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, null, new string[] { "false", "true"})]
-    [TaskPaneAttribute("Set clock output to", " true / false ", "", 0, true, DisplayLevel.Beginner, ControlType.RadioButton, new string[] { "False", "True" })]
+    [ContextMenu("Set clock output to", " true / false ", 0, ContextMenuControlType.ComboBox, null, new string[] { "false", "true"})]
+    [TaskPaneAttribute("Set clock output to", " true / false ", "", 0, true, ControlType.RadioButton, new string[] { "False", "True" })]
     public int SetClockToTrue
     {
         get
@@ -60,8 +60,8 @@ namespace Cryptool.CLK
      
     }
 
-    /*[ContextMenu("Set clock to...", " true / false ", 2, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, null, new string[] { "true", "false"})]
-    [TaskPane("Set clock to...", " true / false ", null, 2, false, DisplayLevel.Beginner, ControlType.RadioButton, new string[] { "true", "false" })]
+    /*[ContextMenu("Set clock to...", " true / false ", 2, ContextMenuControlType.ComboBox, null, new string[] { "true", "false"})]
+    [TaskPane("Set clock to...", " true / false ", null, 2, false, ControlType.RadioButton, new string[] { "true", "false" })]
     public bool SetClockToTrue
     {
         get
@@ -76,8 +76,8 @@ namespace Cryptool.CLK
         }
     }*/
 
-    //[ContextMenu("Set clock to true", " yes / no ", 0, DisplayLevel.Beginner, ContextMenuControlType.CheckBox, null, "Set clock to true")]
-    [TaskPaneAttribute("Set CLK timeout in milliseconds", "How long should it last until next CLK event?", "", 1, false, DisplayLevel.Beginner, ControlType.TextBox, null)]
+    //[ContextMenu("Set clock to true", " yes / no ", 0, ContextMenuControlType.CheckBox, null, "Set clock to true")]
+    [TaskPaneAttribute("Set CLK timeout in milliseconds", "How long should it last until next CLK event?", "", 1, false, ControlType.TextBox, null)]
     public int CLKTimeout
     {
         get { return this.clkTimeout; }
@@ -90,8 +90,8 @@ namespace Cryptool.CLK
 
     }
 
-    [ContextMenu("Use input event instead of clock", " yes / no ", 0, DisplayLevel.Beginner, ContextMenuControlType.CheckBox, null, "Use input event instead of clock")]
-    [TaskPaneAttribute("Use input event instead of clock", " yes / no ", "", 0, true, DisplayLevel.Beginner, ControlType.CheckBox, null)]
+    [ContextMenu("Use input event instead of clock", " yes / no ", 0, ContextMenuControlType.CheckBox, null, "Use input event instead of clock")]
+    [TaskPaneAttribute("Use input event instead of clock", " yes / no ", "", 0, true, ControlType.CheckBox, null)]
     public bool UseEvent
     {
         get { return this.useEvent; }
@@ -109,9 +109,9 @@ namespace Cryptool.CLK
     }
 
     private int rounds = 10; //how many bits will be generated
-    //[ContextMenu("Rounds", "How many bits shall be generated?", 1, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, new int[] { 10, 50, 100 }, "10 bits", "50 bits", "100 bits")]
-    //[TaskPane("Rounds", "How many bits shall be generated?", null, 1, false, DisplayLevel.Beginner, ControlType.TextBox)]
-    [TaskPane("Rounds", "How many clock cycles shall be generated?", null, 2, false, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
+    //[ContextMenu("Rounds", "How many bits shall be generated?", 1, ContextMenuControlType.ComboBox, new int[] { 10, 50, 100 }, "10 bits", "50 bits", "100 bits")]
+    //[TaskPane("Rounds", "How many bits shall be generated?", null, 1, false, ControlType.TextBox)]
+    [TaskPane("Rounds", "How many clock cycles shall be generated?", null, 2, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
     public int Rounds
     {
         get { return this.rounds; }
@@ -156,7 +156,7 @@ namespace Cryptool.CLK
 
     /* SettingChanged(MEM_USAGE_PROPERTY, Visibility.Visible);
     SettingChanged(BUTTON_MEM_USAGE_PROPERTY, Visibility.Visible, new TaskPaneAttribute(Properties.Visuals.settingMemUsageOff,
-        Properties.Visuals.settingMemUsageOff_ToolTip, Properties.Visuals.settingGroupMisc, 5, false, DisplayLevel.Beginner, ControlType.Button));
+        Properties.Visuals.settingMemUsageOff_ToolTip, Properties.Visuals.settingGroupMisc, 5, false, ControlType.Button));
      */
 
     // these 2 functions are for disabling stuff in the settings pane

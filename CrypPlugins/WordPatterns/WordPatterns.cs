@@ -41,7 +41,7 @@ namespace WordPatterns
 
         #region Properties
 
-        [PropertyInfo(Direction.InputData, "Input word", "Word to search for patterns", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "Input word", "Word to search for patterns", "", true, false, QuickWatchFormat.Text, null)]
         public string InputText
         {
             get
@@ -55,7 +55,7 @@ namespace WordPatterns
             }
         }
 
-        [PropertyInfo(Direction.InputData, "Input dictionary", "Word dictionary", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "Input dictionary", "Word dictionary", "", true, false, QuickWatchFormat.Text, null)]
         public string[] InputDict
         {
             get
@@ -70,7 +70,7 @@ namespace WordPatterns
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "Output words", "Words matching the pattern", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "Output words", "Words matching the pattern", "", false, false, QuickWatchFormat.Text, null)]
         public string OutputText
         {
             get { return outputText; }

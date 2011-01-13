@@ -41,7 +41,7 @@ namespace Cryptool.Plugins.BooleanOperators
             this.settings.OnPluginStatusChanged += settings_OnPluginStatusChanged;
         }
 
-        [PropertyInfo(Direction.InputData, "Input", "input", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.InputData, "Input", "input", "")]
         public Boolean Input
         {
             get

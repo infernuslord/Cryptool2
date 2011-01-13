@@ -72,7 +72,7 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
         /// <summary>
         /// The input for the ciphertext 
         /// </summary>
-        [PropertyInfo(Direction.InputData, "Cipher Input", "Enter your cipher here", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "Cipher Input", "Enter your cipher here", "", true, false, QuickWatchFormat.Text, null)]
         public String InputCipher
         {
             get
@@ -89,7 +89,7 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
         /// <summary>
         /// The input for the textkorpus (optional) 
         /// </summary>
-        [PropertyInfo(Direction.InputData, "Textkorpus Input", "Enter your sample text here or choose a language from the task-pane", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "Textkorpus Input", "Enter your sample text here or choose a language from the task-pane", "", false, false, QuickWatchFormat.Text, null)]
         public String InputKorpus
         {
             get
@@ -106,7 +106,7 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
         /// <summary>
         /// The assumed keylength from the autokorrelation plugin (optional) 
         /// </summary>
-        [PropertyInfo(Direction.InputData, "Keylength Input", "Enter the assumed keylength from the autokorrelationfunction here", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "Keylength Input", "Enter the assumed keylength from the autokorrelationfunction here", "", false, false, QuickWatchFormat.Text, null)]
         public int InputKeylength
         {
             get
@@ -123,7 +123,7 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
         /// <summary>
         /// The output for the key 
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "Key Output", "The most probable autokey for the analysed ciphertext", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.OutputData, "Key Output", "The most probable autokey for the analysed ciphertext", "")]
         public String OutputKey
         {
             get

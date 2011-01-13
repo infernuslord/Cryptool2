@@ -66,8 +66,8 @@ namespace Cryptool.Plugins.Convertor
         /// <summary>
         /// Encoding property used in the Settings pane. 
         /// </summary>
-        [ContextMenu("Input stream encoding", "Choose the expected encoding of the input stream.", 1, DisplayLevel.Experienced, ContextMenuControlType.ComboBox, null, new string[] { "Default system encoding", "Binary data (convert to base64)", "Binary data (convert to hex-string)", "Binary data (convert to octal-string)", "Unicode", "UTF-7", "UTF-8", "UTF-32", "ASCII", "Big endian unicode" })]
-        [TaskPane("Input stream encoding", "Choose the expected encoding of the input stream. (The stream will be interpreted as set here, no matter what the bytes really mean)", null, 1, false, DisplayLevel.Experienced, ControlType.ComboBox, new string[] { "Default system encoding", "Binary data (convert to base64)", "Binary data (convert to hex-string)", "Binary data (convert to octal-string)", "Unicode", "UTF-7", "UTF-8", "UTF-32", "ASCII", "Big endian unicode" })]
+        [ContextMenu("Input stream encoding", "Choose the expected encoding of the input stream.", 1, ContextMenuControlType.ComboBox, null, new string[] { "Default system encoding", "Binary data (convert to base64)", "Binary data (convert to hex-string)", "Binary data (convert to octal-string)", "Unicode", "UTF-7", "UTF-8", "UTF-32", "ASCII", "Big endian unicode" })]
+        [TaskPane("Input stream encoding", "Choose the expected encoding of the input stream. (The stream will be interpreted as set here, no matter what the bytes really mean)", null, 1, false, ControlType.ComboBox, new string[] { "Default system encoding", "Binary data (convert to base64)", "Binary data (convert to hex-string)", "Binary data (convert to octal-string)", "Unicode", "UTF-7", "UTF-8", "UTF-32", "ASCII", "Big endian unicode" })]
         public int EncodingSetting
         {
             get
@@ -86,7 +86,7 @@ namespace Cryptool.Plugins.Convertor
         /// <summary>
         /// Maximum size property used in the settings pane. 
         /// </summary>        
-        [TaskPane("Maximum length", "Provide the maximum number of bytes to convert.", null, 2, false, DisplayLevel.Professional, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, int.MaxValue)]
+        [TaskPane("Maximum length", "Provide the maximum number of bytes to convert.", null, 2, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, int.MaxValue)]
         public int MaxLength
         {
             get

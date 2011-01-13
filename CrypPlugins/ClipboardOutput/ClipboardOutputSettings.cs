@@ -29,8 +29,8 @@ namespace ClipboardOutput
   {
     private int format = 0; //0="Text", 1="Hex", 2="Base64"
 
-    [ContextMenu("Format", "Data format to convert to", 1, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, null, new string[] { "text", "hex", "base64" })]
-    [TaskPane("Format", "Data format to convert to", "", 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "text", "hex", "base64" })]
+    [ContextMenu("Format", "Data format to convert to", 1, ContextMenuControlType.ComboBox, null, new string[] { "text", "hex", "base64" })]
+    [TaskPane("Format", "Data format to convert to", "", 1, false, ControlType.ComboBox, new string[] { "text", "hex", "base64" })]
     public int Format
     {
       get { return this.format; }

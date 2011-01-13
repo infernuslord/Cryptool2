@@ -55,7 +55,7 @@ namespace Cryptool.Plugins.PlayfairAnalysis
         /// <summary>
         /// You can add more input properties of other type if needed.
         /// </summary>
-        [PropertyInfo(Direction.InputData, "Text input", "Input a string to be analyzed", null, DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.InputData, "Text input", "Input a string to be analyzed", null)]
         public virtual string InputString
         {
             get { return this.inputString; }
@@ -70,7 +70,7 @@ namespace Cryptool.Plugins.PlayfairAnalysis
         }
 
         /*
-        [PropertyInfo(Direction.InputData, "Bigraph Statistic", "Bigraph Statistic from Playfair Analysis Statistic Plugin", null, false, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "Bigraph Statistic", "Bigraph Statistic from Playfair Analysis Statistic Plugin", null, false, false, QuickWatchFormat.Hex, null)]
         public virtual double[] CustomLogStat
         {
             get { return this.customLogStat2; }
@@ -86,7 +86,7 @@ namespace Cryptool.Plugins.PlayfairAnalysis
         */
 
         CryptoolStream csBigraphStatistic;
-        [PropertyInfo(Direction.InputData, "Bigraph Statistic", "Bigraph Statistic from Playfair Analysis Statistic Plugin", null, DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.InputData, "Bigraph Statistic", "Bigraph Statistic from Playfair Analysis Statistic Plugin", null)]
         public CryptoolStream CustomLogStat
         {
             get
@@ -116,7 +116,7 @@ namespace Cryptool.Plugins.PlayfairAnalysis
         /// <summary>
         /// You can add more output properties ot other type if needed.
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "Text output", "The output string after playfair analysis", null, DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.OutputData, "Text output", "The output string after playfair analysis", null)]
         public virtual string OutputString
         {
             get { return this.outputString; }
@@ -128,7 +128,7 @@ namespace Cryptool.Plugins.PlayfairAnalysis
         }
 
 
-        [PropertyInfo(Direction.OutputData, "CryptoolStream output", "The raw CryptoolStream data after playfair analysis", null, DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.OutputData, "CryptoolStream output", "The raw CryptoolStream data after playfair analysis", null)]
         public virtual CryptoolStream OutputData
         {
             get

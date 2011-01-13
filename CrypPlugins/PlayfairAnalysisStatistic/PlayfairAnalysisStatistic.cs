@@ -59,7 +59,7 @@ namespace Cryptool.Plugins.PlayfairAnalysisStatistic
         /// </summary>
         
         /*
-        [PropertyInfo(Direction.OutputData, "Bigraph Statistic", "Bigraph Statistic for Playfair Analysis Plugin", null, DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.OutputData, "Bigraph Statistic", "Bigraph Statistic for Playfair Analysis Plugin", null)]
         public virtual double[] BigraphStatistic
         {
             get { return this.logStat2; }
@@ -75,7 +75,7 @@ namespace Cryptool.Plugins.PlayfairAnalysisStatistic
         */
 
         CryptoolStream csBigraphStatistic;
-        [PropertyInfo(Direction.OutputData, "Bigraph Statistic", "Bigraph Statistic for Playfair Analysis Plugin", null, DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.OutputData, "Bigraph Statistic", "Bigraph Statistic for Playfair Analysis Plugin", null)]
         public CryptoolStream OutputStream
         {
             get

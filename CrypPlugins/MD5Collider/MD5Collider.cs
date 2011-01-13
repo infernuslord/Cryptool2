@@ -50,7 +50,7 @@ namespace Cryptool.Plugins.MD5Collider
         }
 
         private byte[] outputData1;
-        [PropertyInfo(Direction.OutputData, "First colliding data block", "First colliding data block as byte array", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "First colliding data block", "First colliding data block as byte array", "", false, false, QuickWatchFormat.Hex, null)]
         public byte[] OutputData1
         {
             get { return this.outputData1; }
@@ -62,7 +62,7 @@ namespace Cryptool.Plugins.MD5Collider
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "First colliding data block", "First colliding data block as Stream", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "First colliding data block", "First colliding data block as Stream", "", false, false, QuickWatchFormat.Hex, null)]
         public CryptoolStream OutputDataStream1
         {
             get
@@ -80,7 +80,7 @@ namespace Cryptool.Plugins.MD5Collider
         }
 
         private byte[] outputData2;
-        [PropertyInfo(Direction.OutputData, "Second colliding data block", "Second colliding data block as byte array", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "Second colliding data block", "Second colliding data block as byte array", "", false, false, QuickWatchFormat.Hex, null)]
         public byte[] OutputData2
         {
             get { return this.outputData2; }
@@ -92,7 +92,7 @@ namespace Cryptool.Plugins.MD5Collider
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "Second colliding data block", "Second colliding data block as Stream", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "Second colliding data block", "Second colliding data block as Stream", "", false, false, QuickWatchFormat.Hex, null)]
         public CryptoolStream OutputDataStream2
         {
             get
@@ -110,7 +110,7 @@ namespace Cryptool.Plugins.MD5Collider
         }
 
         private byte[] randomSeed;
-        [PropertyInfo(Direction.InputData, "Random seed", "Data used for initialization of RNG", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "Random seed", "Data used for initialization of RNG", "", false, false, QuickWatchFormat.Hex, null)]
         public byte[] RandomSeed
         {
             get { return randomSeed; }
@@ -118,7 +118,7 @@ namespace Cryptool.Plugins.MD5Collider
         }
 
         private byte[] prefix;
-        [PropertyInfo(Direction.InputData, "Prefix", "Common prefix for colliding blocks", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "Prefix", "Common prefix for colliding blocks", "", false, false, QuickWatchFormat.Hex, null)]
         public byte[] Prefix
         {
             get { return prefix; }

@@ -651,7 +651,7 @@ namespace WebService
             envelope.AppendChild(body);
             this.OutputString = soapResponse;
         }
-        [PropertyInfo(Direction.InputData, "SOAP input", "Input a SOAP message to be processed by the Web Service", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text,"XmlConverter")]
+        [PropertyInfo(Direction.InputData, "SOAP input", "Input a SOAP message to be processed by the Web Service", "", true, false, QuickWatchFormat.Text,"XmlConverter")]
         public XmlDocument InputString
         {
             get { return this.inputString; }
@@ -665,7 +665,7 @@ namespace WebService
 
         }
 
-        [PropertyInfo(Direction.OutputData, "WSDL output", "Web Service Description", null, DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.OutputData, "WSDL output", "Web Service Description", null)]
         public XmlDocument Wsdl
         {
             get { return this.wsdlDocument; }
@@ -676,7 +676,7 @@ namespace WebService
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "Public-Key output", "Encryption Key", null, DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.OutputData, "Public-Key output", "Encryption Key", null)]
         public string PublicKey
         {
             get { return this.publickey; }
@@ -687,7 +687,7 @@ namespace WebService
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "SOAP output", "Response from Web Service", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, "XmlOutputConverter")]
+        [PropertyInfo(Direction.OutputData, "SOAP output", "Response from Web Service", "", false, false, QuickWatchFormat.Text, "XmlOutputConverter")]
         public XmlDocument OutputString
         {
             get { return this.outputString; }

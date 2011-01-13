@@ -54,7 +54,7 @@ namespace Cryptool.Plugins.Variable
         #region Properties
         
         private Object storeObject = null;
-        [PropertyInfo(Direction.InputData, "Variable Store Object", "Object to be stored to the corresponding variable", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.InputData, "Variable Store Object", "Object to be stored to the corresponding variable", "")]
         public Object VariableStoreObject
         {
             get

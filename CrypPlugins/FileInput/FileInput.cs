@@ -81,7 +81,7 @@ namespace FileInput
             set { settings = (FileInputSettings)value; }
         }
 
-        [PropertyInfo(Direction.OutputData, "Stream Output", "Selected file as stream.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "Stream Output", "Selected file as stream.", "", true, false, QuickWatchFormat.Hex, null)]
         public CryptoolStream StreamOutput
         {
             get
@@ -109,7 +109,7 @@ namespace FileInput
             set { } // readonly
         }
 
-        [PropertyInfo(Direction.OutputData, "File Size", "Size of the selected file", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.OutputData, "File Size", "Size of the selected file", "")]
         public int FileSize { get; private set; }
 
         #endregion

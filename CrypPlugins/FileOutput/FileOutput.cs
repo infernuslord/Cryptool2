@@ -74,7 +74,7 @@ namespace FileOutput
     # region Properties
     private CryptoolStream streamInput;
 
-    [PropertyInfo(Direction.InputData, "Stream Input", "Display the input file in HexEditor.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, null)]
+    [PropertyInfo(Direction.InputData, "Stream Input", "Display the input file in HexEditor.", "", true, false, QuickWatchFormat.Hex, null)]
     public CryptoolStream StreamInput
     {
       get 

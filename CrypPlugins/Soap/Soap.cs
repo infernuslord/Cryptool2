@@ -121,7 +121,7 @@ namespace Soap
         }
 
 
-        [PropertyInfo(Direction.InputData, "WSDL Input", "WSDL to create the soap message", null, DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.InputData, "WSDL Input", "WSDL to create the soap message", null)]
         public XmlDocument Wsdl
         {
             set
@@ -143,7 +143,7 @@ namespace Soap
             }
         }
 
-        [PropertyInfo(Direction.InputData, "Public-Key input", "Encryption Key",null, DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.InputData, "Public-Key input", "Encryption Key",null)]
         public string PublicKey
         {
             get
@@ -168,7 +168,7 @@ namespace Soap
             }
         }
 
-       [PropertyInfo(Direction.OutputData, "SOAP output", "Send a SOAP Message", "",true, true, DisplayLevel.Beginner, QuickWatchFormat.Text, "XmlConverter")]
+       [PropertyInfo(Direction.OutputData, "SOAP output", "Send a SOAP Message", "",true, true, QuickWatchFormat.Text, "XmlConverter")]
         public XmlDocument OutputString                                                                                                 
         {
             get {  return this.securedSOAP;  }
@@ -182,7 +182,7 @@ namespace Soap
             }
         }
        private XmlDocument inputString;
-       [PropertyInfo(Direction.InputData, "SOAP input", "Input a SOAP message to be processed by the Web Service", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, "XmlOutputConverter")]
+       [PropertyInfo(Direction.InputData, "SOAP input", "Input a SOAP message to be processed by the Web Service", "", false, false, QuickWatchFormat.Text, "XmlOutputConverter")]
         public XmlDocument InputString       
         {
             get { return this.inputDocument; }

@@ -54,8 +54,8 @@ namespace Cryptool.Plugins.DiscreteLogarithm
         /// <summary>
         /// Getter/Setter for the algorithm
         /// </summary>
-        [ContextMenu("Algorithm", "Which algorithm do you want to use?", 1, DisplayLevel.Beginner, ContextMenuControlType.ComboBox, new int[] { 1, 2 }, "Enumeration", "Index-Calculus")]
-        [TaskPane("Algorithm", "Which algorithm do you want to use?", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "Enumeration", "Index-Calculus" })]
+        [ContextMenu("Algorithm", "Which algorithm do you want to use?", 1, ContextMenuControlType.ComboBox, new int[] { 1, 2 }, "Enumeration", "Index-Calculus")]
+        [TaskPane("Algorithm", "Which algorithm do you want to use?", null, 1, false, ControlType.ComboBox, new string[] { "Enumeration", "Index-Calculus" })]
         public int Algorithm
         {
             get { return this.algorithm; }

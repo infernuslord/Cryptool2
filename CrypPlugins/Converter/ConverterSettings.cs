@@ -52,8 +52,8 @@ namespace Cryptool.Plugins.Converter
 
         #region taskpane
      
-        [ContextMenu("Stream encoding", "Choose the expected encoding of the byte array and stream.", 1, DisplayLevel.Experienced, ContextMenuControlType.ComboBox, null, new string[] { "Default system encoding", "Unicode", "UTF-7", "UTF-8", "UTF-32", "ASCII", "Big endian unicode" })]
-        [TaskPane("Stream encoding", "Choose the expected encoding of the byte array and stream.", "", 1, false, DisplayLevel.Experienced, ControlType.RadioButton, new string[] { "Default system encoding", "Unicode", "UTF-7", "UTF-8", "UTF-32", "ASCII", "Big endian unicode" })]
+        [ContextMenu("Stream encoding", "Choose the expected encoding of the byte array and stream.", 1, ContextMenuControlType.ComboBox, null, new string[] { "Default system encoding", "Unicode", "UTF-7", "UTF-8", "UTF-32", "ASCII", "Big endian unicode" })]
+        [TaskPane("Stream encoding", "Choose the expected encoding of the byte array and stream.", "", 1, false, ControlType.RadioButton, new string[] { "Default system encoding", "Unicode", "UTF-7", "UTF-8", "UTF-32", "ASCII", "Big endian unicode" })]
         public int EncodingSetting
         {
             get
@@ -72,7 +72,7 @@ namespace Cryptool.Plugins.Converter
             }
         }
 
-        [TaskPane("Converter", "Choose the output type", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "string", "int", "short", "byte", "double", "BigInteger", "int[]", "byte[]","Cryptoolstream" })]
+        [TaskPane("Converter", "Choose the output type", null, 1, false, ControlType.ComboBox, new string[] { "string", "int", "short", "byte", "double", "BigInteger", "int[]", "byte[]","Cryptoolstream" })]
         public int Converter
         {
             get { return this.converter; }
@@ -183,7 +183,7 @@ namespace Cryptool.Plugins.Converter
             }
         }
 
-        [TaskPane("Numeric", "Choose whether inputs are interpreted as numeric values if possible", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "no", "yes" })]
+        [TaskPane("Numeric", "Choose whether inputs are interpreted as numeric values if possible", null, 1, false, ControlType.ComboBox, new string[] { "no", "yes" })]
         public bool Numeric
         {
             get { return this.numeric; }
@@ -198,7 +198,7 @@ namespace Cryptool.Plugins.Converter
             }
         }
 
-        [TaskPane("Format", "Choose whether double values are recognized via german or american syntax. German: \"123.345.34,34\" American: \"123,345,34.34 ", null, 1, false, DisplayLevel.Beginner, ControlType.ComboBox, new string[] { "german", "american" })]
+        [TaskPane("Format", "Choose whether double values are recognized via german or american syntax. German: \"123.345.34,34\" American: \"123,345,34.34 ", null, 1, false, ControlType.ComboBox, new string[] { "german", "american" })]
         public bool FormatAmer
         {
             get { return this.formatAmer; }
@@ -213,7 +213,7 @@ namespace Cryptool.Plugins.Converter
             }
         }
 
-        [TaskPane("PresentationFormatSetting", "Choose the format that will be used te present the output data.", null, 1, false, DisplayLevel.Beginner, ControlType.RadioButton, new string[] { "Text", "Hex", "Base64" })]
+        [TaskPane("PresentationFormatSetting", "Choose the format that will be used te present the output data.", null, 1, false, ControlType.RadioButton, new string[] { "Text", "Hex", "Base64" })]
         public int PresentationFormatSetting
         {
             get

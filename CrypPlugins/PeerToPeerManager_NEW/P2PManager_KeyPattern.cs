@@ -80,7 +80,7 @@ namespace Cryptool.Plugins.PeerToPeer
 
         #region In and Output
 
-        [PropertyInfo(Direction.InputData, "Encrypted Data", "Encrypted data out of an Encryption PlugIn", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Hex, "")]
+        [PropertyInfo(Direction.InputData, "Encrypted Data", "Encrypted data out of an Encryption PlugIn", "", true, false, QuickWatchFormat.Hex, "")]
         public CryptoolStream DecryptedData
         {
             get { return this.decryptedData; }
@@ -93,7 +93,7 @@ namespace Cryptool.Plugins.PeerToPeer
             }
         }
 
-        [PropertyInfo(Direction.InputData, "Initialization Vector", "Initialization vector with which the data were encrypted", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.InputData, "Initialization Vector", "Initialization vector with which the data were encrypted", "")]
         public byte[] InitVector
         {
             get { return this.initVector; }
@@ -104,7 +104,7 @@ namespace Cryptool.Plugins.PeerToPeer
             }
         }
 
-        [PropertyInfo(Direction.ControlMaster, "Control Master", "Used for bruteforcing", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.ControlMaster, "Control Master", "Used for bruteforcing", "")]
         public IControlEncryption EncryptionControl
         {
             get { return this.encryptionControl; }
@@ -145,7 +145,7 @@ namespace Cryptool.Plugins.PeerToPeer
         /// <summary>
         /// Catches the completely configurated, initialized and joined P2P object from the P2PPeer-Slave-PlugIn.
         /// </summary>
-        [PropertyInfo(Direction.ControlMaster, "P2P Slave", "Input the P2P-Peer-PlugIn", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.ControlMaster, "P2P Slave", "Input the P2P-Peer-PlugIn", "", true, false, QuickWatchFormat.Text, null)]
         public IP2PControl P2PControl
         {
             get

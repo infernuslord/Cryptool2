@@ -54,7 +54,7 @@ namespace Cryptool.Plugins.PlayfairAnalysisStatistic
         #region TaskPane Settings
 
         [PropertySaveOrder(0)]
-        [TaskPane("Text Corpus", "txt file used to create the bigraph statistic", null, 1, false, DisplayLevel.Beginner, ControlType.OpenFileDialog)]
+        [TaskPane("Text Corpus", "txt file used to create the bigraph statistic", null, 1, false, ControlType.OpenFileDialog)]
         public string TextCorpusFile
         {
             get
@@ -72,7 +72,7 @@ namespace Cryptool.Plugins.PlayfairAnalysisStatistic
         }
 
         [PropertySaveOrder(2)]
-        [TaskPane("Matrix Size", "Size of Matrix used for fomatting", null, 2, false, DisplayLevel.Beginner, ControlType.RadioButton, new string[] { "5 x 5", "6 x 6" })]
+        [TaskPane("Matrix Size", "Size of Matrix used for fomatting", null, 2, false, ControlType.RadioButton, new string[] { "5 x 5", "6 x 6" })]
         public int MatrixSize
         {
             get
@@ -100,7 +100,7 @@ namespace Cryptool.Plugins.PlayfairAnalysisStatistic
         }
 
         [PropertySaveOrder(3)]
-        [TaskPane("Alphabet", "Alphabet used for formatting", null, 3, false, DisplayLevel.Expert, ControlType.TextBox, "")]
+        [TaskPane("Alphabet", "Alphabet used for formatting", null, 3, false, ControlType.TextBox, "")]
         public string Alphabet
         {
             get { return this.alphabet; }
@@ -113,7 +113,7 @@ namespace Cryptool.Plugins.PlayfairAnalysisStatistic
         }
 
         [PropertySaveOrder(6)]
-        [TaskPane("Replace Character", "Replace a character by another", null, 4, false, DisplayLevel.Expert, ControlType.CheckBox, "")]
+        [TaskPane("Replace Character", "Replace a character by another", null, 4, false, ControlType.CheckBox, "")]
         public bool ReplaceCharacter
         {
             get { return this.replaceCharacter; }
@@ -142,7 +142,7 @@ namespace Cryptool.Plugins.PlayfairAnalysisStatistic
         }
 
         [PropertySaveOrder(4)]
-        [TaskPane("Replace", "Character to be replaced", null, 5, false, DisplayLevel.Expert, ControlType.TextBox, "")]
+        [TaskPane("Replace", "Character to be replaced", null, 5, false, ControlType.TextBox, "")]
         public char RemoveChar
         {
             get { return this.removeChar; }
@@ -156,7 +156,7 @@ namespace Cryptool.Plugins.PlayfairAnalysisStatistic
 
 
         [PropertySaveOrder(5)]
-        [TaskPane("by", "Replacement character", null, 6, false, DisplayLevel.Expert, ControlType.TextBox, "")]
+        [TaskPane("by", "Replacement character", null, 6, false, ControlType.TextBox, "")]
         public char ReplacementChar
         {
             get { return this.replacementChar; }
@@ -169,7 +169,7 @@ namespace Cryptool.Plugins.PlayfairAnalysisStatistic
         }
 
         [PropertySaveOrder(7)]
-        [TaskPane("Separator", "Enter the character to separate pairs of identical letters", null, 7, false, DisplayLevel.Expert, ControlType.TextBox, "")]
+        [TaskPane("Separator", "Enter the character to separate pairs of identical letters", null, 7, false, ControlType.TextBox, "")]
         public char Separator
         {
             get { return this.separator; }
@@ -182,7 +182,7 @@ namespace Cryptool.Plugins.PlayfairAnalysisStatistic
         }
 
         [PropertySaveOrder(8)]
-        [TaskPane("Separator Replacement", "Enter the character to separate double separators", null, 8, false, DisplayLevel.Expert, ControlType.TextBox, "")]
+        [TaskPane("Separator Replacement", "Enter the character to separate double separators", null, 8, false, ControlType.TextBox, "")]
         public char SeparatorReplacement
         {
             get { return this.separatorReplacement; }
@@ -195,7 +195,7 @@ namespace Cryptool.Plugins.PlayfairAnalysisStatistic
         }
 
         [PropertySaveOrder(9)]
-        [TaskPane("Text Corpus to upper", "Convert text corpus to upper case", null, 9, false, DisplayLevel.Expert, ControlType.CheckBox, "")]
+        [TaskPane("Text Corpus to upper", "Convert text corpus to upper case", null, 9, false, ControlType.CheckBox, "")]
         public bool CorpusToUpper
         {
             get { return this.corpusToUpper; }
@@ -208,7 +208,7 @@ namespace Cryptool.Plugins.PlayfairAnalysisStatistic
         }
 
         [PropertySaveOrder(10)]
-        [TaskPane("Convert mutated vowels and sharp s", "Convert mutated vowels and sharp s", null, 10, false, DisplayLevel.Expert, ControlType.CheckBox, "")]
+        [TaskPane("Convert mutated vowels and sharp s", "Convert mutated vowels and sharp s", null, 10, false, ControlType.CheckBox, "")]
         public bool ConvertSpecialSigns
         {
             get { return this.convertSpecialSigns; }

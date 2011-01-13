@@ -54,7 +54,7 @@ namespace Cryptool.Plugins.AutokorrelationFunction
         /// <summary>
         /// The input for the ciphertext 
         /// </summary>
-        [PropertyInfo(Direction.InputData, "Cipher Input", "Enter your cipher here", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "Cipher Input", "Enter your cipher here", "", true, false, QuickWatchFormat.Text, null)]
         public String InputCipher
         {
             get
@@ -71,7 +71,7 @@ namespace Cryptool.Plugins.AutokorrelationFunction
         /// <summary>
         /// The output for the found shift value (most probable keylength) 
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "Keylength Output", "The most probable keylength for the analysed ciphertext", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.OutputData, "Keylength Output", "The most probable keylength for the analysed ciphertext", "")]
         public int OutputLength
         {
             get

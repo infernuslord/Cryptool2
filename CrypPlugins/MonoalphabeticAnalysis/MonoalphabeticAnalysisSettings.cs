@@ -129,8 +129,8 @@ namespace Cryptool.MonoalphabeticAnalysis
 
         
         //[PropertySaveOrder(1)]
-        [ContextMenu("Generate digram matrix internally", "When the digram matrix is generated internally, the time for calculating the cost function is significantly reduced. ", 27, DisplayLevel.Expert, ContextMenuControlType.ComboBox, null, new string[] { "Don't generate internally", "Generate internally" })]
-        [TaskPane("Digram matrix", "When the digram matrix is generated internally, the time for calculating the cost function is significantly reduced.", "", 27, false, DisplayLevel.Expert, ControlType.ComboBox, new string[] { "Don't generate internally", "Generate internally" })]
+        [ContextMenu("Generate digram matrix internally", "When the digram matrix is generated internally, the time for calculating the cost function is significantly reduced. ", 27, ContextMenuControlType.ComboBox, null, new string[] { "Don't generate internally", "Generate internally" })]
+        [TaskPane("Digram matrix", "When the digram matrix is generated internally, the time for calculating the cost function is significantly reduced.", "", 27, false, ControlType.ComboBox, new string[] { "Don't generate internally", "Generate internally" })]
         public int FastAproach
         {
             get { return this.fastAproach; }
@@ -155,7 +155,7 @@ namespace Cryptool.MonoalphabeticAnalysis
         
 
 
-        [TaskPane("ManualSuggestion", "Once you have a key proposittion you can make fixes according to the decipher results. Use the Letter drop-down boxes to correct the text in substitution decipher output, check 'Manual Suggestion'(Me) and 'play' the chain again. Good Luck! ", "", 28, false, DisplayLevel.Beginner, ControlType.CheckBox, "", null)]
+        [TaskPane("ManualSuggestion", "Once you have a key proposittion you can make fixes according to the decipher results. Use the Letter drop-down boxes to correct the text in substitution decipher output, check 'Manual Suggestion'(Me) and 'play' the chain again. Good Luck! ", "", 28, false, ControlType.CheckBox, "", null)]
         public bool SuggestSubstitutionManually
         {
             get { return suggestSubstitutionManually; }
@@ -171,7 +171,7 @@ namespace Cryptool.MonoalphabeticAnalysis
         }
 
 
-     /*   [TaskPane("Plaintext Alphabet", "Displays the Plaintext alphabet", "", 29, false, DisplayLevel.Beginner, ControlType.TextBoxReadOnly)]
+     /*   [TaskPane("Plaintext Alphabet", "Displays the Plaintext alphabet", "", 29, false, ControlType.TextBoxReadOnly)]
         public string PlaintextAlphabet
         {
             get { return alphabet; }
@@ -180,7 +180,7 @@ namespace Cryptool.MonoalphabeticAnalysis
         }*/
        
 
-        [TaskPane("Key Proposal", "Displays the current key proposal", "", 30, false, DisplayLevel.Beginner, ControlType.TextBoxReadOnly)]
+        [TaskPane("Key Proposal", "Displays the current key proposal", "", 30, false, ControlType.TextBoxReadOnly)]
         public string PlugBoard
         {
             get {
@@ -196,7 +196,7 @@ namespace Cryptool.MonoalphabeticAnalysis
             }
         }
         
-   /*     [TaskPane("Involutoric", "The mapping and the inverse mapping are the same. As an example if A mapps to X, also X is mapped to A", "Plugboard", 31, false, DisplayLevel.Beginner, ControlType.CheckBox, "", null)]
+   /*     [TaskPane("Involutoric", "The mapping and the inverse mapping are the same. As an example if A mapps to X, also X is mapped to A", "Plugboard", 31, false, ControlType.CheckBox, "", null)]
         public bool Involutoric
         {
             get { return involutoricPlugBoard; }
@@ -212,7 +212,7 @@ namespace Cryptool.MonoalphabeticAnalysis
         }*/
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Eins")]
-        [TaskPane("A=", "Select the letter for connecting this plug.", "", 40, false, DisplayLevel.Beginner, ControlType.ComboBox,
+        [TaskPane("A=", "Select the letter for connecting this plug.", "", 40, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardA
         {
@@ -221,7 +221,7 @@ namespace Cryptool.MonoalphabeticAnalysis
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Eins")]
-        [TaskPane("B=", "Select the letter for connecting this plug.", "", 41, false, DisplayLevel.Beginner, ControlType.ComboBox,
+        [TaskPane("B=", "Select the letter for connecting this plug.", "", 41, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardB
         {
@@ -230,7 +230,7 @@ namespace Cryptool.MonoalphabeticAnalysis
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Eins")]
-        [TaskPane("C=", "Select the letter for connecting this plug.", "", 42, false, DisplayLevel.Beginner, ControlType.ComboBox,
+        [TaskPane("C=", "Select the letter for connecting this plug.", "", 42, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardC
         {
@@ -239,7 +239,7 @@ namespace Cryptool.MonoalphabeticAnalysis
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Zwei")]
-        [TaskPane("D=", "Select the letter for connecting this plug.", "", 43, false, DisplayLevel.Beginner, ControlType.ComboBox,
+        [TaskPane("D=", "Select the letter for connecting this plug.", "", 43, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardD
         {
@@ -248,7 +248,7 @@ namespace Cryptool.MonoalphabeticAnalysis
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Zwei")]
-        [TaskPane("E=", "Select the letter for connecting this plug.", "", 44, false, DisplayLevel.Beginner, ControlType.ComboBox,
+        [TaskPane("E=", "Select the letter for connecting this plug.", "", 44, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardE
         {
@@ -257,7 +257,7 @@ namespace Cryptool.MonoalphabeticAnalysis
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Zwei")]
-        [TaskPane("F=", "Select the letter for connecting this plug.", "", 45, false, DisplayLevel.Beginner, ControlType.ComboBox,
+        [TaskPane("F=", "Select the letter for connecting this plug.", "", 45, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardF
         {
@@ -266,7 +266,7 @@ namespace Cryptool.MonoalphabeticAnalysis
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Drei")]
-        [TaskPane("G=", "Select the letter for connecting this plug.", "", 46, false, DisplayLevel.Beginner, ControlType.ComboBox,
+        [TaskPane("G=", "Select the letter for connecting this plug.", "", 46, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardG
         {
@@ -275,7 +275,7 @@ namespace Cryptool.MonoalphabeticAnalysis
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Drei")]
-        [TaskPane("H=", "Select the letter for connecting this plug.", "", 47, false, DisplayLevel.Beginner, ControlType.ComboBox,
+        [TaskPane("H=", "Select the letter for connecting this plug.", "", 47, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardH
         {
@@ -284,7 +284,7 @@ namespace Cryptool.MonoalphabeticAnalysis
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Drei")]
-        [TaskPane("I=", "Select the letter for connecting this plug.", "", 48, false, DisplayLevel.Beginner, ControlType.ComboBox,
+        [TaskPane("I=", "Select the letter for connecting this plug.", "", 48, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardI
         {
@@ -293,7 +293,7 @@ namespace Cryptool.MonoalphabeticAnalysis
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Vier")]
-        [TaskPane("J=", "Select the letter for connecting this plug.", "", 49, false, DisplayLevel.Beginner, ControlType.ComboBox,
+        [TaskPane("J=", "Select the letter for connecting this plug.", "", 49, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardJ
         {
@@ -302,7 +302,7 @@ namespace Cryptool.MonoalphabeticAnalysis
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Vier")]
-        [TaskPane("K=", "Select the letter for connecting this plug.", "", 50, false, DisplayLevel.Beginner, ControlType.ComboBox,
+        [TaskPane("K=", "Select the letter for connecting this plug.", "", 50, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardK
         {
@@ -311,7 +311,7 @@ namespace Cryptool.MonoalphabeticAnalysis
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Vier")]
-        [TaskPane("L=", "Select the letter for connecting this plug.", "", 51, false, DisplayLevel.Beginner, ControlType.ComboBox,
+        [TaskPane("L=", "Select the letter for connecting this plug.", "", 51, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardL
         {
@@ -320,7 +320,7 @@ namespace Cryptool.MonoalphabeticAnalysis
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Fuenf")]
-        [TaskPane("M=", "Select the letter for connecting this plug.", "", 52, false, DisplayLevel.Beginner, ControlType.ComboBox,
+        [TaskPane("M=", "Select the letter for connecting this plug.", "", 52, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardM
         {
@@ -329,7 +329,7 @@ namespace Cryptool.MonoalphabeticAnalysis
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Fuenf")]
-        [TaskPane("N=", "Select the letter for connecting this plug.", "", 53, false, DisplayLevel.Beginner, ControlType.ComboBox,
+        [TaskPane("N=", "Select the letter for connecting this plug.", "", 53, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardN
         {
@@ -338,7 +338,7 @@ namespace Cryptool.MonoalphabeticAnalysis
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Fuenf")]
-        [TaskPane("O=", "Select the letter for connecting this plug.", "", 54, false, DisplayLevel.Beginner, ControlType.ComboBox,
+        [TaskPane("O=", "Select the letter for connecting this plug.", "", 54, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardO
         {
@@ -347,7 +347,7 @@ namespace Cryptool.MonoalphabeticAnalysis
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Sechs")]
-        [TaskPane("P=", "Select the letter for connecting this plug.", "", 55, false, DisplayLevel.Beginner, ControlType.ComboBox,
+        [TaskPane("P=", "Select the letter for connecting this plug.", "", 55, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardP
         {
@@ -356,7 +356,7 @@ namespace Cryptool.MonoalphabeticAnalysis
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Sechs")]
-        [TaskPane("Q=", "Select the letter for connecting this plug.", "", 56, false, DisplayLevel.Beginner, ControlType.ComboBox,
+        [TaskPane("Q=", "Select the letter for connecting this plug.", "", 56, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardQ
         {
@@ -365,7 +365,7 @@ namespace Cryptool.MonoalphabeticAnalysis
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Sechs")]
-        [TaskPane("R=", "Select the letter for connecting this plug.", "", 57, false, DisplayLevel.Beginner, ControlType.ComboBox,
+        [TaskPane("R=", "Select the letter for connecting this plug.", "", 57, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardR
         {
@@ -374,7 +374,7 @@ namespace Cryptool.MonoalphabeticAnalysis
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Sieben")]
-        [TaskPane("S=", "Select the letter for connecting this plug.", "", 58, false, DisplayLevel.Beginner, ControlType.ComboBox,
+        [TaskPane("S=", "Select the letter for connecting this plug.", "", 58, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardS
         {
@@ -383,7 +383,7 @@ namespace Cryptool.MonoalphabeticAnalysis
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Sieben")]
-        [TaskPane("T=", "Select the letter for connecting this plug.", "", 59, false, DisplayLevel.Beginner, ControlType.ComboBox,
+        [TaskPane("T=", "Select the letter for connecting this plug.", "", 59, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardT
         {
@@ -392,7 +392,7 @@ namespace Cryptool.MonoalphabeticAnalysis
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Sieben")]
-        [TaskPane("U=", "Select the letter for connecting this plug.", "", 60, false, DisplayLevel.Beginner, ControlType.ComboBox,
+        [TaskPane("U=", "Select the letter for connecting this plug.", "", 60, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardU
         {
@@ -401,7 +401,7 @@ namespace Cryptool.MonoalphabeticAnalysis
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Acht")]
-        [TaskPane("V=", "Select the letter for connecting this plug.", "", 61, false, DisplayLevel.Beginner, ControlType.ComboBox,
+        [TaskPane("V=", "Select the letter for connecting this plug.", "", 61, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardV
         {
@@ -410,7 +410,7 @@ namespace Cryptool.MonoalphabeticAnalysis
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Acht")]
-        [TaskPane("W=", "Select the letter for connecting this plug.", "", 62, false, DisplayLevel.Beginner, ControlType.ComboBox,
+        [TaskPane("W=", "Select the letter for connecting this plug.", "", 62, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardW
         {
@@ -419,7 +419,7 @@ namespace Cryptool.MonoalphabeticAnalysis
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Acht")]
-        [TaskPane("X=", "Select the letter for connecting this plug.", "", 63, false, DisplayLevel.Beginner, ControlType.ComboBox,
+        [TaskPane("X=", "Select the letter for connecting this plug.", "", 63, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardX
         {
@@ -428,7 +428,7 @@ namespace Cryptool.MonoalphabeticAnalysis
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Neun")]
-        [TaskPane("Y=", "Select the letter for connecting this plug.", "", 64, false, DisplayLevel.Beginner, ControlType.ComboBox,
+        [TaskPane("Y=", "Select the letter for connecting this plug.", "", 64, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardY
         {
@@ -437,7 +437,7 @@ namespace Cryptool.MonoalphabeticAnalysis
         }
 
         [SettingsFormat(1, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Neun")]
-        [TaskPane("Z=", "Select the letter for connecting this plug.", "", 65, false, DisplayLevel.Beginner, ControlType.ComboBox,
+        [TaskPane("Z=", "Select the letter for connecting this plug.", "", 65, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardZ
         {

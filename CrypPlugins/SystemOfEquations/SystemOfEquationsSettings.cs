@@ -18,7 +18,7 @@ namespace Cryptool.SystemOfEquations
         private bool hasChanges;
         #endregion
         #region ISettings Members
-        [TaskPane("Feedback polynomials of LFSRs", "Feedback polynomials of LFSRs in bit presentation ", null, 1, false, DisplayLevel.Beginner, ControlType.TextBox, ValidationType.RegEx, null)]
+        [TaskPane("Feedback polynomials of LFSRs", "Feedback polynomials of LFSRs in bit presentation ", null, 1, false, ControlType.TextBox, ValidationType.RegEx, null)]
         public string Feedbackpolynomials
         {
             get { return this.feedbackpolynomials; }
@@ -31,7 +31,7 @@ namespace Cryptool.SystemOfEquations
                 }
             }
         }
-        [TaskPane("Output cells of LFSRs", " Output  cells of LFSRS in bit presentation ", null, 2, false, DisplayLevel.Beginner, ControlType.TextBox, ValidationType.RegEx, null)]
+        [TaskPane("Output cells of LFSRs", " Output  cells of LFSRS in bit presentation ", null, 2, false, ControlType.TextBox, ValidationType.RegEx, null)]
         public string Lfsrsoutputs
         {
             get { return this.lfsrsoutputs; }
@@ -44,7 +44,7 @@ namespace Cryptool.SystemOfEquations
                 }
             }
         }
-        [TaskPane("Keystream sequences", "known keystream sequences", null, 3, false, DisplayLevel.Beginner, ControlType.TextBox, ValidationType.RegEx, null)]
+        [TaskPane("Keystream sequences", "known keystream sequences", null, 3, false, ControlType.TextBox, ValidationType.RegEx, null)]
         public string Keystream
         {
             get { return this.keystream; }

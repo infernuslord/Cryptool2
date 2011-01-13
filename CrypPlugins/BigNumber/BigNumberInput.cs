@@ -43,7 +43,7 @@ namespace Cryptool.Plugins.BigNumber
         /// <summary>
         /// The output is defined
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "Number Output", "Number Output", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.OutputData, "Number Output", "Number Output", "")]
         public BigInteger NumberOutput
         {
             get

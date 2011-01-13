@@ -61,7 +61,7 @@ namespace Cryptool.Alphabets
         }
       }
 
-      [PropertyInfo(Direction.OutputData, "Alphabet Output", "Alphabet output to use as alphabet input for classical ciphers", "", false, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+      [PropertyInfo(Direction.OutputData, "Alphabet Output", "Alphabet output to use as alphabet input for classical ciphers", "", false, false, QuickWatchFormat.Text, null)]
       public string AlphabetOutput
       {
           get { return settings.Alphabet; }

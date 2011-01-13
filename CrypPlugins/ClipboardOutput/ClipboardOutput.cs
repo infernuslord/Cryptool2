@@ -75,7 +75,7 @@ namespace ClipboardOutput {
 
 		#region Interface
     private CryptoolStream streamInput;
-    [PropertyInfo(Direction.InputData, "Stream", "Data to be copied to clipboard", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.InputData, "Stream", "Data to be copied to clipboard", "", true, false, QuickWatchFormat.Text, null)]
     public CryptoolStream StreamInput
     {
 			get 

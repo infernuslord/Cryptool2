@@ -40,7 +40,7 @@ namespace Cryptool.Plugins.Collector
         #region Properties
 
         private Object input1 = null;
-        [PropertyInfo(Direction.InputData, "First Input", "First input to be collected", "", false, true, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "First Input", "First input to be collected", "", false, true, QuickWatchFormat.Text, null)]
         public Object Input1
         {
             get
@@ -57,7 +57,7 @@ namespace Cryptool.Plugins.Collector
         }
 
         private Object input2 = null;
-        [PropertyInfo(Direction.InputData, "Second Input", "Second input to be collected", "", false, true, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "Second Input", "Second input to be collected", "", false, true, QuickWatchFormat.Text, null)]
         public Object Input2
         {
             get
@@ -74,7 +74,7 @@ namespace Cryptool.Plugins.Collector
         }
 
         private Object output = null;
-        [PropertyInfo(Direction.OutputData, "Output", "Output", "", DisplayLevel.Beginner)]
+        [PropertyInfo(Direction.OutputData, "Output", "Output", "")]
         public Object Output
         {
             get

@@ -72,7 +72,7 @@ namespace Cryptool.Plugins.Shifter
         get { return null; }
     }
 
-    [PropertyInfo(Direction.InputData, "Input one", "Input one.", "", true, true, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.InputData, "Input one", "Input one.", "", true, true, QuickWatchFormat.Text, null)]
     public object InputOne
     {
         [MethodImpl(MethodImplOptions.Synchronized)]
@@ -87,7 +87,7 @@ namespace Cryptool.Plugins.Shifter
             }
         }
     }
-    [PropertyInfo(Direction.InputData, "Input two", "Input two.", "", true, true, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.InputData, "Input two", "Input two.", "", true, true, QuickWatchFormat.Text, null)]
     public object InputTwo
     {
         [MethodImpl(MethodImplOptions.Synchronized)]
@@ -103,7 +103,7 @@ namespace Cryptool.Plugins.Shifter
         }
     }
 
-    [PropertyInfo(Direction.OutputData, "Output", "Output.", "", true, false, DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.OutputData, "Output", "Output.", "", true, false, QuickWatchFormat.Text, null)]
     public object Output
     {
         [MethodImpl(MethodImplOptions.Synchronized)]
