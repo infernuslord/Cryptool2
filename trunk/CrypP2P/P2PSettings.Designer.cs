@@ -25,7 +25,7 @@ namespace Cryptool.P2P {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("CrypTool2")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string PeerName {
             get {
                 return ((string)(this["PeerName"]));
@@ -160,7 +160,7 @@ namespace Cryptool.P2P {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Chord")]
+        [global::System.Configuration.DefaultSettingValueAttribute("WebDHT")]
         public global::Cryptool.Plugins.PeerToPeer.Internal.P2PArchitecture Architecture {
             get {
                 return ((global::Cryptool.Plugins.PeerToPeer.Internal.P2PArchitecture)(this["Architecture"]));

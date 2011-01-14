@@ -64,7 +64,7 @@ namespace Cryptool.P2PEditor
             
             if (!P2PManager.IsConnected)
             {
-                GuiLogMessage("Cannot display new job form, no connection to p2p network.", NotificationLevel.Warning);
+                //GuiLogMessage("Cannot display new job form, no connection to p2p network.", NotificationLevel.Warning);
                 return;
             }
 
