@@ -33,7 +33,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-      <Reference Include="CertificateLibrary">
+    <Reference Include="CertificateLibrary">
       <HintPath>..\..\AppReferences\CertificateLibrary.dll</HintPath>
       <Private>false</Private>
     </Reference>
@@ -59,11 +59,11 @@
     <Compile Include="Converters\TrueToVisibleOrCollapsedConverter.cs" />
     <Compile Include="Distributed\DistributedJobSerializer.cs" />
     <Compile Include="Distributed\DistributedJobStatus.cs" />
-    <Compile Include="GUI\Controls\ConnectTab.xaml.cs">
-      <DependentUpon>ConnectTab.xaml</DependentUpon>
+    <Compile Include="GUI\Controls\ConnectView.xaml.cs">
+      <DependentUpon>ConnectView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Controls\GetNewCertificate.xaml.cs">
-      <DependentUpon>GetNewCertificate.xaml</DependentUpon>
+    <Compile Include="GUI\Controls\GetNewCertificateView.xaml.cs">
+      <DependentUpon>GetNewCertificateView.xaml</DependentUpon>
     </Compile>
     <Compile Include="GUI\P2PUserControl.cs" />
     <Compile Include="GUI\ParticipateAdorner.cs" />
@@ -73,11 +73,11 @@
     <Compile Include="Distributed\JobListManager.cs" />
     <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="P2PEditor.cs" />
-    <Compile Include="GUI\Controls\JobCreation.xaml.cs">
-      <DependentUpon>JobCreation.xaml</DependentUpon>
+    <Compile Include="GUI\Controls\JobCreationView.xaml.cs">
+      <DependentUpon>JobCreationView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Controls\JobDisplay.xaml.cs">
-      <DependentUpon>JobDisplay.xaml</DependentUpon>
+    <Compile Include="GUI\Controls\JobDisplayView.xaml.cs">
+      <DependentUpon>JobDisplayView.xaml</DependentUpon>
     </Compile>
     <Compile Include="GUI\P2PEditorPresentation.xaml.cs">
       <DependentUpon>P2PEditorPresentation.xaml</DependentUpon>
@@ -140,19 +140,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Resource>
-    <Page Include="GUI\Controls\ConnectTab.xaml">
+    <Page Include="GUI\Controls\ConnectView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="GUI\Controls\GetNewCertificate.xaml">
+    <Page Include="GUI\Controls\GetNewCertificateView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="GUI\Controls\JobCreation.xaml">
+    <Page Include="GUI\Controls\JobCreationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="GUI\Controls\JobDisplay.xaml">
+    <Page Include="GUI\Controls\JobDisplayView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

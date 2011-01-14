@@ -2,23 +2,11 @@
 	<GUI:P2PUserControl.Resources>
         <Converters:ConnectivityToVisibilityConverter x:Key="ConnectivityToVisibilityConverter" />
 	</GUI:P2PUserControl.Resources>
-	<Grid>
-		<TabControl TabStripPlacement="Top" Name="JobTabControl">
-            <TabItem Header="Active jobs" Name="ActiveJobsTab" IsEnabled="{Binding IsP2PConnected, ElementName=P2PEditorControl}">
-                <controls:JobDisplay x:Name="ActiveJobsControl" Jobs="{Binding Jobs, ElementName=P2PEditorControl}" />
-			</TabItem>
-            <TabItem Header="New job" Name="JobCreationTab" IsEnabled="{Binding IsP2PConnected, ElementName=P2PEditorControl}">
-				<controls:JobCreation />
-			</TabItem>
-            <TabItem Header="Connect" Name="ConnectTab" Visibility="{Binding IsP2PConnected, ElementName=P2PEditorControl, Converter={StaticResource ConnectivityToVisibilityConverter}}">
-                <controls:ConnectTab IsP2PConnecting="{Binding IsP2PConnecting, ElementName=P2PEditorControl}" />
-            </TabItem>
-            <TabItem Header="Get a certificate!" Name="GetNewCertificateTab">
-                <controls:GetNewCertificate />
-            </TabItem>
-            <TabItem Header="About" Name="AboutTab">
-                <Frame Source="../DetailedDescription/Description.xaml" />
-            </TabItem>
-        </TabControl>
+	<Grid Background="White">
+		    <controls:JobDisplay x:Name="JobDisplay" Jobs="{Binding Jobs, ElementName=P2PEditorControl}" Visibility="Hidden"/>
+            <controls:JobCreation x:Name="JobCreation" Visibility="Hidden"/>
+            <controls:ConnectTab x:Name="Connect" IsP2PConnecting="{Binding IsP2PConnecting, ElementName=P2PEditorControl}" />
+            <controls:GetNewCertificate x:Name="GetNewCertificate" Visibility="Hidden"/>
+            <Frame Name="Help" Source="../DetailedDescription/Description.xaml" Visibility="Hidden"/>           
 	</Grid>
 </GUI:P2PUserControl>

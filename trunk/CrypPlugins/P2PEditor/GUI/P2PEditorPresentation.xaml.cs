@@ -68,10 +68,10 @@ namespace Cryptool.P2PEditor.GUI
 
             UpdateDisplay();
 
-            if (!P2PManager.IsConnected)
-            {
-                ShowConnectTab();
-            }
+            this.Connect.P2PEditorPresentation = this;
+            this.GetNewCertificate.P2PEditorPresentation = this;
+            this.JobCreation.P2PEditorPresentation = this;
+            this.JobDisplay.P2PEditorPresentation = this;
         }
 
         private void HandleChangedPeerToPeerConnectionState(object sender, bool newState)
@@ -80,11 +80,11 @@ namespace Cryptool.P2PEditor.GUI
 
             if (P2PManager.IsConnected)
             {
-                Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(ShowActiveJobs));
+                Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(ShowActiveJobsView));
             }
             else
             {
-                Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(ShowConnectTab));
+                Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(ShowConnectView));
             }
         }
 
@@ -109,7 +109,7 @@ namespace Cryptool.P2PEditor.GUI
         private void UpdateDisplay()
         {
             Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(UpdateConnectionState));
-            Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(ActiveJobsControl.UpdateJobList));
+            Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(JobDisplay.UpdateJobList));
         }
 
         internal void UpdateConnectionState()
@@ -118,25 +118,44 @@ namespace Cryptool.P2PEditor.GUI
             IsP2PConnecting = P2PManager.IsConnecting;
         }
 
-        internal void ShowJobCreation()
+
+        internal void hideAllViews()
         {
-            JobTabControl.SelectedItem = JobCreationTab;
+            this.JobCreation.Visibility = Visibility.Hidden;
+            this.JobDisplay.Visibility = Visibility.Hidden;
+            this.Connect.Visibility = Visibility.Hidden;
+            this.GetNewCertificate.Visibility = Visibility.Hidden;            
         }
 
-        internal void ShowActiveJobs()
+        internal void ShowGetNewCertificateView()
         {
-            UpdateDisplay();
-            JobTabControl.SelectedItem = ActiveJobsTab;
+            hideAllViews();
+            this.GetNewCertificate.Visibility = Visibility.Visible;            
         }
 
-        internal void ShowConnectTab()
+        internal void ShowJobCreationView()
         {
-            JobTabControl.SelectedItem = ConnectTab;
+            hideAllViews();
+            this.JobCreation.Visibility = Visibility.Visible;
+        }
+
+        internal void ShowActiveJobsView()
+        {
+            hideAllViews();
+            this.JobDisplay.Visibility = Visibility.Visible;
+            UpdateDisplay();            
+        }
+
+        internal void ShowConnectView()
+        {
+            hideAllViews();
+            this.Connect.Visibility = Visibility.Visible;            
         }
 
         internal void ShowHelp()
         {
-            JobTabControl.SelectedItem = AboutTab;
+            hideAllViews();
+            //to be implemented
         }
     }
 }
