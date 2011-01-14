@@ -4,11 +4,11 @@
 
 <step>
 
-  <!-- This is the step's headline. It should be a short, but precise instruction of what the user is supposed to do. -->
-  <headline lang="en-US" >Choose your task</headline>
+  <!-- This is the step's headline. It should be short, but precise. -->
+  <headline lang="en-US" >Task Selection</headline>
 
-  <!-- This is the description's headline. -->
-  <desc lang="en-US" >Description</desc>
+  <!-- This is the step's description. -->
+  <desc lang="en-US" >Select a task.</desc>
   
   <!-- Encryption/Decryption Category -->
   <category id ="EnDeCrypt" image="EnDeCrypt">
@@ -17,7 +17,7 @@
     <description lang="de-DE" >
       Wählen Sie einen Algorithmus, um Klartext zu verschlüsseln oder chiffrierten Text zu entschlüsseln.
     </description>
-    <description lang="en" >
+    <description lang="en-US" >
       Select an algorithm to encrypt plaintext or to decrypt ciphertext.
     </description>
     <file resource="Wizard.Config.EnDeCrypt.wizard.config.enDe.xml" />

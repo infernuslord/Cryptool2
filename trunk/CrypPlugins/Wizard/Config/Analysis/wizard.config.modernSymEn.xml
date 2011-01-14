@@ -4,11 +4,11 @@
 
 <step>
 
-  <!-- This is the step's headline. It should be a short, but precise instruction of what the user is supposed to do. -->
-  <headline lang="en-US" >Choose between different modern symmetric encryption algorithms</headline>
+  <!-- This is the step's headline. It should be short, but precise. -->
+  <headline lang="en-US" >Algorithm Selection</headline>
 
-  <!-- This is the description's headline. -->
-  <desc lang="en-US" >Description</desc>
+  <!-- This is the step's description. -->
+  <desc lang="en-US" >Select a modern symmetric encryption algorithm.</desc>
 
   <!-- AES Item -->
   <item id="AESEn" image="AES" >

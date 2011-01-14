@@ -4,13 +4,13 @@
 
 <step>
 
-  <!-- This is the step's headline. It should be a short, but precise instruction of what the user is supposed to do. -->
-  <headline lang="en-US" >Choose between classic or modern encryption/decryption</headline>
-  <headline lang="de-DE" >Wählen Sie zwischen klassischer oder moderner Verschlüsselung/Entschlüsselung</headline>
+  <!-- This is the step's headline. It should be short, but precise. -->
+  <headline lang="en-US" >Age Selection</headline>
+  <headline lang="de-DE" >Epochenauswahl</headline>
 
-  <!-- This is the description's headline. -->
-  <desc lang="en-US" >Description</desc>
-  <desc lang="de-DE" >Beschreibung</desc>
+  <!-- This is the step's description. -->
+  <desc lang="en-US" >Select classic or modern encryption/decryption.</desc>
+  <desc lang="de-DE" >Wählen Sie zwischen klassischer oder moderner Verschlüsselung/Entschlüsselung.</desc>
 
   <!-- Classic Encryption/Decryption Category -->
   <category id ="Classic" image="Classic">
