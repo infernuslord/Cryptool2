@@ -4,11 +4,11 @@
 
 <step>
 
-  <!-- This is the step's headline. It should be a short, but precise instruction of what the user is supposed to do. -->
-  <headline lang="en" >Choose between individual procedures</headline>
+  <!-- This is the step's headline. It should be short, but precise. -->
+  <headline lang="en-US" >Individual Procedure Selection</headline>
 
-  <!-- This is the description's headline. -->
-  <desc lang="en-US" >Description</desc>
+  <!-- This is the step's description. -->
+  <desc lang="en-US" >Select an individual procedure.</desc>
 
   <!-- Hash Functions Category -->
   <category id ="Hash" image="Hash">
@@ -35,11 +35,11 @@
       Select a key exchange algorithm to work with.
     </description>
 
-    <!-- This is the step's headline. It should be a short, but precise instruction of what the user is supposed to do. -->
-    <headline lang="en-US" >Choose between different key exchange algorithms</headline>
+    <!-- This is the step's headline. It should be short, but precise. -->
+    <headline lang="en-US" >Key Exchange Algorithm Selection</headline>
 
-    <!-- This is the description's headline. -->
-    <desc lang="en-US" >Description</desc>
+    <!-- This is the step's description. -->
+    <desc lang="en-US" >Select a key exchange algorithm.</desc>
 
     <!-- Diffie Hellman Item -->
     <item id="Diffie" image="Key" >

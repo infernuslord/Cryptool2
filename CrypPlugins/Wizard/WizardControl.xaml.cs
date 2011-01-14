@@ -48,9 +48,10 @@ namespace Wizard
                 
             }
 
-            selectionBrush.Color = Color.FromArgb(255, 200, 220, 245);
-
             InitializeComponent();
+
+            selectionBrush.Color = Color.FromArgb(255, 200, 220, 245);
+            descScroll.Background = selectionBrush;
             SetupPage(wizardConfigXML);
         }
 
@@ -201,7 +202,6 @@ namespace Wizard
             XElement desc = FindElementInElement(ele, "description");
             if (desc != null)
                 description.Text = desc.Value;
-            descScroll.Background = selectionBrush;
             nextButton.IsEnabled = true;
         }
 
@@ -216,7 +216,6 @@ namespace Wizard
                 StackPanel sp = (StackPanel)c.Content;
                 sp.Background = Brushes.Transparent;
             }
-            descScroll.Background = Brushes.Transparent;
         }
 
         //finds elements according to the current language

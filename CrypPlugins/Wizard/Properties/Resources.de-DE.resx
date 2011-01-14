@@ -123,6 +123,9 @@
   <data name="BackButton" xml:space="preserve">
     <value>Zurück</value>
   </data>
+  <data name="Description" xml:space="preserve">
+    <value>Beschreibung</value>
+  </data>
   <data name="NextButton" xml:space="preserve">
     <value>Weiter</value>
   </data>

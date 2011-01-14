@@ -44,11 +44,13 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Label HorizontalAlignment="Center" Name="taskHeader" VerticalAlignment="Top" FontSize="18" Margin="10"/>
-        <Grid HorizontalAlignment="Stretch" Name="grid1" VerticalAlignment="Stretch" Grid.Row="1" >
+        <Label HorizontalAlignment="Center" Name="taskHeader" FontSize="18" />
+        <Label HorizontalAlignment="Stretch" Name="descHeader" FontSize="13" Grid.Row="1" Margin="5" />
+        <Grid HorizontalAlignment="Stretch" Name="grid1" VerticalAlignment="Stretch" Grid.Row="2" Margin="10" >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition />
@@ -65,12 +67,12 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
-                    <Label Name="descHeader" HorizontalAlignment="Center" VerticalAlignment="Stretch" FontSize="14" />
+                    <Label HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" Content="{Loc Description}" />
                     <TextBlock Name="description" TextWrapping="Wrap" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Left" Grid.Row="1" />
                 </Grid>
             </ScrollViewer>
         </Grid>
-        <StackPanel Grid.RowSpan="2" Height="Auto" HorizontalAlignment="Right" Name="buttonStackPanel" VerticalAlignment="Bottom" Margin="2" Grid.Row="2" Orientation="Horizontal" >
+        <StackPanel Height="Auto" HorizontalAlignment="Right" Name="buttonStackPanel" VerticalAlignment="Bottom" Margin="2" Grid.Row="3" Orientation="Horizontal" >
             <Button Content="{Loc BackButton}" Height="23" Name="backButton" Width="75" Margin="1" Click="backButton_Click"/>
             <Button Content="{Loc NextButton}" Height="23" Name="nextButton" Width="75" Margin="1" IsDefault="True" Click="nextButton_Click"/>
             <Button Content="{Loc AbortButton}" Height="23" Name="abortButton" Width="75" Margin="1" Click="abortButton_Click"/>
