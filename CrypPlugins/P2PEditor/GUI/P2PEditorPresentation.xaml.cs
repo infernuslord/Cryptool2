@@ -21,6 +21,8 @@ using System.Windows.Threading;
 using Cryptool.P2P;
 using Cryptool.P2P.Internal;
 using Cryptool.P2PEditor.Distributed;
+using System.Threading;
+using System.Windows.Media.Animation;
 
 namespace Cryptool.P2PEditor.GUI
 {
@@ -153,8 +155,7 @@ namespace Cryptool.P2PEditor.GUI
         }
 
         internal void ShowHelp()
-        {
-            hideAllViews();
+        {         
             //to be implemented
         }
     }

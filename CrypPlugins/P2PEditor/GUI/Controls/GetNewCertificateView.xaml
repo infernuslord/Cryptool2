@@ -3,9 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:GUI="clr-namespace:Cryptool.P2PEditor.GUI" mc:Ignorable="d" 
-             d:DesignHeight="280" d:DesignWidth="620">
-    <ScrollViewer>
-        <Grid Height="280" Width="580">
+             d:DesignHeight="280" d:DesignWidth="680">
+    <Grid>
+    <ScrollViewer Name="RequestPage" VerticalScrollBarVisibility="Auto">
+        <Grid Height="280" Width="670">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="75" />
                 <ColumnDefinition Width="*" />
@@ -19,13 +20,13 @@
                 <RowDefinition Height="60*" />
             </Grid.RowDefinitions>
 
-            <Label Content="_CrypTool 2.0 - Paporator - Certificate Generation"  Grid.ColumnSpan="2" Margin="0,0,0,56" FontSize="15" FontWeight="Bold" HorizontalAlignment="Center" />
+            <Label Content="Account Creation"  Grid.ColumnSpan="2" Margin="0,0,0,56" FontSize="15" FontWeight="Bold" HorizontalAlignment="Center" />
             <TextBlock Grid.ColumnSpan="2" Margin="5,32,0,0" FlowDirection="LeftToRight" HorizontalAlignment="Center">
-            Please enter the data below to request your own personal Peers@Play Certificate (needed for
+            Please enter the data below to request your own personal account (needed for participating in distributed 
             <LineBreak/>
-            participating in our Peer2Peer network). CrypTool 2.0 will connect to our certificate server and request
+            computing - like distributed key searching). CrypTool 2.0 will connect to our server and request
             <LineBreak/>
-            your certificate. This certificate will be stored into your Application Data folder of Windows.
+            your account data. This data will be stored into your application data folder of windows.
             </TextBlock>
             <Label Content="_Username:" Target="{Binding ElementName=UsernameField}" Grid.Row="1" Grid.Column="0" />
             <Label Content="_Email:" Target="{Binding ElementName=EmailField}" Grid.Row="2" Grid.Column="0" />
@@ -38,7 +39,7 @@
             <PasswordBox x:Name="ConfirmField" Grid.Row="4" Grid.Column="1" Height="24" />
             <Button Name="RequestButton" Content="_Request" HorizontalAlignment="Right" Width="80" Grid.Row="5" Grid.Column="1" Height="24" Click="Request_Click" Margin="0,19,114,35" />
             <Button Name="BackButton" Content="_Back" Height="24" HorizontalAlignment="Right" Margin="0,19,18,35" Width="80" Grid.Row="5" Grid.Column="1" Click="BackButton_Click" />
-            <Label Name="RequestLabel" Content="Requesting certificate..." Visibility="Hidden" Target="{Binding ElementName=ConfirmField}" Grid.Row="5" Margin="0,19,275,27" HorizontalAlignment="Right" Width="151" Grid.Column="1" FontWeight="Bold" />
+            <Label Name="RequestLabel" Content="Requesting certificate..." Visibility="Hidden" Target="{Binding ElementName=ConfirmField}" Grid.Row="5" Margin="0,19,325,27" HorizontalAlignment="Right" Width="151" Grid.Column="1" FontWeight="Bold" />
             <Image Name="WorldIcon" Source="..\..\images\connected.png" Grid.Column="1" Margin="200,0,194,0" Grid.Row="5" RenderTransformOrigin="0.5,0.5">
                 <Image.RenderTransform>
                     <RotateTransform x:Name="WorldIconImageRotate"/>
@@ -46,6 +47,19 @@
             </Image>
         </Grid>
     </ScrollViewer>
+    <ScrollViewer Name="OKPage" VerticalScrollBarVisibility="Auto" Visibility="Hidden">
+    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Margin="80,55,80,53">
+        <Label FontSize="16" HorizontalContentAlignment="Center">Account succesfully created</Label>
+        <Image Name="Account" Source="..\..\images\account.png"  Margin="5,5,5,5" Width="48" />
+        <TextBlock Grid.ColumnSpan="2" Margin="15,15,15,15" FlowDirection="LeftToRight" HorizontalAlignment="Center">
+        Your new account was created successfully and can now be used. 
+        <LineBreak/>
+        Press the OK button to proceed to the login.
+        </TextBlock>
+        <Button Name="OKButton" Content="_OK" Height="24" Width="50" Click="OKButton_Click" />
+    </StackPanel>
+    </ScrollViewer>
+    </Grid>
     <GUI:P2PUserControl.Resources>
         <Storyboard x:Key="AnimateWorldIcon">
             <DoubleAnimation Storyboard.TargetName="WorldIconImageRotate" Storyboard.TargetProperty="Angle" By="360" Duration="00:00:10" BeginTime="00:00:00" RepeatBehavior="Forever"/>

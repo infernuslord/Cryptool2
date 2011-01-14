@@ -171,18 +171,18 @@ namespace Cryptool.P2PEditor.GUI.Controls
             try
             {
                 args.Certificate.SaveCrtToAppData();
-                args.Certificate.SavePkcs12ToAppData(args.Certificate.Password);
-                System.Windows.MessageBox.Show("Certificate received and stored.", "Certificate received and stored");
+                args.Certificate.SavePkcs12ToAppData(args.Certificate.Password);                
                 this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-                {
+                {                    
                     ((P2PEditorPresentation)((P2PEditor)GetValue(P2PEditorProperty)).Presentation).Connect.Username.Text = this.UsernameField.Text;
                     ((P2PEditorPresentation)((P2PEditor)GetValue(P2PEditorProperty)).Presentation).Connect.Worldname.Text = "CrypTool2";
                     ((P2PEditorPresentation)((P2PEditor)GetValue(P2PEditorProperty)).Presentation).Connect.Password.Password = this.PasswordField.Password;
                     this.UsernameField.Text = "";
                     this.EmailField.Text = "";
                     this.PasswordField.Password = "";
-                    this.ConfirmField.Password = "";                    
-                    this.P2PEditorPresentation.ShowConnectView();
+                    this.ConfirmField.Password = "";
+                    this.RequestPage.Visibility = System.Windows.Visibility.Hidden;
+                    this.OKPage.Visibility = System.Windows.Visibility.Visible;
                 }, null);                
             }
             catch (Exception ex)
@@ -231,6 +231,13 @@ namespace Cryptool.P2PEditor.GUI.Controls
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
+            this.P2PEditorPresentation.ShowConnectView();
+        }
+
+        private void OKButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.RequestPage.Visibility = Visibility.Visible;
+            this.OKPage.Visibility = Visibility.Hidden;
             this.P2PEditorPresentation.ShowConnectView();
         }
     }

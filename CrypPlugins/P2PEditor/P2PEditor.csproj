@@ -169,6 +169,9 @@
     <Resource Include="images\connected.png" />
     <Resource Include="images\disconnected.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\account.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

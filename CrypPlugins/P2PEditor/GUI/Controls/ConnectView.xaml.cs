@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Windows;
 using Cryptool.P2P;
+using System.Windows.Media.Animation;
+using System.Windows.Threading;
+using System.Threading;
 
 namespace Cryptool.P2PEditor.GUI.Controls
 {
@@ -30,6 +33,10 @@ namespace Cryptool.P2PEditor.GUI.Controls
                 P2PManager.Connect();
 
             ((P2PEditorPresentation) P2PEditor.Presentation).UpdateConnectionState();
+            
+            Storyboard storyboard = (Storyboard)FindResource("AnimateBigWorldIcon");                
+            storyboard.Begin();                
+
         }
 
         private void HelpButtonClick(object sender, RoutedEventArgs e)
@@ -61,7 +68,17 @@ namespace Cryptool.P2PEditor.GUI.Controls
         {
             this.Username.Text = ((P2PEditorSettings)((P2PEditor)GetValue(P2PEditorProperty)).Settings).PeerName;
             this.Worldname.Text = ((P2PEditorSettings)((P2PEditor)GetValue(P2PEditorProperty)).Settings).WorldName;
-            this.Password.Password = ((P2PEditorSettings)((P2PEditor)GetValue(P2PEditorProperty)).Settings).Password;        
+            this.Password.Password = ((P2PEditorSettings)((P2PEditor)GetValue(P2PEditorProperty)).Settings).Password;
+            
+            Storyboard storyboard = (Storyboard)FindResource("AnimateBigWorldIcon");
+            if (IsP2PConnecting)
+            {
+                storyboard.Begin();
+            }
+            else
+            {
+                storyboard.Stop();
+            }
         }
     }
 }
