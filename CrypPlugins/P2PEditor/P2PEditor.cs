@@ -72,7 +72,7 @@ namespace Cryptool.P2PEditor
             if (!initialNewEventHandled)
                 initialNewEventHandled = true;
             else
-                ((P2PEditorPresentation) Presentation).ShowJobCreation();
+                ((P2PEditorPresentation) Presentation).ShowJobCreationView();
         }
 
         public void Open(string fileName)
