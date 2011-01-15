@@ -203,25 +203,19 @@ namespace Cryptool.Plugins.PeerToPeer
 
                 // to forward event from overlay/dht MessageReceived-Event from P2PBase
                 this.p2pBase.OnP2PMessageReceived += new P2PBase.P2PMessageReceived(p2pBase_OnP2PMessageReceived);
+               
+                this.p2pBase.Initialize(this.settings.P2PPeerName, this.settings.P2PWorldName,
+                    (P2PLinkManagerType)this.settings.P2PLinkMngrType, (P2PBootstrapperType)this.settings.P2PBSType,
+                    (P2PArchitecture)this.settings.P2PArchitecture);
+                this.PeerStarted = this.p2pBase.SynchStart();
 
-                if (CheckAndInstallPAPCertificates())
+                if (this.PeerStarted)
                 {
-                    this.p2pBase.Initialize(this.settings.P2PPeerName, this.settings.P2PWorldName,
-                        (P2PLinkManagerType)this.settings.P2PLinkMngrType, (P2PBootstrapperType)this.settings.P2PBSType,
-                        (P2PArchitecture)this.settings.P2PArchitecture);
-                    this.PeerStarted = this.p2pBase.SynchStart();
-
-                    if (this.PeerStarted)
-                    {
-                        this.settings.PeerStatusChanged(P2PPeerSettings.PeerStatus.Online);
-                    }
-                    string joiningStatus = this.PeerStarted == true ? "successful" : "canceled";
-                    GuiLogMessage("Status of joining the P2P System: " + joiningStatus, NotificationLevel.Info);
+                    this.settings.PeerStatusChanged(P2PPeerSettings.PeerStatus.Online);
                 }
-                else
-                {
-                    GuiLogMessage("Because not all p2p certificates were installed, you can't start the p2p system!", NotificationLevel.Error);
-                }
+                string joiningStatus = this.PeerStarted == true ? "successful" : "canceled";
+                GuiLogMessage("Status of joining the P2P System: " + joiningStatus, NotificationLevel.Info);
+                
             }
             else
             {
@@ -253,60 +247,7 @@ namespace Cryptool.Plugins.PeerToPeer
             {
                 GuiLogMessage("Peer is already stopped!", NotificationLevel.Info);
             }
-        }
-
-        /// <summary>
-        /// Checks if all certificates for using the pap p2p system are installed.
-        /// Otherwise it tries to install the missing certificates. If all operations
-        /// succeed, return value is true. Only when value is true, you can try
-        /// to initialize the PAP System.
-        /// </summary>
-        /// <returns>If all operations succeed, return value is true. Only when value 
-        /// is true, you can try to initialize the PAP System.</returns>
-        private bool CheckAndInstallPAPCertificates()
-        {
-            bool retValue = false;
-
-            // get exe directory, because there resides the certificate directory
-            System.Reflection.Assembly assemb = System.Reflection.Assembly.GetEntryAssembly();
-            string applicationDir = System.IO.Path.GetDirectoryName(assemb.Location);
-            // check if all necessary certs are installed
-            GuiLogMessage("Check installation of all certificates, which are necessary to run the p2p system", NotificationLevel.Info);
-            List<PAPCertificate.PAP_Certificates> lstMissingCerts = PAPCertificate.CheckAvailabilityOfPAPCertificates(applicationDir);
-            if (lstMissingCerts.Count == 0)
-            {
-                GuiLogMessage("All neccessary p2p certificates are installed.", NotificationLevel.Info);
-                retValue = true;
-            }
-            else
-            {
-                StringBuilder sbMissingCerts = new StringBuilder();
-                for (int i = 0; i < lstMissingCerts.Count; i++)
-                {
-                    sbMissingCerts.AppendLine(Enum.GetName(typeof(PAPCertificate.PAP_Certificates),lstMissingCerts[i]));
-                }
-                GuiLogMessage("Following certificates are missing. They will be installed now.\n" + sbMissingCerts.ToString(), NotificationLevel.Info);
-
-                // try/catch neccessary because the CT-Editor doesn't support the whole exception display process (e.g. shows only "unknown error.")
-                try
-                {
-                    if (PAPCertificate.InstallMissingCertificates(lstMissingCerts, applicationDir))
-                    {
-                        GuiLogMessage("Installation of all missing certificates was successful.", NotificationLevel.Info);
-                        retValue = true;
-                    }
-                    else
-                    {
-                        GuiLogMessage("No/not all missing certificates were installed successful.", NotificationLevel.Error);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    GuiLogMessage("Error occured while installing certificates. Exception: " + ex.ToString(), NotificationLevel.Error);
-                }
-            }
-            return retValue;
-        }
+        }        
 
         public void LogInternalState()
         {
