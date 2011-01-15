@@ -86,7 +86,7 @@ namespace Cryptool.Plugins.PeerToPeer
 
         #region Setting-Fields
 
-        private string p2pPeerName = PAPCertificate.CERTIFIED_PEER_NAME;
+        private string p2pPeerName = "";
         [TaskPane("P2P Username", "Your username for the peers@play-system. Note that you need to have a corresponding certificate installed on your computer. If you don't know what this means, just leave the default \"CrypTool2\"-username and everything will be taken care of.", null, 0, false, ControlType.TextBox)]
         public string P2PPeerName
         {

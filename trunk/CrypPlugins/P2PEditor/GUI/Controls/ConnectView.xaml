@@ -10,19 +10,19 @@
 		    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Margin="80,55,80,53">
                 <Label FontSize="20" HorizontalContentAlignment="Center">CrypTool 2.0</Label>
                 <Label FontSize="13" HorizontalContentAlignment="Center">Distributed Computing Platform</Label>                
-                <Image Width="200" Name="WorldIcon" Source="..\..\images\disconnected.png" RenderTransformOrigin="0.5,0.5">
+                <Image Width="200" Name="WorldIcon" Source="..\..\images\connected.png" RenderTransformOrigin="0.5,0.5">
                     <Image.RenderTransform>
-                        <RotateTransform x:Name="WorldIconImageRotate"/>
+                        <RotateTransform x:Name="WorldIconImageRotate" />
                     </Image.RenderTransform>
                 </Image>
                 <Label>Username:</Label>
-                <TextBox Name="Username" TextChanged="Username_TextChanged"/>
+                <TextBox Name="Username" TextChanged="Username_TextChanged" IsEnabled="{Binding IsP2PConnecting, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource InverseBooleanConverter}}" />
                 <Label>Password:</Label>
-                <PasswordBox Name="Password" PasswordChanged="Password_PasswordChanged"/>
+                <PasswordBox Name="Password" PasswordChanged="Password_PasswordChanged" IsEnabled="{Binding IsP2PConnecting, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource InverseBooleanConverter}}" />
                 <Label>Worldname:</Label>
-                <TextBox Name="Worldname" TextChanged="Worldname_TextChanged" />
+                <TextBox Name="Worldname" TextChanged="Worldname_TextChanged" IsEnabled="{Binding IsP2PConnecting, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource InverseBooleanConverter}}" />
                 <Label/>
-                <Button Name="ConnectButton" Content="Connect" Height="38" FontFamily="Consolas" FontSize="20" Click="ConnectButtonClick" IsEnabled="{Binding IsP2PConnecting, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource InverseBooleanConverter}}" />
+                <Button Name="ConnectButton" IsDefault="True" Content="Connect" Height="38" FontFamily="Consolas" FontSize="20" Click="ConnectButtonClick" IsEnabled="{Binding IsP2PConnecting, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource InverseBooleanConverter}}" />
                 <Button Name="GetACertificateButton" Content="Create a new account!" FontFamily="Consolas" FontSize="12" Height="20" Margin="0,10,0,0" Click="GetACertificateButton_Click" IsEnabled="{Binding IsP2PConnecting, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource InverseBooleanConverter}}"/>
                 <Button Name="ForgotPassword" Content="Forgot password" FontFamily="Consolas" FontSize="12" Height="20" Margin="0,10,0,0" IsEnabled="False"/>
             </StackPanel>

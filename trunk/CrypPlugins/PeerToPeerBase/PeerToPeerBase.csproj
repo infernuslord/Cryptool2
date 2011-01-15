@@ -54,7 +54,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-      <Reference Include="Bootstrapper">
+    <Reference Include="Bootstrapper">
       <HintPath>..\..\appreferences\bootstrapper.dll</HintPath>
       <Private>false</Private>
     </Reference>
@@ -161,11 +161,6 @@
     <ProjectReference Include="..\KeySearcher\KeySearcher.csproj">
       <Project>{0579E099-66B2-43C3-B8A0-43CAE4895E68}</Project>
       <Name>KeySearcher</Name>
-      <Private>False</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\PeerToPeerCertificates\PeerToPeerCertificates.csproj">
-      <Project>{7BED5C93-30BE-47BE-BC4A-16453F5DE9EA}</Project>
-      <Name>PeerToPeerCertificates</Name>
       <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\PeerToPeer\PeerToPeer.csproj">

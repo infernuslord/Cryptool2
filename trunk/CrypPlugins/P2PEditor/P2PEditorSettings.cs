@@ -20,6 +20,9 @@ using Cryptool.P2P;
 using Cryptool.P2PEditor.GUI;
 using Cryptool.PluginBase;
 using Cryptool.Plugins.PeerToPeer.Internal;
+using System.Text;
+using System.Security.Cryptography;
+using System;
 
 namespace Cryptool.P2PEditor
 {

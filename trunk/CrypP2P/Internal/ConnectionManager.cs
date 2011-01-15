@@ -19,6 +19,8 @@ using System.Threading;
 using System.Windows.Threading;
 using Cryptool.P2P.Worker;
 using Cryptool.PluginBase;
+using PeersAtPlay.CertificateLibrary.Certificates;
+using System.IO;
 
 namespace Cryptool.P2P.Internal
 {
@@ -92,13 +94,30 @@ namespace Cryptool.P2P.Internal
                 }
             }
         }
-
+        
         public void Connect()
         {
             lock (connectLock)
             {
                 disconnected = false;
                 lastConnectionAttempt = DateTime.Now;
+
+                try
+                {
+                    if (CertificateServices.GetPeerCertificateByAvatar(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "PeersAtPlay" + Path.DirectorySeparatorChar + "Certificates" + Path.DirectorySeparatorChar),
+                        P2PSettings.Default.PeerName, P2PSettings.Default.Password) == null)
+                    {
+                        P2PManager.GuiLogMessage("Cannot connect, account \"" + P2PSettings.Default.PeerName + "\" not found!",
+                                                 NotificationLevel.Warning);
+                        return;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    P2PManager.GuiLogMessage("Cannot connect using account \"" + P2PSettings.Default.PeerName + "\": " + (ex.InnerException != null ? ex.InnerException.Message : ex.Message),
+                                                 NotificationLevel.Warning);
+                    return;
+                }
 
                 if (p2PBase.IsConnected || IsConnecting)
                 {

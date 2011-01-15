@@ -4,11 +4,16 @@ using Cryptool.P2P;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
 using System.Threading;
+using Cryptool.P2P.Internal;
+using PeersAtPlay.CertificateLibrary.Certificates;
+using Cryptool.PluginBase;
+using System.IO;
 
 namespace Cryptool.P2PEditor.GUI.Controls
 {
     public partial class ConnectTab
     {
+
         public static readonly DependencyProperty IsP2PConnectingProperty =
             DependencyProperty.Register("IsP2PConnecting",
                                         typeof(
@@ -24,19 +29,52 @@ namespace Cryptool.P2PEditor.GUI.Controls
 
         public ConnectTab()
         {
-            InitializeComponent();            
+            InitializeComponent();
+
+            P2PManager.ConnectionManager.OnP2PTryConnectingStateChangeOccurred += new ConnectionManager.P2PTryConnectingStateChangeEventHandler(delegate(object sender, bool newState)
+            {
+                if (newState)
+                {
+                    ((P2PEditorPresentation)P2PEditor.Presentation).UpdateConnectionState();
+
+                    Storyboard storyboard = (Storyboard)FindResource("AnimateBigWorldIcon");
+                    storyboard.Begin();   
+                }
+                else
+                {
+                    ((P2PEditorPresentation)P2PEditor.Presentation).UpdateConnectionState();
+
+                    Storyboard storyboard = (Storyboard)FindResource("AnimateBigWorldIcon");
+                    storyboard.Stop();   
+                }
+            });
+
         }
 
         private void ConnectButtonClick(object sender, RoutedEventArgs e)
-        {            
+        {
+            try
+            {
+                if (CertificateServices.GetPeerCertificateByAvatar(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "PeersAtPlay" + Path.DirectorySeparatorChar + "Certificates" + Path.DirectorySeparatorChar),
+                    P2PSettings.Default.PeerName, P2PSettings.Default.Password) == null)
+                {
+                    System.Windows.MessageBox.Show("Cannot connect, account \"" + P2PSettings.Default.PeerName + "\" not found!", "Can not connect.");
+                    return;
+                }
+            }
+            catch (NoCertificateFoundException)
+            {
+                System.Windows.MessageBox.Show("Cannot connect, account \"" + P2PSettings.Default.PeerName + "\" not found!", "Can not connect.");
+                return;
+            }            
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show("Cannot connect using account \"" + P2PSettings.Default.PeerName + "\": " + (ex.InnerException != null ? ex.InnerException.Message : ex.Message), "Can not connect.");
+                return;
+            }
+
             if (!P2PManager.IsConnected)
                 P2PManager.Connect();
-
-            ((P2PEditorPresentation) P2PEditor.Presentation).UpdateConnectionState();
-            
-            Storyboard storyboard = (Storyboard)FindResource("AnimateBigWorldIcon");                
-            storyboard.Begin();                
-
         }
 
         private void HelpButtonClick(object sender, RoutedEventArgs e)
@@ -68,17 +106,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
         {
             this.Username.Text = ((P2PEditorSettings)((P2PEditor)GetValue(P2PEditorProperty)).Settings).PeerName;
             this.Worldname.Text = ((P2PEditorSettings)((P2PEditor)GetValue(P2PEditorProperty)).Settings).WorldName;
-            this.Password.Password = ((P2PEditorSettings)((P2PEditor)GetValue(P2PEditorProperty)).Settings).Password;
-            
-            Storyboard storyboard = (Storyboard)FindResource("AnimateBigWorldIcon");
-            if (IsP2PConnecting)
-            {
-                storyboard.Begin();
-            }
-            else
-            {
-                storyboard.Stop();
-            }
+            this.Password.Password = ((P2PEditorSettings)((P2PEditor)GetValue(P2PEditorProperty)).Settings).Password;                   
         }
     }
 }

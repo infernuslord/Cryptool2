@@ -61,7 +61,7 @@ namespace Cryptool.P2P
             var isAutoconnectConfiguredOrRequested = P2PSettings.Default.ConnectOnStartup || IsAutoconnectConsoleOptionSet;
             var isReadyToConnect = ConnectionManager.IsReadyToConnect();
 
-            if (isReadyToConnect && isAutoconnectConfiguredOrRequested)
+            if (isAutoconnectConfiguredOrRequested && isReadyToConnect)
             {
                 GuiLogMessage("Connect on startup enabled. Establishing connection...", NotificationLevel.Info);
                 ConnectionManager.Connect();

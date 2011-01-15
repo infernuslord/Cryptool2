@@ -54,7 +54,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-      <Reference Include="Bootstrapper">
+    <Reference Include="Bootstrapper">
       <HintPath>..\appreferences\bootstrapper.dll</HintPath>
       <Private>false</Private>
     </Reference>
@@ -158,11 +158,6 @@
       <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>P2PSettings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="pap_certificates\CrypTool2.pfx" />
-    <None Include="pap_certificates\opa.vs.uni-due.de.cer" />
-    <None Include="pap_certificates\pap.cer" />
-    <None Include="pap_certificates\pap0001.p12" />
-    <None Include="pap_certificates\ServerCA.cer" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -195,8 +190,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>mkdir "$(TargetDir)pap_certificates"
-xcopy  /E /Y /F "$(ProjectDir)pap_certificates" "$(TargetDir)pap_certificates"</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
