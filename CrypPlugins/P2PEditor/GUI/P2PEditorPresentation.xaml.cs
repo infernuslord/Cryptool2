@@ -158,5 +158,13 @@ namespace Cryptool.P2PEditor.GUI
         {         
             //to be implemented
         }
+
+        private void P2PEditorControl_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (this.IsP2PConnecting || !this.IsP2PConnected)
+            {
+                Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(ShowConnectView));                
+            }
+        }
     }
 }
