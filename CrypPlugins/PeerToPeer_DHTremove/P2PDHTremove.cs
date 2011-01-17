@@ -63,7 +63,7 @@ namespace Cryptool.Plugins.PeerToPeer
                 if (value != null)
                 {
                     value.OnStatusChanged += new IControlStatusChangedEventHandler(P2PMaster_OnStatusChanged);
-                    p2pMaster = (P2PPeerMaster)value;
+                    p2pMaster = value;
                     OnPropertyChanged("P2PMaster");
                 }
                 else
