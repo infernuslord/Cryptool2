@@ -24,6 +24,7 @@ namespace KeySearcher.P2P.Storage
         |   Version 2: Added the first User Statistics (Avatar,ID,Count) to the Stream
         |   Version 3: Added version question (in front of results) + more statistic information (hostname,date) to the Stream
         |   Version 4: Reorganisation of the DHT structure. Update fully working now + features from previous versions available
+        |   Version 5: Extended the key information by the user who found it. (Username,Date,Maschid,Host)
         -------------------------------------------------------------------------------------------------
          */
 
@@ -42,7 +43,7 @@ namespace KeySearcher.P2P.Storage
             var memoryStream = new MemoryStream();
             var binaryWriter = new BinaryWriter(memoryStream);
 
-            //TODO: Append Updater Version
+            //Append Updater Version
             binaryWriter.Write('W');
             binaryWriter.Write(version);  
 
@@ -62,6 +63,14 @@ namespace KeySearcher.P2P.Storage
                 binaryWriter.Write(valueKey.value);
                 binaryWriter.Write(valueKey.decryption.Length);
                 binaryWriter.Write(valueKey.decryption);
+
+/*                //--------------------------------------------------------
+                binaryWriter.Write(valueKey.user);
+                var buffertime = valueKey.time.ToBinary();
+                binaryWriter.Write(buffertime);
+                binaryWriter.Write(valueKey.maschid);
+                binaryWriter.Write(valueKey.maschname);
+*/                //---------------------------------------------------------
             }                        
              
             //Creating a copy of the activity dictionary
@@ -139,13 +148,39 @@ namespace KeySearcher.P2P.Storage
             var resultCount = binaryReader.ReadInt32();
             for (var i = 0; i < resultCount; i++)
             {
-                var newResult = new KeySearcher.ValueKey
-                                    {
-                                        key = binaryReader.ReadString(),
-                                        value = binaryReader.ReadDouble(),
-                                        decryption = binaryReader.ReadBytes(binaryReader.ReadInt32())
-                                    };
-                nodeToUpdate.Result.AddLast(newResult);
+                if (oldVersionFlag < 5)
+                {
+                    var newResult = new KeySearcher.ValueKey
+                                        {
+                                            key = binaryReader.ReadString(),
+                                            value = binaryReader.ReadDouble(),
+                                            decryption = binaryReader.ReadBytes(binaryReader.ReadInt32())
+                                        };
+                    /*
+                                                                user = "Unknown",
+                                                                time = DateTime.MinValue,
+                                                                maschid = 666,
+                                                                maschname = "Devil"
+
+                    */
+                    nodeToUpdate.Result.AddLast(newResult);
+                }
+                else
+                {
+                    var newResult = new KeySearcher.ValueKey
+                                        {
+                                            key = binaryReader.ReadString(),
+                                            value = binaryReader.ReadDouble(),
+                                            decryption = binaryReader.ReadBytes(binaryReader.ReadInt32())
+                                        };
+                    /*
+                                            user = binaryReader.ReadString(),
+                                            time = DateTime.FromBinary(binaryReader.ReadInt64()),
+                                            maschid = binaryReader.ReadInt64(),
+                                            maschname = binaryReader.ReadString()
+                    */
+                    nodeToUpdate.Result.AddLast(newResult);
+                }
             }
             
             if (binaryReader.BaseStream.Length != binaryReader.BaseStream.Position)
