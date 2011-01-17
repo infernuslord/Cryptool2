@@ -221,7 +221,7 @@ namespace Cryptool.P2PEditor
         }
 
         [TaskPane("bootstrapper_caption", "bootstrapper_tooltip", GroupExpert, 1, false
-            , ControlType.ComboBox, new[] {"LocalMachineBootstrapper", "IrcBootstrapper"})]
+            , ControlType.ComboBox, new[] {"LocalMachineBootstrapper", "IrcBootstrapper", "DnsBootstrapper"})]
         public int Bootstrapper
         {
             get { return (int) settings.Bootstrapper; }
