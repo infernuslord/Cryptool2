@@ -110,10 +110,6 @@
       <HintPath>..\AppReferences\PapsClient.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="MySQLDHT">
-      <HintPath>..\AppReferences\MySQLDHT.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="WebDHT">
       <HintPath>..\AppReferences\WebDHT.dll</HintPath>
       <Private>False</Private>
