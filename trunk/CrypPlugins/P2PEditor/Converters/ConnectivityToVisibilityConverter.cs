@@ -17,7 +17,7 @@ namespace Cryptool.P2PEditor.Converters
                 throw new InvalidOperationException("The target must be a Visibility");
 
             if ((bool) value)
-                return Visibility.Collapsed;
+                return Visibility.Hidden;
             else
                 return Visibility.Visible;
         }

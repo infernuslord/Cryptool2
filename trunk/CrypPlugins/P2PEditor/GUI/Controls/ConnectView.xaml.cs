@@ -106,7 +106,17 @@ namespace Cryptool.P2PEditor.GUI.Controls
         {
             this.Username.Text = ((P2PEditorSettings)((P2PEditor)GetValue(P2PEditorProperty)).Settings).PeerName;
             this.Worldname.Text = ((P2PEditorSettings)((P2PEditor)GetValue(P2PEditorProperty)).Settings).WorldName;
-            this.Password.Password = ((P2PEditorSettings)((P2PEditor)GetValue(P2PEditorProperty)).Settings).Password;                   
+            this.Password.Password = ((P2PEditorSettings)((P2PEditor)GetValue(P2PEditorProperty)).Settings).Password;
+            if (this.IsP2PConnecting)
+            {
+                Storyboard storyboard = (Storyboard)FindResource("AnimateBigWorldIcon");
+                storyboard.Begin();
+            }
+            else
+            {
+                Storyboard storyboard = (Storyboard)FindResource("AnimateBigWorldIcon");
+                storyboard.Stop();
+            }
         }
     }
 }
