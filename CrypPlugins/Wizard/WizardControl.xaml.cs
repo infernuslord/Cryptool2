@@ -17,6 +17,7 @@ using System.Reflection;
 using System.Windows.Threading;
 using System.Threading;
 using System.Collections;
+using System.Globalization;
 
 namespace Wizard
 {
@@ -221,18 +222,24 @@ namespace Wizard
         //finds elements according to the current language
         private XElement FindElementInElement(XElement element, string xname)
         {
-            string currentLang = System.Globalization.CultureInfo.CurrentCulture.Name;
+            CultureInfo currentLang = System.Globalization.CultureInfo.CurrentCulture;
             XElement foundElement = null;
 
             IEnumerable<XElement> descriptions = element.Elements(xname);
             if (descriptions.Any())
             {
-                var description = from descln in descriptions where descln.Attribute("lang").Value == currentLang select descln;
+                var description = from descln in descriptions where descln.Attribute("lang").Value == currentLang.TextInfo.CultureName select descln;
                 if (!description.Any())
                 {
-                    description = from descln in descriptions where descln.Attribute("lang").Value == defaultLang select descln;
+                    description = from descln in descriptions where descln.Attribute("lang").Value == currentLang.TwoLetterISOLanguageName select descln;
                     if (description.Any())
                         foundElement = description.First();
+                    else
+                    {
+                        description = from descln in descriptions where descln.Attribute("lang").Value == defaultLang select descln;
+                        if (description.Any())
+                            foundElement = description.First();
+                    }
                 }
                 else
                     foundElement = description.First();
