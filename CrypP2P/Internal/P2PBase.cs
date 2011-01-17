@@ -37,7 +37,6 @@ using PeersAtPlay.P2PStorage.FullMeshDHT;
 using PeersAtPlay.PapsClient;
 using PeersAtPlay.Util.Logging;
 using PeersAtPlay.P2POverlay.Chord;
-using PeersAtPlay.P2PStorage.MySqlDHT;
 using PeersAtPlay.P2PStorage.WebDHT;
 
 /* TODO:
@@ -174,9 +173,6 @@ namespace Cryptool.P2P.Internal
                         bootstrapper = new LocalMachineBootstrapper();
                         overlay = new PapsClientOverlay();
                         Dht = new PapsClientDht(scheduler_2);
-                        break;
-                    case P2PArchitecture.SQLDB:
-                        Dht = new MySqlDHT(scheduler_2);
                         break;
                     case P2PArchitecture.WebDHT:
                         Dht = new WebDHT(scheduler_2);
