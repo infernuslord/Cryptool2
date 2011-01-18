@@ -88,12 +88,17 @@ namespace Cryptool.P2PEditor.GUI.Controls
         {
             ((P2PEditorPresentation) P2PEditor.Presentation).ShowHelp();
         }
-
-        private void GetACertificateButton_Click(object sender, RoutedEventArgs e)
+        
+        private void GetACertificateLabel_Click(object sender, RoutedEventArgs e)
         {
             P2PEditorPresentation.ShowGetNewCertificateView();
         }
-        
+
+        private void ForgotPasswordLabel_Click(object sender, RoutedEventArgs e)
+        {
+           //todo
+        }
+
         private void Username_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
             ((P2PEditorSettings)((P2PEditor)GetValue(P2PEditorProperty)).Settings).PeerName = this.Username.Text;
