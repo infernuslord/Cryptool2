@@ -1,6 +1,7 @@
 ﻿<GUI:P2PUserControl x:Class="Cryptool.P2PEditor.GUI.Controls.ConnectTab" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:GUI="clr-namespace:Cryptool.P2PEditor.GUI" xmlns:Converters="clr-namespace:Cryptool.P2PEditor.Converters" mc:Ignorable="d" d:DesignHeight="550" d:DesignWidth="360" IsVisibleChanged="P2PUserControl_IsVisibleChanged">
 	<GUI:P2PUserControl.Resources>
 		<Converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+        <Converters:ForegroundColorConverter x:Key="ForegroundColorConverter" />
         <Storyboard x:Key="AnimateBigWorldIcon">
             <DoubleAnimation Storyboard.TargetName="WorldIconImageRotate" Storyboard.TargetProperty="Angle" By="360" Duration="00:00:10" BeginTime="00:00:00" RepeatBehavior="Forever"/>
         </Storyboard>
@@ -17,12 +18,16 @@
                 </Image>
                 <Label>Username:</Label>
                 <TextBox Name="Username" TextChanged="Username_TextChanged" IsEnabled="{Binding IsP2PConnecting, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource InverseBooleanConverter}}" />
+                <TextBlock FontSize="12" MouseDown="GetACertificateLabel_Click" Cursor="Hand" HorizontalAlignment="Right" IsEnabled="{Binding IsP2PConnecting, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource InverseBooleanConverter}}" Foreground="{Binding IsP2PConnecting, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource ForegroundColorConverter}}">
+                    <Underline>Create a new account</Underline>
+                </TextBlock>
                 <Label>Password:</Label>
                 <PasswordBox Name="Password" PasswordChanged="Password_PasswordChanged" IsEnabled="{Binding IsP2PConnecting, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource InverseBooleanConverter}}" />
+                <TextBlock FontSize="12" MouseDown="ForgotPasswordLabel_Click" Cursor="Hand" HorizontalAlignment="Right" IsEnabled="{Binding IsP2PConnecting, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource InverseBooleanConverter}}" Foreground="{Binding IsP2PConnecting, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource ForegroundColorConverter}}">
+                    <Underline>Forgot password</Underline>
+                </TextBlock>
                 <Label/>
-                <Button Name="ConnectButton" IsDefault="True" Content="Connect" Height="38" FontFamily="Consolas" FontSize="20" Click="ConnectButtonClick" IsEnabled="{Binding IsP2PConnecting, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource InverseBooleanConverter}}" />
-                <Button Name="GetACertificateButton" Content="Create a new account!" FontFamily="Consolas" FontSize="12" Height="20" Margin="0,10,0,0" Click="GetACertificateButton_Click" IsEnabled="{Binding IsP2PConnecting, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource InverseBooleanConverter}}"/>
-                <Button Name="ForgotPassword" Content="Forgot password" FontFamily="Consolas" FontSize="12" Height="20" Margin="0,10,0,0" IsEnabled="False"/>
+                <Button Name="ConnectButton" IsDefault="True" Content="Connect" Height="38" FontFamily="Consolas" FontSize="20" Click="ConnectButtonClick" IsEnabled="{Binding IsP2PConnecting, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource InverseBooleanConverter}}" />                
             </StackPanel>
         </ScrollViewer>
     </Grid>
