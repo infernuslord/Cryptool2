@@ -39,6 +39,18 @@ namespace Cryptool.P2PEditor
         {
             this.p2PEditor = p2PEditor;
             settings = P2PSettings.Default;
+            try
+            {
+                if (settings.UpdateFlag)
+                {
+                    settings.Upgrade();
+                    settings.UpdateFlag = false;
+                    this.p2PEditor.GuiLogMessage("Upgrading settings", NotificationLevel.Debug);
+                }
+            }catch
+            {
+            
+            }
             UpdateSettings();
         }
 

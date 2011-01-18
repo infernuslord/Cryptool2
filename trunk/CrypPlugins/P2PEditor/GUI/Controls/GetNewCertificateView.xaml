@@ -3,10 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:GUI="clr-namespace:Cryptool.P2PEditor.GUI" mc:Ignorable="d" 
-             d:DesignHeight="280" d:DesignWidth="680">
+             d:DesignHeight="320" d:DesignWidth="680">
     <Grid>
     <ScrollViewer Name="RequestPage" VerticalScrollBarVisibility="Auto">
-        <Grid Height="280" Width="670">
+        <Grid Height="320" Width="670">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="75" />
                 <ColumnDefinition Width="*" />
@@ -14,12 +14,12 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="90"/>
                 <RowDefinition Height="28"/>
+                <RowDefinition Height="28"/>
                 <RowDefinition Height="28" />
                 <RowDefinition Height="28" />
                 <RowDefinition Height="28" />
-                <RowDefinition Height="60*" />
+                <RowDefinition Height="80" />                    
             </Grid.RowDefinitions>
-
             <Label Content="Account Creation"  Grid.ColumnSpan="2" Margin="0,0,0,56" FontSize="15" FontWeight="Bold" HorizontalAlignment="Center" />
             <TextBlock Grid.ColumnSpan="2" Margin="5,32,0,0" FlowDirection="LeftToRight" HorizontalAlignment="Center">
             Please enter the data below to request your own personal account (needed for participating in distributed 
@@ -28,19 +28,20 @@
             <LineBreak/>
             your account data. This data will be stored into your application data folder of windows.
             </TextBlock>
-            <Label Content="_Username:" Target="{Binding ElementName=UsernameField}" Grid.Row="1" Grid.Column="0" />
-            <Label Content="_Email:" Target="{Binding ElementName=EmailField}" Grid.Row="2" Grid.Column="0" />
-            <Label Content="_Password:" Target="{Binding ElementName=PasswordField}" Grid.Row="3" Grid.Column="0" />
-            <Label Content="_Confirm:" Target="{Binding ElementName=ConfirmField}" Grid.Row="4" Grid.Column="0" />
+            <Label Name="MessageLabel" Foreground="Red" Grid.Row="1" Grid.ColumnSpan="2" />
+            <Label Content="_Username:" Target="{Binding ElementName=UsernameField}" Grid.Row="2" Grid.Column="0" />
+            <Label Content="_Email:" Target="{Binding ElementName=EmailField}" Grid.Row="3" Grid.Column="0" />
+            <Label Content="_Password:" Target="{Binding ElementName=PasswordField}" Grid.Row="4" Grid.Column="0" />
+            <Label Content="_Confirm:" Target="{Binding ElementName=ConfirmField}" Grid.Row="5" Grid.Column="0" />
 
-            <TextBox Text="{Binding Name}" x:Name="UsernameField" Grid.Row="1" Grid.Column="1" Height="24" />
-            <TextBox Text="{Binding Name}" x:Name="EmailField" Grid.Row="2" Grid.Column="1" Height="24" />
-            <PasswordBox x:Name="PasswordField" Grid.Row="3" Grid.Column="1" Height="24" />
-            <PasswordBox x:Name="ConfirmField" Grid.Row="4" Grid.Column="1" Height="24" />
-            <Button Name="RequestButton" Content="_Request" HorizontalAlignment="Right" Width="80" Grid.Row="5" Grid.Column="1" Height="24" Click="Request_Click" Margin="0,19,114,35" />
-            <Button Name="BackButton" Content="_Back" Height="24" HorizontalAlignment="Right" Margin="0,19,18,35" Width="80" Grid.Row="5" Grid.Column="1" Click="BackButton_Click" />
-            <Label Name="RequestLabel" Content="Requesting certificate..." Visibility="Hidden" Target="{Binding ElementName=ConfirmField}" Grid.Row="5" Margin="0,19,325,27" HorizontalAlignment="Right" Width="151" Grid.Column="1" FontWeight="Bold" />
-            <Image Name="WorldIcon" Source="..\..\images\connected.png" Grid.Column="1" Margin="200,0,194,0" Grid.Row="5" RenderTransformOrigin="0.5,0.5">
+            <TextBox Text="{Binding Name}" x:Name="UsernameField" Grid.Row="2" Grid.Column="1" Height="24" />
+            <TextBox Text="{Binding Name}" x:Name="EmailField" Grid.Row="3" Grid.Column="1" Height="24" />
+            <PasswordBox x:Name="PasswordField" Grid.Row="4" Grid.Column="1" Height="24" />
+            <PasswordBox x:Name="ConfirmField" Grid.Row="5" Grid.Column="1" Height="24" />
+            <Button Name="RequestButton" Content="_Request" HorizontalAlignment="Right" Width="80" Grid.Row="6" Grid.Column="1" Height="24" Click="Request_Click" Margin="0,19,114,35" />
+            <Button Name="BackButton" Content="_Back" Height="24" HorizontalAlignment="Right" Margin="0,19,18,35" Width="80" Grid.Row="6" Grid.Column="1" Click="BackButton_Click" />
+            <Label Name="RequestLabel" Content="Requesting certificate..." Visibility="Hidden" Target="{Binding ElementName=ConfirmField}" Grid.Row="6" Margin="0,19,325,27" HorizontalAlignment="Right" Width="151" Grid.Column="1" FontWeight="Bold" />
+            <Image Name="WorldIcon" Source="..\..\images\connected.png" Grid.Column="1" Margin="200,0,194,0" Grid.Row="6" RenderTransformOrigin="0.5,0.5">
                 <Image.RenderTransform>
                     <RotateTransform x:Name="WorldIconImageRotate"/>
                 </Image.RenderTransform>

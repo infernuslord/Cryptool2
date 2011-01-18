@@ -20,14 +20,17 @@ namespace Cryptool.P2PEditor.GUI.Controls
 
         public GetNewCertificate()
         {
-            InitializeComponent();
+            InitializeComponent();            
         }
 
         private void Request_Click(object sender, RoutedEventArgs e)
         {
+            this.MessageLabel.Visibility = Visibility.Hidden;
             if (!Verification.IsValidAvatar(this.UsernameField.Text))
             {
-                System.Windows.MessageBox.Show("Username is not valid.", "Username is not valid");                
+
+                this.MessageLabel.Content = "Username is not valid.";
+                this.MessageLabel.Visibility = Visibility.Visible;     
                 this.UsernameField.Focus();
                 this.UsernameField.SelectAll();
                 return;
@@ -35,7 +38,8 @@ namespace Cryptool.P2PEditor.GUI.Controls
 
             if (!Verification.IsValidEmailAddress(this.EmailField.Text))
             {
-                System.Windows.MessageBox.Show("Email is not valid.", "Email is not valid");
+                this.MessageLabel.Content = "Email is not valid.";
+                this.MessageLabel.Visibility = Visibility.Visible; 
                 this.EmailField.Focus();
                 this.EmailField.SelectAll();
                 return;
@@ -43,7 +47,8 @@ namespace Cryptool.P2PEditor.GUI.Controls
             
             if (this.PasswordField.Password != this.ConfirmField.Password)
             {
-                System.Windows.MessageBox.Show("Passwords did not match", "Passwords did not match");
+                this.MessageLabel.Content = "Passwords did not match.";
+                this.MessageLabel.Visibility = Visibility.Visible;
                 this.PasswordField.Password = "";
                 this.ConfirmField.Password = "";
                 this.PasswordField.Focus();
@@ -52,7 +57,8 @@ namespace Cryptool.P2PEditor.GUI.Controls
 
             if (!Verification.IsValidPassword(this.PasswordField.Password))
             {
-                System.Windows.MessageBox.Show("Password is not valid.", "Password is not valid");
+                this.MessageLabel.Content = "Password is not valid.";
+                this.MessageLabel.Visibility = Visibility.Visible;
                 this.PasswordField.Password = "";
                 this.ConfirmField.Password = "";
                 this.PasswordField.Focus();
@@ -80,17 +86,29 @@ namespace Cryptool.P2PEditor.GUI.Controls
                 CertificateClient certificateClient = new CertificateClient();
                 certificateClient.CertificateAuthorizationDenied += new EventHandler<EventArgs>(delegate
                 {
-                    System.Windows.MessageBox.Show("Certificate authorization denied", "Certificate authorization denied");
+                    this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        this.MessageLabel.Content = "Certificate authorization denied";
+                        this.MessageLabel.Visibility = Visibility.Visible;
+                    }, null);        
                 });
 
                 certificateClient.CertificateAuthorizationRequired += new EventHandler<EventArgs>(delegate
                 {
-                    System.Windows.MessageBox.Show("Certificate authorization required", "Certificate authorization required");
+                    this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        this.MessageLabel.Content = "Certificate authorization required";
+                        this.MessageLabel.Visibility = Visibility.Visible;
+                    }, null); 
                 });
 
                 certificateClient.CertificateNotYetAuthorized += new EventHandler<EventArgs>(delegate
                 {
-                    System.Windows.MessageBox.Show("Certificate not yet authorized", "Certificate not yet authorized");
+                    this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        this.MessageLabel.Content = "Certificate not yet authorized";
+                        this.MessageLabel.Visibility = Visibility.Visible;
+                    }, null); 
                 });
 
                 certificateClient.CertificateReceived += CertificateReceived;
@@ -99,17 +117,29 @@ namespace Cryptool.P2PEditor.GUI.Controls
 
                 certificateClient.InvalidEmailCheck += new EventHandler<InvalidRequestEventArgs>(delegate
                 {
-                    System.Windows.MessageBox.Show("Invalid email address", "Invalid email address");
+                    this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        this.MessageLabel.Content = "Invalid email address";
+                        this.MessageLabel.Visibility = Visibility.Visible;
+                    }, null); 
                 });
 
                 certificateClient.ServerErrorOccurred += new EventHandler<EventArgs>(delegate
                 {
-                    System.Windows.MessageBox.Show("Server error occurred. Please try again later", "Server error occurred");
+                    this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        this.MessageLabel.Content = "Server error occurred. Please try again later";
+                        this.MessageLabel.Visibility = Visibility.Visible;
+                    }, null); 
                 });
 
                 certificateClient.NewProtocolVersion += new EventHandler<EventArgs>(delegate
                 {
-                    System.Windows.MessageBox.Show("The protocol of the certificate server is different from the clients one. Please update.", "Protocol mismatch");
+                    this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        this.MessageLabel.Content = "New ProtocolVersion. Please update CrypTool 2.0";
+                        this.MessageLabel.Visibility = Visibility.Visible;
+                    }, null); 
                 });
 
                 certificateClient.RequestCertificate(username,
@@ -119,11 +149,19 @@ namespace Cryptool.P2PEditor.GUI.Controls
             }
             catch (NetworkException nex)
             {
-                System.Windows.MessageBox.Show("There was a communication problem with the server: " + nex.Message + "\n" + "Please try again later"  , "Communication problem");
+                this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    this.MessageLabel.Content = "There was a communication problem with the server: " + nex.Message + "\n" + "Please try again later";
+                    this.MessageLabel.Visibility = Visibility.Visible;
+                }, null);
             }
             catch (Exception ex)
             {
-                System.Windows.MessageBox.Show("An exception occured: " + ex.Message, "Exception occured");
+                this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    this.MessageLabel.Content = "An exception occured: " + ex.Message;
+                    this.MessageLabel.Visibility = Visibility.Visible;
+                }, null);
             }
             finally
             {
@@ -138,13 +176,25 @@ namespace Cryptool.P2PEditor.GUI.Controls
                 switch (args.ErrorType)
                 {
                     case RespondType.AvatarAlreadyExists:
-                        System.Windows.MessageBox.Show("The username already exists. Please chose another one.", "Username already exists");
+                        this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                        {
+                            this.MessageLabel.Content = "The username already exists. Please chose another one.";
+                            this.MessageLabel.Visibility = Visibility.Visible;
+                        }, null);
                         break;
                     case RespondType.EmailAlreadyExists:
-                        System.Windows.MessageBox.Show("The email already exists. Please chose another ones.", "Email already exists");
+                        this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                        {
+                            this.MessageLabel.Content = "The email already exists. Please chose another ones.";
+                            this.MessageLabel.Visibility = Visibility.Visible;
+                        }, null);
                         break;
                     case RespondType.AvatarEmailAlreadyExists:
-                        System.Windows.MessageBox.Show("The username and email already exist but the entered password was wrong. Either enter a new username and email combination or enter the correct password to receive the certificate again", "Username and email already exist");
+                        this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                        {
+                            this.MessageLabel.Content = "The username and email already exist but the entered password was wrong.";
+                            this.MessageLabel.Visibility = Visibility.Visible;
+                        }, null);
                         this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                         {                           ;
                             this.PasswordField.Password = "";
@@ -153,7 +203,11 @@ namespace Cryptool.P2PEditor.GUI.Controls
                         }, null);        
                         break;
                     default:
-                        System.Windows.MessageBox.Show("Invalid certificate request: " + args.ErrorType, "Invalid certificate request");
+                        this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                        {
+                            this.MessageLabel.Content = "Invalid certificate request: " + args.ErrorType;
+                            this.MessageLabel.Visibility = Visibility.Visible;
+                        }, null);
                         break;
                 }
             }
@@ -186,9 +240,12 @@ namespace Cryptool.P2PEditor.GUI.Controls
             }
             catch (Exception ex)
             {
-                System.Windows.MessageBox.Show("Could not save the received certificate to your AppData folder:\n\n" +
-                       (ex.GetBaseException() != null && ex.GetBaseException().Message != null ? ex.GetBaseException().Message : ex.Message),
-                       "Error while saving the certificate");
+                 this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                        {
+                            this.MessageLabel.Content = "Could not save the received certificate to your AppData folder:\n\n" +
+                                (ex.GetBaseException() != null && ex.GetBaseException().Message != null ? ex.GetBaseException().Message : ex.Message);
+                            this.MessageLabel.Visibility = Visibility.Visible;
+                        }, null);
             }
             finally
             {

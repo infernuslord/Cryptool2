@@ -8,9 +8,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using System.Text;
-using System.Security.Cryptography;
-using System;
 namespace Cryptool.P2P {
     
     
@@ -28,7 +25,7 @@ namespace Cryptool.P2P {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("CrypTool2")]
         public string PeerName {
             get {
                 return ((string)(this["PeerName"]));
@@ -49,51 +46,7 @@ namespace Cryptool.P2P {
                 this["WorldName"] = value;
             }
         }
-
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string Password
-        {
-            get
-            {
-                return decrypt(((string)(this["Password"])));
-            }
-            set
-            {
-                this["Password"] = encrypt(value);
-            }
-        }
-
-        /// <summary>
-        /// Encrypts the given string using the current windows user password and converts
-        /// this to a base64 string
-        /// </summary>
-        /// <param name="s"></param>
-        /// <returns>encrypted base64 string</returns>
-        private string encrypt(string s)
-        {
-            byte[] bytes = Encoding.Unicode.GetBytes(s);
-            byte[] encBytes = ProtectedData.Protect(bytes, null, DataProtectionScope.CurrentUser);
-            return Convert.ToBase64String(encBytes);
-        }
-
-        /// <summary>
-        /// Decrypts the given base64 string using the current windows user password
-        /// </summary>
-        /// <param name="s"></param>
-        /// <returns>decrypted string</returns>
-        private string decrypt(string s)
-        {
-            if (string.IsNullOrEmpty(s))
-            {
-                return "";
-            }
-            byte[] encBytes = Convert.FromBase64String(s);
-            byte[] bytes = ProtectedData.Unprotect(encBytes, null, DataProtectionScope.CurrentUser);
-            return Encoding.Unicode.GetString(bytes);
-        }
-
+        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
@@ -192,7 +145,7 @@ namespace Cryptool.P2P {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("WebDHT")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Chord")]
         public global::Cryptool.Plugins.PeerToPeer.Internal.P2PArchitecture Architecture {
             get {
                 return ((global::Cryptool.Plugins.PeerToPeer.Internal.P2PArchitecture)(this["Architecture"]));
@@ -223,6 +176,30 @@ namespace Cryptool.P2P {
             }
             set {
                 this["ServerHost"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string Password {
+            get {
+                return ((string)(this["Password"]));
+            }
+            set {
+                this["Password"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool UpdateFlag {
+            get {
+                return ((bool)(this["UpdateFlag"]));
+            }
+            set {
+                this["UpdateFlag"] = value;
             }
         }
     }
