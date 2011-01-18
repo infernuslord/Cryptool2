@@ -77,11 +77,11 @@ namespace Cryptool.P2PEditor.GUI
 
             if (this.IsP2PConnecting || !this.IsP2PConnected)
             {
-                Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(ShowConnectView));
+                ShowConnectView();
             }
             else
             {
-                Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(ShowActiveJobsView));
+                ShowActiveJobsView();
             }
         }
 
@@ -172,11 +172,11 @@ namespace Cryptool.P2PEditor.GUI
         {
             if (this.IsP2PConnecting || !this.IsP2PConnected)
             {
-                Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(ShowConnectView));
+                ShowConnectView();
             }
             else
             {
-                Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(ShowActiveJobsView));
+               ShowActiveJobsView();
             }
         }
     }
