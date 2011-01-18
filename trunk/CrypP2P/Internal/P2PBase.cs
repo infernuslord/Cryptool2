@@ -38,6 +38,7 @@ using PeersAtPlay.PapsClient;
 using PeersAtPlay.Util.Logging;
 using PeersAtPlay.P2POverlay.Chord;
 using PeersAtPlay.P2PStorage.WebDHT;
+using System.Security.Cryptography;
 
 /* TODO:
  * - Delete UseNatTraversal-Flag and insert CertificateCheck and CertificateSetup
@@ -199,7 +200,7 @@ namespace Cryptool.P2P.Internal
             P2PManager.GuiLogMessage("Initializing DHT with world name " + P2PSettings.Default.WorldName,
                                         NotificationLevel.Info);
             IsInitialized = true;
-            Dht.Initialize(P2PSettings.Default.PeerName, P2PSettings.Default.Password, P2PSettings.Default.WorldName, overlay,
+            Dht.Initialize(P2PSettings.Default.PeerName, DecryptString(P2PSettings.Default.Password), P2PSettings.Default.WorldName, overlay,
                            bootstrapper, linkmanager, null);
         }
 
@@ -535,6 +536,43 @@ namespace Cryptool.P2P.Internal
             if (P2PSettings.Default.Log2Monitor)
                 Log.Debug(sTextToLog);
         }
+
+        /// <summary>
+        /// Encrypts the given string using the current windows user password and converts
+        /// this to a base64 string
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns>encrypted base64 string</returns>
+        public static string EncryptString(string s)
+        {
+            byte[] bytes = Encoding.Unicode.GetBytes(s);
+            byte[] encBytes = ProtectedData.Protect(bytes, null, DataProtectionScope.CurrentUser);
+            return Convert.ToBase64String(encBytes);
+        }
+
+        /// <summary>
+        /// Decrypts the given base64 string using the current windows user password
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns>decrypted string</returns>
+        public static string DecryptString(string s)
+        {
+            if (string.IsNullOrEmpty(s))
+            {
+                return "";
+            }
+            try
+            {
+                byte[] encBytes = Convert.FromBase64String(s);
+                byte[] bytes = ProtectedData.Unprotect(encBytes, null, DataProtectionScope.CurrentUser);
+                return Encoding.Unicode.GetString(bytes);
+            }
+            catch (Exception)
+            {
+                return "";
+            }
+        }
+
 
         #endregion
     }

@@ -23,6 +23,7 @@ using Cryptool.Plugins.PeerToPeer.Internal;
 using System.Text;
 using System.Security.Cryptography;
 using System;
+using Cryptool.P2P.Internal;
 
 namespace Cryptool.P2PEditor
 {
@@ -111,12 +112,12 @@ namespace Cryptool.P2PEditor
             , null, 1, false, ControlType.TextBoxHidden)]
         public string Password
         {
-            get { return settings.Password; }
+            get { return P2PBase.DecryptString(settings.Password); }
             set
             {
-                if (value != settings.Password)
+                if (P2PBase.EncryptString(value) != settings.Password)
                 {
-                    settings.Password = value;
+                    settings.Password = P2PBase.EncryptString(value);
                     OnPropertyChanged("Password");
                     HasChanges = true;
                 }
@@ -355,5 +356,6 @@ namespace Cryptool.P2PEditor
 
             P2PSettings.Default.Save();
         }
+
     }
 }
