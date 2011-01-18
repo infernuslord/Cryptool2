@@ -35,17 +35,24 @@ namespace Cryptool.P2PEditor.GUI.Controls
             {
                 if (newState)
                 {
-                    ((P2PEditorPresentation)P2PEditor.Presentation).UpdateConnectionState();
-
-                    Storyboard storyboard = (Storyboard)FindResource("AnimateBigWorldIcon");
-                    storyboard.Begin();   
+                    
+                    this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        ((P2PEditorPresentation)P2PEditor.Presentation).UpdateConnectionState();
+                        Storyboard storyboard = (Storyboard)FindResource("AnimateBigWorldIcon");
+                        storyboard.Begin();
+                    }
+                    , null);
                 }
                 else
                 {
-                    ((P2PEditorPresentation)P2PEditor.Presentation).UpdateConnectionState();
-
-                    Storyboard storyboard = (Storyboard)FindResource("AnimateBigWorldIcon");
-                    storyboard.Stop();   
+                    this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        ((P2PEditorPresentation)P2PEditor.Presentation).UpdateConnectionState();                    
+                        Storyboard storyboard = (Storyboard)FindResource("AnimateBigWorldIcon");
+                        storyboard.Stop(); 
+                    }
+                    , null);         
                 }
             });
 
@@ -104,18 +111,21 @@ namespace Cryptool.P2PEditor.GUI.Controls
 
         private void P2PUserControl_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            this.Username.Text = ((P2PEditorSettings)((P2PEditor)GetValue(P2PEditorProperty)).Settings).PeerName;
-            this.Worldname.Text = ((P2PEditorSettings)((P2PEditor)GetValue(P2PEditorProperty)).Settings).WorldName;
-            this.Password.Password = ((P2PEditorSettings)((P2PEditor)GetValue(P2PEditorProperty)).Settings).Password;
-            if (this.IsP2PConnecting)
+            if (this.Visibility == System.Windows.Visibility.Visible)
             {
-                Storyboard storyboard = (Storyboard)FindResource("AnimateBigWorldIcon");
-                storyboard.Begin();
-            }
-            else
-            {
-                Storyboard storyboard = (Storyboard)FindResource("AnimateBigWorldIcon");
-                storyboard.Stop();
+                this.Username.Text = ((P2PEditorSettings)((P2PEditor)GetValue(P2PEditorProperty)).Settings).PeerName;
+                this.Worldname.Text = ((P2PEditorSettings)((P2PEditor)GetValue(P2PEditorProperty)).Settings).WorldName;
+                this.Password.Password = ((P2PEditorSettings)((P2PEditor)GetValue(P2PEditorProperty)).Settings).Password;
+                if (this.IsP2PConnecting)
+                {
+                    Storyboard storyboard = (Storyboard)FindResource("AnimateBigWorldIcon");
+                    storyboard.Begin();
+                }
+                else
+                {
+                    Storyboard storyboard = (Storyboard)FindResource("AnimateBigWorldIcon");
+                    storyboard.Stop();
+                }
             }
         }
     }
