@@ -99,33 +99,24 @@ namespace Cryptool.P2PEditor.GUI.Controls
             ((P2PEditorSettings)((P2PEditor)GetValue(P2PEditorProperty)).Settings).PeerName = this.Username.Text;
         }
 
-        private void Worldname_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
-        {
-            ((P2PEditorSettings)((P2PEditor)GetValue(P2PEditorProperty)).Settings).WorldName = this.Worldname.Text;
-        }
-
         private void Password_PasswordChanged(object sender, RoutedEventArgs e)
         {
             ((P2PEditorSettings)((P2PEditor)GetValue(P2PEditorProperty)).Settings).Password = this.Password.Password;
         }
 
         private void P2PUserControl_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            if (this.Visibility == System.Windows.Visibility.Visible)
+        {            
+            this.Username.Text = ((P2PEditorSettings)((P2PEditor)GetValue(P2PEditorProperty)).Settings).PeerName;
+            this.Password.Password = ((P2PEditorSettings)((P2PEditor)GetValue(P2PEditorProperty)).Settings).Password;
+            if (this.IsP2PConnecting)
             {
-                this.Username.Text = ((P2PEditorSettings)((P2PEditor)GetValue(P2PEditorProperty)).Settings).PeerName;
-                this.Worldname.Text = ((P2PEditorSettings)((P2PEditor)GetValue(P2PEditorProperty)).Settings).WorldName;
-                this.Password.Password = ((P2PEditorSettings)((P2PEditor)GetValue(P2PEditorProperty)).Settings).Password;
-                if (this.IsP2PConnecting)
-                {
-                    Storyboard storyboard = (Storyboard)FindResource("AnimateBigWorldIcon");
-                    storyboard.Begin();
-                }
-                else
-                {
-                    Storyboard storyboard = (Storyboard)FindResource("AnimateBigWorldIcon");
-                    storyboard.Stop();
-                }
+                Storyboard storyboard = (Storyboard)FindResource("AnimateBigWorldIcon");
+                storyboard.Begin();
+            }
+            else
+            {
+                Storyboard storyboard = (Storyboard)FindResource("AnimateBigWorldIcon");
+                storyboard.Stop();
             }
         }
     }

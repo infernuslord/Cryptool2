@@ -74,6 +74,15 @@ namespace Cryptool.P2PEditor.GUI
             this.GetNewCertificate.P2PEditorPresentation = this;
             this.JobCreation.P2PEditorPresentation = this;
             this.JobDisplay.P2PEditorPresentation = this;
+
+            if (this.IsP2PConnecting || !this.IsP2PConnected)
+            {
+                Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(ShowConnectView));
+            }
+            else
+            {
+                Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(ShowActiveJobsView));
+            }
         }
 
         private void HandleChangedPeerToPeerConnectionState(object sender, bool newState)
@@ -145,13 +154,13 @@ namespace Cryptool.P2PEditor.GUI
         {
             hideAllViews();
             this.JobDisplay.Visibility = Visibility.Visible;
-            UpdateDisplay();            
+            UpdateDisplay();
         }
 
         internal void ShowConnectView()
         {
             hideAllViews();
-            this.Connect.Visibility = Visibility.Visible;            
+            this.Connect.Visibility = Visibility.Visible;         
         }
 
         internal void ShowHelp()
@@ -163,7 +172,11 @@ namespace Cryptool.P2PEditor.GUI
         {
             if (this.IsP2PConnecting || !this.IsP2PConnected)
             {
-                Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(ShowConnectView));                
+                Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(ShowConnectView));
+            }
+            else
+            {
+                Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(ShowActiveJobsView));
             }
         }
     }
