@@ -1,4 +1,4 @@
-﻿<GUI:P2PUserControl x:Class="Cryptool.P2PEditor.GUI.Controls.ConnectTab" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:GUI="clr-namespace:Cryptool.P2PEditor.GUI" xmlns:Converters="clr-namespace:Cryptool.P2PEditor.Converters" mc:Ignorable="d" d:DesignHeight="650" d:DesignWidth="360" IsVisibleChanged="P2PUserControl_IsVisibleChanged">
+﻿<GUI:P2PUserControl x:Class="Cryptool.P2PEditor.GUI.Controls.ConnectTab" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:GUI="clr-namespace:Cryptool.P2PEditor.GUI" xmlns:Converters="clr-namespace:Cryptool.P2PEditor.Converters" mc:Ignorable="d" d:DesignHeight="550" d:DesignWidth="360" IsVisibleChanged="P2PUserControl_IsVisibleChanged">
 	<GUI:P2PUserControl.Resources>
 		<Converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
         <Storyboard x:Key="AnimateBigWorldIcon">
@@ -7,7 +7,7 @@
     </GUI:P2PUserControl.Resources>
 	<Grid>
         <ScrollViewer VerticalScrollBarVisibility="Auto">
-		    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Margin="80,55,80,53">
+		    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Margin="15,15,15,15">
                 <Label FontSize="20" HorizontalContentAlignment="Center">CrypTool 2.0</Label>
                 <Label FontSize="13" HorizontalContentAlignment="Center">Distributed Computing Platform</Label>                
                 <Image Width="200" Name="WorldIcon" Source="..\..\images\connected.png" RenderTransformOrigin="0.5,0.5">
@@ -19,8 +19,6 @@
                 <TextBox Name="Username" TextChanged="Username_TextChanged" IsEnabled="{Binding IsP2PConnecting, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource InverseBooleanConverter}}" />
                 <Label>Password:</Label>
                 <PasswordBox Name="Password" PasswordChanged="Password_PasswordChanged" IsEnabled="{Binding IsP2PConnecting, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource InverseBooleanConverter}}" />
-                <Label>Worldname:</Label>
-                <TextBox Name="Worldname" TextChanged="Worldname_TextChanged" IsEnabled="{Binding IsP2PConnecting, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource InverseBooleanConverter}}" />
                 <Label/>
                 <Button Name="ConnectButton" IsDefault="True" Content="Connect" Height="38" FontFamily="Consolas" FontSize="20" Click="ConnectButtonClick" IsEnabled="{Binding IsP2PConnecting, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource InverseBooleanConverter}}" />
                 <Button Name="GetACertificateButton" Content="Create a new account!" FontFamily="Consolas" FontSize="12" Height="20" Margin="0,10,0,0" Click="GetACertificateButton_Click" IsEnabled="{Binding IsP2PConnecting, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource InverseBooleanConverter}}"/>
