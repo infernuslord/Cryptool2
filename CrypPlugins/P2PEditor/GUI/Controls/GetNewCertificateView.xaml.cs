@@ -178,14 +178,14 @@ namespace Cryptool.P2PEditor.GUI.Controls
                     case RespondType.AvatarAlreadyExists:
                         this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                         {
-                            this.MessageLabel.Content = "The username already exists. Please chose another one.";
+                            this.MessageLabel.Content = "The username already exists. Please choose another one.";
                             this.MessageLabel.Visibility = Visibility.Visible;
                         }, null);
                         break;
                     case RespondType.EmailAlreadyExists:
                         this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                         {
-                            this.MessageLabel.Content = "The email already exists. Please chose another ones.";
+                            this.MessageLabel.Content = "The email already exists. Please choose another one.";
                             this.MessageLabel.Visibility = Visibility.Visible;
                         }, null);
                         break;

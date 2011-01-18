@@ -145,21 +145,21 @@ namespace Cryptool.P2P.Internal
         {
             if (String.IsNullOrEmpty(P2PSettings.Default.PeerName))
             {
-                P2PManager.GuiLogMessage("Peer-to-peer not fully configured: username missing.", NotificationLevel.Error);
+                P2PManager.GuiLogMessage("Peer-to-peer not fully configured: username missing.", NotificationLevel.Info);
                 return false;
             }
 
             if (String.IsNullOrEmpty(P2PSettings.Default.Password))
             {
                 P2PManager.GuiLogMessage("Peer-to-peer not fully configured: password missing.",
-                                         NotificationLevel.Error);
+                                         NotificationLevel.Info);
                 return false;
             }
 
             if (String.IsNullOrEmpty(P2PSettings.Default.WorldName))
             {
                 P2PManager.GuiLogMessage("Peer-to-peer not fully configured: world name missing.",
-                                         NotificationLevel.Error);
+                                         NotificationLevel.Info);
                 return false;
             }
 

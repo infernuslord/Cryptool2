@@ -8,6 +8,7 @@ using Cryptool.P2P.Internal;
 using PeersAtPlay.CertificateLibrary.Certificates;
 using Cryptool.PluginBase;
 using System.IO;
+using System.ComponentModel;
 
 namespace Cryptool.P2PEditor.GUI.Controls
 {
@@ -54,29 +55,32 @@ namespace Cryptool.P2PEditor.GUI.Controls
                     }
                     , null);         
                 }
-            });
-
+            });            
         }
 
         private void ConnectButtonClick(object sender, RoutedEventArgs e)
         {
+            this.MessageLabel.Visibility = Visibility.Hidden;
             try
             {
                 if (CertificateServices.GetPeerCertificateByAvatar(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "PeersAtPlay" + Path.DirectorySeparatorChar + "Certificates" + Path.DirectorySeparatorChar),
-                    P2PSettings.Default.PeerName, P2PSettings.Default.Password) == null)
+                    P2PSettings.Default.PeerName, P2PBase.DecryptString(P2PSettings.Default.Password)) == null)
                 {
-                    System.Windows.MessageBox.Show("Cannot connect, account \"" + P2PSettings.Default.PeerName + "\" not found!", "Can not connect.");
+                    this.MessageLabel.Content = "Cannot connect, account \"" + P2PSettings.Default.PeerName + "\" not found!";
+                    this.MessageLabel.Visibility = Visibility.Visible;
                     return;
                 }
             }
             catch (NoCertificateFoundException)
             {
-                System.Windows.MessageBox.Show("Cannot connect, account \"" + P2PSettings.Default.PeerName + "\" not found!", "Can not connect.");
+                this.MessageLabel.Content = "Cannot connect, account \"" + P2PSettings.Default.PeerName + "\" not found!";
+                this.MessageLabel.Visibility = Visibility.Visible;
                 return;
             }            
             catch (Exception ex)
             {
-                System.Windows.MessageBox.Show("Cannot connect using account \"" + P2PSettings.Default.PeerName + "\": " + (ex.InnerException != null ? ex.InnerException.Message : ex.Message), "Can not connect.");
+                this.MessageLabel.Content = "Cannot connect using account \"" + P2PSettings.Default.PeerName + "\": " + (ex.InnerException != null ? ex.InnerException.Message : ex.Message);
+                this.MessageLabel.Visibility = Visibility.Visible;
                 return;
             }
 
@@ -123,6 +127,34 @@ namespace Cryptool.P2PEditor.GUI.Controls
                 Storyboard storyboard = (Storyboard)FindResource("AnimateBigWorldIcon");
                 storyboard.Stop();
             }
+        }
+
+        private void OnPropertyChanged_Settings(object sender, PropertyChangedEventArgs args)
+        {            
+            if(args.PropertyName.Equals("PeerName")){
+                //this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                //{
+                    if (this.Username.Text != ((P2PEditorSettings)sender).PeerName)
+                    {
+
+                        this.Username.Text = ((P2PEditorSettings)sender).PeerName;
+                    }
+                //},null);
+            }
+            if(args.PropertyName.Equals("Password")){
+                //this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                //{
+                    if (this.Password.Password != ((P2PEditorSettings)sender).Password)
+                    {
+                        this.Password.Password = ((P2PEditorSettings)sender).Password;
+                    }
+                //},null);
+            }            
+        }
+
+        private void P2PUserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            ((P2PEditorSettings)((P2PEditor)GetValue(P2PEditorProperty)).Settings).PropertyChanged += OnPropertyChanged_Settings;
         }
     }
 }
