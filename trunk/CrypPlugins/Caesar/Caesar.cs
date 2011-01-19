@@ -328,6 +328,7 @@ namespace Cryptool.Caesar
                 outputString = output.ToString();
                 OnPropertyChanged("OutputString");
                 OnPropertyChanged("OutputData");
+                OnPropertyChanged("InputString");
             }
         }
 
@@ -368,7 +369,6 @@ namespace Cryptool.Caesar
             switch (settings.Action)
             {
                 case 0:
-                    Caesar_LogMessage("encrypting", NotificationLevel.Debug);
                     Encrypt();
                     break;
                 case 1:
