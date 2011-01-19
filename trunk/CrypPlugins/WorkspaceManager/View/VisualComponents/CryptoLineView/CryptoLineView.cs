@@ -66,10 +66,7 @@ namespace WorkspaceManager.View.VisualComponents
 
         public static readonly DependencyProperty StartPointProperty = DependencyProperty.Register("StartPoint", typeof(Point), typeof(CryptoLineView), new FrameworkPropertyMetadata(new Point(0, 0), FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
         public static readonly DependencyProperty EndPointProperty = DependencyProperty.Register("EndPoint", typeof(Point), typeof(CryptoLineView), new FrameworkPropertyMetadata(new Point(0, 0), FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
-        private ConnectionModel connectionModel;
-        //private ConnectorView source;
-        //private ConnectorView target;
-
+        
 		#endregion
 
 		#region CLR Properties
@@ -119,14 +116,14 @@ namespace WorkspaceManager.View.VisualComponents
         public CryptoLineView(ConnectionModel connectionModel, ConnectorView source, ConnectorView target)
         {
             this.Loaded += new RoutedEventHandler(CryptoLineView_Loaded);
-            this.connectionModel = connectionModel;
+            this.Model = connectionModel;
             this.StartPointSource = source;
             this.EndPointSource = target;
         }
 
         void CryptoLineView_Loaded(object sender, RoutedEventArgs e)
         {
-            Color color = ColorHelper.GetLineColor(connectionModel.ConnectionType);
+            Color color = ColorHelper.GetLineColor(this.Model.ConnectionType);
             Stroke = new SolidColorBrush(color);
             StrokeThickness = 2;
         }
@@ -765,7 +762,7 @@ namespace WorkspaceManager.View.VisualComponents
         #endregion
 
         internal void Reset()
-        {
+        {           
             Color color = ColorHelper.GetColor(Model.ConnectionType);
             Stroke = new SolidColorBrush(color);
         }

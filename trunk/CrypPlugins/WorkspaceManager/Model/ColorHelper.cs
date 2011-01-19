@@ -27,51 +27,54 @@ namespace WorkspaceManager.Model
         /// <param name="obj"></param>
         /// <returns></returns>
         public static Color GetColor(Type type)
-        {           
-
-                if (type.GetInterface(typeof(IEncryption).Name) != null)
-                {
-                    EncryptionTypeAttribute eta = type.GetEncryptionTypeAttribute();
-                    switch (eta.EncryptionType)
-                    {
-                        case EncryptionType.Asymmetric:
-                            return (Color)ColorConverter.ConvertFromString("#6789a2");
-
-                        case EncryptionType.Classic:
-                            return (Color)ColorConverter.ConvertFromString("#b8c881");
-
-                        case EncryptionType.SymmetricBlock:
-                            return (Color)ColorConverter.ConvertFromString("#d49090");
-
-                        case EncryptionType.SymmetricStream:
-                            return (Color)ColorConverter.ConvertFromString("#94bc8a");
-
-                        case EncryptionType.Hybrid:
-                            return (Color)ColorConverter.ConvertFromString("#d49090");
-                    }
-                }
-
-                if (type.GetInterface(typeof(IGenerator).Name) != null)
-                {
-                    return (Color)ColorConverter.ConvertFromString("#8abc94");
-                }
-
-                if (type.GetInterface(typeof(IHash).Name) != null)
-                {
-                    return (Color)ColorConverter.ConvertFromString("#8abbbc");
-                }
-
-                if (type.GetInterface(typeof(IStatistic).Name) != null)
-                {
-                    return (Color)ColorConverter.ConvertFromString("#8c8abc");
-                }
-
-                if (type.GetInterface(typeof(IAnalysisMisc).Name) != null)
-                {
-                    return (Color)ColorConverter.ConvertFromString("#bc8aac");
-                }
-
+        {
+            if (type == null)
+            {
                 return (Color)ColorConverter.ConvertFromString("#a3d090");
+            }
+            if (type.GetInterface(typeof(IEncryption).Name) != null)
+            {
+                EncryptionTypeAttribute eta = type.GetEncryptionTypeAttribute();
+                switch (eta.EncryptionType)
+                {
+                    case EncryptionType.Asymmetric:
+                        return (Color)ColorConverter.ConvertFromString("#6789a2");
+
+                    case EncryptionType.Classic:
+                        return (Color)ColorConverter.ConvertFromString("#b8c881");
+
+                    case EncryptionType.SymmetricBlock:
+                        return (Color)ColorConverter.ConvertFromString("#d49090");
+
+                    case EncryptionType.SymmetricStream:
+                        return (Color)ColorConverter.ConvertFromString("#94bc8a");
+
+                    case EncryptionType.Hybrid:
+                        return (Color)ColorConverter.ConvertFromString("#d49090");
+                }
+            }
+
+            if (type.GetInterface(typeof(IGenerator).Name) != null)
+            {
+                return (Color)ColorConverter.ConvertFromString("#8abc94");
+            }
+
+            if (type.GetInterface(typeof(IHash).Name) != null)
+            {
+                return (Color)ColorConverter.ConvertFromString("#8abbbc");
+            }
+
+            if (type.GetInterface(typeof(IStatistic).Name) != null)
+            {
+                return (Color)ColorConverter.ConvertFromString("#8c8abc");
+            }
+
+            if (type.GetInterface(typeof(IAnalysisMisc).Name) != null)
+            {
+                return (Color)ColorConverter.ConvertFromString("#bc8aac");
+            }
+
+            return (Color)ColorConverter.ConvertFromString("#a3d090");
             
         }
 

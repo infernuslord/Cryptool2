@@ -657,7 +657,7 @@ namespace WorkspaceManager.View.Container
         internal void ResetConnections()
         {
             foreach (CryptoLineView line in ConnectionList)
-            {
+            {              
                 line.Reset();
             }
         }
