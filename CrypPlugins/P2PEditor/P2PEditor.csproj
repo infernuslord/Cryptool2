@@ -67,6 +67,9 @@
     <Compile Include="GUI\Controls\GetNewCertificateView.xaml.cs">
       <DependentUpon>GetNewCertificateView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="GUI\Controls\ActivateEmailView.xaml.cs">
+      <DependentUpon>ActivateEmailView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="GUI\P2PUserControl.cs" />
     <Compile Include="GUI\ParticipateAdorner.cs" />
     <Compile Include="Helper\DistributedStatusUpdater.cs" />
@@ -161,6 +164,10 @@
     <Page Include="GUI\Controls\JobDisplayTemplate.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GUI\Controls\ActivateEmailView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="GUI\P2PEditorPresentation.xaml">
       <SubType>Designer</SubType>

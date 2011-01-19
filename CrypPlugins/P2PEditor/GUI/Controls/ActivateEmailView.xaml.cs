@@ -14,72 +14,49 @@ using System.Windows.Media.Animation;
 
 namespace Cryptool.P2PEditor.GUI.Controls
 {
-    public partial class GetNewCertificate
+    public partial class ActivateEmailView
     {
         public static string WorldName = ".*";
 
-        public GetNewCertificate()
+        public ActivateEmailView()
         {
             InitializeComponent();            
         }
 
-        private void Request_Click(object sender, RoutedEventArgs e)
+        private void ActivateButton_Click(object sender, RoutedEventArgs e)
         {
             this.MessageLabel.Visibility = Visibility.Hidden;
-            if (!Verification.IsValidAvatar(this.UsernameField.Text))
+            if (string.IsNullOrEmpty(this.ActivationCodeField.Text))
             {
 
-                this.MessageLabel.Content = "Username is not valid.";
-                this.MessageLabel.Visibility = Visibility.Visible;     
-                this.UsernameField.Focus();
-                this.UsernameField.SelectAll();
-                return;
-            }
-
-            if (!Verification.IsValidEmailAddress(this.EmailField.Text))
-            {
-                this.MessageLabel.Content = "Email is not valid.";
-                this.MessageLabel.Visibility = Visibility.Visible; 
-                this.EmailField.Focus();
-                this.EmailField.SelectAll();
-                return;
-            }
-            
-            if (this.PasswordField.Password != this.ConfirmField.Password)
-            {
-                this.MessageLabel.Content = "Passwords did not match.";
+                this.MessageLabel.Content = "Activation code may not be empty.";
                 this.MessageLabel.Visibility = Visibility.Visible;
-                this.PasswordField.Password = "";
-                this.ConfirmField.Password = "";
-                this.PasswordField.Focus();
+                this.ActivationCodeField.Focus();
                 return;
-            }    
-
+            }
+          
             if (!Verification.IsValidPassword(this.PasswordField.Password))
             {
                 this.MessageLabel.Content = "Password is not valid.";
                 this.MessageLabel.Visibility = Visibility.Visible;
                 this.PasswordField.Password = "";
-                this.ConfirmField.Password = "";
                 this.PasswordField.Focus();
                 return;
             }
             
             Requesting = true;
-            Thread thread = new Thread(new ParameterizedThreadStart(RetrieveCertificate));
-            object[] array = new object[3];
-            array[0] = this.UsernameField.Text;
-            array[1] = this.EmailField.Text;
-            array[2] = this.PasswordField.Password;
+            Thread thread = new Thread(new ParameterizedThreadStart(ActivateEmail));
+            object[] array = new object[2];
+            array[0] = this.ActivationCodeField.Text;
+            array[1] = this.PasswordField.Password;
             thread.Start(array);
         }
 
-        public void RetrieveCertificate(object o)
+        public void ActivateEmail(object o)
         {
             object[] array = (object[])o;
-            string username = (string)array[0];
-            string email = (string)array[1];
-            string password = (string)array[2];
+            string activationCode = (string)array[0];
+            string password = (string)array[1];
 
             try
             {
@@ -142,10 +119,8 @@ namespace Cryptool.P2PEditor.GUI.Controls
                     }, null); 
                 });
 
-                certificateClient.RequestCertificate(username,
-                                                     email,
-                                                     WorldName,
-                                                     password);
+                //todo activate here!!!!
+                Thread.Sleep(3000);
             }
             catch (NetworkException nex)
             {
@@ -198,7 +173,6 @@ namespace Cryptool.P2PEditor.GUI.Controls
                         this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                         {                           ;
                             this.PasswordField.Password = "";
-                            this.ConfirmField.Password = "";
                             this.PasswordField.Focus();
                         }, null);        
                         break;
@@ -228,13 +202,8 @@ namespace Cryptool.P2PEditor.GUI.Controls
                 args.Certificate.SavePkcs12ToAppData(args.Certificate.Password);                
                 this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {                    
-                    ((P2PEditorPresentation)((P2PEditor)GetValue(P2PEditorProperty)).Presentation).Connect.Username.Text = this.UsernameField.Text;
-                    ((P2PEditorPresentation)((P2PEditor)GetValue(P2PEditorProperty)).Presentation).Connect.Password.Password = this.PasswordField.Password;
-                    this.UsernameField.Text = "";
-                    this.EmailField.Text = "";
                     this.PasswordField.Password = "";
-                    this.ConfirmField.Password = "";
-                    this.RequestPage.Visibility = System.Windows.Visibility.Hidden;
+                    this.ActivatePage.Visibility = System.Windows.Visibility.Hidden;
                     this.OKPage.Visibility = System.Windows.Visibility.Visible;
                 }, null);                
             }
@@ -268,13 +237,13 @@ namespace Cryptool.P2PEditor.GUI.Controls
                         if (requesting)
                         {
                             this.RequestLabel.Visibility = System.Windows.Visibility.Visible;
-                            this.RequestButton.IsEnabled = false;
+                            this.ActivateButton.IsEnabled = false;
                             storyboard.Begin();
                         }
                         else
                         {
                             this.RequestLabel.Visibility = System.Windows.Visibility.Hidden;
-                            this.RequestButton.IsEnabled = true;
+                            this.ActivateButton.IsEnabled = true;
                             storyboard.Stop();
                         }
                     }, null);
@@ -287,19 +256,14 @@ namespace Cryptool.P2PEditor.GUI.Controls
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
-            this.P2PEditorPresentation.ShowConnectView();
+            this.P2PEditorPresentation.ShowGetNewCertificateView();
         }
 
         private void OKButton_Click(object sender, RoutedEventArgs e)
         {
-            this.RequestPage.Visibility = Visibility.Visible;
+            this.ActivatePage.Visibility = Visibility.Visible;
             this.OKPage.Visibility = Visibility.Hidden;
             this.P2PEditorPresentation.ShowConnectView();
-        }
-
-        private void ActivateButton_Click(object sender, RoutedEventArgs e)
-        {
-            this.P2PEditorPresentation.ShowActivateEmailView();
         }
     }
 }

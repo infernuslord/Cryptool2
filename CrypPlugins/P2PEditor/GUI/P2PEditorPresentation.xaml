@@ -13,6 +13,7 @@
             <controls:JobCreation x:Name="JobCreation" Visibility="Hidden"/>
             <controls:ConnectTab x:Name="Connect" IsP2PConnecting="{Binding IsP2PConnecting, ElementName=P2PEditorControl}" Visibility="Hidden" />
             <controls:GetNewCertificate x:Name="GetNewCertificate" Visibility="Hidden"/>
+            <controls:ActivateEmailView x:Name="ActivateEmailView" Visibility="Hidden"/>
             <Frame Name="Help" Source="../DetailedDescription/Description.xaml" Visibility="Hidden"/>           
 	</Grid>
 </GUI:P2PUserControl>
