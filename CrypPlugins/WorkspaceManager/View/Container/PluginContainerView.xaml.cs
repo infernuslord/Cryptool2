@@ -814,8 +814,10 @@ namespace WorkspaceManager.View.Container
 
         public void update()
         {
-            ProgressBar.Value = Model.PercentageFinished;
-
+            if (!double.IsNaN(Model.PercentageFinished))
+            {
+                ProgressBar.Value = Model.PercentageFinished;
+            }
             if (Model.GuiLogEvents.Count != 0)
             {
                 LogPresentation log = LogPanel.Child as LogPresentation;
