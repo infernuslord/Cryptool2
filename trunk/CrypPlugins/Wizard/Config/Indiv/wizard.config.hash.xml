@@ -28,7 +28,7 @@
 
   <!-- RIPEMD160 Item -->
   <item id="RIPEMD160" image="RIPEMD160" >
-    <name lang="en" >RIPEMD160</name>
+    <name lang="en-US" >RIPEMD160</name>
     <description lang="en-US" >
       RIPEMD160 is a hash function... (add instead some really helpful text).
     </description>

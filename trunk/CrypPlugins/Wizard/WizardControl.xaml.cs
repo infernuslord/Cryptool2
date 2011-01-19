@@ -8,6 +8,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -52,7 +53,6 @@ namespace Wizard
             InitializeComponent();
 
             selectionBrush.Color = Color.FromArgb(255, 200, 220, 245);
-            descScroll.Background = selectionBrush;
             SetupPage(wizardConfigXML);
         }
 
@@ -139,12 +139,15 @@ namespace Wizard
             {
                 foreach (XElement ele in categories)
                 {
-                    ContentControl c = new ContentControl();
+                    Border border = new Border();
                     Label l = new Label();
                     Image i = new Image();
                     StackPanel sp = new StackPanel();
-                    c.Content = sp;
-                    c.VerticalAlignment = VerticalAlignment.Stretch;
+
+                    border.Child = sp;
+                    border.VerticalAlignment = VerticalAlignment.Stretch;
+                    border.CornerRadius = new CornerRadius(5, 0, 0, 5);
+                    border.BorderBrush = Brushes.LightSeaGreen;
 
                     l.Height = 30;
                     l.HorizontalAlignment = HorizontalAlignment.Stretch;
@@ -177,7 +180,7 @@ namespace Wizard
                     rb.HorizontalAlignment = HorizontalAlignment.Stretch;
                     rb.VerticalAlignment = VerticalAlignment.Stretch;
                     rb.HorizontalContentAlignment = HorizontalAlignment.Stretch;
-                    rb.Content = c;
+                    rb.Content = border;
                     rb.Tag = ele;
 
                     radioButtonStackPanel.Children.Add(rb);
@@ -196,9 +199,10 @@ namespace Wizard
         {
             ResetBackground();
             RadioButton b = (RadioButton)sender;
-            ContentControl c = (ContentControl)b.Content;
-            StackPanel sp = (StackPanel)c.Content;
-            sp.Background = selectionBrush;
+            b.Background = Brushes.LightSeaGreen;
+            Border c = (Border)b.Content;
+            c.BorderThickness = new Thickness(1, 1, 0, 1);
+            c.Background = selectionBrush;
             XElement ele = (XElement)b.Tag;
             XElement desc = FindElementInElement(ele, "description");
             if (desc != null)
@@ -208,14 +212,13 @@ namespace Wizard
 
         private void ResetBackground()
         {
-            UIElement[] uiea = new UIElement[radioButtonStackPanel.Children.Count];
-            radioButtonStackPanel.Children.CopyTo(uiea, 0);
-            foreach (UIElement uie in uiea)
+            for (int i = 0; i < radioButtonStackPanel.Children.Count; i++)
             {
-                RadioButton b = (RadioButton)uie;
-                ContentControl c = (ContentControl)b.Content;
-                StackPanel sp = (StackPanel)c.Content;
-                sp.Background = Brushes.Transparent;
+                RadioButton b = (RadioButton)radioButtonStackPanel.Children[i];
+                b.Background = Brushes.Transparent;
+                Border c = (Border)b.Content;
+                c.BorderThickness = new Thickness(0);
+                c.Background = Brushes.Transparent;
             }
         }
 
@@ -250,31 +253,16 @@ namespace Wizard
 
         private void nextButton_Click(object sender, RoutedEventArgs e)
         {
-            ResetBackground();
-            UIElement[] uiea = new UIElement[radioButtonStackPanel.Children.Count];
-            radioButtonStackPanel.Children.CopyTo(uiea, 0);
-            foreach (UIElement uie in uiea)
-            {
-                RadioButton b = (RadioButton)uie;
-                if (b.IsChecked != null && (bool)b.IsChecked)
-                {
-                    choicePath.Add(b.Name);
-                    radioButtonStackPanel.Children.Clear();
-                    description.Text = "";
-                    SetupPage((XElement)b.Tag);
-                    break;
-                }
-            }
+            Storyboard mainGridStoryboardLeft = (Storyboard)FindResource("MainGridStoryboardLeft");
+            mainGridStoryboardLeft.Begin();
         }
 
         private void backButton_Click(object sender, RoutedEventArgs e)
         {
             ResetBackground();
-            UIElement[] uiea = new UIElement[radioButtonStackPanel.Children.Count];
-            radioButtonStackPanel.Children.CopyTo(uiea, 0);
-            if (uiea.Length > 0)
+            if (radioButtonStackPanel.Children.Count > 0)
             {
-                RadioButton b = (RadioButton)uiea[0];
+                RadioButton b = (RadioButton)radioButtonStackPanel.Children[0];
                 XElement ele = (XElement)b.Tag;
                 radioButtonStackPanel.Children.Clear();
                 description.Text = "";
@@ -293,6 +281,31 @@ namespace Wizard
             choicePath.Clear();
             description.Text = "";
             SetupPage(wizardConfigXML);
+        }
+
+        private void LeftAnimation_Completed(object sender, EventArgs e)
+        {
+            ResetBackground();
+            for (int i = 0; i < radioButtonStackPanel.Children.Count; i++ )
+            {
+                RadioButton b = (RadioButton)radioButtonStackPanel.Children[i];
+                if (b.IsChecked != null && (bool)b.IsChecked)
+                {
+                    choicePath.Add(b.Name);
+                    radioButtonStackPanel.Children.Clear();
+                    description.Text = "";
+                    SetupPage((XElement)b.Tag);
+                    break;
+                }
+            }
+
+            Storyboard mainGridStoryboardLeft = (Storyboard)FindResource("MainGridStoryboardRight");
+            mainGridStoryboardLeft.Begin();
+        }
+
+        private void RightAnimation_Completed(object sender, EventArgs e)
+        {
+
         }
 
     }

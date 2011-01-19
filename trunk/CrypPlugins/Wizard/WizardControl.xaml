@@ -40,6 +40,25 @@
         <BitmapImage x:Key="Caesar" UriSource="Images/Caesar.png"/>
         <BitmapImage x:Key="Sym" UriSource="Images/Sym.png"/>
         <BitmapImage x:Key="Asym" UriSource="Images/Asym.png"/>
+
+        <Style TargetType="RadioButton">
+            <Style.Triggers>
+                <EventTrigger RoutedEvent="RadioButton.Checked">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Content.Background.Opacity" To="1" From="0" Duration="0:0:0.5"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Style.Triggers>
+        </Style>
+        
+        <Storyboard x:Key="MainGridStoryboardLeft">
+            <DoubleAnimation Storyboard.TargetName="MainGridTransform" Storyboard.TargetProperty="X" From="0" To="-900" Duration="0:0:0.5" Completed="LeftAnimation_Completed"/>
+        </Storyboard>
+        <Storyboard x:Key="MainGridStoryboardRight">
+            <DoubleAnimation Storyboard.TargetName="MainGridTransform" Storyboard.TargetProperty="X" From="900" To="0" Duration="0:0:0.5" Completed="RightAnimation_Completed"/>
+        </Storyboard>
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -48,29 +67,37 @@
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
+
+        <Grid.RenderTransform>
+            <TranslateTransform x:Name="MainGridTransform"/>
+        </Grid.RenderTransform>
+
         <Label HorizontalAlignment="Center" Name="taskHeader" FontSize="18" />
         <Label HorizontalAlignment="Stretch" Name="descHeader" FontSize="13" Grid.Row="1" Margin="5" />
+        
         <Grid HorizontalAlignment="Stretch" Name="grid1" VerticalAlignment="Stretch" Grid.Row="2" Margin="10" >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-            <ScrollViewer  HorizontalAlignment="Stretch" VerticalAlignment="Top" VerticalScrollBarVisibility="Auto" Name="radioButtonScroll" >
+            <ScrollViewer  HorizontalAlignment="Stretch" VerticalAlignment="Center" VerticalScrollBarVisibility="Auto" Name="radioButtonScroll">
                 <StackPanel Name="radioButtonStackPanel" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
             </ScrollViewer>
-            <ScrollViewer Name="descScroll" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalScrollBarVisibility="Auto" Grid.Column="1" >
-                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MinHeight="{Binding ElementName=radioButtonScroll, Path=ActualHeight}">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <Label HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" Content="{Loc Description}" />
-                    <TextBlock Name="description" TextWrapping="Wrap" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Left" Grid.Row="1" />
-                </Grid>
-            </ScrollViewer>
+            <Border BorderBrush="LightSeaGreen" BorderThickness="1" Grid.Column="1" CornerRadius="5" Background="#FFC8DCF5" MinHeight="{Binding ElementName=radioButtonScroll, Path=ActualHeight}">
+                <ScrollViewer Name="descScroll" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalScrollBarVisibility="Auto" >
+                    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Label HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" Content="{Loc Description}" />
+                        <TextBlock Name="description" TextWrapping="Wrap" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Left" Grid.Row="1" />
+                    </Grid>
+                </ScrollViewer>
+            </Border>
         </Grid>
         <StackPanel Height="Auto" HorizontalAlignment="Right" Name="buttonStackPanel" VerticalAlignment="Bottom" Margin="2" Grid.Row="3" Orientation="Horizontal" >
             <Button Content="{Loc BackButton}" Height="23" Name="backButton" Width="75" Margin="1" Click="backButton_Click"/>
