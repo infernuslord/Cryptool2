@@ -135,13 +135,20 @@ namespace Cryptool.P2PEditor.GUI
             this.JobCreation.Visibility = Visibility.Hidden;
             this.JobDisplay.Visibility = Visibility.Hidden;
             this.Connect.Visibility = Visibility.Hidden;
-            this.GetNewCertificate.Visibility = Visibility.Hidden;            
+            this.GetNewCertificate.Visibility = Visibility.Hidden;
+            this.ActivateEmailView.Visibility = Visibility.Hidden;
         }
 
         internal void ShowGetNewCertificateView()
         {
             hideAllViews();
             this.GetNewCertificate.Visibility = Visibility.Visible;            
+        }
+
+        internal void ShowActivateEmailView()
+        {
+            hideAllViews();
+            this.ActivateEmailView.Visibility = Visibility.Visible;
         }
 
         internal void ShowJobCreationView()
