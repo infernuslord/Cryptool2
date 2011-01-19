@@ -2,7 +2,13 @@
 	<GUI:P2PUserControl.Resources>
         <Converters:ConnectivityToVisibilityConverter x:Key="ConnectivityToVisibilityConverter" />
 	</GUI:P2PUserControl.Resources>
-	<Grid Background="White">
+	<Grid>
+        <Grid.Background>
+            <RadialGradientBrush RadiusX="1.1" RadiusY="2.8" Center="0.524,1.2" GradientOrigin="0.524,1.2">
+                <GradientStop Color="#add3f5" Offset="0.0" />
+                <GradientStop Color="#293955" Offset="1" />
+            </RadialGradientBrush>
+        </Grid.Background>
 		    <controls:JobDisplay x:Name="JobDisplay" Jobs="{Binding Jobs, ElementName=P2PEditorControl}" Visibility="Hidden"/>
             <controls:JobCreation x:Name="JobCreation" Visibility="Hidden"/>
             <controls:ConnectTab x:Name="Connect" IsP2PConnecting="{Binding IsP2PConnecting, ElementName=P2PEditorControl}" Visibility="Hidden" />

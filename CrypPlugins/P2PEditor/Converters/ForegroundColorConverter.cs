@@ -19,7 +19,7 @@ namespace Cryptool.P2PEditor.Converters
             if (((bool)value))
             {
                 SolidColorBrush brush = new SolidColorBrush();
-                brush.Color = Color.FromArgb(255, 200, 200, 200);
+                brush.Color = Color.FromArgb(255, 200, 200, 255);
                 return brush;
             }
             else
