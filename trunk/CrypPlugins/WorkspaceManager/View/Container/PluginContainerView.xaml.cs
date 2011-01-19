@@ -23,6 +23,7 @@ using Cryptool.PluginBase;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
 using Cryptool.PluginBase.Control;
+using System.Collections;
 namespace WorkspaceManager.View.Container
 {
     public enum PluginViewState
@@ -105,6 +106,18 @@ namespace WorkspaceManager.View.Container
            typeof(Visibility),
            typeof(PluginContainerView),
            new UIPropertyMetadata(Visibility.Collapsed, null));
+
+        public static readonly DependencyProperty IsDragStartedDependencyProperty = DependencyProperty.Register("IsDragStarted", typeof(bool), typeof(PluginContainerView), null);
+
+        [TypeConverter(typeof(bool))]
+        public bool IsDragStarted
+        {
+            get { return (bool)base.GetValue(IsDragStartedDependencyProperty); }
+            set
+            {
+                base.SetValue(IsDragStartedDependencyProperty, value);
+            }
+        }
 
 
         internal Point GetRoutingPoint(int routPoint)
@@ -526,8 +539,14 @@ namespace WorkspaceManager.View.Container
             this.PluginName.Text = model.Plugin.GetPluginInfoAttribute().Caption;
             this.CTextBox.Text = Model.Name;
             this.PreviewMouseLeftButtonDown += new MouseButtonEventHandler(PluginContainerView_MouseLeftButtonDown);
+            this.PreviewMouseLeftButtonUp += new MouseButtonEventHandler(PluginContainerView_PreviewMouseLeftButtonUp);
             //this.MouseEnter += new MouseEventHandler(PluginContainerView_MouseEnter);
             //this.MouseLeave += new MouseEventHandler(PluginContainerView_MouseLeave);
+        }
+
+        void PluginContainerView_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            IsDragStarted = false;
         }
 
         //void PluginContainerView_MouseLeave(object sender, MouseEventArgs e)
@@ -542,12 +561,12 @@ namespace WorkspaceManager.View.Container
 
         void PluginContainerView_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (!Model.WorkspaceModel.SelectedPluginsList.Contains(this) && Model.WorkspaceModel.WorkspaceEditor.IsKeyMultiKeyDown)
+            if (!Model.WorkspaceModel.SelectedPluginsList.Contains(this) && Model.WorkspaceModel.WorkspaceEditor.IsCtrlToggled)
             {
                 Model.WorkspaceModel.SelectedPluginsList.Add(this);
                 IsSelected = true;
             }
-            else if (!Model.WorkspaceModel.WorkspaceEditor.IsKeyMultiKeyDown)
+            else if (!Model.WorkspaceModel.WorkspaceEditor.IsCtrlToggled)
             {
                 foreach (PluginContainerView plugin in Model.WorkspaceModel.SelectedPluginsList)
                 {
@@ -557,6 +576,8 @@ namespace WorkspaceManager.View.Container
                 Model.WorkspaceModel.SelectedPluginsList.Add(this);
                 IsSelected = true;
             }
+
+            IsDragStarted = true;
         }
 
         void PluginContainerView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -888,13 +909,18 @@ namespace WorkspaceManager.View.Container
 
         private void Thumb_DragDelta_1(object sender, DragDeltaEventArgs e)
         {
-            foreach (PluginContainerView plugin in Model.WorkspaceModel.SelectedPluginsList)
+            List<PluginContainerView> list = new List<PluginContainerView>(Model.WorkspaceModel.SelectedPluginsList);
+            list.Sort((a,b) => a.GetPosition().X.CompareTo(b.GetPosition().X));
+            foreach (PluginContainerView plugin in list)
             {
-                plugin.SetPosition(new Point((Math.Round((Canvas.GetLeft(plugin) + e.HorizontalChange) / Properties.Settings.Default.GridScale)) * Properties.Settings.Default.GridScale,
-                                                                (Math.Round((Canvas.GetTop(plugin) + e.VerticalChange) / Properties.Settings.Default.GridScale)) * Properties.Settings.Default.GridScale));
+                Point p = new Point((Math.Round((Canvas.GetLeft(plugin) + e.HorizontalChange) / Properties.Settings.Default.GridScale)) * Properties.Settings.Default.GridScale,
+                                                                (Math.Round((Canvas.GetTop(plugin) + e.VerticalChange) / Properties.Settings.Default.GridScale)) * Properties.Settings.Default.GridScale);
 
-                if (plugin.GetPosition().X == 0 || plugin.GetPosition().Y == 0)
+                if (p.X <= 0 || p.Y <= 0)
                     break;
+
+                plugin.SetPosition(p);
+
             }
 
             Model.WorkspaceModel.WorkspaceManagerEditor.HasChanges = true;
