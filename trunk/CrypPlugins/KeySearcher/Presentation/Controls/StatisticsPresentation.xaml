@@ -12,12 +12,22 @@
         <Controls:MachineSumToProgressConverter x:Key="MachineSumToProgressConverter"/>
         <Controls:ChunkSumConverter x:Key="ChunkSumConverter"/>
         <Controls:StringLengthConverter x:Key="StringLengthConverter"/>
+        <Controls:ColorToDateConverter x:Key="ColorToDateConverter"></Controls:ColorToDateConverter>
         <g:WidthConverter x:Key="WidthConverter"></g:WidthConverter>
         <AlternationConverter x:Key="TeamsBackgroundConverter">
             <SolidColorBrush>LimeGreen</SolidColorBrush>
             <SolidColorBrush>Red</SolidColorBrush>
             <SolidColorBrush>Blue</SolidColorBrush>
         </AlternationConverter>
+
+        <Style x:Key="ItemStyle" TargetType="TreeViewItem">
+            <Setter x:Name="P" Property="IsExpanded" Value="True" />
+        </Style>
+
+        <Style x:Key="ItemStyle2" TargetType="TreeViewItem">
+            <Setter x:Name="P" Property="IsExpanded" Value="False" />
+        </Style>
+
     </UserControl.Resources>
     
     <TabControl>
@@ -31,8 +41,11 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition ScrollViewer.VerticalScrollBarVisibility="Auto"/>
                 </Grid.RowDefinitions>
-                <TextBlock Text="User/Host " Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center"/>
-                <TextBlock Text="Calculated Chunks" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="User/Host " Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </StackPanel>
+                <TextBlock Text="Calculated Chunks" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                <Button Content="Expand" Grid.Column="1" Grid.Row="0" Click="Button_Click" Width="50" HorizontalAlignment="Right"></Button>
                 <TreeView HorizontalAlignment="Stretch" Name="statisticsTree" VerticalAlignment="Stretch" ItemsSource="{Binding}" AlternationCount="3" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" >
                     <TreeView.ItemTemplate>
                         <HierarchicalDataTemplate ItemsSource="{Binding Path=Value}">
@@ -43,7 +56,14 @@
                                             <TextBlock Text="{Binding Path=Value.Hostname, Converter={StaticResource ResourceKey=StringLengthConverter}}" HorizontalAlignment="Center" ToolTip="{Binding Path=Value.Hostname}"/>
                                         </Grid>
                                         <Grid>
-                                            <ProgressBar Foreground="{Binding RelativeSource={RelativeSource FindAncestor,  AncestorLevel=2, AncestorType={x:Type TreeViewItem}},Path=(ItemsControl.AlternationIndex),Converter={StaticResource ResourceKey=TeamsBackgroundConverter}}" Value="{Binding Path=Value.Count, Mode=OneTime, Converter={StaticResource ResourceKey=InformationToProgressConverter2}}" Width="{Binding ElementName=statisticsTree, Path=ActualWidth, Converter={StaticResource ResourceKey=WidthConverter}}" Maximum="1" />
+                                            <ProgressBar Width="{Binding ElementName=statisticsTree, Path=ActualWidth, Converter={StaticResource ResourceKey=WidthConverter}}" Value="{Binding Path=Value.Count, Mode=OneTime, Converter={StaticResource ResourceKey=InformationToProgressConverter2}}" Maximum="1">
+                                                <ProgressBar.Foreground>
+                                                    <MultiBinding Converter="{StaticResource ResourceKey=ColorToDateConverter}">
+                                                        <Binding Path="Value.Date" Mode="OneTime"></Binding>
+                                                        <Binding RelativeSource="{RelativeSource FindAncestor, AncestorLevel=2, AncestorType={x:Type TreeViewItem}}" Path="(ItemsControl.AlternationIndex)"></Binding>
+                                                    </MultiBinding>
+                                                </ProgressBar.Foreground>
+                                            </ProgressBar>
                                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                                 <TextBlock Text="{Binding Path=Value.Count, StringFormat=\{0\,-5\}}"/>
                                             </StackPanel>
