@@ -469,7 +469,6 @@ namespace WorkspaceManager.Execution
             catch (Exception ex)
             {        
                 this.PluginModel.WorkspaceModel.WorkspaceManagerEditor.GuiLogMessage("An error occured while executing  \"" + PluginModel.Name + "\": " + ex.Message, NotificationLevel.Error);
-                this.PluginModel.WorkspaceModel.WorkspaceManagerEditor.GuiLogMessage(ex.StackTrace, NotificationLevel.Error);                
                 this.PluginModel.State = PluginModelState.Error;
                 this.PluginModel.GuiNeedsUpdate = true;
                 return;               
