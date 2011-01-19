@@ -38,6 +38,7 @@ namespace WorkspaceManager.View.Container
         private Point? lastCenterPositionOnTarget;
         private Point? lastMousePositionOnTarget;
         private Point? lastDragPoint;
+        private Point? startDrag;
         private Point previousDragPoint = new Point();
         private ConnectorView selectedConnector;
         private PluginContainerView selectedPluginContainer;
@@ -45,7 +46,7 @@ namespace WorkspaceManager.View.Container
         private PluginContainerView currentFullViewContainer;
         private Panel root { get { return (this.scrollViewer.Content as Panel); } }
         private BottomBox bottomBox { get { return (BottomBoxParent.Child as BottomBox); } }
-        public bool IsKeyMultiKeyDown;
+        public bool IsCtrlToggled { get; set; }
 
         public UserContentWrapper UserContentWrapper { get; set; }
         public EditorState State;
@@ -70,10 +71,9 @@ namespace WorkspaceManager.View.Container
             InitializeComponent();
             CompositionTarget.Rendering += new EventHandler(CompositionTarget_Rendering);
 
-            scrollViewer.DataContext = root;
             scrollViewer.ScrollChanged += OnScrollViewerScrollChanged;
-            scrollViewer.PreviewMouseLeftButtonUp += OnMouseLeftButtonUp;
             scrollViewer.PreviewMouseWheel += OnPreviewMouseWheel;
+            scrollViewer.DataContext = root;
 
             this.bottomBox.FitToScreen += new EventHandler<FitToScreenEventArgs>(bottomBox_FitToScreen);
             this.UserContentWrapper = new UserContentWrapper(WorkspaceModel, bottomBox);
@@ -81,27 +81,14 @@ namespace WorkspaceManager.View.Container
             this.UserControlWrapperParent.Children.Add(UserContentWrapper);       
         }
 
-        void OnMouseMove(object sender, MouseEventArgs e)
-        {
-            if (lastDragPoint.HasValue)
-            {
-                Point posNow = e.GetPosition(scrollViewer);
-
-                double dX = posNow.X - lastDragPoint.Value.X;
-                double dY = posNow.Y - lastDragPoint.Value.Y;
-
-                lastDragPoint = posNow;
-
-                scrollViewer.ScrollToHorizontalOffset(scrollViewer.HorizontalOffset - dX);
-                scrollViewer.ScrollToVerticalOffset(scrollViewer.VerticalOffset - dY);
-            }
-        }
-
         private void Thumb_DragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
         {
+            if (IsCtrlToggled)
+                return;
+
             scrollViewer.ScrollToHorizontalOffset(scrollViewer.HorizontalOffset - e.HorizontalChange);
             scrollViewer.ScrollToVerticalOffset(scrollViewer.VerticalOffset - e.VerticalChange);
-            scrollViewer.Cursor = Cursors.SizeAll;
+            this.Cursor = Cursors.SizeAll;
         }
 
         void OnPreviewMouseWheel(object sender, MouseWheelEventArgs e)
@@ -120,15 +107,50 @@ namespace WorkspaceManager.View.Container
             e.Handled = true;
         }
 
-        void OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private void Thumb_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            scrollViewer.Cursor = Cursors.Arrow;
-            scrollViewer.ReleaseMouseCapture();
+            if (!IsCtrlToggled)
+                return;
+
+            rectangle.Visibility = Visibility.Visible;
+            startDrag = e.GetPosition(root);
+            this.Cursor = Cursors.Cross;
+        }
+
+        private void Thumb_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            rectangle.Visibility = Visibility.Collapsed;
+            this.Cursor = Cursors.Arrow;
+            startDrag = null;
             lastDragPoint = null;
+        }
+
+        void WorkSpaceEditorView_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (IsCtrlToggled && startDrag.HasValue)
+            {
+                Point currentPoint = e.GetPosition(root);
+                Point hasValue = (Point)startDrag;
+
+                //Calculate the top left corner of the rectangle 
+                //regardless of drag direction
+                double x = hasValue.X < currentPoint.X ? hasValue.X : currentPoint.X;
+                double y = hasValue.Y < currentPoint.Y ? hasValue.Y : currentPoint.Y;
+
+                //Move the rectangle to proper place
+                rectangle.RenderTransform = new TranslateTransform(x, y);
+                //Set its size
+                rectangle.Width = Math.Abs(e.GetPosition(root).X - hasValue.X);
+                rectangle.Height = Math.Abs(e.GetPosition(root).Y - hasValue.Y);
+            }
+            dummyLine.EndPoint = Mouse.GetPosition(root);
         }
 
         void OnScrollViewerScrollChanged(object sender, ScrollChangedEventArgs e)
         {
+            if (IsCtrlToggled)
+                return;
+
             if (e.ExtentHeightChange != 0 || e.ExtentWidthChange != 0)
             {
                 Point? targetBefore = null;
@@ -183,10 +205,10 @@ namespace WorkspaceManager.View.Container
         {
             if ((Keyboard.GetKeyStates(Key.LeftCtrl) & KeyStates.Down) > 0)
             {
-                IsKeyMultiKeyDown = true;
+                IsCtrlToggled = true;
             }
             else
-                IsKeyMultiKeyDown = false;
+                IsCtrlToggled = false;
 
             if ((Keyboard.GetKeyStates(Key.LeftCtrl) & Keyboard.GetKeyStates(Key.C) & KeyStates.Down) > 0)
             {
@@ -293,6 +315,7 @@ namespace WorkspaceManager.View.Container
 
         private void setBaseControl(WorkspaceModel WorkspaceModel)
         {
+            this.MouseMove +=new MouseEventHandler(WorkSpaceEditorView_MouseMove);
             this.MouseLeave += new MouseEventHandler(WorkSpaceEditorView_MouseLeave);
             this.Loaded += new RoutedEventHandler(WorkSpaceEditorView_Loaded);
             this.DragEnter += new DragEventHandler(WorkSpaceEditorView_DragEnter);
@@ -354,7 +377,7 @@ namespace WorkspaceManager.View.Container
             if (this.State == EditorState.READY)
             {
                 ConnectionModel connectionModel = this.Model.newConnectionModel(((ConnectorView)source).Model, ((ConnectorView)target).Model, ((ConnectorView)source).Model.ConnectorType);
-                CryptoLineView conn = new CryptoLineView(connectionModel);
+                CryptoLineView conn = new CryptoLineView(connectionModel,source,target);
                 conn.StartPointSource = source;
                 conn.EndPointSource = target;
                 connectionModel.UpdateableView = conn;
@@ -385,7 +408,7 @@ namespace WorkspaceManager.View.Container
                 Color color = ColorHelper.GetColor((source as ConnectorView).Model.ConnectorType);
                 conn.Stroke = new SolidColorBrush(color);
                 conn.SetBinding(CryptoLineView.StartPointProperty, CreateConnectorBinding(source));
-                conn.EndPoint = Mouse.GetPosition(this);
+                conn.EndPoint = Mouse.GetPosition(root);
             }
         }
 
@@ -490,11 +513,7 @@ namespace WorkspaceManager.View.Container
             }
         }      
 
-        void WorkSpaceEditorView_MouseMove(object sender, MouseEventArgs e)
-        {
-            this.dummyLine.EndPoint = Mouse.GetPosition(root);
-            previousDragPoint = e.GetPosition(root);
-        }
+
 
         void shape_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
@@ -590,7 +609,7 @@ namespace WorkspaceManager.View.Container
                 if (connModel.To.IControl)
                     continue;
 
-                CryptoLineView conn = new CryptoLineView(connModel);
+                CryptoLineView conn = new CryptoLineView(connModel,null,null);
                 connModel.UpdateableView = conn;
                 connModel.OnDelete += DeleteConnection;
 

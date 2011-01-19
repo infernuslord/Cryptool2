@@ -22,11 +22,7 @@
     </UserControl.Resources>
     <ContentControl x:Name="Main" Background="Aqua">
         <Grid x:Name="MainGrid">
-
             <Grid Background="{StaticResource ResourceKey=NormalBrush}">
-                <!--<Grid.Background>
-                <ImageBrush ImageSource="/WorkspaceManager;component/View/Image/bg.png" Opacity="0.95" Stretch="UniformToFill"/>
-            </Grid.Background>-->
                 <Grid.Effect>
                     <BlurEffect Radius="{Binding ElementName=InformationPanel, Path=Visibility, Converter={StaticResource ResourceKey=BlurIconConverter}}"></BlurEffect>
                 </Grid.Effect>
@@ -37,8 +33,14 @@
                         </Border>
                         <ScrollViewer x:Name="scrollViewer" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                             <e:ModifiedCanvas RenderTransformOrigin="0.5, 0.5" MouseLeftButtonDown="root_MouseLeftButtonDown" MouseMove="WorkSpaceEditorView_MouseMove">
-                                <Thumb Style="{StaticResource ResourceKey=NormalThumbStyle}" DragDelta="Thumb_DragDelta" DragStarted="Thumb_DragStarted" Width="{Binding Path=ActualWidth}" Height="{Binding Path=ActualHeight}"></Thumb>
+                                <Thumb PreviewMouseLeftButtonDown="Thumb_MouseLeftButtonDown" PreviewMouseLeftButtonUp="Thumb_MouseLeftButtonUp" Style="{StaticResource ResourceKey=NormalThumbStyle}" DragDelta="Thumb_DragDelta" DragStarted="Thumb_DragStarted" Width="{Binding Path=ActualWidth}" Height="{Binding Path=ActualHeight}"></Thumb>
                                 <Grid Name="UserControlWrapperParent" Width="{Binding Path=ActualWidth}" Height="{Binding Path=ActualHeight}"/>
+                                <Rectangle Panel.ZIndex="10000000" Fill="#14FFFFFF" StrokeDashArray="5" Stroke="#FFFFFFFF" Visibility="Hidden" x:Name="rectangle" Width="50" Height="50" 
+                            StrokeDashOffset="0" StrokeThickness="1" RadiusX="0" RadiusY="0" Canvas.Left="0" Canvas.Top="0">
+                                    <Rectangle.RenderTransform>
+                                        <TranslateTransform X="0" Y="0"></TranslateTransform>
+                                    </Rectangle.RenderTransform>
+                                </Rectangle>
                                 <e:ModifiedCanvas.LayoutTransform>
                                     <ScaleTransform x:Name="RootScale" ScaleX="{Binding Source={x:Static p:Settings.Default}, Path=EditScale, Mode=OneWay}" ScaleY="{Binding Source={x:Static p:Settings.Default}, Path=EditScale, Mode=OneWay}"></ScaleTransform>
                                 </e:ModifiedCanvas.LayoutTransform>

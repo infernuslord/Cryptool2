@@ -15,12 +15,38 @@ using System.Threading;
 using WorkspaceManager.View.Container;
 using System.Collections;
 using WorkspaceManager.View.VisualComponents.StackFrameDijkstra;
+using System.Windows.Data;
 
 namespace WorkspaceManager.View.VisualComponents
 {
 	public sealed class CryptoLineView : Shape, IConnection, IUpdateableView
     {
         #region Variables
+
+        public static readonly DependencyProperty IsDraggingDependencyProperty = DependencyProperty.Register("IsDragging", typeof(bool), typeof(CryptoLineView), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure, new PropertyChangedCallback(OnDraggingPropertyChanged)));
+
+        [TypeConverter(typeof(bool))]
+        public bool IsDragging
+        {
+            get { return (bool)base.GetValue(IsDraggingDependencyProperty); }
+            set
+            {
+                base.SetValue(IsDraggingDependencyProperty, value);
+            }
+        }
+
+        private static void OnDraggingPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            CryptoLineView line = (CryptoLineView)d;
+            Panel p = (line.Parent as Panel);
+            if (p == null)
+                return;
+            foreach (UIElement shape in p.Children)
+            {
+                if (shape is CryptoLineView)
+                    shape.InvalidateVisual();
+            }
+        }
 
         private IntersectPoint intersectPoint;
         private List<FromTo> pointList = new List<FromTo>();
@@ -41,8 +67,8 @@ namespace WorkspaceManager.View.VisualComponents
         public static readonly DependencyProperty StartPointProperty = DependencyProperty.Register("StartPoint", typeof(Point), typeof(CryptoLineView), new FrameworkPropertyMetadata(new Point(0, 0), FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
         public static readonly DependencyProperty EndPointProperty = DependencyProperty.Register("EndPoint", typeof(Point), typeof(CryptoLineView), new FrameworkPropertyMetadata(new Point(0, 0), FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
         private ConnectionModel connectionModel;
-        private ConnectorView source;
-        private ConnectorView target;
+        //private ConnectorView source;
+        //private ConnectorView target;
 
 		#endregion
 
@@ -77,15 +103,6 @@ namespace WorkspaceManager.View.VisualComponents
         protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
             base.OnPropertyChanged(e);
-
-            Panel p = (this.Parent as Panel);
-            if (p == null)
-                return;
-            foreach (UIElement shape in p.Children)
-            {
-                if (shape is CryptoLineView)
-                    shape.InvalidateVisual();
-            }
         }
 
         protected override void OnMouseDown(MouseButtonEventArgs args)
@@ -99,20 +116,37 @@ namespace WorkspaceManager.View.VisualComponents
             }            
         }
 
-        public CryptoLineView(ConnectionModel connectionModel) : this()
+        public CryptoLineView(ConnectionModel connectionModel, ConnectorView source, ConnectorView target)
         {
-            this.Model = connectionModel;
+            this.Loaded += new RoutedEventHandler(CryptoLineView_Loaded);
+            this.connectionModel = connectionModel;
+            this.StartPointSource = source;
+            this.EndPointSource = target;
+        }
+
+        void CryptoLineView_Loaded(object sender, RoutedEventArgs e)
+        {
             Color color = ColorHelper.GetLineColor(connectionModel.ConnectionType);
             Stroke = new SolidColorBrush(color);
             StrokeThickness = 2;
         }
 
-        public CryptoLineView(ConnectionModel connectionModel, ConnectorView source, ConnectorView target)
+        private void makeBinding(ConnectorView source, ConnectorView target)
         {
-            // TODO: Complete member initialization
-            this.connectionModel = connectionModel;
-            this.source = source;
-            this.target = target;
+            MultiBinding multiBinding = new MultiBinding();
+            multiBinding.Converter = new MultiDragValueConverter();
+
+            Binding bind = new Binding();
+            bind.Source = source.Parent;
+            bind.Path = new PropertyPath(PluginContainerView.IsDragStartedDependencyProperty);
+            multiBinding.Bindings.Add(bind);
+
+            bind = new Binding();
+            bind.Source = target.Parent;
+            bind.Path = new PropertyPath(PluginContainerView.IsDragStartedDependencyProperty);
+            multiBinding.Bindings.Add(bind);
+
+            SetBinding(CryptoLineView.IsDraggingDependencyProperty, multiBinding);
         }
 
 		#region Overrides
@@ -503,7 +537,7 @@ namespace WorkspaceManager.View.VisualComponents
 
         private void makeOrthogonalPoints()
         {
-            if (StartPointSource != null && EndPointSource != null)
+            if (StartPointSource != null && EndPointSource != null && IsDragging == false)
             {
                 List<Node> nodeList = new List<Node>();
                 Panel parent = (Parent as Panel);
@@ -575,8 +609,8 @@ namespace WorkspaceManager.View.VisualComponents
 
                                     quadTreeLines.Insert(new FakeNode()
                                     {
-                                        Source = l1.source,
-                                        Target = l1.target,
+                                        Source = l1.StartPointSource,
+                                        Target = l1.EndPointSource,
                                         Rectangle = new System.Drawing.RectangleF((float)up.X, (float)up.Y, 1, (float)(down.Y - up.Y))
                                     });
                                 }
@@ -587,8 +621,8 @@ namespace WorkspaceManager.View.VisualComponents
 
                                     quadTreeLines.Insert(new FakeNode()
                                     {
-                                        Source = l1.source,
-                                        Target = l1.target,
+                                        Source = l1.StartPointSource,
+                                        Target = l1.EndPointSource,
                                         Rectangle = new System.Drawing.RectangleF((float)left.X, (float)left.Y, (float)(right.X - left.X), 1)
                                     });
                                 }
@@ -736,8 +770,49 @@ namespace WorkspaceManager.View.VisualComponents
             Stroke = new SolidColorBrush(color);
         }
 
-        public ConnectorView StartPointSource { get; set; }
 
-        public ConnectorView EndPointSource { get; set; }
+        private ConnectorView startPointSource;
+        public ConnectorView StartPointSource 
+        { 
+            get { return startPointSource; } 
+            set 
+            {
+                startPointSource = value; 
+                if (endPointSource == null || startPointSource == null)
+                    return;
+                makeBinding(startPointSource, endPointSource); 
+            } 
+        }
+
+        private ConnectorView endPointSource;
+        public ConnectorView EndPointSource 
+        { 
+            get { return endPointSource; } 
+            set 
+            { 
+                endPointSource = value;
+                if (endPointSource == null || startPointSource == null)
+                    return;
+                makeBinding(startPointSource, endPointSource); 
+            } 
+        }
     }
+
+    public class MultiDragValueConverter : IMultiValueConverter
+    {
+        public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            bool a = (bool)values[0], b = (bool)values[1];
+            if (a == true || b == true)
+                return true;
+            else
+                return false;
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
 }
