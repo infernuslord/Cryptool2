@@ -67,6 +67,31 @@ namespace KeySearcherPresentation.Controls
                                                 }, null);
             }
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Button b = sender as Button;
+
+            if(statisticsTree.ItemContainerStyle == null)
+            {
+                b.Content = "Expand";
+                statisticsTree.ItemContainerStyle = this.Resources["ItemStyle2"] as Style;
+            }
+
+            if (statisticsTree.ItemContainerStyle.Equals(this.Resources["ItemStyle"] as Style))
+            {
+                b.Content = "Expand";
+                statisticsTree.ItemContainerStyle = this.Resources["ItemStyle2"] as Style;
+                return;
+            }
+
+            if (statisticsTree.ItemContainerStyle.Equals(this.Resources["ItemStyle2"] as Style))
+            {
+                b.Content = "Collapse";
+                statisticsTree.ItemContainerStyle = this.Resources["ItemStyle"] as Style;
+                return;
+            }
+        }
     }
 
     #region Converters
@@ -196,6 +221,86 @@ namespace KeySearcherPresentation.Controls
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class ColorToDateConverter : IMultiValueConverter
+    {
+        public static SolidColorBrush[] AlternationColors = {Brushes.LimeGreen, Brushes.Red, Brushes.Blue};
+
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        {
+            DateTime date = (DateTime) values[0];
+            SolidColorBrush brush = ColorToDateConverter.AlternationColors[(int) values[1]].Clone();
+            TimeSpan diff = DateTime.UtcNow.Subtract(date);
+
+            Color color;
+            if (diff >= TimeSpan.FromDays(4))
+            {
+                color = Color.FromArgb(
+                    (byte)50,
+                    brush.Color.R, 
+                    brush.Color.G, 
+                    brush.Color.B);
+
+                brush.Color = color;
+                return brush;
+            }
+
+            if (diff >= TimeSpan.FromDays(3))
+            {
+                 color = Color.FromArgb(
+                    (byte)100,
+                    brush.Color.R, 
+                    brush.Color.G, 
+                    brush.Color.B);
+
+                brush.Color = color;
+                return brush;
+            }
+
+            if (diff >= TimeSpan.FromDays(2))
+            {
+                 color = Color.FromArgb(
+                    (byte)150,
+                    brush.Color.R, 
+                    brush.Color.G, 
+                    brush.Color.B);
+
+                brush.Color = color;
+                return brush;
+            }
+
+            if (diff >= TimeSpan.FromDays(1))
+            {
+                color = Color.FromArgb(
+                    (byte)200,
+                    brush.Color.R, 
+                    brush.Color.G, 
+                    brush.Color.B);
+
+                brush.Color = color;
+                return brush;
+            }
+
+            if (diff >= TimeSpan.FromDays(0))
+            {
+
+                color = Color.FromArgb(
+                    (byte)255,
+                    brush.Color.R,
+                    brush.Color.G,
+                    brush.Color.B);
+
+                brush.Color = color;
+                return brush;
+            }
+            return Brushes.AntiqueWhite;
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
         }
