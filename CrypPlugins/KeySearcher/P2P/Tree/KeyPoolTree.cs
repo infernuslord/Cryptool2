@@ -74,8 +74,10 @@ namespace KeySearcher.P2P.Tree
             keySearcher.GuiLogMessage("Calling FindNextLeaf(SearchOption.SkipReservedLeafs) now!", NotificationLevel.Debug);
             var foundNode = FindNextLeaf(SearchOption.SkipReservedLeafs);
             keySearcher.GuiLogMessage("Returned from FindNextLeaf(SearchOption.SkipReservedLeafs)...", NotificationLevel.Debug);
+
             if (foundNode == null)
                 keySearcher.GuiLogMessage("FindNextLeaf(SearchOption.SkipReservedLeafs) returned null!", NotificationLevel.Debug);
+
             if (skippedReservedNodes)
                 keySearcher.GuiLogMessage("FindNextLeaf(SearchOption.SkipReservedLeafs) skipped reserved nodes!", NotificationLevel.Debug);
 

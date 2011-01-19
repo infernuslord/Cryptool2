@@ -136,7 +136,7 @@ namespace KeySearcher.P2P
                 }
 
                 bool reservationRemoved = false;
-                var reservationTimer = new Timer {Interval = 5*60*1000};    //Every 5 minutes
+                var reservationTimer = new Timer {Interval = 18*60*1000};    //Every 18 minutes
                 reservationTimer.Elapsed += new ElapsedEventHandler(delegate
                                                                         {
                                                                             var oldMessage = status.CurrentOperation;
