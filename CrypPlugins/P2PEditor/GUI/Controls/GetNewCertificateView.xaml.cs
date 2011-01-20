@@ -67,31 +67,22 @@ namespace Cryptool.P2PEditor.GUI.Controls
             
             Requesting = true;
             Thread thread = new Thread(new ParameterizedThreadStart(RetrieveCertificate));
-            object[] array = new object[3];
-            array[0] = this.UsernameField.Text;
-            array[1] = this.EmailField.Text;
-            array[2] = this.PasswordField.Password;
-            thread.Start(array);
+            CertificateRegistration certReg = new CertificateRegistration(this.UsernameField.Text,
+                                                     this.EmailField.Text,
+                                                     WorldName,
+                                                     this.PasswordField.Password);
+            thread.Start(certReg);
         }
 
         public void RetrieveCertificate(object o)
         {
-            object[] array = (object[])o;
-            string username = (string)array[0];
-            string email = (string)array[1];
-            string password = (string)array[2];
+            CertificateRegistration certReg = (CertificateRegistration)o;
 
             try
             {
                 CertificateClient certificateClient = new CertificateClient();
-                certificateClient.CertificateAuthorizationDenied += new EventHandler<EventArgs>(delegate
-                {
-                    this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-                    {
-                        this.MessageLabel.Content = "Certificate authorization denied";
-                        this.MessageLabel.Visibility = Visibility.Visible;
-                    }, null);        
-                });
+                certificateClient.ProgramName = System.Reflection.Assembly.GetEntryAssembly().GetName().Name;
+                certificateClient.ProgramVersion = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.ToString();
 
                 certificateClient.CertificateAuthorizationRequired += new EventHandler<EventArgs>(delegate
                 {
@@ -99,38 +90,29 @@ namespace Cryptool.P2PEditor.GUI.Controls
                     {
                         this.MessageLabel.Content = "Certificate authorization required";
                         this.MessageLabel.Visibility = Visibility.Visible;
-                    }, null); 
+                    }, null);
                 });
 
-                certificateClient.CertificateNotYetAuthorized += new EventHandler<EventArgs>(delegate
+                certificateClient.EmailVerificationRequired += new EventHandler<EventArgs>(delegate
                 {
                     this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
-                        this.MessageLabel.Content = "Certificate not yet authorized";
+                        this.MessageLabel.Content = "Registration successful. To activate your account, you need to validate your email address. A verification code was sent per email.";
                         this.MessageLabel.Visibility = Visibility.Visible;
-                    }, null); 
+                    }, null);
                 });
 
                 certificateClient.CertificateReceived += CertificateReceived;
 
-                certificateClient.InvalidCertificateRequest += InvalidCertificateRequest;
+                certificateClient.InvalidCertificateRegistration += InvalidCertificateRegistration;
 
-                certificateClient.InvalidEmailCheck += new EventHandler<InvalidRequestEventArgs>(delegate
-                {
-                    this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-                    {
-                        this.MessageLabel.Content = "Invalid email address";
-                        this.MessageLabel.Visibility = Visibility.Visible;
-                    }, null); 
-                });
-
-                certificateClient.ServerErrorOccurred += new EventHandler<EventArgs>(delegate
+                certificateClient.ServerErrorOccurred += new EventHandler<ProcessingErrorEventArgs>(delegate
                 {
                     this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
                         this.MessageLabel.Content = "Server error occurred. Please try again later";
                         this.MessageLabel.Visibility = Visibility.Visible;
-                    }, null); 
+                    }, null);
                 });
 
                 certificateClient.NewProtocolVersion += new EventHandler<EventArgs>(delegate
@@ -142,10 +124,8 @@ namespace Cryptool.P2PEditor.GUI.Controls
                     }, null); 
                 });
 
-                certificateClient.RequestCertificate(username,
-                                                     email,
-                                                     WorldName,
-                                                     password);
+                certificateClient.RegisterCertificate(certReg);
+
             }
             catch (NetworkException nex)
             {
@@ -169,27 +149,27 @@ namespace Cryptool.P2PEditor.GUI.Controls
             }
         }
 
-        public void InvalidCertificateRequest(object sender, InvalidRequestEventArgs args)
+        public void InvalidCertificateRegistration(object sender, ProcessingErrorEventArgs args)
         {
             try
             {
-                switch (args.ErrorType)
+                switch (args.Type)
                 {
-                    case RespondType.AvatarAlreadyExists:
+                    case ErrorType.AvatarAlreadyExists:
                         this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                         {
                             this.MessageLabel.Content = "The username already exists. Please choose another one.";
                             this.MessageLabel.Visibility = Visibility.Visible;
                         }, null);
                         break;
-                    case RespondType.EmailAlreadyExists:
+                    case ErrorType.EmailAlreadyExists:
                         this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                         {
                             this.MessageLabel.Content = "The email already exists. Please choose another one.";
                             this.MessageLabel.Visibility = Visibility.Visible;
                         }, null);
                         break;
-                    case RespondType.AvatarEmailAlreadyExists:
+                    case ErrorType.WrongPassword:
                         this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                         {
                             this.MessageLabel.Content = "The username and email already exist but the entered password was wrong.";
@@ -205,7 +185,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
                     default:
                         this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                         {
-                            this.MessageLabel.Content = "Invalid certificate request: " + args.ErrorType;
+                            this.MessageLabel.Content = "Invalid registration: " + args.Type;
                             this.MessageLabel.Visibility = Visibility.Visible;
                         }, null);
                         break;
