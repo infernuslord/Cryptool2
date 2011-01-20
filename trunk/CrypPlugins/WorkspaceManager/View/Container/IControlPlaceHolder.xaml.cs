@@ -73,6 +73,7 @@ namespace WorkspaceManager.View.Container
             {
                 PluginChangedEventArgs args = new PluginChangedEventArgs(PluginModel.Plugin, PluginModel.Name, DisplayPluginMode.Normal);
                 this.Model.WorkspaceModel.WorkspaceManagerEditor.onSelectedPluginChanged(args);
+                e.Handled = true;
             }
         }
 
