@@ -9,6 +9,7 @@ using PeersAtPlay.CertificateLibrary.Certificates;
 using Cryptool.PluginBase;
 using System.IO;
 using System.ComponentModel;
+using PeersAtPlay.CertificateLibrary.Network;
 
 namespace Cryptool.P2PEditor.GUI.Controls
 {
@@ -58,24 +59,27 @@ namespace Cryptool.P2PEditor.GUI.Controls
             });            
         }
 
+        private bool HaveCertificate { get; set; }
+        private bool EmailVerificationRequired { get; set; }
+        private bool WrongPassword { get; set; }
+
         private void ConnectButtonClick(object sender, RoutedEventArgs e)
         {
             this.MessageLabel.Visibility = Visibility.Hidden;
+            HaveCertificate = true;
+            EmailVerificationRequired = false;
+            WrongPassword = false;
             try
             {
                 if (CertificateServices.GetPeerCertificateByAvatar(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "PeersAtPlay" + Path.DirectorySeparatorChar + "Certificates" + Path.DirectorySeparatorChar),
                     P2PSettings.Default.PeerName, P2PBase.DecryptString(P2PSettings.Default.Password)) == null)
-                {
-                    this.MessageLabel.Content = "Cannot connect, account \"" + P2PSettings.Default.PeerName + "\" not found!";
-                    this.MessageLabel.Visibility = Visibility.Visible;
-                    return;
+                {                    
+                    HaveCertificate = false;                
                 }
             }
             catch (NoCertificateFoundException)
             {
-                this.MessageLabel.Content = "Cannot connect, account \"" + P2PSettings.Default.PeerName + "\" not found!";
-                this.MessageLabel.Visibility = Visibility.Visible;
-                return;
+                HaveCertificate = false;
             }            
             catch (Exception ex)
             {
@@ -83,9 +87,85 @@ namespace Cryptool.P2PEditor.GUI.Controls
                 this.MessageLabel.Visibility = Visibility.Visible;
                 return;
             }
+            if(!HaveCertificate){
+                try
+                {
+                    //we did not find a fitting certificate, so we just try to download one:
+                    CertificateClient certificateClient = new CertificateClient();
+                    certificateClient.TimeOut = 5;
+                    certificateClient.ProgramName = System.Reflection.Assembly.GetEntryAssembly().GetName().Name;
+                    certificateClient.ProgramVersion = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.ToString();
+                    certificateClient.InvalidCertificateRequest += InvalidCertificateRequest;
+                    certificateClient.CertificateReceived += CertificateReceived;
+                    certificateClient.RequestCertificate(new CertificateRequest(P2PSettings.Default.PeerName, null, P2PBase.DecryptString(P2PSettings.Default.Password)));
+                }
+                catch (Exception ex)
+                {
+                    this.MessageLabel.Content = "Error while autodownloading your account data: " + ex.Message;
+                    this.MessageLabel.Visibility = Visibility.Visible;
+                    return;
+                }
+            }
+
+            //user entered the wrong password and the cert could not be download
+            if (WrongPassword)
+            {
+                this.MessageLabel.Content = "Your password was wrong. We could not autodownload your account data.";
+                this.MessageLabel.Visibility = Visibility.Visible;
+                return;
+            }
+
+            //we used login data, but our email was not authorized
+            if (EmailVerificationRequired)
+            {
+                this.MessageLabel.Content = "The email address was not verified.\nPlease check your email account for an activation code we just sent to you and activate your account.";
+                this.MessageLabel.Visibility = Visibility.Visible;
+                return;
+            }
+
+            //if we are here we did not find a fitting certificate in users appdate and could not download a certificate
+            if (!HaveCertificate)
+            {
+               
+                this.MessageLabel.Content = "Cannot connect, account \"" + P2PSettings.Default.PeerName + "\" not found!";
+                this.MessageLabel.Visibility = Visibility.Visible;
+                return;
+            }
 
             if (!P2PManager.IsConnected)
                 P2PManager.Connect();
+        }
+
+        public void InvalidCertificateRequest(object sender, ProcessingErrorEventArgs args)
+        {            
+            switch (args.Type)
+            {
+                case ErrorType.EmailNotYetVerified:
+                    EmailVerificationRequired = true;
+                    break;
+                case ErrorType.WrongPassword:
+                    WrongPassword = true;
+                    break;
+            }
+        }
+
+        public void CertificateReceived(object sender, CertificateReceivedEventArgs args)
+        {
+            try
+            {
+                args.Certificate.SaveCrtToAppData();
+                args.Certificate.SavePkcs12ToAppData(args.Certificate.Password);
+                HaveCertificate = true;
+            }
+            catch (Exception ex)
+            {
+                this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    this.MessageLabel.Content = "Could not save the received certificate to your AppData folder:\n\n" +
+                        (ex.GetBaseException() != null && ex.GetBaseException().Message != null ? ex.GetBaseException().Message : ex.Message);
+                    this.MessageLabel.Visibility = Visibility.Visible;
+                }, null);
+            }
         }
 
         private void HelpButtonClick(object sender, RoutedEventArgs e)

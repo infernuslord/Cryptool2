@@ -97,7 +97,11 @@ namespace Cryptool.P2PEditor.GUI.Controls
                 {
                     this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
-                        this.MessageLabel.Content = "Registration successful. To activate your account, you need to validate your email address. A verification code was sent per email.";
+                        this.MessageLabel.Content = "Registration successful. To activate your account, you need to validate your email address.\n A verification code was sent per email.";
+                        this.UsernameField.Text = "";
+                        this.EmailField.Text = "";
+                        this.PasswordField.Password = "";
+                        this.ConfirmField.Password = "";
                         this.MessageLabel.Visibility = Visibility.Visible;
                     }, null);
                 });
