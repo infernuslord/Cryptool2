@@ -69,9 +69,25 @@ namespace Cryptool.P2PEditor.GUI.Controls
             HaveCertificate = true;
             EmailVerificationRequired = false;
             WrongPassword = false;
+
+            String path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "PeersAtPlay" + Path.DirectorySeparatorChar + "Certificates" + Path.DirectorySeparatorChar);
             try
             {
-                if (CertificateServices.GetPeerCertificateByAvatar(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "PeersAtPlay" + Path.DirectorySeparatorChar + "Certificates" + Path.DirectorySeparatorChar),
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
+            }
+            catch (Exception ex)
+            {
+                this.MessageLabel.Content = "Cannot create default account data directory '" + path + "':\n" + ex.Message;
+                this.MessageLabel.Visibility = Visibility.Visible;
+                return;
+            }
+
+            try
+            {
+                if (CertificateServices.GetPeerCertificateByAvatar(path,
                     P2PSettings.Default.PeerName, P2PBase.DecryptString(P2PSettings.Default.Password)) == null)
                 {                    
                     HaveCertificate = false;                
