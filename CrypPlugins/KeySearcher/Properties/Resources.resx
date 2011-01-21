@@ -136,7 +136,7 @@
     <value>Calculating global statistics</value>
   </data>
   <data name="Calculating_pattern_" xml:space="preserve">
-    <value>Calculating pattern </value>
+    <value>Calculating search space </value>
   </data>
   <data name="Calculation_complete_" xml:space="preserve">
     <value>Calculation complete.</value>
@@ -193,19 +193,19 @@
     <value>Encrypted data out of an Encryption PlugIn</value>
   </data>
   <data name="Elapsed_" xml:space="preserve">
-    <value>Elapsed:</value>
+    <value>Elapsed time:</value>
   </data>
   <data name="Encrypted_Data" xml:space="preserve">
     <value>Encrypted Data</value>
   </data>
   <data name="Ended_bruteforcing_pattern__" xml:space="preserve">
-    <value>Ended bruteforcing pattern '</value>
+    <value>Ended bruteforcing search space '</value>
   </data>
   <data name="Endgame_Mode_" xml:space="preserve">
     <value>Endgame mode</value>
   </data>
   <data name="End_" xml:space="preserve">
-    <value>End:</value>
+    <value>Estimated end:</value>
   </data>
   <data name="Finding_next_leaf_to_calculate" xml:space="preserve">
     <value>Finding next leaf to calculate</value>
@@ -289,7 +289,7 @@
     <value>Participants:</value>
   </data>
   <data name="Pattern___0__was_reserved_before_it_could_be_reserved_for_this_CrypTool_instance_" xml:space="preserve">
-    <value>Pattern #{0} was reserved before it could be reserved for this CrypTool instance.</value>
+    <value>Search space #{0} was reserved before it could be reserved for this CrypTool instance.</value>
   </data>
   <data name="Per_Chunk_" xml:space="preserve">
     <value>Per chunk:</value>
@@ -322,10 +322,10 @@
     <value>Received (payload):</value>
   </data>
   <data name="Remaining_" xml:space="preserve">
-    <value>Remaining:</value>
+    <value>Remaining time:</value>
   </data>
   <data name="Removed_reservation_of_pattern___0_" xml:space="preserve">
-    <value>Removed reservation of pattern #{0}</value>
+    <value>Removed reservation of search space #{0}</value>
   </data>
   <data name="Remove_" xml:space="preserve">
     <value>Remove:</value>
@@ -334,13 +334,13 @@
     <value>Requests</value>
   </data>
   <data name="Rereserving_pattern_failed_" xml:space="preserve">
-    <value>Rereserving pattern failed!</value>
+    <value>Rereserving search space failed!</value>
   </data>
   <data name="Rereserving_pattern_failed__because_there_is_no_connection_" xml:space="preserve">
-    <value>Rereserving pattern failed, because there is no connection!</value>
+    <value>Rereserving search space failed, because there is no connection!</value>
   </data>
   <data name="Rereserving_pattern___0_" xml:space="preserve">
-    <value>Rereserving pattern #{0}</value>
+    <value>Rereserving search space #{0}</value>
   </data>
   <data name="Reservation_removed_by_another_node__while_calculating___To_avoid_a_state_in_limbo__proceeding_to_first_available_leaf___" xml:space="preserve">
     <value>Reservation removed by another node (while calculating). To avoid a state in limbo, proceeding to first available leaf...</value>
@@ -349,7 +349,7 @@
     <value>Retrieve:</value>
   </data>
   <data name="Running_pattern___0__of__1_" xml:space="preserve">
-    <value>Running pattern #{0} of {1}</value>
+    <value>Processing search space #{0} of {1}</value>
   </data>
   <data name="Sent_Link_" xml:space="preserve">
     <value>Sent (link):</value>
@@ -361,7 +361,7 @@
     <value>Start:</value>
   </data>
   <data name="Start_bruteforcing_pattern__" xml:space="preserve">
-    <value>Start bruteforcing pattern '</value>
+    <value>Start bruteforcing search space '</value>
   </data>
   <data name="Static_" xml:space="preserve">
     <value>Static</value>
@@ -376,7 +376,7 @@
     <value>Tested bits:</value>
   </data>
   <data name="There_must_be_an_error__because_we_bruteforced_too_much_keys___" xml:space="preserve">
-    <value>There must be an error, because we bruteforced too much keys...</value>
+    <value>There must be an error, because we bruteforced too many keys...</value>
   </data>
   <data name="Top1KeyDesc" xml:space="preserve">
     <value>The best key found</value>
@@ -397,7 +397,7 @@
     <value>Total:</value>
   </data>
   <data name="Total_amount_of_patterns___0___each_containing__1__keys_" xml:space="preserve">
-    <value>Total amount of patterns: {0}, each containing {1} keys.</value>
+    <value>Total amount of search spaces: {0}, each containing {1} keys.</value>
   </data>
   <data name="Total_Chunks_" xml:space="preserve">
     <value>Total chunks:</value>
