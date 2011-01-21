@@ -33,7 +33,7 @@
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="Architecture" Type="Cryptool.Plugins.PeerToPeer.Internal.P2PArchitecture" Scope="User">
-      <Value Profile="(Default)">Chord</Value>
+      <Value Profile="(Default)">WebDHT</Value>
     </Setting>
     <Setting Name="ServerPort" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">4456</Value>

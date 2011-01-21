@@ -160,6 +160,22 @@ namespace Cryptool.P2PEditor.GUI.Controls
 
         public void CertificateReceived(object sender, CertificateReceivedEventArgs args)
         {
+
+            String path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "PeersAtPlay" + Path.DirectorySeparatorChar + "Certificates" + Path.DirectorySeparatorChar);
+            try
+            {
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
+            }
+            catch (Exception ex)
+            {
+                this.MessageLabel.Content = "Cannot create default account data directory '" + path + "':\n" + ex.Message;
+                this.MessageLabel.Visibility = Visibility.Visible;
+                return;
+            }
+
             try
             {
                 args.Certificate.SaveCrtToAppData();
