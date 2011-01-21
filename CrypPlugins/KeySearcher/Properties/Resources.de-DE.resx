@@ -136,7 +136,7 @@
     <value>Berechne globale Statistiken</value>
   </data>
   <data name="Calculating_pattern_" xml:space="preserve">
-    <value>Berechne Suchraum </value>
+    <value>Berechne Block </value>
   </data>
   <data name="Calculation_complete_" xml:space="preserve">
     <value>Berechnung vollständig.</value>
@@ -199,7 +199,7 @@
     <value>Verschlüsselte Daten</value>
   </data>
   <data name="Ended_bruteforcing_pattern__" xml:space="preserve">
-    <value>Beendete erschöpfende Suche gegen Suchraum '</value>
+    <value>Beendete erschöpfende Suche auf Schlüsselmuster '</value>
   </data>
   <data name="Endgame_Mode_" xml:space="preserve">
     <value>Endmodus</value>
@@ -289,7 +289,7 @@
     <value>Teilnehmer:</value>
   </data>
   <data name="Pattern___0__was_reserved_before_it_could_be_reserved_for_this_CrypTool_instance_" xml:space="preserve">
-    <value>Suchraum #{0} wurde bereits von einem anderen Teilnehmer reserviert.</value>
+    <value>Block #{0} wurde bereits von einem anderen Teilnehmer reserviert.</value>
   </data>
   <data name="Per_Chunk_" xml:space="preserve">
     <value>Pro Block:</value>
@@ -301,7 +301,7 @@
     <value>KeySearcher</value>
   </data>
   <data name="pluginToolTip" xml:space="preserve">
-    <value>Führt eine erschöpfende Suche nach dem richtigen Schlüssel durch.</value>
+    <value>Führt eine erschöpfende Schlüsselsuche auf einem Geheimtext durch.</value>
   </data>
   <data name="Processing_results_of_calculation" xml:space="preserve">
     <value>Werte Ergebnis der Berechnung aus</value>
@@ -310,7 +310,7 @@
     <value>Füge Statistiken der Evaluationsdatenbank hinzu</value>
   </data>
   <data name="Ration_" xml:space="preserve">
-    <value>Rate:</value>
+    <value>Anteil:</value>
   </data>
   <data name="Ready_for_calculation" xml:space="preserve">
     <value>Fertig zur Berechnung</value>
@@ -325,7 +325,7 @@
     <value>Verbleibend:</value>
   </data>
   <data name="Removed_reservation_of_pattern___0_" xml:space="preserve">
-    <value>Entfernte Reservierung von Suchraum #{0}</value>
+    <value>Reservierung von Block #{0} entfernt</value>
   </data>
   <data name="Remove_" xml:space="preserve">
     <value>Entfernte:</value>
@@ -334,22 +334,22 @@
     <value>Anfragen</value>
   </data>
   <data name="Rereserving_pattern_failed_" xml:space="preserve">
-    <value>Erneute Reservierung des Suchraums fehlgeschlagen!</value>
+    <value>Erneute Reservierung des Blocks fehlgeschlagen!</value>
   </data>
   <data name="Rereserving_pattern_failed__because_there_is_no_connection_" xml:space="preserve">
-    <value>Erneute Reservierung des Suchraums fehlgeschlagen, weil keine Verbindung besteht!</value>
+    <value>Erneute Reservierung des Blocks fehlgeschlagen, weil keine Verbindung besteht!</value>
   </data>
   <data name="Rereserving_pattern___0_" xml:space="preserve">
-    <value>Erneute Reservierung des Suchraums #{0}</value>
+    <value>Erneute Reservierung des Blocks #{0}</value>
   </data>
   <data name="Reservation_removed_by_another_node__while_calculating___To_avoid_a_state_in_limbo__proceeding_to_first_available_leaf___" xml:space="preserve">
-    <value>Reservierung wurde während der Berechnung von einem anderen Teilnehmer entfernt. Suche nach freiem Block...</value>
+    <value>Blockreservierung wurde von einem anderen Teilnehmer entfernt. Suche nach anderem freien Block...</value>
   </data>
   <data name="Retrieve_" xml:space="preserve">
     <value>Empfangen:</value>
   </data>
   <data name="Running_pattern___0__of__1_" xml:space="preserve">
-    <value>Berechne Suchraum #{0} von {1}</value>
+    <value>Berechne Block #{0} von {1}</value>
   </data>
   <data name="Sent_Link_" xml:space="preserve">
     <value>Gesendet (Link):</value>
@@ -361,7 +361,7 @@
     <value>Start:</value>
   </data>
   <data name="Start_bruteforcing_pattern__" xml:space="preserve">
-    <value>Starte erschöpfende Suche im Suchraum '</value>
+    <value>Starte erschöpfende Suche auf dem Schlüsselmuster '</value>
   </data>
   <data name="Static_" xml:space="preserve">
     <value>Statisch</value>
@@ -376,7 +376,7 @@
     <value>Getestete Bits:</value>
   </data>
   <data name="There_must_be_an_error__because_we_bruteforced_too_much_keys___" xml:space="preserve">
-    <value>Fehler durch inkonsistente Anzahl von berechneten Schlüsseln...</value>
+    <value>Fehler aufgrund inkonsistenter Anzahl von berechneten Schlüsseln...</value>
   </data>
   <data name="Top1KeyDesc" xml:space="preserve">
     <value>Der beste gefundene Schlüssel</value>
@@ -427,7 +427,7 @@
     <value>Blöcke:</value>
   </data>
   <data name="Wrong_key_pattern_" xml:space="preserve">
-    <value>Falsches Suchraummuster!</value>
+    <value>Falsches Schlüsselmuster!</value>
   </data>
   <data name="You_have_to_connect_the_KeySearcher_with_the_Decryption_Control_" xml:space="preserve">
     <value>Sie müssen dem KeySearcher eine Entschlüsselungsfunktion hinzufügen!</value>
@@ -585,10 +585,10 @@
   <data name="UseSelectedDeviceSettingsDesc" xml:space="preserve">
     <value>Soll das ausgewählte OpenCL-Geräte zur Schlüsselsuche verwendet werden?</value>
   </data>
-	<data name="Progress" xml:space="preserve">
+  <data name="Progress" xml:space="preserve">
     <value>Fortschritt</value>
   </data>
-	<data name="Statistics" xml:space="preserve">
+  <data name="Statistics" xml:space="preserve">
     <value>Statistiken</value>
   </data>
 </root>
