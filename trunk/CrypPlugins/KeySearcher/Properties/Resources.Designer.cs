@@ -196,7 +196,7 @@ namespace KeySearcher.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Calculating pattern .
+        ///   Looks up a localized string similar to Calculating search space .
         /// </summary>
         internal static string Calculating_pattern_ {
             get {
@@ -493,7 +493,7 @@ namespace KeySearcher.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Elapsed:.
+        ///   Looks up a localized string similar to Elapsed time:.
         /// </summary>
         internal static string Elapsed_ {
             get {
@@ -511,7 +511,7 @@ namespace KeySearcher.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to End:.
+        ///   Looks up a localized string similar to Estimated end:.
         /// </summary>
         internal static string End_ {
             get {
@@ -520,7 +520,7 @@ namespace KeySearcher.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ended bruteforcing pattern &apos;.
+        ///   Looks up a localized string similar to Ended bruteforcing search space &apos;.
         /// </summary>
         internal static string Ended_bruteforcing_pattern__ {
             get {
@@ -925,7 +925,7 @@ namespace KeySearcher.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Pattern #{0} was reserved before it could be reserved for this CrypTool instance..
+        ///   Looks up a localized string similar to Search space #{0} was reserved before it could be reserved for this CrypTool instance..
         /// </summary>
         internal static string Pattern___0__was_reserved_before_it_could_be_reserved_for_this_CrypTool_instance_ {
             get {
@@ -1052,7 +1052,7 @@ namespace KeySearcher.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Remaining:.
+        ///   Looks up a localized string similar to Remaining time:.
         /// </summary>
         internal static string Remaining_ {
             get {
@@ -1070,7 +1070,7 @@ namespace KeySearcher.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Removed reservation of pattern #{0}.
+        ///   Looks up a localized string similar to Removed reservation of search space #{0}.
         /// </summary>
         internal static string Removed_reservation_of_pattern___0_ {
             get {
@@ -1088,7 +1088,7 @@ namespace KeySearcher.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Rereserving pattern #{0}.
+        ///   Looks up a localized string similar to Rereserving search space #{0}.
         /// </summary>
         internal static string Rereserving_pattern___0_ {
             get {
@@ -1097,7 +1097,7 @@ namespace KeySearcher.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Rereserving pattern failed!.
+        ///   Looks up a localized string similar to Rereserving search space failed!.
         /// </summary>
         internal static string Rereserving_pattern_failed_ {
             get {
@@ -1106,7 +1106,7 @@ namespace KeySearcher.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Rereserving pattern failed, because there is no connection!.
+        ///   Looks up a localized string similar to Rereserving search space failed, because there is no connection!.
         /// </summary>
         internal static string Rereserving_pattern_failed__because_there_is_no_connection_ {
             get {
@@ -1152,7 +1152,7 @@ namespace KeySearcher.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Running pattern #{0} of {1}.
+        ///   Looks up a localized string similar to Processing search space #{0} of {1}.
         /// </summary>
         internal static string Running_pattern___0__of__1_ {
             get {
@@ -1188,7 +1188,7 @@ namespace KeySearcher.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Start bruteforcing pattern &apos;.
+        ///   Looks up a localized string similar to Start bruteforcing search space &apos;.
         /// </summary>
         internal static string Start_bruteforcing_pattern__ {
             get {
@@ -1242,7 +1242,7 @@ namespace KeySearcher.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to There must be an error, because we bruteforced too much keys....
+        ///   Looks up a localized string similar to There must be an error, because we bruteforced too many keys....
         /// </summary>
         internal static string There_must_be_an_error__because_we_bruteforced_too_much_keys___ {
             get {
@@ -1305,7 +1305,7 @@ namespace KeySearcher.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Total amount of patterns: {0}, each containing {1} keys..
+        ///   Looks up a localized string similar to Total amount of search spaces: {0}, each containing {1} keys..
         /// </summary>
         internal static string Total_amount_of_patterns___0___each_containing__1__keys_ {
             get {
