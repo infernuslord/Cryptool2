@@ -20,19 +20,29 @@ class CryptoolServer
     public event ClientDisconnectedDelegate OnClientDisconnected;
 
     private Dictionary<EndPoint, TcpClient> connectedClients = new Dictionary<EndPoint, TcpClient>();
+    private TcpListener tcpListener;
+    private bool running = false;
 
     ///<summary>
-    /// Starts the server. Will block forever, you might want to start this in an additional thread.
+    /// Starts the server. Will block as long as the server runs, you might want to start this in an additional thread.
     ///</summary>
     public void Run()
     {
-        TcpListener tcpListener = null;
+        lock (this)
+        {
+            if (running)
+            {
+                throw new Exception("Invalid state: Already running");
+            }
+            running = true;
+        }
+
         try
         {
             tcpListener = new TcpListener(IPAddress.Any, Port);
             tcpListener.Start();
             Console.WriteLine("Listening for client on port " + Port);
-            while (true)
+            while (running)
             {
                 TcpClient client = tcpListener.AcceptTcpClient();
                 Console.WriteLine("Got connection from " + client);
@@ -47,6 +57,14 @@ class CryptoolServer
         catch (ThreadInterruptedException)
         {
         }
+        catch (SocketException e)
+        {
+            if (running)
+            {
+                Console.WriteLine("CryptoolServer: Got SocketException while running");
+            }
+        }
+
 
         tcpListener.Stop();
         foreach(var client in connectedClients)
@@ -136,4 +154,15 @@ class CryptoolServer
             OnClientDisconnected(ep);
     }
 
+    /// <summary>
+    /// Closes this server. Any concurrent call to Run() in any other thread will return.
+    /// </summary>
+    public void Shutdown()
+    {
+        lock (this)
+        {
+            running = false;
+            tcpListener.Stop();
+        }
+    }
 }

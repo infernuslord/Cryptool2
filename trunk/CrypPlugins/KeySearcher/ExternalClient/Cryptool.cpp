@@ -312,7 +312,9 @@ void Cryptool::enqueueKernel(cl::CommandQueue& queue, int size, cl::Buffer& keyb
         gettimeofday(&now, NULL);
         unsigned long timeDiffMicroSec = (now.tv_sec - lastSubbatchCompleted.tv_sec)*1000000 + (now.tv_usec - lastSubbatchCompleted.tv_usec);
         lastSubbatchCompleted = now;
-        printf("% .2f%% done. %'u keys/sec\n", ((i+1)*subbatch)/(float)size*100, (unsigned int)(subbatch/((float)timeDiffMicroSec/1000000)));
+        float keysPerSecond = subbatch/((float)timeDiffMicroSec/1000000);
+        printf("% .2f%% done. %'u keys/sec %u seconds remaining\n", ((i+1)*subbatch)/(float)size*100, (unsigned int)keysPerSecond,
+                (unsigned int)((float)(size-(subbatch*(i+1)))/keysPerSecond));
     }
 
     int remain = (size%subbatch);

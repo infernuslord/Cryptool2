@@ -848,7 +848,7 @@ namespace KeySearcher
                 if (stop && serverThread != null)
                 {
                     //stop server here!
-                    serverThread.Interrupt();
+                    cryptoolServer.Shutdown();
                     cryptoolServer.OnJobCompleted -= server_OnJobCompleted;
                     cryptoolServer.OnClientConnected -= server_OnClientConnected;
                     cryptoolServer.OnClientDisconnected -= cryptoolServer_OnClientDisconnected;
@@ -1377,25 +1377,18 @@ namespace KeySearcher
         //Write the User Statistics to an external csv-document
         internal void WriteStatistics(String dataIdentifier)
         {
-            if (settings.CsvPath == "")
+            //using the chosen csv file
+            String path = settings.CsvPath;
+
+            if (path == "")
             {
                 //using the default save folder %APPDATA%\Local\Cryptool2
-                using (StreamWriter sw = new StreamWriter(string.Format("{0}\\UserRanking{1}.csv", DirectoryHelper.DirectoryLocal, dataIdentifier)))
-                {
-                    sw.WriteLine("Avatarname" + ";" + "MaschineID" + ";" + "Hostname" + ";" + "Pattern Count" + ";" + "Last Update");
-                    foreach (string avatar in statistic.Keys)
-                    {
-                        foreach (long mID in statistic[avatar].Keys)
-                        {
-                            sw.WriteLine(avatar + ";" + mID.ToString() + ";" + statistic[avatar][mID].Hostname + ";" + statistic[avatar][mID].Count + ";" + statistic[avatar][mID].Date);
-                        }
-                    }
-                }
+                path = string.Format("{0}\\UserRanking{1}.csv", DirectoryHelper.DirectoryLocal, dataIdentifier);
             }
-            else 
+
+            try
             {
-                //using the chosen csv file
-                using (StreamWriter sw = new StreamWriter(settings.CsvPath))
+                using (StreamWriter sw = new StreamWriter(path))
                 {
                     sw.WriteLine("Avatarname" + ";" + "MaschineID" + ";" + "Hostname" + ";" + "Pattern Count" + ";" + "Last Update");
                     foreach (string avatar in statistic.Keys)
@@ -1407,6 +1400,11 @@ namespace KeySearcher
                     }
                 }
             }
+            catch (Exception)
+            {
+                GuiLogMessage(string.Format("Failed to write statistics to {0}", path), NotificationLevel.Debug);
+            }
+
 
             /*
             //For testing purpose. This writes the Maschinestatistics to the main folder if no different path was chosen--------
