@@ -3,17 +3,17 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:GUI="clr-namespace:Cryptool.P2PEditor.GUI" mc:Ignorable="d" 
-             d:DesignHeight="280" d:DesignWidth="693">
+             d:DesignHeight="310" d:DesignWidth="693">
     <Grid>
     <ScrollViewer Name="ActivatePage" VerticalScrollBarVisibility="Auto">
-        <Grid Height="280" Width="670">
+        <Grid Height="310" Width="670">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="110" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="100"/>
-                <RowDefinition Height="28"/>
+                <RowDefinition Height="56"/>
                 <RowDefinition Height="28"/>
                 <RowDefinition Height="28"/>
                 <RowDefinition Height="80" />
@@ -44,7 +44,7 @@
         <Label FontSize="16" HorizontalContentAlignment="Center">Account succesfully activated</Label>
         <Image Name="Account" Source="..\..\images\account.png"  Margin="5,5,5,5" Width="48" />
         <TextBlock Grid.ColumnSpan="2" Margin="15,15,15,15" FlowDirection="LeftToRight" HorizontalAlignment="Center">
-        Your new account was successfully activatend and can now be used. 
+        Your new account was successfully activated and can now be used. 
         <LineBreak/>
         Press the OK button to proceed.
         </TextBlock>
