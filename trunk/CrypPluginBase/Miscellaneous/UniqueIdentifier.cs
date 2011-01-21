@@ -17,10 +17,19 @@ namespace Cryptool.PluginBase.Miscellaneous
         public static Int64 GetID()
         {
             string username = WindowsIdentity.GetCurrent().Name;
-            string mac = GetMacIdentifier();
+            //string mac = GetMacIdentifier();
+
+            ManagementClass man = new ManagementClass("win32_processor");
+            ManagementObjectCollection moc = man.GetInstances();
+            string cpuids = "";
+            foreach (ManagementObject mob in moc)
+            {
+                cpuids += mob.Properties["processorID"].Value.ToString();
+            }
+
 
             MD5 md5 = new MD5CryptoServiceProvider();
-            byte[] idBytes = md5.ComputeHash(System.Text.ASCIIEncoding.ASCII.GetBytes(username + mac));
+            byte[] idBytes = md5.ComputeHash(System.Text.ASCIIEncoding.ASCII.GetBytes(username + cpuids));
             long ID = BitConverter.ToInt64(idBytes, 0);
             ID = Math.Abs(ID);
 
