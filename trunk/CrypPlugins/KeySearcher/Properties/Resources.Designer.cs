@@ -196,7 +196,7 @@ namespace KeySearcher.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Calculating search space .
+        ///   Looks up a localized string similar to Calculating chunk .
         /// </summary>
         internal static string Calculating_pattern_ {
             get {
@@ -520,7 +520,7 @@ namespace KeySearcher.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ended bruteforcing search space &apos;.
+        ///   Looks up a localized string similar to Finished brute force attack on key pattern &apos;.
         /// </summary>
         internal static string Ended_bruteforcing_pattern__ {
             get {
@@ -538,7 +538,7 @@ namespace KeySearcher.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Finding next leaf to calculate.
+        ///   Looks up a localized string similar to Finding next chunk to calculate.
         /// </summary>
         internal static string Finding_next_leaf_to_calculate {
             get {
@@ -709,7 +709,7 @@ namespace KeySearcher.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Keysearcher Fullstop. Please Update your Version..
+        ///   Looks up a localized string similar to Keysearcher can&apos;t proceed. Please update your version..
         /// </summary>
         internal static string Keysearcher_Fullstop__Please_Update_your_Version_ {
             get {
@@ -763,7 +763,7 @@ namespace KeySearcher.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No OpenCL Device available!.
+        ///   Looks up a localized string similar to No OpenCL device available!.
         /// </summary>
         internal static string No_OpenCL_Device_available_ {
             get {
@@ -772,7 +772,7 @@ namespace KeySearcher.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No ressources to BruteForce available. Check the KeySearcher settings!.
+        ///   Looks up a localized string similar to No ressources assigned for brute force. Please check the KeySearcher parameters..
         /// </summary>
         internal static string No_ressources_to_BruteForce_available__Check_the_KeySearcher_settings_ {
             get {
@@ -781,7 +781,7 @@ namespace KeySearcher.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Node was already calculated..
+        ///   Looks up a localized string similar to Chunk was already calculated..
         /// </summary>
         internal static string Node_was_already_calculated_ {
             get {
@@ -799,7 +799,7 @@ namespace KeySearcher.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Only using external client to bruteforce!.
+        ///   Looks up a localized string similar to Only using external client to brute force!.
         /// </summary>
         internal static string Only_using_external_client_to_bruteforce_ {
             get {
@@ -862,7 +862,7 @@ namespace KeySearcher.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to P2P network could not be connected..
+        ///   Looks up a localized string similar to Could not connect to P2P network..
         /// </summary>
         internal static string P2P_network_could_not_be_connected_ {
             get {
@@ -880,7 +880,7 @@ namespace KeySearcher.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to P2P network was connected due to plugin setting..
+        ///   Looks up a localized string similar to Connected automatically to P2P network..
         /// </summary>
         internal static string P2P_network_was_connected_due_to_plugin_setting_ {
             get {
@@ -925,7 +925,7 @@ namespace KeySearcher.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Search space #{0} was reserved before it could be reserved for this CrypTool instance..
+        ///   Looks up a localized string similar to Chunk #{0} was reserved before it could be reserved for this CrypTool instance..
         /// </summary>
         internal static string Pattern___0__was_reserved_before_it_could_be_reserved_for_this_CrypTool_instance_ {
             get {
@@ -962,7 +962,7 @@ namespace KeySearcher.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Bruteforces a decryption algorithm..
+        ///   Looks up a localized string similar to Performs a brute force attack on a ciphertext..
         /// </summary>
         internal static string pluginToolTip {
             get {
@@ -1070,7 +1070,7 @@ namespace KeySearcher.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Removed reservation of search space #{0}.
+        ///   Looks up a localized string similar to Removed reservation of chunk #{0}.
         /// </summary>
         internal static string Removed_reservation_of_pattern___0_ {
             get {
@@ -1088,7 +1088,7 @@ namespace KeySearcher.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Rereserving search space #{0}.
+        ///   Looks up a localized string similar to Rereserving chunk #{0}.
         /// </summary>
         internal static string Rereserving_pattern___0_ {
             get {
@@ -1097,7 +1097,7 @@ namespace KeySearcher.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Rereserving search space failed!.
+        ///   Looks up a localized string similar to Rereserving chunk failed!.
         /// </summary>
         internal static string Rereserving_pattern_failed_ {
             get {
@@ -1106,7 +1106,7 @@ namespace KeySearcher.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Rereserving search space failed, because there is no connection!.
+        ///   Looks up a localized string similar to Rereserving chunk failed, because there is no connection to P2P network..
         /// </summary>
         internal static string Rereserving_pattern_failed__because_there_is_no_connection_ {
             get {
@@ -1115,7 +1115,7 @@ namespace KeySearcher.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Reservation removed by another node (while calculating). To avoid a state in limbo, proceeding to first available leaf....
+        ///   Looks up a localized string similar to Reservation has been removed by another participant. To avoid a state in limbo, proceeding to first available chunk....
         /// </summary>
         internal static string Reservation_removed_by_another_node__while_calculating___To_avoid_a_state_in_limbo__proceeding_to_first_available_leaf___ {
             get {
@@ -1152,7 +1152,7 @@ namespace KeySearcher.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Processing search space #{0} of {1}.
+        ///   Looks up a localized string similar to Processing chunk #{0} of {1}.
         /// </summary>
         internal static string Running_pattern___0__of__1_ {
             get {
@@ -1188,7 +1188,7 @@ namespace KeySearcher.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Start bruteforcing search space &apos;.
+        ///   Looks up a localized string similar to Starting brute force attack on key pattern &apos;.
         /// </summary>
         internal static string Start_bruteforcing_pattern__ {
             get {
@@ -1242,7 +1242,7 @@ namespace KeySearcher.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to There must be an error, because we bruteforced too many keys....
+        ///   Looks up a localized string similar to Data inconsistency error, we seem to have calculated more keys than expected....
         /// </summary>
         internal static string There_must_be_an_error__because_we_bruteforced_too_much_keys___ {
             get {
@@ -1305,7 +1305,7 @@ namespace KeySearcher.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Total amount of search spaces: {0}, each containing {1} keys..
+        ///   Looks up a localized string similar to Total amount of chunks: {0}, each containing {1} keys..
         /// </summary>
         internal static string Total_amount_of_patterns___0___each_containing__1__keys_ {
             get {
@@ -1386,7 +1386,7 @@ namespace KeySearcher.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to If checked, external clients are allowed to connect to this CrypTool 2.0 instance to support the bruteforce process..
+        ///   Looks up a localized string similar to If checked, external clients are allowed to connect to this CrypTool 2.0 instance to support the bruteforce process (this is not the same as p2p-distributed computing)..
         /// </summary>
         internal static string UseExternalClientSettingsDesc {
             get {
@@ -1395,7 +1395,7 @@ namespace KeySearcher.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Use Peer-to-Peer network.
+        ///   Looks up a localized string similar to Use peer-to-peer network.
         /// </summary>
         internal static string UseP2PSettings {
             get {
@@ -1440,7 +1440,7 @@ namespace KeySearcher.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to If checked, the selected OpenCL device is used for bruteforcing..
+        ///   Looks up a localized string similar to If checked, the selected OpenCL device is used for brute force attack..
         /// </summary>
         internal static string UseSelectedDeviceSettingsDesc {
             get {
