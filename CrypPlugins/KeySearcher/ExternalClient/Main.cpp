@@ -15,38 +15,42 @@
 
 void usage(char **argv)
 {
-    printf("Usage: %s $THREAD_NUM $HOST $PORT\n\n", argv[0]);
-    printf("    THREAD_NUM - Number of concurrent threads\n");
+    printf("Usage: %s $HOST $PORT [$PASSWORD]\n\n", argv[0]);
     printf("    HOST       - PC running cryptool\n");
     printf("    PORT       - Cryptool's listening port\n");
+    printf("    [PASSWORD] - Password used to auth with server\n");
 }
 
-int threadNum;
+bool lookup(const char* host, sockaddr_in & serv_addr)
+{
+    hostent *server = gethostbyname(host);
 
+    if(!server)
+        return false;
+
+    serv_addr.sin_family = AF_INET;
+    bcopy((char *)server->h_addr, 
+            (char *)&serv_addr.sin_addr.s_addr,
+            server->h_length);
+
+    return true;
+}
 
 int main (int argc, char **argv)
 {
-    if(argc != 4)
+    if(argc != 3 && argc != 4)
     {
         usage(argv);
         return 1;
     }
 
-    threadNum = atoi(argv[1]);
-    if(threadNum== 0)
+    const char* password = "";
+    if(argc == 4)
     {
-        printf("Invalid number of threads\n");
-        return 1;
+        password = argv[3];
     }
 
-    hostent *server = gethostbyname(argv[2]);
-    if(!server)
-    {
-        printf("Invalid host\n");
-        return 1;
-    }
-
-    int port = atoi(argv[3]);
+    int port = atoi(argv[2]);
 
     if(port == 0 || port <= 0 || port > 0xFFFF)
     {
@@ -56,14 +60,16 @@ int main (int argc, char **argv)
 
     sockaddr_in serv_addr;
     bzero((char *) &serv_addr, sizeof(serv_addr));
-    serv_addr.sin_family = AF_INET;
-    bcopy((char *)server->h_addr, 
-            (char *)&serv_addr.sin_addr.s_addr,
-            server->h_length);
     serv_addr.sin_port = htons(port);
+
     while(true)
     {
-        networkThread(serv_addr, port);
+        if(!lookup(argv[1], serv_addr))
+        {
+            printf("failed to lookup %s..\n", argv[1]);
+            continue;
+        }
+        networkThread(serv_addr, port, password);
         printf("Reconnecting in %u seconds\n", RECONNECT_TIME);
         sleep(RECONNECT_TIME);
     }

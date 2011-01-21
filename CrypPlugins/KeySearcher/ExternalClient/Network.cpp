@@ -45,13 +45,14 @@ void writeJobResult(PlatformIndependentWrapper& wrapper, JobResult& result)
 
 // Queue of completed jobs
 std::queue<JobResult> finishedJobs;
-void GetJobsAndPostResults(PlatformIndependentWrapper& wrapper)
+void GetJobsAndPostResults(PlatformIndependentWrapper& wrapper, const char* password)
 {
     if (cryptool == 0)
         cryptool = new Cryptool();
 
     wrapper.WriteInt(ClientOpcodes::HELLO);
     wrapper.WriteString(getIdentificationStr());
+    wrapper.WriteString(password);
 
     while(!finishedJobs.empty())
     {
@@ -62,6 +63,8 @@ void GetJobsAndPostResults(PlatformIndependentWrapper& wrapper)
     // loop will be escaped by wrapper exceptions
     while(true)
     {
+        // TODO: soft break
+        wrapper.WriteInt(ClientOpcodes::JOB_REQUEST);
         switch(wrapper.ReadInt())
         {
             case ServerOpcodes::NEW_JOB:
@@ -88,32 +91,35 @@ void GetJobsAndPostResults(PlatformIndependentWrapper& wrapper)
                     }
                 }
                 break;
+            case ServerOpcodes::WRONG_PASSWORD:
+                printf("Server didn't accept our password :(\n");
+                break;
         }
     }
 }
 
-void networkThread(sockaddr_in serv_addr, int port)
+void networkThread(sockaddr_in serv_addr, int port, const char* password)
 {
     printf("Connecting to %s on port %i\n", inet_ntoa(serv_addr.sin_addr), port);
     int sockfd = socket(AF_INET, SOCK_STREAM, 0);
 
     if (sockfd < 0) 
     {
-        printf("ERROR opening socket\n");
+        printf("  ERROR opening socket\n");
         return;
     }
 
     if (connect(sockfd, (sockaddr*)&serv_addr, sizeof(serv_addr)) < 0)
     {
-        printf("Couldn't connect\n");
+        printf("  Couldn't connect\n");
         close(sockfd);
         return;
     }
-    printf("Connection established\n");
+    printf("  Connection established\n");
 
     try{
         PlatformIndependentWrapper w(sockfd);
-        GetJobsAndPostResults(w);
+        GetJobsAndPostResults(w, password);
     } catch(SocketException)
     {
         close(sockfd);

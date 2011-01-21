@@ -591,4 +591,10 @@
   <data name="Statistics" xml:space="preserve">
     <value>Statistiken</value>
   </data>
+  <data name="ExternalClientPasswordSettings" xml:space="preserve">
+    <value>Passwort</value>
+  </data>
+  <data name="ExternalClientPasswordSettingsDesc" xml:space="preserve">
+    <value>Passwort mit dem sich externe Clients authentifizieren müssen</value>
+  </data>
 </root>

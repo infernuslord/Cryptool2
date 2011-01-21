@@ -250,6 +250,15 @@ namespace KeySearcher.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Client &apos;{0}&apos; tried to authenticate using an invalid password.
+        /// </summary>
+        internal static string Client__0__tried_to_auth_with_invalid_password {
+            get {
+                return ResourceManager.GetString("Client__0__tried_to_auth_with_invalid_password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Client disconnected!.
         /// </summary>
         internal static string Client_disconnected_ {
@@ -534,6 +543,24 @@ namespace KeySearcher.Properties {
         internal static string Endgame_Mode_ {
             get {
                 return ResourceManager.GetString("Endgame_Mode_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password.
+        /// </summary>
+        internal static string ExternalClientPasswordSettings {
+            get {
+                return ResourceManager.GetString("ExternalClientPasswordSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password used for authenticating external clients.
+        /// </summary>
+        internal static string ExternalClientPasswordSettingsDesc {
+            get {
+                return ResourceManager.GetString("ExternalClientPasswordSettingsDesc", resourceCulture);
             }
         }
         
@@ -1030,6 +1057,15 @@ namespace KeySearcher.Properties {
         internal static string Ready_for_calculation {
             get {
                 return ResourceManager.GetString("Ready_for_calculation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Received late job result {0} from client &apos;{1}&apos;.
+        /// </summary>
+        internal static string Received_late_job_result_0_from_client_1 {
+            get {
+                return ResourceManager.GetString("Received_late_job_result_0_from_client_1", resourceCulture);
             }
         }
         

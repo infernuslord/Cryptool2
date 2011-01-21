@@ -251,9 +251,15 @@ namespace KeySearcher
         private KeySearcherOpenCLCode externalKeySearcherOpenCLCode;
         private IKeyTranslator externalKeyTranslator;
         private BigInteger externalKeysProcessed;
-        private EndPoint externalClientConnected;
+        /// <summary>
+        /// List of clients which connected while there was no job available. Will receive
+        /// a job a soon as one is available.
+        /// </summary>
+        private List<EndPoint> waitingExternalClients = new List<EndPoint>();
+        private Guid currentExternalJobGuid = Guid.NewGuid();
         private AutoResetEvent waitForExternalClientToFinish = new AutoResetEvent(false);
         private DateTime assignTime;
+        private bool externalClientJobsAvailable = false;
         #endregion
 
         public KeySearcher()
@@ -822,12 +828,18 @@ namespace KeySearcher
                 if (settings.UseExternalClient)
                 {
                     GuiLogMessage(Resources.Waiting_for_external_client_, NotificationLevel.Info);
+                    if (cryptoolServer != null)
+                    {
+
+                    }
                     cryptoolServer = new CryptoolServer();
-                    externalClientConnected = null;
+                    waitingExternalClients.Clear();
                     cryptoolServer.Port = settings.Port;
-                    cryptoolServer.OnJobCompleted += server_OnJobCompleted;
-                    cryptoolServer.OnClientConnected += server_OnClientConnected;
+                    cryptoolServer.OnJobCompleted += cryptoolServer_OnJobCompleted;
+                    cryptoolServer.OnClientAuth = cryptoolServer_OnClientAuth;
                     cryptoolServer.OnClientDisconnected += cryptoolServer_OnClientDisconnected;
+                    cryptoolServer.OnClientRequestedJob += cryptoolServer_OnClientRequestedJob;
+                    cryptoolServer.OnErrorLog += cryptoolServer_OnErrorLog;
                     serverThread = new Thread(new ThreadStart(delegate
                                                                       {
                                                                           cryptoolServer.Run();
@@ -849,9 +861,11 @@ namespace KeySearcher
                 {
                     //stop server here!
                     cryptoolServer.Shutdown();
-                    cryptoolServer.OnJobCompleted -= server_OnJobCompleted;
-                    cryptoolServer.OnClientConnected -= server_OnClientConnected;
+                    cryptoolServer.OnJobCompleted -= cryptoolServer_OnJobCompleted;
+                    cryptoolServer.OnClientAuth = null;
                     cryptoolServer.OnClientDisconnected -= cryptoolServer_OnClientDisconnected;
+                    cryptoolServer.OnClientRequestedJob -= cryptoolServer_OnClientRequestedJob;
+                    cryptoolServer.OnErrorLog -= cryptoolServer_OnErrorLog;
                 }
             }
         }
@@ -913,11 +927,20 @@ namespace KeySearcher
                     externalKeysProcessed = 0;
                     externalKeyTranslator = ControlMaster.getKeyTranslator();
                     externalKeyTranslator.SetKeys(pattern);
-                    if (externalClientConnected != null)
-                        AssignJobToClient(externalClientConnected, externalKeySearcherOpenCLCode.CreateOpenCLBruteForceCode(externalKeyTranslator));
+                    currentExternalJobGuid = Guid.NewGuid();
+                    foreach (var client in waitingExternalClients)
+                    {
+                        AssignJobToClient(client, externalKeySearcherOpenCLCode.CreateOpenCLBruteForceCode(externalKeyTranslator));
+                    }
+                    waitingExternalClients.Clear();
+                    externalClientJobsAvailable = true;
                 }
                 waitForExternalClientToFinish.Reset();
                 waitForExternalClientToFinish.WaitOne();
+                lock (this)
+                {
+                    externalClientJobsAvailable = false;
+                }
             }
             else
             {
@@ -1069,30 +1092,28 @@ namespace KeySearcher
         void cryptoolServer_OnClientDisconnected(EndPoint client)
         {
             GuiLogMessage(Resources.Client_disconnected_, NotificationLevel.Info);
-            externalClientConnected = null;
-        }
-
-        void server_OnClientConnected(System.Net.EndPoint client, string identification)
-        {
             lock (this)
             {
-                if (externalClientConnected == null)
-                {
-                    externalClientConnected = client;
-                    GuiLogMessage(string.Format(Resources.Client__0__connected_, identification), NotificationLevel.Info);
-                    AssignJobToClient(client, externalKeySearcherOpenCLCode.CreateOpenCLBruteForceCode(externalKeyTranslator));
-                }
-                else
-                {
-                    GuiLogMessage(Resources.Client_tried_to_connect__but_only_one_client_allowed_, NotificationLevel.Info);
-                }
+                waitingExternalClients.Remove(client);
             }
+        }
+
+        bool cryptoolServer_OnClientAuth(System.Net.EndPoint client, string name, string password)
+        {
+            if(settings.ExternalClientPassword.Length == 0 ||
+                settings.ExternalClientPassword == password)
+            {
+                GuiLogMessage(string.Format(Resources.Client__0__connected_, name), NotificationLevel.Info);
+                return true;
+            }
+            GuiLogMessage(string.Format(Resources.Client__0__tried_to_auth_with_invalid_password, name), NotificationLevel.Info);
+            return false;
         }
 
         private void AssignJobToClient(EndPoint client, string src)
         {
             JobInput j = new JobInput();
-            j.Guid = Guid.NewGuid().ToString();
+            j.Guid = currentExternalJobGuid.ToString();
             j.Src = src;
             var key = externalKeyTranslator.GetKey();
             j.Key = key;
@@ -1104,9 +1125,21 @@ namespace KeySearcher
             assignTime = DateTime.Now;
         }
 
-        void server_OnJobCompleted(System.Net.EndPoint client, JobResult jr)
+        void cryptoolServer_OnJobCompleted(System.Net.EndPoint client, JobResult jr)
         {
             GuiLogMessage(string.Format(Resources.Client_returned_result_of_job_with_Guid__0__, jr.Guid), NotificationLevel.Info);
+            lock (this)
+            {
+                if (!jr.Guid.Equals(currentExternalJobGuid.ToString()))
+                {
+                    GuiLogMessage(string.Format(Resources.Received_late_job_result_0_from_client_1, jr.Guid, client), NotificationLevel.Warning);
+                    return;
+                }
+
+                // Set new guid. Will prevent concurrent clients
+                // from supplying old results for new chunks.
+                currentExternalJobGuid = Guid.NewGuid();
+            }
             //check:
             var op = this.costMaster.getRelationOperator();
             foreach (var res in jr.ResultList)
@@ -1155,15 +1188,35 @@ namespace KeySearcher
                                                                                                              keysInThisChunk, externalKeysProcessed, keysPerSec);
                                                                                     }, null);
 
-
-            if (externalKeysProcessed != keysInThisChunk)
-            {
-                AssignJobToClient(client, null);
-            }
-            else
+            if (externalKeysProcessed == keysInThisChunk)
             {
                 waitForExternalClientToFinish.Set();
+                lock (this)
+                {
+                    externalClientJobsAvailable = false;
+                }
             }
+        }
+
+        void cryptoolServer_OnErrorLog(string str)
+        {
+            GuiLogMessage(str, NotificationLevel.Error);
+        }
+
+        void cryptoolServer_OnClientRequestedJob(EndPoint ipep)
+        {
+            lock (this)
+            {
+                if(externalClientJobsAvailable)
+                {
+                    AssignJobToClient(ipep, externalKeySearcherOpenCLCode.CreateOpenCLBruteForceCode(externalKeyTranslator));
+                }
+                else
+                {
+                    waitingExternalClients.Add(ipep);
+                }
+            }
+        
         }
 
         #endregion

@@ -1,2 +1,2 @@
-void networkThread(sockaddr_in, int);
+void networkThread(sockaddr_in, int, const char*);
 

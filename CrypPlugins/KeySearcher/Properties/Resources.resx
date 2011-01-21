@@ -591,4 +591,16 @@
   <data name="Statistics" xml:space="preserve">
     <value>Statistics</value>
   </data>
+  <data name="ExternalClientPasswordSettings" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="ExternalClientPasswordSettingsDesc" xml:space="preserve">
+    <value>Password used for authenticating external clients</value>
+  </data>
+  <data name="Received_late_job_result_0_from_client_1" xml:space="preserve">
+    <value>Received late job result {0} from client '{1}'</value>
+  </data>
+  <data name="Client__0__tried_to_auth_with_invalid_password" xml:space="preserve">
+    <value>Client '{0}' tried to authenticate using an invalid password</value>
+  </data>
 </root>
