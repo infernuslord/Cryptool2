@@ -405,6 +405,21 @@ namespace KeySearcher
             }
         }
 
+        private String externalClientPassword = "";
+        [TaskPane("ExternalClientPasswordSettings", "ExternalClientPasswordSettingsDesc", "GroupExternalClient", 3, false, ControlType.TextBoxHidden)]
+        public String ExternalClientPassword
+        {
+            get { return externalClientPassword; }
+            set
+            {
+                if (value != externalClientPassword)
+                {
+                    externalClientPassword = value;
+                    hasChanges = true;
+                    OnPropertyChanged("ExternalClientPassword");
+                }
+            }
+        }
         #endregion
 
         #region csv path
