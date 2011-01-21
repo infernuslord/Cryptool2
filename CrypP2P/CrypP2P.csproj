@@ -62,10 +62,6 @@
       <HintPath>..\appreferences\certificatelibrary.dll</HintPath>
       <Private>false</Private>
     </Reference>
-    <Reference Include="CertServices">
-      <HintPath>..\appreferences\certservices.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
     <Reference Include="FullMeshDHT">
       <HintPath>..\appreferences\fullmeshdht.dll</HintPath>
       <Private>false</Private>
@@ -96,10 +92,6 @@
     </Reference>
     <Reference Include="RUDP">
       <HintPath>..\appreferences\rudp.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="Stun">
-      <HintPath>..\appreferences\stun.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="Util">
