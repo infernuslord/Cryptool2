@@ -25,6 +25,12 @@ namespace Wizard
         public event OpenProjectFileHandler OnOpenProjectFile;
         public event EditorSpecificPluginsChanged OnEditorSpecificPluginsChanged;
         public event OpenTabHandler OnOpenTab;
+        
+        public Wizard()
+        {
+            wizardControl.OnOpenTab += (content, title, parent) => OnOpenTab(content, title, parent);
+            wizardControl.OnGuiLogNotificationOccured += (sender, args) => OnGuiLogNotificationOccured(this, new GuiLogEventArgs(args.Message, this, args.NotificationLevel));
+        }
 
         private WizardSettings wizardSettings = new WizardSettings();
         public ISettings Settings
@@ -209,6 +215,11 @@ namespace Wizard
         public bool CanPrint
         {
             get { return false; }
+        }
+
+        public string SamplesDir
+        {
+            set { wizardControl.SamplesDir = value; }
         }
 
         public List<EditorSpecificPluginInfo> EditorSpecificPlugins { get; set; }

@@ -413,6 +413,11 @@ namespace WorkspaceManager
             get { return true; }
         }
 
+        public string SamplesDir
+        {
+            set {  }
+        }
+
         /// <summary>
         /// 
         /// </summary>

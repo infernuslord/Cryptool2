@@ -107,7 +107,7 @@
             </Border>
         </Grid>
 
-        <ScrollViewer Grid.Row="2" HorizontalAlignment="Stretch" Name="inputPanel" VerticalAlignment="Stretch" >
+        <ScrollViewer Grid.Row="2" HorizontalAlignment="Stretch" Name="inputPanel" VerticalAlignment="Stretch" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
             <StackPanel Name="inputStack" Orientation="Vertical"/>
         </ScrollViewer>
         
