@@ -10,84 +10,84 @@
   <!-- This is the step's description. -->
   <desc lang="en-US" >Select a classic encryption/decryption algorithm.</desc>
 
-  <!-- Caesar Item -->
-  <item id ="Caesar" image="Caesar">
+  <!-- Caesar input -->
+  <input id ="Caesar" image="Caesar">
     <name lang="en-US" >Caesar</name>
     <description lang="en-US" >
       Caesar is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
     </description>
-  </item>
+  </input>
 
-  <!-- Vigenère Item -->
-  <item id ="Vigenere" image="Vigenere">
+  <!-- Vigenère input -->
+  <input id ="Vigenere" image="Vigenere">
     <name lang="en-US" >Vigenère</name>
     <description lang="en-US" >
       Vigenère is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
     </description>
-  </item>
+  </input>
 
-  <!-- Substitution Item -->
-  <item id ="Substitution" image="Substitution">
+  <!-- Substitution input -->
+  <input id ="Substitution" image="Substitution">
     <name lang="en-US" >Substitution</name>
     <description lang="en-US" >
       Substitution is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
     </description>
-  </item>
+  </input>
 
-  <!-- Enigma Item -->
-  <item id ="Enigma" image="Enigma">
+  <!-- Enigma input -->
+  <input id ="Enigma" image="Enigma">
     <name lang="en-US" >Enigma</name>
     <description lang="en-US" >
       Enigma is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
     </description>
-  </item>
+  </input>
 
-  <!-- Playfair Item -->
-  <item id ="Playfair" image="Playfair">
+  <!-- Playfair input -->
+  <input id ="Playfair" image="Playfair">
     <name lang="en-US" >Playfair</name>
     <description lang="en-US" >
       Playfair is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
     </description>
-  </item>
+  </input>
 
-  <!-- ADFGVX Item -->
-  <item id ="ADFGVX" image="ADFGVX">
+  <!-- ADFGVX input -->
+  <input id ="ADFGVX" image="ADFGVX">
     <name lang="en-US" >ADFGVX</name>
     <description lang="en-US" >
       ADFGVX is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
     </description>
-  </item>
+  </input>
 
-  <!-- XOR Item -->
-  <item id ="XOR" image="XOR">
+  <!-- XOR input -->
+  <input id ="XOR" image="XOR">
     <name lang="en-US" >XOR</name>
     <description lang="en-US" >
       XOR is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
     </description>
-  </item>
+  </input>
 
-  <!-- Vernam Item -->
-  <item id ="Vernam" image="Vernam">
+  <!-- Vernam input -->
+  <input id ="Vernam" image="Vernam">
     <name lang="en-US" >Vernam</name>
     <description lang="en-US" >
       Vernam is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
     </description>
-  </item>
+  </input>
 
-  <!-- Transposition Item -->
-  <item id ="Transposition" image="Transposition">
+  <!-- Transposition input -->
+  <input id ="Transposition" image="Transposition">
     <name lang="en-US" >Transposition</name>
     <description lang="en-US" >
       Transposition is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
     </description>
-  </item>
+  </input>
 
-  <!-- Scytale Item -->
-  <item id ="Scytale" image="Scytale">
+  <!-- Scytale input -->
+  <input id ="Scytale" image="Scytale">
     <name lang="en-US" >Scytale</name>
     <description lang="en-US" >
       Scytale is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
     </description>
-  </item>
+  </input>
 
 </step>

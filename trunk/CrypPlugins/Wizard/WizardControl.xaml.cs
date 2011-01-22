@@ -128,67 +128,107 @@ namespace Wizard
             if (desc != null)
                 descHeader.Content = desc.Value;
 
-            //generate radio buttons
-            IEnumerable<XElement> categories = element.Elements("category");
-            IEnumerable<XElement> items = element.Elements("item");
 
-            if (items.Any())
-                categories = categories.Union(items);
-
-            if (categories.Any())
+            if (element.Name == "input")
             {
-                foreach (XElement ele in categories)
+                categoryGrid.Visibility = Visibility.Hidden;
+                inputPanel.Visibility = Visibility.Visible;
+
+                var inputBoxes = element.Elements("inputBox");
+                inputStack.Children.Clear();
+                
+                foreach (var box in inputBoxes)
                 {
-                    Border border = new Border();
-                    Label l = new Label();
-                    Image i = new Image();
-                    StackPanel sp = new StackPanel();
+                    var description = new Label();
+                    description.Content = FindElementInElement(box, "description").Value;
+                    inputStack.Children.Add(description);
 
-                    border.Child = sp;
-                    border.VerticalAlignment = VerticalAlignment.Stretch;
-                    border.CornerRadius = new CornerRadius(5, 0, 0, 5);
-                    border.BorderBrush = Brushes.LightSeaGreen;
+                    var textBox = new TextBox();
+                    textBox.MinLines = 4;
+                    inputStack.Children.Add(textBox);
+                    if (box.Attribute("defaultValue") != null)
+                        textBox.Text = box.Attribute("defaultValue").Value;
+                }
 
-                    l.Height = 30;
-                    l.HorizontalAlignment = HorizontalAlignment.Stretch;
-                    XElement label = FindElementInElement(ele, "name");
-                    if (label != null)
-                        l.Content = label.Value;
+                var next = element.Element("input");
+                if (next != null)
+                    inputPanel.Tag = next;
+                else
+                    inputPanel.Tag = element.Element("category");
 
-                    i.Width = 26;
-                    string image = ele.Attribute("image").Value;
-                    if (image != null)
+                if (inputPanel.Tag != null)
+                    nextButton.IsEnabled = true;
+            }
+            else if (element.Name == "category")
+            {
+                categoryGrid.Visibility = Visibility.Visible;
+                inputPanel.Visibility = Visibility.Hidden;
+                
+                radioButtonStackPanel.Children.Clear();
+                //ResetBackground();
+
+                //generate radio buttons
+                IEnumerable<XElement> categories = element.Elements("category");
+                IEnumerable<XElement> inputs = element.Elements("input");
+
+                if (inputs.Any())
+                    categories = categories.Union(inputs);
+
+                if (categories.Any())
+                {
+                    foreach (XElement ele in categories)
                     {
-                        ImageSource ims = (ImageSource)TryFindResource(image);
-                        if (ims != null)
+                        Border border = new Border();
+                        Label l = new Label();
+                        Image i = new Image();
+                        StackPanel sp = new StackPanel();
+
+                        border.Child = sp;
+                        border.VerticalAlignment = VerticalAlignment.Stretch;
+                        border.CornerRadius = new CornerRadius(5, 0, 0, 5);
+                        border.BorderBrush = Brushes.LightSeaGreen;
+
+                        l.Height = 30;
+                        l.HorizontalAlignment = HorizontalAlignment.Stretch;
+                        XElement label = FindElementInElement(ele, "name");
+                        if (label != null)
+                            l.Content = label.Value;
+
+                        i.Width = 26;
+                        string image = ele.Attribute("image").Value;
+                        if (image != null)
                         {
-                            i.Source = ims;
-                            sp.Children.Add(i);
+                            ImageSource ims = (ImageSource) TryFindResource(image);
+                            if (ims != null)
+                            {
+                                i.Source = ims;
+                                sp.Children.Add(i);
+                            }
                         }
-                    }
 
-                    sp.VerticalAlignment = VerticalAlignment.Stretch;
-                    sp.HorizontalAlignment = HorizontalAlignment.Stretch;
-                    sp.Orientation = Orientation.Horizontal;
-                    sp.Children.Add(l);
+                        sp.VerticalAlignment = VerticalAlignment.Stretch;
+                        sp.HorizontalAlignment = HorizontalAlignment.Stretch;
+                        sp.Orientation = Orientation.Horizontal;
+                        sp.Children.Add(l);
 
-                    RadioButton rb = new RadioButton();
-                    string id = ele.Attribute("id").Value;
-                    if (id != null)
-                        rb.Name = id;
-                    rb.Checked += rb_Checked;
-                    rb.HorizontalAlignment = HorizontalAlignment.Stretch;
-                    rb.VerticalAlignment = VerticalAlignment.Stretch;
-                    rb.HorizontalContentAlignment = HorizontalAlignment.Stretch;
-                    rb.Content = border;
-                    rb.Tag = ele;
+                        RadioButton rb = new RadioButton();
+                        string id = ele.Attribute("id").Value;
+                        if (id != null)
+                            rb.Name = id;
+                        rb.Checked += rb_Checked;
+                        rb.HorizontalAlignment = HorizontalAlignment.Stretch;
+                        rb.VerticalAlignment = VerticalAlignment.Stretch;
+                        rb.HorizontalContentAlignment = HorizontalAlignment.Stretch;
+                        rb.Content = border;
+                        rb.Tag = ele;
 
-                    radioButtonStackPanel.Children.Add(rb);
-                    if (choicePath.Count > 0 && id == choicePath.Last())
-                    {
-                        choicePath.RemoveAt(choicePath.IndexOf(choicePath.Last()));
-                        rb.IsChecked = true;
-                        nextButton.IsEnabled = true;
+                        radioButtonStackPanel.Children.Add(rb);
+                        if (choicePath.Count > 0 && id == choicePath.Last())
+                        {
+                            choicePath.RemoveAt(choicePath.IndexOf(choicePath.Last()));
+                            rb.IsChecked = true;
+                            nextButton.IsEnabled = true;
+                        }
                     }
                 }
             }
@@ -274,18 +314,24 @@ namespace Wizard
 
         private void SetNextContent(object sender, EventArgs e)
         {
-            ResetBackground();
-            for (int i = 0; i < radioButtonStackPanel.Children.Count; i++ )
+            if (categoryGrid.IsVisible)
             {
-                RadioButton b = (RadioButton)radioButtonStackPanel.Children[i];
-                if (b.IsChecked != null && (bool)b.IsChecked)
+                for (int i = 0; i < radioButtonStackPanel.Children.Count; i++)
                 {
-                    choicePath.Add(b.Name);
-                    radioButtonStackPanel.Children.Clear();
-                    description.Text = "";
-                    SetupPage((XElement)b.Tag);
-                    break;
+                    RadioButton b = (RadioButton) radioButtonStackPanel.Children[i];
+                    if (b.IsChecked != null && (bool) b.IsChecked)
+                    {
+                        choicePath.Add(b.Name);
+                        SetupPage((XElement) b.Tag);
+                        break;
+                    }
                 }
+            }
+            else if (inputPanel.IsVisible)
+            {
+                var nextElement = (XElement) inputPanel.Tag;
+                choicePath.Add(nextElement.Attribute("id").Value);
+                SetupPage(nextElement);
             }
 
             Storyboard mainGridStoryboardLeft = (Storyboard)FindResource("MainGridStoryboardNext2");
@@ -295,13 +341,19 @@ namespace Wizard
 
         private void SetLastContent(object sender, EventArgs e)
         {
-            ResetBackground();
-            if (radioButtonStackPanel.Children.Count > 0)
+            XElement ele = null;
+            if (categoryGrid.IsVisible && radioButtonStackPanel.Children.Count > 0)
             {
-                RadioButton b = (RadioButton)radioButtonStackPanel.Children[0];
-                XElement ele = (XElement)b.Tag;
-                radioButtonStackPanel.Children.Clear();
-                description.Text = "";
+                RadioButton b = (RadioButton) radioButtonStackPanel.Children[0];
+                ele = (XElement) b.Tag;
+            }
+            else if (inputPanel.IsVisible)
+            {
+                ele = (XElement) inputPanel.Tag;
+            }
+
+            if (ele != null)
+            {
                 XElement grandParent = ele.Parent.Parent;
                 if (grandParent != null)
                     SetupPage(grandParent);

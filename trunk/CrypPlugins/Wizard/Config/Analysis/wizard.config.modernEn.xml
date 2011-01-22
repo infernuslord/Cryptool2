@@ -32,13 +32,13 @@
     <!-- This is the step's description. -->
     <desc lang="en-US" >Select an asymmetric encryption/decryption algorithm.</desc>
     
-    <!-- RSA Item -->
-    <item id="RSAEn" image="RSA" >
+    <!-- RSA input -->
+    <input id="RSAEn" image="RSA" >
       <name lang="en-US" >RSA</name>
       <description lang="en-US" >
         RSA is an asymmetric modern algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
       </description>
-    </item>
+    </input>
   </category>
 
 </step>

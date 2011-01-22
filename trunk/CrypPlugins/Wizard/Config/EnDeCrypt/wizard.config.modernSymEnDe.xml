@@ -10,60 +10,60 @@
   <!-- This is the step's description. -->
   <desc lang="en-US" >Select a modern symmetric encryption/decryption algorithm.</desc>
 
-  <!-- AES Item -->
-  <item id="AESEnDe" image="AES" >
+  <!-- AES input -->
+  <input id="AESEnDe" image="AES" >
     <name lang="en-US" >AES</name>
     <description lang="en-US" >
       AES is a symmetric modern algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
     </description>
-  </item>
+  </input>
 
-  <!-- DES Item -->
-  <item id="DESEnDe" image="DES" >
+  <!-- DES input -->
+  <input id="DESEnDe" image="DES" >
     <name lang="en-US" >DES</name>
     <description lang="en-US" >
       DES is a symmetric modern algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
     </description>
-  </item>
+  </input>
 
-  <!-- SDES Item -->
-  <item id="SDESEnDe" image="SDES" >
+  <!-- SDES input -->
+  <input id="SDESEnDe" image="SDES" >
     <name lang="en-US" >SDES</name>
     <description lang="en-US" >
       SDES is a symmetric modern algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
     </description>
-  </item>
+  </input>
 
-  <!-- Twofish Item -->
-  <item id="Two" image="Twofish" >
+  <!-- Twofish input -->
+  <input id="Two" image="Twofish" >
     <name lang="en-US" >Twofish</name>
     <description lang="en-US" >
       Twofish is a symmetric modern algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
     </description>
-  </item>
+  </input>
 
-  <!-- Trivium Item -->
-  <item id="Tri" image="Trivium" >
+  <!-- Trivium input -->
+  <input id="Tri" image="Trivium" >
     <name lang="en-US" >Trivium</name>
     <description lang="en-US" >
       Trivium is a symmetric modern algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
     </description>
-  </item>
+  </input>
 
-  <!-- TEA Item -->
-  <item id="TEA" image="TEA" >
+  <!-- TEA input -->
+  <input id="TEA" image="TEA" >
     <name lang="en-US" >TEA</name>
     <description lang="en-US" >
       TEA is a symmetric modern algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
     </description>
-  </item>
+  </input>
 
-  <!-- RC2 Item -->
-  <item id="RC2" image="RC2" >
+  <!-- RC2 input -->
+  <input id="RC2" image="RC2" >
     <name lang="en-US" >RC2</name>
     <description lang="en-US" >
       RC2 is a symmetric modern algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
     </description>
-  </item>
+  </input>
 
 </step>
