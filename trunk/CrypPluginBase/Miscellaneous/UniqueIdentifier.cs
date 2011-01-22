@@ -24,7 +24,11 @@ namespace Cryptool.PluginBase.Miscellaneous
             string cpuids = "";
             foreach (ManagementObject mob in moc)
             {
-                cpuids += mob.Properties["processorID"].Value.ToString();
+                var cpuid = mob.Properties["processorID"].Value;
+                if (cpuid != null)
+                {
+                    cpuids += cpuid.ToString();
+                }
             }
 
 

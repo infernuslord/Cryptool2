@@ -44,10 +44,13 @@ int main (int argc, char **argv)
         return 1;
     }
 
-    const char* password = "";
+    int pwlen = (argc==4?strlen(argv[3]):0) +1;
+    char password[pwlen];
+    bzero(password, pwlen);
     if(argc == 4)
     {
-        password = argv[3];
+        strcpy(password, argv[3]);
+        bzero(argv[3], pwlen);
     }
 
     int port = atoi(argv[2]);
