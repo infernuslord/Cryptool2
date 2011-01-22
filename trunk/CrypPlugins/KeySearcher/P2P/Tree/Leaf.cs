@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Numerics;
+using Cryptool.P2P;
 using KeySearcher.Helper;
 using KeySearcher.P2P.Exceptions;
 using KeySearcher.P2P.Storage;
@@ -22,9 +23,41 @@ namespace KeySearcher.P2P.Tree
 
         public void HandleResults(LinkedList<KeySearcher.ValueKey> result)
         {
-            Result = result;
-            UpdateActivity();
+            EnhanceUserInformation(result);
+            UpdateActivity();           
             UpdateDht();
+        }
+
+        private void EnhanceUserInformation(LinkedList<KeySearcher.ValueKey> result)
+        {
+            var enhancedResults = new LinkedList<KeySearcher.ValueKey>();
+            DateTime chunkstart = DateTime.UtcNow;
+            DateTime defaultstart = DateTime.MinValue;
+            string username = P2PSettings.Default.PeerName;
+            long maschineid = Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetID();
+            string maschinename = Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetHostName();
+
+            foreach (var valueKey in result)
+            {
+                KeySearcher.ValueKey vk = valueKey;
+
+                if ((username != null) && (!username.Equals("")))
+                {
+                    vk.user = username;
+                    vk.time = chunkstart;
+                    vk.maschid = maschineid;
+                    vk.maschname = maschinename;
+                }
+                else
+                {
+                    vk.user = "Unknown";
+                    vk.time = defaultstart;
+                    vk.maschid = 666;
+                    vk.maschname = "Devil";
+                }
+                enhancedResults.AddLast(vk);
+            }
+            Result = enhancedResults;
         }
 
         public BigInteger PatternId()
