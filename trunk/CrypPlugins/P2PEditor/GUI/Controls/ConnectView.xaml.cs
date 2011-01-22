@@ -70,7 +70,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
             EmailVerificationRequired = false;
             WrongPassword = false;
 
-            String path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "PeersAtPlay" + Path.DirectorySeparatorChar + "Certificates" + Path.DirectorySeparatorChar);
+            String path = PeerCertificate.DEFAULT_USER_CERTIFICATE_DIRECTORY;
             try
             {
                 if (!Directory.Exists(path))
