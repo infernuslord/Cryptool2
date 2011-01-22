@@ -10,44 +10,44 @@
   <!-- This is the step's description. -->
   <desc lang="en-US" >Select a hash function.</desc>
 
-  <!-- MD5 Item -->
-  <item id="MD5" image="MD5" >
+  <!-- MD5 input -->
+  <input id="MD5" image="MD5" >
     <name lang="en-US" >MD5</name>
     <description lang="en-US" >
       MD5 is a hash function... (add instead some really helpful text).
     </description>
-  </item>
+  </input>
 
-  <!-- SHA Item -->
-  <item id="SHA" image="SHA" >
+  <!-- SHA input -->
+  <input id="SHA" image="SHA" >
     <name lang="en-US" >SHA</name>
     <description lang="en-US" >
       SHA is a hash function... (add instead some really helpful text).
     </description>
-  </item>
+  </input>
 
-  <!-- RIPEMD160 Item -->
-  <item id="RIPEMD160" image="RIPEMD160" >
+  <!-- RIPEMD160 input -->
+  <input id="RIPEMD160" image="RIPEMD160" >
     <name lang="en-US" >RIPEMD160</name>
     <description lang="en-US" >
       RIPEMD160 is a hash function... (add instead some really helpful text).
     </description>
-  </item>
+  </input>
 
-  <!-- Tiger Item -->
-  <item id="Tiger" image="Tiger" >
+  <!-- Tiger input -->
+  <input id="Tiger" image="Tiger" >
     <name lang="en-US" >Tiger</name>
     <description lang="en-US" >
       Tiger is a hash function... (add instead some really helpful text).
     </description>
-  </item>
+  </input>
 
-  <!-- Whirlpool Item -->
-  <item id="Whirlpool" image="Whirlpool" >
+  <!-- Whirlpool input -->
+  <input id="Whirlpool" image="Whirlpool" >
     <name lang="en-US" >Whirlpool</name>
     <description lang="en-US" >
       Whirlpool is a hash function... (add instead some really helpful text).
     </description>
-  </item>
+  </input>
 
 </step>

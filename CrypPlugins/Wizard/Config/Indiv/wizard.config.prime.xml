@@ -10,28 +10,28 @@
   <!-- This is the step's description. -->
   <desc lang="en-US" >Select a prime number operation.</desc>
 
-  <!-- Factorization Item -->
-  <item id="Factorization" image="Primes" >
+  <!-- Factorization input -->
+  <input id="Factorization" image="Primes" >
     <name lang="en-US" >Prime Number Factorization</name>
     <description lang="en-US" >
       Select to factorize prime numbers.
     </description>
-  </item>
+  </input>
 
-  <!-- Generation Item -->
-  <item id="Generation" image="Primes" >
+  <!-- Generation input -->
+  <input id="Generation" image="Primes" >
     <name lang="en-US" >Prime Number Generation</name>
     <description lang="en-US" >
       Select to generate prime numbers.
     </description>
-  </item>
+  </input>
 
-  <!-- Test Item -->
-  <item id="Test" image="Primes" >
+  <!-- Test input -->
+  <input id="Test" image="Primes" >
     <name lang="en-US" >Prime Number Test</name>
     <description lang="en-US" >
       Select to test numbers for being prime.
     </description>
-  </item>
+  </input>
 
 </step>

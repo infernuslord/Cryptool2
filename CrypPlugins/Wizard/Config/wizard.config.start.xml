@@ -2,7 +2,7 @@
 
 <!-- This is the entry XML file defining the first categories a user can select from (the first step). -->
 
-<step>
+<category>
 
   <!-- This is the step's headline. It should be short, but precise. -->
   <headline lang="en-US" >Task Selection</headline>
@@ -41,5 +41,5 @@
     <file resource="Wizard.Config.Indiv.wizard.config.indiv.xml" />
   </category>
   
-</step>
+</category>
 

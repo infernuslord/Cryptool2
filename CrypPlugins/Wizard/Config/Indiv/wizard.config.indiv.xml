@@ -41,13 +41,13 @@
     <!-- This is the step's description. -->
     <desc lang="en-US" >Select a key exchange algorithm.</desc>
 
-    <!-- Diffie Hellman Item -->
-    <item id="Diffie" image="Key" >
+    <!-- Diffie Hellman input -->
+    <input id="Diffie" image="Key" >
       <name lang="en-US" >Diffie Hellman</name>
       <description lang="en-US" >
         Diffie Hellman is a key exchange algorithm... (add instead some really helpful text).
       </description>
-    </item>
+    </input>
   </category>
 
 </step>
