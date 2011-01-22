@@ -253,25 +253,14 @@ namespace Wizard
 
         private void nextButton_Click(object sender, RoutedEventArgs e)
         {
-            Storyboard mainGridStoryboardLeft = (Storyboard)FindResource("MainGridStoryboardLeft");
+            Storyboard mainGridStoryboardLeft = (Storyboard)FindResource("MainGridStoryboardNext1");
             mainGridStoryboardLeft.Begin();
         }
 
         private void backButton_Click(object sender, RoutedEventArgs e)
         {
-            ResetBackground();
-            if (radioButtonStackPanel.Children.Count > 0)
-            {
-                RadioButton b = (RadioButton)radioButtonStackPanel.Children[0];
-                XElement ele = (XElement)b.Tag;
-                radioButtonStackPanel.Children.Clear();
-                description.Text = "";
-                XElement grandParent = ele.Parent.Parent;
-                if (grandParent != null)
-                    SetupPage(grandParent);
-                else
-                    SetupPage(wizardConfigXML); 
-            }
+            Storyboard mainGridStoryboardLeft = (Storyboard)FindResource("MainGridStoryboardBack1");
+            mainGridStoryboardLeft.Begin();
         }
 
         private void abortButton_Click(object sender, RoutedEventArgs e)
@@ -283,7 +272,7 @@ namespace Wizard
             SetupPage(wizardConfigXML);
         }
 
-        private void LeftAnimation_Completed(object sender, EventArgs e)
+        private void SetNextContent(object sender, EventArgs e)
         {
             ResetBackground();
             for (int i = 0; i < radioButtonStackPanel.Children.Count; i++ )
@@ -299,14 +288,29 @@ namespace Wizard
                 }
             }
 
-            Storyboard mainGridStoryboardLeft = (Storyboard)FindResource("MainGridStoryboardRight");
+            Storyboard mainGridStoryboardLeft = (Storyboard)FindResource("MainGridStoryboardNext2");
             mainGridStoryboardLeft.Begin();
         }
 
-        private void RightAnimation_Completed(object sender, EventArgs e)
+
+        private void SetLastContent(object sender, EventArgs e)
         {
+            ResetBackground();
+            if (radioButtonStackPanel.Children.Count > 0)
+            {
+                RadioButton b = (RadioButton)radioButtonStackPanel.Children[0];
+                XElement ele = (XElement)b.Tag;
+                radioButtonStackPanel.Children.Clear();
+                description.Text = "";
+                XElement grandParent = ele.Parent.Parent;
+                if (grandParent != null)
+                    SetupPage(grandParent);
+                else
+                    SetupPage(wizardConfigXML);
+            }
 
+            Storyboard mainGridStoryboardLeft = (Storyboard)FindResource("MainGridStoryboardBack2");
+            mainGridStoryboardLeft.Begin();
         }
-
     }
 }

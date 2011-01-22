@@ -53,11 +53,18 @@
             </Style.Triggers>
         </Style>
         
-        <Storyboard x:Key="MainGridStoryboardLeft">
-            <DoubleAnimation Storyboard.TargetName="MainGridTransform" Storyboard.TargetProperty="X" From="0" To="-900" Duration="0:0:0.5" Completed="LeftAnimation_Completed"/>
+        <Storyboard x:Key="MainGridStoryboardNext1">
+            <DoubleAnimation Storyboard.TargetName="MainGridTransform" Storyboard.TargetProperty="X" From="0" To="-1500" Duration="0:0:0.5" Completed="SetNextContent"/>
         </Storyboard>
-        <Storyboard x:Key="MainGridStoryboardRight">
-            <DoubleAnimation Storyboard.TargetName="MainGridTransform" Storyboard.TargetProperty="X" From="900" To="0" Duration="0:0:0.5" Completed="RightAnimation_Completed"/>
+        <Storyboard x:Key="MainGridStoryboardNext2">
+            <DoubleAnimation Storyboard.TargetName="MainGridTransform" Storyboard.TargetProperty="X" From="1500" To="0" Duration="0:0:0.5"/>
+        </Storyboard>
+
+        <Storyboard x:Key="MainGridStoryboardBack1">
+            <DoubleAnimation Storyboard.TargetName="MainGridTransform" Storyboard.TargetProperty="X" From="0" To="1500" Duration="0:0:0.5" Completed="SetLastContent"/>
+        </Storyboard>
+        <Storyboard x:Key="MainGridStoryboardBack2">
+            <DoubleAnimation Storyboard.TargetName="MainGridTransform" Storyboard.TargetProperty="X" From="-1500" To="0" Duration="0:0:0.5"/>
         </Storyboard>
     </UserControl.Resources>
     <Grid>
