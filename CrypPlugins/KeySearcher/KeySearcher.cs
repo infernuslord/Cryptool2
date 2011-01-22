@@ -572,7 +572,6 @@ namespace KeySearcher
 
         private void checkOpenCLResults(IKeyTranslator keyTranslator, float[] costArray, IControlEncryption sender, int bytesToUse, int add)
         {
-//            string username = P2PSettings.Default.PeerName;
             var op = this.costMaster.getRelationOperator();
             for (int i = 0; i < costArray.Length; i++)
             {
@@ -583,23 +582,6 @@ namespace KeySearcher
                     ValueKey valueKey = new ValueKey { value = cost, key = keyTranslator.GetKeyRepresentation(i + add) };
                     valueKey.keya = keyTranslator.GetKeyFromRepresentation(valueKey.key);
                     valueKey.decryption = sender.Decrypt(this.encryptedData, valueKey.keya, InitVector, bytesToUse);
-/*                    //----------------------------------------------
-                    if ((username != null) && (!username.Equals("")))
-                    {
-                        valueKey.user = username;
-                        valueKey.time = DateTime.UtcNow;
-                        valueKey.maschid = Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetID();
-                        valueKey.maschname = Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetHostName();
-                    }
-                    else
-                    {
-                        valueKey.user = "Unknown";
-                        valueKey.time = DateTime.MinValue;
-                        valueKey.maschid = 666;
-                        valueKey.maschname = "Devil";
-                    }
-
-*/                    //----------------------------------------------
                     valuequeue.Enqueue(valueKey);
                 }
             }
@@ -676,7 +658,6 @@ namespace KeySearcher
         private bool decryptAndCalculate(IControlEncryption sender, int bytesToUse, byte[] keya, IKeyTranslator keyTranslator)
         {
             ValueKey valueKey = new ValueKey();
-//            string username = P2PSettings.Default.PeerName;
 
             try
             {
@@ -713,24 +694,6 @@ namespace KeySearcher
                 {
                     valueKey.key = keyTranslator.GetKeyRepresentation();
                     valueKey.keya = (byte[])keya.Clone();
-/*                    //----------------------------------------------
-                    if ((username != null) && !(username.Equals("")))
-                    {
-                        valueKey.user = username;
-                        valueKey.time = DateTime.UtcNow;
-                        valueKey.maschid = Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetID();
-                        valueKey.maschname = Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetHostName();
-                    }
-                    else
-                    {
-                        valueKey.user = "Unknown";
-                        valueKey.time = DateTime.MinValue;
-                        valueKey.maschid = 666;
-                        valueKey.maschname = "Devil";
-
-                    }
-*/                    //----------------------------------------------
-
                     valuequeue.Enqueue(valueKey);                    
                 }
             }
@@ -740,22 +703,6 @@ namespace KeySearcher
                 {
                     valueKey.key = keyTranslator.GetKeyRepresentation();
                     valueKey.keya = (byte[])keya.Clone();
-/*                    //----------------------------------------------
-                    if ((username != null) && (!username.Equals("")))
-                    {
-                        valueKey.user = username;
-                        valueKey.time = DateTime.UtcNow;
-                        valueKey.maschid = Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetID();
-                        valueKey.maschname = Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetHostName();
-                    }
-                    else
-                    {
-                        valueKey.user = "Unknown";
-                        valueKey.time = DateTime.MinValue;
-                        valueKey.maschid = 666;
-                        valueKey.maschname = "Devil";
-                    }
-*/                    //----------------------------------------------
                     valuequeue.Enqueue(valueKey);
                 }
             }
@@ -1151,23 +1098,7 @@ namespace KeySearcher
                     ValueKey valueKey = new ValueKey { value = cost, key = externalKeyTranslator.GetKeyRepresentation(res.Value) };
                     valueKey.keya = externalKeyTranslator.GetKeyFromRepresentation(valueKey.key);
                     valueKey.decryption = sender.Decrypt(this.encryptedData, valueKey.keya, InitVector, bytesToUse);
-/*                    string username = P2PSettings.Default.PeerName;
-                    //----------------------------------------------
-                    if ((username != null) && (!username.Equals("")))
-                    {
-                        valueKey.user = username;
-                        valueKey.time = DateTime.UtcNow;
-                        valueKey.maschid = Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetID();
-                        valueKey.maschname = Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetHostName();
-                    }
-                    else
-                    {
-                        valueKey.user = "Unknown";
-                        valueKey.time = DateTime.MinValue;
-                        valueKey.maschid = 666;
-                        valueKey.maschname = "Devil";
-                    }
-*/                    //----------------------------------------------
+
                     valuequeue.Enqueue(valueKey);
                 }
             }
@@ -1338,12 +1269,6 @@ namespace KeySearcher
                 valueKey.value = double.MinValue;
             valueKey.key = Resources.dummykey;
             valueKey.decryption = new byte[0];
-/*            //--------------------------------------
-            valueKey.user = "Unknown";
-            valueKey.time = DateTime.MinValue;
-            valueKey.maschid = 666;
-            valueKey.maschname = "Devil";
-*/            //--------------------------------------
             value_threshold = valueKey.value;
             LinkedListNode<ValueKey> node = costList.AddFirst(valueKey);
             for (int i = 1; i < maxInList; i++)
@@ -1705,12 +1630,12 @@ namespace KeySearcher
             public String key;
             public byte[] decryption;
             public byte[] keya;
-/*            //---------------------
+            //---------------------
             public string user { get; set; }
             public DateTime time { get; set; }
             public long maschid { get; set; }
             public string maschname { get; set; }
-*/            //---------------------
+            //---------------------
         };
     }
 

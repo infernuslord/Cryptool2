@@ -241,19 +241,11 @@ namespace KeySearcher.P2P.Presentation
                         plainText = plainText.Substring(0, 30) + "...";
 
                     entry.Text = plainText;
-/*                    //-------
+
                     entry.User = linkedListNode.Value.user;
                     entry.Time = linkedListNode.Value.time;
                     entry.Maschid = linkedListNode.Value.maschid;
                     entry.Maschname = linkedListNode.Value.maschname;
-*/                    //-------
-
-//--------------------------------------
-                    entry.User = "Unknown";
-                    entry.Time = DateTime.MinValue;
-                    entry.Maschid = 666;
-                    entry.Maschname = "Devil";
-//--------------------------------------
 
                     status.TopList.Add(entry);
                     linkedListNode = linkedListNode.Next;
