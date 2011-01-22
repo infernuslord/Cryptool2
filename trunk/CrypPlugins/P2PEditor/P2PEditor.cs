@@ -195,6 +195,11 @@ namespace Cryptool.P2PEditor
             get { return false; }
         }
 
+        public string SamplesDir
+        {
+            set {  }
+        }
+
         public List<EditorSpecificPluginInfo> EditorSpecificPlugins
         {
             get { return new List<EditorSpecificPluginInfo>(); }

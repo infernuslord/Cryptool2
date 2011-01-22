@@ -67,6 +67,8 @@ namespace Cryptool.PluginBase.Editor
         bool HasChanges { get; }
         bool CanPrint { get; }
 
+        string SamplesDir { set; }
+
         /// <summary>
         /// Gets the editor specific plugins, e.g. connector plugins to build subworkspace and the
         /// currently available subworkspaces.

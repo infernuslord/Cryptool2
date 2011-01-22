@@ -19,6 +19,8 @@ using System.Windows.Threading;
 using System.Threading;
 using System.Collections;
 using System.Globalization;
+using Cryptool.PluginBase;
+using WorkspaceManager.Model;
 
 namespace Wizard
 {
@@ -34,6 +36,12 @@ namespace Wizard
         private const string configXMLPath = "Wizard.Config.wizard.config.start.xml";
         private const string defaultLang = "en-US";
         private XElement wizardConfigXML;
+        private Dictionary<string, PluginPropertyValue> propertyValueDict = new Dictionary<string, PluginPropertyValue>();
+
+        internal event OpenTabHandler OnOpenTab;
+        internal event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
+
+        internal string SamplesDir { set; private get; }
 
         public WizardControl()
         {
@@ -104,6 +112,11 @@ namespace Wizard
 
         private void SetupPage(XElement element)
         {
+            if ((element.Name == "loadSample") && (element.Attribute("file") != null))
+            {
+                LoadSample(element.Attribute("file").Value);
+            }
+
             XElement parent = element.Parent;
             if (parent == null)
             {
@@ -144,6 +157,7 @@ namespace Wizard
                     inputStack.Children.Add(description);
 
                     var textBox = new TextBox();
+                    textBox.Tag = box;
                     textBox.MinLines = 4;
                     inputStack.Children.Add(textBox);
                     if (box.Attribute("defaultValue") != null)
@@ -155,6 +169,8 @@ namespace Wizard
                     inputPanel.Tag = next;
                 else
                     inputPanel.Tag = element.Element("category");
+                if (inputPanel.Tag == null)
+                    inputPanel.Tag = element.Element("loadSample");
 
                 if (inputPanel.Tag != null)
                     nextButton.IsEnabled = true;
@@ -170,9 +186,12 @@ namespace Wizard
                 //generate radio buttons
                 IEnumerable<XElement> categories = element.Elements("category");
                 IEnumerable<XElement> inputs = element.Elements("input");
+                IEnumerable<XElement> loadSamples = element.Elements("loadSamples");
 
                 if (inputs.Any())
                     categories = categories.Union(inputs);
+                if (loadSamples.Any())
+                    categories = categories.Union(loadSamples);
 
                 if (categories.Any())
                 {
@@ -212,9 +231,7 @@ namespace Wizard
                         sp.Children.Add(l);
 
                         RadioButton rb = new RadioButton();
-                        string id = ele.Attribute("id").Value;
-                        if (id != null)
-                            rb.Name = id;
+                        string id = GetElementID(ele);
                         rb.Checked += rb_Checked;
                         rb.HorizontalAlignment = HorizontalAlignment.Stretch;
                         rb.VerticalAlignment = VerticalAlignment.Stretch;
@@ -233,6 +250,43 @@ namespace Wizard
                 }
             }
 
+        }
+
+        private string GetElementID(XElement element)
+        {
+            if (element.Parent != null)
+            {
+                return GetElementID(element.Parent) + "[" + element.Parent.Nodes().ToList().IndexOf(element) + "]." + element.Name;
+            }
+            else
+                return "";
+        }
+
+        private void LoadSample(string file)
+        {
+            file = SamplesDir + "\\" + file;
+
+            var newEditor = new WorkspaceManager.WorkspaceManager();
+            var model = ModelPersistance.loadModel(file, newEditor);
+            newEditor.Open(model);
+
+            foreach (var c in propertyValueDict)
+            {
+                var ppv = c.Value;
+                try
+                {
+                    var plugin = model.AllPluginModels.Where(x => x.Name == ppv.PluginName).First().Plugin;
+                    var settings = plugin.Settings;
+                    var property = settings.GetType().GetProperty(ppv.PropertyName);
+                    property.SetValue(settings, ppv.Value, null);
+                }
+                catch (Exception)
+                {
+                    GuiLogMessage(string.Format("Failed settings plugin property {0}.{1} to \"{2}\"!", ppv.PluginName, ppv.PropertyName, ppv.Value), NotificationLevel.Error);
+                }
+            }
+
+            OnOpenTab(newEditor, "WizardContent", null);
         }
 
         void rb_Checked(object sender, RoutedEventArgs e)
@@ -321,7 +375,7 @@ namespace Wizard
                     RadioButton b = (RadioButton) radioButtonStackPanel.Children[i];
                     if (b.IsChecked != null && (bool) b.IsChecked)
                     {
-                        choicePath.Add(b.Name);
+                        choicePath.Add(GetElementID((XElement) b.Tag));
                         SetupPage((XElement) b.Tag);
                         break;
                     }
@@ -329,8 +383,18 @@ namespace Wizard
             }
             else if (inputPanel.IsVisible)
             {
+                foreach (var child in inputStack.Children)
+                {
+                    if (child is TextBox)
+                    {
+                        XElement ele = (XElement) ((TextBox)child).Tag;
+                        if (ele.Attribute("plugin") != null && ele.Attribute("property") != null)
+                            propertyValueDict.Add(GetElementID(ele), new PluginPropertyValue() {PluginName = ele.Attribute("plugin").Value, 
+                                PropertyName = ele.Attribute("property").Value, Value = ((TextBox)child).Text});
+                    }
+                }
                 var nextElement = (XElement) inputPanel.Tag;
-                choicePath.Add(nextElement.Attribute("id").Value);
+                choicePath.Add(GetElementID(nextElement));
                 SetupPage(nextElement);
             }
 
@@ -364,5 +428,18 @@ namespace Wizard
             Storyboard mainGridStoryboardLeft = (Storyboard)FindResource("MainGridStoryboardBack2");
             mainGridStoryboardLeft.Begin();
         }
+
+        private void GuiLogMessage(string message, NotificationLevel loglevel)
+        {
+            if (OnGuiLogNotificationOccured != null)
+                OnGuiLogNotificationOccured(null, new GuiLogEventArgs(message, null, loglevel));
+        }
+    }
+
+    internal struct PluginPropertyValue
+    {
+        public string PluginName;
+        public string PropertyName;
+        public string Value;
     }
 }
