@@ -82,6 +82,10 @@ namespace KeySearcher.P2P.Tree
 
         public override void Reset()
         {
+            ParentNode.Reset();
+            Result.Clear();
+            Activity.Clear();
+            StorageHelper.UpdateInDht(this);
         }
 
         public override void UpdateCache()
