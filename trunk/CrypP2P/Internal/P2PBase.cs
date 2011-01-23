@@ -448,7 +448,7 @@ namespace Cryptool.P2P.Internal
                 if (!IsConnected)
                     throw new NotConnectedException();
                 else
-                    throw new InvalidOperationException("SynchStore failed for some reason!");
+                    throw new InvalidOperationException("SynchRetrieve failed for some reason!");
             }
 
             LogToMonitor("End: SynchRetrieve. Key: " + key + ". Status: " + requestResult.Status);
@@ -495,7 +495,7 @@ namespace Cryptool.P2P.Internal
                 if (!IsConnected)
                     throw new NotConnectedException();
                 else
-                    throw new InvalidOperationException("SynchStore failed for some reason!");
+                    throw new InvalidOperationException("SynchRemove failed for some reason!");
             }
 
             LogToMonitor("End: SynchRemove. Key: " + key + ". Status: " + requestResult.Status);
