@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading;
 using Cryptool.P2P;
 using Cryptool.P2P.Internal;
 using Cryptool.PluginBase;
@@ -135,18 +136,28 @@ namespace KeySearcher.P2P.Storage
                 //oldVersionFlag will be used to garantee further changes in the Stream
                 var oldVersionFlag = CheckNodeVersion(binaryReader);
 
-                if (nodeToUpdate is Node)
+                try
                 {
-                    UpdateNodeFromDht((Node) nodeToUpdate, binaryReader);
+                    if (nodeToUpdate is Node)
+                    {
+                        UpdateNodeFromDht((Node)nodeToUpdate, binaryReader);
+                    }
+                    else
+                    {
+                        UpdateLeafFromDht((Leaf)nodeToUpdate, binaryReader);
+                    }
                 }
-                else
+                catch (Exception e)
                 {
-                    UpdateLeafFromDht((Leaf) nodeToUpdate, binaryReader);
+                    // client id not available, use default
+                    keySearcher.GuiLogMessage(e.Message + ": Node causing the failure: " + nodeToUpdate.ToString(), NotificationLevel.Error);
+                    nodeToUpdate.Reset();
+                    throw new InvalidOperationException();
                 }
 
                 // Load results
                 var resultCount = binaryReader.ReadInt32();
-        
+
                 for (var i = 0; i < resultCount; i++)
                 {
                     try
@@ -183,45 +194,54 @@ namespace KeySearcher.P2P.Storage
                     catch(Exception e)
                     {
                         keySearcher.GuiLogMessage(e.Message + ": Node causing the failure: " + nodeToUpdate.ToString(),NotificationLevel.Error);
-                        if (nodeToUpdate is Leaf)
-                        {
-                            nodeToUpdate.Result.Clear();
-                        }
+                        nodeToUpdate.Reset();
+                        throw new InvalidOperationException();
                     }                                        
                 }
 
-                if (binaryReader.BaseStream.Length != binaryReader.BaseStream.Position)
+                try
                 {
-                    //Reading the number of avatarnames
-                    int avatarcount = binaryReader.ReadInt32();
-                    for (int i = 0; i < avatarcount; i++)
+                    if (binaryReader.BaseStream.Length != binaryReader.BaseStream.Position)
                     {
-                        //Reading the avatarname and the maschine-count for this name
-                        string avatarname = binaryReader.ReadString();
-                        int maschcount = binaryReader.ReadInt32();
-                        var readMaschcount = new Dictionary<long, Information>();
-
-                        for (int j = 0; j < maschcount; j++)
+                        //Reading the number of avatarnames
+                        int avatarcount = binaryReader.ReadInt32();
+                        for (int i = 0; i < avatarcount; i++)
                         {
-                            //reading the IDs and patterncount
-                            long maschID = binaryReader.ReadInt64();
-                            int count = binaryReader.ReadInt32();
-                            string host = binaryReader.ReadString();
-                            var date = DateTime.FromBinary(binaryReader.ReadInt64());
-                            readMaschcount.Add(maschID, new Information() {Count = count, Hostname = host, Date = date});
+                            //Reading the avatarname and the maschine-count for this name
+                            string avatarname = binaryReader.ReadString();
+                            int maschcount = binaryReader.ReadInt32();
+                            var readMaschcount = new Dictionary<long, Information>();
 
-                        }
+                            for (int j = 0; j < maschcount; j++)
+                            {
+                                //reading the IDs and patterncount
+                                long maschID = binaryReader.ReadInt64();
+                                int count = binaryReader.ReadInt32();
+                                string host = binaryReader.ReadString();
+                                var date = DateTime.FromBinary(binaryReader.ReadInt64());
+                                readMaschcount.Add(maschID, new Information() { Count = count, Hostname = host, Date = date });
 
-                        if (nodeToUpdate.Activity.ContainsKey(avatarname))
-                        {
-                            nodeToUpdate.Activity[avatarname] = readMaschcount;
-                        }
-                        else
-                        {
-                            nodeToUpdate.Activity.Add(avatarname, readMaschcount);
+                            }
+
+                            if (nodeToUpdate.Activity.ContainsKey(avatarname))
+                            {
+                                nodeToUpdate.Activity[avatarname] = readMaschcount;
+                            }
+                            else
+                            {
+                                nodeToUpdate.Activity.Add(avatarname, readMaschcount);
+                            }
                         }
                     }
+
                 }
+                catch (Exception e)
+                {
+                    keySearcher.GuiLogMessage(e.Message + ": Node causing the failure: " + nodeToUpdate.ToString(), NotificationLevel.Error);
+                    nodeToUpdate.Reset();
+                    throw new InvalidOperationException();
+                }
+
 
                 if (resultCount > 0)
                 {
@@ -232,8 +252,6 @@ namespace KeySearcher.P2P.Storage
 
                 nodeToUpdate.UpdateCache();
                 return requestResult;
-            
-
         }
 
         private static void UpdateNodeFromDht(Node nodeToUpdate, BinaryReader binaryReader)
@@ -245,15 +263,16 @@ namespace KeySearcher.P2P.Storage
         private static void UpdateLeafFromDht(Leaf nodeToUpdate, BinaryReader binaryReader)
         {
             var oldVersionFlag = CheckVersion(binaryReader);
-               
-            var date = DateTime.FromBinary(binaryReader.ReadInt64());
-            if (date > nodeToUpdate.LastReservationDate)
-            {
-                nodeToUpdate.LastReservationDate = date;
-            }
-            
+
             try
-            {
+            {   
+                var date = DateTime.FromBinary(binaryReader.ReadInt64());
+                if (date > nodeToUpdate.LastReservationDate)
+                {
+                    nodeToUpdate.LastReservationDate = date;
+                }
+            
+
                 if (binaryReader.BaseStream.Length - binaryReader.BaseStream.Position >= 8)
                 {
                     nodeToUpdate.setClientIdentifier(binaryReader.ReadInt64());
@@ -265,8 +284,7 @@ namespace KeySearcher.P2P.Storage
             }
             catch (Exception)
             {
-                // client id not available, use default
-                nodeToUpdate.setClientIdentifier(-1);
+                throw new Exception();
             }
             
         }

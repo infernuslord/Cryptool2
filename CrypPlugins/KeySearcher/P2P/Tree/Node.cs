@@ -70,6 +70,11 @@ namespace KeySearcher.P2P.Tree
         {
             leftChild = null;
             rightChild = null;
+            LeftChildFinished = false;
+            RightChildFinished = false;
+            Result.Clear();
+            Activity.Clear();
+            StorageHelper.UpdateInDht(this);
         }
 
         public override void UpdateCache()
