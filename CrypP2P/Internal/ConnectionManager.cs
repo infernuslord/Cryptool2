@@ -43,44 +43,13 @@ namespace Cryptool.P2P.Internal
         private readonly object connectLock = new object();
         private readonly P2PBase p2PBase;
         private DateTime lastConnectionAttempt;
-        private Dispatcher guiLogDispatcher = null;
-        private bool disconnected = false;
 
         public ConnectionManager(P2PBase p2PBase)
         {
             this.p2PBase = p2PBase;
-
-            bool reconnecting = false;
-            p2PBase.OnSystemLeft += new P2PBase.SystemLeft(delegate
-                                                               {
-                                                                   if (disconnected)
-                                                                       return;
-
-                                                                   //Enforce a minimum of 2 seconds between each connection attempt:
-                                                                   if ((lastConnectionAttempt - DateTime.Now).TotalSeconds < 2)
-                                                                       Thread.Sleep(2000);
-
-                                                                   P2PManager.GuiLogMessage("Lost P2P Connection. Try reconnecting...",
-                                                                        NotificationLevel.Error);
-                                                                   reconnecting = true;
-                                                                   this.Connect();
-                                                                   guiLogDispatcher = Dispatcher.CurrentDispatcher;
-                                                               });
-            p2PBase.OnSystemJoined += new P2PBase.SystemJoined(delegate
-                                                                   {
-                                                                       if (p2PBase.IsConnected && reconnecting)
-                                                                       {
-                                                                           //TODO: This doesn't work. GuiLogMessage will never be shown:
-                                                                           if (guiLogDispatcher != null)
-                                                                                guiLogDispatcher.Invoke(DispatcherPriority.Send, (SendOrPostCallback)delegate
-                                                                                {
-                                                                                    P2PManager.GuiLogMessage("Successfully reconnected!",
-                                                                                        NotificationLevel.Balloon);
-                                                                                }, null);
-                                                                           reconnecting = false;
-                                                                       }
-                                                                   });
         }
+
+        public bool Disconnected { get; private set; }
 
         private bool isConnecting;
         public bool IsConnecting { 
@@ -99,7 +68,7 @@ namespace Cryptool.P2P.Internal
         {
             lock (connectLock)
             {
-                disconnected = false;
+                Disconnected = false;
                 lastConnectionAttempt = DateTime.Now;
                 
                 if (p2PBase.IsConnected || IsConnecting)
@@ -126,7 +95,7 @@ namespace Cryptool.P2P.Internal
         {
             lock (connectLock)
             {
-                disconnected = true;
+                Disconnected = true;
                 if (!p2PBase.IsConnected || IsConnecting)
                 {
                     P2PManager.GuiLogMessage("Cannot disconnect, no connection or connection attempt active.",
