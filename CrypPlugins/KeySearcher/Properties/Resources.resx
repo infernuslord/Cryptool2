@@ -603,4 +603,7 @@
   <data name="Client__0__tried_to_auth_with_invalid_password" xml:space="preserve">
     <value>Client '{0}' tried to authenticate using an invalid password</value>
   </data>
+  <data name="KeysearcherSettings" xml:space="preserve">
+    <value>Keysearcher Settings</value>
+  </data>
 </root>

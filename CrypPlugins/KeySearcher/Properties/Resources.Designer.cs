@@ -754,6 +754,15 @@ namespace KeySearcher.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Keysearcher Settings.
+        /// </summary>
+        internal static string KeysearcherSettings {
+            get {
+                return ResourceManager.GetString("KeysearcherSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Key.
         /// </summary>
         internal static string KeySettings {
