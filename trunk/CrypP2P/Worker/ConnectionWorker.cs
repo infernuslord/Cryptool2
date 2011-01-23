@@ -14,6 +14,7 @@
    limitations under the License.
 */
 
+using System;
 using System.ComponentModel;
 using Cryptool.P2P.Helper;
 using Cryptool.P2P.Internal;
@@ -47,8 +48,15 @@ namespace Cryptool.P2P.Worker
             if (!p2PBase.IsConnected)
             {
                 P2PManager.GuiLogMessage("Connecting to P2P network...", NotificationLevel.Info);
-                p2PBase.Initialize();
-                p2PBase.SynchStart();
+                try
+                {
+                    p2PBase.Initialize();
+                    p2PBase.SynchStart();
+                }
+                catch (InvalidOperationException ex)
+                {
+                    P2PManager.GuiLogMessage(ex.Message, NotificationLevel.Error);
+                }
             }
             else
             {
