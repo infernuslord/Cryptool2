@@ -19,7 +19,7 @@ namespace KeySearcher.P2P.Helper
 
         public void ValidateConnectionToPeerToPeerSystem()
         {
-            if (P2PManager.IsConnected)
+            if (P2PManager.IsConnected || P2PManager.IsConnecting)
             {
                 return;
             }
