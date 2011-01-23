@@ -276,6 +276,10 @@ namespace KeySearcher.P2P
                         systemJoinEvent.WaitOne(1000);
                     } while (!P2PManager.IsConnected);
                 }
+                catch (InvalidOperationException)
+                {
+                    //do nothing
+                }
             }
 
             // Set progress to 100%
