@@ -398,6 +398,7 @@ namespace Cryptool.P2P.Internal
             bool success = autoResetEvent.WaitOne(1000*60*2);
             if (!success)
             {
+                P2PManager.GuiLogMessage("Timeout in DHT Operation. Just a quick hack!", NotificationLevel.Warning);
                 if (!IsConnected)
                     throw new NotConnectedException();
                 else
@@ -445,6 +446,7 @@ namespace Cryptool.P2P.Internal
             bool success = autoResetEvent.WaitOne(1000 * 60 * 2);
             if (!success)
             {
+                P2PManager.GuiLogMessage("Timeout in DHT Operation. Just a quick hack!", NotificationLevel.Warning);
                 if (!IsConnected)
                     throw new NotConnectedException();
                 else
@@ -492,6 +494,7 @@ namespace Cryptool.P2P.Internal
             bool success = autoResetEvent.WaitOne(1000 * 60 * 2);
             if (!success)
             {
+                P2PManager.GuiLogMessage("Timeout in DHT Operation. Just a quick hack!", NotificationLevel.Warning);
                 if (!IsConnected)
                     throw new NotConnectedException();
                 else
