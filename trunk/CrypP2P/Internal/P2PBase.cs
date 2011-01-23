@@ -395,8 +395,14 @@ namespace Cryptool.P2P.Internal
             VersionedDht.Store(OnSynchStoreCompleted, key, data, requestResult);
 
             // blocking till response
-            autoResetEvent.WaitOne();
-
+            bool success = autoResetEvent.WaitOne(1000*60*2);
+            if (!success)
+            {
+                if (!IsConnected)
+                    throw new NotConnectedException();
+                else
+                    throw new InvalidOperationException("SynchStore failed for some reason!");
+            }
             LogToMonitor("End: SynchStore. Key: " + key + ". Status: " + requestResult.Status);
 
             return requestResult;
@@ -436,7 +442,14 @@ namespace Cryptool.P2P.Internal
             Dht.Retrieve(OnSynchRetrieveCompleted, key, requestResult);
 
             // blocking till response
-            autoResetEvent.WaitOne();
+            bool success = autoResetEvent.WaitOne(1000 * 60 * 2);
+            if (!success)
+            {
+                if (!IsConnected)
+                    throw new NotConnectedException();
+                else
+                    throw new InvalidOperationException("SynchStore failed for some reason!");
+            }
 
             LogToMonitor("End: SynchRetrieve. Key: " + key + ". Status: " + requestResult.Status);
 
@@ -476,7 +489,14 @@ namespace Cryptool.P2P.Internal
             VersionedDht.Remove(OnSynchRemoveCompleted, key, requestResult);
 
             // blocking till response
-            autoResetEvent.WaitOne();
+            bool success = autoResetEvent.WaitOne(1000 * 60 * 2);
+            if (!success)
+            {
+                if (!IsConnected)
+                    throw new NotConnectedException();
+                else
+                    throw new InvalidOperationException("SynchStore failed for some reason!");
+            }
 
             LogToMonitor("End: SynchRemove. Key: " + key + ". Status: " + requestResult.Status);
 
