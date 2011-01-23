@@ -82,185 +82,196 @@ namespace KeySearcher.P2P
 
             while (!keySearcher.stop)
             {
-                if(statupdate)
-                {
-                    statisticTimer.Stop();
-                    statisticTimer.Dispose();
-                    keyPoolTree.Reset();
-                    keySearcher.ResetStatistics();
-                    keySearcher.SetInitialized(false);
-                    status.CurrentOperation = Resources.Updating_statistic;
-                    InitializeTree();
-                    statupdate = false;
-                    statisticTimer = new Timer { Interval = 30 * 60 * 1000 };
-                    statisticTimer.Start();
-                }
-
-                status.IsCurrentProgressIndeterminate = true;
-
-                BigInteger displayablePatternId;
                 try
                 {
-                    status.CurrentOperation = Resources.Finding_next_leaf_to_calculate;
-                    currentLeaf = keyPoolTree.FindNextLeaf();
-                    if (currentLeaf == null)
+                    if (statupdate)
                     {
-                        break;
+                        statisticTimer.Stop();
+                        statisticTimer.Dispose();
+                        keyPoolTree.Reset();
+                        keySearcher.ResetStatistics();
+                        keySearcher.SetInitialized(false);
+                        status.CurrentOperation = Resources.Updating_statistic;
+                        InitializeTree();
+                        statupdate = false;
+                        statisticTimer = new Timer { Interval = 30 * 60 * 1000 };
+                        statisticTimer.Start();
                     }
-                    displayablePatternId = currentLeaf.PatternId() + 1;
-                }
-                catch (AlreadyCalculatedException)
-                {
-                    keySearcher.GuiLogMessage(Resources.Node_was_already_calculated_, NotificationLevel.Info);
-                    keyPoolTree.Reset();
-                    continue;
-                }
-                catch (KeySearcherStopException)  //Fullstopfunction
-                {
-                    keySearcher.GuiLogMessage(Resources.Keysearcher_Fullstop__Please_Update_your_Version_, NotificationLevel.Debug);
-                    status.CurrentOperation = Resources.PLEASE_UPDATE;
-                    keyPoolTree.Reset();
-                    keySearcher.Stop();
-                    return;
-                }
 
-                // TODO if reserve returns successfully, start timer to update our reserveration every few minutes
-                // if we cannot reacquire our lock in the timer, calculation must be aborted
-                if (!currentLeaf.ReserveLeaf())
-                {
-                    keySearcher.GuiLogMessage(
-                        string.Format(Resources.Pattern___0__was_reserved_before_it_could_be_reserved_for_this_CrypTool_instance_, displayablePatternId),
-                        NotificationLevel.Info);
-                    keyPoolTree.Reset();
-                    continue;
-                }
+                    status.IsCurrentProgressIndeterminate = true;
 
-                bool reservationRemoved = false;
-                var reservationTimer = new Timer {Interval = 18*60*1000};    //Every 18 minutes
-                reservationTimer.Elapsed += new ElapsedEventHandler(delegate
-                                                                        {
-                                                                            var oldMessage = status.CurrentOperation;
-                                                                            var message = string.Format(Resources.Rereserving_pattern___0_, displayablePatternId);
-                                                                            keySearcher.GuiLogMessage(message, NotificationLevel.Info);
-                                                                            status.CurrentOperation = message;
-                                                                            try
-                                                                            {
-                                                                                if (!currentLeaf.ReserveLeaf())
-                                                                                    keySearcher.GuiLogMessage(Resources.Rereserving_pattern_failed_, NotificationLevel.Warning);
-
-                                                                                //if (!currentLeaf.ReserveLeaf())
-                                                                                //{
-                                                                                //    keySearcher.GuiLogMessage("Rereserving pattern failed! Skipping to next pattern!", 
-                                                                                //        NotificationLevel.Warning);
-                                                                                //    reservationRemoved = true;
-                                                                                //    keySearcher.stop = true;
-                                                                                //}
-                                                                            }
-                                                                            catch (Cryptool.P2P.Internal.NotConnectedException)
-                                                                            {
-                                                                                keySearcher.GuiLogMessage(Resources.Rereserving_pattern_failed__because_there_is_no_connection_,
-                                                                                        NotificationLevel.Warning);
-                                                                                //TODO: Register OnSystemJoined event to rereserve pattern immediately after reconnect
-                                                                            }
-                                                                            status.CurrentOperation = oldMessage;
-                                                                        });
-
-                statisticTimer.Elapsed += new ElapsedEventHandler(delegate
-                                                                      {
-                                                                          statupdate = true;
-                                                                      });
-
-                keySearcher.GuiLogMessage(
-                    string.Format(Resources.Running_pattern___0__of__1_, displayablePatternId, patternPool.Length),
-                    NotificationLevel.Info);
-                status.CurrentChunk = displayablePatternId;
-                status.CurrentOperation = Resources.Calculating_pattern_ + status.CurrentChunk;
-
-                try
-                {
-                    LinkedList<KeySearcher.ValueKey> result;
-
-                    status.IsCurrentProgressIndeterminate = false;
-                    StopWatch.Start();
-                    reservationTimer.Start();
+                    BigInteger displayablePatternId;
                     try
                     {
-                        result = keySearcher.BruteForceWithLocalSystem(patternPool[currentLeaf.PatternId()], true);
-                        if (reservationRemoved)
+                        status.CurrentOperation = Resources.Finding_next_leaf_to_calculate;
+                        currentLeaf = keyPoolTree.FindNextLeaf();
+                        if (currentLeaf == null)
                         {
-                            keySearcher.stop = false;
-                            throw new ReservationRemovedException("");
+                            break;
                         }
+                        displayablePatternId = currentLeaf.PatternId() + 1;
                     }
-                    finally
+                    catch (AlreadyCalculatedException)
                     {
-                        reservationTimer.Stop();
-                        reservationTimer.Dispose();
-                        StopWatch.Stop();
-                        status.IsCurrentProgressIndeterminate = true;
+                        keySearcher.GuiLogMessage(Resources.Node_was_already_calculated_, NotificationLevel.Info);
+                        keyPoolTree.Reset();
+                        continue;
+                    }
+                    catch (KeySearcherStopException)  //Fullstopfunction
+                    {
+                        keySearcher.GuiLogMessage(Resources.Keysearcher_Fullstop__Please_Update_your_Version_, NotificationLevel.Debug);
+                        status.CurrentOperation = Resources.PLEASE_UPDATE;
+                        keyPoolTree.Reset();
+                        keySearcher.Stop();
+                        return;
                     }
 
-                    if (!keySearcher.stop)
+                    // TODO if reserve returns successfully, start timer to update our reserveration every few minutes
+                    // if we cannot reacquire our lock in the timer, calculation must be aborted
+                    if (!currentLeaf.ReserveLeaf())
                     {
-                        if (!P2PManager.IsConnected)
-                        {
-                            status.CurrentOperation = Resources.Connection_lost__Waiting_for_reconnection_to_store_the_results_;
-                            keySearcher.GuiLogMessage(status.CurrentOperation, NotificationLevel.Info);
-                            
-                            P2PManager.P2PBase.OnSystemJoined += new P2PBase.SystemJoined(P2PBase_OnSystemJoined);
-                            systemJoinEvent.WaitOne();
-                        }
-                        status.CurrentOperation = Resources.Processing_results_of_calculation;
-                        KeyPoolTree.ProcessCurrentPatternCalculationResult(currentLeaf, result);
-                        StatisticsGenerator.ProcessPatternResults(result);
-
-                        status.CurrentOperation = Resources.Calculating_global_statistics;
-                        StatisticsGenerator.CalculateGlobalStatistics(displayablePatternId);
-
-                        status.LocalFinishedChunks++;
                         keySearcher.GuiLogMessage(
-                            string.Format(Resources.Best_match___0__with__1_, result.First.Value.key, result.First.Value.value),
+                            string.Format(Resources.Pattern___0__was_reserved_before_it_could_be_reserved_for_this_CrypTool_instance_, displayablePatternId),
                             NotificationLevel.Info);
-
-                        status.CurrentOperation = Resources.Updating_status_in_DHT;
-                        keyPoolTree.UpdateStatus(currentLeaf);
+                        keyPoolTree.Reset();
+                        continue;
                     }
-                    else
+
+                    bool reservationRemoved = false;
+                    var reservationTimer = new Timer { Interval = 18 * 60 * 1000 };    //Every 18 minutes
+                    reservationTimer.Elapsed += new ElapsedEventHandler(delegate
+                                                                            {
+                                                                                var oldMessage = status.CurrentOperation;
+                                                                                var message = string.Format(Resources.Rereserving_pattern___0_, displayablePatternId);
+                                                                                keySearcher.GuiLogMessage(message, NotificationLevel.Info);
+                                                                                status.CurrentOperation = message;
+                                                                                try
+                                                                                {
+                                                                                    if (!currentLeaf.ReserveLeaf())
+                                                                                        keySearcher.GuiLogMessage(Resources.Rereserving_pattern_failed_, NotificationLevel.Warning);
+
+                                                                                    //if (!currentLeaf.ReserveLeaf())
+                                                                                    //{
+                                                                                    //    keySearcher.GuiLogMessage("Rereserving pattern failed! Skipping to next pattern!", 
+                                                                                    //        NotificationLevel.Warning);
+                                                                                    //    reservationRemoved = true;
+                                                                                    //    keySearcher.stop = true;
+                                                                                    //}
+                                                                                }
+                                                                                catch (Cryptool.P2P.Internal.NotConnectedException)
+                                                                                {
+                                                                                    keySearcher.GuiLogMessage(Resources.Rereserving_pattern_failed__because_there_is_no_connection_,
+                                                                                            NotificationLevel.Warning);
+                                                                                    //TODO: Register OnSystemJoined event to rereserve pattern immediately after reconnect
+                                                                                }
+                                                                                status.CurrentOperation = oldMessage;
+                                                                            });
+
+                    statisticTimer.Elapsed += new ElapsedEventHandler(delegate
+                                                                          {
+                                                                              statupdate = true;
+                                                                          });
+
+                    keySearcher.GuiLogMessage(
+                        string.Format(Resources.Running_pattern___0__of__1_, displayablePatternId, patternPool.Length),
+                        NotificationLevel.Info);
+                    status.CurrentChunk = displayablePatternId;
+                    status.CurrentOperation = Resources.Calculating_pattern_ + status.CurrentChunk;
+
+                    try
                     {
-                        keySearcher.GuiLogMessage(Resources.Brute_force_was_stopped__not_saving_results___,
-                                                  NotificationLevel.Info);
-                        status.ProgressOfCurrentChunk = 0;
-                        currentLeaf.GiveLeafFree();
-                        var message = string.Format(Resources.Removed_reservation_of_pattern___0_, displayablePatternId);
-                        keySearcher.GuiLogMessage(message, NotificationLevel.Info);
-                        status.CurrentOperation = message;
-                    }
-                }
-                catch (ReservationRemovedException)
-                {
-                    keySearcher.GuiLogMessage(Resources.Reservation_removed_by_another_node__while_calculating___To_avoid_a_state_in_limbo__proceeding_to_first_available_leaf___,
-                                              NotificationLevel.Info);
-                    keyPoolTree.Reset();
-                    continue;
-                }
-                catch (UpdateFailedException e)
-                {
-                    keySearcher.GuiLogMessage(Resources.Could_not_store_results__ + e.Message, NotificationLevel.Info);
-                    keyPoolTree.Reset();
-                    continue;
-                }
-                catch (KeySearcherStopException)  //Fullstopfunction
-                {
-                    keySearcher.GuiLogMessage(Resources.Keysearcher_Fullstop__Please_Update_your_Version_, NotificationLevel.Debug);
-                    status.CurrentOperation = Resources.PLEASE_UPDATE;
-                    keyPoolTree.Reset();
-                    keySearcher.Stop();
-                    return;
-                }
+                        LinkedList<KeySearcher.ValueKey> result;
 
-                // Push statistics to database
-                status.CurrentOperation = Resources.Pushing_statistics_to_evaluation_database;
-                DatabaseStatistics.PushToDatabase(status, StopWatch.ElapsedMilliseconds, keyPoolTree.Identifier, settings, keySearcher);
+                        status.IsCurrentProgressIndeterminate = false;
+                        StopWatch.Start();
+                        reservationTimer.Start();
+                        try
+                        {
+                            result = keySearcher.BruteForceWithLocalSystem(patternPool[currentLeaf.PatternId()], true);
+                            if (reservationRemoved)
+                            {
+                                keySearcher.stop = false;
+                                throw new ReservationRemovedException("");
+                            }
+                        }
+                        finally
+                        {
+                            reservationTimer.Stop();
+                            reservationTimer.Dispose();
+                            StopWatch.Stop();
+                            status.IsCurrentProgressIndeterminate = true;
+                        }
+
+                        if (!keySearcher.stop)
+                        {
+                            if (!P2PManager.IsConnected)
+                            {
+                                status.CurrentOperation = Resources.Connection_lost__Waiting_for_reconnection_to_store_the_results_;
+                                keySearcher.GuiLogMessage(status.CurrentOperation, NotificationLevel.Info);
+
+                                P2PManager.P2PBase.OnSystemJoined += P2PBase_OnSystemJoined;
+                                systemJoinEvent.WaitOne();
+                            }
+                            status.CurrentOperation = Resources.Processing_results_of_calculation;
+                            KeyPoolTree.ProcessCurrentPatternCalculationResult(currentLeaf, result);
+                            StatisticsGenerator.ProcessPatternResults(result);
+
+                            status.CurrentOperation = Resources.Calculating_global_statistics;
+                            StatisticsGenerator.CalculateGlobalStatistics(displayablePatternId);
+
+                            status.LocalFinishedChunks++;
+                            keySearcher.GuiLogMessage(
+                                string.Format(Resources.Best_match___0__with__1_, result.First.Value.key, result.First.Value.value),
+                                NotificationLevel.Info);
+
+                            status.CurrentOperation = Resources.Updating_status_in_DHT;
+                            keyPoolTree.UpdateStatus(currentLeaf);
+                        }
+                        else
+                        {
+                            keySearcher.GuiLogMessage(Resources.Brute_force_was_stopped__not_saving_results___,
+                                                      NotificationLevel.Info);
+                            status.ProgressOfCurrentChunk = 0;
+                            currentLeaf.GiveLeafFree();
+                            var message = string.Format(Resources.Removed_reservation_of_pattern___0_, displayablePatternId);
+                            keySearcher.GuiLogMessage(message, NotificationLevel.Info);
+                            status.CurrentOperation = message;
+                        }
+                    }
+                    catch (ReservationRemovedException)
+                    {
+                        keySearcher.GuiLogMessage(Resources.Reservation_removed_by_another_node__while_calculating___To_avoid_a_state_in_limbo__proceeding_to_first_available_leaf___,
+                                                  NotificationLevel.Info);
+                        keyPoolTree.Reset();
+                        continue;
+                    }
+                    catch (UpdateFailedException e)
+                    {
+                        keySearcher.GuiLogMessage(Resources.Could_not_store_results__ + e.Message, NotificationLevel.Info);
+                        keyPoolTree.Reset();
+                        continue;
+                    }
+                    catch (KeySearcherStopException)  //Fullstopfunction
+                    {
+                        keySearcher.GuiLogMessage(Resources.Keysearcher_Fullstop__Please_Update_your_Version_, NotificationLevel.Debug);
+                        status.CurrentOperation = Resources.PLEASE_UPDATE;
+                        keyPoolTree.Reset();
+                        keySearcher.Stop();
+                        return;
+                    }
+
+                    // Push statistics to database
+                    status.CurrentOperation = Resources.Pushing_statistics_to_evaluation_database;
+                    DatabaseStatistics.PushToDatabase(status, StopWatch.ElapsedMilliseconds, keyPoolTree.Identifier, settings, keySearcher);
+                }
+                catch (NotConnectedException)
+                {
+                    status.CurrentOperation = "Connection lost. Waiting for reconnect...";
+                    keySearcher.GuiLogMessage(status.CurrentOperation, NotificationLevel.Info);
+                            
+                    P2PManager.P2PBase.OnSystemJoined += P2PBase_OnSystemJoined;
+                    systemJoinEvent.WaitOne();
+                }
             }
 
             // Set progress to 100%
