@@ -18,7 +18,13 @@ namespace Cryptool.P2PEditor.Worker
 
         private void JobCreationWorkerDoWork(object sender, DoWorkEventArgs e)
         {
-            RefreshedJobList = jobListManager.JobList();
+            try
+            {
+                RefreshedJobList = jobListManager.JobList();
+            }
+            catch (System.Exception)
+            {
+            }
         }
     }
 }
