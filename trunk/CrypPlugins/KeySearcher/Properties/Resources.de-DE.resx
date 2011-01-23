@@ -597,4 +597,7 @@
   <data name="ExternalClientPasswordSettingsDesc" xml:space="preserve">
     <value>Passwort mit dem sich externe Clients authentifizieren müssen</value>
   </data>
+	<data name="KeysearcherSettings" xml:space="preserve">
+    <value>Keysearcher Einstellungen</value>
+  </data>
 </root>
