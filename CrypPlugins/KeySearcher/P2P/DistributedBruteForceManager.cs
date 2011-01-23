@@ -208,9 +208,11 @@ namespace KeySearcher.P2P
                             {
                                 status.CurrentOperation = Resources.Connection_lost__Waiting_for_reconnection_to_store_the_results_;
                                 keySearcher.GuiLogMessage(status.CurrentOperation, NotificationLevel.Info);
-
-                                P2PManager.P2PBase.OnSystemJoined += P2PBase_OnSystemJoined;
-                                systemJoinEvent.WaitOne();
+                                do
+                                {
+                                    P2PManager.P2PBase.OnSystemJoined += P2PBase_OnSystemJoined;
+                                    systemJoinEvent.WaitOne(1000);
+                                } while (!P2PManager.IsConnected);
                             }
                             status.CurrentOperation = Resources.Processing_results_of_calculation;
                             KeyPoolTree.ProcessCurrentPatternCalculationResult(currentLeaf, result);
@@ -268,9 +270,11 @@ namespace KeySearcher.P2P
                 {
                     status.CurrentOperation = "Connection lost. Waiting for reconnect...";
                     keySearcher.GuiLogMessage(status.CurrentOperation, NotificationLevel.Info);
-                            
-                    P2PManager.P2PBase.OnSystemJoined += P2PBase_OnSystemJoined;
-                    systemJoinEvent.WaitOne();
+                    do
+                    {
+                        P2PManager.P2PBase.OnSystemJoined += P2PBase_OnSystemJoined;
+                        systemJoinEvent.WaitOne(1000);
+                    } while (!P2PManager.IsConnected);
                 }
             }
 
