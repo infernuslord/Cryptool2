@@ -70,6 +70,9 @@
     <Compile Include="GUI\Controls\ActivateEmailView.xaml.cs">
       <DependentUpon>ActivateEmailView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="GUI\Controls\ForgotPasswordView.xaml.cs">
+      <DependentUpon>ForgotPasswordView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="GUI\P2PUserControl.cs" />
     <Compile Include="GUI\ParticipateAdorner.cs" />
     <Compile Include="Helper\DistributedStatusUpdater.cs" />
@@ -166,6 +169,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="GUI\Controls\ActivateEmailView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="GUI\Controls\ForgotPasswordView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -196,7 +196,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
 
         private void ForgotPasswordLabel_Click(object sender, RoutedEventArgs e)
         {
-           //todo
+            P2PEditorPresentation.ShowForgotPasswordView();
         }
 
         private void Username_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)

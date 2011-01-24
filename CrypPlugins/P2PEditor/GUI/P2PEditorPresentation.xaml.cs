@@ -137,6 +137,7 @@ namespace Cryptool.P2PEditor.GUI
             this.Connect.Visibility = Visibility.Hidden;
             this.GetNewCertificate.Visibility = Visibility.Hidden;
             this.ActivateEmailView.Visibility = Visibility.Hidden;
+            this.ForgotPasswordView.Visibility = Visibility.Hidden;
         }
 
         internal void ShowGetNewCertificateView()
@@ -168,6 +169,12 @@ namespace Cryptool.P2PEditor.GUI
         {
             hideAllViews();
             this.Connect.Visibility = Visibility.Visible;         
+        }
+
+        internal void ShowForgotPasswordView()
+        {
+            hideAllViews();
+            this.ForgotPasswordView.Visibility = Visibility.Visible;
         }
 
         internal void ShowHelp()
