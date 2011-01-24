@@ -24,8 +24,14 @@ Cryptool* cryptool = 0;
 std::string getIdentificationStr()
 {
     std::stringstream out;
-    out << "cores:";
+    char buf[255];
+    if(!gethostname(buf, sizeof(buf)))
+    {
+        out << buf;
+    }
+    out << "@";
     out << sysconf( _SC_NPROCESSORS_ONLN );
+    out << "cores";
     // todo: more
     return out.str();
 }
@@ -64,6 +70,7 @@ void GetJobsAndPostResults(PlatformIndependentWrapper& wrapper, const char* pass
     while(true)
     {
         // TODO: soft break
+        printf("Requesting new job...\n");
         wrapper.WriteInt(ClientOpcodes::JOB_REQUEST);
         switch(wrapper.ReadInt())
         {
@@ -87,6 +94,7 @@ void GetJobsAndPostResults(PlatformIndependentWrapper& wrapper, const char* pass
                     }catch(SocketException e)
                     {
                         printf("Exception while writing results :(\n");
+                        finishedJobs.push(res);
                         throw e;
                     }
                 }
@@ -116,6 +124,12 @@ void networkThread(sockaddr_in serv_addr, int port, const char* password)
         return;
     }
     printf("  Connection established\n");
+    
+    // set read timeout
+    struct timeval tv;
+    tv.tv_sec = 2*60;
+    tv.tv_usec = 0;
+    setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO, (char *)&tv,sizeof(struct timeval));
 
     try{
         PlatformIndependentWrapper w(sockfd);
