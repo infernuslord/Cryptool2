@@ -128,7 +128,10 @@ namespace WorkspaceManager
             }
             this.HasChanges = false;
             CurrentFilename = "unnamed project";
-            this.OnProjectTitleChanged.BeginInvoke(this, "unnamed project", null, null);
+            if (this.OnProjectTitleChanged != null)
+            {
+                this.OnProjectTitleChanged.BeginInvoke(this, "unnamed project", null, null);
+            }
         }
 
         /// <summary>
@@ -140,7 +143,8 @@ namespace WorkspaceManager
             try
             {
                 New();
-                WorkspaceSpaceEditorView.Load(model);                
+                WorkspaceSpaceEditorView.Load(model);
+                WorkspaceModel = model;
             }
             catch (Exception ex)
             {
