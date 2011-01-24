@@ -1627,7 +1627,10 @@ namespace KeySearcher
         {
             public override bool Equals(object obj)
             {
-                return (keya.SequenceEqual(keya));
+                if (obj != null && obj is ValueKey && keya != null && ((ValueKey)obj).keya != null)
+                    return (keya.SequenceEqual(((ValueKey)obj).keya));
+                else
+                    return false;
             }
 
             public double value;
