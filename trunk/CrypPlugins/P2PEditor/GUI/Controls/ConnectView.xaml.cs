@@ -169,6 +169,20 @@ namespace Cryptool.P2PEditor.GUI.Controls
         {
             try
             {
+                try
+                {
+                    if (!Directory.Exists(PeerCertificate.DEFAULT_USER_CERTIFICATE_DIRECTORY))
+                    {
+                        Directory.CreateDirectory(PeerCertificate.DEFAULT_USER_CERTIFICATE_DIRECTORY);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    this.MessageLabel.Content = "Cannot create default account data directory '" + PeerCertificate.DEFAULT_USER_CERTIFICATE_DIRECTORY + "':\n" + ex.Message;
+                    this.MessageLabel.Visibility = Visibility.Visible;
+                    return;
+                }
+
                 args.Certificate.SaveCrtToAppData();
                 args.Certificate.SavePkcs12ToAppData(args.Certificate.Password);
                 HaveCertificate = true;
