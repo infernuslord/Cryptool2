@@ -351,7 +351,7 @@ namespace Cryptool.P2P.Internal
         {
             IsConnected = false;
             IsInitialized = false;
-            Dht.Dispose();
+            Dht.BeginStop(null);
 
             // Allow new connection to start and check for waiting / blocked tasks
             // TODO reset running ConnectionWorkers?
