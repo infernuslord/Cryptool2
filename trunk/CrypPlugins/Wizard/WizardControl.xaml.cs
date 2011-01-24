@@ -268,8 +268,6 @@ namespace Wizard
 
             var newEditor = new WorkspaceManager.WorkspaceManager();
             var model = ModelPersistance.loadModel(file, newEditor);
-            newEditor.Open(model);
-
             foreach (var c in propertyValueDict)
             {
                 var ppv = c.Value;
@@ -283,10 +281,12 @@ namespace Wizard
                 catch (Exception)
                 {
                     GuiLogMessage(string.Format("Failed settings plugin property {0}.{1} to \"{2}\"!", ppv.PluginName, ppv.PropertyName, ppv.Value), NotificationLevel.Error);
+                    return;
                 }
             }
 
-            OnOpenTab(newEditor, "WizardContent", null);
+            OnOpenTab(newEditor, "WizardContent", null);           
+            newEditor.Open(model);                   
         }
 
         void rb_Checked(object sender, RoutedEventArgs e)

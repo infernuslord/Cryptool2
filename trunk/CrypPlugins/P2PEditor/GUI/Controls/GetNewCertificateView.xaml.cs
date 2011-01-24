@@ -180,7 +180,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
                             this.MessageLabel.Visibility = Visibility.Visible;
                         }, null);
                         this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-                        {                           ;
+                        {
                             this.PasswordField.Password = "";
                             this.ConfirmField.Password = "";
                             this.PasswordField.Focus();
