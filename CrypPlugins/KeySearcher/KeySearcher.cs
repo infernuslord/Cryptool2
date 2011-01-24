@@ -804,7 +804,7 @@ namespace KeySearcher
             }
             finally
             {
-                if (stop && serverThread != null)
+                if (serverThread != null)
                 {
                     //stop server here!
                     cryptoolServer.Shutdown();
@@ -1579,29 +1579,6 @@ namespace KeySearcher
         private void keyPatternChanged()
         {
             Pattern = new KeyPattern.KeyPattern(controlMaster.getKeyPattern());
-        }
-
-        // added by Arnie - 2009.12.07
-        public delegate void BruteforcingEnded(LinkedList<ValueKey> top10List);
-        /// <summary>
-        /// This event gets thrown after Bruteforcing had ended. This is no evidence, that bruteforcing was successful.
-        /// But when the returned List is filled, we have (at least a part) of the possible best keys
-        /// </summary>
-        public event BruteforcingEnded OnBruteforcingEnded;
-
-        // added by Arnie -2009.12.02
-        // for inheritance reasons
-        public void BruteforcePattern(KeyPattern.KeyPattern pattern, byte[] encryptedData, byte[] initVector, IControlEncryption encryptControl, IControlCost costControl)
-        {
-            /* Begin: New stuff because of changing the IControl data flow - Arnie 2010.01.18 */
-            this.encryptedData = encryptedData;
-            this.initVector = initVector;
-            /* End: New stuff because of changing the IControl data flow - Arnie 2010.01.18 */
-
-            this.sender = encryptControl;
-            LinkedList<ValueKey> lstRet = bruteforcePattern(pattern);
-            if(OnBruteforcingEnded != null)
-                OnBruteforcingEnded(lstRet);
         }
 
         #endregion
