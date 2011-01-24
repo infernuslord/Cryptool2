@@ -26,6 +26,7 @@ using System.IO.Compression;
 using Cryptool.PluginBase;
 using WorkspaceManager;
 using System.Windows;
+using System.Globalization;
 
 namespace XMLSerialization
 {
@@ -444,9 +445,12 @@ namespace XMLSerialization
                                                              BindingFlags.Instance).SetValue(newObject, result);
                             }
                             else if (RevertXMLSymbols(membertype.InnerText).Equals("System.Double"))
-                            {
+                            {                                
                                 Double result = 0;
-                                System.Double.TryParse(RevertXMLSymbols(value.InnerText), out result);
+                                System.Double.TryParse(RevertXMLSymbols(value.InnerText.Replace(',', '.')),
+                                                                        NumberStyles.Number,
+                                                                        CultureInfo.CreateSpecificCulture("en-GB"),
+                                                                        out result);
                                 newObject.GetType().GetField(RevertXMLSymbols(membername.InnerText),
                                                              BindingFlags.NonPublic |
                                                              BindingFlags.Public |
@@ -609,7 +613,14 @@ namespace XMLSerialization
                                     else if (RevertXMLSymbols(typ.InnerText).Equals("System.Double"))
                                     {
                                         Double result = 0;
-                                        System.Double.TryParse(RevertXMLSymbols(value.InnerText), out result);
+                                        System.Double.TryParse(RevertXMLSymbols(value.InnerText.Replace(',', '.')),
+                                                                                NumberStyles.Number,
+                                                                                CultureInfo.CreateSpecificCulture("en-GB"),
+                                                                                out result);
+                                        newObject.GetType().GetField(RevertXMLSymbols(membername.InnerText),
+                                                                     BindingFlags.NonPublic |
+                                                                     BindingFlags.Public |
+                                                                     BindingFlags.Instance).SetValue(newObject, result);
                                         ((IList) newmember).Add(result);
                                     }
                                     else if (RevertXMLSymbols(typ.InnerText).Equals("System.Char"))
