@@ -1438,10 +1438,32 @@ namespace KeySearcher
 
         internal void updateToplist()
         {
+            DateTime chunkstart = DateTime.UtcNow;
+            DateTime defaultstart = DateTime.MinValue;
+            string username = P2PSettings.Default.PeerName;
+            long maschineid = Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetID();
+            string maschinename = Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetHostName();
+
             LinkedListNode<ValueKey> node;
             while (valuequeue.Count != 0)
             {
                 ValueKey vk = (ValueKey)valuequeue.Dequeue();
+
+                //enhance our userdata:
+                if ((username != null) && (!username.Equals("")))
+                {
+                    vk.user = username;
+                    vk.time = chunkstart;
+                    vk.maschid = maschineid;
+                    vk.maschname = maschinename;
+                }
+                else
+                {
+                    vk.user = "Unknown";
+                    vk.time = defaultstart;
+                    vk.maschid = 666;
+                    vk.maschname = "Devil";
+                }
 
                 //if (costList.Contains(vk)) continue;
                 var result = costList.Where(valueKey => valueKey.key == vk.key);
@@ -1603,6 +1625,11 @@ namespace KeySearcher
         /// </summary>
         public struct ValueKey
         {
+            public override bool Equals(object obj)
+            {
+                return (keya.SequenceEqual(keya));
+            }
+
             public double value;
             public String key;
             public byte[] decryption;
