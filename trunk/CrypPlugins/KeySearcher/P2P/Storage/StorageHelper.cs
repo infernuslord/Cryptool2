@@ -350,6 +350,10 @@ namespace KeySearcher.P2P.Storage
             {
                 throw new KeySearcherStopException();
             }
+            catch (Exception)
+            {
+                return 0;
+            }
         }
 
         public DateTime StartDate(String ofJobIdentifier)
