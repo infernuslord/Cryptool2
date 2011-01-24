@@ -227,6 +227,11 @@ namespace KeySearcher.P2P.Storage
             }
             catch (Exception e)
             {
+                if (e is KeySearcherStopException)
+                    throw new KeySearcherStopException();
+                else if (e is NotConnectedException)
+                    throw new NotConnectedException();
+
                 // client id not available, use default
                 keySearcher.GuiLogMessage(e.Message + ": Node causing the failure: " + nodeToUpdate.ToString(), NotificationLevel.Error);
                 nodeToUpdate.Reset();
