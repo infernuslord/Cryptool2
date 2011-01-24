@@ -35,8 +35,15 @@ class CryptoolServer
 
     private Dictionary<EndPoint, TcpClient> connectedClients = new Dictionary<EndPoint, TcpClient>();
     private TcpListener tcpListener;
-    private bool running = false;
 
+    enum State
+    {
+        Created,
+        Running,
+        Exiting,
+        Dead
+    }
+    private State state = State.Created;
     #endregion
 
     ///<summary>
@@ -53,20 +60,28 @@ class CryptoolServer
             throw new Exception("One of the mandatory events was not bound");
         }
 
-        lock (this)
-        {
-            if (running)
-            {
-                throw new Exception("Invalid state: Already running");
-            }
-            running = true;
-        }
-
         try
         {
-            tcpListener = new TcpListener(IPAddress.Any, Port);
-            tcpListener.Start();
-            while (running)
+            lock (this)
+            {
+                if (state != State.Created)
+                {
+                    if (OnErrorLog != null)
+                    {
+                        OnErrorLog("Invalid state: " + state);
+                    }
+                    return;
+                }
+
+                // has to be in lock, otherwise a Stop call can cause an object
+                // disposed exception on tcpListener.start()
+                state = State.Running;
+                tcpListener = new TcpListener(IPAddress.Any, Port);
+                tcpListener.Start();
+            }
+
+
+            while (state == State.Running)
             {
                 TcpClient client = tcpListener.AcceptTcpClient();
                 lock (connectedClients)
@@ -77,20 +92,18 @@ class CryptoolServer
                 clientThread.Start(client);
             }
         }
-        catch (ThreadInterruptedException)
+        catch (Exception e)
         {
-        }
-        catch (SocketException e)
-        {
-            if (running && OnErrorLog != null)
+            if (state == State.Running && OnErrorLog != null)
             {
-                OnErrorLog("CryptoolServer: Got SocketException while running");
+                OnErrorLog("CryptoolServer: Got Exception while running "+e.Message);
             }
         }
         finally
         {
             try
             {
+                state = State.Dead;
                 tcpListener.Stop();
             }
             catch (Exception)
@@ -243,8 +256,19 @@ class CryptoolServer
     {
         lock (this)
         {
-            running = false;
-            tcpListener.Stop();
+            if (state == State.Dead ||
+                state == State.Exiting)
+            {
+                return;
+            }
+            state = State.Exiting;
+            try
+            {
+                tcpListener.Stop();
+            }
+            catch (Exception)
+            {
+            }
         }
     }
 }
