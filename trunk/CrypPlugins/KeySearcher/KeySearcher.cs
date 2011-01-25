@@ -582,6 +582,7 @@ namespace KeySearcher
                     ValueKey valueKey = new ValueKey { value = cost, key = keyTranslator.GetKeyRepresentation(i + add) };
                     valueKey.keya = keyTranslator.GetKeyFromRepresentation(valueKey.key);
                     valueKey.decryption = sender.Decrypt(this.encryptedData, valueKey.keya, InitVector, bytesToUse);
+                    EnhanceUserName(valueKey);
                     valuequeue.Enqueue(valueKey);
                 }
             }
@@ -694,7 +695,8 @@ namespace KeySearcher
                 {
                     valueKey.key = keyTranslator.GetKeyRepresentation();
                     valueKey.keya = (byte[])keya.Clone();
-                    valuequeue.Enqueue(valueKey);                    
+                    EnhanceUserName(valueKey);
+                    valuequeue.Enqueue(valueKey);
                 }
             }
             else
@@ -703,6 +705,7 @@ namespace KeySearcher
                 {
                     valueKey.key = keyTranslator.GetKeyRepresentation();
                     valueKey.keya = (byte[])keya.Clone();
+                    EnhanceUserName(valueKey);
                     valuequeue.Enqueue(valueKey);
                 }
             }
@@ -1099,6 +1102,7 @@ namespace KeySearcher
                     valueKey.keya = externalKeyTranslator.GetKeyFromRepresentation(valueKey.key);
                     valueKey.decryption = sender.Decrypt(this.encryptedData, valueKey.keya, InitVector, bytesToUse);
 
+                    EnhanceUserName(valueKey);
                     valuequeue.Enqueue(valueKey);
                 }
             }
@@ -1436,7 +1440,7 @@ namespace KeySearcher
             maschinehierarchie = maschinehierarchie.OrderByDescending((x) => x.Value.Sum).ToDictionary(x => x.Key, y => y.Value);
         }
 
-        internal void updateToplist()
+        private void EnhanceUserName(ValueKey vk)
         {
             DateTime chunkstart = DateTime.UtcNow;
             DateTime defaultstart = DateTime.MinValue;
@@ -1444,26 +1448,29 @@ namespace KeySearcher
             long maschineid = Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetID();
             string maschinename = Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetHostName();
 
+            //enhance our userdata:
+            if ((username != null) && (!username.Equals("")))
+            {
+                vk.user = username;
+                vk.time = chunkstart;
+                vk.maschid = maschineid;
+                vk.maschname = maschinename;
+            }
+            else
+            {
+                vk.user = "Unknown";
+                vk.time = defaultstart;
+                vk.maschid = 666;
+                vk.maschname = "Devil";
+            }
+        }
+
+        internal void updateToplist()
+        {
             LinkedListNode<ValueKey> node;
             while (valuequeue.Count != 0)
             {
                 ValueKey vk = (ValueKey)valuequeue.Dequeue();
-
-                //enhance our userdata:
-                if ((username != null) && (!username.Equals("")))
-                {
-                    vk.user = username;
-                    vk.time = chunkstart;
-                    vk.maschid = maschineid;
-                    vk.maschname = maschinename;
-                }
-                else
-                {
-                    vk.user = "Unknown";
-                    vk.time = defaultstart;
-                    vk.maschid = 666;
-                    vk.maschname = "Devil";
-                }
 
                 //if (costList.Contains(vk)) continue;
                 var result = costList.Where(valueKey => valueKey.key == vk.key);
