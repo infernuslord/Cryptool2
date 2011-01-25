@@ -582,7 +582,7 @@ namespace KeySearcher
                     ValueKey valueKey = new ValueKey { value = cost, key = keyTranslator.GetKeyRepresentation(i + add) };
                     valueKey.keya = keyTranslator.GetKeyFromRepresentation(valueKey.key);
                     valueKey.decryption = sender.Decrypt(this.encryptedData, valueKey.keya, InitVector, bytesToUse);
-                    EnhanceUserName(valueKey);
+                    EnhanceUserName(ref valueKey);
                     valuequeue.Enqueue(valueKey);
                 }
             }
@@ -695,7 +695,7 @@ namespace KeySearcher
                 {
                     valueKey.key = keyTranslator.GetKeyRepresentation();
                     valueKey.keya = (byte[])keya.Clone();
-                    EnhanceUserName(valueKey);
+                    EnhanceUserName(ref valueKey);
                     valuequeue.Enqueue(valueKey);
                 }
             }
@@ -705,7 +705,7 @@ namespace KeySearcher
                 {
                     valueKey.key = keyTranslator.GetKeyRepresentation();
                     valueKey.keya = (byte[])keya.Clone();
-                    EnhanceUserName(valueKey);
+                    EnhanceUserName(ref valueKey);
                     valuequeue.Enqueue(valueKey);
                 }
             }
@@ -1102,7 +1102,7 @@ namespace KeySearcher
                     valueKey.keya = externalKeyTranslator.GetKeyFromRepresentation(valueKey.key);
                     valueKey.decryption = sender.Decrypt(this.encryptedData, valueKey.keya, InitVector, bytesToUse);
 
-                    EnhanceUserName(valueKey);
+                    EnhanceUserName(ref valueKey);
                     valuequeue.Enqueue(valueKey);
                 }
             }
@@ -1445,7 +1445,7 @@ namespace KeySearcher
         private static long maschineid = Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetID();
         private static string maschinename = Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetHostName();
 
-        private static void EnhanceUserName(ValueKey vk)
+        private static void EnhanceUserName(ref ValueKey vk)
         {
             DateTime chunkstart = DateTime.UtcNow;
 
