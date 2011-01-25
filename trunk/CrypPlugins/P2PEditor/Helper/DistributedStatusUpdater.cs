@@ -15,8 +15,6 @@ namespace Cryptool.P2PEditor.Helper
             {
                 var oldStatus =
                     DistributedJobSerializer.StatusFromReader(new BinaryReader(new MemoryStream(oldStatusRequest.Data)));
-                if (oldStatus.CurrentStatus == DistributedJobStatus.Status.Finished) return;
-                if (oldStatus.Progress > progress) return;
             }
 
             var distributedJobStatus = new DistributedJobStatus
