@@ -70,24 +70,25 @@ namespace Cryptool.P2PEditor.GUI.Controls
             EmailVerificationRequired = false;
             WrongPassword = false;
 
-            String path = PeerCertificate.DEFAULT_USER_CERTIFICATE_DIRECTORY;
             try
             {
-                if (!Directory.Exists(path))
+                if (!Directory.Exists(PeerCertificate.DEFAULT_USER_CERTIFICATE_DIRECTORY))
                 {
-                    Directory.CreateDirectory(path);
+                    Directory.CreateDirectory(PeerCertificate.DEFAULT_USER_CERTIFICATE_DIRECTORY);
+                    this.P2PEditor.GuiLogMessage("Automatic created account folder: " + PeerCertificate.DEFAULT_USER_CERTIFICATE_DIRECTORY, NotificationLevel.Info);
                 }
             }
             catch (Exception ex)
             {
-                this.MessageLabel.Content = "Cannot create default account data directory '" + path + "':\n" + ex.Message;
+                this.MessageLabel.Content = "Cannot create default account data directory '" + PeerCertificate.DEFAULT_USER_CERTIFICATE_DIRECTORY + "':\n" + ex.Message;
+                this.P2PEditor.GuiLogMessage(this.MessageLabel.Content.ToString(), NotificationLevel.Error);
                 this.MessageLabel.Visibility = Visibility.Visible;
                 return;
             }
 
             try
             {
-                if (CertificateServices.GetPeerCertificateByAvatar(path,
+                if (CertificateServices.GetPeerCertificateByAvatar(PeerCertificate.DEFAULT_USER_CERTIFICATE_DIRECTORY,
                     P2PSettings.Default.PeerName, P2PBase.DecryptString(P2PSettings.Default.Password)) == null)
                 {                    
                     HaveCertificate = false;                
@@ -100,6 +101,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
             catch (Exception ex)
             {
                 this.MessageLabel.Content = "Cannot connect using account \"" + P2PSettings.Default.PeerName + "\": " + (ex.InnerException != null ? ex.InnerException.Message : ex.Message);
+                this.P2PEditor.GuiLogMessage(this.MessageLabel.Content.ToString(), NotificationLevel.Error);
                 this.MessageLabel.Visibility = Visibility.Visible;
                 return;
             }
@@ -118,6 +120,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
                 catch (Exception ex)
                 {
                     this.MessageLabel.Content = "Error while autodownloading your account data: " + ex.Message;
+                    this.P2PEditor.GuiLogMessage(this.MessageLabel.Content.ToString(), NotificationLevel.Error);
                     this.MessageLabel.Visibility = Visibility.Visible;
                     return;
                 }
@@ -127,6 +130,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
             if (WrongPassword)
             {
                 this.MessageLabel.Content = "Your password was wrong. We could not autodownload your account data.";
+                this.P2PEditor.GuiLogMessage(this.MessageLabel.Content.ToString(), NotificationLevel.Info);
                 this.MessageLabel.Visibility = Visibility.Visible;
                 return;
             }
@@ -135,6 +139,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
             if (EmailVerificationRequired)
             {
                 this.MessageLabel.Content = "The email address was not verified.\nPlease check your email account for an activation code we just sent to you and activate your account.";
+                this.P2PEditor.GuiLogMessage(this.MessageLabel.Content.ToString(), NotificationLevel.Info);
                 this.MessageLabel.Visibility = Visibility.Visible;
                 return;
             }
@@ -144,6 +149,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
             {
                
                 this.MessageLabel.Content = "Cannot connect, account \"" + P2PSettings.Default.PeerName + "\" not found!";
+                this.P2PEditor.GuiLogMessage(this.MessageLabel.Content.ToString(), NotificationLevel.Info);
                 this.MessageLabel.Visibility = Visibility.Visible;
                 return;
             }
@@ -179,6 +185,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
                 catch (Exception ex)
                 {
                     this.MessageLabel.Content = "Cannot create default account data directory '" + PeerCertificate.DEFAULT_USER_CERTIFICATE_DIRECTORY + "':\n" + ex.Message;
+                    this.P2PEditor.GuiLogMessage(this.MessageLabel.Content.ToString(), NotificationLevel.Error);
                     this.MessageLabel.Visibility = Visibility.Visible;
                     return;
                 }
@@ -186,6 +193,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
                 args.Certificate.SaveCrtToAppData();
                 args.Certificate.SavePkcs12ToAppData(args.Certificate.Password);
                 HaveCertificate = true;
+                this.P2PEditor.GuiLogMessage("Autodownloaded user account data for user '" + args.Certificate.Avatar +"'", NotificationLevel.Info);
             }
             catch (Exception ex)
             {
@@ -193,6 +201,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
                 {
                     this.MessageLabel.Content = "Could not save the received certificate to your AppData folder:\n\n" +
                         (ex.GetBaseException() != null && ex.GetBaseException().Message != null ? ex.GetBaseException().Message : ex.Message);
+                    this.P2PEditor.GuiLogMessage(this.MessageLabel.Content.ToString(), NotificationLevel.Error);
                     this.MessageLabel.Visibility = Visibility.Visible;
                 }, null);
             }
