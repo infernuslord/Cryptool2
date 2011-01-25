@@ -36,10 +36,10 @@
             <Label Content="_Email:" Target="{Binding ElementName=EmailField}" Grid.Row="3" Grid.Column="0" />
             <Label Content="_Password:" Target="{Binding ElementName=PasswordField}" Grid.Row="4" Grid.Column="0" />
             <Label Content="_Confirm:" Target="{Binding ElementName=ConfirmField}" Grid.Row="5" Grid.Column="0" />
-            <TextBox Text="{Binding Name}" x:Name="UsernameField" Grid.Row="2" Grid.Column="1" Height="24" />
-            <TextBox Text="{Binding Name}" x:Name="EmailField" Grid.Row="3" Grid.Column="1" Height="24" />
-            <PasswordBox x:Name="PasswordField" Grid.Row="4" Grid.Column="1" Height="24" />
-            <PasswordBox x:Name="ConfirmField" Grid.Row="5" Grid.Column="1" Height="24" />
+            <TextBox Text="{Binding Name}" x:Name="UsernameField" Grid.Row="2" Grid.Column="1" Height="24" MaxLength="40"/>
+            <TextBox Text="{Binding Name}" x:Name="EmailField" Grid.Row="3" Grid.Column="1" Height="24" MaxLength="60"/>
+            <PasswordBox x:Name="PasswordField" Grid.Row="4" Grid.Column="1" Height="24" MaxLength="40" />
+            <PasswordBox x:Name="ConfirmField" Grid.Row="5" Grid.Column="1" Height="24" MaxLength="40"/>
             <Button Name="RequestButton" Content="_Request" HorizontalAlignment="Left" Width="54" Grid.Row="6" Grid.Column="1" Height="24" Click="Request_Click" Margin="378,20,0,36" />
             <Button Name="BackButton" Content="_Back" Height="24" HorizontalAlignment="Right" Margin="0,20,6,36" Width="54" Grid.Row="6" Grid.Column="1" Click="BackButton_Click" />
             <Button Name="ActivateButton" Content="_Activate" Height="24" HorizontalAlignment="Left" Margin="438,20,0,36" Width="56" Grid.Column="1" Grid.Row="6" Click="ActivateButton_Click"/>
