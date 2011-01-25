@@ -29,10 +29,23 @@ std::string getIdentificationStr()
     {
         out << buf;
     }
-    out << "@";
-    out << sysconf( _SC_NPROCESSORS_ONLN );
-    out << "cores";
-    // todo: more
+    else
+    {
+        out << "unkhost";
+    }
+    out << "/";
+    const char* devicename = cryptool->getDeviceName().c_str();
+
+    const std::string whitespaces = " \t\r\n";
+
+    while(*devicename)
+    {
+        if(whitespaces.find(*devicename) == std::string::npos)
+        {
+            out << *devicename;
+        }
+        ++devicename;
+    }
     return out.str();
 }
 

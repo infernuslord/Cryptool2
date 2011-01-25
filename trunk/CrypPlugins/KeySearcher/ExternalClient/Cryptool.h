@@ -8,7 +8,8 @@
 class Cryptool
 {
     private:
-	cl::vector<cl::Device> devices;
+	std::vector<cl::Platform> platforms;
+	std::vector<cl::Device> devices;
 	cl::Context* context;
 	cl::Kernel* kernel;
 	JobResult res;
@@ -16,6 +17,8 @@ class Cryptool
 	float* localCosts;
     bool compareLargerThan;
     int resultSize;
+    int platformChoice;
+    int deviceChoice;
     timeval lastSubbatchCompleted;
 
 	static const int subbatch = 256*256*256;
@@ -29,4 +32,5 @@ class Cryptool
     public:
 	Cryptool();
 	JobResult doOpenCLJob(const Job& j);
+    std::string getDeviceName();
 };
