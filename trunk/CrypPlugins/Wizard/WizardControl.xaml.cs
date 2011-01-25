@@ -174,7 +174,13 @@ namespace Wizard
 
                 if (inputPanel.Tag != null)
                     nextButton.IsEnabled = true;
+
+                string id = GetElementID((XElement)inputPanel.Tag);
+
+                if (choicePath.Count > 0 && id == choicePath.Last())
+                    choicePath.RemoveAt(choicePath.IndexOf(choicePath.Last()));
             }
+
             else if (element.Name == "category")
             {
                 categoryGrid.Visibility = Visibility.Visible;
@@ -195,6 +201,8 @@ namespace Wizard
 
                 if (categories.Any())
                 {
+                    bool isSelected = false;
+
                     foreach (XElement ele in categories)
                     {
                         Border border = new Border();
@@ -244,9 +252,17 @@ namespace Wizard
                         {
                             choicePath.RemoveAt(choicePath.IndexOf(choicePath.Last()));
                             rb.IsChecked = true;
+                            isSelected = true;
                             nextButton.IsEnabled = true;
                         }
                     }
+
+                    if (!isSelected)
+                    {
+                        RadioButton b = (RadioButton)radioButtonStackPanel.Children[0];
+                        b.IsChecked = true;
+                    }
+
                 }
             }
 
@@ -254,7 +270,7 @@ namespace Wizard
 
         private string GetElementID(XElement element)
         {
-            if (element.Parent != null)
+            if (element != null && element.Parent != null)
             {
                 return GetElementID(element.Parent) + "[" + element.Parent.Nodes().ToList().IndexOf(element) + "]." + element.Name;
             }
