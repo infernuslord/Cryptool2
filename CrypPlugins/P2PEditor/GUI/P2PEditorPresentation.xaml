@@ -15,6 +15,7 @@
             <controls:GetNewCertificate x:Name="GetNewCertificate" Visibility="Hidden"/>
             <controls:ActivateEmailView x:Name="ActivateEmailView" Visibility="Hidden"/>
             <controls:ForgotPasswordView x:Name="ForgotPasswordView" Visibility="Hidden"/>
+            <controls:VerifyPasswordResetView x:Name="VerifyPasswordResetView" Visibility="Hidden"/>
             <Frame Name="Help" Source="../DetailedDescription/Description.xaml" Visibility="Hidden"/>           
 	</Grid>
 </GUI:P2PUserControl>

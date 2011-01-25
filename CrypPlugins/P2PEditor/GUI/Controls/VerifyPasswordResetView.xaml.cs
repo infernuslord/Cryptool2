@@ -14,24 +14,24 @@ using System.Windows.Media.Animation;
 
 namespace Cryptool.P2PEditor.GUI.Controls
 {
-    public partial class ActivateEmailView
+    public partial class VerifyPasswordResetView
     {
         public static string WorldName = ".*";
 
-        public ActivateEmailView()
+        public VerifyPasswordResetView()
         {
             InitializeComponent();            
         }
 
-        private void ActivateButton_Click(object sender, RoutedEventArgs e)
+        private void VerifyButton_Click(object sender, RoutedEventArgs e)
         {
             this.MessageLabel.Visibility = Visibility.Hidden;
-            if (string.IsNullOrEmpty(this.ActivationCodeField.Text))
+            if (string.IsNullOrEmpty(this.ActivationCode.Text))
             {
 
                 this.MessageLabel.Content = "Activation code may not be empty.";
                 this.MessageLabel.Visibility = Visibility.Visible;
-                this.ActivationCodeField.Focus();
+                this.ActivationCode.Focus();
                 return;
             }
           
@@ -43,16 +43,35 @@ namespace Cryptool.P2PEditor.GUI.Controls
                 this.PasswordField.Focus();
                 return;
             }
-            
+
+            if (!Verification.IsValidPassword(this.ConfirmField.Password))
+            {
+                this.MessageLabel.Content = "Confirm is not valid.";
+                this.MessageLabel.Visibility = Visibility.Visible;
+                this.ConfirmField.Password = "";
+                this.ConfirmField.Focus();
+                return;
+            }
+
+            if (this.PasswordField.Password != this.ConfirmField.Password)
+            {
+                this.MessageLabel.Content = "Passwords did not match.";
+                this.MessageLabel.Visibility = Visibility.Visible;
+                this.PasswordField.Password = "";
+                this.ConfirmField.Password = "";
+                this.PasswordField.Focus();
+                return;
+            }    
+
             Requesting = true;
-            Thread thread = new Thread(new ParameterizedThreadStart(ActivateEmail));
-            EmailVerification emailVer = new EmailVerification(this.PasswordField.Password, this.ActivationCodeField.Text, false);
-            thread.Start(emailVer);
+            Thread thread = new Thread(new ParameterizedThreadStart(VerifyPasswordReset));
+            PasswordResetVerification passwordResetVerification = new PasswordResetVerification(this.PasswordField.Password, this.ActivationCode.Text);
+            thread.Start(passwordResetVerification);
         }
 
-        public void ActivateEmail(object o)
+        public void VerifyPasswordReset(object o)
         {
-            EmailVerification emailVer = (EmailVerification)o;
+            PasswordResetVerification passwordResetVerification = (PasswordResetVerification)o;
 
             try
             {
@@ -70,8 +89,8 @@ namespace Cryptool.P2PEditor.GUI.Controls
                 });
 
                 certificateClient.CertificateReceived += CertificateReceived;
-
                 certificateClient.InvalidEmailVerification += InvalidEmailVerification;
+                certificateClient.InvalidPasswordResetVerification += InvalidPasswordResetVerification;
 
                 certificateClient.ServerErrorOccurred += new EventHandler<ProcessingErrorEventArgs>(delegate
                 {
@@ -91,7 +110,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
                     }, null); 
                 });
 
-                certificateClient.VerifyEmail(emailVer);
+                certificateClient.VerifyPasswordReset(passwordResetVerification);
             }
             catch (NetworkException nex)
             {
@@ -113,6 +132,70 @@ namespace Cryptool.P2PEditor.GUI.Controls
             {
                 Requesting = false;                
             }
+        }
+
+        public void InvalidPasswordResetVerification(object sender, ProcessingErrorEventArgs args)
+        {
+            try
+            {
+                switch (args.Type)
+                {
+                    case ErrorType.AlreadyVerified:
+                        this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                        {
+                            this.MessageLabel.Content = "Your password change was already verified.";
+                            this.MessageLabel.Visibility = Visibility.Visible;
+                        }, null);
+                        break;
+
+                    case ErrorType.CertificateNotYetAuthorized:
+                        this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                        {
+                            this.MessageLabel.Content = "Your account is not yet authorized.";
+                            this.MessageLabel.Visibility = Visibility.Visible;
+                        }, null);
+                        break;
+
+                    case ErrorType.CertificateRevoked:
+                        this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                        {
+                            this.MessageLabel.Content = "Your account is revoked.";
+                            this.MessageLabel.Visibility = Visibility.Visible;
+                        }, null);
+                        break;
+
+                    case ErrorType.NoCertificateFound:
+                        this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                        {
+                            this.MessageLabel.Content = "Account reset data not found";
+                            this.MessageLabel.Visibility = Visibility.Visible;
+                        }, null);
+                        break;
+
+                    case ErrorType.WrongCode:
+                        this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                        {
+                            this.MessageLabel.Content = "Wrong code";
+                            this.MessageLabel.Visibility = Visibility.Visible;
+                        }, null);
+                        break;
+
+                    default:
+                        this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                        {
+                            this.MessageLabel.Content = "Invalid passwort reset verification: " + args.Message;
+                            this.MessageLabel.Visibility = Visibility.Visible;
+                        }, null);
+                        break;
+                }
+            }
+            catch (Exception)
+            {
+            }
+            finally
+            {
+                Requesting = false;
+            } 
         }
 
         public void InvalidEmailVerification(object sender, ProcessingErrorEventArgs args)
@@ -143,7 +226,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
                     default:
                         this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                         {
-                            this.MessageLabel.Content = "Invalid certificate request: " + args.Message;
+                            this.MessageLabel.Content = "Invalid certificate request: " + args.Type;
                             this.MessageLabel.Visibility = Visibility.Visible;
                         }, null);
                         break;
@@ -183,6 +266,8 @@ namespace Cryptool.P2PEditor.GUI.Controls
                 this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {                    
                     this.PasswordField.Password = "";
+                    this.ConfirmField.Password = "";
+                    this.ActivationCode.Text = "";
                     this.ActivatePage.Visibility = System.Windows.Visibility.Hidden;
                     this.OKPage.Visibility = System.Windows.Visibility.Visible;
                 }, null);                
@@ -217,13 +302,13 @@ namespace Cryptool.P2PEditor.GUI.Controls
                         if (requesting)
                         {
                             this.RequestLabel.Visibility = System.Windows.Visibility.Visible;
-                            this.ActivateButton.IsEnabled = false;
+                            this.VerifyButton.IsEnabled = false;
                             storyboard.Begin();
                         }
                         else
                         {
                             this.RequestLabel.Visibility = System.Windows.Visibility.Hidden;
-                            this.ActivateButton.IsEnabled = true;
+                            this.VerifyButton.IsEnabled = true;
                             storyboard.Stop();
                         }
                     }, null);
@@ -236,7 +321,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
-            this.P2PEditorPresentation.ShowGetNewCertificateView();
+            this.P2PEditorPresentation.ShowForgotPasswordView();
         }
 
         private void OKButton_Click(object sender, RoutedEventArgs e)
