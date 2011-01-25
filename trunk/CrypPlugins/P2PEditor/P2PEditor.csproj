@@ -64,6 +64,9 @@
     <Compile Include="GUI\Controls\ConnectView.xaml.cs">
       <DependentUpon>ConnectView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="GUI\Controls\VerifyPasswordResetView.xaml.cs">
+      <DependentUpon>VerifyPasswordResetView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="GUI\Controls\GetNewCertificateView.xaml.cs">
       <DependentUpon>GetNewCertificateView.xaml</DependentUpon>
     </Compile>
@@ -151,6 +154,10 @@
     <Page Include="GUI\Controls\ConnectView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GUI\Controls\VerifyPasswordResetView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="GUI\Controls\GetNewCertificateView.xaml">
       <Generator>MSBuild:Compile</Generator>

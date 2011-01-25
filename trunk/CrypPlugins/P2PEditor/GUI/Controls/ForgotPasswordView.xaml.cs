@@ -304,9 +304,9 @@ namespace Cryptool.P2PEditor.GUI.Controls
             this.P2PEditorPresentation.ShowConnectView();
         }
 
-        private void ActivateButton_Click(object sender, RoutedEventArgs e)
+        private void VerifyButton_Click(object sender, RoutedEventArgs e)
         {
-            
+            this.P2PEditorPresentation.ShowVerifyPasswordResetView();
         }
     }
 }
