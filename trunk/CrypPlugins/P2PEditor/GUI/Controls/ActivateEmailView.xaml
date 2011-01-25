@@ -27,7 +27,7 @@
             <Label Name="MessageLabel" Foreground="Red" Grid.Row="1" Grid.ColumnSpan="2" />
             <Label Content="_Activation Code:" Target="{Binding ElementName=ActivationCode}" Grid.Row="2" Grid.Column="0" />
             <Label Content="_Password:" Target="{Binding ElementName=PasswordField}" Grid.Row="3" Grid.Column="0" />            
-            <TextBox Text="{Binding Name}" x:Name="ActivationCodeField" Grid.Row="2" Grid.Column="1" Height="24" />
+            <TextBox Text="{Binding Name}" x:Name="ActivationCodeField" Grid.Row="2" Grid.Column="1" Height="24"/>
             <PasswordBox x:Name="PasswordField" Grid.Row="3" Grid.Column="1" Height="24" />
             <Button Name="BackButton" Content="_Back" Height="24" HorizontalAlignment="Right" Margin="0,20,6,36" Width="54" Grid.Row="4" Grid.Column="1" Click="BackButton_Click" />
             <Button Name="ActivateButton" Content="_Activate" Height="24" HorizontalAlignment="Left" Margin="438,20,0,36" Width="56" Grid.Column="1" Grid.Row="4" Click="ActivateButton_Click"/>
@@ -41,7 +41,7 @@
     </ScrollViewer>
     <ScrollViewer Name="OKPage" VerticalScrollBarVisibility="Auto" Visibility="Hidden">
     <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Margin="80,55,80,53">
-            <Label FontSize="16" HorizontalContentAlignment="Center">Account successfully activated</Label>
+        <Label FontSize="16" HorizontalContentAlignment="Center">Account successfully activated</Label>
         <Image Name="Account" Source="..\..\images\account.png"  Margin="5,5,5,5" Width="48" />
         <TextBlock Grid.ColumnSpan="2" Margin="15,15,15,15" FlowDirection="LeftToRight" HorizontalAlignment="Center">
         Your new account was successfully activated and can now be used. 
