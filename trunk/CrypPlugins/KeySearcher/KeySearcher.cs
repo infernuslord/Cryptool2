@@ -1440,13 +1440,14 @@ namespace KeySearcher
             maschinehierarchie = maschinehierarchie.OrderByDescending((x) => x.Value.Sum).ToDictionary(x => x.Key, y => y.Value);
         }
 
-        private void EnhanceUserName(ValueKey vk)
+        private static DateTime defaultstart = DateTime.MinValue;
+        private static string username = P2PSettings.Default.PeerName;
+        private static long maschineid = Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetID();
+        private static string maschinename = Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetHostName();
+
+        private static void EnhanceUserName(ValueKey vk)
         {
             DateTime chunkstart = DateTime.UtcNow;
-            DateTime defaultstart = DateTime.MinValue;
-            string username = P2PSettings.Default.PeerName;
-            long maschineid = Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetID();
-            string maschinename = Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetHostName();
 
             //enhance our userdata:
             if ((username != null) && (!username.Equals("")))
