@@ -7,7 +7,7 @@ namespace Cryptool.PluginBase.Attributes
         Developer = 0,
         Nightly = 1,
         Beta = 2,
-        Release = 3
+        Stable = 3
     }
 
     [AttributeUsage(AttributeTargets.Assembly)]
