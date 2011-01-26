@@ -16,6 +16,28 @@
     <description lang="en-US" >
       AES is a symmetric modern algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
     </description>
+    <inputBox plugin="TextInput1" property="Text" defaultValue="Input your Message here!">
+      <description lang="en-US">
+        Message to encrypt
+      </description>
+    </inputBox>
+
+    <input id ="CaesarEnKey">
+      <headline lang="en-US" >Key Input</headline>
+      <desc lang="en-US" >Input the key information.</desc>
+      <inputBox defaultValue="00 00 00">
+        <description lang="en-US">
+          Key
+        </description>
+      </inputBox>
+      <inputBox defaultValue="00 00 00">
+        <description lang="en-US">
+          Initialization Vector
+        </description>
+      </inputBox>
+
+      <loadSample file="WorkspaceManagerSamples\KeySearcher_AES_Sample.cwm" title="W_AES_Sample"/>
+    </input>
   </input>
 
   <!-- DES input -->

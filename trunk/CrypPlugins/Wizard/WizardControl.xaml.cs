@@ -112,9 +112,9 @@ namespace Wizard
 
         private void SetupPage(XElement element)
         {
-            if ((element.Name == "loadSample") && (element.Attribute("file") != null))
+            if ((element.Name == "loadSample") && (element.Attribute("file") != null) && (element.Attribute("title") != null))
             {
-                LoadSample(element.Attribute("file").Value);
+                LoadSample(element.Attribute("file").Value, element.Attribute("title").Value);
             }
 
             XElement parent = element.Parent;
@@ -160,7 +160,9 @@ namespace Wizard
                     textBox.Tag = box;
                     textBox.MinLines = 4;
                     inputStack.Children.Add(textBox);
-                    if (box.Attribute("defaultValue") != null)
+                    if (propertyValueDict.ContainsKey(GetElementID(box)))
+                        textBox.Text = propertyValueDict[GetElementID(box)].Value;
+                    else if (box.Attribute("defaultValue") != null)
                         textBox.Text = box.Attribute("defaultValue").Value;
                 }
 
@@ -278,7 +280,7 @@ namespace Wizard
                 return "";
         }
 
-        private void LoadSample(string file)
+        private void LoadSample(string file, string title)
         {
             file = SamplesDir + "\\" + file;
 
@@ -301,7 +303,7 @@ namespace Wizard
                 }
             }
 
-            OnOpenTab(newEditor, "WizardContent", null);           
+            OnOpenTab(newEditor, title, null);           
             newEditor.Open(model);                   
         }
 
@@ -375,6 +377,7 @@ namespace Wizard
 
         private void abortButton_Click(object sender, RoutedEventArgs e)
         {
+            propertyValueDict.Clear();
             ResetBackground();
             radioButtonStackPanel.Children.Clear();
             choicePath.Clear();
@@ -403,10 +406,7 @@ namespace Wizard
                 {
                     if (child is TextBox)
                     {
-                        XElement ele = (XElement) ((TextBox)child).Tag;
-                        if (ele.Attribute("plugin") != null && ele.Attribute("property") != null)
-                            propertyValueDict.Add(GetElementID(ele), new PluginPropertyValue() {PluginName = ele.Attribute("plugin").Value, 
-                                PropertyName = ele.Attribute("property").Value, Value = ((TextBox)child).Text});
+                        SaveTextboxContent((TextBox)child);
                     }
                 }
                 var nextElement = (XElement) inputPanel.Tag;
@@ -416,6 +416,35 @@ namespace Wizard
 
             Storyboard mainGridStoryboardLeft = (Storyboard)FindResource("MainGridStoryboardNext2");
             mainGridStoryboardLeft.Begin();
+        }
+
+        private void SaveTextboxContent(TextBox textBox)
+        {
+            XElement ele = (XElement) textBox.Tag;
+            if (ele.Attribute("plugin") != null && ele.Attribute("property") != null)
+            {
+                var id = GetElementID(ele);
+                var newEntry = new PluginPropertyValue()
+                                   {
+                                       PluginName = ele.Attribute("plugin").Value,
+                                       PropertyName = ele.Attribute("property").Value,
+                                       Value = textBox.Text
+                                   };
+
+                if (!propertyValueDict.ContainsKey(id))
+                    propertyValueDict.Add(id, newEntry);
+                else
+                    propertyValueDict[id] = newEntry;
+            }
+        }
+
+        private void DeleteTextboxContent(TextBox textBox)
+        {
+            XElement ele = (XElement)textBox.Tag;
+            var id = GetElementID(ele);
+
+            if (propertyValueDict.ContainsKey(id))
+                propertyValueDict.Remove(id);
         }
 
 
@@ -429,6 +458,14 @@ namespace Wizard
             }
             else if (inputPanel.IsVisible)
             {
+                foreach (var child in inputStack.Children)
+                {
+                    if (child is TextBox)
+                    {
+                        DeleteTextboxContent((TextBox)child);
+                    }
+                }
+
                 ele = (XElement) inputPanel.Tag;
             }
 
