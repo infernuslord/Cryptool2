@@ -178,7 +178,9 @@
     <EmbeddedResource Include="Config\EnDeCrypt\wizard.config.modernSymEnDe.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Config\Analysis\wizard.config.classicEn.xml" />
+    <EmbeddedResource Include="Config\Analysis\wizard.config.classicEn.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Config\Analysis\wizard.config.modernSymEn.xml" />

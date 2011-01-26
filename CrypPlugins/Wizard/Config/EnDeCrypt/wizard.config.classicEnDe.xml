@@ -14,8 +14,18 @@
   <input id ="Caesar" image="Caesar">
     <name lang="en-US" >Caesar</name>
     <description lang="en-US" >
-      Caesar is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
+      This encryption algorithm already used by the Roman general and dictator Caesar substitutes single letters: The substitution rule is that the letters of the cleartext alphabet are shifted by a special value (key).
     </description>
+
+    <headline lang="en-US" >Message Input</headline>
+    <desc lang="en-US" >Here, you can enter the message to encrypt.</desc>
+    <inputBox plugin="TextInput1" property="Text" defaultValue="Input your Message here!">
+      <description lang="en-US">
+        Message to encrypt: 
+      </description>
+    </inputBox>
+    <loadSample file="WorkspaceManagerSamples\Caesar_Sample.cwm" title="W_Caesar_Sample"/>
+    
   </input>
 
   <!-- Vigenère input -->
