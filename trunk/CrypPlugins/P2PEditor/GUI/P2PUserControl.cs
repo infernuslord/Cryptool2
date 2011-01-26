@@ -6,6 +6,8 @@ namespace Cryptool.P2PEditor.GUI
 {
     public class P2PUserControl : UserControl
     {
+
+
         public JobListManager JobListManager
         {
             get { return (JobListManager) GetValue(JobListManagerProperty); }

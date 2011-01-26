@@ -195,6 +195,9 @@
   <ItemGroup>
     <Resource Include="images\account.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\earth.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
