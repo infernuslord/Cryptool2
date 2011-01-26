@@ -16,12 +16,42 @@ namespace Cryptool.P2PEditor.GUI.Controls
     public partial class ConnectTab
     {
 
+        public static readonly RoutedEvent P2PConnectingTrueEvent = EventManager.RegisterRoutedEvent("P2PConnectingTrue", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(ConnectTab));
+
+        public event RoutedEventHandler P2PConnectingTrue
+        {
+            add { AddHandler(P2PConnectingTrueEvent, value); }
+            remove { RemoveHandler(P2PConnectingTrueEvent, value); }
+        }
+
+        public static readonly RoutedEvent P2PConnectingFalseEvent = EventManager.RegisterRoutedEvent("P2PConnectingFalse", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(ConnectTab));
+
+        public event RoutedEventHandler P2PConnectingFalse
+        {
+            add { AddHandler(P2PConnectingFalseEvent, value); }
+            remove { RemoveHandler(P2PConnectingFalseEvent, value); }
+        }
+
+        public void RaiseP2PConnectingEvent(bool b)
+        {
+            if (b)
+            {
+                RoutedEventArgs newEventArgs = new RoutedEventArgs(ConnectTab.P2PConnectingTrueEvent);
+                RaiseEvent(newEventArgs);
+            }
+            else 
+            {
+                RoutedEventArgs newEventArgs = new RoutedEventArgs(ConnectTab.P2PConnectingFalseEvent);
+                RaiseEvent(newEventArgs);
+            }
+        }
+
         public static readonly DependencyProperty IsP2PConnectingProperty =
             DependencyProperty.Register("IsP2PConnecting",
                                         typeof(
                                             Boolean),
                                         typeof(
-                                            ConnectTab), new PropertyMetadata(false));
+                                            ConnectTab), new PropertyMetadata(false, new PropertyChangedCallback(OnIsP2PConnectingPropertyPropertyChanged)));
 
         public Boolean IsP2PConnecting
         {
@@ -29,33 +59,19 @@ namespace Cryptool.P2PEditor.GUI.Controls
             set { SetValue(IsP2PConnectingProperty, value); }
         }
 
+        private static void OnIsP2PConnectingPropertyPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+        }
+
+
+
         public ConnectTab()
         {
             InitializeComponent();
 
             P2PManager.ConnectionManager.OnP2PTryConnectingStateChangeOccurred += new ConnectionManager.P2PTryConnectingStateChangeEventHandler(delegate(object sender, bool newState)
             {
-                if (newState)
-                {
-                    
-                    this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-                    {
-                        ((P2PEditorPresentation)P2PEditor.Presentation).UpdateConnectionState();
-                        Storyboard storyboard = (Storyboard)FindResource("AnimateBigWorldIcon");
-                        storyboard.Begin();
-                    }
-                    , null);
-                }
-                else
-                {
-                    this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-                    {
-                        ((P2PEditorPresentation)P2PEditor.Presentation).UpdateConnectionState();                    
-                        Storyboard storyboard = (Storyboard)FindResource("AnimateBigWorldIcon");
-                        storyboard.Stop(); 
-                    }
-                    , null);         
-                }
+                RaiseP2PConnectingEvent(newState);
             });            
         }
 
@@ -236,16 +252,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
         {            
             this.Username.Text = ((P2PEditorSettings)((P2PEditor)GetValue(P2PEditorProperty)).Settings).PeerName;
             this.Password.Password = ((P2PEditorSettings)((P2PEditor)GetValue(P2PEditorProperty)).Settings).Password;
-            if (this.IsP2PConnecting)
-            {
-                Storyboard storyboard = (Storyboard)FindResource("AnimateBigWorldIcon");
-                storyboard.Begin();
-            }
-            else
-            {
-                Storyboard storyboard = (Storyboard)FindResource("AnimateBigWorldIcon");
-                storyboard.Stop();
-            }
+            this.RaiseP2PConnectingEvent(IsP2PConnecting);
         }
 
         private void OnPropertyChanged_Settings(object sender, PropertyChangedEventArgs args)
