@@ -41,6 +41,24 @@ namespace Cryptool.PluginBase.Miscellaneous
         }
 
         /// <summary>
+        /// Returns a globally unique identifier for an external client connected
+        /// to this computer.
+        /// </summary>
+        /// <param name="externalClient"></param>
+        /// <returns></returns>
+        public static Int64 GetID(String externalClient)
+        {
+            Int64 localId = GetID();
+
+            MD5 md5 = new MD5CryptoServiceProvider();
+            byte[] idBytes = md5.ComputeHash(System.Text.ASCIIEncoding.ASCII.GetBytes(externalClient + localId));
+            long ID = BitConverter.ToInt64(idBytes, 0);
+            ID = Math.Abs(ID);
+
+            return ID;
+        }
+
+        /// <summary>
         /// Returns an identifier that depends on the MAC addresses of this system
         /// </summary>        
         private static string GetMacIdentifier()

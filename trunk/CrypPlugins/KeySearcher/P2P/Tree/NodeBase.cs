@@ -173,9 +173,9 @@ namespace KeySearcher.P2P.Tree
             StorageHelper.UpdateInDht(this);
         }
 
-        protected void UpdateActivity()
+        protected void UpdateActivity(Int64 id, String hostname)
         {
-            var Maschine = new Dictionary<long, Information> { { Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetID(), new Information() { Count = 1, Hostname = Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetHostName(),Date = DateTime.UtcNow } } };
+            var Maschine = new Dictionary<long, Information> { {id , new Information() { Count = 1, Hostname = hostname,Date = DateTime.UtcNow } } };
             if (!Activity.ContainsKey(Avatarname))
             {
                 Activity.Add(Avatarname, Maschine);

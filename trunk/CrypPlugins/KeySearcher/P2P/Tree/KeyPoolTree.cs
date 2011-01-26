@@ -179,9 +179,9 @@ namespace KeySearcher.P2P.Tree
         }
 
         public static void ProcessCurrentPatternCalculationResult(Leaf currentLeaf,
-                                                                  LinkedList<KeySearcher.ValueKey> result)
+                                                                  LinkedList<KeySearcher.ValueKey> result, Int64 id, String hostname)
         {
-            currentLeaf.HandleResults(result);
+            currentLeaf.HandleResults(result, id, hostname);
         }
 
         public void UpdateStatusForNewCalculation()
