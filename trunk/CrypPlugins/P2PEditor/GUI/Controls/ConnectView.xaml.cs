@@ -71,7 +71,10 @@ namespace Cryptool.P2PEditor.GUI.Controls
 
             P2PManager.ConnectionManager.OnP2PTryConnectingStateChangeOccurred += new ConnectionManager.P2PTryConnectingStateChangeEventHandler(delegate(object sender, bool newState)
             {
-                RaiseP2PConnectingEvent(newState);
+                this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    RaiseP2PConnectingEvent(newState);
+                }, null);
             });            
         }
 
