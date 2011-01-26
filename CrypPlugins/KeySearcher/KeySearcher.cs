@@ -1448,6 +1448,7 @@ namespace KeySearcher
         private static void EnhanceUserName(ref ValueKey vk)
         {
             DateTime chunkstart = DateTime.UtcNow;
+            username = P2PSettings.Default.PeerName;
 
             //enhance our userdata:
             if ((username != null) && (!username.Equals("")))
