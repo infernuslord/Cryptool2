@@ -65,6 +65,8 @@ int main (int argc, char **argv)
     bzero((char *) &serv_addr, sizeof(serv_addr));
     serv_addr.sin_port = htons(port);
 
+    Cryptool cryptool;
+
     while(true)
     {
         if(!lookup(argv[1], serv_addr))
@@ -72,7 +74,7 @@ int main (int argc, char **argv)
             printf("failed to lookup %s..\n", argv[1]);
             continue;
         }
-        networkThread(serv_addr, port, password);
+        networkThread(serv_addr, port, password, &cryptool);
         printf("Reconnecting in %u seconds\n", RECONNECT_TIME);
         sleep(RECONNECT_TIME);
     }
