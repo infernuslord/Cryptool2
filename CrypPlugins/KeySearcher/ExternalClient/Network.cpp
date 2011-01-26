@@ -19,9 +19,7 @@
 #include "Job.h"
 #include "Cryptool.h"
 
-Cryptool* cryptool = 0;
-
-std::string getIdentificationStr()
+std::string getIdentificationStr(Cryptool* cryptool)
 {
     std::stringstream out;
     char buf[255];
@@ -64,13 +62,10 @@ void writeJobResult(PlatformIndependentWrapper& wrapper, JobResult& result)
 
 // Queue of completed jobs
 std::queue<JobResult> finishedJobs;
-void GetJobsAndPostResults(PlatformIndependentWrapper& wrapper, const char* password)
+void GetJobsAndPostResults(PlatformIndependentWrapper& wrapper, const char* password, Cryptool* cryptool)
 {
-    if (cryptool == 0)
-        cryptool = new Cryptool();
-
     wrapper.WriteInt(ClientOpcodes::HELLO);
-    wrapper.WriteString(getIdentificationStr());
+    wrapper.WriteString(getIdentificationStr(cryptool));
     wrapper.WriteString(password);
 
     while(!finishedJobs.empty())
@@ -119,7 +114,7 @@ void GetJobsAndPostResults(PlatformIndependentWrapper& wrapper, const char* pass
     }
 }
 
-void networkThread(sockaddr_in serv_addr, int port, const char* password)
+void networkThread(sockaddr_in serv_addr, int port, const char* password, Cryptool* cryptool)
 {
     printf("Connecting to %s on port %i\n", inet_ntoa(serv_addr.sin_addr), port);
     int sockfd = socket(AF_INET, SOCK_STREAM, 0);
@@ -146,7 +141,7 @@ void networkThread(sockaddr_in serv_addr, int port, const char* password)
 
     try{
         PlatformIndependentWrapper w(sockfd);
-        GetJobsAndPostResults(w, password);
+        GetJobsAndPostResults(w, password, cryptool);
     } catch(SocketException)
     {
         close(sockfd);
