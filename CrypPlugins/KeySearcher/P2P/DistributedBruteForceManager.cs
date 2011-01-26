@@ -215,7 +215,15 @@ namespace KeySearcher.P2P
                                 } while (!P2PManager.IsConnected);
                             }
                             status.CurrentOperation = Resources.Processing_results_of_calculation;
-                            KeyPoolTree.ProcessCurrentPatternCalculationResult(currentLeaf, result);
+
+                            String hostname = Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetHostName();
+                            Int64 hostid = Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetID();
+                            if (settings.UseExternalClient)
+                            {
+                                hostname = keySearcher.ExternalClientHostname;
+                                hostid = keySearcher.ExternaClientId;
+                            }
+                            KeyPoolTree.ProcessCurrentPatternCalculationResult(currentLeaf, result, hostid, hostname);
                             StatisticsGenerator.ProcessPatternResults(result);
 
                             status.CurrentOperation = Resources.Calculating_global_statistics;

@@ -15,7 +15,7 @@ class CryptoolServer
 
     #region Events
 
-    public delegate void JobCompletedDelegate(EndPoint ipep, JobResult j);
+    public delegate void JobCompletedDelegate(EndPoint ipep, JobResult j, String name);
     public event JobCompletedDelegate OnJobCompleted;
 
     public delegate bool ClientConnectedDelegate(EndPoint ipep, String name, String password);
@@ -151,6 +151,7 @@ class CryptoolServer
         EndPoint ep = client.Client.RemoteEndPoint;
 
         bool identified = false;
+        String name = string.Empty;
         try
         {
             var wrapped = new PlatformIndependentWrapper(client);
@@ -160,7 +161,7 @@ class CryptoolServer
                 {
                     case ClientOpcodes.HELLO:
                         {
-                            String name = wrapped.ReadString();
+                            name = wrapped.ReadString();
                             String password = wrapped.ReadString();
                             if (OnClientAuth == null || !OnClientAuth(ep, name, password))
                             {
@@ -198,7 +199,7 @@ class CryptoolServer
 
                             if (OnJobCompleted != null)
                             {
-                                OnJobCompleted(ep, rs);
+                                OnJobCompleted(ep, rs, name);
                             }
                         }
                         break;

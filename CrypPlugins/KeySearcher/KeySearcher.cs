@@ -260,6 +260,14 @@ namespace KeySearcher
         private AutoResetEvent waitForExternalClientToFinish = new AutoResetEvent(false);
         private DateTime assignTime;
         private bool externalClientJobsAvailable = false;
+        /// <summary>
+        /// id of the client which calculated the last pattern
+        /// </summary>
+        public Int64 ExternaClientId { get; private set; }
+        /// <summary>
+        /// Hostname of the client which calculated the last pattern
+        /// </summary>
+        public String ExternalClientHostname { get; private set; }
         #endregion
 
         public KeySearcher()
@@ -1075,7 +1083,7 @@ namespace KeySearcher
             assignTime = DateTime.Now;
         }
 
-        void cryptoolServer_OnJobCompleted(System.Net.EndPoint client, JobResult jr)
+        void cryptoolServer_OnJobCompleted(System.Net.EndPoint client, JobResult jr, String clientName)
         {
             GuiLogMessage(string.Format(Resources.Client_returned_result_of_job_with_Guid__0__, jr.Guid), NotificationLevel.Info);
             lock (this)
@@ -1090,6 +1098,13 @@ namespace KeySearcher
                 // from supplying old results for new chunks.
                 currentExternalJobGuid = Guid.NewGuid();
             }
+
+            Int64 id = Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetID(clientName);
+            String hostname = Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetHostName() + "/" + clientName;
+
+            ExternalClientHostname = hostname;
+            ExternaClientId = id;
+
             //check:
             var op = this.costMaster.getRelationOperator();
             foreach (var res in jr.ResultList)
@@ -1103,6 +1118,11 @@ namespace KeySearcher
                     valueKey.decryption = sender.Decrypt(this.encryptedData, valueKey.keya, InitVector, bytesToUse);
 
                     EnhanceUserName(ref valueKey);
+
+                    // special treatment for external client
+                    valueKey.maschid = id;
+                    valueKey.maschname = hostname;
+
                     valuequeue.Enqueue(valueKey);
                 }
             }
