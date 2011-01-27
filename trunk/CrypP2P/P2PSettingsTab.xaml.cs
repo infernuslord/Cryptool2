@@ -26,6 +26,7 @@ namespace Cryptool.P2P
         {
             Resources.Add("settingsStyle", settingsStyle);
             InitializeComponent();
+            earthGrid.DataContext = this;
 
             P2PSettings.Default.PropertyChanged += delegate
                                                        {
