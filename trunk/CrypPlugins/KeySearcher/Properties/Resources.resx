@@ -606,4 +606,28 @@
   <data name="KeysearcherSettings" xml:space="preserve">
     <value>Keysearcher Settings</value>
   </data>
+  <data name="Aggregate_Statistics_" xml:space="preserve">
+    <value>Aggregate Statistics</value>
+  </data>
+  <data name="Current__Information_" xml:space="preserve">
+    <value>Current Information</value>
+  </data>
+  <data name="Total__Blocks__Tested_" xml:space="preserve">
+    <value>Total Blocks Tested</value>
+  </data>
+  <data name="Total__Blocks__to__Search_" xml:space="preserve">
+    <value>Total Blocks to Search</value>
+  </data>
+  <data name="Total__Keys__Tested_" xml:space="preserve">
+    <value>Total Keys Tested</value>
+  </data>
+  <data name="Total__Keys__to_Search_" xml:space="preserve">
+    <value>Total Keys to Search</value>
+  </data>
+  <data name="Under__Construction_" xml:space="preserve">
+    <value>Under Construction</value>
+  </data>
+  <data name="_Information_" xml:space="preserve">
+    <value>Information</value>
+  </data>
 </root>
