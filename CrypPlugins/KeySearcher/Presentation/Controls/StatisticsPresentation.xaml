@@ -13,6 +13,7 @@
         <Controls:ChunkSumConverter x:Key="ChunkSumConverter"/>
         <Controls:StringLengthConverter x:Key="StringLengthConverter"/>
         <Controls:ColorToDateConverter x:Key="ColorToDateConverter"></Controls:ColorToDateConverter>
+        <RotateTransform x:Key="HeaderRotate" Angle="270" />
         <g:WidthConverter x:Key="WidthConverter"></g:WidthConverter>
         <AlternationConverter x:Key="TeamsBackgroundConverter">
             <SolidColorBrush>LimeGreen</SolidColorBrush>
@@ -32,7 +33,56 @@
     
     <TabControl>
         <TabItem Header="{Loc _Information_}">
-            Under Construction
+            <Viewbox>
+                <Grid Width="400">
+                    <StackPanel>
+                        <Border BorderBrush="Silver" BorderThickness="2,2,2,2">
+                            <Grid Height="175" Background="#AFE2E2FF">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="35" />
+                                    <RowDefinition Height="35" />
+                                    <RowDefinition Height="35" />
+                                    <RowDefinition Height="35" />
+                                    <RowDefinition Height="35" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="26" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Border BorderThickness="1" BorderBrush="Black" LayoutTransform="{StaticResource HeaderRotate}" Grid.Column="0" Grid.RowSpan="5" Background="#FF5C5CFF">
+                                    <Label Content="{Loc Aggregate_Statistics_}" FontSize="11" HorizontalAlignment="Center" Foreground="White" />
+                                </Border>
+                                <Label Content="{Loc Total__Blocks__to__Search_}" VerticalAlignment="Center" Grid.Row="0" Grid.Column="1" />
+                                <Label Content="-" Name="TotalAmountOfBlocks" VerticalAlignment="Center" Grid.Row="0" Grid.Column="1" HorizontalContentAlignment="Right" Padding="5,5,20,5" />
+                                <Label Content="{Loc Total__Blocks__Tested_}" VerticalAlignment="Center" Grid.Row="1" Grid.Column="1" />
+                                <Label Content="-" Name="TotalBlocksTested" VerticalAlignment="Center" Grid.Row="1" Grid.Column="1" HorizontalContentAlignment="Right" Padding="5,5,20,5" />
+                                <Label Content="{Loc Total__Keys__to_Search_}" VerticalAlignment="Center" Grid.Row="2" Grid.Column="1" />
+                                <Label Content="-" Name="TotalAmountOfKeys" VerticalAlignment="Center" Grid.Row="2" Grid.Column="1" HorizontalContentAlignment="Right" Padding="5,5,20,5" />
+                                <Label Content="{Loc Total__Keys__Tested_}" VerticalAlignment="Center" Grid.Row="3" Grid.Column="1" />
+                                <Label Content="-" Name="TotalKeysTested" VerticalAlignment="Center" Grid.Row="3" Grid.Column="1" HorizontalContentAlignment="Right" Padding="5,5,20,5" />
+                                <Label Content="{Loc Under__Construction_}" VerticalAlignment="Center" Grid.Row="4" Grid.Column="1" />
+                            </Grid>
+                        </Border>
+
+                        <Border BorderBrush="Silver" BorderThickness="2,0,2,2">
+                            <Grid Height="160" Background="#AFAAE1E8">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="35" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="26" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Border BorderThickness="1" BorderBrush="Black" LayoutTransform="{StaticResource HeaderRotate}" Grid.Column="0" Grid.RowSpan="4" Background="#FF099BA7">
+                                    <Label Content="{Loc Current__Information_}" FontSize="11" HorizontalAlignment="Center" Foreground="White" />
+                                </Border>
+                                <Label Content="{Loc Under__Construction_}" VerticalAlignment="Center" Grid.Row="0" Grid.Column="1" />
+                            </Grid>
+                        </Border>
+                   </StackPanel>
+                </Grid>
+            </Viewbox>
         </TabItem>
         <TabItem Header="{Loc _Users_}">
             <Grid>
