@@ -37,13 +37,14 @@ namespace Cryptool.P2PEditor.GUI.Controls
             if (b)
             {
                 RoutedEventArgs newEventArgs = new RoutedEventArgs(ConnectTab.P2PConnectingTrueEvent);
-                RaiseEvent(newEventArgs);
+                RaiseEvent(newEventArgs);                
             }
             else 
             {
                 RoutedEventArgs newEventArgs = new RoutedEventArgs(ConnectTab.P2PConnectingFalseEvent);
                 RaiseEvent(newEventArgs);
             }
+            ((P2PEditorPresentation)P2PEditor.Presentation).UpdateConnectionState();
         }
 
         public static readonly DependencyProperty IsP2PConnectingProperty =
