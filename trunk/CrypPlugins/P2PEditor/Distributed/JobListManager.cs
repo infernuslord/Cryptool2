@@ -94,19 +94,25 @@ namespace Cryptool.P2PEditor.Distributed
 
         public void RetrieveDownloadCount(DistributedJob distributedJob)
         {
-            var result = P2PManager.Retrieve(GenerateDownloadCounterKey(distributedJob));
-            
-            if (result.Status == RequestResultType.KeyNotFound)
+            try
             {
-                distributedJob.Downloads = 0;
-                return;
-            }
+                var result = P2PManager.Retrieve(GenerateDownloadCounterKey(distributedJob));
 
-            if (result.Data != null)
+                if (result.Status == RequestResultType.KeyNotFound)
+                {
+                    distributedJob.Downloads = 0;
+                    return;
+                }
+
+                if (result.Data != null)
+                {
+                    var binaryReader = new BinaryReader(new MemoryStream(result.Data));
+                    distributedJob.Downloads = binaryReader.ReadInt32();
+                    distributedJob.LastDownload = DateTime.FromBinary(binaryReader.ReadInt64());
+                }
+            }
+            catch (Exception)
             {
-                var binaryReader = new BinaryReader(new MemoryStream(result.Data));
-                distributedJob.Downloads = binaryReader.ReadInt32();
-                distributedJob.LastDownload = DateTime.FromBinary(binaryReader.ReadInt64());
             }
         }
 
