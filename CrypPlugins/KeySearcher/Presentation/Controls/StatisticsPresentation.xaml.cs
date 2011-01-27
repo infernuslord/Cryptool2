@@ -41,13 +41,20 @@ namespace KeySearcherPresentation.Controls
             get { return statistics; }
             set
             {
-                statistics = value;
-                Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                lock (this)
+                {
+                    statistics = value;
+                }
+                if (statistics != null)
+                    Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                                                {
-                                                   var orderedstats = statistics.OrderByDescending((x) => x.Value.Sum((z) => z.Value.Count));
-                                                   statisticsTree.DataContext = orderedstats;
-                                                   statisticsTree.Items.Refresh();
-                                                }, null);
+                                                   if (statistics != null)
+                                                   {
+                                                       var orderedstats = statistics.OrderByDescending((x) => x.Value.Sum((z) => z.Value.Count));
+                                                       statisticsTree.DataContext = orderedstats;
+                                                       statisticsTree.Items.Refresh();
+                                                   }
+                                               }, null);
 
             }
         }
@@ -57,11 +64,13 @@ namespace KeySearcherPresentation.Controls
         {
             get { return machineHierarchy; }
             set
-            { 
-                machineHierarchy = value;
+            {
+                lock (this)
+                {
+                    machineHierarchy = value;
+                }
                 Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                                                 {
-                                                    //var orderedstats = machineHierarchy.OrderByDescending((x) => x.Value.Sum);
                                                     machineTree.DataContext = machineHierarchy;
                                                     machineTree.Items.Refresh();
                                                 }, null);
@@ -102,11 +111,14 @@ namespace KeySearcherPresentation.Controls
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (StatisticsPresentation != null)
+            if (StatisticsPresentation != null && StatisticsPresentation.Statistics != null)
             {
-                double allCount = (StatisticsPresentation.Statistics).Sum(i => i.Value.Sum(j => j.Value.Count));
-                double vCount = ((Dictionary<long, Information>)value).Sum(i => i.Value.Count);
-                return vCount / allCount;
+                lock (StatisticsPresentation)
+                {
+                    double allCount = (StatisticsPresentation.Statistics).Sum(i => i.Value.Sum(j => j.Value.Count));
+                    double vCount = ((Dictionary<long, Information>) value).Sum(i => i.Value.Count);
+                    return vCount/allCount;
+                }
             }
             else
             {
@@ -127,11 +139,14 @@ namespace KeySearcherPresentation.Controls
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (StatisticsPresentation != null)
+            if (StatisticsPresentation != null && StatisticsPresentation.MachineHierarchy != null)
             {
-                double allCount = (StatisticsPresentation.MachineHierarchy).Sum(i => i.Value.Sum);
-                double vCount = (int)value;
-                return vCount / allCount;
+                lock (StatisticsPresentation)
+                {
+                    double allCount = (StatisticsPresentation.MachineHierarchy).Sum(i => i.Value.Sum);
+                    double vCount = (int) value;
+                    return vCount/allCount;
+                }
             }
             else
             {
@@ -152,11 +167,14 @@ namespace KeySearcherPresentation.Controls
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (StatisticsPresentation != null)
+            if (StatisticsPresentation != null && StatisticsPresentation.Statistics != null)
             {
-                string key = (string)value;
-                var data = (StatisticsPresentation.Statistics)[key];
-                return data.Sum(i => i.Value.Count);
+                lock (StatisticsPresentation)
+                {
+                    string key = (string) value;
+                    var data = (StatisticsPresentation.Statistics)[key];
+                    return data.Sum(i => i.Value.Count);
+                }
             }
             else
             {
@@ -209,10 +227,13 @@ namespace KeySearcherPresentation.Controls
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (StatisticsPresentation != null)
+            if (StatisticsPresentation != null && StatisticsPresentation.Statistics != null)
             {
-                double allCount = (StatisticsPresentation.Statistics).Sum(i => i.Value.Sum(j => j.Value.Count));
-                return (int)value / allCount;
+                lock (StatisticsPresentation)
+                {
+                    double allCount = (StatisticsPresentation.Statistics).Sum(i => i.Value.Sum(j => j.Value.Count));
+                    return (int) value/allCount;
+                }
             }
             else
             {
