@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading;
 using System.Windows;
@@ -16,6 +17,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using KeySearcher;
+using KeySearcher.KeyPattern;
 
 namespace KeySearcherPresentation.Controls
 {
@@ -101,6 +103,39 @@ namespace KeySearcherPresentation.Controls
                 return;
             }
         }
+
+        #region Informations
+
+        public void UpdateInformation(KeySearcher.KeySearcher keySearcher, KeySearcherSettings keySearcherSettings)
+        {
+            if (keySearcher.Pattern == null || !keySearcher.Pattern.testWildcardKey(keySearcherSettings.Key) || keySearcherSettings.ChunkSize == 0)
+            {
+                return;
+            }
+
+            var keyPattern = new KeyPattern(keySearcher.ControlMaster.getKeyPattern()) { WildcardKey = keySearcherSettings.Key };
+            var keysPerChunk = Math.Pow(2, keySearcherSettings.ChunkSize);
+            var keyPatternPool = new KeyPatternPool(keyPattern, new BigInteger(keysPerChunk));
+
+            if (keyPatternPool.Length > 9999999999)
+            {
+                TotalAmountOfBlocks.Content = keyPatternPool.Length.ToString().Substring(0, 10) + "...";
+            }
+            else
+            {
+                TotalAmountOfBlocks.Content = keyPatternPool.Length;
+            }
+
+            TotalAmountOfKeys.Content = new BigInteger(keysPerChunk) * keyPatternPool.Length;
+
+
+            //Under Construction
+            //--------
+            TotalBlocksTested.Content = "???";
+            TotalKeysTested.Content = "???";
+            //--------
+        }
+        #endregion
     }
 
     #region Converters

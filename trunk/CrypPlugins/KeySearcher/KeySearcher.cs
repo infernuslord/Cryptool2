@@ -292,6 +292,7 @@ namespace KeySearcher
             localQuickWatchPresentation = ((QuickWatch) QuickWatchPresentation).LocalQuickWatchPresentation;
             p2PQuickWatchPresentation = ((QuickWatch)QuickWatchPresentation).P2PQuickWatchPresentation;
             p2PQuickWatchPresentation.UpdateSettings(this, settings);
+            ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.UpdateInformation(this,settings);
 
             settings.PropertyChanged += SettingsPropertyChanged;
             ((QuickWatch)QuickWatchPresentation).IsOpenCLEnabled = (settings.DeviceSettings.Count(x => x.useDevice) > 0);
@@ -310,6 +311,7 @@ namespace KeySearcher
             ((QuickWatch)QuickWatchPresentation).IsP2PEnabled = settings.UsePeerToPeer;
             ((QuickWatch)QuickWatchPresentation).IsOpenCLEnabled = (settings.DeviceSettings.Count(x => x.useDevice) > 0);
             p2PQuickWatchPresentation.UpdateSettings(this, settings);
+            ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.UpdateInformation(this, settings);
         }
 
         public ISettings Settings
