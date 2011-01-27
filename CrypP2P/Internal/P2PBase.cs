@@ -395,16 +395,24 @@ namespace Cryptool.P2P.Internal
             var requestResult = new RequestResult {WaitHandle = autoResetEvent, Key = key, Data = data};
             VersionedDht.Store(OnSynchStoreCompleted, key, data, requestResult);
 
-            // blocking till response
-            bool success = autoResetEvent.WaitOne(1000*60*2);
-            if (!success)
+            if (P2PSettings.Default.UseTimeout)
             {
-                P2PManager.GuiLogMessage("Timeout in DHT Operation. Just a quick hack!", NotificationLevel.Warning);
-                if (!IsConnected)
-                    throw new NotConnectedException();
-                else
-                    throw new InvalidOperationException("SynchStore failed for some reason!");
+                // blocking till response
+                bool success = autoResetEvent.WaitOne(1000*60*2);
+                if (!success)
+                {
+                    P2PManager.GuiLogMessage("Timeout in DHT Operation. Just a quick hack!", NotificationLevel.Warning);
+                    if (!IsConnected)
+                        throw new NotConnectedException();
+                    else
+                        throw new InvalidOperationException("SynchStore failed for some reason!");
+                }
             }
+            else
+            {
+                autoResetEvent.WaitOne();
+            }
+
             LogToMonitor("End: SynchStore. Key: " + key + ". Status: " + requestResult.Status);
 
             return requestResult;
@@ -443,15 +451,22 @@ namespace Cryptool.P2P.Internal
 
             Dht.Retrieve(OnSynchRetrieveCompleted, key, requestResult);
 
-            // blocking till response
-            bool success = autoResetEvent.WaitOne(1000 * 60 * 2);
-            if (!success)
+            if (P2PSettings.Default.UseTimeout)
             {
-                P2PManager.GuiLogMessage("Timeout in DHT Operation. Just a quick hack!", NotificationLevel.Warning);
-                if (!IsConnected)
-                    throw new NotConnectedException();
-                else
-                    throw new InvalidOperationException("SynchRetrieve failed for some reason!");
+                // blocking till response
+                bool success = autoResetEvent.WaitOne(1000*60*2);
+                if (!success)
+                {
+                    P2PManager.GuiLogMessage("Timeout in DHT Operation. Just a quick hack!", NotificationLevel.Warning);
+                    if (!IsConnected)
+                        throw new NotConnectedException();
+                    else
+                        throw new InvalidOperationException("SynchRetrieve failed for some reason!");
+                }
+            }
+            else
+            {
+                autoResetEvent.WaitOne();
             }
 
             LogToMonitor("End: SynchRetrieve. Key: " + key + ". Status: " + requestResult.Status);
@@ -491,15 +506,22 @@ namespace Cryptool.P2P.Internal
             var requestResult = new RequestResult { WaitHandle = autoResetEvent, Key = key };
             VersionedDht.Remove(OnSynchRemoveCompleted, key, requestResult);
 
-            // blocking till response
-            bool success = autoResetEvent.WaitOne(1000 * 60 * 2);
-            if (!success)
+            if (P2PSettings.Default.UseTimeout)
             {
-                P2PManager.GuiLogMessage("Timeout in DHT Operation. Just a quick hack!", NotificationLevel.Warning);
-                if (!IsConnected)
-                    throw new NotConnectedException();
-                else
-                    throw new InvalidOperationException("SynchRemove failed for some reason!");
+                // blocking till response
+                bool success = autoResetEvent.WaitOne(1000*60*2);
+                if (!success)
+                {
+                    P2PManager.GuiLogMessage("Timeout in DHT Operation. Just a quick hack!", NotificationLevel.Warning);
+                    if (!IsConnected)
+                        throw new NotConnectedException();
+                    else
+                        throw new InvalidOperationException("SynchRemove failed for some reason!");
+                }
+            }
+            else
+            {
+                autoResetEvent.WaitOne();
             }
 
             LogToMonitor("End: SynchRemove. Key: " + key + ". Status: " + requestResult.Status);

@@ -202,5 +202,17 @@ namespace Cryptool.P2P {
                 this["UpdateFlag"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool UseTimeout {
+            get {
+                return ((bool)(this["UseTimeout"]));
+            }
+            set {
+                this["UseTimeout"] = value;
+            }
+        }
     }
 }
