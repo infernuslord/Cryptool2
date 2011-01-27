@@ -106,6 +106,15 @@ namespace KeySearcher.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Information.
+        /// </summary>
+        internal static string _Information_ {
+            get {
+                return ResourceManager.GetString("_Information_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Machines.
         /// </summary>
         internal static string _Machines_ {
@@ -120,6 +129,15 @@ namespace KeySearcher.Properties {
         internal static string _Users_ {
             get {
                 return ResourceManager.GetString("_Users_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Aggregate Statistics.
+        /// </summary>
+        internal static string Aggregate_Statistics_ {
+            get {
+                return ResourceManager.GetString("Aggregate_Statistics_", resourceCulture);
             }
         }
         
@@ -408,6 +426,15 @@ namespace KeySearcher.Properties {
         internal static string CSVPathSettingsDesc {
             get {
                 return ResourceManager.GetString("CSVPathSettingsDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Current Information.
+        /// </summary>
+        internal static string Current__Information_ {
+            get {
+                return ResourceManager.GetString("Current__Information_", resourceCulture);
             }
         }
         
@@ -1350,6 +1377,42 @@ namespace KeySearcher.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Total Blocks Tested.
+        /// </summary>
+        internal static string Total__Blocks__Tested_ {
+            get {
+                return ResourceManager.GetString("Total__Blocks__Tested_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total Blocks to Search.
+        /// </summary>
+        internal static string Total__Blocks__to__Search_ {
+            get {
+                return ResourceManager.GetString("Total__Blocks__to__Search_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total Keys Tested.
+        /// </summary>
+        internal static string Total__Keys__Tested_ {
+            get {
+                return ResourceManager.GetString("Total__Keys__Tested_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total Keys to Search.
+        /// </summary>
+        internal static string Total__Keys__to_Search_ {
+            get {
+                return ResourceManager.GetString("Total__Keys__to_Search_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Total amount of chunks: {0}, each containing {1} keys..
         /// </summary>
         internal static string Total_amount_of_patterns___0___each_containing__1__keys_ {
@@ -1400,6 +1463,15 @@ namespace KeySearcher.Properties {
         internal static string Unable_to_use_peer_to_peer_system_ {
             get {
                 return ResourceManager.GetString("Unable_to_use_peer_to_peer_system_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Under Construction.
+        /// </summary>
+        internal static string Under__Construction_ {
+            get {
+                return ResourceManager.GetString("Under__Construction_", resourceCulture);
             }
         }
         
