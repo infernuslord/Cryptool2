@@ -1368,8 +1368,10 @@ namespace KeySearcher
                 statistic[avname] = statistic[avname].OrderByDescending((x) => x.Value.Count).ToDictionary(x => x.Key, y => y.Value);
             }
             GenerateMaschineStats();
-            WriteStatistics(dataIdentifier);
 
+            //The following Method can be used to write a local csv file with the User/Maschine Statistics.
+            //WriteStatistics(dataIdentifier);
+            
             ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.Statistics = statistic;
             ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.MachineHierarchy = maschinehierarchie;
 
@@ -1404,29 +1406,29 @@ namespace KeySearcher
             }
             catch (Exception)
             {
-                GuiLogMessage(string.Format("Failed to write statistics to {0}", path), NotificationLevel.Debug);
+                GuiLogMessage(string.Format("Failed to write Userstatistics to {0}", path), NotificationLevel.Error);
             }
 
-
-            /*
-            //For testing purpose. This writes the Maschinestatistics to the main folder if no different path was chosen--------
+            //For testing purpose. This writes the Maschinestatistics to the main folder if no different path was chosen
             if (settings.CsvPath == "")
             {
-                //using the default save folder %APPDATA%\Local\Cryptool2
-                using (StreamWriter sw = new StreamWriter(string.Format("{0}\\Maschine{1}.csv", DirectoryHelper.DirectoryLocal, dataIdentifier)))
+                try
                 {
-                    sw.WriteLine("Maschineid" + ";" + "Name" + ";" + "Sum" + ";" + "Users");
-
+                    //using the default save folder %APPDATA%\Local\Cryptool2
+                    using (StreamWriter sw = new StreamWriter(string.Format("{0}\\Maschine{1}.csv", DirectoryHelper.DirectoryLocal, dataIdentifier)))
+                    {
+                        sw.WriteLine("Maschineid" + ";" + "Name" + ";" + "Sum" + ";" + "Users");
                         foreach (long mID in maschinehierarchie.Keys)
                         {
                             sw.WriteLine(mID + ";" + maschinehierarchie[mID].Hostname + ";" + maschinehierarchie[mID].Sum + ";" + maschinehierarchie[mID].Users);
                         }
-                    
+                    }
                 }
-            }
-            //-------------
-            */
-             
+                catch (Exception)
+                {
+                    GuiLogMessage(string.Format("Failed to write Maschinestatistics to {0}", path), NotificationLevel.Error);
+                }
+            }             
         }
 
         internal void GenerateMaschineStats()

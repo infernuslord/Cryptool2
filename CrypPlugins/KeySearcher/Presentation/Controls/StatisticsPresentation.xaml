@@ -31,6 +31,9 @@
     </UserControl.Resources>
     
     <TabControl>
+        <TabItem Header="{Loc _Information_}">
+            Under Construction
+        </TabItem>
         <TabItem Header="{Loc _Users_}">
             <Grid>
                 <Grid.ColumnDefinitions>
