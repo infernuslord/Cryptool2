@@ -781,7 +781,7 @@ namespace KeySearcher.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Keysearcher Settings.
+        ///   Looks up a localized string similar to KeySearcher Settings.
         /// </summary>
         internal static string KeysearcherSettings {
             get {
