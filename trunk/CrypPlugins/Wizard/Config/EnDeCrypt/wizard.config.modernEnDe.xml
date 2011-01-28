@@ -5,15 +5,15 @@
 <step>
 
   <!-- This is the step's headline. It should be short, but precise. -->
-  <headline lang="en-US" >Key Type Selection</headline>
+  <headline lang="en" >Key Type Selection</headline>
 
   <!-- This is the step's description. -->
-  <desc lang="en-US" >Select symmetric or asymmetric encryption/decryption.</desc>
+  <desc lang="en" >Select symmetric or asymmetric encryption/decryption.</desc>
 
   <!-- Symmetric Encryption/Decryption Category -->
   <category id ="Sym" image="Sym">
-    <name lang="en-US" >Symmetric Encryption/Decryption</name>
-    <description lang="en-US" >
+    <name lang="en" >Symmetric Encryption/Decryption</name>
+    <description lang="en" >
       Select a symmetric modern algorithm to encrypt plaintext or to decrypt ciphertext.
     </description>
     <file resource="Wizard.Config.EnDeCrypt.wizard.config.modernSymEnDe.xml" />
@@ -21,21 +21,21 @@
 
   <!-- Asymmetric Encryption/Decryption Category -->
   <category id ="Asym" image="Asym">
-    <name lang="en-US" >Asymmetric Encryption/Decryption</name>
-    <description lang="en-US" >
+    <name lang="en" >Asymmetric Encryption/Decryption</name>
+    <description lang="en" >
       Select an asymmetric modern algorithm to encrypt plaintext or to decrypt ciphertext.
     </description>
 
     <!-- This is the step's headline. It should be short, but precise. -->
-    <headline lang="en-US" >Algorithm Selection</headline>
+    <headline lang="en" >Algorithm Selection</headline>
 
     <!-- This is the step's description. -->
-    <desc lang="en-US" >Select an asymmetric encryption/decryption algorithm.</desc>
+    <desc lang="en" >Select an asymmetric encryption/decryption algorithm.</desc>
     
     <!-- RSA input -->
     <input id="RSA" image="RSA" >
-      <name lang="en-US" >RSA</name>
-      <description lang="en-US" >
+      <name lang="en" >RSA</name>
+      <description lang="en" >
         RSA is an asymmetric modern algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
       </description>
     </input>

@@ -5,15 +5,15 @@
 <step>
 
   <!-- This is the step's headline. It should be short, but precise. -->
-  <headline lang="en-US" >Key Type Selection</headline>
+  <headline lang="en" >Key Type Selection</headline>
 
   <!-- This is the step's description. -->
-  <desc lang="en-US" >Select symmetric or asymmetric encryption.</desc>
+  <desc lang="en" >Select symmetric or asymmetric encryption.</desc>
 
   <!-- Symmetric Encryption Category -->
   <category id ="SymAn" image="Sym">
-    <name lang="en-US" >Symmetric Encryption</name>
-    <description lang="en-US" >
+    <name lang="en" >Symmetric Encryption</name>
+    <description lang="en" >
       Select a symmetric modern algorithm to analyze.
     </description>
     <file resource="Wizard.Config.Analysis.wizard.config.modernSymEn.xml" />
@@ -21,21 +21,21 @@
 
   <!-- Asymmetric Encryption Category -->
   <category id ="AsymAn" image="Asym">
-    <name lang="en-US" >Asymmetric Encryption</name>
-    <description lang="en-US" >
+    <name lang="en" >Asymmetric Encryption</name>
+    <description lang="en" >
       Select an asymmetric modern algorithm to analyze.
     </description>
 
     <!-- This is the step's headline. It should be short, but precise. -->
-    <headline lang="en-US" >Algorithm Selection</headline>
+    <headline lang="en" >Algorithm Selection</headline>
 
     <!-- This is the step's description. -->
-    <desc lang="en-US" >Select an asymmetric encryption/decryption algorithm.</desc>
+    <desc lang="en" >Select an asymmetric encryption/decryption algorithm.</desc>
     
     <!-- RSA input -->
     <input id="RSAEn" image="RSA" >
-      <name lang="en-US" >RSA</name>
-      <description lang="en-US" >
+      <name lang="en" >RSA</name>
+      <description lang="en" >
         RSA is an asymmetric modern algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
       </description>
     </input>

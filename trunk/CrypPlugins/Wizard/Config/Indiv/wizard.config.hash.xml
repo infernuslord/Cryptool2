@@ -5,47 +5,47 @@
 <step>
 
   <!-- This is the step's headline. It should be short, but precise. -->
-  <headline lang="en-US" >Hash Function Selection</headline>
+  <headline lang="en" >Hash Function Selection</headline>
 
   <!-- This is the step's description. -->
-  <desc lang="en-US" >Select a hash function.</desc>
+  <desc lang="en" >Select a hash function.</desc>
 
   <!-- MD5 input -->
   <input id="MD5" image="MD5" >
-    <name lang="en-US" >MD5</name>
-    <description lang="en-US" >
+    <name lang="en" >MD5</name>
+    <description lang="en" >
       MD5 is a hash function... (add instead some really helpful text).
     </description>
   </input>
 
   <!-- SHA input -->
   <input id="SHA" image="SHA" >
-    <name lang="en-US" >SHA</name>
-    <description lang="en-US" >
+    <name lang="en" >SHA</name>
+    <description lang="en" >
       SHA is a hash function... (add instead some really helpful text).
     </description>
   </input>
 
   <!-- RIPEMD160 input -->
   <input id="RIPEMD160" image="RIPEMD160" >
-    <name lang="en-US" >RIPEMD160</name>
-    <description lang="en-US" >
+    <name lang="en" >RIPEMD160</name>
+    <description lang="en" >
       RIPEMD160 is a hash function... (add instead some really helpful text).
     </description>
   </input>
 
   <!-- Tiger input -->
   <input id="Tiger" image="Tiger" >
-    <name lang="en-US" >Tiger</name>
-    <description lang="en-US" >
+    <name lang="en" >Tiger</name>
+    <description lang="en" >
       Tiger is a hash function... (add instead some really helpful text).
     </description>
   </input>
 
   <!-- Whirlpool input -->
   <input id="Whirlpool" image="Whirlpool" >
-    <name lang="en-US" >Whirlpool</name>
-    <description lang="en-US" >
+    <name lang="en" >Whirlpool</name>
+    <description lang="en" >
       Whirlpool is a hash function... (add instead some really helpful text).
     </description>
   </input>
