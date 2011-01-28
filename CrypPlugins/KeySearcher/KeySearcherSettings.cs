@@ -61,6 +61,10 @@ namespace KeySearcher
         public void Initialize()
         {
             OpenCLGroupVisiblity();
+            Settings.Default.PropertyChanged += delegate
+                                                    {
+                                                        OpenCLGroupVisiblity();
+                                                    };
         }
 
         private string key;
@@ -277,19 +281,29 @@ namespace KeySearcher
             if (TaskPaneAttributeChanged == null)
                 return;
 
-            if (DevicesAvailable.Count == 0)
+            if (!Settings.Default.UseOpenCL)
             {
                 TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("OpenCLDevice", Visibility.Collapsed)));
                 TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("OpenCLMode", Visibility.Collapsed)));
                 TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("UseOpenCL", Visibility.Collapsed)));
-                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("NoOpenCL", Visibility.Visible)));
+                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("NoOpenCL", Visibility.Collapsed)));
             }
             else
             {
-                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("OpenCLDevice", Visibility.Visible)));
-                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("OpenCLMode", Visibility.Visible)));
-                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("UseOpenCL", Visibility.Visible)));
-                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("NoOpenCL", Visibility.Collapsed)));
+                if (DevicesAvailable.Count == 0)
+                {
+                    TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("OpenCLDevice", Visibility.Collapsed)));
+                    TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("OpenCLMode", Visibility.Collapsed)));
+                    TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("UseOpenCL", Visibility.Collapsed)));
+                    TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("NoOpenCL", Visibility.Visible)));
+                }
+                else
+                {
+                    TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("OpenCLDevice", Visibility.Visible)));
+                    TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("OpenCLMode", Visibility.Visible)));
+                    TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("UseOpenCL", Visibility.Visible)));
+                    TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("NoOpenCL", Visibility.Collapsed)));
+                }
             }
         }
 
@@ -347,7 +361,12 @@ namespace KeySearcher
             {
                 if ((deviceSettings.Count > OpenCLDevice) && (value != deviceSettings[OpenCLDevice].mode))
                 {
-                    deviceSettings[OpenCLDevice].mode = value;
+                    if (Settings.Default.EnableHighLoad || value != 2)
+                        deviceSettings[OpenCLDevice].mode = value;
+                    else
+                        keysearcher.GuiLogMessage(
+                            "Using \"High Load\" is disabled. Please check your CrypTool 2.0 settings.", NotificationLevel.Error);
+
                     OnPropertyChanged("OpenCLMode");
                     HasChanges = true;
                 }

@@ -598,6 +598,6 @@
     <value>Passwort mit dem sich externe Clients authentifizieren müssen</value>
   </data>
 	<data name="KeysearcherSettings" xml:space="preserve">
-    <value>Keysearcher Einstellungen</value>
+    <value>KeySearcher Einstellungen</value>
   </data>
 </root>

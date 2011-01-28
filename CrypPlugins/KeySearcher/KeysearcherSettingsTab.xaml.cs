@@ -26,6 +26,11 @@ namespace KeySearcher
         {
             Resources.Add("settingsStyle", settingsStyle);
             InitializeComponent();
+
+            Properties.Settings.Default.PropertyChanged += delegate
+                                                               {
+                                                                   Properties.Settings.Default.Save();
+                                                               };
         }
     }
 }
