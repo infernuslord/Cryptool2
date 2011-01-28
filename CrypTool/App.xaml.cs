@@ -21,7 +21,7 @@ namespace CrypTool
 
         private void LoadPlugins()
         {
-            PluginManager pluginMgr = new PluginManager();
+            PluginManager pluginMgr = new PluginManager(null);
             pluginMgr.OnPluginLoaded += new CrypCorePluginLoadedHandler(OnPluginLoaded);
             Dictionary<string, Type> plugins = pluginMgr.LoadTypes(AssemblySigningRequirement.LoadAllAssemblies);
             OpenMainWindow(plugins, pluginMgr);
