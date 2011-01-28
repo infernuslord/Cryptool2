@@ -15,6 +15,7 @@
 */
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using System.IO;
@@ -26,6 +27,8 @@ namespace Cryptool.Core
     /// </summary>
     public class PluginManager
     {
+        private readonly HashSet<string> disabledAssemblies = new HashSet<string>();
+
         /// <summary>
         /// Counter for the dll files that were found
         /// </summary>
@@ -76,20 +79,14 @@ namespace Cryptool.Core
         /// <summary>
         /// cTor
         /// </summary>
-        public PluginManager() 
-        { 
+        public PluginManager(HashSet<string> disabledAssemblies)
+        {
+            this.disabledAssemblies = disabledAssemblies;
+            
             this.customPluginStore = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), PluginDirecory);
             this.globalPluginStore = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), PluginDirecory);
             this.loadedAssemblies = new Dictionary<string, Assembly>();
             this.loadedTypes = new Dictionary<string, Type>();          
-        }
-
-        public PluginManager(string path)
-        {
-          this.customPluginStore = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), PluginDirecory);
-          this.globalPluginStore = path;
-          this.loadedAssemblies = new Dictionary<string, Assembly>();
-          this.loadedTypes = new Dictionary<string, Type>();
         }
 
         /// <summary>
@@ -154,6 +151,9 @@ namespace Cryptool.Core
             int currentPosition = 0;
             foreach (FileInfo fileInfo in directory.GetFiles("*.dll"))
             {
+                if (disabledAssemblies != null && disabledAssemblies.Contains(fileInfo.Name))
+                    continue;
+
                 currentPosition++;
                 try
                 {
