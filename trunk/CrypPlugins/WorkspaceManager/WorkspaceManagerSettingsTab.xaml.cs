@@ -19,7 +19,7 @@ namespace WorkspaceManager
     /// Interaction logic for WorkspaceManagerSettingsTab.xaml
     /// </summary>
     [Localization("WorkspaceManager.Properties.Resources")]
-    [SettingsTab("WorkspaceManagerSettings", "/MainSettings/")]
+    [SettingsTab("WorkspaceManagerSettings", "/MainSettings/", 1.1)]
     public partial class WorkspaceManagerSettingsTab : UserControl
     {
         public WorkspaceManagerSettingsTab(Style settingsStyle)
