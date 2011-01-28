@@ -27,11 +27,13 @@ namespace Cryptool.PluginBase.Attributes
     {
         public string Caption { get; private set; }
         public string Address { get; private set; }
+        public double Priority { get; private set; }
 
-        public SettingsTabAttribute(string caption, string address)
+        public SettingsTabAttribute(string caption, string address, double priority = 0.5)
         {
             Caption = caption;
             Address = address;
+            Priority = priority;
         }
     }
 }
