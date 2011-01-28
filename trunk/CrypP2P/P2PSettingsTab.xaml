@@ -19,9 +19,12 @@
         <Grid.RowDefinitions>
             <RowDefinition />
         </Grid.RowDefinitions>
-        <StackPanel Orientation="Vertical">
-            <CheckBox Content="{Loc Use_Timeout}" ToolTip="{Loc Use_Timeout_Tooltip}" IsChecked="{Binding Source={x:Static p:P2PSettings.Default}, Path=UseTimeout, Mode=TwoWay}" Style="{StaticResource ResourceKey=settingsStyle}"/>
-        </StackPanel>
+        
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel Orientation="Vertical">
+                <CheckBox Content="{Loc Use_Timeout}" ToolTip="{Loc Use_Timeout_Tooltip}" IsChecked="{Binding Source={x:Static p:P2PSettings.Default}, Path=UseTimeout, Mode=TwoWay}" Style="{StaticResource ResourceKey=settingsStyle}"/>
+            </StackPanel>
+        </ScrollViewer>
 
         <Grid Name="earthGrid" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" OpacityMask="#5B000000" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="{Binding Path=ActualHeight}">
             <Grid.Resources>

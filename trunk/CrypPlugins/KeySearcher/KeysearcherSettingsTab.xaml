@@ -6,11 +6,13 @@
              d:DesignHeight="300" d:DesignWidth="600">
     <Grid>
         <Image Source="/KeySearcher;component/Images/icon.png" Opacity="0.2"/>
-        
-        <StackPanel Orientation="Vertical">
-            <Label Content="OpenCL:" FontWeight="Bold" />
-            <CheckBox Name="UseOpenCL" Content="Use OpenCL in KeySearcher" IsChecked="{Binding Source={x:Static Properties:Settings.Default}, Path=UseOpenCL, Mode=TwoWay}" ToolTip="Check this to enable the KeySearcher to make use of OpenCL for bruteforcing." Style="{StaticResource ResourceKey=settingsStyle}" />
-            <CheckBox Content="Enable using OpenCL with high load (not recommend)" IsChecked="{Binding Source={x:Static Properties:Settings.Default}, Path=EnableHighLoad, Mode=TwoWay}" IsEnabled="{Binding ElementName=UseOpenCL, Path=IsChecked}" Style="{StaticResource ResourceKey=settingsStyle}" Margin="40,5,0,10" />
-        </StackPanel>
+
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel Orientation="Vertical">
+                <Label Content="OpenCL:" FontWeight="Bold" />
+                <CheckBox Name="UseOpenCL" Content="Use OpenCL in KeySearcher" IsChecked="{Binding Source={x:Static Properties:Settings.Default}, Path=UseOpenCL, Mode=TwoWay}" ToolTip="Check this to enable the KeySearcher to make use of OpenCL for bruteforcing." Style="{StaticResource ResourceKey=settingsStyle}" />
+                <CheckBox Content="Enable using OpenCL with high load (not recommend)" IsChecked="{Binding Source={x:Static Properties:Settings.Default}, Path=EnableHighLoad, Mode=TwoWay}" IsEnabled="{Binding ElementName=UseOpenCL, Path=IsChecked}" Style="{StaticResource ResourceKey=settingsStyle}" Margin="40,5,0,10" />
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </UserControl>
