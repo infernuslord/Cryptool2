@@ -5,97 +5,121 @@
 <step>
 
   <!-- This is the step's headline. It should be short, but precise. -->
-  <headline lang="en-US" >Algorithm Selection</headline>
+  <headline lang="en" >Algorithm Selection</headline>
 
   <!-- This is the step's description. -->
-  <desc lang="en-US" >Select a classic encryption/decryption algorithm.</desc>
+  <desc lang="en" >Select a classic encryption/decryption algorithm.</desc>
 
   <!-- Caesar input -->
   <input id ="Caesar" image="Caesar">
-    <name lang="en-US" >Caesar</name>
-    <description lang="en-US" >
+    <name lang="en" >Caesar</name>
+    <description lang="en" >
       This encryption algorithm already used by the Roman general and dictator Caesar substitutes single letters: The substitution rule is that the letters of the cleartext alphabet are shifted by a special value (key).
     </description>
 
-    <headline lang="en-US" >Message Input</headline>
-    <desc lang="en-US" >Here, you can enter the message to encrypt.</desc>
+    <headline lang="en" >Message Input</headline>
+    <desc lang="en" >Here, you can enter the message to encrypt and select input format and encodings.</desc>
+    
     <inputBox plugin="TextInput1" property="Text" defaultValue="Input your Message here!">
-      <description lang="en-US">
+      <description lang="en">
         Message to encrypt: 
       </description>
     </inputBox>
+    
+    <comboBox plugin="TextInput1" property="EncodingSetting" defaultValue="0">
+      <description lang="en">
+        Character Encoding type:
+      </description>
+      <item content="Default system encoding" lang="en"/>
+      <item content="Unicode" lang="en"/>
+      <item content="UTF-7" lang="en"/>
+      <item content="UTF-8" lang="en"/>
+      <item content="UTF-32" lang="en"/>
+      <item content="ASCII" lang="en"/>
+      <item content="Big endian unicode" lang="en"/>
+    </comboBox>
+    
+    <comboBox plugin="TextInput1" property="InputFormatSetting" defaultValue="0">
+      <description lang="en">
+        Input Format:
+      </description>
+      <item content="Plain text" lang="en"/>
+      <item content="Hex" lang="en"/>
+      <item content="Base64" lang="en"/>
+    </comboBox>
+    
     <loadSample file="WorkspaceManagerSamples\Caesar_Sample.cwm" title="W_Caesar_Sample"/>
     
   </input>
 
   <!-- Vigenère input -->
   <input id ="Vigenere" image="Vigenere">
-    <name lang="en-US" >Vigenère</name>
-    <description lang="en-US" >
+    <name lang="en" >Vigenère</name>
+    <description lang="en" >
       Vigenère is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
     </description>
   </input>
 
   <!-- Substitution input -->
   <input id ="Substitution" image="Substitution">
-    <name lang="en-US" >Substitution</name>
-    <description lang="en-US" >
+    <name lang="en" >Substitution</name>
+    <description lang="en" >
       Substitution is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
     </description>
   </input>
 
   <!-- Enigma input -->
   <input id ="Enigma" image="Enigma">
-    <name lang="en-US" >Enigma</name>
-    <description lang="en-US" >
+    <name lang="en" >Enigma</name>
+    <description lang="en" >
       Enigma is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
     </description>
   </input>
 
   <!-- Playfair input -->
   <input id ="Playfair" image="Playfair">
-    <name lang="en-US" >Playfair</name>
-    <description lang="en-US" >
+    <name lang="en" >Playfair</name>
+    <description lang="en" >
       Playfair is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
     </description>
   </input>
 
   <!-- ADFGVX input -->
   <input id ="ADFGVX" image="ADFGVX">
-    <name lang="en-US" >ADFGVX</name>
-    <description lang="en-US" >
+    <name lang="en" >ADFGVX</name>
+    <description lang="en" >
       ADFGVX is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
     </description>
   </input>
 
   <!-- XOR input -->
   <input id ="XOR" image="XOR">
-    <name lang="en-US" >XOR</name>
-    <description lang="en-US" >
+    <name lang="en" >XOR</name>
+    <description lang="en" >
       XOR is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
     </description>
   </input>
 
   <!-- Vernam input -->
   <input id ="Vernam" image="Vernam">
-    <name lang="en-US" >Vernam</name>
-    <description lang="en-US" >
+    <name lang="en" >Vernam</name>
+    <description lang="en" >
       Vernam is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
     </description>
   </input>
 
   <!-- Transposition input -->
   <input id ="Transposition" image="Transposition">
-    <name lang="en-US" >Transposition</name>
-    <description lang="en-US" >
+    <name lang="en" >Transposition</name>
+    <description lang="en" >
       Transposition is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
     </description>
   </input>
 
   <!-- Scytale input -->
   <input id ="Scytale" image="Scytale">
-    <name lang="en-US" >Scytale</name>
-    <description lang="en-US" >
+    <name lang="en" >Scytale</name>
+    <description lang="en" >
       Scytale is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
     </description>
   </input>

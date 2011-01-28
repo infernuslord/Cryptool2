@@ -5,15 +5,15 @@
 <step>
 
   <!-- This is the step's headline. It should be short, but precise. -->
-  <headline lang="en-US" >Age Selection</headline>
+  <headline lang="en" >Age Selection</headline>
 
   <!-- This is the step's description. -->
-  <desc lang="en-US" >Select classic or modern encryption.</desc>
+  <desc lang="en" >Select classic or modern encryption.</desc>
 
   <!-- Classic Encryption Category -->
   <category id ="ClassicEn" image="Classic">
-    <name lang="en-US" >Classic Encryption</name>
-    <description lang="en-US" >
+    <name lang="en" >Classic Encryption</name>
+    <description lang="en" >
       Select a classic encryption to analyze.
     </description>
     <file resource="Wizard.Config.Analysis.wizard.config.classicEn.xml" />
@@ -21,8 +21,8 @@
 
   <!-- Modern Encryption Category -->
   <category id ="ModernEn" image="Modern">
-    <name lang="en-US" >Modern Encryption</name>
-    <description lang="en-US" >
+    <name lang="en" >Modern Encryption</name>
+    <description lang="en" >
       Select a modern encryption to analyze.
     </description>
     <file resource="Wizard.Config.Analysis.wizard.config.modernEn.xml" />

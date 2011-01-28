@@ -5,19 +5,19 @@
 <category>
 
   <!-- This is the step's headline. It should be short, but precise. -->
-  <headline lang="en-US" >Task Selection</headline>
+  <headline lang="en" >Task Selection</headline>
 
   <!-- This is the step's description. -->
-  <desc lang="en-US" >Select a task.</desc>
+  <desc lang="en" >Select a task.</desc>
   
   <!-- Encryption/Decryption Category -->
   <category id ="EnDeCrypt" image="EnDeCrypt">
-    <name lang="en-US" >Encryption/Decryption</name>
+    <name lang="en" >Encryption/Decryption</name>
     <name lang="de-DE" >Verschlüsselung/Entschlüsselung</name>
     <description lang="de-DE" >
       Wählen Sie einen Algorithmus, um Klartext zu verschlüsseln oder chiffrierten Text zu entschlüsseln.
     </description>
-    <description lang="en-US" >
+    <description lang="en" >
       Select an algorithm to encrypt plaintext or to decrypt ciphertext.
     </description>
     <file resource="Wizard.Config.EnDeCrypt.wizard.config.enDe.xml" />
@@ -25,8 +25,8 @@
 
   <!-- Cryptanalysis Category -->
   <category id ="Analysis" image="Analyse">
-    <name lang="en-US" >Cryptanalysis</name>
-    <description lang="en-US" >
+    <name lang="en" >Cryptanalysis</name>
+    <description lang="en" >
       Select a specific algorithm to analyze.
     </description>
     <file resource="Wizard.Config.Analysis.wizard.config.analysis.xml" />
@@ -34,8 +34,8 @@
 
   <!-- Individual Procedures Category -->
   <category id ="Indiv" image="Indiv">
-    <name lang="en-US" >Individual Procedures</name>
-    <description lang="en-US" >
+    <name lang="en" >Individual Procedures</name>
+    <description lang="en" >
       Select from individual procedures like hash functions, prime number operations, or key exchange.
     </description>
     <file resource="Wizard.Config.Indiv.wizard.config.indiv.xml" />

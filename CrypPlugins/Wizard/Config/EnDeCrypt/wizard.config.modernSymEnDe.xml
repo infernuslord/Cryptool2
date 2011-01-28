@@ -5,63 +5,63 @@
 <step>
 
   <!-- This is the step's headline. It should be short, but precise. -->
-  <headline lang="en-US" >Algorithm Selection</headline>
+  <headline lang="en" >Algorithm Selection</headline>
 
   <!-- This is the step's description. -->
-  <desc lang="en-US" >Select a modern symmetric encryption/decryption algorithm.</desc>
+  <desc lang="en" >Select a modern symmetric encryption/decryption algorithm.</desc>
 
   <!-- AES input -->
   <input id="AESEnDe" image="AES" >
-    <name lang="en-US" >AES</name>
-    <description lang="en-US" >
+    <name lang="en" >AES</name>
+    <description lang="en" >
       AES is a symmetric modern algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
     </description>
   </input>
 
   <!-- DES input -->
   <input id="DESEnDe" image="DES" >
-    <name lang="en-US" >DES</name>
-    <description lang="en-US" >
+    <name lang="en" >DES</name>
+    <description lang="en" >
       DES is a symmetric modern algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
     </description>
   </input>
 
   <!-- SDES input -->
   <input id="SDESEnDe" image="SDES" >
-    <name lang="en-US" >SDES</name>
-    <description lang="en-US" >
+    <name lang="en" >SDES</name>
+    <description lang="en" >
       SDES is a symmetric modern algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
     </description>
   </input>
 
   <!-- Twofish input -->
   <input id="Two" image="Twofish" >
-    <name lang="en-US" >Twofish</name>
-    <description lang="en-US" >
+    <name lang="en" >Twofish</name>
+    <description lang="en" >
       Twofish is a symmetric modern algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
     </description>
   </input>
 
   <!-- Trivium input -->
   <input id="Tri" image="Trivium" >
-    <name lang="en-US" >Trivium</name>
-    <description lang="en-US" >
+    <name lang="en" >Trivium</name>
+    <description lang="en" >
       Trivium is a symmetric modern algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
     </description>
   </input>
 
   <!-- TEA input -->
   <input id="TEA" image="TEA" >
-    <name lang="en-US" >TEA</name>
-    <description lang="en-US" >
+    <name lang="en" >TEA</name>
+    <description lang="en" >
       TEA is a symmetric modern algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
     </description>
   </input>
 
   <!-- RC2 input -->
   <input id="RC2" image="RC2" >
-    <name lang="en-US" >RC2</name>
-    <description lang="en-US" >
+    <name lang="en" >RC2</name>
+    <description lang="en" >
       RC2 is a symmetric modern algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
     </description>
   </input>

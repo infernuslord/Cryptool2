@@ -5,15 +5,15 @@
 <step>
 
   <!-- This is the step's headline. It should be short, but precise. -->
-  <headline lang="en-US" >Individual Procedure Selection</headline>
+  <headline lang="en" >Individual Procedure Selection</headline>
 
   <!-- This is the step's description. -->
-  <desc lang="en-US" >Select an individual procedure.</desc>
+  <desc lang="en" >Select an individual procedure.</desc>
 
   <!-- Hash Functions Category -->
   <category id ="Hash" image="Hash">
-    <name lang="en-US" >Hash Functions</name>
-    <description lang="en-US" >
+    <name lang="en" >Hash Functions</name>
+    <description lang="en" >
       Select hash functions to work with.
     </description>
     <file resource="Wizard.Config.Indiv.wizard.config.hash.xml" />
@@ -21,8 +21,8 @@
 
   <!-- Prime Number Operations Category -->
   <category id ="Prime" image="Primes">
-    <name lang="en-US" >Prime Number Operations</name>
-    <description lang="en-US" >
+    <name lang="en" >Prime Number Operations</name>
+    <description lang="en" >
       Select a prime numer operation to work with.
     </description>
     <file resource="Wizard.Config.Indiv.wizard.config.prime.xml" />
@@ -30,21 +30,21 @@
 
   <!-- Key Exchange Category -->
   <category id ="Key" image="Key">
-    <name lang="en-US" >Key Exchange</name>
-    <description lang="en-US" >
+    <name lang="en" >Key Exchange</name>
+    <description lang="en" >
       Select a key exchange algorithm to work with.
     </description>
 
     <!-- This is the step's headline. It should be short, but precise. -->
-    <headline lang="en-US" >Key Exchange Algorithm Selection</headline>
+    <headline lang="en" >Key Exchange Algorithm Selection</headline>
 
     <!-- This is the step's description. -->
-    <desc lang="en-US" >Select a key exchange algorithm.</desc>
+    <desc lang="en" >Select a key exchange algorithm.</desc>
 
     <!-- Diffie Hellman input -->
     <input id="Diffie" image="Key" >
-      <name lang="en-US" >Diffie Hellman</name>
-      <description lang="en-US" >
+      <name lang="en" >Diffie Hellman</name>
+      <description lang="en" >
         Diffie Hellman is a key exchange algorithm... (add instead some really helpful text).
       </description>
     </input>

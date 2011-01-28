@@ -34,7 +34,7 @@ namespace Wizard
         private List<string> choicePath = new List<string>();
         private SolidColorBrush selectionBrush = new SolidColorBrush();
         private const string configXMLPath = "Wizard.Config.wizard.config.start.xml";
-        private const string defaultLang = "en-US";
+        private const string defaultLang = "en";
         private XElement wizardConfigXML;
         private Dictionary<string, PluginPropertyValue> propertyValueDict = new Dictionary<string, PluginPropertyValue>();
 
@@ -132,12 +132,12 @@ namespace Wizard
             nextButton.IsEnabled = false;
 
             //set headline
-            XElement headline = FindElementInElement(element, "headline");
+            XElement headline = FindElementsInElement(element, "headline").First();
             if (headline != null)
                 taskHeader.Content = headline.Value;
 
             //set description label
-            XElement desc = FindElementInElement(element, "desc");
+            XElement desc = FindElementsInElement(element, "desc").First();
             if (desc != null)
                 descHeader.Content = desc.Value;
 
@@ -147,23 +147,89 @@ namespace Wizard
                 categoryGrid.Visibility = Visibility.Hidden;
                 inputPanel.Visibility = Visibility.Visible;
 
-                var inputBoxes = element.Elements("inputBox");
+                var inputs = element.Elements("inputBox");
+                inputs = inputs.Union(element.Elements("comboBox"));
+                inputs = inputs.Union(element.Elements("checkBox"));
                 inputStack.Children.Clear();
                 
-                foreach (var box in inputBoxes)
+                foreach (var input in inputs)
                 {
                     var description = new Label();
-                    description.Content = FindElementInElement(box, "description").Value;
+                    description.Content = FindElementsInElement(input, "description").First().Value;
                     inputStack.Children.Add(description);
 
-                    var textBox = new TextBox();
-                    textBox.Tag = box;
-                    textBox.MinLines = 4;
-                    inputStack.Children.Add(textBox);
-                    if (propertyValueDict.ContainsKey(GetElementID(box)))
-                        textBox.Text = propertyValueDict[GetElementID(box)].Value;
-                    else if (box.Attribute("defaultValue") != null)
-                        textBox.Text = box.Attribute("defaultValue").Value;
+                    if (input.Name == "inputBox")
+                    {
+                        var textBox = new TextBox();
+                        textBox.Tag = input;
+                        textBox.MinLines = 4;
+                        inputStack.Children.Add(textBox);
+                        if (propertyValueDict.ContainsKey(GetElementID(input)))
+                            textBox.Text = (string)propertyValueDict[GetElementID(input)].Value;
+                        else if (input.Attribute("defaultValue") != null)
+                            textBox.Text = input.Attribute("defaultValue").Value; 
+                    }
+                    else if (input.Name == "comboBox")
+                    {
+                        ComboBox cb = new ComboBox();
+                        cb.Tag = input;
+
+                        var items = FindElementsInElement(input, "item");
+                        foreach (var item in items)
+                        {
+                            ComboBoxItem cbi = new ComboBoxItem();
+                            if (item.Attribute("content") != null)
+                                cbi.Content = item.Attribute("content").Value;
+                            cb.Items.Add(cbi);
+                        }
+
+                        
+                        if (propertyValueDict.ContainsKey(GetElementID(input)))
+                        {
+                            if (propertyValueDict[GetElementID(input)].Value is int)
+                            {
+                                ComboBoxItem cbi = (ComboBoxItem)cb.Items.GetItemAt((int)propertyValueDict[GetElementID(input)].Value);
+                                cbi.IsSelected = true;
+                            }
+                        }
+                        else if (input.Attribute("defaultValue") != null)
+                        {
+                            int i = 0;
+                            if (Int32.TryParse(input.Attribute("defaultValue").Value, out i))
+                            {
+                                ComboBoxItem cbi = (ComboBoxItem)cb.Items.GetItemAt(i);
+                                cbi.IsSelected = true;
+                            }
+                        }
+
+                        inputStack.Children.Add(cb);
+                    }
+                    else if (input.Name == "checkBox")
+                    {
+                        CheckBox cb = new CheckBox();
+                        cb.Tag = input;
+
+                        if (input.Attribute("content") != null)
+                            cb.Content = input.Attribute("content").Value;
+                        if (propertyValueDict.ContainsKey(GetElementID(input)))
+                        {
+                            string value = (string)propertyValueDict[GetElementID(input)].Value;
+                            if (value.ToLower() == "true")
+                                cb.IsChecked = true;
+                            else
+                                cb.IsChecked = false;
+                        }
+                        else if (input.Attribute("defaultValue") != null)
+                        {
+                            string value = input.Attribute("defaultValue").Value;
+                            if (value.ToLower() == "true")
+                                cb.IsChecked = true;
+                            else
+                                cb.IsChecked = false;
+                        }
+
+                        inputStack.Children.Add(cb);
+                    }
                 }
 
                 var next = element.Element("input");
@@ -219,7 +285,7 @@ namespace Wizard
 
                         l.Height = 30;
                         l.HorizontalAlignment = HorizontalAlignment.Stretch;
-                        XElement label = FindElementInElement(ele, "name");
+                        XElement label = FindElementsInElement(ele, "name").First();
                         if (label != null)
                             l.Content = label.Value;
 
@@ -294,7 +360,12 @@ namespace Wizard
                     var plugin = model.AllPluginModels.Where(x => x.Name == ppv.PluginName).First().Plugin;
                     var settings = plugin.Settings;
                     var property = settings.GetType().GetProperty(ppv.PropertyName);
-                    property.SetValue(settings, ppv.Value, null);
+                    if (ppv.Value is string)
+                        property.SetValue(settings, (string)ppv.Value, null);
+                    else if (ppv.Value is int)
+                        property.SetValue(settings, (int)ppv.Value, null);
+                    else if (ppv.Value is bool)
+                        property.SetValue(settings, (bool)ppv.Value, null);
                 }
                 catch (Exception)
                 {
@@ -316,7 +387,7 @@ namespace Wizard
             c.BorderThickness = new Thickness(1, 1, 0, 1);
             c.Background = selectionBrush;
             XElement ele = (XElement)b.Tag;
-            XElement desc = FindElementInElement(ele, "description");
+            XElement desc = FindElementsInElement(ele, "description").First();
             if (desc != null)
                 description.Text = desc.Value;
             nextButton.IsEnabled = true;
@@ -335,32 +406,32 @@ namespace Wizard
         }
 
         //finds elements according to the current language
-        private XElement FindElementInElement(XElement element, string xname)
+        private IEnumerable<XElement> FindElementsInElement(XElement element, string xname)
         {
             CultureInfo currentLang = System.Globalization.CultureInfo.CurrentCulture;
-            XElement foundElement = null;
 
-            IEnumerable<XElement> descriptions = element.Elements(xname);
-            if (descriptions.Any())
+            IEnumerable<XElement> allElements = element.Elements(xname);
+            IEnumerable<XElement> foundElements = null;
+
+            if (allElements.Any())
             {
-                var description = from descln in descriptions where descln.Attribute("lang").Value == currentLang.TextInfo.CultureName select descln;
-                if (!description.Any())
+                foundElements = from descln in allElements where descln.Attribute("lang").Value == currentLang.TextInfo.CultureName select descln;
+                if (!foundElements.Any())
                 {
-                    description = from descln in descriptions where descln.Attribute("lang").Value == currentLang.TwoLetterISOLanguageName select descln;
-                    if (description.Any())
-                        foundElement = description.First();
-                    else
-                    {
-                        description = from descln in descriptions where descln.Attribute("lang").Value == defaultLang select descln;
-                        if (description.Any())
-                            foundElement = description.First();
-                    }
+                    foundElements = from descln in allElements where descln.Attribute("lang").Value == currentLang.TwoLetterISOLanguageName select descln;
+                    if (!foundElements.Any())
+                        foundElements = from descln in allElements where descln.Attribute("lang").Value == defaultLang select descln;
                 }
-                else
-                    foundElement = description.First();
             }
 
-            return foundElement;
+            if (foundElements == null || !foundElements.Any() || !allElements.Any())
+            {
+                List<XElement> fe = new List<XElement>();
+                fe.Add(new XElement("dummy"));
+                return fe;
+            }
+
+            return foundElements;
         }
 
         private void nextButton_Click(object sender, RoutedEventArgs e)
@@ -404,10 +475,7 @@ namespace Wizard
             {
                 foreach (var child in inputStack.Children)
                 {
-                    if (child is TextBox)
-                    {
-                        SaveTextboxContent((TextBox)child);
-                    }
+                    SaveControlContent(child);
                 }
                 var nextElement = (XElement) inputPanel.Tag;
                 choicePath.Add(GetElementID(nextElement));
@@ -418,33 +486,69 @@ namespace Wizard
             mainGridStoryboardLeft.Begin();
         }
 
-        private void SaveTextboxContent(TextBox textBox)
+        private void SaveControlContent(object o)
         {
-            XElement ele = (XElement) textBox.Tag;
-            if (ele.Attribute("plugin") != null && ele.Attribute("property") != null)
+            if (o is TextBox || o is ComboBox || o is CheckBox)
             {
+                Control c = (Control)o;
+                XElement ele = (XElement)c.Tag;
                 var id = GetElementID(ele);
-                var newEntry = new PluginPropertyValue()
+                PluginPropertyValue newEntry = new PluginPropertyValue();
+                if (ele.Attribute("plugin") != null && ele.Attribute("property") != null)
+                {
+                    if (o is TextBox)
+                    {
+                        TextBox textBox = (TextBox)o;
+                        newEntry = new PluginPropertyValue()
                                    {
                                        PluginName = ele.Attribute("plugin").Value,
                                        PropertyName = ele.Attribute("property").Value,
                                        Value = textBox.Text
                                    };
+                    }
+                    else if (o is ComboBox)
+                    {
+                        ComboBox comboBox = (ComboBox)o;
+                        newEntry = new PluginPropertyValue()
+                        {
+                            PluginName = ele.Attribute("plugin").Value,
+                            PropertyName = ele.Attribute("property").Value,
+                            Value = comboBox.SelectedIndex
+                        };
+                    }
+                    else if (o is CheckBox)
+                    {
+                        CheckBox checkBox = (CheckBox)o;
+                        if (checkBox.IsChecked != null)
+                        {
+                            newEntry = new PluginPropertyValue()
+                            {
+                                PluginName = ele.Attribute("plugin").Value,
+                                PropertyName = ele.Attribute("property").Value,
+                                Value = (bool)checkBox.IsChecked
+                            };
+                        }
+                    }
 
-                if (!propertyValueDict.ContainsKey(id))
-                    propertyValueDict.Add(id, newEntry);
-                else
-                    propertyValueDict[id] = newEntry;
+                    if (!propertyValueDict.ContainsKey(id))
+                        propertyValueDict.Add(id, newEntry);
+                    else
+                        propertyValueDict[id] = newEntry;
+                } 
             }
         }
 
-        private void DeleteTextboxContent(TextBox textBox)
+        private void DeleteControlContent(object o)
         {
-            XElement ele = (XElement)textBox.Tag;
-            var id = GetElementID(ele);
+            if (o is TextBox || o is ComboBox || o is CheckBox)
+            {
+                Control control = (Control)o;
+                XElement ele = (XElement)control.Tag;
+                var id = GetElementID(ele);
 
-            if (propertyValueDict.ContainsKey(id))
-                propertyValueDict.Remove(id);
+                if (propertyValueDict.ContainsKey(id))
+                    propertyValueDict.Remove(id);
+            }
         }
 
 
@@ -460,10 +564,7 @@ namespace Wizard
             {
                 foreach (var child in inputStack.Children)
                 {
-                    if (child is TextBox)
-                    {
-                        DeleteTextboxContent((TextBox)child);
-                    }
+                    DeleteControlContent(child);
                 }
 
                 ele = (XElement) inputPanel.Tag;
@@ -493,6 +594,6 @@ namespace Wizard
     {
         public string PluginName;
         public string PropertyName;
-        public string Value;
+        public object Value;
     }
 }

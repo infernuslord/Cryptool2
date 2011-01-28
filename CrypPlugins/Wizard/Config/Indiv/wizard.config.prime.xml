@@ -5,31 +5,31 @@
 <step>
 
   <!-- This is the step's headline. It should be short, but precise. -->
-  <headline lang="en-US" >Prime Number Operation Selection</headline>
+  <headline lang="en" >Prime Number Operation Selection</headline>
 
   <!-- This is the step's description. -->
-  <desc lang="en-US" >Select a prime number operation.</desc>
+  <desc lang="en" >Select a prime number operation.</desc>
 
   <!-- Factorization input -->
   <input id="Factorization" image="Primes" >
-    <name lang="en-US" >Prime Number Factorization</name>
-    <description lang="en-US" >
+    <name lang="en" >Prime Number Factorization</name>
+    <description lang="en" >
       Select to factorize prime numbers.
     </description>
   </input>
 
   <!-- Generation input -->
   <input id="Generation" image="Primes" >
-    <name lang="en-US" >Prime Number Generation</name>
-    <description lang="en-US" >
+    <name lang="en" >Prime Number Generation</name>
+    <description lang="en" >
       Select to generate prime numbers.
     </description>
   </input>
 
   <!-- Test input -->
   <input id="Test" image="Primes" >
-    <name lang="en-US" >Prime Number Test</name>
-    <description lang="en-US" >
+    <name lang="en" >Prime Number Test</name>
+    <description lang="en" >
       Select to test numbers for being prime.
     </description>
   </input>
