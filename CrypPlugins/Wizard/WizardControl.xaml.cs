@@ -374,7 +374,11 @@ namespace Wizard
                 }
             }
 
-            OnOpenTab(newEditor, title, null);           
+            OnOpenTab(newEditor, title, null);
+            foreach (PluginModel pluginModel in model.AllPluginModels)
+            {
+                pluginModel.Plugin.Initialize();
+            }
             newEditor.Open(model);                   
         }
 
