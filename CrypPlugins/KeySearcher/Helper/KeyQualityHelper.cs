@@ -1,4 +1,6 @@
-﻿using Cryptool.PluginBase.Control;
+﻿using System.Collections.Generic;
+using Cryptool.PluginBase.Control;
+using KeySearcher.Properties;
 
 namespace KeySearcher.Helper
 {
@@ -20,6 +22,19 @@ namespace KeySearcher.Helper
             else
             {
                 return double.MaxValue;
+            }
+        }
+
+        public void FillListWithDummies(int maxInList, LinkedList<KeySearcher.ValueKey> costList)
+        {
+            KeySearcher.ValueKey valueKey = new KeySearcher.ValueKey();
+            valueKey.value = WorstValue();
+            valueKey.key = Resources.dummykey;
+            valueKey.decryption = new byte[0];
+            LinkedListNode<KeySearcher.ValueKey> node = costList.AddFirst(valueKey);
+            for (int i = 1; i < maxInList; i++)
+            {
+                node = costList.AddAfter(node, valueKey);
             }
         }
 

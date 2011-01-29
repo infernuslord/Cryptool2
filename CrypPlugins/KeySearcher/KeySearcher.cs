@@ -756,7 +756,7 @@ namespace KeySearcher
                         
             int maxInList = 10;
             costList = new LinkedList<ValueKey>();
-            fillListWithDummies(maxInList, costList);
+            FillListWithDummies(maxInList, costList);
             valuequeue = Queue.Synchronized(new Queue());
 
             statistic = new Dictionary<string, Dictionary<long, Information>>();
@@ -1286,7 +1286,7 @@ namespace KeySearcher
 
         #region For TopList
 
-        private void fillListWithDummies(int maxInList, LinkedList<ValueKey> costList)
+        private void FillListWithDummies(int maxInList, LinkedList<ValueKey> costList)
         {
             ValueKey valueKey = new ValueKey();
             if (this.costMaster.getRelationOperator() == RelationOperator.LessThen)
