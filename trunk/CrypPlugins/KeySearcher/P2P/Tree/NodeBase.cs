@@ -40,6 +40,8 @@ namespace KeySearcher.P2P.Tree
 
             LastUpdate = DateTime.MinValue;
             Result = new LinkedList<KeySearcher.ValueKey>();
+            KeyQualityHelper.FillListWithDummies(10, Result);
+
             Activity = new Dictionary<string, Dictionary<long, Information>>();
             integrated = false;
 
@@ -88,31 +90,23 @@ namespace KeySearcher.P2P.Tree
 
         private void IntegrateResultsIntoParent()
         {
-            var bestValue = KeyQualityHelper.WorstValue();
-            if (ParentNode.Result.Count > 0)
-            {
-                bestValue = ParentNode.Result.First.Value.value;
-            }
-
-            var revertedResults = new LinkedList<KeySearcher.ValueKey>();
             foreach (var valueKey in Result)
             {
-                revertedResults.AddFirst(valueKey);
-            }
+                if (ParentNode.Result.Contains(valueKey))
+                    continue;
 
-            foreach (var valueKey in revertedResults)
-            {
-                if (!KeyQualityHelper.IsBetter(valueKey.value, bestValue)) continue;
-
-                if (ParentNode.Result.Contains(valueKey)) continue;
-
-                ParentNode.Result.AddFirst(valueKey);
-                bestValue = valueKey.value;
-
-                if (ParentNode.Result.Count > 10)
+                var node = ParentNode.Result.First;
+                while (node != null)
                 {
-                    ParentNode.Result.RemoveLast();
-                }
+                    if (KeyQualityHelper.IsBetter(valueKey.value, node.Value.value))
+                    {
+                        ParentNode.Result.AddBefore(node, valueKey);
+                        if (ParentNode.Result.Count > 10)
+                            ParentNode.Result.RemoveLast();
+                        break;
+                    }
+                    node = node.Next;
+                }//end while
             }
 
 
