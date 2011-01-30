@@ -23,6 +23,13 @@
       Wählen Sie einen klassischen Algorithmus, um Klartext zu verschlüsseln oder chiffrierten Text zu entschlüsseln.
     </description>
     <file resource="Wizard.Config.EnDeCrypt.wizard.config.classicEnDe.xml" />
+
+    <loadSample image="Caesar" file="WorkspaceManagerSamples\Caesar_Sample.cwm" title="W_Caesar_Sample">
+      <name lang="en" >Test</name>
+      <description lang="en" >
+        Test test
+      </description>
+    </loadSample>
   </category>
 
   <!-- Modern Encryption/Decryption Category -->

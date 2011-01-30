@@ -137,6 +137,7 @@ namespace Wizard
             if ((element.Name == "loadSample") && (element.Attribute("file") != null) && (element.Attribute("title") != null))
             {
                 LoadSample(element.Attribute("file").Value, element.Attribute("title").Value);
+                abortButton_Click(null, null);
             }
 
             XElement parent = element.Parent;
@@ -178,7 +179,11 @@ namespace Wizard
                 if (inputPanel.Tag == null)
                     inputPanel.Tag = element.Element("category");
                 if (inputPanel.Tag == null)
+                {
                     inputPanel.Tag = element.Element("loadSample");
+                    if (inputPanel.Tag != null)
+                        SwitchNextButtonContent();
+                }
                 if (inputPanel.Tag == null)
                     inputPanel.Tag = element.Element("output");
 
@@ -203,7 +208,7 @@ namespace Wizard
                 //generate radio buttons
                 var options = element.Elements("category");
                 var inputs = element.Elements("input");
-                var loadSamples = element.Elements("loadSamples");
+                var loadSamples = element.Elements("loadSample");
                 var outputs = element.Elements("output");
 
                 if (inputs.Any())
@@ -260,6 +265,15 @@ namespace Wizard
                         rb.HorizontalContentAlignment = HorizontalAlignment.Stretch;
                         rb.Content = border;
                         rb.Tag = ele;
+                        if (ele.Name == "loadSample")
+                        {
+                            RoutedEventHandler rbEvent = delegate
+                                              {
+                                                  SwitchNextButtonContent();
+                                              };
+                            rb.Checked += rbEvent;
+                            rb.Unchecked += rbEvent;
+                        }
 
                         radioButtonStackPanel.Children.Add(rb);
                         if (choicePath.Count > 0 && id == choicePath.Last())
@@ -649,6 +663,12 @@ namespace Wizard
 
         private void abortButton_Click(object sender, RoutedEventArgs e)
         {
+            if (inputPanel.Visibility == Visibility.Visible)
+            {
+                if (((XElement)inputPanel.Tag).Name == "loadSample")
+                    SwitchNextButtonContent();
+            }
+
             propertyValueDict.Clear();
             ResetBackground();
             radioButtonStackPanel.Children.Clear();
@@ -659,7 +679,7 @@ namespace Wizard
 
         private void SetNextContent(object sender, EventArgs e)
         {
-            if (categoryGrid.IsVisible)
+            if (categoryGrid.Visibility == Visibility.Visible)
             {
                 for (int i = 0; i < radioButtonStackPanel.Children.Count; i++)
                 {
@@ -672,7 +692,7 @@ namespace Wizard
                     }
                 }
             }
-            else if (inputPanel.IsVisible)
+            else if (inputPanel.Visibility == Visibility.Visible)
             {
                 foreach (var child in inputStack.Children)
                 {
@@ -756,12 +776,18 @@ namespace Wizard
         private void SetLastContent(object sender, EventArgs e)
         {
             XElement ele = null;
-            if (categoryGrid.IsVisible && radioButtonStackPanel.Children.Count > 0)
+            if (categoryGrid.Visibility == Visibility.Visible && radioButtonStackPanel.Children.Count > 0)
             {
                 RadioButton b = (RadioButton) radioButtonStackPanel.Children[0];
                 ele = (XElement) b.Tag;
+
+                foreach (RadioButton rb in radioButtonStackPanel.Children)
+                {
+                    if (rb.IsChecked != null && (bool)rb.IsChecked)
+                        rb.IsChecked = false;
+                }
             }
-            else if (inputPanel.IsVisible)
+            else if (inputPanel.Visibility == Visibility.Visible)
             {
                 //foreach (var child in inputStack.Children)
                 //{
@@ -770,6 +796,8 @@ namespace Wizard
                 boxesWithWrongContent.Clear();
 
                 ele = (XElement) inputPanel.Tag;
+                if (((XElement)inputPanel.Tag).Name == "loadSample")
+                    SwitchNextButtonContent();
             }
 
             if (ele != null)
@@ -789,6 +817,13 @@ namespace Wizard
         {
             if (OnGuiLogNotificationOccured != null)
                 OnGuiLogNotificationOccured(null, new GuiLogEventArgs(message, null, loglevel));
+        }
+
+        private void SwitchNextButtonContent()
+        {
+            var tmp = nextButton.Content;
+            nextButton.Content = nextButton.Tag;
+            nextButton.Tag = tmp;
         }
     }
 
