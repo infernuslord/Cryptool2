@@ -122,7 +122,7 @@
         
         <StackPanel Height="Auto" HorizontalAlignment="Right" Name="buttonStackPanel" VerticalAlignment="Bottom" Margin="2" Grid.Row="3" Orientation="Horizontal" >
             <Button Content="{Loc BackButton}" Height="23" Name="backButton" Width="75" Margin="1" Click="backButton_Click"/>
-            <Button Content="{Loc NextButton}" Height="23" Name="nextButton" Width="75" Margin="1" IsDefault="True" Click="nextButton_Click"/>
+            <Button Content="{Loc NextButton}" Tag="{Loc CreateButton}" Height="23" Name="nextButton" Width="75" Margin="1" IsDefault="True" Click="nextButton_Click"/>
             <Button Content="{Loc AbortButton}" Height="23" Name="abortButton" Width="75" Margin="1" Click="abortButton_Click"/>
         </StackPanel>
     </Grid>
