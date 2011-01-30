@@ -52,8 +52,12 @@ namespace Cryptool.P2PEditor
             {
             
             }
+
+            settings.PropertyChanged += new PropertyChangedEventHandler(settings_PropertyChanged);
+
             UpdateSettings();
         }
+
 
         #region Update visibility of server group
 
@@ -139,22 +143,7 @@ namespace Cryptool.P2PEditor
             }
         }
 
-        // TODO New ControlType needed to choose dialogs? OpenFileDialog not fitting.
-        [TaskPane("workspacePath_caption", "workspacePath_tooltip", null, 3, true, ControlType.TextBox)]
-        public string WorkspacePath
-        {
-            get { return settings.WorkspacePath; }
-            set
-            {
-                if (value != settings.WorkspacePath)
-                {
-                    settings.WorkspacePath = value;
-                    OnPropertyChanged("WorkspacePath");
-                    HasChanges = true;
-                }
-            }
-        }
-
+       
         [TaskPane("start_caption", "start_tooltip", null, 3, true, ControlType.Button)]
         public void ButtonStart()
         {
@@ -185,7 +174,41 @@ namespace Cryptool.P2PEditor
             }
         }
 
-        [TaskPane("distributedJobListRefreshInterval_caption", "distributedJobListRefreshInterval_tooltip", GroupExperienced, 0, false,
+
+
+        [TaskPane("networksize_caption", "networksize_tooltip", null, 6, false, ControlType.TextBoxReadOnly)]
+        public string NetSize
+        {
+            get { return settings.NetSize; }
+            set
+            {
+                if (value != settings.NetSize)
+                {
+                    settings.NetSize = value;
+                    OnPropertyChanged("NetSize");   
+                }
+            }
+        }
+
+
+        // TODO New ControlType needed to choose dialogs? OpenFileDialog not fitting.
+        [TaskPane("workspacePath_caption", "workspacePath_tooltip", GroupExperienced, 0, true, ControlType.TextBox)]
+        public string WorkspacePath
+        {
+            get { return settings.WorkspacePath; }
+            set
+            {
+                if (value != settings.WorkspacePath)
+                {
+                    settings.WorkspacePath = value;
+                    OnPropertyChanged("WorkspacePath");
+                    HasChanges = true;
+                }
+            }
+        }
+
+
+        [TaskPane("distributedJobListRefreshInterval_caption", "distributedJobListRefreshInterval_tooltip", GroupExperienced, 1, false,
             ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
         public int DistributedJobListRefreshInterval
         {
@@ -201,7 +224,7 @@ namespace Cryptool.P2PEditor
             }
         }
 
-        [TaskPane("connectOnStartup_caption", "connectOnStartup_tooltip", GroupExperienced, 1, true,
+        [TaskPane("connectOnStartup_caption", "connectOnStartup_tooltip", GroupExperienced, 2, true,
             ControlType.CheckBox)]
         public bool ConnectOnStartup
         {
@@ -217,7 +240,7 @@ namespace Cryptool.P2PEditor
             }
         }
 
-        [TaskPane("linkmanager_caption", "linkmanager_tooltip", GroupExpert, 0, false,
+        [TaskPane("linkmanager_caption", "linkmanager_tooltip", GroupExpert, 3, false,
             ControlType.ComboBox, new[] {"Snal"})]
         public int LinkManager
         {
@@ -233,7 +256,7 @@ namespace Cryptool.P2PEditor
             }
         }
 
-        [TaskPane("bootstrapper_caption", "bootstrapper_tooltip", GroupExpert, 1, false
+        [TaskPane("bootstrapper_caption", "bootstrapper_tooltip", GroupExpert, 4, false
             , ControlType.ComboBox, new[] {"LocalMachineBootstrapper", "IrcBootstrapper", "DnsBootstrapper"})]
         public int Bootstrapper
         {
@@ -249,7 +272,7 @@ namespace Cryptool.P2PEditor
             }
         }
 
-        [TaskPane("architecture_caption", "architecture_tooltip", GroupExpert, 2, false,
+        [TaskPane("architecture_caption", "architecture_tooltip", GroupExpert, 5, false,
             ControlType.ComboBox, new[] { "FullMesh", "Chord", "Server" , "WebDHT" })]
         public int Architecture
         {
@@ -266,7 +289,7 @@ namespace Cryptool.P2PEditor
             }
         }
 
-        [TaskPane("localPort_caption", "localPort_tooltip", GroupExpert, 4, false,
+        [TaskPane("localPort_caption", "localPort_tooltip", GroupExpert, 6, false,
             ControlType.NumericUpDown, ValidationType.RangeInteger, 0, 65535)]
         public int LocalPort
         {
@@ -282,7 +305,7 @@ namespace Cryptool.P2PEditor
             }
         }
 
-        [TaskPane("useLocalAddressDetection_caption", "useLocalAddressDetection_tooltip", GroupExpert, 5, false,
+        [TaskPane("useLocalAddressDetection_caption", "useLocalAddressDetection_tooltip", GroupExpert, 7, false,
             ControlType.CheckBox)]
         public bool UseLocalAddressDetection
         {
@@ -298,7 +321,7 @@ namespace Cryptool.P2PEditor
             }
         }
 
-        [TaskPane("log2monitor_caption", "log2monitor_tooltip", GroupExpert, 6, false,
+        [TaskPane("log2monitor_caption", "log2monitor_tooltip", GroupExpert, 8, false,
             ControlType.CheckBox)]
         public bool Log2Monitor
         {
@@ -314,7 +337,7 @@ namespace Cryptool.P2PEditor
             }
         }
 
-        [TaskPane("serverHost_caption", "serverHost_tooltip", GroupServer, 1, false, ControlType.TextBox)]
+        [TaskPane("serverHost_caption", "serverHost_tooltip", GroupServer, 9, false, ControlType.TextBox)]
         public string ServerHost
         {
             get { return settings.ServerHost; }
@@ -329,7 +352,7 @@ namespace Cryptool.P2PEditor
             }
         }
 
-        [TaskPane("serverPort_caption", "serverPort_tooltip", GroupServer, 4, false,
+        [TaskPane("serverPort_caption", "serverPort_tooltip", GroupServer, 10, false,
             ControlType.NumericUpDown, ValidationType.RangeInteger, 0, 65535)]
         public int ServerPort
         {
@@ -346,6 +369,18 @@ namespace Cryptool.P2PEditor
         }
 
         #endregion
+
+        /// <summary>
+        /// This is needed, if some settings are changed via "P2PSettings.Default.xyz". In some cases (e.g. controltype: TextBoxreadonly)
+        /// the GUI will not be updated automatically without this additionaly firing of the event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void settings_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            OnPropertyChanged(e.PropertyName);
+            //this.p2PEditor.GuiLogMessage("Property changed: " + e.PropertyName, NotificationLevel.Debug);
+        }
 
         private void OnPropertyChanged(string p)
         {

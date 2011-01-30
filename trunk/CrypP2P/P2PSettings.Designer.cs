@@ -214,5 +214,17 @@ namespace Cryptool.P2P {
                 this["UseTimeout"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("- offline -")]
+        public string NetSize {
+            get {
+                return ((string)(this["NetSize"]));
+            }
+            set {
+                this["NetSize"] = value;
+            }
+        }
     }
 }
