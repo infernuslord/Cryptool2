@@ -50,5 +50,8 @@
     <Setting Name="UseTimeout" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="NetSize" Type="System.String" Scope="User">
+      <Value Profile="(Default)">- offline -</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

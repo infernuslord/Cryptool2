@@ -17,34 +17,27 @@
 using System;
 using Cryptool.P2P.Helper;
 using Cryptool.P2P.Internal;
+using Cryptool.Plugins.PeerToPeer.Internal;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Miscellaneous;
 using PeersAtPlay.P2PStorage.DHT;
 using PeersAtPlay.Util.Threading;
+using Timer = System.Timers.Timer;
+using System.IO;
 
 namespace Cryptool.P2P
 {
     public sealed class P2PManager
     {
-        #region Singleton
-
-        public static readonly P2PManager Instance = new P2PManager();
-
-        private P2PManager()
-        {
-            P2PBase = new P2PBase();
-            ConnectionManager = new ConnectionManager(P2PBase);
-
-            SettingsHelper.ValidateSettings();
-        }
-
-        #endregion
-
         #region Variables
 
         public static ConnectionManager ConnectionManager { get; private set; }
         public static P2PBase P2PBase { get; private set; }
         public static bool IsAutoconnectConsoleOptionSet { get; set; }
+        public static UInt64 NetSize { get; private set; }
+
+        private static UInt64 NetSize_timestamp;
+        private static Timer SENSTimer;
 
         #endregion
 
@@ -53,6 +46,176 @@ namespace Cryptool.P2P
         public static event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
 
         #endregion Events
+
+
+        #region Singleton
+
+        public static readonly P2PManager Instance = new P2PManager();
+
+        private P2PManager()
+        {
+            P2PBase = new P2PBase();
+            P2PBase.OnP2PMessageReceived += P2PBase_OnP2PMessageReceived;
+            NetSize = 0;
+            NetSize_timestamp = 0;
+            P2PSettings.Default.NetSize = "-- offline --";
+
+            Random rnd = new Random();
+            SENSTimer = new Timer(rnd.Next(60,120)*1000); //initially 1-2 minutes
+            SENSTimer.AutoReset = true;
+            SENSTimer.Elapsed += SENSTimerElapsed;
+
+            ConnectionManager = new ConnectionManager(P2PBase);
+            ConnectionManager.OnP2PConnectionStateChangeOccurred += ConnectionManager_OnP2PConnectionStateChangeOccurred;
+
+            SettingsHelper.ValidateSettings();
+        }
+
+        #endregion
+
+        #region Peer counting methods
+
+
+        private static void ConnectionManager_OnP2PConnectionStateChangeOccurred(object sender, bool newState)
+        {
+            if (newState)
+            {
+                if (P2PSettings.Default.Architecture == P2PArchitecture.FullMesh)
+                {
+                    SENSTimer.Start();
+                    P2PSettings.Default.NetSize = "Estimating online peers..";    
+                }
+                else
+                {
+                    // SENS currently works only with FullMesh... 
+                    P2PSettings.Default.NetSize = "-- online --"; 
+                }
+                
+            }
+            else
+            {
+                SENSTimer.Stop();
+                P2PSettings.Default.NetSize = "-- offline --";
+            }
+        }
+
+        private static void SENSTimerElapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            InitiateSENS();
+        }
+
+        private static void InitiateSENS()
+        {
+            string username;
+            PeerId pid = P2PBase.GetPeerId(out username);
+
+            GuiLogMessage(String.Format("Initiating SENS Protocol ... (MyID={0})",pid), NotificationLevel.Info);
+
+            byte[] dst = incrementAdr(pid.ToByteArray());
+
+            var memoryStream = new MemoryStream();
+            var binaryWriter = new BinaryWriter(memoryStream);
+
+            binaryWriter.Write(new byte[2] { 0xAF, 0xFE }); // write some header to distinguish from other packets - should be extended by a checksum
+            binaryWriter.Write(pid.ToByteArray());          // write initiator (unchanged)
+            binaryWriter.Write(NetSize);                    // Write 8 Byte netSize
+            binaryWriter.Write((ulong)1);                   // Write 8 Byte counter
+            binaryWriter.Write(NetSize_timestamp);          // Write the 8-Byte logical timestamp from last collect of Netsize
+
+            P2PBase.SendToPeer(memoryStream.ToArray(), dst);
+        }
+
+
+        private static void P2PBase_OnP2PMessageReceived(PeerId sourceAddr, byte[] data)
+        {
+            GuiLogMessage("P2P Message received from " + sourceAddr, NotificationLevel.Debug);
+
+            if (data.Length > 2 && data[0] == 0xAF && data[1] == 0xFE)
+            {
+                // Correct header - so hopefully it is a counting message (this should be checked with an additional hash
+                // Header: 2B, Initiator: 20Byte, NetSize (ulong): 8 Byte, NodeCounter (ulong) 8 Byte, Timestamp (ulong) 8 Byte
+                var binaryReader = new BinaryReader(new MemoryStream(data));
+                binaryReader.ReadBytes(2); //skip the header
+                PeerId initiator = P2PBase.GetPeerId(binaryReader.ReadBytes(20));
+                var netSize = binaryReader.ReadUInt64();
+                var nodeCounter = binaryReader.ReadUInt64();
+                var timestamp = binaryReader.ReadUInt64();
+
+                //check if the message is from us
+                string username;
+                PeerId myPeerID = P2PBase.GetPeerId(out username);
+
+                Random rnd = new Random();
+
+                if (myPeerID.ToString() == initiator.ToString())
+                {
+                    GuiLogMessage("Received SENS message from ourselves: NetSize=" + netSize + "; NodeCounter=" + nodeCounter + "; Timestamp=" + timestamp, NotificationLevel.Debug);
+                    SENSTimer.Interval = rnd.Next(300, 600)*1000; // timer reset
+                    NetSize = nodeCounter;
+                    NetSize_timestamp = timestamp + 1;
+                    P2PSettings.Default.NetSize = NetSize + " peers online";
+                    GuiLogMessage("SENS finished with a new estimation of " + NetSize + " peer(s) online.", NotificationLevel.Info);
+                }
+                else
+                {
+                    GuiLogMessage("Received SENS message from " + initiator + ": NetSize=" + netSize + "; NodeCounter=" + nodeCounter + "; Timestamp=" + timestamp, NotificationLevel.Debug);
+                    if ((netSize > 0) && (timestamp > NetSize_timestamp))
+                    {
+                        SENSTimer.Interval = rnd.Next(300, 600) * 1000; // timer reset
+                        NetSize = netSize;
+                        NetSize_timestamp = timestamp;
+                        P2PSettings.Default.NetSize = NetSize + " peers online";
+                        GuiLogMessage("Found updated estimation of " + NetSize + " peer(s) online.",NotificationLevel.Info);
+                    }
+                    else
+                    {
+                        netSize = NetSize;
+                        timestamp = NetSize_timestamp;
+                    }
+                    nodeCounter++;
+
+                    // finally send to next node..
+                    byte[] dst = incrementAdr(myPeerID.ToByteArray());
+
+                    var memoryStream = new MemoryStream();
+                    var binaryWriter = new BinaryWriter(memoryStream);
+
+                    binaryWriter.Write(new byte[2]{0xAF, 0xFE}); // write header
+                    binaryWriter.Write(initiator.ToByteArray()); // wirte initiator (unchanged)
+                    binaryWriter.Write(netSize);                 // Write 8 Byte netSize
+                    binaryWriter.Write(nodeCounter);             // Write 8 Byte counter
+                    binaryWriter.Write(timestamp);               // Write 8 Byte time information
+
+                    P2PBase.SendToPeer(memoryStream.ToArray(), dst);
+
+                }
+            }
+
+        }
+
+        /// <summary>
+        /// This is one reason, why the entire SENSE protocol should be integrated in the overlay
+        /// incrementing the address is probably overlay-address specific.. 
+        /// </summary>
+        /// <param name="adr"></param>
+        /// <returns></returns>
+        private static byte[] incrementAdr(byte[] adr)
+        {
+            byte[] result = (byte[])adr.Clone();
+
+            for (int i = (result.Length-1); i >= 0; i--)
+            {
+                result[i]++;
+                if (result[i] != 0)
+                    return result;
+            }
+
+            return result;
+        }
+
+
+        #endregion
+
 
         #region CrypWin helper methods
 

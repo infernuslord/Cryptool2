@@ -168,6 +168,12 @@
   <data name="log_connection_state_tooltip" xml:space="preserve">
     <value>Logs connection state to the GUI log. For debugging only.</value>
   </data>
+  <data name="networksize_caption" xml:space="preserve">
+    <value>Network Size</value>
+  </data>
+  <data name="networksize_tooltip" xml:space="preserve">
+    <value>Current estimated network size (currently works only with FullMesh)</value>
+  </data>
   <data name="onnectOnStartup_tooltip" xml:space="preserve">
     <value>Establish a connection to the peer-to-peer network during CrypTool startup.</value>
   </data>
