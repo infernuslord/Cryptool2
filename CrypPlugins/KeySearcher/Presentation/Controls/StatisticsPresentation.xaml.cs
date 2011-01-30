@@ -79,6 +79,161 @@ namespace KeySearcherPresentation.Controls
             }
         }
 
+        #region Information
+
+        private string days = "??? Days";
+        public string Days
+        {
+            get { return days; }
+            set
+            {
+                lock (this)
+                {
+                    days = value;
+                }
+
+                Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    WorkingDays.Content = days;
+                }, null);
+            }
+        }
+
+        private BigInteger totalBlocks = 0;
+        public BigInteger TotalBlocks
+        {
+            get { return totalBlocks; }
+            set
+            {
+                lock (this)
+                {
+                    totalBlocks = value;
+                }
+
+                Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    TotalAmountOfBlocks.Content = totalBlocks;
+                }, null);
+            }
+        }
+
+        private BigInteger calculatedBlocks = 0;
+        public BigInteger CalculatedBlocks
+        {
+            get { return calculatedBlocks; }
+            set
+            {
+                lock (this)
+                {
+                    calculatedBlocks = value;
+                }
+
+                Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    TotalBlocksTested.Content = calculatedBlocks;
+                }, null);
+            }
+        }
+
+        private BigInteger totalKeys = 0;
+        public BigInteger TotalKeys
+        {
+            get { return totalKeys; }
+            set
+            {
+                lock (this)
+                {
+                    totalKeys = value;
+                }
+
+                Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    TotalAmountOfKeys.Content = totalKeys;
+                }, null);
+            }
+        }
+
+        private BigInteger calculatedKeys = 0;
+        public BigInteger CalculatedKeys
+        {
+            get { return calculatedKeys; }
+            set
+            {
+                lock (this)
+                {
+                    calculatedKeys = value;
+                }
+
+                Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    TotalKeysTested.Content = calculatedKeys;
+                }, null);
+            }
+        }
+
+        private double percent;
+        public double Percent
+        {
+            get { return percent; }
+            set
+            {
+                lock (this)
+                {
+                    if (totalBlocks != 0)
+                    {
+                        percent = Math.Round((value/(double) totalBlocks)*10000)/100;
+                    }
+                    else
+                    {
+                        percent = 0;
+                    }
+                }
+
+                Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    PercentsComplete.Content = percent + " %";
+                }, null);
+            }
+        }
+
+        private BigInteger users = 0;
+        public BigInteger Users
+        {
+            get { return users; }
+            set
+            {
+                lock (this)
+                {
+                    users = value;
+                }
+
+                Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    UserCount.Content = users + " users are working on this job";
+                }, null);
+            }
+        }
+
+        private BigInteger machines = 0;
+        public BigInteger Machines
+        {
+            get { return machines; }
+            set
+            {
+                lock (this)
+                {
+                    machines = value;
+                }
+
+                Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    MachineCount.Content = machines + " machines are working on this job";
+                }, null);
+            }
+        }
+
+        #endregion
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Button b = sender as Button;
@@ -103,39 +258,6 @@ namespace KeySearcherPresentation.Controls
                 return;
             }
         }
-
-        #region Informations
-
-        public void UpdateInformation(KeySearcher.KeySearcher keySearcher, KeySearcherSettings keySearcherSettings)
-        {
-            if (keySearcher.Pattern == null || !keySearcher.Pattern.testWildcardKey(keySearcherSettings.Key) || keySearcherSettings.ChunkSize == 0)
-            {
-                return;
-            }
-
-            var keyPattern = new KeyPattern(keySearcher.ControlMaster.getKeyPattern()) { WildcardKey = keySearcherSettings.Key };
-            var keysPerChunk = Math.Pow(2, keySearcherSettings.ChunkSize);
-            var keyPatternPool = new KeyPatternPool(keyPattern, new BigInteger(keysPerChunk));
-
-            if (keyPatternPool.Length > 9999999999)
-            {
-                TotalAmountOfBlocks.Content = keyPatternPool.Length.ToString().Substring(0, 10) + "...";
-            }
-            else
-            {
-                TotalAmountOfBlocks.Content = keyPatternPool.Length;
-            }
-
-            TotalAmountOfKeys.Content = new BigInteger(keysPerChunk) * keyPatternPool.Length;
-
-
-            //Under Construction
-            //--------
-            TotalBlocksTested.Content = "???";
-            TotalKeysTested.Content = "???";
-            //--------
-        }
-        #endregion
     }
 
     #region Converters

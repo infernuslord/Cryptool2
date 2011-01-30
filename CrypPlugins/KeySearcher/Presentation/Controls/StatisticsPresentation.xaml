@@ -37,19 +37,20 @@
                 <Grid Width="400">
                     <StackPanel>
                         <Border BorderBrush="Silver" BorderThickness="2,2,2,2">
-                            <Grid Height="175" Background="#AFE2E2FF">
+                            <Grid Height="180" Background="#AFE2E2FF">
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="35" />
-                                    <RowDefinition Height="35" />
-                                    <RowDefinition Height="35" />
-                                    <RowDefinition Height="35" />
-                                    <RowDefinition Height="35" />
+                                    <RowDefinition Height="30" />
+                                    <RowDefinition Height="30" />
+                                    <RowDefinition Height="30" />
+                                    <RowDefinition Height="30" />
+                                    <RowDefinition Height="30" />
+                                    <RowDefinition Height="30" />
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="26" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
-                                <Border BorderThickness="1" BorderBrush="Black" LayoutTransform="{StaticResource HeaderRotate}" Grid.Column="0" Grid.RowSpan="5" Background="#FF5C5CFF">
+                                <Border BorderThickness="1" BorderBrush="Black" LayoutTransform="{StaticResource HeaderRotate}" Grid.Column="0" Grid.RowSpan="6" Background="#FF5C5CFF">
                                     <Label Content="{Loc Aggregate_Statistics_}" FontSize="11" HorizontalAlignment="Center" Foreground="White" />
                                 </Border>
                                 <Label Content="{Loc Total__Blocks__to__Search_}" VerticalAlignment="Center" Grid.Row="0" Grid.Column="1" />
@@ -60,14 +61,19 @@
                                 <Label Content="-" Name="TotalAmountOfKeys" VerticalAlignment="Center" Grid.Row="2" Grid.Column="1" HorizontalContentAlignment="Right" Padding="5,5,20,5" />
                                 <Label Content="{Loc Total__Keys__Tested_}" VerticalAlignment="Center" Grid.Row="3" Grid.Column="1" />
                                 <Label Content="-" Name="TotalKeysTested" VerticalAlignment="Center" Grid.Row="3" Grid.Column="1" HorizontalContentAlignment="Right" Padding="5,5,20,5" />
-                                <Label Content="{Loc Under__Construction_}" VerticalAlignment="Center" Grid.Row="4" Grid.Column="1" />
+                                <Label Content="{Loc Working__Days_}" VerticalAlignment="Center" Grid.Row="4" Grid.Column="1" />
+                                <Label Content="- Days" Name="WorkingDays" VerticalAlignment="Center" Grid.Row="4" Grid.Column="1" HorizontalContentAlignment="Right" Padding="5,5,20,5" />
+                                <Label Content="{Loc Percent__Complete_}" VerticalAlignment="Center" Grid.Row="5" Grid.Column="1" />
+                                <Label Content="- %" Name="PercentsComplete" VerticalAlignment="Center" Grid.Row="5" Grid.Column="1" HorizontalContentAlignment="Right" Padding="5,5,20,5" />
+
                             </Grid>
                         </Border>
 
                         <Border BorderBrush="Silver" BorderThickness="2,0,2,2">
                             <Grid Height="160" Background="#AFAAE1E8">
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="35" />
+                                    <RowDefinition Height="30" />
+                                    <RowDefinition Height="30" />
                                     <RowDefinition Height="*" />
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
@@ -75,9 +81,10 @@
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
                                 <Border BorderThickness="1" BorderBrush="Black" LayoutTransform="{StaticResource HeaderRotate}" Grid.Column="0" Grid.RowSpan="4" Background="#FF099BA7">
-                                    <Label Content="{Loc Current__Information_}" FontSize="11" HorizontalAlignment="Center" Foreground="White" />
+                                    <Label Content="{Loc AdditionalInformation_}" FontSize="11" HorizontalAlignment="Center" Foreground="White" />
                                 </Border>
-                                <Label Content="{Loc Under__Construction_}" VerticalAlignment="Center" Grid.Row="0" Grid.Column="1" />
+                                <Label Content=" X users are working on this job" Name="UserCount" VerticalAlignment="Center" Grid.Row="0" Grid.Column="1" HorizontalContentAlignment="Left" Padding="5,5,20,5" />
+                                <Label Content=" X machines are working on this job" Name="MachineCount" VerticalAlignment="Center" Grid.Row="1" Grid.Column="1" HorizontalContentAlignment="Left" Padding="5,5,20,5" />
                             </Grid>
                         </Border>
                    </StackPanel>
@@ -133,7 +140,6 @@
                                 <Grid>
                                     <ProgressBar x:Name="Bar" Foreground="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TreeViewItem}},Path=(ItemsControl.AlternationIndex),Converter={StaticResource ResourceKey=TeamsBackgroundConverter}}" Value="{Binding Path=Value, Mode=OneTime, Converter={StaticResource ResourceKey=InformationToProgressConverter}}" Width="{Binding ElementName=statisticsTree, Path=ActualWidth, Converter={StaticResource ResourceKey=WidthConverter}}" Maximum="1" />
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                        <TextBlock Text="{Loc Total_}"/>
                                         <TextBlock Text="{Binding Path=Key, Converter={StaticResource ResourceKey=ChunkSumConverter}, StringFormat=\{0\,-5\}}"/>
                                     </StackPanel>
                                 </Grid>

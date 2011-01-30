@@ -77,6 +77,7 @@ namespace KeySearcher.P2P
             
             bool statupdate = false;
             Leaf currentLeaf;
+            keySearcher.InitialiseInformationQuickwatch();
             var statisticTimer = new Timer { Interval = 30 * 60 * 1000 };    //Update of the statistics after every 30 minutes
             statisticTimer.Start();
 
@@ -345,6 +346,7 @@ namespace KeySearcher.P2P
             status.CurrentOperation = Resources.Ready_for_calculation;
 
             status.StartDate = keyPoolTree.StartDate();
+            keySearcher.SetBeginningDate(keyPoolTree.StartDate());
             status.JobSubmitterID = keyPoolTree.SubmitterID();
             status.LocalFinishedChunks = FindLocalPatterns();
 
