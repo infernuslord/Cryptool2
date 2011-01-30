@@ -45,9 +45,8 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         #region Private variables
 
         private SDESSettings settings;
-        private CryptoolStream inputStream;
-        private CryptoolStream outputStream;
-        private List<CryptoolStream> listCryptoolStreamsOut = new List<CryptoolStream>();
+        private ICryptoolStream inputStream;
+        private CStreamWriter outputStream;
         private byte[] inputKey;
         private byte[] inputIV;        
         private bool stop = false;
@@ -115,35 +114,15 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         /// Gets/Sets the input of the SDES plugin (the text which should be encrypted/decrypted)
         /// </summary>
         [PropertyInfo(Direction.InputData, "Input", "Data to be encrypted or decrypted", null, true, false, QuickWatchFormat.Hex, null)]
-        public CryptoolStream InputStream
+        public ICryptoolStream InputStream
         {
             get 
             {
-                try
-                {
-                    if (inputStream != null)
-                    {
-                        CryptoolStream cs = new CryptoolStream();
-                        cs.OpenRead(inputStream.FileName);
-                        listCryptoolStreamsOut.Add(cs);
-                        return cs;
+                return inputStream;
                     }
-                    else return null;
-                }
-                catch (Exception ex)
-                {
-                    GuiLogMessage("getInputStream: " + ex.Message, NotificationLevel.Error);
-                    return null;
-                }
-
-            }
             set 
             {
                 this.inputStream = value;
-                if (value != null)
-                {
-                    listCryptoolStreamsOut.Add(value);                      
-                }
                 OnPropertyChanged("InputStream");
             }
         }
@@ -152,38 +131,16 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         /// Gets/Sets the output of the SDES plugin (the text which is encrypted/decrypted)
         /// </summary>
         [PropertyInfo(Direction.OutputData, "Output stream", "Encrypted or decrypted output data", null, true, false, QuickWatchFormat.Hex, null)]
-        public CryptoolStream OutputStream
+        public ICryptoolStream OutputStream
         {
             get
             {
-                try
-                {
-                    if (this.outputStream != null)
-                    {
-                        CryptoolStream cs = new CryptoolStream();
-                        listCryptoolStreamsOut.Add(cs);
-                        cs.OpenRead(this.outputStream.FileName);
-                        return cs;
+                return outputStream;
                     }
-                    return null;
-                }
-                catch (Exception ex)
-                {
-                    GuiLogMessage("getOutputStream: " + ex.Message, NotificationLevel.Error);
-                    return null;
-                }
-            }
             set
             {
-
-                this.outputStream = value;
-                if (value != null)
-                {
-                    listCryptoolStreamsOut.Add(value);
                 }
-                OnPropertyChanged("OutputStream");
             }
-        }
 
         /// <summary>
         /// Gets/Sets the key which should be used.Must be 10 bytes  (only 1 or 0 allowed).
@@ -276,12 +233,12 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                 inputKey = null;
                 inputIV = null;
 
-                foreach (CryptoolStream stream in listCryptoolStreamsOut)
+                if (outputStream != null)
                 {
-                    stream.Close();
+                    outputStream.Close();
+                    outputStream.Dispose();
+                    outputStream = null;
                 }
-                listCryptoolStreamsOut.Clear();
-
             }
             catch (Exception ex)
             {
@@ -383,12 +340,11 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         /// </summary>
         private void checkForInputStream()
         {
-            if (settings.Action == 0 && (inputStream == null || (inputStream != null && inputStream.Length == 0)))
+            if (settings.Action == 0 && (inputStream == null || inputStream.Length == 0))
             {
                 //create some input
                 String dummystring = "Dummy string - no input provided - \"Hello SDES World\" - dummy string - no input provided!";
-                this.inputStream = new CryptoolStream();
-                this.inputStream.OpenRead(this.GetPluginInfoAttribute().Caption, Encoding.Default.GetBytes(dummystring.ToCharArray()));
+                this.inputStream = new CStreamWriter(Encoding.Default.GetBytes(dummystring));
                 // write a warning to the ouside word
                 GuiLogMessage("WARNING - No input provided. Using dummy data. (" + dummystring + ")", NotificationLevel.Warning);
             }
@@ -453,35 +409,35 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                     return;
                 }
 
-                if (inputStream == null || (inputStream != null && inputStream.Length == 0))
+                if (inputStream == null)
                 {
                     GuiLogMessage("No input given. Not using dummy data in decrypt mode. Aborting now.", NotificationLevel.Error);
                     return;
                 }
 
-                if (this.inputStream.CanSeek) this.inputStream.Position = 0;
-                
-                outputStream = new CryptoolStream();
-                listCryptoolStreamsOut.Add(outputStream);
-                outputStream.OpenWrite(this.GetPluginInfoAttribute().Caption);
+                using (CStreamReader reader = inputStream.CreateReader())
+                {
+                    outputStream = new CStreamWriter();
+                    OnPropertyChanged("OutputStream");
                 
                 System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();               
                 DateTime startTime = DateTime.Now;
 
                 //Encrypt
-                if(action == 0){
+                    if (action == 0)
+                    {
                     
                     if (this.settings.Mode == 0)
                     {
                         GuiLogMessage("Starting encryption with ecb", NotificationLevel.Info);
                         ElectronicCodeBook ecb = new ElectronicCodeBook(this);
-                        ecb.encrypt(inputStream, outputStream, Tools.stringToBinaryByteArray(enc.GetString(this.inputKey)));
+                            ecb.encrypt(reader, outputStream, Tools.stringToBinaryByteArray(enc.GetString(this.inputKey)));
                     }
                     else if (this.settings.Mode == 1)
                     {
                         GuiLogMessage("Starting encryption with cbc", NotificationLevel.Info);
                         CipherBlockChaining cbc = new CipherBlockChaining(this);
-                        cbc.encrypt(inputStream, outputStream, Tools.stringToBinaryByteArray(enc.GetString(this.inputKey)), Tools.stringToBinaryByteArray(enc.GetString(this.inputIV)));
+                            cbc.encrypt(reader, outputStream, Tools.stringToBinaryByteArray(enc.GetString(this.inputKey)), Tools.stringToBinaryByteArray(enc.GetString(this.inputIV)));
                     }
                 }
                 //Decrypt
@@ -492,13 +448,13 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                     {
                         GuiLogMessage("Starting decryption with ecb", NotificationLevel.Info);
                         ElectronicCodeBook ecb = new ElectronicCodeBook(this);
-                        ecb.decrypt(inputStream, outputStream, Tools.stringToBinaryByteArray(enc.GetString(this.inputKey)));
+                            ecb.decrypt(reader, outputStream, Tools.stringToBinaryByteArray(enc.GetString(this.inputKey)));
                     }
                     if (this.settings.Mode == 1)
                     {
                         GuiLogMessage("Starting decryption with cbc", NotificationLevel.Info);
                         CipherBlockChaining cbc = new CipherBlockChaining(this);
-                        cbc.decrypt(inputStream, outputStream, Tools.stringToBinaryByteArray(enc.GetString(this.inputKey)), Tools.stringToBinaryByteArray(enc.GetString(this.inputIV)));
+                            cbc.decrypt(reader, outputStream, Tools.stringToBinaryByteArray(enc.GetString(this.inputKey)), Tools.stringToBinaryByteArray(enc.GetString(this.inputIV)));
                     }
                 }
 
@@ -507,18 +463,18 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                 if (!stop)
                 {
                     GuiLogMessage("En-/Decryption complete! ", NotificationLevel.Info);
-                    GuiLogMessage("Wrote data to file: " + outputStream.FileName, NotificationLevel.Info);
                     GuiLogMessage("Time used: " + duration.ToString(), NotificationLevel.Debug);
                     OnPropertyChanged("OutputStream");
                
-                }else{                    
+                    }
+                    else
+                    {
                     GuiLogMessage("Aborted!", NotificationLevel.Info);
                 }
 
-                //avoid unnecessary error messages because of wrong input/output streams:
-                outputStream.Flush();
                 outputStream.Close();
-                inputStream.Close();                
+                    reader.Close();
+            }
             }
             catch (Exception exception)
             {
@@ -703,12 +659,14 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                 byte[] buffer = new byte[1];
                 
                 int i = 0;
-                CryptoolStream inputstream = plugin.InputStream;
-                while ((inputstream.Read(buffer, 0, 1)) > 0 && i < bytesToUse)
+                using (CStreamReader reader = plugin.InputStream.CreateReader())
                 {
+                    while ((reader.Read(buffer, 0, 1)) > 0 && i < bytesToUse)
+                    {
                     input[i] = buffer[0];
                     i++;
                 }
+            }
             }
 
             return execute(input, key, bytesToUse, action);
@@ -1872,13 +1830,13 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         ///Encrypts the given plaintext with the given key
         ///using CipherBlockChaining 
         ///</summary>
-        public void encrypt(CryptoolStream inputstream, CryptoolStream outputstream, byte[] key, byte[] vector)
+        public void encrypt(CStreamReader reader, CStreamWriter writer, byte[] key, byte[] vector)
         {
 
             byte[] buffer = new byte[1];
             int position = 0;
 
-            while (!this.mSdes.getStop() && (inputstream.Read(buffer, 0, 1)) > 0)
+            while (!this.mSdes.getStop() && (reader.Read(buffer, 0, 1)) > 0)
             {
                 //Step 1 get plaintext symbol
                 byte symbol = buffer[0];
@@ -1887,14 +1845,14 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                 //Step 3 decrypt vector with key
                 vector = mAlgorithm.encrypt(vector, key);
                 //Step 4 store symbol in ciphertext
-                outputstream.Write(Tools.byteArrayToByte(vector));
+                writer.WriteByte(Tools.byteArrayToByte(vector));
 
-                if ((int)(inputstream.Position * 100 / inputstream.Length) > position)
+                if ((int)(reader.Position * 100 / reader.Length) > position)
                 {
-                    position = (int)(inputstream.Position * 100 / inputstream.Length);
-                    mSdes.ProgressChanged(inputstream.Position, inputstream.Length);
+                    position = (int)(reader.Position * 100 / reader.Length);
+                    mSdes.ProgressChanged(reader.Position, reader.Length);
                 }
-                outputstream.Flush();
+                writer.Flush();
             }
 
         }//end encrypt
@@ -1930,27 +1888,27 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         ///Decrypts the given plaintext with the given Key
         ///using CipherBlockChaining 
         ///</summary>
-        public void decrypt(CryptoolStream inputstream, CryptoolStream outputstream, byte[] key, byte[] vector)
+        public void decrypt(CStreamReader reader, CStreamWriter writer, byte[] key, byte[] vector)
         {
 
             byte[] buffer = new byte[1];
             int position = 0;
 
-            while (!this.mSdes.getStop() && (inputstream.Read(buffer, 0, 1)) > 0)
+            while (!this.mSdes.getStop() && (reader.Read(buffer, 0, 1)) > 0)
             {
                 //Step 1 get Symbol of Ciphertext
                 byte symbol = buffer[0];
                 //Step 2 Decrypt symbol with key and exclusiv-or with vector
-                outputstream.Write((Tools.byteArrayToByte(Tools.exclusive_or(mAlgorithm.decrypt(Tools.byteToByteArray(symbol), key), vector))));
+                writer.WriteByte((Tools.byteArrayToByte(Tools.exclusive_or(mAlgorithm.decrypt(Tools.byteToByteArray(symbol), key), vector))));
                 //Step 3 let vector be the decrypted Symbol
                 vector = Tools.byteToByteArray(buffer[0]);
 
-                if ((int)(inputstream.Position * 100 / inputstream.Length) > position)
+                if ((int)(reader.Position * 100 / reader.Length) > position)
                 {
-                    position = (int)(inputstream.Position * 100 / inputstream.Length);
-                    mSdes.ProgressChanged(inputstream.Position, inputstream.Length);
+                    position = (int)(reader.Position * 100 / reader.Length);
+                    mSdes.ProgressChanged(reader.Position, reader.Length);
                 }
-                outputstream.Flush();
+                writer.Flush();
             }
 
         }//end decrypt
@@ -2007,25 +1965,25 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         ///Encrypts the given plaintext with the given key
         ///using ElectronicCodeBookMode 
         ///
-        public void encrypt(CryptoolStream inputstream, CryptoolStream outputstream, byte[] key)
+        public void encrypt(CStreamReader reader, CStreamWriter writer, byte[] key)
         {
 
             byte[] buffer = new byte[1];
             int position = 0;
 
-            while (!this.mSdes.getStop() && (inputstream.Read(buffer, 0, 1)) > 0)
+            while (!this.mSdes.getStop() && (reader.Read(buffer, 0, 1)) > 0)
             {
                 //Step 1 get plaintext symbol
                 byte symbol = buffer[0]; ;
                 //Step 2 encrypt symbol
-                outputstream.Write(Tools.byteArrayToByte(this.mAlgorithm.encrypt(Tools.byteToByteArray(symbol), key)));
+                writer.WriteByte(Tools.byteArrayToByte(this.mAlgorithm.encrypt(Tools.byteToByteArray(symbol), key)));
 
-                if ((int)(inputstream.Position * 100 / inputstream.Length) > position)
+                if ((int)(reader.Position * 100 / reader.Length) > position)
                 {
-                    position = (int)(inputstream.Position * 100 / inputstream.Length);
-                    mSdes.ProgressChanged(inputstream.Position, inputstream.Length);
+                    position = (int)(reader.Position * 100 / reader.Length);
+                    mSdes.ProgressChanged(reader.Position, reader.Length);
                 }
-                outputstream.Flush();
+                writer.Flush();
 
             }//end while
 
@@ -2062,25 +2020,25 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         ///Decrypts the given plaintext with the given Key
         ///using ElectronicCodeBook mode 
         ///</summary>
-        public void decrypt(CryptoolStream inputstream, CryptoolStream outputstream, byte[] key)
+        public void decrypt(CStreamReader reader, CStreamWriter writer, byte[] key)
         {
 
             byte[] buffer = new byte[1];
             int position = 0;
 
-            while (!this.mSdes.getStop() && (inputstream.Read(buffer, 0, 1)) > 0)
+            while (!this.mSdes.getStop() && (reader.Read(buffer, 0, 1)) > 0)
             {
                 //Step 1 get plaintext symbol
                 byte symbol = buffer[0];
                 //Step 2 encrypt symbol
-                outputstream.Write(Tools.byteArrayToByte(this.mAlgorithm.decrypt(Tools.byteToByteArray(symbol), key)));
+                writer.WriteByte(Tools.byteArrayToByte(this.mAlgorithm.decrypt(Tools.byteToByteArray(symbol), key)));
 
-                if ((int)(inputstream.Position * 100 / inputstream.Length) > position)
+                if ((int)(reader.Position * 100 / reader.Length) > position)
                 {
-                    position = (int)(inputstream.Position * 100 / inputstream.Length);
-                    mSdes.ProgressChanged(inputstream.Position, inputstream.Length);
+                    position = (int)(reader.Position * 100 / reader.Length);
+                    mSdes.ProgressChanged(reader.Position, reader.Length);
                 }
-                outputstream.Flush();
+                writer.Flush();
 
             }//end while
 

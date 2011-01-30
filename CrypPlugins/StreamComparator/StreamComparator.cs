@@ -23,9 +23,8 @@ namespace Cryptool.StreamComparator
     #region Private variables
     private bool isBinary;
     private bool stop;
-    private CryptoolStream streamOne;
-    private CryptoolStream streamTwo;
-    private List<CryptoolStream> listCryptoolStreams = new List<CryptoolStream>();
+    private ICryptoolStream streamOne;
+    private ICryptoolStream streamTwo;
     private StreamComparatorPresentation streamComparatorPresentation;
     #endregion
 
@@ -49,36 +48,22 @@ namespace Cryptool.StreamComparator
     #region Properties
 
     [PropertyInfo(Direction.InputData, "Stream one", "First stream to compare", "", true, false, QuickWatchFormat.None, null)]
-    public CryptoolStream InputOne
+    public ICryptoolStream InputOne
     {
       get 
       {
-        CryptoolStream cryptoolStream = null;
-        if (streamOne != null)
-        {
-          cryptoolStream = new CryptoolStream();
-          cryptoolStream.OpenRead(streamOne.FileName);
-          listCryptoolStreams.Add(cryptoolStream);
+          return streamOne;
         }
-        return cryptoolStream; 
-      }
       set { streamOne = value; }
     }
 
     [PropertyInfo(Direction.InputData, "Stream two", "Second stream to compare", "", true, false, QuickWatchFormat.None, null)]
-    public CryptoolStream InputTwo
+    public ICryptoolStream InputTwo
     {
       get 
       {
-        CryptoolStream cryptoolStream = null;
-        if (streamTwo != null)
-        {
-          cryptoolStream = new CryptoolStream();
-          cryptoolStream.OpenRead(streamTwo.FileName);
-          listCryptoolStreams.Add(cryptoolStream);
+          return streamTwo;
         }
-        return cryptoolStream; 
-      }
       set { streamTwo = value; }
     }
 
@@ -102,28 +87,29 @@ namespace Cryptool.StreamComparator
     {
       stop = false;
       isBinary = false;
-
-      // this would result in one extra message on each comparison so just set it to false on 
-      // pre-execution 
-      // InputsAreEqual = false;
+      inputsAreEqual = false;
 
       int streamOneByte;
       int streamTwoByte;
 
-      CryptoolStream workingStreamOne = InputOne;
-      CryptoolStream workingStreamTwo = InputTwo;
-
-      if (workingStreamOne != null && workingStreamTwo != null)
+      if (InputOne == null)
       {
-        if (workingStreamOne == workingStreamTwo || workingStreamOne.FileName == workingStreamTwo.FileName && settings.Diff)
+          GuiTextChanged("Stream one is null, no comparison done.", NotificationLevel.Warning);
+          stop = true;
+      }
+      if (InputTwo == null)
         {
-          GuiTextChanged("Inputs are equal: same file was referenced two times.", NotificationLevel.Info);
-          InputsAreEqual = true;
-          if (OnPluginProgressChanged != null) OnPluginProgressChanged(this, new PluginProgressEventArgs(1, 1));
-          if (settings.Diff) CreateDiffView();          
+          GuiTextChanged("Stream two is null, no comparison done.", NotificationLevel.Warning);
+          stop = true;
         }
-        else if (workingStreamOne.Length != workingStreamTwo.Length && !settings.Diff)
+
+      if (stop)
+          return;
+
+      using (CStreamReader readerOne = InputOne.CreateReader(), readerTwo = InputTwo.CreateReader())
         {
+          if (readerOne.Length != readerTwo.Length && !settings.Diff)
+          {
           GuiTextChanged("Inputs are not equal, because the filesize is different.", NotificationLevel.Info);
           InputsAreEqual = false;
           if (OnPluginProgressChanged != null) OnPluginProgressChanged(this, new PluginProgressEventArgs(1, 1));
@@ -131,8 +117,6 @@ namespace Cryptool.StreamComparator
         }
         else
         {
-          workingStreamOne.Position = 0;
-          workingStreamTwo.Position = 0;
           DateTime startTime = DateTime.Now;
           int position = 0;
           GuiTextChanged("Starting byte comparison of files now...", NotificationLevel.Info);
@@ -142,17 +126,17 @@ namespace Cryptool.StreamComparator
           do
           {
             // Read one byte from each file.
-            streamOneByte = workingStreamOne.ReadByte();
-            streamTwoByte = workingStreamTwo.ReadByte();
+                  streamOneByte = readerOne.ReadByte();
+                  streamTwoByte = readerTwo.ReadByte();
 
             if (streamOneByte == 0) isBinary = true;
 
-            if (OnPluginProgressChanged != null && workingStreamOne.Length > 0 &&
-                (int)(workingStreamOne.Position * 100 / workingStreamOne.Length) > position)
+                  if (OnPluginProgressChanged != null && readerOne.Length > 0 &&
+                      (int)(readerOne.Position * 100 / readerOne.Length) > position)
             {
-              position = (int)(workingStreamOne.Position * 100 / workingStreamOne.Length);
+                      position = (int)(readerOne.Position * 100 / readerOne.Length);
               OnPluginProgressChanged(this,
-                new PluginProgressEventArgs(workingStreamOne.Position, workingStreamOne.Length));
+                        new PluginProgressEventArgs(readerOne.Position, readerOne.Length));
             }
           } while ((streamOneByte == streamTwoByte) && (streamOneByte != -1));
 
@@ -165,7 +149,7 @@ namespace Cryptool.StreamComparator
           GuiTextChanged(
             "Comparison complete. Files are " + (InputsAreEqual ? "equal" : "unequal") + ".", NotificationLevel.Info);
           if (!InputsAreEqual)
-            GuiTextChanged("First position a different byte: " + workingStreamOne.Position, NotificationLevel.Info);
+                  GuiTextChanged("First position a different byte: " + readerOne.Position, NotificationLevel.Info);
 
           if (OnPluginProgressChanged != null) OnPluginProgressChanged(this, new PluginProgressEventArgs(1, 1));
             GuiTextChanged("Duration: " + duration, NotificationLevel.Info);
@@ -184,10 +168,6 @@ namespace Cryptool.StreamComparator
           StatusChanged((int)StreamComparatorImage.Unequal);
         }
       }
-      if (workingStreamOne == null)
-        GuiTextChanged("Stream one is null, no comparison done.", NotificationLevel.Warning);
-      if (workingStreamTwo == null)
-        GuiTextChanged("Stream two is null, no comparison done.", NotificationLevel.Warning);
     }
 
     private StringBuilder result;
@@ -204,39 +184,39 @@ namespace Cryptool.StreamComparator
         result = new StringBuilder();
         try
         {
-          CryptoolStream cryptoolStream = InputOne;
-          CryptoolStream cryptoolStream2 = InputTwo;
+            using (CStreamReader readerOne = InputOne.CreateReader(), readerTwo = InputTwo.CreateReader())
+            {
 
-          if (cryptoolStream.Length > maxLength || cryptoolStream2.Length > maxLength)
+                if (readerOne.Length > maxLength || readerTwo.Length > maxLength)
             GuiTextChanged("Streams too big for complete diff, reading end of files only.", NotificationLevel.Warning);
 
           long startIndex = Math.Max(
-            cryptoolStream.Length - maxLength, 
-            cryptoolStream2.Length - maxLength);
+                  readerOne.Length - maxLength,
+                  readerTwo.Length - maxLength);
 
-          StreamReader sr = new StreamReader(cryptoolStream, Encoding.ASCII);          
+                StreamReader sr = new StreamReader(readerOne, Encoding.ASCII);
           StringBuilder strTxt1 = new StringBuilder();
 
-          int size = startIndex > 0 ? (int)(cryptoolStream.Length - startIndex) : (int)cryptoolStream.Length;
+                int size = startIndex > 0 ? (int)(readerOne.Length - startIndex) : (int)readerOne.Length;
           char[] bArr = new char[size];
 
           if (startIndex > 0) sr.BaseStream.Seek(startIndex, SeekOrigin.Begin);
           sr.Read(bArr, 0, bArr.Length);
           bool test = sr.EndOfStream;
-          cryptoolStream.Close();
+                readerOne.Close();
 
           for (int i = 0; i < bArr.Length; i++)
             strTxt1.Append(bArr[i]);          
 
-          sr = new StreamReader(cryptoolStream2, Encoding.ASCII);
+                sr = new StreamReader(readerTwo, Encoding.ASCII);
           if (startIndex > 0) sr.BaseStream.Seek(startIndex, SeekOrigin.Begin);
           StringBuilder strTxt2 = new StringBuilder();
 
-          size = startIndex > 0 ? (int)(cryptoolStream2.Length - startIndex) : (int)cryptoolStream2.Length;
+                size = startIndex > 0 ? (int)(readerTwo.Length - startIndex) : (int)readerTwo.Length;
           bArr = new char[size];
           sr.Read(bArr, 0, bArr.Length);
           test = sr.EndOfStream;
-          cryptoolStream2.Close();
+                readerTwo.Close();
 
           for (int i = 0; i < bArr.Length; i++)
             strTxt2.Append(bArr[i]);
@@ -262,17 +242,6 @@ namespace Cryptool.StreamComparator
           else result.AppendLine("Input streams are unequal.");
           result.AppendLine("</Paragraph></TableCell></TableRow>");
           
-          result.AppendLine("<TableRow Background=\"SkyBlue\"><TableCell ColumnSpan=\"2\" TextAlignment=\"Left\">");
-          result.AppendLine("<Paragraph FontSize=\"9pt\" FontWeight=\"Bold\">");
-          result.AppendLine(streamOne.FileName);
-          result.AppendLine("</Paragraph></TableCell></TableRow>");
-
-          result.AppendLine("<TableRow Background=\"SkyBlue\"><TableCell ColumnSpan=\"2\" TextAlignment=\"Left\">");
-          result.AppendLine("<Paragraph FontSize=\"9pt\" FontWeight=\"Bold\">");
-          result.AppendLine(streamTwo.FileName);
-          result.AppendLine("</Paragraph></TableCell></TableRow>");
-
-
           int n = 0;
           for (int fdx = 0; fdx < diffItem.Length; fdx++)
           {
@@ -312,11 +281,11 @@ namespace Cryptool.StreamComparator
           } // while
           result.AppendLine("</TableRowGroup></Table></FlowDocument>");
           StatusBarProgressbarValueChanged(1, 2);
-          CryptoolStream cs = new CryptoolStream();
-          cs.OpenRead(this.GetPluginInfoAttribute().Caption, Encoding.Default.GetBytes(result.ToString()));
-          streamComparatorPresentation.SetContent(cs);
+                CStreamWriter cs = new CStreamWriter(Encoding.Default.GetBytes(result.ToString()));
           cs.Close();
+                streamComparatorPresentation.SetContent(cs);
           StatusBarProgressbarValueChanged(1, 1);
+        }
         }
         catch (Exception exception)
         {
@@ -428,22 +397,7 @@ namespace Cryptool.StreamComparator
 
     public void Dispose()
     {
-      foreach (CryptoolStream stream in listCryptoolStreams)
-      {
-        if (stream != null) stream.Close();
       }
-      listCryptoolStreams.Clear();
-      if (streamOne != null)
-      {
-        this.streamOne.Close();
-        this.streamOne = null;
-      }
-      if (streamTwo != null)
-      {
-        this.streamTwo.Close();
-        this.streamTwo = null;
-      }
-    }
 
     public void Stop()
     {

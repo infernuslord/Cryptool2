@@ -95,7 +95,7 @@ namespace Whirlpool
 
     // Input input
     private static byte[] empty = { };
-    private byte[] input = empty;
+    private byte[] inputData = empty;
     //private dataCanal inputCanal = dataCanal.none;
 
     /// <summary>
@@ -112,33 +112,32 @@ namespace Whirlpool
     /// </summary>
     /// <value>The input input.</value>
     [PropertyInfo(Direction.InputData, "Input Stream", "Input stream to be hashed", "", false, false, QuickWatchFormat.Hex, null)]
-    public CryptoolStream InputStream
+    public ICryptoolStream InputStream
     {
       get
       {
-        CryptoolStream inputDataStream = new CryptoolStream();
-        inputDataStream.OpenRead(this.GetPluginInfoAttribute().Caption, input);
-        return inputDataStream;
+          if (inputData == null)
+          {
+              return null;
+      }
+          else
+          {
+              return new CStreamWriter(inputData);
+          }
       }
       set
       {
-        //if (inputCanal != dataCanal.none && inputCanal != dataCanal.streamCanal)
-        //  GuiLogMessage("Duplicate input key not allowed!", NotificationLevel.Error);
-        //inputCanal = dataCanal.streamCanal;
-
-        if (null == value)
-          input = empty;
-        else
+          if (value != null)
         {
-          long len = value.Length;
-          input = new byte[len];
-
-          for (long i = 0; i < len; i++)
-            input[i] = (byte)value.ReadByte();
+              using (CStreamReader reader = value.CreateReader())
+              {
+                  inputData = reader.ReadFully();
+                  GuiLogMessage("InputStream changed.", NotificationLevel.Debug);
         }
+
         NotifyUpdateInput();
-        GuiLogMessage("InputStream changed.", NotificationLevel.Debug);
       }
+    }
     }
 
     /// <summary>
@@ -150,35 +149,24 @@ namespace Whirlpool
     {
       get
       {
-        return input;
+          return inputData;
       }
       set
       {
-        //if (inputCanal != dataCanal.none && inputCanal != dataCanal.byteCanal)
-        //  GuiLogMessage("Duplicate input data not allowed!", NotificationLevel.Error);
-        //inputCanal = dataCanal.byteCanal;
-
-        if (null == value)
-          input = empty;
-        else
+          if (inputData != value)
         {
-          long len = value.Length;
-          input = new byte[len];
-
-          for (long i = 0; i < len; i++)
-            input[i] = value[i];
-        }
-        NotifyUpdateInput();
+              inputData = (value == null) ? empty : value;
         GuiLogMessage("InputData changed.", NotificationLevel.Debug);
+              NotifyUpdateInput();
       }
+    }
     }
     #endregion
 
     #region Output
 
     // Output
-    private List<CryptoolStream> listCryptoolStreamsOut = new List<CryptoolStream>();
-    private byte[] outputData = { };
+    private byte[] outputData = empty;
 
     /// <summary>
     /// Notifies the update output.
@@ -195,20 +183,12 @@ namespace Whirlpool
     /// </summary>
     /// <value>The output data stream.</value>
     [PropertyInfo(Direction.OutputData, "Hashed Stream", "Output stream of the hashed value", "", true, false, QuickWatchFormat.Hex, null)]
-    public CryptoolStream HashOutputStream
+    public ICryptoolStream HashOutputStream
     {
       get
       {
-        CryptoolStream outputDataStream = null;
-        if (outputData != null)
-        {
-          outputDataStream = new CryptoolStream();
-          listCryptoolStreamsOut.Add(outputDataStream);
-          outputDataStream.OpenRead(this.GetPluginInfoAttribute().Caption, outputData);
+          return new CStreamWriter(outputData);
         }
-        GuiLogMessage("Got HashOutputStream.", NotificationLevel.Debug);
-        return outputDataStream;
-      }
       //set
       //{
       //} //readonly
@@ -223,8 +203,7 @@ namespace Whirlpool
     {
       get
       {
-        GuiLogMessage("Got HashOutputData.", NotificationLevel.Debug);
-        return this.outputData;
+          return outputData;
       }
       //set
       //{
@@ -243,7 +222,7 @@ namespace Whirlpool
     {
       HMACWHIRLPOOL wh = new HMACWHIRLPOOL();
       wh.Initialize();
-      outputData = wh.ComputeHash(input);
+      outputData = wh.ComputeHash(inputData);
       wh = null;
       NotifyUpdateOutput();
     }
@@ -337,12 +316,7 @@ namespace Whirlpool
     /// </summary>
     public void Dispose()
     {
-      foreach (CryptoolStream stream in listCryptoolStreamsOut)
-      {
-        stream.Close();
       }
-      listCryptoolStreamsOut.Clear();
-    }
 
     #endregion
 

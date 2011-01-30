@@ -44,7 +44,6 @@ namespace RandomInput
     private byte[] rndArray;
     private RandomInputSettings settings;
     private RNGCryptoServiceProvider sRandom = new RNGCryptoServiceProvider();
-    private List<CryptoolStream> listCryptoolStreamsOut = new List<CryptoolStream>();
 
     public ISettings Settings
     {
@@ -84,7 +83,7 @@ namespace RandomInput
     }
 
     [PropertyInfo(Direction.OutputData, "Stream Output", "Memory stream of given length.", "", false, false, QuickWatchFormat.Hex, null)]
-    public CryptoolStream StreamOutput
+    public ICryptoolStream StreamOutput
     {
       get
       {
@@ -93,13 +92,10 @@ namespace RandomInput
         if (rndArray == null) getRand();
         if (rndArray != null)
         {
+            
           GuiMessage("Send " + rndArray.Length + " bytes of random data as stream.", NotificationLevel.Debug);
-          CryptoolStream cryptoolStream = new CryptoolStream();
-          cryptoolStream.OpenRead(this.GetPluginInfoAttribute().Caption, rndArray);
-          listCryptoolStreamsOut.Add(cryptoolStream);          
           Progress(1.0, 1.0);
-          
-          return cryptoolStream;
+          return new CStreamWriter(rndArray);
         }
         GuiMessage("No stream generated. Returning null.", NotificationLevel.Error);
         Progress(1.0, 1.0);
@@ -140,12 +136,7 @@ namespace RandomInput
 
     public void Dispose()
     {
-      foreach (CryptoolStream cryptoolStream in listCryptoolStreamsOut)
-      {
-        cryptoolStream.Close();
       }
-      listCryptoolStreamsOut.Clear();
-    }
 
     public void Stop()
     {
@@ -181,6 +172,7 @@ namespace RandomInput
     public void Execute()
     {
       getRand();
+      Progress(1.0, 1.0);
     }
 
     public void Pause()

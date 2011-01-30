@@ -30,6 +30,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using Cryptool.PluginBase.Miscellaneous;
 using System.Runtime.Remoting.Contexts;
+using System.Diagnostics;
 
 namespace TextOutput
 {
@@ -40,7 +41,6 @@ namespace TextOutput
     private readonly string inputOne = "InputOne";
 
     #region Private variables
-    private List<CryptoolStream> listCryptoolStreamsOut = new List<CryptoolStream>();
     /// <summary>
     /// This dic is used to store error messages while properties are set in PlayMode. The messages
     /// will be send in the execute method. 
@@ -140,8 +140,8 @@ namespace TextOutput
     {
       switch (settings.CurrentDataType)
       {
-        case TextOutputSettings.DynamicDataTypes.CryptoolStream:
-          return typeof(CryptoolStream);
+        case TextOutputSettings.DynamicDataTypes.CStream:
+          return typeof(ICryptoolStream);
         case TextOutputSettings.DynamicDataTypes.String:
           return typeof(string);
         case TextOutputSettings.DynamicDataTypes.ByteArray:
@@ -163,36 +163,13 @@ namespace TextOutput
     {
       if (DicDynamicProperties.ContainsKey(name))
       {
-        switch (settings.CurrentDataType)
-        {
-          case TextOutputSettings.DynamicDataTypes.CryptoolStream:
-            if ((CryptoolStream)DicDynamicProperties[name].Value != null)
-            {
-              CryptoolStream cryptoolStream = new CryptoolStream();
-              listCryptoolStreamsOut.Add(cryptoolStream);
-              cryptoolStream.OpenRead(((CryptoolStream)DicDynamicProperties[name].Value).FileName);
-              return cryptoolStream;
+            return DicDynamicProperties[name].Value;
             }
             else
+        {
               return null;
-          case TextOutputSettings.DynamicDataTypes.String:
-            return DicDynamicProperties[name].Value;
-          case TextOutputSettings.DynamicDataTypes.ByteArray:
-            return DicDynamicProperties[name].Value;
-          case TextOutputSettings.DynamicDataTypes.Boolean:
-            return DicDynamicProperties[name].Value;
-          case TextOutputSettings.DynamicDataTypes.Integer:
-            return DicDynamicProperties[name].Value;
-          case TextOutputSettings.DynamicDataTypes.Double:
-            return DicDynamicProperties[name].Value;
-          case TextOutputSettings.DynamicDataTypes.Object:
-            return DicDynamicProperties[name].Value;
-          default:
-            return null;
         }
       }
-      return null;
-    }
 
     private void AddInput(string name, string toolTip)
     {
@@ -221,8 +198,10 @@ namespace TextOutput
         }
         else
         {
+            
+
             // check type explicitly, if connector type is set to anything else than object
-            if (getCurrentType() != typeof(object) && !getCurrentType().Equals(value.GetType()))
+            if (getCurrentType() != typeof(object) && !getCurrentType().IsAssignableFrom(value.GetType()))
             {
                 GuiLogMessage(String.Format("Input data type does not match setting. Expected: {0}, Found: {1}", getCurrentType(), value.GetType()),
                     NotificationLevel.Error);
@@ -240,17 +219,16 @@ namespace TextOutput
                     fillValue = ((bool)value).ToString();
                 }
             }
-            else if (value is CryptoolStream)
+            else if (value is ICryptoolStream)
             {
-                listCryptoolStreamsOut.Add((CryptoolStream)value);
-                CryptoolStream stream = value as CryptoolStream;
+                CStreamReader reader = ((ICryptoolStream)value).CreateReader();
                 // GuiLogMessage("Stream: Filling TextBoxes now...", NotificationLevel.Debug);
-                if (stream.Length > settings.MaxLength)
-                    AddMessage("WARNING - Stream is too large (" + (stream.Length / 1024).ToString("0.00") + " kB), output will be truncated to " + (settings.MaxLength / 1024).ToString("0.00") + "kB", NotificationLevel.Warning);
-                byte[] byteValues = new byte[Math.Min(settings.MaxLength, stream.Length)];
+                if (reader.Length > settings.MaxLength)
+                    AddMessage("WARNING - Stream is too large (" + (reader.Length / 1024).ToString("0.00") + " kB), output will be truncated to " + (settings.MaxLength / 1024).ToString("0.00") + "kB", NotificationLevel.Warning);
+                byte[] byteValues = new byte[Math.Min(settings.MaxLength, reader.Length)];
                 int bytesRead;
-                stream.Seek(0, SeekOrigin.Begin);
-                bytesRead = stream.Read(byteValues, 0, byteValues.Length);
+                reader.Seek(0, SeekOrigin.Begin);
+                bytesRead = reader.ReadFully(byteValues, 0, byteValues.Length);
                 fillValue = GetStringForSelectedEncoding(byteValues);
             }
             else if (value is byte[])
@@ -467,12 +445,7 @@ namespace TextOutput
 
     public void Dispose()
     {
-      foreach (CryptoolStream cryptoolStream in listCryptoolStreamsOut)
-      {
-        cryptoolStream.Close();
       }
-      listCryptoolStreamsOut.Clear();
-    }
 
     public void Stop()
     {
@@ -489,19 +462,10 @@ namespace TextOutput
           textOutputQuickWatchPresentation.textBox.Text = null;
         }, null);
       }
-      foreach (DynamicProperty item in dicDynamicProperties.Values)
-      {
-        if (item.Value is CryptoolStream)
-        {
-          item.Value = null;
         }
-      }
-      Dispose();
-    }
 
     public void PostExecution()
     {
-      Dispose();
     }
 
     private void GuiLogMessage(string message, NotificationLevel logLevel)

@@ -47,7 +47,6 @@ namespace Cryptool.Trivium
         private string inputKey;
         private string inputIV;
         private bool stop = false;
-        private List<CryptoolStream> listCryptoolStreamsOut = new List<CryptoolStream>();
 
         #endregion
 
@@ -115,25 +114,11 @@ namespace Cryptool.Trivium
 
         public void Dispose()
         {
-            try
-            {
                 stop = false;
                 inputKey = null;
                 outputString = null;
                 inputString = null;
-
-                foreach (CryptoolStream stream in listCryptoolStreamsOut)
-                {
-                    stream.Close();
                 }
-                listCryptoolStreamsOut.Clear();
-            }
-            catch (Exception ex)
-            {
-                GuiLogMessage(ex.Message, NotificationLevel.Error);
-            }
-            this.stop = false;
-        }
 
         public int[] hextobin(char[] hex)
         {

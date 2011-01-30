@@ -38,11 +38,9 @@ namespace Cryptool.TEA
         #region IPlugin Members
 
         private TEASettings settings;
-        private CryptoolStream inputStream;
-        private CryptoolStream outputStream;
+        private CStreamWriter outputStream;
         private byte[] inputKey;
         private bool stop = false;
-        private List<CryptoolStream> listCryptoolStreamsOut = new List<CryptoolStream>();
 
         #endregion
 
@@ -59,26 +57,11 @@ namespace Cryptool.TEA
         }
 
         [PropertyInfo(Direction.InputData, "Input", "Data to be encrypted or decrypted.", "", true, false, QuickWatchFormat.Hex, null)]
-        public CryptoolStream InputStream
+        public ICryptoolStream InputStream
         {
-            get 
-            {
-              if (inputStream != null)
-              {
-                CryptoolStream cs = new CryptoolStream();
-                cs.OpenRead(inputStream.FileName);
-                listCryptoolStreamsOut.Add(cs);
-                return cs;
+            get;
+            set;
               }
-              else return null;
-            }
-            set 
-            { 
-              this.inputStream = value;
-              if (value != null) listCryptoolStreamsOut.Add(value);
-              OnPropertyChanged("InputStream");
-            }
-        }
 
         [PropertyInfo(Direction.InputData, "Key", "Must be 16 bytes (128 bit).", "", true, false, QuickWatchFormat.Hex, null)]
         public byte[] InputKey
@@ -87,29 +70,18 @@ namespace Cryptool.TEA
             set
             {
                 this.inputKey = value;
-                OnPropertyChanged("InputKey");
             }
         }
 
         [PropertyInfo(Direction.OutputData, "Output stream", "Encrypted or decrypted output data", "", true, false, QuickWatchFormat.Hex, null)]
-        public CryptoolStream OutputStream
+        public ICryptoolStream OutputStream
         {
             get
             {
-                if (this.outputStream != null)
-                {
-                    CryptoolStream cs = new CryptoolStream();
-                    listCryptoolStreamsOut.Add(cs);
-                    cs.OpenRead(this.outputStream.FileName);
-                    return cs;
+                return outputStream;
                 }
-                return null;
-            }
             set
             {
-                outputStream = value;
-                if (value != null) listCryptoolStreamsOut.Add(value);
-                OnPropertyChanged("OutputStream");
             }
         }
 
@@ -120,26 +92,15 @@ namespace Cryptool.TEA
                 stop = false;
                 inputKey = null;
                 outputStream = null;
-                inputStream = null;
 
-                if (inputStream != null)
-                {
-                    inputStream.Flush();
-                    inputStream.Close();
-                    inputStream = null;
-                }
                 if (outputStream != null)
                 {
                     outputStream.Flush();
                     outputStream.Close();
+                    outputStream.Dispose();
                     outputStream = null;
                 }
-                foreach (CryptoolStream stream in listCryptoolStreamsOut)
-                {
-                    stream.Close();
                 }
-                listCryptoolStreamsOut.Clear();
-            }
             catch (Exception ex)
             {
                 GuiLogMessage(ex.Message, NotificationLevel.Error);
@@ -149,14 +110,15 @@ namespace Cryptool.TEA
 
         private void checkForInputStream()
         {
-            if (settings.Action == 0 && (inputStream == null || (inputStream != null && inputStream.Length == 0)))
+            if (settings.Action == 0 && (InputStream == null || InputStream.Length == 0))
             {
                 //create some input
                 String dummystring = "12345678";
-                this.inputStream = new CryptoolStream();
-                this.inputStream.OpenRead(this.GetPluginInfoAttribute().Caption, Encoding.Default.GetBytes(dummystring.ToCharArray()));
+                InputStream = new CStreamWriter(Encoding.Default.GetBytes(dummystring));
                 // write a warning to the outside world
                 GuiLogMessage("WARNING - No input provided. Using dummy data. (" + dummystring + ")", NotificationLevel.Warning);
+
+                OnPropertyChanged("InputStream");
             }
         }
 
@@ -172,21 +134,19 @@ namespace Cryptool.TEA
             {                
                 checkForInputStream();
 
-                if (inputStream == null || (inputStream != null && inputStream.Length == 0))
+                if (InputStream == null)
                 {
                     GuiLogMessage("No input given. Not using dummy data in decrypt mode. Aborting now.", NotificationLevel.Error);
                     return;
                 }
 
-                if (this.inputStream.CanSeek) this.inputStream.Position = 0;
+                using (CStreamReader reader = InputStream.CreateReader())
+                {
+                    outputStream = new CStreamWriter();
 
-                outputStream = new CryptoolStream();
-                listCryptoolStreamsOut.Add(outputStream);
-                outputStream.OpenWrite(this.GetPluginInfoAttribute().Caption);
+                    long inputbytes = reader.Length;
+                    GuiLogMessage("inputStream length [bytes]: " + inputbytes.ToString(), NotificationLevel.Debug);
 
-                long inputbytes = inputStream.Length;
-                GuiLogMessage("inputStream length [bytes]: " + inputStream.Length.ToString(), NotificationLevel.Debug);
-                
                 int bytesRead = 0;
                 int blocksRead = 0;
                 int position;
@@ -215,7 +175,7 @@ namespace Cryptool.TEA
                         // no padding to do
                         if (position < inputbytes)
                         {
-                            inputbuffer[position] = (byte)inputStream.ReadByte();
+                                inputbuffer[position] = (byte)reader.ReadByte();
                         }
                         else // padding to do!
                         {
@@ -233,7 +193,7 @@ namespace Cryptool.TEA
                             else
                             {
                                 // no padding
-                                inputbuffer[position] = (byte)inputStream.ReadByte();
+                                    inputbuffer[position] = (byte)reader.ReadByte();
                                 GuiLogMessage("Byte is: " + inputbuffer[position].ToString(), NotificationLevel.Info);
                             }
                         }
@@ -312,7 +272,9 @@ namespace Cryptool.TEA
                         outputbuffer = BitConverter.GetBytes(vector[1]);
                         outputStream.Write(outputbuffer, 0, 4);
                     }
-                } else if (action == 1) {
+                    }
+                    else if (action == 1)
+                    {
                     GuiLogMessage("Starting decryption [Keysize=128 Bits, Blocksize=64 Bits]", NotificationLevel.Info);
                     for (int i = 0; i <= blocks-1; i++)
                     {
@@ -360,19 +322,17 @@ namespace Cryptool.TEA
                 long outbytes = outputStream.Length;
                 DateTime stopTime = DateTime.Now;
                 TimeSpan duration = stopTime - startTime;
-                //(outputStream as CryptoolStream).FinishWrite();
 
                 if (!stop)
                 {
                     if (action == 0)
                     {
-                        GuiLogMessage("Encryption complete! (in: " + inputStream.Length.ToString() + " bytes, out: " + outbytes.ToString() + " bytes)", NotificationLevel.Info);
+                            GuiLogMessage("Encryption complete! (in: " + inputbytes + " bytes, out: " + outbytes.ToString() + " bytes)", NotificationLevel.Info);
                     }
                     else
                     {
-                        GuiLogMessage("Decryption complete! (in: " + inputStream.Length.ToString() + " bytes, out: " + outbytes.ToString() + " bytes)", NotificationLevel.Info);
+                            GuiLogMessage("Decryption complete! (in: " + inputbytes + " bytes, out: " + outbytes.ToString() + " bytes)", NotificationLevel.Info);
                     }
-                    GuiLogMessage("Wrote data to file: " + outputStream.FileName, NotificationLevel.Debug);
                     GuiLogMessage("Time used: " + duration.ToString(), NotificationLevel.Debug);
                     outputStream.Close();
                     OnPropertyChanged("OutputStream");
@@ -384,15 +344,7 @@ namespace Cryptool.TEA
                     GuiLogMessage("Aborted!", NotificationLevel.Info);
                 }
             }
-            /*catch (CryptographicException cryptographicException)
-            {
-                // TODO: For an unknown reason p_crypto_stream can not be closed after exception.
-                // Trying so makes p_crypto_stream throw the same exception again. So in Dispose 
-                // the error messages will be doubled. 
-                // As a workaround we set p_crypto_stream to null here.
-                p_crypto_stream = null;
-                //GuiLogMessage(cryptographicException.Message, NotificationLevel.Error);
-            }*/
+            }
             catch (Exception exception)
             {
                 GuiLogMessage(exception.Message, NotificationLevel.Error);
@@ -586,12 +538,10 @@ namespace Cryptool.TEA
 
         public void PostExecution()
         {
-            Dispose();
         }
 
         public void PreExecution()
         {
-            Dispose();
         }
 
         public UserControl Presentation

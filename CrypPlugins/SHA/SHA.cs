@@ -35,9 +35,8 @@ namespace SHA
     [PluginInfo(false, "SHA", "SHA hash functions", "", "SHA/SHA.png")]    
     public class SHA : ICryptographicHash
     {
-        private List<CryptoolStream> listCryptoolStreamsOut = new List<CryptoolStream>();
         private SHASettings settings;
-        private CryptoolStream inputData;
+        private ICryptoolStream inputData;
         private byte[] outputData;        
         
 
@@ -51,40 +50,43 @@ namespace SHA
         public void Execute()
         {
             Progress(0.5, 1.0);
-            if (inputData != null)
-            {
-              byte[] data = null;
 
-              switch (settings.SHAFunction)
+            HashAlgorithm hash = GetHashAlgorithm(settings.SHAFunction);
+
+            if (inputData == null)
               {
-                case (int)SHASettings.ShaFunction.SHA1:
-                  SHA1Managed sha1Hash = new SHA1Managed();
-                  data = sha1Hash.ComputeHash((Stream)inputData);
-                  break;
-                case (int)SHASettings.ShaFunction.SHA256:
-                  SHA256Managed sha256Hash = new SHA256Managed();
-                  data = sha256Hash.ComputeHash((Stream)inputData);
-                  break;
-                case (int)SHASettings.ShaFunction.SHA384:
-                  SHA384Managed sha384Hash = new SHA384Managed();
-                  data = sha384Hash.ComputeHash((Stream)inputData);
-                  break;
-                case (int)SHASettings.ShaFunction.SHA512:
-                  SHA512Managed sha512Hash = new SHA512Managed();
-                  data = sha512Hash.ComputeHash((Stream)inputData);
-                  break;
+                GuiLogMessage("Received null value for ICryptoolStream.", NotificationLevel.Warning);
               }              
-              
-              GuiLogMessage("Hash created.", NotificationLevel.Info);              
-              Progress(1, 1);
-
-              OutputData = data;
+            else if (hash == null)
+            {
+                GuiLogMessage("No valid SHA algorithm instance.", NotificationLevel.Error);
             }
             else
             {                            
-              GuiLogMessage("Received null value for ICryptoolStream.", NotificationLevel.Warning);
+                using (CStreamReader reader = inputData.CreateReader())
+                {
+                    OutputData = hash.ComputeHash(reader);
+                    GuiLogMessage("Hash created.", NotificationLevel.Info);
+            }
             }
             Progress(1.0, 1.0);
+        }
+
+        private HashAlgorithm GetHashAlgorithm(int shaType)
+        {
+            switch ((SHASettings.ShaFunction)shaType)
+            {
+                case SHASettings.ShaFunction.SHA1:
+                    return new SHA1Managed();
+                case SHASettings.ShaFunction.SHA256:
+                    return new SHA1Managed();
+                case SHASettings.ShaFunction.SHA384:
+                    return new SHA384Managed();
+                case SHASettings.ShaFunction.SHA512:
+                    return new SHA512Managed();
+            }
+
+            return null;
         }
 
         public ISettings Settings
@@ -96,19 +98,12 @@ namespace SHA
         #endregion
 
         [PropertyInfo(Direction.InputData, "Input stream", "Input data to be hashed", "", true, false, QuickWatchFormat.Hex, null)]
-        public CryptoolStream InputData
+        public ICryptoolStream InputData
         {
             get 
             {
-              if (inputData != null)
-              {
-                CryptoolStream cs = new CryptoolStream();
-                listCryptoolStreamsOut.Add(cs);
-                cs.OpenRead(inputData.FileName);
-                return cs;
+                return inputData;
               }
-              return null;
-            }
             set 
             {
               if (value != inputData)
@@ -119,18 +114,15 @@ namespace SHA
         }
 
         [PropertyInfo(Direction.OutputData, "Hashed value", "Output data of the hashed value as Stream", "", true, false, QuickWatchFormat.Hex, null)]
-        public CryptoolStream OutputDataStream
+        public ICryptoolStream OutputDataStream
         {
             get
             {
-                CryptoolStream outputDataStream = null;
                 if (outputData != null)
                 {
-                  outputDataStream = new CryptoolStream();
-                  outputDataStream.OpenRead(this.GetPluginInfoAttribute().Caption, outputData);
-                  listCryptoolStreamsOut.Add(outputDataStream);
+                    return new CStreamWriter(outputData);
                 }
-                return outputDataStream;
+                return null;
             }
             set { } //readonly
         }
@@ -156,15 +148,9 @@ namespace SHA
         {
           if (inputData != null)
           {
-            inputData.Close();
             inputData = null;
           }
-          foreach (CryptoolStream cryptoolStream in listCryptoolStreamsOut)
-          {
-            cryptoolStream.Close();
           }
-          listCryptoolStreamsOut.Clear();
-        }
 
         public void Initialize()
         {

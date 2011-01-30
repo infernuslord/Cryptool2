@@ -35,12 +35,10 @@ namespace Cryptool.Vernam
         #region Private variables
 
         private VernamSettings settings;
-        private CryptoolStream outputStream;
         private byte[] inputKey;
         private string inputString;
         private string outputString;
         private enum VernamMode { encrypt, decrypt };
-        private List<CryptoolStream> listCryptoolStreamsOut = new List<CryptoolStream>();
 
         #endregion
 
@@ -92,16 +90,13 @@ namespace Cryptool.Vernam
         }
 
         [PropertyInfo(Direction.OutputData, "Stream output", "The string after processing with the Caesar cipher is converted to a stream. Default encoding is used.", null, false, false, QuickWatchFormat.Text, null)]
-        public CryptoolStream OutputStream
+        public ICryptoolStream OutputStream
         {
             get
             {
                 if (outputString != null)
                 {
-                    CryptoolStream cs = new CryptoolStream();
-                    listCryptoolStreamsOut.Add(cs);
-                    cs.OpenRead(this.GetPluginInfoAttribute().Caption,Encoding.Default.GetBytes(outputString.ToCharArray()));
-                    return cs;
+                    return new CStreamWriter(Encoding.Default.GetBytes(outputString));
                 }
                 else
                 {
@@ -149,12 +144,7 @@ namespace Cryptool.Vernam
 
         public void Dispose()
         {
-            foreach (CryptoolStream stream in listCryptoolStreamsOut)
-            {
-                stream.Close();
             }
-            listCryptoolStreamsOut.Clear();
-        }
 
         public bool HasChanges 
         {

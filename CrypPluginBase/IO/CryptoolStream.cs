@@ -19,6 +19,7 @@ using System.IO;
 
 namespace Cryptool.PluginBase.IO
 {
+    [Obsolete("Use ICryptoolStream, CStreamWriter and CStreamReader instead")]
     public class CryptoolStream : Stream
     {
         private const string TempFileExtension = "csf";
@@ -131,6 +132,7 @@ namespace Cryptool.PluginBase.IO
         /// </summary>
         /// <param name="Plugin"></param>
         /// <param name="Bytes"></param>
+        [Obsolete("Use ICryptoolStream, CStreamWriter and CStreamReader instead")]
         public void OpenRead(byte[] Bytes)
         {
           if (Bytes == null) throw new ArgumentException("Bytes");
@@ -152,12 +154,13 @@ namespace Cryptool.PluginBase.IO
           deleteOnDispose = true;
         }
 
-        [Obsolete("pluginCaption is not used anymore, use OpenRead(byte[]) instead")]
+        [Obsolete("Use ICryptoolStream, CStreamWriter and CStreamReader instead")]
         public void OpenRead(string pluginCaption, byte[] Bytes)
         {
           OpenRead(Bytes);
         }
 
+        [Obsolete("Use ICryptoolStream, CStreamWriter and CStreamReader instead")]
         public void OpenRead(string fileName)
         {
             this.fileName = fileName;
@@ -189,12 +192,13 @@ namespace Cryptool.PluginBase.IO
         #endregion read
 
         # region write
-        [Obsolete("pluginCaption is not used anymore, use OpenWrite() instead")]
+        [Obsolete("Use ICryptoolStream, CStreamWriter and CStreamReader instead")]
         public void OpenWrite(string pluginCaption)
         {
             OpenWrite();
         }
 
+        [Obsolete("Use ICryptoolStream, CStreamWriter and CStreamReader instead")]
         public void OpenWrite()
         {
             if (this.fileStream != null)

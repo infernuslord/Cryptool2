@@ -35,11 +35,9 @@ namespace Cryptool.Caesar
         #region Private variables
 
         private CaesarSettings settings;
-        // private CryptoolStream outputData;
         private string inputString;
         private string outputString;
         private enum CaesarMode { encrypt, decrypt };
-        private List<CryptoolStream> listCryptoolStreamsOut = new List<CryptoolStream>();
         private bool isPlayMode = false;
         #endregion
         
@@ -66,16 +64,13 @@ namespace Cryptool.Caesar
 
 
         [PropertyInfo(Direction.OutputData, "propStreamOutputToolTip", "propStreamOutputDescription", "", false, false, QuickWatchFormat.Text, null)]
-        public CryptoolStream OutputData
+        public ICryptoolStream OutputData
         {
             get
             {
                 if (outputString != null)
                 {                    
-                    CryptoolStream cs = new CryptoolStream();
-                    listCryptoolStreamsOut.Add(cs);
-                    cs.OpenRead(Encoding.Default.GetBytes(outputString.ToCharArray()));
-                    return cs;
+                    return new CStreamWriter(Encoding.Default.GetBytes(outputString));
                 }
                 else
                 {
@@ -167,12 +162,7 @@ namespace Cryptool.Caesar
 
         public void Dispose()
         {
-          foreach (CryptoolStream stream in listCryptoolStreamsOut)
-          {
-            stream.Close();
           }
-          listCryptoolStreamsOut.Clear();
-        }
 
         public bool HasChanges
         {

@@ -31,7 +31,6 @@ namespace Cryptool.CubeAttack
         private CubeAttackSettings settings;
         private string outputKeyBits;
         private enum CubeAttackMode { preprocessing, online, setPublicBits };
-        private List<CryptoolStream> listCryptoolStreamsOut = new List<CryptoolStream>();
         private bool stop = false;
         
         #endregion
@@ -63,16 +62,13 @@ namespace Cryptool.CubeAttack
             DisplayLevel.Beginner, 
             QuickWatchFormat.Text, 
             null)]
-        public CryptoolStream OutputSuperpoly
+        public ICryptoolStream OutputSuperpoly
         {
             get
             {
                 if (outputSuperpoly != null)
                 {
-                    CryptoolStream cs = new CryptoolStream();
-                    listCryptoolStreamsOut.Add(cs);
-                    cs.OpenRead(Encoding.Default.GetBytes(outputSuperpoly.ToCharArray()));
-                    return cs;
+                    return new CStreamWriter(Encoding.Default.GetBytes(outputSuperpoly));
                 }
                 else
                 {
@@ -91,16 +87,13 @@ namespace Cryptool.CubeAttack
             DisplayLevel.Beginner, 
             QuickWatchFormat.Text, 
             null)]
-        public CryptoolStream OutputKeyBits
+        public ICryptoolStream OutputKeyBits
         {
             get
             {
                 if (outputKeyBits != null)
                 {
-                    CryptoolStream cs = new CryptoolStream();
-                    listCryptoolStreamsOut.Add(cs);
-                    cs.OpenRead(Encoding.Default.GetBytes(outputKeyBits.ToCharArray()));
-                    return cs;
+                    return new CStreamWriter(Encoding.Default.GetBytes(outputKeyBits));
                 }
                 else
                 {
@@ -160,12 +153,7 @@ namespace Cryptool.CubeAttack
         public void Dispose()
         {
             stop = false;
-            foreach (CryptoolStream stream in listCryptoolStreamsOut)
-            {
-                stream.Close();
             }
-            listCryptoolStreamsOut.Clear();
-        }
 
         public bool HasChanges
         {

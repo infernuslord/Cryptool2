@@ -78,31 +78,26 @@ namespace Cryptool.Plugins.PeerToPeer.Internal
         /// <param name="sTopicName">the topic name on which all Peers are registered</param>
         /// <param name="cStream">CryptoolStream from the Encryption-PlugIn</param>
         /// <returns></returns>
-        public static bool SetEncryptedData(ref IP2PControl p2pControl, string sTopicName, CryptoolStream cStream)
+        public static bool SetEncryptedData(ref IP2PControl p2pControl, string sTopicName, ICryptoolStream cStream)
         {
             bool encryptedTextStored = false;
-            if (cStream != null && sTopicName != null && sTopicName != String.Empty && p2pControl != null)
+            if (cStream != null && !string.IsNullOrEmpty(sTopicName) && p2pControl != null)
             {
-                var newEncryptedData = new CryptoolStream();
-                newEncryptedData.OpenRead(cStream.FileName);
-                if (newEncryptedData.CanRead)
+                using (CStreamReader cReader = cStream.CreateReader())
                 {
                     // Convert CryptoolStream to an byte Array and store it in the DHT
-                    if (newEncryptedData.Length > Int32.MaxValue)
+                    if (cReader.Length > Int32.MaxValue)
                         throw (new Exception(
                             "Encrypted Data are too long for this PlugIn. The maximum size of Data is " + Int32.MaxValue +
                             "!"));
-                    var byteEncryptedData = new byte[newEncryptedData.Length];
-                    int k = newEncryptedData.Read(byteEncryptedData, 0, byteEncryptedData.Length);
-                    if (k < byteEncryptedData.Length)
+
+                    byte[] byteEncryptedData = cReader.ReadFully();
+                    if (cReader.Length < byteEncryptedData.Length)
                         throw (new Exception("Read Data are shorter than byteArrayLen"));
                     encryptedTextStored = p2pControl.DHTstore(sTopicName + EncryptedData, byteEncryptedData);
                 }
-                else
-                {
-                    throw (new Exception("Reading the CryptoolStream wasn't possible"));
+
                 }
-            }
             return encryptedTextStored;
         }
 

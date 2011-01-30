@@ -36,7 +36,6 @@ namespace FileOutput
   {
     #region Private variables    
     public FileOutputSettings settings = null;
-    private List<CryptoolStream> listCryptoolStreamsOut = new List<CryptoolStream>();
     #endregion Private variables
 
     #region IInput Members
@@ -72,89 +71,13 @@ namespace FileOutput
     }
 
     # region Properties
-    private CryptoolStream streamInput;
 
     [PropertyInfo(Direction.InputData, "Stream Input", "Display the input file in HexEditor.", "", true, false, QuickWatchFormat.Hex, null)]
-    public CryptoolStream StreamInput
+        public ICryptoolStream StreamInput
     {
-      get 
-      {
-        if (File.Exists(InputFile))
-        {
-          CryptoolStream cs = new CryptoolStream();
-          cs.OpenRead(InputFile);
-          listCryptoolStreamsOut.Add(cs);
-          return cs;
+            get;
+            set;
         }
-        return null;
-      } 
-      set
-      {
-        Progress(0.5, 1.0);
-        if (value != null)
-        {          
-          listCryptoolStreamsOut.Add(value);
-          GuiLogMessage("Received ICryptoolStream: " + value.FileName, NotificationLevel.Debug);
-          streamInput = value;
-          InputFile = value.FileName;
-          OnPropertyChanged("StreamInput");
-
-          // If target file was selected we have to copy the input to target. 
-          # region copyToTarget
-          if (settings.TargetFilename != null)
-          {
-            listCryptoolStreamsOut.Add(value);
-            InputFile = settings.TargetFilename;
-            try
-            {
-              fileOutputPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-              {
-                fileOutputPresentation.ClosePresentationFile();
-              }, null);
-
-              value.Seek(0, SeekOrigin.Begin);
-              FileStream fs = FileHelper.GetFileStream(settings.TargetFilename, FileMode.Create);
-              byte[] byteValues = new byte[1024];
-              int byteRead;
-
-              int position = 0;
-              GuiLogMessage("Start writing to target file now: " + settings.TargetFilename, NotificationLevel.Debug);
-              while ((byteRead = value.Read(byteValues, 0, byteValues.Length)) != 0)
-              {
-                fs.Write(byteValues, 0, byteRead);
-                if (OnPluginProgressChanged != null && value.Length > 0 &&
-                    (int)(value.Position * 100 / value.Length) > position)
-                {
-                  position = (int)(value.Position * 100 / value.Length);
-                  Progress(value.Position, value.Length);
-                }
-              }
-              fs.Flush();
-              fs.Close();
-
-              GuiLogMessage("Finished writing: " + settings.TargetFilename, NotificationLevel.Debug);
-            }
-            catch (Exception ex)
-            {
-              GuiLogMessage(ex.Message, NotificationLevel.Error);
-              settings.TargetFilename = null;
-            }
-          }
-          # endregion copyToTarget
-          value.Close();
-
-          fileOutputPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-          {
-            fileOutputPresentation.OpenPresentationFile();
-          }, null);
-          Progress(1.0, 1.0);
-        }
-        else
-        {
-          GuiLogMessage("Received null value for ICryptoolStream.", NotificationLevel.Warning);
-        }        
-      }
-    }
     #endregion
 
     #region IPlugin Members
@@ -184,12 +107,6 @@ namespace FileOutput
     /// </summary>
     public void Dispose()
     {
-      foreach (CryptoolStream cryptoolStream in listCryptoolStreamsOut)
-      {
-        cryptoolStream.Close();
-      }
-      listCryptoolStreamsOut.Clear();
-
       DispatcherHelper.ExecuteMethod(fileOutputPresentation.Dispatcher,
         fileOutputPresentation, "OpenPresentationFile", null);
     }
@@ -204,7 +121,7 @@ namespace FileOutput
       InputFile = null;
       DispatcherHelper.ExecuteMethod(fileOutputPresentation.Dispatcher,
         fileOutputPresentation, "ClosePresentationFile", null);
-      if (settings.TargetFilename == null || settings.TargetFilename == string.Empty)
+            if (string.IsNullOrEmpty(settings.TargetFilename))
       {
         GuiLogMessage("You have to select a target filename before using this plugin as output.", NotificationLevel.Error);
       }
@@ -212,7 +129,6 @@ namespace FileOutput
 
     public void PostExecution()
     {
-      Dispose();
     }
 
     #endregion
@@ -245,8 +161,63 @@ namespace FileOutput
 
     public void Execute()
     {
+            Progress(0.5, 1.0);
+            if (StreamInput == null)
+            {
+                GuiLogMessage("Received null value for ICryptoolStream.", NotificationLevel.Warning);
+                return;
+            }
       
+            using (CStreamReader reader = StreamInput.CreateReader())
+            {
+                // If target file was selected we have to copy the input to target. 
+                # region copyToTarget
+                if (settings.TargetFilename != null)
+                {
+                    InputFile = settings.TargetFilename;
+                    try
+                    {
+                        fileOutputPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                        {
+                            fileOutputPresentation.ClosePresentationFile();
+                        }, null);
+
+                        FileStream fs = FileHelper.GetFileStream(settings.TargetFilename, FileMode.Create);
+                        byte[] byteValues = new byte[1024];
+                        int byteRead;
+
+                        int position = 0;
+                        GuiLogMessage("Start writing to target file now: " + settings.TargetFilename, NotificationLevel.Debug);
+                        while ((byteRead = reader.Read(byteValues, 0, byteValues.Length)) != 0)
+                        {
+                            fs.Write(byteValues, 0, byteRead);
+                            if (OnPluginProgressChanged != null && reader.Length > 0 &&
+                                (int)(reader.Position * 100 / reader.Length) > position)
+                            {
+                                position = (int)(reader.Position * 100 / reader.Length);
+                                Progress(reader.Position, reader.Length);
     }
+                        }
+                        fs.Flush();
+                        fs.Close();
+
+                        GuiLogMessage("Finished writing: " + settings.TargetFilename, NotificationLevel.Debug);
+                    }
+                    catch (Exception ex)
+                    {
+                        GuiLogMessage(ex.Message, NotificationLevel.Error);
+                        settings.TargetFilename = null;
+                    }
+                }
+                # endregion copyToTarget
+
+                fileOutputPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    fileOutputPresentation.OpenPresentationFile();
+                }, null);
+                Progress(1.0, 1.0);
+            }
+        }
 
     public void Pause()
     {

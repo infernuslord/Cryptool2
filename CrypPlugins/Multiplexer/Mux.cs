@@ -33,8 +33,6 @@ namespace Multiplexer
   public class Mux : IThroughput
   {
     #region Private variables
-    private List<CryptoolStream> listCryptoolStreamsOut = new List<CryptoolStream>();
-
     private readonly string inputOne = "InputOne";
     private readonly string inputTwo = "InputTwo";
     private readonly string outputOne = "OutputOne";
@@ -106,8 +104,8 @@ namespace Multiplexer
     {
       switch (settings.CurrentDataType)
       {
-        case MuxSettings.DataTypes.CryptoolStream:
-          return typeof(CryptoolStream);          
+        case MuxSettings.DataTypes.ICryptoolStream:
+          return typeof(ICryptoolStream);
         case MuxSettings.DataTypes.String:
           return typeof(string);
         case MuxSettings.DataTypes.ByteArray:
@@ -124,7 +122,7 @@ namespace Multiplexer
     private QuickWatchFormat getQuickWatchFormat()
     {
       Type type = getCurrentType();
-      if (type == typeof(CryptoolStream))
+      if (type == typeof(ICryptoolStream))
         return QuickWatchFormat.Hex;
       else if (type == typeof(string))
         return QuickWatchFormat.Text;
@@ -142,25 +140,8 @@ namespace Multiplexer
     {
       if (DicDynamicProperties.ContainsKey(name))
       {
-        switch (settings.CurrentDataType)
-        {
-          case MuxSettings.DataTypes.CryptoolStream:
-            CryptoolStream cryptoolStream = new CryptoolStream();
-            listCryptoolStreamsOut.Add(cryptoolStream);
-            cryptoolStream.OpenRead(((CryptoolStream)DicDynamicProperties[name].Value).FileName);
-            return cryptoolStream;
-          case MuxSettings.DataTypes.String:
             return DicDynamicProperties[name].Value;
-          case MuxSettings.DataTypes.ByteArray:
-            return DicDynamicProperties[name].Value;
-          case MuxSettings.DataTypes.Boolean:
-            return DicDynamicProperties[name].Value;
-          case MuxSettings.DataTypes.Integer:
-            return DicDynamicProperties[name].Value;
-          default:
-            return null;
         }
-      }
       return null;
     }
 
@@ -187,8 +168,8 @@ namespace Multiplexer
     [MethodImpl(MethodImplOptions.Synchronized)]
     public void methodSetValue(string propertyKey, object value)
     {
-      if (DicDynamicProperties.ContainsKey(propertyKey)) DicDynamicProperties[propertyKey].Value = value;
-      if (value is CryptoolStream) listCryptoolStreamsOut.Add((CryptoolStream)value);
+      if (DicDynamicProperties.ContainsKey(propertyKey))
+          DicDynamicProperties[propertyKey].Value = value;
       OnPropertyChanged(propertyKey);
       dicInputBuffer[propertyKey]++;
     }
@@ -328,11 +309,6 @@ namespace Multiplexer
 
     public void Dispose()
     {
-      foreach (CryptoolStream cryptoolStream in listCryptoolStreamsOut)
-      {
-        cryptoolStream.Close();
-      }
-      listCryptoolStreamsOut.Clear();
       foreach (DynamicProperty item in DicDynamicProperties.Values)
       {
         item.Value = null;        
@@ -351,13 +327,5 @@ namespace Multiplexer
     }
 
     #endregion
-
-    private CryptoolStream getNewCryptoolStream(string Filename)
-    {
-      CryptoolStream cryptoolStream = new CryptoolStream();
-      cryptoolStream.OpenRead(Filename);
-      listCryptoolStreamsOut.Add(cryptoolStream);
-      return cryptoolStream;
     }
   }
-}

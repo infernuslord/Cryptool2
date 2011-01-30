@@ -41,7 +41,6 @@ namespace Cryptool.XOR
         private string inputString;
         private string outputString;
         private string key;
-        private List<CryptoolStream> listCryptoolStreamsOut = new List<CryptoolStream>();
 
         #endregion
         
@@ -66,21 +65,16 @@ namespace Cryptool.XOR
         }
 
         [PropertyInfo(Direction.OutputData, "Stream output", "The string after processing with the Xor cipher is converted to a stream. Default encoding is used.", "", false, false, QuickWatchFormat.Text, null)]
-        public CryptoolStream OutputData
+        public ICryptoolStream OutputData
         {
             get
             {
-                if (outputString != null)
-                {
-                    CryptoolStream cs = new CryptoolStream();
-                    listCryptoolStreamsOut.Add(cs);
-                    cs.OpenRead(Encoding.Default.GetBytes(outputString.ToCharArray()));
-                    return cs;
-                }
-                else
+                if (outputString == null)
                 {
                     return null;
                 }
+
+                return new CStreamWriter(Encoding.Default.GetBytes(outputString));
             }
             set { }
         }
@@ -133,12 +127,7 @@ namespace Cryptool.XOR
 
         public void Dispose()
         {
-            foreach (CryptoolStream stream in listCryptoolStreamsOut)
-            {
-                stream.Close();
             }
-            listCryptoolStreamsOut.Clear();
-        }
 
         public bool HasChanges
         {

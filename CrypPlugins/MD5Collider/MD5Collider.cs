@@ -18,7 +18,6 @@ namespace Cryptool.Plugins.MD5Collider
     class MD5Collider : ICryptographicHash
     {
         private MD5ColliderSettings settings = new MD5ColliderSettings();
-        private List<CryptoolStream> listCryptoolStreamsOut = new List<CryptoolStream>();
         private QuickWatchPresentationContainer quickWatchPresentation = new QuickWatchPresentationContainer();
 
         private IMD5ColliderAlgorithm _collider;
@@ -63,20 +62,19 @@ namespace Cryptool.Plugins.MD5Collider
         }
 
         [PropertyInfo(Direction.OutputData, "First colliding data block", "First colliding data block as Stream", "", false, false, QuickWatchFormat.Hex, null)]
-        public CryptoolStream OutputDataStream1
+        public ICryptoolStream OutputDataStream1
         {
             get
             {
                 if (outputData1 != null)
                 {
-                    CryptoolStream stream = new CryptoolStream();
-                    listCryptoolStreamsOut.Add(stream);
-                    stream.OpenRead(outputData1);
-                    return stream;
+                    return new CStreamWriter(outputData1);
                 }
                 else
-                    return null; ;
+                {
+                    return null;
             }
+        }
         }
 
         private byte[] outputData2;
@@ -93,20 +91,19 @@ namespace Cryptool.Plugins.MD5Collider
         }
 
         [PropertyInfo(Direction.OutputData, "Second colliding data block", "Second colliding data block as Stream", "", false, false, QuickWatchFormat.Hex, null)]
-        public CryptoolStream OutputDataStream2
+        public ICryptoolStream OutputDataStream2
         {
             get
             {
                 if (outputData2 != null)
                 {
-                    CryptoolStream stream = new CryptoolStream();
-                    listCryptoolStreamsOut.Add(stream);
-                    stream.OpenRead(outputData2);
-                    return stream;
+                    return new CStreamWriter(outputData2);
                 }
                 else
-                    return null; ;
+                {
+                    return null;
             }
+        }
         }
 
         private byte[] randomSeed;
@@ -162,9 +159,6 @@ namespace Cryptool.Plugins.MD5Collider
 
         public void Dispose()
         {
-            foreach (CryptoolStream stream in listCryptoolStreamsOut)
-                stream.Close();
-            listCryptoolStreamsOut.Clear();
         }
 
         private void ProgressChanged(double value, double max)

@@ -39,7 +39,6 @@ namespace Cryptool.Substitution
         private SubstitutionSettings settings;
         private string inputString;
         private string outputString;
-        private List<CryptoolStream> listCryptoolStreamsOut = new List<CryptoolStream>();
 
         #endregion
 
@@ -64,21 +63,16 @@ namespace Cryptool.Substitution
         }
 
         [PropertyInfo(Direction.OutputData, "Stream output","The string after processing with the Substitution cipher is converted to a stream. Default encoding is used.", null, true, false, QuickWatchFormat.Text, null)]
-        public CryptoolStream OutputData
+        public ICryptoolStream OutputData
         {
             get
             {
-                if (outputString != null)
-                {
-                    CryptoolStream cs = new CryptoolStream();
-                    listCryptoolStreamsOut.Add(cs);
-                    cs.OpenRead(this.GetPluginInfoAttribute().Caption, Encoding.Default.GetBytes(outputString.ToCharArray()));
-                    return cs;
-                }
-                else
+                if (outputString == null)
                 {
                     return null;
                 }
+
+                return new CStreamWriter(Encoding.Default.GetBytes(outputString));
             }
             set { }
         }
@@ -326,12 +320,7 @@ namespace Cryptool.Substitution
 
         public void Dispose()
         {
-            foreach (CryptoolStream stream in listCryptoolStreamsOut)
-            {
-                stream.Close();
             }
-            listCryptoolStreamsOut.Clear();
-        }
 
         public bool HasChanges
         {

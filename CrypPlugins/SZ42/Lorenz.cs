@@ -42,7 +42,6 @@ namespace Cryptool.Plugins.SZ42
         private string parsedString;
         private bool first = true;
         private bool isPlayMode = false;
-        private List<CryptoolStream> listCryptoolStreamsOut = new List<CryptoolStream>();
         private SZ42 sz42Encrypt, sz42Decrypt, reset;
         private BinaryFormatter bf;
         private MemoryStream ms;
@@ -265,10 +264,6 @@ namespace Cryptool.Plugins.SZ42
 
         public void Dispose()
         {
-            foreach (CryptoolStream stream in listCryptoolStreamsOut)
-                stream.Close();
-            
-            listCryptoolStreamsOut.Clear();
         }
 
         #endregion

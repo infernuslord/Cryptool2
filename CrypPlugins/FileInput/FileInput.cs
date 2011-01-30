@@ -37,7 +37,7 @@ namespace FileInput
         private const int MAX_BYTE_ARRAY_SIZE = 10485760; // 20MB
         private FileInputPresentation fileInputPresentation;
         private FileInputSettings settings;
-        private List<CryptoolStream> listCryptoolStreamsOut = new List<CryptoolStream>();
+        private CStreamWriter cstreamWriter;
         #endregion
 
         public FileInputClass()
@@ -82,30 +82,12 @@ namespace FileInput
         }
 
         [PropertyInfo(Direction.OutputData, "Stream Output", "Selected file as stream.", "", true, false, QuickWatchFormat.Hex, null)]
-        public CryptoolStream StreamOutput
+        public ICryptoolStream StreamOutput
         {
             get
             {
-                try
-                {
-                    Progress(0.5, 1.0);
-                    if (File.Exists(settings.OpenFilename))
-                    {
-                        CryptoolStream cryptoolStream = new CryptoolStream();
-                        cryptoolStream.OpenRead(settings.OpenFilename);
-                        listCryptoolStreamsOut.Add(cryptoolStream);
-
-                        Progress(1.0, 1.0);
-                        return cryptoolStream;
+                return cstreamWriter;
                     }
-                    return null;
-                }
-                catch (Exception exception)
-                {
-                    GuiLogMessage(exception.Message, NotificationLevel.Error);
-                    return null;
-                }
-            }
             set { } // readonly
         }
 
@@ -151,10 +133,12 @@ namespace FileInput
         /// </summary>
         public void Dispose()
         {
-            foreach (CryptoolStream stream in listCryptoolStreamsOut)
-                stream.Close();
+            if (cstreamWriter != null)
+            {
+                cstreamWriter.Dispose();
+                cstreamWriter = null;
+            }
 
-            listCryptoolStreamsOut.Clear();
             fileInputPresentation.CloseFileToGetFileStreamForExecution();
         }
 
@@ -167,12 +151,10 @@ namespace FileInput
         {
             DispatcherHelper.ExecuteMethod(fileInputPresentation.Dispatcher,
               fileInputPresentation, "CloseFileToGetFileStreamForExecution", null);
-            Dispose();
         }
 
         public void PostExecution()
         {
-            Dispose();
             DispatcherHelper.ExecuteMethod(fileInputPresentation.Dispatcher,
               fileInputPresentation, "ReopenClosedFile", null);
         }
@@ -213,6 +195,7 @@ namespace FileInput
 
         public void Execute()
         {
+            cstreamWriter = new CStreamWriter(settings.OpenFilename);
             NotifyPropertyChange();
         }
 

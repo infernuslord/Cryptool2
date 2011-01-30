@@ -11,6 +11,7 @@ using System.ComponentModel;
 using System.Windows.Controls;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Globalization;
+using System.Diagnostics;
 
 namespace Cryptool.WEP
 {
@@ -34,10 +35,9 @@ namespace Cryptool.WEP
     {
         #region Private variables
         /* Input / output variables */
-        private CryptoolStream inputStream;
+        private ICryptoolStream inputStream;
         private byte[] inputByteKey;
-        private CryptoolStream outputStream;
-        private List<CryptoolStream> listCryptoolStreamsOut = new List<CryptoolStream>();
+        private CStreamWriter outputStreamWriter;
 
         /* Organisational varibale */
         private List<byte[]> internalInputByteList;
@@ -69,24 +69,17 @@ namespace Cryptool.WEP
             DisplayLevel.Beginner,
             QuickWatchFormat.Hex,
             null)]
-        public CryptoolStream InputStream
+        public ICryptoolStream InputStream
         {
             get
             {
-                if (inputStream != null)
-                {
-                    CryptoolStream cs = new CryptoolStream();
-                    cs.OpenRead(inputStream.FileName);
-                    listCryptoolStreamsOut.Add(cs);
-                    return cs;
+                return inputStream;
                 }
-                else return null;
-            }
             set
             {
                 this.inputStream = value;
-                if (value != null) listCryptoolStreamsOut.Add(value);
-                OnPropertyChanged("InputStream");
+                // mwander 20100503: not necessary for input property
+                //OnPropertyChanged("InputStream");
             }
         }
 
@@ -119,24 +112,14 @@ namespace Cryptool.WEP
             DisplayLevel.Beginner,
             QuickWatchFormat.Hex,
             null)]
-        public CryptoolStream OutputStream
+        public ICryptoolStream OutputStream
         {
             get
             {
-                if (this.outputStream != null)
-                {
-                    CryptoolStream cs = new CryptoolStream();
-                    listCryptoolStreamsOut.Add(cs);
-                    cs.OpenRead(this.outputStream.FileName);
-                    return cs;
+                return outputStreamWriter;
                 }
-                return null;
-            }
             set
             {
-                outputStream = value;
-                if (value != null) listCryptoolStreamsOut.Add(value);
-                OnPropertyChanged("OutputStream");
             }
         }
 
@@ -177,21 +160,6 @@ namespace Cryptool.WEP
         private static byte[] get4BytesFromInt(int value)
         {
             return new byte[] { (byte)(value), (byte)(value >> 8), (byte)(value >> 16), (byte)(value >> 24) };
-        }
-
-        /// <summary>
-        /// Checks if the input stream contains a valid value. If not, class waits for input AND DOES NOTHING.
-        /// </summary>
-        private void checkForInputStream()
-        {
-            if ((this.inputStream != null) && (this.inputStream.Length > 0))
-            {
-                loadList();
-            }
-            else
-            {
-                return;
-            }
         }
 
         /// <summary>
@@ -432,10 +400,9 @@ namespace Cryptool.WEP
         /// <summary>
         /// Simulates loading a List<byte[]> out of a file, in fact the data cames from another plugin.
         /// </summary>
-        private void loadList()
+        private void loadList(CStreamReader reader)
         {
-            if (inputStream.CanSeek) { inputStream.Position = 0; }
-            if (!fileIsValid())
+            if (!fileIsValid(reader))
             {
                 GuiLogMessage("Couldn't read data. Aborting now.", NotificationLevel.Error);
                 return;
@@ -447,16 +414,18 @@ namespace Cryptool.WEP
                 bool stillMorePackets = true;
                 streamlength = 0;
                 packetsize = 0;
-                streamlength = (int)inputStream.Length;
-                if (inputStream.CanSeek) { inputStream.Position = 24; }
+                streamlength = (int)reader.Length;
+                Debug.Assert(reader.CanSeek);
+                reader.Position = 24;
+
                 byte[] protection = new byte[1];
                 byte[] size = new byte[4];
                 while ((stillMorePackets) && (internalInputByteList.Count < 1000000))
                 {
-                    inputStream.Position += 12;
-                    inputStream.Read(size, 0, 4);
-                    inputStream.Position += 1;
-                    inputStream.Read(protection, 0, 1);
+                    reader.Position += 12;
+                    reader.Read(size, 0, 4);
+                    reader.Position += 1;
+                    reader.Read(protection, 0, 1);
                     packetsize = makeIntFromFourBytes(size);
 
                     if ((settings.Action == 1)
@@ -465,8 +434,8 @@ namespace Cryptool.WEP
                         && (packetsize > 50))
                     {
                         byte[] tmp = new byte[packetsize + 16];
-                        inputStream.Position -= 18;
-                        inputStream.Read(tmp, 0, packetsize + 16);
+                        reader.Position -= 18;
+                        reader.Read(tmp, 0, packetsize + 16);
                         internalInputByteList.Add(tmp);
                         tmp = null;
                     }
@@ -476,17 +445,17 @@ namespace Cryptool.WEP
                         && (packetsize > 50))
                     {
                         byte[] tmp = new byte[packetsize - 14];
-                        inputStream.Position += 12;
-                        inputStream.Read(tmp, 0, packetsize - 14);
+                        reader.Position += 12;
+                        reader.Read(tmp, 0, packetsize - 14);
                         internalInputByteList.Add(tmp);
                         tmp = null;
                     }
 
                     else
                     {
-                        inputStream.Position += packetsize - 2;
+                        reader.Position += packetsize - 2;
                     }
-                    if (inputStream.Position >= streamlength)
+                    if (reader.Position >= streamlength)
                     {
                         stillMorePackets = false;
                     }
@@ -508,16 +477,17 @@ namespace Cryptool.WEP
         /// </summary>
         /// <param name="filename"></param>
         /// <returns></returns>
-        private bool fileIsValid()
+        private bool fileIsValid(CStreamReader reader)
         {
+            if (reader.Length < 10)
+                return false;
+
             // Header of pcab file 
             byte[] headerData = new byte[10];
-            int streamsize = (int)inputStream.Length;
-            if (streamsize < 10) return false;
-            inputStream.Read(headerData, 0, 10);
-            //inputStream.Close();
+            reader.Read(headerData, 0, headerData.Length);
             // Test, if header is correct
-            if (!checkIfEqual(headerData, new byte[] { 0xD4, 0xC3, 0xB2, 0xA1, 0x02, 0x00, 0x04, 0x00, 0x00, 0x00 })) return false;
+            if (!checkIfEqual(headerData, new byte[] { 0xD4, 0xC3, 0xB2, 0xA1, 0x02, 0x00, 0x04, 0x00, 0x00, 0x00 }))
+                return false;
 
             return true;
         }
@@ -530,16 +500,16 @@ namespace Cryptool.WEP
         /// <returns>A boolean value indicating if the two arrays are equal or not.</returns>
         private bool checkIfEqual(byte[] a, byte[] b)
         {
-            bool ret = true;
             if ((null == a) || (null == b)) return false;
             if (a.Length != b.Length) return false;
 
             for (int i = 0; i < a.Length; i++)
             {
-                if (a[i] != b[i]) ret = false;
+                if (a[i] != b[i])
+                    return false;
             }
 
-            return ret;
+            return true;
         }
 
         #endregion
@@ -564,15 +534,7 @@ namespace Cryptool.WEP
                 inputStream = null;
                 //if (outputByteList != null) { outputByteList.Clear(); }
                 //outputByteList = null;
-                outputStream = null;
-                if (listCryptoolStreamsOut != null)
-                {
-                    foreach (CryptoolStream cs in listCryptoolStreamsOut)
-                    {
-                        cs.Close();
-                    }
-                    listCryptoolStreamsOut.Clear();
-                }
+                outputStreamWriter = null;
                 if (internalInputByteList != null) { internalInputByteList.Clear(); }
                 //internalInputByteList = null;
             }
@@ -585,10 +547,18 @@ namespace Cryptool.WEP
 
         public void Execute()
         {
+            if (inputStream == null || inputStream.Length == 0)
+                return;
+
             try
             {
                 internalInputByteList = new List<byte[]>();
-                checkForInputStream();
+                using (CStreamReader reader = inputStream.CreateReader())
+                {
+                    /// Checks if the input stream contains a valid value. If not, class waits for input AND DOES NOTHING.
+                    /// XXX: Execute() does not stop. Bug?
+                    loadList(reader);
+
                 //GuiLogMessage("Ich habe jetzt " + internalInputByteList.Count + " Pakete....", NotificationLevel.Warning);
                 // Is there a key? - If yes, go on. If no: Give out a warning!
                 switch (checkForValidKey())
@@ -608,10 +578,8 @@ namespace Cryptool.WEP
                     default:
                         break;
                 }
-                outputStream = new CryptoolStream();
-                listCryptoolStreamsOut.Add(outputStream);
-                outputStream.OpenWrite(this.GetPluginInfoAttribute().Caption);
-                outputStream.Write(header, 0, header.Length);
+                    outputStreamWriter = new CStreamWriter();
+                    outputStreamWriter.Write(header, 0, header.Length);
                 key = new byte[inputByteKey.Length + 3];
                 for (int i = 0; i < inputByteKey.Length; i++)
                 {
@@ -703,7 +671,7 @@ namespace Cryptool.WEP
                             // packet individual header, size and some other information
                             outputByte = concatenateTwoArrays(packetIndividualHeader, outputByte);
                             //outputByteList.Add(outputByte);
-                            outputStream.Write(outputByte, 0, outputByte.Length);
+                                outputStreamWriter.Write(outputByte, 0, outputByte.Length);
 
                             crc32 = null;
                             icv = null;
@@ -751,7 +719,7 @@ namespace Cryptool.WEP
                             // packet individual header, size and some other information
                             outputByte = concatenateTwoArrays(pIH, outputByte);
                             //outputByteList.Add(outputByte);
-                            outputStream.Write(outputByte, 0, outputByte.Length);
+                                outputStreamWriter.Write(outputByte, 0, outputByte.Length);
 
                             outputByte = null;
                             pIH = null;
@@ -786,17 +754,18 @@ namespace Cryptool.WEP
                     {
                         GuiLogMessage("Time used [h:min:sec]: " + duration.ToString() + " for " + counter.ToString("#,#", CultureInfo.InstalledUICulture) + " packets.", NotificationLevel.Info);
                     }
-                    outputStream.Close();
+                        outputStreamWriter.Close();
                     OnPropertyChanged("OutputStream");
                 }
                 if (stop)
                 {
-                    outputStream.Close();
+                        outputStreamWriter.Close();
                     GuiLogMessage("Aborted!", NotificationLevel.Info);
                 }
                 internalInputByteList.Clear();
                 internalInputByteList = null;
                 key = null;
+            }
             }
             catch (Exception exc)
             {

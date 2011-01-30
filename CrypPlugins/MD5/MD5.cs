@@ -45,9 +45,8 @@ namespace Cryptool.MD5
         #region Private variables
 
         private MD5Settings settings;
-        private CryptoolStream inputData;
+        private ICryptoolStream inputData;
         private byte[] outputData;
-        private List<CryptoolStream> listCryptoolStreamsOut = new List<CryptoolStream>();
         private PresentableMD5 md5;
         private PresentationContainer presentationContainer;
 
@@ -76,20 +75,12 @@ namespace Cryptool.MD5
         }
 
         [PropertyInfo(Direction.InputData, "Input stream", "Input data to be hashed", "", true, false, QuickWatchFormat.Hex, null)]
-        public CryptoolStream InputData
+        public ICryptoolStream InputData
         {
-          
             get 
             {
-              if (inputData != null)
-              {
-                CryptoolStream cs = new CryptoolStream();
-                cs.OpenRead(inputData.FileName);
-                listCryptoolStreamsOut.Add(cs);
-                return cs;
+                return inputData;
               }
-              return null;   
-            }
           
             set 
             { 
@@ -99,17 +90,14 @@ namespace Cryptool.MD5
         }
 
         [PropertyInfo(Direction.OutputData, "Hashed value", "Output data of the hashed value as Stream", "", false, false, QuickWatchFormat.Hex, null)]
-        public CryptoolStream OutputDataStream
+        public ICryptoolStream OutputDataStream
         {
           get 
           {            
             if (outputData != null)
             {
-              CryptoolStream stream = new CryptoolStream();              
-              listCryptoolStreamsOut.Add(stream);
-              stream.OpenRead(outputData);
               GuiLogMessage("Got request for hash (Stream)...", NotificationLevel.Debug);
-              return stream;
+                return new CStreamWriter(outputData);
             }
             return null; ;
           }
@@ -147,16 +135,21 @@ namespace Cryptool.MD5
           ProgressChanged(0.5, 1.0);
           if (inputData != null)
           {
+              using (CStreamReader reader = inputData.CreateReader())
+              {
               if (Presentation.IsVisible)
               {
-                  md5.Initialize(inputData);
+                      md5.Initialize(reader);
               }
               else
               {
                   HashAlgorithm builtinMd5 = System.Security.Cryptography.MD5.Create();
-                  OutputData = builtinMd5.ComputeHash(inputData);
+
+                      OutputData = builtinMd5.ComputeHash(reader);
+
                   ProgressChanged(1.0, 1.0);
               }
+          }
           }
           else
           {            
@@ -171,16 +164,8 @@ namespace Cryptool.MD5
         
         public void Dispose()
         {
-          if (inputData != null)
-          {
-            inputData.Close();
             inputData = null;
           }
-          foreach (CryptoolStream stream in listCryptoolStreamsOut)
-          {
-            stream.Close();
-          }
-        }
         #endregion
 
         #region IPlugin Members

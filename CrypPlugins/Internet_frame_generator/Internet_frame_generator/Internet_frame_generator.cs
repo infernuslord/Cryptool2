@@ -34,8 +34,7 @@ namespace Cryptool.Internet_frame_generator
 
         private Internet_frame_generatorSettings settings;
         private int inputInt;
-        private CryptoolStream outputStream;
-        private List<CryptoolStream> listCryptoolStreamsOut = new List<CryptoolStream>();
+        private CStreamWriter outputStream;
         private bool stop = false;
         private Internet_frame_generator_Presentation presentation;
         private Random rnd;
@@ -73,24 +72,14 @@ namespace Cryptool.Internet_frame_generator
             DisplayLevel.Beginner,
             QuickWatchFormat.Hex,
             null)]
-        public CryptoolStream OutputStream
+        public ICryptoolStream OutputStream
         {
             get
             {
-                if (this.outputStream != null)
-                {
-                    CryptoolStream cs = new CryptoolStream();
-                    listCryptoolStreamsOut.Add(cs);
-                    cs.OpenRead(this.outputStream.FileName);
-                    return cs;
+                return outputStream;
                 }
-                return null;
-            }
             set
             {
-                outputStream = value;
-                if (value != null) listCryptoolStreamsOut.Add(value);
-                OnPropertyChanged("OutputStream");
             }
         }
 
@@ -543,11 +532,6 @@ namespace Cryptool.Internet_frame_generator
                 packetCounter = 0;
                 stop = false;
                 outputStream = null;
-                foreach (CryptoolStream cs in listCryptoolStreamsOut)
-                {
-                    cs.Close();
-                }
-                listCryptoolStreamsOut.Clear();
                 rnd = null;
             }
             catch (Exception exc)
@@ -569,9 +553,7 @@ namespace Cryptool.Internet_frame_generator
                 rnd = new Random();
                 string successMessage = string.Empty;
                 packetCounter = 0;
-                outputStream = new CryptoolStream();
-                listCryptoolStreamsOut.Add(outputStream);
-                outputStream.OpenWrite(this.GetPluginInfoAttribute().Caption);
+                outputStream = new CStreamWriter();
                 outputStream.Write(header, 0, header.Length);
                 // IPv4 packets are requested
                 if (settings.Action == 0)

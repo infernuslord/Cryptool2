@@ -196,9 +196,7 @@ namespace PKCS5
           //case argType.Object:
           //case argType.Stream:
             {
-              CryptoolStream keyDataStream = new CryptoolStream();
-              keyDataStream.OpenRead(this.GetPluginInfoAttribute().Caption, key);
-              return keyDataStream;
+                return new CStreamWriter(key);
             }
 
           case argType.ByteArray:
@@ -213,19 +211,23 @@ namespace PKCS5
         if (null == value)
           return;
 
-        if (Object.ReferenceEquals(value.GetType(), typeof(CryptoolStream)))
+        if (value is ICryptoolStream)
         {
           keyType = argType.Stream;
 
-          CryptoolStream cst = (CryptoolStream)value;
+          using (CStreamReader cst = ((ICryptoolStream)value).CreateReader())
+          {
+              /// FIXME: potentially broken. Shall not rely on Length property to return
+              /// final value.
           long len = cst.Length;
           key = new byte[len];
 
           for (long i = 0; i < len; i++)
             key[i] = (byte)cst.ReadByte();
+          }
 
         }
-        else if (Object.ReferenceEquals(value.GetType(), typeof(byte[])))
+        else if (value is byte[])
         {
           keyType = argType.ByteArray;
 
@@ -237,7 +239,7 @@ namespace PKCS5
           for (long i = 0; i < len; i++)
             key[i] = ba[i];
         }
-        else if (Object.ReferenceEquals(value.GetType(), typeof(string)))
+        else if (value is string)
         {
           string str = (string) value;
           key = GetByteArrayForSelectedEncodingByteArray(str);
@@ -275,9 +277,7 @@ namespace PKCS5
           //case argType.Object:
           //case argType.Stream:
             {
-              CryptoolStream saltDataStream = new CryptoolStream();
-              saltDataStream.OpenRead(this.GetPluginInfoAttribute().Caption, salt);
-              return saltDataStream;
+              return new CStreamWriter(salt);
             }
 
           case argType.ByteArray:
@@ -292,18 +292,22 @@ namespace PKCS5
         if (null == value)
           return;
 
-        if (Object.ReferenceEquals(value.GetType(), typeof(CryptoolStream)))
+        if (value is ICryptoolStream)
         {
           saltType = argType.Stream;
 
-          CryptoolStream cst = (CryptoolStream)value;
+          using (CStreamReader cst = ((ICryptoolStream)value).CreateReader())
+          {
+              /// FIXME: potentially broken. Shall not rely on Length property to return
+              /// final value.
           long len = cst.Length;
           salt = new byte[len];
 
           for (long i = 0; i < len; i++)
             salt[i] = (byte)cst.ReadByte();
         }
-        else if (Object.ReferenceEquals(value.GetType(), typeof(byte[])))
+        }
+        else if (value is byte[])
         {
           saltType = argType.ByteArray;
 
@@ -315,7 +319,7 @@ namespace PKCS5
           for (long i = 0; i < len; i++)
             salt[i] = ba[i];
         }
-        else if (Object.ReferenceEquals(value.GetType(), typeof(string)))
+        else if (value is string)
         {
           string str = (string)value;
           salt = GetByteArrayForSelectedEncodingByteArray(str);
@@ -336,7 +340,6 @@ namespace PKCS5
     #region Output
 
     // Output
-    private List<CryptoolStream> listCryptoolStreamsOut = new List<CryptoolStream>();
     private byte[] outputData = { };
 
     /// <summary>
@@ -355,20 +358,12 @@ namespace PKCS5
     /// <value>The output data stream.</value>
     [PropertyInfo(Direction.OutputData, "Hashed Stream", "Output stream of the hashed value", "",
       true, false, QuickWatchFormat.Hex, null)]
-    public CryptoolStream HashOutputStream
+    public ICryptoolStream HashOutputStream
     {
       get
       {
-        CryptoolStream outputDataStream = null;
-        if (outputData != null)
-        {
-          outputDataStream = new CryptoolStream();
-          outputDataStream.OpenRead(this.GetPluginInfoAttribute().Caption, outputData);
-          listCryptoolStreamsOut.Add(outputDataStream);
+          return new CStreamWriter(outputData);
         }
-        GuiLogMessage("Got HashOutputStream.", NotificationLevel.Debug);
-        return outputDataStream;
-      }
       //set
       //{
       //} //readonly
@@ -500,11 +495,6 @@ namespace PKCS5
     /// </summary>
     public void Dispose()
     {
-      foreach (CryptoolStream stream in listCryptoolStreamsOut)
-      {
-        stream.Close();
-      }
-      listCryptoolStreamsOut.Clear();
       GuiLogMessage("Dispose.", NotificationLevel.Debug);
     }
 

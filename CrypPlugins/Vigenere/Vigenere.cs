@@ -35,12 +35,9 @@ namespace Cryptool.Vigenere
         #region Private variables
 
         private VigenereSettings settings;
-        private CryptoolStream outputData;
         private string inputString;
         private string outputString;
-        private char[] keyword;
         private enum VigenereMode { encrypt, decrypt, autoencrypt, autodecrypt };
-        private List<CryptoolStream> listCryptoolStreamsOut = new List<CryptoolStream>();
 
         #endregion
 
@@ -65,16 +62,13 @@ namespace Cryptool.Vigenere
         }
 
         [PropertyInfo(Direction.OutputData, "Stream output", "The string after processing with the Vigenère cipher is converted to a stream.Default encoding is used.", null, false, false,QuickWatchFormat.Text, null)]
-        public CryptoolStream OutputData
+        public ICryptoolStream OutputData
         {
             get
             {
                 if (outputString != null)
                 {
-                    CryptoolStream cs = new CryptoolStream();
-                    listCryptoolStreamsOut.Add(cs);
-                    cs.OpenRead(this.GetPluginInfoAttribute().Caption, Encoding.Default.GetBytes(outputString.ToCharArray()));
-                    return cs;
+                    return new CStreamWriter(Encoding.Default.GetBytes(outputString));
                 }
                 else
                 {
@@ -172,12 +166,7 @@ namespace Cryptool.Vigenere
 
         public void Dispose()
         {
-            foreach (CryptoolStream stream in listCryptoolStreamsOut)
-            {
-                stream.Close();
             }
-            listCryptoolStreamsOut.Clear();
-        }
 
         public bool HasChanges
         {
