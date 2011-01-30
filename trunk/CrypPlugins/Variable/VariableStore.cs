@@ -37,7 +37,6 @@ namespace Cryptool.Plugins.Variable
 
         #region Private variables
         private VariableSettings settings;        
-        private List<CryptoolStream> listCryptoolStreamOut = new List<CryptoolStream>();        
         #endregion
 
         public VariableStore()
@@ -104,25 +103,13 @@ namespace Cryptool.Plugins.Variable
             }
 
             ProgressChanged(0.5, 1.0);
-            if (storeObject is CryptoolStream)
-            {
-                CryptoolStream cs = new CryptoolStream();
-                cs.OpenRead((storeObject as CryptoolStream).FileName);
-                listCryptoolStreamOut.Add(cs);
-                if (OnVariableStore != null)
-                    OnVariableStore(settings.VariableName, cs);
-            }
-            else
-            {
                 if (OnVariableStore != null)
                     OnVariableStore(settings.VariableName, storeObject);
-            }
             ProgressChanged(1.0, 1.0);
         }
 
         public void PostExecution()
         {
-            Dispose();
         }
 
         public void Pause()
@@ -142,8 +129,6 @@ namespace Cryptool.Plugins.Variable
 
         public void Dispose()
         {
-            foreach (CryptoolStream cs in listCryptoolStreamOut)
-                cs.Close();
         }
 
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;

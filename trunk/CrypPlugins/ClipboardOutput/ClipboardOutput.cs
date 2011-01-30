@@ -39,7 +39,6 @@ namespace ClipboardOutput {
   {
 
 		#region Private Variables
-    private List<CryptoolStream> listCryptoolStreamsOut = new List<CryptoolStream>();
 		private ClipboardOutputSettings settings;
 		
 		public ISettings Settings {
@@ -74,19 +73,15 @@ namespace ClipboardOutput {
     }
 
 		#region Interface
-    private CryptoolStream streamInput;
+    private ICryptoolStream streamInput;
     [PropertyInfo(Direction.InputData, "Stream", "Data to be copied to clipboard", "", true, false, QuickWatchFormat.Text, null)]
-    public CryptoolStream StreamInput
+    public ICryptoolStream StreamInput
     {
 			get 
       {
         if (Data != null && Data != string.Empty)
         {
-          CryptoolStream cs = new CryptoolStream();
-          listCryptoolStreamsOut.Add(cs);
-          cs.OpenRead(this.GetPluginInfoAttribute().Caption, Encoding.Default.GetBytes(Data.ToCharArray()));
-          
-          return cs;
+            return new CStreamWriter(Encoding.Default.GetBytes(Data));
         }
         return null;
       }
@@ -96,7 +91,8 @@ namespace ClipboardOutput {
 				if (value != null) 
         {
           streamInput = value;
-					switch (settings.Format) { //0="Text", 1="Hex", 2="Base64"
+          switch (settings.Format)
+          { //0="Text", 1="Hex", 2="Base64"
 						case 1:
               Data = Stream2Hex(value);
 							GuiLogMessage("converting input data to hex...", NotificationLevel.Debug);
@@ -118,7 +114,6 @@ namespace ClipboardOutput {
           					
 					GuiLogMessage("Wrote " + data.Length + " characters to clipboard", NotificationLevel.Info);
           Progress(1.0, 1.0);
-          value.Close();          
 				} 
         else 
         {				
@@ -128,37 +123,44 @@ namespace ClipboardOutput {
 			}
 		}
 
-    private string Stream2Text(CryptoolStream value)
+    private string Stream2Text(ICryptoolStream value)
     {
+        using (CStreamReader reader = value.CreateReader())
+        {
 			int byteValue;
-			value.Seek(0, SeekOrigin.Begin);
 			StringBuilder sb = new StringBuilder();
-			while ((byteValue = value.ReadByte()) != -1) 
+            while ((byteValue = reader.ReadByte()) != -1)
       {
+                // FIXME: UTF-8 characters may consist of more than a single byte
 				sb.Append(System.Convert.ToChar(byteValue));
 			}
 			return sb.ToString();
 		}
+    }
 
-    private string Stream2Base64(CryptoolStream value)
+    private string Stream2Base64(ICryptoolStream value)
     {
-			byte[] byteValues = new byte[value.Length];
-			value.Seek(0, SeekOrigin.Begin);
-			value.Read(byteValues, 0, (int)value.Length);
+        using (CStreamReader reader = value.CreateReader())
+        {
+            byte[] byteValues = new byte[reader.Length];
+            reader.Read(byteValues, 0, (int)reader.Length);
 			return Convert.ToBase64String(byteValues);
 		}
+    }
 
-    private string Stream2Hex(CryptoolStream value)
+    private string Stream2Hex(ICryptoolStream value)
     {
+        using (CStreamReader reader = value.CreateReader())
+        {
 			int byteValue;
-			value.Seek(0, SeekOrigin.Begin);
 			StringBuilder sb = new StringBuilder();
-			while ((byteValue = value.ReadByte()) != -1) 
+            while ((byteValue = reader.ReadByte()) != -1)
       {
 				sb.Append(byteValue.ToString("x2"));
       }
 			return sb.ToString();
 	  }
+    }
 
 		#endregion
 
@@ -177,17 +179,13 @@ namespace ClipboardOutput {
       get { return null; }
     }
 
-		public void Initialize() {
+    public void Initialize()
+    {
 		}
 
 		public void Dispose() 
     {
-      foreach (CryptoolStream crytoolStream in listCryptoolStreamsOut)
-      {
-        crytoolStream.Close();
       }
-      listCryptoolStreamsOut.Clear();
-		}
 
     public void Stop()
     {
@@ -201,8 +199,6 @@ namespace ClipboardOutput {
 
     public void PostExecution()
     {
-      // if (Data != null && Data != string.Empty) OnPropertyChanged("Data");
-      Dispose();
     }
 
     #endregion

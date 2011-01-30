@@ -9,6 +9,7 @@ using Cryptool.PluginBase;
 using Cryptool.PluginBase.Analysis;
 using Cryptool.PluginBase.IO;
 using System.Globalization;
+using System.Diagnostics;
 
 namespace Cryptool.WEPAttacks
 {
@@ -29,9 +30,8 @@ namespace Cryptool.WEPAttacks
     {
         #region Private variables
         /* in- and output matters */
-        private CryptoolStream inputStream;
-        private CryptoolStream outputStream;
-        private List<CryptoolStream> listCryptoolStreamsOut = new List<CryptoolStream>();
+        private ICryptoolStream inputStream;
+        private CStreamWriter outputStreamWriter;
         private List<byte[]> internalByteList;
 
         /* help variables */
@@ -70,24 +70,17 @@ namespace Cryptool.WEPAttacks
             DisplayLevel.Beginner,
             QuickWatchFormat.Hex,
             null)]
-        public CryptoolStream InputStream
+        public ICryptoolStream InputStream
         {
             get
             {
-                if (inputStream != null)
-                {
-                    CryptoolStream cs = new CryptoolStream();
-                    cs.OpenRead(inputStream.FileName);
-                    listCryptoolStreamsOut.Add(cs);
-                    return cs;
+                return inputStream;
                 }
-                else return null;
-            }
             set
             {
                 this.inputStream = value;
-                if (value != null) listCryptoolStreamsOut.Add(value);
-                OnPropertyChanged("InputStream");
+                // mwander 20100503: not necessary for input properties
+                //OnPropertyChanged("InputStream");
             }
         }
 
@@ -119,24 +112,14 @@ namespace Cryptool.WEPAttacks
             DisplayLevel.Beginner,
             QuickWatchFormat.Hex,
             null)]
-        public CryptoolStream OutputStream
+        public ICryptoolStream OutputStream
         {
             get
             {
-                if (this.outputStream != null)
-                {
-                    CryptoolStream cs = new CryptoolStream();
-                    listCryptoolStreamsOut.Add(cs);
-                    cs.OpenRead(this.outputStream.FileName);
-                    return cs;
+                return outputStreamWriter;
                 }
-                return null;
-            }
             set
             {
-                outputStream = value;
-                if (value != null) listCryptoolStreamsOut.Add(value);
-                OnPropertyChanged("OutputStream");
             }
         }
 
@@ -165,15 +148,18 @@ namespace Cryptool.WEPAttacks
         /// </summary>
         /// <param name="filename"></param>
         /// <returns></returns>
-        private bool fileIsValid()
+        private bool fileIsValid(CStreamReader reader)
         {
             // Header of pcab file 
             byte[] headerData = new byte[10];
-            int streamsize = (int)inputStream.Length;
-            if (streamsize < 10) return false;
-            inputStream.Read(headerData, 0, 10);
+            if (reader.Length < 10)
+                return false;
+
+            reader.Read(headerData, 0, headerData.Length);
             // Test, if header is correct
-            if (!checkIfEqual(headerData, new byte[] { 0xD4, 0xC3, 0xB2, 0xA1, 0x02, 0x00, 0x04, 0x00, 0x00, 0x00 })) return false;
+            if (!checkIfEqual(headerData, new byte[] { 0xD4, 0xC3, 0xB2, 0xA1, 0x02, 0x00, 0x04, 0x00, 0x00, 0x00 }))
+                return false;
+
             return true;
         }
 
@@ -185,28 +171,30 @@ namespace Cryptool.WEPAttacks
         /// <returns>A boolean value indicating if the two arrays are equal or not.</returns>
         private bool checkIfEqual(byte[] a, byte[] b)
         {
-            bool ret = true;
             if ((null == a) || (null == b)) return false;
             if (a.Length != b.Length) return false;
 
             for (int i = 0; i < a.Length; i++)
             {
-                if (a[i] != b[i]) ret = false;
+                if (a[i] != b[i])
+                    return false;
             }
 
-            return ret;
+            return true;
         }
 
         /// <summary>
         /// Simulates loading a List<byte[]> out of a file, in fact the data cames from another plugin.
         /// </summary>
-        private void loadList()
+        private List<byte[]> loadList(CStreamReader reader)
         {
-            if (inputStream.CanSeek) { inputStream.Position = 0; }
-            if (!fileIsValid())
+            List<byte[]> tempList = new List<byte[]>();
+
+            if (!fileIsValid(reader))
             {
+                // XXX: will not abort Execute() run
                 GuiLogMessage("Couldn't read data. Aborting now.", NotificationLevel.Error);
-                return;
+                return tempList;
             }
             else
             {
@@ -215,37 +203,38 @@ namespace Cryptool.WEPAttacks
                 bool stillMorePackets = true;
                 streamlength = 0;
                 packetsize = 0;
-                streamlength = (int)inputStream.Length;
-                if (inputStream.CanSeek) { inputStream.Position = 24; }
+                streamlength = (int)reader.Length;
+                Debug.Assert(reader.CanSeek);
+                reader.Position = 24;
                 byte[] protection = new byte[1];
                 byte[] size = new byte[4];
                 while (stillMorePackets && (tempList.Count < 1000000))
                 {
-                    inputStream.Position += 12;
-                    inputStream.Read(size, 0, 4);
-                    inputStream.Position += 1;
-                    inputStream.Read(protection, 0, 1);
+                    reader.Position += 12;
+                    reader.Read(size, 0, 4);
+                    reader.Position += 1;
+                    reader.Read(protection, 0, 1);
                     packetsize = makeIntFromFourBytes(size);
                     if (((protection[0] & 0x40) != 0x40) || (protection[0] == 0xFF))
                     {
-                        inputStream.Position += packetsize - 2;
+                        reader.Position += packetsize - 2;
                     }
                     else
                     {
                         if (packetsize > 60)
                         {
                             byte[] tmp = new byte[packetsize + 16];
-                            inputStream.Position -= 18;
-                            inputStream.Read(tmp, 0, packetsize + 16);
+                            reader.Position -= 18;
+                            reader.Read(tmp, 0, packetsize + 16);
                             tempList.Add(tmp);
                             tmp = null;
                         }
                         else
                         {
-                            inputStream.Position += packetsize - 2;
+                            reader.Position += packetsize - 2;
                         }
                     }
-                    if (inputStream.Position >= streamlength)
+                    if (reader.Position >= streamlength)
                     {
                         stillMorePackets = false;
                     }
@@ -260,26 +249,9 @@ namespace Cryptool.WEPAttacks
                 }
                 presentation.setNumberOfSniffedPackages(tempList.Count + counter);
             }
-        }
 
-        /// <summary>
-        /// Organizes the input.
-        /// </summary>
-        private int checkForInputStream()
-        {
-            int value = int.MaxValue;
-            if ((inputStream != null) && (inputStream.Length > 0))
-            {
-                tempList = new List<byte[]>();
-                loadList();
-                value = 1;
+            return tempList;
             }
-            else
-            {
-                value = 0;
-            }
-            return value;
-        }
 
         /// <summary>
         /// 
@@ -520,7 +492,7 @@ namespace Cryptool.WEPAttacks
             packetIndividualHeader[15] = 0x00;
 
             byte[] decryptedOutput;
-            outputStream.Write(header, 0, header.Length);
+            outputStreamWriter.Write(header, 0, header.Length);
             for (int i = 0; i < tempList.Count; i++)
             {
                 array = tempList.ElementAt(i);
@@ -543,14 +515,14 @@ namespace Cryptool.WEPAttacks
                 packetIndividualHeader[14] = size[2];
                 packetIndividualHeader[15] = size[3];
 
-                outputStream.Write(packetIndividualHeader, 0, packetIndividualHeader.Length);
+                outputStreamWriter.Write(packetIndividualHeader, 0, packetIndividualHeader.Length);
 
                 for (int j = 0; j < 3; j++)
                 {
                     key64[j] = iEEEHeaderInformation[j + 24];
                     key128[j] = iEEEHeaderInformation[j + 24];
                 }
-                outputStream.Write(iEEEHeaderInformation, 0, 24);
+                outputStreamWriter.Write(iEEEHeaderInformation, 0, 24);
                 
                 if (keysize == 64)
                 {
@@ -559,7 +531,7 @@ namespace Cryptool.WEPAttacks
                         key64[j] = iVConcKey[j];
                     }
                     decryptedOutput = RC4.rc4encrypt(array, key64);
-                    outputStream.Write(decryptedOutput, 0, decryptedOutput.Length - 4);
+                    outputStreamWriter.Write(decryptedOutput, 0, decryptedOutput.Length - 4);
                 }
 
                 if (keysize == 128)
@@ -569,10 +541,10 @@ namespace Cryptool.WEPAttacks
                         key128[j] = iVConcKey[j];
                     }
                     decryptedOutput = RC4.rc4encrypt(array, key128);
-                    outputStream.Write(decryptedOutput, 0, decryptedOutput.Length);
+                    outputStreamWriter.Write(decryptedOutput, 0, decryptedOutput.Length);
                 }
             }
-            outputStream.Close();
+            outputStreamWriter.Close();
             array = null;
             key64 = null;
             key128 = null;
@@ -687,9 +659,7 @@ namespace Cryptool.WEPAttacks
                         presentation.setTextBox(fmsVotes, true, 40, usedPacktesCounter, totalDuration, "plugin", "FMS", stop);
                         GuiLogMessage("Found possible key after reading " + counter.ToString("#,#", CultureInfo.InstalledUICulture) + " packets. Time used (in total) [h:min:sec]: " + totalDuration + ".", NotificationLevel.Info);
                         success = true;
-                        outputStream = new CryptoolStream();
-                        listCryptoolStreamsOut.Add(outputStream);
-                        outputStream.OpenWrite(this.GetPluginInfoAttribute().Caption);
+                        outputStreamWriter = new CStreamWriter();
                         decrypt();
                         OnPropertyChanged("Success");
                         OnPropertyChanged("OutputStream");
@@ -704,9 +674,7 @@ namespace Cryptool.WEPAttacks
                         presentation.setTextBox(fmsVotes, true, 104, usedPacktesCounter, totalDuration, "plugin", "FMS", stop);
                         GuiLogMessage("Found possible key after reading " + counter.ToString("#,#", CultureInfo.InstalledUICulture) + " packets. Time used (in total) [h:min:sec]: " + totalDuration + ".", NotificationLevel.Info);
                         success = true;
-                        outputStream = new CryptoolStream();
-                        listCryptoolStreamsOut.Add(outputStream);
-                        outputStream.OpenWrite(this.GetPluginInfoAttribute().Caption);
+                        outputStreamWriter = new CStreamWriter();
                         decrypt();
                         OnPropertyChanged("Success");
                         OnPropertyChanged("OutputStream");
@@ -1038,9 +1006,7 @@ namespace Cryptool.WEPAttacks
                         presentation.setTextBox(koreKVotes, true, 40, usedPacktesCounter, totalDuration, "plugin", "KoreK", stop);
                         GuiLogMessage("Found possible key after reading " + counter.ToString("#,#", CultureInfo.InstalledUICulture) + " packets. Time used (in total) [h:min:sec]: " + totalDuration + ".", NotificationLevel.Info);
                         success = true;
-                        outputStream = new CryptoolStream();
-                        listCryptoolStreamsOut.Add(outputStream);
-                        outputStream.OpenWrite(this.GetPluginInfoAttribute().Caption);
+                        outputStreamWriter = new CStreamWriter();
                         decrypt();
                         OnPropertyChanged("Success");
                         OnPropertyChanged("OutputStream");
@@ -1055,9 +1021,7 @@ namespace Cryptool.WEPAttacks
                         presentation.setTextBox(koreKVotes, true, 104, usedPacktesCounter, totalDuration, "plugin", "KoreK", stop);
                         GuiLogMessage("Found possible key after reading " + counter.ToString("#,#", CultureInfo.InstalledUICulture) + " packets. Time used (in total) [h:min:sec]: " + totalDuration + ".", NotificationLevel.Info);
                         success = true;
-                        outputStream = new CryptoolStream();
-                        listCryptoolStreamsOut.Add(outputStream);
-                        outputStream.OpenWrite(this.GetPluginInfoAttribute().Caption);
+                        outputStreamWriter = new CStreamWriter();
                         decrypt();
                         OnPropertyChanged("Success");
                         OnPropertyChanged("OutputStream");
@@ -1216,9 +1180,7 @@ namespace Cryptool.WEPAttacks
                         presentation.setTextBoxPTW(ptwVotes, true, 40, counter, totalDuration, "plugin", stop);
                         GuiLogMessage("Found possible key after reading " + counter.ToString("#,#", CultureInfo.InstalledUICulture) + " packets. Time used (in total) [h:min:sec]: " + totalDuration + ".", NotificationLevel.Info);
                         success = true;
-                        outputStream = new CryptoolStream();
-                        listCryptoolStreamsOut.Add(outputStream);
-                        outputStream.OpenWrite(this.GetPluginInfoAttribute().Caption);
+                        outputStreamWriter = new CStreamWriter();
                         decrypt();
                         OnPropertyChanged("Success");
                         OnPropertyChanged("OutputStream");
@@ -1233,9 +1195,7 @@ namespace Cryptool.WEPAttacks
                         presentation.setTextBoxPTW(ptwVotes, true, 104, counter, totalDuration, "plugin", stop);
                         GuiLogMessage("Found possible key after reading " + counter.ToString("#,#", CultureInfo.InstalledUICulture) + " packets. Time used (in total) [h:min:sec]: " + totalDuration + ".", NotificationLevel.Info);
                         success = true;
-                        outputStream = new CryptoolStream();
-                        listCryptoolStreamsOut.Add(outputStream);
-                        outputStream.OpenWrite(this.GetPluginInfoAttribute().Caption);
+                        outputStreamWriter = new CStreamWriter();
                         decrypt();
                         OnPropertyChanged("Success");
                         OnPropertyChanged("OutputStream");
@@ -1394,19 +1354,11 @@ namespace Cryptool.WEPAttacks
                 stop = false;
                 success = false;
                 inputStream = null;
-                outputStream = null;
+                outputStreamWriter = null;
                 if (tempList != null) { tempList.Clear(); }
                 tempList = null;
                 if (internalByteList != null) { internalByteList.Clear(); }
                 internalByteList = null;
-                if (listCryptoolStreamsOut != null)
-                {
-                    foreach (CryptoolStream cs in listCryptoolStreamsOut)
-                    {
-                        cs.Close();
-                    }
-                    listCryptoolStreamsOut.Clear();
-                }
                 
                 counter = 0;
                 usedPacktesCounter = 0;
@@ -1436,10 +1388,13 @@ namespace Cryptool.WEPAttacks
             try
             {
                 internalByteList = new List<byte[]>();
-                if (checkForInputStream() == 0)
-                { ;}
-                else
+                if (inputStream == null || inputStream.Length == 0)
+                    return;
+
+                using (CStreamReader reader = inputStream.CreateReader())
                 {
+                    tempList = loadList(reader);
+
                     init();
                     extractHeaderInformation();
                     switch (settings.Action)

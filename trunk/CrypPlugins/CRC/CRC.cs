@@ -1,5 +1,5 @@
 ﻿/*
-   Copyright 2009 Matthäus Wander, University of Duisburg-Essen
+   Copyright 2009-2010 Matthäus Wander, University of Duisburg-Essen
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -65,9 +65,7 @@ namespace Cryptool.CRC
         const int BUFSIZE = 1024;
 
         private ISettings settings = new CRCSettings();
-        private CryptoolStream inputData;
-        private byte[] outputData;
-        private List<CryptoolStream> listCryptoolStreamsOut = new List<CryptoolStream>();
+        private CStreamWriter outputStreamWriter;
 
         private uint[] table;
 
@@ -86,54 +84,20 @@ namespace Cryptool.CRC
         }
 
         [PropertyInfo(Direction.InputData, "Input stream", "Input data to be hashed", "", true, false, QuickWatchFormat.Hex, null)]
-        public CryptoolStream InputData
+        public ICryptoolStream InputStream
         {
-            get
-            {
-                if (inputData == null) { return null; }
-
-                GuiLogMessage("Filename of input stream: " + inputData.FileName, NotificationLevel.Debug);
-
-                CryptoolStream cs = new CryptoolStream();
-                cs.OpenRead(inputData.FileName);
-                listCryptoolStreamsOut.Add(cs);
-                return cs;
+            get;
+            set;
             }
-            set
-            {
-                inputData = value;
-                OnPropertyChanged("InputData");
-            }
-        }
-
-        [PropertyInfo(Direction.OutputData, "Hash value", "Output hash value as byte array", "", false, false, QuickWatchFormat.Hex, null)]
-        public byte[] OutputData
-        {
-            get
-            {
-                if (outputData == null) { return null; }
-
-                GuiLogMessage("Got request for hash (byte array)", NotificationLevel.Debug);
-                return outputData;
-            }
-            set
-            {
-            }
-        }
 
         [PropertyInfo(Direction.OutputData, "Hash value", "Output hash value as Stream", "", false, false, QuickWatchFormat.Hex, null)]
-        public CryptoolStream OutputDataStream
+        public ICryptoolStream OutputStream
         {
             get
             {
-                if (outputData == null) { return null; }
-
-                CryptoolStream cs = new CryptoolStream();
-                listCryptoolStreamsOut.Add(cs);
-                cs.OpenRead(this.GetPluginInfoAttribute().Caption, outputData);
-                GuiLogMessage("Got request for hash (stream)", NotificationLevel.Debug);
-                return cs;
+                return outputStreamWriter;
             }
+
             set
             {
             }
@@ -145,61 +109,56 @@ namespace Cryptool.CRC
 
         public void Dispose()
         {
-            if (inputData != null)
+            if (outputStreamWriter != null)
             {
-                inputData.Close();
-                inputData = null;
+                outputStreamWriter.Dispose();
+                outputStreamWriter = null;
             }
-
-            foreach (CryptoolStream cs in listCryptoolStreamsOut)
-            {
-                cs.Close();
             }
-        }
 
         public void Execute()
         {
             ProgressChanged(0.0, 1.0);
 
-            if (inputData == null)
+            if (InputStream == null)
             {
-                GuiLogMessage("Received null value for input CryptoolStream, not processing.", NotificationLevel.Warning);
+                GuiLogMessage("Received null value for input CStream, not processing.", NotificationLevel.Warning);
                 return;
             }
 
             byte[] input = new byte[BUFSIZE];
             uint crc = 0xffffffff;
-            int readCount;
 
-            // read and process 1024 bytes long portions of input stream
-            for(long bytesLeft = inputData.Length - inputData.Position; inputData.Position < inputData.Length; bytesLeft -= readCount)
+            using (CStreamReader reader = InputStream.CreateReader())
             {
-                ProgressChanged((double)inputData.Position / inputData.Length, 1.0);
-                readCount = bytesLeft < input.Length ? (int)bytesLeft : input.Length;
-                GuiLogMessage("Trying to fill working buffer with " + readCount + " bytes", NotificationLevel.Debug);
-                readCount = inputData.Read(input, 0, readCount);
-
+                // read and process portions of up to BUFSIZE bytes of input stream
+                int readCount;
+                while ((readCount = reader.Read(input)) > 0)
+                {
                 for (int i = 0; i < readCount; ++i)
                 {
                     byte index = (byte)(((crc) & 0xff) ^ input[i]);
                     crc = (uint)((crc >> 8) ^ table[index]);
                 }
+
+                    ProgressChanged((double)reader.Position / reader.Length, 1.0);
+            }
             }
 
             crc ^= 0xffffffff;
 
-            outputData = new byte[4];
+            byte[] outputData = new byte[4];
 
             outputData[0] = (byte)(crc >> 24);
             outputData[1] = (byte)(crc >> 16);
             outputData[2] = (byte)(crc >> 8);
             outputData[3] = (byte)(crc);
 
-            ProgressChanged(1.0, 1.0);
-            GuiLogMessage("CRC calculation has finished", NotificationLevel.Debug);
+            // create new one
+            outputStreamWriter = new CStreamWriter(outputData);
 
-            OnPropertyChanged("OutputData");
-            OnPropertyChanged("OutputDataStream");
+            ProgressChanged(1.0, 1.0);
+            OnPropertyChanged("OutputStream");
         }
 
         /// <summary>
@@ -236,7 +195,6 @@ namespace Cryptool.CRC
 
         public void PostExecution()
         {
-            Dispose();
         }
 
         public void PreExecution()

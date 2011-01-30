@@ -41,8 +41,6 @@ namespace Cryptool.Plugins.Converter
 
         #endregion
 
-        private List<CryptoolStream> listCryptoolStreamsOut = new List<CryptoolStream>();
-
         #region public interfaces
 
         public Converter()
@@ -110,10 +108,8 @@ namespace Cryptool.Plugins.Converter
 
                     if (streamData != null)
                     {
-                        CryptoolStream stream = new CryptoolStream();
-                        listCryptoolStreamsOut.Add(stream);
-                        stream.OpenRead(streamData);
-                        return stream;
+                        ICryptoolStream cStream = new CStreamWriter(streamData);
+                        return cStream;
                     }
                     else
                     {
@@ -141,8 +137,6 @@ namespace Cryptool.Plugins.Converter
 
         public void Dispose()
         {
-            foreach (CryptoolStream stream in listCryptoolStreamsOut)
-                stream.Close();
         }
 
         public void Execute()
@@ -150,7 +144,7 @@ namespace Cryptool.Plugins.Converter
             if (InputOne != null)
                 GuiLogMessage("Laufe! " + InputOne.ToString(), NotificationLevel.Debug);
 
-            if (!(InputOne is int[] || InputOne is CryptoolStream))
+            if (!(InputOne is int[] || InputOne is ICryptoolStream))
             {
                 if (inputOne is bool)
                 {

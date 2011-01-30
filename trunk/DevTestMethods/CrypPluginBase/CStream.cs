@@ -108,7 +108,7 @@ namespace Tests.CrypPluginBase
 
             // put 6 bytes
             writer.Write(ShortData);
-            CStreamReader reader = writer.CStream.CreateReader();
+            CStreamReader reader = writer.CreateReader();
 
             // length==6, position==0
             Assert.AreEqual(0, reader.Position);
@@ -155,7 +155,7 @@ namespace Tests.CrypPluginBase
         public void TestSwapWithReader()
         {
             CStreamWriter writer = new CStreamWriter();
-            CStreamReader reader = writer.CStream.CreateReader();
+            CStreamReader reader = writer.CreateReader();
 
             // write, not swapped
             writer.Write(LongData);
@@ -218,7 +218,7 @@ namespace Tests.CrypPluginBase
             Assert.IsFalse(writer.IsSwapped);
 
             // try to read
-            CStreamReader reader = writer.CStream.CreateReader();
+            CStreamReader reader = writer.CreateReader();
             byte[] buf = new byte[ShortData.Length];
             {
                 int read = reader.Read(buf);
@@ -250,7 +250,7 @@ namespace Tests.CrypPluginBase
             writer.Write(LongData);
             Assert.IsTrue(writer.IsSwapped);
 
-            CStreamReader reader = writer.CStream.CreateReader();
+            CStreamReader reader = writer.CreateReader();
 
             // dispose CStream and try to read, assert error
             writer.Dispose();
@@ -275,7 +275,7 @@ namespace Tests.CrypPluginBase
             writer.Write(LongData);
 
             // read something and assert there's more
-            CStreamReader reader = writer.CStream.CreateReader();
+            CStreamReader reader = writer.CreateReader();
             byte[] buf = new byte[ShortData.Length];
             reader.Read(buf);
             Assert.IsTrue(reader.Position > 0);
@@ -327,7 +327,7 @@ namespace Tests.CrypPluginBase
             writer.Write(LongData);
             writer.Close();
 
-            CStreamReader reader = writer.CStream.CreateReader();
+            CStreamReader reader = writer.CreateReader();
             byte[] bigbuf = reader.ReadFully();
 
             Assert.AreEqual(LongData.Length * 3, bigbuf.Length);
@@ -340,7 +340,7 @@ namespace Tests.CrypPluginBase
             writer.Write(LongData);
             writer.Close();
 
-            CStreamReader reader = writer.CStream.CreateReader();
+            CStreamReader reader = writer.CreateReader();
             byte[] buf = new byte[1024];
 
             { // seek 5 bytes before EOF, attempt to read much, get 5 bytes
@@ -373,7 +373,7 @@ namespace Tests.CrypPluginBase
             CStreamWriter writer = new CStreamWriter();
             writer.Write(LongData);
 
-            CStreamReader reader = writer.CStream.CreateReader();
+            CStreamReader reader = writer.CreateReader();
             byte[] buf = new byte[1024];
 
             // seek 5 bytes before EOF
@@ -397,5 +397,41 @@ namespace Tests.CrypPluginBase
                 Assert.AreEqual(0, read);
             }
         }
+
+        [TestMethod]
+        public void TestEmpty()
+        {
+            ICryptoolStream empty = CStreamWriter.Empty;
+
+            CStreamReader reader = empty.CreateReader();
+            byte[] buf = new byte[1024];
+            int read = reader.ReadFully(buf);
+
+            Assert.AreEqual(0, read);
+    }
+
+        [TestMethod]
+        public void TestExistingFileReader()
+        {
+            string tempFile = DirectoryHelper.GetNewTempFilePath();
+            FileStream tempWriter = new FileStream(tempFile, FileMode.CreateNew);
+            tempWriter.Write(ShortData, 0, ShortData.Length);
+            tempWriter.Write(LongData, 0, LongData.Length);
+            tempWriter.Close();
+
+            CStreamWriter cstream = new CStreamWriter(tempFile);
+            CStreamReader reader = cstream.CreateReader();
+            byte[] buf = new byte[ShortData.Length];
+            reader.ReadFully(buf);
+            Assert.IsTrue(buf.SequenceEqual(ShortData));
+
+            buf = new byte[LongData.Length];
+            reader.ReadFully(buf);
+            Assert.IsTrue(buf.SequenceEqual(LongData));
+
+            reader.Close();
+            cstream.Dispose();
+            File.Delete(tempFile);
+}
     }
 }

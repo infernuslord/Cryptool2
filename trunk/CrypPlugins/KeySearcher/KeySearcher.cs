@@ -142,9 +142,9 @@ namespace KeySearcher
         #endregion
 
         /* BEGIN: following lines are from Arnie - 2010.01.12 */
-        CryptoolStream csEncryptedData;
+        ICryptoolStream csEncryptedData;
         [PropertyInfo(Direction.InputData, "CS_Encrypted_Data", "csEncryptedDataDesc", "", false, false, QuickWatchFormat.Hex, "")]
-        public virtual CryptoolStream CSEncryptedData
+        public virtual ICryptoolStream CSEncryptedData
         {
             get { return this.csEncryptedData; }
             set
@@ -176,18 +176,19 @@ namespace KeySearcher
         /// <summary>
         /// When the Input-Slot changed, set this variable to true, so the new Stream will be transformed to byte[]
         /// </summary>
-        private byte[] GetByteFromCryptoolStream(CryptoolStream cryptoolStream)
+        private byte[] GetByteFromCryptoolStream(ICryptoolStream cryptoolStream)
         {
             byte[] encryptedByteData = null;
 
             if (cryptoolStream != null)
             {
-                CryptoolStream cs = new CryptoolStream();
-                cs.OpenRead(cryptoolStream.FileName);
-                encryptedByteData = new byte[cs.Length];
-                if(cs.Length > Int32.MaxValue)
+                using (CStreamReader reader = cryptoolStream.CreateReader())
+                {
+                    if (reader.Length > Int32.MaxValue)
                     throw(new Exception("CryptoolStream length is longer than the Int32.MaxValue"));
-                cs.Read(encryptedByteData, 0, (int)cs.Length);
+
+                    encryptedByteData = reader.ReadFully();
+            }
             }
             return encryptedByteData;
         }

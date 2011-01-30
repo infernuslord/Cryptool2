@@ -37,8 +37,7 @@ namespace RIPEMD160
     {
         #region Private variables
         private RIPEMD160Settings settings;
-        private CryptoolStream inputData;
-        private List<CryptoolStream> listCryptoolStreamsOut = new List<CryptoolStream>();
+        private ICryptoolStream inputData;
         private byte[] outputData;
         #endregion
 
@@ -56,19 +55,12 @@ namespace RIPEMD160
 
         // [QuickWatch(QuickWatchFormat.Hex, null)]
         [PropertyInfo(Direction.InputData, "Input stream", "Input data to be hashed", "", true, false, QuickWatchFormat.Hex, null)]
-        public CryptoolStream InputData
+        public ICryptoolStream InputData
         {
             get 
             {
-              if (this.inputData != null)
-              {
-                CryptoolStream cs = new CryptoolStream();
-                listCryptoolStreamsOut.Add(cs);
-                cs.OpenRead(inputData.FileName);
-                return cs;
+                return inputData;
               }
-              return null;
-            }
             set 
             {
               if (value != inputData)
@@ -81,18 +73,15 @@ namespace RIPEMD160
 
         // [QuickWatch(QuickWatchFormat.Hex, null)]
         [PropertyInfo(Direction.OutputData, "Hashed value", "Output data of the hashed value as Stream", "", true, false, QuickWatchFormat.Hex, null)]
-        public CryptoolStream OutputDataStream
+        public ICryptoolStream OutputDataStream
         {
           get
           {
-              CryptoolStream outputDataStream = null;
               if (OutputData != null)
               {
-                outputDataStream = new CryptoolStream();
-                outputDataStream.OpenRead(this.GetPluginInfoAttribute().Caption, OutputData);
-                listCryptoolStreamsOut.Add(outputDataStream);
+                  return new CStreamWriter(outputData);
               }
-              return outputDataStream;
+              return null;
           }
           set { } // readonly
         }
@@ -119,13 +108,13 @@ namespace RIPEMD160
           if (inputData != null && inputData.Length > 0)
           {
             System.Security.Cryptography.RIPEMD160 ripeMd160Hash = System.Security.Cryptography.RIPEMD160.Create();
-            byte[] data = ripeMd160Hash.ComputeHash((Stream)inputData);
+            using (CStreamReader reader = inputData.CreateReader())
+            {
+                OutputData = ripeMd160Hash.ComputeHash(reader);
+            }
 
-            
             GuiLogMessage("Hash created.", NotificationLevel.Info);            
             Progress(1, 1);
-
-            OutputData = data;
           }
           else
           {            
@@ -143,17 +132,8 @@ namespace RIPEMD160
 
         public void Dispose()
         {
-          if (inputData != null)
-          {
-            inputData.Close();
             inputData = null;
           }
-          foreach (CryptoolStream cryptoolStream in listCryptoolStreamsOut)
-          {
-            cryptoolStream.Close();
-          }
-          listCryptoolStreamsOut.Clear();
-        }
         #endregion
 
         #region IPlugin Members       

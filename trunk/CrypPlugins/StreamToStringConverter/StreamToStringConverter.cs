@@ -70,23 +70,15 @@ namespace Cryptool.Plugins.Convertor
         }
 
         [PropertyInfo(Direction.InputData, "Stream input", "Input stream will be converted to ASCII text. The encoding given in the settings will be used.", "", true, false, QuickWatchFormat.Text, "InputStreamQuickWatchConverter")]
-        public CryptoolStream InputStream
+        public ICryptoolStream InputStream
         {            
             get 
             {
-              CryptoolStream cryptoolStream = null;
-              if (inputStream != null)
-              {
-                cryptoolStream = new CryptoolStream();
-                cryptoolStream.OpenRead(inputStream.FileName);
-                listCryptoolStreams.Add(cryptoolStream);                
+                return inputStream;
               }
-              return cryptoolStream;
-            }
             set 
             {
               inputStream = value;
-              if (value != null) listCryptoolStreams.Add(value);
               // processInput(value); This should be done in execute method, because PlayMode causes 
               // errors state (yellow/red markers) to be flushed on execute. So if input is processed
               // here before execute method the plugin element will not be colored correctly if 
@@ -123,18 +115,8 @@ namespace Cryptool.Plugins.Convertor
 
         public void Dispose() 
         {          
-          if (inputStream != null)
-          {
-              inputStream.Flush();
-              inputStream.Close();
               inputStream = null;
           }
-          foreach (CryptoolStream cryptoolStream in listCryptoolStreams)
-          {
-            cryptoolStream.Close();
-          }
-          listCryptoolStreams.Clear();
-        }
 
 
         public void Stop() { }
@@ -172,20 +154,15 @@ namespace Cryptool.Plugins.Convertor
         #endregion
 
         #region Private variables
-        private List<CryptoolStream> listCryptoolStreams = new List<CryptoolStream>();
         private StreamToStringConverterSettings settings;
-        private CryptoolStream inputStream = null;
+        private ICryptoolStream inputStream = null;
         private string outputString;        
         #endregion
 
         #region Private methods
 
-        private void processInput(CryptoolStream value)
+        private void processInput(CStreamReader value)
         {
-            ShowStatusBarMessage("Got stream input.", NotificationLevel.Debug);        
-        
-            if (value != null)
-            {                
                 ShowProgress(50, 100);
                 ShowStatusBarMessage("Converting input ...", NotificationLevel.Debug);
                 if (value.Length > settings.MaxLength)
@@ -239,12 +216,6 @@ namespace Cryptool.Plugins.Convertor
                 OnPropertyChanged("InputStream");
                 OnPropertyChanged("OutputString");
             }
-            else
-            {
-                inputStream = null;
-                ShowStatusBarMessage("Stream input is null. Nothing to convert.", NotificationLevel.Warning);
-            }        
-        }
 
         private string convertBytesToHexString(byte[] array, int start, int count)
         {
@@ -287,7 +258,17 @@ namespace Cryptool.Plugins.Convertor
 
         public void Execute()
         {
-          processInput(InputStream);
+            if (InputStream != null)
+            {
+                using (CStreamReader reader = InputStream.CreateReader())
+                {
+                    processInput(reader);
+        }
+            }
+            else
+            {
+                ShowStatusBarMessage("Stream input is null. Nothing to convert.", NotificationLevel.Warning);
+            }
         }
 
         public void Pause()

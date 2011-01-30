@@ -135,34 +135,32 @@ namespace Tiger
     /// <value>The input inputdata.</value>
     [PropertyInfo(Direction.InputData, "Input Data Stream", "Input data stream to be hashed", "",
       false, false, QuickWatchFormat.Hex, null)]
-    public CryptoolStream InputStream
+    public ICryptoolStream InputStream
     {
       get
       {
-        CryptoolStream inputStream = new CryptoolStream();
-        inputStream.OpenRead(this.GetPluginInfoAttribute().Caption, inputdata);
-        return inputStream;
+          if (inputdata == null)
+          {
+              return null;
+      }
+          else
+          {
+              return new CStreamWriter(inputdata);
+          }
       }
       set
       {
-        if (null == value)
+        if (value != null)
         {
-          inputdata = new byte[0];
-          return;
+            using (CStreamReader reader = value.CreateReader())
+            {
+                inputdata = reader.ReadFully();
+                GuiLogMessage("InputStream changed.", NotificationLevel.Debug);
         }
-        //if (inputCanal != dataCanal.none && inputCanal != dataCanal.streamCanal)
-        //  GuiLogMessage("Duplicate input data not allowed!", NotificationLevel.Error);
-        //inputCanal = dataCanal.streamCanal;
-
-        long len = value.Length;
-        inputdata = new byte[len];
-
-        for (long i = 0; i < len; i++)
-          inputdata[i] = (byte)value.ReadByte();
 
         NotifyUpdateInput();
-        GuiLogMessage("InputStream changed.", NotificationLevel.Debug);
       }
+    }
     }
 
     /// <summary>
@@ -179,30 +177,19 @@ namespace Tiger
       }
       set
       {
-        //if (inputCanal != dataCanal.none && inputCanal != dataCanal.byteCanal)
-        //  GuiLogMessage("Duplicate Data data not allowed!", NotificationLevel.Error);
-        //inputCanal = dataCanal.byteCanal;
-        if (null == value)
+          if (inputdata != value)
         {
-          inputdata = new byte[0];
-          return;
-        }
-        long len = value.Length;
-        inputdata = new byte[len];
-
-        for (long i = 0; i < len; i++)
-          inputdata[i] = value[i];
-
-        NotifyUpdateInput();
+              inputdata = (value == null) ? new byte[0] : null;
         GuiLogMessage("InputData changed.", NotificationLevel.Debug);
+              NotifyUpdateInput();
       }
+    }
     }
     #endregion
 
     #region Output
 
     // Output
-    private List<CryptoolStream> listCryptoolStreamsOut = new List<CryptoolStream>();
     private byte[] outputData = { };
 
     /// <summary>
@@ -221,20 +208,12 @@ namespace Tiger
     /// <value>The output inputdata stream.</value>
     [PropertyInfo(Direction.OutputData, "Hashed Stream", "Output stream of the hashed value", "",
       true, false, QuickWatchFormat.Hex, null)]
-    public CryptoolStream HashOutputStream
+    public ICryptoolStream HashOutputStream
     {
       get
       {
-        CryptoolStream outputDataStream = null;
-        if (outputData != null)
-        {
-          outputDataStream = new CryptoolStream();
-          outputDataStream.OpenRead(this.GetPluginInfoAttribute().Caption, outputData);
-          listCryptoolStreamsOut.Add(outputDataStream);
+          return new CStreamWriter(outputData);
         }
-        GuiLogMessage("Got HashOutputStream.", NotificationLevel.Debug);
-        return outputDataStream;
-      }
       //set
       //{
       //} //readonly
@@ -347,12 +326,7 @@ namespace Tiger
     /// </summary>
     public void Dispose()
     {
-      foreach (CryptoolStream stream in listCryptoolStreamsOut)
-      {
-        stream.Close();
       }
-      listCryptoolStreamsOut.Clear();
-    }
 
     #endregion
 

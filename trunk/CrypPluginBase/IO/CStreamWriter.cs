@@ -38,10 +38,19 @@ namespace Cryptool.PluginBase.IO
     /// 
     /// <para>You SHOULD Dispose() the stream when you're done using it (or use the C# "using" keyword) in
     /// order to remove the temporary swapfile, however if you forget to, the GC will clean up for you.</para>
-    /// </public>
-    public class CStreamWriter : Stream, IDisposable
+    /// </summary>
+    public class CStreamWriter : Stream, IDisposable, ICryptoolStream
     {
-        #region Private fields and constructors
+        #region Fields and constructors
+
+        public static readonly CStreamWriter Empty;
+        static CStreamWriter()
+        {
+            // This is a somewhat ugly way to create an empty CStream -- using the Null Object
+            // pattern (see GOF) would look better. However it is the easiest workaround.
+            CStreamWriter.Empty = new CStreamWriter(0);
+            CStreamWriter.Empty.Close();
+        }
 
         internal const int FileBufferSize = 8192;
 
@@ -71,37 +80,52 @@ namespace Cryptool.PluginBase.IO
         {
             _buffer = new byte[bufSize];
             _monitor = new object();
-
-            CStream = new CStream(this);
         }
 
         /// <summary>
         /// Init CStreamWriter and copy some data to memory buffer.
-        /// 
-        /// Please note: Data is *copied* from passed buffer to internal memory buffer.
+        /// Data is *copied* from passed buffer to internal memory buffer.
+        /// Stream is auto-closed after initialization (can't write any more data).
         /// </summary>
         /// <param name="buf">Pre-initialized byte array which is copied into internal membuff</param>
-        /// <param name="autoClose">close after initialization</param>
-        public CStreamWriter(byte[] buf, bool autoClose) : this(buf.Length)
+        public CStreamWriter(byte[] buf) : this((buf == null) ? 0 : buf.Length)
         {
+            if (buf != null)
+            {
             Array.Copy(buf, _buffer, buf.Length);
             _bufPtr = buf.Length;
-
-            if (autoClose)
-            {
-                Close();
             }
+            Close();
         }
+
+        /// <summary>
+        /// Init CStreamWriter with an existing file.
+        /// Though the file is not modified we acquire a write lock to ensure it does not change while
+        /// readers are accessing it.
+        /// Will throw exception if IO goes wrong.
+        /// Stream is auto-closed after initialization (can't write any more data).
+        /// </summary>
+        /// <param name="filePath">Path to existing file, already filled with data</param>
+        public CStreamWriter(string filePath) : this(0)
+            {
+            if (!File.Exists(filePath))
+            {
+                throw new FileNotFoundException();
+            }
+
+            // attempt to get exclusive write lock
+            _filePath = filePath;
+            _writeStream = new FileStream(_filePath, FileMode.Open, FileAccess.ReadWrite, FileShare.Read);
+            _writeStream.Seek(_writeStream.Length, SeekOrigin.Begin);
+                Close();
+
+            if (SwapEvent != null)
+                SwapEvent();
+            }
 
         #endregion
 
         #region Public properties
-
-        public CStream CStream
-        {
-            get;
-            private set;
-        }
 
         public override bool CanRead
         {
@@ -115,7 +139,7 @@ namespace Cryptool.PluginBase.IO
 
         public override bool CanWrite
         {
-            get { return true; }
+            get { return !_closed; }
         }
 
         /// <summary>
@@ -331,6 +355,29 @@ namespace Cryptool.PluginBase.IO
                 }
 
                 // don't pulse monitor, wait for flush
+            }
+        }
+
+        /// <summary>
+        /// Create a new instance to read from this CStream.
+        /// </summary>
+        public CStreamReader CreateReader()
+        {
+            return new CStreamReader(this);
+        }
+
+        /// <summary>
+        /// Attempts to read 4096 bytes from CStream, interpreted as string using default encoding.
+        /// May return less if CStream doesn't contain that many bytes.
+        /// </summary>
+        public override string ToString()
+        {
+            using (CStreamReader reader = CreateReader())
+            {
+                byte[] buf = new byte[4096];
+                int read = reader.Read(buf);
+
+                return Encoding.Default.GetString(buf, 0, read);
             }
         }
 

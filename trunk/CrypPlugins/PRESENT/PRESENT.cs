@@ -48,14 +48,13 @@ namespace Cryptool.PRESENT
     #region Private variables
     private PRESENTSettings settings;
     private PRESENTAnimation presentation;
-    private CryptoolStream inputStream;
-    private CryptoolStream outputStream;
+    private ICryptoolStream inputStream;
+    private CStreamWriter outputStream;
     private byte[] inputKey;
     private byte[] inputIV;
     private CryptoStream p_crypto_stream_enc;
     private CryptoStream p_crypto_stream_dec;
     private bool stop;
-    private List<CryptoolStream> listCryptoolStreamsOut = new List<CryptoolStream>();
     #endregion
 
     
@@ -74,27 +73,19 @@ namespace Cryptool.PRESENT
     }
 
     [PropertyInfo(Direction.InputData, "Input", "Data to be encrypted or decrypted.", "", true, false, QuickWatchFormat.Hex, null)]
-    public CryptoolStream InputStream
+    public ICryptoolStream InputStream
     {
       
       get 
       {
-        if (inputStream != null)
-        {
-          CryptoolStream cs = new CryptoolStream();
-          cs.OpenRead(inputStream.FileName);
-          listCryptoolStreamsOut.Add(cs);
-          return cs;
+          return inputStream;
         }
-        else return null;        
-      }
       
       set 
       {
         if (value != inputStream)
         {
           this.inputStream = value;
-          if (value != null) listCryptoolStreamsOut.Add(value);
           OnPropertyChanged("InputStream");
         }
       }
@@ -133,28 +124,16 @@ namespace Cryptool.PRESENT
     }
 
     [PropertyInfo(Direction.OutputData, "Output stream", "Encrypted or decrypted output data", "", true, false, QuickWatchFormat.Hex, null)]
-    public CryptoolStream OutputStream
+    public ICryptoolStream OutputStream
     {
       
       get 
       {         
-        if (this.outputStream != null && File.Exists(this.outputStream.FileName))
-        {
-          CryptoolStream cs = new CryptoolStream();
-          listCryptoolStreamsOut.Add(cs);
-          cs.OpenRead(this.outputStream.FileName);
-          return cs;
+          return outputStream;
         }
-        if (outputStream != null && !File.Exists(this.outputStream.FileName))
-          GuiLogMessage("Can't find the created output filename.", NotificationLevel.Error);
-        return null;
-      }
       
       set 
       { 
-        outputStream = value;
-        if (value != null) listCryptoolStreamsOut.Add(value);
-        OnPropertyChanged("OutputStream");
       }
     }
 
@@ -250,17 +229,21 @@ namespace Cryptool.PRESENT
         // Encrypt Stream
         try
         {
-          if (this.inputStream.CanSeek) this.inputStream.Position = 0;
+              using (CStreamReader reader = inputStream.CreateReader())
+              {
           SymmetricAlgorithm p_alg = new PresentManaged();
           ConfigureAlg(p_alg, true);
 
-          if ((this.presentation != null) & (p_alg.KeySize == 80)) {
+                  if ((this.presentation != null) & (p_alg.KeySize == 80))
+                  {
               byte[] block = new byte[8];
               byte[] key = (byte[])p_alg.Key.Clone();
-              int r = InputStream.Read(block, 0, 8);
-              if (this.inputStream.CanSeek) this.inputStream.Position = 0;
-              if (r < 8) {
-                  for (int i = 0; i < r; i++) {
+                      int r = reader.Read(block, 0, 8);
+                      if (reader.CanSeek) reader.Position = 0;
+                      if (r < 8)
+                      {
+                          for (int i = 0; i < r; i++)
+                          {
                       block[7 - i] = block[r - i - 1];
                   }
                   byte p;
@@ -271,9 +254,7 @@ namespace Cryptool.PRESENT
           }
 
           ICryptoTransform p_encryptor = p_alg.CreateEncryptor();
-          outputStream = new CryptoolStream();
-          listCryptoolStreamsOut.Add(outputStream);
-          outputStream.OpenWrite(this.GetPluginInfoAttribute().Caption);
+                  outputStream = new CStreamWriter();
           p_crypto_stream_enc = new CryptoStream((Stream)inputStream, p_encryptor, CryptoStreamMode.Read);
           byte[] buffer = new byte[p_alg.BlockSize / 8];
           int bytesRead;
@@ -282,10 +263,10 @@ namespace Cryptool.PRESENT
           while ((bytesRead = p_crypto_stream_enc.Read(buffer, 0, buffer.Length)) > 0 && !stop)
           {
             outputStream.Write(buffer, 0, bytesRead);
-            if ((int)(inputStream.Position * 100 / inputStream.Length) > position)
+                      if ((int)(reader.Position * 100 / inputStream.Length) > position)
             {
-              position = (int)(inputStream.Position * 100 / inputStream.Length);
-              ProgressChanged(inputStream.Position, inputStream.Length);
+                          position = (int)(reader.Position * 100 / inputStream.Length);
+                          ProgressChanged(reader.Position, inputStream.Length);
             }
           }
           p_crypto_stream_enc.Flush();
@@ -297,7 +278,7 @@ namespace Cryptool.PRESENT
           if (!stop)
           {
             GuiLogMessage("Encryption complete! (in: " + inputStream.Length.ToString() + " bytes, out: " + outputStream.Length.ToString() + " bytes)", NotificationLevel.Info);
-            GuiLogMessage("Wrote data to file: " + outputStream.FileName, NotificationLevel.Info);
+                      GuiLogMessage("Wrote data to file: " + outputStream.FilePath, NotificationLevel.Info);
             GuiLogMessage("Time used: " + duration.ToString(), NotificationLevel.Debug);
             outputStream.Close();
             OnPropertyChanged("OutputStream");
@@ -308,6 +289,7 @@ namespace Cryptool.PRESENT
             outputStream.Close();
           }
         }
+          }
         catch (CryptographicException cryptographicException)
         {
           // TODO: For an unknown reason p_crypto_stream can not be closed after exception.
@@ -335,13 +317,12 @@ namespace Cryptool.PRESENT
         // Decrypt Stream
         try
         {
-          if (this.inputStream.CanSeek) this.inputStream.Position = 0;
+              using (CStreamReader reader = this.inputStream.CreateReader())
+              {
           SymmetricAlgorithm p_alg = new PresentManaged();
           ConfigureAlg(p_alg, false);
           ICryptoTransform p_decryptor = p_alg.CreateDecryptor();
-          outputStream = new CryptoolStream();
-          listCryptoolStreamsOut.Add(outputStream);
-          outputStream.OpenWrite(this.GetPluginInfoAttribute().Caption);
+                  outputStream = new CStreamWriter();
           p_crypto_stream_dec = new CryptoStream((Stream)inputStream, p_decryptor, CryptoStreamMode.Read);
           byte[] buffer = new byte[p_alg.BlockSize / 8];
           int bytesRead;
@@ -350,10 +331,10 @@ namespace Cryptool.PRESENT
           while ((bytesRead = p_crypto_stream_dec.Read(buffer, 0, buffer.Length)) > 0 && !stop)
           {
             outputStream.Write(buffer, 0, bytesRead);
-            if ((int)(inputStream.Position * 100 / inputStream.Length) > position)
+                      if ((int)(reader.Position * 100 / inputStream.Length) > position)
             {
-              position = (int)(inputStream.Position * 100 / inputStream.Length);
-              ProgressChanged(inputStream.Position, inputStream.Length);
+                          position = (int)(reader.Position * 100 / inputStream.Length);
+                          ProgressChanged(reader.Position, inputStream.Length);
             }
           }
           p_crypto_stream_dec.Flush();
@@ -363,7 +344,7 @@ namespace Cryptool.PRESENT
           if (!stop)
           {
             GuiLogMessage("Decryption complete! (in: " + inputStream.Length.ToString() + " bytes, out: " + outputStream.Length.ToString() + " bytes)", NotificationLevel.Info);
-            GuiLogMessage("Wrote data to file: " + outputStream.FileName, NotificationLevel.Info);
+                      GuiLogMessage("Wrote data to file: " + outputStream.FilePath, NotificationLevel.Info);
             GuiLogMessage("Time used: " + duration.ToString(), NotificationLevel.Debug);
             outputStream.Close();
             OnPropertyChanged("OutputStream");
@@ -374,6 +355,7 @@ namespace Cryptool.PRESENT
               GuiLogMessage("Aborted!", NotificationLevel.Info);
           }
         }
+          }
         catch (CryptographicException cryptographicException)
         {
           // TODO: For an unknown reason p_crypto_stream can not be closed after exception.
@@ -427,12 +409,6 @@ namespace Cryptool.PRESENT
         inputIV = null;
         inputStream = null;
         outputStream = null;
-
-        foreach (CryptoolStream cryptoolStream in listCryptoolStreamsOut)
-        {
-          cryptoolStream.Close();
-        }
-        listCryptoolStreamsOut.Clear();
 
         if (p_crypto_stream_dec != null)
         {

@@ -1,4 +1,4 @@
-/*
+﻿/*
    Copyright 2008 Dr. Arno Wacker, University of Duisburg-Essen
 
    Licensed under the Apache License, Version 2.0 (the "License");
@@ -41,13 +41,11 @@ namespace Cryptool.Plugins.Cryptography.Encryption
     {
         #region Private variables
         private AESSettings settings;
-        private CryptoolStream inputStream;
-        private CryptoolStream outputStream;
+        private CStreamWriter outputStreamWriter;
         private byte[] inputKey;
         private byte[] inputIV;
         private CryptoStream p_crypto_stream;
         private bool stop = false;
-        private List<CryptoolStream> listCryptoolStreamsOut = new List<CryptoolStream>();
         #endregion
 
         public AES()
@@ -68,26 +66,11 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         }
 
         [PropertyInfo(Direction.InputData, "Input", "Data to be encrypted or decrypted", "", true, false, QuickWatchFormat.Hex, null)]
-        public CryptoolStream InputStream
+        public ICryptoolStream InputStream
         {
-            get 
-            {
-              if (inputStream != null)
-              {
-                CryptoolStream cs = new CryptoolStream();
-                cs.OpenRead(inputStream.FileName);
-                listCryptoolStreamsOut.Add(cs);
-                return cs;
+            get;
+            set;
               }
-              else return null;
-            }
-            set 
-            { 
-              this.inputStream = value;
-              if (value != null) listCryptoolStreamsOut.Add(value);
-              OnPropertyChanged("InputStream");
-            }
-        }
 
         [PropertyInfo(Direction.InputData, "Key", "The provided key should be 16, 24 or 32 bytes, dependig on the settings. Too short/long keys will be extended/truncated!", "", true, false, QuickWatchFormat.Hex, null)]
         public byte[] InputKey
@@ -112,39 +95,15 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         }
 
         [PropertyInfo(Direction.OutputData, "Output stream", "Encrypted or decrypted output data", "", true, false, QuickWatchFormat.Hex, null)]
-        public CryptoolStream OutputStream
+        public ICryptoolStream OutputStream
         {
             get 
             {
-              if (this.outputStream != null)
-              {
-                CryptoolStream cs = new CryptoolStream();
-                listCryptoolStreamsOut.Add(cs);
-
-                  if (outputStream.FileName == null)
-                  {
-                      return null;
+                return outputStreamWriter;
                   }
-
-                  try
-                  {
-                      cs.OpenRead(this.outputStream.FileName);
-                  }
-                  catch (FileNotFoundException)
-                  {
-                      GuiLogMessage("File not found: " + outputStream.FileName, NotificationLevel.Warning);
-                      return null;
-                  }
-
-                  return cs;
-              }
-              return null;
-            }
             set 
             {
-              outputStream = value;
-              if (value != null) listCryptoolStreamsOut.Add(value);
-              OnPropertyChanged("OutputStream");
+                // empty
             }
         }
 
@@ -231,12 +190,11 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
         private void checkForInputStream()
         {
-            if (settings.Action == 0 && (inputStream == null || (inputStream != null && inputStream.Length == 0)))
+            if (settings.Action == 0 && (InputStream == null || InputStream.Length == 0))
             {
                 //create some input
                 String dummystring = "Dummy string - no input provided - \"Hello AES World\" - dummy string - no input provided!";
-                this.inputStream = new CryptoolStream();
-                this.inputStream.OpenRead(Encoding.Default.GetBytes(dummystring.ToCharArray()));
+                this.InputStream = new CStreamWriter(Encoding.Default.GetBytes(dummystring.ToCharArray()));
                 // write a warning to the ouside word
                 GuiLogMessage("WARNING: No input provided. Using dummy data. (" + dummystring + ")", NotificationLevel.Warning);
             }
@@ -259,13 +217,12 @@ namespace Cryptool.Plugins.Cryptography.Encryption
           try
           {
             checkForInputStream();
-            if (inputStream == null || inputStream.Length == 0)
+                if (InputStream == null || InputStream.Length == 0)
             {
               GuiLogMessage("No input given. Not using dummy data in decrypt mode. Aborting now.", NotificationLevel.Error);
               return;
             }
 
-            if (this.inputStream.CanSeek) this.inputStream.Position = 0;
             SymmetricAlgorithm p_alg = null;
             if (settings.CryptoAlgorithm == 1)
             { p_alg = new RijndaelManaged(); }
@@ -285,10 +242,10 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                 break;
             }
 
-            outputStream = new CryptoolStream();
-            listCryptoolStreamsOut.Add(outputStream);
-            outputStream.OpenWrite();
-            p_crypto_stream = new CryptoStream((Stream)inputStream, p_encryptor, CryptoStreamMode.Read);
+                outputStreamWriter = new CStreamWriter();
+                using (CStreamReader reader = InputStream.CreateReader())
+                {
+                    p_crypto_stream = new CryptoStream((Stream)reader, p_encryptor, CryptoStreamMode.Read);
             byte[] buffer = new byte[p_alg.BlockSize / 8];
             int bytesRead;
             int position = 0;
@@ -297,17 +254,17 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             DateTime startTime = DateTime.Now;
             while ((bytesRead = p_crypto_stream.Read(buffer, 0, buffer.Length)) > 0 && !stop)
             {
-              outputStream.Write(buffer, 0, bytesRead);
+                        outputStreamWriter.Write(buffer, 0, bytesRead);
 
-              if ((int)(inputStream.Position * 100 / inputStream.Length) > position)
+                        if ((int)(reader.Position * 100 / reader.Length) > position)
               {
-                position = (int)(inputStream.Position * 100 / inputStream.Length);
-                ProgressChanged(inputStream.Position, inputStream.Length);
+                            position = (int)(reader.Position * 100 / reader.Length);
+                            ProgressChanged(reader.Position, reader.Length);
               }
             }
 
 
-            long outbytes = outputStream.Length;
+                    long outbytes = outputStreamWriter.Length;
             p_crypto_stream.Flush();            
             // p_crypto_stream.Close();
             DateTime stopTime = DateTime.Now;
@@ -317,19 +274,18 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             if (!stop)
             {
                 mode = action == 0 ? "Encryption" : "Decryption";
-                GuiLogMessage(mode + " complete! (in: " + inputStream.Length.ToString() + " bytes, out: " + outbytes.ToString() + " bytes)", NotificationLevel.Info);
-                GuiLogMessage("Wrote data to file: " + outputStream.FileName, NotificationLevel.Info);
+                        GuiLogMessage(mode + " complete! (in: " + reader.Length.ToString() + " bytes, out: " + outbytes.ToString() + " bytes)", NotificationLevel.Info);
                 GuiLogMessage("Time used: " + duration.ToString(), NotificationLevel.Debug);
-                outputStream.Close();
+                        outputStreamWriter.Close();
                 OnPropertyChanged("OutputStream");
             }
-            CryptoolStream test = outputStream;
             if (stop)
             {
-                outputStream.Close();
+                        outputStreamWriter.Close();
                 GuiLogMessage("Aborted!", NotificationLevel.Info);
             }
           }
+            }
           catch (CryptographicException cryptographicException)
           {
             // TODO: For an unknown reason p_crypto_stream can not be closed after exception.
@@ -385,26 +341,12 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             stop = false;
             inputKey = null;
             inputIV = null;
-            outputStream = null;
-            inputStream = null;
 
-            //if (inputStream != null)
-            //{
-            //  inputStream.Flush();
-            //  inputStream.Close();
-            //  inputStream = null;
-            //}
-            //if (outputStream != null)
-            //{
-            //  outputStream.Flush();
-            //  outputStream.Close();
-            //  outputStream = null;
-            //}
-            foreach (CryptoolStream stream in listCryptoolStreamsOut)
+                if (outputStreamWriter != null)
             {
-              stream.Close();
+                    outputStreamWriter.Dispose();
+                    outputStreamWriter = null;
             }
-            listCryptoolStreamsOut.Clear();
 
             if (p_crypto_stream != null)
             {

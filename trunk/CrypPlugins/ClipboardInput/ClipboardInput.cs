@@ -34,8 +34,6 @@ namespace ClipboardInput
   {
 
     #region Private Variables
-    private List<CryptoolStream> listCryptoolStreamsOut = new List<CryptoolStream>();
-    // private CryptoolStream clipboard;
     private ClipboardInputSettings settings;
 
     public ISettings Settings
@@ -78,7 +76,7 @@ namespace ClipboardInput
 
     #region Interface
     [PropertyInfo(Direction.OutputData, "Clipboard data stream", "Stream of data recieved from clipboard", "", true, false, QuickWatchFormat.Text, null)]
-    public CryptoolStream StreamOutput
+    public ICryptoolStream StreamOutput
     {
       get
       {
@@ -90,7 +88,7 @@ namespace ClipboardInput
 
         if (Data != null && Data != string.Empty)
         {
-          CryptoolStream cryptoolStream = null;
+            ICryptoolStream cryptoolStream = null;
           switch (settings.Format)
           { //0="Text", 1="Hex", 2="Base64"
             case 1:
@@ -107,7 +105,6 @@ namespace ClipboardInput
               break;
           }
           Progress(1.0, 1.0);
-          listCryptoolStreamsOut.Add(cryptoolStream);
           return cryptoolStream;
         }
         else
@@ -122,14 +119,12 @@ namespace ClipboardInput
     }
     #endregion
 
-    private CryptoolStream Text2Stream(string data)
+    private ICryptoolStream Text2Stream(string data)
     {
-      CryptoolStream cs = new CryptoolStream();
-      cs.OpenRead(this.GetPluginInfoAttribute().Caption, Encoding.Default.GetBytes(data.ToCharArray()));
-      return cs;
+        return new CStreamWriter(Encoding.Default.GetBytes(data));
     }
 
-    private CryptoolStream Base642Stream(string data)
+    private ICryptoolStream Base642Stream(string data)
     {
       byte[] temp = new byte[0];
       try
@@ -140,16 +135,13 @@ namespace ClipboardInput
       {
         GuiLogMessage(exception.Message, NotificationLevel.Error);
       }
-      CryptoolStream cs = new CryptoolStream();
-      cs.OpenRead(this.GetPluginInfoAttribute().Caption, temp);
-      return cs;      
+
+        return new CStreamWriter(temp);
     }
 
-    private CryptoolStream Hex2Stream(string data)
+    private ICryptoolStream Hex2Stream(string data)
     {
-      CryptoolStream cs = new CryptoolStream();
-      cs.OpenRead(this.GetPluginInfoAttribute().Caption, ToByteArray(data));
-      return cs;
+        return new CStreamWriter(ToByteArray(data));
     }
 
     public byte[] ToByteArray(String HexString)
@@ -193,12 +185,7 @@ namespace ClipboardInput
 
     public void Dispose()
     {
-      foreach (CryptoolStream cryptoolStream in listCryptoolStreamsOut)
-      {
-        cryptoolStream.Close();
       }
-      listCryptoolStreamsOut.Clear();
-    }
 
     public void Stop()
     {

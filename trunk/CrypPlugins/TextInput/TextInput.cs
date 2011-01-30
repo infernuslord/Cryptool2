@@ -1,4 +1,4 @@
-/*
+﻿/*
    Copyright 2008 Thomas Schmid, University of Siegen
 
    Licensed under the Apache License, Version 2.0 (the "License");
@@ -39,7 +39,6 @@ namespace Cryptool.TextInput
   public class TextInput : DependencyObject, IInput
   {
     private TextInputPresentation textInputPresentation;
-    private List<CryptoolStream> listCryptoolStreams = new List<CryptoolStream>();
 
     public TextInput()
     {
@@ -229,20 +228,14 @@ namespace Cryptool.TextInput
     }
 
     [PropertyInfo(Direction.OutputData, "Stream", "The text input converted to memory stream.", "", true, false, QuickWatchFormat.None, null)]
-    public CryptoolStream StreamOutput
+    public ICryptoolStream StreamOutput
     {
       get
       {
         byte[] arr = ByteArrayOutput;
         if (arr != null)
         {
-          CryptoolStream cryptoolStream = new CryptoolStream();
-          listCryptoolStreams.Add(cryptoolStream);
-
-          cryptoolStream.OpenRead(arr);
-          // ShowProgress(100, 100);
-          // GuiLogMessage("Got request for Stream. CryptoolStream created: " + cryptoolStream.FileName, NotificationLevel.Debug);
-          return cryptoolStream;
+            return new CStreamWriter(arr);
         }
         GuiLogMessage("Stream: No input provided. Returning null", NotificationLevel.Debug);
         // ShowProgress(100, 100);
@@ -343,12 +336,6 @@ namespace Cryptool.TextInput
 
     public void Dispose()
     {
-      foreach (CryptoolStream stream in listCryptoolStreams)
-      {
-        stream.Close();
-      }
-      listCryptoolStreams.Clear();
-
       textInputPresentation.textBoxInputText.TextChanged -= textBoxInputText_TextChanged;
     }
 

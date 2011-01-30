@@ -51,14 +51,17 @@ namespace Cryptool.StreamComparator
       SetNoComparisonYetDocument();
     }
 
-    public void SetContent(CryptoolStream stream)
+    public void SetContent(ICryptoolStream stream)
     {
       Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
       {
         try
         {
-          FlowDocument flowDocumentNew = (FlowDocument)XamlReader.Load((Stream)stream);
+            using (CStreamReader reader = stream.CreateReader())
+            {
+                FlowDocument flowDocumentNew = (FlowDocument)XamlReader.Load(reader);
           documentReader.Document = flowDocumentNew;
+        }
         }
         catch (Exception ex)
         {

@@ -62,28 +62,20 @@ namespace Cryptool.PluginBase.IO
             {
                 swapHandler();
             }
-
-            CStream = _writer.CStream;
         }
 
         #endregion
 
         #region Public properties
 
-        public CStream CStream
-        {
-            get;
-            private set;
-        }
-
         public override bool CanRead
         {
-            get { return true; }
+            get { return !_disposed; }
         }
 
         public override bool CanSeek
         {
-            get { return true; }
+            get { return !_disposed; }
         }
 
         public override bool CanWrite

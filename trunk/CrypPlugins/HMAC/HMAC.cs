@@ -38,10 +38,9 @@ namespace Cryptool.HMAC
         #region Private variables
 
         private HMACSettings settings;
-        private CryptoolStream inputData;
+        private ICryptoolStream inputData;
         private byte[] key;
         private byte[] outputData;
-        private List<CryptoolStream> streamList = new List<CryptoolStream>();
 
         #endregion
 
@@ -60,20 +59,13 @@ namespace Cryptool.HMAC
         }
 
         [PropertyInfo(Direction.InputData, "Input stream", "Input data to be processed", "", true, false, QuickWatchFormat.Hex, null)]
-        public CryptoolStream InputData
+        public ICryptoolStream InputData
         {
 
             get
             {
-                if (inputData != null)
-                {
-                    CryptoolStream cs = new CryptoolStream();
-                    cs.OpenRead(inputData.FileName);
-                    streamList.Add(cs);
-                    return cs;
+                return inputData;
                 }
-                return null;
-            }
 
             set
             {
@@ -98,17 +90,13 @@ namespace Cryptool.HMAC
         }
 
         [PropertyInfo(Direction.OutputData, "Digested value", "Digested value as stream", "", false, false, QuickWatchFormat.Hex, null)]
-        public CryptoolStream OutputDataStream
+        public ICryptoolStream OutputDataStream
         {
             get
             {
                 if (outputData != null)
                 {
-                    CryptoolStream stream = new CryptoolStream();
-                    streamList.Add(stream);
-                    stream.OpenRead(outputData);
-                    GuiLogMessage("Got request for hash (Stream)...", NotificationLevel.Debug);
-                    return stream;
+                    return new CStreamWriter(outputData);
                 }
                 else
                 {
@@ -169,7 +157,10 @@ namespace Cryptool.HMAC
                 }
 
                 hmacAlgorithm.Key = key;
-                OutputData = hmacAlgorithm.ComputeHash(inputData);
+                using (CStreamReader reader = inputData.CreateReader())
+                {
+                    OutputData = hmacAlgorithm.ComputeHash(reader);
+                }
 
                 GuiLogMessage(String.Format("HMAC computed. (using hash algorithm {0}: {1})", settings.SelectedHashFunction, hmacAlgorithm.GetType().Name), NotificationLevel.Info);
             }
@@ -189,16 +180,8 @@ namespace Cryptool.HMAC
 
         public void Dispose()
         {
-            if (inputData != null)
-            {
-                inputData.Close();
                 inputData = null;
             }
-            foreach (CryptoolStream stream in streamList)
-            {
-                stream.Close();
-            }
-        }
         #endregion
 
         #region IPlugin Members

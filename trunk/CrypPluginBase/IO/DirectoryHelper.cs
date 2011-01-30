@@ -94,6 +94,12 @@ namespace Cryptool.PluginBase.IO
                 }
             } while (File.Exists(filePath)); // sanity check for GUID collision
 
+            // ensure the temp directory exists
+            if (!Directory.Exists(DirectoryHelper.DirectoryLocalTemp))
+            {
+                Directory.CreateDirectory(DirectoryHelper.DirectoryLocalTemp);
+            }
+
             return filePath;
         }
     }

@@ -32,7 +32,7 @@ namespace Concatenate
   public class Concatenate : IThroughput
   {
     # region Fields
-    private List<CryptoolStream> listCryptoolStreamsOut = new List<CryptoolStream>();
+    private List<IDisposable> listCryptoolStreamsOut = new List<IDisposable>();
     private readonly string inputOne = "InputOne";
     private readonly string inputTwo = "InputTwo";
     private readonly string outputOne = "OutputOne";
@@ -97,7 +97,7 @@ namespace Concatenate
       switch (settings.CurrentDataType)
       {
         case ConcatenateSettings.DataTypes.CryptoolStream:
-          return typeof(CryptoolStream);
+          return typeof(ICryptoolStream);
         case ConcatenateSettings.DataTypes.String:
           return typeof(string);
         case ConcatenateSettings.DataTypes.ByteArray:
@@ -114,7 +114,7 @@ namespace Concatenate
     private QuickWatchFormat getQuickWatchFormat()
     {
       Type type = getCurrentType();
-      if (type == typeof(CryptoolStream))
+      if (type == typeof(ICryptoolStream))
         return QuickWatchFormat.Hex;
       else if (type == typeof(string))
         return QuickWatchFormat.Text;
@@ -150,7 +150,6 @@ namespace Concatenate
         if (DicDynamicProperties.ContainsKey(propertyKey))
         {
           DicDynamicProperties[propertyKey].Value = value;
-          if (value is CryptoolStream) listCryptoolStreamsOut.Add((CryptoolStream)value);
           OnPropertyChanged(propertyKey);
         }
         // Fire output on value Pair. 
@@ -165,10 +164,9 @@ namespace Concatenate
           {
             #region CryptoolStream
             case ConcatenateSettings.DataTypes.CryptoolStream:
-              CryptoolStream stream1 = val1 as CryptoolStream;
-              CryptoolStream stream2 = val2 as CryptoolStream;
-              CryptoolStream returnStream = new CryptoolStream();
-              returnStream.OpenWrite();
+              CStreamReader stream1 = (val1 as ICryptoolStream).CreateReader();
+              CStreamReader stream2 = (val2 as ICryptoolStream).CreateReader();
+              CStreamWriter returnStream = new CStreamWriter();
               byte[] byteValues = new byte[1024];
               int byteRead;
               int position = 0;
@@ -250,8 +248,6 @@ namespace Concatenate
         if (DicDynamicProperties.ContainsKey(propertyKey))
         {
           DicDynamicProperties[propertyKey].Value = value;
-          if (value is CryptoolStream) 
-            listCryptoolStreamsOut.Add((CryptoolStream)value);
           OnPropertyChanged(propertyKey);
         }
       }
@@ -268,13 +264,6 @@ namespace Concatenate
       {
         if (DicDynamicProperties.ContainsKey(propertyKey))
         {
-          if (DicDynamicProperties[propertyKey].Value is CryptoolStream)
-          {
-            CryptoolStream cryptoolStream = new CryptoolStream();
-            cryptoolStream.OpenRead((DicDynamicProperties[propertyKey].Value as CryptoolStream).FileName);
-            listCryptoolStreamsOut.Add(cryptoolStream);
-            return cryptoolStream;
-          }
           return DicDynamicProperties[propertyKey].Value;
         }
       }
@@ -320,7 +309,6 @@ namespace Concatenate
 
     public void PreExecution()
     {
-      Dispose();
     }
 
     public void Execute()
@@ -329,7 +317,9 @@ namespace Concatenate
 
     public void PostExecution()
     {
-      Dispose();
+        DicDynamicProperties[inputOne].Value = null;
+        DicDynamicProperties[inputTwo].Value = null;
+        DicDynamicProperties[outputOne].Value = null;
     }
 
     public void Pause()
@@ -346,19 +336,7 @@ namespace Concatenate
 
     public void Dispose()
     {
-      foreach (CryptoolStream cryptoolStream in listCryptoolStreamsOut)
-      {
-        cryptoolStream.Close();
       }
-      listCryptoolStreamsOut.Clear();
-      // This values have to be set to null here because it might be CryptoolStreams. 
-      // The files will be deleted before each run. So the quickWatch calls on PreExec
-      // will produce an exception, because MethodGetValue tries to access the old files if not 
-      // set to null here.
-      DicDynamicProperties[inputOne].Value = null;
-      DicDynamicProperties[inputTwo].Value = null;
-      DicDynamicProperties[outputOne].Value = null;
-    }
 
     #endregion
 

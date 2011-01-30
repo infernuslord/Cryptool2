@@ -22,13 +22,12 @@ namespace Cryptool.Plugins.Cryptography.Encryption
     {
         #region Private variables
         private TripleDESSettings settings;
-        private CryptoolStream inputStream;
-        private CryptoolStream outputStream;
+        private ICryptoolStream inputStream;
+        private CStreamWriter outputStreamWriter;
         private byte[] inputKey;
         private byte[] inputIV;
         private CryptoStream p_crypto_stream;
         private bool stop = false;
-        private List<CryptoolStream> listCryptoolStreamsOut = new List<CryptoolStream>();
         #endregion
 
         public TripleDES()
@@ -49,24 +48,15 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         }
 
         [PropertyInfo(Direction.InputData, "Input", "Data to be encrypted or decrypted", null, true, false,QuickWatchFormat.Hex, null)]
-        public CryptoolStream InputStream
+        public ICryptoolStream InputStream
         {
             get
             {
-                if (inputStream != null)
-                {
-                    CryptoolStream cs = new CryptoolStream();
-                    cs.OpenRead(inputStream.FileName);
-                    listCryptoolStreamsOut.Add(cs);
-                    return cs;
+                return inputStream;
                 }
-                else return null;
-            }
             set
             {
                 this.inputStream = value;
-                if (value != null) listCryptoolStreamsOut.Add(value);
-                OnPropertyChanged("InputStream");
             }
         }
 
@@ -94,24 +84,16 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         }
 
         [PropertyInfo(Direction.OutputData, "Output stream", "Encrypted or decrypted output data", null, true, false,QuickWatchFormat.Hex, null)]
-        public CryptoolStream OutputStream
+        public ICryptoolStream OutputStream
         {
             get
             {
-                if (this.outputStream != null)
-                {
-                    CryptoolStream cs = new CryptoolStream();
-                    listCryptoolStreamsOut.Add(cs);
-                    cs.OpenRead(this.outputStream.FileName);
-                    return cs;
+                return outputStreamWriter;
                 }
-                return null;
-            }
             set
             {
-                outputStream = value;
-                if (value != null) listCryptoolStreamsOut.Add(value);
-                OnPropertyChanged("OutputStream");
+                //wander 20100520: unnecessary, propagated by Execute()
+                //OnPropertyChanged("OutputStream");
             }
         }
 
@@ -154,12 +136,11 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
         private void checkForInputStream()
         {
-            if (settings.Action == 0 && (inputStream == null || (inputStream != null && inputStream.Length == 0)))
+            if (settings.Action == 0 && (inputStream == null || inputStream.Length == 0))
             {
                 //create some input
                 String dummystring = "Dummy string - no input provided - \"Hello TripleDES World\" - dummy string - no input provided!";
-                this.inputStream = new CryptoolStream();
-                this.inputStream.OpenRead(this.GetPluginInfoAttribute().Caption, Encoding.Default.GetBytes(dummystring.ToCharArray()));
+                this.inputStream = new CStreamWriter(Encoding.Default.GetBytes(dummystring));
                 // write a warning to the ouside word
                 GuiLogMessage("WARNING - No input provided. Using dummy data. (" + dummystring + ")", NotificationLevel.Warning);
             }
@@ -176,13 +157,14 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             try
             {
                 checkForInputStream();
-                if (inputStream == null || (inputStream != null && inputStream.Length == 0))
+                if (inputStream == null || inputStream.Length == 0)
                 {
                     GuiLogMessage("No input given. Not using dummy data in decrypt mode. Aborting now.", NotificationLevel.Error);
                     return;
                 }
 
-                if (this.inputStream.CanSeek) this.inputStream.Position = 0;
+                using (CStreamReader reader = inputStream.CreateReader())
+                {
                 SymmetricAlgorithm p_alg = new TripleDESCryptoServiceProvider();
 
                 ConfigureAlg(p_alg);
@@ -198,10 +180,8 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                         break;
                 }
 
-                outputStream = new CryptoolStream();
-                listCryptoolStreamsOut.Add(outputStream);
-                outputStream.OpenWrite(this.GetPluginInfoAttribute().Caption);
-                p_crypto_stream = new CryptoStream((Stream)inputStream, p_encryptor, CryptoStreamMode.Read);
+                    outputStreamWriter = new CStreamWriter();
+                    p_crypto_stream = new CryptoStream(reader, p_encryptor, CryptoStreamMode.Read);
                 byte[] buffer = new byte[p_alg.BlockSize / 8];
                 int bytesRead;
                 int position = 0;
@@ -209,24 +189,22 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                 DateTime startTime = DateTime.Now;
                 while ((bytesRead = p_crypto_stream.Read(buffer, 0, buffer.Length)) > 0 && !stop)
                 {
-                    outputStream.Write(buffer, 0, bytesRead);
+                        outputStreamWriter.Write(buffer, 0, bytesRead);
 
-                    if ((int)(inputStream.Position * 100 / inputStream.Length) > position)
+                        if ((int)(reader.Position * 100 / reader.Length) > position)
                     {
-                        position = (int)(inputStream.Position * 100 / inputStream.Length);
-                        ProgressChanged(inputStream.Position, inputStream.Length);
+                            position = (int)(reader.Position * 100 / reader.Length);
+                            ProgressChanged(reader.Position, reader.Length);
                     }
                 }
                 p_crypto_stream.Flush();
                 // p_crypto_stream.Close();
-                outputStream.Close();
+                    outputStreamWriter.Close();
                 DateTime stopTime = DateTime.Now;
                 TimeSpan duration = stopTime - startTime;
-                // (outputStream as CryptoolStream).FinishWrite();
                 if (!stop)
                 {
-                    GuiLogMessage("Encryption complete! (in: " + inputStream.Length.ToString() + " bytes, out: " + outputStream.Length.ToString() + " bytes)", NotificationLevel.Info);
-                    GuiLogMessage("Wrote data to file: " + outputStream.FileName, NotificationLevel.Info);
+                        GuiLogMessage("Encryption complete! (in: " + reader.Length.ToString() + " bytes, out: " + outputStreamWriter.Length.ToString() + " bytes)", NotificationLevel.Info);
                     GuiLogMessage("Time used: " + duration.ToString(), NotificationLevel.Debug);
                     OnPropertyChanged("OutputStream");
                 }
@@ -234,6 +212,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                 {
                     GuiLogMessage("Aborted!", NotificationLevel.Info);
                 }
+            }
             }
             catch (CryptographicException cryptographicException)
             {
@@ -289,12 +268,6 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                 stop = false;
                 inputKey = null;
                 inputIV = null;
-
-                foreach (CryptoolStream stream in listCryptoolStreamsOut)
-                {
-                    stream.Close();
-                }
-                listCryptoolStreamsOut.Clear();
 
                 if (p_crypto_stream != null)
                 {

@@ -1,4 +1,4 @@
-/*
+﻿/*
    Copyright 2008 Thomas Schmid, University of Siegen
 
    Licensed under the Apache License, Version 2.0 (the "License");
@@ -30,7 +30,7 @@ namespace Multiplexer
 
     public enum DataTypes
     {
-      CryptoolStream, String, ByteArray, Boolean, Integer
+      ICryptoolStream, String, ByteArray, Boolean, Integer
     }
 
     private Mux MyMux { get; set; }
@@ -96,7 +96,7 @@ namespace Multiplexer
       }
     }
     
-    [TaskPane("Type", "Select DataType of plugin.", "", 2, false, ControlType.ComboBox, new string[] { "CryptoolStream", "string", "byte[]", "boolean", "int" } )]
+    [TaskPane("Type", "Select DataType of plugin.", "", 2, false, ControlType.ComboBox, new string[] { "ICryptoolStream", "string", "byte[]", "boolean", "int" } )]
     public int DataType
     {
       get { return (int)CurrentDataType; }

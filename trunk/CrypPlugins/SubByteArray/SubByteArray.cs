@@ -38,7 +38,6 @@ namespace Cryptool.Plugins.SubByteArrayCryptoolStream
         private byte[] inputDataBytes;
 
         private byte[] outputData;
-        private List<CryptoolStream> listCryptoolStreamsOut = new List<CryptoolStream>();
 
         #endregion
 

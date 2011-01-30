@@ -121,12 +121,7 @@ namespace Twofish
     /// </summary>
     public void Dispose()
     {
-      foreach (CryptoolStream stream in listCryptoolStreamsOut)
-      {
-        stream.Close();
       }
-      listCryptoolStreamsOut.Clear();
-    }
 
     #endregion
 
@@ -151,30 +146,31 @@ namespace Twofish
 		/// <value>The input inputdata.</value>
 		[PropertyInfo(Direction.InputData, "Input Data Stream", "Input data stream to process", "", 
       false, false, QuickWatchFormat.Hex, null)]
-		public CryptoolStream InputStream
+		public ICryptoolStream InputStream
 		{
 			get
 			{
-				CryptoolStream inputStream = new CryptoolStream();
-				inputStream.OpenRead(this.GetPluginInfoAttribute().Caption, inputdata);
-				return inputStream;
+                if (inputdata == null)
+                {
+                    return null;
+			}
+                else
+                {
+                    return new CStreamWriter(inputdata);
+                }
 			}
 			set
 			{
-        if (null == value)
+                if (value != null)
         {
-          inputdata = new byte[0];
-          return;
+                    using (CStreamReader reader = value.CreateReader())
+                    {
+                        inputdata = reader.ReadFully();
         }
-
-				long len = value.Length;
-				inputdata = new byte[len];
-
-				for (long i = 0; i < len; i++)
-					inputdata[i] = (byte)value.ReadByte();
 
 				NotifyUpdateInput();
 			}
+		}
 		}
 
 		/// <summary>
@@ -227,28 +223,32 @@ namespace Twofish
     /// <value>The key data.</value>
     [PropertyInfo(Direction.InputData, "Key Stream", "Key - Input key data", 
       "", false, false, QuickWatchFormat.Hex, null)]
-    public CryptoolStream KeyStream
+    public ICryptoolStream KeyStream
     {
       get
       {
-        CryptoolStream keyDataStream = new CryptoolStream();
-        keyDataStream.OpenRead(this.GetPluginInfoAttribute().Caption, key);
-        return keyDataStream;
+          if (key == null)
+          {
+              return null;
+      }
+          else
+          {
+              return new CStreamWriter(key);
+          }
       }
       set
       {
-        if (null == value)
-          return;
-
-        long len = value.Length;
-        key = new byte[len];
-
-        for (long i = 0; i < len; i++)
-          key[i] = (byte)value.ReadByte();
+        if (value != null)
+        {
+            using (CStreamReader reader = value.CreateReader())
+            {
+                GuiLogMessage("KeyStream changed.", NotificationLevel.Debug);
+                key = reader.ReadFully();
+            }
 
         NotifyUpdateKey();
-        GuiLogMessage("KeyStream changed.", NotificationLevel.Debug);
       }
+    }
     }
 
     /// <summary>
@@ -307,7 +307,6 @@ namespace Twofish
     #region Output
 
     // Output
-    private List<CryptoolStream> listCryptoolStreamsOut = new List<CryptoolStream>();
     private byte[] outputData = { };
 
     /// <summary>
@@ -326,19 +325,19 @@ namespace Twofish
     /// <value>The output inputdata stream.</value>
     [PropertyInfo(Direction.OutputData, "Output Stream", "Output stream", "",
       true, false, QuickWatchFormat.Hex, null) ]
-    public CryptoolStream OutputStream
+    public ICryptoolStream OutputStream
     {
       get
       {
-        CryptoolStream outputDataStream = null;
-        if (outputData != null)
+          if (outputData == null)
         {
-          outputDataStream = new CryptoolStream();
-          outputDataStream.OpenRead(this.GetPluginInfoAttribute().Caption, outputData);
-          listCryptoolStreamsOut.Add(outputDataStream);
+              return null;
         }
-        return outputDataStream;
+          else
+          {
+              return new CStreamWriter(outputData);
       }
+    }
     }
 
     /// <summary>

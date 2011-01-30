@@ -58,7 +58,6 @@ namespace Cryptool.LFSR
         private bool[] outputBoolArray;
         
         private LFSRPresentation lFSRPresentation;
-        private List<CryptoolStream> listCryptoolStreamsOut = new List<CryptoolStream>();
 
         #endregion
 

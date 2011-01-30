@@ -33,7 +33,6 @@ namespace Cryptool.Plugins.Collector
     {
         #region Private Variables
         private CollectorSettings settings = new CollectorSettings();
-        private List<CryptoolStream> listCryptoolStreamOut = new List<CryptoolStream>();
         private bool freshOutput = false;
         #endregion
 
@@ -83,14 +82,6 @@ namespace Cryptool.Plugins.Collector
             }
             set
             {
-                if (value is CryptoolStream)
-                {
-                    CryptoolStream cs = new CryptoolStream();
-                    cs.OpenRead((value as CryptoolStream).FileName);
-                    listCryptoolStreamOut.Add(cs);
-                    output = cs;
-                }
-                else
                     output = value;
             }
         }
@@ -174,8 +165,6 @@ namespace Cryptool.Plugins.Collector
 
         public void Dispose()
         {
-            foreach (CryptoolStream cs in listCryptoolStreamOut)
-                cs.Close();
         }
 
         #endregion
