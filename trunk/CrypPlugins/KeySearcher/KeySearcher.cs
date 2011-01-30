@@ -292,7 +292,6 @@ namespace KeySearcher
             localQuickWatchPresentation = ((QuickWatch) QuickWatchPresentation).LocalQuickWatchPresentation;
             p2PQuickWatchPresentation = ((QuickWatch)QuickWatchPresentation).P2PQuickWatchPresentation;
             p2PQuickWatchPresentation.UpdateSettings(this, settings);
-            ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.UpdateInformation(this,settings);
 
             settings.PropertyChanged += SettingsPropertyChanged;
             ((QuickWatch)QuickWatchPresentation).IsOpenCLEnabled = (settings.DeviceSettings.Count(x => x.useDevice) > 0);
@@ -311,7 +310,6 @@ namespace KeySearcher
             ((QuickWatch)QuickWatchPresentation).IsP2PEnabled = settings.UsePeerToPeer;
             ((QuickWatch)QuickWatchPresentation).IsOpenCLEnabled = (settings.DeviceSettings.Count(x => x.useDevice) > 0);
             p2PQuickWatchPresentation.UpdateSettings(this, settings);
-            ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.UpdateInformation(this, settings);
         }
 
         public ISettings Settings
@@ -1313,12 +1311,35 @@ namespace KeySearcher
             return statistic;
         }
 
+        private DateTime startDate;
+        public void SetBeginningDate(DateTime sd)
+        {
+            startDate = sd;
+        }
+
         public void ResetStatistics()
         {
             statistic = null;
             statistic = new Dictionary<string, Dictionary<long, Information>>();
             maschinehierarchie = null;
             maschinehierarchie = new Dictionary<long, Maschinfo>();
+        }
+
+        public void InitialiseInformationQuickwatch()
+        {
+            if (Pattern == null || !Pattern.testWildcardKey(settings.Key) || settings.ChunkSize == 0)
+            {
+                return;
+            }
+
+            var keyPattern = Pattern;
+            var keysPerChunk = Math.Pow(2, settings.ChunkSize);
+            var keyPatternPool = new KeyPatternPool(keyPattern, new BigInteger(keysPerChunk));
+
+            ((QuickWatch) QuickWatchPresentation).StatisticsPresentation.TotalBlocks = keyPatternPool.Length;
+            ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.TotalKeys = new BigInteger(keysPerChunk) * keyPatternPool.Length;    
+            ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.Days = DateTime.UtcNow.Subtract(startDate).Days + " Days";
+            UpdateStatisticsPresentation();
         }
 
         internal void IntegrateNewResults(LinkedList<ValueKey> updatedCostList, Dictionary<string, Dictionary<long, Information>> updatedStatistics, string dataIdentifier)
@@ -1370,14 +1391,25 @@ namespace KeySearcher
                 statistic[avname] = statistic[avname].OrderByDescending((x) => x.Value.Count).ToDictionary(x => x.Key, y => y.Value);
             }
             GenerateMaschineStats();
-
             //The following Method can be used to write a local csv file with the User/Maschine Statistics.
             //WriteStatistics(dataIdentifier);
+            UpdateStatisticsPresentation();
             
+            updateToplist();
+        }
+
+        //Update the Statistic Presentation
+        internal void UpdateStatisticsPresentation()
+        {
+            var calcChunks = calculatedChunks();
             ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.Statistics = statistic;
             ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.MachineHierarchy = maschinehierarchie;
-
-            updateToplist();
+            ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.Days = DateTime.UtcNow.Subtract(startDate).Days + " Days";
+            ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.CalculatedBlocks = calcChunks;
+            ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.CalculatedKeys = calcChunks * (BigInteger)Math.Pow(2, settings.ChunkSize);
+            ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.Percent = (double)calcChunks;
+            ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.Users = statistic.Keys.Count;
+            ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.Machines = maschinehierarchie.Keys.Count;
         }
 
         //Write the User Statistics to an external csv-document
@@ -1462,6 +1494,11 @@ namespace KeySearcher
             }
 
             maschinehierarchie = maschinehierarchie.OrderByDescending((x) => x.Value.Sum).ToDictionary(x => x.Key, y => y.Value);
+        }
+
+        internal BigInteger calculatedChunks()
+        {
+            return maschinehierarchie.Keys.Aggregate<long, BigInteger>(0, (current, mid) => current + maschinehierarchie[mid].Sum);
         }
 
         private static DateTime defaultstart = DateTime.MinValue;
