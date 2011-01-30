@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -37,6 +38,7 @@ namespace Wizard
         private const string defaultLang = "en";
         private XElement wizardConfigXML;
         private Dictionary<string, PluginPropertyValue> propertyValueDict = new Dictionary<string, PluginPropertyValue>();
+        private HashSet<TextBox> boxesWithWrongContent = new HashSet<TextBox>();
 
         internal event OpenTabHandler OnOpenTab;
         internal event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
@@ -149,7 +151,7 @@ namespace Wizard
                 abortButton.IsEnabled = true;
             }
 
-            nextButton.IsEnabled = false;
+            //nextButton.IsEnabled = false;
 
             //set headline
             XElement headline = FindElementsInElement(element, "headline").First();
@@ -172,8 +174,6 @@ namespace Wizard
                 inputs = inputs.Union(element.Elements("checkBox"));
                 inputStack.Children.Clear();
 
-                FillInputStack(inputs, element.Name.ToString());
-
                 inputPanel.Tag = element.Element("input");
                 if (inputPanel.Tag == null)
                     inputPanel.Tag = element.Element("category");
@@ -182,8 +182,10 @@ namespace Wizard
                 if (inputPanel.Tag == null)
                     inputPanel.Tag = element.Element("output");
 
-                if (inputPanel.Tag != null)
-                    nextButton.IsEnabled = true;
+                //if (inputPanel.Tag != null)
+                //    nextButton.IsEnabled = true;
+
+                FillInputStack(inputs, element.Name.ToString());
 
                 string id = GetElementID((XElement)inputPanel.Tag);
 
@@ -265,7 +267,7 @@ namespace Wizard
                             choicePath.RemoveAt(choicePath.IndexOf(choicePath.Last()));
                             rb.IsChecked = true;
                             isSelected = true;
-                            nextButton.IsEnabled = true;
+                            //nextButton.IsEnabled = true;
                         }
                     }
 
@@ -376,6 +378,16 @@ namespace Wizard
 
                 if (isInput)
                 {
+                    if (input.Attribute("regex") != null)
+                    {
+                        var regex = new Regex(input.Attribute("regex").Value, RegexOptions.Compiled);
+
+                        textBox.TextChanged += delegate
+                        {
+                            CheckRegex(textBox, regex);
+                        };
+                    }
+
                     if (propertyValueDict.ContainsKey(GetElementID(input)))
                         textBox.Text = (string) propertyValueDict[GetElementID(input)].Value;
                     else if (input.Attribute("defaultValue") != null)
@@ -394,6 +406,7 @@ namespace Wizard
                         }
                     }
                 }
+
                 element = textBox;
             }
             else if (input.Name == "comboBox")
@@ -499,6 +512,25 @@ namespace Wizard
                 element.IsEnabled = false;
 
             return element;
+        }
+
+        private void CheckRegex(TextBox textBox, Regex regex)
+        {
+            var match = regex.Match(textBox.Text);
+            if (!match.Success || match.Index != 0 || match.Length != textBox.Text.Length)
+            {
+                textBox.Style = (Style) FindResource("TextInputInvalid");
+                GuiLogMessage(string.Format("Content of textbox does not fit regular expression {0}.", regex.ToString()), NotificationLevel.Error);
+                boxesWithWrongContent.Add(textBox);
+                nextButton.IsEnabled = false;
+            }
+            else
+            {
+                textBox.Style = null;
+                boxesWithWrongContent.Remove(textBox);
+                if (boxesWithWrongContent.Count == 0)
+                    nextButton.IsEnabled = true;
+            }
         }
 
         private string GetElementID(XElement element)
@@ -735,6 +767,7 @@ namespace Wizard
                 //{
                 //    DeleteControlContent(child);
                 //}
+                boxesWithWrongContent.Clear();
 
                 ele = (XElement) inputPanel.Tag;
             }

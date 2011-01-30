@@ -57,6 +57,11 @@
             <Setter Property="Margin" Value="20, 3, 0, 10"/>
         </Style>
         
+        <Style x:Key="TextInputInvalid" TargetType="Control">
+            <Setter Property="BorderBrush" Value="Red"/>
+            <Setter Property="BorderThickness" Value="5"/>
+        </Style>
+        
         <Storyboard x:Key="MainGridStoryboardNext1">
             <DoubleAnimation Storyboard.TargetName="MainGridTransform" Storyboard.TargetProperty="X" From="0" To="-1500" Duration="0:0:0.5" Completed="SetNextContent"/>
         </Storyboard>
