@@ -52,6 +52,10 @@
                 </EventTrigger>
             </Style.Triggers>
         </Style>
+
+        <Style x:Key="InputFieldStyle" TargetType="FrameworkElement">
+            <Setter Property="Margin" Value="20, 3, 0, 10"/>
+        </Style>
         
         <Storyboard x:Key="MainGridStoryboardNext1">
             <DoubleAnimation Storyboard.TargetName="MainGridTransform" Storyboard.TargetProperty="X" From="0" To="-1500" Duration="0:0:0.5" Completed="SetNextContent"/>

@@ -11,7 +11,7 @@
   <desc lang="en" >Select a classic encryption/decryption algorithm.</desc>
 
   <!-- Caesar input -->
-  <input id ="Caesar" image="Caesar">
+  <input image="Caesar">
     <name lang="en" >Caesar</name>
     <description lang="en" >
       This encryption algorithm already used by the Roman general and dictator Caesar substitutes single letters: The substitution rule is that the letters of the cleartext alphabet are shifted by a special value (key).
@@ -20,13 +20,13 @@
     <headline lang="en" >Message Input</headline>
     <desc lang="en" >Here, you can enter the message to encrypt and select input format and encodings.</desc>
     
-    <inputBox plugin="TextInput1" property="Text" defaultValue="Input your Message here!">
+    <inputBox plugin="TextInput1" property="Text" defaultValue="Input your Message here!" alignment="Right" width="80%" visibleLines="10">
       <description lang="en">
         Message to encrypt: 
       </description>
     </inputBox>
     
-    <comboBox plugin="TextInput1" property="EncodingSetting" defaultValue="0">
+    <comboBox plugin="TextInput1" property="EncodingSetting" defaultValue="0" alignment="Left" width="100">
       <description lang="en">
         Character Encoding type:
       </description>
@@ -39,7 +39,7 @@
       <item content="Big endian unicode" lang="en"/>
     </comboBox>
     
-    <comboBox plugin="TextInput1" property="InputFormatSetting" defaultValue="0">
+    <comboBox plugin="TextInput1" property="InputFormatSetting" defaultValue="0" alignment="Center" width="20%">
       <description lang="en">
         Input Format:
       </description>
@@ -47,8 +47,43 @@
       <item content="Hex" lang="en"/>
       <item content="Base64" lang="en"/>
     </comboBox>
-    
-    <loadSample file="WorkspaceManagerSamples\Caesar_Sample.cwm" title="W_Caesar_Sample"/>
+
+    <output>
+      <name lang="en">Summary</name>
+      <description lang="en" >
+        Bla bla.
+      </description>
+
+      <inputBox plugin="TextInput1" property="Text" alignment="Right" width="80%" visibleLines="10">
+        <description lang="en">
+          Message to encrypt:
+        </description>
+      </inputBox>
+
+      <comboBox plugin="TextInput1" property="EncodingSetting" defaultValue="0" alignment="Left" width="100">
+        <description lang="en">
+          Character Encoding type:
+        </description>
+        <item content="Default system encoding" lang="en"/>
+        <item content="Unicode" lang="en"/>
+        <item content="UTF-7" lang="en"/>
+        <item content="UTF-8" lang="en"/>
+        <item content="UTF-32" lang="en"/>
+        <item content="ASCII" lang="en"/>
+        <item content="Big endian unicode" lang="en"/>
+      </comboBox>
+
+      <comboBox plugin="TextInput1" property="InputFormatSetting" defaultValue="0" alignment="Center" width="20%">
+        <description lang="en">
+          Input Format:
+        </description>
+        <item content="Plain text" lang="en"/>
+        <item content="Hex" lang="en"/>
+        <item content="Base64" lang="en"/>
+      </comboBox>
+      
+      <loadSample file="WorkspaceManagerSamples\Caesar_Sample.cwm" title="W_Caesar_Sample"/>
+    </output>
     
   </input>
 
