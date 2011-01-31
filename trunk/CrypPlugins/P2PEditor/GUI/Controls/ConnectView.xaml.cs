@@ -90,6 +90,16 @@ namespace Cryptool.P2PEditor.GUI.Controls
             EmailVerificationRequired = false;
             WrongPassword = false;
 
+            string password = null;
+            if (P2PSettings.Default.RememberPassword)
+            {
+                password = P2PBase.DecryptString(P2PSettings.Default.Password);
+            }
+            else
+            {
+                password = P2PBase.DecryptString(P2PBase.Password);
+            }
+
             try
             {
                 if (!Directory.Exists(PeerCertificate.DEFAULT_USER_CERTIFICATE_DIRECTORY))
@@ -108,8 +118,9 @@ namespace Cryptool.P2PEditor.GUI.Controls
 
             try
             {
+                     
                 if (CertificateServices.GetPeerCertificateByAvatar(PeerCertificate.DEFAULT_USER_CERTIFICATE_DIRECTORY,
-                    P2PSettings.Default.PeerName, P2PBase.DecryptString(P2PSettings.Default.Password)) == null)
+                    P2PSettings.Default.PeerName, password) == null)
                 {                    
                     HaveCertificate = false;                
                 }
@@ -135,7 +146,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
                     certificateClient.ProgramVersion = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.ToString();
                     certificateClient.InvalidCertificateRequest += InvalidCertificateRequest;
                     certificateClient.CertificateReceived += CertificateReceived;
-                    certificateClient.RequestCertificate(new CertificateRequest(P2PSettings.Default.PeerName, null, P2PBase.DecryptString(P2PSettings.Default.Password)));
+                    certificateClient.RequestCertificate(new CertificateRequest(P2PSettings.Default.PeerName, null, password));
                 }
                 catch (Exception ex)
                 {
@@ -252,10 +263,16 @@ namespace Cryptool.P2PEditor.GUI.Controls
             ((P2PEditorSettings)((P2PEditor)GetValue(P2PEditorProperty)).Settings).Password = this.Password.Password;
         }
 
+        private void RememberPasswordCheckbox_Click(object sender, RoutedEventArgs e)
+        {
+            ((P2PEditorSettings)((P2PEditor)GetValue(P2PEditorProperty)).Settings).RememberPassword = (bool)this.RememberPasswordCheckbox.IsChecked;
+        }
+
         private void P2PUserControl_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {            
             this.Username.Text = ((P2PEditorSettings)((P2PEditor)GetValue(P2PEditorProperty)).Settings).PeerName;
             this.Password.Password = ((P2PEditorSettings)((P2PEditor)GetValue(P2PEditorProperty)).Settings).Password;
+            this.RememberPasswordCheckbox.IsChecked = ((P2PEditorSettings)((P2PEditor)GetValue(P2PEditorProperty)).Settings).RememberPassword;
             this.RaiseP2PConnectingEvent(IsP2PConnecting);
         }
 
@@ -279,12 +296,24 @@ namespace Cryptool.P2PEditor.GUI.Controls
                         this.Password.Password = ((P2PEditorSettings)sender).Password;
                     }
                 //},null);
-            }            
+            }
+            if (args.PropertyName.Equals("RememberPassword"))
+            {
+                //this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                //{
+                if (this.RememberPasswordCheckbox.IsChecked != ((P2PEditorSettings)sender).RememberPassword)
+                {
+                    this.RememberPasswordCheckbox.IsChecked = ((P2PEditorSettings)sender).RememberPassword;
+                }
+                //},null);
+            }
         }
 
         private void P2PUserControl_Loaded(object sender, RoutedEventArgs e)
         {
             ((P2PEditorSettings)((P2PEditor)GetValue(P2PEditorProperty)).Settings).PropertyChanged += OnPropertyChanged_Settings;
         }
+
+        
     }
 }

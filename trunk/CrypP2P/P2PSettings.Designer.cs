@@ -217,6 +217,18 @@ namespace Cryptool.P2P {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool RememberPassword {
+            get {
+                return ((bool)(this["RememberPassword"]));
+            }
+            set {
+                this["RememberPassword"] = value;
+            }
+        }
+	
+	[global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("- offline -")]
         public string NetSize {
             get {
@@ -226,5 +238,6 @@ namespace Cryptool.P2P {
                 this["NetSize"] = value;
             }
         }
+
     }
 }

@@ -259,6 +259,24 @@ namespace Cryptool.P2PEditor.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Remember Password.
+        /// </summary>
+        internal static string rememberPassword_caption {
+            get {
+                return ResourceManager.GetString("rememberPassword_caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remember Password.
+        /// </summary>
+        internal static string rememberPassword_tooltip {
+            get {
+                return ResourceManager.GetString("rememberPassword_tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Server.
         /// </summary>
         internal static string server_settings {

@@ -118,7 +118,17 @@ namespace Cryptool.P2P.Internal
                 return false;
             }
 
-            if (String.IsNullOrEmpty(P2PSettings.Default.Password))
+            string password = null;
+            if (P2PSettings.Default.RememberPassword)
+            {
+                password = P2PBase.DecryptString(P2PSettings.Default.Password);
+            }
+            else
+            {
+                password = P2PBase.DecryptString(P2PBase.Password);
+            }
+
+            if (String.IsNullOrEmpty(password))
             {
                 P2PManager.GuiLogMessage("Peer-to-peer not fully configured: password missing.",
                                          NotificationLevel.Info);
