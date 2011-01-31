@@ -12,669 +12,567 @@ using System.Threading;
 
 namespace WebService
 {
-   public class SignatureValidator
-   {
-       private XmlDocument inputString, tempdocument;
-       private ArrayList wsSecurityHeaderElements;
-       private ArrayList referenceList,encryptedDataList, decryptedDataList, encryptedKeyElements;
-       private XmlElement reference;
-       private WSSecurityTracer tracer;
-       public string canonicalizedSignedInfo;
-       private WebService webService;
-       private SignedXml signedXml;
-       private ArrayList signatureReferenceList;
-       private XmlElement transformedElement;
-       private Canonicalizator canon;
-       private XmlNode securityHeader;
-       public bool valid;
-       
-       private struct SignatureReference
-       {
-          public int nr;
-          public Signature signature;
-          public ArrayList references;
-       }
-      
-       public SignatureValidator(WebService webService)
-       {
-           valid = true;
-           this.inputString = (XmlDocument)webService.InputString.Clone();
-           this.canon = new Canonicalizator(this.inputString);
-           this.tempdocument = (XmlDocument)this.inputString.Clone();
-           this.wsSecurityHeaderElements = new ArrayList();
-           encryptedDataList = new ArrayList();
-           decryptedDataList = new ArrayList();
-           encryptedKeyElements = new ArrayList();
-           this.referenceList = new ArrayList();
-           this.webService = webService;
+    public class SignatureValidator
+    {
+        #region Fields
 
-          signedXml = new SignedXml(inputString);
-          signatureReferenceList = new ArrayList();
-         securityHeader= this.inputString.GetElementsByTagName("wsse:Security")[0];
-         if (securityHeader != null)
-         {
-             foreach (XmlElement tempElement in securityHeader)
-             {
-                 if (tempElement.Name.Equals("xenc:EncryptedData"))
-                 {
-                     this.dercryptElement((XmlElement)wsSecurityHeaderElements[0]);
-                     this.fillSecurityHeaderElementsList();
-                 }
-                 this.wsSecurityHeaderElements.Add(tempElement);
-             }
-         }
+        private XmlDocument _inputDocument;
+        private XmlDocument _tempdocument;
+        private ArrayList _wsSecurityHeaderList;
+        private ArrayList _referenceList;
+        private ArrayList _encryptedDataList;
+        private ArrayList _decryptedDataList;
+        private ArrayList _encryptedKeyElements;
+        private XmlElement _reference;
+        private WSSecurityTracer _tracer;
+        public string _canonicalizedSignedInfo;
+        private WebService _webService;
+        private SignedXml _signedXml;
+        private ArrayList _signatureReferenceList;
+        private XmlElement transformedElement;
+        private Canonicalizator _canonicalizator;
+        private XmlNode _securityHeader;
+        private bool _valid;
+        private struct SignatureReference
+        {
+            public int nr;
+            public ArrayList references;
+        }
 
-        
-           tracer = new WSSecurityTracer();
-           
-        
-          foreach (XmlElement tempElement in wsSecurityHeaderElements)
-          {
-              if (tempElement.Name.Equals("xenc:EncryptedKey"))
-              {
-                  try
-                  {
-                      this.dercryptElement(tempElement);
-                  }
-                  catch(Exception e)
-                  {
-                      this.webService.showError(e.Message);
-                      valid = false;
-                  }
-              }
-              if (tempElement.Name.Equals("ds:Signature"))
-              {
-                  
-                      
-                          this.validateSignature(tempElement);
-                     
-                  
-                 
-              }
-              
-          }
-          this.webService.presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-          {
-              this.webService.presentation.txtTrace.Text += this.tracer.signatureTrace;
-              this.webService.presentation.txtTrace.Text += this.tracer.decryptionTrace;
+        #endregion
+
+        #region Properties
+
+        public bool Valid
+        {
+            get
+            {
+                return this._valid;
+            }
+        }
+
+        #endregion
+
+        #region Constructor
+
+        public SignatureValidator(WebService webService)
+        {
+            this._valid = true;
+            this._inputDocument = (XmlDocument)webService.InputString.Clone();
+            this._canonicalizator = new Canonicalizator(this._inputDocument);
+            this._tempdocument = (XmlDocument)this._inputDocument.Clone();
+            this._wsSecurityHeaderList = new ArrayList();
+            this._encryptedDataList = new ArrayList();
+            this._decryptedDataList = new ArrayList();
+            this._encryptedKeyElements = new ArrayList();
+            this._referenceList = new ArrayList();
+            this._webService = webService;
+            this._signedXml = new SignedXml(this._inputDocument);
+            this._signatureReferenceList = new ArrayList();
+            this._securityHeader = this._inputDocument.GetElementsByTagName("wsse:Security")[0];
+            if (this._securityHeader != null)
+            {
+                foreach (XmlElement securityHeader in this._securityHeader)
+                {
+                    if (securityHeader.Name.Equals("xenc:EncryptedData"))
+                    {
+                        this.DercryptSingleXmlElement((XmlElement)this._wsSecurityHeaderList[0]);
+                        this.FillSecurityHeaderElementsList();
+                    }
+                    this._wsSecurityHeaderList.Add(securityHeader);
+                }
+            }
+
+            this._tracer = new WSSecurityTracer();
 
 
+            foreach (XmlElement tempElement in this._wsSecurityHeaderList)
+            {
+                if (tempElement.Name.Equals("xenc:EncryptedKey"))
+                {
+                    try
+                    {
+                        this.DercryptSingleXmlElement(tempElement);
+                    }
+                    catch (Exception e)
+                    {
+                        this._webService.showError(e.Message);
+                        this._valid = false;
+                    }
+                }
+                if (tempElement.Name.Equals("ds:Signature"))
+                {
+                    this.ValidateSignature(tempElement);
+                }
 
+            }
+            this._webService.presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
+                this._webService.presentation.txtTrace.Text += this._tracer.signatureTrace;
+                this._webService.presentation.txtTrace.Text += this._tracer.decryptionTrace;
+            }, null);
+            this._webService.modifiedInput = this._inputDocument;
+        }
 
-          }, null);
-   this.webService.modifiedInput = this.inputString;
-       }
+        #endregion
 
-       private void fillSecurityHeaderElementsList()
-       {
-           this.wsSecurityHeaderElements.Clear();
-          securityHeader= this.inputString.GetElementsByTagName("wsse:Security")[0];
-          foreach (XmlElement tempElement in securityHeader)
-          {
-              this.wsSecurityHeaderElements.Add(tempElement);
-          }
-       }
-       #region Decryption
-       
-       public string dercryptElement(XmlElement encryptedKeyElement)
-       {
-          // XmlDocument doc = (XmlDocument)this.inputString.Clone();
-           EncryptedKey encKey = new EncryptedKey();
-          
-           encKey.LoadXml(encryptedKeyElement);
-           ReferenceList referenceList = encKey.ReferenceList;
-           EncryptedReference encryptedReference=referenceList.Item(0);
-           string uri=encryptedReference.Uri;
-           KeyInfo keyInfo = encKey.KeyInfo;
-       
-           this.referenceList.Clear();
-           ArrayList referenceElementList = this.findEle(uri, this.inputString.ChildNodes[1]);
-           XmlElement keyInfoElement = this.inputString.CreateElement("KeyInfo", SignedXml.XmlDsigNamespaceUrl);
-           keyInfoElement.AppendChild(encryptedKeyElement);
-           XmlElement encryptedDataElement = (XmlElement)referenceElementList[0];
-         //  encryptedDataElement.InsertAfter(keyInfoElement, encryptedDataElement.GetElementsByTagName("EncryptionMethod")[0]);
-          
-           RSACryptoServiceProvider provider = this.webService.provider;
-           XmlDocument doc= new XmlDocument();
-           XmlElement root= doc.CreateElement("root");
-           root.AppendChild(doc.ImportNode((XmlNode)encryptedKeyElement, true));
-           root.AppendChild(doc.ImportNode(encryptedDataElement,true));
-      
-           doc.AppendChild(root);
-           EncryptedXml encxml2 = new EncryptedXml(doc);
-           EncryptedKey encKey2= new EncryptedKey();
-           encKey2.LoadXml((XmlElement)doc.GetElementsByTagName("xenc:EncryptedKey")[0]);
-           EncryptedData encData2 = new EncryptedData();
-           EncryptedData encDataElement2= new EncryptedData();
-           XmlElement data2=(XmlElement) doc.GetElementsByTagName("xenc:EncryptedData")[0];
-           encDataElement2.LoadXml((XmlElement)doc.GetElementsByTagName("xenc:EncryptedData")[0]);
-           encxml2.AddKeyNameMapping("Web Service Public Key", provider);
+        #region Methods
 
-           SymmetricAlgorithm algo2 = SymmetricAlgorithm.Create();
-           algo2.Key = encxml2.DecryptEncryptedKey(encKey2);
-           byte[] t2 = encxml2.DecryptData(encDataElement2, algo2);
-           encxml2.ReplaceData(data2, t2);
-           doc.GetElementsByTagName("root")[0].RemoveChild(doc.GetElementsByTagName("xenc:EncryptedKey")[0]);
-         
-           tracer.appendDecryptedData(uri,doc.FirstChild.InnerXml);
-           
-           EncryptedXml encXml = new EncryptedXml(this.inputString);
-           encXml.AddKeyNameMapping("Web Service Public Key", provider);
-         //  encXml.DecryptDocument();
-           EncryptedData data = new EncryptedData();
-           data.LoadXml((XmlElement)encryptedDataElement);
-           SymmetricAlgorithm algo = SymmetricAlgorithm.Create();
-           algo.Key = encXml.DecryptEncryptedKey(encKey);
-         byte[] t=  encXml.DecryptData(data, algo);
-         encXml.ReplaceData(encryptedDataElement, t);
-         this.encryptedDataList.Add(encryptedDataElement);
-         this.decryptedDataList.Add(doc.GetElementsByTagName("root")[0]);
-         this.encryptedKeyElements.Add(encryptedKeyElement);
-         string decryptedXmlString;
-         return decryptedXmlString=Convert.ToBase64String(t);
-         //  this.webService.InputString = this.inputString;
+        private void FillSecurityHeaderElementsList()
+        {
+            this._wsSecurityHeaderList.Clear();
+            this._securityHeader = this._inputDocument.GetElementsByTagName("wsse:Security")[0];
+            foreach (XmlElement tempElement in _securityHeader)
+            {
+                this._wsSecurityHeaderList.Add(tempElement);
+            }
+        }
+        private string DercryptSingleXmlElement(XmlElement encryptedKeyElement)
+        {
+            EncryptedKey encryptdKey = new EncryptedKey();
+            encryptdKey.LoadXml(encryptedKeyElement);
+            ReferenceList referenceList = encryptdKey.ReferenceList;
+            EncryptedReference encryptedReference = referenceList.Item(0);
+            string uri = encryptedReference.Uri;
+            KeyInfo keyInfo = encryptdKey.KeyInfo;
+            this._referenceList.Clear();
+            ArrayList referenceElementList = this.FindXmlElementByURI(uri, this._inputDocument.ChildNodes[1]);
+            XmlElement keyInfoElement = this._inputDocument.CreateElement("KeyInfo", SignedXml.XmlDsigNamespaceUrl);
+            keyInfoElement.AppendChild(encryptedKeyElement);
+            XmlElement encryptedDataElement = (XmlElement)referenceElementList[0];
+            RSACryptoServiceProvider provider = this._webService.provider;
+            XmlDocument doc = new XmlDocument();
+            XmlElement root = doc.CreateElement("root");
+            root.AppendChild(doc.ImportNode((XmlNode)encryptedKeyElement, true));
+            root.AppendChild(doc.ImportNode(encryptedDataElement, true));
+            doc.AppendChild(root);
+            EncryptedXml encxml2 = new EncryptedXml(doc);
+            EncryptedKey encKey2 = new EncryptedKey();
+            encKey2.LoadXml((XmlElement)doc.GetElementsByTagName("xenc:EncryptedKey")[0]);
+            EncryptedData encData2 = new EncryptedData();
+            EncryptedData encDataElement2 = new EncryptedData();
+            XmlElement data2 = (XmlElement)doc.GetElementsByTagName("xenc:EncryptedData")[0];
+            encDataElement2.LoadXml((XmlElement)doc.GetElementsByTagName("xenc:EncryptedData")[0]);
+            encxml2.AddKeyNameMapping("Web Service Public Key", provider);
+            SymmetricAlgorithm algo2 = SymmetricAlgorithm.Create();
+            algo2.Key = encxml2.DecryptEncryptedKey(encKey2);
+            byte[] t2 = encxml2.DecryptData(encDataElement2, algo2);
+            encxml2.ReplaceData(data2, t2);
+            doc.GetElementsByTagName("root")[0].RemoveChild(doc.GetElementsByTagName("xenc:EncryptedKey")[0]);
+            this._tracer.appendDecryptedData(uri, doc.FirstChild.InnerXml);
+            EncryptedXml encXml = new EncryptedXml(this._inputDocument);
+            encXml.AddKeyNameMapping("Web Service Public Key", provider);
+            EncryptedData data = new EncryptedData();
+            data.LoadXml((XmlElement)encryptedDataElement);
+            SymmetricAlgorithm algo = SymmetricAlgorithm.Create();
+            algo.Key = encXml.DecryptEncryptedKey(encryptdKey);
+            byte[] t = encXml.DecryptData(data, algo);
+            encXml.ReplaceData(encryptedDataElement, t);
+            this._encryptedDataList.Add(encryptedDataElement);
+            this._decryptedDataList.Add(doc.GetElementsByTagName("root")[0]);
+            this._encryptedKeyElements.Add(encryptedKeyElement);
+            string decryptedXmlString;
+            return decryptedXmlString = Convert.ToBase64String(t);
+        }
+        public XmlElement DecryptSingleElementByKeyNumber(int encryptedKeyNumber)
+        {
+            EncryptedKey encryptedKey = new EncryptedKey();
+            encryptedKey.LoadXml((XmlElement)this._encryptedKeyElements[encryptedKeyNumber]);
+            ReferenceList referenceList = encryptedKey.ReferenceList;
+            EncryptedReference encryptedReference = referenceList.Item(0);
+            string uri = encryptedReference.Uri;
+            KeyInfo keyInfo = encryptedKey.KeyInfo;
+            this._referenceList.Clear();
+            ArrayList referenceElementList = new ArrayList();
+            referenceElementList = this.FindXmlElementByURI(uri, this._tempdocument.ChildNodes[1]);
+            XmlElement keyInfoElement = this._tempdocument.CreateElement("KeyInfo", SignedXml.XmlDsigNamespaceUrl);
+            keyInfoElement.AppendChild(_tempdocument.ImportNode((XmlNode)encryptedKey.GetXml(), true));
+            XmlElement encryptedDataElement = (XmlElement)referenceElementList[0];
+            RSACryptoServiceProvider provider = this._webService.provider;
+            EncryptedXml encXml = new EncryptedXml(this._tempdocument);
+            encXml.AddKeyNameMapping("Web Service Public Key", provider);
+            EncryptedData data = new EncryptedData();
+            data.LoadXml((XmlElement)encryptedDataElement);
+            SymmetricAlgorithm algo = SymmetricAlgorithm.Create();
+            algo.Key = encXml.DecryptEncryptedKey(encryptedKey);
+            byte[] t = encXml.DecryptData(data, algo);
+            encXml.ReplaceData(encryptedDataElement, t);
+            this._tempdocument.GetElementsByTagName("wsse:Security")[0].RemoveChild(_tempdocument.GetElementsByTagName("xenc:EncryptedKey")[0]);
+            XmlElement root = (XmlElement)this._decryptedDataList[encryptedKeyNumber];
+            return (XmlElement)root;
+        }
+        public bool ValidateSignature(XmlElement signatureElement)
+        {
+            bool valid = true;
+            Signature signature = new Signature();
+            signature.LoadXml(signatureElement);
+            XmlNodeList signatureList = this._inputDocument.GetElementsByTagName("ds:Signature");
+            if (signatureList.Count != 0)
+            {
+                this._signedXml.LoadXml((XmlElement)signatureElement);
+                bool validReference = ValidateReferences(_signedXml);
+                if (validReference)
+                {
+                    this.CanonicalizeSignedInfo(signature.SignedInfo.GetXml());
+                    this._signedXml.LoadXml((XmlElement)signatureElement);
+                }
+                else
+                {
+                    this._valid = false;
+                }
+            }
+            return valid;
+        }
+        public void CanonicalizeSignedInfo(XmlElement SignedInfo)
+        {
+            Canonicalizator canonicalizator = new Canonicalizator(this._inputDocument);
+            Stream stream = canonicalizator.CanonicalizeNode(SignedInfo);
+            StreamReader canonicalizedStreamReader = new StreamReader(stream);
+            string canonicalizedString = canonicalizedStreamReader.ReadToEnd();
+            this._canonicalizedSignedInfo = canonicalizedString;
+            this.ValidateSignature(this._signedXml.Signature, this._signedXml.SignatureValue);
 
+        }
+        public ArrayList GetSignedXmlSignatureReferences()
+        {
+            return _signedXml.SignedInfo.References;
+        }
+        public bool ValidateReferences(SignedXml signedXml)
+        {
+            byte[] digest;
+            ArrayList references = signedXml.SignedInfo.References;
+            int singatureReferenceCounter = 1;
+            foreach (Reference reference in references)
+            {
+                string uri = reference.Uri;
+                string hashAlgorithm = reference.DigestMethod;
+                if (!uri.Equals(""))
+                {
+                    this._referenceList.Clear();
+                    SignatureReference sigReference = new SignatureReference();
+                    sigReference.nr = singatureReferenceCounter;
+                    singatureReferenceCounter++;
+                    sigReference.references = new ArrayList();
+                    ArrayList newList = new ArrayList();
+                    newList = this.FindXmlElementByURI(uri, this._inputDocument.ChildNodes[0].NextSibling);
+                    XmlElement referenceElement = (XmlElement)newList[0];
+                    XmlElement clonedReferenceElement = (XmlElement)referenceElement.Clone();
+                    newList = (ArrayList)this._referenceList.Clone();
+                    sigReference.references.Add(clonedReferenceElement);
+                    this._signatureReferenceList.Add(sigReference);
+                }
+                if (uri.Equals(""))
+                {
+                    XmlNode node = null;
+                    SignatureReference sigReference = new SignatureReference();
+                    sigReference.nr = singatureReferenceCounter;
+                    singatureReferenceCounter++;
+                    ArrayList list = new ArrayList();
+                    XmlDocument doc = new XmlDocument();
+                    Transform trans = reference.TransformChain[0];
+                    XmlDsigXPathTransform xpathTransform = (XmlDsigXPathTransform)trans;
+                    XmlElement xpathElement = xpathTransform.GetXml();
+                    string xpath = xpathElement.InnerText;
+                    XmlNamespaceManager xmlNamespaceManager = new XmlNamespaceManager(this._inputDocument.NameTable);
+                    XmlElement bodyElement = (XmlElement)this._inputDocument.GetElementsByTagName("s:Body")[0];
+                    xmlNamespaceManager.AddNamespace("s", bodyElement.NamespaceURI);
+                    xmlNamespaceManager.AddNamespace("tns", "http://tempuri.org/");
+                    node = this._inputDocument.SelectSingleNode(xpath, xmlNamespaceManager);
+                    list.Add((XmlElement)node.Clone());
+                    sigReference.references = list;
+                    this._signatureReferenceList.Add(sigReference);
+                }
+                XmlElement referenceTransformed = this.ApplyTransform(reference);
+                digest = this.DigestElement(referenceTransformed, hashAlgorithm, "");
+                string digestValue = Convert.ToBase64String(digest);
+                this._tracer.appendReferenceValidation(uri, digestValue);
+                string convertedDigest = Convert.ToBase64String(reference.DigestValue);
+                if (convertedDigest.Equals(digestValue))
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            return false;
+        }
+        public XmlElement ApplyTransform(Reference reference)
+        {
+            XmlNode node = null;
+            TransformChain transformChain = reference.TransformChain;
+            int transCounter = transformChain.Count;
+            IEnumerator enumerator = transformChain.GetEnumerator();
+            Stream transformstream = new MemoryStream();
+            if (reference.Uri.Equals(""))
+            {
+                this._inputDocument.Save(transformstream);
+                transformstream.Position = 0;
+            }
+            else
+            {
+                XmlNodeReader reader = new XmlNodeReader((XmlNode)this._reference);
+                XmlWriter writer = new XmlTextWriter(transformstream, Encoding.UTF8);
+                writer.WriteNode(reader, false);
+                writer.Flush();
+                transformstream.Position = 0;
+            }
+            for (int i = 0; i < transCounter; i++)
+            {
+                enumerator.MoveNext();
+                Transform trans = (Transform)enumerator.Current;
+                string typ = trans.ToString();
+                switch (typ)
+                {
+                    case "System.Security.Cryptography.Xml.XmlDsigExcC14NTransform":
 
-       }
-       public XmlElement decryptSingleElement(int encryptedKeyNumber)
-       {
-           XmlElement decryptedXmlElement;
-           EncryptedKey encKey = new EncryptedKey(); 
-            encKey.LoadXml((XmlElement)encryptedKeyElements[encryptedKeyNumber]);
-         
-           ReferenceList referenceList = encKey.ReferenceList;
-           EncryptedReference encryptedReference = referenceList.Item(0);
-           string uri = encryptedReference.Uri;
-           KeyInfo keyInfo = encKey.KeyInfo;
+                        if (!reference.Uri.Equals(""))
+                        {
+                            for (int j = 0; j < _referenceList.Count; j++)
+                            {
+                                XmlElement temp = (XmlElement)this._referenceList[j];
+                                string uri = "#" + temp.Attributes["Id"].Value;
+                                if (uri.Equals(reference.Uri))
+                                {
+                                    node = temp;
+                                }
+                            }
 
-           this.referenceList.Clear();
-           ArrayList referenceElementList= new ArrayList();
-            referenceElementList   = this.findEle(uri, this.tempdocument.ChildNodes[1]);
-           XmlElement keyInfoElement = this.tempdocument.CreateElement("KeyInfo", SignedXml.XmlDsigNamespaceUrl);
-           keyInfoElement.AppendChild(tempdocument.ImportNode((XmlNode) encKey.GetXml(),true));
-           XmlElement encryptedDataElement = (XmlElement)referenceElementList[0];
-           //  encryptedDataElement.InsertAfter(keyInfoElement, encryptedDataElement.GetElementsByTagName("EncryptionMethod")[0]);
-
-           RSACryptoServiceProvider provider = this.webService.provider;
-        
-
-        
-
-        
-           EncryptedXml encXml = new EncryptedXml(this.tempdocument);
-           encXml.AddKeyNameMapping("Web Service Public Key", provider);
-           //  encXml.DecryptDocument();
-           EncryptedData data = new EncryptedData();
-           data.LoadXml((XmlElement)encryptedDataElement);
-           SymmetricAlgorithm algo = SymmetricAlgorithm.Create();
-           algo.Key = encXml.DecryptEncryptedKey(encKey);
-           byte[] t = encXml.DecryptData(data, algo);
-           encXml.ReplaceData(encryptedDataElement, t);
-
-           this.tempdocument.GetElementsByTagName("wsse:Security")[0].RemoveChild(tempdocument.GetElementsByTagName("xenc:EncryptedKey")[0]);
-           string decryptedXmlString;
-           XmlElement root = (XmlElement)this.decryptedDataList[encryptedKeyNumber];
-           //if(root.FirstChild.NodeType.Equals(XmlNodeType.Text))
-           //{
-           //    decryptedXmlElement = tempdocument.CreateElement("TextElement");
-           //    XmlNode textNode = root.FirstChild.Clone();
-           //    decryptedXmlElement.AppendChild(textNode);
-           //}
-
-           
-             //  (XmlElement)root.FirstChild;
-          
-           return (XmlElement)root;
-           //  this.webService.InputString = this.inputString;
-       }
-
-       #endregion
-
-       #region Signatur Check
-
-       public bool validateSignature(XmlElement signatureElement)
-       {bool valid= true;
-           if (valid)
-           {
-           }
-           
-           Signature signature = new Signature();
-           signature.LoadXml(signatureElement);
-           XmlNodeList signatureList = this.inputString.GetElementsByTagName("ds:Signature");
-           if (signatureList.Count != 0)
-           {
-               
-           
-           signedXml.LoadXml((XmlElement)signatureElement);
-          // XmlNodeList signatureList = this.inputString.GetElementsByTagName("Signature");
-         bool validReference=  validateReferences(signedXml);
-         if (validReference)
-         {
-             canonicalizeSignedInfo(signature.SignedInfo.GetXml());
-             signedXml.LoadXml((XmlElement)signatureElement);
-         }
-         else
-         {
-            this.valid = false;
-         }
-              
-                  
-               
-              
-
-             
-               
-           
-           }
-           return valid;
-         
-           
-       }
-       public void canonicalizeSignedInfo(XmlElement SignedInfo)
-       {   
-           Canonicalizator canon = new Canonicalizator(inputString);
-           //StreamReader sreader = new StreamReader(stream2);
-           // string test3 = sreader.ReadToEnd();
-           //return test3;
-       Stream stream=    canon.canonicalizeNode(SignedInfo);
-       StreamReader sreader = new StreamReader(stream);
-       string canonString = sreader.ReadToEnd();
-       this.canonicalizedSignedInfo = canonString;
-       this.validateSignature(this.signedXml.Signature, signedXml.SignatureValue);
-          
-       }
-      
-       public ArrayList getSignedXmlSignatureReferences()
-       {
-           return signedXml.SignedInfo.References;
-       }
-       public bool validateReferences(SignedXml signedXml)
-       {
-           byte[] digest;
-          ArrayList references = signedXml.SignedInfo.References;
-          int i = 1;
-           foreach(Reference reference in references)
-           {
-
-              
-               string uri= reference.Uri;
-         
-               string hashAlgorithm = reference.DigestMethod;
-               if (!uri.Equals(""))
-               {
-                   this.referenceList.Clear();
-                   SignatureReference sigReference = new SignatureReference();
-                   sigReference.nr = i;
-                   i++;
-                   sigReference.references = new ArrayList();
-                   ArrayList newList = new ArrayList();
-                  newList=this.findEle(uri, this.inputString.ChildNodes[0].NextSibling);
-                  XmlElement referenceEle= (XmlElement)newList[0];
-                  XmlElement clone = (XmlElement)referenceEle.Clone();
-                  newList = (ArrayList)this.referenceList.Clone();
-                  sigReference.references.Add(clone);
-                   this.signatureReferenceList.Add(sigReference);
-
-            
-               }
-               if (uri.Equals(""))
-               {
-                   XmlNode node=null;
-                   SignatureReference sigReference = new SignatureReference();
-                   sigReference.nr = i;
-                   i++;
-                   ArrayList list= new ArrayList();
-                   XmlDocument doc = new XmlDocument();
-                   Transform trans = reference.TransformChain[0];
-                   XmlDsigXPathTransform xpathTransform = (XmlDsigXPathTransform)trans;
-                   XmlElement xpathElement = xpathTransform.GetXml();
-                   string xpath = xpathElement.InnerText;
-                   XmlNamespaceManager manager = new XmlNamespaceManager(this.inputString.NameTable);
-                   XmlElement b = (XmlElement)this.inputString.GetElementsByTagName("s:Body")[0];
-                   manager.AddNamespace("s", b.NamespaceURI);
-                   manager.AddNamespace("tns", "http://tempuri.org/");
-                   node = this.inputString.SelectSingleNode(xpath, manager);
-                   list.Add((XmlElement)node.Clone());
-                   sigReference.references = list;
-                   this.signatureReferenceList.Add(sigReference);
-               }
-            XmlElement referenceTransformed= this.applyTransform(reference);
-             digest=digestElement(referenceTransformed,hashAlgorithm,"");
-           string digestValue= Convert.ToBase64String(digest);
-          
-           this.tracer.appendReferenceValidation(uri, digestValue);
-         string convertedDigest=Convert.ToBase64String(reference.DigestValue);
-         if (convertedDigest.Equals(digestValue))
-         {
-             return true;
-         }
-         else { return false; }
-          
-               
-
-           }
-           return false;
-       }
-       public XmlElement applyTransform(Reference reference)
-       {
-           XmlNode node=null;
-           TransformChain transformChain = reference.TransformChain;
-           int transCounter = transformChain.Count;
-           IEnumerator enumerator=transformChain.GetEnumerator();
-           Stream transformstream = new MemoryStream();
-           if (reference.Uri.Equals(""))
-           {
-
-               this.inputString.Save(transformstream);
-               transformstream.Position = 0;
-
-           }
-           else
-           {
-
-               XmlNodeReader reader = new XmlNodeReader((XmlNode)this.reference);
-
-               XmlWriter writer = new XmlTextWriter(transformstream, Encoding.UTF8);
-               writer.WriteNode(reader, false);
-               writer.Flush();
-               transformstream.Position = 0;
-           }
-           for (int i = 0; i < transCounter; i++)
-           {
-               XmlUrlResolver test = new XmlUrlResolver();
-
-               SignedXml t = signedXml;
-               enumerator.MoveNext();
-              
-               Transform trans = (Transform) enumerator.Current;
-               string typ = trans.ToString();
-               XmlElement input;
-               
-               
-             
-               switch (typ)
-               {
-                   case "System.Security.Cryptography.Xml.XmlDsigExcC14NTransform":
-
-                       if (!reference.Uri.Equals(""))
-                       {
-                           for (int j = 0; j < referenceList.Count; j++)
-                           {
-                               XmlElement temp = (XmlElement)referenceList[j];
-                               string uri = "#" + temp.Attributes["Id"].Value;
-                               if (uri.Equals(reference.Uri))
-                               {
-                                   node = temp;
-                               }
-                           }
-                           
-                       }
-                    
-                       break;
-                   case "System.Security.Cryptography.Xml.XmlDsigXPathTransform":
-                       XmlDocument doc= new XmlDocument();
-                       XmlDsigXPathTransform xpathTransform = (XmlDsigXPathTransform)trans;
-                       XmlElement xpathElement=xpathTransform.GetXml();
-                       string xpath = xpathElement.InnerText;
-                       XmlNamespaceManager manager = new XmlNamespaceManager(this.inputString.NameTable);
-                       XmlElement b = (XmlElement)this.inputString.GetElementsByTagName("s:Body")[0];
-                       manager.AddNamespace("s", b.NamespaceURI);
-                       manager.AddNamespace("tns", "http://tempuri.org/");
-                       node = this.inputString.SelectSingleNode(xpath,manager);
+                        }
                         break;
-                    
-                      
-                      
-               }
-               
-           }
-           return (XmlElement) node;
 
-       }
+                    case "System.Security.Cryptography.Xml.XmlDsigXPathTransform":
+                        XmlDocument doc = new XmlDocument();
+                        XmlDsigXPathTransform xpathTransform = (XmlDsigXPathTransform)trans;
+                        XmlElement xpathElement = xpathTransform.GetXml();
+                        string xpath = xpathElement.InnerText;
+                        XmlNamespaceManager xmlNameSpaceManager = new XmlNamespaceManager(this._inputDocument.NameTable);
+                        XmlElement bodyElement = (XmlElement)this._inputDocument.GetElementsByTagName("s:Body")[0];
+                        xmlNameSpaceManager.AddNamespace("s", bodyElement.NamespaceURI);
+                        xmlNameSpaceManager.AddNamespace("tns", "http://tempuri.org/");
+                        node = this._inputDocument.SelectSingleNode(xpath, xmlNameSpaceManager);
+                        break;
+                }
 
+            }
+            return (XmlElement)node;
 
-       public bool validateSignature(Signature signature, byte[] bytes)
-       {
-           bool valid=false;
-           KeyInfo keyInfo= signature.KeyInfo;
-           CspParameters parameter = new CspParameters();
-           RSACryptoServiceProvider rsa;
-           DSACryptoServiceProvider dsa;
-          XmlElement KeyInfoXml = keyInfo.GetXml();
-        Type type=   keyInfo.GetType();
-        if (KeyInfoXml.FirstChild.FirstChild.Name.Equals("RSAKeyValue"))
-        {
-            rsa = new RSACryptoServiceProvider(parameter);
-            rsa.FromXmlString(keyInfo.GetXml().InnerXml);
-            RSAParameters param = rsa.ExportParameters(false);
-            byte[] digestSignedInfo = this.digestElement(signature.SignedInfo.GetXml(), "", "");
-            XmlElement signed = signature.SignedInfo.GetXml();
-            string oid = CryptoConfig.MapNameToOID("SHA1");
-          
-            valid = rsa.VerifyHash(digestSignedInfo, oid, this.signedXml.SignatureValue);
-          //  this.valid = valid;
         }
-        else
+        public bool ValidateSignature(Signature signature, byte[] bytes)
         {
-            dsa = new DSACryptoServiceProvider(parameter);
-            dsa.FromXmlString(KeyInfoXml.InnerXml);
-            byte[] digestSignedInfo = this.digestElement(signature.SignedInfo.GetXml(), "", "");
-            string oid = CryptoConfig.MapNameToOID("SHA1");
-            valid = dsa.VerifyHash(digestSignedInfo, oid, this.signedXml.SignatureValue);
-           // this.valid = valid;
+            bool valid = false;
+            KeyInfo keyInfo = signature.KeyInfo;
+            CspParameters parameter = new CspParameters();
+            RSACryptoServiceProvider rsa;
+            DSACryptoServiceProvider dsa;
+            XmlElement KeyInfoXml = keyInfo.GetXml();
+            Type type = keyInfo.GetType();
+            if (KeyInfoXml.FirstChild.FirstChild.Name.Equals("RSAKeyValue"))
+            {
+                rsa = new RSACryptoServiceProvider(parameter);
+                rsa.FromXmlString(keyInfo.GetXml().InnerXml);
+                RSAParameters param = rsa.ExportParameters(false);
+                byte[] digestSignedInfo = this.DigestElement(signature.SignedInfo.GetXml(), "", "");
+                XmlElement signed = signature.SignedInfo.GetXml();
+                string oid = CryptoConfig.MapNameToOID("SHA1");
+                valid = rsa.VerifyHash(digestSignedInfo, oid, this._signedXml.SignatureValue);
+
+            }
+            else
+            {
+                dsa = new DSACryptoServiceProvider(parameter);
+                dsa.FromXmlString(KeyInfoXml.InnerXml);
+                byte[] digestSignedInfo = this.DigestElement(signature.SignedInfo.GetXml(), "", "");
+                string oid = CryptoConfig.MapNameToOID("SHA1");
+                valid = dsa.VerifyHash(digestSignedInfo, oid, this._signedXml.SignatureValue);
+            }
+            return valid;
         }
-         
-         
-          
-           return valid;
-       }
-       public byte[] digestElement(XmlElement element, string hashAlgorithm, string canonicalizationAlgorithm)
-       {
-           Canonicalizator canonicalizator = new Canonicalizator(inputString);
-           Stream canonicalStream=canonicalizator.canonicalizeNode(element);
-           canonicalStream.Position = 0;
-           StreamReader sreader = new StreamReader(canonicalStream);
-           string canonString = sreader.ReadToEnd();
-           SHA1CryptoServiceProvider sha1 = new SHA1CryptoServiceProvider();
-           canonicalStream.Position = 0;
-           byte[] hash = sha1.ComputeHash(canonicalStream);
-           string t = Convert.ToBase64String(hash);
-           return hash;
-          
+        public byte[] DigestElement(XmlElement element, string hashAlgorithm, string canonicalizationAlgorithm)
+        {
+            Canonicalizator canonicalizator = new Canonicalizator(this._inputDocument);
+            Stream canonicalStream = canonicalizator.CanonicalizeNode(element);
+            canonicalStream.Position = 0;
+            StreamReader canonicalStreamReader = new StreamReader(canonicalStream);
+            string canonString = canonicalStreamReader.ReadToEnd();
+            SHA1CryptoServiceProvider sha1CryptoServiceProvider = new SHA1CryptoServiceProvider();
+            canonicalStream.Position = 0;
+            byte[] hash = sha1CryptoServiceProvider.ComputeHash(canonicalStream);
+            string base64ConvertedHashValue = Convert.ToBase64String(hash);
+            return hash;
+        }
+        public ArrayList FindXmlElementByURI(string uri, XmlNode element)
+        {
+            XmlElement foundElement = null;
+            String identifier = uri;
+            string[] splittedUri = new string[2];
+            char separators = '#';
+            splittedUri = identifier.Split(separators);
+            string value = splittedUri[1];
 
-           
-       }
-       public ArrayList findEle(string uri, XmlNode elem)
-       
-       { XmlElement foundEle = null;
-       
-           String uri2 = uri;
-           string[] t = new string[2];
-           char separators = '#';
-           char s = uri2[1];
-           t = uri2.Split(separators);
-          
-           string wert = t[1];
+            for (int i = 0; i < element.ChildNodes.Count; i++)
+            {
+                XmlNode childNote = (XmlNode)element.ChildNodes[i];
 
-           for (int i = 0; i < elem.ChildNodes.Count; i++)
-           {
-               XmlNode childNote = (XmlNode)elem.ChildNodes[i];
+                if (childNote.HasChildNodes)
+                {
+                    this.FindXmlElementByURI(identifier, childNote);
+                }
+                if (childNote.Attributes != null)
+                {
+                    if (childNote.Attributes["Id"] != null)
+                    {
+                        if (childNote.Attributes["Id"].Value.Equals(value))
+                        {
+                            foundElement = (XmlElement)childNote;
+                            this._referenceList.Add(foundElement);
+                            this._reference = foundElement;
+                            break;
+                        }
+                        if (foundElement != null)
+                        {
+                            break;
+                        }
+                    }
+                }
+            }
+            return this._referenceList;
+        }
+        public string CanonicalizeSignedInfo(int signatureNumber)
+        {
+            XmlElement signedInfo = (XmlElement)this._inputDocument.GetElementsByTagName("ds:SignedInfo")[signatureNumber];
+            this._canonicalizator = new Canonicalizator(this._inputDocument);
+            Stream stream = this._canonicalizator.CanonicalizeNode(signedInfo);
+            StreamReader sreader = new StreamReader(stream);
+            string canonString = sreader.ReadToEnd();
+            return canonString;
+        }
+        public string DigestElement(int signatureNumber, int referenceNumber)
+        {
+            SignedXml signedXml = new SignedXml();
+            signedXml.LoadXml((XmlElement)this._inputDocument.GetElementsByTagName("Signature", "http://www.w3.org/2000/09/xmldsig#")[signatureNumber]);
+            Signature signature = signedXml.Signature;
+            Reference reference = (Reference)signature.SignedInfo.References[referenceNumber];
+            string uri = reference.Uri;
+            ArrayList references = this.GetSignatureReferences(signatureNumber);
+            byte[] digestedElement = this.DigestElement((XmlElement)references[referenceNumber], "", "");
+            string convertedDigest = Convert.ToBase64String(digestedElement);
+            return Convert.ToBase64String(digestedElement);
 
-               if (childNote.HasChildNodes)
-               {
-                   findEle(uri2, childNote);
-               }
-               if (childNote.Attributes != null)
-               {
-                   if (childNote.Attributes["Id"] != null)
-                   {
-                       if (childNote.Attributes["Id"].Value.Equals(wert))
-                       {
-                           foundEle = (XmlElement)childNote;
-                           this.referenceList.Add(foundEle);
-                           this.reference = foundEle;
-                           break;
-                       }
-                       if (foundEle != null)
-                       {
-                           break;
-                       }
-                   }
-               }
-           }
+        }
+        public string MakeTransforms(int signatureNumber, int referenceNumber, int transformChainNumber)
+        {
+            SignedXml signedXml = new SignedXml();
+            signedXml.LoadXml((XmlElement)this._tempdocument.GetElementsByTagName("Signature", "http://www.w3.org/2000/09/xmldsig#")[signatureNumber]);
+            Signature signature = signedXml.Signature;
+            Reference reference = (Reference)signature.SignedInfo.References[referenceNumber];
+            Transform transform = reference.TransformChain[transformChainNumber];
+            string result = "";
+            if (transform.ToString().Equals("System.Security.Cryptography.Xml.XmlDsigXPathTransform"))
+            {
+                XmlNode node = null;
+                XmlDocument doc = new XmlDocument();
+                XmlDsigXPathTransform xpathTransform = (XmlDsigXPathTransform)transform;
+                XmlElement xpathElement = xpathTransform.GetXml();
+                string xpath = xpathElement.InnerText;
+                XmlNamespaceManager manager = new XmlNamespaceManager(this._inputDocument.NameTable);
+                XmlElement bodyElement = (XmlElement)this._inputDocument.GetElementsByTagName("s:Body")[0];
+                manager.AddNamespace("s", bodyElement.NamespaceURI);
+                manager.AddNamespace("tns", "http://tempuri.org/");
+                node = this._tempdocument.SelectSingleNode(xpath, manager);
+                StringWriter stringWriter = new StringWriter();
+                XmlTextWriter xmlTextWriter = new XmlTextWriter(stringWriter);
+                xmlTextWriter.Formatting = Formatting.Indented;
+                XmlElement element = (XmlElement)node;
+                element.Normalize();
+                element.WriteTo(xmlTextWriter);
+                this.transformedElement = element;
+                result = stringWriter.ToString();
+
+            }
+            if (transform.ToString().Equals("System.Security.Cryptography.Xml.XmlDsigExcC14NTransform"))
+            {
+                Stream stream;
+                if (transformedElement != null)
+                {
+                    stream = this._canonicalizator.CanonicalizeNode(transformedElement);
+                    StreamReader sreader = new StreamReader(stream);
+                    string canonString = sreader.ReadToEnd();
+                    result = canonString;
+
+                }
+                else
+                {
+                    ArrayList references = this.GetSignatureReferences(signatureNumber);
+                    XmlElement referenceElement = (XmlElement)references[referenceNumber];
+                    stream = this._canonicalizator.CanonicalizeNode(referenceElement);
+                    StreamReader sreader = new StreamReader(stream);
+                    string canonString = sreader.ReadToEnd();
+                    result = canonString;
+                }
+            }
 
 
-           return this.referenceList;
+            return result;
+        }
+        public int GetReferenceNumber(int signatureNumber)
+        {
+            return GetSignatureReferences(signatureNumber).Count;
+        }
+        public ArrayList GetSignatureReferences(int signatureNumber)
+        {
+            SignatureReference signatureReference = (SignatureReference)this._signatureReferenceList[signatureNumber];
+            return signatureReference.references;
+        }
+        public string GetSignatureReferenceName(int signatureNumber)
+        {
+            ArrayList referencedElementList = this.GetSignatureReferences(signatureNumber);
+            XmlElement referencedElement = (XmlElement)referencedElementList[0];
+            string[] splitter = referencedElement.Name.Split(new Char[] { ':' });
+            return splitter[1].ToString();
 
+        }
+        public bool CompareDigestValues(int signatureNumber, int referenceNumber, string digestValue)
+        {
+            SignedXml signedXml = new SignedXml();
+            signedXml.LoadXml((XmlElement)this._inputDocument.GetElementsByTagName("Signature", "http://www.w3.org/2000/09/xmldsig#")[signatureNumber]);
+            Signature signature = signedXml.Signature;
+            Reference reference = (Reference)signature.SignedInfo.References[referenceNumber];
+            return Convert.ToBase64String(reference.DigestValue).Equals(digestValue);
+        }
+        public int GetTransformsCounter(int signatureNumber, int referenceNumber)
+        {
+            SignedXml signedXml = new SignedXml();
+            signedXml.LoadXml((XmlElement)this._inputDocument.GetElementsByTagName("Signature", "http://www.w3.org/2000/09/xmldsig#")[signatureNumber]);
+            Signature signature = signedXml.Signature;
+            Reference reference = (Reference)signature.SignedInfo.References[referenceNumber];
+            return reference.TransformChain.Count;
+        }
+        public int GetEncryptedKeyNumber()
+        {
+            return this._encryptedKeyElements.Count;
+        }
+        public int GetTotalSecurityElementsNumber()
+        {
+            return this._wsSecurityHeaderList.Count;
+        }
+        public string GetWSSecurityHeaderElement(int i)
+        {
+            string returnString = "";
+            try
+            {
+                XmlElement tempElement = (XmlElement)this._wsSecurityHeaderList[i];
+                returnString = tempElement.Name;
+            }
+            catch
+            {
+                returnString = "null";
+            }
+            return returnString;
+        }
+        #endregion
 
-       }
+    }
 
-     
-
-       #endregion
-       #region GUIINTERFACE
-         public string canonicalizeSignedInfo(int signatureNumber)
-       {
-           XmlElement signedInfo=(XmlElement)this.inputString.GetElementsByTagName("ds:SignedInfo")[signatureNumber];
-            canon = new Canonicalizator(inputString);
-           //StreamReader sreader = new StreamReader(stream2);
-           // string test3 = sreader.ReadToEnd();
-           //return test3;
-           Stream stream = canon.canonicalizeNode(signedInfo);
-           StreamReader sreader = new StreamReader(stream);
-           string canonString = sreader.ReadToEnd();
-           return canonString;
-       }
-       public string digestElement(int signatureNumber, int referenceNumber)
-         {
-             SignedXml signedXml = new SignedXml();
-           signedXml.LoadXml((XmlElement)this.inputString.GetElementsByTagName("Signature", "http://www.w3.org/2000/09/xmldsig#")[signatureNumber]);
-           Signature signature = signedXml.Signature; 
-           Reference reference= (Reference)signature.SignedInfo.References[referenceNumber];
-           string uri = reference.Uri;
-           ArrayList references=this.getSignatureReferences(signatureNumber);
-        byte[] digestedElement=this.digestElement((XmlElement)references[referenceNumber], "", "");
-        string convertedDigest = Convert.ToBase64String(digestedElement);
-          return Convert.ToBase64String(digestedElement);
-        
-       }
-
-       public string makeTransforms(int signatureNumber, int referenceNumber, int transformChainNumber)
-       {
-           SignedXml signedXml = new SignedXml();
-           signedXml.LoadXml((XmlElement)this.tempdocument.GetElementsByTagName("Signature", "http://www.w3.org/2000/09/xmldsig#")[signatureNumber]);
-           Signature signature = signedXml.Signature;
-           Reference reference = (Reference)signature.SignedInfo.References[referenceNumber];
-           Transform trans = reference.TransformChain[transformChainNumber];
-           string result = "";
-           if (trans.ToString().Equals("System.Security.Cryptography.Xml.XmlDsigXPathTransform"))
-           {
-               XmlNode node = null;
-               XmlDocument doc = new XmlDocument();
-               XmlDsigXPathTransform xpathTransform = (XmlDsigXPathTransform)trans;
-               XmlElement xpathElement = xpathTransform.GetXml();
-               string xpath = xpathElement.InnerText;
-               XmlNamespaceManager manager = new XmlNamespaceManager(this.inputString.NameTable);
-               XmlElement b = (XmlElement)this.inputString.GetElementsByTagName("s:Body")[0];
-               manager.AddNamespace("s", b.NamespaceURI);
-               manager.AddNamespace("tns", "http://tempuri.org/");
-               node = this.tempdocument.SelectSingleNode(xpath, manager);
-               StringWriter sw = new StringWriter();
-               XmlTextWriter xw = new XmlTextWriter(sw);
-               xw.Formatting = Formatting.Indented;
-               XmlElement element = (XmlElement)node;
-               element.Normalize();
-              
-               element.WriteTo(xw);
-               this.transformedElement = element;
-             result= sw.ToString();
-              
-           }
-           if (trans.ToString().Equals("System.Security.Cryptography.Xml.XmlDsigExcC14NTransform"))
-           {
-               Stream stream;
-              if (transformedElement != null)
-               {
-                stream = this.canon.canonicalizeNode(transformedElement);
-                   StreamReader sreader = new StreamReader(stream);
-                   string canonString = sreader.ReadToEnd();
-                   result = canonString;
-                
-               }
-               else
-               {  
-                   ArrayList references = this.getSignatureReferences(signatureNumber);
-                   XmlElement referenceElement = (XmlElement)references[referenceNumber];
-                   stream = this.canon.canonicalizeNode(referenceElement);
-                   StreamReader sreader = new StreamReader(stream);
-                   string canonString = sreader.ReadToEnd();
-                   result = canonString;
-               }
-           }
-        
-         
-           return result;
-       }
-    
-       public int getReferenceNumber(int signatureNumber)
-       {
-           return getSignatureReferences(signatureNumber).Count;
-       }
-       public ArrayList getSignatureReferences(int i)
-       {
-           SignatureReference signatureReference = (SignatureReference)this.signatureReferenceList[i];
-           return signatureReference.references;
-       }
-       public string getSignatureReferenceName(int i)
-       {
-           ArrayList referencedElementList = this.getSignatureReferences(i);
-           XmlElement referencedElement = (XmlElement)referencedElementList[0];
-           string[] splitter = referencedElement.Name.Split(new Char[] { ':' });
-           return splitter[1].ToString();
-  
-       }
-       public bool compareDigestValues(int signatureNumber, int referenceNumber, string digestValue)
-       {
-           SignedXml signedXml = new SignedXml();
-           signedXml.LoadXml((XmlElement)this.inputString.GetElementsByTagName("Signature", "http://www.w3.org/2000/09/xmldsig#")[signatureNumber]);
-           Signature signature = signedXml.Signature;
-           Reference reference = (Reference)signature.SignedInfo.References[referenceNumber];
-          return Convert.ToBase64String(reference.DigestValue).Equals(digestValue);
-       }
-
-       public int getTransformsCounter(int signatureNumber,int referenceNumber)
-       {
-           SignedXml signedXml = new SignedXml();
-           signedXml.LoadXml((XmlElement)this.inputString.GetElementsByTagName("Signature", "http://www.w3.org/2000/09/xmldsig#")[signatureNumber]);
-           Signature signature = signedXml.Signature;
-           Reference reference = (Reference)signature.SignedInfo.References[referenceNumber];
-           return reference.TransformChain.Count;
-       }
-       #endregion
-
-       public int getEncryptedKeyNumber()
-       {
-           return this.encryptedKeyElements.Count;
-       }
-
-       public int getTotalSecurityElementsNumber()
-       {
-           return this.wsSecurityHeaderElements.Count;
-       }
-       public string getWSSecurityHeaderElement(int i)
-       {string returnString="";
-           try
-           {
-               XmlElement tempElement = (XmlElement)this.wsSecurityHeaderElements[i];
-               returnString = tempElement.Name;
-           }
-           catch
-           {
-               returnString = "null";
-           }
-           return returnString;
-       }
-
-   }   
-    
 }
