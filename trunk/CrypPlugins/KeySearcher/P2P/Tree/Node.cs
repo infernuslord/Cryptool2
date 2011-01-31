@@ -74,7 +74,9 @@ namespace KeySearcher.P2P.Tree
             RightChildFinished = false;
             Result.Clear();
             Activity.Clear();
-            StorageHelper.UpdateInDht(this);
+            UpdateCache();
+            if (!StorageHelper.UpdateInDht(this).IsSuccessful())
+                throw new InvalidOperationException("Version mismatch");
         }
 
         public override void UpdateCache()
@@ -95,7 +97,8 @@ namespace KeySearcher.P2P.Tree
 
             if (rightChild == null)
             {
-                throw new AlreadyCalculatedException();
+                Reset();
+                return leftChild.CalculatableLeaf(useReservedNodes);
             }
 
             return rightChild.CalculatableLeaf(useReservedNodes);

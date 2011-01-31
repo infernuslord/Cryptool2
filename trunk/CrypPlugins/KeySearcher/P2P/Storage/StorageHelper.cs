@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Security.Cryptography;
 using System.Threading;
 using Cryptool.P2P;
 using Cryptool.P2P.Internal;
@@ -38,14 +39,6 @@ namespace KeySearcher.P2P.Storage
             //Append Updater Version
             binaryWriter.Write('V');
             binaryWriter.Write(version);  
-
-            if (nodeToUpdate is Node)
-            {
-                UpdateNodeInDht((Node) nodeToUpdate, binaryWriter);
-            } else
-            {
-                UpdateLeafInDht((Leaf) nodeToUpdate, binaryWriter);
-            }
 
             // Append results
             binaryWriter.Write(nodeToUpdate.Result.Count);
@@ -85,7 +78,59 @@ namespace KeySearcher.P2P.Storage
                     binaryWriter.Write(maschCopy[maschID].Date.ToBinary()); //DateTime
                 }
             }
-            return StoreWithStatistic(KeyInDht(nodeToUpdate), memoryStream.ToArray());
+            
+            if (nodeToUpdate is Node)
+            {
+                binaryWriter.Write((byte)1);
+                UpdateNodeInDht((Node)nodeToUpdate, binaryWriter);
+            }
+            else
+            {
+                binaryWriter.Write((byte)0);
+                UpdateLeafInDht((Leaf)nodeToUpdate, binaryWriter);
+            }
+
+            //return StoreWithStatistic(KeyInDht(nodeToUpdate), memoryStream.ToArray());
+            return StoreWithHashAndStatistic(nodeToUpdate.DistributedJobIdentifier, KeyInDht(nodeToUpdate), memoryStream.ToArray());
+        }
+
+        private RequestResult StoreWithHashAndStatistic(string jobid, string keyInDht, byte[] data)
+        {
+            SHA256 shaM = new SHA256Managed();
+            List<byte> b = new List<byte>();
+            b.AddRange(data);
+            System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
+            b.AddRange(enc.GetBytes(jobid));
+            var hash = shaM.ComputeHash(b.ToArray());
+            List<byte> result = new List<byte>();
+            result.AddRange(data);
+            result.AddRange(hash);
+            return StoreWithStatistic(keyInDht, result.ToArray());
+        }
+
+        private bool InvalidHash(string jobid, byte[] nodeBytes)
+        {
+            if (nodeBytes.Length < 32)
+                return false;
+
+            List<byte> b = new List<byte>();
+            b.AddRange(nodeBytes);
+            byte[] hash = b.GetRange(nodeBytes.Length - 32, 32).ToArray();
+
+            SHA256 shaM = new SHA256Managed();
+            List<byte> c = b.GetRange(0, nodeBytes.Length - 32);
+            System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
+            c.AddRange(enc.GetBytes(jobid));
+            byte[] packethash = shaM.ComputeHash(c.ToArray());
+
+            for (int i = 0; i < 32; i++)
+            {
+                if (hash[i] != packethash[i])
+                    return true;
+            }
+
+            return false;
+            //return !hash.Equals(packethash);
         }
 
         private static void UpdateNodeInDht(Node nodeToUpdate, BinaryWriter binaryWriter)
@@ -114,25 +159,20 @@ namespace KeySearcher.P2P.Storage
 
                 var requestResult = RetrieveWithStatistic(KeyInDht(nodeToUpdate));
                 var nodeBytes = requestResult.Data;
-
                 if (nodeBytes == null)
                 {
                     return requestResult;
+                }
+
+                if (InvalidHash(nodeToUpdate.DistributedJobIdentifier, nodeBytes))
+                {
+                    throw new Exception("Invalid Hash");
                 }
 
                 var binaryReader = new BinaryReader(new MemoryStream(nodeBytes));
 
                 //oldVersionFlag will be used to garantee further changes in the Stream
                 var oldVersionFlag = CheckNodeVersion(binaryReader);
-
-                if (nodeToUpdate is Node)
-                {
-                    UpdateNodeFromDht((Node)nodeToUpdate, binaryReader);
-                }
-                else
-                {
-                    UpdateLeafFromDht((Leaf)nodeToUpdate, binaryReader);
-                }
 
                 // Load results
                 var resultCount = binaryReader.ReadInt32();
@@ -180,6 +220,22 @@ namespace KeySearcher.P2P.Storage
                         nodeToUpdate.Activity.Add(avatarname, readMaschcount);
                     }
                 }
+
+                byte type = binaryReader.ReadByte();
+
+                if (type == 1 && nodeToUpdate is Node)
+                {
+                    UpdateNodeFromDht((Node)nodeToUpdate, binaryReader);
+                }
+                else if (type == 0 && nodeToUpdate is Leaf)
+                {
+                    UpdateLeafFromDht((Leaf)nodeToUpdate, binaryReader);
+                }
+                else
+                {
+                    throw new Exception("Inconsistent type");
+                }
+
                 
                 if (resultCount > 0)
                 {
