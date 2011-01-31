@@ -41,626 +41,79 @@ namespace WebService
 {
     [Author("Tim Podeszwa", "tim.podeszwa@student.uni-siegen.de", "Uni Siegen", "http://www.uni-siegen.de")]
     [PluginInfo(false, "WebService", "Represents a Web Service", "", "WebService/webservice.png")]
-    public class WebService:IThroughput
+    public class WebService : IThroughput
     {
-        private ISettings settings = new WebServiceSettings();
+        #region Fields
+
+        private ISettings _settings = new WebServiceSettings();
         public WebServicePresentation presentation;
         private WebServiceQuickWatchPresentation quickWatch;
-        public XmlDocument inputString, outputString, modifiedInput;
-        public Object service;
-        public string[] wsdlMethode;
-        public ServiceDescription serviceDescription;
-        public XmlDocument wsdlDocument, soapResponse;
-        public XmlNode node, envelope, body;
-        public string[] stringArray = new string[5];
-        public DataSet set;
-        public string eingabeparameter = "";
-        public string eingabeparameterString = "";
-        public string[] rückgabeparameter = new string[5];
-        public string methodName="";
-        public string webMethod = "";
-        private SignedXml signedXml;
-        private SignatureValidator validator;
-        private XmlSchemaCollection collection;
-        private string wsdl,publickey;
+        private XmlDocument _inputDocument;
+        private XmlDocument _outputDocument;
+        private XmlDocument _modifiedInputDocument;
+        private XmlDocument _wsdlDocument;
+        private XmlDocument _soapResponse;
+        private Object _service;
+        private string[] _wsdlMethod;
+        private ServiceDescription _serviceDescription;
+        private XmlNode _node;
+        private XmlNode _envelope;
+        private XmlNode _body;
+        private string[] _stringToCompile = new string[5];
+        private DataSet _set;
+        private string _inputParameter = "";
+        private string _inputParameterString = "";
+        private string[] _returnParameter = new string[5];
+        private string _methodName = "";
+        private SignatureValidator _validator;
+        private string _publickey;
+        private RSACryptoServiceProvider _rsaCryptoServiceProvider;
 
-        public RSACryptoServiceProvider provider;
-        public WebService()
+        #endregion
+
+        #region Properties
+
+        public XmlDocument ModifiedInputDocument
         {
-
-
-       
-         
-         
-            
-            wsdlDocument = new XmlDocument();
-            modifiedInput = new XmlDocument();
-          //  XmlSchema soapSchema = new XmlSchema();
-          //  XmlSchema signatureSchema = new XmlSchema();
-          //  string soapschema = Resource1.SoapSchema;
-          //  string signatureschema = Resource1.SignatureSchema;
-          //  string wsseSchema = Resource1.WSSESchema;
-          //  collection = new XmlSchemaCollection();
-          //  StringReader sreader = new StringReader(soapschema);
-          //  XmlTextReader reader = new XmlTextReader(sreader);
-          //  collection.Add("http://www.w3.org/2003/05/soap-envelope", reader);
-          // sreader = new StringReader(signatureschema);
-          //reader = new XmlTextReader(sreader);
-          //  collection.Add("http://www.w3.org/2000/09/xmldsig#", reader);
-          //  sreader = new StringReader(wsseSchema);
-          //  reader = new XmlTextReader(sreader);
-          //  collection.Add("http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd", reader);
-
-
-   
-            
-           // XmlSchema schema = (XmlSchema)obj;
-            wsdlMethode = new string[1];
-            wsdlMethode[0]="\n" + @"   
-            public ServiceDescription getWsdl(){
-            ServiceDescription s1;
-            ServiceDescriptionReflector serviceDescriptionReflector = new ServiceDescriptionReflector();
-            serviceDescriptionReflector.Reflect(typeof(Service), null);
-            System.IO.StringWriter stringWriter = new System.IO.StringWriter();
-            serviceDescriptionReflector.ServiceDescriptions[0].Write(stringWriter);
-            s1 = serviceDescriptionReflector.ServiceDescriptions[0];
-            XmlSchema schema = s1.Types.Schemas[0];
-            string theWsdl = stringWriter.ToString();
-            return s1;
-            }}";
-
-            
-          
-            stringArray[0] = @" using System;
-            using System.Web;
-            using System.Web.Services;
-            using System.Web.Services.Protocols;
-            using System.Web.Services.Description;
-            using System.Xml;
-            using System.Xml.Schema;
-            using System.IO;";
-
-            stringArray[1] = @"
-            
-            public class Service : System.Web.Services.WebService
+            get
             {
-              public Service()
-             {
-     
-              }";
-            stringArray[2] = @"[WebMethod]";
-            this.PropertyChanged += new PropertyChangedEventHandler(WebService_PropertyChanged);
-            this.presentation = new WebServicePresentation(this);
-      //      this.quickWatch = new WebServiceQuickWatchPresentation();
-            settings.PropertyChanged += new PropertyChangedEventHandler(settings_PropertyChanged);
-            this.WebServiceSettings.Test = 1;
-            this.WebServiceSettings.Integer = 1;
-            this.WebServiceSettings.MethodName = "methodName";
-            OnGuiLogNotificationOccured += new GuiLogNotificationEventHandler(WebService_OnGuiLogNotificationOccured);
-            CspParameters parameters = new CspParameters();
-            parameters.KeyContainerName = "Container";
-            provider = new RSACryptoServiceProvider(parameters);
-           
-        }
-
-        void WebService_OnGuiLogNotificationOccured(IPlugin sender, GuiLogEventArgs args)
-        {
-            int n =5;
-        }
-
-        void WebService_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == "InputString")
-            {
-                this.checkSoap();
-                if (this.inputString != null)
-                {
-                    presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-                    {
-                        this.presentation.resetSoapInputItem();
-
-                        this.presentation.namespacesTable.Clear();
-                        this.presentation.CopyXmlToTreeView(this.inputString.ChildNodes[1], ref this.presentation.soapInput,false);
-                        
-                       
-                        this.presentation.treeView4.Items.Add(this.presentation.soapInput);
-                        this.presentation.findItem(presentation.soapInput, "Envelope",1).IsExpanded = true;
-                        this.presentation.findItem(presentation.soapInput,"Header",1).IsExpanded=true;
-                        this.presentation.findItem(presentation.soapInput, "Security",1).IsExpanded = true;
-                        this.presentation.findItem(presentation.soapInput, "Signature",1).IsExpanded = true;
-                        this.presentation.findItem(presentation.soapInput, "Body",1).IsExpanded = true;
-                        this.presentation.treeView4.Items.Refresh();
-                       
-                    }, null);
-                    
-                }
-                }
-        }
-        public void createKey()
-        {
-            CspParameters parameters= new CspParameters();
-            parameters.KeyContainerName = "Container";
-            provider = new RSACryptoServiceProvider(parameters);
-            EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs("Schlüsselpaar erfolgreich erstellt", this, NotificationLevel.Info));
-
-          
-
-        }
-        public string exportPublicKey()
-        {
-            if(provider!=null)
-            {
-                EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs("Öffentlicher Schlüssel exportiert", this, NotificationLevel.Info));
-             return   provider.ToXmlString(false);
+                return this._modifiedInputDocument;
             }
-            return "";
-        }
-        void settings_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            WebServiceSettings s = (WebServiceSettings)sender;
-            if(e.PropertyName.Equals("createKey"))
-            {
-                this.createKey();
-           
-
-            }
-            if (e.PropertyName.Equals("publishKey"))
-            {
-                PublicKey = exportPublicKey();
-            }
-            if (e.PropertyName.Equals("exportWSDL"))
-            {
-                Wsdl = this.wsdlDocument;
-            }
-            if (e.PropertyName.Equals("MethodenStub"))
-            {
-                
-                
-                this.WebServiceSettings.Integer = 1;
-                this.WebServiceSettings.String = 0;
-                this.WebServiceSettings.Test = 4;
-                this.WebServiceSettings.Double = 2;
-                this.WebServiceSettings.MethodName = "berechneVerzinsung";
-             
-               
-                if (presentation.textBlock1.Inlines != null)
-                {
-                    presentation.textBlock1.Inlines.Clear();
-                }
-             
-                this.presentation.textBlock1.Inlines.Add(new Bold(new Run(stringArray[2].ToString()+"\n")));
-                this.presentation.visualMethodName(WebServiceSettings.MethodName) ;
-                this.presentation.visualReturnParam("double");
-          
-                
-                this.presentation.richTextBox1.Document.Blocks.Clear();
-                this.presentation.richTextBox1.AppendText("double endKapital;\n"+"int laufzeit=intparam1;\n"+"double zinssatz=doubleparam1;\n"+"double startKapital=doubleparam2;\n"+"endKapital=Math.Round(startKapital*(Math.Pow(1+zinssatz/100,laufzeit)));\n"+"return endKapital;") ;
-            
-            }
-
-            else
-            {
-                if (e.PropertyName.Equals("Test"))
-                {
-                    rückgabeparameter[0] = "void";
-                    rückgabeparameter[1] = "int";
-                    rückgabeparameter[2] = "string";
-                    rückgabeparameter[3] = "float";
-                       rückgabeparameter[4] = "double";
-                    this.presentation.visualReturnParam(rückgabeparameter[s.Test]);
-                }
-                  
-             
-                   
-              
-                if (e.PropertyName.Equals("Integer"))
-                {
-                    if (s.Integer == 1)
-                    {
-                       
-                        this.presentation.visualParam("int",1);
-                    }
-                    if (s.Integer == 2)
-                    {
-                         this.presentation.visualParam("int",2);
-                    }
-                    if (s.Integer == 0)
-                    {
-                        this.presentation.visualParam("int", 0);
-                    }
-
-                }
-                if (e.PropertyName.Equals("String"))
-                {
-                    if (s.String == 1)
-                    {
-                        this.presentation.visualParam("string", 1);
-                    }
-                    if (s.String == 2)
-                    {
-
-                        this.presentation.visualParam("string", 2);
-                        }
-                    
-                    if (s.String == 0)
-                    {
-                        this.presentation.visualParam("string", 0);
-                    }
-                }
-                if (e.PropertyName.Equals("Double"))
-                {
-                    if (s.Double == 1)
-                    {
-                        this.presentation.visualParam("double", 1);
-                    }
-                    if (s.Double == 2)
-                    {
-
-                        this.presentation.visualParam("double", 2);
-                    }
-
-                    if (s.Double == 0)
-                    {
-                        this.presentation.visualParam("double", 0);
-                    }
-                }
-
-
-                if (e.PropertyName.Equals("MethodName"))
-                {
-                    this.methodName = s.MethodName;
-                    this.presentation.visualMethodName(s.MethodName);
-                }
-              
-                {
-                    string komma = "";
-                    if(!eingabeparameter.Equals("")){
-                        komma=",";
-                    }
-                    if(eingabeparameterString.Equals("")){
-                        komma="";
-                    }
-                    stringArray[3] = @"public" + " " + rückgabeparameter[s.Test] + " " + methodName + "(" + "" + eingabeparameter +komma+ eingabeparameterString+")\n{";
-
-                } StringBuilder code = new StringBuilder();
-
-                code.Append(stringArray[0]);
-                code.Append(stringArray[1]);
-                code.Append(stringArray[2]);
-                code.Append(stringArray[3]);
-             
-     
-              
-            }   
-        }
-        public int getSignatureNumber()
-        {
-            return this.inputString.GetElementsByTagName("ds:Signature").Count;
-
-        }
-       
-        public bool checkSignature()
-        {
-            XmlDocument neu = new XmlDocument();
-        //   this.inputString.Save(@"C:\Users\Tim\Desktop\test.xml");
-           XmlNodeList signatureElements = this.inputString.GetElementsByTagName("Signature");
-           XmlElement signaturElement = (XmlElement)signatureElements.Item(0);
-           SignedXml signedXml = new SignedXml(this.inputString);
-           signedXml.LoadXml(signaturElement);
-           bool test = signedXml.CheckSignature();
-            return test;
-        }
-        public void readDescription()
-        {
-            set = new DataSet();
-            XmlSchema paramsSchema = this.serviceDescription.Types.Schemas[0];
-         //   this.collection.Add(paramsSchema);
-            StringWriter schemaStringWriter = new StringWriter();
-            paramsSchema.Write(schemaStringWriter);
-            StringReader sreader = new StringReader(schemaStringWriter.ToString());
-            XmlTextReader xmlreader = new XmlTextReader(sreader);
-            set.ReadXmlSchema(xmlreader);
-
-        }
-       // private bool checkSchema()
-       // {
-       //     XmlSchema soapSchema = collection["http://www.w3.org/2003/05/soap-envelope"];
-       //     XmlSchema paramsSchema = collection["http://tempuri.org/"];
-       //     XmlSchema signatureSchema = collection["http://www.w3.org/2000/09/xmldsig#"];
-       //     XmlSchema wsseSchema = collection["http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"];
-       //     string xmlString= this.inputString.InnerXml;
-       //     StringReader stringReader= new StringReader(xmlString);
-       //     XmlTextReader xmlreader = new XmlTextReader(stringReader);
-       //     XmlValidatingReader validatingReader = new XmlValidatingReader(xmlreader);
-       //     validatingReader.Schemas.Add(collection);
-       //     validatingReader.ValidationEventHandler += new ValidationEventHandler(validatingReader_ValidationEventHandler);
-       //     validatingReader.ValidationType = System.Xml.ValidationType.Schema;
-       //     XmlDocument inputStringClone = (XmlDocument)this.inputString.Clone();
-       //     inputStringClone.Schemas.Add(soapSchema);
-       //     inputStringClone.Schemas.Add(signatureSchema);
-       //     inputStringClone.Schemas.Add(wsseSchema);
-       //     inputStringClone.Schemas.Add(paramsSchema);
-       //     try
-       //     {
-       //         inputStringClone.Load(validatingReader);
-
-       //     inputStringClone.Validate(validatingReader_ValidationEventHandler);
-       //     }
-       //     catch (Exception exception)
-       //     {
-       //         validatingReader.Close();
-       //         return false;
-       //     }
-       //     validatingReader.Close();
-       //     return true;
-       // }
-
-       //void validatingReader_ValidationEventHandler(object sender, ValidationEventArgs e)
-       // {
-       //     switch (e.Severity)
-       //     {
-       //         case XmlSeverityType.Error:
-       //             Console.WriteLine("Error: {0}", e.Message);
-       //             break;
-       //         case XmlSeverityType.Warning:
-       //             Console.WriteLine("Warning {0}", e.Message);
-       //             break;
-       //     }
-       // }
-       private bool compiled()
-       {
-           if (serviceDescription == null)
-           {
-               EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs("Es liegt keine Service Beschreibung vor. Wurde der Web Service nicht kompiliert?", this, NotificationLevel.Error));
-               return false;
-           }
-           return true;
-       }
-        public SignatureValidator getValidator()
-        {
-            return this.validator;
-        }
-        private void checkSoap()
-        {
-            bool signatureValid = true;
-           // this.checkSchema();
-            this.compiled();
-            if (this.inputString == null)
-                return;
-            if (this.inputString.GetElementsByTagName("ds:Signature") != null)
-            {
-
-                validator = new SignatureValidator(this);
-            }
-            signatureValid = validator.valid;
-          
-            object test2 = new object();
-            object[] array = null;
-            string response;
-            if (serviceDescription == null)
-            {
-                EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs("Es liegt keine Service Beschreibung vor. Wurde der Web Service nicht kompiliert?", this, NotificationLevel.Error));
-            }
-            else
-            {
-                if (!signatureValid)
-                {
-                    EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs("Signature Validation failed", this, NotificationLevel.Error));
-                    goto Abbruch;
-                }
-
-                Types types = this.serviceDescription.Types;
-                PortTypeCollection portTypes = this.serviceDescription.PortTypes;
-                MessageCollection messages = this.serviceDescription.Messages;
-                PortType porttype = portTypes[0];
-                Operation operation = porttype.Operations[0];
-                OperationOutput output = operation.Messages[0].Operation.Messages.Output;
-                OperationInput input = operation.Messages[0].Operation.Messages.Input;
-                Message messageOutput = messages[output.Message.Name];
-                Message messageInput = messages[input.Message.Name];
-                MessagePart messageOutputPart = messageOutput.Parts[0];
-                MessagePart messageInputPart = messageInput.Parts[0];
-                XmlSchema xmlSchema = types.Schemas[0];
-
-
-                XmlSchemaElement outputSchema = (XmlSchemaElement)xmlSchema.Elements[messageOutputPart.Element];
-                XmlSchemaElement inputSchema = (XmlSchemaElement)xmlSchema.Elements[messageInputPart.Element];
-
-                XmlSchemaComplexType complexTypeOutput = (XmlSchemaComplexType)outputSchema.SchemaType;
-                XmlSchemaSequence sequenzTypeOutput = (XmlSchemaSequence)complexTypeOutput.Particle;
-
-                XmlSchemaComplexType complexTypeInput = (XmlSchemaComplexType)inputSchema.SchemaType;
-                XmlSchemaSequence sequenzTypeInput = (XmlSchemaSequence)complexTypeInput.Particle;
-
-                Hashtable paramTypesTable = new Hashtable();
-                StringWriter twriter = new StringWriter();
-                //  TextWriter writer= new TextWriter(twriter);
-                xmlSchema.Write(twriter);
-
-               
-                set = new DataSet();
-                StringReader sreader = new StringReader(twriter.ToString());
-                XmlTextReader xmlreader = new XmlTextReader(sreader);
-                set.ReadXmlSchema(xmlreader);
-                if (sequenzTypeInput != null)
-                {
-                    foreach (XmlSchemaElement inputParam in sequenzTypeInput.Items)
-                    {
-                        XmlQualifiedName schemaName = inputParam.SchemaTypeName;
-                        paramTypesTable.Add(inputParam.QualifiedName.Name, schemaName.Name);
-                    }
-
-                    
-
-               
-                    
-                    XmlDocument t = new XmlDocument();
-
-               
-                    XmlNamespaceManager manager = new XmlNamespaceManager(this.modifiedInput.NameTable);
-                    XmlElement b = (XmlElement)this.inputString.GetElementsByTagName("s:Body")[0];
-                    manager.AddNamespace("s", b.NamespaceURI);
-                    manager.AddNamespace("tns", "http://tempuri.org/");
-                    XmlNode node = this.modifiedInput.SelectSingleNode("s:Envelope/s:Body/" + "tns:" + set.Tables[0].TableName, manager);
-                    XmlElement ele = (XmlElement)node; 
-                  //XmlElement ele2 = (XmlElement)this.modifiedInput.GetElementsByTagName(set.Tables[0].TableName, fsdf.TargetNamespace)[0];
-                    //   object test = service.GetType().InvokeMember(operation.Name, System.Reflection.BindingFlags.InvokeMethod, null, service,); 
-                    int n = new Int32();
-                    try
-                    {
-                       
-                   
-                        n = ele.ChildNodes.Count;
-
-                    }
-
-                    catch
-                    {
-                        EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs("Es wurden nicht alle Parameter übergeben!", this, NotificationLevel.Error));
-                    }
-                    if (n != 0)
-                    {
-                        array = new Object[n];
-
-                        for (int i = 0; i < n; i++)
-                        {
-                            string param = ele.ChildNodes[i].InnerText;
-                            Object paramType = paramTypesTable[ele.ChildNodes[i].LocalName];
-                            if (paramType.ToString().Equals("int"))
-                            {
-                                if (!ele.ChildNodes[i].InnerText.Equals(""))
-                                {
-                                    try
-                                    {
-                                        array[i] = Convert.ToInt32((Object)ele.ChildNodes[i].InnerText);
-                                    }
-                                    catch(Exception e) 
-                                    {
-                                        EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(e.Message, this, NotificationLevel.Error));
-                                        goto Abbruch;
-                                    }
-                                }
-                                else {
-                                    EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs("Es wurden nicht alle Parameter übergeben!", this, NotificationLevel.Error));
-                                    goto Abbruch;
-                                
-                                }
-                            }
-                            if (paramType.ToString().Equals("string"))
-                            {
-                                try
-                                {
-                                    array[i] = Convert.ToString((Object)ele.ChildNodes[i].InnerText);
-                                }
-                                catch (Exception e)
-                                {
-                                    EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(e.Message, this, NotificationLevel.Error));
-                                    goto Abbruch;
-                                }
-                            }
-                            if (paramType.ToString().Equals("double"))
-                            {
-                                try
-                                {
-                                    array[i] = Convert.ToDouble((Object)ele.ChildNodes[i].InnerText);
-
-                                }
-                                catch (Exception e)
-                                {
-                                    EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(e.Message, this, NotificationLevel.Error));
-                                    goto Abbruch;
-                                }
-                            }
-
-                        }
-
-                        //object test2 = service.GetType().getmInvokeMember(operation.Name, System.Reflection.BindingFlags.InvokeMethod, null, null, array);
-                          for(int i =0;i<array.Length;i++)
-                        {
-                            if (array[i] == null)
-                            {goto Abbruch;
-                             
-                            }
-                        }
-                        try
-                        {   
-                            Type typ = service.GetType().GetMethod(operation.Name).ReturnType;
-                            string returnType = typ.ToString();
-                            if (!returnType.Equals("System.Void"))
-                            {
-                                test2 = service.GetType().GetMethod(operation.Name).Invoke(service, array).ToString();
-                            }
-                            else { service.GetType().GetMethod(operation.Name).Invoke(service, array).ToString(); }
-                        }
-                        catch(Exception e)
-                        {
-                            EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(e.Message, this, NotificationLevel.Error));
-                            goto Abbruch;
-                        }
-                        }
-                     
-                    
-                    else
-                    {
-                        if (sequenzTypeOutput != null)
-                        {
-                            try
-                            {
-                                test2 = service.GetType().GetMethod(operation.Name).Invoke(service, null).ToString();
-                            }
-                            catch(Exception e)
-                            {
-                                EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(e.Message, this, NotificationLevel.Error));
-                                goto Abbruch;
-                            }
-                        }
-                        else { service.GetType().GetMethod(operation.Name).Invoke(service, array); }
-                    }
-                    response = test2.ToString();
-                    this.createResponse(response);
-
-            
-                   
-                        
-                    
-                }
-            }
-        Abbruch: ;
-        }
-        public void createResponse(string response)
-        {
-            soapResponse = new XmlDocument();
-            node = soapResponse.CreateXmlDeclaration("1.0", "ISO-8859-1", "yes");
-
-            soapResponse.AppendChild(node);
-            envelope = soapResponse.CreateElement("Envelope", "http://www.w3.org/2001/12/soap-envelope");
-
-
-            soapResponse.AppendChild(envelope);
-
-            body = soapResponse.CreateElement("Body", "http://www.w3.org/2001/12/soap-envelope");
-            XmlNode eingabe = soapResponse.CreateElement(set.Tables[1].ToString(), set.Tables[1].Namespace);
-            DataTable table = set.Tables[1];
-            foreach (DataColumn tempColumn in table.Columns)
-            {
-                XmlNode neu = soapResponse.CreateElement(tempColumn.ColumnName, set.Tables[1].Namespace);
-                neu.InnerText = response;
-                eingabe.AppendChild(neu);
-            }
-            body.AppendChild(eingabe);
-            envelope.AppendChild(body);
-            this.OutputString = soapResponse;
-        }
-        [PropertyInfo(Direction.InputData, "SOAP input", "Input a SOAP message to be processed by the Web Service", "", true, false, QuickWatchFormat.Text,"XmlConverter")]
-        public XmlDocument InputString
-        {
-            get { return this.inputString; }
             set
             {
-               
-                    this.inputString = value;
-                    OnPropertyChanged("InputString");
-                
+                this._modifiedInputDocument = value;
+            }
+        }
+
+        public ServiceDescription ServiceDescription
+        {
+            get
+            {
+                return this._serviceDescription;
+            }
+        }
+
+        public RSACryptoServiceProvider RSACryptoServiceProvider
+        {
+            get
+            {
+                return this._rsaCryptoServiceProvider;
+            }
+        }
+
+        public SignatureValidator Validator()
+        {
+            return this._validator;
+        }
+
+        [PropertyInfo(Direction.InputData, "SOAP input", "Input a SOAP message to be processed by the Web Service", "", true, false, QuickWatchFormat.Text, "XmlConverter")]
+        public XmlDocument InputString
+        {
+            get { return this._inputDocument; }
+            set
+            {
+                this._inputDocument = value;
+                OnPropertyChanged("InputString");
             }
 
         }
@@ -668,10 +121,10 @@ namespace WebService
         [PropertyInfo(Direction.OutputData, "WSDL output", "Web Service Description", null)]
         public XmlDocument Wsdl
         {
-            get { return this.wsdlDocument; }
+            get { return this._wsdlDocument; }
             set
             {
-                this.wsdlDocument = value;
+                this._wsdlDocument = value;
                 OnPropertyChanged("Wsdl");
             }
         }
@@ -679,10 +132,10 @@ namespace WebService
         [PropertyInfo(Direction.OutputData, "Public-Key output", "Encryption Key", null)]
         public string PublicKey
         {
-            get { return this.publickey; }
+            get { return this._publickey; }
             set
             {
-                this.publickey = value;
+                this._publickey = value;
                 OnPropertyChanged("PublicKey");
             }
         }
@@ -690,20 +143,29 @@ namespace WebService
         [PropertyInfo(Direction.OutputData, "SOAP output", "Response from Web Service", "", false, false, QuickWatchFormat.Text, "XmlOutputConverter")]
         public XmlDocument OutputString
         {
-            get { return this.outputString; }
+            get { return this._outputDocument; }
             set
             {
-                this.outputString = value;
+                this._outputDocument = value;
                 OnPropertyChanged("OutputString");
             }
-
-
         }
+
+        public ServiceDescription Description
+        {
+            get { return this._serviceDescription; }
+            set { this._serviceDescription = value; }
+        }
+
+        public WebServiceSettings WebServiceSettings
+        {
+            get { return (WebServiceSettings)this._settings; }
+            set { this._settings = value; }
+        }
+
         public Object XmlOutputConverter(Object Data)
         {
-            string test = Data.ToString();
-
-            XmlDocument doc = (XmlDocument)this.outputString;
+            XmlDocument doc = (XmlDocument)this._outputDocument;
             StringWriter stringWriter = new StringWriter();
             Object obj = new Object();
             try
@@ -716,17 +178,16 @@ namespace WebService
             catch (Exception e)
             {
                 Console.WriteLine(e.ToString());
-              
+
             }
 
 
             return obj;
         }
+
         public Object XmlConverter(Object Data)
         {
-          
-           
-            XmlDocument doc = (XmlDocument)this.inputString;
+            XmlDocument doc = (XmlDocument)this._inputDocument;
             StringWriter stringWriter = new StringWriter();
             Object obj = new Object();
             try
@@ -737,77 +198,516 @@ namespace WebService
                 obj = (Object)stringWriter.ToString();
             }
             catch (Exception e)
-            {Console.WriteLine(e.ToString());
-       
+            {
+                Console.WriteLine(e.ToString());
+
             }
- 
-            return obj ;
+
+            return obj;
+        }
+        #endregion
+
+        #region Constructor
+
+        public WebService()
+        {
+            this._wsdlDocument = new XmlDocument();
+            this._modifiedInputDocument = new XmlDocument();
+            this._wsdlMethod = new string[1];
+            this._wsdlMethod[0] = "\n" + @"   
+            public ServiceDescription getWsdl(){
+            ServiceDescription s1;
+            ServiceDescriptionReflector serviceDescriptionReflector = new ServiceDescriptionReflector();
+            serviceDescriptionReflector.Reflect(typeof(Service), null);
+            System.IO.StringWriter stringWriter = new System.IO.StringWriter();
+            serviceDescriptionReflector.ServiceDescriptions[0].Write(stringWriter);
+            s1 = serviceDescriptionReflector.ServiceDescriptions[0];
+            XmlSchema schema = s1.Types.Schemas[0];
+            string theWsdl = stringWriter.ToString();
+            return s1;
+            }}";
+
+            this._stringToCompile[0] = @" using System;
+            using System.Web;
+            using System.Web.Services;
+            using System.Web.Services.Protocols;
+            using System.Web.Services.Description;
+            using System.Xml;
+            using System.Xml.Schema;
+            using System.IO;";
+            this._stringToCompile[1] = @"
+            
+            public class Service : System.Web.Services.WebService
+            {
+              public Service()
+             {
+     
+              }";
+            this._stringToCompile[2] = @"[WebMethod]";
+            this.PropertyChanged += new PropertyChangedEventHandler(WebServicePropertyChangedEventHandler);
+            this.presentation = new WebServicePresentation(this);
+            this._settings.PropertyChanged += new PropertyChangedEventHandler(SettingsPropertyChangedEventHandler);
+            this.WebServiceSettings.Test = 1;
+            this.WebServiceSettings.Integer = 1;
+            this.WebServiceSettings.MethodName = "methodName";
+            CspParameters parameters = new CspParameters();
+            parameters.KeyContainerName = "Container";
+            this._rsaCryptoServiceProvider = new RSACryptoServiceProvider(parameters);
+
         }
 
-        public ServiceDescription description
+        #endregion
+
+        #region EventHandlers
+
+        private void WebServicePropertyChangedEventHandler(object sender, PropertyChangedEventArgs e)
         {
-            get { return this.serviceDescription; }
-            set { this.serviceDescription = value; }
+            if (e.PropertyName == "InputString")
+            {
+                this.CheckSoap();
+                if (this._inputDocument != null)
+                {
+                    presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        this.presentation.resetSoapInputItem();
+
+                        this.presentation.namespacesTable.Clear();
+                        this.presentation.CopyXmlToTreeView(this._inputDocument.ChildNodes[1], ref this.presentation.soapInput, false);
+
+
+                        this.presentation.treeView4.Items.Add(this.presentation.soapInput);
+                        this.presentation.findItem(presentation.soapInput, "Envelope", 1).IsExpanded = true;
+                        this.presentation.findItem(presentation.soapInput, "Header", 1).IsExpanded = true;
+                        this.presentation.findItem(presentation.soapInput, "Security", 1).IsExpanded = true;
+                        this.presentation.findItem(presentation.soapInput, "Signature", 1).IsExpanded = true;
+                        this.presentation.findItem(presentation.soapInput, "Body", 1).IsExpanded = true;
+                        this.presentation.treeView4.Items.Refresh();
+
+                    }, null);
+
+                }
+            }
         }
-        public WebServiceSettings  WebServiceSettings
+        private void SettingsPropertyChangedEventHandler(object sender, PropertyChangedEventArgs e)
         {
-            get { return (WebServiceSettings) this.settings; }
-            set { this.settings = value; }
+            WebServiceSettings webserviceSettings = sender as WebServiceSettings;
+            if (e.PropertyName.Equals("createKey"))
+            {
+                this.CreateRSAKey();
+
+            }
+            if (e.PropertyName.Equals("publishKey"))
+            {
+                this.PublicKey = this.ExportPublicKey();
+            }
+            if (e.PropertyName.Equals("exportWSDL"))
+            {
+                this.Wsdl = this._wsdlDocument;
+            }
+            if (e.PropertyName.Equals("MethodenStub"))
+            {
+                this.WebServiceSettings.Integer = 1;
+                this.WebServiceSettings.String = 0;
+                this.WebServiceSettings.Test = 4;
+                this.WebServiceSettings.Double = 2;
+                this.WebServiceSettings.MethodName = "berechneVerzinsung";
+
+                if (presentation.textBlock1.Inlines != null)
+                {
+                    presentation.textBlock1.Inlines.Clear();
+                }
+
+                this.presentation.textBlock1.Inlines.Add(new Bold(new Run(_stringToCompile[2].ToString() + "\n")));
+                this.presentation.visualMethodName(WebServiceSettings.MethodName);
+                this.presentation.visualReturnParam("double");
+                this.presentation.richTextBox1.Document.Blocks.Clear();
+                this.presentation.richTextBox1.AppendText("double endKapital;\n" + "int laufzeit=intparam1;\n" + "double zinssatz=doubleparam1;\n" + "double startKapital=doubleparam2;\n" + "endKapital=Math.Round(startKapital*(Math.Pow(1+zinssatz/100,laufzeit)));\n" + "return endKapital;");
+            }
+
+            else
+            {
+                if (e.PropertyName.Equals("Test"))
+                {
+                    this._returnParameter[0] = "void";
+                    this._returnParameter[1] = "int";
+                    this._returnParameter[2] = "string";
+                    this._returnParameter[3] = "float";
+                    this._returnParameter[4] = "double";
+                    this.presentation.visualReturnParam(_returnParameter[webserviceSettings.Test]);
+                }
+
+                if (e.PropertyName.Equals("Integer"))
+                {
+                    if (webserviceSettings.Integer == 1)
+                    {
+                        this.presentation.visualParam("int", 1);
+                    }
+                    if (webserviceSettings.Integer == 2)
+                    {
+                        this.presentation.visualParam("int", 2);
+                    }
+                    if (webserviceSettings.Integer == 0)
+                    {
+                        this.presentation.visualParam("int", 0);
+                    }
+
+                }
+                if (e.PropertyName.Equals("String"))
+                {
+                    if (webserviceSettings.String == 1)
+                    {
+                        this.presentation.visualParam("string", 1);
+                    }
+                    if (webserviceSettings.String == 2)
+                    {
+
+                        this.presentation.visualParam("string", 2);
+                    }
+
+                    if (webserviceSettings.String == 0)
+                    {
+                        this.presentation.visualParam("string", 0);
+                    }
+                }
+                if (e.PropertyName.Equals("Double"))
+                {
+                    if (webserviceSettings.Double == 1)
+                    {
+                        this.presentation.visualParam("double", 1);
+                    }
+                    if (webserviceSettings.Double == 2)
+                    {
+
+                        this.presentation.visualParam("double", 2);
+                    }
+
+                    if (webserviceSettings.Double == 0)
+                    {
+                        this.presentation.visualParam("double", 0);
+                    }
+                }
+
+
+                if (e.PropertyName.Equals("MethodName"))
+                {
+                    this._methodName = webserviceSettings.MethodName;
+                    this.presentation.visualMethodName(webserviceSettings.MethodName);
+                }
+                string comma = "";
+                if (!this._inputParameter.Equals(""))
+                {
+                    comma = ",";
+                }
+                if (this._inputParameterString.Equals(""))
+                {
+                    comma = "";
+                }
+                this._stringToCompile[3] = @"public" + " " + this._returnParameter[webserviceSettings.Test] + " " + this._methodName + "(" + "" + this._inputParameter + comma + this._inputParameterString + ")\n{";
+                StringBuilder code = new StringBuilder();
+
+                code.Append(_stringToCompile[0]);
+                code.Append(_stringToCompile[1]);
+                code.Append(_stringToCompile[2]);
+                code.Append(_stringToCompile[3]);
+            }
         }
-        public ArrayList getSignatureReferences(int i)
+
+        #endregion
+
+        #region Methods
+
+        private void CreateRSAKey()
         {
-           return this.validator.getSignatureReferences(i);
+            CspParameters parameters = new CspParameters();
+            parameters.KeyContainerName = "Container";
+            this._rsaCryptoServiceProvider = new RSACryptoServiceProvider(parameters);
+            EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs("Key pair created", this, NotificationLevel.Info));
         }
-        public ArrayList getSignedXmlSignatureReferences()
+        private string ExportPublicKey()
         {
-            return this.validator.getSignedXmlSignatureReferences();
+            if (this._rsaCryptoServiceProvider != null)
+            {
+                EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs("Public key exported", this, NotificationLevel.Info));
+                return this._rsaCryptoServiceProvider.ToXmlString(false);
+            }
+            return "";
         }
-        public void compile(string code)
+        public int GetSignatureNumber()
+        {
+            return this._inputDocument.GetElementsByTagName("ds:Signature").Count;
+
+        }
+        public bool CheckSignature()
+        {
+            XmlNodeList signatureElements = this._inputDocument.GetElementsByTagName("Signature");
+            XmlElement signaturElement = (XmlElement)signatureElements.Item(0);
+            SignedXml signedXml = new SignedXml(this._inputDocument);
+            signedXml.LoadXml(signaturElement);
+            return signedXml.CheckSignature(); ;
+        }
+        private void ReadWebServiceDescription()
+        {
+            this._set = new DataSet();
+            XmlSchema paramsSchema = this._serviceDescription.Types.Schemas[0];
+            StringWriter schemaStringWriter = new StringWriter();
+            paramsSchema.Write(schemaStringWriter);
+            StringReader sreader = new StringReader(schemaStringWriter.ToString());
+            XmlTextReader xmlreader = new XmlTextReader(sreader);
+            this._set.ReadXmlSchema(xmlreader);
+
+        }
+        private bool Compiled()
+        {
+            if (this._serviceDescription == null)
+            {
+                EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs("There is no Web Service Description available", this, NotificationLevel.Error));
+                return false;
+            }
+            return true;
+        }
+        private void CheckSoap()
+        {
+            bool signatureValid = true;
+            this.Compiled();
+            if (this._inputDocument == null)
+                return;
+            if (this._inputDocument.GetElementsByTagName("ds:Signature") != null)
+            {
+                this._validator = new SignatureValidator(this);
+            }
+            signatureValid = this._validator.Valid;
+            object invokedObject = new object();
+            object[] parameters = null;
+            string response;
+            if (this._serviceDescription == null)
+            {
+                EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs("There is no Web Service Description available", this, NotificationLevel.Error));
+            }
+            else
+            {
+                if (!signatureValid)
+                {
+                    EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs("Signature validation failed", this, NotificationLevel.Error));
+                    goto Abort;
+                }
+
+                Types types = this._serviceDescription.Types;
+                PortTypeCollection portTypes = this._serviceDescription.PortTypes;
+                MessageCollection messages = this._serviceDescription.Messages;
+                PortType porttype = portTypes[0];
+                Operation operation = porttype.Operations[0];
+                OperationOutput output = operation.Messages[0].Operation.Messages.Output;
+                OperationInput input = operation.Messages[0].Operation.Messages.Input;
+                Message messageOutput = messages[output.Message.Name];
+                Message messageInput = messages[input.Message.Name];
+                MessagePart messageOutputPart = messageOutput.Parts[0];
+                MessagePart messageInputPart = messageInput.Parts[0];
+                XmlSchema xmlSchema = types.Schemas[0];
+                XmlSchemaElement outputSchema = (XmlSchemaElement)xmlSchema.Elements[messageOutputPart.Element];
+                XmlSchemaElement inputSchema = (XmlSchemaElement)xmlSchema.Elements[messageInputPart.Element];
+                XmlSchemaComplexType complexTypeOutput = (XmlSchemaComplexType)outputSchema.SchemaType;
+                XmlSchemaSequence sequenzTypeOutput = (XmlSchemaSequence)complexTypeOutput.Particle;
+                XmlSchemaComplexType complexTypeInput = (XmlSchemaComplexType)inputSchema.SchemaType;
+                XmlSchemaSequence sequenzTypeInput = (XmlSchemaSequence)complexTypeInput.Particle;
+                Hashtable paramTypesTable = new Hashtable();
+                StringWriter xmlStringWriter = new StringWriter();
+                xmlSchema.Write(xmlStringWriter);
+                this._set = new DataSet();
+                StringReader sreader = new StringReader(xmlStringWriter.ToString());
+                XmlTextReader xmlreader = new XmlTextReader(sreader);
+                this._set.ReadXmlSchema(xmlreader);
+                if (sequenzTypeInput != null)
+                {
+                    foreach (XmlSchemaElement inputParam in sequenzTypeInput.Items)
+                    {
+                        XmlQualifiedName schemaName = inputParam.SchemaTypeName;
+                        paramTypesTable.Add(inputParam.QualifiedName.Name, schemaName.Name);
+                    }
+
+                    XmlNamespaceManager manager = new XmlNamespaceManager(this._modifiedInputDocument.NameTable);
+                    XmlElement body = (XmlElement)this._inputDocument.GetElementsByTagName("s:Body")[0];
+                    manager.AddNamespace("s", body.NamespaceURI);
+                    manager.AddNamespace("tns", "http://tempuri.org/");
+                    XmlNode node = this._modifiedInputDocument.SelectSingleNode("s:Envelope/s:Body/" + "tns:" + this._set.Tables[0].TableName, manager);
+                    XmlElement ele = (XmlElement)node;
+                    int paramCounter = new Int32();
+                    try
+                    {
+                        paramCounter = ele.ChildNodes.Count;
+                    }
+
+                    catch
+                    {
+                        EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs("Some params are missing", this, NotificationLevel.Error));
+                    }
+                    if (paramCounter != 0)
+                    {
+                        parameters = new Object[paramCounter];
+
+                        for (int i = 0; i < paramCounter; i++)
+                        {
+                            string param = ele.ChildNodes[i].InnerText;
+                            Object paramType = paramTypesTable[ele.ChildNodes[i].LocalName];
+                            if (paramType.ToString().Equals("int"))
+                            {
+                                if (!ele.ChildNodes[i].InnerText.Equals(""))
+                                {
+                                    try
+                                    {
+                                        parameters[i] = Convert.ToInt32((Object)ele.ChildNodes[i].InnerText);
+                                    }
+                                    catch (Exception e)
+                                    {
+                                        EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(e.Message, this, NotificationLevel.Error));
+                                        goto Abort;
+                                    }
+                                }
+                                else
+                                {
+                                    EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs("Es wurden nicht alle Parameter übergeben!", this, NotificationLevel.Error));
+                                    goto Abort;
+
+                                }
+                            }
+                            if (paramType.ToString().Equals("string"))
+                            {
+                                try
+                                {
+                                    parameters[i] = Convert.ToString((Object)ele.ChildNodes[i].InnerText);
+                                }
+                                catch (Exception e)
+                                {
+                                    EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(e.Message, this, NotificationLevel.Error));
+                                    goto Abort;
+                                }
+                            }
+                            if (paramType.ToString().Equals("double"))
+                            {
+                                try
+                                {
+                                    parameters[i] = Convert.ToDouble((Object)ele.ChildNodes[i].InnerText);
+
+                                }
+                                catch (Exception e)
+                                {
+                                    EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(e.Message, this, NotificationLevel.Error));
+                                    goto Abort;
+                                }
+                            }
+
+                        }
+                        for (int i = 0; i < parameters.Length; i++)
+                        {
+                            if (parameters[i] == null)
+                            {
+                                goto Abort;
+
+                            }
+                        }
+                        try
+                        {
+                            Type typ = this._service.GetType().GetMethod(operation.Name).ReturnType;
+                            string returnType = typ.ToString();
+                            if (!returnType.Equals("System.Void"))
+                            {
+                                invokedObject = this._service.GetType().GetMethod(operation.Name).Invoke(this._service, parameters).ToString();
+                            }
+                            else { this._service.GetType().GetMethod(operation.Name).Invoke(this._service, parameters).ToString(); }
+                        }
+                        catch (Exception e)
+                        {
+                            EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(e.Message, this, NotificationLevel.Error));
+                            goto Abort;
+                        }
+                    }
+                    else
+                    {
+                        if (sequenzTypeOutput != null)
+                        {
+                            try
+                            {
+                                invokedObject = this._service.GetType().GetMethod(operation.Name).Invoke(this._service, null).ToString();
+                            }
+                            catch (Exception e)
+                            {
+
+                                EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(e.Message, this, NotificationLevel.Error));
+                                goto Abort;
+
+                            }
+                        }
+                        else { this._service.GetType().GetMethod(operation.Name).Invoke(this._service, parameters); }
+                    }
+                    response = invokedObject.ToString();
+                    this.CreateResponse(response);
+                }
+            }
+        Abort: ;
+        }
+        private void CreateResponse(string response)
+        {
+            this._soapResponse = new XmlDocument();
+            this._node = this._soapResponse.CreateXmlDeclaration("1.0", "ISO-8859-1", "yes");
+            this._soapResponse.AppendChild(_node);
+            this._envelope = this._soapResponse.CreateElement("Envelope", "http://www.w3.org/2001/12/soap-envelope");
+            this._soapResponse.AppendChild(_envelope);
+            this._body = this._soapResponse.CreateElement("Body", "http://www.w3.org/2001/12/soap-envelope");
+            XmlNode input = this._soapResponse.CreateElement(this._set.Tables[1].ToString(), this._set.Tables[1].Namespace);
+            DataTable table = this._set.Tables[1];
+            foreach (DataColumn tempColumn in table.Columns)
+            {
+                XmlNode neu = this._soapResponse.CreateElement(tempColumn.ColumnName, this._set.Tables[1].Namespace);
+                neu.InnerText = response;
+                input.AppendChild(neu);
+            }
+            this._body.AppendChild(input);
+            this._envelope.AppendChild(this._body);
+            this.OutputString = this._soapResponse;
+        }
+        public ArrayList GetSignatureReferences(int i)
+        {
+            return this._validator.GetSignatureReferences(i);
+        }
+        public ArrayList GetSignedXmlSignatureReferences()
+        {
+            return this._validator.GetSignedXmlSignatureReferences();
+        }
+        public void Compile(string code)
         {
             CSharpCodeProvider codeProvider = new CSharpCodeProvider(new Dictionary<String, String> { { "CompilerVersion", "v3.5" } });
             string header = "";
             presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-                {
-                    header=this.presentation.copyContentToString(this.presentation.textBlock1);
-                   
-                }, null);
+            {
+                header = this.presentation.copyContentToString(this.presentation.textBlock1);
+
+            }, null);
             codeProvider.CreateGenerator();
-            CompilerParameters cp = new CompilerParameters();
-            cp.ReferencedAssemblies.Add("System.dll"); //includes
-            cp.ReferencedAssemblies.Add("System.Web.dll");
-            cp.ReferencedAssemblies.Add("System.Web.Services.dll");
-            cp.ReferencedAssemblies.Add("System.Xml.dll");
-            CompilerResults cr = null;
-            cp.GenerateExecutable = false;
+            CompilerParameters compilerParameters = new CompilerParameters();
+            compilerParameters.ReferencedAssemblies.Add("System.dll");
+            compilerParameters.ReferencedAssemblies.Add("System.Web.dll");
+            compilerParameters.ReferencedAssemblies.Add("System.Web.Services.dll");
+            compilerParameters.ReferencedAssemblies.Add("System.Xml.dll");
+            CompilerResults compilerResults = null;
+            compilerParameters.GenerateExecutable = false;
 
             try
             {
-                Run methodDeclaration = null;
-                string wsdl = wsdlMethode[0];
-
-
-                cr = codeProvider.CompileAssemblyFromSource(cp, stringArray[0].ToString() + stringArray[1].ToString() + code + wsdl);
-
-                System.Reflection.Assembly a = cr.CompiledAssembly;
-                service = a.CreateInstance("Service");
-
-
-
-
-                object obj = service.GetType().InvokeMember("getWsdl", System.Reflection.BindingFlags.InvokeMethod, null, service, null);
-                ServiceDescription description = (ServiceDescription)obj;
+                string wsdl = this._wsdlMethod[0];
+                compilerResults = codeProvider.CompileAssemblyFromSource(compilerParameters, _stringToCompile[0].ToString() + _stringToCompile[1].ToString() + code + wsdl);
+                System.Reflection.Assembly compiledAssembly = compilerResults.CompiledAssembly;
+                this._service = compiledAssembly.CreateInstance("Service");
+                object invokedObject = this._service.GetType().InvokeMember("getWsdl", System.Reflection.BindingFlags.InvokeMethod, null, this._service, null);
+                ServiceDescription description = (ServiceDescription)invokedObject;
                 System.IO.StringWriter stringWriter = new System.IO.StringWriter();
-
                 XmlTextWriter xmlWriter = new XmlTextWriter(stringWriter);
                 xmlWriter.Formatting = Formatting.Indented;
                 description.Write(xmlWriter);
-
                 string theWsdl = stringWriter.ToString();
                 presentation.showWsdl(theWsdl);
-                this.description = description;
+                this.Description = description;
                 StringReader stringReader = new StringReader(theWsdl);
                 XmlTextReader xmlReader = new XmlTextReader(stringReader);
-                wsdlDocument.LoadXml(theWsdl);
+                this._wsdlDocument.LoadXml(theWsdl);
                 System.Windows.Controls.TreeViewItem xmlDecl = null;
                 presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
@@ -823,7 +723,7 @@ namespace WebService
                 }, null);
                 presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
-                    presentation.CopyXmlToTreeView(wsdlDocument.ChildNodes[1], ref presentation.item,false);
+                    presentation.CopyXmlToTreeView(this._wsdlDocument.ChildNodes[1], ref presentation.item, false);
                     TreeView parent = (TreeView)presentation.item.Parent;
 
                     if (parent != null)
@@ -831,80 +731,69 @@ namespace WebService
                         int pos = parent.Items.IndexOf(presentation.item);
                         parent.Items.RemoveAt(pos);
                     }
-                     
+
                     presentation.treeView1.Items.Add(presentation.item);
                     presentation.item.IsExpanded = true;
                     for (int i = 0; i < presentation.item.Items.Count; i++)
                     {
-                        TreeViewItem item =(TreeViewItem) presentation.item.Items[i];
+                        TreeViewItem item = (TreeViewItem)presentation.item.Items[i];
                         item.IsExpanded = true;
                     }
-                  
                     presentation.textBox3.Text = "Erstellen erfolgreich";
-                    this.readDescription();
-                  //  presentation.fillElementTextBox();
+                    this.ReadWebServiceDescription();
 
                 }, null);
-               
-
 
             }
-
-           
-           
-           
-          
             catch (Exception exception)
-            {  
-               CompilerErrorCollection errors = cr.Errors;
-                int errorCounter= errors.Count;
-               if (errors != null)
-               {
-                   for (int i = 0; i < errorCounter; i++)
-                   {
-                       this.presentation.textBox3.Text+="Fehlermeldung: "+errors[i].ErrorText+"\n";
-                   }
-               }
+            {
+                CompilerErrorCollection errors = compilerResults.Errors;
+                int errorCounter = errors.Count;
+                if (errors != null)
+                {
+                    for (int i = 0; i < errorCounter; i++)
+                    {
+                        this.presentation.textBox3.Text += "Error: " + errors[i].ErrorText + "\n";
+                    }
+                }
             }
         }
-
-
+        public void ShowError(string message)
+        {
+            EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(message, this, NotificationLevel.Error));
+        }
+        public void ShowWarning(string message)
+        {
+            EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(message, this, NotificationLevel.Warning));
+        }
+        #endregion
 
         #region IPlugin Member
 
         public void Dispose()
         {
-           
+
         }
 
         public void Execute()
         {
-            
-            
+
+
         }
 
         public void Initialize()
         {
-           // if (presentation.textBox1.Text != null)
-                presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-                {presentation.richTextBox1.AppendText(this.WebServiceSettings.UserCode);
-                   
-                }, null);
-                if (this.WebServiceSettings.Compiled == true)
-                {
-                    this.presentation.compile();
-                }
-            
-        }
+            // if (presentation.textBox1.Text != null)
+            presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
+                presentation.richTextBox1.AppendText(this.WebServiceSettings.UserCode);
 
-        public void showError(string message)
-        {
-            EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(message, this, NotificationLevel.Error));
-        }
+            }, null);
+            if (this.WebServiceSettings.Compiled == true)
+            {
+                this.presentation.compile();
+            }
 
-        public void showWarning(string message)
-        {
-            EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(message, this, NotificationLevel.Warning));
         }
 
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
@@ -915,17 +804,17 @@ namespace WebService
 
         public void Pause()
         {
-            
+
         }
 
         public void PostExecution()
         {
-           
+
         }
 
         public void PreExecution()
         {
-            
+
         }
 
         public System.Windows.Controls.UserControl Presentation
@@ -940,12 +829,12 @@ namespace WebService
 
         public ISettings Settings
         {
-            get { return this.settings; }
+            get { return this._settings; }
         }
 
         public void Stop()
         {
-           
+
         }
 
         #endregion
@@ -956,7 +845,7 @@ namespace WebService
         protected void OnPropertyChanged(string name)
         {
             EventsHelper.PropertyChanged(PropertyChanged, this, new PropertyChangedEventArgs(name));
-        
+
         }
         #endregion
     }

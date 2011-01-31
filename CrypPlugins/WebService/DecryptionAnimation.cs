@@ -38,7 +38,7 @@ namespace WebService
         }
         public void initializeAnimation()
         {
-            totalKeyNumber = this.presentation.webService.getValidator().getEncryptedKeyNumber();
+            totalKeyNumber = this.presentation.webService.Validator().GetEncryptedKeyNumber();
             actualEncryptedKeyNumber = 0;
             status = 1;
            
@@ -196,7 +196,7 @@ namespace WebService
                   
                    TreeViewItem tempItem = new TreeViewItem();
                   
-                   presentation.CopyXmlToTreeView((XmlNode)presentation.webService.getValidator().decryptSingleElement(actualEncryptedKeyNumber), ref tempItem, false);
+                   presentation.CopyXmlToTreeView((XmlNode)presentation.webService.Validator().DecryptSingleElementByKeyNumber(actualEncryptedKeyNumber), ref tempItem, false);
                  
                    TreeViewItem decryptedDataItem = (TreeViewItem)tempItem.Items[0];
                    int n2 = 0;

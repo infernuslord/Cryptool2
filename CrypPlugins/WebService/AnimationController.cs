@@ -40,7 +40,7 @@ namespace WebService
             }
             else
             {
-                this.presentation.webService.showWarning("Es sind keine Sicherheitselemente vorhanden");
+                this.presentation.webService.ShowWarning("Es sind keine Sicherheitselemente vorhanden");
                
             }
             this.actualSecurityElementNumber = 0;
@@ -99,12 +99,12 @@ namespace WebService
         }
         public void getSecurityTotalNumber()
         {
-            wsSecurityElementsCounter = this.presentation.webService.getValidator().getTotalSecurityElementsNumber();
+            wsSecurityElementsCounter = this.presentation.webService.Validator().GetTotalSecurityElementsNumber();
 
       
         }
         public string getSecurityElement(int elementNumber)
-        {string t=this.presentation.webService.getValidator().getWSSecurityHeaderElement(elementNumber);
+        {string t=this.presentation.webService.Validator().GetWSSecurityHeaderElement(elementNumber);
         return t;
         }
         public DispatcherTimer getControllerTimer()
