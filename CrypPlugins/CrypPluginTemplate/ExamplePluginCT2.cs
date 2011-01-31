@@ -1,5 +1,5 @@
-﻿/* HOWTO: Change year, author name and organization.
-   Copyright 2010 Your Name, University of Duckburg
+﻿/* HOWTO: Set year, author name and organization.
+   Copyright 2011 CrypTool 2 Team
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ using System.Windows.Controls;
 namespace Cryptool.Plugins.ExamplePluginCT2
 {
     // HOWTO: Change author name, email address, organization and URL.
-    [Author("Matthäus Wander", "wander@cryptool.org", "Universität Duisburg-Essen, Fachgebiet Verteilte Systeme", "http://www.vs.uni-due.de")]
+    [Author("Matthäus Wander", "wander@cryptool.org", "University of Duisburg-Essen", "http://www.vs.uni-due.de")]
     // HOWTO: Change plugin caption (title to appear in CT2) and tooltip. You can (and should) provide a description XAML and an own icon as well.
     [PluginInfo(false, "Example Plugin", "Subtract one number from another", null, "CrypWin/images/default.png")]
     // HOWTO: Change interface to one that fits to your plugin (see CrypPluginBase).
