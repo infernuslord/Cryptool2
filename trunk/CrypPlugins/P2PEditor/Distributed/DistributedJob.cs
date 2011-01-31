@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.IO;
 using Cryptool.P2P;
+using System.Security.Cryptography;
 
 namespace Cryptool.P2PEditor.Distributed
 {
@@ -70,7 +71,7 @@ namespace Cryptool.P2PEditor.Distributed
             {
                 if (value == localFilePath) return;
                 localFilePath = value;
-                FileName = Path.GetFileName(localFilePath);
+                //FileName = Path.GetFileName(localFilePath);
                 OnPropertyChanged("LocalFilePath");
             }
         }
@@ -95,18 +96,18 @@ namespace Cryptool.P2PEditor.Distributed
                 throw new ArgumentOutOfRangeException(workspacePath, "Configured local workspace directory is null, empty or does not exist.");
             }
 
-            // Avoid overwriting previous versions of this workspace or workspaces with common names by adding an integer prefix
-            var originalFileName = FileName;
-            LocalFilePath = Path.Combine(workspacePath, Owner + "_" + originalFileName);
-            var counter = 0;
-            while (File.Exists(LocalFilePath))
-            {
-                LocalFilePath = Path.Combine(workspacePath, counter++ + "_" + Owner + "_" + originalFileName);
-            }
-
             if (rawWorkspaceData == null || rawWorkspaceData.Length == 0)
             {
                 throw new NotSupportedException("Workspace data could not be fetched using Peer-to-Peer system.");
+            }
+            
+            HashAlgorithm hashAlgorithm = new MD5CryptoServiceProvider();
+            string hash = BitConverter.ToString(hashAlgorithm.ComputeHash(rawWorkspaceData)).Replace("-", "");
+            LocalFilePath = Path.Combine(workspacePath, Owner + "_" + hash + "_" + FileName);
+
+            if (File.Exists(LocalFilePath))
+            {                
+                return;
             }
 
             File.WriteAllBytes(LocalFilePath, rawWorkspaceData);
