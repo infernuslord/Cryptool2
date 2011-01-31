@@ -94,9 +94,9 @@ namespace Cryptool.P2PEditor
 
         #region Settings
 
-        [TaskPane("username_caption",
+        /*[TaskPane("username_caption",
             "username_tooltip"
-            , null, 0, false, ControlType.TextBox)]
+            , null, 0, false, ControlType.TextBox)]*/
         public string PeerName
         {
             get { return settings.PeerName; }
@@ -111,19 +111,67 @@ namespace Cryptool.P2PEditor
             }
         }
 
-        [TaskPane("password_caption",
+        /*[TaskPane("password_caption",
             "password_tooltip"
-            , null, 1, false, ControlType.TextBoxHidden)]
+            , null, 1, false, ControlType.TextBoxHidden)]*/
         public string Password
         {
-            get { return P2PBase.DecryptString(settings.Password); }
+            get {
+                if (RememberPassword)
+                {
+                    return P2PBase.DecryptString(settings.Password); 
+                }
+                else
+                {
+                    return P2PBase.DecryptString(P2PBase.Password); 
+                }
+                }
             set
             {
-                if (P2PBase.EncryptString(value) != settings.Password)
+                if (RememberPassword)
                 {
-                    settings.Password = P2PBase.EncryptString(value);
-                    OnPropertyChanged("Password");
+                    if (P2PBase.EncryptString(value) != settings.Password)
+                    {
+                        settings.Password = P2PBase.EncryptString(value);
+                        OnPropertyChanged("Password");
+                        HasChanges = true;
+                    }
+                }
+                else
+                {
+                    if (P2PBase.EncryptString(value) != P2PBase.Password)
+                    {
+                        P2PBase.Password = P2PBase.EncryptString(value);
+                        OnPropertyChanged("Password");
+                        HasChanges = true;
+                    }                    
+                }
+            }
+        }
+
+        /*[TaskPane("rememberPassword_caption", 
+            "rememberPassword_tooltip"
+            , null, 1, false, ControlType.CheckBox)]*/
+        public bool RememberPassword
+        {
+            get { return settings.RememberPassword; }
+            set
+            {
+                if (value != settings.RememberPassword)
+                {
+                    settings.RememberPassword = value;
+                    if (value)
+                    {
+                        settings.Password = P2PBase.Password;
+                        P2PBase.Password = "";
+                    }
+                    else
+                    {
+                        P2PBase.Password = settings.Password;
+                        settings.Password = "";
+                    }
                     HasChanges = true;
+                    OnPropertyChanged("RememberPassword");
                 }
             }
         }

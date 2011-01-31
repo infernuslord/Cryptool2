@@ -183,6 +183,12 @@
   <data name="password_tooltip" xml:space="preserve">
     <value>Password of your Peers@Play certificate</value>
   </data>
+  <data name="rememberPassword_caption" xml:space="preserve">
+    <value>Remember Password</value>
+  </data>
+  <data name="rememberPassword_tooltip" xml:space="preserve">
+    <value>Remember Password</value>
+  </data>
   <data name="serverHost_caption" xml:space="preserve">
     <value>Host</value>
   </data>

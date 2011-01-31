@@ -97,6 +97,8 @@ namespace Cryptool.P2P.Internal
             systemLeft = new AutoResetEvent(false);
         }
 
+        public static string Password { get; set; }
+
         #region Basic P2P Methods (Init, Start, Stop)
 
         /// <summary>
@@ -200,7 +202,15 @@ namespace Cryptool.P2P.Internal
             P2PManager.GuiLogMessage("Initializing DHT with world name " + P2PSettings.Default.WorldName,
                                         NotificationLevel.Info);
             IsInitialized = true;
-            Dht.Initialize(P2PSettings.Default.PeerName, DecryptString(P2PSettings.Default.Password), P2PSettings.Default.WorldName, overlay,
+            
+            string password = null;
+            if(P2PSettings.Default.RememberPassword){
+                password = DecryptString(P2PSettings.Default.Password);
+            }else{
+                password = DecryptString(P2PBase.Password);                
+            }            
+
+            Dht.Initialize(P2PSettings.Default.PeerName, password, P2PSettings.Default.WorldName, overlay,
                            bootstrapper, linkmanager, null);
         }
 

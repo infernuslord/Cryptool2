@@ -95,10 +95,14 @@
                     <Underline>Create a new account</Underline>
                 </TextBlock>
                 <Label Width="200">Password:</Label>
-                <PasswordBox Width="200" Name="Password" PasswordChanged="Password_PasswordChanged" IsEnabled="{Binding IsP2PConnecting, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource InverseBooleanConverter}}" MaxLength="40"/>
+                <PasswordBox Name="Password" Width="200" PasswordChanged="Password_PasswordChanged" IsEnabled="{Binding IsP2PConnecting, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource InverseBooleanConverter}}" MaxLength="40"/>                
                 <TextBlock Width="200" FontSize="12" MouseDown="ForgotPasswordLabel_Click" Cursor="Hand" HorizontalAlignment="Center" IsEnabled="{Binding IsP2PConnecting, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource InverseBooleanConverter}}" Foreground="{Binding IsP2PConnecting, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource ForegroundColorConverter}}">
                     <Underline>Forgot password</Underline>
                 </TextBlock>
+                <Label/>
+                <CheckBox Width="200" Name="RememberPasswordCheckbox" Click="RememberPasswordCheckbox_Click" IsEnabled="{Binding IsP2PConnecting, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource InverseBooleanConverter}}">
+                    Remember my password
+                </CheckBox>
                 <Label/>
                 <Button Width="200" Name="ConnectButton" IsDefault="True" Content="Connect" Height="38" FontFamily="Consolas" FontSize="20" Click="ConnectButtonClick" IsEnabled="{Binding IsP2PConnecting, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource InverseBooleanConverter}}" />                
             </StackPanel>
