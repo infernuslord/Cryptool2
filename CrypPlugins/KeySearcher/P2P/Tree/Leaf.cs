@@ -37,7 +37,7 @@ namespace KeySearcher.P2P.Tree
         {
             if (IsCalculated())
             {
-                throw new AlreadyCalculatedException();
+                Reset();
             }
 
             return this;
@@ -50,10 +50,11 @@ namespace KeySearcher.P2P.Tree
 
         public override void Reset()
         {
-            ParentNode.Reset();
+            //ParentNode.Reset();
             Result.Clear();
             Activity.Clear();
-            StorageHelper.UpdateInDht(this);
+            if (!StorageHelper.UpdateInDht(this).IsSuccessful())
+                throw new InvalidOperationException("Version mismatch");
         }
 
         public override void UpdateCache()
