@@ -221,15 +221,17 @@ namespace TextOutput
             }
             else if (value is ICryptoolStream)
             {
-                CStreamReader reader = ((ICryptoolStream)value).CreateReader();
-                // GuiLogMessage("Stream: Filling TextBoxes now...", NotificationLevel.Debug);
-                if (reader.Length > settings.MaxLength)
-                    AddMessage("WARNING - Stream is too large (" + (reader.Length / 1024).ToString("0.00") + " kB), output will be truncated to " + (settings.MaxLength / 1024).ToString("0.00") + "kB", NotificationLevel.Warning);
-                byte[] byteValues = new byte[Math.Min(settings.MaxLength, reader.Length)];
-                int bytesRead;
-                reader.Seek(0, SeekOrigin.Begin);
-                bytesRead = reader.ReadFully(byteValues, 0, byteValues.Length);
-                fillValue = GetStringForSelectedEncoding(byteValues);
+                using (CStreamReader reader = ((ICryptoolStream)value).CreateReader())
+                {
+                    // GuiLogMessage("Stream: Filling TextBoxes now...", NotificationLevel.Debug);
+                    if (reader.Length > settings.MaxLength)
+                        AddMessage("WARNING - Stream is too large (" + (reader.Length / 1024).ToString("0.00") + " kB), output will be truncated to " + (settings.MaxLength / 1024).ToString("0.00") + "kB", NotificationLevel.Warning);
+                    byte[] byteValues = new byte[Math.Min(settings.MaxLength, reader.Length)];
+                    int bytesRead;
+                    reader.Seek(0, SeekOrigin.Begin);
+                    bytesRead = reader.ReadFully(byteValues, 0, byteValues.Length);
+                    fillValue = GetStringForSelectedEncoding(byteValues);   
+                }
             }
             else if (value is byte[])
             {
