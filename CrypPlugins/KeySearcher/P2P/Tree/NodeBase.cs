@@ -40,7 +40,6 @@ namespace KeySearcher.P2P.Tree
 
             LastUpdate = DateTime.MinValue;
             Result = new LinkedList<KeySearcher.ValueKey>();
-            KeyQualityHelper.FillListWithDummies(10, Result);
 
             Activity = new Dictionary<string, Dictionary<long, Information>>();
             integrated = false;
@@ -90,6 +89,11 @@ namespace KeySearcher.P2P.Tree
 
         private void IntegrateResultsIntoParent()
         {
+            if (ParentNode.Result.Count == 0)
+            {
+                KeyQualityHelper.FillListWithDummies(10, ParentNode.Result);
+            }
+
             foreach (var valueKey in Result)
             {
                 if (ParentNode.Result.Contains(valueKey))
