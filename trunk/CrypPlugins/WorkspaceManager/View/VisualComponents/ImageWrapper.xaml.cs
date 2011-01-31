@@ -110,6 +110,7 @@ namespace WorkspaceManager.View.VisualComponents
                 Model.Height = this.ActualHeight;
                 Model.Width = this.ActualWidth;
             }
+            e.Handled = true;
         }
 
         private void OverLayingControl_DragDelta_Move(object sender, DragDeltaEventArgs e)

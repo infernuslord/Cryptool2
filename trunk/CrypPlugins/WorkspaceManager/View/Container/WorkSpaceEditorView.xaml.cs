@@ -76,7 +76,7 @@ namespace WorkspaceManager.View.Container
             scrollViewer.DataContext = root;
 
             this.bottomBox.FitToScreen += new EventHandler<FitToScreenEventArgs>(bottomBox_FitToScreen);
-            this.UserContentWrapper = new UserContentWrapper(WorkspaceModel, bottomBox);
+            this.UserContentWrapper = new UserContentWrapper(Model, bottomBox);
             this.UserControlWrapperParent.Children.Clear();
             this.UserControlWrapperParent.Children.Add(UserContentWrapper);       
         }
@@ -638,6 +638,10 @@ namespace WorkspaceManager.View.Container
                 ConnectionList.Add(conn);
                 Canvas.SetZIndex(conn, 0);
             }
+
+            this.UserContentWrapper = new UserContentWrapper(Model, bottomBox);
+            this.UserControlWrapperParent.Children.Clear();
+            this.UserControlWrapperParent.Children.Add(UserContentWrapper);    
         }
 
         private void loadPluginContainerView(PluginModel model)
