@@ -11,43 +11,39 @@ namespace WebService
 {
    public class Canonicalizator
    {
+       #region Fields
+
        private Transform transform;
        private XmlDocument inputString;
+
+       #endregion
+
+       #region Constructor
+
        public Canonicalizator(XmlDocument inputString)
        {
        
            this.inputString = inputString;
        }
 
-       public Stream canonicalizeNode(XmlElement nodeToCanon)
-       {
+       #endregion
 
+       #region Methods
+
+       public Stream CanonicalizeNode(XmlElement nodeToCanon)
+       {
            XmlNode node = (XmlNode)nodeToCanon;
-        
-      
            XmlNodeReader reader = new XmlNodeReader(node);
            Stream stream = new MemoryStream();
-
            XmlWriter writer = new XmlTextWriter(stream, Encoding.UTF8);
-
            writer.WriteNode(reader, false);
            writer.Flush();
-          
            stream.Position = 0;
-
-           stream.Position = 0;
-           //Transform anwenden
-           XmlDsigExcC14NTransform trans = new XmlDsigExcC14NTransform();
-           trans.LoadInput(stream);
-        
-           Stream stream2 = (Stream)trans.GetOutput();
-           //StreamReader sreader = new StreamReader(stream2);
-           //string canonString = sreader.ReadToEnd();
-           //stream2.Position = 0;
-           return stream2;
-        
+           XmlDsigExcC14NTransform transform = new XmlDsigExcC14NTransform();
+           transform.LoadInput(stream);
+           return transform.GetOutput() as Stream;
        }
-      
- 
-    }
+
+       #endregion
+   }
 }
