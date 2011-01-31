@@ -32,7 +32,7 @@ namespace Wizard
     public partial class WizardControl : UserControl
     {
 
-        private List<string> choicePath = new List<string>();
+        private Dictionary<string, bool> selectedCategories = new Dictionary<string, bool>();
         private SolidColorBrush selectionBrush = new SolidColorBrush();
         private const string configXMLPath = "Wizard.Config.wizard.config.start.xml";
         private const string defaultLang = "en";
@@ -194,8 +194,6 @@ namespace Wizard
 
                 string id = GetElementID((XElement)inputPanel.Tag);
 
-                if (choicePath.Count > 0 && id == choicePath.Last())
-                    choicePath.RemoveAt(choicePath.IndexOf(choicePath.Last()));
             }
             else if (element.Name == "category")
             {
@@ -276,9 +274,10 @@ namespace Wizard
                         }
 
                         radioButtonStackPanel.Children.Add(rb);
-                        if (choicePath.Count > 0 && id == choicePath.Last())
+                        bool wasSelected;
+                        selectedCategories.TryGetValue(GetElementID(ele), out wasSelected);
+                        if (wasSelected != null && wasSelected)
                         {
-                            choicePath.RemoveAt(choicePath.IndexOf(choicePath.Last()));
                             rb.IsChecked = true;
                             isSelected = true;
                             //nextButton.IsEnabled = true;
@@ -289,6 +288,8 @@ namespace Wizard
                     {
                         RadioButton b = (RadioButton)radioButtonStackPanel.Children[0];
                         b.IsChecked = true;
+                        selectedCategories.Remove(GetElementID((XElement)b.Tag));
+                        selectedCategories.Add(GetElementID((XElement)b.Tag), true);
                     }
 
                 }
@@ -595,24 +596,29 @@ namespace Wizard
 
         void rb_Checked(object sender, RoutedEventArgs e)
         {
-            ResetBackground();
+            ResetSelectionDependencies();
             RadioButton b = (RadioButton)sender;
             b.Background = Brushes.LightSeaGreen;
             Border c = (Border)b.Content;
             c.BorderThickness = new Thickness(1, 1, 0, 1);
             c.Background = selectionBrush;
             XElement ele = (XElement)b.Tag;
+            selectedCategories.Remove(GetElementID(ele));
+            selectedCategories.Add(GetElementID(ele), true);
             XElement desc = FindElementsInElement(ele, "description").First();
             if (desc != null)
                 description.Text = desc.Value;
             nextButton.IsEnabled = true;
         }
 
-        private void ResetBackground()
+        private void ResetSelectionDependencies()
         {
             for (int i = 0; i < radioButtonStackPanel.Children.Count; i++)
             {
                 RadioButton b = (RadioButton)radioButtonStackPanel.Children[i];
+                XElement ele = (XElement)b.Tag;
+                selectedCategories.Remove(GetElementID(ele));
+                selectedCategories.Add(GetElementID(ele), false);
                 b.Background = Brushes.Transparent;
                 Border c = (Border)b.Content;
                 c.BorderThickness = new Thickness(0);
@@ -670,9 +676,9 @@ namespace Wizard
             }
 
             propertyValueDict.Clear();
-            ResetBackground();
+            ResetSelectionDependencies();
             radioButtonStackPanel.Children.Clear();
-            choicePath.Clear();
+            selectedCategories.Clear();
             description.Text = "";
             SetupPage(wizardConfigXML);
         }
@@ -686,7 +692,6 @@ namespace Wizard
                     RadioButton b = (RadioButton) radioButtonStackPanel.Children[i];
                     if (b.IsChecked != null && (bool) b.IsChecked)
                     {
-                        choicePath.Add(GetElementID((XElement) b.Tag));
                         SetupPage((XElement) b.Tag);
                         break;
                     }
@@ -699,7 +704,6 @@ namespace Wizard
                     SaveControlContent(child);
                 }
                 var nextElement = (XElement) inputPanel.Tag;
-                choicePath.Add(GetElementID(nextElement));
                 SetupPage(nextElement);
             }
 
