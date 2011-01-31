@@ -96,7 +96,7 @@ namespace WebService
                     }
                     catch (Exception e)
                     {
-                        this._webService.showError(e.Message);
+                        this._webService.ShowError(e.Message);
                         this._valid = false;
                     }
                 }
@@ -111,7 +111,7 @@ namespace WebService
                 this._webService.presentation.txtTrace.Text += this._tracer.signatureTrace;
                 this._webService.presentation.txtTrace.Text += this._tracer.decryptionTrace;
             }, null);
-            this._webService.modifiedInput = this._inputDocument;
+            this._webService.ModifiedInputDocument = this._inputDocument;
         }
 
         #endregion
@@ -140,7 +140,7 @@ namespace WebService
             XmlElement keyInfoElement = this._inputDocument.CreateElement("KeyInfo", SignedXml.XmlDsigNamespaceUrl);
             keyInfoElement.AppendChild(encryptedKeyElement);
             XmlElement encryptedDataElement = (XmlElement)referenceElementList[0];
-            RSACryptoServiceProvider provider = this._webService.provider;
+            RSACryptoServiceProvider provider = this._webService.RSACryptoServiceProvider;
             XmlDocument doc = new XmlDocument();
             XmlElement root = doc.CreateElement("root");
             root.AppendChild(doc.ImportNode((XmlNode)encryptedKeyElement, true));
@@ -188,7 +188,7 @@ namespace WebService
             XmlElement keyInfoElement = this._tempdocument.CreateElement("KeyInfo", SignedXml.XmlDsigNamespaceUrl);
             keyInfoElement.AppendChild(_tempdocument.ImportNode((XmlNode)encryptedKey.GetXml(), true));
             XmlElement encryptedDataElement = (XmlElement)referenceElementList[0];
-            RSACryptoServiceProvider provider = this._webService.provider;
+            RSACryptoServiceProvider provider = this._webService.RSACryptoServiceProvider;
             EncryptedXml encXml = new EncryptedXml(this._tempdocument);
             encXml.AddKeyNameMapping("Web Service Public Key", provider);
             EncryptedData data = new EncryptedData();

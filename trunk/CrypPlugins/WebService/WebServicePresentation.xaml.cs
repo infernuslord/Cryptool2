@@ -455,7 +455,7 @@ namespace WebService
             {
             case 1:
         
-                signatureNumber = this.webService.getSignatureNumber();
+                signatureNumber = this.webService.GetSignatureNumber();
                 this.textBox2.ScrollToLine(this.textBox2.LineCount - 1);
                 dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 5, 0);
                 this.textBox2.Text+="\n Check for Signature Element";
@@ -543,7 +543,7 @@ namespace WebService
                 case 8:
                this.tempReferenceCollection.Clear();
                this.animationController.getControllerTimer().Start();
-               signatureNumber = this.webService.getSignatureNumber();
+               signatureNumber = this.webService.GetSignatureNumber();
                isbusy = false;
                this.actualSignatureNumber++;
                if (this.signaturenumber + 1 < this.signatureNumber)
@@ -562,7 +562,7 @@ namespace WebService
         }
         void referenceTimer_Tick(object sender, EventArgs e)
         {
-            int n = this.webService.getValidator().getReferenceNumber(signaturenumber);
+            int n = this.webService.Validator().GetReferenceNumber(signaturenumber);
             switch (referenceStatus)
             {
                  case 1:
@@ -582,8 +582,8 @@ namespace WebService
 
                 case 3:
                    this.textBox2.Text += "\n -> Get referenced Element";
-                  this.findItem(this.soapInput, this.webService.getValidator().getSignatureReferenceName(signaturenumber),actualReferenceNumber).BringIntoView();
-                  this.animateFoundElements(this.findItem(this.soapInput, this.webService.getValidator().getSignatureReferenceName(signaturenumber), actualReferenceNumber), this.findItem(this.soapInput, this.webService.getValidator().getSignatureReferenceName(signaturenumber), actualReferenceNumber));
+                  this.findItem(this.soapInput, this.webService.Validator().GetSignatureReferenceName(signaturenumber),actualReferenceNumber).BringIntoView();
+                  this.animateFoundElements(this.findItem(this.soapInput, this.webService.Validator().GetSignatureReferenceName(signaturenumber), actualReferenceNumber), this.findItem(this.soapInput, this.webService.Validator().GetSignatureReferenceName(signaturenumber), actualReferenceNumber));
                    referenceStatus++;
                    break;
                 
@@ -592,7 +592,7 @@ namespace WebService
                    this.textBox2.ScrollToLine(this.textBox2.LineCount - 1);
                    this.findItem((TreeViewItem)this.tempReferenceCollection[this.referenceNumber], "Transforms", actualSignatureNumber).BringIntoView();
                    this.animateFoundElements(this.findItem((TreeViewItem)this.tempReferenceCollection[this.referenceNumber], "Transforms", actualSignatureNumber), this.findItem((TreeViewItem)this.tempReferenceCollection[this.referenceNumber], "/ds:Transforms", actualSignatureNumber));
-                   this.transformCount = this.webService.getValidator().getTransformsCounter(signaturenumber, referenceNumber);
+                   this.transformCount = this.webService.Validator().GetTransformsCounter(signaturenumber, referenceNumber);
                    referenceTimer.Stop();
                    referenceStatus++;
                    this.findSignatureItems((TreeViewItem)this.tempReferenceCollection[this.referenceNumber], "ds:Transform");
@@ -608,7 +608,7 @@ namespace WebService
                    referenceStatus++;
                    break;
                 case 6:
-                   this.textBox2.Text +="\n    -> Calculated DigestValue:" +"\n       "+this.webService.getValidator().digestElement(signaturenumber,referenceNumber);
+                   this.textBox2.Text +="\n    -> Calculated DigestValue:" +"\n       "+this.webService.Validator().DigestElement(signaturenumber,referenceNumber);
                    this.textBox2.ScrollToLine(this.textBox2.LineCount - 1);
                    referenceStatus++;
                    break;
@@ -620,7 +620,7 @@ namespace WebService
                    referenceStatus++;
                    break;
                 case 8:
-                   if (this.webService.getValidator().compareDigestValues(signaturenumber, referenceNumber, this.webService.getValidator().digestElement(signaturenumber, referenceNumber)))
+                   if (this.webService.Validator().CompareDigestValues(signaturenumber, referenceNumber, this.webService.Validator().DigestElement(signaturenumber, referenceNumber)))
                    {
 
                        this.textBox2.Text += "\n Reference Validation succesfull";
@@ -665,7 +665,7 @@ namespace WebService
 
                 case 3:
                     this.textBox2.Text += "\n  ->execute Transform";
-                   this.textBox2.Text+="\n"+ this.webService.getValidator().makeTransforms(signaturenumber, referenceNumber, transformNumber);
+                   this.textBox2.Text+="\n"+ this.webService.Validator().MakeTransforms(signaturenumber, referenceNumber, transformNumber);
                    
                     
                     transformstatus++;
@@ -1029,9 +1029,9 @@ namespace WebService
         }
         public void save(string fileName)
         {
-            if (this.webService.serviceDescription != null)
+            if (this.webService.ServiceDescription != null)
             {
-                ServiceDescription test = this.webService.serviceDescription;
+                ServiceDescription test = this.webService.ServiceDescription;
                 StreamWriter stream = new StreamWriter(fileName);
                 test.Write(stream);
                 stream.Close();
@@ -1055,7 +1055,7 @@ namespace WebService
             string header = copyContentToString(this.textBlock1);
           
             string codeToCompile = header + richTextBoxText.Text + endBrace.Text;
-            webService.compile(codeToCompile);
+            webService.Compile(codeToCompile);
             this.webService.WebServiceSettings.Compiled = true;
         }
         public string copyContentToString(TextBlock block)
@@ -1161,7 +1161,7 @@ namespace WebService
 
         private void button1_Click_1(object sender, RoutedEventArgs e)
         {
-            if (this.webService.checkSignature()==true)
+            if (this.webService.CheckSignature()==true)
             {
                
             }
