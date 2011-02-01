@@ -71,7 +71,7 @@ namespace Cryptool.P2PEditor.Distributed
             {
                 if (value == localFilePath) return;
                 localFilePath = value;
-                //FileName = Path.GetFileName(localFilePath);
+                FileName = Path.GetFileName(localFilePath);
                 OnPropertyChanged("LocalFilePath");
             }
         }
