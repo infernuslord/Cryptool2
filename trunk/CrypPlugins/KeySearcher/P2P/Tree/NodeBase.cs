@@ -87,30 +87,33 @@ namespace KeySearcher.P2P.Tree
             }
         }
 
+        public void PushToResults(KeySearcher.ValueKey valueKey)
+        {
+            if (Result.Contains(valueKey))
+                return;
+
+            var node = Result.First;
+            while (node != null)
+            {
+                if (KeyQualityHelper.IsBetter(valueKey.value, node.Value.value))
+                {
+                    Result.AddBefore(node, valueKey);
+                    if (Result.Count > 10)
+                        Result.RemoveLast();
+                    break;
+                }
+                node = node.Next;
+            }//end while
+
+            if (Result.Count < 10)
+                Result.AddLast(valueKey);
+        }
+
         private void IntegrateResultsIntoParent()
         {
-            if (ParentNode.Result.Count == 0)
-            {
-                KeyQualityHelper.FillListWithDummies(10, ParentNode.Result);
-            }
-
             foreach (var valueKey in Result)
             {
-                if (ParentNode.Result.Contains(valueKey))
-                    continue;
-
-                var node = ParentNode.Result.First;
-                while (node != null)
-                {
-                    if (KeyQualityHelper.IsBetter(valueKey.value, node.Value.value))
-                    {
-                        ParentNode.Result.AddBefore(node, valueKey);
-                        if (ParentNode.Result.Count > 10)
-                            ParentNode.Result.RemoveLast();
-                        break;
-                    }
-                    node = node.Next;
-                }//end while
+                ParentNode.PushToResults(valueKey);
             }
 
 

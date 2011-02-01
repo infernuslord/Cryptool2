@@ -45,6 +45,8 @@ namespace KeySearcher.P2P.Storage
             foreach (var valueKey in nodeToUpdate.Result)
             {
                 binaryWriter.Write(valueKey.key);
+                binaryWriter.Write(valueKey.keya.Length);
+                binaryWriter.Write(valueKey.keya);
                 binaryWriter.Write(valueKey.value);
                 binaryWriter.Write(valueKey.decryption.Length);
                 binaryWriter.Write(valueKey.decryption);
@@ -179,9 +181,12 @@ namespace KeySearcher.P2P.Storage
 
                 for (var i = 0; i < resultCount; i++)
                 {
+                    var key = binaryReader.ReadString();
+                    int keyaLength = binaryReader.ReadInt32();
                     var newResult = new KeySearcher.ValueKey
-                                            {
-                                                key = binaryReader.ReadString(),
+                                        {
+                                                key = key,
+                                                keya = binaryReader.ReadBytes(keyaLength),
                                                 value = binaryReader.ReadDouble(),
                                                 decryption = binaryReader.ReadBytes(binaryReader.ReadInt32()),
                                                 user = binaryReader.ReadString(),
@@ -189,7 +194,7 @@ namespace KeySearcher.P2P.Storage
                                                 maschid = binaryReader.ReadInt64(),
                                                 maschname = binaryReader.ReadString()
                                             };
-                    nodeToUpdate.Result.AddLast(newResult);                    
+                    nodeToUpdate.PushToResults(newResult);
                 }
 
                 //Reading the number of avatarnames
