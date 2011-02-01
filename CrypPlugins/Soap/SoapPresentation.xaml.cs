@@ -68,7 +68,7 @@ namespace Soap
             }
             else
             {
-                soap.createInfoMessage("No animation running");
+                soap.CreateInfoMessage("No animation running");
             }
         }
 
@@ -145,7 +145,7 @@ namespace Soap
                     panel.Children.Add(tbTagClose);
                     if (!animationRunning)
                     {
-                        XmlNode[] ElementsToEnc = soap.getElementsToEnc();
+                        XmlNode[] ElementsToEnc = soap.GetElementsToEncrypt();
                        
                         foreach (XmlNode node in ElementsToEnc)
                         {
@@ -154,7 +154,7 @@ namespace Soap
                                 addOpenLockToPanel(ref panel, xNode.Name);
                             }
                         }
-                        XmlNode[] EncryptedElements = soap.getEncryptedElements();
+                        XmlNode[] EncryptedElements = soap.GetEncryptedElements();
                         foreach (XmlNode node in EncryptedElements)
                         {
                             if (node.Name.Equals(xNode.Name))
@@ -162,7 +162,7 @@ namespace Soap
                                 addClosedLockToPanel(ref panel);
                             }
                         }
-                        XmlNode[] signedElements = soap.getSignedElements();
+                        XmlNode[] signedElements = soap.GetSignedElements();
                         foreach (XmlNode node in signedElements)
                         {
                             if (node.Name.Equals(xNode.Name))
@@ -178,7 +178,7 @@ namespace Soap
                                 addSignedIconToPanel(ref panel, xNode.Name, id);
                             }
                         }
-                        XmlNode[] elementsToSign = soap.getElementsToSign();
+                        XmlNode[] elementsToSign = soap.GetElementsToSign();
                         foreach (XmlNode node in elementsToSign)
                         {
                             if (node.Name.Equals(xNode.Name))
@@ -186,7 +186,7 @@ namespace Soap
                                 addToSignIconToPanel(ref panel, xNode.Name);
                             }
                         }
-                        XmlNode[] parameters = soap.getParameterToEdit();
+                        XmlNode[] parameters = soap.GetParameterToEdit();
                         foreach (XmlNode node in parameters)
                         {
                             if (node.Name.Equals(xNode.Name))
@@ -345,7 +345,7 @@ namespace Soap
                 Image signIcon = (Image)sender;
                 string[] name = signIcon.Name.Split(new char[] { '_' });
                 string id = name[2];
-                soap.removeSignature(id);
+                soap.RemoveSignature(id);
             }
         }
 
@@ -411,9 +411,9 @@ namespace Soap
             if (!animationRunning)
             {
 
-                if (soap.getSignatureAlg() == null)
+                if (soap.GetSignatureAlgorithm() == null)
                 {
-                    soap.createErrorMessage("You have to select a signature algorithm before you can sign parts of the message");
+                    soap.CreateErrorMessage("You have to select a signature algorithm before you can sign parts of the message");
                 }
                 else
                 {
@@ -422,19 +422,19 @@ namespace Soap
                     string[] test = signIcon.Name.Split(new char[] { '_' });
                     string name = test[0] + ":" + test[1];
                     XmlElement[] array = new XmlElement[1];
-                    array[0] = (XmlElement)soap.securedSOAP.GetElementsByTagName(name)[0];
-                    if (!soap.getxPathTrans())
+                    array[0] = (XmlElement)soap.SecuredSoap.GetElementsByTagName(name)[0];
+                    if (!soap.GetXPathTransForm())
                     {
-                        soap.addIdToElement(name);
+                        soap.AddIdToElement(name);
                     }
-                    if (!soap.getshowSteps())
+                    if (!soap.GetShowSteps())
                     {
-                        if (!soap.checkSecurityHeader())
+                        if (!soap.CheckSecurityHeader())
                         {
-                            soap.createSecurityHeaderAndSoapHeader();
+                            soap.CreateSecurityHeaderAndSoapHeader();
                         }
-                        soap.signElementsManual(array);
-                        soap.showsecuredSoap();
+                        soap.SignElementsManual(array);
+                        soap.ShowSecuredSoap();
                     }
                     else
                     {
@@ -442,7 +442,7 @@ namespace Soap
 
                         sigAnimator = new SignatureAnimator(ref this.treeView, ref this.soap);
                         sigAnimator.startAnimation(array);
-                        soap.createInfoMessage("Signature animation started");
+                        soap.CreateInfoMessage("Signature animation started");
                     }
                 }
             }
@@ -463,7 +463,7 @@ namespace Soap
             }
             else
             {
-                soap.createInfoMessage("No animation running");
+                soap.CreateInfoMessage("No animation running");
             }
         }
 
@@ -497,15 +497,15 @@ namespace Soap
                     name = splitter[0];
                 }
                 XmlElement[] array = new XmlElement[1];
-                array[0] = (XmlElement)soap.securedSOAP.GetElementsByTagName(name)[0];
-                soap.addIdToElement(name);
+                array[0] = (XmlElement)soap.SecuredSoap.GetElementsByTagName(name)[0];
+                soap.AddIdToElement(name);
                 
-                if (soap.gotKey)
+                if (soap.GotKey)
                 {
-                    soap.encElements(array);
-                    if (!soap.getShowEncSteps())
+                    soap.EncryptElements(array);
+                    if (!soap.GetIsShowEncryptionsSteps())
                     {
-                        soap.showsecuredSoap();
+                        soap.ShowSecuredSoap();
                     }
                     else
                     {
@@ -516,7 +516,7 @@ namespace Soap
                 }
                 else
                 {
-                    soap.createErrorMessage("No key for encryption available. Create one in a Web Service Plugin");
+                    soap.CreateErrorMessage("No key for encryption available. Create one in a Web Service Plugin");
                 }
             }
         }
@@ -702,7 +702,7 @@ namespace Soap
            private void treeView1_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
            {
              
-               if (soap.wsdlLoaded)
+               if (soap.WSDLLoaded)
                {
                    clearBoxes(securedSoapItem);
                    TreeView tv = (TreeView)sender;
@@ -715,7 +715,7 @@ namespace Soap
 
                        if (type.Equals("System.Windows.Controls.TextBlock"))
                        {
-                           XmlNode[] parameter = soap.getParameterToEdit();
+                           XmlNode[] parameter = soap.GetParameterToEdit();
 
                            string name = getNameFromPanel(tempPanel, true);
 
@@ -739,7 +739,7 @@ namespace Soap
                                    TextBox box = new TextBox();
                                    box.Height = 23;
                                    box.Width = 80;
-                                   box.Text = soap.securedSOAP.GetElementsByTagName(name)[0].InnerXml.ToString(); ;
+                                   box.Text = soap.SecuredSoap.GetElementsByTagName(name)[0].InnerXml.ToString(); ;
                                    box.IsEnabled = true;
 
                                    panel.Children.Add(box);
@@ -773,7 +773,7 @@ namespace Soap
            private void inputEnd(object sender, bool enter)
            {
                clearBoxes(securedSoapItem);
-               soap.showsecuredSoap();
+               soap.ShowSecuredSoap();
            }
 
 
@@ -800,8 +800,8 @@ namespace Soap
                                            if (parentPanel.Children.Count > 2)
                                            {
                                                TextBlock block = (TextBlock)parentPanel.Children[1];
-                                               soap.securedSOAP.GetElementsByTagName(block.Text)[0].InnerText = box.Text;
-                                               soap.saveSoap();
+                                               soap.SecuredSoap.GetElementsByTagName(block.Text)[0].InnerText = box.Text;
+                                               soap.SaveSoap();
                                                text = box.Text;
                                                childIsTextBox = true;
                                            }
