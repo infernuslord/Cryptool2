@@ -243,4 +243,25 @@ namespace Cryptool.P2PEditor.GUI.Controls
             this.P2PEditorPresentation.ShowJobCreationView();
         }
     }
+
+    public class WidthConverter : IMultiValueConverter
+    {
+
+        #region IMultiValueConverter Member
+
+        public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            double w1 = (double) values[0], w2 = (double)values[1], w3 = (double)values[2];
+
+            return Math.Abs(w1 - w2 - w3);
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+    }
+
 }
