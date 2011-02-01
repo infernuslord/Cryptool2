@@ -26,50 +26,173 @@ namespace Soap
 {
     [Author("Tim Podeszwa", "tim.podeszwa@student.uni-siegen.de", "Uni Siegen", "http://www.uni-siegen.de")]
     [PluginInfo(true, "SoapMessage", "Represents a SoapMessage", "", "Soap/soap.png")]
-    public class Soap:IThroughput
+    public class Soap : IThroughput
     {
-        private ISettings settings = new SoapSettings();
-        private SoapPresentation presentation; 
-      
-        private XmlNode node, envelope, body;
-        public XmlDocument soap, inputDocument;
-        public XmlDocument securedSOAP;
-        private string[] signedElements;
-        public Hashtable idTable;
-        private bool bodySigned, methodNameSigned, bodyEncrypted, methodNameEncrypted ,secHeaderEnc,secHeaderSigned;
-        private int contentCounter;
-        private RSACryptoServiceProvider wsRSACryptoProv, rsaCryptoProv;
+
+        #region Fields
+
+        private ISettings _settings = new SoapSettings();
+        private SoapPresentation presentation;
+        private XmlNode _node;
+        private XmlNode _envelope;
+        private XmlNode _body;
+        private XmlDocument _soap;
+        private XmlDocument _inputDocument;
+        private XmlDocument _securedSOAP;
+        private string[] _signedElements;
+        private Hashtable _idTable;
+        private bool _bodySigned;
+        private bool _methodNameSigned;
+        private bool _bodyEncrypted;
+        private bool _methodNameEncrypted;
+        private bool _secHeaderEnc;
+        private bool _secHeaderSigned;
+        private bool _loaded;
+        private bool send;
+        private bool _gotKey;
+        private bool _wsdlLoaded;
+        private int _contentCounter;
+        private bool _hadHeader;
+        private RSACryptoServiceProvider _wsRSACryptoProv;
+        private RSACryptoServiceProvider _rsaCryptoProv;
+        private DSACryptoServiceProvider _dsaCryptoProv;
+        private CspParameters _cspParams;
+        private RSACryptoServiceProvider _rsaKey;
+        private string _wsPublicKey;
+        private string _lastSessionKey;
+        private EncryptionSettings _encryptionSettings;
+        private SignatureSettings _signatureSettings;
+
+        #endregion
+
+        #region Properties
+
+        public string LastSessionKey
+        {
+            get
+            {
+                return this._lastSessionKey;
+            }
+        }
+        public bool HadHeader
+        {
+            get
+            {
+                return this._hadHeader;
+            }
+        }
+
+        public bool WSDLLoaded
+        {
+            get
+            {
+                return this._wsdlLoaded;
+            }
+        }
+        public bool GotKey
+        {
+            get
+            {
+                return this._gotKey;
+            }
+        }
+        public XmlDocument SecuredSoap
+        {
+            get
+            {
+                return this._securedSOAP;
+            }
+        }
 
         public RSACryptoServiceProvider WsRSACryptoProv
         {
-            get { return wsRSACryptoProv; }
-            set { wsRSACryptoProv = value; }
+            get { return this._wsRSACryptoProv; }
+            set { this._wsRSACryptoProv = value; }
         }
-        private DSACryptoServiceProvider dsaCryptoProv;
-        private string wsPublicKey;
+
 
         public string WsPublicKey
         {
-            get { return wsPublicKey; }
-            set { wsPublicKey = value; }
+            get { return this._wsPublicKey; }
+            set { this._wsPublicKey = value; }
         }
-        public bool gotKey;
-        public bool wsdlLoaded,loaded;
-        public string lastSessionKey;
-        public bool hadHeader;
-        public bool send = false;
 
+        [PropertyInfo(Direction.InputData, "WSDL Input", "WSDL to create the soap message", null)]
+        public XmlDocument Wsdl
+        {
+            set
+            {
+                presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    string s = CopyXmlToString(value);
+                    this.LoadWSDL(s);
+                    this._wsdlLoaded = true;
+                    this.OnPropertyChanged("wsdl");
+                    this.CreateInfoMessage("Received WSDL File");
+                    this.CreateInfoMessage("Created SOAP Message");
+                }, null);
+            }
+            get
+            {
+                return null;
+            }
+        }
 
+        [PropertyInfo(Direction.InputData, "Public-Key input", "Encryption Key", null)]
+        public string PublicKey
+        {
+            get
+            {
+                return this._wsPublicKey;
+            }
+            set
+            {
+                Presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    {
+                        this._wsPublicKey = value;
+                        WsRSACryptoProv.FromXmlString(this._wsPublicKey);
+                        this._gotKey = true;
+                        mySettings.gotkey = true;
+                        mySettings.wsRSAcryptoProv = WsRSACryptoProv.ToXmlString(false);
+                        OnPropertyChanged("publicKey");
+                        CreateInfoMessage("Public Key Received");
+                    }
+                }, null);
+            }
+        }
 
-        /// <summary>
-        /// Encryption Variablen rausnehmen
-        /// </summary>
-        private CspParameters cspParams;
-        private RSACryptoServiceProvider rsaKey;
+        [PropertyInfo(Direction.OutputData, "SOAP output", "Send a SOAP Message", "", true, true, QuickWatchFormat.Text, "XmlConverter")]
+        public XmlDocument OutputString
+        {
+            get { return this._securedSOAP; }
+            set
+            {
+
+                this._securedSOAP = value;
+                OnPropertyChanged("OutputString");
+                send = true;
+
+            }
+        }
+        [PropertyInfo(Direction.InputData, "SOAP input", "Input a SOAP message to be processed by the Web Service", "", false, false, QuickWatchFormat.Text, "XmlOutputConverter")]
+        public XmlDocument InputString
+        {
+            get { return this._inputDocument; }
+            set
+            {
+                this._inputDocument = value;
+
+                OnPropertyChanged("InputString");
+            }
+        }
+
+        #endregion
+
+        #region Structs
 
         private struct EncryptionSettings
         {
-            public string key;
             public bool content;
             public bool showsteps;
         }
@@ -79,119 +202,1182 @@ namespace Soap
             public bool Xpath;
             public bool showsteps;
         }
-        private EncryptionSettings encset;
-        private SignatureSettings sigset;
-        
-       
+
+        #endregion
+
+        #region Constructor
+
         public Soap()
-        {   
-            soap = new XmlDocument();
-            gotKey = false;
+        {
+            this._soap = new XmlDocument();
+            this._gotKey = false;
             this.presentation = new SoapPresentation(this);
-            settings.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(settings_PropertyChanged);
-            wsdlLoaded = false;
-            idTable = new Hashtable();
-            soap = new XmlDocument();
-            encset = new EncryptionSettings();
-            sigset = new SignatureSettings();
-            cspParams = new CspParameters();
-            cspParams.KeyContainerName = "XML_ENC_RSA_KEY";
-            rsaKey = new RSACryptoServiceProvider(cspParams);
-            rsaCryptoProv = new RSACryptoServiceProvider();
-            dsaCryptoProv = new DSACryptoServiceProvider();
-            wsRSACryptoProv = new RSACryptoServiceProvider();
-            securedSOAP = new XmlDocument();
-            soap = new XmlDocument();
-            mySettings.idtable = idTable;
-            rsaCryptoProv.ToXmlString(false);
-            mySettings.rsacryptoProv = rsaCryptoProv.ToXmlString(true);
-            mySettings.dsacryptoProv = dsaCryptoProv.ToXmlString(true);
-            mySettings.wsRSAcryptoProv = wsRSACryptoProv.ToXmlString(false);
-            contentCounter = 0;
-            mySettings.securedsoap = xmlToString(securedSOAP);
+            this._settings.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(SettingsPropertyChangedEventHandler);
+            this._wsdlLoaded = false;
+            this._idTable = new Hashtable();
+            this._soap = new XmlDocument();
+            this._encryptionSettings = new EncryptionSettings();
+            this._signatureSettings = new SignatureSettings();
+            this._cspParams = new CspParameters();
+            this._cspParams.KeyContainerName = "XML_ENC_RSA_KEY";
+            this._rsaKey = new RSACryptoServiceProvider(_cspParams);
+            this._rsaCryptoProv = new RSACryptoServiceProvider();
+            this._dsaCryptoProv = new DSACryptoServiceProvider();
+            this._wsRSACryptoProv = new RSACryptoServiceProvider();
+            this._securedSOAP = new XmlDocument();
+            this._soap = new XmlDocument();
+            mySettings.idtable = _idTable;
+            this._rsaCryptoProv.ToXmlString(false);
+            mySettings.rsacryptoProv = this._rsaCryptoProv.ToXmlString(true);
+            mySettings.dsacryptoProv = this._dsaCryptoProv.ToXmlString(true);
+            mySettings.wsRSAcryptoProv = this._wsRSACryptoProv.ToXmlString(false);
+            this._contentCounter = 0;
+            mySettings.securedsoap = CopyXmlToString(this._securedSOAP);
             this.InputString = new XmlDocument();
-            loaded = false;
-            sigset.sigAlg = "1";
-            
+            this._loaded = false;
+            this._signatureSettings.sigAlg = "1";
         }
 
-        public bool getshowSteps()
+        #endregion
+
+        #region Methods
+
+        public bool GetShowSteps()
         {
-            return sigset.showsteps;
+            return this._signatureSettings.showsteps;
         }
 
-
-        [PropertyInfo(Direction.InputData, "WSDL Input", "WSDL to create the soap message", null)]
-        public XmlDocument Wsdl
+        private void SetSignedElements(DataSet ds)
         {
-            set
+            if (ds != null && ds.Tables.Count > 0)
             {
-                presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-                   {
-                       string s = xmlToString(value);
-                       loadWSDL(s);
-                       wsdlLoaded = true;
-
-                       OnPropertyChanged("wsdl");
-                       createInfoMessage("Received WSDL File");
-                       createInfoMessage("Created SOAP Message");
-                   }, null);
-            }
-            get
-            {
-                return null;
+                DataTable table = ds.Tables[0];
+                this._signedElements = new string[table.Columns.Count];
             }
         }
 
-        [PropertyInfo(Direction.InputData, "Public-Key input", "Encryption Key",null)]
-        public string PublicKey
+        public void AddIdToElement(string element)
         {
-            get
+            if (element != null)
             {
-                return this.wsPublicKey;
-            }
-            set
-            {
-                Presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                if (!this._idTable.ContainsKey(element))
                 {
+                    System.Random randomizer = new Random();
+                    int randomNumber = randomizer.Next(100000000);
+                    if (!this._idTable.ContainsValue(randomNumber))
                     {
-                        WsPublicKey = value;
-
-                        WsRSACryptoProv.FromXmlString(wsPublicKey);
-                        gotKey = true;
-                        mySettings.gotkey = true;
-                        mySettings.wsRSAcryptoProv = WsRSACryptoProv.ToXmlString(false);
-                        OnPropertyChanged("publicKey");
-                        createInfoMessage("Public Key Received");
+                        System.Threading.Thread.Sleep(500);
+                        randomNumber = randomizer.Next(100000000);
                     }
-                }, null);
+                    this._idTable.Add(element, randomNumber);
+                    mySettings.idtable = this._idTable;
+                }
             }
         }
 
-       [PropertyInfo(Direction.OutputData, "SOAP output", "Send a SOAP Message", "",true, true, QuickWatchFormat.Text, "XmlConverter")]
-        public XmlDocument OutputString                                                                                                 
+        private XmlNode GetElementById(string id)
         {
-            get {  return this.securedSOAP;  }
-            set
+            XmlNodeList securityHeader = this._securedSOAP.GetElementsByTagName("wsse:Security");
+            if (securityHeader != null)
+            {
+                foreach (XmlNode node in securityHeader)
+                {
+                    foreach (XmlAttribute att in node.Attributes)
+                    {
+                        if (att.Name.Equals("Id") && ("#" + att.Value).Equals(id))
+                        {
+                            return node;
+                        }
+                    }
+                }
+            }
+            XmlNode body = this._securedSOAP.GetElementsByTagName("s:Body")[0];
+            if (body != null)
+            {
+                foreach (XmlAttribute att in body.Attributes)
+                {
+                    if (att.Name.Equals("Id") && ("#" + att.Value).Equals(id))
+                    {
+                        return body;
+                    }
+                }
+            }
+
+            foreach (XmlNode node in body.ChildNodes)
+            {
+                foreach (XmlAttribute att in node.Attributes)
+                {
+                    if (att.Name.Equals("Id") && ("#" + att.Value).Equals(id))
+                    {
+                        return node;
+                    }
+                }
+                foreach (XmlNode child in node.ChildNodes)
+                {
+                    foreach (XmlAttribute att in child.Attributes)
+                    {
+                        if (att.Name.Equals("Id") && ("#" + att.Value).Equals(id))
+                        {
+                            return child;
+                        }
+                    }
+                }
+            }
+            return null;
+        }
+
+        public XmlNode[] GetSignedElements()
+        {
+            ArrayList list = new ArrayList();
+            if (this._bodySigned)
+            {
+                list.Add(this._securedSOAP.GetElementsByTagName("s:Body")[0]);
+            }
+            if (this._methodNameSigned)
+            {
+                list.Add(this._securedSOAP.GetElementsByTagName("s:Body")[0].FirstChild);
+            }
+            foreach (XmlNode node in this._securedSOAP.GetElementsByTagName("s:Body")[0].FirstChild.ChildNodes)
+            {
+                if (this.GetIsSigned(node))
+                {
+                    list.Add(node);
+                }
+            }
+            if (this._secHeaderSigned)
+            {
+                if (this.GetIsSigned(this._securedSOAP.GetElementsByTagName("wsse:Security")[0])) ;
+                {
+                    list.Add(this._securedSOAP.GetElementsByTagName("wsse:Security")[0]);
+                }
+            }
+
+
+            XmlNode[] signedElements = new XmlNode[list.Count];
+
+            for (int i = 0; i < list.Count; i++)
+            {
+                signedElements[i] = (XmlNode)list[i];
+            }
+            return signedElements;
+        }
+
+        public XmlNode[] GetElementsToSign()
+        {
+            if (this._secHeaderEnc && this._secHeaderSigned)
+            {
+                XmlNode[] elementToSign = new XmlNode[0];
+                return elementToSign;
+            }
+            if (this._secHeaderEnc)
+            {
+                XmlNode[] elementToSign = new XmlNode[1];
+                elementToSign[0] = this._securedSOAP.GetElementsByTagName("wsse:Security")[0];
+                return elementToSign;
+            }
+
+
+            ArrayList list = new ArrayList();
+            if (!this._secHeaderSigned && (this._securedSOAP.GetElementsByTagName("wsse:Security").Count > 0))
+            {
+                list.Add(this._securedSOAP.GetElementsByTagName("wsse:Security")[0]);
+            }
+            XmlNode body = _securedSOAP.GetElementsByTagName("s:Body")[0];
+            XmlNode bodysChildNode = body.ChildNodes[0];
+            if (!this._bodySigned)
+            {
+                list.Add(body);
+                if (!this._bodyEncrypted)
+
+                    if (!this._methodNameSigned)
+                    {
+                        list.Add(bodysChildNode);
+                        if (!this._methodNameEncrypted)
+                        {
+                            foreach (XmlNode childNode in bodysChildNode.ChildNodes)
+                            {
+                                bool signed = false;
+                                XmlNode[] signedElements = this.GetSignedElements();
+                                foreach (XmlNode signedElement in signedElements)
+                                {
+                                    if (childNode.Name.Equals(signedElement.Name))
+                                    {
+                                        signed = true;
+                                    }
+                                }
+                                if (!signed)
+                                {
+                                    list.Add(childNode);
+                                }
+                            }
+                        }
+                    }
+            }
+
+
+            XmlNode[] elementsToSign = new XmlNode[list.Count];
+
+            for (int i = 0; i < list.Count; i++)
+            {
+                elementsToSign[i] = (XmlNode)list[i];
+            }
+            return elementsToSign;
+        }
+
+        private bool GetHasEncryptedContent(XmlNode node)
+        {
+            bool value = false;
+            if (node != null && node.HasChildNodes)
+            {
+                if (node.ChildNodes[0].Name.Equals("xenc:EncryptedData"))
+                {
+                    foreach (XmlAttribute att in node.ChildNodes[0].Attributes)
+                    {
+                        if (att.Value.Equals(EncryptedXml.XmlEncElementContentUrl))
+                        {
+                            value = true;
+                        }
+                    }
+                }
+            }
+            return value;
+        }
+
+        public XmlNode[] GetEncryptedElements()
+        {
+            ArrayList list = new ArrayList();
+            XmlNode header = this._securedSOAP.GetElementsByTagName("s:Header")[0];
+            if (header != null)
+            {
+                foreach (XmlNode node in this._securedSOAP.GetElementsByTagName("s:Header")[0].ChildNodes)
+                {
+                    if (node.Name.Equals("wsse:Security"))
+                    {
+                        if (GetHasEncryptedContent(node))
+                        {
+                            list.Add(node);
+                        }
+                    }
+                }
+            }
+
+            XmlElement body = (XmlElement)_securedSOAP.GetElementsByTagName("s:Body")[0];
+            if (GetHasEncryptedContent(body))
+            {
+                list.Add(body);
+            }
+            else
+            {
+                foreach (XmlNode node in body.ChildNodes)
+                {
+                    if (node.Name.Equals("xenc:EncryptedData"))
+                    {
+                        list.Add(node);
+                    }
+                    else
+                    {
+                        if (GetHasEncryptedContent(node))
+                        {
+                            list.Add(node);
+                        }
+                        foreach (XmlNode nod in node.ChildNodes)
+                        {
+                            if (nod.Name.Equals("xenc:EncryptedData"))
+                            {
+                                list.Add(nod);
+                            }
+                            else
+                            {
+                                if (GetHasEncryptedContent(nod))
+                                {
+                                    list.Add(nod);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+
+            XmlNode[] encryptedElements = new XmlNode[list.Count];
+
+            for (int i = 0; i < list.Count; i++)
+            {
+                encryptedElements[i] = (XmlNode)list[i];
+            }
+            return encryptedElements;
+        }
+
+        public XmlNode[] GetElementsToEncrypt()
+        {
+            if (this._secHeaderEnc && this._secHeaderSigned)
+            {
+                XmlNode[] elementToEncrypt = new XmlNode[0];
+                return elementToEncrypt;
+            }
+            if (this._secHeaderSigned)
+            {
+                XmlNode[] elementToEncrypt = new XmlNode[1];
+                elementToEncrypt[0] = _securedSOAP.GetElementsByTagName("wsse:Security")[0];
+                return elementToEncrypt;
+            }
+            else
             {
 
-                this.securedSOAP = value;
+                ArrayList list = new ArrayList();
+                XmlNode header = this._securedSOAP.GetElementsByTagName("s:Header")[0];
+                if (header != null)
+                {
+                    foreach (XmlNode node in this._securedSOAP.GetElementsByTagName("s:Header")[0].ChildNodes)
+                    {
+                        if (node.Name.Equals("wsse:Security") && (!GetHasEncryptedContent(node)))
+                        {
+                            list.Add(node);
+                        }
+                    }
+                }
+                XmlElement body = (XmlElement)_securedSOAP.GetElementsByTagName("s:Body")[0];
+                if (!GetHasEncryptedContent(body))
+                {
+                    list.Add(body);
+                    if (!this._bodySigned)
+                    {
+                        foreach (XmlNode node in body.ChildNodes)
+                        {
+                            if (!GetHasEncryptedContent(node) && (!node.Name.Equals("xenc:EncryptedData")))
+                            {
+                                list.Add(node);
+                                if (!this._methodNameSigned)
+                                {
+                                    foreach (XmlNode nod in node.ChildNodes)
+                                    {
+                                        if (!GetHasEncryptedContent(nod) && (!nod.Name.Equals("xenc:EncryptedData")))
+                                        {
+                                            list.Add(nod);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                XmlNode[] elementsToEncrypt = new XmlNode[list.Count];
+
+                for (int i = 0; i < list.Count; i++)
+                {
+                    elementsToEncrypt[i] = (XmlNode)list[i];
+                }
+                return elementsToEncrypt;
+            }
+
+        }
+
+        private bool GetIsSigned(XmlNode node)
+        {
+            bool signed = false;
+            if (node != null)
+            {
+                foreach (XmlAttribute att in node.Attributes)
+                {
+                    if (att.Name.Equals("Id"))
+                    {
+                        foreach (XmlNode refElem in this._securedSOAP.GetElementsByTagName("ds:Reference"))
+                        {
+                            foreach (XmlAttribute refAtt in refElem.Attributes)
+                            {
+                                if (refAtt.Name.Equals("URI"))
+                                {
+                                    if (refAtt.Value.Equals("#" + att.Value))
+                                    {
+                                        return true;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                foreach (XmlNode xPath in _securedSOAP.GetElementsByTagName("ds:XPath"))
+                {
+                    string[] splitter = xPath.InnerText.Split(new char[] { '/' });
+                    if (splitter[splitter.Length - 1].Equals(node.Name))
+                    {
+                        return true;
+                    }
+                }
+            }
+            return signed;
+        }
+
+        public XmlNode[] GetParameterToEdit()
+        {
+            ArrayList list = new ArrayList();
+            if (this._bodyEncrypted || this._bodySigned || this._methodNameEncrypted || this._methodNameSigned)
+            {
+                XmlNode[] emptySet = new XmlNode[0];
+                return emptySet;
+            }
+            if (this._secHeaderEnc || this._secHeaderSigned)
+            {
+                XmlNode[] emptySet = new XmlNode[0];
+                return emptySet;
+            }
+
+            if (!this._secHeaderEnc)
+            {
+                foreach (XmlNode parameter in this._securedSOAP.GetElementsByTagName("s:Body")[0].FirstChild.ChildNodes)
+                {
+                    if (!GetIsSigned(parameter))
+                    {
+                        if (!GetHasEncryptedContent(parameter))
+                        {
+                            if (!parameter.Name.Equals("xenc:EncryptedData"))
+                                list.Add(parameter);
+                        }
+                    }
+                }
+            }
+            XmlNode[] parametersToEdit = new XmlNode[list.Count];
+            for (int i = 0; i < list.Count; i++)
+            {
+                parametersToEdit[i] = (XmlNode)list[i];
+            }
+            return parametersToEdit;
+        }
+
+        public XmlNode[] GetParameter()
+        {
+            ArrayList list = new ArrayList();
+            foreach (XmlNode node in this._securedSOAP.GetElementsByTagName("s:Body")[0].ChildNodes[0].ChildNodes)
+            {
+                XmlNode[] signedNodes = GetSignedElements();
+                bool isSigned = false;
+                foreach (XmlNode signedElement in signedNodes)
+                {
+                    if (signedElement.Name.Equals(node.Name))
+                    {
+                        isSigned = true;
+                    }
+
+                }
+                XmlNode[] encryptedNodes = GetEncryptedElements();
+                bool isEncrypted = false;
+                foreach (XmlNode encryptedNode in encryptedNodes)
+                {
+                    if (encryptedNode.Equals(node))
+                    {
+                        isEncrypted = true;
+                    }
+                }
+                if (!isSigned && !isEncrypted)
+                {
+                    list.Add(node);
+                }
+            }
+            XmlNode[] parameters = new XmlNode[list.Count];
+            for (int i = 0; i < list.Count; i++)
+            {
+                parameters[i] = (XmlNode)list[i];
+            }
+            return parameters;
+        }
+
+        public string GetSignatureAlgorithm()
+        {
+            return this._signatureSettings.sigAlg;
+        }
+
+        public void SaveSoap()
+        {
+            mySettings.securedsoap = CopyXmlToString(this._securedSOAP);
+        }
+
+        public void LoadWSDL(string wsdlString)
+        {
+            if (wsdlString != null && !wsdlString.Equals(""))
+            {
+                StringReader stringReader = new StringReader(wsdlString);
+                XmlTextReader xmlTextReader = new XmlTextReader(stringReader);
+                ServiceDescription serviceDescriptionsRead = ServiceDescription.Read(xmlTextReader);
+                ServiceDescription serviceDescription = serviceDescriptionsRead.Services[0].ServiceDescription;
+                Types types = serviceDescription.Types;
+                //PortTypeCollection portTypes = serviceDescription.PortTypes;
+                //MessageCollection messages = serviceDescription.Messages;
+                //XmlSchema schema = types.Schemas[0];
+                //PortType porttype = portTypes[0];
+                //Operation operation = porttype.Operations[0];
+                //OperationInput input = operation.Messages[0].Operation.Messages.Input;
+                //Message message = messages[input.Message.Name];
+                //MessagePart messagePart = message.Parts[0];
+                XmlSchema xmlSchema = types.Schemas[0];
+                StringWriter stringWriter = new StringWriter();
+                xmlSchema.Write(stringWriter);
+                DataSet set = new DataSet();
+                StringReader sreader = new StringReader(stringWriter.ToString());
+                XmlTextReader xmlreader = new XmlTextReader(sreader);
+                set.ReadXmlSchema(xmlreader);
+                this.SetSignedElements(set);
+                this._soap = new XmlDocument();
+                this._node = this._soap.CreateXmlDeclaration("1.0", "ISO-8859-1", "yes");
+                this._soap.AppendChild(_node);
+                this._envelope = this._soap.CreateElement("s", "Envelope", "http://www.w3.org/2003/05/soap-envelope");
+                this._soap.AppendChild(_envelope);
+                this._body = this._soap.CreateElement("s", "Body", "http://www.w3.org/2003/05/soap-envelope");
+                XmlNode inputNode = this._soap.CreateElement("tns", set.Tables[0].ToString(), set.Tables[0].Namespace);
+                DataTable table = set.Tables[0];
+                foreach (DataColumn tempColumn in table.Columns)
+                {
+                    XmlNode newElement = this._soap.CreateElement("tns", tempColumn.ColumnName, set.Tables[0].Namespace);
+                    inputNode.AppendChild(newElement);
+                }
+                this._body.AppendChild(inputNode);
+                this._envelope.AppendChild(this._body);
+                stringWriter = new StringWriter();
+                XmlTextWriter xmlTextWriter = new XmlTextWriter(stringWriter);
+                xmlTextWriter.Formatting = Formatting.Indented;
+                this._soap.WriteContentTo(xmlTextWriter);
+                XmlNode rootElement = this._soap.SelectSingleNode("/*");
+                presentation.origSoapItem = new System.Windows.Controls.TreeViewItem();
+                presentation.origSoapItem.IsExpanded = true;
+                StackPanel panel1 = new StackPanel();
+                StackPanel origSoapPanel = new StackPanel();
+                StackPanel origSoapPanel2 = new StackPanel();
+                panel1.Orientation = System.Windows.Controls.Orientation.Horizontal;
+                origSoapPanel.Orientation = System.Windows.Controls.Orientation.Horizontal;
+                origSoapPanel2.Orientation = System.Windows.Controls.Orientation.Horizontal;
+                TextBlock elem1 = new TextBlock();
+                elem1.Text = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>";
+                TextBlock origSoapElem = new TextBlock();
+                origSoapElem.Text = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>";
+                TextBlock origSoapElem2 = new TextBlock();
+                origSoapElem2.Text = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>";
+                panel1.Children.Insert(0, elem1);
+                origSoapPanel.Children.Insert(0, origSoapElem);
+                origSoapPanel2.Children.Insert(0, origSoapElem2);
+                presentation.origSoapItem.Header = panel1;
+                this._loaded = false;
+                this._securedSOAP = (XmlDocument)this._soap.Clone();
+                mySettings.soapelement = CopyXmlToString(this._soap);
+                mySettings.securedsoap = CopyXmlToString(this._securedSOAP);
+                this.presentation.CopyXmlToTreeView(rootElement, ref presentation.origSoapItem);
+                this.presentation.treeView.Items.Add(presentation.origSoapItem);
+                presentation.treeView.Items.Refresh();
+                ShowSecuredSoap();
+                this._loaded = true;
+                this.InputString = this._soap;
+                this._wsdlLoaded = true;
+                mySettings.wsdlloaded = true;
                 OnPropertyChanged("OutputString");
-                send = true;
-
             }
         }
-       private XmlDocument inputString;
-       [PropertyInfo(Direction.InputData, "SOAP input", "Input a SOAP message to be processed by the Web Service", "", false, false, QuickWatchFormat.Text, "XmlOutputConverter")]
-        public XmlDocument InputString       
-        {
-            get { return this.inputDocument; }
-            set
-            {
-            this.inputDocument = value;
 
-             OnPropertyChanged("InputString");
+        public bool GetIsShowEncryptionsSteps()
+        {
+            return this._encryptionSettings.showsteps;
+        }
+
+        public bool GetIsEncryptContent()
+        {
+            return this._encryptionSettings.content;
+        }
+
+        public string CopyXmlToString(XmlDocument doc)
+        {
+            if (doc != null)
+            {
+                StringWriter stringWriter = new StringWriter();
+                doc.Normalize();
+                XmlTextWriter xmlTextWriter = new XmlTextWriter(stringWriter);
+                xmlTextWriter.Formatting = Formatting.Indented;
+                doc.WriteContentTo(xmlTextWriter);
+                return stringWriter.ToString();
             }
+            else
+            {
+                return "";
+            }
+        }
+
+        public XmlDocument CopyStringToXml(string s)
+        {
+            XmlDocument doc = new XmlDocument();
+            if (!s.Equals(""))
+            {
+                StringReader stringReader = new StringReader(s);
+                XmlTextReader xmlTextReader = new XmlTextReader(stringReader);
+                doc.Load(xmlTextReader);
+            }
+            return doc;
+        }
+
+        public void AddSignedElement(string newElement)
+        {
+            bool isSigned = false;
+            foreach (string signedElement in this._signedElements)
+            {
+                if (signedElement != null)
+                {
+                    if (signedElement.Equals(newElement))
+                    {
+                        isSigned = true;
+                    }
+                }
+            }
+            if (!isSigned)
+            {
+                int count = -1;
+                foreach (string signedElement in this._signedElements)
+                {
+                    count++;
+                    if (signedElement == null)
+                    {
+                        break;
+                    }
+
+                }
+                this._signedElements[count] = newElement;
+            }
+        }
+
+        public bool GetIsSigned(string Element)
+        {
+            bool issigned = false;
+            foreach (string s in _signedElements)
+            {
+                if (s != null)
+                {
+                    if (s.Equals(Element))
+                    {
+                        issigned = true;
+                    }
+                }
+            }
+            return issigned;
+        }
+
+        public void RemoveSignature(string Id)
+        {
+            XmlNodeList signatureElements = this._securedSOAP.GetElementsByTagName("ds:Signature");
+            ArrayList list = new ArrayList();
+            XmlNode nodeToDelete = null;
+            foreach (XmlNode node in signatureElements)
+            {
+
+                foreach (XmlNode child in node.FirstChild.ChildNodes)
+                {
+                    if (child.Name.Equals("ds:Reference"))
+                    {
+                        foreach (XmlAttribute att in child.Attributes)
+                        {
+                            if (att.Name.Equals("URI"))
+                            {
+                                if (att.Value.Equals("#" + Id))
+                                {
+                                    nodeToDelete = node;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            if (nodeToDelete != null)
+            {
+                foreach (XmlNode node in nodeToDelete.ChildNodes)
+                {
+                    if (node.Name.Equals("ds:Reference"))
+                    {
+                        foreach (XmlAttribute atttribute in node.Attributes)
+                        {
+                            if (atttribute.Name.Equals("URI"))
+                            {
+                                if (!atttribute.Value.Equals("#" + Id))
+                                {
+                                    string[] id = atttribute.Value.Split(new char[] { '#' });
+                                    XmlNode element = this.GetElementById(id[0]);
+                                    list.Add(element);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            XmlElement[] signArray = new XmlElement[list.Count];
+
+            for (int i = 0; i < list.Count; i++)
+            {
+                signArray[i] = (XmlElement)list[i];
+            }
+
+            if (nodeToDelete != null)
+            {
+                this._securedSOAP.GetElementsByTagName("wsse:Security")[0].RemoveChild(nodeToDelete);
+            }
+
+            if (signArray.Length > 0)
+            {
+                this.SignElements(signArray);
+            }
+            this.ShowSecuredSoap();
+        }
+
+        public void EncryptElements(XmlElement[] elements)
+        {
+            if (this._gotKey)
+            {
+                bool content = this._encryptionSettings.content;
+                XmlNode securityHeader = this._securedSOAP.GetElementsByTagName("wsse:Security")[0];
+                if (securityHeader == null)
+                {
+                    this._hadHeader = false;
+                    XmlNode header = this._securedSOAP.CreateElement("s", "Header", "http://www.w3.org/2001/12/soap-envelope");
+                    string wsseNamespace = "http://docs.oasis-open.org/wss/2004/01/oasis -200401-wss-wssecurity-secext-1.0.xsd";
+                    securityHeader = this._securedSOAP.CreateElement("wsse", "Security", wsseNamespace);
+                    header.AppendChild(securityHeader);
+                    XmlNode envelope = this._securedSOAP.GetElementsByTagName("s:Envelope")[0];
+                    XmlNode soapBody = this._securedSOAP.GetElementsByTagName("s:Body")[0];
+                    envelope.InsertBefore(header, soapBody);
+                }
+                else
+                {
+                    this._hadHeader = true;
+                }
+                RijndaelManaged sessionKey = new RijndaelManaged();
+                sessionKey.KeySize = 256;
+                EncryptedXml encryptedXML = new EncryptedXml();
+                EncryptedKey encryptedKey = new EncryptedKey();
+                byte[] encryptedEncryptionKey = EncryptedXml.EncryptKey(sessionKey.Key, this._wsRSACryptoProv, false);
+                encryptedKey.EncryptionMethod = new EncryptionMethod(EncryptedXml.XmlEncRSA15Url);
+                encryptedKey.CipherData = new CipherData(encryptedEncryptionKey);
+                KeyInfoName keyName = new KeyInfoName();
+                keyName.Value = "Web Service Public Key";
+                encryptedKey.KeyInfo.AddClause(keyName);
+                foreach (XmlElement elem in elements)
+                {
+                    if (elem != null)
+                    {
+                        //Check if Security Header or Body. Only content encryption is allowed by WS-Security
+                        if (elem.Name.Equals("s:Body") || elem.Name.Equals("wsse:Security"))
+                        {
+                            if (content == false)
+                            {
+                                CreateErrorMessage("Only the content of the  " + elem.Name + " element can be encrypted");
+                            }
+                            content = true;
+                        }
+                        this._lastSessionKey = Convert.ToBase64String(sessionKey.Key);
+                        byte[] encryptedElement = encryptedXML.EncryptData(elem, sessionKey, content);
+                        EncryptedData encElement = new EncryptedData();
+                        DataReference encryptedDataReference = new DataReference();
+                        if (!content)
+                        {
+                            encElement.Type = EncryptedXml.XmlEncElementUrl;
+                            encElement.Id = this._idTable[elem.Name].ToString();
+                            encryptedDataReference.Uri = "#" + this._idTable[elem.Name].ToString();
+                        }
+                        else
+                        {
+                            encElement.Type = EncryptedXml.XmlEncElementContentUrl;
+                            AddIdToElement(this._contentCounter + elem.Name);
+                            encElement.Id = _idTable[this._contentCounter + elem.Name].ToString();
+                            encryptedDataReference.Uri = "#" + this._idTable[_contentCounter + elem.Name].ToString();
+                            this._contentCounter++;
+                            mySettings.contentcounter = this._contentCounter;
+                        }
+
+                        encElement.EncryptionMethod = new EncryptionMethod(EncryptedXml.XmlEncAES256Url);
+                        encElement.CipherData.CipherValue = encryptedElement;
+                        encryptedKey.AddReference(encryptedDataReference);
+                        string s = this._securedSOAP.GetElementsByTagName(elem.Name)[0].ParentNode.Name;
+
+                        if (!content)
+                        {
+                            this._securedSOAP.GetElementsByTagName(s)[0].ReplaceChild(this._securedSOAP.ImportNode(encElement.GetXml(), true), this._securedSOAP.GetElementsByTagName(elem.Name)[0]);
+                        }
+                        else
+                        {
+                            this._securedSOAP.GetElementsByTagName(elem.Name)[0].RemoveAll();
+                            this._securedSOAP.GetElementsByTagName(elem.Name)[0].AppendChild(this._securedSOAP.ImportNode(encElement.GetXml(), true));
+                        }
+                        if (elem.Name.Equals("s:Body"))
+                        {
+                            this._bodyEncrypted = true;
+                            mySettings.bodyencrypted = true;
+                        }
+                        if (elem.Name.Equals(_soap.GetElementsByTagName("s:Body")[0].ChildNodes[0].Name))
+                        {
+                            this._methodNameEncrypted = true;
+                            mySettings.methodnameencrypted = this._methodNameEncrypted;
+                        }
+                        if (elem.Name.Equals("wsse:Security"))
+                        {
+                            this._secHeaderEnc = true;
+                            mySettings.secheaderEnc = true;
+                        }
+                    }
+
+                }
+                securityHeader.InsertBefore(this._securedSOAP.ImportNode(encryptedKey.GetXml(), true), securityHeader.ChildNodes[0]);
+                this.PrefixesToEncryptedElement();
+                mySettings.securedsoap = CopyXmlToString(_securedSOAP);
+            }
+            else
+            {
+                CreateErrorMessage("No key for encryption available");
+            }
+        }
+
+        private void PrefixesToEncryptedElement()
+        {
+            XmlNodeList encryptedKeys = _securedSOAP.GetElementsByTagName("EncryptedKey");
+            foreach (XmlNode encryptedKey in encryptedKeys)
+            {
+                AddPrefixesToNodeAndChildNode("xenc", encryptedKey);
+            }
+            XmlNodeList encryptedDataElements = this._securedSOAP.GetElementsByTagName("EncryptedData");
+            foreach (XmlNode encryptedDataElement in encryptedDataElements)
+            {
+                AddPrefixesToNodeAndChildNode("xenc", encryptedDataElement);
+            }
+        }
+
+        private void AddPrefixesToNodeAndChildNode(string prefix, XmlNode node)
+        {
+            if (node.Name.Equals("KeyInfo"))
+            {
+                node.Prefix = "ds";
+                prefix = "ds";
+            }
+            else
+            {
+                node.Prefix = prefix;
+            }
+            foreach (XmlNode child in node.ChildNodes)
+            {
+                this.AddPrefixesToNodeAndChildNode(prefix, child);
+            }
+        }
+
+        public void DecryptDocument()
+        {
+            XmlElement securityHeader = (XmlElement)this._securedSOAP.GetElementsByTagName("Security")[0];
+            XmlElement encryptedKey = (XmlElement)this._securedSOAP.GetElementsByTagName("EncryptedKey")[0];
+            XmlElement encryptedData = (XmlElement)this._securedSOAP.GetElementsByTagName("EncryptedData")[0];
+            XmlElement keyInfo = this._securedSOAP.CreateElement("KeyInfo", SignedXml.XmlDsigNamespaceUrl);
+            securityHeader.RemoveChild(encryptedKey);
+            keyInfo.AppendChild(encryptedKey);
+            encryptedData.InsertAfter(keyInfo, encryptedData.GetElementsByTagName("EncryptionMethod")[0]);
+            this.ShowSecuredSoap();
+            EncryptedXml encXml = new EncryptedXml(this._securedSOAP);
+            encXml.AddKeyNameMapping("RSA-Key", this._rsaKey);
+            encXml.DecryptDocument();
+        }
+
+        public void SignElements(XmlElement[] elements)
+        {
+            String sigAlgo = this._signatureSettings.sigAlg;
+            XmlNode securityHeader = this._securedSOAP.GetElementsByTagName("Security")[0];
+            if (securityHeader == null)
+            {
+                XmlNode header = this._securedSOAP.CreateElement("s", "Header", "http://www.w3.org/2003/05/soap-envelope");
+                string wsseNamespace = "http://docs.oasis-open.org/wss/2004/01/oasis -200401-wss-wssecurity-secext-1.0.xsd";
+                securityHeader = this._securedSOAP.CreateElement("Security", wsseNamespace);
+                header.AppendChild(securityHeader);
+                XmlNode envelope = this._securedSOAP.GetElementsByTagName("Envelope")[0];
+                XmlNode soapBody = this._securedSOAP.GetElementsByTagName("Body")[0];
+                envelope.InsertBefore(header, soapBody);
+            }
+            SignedXml signedXML = new SignedXml(this._securedSOAP);
+            foreach (XmlElement elementToSign in elements)
+            {
+                XmlAttribute idAttribute = this._securedSOAP.CreateAttribute("Id");
+                idAttribute.Value = this._idTable[elementToSign.Name].ToString();
+                elementToSign.Attributes.Append(idAttribute);
+                XmlAttributeCollection attributes = elementToSign.Attributes;
+                XmlAttribute id = attributes["Id"];
+                Reference reference = new Reference("#" + id.Value);
+                //   Reference reference = new Reference("");
+                XmlElement xpathElement = _securedSOAP.CreateElement("XPath");
+                string Xpath = "ancestor-or-self::Body";
+                XmlElement root = this._securedSOAP.DocumentElement;
+                XmlElement body = (XmlElement)this._securedSOAP.GetElementsByTagName("Body")[0];
+                XmlNamespaceManager namespaceManager = new XmlNamespaceManager(this._securedSOAP.NameTable);
+                namespaceManager.AddNamespace("s", body.NamespaceURI);
+                xpathElement.InnerText = Xpath;
+                XmlDsigXPathTransform xpathTrans = new XmlDsigXPathTransform();
+                xpathTrans.LoadInnerXml(xpathElement.SelectNodes("."));
+                XmlDsigExcC14NTransform transform = new XmlDsigExcC14NTransform();
+                reference.AddTransform(transform);
+                signedXML.AddReference(reference);
+                if (elementToSign.Name.Equals("s:Body"))
+                {
+                    this._bodySigned = true;
+                    mySettings.bodysigned = true;
+                }
+                if (elementToSign.Name.Equals(this._soap.GetElementsByTagName("s:Body")[0].ChildNodes[0].Name))
+                {
+                    this._methodNameSigned = true;
+                    mySettings.methodnameSigned = true;
+                }
+
+            }
+            if (sigAlgo.Equals("1"))
+            {
+                CspParameters parameter = new CspParameters();
+                parameter.KeyContainerName = "Container";
+                RSACryptoServiceProvider provider = new RSACryptoServiceProvider(parameter);
+                signedXML.SigningKey = provider;
+                signedXML.ComputeSignature();
+                KeyInfo keyInfo = new KeyInfo();
+                keyInfo.AddClause(new RSAKeyValue(provider));
+                signedXML.KeyInfo = keyInfo;
+                Reference reference = (Reference)signedXML.SignedInfo.References[0];
+                IEnumerator enumerator = reference.TransformChain.GetEnumerator();
+                enumerator.MoveNext();
+                XmlElement envelope = (XmlElement)this._securedSOAP.GetElementsByTagName("Envelope")[0];
+                Transform tran = (Transform)enumerator.Current;
+                XmlNodeList list2 = envelope.SelectNodes("//. | //@* | //namespace::*");
+
+            }
+            if (sigAlgo.Equals("0"))
+            {
+                DSA dsa = DSA.Create();
+                dsa.ToXmlString(false);
+                signedXML.SigningKey = dsa;
+                signedXML.ComputeSignature();
+            }
+
+            XmlElement signaturElement = signedXML.GetXml();
+            securityHeader.InsertBefore(this._securedSOAP.ImportNode(signaturElement, true), securityHeader.ChildNodes[0]);
+
+        }
+
+        public bool CheckSecurityHeader()
+        {
+            bool securityheader = false;
+            XmlNodeList securityElements = this._securedSOAP.GetElementsByTagName("wsse:Security");
+            if (!(securityElements.Count == 0))
+            {
+                securityheader = true;
+            }
+            return securityheader;
+        }
+
+        public void CreateSecurityHeaderAndSoapHeader()
+        {
+            if (!CheckSecurityHeader())
+            {
+                XmlElement envelope = (XmlElement)this._securedSOAP.GetElementsByTagName("s:Envelope")[0];
+                XmlElement header = this._securedSOAP.CreateElement("s", "Header", "http://www.w3.org/2001/12/soap-envelope");
+                XmlElement securityHeader = this._securedSOAP.CreateElement("wsse", "Security", "http://docs.oasis-open.org/wss/2004/01/oasis -200401-wss-wssecurity-secext-1.0.xsd");
+                envelope.InsertBefore(header, envelope.FirstChild);
+                header.AppendChild(securityHeader);
+                mySettings.securedsoap = CopyXmlToString(_securedSOAP);
+            }
+        }
+
+        private string GetXPathValue(XmlElement element)
+        {
+            string xPathValue = "/s:Envelope";
+            if (element.Name.Equals("wsse:Security"))
+            {
+                xPathValue = xPathValue + "/wsse:Security";
+                return xPathValue;
+            }
+            xPathValue = xPathValue + "/s:Body";
+            if (element.Name.Equals("s:Body"))
+            {
+                return xPathValue;
+            }
+            xPathValue = xPathValue + "/" + this._securedSOAP.GetElementsByTagName("s:Body")[0].FirstChild.Name;
+            if (element.Name.Equals(this._securedSOAP.GetElementsByTagName("s:Body")[0].FirstChild.Name))
+            {
+                return xPathValue;
+            }
+            xPathValue = xPathValue + "/" + element.Name;
+            return xPathValue;
+        }
+
+        public void CreateErrorMessage(string text)
+        {
+            EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(text, this, NotificationLevel.Error));
+        }
+
+        public void CreateInfoMessage(string text)
+        {
+            EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(text, this, NotificationLevel.Info));
+        }
+
+        public void SignElementsManual(XmlElement[] elementsToSign)
+        {
+
+            string dsNamespace = "http://www.w3.org/2000/09/xmldsig#";
+            XmlElement signature = this._securedSOAP.CreateElement("ds", "Signature", dsNamespace);
+            XmlElement signedInfo = this._securedSOAP.CreateElement("ds", "SignedInfo", dsNamespace);
+            XmlElement canonicalizationMethod = _securedSOAP.CreateElement("ds", "CanonicalizationMethod", dsNamespace);
+            XmlAttribute canMeth = this._securedSOAP.CreateAttribute("Algorithm");
+            canMeth.Value = SignedXml.XmlDsigExcC14NTransformUrl;
+            canonicalizationMethod.Attributes.Append(canMeth);
+            XmlElement signatureMethod = this._securedSOAP.CreateElement("ds", "SignatureMethod", dsNamespace);
+            XmlAttribute sigMeth = this._securedSOAP.CreateAttribute("Algorithm");
+
+            if (this._signatureSettings.sigAlg.Equals("0"))
+            {
+                sigMeth.Value = SignedXml.XmlDsigDSAUrl;
+            }
+            if (this._signatureSettings.sigAlg.Equals("1"))
+            {
+                sigMeth.Value = SignedXml.XmlDsigRSASHA1Url;
+            }
+
+            signatureMethod.Attributes.Append(sigMeth);
+            XmlNode securityHeader = this._securedSOAP.GetElementsByTagName("wsse:Security")[0];
+            securityHeader.InsertBefore(signature, securityHeader.FirstChild);
+            signature.AppendChild(signedInfo);
+            signedInfo.AppendChild(canonicalizationMethod);
+            signedInfo.AppendChild(signatureMethod);
+
+            foreach (XmlElement elementToSign in elementsToSign)
+            {
+                this.AddIdToElement(elementToSign.Name);
+                XmlAttribute idAttribute = this._securedSOAP.CreateAttribute("Id");
+                idAttribute.Value = this._idTable[elementToSign.Name].ToString();
+                elementToSign.Attributes.Append(idAttribute);
+                XmlElement referenceElement = this._securedSOAP.CreateElement("ds", "Reference", dsNamespace);
+                XmlAttribute uri = this._securedSOAP.CreateAttribute("URI");
+                XmlElement transforms = _securedSOAP.CreateElement("ds", "Transforms", dsNamespace);
+                referenceElement.AppendChild(transforms);
+
+                if (this._signatureSettings.Xpath)
+                {
+                    uri.Value = "";
+                    XmlElement xPathTransform = this._securedSOAP.CreateElement("ds", "Transform", dsNamespace);
+                    XmlAttribute xPathTransAtt = this._securedSOAP.CreateAttribute("Algorithm");
+                    xPathTransAtt.Value = SignedXml.XmlDsigXPathTransformUrl;
+                    xPathTransform.Attributes.Append(xPathTransAtt);
+                    XmlElement xPathValue = this._securedSOAP.CreateElement("ds", "XPath", dsNamespace);
+                    xPathValue.InnerXml = this.GetXPathValue(elementToSign);
+                    xPathTransform.AppendChild(xPathValue);
+                    transforms.AppendChild(xPathTransform);
+                }
+                else
+                {
+                    uri.Value = "#" + this._idTable[elementToSign.Name].ToString();
+                }
+                referenceElement.Attributes.Append(uri);
+                XmlElement c14nTransform = this._securedSOAP.CreateElement("ds", "Transform", dsNamespace);
+                XmlAttribute c14Url = this._securedSOAP.CreateAttribute("Algorithm");
+                c14Url.Value = SignedXml.XmlDsigExcC14NTransformUrl;
+                c14nTransform.Attributes.Append(c14Url);
+                transforms.AppendChild(c14nTransform);
+                XmlElement digestMethod = this._securedSOAP.CreateElement("ds", "DigestMethod", dsNamespace);
+                XmlAttribute digMethodAttribute = this._securedSOAP.CreateAttribute("Algorithm");
+                digMethodAttribute.Value = SignedXml.XmlDsigSHA1Url;
+                digestMethod.Attributes.Append(digMethodAttribute);
+                referenceElement.AppendChild(digestMethod);
+                XmlElement digestValue = this._securedSOAP.CreateElement("ds", "DigestValue", dsNamespace);
+                digestValue.InnerText = Convert.ToBase64String(this.GetDigestValueForElementWithSha1(elementToSign));
+                referenceElement.AppendChild(digestValue);
+                signedInfo.AppendChild(referenceElement);
+                if (elementToSign.Name.Equals("s:Body"))
+                {
+                    this._bodySigned = true;
+                    mySettings.bodysigned = true;
+                }
+                if (elementToSign.Name.Equals(this._soap.GetElementsByTagName("s:Body")[0].ChildNodes[0].Name))
+                {
+                    this._methodNameSigned = true;
+                     mySettings.methodnameSigned = true;
+                }
+                if (elementToSign.Name.Equals("wsse:Security"))
+                {
+                    this._secHeaderSigned = true;
+                    mySettings.secheaderSigned = true;
+                }
+
+            }
+            XmlElement signatureValue = this._securedSOAP.CreateElement("ds", "SignatureValue", dsNamespace);
+            KeyInfo keyInfo = new KeyInfo();
+            if (this._signatureSettings.sigAlg.Equals("1"))
+            {
+                signatureValue.InnerXml = Convert.ToBase64String(this._rsaCryptoProv.SignHash(this.GetDigestValueForElementWithSha1(signedInfo), CryptoConfig.MapNameToOID("SHA1")));
+                keyInfo.AddClause(new RSAKeyValue(this._rsaCryptoProv));
+
+            }
+            if (this._signatureSettings.sigAlg.Equals("0"))
+            {
+                signatureValue.InnerXml = Convert.ToBase64String(this._dsaCryptoProv.SignHash(this.GetDigestValueForElementWithSha1(signedInfo), CryptoConfig.MapNameToOID("SHA1")));
+                keyInfo.AddClause(new DSAKeyValue(this._dsaCryptoProv));
+            }
+            signature.AppendChild(signatureValue);
+            XmlElement xmlKeyInfo = keyInfo.GetXml();
+            xmlKeyInfo.Prefix = "ds";
+            foreach (XmlNode childNode in xmlKeyInfo.ChildNodes)
+            {
+                childNode.Prefix = "ds";
+            }
+            signature.AppendChild(this._securedSOAP.ImportNode(xmlKeyInfo, true));
+            XmlElement secHead = (XmlElement)this._securedSOAP.GetElementsByTagName("wsse:Security")[0];
+            mySettings.securedsoap = this.CopyXmlToString(this._securedSOAP);
+        }
+
+        public string GetIdToElement(string elementName)
+        {
+            if (elementName != null && this._idTable.ContainsKey(elementName))
+            {
+                string id = this._idTable[elementName].ToString();
+                return id;
+            }
+            return null;
+        }
+
+        public bool GetXPathTransForm()
+        {
+            return this._signatureSettings.Xpath;
+        }
+
+        public byte[] GetDigestValueForElementWithSha1(XmlElement element)
+        {
+            Stream canonicalized = this.CanonicalizeNodeWithExcC14n(element);
+            SHA1CryptoServiceProvider sha1 = new SHA1CryptoServiceProvider();
+            byte[] byteValue = sha1.ComputeHash(canonicalized);
+            return byteValue;
+        }
+
+        public Stream CanonicalizeNodeWithExcC14n(XmlElement nodeToCanon)
+        {
+            XmlNode node = (XmlNode)nodeToCanon;
+            XmlNodeReader reader = new XmlNodeReader(node);
+            Stream inputStream = new MemoryStream();
+            XmlWriter writer = new XmlTextWriter(inputStream, Encoding.UTF8);
+            writer.WriteNode(reader, false);
+            writer.Flush();
+            inputStream.Position = 0;
+            XmlDsigExcC14NTransform transformation = new XmlDsigExcC14NTransform();
+            transformation.LoadInput(inputStream);
+            Stream outputStream = (Stream)transformation.GetOutput();
+            return outputStream;
+        }
+
+        public void ShowSecuredSoap()
+        {
+            presentation.treeView.Items.Clear();
+            presentation.namespacesTable.Clear();
+            this.presentation.securedSoapItem = null;
+            this.presentation.securedSoapItem = new System.Windows.Controls.TreeViewItem();
+            presentation.securedSoapItem.IsExpanded = true;
+            StackPanel panel1 = new StackPanel();
+            panel1.Orientation = System.Windows.Controls.Orientation.Horizontal;
+            TextBlock elem1 = new TextBlock();
+            elem1.Text = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>";
+            panel1.Children.Insert(0, elem1);
+            presentation.securedSoapItem.Header = panel1;
+            XmlNode rootElement = _securedSOAP.SelectSingleNode("/*");
+            this.presentation.CopyXmlToTreeView(rootElement, ref presentation.securedSoapItem);
+            this.presentation.treeView.Items.Add(presentation.securedSoapItem);
+        }
+
+        public void OnPropertyChanged(string name)
+        {
+            EventsHelper.PropertyChanged(PropertyChanged, this, new PropertyChangedEventArgs(name));
         }
 
         public Object XmlOutputConverter(Object Data)
@@ -220,7 +1406,7 @@ namespace Soap
                 return obj;
             }
             return null;
-         
+
         }
 
         public Object XmlConverter(Object Data)
@@ -228,7 +1414,7 @@ namespace Soap
             string test = Data.ToString();
             if (test.StartsWith("<"))
             {
-                XmlDocument doc = (XmlDocument)this.securedSOAP;
+                XmlDocument doc = (XmlDocument)this._securedSOAP;
                 StringWriter t = new StringWriter();
                 Object obj = new Object();
                 try
@@ -248,1310 +1434,13 @@ namespace Soap
             return null;
         }
 
-        public void setSignedElements(DataSet ds)
-        {
-            DataTable table = ds.Tables[0];
-            signedElements = new string[table.Columns.Count];
-        }
+        #endregion
 
-        public void clearSoap()
-        {
-            this.soap.RemoveAll();
-            this.soap = new XmlDocument();
-      
-            this.node = null;   
-        }
-
-        public void addIdToElement(string element)
-        {
-            if(!idTable.ContainsKey(element))
-            {
-            System.Random r = new Random();
-            int zufallszahl = r.Next(100000000);
-                if(!idTable.ContainsValue(zufallszahl))
-                {
-                    System.Threading.Thread.Sleep(500);
-                    zufallszahl = r.Next(100000000);
-                }
-                idTable.Add(element, zufallszahl);
-                mySettings.idtable = idTable;
-            }
-        }
-
-        private XmlNode getElementById(string id)
-        {
-
-            XmlNodeList securityHeader = securedSOAP.GetElementsByTagName("wsse:Security");
-            foreach(XmlNode node in securityHeader)
-            {
-                foreach (XmlAttribute att in node.Attributes)
-                {
-                    if(att.Name.Equals("Id") && ("#"+att.Value).Equals(id))
-                    {
-                        return node;
-                    }
-                }
-            }
-
-            XmlNode body = securedSOAP.GetElementsByTagName("s:Body")[0];
-            foreach (XmlAttribute att in body.Attributes)
-            {
-                if (att.Name.Equals("Id") && ("#" + att.Value).Equals(id))
-                {
-                    return body;
-                }
-            }
- 
-            foreach (XmlNode node in body.ChildNodes)
-            {
-                foreach (XmlAttribute att in node.Attributes)
-                {
-                    if (att.Name.Equals("Id") && ("#" + att.Value).Equals(id))
-                    {
-                        return node;
-                    }
-                }
-                foreach(XmlNode child in node.ChildNodes)
-                {
-                    foreach (XmlAttribute att in child.Attributes)
-                    {
-                        if (att.Name.Equals("Id") && ("#" + att.Value).Equals(id))
-                        {
-                            return child;
-                        }
-                    }
-                }
-            }
-            return null;
-        }
-     
-        public XmlNode[] getSignedElements()
-        {
-            ArrayList list = new ArrayList();
-            if (bodySigned)
-            {
-                list.Add(securedSOAP.GetElementsByTagName("s:Body")[0]);
-            }
-            if (methodNameSigned)
-            {
-                list.Add(securedSOAP.GetElementsByTagName("s:Body")[0].FirstChild);
-            }
-            foreach(XmlNode node in securedSOAP.GetElementsByTagName("s:Body")[0].FirstChild.ChildNodes)
-            {
-                if(isSigned(node))
-                {
-                    list.Add(node);
-                }
-            }
-            if(secHeaderSigned)
-            {
-                if (isSigned(securedSOAP.GetElementsByTagName("wsse:Security")[0]));
-             {
-                list.Add(securedSOAP.GetElementsByTagName("wsse:Security")[0]);
-            }
-            }
-
-
-            XmlNode[] retArray = new XmlNode[list.Count];
-
-            for (int i = 0; i < list.Count; i++)
-            {
-                retArray[i] = (XmlNode)list[i];
-            }
-            return retArray;
-        }
-
-        public XmlNode[] getElementsToSign()
-        {
-            if (secHeaderEnc && secHeaderSigned)
-            {
-                XmlNode[] retArray = new XmlNode[0];
-                return retArray;
-            }
-            if (secHeaderEnc)
-            {
-                XmlNode[] retArray = new XmlNode[1];
-                retArray[0] = securedSOAP.GetElementsByTagName("wsse:Security")[0];
-                return retArray;
-            }
-
-            
-            ArrayList list = new ArrayList();
-            if (!secHeaderSigned && (securedSOAP.GetElementsByTagName("wsse:Security").Count>0))
-            {
-                list.Add(securedSOAP.GetElementsByTagName("wsse:Security")[0]);
-            }
-            XmlNode Body = securedSOAP.GetElementsByTagName("s:Body")[0];
-            XmlNode BodysChild = Body.ChildNodes[0];
-            if (!bodySigned)
-            {
-                list.Add(Body);
-                if (!bodyEncrypted)
-                
-                    if (!methodNameSigned) 
-                    {
-                        list.Add(BodysChild);
-                        if(!methodNameEncrypted)
-                        {
-                            foreach(XmlNode childNode in BodysChild.ChildNodes)
-                            {
-                                bool Signed = false;
-                                XmlNode[] signedElement = this.getSignedElements();
-                                foreach(XmlNode sigElem in signedElement)
-                                {
-                                    if (childNode.Name.Equals(sigElem.Name))
-                                    {
-                                        Signed = true;
-                                    }
-                                }
-                                if(!Signed)
-                                {
-                                    list.Add(childNode);
-                                }
-                            }
-                        }
-                    }
-                }
-
-            
-            XmlNode[] retArray1 = new XmlNode[list.Count];
-
-            for (int i = 0; i < list.Count; i++)
-            {
-                retArray1[i] = (XmlNode)list[i];
-            }
-            return retArray1;
-        }
-
-        public bool hasEncryptedContent(XmlNode node)
-        {
-            bool value = false;
-            if (node.HasChildNodes)
-            {
-                if (node.ChildNodes[0].Name.Equals("xenc:EncryptedData"))
-                {
-                    foreach (XmlAttribute att in node.ChildNodes[0].Attributes)
-                    {
-                        if (att.Value.Equals(EncryptedXml.XmlEncElementContentUrl))
-                        {
-                            value = true;
-                        }
-                    }
-                }
-            }
-            return value;
-        }
-
-        public XmlNode[] getEncryptedElements()
-        {
-            ArrayList list = new ArrayList();
-
-
-            XmlNode header = securedSOAP.GetElementsByTagName("s:Header")[0];
-            if (header != null)
-            {
-                foreach (XmlNode node in securedSOAP.GetElementsByTagName("s:Header")[0].ChildNodes)
-                {
-                    if (node.Name.Equals("wsse:Security"))
-                    {
-                        if (hasEncryptedContent(node))
-                        {
-                            list.Add(node);
-                        }
-                    }
-                }
-            }
-
-            XmlElement body = (XmlElement)securedSOAP.GetElementsByTagName("s:Body")[0];
-
-
-            if (hasEncryptedContent(body))
-            {
-                list.Add(body);
-            }
-            else
-            {
-                foreach (XmlNode node in body.ChildNodes)
-                {
-                    if (node.Name.Equals("xenc:EncryptedData"))
-                    {
-                        list.Add(node);
-                    }
-                    else
-                    {
-                        if(hasEncryptedContent(node))
-                        {list.Add(node);
-                        }
-                        foreach (XmlNode nod in node.ChildNodes)
-                        {
-                            if (nod.Name.Equals("xenc:EncryptedData"))
-                            {
-                                list.Add(nod);
-                            }
-                            else
-                            {
-                                if (hasEncryptedContent(nod))
-                                {
-                                    list.Add(nod);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-
-            XmlNode[] retArray = new XmlNode[list.Count];
-
-            for (int i = 0; i < list.Count; i++)
-            {
-                retArray[i] = (XmlNode)list[i];
-            }
-            return retArray;
-        }
-
-        public XmlNode[] getElementsToEnc()
-        {
-            if (secHeaderEnc && secHeaderSigned)
-            {
-                XmlNode[] retArray = new XmlNode[0];
-                return retArray;
-            }
-            if (secHeaderSigned)
-            {
-                XmlNode[] retArray = new XmlNode[1];
-                retArray[0] = securedSOAP.GetElementsByTagName("wsse:Security")[0];
-                return retArray;
-            }
-            else
-            {
-
-                ArrayList list = new ArrayList();
-                XmlNode header = securedSOAP.GetElementsByTagName("s:Header")[0];
-                if (header != null)
-                {
-                    foreach (XmlNode node in securedSOAP.GetElementsByTagName("s:Header")[0].ChildNodes)
-                    {
-                        if (node.Name.Equals("wsse:Security") && (!hasEncryptedContent(node)))
-                        {
-                            list.Add(node);
-                        }
-                    }
-                }
-                XmlElement body = (XmlElement)securedSOAP.GetElementsByTagName("s:Body")[0];
-
-
-                if (!hasEncryptedContent(body))
-                {
-                    list.Add(body);
-                    if (!bodySigned)
-                    {
-                        foreach (XmlNode node in body.ChildNodes)
-                        {
-                            if (!hasEncryptedContent(node) && (!node.Name.Equals("xenc:EncryptedData")))
-                            {
-                                list.Add(node);
-                                if (!methodNameSigned)
-                                {
-                                    foreach (XmlNode nod in node.ChildNodes)
-                                    {
-                                        if (!hasEncryptedContent(nod) && (!nod.Name.Equals("xenc:EncryptedData")))
-                                        {
-                                            list.Add(nod);
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                XmlNode[] retArray = new XmlNode[list.Count];
-
-                for (int i = 0; i < list.Count; i++)
-                {
-                    retArray[i] = (XmlNode)list[i];
-                }
-                return retArray;
-            }
-           
-        }
-
-        private bool isSigned(XmlNode node)
-        {
-            bool signed = false;
-            foreach(XmlAttribute att in node.Attributes )
-            {
-                if (att.Name.Equals("Id"))
-                {
-                    foreach (XmlNode refElem in securedSOAP.GetElementsByTagName("ds:Reference"))
-                    {
-                        foreach(XmlAttribute refAtt in refElem.Attributes)
-                        {
-                            if(refAtt.Name.Equals("URI"))
-                            {
-                                if (refAtt.Value.Equals("#"+att.Value))
-                                {
-                                    return true;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            foreach (XmlNode xPath in securedSOAP.GetElementsByTagName("ds:XPath"))
-            {
-                string[] splitter = xPath.InnerText.Split(new char[]{'/'});
-                if(splitter[splitter.Length-1].Equals(node.Name))
-                {
-                   return true;
-                }
-            }
-            return signed;
-        }
-
-        public XmlNode[] getParameterToEdit()
-        {
-            ArrayList list = new ArrayList();
-            if(bodyEncrypted ||bodySigned || methodNameEncrypted || methodNameSigned)
-            {
-                XmlNode[] emptySet = new XmlNode[0];
-                return emptySet;
-            }
-            if (secHeaderEnc || secHeaderSigned)
-            {
-                XmlNode[] retArray = new XmlNode[0];
-                return retArray;
-            }
-
-            if (!secHeaderEnc)
-            {
-                foreach (XmlNode param in securedSOAP.GetElementsByTagName("s:Body")[0].FirstChild.ChildNodes)
-                {
-                    if (!isSigned(param))
-                    {
-                        if (!hasEncryptedContent(param))
-                        {
-                            if (!param.Name.Equals("xenc:EncryptedData"))
-                                list.Add(param);
-                        }
-                    }
-                }
-            }
-            XmlNode[] nodeset = new XmlNode[list.Count];
-            for (int i = 0; i < list.Count; i++)
-            {
-                nodeset[i] = (XmlNode)list[i];
-            }
-            return nodeset;
-        }
-
-        public XmlNode[] getParameter()
-        {
-            ArrayList list = new ArrayList();
-            foreach (XmlNode node in securedSOAP.GetElementsByTagName("s:Body")[0].ChildNodes[0].ChildNodes)
-            {
-                XmlNode[] signedNodes = getSignedElements();
-                bool isSigned = false;
-                foreach (XmlNode signedElement in signedNodes)
-                {
-                    if (signedElement.Name.Equals(node.Name))
-                    {
-                        isSigned = true;
-                    }
-
-                }
-                XmlNode[] encryptedNodes = getEncryptedElements();
-                bool isEncrypted=false;
-                foreach (XmlNode encryptedNode in encryptedNodes)
-                {
-                    if(encryptedNode.Equals(node))
-                    {
-                        isEncrypted = true;
-                    }
-                }
-                if (!isSigned && !isEncrypted)
-                {
-                    list.Add(node);
-                }
-            }
-            XmlNode[] nodeset = new XmlNode[list.Count];
-            for (int i = 0; i < list.Count; i++)
-            {
-                nodeset[i] = (XmlNode)list[i];
-            }
-            return nodeset;
-        }
-
-        public string getSignatureAlg()
-        {
-            return sigset.sigAlg;
-        }
-
-        void settings_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            SoapSettings s = (SoapSettings)sender;
-
-            switch (e.PropertyName)
-            {
-                case "SignatureAlg":
-                    sigset.sigAlg = s.SignatureAlg;
-                    break;
-
-                case "SigXPathRef":
-                    sigset.Xpath = s.SigXPathRef;
-                    break;
-
-                case "SigShowSteps":
-                    sigset.showsteps = s.SigShowSteps;
-                    break;
-                case "EncContentRadio":
-                    if (s.EncContentRadio == 0)
-                    {
-                        encset.content = false;
-                    }
-                    if (s.EncContentRadio == 1)
-                    {
-                        encset.content = true;
-                    }
-                    break;
-
-                case "EncShowSteps":
-                    encset.showsteps = s.EncShowSteps;
-                    break;
-                case "gotkey":
-                    this.gotKey = s.gotkey;
-                    break;
-                case "wspublicKey":
-                   this.wsPublicKey =s.wspublicKey;
-                    break;
-                case "dsacryptoProv":
-                    this.dsaCryptoProv.FromXmlString( s.dsacryptoProv);
-                    break;
-                case "rsacryptoProv":
-                    this.rsaCryptoProv.FromXmlString( s.rsacryptoProv);
-                    break;
-                case "wsRSAcryptoProv":
-                    this.wsRSACryptoProv.FromXmlString(s.wsRSAcryptoProv);
-                    break;
-                case "contentcounter":
-                    this.contentCounter = s.contentcounter;
-                    break;
-                case "secheaderSigned":
-                    this.secHeaderSigned = s.secheaderSigned;
-                    break;
-                case "secheaderEnc":
-                    this.secHeaderEnc = s.secheaderEnc;
-                    break;
-                case "methodnameencrypted":
-                    this.methodNameEncrypted = s.methodnameencrypted;
-                    break;
-                case "bodyencrypted":
-                    this.bodyEncrypted = s.bodyencrypted;
-                    break;
-                case "methodnameSigned":
-                    this.methodNameSigned = s.methodnameSigned;
-                    break;
-                case "bodysigned":
-                    this.bodySigned= s.bodysigned;
-                    break;
-                case "idtable": 
-                    this.idTable = s.idtable;
-                    break;
-                case "securedsoap":
-                    if (s.securedsoap != null)
-                    {
-                        if (!loaded)
-                        {
-                            securedSOAP = (stringToXml(s.securedsoap));
-                            showsecuredSoap();
-                            loaded = true;
-                        }
-                        else
-                        {
-                            loaded = true;
-                        }
-                    }
-                    break;
-                case "soapelement":
-                    if (s.soapelement != null)
-                    {
-                        this.soap = stringToXml(s.soapelement);
-                    }
-                   break;
-                case "wsdlloaded":
-                    this.wsdlLoaded = s.wsdlloaded ;
-                    break;
-                case "sendSoap":
-                    if (!send)
-                    {
-                        OnPropertyChanged("OutputString");
-                        send = true;
-                    }
-                    break;
-                case "resetSoap":
-                    if (this.soap != null)
-                    {
-                        securedSOAP = (XmlDocument)this.soap.Clone();
-                        mySettings.securedsoap = xmlToString(securedSOAP);
-                        showsecuredSoap();
-                    }
-                    break;
-                case "AnimationSpeed":
-                    presentation.setAnimationSpeed(s.AnimationSpeed);
-                    break;
-                case "playPause":
-                    presentation.startstopanimation();
-                    break;
-                case "endAnimation":
-                    presentation.endAnimation();
-                    break;
-
-            }
-        }
-
-        public void saveSoap()
-        {
-            mySettings.securedsoap = xmlToString(this.securedSOAP);
-        }
-
-        public void loadWSDL(string wsdlString)
-        {
-            if (!wsdlString.Equals(""))
-            {
-                StringReader sr = new StringReader(wsdlString);
-                XmlTextReader tx = new XmlTextReader(sr);
-
-                ServiceDescription t = ServiceDescription.Read(tx);
-                ServiceDescription serviceDescription = t.Services[0].ServiceDescription;
-                Types types = serviceDescription.Types;
-                PortTypeCollection portTypes = serviceDescription.PortTypes;
-                MessageCollection messages = serviceDescription.Messages;
-                XmlSchema schema = types.Schemas[0];
-                PortType porttype = portTypes[0];
-                Operation operation = porttype.Operations[0];
-                OperationInput input = operation.Messages[0].Operation.Messages.Input;
-                Message message = messages[input.Message.Name];
-                MessagePart messagePart = message.Parts[0];
-                XmlSchema fsdf = types.Schemas[0];
-                if (fsdf == null)
-                {
-                    Console.WriteLine("Test");
-                }
-                StringWriter twriter = new StringWriter();
-                fsdf.Write(twriter);
-                DataSet set = new DataSet();
-                StringReader sreader = new StringReader(twriter.ToString());
-                XmlTextReader xmlreader = new XmlTextReader(sreader);
-                set.ReadXmlSchema(xmlreader);
-                this.setSignedElements(set);
-                soap = new XmlDocument();
-                node = soap.CreateXmlDeclaration("1.0", "ISO-8859-1", "yes");
-                soap.AppendChild(node);
-                envelope = soap.CreateElement("s", "Envelope", "http://www.w3.org/2003/05/soap-envelope");
-                soap.AppendChild(envelope);
-                body = soap.CreateElement("s", "Body", "http://www.w3.org/2003/05/soap-envelope");
-                XmlNode eingabe = soap.CreateElement("tns", set.Tables[0].ToString(), set.Tables[0].Namespace);
-                DataTable table = set.Tables[0];
-                foreach (DataColumn tempColumn in table.Columns)
-                {
-                    XmlNode neu = soap.CreateElement("tns", tempColumn.ColumnName, set.Tables[0].Namespace);
-                    eingabe.AppendChild(neu);
-                }
-                body.AppendChild(eingabe);
-                envelope.AppendChild(body);
-                StringWriter ti = new StringWriter();
-                XmlTextWriter j = new XmlTextWriter(ti);
-                j.Formatting = Formatting.Indented;
-                soap.WriteContentTo(j);
-                XmlNode rootElement = soap.SelectSingleNode("/*");
-                presentation.origSoapItem = new System.Windows.Controls.TreeViewItem();
-                presentation.origSoapItem.IsExpanded = true;
-                StackPanel panel1 = new StackPanel();
-                StackPanel origSoapPanel = new StackPanel();
-                StackPanel origSoapPanel2 = new StackPanel();
-                panel1.Orientation = System.Windows.Controls.Orientation.Horizontal;
-                origSoapPanel.Orientation = System.Windows.Controls.Orientation.Horizontal;
-                origSoapPanel2.Orientation = System.Windows.Controls.Orientation.Horizontal;
-                TextBlock elem1 = new TextBlock();
-                elem1.Text = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>";
-                TextBlock origSoapElem = new TextBlock();
-                origSoapElem.Text = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>";
-                TextBlock origSoapElem2 = new TextBlock();
-                origSoapElem2.Text = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>";
-                panel1.Children.Insert(0, elem1);
-                origSoapPanel.Children.Insert(0, origSoapElem);
-                origSoapPanel2.Children.Insert(0, origSoapElem2);
-                presentation.origSoapItem.Header = panel1;
-                loaded = false;
-                securedSOAP = (XmlDocument)soap.Clone();
-                mySettings.soapelement = xmlToString(soap);
-                mySettings.securedsoap = xmlToString(securedSOAP);
-                this.presentation.CopyXmlToTreeView(rootElement, ref presentation.origSoapItem);
-                this.presentation.treeView.Items.Add(presentation.origSoapItem);
-                presentation.treeView.Items.Refresh();
-                showsecuredSoap();
-                loaded = true;
-                this.InputString = this.soap;
-                wsdlLoaded = true;
-                mySettings.wsdlloaded = true;
-                OnPropertyChanged("OutputString");
-            }
-        }
-
-        public bool getShowEncSteps()
-        {
-            return encset.showsteps;
-        }
-
-        public bool getEncContent()
-        {
-            return encset.content;
-        }
-
-        public string xmlToString(XmlDocument doc)
-        {
-            if (doc != null)
-            {
-                StringWriter sw = new StringWriter();
-                doc.Normalize();
-                XmlTextWriter tx = new XmlTextWriter(sw);
-                tx.Formatting = Formatting.Indented;
-                doc.WriteContentTo(tx);
-                return sw.ToString();
-            }
-            else
-            {
-                return "";
-            }
-        }
-
-        public XmlDocument stringToXml(string s)
-        {
-            XmlDocument doc = new XmlDocument();
-            if (!s.Equals(""))
-            {
-                StringReader sr = new StringReader(s);
-                XmlTextReader tx = new XmlTextReader(sr);
-                doc.Load(tx);
-            }
-            return doc;
-        }
-
-        public void addSignedElement(string newElement)
-        {
-            bool isSigned = false;
-            foreach (string s in signedElements)
-            {
-                if (s != null)
-                {
-                    if (s.Equals(newElement))
-                    {
-                        isSigned = true;
-                    }
-                }
-            }
-            if (!isSigned)
-            {
-                int count = -1;
-                foreach (string s in signedElements)
-                {
-                    count++;
-                    if(s==null)
-                    {
-                        break;
-                    }
-                
-                }
-                signedElements[count] = newElement;
-            }
-        }
-
-        public bool isSigned(string Element)
-        {
-            bool issigned = false;
-            foreach(string s in signedElements)
-            {
-                if (s != null)
-                {
-                    if (s.Equals(Element))
-                    {
-                        issigned = true;
-                    }
-                }
-            }
-            return issigned;
-        }
-
-        public void removeSignature(string Id)
-        {
-            XmlNodeList SignatureElements = securedSOAP.GetElementsByTagName("ds:Signature");
-            ArrayList list = new ArrayList();
-            XmlNode toDelete=null;
-            foreach(XmlNode node in SignatureElements)
-            {
-                
-                foreach(XmlNode child in node.FirstChild.ChildNodes)
-                {
-                if (child.Name.Equals("ds:Reference"))
-                {
-                    foreach(XmlAttribute att in child.Attributes)
-                    {
-                        if (att.Name.Equals("URI"))
-                        {
-                            if (att.Value.Equals("#" + Id))
-                            {
-                                toDelete = node;
-                            }
-                        }
-                    }
-                }
-            }
-            }
-            if (toDelete != null)
-            {
-                foreach (XmlNode node in toDelete.ChildNodes)
-                {
-                    if(node.Name.Equals("ds:Reference"))
-                    {
-                        foreach (XmlAttribute att in node.Attributes)
-                        {
-                            if (att.Name.Equals("URI"))
-                            {
-                                if (!att.Value.Equals("#" + Id))
-                                {
-                                    string[] id = att.Value.Split(new char[]{'#'});
-                                    XmlNode elem = getElementById(id[0]);
-                                    list.Add(elem);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            XmlElement[] signArray = new XmlElement[list.Count];
-
-            for (int i = 0; i < list.Count; i++)
-            {
-                signArray[i] = (XmlElement)list[i];
-            }
-
-            if (toDelete != null)
-            {
-                securedSOAP.GetElementsByTagName("wsse:Security")[0].RemoveChild(toDelete);
-            }
-
-            if (signArray.Length > 0)
-            {
-                signElements(signArray);
-            }
-            showsecuredSoap();
-        }
-
-        public void encElements(XmlElement[] elements)
-        {
-            if (gotKey)
-            {
-                bool content = encset.content;
-                XmlNode secHeader = this.securedSOAP.GetElementsByTagName("wsse:Security")[0];
-                if (secHeader == null)
-                {
-                    hadHeader = false;
-                    XmlNode head = this.securedSOAP.CreateElement("s", "Header", "http://www.w3.org/2001/12/soap-envelope");
-
-                    string wssenamespace = "http://docs.oasis-open.org/wss/2004/01/oasis -200401-wss-wssecurity-secext-1.0.xsd";
-
-                    secHeader = this.securedSOAP.CreateElement("wsse", "Security", wssenamespace);
-
-                    head.AppendChild(secHeader);
-                    XmlNode env = this.securedSOAP.GetElementsByTagName("s:Envelope")[0];
-                    XmlNode soapbody = this.securedSOAP.GetElementsByTagName("s:Body")[0];
-                    env.InsertBefore(head, soapbody);
-                }
-                else
-                {
-                    hadHeader = true;
-                }
-                RijndaelManaged sessionKey = new RijndaelManaged();
-                sessionKey.KeySize = 256;
-
-
-                EncryptedXml encXML = new EncryptedXml();
-
-                EncryptedKey ek = new EncryptedKey();
-
-                byte[] encryptedKey = EncryptedXml.EncryptKey(sessionKey.Key, wsRSACryptoProv, false);
-                ek.EncryptionMethod = new EncryptionMethod(EncryptedXml.XmlEncRSA15Url);
-                ek.CipherData = new CipherData(encryptedKey);
-                //ek.KeyInfo = new KeyInfo();
-
-                KeyInfoName name = new KeyInfoName();
-                name.Value = "Web Service Public Key";
-                ek.KeyInfo.AddClause(name);
-
-                foreach (XmlElement elem in elements)
-                {
-                    if (elem != null)
-                    {
-                        //Check if Security Header or Body. Only content encryption is allowed by WS-Security
-                        if (elem.Name.Equals("s:Body") || elem.Name.Equals("wsse:Security"))
-                        {
-                            if (content == false)
-                            {
-                                createErrorMessage("Only the content of the  "+elem.Name+" element can be encrypted");
-                            }
-                            content = true;
-                        }
-                        lastSessionKey = Convert.ToBase64String(sessionKey.Key);
-                        byte[] encryptedElement = encXML.EncryptData(elem, sessionKey, content);
-                        EncryptedData encElement = new EncryptedData();
-                        DataReference ekRef = new DataReference();
-                        if (!content)
-                        {
-                            encElement.Type = EncryptedXml.XmlEncElementUrl;
-                            encElement.Id = idTable[elem.Name].ToString();
-                            ekRef.Uri = "#" + idTable[elem.Name].ToString();
-                        }
-                        else
-                        {
-                            encElement.Type = EncryptedXml.XmlEncElementContentUrl;
-                            addIdToElement(contentCounter+elem.Name);
-                            encElement.Id = idTable[contentCounter+elem.Name].ToString();
-                            ekRef.Uri = "#" + idTable[contentCounter+elem.Name].ToString();
-                            contentCounter++;
-                            mySettings.contentcounter = contentCounter;
-                        }
-                        
-                        encElement.EncryptionMethod = new EncryptionMethod(EncryptedXml.XmlEncAES256Url);
-                        encElement.CipherData.CipherValue = encryptedElement;
-                       
-                        
-                        ek.AddReference(ekRef);
-                        string s = securedSOAP.GetElementsByTagName(elem.Name)[0].ParentNode.Name;
-
-                        if (!content)
-                        {
-                            securedSOAP.GetElementsByTagName(s)[0].ReplaceChild(securedSOAP.ImportNode(encElement.GetXml(), true), securedSOAP.GetElementsByTagName(elem.Name)[0]);
-                        }
-                        else
-                        {
-                            securedSOAP.GetElementsByTagName(elem.Name)[0].RemoveAll();
-                            securedSOAP.GetElementsByTagName(elem.Name)[0].AppendChild(securedSOAP.ImportNode(encElement.GetXml(), true));
-                        }
-                        if (elem.Name.Equals("s:Body"))
-                        {
-                            bodyEncrypted = true;
-                            mySettings.bodyencrypted = true;
-                        }
-                        if (elem.Name.Equals(soap.GetElementsByTagName("s:Body")[0].ChildNodes[0].Name))
-                        {
-                            methodNameEncrypted = true;
-                            mySettings.methodnameencrypted = methodNameEncrypted;
-                        }
-                        if (elem.Name.Equals("wsse:Security"))
-                        {
-                            secHeaderEnc = true;
-                            mySettings.secheaderEnc = true;
-                        }
-                    }
-
-                }
-                secHeader.InsertBefore(securedSOAP.ImportNode(ek.GetXml(), true), secHeader.ChildNodes[0]);
-                prefixesToEncryptedElement();
-       
-                mySettings.securedsoap = xmlToString(securedSOAP);
-            }
-            else
-            {
-                createErrorMessage("No key for encryption available");
-            }
-        }
-
-        private void prefixesToEncryptedElement()
-        {
-            XmlNodeList encKeyElems = securedSOAP.GetElementsByTagName("EncryptedKey");
-            foreach (XmlNode child in encKeyElems)
-            {
-                addPrefixesToNodeAndChildNode("xenc", child);
-            }
-            XmlNodeList encDataElemns = securedSOAP.GetElementsByTagName("EncryptedData");
-            foreach(XmlNode child in encDataElemns)
-            {
-                addPrefixesToNodeAndChildNode("xenc", child);
-            }
-        }
-
-        private void addPrefixesToNodeAndChildNode(string prefix ,XmlNode node)
-        {
-            if(node.Name.Equals("KeyInfo"))
-        {
-            node.Prefix = "ds";
-            prefix = "ds";
-        }
-            else
-        {
-            node.Prefix = prefix;
-        }
-            foreach (XmlNode child in node.ChildNodes)
-            {
-                addPrefixesToNodeAndChildNode(prefix, child);
-            }
-        }
-
-        public void decrypt()
-        {
-            XmlElement securityHeader = (XmlElement)securedSOAP.GetElementsByTagName("Security")[0];
-            XmlElement encKeyXml = (XmlElement) securedSOAP.GetElementsByTagName("EncryptedKey")[0];
-            XmlElement encData = (XmlElement)securedSOAP.GetElementsByTagName("EncryptedData")[0];
-            XmlElement KeyInfo = securedSOAP.CreateElement("KeyInfo",SignedXml.XmlDsigNamespaceUrl);
-
-            securityHeader.RemoveChild(encKeyXml);
-            KeyInfo.AppendChild(encKeyXml);
-
-            encData.InsertAfter(KeyInfo, encData.GetElementsByTagName("EncryptionMethod")[0]);
-            this.showsecuredSoap();
-            EncryptedXml encXml = new EncryptedXml(this.securedSOAP);
-            encXml.AddKeyNameMapping("RSA-Key", rsaKey);
-            encXml.DecryptDocument();
-        }
-        
-        public void signElements(XmlElement[] elements)
-        { 
-                String sigAlgo = sigset.sigAlg;
-                XmlNode secHeader = securedSOAP.GetElementsByTagName("Security")[0];
-                if (secHeader == null)
-                {
-                    XmlNode head = securedSOAP.CreateElement("s","Header", "http://www.w3.org/2003/05/soap-envelope");
-
-                    string wssenamespace = "http://docs.oasis-open.org/wss/2004/01/oasis -200401-wss-wssecurity-secext-1.0.xsd";
-
-                    secHeader = securedSOAP.CreateElement("Security", wssenamespace);
-
-                    head.AppendChild(secHeader);
-                    XmlNode env = securedSOAP.GetElementsByTagName("Envelope")[0];
-                    XmlNode soapbody = securedSOAP.GetElementsByTagName("Body")[0];
-                    env.InsertBefore(head, soapbody);
-                }
-                SignedXml signedXML = new SignedXml(this.securedSOAP);
-                foreach (XmlElement elem in elements)
-                {
-                    XmlAttribute idAttribute = securedSOAP.CreateAttribute("Id");
-                    idAttribute.Value = idTable[elem.Name].ToString();
-                    elem.Attributes.Append(idAttribute);
-                    XmlAttributeCollection attributes = elem.Attributes;
-                    XmlAttribute id = attributes["Id"];
-                    Reference reference = new Reference("#" + id.Value);
-                    //   Reference reference = new Reference("");
-                    XmlElement xpathElement = securedSOAP.CreateElement("XPath");
-                    string Xpath = "ancestor-or-self::Body";
-                    XmlElement root = this.securedSOAP.DocumentElement;
-                    XmlElement b = (XmlElement)securedSOAP.GetElementsByTagName("Body")[0];
-                    XmlNamespaceManager manager = new XmlNamespaceManager(securedSOAP.NameTable);
-
-                    manager.AddNamespace("s", b.NamespaceURI);
-                    xpathElement.InnerText = Xpath;
-                    XmlDsigXPathTransform xpathTrans = new XmlDsigXPathTransform();
-                    XmlNodeList list = root.SelectNodes("/s:Envelope/s:Body", manager);
-                    XmlNodeList list2 = root.SelectNodes("//. | //@* | //namespace::*");
-                    xpathTrans.LoadInnerXml(xpathElement.SelectNodes("."));
-                    XmlDsigExcC14NTransform trans = new XmlDsigExcC14NTransform();
-                    reference.AddTransform(trans);
-                    XmlElement boo = xpathTrans.GetXml();
-                    Type xmlDocumentType = typeof(System.Xml.XmlDocument);
-
-                    signedXML.AddReference(reference);
-                    if (elem.Name.Equals("s:Body"))
-                    {
-                        bodySigned = true;
-                        mySettings.bodysigned = true;
-                    }
-                    if (elem.Name.Equals(soap.GetElementsByTagName("s:Body")[0].ChildNodes[0].Name))
-                    {
-                        methodNameSigned = true;
-                        mySettings.methodnameSigned = true;
-                    }
-
-                }
-                if (sigAlgo.Equals("1"))
-                {
-                    CspParameters parameter = new CspParameters();
-
-                    parameter.KeyContainerName = "Container";
-                    RSACryptoServiceProvider provider = new RSACryptoServiceProvider(parameter);
-                    signedXML.SigningKey = provider;
-                    signedXML.ComputeSignature();
-
-                    KeyInfo keyInfo = new KeyInfo();
-                    keyInfo.AddClause(new RSAKeyValue(provider));
-                    signedXML.KeyInfo = keyInfo;
-                    Reference t = (Reference)signedXML.SignedInfo.References[0];
-                    IEnumerator enumerator = t.TransformChain.GetEnumerator();
-                    enumerator.MoveNext();
-                    XmlElement root = (XmlElement)this.securedSOAP.GetElementsByTagName("Envelope")[0];
-                    Transform tran = (Transform)enumerator.Current;
-                    XmlNodeList list2 = root.SelectNodes("//. | //@* | //namespace::*");
-
-                }
-                if (sigAlgo.Equals("0"))
-                {
-                    DSA dsa = DSA.Create();
-                    dsa.ToXmlString(false);
-                    signedXML.SigningKey = dsa;
-                    signedXML.ComputeSignature();
-                }
-
-                XmlElement signaturElement = signedXML.GetXml();
-                secHeader.InsertBefore(securedSOAP.ImportNode(signaturElement, true),secHeader.ChildNodes[0]);
-            
-        } 
-
-        public bool checkSecurityHeader()
-        {
-            bool securityheader = false;
-            XmlNodeList list = securedSOAP.GetElementsByTagName("wsse:Security");
-            if (!(list.Count == 0))
-            {
-                securityheader = true;
-            }
-            return securityheader;
-        }
-
-        public void createSecurityHeaderAndSoapHeader()
-        {
-            if (!checkSecurityHeader()) 
-            {
-                XmlElement env= (XmlElement) securedSOAP.GetElementsByTagName("s:Envelope")[0];
-                XmlElement Header = securedSOAP.CreateElement("s", "Header", "http://www.w3.org/2001/12/soap-envelope");
-                XmlElement secHead = securedSOAP.CreateElement("wsse", "Security", "http://docs.oasis-open.org/wss/2004/01/oasis -200401-wss-wssecurity-secext-1.0.xsd");
-                env.InsertBefore(Header,env.FirstChild);
-                Header.AppendChild(secHead);
-                mySettings.securedsoap = xmlToString(securedSOAP);
-            }
-        }
-
-        private string getXPathValue(XmlElement elem)
-        {
-            string xPathValue = "/s:Envelope";
-            if (elem.Name.Equals("wsse:Security"))
-            {
-                xPathValue = xPathValue + "/wsse:Security";
-                return xPathValue;
-            }
-            xPathValue = xPathValue + "/s:Body";
-            if (elem.Name.Equals("s:Body"))
-            {
-                return xPathValue;
-            }
-            xPathValue = xPathValue + "/" + securedSOAP.GetElementsByTagName("s:Body")[0].FirstChild.Name;
-            if (elem.Name.Equals(securedSOAP.GetElementsByTagName("s:Body")[0].FirstChild.Name))
-            {
-                return xPathValue;
-            }
-            xPathValue = xPathValue + "/"+elem.Name;
-            return xPathValue;
-        }
-
-        public void createErrorMessage(string text)
-        {
-            EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(text, this, NotificationLevel.Error));
-        }
-
-        public void createInfoMessage(string text)
-        {
-            EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(text, this, NotificationLevel.Info));
-        }
-
-        public void signElementsManual(XmlElement[] elementsToSign)
-        {
-            
-                string dsNs = "http://www.w3.org/2000/09/xmldsig#";
-                XmlElement Signature = securedSOAP.CreateElement("ds", "Signature", dsNs);
-                XmlElement SignedInfo = securedSOAP.CreateElement("ds", "SignedInfo", dsNs);
-                XmlElement CanonicalizationMethod = securedSOAP.CreateElement("ds", "CanonicalizationMethod", dsNs);
-                XmlAttribute canMeth = securedSOAP.CreateAttribute("Algorithm");
-                canMeth.Value = SignedXml.XmlDsigExcC14NTransformUrl;
-                CanonicalizationMethod.Attributes.Append(canMeth);
-                XmlElement SignatureMethod = securedSOAP.CreateElement("ds", "SignatureMethod", dsNs);
-                XmlAttribute sigMeth = securedSOAP.CreateAttribute("Algorithm");
-
-                if (sigset.sigAlg.Equals("0"))
-                {
-                    sigMeth.Value = SignedXml.XmlDsigDSAUrl;
-                }
-                if (sigset.sigAlg.Equals("1"))
-                {
-                    sigMeth.Value = SignedXml.XmlDsigRSASHA1Url;
-                }
-
-                SignatureMethod.Attributes.Append(sigMeth);
-                XmlNode securityHead = securedSOAP.GetElementsByTagName("wsse:Security")[0];
-                securityHead.InsertBefore(Signature,securityHead.FirstChild);
-                Signature.AppendChild(SignedInfo);
-                SignedInfo.AppendChild(CanonicalizationMethod);
-                SignedInfo.AppendChild(SignatureMethod);
-
-                foreach (XmlElement tempElem in elementsToSign)
-                {
-                    addIdToElement(tempElem.Name);
-                    XmlAttribute idAttribute = securedSOAP.CreateAttribute("Id");
-                    idAttribute.Value = idTable[tempElem.Name].ToString();
-                    tempElem.Attributes.Append(idAttribute);
-                    XmlElement ReferenceElement = securedSOAP.CreateElement("ds", "Reference", dsNs);
-                    XmlAttribute uri = securedSOAP.CreateAttribute("URI");
-                    XmlElement Transforms = securedSOAP.CreateElement("ds", "Transforms", dsNs);
-                    ReferenceElement.AppendChild(Transforms);
-
-                    if (sigset.Xpath)
-                    {
-                        uri.Value = "";
-                        XmlElement xPathTransform = securedSOAP.CreateElement("ds", "Transform", dsNs);
-                        XmlAttribute xPathTransAtt = securedSOAP.CreateAttribute("Algorithm");
-                        xPathTransAtt.Value = SignedXml.XmlDsigXPathTransformUrl;
-                        xPathTransform.Attributes.Append(xPathTransAtt);
-                        XmlElement xPathValue = securedSOAP.CreateElement("ds", "XPath", dsNs);
-                        xPathValue.InnerXml = getXPathValue(tempElem);
-                        xPathTransform.AppendChild(xPathValue);
-                        Transforms.AppendChild(xPathTransform);
-                    }
-                    else
-                    {
-                        uri.Value = "#" + idTable[tempElem.Name].ToString();
-                    }
-                    ReferenceElement.Attributes.Append(uri);
-
-                    XmlElement c14nTransform = securedSOAP.CreateElement("ds", "Transform", dsNs);
-                    XmlAttribute c14Url = securedSOAP.CreateAttribute("Algorithm");
-                    c14Url.Value = SignedXml.XmlDsigExcC14NTransformUrl;
-                    c14nTransform.Attributes.Append(c14Url);
-                    Transforms.AppendChild(c14nTransform);
-                    XmlElement digestMethod = securedSOAP.CreateElement("ds", "DigestMethod", dsNs);
-                    XmlAttribute digMethAtt = securedSOAP.CreateAttribute("Algorithm");
-                    digMethAtt.Value = SignedXml.XmlDsigSHA1Url;
-                    digestMethod.Attributes.Append(digMethAtt);
-                    ReferenceElement.AppendChild(digestMethod);
-                    XmlElement digestValue = securedSOAP.CreateElement("ds", "DigestValue", dsNs);
-                    digestValue.InnerText = Convert.ToBase64String(getDigestValueForElement(tempElem));
-                    ReferenceElement.AppendChild(digestValue);
-                    SignedInfo.AppendChild(ReferenceElement);
-                    if (tempElem.Name.Equals("s:Body"))
-                    {
-                        bodySigned = true;
-                        mySettings.bodysigned = true;
-                    }
-                    if (tempElem.Name.Equals(soap.GetElementsByTagName("s:Body")[0].ChildNodes[0].Name))
-                    {
-                        methodNameSigned = true;
-                        mySettings.methodnameSigned = true;
-                    }
-                    if (tempElem.Name.Equals("wsse:Security"))
-                    {
-                        secHeaderSigned = true;
-                        mySettings.secheaderSigned = true;
-                    }
-
-                }
-                XmlElement SignatureValue = securedSOAP.CreateElement("ds", "SignatureValue", dsNs);
-                KeyInfo keyInfo = new KeyInfo();
-                if (sigset.sigAlg.Equals("1"))
-                {
-                    SignatureValue.InnerXml = Convert.ToBase64String(rsaCryptoProv.SignHash(getDigestValueForElement(SignedInfo), CryptoConfig.MapNameToOID("SHA1")));
-                    keyInfo.AddClause(new RSAKeyValue(rsaCryptoProv));
-                    
-                }
-                if (sigset.sigAlg.Equals("0"))
-                {
-                    SignatureValue.InnerXml = Convert.ToBase64String(dsaCryptoProv.SignHash(getDigestValueForElement(SignedInfo), CryptoConfig.MapNameToOID("SHA1")));
-                    keyInfo.AddClause(new DSAKeyValue(dsaCryptoProv));
-                }
-                Signature.AppendChild(SignatureValue);
-                XmlElement xmlKeyInfo = keyInfo.GetXml();
-                xmlKeyInfo.Prefix = "ds";
-                foreach(XmlNode childNode in xmlKeyInfo.ChildNodes)
-                {
-                    childNode.Prefix = "ds"; 
-                }
-                Signature.AppendChild(securedSOAP.ImportNode(xmlKeyInfo, true));
-                XmlElement secHead = (XmlElement)securedSOAP.GetElementsByTagName("wsse:Security")[0];
-                mySettings.securedsoap = xmlToString(securedSOAP);
-        }
-
-        public string getIdToElement(string ElemName)
-        {
-            string retString = idTable[ElemName].ToString();
-            return retString;
-        }
-
-        public bool getxPathTrans()
-        {
-            return sigset.Xpath;
-        }
-
-        public byte[] getDigestValueForElement(XmlElement elem)
-        {
-            Stream canonicalized = canonicalizeNodeWithExcC14n(elem);
-            SHA1CryptoServiceProvider sha1 = new SHA1CryptoServiceProvider();
-            byte[] byteValue = sha1.ComputeHash(canonicalized);
-            return byteValue;
-        }
-
-        public Stream canonicalizeNodeWithExcC14n(XmlElement nodeToCanon)
-        {
-            XmlNode node = (XmlNode)nodeToCanon;
-            XmlNodeReader reader = new XmlNodeReader(node);
-            Stream stream = new MemoryStream();
-            XmlWriter writer = new XmlTextWriter(stream, Encoding.UTF8);
-            writer.WriteNode(reader, false);
-            writer.Flush();
-            stream.Position = 0;
-            XmlDsigExcC14NTransform trans = new XmlDsigExcC14NTransform();
-            trans.LoadInput(stream);
-            Stream stream2 = (Stream)trans.GetOutput();
-            return stream2;
-        }
-    
-        public void showsecuredSoap()
-        {
-            presentation.treeView.Items.Clear();
-            presentation.namespacesTable.Clear();
-            this.presentation.securedSoapItem = null;
-
-            this.presentation.securedSoapItem = new System.Windows.Controls.TreeViewItem();
-
-            presentation.securedSoapItem.IsExpanded = true;
-
-            StackPanel panel1 = new StackPanel();
-        
-
-            panel1.Orientation = System.Windows.Controls.Orientation.Horizontal;
-
-            TextBlock elem1 = new TextBlock();
-            elem1.Text = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"; 
-            panel1.Children.Insert(0, elem1);
-            presentation.securedSoapItem.Header = panel1;
-            XmlNode rootElement = securedSOAP.SelectSingleNode("/*");
-            this.presentation.CopyXmlToTreeView(rootElement, ref presentation.securedSoapItem);
-            this.presentation.treeView.Items.Add(presentation.securedSoapItem);
-        }
-       
-        public XmlDocument soap2
-        {get{return this.soap;}
-           
-       }
-
-        public void OnPropertyChanged(string name)
-        {
-            EventsHelper.PropertyChanged(PropertyChanged, this, new PropertyChangedEventArgs(name));
-        }
-
-        public SoapSettings settings2()
-        {
-            return (SoapSettings) this.Settings;
-        }
-              
         #region IPlugin Member
 
         public void Dispose()
         {
-           
+
         }
 
         public void Execute()
@@ -1560,7 +1449,7 @@ namespace Soap
 
         public void Initialize()
         {
-            
+
         }
 
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
@@ -1571,17 +1460,17 @@ namespace Soap
 
         public void Pause()
         {
-            
+
         }
 
         public void PostExecution()
         {
-            
+
         }
 
         public void PreExecution()
         {
-            
+
         }
 
         public System.Windows.Controls.UserControl Presentation
@@ -1596,12 +1485,12 @@ namespace Soap
 
         public ISettings Settings
         {
-            get { return (SoapSettings) this.settings; }
+            get { return (SoapSettings)this._settings; }
         }
 
         public SoapSettings mySettings
         {
-            get { return (SoapSettings)this.settings; }
+            get { return (SoapSettings)this._settings; }
         }
 
         public void Stop()
@@ -1611,10 +1500,136 @@ namespace Soap
 
         #endregion
 
+        #region EventHandlers
+
+        private void SettingsPropertyChangedEventHandler(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            SoapSettings settings = sender as SoapSettings;
+
+            switch (e.PropertyName)
+            {
+                case "SignatureAlg":
+                    this._signatureSettings.sigAlg = settings.SignatureAlg;
+                    break;
+
+                case "SigXPathRef":
+                    this._signatureSettings.Xpath = settings.SigXPathRef;
+                    break;
+
+                case "SigShowSteps":
+                    this._signatureSettings.showsteps = settings.SigShowSteps;
+                    break;
+                case "EncContentRadio":
+                    if (settings.EncContentRadio == 0)
+                    {
+                        this._encryptionSettings.content = false;
+                    }
+                    if (settings.EncContentRadio == 1)
+                    {
+                        this._encryptionSettings.content = true;
+                    }
+                    break;
+
+                case "EncShowSteps":
+                    this._encryptionSettings.showsteps = settings.EncShowSteps;
+                    break;
+                case "gotkey":
+                    this._gotKey = settings.gotkey;
+                    break;
+                case "wspublicKey":
+                    this._wsPublicKey = settings.wspublicKey;
+                    break;
+                case "dsacryptoProv":
+                    this._dsaCryptoProv.FromXmlString(settings.dsacryptoProv);
+                    break;
+                case "rsacryptoProv":
+                    this._rsaCryptoProv.FromXmlString(settings.rsacryptoProv);
+                    break;
+                case "wsRSAcryptoProv":
+                    this._wsRSACryptoProv.FromXmlString(settings.wsRSAcryptoProv);
+                    break;
+                case "contentcounter":
+                    this._contentCounter = settings.contentcounter;
+                    break;
+                case "secheaderSigned":
+                    this._secHeaderSigned = settings.secheaderSigned;
+                    break;
+                case "secheaderEnc":
+                    this._secHeaderEnc = settings.secheaderEnc;
+                    break;
+                case "methodnameencrypted":
+                    this._methodNameEncrypted = settings.methodnameencrypted;
+                    break;
+                case "bodyencrypted":
+                    this._bodyEncrypted = settings.bodyencrypted;
+                    break;
+                case "methodnameSigned":
+                    this._methodNameSigned = settings.methodnameSigned;
+                    break;
+                case "bodysigned":
+                    this._bodySigned = settings.bodysigned;
+                    break;
+                case "idtable":
+                    this._idTable = settings.idtable;
+                    break;
+                case "securedsoap":
+                    if (settings.securedsoap != null)
+                    {
+                        if (!this._loaded)
+                        {
+                            this._securedSOAP = (CopyStringToXml(settings.securedsoap));
+                            ShowSecuredSoap();
+                            this._loaded = true;
+                        }
+                        else
+                        {
+                            this._loaded = true;
+                        }
+                    }
+                    break;
+                case "soapelement":
+                    if (settings.soapelement != null)
+                    {
+                        this._soap = CopyStringToXml(settings.soapelement);
+                    }
+                    break;
+                case "wsdlloaded":
+                    this._wsdlLoaded = settings.wsdlloaded;
+                    break;
+                case "sendSoap":
+                    if (!send)
+                    {
+                        OnPropertyChanged("OutputString");
+                        send = true;
+                    }
+                    break;
+                case "resetSoap":
+                    if (this._soap != null)
+                    {
+                        this._securedSOAP = (XmlDocument)this._soap.Clone();
+                        mySettings.securedsoap = CopyXmlToString(_securedSOAP);
+                        ShowSecuredSoap();
+                    }
+                    break;
+                case "AnimationSpeed":
+                    presentation.setAnimationSpeed(settings.AnimationSpeed);
+                    break;
+                case "playPause":
+                    presentation.startstopanimation();
+                    break;
+                case "endAnimation":
+                    presentation.endAnimation();
+                    break;
+
+            }
+        }
+
         #region INotifyPropertyChanged Member
 
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-      
+
+        #endregion
+
         #endregion
     }
 
