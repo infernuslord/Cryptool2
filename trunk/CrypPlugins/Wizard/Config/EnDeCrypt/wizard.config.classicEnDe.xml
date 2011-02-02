@@ -20,7 +20,7 @@
     <headline lang="en" >Message Input</headline>
     <desc lang="en" >Here, you can enter the message to encrypt and select input format and encodings.</desc>
     
-    <inputBox plugin="TextInput1" property="Text" defaultValue="Input your Message here!" alignment="Right" width="80%" visibleLines="10" 
+    <inputBox plugin="TextInput1" property="Text" defaultValue="aa-aa-aa" alignment="Right" width="80%" visibleLines="10" 
               regex="[a-zA-Z0-9][a-zA-Z0-9]-[a-zA-Z0-9][a-zA-Z0-9]-[a-zA-Z0-9][a-zA-Z0-9]">
       <description lang="en">
         Message to encrypt: 
@@ -55,6 +55,11 @@
         Bla bla.
       </description>
 
+      <headline lang="en" >Summary</headline>
+      <desc lang="en">Here is a summary of your choice.</desc>
+
+      <history alignment="Center"/>
+      
       <inputBox plugin="TextInput1" property="Text" alignment="Right" width="80%" visibleLines="10">
         <description lang="en">
           Message to encrypt:
