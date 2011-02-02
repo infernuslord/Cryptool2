@@ -1411,6 +1411,11 @@ namespace KeySearcher
             ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.Percent = (double)calcChunks;
             ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.Users = statistic.Keys.Count;
             ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.Machines = maschinehierarchie.Keys.Count;
+            if (statistic.Count > 0)
+            {
+                ((QuickWatch) QuickWatchPresentation).StatisticsPresentation.BeeUsers = statistic.Keys.First();
+                ((QuickWatch) QuickWatchPresentation).StatisticsPresentation.BeeMachines = maschinehierarchie[maschinehierarchie.Keys.First()].Hostname;
+            }
         }
 
         //Write the User Statistics to an external csv-document
