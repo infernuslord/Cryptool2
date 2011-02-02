@@ -171,7 +171,7 @@ namespace KeySearcherPresentation.Controls
             }
         }
 
-        private double percent;
+        private double percent = 0;
         public double Percent
         {
             get { return percent; }
@@ -196,7 +196,7 @@ namespace KeySearcherPresentation.Controls
             }
         }
 
-        private BigInteger users = 0;
+        private BigInteger users = 1;
         public BigInteger Users
         {
             get { return users; }
@@ -214,7 +214,25 @@ namespace KeySearcherPresentation.Controls
             }
         }
 
-        private BigInteger machines = 0;
+        private string beeusers = "-";
+        public string BeeUsers
+        {
+            get { return beeusers; }
+            set
+            {
+                lock (this)
+                {
+                    beeusers = value;
+                }
+
+                Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    BestUser.Content = " Top user: " + beeusers;
+                }, null);
+            }
+        }
+
+        private BigInteger machines = 1;
         public BigInteger Machines
         {
             get { return machines; }
@@ -228,6 +246,49 @@ namespace KeySearcherPresentation.Controls
                 Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
                     MachineCount.Content = machines + " machines are working on this job";
+                }, null);
+            }
+        }
+
+        private string beemachines = "-";
+        public string BeeMachines
+        {
+            get { return beemachines; }
+            set
+            {
+                lock (this)
+                {
+                    beemachines = value;
+                }
+
+                Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    BestMachine.Content = " Top machine: " + beemachines;
+                }, null);
+            }
+        }
+
+        private double rate = 0;
+        public double SetRate
+        {
+            get { return percent; }
+            set
+            {
+                lock (this)
+                {
+                    if (false)
+                    {
+                        rate = 0;
+                    }
+                    else
+                    {
+                        rate = 0;
+                    }
+                }
+
+                Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    Rate.Content = " Overall rate: " + rate + " key/sec";
                 }, null);
             }
         }

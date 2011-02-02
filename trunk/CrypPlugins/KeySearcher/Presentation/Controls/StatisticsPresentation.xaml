@@ -72,19 +72,24 @@
                         <Border BorderBrush="Silver" BorderThickness="2,0,2,2">
                             <Grid Height="160" Background="#AFAAE1E8">
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="30" />
-                                    <RowDefinition Height="30" />
-                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="40" />
+                                    <RowDefinition Height="25" />
+                                    <RowDefinition Height="40" />
+                                    <RowDefinition Height="25" />
+                                    <RowDefinition Height="30" />   
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="26" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
-                                <Border BorderThickness="1" BorderBrush="Black" LayoutTransform="{StaticResource HeaderRotate}" Grid.Column="0" Grid.RowSpan="4" Background="#FF099BA7">
+                                <Border BorderThickness="1" BorderBrush="Black" LayoutTransform="{StaticResource HeaderRotate}" Grid.Column="0" Grid.RowSpan="5" Background="#FF099BA7">
                                     <Label Content="{Loc AdditionalInformation_}" FontSize="11" HorizontalAlignment="Center" Foreground="White" />
-                                </Border>
-                                <Label Content=" X users are working on this job" Name="UserCount" VerticalAlignment="Center" Grid.Row="0" Grid.Column="1" HorizontalContentAlignment="Left" Padding="5,5,20,5" />
-                                <Label Content=" X machines are working on this job" Name="MachineCount" VerticalAlignment="Center" Grid.Row="1" Grid.Column="1" HorizontalContentAlignment="Left" Padding="5,5,20,5" />
+                                </Border> 
+                                <Label Content=" Average rate: - key/sec" Name="Rate" VerticalAlignment="Center" Grid.Row="0" Grid.Column="1" HorizontalContentAlignment="Center" Padding="5,5,20,5" />
+                                <Label Content=" Top user: -" Name="BestUser" VerticalAlignment="Bottom" Grid.Row="1" Grid.Column="1" HorizontalContentAlignment="Center" Padding="5,5,20,5" />
+                                <Label Content=" - users are working on this job." Name="UserCount" VerticalAlignment="Top"  Grid.Row="2" Grid.Column="1" HorizontalContentAlignment="Center" Padding="5,5,20,5" />
+                                <Label Content=" Top machine: -" Name="BestMachine" VerticalAlignment="Bottom" Grid.Row="3" Grid.Column="1" HorizontalContentAlignment="Center" Padding="5,5,20,5" />
+                                <Label Content=" - machines are working on this job." Name="MachineCount" VerticalAlignment="Top"  Grid.Row="4" Grid.Column="1" HorizontalContentAlignment="Center" Padding="5,5,20,5" />                               
                             </Grid>
                         </Border>
                    </StackPanel>
