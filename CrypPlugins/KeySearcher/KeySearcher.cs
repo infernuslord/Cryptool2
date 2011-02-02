@@ -453,7 +453,7 @@ namespace KeySearcher
                         //if we are the thread with most keys left, we have to share them:
                         keyTranslator = ShareKeys(patterns, threadid, keysLeft, keyTranslator, threadStack);
 
-                        if (openCLDeviceSettings == null)         //CPU
+                        if (openCLDeviceSettings == null || !openCLDeviceSettings.useDevice)         //CPU
                         {
                             finish = BruteforceCPU(keyTranslator, sender, bytesToUse);
                         }
