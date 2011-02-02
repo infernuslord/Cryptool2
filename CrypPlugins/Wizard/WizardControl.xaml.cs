@@ -31,7 +31,14 @@ namespace Wizard
     [Cryptool.PluginBase.Attributes.Localization("Wizard.Properties.Resources")]
     public partial class WizardControl : UserControl
     {
+        private class PageInfo
+        {
+            public string name;
+            public string description;
+            public string image;
+        }
 
+        List<PageInfo> currentHistory = new List<PageInfo>();
         private Dictionary<string, bool> selectedCategories = new Dictionary<string, bool>();
         private SolidColorBrush selectionBrush = new SolidColorBrush();
         private const string configXMLPath = "Wizard.Config.wizard.config.start.xml";
@@ -170,9 +177,10 @@ namespace Wizard
                 categoryGrid.Visibility = Visibility.Hidden;
                 inputPanel.Visibility = Visibility.Visible;
 
-                var inputs = element.Elements("inputBox");
-                inputs = inputs.Union(element.Elements("comboBox"));
-                inputs = inputs.Union(element.Elements("checkBox"));
+                var inputs = from el in element.Elements()
+                             where el.Name == "inputBox" || el.Name == "comboBox" || el.Name == "checkBox" || el.Name == "history"
+                             select el;
+
                 inputStack.Children.Clear();
 
                 inputPanel.Tag = element.Element("input");
@@ -187,9 +195,6 @@ namespace Wizard
                 if (inputPanel.Tag == null)
                     inputPanel.Tag = element.Element("output");
 
-                //if (inputPanel.Tag != null)
-                //    nextButton.IsEnabled = true;
-
                 FillInputStack(inputs, element.Name.ToString());
 
                 string id = GetElementID((XElement)inputPanel.Tag);
@@ -201,20 +206,11 @@ namespace Wizard
                 inputPanel.Visibility = Visibility.Hidden;
                 
                 radioButtonStackPanel.Children.Clear();
-                //ResetBackground();
 
                 //generate radio buttons
-                var options = element.Elements("category");
-                var inputs = element.Elements("input");
-                var loadSamples = element.Elements("loadSample");
-                var outputs = element.Elements("output");
-
-                if (inputs.Any())
-                    options = options.Union(inputs);
-                if (loadSamples.Any())
-                    options = options.Union(loadSamples);
-                if (outputs.Any())
-                    options = options.Union(outputs);
+                var options = from el in element.Elements()
+                              where el.Name == "category" || el.Name == "input" || el.Name == "loadSample" || el.Name == "output"
+                              select el;
 
                 if (options.Any())
                 {
@@ -522,8 +518,54 @@ namespace Wizard
                 inputStack.Children.Add(cb);
                 element = cb;
             }
+            else if (input.Name == "history")
+            {
+                StackPanel historyStack = new StackPanel();
+                historyStack.Orientation = Orientation.Horizontal;
+                
+                foreach(var page in currentHistory)
+                {
+                    var p = new ContentControl();
+                    var bg = selectionBrush.Clone();
+                    bg.Opacity = 1 - (historyStack.Children.Count/(double) currentHistory.Count);
+                    var sp = new StackPanel { Orientation = Orientation.Horizontal, Background = bg };
+                    p.Content = sp;
+                    
+                    Polygon triangle = new Polygon();
+                    triangle.Points = new PointCollection();
+                    triangle.Points.Add(new Point(0, 0));
+                    triangle.Points.Add(new Point(0, 10));
+                    triangle.Points.Add(new Point(10, 5));
+                    triangle.Fill = bg;
+                    triangle.Stretch = Stretch.Uniform;
+                    triangle.Width = 32;
+                    sp.Children.Add(triangle);
 
-            if (!isInput)
+                    if (page.image != null && FindResource(page.image) != null)
+                    {
+                        var im = new Image {Source = (ImageSource) FindResource(page.image), Width = 32};
+                        sp.Children.Add(im);
+                    }
+                    var nameLabel = new Label {Content = page.name};
+                    sp.Children.Add(nameLabel);
+                    p.ToolTip = page.description;
+                    var translateTranform = new TranslateTransform();
+                    triangle.RenderTransform = translateTranform;
+                    Binding binding = new Binding("ActualWidth");
+                    binding.Source = p;
+                    BindingOperations.SetBinding(translateTranform, TranslateTransform.XProperty, binding);
+
+                    historyStack.Children.Add(p);
+                }
+
+                ContentControl container = new ContentControl();
+                container.Content = historyStack;
+                inputStack.Children.Add(container);
+                element = container;
+                isInput = true;
+            }
+
+            if (!isInput && element != null)
                 element.IsEnabled = false;
 
             return element;
@@ -675,6 +717,12 @@ namespace Wizard
                     SwitchNextButtonContent();
             }
 
+            foreach (RadioButton rb in radioButtonStackPanel.Children)
+            {
+                if (rb.IsChecked != null && (bool)rb.IsChecked)
+                    rb.IsChecked = false;
+            }
+
             propertyValueDict.Clear();
             ResetSelectionDependencies();
             radioButtonStackPanel.Children.Clear();
@@ -692,7 +740,21 @@ namespace Wizard
                     RadioButton b = (RadioButton) radioButtonStackPanel.Children[i];
                     if (b.IsChecked != null && (bool) b.IsChecked)
                     {
-                        SetupPage((XElement) b.Tag);
+                        var ele = (XElement) b.Tag;
+                        SetupPage(ele);
+                        var page = new PageInfo()
+                                       {
+                                           name = FindElementsInElement(ele, "name").First().Value,
+                                           description = FindElementsInElement(ele, "description").First().Value
+                                       };
+
+                        if (ele.Attribute("image") != null)
+                        {
+                            page.image = ele.Attribute("image").Value;
+                        }
+
+                        currentHistory.Add(page);
+
                         break;
                     }
                 }
@@ -812,6 +874,8 @@ namespace Wizard
                 else
                     SetupPage(wizardConfigXML);
             }
+
+            currentHistory.RemoveAt(currentHistory.Count - 1);
 
             Storyboard mainGridStoryboardLeft = (Storyboard)FindResource("MainGridStoryboardBack2");
             mainGridStoryboardLeft.Begin();
