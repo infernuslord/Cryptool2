@@ -35,6 +35,7 @@ namespace Cryptool.P2PEditor
         private const string GroupExperienced = "experienced_settings";
         private const string GroupExpert = "expert_settings";
         private const string GroupServer = "server_settings";
+        private const string ProxySettings = "proxy_settings";
 
         public P2PEditorSettings(P2PEditor p2PEditor)
         {
@@ -401,7 +402,7 @@ namespace Cryptool.P2PEditor
         }
 
         [TaskPane("serverPort_caption", "serverPort_tooltip", GroupServer, 10, false,
-            ControlType.NumericUpDown, ValidationType.RangeInteger, 0, 65535)]
+            ControlType.TextBox, ValidationType.RangeInteger, 0, 65535)]
         public int ServerPort
         {
             get { return settings.ServerPort; }
@@ -411,6 +412,99 @@ namespace Cryptool.P2PEditor
                 {
                     settings.ServerPort = value;
                     OnPropertyChanged("ServerPort");
+                    HasChanges = true;
+                }
+            }
+        }
+
+        [TaskPane("proxysettings_caption", "proxysettings_tooltip", ProxySettings, 11, false,
+            ControlType.CheckBox)]
+        public bool UseProxy
+        {
+            get { return settings.UseProxy; }
+            set
+            {
+                if (value != settings.UseProxy)
+                {
+                    settings.UseProxy = value;
+                    HasChanges = true;
+                    OnPropertyChanged("UseProxy");
+                }
+            }
+        }
+
+        [TaskPane("proxysettingssystem_caption", "proxysettingssystem_tooltip", ProxySettings, 12, false,
+            ControlType.CheckBox)]
+        public bool UseSystemWideProxy
+        {
+            get { return settings.UseSystemWideProxy; }
+            set
+            {
+                if (value != settings.UseSystemWideProxy)
+                {
+                    settings.UseSystemWideProxy = value;
+                    HasChanges = true;
+                    OnPropertyChanged("UseSystemWideProxy");
+                }
+            }
+        }
+
+        [TaskPane("proxyserver_caption", "proxyserver_tooltip", ProxySettings, 13, false, ControlType.TextBox)]
+        public string ProxyServer
+        {
+            get { return settings.ProxyServer; }
+            set
+            {
+                if (value != settings.ProxyServer)
+                {
+                    settings.ProxyServer = value;
+                    OnPropertyChanged("ProxyServer");
+                    HasChanges = true;
+                }
+            }
+        }       
+
+        [TaskPane("proxyport_caption", "proxyport_tooltip", ProxySettings, 14, false,
+           ControlType.TextBox, ValidationType.RangeInteger, 0, 65535)]
+        public int ProxyPort
+        {
+            get { return settings.ProxyPort; }
+            set
+            {
+                if (value != settings.ProxyPort)
+                {
+                    settings.ProxyPort = value;
+                    OnPropertyChanged("ProxyPort");
+                    HasChanges = true;
+                }
+            }
+        }
+
+        [TaskPane("proxyuser_caption", "proxyuser_tooltip", ProxySettings, 15, false, ControlType.TextBox)]
+        public string ProxyUser
+        {
+            get { return settings.ProxyUser; }
+            set
+            {
+                if (value != settings.ProxyUser)
+                {
+                    settings.ProxyUser = value;
+                    OnPropertyChanged("ProxyUser");
+                    HasChanges = true;
+                }
+            }
+        }
+
+        [TaskPane("proxypassword_caption", "proxypassword_tooltip", ProxySettings, 16, false, ControlType.TextBoxHidden)]
+        public string ProxyPassword
+        {
+            get { return P2PBase.DecryptString(settings.ProxyPassword); }
+            set
+            {
+                if (P2PBase.EncryptString(value) != settings.ProxyPassword)
+                {
+                    settings.ProxyPassword = P2PBase.EncryptString(value);
+                    OnPropertyChanged("ProxyPassword");
                     HasChanges = true;
                 }
             }
