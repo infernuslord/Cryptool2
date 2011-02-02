@@ -183,6 +183,45 @@
   <data name="password_tooltip" xml:space="preserve">
     <value>Password of your Peers@Play certificate</value>
   </data>
+  <data name="proxypassword_caption" xml:space="preserve">
+    <value>Proxy Password</value>
+  </data>
+  <data name="proxypassword_tooltip" xml:space="preserve">
+    <value>Proxy Password</value>
+  </data>
+  <data name="proxyport_caption" xml:space="preserve">
+    <value>Proxy Port</value>
+  </data>
+  <data name="proxyport_tooltip" xml:space="preserve">
+    <value>Proxy Port</value>
+  </data>
+  <data name="proxyserver_caption" xml:space="preserve">
+    <value>Proxy Server</value>
+  </data>
+  <data name="proxyserver_tooltip" xml:space="preserve">
+    <value>Proxy Server</value>
+  </data>
+  <data name="proxysettingssystem_caption" xml:space="preserve">
+    <value>Use System Proxy Settings</value>
+  </data>
+  <data name="proxysettingssystem_tooltip" xml:space="preserve">
+    <value>Use System Proxy Settings</value>
+  </data>
+  <data name="proxysettings_caption" xml:space="preserve">
+    <value>Use Proxy</value>
+  </data>
+  <data name="proxysettings_tooltip" xml:space="preserve">
+    <value>Use Proxy</value>
+  </data>
+  <data name="proxyuser_caption" xml:space="preserve">
+    <value>Proxy User</value>
+  </data>
+  <data name="proxyuser_tooltip" xml:space="preserve">
+    <value>Proxy User</value>
+  </data>
+  <data name="proxy_settings" xml:space="preserve">
+    <value>Proxy Settings</value>
+  </data>
   <data name="rememberPassword_caption" xml:space="preserve">
     <value>Remember Password</value>
   </data>
