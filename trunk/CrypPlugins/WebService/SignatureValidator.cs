@@ -557,13 +557,13 @@ namespace WebService
         {
             return this._wsSecurityHeaderList.Count;
         }
-        public string GetWSSecurityHeaderElement(int i)
+        public string GetWSSecurityHeaderElementName(int i)
         {
             string returnString = "";
             try
             {
-                XmlElement tempElement = (XmlElement)this._wsSecurityHeaderList[i];
-                returnString = tempElement.Name;
+                XmlElement securityHeader = (XmlElement)this._wsSecurityHeaderList[i];
+                returnString = securityHeader.Name;
             }
             catch
             {

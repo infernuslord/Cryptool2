@@ -538,11 +538,11 @@ namespace WebService
                dispatcherTimer.Stop();
                status = 8;
                slider1.Value++;
-               this.animationController.getControllerTimer().Start();
+               this.animationController.ControllerTimer.Start();
                break;
                 case 8:
                this.tempReferenceCollection.Clear();
-               this.animationController.getControllerTimer().Start();
+               this.animationController.ControllerTimer.Start();
                signatureNumber = this.webService.GetSignatureNumber();
                isbusy = false;
                this.actualSignatureNumber++;
@@ -562,7 +562,7 @@ namespace WebService
         }
         void referenceTimer_Tick(object sender, EventArgs e)
         {
-            int n = this.webService.Validator().GetReferenceNumber(signaturenumber);
+            int n = this.webService.Validator.GetReferenceNumber(signaturenumber);
             switch (referenceStatus)
             {
                  case 1:
@@ -582,8 +582,8 @@ namespace WebService
 
                 case 3:
                    this.textBox2.Text += "\n -> Get referenced Element";
-                  this.findItem(this.soapInput, this.webService.Validator().GetSignatureReferenceName(signaturenumber),actualReferenceNumber).BringIntoView();
-                  this.animateFoundElements(this.findItem(this.soapInput, this.webService.Validator().GetSignatureReferenceName(signaturenumber), actualReferenceNumber), this.findItem(this.soapInput, this.webService.Validator().GetSignatureReferenceName(signaturenumber), actualReferenceNumber));
+                  this.findItem(this.soapInput, this.webService.Validator.GetSignatureReferenceName(signaturenumber),actualReferenceNumber).BringIntoView();
+                  this.animateFoundElements(this.findItem(this.soapInput, this.webService.Validator.GetSignatureReferenceName(signaturenumber), actualReferenceNumber), this.findItem(this.soapInput, this.webService.Validator.GetSignatureReferenceName(signaturenumber), actualReferenceNumber));
                    referenceStatus++;
                    break;
                 
@@ -592,7 +592,7 @@ namespace WebService
                    this.textBox2.ScrollToLine(this.textBox2.LineCount - 1);
                    this.findItem((TreeViewItem)this.tempReferenceCollection[this.referenceNumber], "Transforms", actualSignatureNumber).BringIntoView();
                    this.animateFoundElements(this.findItem((TreeViewItem)this.tempReferenceCollection[this.referenceNumber], "Transforms", actualSignatureNumber), this.findItem((TreeViewItem)this.tempReferenceCollection[this.referenceNumber], "/ds:Transforms", actualSignatureNumber));
-                   this.transformCount = this.webService.Validator().GetTransformsCounter(signaturenumber, referenceNumber);
+                   this.transformCount = this.webService.Validator.GetTransformsCounter(signaturenumber, referenceNumber);
                    referenceTimer.Stop();
                    referenceStatus++;
                    this.findSignatureItems((TreeViewItem)this.tempReferenceCollection[this.referenceNumber], "ds:Transform");
@@ -608,7 +608,7 @@ namespace WebService
                    referenceStatus++;
                    break;
                 case 6:
-                   this.textBox2.Text +="\n    -> Calculated DigestValue:" +"\n       "+this.webService.Validator().DigestElement(signaturenumber,referenceNumber);
+                   this.textBox2.Text +="\n    -> Calculated DigestValue:" +"\n       "+this.webService.Validator.DigestElement(signaturenumber,referenceNumber);
                    this.textBox2.ScrollToLine(this.textBox2.LineCount - 1);
                    referenceStatus++;
                    break;
@@ -620,7 +620,7 @@ namespace WebService
                    referenceStatus++;
                    break;
                 case 8:
-                   if (this.webService.Validator().CompareDigestValues(signaturenumber, referenceNumber, this.webService.Validator().DigestElement(signaturenumber, referenceNumber)))
+                   if (this.webService.Validator.CompareDigestValues(signaturenumber, referenceNumber, this.webService.Validator.DigestElement(signaturenumber, referenceNumber)))
                    {
 
                        this.textBox2.Text += "\n Reference Validation succesfull";
@@ -665,7 +665,7 @@ namespace WebService
 
                 case 3:
                     this.textBox2.Text += "\n  ->execute Transform";
-                   this.textBox2.Text+="\n"+ this.webService.Validator().MakeTransforms(signaturenumber, referenceNumber, transformNumber);
+                   this.textBox2.Text+="\n"+ this.webService.Validator.MakeTransforms(signaturenumber, referenceNumber, transformNumber);
                    
                     
                     transformstatus++;
@@ -1191,10 +1191,10 @@ namespace WebService
             this.textBox2.Clear();
       
             dispatcherTimer.Stop();
-            animationController.getControllerTimer().Stop();
+            animationController.ControllerTimer.Stop();
             decryptionTimer.Stop();
             this.textBox2.Clear();
-
+            
             this.initializeAnimation();
         }
 
@@ -1207,7 +1207,7 @@ namespace WebService
         private void button1_Click_2(object sender, RoutedEventArgs e)
         {
            
-            this.animationController.getSecurityTotalNumber();
+            this.animationController.GetTotalSecurityElementsNumber();
             
             decAnimation.initializeAnimation();
             decAnimation.fillEncryptedDataTreeviewElements();
@@ -1220,7 +1220,7 @@ namespace WebService
 
         private void button1_Click_3(object sender, RoutedEventArgs e)
         {
-            this.animationController.initializeAnimation();
+            this.animationController.InitializeAnimation();
             this.button1.IsEnabled = false;
           
         }
