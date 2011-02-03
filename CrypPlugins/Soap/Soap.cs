@@ -117,20 +117,23 @@ namespace Soap
             set { this._wsPublicKey = value; }
         }
 
-        [PropertyInfo(Direction.InputData, "WSDL Input", "WSDL to create the soap message", null)]
+        [PropertyInfo(Direction.ControlMaster, "WSDL Input", "WSDL to create the soap message", null)]
         public XmlDocument Wsdl
         {
             set
             {
-                presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                if (value != null)
                 {
-                    string s = CopyXmlToString(value);
-                    this.LoadWSDL(s);
-                    this._wsdlLoaded = true;
-                    this.OnPropertyChanged("wsdl");
-                    this.CreateInfoMessage("Received WSDL File");
-                    this.CreateInfoMessage("Created SOAP Message");
-                }, null);
+                    presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        string s = CopyXmlToString(value);
+                        this.LoadWSDL(s);
+                        this._wsdlLoaded = true;
+                        this.OnPropertyChanged("wsdl");
+                        this.CreateInfoMessage("Received WSDL File");
+                        this.CreateInfoMessage("Created SOAP Message");
+                    }, null);
+                }
             }
             get
             {
@@ -138,7 +141,7 @@ namespace Soap
             }
         }
 
-        [PropertyInfo(Direction.InputData, "Public-Key input", "Encryption Key", null)]
+        [PropertyInfo(Direction.ControlMaster, "Public-Key input", "Encryption Key", null)]
         public string PublicKey
         {
             get
@@ -147,22 +150,25 @@ namespace Soap
             }
             set
             {
-                Presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                if (value != null)
                 {
+                    Presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
-                        this._wsPublicKey = value;
-                        WsRSACryptoProv.FromXmlString(this._wsPublicKey);
-                        this._gotKey = true;
-                        mySettings.gotkey = true;
-                        mySettings.wsRSAcryptoProv = WsRSACryptoProv.ToXmlString(false);
-                        OnPropertyChanged("publicKey");
-                        CreateInfoMessage("Public Key Received");
-                    }
-                }, null);
+                        {
+                            this._wsPublicKey = value;
+                            WsRSACryptoProv.FromXmlString(this._wsPublicKey);
+                            this._gotKey = true;
+                            mySettings.gotkey = true;
+                            mySettings.wsRSAcryptoProv = WsRSACryptoProv.ToXmlString(false);
+                            OnPropertyChanged("publicKey");
+                            CreateInfoMessage("Public Key Received");
+                        }
+                    }, null);
+                }
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "SOAP output", "Send a SOAP Message", "", true, true, QuickWatchFormat.Text, "XmlConverter")]
+        [PropertyInfo(Direction.OutputData, "SOAP output", "Send a SOAP Message", "",true,false,QuickWatchFormat.None,null)]
         public XmlDocument OutputString
         {
             get { return this._securedSOAP; }
@@ -175,7 +181,7 @@ namespace Soap
 
             }
         }
-        [PropertyInfo(Direction.InputData, "SOAP input", "Input a SOAP message to be processed by the Web Service", "", false, false, QuickWatchFormat.Text, "XmlOutputConverter")]
+        [PropertyInfo(Direction.InputData, "SOAP input", "Input a SOAP message to be processed by the Web Service", "", false, false, QuickWatchFormat.None,null)]
         public XmlDocument InputString
         {
             get { return this._inputDocument; }
@@ -1382,11 +1388,11 @@ namespace Soap
 
         public Object XmlOutputConverter(Object Data)
         {
-            string test = Data.ToString();
-
+            string test = this._soap.ToString();
+            this.OutputString = this._securedSOAP;
             if (test.StartsWith("<"))
             {
-                string test1 = Data.GetType().ToString();
+                string test1 = this._soap.GetType().ToString();
                 test1 = test1 + " " + test;
                 XmlDocument doc = (XmlDocument)Data;
                 StringWriter t = new StringWriter();
@@ -1411,8 +1417,8 @@ namespace Soap
 
         public Object XmlConverter(Object Data)
         {
-            string test = Data.ToString();
-            if (test.StartsWith("<"))
+            string test = _securedSOAP.ToString();
+            if (_securedSOAP.InnerText.StartsWith("<"))
             {
                 XmlDocument doc = (XmlDocument)this._securedSOAP;
                 StringWriter t = new StringWriter();
@@ -1445,6 +1451,7 @@ namespace Soap
 
         public void Execute()
         {
+            this.OutputString = this._securedSOAP;
         }
 
         public void Initialize()
