@@ -101,12 +101,15 @@ namespace WebService
             }
         }
 
-        public SignatureValidator Validator()
+        public SignatureValidator Validator
         {
-            return this._validator;
+            get
+            {
+                return this._validator;
+            }
         }
 
-        [PropertyInfo(Direction.InputData, "SOAP input", "Input a SOAP message to be processed by the Web Service", "", true, false, QuickWatchFormat.Text, "XmlConverter")]
+        [PropertyInfo(Direction.InputData, "SOAP input", "Input a SOAP message to be processed by the Web Service", "", false, false, QuickWatchFormat.None,null)]
         public XmlDocument InputString
         {
             get { return this._inputDocument; }
@@ -118,7 +121,7 @@ namespace WebService
 
         }
 
-        [PropertyInfo(Direction.OutputData, "WSDL output", "Web Service Description", null)]
+        [PropertyInfo(Direction.ControlSlave, "WSDL output", "Web Service Description", null)]
         public XmlDocument Wsdl
         {
             get { return this._wsdlDocument; }
@@ -129,7 +132,7 @@ namespace WebService
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "Public-Key output", "Encryption Key", null)]
+        [PropertyInfo(Direction.ControlSlave, "Public-Key output", "Encryption Key", null)]
         public string PublicKey
         {
             get { return this._publickey; }
