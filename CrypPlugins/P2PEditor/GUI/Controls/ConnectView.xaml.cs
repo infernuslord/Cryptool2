@@ -141,6 +141,44 @@ namespace Cryptool.P2PEditor.GUI.Controls
                 {
                     //we did not find a fitting certificate, so we just try to download one:
                     CertificateClient certificateClient = new CertificateClient();
+                    
+                    //use a proxy server:
+                    if (P2PSettings.Default.UseProxy)
+                    {
+                        certificateClient.ProxyAddress = P2PSettings.Default.ProxyServer;
+                        certificateClient.ProxyPort = P2PSettings.Default.ProxyPort;
+                        certificateClient.ProxyAuthName = P2PSettings.Default.ProxyUser;
+                        certificateClient.ProxyAuthPassword = P2PBase.DecryptString(P2PSettings.Default.ProxyPassword);
+                        certificateClient.UseProxy = true;
+                        certificateClient.UseSystemWideProxy = P2PSettings.Default.UseSystemWideProxy;
+                        certificateClient.SslCertificateRefused += new EventHandler<EventArgs>(delegate
+                        {
+                            this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                            {
+                                this.MessageLabel.Content = "SSLCertificate revoked. Please update CrypTool 2.0.";
+                                this.P2PEditor.GuiLogMessage(this.MessageLabel.Content.ToString(), NotificationLevel.Info);                               
+                                this.MessageLabel.Visibility = Visibility.Visible;
+                            }, null);
+                        });
+                        certificateClient.HttpTunnelEstablished += new EventHandler<ProxyEventArgs>(delegate
+                        {
+                            this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                            {
+                                this.P2PEditor.GuiLogMessage("HttpTunnel successfully established", NotificationLevel.Debug);                                
+                            }, null);
+                        });
+                        certificateClient.NoProxyConfigured += new EventHandler<EventArgs>(delegate
+                        {
+                            this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                            {
+                                this.MessageLabel.Content = "No proxy server configured. Please check your configuration.";
+                                this.P2PEditor.GuiLogMessage(this.MessageLabel.Content.ToString(), NotificationLevel.Info);
+                                this.MessageLabel.Visibility = Visibility.Visible;
+                            }, null);
+                        });
+                        certificateClient.ProxyErrorOccured += ProxyErrorOccured;
+                    }
+
                     certificateClient.TimeOut = 5;
                     certificateClient.ProgramName = System.Reflection.Assembly.GetEntryAssembly().GetName().Name;
                     certificateClient.ProgramVersion = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.ToString();
@@ -149,7 +187,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
                     certificateClient.RequestCertificate(new CertificateRequest(P2PSettings.Default.PeerName, null, password));
                 }
                 catch (Exception ex)
-                {
+                {                    
                     this.MessageLabel.Content = "Error while autodownloading your account data: " + ex.Message;
                     this.P2PEditor.GuiLogMessage(this.MessageLabel.Content.ToString(), NotificationLevel.Error);
                     this.MessageLabel.Visibility = Visibility.Visible;
@@ -314,6 +352,14 @@ namespace Cryptool.P2PEditor.GUI.Controls
             ((P2PEditorSettings)((P2PEditor)GetValue(P2PEditorProperty)).Settings).PropertyChanged += OnPropertyChanged_Settings;
         }
 
-        
+        private void ProxyErrorOccured(object sender, ProxyEventArgs args)
+        {
+            this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
+                this.MessageLabel.Content = "Proxy Error (" + args.StatusCode + ") occured:" + args.Message;
+                this.P2PEditor.GuiLogMessage(this.MessageLabel.Content.ToString(), NotificationLevel.Error);
+                this.MessageLabel.Visibility = Visibility.Visible;
+            }, null);
+        }
     }
 }
