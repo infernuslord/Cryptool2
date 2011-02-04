@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Cryptool.PluginBase.Attributes;
 using KeySearcherPresentation.Controls;
 
 namespace KeySearcherPresentation
@@ -18,6 +19,7 @@ namespace KeySearcherPresentation
     /// <summary>
     /// Interaction logic for QuickWatch.xaml
     /// </summary>
+    [TabColor("pink")]
     [Cryptool.PluginBase.Attributes.Localization("KeySearcher.Properties.Resources")]
     public partial class QuickWatch : UserControl
     {
