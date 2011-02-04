@@ -119,11 +119,18 @@
         <ScrollViewer Grid.Row="2" HorizontalAlignment="Stretch" Name="inputPanel" VerticalAlignment="Stretch" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
             <StackPanel Name="inputStack" Orientation="Vertical"/>
         </ScrollViewer>
+        <Grid Grid.Row="3" HorizontalAlignment="Stretch" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <ScrollViewer Name="history" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Hidden" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" HorizontalAlignment="Stretch"  />
+            <StackPanel Height="Auto" HorizontalAlignment="Right" Name="buttonStackPanel" VerticalAlignment="Bottom" Margin="2" Grid.Column="1" Orientation="Horizontal" >
+                <Button Content="{Loc BackButton}" Height="23" Name="backButton" Width="75" Margin="1" Click="backButton_Click"/>
+                <Button Content="{Loc NextButton}" Tag="{Loc CreateButton}" Height="23" Name="nextButton" Width="75" Margin="1" IsDefault="True" Click="nextButton_Click"/>
+                <Button Content="{Loc AbortButton}" Height="23" Name="abortButton" Width="75" Margin="1" Click="abortButton_Click"/>
+            </StackPanel>
+        </Grid>
         
-        <StackPanel Height="Auto" HorizontalAlignment="Right" Name="buttonStackPanel" VerticalAlignment="Bottom" Margin="2" Grid.Row="3" Orientation="Horizontal" >
-            <Button Content="{Loc BackButton}" Height="23" Name="backButton" Width="75" Margin="1" Click="backButton_Click"/>
-            <Button Content="{Loc NextButton}" Tag="{Loc CreateButton}" Height="23" Name="nextButton" Width="75" Margin="1" IsDefault="True" Click="nextButton_Click"/>
-            <Button Content="{Loc AbortButton}" Height="23" Name="abortButton" Width="75" Margin="1" Click="abortButton_Click"/>
-        </StackPanel>
     </Grid>
 </UserControl>
