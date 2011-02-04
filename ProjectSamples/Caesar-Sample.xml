@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <sample>
-	<title lang="en">Caesar Template</title>
-	<title lang="de">Caesar Vorlage</title>
+	<title lang="en">Caesar Cipher</title>
+	<title lang="de">Caesar-Chiffre</title>
 	
-	<description lang="en">This is a sample for the caesar plugin.</description>
-	<description lang="de">Dies ist ein Beispiel für die Benutzung des Caesar Plug-In.</description>
+	<description lang="en">
+This template shows how to use the Caesar-cipher.
+In cryptography, a Caesar cipher, also known as a Caesar's cipher, the shift cipher, Caesar's code or Caesar shift, is one of the simplest and most widely known encryption techniques. It is a type of substitution cipher in which each letter in the plaintext is replaced by a letter some fixed number of positions down the alphabet. For example, with a shift of 3, A would be replaced by D, B would become E, and so on. The method is named after Julius Caesar, who used it to communicate with his generals. [Source: Wikipedia]
+	</description>
+	<description lang="de">
+Diese Vorlage zeigt die Verwendung der Caesar-Ver-/Entschlüsselung.
+Die Caesar-Verschlüsselung (auch als Caesar-Verschiebung, Verschiebechiffre oder als „Einfacher Caesar“ bezeichnet) ist ein besonders simpler Sonderfall einer einfachen (das heißt monographischen) monoalphabetischen Substitution. Zum Zwecke der Verschlüsselung wird dabei jeder Buchstabe des lateinischen Standardalphabets um eine bestimmte Anzahl von Positionen zyklisch verschoben (rotiert). Die Anzahl bestimmt den Schlüssel, der für die gesamte Verschlüsselung unverändert bleibt. Es ist eine der einfachsten und unsichersten Formen einer Geheimschrift. [Quelle: Wikipedia]
+	</description>
 </sample>
