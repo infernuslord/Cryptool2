@@ -19,6 +19,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Cryptool.PluginBase;
+using Cryptool.PluginBase.Attributes;
 using Cryptool.PluginBase.Tool;
 using Primes.Library;
 using Primes.Options;
@@ -42,7 +43,7 @@ namespace Primes.WpfVisualization
   /// <summary>
   /// Interaction logic for PrimesControl.xaml
   /// </summary>
-
+  [TabColor("green")]
   public partial class PrimesControl : UserControl
   {
     private IPrimeMethodDivision m_ActualControl = null;
