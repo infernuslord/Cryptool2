@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Cryptool.Core;
+using Cryptool.PluginBase.Attributes;
 using Cryptool.PluginBase.Editor;
 using Cryptool.UiPluginBase;
 using Cryptool.PluginBase.IO;
@@ -50,6 +51,7 @@ namespace WorkspaceManager
     /// <summary>
     /// Workspace Manager - PluginEditor based on MVC Pattern
     /// </summary>
+    [TabColor("blue")]
     [EditorInfo("cwm")]
     [Author("Viktor Matkovic,Nils Kopal", "nils.kopal@cryptool.org", "Universität Duisburg-Essen", "http://www.uni-due.de")]
     [PluginInfo("WorkspaceManager.Resources.Attributes", false, "Workspace Manager", "Graphical plugin editor for the CrypTool workspace", null, "WorkspaceManager/View/Image/WorkspaceManagerIcon.png")]

@@ -23,10 +23,12 @@ using Cryptool.P2P;
 using Cryptool.P2PEditor.Distributed;
 using Cryptool.P2PEditor.GUI;
 using Cryptool.PluginBase;
+using Cryptool.PluginBase.Attributes;
 using Cryptool.PluginBase.Editor;
 
 namespace Cryptool.P2PEditor
 {
+    [TabColor("orange")]
     [EditorInfo("p2p")]
     [Author("Paul Lelgemann", "lelgemann@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
     [PluginInfo("Cryptool.P2PEditor.Resources.Attributes", false, "P2P Interface",

@@ -13,6 +13,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Threading;
 using Cryptool.PluginBase;
+using Cryptool.PluginBase.Attributes;
 using Cryptool.PluginBase.Tool;
 using PKCS1.WpfControls;
 using PKCS1.WpfControls.Start;
@@ -31,6 +32,7 @@ namespace PKCS1.WpfVisualization
     /// <summary>
     /// Interaktionslogik für pkcs1control.xaml
     /// </summary>
+    [TabColor("black")]
     public partial class Pkcs1Control : UserControl
     {
         private IPkcs1UserControl m_ActualControl = null;
