@@ -52,11 +52,7 @@ namespace WorkspaceManager
     /// </summary>
     [EditorInfo("cwm")]
     [Author("Viktor Matkovic,Nils Kopal", "nils.kopal@cryptool.org", "Universität Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo("WorkspaceManager.Resources.Attributes", false, "Workspace Manager", "Graphical plugin editor for the CrypTool workspace", null,
-      "AnotherEditor/icon.png",
-      "AnotherEditor/Images/addWorkspace.png",
-      "AnotherEditor/Images/deleteWorkspace.png",
-      "AnotherEditor/Images/importSubWorkspace.png")]
+    [PluginInfo("WorkspaceManager.Resources.Attributes", false, "Workspace Manager", "Graphical plugin editor for the CrypTool workspace", null, "WorkspaceManager/View/Image/WorkspaceManagerIcon.png")]
     public class WorkspaceManager : IEditor
     {
 
