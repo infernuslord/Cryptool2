@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <sample>
-	<title lang="en">Caesar Sample</title>
-	<title lang="de">Caesar Beispiel</title>
+	<title lang="en">Caesar Template</title>
+	<title lang="de">Caesar Vorlage</title>
+	
+	<description lang="en">This is a sample for the caesar plugin.</description>
+	<description lang="de">Dies ist ein Beispiel für die Benutzung des Caesar Plug-In.</description>
 </sample>
