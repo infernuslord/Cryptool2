@@ -1101,7 +1101,7 @@ namespace Soap
                 XmlAttribute id = attributes["Id"];
                 Reference reference = new Reference("#" + id.Value);
                 //   Reference reference = new Reference("");
-                XmlElement xpathElement = _securedSOAP.CreateElement("XPath");
+                XmlElement xpathElement = this._securedSOAP.CreateElement("XPath");
                 string Xpath = "ancestor-or-self::Body";
                 XmlElement root = this._securedSOAP.DocumentElement;
                 XmlElement body = (XmlElement)this._securedSOAP.GetElementsByTagName("Body")[0];
@@ -1236,7 +1236,7 @@ namespace Soap
 
             signatureMethod.Attributes.Append(sigMeth);
             XmlNode securityHeader = this._securedSOAP.GetElementsByTagName("wsse:Security")[0];
-            securityHeader.InsertBefore(signature, securityHeader.FirstChild);
+            
             signature.AppendChild(signedInfo);
             signedInfo.AppendChild(canonicalizationMethod);
             signedInfo.AppendChild(signatureMethod);
@@ -1271,7 +1271,7 @@ namespace Soap
                 referenceElement.Attributes.Append(uri);
                 XmlElement c14nTransform = this._securedSOAP.CreateElement("ds", "Transform", dsNamespace);
                 XmlAttribute c14Url = this._securedSOAP.CreateAttribute("Algorithm");
-                c14Url.Value = SignedXml.XmlDsigExcC14NTransformUrl;
+                c14Url.Value = SignedXml.XmlDsigEnvelopedSignatureTransformUrl;
                 c14nTransform.Attributes.Append(c14Url);
                 transforms.AppendChild(c14nTransform);
                 XmlElement digestMethod = this._securedSOAP.CreateElement("ds", "DigestMethod", dsNamespace);
@@ -1321,7 +1321,8 @@ namespace Soap
                 childNode.Prefix = "ds";
             }
             signature.AppendChild(this._securedSOAP.ImportNode(xmlKeyInfo, true));
-            XmlElement secHead = (XmlElement)this._securedSOAP.GetElementsByTagName("wsse:Security")[0];
+            securityHeader.InsertBefore(signature, securityHeader.FirstChild);
+         //   XmlElement secHead = (XmlElement)this._securedSOAP.GetElementsByTagName("wsse:Security")[0].Insert(signature);
             mySettings.securedsoap = this.CopyXmlToString(this._securedSOAP);
         }
 
@@ -1342,8 +1343,15 @@ namespace Soap
 
         public byte[] GetDigestValueForElementWithSha1(XmlElement element)
         {
+            //XmlNode node = element.GetElementsByTagName("ds:Signature")[0];
+            //element.RemoveChild(node);
             Stream canonicalized = this.CanonicalizeNodeWithExcC14n(element);
             SHA1CryptoServiceProvider sha1 = new SHA1CryptoServiceProvider();
+            StreamReader reader = new StreamReader(canonicalized);
+
+            string canonicalizedString = reader.ReadToEnd();
+           canonicalized.Position = 0;
+
             byte[] byteValue = sha1.ComputeHash(canonicalized);
             return byteValue;
         }
