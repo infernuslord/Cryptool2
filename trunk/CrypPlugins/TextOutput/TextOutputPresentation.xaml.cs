@@ -27,12 +27,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Cryptool.PluginBase.Attributes;
 
 namespace TextOutput
 {
   /// <summary>
   /// Interaction logic for TextOutputPresentation.xaml
   /// </summary>
+  [TabColor("pink")]
   public partial class TextOutputPresentation : UserControl
   {
     public TextOutputPresentation()

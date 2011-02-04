@@ -27,12 +27,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Cryptool.PluginBase.Attributes;
 
 namespace Cryptool.TextInput
 {
   /// <summary>
   /// Interaction logic for TextInputPresentation.xaml
   /// </summary>
+  [TabColor("red")]
   public partial class TextInputPresentation : UserControl
   {
     public TextInputPresentation()
