@@ -46,6 +46,8 @@ namespace Wizard
         private XElement wizardConfigXML;
         private Dictionary<string, PluginPropertyValue> propertyValueDict = new Dictionary<string, PluginPropertyValue>();
         private HashSet<TextBox> boxesWithWrongContent = new HashSet<TextBox>();
+        private Point mouseDragStartPoint;
+        private Point scrollStartOffset; 
 
         internal event OpenTabHandler OnOpenTab;
         internal event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
@@ -178,7 +180,7 @@ namespace Wizard
                 inputPanel.Visibility = Visibility.Visible;
 
                 var inputs = from el in element.Elements()
-                             where el.Name == "inputBox" || el.Name == "comboBox" || el.Name == "checkBox" || el.Name == "history"
+                             where el.Name == "inputBox" || el.Name == "comboBox" || el.Name == "checkBox" 
                              select el;
 
                 inputStack.Children.Clear();
@@ -518,57 +520,54 @@ namespace Wizard
                 inputStack.Children.Add(cb);
                 element = cb;
             }
-            else if (input.Name == "history")
-            {
-                StackPanel historyStack = new StackPanel();
-                historyStack.Orientation = Orientation.Horizontal;
-                
-                foreach(var page in currentHistory)
-                {
-                    var p = new ContentControl();
-                    var bg = selectionBrush.Clone();
-                    bg.Opacity = 1 - (historyStack.Children.Count/(double) currentHistory.Count);
-                    var sp = new StackPanel { Orientation = Orientation.Horizontal, Background = bg };
-                    p.Content = sp;
-                    
-                    Polygon triangle = new Polygon();
-                    triangle.Points = new PointCollection();
-                    triangle.Points.Add(new Point(0, 0));
-                    triangle.Points.Add(new Point(0, 10));
-                    triangle.Points.Add(new Point(10, 5));
-                    triangle.Fill = bg;
-                    triangle.Stretch = Stretch.Uniform;
-                    triangle.Width = 32;
-                    sp.Children.Add(triangle);
-
-                    if (page.image != null && FindResource(page.image) != null)
-                    {
-                        var im = new Image {Source = (ImageSource) FindResource(page.image), Width = 32};
-                        sp.Children.Add(im);
-                    }
-                    var nameLabel = new Label {Content = page.name};
-                    sp.Children.Add(nameLabel);
-                    p.ToolTip = page.description;
-                    var translateTranform = new TranslateTransform();
-                    triangle.RenderTransform = translateTranform;
-                    Binding binding = new Binding("ActualWidth");
-                    binding.Source = p;
-                    BindingOperations.SetBinding(translateTranform, TranslateTransform.XProperty, binding);
-
-                    historyStack.Children.Add(p);
-                }
-
-                ContentControl container = new ContentControl();
-                container.Content = historyStack;
-                inputStack.Children.Add(container);
-                element = container;
-                isInput = true;
-            }
 
             if (!isInput && element != null)
                 element.IsEnabled = false;
 
             return element;
+        }
+
+        private void CreateHistory()
+        {
+            StackPanel historyStack = new StackPanel();
+            historyStack.Orientation = Orientation.Horizontal;
+
+            foreach (var page in currentHistory)
+            {
+                var p = new ContentControl();
+                var bg = selectionBrush.Clone();
+                bg.Opacity = 1 - (historyStack.Children.Count / (double)currentHistory.Count);
+                var sp = new StackPanel { Orientation = Orientation.Horizontal, Background = bg };
+                p.Content = sp;
+
+                Polygon triangle = new Polygon();
+                triangle.Points = new PointCollection();
+                triangle.Points.Add(new Point(0, 0));
+                triangle.Points.Add(new Point(0, 10));
+                triangle.Points.Add(new Point(10, 5));
+                triangle.Fill = bg;
+                triangle.Stretch = Stretch.Uniform;
+                triangle.Width = 32;
+                sp.Children.Add(triangle);
+
+                if (page.image != null && FindResource(page.image) != null)
+                {
+                    var im = new Image { Source = (ImageSource)FindResource(page.image), Width = 32 };
+                    sp.Children.Add(im);
+                }
+                var nameLabel = new Label { Content = page.name };
+                sp.Children.Add(nameLabel);
+                p.ToolTip = page.description;
+                var translateTranform = new TranslateTransform();
+                triangle.RenderTransform = translateTranform;
+                Binding binding = new Binding("ActualWidth");
+                binding.Source = p;
+                BindingOperations.SetBinding(translateTranform, TranslateTransform.XProperty, binding);
+
+                historyStack.Children.Add(p);
+            }
+
+            history.Content = historyStack;
         }
 
         private void CheckRegex(TextBox textBox, Regex regex)
@@ -723,6 +722,8 @@ namespace Wizard
                     rb.IsChecked = false;
             }
 
+            history.Content = null;
+            currentHistory.Clear();
             propertyValueDict.Clear();
             ResetSelectionDependencies();
             radioButtonStackPanel.Children.Clear();
@@ -771,6 +772,8 @@ namespace Wizard
 
             Storyboard mainGridStoryboardLeft = (Storyboard)FindResource("MainGridStoryboardNext2");
             mainGridStoryboardLeft.Begin();
+
+            CreateHistory();
         }
 
         private void SaveControlContent(object o)
@@ -875,10 +878,13 @@ namespace Wizard
                     SetupPage(wizardConfigXML);
             }
 
-            currentHistory.RemoveAt(currentHistory.Count - 1);
+            if (currentHistory.Count > 0)
+                currentHistory.RemoveAt(currentHistory.Count - 1);
 
             Storyboard mainGridStoryboardLeft = (Storyboard)FindResource("MainGridStoryboardBack2");
             mainGridStoryboardLeft.Begin();
+
+            CreateHistory();
         }
 
         private void GuiLogMessage(string message, NotificationLevel loglevel)
