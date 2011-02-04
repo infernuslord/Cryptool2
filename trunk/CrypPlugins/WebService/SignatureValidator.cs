@@ -209,7 +209,12 @@ namespace WebService
             XmlNodeList signatureList = this._inputDocument.GetElementsByTagName("ds:Signature");
             if (signatureList.Count != 0)
             {
+               
                 this._signedXml.LoadXml((XmlElement)signatureElement);
+
+                SignedXml hua = new SignedXml((XmlElement) signatureElement);
+                hua.LoadXml((XmlElement)signatureElement);
+              bool test= hua.CheckSignature();
                 bool validReference = ValidateReferences(_signedXml);
                 if (validReference)
                 {
@@ -325,6 +330,28 @@ namespace WebService
                 string typ = trans.ToString();
                 switch (typ)
                 {
+                    case "System.Security.Cryptography.Xml.XmlDsigEnvelopedSignatureTransform":
+                        if (!reference.Uri.Equals(""))
+                        {
+                            for (int j = 0; j < _referenceList.Count; j++)
+                            {
+                                XmlElement temp = (XmlElement)this._referenceList[j];
+                                string uri = "#" + temp.Attributes["Id"].Value;
+                                if (uri.Equals(reference.Uri))
+                                {
+                                    node = temp;
+                                }
+                            }
+
+                            XmlNode signatureNode = (node as XmlElement).GetElementsByTagName("ds:Signature") != null ? (node as XmlElement).GetElementsByTagName("ds:Signature")[0] as XmlNode : null;
+                            if (signatureNode != null)
+                            {
+                                node.RemoveChild(signatureNode);
+                            }
+                        }
+                        break;
+
+
                     case "System.Security.Cryptography.Xml.XmlDsigExcC14NTransform":
 
                         if (!reference.Uri.Equals(""))
@@ -342,6 +369,11 @@ namespace WebService
                         }
                         break;
 
+                    case SignedXml.XmlDsigEnvelopedSignatureTransformUrl:
+                        {
+
+                        }
+                        break;
                     case "System.Security.Cryptography.Xml.XmlDsigXPathTransform":
                         XmlDocument doc = new XmlDocument();
                         XmlDsigXPathTransform xpathTransform = (XmlDsigXPathTransform)trans;
@@ -489,6 +521,11 @@ namespace WebService
                 element.WriteTo(xmlTextWriter);
                 this.transformedElement = element;
                 result = stringWriter.ToString();
+
+            }
+
+            if(transform.ToString().Equals("System.Security.Cryptography.Xml.XmlDsigEnvelopedSignatureTransform"))
+            {
 
             }
             if (transform.ToString().Equals("System.Security.Cryptography.Xml.XmlDsigExcC14NTransform"))
