@@ -478,15 +478,45 @@ namespace WorkspaceManager.View.Container
             if (e.ButtonState == MouseButtonState.Released)
                 if (ConnectorMouseLeftButtonDown != null)
                     ConnectorMouseLeftButtonDown.Invoke(this, new ConnectorViewEventArgs() { connector = connector });
+
+            e.Handled = true;
         }
 
         void connector_MouseLeave(object sender, MouseEventArgs e)
         {
-            if (e.LeftButton == MouseButtonState.Pressed)
+            if (e.RightButton == MouseButtonState.Pressed)
             {
                 ConnectorView connector = (sender as ConnectorView);
                 DataObject dragData = new DataObject("connector", connector);
+                DragDrop.AddQueryContinueDragHandler(this, QueryContinueDragHandler);
                 DragDrop.DoDragDrop(connector.Parent, dragData, DragDropEffects.Move);
+            }
+            e.Handled = true;
+        }
+
+        private void QueryContinueDragHandler(Object source, QueryContinueDragEventArgs e)
+        {
+            e.Handled = true;
+
+            // Check if we need to bail
+            if (e.EscapePressed)
+            {
+                e.Action = DragAction.Cancel;
+                return;
+            }
+
+            // Now, default to actually having dropped
+            e.Action = DragAction.Drop;
+
+            if ((e.KeyStates & DragDropKeyStates.LeftMouseButton) != DragDropKeyStates.None)
+            {
+                // Still dragging with Left Mouse Button
+                e.Action = DragAction.Continue;
+            }
+            else if ((e.KeyStates & DragDropKeyStates.RightMouseButton) != DragDropKeyStates.None)
+            {
+                // Still dragging with Right Mouse Button
+                e.Action = DragAction.Continue;
             }
         }
 
