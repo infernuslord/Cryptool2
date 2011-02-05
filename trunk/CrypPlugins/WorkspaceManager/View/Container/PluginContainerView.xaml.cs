@@ -467,71 +467,40 @@ namespace WorkspaceManager.View.Container
             }
 
             //connector.PreviewMouseLeftButtonDown += new MouseButtonEventHandler(connector_PreviewMouseLeftButtonDown);
-            connector.PreviewDrop += new DragEventHandler(connector_Drop);
-            connector.MouseLeftButtonDown += new MouseButtonEventHandler(connector_MouseLeftButtonDown);
+            connector.MouseUp += new MouseButtonEventHandler(connector_MouseUp);
             connector.MouseLeave += new MouseEventHandler(connector_MouseLeave);
             connectorViewList.Add(connector);
         }
 
-        void connector_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        void connector_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            ConnectorView connector = (sender as ConnectorView);
-            if (ConnectorMouseLeftButtonDown != null)
+            if (IsLineDragging)
             {
-                ConnectorMouseLeftButtonDown.Invoke(this, new ConnectorViewEventArgs() { connector = connector });
-                DataObject dragData = new DataObject("line", connector);
-                DragDrop.DoDragDrop(connector, dragData, DragDropEffects.Link);
-                //Mouse.AddMouseUpHandler(Parent, Parent_MouseUp);
-            }
-        }
-
-        void connector_Drop(object sender, DragEventArgs e)
-        {
-            try
-            {
-                if (e.Data.GetDataPresent("line"))
+                if (e.LeftButton == MouseButtonState.Released)
                 {
-                    ConnectorView connector = e.Data.GetData("line") as ConnectorView;
+                    ConnectorView connector = (sender as ConnectorView);
                     if (ConnectorMouseLeftButtonDown != null)
                     {
-                        //Mouse.RemoveMouseUpHandler(Parent, Parent_MouseUp);
+                        Mouse.RemoveMouseUpHandler(Parent, Parent_MouseUp);
                         ConnectorMouseLeftButtonDown.Invoke(this, new ConnectorViewEventArgs() { connector = connector });
                     }
                 }
             }
-            catch (Exception)
-            { return; }
+            e.Handled = true;
         }
 
-        //void connector_MouseUp(object sender, MouseButtonEventArgs e)
-        //{
-        //    if (IsLineDragging)
-        //    {
-        //        if (e.LeftButton == MouseButtonState.Released)
-        //        {
-        //            ConnectorView connector = (sender as ConnectorView);
-        //            if (ConnectorMouseLeftButtonDown != null)
-        //            {
-        //                //Mouse.RemoveMouseUpHandler(Parent, Parent_MouseUp);
-        //                ConnectorMouseLeftButtonDown.Invoke(this, new ConnectorViewEventArgs() { connector = connector });
-        //            }
-        //        }
-        //    }
-        //    e.Handled = true;
-        //}
-
-        //void Parent_MouseUp(object sender, MouseButtonEventArgs e)
-        //{
-        //    if (IsLineDragging)
-        //    {
-        //        if (ReleaseDummyLine != null)
-        //        {
-        //            IsLineDragging = false;
-        //            ReleaseDummyLine.Invoke(this, new EventArgs());
-        //        }
-        //    }
-        //    Mouse.RemoveMouseUpHandler(Parent, Parent_MouseUp);
-        //}
+        void Parent_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            if (IsLineDragging)
+            {
+                if (ReleaseDummyLine != null)
+                {
+                    IsLineDragging = false;
+                    Mouse.RemoveMouseUpHandler(Parent, Parent_MouseUp);
+                    ReleaseDummyLine.Invoke(this, new EventArgs());
+                }
+            }
+        }
 
         public event EventHandler ReleaseDummyLine;
 
@@ -545,18 +514,17 @@ namespace WorkspaceManager.View.Container
                 DragDrop.AddQueryContinueDragHandler(this, QueryContinueDragHandler);
                 DragDrop.DoDragDrop(connector.Parent, dragData, DragDropEffects.Move);
             }
-            //if (e.LeftButton == MouseButtonState.Pressed && e.RightButton != MouseButtonState.Pressed)
-            //{
-            //    if (ConnectorMouseLeftButtonDown != null)
-            //    {
-            //        ConnectorMouseLeftButtonDown.Invoke(this, new ConnectorViewEventArgs() { connector = connector });
-            //        DataObject dragData = new DataObject("line", connector);
-            //        DragDrop.DoDragDrop(connector, dragData, DragDropEffects.None);
-            //        //Mouse.AddMouseUpHandler(Parent, Parent_MouseUp);
-            //    }
-            //}
-            //else
-            //{ IsLineDragging = false; }
+            if (e.LeftButton == MouseButtonState.Pressed && e.RightButton != MouseButtonState.Pressed)
+            {
+                if (ConnectorMouseLeftButtonDown != null)
+                {
+                    ConnectorMouseLeftButtonDown.Invoke(this, new ConnectorViewEventArgs() { connector = connector });
+                    IsLineDragging = true;
+                    Mouse.AddMouseUpHandler(Parent, Parent_MouseUp);
+                }
+            }
+            else
+            { IsLineDragging = false; }
 
             e.Handled = true;
         }
