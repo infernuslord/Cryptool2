@@ -279,6 +279,7 @@ namespace WorkspaceManager.View.Container
         public PluginContainerView(PluginModel model)
         {
             InitializeComponent();
+            BubblePopup.MouseDown += (s, e) => e.Handled = true;
             setBaseControl(model);
             DataContext = this;
 
@@ -771,6 +772,12 @@ namespace WorkspaceManager.View.Container
                 this.delete();
                 return;
             }
+            if (bttn.Name == "ICM")
+            {
+                
+                BubblePopup.IsOpen = true;
+                BubblePopup.Placement = PlacementMode.Mouse;
+            }
         }
 
         private void Thumb_DragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
@@ -933,14 +940,6 @@ namespace WorkspaceManager.View.Container
             Model.Name = CTextBox.Text;
         }
 
-        private void Button_Click_2(object sender, RoutedEventArgs e)
-        {
-            if (ICPanelVisibility == Visibility.Visible)
-                ICPanelVisibility = Visibility.Collapsed;
-            else if (ICPanelVisibility == Visibility.Collapsed)
-                ICPanelVisibility = Visibility.Visible;
-        }
-
         protected override void OnInitialized(EventArgs e)
         {
             EventManager.RegisterClassHandler(typeof(TextBox),
@@ -959,6 +958,11 @@ namespace WorkspaceManager.View.Container
         private void TextBox_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             ((TextBox)sender).CaretBrush = Brushes.Gray;
+        }
+
+        private void BubbleClose(object sender, RoutedEventArgs e)
+        {
+            BubblePopup.IsOpen = false;
         }
 
     }

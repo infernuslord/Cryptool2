@@ -99,8 +99,6 @@ namespace WorkspaceManager.View.Container
             if (Model.IsMandatory)
             {
                 ConnectorRep.Stroke = Brushes.White;
-                Scale.ScaleX = 0.8;
-                Scale.ScaleY = 0.7;
             }
 
             if (Model.Orientation == ConnectorOrientation.Unset)

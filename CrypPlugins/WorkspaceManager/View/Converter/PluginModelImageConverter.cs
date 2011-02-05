@@ -14,7 +14,7 @@ namespace WorkspaceManager.View.Converter
         {
             PluginModel model = (PluginModel)value;
             if (model == null)
-                return Brushes.LightGreen;
+                return (Brush)parameter;
             else
                 return new ImageBrush(model.getImage().Source);
         }

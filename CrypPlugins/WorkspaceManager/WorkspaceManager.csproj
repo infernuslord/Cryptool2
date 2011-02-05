@@ -116,6 +116,7 @@
     <Compile Include="View\Converter\NotificationLevelConverter.cs" />
     <Compile Include="View\Converter\OptionTextCaptionConverter.cs" />
     <Compile Include="View\Converter\OverlapConverter.cs" />
+    <Compile Include="View\Converter\PlacementTargetConverter.cs" />
     <Compile Include="View\Converter\PluginModelImageConverter.cs" />
     <Compile Include="View\Converter\ScaleToPercentageConverter.cs" />
     <Compile Include="View\Converter\SelectedContentBrushConverter.cs" />
@@ -406,6 +407,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="View\Image\WorkspaceManagerIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="View\Image\icm.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

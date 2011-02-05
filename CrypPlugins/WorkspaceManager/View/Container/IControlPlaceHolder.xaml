@@ -6,7 +6,7 @@
              xmlns:e="clr-namespace:WorkspaceManager.View.VisualComponents"
              xmlns:z="clr-namespace:WorkspaceManager.View.Converter"
              xmlns:y="clr-namespace:WorkspaceManager.View.Container"
-             mc:Ignorable="d" Width="25" Height="25">
+             mc:Ignorable="d" Width="45" Height="45" >
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -15,45 +15,32 @@
             </ResourceDictionary.MergedDictionaries>
             <z:PluginModelImageConverter x:Key="PluginModelImageConverter"></z:PluginModelImageConverter>
             <SolidColorBrush x:Key="Color" Color="Black"></SolidColorBrush>
+            <RadialGradientBrush x:Key="Brush" Center="0.5,0.5" GradientOrigin="0.5,0.5" RadiusX="0.5" RadiusY="0.5" SpreadMethod="Pad">
+                <GradientStop Color="#FF272727" Offset="0.5" />
+                <GradientStop Color="#FF868686" Offset="1" />
+            </RadialGradientBrush>
         </ResourceDictionary>
     </UserControl.Resources>
+    <!--<UserControl.Triggers>
+        <EventTrigger RoutedEvent="MouseEnter">
+            <BeginStoryboard Name="Grow" Storyboard.TargetName="Scale" Storyboard="{StaticResource ResourceKey=Grow}"></BeginStoryboard>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="MouseLeave">
+            <BeginStoryboard Name="Shrink" Storyboard.TargetName="Scale" Storyboard="{StaticResource ResourceKey=Shrink}"></BeginStoryboard>
+        </EventTrigger>
+    </UserControl.Triggers>-->
+
     <UserControl.ContextMenu>
         <ContextMenu>
             <MenuItem Click="MenuItem_Click">Delete</MenuItem>
         </ContextMenu>
     </UserControl.ContextMenu>
+    
+    
+    <UserControl.RenderTransform>
+        <ScaleTransform x:Name="Scale" CenterX="12.5" CenterY="12.5"></ScaleTransform>
+    </UserControl.RenderTransform>    
     <Grid>
-        <Path Data="M 20 20 L 0 20 L 0 0" Stroke="{StaticResource ResourceKey=Color}" StrokeThickness="9" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="20" Height="20">
-            <Path.LayoutTransform>
-                <TransformGroup>
-                    <RotateTransform Angle="270"></RotateTransform>
-                    <ScaleTransform ScaleX="0.5" ScaleY="0.5"></ScaleTransform>
-                </TransformGroup>
-            </Path.LayoutTransform>
-        </Path>
-        <Path Data="M 20 20 L 0 20 L 0 0" Stroke="{StaticResource ResourceKey=Color}" StrokeThickness="9" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="20" Height="20">
-            <Path.LayoutTransform>
-                <TransformGroup>
-                    <ScaleTransform ScaleX="0.5" ScaleY="0.5"></ScaleTransform>
-                </TransformGroup>
-            </Path.LayoutTransform>
-        </Path>
-        <Path Data="M 20 20 L 0 20 L 0 0" Stroke="{StaticResource ResourceKey=Color}" StrokeThickness="9"  HorizontalAlignment="Right" VerticalAlignment="Top" Width="20" Height="20">
-            <Path.LayoutTransform>
-                <TransformGroup>
-                    <RotateTransform Angle="180"></RotateTransform>
-                    <ScaleTransform ScaleX="0.5" ScaleY="0.5"></ScaleTransform>
-                </TransformGroup>
-            </Path.LayoutTransform>
-        </Path>
-        <Path Data="M 20 20 L 0 20 L 0 0" Stroke="{StaticResource ResourceKey=Color}" StrokeThickness="9"  HorizontalAlignment="Left" VerticalAlignment="Top" Width="20" Height="20">
-            <Path.LayoutTransform>
-                <TransformGroup>
-                    <RotateTransform Angle="90"></RotateTransform>
-                    <ScaleTransform ScaleX="0.5" ScaleY="0.5"></ScaleTransform>
-                </TransformGroup>
-            </Path.LayoutTransform>
-        </Path>
-        <Rectangle Fill="{Binding Mode=OneWay,Converter={StaticResource ResourceKey=PluginModelImageConverter}}" RadiusX="60" RadiusY="60" x:Name="bg" Panel.ZIndex="-1"></Rectangle>
+        <Rectangle Fill="{Binding Mode=OneWay,Converter={StaticResource ResourceKey=PluginModelImageConverter}, ConverterParameter={StaticResource ResourceKey=Brush}}" Stroke="{StaticResource ResourceKey=Color}" RadiusX="9" RadiusY="9" x:Name="bg" Panel.ZIndex="-1" StrokeThickness="1.5"></Rectangle>
     </Grid>
 </UserControl>
