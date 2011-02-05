@@ -126,6 +126,7 @@
     <Compile Include="Miscellaneous\SuperTooltip.cs" />
     <Compile Include="Miscellaneous\Tokenizer.cs" />
     <Compile Include="Miscellaneous\UniqueIdentifier.cs" />
+    <Compile Include="Miscellaneous\ZoomChanged.cs" />
     <Compile Include="PluginExtension.cs" />
     <Compile Include="Attributes\PluginInfoAttribute.cs">
       <SubType>Code</SubType>

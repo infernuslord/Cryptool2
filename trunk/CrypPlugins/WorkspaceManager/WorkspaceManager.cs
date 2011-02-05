@@ -63,11 +63,21 @@ namespace WorkspaceManager
         /// </summary>
         public WorkspaceManager()
         {
+            Properties.Settings.Default.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(Default_PropertyChanged);
             Settings = new WorkspaceManagerSettings(this);
             WorkspaceModel = new WorkspaceModel();
             WorkspaceModel.WorkspaceManagerEditor = this;
             WorkspaceSpaceEditorView = new WorkSpaceEditorView(WorkspaceModel);
             HasChanges = false;                                
+        }
+
+        void Default_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if(e.PropertyName == "EditScale")
+            {
+                if (OnZoomChanged != null)
+                    OnZoomChanged.Invoke(this, new ZoomChanged() { Value = Properties.Settings.Default.EditScale });
+            }
         }
 
         #region private Members
@@ -822,6 +832,30 @@ namespace WorkspaceManager
         public event OpenTabHandler OnOpenTab;
 
         #endregion
+
+
+        public double GetZoom()
+        {
+            return Properties.Settings.Default.EditScale;
+        }
+
+        public void Zoom(double value)
+        {
+            Properties.Settings.Default.EditScale = value;
+        }
+
+        public void FitToScreen()
+        {
+            this.WorkspaceSpaceEditorView.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
+                this.WorkspaceSpaceEditorView.FitToScreen();
+            }
+            , null);
+        }
+
+        
+
+        public event EventHandler<ZoomChanged> OnZoomChanged;
     }
 }
 

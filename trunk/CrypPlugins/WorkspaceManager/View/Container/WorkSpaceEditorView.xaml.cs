@@ -304,7 +304,11 @@ namespace WorkspaceManager.View.Container
 
         void bottomBox_FitToScreen(object sender, FitToScreenEventArgs e)
         {
+            FitToScreen();
+        }
 
+        public void FitToScreen()
+        {
             if (scrollViewer.ScrollableWidth > 0 || scrollViewer.ScrollableHeight > 0)
             {
                 while (Properties.Settings.Default.EditScale > Properties.Settings.Default.MinScale && (scrollViewer.ScrollableHeight > 0 || scrollViewer.ScrollableWidth > 0))
@@ -360,6 +364,7 @@ namespace WorkspaceManager.View.Container
                 newPluginContainerView.FullScreen += new EventHandler<PluginContainerViewFullScreenViewEventArgs>(shape_FullScreen);
                 newPluginContainerView.MouseLeftButtonDown += new MouseButtonEventHandler(shape_MouseLeftButtonDown);
                 newPluginContainerView.MouseLeftButtonUp += new MouseButtonEventHandler(shape_MouseLeftButtonUp);
+                newPluginContainerView.ReleaseDummyLine += new EventHandler(newPluginContainerView_ReleaseDummyLine);
                 newPluginContainerView.ConnectorMouseLeftButtonDown += new EventHandler<ConnectorViewEventArgs>(shape_OnConnectorMouseLeftButtonDown);
                 newPluginContainerView.SetPosition(new Point((Math.Round((position.X) / Properties.Settings.Default.GridScale)) * Properties.Settings.Default.GridScale,
                                                             (Math.Round((position.Y) / Properties.Settings.Default.GridScale)) * Properties.Settings.Default.GridScale));
@@ -368,6 +373,11 @@ namespace WorkspaceManager.View.Container
                 Canvas.SetZIndex(newPluginContainerView, 100);
                 Model.WorkspaceManagerEditor.HasChanges = true;
             }
+        }
+
+        void newPluginContainerView_ReleaseDummyLine(object sender, EventArgs e)
+        {
+            removeDummyLine();
         }
 
 
@@ -487,13 +497,21 @@ namespace WorkspaceManager.View.Container
         {
             if (this.State == EditorState.READY)
             {
-                if (selectedConnector != null && WorkspaceModel.compatibleConnectors(selectedConnector.Model, e.connector.Model))
+                if (selectedConnector != null)
                 {
-                    this.root.Children.Remove(dummyLine);
-                    this.AddConnection(selectedConnector, e.connector);
-                    this.selectedConnector = null;
-                    return;
+                    if (WorkspaceModel.compatibleConnectors(selectedConnector.Model, e.connector.Model))
+                    {
+                        this.root.Children.Remove(dummyLine);
+                        this.AddConnection(selectedConnector, e.connector);
+                        this.selectedConnector = null;
+                        return;
+                    }
+                    else 
+                    {
+                        removeDummyLine(); return;
+                    }
                 }
+                
 
                 if (selectedConnector == null && e.connector.Model.Outgoing)
                 {
@@ -509,12 +527,7 @@ namespace WorkspaceManager.View.Container
         void WorkSpaceEditorView_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             UserContentWrapper.SelectedItem = null;
-
-            if (this.State == EditorState.READY)
-            {
-                this.selectedConnector = null;
-                this.root.Children.Remove(dummyLine);
-            }
+            
         }
 
         void WorkSpaceEditorView_MouseLeave(object sender, MouseEventArgs e)
@@ -523,9 +536,16 @@ namespace WorkspaceManager.View.Container
             {
                 this.selectedPluginContainer = null;
             }
-        }      
+        }
 
-
+        private void removeDummyLine()
+        {
+            if (this.State == EditorState.READY)
+            {
+                this.selectedConnector = null;
+                this.root.Children.Remove(dummyLine);
+            }
+        }
 
         void shape_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
@@ -665,6 +685,7 @@ namespace WorkspaceManager.View.Container
             newPluginContainerView.ConnectorMouseLeftButtonDown += new EventHandler<ConnectorViewEventArgs>(shape_OnConnectorMouseLeftButtonDown);
             newPluginContainerView.MouseLeftButtonDown += new MouseButtonEventHandler(shape_MouseLeftButtonDown);
             newPluginContainerView.MouseLeftButtonUp += new MouseButtonEventHandler(shape_MouseLeftButtonUp);
+            newPluginContainerView.ReleaseDummyLine += new EventHandler(newPluginContainerView_ReleaseDummyLine);
             newPluginContainerView.SetPosition(model.Position);
             this.root.Children.Add(newPluginContainerView);
             Canvas.SetZIndex(newPluginContainerView, 100);
