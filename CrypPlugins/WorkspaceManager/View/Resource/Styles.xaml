@@ -218,17 +218,28 @@
         <Setter Property="OverridesDefaultStyle" Value="True"/>
         <Setter Property="KeyboardNavigation.TabNavigation" Value="None"/>
         <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="Foreground" Value="#999"></Setter>
         <Setter Property="AllowDrop" Value="true"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TextBoxBase}">
                    
                     <DockPanel LastChildFill="True">
-                        <Rectangle DockPanel.Dock="Left" Fill="#555" Width="1" Height="auto"></Rectangle>
-                        <Rectangle DockPanel.Dock="Top" Fill="#555" Height="1" Width="auto"></Rectangle>
+                        <Rectangle DockPanel.Dock="Left" x:Name="Border" Visibility="Hidden" Fill="#555" Width="2" Height="auto"></Rectangle>
+                        <Rectangle DockPanel.Dock="Top" x:Name="Border2" Visibility="Hidden" Fill="#555" Height="2" Width="auto"></Rectangle>
                         <ScrollViewer Margin="0" x:Name="PART_ContentHost"/>
                     </DockPanel>
-                   
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Visibility" Value="Visible" TargetName="Border"></Setter>
+                            <Setter Property="Visibility" Value="Visible" TargetName="Border2"></Setter>
+                        </Trigger>
+
+                        <Trigger Property="CaretBrush" Value="Gray">
+                            <Setter Property="Visibility" Value="Visible" TargetName="Border"></Setter>
+                            <Setter Property="Visibility" Value="Visible" TargetName="Border2"></Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
