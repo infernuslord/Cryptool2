@@ -51,39 +51,59 @@
                 </Border>
             </Grid>
 
-            <Grid Width="auto" Height="auto" Name="InformationPanel" Visibility="Hidden">
-                <Grid.Background>
-                    <SolidColorBrush Opacity="0.2" Color="Gray"/>
-                </Grid.Background>
-                <Grid x:Name="ProgressbarPanel" Height="40" VerticalAlignment="Bottom">
+            <DockPanel Width="auto" Height="auto" Name="InformationPanel" Visibility="Hidden" LastChildFill="True">
+                <DockPanel.Background>
+                    <SolidColorBrush Color="#AA222222"/>
+                </DockPanel.Background>
+                <Grid x:Name="ProgressbarPanel" DockPanel.Dock="Bottom" Height="20" VerticalAlignment="Bottom" Background="#11FFFFFF">
                     <Grid x:Name="PercentageTextPanel" VerticalAlignment="Center" HorizontalAlignment="Center"></Grid>
                 </Grid>
                 <DockPanel LastChildFill="True">
-                    <DockPanel DockPanel.Dock="Top">
-                        <DockPanel.Background>
-                            <SolidColorBrush Color="Black" Opacity="0.3"></SolidColorBrush>
-                        </DockPanel.Background>
-                        <TextBlock DockPanel.Dock="Left" Text="Fullscreen" Foreground="WhiteSmoke" FontSize="20" Padding="5"></TextBlock>
-                        <Button DockPanel.Dock="Right" Style="{StaticResource ResourceKey=OptionPluginContainerButtonStyle}" Name="CloseSettingsButton" Height="30" Width="30" Click="CloseButton_Click" Margin="5">
-                            <Image Source="/WorkspaceManager;component/View/Image/delete.png" HorizontalAlignment="Center" SnapsToDevicePixels="True" Margin="1,1,1,1"/>
-                        </Button>
-                        <Grid></Grid>
-                    </DockPanel>
-                    <Grid DockPanel.Dock="Top" x:Name="CtrPanel" HorizontalAlignment="Stretch" Width="auto">
-                        <Grid.Background>
-                            <SolidColorBrush Color="Gray" Opacity="0.1"></SolidColorBrush>
-                        </Grid.Background>
+                    <Grid DockPanel.Dock="Top">
+                        <Grid x:Name="CtrPanel" HorizontalAlignment="Stretch" Width="auto">
+                            
+                        </Grid>
+                        <DockPanel>
+                            <TextBlock DockPanel.Dock="Left" Text="Fullscreen" Foreground="WhiteSmoke" FontWeight="Medium" FontSize="14" Padding="2"></TextBlock>
+                            <Button DockPanel.Dock="Right" Style="{StaticResource ResourceKey=OptionPluginContainerButtonStyle}" VerticalAlignment="Top" Name="CloseSettingsButton" Height="20" Width="20" Click="CloseButton_Click" Margin="3">
+                                <Image Source="/WorkspaceManager;component/View/Image/delete.png" HorizontalAlignment="Center" SnapsToDevicePixels="True" Margin="1,1,1,1"/>
+                            </Button>
+                            <Grid></Grid>
+                        </DockPanel>
                     </Grid>
-                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="40">
-                        <Grid x:Name="PrstPanel" Panel.ZIndex="-100">
+                    <StackPanel DockPanel.Dock="Bottom" Margin="0,0,0,0" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                        <StackPanel.LayoutTransform>
+                            <ScaleTransform ScaleX="0.8" ScaleY="0.8"></ScaleTransform>
+                        </StackPanel.LayoutTransform>
+                        <Border Margin="1,1,1,1" Opacity="0.85" CornerRadius="5,5,0,0">
+                            <Label Foreground="Black" FontWeight="ExtraBold" VerticalAlignment="Top" FontSize="16" ContentStringFormat="{}{0:F0} %" Content="{Binding Source={x:Static p:Settings.Default}, Path=FullscreenScale, Mode=OneWay, Converter={StaticResource ResourceKey=PercentageConverter}}"></Label>
+                        </Border>
+                        <Border Margin="1,1,1,1" Opacity="0.85" CornerRadius="5,5,0,0">
+                            <Button Height="18" Margin="5,2,5,0" Style="{StaticResource ResourceKey=ScalePluginContainerButtonStyle}" Click="Button_Click_Full_dec">
+                                <Image VerticalAlignment="Top" Source="/WorkspaceManager;component/View/Image/reduce.png" Width="18" Height="18"></Image>
+                            </Button>
+                        </Border>
+                        <Border Margin="1,1,1,1" Opacity="0.85" CornerRadius="5,5,0,0">
+                            <Slider x:Name="FullScreenScaleSlider" Ticks="1,2" TickPlacement="BottomRight" Style="{StaticResource ResourceKey=SliderStyle}"
+                                Minimum="{Binding Source={x:Static p:Settings.Default}, Path=MinScale, Mode=OneWay}" Maximum="{Binding Source={x:Static p:Settings.Default}, Path=MaxScale, Mode=OneWay}" Width="100" Height="22"
+                                Value="{Binding Source={x:Static p:Settings.Default}, Path=FullscreenScale, Mode=TwoWay}"/>
+                        </Border>
+                        <Border Margin="1,1,1,1" Opacity="0.85" CornerRadius="5,5,0,0">
+                            <Button Height="18" Margin="5,2,5,0" Style="{StaticResource ResourceKey=ScalePluginContainerButtonStyle}" Click="Button_Click_Full_inc">
+                                <Image VerticalAlignment="Top" Source="/WorkspaceManager;component/View/Image/increase.png" Width="18" Height="18"></Image>
+                            </Button>
+                        </Border>
+                    </StackPanel>
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" x:Name="PrstPanelRoot">
+                        <Grid x:Name="PrstPanel">
                             <Grid.LayoutTransform>
-                                <ScaleTransform x:Name="Scale2" ScaleX="{Binding Source={x:Static p:Settings.Default}, Path=FullscreenScale, Mode=OneWay}" ScaleY="{Binding Source={x:Static p:Settings.Default}, Path=FullScreenScale, Mode=OneWay}"></ScaleTransform>
+                                <ScaleTransform x:Name="Scale2" ScaleX="{Binding Source={x:Static p:Settings.Default}, Path=FullscreenScale, Mode=OneWay}" ScaleY="{Binding Source={x:Static p:Settings.Default}, Path=FullscreenScale, Mode=OneWay}"></ScaleTransform>
                             </Grid.LayoutTransform>
                         </Grid>
                     </ScrollViewer>
                 </DockPanel>
 
-            </Grid>
+            </DockPanel>
         </Grid>
     </ContentControl>
 

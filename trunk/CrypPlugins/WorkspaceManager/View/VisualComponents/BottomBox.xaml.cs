@@ -37,12 +37,12 @@ namespace WorkspaceManager.View.VisualComponents
 
         private void Button_Click_Full_inc(object sender, RoutedEventArgs e)
         {
-            FullScreenScaleSlider.Value += 0.3;
+            FullScreenScaleSlider.Value += 0.15;
         }
 
         private void Button_Click_Full_dec(object sender, RoutedEventArgs e)
         {
-            FullScreenScaleSlider.Value -= 0.3;
+            FullScreenScaleSlider.Value -= 0.15;
         }
 
         private void Main_MouseEnter(object sender, MouseEventArgs e)

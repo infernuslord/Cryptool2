@@ -48,6 +48,8 @@ namespace WorkspaceManager.View.Container
         private BottomBox bottomBox { get { return (BottomBoxParent.Child as BottomBox); } }
         public bool IsCtrlToggled { get; set; }
 
+        //public ModifiedCanvas PrstPanel { get { return (ModifiedCanvas) PrstPanelRoot.Content; } }
+
         public UserContentWrapper UserContentWrapper { get; set; }
         public EditorState State;
         public EditorState ConnectorState;
@@ -63,6 +65,16 @@ namespace WorkspaceManager.View.Container
         public WorkSpaceEditorView()
         {
             InitializeComponent();
+        }
+
+        private void Button_Click_Full_inc(object sender, RoutedEventArgs e)
+        {
+            FullScreenScaleSlider.Value += 0.15;
+        }
+
+        private void Button_Click_Full_dec(object sender, RoutedEventArgs e)
+        {
+            FullScreenScaleSlider.Value -= 0.15;
         }
 
         public WorkSpaceEditorView(WorkspaceModel WorkspaceModel)
