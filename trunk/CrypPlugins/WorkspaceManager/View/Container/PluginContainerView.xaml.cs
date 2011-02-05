@@ -559,7 +559,6 @@ namespace WorkspaceManager.View.Container
         private void setBaseControl(PluginModel model)
         {
             this.Loaded += new RoutedEventHandler(PluginContainerView_Loaded);
-            this.MouseDoubleClick += new MouseButtonEventHandler(PluginContainerView_MouseDoubleClick);
             this.Model = model;
             this.Model.UpdateableView = this;
             this.Model.LogUpdated += new EventHandler<LogUpdated>(Model_LogUpdated);
