@@ -17,6 +17,7 @@
 using System;
 using Cryptool.UiPluginBase;
 using System.Collections.Generic;
+using Cryptool.PluginBase.Miscellaneous;
 
 namespace Cryptool.PluginBase.Editor
 {
@@ -27,6 +28,7 @@ namespace Cryptool.PluginBase.Editor
         event OpenProjectFileHandler OnOpenProjectFile;
         event EditorSpecificPluginsChanged OnEditorSpecificPluginsChanged;
         event OpenTabHandler OnOpenTab;
+        event EventHandler<ZoomChanged> OnZoomChanged;
 
         void New();
         void Open(string fileName);
@@ -42,6 +44,10 @@ namespace Cryptool.PluginBase.Editor
         void Paste();
         void Remove();
         void Print();
+
+        double GetZoom(); 
+        void Zoom(double value);
+        void FitToScreen();
         
         /// <summary>
         /// Temp. extension to show help page if the tutorial-pdf-file is not available and

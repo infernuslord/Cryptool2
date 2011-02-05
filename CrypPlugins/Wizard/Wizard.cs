@@ -233,5 +233,24 @@ namespace Wizard
         }
 
         #endregion
+
+
+        public double GetZoom()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Zoom(double value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void FitToScreen()
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public event EventHandler<Cryptool.PluginBase.Miscellaneous.ZoomChanged> OnZoomChanged;
     }
 }

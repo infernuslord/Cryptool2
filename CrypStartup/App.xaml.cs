@@ -14,6 +14,8 @@ namespace CrypStartup
     {
         private void Application_Startup(object sender, StartupEventArgs e)
         {
+            long x, y;
+            x = DateTime.Now.Ticks;
             Cryptool.CrypWin.MainWindow wnd = new Cryptool.CrypWin.MainWindow();
             try
             {
@@ -23,6 +25,8 @@ namespace CrypStartup
             {
                 //This window has already been closed
             }
+            y = DateTime.Now.Ticks - x;
+            Console.WriteLine(y.ToString());
         }
     }
 }
