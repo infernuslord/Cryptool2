@@ -15,6 +15,7 @@
                 <ResourceDictionary Source="../Resource/Styles.xaml"/>
                 <ResourceDictionary Source="../Resource/Animations.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+            <z:PlacementTargetConverter x:Key="PlacementTargetConverter"></z:PlacementTargetConverter>
             <z:ScaleToPercentageConverter x:Key="PercentageConverter"></z:ScaleToPercentageConverter>
             <z:IconPanelVisibilityConverter x:Key="VisibilityConverter"></z:IconPanelVisibilityConverter>
             <z:BlurIconConverter x:Key="BlurValueConverter"></z:BlurIconConverter>
@@ -165,6 +166,12 @@
                                                         </Grid.Background>
                                                         <DockPanel x:Name="WindowBar">
                                                             <StackPanel DockPanel.Dock="Right" Name="ControlPanel" Visibility="Visible" Opacity="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0">
+                                                                <Button Visibility="{Binding Path=ViewState, Converter={StaticResource ResourceKey=ViewStateConverter}, ConverterParameter=OptionPanel}" x:Name="ICM" Height="19" Width="20"  VerticalAlignment="Bottom" HorizontalAlignment="Left" Style="{StaticResource ResourceKey=BottomBoxBtnStyle}" Click="Button_Click">
+                                                                    <Button.LayoutTransform>
+                                                                        <ScaleTransform ScaleX="0.8" ScaleY="0.8"></ScaleTransform>
+                                                                    </Button.LayoutTransform>
+                                                                    <Image x:Name="icmimg" Source="/WorkspaceManager;component/View/Image/icm.png" RenderOptions.ClearTypeHint="Enabled" HorizontalAlignment="Left" SnapsToDevicePixels="True" Margin="1,1,1,1"/>
+                                                                </Button>
 
                                                                 <Button x:Name="play" Height="19" Width="20"  VerticalAlignment="Bottom" HorizontalAlignment="Left" Style="{StaticResource ResourceKey=BottomBoxBtnStyle}" Click="Button_Click">
                                                                     <Button.LayoutTransform>
@@ -178,9 +185,6 @@
                                                                         <ScaleTransform ScaleX="0.8" ScaleY="0.8"></ScaleTransform>
                                                                     </Button.LayoutTransform>
                                                                     <Image Source="{Binding Path=ViewState, Converter={StaticResource ResourceKey=ViewStateIconConverter}}" HorizontalAlignment="Left" SnapsToDevicePixels="True">
-                                                                        <Image.Effect>
-                                                                            <DropShadowEffect Color="Black" ShadowDepth="0"></DropShadowEffect>
-                                                                        </Image.Effect>
                                                                     </Image>
                                                                 </Button>
 
@@ -204,34 +208,8 @@
                                                         <Border Background="#22888888" Panel.ZIndex="-1001"/>
                                                     </Grid>
                                         
-                                                    <DockPanel DockPanel.Dock="Top" LastChildFill="True" >
-                                                        <DockPanel x:Name="IC" DockPanel.Dock="Top" Visibility="{Binding Path=ViewState, Converter={StaticResource ResourceKey=ViewStateConverter}, ConverterParameter=OptionPanel}">
-                                                            <ItemsControl DockPanel.Dock="Top" ItemsSource="{Binding Path=ICCollection}" Visibility="{Binding Path=ICPanelVisibility}">
-                                                                <ItemsControl.ItemsPanel>
-                                                                    <ItemsPanelTemplate>
-                                                                        <WrapPanel Background="#77FFFFFF" Width="auto" Height="35" HorizontalAlignment="Center"/>
-                                                                    </ItemsPanelTemplate>
-                                                                </ItemsControl.ItemsPanel>
-                                                                <ItemsControl.ItemTemplate>
-                                                                    <DataTemplate DataType="{x:Type y:ModelWrapper}">
-                                                                        <y:IControlPlaceHolder Model="{Binding Path=Model}" PluginModel="{Binding Path=pm}" Margin="5"></y:IControlPlaceHolder>
-                                                                    </DataTemplate>
-                                                                </ItemsControl.ItemTemplate>
-                                                                <!--<ItemsControl.ItemContainerStyle>
-                                                                    <Style>
-                                                                        <Setter Property="Canvas.Top" Value="{Binding Path=Y}" />
-                                                                        <Setter Property="Canvas.Left" Value="{Binding Path=X}" />
-                                                                    </Style>
-                                                                </ItemsControl.ItemContainerStyle>-->
-                                                            </ItemsControl>
-                                                            <Border Background="{StaticResource ResourceKey=ICBrush}">
-                                                                <Button Content="»" HorizontalAlignment="Center" VerticalAlignment="Center" Click="Button_Click_2">
-                                                                    <Button.LayoutTransform>
-                                                                        <RotateTransform Angle="-90"></RotateTransform>
-                                                                    </Button.LayoutTransform>
-                                                                </Button>
-                                                            </Border>
-                                                        </DockPanel>
+                                                    <DockPanel DockPanel.Dock="Top" LastChildFill="True">
+
 
                                                         <Grid x:Name="OptPanelParent" DockPanel.Dock="Top">
                                                             <Border Margin="0,10,0,0" x:Name="IconPanel" Visibility="{Binding ElementName=ViewPanel, Path=Visibility, Converter={StaticResource ResourceKey=VisibilityConverter}}" ></Border>
@@ -304,7 +282,6 @@
                                                                 </DockPanel>
                                                             </Grid>
                                                         </Grid>
-                        
                                                         <Grid x:Name="ViewPanelParent" Margin="3">
                                                             <Grid Name="ViewPanel" Width="Auto" Height="Auto" Visibility="Collapsed" Margin="5,5,5,5" >
                                                                 <Border x:Name="SettingsPanel" Panel.ZIndex="{Binding Path=ViewState, Converter={StaticResource ResourceKey=OverlapConverter}, ConverterParameter=SettingsPanel}" Visibility="{Binding Path=ViewState, Converter={StaticResource ResourceKey=ViewStateConverter}, ConverterParameter=SettingsPanel}"></Border>
@@ -334,98 +311,33 @@
         <TextBox x:Name="CTextBox" DockPanel.Dock="Bottom" FontWeight="Medium" FontSize="12" KeyUp="TextBox_KeyUp" HorizontalAlignment="Left" TextChanged="CTextBox_TextChanged" PreviewMouseLeftButtonDown="TextBox_MouseLeftButtonDown" Style="{StaticResource ResourceKey=BasicTextBoxStyle}" Width="120" Height="18" Margin="0,-10,0,0" FontFamily="Palatino"></TextBox>
         
         
-        <!--<Popup x:Name="BubblePopup" PopupAnimation="Fade" HorizontalOffset="-50" VerticalOffset="25" PlacementTarget="{Binding ElementName=ControlPanel}" Placement="Top" StaysOpen="False" AllowsTransparency="True" Width="300" Height="120">
-            <Grid x:Name="BubbleGrid" Margin="2">
-                <Grid.Effect>
-                    <DropShadowEffect Opacity="0.8"></DropShadowEffect>
-                </Grid.Effect>
-                <Grid.LayoutTransform>
-                    <ScaleTransform ScaleX="0.6" ScaleY="0.6"></ScaleTransform>
-                </Grid.LayoutTransform>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="40"/>
-                </Grid.RowDefinitions>
-                <Border Grid.Row="0" Background="{StaticResource ResourceKey=BubblePopupLinearBrush}" BorderBrush="#f8f692" HorizontalAlignment="Center" VerticalAlignment="Stretch" CornerRadius="10" >
-                    <StackPanel Orientation="Vertical">
-                        <StackPanel Orientation="Horizontal" Margin="6">
-                            <StackPanel.LayoutTransform>
-                                <ScaleTransform ScaleX="1.6" ScaleY="1.6"></ScaleTransform>
-                            </StackPanel.LayoutTransform>
-                            <Button Style="{StaticResource ResourceKey=OptionPluginContainerButtonStyle}">
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Source="/WorkspaceManager;component/View/Image/error2.png" SnapsToDevicePixels="True" Height="20" Width="20">
-                                        <Image.Effect>
-                                            <DropShadowEffect Color="Black" ShadowDepth="0"></DropShadowEffect>
-                                        </Image.Effect>
-                                    </Image>
-                                    <TextBlock x:Name="ErrorCount" VerticalAlignment="Center" FontWeight="Bold" Foreground="Red" Padding="3" FontSize="12">
-                                        <TextBlock.Effect>
-                                            <DropShadowEffect ShadowDepth="0"></DropShadowEffect>
-                                        </TextBlock.Effect>
-                                    </TextBlock>
-                                </StackPanel>
-                            </Button>
-
-                            <Button Style="{StaticResource ResourceKey=OptionPluginContainerButtonStyle}">
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Source="/WorkspaceManager;component/View/Image/warn.png" SnapsToDevicePixels="True" Height="15" Width="15">
-                                        <Image.Effect>
-                                            <DropShadowEffect Color="Black" ShadowDepth="0"></DropShadowEffect>
-                                        </Image.Effect>
-                                    </Image>
-                                    <TextBlock x:Name="WarningCount" VerticalAlignment="Center" FontWeight="Bold" Foreground="Yellow" Padding="3" FontSize="12">
-                                        <TextBlock.Effect>
-                                            <DropShadowEffect ShadowDepth="0"></DropShadowEffect>
-                                        </TextBlock.Effect>
-                                    </TextBlock>
-                                </StackPanel>
-                            </Button>
-
-                            <Button Style="{StaticResource ResourceKey=OptionPluginContainerButtonStyle}">
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Source="/WorkspaceManager;component/View/Image/debug.png" SnapsToDevicePixels="True" Height="15" Width="15">
-                                        <Image.Effect>
-                                            <DropShadowEffect Color="Black" ShadowDepth="0"></DropShadowEffect>
-                                        </Image.Effect>
-                                    </Image>
-                                    <TextBlock x:Name="DebugCount" VerticalAlignment="Center" FontWeight="Bold" Foreground="#4ad200" Padding="3" FontSize="12">
-                                        <TextBlock.Effect>
-                                            <DropShadowEffect ShadowDepth="0"></DropShadowEffect>
-                                        </TextBlock.Effect>
-                                    </TextBlock>
-                                </StackPanel>
-                            </Button>
-
-                            <Button Style="{StaticResource ResourceKey=OptionPluginContainerButtonStyle}">
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Source="/WorkspaceManager;component/View/Image/info.png" SnapsToDevicePixels="True" Height="15" Width="15">
-                                        <Image.Effect>
-                                            <DropShadowEffect Color="Black" ShadowDepth="0"></DropShadowEffect>
-                                        </Image.Effect>
-                                    </Image>
-                                    <TextBlock x:Name="InfoCount" VerticalAlignment="Center" FontWeight="Bold" Foreground="#61c2ff" Padding="3" FontSize="12">
-                                        <TextBlock.Effect>
-                                            <DropShadowEffect ShadowDepth="0"></DropShadowEffect>
-                                        </TextBlock.Effect>
-                                    </TextBlock>
-                                </StackPanel>
-                            </Button>
-                        </StackPanel>
-                        <ScrollViewer Height="100" Width="300">
-                            <Grid>
-                                <TextBlock x:Name="LogReport" TextWrapping="Wrap" FontSize="18"></TextBlock>
-                            </Grid>
-                        </ScrollViewer>
-                    </StackPanel>
-                </Border>
-                <Path Fill="#ffffec" Stretch="Fill" Stroke="#f8f692" HorizontalAlignment="Left" Margin="-40,-1.35,0,0" Width="25" Grid.Row="1" Data="M18,154.45381 L29.999666,187.66699 40.791059,154.54395">
-                    <Path.RenderTransform>
-                        <ScaleTransform ScaleY="0.5"></ScaleTransform>
-                    </Path.RenderTransform>
-                </Path>
-            </Grid>
-        </Popup>-->
+        <Popup x:Name="BubblePopup" PopupAnimation="Fade" StaysOpen="True" AllowsTransparency="True" Width="150" Height="100">
+            <Border BorderBrush="#aaffe154" Background="#55ffe154" CornerRadius="5,5,5,5" BorderThickness="2">
+                <DockPanel x:Name="IC" DockPanel.Dock="Top" Panel.ZIndex="777777">
+                    <Grid DockPanel.Dock="Top">
+                        <Button Height="30" Width="30" Style="{StaticResource ResourceKey=BottomBoxBtnStyle}" Click="BubbleClose" HorizontalAlignment="Right" VerticalAlignment="Top">
+                            <Button.LayoutTransform>
+                                <ScaleTransform ScaleX="0.8" ScaleY="0.8"></ScaleTransform>
+                            </Button.LayoutTransform>
+                            <Image Source="/WorkspaceManager;component/View/Image/delete.png" HorizontalAlignment="Center" SnapsToDevicePixels="True" Margin="1,1,1,1"/>
+                        </Button>
+                        <!--<TextBlock HorizontalAlignment="Left" Text="Please Drag &amp; Drop ►" FontWeight="Medium" FontSize="11" TextTrimming="CharacterEllipsis"></TextBlock>-->
+                        <ItemsControl Panel.ZIndex="777777" HorizontalAlignment="Center" ItemsSource="{Binding Path=ICCollection}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel Width="auto" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate DataType="{x:Type y:ModelWrapper}">
+                                    <y:IControlPlaceHolder Model="{Binding Path=Model}" PluginModel="{Binding Path=pm}" Margin="5"></y:IControlPlaceHolder>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </Grid>
+                </DockPanel>
+            </Border>
+        </Popup>
         
         <!--<Popup x:Name="ProgressPopup" PopupAnimation="Fade" HorizontalOffset="20" VerticalOffset="25" PlacementTarget="{Binding ElementName=ControlPanel}" Placement="Top" StaysOpen="True" AllowsTransparency="True" Width="70" Height="55">
             <Grid Margin="2">

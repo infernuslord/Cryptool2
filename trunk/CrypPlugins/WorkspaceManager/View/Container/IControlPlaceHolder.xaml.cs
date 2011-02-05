@@ -85,14 +85,19 @@ namespace WorkspaceManager.View.Container
 
         void IControlPlaceHolder_MouseLeave(object sender, MouseEventArgs e)
         {
+            Panel.SetZIndex(this, 0);
             SolidColorBrush color = (SolidColorBrush)this.Resources["Color"];
             color.Color = Colors.Black;
         }
 
         void IControlPlaceHolder_MouseEnter(object sender, MouseEventArgs e)
         {
+            Panel.SetZIndex(this, int.MaxValue);
             SolidColorBrush color = (SolidColorBrush)this.Resources["Color"];
-            color.Color = Colors.White;
+            if(PluginModel == null)
+                color.Color = Colors.Red;
+            else
+                color.Color = Colors.Green;
         }
 
         void  IControlPlaceHolder_Drop(object sender, DragEventArgs e)

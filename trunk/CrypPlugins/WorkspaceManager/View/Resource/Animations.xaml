@@ -63,22 +63,14 @@
 
     </Storyboard>
 
-    <Storyboard x:Key="Disappear" AccelerationRatio="0.3" DecelerationRatio="0.3">
-        <DoubleAnimation To="0" Duration="00:00:00.5" Storyboard.TargetProperty="Opacity"/>
-        <DoubleAnimation To="0" Duration="00:00:00.5" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"/>
-        <DoubleAnimation To="0" Duration="00:00:00.5" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"/>
-        <ThicknessAnimation
-                Storyboard.TargetProperty="Margin"
-                Duration="00:00:00.5" FillBehavior="HoldEnd" To="-80,30,0,0" />
-    </Storyboard>
-
-    <Storyboard x:Key="Appear" AccelerationRatio="0.3" DecelerationRatio="0.3">
-        <DoubleAnimation To="1" Duration="00:00:00.5" Storyboard.TargetProperty="Opacity"/>
+    <Storyboard x:Key="Shrink" AccelerationRatio="0.3" DecelerationRatio="0.3" >
         <DoubleAnimation To="1" Duration="00:00:00.5" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"/>
         <DoubleAnimation To="1" Duration="00:00:00.5" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"/>
-        <ThicknessAnimation
-                Storyboard.TargetProperty="Margin"
-                Duration="00:00:00.5" FillBehavior="HoldEnd" To="0,30,0,0" />
+    </Storyboard>
+
+    <Storyboard x:Key="Grow" AccelerationRatio="0.3" DecelerationRatio="0.3">
+        <DoubleAnimation To="2" Duration="00:00:00.5" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"/>
+        <DoubleAnimation To="2" Duration="00:00:00.5" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"/>
     </Storyboard>
     
     

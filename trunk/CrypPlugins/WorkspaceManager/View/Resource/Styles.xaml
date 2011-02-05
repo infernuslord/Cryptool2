@@ -65,8 +65,8 @@
     <Style TargetType="{x:Type Border}" x:Key="BorderStyle">
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="true">
-                <Setter Property="Background" Value="#5586cede" />
-                <Setter Property="BorderBrush" Value="#aa86cede"/>
+                <Setter Property="Background" Value="#55ff4d4d" />
+                <Setter Property="BorderBrush" Value="#aaff4d4d"/>
             </Trigger>
         </Style.Triggers>
     </Style>
