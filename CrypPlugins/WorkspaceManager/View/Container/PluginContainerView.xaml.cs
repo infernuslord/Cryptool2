@@ -603,7 +603,7 @@ namespace WorkspaceManager.View.Container
 
         #endregion
 
-        #region Controls
+       #region Controls
 
         void PluginContainerView_Loaded(object sender, RoutedEventArgs e)
         {
@@ -815,7 +815,7 @@ namespace WorkspaceManager.View.Container
            
         }
 
-        #endregion
+        #endregion 
 
         #region IUpdateableView Members
 
