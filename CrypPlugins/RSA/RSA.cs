@@ -26,16 +26,17 @@ using System.Security.Cryptography;
 using System.Threading;
 using System.Collections;
 using System.Numerics;
+using RSA.Properties;
 
 namespace Cryptool.Plugins.RSA
 {
     [Author("Dennis Nolte, Raoul Falk, Sven Rech, Nils Kopal", null, "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo(false, "RSA", "RSA En/Decryption", "RSA/DetailedDescription/Description.xaml", "RSA/iconrsa.png", "RSA/Images/encrypt.png", "RSA/Images/decrypt.png")]
+    [PluginInfo("RSA.Properties.Resources", false, "RSAcaption", "RSAtooltip", "RSA/DetailedDescription/Description.xaml", "RSA/iconrsa.png", "RSA/Images/encrypt.png", "RSA/Images/decrypt.png")]
     [EncryptionType(EncryptionType.Asymmetric)]
-    /// <summary>
-    /// This plugin does a RSA encryption/decryption on a Message M / Ciphertext C
-    /// It also encrypts/decrypts text with RSA
-    /// </summary>
+     //<summary>
+     //This plugin does a RSA encryption/decryption on a Message M / Ciphertext C
+     //It also encrypts/decrypts text with RSA
+     //</summary>
     class RSA : IEncryption
     {
         #region private members
@@ -210,7 +211,7 @@ namespace Cryptool.Plugins.RSA
                 DateTime stopTime = DateTime.Now;
                 TimeSpan duration = stopTime - startTime;
 
-                GuiLogMessage("finished RSA on texts in " + duration, NotificationLevel.Info);
+                GuiLogMessage(string.Format(Resources.Finished_RSA_on_texts_in__0__seconds_, duration.TotalSeconds), NotificationLevel.Info);
 
             }//end if           
             ProgressChanged(1.0, 1.0);
@@ -326,7 +327,7 @@ namespace Cryptool.Plugins.RSA
         /// <summary>
         /// Gets/Sets a text input for encryption/decryption
         /// </summary>
-        [PropertyInfo(Direction.InputData, "Text input", "Enter your text here", "")]
+        [PropertyInfo(Direction.InputData, "inputTextName", "inputTextDescription", "")]
         public byte[] InputText
         {
             get

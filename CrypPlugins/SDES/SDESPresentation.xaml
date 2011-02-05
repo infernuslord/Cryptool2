@@ -3707,7 +3707,7 @@
         			</TransformGroup>
         		</Line.RenderTransform>
         	</Line>
-        	<TextBlock Width="117.812" Height="29.237" Canvas.Left="112.482" Text="Encryption" TextWrapping="Wrap" FontSize="24"/>
+        	<TextBlock Width="117.812" Height="29.237" Canvas.Left="112.482" Text="{Loc Encryption}" TextWrapping="Wrap" FontSize="24"/>
         	<TextBlock Width="117.812" Height="29.237" Canvas.Left="604.483" FontSize="24" TextWrapping="Wrap" Canvas.Top="1446.763"><Run Text="De"/><Run Text="cryption"/></TextBlock>
         	<TextBlock Width="167.145" Height="29.237" Canvas.Left="339.785" FontSize="24" Text="Key Generation" TextWrapping="Wrap"/>
     </Canvas>
