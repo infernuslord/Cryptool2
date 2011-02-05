@@ -1,0 +1,16 @@
+﻿<Window x:Class="CTWin.SplashScreen"
+        xmlns:local="clr-namespace:CTWin"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Width="620" Height="420" WindowStartupLocation="CenterScreen" WindowStyle="None" ResizeMode="NoResize" ShowInTaskbar="False" AllowsTransparency="True" Background="Transparent">
+    <Grid Background="Transparent" Margin="15">
+        <Grid.Effect>
+            <DropShadowEffect BlurRadius="19" ShadowDepth="4"></DropShadowEffect>
+        </Grid.Effect>
+        <Image Source="/CTWin;component/Images/SplashScreen.png" VerticalAlignment="Bottom" Width="582" Height="337"/>
+        <Grid VerticalAlignment="Bottom" Margin="5,5,5,5">
+            <ProgressBar Height="20" Margin="5" Value="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SplashScreen}}, Path=Value,Mode=OneWay}" Maximum="100" Opacity="0.8" Foreground="DodgerBlue"></ProgressBar>
+            <TextBlock VerticalAlignment="Center" Text="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SplashScreen}}, Path=Text}" HorizontalAlignment="Center" Name="Description" Foreground="White" />
+        </Grid>
+    </Grid>
+</Window>
