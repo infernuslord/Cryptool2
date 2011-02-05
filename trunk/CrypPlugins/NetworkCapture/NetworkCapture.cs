@@ -19,14 +19,15 @@ using Cryptool.PluginBase.Generator;
 using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase.Miscellaneous;
 using System.Windows.Controls;
+using PacketDotNet;
 using SharpPcap;
 using SharpPcap.WinPcap;
 
 namespace Cryptool.Plugins.NetworkCapture
 {
     [Author("Matthäus Wander", "wander@cryptool.org", "University of Duisburg-Essen", "http://www.vs.uni-due.de")]
-    [PluginInfo(true, "Network Capture", "Capture data from a network device", null, "CrypWin/images/default.png")]
-    public class NetworkCapture : IGenerator
+    [PluginInfo(true, "Network Capture", "Capture data from a network device (requires WinPcap library)", null, "CrypWin/images/default.png")]
+    public class NetworkCapture : IGeneratorMisc
     {
         #region Private Variables
 
@@ -85,7 +86,7 @@ namespace Cryptool.Plugins.NetworkCapture
 
         public void Execute()
         {
-            if (devices.Count == 0)
+            if (devices == null || devices.Count == 0)
             {
                 GuiLogMessage("No device available. Is WinPcap installed?", NotificationLevel.Error);
                 return;
@@ -139,14 +140,24 @@ namespace Cryptool.Plugins.NetworkCapture
             {
                 writer.Close();
             }
+
+            ProgressChanged(1, 1);
         }
 
         public void Initialize()
         {
-            this.devices =  WinPcapDeviceList.Instance;
-            foreach(WinPcapDevice dev in devices)
+            try
             {
-                this.settings.Collection.Add(dev.Description);   
+
+                this.devices = WinPcapDeviceList.Instance;
+                foreach (WinPcapDevice dev in devices)
+                {
+                    this.settings.Collection.Add(dev.Description);
+                }
+            }
+            catch (PcapException e)
+            {
+                GuiLogMessage("No device available. Is WinPcap installed?", NotificationLevel.Error);
             }
         }
 
