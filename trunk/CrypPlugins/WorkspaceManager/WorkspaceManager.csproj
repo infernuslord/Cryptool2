@@ -405,10 +405,7 @@
     <Resource Include="View\Image\f2s.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="View\Image\WorkspaceManager.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="View\Image\WorkspaceManagerIcon.png" />
+    <Resource Include="View\Image\WorkspaceManagerIcon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

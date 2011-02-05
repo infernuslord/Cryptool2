@@ -940,6 +940,27 @@ namespace WorkspaceManager.View.Container
             else if (ICPanelVisibility == Visibility.Collapsed)
                 ICPanelVisibility = Visibility.Visible;
         }
+
+        protected override void OnInitialized(EventArgs e)
+        {
+            EventManager.RegisterClassHandler(typeof(TextBox),
+                TextBox.KeyUpEvent,
+                new System.Windows.Input.KeyEventHandler(TextBox_KeyUp));
+            base.OnInitialized(e);
+        }
+
+        private void TextBox_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key != System.Windows.Input.Key.Enter) return;
+            ((TextBox)sender).CaretBrush = Brushes.Transparent;
+            e.Handled = true;
+        }
+
+        private void TextBox_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            ((TextBox)sender).CaretBrush = Brushes.Gray;
+        }
+
     }
 
     public class ConnectorPanelDropEventArgs : EventArgs
