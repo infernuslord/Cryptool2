@@ -305,7 +305,7 @@
                 </Grid>
             </Grid>
         </DockPanel>
-        <TextBox x:Name="CTextBox" DockPanel.Dock="Bottom" FontWeight="Medium" FontSize="12" KeyUp="TextBox_KeyUp" HorizontalAlignment="Left" TextChanged="CTextBox_TextChanged" PreviewMouseLeftButtonDown="TextBox_MouseLeftButtonDown" Style="{StaticResource ResourceKey=BasicTextBoxStyle}" Width="120" Height="18" Margin="0,-10,0,0" FontFamily="Palatino"></TextBox>
+        <TextBox x:Name="CTextBox" DockPanel.Dock="Bottom" FontWeight="Medium" FontSize="12" KeyUp="TextBox_KeyUp" HorizontalAlignment="Left" TextChanged="CTextBox_TextChanged" PreviewMouseLeftButtonDown="TextBox_MouseLeftButtonDown" LostKeyboardFocus="CTextBox_LostKeyboardFocus" Style="{StaticResource ResourceKey=BasicTextBoxStyle}" Width="120" Height="18" Margin="0,-10,0,0" FontFamily="Palatino"></TextBox>
 
 
         <Popup x:Name="BubblePopup" PopupAnimation="Fade" StaysOpen="True" AllowsTransparency="True" Width="150" Height="100">

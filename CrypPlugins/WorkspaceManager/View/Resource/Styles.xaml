@@ -230,6 +230,11 @@
                         <ScrollViewer Margin="0" x:Name="PART_ContentHost"/>
                     </DockPanel>
                     <ControlTemplate.Triggers>
+
+                        <Trigger Property="IsFocused" Value="False">
+                            <Setter Property="Visibility" Value="Hidden" TargetName="Border"></Setter>
+                            <Setter Property="Visibility" Value="Hidden" TargetName="Border2"></Setter>
+                        </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Visibility" Value="Visible" TargetName="Border"></Setter>
                             <Setter Property="Visibility" Value="Visible" TargetName="Border2"></Setter>

@@ -1029,6 +1029,11 @@ namespace WorkspaceManager.View.Container
             BubblePopup.IsOpen = false;
         }
 
+        private void CTextBox_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            ((TextBox)sender).CaretBrush = Brushes.Transparent;
+        }
+
     }
 
     public class ConnectorPanelDropEventArgs : EventArgs

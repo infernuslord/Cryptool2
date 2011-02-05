@@ -291,17 +291,17 @@ namespace Cryptool.P2PEditor
 
         public double GetZoom()
         {
-            throw new NotImplementedException();
+            return double.NaN;
         }
 
         public void Zoom(double value)
         {
-            throw new NotImplementedException();
+            
         }
 
         public void FitToScreen()
         {
-            throw new NotImplementedException();
+            
         }
 
 
