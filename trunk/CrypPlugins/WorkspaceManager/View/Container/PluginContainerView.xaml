@@ -166,7 +166,7 @@
                                                         </Grid.Background>
                                                         <DockPanel x:Name="WindowBar">
                                                             <StackPanel DockPanel.Dock="Right" Name="ControlPanel" Visibility="Visible" Opacity="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0">
-                                                                <Button Visibility="{Binding Path=ViewState, Converter={StaticResource ResourceKey=ViewStateConverter}, ConverterParameter=OptionPanel}" x:Name="ICM" Height="19" Width="20"  VerticalAlignment="Bottom" HorizontalAlignment="Left" Style="{StaticResource ResourceKey=BottomBoxBtnStyle}" Click="Button_Click">
+                                                                <Button Visibility="{Binding ElementName=IC, Path=Visibility}" x:Name="ICM" Height="19" Width="20"  VerticalAlignment="Bottom" HorizontalAlignment="Left" Style="{StaticResource ResourceKey=BottomBoxBtnStyle}" Click="Button_Click">
                                                                     <Button.LayoutTransform>
                                                                         <ScaleTransform ScaleX="0.8" ScaleY="0.8"></ScaleTransform>
                                                                     </Button.LayoutTransform>
@@ -309,8 +309,8 @@
             </Grid>
         </DockPanel>
         <TextBox x:Name="CTextBox" DockPanel.Dock="Bottom" FontWeight="Medium" FontSize="12" KeyUp="TextBox_KeyUp" HorizontalAlignment="Left" TextChanged="CTextBox_TextChanged" PreviewMouseLeftButtonDown="TextBox_MouseLeftButtonDown" Style="{StaticResource ResourceKey=BasicTextBoxStyle}" Width="120" Height="18" Margin="0,-10,0,0" FontFamily="Palatino"></TextBox>
-        
-        
+
+
         <Popup x:Name="BubblePopup" PopupAnimation="Fade" StaysOpen="True" AllowsTransparency="True" Width="150" Height="100">
             <Border BorderBrush="#aaffe154" Background="#55ffe154" CornerRadius="5,5,5,5" BorderThickness="2">
                 <DockPanel x:Name="IC" DockPanel.Dock="Top" Panel.ZIndex="777777">
