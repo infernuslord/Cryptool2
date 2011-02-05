@@ -181,10 +181,12 @@
     </LinearGradientBrush>
 
 
-    <RadialGradientBrush x:Key="NormalBrush" RadiusX="1.1" RadiusY="2.8" Center="0.524,1.2" GradientOrigin="0.524,1.2">
+    <SolidColorBrush x:Key="NormalBrush" Color="#add3f5"></SolidColorBrush>
+    
+    <!--<RadialGradientBrush x:Key="NormalBrush" RadiusX="1.1" RadiusY="2.8" Center="0.524,1.2" GradientOrigin="0.524,1.2">
         <GradientStop Color="#add3f5" Offset="0.0" />
         <GradientStop Color="#293955" Offset="1" />
-    </RadialGradientBrush>
+    </RadialGradientBrush>-->
 
     <LinearGradientBrush x:Key="NormalBrush2" StartPoint="0,0" EndPoint="0,1">
         <GradientBrush.GradientStops>
