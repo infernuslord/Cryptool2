@@ -124,7 +124,7 @@
                 <ColumnDefinition Width="1*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <ScrollViewer Name="history" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Hidden" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" />
+            <ScrollViewer Name="history" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Hidden" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" CanContentScroll="True" MouseMove="history_MouseMove" />
             <StackPanel Height="Auto" HorizontalAlignment="Right" Name="buttonStackPanel" VerticalAlignment="Bottom" Margin="2" Grid.Column="1" Orientation="Horizontal" >
                 <Button Content="{Loc BackButton}" Height="23" Name="backButton" Width="75" Margin="1" Click="backButton_Click"/>
                 <Button Content="{Loc NextButton}" Tag="{Loc CreateButton}" Height="23" Name="nextButton" Width="75" Margin="1" IsDefault="True" Click="nextButton_Click"/>
