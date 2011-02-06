@@ -924,6 +924,18 @@ namespace Wizard
             nextButton.Tag = tmp;
         }
 
+        private void history_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                Point dir = e.GetPosition(history);
+                if (dir.X < history.ActualWidth / 2)
+                    history.LineRight();
+                else if (dir.X > history.ActualWidth / 2)
+                    history.LineLeft();
+            }
+        }
+
     }
 
     internal struct PluginPropertyValue
