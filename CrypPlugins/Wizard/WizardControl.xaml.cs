@@ -36,6 +36,7 @@ namespace Wizard
             public string name;
             public string description;
             public string image;
+            public XElement tag;
         }
 
         List<PageInfo> currentHistory = new List<PageInfo>();
@@ -46,8 +47,6 @@ namespace Wizard
         private XElement wizardConfigXML;
         private Dictionary<string, PluginPropertyValue> propertyValueDict = new Dictionary<string, PluginPropertyValue>();
         private HashSet<TextBox> boxesWithWrongContent = new HashSet<TextBox>();
-        private Point mouseDragStartPoint;
-        private Point scrollStartOffset; 
 
         internal event OpenTabHandler OnOpenTab;
         internal event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
@@ -272,13 +271,12 @@ namespace Wizard
                         }
 
                         radioButtonStackPanel.Children.Add(rb);
-                        bool wasSelected;
+                        bool wasSelected = false;
                         selectedCategories.TryGetValue(GetElementID(ele), out wasSelected);
-                        if (wasSelected != null && wasSelected)
+                        if (wasSelected)
                         {
                             rb.IsChecked = true;
                             isSelected = true;
-                            //nextButton.IsEnabled = true;
                         }
                     }
 
@@ -292,7 +290,6 @@ namespace Wizard
 
                 }
             }
-
         }
 
         private void FillInputStack(IEnumerable<XElement> inputs, string type)
@@ -539,6 +536,8 @@ namespace Wizard
                 bg.Opacity = 1 - (historyStack.Children.Count / (double)currentHistory.Count);
                 var sp = new StackPanel { Orientation = Orientation.Horizontal, Background = bg };
                 p.Content = sp;
+                p.Tag = page.tag;
+                p.MouseDoubleClick += new MouseButtonEventHandler(p_MouseDoubleClick);
 
                 Polygon triangle = new Polygon();
                 triangle.Points = new PointCollection();
@@ -568,6 +567,29 @@ namespace Wizard
             }
 
             history.Content = historyStack;
+            history.ScrollToRightEnd();
+        }
+
+        void p_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var cc = (ContentControl)sender;
+            var hs = (StackPanel)history.Content;
+            int i = hs.Children.IndexOf(cc);
+            history.Content = null;
+
+            while (currentHistory.Count > i)
+            {
+                currentHistory.RemoveAt(currentHistory.Count - 1);
+            }
+
+            XElement parent = ((XElement)cc.Tag).Parent;
+
+            if (parent == null)
+                parent = wizardConfigXML;
+
+            SetupPage(parent);
+
+            CreateHistory();
         }
 
         private void CheckRegex(TextBox textBox, Regex regex)
@@ -712,7 +734,7 @@ namespace Wizard
         {
             if (inputPanel.Visibility == Visibility.Visible)
             {
-                if (((XElement)inputPanel.Tag).Name == "loadSample")
+                if (inputPanel.Tag != null && ((XElement)inputPanel.Tag).Name == "loadSample")
                     SwitchNextButtonContent();
             }
 
@@ -746,7 +768,8 @@ namespace Wizard
                         var page = new PageInfo()
                                        {
                                            name = FindElementsInElement(ele, "name").First().Value,
-                                           description = FindElementsInElement(ele, "description").First().Value
+                                           description = FindElementsInElement(ele, "description").First().Value,
+                                           tag = ele
                                        };
 
                         if (ele.Attribute("image") != null)
@@ -855,6 +878,7 @@ namespace Wizard
                     if (rb.IsChecked != null && (bool)rb.IsChecked)
                         rb.IsChecked = false;
                 }
+
             }
             else if (inputPanel.Visibility == Visibility.Visible)
             {
@@ -865,21 +889,21 @@ namespace Wizard
                 boxesWithWrongContent.Clear();
 
                 ele = (XElement) inputPanel.Tag;
-                if (((XElement)inputPanel.Tag).Name == "loadSample")
+                if (ele != null && ((XElement)inputPanel.Tag).Name == "loadSample")
                     SwitchNextButtonContent();
             }
 
             if (ele != null)
             {
                 XElement grandParent = ele.Parent.Parent;
-                if (grandParent != null)
-                    SetupPage(grandParent);
-                else
-                    SetupPage(wizardConfigXML);
-            }
+                if (grandParent == null)
+                    grandParent = wizardConfigXML;
 
-            if (currentHistory.Count > 0)
-                currentHistory.RemoveAt(currentHistory.Count - 1);
+                if (grandParent.Name == "category" && currentHistory.Count > 0)
+                    currentHistory.RemoveAt(currentHistory.Count - 1);
+
+                SetupPage(grandParent);
+            }
 
             Storyboard mainGridStoryboardLeft = (Storyboard)FindResource("MainGridStoryboardBack2");
             mainGridStoryboardLeft.Begin();
@@ -899,6 +923,7 @@ namespace Wizard
             nextButton.Content = nextButton.Tag;
             nextButton.Tag = tmp;
         }
+
     }
 
     internal struct PluginPropertyValue
