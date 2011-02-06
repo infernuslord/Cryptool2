@@ -76,7 +76,7 @@ namespace KeySearcher.P2P.Tree
             Activity.Clear();
             UpdateCache();
             if (!StorageHelper.UpdateInDht(this).IsSuccessful())
-                throw new InvalidOperationException("Version mismatch");
+                throw new InvalidOperationException(string.Format("Writing node {0} failed!", this));
         }
 
         public override void UpdateCache()
