@@ -50,8 +50,8 @@ namespace WebService
 
         public void InitializeAnimation()
         {
-            this._presentation.decAnimation.fillEncryptedDataTreeviewElements();
-            this._presentation.decAnimation.initializeAnimation();
+            this._presentation.decryptionAnimation.fillEncryptedDataTreeviewElements();
+            this._presentation.decryptionAnimation.initializeAnimation();
 
             if (this.GetSecurityHeaderElement(0).Equals("ds:Signature"))
             {
@@ -68,7 +68,7 @@ namespace WebService
             }
 
             this._actualSecurityElementNumber = 0;
-            this._presentation.findSignatureItems((TreeViewItem)this._presentation.soapInput.Items[0], "ds:Signature");
+            this._presentation.FindSignatureItems((TreeViewItem)this._presentation.soapInput.Items[0], "ds:Signature");
             this.GetTotalSecurityElementsNumber();
             this._controllerTimer.Start();
 
@@ -88,8 +88,8 @@ namespace WebService
 
         public void InitializeAnimations()
         {
-            this._presentation.decAnimation.initializeAnimation();
-            this._presentation.initializeAnimation();
+            this._presentation.decryptionAnimation.initializeAnimation();
+            this._presentation.InitializeAnimation();
         }
         public void GetTotalSecurityElementsNumber()
         {
@@ -125,7 +125,7 @@ namespace WebService
 
                     this._controllerTimer.Interval = new TimeSpan(0, 0, 0, 5, 0);
                     this._controllerTimer.Stop();
-                    this._presentation.decAnimation.getDecryptiontimer().Start();
+                    this._presentation.decryptionAnimation.getDecryptiontimer().Start();
                     if (this._actualSecurityElementNumber + 1 < this._wsSecurityElementsCounter)
                     {
                         this._actualSecurityElementNumber++;

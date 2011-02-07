@@ -268,23 +268,34 @@ namespace WebService
             if (e.PropertyName == "InputString")
             {
                 this.CheckSoap();
+                
                 if (this._inputDocument != null)
                 {
                     presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
-                        this.presentation.resetSoapInputItem();
+                       
 
                         this.presentation.namespacesTable.Clear();
-                        this.presentation.CopyXmlToTreeView(this._inputDocument.ChildNodes[1], ref this.presentation.soapInput, false);
-
-
-                        this.presentation.treeView4.Items.Add(this.presentation.soapInput);
-                        this.presentation.findItem(presentation.soapInput, "Envelope", 1).IsExpanded = true;
-                        this.presentation.findItem(presentation.soapInput, "Header", 1).IsExpanded = true;
-                        this.presentation.findItem(presentation.soapInput, "Security", 1).IsExpanded = true;
-                        this.presentation.findItem(presentation.soapInput, "Signature", 1).IsExpanded = true;
-                        this.presentation.findItem(presentation.soapInput, "Body", 1).IsExpanded = true;
-                        this.presentation.treeView4.Items.Refresh();
+                    
+                        this.presentation.soapInput = null;
+                        this.presentation.soapInput = new TreeViewItem();
+                        this.presentation._animationTreeView.Items.Clear();
+                        presentation.soapInput.IsExpanded = true;
+                        StackPanel panel1 = new StackPanel();
+                        panel1.Orientation = System.Windows.Controls.Orientation.Horizontal;
+                        TextBlock elem1 = new TextBlock();
+                        elem1.Text = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>";
+                        panel1.Children.Insert(0, elem1);
+                        this.presentation.soapInput.Header = panel1;
+                        this.presentation.CopyXmlToTreeView(this._inputDocument.SelectSingleNode("/*"), ref this.presentation.soapInput, false);
+                     //   this.presentation.ResetSoapInputItem();
+                       this.presentation._animationTreeView.Items.Add(this.presentation.soapInput);
+                        this.presentation.FindTreeViewItem(presentation.soapInput, "Envelope", 1).IsExpanded = true;
+                        this.presentation.FindTreeViewItem(presentation.soapInput, "Header", 1).IsExpanded = true;
+                        this.presentation.FindTreeViewItem(presentation.soapInput, "Security", 1).IsExpanded = true;
+                        this.presentation.FindTreeViewItem(presentation.soapInput, "Signature", 1).IsExpanded = true;
+                        this.presentation.FindTreeViewItem(presentation.soapInput, "Body", 1).IsExpanded = true;
+                        this.presentation._animationTreeView.Items.Refresh();
 
                     }, null);
 
@@ -321,8 +332,8 @@ namespace WebService
                 }
 
                 this.presentation.textBlock1.Inlines.Add(new Bold(new Run(_stringToCompile[2].ToString() + "\n")));
-                this.presentation.visualMethodName(WebServiceSettings.MethodName);
-                this.presentation.visualReturnParam("double");
+                this.presentation.VisualMethodName(WebServiceSettings.MethodName);
+                this.presentation.VisualReturnParam("double");
                 this.presentation.richTextBox1.Document.Blocks.Clear();
                 this.presentation.richTextBox1.AppendText("double endKapital;\n" + "int laufzeit=intparam1;\n" + "double zinssatz=doubleparam1;\n" + "double startKapital=doubleparam2;\n" + "endKapital=Math.Round(startKapital*(Math.Pow(1+zinssatz/100,laufzeit)));\n" + "return endKapital;");
             }
@@ -336,22 +347,22 @@ namespace WebService
                     this._returnParameter[2] = "string";
                     this._returnParameter[3] = "float";
                     this._returnParameter[4] = "double";
-                    this.presentation.visualReturnParam(_returnParameter[webserviceSettings.Test]);
+                    this.presentation.VisualReturnParam(_returnParameter[webserviceSettings.Test]);
                 }
 
                 if (e.PropertyName.Equals("Integer"))
                 {
                     if (webserviceSettings.Integer == 1)
                     {
-                        this.presentation.visualParam("int", 1);
+                        this.presentation.VisualParam("int", 1);
                     }
                     if (webserviceSettings.Integer == 2)
                     {
-                        this.presentation.visualParam("int", 2);
+                        this.presentation.VisualParam("int", 2);
                     }
                     if (webserviceSettings.Integer == 0)
                     {
-                        this.presentation.visualParam("int", 0);
+                        this.presentation.VisualParam("int", 0);
                     }
 
                 }
@@ -359,34 +370,34 @@ namespace WebService
                 {
                     if (webserviceSettings.String == 1)
                     {
-                        this.presentation.visualParam("string", 1);
+                        this.presentation.VisualParam("string", 1);
                     }
                     if (webserviceSettings.String == 2)
                     {
 
-                        this.presentation.visualParam("string", 2);
+                        this.presentation.VisualParam("string", 2);
                     }
 
                     if (webserviceSettings.String == 0)
                     {
-                        this.presentation.visualParam("string", 0);
+                        this.presentation.VisualParam("string", 0);
                     }
                 }
                 if (e.PropertyName.Equals("Double"))
                 {
                     if (webserviceSettings.Double == 1)
                     {
-                        this.presentation.visualParam("double", 1);
+                        this.presentation.VisualParam("double", 1);
                     }
                     if (webserviceSettings.Double == 2)
                     {
 
-                        this.presentation.visualParam("double", 2);
+                        this.presentation.VisualParam("double", 2);
                     }
 
                     if (webserviceSettings.Double == 0)
                     {
-                        this.presentation.visualParam("double", 0);
+                        this.presentation.VisualParam("double", 0);
                     }
                 }
 
@@ -394,7 +405,7 @@ namespace WebService
                 if (e.PropertyName.Equals("MethodName"))
                 {
                     this._methodName = webserviceSettings.MethodName;
-                    this.presentation.visualMethodName(webserviceSettings.MethodName);
+                    this.presentation.VisualMethodName(webserviceSettings.MethodName);
                 }
                 string comma = "";
                 if (!this._inputParameter.Equals(""))
@@ -681,7 +692,7 @@ namespace WebService
             string header = "";
             presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
-                header = this.presentation.copyContentToString(this.presentation.textBlock1);
+                header = this.presentation.CopyTextBlockContentToString(this.presentation.textBlock1);
 
             }, null);
             codeProvider.CreateGenerator();
@@ -706,7 +717,7 @@ namespace WebService
                 xmlWriter.Formatting = Formatting.Indented;
                 description.Write(xmlWriter);
                 string theWsdl = stringWriter.ToString();
-                presentation.showWsdl(theWsdl);
+                presentation.ShowWsdl(theWsdl);
                 this.Description = description;
                 StringReader stringReader = new StringReader(theWsdl);
                 XmlTextReader xmlReader = new XmlTextReader(stringReader);
@@ -714,9 +725,9 @@ namespace WebService
                 System.Windows.Controls.TreeViewItem xmlDecl = null;
                 presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
-                    if (presentation.treeView1.HasItems)
+                    if (presentation._wsdlTreeView.HasItems)
                     {
-                        xmlDecl = (System.Windows.Controls.TreeViewItem)presentation.treeView1.Items[0];
+                        xmlDecl = (System.Windows.Controls.TreeViewItem)presentation._wsdlTreeView.Items[0];
                         if (xmlDecl.HasItems)
                         {
                             xmlDecl.Items.Clear();
@@ -735,7 +746,7 @@ namespace WebService
                         parent.Items.RemoveAt(pos);
                     }
 
-                    presentation.treeView1.Items.Add(presentation.item);
+                    presentation._wsdlTreeView.Items.Add(presentation.item);
                     presentation.item.IsExpanded = true;
                     for (int i = 0; i < presentation.item.Items.Count; i++)
                     {
@@ -794,7 +805,7 @@ namespace WebService
             }, null);
             if (this.WebServiceSettings.Compiled == true)
             {
-                this.presentation.compile();
+                this.presentation.GetStringToCompile();
             }
 
         }
