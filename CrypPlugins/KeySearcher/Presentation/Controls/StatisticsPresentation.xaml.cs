@@ -321,6 +321,16 @@ namespace KeySearcherPresentation.Controls
                 return;
             }
         }
+
+        private QuickWatch ParentQuickWatch
+        {
+            get { return (QuickWatch) ((Grid) ((Grid) Parent).Parent).Parent; }
+        }
+
+        private void SwitchView(object sender, RoutedEventArgs e)
+        {
+            ParentQuickWatch.ShowStatistics = false;
+        }
     }
 
     #region Converters

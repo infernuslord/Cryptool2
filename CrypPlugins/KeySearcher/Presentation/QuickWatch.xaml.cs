@@ -65,6 +65,19 @@ namespace KeySearcherPresentation
             }
         }
 
+        public Boolean ShowStatistics
+        {
+            get { return (Boolean)GetValue(ShowStatisticsProperty); }
+            set { SetValue(ShowStatisticsProperty, value); }
+        }
+
+        public static DependencyProperty ShowStatisticsProperty =
+            DependencyProperty.Register("ShowStatistics",
+                                        typeof(
+                                            Boolean),
+                                        typeof(
+                                            QuickWatch), new PropertyMetadata(false));
+
         public QuickWatch()
         {
             InitializeComponent();

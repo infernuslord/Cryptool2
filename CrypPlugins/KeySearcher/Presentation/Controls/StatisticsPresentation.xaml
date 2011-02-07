@@ -30,169 +30,172 @@
         </Style>
 
     </UserControl.Resources>
-    
-    <TabControl>
-        <TabItem Header="{Loc _Information_}">
-            <Viewbox>
-                <Grid Width="400">
-                    <StackPanel>
-                        <Border BorderBrush="Silver" BorderThickness="2,2,2,2">
-                            <Grid Height="180" Background="#AFE2E2FF">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="30" />
-                                    <RowDefinition Height="30" />
-                                    <RowDefinition Height="30" />
-                                    <RowDefinition Height="30" />
-                                    <RowDefinition Height="30" />
-                                    <RowDefinition Height="30" />
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="26" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <Border BorderThickness="1" BorderBrush="Black" LayoutTransform="{StaticResource HeaderRotate}" Grid.Column="0" Grid.RowSpan="6" Background="#FF5C5CFF">
-                                    <Label Content="{Loc Aggregate_Statistics_}" FontSize="11" HorizontalAlignment="Center" Foreground="White" />
-                                </Border>
-                                <Label Content="{Loc Total__Blocks__to__Search_}" VerticalAlignment="Center" Grid.Row="0" Grid.Column="1" />
-                                <Label Content="-" Name="TotalAmountOfBlocks" VerticalAlignment="Center" Grid.Row="0" Grid.Column="1" HorizontalContentAlignment="Right" Padding="5,5,20,5" />
-                                <Label Content="{Loc Total__Blocks__Tested_}" VerticalAlignment="Center" Grid.Row="1" Grid.Column="1" />
-                                <Label Content="-" Name="TotalBlocksTested" VerticalAlignment="Center" Grid.Row="1" Grid.Column="1" HorizontalContentAlignment="Right" Padding="5,5,20,5" />
-                                <Label Content="{Loc Total__Keys__to_Search_}" VerticalAlignment="Center" Grid.Row="2" Grid.Column="1" />
-                                <Label Content="-" Name="TotalAmountOfKeys" VerticalAlignment="Center" Grid.Row="2" Grid.Column="1" HorizontalContentAlignment="Right" Padding="5,5,20,5" />
-                                <Label Content="{Loc Total__Keys__Tested_}" VerticalAlignment="Center" Grid.Row="3" Grid.Column="1" />
-                                <Label Content="-" Name="TotalKeysTested" VerticalAlignment="Center" Grid.Row="3" Grid.Column="1" HorizontalContentAlignment="Right" Padding="5,5,20,5" />
-                                <Label Content="{Loc Working__Days_}" VerticalAlignment="Center" Grid.Row="4" Grid.Column="1" />
-                                <Label Content="- Days" Name="WorkingDays" VerticalAlignment="Center" Grid.Row="4" Grid.Column="1" HorizontalContentAlignment="Right" Padding="5,5,20,5" />
-                                <Label Content="{Loc Percent__Complete_}" VerticalAlignment="Center" Grid.Row="5" Grid.Column="1" />
-                                <Label Content="- %" Name="PercentsComplete" VerticalAlignment="Center" Grid.Row="5" Grid.Column="1" HorizontalContentAlignment="Right" Padding="5,5,20,5" />
+    <StackPanel>
+        <Button Click="SwitchView">Progress</Button>
+        
+        <TabControl>
+            <TabItem Header="{Loc _Information_}">
+                <Viewbox>
+                    <Grid Width="646">
+                        <StackPanel>
+                            <Border BorderBrush="Silver" BorderThickness="2,2,2,2">
+                                <Grid Height="180" Background="#AFE2E2FF">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="30" />
+                                        <RowDefinition Height="30" />
+                                        <RowDefinition Height="30" />
+                                        <RowDefinition Height="30" />
+                                        <RowDefinition Height="30" />
+                                        <RowDefinition Height="30" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="26" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Border BorderThickness="1" BorderBrush="Black" LayoutTransform="{StaticResource HeaderRotate}" Grid.Column="0" Grid.RowSpan="6" Background="#FF5C5CFF">
+                                        <Label Content="{Loc Aggregate_Statistics_}" FontSize="11" HorizontalAlignment="Center" Foreground="White" />
+                                    </Border>
+                                    <Label Content="{Loc Total__Blocks__to__Search_}" VerticalAlignment="Center" Grid.Row="0" Grid.Column="1" />
+                                    <Label Content="-" Name="TotalAmountOfBlocks" VerticalAlignment="Center" Grid.Row="0" Grid.Column="1" HorizontalContentAlignment="Right" Padding="5,5,20,5" />
+                                    <Label Content="{Loc Total__Blocks__Tested_}" VerticalAlignment="Center" Grid.Row="1" Grid.Column="1" />
+                                    <Label Content="-" Name="TotalBlocksTested" VerticalAlignment="Center" Grid.Row="1" Grid.Column="1" HorizontalContentAlignment="Right" Padding="5,5,20,5" />
+                                    <Label Content="{Loc Total__Keys__to_Search_}" VerticalAlignment="Center" Grid.Row="2" Grid.Column="1" />
+                                    <Label Content="-" Name="TotalAmountOfKeys" VerticalAlignment="Center" Grid.Row="2" Grid.Column="1" HorizontalContentAlignment="Right" Padding="5,5,20,5" />
+                                    <Label Content="{Loc Total__Keys__Tested_}" VerticalAlignment="Center" Grid.Row="3" Grid.Column="1" />
+                                    <Label Content="-" Name="TotalKeysTested" VerticalAlignment="Center" Grid.Row="3" Grid.Column="1" HorizontalContentAlignment="Right" Padding="5,5,20,5" />
+                                    <Label Content="{Loc Working__Days_}" VerticalAlignment="Center" Grid.Row="4" Grid.Column="1" />
+                                    <Label Content="- Days" Name="WorkingDays" VerticalAlignment="Center" Grid.Row="4" Grid.Column="1" HorizontalContentAlignment="Right" Padding="5,5,20,5" />
+                                    <Label Content="{Loc Percent__Complete_}" VerticalAlignment="Center" Grid.Row="5" Grid.Column="1" />
+                                    <Label Content="- %" Name="PercentsComplete" VerticalAlignment="Center" Grid.Row="5" Grid.Column="1" HorizontalContentAlignment="Right" Padding="5,5,20,5" />
 
-                            </Grid>
-                        </Border>
+                                </Grid>
+                            </Border>
 
-                        <Border BorderBrush="Silver" BorderThickness="2,0,2,2">
-                            <Grid Height="160" Background="#AFAAE1E8">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="40" />
-                                    <RowDefinition Height="25" />
-                                    <RowDefinition Height="40" />
-                                    <RowDefinition Height="25" />
-                                    <RowDefinition Height="30" />   
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="26" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <Border BorderThickness="1" BorderBrush="Black" LayoutTransform="{StaticResource HeaderRotate}" Grid.Column="0" Grid.RowSpan="5" Background="#FF099BA7">
-                                    <Label Content="{Loc AdditionalInformation_}" FontSize="11" HorizontalAlignment="Center" Foreground="White" />
-                                </Border> 
-                                <Label Content=" Average rate: - key/sec" Name="Rate" VerticalAlignment="Center" Grid.Row="0" Grid.Column="1" HorizontalContentAlignment="Center" Padding="5,5,20,5" />
-                                <Label Content=" Top user: -" Name="BestUser" VerticalAlignment="Bottom" Grid.Row="1" Grid.Column="1" HorizontalContentAlignment="Center" Padding="5,5,20,5" />
-                                <Label Content=" - users are working on this job." Name="UserCount" VerticalAlignment="Top"  Grid.Row="2" Grid.Column="1" HorizontalContentAlignment="Center" Padding="5,5,20,5" />
-                                <Label Content=" Top machine: -" Name="BestMachine" VerticalAlignment="Bottom" Grid.Row="3" Grid.Column="1" HorizontalContentAlignment="Center" Padding="5,5,20,5" />
-                                <Label Content=" - machines are working on this job." Name="MachineCount" VerticalAlignment="Top"  Grid.Row="4" Grid.Column="1" HorizontalContentAlignment="Center" Padding="5,5,20,5" />                               
-                            </Grid>
-                        </Border>
-                   </StackPanel>
+                            <Border BorderBrush="Silver" BorderThickness="2,0,2,2">
+                                <Grid Height="160" Background="#AFAAE1E8">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="40" />
+                                        <RowDefinition Height="25" />
+                                        <RowDefinition Height="40" />
+                                        <RowDefinition Height="25" />
+                                        <RowDefinition Height="30" />   
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="26" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Border BorderThickness="1" BorderBrush="Black" LayoutTransform="{StaticResource HeaderRotate}" Grid.Column="0" Grid.RowSpan="5" Background="#FF099BA7">
+                                        <Label Content="{Loc AdditionalInformation_}" FontSize="11" HorizontalAlignment="Center" Foreground="White" />
+                                    </Border> 
+                                    <Label Content=" Average rate: - key/sec" Name="Rate" VerticalAlignment="Center" Grid.Row="0" Grid.Column="1" HorizontalContentAlignment="Center" Padding="5,5,20,5" />
+                                    <Label Content=" Top user: -" Name="BestUser" VerticalAlignment="Bottom" Grid.Row="1" Grid.Column="1" HorizontalContentAlignment="Center" Padding="5,5,20,5" />
+                                    <Label Content=" - users are working on this job." Name="UserCount" VerticalAlignment="Top"  Grid.Row="2" Grid.Column="1" HorizontalContentAlignment="Center" Padding="5,5,20,5" />
+                                    <Label Content=" Top machine: -" Name="BestMachine" VerticalAlignment="Bottom" Grid.Row="3" Grid.Column="1" HorizontalContentAlignment="Center" Padding="5,5,20,5" />
+                                    <Label Content=" - machines are working on this job." Name="MachineCount" VerticalAlignment="Top"  Grid.Row="4" Grid.Column="1" HorizontalContentAlignment="Center" Padding="5,5,20,5" />                               
+                                </Grid>
+                            </Border>
+                       </StackPanel>
+                    </Grid>
+                </Viewbox>
+            </TabItem>
+            <TabItem Header="{Loc _Users_}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="120"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="User/Host " Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <TextBlock Text="Calculated Chunks" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    <Button Content="Expand" Grid.Column="1" Grid.Row="0" Click="Button_Click" Width="50" HorizontalAlignment="Right"></Button>
+                    <TreeView HorizontalAlignment="Stretch" Name="statisticsTree" VerticalAlignment="Stretch" ItemsSource="{Binding}" AlternationCount="3" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" >
+                        <TreeView.ItemTemplate>
+                            <HierarchicalDataTemplate ItemsSource="{Binding Path=Value}">
+                                <HierarchicalDataTemplate.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal" Margin="1" ToolTip="{Binding Path=Value.Date}">
+                                            <Grid Width="70">
+                                                <TextBlock Text="{Binding Path=Value.Hostname, Converter={StaticResource ResourceKey=StringLengthConverter}}" HorizontalAlignment="Center" ToolTip="{Binding Path=Value.Hostname}"/>
+                                            </Grid>
+                                            <Grid>
+                                                <ProgressBar Width="{Binding ElementName=statisticsTree, Path=ActualWidth, Converter={StaticResource ResourceKey=WidthConverter}}" Value="{Binding Path=Value.Count, Mode=OneTime, Converter={StaticResource ResourceKey=InformationToProgressConverter2}}" Maximum="1">
+                                                    <ProgressBar.Foreground>
+                                                        <MultiBinding Converter="{StaticResource ResourceKey=ColorToDateConverter}">
+                                                            <Binding Path="Value.Date" Mode="OneTime"></Binding>
+                                                            <Binding RelativeSource="{RelativeSource FindAncestor, AncestorLevel=2, AncestorType={x:Type TreeViewItem}}" Path="(ItemsControl.AlternationIndex)"></Binding>
+                                                        </MultiBinding>
+                                                    </ProgressBar.Foreground>
+                                                </ProgressBar>
+                                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                                    <TextBlock Text="{Binding Path=Value.Count, StringFormat=\{0\,-5\}}"/>
+                                                </StackPanel>
+                                            </Grid>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </HierarchicalDataTemplate.ItemTemplate>
+
+
+                                <StackPanel Orientation="Horizontal" Margin="1">
+                                    <Grid Width="70">
+                                        <TextBlock Text="{Binding Path=Key, Converter={StaticResource ResourceKey=StringLengthConverter}}" HorizontalAlignment="Center" ToolTip="{Binding Path=Key}"/>
+                                    </Grid>
+                                    <Grid>
+                                        <ProgressBar x:Name="Bar" Foreground="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TreeViewItem}},Path=(ItemsControl.AlternationIndex),Converter={StaticResource ResourceKey=TeamsBackgroundConverter}}" Value="{Binding Path=Value, Mode=OneTime, Converter={StaticResource ResourceKey=InformationToProgressConverter}}" Width="{Binding ElementName=statisticsTree, Path=ActualWidth, Converter={StaticResource ResourceKey=WidthConverter}}" Maximum="1" />
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <TextBlock Text="{Binding Path=Key, Converter={StaticResource ResourceKey=ChunkSumConverter}, StringFormat=\{0\,-5\}}"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </StackPanel>
+                            </HierarchicalDataTemplate>
+                        </TreeView.ItemTemplate>
+                    </TreeView>
                 </Grid>
-            </Viewbox>
-        </TabItem>
-        <TabItem Header="{Loc _Users_}">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="120"/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition ScrollViewer.VerticalScrollBarVisibility="Auto"/>
-                </Grid.RowDefinitions>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="User/Host " Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                </StackPanel>
-                <TextBlock Text="Calculated Chunks" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <Button Content="Expand" Grid.Column="1" Grid.Row="0" Click="Button_Click" Width="50" HorizontalAlignment="Right"></Button>
-                <TreeView HorizontalAlignment="Stretch" Name="statisticsTree" VerticalAlignment="Stretch" ItemsSource="{Binding}" AlternationCount="3" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" >
-                    <TreeView.ItemTemplate>
-                        <HierarchicalDataTemplate ItemsSource="{Binding Path=Value}">
-                            <HierarchicalDataTemplate.ItemTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal" Margin="1" ToolTip="{Binding Path=Value.Date}">
-                                        <Grid Width="70">
-                                            <TextBlock Text="{Binding Path=Value.Hostname, Converter={StaticResource ResourceKey=StringLengthConverter}}" HorizontalAlignment="Center" ToolTip="{Binding Path=Value.Hostname}"/>
-                                        </Grid>
-                                        <Grid>
-                                            <ProgressBar Width="{Binding ElementName=statisticsTree, Path=ActualWidth, Converter={StaticResource ResourceKey=WidthConverter}}" Value="{Binding Path=Value.Count, Mode=OneTime, Converter={StaticResource ResourceKey=InformationToProgressConverter2}}" Maximum="1">
-                                                <ProgressBar.Foreground>
-                                                    <MultiBinding Converter="{StaticResource ResourceKey=ColorToDateConverter}">
-                                                        <Binding Path="Value.Date" Mode="OneTime"></Binding>
-                                                        <Binding RelativeSource="{RelativeSource FindAncestor, AncestorLevel=2, AncestorType={x:Type TreeViewItem}}" Path="(ItemsControl.AlternationIndex)"></Binding>
-                                                    </MultiBinding>
-                                                </ProgressBar.Foreground>
-                                            </ProgressBar>
-                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                                <TextBlock Text="{Binding Path=Value.Count, StringFormat=\{0\,-5\}}"/>
-                                            </StackPanel>
-                                        </Grid>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </HierarchicalDataTemplate.ItemTemplate>
-
-
-                            <StackPanel Orientation="Horizontal" Margin="1">
-                                <Grid Width="70">
-                                    <TextBlock Text="{Binding Path=Key, Converter={StaticResource ResourceKey=StringLengthConverter}}" HorizontalAlignment="Center" ToolTip="{Binding Path=Key}"/>
-                                </Grid>
-                                <Grid>
-                                    <ProgressBar x:Name="Bar" Foreground="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TreeViewItem}},Path=(ItemsControl.AlternationIndex),Converter={StaticResource ResourceKey=TeamsBackgroundConverter}}" Value="{Binding Path=Value, Mode=OneTime, Converter={StaticResource ResourceKey=InformationToProgressConverter}}" Width="{Binding ElementName=statisticsTree, Path=ActualWidth, Converter={StaticResource ResourceKey=WidthConverter}}" Maximum="1" />
-                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                        <TextBlock Text="{Binding Path=Key, Converter={StaticResource ResourceKey=ChunkSumConverter}, StringFormat=\{0\,-5\}}"/>
-                                    </StackPanel>
-                                </Grid>
-                            </StackPanel>
-                        </HierarchicalDataTemplate>
-                    </TreeView.ItemTemplate>
-                </TreeView>
-            </Grid>
             
 
-        </TabItem>
+            </TabItem>
         
-        <TabItem Header="{Loc _Machines_}">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="120"/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition ScrollViewer.VerticalScrollBarVisibility="Auto"/>
-                </Grid.RowDefinitions>
-                <TextBlock Text="Hostname " Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center"/>
-                <TextBlock Text="Calculated Chunks" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left"/>
-                <TreeView HorizontalAlignment="Stretch" Name="machineTree" VerticalAlignment="Stretch" ItemsSource="{Binding}" AlternationCount="3" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
-                    <TreeView.ItemTemplate>
-                        <HierarchicalDataTemplate ItemsSource="{Binding Path=Value}">
-                            <!--<HierarchicalDataTemplate.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Path=Users}"/>
-                            </DataTemplate>
-                        </HierarchicalDataTemplate.ItemTemplate>-->
+            <TabItem Header="{Loc _Machines_}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="120"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="Hostname " Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center"/>
+                    <TextBlock Text="Calculated Chunks" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left"/>
+                    <TreeView HorizontalAlignment="Stretch" Name="machineTree" VerticalAlignment="Stretch" ItemsSource="{Binding}" AlternationCount="3" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+                        <TreeView.ItemTemplate>
+                            <HierarchicalDataTemplate ItemsSource="{Binding Path=Value}">
+                                <!--<HierarchicalDataTemplate.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Path=Users}"/>
+                                </DataTemplate>
+                            </HierarchicalDataTemplate.ItemTemplate>-->
 
-                            <StackPanel Orientation="Horizontal" Margin="1" ToolTip="{Binding Path=Value.Users}">
-                                <Grid Width="70">
-                                    <TextBlock Text="{Binding Path=Value.Hostname, Converter={StaticResource ResourceKey=StringLengthConverter}}" HorizontalAlignment="Center" ToolTip="{Binding Path=Value.Hostname}"/>
-                                </Grid>
-                                <Grid>
-                                    <ProgressBar Value="{Binding Path=Value.Sum, Mode=OneTime, Converter={StaticResource ResourceKey=MachineSumToProgressConverter}}" Width="{Binding ElementName=machineTree, Path=ActualWidth, Converter={StaticResource ResourceKey=WidthConverter}}" Maximum="1" />
-                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                        <TextBlock Text="{Binding Path=Value.Sum,StringFormat=\{0\,-5\}}"/>
-                                    </StackPanel>
-                                </Grid>
-                            </StackPanel>
-                        </HierarchicalDataTemplate>
-                    </TreeView.ItemTemplate>
-                </TreeView>
-            </Grid>
-        </TabItem>
-    </TabControl>
+                                <StackPanel Orientation="Horizontal" Margin="1" ToolTip="{Binding Path=Value.Users}">
+                                    <Grid Width="70">
+                                        <TextBlock Text="{Binding Path=Value.Hostname, Converter={StaticResource ResourceKey=StringLengthConverter}}" HorizontalAlignment="Center" ToolTip="{Binding Path=Value.Hostname}"/>
+                                    </Grid>
+                                    <Grid>
+                                        <ProgressBar Value="{Binding Path=Value.Sum, Mode=OneTime, Converter={StaticResource ResourceKey=MachineSumToProgressConverter}}" Width="{Binding ElementName=machineTree, Path=ActualWidth, Converter={StaticResource ResourceKey=WidthConverter}}" Maximum="1" />
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <TextBlock Text="{Binding Path=Value.Sum,StringFormat=\{0\,-5\}}"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </StackPanel>
+                            </HierarchicalDataTemplate>
+                        </TreeView.ItemTemplate>
+                    </TreeView>
+                </Grid>
+            </TabItem>        
+        </TabControl>
+    </StackPanel>
 </UserControl>

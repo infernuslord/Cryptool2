@@ -62,5 +62,15 @@ namespace KeySearcherPresentation.Controls
             KeysPerChunk.Content = keysPerChunk;
             TestedBits.Content = Math.Ceiling(Math.Log((double) keyPatternPool.Length*keysPerChunk, 2));
         }
+
+        private QuickWatch ParentQuickWatch
+        {
+            get { return (QuickWatch)((Grid)((Grid)Parent).Parent).Parent; }
+        }
+
+        private void SwitchView(object sender, RoutedEventArgs e)
+        {
+            ParentQuickWatch.ShowStatistics = true;
+        }
     }
 }

@@ -24,6 +24,7 @@
 	<Viewbox>
 		<Grid Width="646" >
             <StackPanel>
+                <Button Click="SwitchView">Statistics</Button>
                 <Border BorderBrush="Silver" BorderThickness="2,2,2,0" Visibility="{Binding IsSearchingForReservedNodes, FallbackValue=Collapsed, Converter={StaticResource TrueToVisibleOrCollapsedConverter}}">
 					<Grid x:Name="EndgameGrid" Height="36" Background="#C8D1E3FF" RenderTransformOrigin="0.5,0.5">
 						<Grid.RenderTransform>
