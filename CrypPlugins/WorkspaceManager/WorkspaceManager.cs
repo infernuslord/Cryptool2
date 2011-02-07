@@ -396,7 +396,7 @@ namespace WorkspaceManager
             {
                 if (UndoRedoManager != null)
                 {
-                    return UndoRedoManager.CanUndo();
+                    return !this.isExecuting() && UndoRedoManager.CanUndo();
                 }
                 else
                 {
@@ -414,7 +414,7 @@ namespace WorkspaceManager
             {
                 if (UndoRedoManager != null)
                 {
-                    return UndoRedoManager.CanRedo();
+                    return !this.isExecuting() && UndoRedoManager.CanRedo();
                 }
                 else
                 {
