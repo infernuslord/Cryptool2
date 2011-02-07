@@ -1391,9 +1391,11 @@ namespace KeySearcher
                 }
                 statistic[avname] = statistic[avname].OrderByDescending((x) => x.Value.Count).ToDictionary(x => x.Key, y => y.Value);
             }
+            statistic = statistic.OrderByDescending((x) => x.Value.Sum((z) => z.Value.Count)).ToDictionary(x => x.Key,y => y.Value);
+
             GenerateMaschineStats();
             //The following Method can be used to write a local csv file with the User/Maschine Statistics.
-            //WriteStatistics(dataIdentifier);
+            WriteStatistics(dataIdentifier);
             UpdateStatisticsPresentation();
             
             updateToplist();

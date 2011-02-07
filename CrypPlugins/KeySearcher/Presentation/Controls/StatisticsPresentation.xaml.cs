@@ -52,8 +52,7 @@ namespace KeySearcherPresentation.Controls
                                                {
                                                    if (statistics != null)
                                                    {
-                                                       var orderedstats = statistics.OrderByDescending((x) => x.Value.Sum((z) => z.Value.Count));
-                                                       statisticsTree.DataContext = orderedstats;
+                                                       statisticsTree.DataContext = statistics;
                                                        statisticsTree.Items.Refresh();
                                                    }
                                                }, null);
@@ -73,8 +72,11 @@ namespace KeySearcherPresentation.Controls
                 }
                 Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                                                 {
-                                                    machineTree.DataContext = machineHierarchy;
-                                                    machineTree.Items.Refresh();
+                                                    if (machineHierarchy != null)
+                                                    {
+                                                        machineTree.DataContext = machineHierarchy;
+                                                        machineTree.Items.Refresh();
+                                                    }
                                                 }, null);
             }
         }
