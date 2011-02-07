@@ -25,6 +25,7 @@ using System.Collections.ObjectModel;
 using WorkspaceManager.View.Container;
 using System.Windows.Threading;
 using System.Threading;
+using WorkspaceManager.Model.Tools;
 
 namespace WorkspaceManager.Model
 {
@@ -51,6 +52,9 @@ namespace WorkspaceManager.Model
                 workspaceManagerEditor = value;
             }
         }
+
+        [NonSerialized]
+        public UndoRedoManager UndoRedoManager;
 
         /// <summary>
         /// The surrounding WorkspaceManagerEditor
@@ -151,6 +155,10 @@ namespace WorkspaceManager.Model
             }            
             this.AllPluginModels.Add(pluginModel);
             this.WorkspaceManagerEditor.HasChanges = true;
+            if (!this.UndoRedoManager.Working)
+            {
+                this.UndoRedoManager.DidOperation(new NewModelElementOperation(pluginModel) { SingleOperation = true });
+            }
             return pluginModel;
         }
 
@@ -212,6 +220,10 @@ namespace WorkspaceManager.Model
 
             this.AllConnectionModels.Add(connectionModel);
             this.WorkspaceManagerEditor.HasChanges = true;
+            if (!this.UndoRedoManager.Working)
+            {
+                this.UndoRedoManager.DidOperation(new NewModelElementOperation(connectionModel) { SingleOperation = true });
+            }
             return connectionModel;
         }
 
@@ -225,6 +237,10 @@ namespace WorkspaceManager.Model
             ImageModel imageModel = new ImageModel(imgUri);
             this.AllImageModels.Add(imageModel);
             this.WorkspaceManagerEditor.HasChanges = true;
+            if (!this.UndoRedoManager.Working)
+            {
+                this.UndoRedoManager.DidOperation(new NewModelElementOperation(imageModel) { SingleOperation = true });
+            }
             return imageModel;
         }
 
@@ -238,6 +254,10 @@ namespace WorkspaceManager.Model
             TextModel textModel = new TextModel();
             this.AllTextModels.Add(textModel);
             this.WorkspaceManagerEditor.HasChanges = true;
+            if (!this.UndoRedoManager.Working)
+            {
+                this.UndoRedoManager.DidOperation(new NewModelElementOperation(textModel) { SingleOperation = true });
+            }
             return textModel;
         }
 
@@ -248,6 +268,10 @@ namespace WorkspaceManager.Model
         /// <returns></returns>
         public bool deleteImageModel(ImageModel imageModel)
         {
+            if (!this.UndoRedoManager.Working)
+            {
+                this.UndoRedoManager.DidOperation(new DeleteModelElementOperation(imageModel) { SingleOperation = true });
+            }
             return this.AllImageModels.Remove(imageModel);
         }
 
@@ -258,6 +282,10 @@ namespace WorkspaceManager.Model
         /// <returns></returns>
         public bool deleteTextModel(TextModel textModel)
         {
+            if (!this.UndoRedoManager.Working)
+            {
+                this.UndoRedoManager.DidOperation(new DeleteModelElementOperation(textModel) { SingleOperation = true });
+            }
             return this.AllTextModels.Remove(textModel);
         }
 
@@ -286,6 +314,11 @@ namespace WorkspaceManager.Model
                 pluginModel.Plugin.Dispose();
                 pluginModel.onDelete();
                 this.WorkspaceManagerEditor.HasChanges = true;
+                if (!this.UndoRedoManager.Working)
+                {
+                    this.UndoRedoManager.DidOperation(new DeleteModelElementOperation(pluginModel) { SingleOperation = true });
+                }
+
                 return this.AllPluginModels.Remove(pluginModel);
             }            
             return false;
@@ -297,7 +330,7 @@ namespace WorkspaceManager.Model
         /// </summary>
         /// <param name="connectorModel"></param>
         /// <returns></returns>
-        private bool deleteConnectorModel(ConnectorModel connectorModel)
+        public bool deleteConnectorModel(ConnectorModel connectorModel)
         {
             //we can only delete ConnectorModels which are part of our WorkspaceModel
             if(this.AllConnectorModels.Contains(connectorModel)){
@@ -313,9 +346,13 @@ namespace WorkspaceManager.Model
                 {
                     deleteConnectionModel(outputConnection);
                 }
-                                
                 connectorModel.onDelete();
                 this.WorkspaceManagerEditor.HasChanges = true;
+                if (!this.UndoRedoManager.Working)
+                {
+                    this.UndoRedoManager.DidOperation(new DeleteModelElementOperation(connectorModel) { SingleOperation = false });
+                }
+
                 return this.AllConnectorModels.Remove(connectorModel);
             }
             return false;
@@ -335,6 +372,11 @@ namespace WorkspaceManager.Model
             connectionModel.From.OutputConnections.Remove(connectionModel);            
             connectionModel.onDelete();
             this.WorkspaceManagerEditor.HasChanges = true;
+            if (!this.UndoRedoManager.Working)
+            {
+                this.UndoRedoManager.DidOperation(new DeleteModelElementOperation(connectionModel) { SingleOperation = true });
+            }
+
             return this.AllConnectionModels.Remove(connectionModel);
         }
 

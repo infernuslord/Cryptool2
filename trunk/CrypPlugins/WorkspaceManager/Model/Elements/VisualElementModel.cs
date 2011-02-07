@@ -39,12 +39,48 @@ namespace WorkspaceManager.Model
         public event EventHandler<EventArgs> OnDelete;
 
         /// <summary>
+        /// Called when this object is moved
+        /// </summary>
+        [field: NonSerialized]
+        public event EventHandler<EventArgs> OnMove;
+
+        /// <summary>
+        /// Called when this object is resized
+        /// </summary>
+        [field: NonSerialized]
+        public event EventHandler<EventArgs> OnResize;
+
+        /// <summary>
         /// Triggers event OnDelete
         /// </summary>
         public void onDelete(){
             if(OnDelete != null){
                 EventArgs args = new EventArgs();         
                 OnDelete.Invoke(this, args);
+            }
+        }
+
+        /// <summary>
+        /// Triggers event OnMove
+        /// </summary>
+        public void onMove()
+        {
+            if (OnMove != null)
+            {
+                EventArgs args = new EventArgs();
+                OnMove.Invoke(this, args);
+            }
+        }
+
+        /// <summary>
+        /// Triggers event OnResize
+        /// </summary>
+        public void onResize()
+        {
+            if (OnResize != null)
+            {
+                EventArgs args = new EventArgs();
+                OnResize.Invoke(this, args);
             }
         }
 

@@ -32,7 +32,7 @@ namespace WorkspaceManager.View.Container
     /// Interaction logic for WorkSpaceEditorView.xaml
     /// </summary>
     /// 
-    public partial class WorkSpaceEditorView : UserControl
+    public partial class WorkSpaceEditorView : UserControl,IUpdateableView
     {
 
         private Point? lastCenterPositionOnTarget;
@@ -44,7 +44,7 @@ namespace WorkspaceManager.View.Container
         private PluginContainerView selectedPluginContainer;
         private CryptoLineView dummyLine = new CryptoLineView();
         private PluginContainerView currentFullViewContainer;
-        private Panel root { get { return (this.scrollViewer.Content as Panel); } }
+        public Panel root { get { return (this.scrollViewer.Content as Panel); } }
         private BottomBox bottomBox { get { return (BottomBoxParent.Child as BottomBox); } }
         public bool IsCtrlToggled { get; set; }
 
@@ -341,7 +341,7 @@ namespace WorkspaceManager.View.Container
             this.State = EditorState.READY;
         }
 
-        void PluginDelete(object sender, PluginContainerViewDeleteViewEventArgs e)
+        public void PluginDelete(object sender, PluginContainerViewDeleteViewEventArgs e)
         {
             if (this.State == EditorState.READY)
             {
@@ -381,7 +381,7 @@ namespace WorkspaceManager.View.Container
         }
 
 
-        void shape_FullScreen(object sender, PluginContainerViewFullScreenViewEventArgs e)
+        public void shape_FullScreen(object sender, PluginContainerViewFullScreenViewEventArgs e)
         {
             this.InformationPanel.Visibility = Visibility.Visible;
             e.container.PrepareFullscreen();
@@ -434,7 +434,7 @@ namespace WorkspaceManager.View.Container
             }
         }
 
-        private MultiBinding CreateConnectorBinding(ConnectorView connectable)
+        public MultiBinding CreateConnectorBinding(ConnectorView connectable)
         {
             MultiBinding multiBinding = new MultiBinding();
             multiBinding.Converter = new ConnectorBindingConverter();
@@ -493,7 +493,7 @@ namespace WorkspaceManager.View.Container
         //    e.Handled = false;
         //}
 
-        void shape_OnConnectorMouseLeftButtonDown(object sender, ConnectorViewEventArgs e)
+        public void shape_OnConnectorMouseLeftButtonDown(object sender, ConnectorViewEventArgs e)
         {
             if (this.State == EditorState.READY)
             {
@@ -524,13 +524,13 @@ namespace WorkspaceManager.View.Container
             
         }
 
-        void WorkSpaceEditorView_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        public void WorkSpaceEditorView_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             UserContentWrapper.SelectedItem = null;
             
         }
 
-        void WorkSpaceEditorView_MouseLeave(object sender, MouseEventArgs e)
+        public void WorkSpaceEditorView_MouseLeave(object sender, MouseEventArgs e)
         {
             if (this.State == EditorState.READY)
             {
@@ -547,7 +547,7 @@ namespace WorkspaceManager.View.Container
             }
         }
 
-        void shape_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        public void shape_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             Canvas.SetZIndex(sender as PluginContainerView, 100);
             this.selectedPluginContainer = null;
@@ -711,6 +711,15 @@ namespace WorkspaceManager.View.Container
         private void Thumb_DragStarted(object sender, System.Windows.Controls.Primitives.DragStartedEventArgs e)
         {
         }
+
+        #region IUpdateableView Members
+
+        public void update()
+        {
+        
+        }
+
+        #endregion
     }
 
     [Serializable]
