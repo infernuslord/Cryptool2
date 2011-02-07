@@ -131,8 +131,11 @@ namespace CrypUpdater
                 }
             }
 
-            if(mayrestart)
+            if (mayrestart)
+            {
+                File.Delete(ZipFilePath);
                 RestartCryptool();
+            }
             else
                 App.Current.Shutdown();
 
