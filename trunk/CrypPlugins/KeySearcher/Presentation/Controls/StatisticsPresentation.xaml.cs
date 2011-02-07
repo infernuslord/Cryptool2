@@ -183,7 +183,7 @@ namespace KeySearcherPresentation.Controls
                 {
                     if (totalBlocks != 0)
                     {
-                        percent = Math.Round((value/(double) totalBlocks)*10000)/100;
+                        percent = Math.Round((value/(double) totalBlocks)*Math.Pow(10, totalKeys.ToString().Length)) / Math.Pow(10, totalKeys.ToString().Length-2);
                     }
                     else
                     {
@@ -193,7 +193,7 @@ namespace KeySearcherPresentation.Controls
 
                 Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
-                    PercentsComplete.Content = percent + " %";
+                     PercentsComplete.Content = string.Format("{0:g} %", percent);
                 }, null);
             }
         }
