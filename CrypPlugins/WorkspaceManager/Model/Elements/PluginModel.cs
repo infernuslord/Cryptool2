@@ -29,6 +29,7 @@ using Cryptool.PluginBase.IO;
 using System.Reflection;
 using System.ComponentModel;
 using WorkspaceManager.View.Container;
+using WorkspaceManager.Model.Tools;
 
 namespace WorkspaceManager.Model
 {
@@ -196,6 +197,10 @@ namespace WorkspaceManager.Model
                         connectorModel.PluginModel.Plugin.PropertyChanged += connectorModel.PropertyChangedOnPlugin;
                         InputConnectors.Add(connectorModel);
                         WorkspaceModel.AllConnectorModels.Add(connectorModel);
+                        if(!this.WorkspaceModel.UndoRedoManager.Working)
+                        {
+                            this.WorkspaceModel.UndoRedoManager.DidOperation(new NewModelElementOperation(connectorModel) { SingleOperation = false });
+                        }
                     }
                     else if (propertyInfoAttribute.Direction.Equals(Direction.ControlSlave))
                     {
@@ -211,6 +216,10 @@ namespace WorkspaceManager.Model
                         connectorModel.PluginModel.Plugin.PropertyChanged += connectorModel.PropertyChangedOnPlugin;
                         InputConnectors.Add(connectorModel);
                         WorkspaceModel.AllConnectorModels.Add(connectorModel);
+                        if(!this.WorkspaceModel.UndoRedoManager.Working)
+                        {
+                            this.WorkspaceModel.UndoRedoManager.DidOperation(new NewModelElementOperation(connectorModel){SingleOperation=false});
+                        }
                     }
                     else if (propertyInfoAttribute.Direction.Equals(Direction.OutputData))
                     {
@@ -227,6 +236,10 @@ namespace WorkspaceManager.Model
                         connectorModel.PluginModel.Plugin.PropertyChanged += connectorModel.PropertyChangedOnPlugin;
                         OutputConnectors.Add(connectorModel);
                         WorkspaceModel.AllConnectorModels.Add(connectorModel);
+                        if(!this.WorkspaceModel.UndoRedoManager.Working)
+                        {
+                            this.WorkspaceModel.UndoRedoManager.DidOperation(new NewModelElementOperation(connectorModel){SingleOperation=false});
+                        }
                     }
                     else if (propertyInfoAttribute.Direction.Equals(Direction.ControlMaster))
                     {
@@ -243,6 +256,10 @@ namespace WorkspaceManager.Model
                         connectorModel.PluginModel.Plugin.PropertyChanged += connectorModel.PropertyChangedOnPlugin;
                         OutputConnectors.Add(connectorModel);
                         WorkspaceModel.AllConnectorModels.Add(connectorModel);
+                        if(!this.WorkspaceModel.UndoRedoManager.Working)
+                        {
+                            this.WorkspaceModel.UndoRedoManager.DidOperation(new NewModelElementOperation(connectorModel){SingleOperation=false});
+                        }
                     }
                 }
 
@@ -271,6 +288,10 @@ namespace WorkspaceManager.Model
                             eventinfo.AddEventHandler(Plugin, new DynamicPropertiesChanged(connectorModel.PropertyTypeChangedOnPlugin));                            
                             InputConnectors.Add(connectorModel);
                             WorkspaceModel.AllConnectorModels.Add(connectorModel);
+                            if(!this.WorkspaceModel.UndoRedoManager.Working)
+                            {
+                                this.WorkspaceModel.UndoRedoManager.DidOperation(new NewModelElementOperation(connectorModel){SingleOperation=false});
+                            }
                         }
                         else if (dynamicProperty.PInfo.Direction.Equals(Direction.OutputData))
                         {
@@ -291,7 +312,10 @@ namespace WorkspaceManager.Model
                             connectorModel.Outgoing = true;
                             OutputConnectors.Add(connectorModel);
                             WorkspaceModel.AllConnectorModels.Add(connectorModel);
-
+                            if(!this.WorkspaceModel.UndoRedoManager.Working)
+                            {
+                                this.WorkspaceModel.UndoRedoManager.DidOperation(new NewModelElementOperation(connectorModel){SingleOperation=false});
+                            }
                         }
                     }
                 }

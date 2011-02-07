@@ -42,6 +42,7 @@ using System.Windows.Media.Imaging;
 using System.Printing;
 using System.Windows.Documents;
 using System.Windows.Markup;
+using WorkspaceManager.Model.Tools;
 
 //Disable warnings for unused or unassigned fields and events:
 #pragma warning disable 0169, 0414, 0067
@@ -68,7 +69,8 @@ namespace WorkspaceManager
             WorkspaceModel = new WorkspaceModel();
             WorkspaceModel.WorkspaceManagerEditor = this;
             WorkspaceSpaceEditorView = new WorkSpaceEditorView(WorkspaceModel);
-            HasChanges = false;                                
+            HasChanges = false;
+            UndoRedoManager = new UndoRedoManager();
         }
 
         void Default_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -87,6 +89,7 @@ namespace WorkspaceManager
         private ExecutionEngine ExecutionEngine = null;
         private volatile bool executing = false;
         private volatile bool stopping = false;
+        private UndoRedoManager UndoRedoManager = null;
 
         #endregion
 
@@ -140,6 +143,9 @@ namespace WorkspaceManager
             {
                 this.OnProjectTitleChanged.BeginInvoke(this, "unnamed project", null, null);
             }
+            UndoRedoManager.ClearStacks();
+            WorkspaceModel.UndoRedoManager = UndoRedoManager;
+            WorkspaceModel.UpdateableView = this.WorkspaceSpaceEditorView;
         }
 
         /// <summary>
@@ -153,6 +159,8 @@ namespace WorkspaceManager
                 New();
                 WorkspaceSpaceEditorView.Load(model);
                 WorkspaceModel = model;
+                WorkspaceModel.UndoRedoManager = UndoRedoManager;
+                WorkspaceModel.UpdateableView = this.WorkspaceSpaceEditorView;
             }
             catch (Exception ex)
             {
@@ -173,6 +181,8 @@ namespace WorkspaceManager
                 GuiLogMessage("Loading Model: " + fileName, NotificationLevel.Info);                
                 WorkspaceModel = ModelPersistance.loadModel(fileName,this);                
                 WorkspaceSpaceEditorView.Load(WorkspaceModel);
+                WorkspaceModel.UndoRedoManager = UndoRedoManager;
+                WorkspaceModel.UpdateableView = this.WorkspaceSpaceEditorView;
                 HasChanges = false;
                 this.OnProjectTitleChanged.BeginInvoke(this, System.IO.Path.GetFileName(fileName), null, null);
                 CurrentFilename = fileName;
@@ -243,7 +253,17 @@ namespace WorkspaceManager
         /// </summary>
         public void Undo()
         {
-            //to be implemented
+            if (UndoRedoManager != null)
+            {
+                try
+                {
+                    UndoRedoManager.Undo();
+                }
+                catch (Exception ex)
+                {
+                    GuiLogMessage("Can not undo:" + ex.Message,NotificationLevel.Error);
+                }
+            }
         }
 
         /// <summary>
@@ -251,7 +271,17 @@ namespace WorkspaceManager
         /// </summary>
         public void Redo()
         {
-            //to be implemented
+            if (UndoRedoManager != null)
+            {
+                try
+                {
+                    UndoRedoManager.Redo();
+                }
+                catch (Exception ex)
+                {
+                    GuiLogMessage("Can not redo:" + ex.Message, NotificationLevel.Error);
+                }
+            }
         }
 
         public void Cut()
@@ -362,8 +392,17 @@ namespace WorkspaceManager
         /// </summary>
         public bool CanUndo
         {
-            get;
-            set;
+            get
+            {
+                if (UndoRedoManager != null)
+                {
+                    return UndoRedoManager.CanUndo();
+                }
+                else
+                {
+                    return false;
+                }
+            }
         }
 
         /// <summary>
@@ -371,8 +410,17 @@ namespace WorkspaceManager
         /// </summary>
         public bool CanRedo
         {
-            get;
-            set;
+            get
+            {
+                if (UndoRedoManager != null)
+                {
+                    return UndoRedoManager.CanRedo();
+                }
+                else
+                {
+                    return false;
+                }
+            }
         }
 
         public bool CanCut
