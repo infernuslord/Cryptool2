@@ -35,6 +35,7 @@ namespace KeySearcherPresentation.Controls
             ((ChunkSumConverter)Resources["ChunkSumConverter"]).StatisticsPresentation = this;
             ((StringLengthConverter)Resources["StringLengthConverter"]).StatisticsPresentation = this;
             ((MachineSumToProgressConverter)Resources["MachineSumToProgressConverter"]).StatisticsPresentation = this;
+            ((MaxDateConverter)Resources["MaxDateConverter"]).StatisticsPresentation = this;
         }
 
         private Dictionary<string, Dictionary<long, Information>> statistics = null;
@@ -247,7 +248,7 @@ namespace KeySearcherPresentation.Controls
 
                 Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
-                    BestUser.Content = " Top user: " + beeusers;
+                    BestUser.Content = beeusers;
                 }, null);
             }
         }
@@ -283,7 +284,7 @@ namespace KeySearcherPresentation.Controls
 
                 Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
-                    BestMachine.Content = " Top machine: " + beemachines;
+                    BestMachine.Content = beemachines;
                 }, null);
             }
         }
@@ -481,6 +482,38 @@ namespace KeySearcherPresentation.Controls
                 {
                     double allCount = (StatisticsPresentation.Statistics).Sum(i => i.Value.Sum(j => j.Value.Count));
                     return (int) value/allCount;
+                }
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    [ValueConversion(typeof(String), typeof(DateTime))]
+    class MaxDateConverter : IValueConverter
+    {
+        public StatisticsPresentation StatisticsPresentation { get; set; }
+
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (StatisticsPresentation != null && StatisticsPresentation.Statistics != null)
+            {
+                lock (StatisticsPresentation)
+                {
+                    var max = DateTime.MinValue;
+                    var machines = StatisticsPresentation.Statistics[(string) value];
+                    foreach (var id in machines.Keys.Where(id => machines[id].Date > max))
+                    {
+                        max = machines[id].Date;
+                    }
+                    return max;
                 }
             }
             else
