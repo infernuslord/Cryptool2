@@ -934,7 +934,7 @@ namespace Soap
                 if (securityHeader == null)
                 {
                     this._hadHeader = false;
-                    XmlNode header = this._securedSOAP.CreateElement("s", "Header", "http://www.w3.org/2001/12/soap-envelope");
+                    XmlNode header = this._securedSOAP.CreateElement("s", "Header", "http://www.w3.org/2003/05/soap-envelope");
                     string wsseNamespace = "http://docs.oasis-open.org/wss/2004/01/oasis -200401-wss-wssecurity-secext-1.0.xsd";
                     securityHeader = this._securedSOAP.CreateElement("wsse", "Security", wsseNamespace);
                     header.AppendChild(securityHeader);
@@ -1185,7 +1185,7 @@ namespace Soap
             string xPathValue = "/s:Envelope";
             if (element.Name.Equals("wsse:Security"))
             {
-                xPathValue = xPathValue + "/wsse:Security";
+                xPathValue = xPathValue + "/s:Header"+"/wsse:Security";
                 return xPathValue;
             }
             xPathValue = xPathValue + "/s:Body";
