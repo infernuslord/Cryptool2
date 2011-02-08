@@ -122,11 +122,15 @@
     <EmbeddedResource Include="Resources\Attributes.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Attributes.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\settingsRes.de-DE.resx" />
+    <EmbeddedResource Include="Resources\settingsRes.de-DE.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\settingsRes.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>settingsRes.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

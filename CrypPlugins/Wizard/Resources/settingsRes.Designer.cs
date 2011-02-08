@@ -61,7 +61,7 @@ namespace Wizard.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Wizard Settings.
+        ///   Looks up a localized string similar to Wizard.
         /// </summary>
         public static string WizardSettings {
             get {

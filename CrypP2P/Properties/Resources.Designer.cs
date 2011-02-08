@@ -61,7 +61,7 @@ namespace Cryptool.P2P.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Peer-to-Peer Settings.
+        ///   Looks up a localized string similar to Peer-to-Peer.
         /// </summary>
         internal static string P2PSettings {
             get {

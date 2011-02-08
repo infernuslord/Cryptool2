@@ -58,7 +58,12 @@ namespace Wizard
 
         public void ShowHelp()
         {
+            OnOpenTab(this.GetDescriptionDocument(), "Wizard Description", this);
+        }
 
+        public void ShowSelectedPluginDescription()
+        {
+            ShowHelp();
         }
 
         #region unused methods
@@ -160,12 +165,7 @@ namespace Wizard
         {
             
         }
-
-        public void ShowSelectedPluginDescription()
-        {
-            
-        }
-
+        
         public void Active()
         {
             

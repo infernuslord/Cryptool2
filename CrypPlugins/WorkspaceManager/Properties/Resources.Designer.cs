@@ -61,7 +61,7 @@ namespace WorkspaceManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Workspace Settings.
+        ///   Looks up a localized string similar to Workspace.
         /// </summary>
         internal static string WorkspaceManagerSettings {
             get {
