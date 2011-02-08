@@ -742,8 +742,8 @@ namespace Soap
                 xmlTextWriter.Formatting = Formatting.Indented;
                 this._soap.WriteContentTo(xmlTextWriter);
                 XmlNode rootElement = this._soap.SelectSingleNode("/*");
-                presentation.origSoapItem = new System.Windows.Controls.TreeViewItem();
-                presentation.origSoapItem.IsExpanded = true;
+                presentation.OriginalSoapItem = new System.Windows.Controls.TreeViewItem();
+                presentation.OriginalSoapItem.IsExpanded = true;
                 StackPanel panel1 = new StackPanel();
                 StackPanel origSoapPanel = new StackPanel();
                 StackPanel origSoapPanel2 = new StackPanel();
@@ -759,13 +759,13 @@ namespace Soap
                 panel1.Children.Insert(0, elem1);
                 origSoapPanel.Children.Insert(0, origSoapElem);
                 origSoapPanel2.Children.Insert(0, origSoapElem2);
-                presentation.origSoapItem.Header = panel1;
+                presentation.OriginalSoapItem.Header = panel1;
                 this._loaded = false;
                 this._securedSOAP = (XmlDocument)this._soap.Clone();
                 mySettings.soapelement = CopyXmlToString(this._soap);
                 mySettings.securedsoap = CopyXmlToString(this._securedSOAP);
-                this.presentation.CopyXmlToTreeView(rootElement, ref presentation.origSoapItem);
-                this.presentation.treeView.Items.Add(presentation.origSoapItem);
+                this.presentation.CopyXmlToTreeView(rootElement, presentation.OriginalSoapItem);
+                this.presentation.treeView.Items.Add(presentation.OriginalSoapItem);
                 presentation.treeView.Items.Refresh();
                 ShowSecuredSoap();
                 this._loaded = true;
@@ -1374,19 +1374,19 @@ namespace Soap
         public void ShowSecuredSoap()
         {
             presentation.treeView.Items.Clear();
-            presentation.namespacesTable.Clear();
-            this.presentation.securedSoapItem = null;
-            this.presentation.securedSoapItem = new System.Windows.Controls.TreeViewItem();
-            presentation.securedSoapItem.IsExpanded = true;
+            presentation._namespacesTable.Clear();
+            this.presentation.SecuredSoapItem = null;
+            this.presentation.SecuredSoapItem = new System.Windows.Controls.TreeViewItem();
+            presentation.SecuredSoapItem.IsExpanded = true;
             StackPanel panel1 = new StackPanel();
             panel1.Orientation = System.Windows.Controls.Orientation.Horizontal;
             TextBlock elem1 = new TextBlock();
             elem1.Text = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>";
             panel1.Children.Insert(0, elem1);
-            presentation.securedSoapItem.Header = panel1;
+            presentation.SecuredSoapItem.Header = panel1;
             XmlNode rootElement = _securedSOAP.SelectSingleNode("/*");
-            this.presentation.CopyXmlToTreeView(rootElement, ref presentation.securedSoapItem);
-            this.presentation.treeView.Items.Add(presentation.securedSoapItem);
+            this.presentation.CopyXmlToTreeView(rootElement,  presentation.SecuredSoapItem);
+            this.presentation.treeView.Items.Add(presentation.SecuredSoapItem);
         }
 
         public void OnPropertyChanged(string name)
@@ -1627,13 +1627,13 @@ namespace Soap
                     }
                     break;
                 case "AnimationSpeed":
-                    presentation.setAnimationSpeed(settings.AnimationSpeed);
+                    presentation.SetAnimationSpeed(settings.AnimationSpeed);
                     break;
                 case "playPause":
-                    presentation.startstopanimation();
+                    presentation.StartStopAnimation();
                     break;
                 case "endAnimation":
-                    presentation.endAnimation();
+                    presentation.EndAnimation();
                     break;
 
             }
