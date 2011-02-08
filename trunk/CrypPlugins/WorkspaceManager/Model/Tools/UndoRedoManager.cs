@@ -7,7 +7,7 @@ using WorkspaceManager.View.VisualComponents;
 using WorkspaceManager.View.Container;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Drawing;
+using System.Windows;
 
 namespace WorkspaceManager.Model.Tools
 {
@@ -42,18 +42,24 @@ namespace WorkspaceManager.Model.Tools
             Working = true;
             if (UndoStack.Count > 0)
             {
+                object lastModelElement = null;
                 Operation op = UndoStack.Pop();
+                lastModelElement = op.Element;
                 op.Undo();
                 RedoStack.Push(op);
 
-                if (UndoStack.Count > 0 && !UndoStack.First().SingleOperation)
+                if (UndoStack.Count > 0 && (!UndoStack.First().SingleOperation || 
+                    (UndoStack.First() is MoveModelElementOperation &&
+                    UndoStack.First().Element == lastModelElement)))
                 {
                     do
                     {
+                        lastModelElement = op.Element;
                         op = UndoStack.Pop();
                         op.Undo();
                         RedoStack.Push(op);
-                    } while (UndoStack.Count > 0 && !UndoStack.First().SingleOperation);
+                    } while (UndoStack.Count > 0 && (!UndoStack.First().SingleOperation || (UndoStack.First() is MoveModelElementOperation &&
+                    UndoStack.First().Element == lastModelElement)));
                 }
             }
             Working = false;
@@ -66,14 +72,17 @@ namespace WorkspaceManager.Model.Tools
         {
             Working = true;
             if (RedoStack.Count > 0)
-            {
+            {                
                 Operation op = null;
+                object lastModelElement = null;
                 do
                 {
-                    op = RedoStack.Pop();
+                    op = RedoStack.Pop();                    
+                    lastModelElement = op.Element;
                     op.Redo();
-                    UndoStack.Push(op);                    
-                } while (RedoStack.Count > 0 && !op.SingleOperation);
+                    UndoStack.Push(op);
+                } while (RedoStack.Count > 0 && (!op.SingleOperation || (RedoStack.First() is MoveModelElementOperation &&
+                    RedoStack.First().Element == lastModelElement)));
 
             }
             Working = false;
@@ -110,6 +119,7 @@ namespace WorkspaceManager.Model.Tools
 
     public interface Operation
     {
+        object Element{get;}
         void Undo();
         void Redo();
         bool SingleOperation { get; set; }
@@ -125,6 +135,8 @@ namespace WorkspaceManager.Model.Tools
         }
 
         #region Operation Members
+
+        public object Element { get { return this.model; } }
 
         public void Undo()
         {
@@ -249,6 +261,8 @@ namespace WorkspaceManager.Model.Tools
 
         #region Operation Members
 
+        public object Element { get { return this.model; } }
+
         public void Undo()
         {
             if (model is PluginModel)
@@ -353,6 +367,107 @@ namespace WorkspaceManager.Model.Tools
         }
 
         public bool SingleOperation
+        {
+            get;
+            set;
+        }
+
+        #endregion
+    }
+
+    public class MoveModelElementOperation : Operation
+    {
+
+        VisualElementModel model = null;
+
+        public MoveModelElementOperation(VisualElementModel model)
+        {
+            this.model = model;
+        }
+
+        #region Operation Members
+
+        public object Element { get { return this.model; } }
+
+        public void Undo()
+        {
+            if (model is PluginModel)
+            {
+                PluginModel pluginModel = (PluginModel)model;                
+                if (pluginModel.UpdateableView is PluginContainerView)
+                {
+                    PluginContainerView pluginContainerView = (PluginContainerView)pluginModel.UpdateableView;
+                    pluginContainerView.SetPosition(this.OldPosition);
+                }               
+            }
+            else if (model is ConnectorModel)
+            {
+                
+            }
+            else if (model is ConnectionModel)
+            {
+                
+            }
+            else if (model is TextModel)
+            {
+                
+            }
+            else if (model is ImageModel)
+            {
+               
+            }
+            else
+            {
+                throw new NotImplementedException("Can not undo DeleteModelElement: " + model.GetType().Name);
+            }
+        }
+
+        public void Redo()
+        {
+            if (model is PluginModel)
+            {
+                PluginModel pluginModel = (PluginModel)model;
+                if (pluginModel.UpdateableView is PluginContainerView)
+                {
+                    PluginContainerView pluginContainerView = (PluginContainerView)pluginModel.UpdateableView;
+                    pluginContainerView.SetPosition(this.NewPosition);
+                }       
+            }
+            else if (model is ConnectorModel)
+            {
+
+            }
+            else if (model is ConnectionModel)
+            {
+
+            }
+            else if (model is TextModel)
+            {
+
+            }
+            else if (model is ImageModel)
+            {
+
+            }
+            else
+            {
+                throw new NotImplementedException("Can not redo DeleteModelElement: " + model.GetType().Name);
+            }
+        }
+
+        public bool SingleOperation
+        {
+            get;
+            set;
+        }
+
+        public Point OldPosition
+        {
+            get;
+            set;
+        }
+
+        public Point NewPosition
         {
             get;
             set;

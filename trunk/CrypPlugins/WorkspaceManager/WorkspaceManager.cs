@@ -68,9 +68,9 @@ namespace WorkspaceManager
             Settings = new WorkspaceManagerSettings(this);
             WorkspaceModel = new WorkspaceModel();
             WorkspaceModel.WorkspaceManagerEditor = this;
-            WorkspaceSpaceEditorView = new WorkSpaceEditorView(WorkspaceModel);
-            HasChanges = false;
             UndoRedoManager = new UndoRedoManager();
+            WorkspaceSpaceEditorView = new WorkSpaceEditorView(WorkspaceModel);
+            HasChanges = false;            
         }
 
         void Default_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
