@@ -983,6 +983,7 @@ namespace WebService
 
         private void resetButton_Click(object sender, RoutedEventArgs e)
         {
+            this._decryptionAnimation.DecryptionTimer.Stop();
             this._decryptionAnimation = new DecryptionAnimation(this);
             this.button1.IsEnabled = true;
             this._namespacesTable.Clear();

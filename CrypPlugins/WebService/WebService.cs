@@ -805,7 +805,13 @@ namespace WebService
             }, null);
             if (this.WebServiceSettings.Compiled == true)
             {
-                this.presentation.GetStringToCompile();
+                presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    this.Compile(this.presentation.GetStringToCompile());
+
+                }, null);
+              
+                
             }
 
         }

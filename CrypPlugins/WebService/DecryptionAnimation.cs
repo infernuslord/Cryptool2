@@ -15,11 +15,20 @@ namespace WebService
     {
         private TreeViewItem foundItem, actualEncryptedData,actualEncryptedDataEndTag, actualEncryptedDataParent, actualEncryptedKeyItem, actualEncryptedKeyEndTagItem;
         private int status, actualEncryptedKeyNumber, totalKeyNumber;
-        private DispatcherTimer decryptionTimer;
+        private DispatcherTimer _decryptionTimer;
         private WebServicePresentation presentation;
         private ArrayList encryptedKeyTreeviewElements;
         private DoubleAnimation opacityAnimation, opacityAnimation1,TextSizeAnimation, TextSizeAnimationReverse, TextSizeAnimation1, TextSizeAnimationReverse1;
         public bool allowExecute;
+
+        public DispatcherTimer DecryptionTimer
+        {
+            get
+            {
+                return this._decryptionTimer;
+            }
+        }
+        
         public DecryptionAnimation(WebServicePresentation presentation)
         {
             this.presentation=presentation;
@@ -31,9 +40,9 @@ namespace WebService
             TextSizeAnimation1 = new DoubleAnimation(11, 16, TimeSpan.FromSeconds(1));
             TextSizeAnimationReverse1 = new DoubleAnimation(16, 11, TimeSpan.FromSeconds(1));
             encryptedKeyTreeviewElements = new ArrayList();
-            decryptionTimer = new DispatcherTimer();
-            decryptionTimer.Interval = new TimeSpan(0, 0, 0, 1, 0);
-            decryptionTimer.Tick += new EventHandler(decryptionTimer_Tick);
+            _decryptionTimer = new DispatcherTimer();
+            _decryptionTimer.Interval = new TimeSpan(0, 0, 0, 1, 0);
+            _decryptionTimer.Tick += new EventHandler(decryptionTimer_Tick);
 
         }
         public void initializeAnimation()
@@ -51,7 +60,7 @@ namespace WebService
                 case 1:
                     this.presentation._animationStepsTextBox.Text += "\n Found EnrcyptedKey Element";
                     this.presentation._animationStepsTextBox.ScrollToLine(this.presentation._animationStepsTextBox.LineCount - 1);
-                    decryptionTimer.Interval = new TimeSpan(0, 0, 0, 5, 0);
+                    _decryptionTimer.Interval = new TimeSpan(0, 0, 0, 5, 0);
                     TreeViewItem item = (TreeViewItem)this.encryptedKeyTreeviewElements[actualEncryptedKeyNumber];
                     this.actualEncryptedKeyItem = item;
                     if (item.Parent != null)
@@ -320,7 +329,7 @@ namespace WebService
                       keyParent.Items.Remove(actualEncryptedKeyItem);
                       keyParent.Items.Remove(actualEncryptedKeyEndTagItem);
                       status++;
-                      this.decryptionTimer.Stop();
+                      this._decryptionTimer.Stop();
                       this.presentation.getAnimationController().ControllerTimer.Start();
                    break;
                 case 13:
@@ -556,7 +565,7 @@ namespace WebService
         }
         public DispatcherTimer getDecryptiontimer()
         {
-            return this.decryptionTimer;
+            return this._decryptionTimer;
         }
        
 
