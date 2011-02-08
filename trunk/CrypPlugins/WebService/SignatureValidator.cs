@@ -217,8 +217,9 @@ namespace WebService
                 this._signedXml.LoadXml((XmlElement)signatureElement);
 
                 SignedXml hua = new SignedXml((XmlElement) signatureElement);
+        //      this._inputDocument.NameTable.Add(
                 hua.LoadXml((XmlElement)signatureElement);
-              bool test= hua.CheckSignature();
+              //bool test= hua.CheckSignature();
                 bool validReference = ValidateReferences(_signedXml);
                 if (validReference)
                 {
@@ -286,6 +287,9 @@ namespace WebService
                     XmlElement bodyElement = (XmlElement)this._inputDocument.GetElementsByTagName("s:Body")[0];
                     xmlNamespaceManager.AddNamespace("s", bodyElement.NamespaceURI);
                     xmlNamespaceManager.AddNamespace("tns", "http://tempuri.org/");
+                    xmlNamespaceManager.AddNamespace("xenc", "http://www.w3.org/2001/04/xmlenc#");
+                    xmlNamespaceManager.AddNamespace("wsse", "http://docs.oasis-open.org/wss/2004/01/oasis -200401-wss-wssecurity-secext-1.0.xsd");
+              
                     node = this._inputDocument.SelectSingleNode(xpath, xmlNamespaceManager);
                     list.Add((XmlElement)node.Clone());
                     sigReference.references = list;
@@ -387,6 +391,8 @@ namespace WebService
                         XmlElement bodyElement = (XmlElement)this._inputDocument.GetElementsByTagName("s:Body")[0];
                         xmlNameSpaceManager.AddNamespace("s", bodyElement.NamespaceURI);
                         xmlNameSpaceManager.AddNamespace("tns", "http://tempuri.org/");
+                        xmlNameSpaceManager.AddNamespace("xenc", "http://www.w3.org/2001/04/xmlenc#");
+                        xmlNameSpaceManager.AddNamespace("wsse", "http://docs.oasis-open.org/wss/2004/01/oasis -200401-wss-wssecurity-secext-1.0.xsd");
                         node = this._inputDocument.SelectSingleNode(xpath, xmlNameSpaceManager);
                         break;
                 }
