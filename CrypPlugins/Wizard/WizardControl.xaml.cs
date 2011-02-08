@@ -176,13 +176,13 @@ namespace Wizard
                 descHeader.Content = desc.Value;
 
 
-            if (element.Name == "input" || element.Name == "output")
+            if (element.Name == "input")
             {
                 categoryGrid.Visibility = Visibility.Hidden;
                 inputPanel.Visibility = Visibility.Visible;
 
                 var inputs = from el in element.Elements()
-                             where el.Name == "inputBox" || el.Name == "comboBox" || el.Name == "checkBox" 
+                             where el.Name == "inputBox" || el.Name == "comboBox" || el.Name == "checkBox" || el.Name == "outputBox"
                              select el;
 
                 inputStack.Children.Clear();
@@ -196,8 +196,6 @@ namespace Wizard
                     if (inputPanel.Tag != null)
                         SwitchNextButtonContent();
                 }
-                if (inputPanel.Tag == null)
-                    inputPanel.Tag = element.Element("output");
 
                 FillInputStack(inputs, element.Name.ToString());
 
@@ -213,7 +211,7 @@ namespace Wizard
 
                 //generate radio buttons
                 var options = from el in element.Elements()
-                              where el.Name == "category" || el.Name == "input" || el.Name == "loadSample" || el.Name == "output"
+                              where el.Name == "category" || el.Name == "input" || el.Name == "loadSample"
                               select el;
 
                 if (options.Any())
@@ -309,9 +307,7 @@ namespace Wizard
                     description.FontWeight = FontWeights.Bold;
                     inputStack.Children.Add(description);
 
-                    bool isInput = (type == "input");
-
-                    Control inputElement = CreateInputElement(input, inputFieldStyle, isInput);
+                    Control inputElement = CreateInputElement(input, inputFieldStyle);
 
                     //Set width:
                     if (inputElement != null && input.Attribute("width") != null)
@@ -368,83 +364,69 @@ namespace Wizard
             }
         }
 
-        private Control CreateInputElement(XElement input, Style inputFieldStyle, bool isInput)
+        private Control CreateInputElement(XElement input, Style inputFieldStyle)
         {
             Control element = null;
 
-            if (input.Name == "inputBox")
-            {
-                var textBox = new TextBox();
-                textBox.Tag = input;
-                textBox.AcceptsReturn = true;
-                if (input.Attribute("visibleLines") != null)
-                {
-                    int visibleLines;
-                    if (Int32.TryParse(input.Attribute("visibleLines").Value.Trim(), out visibleLines))
-                    {
-                        textBox.MinLines = visibleLines;
-                        textBox.MaxLines = visibleLines;
-                    }
-                }
-                textBox.Style = inputFieldStyle;
-                inputStack.Children.Add(textBox);
+            string key = GetElementPluginPropertyKey(input);
 
-                if (isInput)
-                {
+            switch (input.Name.ToString())
+            {
+                case "inputBox":
+                    var inputBox = new TextBox();
+                    inputBox.Tag = input;
+                    inputBox.AcceptsReturn = true;
+                    if (input.Attribute("visibleLines") != null)
+                    {
+                        int visibleLines;
+                        if (Int32.TryParse(input.Attribute("visibleLines").Value.Trim(), out visibleLines))
+                        {
+                            inputBox.MinLines = visibleLines;
+                            inputBox.MaxLines = visibleLines;
+                        }
+                    }
+                    inputBox.Style = inputFieldStyle;
+                    inputStack.Children.Add(inputBox);
+
                     if (input.Attribute("regex") != null)
                     {
                         var regex = new Regex(input.Attribute("regex").Value, RegexOptions.Compiled);
 
-                        textBox.TextChanged += delegate
+                        inputBox.TextChanged += delegate
                         {
-                            CheckRegex(textBox, regex);
+                            CheckRegex(inputBox, regex);
                         };
                     }
 
-                    if (propertyValueDict.ContainsKey(GetElementID(input)))
-                        textBox.Text = (string) propertyValueDict[GetElementID(input)].Value;
+                    if (key != null && propertyValueDict.ContainsKey(key))
+                        inputBox.Text = (string)propertyValueDict[key].Value;
                     else if (input.Attribute("defaultValue") != null)
-                        textBox.Text = input.Attribute("defaultValue").Value.Trim();
-                }
-                else
-                {
-                    if (input.Attribute("plugin") != null && input.Attribute("property") != null)
+                        inputBox.Text = input.Attribute("defaultValue").Value.Trim();
+
+                    element = inputBox;
+                    break;
+
+                case "comboBox":
+                    ComboBox comboBox = new ComboBox();
+                    comboBox.Style = inputFieldStyle;
+                    comboBox.Tag = input;
+
+                    var items = FindElementsInElement(input, "item");
+                    foreach (var item in items)
                     {
-                        var plugin = input.Attribute("plugin").Value;
-                        var property = input.Attribute("property").Value;
-                        foreach (var e in propertyValueDict.Values)
-                        {
-                            if (e.PluginName == plugin && e.PropertyName == property)
-                                textBox.Text = (String)e.Value;
-                        }
+                        ComboBoxItem cbi = new ComboBoxItem();
+                        if (item.Attribute("content") != null)
+                            cbi.Content = item.Attribute("content").Value;
+                        comboBox.Items.Add(cbi);
                     }
-                }
 
-                element = textBox;
-            }
-            else if (input.Name == "comboBox")
-            {
-                ComboBox cb = new ComboBox();
-                cb.Style = inputFieldStyle;
-                cb.Tag = input;
 
-                var items = FindElementsInElement(input, "item");
-                foreach (var item in items)
-                {
-                    ComboBoxItem cbi = new ComboBoxItem();
-                    if (item.Attribute("content") != null)
-                        cbi.Content = item.Attribute("content").Value;
-                    cb.Items.Add(cbi);
-                }
-
-                if (isInput)
-                {
-                    if (propertyValueDict.ContainsKey(GetElementID(input)))
+                    if (key != null && propertyValueDict.ContainsKey(key))
                     {
-                        if (propertyValueDict[GetElementID(input)].Value is int)
+                        if (propertyValueDict[key].Value is int)
                         {
                             ComboBoxItem cbi =
-                                (ComboBoxItem) cb.Items.GetItemAt((int) propertyValueDict[GetElementID(input)].Value);
+                                (ComboBoxItem)comboBox.Items.GetItemAt((int)propertyValueDict[key].Value);
                             cbi.IsSelected = true;
                         }
                     }
@@ -453,78 +435,90 @@ namespace Wizard
                         int i = 0;
                         if (Int32.TryParse(input.Attribute("defaultValue").Value.Trim(), out i))
                         {
-                            ComboBoxItem cbi = (ComboBoxItem) cb.Items.GetItemAt(i);
+                            ComboBoxItem cbi = (ComboBoxItem)comboBox.Items.GetItemAt(i);
                             cbi.IsSelected = true;
                         }
                     }
-                }
-                else
-                {
-                    if (input.Attribute("plugin") != null && input.Attribute("property") != null)
+
+
+                    inputStack.Children.Add(comboBox);
+                    element = comboBox;
+                    break;
+
+                case "checkBox":
+                    CheckBox checkBox = new CheckBox();
+                    checkBox.Tag = input;
+                    checkBox.Style = inputFieldStyle;
+
+                    if (input.Attribute("content") != null)
+                        checkBox.Content = input.Attribute("content").Value;
+
+
+                    if (key != null && propertyValueDict.ContainsKey(key))
                     {
-                        var plugin = input.Attribute("plugin").Value;
-                        var property = input.Attribute("property").Value;
-                        foreach (var e in propertyValueDict.Values)
-                        {
-                            if (e.PluginName == plugin && e.PropertyName == property)
-                                cb.SelectedIndex = (int) e.Value;
-                        }
-                    }
-                }
-
-                inputStack.Children.Add(cb);
-                element = cb;
-            }
-            else if (input.Name == "checkBox")
-            {
-                CheckBox cb = new CheckBox();
-                cb.Tag = input;
-                cb.Style = inputFieldStyle;
-
-                if (input.Attribute("content") != null)
-                    cb.Content = input.Attribute("content").Value;
-
-                if (isInput)
-                {
-                    if (propertyValueDict.ContainsKey(GetElementID(input)))
-                    {
-                        string value = (string) propertyValueDict[GetElementID(input)].Value;
+                        string value = (string)propertyValueDict[key].Value;
                         if (value.ToLower() == "true")
-                            cb.IsChecked = true;
+                            checkBox.IsChecked = true;
                         else
-                            cb.IsChecked = false;
+                            checkBox.IsChecked = false;
                     }
                     else if (input.Attribute("defaultValue") != null)
                     {
                         string value = input.Attribute("defaultValue").Value;
                         if (value.ToLower() == "true")
-                            cb.IsChecked = true;
+                            checkBox.IsChecked = true;
                         else
-                            cb.IsChecked = false;
+                            checkBox.IsChecked = false;
                     }
-                }
-                else
-                {
-                    if (input.Attribute("plugin") != null && input.Attribute("property") != null)
+
+                    inputStack.Children.Add(checkBox);
+                    element = checkBox;
+                    break;
+
+                case "outputBox":
+                    var outputBox = new TextBox();
+                    outputBox.Tag = input;
+                    outputBox.AcceptsReturn = true;
+                    if (input.Attribute("visibleLines") != null)
                     {
-                        var plugin = input.Attribute("plugin").Value;
-                        var property = input.Attribute("property").Value;
-                        foreach (var e in propertyValueDict.Values)
+                        int visibleLines;
+                        if (Int32.TryParse(input.Attribute("visibleLines").Value.Trim(), out visibleLines))
                         {
-                            if (e.PluginName == plugin && e.PropertyName == property)
-                                cb.IsChecked = (bool)e.Value;
+                            outputBox.MinLines = visibleLines;
+                            outputBox.MaxLines = visibleLines;
                         }
                     }
-                }
+                    outputBox.Style = inputFieldStyle;
+                    inputStack.Children.Add(outputBox);
 
-                inputStack.Children.Add(cb);
-                element = cb;
+                    if (input.Attribute("regex") != null)
+                    {
+                        var regex = new Regex(input.Attribute("regex").Value, RegexOptions.Compiled);
+
+                        outputBox.TextChanged += delegate
+                        {
+                            CheckRegex(outputBox, regex);
+                        };
+                    }
+
+                    //TODO: Refresh content from sample on runtime
+                    outputBox.IsEnabled = false;
+
+                    element = outputBox;
+                    break;
             }
 
-            if (!isInput && element != null)
-                element.IsEnabled = false;
-
             return element;
+        }
+
+        private string GetElementPluginPropertyKey(XElement element)
+        {
+            var plugin = element.Attribute("plugin").Value;
+            var property = element.Attribute("property").Value;
+            string key = null;
+            if (plugin != null && property != null)
+                key = string.Format("{0}.{1}", plugin, property);
+            return key;
         }
 
         private void CreateHistory()
@@ -650,7 +644,6 @@ namespace Wizard
                 catch (Exception)
                 {
                     GuiLogMessage(string.Format("Failed settings plugin property {0}.{1} to \"{2}\"!", ppv.PluginName, ppv.PropertyName, ppv.Value), NotificationLevel.Error);
-                    return;
                 }
             }
 
@@ -828,7 +821,7 @@ namespace Wizard
             {
                 Control c = (Control)o;
                 XElement ele = (XElement)c.Tag;
-                var id = GetElementID(ele);
+                
                 PluginPropertyValue newEntry = new PluginPropertyValue();
                 if (ele.Attribute("plugin") != null && ele.Attribute("property") != null)
                 {
@@ -866,10 +859,14 @@ namespace Wizard
                         }
                     }
 
-                    if (!propertyValueDict.ContainsKey(id))
-                        propertyValueDict.Add(id, newEntry);
-                    else
-                        propertyValueDict[id] = newEntry;
+                    var key = GetElementPluginPropertyKey(ele);
+                    if (key != null)
+                    {
+                        if (!propertyValueDict.ContainsKey(key))
+                            propertyValueDict.Add(key, newEntry);
+                        else
+                            propertyValueDict[key] = newEntry;
+                    }
                 } 
             }
         }
@@ -880,10 +877,10 @@ namespace Wizard
             {
                 Control control = (Control)o;
                 XElement ele = (XElement)control.Tag;
-                var id = GetElementID(ele);
 
-                if (propertyValueDict.ContainsKey(id))
-                    propertyValueDict.Remove(id);
+                var key = GetElementPluginPropertyKey(ele);
+                if (key != null && propertyValueDict.ContainsKey(key))
+                    propertyValueDict.Remove(key);
             }
         }
 
