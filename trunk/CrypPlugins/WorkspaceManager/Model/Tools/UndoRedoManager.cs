@@ -81,7 +81,7 @@ namespace WorkspaceManager.Model.Tools
                     lastModelElement = op.Element;
                     op.Redo();
                     UndoStack.Push(op);
-                } while (RedoStack.Count > 0 && (!op.SingleOperation || (RedoStack.First() is MoveModelElementOperation &&
+                } while (RedoStack.Count > 0 && (!RedoStack.First().SingleOperation || (RedoStack.First() is MoveModelElementOperation &&
                     RedoStack.First().Element == lastModelElement)));
 
             }
