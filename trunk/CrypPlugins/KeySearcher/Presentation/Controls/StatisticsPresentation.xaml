@@ -9,6 +9,7 @@
     <UserControl.Resources>
         <Controls:InformationToProgressConverter x:Key="InformationToProgressConverter"/>
         <Controls:InformationToProgressConverter2 x:Key="InformationToProgressConverter2"/>
+        <Controls:MaxDateConverter x:Key="MaxDateConverter"/>
         <Controls:MachineSumToProgressConverter x:Key="MachineSumToProgressConverter"/>
         <Controls:ChunkSumConverter x:Key="ChunkSumConverter"/>
         <Controls:StringLengthConverter x:Key="StringLengthConverter"/>
@@ -29,7 +30,24 @@
             <Setter x:Name="P" Property="IsExpanded" Value="False" />
         </Style>
 
-    </UserControl.Resources>        
+        <Storyboard x:Key="BestGlow" RepeatBehavior="Forever">
+            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(TextElement.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="BestUser">
+                <EasingColorKeyFrame KeyTime="0:0:1" Value="DarkGoldenrod"/>
+                <EasingColorKeyFrame KeyTime="0:0:2" Value="Black"/>
+            </ColorAnimationUsingKeyFrames>
+            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(TextElement.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="BestMachine">
+                <EasingColorKeyFrame KeyTime="0:0:1" Value="DarkGoldenrod"/>
+                <EasingColorKeyFrame KeyTime="0:0:2" Value="Black"/>
+            </ColorAnimationUsingKeyFrames>
+        </Storyboard>
+
+    </UserControl.Resources> 
+    <UserControl.Triggers>
+        <EventTrigger RoutedEvent="Loaded">
+            <BeginStoryboard Storyboard="{StaticResource BestGlow}" />
+        </EventTrigger>
+    </UserControl.Triggers>
+    
         <TabControl>
             <TabItem Header="{Loc _Information_}">
                 <Viewbox>
@@ -80,16 +98,19 @@
                                 </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="26" />
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="188*" />
+                                    <ColumnDefinition Width="189" />
+                                </Grid.ColumnDefinitions>
                                     <Border BorderThickness="1" BorderBrush="Black" LayoutTransform="{StaticResource HeaderRotate}" Grid.Column="0" Grid.RowSpan="6" Background="#FF099BA7">
                                         <Label Content="{Loc AdditionalInformation_}" FontSize="11" HorizontalAlignment="Center" Foreground="White" />
                                     </Border> 
-                                    <Label Content=" Average rate: - key/sec" Name="Rate" VerticalAlignment="Center" Grid.Row="0" Grid.Column="1" HorizontalContentAlignment="Center" Padding="5,5,20,5" />
-                                <Label Content=" Top user: -" Name="BestUser" VerticalAlignment="Bottom" Grid.Row="1" Grid.Column="1" HorizontalContentAlignment="Center" Padding="5,5,20,5" />
-                                <Label Content=" - users are working on this job." Name="UserCount" VerticalAlignment="Top"  Grid.Row="2" Grid.Column="1" HorizontalContentAlignment="Center" Padding="5,5,20,5" />
-                                    <Label Content=" Top machine: -" Name="BestMachine" VerticalAlignment="Bottom" Grid.Row="3" Grid.Column="1" HorizontalContentAlignment="Center" Padding="5,5,20,5" />
-                                    <Label Content=" - machines are working on this job." Name="MachineCount" VerticalAlignment="Top"  Grid.Row="4" Grid.Column="1" HorizontalContentAlignment="Center" Padding="5,5,20,5" />                               
+                                    <Label Content=" Average rate: - key/sec" Name="Rate" VerticalAlignment="Center" Grid.Column="1" HorizontalContentAlignment="Center" Padding="5,5,20,5" Grid.ColumnSpan="2" Margin="0,7,-2,7" />
+                                    <Label Content="Top user: "  VerticalAlignment="Bottom" HorizontalContentAlignment="Right"  Grid.Row="1" Grid.Column="1" Margin="0,0,185,0" Grid.ColumnSpan="2" />
+                                    <Label Content="" Name="BestUser" VerticalAlignment="Bottom" Grid.Row="1" Grid.Column="1" HorizontalContentAlignment="Left" Margin="185,0,-2,0" Grid.ColumnSpan="2" />
+                                    <Label Content=" - users are working on this job." Name="UserCount" VerticalAlignment="Top"  Grid.Row="2" Grid.Column="1" HorizontalContentAlignment="Center" Padding="5,5,20,5" Grid.ColumnSpan="2" Margin="0,0,-2,0" />
+                                    <Label Content="Top machine: "  VerticalAlignment="Bottom" HorizontalContentAlignment="Right"  Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,0,185,0" />
+                                    <Label Content="" Name="BestMachine" VerticalAlignment="Bottom" Grid.Row="3" Grid.Column="1" HorizontalContentAlignment="Left" Margin="185,0,-2,0" Grid.ColumnSpan="2" />
+                                <Label Content=" - machines are working on this job." Name="MachineCount" VerticalAlignment="Top"  Grid.Row="4" Grid.Column="1" HorizontalContentAlignment="Center" Padding="5,5,20,5" Grid.ColumnSpan="2" Margin="0,0,-2,0" />                               
                                 </Grid>
                             </Border>
                        </StackPanel>
@@ -145,7 +166,7 @@
                                         <TextBlock Text="{Binding Path=Key, Converter={StaticResource ResourceKey=StringLengthConverter}}" HorizontalAlignment="Center" ToolTip="{Binding Path=Key}"/>
                                     </Grid>
                                     <Grid>
-                                        <ProgressBar x:Name="Bar" Foreground="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TreeViewItem}},Path=(ItemsControl.AlternationIndex),Converter={StaticResource ResourceKey=TeamsBackgroundConverter}}" Value="{Binding Path=Value, Mode=OneTime, Converter={StaticResource ResourceKey=InformationToProgressConverter}}" Width="{Binding ElementName=statisticsTree, Path=ActualWidth, Converter={StaticResource ResourceKey=WidthConverter}}" Maximum="1" />
+                                    <ProgressBar x:Name="Bar" Foreground="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TreeViewItem}},Path=(ItemsControl.AlternationIndex),Converter={StaticResource ResourceKey=TeamsBackgroundConverter}}" Value="{Binding Path=Value, Mode=OneTime, Converter={StaticResource ResourceKey=InformationToProgressConverter}}" Width="{Binding ElementName=statisticsTree, Path=ActualWidth, Converter={StaticResource ResourceKey=WidthConverter}}" Maximum="1" ToolTip="{Binding Path=Key, Converter={StaticResource ResourceKey=MaxDateConverter}}" />
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                             <TextBlock Text="{Binding Path=Key, Converter={StaticResource ResourceKey=ChunkSumConverter}, StringFormat=\{0\,-5\}}"/>
                                         </StackPanel>
