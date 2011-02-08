@@ -142,6 +142,9 @@ namespace Wizard
 
         private void SetupPage(XElement element)
         {
+            SaveContent();
+            boxesWithWrongContent.Clear();
+
             if ((element.Name == "loadSample") && (element.Attribute("file") != null) && (element.Attribute("title") != null))
             {
                 LoadSample(element.Attribute("file").Value, element.Attribute("title").Value);
@@ -572,17 +575,19 @@ namespace Wizard
 
         void p_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
+            SwitchButtonWhenNecessary();
+
             var cc = (ContentControl)sender;
             var hs = (StackPanel)history.Content;
             int i = hs.Children.IndexOf(cc);
             history.Content = null;
 
-            while (currentHistory.Count > i)
+            while (currentHistory.Count > i+1)
             {
                 currentHistory.RemoveAt(currentHistory.Count - 1);
             }
 
-            XElement parent = ((XElement)cc.Tag).Parent;
+            XElement parent = (XElement)cc.Tag;
 
             if (parent == null)
                 parent = wizardConfigXML;
@@ -732,11 +737,7 @@ namespace Wizard
 
         private void abortButton_Click(object sender, RoutedEventArgs e)
         {
-            if (inputPanel.Visibility == Visibility.Visible)
-            {
-                if (inputPanel.Tag != null && ((XElement)inputPanel.Tag).Name == "loadSample")
-                    SwitchNextButtonContent();
-            }
+            SwitchButtonWhenNecessary();
 
             foreach (RadioButton rb in radioButtonStackPanel.Children)
             {
@@ -754,6 +755,15 @@ namespace Wizard
             SetupPage(wizardConfigXML);
         }
 
+        private void SwitchButtonWhenNecessary()
+        {
+            if (inputPanel.Visibility == Visibility.Visible)
+            {
+                if (inputPanel.Tag != null && ((XElement)inputPanel.Tag).Name == "loadSample")
+                    SwitchNextButtonContent();
+            }
+        }
+
         private void SetNextContent(object sender, EventArgs e)
         {
             if (categoryGrid.Visibility == Visibility.Visible)
@@ -765,19 +775,7 @@ namespace Wizard
                     {
                         var ele = (XElement) b.Tag;
                         SetupPage(ele);
-                        var page = new PageInfo()
-                                       {
-                                           name = FindElementsInElement(ele, "name").First().Value,
-                                           description = FindElementsInElement(ele, "description").First().Value,
-                                           tag = ele
-                                       };
-
-                        if (ele.Attribute("image") != null)
-                        {
-                            page.image = ele.Attribute("image").Value;
-                        }
-
-                        currentHistory.Add(page);
+                        AddToHistory(ele);
 
                         break;
                     }
@@ -785,18 +783,43 @@ namespace Wizard
             }
             else if (inputPanel.Visibility == Visibility.Visible)
             {
-                foreach (var child in inputStack.Children)
-                {
-                    SaveControlContent(child);
-                }
                 var nextElement = (XElement) inputPanel.Tag;
                 SetupPage(nextElement);
+                AddToHistory(nextElement);
             }
 
             Storyboard mainGridStoryboardLeft = (Storyboard)FindResource("MainGridStoryboardNext2");
             mainGridStoryboardLeft.Begin();
 
             CreateHistory();
+        }
+
+        private void SaveContent()
+        {
+            if (inputPanel.Visibility == Visibility.Visible)
+            {
+                foreach (var child in inputStack.Children)
+                {
+                    SaveControlContent(child);
+                }
+            }
+        }
+
+        private void AddToHistory(XElement ele)
+        {
+            var page = new PageInfo()
+                           {
+                               name = FindElementsInElement(ele, "name").First().Value,
+                               description = FindElementsInElement(ele, "description").First().Value,
+                               tag = ele
+                           };
+
+            if (ele.Attribute("image") != null)
+            {
+                page.image = ele.Attribute("image").Value;
+            }
+
+            currentHistory.Add(page);
         }
 
         private void SaveControlContent(object o)
@@ -882,12 +905,6 @@ namespace Wizard
             }
             else if (inputPanel.Visibility == Visibility.Visible)
             {
-                //foreach (var child in inputStack.Children)
-                //{
-                //    DeleteControlContent(child);
-                //}
-                boxesWithWrongContent.Clear();
-
                 ele = (XElement) inputPanel.Tag;
                 if (ele != null && ((XElement)inputPanel.Tag).Name == "loadSample")
                     SwitchNextButtonContent();
@@ -899,7 +916,7 @@ namespace Wizard
                 if (grandParent == null)
                     grandParent = wizardConfigXML;
 
-                if (grandParent.Name == "category" && currentHistory.Count > 0)
+                if (currentHistory.Count > 0)
                     currentHistory.RemoveAt(currentHistory.Count - 1);
 
                 SetupPage(grandParent);
