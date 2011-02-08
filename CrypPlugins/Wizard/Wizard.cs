@@ -14,7 +14,7 @@ namespace Wizard
     [TabColor("white")]
     [EditorInfo("wizard")]
     [Author("Simone Sauer", "sauer@cryptool.org", "Universität Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo("Wizard.Resources.Attributes", false, "Wizard", "The CrypTool 2.0 wizard", null,
+    [PluginInfo("Wizard.Resources.Attributes", false, "Wizard", "The CrypTool 2.0 wizard", "Wizard/DetailedDescription/Description.xaml",
       "Wizard/wizard.png")]
     class Wizard : IEditor
     {
