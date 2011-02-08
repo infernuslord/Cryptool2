@@ -29,14 +29,11 @@
             <Setter x:Name="P" Property="IsExpanded" Value="False" />
         </Style>
 
-    </UserControl.Resources>
-    <StackPanel>
-        <Button Click="SwitchView">Progress</Button>
-        
+    </UserControl.Resources>        
         <TabControl>
             <TabItem Header="{Loc _Information_}">
                 <Viewbox>
-                    <Grid Width="646">
+                <Grid Width="407">
                         <StackPanel>
                             <Border BorderBrush="Silver" BorderThickness="2,2,2,2">
                                 <Grid Height="180" Background="#AFE2E2FF">
@@ -72,31 +69,34 @@
                             </Border>
 
                             <Border BorderBrush="Silver" BorderThickness="2,0,2,2">
-                                <Grid Height="160" Background="#AFAAE1E8">
+                                <Grid Height="190" Background="#AFAAE1E8">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="40" />
                                         <RowDefinition Height="25" />
                                         <RowDefinition Height="40" />
                                         <RowDefinition Height="25" />
-                                        <RowDefinition Height="30" />   
-                                    </Grid.RowDefinitions>
+                                        <RowDefinition Height="30" />
+                                        <RowDefinition Height="30" />
+                                </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="26" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-                                    <Border BorderThickness="1" BorderBrush="Black" LayoutTransform="{StaticResource HeaderRotate}" Grid.Column="0" Grid.RowSpan="5" Background="#FF099BA7">
+                                    <Border BorderThickness="1" BorderBrush="Black" LayoutTransform="{StaticResource HeaderRotate}" Grid.Column="0" Grid.RowSpan="6" Background="#FF099BA7">
                                         <Label Content="{Loc AdditionalInformation_}" FontSize="11" HorizontalAlignment="Center" Foreground="White" />
                                     </Border> 
                                     <Label Content=" Average rate: - key/sec" Name="Rate" VerticalAlignment="Center" Grid.Row="0" Grid.Column="1" HorizontalContentAlignment="Center" Padding="5,5,20,5" />
-                                    <Label Content=" Top user: -" Name="BestUser" VerticalAlignment="Bottom" Grid.Row="1" Grid.Column="1" HorizontalContentAlignment="Center" Padding="5,5,20,5" />
-                                    <Label Content=" - users are working on this job." Name="UserCount" VerticalAlignment="Top"  Grid.Row="2" Grid.Column="1" HorizontalContentAlignment="Center" Padding="5,5,20,5" />
+                                <Label Content=" Top user: -" Name="BestUser" VerticalAlignment="Bottom" Grid.Row="1" Grid.Column="1" HorizontalContentAlignment="Center" Padding="5,5,20,5" />
+                                <Label Content=" - users are working on this job." Name="UserCount" VerticalAlignment="Top"  Grid.Row="2" Grid.Column="1" HorizontalContentAlignment="Center" Padding="5,5,20,5" />
                                     <Label Content=" Top machine: -" Name="BestMachine" VerticalAlignment="Bottom" Grid.Row="3" Grid.Column="1" HorizontalContentAlignment="Center" Padding="5,5,20,5" />
                                     <Label Content=" - machines are working on this job." Name="MachineCount" VerticalAlignment="Top"  Grid.Row="4" Grid.Column="1" HorizontalContentAlignment="Center" Padding="5,5,20,5" />                               
                                 </Grid>
                             </Border>
                        </StackPanel>
+                       <Button Name="myProgButton" Content="Progress" Click="SwitchView" Width="75" Height="23" Margin="10,10" VerticalAlignment="Bottom" HorizontalAlignment="Right" FontWeight="bold" Background="LightBlue" BorderBrush="DarkBlue" Foreground="DarkBlue" />
                     </Grid>
                 </Viewbox>
+                
             </TabItem>
             <TabItem Header="{Loc _Users_}">
                 <Grid>
@@ -154,13 +154,12 @@
                             </HierarchicalDataTemplate>
                         </TreeView.ItemTemplate>
                     </TreeView>
+                    <Button Name="myProgButton2" Content="Progress" Click="SwitchView" Width="75" Height="23" Margin="0,0,6,6" VerticalAlignment="Bottom" HorizontalAlignment="Right" FontWeight="bold" Background="LightBlue" BorderBrush="DarkBlue" Foreground="DarkBlue" Grid.Column="1" Grid.Row="1" />
                 </Grid>
-            
-
-            </TabItem>
+                </TabItem>
         
             <TabItem Header="{Loc _Machines_}">
-                <Grid>
+                        <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="120"/>
                         <ColumnDefinition/>
@@ -194,8 +193,8 @@
                             </HierarchicalDataTemplate>
                         </TreeView.ItemTemplate>
                     </TreeView>
+                    <Button Name="myProgButton3" Content="Progress" Click="SwitchView" Width="75" Height="23" Margin="0,0,6,6" VerticalAlignment="Bottom" HorizontalAlignment="Right" FontWeight="bold" Background="LightBlue" BorderBrush="DarkBlue" Foreground="DarkBlue" Grid.Column="1" Grid.Row="1" />
                 </Grid>
-            </TabItem>        
-        </TabControl>
-    </StackPanel>
+                </TabItem>        
+        </TabControl>    
 </UserControl>
