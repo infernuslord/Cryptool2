@@ -273,29 +273,29 @@ namespace WebService
                 {
                     presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
-                       
-
-                        this.presentation.namespacesTable.Clear();
-                    
-                        this.presentation.soapInput = null;
-                        this.presentation.soapInput = new TreeViewItem();
+                        
+                        this.presentation.NameSpacesTable.Clear();
+                        
+                        this.presentation.SoapInputItem = null;
+                        this.presentation.SoapInputItem = new TreeViewItem();
                         this.presentation._animationTreeView.Items.Clear();
-                        presentation.soapInput.IsExpanded = true;
+                        presentation.SoapInputItem.IsExpanded = true;
                         StackPanel panel1 = new StackPanel();
                         panel1.Orientation = System.Windows.Controls.Orientation.Horizontal;
                         TextBlock elem1 = new TextBlock();
                         elem1.Text = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>";
                         panel1.Children.Insert(0, elem1);
-                        this.presentation.soapInput.Header = panel1;
-                        this.presentation.CopyXmlToTreeView(this._inputDocument.SelectSingleNode("/*"), ref this.presentation.soapInput, false);
+                        this.presentation.SoapInputItem.Header = panel1;
+                        this.presentation.CopyXmlToTreeView(this._inputDocument.SelectSingleNode("/*"), this.presentation.SoapInputItem);
                      //   this.presentation.ResetSoapInputItem();
-                       this.presentation._animationTreeView.Items.Add(this.presentation.soapInput);
-                        this.presentation.FindTreeViewItem(presentation.soapInput, "Envelope", 1).IsExpanded = true;
-                        this.presentation.FindTreeViewItem(presentation.soapInput, "Header", 1).IsExpanded = true;
-                        this.presentation.FindTreeViewItem(presentation.soapInput, "Security", 1).IsExpanded = true;
-                        this.presentation.FindTreeViewItem(presentation.soapInput, "Signature", 1).IsExpanded = true;
-                        this.presentation.FindTreeViewItem(presentation.soapInput, "Body", 1).IsExpanded = true;
+                        this.presentation._animationTreeView.Items.Add(this.presentation.SoapInputItem);
+                        this.presentation.FindTreeViewItem(presentation.SoapInputItem, "Envelope", 1).IsExpanded = true;
+                        this.presentation.FindTreeViewItem(presentation.SoapInputItem, "Header", 1).IsExpanded = true;
+                        this.presentation.FindTreeViewItem(presentation.SoapInputItem, "Security", 1).IsExpanded = true;
+                        this.presentation.FindTreeViewItem(presentation.SoapInputItem, "Signature", 1).IsExpanded = true;
+                        this.presentation.FindTreeViewItem(presentation.SoapInputItem, "Body", 1).IsExpanded = true;
                         this.presentation._animationTreeView.Items.Refresh();
+                       
 
                     }, null);
 
@@ -737,20 +737,20 @@ namespace WebService
                 }, null);
                 presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
-                    presentation.CopyXmlToTreeView(this._wsdlDocument.ChildNodes[1], ref presentation.item, false);
-                    TreeView parent = (TreeView)presentation.item.Parent;
+                    presentation.CopyXmlToTreeView(this._wsdlDocument.ChildNodes[1], presentation.WSDLTreeViewItem);
+                    TreeView parent = (TreeView)presentation.WSDLTreeViewItem.Parent;
 
                     if (parent != null)
                     {
-                        int pos = parent.Items.IndexOf(presentation.item);
+                        int pos = parent.Items.IndexOf(presentation.WSDLTreeViewItem);
                         parent.Items.RemoveAt(pos);
                     }
 
-                    presentation._wsdlTreeView.Items.Add(presentation.item);
-                    presentation.item.IsExpanded = true;
-                    for (int i = 0; i < presentation.item.Items.Count; i++)
+                    presentation._wsdlTreeView.Items.Add(presentation.WSDLTreeViewItem);
+                    presentation.WSDLTreeViewItem.IsExpanded = true;
+                    for (int i = 0; i < presentation.WSDLTreeViewItem.Items.Count; i++)
                     {
-                        TreeViewItem item = (TreeViewItem)presentation.item.Items[i];
+                        TreeViewItem item = (TreeViewItem)presentation.WSDLTreeViewItem.Items[i];
                         item.IsExpanded = true;
                     }
                     presentation.textBox3.Text = "Erstellen erfolgreich";

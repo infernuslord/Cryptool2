@@ -13,7 +13,7 @@ namespace WebService
 {
     public class DecryptionAnimation
     {
-        private TreeViewItem item1, actualEncryptedData,actualEncryptedDataEndTag, actualEncryptedDataParent, actualEncryptedKeyItem, actualEncryptedKeyEndTagItem;
+        private TreeViewItem foundItem, actualEncryptedData,actualEncryptedDataEndTag, actualEncryptedDataParent, actualEncryptedKeyItem, actualEncryptedKeyEndTagItem;
         private int status, actualEncryptedKeyNumber, totalKeyNumber;
         private DispatcherTimer decryptionTimer;
         private WebServicePresentation presentation;
@@ -38,7 +38,7 @@ namespace WebService
         }
         public void initializeAnimation()
         {
-            totalKeyNumber = this.presentation.webService.Validator.GetEncryptedKeyNumber();
+            totalKeyNumber = this.presentation.WebService.Validator.GetEncryptedKeyNumber();
             actualEncryptedKeyNumber = 0;
             status = 1;
            
@@ -144,8 +144,8 @@ namespace WebService
 
                         }
                     }
-                  
-                   TreeViewItem test= (TreeViewItem)this.findReferencedData((TreeViewItem)this.presentation.soapInput.Items[0], "EncryptedData", uri);
+
+                    TreeViewItem test = (TreeViewItem)this.findReferencedData((TreeViewItem)this.presentation.SoapInputItem.Items[0], "EncryptedData", uri);
 
                    this.actualEncryptedData = test;
                    TreeViewItem parent = (TreeViewItem)actualEncryptedData.Parent;
@@ -198,7 +198,7 @@ namespace WebService
                   
                    TreeViewItem tempItem = new TreeViewItem();
                   
-                   presentation.CopyXmlToTreeView((XmlNode)presentation.webService.Validator.DecryptSingleElementByKeyNumber(actualEncryptedKeyNumber), ref tempItem, false);
+                   presentation.CopyXmlToTreeView((XmlNode)presentation.WebService.Validator.DecryptSingleElementByKeyNumber(actualEncryptedKeyNumber),tempItem);
                  
                    TreeViewItem decryptedDataItem = (TreeViewItem)tempItem.Items[0];
                    int n2 = 0;
@@ -324,7 +324,6 @@ namespace WebService
                       this.presentation.getAnimationController().ControllerTimer.Start();
                    break;
                 case 13:
-                   presentation.isbusy = false;
                    if (actualEncryptedKeyNumber + 1 < this.totalKeyNumber)
                    {
                       
@@ -364,7 +363,7 @@ namespace WebService
                                 string[] splitter = wert.Split(new Char[] { '"' });
                                 if (splitter[1].ToString().Equals(reference))
                                 {
-                                    item1 = item;
+                                    foundItem = item;
 
                                     return item;
                                 }
@@ -382,9 +381,9 @@ namespace WebService
                     {
                         findReferencedData(childItem, bezeichner, reference);
                     }
-                    if (item1 != null)
+                    if (foundItem != null)
                     {
-                        return item1;
+                        return foundItem;
                     }
                 }
             }
@@ -401,7 +400,7 @@ namespace WebService
             {
                 if (Bezeichner.Equals(bezeichner))
                 {
-                    item1 = item;
+                    foundItem = item;
 
                     return item;
                 }
@@ -410,9 +409,9 @@ namespace WebService
             {
                 findItem(childItem, bezeichner, 4);
             }
-            if (item1 != null)
+            if (foundItem != null)
             {
-                return item1;
+                return foundItem;
             }
             return null;
         }
@@ -518,7 +517,7 @@ namespace WebService
         }
         public void fillEncryptedDataTreeviewElements()
         {
-            this.findItems((TreeViewItem)this.presentation.soapInput.Items[0], "xenc:EncryptedKey");
+            this.findItems((TreeViewItem)this.presentation.SoapInputItem.Items[0], "xenc:EncryptedKey");
 
             this.initializeAnimation();
            
@@ -533,7 +532,7 @@ namespace WebService
             if (text1.Text.Equals(bezeichner))
             {
 
-                item1 = item;
+                foundItem = item;
                 if (bezeichner.Equals("xenc:EncryptedKey"))
                 {
                     this.encryptedKeyTreeviewElements.Add(item);
@@ -548,9 +547,9 @@ namespace WebService
                 findItems(childItem, bezeichner);
 
             }
-            if (item1 != null)
+            if (foundItem != null)
             {
-                return item1;
+                return foundItem;
             }
 
             return null;
