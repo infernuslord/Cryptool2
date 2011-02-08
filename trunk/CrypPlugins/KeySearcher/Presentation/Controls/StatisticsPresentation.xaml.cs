@@ -193,9 +193,27 @@ namespace KeySearcherPresentation.Controls
 
                 Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
-                     PercentsComplete.Content = string.Format("{0:g} %", percent);
+                     PercentsComplete.Content = string.Format("{0:0."+ getCommaPlaces() +"} %", percent);
                 }, null);
             }
+        }
+
+        private string getCommaPlaces()
+        {
+            var l = totalKeys.ToString().Length;
+
+            if(l < 5)
+            {
+                return "####";
+            }
+            else if(l < 10)
+            {
+                return "########";
+            }
+            else
+            {
+                return "############";
+            }           
         }
 
         private BigInteger users = 1;
