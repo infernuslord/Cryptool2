@@ -50,8 +50,8 @@ namespace WebService
 
         public void InitializeAnimation()
         {
-            this._presentation.decryptionAnimation.fillEncryptedDataTreeviewElements();
-            this._presentation.decryptionAnimation.initializeAnimation();
+            this._presentation.DecryptionAnimation.fillEncryptedDataTreeviewElements();
+            this._presentation.DecryptionAnimation.initializeAnimation();
 
             if (this.GetSecurityHeaderElement(0).Equals("ds:Signature"))
             {
@@ -63,12 +63,12 @@ namespace WebService
             }
             else
             {
-                this._presentation.webService.ShowWarning("There are no security elements");
+                this._presentation.WebService.ShowWarning("There are no security elements");
 
             }
 
             this._actualSecurityElementNumber = 0;
-            this._presentation.FindSignatureItems((TreeViewItem)this._presentation.soapInput.Items[0], "ds:Signature");
+            this._presentation.FindSignatureItems((TreeViewItem)this._presentation.SoapInputItem.Items[0], "ds:Signature");
             this.GetTotalSecurityElementsNumber();
             this._controllerTimer.Start();
 
@@ -88,16 +88,16 @@ namespace WebService
 
         public void InitializeAnimations()
         {
-            this._presentation.decryptionAnimation.initializeAnimation();
+            this._presentation.DecryptionAnimation.initializeAnimation();
             this._presentation.InitializeAnimation();
         }
         public void GetTotalSecurityElementsNumber()
         {
-            this._wsSecurityElementsCounter = this._presentation.webService.Validator.GetTotalSecurityElementsNumber();
+            this._wsSecurityElementsCounter = this._presentation.WebService.Validator.GetTotalSecurityElementsNumber();
         }
         private string GetSecurityHeaderElement(int elementNumber)
         {
-            string securityHeaderName = this._presentation.webService.Validator.GetWSSecurityHeaderElementName(elementNumber);
+            string securityHeaderName = this._presentation.WebService.Validator.GetWSSecurityHeaderElementName(elementNumber);
             return securityHeaderName;
         }
 
@@ -125,7 +125,7 @@ namespace WebService
 
                     this._controllerTimer.Interval = new TimeSpan(0, 0, 0, 5, 0);
                     this._controllerTimer.Stop();
-                    this._presentation.decryptionAnimation.getDecryptiontimer().Start();
+                    this._presentation.DecryptionAnimation.getDecryptiontimer().Start();
                     if (this._actualSecurityElementNumber + 1 < this._wsSecurityElementsCounter)
                     {
                         this._actualSecurityElementNumber++;

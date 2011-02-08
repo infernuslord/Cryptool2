@@ -139,40 +139,44 @@ namespace WebService
             ArrayList referenceElementList = this.FindXmlElementByURI(uri, this._inputDocument.ChildNodes[1]);
             XmlElement keyInfoElement = this._inputDocument.CreateElement("KeyInfo", SignedXml.XmlDsigNamespaceUrl);
             keyInfoElement.AppendChild(encryptedKeyElement);
-            XmlElement encryptedDataElement = (XmlElement)referenceElementList[0];
-            RSACryptoServiceProvider provider = this._webService.RSACryptoServiceProvider;
-            XmlDocument doc = new XmlDocument();
-            XmlElement root = doc.CreateElement("root");
-            root.AppendChild(doc.ImportNode((XmlNode)encryptedKeyElement, true));
-            root.AppendChild(doc.ImportNode(encryptedDataElement, true));
-            doc.AppendChild(root);
-            EncryptedXml encxml2 = new EncryptedXml(doc);
-            EncryptedKey encKey2 = new EncryptedKey();
-            encKey2.LoadXml((XmlElement)doc.GetElementsByTagName("xenc:EncryptedKey")[0]);
-            EncryptedData encData2 = new EncryptedData();
-            EncryptedData encDataElement2 = new EncryptedData();
-            XmlElement data2 = (XmlElement)doc.GetElementsByTagName("xenc:EncryptedData")[0];
-            encDataElement2.LoadXml((XmlElement)doc.GetElementsByTagName("xenc:EncryptedData")[0]);
-            encxml2.AddKeyNameMapping("Web Service Public Key", provider);
-            SymmetricAlgorithm algo2 = SymmetricAlgorithm.Create();
-            algo2.Key = encxml2.DecryptEncryptedKey(encKey2);
-            byte[] t2 = encxml2.DecryptData(encDataElement2, algo2);
-            encxml2.ReplaceData(data2, t2);
-            doc.GetElementsByTagName("root")[0].RemoveChild(doc.GetElementsByTagName("xenc:EncryptedKey")[0]);
-            this._tracer.appendDecryptedData(uri, doc.FirstChild.InnerXml);
-            EncryptedXml encXml = new EncryptedXml(this._inputDocument);
-            encXml.AddKeyNameMapping("Web Service Public Key", provider);
-            EncryptedData data = new EncryptedData();
-            data.LoadXml((XmlElement)encryptedDataElement);
-            SymmetricAlgorithm algo = SymmetricAlgorithm.Create();
-            algo.Key = encXml.DecryptEncryptedKey(encryptdKey);
-            byte[] t = encXml.DecryptData(data, algo);
-            encXml.ReplaceData(encryptedDataElement, t);
-            this._encryptedDataList.Add(encryptedDataElement);
-            this._decryptedDataList.Add(doc.GetElementsByTagName("root")[0]);
-            this._encryptedKeyElements.Add(encryptedKeyElement);
-            string decryptedXmlString;
-            return decryptedXmlString = Convert.ToBase64String(t);
+            if (referenceElementList.Count > 0)
+            {
+                XmlElement encryptedDataElement = (XmlElement)referenceElementList[0];
+                RSACryptoServiceProvider provider = this._webService.RSACryptoServiceProvider;
+                XmlDocument doc = new XmlDocument();
+                XmlElement root = doc.CreateElement("root");
+                root.AppendChild(doc.ImportNode((XmlNode)encryptedKeyElement, true));
+                root.AppendChild(doc.ImportNode(encryptedDataElement, true));
+                doc.AppendChild(root);
+                EncryptedXml encxml2 = new EncryptedXml(doc);
+                EncryptedKey encKey2 = new EncryptedKey();
+                encKey2.LoadXml((XmlElement)doc.GetElementsByTagName("xenc:EncryptedKey")[0]);
+                EncryptedData encData2 = new EncryptedData();
+                EncryptedData encDataElement2 = new EncryptedData();
+                XmlElement data2 = (XmlElement)doc.GetElementsByTagName("xenc:EncryptedData")[0];
+                encDataElement2.LoadXml((XmlElement)doc.GetElementsByTagName("xenc:EncryptedData")[0]);
+                encxml2.AddKeyNameMapping("Web Service Public Key", provider);
+                SymmetricAlgorithm algo2 = SymmetricAlgorithm.Create();
+                algo2.Key = encxml2.DecryptEncryptedKey(encKey2);
+                byte[] t2 = encxml2.DecryptData(encDataElement2, algo2);
+                encxml2.ReplaceData(data2, t2);
+                doc.GetElementsByTagName("root")[0].RemoveChild(doc.GetElementsByTagName("xenc:EncryptedKey")[0]);
+                this._tracer.appendDecryptedData(uri, doc.FirstChild.InnerXml);
+                EncryptedXml encXml = new EncryptedXml(this._inputDocument);
+                encXml.AddKeyNameMapping("Web Service Public Key", provider);
+                EncryptedData data = new EncryptedData();
+                data.LoadXml((XmlElement)encryptedDataElement);
+                SymmetricAlgorithm algo = SymmetricAlgorithm.Create();
+                algo.Key = encXml.DecryptEncryptedKey(encryptdKey);
+                byte[] t = encXml.DecryptData(data, algo);
+                encXml.ReplaceData(encryptedDataElement, t);
+                this._encryptedDataList.Add(encryptedDataElement);
+                this._decryptedDataList.Add(doc.GetElementsByTagName("root")[0]);
+                this._encryptedKeyElements.Add(encryptedKeyElement);
+                string decryptedXmlString;
+                return decryptedXmlString = Convert.ToBase64String(t);
+            }
+            return string.Empty;
         }
         public XmlElement DecryptSingleElementByKeyNumber(int encryptedKeyNumber)
         {
@@ -460,7 +464,7 @@ namespace WebService
                             foundElement = (XmlElement)childNote;
                             this._referenceList.Add(foundElement);
                             this._reference = foundElement;
-                            break;
+                            return this._referenceList;
                         }
                         if (foundElement != null)
                         {
