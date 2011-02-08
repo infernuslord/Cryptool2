@@ -950,6 +950,47 @@ namespace Wizard
             }
         }
 
+        protected override void OnKeyDown(KeyEventArgs e)
+        {
+            switch (e.Key)
+            {
+                case Key.Up:
+                case Key.Down:
+                    if (categoryGrid.Visibility == Visibility.Visible)
+                    {
+                        if (radioButtonStackPanel.Children.Count != 0)
+                        {
+                            int i = 0;
+                            while (((RadioButton)radioButtonStackPanel.Children[i]).IsChecked == false)
+                                i++;
+                            ((RadioButton)radioButtonStackPanel.Children[i]).IsChecked = false;
+
+                            if (e.Key == Key.Down)
+                            {
+                                if (radioButtonStackPanel.Children.Count > i + 1)
+                                    ((RadioButton)radioButtonStackPanel.Children[i + 1]).IsChecked = true;
+                                else
+                                    ((RadioButton)radioButtonStackPanel.Children[0]).IsChecked = true;
+                            }
+                            else   //Up
+                            {
+                                if (i - 1 >= 0)
+                                    ((RadioButton)radioButtonStackPanel.Children[i - 1]).IsChecked = true;
+                                else
+                                    ((RadioButton)radioButtonStackPanel.Children[radioButtonStackPanel.Children.Count - 1]).IsChecked = true;
+                            }
+                        }
+                    }
+                    break;
+
+                case Key.Left:
+                    break;
+
+                case Key.Right:
+                    break;
+            }
+        }
+
     }
 
     internal struct PluginPropertyValue
