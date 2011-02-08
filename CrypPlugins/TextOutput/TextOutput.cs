@@ -51,7 +51,20 @@ namespace TextOutput
     private Dictionary<string, NotificationLevel> dicWarningsAndErros = new Dictionary<string, NotificationLevel>();
     private bool canSendPropertiesChangedEvent = true;
     private int inputs = 0;
-    private string fillValue;
+
+    private string _currentValue;
+    private string CurrentValue
+    {
+        get
+        {
+            return _currentValue;
+        }
+        set
+        {
+            _currentValue = value;
+            OnPropertyChanged("CurrentValue");
+        }
+    }
     #endregion
 
     #region events
@@ -108,9 +121,9 @@ namespace TextOutput
 
     void settings_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {
-      if (e.PropertyName == "PresentationFormatSetting" && fillValue != null)
+      if (e.PropertyName == "PresentationFormatSetting" && CurrentValue != null)
       {
-        setText(fillValue);
+        setText(CurrentValue);
       }
     }
 
@@ -193,7 +206,7 @@ namespace TextOutput
 
         if (value == null)
         {
-            fillValue = string.Empty;
+            CurrentValue = string.Empty;
             OnPropertyChanged(propertyKey);
         }
         else
@@ -212,11 +225,11 @@ namespace TextOutput
             {
                 if (settings.BooleanAsNumeric)
                 {
-                    fillValue = Convert.ToInt32(value).ToString();
+                    CurrentValue = Convert.ToInt32(value).ToString();
                 }
                 else
                 {
-                    fillValue = ((bool)value).ToString();
+                    CurrentValue = ((bool)value).ToString();
                 }
             }
             else if (value is ICryptoolStream)
@@ -230,7 +243,7 @@ namespace TextOutput
                     int bytesRead;
                     reader.Seek(0, SeekOrigin.Begin);
                     bytesRead = reader.ReadFully(byteValues, 0, byteValues.Length);
-                    fillValue = GetStringForSelectedEncoding(byteValues);   
+                    CurrentValue = GetStringForSelectedEncoding(byteValues);   
                 }
             }
             else if (value is byte[])
@@ -252,22 +265,22 @@ namespace TextOutput
                 {
                     sizedArray[i] = byteArray[i];
                 }
-                fillValue = GetStringForSelectedEncoding(sizedArray);
+                CurrentValue = GetStringForSelectedEncoding(sizedArray);
             }
             else
             {
-                fillValue = value.ToString();
+                CurrentValue = value.ToString();
             }
         }
 
-        if (fillValue != null)
+        if (CurrentValue != null)
         {
-            if (fillValue.Length > settings.MaxLength)
+            if (CurrentValue.Length > settings.MaxLength)
             {
-                fillValue = fillValue.Substring(0, settings.MaxLength);
+                CurrentValue = CurrentValue.Substring(0, settings.MaxLength);
             }
 
-            setText(fillValue);
+            setText(CurrentValue);
             OnPropertyChanged(propertyKey);
         }
       }
