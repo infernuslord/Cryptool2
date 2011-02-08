@@ -637,10 +637,10 @@ namespace XMLSerialization
                     {
                         if(workspaceManager != null)
                         {
-                            workspaceManager.GuiLogMessage("Cold not deserialize model element \"" + membername.InnerText + "\" of type \"" + membertype.InnerText + "\" because of:" + ex.Message,NotificationLevel.Warning);
+                            workspaceManager.GuiLogMessage("Could not deserialize model element \"" + membername.InnerText + "\" of type \"" + membertype.InnerText + "\" because of:" + ex.Message,NotificationLevel.Warning);
                         }else
                         {
-                            Console.WriteLine("Cold not deserialize model element \"" + membername.InnerText + "\" of type \"" + membertype.InnerText + "\" because of:" + ex.Message);
+                            Console.WriteLine("Could not deserialize model element \"" + membername.InnerText + "\" of type \"" + membertype.InnerText + "\" because of:" + ex.Message);
                         }
                     }
                 }
@@ -679,11 +679,11 @@ namespace XMLSerialization
                 {
                     if (workspaceManager != null)
                     {
-                        workspaceManager.GuiLogMessage("Cold not restore reference beteen model element \"" + membername + "\" and its reference with id \"" + reference + "\" because of:" + ex.Message, NotificationLevel.Warning);
+                        workspaceManager.GuiLogMessage("Could not restore reference beteen model element \"" + membername + "\" and its reference with id \"" + reference + "\" because of:" + ex.Message, NotificationLevel.Warning);
                     }
                     else
                     {
-                        Console.WriteLine("Cold not restore reference beteen model element \"" + membername + "\" and its reference with id \"" + reference + "\" because of:" + ex.Message);
+                        Console.WriteLine("Could not restore reference beteen model element \"" + membername + "\" and its reference with id \"" + reference + "\" because of:" + ex.Message);
                     }
                 }
             }

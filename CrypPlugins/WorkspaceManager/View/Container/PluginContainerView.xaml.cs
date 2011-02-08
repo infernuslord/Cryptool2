@@ -24,6 +24,7 @@ using System.ComponentModel;
 using System.Collections.ObjectModel;
 using Cryptool.PluginBase.Control;
 using System.Collections;
+using WorkspaceManager.Model.Tools;
 namespace WorkspaceManager.View.Container
 {
     public enum PluginViewState
@@ -577,9 +578,21 @@ namespace WorkspaceManager.View.Container
                 Canvas.SetLeft(this, value.X);
 
             Point p = GetPosition();
-            Model.Position = p;
+            if (Model.WorkspaceModel.UndoRedoManager != null && 
+                !Model.WorkspaceModel.UndoRedoManager.Working
+                && !Model.Position.Equals(p))
+            {
+                Model.WorkspaceModel.UndoRedoManager.DidOperation(
+                    new MoveModelElementOperation(Model)
+                    {
+                        SingleOperation = true,
+                        OldPosition = Model.Position,
+                        NewPosition = p
+                    });
+            }
+            Model.Position = p;            
             PositionOnWorkSpaceX = p.X;
-            PositionOnWorkSpaceY = p.Y;
+            PositionOnWorkSpaceY = p.Y;            
         }
 
         public Point GetPosition()
