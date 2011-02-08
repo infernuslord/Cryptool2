@@ -32,7 +32,7 @@ namespace Cryptool.P2PEditor
     [EditorInfo("p2p")]
     [Author("Paul Lelgemann", "lelgemann@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
     [PluginInfo("Cryptool.P2PEditor.Resources.Attributes", false, "P2P Interface",
-        "Control interface for the integrated P2P network.", null,
+        "Control interface for the integrated P2P network.", "P2PEditor/DetailedDescription/Description.xaml",
         "P2PEditor/images/icon.png")]
     public class P2PEditor : IEditor
     {
@@ -139,12 +139,13 @@ namespace Cryptool.P2PEditor
 
         public void ShowHelp()
         {
-            ((P2PEditorPresentation) Presentation).ShowHelp();
+            //((P2PEditorPresentation) Presentation).ShowHelp();
+            OnOpenTab(this.GetDescriptionDocument(), "P2PEditor Description", this);
         }
 
         public void ShowSelectedPluginDescription()
         {
-            ((P2PEditorPresentation) Presentation).ShowHelp();
+            ShowHelp();
         }
 
         public bool CanUndo

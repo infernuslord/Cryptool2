@@ -55,7 +55,7 @@ namespace WorkspaceManager
     [TabColor("blue")]
     [EditorInfo("cwm")]
     [Author("Viktor Matkovic,Nils Kopal", "nils.kopal@cryptool.org", "Universität Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo("WorkspaceManager.Resources.Attributes", false, "Workspace Manager", "Graphical plugin editor for the CrypTool workspace", null, "WorkspaceManager/View/Image/WorkspaceManagerIcon.ico")]
+    [PluginInfo("WorkspaceManager.Resources.Attributes", false, "Workspace Manager", "Graphical plugin editor for the CrypTool workspace", "WorkspaceManager/DetailedDescription/Description.xaml", "WorkspaceManager/View/Image/WorkspaceManagerIcon.ico")]
     public class WorkspaceManager : IEditor
     {
 
@@ -376,7 +376,7 @@ namespace WorkspaceManager
         /// </summary>
         public void ShowHelp()
         {
-            //to be implemented
+            OnOpenTab(this.GetDescriptionDocument(), "WorkspaceManager Description", this);
         }
 
         /// <summary>
@@ -384,7 +384,8 @@ namespace WorkspaceManager
         /// </summary>
         public void ShowSelectedPluginDescription()
         {
-            //to be implemented
+            //to be implemented properly
+            ShowHelp();
         }
 
         /// <summary>
