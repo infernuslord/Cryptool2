@@ -233,9 +233,9 @@ namespace Soap
 
         private StackPanel insertNamespace(ref StackPanel panel, string nspace, string Prefix)
         {
-            if (!presentation.namespacesTable.ContainsValue(nspace))
+            if (!presentation._namespacesTable.ContainsValue(nspace))
             {
-                presentation.namespacesTable.Add(nspace, nspace);
+                presentation._namespacesTable.Add(nspace, nspace);
                 TextBlock xmlns = new TextBlock();
                 xmlns.Name = "xmlns";
                 xmlns.Text = " xmlns";
@@ -276,9 +276,9 @@ namespace Soap
                 }
                 else
                 {
-                    if (!presentation.namespacesTable.ContainsValue(tempAttribute.Value))
+                    if (!presentation._namespacesTable.ContainsValue(tempAttribute.Value))
                     {
-                        presentation.namespacesTable.Add(tempAttribute.Value, tempAttribute.Value);
+                        presentation._namespacesTable.Add(tempAttribute.Value, tempAttribute.Value);
                         TextBlock name = new TextBlock();
                         name.Text = " " + tempAttribute.Name;
 
@@ -327,7 +327,7 @@ namespace Soap
 
        private void createAttributeForElement(string Element,string attName, string attValue)
        {
-           TreeViewItem item = findItem(presentation.securedSoapItem, Element);
+           TreeViewItem item = findItem(presentation.SecuredSoapItem, Element);
            StackPanel panel = (StackPanel) item.Header;
          
            TextBlock attributeName = new TextBlock();
@@ -361,7 +361,7 @@ namespace Soap
 
        private void animateItemInclChilds(string parentElem)
        {
-           TreeViewItem parentElement = findItem(presentation.securedSoapItem, parentElem);
+           TreeViewItem parentElement = findItem(presentation.SecuredSoapItem, parentElem);
            TextSizeAnimation.AutoReverse = true;
            parentElement.BeginAnimation(TreeViewItem.FontSizeProperty, TextSizeAnimation);
            TextSizeAnimation.AutoReverse = false;
@@ -372,7 +372,7 @@ namespace Soap
             TreeViewItem parentElement;
             if (!useactSigItem)
             {
-               parentElement = findItem(presentation.securedSoapItem, parentElem);
+               parentElement = findItem(presentation.SecuredSoapItem, parentElem);
             }
             else {
                parentElement = findItem(actSignatureItem, parentElem);
@@ -609,8 +609,8 @@ namespace Soap
 
         private void animateElement(string itemName)
         {
-            TreeViewItem item = findItem(presentation.securedSoapItem, itemName);
-            TreeViewItem closeItem = findItem (presentation.securedSoapItem, "/"+itemName);
+            TreeViewItem item = findItem(presentation.SecuredSoapItem, itemName);
+            TreeViewItem closeItem = findItem (presentation.SecuredSoapItem, "/"+itemName);
 
             StackPanel panel = (StackPanel)item.Header;
             StackPanel panel2 = (StackPanel)closeItem.Header;
@@ -717,16 +717,16 @@ namespace Soap
                 case 0:
                     //Start and HeaderCheck
                     dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 6, 0);
-                    presentation.addTextToInformationBox("Check Envelope for SOAP-Header");
+                    presentation.AddTextToInformationBox("Check Envelope for SOAP-Header");
                     bool secHead = soap.CheckSecurityHeader();
                     if (!secHead)
                     {
-                        presentation.addTextToInformationBox("No SOAP-Header found");
+                        presentation.AddTextToInformationBox("No SOAP-Header found");
                         status = 1;
                     }
                     else
                     {
-                        presentation.addTextToInformationBox("SOAP-Header already exists");
+                        presentation.AddTextToInformationBox("SOAP-Header already exists");
                         animateElement("s:Header");
                         status = 2;
                     }
@@ -734,7 +734,7 @@ namespace Soap
 
                 case 1:
                     //Create Soap Header
-                    presentation.addTextToInformationBox("Add Soap-Header to Envelope");
+                    presentation.AddTextToInformationBox("Add Soap-Header to Envelope");
                     soap.CreateSecurityHeaderAndSoapHeader();
                     addChildElement("s:Envelope",soap.SecuredSoap.GetElementsByTagName("s:Header")[0],true);
                     status = 3;
@@ -743,22 +743,22 @@ namespace Soap
 
                 case 2:
                     //Check Security Header -> Found -> Animate
-                    presentation.addTextToInformationBox("Check for Security-Header");
-                    presentation.addTextToInformationBox("Security-Header found");
+                    presentation.AddTextToInformationBox("Check for Security-Header");
+                    presentation.AddTextToInformationBox("Security-Header found");
                     animateElement("wsse:Security");
                     status = 4;
                     break;
 
                 case 3:
                     //Create Security Header
-                    presentation.addTextToInformationBox("Create Security-Header as child of SOAP-Header");
+                    presentation.AddTextToInformationBox("Create Security-Header as child of SOAP-Header");
                     addChildElement("s:Header", soap.SecuredSoap.GetElementsByTagName("wsse:Security")[0], true);
                     status = 4;
                     break;
 
                 case 4:
                     //Create Signature Element
-                    presentation.addTextToInformationBox("Create a ds:Signature-Element as first child of the Security-Header");
+                    presentation.AddTextToInformationBox("Create a ds:Signature-Element as first child of the Security-Header");
                     soap.SignElementsManual(this.elementsToSign);
                     signed = true;
                     addChildElement("wsse:Security", soap.SecuredSoap.GetElementsByTagName("ds:Signature")[0], true);
@@ -768,7 +768,7 @@ namespace Soap
                 
                 case 5:
                     //Create SignedInfo Element
-                    presentation.addTextToInformationBox("Create a ds:SignedInfo Element");
+                    presentation.AddTextToInformationBox("Create a ds:SignedInfo Element");
                     useactSigItem = true;
                     addChildElement("ds:Signature", soap.SecuredSoap.GetElementsByTagName("ds:SignedInfo")[0], false);
                     status = 6;
@@ -776,8 +776,8 @@ namespace Soap
 
                 case 6:
                     //Textoutput for Canonic. Method
-                    presentation.addTextToInformationBox("Create Canonicalization Method Element");
-                    presentation.addTextToInformationBox("This Element specifies the canonicalization method for the Signed-Info Element");
+                    presentation.AddTextToInformationBox("Create Canonicalization Method Element");
+                    presentation.AddTextToInformationBox("This Element specifies the canonicalization method for the Signed-Info Element");
                     status = 7;
                     
                     break;
@@ -791,7 +791,7 @@ namespace Soap
 
                 case 8:
                     //Textoutput Signature Method
-                    presentation.addTextToInformationBox("Create Signature Method Element with the choosen signature algorithm");
+                    presentation.AddTextToInformationBox("Create Signature Method Element with the choosen signature algorithm");
                     string s = "";
                     if(soap.GetSignatureAlgorithm().Equals("1"))
                     {
@@ -800,7 +800,7 @@ namespace Soap
                     {
                         s="DSA-SHA1";
                     }
-                    presentation.addTextToInformationBox("The signature algorithm is: "+ s);
+                    presentation.AddTextToInformationBox("The signature algorithm is: "+ s);
                     status = 9;
                     break;
                 case 9:
@@ -811,7 +811,7 @@ namespace Soap
                     break;
                 case 10:
                     //Start Reference Elements 
-                    presentation.addTextToInformationBox("Create Reference-Elements for the elements to sign");
+                    presentation.AddTextToInformationBox("Create Reference-Elements for the elements to sign");
                     referencesCounter = 0;
                     referencesTimer.Start();
                     actTimer = referencesTimer;
@@ -820,12 +820,12 @@ namespace Soap
                     status = 11;
                     break;
                 case 11:
-                    presentation.addTextToInformationBox("Create Signature Value Element");
+                    presentation.AddTextToInformationBox("Create Signature Value Element");
                     actSignatureValue = addChildElement(actSignatureItem, soap.SecuredSoap.GetElementsByTagName("ds:SignatureValue")[0], false);
                     status = 12;
                     break;
                 case 12:
-                    presentation.addTextToInformationBox("Canonicalize the SignedInfo Element");
+                    presentation.AddTextToInformationBox("Canonicalize the SignedInfo Element");
                     rootItem = (TreeViewItem)presentation.treeView.Items[0];
                     TreeViewItem canon = new TreeViewItem();
                     StreamReader sreader = new StreamReader(soap.CanonicalizeNodeWithExcC14n((XmlElement)soap.SecuredSoap.GetElementsByTagName("ds:SignedInfo")[0]));
@@ -840,30 +840,30 @@ namespace Soap
                     panel.Children.Add(tb);
                     canon.Header = panel;
                     XmlNode node = (XmlNode)elem.ChildNodes[0];
-                    presentation.CopyXmlToTreeView(node, ref canon);
+                    presentation.CopyXmlToTreeView(node, canon);
                     presentation.treeView.Items.Clear();
                     canon.IsExpanded = true;
                     presentation.treeView.Items.Add(canon);
                     status = 13;
                     break;
                 case 13:
-                    presentation.addTextToInformationBox("Calculate SHA-1 Hash Value of this Element");
+                    presentation.AddTextToInformationBox("Calculate SHA-1 Hash Value of this Element");
                     status = 14;
                     break;
                 case 14:
                     XmlElement signedInfo = (XmlElement)soap.SecuredSoap.GetElementsByTagName("ds:SignedInfo")[0];
                     byte[] temp = soap.GetDigestValueForElementWithSha1(signedInfo);
                     string value = Convert.ToBase64String(temp);
-                    presentation.addTextToInformationBox("SHA-1 Hash Value of the ds:SignedInfo Element is: "+value);
+                    presentation.AddTextToInformationBox("SHA-1 Hash Value of the ds:SignedInfo Element is: "+value);
                     status = 15;
                     break;
                 case 15:
-                    presentation.addTextToInformationBox("Encrypt the calculated SHA-1 hash value to get die signature value");
+                    presentation.AddTextToInformationBox("Encrypt the calculated SHA-1 hash value to get die signature value");
                     status = 16;
                     break;
                 case 16:
                     XmlNode signatureValue = soap.SecuredSoap.GetElementsByTagName("ds:SignatureValue")[0];
-                    presentation.addTextToInformationBox("The Signature Value is: "+signatureValue.InnerText);
+                    presentation.AddTextToInformationBox("The Signature Value is: "+signatureValue.InnerText);
                     presentation.treeView.Items.Clear();
                     presentation.treeView.Items.Add(rootItem);
                     createValue(actSignatureValue,signatureValue.InnerText);
@@ -871,7 +871,7 @@ namespace Soap
                     break;
                 case 17:
                     animateElement(actSignatureValue);
-                    presentation.addTextToInformationBox("Add KeyInfo Element");
+                    presentation.AddTextToInformationBox("Add KeyInfo Element");
                     
                     status = 18;
                     break;
@@ -898,9 +898,9 @@ namespace Soap
                     tbTagClose.Foreground = elemBrush;
                     tbTagOpen.Foreground = elemBrush;
 
-                    presentation.insertNamespace(ref panel1, keyInfoXML.NamespaceURI, "ds");
+                    presentation.InsertNamespace(panel1, keyInfoXML.NamespaceURI, "ds");
                     keyInfo.Header = panel1;
-                    presentation.CopyXmlToTreeView(keyInfoXML, ref keyInfo);
+                    presentation.CopyXmlToTreeView(keyInfoXML, keyInfo);
                     actSignatureItem.Items.Add(keyInfo);
                     animateElement(keyInfo);
                     status = 19;
@@ -922,45 +922,45 @@ namespace Soap
             switch (referencesSteps)
             {
                 case 0:
-                    TreeViewItem element = findItem(presentation.securedSoapItem, actElementToReference.Name);
+                    TreeViewItem element = findItem(presentation.SecuredSoapItem, actElementToReference.Name);
                     element.BringIntoView();
                     actElementToReferenceTVI = element;
                     if (!soap.GetXPathTransForm())
                     {
                         actElementToReference = elementsToSign[referencesCounter];
-                        presentation.addTextToInformationBox("Check if the " + actElementToReference.Name + "-Element has an ID");
+                        presentation.AddTextToInformationBox("Check if the " + actElementToReference.Name + "-Element has an ID");
 
                         string id = checkForID(element);
                         if (id != null)
                         {
-                            presentation.addTextToInformationBox("The Element already has an ID: " + id);
+                            presentation.AddTextToInformationBox("The Element already has an ID: " + id);
                             animateElement(actElementToReference.Name);
                             referencesSteps = 2;
                         }
                         else
                         {
-                            presentation.addTextToInformationBox("The Element has no ID");
+                            presentation.AddTextToInformationBox("The Element has no ID");
                             referencesSteps = 1;
                         }
                     }
                     else
                     {
-                        presentation.addTextToInformationBox("The " + actElementToReference.Name + " Element is referenced by a xPath transform");
+                        presentation.AddTextToInformationBox("The " + actElementToReference.Name + " Element is referenced by a xPath transform");
                         referencesSteps = 3;
                     }
                     break;
 
                 case 1:
                     //Generate ID for Act Element
-                    presentation.addTextToInformationBox("Create Id for the Element");
-                    TreeViewItem element1 = findItem(presentation.securedSoapItem, actElementToReference.Name);
+                    presentation.AddTextToInformationBox("Create Id for the Element");
+                    TreeViewItem element1 = findItem(presentation.SecuredSoapItem, actElementToReference.Name);
                     createAttributeForElement(actElementToReference.Name, "Id", soap.GetIdToElement(actElementToReference.Name));
                     referencesSteps = 2;
                     break;
 
 
                 case 2:
-                    presentation.addTextToInformationBox("Create Reference Element for " + actElementToReference.Name + " Element");
+                    presentation.AddTextToInformationBox("Create Reference Element for " + actElementToReference.Name + " Element");
                     actReferenceElementTVI = addChildElement("ds:SignedInfo", soap.SecuredSoap.GetElementsByTagName("ds:Reference")[referencesCounter], false);
                     actReferenceElement = (XmlElement)soap.SecuredSoap.GetElementsByTagName("ds:Reference")[referencesCounter];
                  
@@ -970,17 +970,17 @@ namespace Soap
               
                 case 3:
                     //XPAth Reference Element
-                    presentation.addTextToInformationBox("Create Reference Element for " + actElementToReference.Name + " Element");
+                    presentation.AddTextToInformationBox("Create Reference Element for " + actElementToReference.Name + " Element");
                     actReferenceElementTVI = addChildElement("ds:SignedInfo", soap.SecuredSoap.GetElementsByTagName("ds:Reference")[referencesCounter], false);
                     actReferenceElement = (XmlElement)soap.SecuredSoap.GetElementsByTagName("ds:Reference")[referencesCounter];
                     referencesSteps = 4;
                     break;
                 case 4:
-                    presentation.addTextToInformationBox("The Reference Element needs no URI cause of the XPath Transform");
+                    presentation.AddTextToInformationBox("The Reference Element needs no URI cause of the XPath Transform");
                     referencesSteps = 5;
                     break;
                 case 5:
-                    presentation.addTextToInformationBox("Create a Transforms Element");
+                    presentation.AddTextToInformationBox("Create a Transforms Element");
                     useactSigItem = true;
                     actTransformsElementTVI = addChildElement("ds:Reference", soap.SecuredSoap.GetElementsByTagName("ds:Transforms")[referencesCounter], false);
                     referencesSteps = 6;
@@ -994,23 +994,23 @@ namespace Soap
                     referenceElementsTimer.Stop();
                     break;
                 case 7:
-                    presentation.addTextToInformationBox("Create the DigestMethod-Element");
+                    presentation.AddTextToInformationBox("Create the DigestMethod-Element");
                     addChildElement("ds:Reference", soap.SecuredSoap.GetElementsByTagName("ds:DigestMethod")[referencesCounter], false);
                     referencesSteps = 8;
                     break;
 
                 case 8:
-                    presentation.addTextToInformationBox("Calculate the DigestValue for the Referenced Element");
+                    presentation.AddTextToInformationBox("Calculate the DigestValue for the Referenced Element");
                     referencesSteps = 9;
                     break;
                 case 9:
-                    presentation.addTextToInformationBox("Find the referenced element");
+                    presentation.AddTextToInformationBox("Find the referenced element");
                     referencesSteps = 10;
                     break;
                 case 10:
                     if (soap.GetXPathTransForm())
                     {
-                        presentation.addTextToInformationBox("URI is empty, so the complete document is referenced");
+                        presentation.AddTextToInformationBox("URI is empty, so the complete document is referenced");
                         TreeViewItem temp = (TreeViewItem)presentation.treeView.Items[0];
                         temp.BringIntoView();
                         animateElement(temp);
@@ -1018,14 +1018,14 @@ namespace Soap
                     }
                     else
                     {
-                        presentation.addTextToInformationBox("The referenced element is: " + actElementToReference.Name);
+                        presentation.AddTextToInformationBox("The referenced element is: " + actElementToReference.Name);
                         actElementToReferenceTVI.BringIntoView();
                         animateElement(actElementToReferenceTVI);
                         referencesSteps = 13;
                     }
                     break;
                 case 11:
-                    presentation.addTextToInformationBox("Do the XPath Transform on the referenced element");
+                    presentation.AddTextToInformationBox("Do the XPath Transform on the referenced element");
                     xPathSteps = xPath.Split(new char[] { '/' });
                     xPathArrayCounter = 1;
                     referencesSteps = 12;
@@ -1033,7 +1033,7 @@ namespace Soap
                 case 12:
                     if (xPathArrayCounter <= xPathSteps.Length - 1)
                     {
-                        presentation.addTextToInformationBox("Actual element: " + xPathSteps[xPathArrayCounter]);
+                        presentation.AddTextToInformationBox("Actual element: " + xPathSteps[xPathArrayCounter]);
                         animateItemInclChilds(xPathSteps[xPathArrayCounter]);
                         xPathArrayCounter++;
                     }
@@ -1043,12 +1043,12 @@ namespace Soap
                     }
                     break;
                 case 13:
-                    presentation.addTextToInformationBox("Canonicalize the actual Element");
+                    presentation.AddTextToInformationBox("Canonicalize the actual Element");
                     referencesSteps = 14;
                     break;
 
                 case 14:
-                    presentation.addTextToInformationBox("The canonicalized element is:");
+                    presentation.AddTextToInformationBox("The canonicalized element is:");
                     rootItem = (TreeViewItem)presentation.treeView.Items[0];
                     TreeViewItem canon = new TreeViewItem();
                     StreamReader sreader = new StreamReader(soap.CanonicalizeNodeWithExcC14n(actElementToReference));
@@ -1060,7 +1060,7 @@ namespace Soap
                     tb.FontSize = 14;
                     tb.Text = "Canonicalized Element";
                     XmlNode node = (XmlNode)elem.ChildNodes[0];
-                    presentation.CopyXmlToTreeView(node, ref canon);
+                    presentation.CopyXmlToTreeView(node, canon);
                     presentation.treeView.Items.Clear();
                     canon.IsExpanded = true;
                     presentation.treeView.Items.Add(canon);
@@ -1070,12 +1070,12 @@ namespace Soap
                     referencesSteps = 16;
                     break;
                 case 16:
-                    presentation.addTextToInformationBox("Calculate SHA-1 Hash of this Element:");
+                    presentation.AddTextToInformationBox("Calculate SHA-1 Hash of this Element:");
                     referencesSteps = 17;
                     break;
                 case 17:
                     XmlNode digest = soap.SecuredSoap.GetElementsByTagName("ds:DigestValue")[referencesCounter];
-                    presentation.addTextToInformationBox("SHA-1 Value:" + digest.InnerText);
+                    presentation.AddTextToInformationBox("SHA-1 Value:" + digest.InnerText);
                     referencesSteps = 18;
 
                     break;
@@ -1083,13 +1083,13 @@ namespace Soap
                     presentation.treeView.Items.Clear();
                     presentation.treeView.Items.Add(rootItem);
 
-                    presentation.addTextToInformationBox("Create Digest Value Element");
+                    presentation.AddTextToInformationBox("Create Digest Value Element");
                     actDigestValue = addChildElement(actReferenceElementTVI, soap.SecuredSoap.GetElementsByTagName("ds:DigestValue")[referencesCounter], false);
                     referencesSteps = 19;
                     break;
 
                 case 19:
-                    presentation.addTextToInformationBox("Add Digest Value to Digest Value Element");
+                    presentation.AddTextToInformationBox("Add Digest Value to Digest Value Element");
                     createValue(actDigestValue, soap.SecuredSoap.GetElementsByTagName("ds:DigestValue")[referencesCounter].InnerText);
                     referencesSteps = 20;
                     break;
@@ -1135,7 +1135,7 @@ namespace Soap
                 case 0:
                     if (transformsCounter > 1)
                     {
-                        presentation.addTextToInformationBox("Create a XPath Transform Element");
+                        presentation.AddTextToInformationBox("Create a XPath Transform Element");
                         //TreeViewItem test = addChildElement("ds:Transforms",actReferenceElement.FirstChild.ChildNodes[0],true);
                         addChildElement(actTransformsElementTVI, actReferenceElement.FirstChild.ChildNodes[0], true);
                         xPathHelper = null;
@@ -1147,11 +1147,11 @@ namespace Soap
                     }
                     break;
                 case 1:
-                    presentation.addTextToInformationBox("Create XPath String");
+                    presentation.AddTextToInformationBox("Create XPath String");
                     xPath = "/" + actElementToReference.Name;
                     xPathHelper = actElementToReference;
                     transformSteps = 2;
-                    presentation.addTextToInformationBox("Actual XPath: " + xPath);
+                    presentation.AddTextToInformationBox("Actual XPath: " + xPath);
                     break;
                 case 2:
                     
@@ -1159,20 +1159,20 @@ namespace Soap
                     xPath = "/"+xPathHelper.Name+xPath;
 
                     animateElement(xPathHelper.Name);
-                    presentation.addTextToInformationBox("Actual XPath: " + xPath);
+                    presentation.AddTextToInformationBox("Actual XPath: " + xPath);
                     if (xPathHelper.Name.Equals("s:Envelope"))
                     {
                         transformSteps = 3;
                     }
                     break;
                 case 3:
-                    presentation.addTextToInformationBox("Add XPath Value to Transform Element");
+                    presentation.AddTextToInformationBox("Add XPath Value to Transform Element");
                     createValue((TreeViewItem)actTransformsElementTVI.Items[0], xPath);
                     transformSteps=4;
                     break;
                 case 4:
                     //Create C14N
-                    presentation.addTextToInformationBox("Create Canonicalization Transform");
+                    presentation.AddTextToInformationBox("Create Canonicalization Transform");
                     if (soap.GetXPathTransForm())
                     {
                         addChildElement(actTransformsElementTVI, actReferenceElement.FirstChild.ChildNodes[1], false);
