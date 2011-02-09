@@ -53,13 +53,13 @@ namespace TextOutput
     private int inputs = 0;
 
     private string _currentValue;
-    private string CurrentValue
+    public string CurrentValue
     {
         get
         {
             return _currentValue;
         }
-        set
+        private set
         {
             _currentValue = value;
             OnPropertyChanged("CurrentValue");

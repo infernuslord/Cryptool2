@@ -1,5 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -39,7 +42,7 @@ namespace Wizard
             public XElement tag;
         }
 
-        List<PageInfo> currentHistory = new List<PageInfo>();
+        ObservableCollection<PageInfo> currentHistory = new ObservableCollection<PageInfo>();
         private Dictionary<string, bool> selectedCategories = new Dictionary<string, bool>();
         private SolidColorBrush selectionBrush = new SolidColorBrush();
         private const string configXMLPath = "Wizard.Config.wizard.config.start.xml";
@@ -47,6 +50,9 @@ namespace Wizard
         private XElement wizardConfigXML;
         private Dictionary<string, PluginPropertyValue> propertyValueDict = new Dictionary<string, PluginPropertyValue>();
         private HashSet<TextBox> boxesWithWrongContent = new HashSet<TextBox>();
+        private HistoryTranslateTransformConverter historyTranslateTransformConverter = new HistoryTranslateTransformConverter();
+        private List<TextBox> currentOutputBoxes = new List<TextBox>();
+        private List<TextBox> currentInputBoxes = new List<TextBox>();
 
         internal event OpenTabHandler OnOpenTab;
         internal event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
@@ -70,8 +76,14 @@ namespace Wizard
 
             InitializeComponent();
 
+            currentHistory.CollectionChanged += delegate
+                                                    {
+                                                        CreateHistory();
+                                                    };
+
             selectionBrush.Color = Color.FromArgb(255, 200, 220, 245);
             SetupPage(wizardConfigXML);
+            AddToHistory(wizardConfigXML);
         }
 
         // generate the full XML tree for the wizard (recursive)
@@ -140,15 +152,38 @@ namespace Wizard
 
         #endregion
 
+        #region HistoryTranslateTransformConverter
+
+        [ValueConversion(typeof(double), typeof(double))]
+        class HistoryTranslateTransformConverter : IValueConverter
+        {
+            public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+            {
+                return (double)value - 2;
+            }
+
+            public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        #endregion
+
         private void SetupPage(XElement element)
         {
+            nextButton.IsEnabled = true;
+
+            currentOutputBoxes.Clear();
+            currentInputBoxes.Clear();
             SaveContent();
             boxesWithWrongContent.Clear();
 
             if ((element.Name == "loadSample") && (element.Attribute("file") != null) && (element.Attribute("title") != null))
             {
-                LoadSample(element.Attribute("file").Value, element.Attribute("title").Value);
+                LoadSample(element.Attribute("file").Value, element.Attribute("title").Value, true);
                 abortButton_Click(null, null);
+                return;
             }
 
             XElement parent = element.Parent;
@@ -176,7 +211,7 @@ namespace Wizard
                 descHeader.Content = desc.Value;
 
 
-            if (element.Name == "input")
+            if (element.Name == "input" || element.Name == "sampleViewer")
             {
                 categoryGrid.Visibility = Visibility.Hidden;
                 inputPanel.Visibility = Visibility.Visible;
@@ -186,18 +221,31 @@ namespace Wizard
                              select el;
 
                 inputStack.Children.Clear();
-
-                inputPanel.Tag = element.Element("input");
-                if (inputPanel.Tag == null)
-                    inputPanel.Tag = element.Element("category");
-                if (inputPanel.Tag == null)
+                
+                var allNexts = (from el in element.Elements()
+                                 where el.Name == "input" || el.Name == "category" || el.Name == "loadSample" || el.Name == "sampleViewer"
+                                 select el);
+                if (allNexts.Count() > 0)
                 {
-                    inputPanel.Tag = element.Element("loadSample");
-                    if (inputPanel.Tag != null)
+                    inputPanel.Tag = allNexts.First();
+                    if (allNexts.First().Name == "loadSample")
                         SwitchNextButtonContent();
                 }
+                else
+                {
+                    var dummy = new XElement("loadSample");
+                    element.Add(dummy);
+                    inputPanel.Tag = dummy;
+                    SwitchNextButtonContent();
+                }
 
-                FillInputStack(inputs, element.Name.ToString());
+                FillInputStack(inputs, element.Name.ToString(), (element.Name == "input"));
+
+                if (element.Name == "sampleViewer" && (element.Attribute("file") != null) && (element.Attribute("title") != null))
+                {
+                    nextButton.IsEnabled = false;
+                    LoadSample(element.Attribute("file").Value, element.Attribute("title").Value, false);
+                }
 
                 string id = GetElementID((XElement)inputPanel.Tag);
 
@@ -293,7 +341,7 @@ namespace Wizard
             }
         }
 
-        private void FillInputStack(IEnumerable<XElement> inputs, string type)
+        private void FillInputStack(IEnumerable<XElement> inputs, string type, bool isInput)
         {
             var inputFieldStyle = (Style)FindResource("InputFieldStyle");
 
@@ -307,7 +355,7 @@ namespace Wizard
                     description.FontWeight = FontWeights.Bold;
                     inputStack.Children.Add(description);
 
-                    Control inputElement = CreateInputElement(input, inputFieldStyle);
+                    Control inputElement = CreateInputElement(input, inputFieldStyle, isInput);
 
                     //Set width:
                     if (inputElement != null && input.Attribute("width") != null)
@@ -364,7 +412,7 @@ namespace Wizard
             }
         }
 
-        private Control CreateInputElement(XElement input, Style inputFieldStyle)
+        private Control CreateInputElement(XElement input, Style inputFieldStyle, bool isInput)
         {
             Control element = null;
 
@@ -374,6 +422,7 @@ namespace Wizard
             {
                 case "inputBox":
                     var inputBox = new TextBox();
+                    inputBox.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
                     inputBox.Tag = input;
                     inputBox.AcceptsReturn = true;
                     if (input.Attribute("visibleLines") != null)
@@ -402,6 +451,9 @@ namespace Wizard
                         inputBox.Text = (string)propertyValueDict[key].Value;
                     else if (input.Attribute("defaultValue") != null)
                         inputBox.Text = input.Attribute("defaultValue").Value.Trim();
+
+                    if (!isInput)
+                        currentInputBoxes.Add(inputBox);
 
                     element = inputBox;
                     break;
@@ -476,7 +528,11 @@ namespace Wizard
                     break;
 
                 case "outputBox":
+                    if (isInput)
+                        break;
+
                     var outputBox = new TextBox();
+                    outputBox.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
                     outputBox.Tag = input;
                     outputBox.AcceptsReturn = true;
                     if (input.Attribute("visibleLines") != null)
@@ -500,10 +556,10 @@ namespace Wizard
                             CheckRegex(outputBox, regex);
                         };
                     }
-
-                    //TODO: Refresh content from sample on runtime
+                    
                     outputBox.IsEnabled = false;
 
+                    currentOutputBoxes.Add(outputBox);
                     element = outputBox;
                     break;
             }
@@ -534,7 +590,7 @@ namespace Wizard
                 var sp = new StackPanel { Orientation = Orientation.Horizontal, Background = bg };
                 p.Content = sp;
                 p.Tag = page.tag;
-                p.MouseDoubleClick += new MouseButtonEventHandler(p_MouseDoubleClick);
+                p.MouseDoubleClick += new MouseButtonEventHandler(page_MouseDoubleClick);
 
                 Polygon triangle = new Polygon();
                 triangle.Points = new PointCollection();
@@ -558,6 +614,7 @@ namespace Wizard
                 triangle.RenderTransform = translateTranform;
                 Binding binding = new Binding("ActualWidth");
                 binding.Source = p;
+                binding.Converter = historyTranslateTransformConverter;
                 BindingOperations.SetBinding(translateTranform, TranslateTransform.XProperty, binding);
 
                 historyStack.Children.Add(p);
@@ -567,7 +624,7 @@ namespace Wizard
             history.ScrollToRightEnd();
         }
 
-        void p_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        void page_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             SwitchButtonWhenNecessary();
 
@@ -581,14 +638,14 @@ namespace Wizard
                 currentHistory.RemoveAt(currentHistory.Count - 1);
             }
 
+            CreateHistory();
+
             XElement parent = (XElement)cc.Tag;
 
             if (parent == null)
                 parent = wizardConfigXML;
 
             SetupPage(parent);
-
-            CreateHistory();
         }
 
         private void CheckRegex(TextBox textBox, Regex regex)
@@ -620,12 +677,14 @@ namespace Wizard
                 return "";
         }
 
-        private void LoadSample(string file, string title)
+        private void LoadSample(string file, string title, bool openTab)
         {
             file = SamplesDir + "\\" + file;
 
             var newEditor = new WorkspaceManager.WorkspaceManager();
             var model = ModelPersistance.loadModel(file, newEditor);
+
+            //Fill in all data from wizard to sample:
             foreach (var c in propertyValueDict)
             {
                 var ppv = c.Value;
@@ -633,13 +692,18 @@ namespace Wizard
                 {
                     var plugin = model.AllPluginModels.Where(x => x.Name == ppv.PluginName).First().Plugin;
                     var settings = plugin.Settings;
-                    var property = settings.GetType().GetProperty(ppv.PropertyName);
-                    if (ppv.Value is string)
-                        property.SetValue(settings, (string)ppv.Value, null);
-                    else if (ppv.Value is int)
-                        property.SetValue(settings, (int)ppv.Value, null);
-                    else if (ppv.Value is bool)
-                        property.SetValue(settings, (bool)ppv.Value, null);
+
+                    var property = plugin.GetType().GetProperty(ppv.PropertyName) ?? settings.GetType().GetProperty(ppv.PropertyName);
+
+                    if (property != null)
+                    {
+                        if (ppv.Value is string)
+                            property.SetValue(settings, (string) ppv.Value, null);
+                        else if (ppv.Value is int)
+                            property.SetValue(settings, (int) ppv.Value, null);
+                        else if (ppv.Value is bool)
+                            property.SetValue(settings, (bool) ppv.Value, null);
+                    }
                 }
                 catch (Exception)
                 {
@@ -647,12 +711,99 @@ namespace Wizard
                 }
             }
 
-            OnOpenTab(newEditor, title, null);
+            //Register events for output boxes:
+            foreach (var outputBox in currentOutputBoxes)
+            {
+                XElement ele = (XElement) outputBox.Tag;
+                var pluginName = ele.Attribute("plugin").Value;
+                var propertyName = ele.Attribute("property").Value;
+                if (pluginName != null && propertyName != null)
+                {
+                    var plugin = model.AllPluginModels.Where(x => x.Name == pluginName).First().Plugin;
+                    var settings = plugin.Settings;
+                    object theObject = null;
+
+                    var property = plugin.GetType().GetProperty(propertyName);
+                    EventInfo propertyChangedEvent = null;
+                    if (property != null)
+                    {
+                        propertyChangedEvent = plugin.GetType().GetEvent("PropertyChanged");
+                        theObject = plugin;
+                    }
+                    else    //Use property from settings
+                    {
+                        property = settings.GetType().GetProperty(propertyName);
+                        propertyChangedEvent = settings.GetType().GetEvent("PropertyChanged");
+                        theObject = settings;
+                    }
+
+                    if (property != null && propertyChangedEvent != null)
+                    {
+                        TextBox box = outputBox;
+                        propertyChangedEvent.AddEventHandler(theObject, (PropertyChangedEventHandler)delegate(Object sender, PropertyChangedEventArgs e)
+                                                                                                    {
+                                                                                                        if (e.PropertyName == propertyName)
+                                                                                                        {
+                                                                                                            UpdateOutputBox(box, property, theObject);
+                                                                                                        }
+                                                                                                    });
+                    }
+                }
+            }
+
+            //Register events for input boxes:
+            foreach (var inputBox in currentInputBoxes)
+            {
+                XElement ele = (XElement)inputBox.Tag;
+                var pluginName = ele.Attribute("plugin").Value;
+                var propertyName = ele.Attribute("property").Value;
+                if (pluginName != null && propertyName != null)
+                {
+                    var plugin = model.AllPluginModels.Where(x => x.Name == pluginName).First().Plugin;
+                    var settings = plugin.Settings;
+                    object theObject = null;
+
+                    var property = plugin.GetType().GetProperty(propertyName);
+                    if (property != null)
+                    {
+                        theObject = plugin;
+                    }
+                    else    //Use property from settings
+                    {
+                        property = settings.GetType().GetProperty(propertyName);
+                        theObject = settings;
+                    }
+
+                    if (property != null)
+                    {
+                        inputBox.TextChanged += delegate
+                                                    {
+                                                        property.SetValue(settings, (string) inputBox.Text, null);
+                                                        plugin.Initialize();
+                                                    };
+                    }
+                }
+            }
+
+            //load sample:
             foreach (PluginModel pluginModel in model.AllPluginModels)
             {
                 pluginModel.Plugin.Initialize();
             }
-            newEditor.Open(model);                   
+            newEditor.Open(model);
+
+            if (openTab)
+                OnOpenTab(newEditor, title, null);
+            else
+                newEditor.Execute();
+        }
+
+        private void UpdateOutputBox(TextBox box, PropertyInfo property, object theObject)
+        {
+            Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                                                             {
+                                                                 box.Text = (string) property.GetValue(theObject, null);
+                                                             }, null);
         }
 
         void rb_Checked(object sender, RoutedEventArgs e)
@@ -740,6 +891,7 @@ namespace Wizard
 
             history.Content = null;
             currentHistory.Clear();
+            AddToHistory(wizardConfigXML);
             propertyValueDict.Clear();
             ResetSelectionDependencies();
             radioButtonStackPanel.Children.Clear();
@@ -767,9 +919,8 @@ namespace Wizard
                     if (b.IsChecked != null && (bool) b.IsChecked)
                     {
                         var ele = (XElement) b.Tag;
-                        SetupPage(ele);
                         AddToHistory(ele);
-
+                        SetupPage(ele);
                         break;
                     }
                 }
@@ -777,14 +928,12 @@ namespace Wizard
             else if (inputPanel.Visibility == Visibility.Visible)
             {
                 var nextElement = (XElement) inputPanel.Tag;
-                SetupPage(nextElement);
                 AddToHistory(nextElement);
+                SetupPage(nextElement);
             }
 
             Storyboard mainGridStoryboardLeft = (Storyboard)FindResource("MainGridStoryboardNext2");
             mainGridStoryboardLeft.Begin();
-
-            CreateHistory();
         }
 
         private void SaveContent()
@@ -800,19 +949,26 @@ namespace Wizard
 
         private void AddToHistory(XElement ele)
         {
-            var page = new PageInfo()
-                           {
-                               name = FindElementsInElement(ele, "name").First().Value,
-                               description = FindElementsInElement(ele, "description").First().Value,
-                               tag = ele
-                           };
-
-            if (ele.Attribute("image") != null)
+            try
             {
-                page.image = ele.Attribute("image").Value;
-            }
+                var page = new PageInfo()
+                                   {
+                                       name = FindElementsInElement(ele, "name").First().Value,
+                                       description = FindElementsInElement(ele, "description").First().Value,
+                                       tag = ele
+                                   };
 
-            currentHistory.Add(page);
+                if (ele.Attribute("image") != null)
+                {
+                    page.image = ele.Attribute("image").Value;
+                }
+
+                currentHistory.Add(page);
+            }
+            catch (Exception)
+            {
+                GuiLogMessage("Error adding page to history", NotificationLevel.Error);
+            }
         }
 
         private void SaveControlContent(object o)
@@ -921,8 +1077,6 @@ namespace Wizard
 
             Storyboard mainGridStoryboardLeft = (Storyboard)FindResource("MainGridStoryboardBack2");
             mainGridStoryboardLeft.Begin();
-
-            CreateHistory();
         }
 
         private void GuiLogMessage(string message, NotificationLevel loglevel)
