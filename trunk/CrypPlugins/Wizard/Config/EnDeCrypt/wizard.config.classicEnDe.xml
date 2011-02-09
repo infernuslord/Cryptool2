@@ -49,7 +49,7 @@
       <item content="Base64" lang="en"/>
     </comboBox>
 
-    <input>
+    <sampleViewer file="WorkspaceManagerSamples\Caesar_Sample.cwm" title="W_Caesar_Sample">
       <name lang="en">Summary</name>
       <description lang="en" >
         Bla bla.
@@ -57,8 +57,6 @@
 
       <headline lang="en" >Summary</headline>
       <desc lang="en">Here is a summary of your choice.</desc>
-
-      <history alignment="Center"/>
       
       <inputBox plugin="TextInput1" property="Text" alignment="Right" width="80%" visibleLines="5">
         <description lang="en">
@@ -88,14 +86,14 @@
         <item content="Base64" lang="en"/>
       </comboBox>
 
-      <outputBox plugin="CaesarResult" property="Text" alignment="Stretch" width="80%" visibleLines="2">
+      <outputBox plugin="CaesarResult" property="CurrentValue" alignment="Stretch" width="80%" visibleLines="2">
         <description lang="en">
           Some output message:
         </description>
       </outputBox>
       
-      <loadSample file="WorkspaceManagerSamples\Caesar_Sample.cwm" title="W_Caesar_Sample"/>
-    </input>
+      <!--<loadSample file="WorkspaceManagerSamples\Caesar_Sample.cwm" title="W_Caesar_Sample"/>-->
+    </sampleViewer>
     
   </input>
 

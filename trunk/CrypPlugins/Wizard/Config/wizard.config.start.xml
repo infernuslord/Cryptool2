@@ -4,6 +4,9 @@
 
 <category>
 
+  <name lang="en">Main</name>
+  <description lang="en">Main page</description>
+  
   <!-- This is the step's headline. It should be short, but precise. -->
   <headline lang="en" >Task Selection</headline>
 
