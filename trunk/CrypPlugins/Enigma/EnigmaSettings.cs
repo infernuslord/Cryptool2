@@ -783,11 +783,17 @@ namespace Cryptool.Enigma
             get { return ring1; }
             set
             {
-                if (value != ring1)
+                if (value < ring1)
                 {
                     hasChanges = true;
                     ring1 = value;
-                    OnPropertyChanged("Ring1");
+                    OnPropertyChanged("Ring1down");
+                }
+                if (value > ring1)
+                {
+                    hasChanges = true;
+                    ring1 = value;
+                    OnPropertyChanged("Ring1up");
                 }
             }
         }
@@ -798,11 +804,17 @@ namespace Cryptool.Enigma
             get { return ring2; }
             set
             {
-                if (value != ring2)
+                if (value < ring2)
                 {
                     hasChanges = true;
                     ring2 = value;
-                    OnPropertyChanged("Ring2");
+                    OnPropertyChanged("Ring2down");
+                }
+                if (value > ring2)
+                {
+                    hasChanges = true;
+                    ring2 = value;
+                    OnPropertyChanged("Ring2up");
                 }
             }
         }
@@ -813,11 +825,17 @@ namespace Cryptool.Enigma
             get { return ring3; }
             set
             {
-                if (value != ring3)
+                if (value < ring3)
                 {
                     hasChanges = true;
                     ring3 = value;
-                    OnPropertyChanged("Ring3");
+                    OnPropertyChanged("Ring3down");
+                }
+                if (value > ring3)
+                {
+                    hasChanges = true;
+                    ring3 = value;
+                    OnPropertyChanged("Ring3up");
                 }
             }
         }
@@ -828,11 +846,17 @@ namespace Cryptool.Enigma
             get { return ring4; }
             set
             {
-                if (value != ring4)
+                if (value < ring4)
                 {
                     hasChanges = true;
                     ring4 = value;
-                    OnPropertyChanged("Ring4");
+                    OnPropertyChanged("Ring4down");
+                }
+                if (value > ring4)
+                {
+                    hasChanges = true;
+                    ring4 = value;
+                    OnPropertyChanged("Ring4up");
                 }
             }
         }

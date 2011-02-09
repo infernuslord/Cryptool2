@@ -80,6 +80,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DragAdorner.cs" />
+    <Compile Include="Walze.cs" />
+    <Compile Include="Rotor2.cs" />
     <Compile Include="Enigma.cs" />
     <Compile Include="EnigmaAnalyzer.cs" />
     <Compile Include="EnigmaConstants.cs" />
@@ -87,6 +90,9 @@
     <Compile Include="EnigmaEnums.cs" />
     <Compile Include="EnigmaSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="EnigmaPresentation.xaml.cs">
+      <DependentUpon>EnigmaPresentation.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CrypPluginBase\CrypPluginBase.csproj">
@@ -132,6 +138,32 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="EnigmaPresentation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\1.jpg" />
+    <Resource Include="Images\kiste.png" />
+    <Resource Include="Images\oldpaper.png" />
+    <Resource Include="Images\paper.png" />
+    <Resource Include="Images\walze.png" />
+    <Resource Include="Images\background2.png" />
+    <Resource Include="Images\rotor.png" />
+    <Resource Include="Images\background2.jpg" />
+    <Resource Include="Images\kiste.jpg" />
+    <Resource Include="Images\oldpaper.jpg" />
+    <Resource Include="Images\paper.jpg" />
+    <Resource Include="Images\rotor.jpg" />
+    <Resource Include="Images\rotor1.jpg" />
+    <Resource Include="Images\rotor2.jpg" />
+    <Resource Include="Images\rotor3.jpg" />
+    <Resource Include="Images\rotor4.jpg" />
+    <Resource Include="Images\rotor5.jpg" />
+    <Resource Include="Images\walze.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

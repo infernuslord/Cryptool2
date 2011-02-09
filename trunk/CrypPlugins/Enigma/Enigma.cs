@@ -31,6 +31,7 @@ using System.Reflection;
 using System.Resources;
 
 //Cryptool 2.0 specific includes
+using Cryptool;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Analysis;
 using Cryptool.PluginBase.Cryptography;
@@ -58,6 +59,7 @@ namespace Cryptool.Enigma
         #region Private variables
 
         private EnigmaSettings settings;
+        private EnigmaPresentation myPresentation;
         private EnigmaCore core;
         private EnigmaAnalyzer analyzer;
         private string inputString;
@@ -270,6 +272,10 @@ namespace Cryptool.Enigma
             this.analyzer = new EnigmaAnalyzer(this);
             this.analyzer.OnIntermediateResult += new EventHandler<IntermediateResultEventArgs>(analyzer_OnIntermediateResult);
             this.statistics = new Dictionary<int, IDictionary<string, double[]>>();
+            myPresentation = new EnigmaPresentation();
+            this.Presentation = myPresentation;
+            this.settings.PropertyChanged += myPresentation.settings_OnPropertyChange;
+            this.settings.PropertyChanged += settings_OnPropertyChange;
         }
 
         #endregion
@@ -281,7 +287,16 @@ namespace Cryptool.Enigma
 #pragma warning restore
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
         public event PluginProgressChangedEventHandler OnPluginProgressChanged;
-        
+
+        private void settings_OnPropertyChange(object sender, PropertyChangedEventArgs e)
+        {
+            EnigmaSettings dummyset = sender as EnigmaSettings;
+            //myPresentation.settingsChanged(dummyset);
+            
+            
+            LogMessage("OnPropertyChange " + e.PropertyName, NotificationLevel.Debug);
+        }
+
         #endregion
 
         #region IPlugin properties
@@ -293,12 +308,13 @@ namespace Cryptool.Enigma
 
         public UserControl Presentation
         {
-            get { return null; }
+            get;
+            private set;
         }
 
         public UserControl QuickWatchPresentation
         {
-            get { return null; }
+            get { return Presentation; }
         }
 
         #endregion
