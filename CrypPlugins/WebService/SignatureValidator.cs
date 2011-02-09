@@ -92,7 +92,7 @@ namespace WebService
                 {
                     try
                     {
-                        this.DercryptSingleXmlElement(tempElement);
+                       string decryptedElement = this.DercryptSingleXmlElement(tempElement);
                     }
                     catch (Exception e)
                     {
