@@ -78,31 +78,47 @@ namespace WebService
                 case 2:
                     this.presentation._animationStepsTextBox.Text += "\n Encrypt Key";
                     this.presentation._animationStepsTextBox.Text += "\n -> find EncryptionMethod";
-                    this.presentation._animationStepsTextBox.ScrollToLine(this.presentation._animationStepsTextBox.LineCount - 1);
+                    if (this.presentation._animationStepsTextBox.LineCount > 0)
+                    {
+                        this.presentation._animationStepsTextBox.ScrollToLine(this.presentation._animationStepsTextBox.LineCount - 1);
+                    }
                     this.findItem((TreeViewItem)this.encryptedKeyTreeviewElements[actualEncryptedKeyNumber], "EncryptionMethod", 1).BringIntoView();
                     this.animateFoundElements(this.findItem((TreeViewItem)this.encryptedKeyTreeviewElements[actualEncryptedKeyNumber], "EncryptionMethod", 1), this.findItem((TreeViewItem)this.encryptedKeyTreeviewElements[actualEncryptedKeyNumber], "/xenc:EncryptionMethod", 1));
                     status++;
                     break;
                 case 3:
                     this.presentation._animationStepsTextBox.Text += "\n -> Get information about the key to decrypt the encrypted key";
-                    this.presentation._animationStepsTextBox.ScrollToLine(this.presentation._animationStepsTextBox.LineCount - 1);
+                    if (this.presentation._animationStepsTextBox.LineCount > 0)
+                    {
+                        this.presentation._animationStepsTextBox.ScrollToLine(this.presentation._animationStepsTextBox.LineCount - 1);
+                    }
                     this.findItem((TreeViewItem)this.encryptedKeyTreeviewElements[actualEncryptedKeyNumber], "KeyInfo", 1).BringIntoView();
                     this.animateFoundElements(this.findItem((TreeViewItem)this.encryptedKeyTreeviewElements[actualEncryptedKeyNumber], "KeyInfo", 1), this.findItem((TreeViewItem)this.encryptedKeyTreeviewElements[actualEncryptedKeyNumber], "/ds:KeyInfo", 1));
                     this.presentation._animationStepsTextBox.Text += "\n The information shows that the key was encrypted mit the Web Service public key";
-                    this.presentation._animationStepsTextBox.ScrollToLine(this.presentation._animationStepsTextBox.LineCount - 1);
+                    if (this.presentation._animationStepsTextBox.LineCount > 0)
+                    {
+                        this.presentation._animationStepsTextBox.ScrollToLine(this.presentation._animationStepsTextBox.LineCount - 1);
+                    }
                     status++;
                     break;
                 case 4:
                     this.presentation._animationStepsTextBox.Text += "\n ->  Get the cipher data";
-                    this.presentation._animationStepsTextBox.ScrollToLine(this.presentation._animationStepsTextBox.LineCount - 1);
-                    this.findItem((TreeViewItem)this.encryptedKeyTreeviewElements[actualEncryptedKeyNumber], "CipherData", 1).BringIntoView();
+                    if (this.presentation._animationStepsTextBox.LineCount > 0)
+                    {
+                        this.presentation._animationStepsTextBox.ScrollToLine(this.presentation._animationStepsTextBox.LineCount - 1);
+                    }
+                        this.findItem((TreeViewItem)this.encryptedKeyTreeviewElements[actualEncryptedKeyNumber], "CipherData", 1).BringIntoView();
                     this.animateFoundElements(this.findItem((TreeViewItem)this.encryptedKeyTreeviewElements[actualEncryptedKeyNumber], "CipherData", 1), this.findItem((TreeViewItem)this.encryptedKeyTreeviewElements[actualEncryptedKeyNumber], "/xenc:CipherData", 1));
                     status++;
                     break;
                 case 5:
                     this.presentation._animationStepsTextBox.Text += "\n ->  Get the cipher value inside cipher data";
-                    this.presentation._animationStepsTextBox.Text += "\n ->  which represents the encrypted key"; 
+                    this.presentation._animationStepsTextBox.Text += "\n ->  which represents the encrypted key";
+                    if (this.presentation._animationStepsTextBox.LineCount > 0)
+                    {
                     this.presentation._animationStepsTextBox.ScrollToLine(this.presentation._animationStepsTextBox.LineCount - 1);
+                    
+                    }
                     this.findItem((TreeViewItem)this.encryptedKeyTreeviewElements[actualEncryptedKeyNumber], "CipherValue", 1).BringIntoView();
                     this.animateFoundElements(this.findItem((TreeViewItem)this.encryptedKeyTreeviewElements[actualEncryptedKeyNumber], "CipherValue", 1), this.findItem((TreeViewItem)this.encryptedKeyTreeviewElements[actualEncryptedKeyNumber], "/xenc:CipherValue", 1));
                     status++;
@@ -110,16 +126,22 @@ namespace WebService
                 case 6:
                     this.presentation._animationStepsTextBox.Text += "\n -> Decrypt the encrypted key";
                     this.presentation._animationStepsTextBox.Text += "\n -> Get the reference list which shows";
-                    this.presentation._animationStepsTextBox.Text += "\n -> which data was encrypted with the encrypted key"; 
-                    this.presentation._animationStepsTextBox.ScrollToLine(this.presentation._animationStepsTextBox.LineCount - 1);
-                    this.findItem((TreeViewItem)this.encryptedKeyTreeviewElements[actualEncryptedKeyNumber], "ReferenceList", 1).BringIntoView();
+                    this.presentation._animationStepsTextBox.Text += "\n -> which data was encrypted with the encrypted key";
+                    if (this.presentation._animationStepsTextBox.LineCount > 0)
+                    {
+                        this.presentation._animationStepsTextBox.ScrollToLine(this.presentation._animationStepsTextBox.LineCount - 1);
+                    }
+                        this.findItem((TreeViewItem)this.encryptedKeyTreeviewElements[actualEncryptedKeyNumber], "ReferenceList", 1).BringIntoView();
                     this.animateFoundElements(this.findItem((TreeViewItem)this.encryptedKeyTreeviewElements[actualEncryptedKeyNumber], "ReferenceList", 1), this.findItem((TreeViewItem)this.encryptedKeyTreeviewElements[actualEncryptedKeyNumber], "/xenc:ReferenceList", 1));
                     status++;
                     break;
                 case 7:
                     this.presentation._animationStepsTextBox.Text += "\n -> Get the reference";
-                    this.presentation._animationStepsTextBox.ScrollToLine(this.presentation._animationStepsTextBox.LineCount - 1);
-                    this.findItem((TreeViewItem)this.encryptedKeyTreeviewElements[actualEncryptedKeyNumber], "DataReference", 1).BringIntoView();
+                    if (this.presentation._animationStepsTextBox.LineCount > 0)
+                    {
+                        this.presentation._animationStepsTextBox.ScrollToLine(this.presentation._animationStepsTextBox.LineCount - 1);
+                    }
+                        this.findItem((TreeViewItem)this.encryptedKeyTreeviewElements[actualEncryptedKeyNumber], "DataReference", 1).BringIntoView();
                     this.animateFoundElements(this.findItem((TreeViewItem)this.encryptedKeyTreeviewElements[actualEncryptedKeyNumber], "DataReference", 1), this.findItem((TreeViewItem)this.encryptedKeyTreeviewElements[actualEncryptedKeyNumber], "/xenc:DataReference", 1));
 
                     status++;
@@ -127,8 +149,11 @@ namespace WebService
                     
                 case 8:
                     this.presentation._animationStepsTextBox.Text += "\n -> Get the referenced data";
-                    this.presentation._animationStepsTextBox.ScrollToLine(this.presentation._animationStepsTextBox.LineCount - 1);
-                    TreeViewItem dataReference = this.findItem((TreeViewItem)this.encryptedKeyTreeviewElements[actualEncryptedKeyNumber], "DataReference", 1);
+                    if (this.presentation._animationStepsTextBox.LineCount > 0)
+                    {
+                        this.presentation._animationStepsTextBox.ScrollToLine(this.presentation._animationStepsTextBox.LineCount - 1);
+                    }
+                        TreeViewItem dataReference = this.findItem((TreeViewItem)this.encryptedKeyTreeviewElements[actualEncryptedKeyNumber], "DataReference", 1);
                     dataReference.BringIntoView();
                     StackPanel tempHeader1 = (StackPanel)dataReference.Header;
                     string uri = "";
