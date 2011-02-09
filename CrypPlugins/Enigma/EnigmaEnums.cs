@@ -21,7 +21,6 @@ namespace Cryptool.Enigma
     enum rotor4Enum { Beta = 0, Gamma = 1 };
     enum reflectorEnum { A = 0, B = 1, C = 2 };
     enum enigmaModelEnum { EnigmaAB = 0, EnigmaD = 1, Rocket = 2, EnigmaM3 = 3, EnigmaM4 = 4, EnigmaK = 5, EnigmaG = 6 };
-
     enum VerboseLevels { VeryVerbose, Verbose, Normal, Quiet }
 
 }
