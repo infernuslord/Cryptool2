@@ -688,11 +688,6 @@ namespace Solitaire
 
         #region IControlEncryption Member
 
-        public void setInput(Object input)
-        {
-            throw new NotImplementedException();
-        }
-
         public byte[] Decrypt(byte[] key, int blocksize)
         {
             throw new NotImplementedException();
