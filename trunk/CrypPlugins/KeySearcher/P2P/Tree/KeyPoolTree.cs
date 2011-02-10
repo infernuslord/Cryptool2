@@ -173,7 +173,7 @@ namespace KeySearcher.P2P.Tree
 
         internal void Reset()
         {
-            //rootNode.Reset();
+            ((Node)rootNode).ClearChildsLocal();
             currentNode = rootNode;
             skippedReservedNodes = false;
         }
