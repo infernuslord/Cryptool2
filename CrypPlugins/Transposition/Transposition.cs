@@ -1116,11 +1116,6 @@ namespace Transposition
         }
 
         #region IControlEncryption Member
-
-        public void setInput(Object input)
-        {
-            throw new NotImplementedException();
-        }
         
         public byte[] Decrypt(byte[] key, int blocksize)
         {
