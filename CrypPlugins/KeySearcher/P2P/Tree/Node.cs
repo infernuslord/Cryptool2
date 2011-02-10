@@ -79,6 +79,12 @@ namespace KeySearcher.P2P.Tree
                 throw new InvalidOperationException(string.Format("Writing node {0} failed!", this));
         }
 
+        public void ClearChildsLocal()
+        {
+            leftChild = null;
+            rightChild = null;
+        }
+
         public override void UpdateCache()
         {
             LoadOrUpdateChildNodes();
