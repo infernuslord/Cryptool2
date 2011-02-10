@@ -248,6 +248,7 @@ namespace Cryptool.P2PEditor
         public void Initialize()
         {
             ((P2PEditorSettings)Settings).UpdateSettings();
+            OnProjectTitleChanged(this, Properties.Resources.P2PEditor_Tab_Caption);
         }
 
         public void Dispose()
