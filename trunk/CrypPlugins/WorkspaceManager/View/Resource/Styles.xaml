@@ -250,6 +250,15 @@
         </Setter>
     </Style>
 
+    <LinearGradientBrush x:Key="NormalBorderBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientBrush.GradientStops>
+            <GradientStopCollection>
+                <GradientStop Color="#CCC" Offset="0.0"/>
+                <GradientStop Color="#444" Offset="1.0"/>
+            </GradientStopCollection>
+        </GradientBrush.GradientStops>
+    </LinearGradientBrush>
+
     <Style TargetType="{x:Type Button}" x:Key="SettingsPluginContainerButtonStyle">
         <Setter Property="Template">
             <Setter.Value>
