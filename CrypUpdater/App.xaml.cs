@@ -22,44 +22,28 @@ namespace CrypUpdater
     /// </summary>
     public partial class App : Application
     {
-
-        private MainWindow m;
-        private bool mayrestart = false;
-        internal static string CryptoolExePath;
-        private string ZipFilePath;
-        private string CryptoolFolderPath;
-        private int CryptoolProcessID;
+        private MainWindow m = new CrypUpdater.MainWindow();
+        private bool mayRestart = false;
+        internal static string cryptoolExePath;
+        private string filePath;
+        private string cryptoolFolderPath;
+        private int cryptoolProcessID;
         private Process p;
         private List<Process> unwantedProcesses = new List<Process>();
 
-
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-
-            m = new CrypUpdater.MainWindow();
-
             try
             {
-                ZipFilePath = e.Args[0];
-                CryptoolFolderPath = e.Args[1];
-                CryptoolExePath = e.Args[2];
-                CryptoolProcessID = Convert.ToInt32(e.Args[3]);
-                mayrestart = Convert.ToBoolean(e.Args[4]);
-                p = Process.GetProcessById(CryptoolProcessID);
+                filePath = e.Args[0];
+                cryptoolFolderPath = e.Args[1];
+                cryptoolExePath = e.Args[2];
+                cryptoolProcessID = Convert.ToInt32(e.Args[3]);
+                mayRestart = Convert.ToBoolean(e.Args[4]);
+                p = Process.GetProcessById(cryptoolProcessID);
 
                 if (p.WaitForExit(1000 * 30))
-                {
-                    unwantedProcesses = FindCrypToolProcesses(CryptoolFolderPath);
-                    if (unwantedProcesses.Count == 0)
-                    {
-                        UnpackZip(ZipFilePath, CryptoolFolderPath);
-                    }
-                    else
-                    {
-                        AskForLicenseToKill();
-                    }
-
-                }
+                    StartUpdateProcess();
                 else
                 {
                     MessageBoxButton b = MessageBoxButton.OKCancel;
@@ -72,47 +56,24 @@ namespace CrypUpdater
                         {
                             p.Kill();
                             p.WaitForExit();
-                            unwantedProcesses = FindCrypToolProcesses(CryptoolFolderPath);
-                            if (unwantedProcesses.Count == 0)
-                            {
-                                UnpackZip(ZipFilePath, CryptoolFolderPath);
-                            }
-                            else
-                            {
-                                AskForLicenseToKill();
-                            }
+                            StartUpdateProcess();
                         }
                         catch (Exception)
                         {
-                            unwantedProcesses = FindCrypToolProcesses(CryptoolFolderPath);
-                            if (unwantedProcesses.Count == 0)
-                            {
-                                UnpackZip(ZipFilePath, CryptoolFolderPath);
-                            }
-                            else
-                            {
-                                AskForLicenseToKill();
-                            }
+                            StartUpdateProcess();
                         }
                     }
                     else
-                    {
                         MessageBox.Show("Update failed. CrypTool 2.0 will be restarted.");
-                    }
-
                 }
 
             }
             catch (IndexOutOfRangeException) // parameter not set
             {
-                if (CryptoolExePath != null)
-                {
+                if (cryptoolExePath != null)
                     MessageBox.Show("Update failed. CrypTool 2.0 will be restarted.", "Error");
-                }
                 else
-                {
                     UpdateFailure();
-                }
             }
             catch (FormatException) // no id or mayrestart was parsable 
             {
@@ -120,25 +81,39 @@ namespace CrypUpdater
             }
             catch (ArgumentException) // the invoking process has already exited (no such process with this id exists)
             {
-                unwantedProcesses = FindCrypToolProcesses(CryptoolFolderPath);
-                if (unwantedProcesses.Count == 0)
-                {
-                    UnpackZip(ZipFilePath, CryptoolFolderPath);
-                }
-                else
-                {
-                    AskForLicenseToKill();
-                }
+                StartUpdateProcess();
             }
 
-            if (mayrestart)
+            if (mayRestart)
             {
-                File.Delete(ZipFilePath);
+                File.Delete(filePath);
                 RestartCryptool();
             }
             else
                 App.Current.Shutdown();
 
+        }
+
+        private void StartUpdateProcess()
+        {
+            unwantedProcesses = FindCrypToolProcesses();
+            if (unwantedProcesses.Count == 0)
+            {
+                if (filePath.EndsWith("zip"))
+                    UnpackZip(filePath, cryptoolFolderPath);
+                else
+                {
+                    Process p = new Process();
+                    p.StartInfo.FileName = "msiexec.exe";
+                    p.StartInfo.Arguments = "/i \"" + filePath + "\" /qb /l* install.txt INSTALLDIR=\"" + cryptoolFolderPath + "\"";
+                    p.Start();
+                    p.WaitForExit();
+                    if (p.ExitCode != 0)
+                        MessageBox.Show("The exit code is not equal to zero. See log file for more information. CrypTool 2.0 will be restarted.", "Error");
+                }
+            }
+            else
+                AskForLicenseToKill();
         }
 
         private void AskForLicenseToKill()
@@ -164,8 +139,8 @@ namespace CrypUpdater
             result = MessageBox.Show(messagePart1 + " of CrypTool 2.0 using the same resources " + messagePart2 + " still running. Kill " + messagePart3 + " to proceed?", caption, mbb);
             if (result == MessageBoxResult.Yes)
             {
-                KillOtherProcesses(unwantedProcesses);
-                UnpackZip(ZipFilePath, CryptoolFolderPath);
+                KillOtherProcesses();
+                StartUpdateProcess();
             }
             else
             {
@@ -173,7 +148,7 @@ namespace CrypUpdater
             }
         }
 
-        private static void KillOtherProcesses(List<Process> unwantedProcesses)
+        private void KillOtherProcesses()
         {
             try
             {
@@ -192,17 +167,17 @@ namespace CrypUpdater
             }
         }
 
-        private static void UpdateFailure()
+        private void UpdateFailure()
         {
             MessageBox.Show("Update failed, wrong parameters!", "Error");
             Application.Current.Shutdown();
         }
 
-        private static void RestartCryptool()
+        private void RestartCryptool()
         {
             try
             {
-                System.Diagnostics.Process.Start(CryptoolExePath);
+                Process.Start(cryptoolExePath);
                 Application.Current.Shutdown();
             }
             catch (Exception)
@@ -211,9 +186,7 @@ namespace CrypUpdater
                 string caption2 = "Error";
                 MessageBoxResult res = MessageBox.Show("CrypTool 2.0 could not be restarted! Try again later.", caption2, bu);
                 if (res == MessageBoxResult.OK)
-                {
                     Application.Current.Shutdown();
-                }
             }
         }
 
@@ -232,10 +205,11 @@ namespace CrypUpdater
                     int i = 0;
                     int progress = 0;
 
+                    m.Show();
+
                     foreach (ZipEntry e in zip)
                     {
                         e.Extract(CryptoolFolderPath, ExtractExistingFileAction.OverwriteSilently);
-                        m.Show();
                         i++;
                         progress = i * 100 / count;
                         m.UpdateProgress(progress);
@@ -246,12 +220,11 @@ namespace CrypUpdater
             }
             catch (UnauthorizedAccessException)
             {
-
                 WindowsPrincipal pricipal = new WindowsPrincipal(WindowsIdentity.GetCurrent());
 
                 if (!pricipal.IsInRole(WindowsBuiltInRole.Administrator))
                 {
-                    ProcessStartInfo psi = new ProcessStartInfo("CrypUpdater.exe", "\"" + ZipFilePath + "\" " + "\"" + CryptoolFolderPath + "\" " + "\"" + CryptoolExePath + "\" " + "\"" + CryptoolProcessID + "\" \"" + Boolean.FalseString + "\"");
+                    ProcessStartInfo psi = new ProcessStartInfo("CrypUpdater.exe", "\"" + ZipFilePath + "\" " + "\"" + CryptoolFolderPath + "\" " + "\"" + cryptoolExePath + "\" " + "\"" + cryptoolProcessID + "\" \"" + Boolean.FalseString + "\"");
                     psi.UseShellExecute = true;
                     psi.Verb = "runas";
                     psi.WorkingDirectory = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
@@ -260,8 +233,6 @@ namespace CrypUpdater
                 }
                 else
                     MessageBox.Show("Extraction failed: CrypTool 2.0 will be restarted.", "Error");
-
-
             }
             catch (Exception e)
             {
@@ -271,23 +242,9 @@ namespace CrypUpdater
         }
 
 
-        private List<Process> FindCrypToolProcesses(string cryptoolFolderPath)
+        private List<Process> FindCrypToolProcesses()
         {
             List<Process> processList = new List<Process>();
-
-            try
-            {
-                Process[] p1 = Process.GetProcessesByName("CrypStartup");
-                foreach (Process p in p1)
-                {
-                    if (Path.GetDirectoryName(p.MainModule.FileName) == cryptoolFolderPath)
-                        processList.Add(p);
-                }
-            }
-            catch (Exception)
-            {
-                //32 bit updater cannot check for 64 bit processes
-            }
 
             try
             {
