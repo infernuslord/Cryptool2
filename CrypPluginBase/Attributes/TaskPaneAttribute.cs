@@ -66,8 +66,7 @@ namespace Cryptool.PluginBase
         }
         # endregion multi language properties
 
-        public readonly int Order;        
-        public readonly DisplayLevel DisplayLevel;
+        public readonly int Order;
         public readonly ControlType ControlType;        
         public readonly string[] ControlValues;
         
@@ -148,11 +147,8 @@ namespace Cryptool.PluginBase
         /// </summary>
         /// <param name="caption">General name</param>
         /// <param name="toolTip">The tool tip.</param>
-        /// <param name="helpAnchor">The help anchor. Used to jump to specified position in optional provided FlowDocument.</param>        
         /// <param name="order">The order.</param>        
-        /// <param name="displayLevel">The display level.</param>
         /// <param name="controlType">Type of the control.</param>
-        /// <param name="regEx">The reg ex.</param>
         /// <param name="controlValues">The control values used to display in ComboBox.</param>              
         /// helpAnchor
         public TaskPaneAttribute(string caption, string toolTip, string groupName, int order, bool changeableWhileExecuting, ControlType controlType, params string[] controlValues)
@@ -183,7 +179,6 @@ namespace Cryptool.PluginBase
           this.toolTip = toolTip;
           this.groupName = groupName;
           this.Order = order;
-//          this.DisplayLevel = displayLevel;          
           this.ControlType = controlType;          
           this.ValidationType = validationType;
           this.RegularExpression = regularExpression;
@@ -205,7 +200,6 @@ namespace Cryptool.PluginBase
           this.toolTip = toolTip;
           this.groupName = groupName;
           this.Order = order;
-//          this.DisplayLevel = displayLevel;
           this.ControlType = controlType;
           this.ValidationType = validationType;
           this.IntegerMinValue = integerMinValue;
@@ -228,7 +222,6 @@ namespace Cryptool.PluginBase
           this.toolTip = toolTip;
           this.groupName = groupName;
           this.Order = order;
-//          this.DisplayLevel = displayLevel;
           this.ControlType = controlType;
           this.ValidationType = validationType;
           this.DoubleMinValue = doubleMinValue;
@@ -251,7 +244,6 @@ namespace Cryptool.PluginBase
           this.toolTip = toolTip;
           this.groupName = groupName;
           this.Order = order;
-//          this.DisplayLevel = displayLevel;
           this.ControlType = controlType;          
           this.DoubleMinValue = doubleMinValue;
           this.DoubleMaxValue = doubleMaxValue;
@@ -270,7 +262,6 @@ namespace Cryptool.PluginBase
         /// <param name="caption">The caption.</param>
         /// <param name="toolTip">The tool tip.</param>
         /// <param name="order">The order.</param>
-        /// <param name="displayLevel">The display level.</param>
         /// <param name="controlType">Type of the control should be button in this construcor.</param>
         public TaskPaneAttribute(string caption, string toolTip, string groupName, int order, bool changeableWhileExecuting, ControlType controlType)
         {
