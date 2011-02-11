@@ -1,4 +1,4 @@
-﻿/*
+/*
    Copyright 2008 Martin Saternus, University of Duisburg-Essen
 
    Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,4 +23,5 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyProduct("CrypTool Plugin Base")]
 [assembly: AssemblyCopyright("Copyright © Martin Saternus 2008")]
 [assembly: ComVisible(false)]
-[assembly: AssemblyVersion("2.0.3631.00001")]
+[assembly: AssemblyVersion("2.0.0.0")]
+[assembly: AssemblyFileVersion("2.0.*")]

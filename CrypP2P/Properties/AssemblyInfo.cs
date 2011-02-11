@@ -1,4 +1,4 @@
-﻿/*
+/*
    Copyright 2010 Paul Lelgemann, University of Duisburg-Essen
 
    Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,5 +22,6 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyProduct("CrypTool CrypP2P")]
 [assembly: AssemblyCopyright("Copyright © Paul Lelgemann 2010")]
 [assembly: ComVisible(false)]
-[assembly: AssemblyVersion("2.0.*")]
+[assembly: AssemblyVersion("2.0.0.0")]
+[assembly: AssemblyFileVersion("2.0.*")]
 [assembly: Guid("4207e092-bf1f-4795-9473-6acf9805ff34")]
