@@ -109,7 +109,7 @@ namespace WebService
             }
         }
 
-        [PropertyInfo(Direction.InputData, "SOAP input", "Input a SOAP message to be processed by the Web Service", "", false, false, QuickWatchFormat.None,null)]
+        [PropertyInfo(Direction.InputData, "SOAP input", "Input a SOAP message to be processed by the Web Service", "", false, false, QuickWatchFormat.Text, "XmlInputConverter")]
         public XmlDocument InputString
         {
             get { return this._inputDocument; }
@@ -169,6 +169,27 @@ namespace WebService
         public Object XmlOutputConverter(Object Data)
         {
             XmlDocument doc = (XmlDocument)this._outputDocument;
+            StringWriter stringWriter = new StringWriter();
+            Object obj = new Object();
+            try
+            {
+                XmlTextWriter xmlWriter = new XmlTextWriter(stringWriter);
+                xmlWriter.Formatting = Formatting.Indented;
+                doc.WriteContentTo(xmlWriter);
+                obj = (Object)stringWriter.ToString();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+
+            }
+
+
+            return obj;
+        }
+        public Object XmlInputConverter(Object Data)
+        {
+            XmlDocument doc = (XmlDocument)this._inputDocument;
             StringWriter stringWriter = new StringWriter();
             Object obj = new Object();
             try
