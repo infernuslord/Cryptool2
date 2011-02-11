@@ -23,5 +23,4 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCopyright("Copyright © Paul Lelgemann 2010")]
 [assembly: ComVisible(false)]
 [assembly: AssemblyVersion("2.0.0.0")]
-[assembly: AssemblyFileVersion("2.0.*")]
 [assembly: Guid("4207e092-bf1f-4795-9473-6acf9805ff34")]
