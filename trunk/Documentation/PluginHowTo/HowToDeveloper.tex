@@ -123,7 +123,7 @@ emphstyle={[2]\color{blue}}
 \subtitle{How to build your own plugins for CrypTool 2.0}
 \author{S.\ Przybylski, A.\ Wacker, M.\ Wander, F.\ Enkler and P.\ Vacek}
 \email{\{przybylski$|$wacker$|$wander$|$enkler$|$vacek\}@cryptool.org}
-\version{0.6}
+\version{0.7}
 \date{\today}
 
 % Metadata and configuration of the pdf output:
@@ -167,23 +167,20 @@ emphstyle={[2]\color{blue}}
 	\maketitle
 
 	\begin{abstract}
-CrypTool 2 is the modern successor of the well-known e-learning platform for cryptography and cryptanalysis \htmladdnormallink{CrypTool 1}{http://www.cryptool.org/}, which is used worldwide for educational purposes at schools and universities as well as in companies and agencies.
+CrypTool~2 is the successor of the well-known e-learning platform for cryptography and cryptanalysis CrypTool\footnote{\url{http://www.cryptool.org/}}, which is used for educational purposes at schools and universities as well as in companies and agencies. As of January 2010, CrypTool~2 consists of over 7000 lines of C\# code in the core application and over 250,000 lines of C\# code in about 100 plugins.
 
-Since the first launch of CrypTool 1 in 1999 the art of software development has changed dramatically. The CrypTool 2 team began working in 2008 to develop a completely new e-learning application, embracing the newest trends in both didactics and software architecture to delight the end-user with an entirely new experience.\\
-
-To reach these goals, CrypTool 2 is built using the following:
+CrypTool~2 is built using the following technologies and development tools:
 
 \begin{itemize}
 	\item .NET (a modern software framework from Microsoft with solutions to common programming problems)
 	\item C\# (a modern object-oriented programming language, comparable to Java)
-    \item WPF (a modern purely vector-based graphical subsystem for rendering user interfaces in Windows-based applications)
-    \item Visual Studio 2010 (a development environment)
+  \item WPF (a modern vector-based graphical subsystem for rendering user interfaces in Windows-based applications)
+  \item Visual Studio 2010 (a development environment)
 	\item Subversion (a source code and documentation version management system)
+	\item trac (a lightweight web-based software project management system)
 \end{itemize}
 
-This document is intended for plugin developers who want to contribute new visual or mathematical functionality to CrypTool 2. As of January 2010, the program consists of over 7000 lines of C\# code in the core application and over 250,000 lines of C\# code in about 100 plugins.
-
-For further information, please visit the CrypTool 2 website at \htmladdnormallink{http://www.cryptool2.vs.uni-due.de}{http://www.cryptool2.vs.uni-due.de}.
+This document is intended for plugin developers who want to contribute a new plugin to CrypTool~2 which implements a cryptographic algorithm or similar functionality. Please note that CrypTool~2 is an alive project in development. Certain information may be outdated or missing. If you want to stay up-to-date, we recommend checking out the CrypTool~2 development wiki\footnote{\url{https://www.cryptool.org/trac/CrypTool2/wiki}} and website\footnote{\url{http://cryptool2.vs.uni-due.de/}}.
     \end{abstract}
 
 	\tableofcontents
@@ -193,9 +190,5 @@ For further information, please visit the CrypTool 2 website at \htmladdnormalli
 
 	\include{part1}
 	\include{part2}
-	
-	\begin{appendix}
-	\include{appendix}
-	\end{appendix}
 
 \end{document}

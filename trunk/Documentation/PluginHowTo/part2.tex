@@ -173,7 +173,7 @@ Depending on which algorithm category you choose, you will need to import the co
 	\item \textit{Cryptool.PluginBase.Cryptography} --- contains interfaces for encryption and hash algorithms such as AES, DES and MD5.
 	\item \textit{Cryptool.PluginBase.Editor} --- contains interfaces for editors that can be implemented in CrypTool 2, such as the default editor.
 	\item \textit{Cryptool.PluginBase.Generator} --- contains interfaces for generators, including the random input generator.
-	\item \textit{Cryptool.PluginBase.IO} --- contains interfaces for input, output and the \textit{CryptoolStream}.
+	\item \textit{Cryptool.PluginBase.IO} --- contains interfaces for input, output and the \textit{ICryptoolStream}.
 	\item \textit{Cryptool.PluginBase.Miscellaneous} --- contains assorted helper classes, including \textit{GuiLogMessage} and \textit{PropertyChanged}.
 	\item \textit{Cryptool.PluginBase.Resources} --- used only by CrypWin and the editor; not necessary for plugin development.
 	\item \textit{Cryptool.PluginBase.Tool} --- contains an interface for standalone tools in CrypTool~2 that are not run in a workspace editor.
@@ -185,37 +185,24 @@ Depending on which algorithm category you choose, you will need to import the co
 \begin{itemize}
 	\item \textit{Cryptool.PluginBase} --- to implement \textit{ISettings} in the CaesarSettings class.
 	\item \textit{Cryptool.PluginBase.Cryptography} --- to implement \textit{IEncryption} in the Caesar class.
-	\item \textit{Cryptool.PluginBase.IO} --- to use CryptoolStream for data input and output.
+	\item \textit{Cryptool.PluginBase.IO} --- to use ICryptoolStream for data input and output.
 	\item \textit{Cryptool.PluginBase.Miscellaneous} --- to use the CrypTool event handler.
 \end{itemize}
 
 \section{Defining the private variables of the settings in the Caesar class}
 \label{sec:DefiningThePrivateVariablesOfTheSettingsInTheCaesarClass}
 
-The next step is to define some private variables that are needed for the settings, input, and output data. In our example, this will look like the following:
+The next step is to define some private class elements. In our example, this will look like the following:
 
 \begin{lstlisting}
-	#region Private variables
-	private CaesarSettings settings;
-	private string inputString;
-	private string outputString;
-	private enum CaesarMode { encrypt, decrypt };
-	private List<CryptoolStream> listCryptoolStreamsOut = new List<CryptoolStream>();
+	#region Private elements
+	private CaesarSettings settings; // required to implement the IPlugin interface properly
+	private enum CaesarMode { encrypt, decrypt }; // nested enum, used to select either encryption or decryption
 	#endregion
 \end{lstlisting}
 
-\ \\ % ugly but functional
-If your algorithm deals with long strings of code, it is recommended to use the \textit{CryptoolStream} data type. This was designed for input and output between plugins and to handle large amounts of data. To use the native CrypTool stream type, include the namespace \textit{Cryptool.PluginBase.IO} with a \texttt{using} statement as explained in Section \ref{sec:ImportingCrypPluginBaseNamespaces}.
-
-Our example makes use of the following private variables:
-
-\begin{itemize}
-	\item \texttt{CaesarSettings settings} --- required to implement the IPlugin interface properly.
-	\item \texttt{string inputString} --- string from which to read the input data.
-	\item \texttt{string outputString} --- string to which to save the output data.
-	\item \texttt{enum CaesarMode} --- used to select either encryption or decryption.
-	\item \texttt{List$<$CryptoolStream$>$ listCryptoolStreamsOut} --- a list of all streams created by the plugin, which helps to perform a clean dispose.
-\end{itemize}
+\ \\
+If your algorithm deals with potentially large data amounts, it is recommended to use the \textit{ICryptoolStream} data type. More information about how to use the \textit{ICryptoolStream} can be found in the CrypTool 2 wiki: \url{https://www.cryptool.org/trac/CrypTool2/wiki/ICryptoolStreamUsage}. You will need to include the namespace \textit{Cryptool.PluginBase.IO} with a \texttt{using} statement as explained in Section \ref{sec:ImportingCrypPluginBaseNamespaces}.
 
 \subsection{Adding controls to the CaesarSettings class}
 \label{sec:AddingControlsToTheCaesarSettingsClass}
@@ -330,15 +317,8 @@ The first of the five properties that we will define is \textit{InputString}. Th
 [PropertyInfo(Direction.InputData, "Text input", "Input a string to be processed by the Caesar cipher", "", true, false, QuickWatchFormat.Text, null)]
 public string InputString
 {
-	get { return this.inputString; }
-	set
-  {
-		if (value != inputString)
-		{
-			this.inputString = value;
-			OnPropertyChanged("InputString");
-		}
-	}
+		get;
+		set;
 }
 \end{lstlisting}
 
@@ -352,12 +332,8 @@ In the get method we simply return the value of the input data. The set method c
 [PropertyInfo(Direction.OutputData, "Text output", "The string after processing with the Caesar cipher", "", false, false, QuickWatchFormat.Text, null)]
 public string OutputString
 {
-	get { return this.outputString; }
-	set
-	{
-		outputString = value;
-		OnPropertyChanged("OutputString");
-	}
+		get;
+		set;
 }
 \end{lstlisting}
 
@@ -368,23 +344,17 @@ You can provide additional output data types if you so desire. In our example, w
 
 \begin{lstlisting}
 [PropertyInfo(Direction.OutputData, "CryptoolStream output", "The raw CryptoolStream data after processing with the Caesar cipher", "", false, false, QuickWatchFormat.Text, null)]
-public CryptoolStream OutputData
+public ICryptoolStream OutputData
 {
-	get
-	{
-		if (outputString != null)
+		get
 		{
-			CryptoolStream cs = new CryptoolStream();
-			listCryptoolStreamsOut.Add(cs);
-			cs.OpenRead(Encoding.Default.GetBytes(outputString.ToCharArray()));
-			return cs;
+				if (OutputString != null)
+				{                    
+						return new CStreamWriter(Encoding.Default.GetBytes(OutputString));
+				}
+
+				return null;
 		}
-		else
-		{
-			return null;
-		}
-	}
-	set { }
 }
 
 [PropertyInfo(Direction.InputData, "External alphabet input", "Input a string containing the alphabet to be used by Caesar.\nIf no alphabet is provided for this input, the internal default alphabet will be used.", "", false, false, QuickWatchFormat.Text, null)]
@@ -407,10 +377,7 @@ public int ShiftKey
 	get { return settings.ShiftKey; }
 	set
 	{
-		if (value != settings.ShiftKey)
-		{
 			settings.ShiftKey = value;
-		}
 	}
 }
 \end{lstlisting}
@@ -518,11 +485,9 @@ public void Execute()
 	switch (settings.Action)
 	{
 		case 0:
-			GuiLogMessage("Encrypting", NotificationLevel.Debug);
 			ProcessCaesar(CaesarMode.encrypt);
 			break;
 		case 1:
-			GuiLogMessage("Decrypting", NotificationLevel.Debug);
 			ProcessCaesar(CaesarMode.decrypt);
 			break;
 		default:
@@ -531,12 +496,12 @@ public void Execute()
 }
 \end{lstlisting}
 
-It is important to make sure that all changes to the output properties will be announced to the CrypTool 2 environment. In our example this happens by calling the set method of \textit{OutputData}, which in turn calls \textit{OnPropertyChanged} to indicate that both output properties \textit{OutputData} and \textit{OutputDataStream} have changed. Instead of calling the property's set method you could instead call \textit{OnPropertyChanged} directly within the \textit{Execute()} method.
+It is important to make sure that all changes to the output properties will be announced to the CrypTool 2 environment. Therefore we call \textit{OnPropertyChanged} on both changed output properties \textit{OutputString} and \textit{OutputData}.
 
 \subsection{Sending messages to the CrypTool 2 core}
 \label{sec:SendingMessagesToTheCrypTool2Core}
 
-The CrypTool 2 API provides three methods to send messages from the plugin to the CrypTool 2 core. \textit{GuiLogMessage} is used to send messages to the CrypTool 2 status bar. This method is a nice mechanism to inform the user as to what your plugin is currently doing. \textit{OnPropertyChanged} is used to inform the core application of changes to any data output properties. This is necessary for a correct plugin execution. \textit{ProgressChanged} is used to visualize the progress of the algorithm as a bar.
+The CrypTool 2 API provides three methods to send messages from the plugin to the CrypTool 2 core. \textit{GuiLogMessage} is used to send messages to the CrypTool 2 status bar. This method is a mechanism to inform the user as to what your plugin is currently doing. \textit{OnPropertyChanged} is used to inform the core application of changes to any data output properties. This is necessary for a correct plugin execution. \textit{ProgressChanged} is used to visualize the progress of the algorithm as a bar.
 
 \begin{figure}[h]
 	\centering
@@ -557,22 +522,6 @@ The \textit{GuiLogMessage} method takes two parameters:
 		\item \texttt{NotificationLevel.Debug}
 	\end{itemize}
 \end{itemize}
-
-\subsection{Performing a clean dispose}
-\label{sec:PerformingACleanDispose}
-
-Be sure you have closed and cleaned all your streams after execution before CrypTool 2 decides to dispose the plugin instance. There has been some misunderstanding about the meaning of \textit{Dispose()}. Dispose will be called ultimately before object destruction. After disposal, the object will be in an undefined state.
-
-\begin{lstlisting}
-public void Dispose()
-{
-	foreach(CryptoolStream stream in listCryptoolStreamsOut)
-	{
-		stream.Close();
-	}
-	listCryptoolStreamsOut.Clear();
-}
-\end{lstlisting}
 
 \section{Drawing the workflow of your plugin}
 \label{DrawingTheWorkfloweOfYourPlugin}

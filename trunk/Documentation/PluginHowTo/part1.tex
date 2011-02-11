@@ -159,15 +159,7 @@ Note that any text after the colon and the whitespace will be treated as the fil
 \section{Compiling the sources with Visual Studio 2010}
 \label{CompilingTheSourcesVS}
 
-By this point you should have checked out a copy of the entire CrypTool~2 repository. Compiling is pretty easy; just go to the \texttt{trunk\textbackslash} directory and open the \textbf{\textit{CrypTool 2.0.sln}} Visual Studio solution. The Visual Studio IDE should open with all the working plugin components nicely arranged. If you are now starting Visual Studio for the first time, you will have to choose your settings. Just select either \textit{most common} or \textit{C\#} --- you can change this at any time later. On the right side is the project explorer, where you can see all the subprojects included in the solution. Look for the project \textbf{\textit{CrypStartup}} there and make sure it is selected as startup project (right-click on it and select \textit{Set as StartUp Project} from the context menu). Next, go to the menu bar and make sure the target platform is set correctly (Figure~\ref{fig:vs_menubar_x86}). If your operating system is a 32 bit installation, you have to select \textbf{x86}. If you have a 64 bit operating system, you may use one of both, x64 or x86. If in doubt, select x86. Then click \textit{Build $\rightarrow$ Build Solution} in the menubar to start the build process.
-
-\begin{figure}[htbp]
-	\centering
-		\includegraphics{figures/vs_menubar_x86.png}
-	\caption{Selecting x86 as target platform.}
-	\label{fig:vs_menubar_x86}
-\end{figure}
-\clearpage
+By this point you should have checked out a copy of the entire CrypTool~2 repository. Compiling is pretty easy; just go to the \texttt{trunk\textbackslash} directory and open the \textbf{\textit{CrypTool 2.0.sln}} Visual Studio solution. The Visual Studio IDE should open with all the working plugin components nicely arranged. If you are now starting Visual Studio for the first time, you will have to choose your settings. Just select either \textit{most common} or \textit{C\#} --- you can change this at any time later. On the right side is the project explorer, where you can see all the subprojects included in the solution. Look for the project \textbf{\textit{CrypStartup}} there and make sure it is selected as startup project (right-click on it and select \textit{Set as StartUp Project} from the context menu). Then click \textit{Build $\rightarrow$ Build Solution} in the menubar to start the build process.
 
 You may have to wait a while for the program to compile. Once it is finished, select \textit{Debug $\rightarrow$ Start Debugging}. CrypTool 2 should now start for the first time with your own compiled code. Presumably you have not changed anything yet, but you now have your own build of all the components (with the exception of \textit{CrypWin} and \textit{AnotherEditor}, since they are available only as binaries). If the program does not compile or start correctly, please consult our \href{https://www.cryptool.org/trac/CrypTool2/wiki/FAQ}{FAQ} and let us know if you found a bug.
 
