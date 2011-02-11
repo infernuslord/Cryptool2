@@ -27,5 +27,4 @@ using System.Windows;
 )]
 
 [assembly: AssemblyVersion("2.0.0.0")]
-[assembly: AssemblyFileVersion("2.0.*")]
 [assembly: GuidAttribute("B110730C-0F8A-4653-BC6D-76DB24F95841")]

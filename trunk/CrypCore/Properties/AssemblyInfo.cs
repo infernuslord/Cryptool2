@@ -24,4 +24,3 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCopyright("Copyright © Martin Saternus 2008")]
 [assembly: ComVisible(false)]
 [assembly: AssemblyVersion("2.0.0.0")]
-[assembly: AssemblyFileVersion("2.0.*")]

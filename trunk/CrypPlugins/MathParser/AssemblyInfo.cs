@@ -27,7 +27,6 @@ using System.Runtime.CompilerServices;
 // mit '*' angeben:
 
 [assembly: AssemblyVersion("2.0.0.0")]
-[assembly: AssemblyFileVersion("2.0.*")]
 
 //
 // Um die Assembly zu signieren, m�ssen Sie einen Schl�ssel angeben. Weitere Informationen 
