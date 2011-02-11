@@ -32,13 +32,13 @@ namespace Cryptool.Caesar
     [EncryptionType(EncryptionType.Classic)]
     public class Caesar : IEncryption
     {
-        #region Private variables
+        #region Private elements
 
         private CaesarSettings settings;
-        private string inputString;
-        private string outputString;
-        private enum CaesarMode { encrypt, decrypt };
         private bool isPlayMode = false;
+
+        private enum CaesarMode { encrypt, decrypt };
+
         #endregion
         
         #region Public interface
@@ -58,8 +58,7 @@ namespace Cryptool.Caesar
         /// </summary>
         public ISettings Settings
         {
-            get { return (ISettings)this.settings; }
-            set { this.settings = (CaesarSettings)value; }
+            get { return this.settings; }
         }
 
 
@@ -68,54 +67,39 @@ namespace Cryptool.Caesar
         {
             get
             {
-                if (outputString != null)
+                if (OutputString != null)
                 {                    
-                    return new CStreamWriter(Encoding.Default.GetBytes(outputString));
+                    return new CStreamWriter(Encoding.Default.GetBytes(OutputString));
                 }
-                else
-                {
-                    return null;
-                }
-            }
-            set { }
-        }
 
+                return null;
+            }
+        }
 
         [PropertyInfo(Direction.InputData, "Text input", "Input a string to be processed by the Caesar cipher", "", true, false, QuickWatchFormat.Text, null)]
         public string InputString
         {
-            get { return this.inputString; }
-            set 
-            {
-              if (value != inputString)
-              {
-                this.inputString = value;
-                OnPropertyChanged("InputString");
-              }
-            }
+            get;
+            set; 
         }
 
         [PropertyInfo(Direction.OutputData, "Text output", "The string after processing with the Caesar cipher", "", false, false, QuickWatchFormat.Text, null)]
         public string OutputString
         {
-            get { return this.outputString; }
-            set
-            {
-                outputString = value;
-                OnPropertyChanged("OutputString");
-            }
+            get;
+            set;
         }
 
 
         [PropertyInfo(Direction.InputData, "External alphabet input", "Input a string containing the alphabet which should be used by Caesar.\nIf no alphabet is provided on this input, the internal alphabet will be used.", "", false, false, QuickWatchFormat.Text, null)]
         public string InputAlphabet
         {
-            get { return ((CaesarSettings)this.settings).AlphabetSymbols; }
+            get { return this.settings.AlphabetSymbols; }
             set 
             {
               if (value != null && value != settings.AlphabetSymbols) 
               { 
-                ((CaesarSettings)this.settings).AlphabetSymbols = value;
+                this.settings.AlphabetSymbols = value;
                 OnPropertyChanged("InputAlphabet");
               } 
             }
@@ -127,11 +111,7 @@ namespace Cryptool.Caesar
           get { return settings.ShiftKey; }
           set 
           { 
-            if (value != settings.ShiftKey)
-            {
               settings.ShiftKey = value;
-              // Execute();
-            }
           }
         }
 
@@ -162,7 +142,7 @@ namespace Cryptool.Caesar
 
         public void Dispose()
         {
-          }
+        }
 
         public bool HasChanges
         {
@@ -171,17 +151,25 @@ namespace Cryptool.Caesar
         }
 
         /// <summary>
-        /// Feuern, wenn sich sich eine Änderung des Fortschrittsbalkens ergibt 
+        /// Fires events to indicate progress bar changes.
         /// </summary>
         public event PluginProgressChangedEventHandler OnPluginProgressChanged;
+        private void ProgressChanged(double value, double max)
+        {
+            EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
+        }
 
         /// <summary>
-        /// Feuern, wenn ein neuer Text im Statusbar angezeigt werden soll.
+        /// Fires events to indicate log messages.
         /// </summary>
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
+        private void GuiLogMessage(string p, NotificationLevel notificationLevel)
+        {
+            EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(p, this, notificationLevel));
+        }
 
         /// <summary>
-        /// Hier kommt das Darstellungs Control hin, Jungs!
+        /// Algorithm visualization (if any)
         /// </summary>
         public UserControl Presentation
         {
@@ -232,25 +220,26 @@ namespace Cryptool.Caesar
             StringBuilder output = new StringBuilder("");
             string alphabet = cfg.AlphabetSymbols;
 
-            // in case we want don't consider case in the alphabet, we use only capital letters, hence transform 
-            // the whole alphabet to uppercase
+            // If we are working in case-insensitive mode, we will use only
+            // capital letters, hence we must transform the whole alphabet
+            // to uppercase.
             if (!cfg.CaseSensitiveAlphabet)
             {
                 alphabet = cfg.AlphabetSymbols.ToUpper(); ;
             }
             
 
-            if (inputString != null)
+            if (!string.IsNullOrEmpty(InputString))
             {
-                for (int i = 0; i < inputString.Length; i++)
+                for (int i = 0; i < InputString.Length; i++)
                 {
-                    // get plaintext char which is currently processed
-                    char currentchar = inputString[i];
+                    // Get the plaintext char currently being processed.
+                    char currentchar = InputString[i];
 
-                    // remember if it is upper case (otherwise lowercase is assumed)
+                    // Store whether it is upper case (otherwise lowercase is assumed).
                     bool uppercase = char.IsUpper(currentchar);
 
-                    // get the position of the plaintext character in the alphabet
+                    // Get the position of the plaintext character in the alphabet.
                     int ppos = 0;
                     if (cfg.CaseSensitiveAlphabet)
                     {
@@ -263,7 +252,8 @@ namespace Cryptool.Caesar
  
                     if (ppos >= 0)
                     {
-                        // we found the plaintext character in the alphabet, hence we do the shifting
+                        // We found the plaintext character in the alphabet,
+                        // hence we will commence shifting.
                         int cpos = 0; ;
                         switch (mode)
                         {
@@ -275,7 +265,8 @@ namespace Cryptool.Caesar
                                 break;
                         }
 
-                        // we have the position of the ciphertext character, hence just output it in the correct case
+                        // We have the position of the ciphertext character,
+                        // hence just output it in the correct case.
                         if (cfg.CaseSensitiveAlphabet)
                         {
                             output.Append(alphabet[cpos]);
@@ -295,11 +286,12 @@ namespace Cryptool.Caesar
                     }
                     else
                     {
-                        // the plaintext character was not found in the alphabet, hence proceed with handling unknown characters
+                        // The plaintext character was not found in the alphabet,
+                        // hence proceed with handling unknown characters.
                         switch ((CaesarSettings.UnknownSymbolHandlingMode)cfg.UnknownSymbolHandling)
                         {
                             case CaesarSettings.UnknownSymbolHandlingMode.Ignore:
-                                output.Append(inputString[i]);
+                                output.Append(InputString[i]);
                                 break;
                             case CaesarSettings.UnknownSymbolHandlingMode.Replace:
                                 output.Append('?');
@@ -308,17 +300,13 @@ namespace Cryptool.Caesar
 
                     }
 
-                    //show the progress
-                    if (OnPluginProgressChanged != null)
-                    {
-                      OnPluginProgressChanged(this, new PluginProgressEventArgs(i, inputString.Length - 1));
-                    }
+                    // Show the progress.
+                    ProgressChanged(i, InputString.Length - 1);
 
                 }
-                outputString = output.ToString();
+                OutputString = output.ToString();
                 OnPropertyChanged("OutputString");
                 OnPropertyChanged("OutputData");
-                OnPropertyChanged("InputString");
             }
         }
 
@@ -328,11 +316,7 @@ namespace Cryptool.Caesar
         /// </summary>
         private void Caesar_LogMessage(string msg, NotificationLevel loglevel)
         {
-            EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(msg, this, loglevel));
-            //if (OnGuiLogNotificationOccured != null)
-            //{
-            //    OnGuiLogNotificationOccured(this, new GuiLogEventArgs(msg, this, loglevel));
-            //}
+            GuiLogMessage(msg, loglevel);
         }
 
         /// <summary>
@@ -341,7 +325,9 @@ namespace Cryptool.Caesar
         private void Caesar_ReExecute()
         {
             if (isPlayMode)
-                Execute();
+            {
+                Execute();   
+            }
         }
 
         #endregion
