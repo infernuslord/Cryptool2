@@ -450,7 +450,7 @@ namespace WorkspaceManager.View.VisualComponents
                         textBlock.BorderThickness = new Thickness(0);
                         textBlock.Background = Brushes.Transparent;
                         textBlock.Text = bInfo.TaskPaneSettingsAttribute.Caption;
-                        textBlock.ToolTip = plugin.GetPluginInfoAttribute().ToolTip + "\n[" + bInfo.TaskPaneSettingsAttribute.DisplayLevel.ToString() + "]";
+                        textBlock.ToolTip = plugin.GetPluginInfoAttribute().ToolTip;
                         textBlock.Height += textBlock.Height * 1.5;
                         stackPanelInputControl = new StackPanel();
                         stackPanelInputControl.Margin = new Thickness(0);

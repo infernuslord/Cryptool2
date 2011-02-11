@@ -115,7 +115,6 @@ namespace Cryptool.PluginBase
         }
         
         public readonly int Order;        
-        public readonly DisplayLevel DisplayLevel;
         public readonly ControlType ControlType;        
         public readonly string[] ControlValues;
         public readonly string FileExtension;
@@ -123,26 +122,24 @@ namespace Cryptool.PluginBase
         public readonly int ImageNumber;
         # endregion public attributes
 
-        public RibbonBarAttribute(string caption, string toolTip, string groupName, int order, bool changeableWhileExecuting, DisplayLevel displayLevel, ControlType controlType, params string[] controlValues)
+        public RibbonBarAttribute(string caption, string toolTip, string groupName, int order, bool changeableWhileExecuting, ControlType controlType, params string[] controlValues)
         {
             this.caption = caption;
             this.toolTip = toolTip;
             this.groupName = groupName;
             this.Order = order;              
-            this.DisplayLevel = displayLevel;
             this.ControlType = controlType;            
             this.ControlValues = controlValues;
             this.ChangeableWhileExecuting = changeableWhileExecuting;
             this.ImageNumber = -1;
         }
 
-        public RibbonBarAttribute(string caption, string toolTip, string groupName, int order, bool changeableWhileExecuting, DisplayLevel displayLevel, ControlType controlType, int imageNumber)
+        public RibbonBarAttribute(string caption, string toolTip, string groupName, int order, bool changeableWhileExecuting, ControlType controlType, int imageNumber)
         {
           this.caption = caption;
           this.toolTip = toolTip;
           this.groupName = groupName;
           this.Order = order;
-          this.DisplayLevel = displayLevel;
           this.ControlType = controlType;
           this.ImageNumber = imageNumber; 
         }

@@ -57,8 +57,7 @@ namespace Cryptool.PluginBase
         # region normal properties
         public readonly string DescriptionUrl;
         public readonly Direction Direction;
-        public readonly bool Mandatory;        
-        public readonly DisplayLevel DisplayLevel;
+        public readonly bool Mandatory;
         public QuickWatchFormat QuickWatchFormat;
         public string PropertyName; // will be set in extension-method
         public PropertyInfo PropertyInfo { get; set; } // will be set in extension-method

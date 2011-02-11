@@ -23,8 +23,7 @@ namespace Cryptool.PluginBase
     {
         public readonly string Caption;
         public readonly string ToolTip;        
-        public readonly int Order;        
-        public readonly DisplayLevel DisplayLevel;
+        public readonly int Order;
         public readonly ContextMenuControlType ControlType;        
         public readonly string[] ControlValues;
         public readonly int[] ArrImagesForControlValues;
@@ -43,7 +42,6 @@ namespace Cryptool.PluginBase
             this.Caption = caption;
             this.ToolTip = toolTip;
             this.Order = order;            
-//            this.DisplayLevel = displayLevel;
             this.ControlType = controlType;
             this.ControlValues = controlValues;
             this.ArrImagesForControlValues = arrImagesForControlValues;
