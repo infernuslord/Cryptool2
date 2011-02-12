@@ -35,6 +35,9 @@ namespace KeySearcherPresentation.Controls
             ((ChunkSumConverter)Resources["ChunkSumConverter"]).StatisticsPresentation = this;
             ((MachineSumToProgressConverter)Resources["MachineSumToProgressConverter"]).StatisticsPresentation = this;
             ((MaxDateConverter)Resources["MaxDateConverter"]).StatisticsPresentation = this;
+            ((TimeConverter)Resources["TimeConverter"]).StatisticsPresentation = this;
+            ((StringLengthConverter)Resources["StringLengthConverter"]).StatisticsPresentation = this;
+            
         }
 
         private Dictionary<string, Dictionary<long, Information>> statistics = null;
@@ -463,6 +466,8 @@ namespace KeySearcherPresentation.Controls
     [ValueConversion(typeof(string), typeof(string))]
     class StringLengthConverter : IValueConverter
     {
+        public StatisticsPresentation StatisticsPresentation { get; set; }
+
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value != null && value is string)
@@ -532,14 +537,44 @@ namespace KeySearcherPresentation.Controls
                         {
                             max = machines[id].Date;
                         }
-                        return max;
+                        return max.ToLocalTime();
                     }
                 }
             }
             catch (Exception)
             {
             }
-            return DateTime.UtcNow;
+            return DateTime.UtcNow.ToLocalTime();
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    [ValueConversion(typeof(DateTime), typeof(DateTime))]
+    class TimeConverter : IValueConverter
+    {
+        public StatisticsPresentation StatisticsPresentation { get; set; }
+
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            try
+            {
+                if (StatisticsPresentation != null && StatisticsPresentation.Statistics != null)
+                {
+                    lock (StatisticsPresentation)
+                    {
+                      
+                        return ((DateTime)value).ToLocalTime();
+                    }
+                }
+            }
+            catch (Exception)
+            {
+            }
+            return DateTime.UtcNow.ToLocalTime();
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
