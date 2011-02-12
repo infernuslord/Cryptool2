@@ -91,6 +91,9 @@ namespace Cryptool.PluginBase.IO
             }
         }
 
+        /// <summary>
+        /// Caveat: The length may grow while the writer has not closed the stream. If you rely on Length, you may want to call WaitEof() before.
+        /// </summary>
         public override long Length
         {
             get

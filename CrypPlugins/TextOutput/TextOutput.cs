@@ -236,6 +236,8 @@ namespace TextOutput
             {
                 using (CStreamReader reader = ((ICryptoolStream)value).CreateReader())
                 {
+                    reader.WaitEof(); // does not support chunked streaming
+
                     // GuiLogMessage("Stream: Filling TextBoxes now...", NotificationLevel.Debug);
                     if (reader.Length > settings.MaxLength)
                         AddMessage("WARNING - Stream is too large (" + (reader.Length / 1024).ToString("0.00") + " kB), output will be truncated to " + (settings.MaxLength / 1024).ToString("0.00") + "kB", NotificationLevel.Warning);

@@ -108,6 +108,9 @@ namespace Cryptool.StreamComparator
 
       using (CStreamReader readerOne = InputOne.CreateReader(), readerTwo = InputTwo.CreateReader())
         {
+          readerOne.WaitEof();
+          readerTwo.WaitEof();
+
           if (readerOne.Length != readerTwo.Length && !settings.Diff)
           {
           GuiTextChanged("Inputs are not equal, because the filesize is different.", NotificationLevel.Info);
@@ -186,6 +189,8 @@ namespace Cryptool.StreamComparator
         {
             using (CStreamReader readerOne = InputOne.CreateReader(), readerTwo = InputTwo.CreateReader())
             {
+                readerOne.WaitEof();
+                readerTwo.WaitEof();
 
                 if (readerOne.Length > maxLength || readerTwo.Length > maxLength)
             GuiTextChanged("Streams too big for complete diff, reading end of files only.", NotificationLevel.Warning);
