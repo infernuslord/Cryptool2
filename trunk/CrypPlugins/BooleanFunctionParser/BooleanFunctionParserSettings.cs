@@ -116,7 +116,6 @@ namespace Cryptool.BooleanFunctionParser
         [ContextMenu("CubeAttack mode",
             "Extend the BFP for use as a slave for Cube Attack.",
             1,
-            DisplayLevel.Experienced,
             ContextMenuControlType.CheckBox,
             null,
             "")]
@@ -125,7 +124,6 @@ namespace Cryptool.BooleanFunctionParser
             null,
             1,
             false,
-            DisplayLevel.Experienced,
             ControlType.CheckBox, "")]
         public bool UseBFPforCube
         {

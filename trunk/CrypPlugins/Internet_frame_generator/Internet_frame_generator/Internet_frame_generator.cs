@@ -50,7 +50,6 @@ namespace Cryptool.Internet_frame_generator
             "",
             false,
             false,
-            DisplayLevel.Beginner,
             QuickWatchFormat.Text,
             "InputIntQuickWatchConverter")]
         public int InputInt
@@ -69,7 +68,6 @@ namespace Cryptool.Internet_frame_generator
             "",
             false,
             false,
-            DisplayLevel.Beginner,
             QuickWatchFormat.Hex,
             null)]
         public ICryptoolStream OutputStream

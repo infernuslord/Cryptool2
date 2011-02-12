@@ -28,7 +28,6 @@ namespace Cryptool.WEP
         [ContextMenu("Action",
             "Do you want to encrypt or decrypt data?",
             1,
-            DisplayLevel.Beginner,
             ContextMenuControlType.ComboBox,
             new int[] { 1, 2 },
             "Encrypt",
@@ -38,7 +37,6 @@ namespace Cryptool.WEP
             "",
             1,
             false,
-            DisplayLevel.Beginner,
             ControlType.ComboBox,
             new String[] { "Encrypt", "Decrypt" })]
         public int Action

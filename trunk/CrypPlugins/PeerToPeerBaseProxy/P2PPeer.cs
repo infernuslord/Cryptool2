@@ -65,7 +65,7 @@ namespace Cryptool.Plugins.PeerToPeerProxy
         #region In and Output
 
         [PropertyInfo(Direction.ControlSlave, "Master Peer", "One peer to rule them all", "", true, false,
-            DisplayLevel.Beginner, QuickWatchFormat.Text, null)]
+            QuickWatchFormat.Text, null)]
         public IP2PControl P2PControlSlave
         {
             get { return _p2PSlave ?? (_p2PSlave = new P2PPeerMaster(this)); }

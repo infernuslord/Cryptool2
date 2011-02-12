@@ -46,11 +46,5 @@ namespace Cryptool.PluginBase
             this.ControlValues = controlValues;
             this.ArrImagesForControlValues = arrImagesForControlValues;
         }
-
-        [Obsolete("DisplayLevel is no longer used, see #122")]
-        public ContextMenuAttribute(string caption, string toolTip, int order, DisplayLevel displayLevel, ContextMenuControlType controlType, int[] arrImagesForControlValues, params string[] controlValues)
-            : this(caption, toolTip, order, controlType, arrImagesForControlValues, controlValues)
-        {
-        }
     }
 }

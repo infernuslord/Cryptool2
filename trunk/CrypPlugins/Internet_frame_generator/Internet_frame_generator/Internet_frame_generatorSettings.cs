@@ -27,7 +27,6 @@ namespace Cryptool.Internet_frame_generator
         [ContextMenu("Kind of packet",
             "Kind of packets to be generated",
             1,
-            DisplayLevel.Beginner,
             ContextMenuControlType.ComboBox,
             null,
             new String[] { "IPv4 packets", "ARP request packets" })]
@@ -36,7 +35,6 @@ namespace Cryptool.Internet_frame_generator
             "",
             1,
             true,
-            DisplayLevel.Beginner,
             ControlType.ComboBox,
             new String[] { "IPv4 packets", "ARP request packets" })]
         public int Action
@@ -61,7 +59,6 @@ namespace Cryptool.Internet_frame_generator
             "",
             2,
             false,
-            DisplayLevel.Beginner,
             ControlType.TextBox,
             ValidationType.RegEx,
             "^((1)(0){0,5})$|^((1)([0-9]){0,4})$|^(([2-9])([0-9]){0,4})$")]

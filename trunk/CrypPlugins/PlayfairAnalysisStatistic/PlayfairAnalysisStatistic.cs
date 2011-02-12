@@ -40,7 +40,6 @@ namespace Cryptool.Plugins.PlayfairAnalysisStatistic
         private string formattedText;
         private string sortedAlphabet;
         private double[,] logStat;
-        private double[] logStat2;
         private byte[] logStatByte;
 
         #endregion
@@ -74,19 +73,13 @@ namespace Cryptool.Plugins.PlayfairAnalysisStatistic
         }
         */
 
-        CryptoolStream csBigraphStatistic;
+        ICryptoolStream csBigraphStatistic;
         [PropertyInfo(Direction.OutputData, "Bigraph Statistic", "Bigraph Statistic for Playfair Analysis Plugin", null)]
-        public CryptoolStream OutputStream
+        public ICryptoolStream OutputStream
         {
             get
             {
-                if (this.csBigraphStatistic != null)
-                {
-                    CryptoolStream cs = new CryptoolStream();
-                    cs.OpenRead(this.csBigraphStatistic.FileName);
-                    return cs;
-                }
-                return null;
+                return csBigraphStatistic;
             }
 
             set
@@ -217,14 +210,9 @@ namespace Cryptool.Plugins.PlayfairAnalysisStatistic
                                     }
                                 }
                             }
-                            
 
-                            csBigraphStatistic = new CryptoolStream();
-                            csBigraphStatistic.OpenWrite();
-                             
-                            
 
-                            csBigraphStatistic.Write(logStatByte);
+                            csBigraphStatistic = new CStreamWriter(logStatByte);
                             OnPropertyChanged("OutputStream");
 
 

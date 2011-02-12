@@ -94,7 +94,6 @@ namespace Cryptool.PluginBase
         /// <param name="toolTip">The tool tip.</param>
         /// <param name="descriptionUrl">The description URL.</param>
         /// <param name="mandatory">if set to <c>true</c> [mandatory].</param>
-        /// <param name="displayLevel">The display level.</param>
         /// <param name="quickWatchFormat">The quick watch format.</param>
         /// <param name="quickWatchConversion">Methodname of converstion method.</param>
         public PropertyInfoAttribute(Direction direction, string caption, string toolTip, string descriptionUrl, bool mandatory, bool hasDefaultValue, QuickWatchFormat quickWatchFormat, string quickWatchConversionMethod)
@@ -104,7 +103,6 @@ namespace Cryptool.PluginBase
             this.DescriptionUrl = descriptionUrl == null ? "" : descriptionUrl;
             this.Direction = direction;
             this.Mandatory = mandatory;
-//            this.DisplayLevel = displayLevel;
             this.QuickWatchFormat = quickWatchFormat;
             this.QuickWatchConversionMethod = quickWatchConversionMethod;
             this.HasDefaultValue = hasDefaultValue;
@@ -112,18 +110,6 @@ namespace Cryptool.PluginBase
 
         public PropertyInfoAttribute(Direction direction, string caption, string toolTip, string descriptionUrl)
             : this(direction, caption, toolTip, descriptionUrl, false, false, QuickWatchFormat.None, null)
-        {
-        }
-
-        [Obsolete("DisplayLevel is no longer used, see #122")]
-        public PropertyInfoAttribute(Direction direction, string caption, string toolTip, string descriptionUrl, bool mandatory, bool hasDefaultValue, DisplayLevel displayLevel, QuickWatchFormat quickWatchFormat, string quickWatchConversionMethod)
-            : this(direction, caption, toolTip, descriptionUrl, mandatory, hasDefaultValue, quickWatchFormat, quickWatchConversionMethod)
-        {
-        }
-
-        [Obsolete("DisplayLevel is no longer used, see #122")]
-        public PropertyInfoAttribute(Direction direction, string caption, string toolTip, string descriptionUrl, DisplayLevel displayLevel) 
-          : this (direction, caption, toolTip, descriptionUrl, false, false, displayLevel, QuickWatchFormat.None, null)
         {
         }
 

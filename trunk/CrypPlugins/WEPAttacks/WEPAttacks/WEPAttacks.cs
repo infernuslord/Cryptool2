@@ -67,7 +67,6 @@ namespace Cryptool.WEPAttacks
             "",
             false,
             false,
-            DisplayLevel.Beginner,
             QuickWatchFormat.Hex,
             null)]
         public ICryptoolStream InputStream
@@ -90,7 +89,6 @@ namespace Cryptool.WEPAttacks
             "",
             false,
             false,
-            DisplayLevel.Beginner,
             QuickWatchFormat.Text,
             null)]
         public bool Success
@@ -109,7 +107,6 @@ namespace Cryptool.WEPAttacks
             "",
             false,
             false,
-            DisplayLevel.Beginner,
             QuickWatchFormat.Hex,
             null)]
         public ICryptoolStream OutputStream

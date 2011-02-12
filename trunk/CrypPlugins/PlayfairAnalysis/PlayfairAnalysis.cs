@@ -41,7 +41,6 @@ namespace Cryptool.Plugins.PlayfairAnalysis
         private PlayfairAnalysisSettings settings = new PlayfairAnalysisSettings();
         private string inputString;
         private string outputString;
-        private List<CryptoolStream> listCryptoolStreamsOut = new List<CryptoolStream>();
         private Thread playFairAttackThread;
         private bool executionStopped;
         private double[,] customLogStat;
@@ -85,19 +84,13 @@ namespace Cryptool.Plugins.PlayfairAnalysis
         }
         */
 
-        CryptoolStream csBigraphStatistic;
+        ICryptoolStream csBigraphStatistic;
         [PropertyInfo(Direction.InputData, "Bigraph Statistic", "Bigraph Statistic from Playfair Analysis Statistic Plugin", null)]
-        public CryptoolStream CustomLogStat
+        public ICryptoolStream CustomLogStat
         {
             get
             {
-                if (this.csBigraphStatistic != null)
-                {
-                    CryptoolStream cs = new CryptoolStream();
-                    cs.OpenRead(this.csBigraphStatistic.FileName);
-                    return cs;
-                }
-                return null;
+                return csBigraphStatistic;
             }
 
             set
@@ -129,21 +122,11 @@ namespace Cryptool.Plugins.PlayfairAnalysis
 
 
         [PropertyInfo(Direction.OutputData, "CryptoolStream output", "The raw CryptoolStream data after playfair analysis", null)]
-        public virtual CryptoolStream OutputData
+        public virtual ICryptoolStream OutputData
         {
             get
             {
-                if (outputString != null)
-                {
-                    CryptoolStream cs = new CryptoolStream();
-                    listCryptoolStreamsOut.Add(cs);
-                    cs.OpenRead(Encoding.Default.GetBytes(outputString.ToCharArray()));
-                    return cs;
-                }
-                else
-                {
-                    return null;
-                }
+                return new CStreamWriter(Encoding.Default.GetBytes(outputString.ToCharArray()));
             }
             set { }
         }
@@ -207,31 +190,32 @@ namespace Cryptool.Plugins.PlayfairAnalysis
             {
                 int alphabetLength;
                 int offset = 0;
-                csBigraphStatistic = CustomLogStat;
-
-                alphabetLength = (int)csBigraphStatistic.Read(offset, 1)[0];
-                matrixSize = (int)(Math.Sqrt(alphabetLength));
-
-                BigraphStat = new Double[(int)Math.Pow(matrixSize, 2), (int)Math.Pow(matrixSize, 2)];
-                byte[] statisticBuffer = new byte[8 * BigraphStat.Length];
-
-                alphabet = "";
-                for (int i = 0; i < alphabetLength; i++)
+                using (CStreamReader reader = CustomLogStat.CreateReader())
                 {
-                    alphabet += (char)csBigraphStatistic.Read(offset, 1)[0];
-                }
+                    alphabetLength = (int)reader.ReadByte();
+                    matrixSize = (int)(Math.Sqrt(alphabetLength));
 
-                
-                statisticBuffer = csBigraphStatistic.Read(offset, 8 * BigraphStat.Length);
-                
+                    BigraphStat = new Double[(int)Math.Pow(matrixSize, 2), (int)Math.Pow(matrixSize, 2)];
+                    byte[] statisticBuffer = new byte[8 * BigraphStat.Length];
 
-                for (int i = 0; i < (int)Math.Pow(matrixSize, 2); i++)
-                {                                
-                    for (int j = 0; j < (int)Math.Pow(matrixSize, 2); j++)
-                    {                        
-                        BigraphStat[i, j] = BitConverter.ToDouble(statisticBuffer, offset);
-                        offset += 8;
-                    }                                
+                    alphabet = "";
+                    for (int i = 0; i < alphabetLength; i++)
+                    {
+                        alphabet += (char)reader.ReadByte();
+                    }
+
+
+                    reader.ReadFully(statisticBuffer, offset, 8 * BigraphStat.Length);
+
+
+                    for (int i = 0; i < (int)Math.Pow(matrixSize, 2); i++)
+                    {
+                        for (int j = 0; j < (int)Math.Pow(matrixSize, 2); j++)
+                        {
+                            BigraphStat[i, j] = BitConverter.ToDouble(statisticBuffer, offset);
+                            offset += 8;
+                        }
+                    }
                 }
 
                 GuiLogMessage("MatrixSize: " + Convert.ToString(matrixSize), NotificationLevel.Info);
@@ -350,11 +334,6 @@ namespace Cryptool.Plugins.PlayfairAnalysis
 
         public void Dispose()
         {
-            foreach (CryptoolStream stream in listCryptoolStreamsOut)
-            {
-                stream.Close();
-            }
-            listCryptoolStreamsOut.Clear();
         }
 
         #endregion
