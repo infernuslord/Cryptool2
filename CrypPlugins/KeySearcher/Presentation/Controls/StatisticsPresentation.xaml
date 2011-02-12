@@ -47,8 +47,32 @@
             <BeginStoryboard Storyboard="{StaticResource BestGlow}" />
         </EventTrigger>
     </UserControl.Triggers>
-    
-        <TabControl>
+    <Grid Background="Beige">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Label Content="K e y s e a r c h e r   G l o b a l   S t a t i s t i c" FontWeight="bold" FontSize="13" Grid.Row="0"  HorizontalAlignment="Stretch" VerticalAlignment="Top"/>
+        <Button Name="myProgButton" Content="X" Click="SwitchView" Width="25" Height="17" VerticalAlignment="Top" HorizontalAlignment="Right" FontWeight="bold" FontSize="9" Foreground="White" Background="Crimson" BorderBrush="DarkBlue"/>
+
+        <TabControl Grid.Row="2" >
+            <TabControl.Resources>
+                <Style TargetType="{x:Type TabItem}">
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background">
+                                <Setter.Value>
+                                    <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                                        <GradientStop Color="#FFF3F3F3" Offset="0"/>
+                                        <GradientStop Color="#FFF11818" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </TabControl.Resources>
+            
             <TabItem Header="{Loc _Information_}">
                 <Viewbox>
                 <Grid Width="407">
@@ -114,8 +138,7 @@
                                 </Grid>
                             </Border>
                        </StackPanel>
-                       <Button Name="myProgButton" Content="Progress" Click="SwitchView" Width="75" Height="23" Margin="10,10" VerticalAlignment="Bottom" HorizontalAlignment="Right" FontWeight="bold" Background="LightBlue" BorderBrush="DarkBlue" Foreground="DarkBlue" />
-                    </Grid>
+                     </Grid>
                 </Viewbox>
                 
             </TabItem>
@@ -175,7 +198,6 @@
                             </HierarchicalDataTemplate>
                         </TreeView.ItemTemplate>
                     </TreeView>
-                    <Button Name="myProgButton2" Content="Progress" Click="SwitchView" Width="75" Height="23" Margin="0,0,6,6" VerticalAlignment="Bottom" HorizontalAlignment="Right" FontWeight="bold" Background="LightBlue" BorderBrush="DarkBlue" Foreground="DarkBlue" Grid.Column="1" Grid.Row="1" />
                 </Grid>
                 </TabItem>
         
@@ -214,8 +236,8 @@
                             </HierarchicalDataTemplate>
                         </TreeView.ItemTemplate>
                     </TreeView>
-                    <Button Name="myProgButton3" Content="Progress" Click="SwitchView" Width="75" Height="23" Margin="0,0,6,6" VerticalAlignment="Bottom" HorizontalAlignment="Right" FontWeight="bold" Background="LightBlue" BorderBrush="DarkBlue" Foreground="DarkBlue" Grid.Column="1" Grid.Row="1" />
                 </Grid>
                 </TabItem>        
-        </TabControl>    
+        </TabControl>
+    </Grid>
 </UserControl>

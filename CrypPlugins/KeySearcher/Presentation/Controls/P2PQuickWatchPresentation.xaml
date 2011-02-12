@@ -40,7 +40,8 @@
 				<Border BorderBrush="Silver" BorderThickness="2,2,2,2">
 					<Grid Height="48" Background="#AFE2E2FF">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="48" />
+                            <RowDefinition Height="30" />
+                            <RowDefinition Height="18" />
                         </Grid.RowDefinitions>
 						<Grid.ColumnDefinitions>
                             <ColumnDefinition Width="26" />
@@ -48,9 +49,12 @@
 							<ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
 						</Grid.ColumnDefinitions>
-                        <Border BorderThickness="1" BorderBrush="Black" LayoutTransform="{StaticResource HeaderRotate}" Grid.Column="0" Background="#FF5C5CFF">
+                        <Border BorderThickness="1" BorderBrush="Black" LayoutTransform="{StaticResource HeaderRotate}" Grid.RowSpan="2" Grid.Column="0" Background="#FF5C5CFF">
                             <Label Content="{Loc Static_}" FontSize="11" HorizontalAlignment="Center" Foreground="White" />
                         </Border>
+                        <TextBlock Width="110" Grid.Column="3" Grid.Row="1" Cursor="Hand" HorizontalAlignment="Right" Margin="5,0,0,2" Foreground="Blue">
+                            <Underline MouseDown="SwitchView">More Information...</Underline>
+                        </TextBlock>
                         <Label Content="{Loc Total_Chunks_}" VerticalAlignment="Center" Grid.Column="1" />
                         <Label Content="-" Name="TotalAmountOfChunks" VerticalAlignment="Center" Grid.Column="1" HorizontalContentAlignment="Right" Padding="5,5,20,5" />
                         <Label Content="{Loc Keys_Per_Chunk_}" VerticalAlignment="Center" Grid.Column="2" />
@@ -74,7 +78,8 @@
                         <Border BorderThickness="1" BorderBrush="Black" LayoutTransform="{StaticResource HeaderRotate}" Background="#FF099BA7" Grid.Column="0" Grid.RowSpan="2">
                             <Label Content="Global" FontSize="11" HorizontalAlignment="Center" Foreground="White" />
                         </Border>
-                        <Button Name="statButton" Content="Show Statistics" Click="SwitchView" Width="111" Height="23" Margin="0,0,67,2" Grid.Column="1" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Background="LightBlue" BorderBrush="DarkBlue" Foreground="DarkBlue" />
+                        <!-- <Button Name="statButton" Content="Show Statistics" Click="SwitchView" Width="111" Height="23" Margin="0,0,67,2" Grid.Column="1" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Background="LightBlue" BorderBrush="DarkBlue" Foreground="DarkBlue" />
+                        -->
                         <Label Content="{Loc Participants_}" Grid.Column="1" />
                         <Label Content="{Binding TotalAmountOfParticipants, FallbackValue=-}" Grid.Column="1" HorizontalContentAlignment="Right" Padding="5,5,20,5" />
                         <Label Content="{Loc Start_}" Grid.Column="2" />
