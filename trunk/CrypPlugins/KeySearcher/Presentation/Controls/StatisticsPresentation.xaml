@@ -10,6 +10,7 @@
         <Controls:InformationToProgressConverter x:Key="InformationToProgressConverter"/>
         <Controls:InformationToProgressConverter2 x:Key="InformationToProgressConverter2"/>
         <Controls:MaxDateConverter x:Key="MaxDateConverter"/>
+        <Controls:TimeConverter x:Key="TimeConverter"/>
         <Controls:MachineSumToProgressConverter x:Key="MachineSumToProgressConverter"/>
         <Controls:ChunkSumConverter x:Key="ChunkSumConverter"/>
         <Controls:StringLengthConverter x:Key="StringLengthConverter"/>
@@ -162,7 +163,7 @@
                             <HierarchicalDataTemplate ItemsSource="{Binding Path=Value}">
                                 <HierarchicalDataTemplate.ItemTemplate>
                                     <DataTemplate>
-                                        <StackPanel Orientation="Horizontal" Margin="1" ToolTip="{Binding Path=Value.Date}">
+                                        <StackPanel Orientation="Horizontal" Margin="1" ToolTip="{Binding Path=Value.Date, Converter={StaticResource ResourceKey=TimeConverter}}">
                                             <Grid Width="70">
                                                 <TextBlock Text="{Binding Path=Value.Hostname, Converter={StaticResource ResourceKey=StringLengthConverter}}" HorizontalAlignment="Center" ToolTip="{Binding Path=Value.Hostname}"/>
                                             </Grid>
