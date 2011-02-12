@@ -33,7 +33,6 @@ namespace KeySearcherPresentation.Controls
             ((InformationToProgressConverter)Resources["InformationToProgressConverter"]).StatisticsPresentation = this;
             ((InformationToProgressConverter2)Resources["InformationToProgressConverter2"]).StatisticsPresentation = this;
             ((ChunkSumConverter)Resources["ChunkSumConverter"]).StatisticsPresentation = this;
-            ((StringLengthConverter)Resources["StringLengthConverter"]).StatisticsPresentation = this;
             ((MachineSumToProgressConverter)Resources["MachineSumToProgressConverter"]).StatisticsPresentation = this;
             ((MaxDateConverter)Resources["MaxDateConverter"]).StatisticsPresentation = this;
         }
@@ -51,10 +50,16 @@ namespace KeySearcherPresentation.Controls
                 if (statistics != null)
                     Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                                                {
-                                                   if (statistics != null)
+                                                   try
                                                    {
-                                                       statisticsTree.DataContext = statistics;
-                                                       statisticsTree.Items.Refresh();
+                                                       if (statistics != null)
+                                                       {
+                                                           statisticsTree.DataContext = statistics;
+                                                           statisticsTree.Items.Refresh();
+                                                       }
+                                                   }
+                                                   catch (Exception)
+                                                   {
                                                    }
                                                }, null);
 
@@ -73,10 +78,16 @@ namespace KeySearcherPresentation.Controls
                 }
                 Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                                                 {
-                                                    if (machineHierarchy != null)
+                                                    try
                                                     {
-                                                        machineTree.DataContext = machineHierarchy;
-                                                        machineTree.Items.Refresh();
+                                                        if (machineHierarchy != null)
+                                                        {
+                                                            machineTree.DataContext = machineHierarchy;
+                                                            machineTree.Items.Refresh();
+                                                        }
+                                                    }
+                                                    catch (Exception)
+                                                    {
                                                     }
                                                 }, null);
             }
@@ -97,7 +108,8 @@ namespace KeySearcherPresentation.Controls
 
                 Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
-                    WorkingDays.Content = days;
+                    if (days != null)
+                        WorkingDays.Content = days;
                 }, null);
             }
         }
@@ -248,7 +260,8 @@ namespace KeySearcherPresentation.Controls
 
                 Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
-                    BestUser.Content = beeusers;
+                    if (beeusers != null)
+                        BestUser.Content = beeusers;
                 }, null);
             }
         }
@@ -284,7 +297,8 @@ namespace KeySearcherPresentation.Controls
 
                 Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
-                    BestMachine.Content = beemachines;
+                    if (beemachines != null)
+                        BestMachine.Content = beemachines;
                 }, null);
             }
         }
@@ -360,19 +374,22 @@ namespace KeySearcherPresentation.Controls
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (StatisticsPresentation != null && StatisticsPresentation.Statistics != null)
+            try
             {
-                lock (StatisticsPresentation)
+                if (StatisticsPresentation != null && StatisticsPresentation.Statistics != null)
                 {
-                    double allCount = (StatisticsPresentation.Statistics).Sum(i => i.Value.Sum(j => j.Value.Count));
-                    double vCount = ((Dictionary<long, Information>) value).Sum(i => i.Value.Count);
-                    return vCount/allCount;
+                    lock (StatisticsPresentation)
+                    {
+                        double allCount = (StatisticsPresentation.Statistics).Sum(i => i.Value.Sum(j => j.Value.Count));
+                        double vCount = ((Dictionary<long, Information>)value).Sum(i => i.Value.Count);
+                        return vCount / allCount;
+                    }
                 }
             }
-            else
+            catch (Exception)
             {
-                return 0;
             }
+            return 0.0;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -388,19 +405,22 @@ namespace KeySearcherPresentation.Controls
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (StatisticsPresentation != null && StatisticsPresentation.MachineHierarchy != null)
+            try
             {
-                lock (StatisticsPresentation)
+                if (StatisticsPresentation != null && StatisticsPresentation.MachineHierarchy != null)
                 {
-                    double allCount = (StatisticsPresentation.MachineHierarchy).Sum(i => i.Value.Sum);
-                    double vCount = (int) value;
-                    return vCount/allCount;
+                    lock (StatisticsPresentation)
+                    {
+                        double allCount = (StatisticsPresentation.MachineHierarchy).Sum(i => i.Value.Sum);
+                        double vCount = (int)value;
+                        return vCount / allCount;
+                    }
                 }
             }
-            else
+            catch (Exception)
             {
-                return 0;
             }
+            return 0.0;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -416,19 +436,22 @@ namespace KeySearcherPresentation.Controls
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (StatisticsPresentation != null && StatisticsPresentation.Statistics != null)
+            try
             {
-                lock (StatisticsPresentation)
+                if (StatisticsPresentation != null && StatisticsPresentation.Statistics != null)
                 {
-                    string key = (string) value;
-                    var data = (StatisticsPresentation.Statistics)[key];
-                    return data.Sum(i => i.Value.Count);
+                    lock (StatisticsPresentation)
+                    {
+                        string key = (string)value;
+                        var data = (StatisticsPresentation.Statistics)[key];
+                        return data.Sum(i => i.Value.Count);
+                    }
                 }
             }
-            else
+            catch (Exception)
             {
-                return 0;
             }
+            return 0.0;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -440,27 +463,18 @@ namespace KeySearcherPresentation.Controls
     [ValueConversion(typeof(string), typeof(string))]
     class StringLengthConverter : IValueConverter
     {
-        public StatisticsPresentation StatisticsPresentation { get; set; }
-
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (StatisticsPresentation != null)
+            if (value != null && value is string)
             {
                 string name = (string)value;
-                
-                if(name.Length < 13)
+                if (name.Length < 13)
                 {
                     return name;
                 }
-                else
-                {
-                    return string.Format("{0}...", name.Substring(0, 9));
-                }
+                return string.Format("{0}...", name.Substring(0, 9));
             }
-            else
-            {
-                return "";
-            }
+            return "";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -476,18 +490,21 @@ namespace KeySearcherPresentation.Controls
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (StatisticsPresentation != null && StatisticsPresentation.Statistics != null)
+            try
             {
-                lock (StatisticsPresentation)
+                if (StatisticsPresentation != null && StatisticsPresentation.Statistics != null)
                 {
-                    double allCount = (StatisticsPresentation.Statistics).Sum(i => i.Value.Sum(j => j.Value.Count));
-                    return (int) value/allCount;
+                    lock (StatisticsPresentation)
+                    {
+                        double allCount = (StatisticsPresentation.Statistics).Sum(i => i.Value.Sum(j => j.Value.Count));
+                        return (int)value / allCount;
+                    }
                 }
             }
-            else
+            catch (Exception)
             {
-                return 0;
             }
+            return 0.0;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -503,23 +520,26 @@ namespace KeySearcherPresentation.Controls
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (StatisticsPresentation != null && StatisticsPresentation.Statistics != null)
+            try
             {
-                lock (StatisticsPresentation)
+                if (StatisticsPresentation != null && StatisticsPresentation.Statistics != null)
                 {
-                    var max = DateTime.MinValue;
-                    var machines = StatisticsPresentation.Statistics[(string) value];
-                    foreach (var id in machines.Keys.Where(id => machines[id].Date > max))
+                    lock (StatisticsPresentation)
                     {
-                        max = machines[id].Date;
+                        var max = DateTime.MinValue;
+                        var machines = StatisticsPresentation.Statistics[(string)value];
+                        foreach (var id in machines.Keys.Where(id => machines[id].Date > max))
+                        {
+                            max = machines[id].Date;
+                        }
+                        return max;
                     }
-                    return max;
                 }
             }
-            else
+            catch (Exception)
             {
-                return 0;
             }
+            return DateTime.UtcNow;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -534,71 +554,78 @@ namespace KeySearcherPresentation.Controls
 
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            DateTime date = (DateTime) values[0];
-            SolidColorBrush brush = ColorToDateConverter.AlternationColors[(int) values[1]].Clone();
-            TimeSpan diff = DateTime.UtcNow.Subtract(date);
-
-            Color color;
-            if (diff >= TimeSpan.FromDays(4))
+            try
             {
-                color = Color.FromArgb(
-                    (byte)50,
-                    brush.Color.R, 
-                    brush.Color.G, 
-                    brush.Color.B);
+                DateTime date = (DateTime)values[0];
+                SolidColorBrush brush = ColorToDateConverter.AlternationColors[(int)values[1]].Clone();
+                TimeSpan diff = DateTime.UtcNow.Subtract(date);
 
-                brush.Color = color;
-                return brush;
+                Color color;
+                if (diff >= TimeSpan.FromDays(4))
+                {
+                    color = Color.FromArgb(
+                        (byte)50,
+                        brush.Color.R,
+                        brush.Color.G,
+                        brush.Color.B);
+
+                    brush.Color = color;
+                    return brush;
+                }
+
+                if (diff >= TimeSpan.FromDays(3))
+                {
+                    color = Color.FromArgb(
+                       (byte)100,
+                       brush.Color.R,
+                       brush.Color.G,
+                       brush.Color.B);
+
+                    brush.Color = color;
+                    return brush;
+                }
+
+                if (diff >= TimeSpan.FromDays(2))
+                {
+                    color = Color.FromArgb(
+                       (byte)150,
+                       brush.Color.R,
+                       brush.Color.G,
+                       brush.Color.B);
+
+                    brush.Color = color;
+                    return brush;
+                }
+
+                if (diff >= TimeSpan.FromDays(1))
+                {
+                    color = Color.FromArgb(
+                        (byte)200,
+                        brush.Color.R,
+                        brush.Color.G,
+                        brush.Color.B);
+
+                    brush.Color = color;
+                    return brush;
+                }
+
+                if (diff >= TimeSpan.FromDays(0))
+                {
+
+                    color = Color.FromArgb(
+                        (byte)255,
+                        brush.Color.R,
+                        brush.Color.G,
+                        brush.Color.B);
+
+                    brush.Color = color;
+                    return brush;
+                }
+            }
+            catch (Exception)
+            {
             }
 
-            if (diff >= TimeSpan.FromDays(3))
-            {
-                 color = Color.FromArgb(
-                    (byte)100,
-                    brush.Color.R, 
-                    brush.Color.G, 
-                    brush.Color.B);
-
-                brush.Color = color;
-                return brush;
-            }
-
-            if (diff >= TimeSpan.FromDays(2))
-            {
-                 color = Color.FromArgb(
-                    (byte)150,
-                    brush.Color.R, 
-                    brush.Color.G, 
-                    brush.Color.B);
-
-                brush.Color = color;
-                return brush;
-            }
-
-            if (diff >= TimeSpan.FromDays(1))
-            {
-                color = Color.FromArgb(
-                    (byte)200,
-                    brush.Color.R, 
-                    brush.Color.G, 
-                    brush.Color.B);
-
-                brush.Color = color;
-                return brush;
-            }
-
-            if (diff >= TimeSpan.FromDays(0))
-            {
-
-                color = Color.FromArgb(
-                    (byte)255,
-                    brush.Color.R,
-                    brush.Color.G,
-                    brush.Color.B);
-
-                brush.Color = color;
-                return brush;
-            }
             return Brushes.AntiqueWhite;
         }
 
