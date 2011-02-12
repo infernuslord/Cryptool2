@@ -1404,19 +1404,26 @@ namespace KeySearcher
         //Update the Statistic Presentation
         internal void UpdateStatisticsPresentation()
         {
-            var calcChunks = calculatedChunks();
-            ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.Statistics = statistic;
-            ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.MachineHierarchy = maschinehierarchie;
-            ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.Days = DateTime.UtcNow.Subtract(startDate).Days + " Days";
-            ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.CalculatedBlocks = calcChunks;
-            ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.CalculatedKeys = calcChunks * (BigInteger)Math.Pow(2, settings.ChunkSize);
-            ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.Percent = (double)calcChunks;
-            ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.Users = statistic.Keys.Count;
-            ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.Machines = maschinehierarchie.Keys.Count;
-            if (statistic.Count > 0)
+            try
             {
-                ((QuickWatch) QuickWatchPresentation).StatisticsPresentation.BeeUsers = statistic.Keys.First();
-                ((QuickWatch) QuickWatchPresentation).StatisticsPresentation.BeeMachines = maschinehierarchie[maschinehierarchie.Keys.First()].Hostname;
+                var calcChunks = calculatedChunks();
+                ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.Statistics = statistic;
+                ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.MachineHierarchy = maschinehierarchie;
+                ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.Days = DateTime.UtcNow.Subtract(startDate).Days + " Days";
+                ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.CalculatedBlocks = calcChunks;
+                ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.CalculatedKeys = calcChunks * (BigInteger)Math.Pow(2, settings.ChunkSize);
+                ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.Percent = (double)calcChunks;
+                ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.Users = statistic.Keys.Count;
+                ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.Machines = maschinehierarchie.Keys.Count;
+                if (statistic.Count > 0)
+                {
+                    ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.BeeUsers = statistic.Keys.First();
+                    ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.BeeMachines = maschinehierarchie[maschinehierarchie.Keys.First()].Hostname;
+                }
+            }
+            catch (Exception ex)
+            {
+                GuiLogMessage(string.Format("Error when trying to update statistic: {0}", ex.Message), NotificationLevel.Error);
             }
         }
 
