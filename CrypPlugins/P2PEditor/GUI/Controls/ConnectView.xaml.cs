@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Reflection;
 using System.Windows;
 using Cryptool.P2P;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
 using System.Threading;
 using Cryptool.P2P.Internal;
+using Cryptool.PluginBase.Miscellaneous;
 using PeersAtPlay.CertificateLibrary.Certificates;
 using Cryptool.PluginBase;
 using System.IO;
@@ -180,8 +182,9 @@ namespace Cryptool.P2PEditor.GUI.Controls
                     }
 
                     certificateClient.TimeOut = 5;
-                    certificateClient.ProgramName = System.Reflection.Assembly.GetEntryAssembly().GetName().Name;
-                    certificateClient.ProgramVersion = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.ToString();
+                    Assembly asm = Assembly.GetEntryAssembly();
+                    certificateClient.ProgramName = asm.GetName().Name;
+                    certificateClient.ProgramVersion = AssemblyHelper.GetVersionString(asm);
                     certificateClient.InvalidCertificateRequest += InvalidCertificateRequest;
                     certificateClient.CertificateReceived += CertificateReceived;
                     certificateClient.RequestCertificate(new CertificateRequest(P2PSettings.Default.PeerName, null, password));

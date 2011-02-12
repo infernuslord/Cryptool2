@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Reflection;
+using Cryptool.PluginBase.Miscellaneous;
 
 namespace Primes.Options
 {
@@ -27,7 +28,7 @@ namespace Primes.Options
 
     private void UserControl_Loaded(object sender, RoutedEventArgs e)
     {
-      Version version = Assembly.GetAssembly(this.GetType()).GetName().Version;
+      Version version = AssemblyHelper.GetVersion(Assembly.GetAssembly(this.GetType()));
       string strVersion = String.Format("{0}.{1}.{2}", new Object[] { version.Major-1, version.Minor,version.Revision});
       tbVersionInfo.Text = strVersion;
       tbBuildInfo.Text = version.Build.ToString();

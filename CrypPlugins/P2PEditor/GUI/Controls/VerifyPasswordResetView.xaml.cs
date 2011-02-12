@@ -1,11 +1,13 @@
 ﻿using System;
 using System.ComponentModel;
 using System.IO;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Forms;
 using Cryptool.P2PEditor.Distributed;
 using Cryptool.P2PEditor.Worker;
 using Cryptool.PluginBase;
+using Cryptool.PluginBase.Miscellaneous;
 using PeersAtPlay.CertificateLibrary.Network;
 using System.Threading;
 using PeersAtPlay.CertificateLibrary.Util;
@@ -121,8 +123,9 @@ namespace Cryptool.P2PEditor.GUI.Controls
                     certificateClient.ProxyErrorOccured += ProxyErrorOccured;
                 }
 
-                certificateClient.ProgramName = System.Reflection.Assembly.GetEntryAssembly().GetName().Name;
-                certificateClient.ProgramVersion = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.ToString();
+                Assembly asm = Assembly.GetEntryAssembly();
+                certificateClient.ProgramName = asm.GetName().Name;
+                certificateClient.ProgramVersion = AssemblyHelper.GetVersionString(asm);
 
                 certificateClient.CertificateAuthorizationRequired += new EventHandler<EventArgs>(delegate
                 {
