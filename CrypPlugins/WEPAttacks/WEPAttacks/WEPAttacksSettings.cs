@@ -28,7 +28,6 @@ namespace Cryptool.WEPAttacks
         [ContextMenu("Kind of attack",
             "Kind of attack",
             1,
-            DisplayLevel.Beginner,
             ContextMenuControlType.ComboBox,
             null,
             new string[] { "\"FMS\"", "\"KoreK\"", "\"PTW\"" })]
@@ -37,7 +36,6 @@ namespace Cryptool.WEPAttacks
             "",
             1,
             false,
-            DisplayLevel.Beginner,
             ControlType.ComboBox,
             new string[] { "\"FMS\"", "\"KoreK\"", "\"PTW\"" })]
         public int Action
@@ -62,7 +60,6 @@ namespace Cryptool.WEPAttacks
             "",
             2,
             false,
-            DisplayLevel.Beginner,
             ControlType.CheckBox,
             new string[] { "Data comes from file" })]
         public bool FileOrNot
@@ -94,7 +91,6 @@ namespace Cryptool.WEPAttacks
             "groupRadiobutton",
             3,
             false,
-            DisplayLevel.Beginner,
             ControlType.RadioButton,
             new string[]{"Data comes from file (finish, if attack is not successful)",
                 "Data comes from IFG (wait for further package, if attack is not successful yet)"})]

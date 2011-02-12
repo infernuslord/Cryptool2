@@ -66,7 +66,6 @@ namespace Cryptool.WEP
             "",
             false,
             false,
-            DisplayLevel.Beginner,
             QuickWatchFormat.Hex,
             null)]
         public ICryptoolStream InputStream
@@ -90,7 +89,6 @@ namespace Cryptool.WEP
             "",
             true,
             false,
-            DisplayLevel.Beginner,
             QuickWatchFormat.Hex,
             null)]
         public byte[] InputByteKey
@@ -109,7 +107,6 @@ namespace Cryptool.WEP
             "",
             false,
             false,
-            DisplayLevel.Beginner,
             QuickWatchFormat.Hex,
             null)]
         public ICryptoolStream OutputStream

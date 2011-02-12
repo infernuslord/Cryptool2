@@ -71,7 +71,6 @@ namespace Cryptool.CubeAttack
         [ContextMenu("Action", 
             "Select the cube attack modi", 
             1, 
-            DisplayLevel.Beginner, 
             ContextMenuControlType.ComboBox, 
             null, 
             "Preprocessing",
@@ -82,7 +81,6 @@ namespace Cryptool.CubeAttack
             "", 
             1, 
             false, 
-            DisplayLevel.Beginner, 
             ControlType.ComboBox,
             new string[] { "Preprocessing", "Online", "Manual Public Bit Input" })]
         public int Action
@@ -102,7 +100,6 @@ namespace Cryptool.CubeAttack
             null, 
             2, 
             false, 
-            DisplayLevel.Beginner, 
             ControlType.NumericUpDown, 
             ValidationType.RangeInteger, 
             1, 
@@ -124,7 +121,6 @@ namespace Cryptool.CubeAttack
             null, 
             3, 
             false, 
-            DisplayLevel.Beginner, 
             ControlType.NumericUpDown, 
             ValidationType.RangeInteger, 
             1, 
@@ -146,7 +142,6 @@ namespace Cryptool.CubeAttack
             null,
             4,
             false,
-            DisplayLevel.Beginner,
             ControlType.NumericUpDown,
             ValidationType.RangeInteger,
             1,
@@ -168,7 +163,6 @@ namespace Cryptool.CubeAttack
             null,
             5,
             false,
-            DisplayLevel.Beginner,
             ControlType.NumericUpDown,
             ValidationType.RangeInteger,
             0,
@@ -190,7 +184,6 @@ namespace Cryptool.CubeAttack
             null, 
             6, 
             false, 
-            DisplayLevel.Beginner, 
             ControlType.NumericUpDown, 
             ValidationType.RangeInteger, 
             0, 
@@ -212,7 +205,6 @@ namespace Cryptool.CubeAttack
             null,
             7,
             true,
-            DisplayLevel.Beginner,
             ControlType.NumericUpDown,
             ValidationType.RangeInteger,
             1,
@@ -234,7 +226,6 @@ namespace Cryptool.CubeAttack
             null,
             8,
             false,
-            DisplayLevel.Beginner,
             ControlType.TextBox,
             null)]
         public string SetPublicBits
@@ -258,7 +249,6 @@ namespace Cryptool.CubeAttack
         [ContextMenu("Read Superpolys From File",
             "With this checkbox enabled, superpolys will be loaded from the selected File and can be evaluated in the online phase.",
             9,
-            DisplayLevel.Experienced,
             ContextMenuControlType.CheckBox,
             null,
             new string[] { "Read Superpolys From File" })]
@@ -267,7 +257,6 @@ namespace Cryptool.CubeAttack
             null,
             9,
             false,
-            DisplayLevel.Beginner,
             ControlType.CheckBox,
             "",
             null)]
@@ -288,7 +277,6 @@ namespace Cryptool.CubeAttack
             null, 
             10, 
             false, 
-            DisplayLevel.Beginner, 
             ControlType.OpenFileDialog, 
             FileExtension = "All Files (*.*)|*.*")]
         public string OpenFilename
@@ -309,7 +297,6 @@ namespace Cryptool.CubeAttack
         [ContextMenu("Enable Log Messages",
             "With this checkbox enabled, log messages will be showed.", 
             11, 
-            DisplayLevel.Experienced, 
             ContextMenuControlType.CheckBox, 
             null,
             new string[] { "Enable log messages?" })]
@@ -318,7 +305,6 @@ namespace Cryptool.CubeAttack
             null, 
             11, 
             false, 
-            DisplayLevel.Beginner, 
             ControlType.CheckBox, 
             "", 
             null)]

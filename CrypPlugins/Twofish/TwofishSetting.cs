@@ -57,11 +57,11 @@ namespace Twofish
 
     int action = 1;
     [ContextMenu("Action", "Do you want the input data to be encrypted or decrypted?", 2,
-      DisplayLevel.Beginner, ContextMenuControlType.ComboBox,
+      ContextMenuControlType.ComboBox,
       new int[] { 1, 2 }, "Encrypt", "Decrypt")]
     [TaskPane("Action",
       "Do you want the input data to be encrypted or decrypted?", "", 0, false,
-       DisplayLevel.Beginner, ControlType.ComboBox,
+       ControlType.ComboBox,
        new string[] { "Encrypt", "Decrypt" })]
     public int Action
     {
@@ -82,10 +82,10 @@ namespace Twofish
     int mode = 0;
     [ContextMenu("Chaining mode",
           "Select the block cipher mode of operation.", 2, 
-          DisplayLevel.Beginner, ContextMenuControlType.ComboBox, null,
+          ContextMenuControlType.ComboBox, null,
           new string[] { "Electronic Code Book (ECB)", "Cipher Block Chaining (CBC)" })]
     [TaskPane("Chaining mode", "Select the block cipher mode of operation.", "", 5, false,
-          DisplayLevel.Experienced, ControlType.ComboBox,
+          ControlType.ComboBox,
           new string[] {"Electronic Code Book (ECB)", "Cipher Block Chaining (CBC)"} ) ]
     public int Mode
     {
@@ -108,11 +108,11 @@ namespace Twofish
     [ContextMenu("KeySize", 
       "Select the key size. Note that providing a longer key will result in cutting the overlapping bytes, " +
       "providing a shorter key will result in filling up with zeroes.", 3, 
-      DisplayLevel.Beginner, ContextMenuControlType.ComboBox, null, "128 Bits", "192 Bits", "256 Bits")]
+      ContextMenuControlType.ComboBox, null, "128 Bits", "192 Bits", "256 Bits")]
     [TaskPane("KeySize", 
       "Select the key size. Note that providing a longer key will result in cutting the overlapping bytes, "+
       "providing a shorter key will result in filling up with zeroes.", "", 3, false, 
-      DisplayLevel.Beginner, ControlType.ComboBox, new String[] { "128 Bits", "192 Bits", "256 Bits" })]
+      ControlType.ComboBox, new String[] { "128 Bits", "192 Bits", "256 Bits" })]
     public int KeySize
     {
       get

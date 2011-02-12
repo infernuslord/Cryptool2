@@ -59,7 +59,6 @@ namespace Cryptool.CubeAttack
             "", 
             false, 
             false, 
-            DisplayLevel.Beginner, 
             QuickWatchFormat.Text, 
             null)]
         public ICryptoolStream OutputSuperpoly
@@ -84,7 +83,6 @@ namespace Cryptool.CubeAttack
             "", 
             false, 
             false, 
-            DisplayLevel.Beginner, 
             QuickWatchFormat.Text, 
             null)]
         public ICryptoolStream OutputKeyBits

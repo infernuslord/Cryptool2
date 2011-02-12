@@ -73,11 +73,11 @@ namespace PKCS5
 
     [ContextMenu("Hash Function",
       "Select the hash function (MD5, one out of the SHA family, TIGER or WHIRLPOOL)", 0,
-      DisplayLevel.Beginner, ContextMenuControlType.ComboBox, null,
+      ContextMenuControlType.ComboBox, null,
       new string[] { "MD5", "SHA1", "SHA256", "SHA384", "SHA512", "TIGER", "WHIRLPOOL" })]
     [TaskPane("Select hash function",
       "Select the hash function (MD5, one out of the SHA family, TIGER or WHIRLPOOL)", "", 0, true,
-      DisplayLevel.Beginner, ControlType.ComboBox,
+      ControlType.ComboBox,
       new string[] { "MD5", "SHA1", "SHA256", "SHA384", "SHA512", "TIGER", "WHIRLPOOL" })]
     public int SHAFunction
     {
@@ -103,7 +103,7 @@ namespace PKCS5
     [TaskPane("Number of iterations (counter)",
       "The counter determines how often the hash function is applied." +
       " A value bigger than 1000 is recommended.", "", 1, false,
-      DisplayLevel.Beginner, ControlType.TextBox, ValidationType.RangeInteger, 1, 9999)]
+      ControlType.TextBox, ValidationType.RangeInteger, 1, 9999)]
     public int Count
     {
       get
@@ -126,7 +126,7 @@ namespace PKCS5
     private int length = 256;
     [TaskPane("Length of output key",
       "The length of the output in bits must be a multiple of 8.", "", 2, false,
-      DisplayLevel.Beginner, ControlType.TextBox, ValidationType.RangeInteger, -64, 2048)]
+      ControlType.TextBox, ValidationType.RangeInteger, -64, 2048)]
     public int Length
     {
       get

@@ -85,8 +85,8 @@ namespace WorkspaceManager.Model
             if (typeof(double).Equals(type) || typeof(double[]).Equals(type)) return Colors.Blue;
             if (typeof(bool).Equals(type) || typeof(bool[]).Equals(type)) return Colors.Maroon;
 
-            if (typeof(CryptoolStream).Equals(type)) return Colors.Orange;
-            if (typeof(Stream).Equals(type) || typeof(ICryptoolStream).Equals(type)) return Colors.DarkOrange;
+            if (typeof(ICryptoolStream).Equals(type)) return Colors.Orange;
+            if (typeof(Stream).Equals(type)) return Colors.DarkOrange;
             if (typeof(string).Equals(type) || typeof(string[]).Equals(type)) return Colors.Gray;
 
             if (typeof(object).Equals(type)) return Colors.MediumPurple;
