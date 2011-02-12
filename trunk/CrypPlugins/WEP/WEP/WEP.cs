@@ -555,6 +555,8 @@ namespace Cryptool.WEP
                 internalInputByteList = new List<byte[]>();
                 using (CStreamReader reader = inputStream.CreateReader())
                 {
+                    reader.WaitEof(); // does not support chunked streaming
+
                     /// Checks if the input stream contains a valid value. If not, class waits for input AND DOES NOTHING.
                     /// XXX: Execute() does not stop. Bug?
                     loadList(reader);

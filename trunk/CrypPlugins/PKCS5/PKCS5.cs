@@ -217,13 +217,13 @@ namespace PKCS5
 
           using (CStreamReader cst = ((ICryptoolStream)value).CreateReader())
           {
-              /// FIXME: potentially broken. Shall not rely on Length property to return
-              /// final value.
-          long len = cst.Length;
-          key = new byte[len];
+              cst.WaitEof();
 
-          for (long i = 0; i < len; i++)
-            key[i] = (byte)cst.ReadByte();
+              long len = cst.Length;
+              key = new byte[len];
+
+              for (long i = 0; i < len; i++)
+                  key[i] = (byte)cst.ReadByte();
           }
 
         }
@@ -298,14 +298,13 @@ namespace PKCS5
 
           using (CStreamReader cst = ((ICryptoolStream)value).CreateReader())
           {
-              /// FIXME: potentially broken. Shall not rely on Length property to return
-              /// final value.
-          long len = cst.Length;
-          salt = new byte[len];
+              cst.WaitEof();
+              long len = cst.Length;
+              salt = new byte[len];
 
-          for (long i = 0; i < len; i++)
-            salt[i] = (byte)cst.ReadByte();
-        }
+              for (long i = 0; i < len; i++)
+                  salt[i] = (byte)cst.ReadByte();
+          }
         }
         else if (value is byte[])
         {

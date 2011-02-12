@@ -245,7 +245,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                 outputStreamWriter = new CStreamWriter();
                 using (CStreamReader reader = InputStream.CreateReader())
                 {
-                    p_crypto_stream = new CryptoStream((Stream)reader, p_encryptor, CryptoStreamMode.Read);
+                    p_crypto_stream = new CryptoStream(reader, p_encryptor, CryptoStreamMode.Read);
             byte[] buffer = new byte[p_alg.BlockSize / 8];
             int bytesRead;
             int position = 0;

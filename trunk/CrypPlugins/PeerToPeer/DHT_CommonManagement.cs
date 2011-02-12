@@ -85,6 +85,7 @@ namespace Cryptool.Plugins.PeerToPeer.Internal
             {
                 using (CStreamReader cReader = cStream.CreateReader())
                 {
+                    cReader.WaitEof();
                     // Convert CryptoolStream to an byte Array and store it in the DHT
                     if (cReader.Length > Int32.MaxValue)
                         throw (new Exception(

@@ -1393,6 +1393,8 @@ namespace Cryptool.WEPAttacks
 
                 using (CStreamReader reader = inputStream.CreateReader())
                 {
+                    reader.WaitEof(); // does not support chunked streaming
+
                     tempList = loadList(reader);
 
                     init();

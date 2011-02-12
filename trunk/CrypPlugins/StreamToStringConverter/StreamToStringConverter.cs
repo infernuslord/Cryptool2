@@ -30,9 +30,9 @@ using System.Runtime.CompilerServices;
 namespace Cryptool.Plugins.Convertor
 {
     [Author("Dr. Arno Wacker", "arno.wacker@cryptool.org", "Uni Duisburg", "http://www.uni-duisburg-essen.de")]
-    [PluginInfo(false, "Stream to String Converter", "Converts a given stream into a string.", "", "StreamToStringConverter/s2t-icon.png")]    
+    [PluginInfo(false, "Stream to String Converter", "Converts a given stream into a string.", "", "StreamToStringConverter/s2t-icon.png")]
     public class StreamToStringConverter : IThroughput
-    {        
+    {
         #region Public interface
 
         /// <summary>
@@ -66,24 +66,24 @@ namespace Cryptool.Plugins.Convertor
 
         public object InputStreamQuickWatchConverter(string PropertyNameToConvert)
         {
-          return outputString;
+            return outputString;
         }
 
         [PropertyInfo(Direction.InputData, "Stream input", "Input stream will be converted to ASCII text. The encoding given in the settings will be used.", "", true, false, QuickWatchFormat.Text, "InputStreamQuickWatchConverter")]
         public ICryptoolStream InputStream
-        {            
-            get 
+        {
+            get
             {
                 return inputStream;
-              }
-            set 
+            }
+            set
             {
-              inputStream = value;
-              // processInput(value); This should be done in execute method, because PlayMode causes 
-              // errors state (yellow/red markers) to be flushed on execute. So if input is processed
-              // here before execute method the plugin element will not be colored correctly if 
-              // errors/warnings occur.
-              OnPropertyChanged("InputStream");
+                inputStream = value;
+                // processInput(value); This should be done in execute method, because PlayMode causes 
+                // errors state (yellow/red markers) to be flushed on execute. So if input is processed
+                // here before execute method the plugin element will not be colored correctly if 
+                // errors/warnings occur.
+                OnPropertyChanged("InputStream");
             }
         }
 
@@ -108,15 +108,15 @@ namespace Cryptool.Plugins.Convertor
 
         public UserControl QuickWatchPresentation
         {
-          get { return null; }
+            get { return null; }
         }
 
         public void Initialize() { }
 
-        public void Dispose() 
-        {          
-              inputStream = null;
-          }
+        public void Dispose()
+        {
+            inputStream = null;
+        }
 
 
         public void Stop() { }
@@ -124,7 +124,7 @@ namespace Cryptool.Plugins.Convertor
         public bool HasChanges
         {
             get { return settings.HasChanges; }
-            set { settings.HasChanges = value;  }
+            set { settings.HasChanges = value; }
         }
 
         public void PostExecution()
@@ -156,74 +156,75 @@ namespace Cryptool.Plugins.Convertor
         #region Private variables
         private StreamToStringConverterSettings settings;
         private ICryptoolStream inputStream = null;
-        private string outputString;        
+        private string outputString;
         #endregion
 
         #region Private methods
 
         private void processInput(CStreamReader value)
         {
-                ShowProgress(50, 100);
-                ShowStatusBarMessage("Converting input ...", NotificationLevel.Debug);
-                if (value.Length > settings.MaxLength)
-                  ShowStatusBarMessage("WARNING - Input stream is too large (" + (value.Length / 1024).ToString("0.00") + " kB), output will be truncated to " + (settings.MaxLength / 1024).ToString("0.00") + "kB", NotificationLevel.Warning);
+            ShowProgress(50, 100);
+            ShowStatusBarMessage("Converting input ...", NotificationLevel.Debug);
+            value.WaitEof();
+            if (value.Length > settings.MaxLength)
+                ShowStatusBarMessage("WARNING - Input stream is too large (" + (value.Length / 1024).ToString("0.00") + " kB), output will be truncated to " + (settings.MaxLength / 1024).ToString("0.00") + "kB", NotificationLevel.Warning);
 
-                byte[] byteValues = new byte[settings.MaxLength];
-                int bytesRead;
-                value.Seek(0, SeekOrigin.Begin);
-                bytesRead = value.Read(byteValues, 0, byteValues.Length);
-                
-                // here conversion happens
-                switch (settings.Encoding)
-                {
-                    case StreamToStringConverterSettings.EncodingTypes.Default:
-                        outputString = Encoding.Default.GetString(byteValues, 0, bytesRead);
-                        break;
-                    case StreamToStringConverterSettings.EncodingTypes.Base64Binary:
-                        outputString = Convert.ToBase64String(byteValues, 0, bytesRead);
-                        break;
-                    case StreamToStringConverterSettings.EncodingTypes.HexStringBinary:
-                        outputString = convertBytesToHexString(byteValues, 0, bytesRead);
-                        break;
-                    case StreamToStringConverterSettings.EncodingTypes.OctalStringBinary:
-                        outputString = convertBytesToOctalString(byteValues, 0, bytesRead);
-                        break;
-                    case StreamToStringConverterSettings.EncodingTypes.Unicode:
-                        outputString = Encoding.Unicode.GetString(byteValues, 0, bytesRead);
-                        break;
-                    case StreamToStringConverterSettings.EncodingTypes.UTF7:
-                        outputString = Encoding.UTF7.GetString(byteValues, 0, bytesRead);
-                        break;
-                    case StreamToStringConverterSettings.EncodingTypes.UTF8:
-                        outputString = Encoding.UTF8.GetString(byteValues, 0, bytesRead);
-                        break;
-                    case StreamToStringConverterSettings.EncodingTypes.UTF32:
-                        outputString = Encoding.UTF32.GetString(byteValues, 0, bytesRead);
-                        break;
-                    case StreamToStringConverterSettings.EncodingTypes.ASCII:
-                        outputString = Encoding.ASCII.GetString(byteValues, 0, bytesRead);
-                        break;
-                    case StreamToStringConverterSettings.EncodingTypes.BigEndianUnicode:
-                        outputString = Encoding.BigEndianUnicode.GetString(byteValues, 0, bytesRead);
-                        break;
-                    default:
-                        outputString = Encoding.Default.GetString(byteValues, 0, bytesRead);
-                        break;
-                }
+            byte[] byteValues = new byte[settings.MaxLength];
+            int bytesRead;
+            value.Seek(0, SeekOrigin.Begin);
+            bytesRead = value.Read(byteValues, 0, byteValues.Length);
 
-                ShowStatusBarMessage("Input converted.", NotificationLevel.Debug);
-                ShowProgress(100, 100);
-                OnPropertyChanged("InputStream");
-                OnPropertyChanged("OutputString");
+            // here conversion happens
+            switch (settings.Encoding)
+            {
+                case StreamToStringConverterSettings.EncodingTypes.Default:
+                    outputString = Encoding.Default.GetString(byteValues, 0, bytesRead);
+                    break;
+                case StreamToStringConverterSettings.EncodingTypes.Base64Binary:
+                    outputString = Convert.ToBase64String(byteValues, 0, bytesRead);
+                    break;
+                case StreamToStringConverterSettings.EncodingTypes.HexStringBinary:
+                    outputString = convertBytesToHexString(byteValues, 0, bytesRead);
+                    break;
+                case StreamToStringConverterSettings.EncodingTypes.OctalStringBinary:
+                    outputString = convertBytesToOctalString(byteValues, 0, bytesRead);
+                    break;
+                case StreamToStringConverterSettings.EncodingTypes.Unicode:
+                    outputString = Encoding.Unicode.GetString(byteValues, 0, bytesRead);
+                    break;
+                case StreamToStringConverterSettings.EncodingTypes.UTF7:
+                    outputString = Encoding.UTF7.GetString(byteValues, 0, bytesRead);
+                    break;
+                case StreamToStringConverterSettings.EncodingTypes.UTF8:
+                    outputString = Encoding.UTF8.GetString(byteValues, 0, bytesRead);
+                    break;
+                case StreamToStringConverterSettings.EncodingTypes.UTF32:
+                    outputString = Encoding.UTF32.GetString(byteValues, 0, bytesRead);
+                    break;
+                case StreamToStringConverterSettings.EncodingTypes.ASCII:
+                    outputString = Encoding.ASCII.GetString(byteValues, 0, bytesRead);
+                    break;
+                case StreamToStringConverterSettings.EncodingTypes.BigEndianUnicode:
+                    outputString = Encoding.BigEndianUnicode.GetString(byteValues, 0, bytesRead);
+                    break;
+                default:
+                    outputString = Encoding.Default.GetString(byteValues, 0, bytesRead);
+                    break;
             }
+
+            ShowStatusBarMessage("Input converted.", NotificationLevel.Debug);
+            ShowProgress(100, 100);
+            OnPropertyChanged("InputStream");
+            OnPropertyChanged("OutputString");
+        }
 
         private string convertBytesToHexString(byte[] array, int start, int count)
         {
             StringBuilder sb = new StringBuilder();
-            for (int i = start; i < (start+count); i++)
+            for (int i = start; i < (start + count); i++)
             {
-               sb.Append(array[i].ToString("X2"));
-               sb.Append(" ");
+                sb.Append(array[i].ToString("X2"));
+                sb.Append(" ");
             }
             return sb.ToString();
         }
@@ -233,8 +234,8 @@ namespace Cryptool.Plugins.Convertor
             StringBuilder sb = new StringBuilder();
             for (int i = start; i < (start + count); i++)
             {
-                string val = String.Format("{0,3}",Convert.ToString(array[i], 8));
-                sb.Append(val.Replace(' ','0'));
+                string val = String.Format("{0,3}", Convert.ToString(array[i], 8));
+                sb.Append(val.Replace(' ', '0'));
                 sb.Append(" ");
             }
             return sb.ToString();
@@ -242,12 +243,12 @@ namespace Cryptool.Plugins.Convertor
 
         private void ShowStatusBarMessage(string message, NotificationLevel logLevel)
         {
-          EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(message, this, logLevel));
+            EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(message, this, logLevel));
         }
 
         private void ShowProgress(double value, double max)
         {
-          EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
+            EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
         }
 
         #endregion
@@ -263,7 +264,7 @@ namespace Cryptool.Plugins.Convertor
                 using (CStreamReader reader = InputStream.CreateReader())
                 {
                     processInput(reader);
-        }
+                }
             }
             else
             {
@@ -273,7 +274,7 @@ namespace Cryptool.Plugins.Convertor
 
         public void Pause()
         {
-          
+
         }
 
         #endregion

@@ -142,6 +142,7 @@ namespace ClipboardOutput {
     {
         using (CStreamReader reader = value.CreateReader())
         {
+            reader.WaitEof();
             byte[] byteValues = new byte[reader.Length];
             reader.Read(byteValues, 0, (int)reader.Length);
 			return Convert.ToBase64String(byteValues);

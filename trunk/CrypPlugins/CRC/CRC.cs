@@ -135,14 +135,14 @@ namespace Cryptool.CRC
                 int readCount;
                 while ((readCount = reader.Read(input)) > 0)
                 {
-                for (int i = 0; i < readCount; ++i)
-                {
-                    byte index = (byte)(((crc) & 0xff) ^ input[i]);
-                    crc = (uint)((crc >> 8) ^ table[index]);
-                }
+                    for (int i = 0; i < readCount; ++i)
+                    {
+                        byte index = (byte)(((crc) & 0xff) ^ input[i]);
+                        crc = (uint)((crc >> 8) ^ table[index]);
+                    }
 
                     ProgressChanged((double)reader.Position / reader.Length, 1.0);
-            }
+                }
             }
 
             crc ^= 0xffffffff;
