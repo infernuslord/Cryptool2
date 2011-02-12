@@ -87,6 +87,11 @@ namespace Cryptool.TEA
 
         public void Dispose()
         {
+            Reset();
+        }
+
+        private void Reset()
+        {
             try
             {
                 stop = false;
@@ -100,12 +105,11 @@ namespace Cryptool.TEA
                     outputStream.Dispose();
                     outputStream = null;
                 }
-                }
+            }
             catch (Exception ex)
             {
                 GuiLogMessage(ex.Message, NotificationLevel.Error);
             }
-            this.stop = false;
         }
 
         private void checkForInputStream()
@@ -142,7 +146,10 @@ namespace Cryptool.TEA
 
                 using (CStreamReader reader = InputStream.CreateReader())
                 {
+                    reader.WaitEof(); // lazy reading, wait until writer has finished.
+
                     outputStream = new CStreamWriter();
+
 
                     long inputbytes = reader.Length;
                     GuiLogMessage("inputStream length [bytes]: " + inputbytes.ToString(), NotificationLevel.Debug);
@@ -538,10 +545,12 @@ namespace Cryptool.TEA
 
         public void PostExecution()
         {
+            Reset();
         }
 
         public void PreExecution()
         {
+            Reset();
         }
 
         public UserControl Presentation
