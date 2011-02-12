@@ -320,13 +320,35 @@ namespace Cryptool.PluginBase.IO
             }
         }
 
+        /// <summary>
+        /// Not supported.
+        /// </summary>
+        /// <param name="value"></param>
         public override void SetLength(long value)
         {
             throw new NotSupportedException();
         }
 
         /// <summary>
-        /// Reader can't write.
+        /// Waits until the writer has stopped generating data and has closed the stream.
+        /// This method is for lazy readers waiting to have full length available before starting any processing.
+        /// It's usually less effective than trying to read continously.
+        /// </summary>
+        public void WaitEof()
+        {
+            checkDisposal();
+
+            lock (_writer.InternalMonitor)
+            {
+                while (!_writer.IsClosed)
+                {
+                    Monitor.Wait(_writer.InternalMonitor);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Not supported.
         /// </summary>
         public override void Write(byte[] buffer, int offset, int count)
         {
