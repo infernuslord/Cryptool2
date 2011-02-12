@@ -17,6 +17,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Reflection;
 using System.IO;
 
@@ -169,19 +170,18 @@ namespace Cryptool.Core
                       foundAssemblies.Add(key, asm);
                       sendMessage = true;
                     }
-                    else
-                      if (new AssemblyName(asm.FullName).Version > new AssemblyName(foundAssemblies[key].FullName).Version)
-                      {
+                    else if (GetVersion(asm) > GetVersion(foundAssemblies[key]))
+                    {
                         foundAssemblies[key] = asm;
                         sendMessage = true;
-                      }
+                    }
 
                     if (sendMessage)
                     {
                         SendDebugMessage("Loaded Assembly \"" + asm.FullName + "\" from file: " + fileInfo.FullName);
                         if (OnPluginLoaded != null)
                         {
-                          OnPluginLoaded(this, new PluginLoadedEventArgs(currentPosition, this.availablePluginsApproximation, asm.GetName().Name + " Version=" + asm.GetName().Version.ToString()));
+                            OnPluginLoaded(this, new PluginLoadedEventArgs(currentPosition, this.availablePluginsApproximation, string.Format("{0} Version={1}", asm.GetName().Name, GetVersion(asm))));
                         }                          
                     }
                 }
@@ -194,6 +194,11 @@ namespace Cryptool.Core
                     SendExceptionMessage(ex);
                 }
             }
+        }
+
+        private static Version GetVersion(Assembly asm)
+        {
+            return new Version(FileVersionInfo.GetVersionInfo(asm.Location).FileVersion);
         }
 
         /// <summary>

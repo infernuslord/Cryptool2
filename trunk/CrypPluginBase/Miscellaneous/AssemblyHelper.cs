@@ -16,6 +16,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -24,7 +25,7 @@ using Cryptool.PluginBase.Attributes;
 namespace Cryptool.PluginBase.Miscellaneous
 {
     /*
-     * Access assembly information of entry assembly (starting exe).
+     * Access assembly information of executing assembly (which is CrypPluginBase).
      */
     public class AssemblyHelper
     {
@@ -47,7 +48,7 @@ namespace Cryptool.PluginBase.Miscellaneous
         {
             {
                 object[] attributes =
-                    Assembly.GetEntryAssembly().GetCustomAttributes(typeof (AssemblyCt2BuildTypeAttribute), false);
+                    Assembly.GetExecutingAssembly().GetCustomAttributes(typeof (AssemblyCt2BuildTypeAttribute), false);
                 if (attributes != null && attributes.Length >= 1)
                 {
                     AssemblyCt2BuildTypeAttribute attr = (AssemblyCt2BuildTypeAttribute) attributes[0];
@@ -60,7 +61,7 @@ namespace Cryptool.PluginBase.Miscellaneous
             }
             {
                 object[] attributes =
-                    Assembly.GetEntryAssembly().GetCustomAttributes(typeof(AssemblyProductAttribute), false);
+                    Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyProductAttribute), false);
                 if (attributes != null && attributes.Length >= 1)
                 {
                     AssemblyProductAttribute attr = (AssemblyProductAttribute) attributes[0];
@@ -68,8 +69,23 @@ namespace Cryptool.PluginBase.Miscellaneous
                 }
             }
             {
-                AssemblyHelper.Version = Assembly.GetEntryAssembly().GetName().Version;
+                AssemblyHelper.Version = GetVersion(Assembly.GetExecutingAssembly());
             }
+        }
+
+        public static Version GetVersion(Assembly asm)
+        {
+            return new Version(GetVersionString(asm));
+        }
+
+        public static string GetVersionString(Assembly asm)
+        {
+            if (asm == null || asm.Location == null)
+            {
+                throw new ArgumentNullException("asm");
+            }
+
+            return FileVersionInfo.GetVersionInfo(asm.Location).FileVersion;
         }
     }
 }
