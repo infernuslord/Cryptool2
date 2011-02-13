@@ -788,7 +788,8 @@ namespace Wizard
                 if (!string.IsNullOrEmpty(pluginName))
                 {
                     var plugin = model.AllPluginModels.Where(x => x.Name == pluginName).First().Plugin;
-                    presentation.Content = plugin.Presentation;
+                    if (presentation.Content == null)
+                        presentation.Content = plugin.Presentation;
                 }
             }
 
