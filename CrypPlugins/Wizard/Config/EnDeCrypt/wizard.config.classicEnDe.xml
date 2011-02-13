@@ -86,17 +86,17 @@
         <item content="Base64" lang="en"/>
       </comboBox>
 
-      <outputBox plugin="CaesarResult" property="CurrentValue" alignment="Stretch" width="80%" visibleLines="2">
+      <!--<outputBox plugin="CaesarResult" property="CurrentValue" alignment="Stretch" width="80%" visibleLines="2">
         <description lang="en">
           Some output message:
         </description>
-      </outputBox>
+      </outputBox>-->
 
-      <!--<presentation plugin="CaesarResult" alignment="Stretch">
+      <presentation plugin="CaesarResult" alignment="Stretch" height="100">
         <description lang="en">
           Plugin presentation:
         </description>
-      </presentation>-->
+      </presentation>
       
       <!--<loadSample file="WorkspaceManagerSamples\Caesar_Sample.cwm" title="W_Caesar_Sample"/>-->
     </sampleViewer>
