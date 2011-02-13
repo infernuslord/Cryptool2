@@ -157,8 +157,8 @@ namespace WorkspaceManager
             try
             {
                 New();
-                WorkspaceSpaceEditorView.Load(model);
                 WorkspaceModel = model;
+                WorkspaceSpaceEditorView.Load(WorkspaceModel);
                 WorkspaceModel.UndoRedoManager = UndoRedoManager;
                 WorkspaceModel.UpdateableView = this.WorkspaceSpaceEditorView;
             }
