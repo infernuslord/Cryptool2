@@ -251,10 +251,7 @@ namespace Wizard
                 if (element.Name == "sampleViewer" && (element.Attribute("file") != null) && (element.Attribute("title") != null))
                 {
                     nextButton.IsEnabled = false;
-                    if (element.Element("presentation") != null)
-                        LoadSample(element.Attribute("file").Value, element.Attribute("title").Value, false);
-                    else
-                        LoadSample(element.Attribute("file").Value, element.Attribute("title").Value, false);
+                    LoadSample(element.Attribute("file").Value, element.Attribute("title").Value, false);
                 }
 
                 string id = GetElementID((XElement)inputPanel.Tag);
@@ -579,6 +576,11 @@ namespace Wizard
                         break;
 
                     var cc = new ContentControl();
+
+                    double d;
+                    if (input.Attribute("height") != null && Double.TryParse(input.Attribute("height").Value, out d))
+                        cc.Height = d;
+
                     cc.Tag = input;
                     inputStack.Children.Add(cc);
 
