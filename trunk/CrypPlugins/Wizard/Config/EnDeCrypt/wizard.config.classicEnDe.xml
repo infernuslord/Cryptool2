@@ -91,6 +91,12 @@
           Some output message:
         </description>
       </outputBox>
+
+      <!--<presentation plugin="CaesarResult" alignment="Stretch">
+        <description lang="en">
+          Plugin presentation:
+        </description>
+      </presentation>-->
       
       <!--<loadSample file="WorkspaceManagerSamples\Caesar_Sample.cwm" title="W_Caesar_Sample"/>-->
     </sampleViewer>
