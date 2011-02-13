@@ -86,6 +86,8 @@ namespace Wizard
             selectionBrush.Color = Color.FromArgb(255, 200, 220, 245);
             SetupPage(wizardConfigXML);
             AddToHistory(wizardConfigXML);
+
+            Loaded += delegate { Keyboard.Focus(this); };
         }
 
         ~WizardControl()
@@ -309,6 +311,7 @@ namespace Wizard
                         sp.Children.Add(l);
 
                         RadioButton rb = new RadioButton();
+                        rb.Focusable = false;
                         string id = GetElementID(ele);
                         rb.Checked += rb_Checked;
                         rb.HorizontalAlignment = HorizontalAlignment.Stretch;
@@ -610,6 +613,7 @@ namespace Wizard
             foreach (var page in currentHistory)
             {
                 var p = new ContentControl();
+                p.Focusable = false;
                 var bg = selectionBrush.Clone();
                 bg.Opacity = 1 - (historyStack.Children.Count / (double)currentHistory.Count);
                 var sp = new StackPanel { Orientation = Orientation.Horizontal, Background = bg };
@@ -1199,9 +1203,13 @@ namespace Wizard
                     break;
 
                 case Key.Left:
+                    if (backButton.IsEnabled)
+                        SetLastContent(null, null);
                     break;
 
                 case Key.Right:
+                    if (nextButton.IsEnabled)
+                        SetNextContent(null, null);
                     break;
             }
         }

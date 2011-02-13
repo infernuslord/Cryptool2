@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="600">
+             d:DesignHeight="300" d:DesignWidth="600" Focusable="True">
     <UserControl.Resources>
         <BitmapImage x:Key="Analyse" UriSource="Images/Analyse.png"/>
         <BitmapImage x:Key="Classic" UriSource="Images/Classic.png"/>
@@ -126,9 +126,9 @@
             </Grid.ColumnDefinitions>
             <ScrollViewer Name="history" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Hidden" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" CanContentScroll="True" MouseMove="history_MouseMove" />
             <StackPanel Height="Auto" HorizontalAlignment="Right" Name="buttonStackPanel" VerticalAlignment="Bottom" Margin="2" Grid.Column="1" Orientation="Horizontal" >
-                <Button Content="{Loc BackButton}" Height="23" Name="backButton" Width="75" Margin="1" Click="backButton_Click"/>
-                <Button Content="{Loc NextButton}" Tag="{Loc CreateButton}" Height="23" Name="nextButton" Width="75" Margin="1" IsDefault="True" Click="nextButton_Click"/>
-                <Button Content="{Loc AbortButton}" Height="23" Name="abortButton" Width="75" Margin="1" Click="abortButton_Click"/>
+                <Button Content="{Loc BackButton}" Height="23" Name="backButton" Width="75" Margin="1" Click="backButton_Click" Focusable="False" />
+                <Button Content="{Loc NextButton}" Tag="{Loc CreateButton}" Height="23" Name="nextButton" Width="75" Margin="1" IsDefault="True" Click="nextButton_Click" Focusable="False" />
+                <Button Content="{Loc AbortButton}" Height="23" Name="abortButton" Width="75" Margin="1" Click="abortButton_Click" Focusable="False" />
             </StackPanel>
         </Grid>
         
