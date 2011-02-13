@@ -79,20 +79,23 @@
                 <Grid Width="407">
                         <StackPanel>
                             <Border BorderBrush="Silver" BorderThickness="2,2,2,2">
-                                <Grid Height="180" Background="#AFE2E2FF">
+                                <Grid Height="225" Background="#AFE2E2FF">
                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height="30" />
-                                        <RowDefinition Height="30" />
-                                        <RowDefinition Height="30" />
-                                        <RowDefinition Height="30" />
-                                        <RowDefinition Height="30" />
-                                        <RowDefinition Height="30" />
+                                        <RowDefinition Height="25" />
+                                        <RowDefinition Height="25" />
+                                        <RowDefinition Height="25" />
+                                        <RowDefinition Height="25" />
+                                        <RowDefinition Height="25" />
+                                        <RowDefinition Height="25" />
+                                        <RowDefinition Height="25" />
+                                        <RowDefinition Height="25" />
+                                        <RowDefinition Height="25" />
                                     </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="26" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-                                    <Border BorderThickness="1" BorderBrush="Black" LayoutTransform="{StaticResource HeaderRotate}" Grid.Column="0" Grid.RowSpan="6" Background="#FF5C5CFF">
+                                    <Border BorderThickness="1" BorderBrush="Black" LayoutTransform="{StaticResource HeaderRotate}" Grid.Column="0" Grid.RowSpan="9" Background="#FF5C5CFF">
                                         <Label Content="{Loc Aggregate_Statistics_}" FontSize="11" HorizontalAlignment="Center" Foreground="White" />
                                     </Border>
                                     <Label Content="{Loc Total__Blocks__to__Search_}" VerticalAlignment="Center" Grid.Row="0" Grid.Column="1" />
@@ -103,39 +106,61 @@
                                     <Label Content="-" Name="TotalAmountOfKeys" VerticalAlignment="Center" Grid.Row="2" Grid.Column="1" HorizontalContentAlignment="Right" Padding="5,5,20,5" />
                                     <Label Content="{Loc Total__Keys__Tested_}" VerticalAlignment="Center" Grid.Row="3" Grid.Column="1" />
                                     <Label Content="-" Name="TotalKeysTested" VerticalAlignment="Center" Grid.Row="3" Grid.Column="1" HorizontalContentAlignment="Right" Padding="5,5,20,5" />
-                                    <Label Content="{Loc Working__Days_}" VerticalAlignment="Center" Grid.Row="4" Grid.Column="1" />
-                                    <Label Content="- Days" Name="WorkingDays" VerticalAlignment="Center" Grid.Row="4" Grid.Column="1" HorizontalContentAlignment="Right" Padding="5,5,20,5" />
-                                    <Label Content="{Loc Percent__Complete_}" VerticalAlignment="Center" Grid.Row="5" Grid.Column="1" />
-                                    <Label Content="- %" Name="PercentsComplete" VerticalAlignment="Center" Grid.Row="5" Grid.Column="1" HorizontalContentAlignment="Right" Padding="5,5,20,5" />
+                                    <Label Content="{Loc Total__Users_}" VerticalAlignment="Center" Grid.Row="4" Grid.Column="1" />
+                                    <Label Content="-" Name="UserCount" VerticalAlignment="Center"  Grid.Row="4" Grid.Column="1" HorizontalContentAlignment="Right" Padding="5,5,20,5"/>
+                                    <Label Content="{Loc Total__Machines_}" VerticalAlignment="Center" Grid.Row="5" Grid.Column="1" />
+                                    <Label Content="-" Name="MachineCount" VerticalAlignment="Center"  Grid.Row="5" Grid.Column="1" HorizontalContentAlignment="Right" Padding="5,5,20,5"/>
+                                    <Label Content="{Loc Working__Days_}" VerticalAlignment="Center" Grid.Row="6" Grid.Column="1" />
+                                    <Label Content="- Days" Name="WorkingDays" VerticalAlignment="Center" Grid.Row="6" Grid.Column="1" HorizontalContentAlignment="Right" Padding="5,5,20,5" />
+                                    <Label Content="{Loc Percent__Complete_}" VerticalAlignment="Center" Grid.Row="7" Grid.Column="1" />
+                                    <Label Content="- %" Name="PercentsComplete" VerticalAlignment="Center" Grid.Row="7" Grid.Column="1" HorizontalContentAlignment="Right" Padding="5,5,20,5" />
+                                    <Label Content="{Loc Average__rate_}" VerticalAlignment="Center" Grid.Row="8" Grid.Column="1" />
+                                    <Label Content="- keys/sec" Name="Rate" VerticalAlignment="Center"  Grid.Row="8" Grid.Column="1" HorizontalContentAlignment="Right" Padding="5,5,20,5"/>
 
                                 </Grid>
                             </Border>
 
                             <Border BorderBrush="Silver" BorderThickness="2,0,2,2">
-                                <Grid Height="190" Background="#AFAAE1E8">
+                                <Grid Height="100" Background="#AFAAE1E8">
                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height="40" />
                                         <RowDefinition Height="25" />
-                                        <RowDefinition Height="40" />
                                         <RowDefinition Height="25" />
-                                        <RowDefinition Height="30" />
-                                        <RowDefinition Height="30" />
-                                </Grid.RowDefinitions>
+                                        <RowDefinition Height="25" />
+                                        <RowDefinition Height="25" />
+                                    </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="26" />
-                                        <ColumnDefinition Width="188*" />
-                                    <ColumnDefinition Width="189" />
-                                </Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
                                     <Border BorderThickness="1" BorderBrush="Black" LayoutTransform="{StaticResource HeaderRotate}" Grid.Column="0" Grid.RowSpan="6" Background="#FF099BA7">
-                                        <Label Content="{Loc AdditionalInformation_}" FontSize="11" HorizontalAlignment="Center" Foreground="White" />
-                                    </Border> 
-                                    <Label Content=" Average rate: - key/sec" Name="Rate" VerticalAlignment="Center" Grid.Column="1" HorizontalContentAlignment="Center" Padding="5,5,20,5" Grid.ColumnSpan="2" Margin="0,7,-2,7" />
-                                    <Label Content="Top user: "  VerticalAlignment="Bottom" HorizontalContentAlignment="Right"  Grid.Row="1" Grid.Column="1" Margin="0,0,185,0" Grid.ColumnSpan="2" />
-                                    <Label Content="" Name="BestUser" VerticalAlignment="Bottom" Grid.Row="1" Grid.Column="1" HorizontalContentAlignment="Left" Margin="185,0,-2,0" Grid.ColumnSpan="2" />
-                                    <Label Content=" - users are working on this job." Name="UserCount" VerticalAlignment="Top"  Grid.Row="2" Grid.Column="1" HorizontalContentAlignment="Center" Padding="5,5,20,5" Grid.ColumnSpan="2" Margin="0,0,-2,0" />
-                                    <Label Content="Top machine: "  VerticalAlignment="Bottom" HorizontalContentAlignment="Right"  Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,0,185,0" />
-                                    <Label Content="" Name="BestMachine" VerticalAlignment="Bottom" Grid.Row="3" Grid.Column="1" HorizontalContentAlignment="Left" Margin="185,0,-2,0" Grid.ColumnSpan="2" />
-                                <Label Content=" - machines are working on this job." Name="MachineCount" VerticalAlignment="Top"  Grid.Row="4" Grid.Column="1" HorizontalContentAlignment="Center" Padding="5,5,20,5" Grid.ColumnSpan="2" Margin="0,0,-2,0" />                               
+                                        <Label Content="{Loc CurrentStats}" FontSize="11" HorizontalAlignment="Center" Foreground="White" />
+                                    </Border>
+                                    <Label Content="{Loc Current__rate_}"  VerticalAlignment="Center" HorizontalContentAlignment="Left"  Grid.Row="0" Grid.Column="1" />
+                                    <Label Content="- keys/sec" Name="CurrentRate" VerticalAlignment="Center" Grid.Row="0" Grid.Column="1" HorizontalContentAlignment="Right" Padding="5,5,20,5" />
+                                    <Label Content="{Loc Current__Users_}" VerticalAlignment="Center" Grid.Row="1" Grid.Column="1" />
+                                    <Label Content="-" Name="CurrentUserCount" VerticalAlignment="Center"  Grid.Row="1" Grid.Column="1" HorizontalContentAlignment="Right" Padding="5,5,20,5"/>
+                                    <Label Content="{Loc Current__Machines_}" VerticalAlignment="Center" Grid.Row="2" Grid.Column="1" />
+                                    <Label Content="-" Name="CurrentMachineCount" VerticalAlignment="Center"  Grid.Row="2" Grid.Column="1" HorizontalContentAlignment="Right" Padding="5,5,20,5"/>
+                                    <Label Content="{Loc Last__Update__Time: -}"  VerticalAlignment="Center" HorizontalContentAlignment="Center"  Grid.Row="3" Grid.Column="1" />
+                                </Grid>
+                            </Border>
+                            <Border BorderBrush="Silver" BorderThickness="2,0,2,2">
+                                <Grid Height="50" Background="#AFAAE1E8">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="25" />
+                                        <RowDefinition Height="25" />      
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="26" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Border BorderThickness="1" BorderBrush="Black" LayoutTransform="{StaticResource HeaderRotate}" Grid.Column="0" Grid.RowSpan="6" Background="Red">
+                                        <Label Content="Top" FontSize="11" HorizontalAlignment="Center" Foreground="White" />
+                                    </Border>
+                                    <Label Content="{Loc Top__user_}"  VerticalAlignment="Center" HorizontalContentAlignment="Left"  Grid.Row="0" Grid.Column="1" />
+                                    <Label Content="" Name="BestUser" VerticalAlignment="Center" Grid.Row="0" Grid.Column="1" HorizontalContentAlignment="Right" Padding="5,5,20,5" />
+                                    <Label Content="{Loc Top__machine_}"  VerticalAlignment="Center" HorizontalContentAlignment="Left"  Grid.Row="1" Grid.Column="1" />
+                                    <Label Content="" Name="BestMachine" VerticalAlignment="Center" Grid.Row="1" Grid.Column="1" HorizontalContentAlignment="Right" Padding="5,5,20,5" />
                                 </Grid>
                             </Border>
                        </StackPanel>

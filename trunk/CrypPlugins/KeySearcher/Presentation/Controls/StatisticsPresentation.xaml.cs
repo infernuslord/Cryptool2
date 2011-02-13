@@ -245,7 +245,25 @@ namespace KeySearcherPresentation.Controls
 
                 Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
-                    UserCount.Content = users + " users are working on this job";
+                    UserCount.Content = users;
+                }, null);
+            }
+        }
+
+        private BigInteger currentusers = 1;
+        public BigInteger CurrentUsers
+        {
+            get { return currentusers; }
+            set
+            {
+                lock (this)
+                {
+                    currentusers = value;
+                }
+
+                Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    CurrentUserCount.Content = currentusers;
                 }, null);
             }
         }
@@ -282,7 +300,25 @@ namespace KeySearcherPresentation.Controls
 
                 Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
-                    MachineCount.Content = machines + " machines are working on this job";
+                    MachineCount.Content = machines;
+                }, null);
+            }
+        }
+
+        private BigInteger currentmachines = 1;
+        public BigInteger CurrentMachines
+        {
+            get { return currentmachines; }
+            set
+            {
+                lock (this)
+                {
+                    currentmachines = value;
+                }
+
+                Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    CurrentMachineCount.Content = currentmachines;
                 }, null);
             }
         }
@@ -309,7 +345,7 @@ namespace KeySearcherPresentation.Controls
         private double rate = 0;
         public double SetRate
         {
-            get { return percent; }
+            get { return rate; }
             set
             {
                 lock (this)
@@ -326,7 +362,32 @@ namespace KeySearcherPresentation.Controls
 
                 Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
-                    Rate.Content = " Overall rate: " + rate + " key/sec";
+                    Rate.Content = rate + " key/sec";
+                }, null);
+            }
+        }
+
+        private double currentrate = 0;
+        public double SetCurrentRate
+        {
+            get { return currentrate; }
+            set
+            {
+                lock (this)
+                {
+                    if (false)
+                    {
+                        currentrate = 0;
+                    }
+                    else
+                    {
+                        currentrate = 0;
+                    }
+                }
+
+                Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    CurrentRate.Content = currentrate + " key/sec";
                 }, null);
             }
         }
