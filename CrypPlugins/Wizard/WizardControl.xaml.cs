@@ -53,6 +53,7 @@ namespace Wizard
         private HistoryTranslateTransformConverter historyTranslateTransformConverter = new HistoryTranslateTransformConverter();
         private List<TextBox> currentOutputBoxes = new List<TextBox>();
         private List<TextBox> currentInputBoxes = new List<TextBox>();
+        private List<ContentControl> currentPresentations = new List<ContentControl>();
 
         internal event OpenTabHandler OnOpenTab;
         internal event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
@@ -75,6 +76,7 @@ namespace Wizard
             }
 
             InitializeComponent();
+            CompositionTarget.Rendering += CompositionTarget_Rendering;
 
             currentHistory.CollectionChanged += delegate
                                                     {
@@ -84,6 +86,11 @@ namespace Wizard
             selectionBrush.Color = Color.FromArgb(255, 200, 220, 245);
             SetupPage(wizardConfigXML);
             AddToHistory(wizardConfigXML);
+        }
+
+        ~WizardControl()
+        {
+            CompositionTarget.Rendering -= CompositionTarget_Rendering;
         }
 
         // generate the full XML tree for the wizard (recursive)
@@ -217,7 +224,7 @@ namespace Wizard
                 inputPanel.Visibility = Visibility.Visible;
 
                 var inputs = from el in element.Elements()
-                             where el.Name == "inputBox" || el.Name == "comboBox" || el.Name == "checkBox" || el.Name == "outputBox"
+                             where el.Name == "inputBox" || el.Name == "comboBox" || el.Name == "checkBox" || el.Name == "outputBox" || el.Name == "presentation"
                              select el;
 
                 inputStack.Children.Clear();
@@ -244,7 +251,10 @@ namespace Wizard
                 if (element.Name == "sampleViewer" && (element.Attribute("file") != null) && (element.Attribute("title") != null))
                 {
                     nextButton.IsEnabled = false;
-                    LoadSample(element.Attribute("file").Value, element.Attribute("title").Value, false);
+                    if (element.Element("presentation") != null)
+                        LoadSample(element.Attribute("file").Value, element.Attribute("title").Value, false);
+                    else
+                        LoadSample(element.Attribute("file").Value, element.Attribute("title").Value, false);
                 }
 
                 string id = GetElementID((XElement)inputPanel.Tag);
@@ -416,7 +426,9 @@ namespace Wizard
         {
             Control element = null;
 
-            string key = GetElementPluginPropertyKey(input);
+            string key = null;
+            if (input.Name != "presentation")
+                key = GetElementPluginPropertyKey(input);
 
             switch (input.Name.ToString())
             {
@@ -561,6 +573,17 @@ namespace Wizard
 
                     currentOutputBoxes.Add(outputBox);
                     element = outputBox;
+                    break;
+                case "presentation":
+                    if (isInput)
+                        break;
+
+                    var cc = new ContentControl();
+                    cc.Tag = input;
+                    inputStack.Children.Add(cc);
+
+                    currentPresentations.Add(cc);
+                    element = cc;
                     break;
             }
 
@@ -748,6 +771,18 @@ namespace Wizard
                                                                                                         }
                                                                                                     });
                     }
+                }
+            }
+
+            //fill presentations
+            foreach (var presentation in currentPresentations)
+            {
+                var ele = (XElement)presentation.Tag;
+                var pluginName = ele.Attribute("plugin").Value;
+                if (!string.IsNullOrEmpty(pluginName))
+                {
+                    var plugin = model.AllPluginModels.Where(x => x.Name == pluginName).First().Plugin;
+                    presentation.Content = plugin.Presentation;
                 }
             }
 
@@ -1104,9 +1139,33 @@ namespace Wizard
             }
         }
 
-        protected override void OnKeyDown(KeyEventArgs e)
+        private bool keyPressed = false;
+
+        void CompositionTarget_Rendering(object sender, EventArgs e)
         {
-            switch (e.Key)
+            var interestingKeys = new List<Key>() {Key.Up, Key.Down, Key.Left, Key.Right};
+            if (this.IsMouseOver)
+            {
+                foreach (var k in interestingKeys)
+                {
+                    if ((Keyboard.GetKeyStates(k) & KeyStates.Down) > 0)
+                    {
+                        if (!keyPressed)
+                        {
+                            keyPressed = true;
+                            KeyPressedDown(k);
+                        }
+                        return;
+                    }
+                }
+            }
+            
+            keyPressed = false;
+        }
+
+        private void KeyPressedDown(Key key)
+        {
+            switch (key)
             {
                 case Key.Up:
                 case Key.Down:
@@ -1119,7 +1178,7 @@ namespace Wizard
                                 i++;
                             ((RadioButton)radioButtonStackPanel.Children[i]).IsChecked = false;
 
-                            if (e.Key == Key.Down)
+                            if (key == Key.Down)
                             {
                                 if (radioButtonStackPanel.Children.Count > i + 1)
                                     ((RadioButton)radioButtonStackPanel.Children[i + 1]).IsChecked = true;
