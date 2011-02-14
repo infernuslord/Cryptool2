@@ -36,6 +36,7 @@ namespace Soap
         private XmlNode _node;
         private XmlNode _envelope;
         private XmlNode _body;
+        private XmlDocument _wsdl;
         private XmlDocument _soap;
         private XmlDocument _inputDocument;
         private XmlDocument _securedSOAP;
@@ -118,7 +119,7 @@ namespace Soap
             set { this._wsPublicKey = value; }
         }
 
-        [PropertyInfo(Direction.InputData, "WSDL Input", "WSDL to create the soap message", null)]
+        [PropertyInfo(Direction.InputData, "WSDL Input", "WSDL to create the soap message", "", false, false, QuickWatchFormat.None, "WsdlConverter")]
         public XmlDocument Wsdl
         {
             set
@@ -127,12 +128,16 @@ namespace Soap
                 {
                     presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
-                        string s = CopyXmlToString(value);
-                        this.LoadWSDL(s);
-                        this._wsdlLoaded = true;
-                        this.OnPropertyChanged("wsdl");
-                        this.CreateInfoMessage("Received WSDL File");
-                        this.CreateInfoMessage("Created SOAP Message");
+                        if (value != null)
+                        {
+                            this._wsdl = value;
+                            string wsdlString = CopyXmlToString(value);
+                            this.LoadWSDL(wsdlString);
+                            this._wsdlLoaded = true;
+                            this.OnPropertyChanged("wsdl");
+                            this.CreateInfoMessage("Received WSDL File");
+                            this.CreateInfoMessage("Created SOAP Message");
+                        }
                     }, null);
                 }
             }
@@ -142,7 +147,7 @@ namespace Soap
             }
         }
 
-        [PropertyInfo(Direction.InputData, "Public-Key input", "Encryption Key", null)]
+        [PropertyInfo(Direction.InputData, "Public-Key input", "Encryption Key","",false,false,QuickWatchFormat.None,null)]
         public string PublicKey
         {
             get
@@ -169,7 +174,7 @@ namespace Soap
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "SOAP output", "Send a SOAP Message", "",true,false,QuickWatchFormat.None,null)]
+        [PropertyInfo(Direction.OutputData, "SOAP output", "Send a SOAP Message", "",true,false,QuickWatchFormat.Text,"XmlOutputConverter")]
         public XmlDocument OutputString
         {
             get { return this._securedSOAP; }
@@ -182,7 +187,7 @@ namespace Soap
 
             }
         }
-        [PropertyInfo(Direction.InputData, "SOAP input", "Input a SOAP message to be processed by the Web Service", "", false, false, QuickWatchFormat.None,null)]
+        [PropertyInfo(Direction.InputData, "SOAP input", "Input a SOAP message to be processed by the Web Service", "", false, false, QuickWatchFormat.None,"XMLInputConverter")]
         public XmlDocument InputString
         {
             get { return this._inputDocument; }
@@ -1423,21 +1428,19 @@ namespace Soap
 
         public Object XmlOutputConverter(Object Data)
         {
-            string test = this._soap.ToString();
-            this.OutputString = this._securedSOAP;
-            if (test.StartsWith("<"))
+
+           if(this._securedSOAP!=null)
             {
-                string test1 = this._soap.GetType().ToString();
-                test1 = test1 + " " + test;
-                XmlDocument doc = (XmlDocument)Data;
-                StringWriter t = new StringWriter();
+                
+                XmlDocument doc = (XmlDocument)this._securedSOAP;
+                StringWriter stringWriter = new StringWriter();
                 Object obj = new Object();
                 try
                 {
-                    XmlTextWriter j = new XmlTextWriter(t);
-                    j.Formatting = Formatting.Indented;
-                    doc.WriteContentTo(j);
-                    obj = (Object)t.ToString();
+                    XmlTextWriter xmlTextWriter = new XmlTextWriter(stringWriter);
+                    xmlTextWriter.Formatting = Formatting.Indented;
+                    doc.WriteContentTo(xmlTextWriter);
+                    obj = (Object)stringWriter.ToString();
                 }
                 catch (Exception e)
                 {
@@ -1449,27 +1452,55 @@ namespace Soap
             return null;
 
         }
-
-        public Object XmlConverter(Object Data)
+        public Object WsdlConverter(Object Data)
         {
-            string test = _securedSOAP.ToString();
-            if (_securedSOAP.InnerText.StartsWith("<"))
+
+           if(this._wsdl!=null)
             {
-                XmlDocument doc = (XmlDocument)this._securedSOAP;
-                StringWriter t = new StringWriter();
+                
+                XmlDocument doc = (XmlDocument)this._wsdl;
+                StringWriter stringWriter = new StringWriter();
                 Object obj = new Object();
                 try
                 {
-                    XmlTextWriter j = new XmlTextWriter(t);
-                    j.Formatting = Formatting.Indented;
-                    doc.WriteContentTo(j);
-                    obj = (Object)t.ToString();
+                    XmlTextWriter xmlTextWriter = new XmlTextWriter(stringWriter);
+                    xmlTextWriter.Formatting = Formatting.Indented;
+                    doc.WriteContentTo(xmlTextWriter);
+                    obj = (Object)stringWriter.ToString();
                 }
                 catch (Exception e)
                 {
                     Console.WriteLine(e.ToString());
 
                 }
+                return obj;
+            }
+            return null;
+
+        }
+       
+
+        public Object XMLInputConverter(Object Data)
+        {
+            if(this._inputDocument!=null)
+            {
+                Object obj = new Object();
+                try
+                {
+                    XmlDocument doc = (XmlDocument)this._inputDocument;
+                    StringWriter stringWriter = new StringWriter();
+                    
+                    XmlTextWriter xmlTextWriter = new XmlTextWriter(stringWriter);
+                    xmlTextWriter.Formatting = Formatting.Indented;
+                    doc.WriteContentTo(xmlTextWriter);
+                    obj = (Object)stringWriter.ToString();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.ToString());
+
+                }
+                
                 return obj;
             }
             return null;
