@@ -121,7 +121,7 @@ namespace WebService
 
         }
 
-        [PropertyInfo(Direction.ControlSlave, "WSDL output", "Web Service Description", null)]
+        [PropertyInfo(Direction.OutputData, "WSDL output", "Web Service Description", null)]
         public XmlDocument Wsdl
         {
             get { return this._wsdlDocument; }
@@ -132,7 +132,7 @@ namespace WebService
             }
         }
 
-        [PropertyInfo(Direction.ControlSlave, "Public-Key output", "Encryption Key", null)]
+        [PropertyInfo(Direction.OutputData, "Public-Key output", "Encryption Key", null)]
         public string PublicKey
         {
             get { return this._publickey; }

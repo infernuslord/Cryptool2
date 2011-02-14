@@ -198,9 +198,12 @@ namespace WebService
                 case 9:
                    this.presentation._animationStepsTextBox.Text += "\n -> Decrypt the data and replace ";
                    this.presentation._animationStepsTextBox.Text += "\n -> the EncryptedData Element with the decrypted data";
+                    if(this.presentation._animationStepsTextBox.LineCount>0)
+                    {
                    this.presentation._animationStepsTextBox.ScrollToLine(this.presentation._animationStepsTextBox.LineCount - 1);
                   // n = this.actualEncryptedDataParent.Items.IndexOf(actualEncryptedData) + 1;
-                   this.animationAddElements(actualEncryptedData, actualEncryptedDataEndTag);
+                    }
+                        this.animationAddElements(actualEncryptedData, actualEncryptedDataEndTag);
                    status++;
                    
                 

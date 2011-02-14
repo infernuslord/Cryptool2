@@ -580,6 +580,12 @@ namespace WebService
             return splitter[1].ToString();
 
         }
+        public XmlElement GetSignatureReferenceElement(int signatureNumber)
+        {
+            ArrayList referencedElementList = this.GetSignatureReferences(signatureNumber);
+            XmlElement referencedElement = (XmlElement)referencedElementList[0];
+            return referencedElement;
+        }
         public bool CompareDigestValues(int signatureNumber, int referenceNumber, string digestValue)
         {
             SignedXml signedXml = new SignedXml();
