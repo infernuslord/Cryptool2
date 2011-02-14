@@ -554,10 +554,12 @@ namespace WebService
         }
         public void fillEncryptedDataTreeviewElements()
         {
-            this.findItems((TreeViewItem)this.presentation.SoapInputItem.Items[0], "xenc:EncryptedKey");
+            if (this.presentation.SoapInputItem != null && this.presentation.SoapInputItem.Items.Count > 0)
+            {
+                this.findItems((TreeViewItem)this.presentation.SoapInputItem.Items[0], "xenc:EncryptedKey");
 
-            this.initializeAnimation();
-           
+                this.initializeAnimation();
+            }  
         }
         public TreeViewItem findItems(TreeViewItem item, string bezeichner)
         {

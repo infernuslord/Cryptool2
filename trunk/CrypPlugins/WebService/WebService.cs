@@ -121,7 +121,7 @@ namespace WebService
 
         }
 
-        [PropertyInfo(Direction.OutputData, "WSDL output", "Web Service Description", null)]
+        [PropertyInfo(Direction.OutputData, "WSDL output", "Web Service Description", "", false, false, QuickWatchFormat.Text, "WsdlConverter")]
         public XmlDocument Wsdl
         {
             get { return this._wsdlDocument; }
@@ -209,25 +209,30 @@ namespace WebService
             return obj;
         }
 
-        public Object XmlConverter(Object Data)
+        public Object WsdlConverter(Object Data)
         {
-            XmlDocument doc = (XmlDocument)this._inputDocument;
-            StringWriter stringWriter = new StringWriter();
-            Object obj = new Object();
-            try
+           
+            if (this._wsdlDocument != null)
             {
-                XmlTextWriter xmlWriter = new XmlTextWriter(stringWriter);
-                xmlWriter.Formatting = Formatting.Indented;
-                doc.WriteContentTo(xmlWriter);
-                obj = (Object)stringWriter.ToString();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.ToString());
+                XmlDocument doc = (XmlDocument)this._wsdlDocument;
+                StringWriter stringWriter = new StringWriter();
+                Object obj = new Object();
+                try
+                {
+                    XmlTextWriter xmlWriter = new XmlTextWriter(stringWriter);
+                    xmlWriter.Formatting = Formatting.Indented;
+                    doc.WriteContentTo(xmlWriter);
+                    obj = (Object)stringWriter.ToString();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.ToString());
 
+                }
+                return obj;
             }
+            return null;
 
-            return obj;
         }
         #endregion
 
