@@ -78,6 +78,7 @@ namespace WebService
         private Hashtable _namespacesTable;
         private DecryptionAnimation _decryptionAnimation;
         private WebService _webService;
+        private Dictionary<string, TreeViewItem> _nodeToTreeViewItemDictionary;
         #endregion
 
         #region Properties
@@ -138,6 +139,7 @@ namespace WebService
         public WebServicePresentation(WebService webService)
         {
             InitializeComponent();
+            this._nodeToTreeViewItemDictionary = new Dictionary<string, TreeViewItem>();
             this._actualSignatureNumber = 1;
             this._decryptionAnimation = new DecryptionAnimation(this);
             slider1.Opacity = 0;
@@ -211,6 +213,7 @@ namespace WebService
 
         public void ResetSoapInputItem()
         {
+            this._nodeToTreeViewItemDictionary.Clear();
             this._webService.InputString = this._webService.InputString;
             this._dispatcherTimer.Stop();
             this._decryptionTimer.Stop();
@@ -246,6 +249,15 @@ namespace WebService
                 tbTagOpen.Foreground = elemBrush;
                 tbTagClose.Foreground = elemBrush;
                 tbName.Foreground = elemBrush;
+               if(!this._nodeToTreeViewItemDictionary.ContainsKey(xmlNode.OuterXml))
+                {
+                    xmlNode.Normalize();
+                 this._nodeToTreeViewItemDictionary.Add(xmlNode.OuterXml.ToString(), item);
+                }
+                if(xmlNode.OuterXml.Contains("Body"))
+                {
+
+                }
                 if (!xmlNode.NodeType.ToString().Equals("Text"))
                 {
                     item.Name = "OpenItemXmlNode";
@@ -491,8 +503,11 @@ namespace WebService
 
                 case 3:
                     this._animationStepsTextBox.Text += "\n -> Get referenced Element";
-                    this.FindTreeViewItem(this._soapInputItem, this._webService.Validator.GetSignatureReferenceName(_signaturenumber), this._actualReferenceNumber).BringIntoView();
-                    this.AnimateFoundElements(this.FindTreeViewItem(this._soapInputItem, this._webService.Validator.GetSignatureReferenceName(_signaturenumber), this._actualReferenceNumber), this.FindTreeViewItem(this._soapInputItem, this._webService.Validator.GetSignatureReferenceName(_signaturenumber), this._actualReferenceNumber));
+                    XmlNode node = this._webService.Validator.GetSignatureReferenceElement(_signaturenumber) as XmlNode;
+                    node.Normalize();
+                    TreeViewItem referenceItem = this._nodeToTreeViewItemDictionary[(node.OuterXml).ToString()];
+              //    this.FindTreeViewItem(this._soapInputItem, this._webService.Validator.GetSignatureReferenceName(_signaturenumber), this._actualReferenceNumber).BringIntoView();
+                    this.AnimateFoundElements(referenceItem, referenceItem);
                     this._referenceStatus++;
                     break;
 
@@ -704,13 +719,71 @@ namespace WebService
                 if (panelName.Equals(name))
                 {
                     this._foundItem = treeViewItem;
-
+                    StackPanel panel = (StackPanel)treeViewItem.Header;
+                    int count = 0;
+                    foreach (object obj in panel.Children)
+                    {
+                        if (obj.GetType().ToString().Equals("System.Windows.Controls.TextBlock"))
+                        {
+                            TextBlock tb = (TextBlock)obj;
+                            if (tb.Name.Equals("attributeName"))
+                            {
+                                if (tb.Text.Trim().Equals("Id"))
+                                {
+                                    TextBlock block = (TextBlock)panel.Children[count + 1];
+                                    this._foundItem = treeViewItem;
+                                }
+                            }
+                        }
+                        count++;
+                    }
                     return treeViewItem;
                 }
             }
             foreach (TreeViewItem childItem in treeViewItem.Items)
             {
                 FindTreeViewItem(childItem, name, 4);
+            }
+            if (this._foundItem != null)
+            {
+                return this._foundItem;
+            }
+            return null;
+        }
+        public TreeViewItem FindTreeViewItemById(TreeViewItem treeViewItem, string name, int n)
+        {
+
+            StackPanel tempHeader1 = (StackPanel)treeViewItem.Header;
+            string panelName = GetNameFromPanel(tempHeader1);
+            if (panelName != null)
+            {
+                if (panelName.Equals(name))
+                {
+                    this._foundItem = treeViewItem;
+                    StackPanel panel = (StackPanel)treeViewItem.Header;
+                    int count = 0;
+                    foreach (object obj in panel.Children)
+                    {
+                        if (obj.GetType().ToString().Equals("System.Windows.Controls.TextBlock"))
+                        {
+                            TextBlock tb = (TextBlock)obj;
+                            if (tb.Name.Equals("attributeName"))
+                            {
+                                if (tb.Text.Trim().Equals("Id"))
+                                {
+                                    TextBlock block = (TextBlock)panel.Children[count + 1];
+                                    this._foundItem = treeViewItem;
+                                }
+                            }
+                        }
+                        count++;
+                    }
+                    return treeViewItem;
+                }
+            }
+            foreach (TreeViewItem childItem in treeViewItem.Items)
+            {
+                FindTreeViewItemById(childItem, name, 4);
             }
             if (this._foundItem != null)
             {
