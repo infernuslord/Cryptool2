@@ -484,7 +484,30 @@ namespace WorkspaceManager.Execution
             }
 
             // ################
-            //5. If the user wants to, sleep some time
+            //5. "Consume" all inputs
+            // ################
+
+            foreach (ConnectorModel connectorModel in inputConnectors)
+            {
+                try
+                {
+                    if (connectorModel.HasData && connectorModel.Data != null)
+                    {
+                        connectorModel.HasData = false;
+                        connectorModel.Data = null;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    this.PluginModel.WorkspaceModel.WorkspaceManagerEditor.GuiLogMessage("An error occured while 'consuming' value of connector \"" + connectorModel.Name + "\" of \"" + PluginModel.Name + "\": " + ex.Message, NotificationLevel.Error);
+                    this.PluginModel.State = PluginModelState.Error;
+                    this.PluginModel.GuiNeedsUpdate = true;
+                    return;
+                }
+            }
+            
+            // ################
+            //6. If the user wants to, sleep some time
             // ################
 
             if (this.executionEngine.SleepTime > 0)
