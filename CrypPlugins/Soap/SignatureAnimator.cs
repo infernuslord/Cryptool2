@@ -307,7 +307,7 @@ namespace Soap
                       TextBlock tb = (TextBlock)obj;
                       if (tb.Name.Equals("attributeName"))
                       {
-                          if (tb.Text.Equals("Id"))
+                          if (tb.Text.Trim().Equals("Id"))
                           {
                               TextBlock block = (TextBlock) panel.Children[count + 1];
                               return block.Text;
