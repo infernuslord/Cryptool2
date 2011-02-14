@@ -14,7 +14,7 @@ using System.Data;
 using System.IO;
 using System.ComponentModel;
 using System.Security.Cryptography;
-using System.Security.Cryptography.Xml;
+
 using System.Windows.Controls;
 using System.Collections;
 using System.Windows.Threading;
@@ -54,21 +54,25 @@ namespace ManInTheMiddle
             switch (e.PropertyName)
             {
                 case "InputString":
-                    //presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-                    //{
-                    //TreeViewItem item = new TreeViewItem();
-                    //XmlNode node = (XmlNode)inputSoap.DocumentElement;
-                    //TextBlock elem1 = new TextBlock();
-                    //elem1.Text = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>";
-                    //StackPanel panel = new StackPanel();
-                    //panel.Children.Add(elem1);
-                    //item.Header = panel;
-                    //presentation.CopyXmlToTreeView(node, ref item);
-                    //presentation.treeView.Items.Clear();
-                    //item.IsExpanded = true;
-                    //presentation.treeView.Items.Add(item);
-                    //}, null);
-                    break;
+                    presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        if (inputSoap != null)
+                        {
+                            TreeViewItem item = new TreeViewItem();
+                            XmlNode node = (XmlNode)inputSoap.DocumentElement;
+                            TextBlock elem1 = new TextBlock();
+                            elem1.Text = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>";
+                            StackPanel panel = new StackPanel();
+                            panel.Children.Add(elem1);
+                            item.Header = panel;
+
+                            presentation.CopyXmlToTreeView(node, item, this.getParameter());
+                            presentation.treeView.Items.Clear();
+                            item.IsExpanded = true;
+                            presentation.treeView.Items.Add(item);
+                        }
+                    }, null);
+                   break;
             }
         }
 
@@ -157,10 +161,11 @@ namespace ManInTheMiddle
             {
                 this.inputAnswer = value;
                 OnPropertyChanged("InputAnswer");
+              
             }
         }
 
-        [PropertyInfo(Direction.ControlSlave, "WSDL Input", "WSDL to create the soap message",null)]
+        [PropertyInfo(Direction.InputData, "WSDL Input", "WSDL to create the soap message",null)]
         public XmlDocument wsdlInput
         {
             get { return this.wsdl; }
@@ -232,16 +237,17 @@ namespace ManInTheMiddle
                 body.AppendChild(eingabe);
                 envelope.AppendChild(body);
                 mySettings.Soap = xmlToString(soap);
+           
             }
         }
 
         public void showsoapBody()
         {
             XmlNode rootElement = soap.SelectSingleNode("/*");
-            presentation.soapItem = new System.Windows.Controls.TreeViewItem();
+            presentation.SoapItem = new System.Windows.Controls.TreeViewItem();
 
 
-            presentation.soapItem.IsExpanded = true;
+            presentation.SoapItem.IsExpanded = true;
 
             StackPanel panel1 = new StackPanel();
 
@@ -255,11 +261,11 @@ namespace ManInTheMiddle
 
             panel1.Children.Insert(0, elem1);
 
-            presentation.soapItem.Header = panel1;
+            presentation.SoapItem.Header = panel1;
 
-            presentation.CopyXmlToTreeView(soap.GetElementsByTagName("s:Body")[0], ref presentation.soapItem, this.getParameter());
+            presentation.CopyXmlToTreeView(soap.GetElementsByTagName("s:Body")[0], presentation.SoapItem, this.getParameter());
             presentation.treeView.Items.Clear();
-            presentation.treeView.Items.Add(presentation.soapItem);
+            presentation.treeView.Items.Add(presentation.SoapItem);
             this.outputSoap = this.soap;
             OnPropertyChanged("OutputString");
         }
