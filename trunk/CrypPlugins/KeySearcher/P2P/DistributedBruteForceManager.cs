@@ -95,6 +95,7 @@ namespace KeySearcher.P2P
                         status.CurrentOperation = Resources.Updating_statistic;
                         InitializeTree();
                         statupdate = false;
+                        keySearcher.InitialiseInformationQuickwatch();
                         statisticTimer = new Timer { Interval = 30 * 60 * 1000 };
                         statisticTimer.Start();
                     }

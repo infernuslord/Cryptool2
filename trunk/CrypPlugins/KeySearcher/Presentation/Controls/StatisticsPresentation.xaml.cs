@@ -117,6 +117,44 @@ namespace KeySearcherPresentation.Controls
             }
         }
 
+        private string updatetime = "Last__Update__Time: -";
+        public string UpdateTime
+        {
+            get { return updatetime; }
+            set
+            {
+                lock (this)
+                {
+                    updatetime = value;
+                }
+
+                Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    if (days != null)
+                        LastUpdateTime.Content = updatetime;
+                }, null);
+            }
+        }
+
+        private string nextupdatetime = "Next__Update__Time: -";
+        public string NextUpdateTime
+        {
+            get { return nextupdatetime; }
+            set
+            {
+                lock (this)
+                {
+                    nextupdatetime = value;
+                }
+
+                Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    if (days != null)
+                        LastUpdateTime.ToolTip = nextupdatetime;
+                }, null);
+            }
+        }
+
         private BigInteger totalBlocks = 0;
         public BigInteger TotalBlocks
         {
@@ -258,7 +296,10 @@ namespace KeySearcherPresentation.Controls
             {
                 lock (this)
                 {
-                    currentusers = value;
+                    if (value > 0)
+                    {
+                        currentusers = value;
+                    }
                 }
 
                 Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
@@ -313,7 +354,10 @@ namespace KeySearcherPresentation.Controls
             {
                 lock (this)
                 {
-                    currentmachines = value;
+                    if (value > 0)
+                    {
+                        currentmachines = value;
+                    }
                 }
 
                 Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
@@ -342,22 +386,15 @@ namespace KeySearcherPresentation.Controls
             }
         }
 
-        private double rate = 0;
-        public double SetRate
+        private BigInteger rate = 0;
+        public BigInteger SetRate
         {
             get { return rate; }
             set
             {
                 lock (this)
                 {
-                    if (false)
-                    {
-                        rate = 0;
-                    }
-                    else
-                    {
-                        rate = 0;
-                    }
+                    rate = value;
                 }
 
                 Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
@@ -367,22 +404,15 @@ namespace KeySearcherPresentation.Controls
             }
         }
 
-        private double currentrate = 0;
-        public double SetCurrentRate
+        private BigInteger currentrate = 0;
+        public BigInteger SetCurrentRate
         {
             get { return currentrate; }
             set
             {
                 lock (this)
                 {
-                    if (false)
-                    {
-                        currentrate = 0;
-                    }
-                    else
-                    {
-                        currentrate = 0;
-                    }
+                    currentrate = value;
                 }
 
                 Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate

@@ -1326,6 +1326,11 @@ namespace KeySearcher
             maschinehierarchie = new Dictionary<long, Maschinfo>();
         }
 
+        private bool memory = false;
+        private int cUsers = 0;
+        private int cMachines = 0;
+        private DateTime memTime = DateTime.UtcNow;
+        private BigInteger memKeys = 0;
         public void InitialiseInformationQuickwatch()
         {
             if (Pattern == null || !Pattern.testWildcardKey(settings.Key) || settings.ChunkSize == 0)
@@ -1333,14 +1338,64 @@ namespace KeySearcher
                 return;
             }
 
+            CalcCurrentStats();
+            var now = DateTime.UtcNow.ToLocalTime();
             var keyPattern = Pattern;
             var keysPerChunk = Math.Pow(2, settings.ChunkSize);
             var keyPatternPool = new KeyPatternPool(keyPattern, new BigInteger(keysPerChunk));
 
-            ((QuickWatch) QuickWatchPresentation).StatisticsPresentation.TotalBlocks = keyPatternPool.Length;
+            //---Aggregate----
+            ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.TotalBlocks = keyPatternPool.Length;
             ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.TotalKeys = new BigInteger(keysPerChunk) * keyPatternPool.Length;    
-            ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.Days = DateTime.UtcNow.Subtract(startDate).Days + " Days";
+            ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.Days = string.Format("{0} Days", now.Subtract(startDate).Days);
+            //-----------------
+            //---Current Section----
+            ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.UpdateTime = "Last__Update__Time: " + now;
+            ((QuickWatch) QuickWatchPresentation).StatisticsPresentation.NextUpdateTime = "Next__Update__Time: " + now.AddMinutes(30);
+            ((QuickWatch) QuickWatchPresentation).StatisticsPresentation.CurrentUsers = cUsers;
+            ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.CurrentMachines = cMachines;
+
+            if(memory)
+            {
+                var keysnow = calculatedChunks()*(BigInteger) Math.Pow(2, settings.ChunkSize);
+                var timenow = DateTime.UtcNow;
+
+                ((QuickWatch) QuickWatchPresentation).StatisticsPresentation.SetCurrentRate = (keysnow - memKeys) /
+                                                                                              (timenow.Subtract(memTime).Seconds);
+                memKeys = keysnow;
+                memTime = timenow;
+            }
+            {
+                memKeys = calculatedChunks() * (BigInteger)Math.Pow(2, settings.ChunkSize);
+                memTime = DateTime.UtcNow;
+                memory = true;
+            }
+            //-----------
             UpdateStatisticsPresentation();
+        }
+
+        internal void CalcCurrentStats()
+        {
+            cUsers = 0;
+            cMachines = 0;
+            var testdate = DateTime.UtcNow;
+
+            if(statistic != null)
+            {
+                foreach (string avatar in statistic.Keys)
+                {
+                    var useradd = 0;
+                    foreach (long mid in statistic[avatar].Keys)
+                    {
+                        if(statistic[avatar][mid].Date.AddMinutes(30) > testdate)
+                        {
+                            useradd = 1;
+                            cMachines++;
+                        }
+                    }
+                    cUsers = cUsers + useradd;
+                } 
+            }
         }
 
         internal void IntegrateNewResults(LinkedList<ValueKey> updatedCostList, Dictionary<string, Dictionary<long, Information>> updatedStatistics, string dataIdentifier)
@@ -1406,13 +1461,16 @@ namespace KeySearcher
         {
             try
             {
+                var diffFromStart = DateTime.UtcNow.ToLocalTime().Subtract(startDate);
                 var calcChunks = calculatedChunks();
+                var calcKeys = calcChunks*(BigInteger) Math.Pow(2, settings.ChunkSize);
                 ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.Statistics = statistic;
                 ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.MachineHierarchy = maschinehierarchie;
-                ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.Days = DateTime.UtcNow.Subtract(startDate).Days + " Days";
+                ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.Days = diffFromStart.Days + " Days";
                 ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.CalculatedBlocks = calcChunks;
-                ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.CalculatedKeys = calcChunks * (BigInteger)Math.Pow(2, settings.ChunkSize);
+                ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.CalculatedKeys = calcKeys;
                 ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.Percent = (double)calcChunks;
+                ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.SetRate = calcKeys/ diffFromStart.Seconds;
                 ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.Users = statistic.Keys.Count;
                 ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.Machines = maschinehierarchie.Keys.Count;
                 if (statistic.Count > 0)
