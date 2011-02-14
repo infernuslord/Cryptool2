@@ -1100,8 +1100,12 @@ namespace WebService
 
         private void button1_Click_3(object sender, RoutedEventArgs e)
         {
-            this._animationController.InitializeAnimation();
-            this.button1.IsEnabled = false;
+            if (this._soapInputItem != null && this._soapInputItem.Items.Count>0)
+            {
+                this._animationController.InitializeAnimation();
+                this.button1.IsEnabled = false;
+            }
+            
 
         }
         #endregion
