@@ -80,7 +80,10 @@ namespace WorkspaceManager.View.VisualComponents
             {
                 Connector = element;
                 this.Block = textBlock;
-                Caption = element.Model.ConnectorType.Name;
+                if (element.Model.ConnectorType != null)
+                {
+                    Caption = element.Model.ConnectorType.Name;
+                }
                 timer.Interval = new TimeSpan(0, 0, 5);
                 timer.Tick +=new EventHandler(timer_Tick);
             }
