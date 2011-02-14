@@ -51,6 +51,7 @@ namespace Soap
         private bool send;
         private bool _gotKey;
         private bool _wsdlLoaded;
+        private bool _isExecuting;
         private int _contentCounter;
         private bool _hadHeader;
         private RSACryptoServiceProvider _wsRSACryptoProv;
@@ -117,7 +118,7 @@ namespace Soap
             set { this._wsPublicKey = value; }
         }
 
-        [PropertyInfo(Direction.ControlMaster, "WSDL Input", "WSDL to create the soap message", null)]
+        [PropertyInfo(Direction.InputData, "WSDL Input", "WSDL to create the soap message", null)]
         public XmlDocument Wsdl
         {
             set
@@ -141,7 +142,7 @@ namespace Soap
             }
         }
 
-        [PropertyInfo(Direction.ControlMaster, "Public-Key input", "Encryption Key", null)]
+        [PropertyInfo(Direction.InputData, "Public-Key input", "Encryption Key", null)]
         public string PublicKey
         {
             get
@@ -1241,12 +1242,31 @@ namespace Soap
             signedInfo.AppendChild(canonicalizationMethod);
             signedInfo.AppendChild(signatureMethod);
 
+            XmlAttribute foundIdAttribute = null;
             foreach (XmlElement elementToSign in elementsToSign)
             {
                 this.AddIdToElement(elementToSign.Name);
+
+                foreach (XmlAttribute xmlAttribute in elementToSign.Attributes)
+                {
+                    
+                        if (xmlAttribute.Name == "Id")
+                        {
+                            foundIdAttribute = xmlAttribute;
+                            break;
+                        }
+                    
+                }
+
+
+            
                 XmlAttribute idAttribute = this._securedSOAP.CreateAttribute("Id");
-                idAttribute.Value = this._idTable[elementToSign.Name].ToString();
-                elementToSign.Attributes.Append(idAttribute);
+                if (foundIdAttribute == null)
+                {
+                    idAttribute.Value = this._idTable[elementToSign.Name].ToString();
+                    elementToSign.Attributes.Append(idAttribute);
+                }
+                    
                 XmlElement referenceElement = this._securedSOAP.CreateElement("ds", "Reference", dsNamespace);
                 XmlAttribute uri = this._securedSOAP.CreateAttribute("URI");
                 XmlElement transforms = _securedSOAP.CreateElement("ds", "Transforms", dsNamespace);
@@ -1266,7 +1286,14 @@ namespace Soap
                 }
                 else
                 {
-                    uri.Value = "#" + this._idTable[elementToSign.Name].ToString();
+                    if (foundIdAttribute == null)
+                    {
+                        uri.Value = "#" + this._idTable[elementToSign.Name].ToString();
+                    }
+                    else
+                    {
+                        uri.Value = "#" + foundIdAttribute.Value;
+                    }
                 }
                 referenceElement.Attributes.Append(uri);
                 XmlElement c14nTransform = this._securedSOAP.CreateElement("ds", "Transform", dsNamespace);
@@ -1459,7 +1486,11 @@ namespace Soap
 
         public void Execute()
         {
-            this.OutputString = this._securedSOAP;
+            if (this._isExecuting)
+            {
+                this.OutputString = this._securedSOAP;
+                this._isExecuting = false;
+            }
         }
 
         public void Initialize()
@@ -1480,12 +1511,14 @@ namespace Soap
 
         public void PostExecution()
         {
-
+            this._isExecuting = false;
+            Dispose();
         }
 
         public void PreExecution()
         {
-
+            this._isExecuting = true;
+            Dispose();
         }
 
         public System.Windows.Controls.UserControl Presentation
@@ -1621,6 +1654,12 @@ namespace Soap
                 case "resetSoap":
                     if (this._soap != null)
                     {
+                        mySettings.bodysigned = false;
+                        mySettings.secheaderSigned = false;
+                        mySettings.secheaderEnc = false;
+                        mySettings.methodnameSigned = false;
+                        mySettings.methodnameencrypted = false;
+                        mySettings.bodyencrypted = false;
                         this._securedSOAP = (XmlDocument)this._soap.Clone();
                         mySettings.securedsoap = CopyXmlToString(_securedSOAP);
                         ShowSecuredSoap();
