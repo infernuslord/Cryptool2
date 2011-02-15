@@ -219,17 +219,17 @@ namespace NativeCryptography {
 		return output;
 	}
 
-	double *xlogx = 0;
+	float *xlogx = 0;
 
 	void prepareEntropy(int size)
     {
 		if (xlogx != 0)
 			free(xlogx);
-        xlogx = (double*)malloc((size + 1)*sizeof(double));
+        xlogx = (float*)malloc((size + 1)*sizeof(float));
         //precomputations for fast entropy calculation	
         xlogx[0] = 0.0;
         for (int i = 1; i <= size; i++)
-			xlogx[i] = -1.0 * i * Math::Log(i / (double)size) / Math::Log(2.0);
+			xlogx[i] = -1.0 * i * Math::Log(i / (float)size) / Math::Log(2.0);
     }
 
 
@@ -266,7 +266,7 @@ namespace NativeCryptography {
             n[t[counter]]++;
         }
 
-        double entropy = 0;
+        float entropy = 0;
         //calculate probabilities and sum entropy
         for (short i = 0; i < 256; i++)			
             entropy += xlogx[n[i]];
