@@ -88,7 +88,10 @@ namespace Cryptool.Enigma
         /// <returns>The encrypted/decrypted string</returns>
         private string FormattedEncrypt(int rotor1Pos, int rotor2Pos, int rotor3Pos, int rotor4Pos, string text)
         {
-            return postFormatOutput(core.Encrypt(rotor1Pos, rotor2Pos, rotor3Pos, rotor4Pos, preFormatInput(text)));
+            String input = preFormatInput(text);
+            myPresentation.setinput(input);
+            myPresentation.playClick(null, EventArgs.Empty);
+            return postFormatOutput(core.Encrypt(rotor1Pos, rotor2Pos, rotor3Pos, rotor4Pos, input));
         }
 
         internal class UnknownToken
@@ -272,7 +275,7 @@ namespace Cryptool.Enigma
             this.analyzer = new EnigmaAnalyzer(this);
             this.analyzer.OnIntermediateResult += new EventHandler<IntermediateResultEventArgs>(analyzer_OnIntermediateResult);
             this.statistics = new Dictionary<int, IDictionary<string, double[]>>();
-            myPresentation = new EnigmaPresentation();
+            myPresentation = new EnigmaPresentation(this.settings);
             this.Presentation = myPresentation;
             this.settings.PropertyChanged += myPresentation.settings_OnPropertyChange;
             this.settings.PropertyChanged += settings_OnPropertyChange;
@@ -455,6 +458,7 @@ namespace Cryptool.Enigma
         public void Stop()
         {
             LogMessage("Enigma stopped", NotificationLevel.Info);
+            myPresentation.stopclick(this, EventArgs.Empty);
             analyzer.StopAnalysis();
         }
 

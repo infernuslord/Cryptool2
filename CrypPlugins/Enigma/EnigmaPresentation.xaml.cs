@@ -197,8 +197,94 @@ namespace Cryptool.Enigma
                     Button b = new Button();
                     b.Uid ="" +( Convert.ToInt32(e.PropertyName[9]) -65);
                     b.Content = Convert.ToInt32(e.PropertyName[9]) - 65;
+                    int i = Convert.ToInt32(e.PropertyName[9]) - 65;
+                    if(i == switchlist[i])
+                    switch (i) {
+                        case 0:
+                           
+                                switchbuttons(i, dummyset.PlugBoardA);
+                                break;
+                        case 1:
+                                switchbuttons(i, dummyset.PlugBoardB);
+                                break;
+                        case 2:
+                                switchbuttons(i, dummyset.PlugBoardC);
+                                break;
+                        case 3:
+                           
+                                switchbuttons(i, dummyset.PlugBoardD);
+                                break;
+                        case 4:
+                                switchbuttons(i, dummyset.PlugBoardE);
+                                break;
+                        case 5:
+                                switchbuttons(i, dummyset.PlugBoardF);
+                                break;
+                        case 6:
+                                switchbuttons(i, dummyset.PlugBoardG);
+                                break;
+                        case 7:
+                                switchbuttons(i, dummyset.PlugBoardH);
+                                break;
+                        case 8:
+                                switchbuttons(i, dummyset.PlugBoardI);
+                                break;
+                        case 9:
+                                switchbuttons(i, dummyset.PlugBoardJ);
+                                break;
+                        case 10:
+                                switchbuttons(i, dummyset.PlugBoardK);
+                                break;
+                        case 11:
+                                switchbuttons(i, dummyset.PlugBoardL);
+                                break;
+                        case 12:
+                                switchbuttons(i, dummyset.PlugBoardM);
+                                break;
+                        case 13:
+                                switchbuttons(i, dummyset.PlugBoardN);
+                                break;
+                        case 14:
+                                switchbuttons(i, dummyset.PlugBoardO);
+                                break;
+                        case 15:
+                                switchbuttons(i, dummyset.PlugBoardP);
+                                break;
+                        case 16:
+                                switchbuttons(i, dummyset.PlugBoardQ);
+                                break;
+                        case 17:
+                                switchbuttons(i, dummyset.PlugBoardR);
+                                break;
+                        case 18:
+                                switchbuttons(i, dummyset.PlugBoardS);
+                                break;
+                        case 19:
+                                switchbuttons(i, dummyset.PlugBoardT);
+                                break;
+                        case 20:
+                                switchbuttons(i, dummyset.PlugBoardU);
+                                break;
+                        case 21:
+                                switchbuttons(i, dummyset.PlugBoardV);
+                                break;
+                        case 22:
+                                switchbuttons(i, dummyset.PlugBoardW);
+                                break;
+                        case 23:
+                                switchbuttons(i, dummyset.PlugBoardX);
+                                break;
+                        case 24:
+                                switchbuttons(i, dummyset.PlugBoardY);
+                                break;
+                        case 25:
+                                switchbuttons(i, dummyset.PlugBoardZ);
+                                break;
+                        
 
-                    List_MouseLeftButtonDown(b,EventArgs.Empty);
+                }
+
+                    //List_MouseLeftButtonDown(b,EventArgs.Empty);
                 }, null);
             }
             if (e.PropertyName == "PlugBoardDisplay") 
@@ -234,7 +320,7 @@ namespace Cryptool.Enigma
                     walzeimgs[walze.typ - 1] = img;
                     walzenarea.Children.Remove(walze);
 
-                    Walze walze1 = new Walze(dummyset.Reflector + 1, this.Width, this.Height);
+                    Walze walze1 = new Walze(dummyset.Reflector , this.Width, this.Height);
                     walze1.fast = speed * 80;
                     Canvas.SetLeft(walze1, 0);
                     Canvas.SetTop(walze1, 60);
@@ -277,7 +363,7 @@ namespace Cryptool.Enigma
                     rotorarray[2].helpNextAnimation2 -= helptoanimate8;
                     rotorarea.Children.Remove(rotorarray[2]);
 
-                    Rotor2 rotor = new Rotor2(dummyset.Rotor1 + 1, this.Width, this.Height);
+                    Rotor2 rotor = new Rotor2(dummyset.Rotor1, this.Width, this.Height, dummyset.Key[2] - 65, dummyset.Ring1);
                     rotor.fast = speed * 80;
                     rotor.Cursor = Cursors.Hand;
                     rotor.PreviewMouseLeftButtonDown += List_PreviewMouseLeftButtonDown;
@@ -322,7 +408,7 @@ namespace Cryptool.Enigma
 
                     rotorarea.Children.Remove(rotorarray[1]);
 
-                    Rotor2 rotor = new Rotor2(dummyset.Rotor2 + 1, this.Width, this.Height);
+                    Rotor2 rotor = new Rotor2(dummyset.Rotor2, this.Width, this.Height, dummyset.Key[1] - 65, dummyset.Ring2);
                     rotor.fast = speed * 80;
                     rotor.Cursor = Cursors.Hand;
                     rotor.PreviewMouseLeftButtonDown += List_PreviewMouseLeftButtonDown;
@@ -366,7 +452,7 @@ namespace Cryptool.Enigma
 
                     rotorarea.Children.Remove(rotorarray[0]);
 
-                    Rotor2 rotor = new Rotor2(dummyset.Rotor3 + 1, this.Width, this.Height);
+                    Rotor2 rotor = new Rotor2(dummyset.Rotor3, this.Width, this.Height, dummyset.Key[0] - 65, dummyset.Ring3);
                     rotor.fast = speed * 80;
                     rotor.Cursor = Cursors.Hand;
                     rotor.PreviewMouseLeftButtonDown += List_PreviewMouseLeftButtonDown;
@@ -382,6 +468,7 @@ namespace Cryptool.Enigma
 
             Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
+                dropBoxCanvasWalze.Children.Remove(walzeimgs[dummyset.Reflector]);
                 dropBoxCanvas.Children.Remove(rotorimgs[dummyset.Rotor3]);
                 dropBoxCanvas.Children.Remove(rotorimgs[dummyset.Rotor2]);
                 dropBoxCanvas.Children.Remove(rotorimgs[dummyset.Rotor1]);
@@ -585,7 +672,7 @@ namespace Cryptool.Enigma
         */
 
 
-        public EnigmaPresentation()
+        public EnigmaPresentation(EnigmaSettings settings)
         {
             InitializeComponent();
             SizeChanged += sizeChanged;
@@ -828,7 +915,12 @@ namespace Cryptool.Enigma
             rotorarea.Children.Add(rotorlocks2);
             rotorarea.Children.Add(rotorlocks3);
 
-            Rotor2 rotor = new Rotor2(3, this.Width, this.Height);
+            //String settingskey = settings.Key;
+
+            
+
+
+            Rotor2 rotor = new Rotor2(settings.Rotor1, this.Width, this.Height,settings.Key[0]-65,settings.Ring1);
             rotor.fast = speed * 80;
             rotor.Cursor =  Cursors.Hand;
             Canvas.SetLeft(rotor,0);
@@ -842,7 +934,7 @@ namespace Cryptool.Enigma
             dropBoxWalze.Drop += List_Drop21;
 
 
-            Walze walze = new Walze(2, this.Width, this.Height);
+            Walze walze = new Walze(settings.Reflector, this.Width, this.Height);
             walze.fast = speed * 80;
             Canvas.SetLeft(walze, 0);
             Canvas.SetTop(walze, 60);
@@ -851,7 +943,7 @@ namespace Cryptool.Enigma
             walze.PreviewMouseMove += new MouseEventHandler(Walze_MouseMove);
             this.walze = walze;
 
-            Rotor2 rotor1 = new Rotor2(2, this.Width, this.Height);
+            Rotor2 rotor1 = new Rotor2(settings.Rotor2, this.Width, this.Height, settings.Key[1] - 65, settings.Ring1);
             rotor1.fast = speed * 80;
             rotor1.Cursor = Cursors.Hand;
             rotor1.PreviewMouseLeftButtonDown += List_PreviewMouseLeftButtonDown;
@@ -861,7 +953,7 @@ namespace Cryptool.Enigma
 
             rotorarray[1] = rotor1;
 
-            Rotor2 rotor2 = new Rotor2(1, this.Width, this.Height);
+            Rotor2 rotor2 = new Rotor2(settings.Rotor3, this.Width, this.Height, settings.Key[2] - 65, settings.Ring1);
             rotor2.fast = speed * 80;
             rotor2.Cursor = Cursors.Hand;
             rotor2.PreviewMouseLeftButtonDown += List_PreviewMouseLeftButtonDown;
@@ -1020,6 +1112,9 @@ namespace Cryptool.Enigma
             fadeOut.To = 0.0;
             fadeOut.Duration = new Duration(TimeSpan.FromMilliseconds((1000)));
 
+            
+
+            /*
             String input = "LJPQHSVDWCLYXZQFXHIUVWDJOBJNZXRCWEOTVNJCIONTFQNSXWISXKHJDAGDJVAKUKVMJAJHSZQQJHZOIAVZOWMSCKASRDNXKKSRFHCXCMPJGXYIJCCKISYYSHETXVVOVDQLZYTNJXNUWKZRXUJFXMBDIBRVMJKRHTCUJQPTEEIYNYNJBEAQJCLMUODFWMARQCFOBWN";
             inputtebo = new List<TextBlock>();
 
@@ -1042,9 +1137,39 @@ namespace Cryptool.Enigma
                 inputtebo.Add(t);
                 
             }
+            */
 
         }
 
+        public void setinput(String input)
+        {
+            Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
+                inputtebo = new List<TextBlock>();
+
+                for (int i = 0; i < input.Length; i++)
+                {
+                    if (i % 5 == 0 && i != 0)
+                    {
+                        TextBlock t1 = new TextBlock();
+                        t1.Text = " ";
+                        t1.FontSize = 40;
+                        inputPanel.Children.Add(t1);
+
+                    }
+
+                    TextBlock t = new TextBlock();
+                    t.FontFamily = new FontFamily("Courier New");
+                    t.Text = input[i] + "";
+                    t.FontSize = 41;
+                    inputPanel.Children.Add(t);
+                    inputtebo.Add(t);
+
+                }
+
+
+            }, null);
+        }
 
 
         private Canvas rotorlocks() 
@@ -1640,7 +1765,7 @@ namespace Cryptool.Enigma
                     maingrid2.Children.Remove(l);
                 }
                 
-                System.GC.Collect();
+                //System.GC.Collect();
                 
 
             }
@@ -1810,9 +1935,12 @@ namespace Cryptool.Enigma
         Button temp = new Button();
         Boolean blupp = true;
 
-        private void stopclick(object sender, EventArgs e)
+        public void stopclick(object sender, EventArgs e)
         {
             stop = true;
+            inputPanel.Children.Clear();
+            outputPanel.Children.Clear();
+            inputcounter = 0;
             everythingblack();
             blupp = true;
         }
@@ -1827,7 +1955,7 @@ namespace Cryptool.Enigma
            
             rotorarea.Children.Add(rotorlocks4);
 
-            Rotor2 rotor4 = new Rotor2(4, this.Width, this.Height);
+            Rotor2 rotor4 = new Rotor2(4, this.Width, this.Height, 0, 0);
             rotor4.fast = speed * 80;
             rotor4.Cursor = Cursors.Hand;
             rotor4.PreviewMouseLeftButtonDown += List_PreviewMouseLeftButtonDown;
@@ -1866,8 +1994,11 @@ namespace Cryptool.Enigma
 
         Boolean playbool = false;
 
-        private void playClick(object sender, EventArgs e)
+        public void playClick(object sender, EventArgs e)
         {
+             Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
+            stop = false;
             everythingblack();
             ColorAnimation colorani = new ColorAnimation();
             SolidColorBrush brush = new SolidColorBrush();
@@ -1884,6 +2015,8 @@ namespace Cryptool.Enigma
 
             //inputtebo[0].Opacity = 0.0;
             playbool = true;
+                }, null);
+        
         }
 
         private void prefadeout(object sender, EventArgs e)
@@ -2035,7 +2168,7 @@ namespace Cryptool.Enigma
                     if (rotorarray[0] != null && rotorarray[1] != null && rotorarray[2] != null && walze != null)
                     {
 
-                        stop = true;
+                        //stop = true;
                         blupp = false;
                         temp = sender as Button;
                         if(!playbool)
@@ -2087,7 +2220,7 @@ namespace Cryptool.Enigma
 
 
                         l.BeginAnimation(OpacityProperty, nop);
-                        stop = false;
+                        //stop = false;
                     }
                 }
                 else
@@ -2096,7 +2229,7 @@ namespace Cryptool.Enigma
                         rotorarray[3] != null && walze != null)
                     {
 
-                        stop = true;
+                        //stop = true;
                         blupp = false;
                         temp = sender as Button;
                         everythingblack();
@@ -2147,7 +2280,7 @@ namespace Cryptool.Enigma
 
 
                         l.BeginAnimation(OpacityProperty, nop);
-                        stop = false;
+                        //stop = false;
                     }
                 }
             }
@@ -4234,7 +4367,7 @@ namespace Cryptool.Enigma
             Debug.Text = "hello" + uID;
 
             int urint = Int32.Parse(uID);
-            Rotor2 rotor2 = new Rotor2(urint, this.ActualWidth, this.ActualHeight);
+            Rotor2 rotor2 = new Rotor2(urint, this.ActualWidth, this.ActualHeight, 0, 0);
             Canvas.SetLeft(rotor2, 230);
             rotorarea.Children.Add(rotor2);
             rotor2.PreviewMouseMove += new MouseEventHandler(Rotor_MouseMove);
@@ -4256,7 +4389,7 @@ namespace Cryptool.Enigma
             Debug.Text = "hello" + uID;
      
             int urint = Int32.Parse(uID);
-            Rotor2 rotor2 = new Rotor2(urint, this.ActualWidth, this.ActualHeight);
+            Rotor2 rotor2 = new Rotor2(urint, this.ActualWidth, this.ActualHeight, 0, 0);
             Canvas.SetLeft(rotor2, 460);
             rotorarea.Children.Add(rotor2);
             rotor2.PreviewMouseMove += new MouseEventHandler(Rotor_MouseMove);
@@ -4278,7 +4411,7 @@ namespace Cryptool.Enigma
             Debug.Text = "hello" + uID;
 
             int urint = Int32.Parse(uID);
-            Rotor2 rotor2 = new Rotor2(urint, this.ActualWidth, this.ActualHeight);
+            Rotor2 rotor2 = new Rotor2(urint, this.ActualWidth, this.ActualHeight, 0, 0);
             Canvas.SetLeft(rotor2, 690);
             rotorarea.Children.Add(rotor2);
             rotor2.PreviewMouseMove += new MouseEventHandler(Rotor_MouseMove);
@@ -4300,7 +4433,7 @@ namespace Cryptool.Enigma
             Debug.Text = "hello" + uID;
 
             int urint = Int32.Parse(uID);
-            Rotor2 rotor2 = new Rotor2(urint, this.ActualWidth, this.ActualHeight);
+            Rotor2 rotor2 = new Rotor2(urint, this.ActualWidth, this.ActualHeight, 0, 0);
             Canvas.SetLeft(rotor2, 0);
             rotorarea.Children.Add(rotor2);
             rotor2.PreviewMouseMove += new MouseEventHandler(Rotor_MouseMove);

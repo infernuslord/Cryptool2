@@ -60,7 +60,10 @@ namespace Cryptool.Enigma
         int[] vier = new int[] { 4, 18, 14, 21, 15, 25, 9, 0, 24, 16, 20, 8, 17, 7, 23, 11, 13, 5, 19, 6, 10, 3, 2, 12, 22, 1 };
         int[] fuenf = new int[] { 21, 25, 1, 17, 6, 8, 19, 24, 20, 15, 18, 3, 13, 7, 11, 23, 0, 22, 12, 9, 16, 14, 5, 4, 2, 10 };
 
+        public void changeoffset(int offset)
+        {
 
+        }
 
 
 
@@ -69,7 +72,7 @@ namespace Cryptool.Enigma
             return map;
         }
 
-        public Rotor2(int map, double width, double height)
+        public Rotor2(int map, double width, double height, int offset, int ringoffset)
         {
 
 
@@ -78,10 +81,10 @@ namespace Cryptool.Enigma
 
             this.width = width;
             this.height = height;
-            this.map = map;
+            this.map = map+1;
 
 
-            this.Children.Add(alpha());
+            this.Children.Add(alpha(offset,ringoffset-1));
         }
 
         public int mapto(int x, Boolean off)
@@ -617,6 +620,7 @@ namespace Cryptool.Enigma
                 TextBlock dummy2 = cloneTextBlock(tebo2[25]);
 
 
+
                 Line l = new Line();
                 l = this.cloneLine(lines[0]);
 
@@ -928,7 +932,7 @@ namespace Cryptool.Enigma
             stack.Children.RemoveAt(0);
             stack.Children.Add(dummy);
 
-            
+
             int x = Int32.Parse(custom2.Text);
             if (x != 1)
                 custom2.Text = "" + (x - 1);
@@ -1149,7 +1153,7 @@ namespace Cryptool.Enigma
                     lines[i].Stroke = Brushes.Black;
             }
 
-            System.GC.Collect();
+            //System.GC.Collect();
         }
 
 
@@ -1158,7 +1162,7 @@ namespace Cryptool.Enigma
         StackPanel stack2 = new StackPanel();
 
 
-        private Canvas alpha()
+        private Canvas alpha(int offset, int ringoffset)
         {
 
             Rectangle myRectangle = new Rectangle();
@@ -1206,10 +1210,15 @@ namespace Cryptool.Enigma
             temp.Children.Add(myRectangle);
             temp.Children.Add(lineCanvas);
 
-            for (int i = 0; i < 26; i++)
+            int max = 26;
+            int rest = 26 - offset;
+
+            for (int i = offset; i < max; i++)
             {
+                
+                int inew = (i-offset +ringoffset)%26;
                 TextBlock t = new TextBlock();
-                t.Text = "" + (i + 1);
+                t.Text = "" + ((26-i+ringoffset)%26+1);
                 t.Width = 29.4;
                 t.Height = 29.4;
 
@@ -1252,7 +1261,7 @@ namespace Cryptool.Enigma
 
                 Line t1 = new Line();
                 t1.X1 = 170;
-                t1.Y1 = 29.4 * i + 75;
+                t1.Y1 = 29.4 * inew + 75;
                 t1.Opacity = 0.5;
                 t1.X2 = 30;
                 t1.Y2 = 0;
@@ -1261,39 +1270,49 @@ namespace Cryptool.Enigma
 
 
 
-                maparray[i, 0] = i;
+                maparray[inew, 0] = inew;
                 switch (map)
                 {
                     case 1:
-                        maparray[i, 1] = eins[i];
-                        t1.Y2 = 29.4 * eins[i] + 75;
+                        maparray[inew, 1] = ((eins[i] + rest + ringoffset) % 26);
+                        t1.Y2 = 29.4 * ((eins[i] + rest +ringoffset) % 26) + 75;
                         iAm.Text = "I";
                         nextint = einsnext;
+                        if (offset == nextint)
+                            next = true;
                         break;
 
                     case 2:
-                        maparray[i, 1] = zwei[i];
-                        t1.Y2 = 29.4 * zwei[i] + 75;
+                        maparray[inew, 1] = (zwei[i] + rest + ringoffset) % 26;
+                        t1.Y2 = 29.4 * ((zwei[i] + rest + ringoffset) % 26) + 75;
                         nextint = zweinext;
                         iAm.Text = "II";
+                        if (offset == nextint)
+                            next = true;
                         break;
                     case 3:
-                        maparray[i, 1] = drei[i];
-                        t1.Y2 = 29.4 * drei[i] + 75;
+                        maparray[inew, 1] = (drei[i] + rest + ringoffset) % 26;
+                        t1.Y2 = 29.4 * ((drei[i] + rest + ringoffset) % 26) + 75;
                         nextint = dreinext;
                         iAm.Text = "III";
+                        if (offset == nextint)
+                            next = true;
                         break;
                     case 4:
-                        maparray[i, 1] = vier[i];
-                        t1.Y2 = 29.4 * vier[i] + 75;
+                        maparray[inew, 1] = (vier[i] + rest + ringoffset) % 26;
+                        t1.Y2 = 29.4 * ((vier[i] + rest + ringoffset) % 26) + 75;
                         nextint = viernext;
                         iAm.Text = "IV";
+                        if (offset == nextint)
+                            next = true;
                         break;
                     case 5:
-                        maparray[i, 1] = fuenf[i];
-                        t1.Y2 = 29.4 * fuenf[i] + 75;
+                        maparray[inew, 1] = (fuenf[i] + rest + ringoffset) % 26;
+                        t1.Y2 = 29.4 * ((fuenf[i] + rest + ringoffset) % 26) + 75;
                         nextint = fuenfnext;
                         iAm.Text = "V";
+                        if (offset == nextint)
+                            next = true;
                         if (i == 0)
                         {
                             t2.Foreground = Brushes.OrangeRed;
@@ -1303,7 +1322,8 @@ namespace Cryptool.Enigma
                         break;
 
                 }
-                lines[i] = t1;
+
+                lines[inew] = t1;
 
 
 
@@ -1316,6 +1336,122 @@ namespace Cryptool.Enigma
 
 
                 lineCanvas.Children.Add(t1);
+
+            }
+
+            for (int i = 0; i < offset; i++)
+            {
+                int inew = (i + rest+ringoffset)%26;
+
+                TextBlock t = new TextBlock();
+                t.Text = "" + ((26 - i +ringoffset) % 26 + 1);
+                t.Width = 29.4;
+                t.Height = 29.4;
+
+
+                t.FontSize = 20;
+                t.Background = Brushes.Gainsboro;
+                t.TextAlignment = TextAlignment.Center;
+                if (i % 2 == 0)
+                    t.Background = Brushes.Silver;
+                if (i == 0)
+                {
+                    t.FontWeight = FontWeights.UltraBold;
+                    t.Foreground = Brushes.OrangeRed;
+                    t.FontSize = 22;
+
+                }
+
+
+                stack.Children.Add(t);
+
+                tebo.Add(t);
+
+                TextBlock t2 = new TextBlock();
+                t2.Text = "" + Convert.ToChar(i + 65);
+                t2.Width = 29.4;
+                t2.Height = 29.4;
+
+
+                t2.FontSize = 20;
+                t2.Background = Brushes.Gainsboro;
+                t2.TextAlignment = TextAlignment.Center;
+                if (i % 2 == 0)
+                    t2.Background = Brushes.Silver;
+
+
+
+                stack1.Children.Add(t2);
+
+                tebo2.Add(t2);
+
+                Line t1 = new Line();
+                t1.X1 = 170;
+                t1.Y1 = 29.4 * ((i - offset + 26 +ringoffset )%26) + 75;
+                t1.Opacity = 0.5;
+                t1.X2 = 30;
+                t1.Y2 = 0;
+
+                t1.Stroke = Brushes.Black;
+
+
+
+                maparray[inew , 0] = inew ;
+                switch (map)
+                {
+                    case 1:
+                        maparray[inew, 1] = ((eins[i] + rest + ringoffset) % 26);
+                        t1.Y2 = 29.4 * ((eins[i] + rest+ringoffset) % 26) + 75;
+                        iAm.Text = "I";
+                        nextint = einsnext;
+                        break;
+
+                    case 2:
+                        maparray[inew, 1] = ((zwei[i] + rest + ringoffset) % 26);
+                        t1.Y2 = 29.4 * ((zwei[i] + rest + ringoffset) % 26) + 75;
+                        nextint = zweinext;
+                        iAm.Text = "II";
+                        break;
+                    case 3:
+                        maparray[inew, 1] = (drei[i] + rest + ringoffset) % 26;
+                        t1.Y2 = 29.4 * ((drei[i] + rest + ringoffset) % 26) + 75;
+                        nextint = dreinext;
+                        iAm.Text = "III";
+                        break;
+                    case 4:
+                        maparray[inew, 1] = (vier[i] + rest + ringoffset) % 26;
+                        t1.Y2 = 29.4 * ((vier[i] + rest + ringoffset) % 26) + 75;
+                        nextint = viernext;
+                        iAm.Text = "IV";
+                        break;
+                    case 5:
+                        maparray[inew, 1] = (fuenf[i] + rest + ringoffset) % 26;
+                        t1.Y2 = 29.4 * ((fuenf[i] + rest + ringoffset) % 26) + 75;
+                        nextint = fuenfnext;
+                        iAm.Text = "V";
+                        if (i == 0)
+                        {
+                            t2.Foreground = Brushes.OrangeRed;
+                            t2.FontWeight = FontWeights.UltraBold;
+                            t2.FontSize = 22;
+                        }
+                        break;
+
+                }
+                lines[inew] = t1;
+
+
+
+                if (i == nextint + 1)
+                {
+                    t2.FontWeight = FontWeights.UltraBold;
+                    t2.Foreground = Brushes.OrangeRed;
+                    t2.FontSize = 22;
+                }
+
+
+                lineCanvas.Children.Add(t1);
+
             }
 
             temp.Children.Add(stack1);
@@ -1337,7 +1473,7 @@ namespace Cryptool.Enigma
             Canvas.SetLeft(down, 125);
             Canvas.SetTop(down, 5);
 
-            custom.Text = "A";
+            custom.Text = "" + Convert.ToChar(offset+65) ;
 
             custom.Height = 50;
             custom.Width = 50;
@@ -1422,7 +1558,7 @@ namespace Cryptool.Enigma
             Canvas.SetTop(down1, 830);
             Canvas.SetLeft(down1, 125);
 
-            custom2.Text = "1";
+            custom2.Text = ""+(ringoffset+1);
 
             custom2.Height = 50;
             custom2.Width = 50;
