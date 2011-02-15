@@ -146,24 +146,17 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\1.jpg" />
     <Resource Include="Images\kiste.png" />
     <Resource Include="Images\oldpaper.png" />
     <Resource Include="Images\paper.png" />
     <Resource Include="Images\walze.png" />
     <Resource Include="Images\background2.png" />
     <Resource Include="Images\rotor.png" />
-    <Resource Include="Images\background2.jpg" />
-    <Resource Include="Images\kiste.jpg" />
-    <Resource Include="Images\oldpaper.jpg" />
-    <Resource Include="Images\paper.jpg" />
-    <Resource Include="Images\rotor.jpg" />
     <Resource Include="Images\rotor1.jpg" />
     <Resource Include="Images\rotor2.jpg" />
     <Resource Include="Images\rotor3.jpg" />
     <Resource Include="Images\rotor4.jpg" />
     <Resource Include="Images\rotor5.jpg" />
-    <Resource Include="Images\walze.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

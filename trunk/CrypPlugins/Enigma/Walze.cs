@@ -272,7 +272,7 @@ namespace Cryptool.Enigma
 
         public Walze(int umkehr, double width, double height)
         {
-            typ = umkehr;
+            typ = umkehr+1;
             Rectangle myRectangle = new Rectangle();
             myRectangle.Width = 260;
             myRectangle.Height = 764;
@@ -285,7 +285,7 @@ namespace Cryptool.Enigma
             myRectangle.StrokeThickness = 30;
             this.Children.Add(myRectangle);
 
-            switch (umkehr)
+            switch (umkehr+1)
             {
                 case 1: this.umkehrlist = umkehrlist1;
                     iAm.Text = "A";

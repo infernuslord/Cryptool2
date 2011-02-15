@@ -88,10 +88,10 @@
                 <Rectangle Name="dropBoxWalze" Width="300"  Height="100" Stroke="Green" StrokeThickness="5" Fill="LawnGreen" Opacity="0.0">
                 </Rectangle>
             </Canvas>
-            <WrapPanel  Canvas.Bottom="-50" Name="inputPanel" Canvas.Left="50" Width="950" Height="300">
+            <WrapPanel  Canvas.Bottom="40" Name="inputPanel" Canvas.Left="50" Width="950" Height="200">
                 <WrapPanel.RenderTransform>
                     <RotateTransform x:Name="TransRotate" 
-                           CenterX="25" CenterY="25" Angle="2" />
+                           CenterX="25" CenterY="25" Angle="1.9" />
                 </WrapPanel.RenderTransform>
 
             </WrapPanel>
