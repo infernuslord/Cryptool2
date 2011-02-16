@@ -1360,8 +1360,12 @@ namespace KeySearcher
                 var keysnow = calculatedChunks()*(BigInteger) Math.Pow(2, settings.ChunkSize);
                 var timenow = DateTime.UtcNow;
 
-                ((QuickWatch) QuickWatchPresentation).StatisticsPresentation.SetCurrentRate = (keysnow - memKeys) /
-                                                                                              (timenow.Subtract(memTime).Seconds);
+                var diff = (BigInteger) timenow.Subtract(memTime).TotalSeconds;
+                if(diff > 0)
+                {
+                   ((QuickWatch) QuickWatchPresentation).StatisticsPresentation.SetCurrentRate = (keysnow - memKeys) /
+                                                                                              ((BigInteger)timenow.Subtract(memTime).TotalSeconds);
+                }
                 memKeys = keysnow;
                 memTime = timenow;
             }
@@ -1470,9 +1474,12 @@ namespace KeySearcher
                 ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.CalculatedBlocks = calcChunks;
                 ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.CalculatedKeys = calcKeys;
                 ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.Percent = (double)calcChunks;
-                ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.SetRate = calcKeys/ diffFromStart.Seconds;
                 ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.Users = statistic.Keys.Count;
                 ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.Machines = maschinehierarchie.Keys.Count;
+                if ((BigInteger)diffFromStart.TotalSeconds > 0)
+                {
+                    ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.SetRate = calcKeys / (BigInteger)diffFromStart.TotalSeconds;
+                }
                 if (statistic.Count > 0)
                 {
                     ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.BeeUsers = statistic.Keys.First();
