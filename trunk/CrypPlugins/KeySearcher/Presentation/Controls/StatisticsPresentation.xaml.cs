@@ -628,14 +628,14 @@ namespace KeySearcherPresentation.Controls
                         {
                             max = machines[id].Date;
                         }
-                        return max.ToLocalTime();
+                        return max.ToLocalTime().ToString("g", DateTimeFormatInfo.InvariantInfo);
                     }
                 }
             }
             catch (Exception)
             {
             }
-            return DateTime.UtcNow.ToLocalTime();
+            return DateTime.UtcNow.ToLocalTime().ToString("g", DateTimeFormatInfo.InvariantInfo);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -657,15 +657,15 @@ namespace KeySearcherPresentation.Controls
                 {
                     lock (StatisticsPresentation)
                     {
-                      
-                        return ((DateTime)value).ToLocalTime();
+
+                        return ((DateTime)value).ToLocalTime().ToString("g", DateTimeFormatInfo.InvariantInfo);
                     }
                 }
             }
             catch (Exception)
             {
             }
-            return DateTime.UtcNow.ToLocalTime();
+            return DateTime.UtcNow.ToLocalTime().ToString("g", DateTimeFormatInfo.InvariantInfo);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
