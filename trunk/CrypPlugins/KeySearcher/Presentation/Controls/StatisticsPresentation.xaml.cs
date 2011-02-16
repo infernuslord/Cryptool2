@@ -168,7 +168,7 @@ namespace KeySearcherPresentation.Controls
 
                 Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
-                    TotalAmountOfBlocks.Content = totalBlocks;
+                    TotalAmountOfBlocks.Content = string.Format("{0:0,0}", totalBlocks);
                 }, null);
             }
         }
@@ -186,7 +186,7 @@ namespace KeySearcherPresentation.Controls
 
                 Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
-                    TotalBlocksTested.Content = calculatedBlocks;
+                    TotalBlocksTested.Content = string.Format("{0:0,0}", calculatedBlocks);
                 }, null);
             }
         }
@@ -204,7 +204,7 @@ namespace KeySearcherPresentation.Controls
 
                 Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
-                    TotalAmountOfKeys.Content = totalKeys;
+                    TotalAmountOfKeys.Content = string.Format("{0:0,0}", totalKeys);
                 }, null);
             }
         }
@@ -222,7 +222,7 @@ namespace KeySearcherPresentation.Controls
 
                 Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
-                    TotalKeysTested.Content = calculatedKeys;
+                    TotalKeysTested.Content = string.Format("{0:0,0}", calculatedKeys);
                 }, null);
             }
         }
@@ -399,7 +399,7 @@ namespace KeySearcherPresentation.Controls
 
                 Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
-                    Rate.Content = rate + " key/sec";
+                    Rate.Content = string.Format("{0:0,0} key/sec", rate);
                 }, null);
             }
         }
@@ -417,7 +417,7 @@ namespace KeySearcherPresentation.Controls
 
                 Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
-                    CurrentRate.Content = currentrate + " key/sec";
+                    CurrentRate.Content = string.Format("{0:0,0} key/sec", currentrate);
                 }, null);
             }
         }

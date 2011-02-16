@@ -1360,11 +1360,12 @@ namespace KeySearcher
                 var keysnow = calculatedChunks()*(BigInteger) Math.Pow(2, settings.ChunkSize);
                 var timenow = DateTime.UtcNow;
 
-                var diff = (BigInteger) timenow.Subtract(memTime).TotalSeconds;
-                if(diff > 0)
+                var difftime = (BigInteger) timenow.Subtract(memTime).TotalSeconds;
+                var diffkeys = keysnow - memKeys;
+
+                if ((difftime > 0) && (diffkeys > 0))
                 {
-                   ((QuickWatch) QuickWatchPresentation).StatisticsPresentation.SetCurrentRate = (keysnow - memKeys) /
-                                                                                              ((BigInteger)timenow.Subtract(memTime).TotalSeconds);
+                   ((QuickWatch) QuickWatchPresentation).StatisticsPresentation.SetCurrentRate = diffkeys / difftime;
                 }
                 memKeys = keysnow;
                 memTime = timenow;
