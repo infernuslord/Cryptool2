@@ -16,6 +16,7 @@
 
 using System;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -1350,8 +1351,8 @@ namespace KeySearcher
             ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.Days = string.Format("{0} Days", now.Subtract(startDate).Days);
             //-----------------
             //---Current Section----
-            ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.UpdateTime = "Last__Update__Time: " + now;
-            ((QuickWatch) QuickWatchPresentation).StatisticsPresentation.NextUpdateTime = "Next__Update__Time: " + now.AddMinutes(30);
+            ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.UpdateTime = "Last__Update__Time: " + now.ToString("g", DateTimeFormatInfo.InvariantInfo);
+            ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.NextUpdateTime = "Next__Update__Time: " + now.AddMinutes(30).ToString("g", DateTimeFormatInfo.InvariantInfo);
             ((QuickWatch) QuickWatchPresentation).StatisticsPresentation.CurrentUsers = cUsers;
             ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.CurrentMachines = cMachines;
 
