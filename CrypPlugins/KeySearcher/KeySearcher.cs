@@ -1340,6 +1340,7 @@ namespace KeySearcher
             }
 
             CalcCurrentStats();
+            int interval = settings.UpdateTime > 0 ? settings.UpdateTime : 30;
             var now = DateTime.UtcNow.ToLocalTime();
             var keyPattern = Pattern;
             var keysPerChunk = Math.Pow(2, settings.ChunkSize);
@@ -1351,8 +1352,16 @@ namespace KeySearcher
             ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.Days = string.Format("{0} Days", now.Subtract(startDate).Days);
             //-----------------
             //---Current Section----
-            ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.UpdateTime = "Last__Update__Time: " + now.ToString("g", DateTimeFormatInfo.InvariantInfo);
-            ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.NextUpdateTime = "Next__Update__Time: " + now.AddMinutes(30).ToString("g", DateTimeFormatInfo.InvariantInfo);
+            if (!settings.DisableUpdate)
+            {
+                ((QuickWatch) QuickWatchPresentation).StatisticsPresentation.UpdateTime = "Last__Update__Time: " +now.ToString("g",DateTimeFormatInfo.InvariantInfo);
+                ((QuickWatch) QuickWatchPresentation).StatisticsPresentation.NextUpdateTime = "Next__Update__Time: " +now.AddMinutes(interval).ToString("g",DateTimeFormatInfo.InvariantInfo);
+            }
+            else
+            {
+                ((QuickWatch) QuickWatchPresentation).StatisticsPresentation.UpdateTime = "Last__Update__Time: Disabled";
+                ((QuickWatch) QuickWatchPresentation).StatisticsPresentation.NextUpdateTime ="Next__Update__Time: Disabled";
+            }
             ((QuickWatch) QuickWatchPresentation).StatisticsPresentation.CurrentUsers = cUsers;
             ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.CurrentMachines = cMachines;
 
@@ -1495,6 +1504,7 @@ namespace KeySearcher
         }
 
         //Write the User Statistics to an external csv-document
+        
         internal void WriteStatistics(String dataIdentifier)
         {
             //using the chosen csv file
@@ -1546,7 +1556,7 @@ namespace KeySearcher
                 }
             }             
         }
-
+        
         internal void GenerateMaschineStats()
         {
             maschinehierarchie = null;

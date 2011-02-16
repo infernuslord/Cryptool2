@@ -186,252 +186,6 @@
   <data name="Devices_" xml:space="preserve">
     <value>Devices:</value>
   </data>
-  <data name="dummykey" xml:space="preserve">
-    <value>dummykey</value>
-  </data>
-  <data name="EcryptedDataDesc" xml:space="preserve">
-    <value>Encrypted data out of an Encryption PlugIn</value>
-  </data>
-  <data name="Elapsed_" xml:space="preserve">
-    <value>Elapsed time:</value>
-  </data>
-  <data name="Encrypted_Data" xml:space="preserve">
-    <value>Encrypted Data</value>
-  </data>
-  <data name="Ended_bruteforcing_pattern__" xml:space="preserve">
-    <value>Finished brute force attack on key pattern '</value>
-  </data>
-  <data name="Endgame_Mode_" xml:space="preserve">
-    <value>Endgame mode</value>
-  </data>
-  <data name="End_" xml:space="preserve">
-    <value>Estimated end:</value>
-  </data>
-  <data name="Finding_next_leaf_to_calculate" xml:space="preserve">
-    <value>Finding next chunk to calculate</value>
-  </data>
-  <data name="Finished_Chunks_" xml:space="preserve">
-    <value>Finished chunks:</value>
-  </data>
-  <data name="incalculable____" xml:space="preserve">
-    <value>incalculable :-)</value>
-  </data>
-  <data name="Initialization_Vector" xml:space="preserve">
-    <value>Initialization Vector</value>
-  </data>
-  <data name="Initializing_connection_to_the_peer_to_peer_system" xml:space="preserve">
-    <value>Initializing connection to the peer-to-peer system</value>
-  </data>
-  <data name="Initializing_distributed_key_pool_tree" xml:space="preserve">
-    <value>Initializing distributed key pool tree</value>
-  </data>
-  <data name="InitVecDesc" xml:space="preserve">
-    <value>Initialization vector with which the data were encrypted</value>
-  </data>
-  <data name="in_a_galaxy_far__far_away___" xml:space="preserve">
-    <value>in a galaxy far, far away...</value>
-  </data>
-  <data name="Keysearcher_Fullstop__Please_Update_your_Version_" xml:space="preserve">
-    <value>Keysearcher can't proceed. Please update your version.</value>
-  </data>
-  <data name="KeySearcher_must_be_running_to_copy_the_status_key_" xml:space="preserve">
-    <value>KeySearcher must be running to copy the status key.</value>
-  </data>
-  <data name="Keys_Per_Chunk_" xml:space="preserve">
-    <value>Keys per chunk:</value>
-  </data>
-  <data name="Keys_Sec_" xml:space="preserve">
-    <value>Keys / sec:</value>
-  </data>
-  <data name="Keys_sec_CPU_" xml:space="preserve">
-    <value>Keys/sec (CPU):</value>
-  </data>
-  <data name="Keys_sec_OpenCL_" xml:space="preserve">
-    <value>Keys/sec (OpenCL):</value>
-  </data>
-  <data name="Launching_p2p_based_bruteforce_logic___" xml:space="preserve">
-    <value>Launching p2p based bruteforce logic...</value>
-  </data>
-  <data name="Local_" xml:space="preserve">
-    <value>Local</value>
-  </data>
-  <data name="Node_was_already_calculated_" xml:space="preserve">
-    <value>Chunk was already calculated.</value>
-  </data>
-  <data name="No_OpenCL_Device_available_" xml:space="preserve">
-    <value>No OpenCL device available!</value>
-  </data>
-  <data name="No_ressources_to_BruteForce_available__Check_the_KeySearcher_settings_" xml:space="preserve">
-    <value>No ressources assigned for brute force. Please check the KeySearcher parameters.</value>
-  </data>
-  <data name="Only_using_external_client_to_bruteforce_" xml:space="preserve">
-    <value>Only using external client to brute force!</value>
-  </data>
-  <data name="Overhead_Abs_" xml:space="preserve">
-    <value>Overhead (abs):</value>
-  </data>
-  <data name="Overhead_Perc_" xml:space="preserve">
-    <value>Overhead (%):</value>
-  </data>
-  <data name="P2P_network_could_not_be_connected_" xml:space="preserve">
-    <value>Could not connect to P2P network.</value>
-  </data>
-  <data name="P2P_network_not_connected_and_autoconnect_disabled__Cannot_compute_job_" xml:space="preserve">
-    <value>P2P network not connected and autoconnect disabled. Cannot compute job.</value>
-  </data>
-  <data name="P2P_network_was_connected_due_to_plugin_setting_" xml:space="preserve">
-    <value>Connected automatically to P2P network.</value>
-  </data>
-  <data name="P2P_not_connected_" xml:space="preserve">
-    <value>P2P not connected.</value>
-  </data>
-  <data name="Participants_" xml:space="preserve">
-    <value>Participants:</value>
-  </data>
-  <data name="Pattern___0__was_reserved_before_it_could_be_reserved_for_this_CrypTool_instance_" xml:space="preserve">
-    <value>Chunk #{0} was reserved before it could be reserved for this CrypTool instance.</value>
-  </data>
-  <data name="Per_Chunk_" xml:space="preserve">
-    <value>Per chunk:</value>
-  </data>
-  <data name="PLEASE_UPDATE" xml:space="preserve">
-    <value>PLEASE UPDATE</value>
-  </data>
-  <data name="pluginName" xml:space="preserve">
-    <value>KeySearcher</value>
-  </data>
-  <data name="pluginToolTip" xml:space="preserve">
-    <value>Performs a brute force attack on a ciphertext.</value>
-  </data>
-  <data name="Processing_results_of_calculation" xml:space="preserve">
-    <value>Processing results of calculation</value>
-  </data>
-  <data name="Pushing_statistics_to_evaluation_database" xml:space="preserve">
-    <value>Pushing statistics to evaluation database</value>
-  </data>
-  <data name="Ration_" xml:space="preserve">
-    <value>Ratio:</value>
-  </data>
-  <data name="Ready_for_calculation" xml:space="preserve">
-    <value>Ready for calculation</value>
-  </data>
-  <data name="Received_Link_" xml:space="preserve">
-    <value>Received (link):</value>
-  </data>
-  <data name="Received_Payload_" xml:space="preserve">
-    <value>Received (payload):</value>
-  </data>
-  <data name="Remaining_" xml:space="preserve">
-    <value>Remaining time:</value>
-  </data>
-  <data name="Removed_reservation_of_pattern___0_" xml:space="preserve">
-    <value>Removed reservation of chunk #{0}</value>
-  </data>
-  <data name="Remove_" xml:space="preserve">
-    <value>Remove:</value>
-  </data>
-  <data name="Requests_" xml:space="preserve">
-    <value>Requests</value>
-  </data>
-  <data name="Rereserving_pattern_failed_" xml:space="preserve">
-    <value>Rereserving chunk failed!</value>
-  </data>
-  <data name="Rereserving_pattern_failed__because_there_is_no_connection_" xml:space="preserve">
-    <value>Rereserving chunk failed, because there is no connection to P2P network.</value>
-  </data>
-  <data name="Rereserving_pattern___0_" xml:space="preserve">
-    <value>Rereserving chunk #{0}</value>
-  </data>
-  <data name="Reservation_removed_by_another_node__while_calculating___To_avoid_a_state_in_limbo__proceeding_to_first_available_leaf___" xml:space="preserve">
-    <value>Reservation has been removed by another participant. To avoid a state in limbo, proceeding to first available chunk...</value>
-  </data>
-  <data name="Retrieve_" xml:space="preserve">
-    <value>Retrieve:</value>
-  </data>
-  <data name="Running_pattern___0__of__1_" xml:space="preserve">
-    <value>Processing chunk #{0} of {1}</value>
-  </data>
-  <data name="Sent_Link_" xml:space="preserve">
-    <value>Sent (link):</value>
-  </data>
-  <data name="Sent_Payload_" xml:space="preserve">
-    <value>Sent (payload):</value>
-  </data>
-  <data name="Start_" xml:space="preserve">
-    <value>Start:</value>
-  </data>
-  <data name="Start_bruteforcing_pattern__" xml:space="preserve">
-    <value>Starting brute force attack on key pattern '</value>
-  </data>
-  <data name="Static_" xml:space="preserve">
-    <value>Static</value>
-  </data>
-  <data name="Status_key___0___has_been_copied_to_clipboard_" xml:space="preserve">
-    <value>Status key '{0}' has been copied to clipboard.</value>
-  </data>
-  <data name="Store_" xml:space="preserve">
-    <value>Store:</value>
-  </data>
-  <data name="Tested_Bits_" xml:space="preserve">
-    <value>Tested bits:</value>
-  </data>
-  <data name="There_must_be_an_error__because_we_bruteforced_too_much_keys___" xml:space="preserve">
-    <value>Data inconsistency error, we seem to have calculated more keys than expected...</value>
-  </data>
-  <data name="Top1KeyDesc" xml:space="preserve">
-    <value>The best key found</value>
-  </data>
-  <data name="top1MesDesc" xml:space="preserve">
-    <value>The best message found</value>
-  </data>
-  <data name="Top1_Key" xml:space="preserve">
-    <value>Top1 Key</value>
-  </data>
-  <data name="Top1_Message" xml:space="preserve">
-    <value>Top1 Message</value>
-  </data>
-  <data name="Top_Ten_" xml:space="preserve">
-    <value>Top Ten</value>
-  </data>
-  <data name="Total_" xml:space="preserve">
-    <value>Total:</value>
-  </data>
-  <data name="Total_amount_of_patterns___0___each_containing__1__keys_" xml:space="preserve">
-    <value>Total amount of chunks: {0}, each containing {1} keys.</value>
-  </data>
-  <data name="Total_Chunks_" xml:space="preserve">
-    <value>Total chunks:</value>
-  </data>
-  <data name="Total_Link_" xml:space="preserve">
-    <value>Total (link):</value>
-  </data>
-  <data name="Total_Payload_" xml:space="preserve">
-    <value>Total (payload):</value>
-  </data>
-  <data name="Traffic_" xml:space="preserve">
-    <value>Traffic</value>
-  </data>
-  <data name="Unable_to_use_peer_to_peer_system_" xml:space="preserve">
-    <value>Unable to use peer-to-peer system.</value>
-  </data>
-  <data name="Updating_statistic" xml:space="preserve">
-    <value>Updating statistic</value>
-  </data>
-  <data name="Updating_status_in_DHT" xml:space="preserve">
-    <value>Updating status in DHT</value>
-  </data>
-  <data name="Waiting_for_external_client_" xml:space="preserve">
-    <value>Waiting for external client!</value>
-  </data>
-  <data name="Work_Items_" xml:space="preserve">
-    <value>Work Items:</value>
-  </data>
-  <data name="Wrong_key_pattern_" xml:space="preserve">
-    <value>Wrong key pattern!</value>
-  </data>
-  <data name="You_have_to_connect_the_KeySearcher_with_the_Decryption_Control_" xml:space="preserve">
-    <value>You have to connect the KeySearcher with the Decryption Control!</value>
-  </data>
   <data name="_days_" xml:space="preserve">
     <value> days </value>
   </data>
@@ -495,11 +249,62 @@
   <data name="DefaultPathSettingsDesc" xml:space="preserve">
     <value>Use the default folder %APPDATA%\\Local\\CrypTool2</value>
   </data>
+  <data name="Client__0__tried_to_auth_with_invalid_password" xml:space="preserve">
+    <value>Client '{0}' tried to authenticate using an invalid password</value>
+  </data>
+  <data name="Aggregate_Statistics_" xml:space="preserve">
+    <value>Aggregate Statistics</value>
+  </data>
+  <data name="Current__Information_" xml:space="preserve">
+    <value>Current Information</value>
+  </data>
+  <data name="_Information_" xml:space="preserve">
+    <value>Information</value>
+  </data>
+  <data name="DisableUpdateSettings" xml:space="preserve">
+    <value>Disable statistic update</value>
+  </data>
+  <data name="DisableUpdateSettingsDesc" xml:space="preserve">
+    <value>Disables the statistic update</value>
+  </data>
   <data name="DisplayVerboseInformationSettings" xml:space="preserve">
     <value>Display verbose information</value>
   </data>
   <data name="DisplayVerboseInformationSettingsDesc" xml:space="preserve">
     <value>Display verbose information about network requests in the quick watch.</value>
+  </data>
+  <data name="dummykey" xml:space="preserve">
+    <value>dummykey</value>
+  </data>
+  <data name="EcryptedDataDesc" xml:space="preserve">
+    <value>Encrypted data out of an Encryption PlugIn</value>
+  </data>
+  <data name="Elapsed_" xml:space="preserve">
+    <value>Elapsed time:</value>
+  </data>
+  <data name="Encrypted_Data" xml:space="preserve">
+    <value>Encrypted Data</value>
+  </data>
+  <data name="Ended_bruteforcing_pattern__" xml:space="preserve">
+    <value>Finished brute force attack on key pattern '</value>
+  </data>
+  <data name="Endgame_Mode_" xml:space="preserve">
+    <value>Endgame mode</value>
+  </data>
+  <data name="End_" xml:space="preserve">
+    <value>Estimated end:</value>
+  </data>
+  <data name="ExternalClientPasswordSettings" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="ExternalClientPasswordSettingsDesc" xml:space="preserve">
+    <value>Password used for authenticating external clients</value>
+  </data>
+  <data name="Finding_next_leaf_to_calculate" xml:space="preserve">
+    <value>Finding next chunk to calculate</value>
+  </data>
+  <data name="Finished_Chunks_" xml:space="preserve">
+    <value>Finished chunks:</value>
   </data>
   <data name="GroupEvaluation" xml:space="preserve">
     <value>Evaluation</value>
@@ -514,7 +319,7 @@
     <value>Peer-to-Peer network</value>
   </data>
   <data name="GroupStatisticPath" xml:space="preserve">
-    <value>Statistic Save Path</value>
+    <value>Statistic</value>
   </data>
   <data name="HostSettings" xml:space="preserve">
     <value>Host</value>
@@ -522,14 +327,71 @@
   <data name="HostSettingsDesc" xml:space="preserve">
     <value>Database host with evaluation database</value>
   </data>
+  <data name="incalculable____" xml:space="preserve">
+    <value>incalculable :-)</value>
+  </data>
+  <data name="Initialization_Vector" xml:space="preserve">
+    <value>Initialization Vector</value>
+  </data>
+  <data name="Initializing_connection_to_the_peer_to_peer_system" xml:space="preserve">
+    <value>Initializing connection to the peer-to-peer system</value>
+  </data>
+  <data name="Initializing_distributed_key_pool_tree" xml:space="preserve">
+    <value>Initializing distributed key pool tree</value>
+  </data>
+  <data name="InitVecDesc" xml:space="preserve">
+    <value>Initialization vector with which the data were encrypted</value>
+  </data>
+  <data name="in_a_galaxy_far__far_away___" xml:space="preserve">
+    <value>in a galaxy far, far away...</value>
+  </data>
+  <data name="KeysearcherSettings" xml:space="preserve">
+    <value>KeySearcher</value>
+  </data>
+  <data name="Keysearcher_Fullstop__Please_Update_your_Version_" xml:space="preserve">
+    <value>Keysearcher can't proceed. Please update your version.</value>
+  </data>
+  <data name="KeySearcher_must_be_running_to_copy_the_status_key_" xml:space="preserve">
+    <value>KeySearcher must be running to copy the status key.</value>
+  </data>
   <data name="KeySettings" xml:space="preserve">
     <value>Key</value>
   </data>
   <data name="KeySettingsDesc" xml:space="preserve">
     <value>Key pattern used to bruteforce</value>
   </data>
+  <data name="Keys_Per_Chunk_" xml:space="preserve">
+    <value>Keys per chunk:</value>
+  </data>
+  <data name="Keys_Sec_" xml:space="preserve">
+    <value>Keys / sec:</value>
+  </data>
+  <data name="Keys_sec_CPU_" xml:space="preserve">
+    <value>Keys/sec (CPU):</value>
+  </data>
+  <data name="Keys_sec_OpenCL_" xml:space="preserve">
+    <value>Keys/sec (OpenCL):</value>
+  </data>
+  <data name="Launching_p2p_based_bruteforce_logic___" xml:space="preserve">
+    <value>Launching p2p based bruteforce logic...</value>
+  </data>
+  <data name="Local_" xml:space="preserve">
+    <value>Local</value>
+  </data>
+  <data name="Node_was_already_calculated_" xml:space="preserve">
+    <value>Chunk was already calculated.</value>
+  </data>
   <data name="NoOpenCLSettings" xml:space="preserve">
     <value>No OpenCL available</value>
+  </data>
+  <data name="No_OpenCL_Device_available_" xml:space="preserve">
+    <value>No OpenCL device available!</value>
+  </data>
+  <data name="No_ressources_to_BruteForce_available__Check_the_KeySearcher_settings_" xml:space="preserve">
+    <value>No ressources assigned for brute force. Please check the KeySearcher parameters.</value>
+  </data>
+  <data name="Only_using_external_client_to_bruteforce_" xml:space="preserve">
+    <value>Only using external client to brute force!</value>
   </data>
   <data name="OpenCLDeviceSettings" xml:space="preserve">
     <value>OpenCL Device</value>
@@ -543,11 +405,47 @@
   <data name="OpenCLModeSettingsDesc" xml:space="preserve">
     <value>Choose the OpenCL mode you want to use.</value>
   </data>
+  <data name="Overhead_Abs_" xml:space="preserve">
+    <value>Overhead (abs):</value>
+  </data>
+  <data name="Overhead_Perc_" xml:space="preserve">
+    <value>Overhead (%):</value>
+  </data>
+  <data name="P2P_network_could_not_be_connected_" xml:space="preserve">
+    <value>Could not connect to P2P network.</value>
+  </data>
+  <data name="P2P_network_not_connected_and_autoconnect_disabled__Cannot_compute_job_" xml:space="preserve">
+    <value>P2P network not connected and autoconnect disabled. Cannot compute job.</value>
+  </data>
+  <data name="P2P_network_was_connected_due_to_plugin_setting_" xml:space="preserve">
+    <value>Connected automatically to P2P network.</value>
+  </data>
+  <data name="P2P_not_connected_" xml:space="preserve">
+    <value>P2P not connected.</value>
+  </data>
+  <data name="Participants_" xml:space="preserve">
+    <value>Participants:</value>
+  </data>
   <data name="PasswordSettings" xml:space="preserve">
     <value>Password</value>
   </data>
   <data name="PasswordSettingsDesc" xml:space="preserve">
     <value>Password for evaluation database</value>
+  </data>
+  <data name="Pattern___0__was_reserved_before_it_could_be_reserved_for_this_CrypTool_instance_" xml:space="preserve">
+    <value>Chunk #{0} was reserved before it could be reserved for this CrypTool instance.</value>
+  </data>
+  <data name="Per_Chunk_" xml:space="preserve">
+    <value>Per chunk:</value>
+  </data>
+  <data name="PLEASE_UPDATE" xml:space="preserve">
+    <value>PLEASE UPDATE</value>
+  </data>
+  <data name="pluginName" xml:space="preserve">
+    <value>KeySearcher</value>
+  </data>
+  <data name="pluginToolTip" xml:space="preserve">
+    <value>Performs a brute force attack on a ciphertext.</value>
   </data>
   <data name="PortSettings" xml:space="preserve">
     <value>Port</value>
@@ -555,11 +453,158 @@
   <data name="PortSettingsDesc" xml:space="preserve">
     <value>Port on which to listen for external clients.</value>
   </data>
+  <data name="Processing_results_of_calculation" xml:space="preserve">
+    <value>Processing results of calculation</value>
+  </data>
+  <data name="Progress" xml:space="preserve">
+    <value>Progress</value>
+  </data>
+  <data name="Pushing_statistics_to_evaluation_database" xml:space="preserve">
+    <value>Pushing statistics to evaluation database</value>
+  </data>
+  <data name="Ration_" xml:space="preserve">
+    <value>Ratio:</value>
+  </data>
+  <data name="Ready_for_calculation" xml:space="preserve">
+    <value>Ready for calculation</value>
+  </data>
+  <data name="Received_late_job_result_0_from_client_1" xml:space="preserve">
+    <value>Received late job result {0} from client '{1}'</value>
+  </data>
+  <data name="Received_Link_" xml:space="preserve">
+    <value>Received (link):</value>
+  </data>
+  <data name="Received_Payload_" xml:space="preserve">
+    <value>Received (payload):</value>
+  </data>
+  <data name="Remaining_" xml:space="preserve">
+    <value>Remaining time:</value>
+  </data>
+  <data name="Removed_reservation_of_pattern___0_" xml:space="preserve">
+    <value>Removed reservation of chunk #{0}</value>
+  </data>
+  <data name="Remove_" xml:space="preserve">
+    <value>Remove:</value>
+  </data>
+  <data name="Requests_" xml:space="preserve">
+    <value>Requests</value>
+  </data>
+  <data name="Rereserving_pattern_failed_" xml:space="preserve">
+    <value>Rereserving chunk failed!</value>
+  </data>
+  <data name="Rereserving_pattern_failed__because_there_is_no_connection_" xml:space="preserve">
+    <value>Rereserving chunk failed, because there is no connection to P2P network.</value>
+  </data>
+  <data name="Rereserving_pattern___0_" xml:space="preserve">
+    <value>Rereserving chunk #{0}</value>
+  </data>
+  <data name="Reservation_removed_by_another_node__while_calculating___To_avoid_a_state_in_limbo__proceeding_to_first_available_leaf___" xml:space="preserve">
+    <value>Reservation has been removed by another participant. To avoid a state in limbo, proceeding to first available chunk...</value>
+  </data>
   <data name="ResetSettings" xml:space="preserve">
     <value>Reset</value>
   </data>
   <data name="ResetSettingsDesc" xml:space="preserve">
     <value>Reset Key</value>
+  </data>
+  <data name="Retrieve_" xml:space="preserve">
+    <value>Retrieve:</value>
+  </data>
+  <data name="Running_pattern___0__of__1_" xml:space="preserve">
+    <value>Processing chunk #{0} of {1}</value>
+  </data>
+  <data name="Sent_Link_" xml:space="preserve">
+    <value>Sent (link):</value>
+  </data>
+  <data name="Sent_Payload_" xml:space="preserve">
+    <value>Sent (payload):</value>
+  </data>
+  <data name="Start_" xml:space="preserve">
+    <value>Start:</value>
+  </data>
+  <data name="Start_bruteforcing_pattern__" xml:space="preserve">
+    <value>Starting brute force attack on key pattern '</value>
+  </data>
+  <data name="Static_" xml:space="preserve">
+    <value>Static</value>
+  </data>
+  <data name="Statistics" xml:space="preserve">
+    <value>Statistics</value>
+  </data>
+  <data name="Status_key___0___has_been_copied_to_clipboard_" xml:space="preserve">
+    <value>Status key '{0}' has been copied to clipboard.</value>
+  </data>
+  <data name="Store_" xml:space="preserve">
+    <value>Store:</value>
+  </data>
+  <data name="Tested_Bits_" xml:space="preserve">
+    <value>Tested bits:</value>
+  </data>
+  <data name="There_must_be_an_error__because_we_bruteforced_too_much_keys___" xml:space="preserve">
+    <value>Data inconsistency error, we seem to have calculated more keys than expected...</value>
+  </data>
+  <data name="Top1KeyDesc" xml:space="preserve">
+    <value>The best key found</value>
+  </data>
+  <data name="top1MesDesc" xml:space="preserve">
+    <value>The best message found</value>
+  </data>
+  <data name="Top1_Key" xml:space="preserve">
+    <value>Top1 Key</value>
+  </data>
+  <data name="Top1_Message" xml:space="preserve">
+    <value>Top1 Message</value>
+  </data>
+  <data name="Top_Ten_" xml:space="preserve">
+    <value>Top Ten</value>
+  </data>
+  <data name="Total_" xml:space="preserve">
+    <value>Total:</value>
+  </data>
+  <data name="Total_amount_of_patterns___0___each_containing__1__keys_" xml:space="preserve">
+    <value>Total amount of chunks: {0}, each containing {1} keys.</value>
+  </data>
+  <data name="Total_Chunks_" xml:space="preserve">
+    <value>Total chunks:</value>
+  </data>
+  <data name="Total_Link_" xml:space="preserve">
+    <value>Total (link):</value>
+  </data>
+  <data name="Total_Payload_" xml:space="preserve">
+    <value>Total (payload):</value>
+  </data>
+  <data name="Total__Blocks__Tested_" xml:space="preserve">
+    <value>Total Blocks Tested</value>
+  </data>
+  <data name="Total__Blocks__to__Search_" xml:space="preserve">
+    <value>Total Blocks to Search</value>
+  </data>
+  <data name="Total__Keys__Tested_" xml:space="preserve">
+    <value>Total Keys Tested</value>
+  </data>
+  <data name="Total__Keys__to_Search_" xml:space="preserve">
+    <value>Total Keys to Search</value>
+  </data>
+  <data name="Traffic_" xml:space="preserve">
+    <value>Traffic</value>
+  </data>
+  <data name="Unable_to_use_peer_to_peer_system_" xml:space="preserve">
+    <value>Unable to use peer-to-peer system.</value>
+  </data>
+  <data name="Under__Construction_" xml:space="preserve">
+    <value>Under Construction</value>
+  </data>
+  <data name="UpdateTimeSettings" xml:space="preserve">
+    <value>Update interval (minutes)</value>
+  </data>
+  <data name="UpdateTimeSettingsDesc" xml:space="preserve">
+    <value>Set the minute interval to update the keysearcher statistics</value>
+  </data>
+  <data name="Updating_statistic" xml:space="preserve">
+    <value>Updating statistic</value>
+  </data>
+  <data name="Updating_status_in_DHT" xml:space="preserve">
+    <value>Updating status in DHT</value>
   </data>
   <data name="UseExternalClientSettings" xml:space="preserve">
     <value>Use external client</value>
@@ -585,49 +630,16 @@
   <data name="UseSelectedDeviceSettingsDesc" xml:space="preserve">
     <value>If checked, the selected OpenCL device is used for brute force attack.</value>
   </data>
-  <data name="Progress" xml:space="preserve">
-    <value>Progress</value>
+  <data name="Waiting_for_external_client_" xml:space="preserve">
+    <value>Waiting for external client!</value>
   </data>
-  <data name="Statistics" xml:space="preserve">
-    <value>Statistics</value>
+  <data name="Work_Items_" xml:space="preserve">
+    <value>Work Items:</value>
   </data>
-  <data name="ExternalClientPasswordSettings" xml:space="preserve">
-    <value>Password</value>
+  <data name="Wrong_key_pattern_" xml:space="preserve">
+    <value>Wrong key pattern!</value>
   </data>
-  <data name="ExternalClientPasswordSettingsDesc" xml:space="preserve">
-    <value>Password used for authenticating external clients</value>
-  </data>
-  <data name="Received_late_job_result_0_from_client_1" xml:space="preserve">
-    <value>Received late job result {0} from client '{1}'</value>
-  </data>
-  <data name="Client__0__tried_to_auth_with_invalid_password" xml:space="preserve">
-    <value>Client '{0}' tried to authenticate using an invalid password</value>
-  </data>
-  <data name="KeysearcherSettings" xml:space="preserve">
-    <value>KeySearcher</value>
-  </data>
-  <data name="Aggregate_Statistics_" xml:space="preserve">
-    <value>Aggregate Statistics</value>
-  </data>
-  <data name="Current__Information_" xml:space="preserve">
-    <value>Current Information</value>
-  </data>
-  <data name="Total__Blocks__Tested_" xml:space="preserve">
-    <value>Total Blocks Tested</value>
-  </data>
-  <data name="Total__Blocks__to__Search_" xml:space="preserve">
-    <value>Total Blocks to Search</value>
-  </data>
-  <data name="Total__Keys__Tested_" xml:space="preserve">
-    <value>Total Keys Tested</value>
-  </data>
-  <data name="Total__Keys__to_Search_" xml:space="preserve">
-    <value>Total Keys to Search</value>
-  </data>
-  <data name="Under__Construction_" xml:space="preserve">
-    <value>Under Construction</value>
-  </data>
-  <data name="_Information_" xml:space="preserve">
-    <value>Information</value>
+  <data name="You_have_to_connect_the_KeySearcher_with_the_Decryption_Control_" xml:space="preserve">
+    <value>You have to connect the KeySearcher with the Decryption Control!</value>
   </data>
 </root>
