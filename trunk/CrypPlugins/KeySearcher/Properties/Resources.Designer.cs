@@ -493,6 +493,24 @@ namespace KeySearcher.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Disable statistic update.
+        /// </summary>
+        internal static string DisableUpdateSettings {
+            get {
+                return ResourceManager.GetString("DisableUpdateSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Disables the statistic update.
+        /// </summary>
+        internal static string DisableUpdateSettingsDesc {
+            get {
+                return ResourceManager.GetString("DisableUpdateSettingsDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Display verbose information.
         /// </summary>
         internal static string DisplayVerboseInformationSettings {
@@ -646,7 +664,7 @@ namespace KeySearcher.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Statistic Save Path.
+        ///   Looks up a localized string similar to Statistic.
         /// </summary>
         internal static string GroupStatisticPath {
             get {
@@ -1472,6 +1490,24 @@ namespace KeySearcher.Properties {
         internal static string Under__Construction_ {
             get {
                 return ResourceManager.GetString("Under__Construction_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update interval (minutes).
+        /// </summary>
+        internal static string UpdateTimeSettings {
+            get {
+                return ResourceManager.GetString("UpdateTimeSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Set the minute interval to update the keysearcher statistics.
+        /// </summary>
+        internal static string UpdateTimeSettingsDesc {
+            get {
+                return ResourceManager.GetString("UpdateTimeSettingsDesc", resourceCulture);
             }
         }
         

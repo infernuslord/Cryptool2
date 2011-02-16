@@ -78,7 +78,8 @@ namespace KeySearcher.P2P
             bool statupdate = false;
             Leaf currentLeaf;
             keySearcher.InitialiseInformationQuickwatch();
-            var statisticTimer = new Timer { Interval = 30 * 60 * 1000 };    //Update of the statistics after every 30 minutes
+            int utime = settings.UpdateTime > 0 ? settings.UpdateTime : 30;
+            var statisticTimer = new Timer { Interval = utime * 60 * 1000 };    //Update of the statistics after every 30 minutes
             statisticTimer.Start();
 
             while (!keySearcher.stop)
@@ -96,7 +97,7 @@ namespace KeySearcher.P2P
                         InitializeTree();
                         statupdate = false;
                         keySearcher.InitialiseInformationQuickwatch();
-                        statisticTimer = new Timer { Interval = 30 * 60 * 1000 };
+                        statisticTimer = new Timer { Interval = utime * 60 * 1000 };
                         statisticTimer.Start();
                     }
 
@@ -171,7 +172,10 @@ namespace KeySearcher.P2P
 
                     statisticTimer.Elapsed += new ElapsedEventHandler(delegate
                                                                           {
-                                                                              statupdate = true;
+                                                                              if (!settings.DisableUpdate)
+                                                                              {
+                                                                                  statupdate = true;
+                                                                              }
                                                                           });
 
                     keySearcher.GuiLogMessage(

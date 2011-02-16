@@ -441,11 +441,50 @@ namespace KeySearcher
         }
         #endregion
 
-        #region csv path
+        #region Statistic
+        /// <summary>
+        /// Getter/Setter for the time interval (minutes)
+        /// </summary>
+        private int updatetime = 30;
+        [TaskPane("UpdateTimeSettings", "UpdateTimeSettingsDesc", "GroupStatisticPath", 1, false, ControlType.TextBox)]
+        public int UpdateTime
+        {
+            get { return updatetime; }
+            set
+            {
+                if (value != updatetime)
+                {
+                    updatetime = value;
+                    hasChanges = true;
+                    OnPropertyChanged("UpdateTime");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Able/Disable for the update time interval
+        /// </summary>
+        private bool disableupdate = false;
+        [TaskPane("DisableUpdateSettings", "DisableUpdateSettingsDesc",
+            "GroupStatisticPath", 2, false, ControlType.CheckBox)]
+        public bool DisableUpdate
+        {
+            get { return disableupdate; }
+            set
+            {
+                if (value != disableupdate)
+                {
+                    disableupdate = value;
+                    hasChanges = true;
+                    OnPropertyChanged("DisableUpdate");
+                }
+            }
+        }
+         
         /// <summary>
         /// Getter/Setter for the csv file
         /// </summary>
-        [TaskPane("CSVPathSettings", "CSVPathSettings", "GroupStatisticPath", 1, false, ControlType.SaveFileDialog, FileExtension = "Comma Seperated Values (*.csv)|*.csv")]
+        [TaskPane("CSVPathSettings", "CSVPathSettings", "GroupStatisticPath", 3, false, ControlType.SaveFileDialog, FileExtension = "Comma Seperated Values (*.csv)|*.csv")]
         public string CsvPath
         {
             get { return csvPath; }
@@ -463,12 +502,12 @@ namespace KeySearcher
         /// <summary>
         /// Button to "reset" the csv file. That means it will not appear any more in the text field
         /// </summary>
-        [TaskPane("DefaultPathSettings", "DefaultPathSettingsDesc", "GroupStatisticPath", 2, false, ControlType.Button)]
+        [TaskPane("DefaultPathSettings", "DefaultPathSettingsDesc", "GroupStatisticPath", 4, false, ControlType.Button)]
         public void DefaultPath()
         {
             csvPath = "";
             OnPropertyChanged("CsvPath");
-        }
+        }       
         #endregion
 
         private ObservableCollection<string> coresAvailable = new ObservableCollection<string>();
