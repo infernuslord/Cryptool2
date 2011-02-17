@@ -325,13 +325,14 @@ namespace Cryptool.TextInput
     {
       if (textInputPresentation.textBoxInputText != null)
       {
+          textInputPresentation.textBoxInputText.TextChanged -= textBoxInputText_TextChanged;
+          textInputPresentation.textBoxInputText.TextChanged += textBoxInputText_TextChanged;
+
           textInputPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
           {
               textInputPresentation.textBoxInputText.Text = settings.Text;
           }, null);
-      }
-
-      textInputPresentation.textBoxInputText.TextChanged += textBoxInputText_TextChanged;
+      }      
     }
 
     public void Dispose()
