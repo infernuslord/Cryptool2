@@ -1354,8 +1354,9 @@ namespace KeySearcher
             //---Current Section----
             if (!settings.DisableUpdate)
             {
-                ((QuickWatch) QuickWatchPresentation).StatisticsPresentation.UpdateTime = "Last__Update__Time: " +now.ToString("g",DateTimeFormatInfo.InvariantInfo);
-                ((QuickWatch) QuickWatchPresentation).StatisticsPresentation.NextUpdateTime = "Next__Update__Time: " +now.AddMinutes(interval).ToString("g",DateTimeFormatInfo.InvariantInfo);
+                var cc = ((QuickWatch) QuickWatchPresentation).CurrentCulture;
+                ((QuickWatch) QuickWatchPresentation).StatisticsPresentation.UpdateTime = "Last__Update__Time: " +now.ToString("g", cc);
+                ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.NextUpdateTime = "Next__Update__Time: " + now.AddMinutes(interval).ToString("g", cc);
             }
             else
             {

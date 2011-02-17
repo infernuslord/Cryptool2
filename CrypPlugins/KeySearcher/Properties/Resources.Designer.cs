@@ -1305,6 +1305,15 @@ namespace KeySearcher.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0:0,0} key/sec.
+        /// </summary>
+        internal static string StatisticsPresentation_SetCurrentRate {
+            get {
+                return ResourceManager.GetString("StatisticsPresentation_SetCurrentRate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Status key &apos;{0}&apos; has been copied to clipboard..
         /// </summary>
         internal static string Status_key___0___has_been_copied_to_clipboard_ {

@@ -642,4 +642,7 @@
   <data name="You_have_to_connect_the_KeySearcher_with_the_Decryption_Control_" xml:space="preserve">
     <value>You have to connect the KeySearcher with the Decryption Control!</value>
   </data>
+	<data name="StatisticsPresentation_SetCurrentRate">
+		<value xml:space="preserve">{0:0,0} key/sec</value>
+	</data>
 </root>
