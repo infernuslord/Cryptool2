@@ -11,7 +11,8 @@ namespace WorkspaceManager.View.Converter
         public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             double ControlPanel = (double)values[0], WindowBar = (double)values[1];
-
+            if (WindowBar > 100)
+                return WindowBar/2;
             return WindowBar - ControlPanel - 3;
         }
 

@@ -215,22 +215,22 @@ namespace WorkspaceManager.View.Container
 
         void CompositionTarget_Rendering(object sender, EventArgs e)
         {
-            if ((Keyboard.GetKeyStates(Key.LeftCtrl) & KeyStates.Down) > 0)
-            {
-                IsCtrlToggled = true;
-            }
-            else
-                IsCtrlToggled = false;
+            //if ((Keyboard.GetKeyStates(Key.LeftCtrl) & KeyStates.Down) > 0)
+            //{
+            //    IsCtrlToggled = true;
+            //}
+            //else
+            //    IsCtrlToggled = false;
 
-            if ((Keyboard.GetKeyStates(Key.LeftCtrl) & Keyboard.GetKeyStates(Key.C) & KeyStates.Down) > 0)
-            {
-                Copy();
-            }
+            //if ((Keyboard.GetKeyStates(Key.LeftCtrl) & Keyboard.GetKeyStates(Key.C) & KeyStates.Down) > 0)
+            //{
+            //    Copy();
+            //}
 
-            if ((Keyboard.GetKeyStates(Key.LeftCtrl) & Keyboard.GetKeyStates(Key.V) & KeyStates.Down) > 0)
-            {
-                Paste();
-            }
+            //if ((Keyboard.GetKeyStates(Key.LeftCtrl) & Keyboard.GetKeyStates(Key.V) & KeyStates.Down) > 0)
+            //{
+            //    Paste();
+            //}
         }
 
         public void Copy()
