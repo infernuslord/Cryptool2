@@ -54,6 +54,8 @@ namespace Wizard
         private List<TextBox> currentOutputBoxes = new List<TextBox>();
         private List<TextBox> currentInputBoxes = new List<TextBox>();
         private List<ContentControl> currentPresentations = new List<ContentControl>();
+        private WorkspaceManager.WorkspaceManager currentManager = new WorkspaceManager.WorkspaceManager();
+        private bool canStopOrExecute = false;
 
         internal event OpenTabHandler OnOpenTab;
         internal event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
@@ -837,7 +839,11 @@ namespace Wizard
             if (openTab)
                 OnOpenTab(newEditor, title, null);
             else
+            {
+                currentManager = newEditor;
+                canStopOrExecute = true;
                 newEditor.Execute();
+            }
         }
 
         private void UpdateOutputBox(TextBox box, PropertyInfo property, object theObject)
@@ -917,6 +923,8 @@ namespace Wizard
 
         private void backButton_Click(object sender, RoutedEventArgs e)
         {
+            StopCurrentWorkspaceManager();
+            canStopOrExecute = false;
             Storyboard mainGridStoryboardLeft = (Storyboard)FindResource("MainGridStoryboardBack1");
             mainGridStoryboardLeft.Begin();
         }
@@ -940,6 +948,39 @@ namespace Wizard
             selectedCategories.Clear();
             description.Text = "";
             SetupPage(wizardConfigXML);
+        }
+
+        internal void StopCurrentWorkspaceManager()
+        {
+            if (currentManager.CanStop)
+                currentManager.Stop();
+        }
+
+        internal void ExecuteCurrentWorkspaceManager()
+        {
+            if (currentManager.CanExecute)
+                currentManager.Execute();
+        }
+
+        internal void DisposeCurrentWorkspaceManager()
+        {
+            currentManager.Dispose();
+        }
+
+        internal bool WizardCanStop()
+        {
+            if (!canStopOrExecute)
+                return false;
+            else
+                return currentManager.CanStop;
+        }
+
+        internal bool WizardCanExecute()
+        {
+            if (!canStopOrExecute)
+                return false;
+            else
+                return currentManager.CanExecute;
         }
 
         private void SwitchButtonWhenNecessary()
@@ -1085,6 +1126,9 @@ namespace Wizard
 
         private void SetLastContent(object sender, EventArgs e)
         {
+            StopCurrentWorkspaceManager();
+            canStopOrExecute = false;
+
             XElement ele = null;
             if (categoryGrid.Visibility == Visibility.Visible && radioButtonStackPanel.Children.Count > 0)
             {

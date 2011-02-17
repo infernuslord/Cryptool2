@@ -22,7 +22,7 @@
       </description>
     </inputBox>
 
-    <input id ="CaesarEnKey">
+    <!--<input id ="CaesarEnKey">
       <headline lang="en" >Key Input</headline>
       <desc lang="en" >Input the key information.</desc>
       <inputBox defaultValue="00 00 00">
@@ -35,9 +35,9 @@
           Initialization Vector
         </description>
       </inputBox>
-
-      <loadSample file="WorkspaceManagerSamples\KeySearcher_AES_Sample.cwm" title="W_AES_Sample"/>
-    </input>
+    </input>-->
+    
+    <loadSample file="WorkspaceManagerSamples\KeySearcher_AES_Sample.cwm" title="W_AES_Sample"/>
   </input>
 
   <!-- DES input -->
