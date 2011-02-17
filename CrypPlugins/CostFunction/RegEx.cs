@@ -109,15 +109,15 @@ namespace Cryptool.Plugins.CostFunction
             code = code.Replace("$$COSTFUNCTIONDECLARATIONS$$", declaration);
 
             //initialization code:
-            code = code.Replace("$$COSTFUNCTIONINITIALIZE$$", string.Format("int state = {0}; \n", startIndex));
+            code = code.Replace("$$COSTFUNCTIONINITIALIZE$$", string.Format("int state = {0}; \n int count = 0; \n", startIndex));
 
             //calculation code:
             code = code.Replace("$$COSTFUNCTIONCALCULATE$$", "int absState = ((state >= 0) ? state : ~state); \n"
                 + "state = transitionMatrix[absState*256+c]; \n"
-                + "if (state == NOTRANSITION) { results[x] = -1.0f; return;} \n");
+                + "if (state == NOTRANSITION) { results[x] = (float)(-decryptionLength + count); return;} \n count++; \n");
 
             //result calculation code:
-            code = code.Replace("$$COSTFUNCTIONRESULTCALCULATION$$", "if (state < 0) result = 1.0f; else result = -1.0f;");
+            code = code.Replace("$$COSTFUNCTIONRESULTCALCULATION$$", "if (state < 0) result = 1.0f; else result = 0.0f;");
 
             return code;
         }
@@ -143,6 +143,31 @@ namespace Cryptool.Plugins.CostFunction
             }
 
             return (state < 0);
+        }
+
+        /// <summary>
+        /// Matches input with the given regex and returns a value which indicates "how much" it matches.
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public int MatchesValue(byte[] input)
+        {
+            if (transitionMatrix == null)
+                return Int32.MinValue;
+
+            int state = startIndex;
+            int count = 0;
+
+            foreach (byte i in input)
+            {
+                int absState = state >= 0 ? state : ~state;
+                state = transitionMatrix[absState][i];
+                if (state == NOTRANSITION)
+                    return (-input.Length + count);
+                count++;
+            }
+
+            return (state < 0) ? 1 : 0;
         }
 
         #region NFA

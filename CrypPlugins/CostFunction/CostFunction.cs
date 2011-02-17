@@ -424,20 +424,12 @@ namespace Cryptool.Plugins.CostFunction
 
             try
             {
-                bool match = regularexpression.Matches(input);
-                if (match)
-                {
-                    return 1.0;
-                }
-                else
-                {
-                    return -1.0;
-                }
+                return regularexpression.MatchesValue(input);
             }
             catch (Exception e)
             {
                 GuiLogMessage(e.Message, NotificationLevel.Error);
-                return -1.0;
+                return Double.NegativeInfinity;
             }
 
         }
