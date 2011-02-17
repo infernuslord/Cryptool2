@@ -357,17 +357,36 @@ namespace Wizard
         {
             var inputFieldStyle = (Style)FindResource("InputFieldStyle");
 
+            var groups = from input in inputs where input.Attribute("group") != null select input.Attribute("group").Value;
+            groups = groups.Distinct();
+
+            var inputGroups = new List<StackPanel>();
+            var otherInputs = new List<StackPanel>();
+
+            foreach (var group in groups)
+            {
+                var sp = new StackPanel();
+                sp.Orientation = Orientation.Horizontal;
+                sp.Tag = group;
+                inputGroups.Add(sp);
+            }
+
             foreach (var input in inputs)
             {
                 try
                 {
+                    var stack = new StackPanel();
+                    stack.Margin = new Thickness(2.5, 0, 2.5, 0);
+
                     var description = new Label();
                     description.Content = FindElementsInElement(input, "description").First().Value.Trim();
                     description.HorizontalAlignment = HorizontalAlignment.Left;
                     description.FontWeight = FontWeights.Bold;
-                    inputStack.Children.Add(description);
+                    stack.Children.Add(description);
 
                     Control inputElement = CreateInputElement(input, inputFieldStyle, isInput);
+
+                    //TODO add controls to same "level" if they have the same group
 
                     //Set width:
                     if (inputElement != null && input.Attribute("width") != null)
@@ -415,13 +434,45 @@ namespace Wizard
                                 break;
                         }
                     }
+
+                    stack.Children.Add(inputElement);
+
+                    if (input.Attribute("group") != null && inputGroups.Any())
+                    {
+                        var sp = from g in inputGroups where (string)g.Tag == input.Attribute("group").Value select g;
+                        var group = sp.First();
+                        group.Children.Add(stack);
+                    }
+                    else
+                    {
+                        stack.Tag = input;
+                        otherInputs.Add(stack);
+                    }
+
                 }
                 catch (Exception e)
                 {
                     GuiLogMessage(string.Format("Error while creating wizard element {0}: {1}", input, e.Message), NotificationLevel.Error);
                 }
-
             }
+
+            foreach (var input in inputs)
+            {
+                if (input.Attribute("group") != null && inputGroups.Any())
+                {
+                    var sp = from g in inputGroups where (string)g.Tag == input.Attribute("group").Value select g;
+                    var group = sp.First();
+                    if (!inputStack.Children.Contains(group))
+                        inputStack.Children.Add(group);
+                }
+                else
+                {
+                    var p = from g in otherInputs where (XElement)g.Tag == input select g;
+                    var put = p.First();
+                    inputStack.Children.Add(put);
+                }
+            }
+
         }
 
         private Control CreateInputElement(XElement input, Style inputFieldStyle, bool isInput)
@@ -449,7 +500,7 @@ namespace Wizard
                         }
                     }
                     inputBox.Style = inputFieldStyle;
-                    inputStack.Children.Add(inputBox);
+                    //inputStack.Children.Add(inputBox);
 
                     if (input.Attribute("regex") != null)
                     {
@@ -507,7 +558,7 @@ namespace Wizard
                     }
 
 
-                    inputStack.Children.Add(comboBox);
+                    //inputStack.Children.Add(comboBox);
                     element = comboBox;
                     break;
 
@@ -537,7 +588,7 @@ namespace Wizard
                             checkBox.IsChecked = false;
                     }
 
-                    inputStack.Children.Add(checkBox);
+                    //inputStack.Children.Add(checkBox);
                     element = checkBox;
                     break;
 
@@ -559,7 +610,7 @@ namespace Wizard
                         }
                     }
                     outputBox.Style = inputFieldStyle;
-                    inputStack.Children.Add(outputBox);
+                    //inputStack.Children.Add(outputBox);
 
                     if (input.Attribute("regex") != null)
                     {
@@ -587,7 +638,7 @@ namespace Wizard
                         cc.Height = d;
 
                     cc.Tag = input;
-                    inputStack.Children.Add(cc);
+                    //inputStack.Children.Add(cc);
 
                     currentPresentations.Add(cc);
                     element = cc;
@@ -1056,73 +1107,69 @@ namespace Wizard
 
         private void SaveControlContent(object o)
         {
-            if (o is TextBox || o is ComboBox || o is CheckBox)
+            var sp = (StackPanel)o;
+
+            foreach (var input in sp.Children)
             {
-                Control c = (Control)o;
-                XElement ele = (XElement)c.Tag;
-                
-                PluginPropertyValue newEntry = new PluginPropertyValue();
-                if (ele.Attribute("plugin") != null && ele.Attribute("property") != null)
+                if (input is TextBox || input is ComboBox || input is CheckBox)
                 {
-                    if (o is TextBox)
+                    Control c = (Control)input;
+                    XElement ele = (XElement)c.Tag;
+
+                    PluginPropertyValue newEntry = new PluginPropertyValue();
+                    if (ele.Attribute("plugin") != null && ele.Attribute("property") != null)
                     {
-                        TextBox textBox = (TextBox)o;
-                        newEntry = new PluginPropertyValue()
-                                   {
-                                       PluginName = ele.Attribute("plugin").Value,
-                                       PropertyName = ele.Attribute("property").Value,
-                                       Value = textBox.Text
-                                   };
-                    }
-                    else if (o is ComboBox)
-                    {
-                        ComboBox comboBox = (ComboBox)o;
-                        newEntry = new PluginPropertyValue()
+                        if (input is TextBox)
                         {
-                            PluginName = ele.Attribute("plugin").Value,
-                            PropertyName = ele.Attribute("property").Value,
-                            Value = comboBox.SelectedIndex
-                        };
-                    }
-                    else if (o is CheckBox)
-                    {
-                        CheckBox checkBox = (CheckBox)o;
-                        if (checkBox.IsChecked != null)
+                            TextBox textBox = (TextBox)input;
+                            newEntry = new PluginPropertyValue()
+                                       {
+                                           PluginName = ele.Attribute("plugin").Value,
+                                           PropertyName = ele.Attribute("property").Value,
+                                           Value = textBox.Text
+                                       };
+                        }
+                        else if (input is ComboBox)
                         {
+                            ComboBox comboBox = (ComboBox)input;
                             newEntry = new PluginPropertyValue()
                             {
                                 PluginName = ele.Attribute("plugin").Value,
                                 PropertyName = ele.Attribute("property").Value,
-                                Value = (bool)checkBox.IsChecked
+                                Value = comboBox.SelectedIndex
                             };
                         }
-                    }
+                        else if (input is CheckBox)
+                        {
+                            CheckBox checkBox = (CheckBox)input;
+                            if (checkBox.IsChecked != null)
+                            {
+                                newEntry = new PluginPropertyValue()
+                                {
+                                    PluginName = ele.Attribute("plugin").Value,
+                                    PropertyName = ele.Attribute("property").Value,
+                                    Value = (bool)checkBox.IsChecked
+                                };
+                            }
+                        }
 
-                    var key = GetElementPluginPropertyKey(ele);
-                    if (key != null)
-                    {
-                        if (!propertyValueDict.ContainsKey(key))
-                            propertyValueDict.Add(key, newEntry);
-                        else
-                            propertyValueDict[key] = newEntry;
+                        var key = GetElementPluginPropertyKey(ele);
+                        if (key != null)
+                        {
+                            if (!propertyValueDict.ContainsKey(key))
+                                propertyValueDict.Add(key, newEntry);
+                            else
+                                propertyValueDict[key] = newEntry;
+                        }
                     }
-                } 
+                }
+                else if (input is StackPanel)
+                {
+                    StackPanel stack = (StackPanel)input;
+                    SaveControlContent(stack);
+                }
             }
         }
-
-        private void DeleteControlContent(object o)
-        {
-            if (o is TextBox || o is ComboBox || o is CheckBox)
-            {
-                Control control = (Control)o;
-                XElement ele = (XElement)control.Tag;
-
-                var key = GetElementPluginPropertyKey(ele);
-                if (key != null && propertyValueDict.ContainsKey(key))
-                    propertyValueDict.Remove(key);
-            }
-        }
-
 
         private void SetLastContent(object sender, EventArgs e)
         {

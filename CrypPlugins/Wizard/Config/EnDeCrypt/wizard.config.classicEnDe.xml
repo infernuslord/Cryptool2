@@ -26,8 +26,8 @@
         Message to encrypt: 
       </description>
     </inputBox>
-    
-    <comboBox plugin="TextInput1" property="EncodingSetting" defaultValue="0" alignment="Left" width="100">
+
+    <comboBox plugin="TextInput1" property="EncodingSetting" defaultValue="0" alignment="Left" width="100" group="encoding">
       <description lang="en">
         Character Encoding type:
       </description>
@@ -39,8 +39,8 @@
       <item content="ASCII" lang="en"/>
       <item content="Big endian unicode" lang="en"/>
     </comboBox>
-    
-    <comboBox plugin="TextInput1" property="InputFormatSetting" defaultValue="0" alignment="Center" width="20%">
+
+    <comboBox plugin="TextInput1" property="InputFormatSetting" defaultValue="0" alignment="Center" width="20%" group="encoding">
       <description lang="en">
         Input Format:
       </description>
@@ -63,28 +63,6 @@
           Message to encrypt:
         </description>
       </inputBox>
-
-      <comboBox plugin="TextInput1" property="EncodingSetting" defaultValue="0" alignment="Left" width="100">
-        <description lang="en">
-          Character Encoding type:
-        </description>
-        <item content="Default system encoding" lang="en"/>
-        <item content="Unicode" lang="en"/>
-        <item content="UTF-7" lang="en"/>
-        <item content="UTF-8" lang="en"/>
-        <item content="UTF-32" lang="en"/>
-        <item content="ASCII" lang="en"/>
-        <item content="Big endian unicode" lang="en"/>
-      </comboBox>
-
-      <comboBox plugin="TextInput1" property="InputFormatSetting" defaultValue="0" alignment="Center" width="20%">
-        <description lang="en">
-          Input Format:
-        </description>
-        <item content="Plain text" lang="en"/>
-        <item content="Hex" lang="en"/>
-        <item content="Base64" lang="en"/>
-      </comboBox>
 
       <!--<outputBox plugin="CaesarResult" property="CurrentValue" alignment="Stretch" width="80%" visibleLines="2">
         <description lang="en">
