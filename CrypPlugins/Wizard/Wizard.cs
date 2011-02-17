@@ -53,7 +53,7 @@ namespace Wizard
 
         public void Dispose()
         {
-            
+            wizardControl.StopCurrentWorkspaceManager();
         }
 
         public void ShowHelp()
@@ -64,6 +64,26 @@ namespace Wizard
         public void ShowSelectedPluginDescription()
         {
             ShowHelp();
+        }
+
+        public void Execute()
+        {
+            wizardControl.ExecuteCurrentWorkspaceManager();
+        }
+
+        public void Stop()
+        {
+            wizardControl.StopCurrentWorkspaceManager();
+        }
+
+        public bool CanExecute
+        {
+            get { return wizardControl.WizardCanExecute(); }
+        }
+
+        public bool CanStop
+        {
+            get { return wizardControl.WizardCanStop(); }
         }
 
         #region unused methods
@@ -86,22 +106,12 @@ namespace Wizard
             
         }
 
-        public void Execute()
-        {
-            
-        }
-
         public void PostExecution()
         {
             
         }
 
         public void Pause()
-        {
-            
-        }
-
-        public void Stop()
         {
             
         }
@@ -197,16 +207,6 @@ namespace Wizard
         }
 
         public bool CanRemove
-        {
-            get { return false; }
-        }
-
-        public bool CanExecute
-        {
-            get { return false; }
-        }
-
-        public bool CanStop
         {
             get { return false; }
         }

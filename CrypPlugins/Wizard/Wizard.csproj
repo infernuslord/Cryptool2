@@ -193,7 +193,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Config\Analysis\wizard.config.modernSymEn.xml" />
+    <EmbeddedResource Include="Config\Analysis\wizard.config.modernSymEn.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Config\Indiv\wizard.config.hash.xml">
