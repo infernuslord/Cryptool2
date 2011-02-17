@@ -533,7 +533,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
             opencl = opencl.Replace("$$BITS$$", "" + bits);
 
-            string decryptionCode = "";
+            string decryptionCode = string.Format("int decryptionLength = {0}; \n", decryptionLength);
             int blocks = decryptionLength / 16;
             if (blocks >= 1)
             {
