@@ -32,17 +32,16 @@ std::string getIdentificationStr(Cryptool* cryptool)
         out << "unkhost";
     }
     out << "/";
-    const char* devicename = cryptool->getDeviceName().c_str();
+    std::string devicename = cryptool->getDeviceName();
 
     const std::string whitespaces = " \t\r\n";
 
-    while(*devicename)
+    for(std::string::iterator itr = devicename.begin(); itr != devicename.end(); ++itr)
     {
-        if(whitespaces.find(*devicename) == std::string::npos)
+        if(whitespaces.find(*itr) == std::string::npos)
         {
-            out << *devicename;
+            out << *itr;
         }
-        ++devicename;
     }
     return out.str();
 }
