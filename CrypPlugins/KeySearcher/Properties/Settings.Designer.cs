@@ -46,5 +46,17 @@ namespace KeySearcher.Properties {
                 this["EnableHighLoad"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool AllowOpenCLNvidia {
+            get {
+                return ((bool)(this["AllowOpenCLNvidia"]));
+            }
+            set {
+                this["AllowOpenCLNvidia"] = value;
+            }
+        }
     }
 }

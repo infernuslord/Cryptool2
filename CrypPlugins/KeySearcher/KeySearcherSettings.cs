@@ -44,10 +44,13 @@ namespace KeySearcher
             if (oclManager != null)
                 foreach (var device in oclManager.Context.Devices)
                 {
-                    string deviceName = device.Vendor + ":" + device.Name;
-                    deviceSettings.Add(new OpenCLDeviceSettings() {name = deviceName, index = c, mode = 1, useDevice = false});
-                    devicesAvailable.Add(deviceName);
-                    c++;
+                    if (Settings.Default.AllowOpenCLNvidia || device.Vendor != "NVIDIA Corporation")
+                    {
+                        string deviceName = device.Vendor + ":" + device.Name;
+                        deviceSettings.Add(new OpenCLDeviceSettings() {name = deviceName, index = c, mode = 1, useDevice = false});
+                        devicesAvailable.Add(deviceName);
+                        c++;
+                    }
                 }
 
             CoresAvailable.Clear();
