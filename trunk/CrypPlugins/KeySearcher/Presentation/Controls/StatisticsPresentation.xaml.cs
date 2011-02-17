@@ -37,6 +37,13 @@ namespace KeySearcherPresentation.Controls
             ((MaxDateConverter)Resources["MaxDateConverter"]).StatisticsPresentation = this;
             ((TimeConverter)Resources["TimeConverter"]).StatisticsPresentation = this;
             ((StringLengthConverter)Resources["StringLengthConverter"]).StatisticsPresentation = this;
+            //---
+            ((DateFalseVisibleConverter1)Resources["DateFalseVisibleConverter1"]).StatisticsPresentation = this;
+            ((DateTrueVisibleConverter1)Resources["DateTrueVisibleConverter1"]).StatisticsPresentation = this;
+            ((DateFalseVisibleConverter2)Resources["DateFalseVisibleConverter2"]).StatisticsPresentation = this;
+            ((DateTrueVisibleConverter2)Resources["DateTrueVisibleConverter2"]).StatisticsPresentation = this;
+            ((DateToColorConverter1)Resources["DateToColorConverter1"]).StatisticsPresentation = this;
+            ((DateToColorConverter2)Resources["DateToColorConverter2"]).StatisticsPresentation = this;
             
         }
 
@@ -399,7 +406,7 @@ namespace KeySearcherPresentation.Controls
 
                 Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
-                    Rate.Content = string.Format("{0:0,0} key/sec", rate);
+                    Rate.Content = string.Format(KeySearcher.Properties.Resources.StatisticsPresentation_SetCurrentRate, rate);
                 }, null);
             }
         }
@@ -417,7 +424,7 @@ namespace KeySearcherPresentation.Controls
 
                 Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
-                    CurrentRate.Content = string.Format("{0:0,0} key/sec", currentrate);
+                    CurrentRate.Content = string.Format(KeySearcher.Properties.Resources.StatisticsPresentation_SetCurrentRate, currentrate);
                 }, null);
             }
         }
@@ -609,7 +616,7 @@ namespace KeySearcherPresentation.Controls
         }
     }
 
-    [ValueConversion(typeof(String), typeof(DateTime))]
+    [ValueConversion(typeof(DateTime), typeof(String))]
     class MaxDateConverter : IValueConverter
     {
         public StatisticsPresentation StatisticsPresentation { get; set; }
@@ -628,14 +635,14 @@ namespace KeySearcherPresentation.Controls
                         {
                             max = machines[id].Date;
                         }
-                        return max.ToLocalTime().ToString("g", DateTimeFormatInfo.InvariantInfo);
+                        return max.ToLocalTime().ToString("g");
                     }
                 }
             }
             catch (Exception)
             {
             }
-            return DateTime.UtcNow.ToLocalTime().ToString("g", DateTimeFormatInfo.InvariantInfo);
+            return DateTime.UtcNow.ToLocalTime().ToString("g");
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -644,7 +651,7 @@ namespace KeySearcherPresentation.Controls
         }
     }
 
-    [ValueConversion(typeof(DateTime), typeof(DateTime))]
+    [ValueConversion(typeof(DateTime), typeof(String))]
     class TimeConverter : IValueConverter
     {
         public StatisticsPresentation StatisticsPresentation { get; set; }
@@ -658,14 +665,273 @@ namespace KeySearcherPresentation.Controls
                     lock (StatisticsPresentation)
                     {
 
-                        return ((DateTime)value).ToLocalTime().ToString("g", DateTimeFormatInfo.InvariantInfo);
+                        return ((DateTime)value).ToLocalTime().ToString("g");
                     }
                 }
             }
             catch (Exception)
             {
             }
-            return DateTime.UtcNow.ToLocalTime().ToString("g", DateTimeFormatInfo.InvariantInfo);
+            return DateTime.UtcNow.ToLocalTime().ToString("g");
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    [ValueConversion(typeof(DateTime), typeof(String))]
+    class DateToColorConverter1 : IValueConverter
+    {
+        public StatisticsPresentation StatisticsPresentation { get; set; }
+
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            try
+            {
+                if (StatisticsPresentation != null && StatisticsPresentation.Statistics != null)
+                {
+                    lock (StatisticsPresentation)
+                    {
+                        var max = DateTime.MinValue;
+                        var machines = StatisticsPresentation.Statistics[(string)value];
+                        foreach (var id in machines.Keys.Where(id => machines[id].Date > max))
+                        {
+                            max = machines[id].Date;
+                        }
+                        TimeSpan diff = DateTime.UtcNow.Subtract(max);
+                        var minutes = diff.TotalMinutes;
+
+                        var r = Math.Round(minutes/20);
+                        var g = -1*(Math.Round(minutes/20)) + 255;
+
+                        if (r > 255) r = 255;
+                        if (g < 0) g = 0;
+
+                        Color c = Color.FromRgb((byte) r, (byte) g, (byte) 0);
+                        return c.ToString();
+                    }
+                }
+            }
+            catch (Exception)
+            {
+            }
+            return Color.FromRgb(0, 0, 0).ToString();
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    [ValueConversion(typeof(DateTime), typeof(String))]
+    class DateToColorConverter2 : IValueConverter
+    {
+        public StatisticsPresentation StatisticsPresentation { get; set; }
+
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            try
+            {
+                if (StatisticsPresentation != null && StatisticsPresentation.Statistics != null)
+                {
+                    lock (StatisticsPresentation)
+                    {
+                        DateTime date = (DateTime)value;
+                        TimeSpan diff = DateTime.UtcNow.Subtract(date);
+                        var minutes = diff.TotalMinutes;
+
+                        var r = Math.Round(minutes / 20);
+                        var g = -1 * (Math.Round(minutes / 20)) + 255;
+
+                        if (r > 255) r = 255;
+                        if (g < 0) g = 0;
+
+                        Color c = Color.FromRgb((byte)r, (byte)g, 0);
+                        return c.ToString();
+                    }
+                }
+            }
+            catch (Exception)
+            {
+            }
+            return Color.FromRgb(0, 0, 0).ToString();
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    [ValueConversion(typeof(DateTime), typeof(Visibility))]
+    class DateFalseVisibleConverter1 : IValueConverter
+    {
+        public StatisticsPresentation StatisticsPresentation { get; set; }
+
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            try
+            {
+                if (StatisticsPresentation != null && StatisticsPresentation.Statistics != null)
+                {
+                    lock (StatisticsPresentation)
+                    {
+                        var max = DateTime.MinValue;
+                        var machines = StatisticsPresentation.Statistics[(string)value];
+                        foreach (var id in machines.Keys.Where(id => machines[id].Date > max))
+                        {
+                            max = machines[id].Date;
+                        }
+                        TimeSpan diff = DateTime.UtcNow.Subtract(max);
+                        var minutes = diff.TotalMinutes;
+
+                        if (targetType != typeof(Visibility))
+                            throw new InvalidOperationException("The target must be of Visibility");
+
+                        if (minutes > 7200) //five days
+                        {
+                            return Visibility.Hidden;
+                        }
+
+                        return Visibility.Visible;
+                    }
+                }
+            }
+            catch (Exception)
+            {
+            }
+            return Visibility.Hidden;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    [ValueConversion(typeof(DateTime), typeof(Visibility))]
+    class DateTrueVisibleConverter1 : IValueConverter
+    {
+        public StatisticsPresentation StatisticsPresentation { get; set; }
+
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            try
+            {
+                if (StatisticsPresentation != null && StatisticsPresentation.Statistics != null)
+                {
+                    lock (StatisticsPresentation)
+                    {
+                        var max = DateTime.MinValue;
+                        var machines = StatisticsPresentation.Statistics[(string)value];
+                        foreach (var id in machines.Keys.Where(id => machines[id].Date > max))
+                        {
+                            max = machines[id].Date;
+                        }
+                        TimeSpan diff = DateTime.UtcNow.Subtract(max);
+                        var minutes = diff.TotalMinutes;
+
+                        if (targetType != typeof(Visibility))
+                            throw new InvalidOperationException("The target must be of Visibility");
+
+                        if (minutes > 7200) //five days
+                        {
+                            return Visibility.Visible;
+                        }
+
+                        return Visibility.Hidden;
+                    }
+                }
+            }
+            catch (Exception)
+            {
+            }
+            return Visibility.Hidden;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    [ValueConversion(typeof(DateTime), typeof(Visibility))]
+    class DateFalseVisibleConverter2 : IValueConverter
+    {
+        public StatisticsPresentation StatisticsPresentation { get; set; }
+
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            try
+            {
+                if (StatisticsPresentation != null && StatisticsPresentation.Statistics != null)
+                {
+                    lock (StatisticsPresentation)
+                    {
+                        DateTime date = (DateTime)value;
+                        TimeSpan diff = DateTime.UtcNow.Subtract(date);
+                        var minutes = diff.TotalMinutes;
+
+                        if (targetType != typeof(Visibility))
+                            throw new InvalidOperationException("The target must be of Visibility");
+
+                        if (minutes > 7200) //five days
+                        {
+                            return Visibility.Hidden;
+                        }
+
+                        return Visibility.Visible;
+                    }
+                }
+            }
+            catch (Exception)
+            {
+            }
+            return Visibility.Hidden;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    [ValueConversion(typeof(DateTime), typeof(Visibility))]
+    class DateTrueVisibleConverter2 : IValueConverter
+    {
+        public StatisticsPresentation StatisticsPresentation { get; set; }
+
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            try
+            {
+                if (StatisticsPresentation != null && StatisticsPresentation.Statistics != null)
+                {
+                    lock (StatisticsPresentation)
+                    {
+                        DateTime date = (DateTime)value;
+                        TimeSpan diff = DateTime.UtcNow.Subtract(date);
+                        var minutes = diff.TotalMinutes;
+
+                        if (targetType != typeof(Visibility))
+                            throw new InvalidOperationException("The target must be of Visibility");
+
+                        if (minutes > 7200) //five days
+                        {
+                            return Visibility.Visible;
+                        }
+
+                        return Visibility.Hidden;
+                    }
+                }
+            }
+            catch (Exception)
+            {
+            }
+            return Visibility.Hidden;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -682,71 +948,8 @@ namespace KeySearcherPresentation.Controls
         {
             try
             {
-                DateTime date = (DateTime)values[0];
                 SolidColorBrush brush = ColorToDateConverter.AlternationColors[(int)values[1]].Clone();
-                TimeSpan diff = DateTime.UtcNow.Subtract(date);
-
-                Color color;
-                if (diff >= TimeSpan.FromDays(4))
-                {
-                    color = Color.FromArgb(
-                        (byte)50,
-                        brush.Color.R,
-                        brush.Color.G,
-                        brush.Color.B);
-
-                    brush.Color = color;
-                    return brush;
-                }
-
-                if (diff >= TimeSpan.FromDays(3))
-                {
-                    color = Color.FromArgb(
-                       (byte)100,
-                       brush.Color.R,
-                       brush.Color.G,
-                       brush.Color.B);
-
-                    brush.Color = color;
-                    return brush;
-                }
-
-                if (diff >= TimeSpan.FromDays(2))
-                {
-                    color = Color.FromArgb(
-                       (byte)150,
-                       brush.Color.R,
-                       brush.Color.G,
-                       brush.Color.B);
-
-                    brush.Color = color;
-                    return brush;
-                }
-
-                if (diff >= TimeSpan.FromDays(1))
-                {
-                    color = Color.FromArgb(
-                        (byte)200,
-                        brush.Color.R,
-                        brush.Color.G,
-                        brush.Color.B);
-
-                    brush.Color = color;
-                    return brush;
-                }
-
-                if (diff >= TimeSpan.FromDays(0))
-                {
-
-                    color = Color.FromArgb(
-                        (byte)255,
-                        brush.Color.R,
-                        brush.Color.G,
-                        brush.Color.B);
-
-                    brush.Color = color;
-                    return brush;
-                }
+                return brush;             
             }
             catch (Exception)
             {

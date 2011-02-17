@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -78,9 +79,13 @@ namespace KeySearcherPresentation
                                         typeof(
                                             QuickWatch), new PropertyMetadata(false));
 
+        public CultureInfo CurrentCulture { get; private set; }
+
         public QuickWatch()
         {
             InitializeComponent();
+
+            CurrentCulture = CultureInfo.CurrentCulture;
         }
     }
 }

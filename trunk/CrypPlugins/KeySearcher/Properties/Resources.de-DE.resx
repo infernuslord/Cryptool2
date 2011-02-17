@@ -600,4 +600,10 @@
 	<data name="KeysearcherSettings" xml:space="preserve">
     <value>KeySearcher</value>
   </data>
+	<data name="Under__Construction_" xml:space="preserve">
+    <value>Unter Konstruktion</value>
+  </data>
+	<data name="StatisticsPresentation_SetCurrentRate">
+		<value xml:space="preserve">{0:0,0} Schlüssel/Sek</value>
+	</data>
 </root>

@@ -4,11 +4,17 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:g="clr-namespace:KeySearcher.P2P.Helper"
-             xmlns:Controls="clr-namespace:KeySearcherPresentation.Controls" xmlns:System="clr-namespace:System;assembly=mscorlib" mc:Ignorable="d" 
+             xmlns:Controls="clr-namespace:KeySearcherPresentation.Controls" xmlns:System="clr-namespace:System;assembly=mscorlib" xmlns:Converter="clr-namespace:KeySearcherConverter" mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
         <Controls:InformationToProgressConverter x:Key="InformationToProgressConverter"/>
         <Controls:InformationToProgressConverter2 x:Key="InformationToProgressConverter2"/>
+        <Controls:DateFalseVisibleConverter1 x:Key="DateFalseVisibleConverter1"/>
+        <Controls:DateTrueVisibleConverter1 x:Key="DateTrueVisibleConverter1"/>
+        <Controls:DateFalseVisibleConverter2 x:Key="DateFalseVisibleConverter2"/>
+        <Controls:DateTrueVisibleConverter2 x:Key="DateTrueVisibleConverter2"/>
+        <Controls:DateToColorConverter1 x:Key="DateToColorConverter1"/>
+        <Controls:DateToColorConverter2 x:Key="DateToColorConverter2"/>
         <Controls:MaxDateConverter x:Key="MaxDateConverter"/>
         <Controls:TimeConverter x:Key="TimeConverter"/>
         <Controls:MachineSumToProgressConverter x:Key="MachineSumToProgressConverter"/>
@@ -17,6 +23,8 @@
         <Controls:ColorToDateConverter x:Key="ColorToDateConverter"></Controls:ColorToDateConverter>
         <RotateTransform x:Key="HeaderRotate" Angle="270" />
         <g:WidthConverter x:Key="WidthConverter"></g:WidthConverter>
+        <g:WidthConverter2 x:Key="WidthConverter2"></g:WidthConverter2>
+        <g:WidthConverter3 x:Key="WidthConverter3"></g:WidthConverter3>
         <AlternationConverter x:Key="TeamsBackgroundConverter">
             <SolidColorBrush>LimeGreen</SolidColorBrush>
             <SolidColorBrush>Red</SolidColorBrush>
@@ -48,13 +56,13 @@
             <BeginStoryboard Storyboard="{StaticResource BestGlow}" />
         </EventTrigger>
     </UserControl.Triggers>
-    <Grid Background="Beige">
+    <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="25"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Label Content="K e y s e a r c h e r   G l o b a l   S t a t i s t i c" FontWeight="bold" FontSize="13" Grid.Row="0"  HorizontalAlignment="Stretch" VerticalAlignment="Top"/>
-        <Button Name="myProgButton" Content="X" Click="SwitchView" Width="25" Height="17" VerticalAlignment="Top" HorizontalAlignment="Right" FontWeight="bold" FontSize="9" Foreground="White" Background="Crimson" BorderBrush="DarkBlue"/>
+        <Label Content="K e y S e a r c h e r   S t a t i s t i c" Background="Beige" BorderBrush="Black" BorderThickness="0,0,0,2" FontWeight="bold" FontSize="13" Grid.Row="0"  HorizontalAlignment="Stretch" VerticalAlignment="Top" HorizontalContentAlignment="Center" />
+        <Button Name="myProgButton" Content="X" Click="SwitchView" Width="25" Height="17" VerticalAlignment="Top" HorizontalAlignment="Right" FontWeight="bold" FontSize="9" Foreground="White" Background="Crimson" BorderBrush="DarkBlue" />
 
         <TabControl Grid.Row="2" >
             <TabControl.Resources>
@@ -65,7 +73,7 @@
                                 <Setter.Value>
                                     <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
                                         <GradientStop Color="#FFF3F3F3" Offset="0"/>
-                                        <GradientStop Color="#FFF11818" Offset="1"/>
+                                        <GradientStop Color="#FF00BDFF" Offset="1"/>
                                     </LinearGradientBrush>
                                 </Setter.Value>
                             </Setter>
@@ -145,7 +153,7 @@
                                 </Grid>
                             </Border>
                             <Border BorderBrush="Silver" BorderThickness="2,0,2,2">
-                                <Grid Height="50" Background="#AFAAE1E8">
+                                <Grid Height="50" Background="#FFE8DAAA">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="25" />
                                         <RowDefinition Height="25" />      
@@ -198,12 +206,20 @@
                                                         <MultiBinding Converter="{StaticResource ResourceKey=ColorToDateConverter}">
                                                             <Binding Path="Value.Date" Mode="OneTime"></Binding>
                                                             <Binding RelativeSource="{RelativeSource FindAncestor, AncestorLevel=2, AncestorType={x:Type TreeViewItem}}" Path="(ItemsControl.AlternationIndex)"></Binding>
-                                                        </MultiBinding>
+                                                        </MultiBinding>  
                                                     </ProgressBar.Foreground>
                                                 </ProgressBar>
                                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                                     <TextBlock Text="{Binding Path=Value.Count, StringFormat=\{0\,-5\}}"/>
                                                 </StackPanel>
+                                            </Grid>
+                                            <Grid>
+                                                <Ellipse Name="MyEllipse2" Height="13" Width="13" HorizontalAlignment="Right" StrokeThickness="1" Stroke="Black" Fill="{Binding Path=Value.Date, Mode=OneTime, Converter={StaticResource ResourceKey=DateToColorConverter2}}" Visibility="{Binding Path=Value.Date, Converter={StaticResource ResourceKey=DateFalseVisibleConverter2}}" ToolTip="{Binding Path=Value.Date, Converter={StaticResource ResourceKey=TimeConverter}}" />
+                                                <Image Name="Skull2" Height="13" Width="13" HorizontalAlignment="Right" Source="/KeySearcher;component/Images/dead.png" Stretch="Fill" Visibility="{Binding Path=Value.Date, Converter={StaticResource ResourceKey=DateTrueVisibleConverter2}}" >
+                                                    <Image.ToolTip>
+                                                        <Image Width="22" Height="32" Source="/KeySearcher;component/Images/dead.png" Stretch="Fill"/>
+                                                    </Image.ToolTip>
+                                                </Image>
                                             </Grid>
                                         </StackPanel>
                                     </DataTemplate>
@@ -215,10 +231,18 @@
                                         <TextBlock Text="{Binding Path=Key, Converter={StaticResource ResourceKey=StringLengthConverter}}" HorizontalAlignment="Center" ToolTip="{Binding Path=Key}"/>
                                     </Grid>
                                     <Grid>
-                                    <ProgressBar x:Name="Bar" Foreground="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TreeViewItem}},Path=(ItemsControl.AlternationIndex),Converter={StaticResource ResourceKey=TeamsBackgroundConverter}}" Value="{Binding Path=Value, Mode=OneTime, Converter={StaticResource ResourceKey=InformationToProgressConverter}}" Width="{Binding ElementName=statisticsTree, Path=ActualWidth, Converter={StaticResource ResourceKey=WidthConverter}}" Maximum="1" ToolTip="{Binding Path=Key, Converter={StaticResource ResourceKey=MaxDateConverter}}" />
+                                    <ProgressBar x:Name="Bar" Foreground="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TreeViewItem}},Path=(ItemsControl.AlternationIndex),Converter={StaticResource ResourceKey=TeamsBackgroundConverter}}" Value="{Binding Path=Value, Mode=OneTime, Converter={StaticResource ResourceKey=InformationToProgressConverter}}" Width="{Binding ElementName=statisticsTree, Path=ActualWidth, Converter={StaticResource ResourceKey=WidthConverter2}}" Maximum="1" ToolTip="{Binding Path=Key, Converter={StaticResource ResourceKey=MaxDateConverter}}" />
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                             <TextBlock Text="{Binding Path=Key, Converter={StaticResource ResourceKey=ChunkSumConverter}, StringFormat=\{0\,-5\}}"/>
                                         </StackPanel>
+                                    </Grid>
+                                    <Grid>
+                                        <Ellipse Name="MyEllipse1" Height="13" Width="13" HorizontalAlignment="Right" StrokeThickness="1" Stroke="Black" Fill="{Binding Path=Key, Mode=OneTime, Converter={StaticResource ResourceKey=DateToColorConverter1}}" Visibility="{Binding Path=Key, Converter={StaticResource ResourceKey=DateFalseVisibleConverter1}}" ToolTip="{Binding Path=Key, Converter={StaticResource ResourceKey=MaxDateConverter}}" />
+                                        <Image Name="Skull1" Height="13" Width="13" HorizontalAlignment="Right" Source="/KeySearcher;component/Images/dead.png" Stretch="Fill" Visibility="{Binding Path=Key, Converter={StaticResource ResourceKey=DateTrueVisibleConverter1}}">
+                                            <Image.ToolTip>
+                                                <Image Width="22" Height="32" Source="/KeySearcher;component/Images/dead.png" Stretch="Fill"/>
+                                            </Image.ToolTip>
+                                        </Image>
                                     </Grid>
                                 </StackPanel>
                             </HierarchicalDataTemplate>
@@ -253,7 +277,7 @@
                                         <TextBlock Text="{Binding Path=Value.Hostname, Converter={StaticResource ResourceKey=StringLengthConverter}}" HorizontalAlignment="Center" ToolTip="{Binding Path=Value.Hostname}"/>
                                     </Grid>
                                     <Grid>
-                                        <ProgressBar Value="{Binding Path=Value.Sum, Mode=OneTime, Converter={StaticResource ResourceKey=MachineSumToProgressConverter}}" Width="{Binding ElementName=machineTree, Path=ActualWidth, Converter={StaticResource ResourceKey=WidthConverter}}" Maximum="1" />
+                                        <ProgressBar Value="{Binding Path=Value.Sum, Mode=OneTime, Converter={StaticResource ResourceKey=MachineSumToProgressConverter}}" Width="{Binding ElementName=machineTree, Path=ActualWidth, Converter={StaticResource ResourceKey=WidthConverter3}}" Maximum="1" />
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                             <TextBlock Text="{Binding Path=Value.Sum,StringFormat=\{0\,-5\}}"/>
                                         </StackPanel>
