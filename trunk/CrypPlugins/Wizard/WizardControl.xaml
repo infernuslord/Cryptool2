@@ -76,6 +76,14 @@
             <DoubleAnimation Storyboard.TargetName="MainGridTransform" Storyboard.TargetProperty="X" From="-1500" To="0" Duration="0:0:0.5"/>
         </Storyboard>
     </UserControl.Resources>
+
+    <UserControl.Background>
+        <RadialGradientBrush RadiusX="1.1" RadiusY="2.8" Center="0.524,1.2" GradientOrigin="0.524,1.2">
+            <GradientStop Color="#add3f5" Offset="0.0" />
+            <GradientStop Color="#293955" Offset="1" />
+        </RadialGradientBrush>
+    </UserControl.Background>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
