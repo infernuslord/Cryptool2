@@ -936,13 +936,11 @@ namespace WorkspaceManager.View.Container
             {
                 case "Left":
                     optionPointer = optionModulo(optionPointer + 1);
-                    OptionCaption.Text = (optionList.ElementAt(optionPointer) as Button).ToolTip as String;
                     reAssambleOptions();
                     break;
 
                 case "Right":
                     optionPointer = optionModulo(optionPointer - 1);;
-                    OptionCaption.Text = (optionList.ElementAt(optionPointer) as Button).ToolTip as String;
                     reAssambleOptions();
                     break;
             }
@@ -972,8 +970,13 @@ namespace WorkspaceManager.View.Container
                     break;
 
                 case "MinimizeButton":
-                    if(ViewState == PluginViewState.Min)
-                        ViewState = PluginViewState.Log;
+                    if (ViewState == PluginViewState.Min)
+                    {
+                        if (this.model.PluginPresentation != null)
+                            ViewState = PluginViewState.Presentation;
+                        else
+                            ViewState = PluginViewState.Log;
+                    }
                     else
                         ViewState = PluginViewState.Min;
                     break;
