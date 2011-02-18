@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="600" Focusable="True">
+             d:DesignHeight="300" d:DesignWidth="600" Focusable="True" ClipToBounds="True">
     <UserControl.Resources>
         <BitmapImage x:Key="Analyse" UriSource="Images/Analyse.png"/>
         <BitmapImage x:Key="Classic" UriSource="Images/Classic.png"/>
