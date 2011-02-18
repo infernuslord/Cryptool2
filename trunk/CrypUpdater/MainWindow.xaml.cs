@@ -27,14 +27,6 @@ namespace CrypUpdater
             InitializeComponent();
         }
 
-        internal void UpdateProgress(double progress)
-        {
-            Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-            {
-                progressBar1.Value = progress;
-            }, progress);
-        }
-
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             e.Cancel = true;
