@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using Cryptool.MD5.Algorithm;
+using Cryptool.PluginBase.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Test.Cryptool.MD5.Algorithm
@@ -37,8 +38,7 @@ namespace Test.Cryptool.MD5.Algorithm
         public void InitializedStateAfterInitialization()
         {
             PresentableMD5 md5 = new PresentableMD5();
-            Stream stream = new MemoryStream(new byte[0]);
-            md5.Initialize(stream);
+            md5.Initialize(CStreamWriter.Empty);
 
             Assert.AreEqual(md5.CurrentState.State, MD5StateDescription.INITIALIZED);
         }
@@ -77,7 +77,7 @@ namespace Test.Cryptool.MD5.Algorithm
             byte[] builtinResult = builtinMD5.ComputeHash(data);
 
             PresentableMD5 presentableMD5 = new PresentableMD5();
-            presentableMD5.Initialize(new MemoryStream(data));
+            presentableMD5.Initialize(new CStreamWriter(data));
             presentableMD5.NextStepUntilFinished();
             byte[] presentableMD5Result = presentableMD5.HashValueBytes;
 

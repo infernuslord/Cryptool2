@@ -129,34 +129,33 @@ namespace Cryptool.MD5
                 ProgressChanged(1.0, 1.0);
             }
         }
-        
+
         public void Execute()
         {
-          ProgressChanged(0.5, 1.0);
-          if (inputData != null)
-          {
-              using (CStreamReader reader = inputData.CreateReader())
-              {
-              if (Presentation.IsVisible)
-              {
-                      md5.Initialize(reader);
-              }
-              else
-              {
-                  HashAlgorithm builtinMd5 = System.Security.Cryptography.MD5.Create();
+            ProgressChanged(0.5, 1.0);
+            if (inputData != null)
+            {
+                if (Presentation.IsVisible)
+                {
+                    md5.Initialize(inputData);
+                }
+                else
+                {
+                    HashAlgorithm builtinMd5 = System.Security.Cryptography.MD5.Create();
 
-                      OutputData = builtinMd5.ComputeHash(reader);
+                    using (CStreamReader reader = inputData.CreateReader())
+                    {
+                        OutputData = builtinMd5.ComputeHash(reader);
+                    }
 
-                  ProgressChanged(1.0, 1.0);
-              }
-          }
-          }
-          else
-          {            
-              GuiLogMessage("Received null value for CryptoolStream.", NotificationLevel.Warning);
-          }
+                    ProgressChanged(1.0, 1.0);
+                }
+            }
+            else
+            {
+                GuiLogMessage("Received null value for CryptoolStream.", NotificationLevel.Warning);
+            }
         }
-
         
         public void Initialize()
         {            
@@ -165,7 +164,7 @@ namespace Cryptool.MD5
         public void Dispose()
         {
             inputData = null;
-          }
+        }
         #endregion
 
         #region IPlugin Members
