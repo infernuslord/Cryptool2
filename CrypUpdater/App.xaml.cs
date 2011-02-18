@@ -231,21 +231,12 @@ namespace CrypUpdater
 
                 using (ZipFile zip = ZipFile.Read(ZipFilePath))
                 {
-
-                    int count = zip.Entries.Count;
-                    int i = 0;
-                    int progress = 0;
-
                     m.Show();
 
                     foreach (ZipEntry e in zip)
                     {
                         e.Extract(CryptoolFolderPath, ExtractExistingFileAction.OverwriteSilently);
-                        i++;
-                        progress = i * 100 / count;
-                        m.UpdateProgress(progress);
                     }
-
                 }
 
             }

@@ -5,7 +5,7 @@
     <Grid>
         <StackPanel Name="stackPanel1" Height="75" VerticalAlignment="Top">
             <TextBlock Height="16" Name="textBlock1" Text="Updating, CrypTool 2.0 will restart soon..." Width="384" Margin="8" />
-            <ProgressBar Height="27" Name="progressBar1" Width="386" HorizontalContentAlignment="Center" Margin="8" />
+            <ProgressBar Height="27" Name="progressBar1" Width="386" HorizontalContentAlignment="Center" Margin="8" IsIndeterminate="True" />
         </StackPanel>
     </Grid>
 </Window>
