@@ -102,18 +102,49 @@ namespace CrypUpdater
                 if (filePath.EndsWith("zip"))
                     UnpackZip(filePath, cryptoolFolderPath);
                 else
+                    StartMSI();
+            }
+            else
+                AskForLicenseToKill();
+        }
+
+        private void StartMSI()
+        {
+            try
+            {
+                DirectorySecurity ds = Directory.GetAccessControl(cryptoolFolderPath);
+
+                Process p = new Process();
+                p.StartInfo.FileName = "msiexec.exe";
+                p.StartInfo.Arguments = "/i \"" + filePath + "\" /qb /l* install.txt INSTALLDIR=\"" + cryptoolFolderPath + "\"";
+                p.Start();
+                p.WaitForExit();
+                if (p.ExitCode != 0)
+                    MessageBox.Show("The exit code is not equal to zero. See log file for more information. CrypTool 2.0 will be restarted.", "Error");
+            }
+            catch (UnauthorizedAccessException)
+            {
+                WindowsPrincipal pricipal = new WindowsPrincipal(WindowsIdentity.GetCurrent());
+
+                if (!pricipal.IsInRole(WindowsBuiltInRole.Administrator))
                 {
                     Process p = new Process();
                     p.StartInfo.FileName = "msiexec.exe";
                     p.StartInfo.Arguments = "/i \"" + filePath + "\" /qb /l* install.txt INSTALLDIR=\"" + cryptoolFolderPath + "\"";
+                    p.StartInfo.UseShellExecute = true;
+                    p.StartInfo.Verb = "runas";
                     p.Start();
                     p.WaitForExit();
                     if (p.ExitCode != 0)
                         MessageBox.Show("The exit code is not equal to zero. See log file for more information. CrypTool 2.0 will be restarted.", "Error");
                 }
+                else
+                    MessageBox.Show("MSI update failed: CrypTool 2.0 will be restarted.", "Error");
             }
-            else
-                AskForLicenseToKill();
+            catch (Exception e)
+            {
+                MessageBox.Show("MSI update failed: " + e.Message + ". CrypTool 2.0 will be restarted.", "Error");
+            }
         }
 
         private void AskForLicenseToKill()
