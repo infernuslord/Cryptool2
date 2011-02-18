@@ -21,6 +21,7 @@ using System.Text;
 using System.Security.Cryptography;
 using System.IO;
 using System.ComponentModel;
+using Cryptool.PluginBase.IO;
 
 namespace Cryptool.MD5.Algorithm
 {
@@ -195,10 +196,10 @@ namespace Cryptool.MD5.Algorithm
         /// <summary>
         /// Assigns a data source and initializes the algorithm, putting it into "initialized" state
         /// </summary>
-        /// <param name="dataStream">Data source</param>
-        public void Initialize(Stream dataStream)
+        /// <param name="cStream">Data source</param>
+        public void Initialize(ICryptoolStream cStream)
         {
-            DataStream = dataStream;
+            DataStream = cStream.CreateReader();
 
             SetUninitializedState();
             PerformInitializationStep();
@@ -479,6 +480,7 @@ namespace Cryptool.MD5.Algorithm
                         if (previousState.IsPaddingDone)
                         {
                             // If padding was already added, we're done
+                            DataStream.Close();
                             newState.State = MD5StateDescription.FINISHED;
                         }
                         else
@@ -515,7 +517,7 @@ namespace Cryptool.MD5.Algorithm
         {
             // Fetch up to 64 bytes of data
             newState.Data = new byte[128];
-            newState.DataLength = (uint)DataStream.Read(newState.Data, 0, 64);
+            newState.DataLength = (uint)DataStream.Read(newState.Data, 0, 64); //fully
             newState.DataOffset = 0;
         }
 
