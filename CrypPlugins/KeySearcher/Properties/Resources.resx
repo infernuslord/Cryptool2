@@ -645,4 +645,7 @@
 	<data name="StatisticsPresentation_SetCurrentRate">
 		<value xml:space="preserve">{0:0,0} key/sec</value>
 	</data>
+	<data name="Connection_lost__Waiting_for_reconnect___">
+		<value xml:space="preserve">Connection lost. Waiting for reconnect...</value>
+	</data>
 </root>
