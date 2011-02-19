@@ -1,5 +1,5 @@
 ﻿/*                              
-   Copyright 2010 Nils Kopal, Viktor M.
+   Copyright 2010 Nils Kopal
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -31,36 +31,41 @@ namespace WorkspaceManager.Model
     /// </summary>
     [Serializable]
     public abstract class VisualElementModel
-    {       
+    {
+        internal VisualElementModel()
+        {
+
+        }
+
         /// <summary>
         /// Current Position of this VisualElementModel
         /// </summary>
-        public Point Position;
-
+        internal Point Position;
+        
         /// <summary>
         /// Minimum Width of this VisualElementModel
         /// </summary>
-        public double MinWidth = 250;
+        internal double MinWidth = 250;
         
         /// <summary>
         /// Minimum Height of this VisualElementModel
         /// </summary>      
-        public double MinHeight = 200;
+        internal double MinHeight = 200;
 
         /// <summary>
         /// Width of this VisualElementModel
         /// </summary>
-        public double Width = 400;
+        internal double Width = 400;
 
         /// <summary>
         /// Height of this VisualElementModel
         /// </summary>
-        public double Height = 300;
+        internal double Height = 300;
 
         /// <summary>
         /// Name of this VisualElementModel
         /// </summary>
-        public string Name;
+        internal string Name;
 
         /// <summary>
         /// Indicates that this Model Element needs a GUI Update
@@ -71,6 +76,60 @@ namespace WorkspaceManager.Model
         /// View Element of this VisualElement
         /// </summary>
         [NonSerialized]
-        public IUpdateableViewElement UpdateableViewElement = null;   
+        public IUpdateableViewElement UpdateableViewElement = null;
+
+        /// <summary>
+        /// Get the current Position of this VisualElementModel
+        /// </summary>
+        /// <returns></returns>
+        public Point GetPosition()
+        {
+            return Position;
+        }
+
+        /// <summary>
+        /// Get the minimum width of this VisualElementModel
+        /// </summary>
+        /// <returns></returns>        
+        public double GetMinWidth()
+        {
+            return MinWidth;
+        }
+
+        /// <summary>
+        /// Get the minimum height of this VisualElementModel
+        /// </summary>
+        /// <returns></returns>        
+        public double GetMinHeight()
+        {
+            return MinHeight;
+        }
+
+        /// <summary>
+        /// Get the width of this VisualElementModel
+        /// </summary>
+        /// <returns></returns>
+        public double GetWidth()
+        {
+            return Width;
+        }
+
+        /// <summary>
+        /// Get the current height of this VisualElementModel
+        /// </summary>
+        /// <returns></returns>
+        public double GetHeight()
+        {
+            return Height;
+        }
+
+        /// <summary>
+        /// Get the name of thisVisualElementModel
+        /// </summary>
+        /// <returns></returns>
+        public string GetName()
+        {
+            return Name;
+        }
     }
 }

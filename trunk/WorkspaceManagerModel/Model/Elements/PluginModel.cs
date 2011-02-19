@@ -1,5 +1,5 @@
 ﻿/*                              
-   Copyright 2010 Nils Kopal, Viktor M.
+   Copyright 2010 Nils Kopal
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -32,13 +32,6 @@ using WorkspaceManager.Model.Tools;
 
 namespace WorkspaceManager.Model
 {
-    /// <summary>
-    /// Log updated event
-    /// </summary>
-    public class LogUpdated : EventArgs
-    {
-        public GuiLogEventArgs log;
-    }
 
     /// <summary>
     /// Class to represent and wrap a IPlugin in our model graph
@@ -46,8 +39,14 @@ namespace WorkspaceManager.Model
     [Serializable]
     public class PluginModel : VisualElementModel
     {
+        internal PluginModel()
+        {
+            this.InputConnectors = new List<ConnectorModel>();
+            this.OutputConnectors = new List<ConnectorModel>();
+        }
+
         [NonSerialized]
-        public MessageExecution MessageExecution = null;
+        internal MessageExecution MessageExecution = null;
 
         #region private members
 
@@ -148,16 +147,7 @@ namespace WorkspaceManager.Model
         /// The execution state of the progress of the wrapped plugin 
         /// </summary>
         public double PercentageFinished { get; internal set; }
-
-        /// <summary>
-        /// Create a new PluginModel
-        /// </summary>
-        public PluginModel()
-        {
-            this.InputConnectors = new List<ConnectorModel>();
-            this.OutputConnectors = new List<ConnectorModel>();
-        }
-      
+       
         /// <summary>
         /// The WorkspaceModel of this PluginModel
         /// </summary>

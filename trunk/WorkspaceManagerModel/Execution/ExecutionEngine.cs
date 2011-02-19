@@ -1,5 +1,5 @@
 ﻿/*                              
-   Copyright 2010 Nils Kopal, Viktor M.
+   Copyright 2010 Nils Kopal
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -203,7 +203,7 @@ namespace WorkspaceManager.Execution
     /// <summary>
     /// Message send to scheduler for a Plugin to trigger the Execution
     /// </summary>
-    public class MessageExecution : MessageBase
+    internal class MessageExecution : MessageBase
     {
         public PluginModel PluginModel;
     }
@@ -211,7 +211,7 @@ namespace WorkspaceManager.Execution
     /// <summary>
     /// A Protocol for updating the GUI in time intervals
     /// </summary>
-    public class UpdateGuiProtocol : ProtocolBase
+    internal class UpdateGuiProtocol : ProtocolBase
     {
         private WorkspaceModel workspaceModel;
         private ExecutionEngine executionEngine;
@@ -281,7 +281,7 @@ namespace WorkspaceManager.Execution
     /// <summary>
     /// A Protocol for benchmarking
     /// </summary>
-    public class BenchmarkProtocol : ProtocolBase
+    internal class BenchmarkProtocol : ProtocolBase
     {
         private WorkspaceModel workspaceModel;
         private ExecutionEngine executionEngine;
@@ -328,7 +328,7 @@ namespace WorkspaceManager.Execution
     /// <summary>
     /// A Protocol for a PluginModel
     /// </summary>
-    public class PluginProtocol : ProtocolBase
+    internal class PluginProtocol : ProtocolBase
     {        
         public PluginModel PluginModel;
         private ExecutionEngine executionEngine;
@@ -534,7 +534,7 @@ namespace WorkspaceManager.Execution
     /// <summary>
     /// Gears4Net Scheduler
     /// </summary>
-    public class WorkspaceManagerScheduler : Scheduler
+    internal class WorkspaceManagerScheduler : Scheduler
     {
         private System.Threading.AutoResetEvent wakeup = new System.Threading.AutoResetEvent(false);
         private bool shutdown = false;

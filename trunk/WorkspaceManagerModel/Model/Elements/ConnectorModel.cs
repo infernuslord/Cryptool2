@@ -1,6 +1,6 @@
 ﻿/*                              
-   Copyright 2010 Nils Kopal, Viktor M.
-
+   Copyright 2010 Nils Kopal
+ 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
    You may obtain a copy of the License at
@@ -32,6 +32,12 @@ namespace WorkspaceManager.Model
     [Serializable]
     public class ConnectorModel : VisualElementModel
     {
+
+        internal ConnectorModel(){
+            this.InputConnections = new List<ConnectionModel>();
+            this.OutputConnections = new List<ConnectionModel>();   
+        }
+
         #region private members
 
         /// <summary>
@@ -66,7 +72,6 @@ namespace WorkspaceManager.Model
         /// </summary>      
         [NonSerialized]
         internal PropertyInfo property = null;
-
 
         /// <summary>
         /// The PluginModel this Connector belongs to
@@ -130,16 +135,7 @@ namespace WorkspaceManager.Model
         /// <summary>
         /// The Orientation of this ConnectorModel
         /// </summary>
-        public ConnectorOrientation Orientation = ConnectorOrientation.Unset;
-
-        /// <summary>
-        /// Creates a new ConnectorModel
-        /// </summary>
-        public ConnectorModel()
-        {
-            this.InputConnections = new List<ConnectionModel>();
-            this.OutputConnections = new List<ConnectionModel>();
-        }
+        public ConnectorOrientation Orientation = ConnectorOrientation.Unset;        
 
         /// <summary>
         /// The WorkspaceModel of this PluginModel
