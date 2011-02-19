@@ -39,19 +39,15 @@ namespace KeySearcher
         {
             keysearcher = ks;
 
-            devicesAvailable.Clear();
-            int c = 0;
-            if (oclManager != null)
-                foreach (var device in oclManager.Context.Devices)
-                {
-                    if (Settings.Default.AllowOpenCLNvidia || device.Vendor != "NVIDIA Corporation")
-                    {
-                        string deviceName = device.Vendor + ":" + device.Name;
-                        deviceSettings.Add(new OpenCLDeviceSettings() {name = deviceName, index = c, mode = 1, useDevice = false});
-                        devicesAvailable.Add(deviceName);
-                        c++;
-                    }
-                }
+            Settings.Default.PropertyChanged += delegate(Object sender, PropertyChangedEventArgs e)
+                                                    {
+                                                        if (e.PropertyName == "AllowOpenCLNvidia")
+                                                        {
+                                                            RefreshDevicesList(oclManager);
+                                                        }
+                                                    };
+
+            RefreshDevicesList(oclManager);
 
             CoresAvailable.Clear();
             for (int i = -1; i < Environment.ProcessorCount; i++)
@@ -59,6 +55,28 @@ namespace KeySearcher
             CoresUsed = Environment.ProcessorCount - 1;
 
             chunkSize = 21;
+        }
+
+        private void RefreshDevicesList(OpenCLManager oclManager)
+        {
+            devicesAvailable.Clear();
+            int c = 0;
+            if (oclManager != null)
+            {
+                foreach (var device in oclManager.Context.Devices)
+                {
+                    if (Settings.Default.AllowOpenCLNvidia || device.Vendor != "NVIDIA Corporation")
+                    {
+                        string deviceName = device.Vendor + ":" + device.Name;
+                        deviceSettings.Add(new OpenCLDeviceSettings() { name = deviceName, index = c, mode = 1, useDevice = false });
+                        devicesAvailable.Add(deviceName);
+                        c++;
+                    }
+                }
+            }
+            DevicesAvailable = devicesAvailable;    //refresh list
+            if (devicesAvailable.Count > 0)
+                OpenCLDevice = 0;
         }
 
         public void Initialize()
@@ -312,6 +330,7 @@ namespace KeySearcher
 
         private int openCLDevice;
         [TaskPane("OpenCLDeviceSettings", "OpenCLDeviceSettingsDesc", "GroupOpenCL", 1, false, ControlType.DynamicComboBox, new string[] { "DevicesAvailable" })]
+        [DontSave]
         public int OpenCLDevice
         {
             get { return this.openCLDevice; }
@@ -330,6 +349,7 @@ namespace KeySearcher
 
         [TaskPane("UseSelectedDeviceSettings", "UseSelectedDeviceSettingsDesc",
             "GroupOpenCL", 2, false, ControlType.CheckBox)]
+        [DontSave]
         public bool UseOpenCL
         {
             get
@@ -351,6 +371,7 @@ namespace KeySearcher
         }
 
         [TaskPane("OpenCLModeSettings", "OpenCLModeSettingsDesc", "GroupOpenCL", 3, false, ControlType.RadioButton, new string[] { "Low Load", "Normal Load", "High Load (use with caution)" })]
+        [DontSave]
         public int OpenCLMode
         {
             get
@@ -375,8 +396,9 @@ namespace KeySearcher
                 }
             }
         }
-
+        
         private ObservableCollection<string> devicesAvailable = new ObservableCollection<string>();
+        [DontSave]
         public ObservableCollection<string> DevicesAvailable
         {
             get { return devicesAvailable; }
@@ -514,6 +536,7 @@ namespace KeySearcher
         #endregion
 
         private ObservableCollection<string> coresAvailable = new ObservableCollection<string>();
+        [DontSave]
         public ObservableCollection<string> CoresAvailable
         {
             get { return coresAvailable; }
