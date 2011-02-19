@@ -1,5 +1,5 @@
 ﻿/*                              
-   Copyright 2010 Nils Kopal, Viktor M.
+   Copyright 2010 Nils Kopal
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -33,7 +33,7 @@ namespace XMLSerialization
     /// <summary>
     /// Provides static methods for XML serialization and deserialization
     /// </summary>
-    public class XMLSerialization
+    public static class XMLSerialization
     {
         /// <summary>
         /// Serializes the given object and all of its members to the given file using UTF-8 encoding

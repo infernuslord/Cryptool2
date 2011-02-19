@@ -1,5 +1,5 @@
 ﻿/*                              
-   Copyright 2010 Nils Kopal, Viktor M.
+   Copyright 2010 Nils Kopal
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -35,6 +35,16 @@ namespace WorkspaceManager.Model
     [Serializable]
     public class WorkspaceModel : VisualElementModel
     {
+
+        internal WorkspaceModel()
+        {
+            this.AllPluginModels = new List<PluginModel>();
+            this.AllConnectionModels = new List<ConnectionModel>();
+            this.AllConnectorModels = new List<ConnectorModel>();
+            this.AllImageModels = new List<ImageModel>();
+            this.AllTextModels = new List<TextModel>();
+        }
+
         [NonSerialized]
         private IEditor workspaceManagerEditor;
 
@@ -52,9 +62,6 @@ namespace WorkspaceManager.Model
                 workspaceManagerEditor = value;
             }
         }
-
-        [field: NonSerialized]
-        public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
 
         [NonSerialized]
         public UndoRedoManager UndoRedoManager;
@@ -97,19 +104,7 @@ namespace WorkspaceManager.Model
         /// All TextModels of our Workspace Model
         /// </summary>
         public List<TextModel> AllTextModels;
-
-        /// <summary>
-        /// Creates a new Workspace Model
-        /// </summary>
-        public WorkspaceModel()
-        {
-            this.AllPluginModels = new List<PluginModel>();
-            this.AllConnectionModels = new List<ConnectionModel>();
-            this.AllConnectorModels = new List<ConnectorModel>();
-            this.AllImageModels = new List<ImageModel>();
-            this.AllTextModels = new List<TextModel>();
-        }
-
+       
         /// <summary>
         /// Creates a new PluginModel belonging to this WorkspaceModel
         /// </summary>
@@ -130,7 +125,6 @@ namespace WorkspaceManager.Model
             pluginModel.RepeatStart = false;
             pluginModel.generateConnectors();
             pluginModel.Plugin.Initialize();
-            pluginModel.Plugin.OnGuiLogNotificationOccured += OnGuiLogNotificationOccured;
             //pluginModel.Plugin.OnGuiLogNotificationOccured += pluginModel.GuiLogNotificationOccured;
             pluginModel.Plugin.OnPluginProgressChanged += pluginModel.PluginProgressChanged;
             pluginModel.Plugin.OnPluginStatusChanged += pluginModel.PluginStatusChanged;
@@ -412,7 +406,7 @@ namespace WorkspaceManager.Model
         /// <param name="connectorModelA"></param>
         /// <param name="connectorModelB"></param>
         /// <returns></returns>
-        internal static bool compatibleConnectors(ConnectorModel connectorModelA, ConnectorModel connectorModelB)
+        public static bool compatibleConnectors(ConnectorModel connectorModelA, ConnectorModel connectorModelB)
         {
             if (!connectorModelA.Outgoing || connectorModelB.Outgoing || connectorModelA.PluginModel == connectorModelB.PluginModel)
             {
@@ -441,16 +435,5 @@ namespace WorkspaceManager.Model
                 return false;
             }
         }
-
-        internal void GuiLogMessage(string message, NotificationLevel level)
-        {
-            if (OnGuiLogNotificationOccured != null)
-            {
-                GuiLogEventArgs args = new GuiLogEventArgs(message, Editor, level);
-                args.Title = "-";
-                OnGuiLogNotificationOccured(Editor, args);
-            }
-        }
-
     }
 }

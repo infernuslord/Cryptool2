@@ -1,5 +1,5 @@
 ﻿/*                              
-   Copyright 2010 Nils Kopal, Viktor M.
+   Copyright 2010 Nils Kopal
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -31,7 +31,7 @@ namespace WorkspaceManager.Model
     /// <summary>
     /// Class with static methods for loading and saving of WorkspaceModels
     /// </summary>
-    public class ModelPersistance
+    public static class ModelPersistance
     {
         /// <summary>
         /// Deserializes a model from the given file with the given filename
