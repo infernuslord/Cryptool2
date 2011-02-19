@@ -26,6 +26,7 @@ using System.Windows.Threading;
 using System.Threading;
 using WorkspaceManager.Model.Tools;
 using Cryptool.PluginBase.Editor;
+using WorkspaceManagerModel.Model.Operations;
 
 namespace WorkspaceManager.Model
 {
@@ -136,7 +137,7 @@ namespace WorkspaceManager.Model
             this.HasChanges = true;
             if (!this.UndoRedoManager.Working)
             {
-                this.UndoRedoManager.DidOperation(new NewModelElementOperation(pluginModel) { SingleOperation = true });
+                this.UndoRedoManager.DidOperation(new NewModelElementOperation(pluginModel));
             }
             return pluginModel;
         }
@@ -201,7 +202,7 @@ namespace WorkspaceManager.Model
             this.HasChanges = true;
             if (!this.UndoRedoManager.Working)
             {
-                this.UndoRedoManager.DidOperation(new NewModelElementOperation(connectionModel) { SingleOperation = true });
+                this.UndoRedoManager.DidOperation(new NewModelElementOperation(connectionModel));
             }
             return connectionModel;
         }
@@ -218,7 +219,7 @@ namespace WorkspaceManager.Model
             this.HasChanges = true;
             if (!this.UndoRedoManager.Working)
             {
-                this.UndoRedoManager.DidOperation(new NewModelElementOperation(imageModel) { SingleOperation = true });
+                this.UndoRedoManager.DidOperation(new NewModelElementOperation(imageModel));
             }
             return imageModel;
         }
@@ -235,7 +236,7 @@ namespace WorkspaceManager.Model
             this.HasChanges = true;
             if (!this.UndoRedoManager.Working)
             {
-                this.UndoRedoManager.DidOperation(new NewModelElementOperation(textModel) { SingleOperation = true });
+                this.UndoRedoManager.DidOperation(new NewModelElementOperation(textModel));
             }
             return textModel;
         }
@@ -249,7 +250,7 @@ namespace WorkspaceManager.Model
         {
             if (!this.UndoRedoManager.Working)
             {
-                this.UndoRedoManager.DidOperation(new DeleteModelElementOperation(imageModel) { SingleOperation = true });
+                this.UndoRedoManager.DidOperation(new DeleteModelElementOperation(imageModel));
             }
             return this.AllImageModels.Remove(imageModel);
         }
@@ -263,7 +264,7 @@ namespace WorkspaceManager.Model
         {
             if (!this.UndoRedoManager.Working)
             {
-                this.UndoRedoManager.DidOperation(new DeleteModelElementOperation(textModel) { SingleOperation = true });
+                this.UndoRedoManager.DidOperation(new DeleteModelElementOperation(textModel));
             }
             return this.AllTextModels.Remove(textModel);
         }
@@ -294,7 +295,7 @@ namespace WorkspaceManager.Model
                 this.HasChanges = true;
                 if (!this.UndoRedoManager.Working)
                 {
-                    this.UndoRedoManager.DidOperation(new DeleteModelElementOperation(pluginModel) { SingleOperation = true });
+                    this.UndoRedoManager.DidOperation(new DeleteModelElementOperation(pluginModel));
                 }
 
                 return this.AllPluginModels.Remove(pluginModel);
@@ -327,7 +328,7 @@ namespace WorkspaceManager.Model
                 this.HasChanges = true;
                 if (!this.UndoRedoManager.Working)
                 {
-                    this.UndoRedoManager.DidOperation(new DeleteModelElementOperation(connectorModel) { SingleOperation = false });
+                    this.UndoRedoManager.DidOperation(new DeleteModelElementOperation(connectorModel));
                 }
 
                 return this.AllConnectorModels.Remove(connectorModel);
@@ -350,7 +351,7 @@ namespace WorkspaceManager.Model
             this.HasChanges = true;
             if (!this.UndoRedoManager.Working)
             {
-                this.UndoRedoManager.DidOperation(new DeleteModelElementOperation(connectionModel) { SingleOperation = true });
+                this.UndoRedoManager.DidOperation(new DeleteModelElementOperation(connectionModel));
             }
 
             return this.AllConnectionModels.Remove(connectionModel);

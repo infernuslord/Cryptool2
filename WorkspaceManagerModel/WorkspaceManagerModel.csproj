@@ -63,6 +63,7 @@
     <Compile Include="Model\Elements\VisualElementModel.cs" />
     <Compile Include="Model\Elements\WorkspaceModel.cs" />
     <Compile Include="Model\Interfaces\IUpdateableViewElement.cs" />
+    <Compile Include="Model\Operations\Operations.cs" />
     <Compile Include="Model\Tools\ColorHelper.cs" />
     <Compile Include="Model\Tools\ModelPersistance.cs" />
     <Compile Include="Model\Tools\UndoRedoManager.cs" />

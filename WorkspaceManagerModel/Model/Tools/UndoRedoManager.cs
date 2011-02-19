@@ -22,6 +22,7 @@ using Cryptool.PluginBase;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows;
+using WorkspaceManagerModel.Model.Operations;
 
 namespace WorkspaceManager.Model.Tools
 {
@@ -61,24 +62,24 @@ namespace WorkspaceManager.Model.Tools
             Working = true;
             if (UndoStack.Count > 0)
             {
-                object lastModelElement = null;
+                object lastModelModel = null;
                 Operation op = UndoStack.Pop();
-                lastModelElement = op.Element;
+                lastModelModel = op.Model;
                 op.Undo();
                 RedoStack.Push(op);
 
-                if (UndoStack.Count > 0 && (!UndoStack.First().SingleOperation || 
+                if (UndoStack.Count > 0 && //(!UndoStack.First().SingleOperation ||
                     (UndoStack.First() is MoveModelElementOperation &&
-                    UndoStack.First().Element == lastModelElement)))
+                    UndoStack.First().Model == lastModelModel))//)
                 {
                     do
                     {
-                        lastModelElement = op.Element;
+                        lastModelModel = op.Model;
                         op = UndoStack.Pop();
                         op.Undo();
                         RedoStack.Push(op);
-                    } while (UndoStack.Count > 0 && (!UndoStack.First().SingleOperation || (UndoStack.First() is MoveModelElementOperation &&
-                    UndoStack.First().Element == lastModelElement)));
+                    } while (UndoStack.Count > 0 && //(!UndoStack.First().SingleOperation || (UndoStack.First() is MoveModelModelOperation &&
+                    UndoStack.First().Model == lastModelModel)/*))*/;
                 }
             }
             Working = false;
@@ -93,15 +94,15 @@ namespace WorkspaceManager.Model.Tools
             if (RedoStack.Count > 0)
             {                
                 Operation op = null;
-                object lastModelElement = null;
+                object lastModelModel = null;
                 do
                 {
                     op = RedoStack.Pop();                    
-                    lastModelElement = op.Element;
+                    lastModelModel = op.Model;
                     op.Redo();
                     UndoStack.Push(op);
-                } while (RedoStack.Count > 0 && (!RedoStack.First().SingleOperation || (RedoStack.First() is MoveModelElementOperation &&
-                    RedoStack.First().Element == lastModelElement)));
+                } while (RedoStack.Count > 0 && //(!RedoStack.First().SingleOperation || (RedoStack.First() is MoveModelModelOperation &&
+                    RedoStack.First().Model == lastModelModel)/*))*/;
 
             }
             Working = false;
@@ -134,259 +135,5 @@ namespace WorkspaceManager.Model.Tools
             get;
             private set;
         }
-    }
-
-    public interface Operation
-    {
-        object Element{get;}
-        void Undo();
-        void Redo();
-        bool SingleOperation { get; set; }
-    }
-
-    public class NewModelElementOperation : Operation{
-
-        VisualElementModel model = null;
-
-        public NewModelElementOperation(VisualElementModel model)
-        {
-            this.model = model;
-        }
-
-        #region Operation Members
-
-        public object Element { get { return this.model; } }
-
-        public void Undo()
-        {
-            if (model is PluginModel)
-            {
-                
-            }
-            else if (model is ConnectorModel)
-            {
-                
-            }
-            else if (model is ConnectionModel)
-            {
-                
-            }
-            else if (model is TextModel)
-            {
-               
-            }
-            else if (model is ImageModel)
-            {
-
-            }
-            else
-            {
-                throw new NotImplementedException("Can not undo NewModelElement: " + model.GetType().Name);
-            }
-        }
-
-        public void Redo()
-        {
-            if (model is PluginModel)
-            {
-              
-            }
-            else if (model is ConnectorModel)
-            {
-                
-            }
-            else if (model is ConnectionModel)
-            {
-                
-            }
-            else if (model is TextModel)
-            {
-            }
-            else if (model is ImageModel)
-            {                
-
-            }
-            else
-            {
-                throw new NotImplementedException("Can not redo NewModelElement: " + model.GetType().Name);
-            }
-        }
-
-        public bool SingleOperation
-        {
-            get;
-            set;
-        }
-        #endregion       
-    }
-
-    public class DeleteModelElementOperation : Operation
-    {
-
-        VisualElementModel model = null;
-
-        public DeleteModelElementOperation(VisualElementModel model)
-        {
-            this.model = model;
-        }
-
-        #region Operation Members
-
-        public object Element { get { return this.model; } }
-
-        public void Undo()
-        {
-            if (model is PluginModel)
-            {
-                
-            }
-            else if (model is ConnectorModel)
-            {
-               
-            }
-            else if (model is ConnectionModel)
-            {
-                
-            }
-            else if (model is TextModel)
-            {
-               
-            }
-            else if (model is ImageModel)
-            {
-               
-            }
-            else
-            {
-                throw new NotImplementedException("Can not undo DeleteModelElement: " + model.GetType().Name);
-            }
-        }
-
-        public void Redo()
-        {
-            if (model is PluginModel)
-            {
-               
-            }
-            else if (model is ConnectorModel)
-            {
-                
-            }
-            else if (model is ConnectionModel)
-            {
-                
-            }
-            else if (model is TextModel)
-            {
-                
-            }
-            else if (model is ImageModel)
-            {
-              
-            }
-            else
-            {
-                throw new NotImplementedException("Can not redo DeleteModelElement: " + model.GetType().Name);
-            }
-        }
-
-        public bool SingleOperation
-        {
-            get;
-            set;
-        }
-
-        #endregion
-    }
-
-    public class MoveModelElementOperation : Operation
-    {
-
-        VisualElementModel model = null;
-
-        public MoveModelElementOperation(VisualElementModel model)
-        {
-            this.model = model;
-        }
-
-        #region Operation Members
-
-        public object Element { get { return this.model; } }
-
-        public void Undo()
-        {
-            if (model is PluginModel)
-            {
-               
-            }
-            else if (model is ConnectorModel)
-            {
-                
-            }
-            else if (model is ConnectionModel)
-            {
-                
-            }
-            else if (model is TextModel)
-            {
-                
-            }
-            else if (model is ImageModel)
-            {
-               
-            }
-            else
-            {
-                throw new NotImplementedException("Can not undo DeleteModelElement: " + model.GetType().Name);
-            }
-        }
-
-        public void Redo()
-        {
-            if (model is PluginModel)
-            {
-                
-            }
-            else if (model is ConnectorModel)
-            {
-
-            }
-            else if (model is ConnectionModel)
-            {
-
-            }
-            else if (model is TextModel)
-            {
-
-            }
-            else if (model is ImageModel)
-            {
-
-            }
-            else
-            {
-                throw new NotImplementedException("Can not redo DeleteModelElement: " + model.GetType().Name);
-            }
-        }
-
-        public bool SingleOperation
-        {
-            get;
-            set;
-        }
-
-        public Point OldPosition
-        {
-            get;
-            set;
-        }
-
-        public Point NewPosition
-        {
-            get;
-            set;
-        }
-
-        #endregion
     }
 }
