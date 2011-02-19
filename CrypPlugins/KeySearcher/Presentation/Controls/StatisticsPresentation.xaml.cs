@@ -703,8 +703,8 @@ namespace KeySearcherPresentation.Controls
                         TimeSpan diff = DateTime.UtcNow.Subtract(max);
                         var minutes = diff.TotalMinutes;
 
-                        var r = Math.Round(minutes/20);
-                        var g = -1*(Math.Round(minutes/20)) + 255;
+                        var r = Math.Round(minutes/10);
+                        var g = -1*(Math.Round(minutes/10)) + 255;
 
                         if (r > 255) r = 255;
                         if (g < 0) g = 0;
@@ -743,8 +743,8 @@ namespace KeySearcherPresentation.Controls
                         TimeSpan diff = DateTime.UtcNow.Subtract(date);
                         var minutes = diff.TotalMinutes;
 
-                        var r = Math.Round(minutes / 20);
-                        var g = -1 * (Math.Round(minutes / 20)) + 255;
+                        var r = Math.Round(minutes / 10);
+                        var g = -1 * (Math.Round(minutes / 10)) + 255;
 
                         if (r > 255) r = 255;
                         if (g < 0) g = 0;
@@ -791,7 +791,7 @@ namespace KeySearcherPresentation.Controls
                         if (targetType != typeof(Visibility))
                             throw new InvalidOperationException("The target must be of Visibility");
 
-                        if (minutes > 7200) //five days
+                        if (minutes > 4320) //three days
                         {
                             return Visibility.Hidden;
                         }
@@ -837,7 +837,7 @@ namespace KeySearcherPresentation.Controls
                         if (targetType != typeof(Visibility))
                             throw new InvalidOperationException("The target must be of Visibility");
 
-                        if (minutes > 7200) //five days
+                        if (minutes > 4320) //three days
                         {
                             return Visibility.Visible;
                         }
@@ -878,7 +878,7 @@ namespace KeySearcherPresentation.Controls
                         if (targetType != typeof(Visibility))
                             throw new InvalidOperationException("The target must be of Visibility");
 
-                        if (minutes > 7200) //five days
+                        if (minutes > 4320) //three days
                         {
                             return Visibility.Hidden;
                         }
@@ -919,7 +919,7 @@ namespace KeySearcherPresentation.Controls
                         if (targetType != typeof(Visibility))
                             throw new InvalidOperationException("The target must be of Visibility");
 
-                        if (minutes > 7200) //five days
+                        if (minutes > 4320) //htree days
                         {
                             return Visibility.Visible;
                         }

@@ -39,7 +39,7 @@
             <Setter x:Name="P" Property="IsExpanded" Value="False" />
         </Style>
 
-        <Storyboard x:Key="BestGlow" RepeatBehavior="Forever">
+       <!-- <Storyboard x:Key="BestGlow" RepeatBehavior="Forever">
             <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(TextElement.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="BestUser">
                 <EasingColorKeyFrame KeyTime="0:0:1" Value="DarkGoldenrod"/>
                 <EasingColorKeyFrame KeyTime="0:0:2" Value="Black"/>
@@ -48,14 +48,14 @@
                 <EasingColorKeyFrame KeyTime="0:0:1" Value="DarkGoldenrod"/>
                 <EasingColorKeyFrame KeyTime="0:0:2" Value="Black"/>
             </ColorAnimationUsingKeyFrames>
-        </Storyboard>
+        </Storyboard>  -->
 
     </UserControl.Resources> 
-    <UserControl.Triggers>
+    <!-- <UserControl.Triggers>
         <EventTrigger RoutedEvent="Loaded">
             <BeginStoryboard Storyboard="{StaticResource BestGlow}" />
         </EventTrigger>
-    </UserControl.Triggers>
+    </UserControl.Triggers> -->
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
