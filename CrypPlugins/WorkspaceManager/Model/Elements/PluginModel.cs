@@ -30,7 +30,6 @@ using System.Reflection;
 using System.ComponentModel;
 using WorkspaceManager.View.Container;
 using WorkspaceManager.Model.Tools;
-using WorkspaceManager.View.Base;
 
 namespace WorkspaceManager.Model
 {
@@ -171,11 +170,6 @@ namespace WorkspaceManager.Model
         /// Current View state
         /// </summary>
         public PluginViewState ViewState { get; set; }
-
-        /// <summary>
-        /// Current BinFunction state
-        /// </summary>
-        public BinFuctionState BinState { get; set; }
 
         /// <summary>
         /// Generates all Connectors of this Plugin.
