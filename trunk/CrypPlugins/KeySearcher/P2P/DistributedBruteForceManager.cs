@@ -288,7 +288,7 @@ namespace KeySearcher.P2P
                     {
                         P2PManager.P2PBase.OnSystemJoined += P2PBase_OnSystemJoined;
                         systemJoinEvent.WaitOne(1000);
-                    } while (!P2PManager.IsConnected);
+                    } while (!P2PManager.IsConnected && !keySearcher.stop);
                 }
                 catch (InvalidOperationException)
                 {
