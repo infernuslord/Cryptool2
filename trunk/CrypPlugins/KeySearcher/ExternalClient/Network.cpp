@@ -61,7 +61,7 @@ void writeJobResult(PlatformIndependentWrapper& wrapper, JobResult& result)
 
 // Queue of completed jobs
 std::queue<JobResult> finishedJobs;
-void GetJobsAndPostResults(PlatformIndependentWrapper& wrapper, const char* password, Cryptool* cryptool)
+void GetJobsAndPostResults(PlatformIndependentWrapper& wrapper, const char* password, Cryptool* cryptool, bool* receivedSigInt)
 {
     wrapper.WriteInt(ClientOpcodes::HELLO);
     wrapper.WriteString(getIdentificationStr(cryptool));
@@ -74,9 +74,8 @@ void GetJobsAndPostResults(PlatformIndependentWrapper& wrapper, const char* pass
         finishedJobs.pop();
     }
     // loop will be escaped by wrapper exceptions
-    while(true)
+    while(!*receivedSigInt)
     {
-        // TODO: soft break
         printf("Requesting new job...\n");
         wrapper.WriteInt(ClientOpcodes::JOB_REQUEST);
         switch(wrapper.ReadInt())
@@ -113,7 +112,7 @@ void GetJobsAndPostResults(PlatformIndependentWrapper& wrapper, const char* pass
     }
 }
 
-void networkThread(sockaddr_in serv_addr, int port, const char* password, Cryptool* cryptool)
+void networkThread(sockaddr_in serv_addr, int port, const char* password, Cryptool* cryptool, bool* receivedSigInt)
 {
     printf("Connecting to %s on port %i\n", inet_ntoa(serv_addr.sin_addr), port);
     int sockfd = socket(AF_INET, SOCK_STREAM, 0);
@@ -140,7 +139,7 @@ void networkThread(sockaddr_in serv_addr, int port, const char* password, Crypto
 
     try{
         PlatformIndependentWrapper w(sockfd);
-        GetJobsAndPostResults(w, password, cryptool);
+        GetJobsAndPostResults(w, password, cryptool, receivedSigInt);
     } catch(SocketException)
     {
         close(sockfd);
