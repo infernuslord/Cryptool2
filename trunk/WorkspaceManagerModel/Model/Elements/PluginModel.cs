@@ -29,6 +29,7 @@ using Cryptool.PluginBase.IO;
 using System.Reflection;
 using System.ComponentModel;
 using WorkspaceManager.Model.Tools;
+using WorkspaceManagerModel.Model.Operations;
 
 namespace WorkspaceManager.Model
 {
@@ -186,7 +187,7 @@ namespace WorkspaceManager.Model
                         WorkspaceModel.AllConnectorModels.Add(connectorModel);
                         if(!this.WorkspaceModel.UndoRedoManager.Working)
                         {
-                            this.WorkspaceModel.UndoRedoManager.DidOperation(new NewModelElementOperation(connectorModel) { SingleOperation = false });
+                            this.WorkspaceModel.UndoRedoManager.DidOperation(new NewModelElementOperation(connectorModel));
                         }
                     }
                     else if (propertyInfoAttribute.Direction.Equals(Direction.ControlSlave))
@@ -205,7 +206,7 @@ namespace WorkspaceManager.Model
                         WorkspaceModel.AllConnectorModels.Add(connectorModel);
                         if(!this.WorkspaceModel.UndoRedoManager.Working)
                         {
-                            this.WorkspaceModel.UndoRedoManager.DidOperation(new NewModelElementOperation(connectorModel){SingleOperation=false});
+                            this.WorkspaceModel.UndoRedoManager.DidOperation(new NewModelElementOperation(connectorModel));
                         }
                     }
                     else if (propertyInfoAttribute.Direction.Equals(Direction.OutputData))
@@ -225,7 +226,7 @@ namespace WorkspaceManager.Model
                         WorkspaceModel.AllConnectorModels.Add(connectorModel);
                         if(!this.WorkspaceModel.UndoRedoManager.Working)
                         {
-                            this.WorkspaceModel.UndoRedoManager.DidOperation(new NewModelElementOperation(connectorModel){SingleOperation=false});
+                            this.WorkspaceModel.UndoRedoManager.DidOperation(new NewModelElementOperation(connectorModel));
                         }
                     }
                     else if (propertyInfoAttribute.Direction.Equals(Direction.ControlMaster))
@@ -245,7 +246,7 @@ namespace WorkspaceManager.Model
                         WorkspaceModel.AllConnectorModels.Add(connectorModel);
                         if(!this.WorkspaceModel.UndoRedoManager.Working)
                         {
-                            this.WorkspaceModel.UndoRedoManager.DidOperation(new NewModelElementOperation(connectorModel){SingleOperation=false});
+                            this.WorkspaceModel.UndoRedoManager.DidOperation(new NewModelElementOperation(connectorModel));
                         }
                     }
                 }
@@ -277,7 +278,7 @@ namespace WorkspaceManager.Model
                             WorkspaceModel.AllConnectorModels.Add(connectorModel);
                             if(!this.WorkspaceModel.UndoRedoManager.Working)
                             {
-                                this.WorkspaceModel.UndoRedoManager.DidOperation(new NewModelElementOperation(connectorModel){SingleOperation=false});
+                                this.WorkspaceModel.UndoRedoManager.DidOperation(new NewModelElementOperation(connectorModel));
                             }
                         }
                         else if (dynamicProperty.PInfo.Direction.Equals(Direction.OutputData))
@@ -301,7 +302,7 @@ namespace WorkspaceManager.Model
                             WorkspaceModel.AllConnectorModels.Add(connectorModel);
                             if(!this.WorkspaceModel.UndoRedoManager.Working)
                             {
-                                this.WorkspaceModel.UndoRedoManager.DidOperation(new NewModelElementOperation(connectorModel){SingleOperation=false});
+                                this.WorkspaceModel.UndoRedoManager.DidOperation(new NewModelElementOperation(connectorModel));
                             }
                         }
                     }
