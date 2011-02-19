@@ -304,6 +304,15 @@ namespace KeySearcher.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Connection lost. Waiting for reconnect....
+        /// </summary>
+        internal static string Connection_lost__Waiting_for_reconnect___ {
+            get {
+                return ResourceManager.GetString("Connection_lost__Waiting_for_reconnect___", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Connection lost! Waiting for reconnection to store the results!.
         /// </summary>
         internal static string Connection_lost__Waiting_for_reconnection_to_store_the_results_ {

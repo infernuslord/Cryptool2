@@ -214,11 +214,7 @@ namespace KeySearcher.P2P
                             {
                                 status.CurrentOperation = Resources.Connection_lost__Waiting_for_reconnection_to_store_the_results_;
                                 keySearcher.GuiLogMessage(status.CurrentOperation, NotificationLevel.Info);
-                                do
-                                {
-                                    P2PManager.P2PBase.OnSystemJoined += P2PBase_OnSystemJoined;
-                                    systemJoinEvent.WaitOne(1000);
-                                } while (!P2PManager.IsConnected);
+                                WaitForReconnect();
                             }
                             status.CurrentOperation = Resources.Processing_results_of_calculation;
 
@@ -282,13 +278,9 @@ namespace KeySearcher.P2P
                 }
                 catch (NotConnectedException)
                 {
-                    status.CurrentOperation = "Connection lost. Waiting for reconnect...";
+                    status.CurrentOperation = Resources.Connection_lost__Waiting_for_reconnect___;
                     keySearcher.GuiLogMessage(status.CurrentOperation, NotificationLevel.Info);
-                    do
-                    {
-                        P2PManager.P2PBase.OnSystemJoined += P2PBase_OnSystemJoined;
-                        systemJoinEvent.WaitOne(1000);
-                    } while (!P2PManager.IsConnected && !keySearcher.stop);
+                    WaitForReconnect();
                 }
                 catch (InvalidOperationException)
                 {
@@ -312,6 +304,16 @@ namespace KeySearcher.P2P
             statisticTimer.Stop();
             statisticTimer.Dispose();
             status.RemainingTimeTotal = new TimeSpan(0);
+        }
+
+        private void WaitForReconnect()
+        {
+            do
+            {
+                P2PManager.P2PBase.OnSystemJoined += P2PBase_OnSystemJoined;
+                systemJoinEvent.WaitOne(1000);
+                P2PManager.P2PBase.OnSystemJoined -= P2PBase_OnSystemJoined;
+            } while (!P2PManager.IsConnected && !keySearcher.stop);
         }
 
         private int FindLocalPatterns()
@@ -361,7 +363,6 @@ namespace KeySearcher.P2P
 
         void P2PBase_OnSystemJoined()
         {
-            P2PManager.P2PBase.OnSystemJoined -= P2PBase_OnSystemJoined;
             systemJoinEvent.Set();
         }
 
