@@ -198,7 +198,6 @@ void Cryptool::buildKernel(const Job& j)
         throw std::exception();
     }
 
-    if (kernel != 0)
 	delete kernel;
 
     kernel = new cl::Kernel(program, "bruteforceKernel", &err);

@@ -1,15 +1,13 @@
 #include "Job.h"
 
 Job::Job():
-    Key(NULL)
+    KeySize(0), Key(NULL), LargerThen(false), Size(0),
+    ResultSize(0)
 {
 }
 
 Job::~Job()
 {
-    if(Key != NULL)
-    {
-        delete[] Key;
-    }
+    delete[] Key;
 }
 
