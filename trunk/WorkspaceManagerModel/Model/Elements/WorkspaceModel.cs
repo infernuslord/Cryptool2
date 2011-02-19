@@ -84,28 +84,68 @@ namespace WorkspaceManager.Model
         /// <summary>
         /// All PluginModels of our Workspace Model
         /// </summary>
-        public List<PluginModel> AllPluginModels;
+        internal List<PluginModel> AllPluginModels;
+
+        /// <summary>
+        /// Get all PluginModels of our Workspace Model
+        /// </summary>
+        public ReadOnlyCollection<PluginModel> GetAllPluginModels()
+        {
+            return AllPluginModels.AsReadOnly();
+        }
 
         /// <summary>
         /// All Connector Models of our Workspace Model
         /// </summary>
-        public List<ConnectorModel> AllConnectorModels;
+        internal List<ConnectorModel> AllConnectorModels;
+
+        /// <summary>
+        /// Get all Connector Models of our Workspace Model
+        /// </summary>
+        public ReadOnlyCollection<ConnectorModel> GetAllConnectorModels()
+        {
+            return AllConnectorModels.AsReadOnly();
+        }
 
         /// <summary>
         /// All ConnectionModels of our Workspace Model
         /// </summary>
-        public List<ConnectionModel> AllConnectionModels;
+        internal List<ConnectionModel> AllConnectionModels;
+
+        /// <summary>
+        /// Get all ConnectionModels of our Workspace Model
+        /// </summary>
+        public ReadOnlyCollection<ConnectionModel> GetAllConnectionModels()
+        {
+            return AllConnectionModels.AsReadOnly();
+        }
 
         /// <summary>
         /// All ImageModels of our Workspace Model
         /// </summary>
-        public List<ImageModel> AllImageModels;
+        internal List<ImageModel> AllImageModels;
+
+        /// <summary>
+        /// Get all ImageModels of our Workspace Model
+        /// </summary>
+        public ReadOnlyCollection<ImageModel> GetAllImageModels()
+        {
+            return AllImageModels.AsReadOnly();
+        }
 
         /// <summary>
         /// All TextModels of our Workspace Model
         /// </summary>
-        public List<TextModel> AllTextModels;
-       
+        internal List<TextModel> AllTextModels;
+
+        /// <summary>
+        /// Get all TextModels of our Workspace Model
+        /// </summary>
+        public ReadOnlyCollection<TextModel> GetAllTextModels()
+        {
+            return AllTextModels.AsReadOnly();
+        }
+
         /// <summary>
         /// Creates a new PluginModel belonging to this WorkspaceModel
         /// </summary>

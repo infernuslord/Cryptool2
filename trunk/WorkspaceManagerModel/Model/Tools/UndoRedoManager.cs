@@ -99,7 +99,7 @@ namespace WorkspaceManager.Model.Tools
                 {
                     op = RedoStack.Pop();                    
                     lastModelModel = op.Model;
-                    op.Redo();
+                    op.Execute();
                     UndoStack.Push(op);
                 } while (RedoStack.Count > 0 && //(!RedoStack.First().SingleOperation || (RedoStack.First() is MoveModelModelOperation &&
                     RedoStack.First().Model == lastModelModel)/*))*/;
