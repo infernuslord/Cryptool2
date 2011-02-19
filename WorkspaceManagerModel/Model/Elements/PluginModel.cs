@@ -30,6 +30,7 @@ using System.Reflection;
 using System.ComponentModel;
 using WorkspaceManager.Model.Tools;
 using WorkspaceManagerModel.Model.Operations;
+using System.Collections.ObjectModel;
 
 namespace WorkspaceManager.Model
 {
@@ -77,12 +78,28 @@ namespace WorkspaceManager.Model
         /// <summary>
         /// All ingoing connectors of this PluginModel
         /// </summary>
-        public List<ConnectorModel> InputConnectors = null;
+        internal List<ConnectorModel> InputConnectors = null;
+
+        /// <summary>
+        /// Get all ingoing connectors of this PluginModel
+        /// </summary>
+        public ReadOnlyCollection<ConnectorModel> GetInputConnectors()
+        {
+            return InputConnectors.AsReadOnly();
+        }
 
         /// <summary>
         /// All outgoing connectors of this PluginModel
         /// </summary>
-        public List<ConnectorModel> OutputConnectors = null;
+        internal List<ConnectorModel> OutputConnectors = null;
+
+        /// <summary>
+        /// Get all outgoing connectors of this PluginModel
+        /// </summary>
+        public ReadOnlyCollection<ConnectorModel> GetOutputConnectors()
+        {
+            return OutputConnectors.AsReadOnly();
+        }
 
         /// <summary>
         /// The wrapped IPlugin of this PluginModel
