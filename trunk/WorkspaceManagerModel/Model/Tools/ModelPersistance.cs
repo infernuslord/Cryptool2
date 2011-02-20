@@ -38,12 +38,11 @@ namespace WorkspaceManager.Model
         /// </summary>
         /// <param name="filename"></param>
         /// <returns></returns>
-        public static WorkspaceModel loadModel(string filename, IEditor workspaceManagerEditor)
+        public static WorkspaceModel loadModel(string filename)
         {
             PersistantModel persistantModel = (PersistantModel)XMLSerialization.XMLSerialization.Deserialize(filename,true);
             WorkspaceModel workspacemodel = persistantModel.WorkspaceModel;
-            workspacemodel.Editor = workspaceManagerEditor;            
-
+            
             //restore all settings of each plugin
             foreach (PersistantPlugin persistantPlugin in persistantModel.PersistantPluginList)
             {

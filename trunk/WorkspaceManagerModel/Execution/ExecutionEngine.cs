@@ -246,7 +246,7 @@ namespace WorkspaceManager.Execution
         private void HandleUpdateGui()
         {
             //Get the gui Thread
-            this.workspaceModel.Editor.Presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            /*this.workspaceModel.Editor.Presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
                 List<PluginModel> pluginModels = workspaceModel.AllPluginModels;
                 foreach (PluginModel pluginModel in pluginModels)
@@ -274,7 +274,7 @@ namespace WorkspaceManager.Execution
                 }
             }
             , null);
-
+            */
         }
     }
    

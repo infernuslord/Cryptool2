@@ -201,11 +201,7 @@ namespace WorkspaceManager.Model
                         connectorModel.IControl = false;
                         connectorModel.PluginModel.Plugin.PropertyChanged += connectorModel.PropertyChangedOnPlugin;
                         InputConnectors.Add(connectorModel);
-                        WorkspaceModel.AllConnectorModels.Add(connectorModel);
-                        if(!this.WorkspaceModel.UndoRedoManager.Working)
-                        {
-                            this.WorkspaceModel.UndoRedoManager.DidOperation(new NewModelElementOperation(connectorModel));
-                        }
+                        WorkspaceModel.AllConnectorModels.Add(connectorModel);                       
                     }
                     else if (propertyInfoAttribute.Direction.Equals(Direction.ControlSlave))
                     {
@@ -220,11 +216,7 @@ namespace WorkspaceManager.Model
                         connectorModel.IControl = true;
                         connectorModel.PluginModel.Plugin.PropertyChanged += connectorModel.PropertyChangedOnPlugin;
                         InputConnectors.Add(connectorModel);
-                        WorkspaceModel.AllConnectorModels.Add(connectorModel);
-                        if(!this.WorkspaceModel.UndoRedoManager.Working)
-                        {
-                            this.WorkspaceModel.UndoRedoManager.DidOperation(new NewModelElementOperation(connectorModel));
-                        }
+                        WorkspaceModel.AllConnectorModels.Add(connectorModel);                       
                     }
                     else if (propertyInfoAttribute.Direction.Equals(Direction.OutputData))
                     {
@@ -240,11 +232,7 @@ namespace WorkspaceManager.Model
                         connectorModel.IControl = false;
                         connectorModel.PluginModel.Plugin.PropertyChanged += connectorModel.PropertyChangedOnPlugin;
                         OutputConnectors.Add(connectorModel);
-                        WorkspaceModel.AllConnectorModels.Add(connectorModel);
-                        if(!this.WorkspaceModel.UndoRedoManager.Working)
-                        {
-                            this.WorkspaceModel.UndoRedoManager.DidOperation(new NewModelElementOperation(connectorModel));
-                        }
+                        WorkspaceModel.AllConnectorModels.Add(connectorModel);                      
                     }
                     else if (propertyInfoAttribute.Direction.Equals(Direction.ControlMaster))
                     {
@@ -260,11 +248,7 @@ namespace WorkspaceManager.Model
                         connectorModel.IControl = true;
                         connectorModel.PluginModel.Plugin.PropertyChanged += connectorModel.PropertyChangedOnPlugin;
                         OutputConnectors.Add(connectorModel);
-                        WorkspaceModel.AllConnectorModels.Add(connectorModel);
-                        if(!this.WorkspaceModel.UndoRedoManager.Working)
-                        {
-                            this.WorkspaceModel.UndoRedoManager.DidOperation(new NewModelElementOperation(connectorModel));
-                        }
+                        WorkspaceModel.AllConnectorModels.Add(connectorModel);                       
                     }
                 }
 
@@ -292,11 +276,7 @@ namespace WorkspaceManager.Model
                             connectorModel.PluginModel.Plugin.PropertyChanged += connectorModel.PropertyChangedOnPlugin;
                             eventinfo.AddEventHandler(Plugin, new DynamicPropertiesChanged(connectorModel.PropertyTypeChangedOnPlugin));                            
                             InputConnectors.Add(connectorModel);
-                            WorkspaceModel.AllConnectorModels.Add(connectorModel);
-                            if(!this.WorkspaceModel.UndoRedoManager.Working)
-                            {
-                                this.WorkspaceModel.UndoRedoManager.DidOperation(new NewModelElementOperation(connectorModel));
-                            }
+                            WorkspaceModel.AllConnectorModels.Add(connectorModel);                           
                         }
                         else if (dynamicProperty.PInfo.Direction.Equals(Direction.OutputData))
                         {
@@ -308,7 +288,7 @@ namespace WorkspaceManager.Model
                             connectorModel.PropertyName = dynamicProperty.Name;
                             connectorModel.Name = dynamicProperty.Name;
                             connectorModel.ToolTip = dynamicProperty.PInfo.ToolTip;
-                             EventInfo eventinfo = Plugin.GetType().GetEvent(dynamicPropertyInfoAttribute.UpdateDynamicPropertiesEvent);
+                            EventInfo eventinfo = Plugin.GetType().GetEvent(dynamicPropertyInfoAttribute.UpdateDynamicPropertiesEvent);
                             eventinfo.AddEventHandler(Plugin, new DynamicPropertiesChanged(connectorModel.PropertyTypeChangedOnPlugin));
                             connectorModel.IsDynamic = true;
                             connectorModel.DynamicGetterName = dynamicPropertyInfoAttribute.MethodGetValue;
@@ -316,11 +296,7 @@ namespace WorkspaceManager.Model
                             connectorModel.PluginModel.Plugin.PropertyChanged += connectorModel.PropertyChangedOnPlugin;
                             connectorModel.Outgoing = true;
                             OutputConnectors.Add(connectorModel);
-                            WorkspaceModel.AllConnectorModels.Add(connectorModel);
-                            if(!this.WorkspaceModel.UndoRedoManager.Working)
-                            {
-                                this.WorkspaceModel.UndoRedoManager.DidOperation(new NewModelElementOperation(connectorModel));
-                            }
+                            WorkspaceModel.AllConnectorModels.Add(connectorModel);                            
                         }
                     }
                 }
@@ -382,18 +358,6 @@ namespace WorkspaceManager.Model
             {
                 this.imageIndex = args.ImageIndex;
             }
-                
-            /*if (this.WorkspaceModel.Editor.isExecuting())
-            {
-                this.GuiNeedsUpdate = true;
-            }
-            else
-            {*/
-                this.WorkspaceModel.Editor.Presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-                {
-                    this.UpdateableViewElement.update();
-                }, null);
-            //}            
         }
 
         /// <summary>

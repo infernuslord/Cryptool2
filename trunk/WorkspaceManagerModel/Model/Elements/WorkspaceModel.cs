@@ -37,32 +37,15 @@ namespace WorkspaceManager.Model
     public class WorkspaceModel : VisualElementModel
     {
 
-        internal WorkspaceModel()
+        public WorkspaceModel()
         {
             this.AllPluginModels = new List<PluginModel>();
             this.AllConnectionModels = new List<ConnectionModel>();
             this.AllConnectorModels = new List<ConnectorModel>();
             this.AllImageModels = new List<ImageModel>();
             this.AllTextModels = new List<TextModel>();
-        }
-
-        [NonSerialized]
-        private IEditor workspaceManagerEditor;
-
-        /// <summary>
-        /// The surrounding WorkspaceManagerEditor
-        /// </summary> 
-        public IEditor Editor
-        {
-            get
-            {
-                return workspaceManagerEditor;
-            }
-            set
-            {
-                workspaceManagerEditor = value;
-            }
-        }
+            this.UndoRedoManager = new UndoRedoManager();
+        }      
 
         [NonSerialized]
         public UndoRedoManager UndoRedoManager;
@@ -174,25 +157,21 @@ namespace WorkspaceManager.Model
                 //pluginModel.Plugin.Settings.PropertyChanged += pluginModel.SettingsPropertyChanged;
             }            
             this.AllPluginModels.Add(pluginModel);
-            this.HasChanges = true;
-            if (!this.UndoRedoManager.Working)
-            {
-                this.UndoRedoManager.DidOperation(new NewModelElementOperation(pluginModel));
-            }
+            this.HasChanges = true;           
             return pluginModel;
         }
 
         /// <summary>
-        /// Creates a new PluginModel belonging to this WorkspaceModel
-        /// Position and Dimension are (x,y,width,height) = (0,0,0,0)
+        /// Add an existing PluginModel to this WorkspaceModel
         /// </summary>
-        /// <param name="pluginType"></param>
+        /// <param name="pluginModel"></param>
         /// <returns></returns>
-        internal PluginModel newPluginModel(Type pluginType)
-        {
-            return newPluginModel(new Point(0, 0), 0, 0, pluginType);
-        }       
-
+        internal void addPluginModel(PluginModel pluginModel)
+        {            
+            this.AllPluginModels.Add(pluginModel);
+            this.HasChanges = true;
+        }
+       
         /// <summary>
         /// Creates a new Connection starting at "from"-Connector going to "to"-Connector with
         /// the given connectionType
@@ -240,11 +219,51 @@ namespace WorkspaceManager.Model
 
             this.AllConnectionModels.Add(connectionModel);
             this.HasChanges = true;
-            if (!this.UndoRedoManager.Working)
-            {
-                this.UndoRedoManager.DidOperation(new NewModelElementOperation(connectionModel));
-            }
             return connectionModel;
+        }
+
+        /// <summary>
+        /// Add an existing ConnectionModel to this WorkspaceModel
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="from"></param>
+        /// <param name="to"></param>
+        internal void addConnectionModel(ConnectionModel model)
+        {
+            ConnectorModel from = model.From;
+            ConnectorModel to = model.To;
+            from.OutputConnections.Add(model);
+            to.InputConnections.Add(model);
+           
+            //If we connect two IControls we have to set data directly:
+            if (from.IControl && to.IControl)
+            {
+                object data = null;
+                //Get IControl data from "to"
+                if (to.IsDynamic)
+                {
+                    data = to.PluginModel.Plugin.GetType().GetMethod(to.DynamicGetterName).Invoke(to.PluginModel.Plugin, new object[] { to.PropertyName });
+                }
+                else
+                {
+                    data = to.PluginModel.Plugin.GetType().GetProperty(to.PropertyName).GetValue(to.PluginModel.Plugin, null);
+                }
+
+                //Set IControl data
+                if (from.IsDynamic)
+                {
+                    MethodInfo propertyInfo = from.PluginModel.Plugin.GetType().GetMethod(from.DynamicSetterName);
+                    propertyInfo.Invoke(from.PluginModel.Plugin, new object[] { from.PropertyName, data });
+                }
+                else
+                {
+                    PropertyInfo propertyInfo = from.PluginModel.Plugin.GetType().GetProperty(from.PropertyName);
+                    propertyInfo.SetValue(from.PluginModel.Plugin, data, null);
+                }
+            }
+
+            this.AllConnectionModels.Add(model);
+            this.HasChanges = true;
         }
 
         /// <summary>
@@ -256,11 +275,7 @@ namespace WorkspaceManager.Model
         {
             ImageModel imageModel = new ImageModel(imgUri);
             this.AllImageModels.Add(imageModel);
-            this.HasChanges = true;
-            if (!this.UndoRedoManager.Working)
-            {
-                this.UndoRedoManager.DidOperation(new NewModelElementOperation(imageModel));
-            }
+            this.HasChanges = true;          
             return imageModel;
         }
 
@@ -273,11 +288,7 @@ namespace WorkspaceManager.Model
         {
             TextModel textModel = new TextModel();
             this.AllTextModels.Add(textModel);
-            this.HasChanges = true;
-            if (!this.UndoRedoManager.Working)
-            {
-                this.UndoRedoManager.DidOperation(new NewModelElementOperation(textModel));
-            }
+            this.HasChanges = true;            
             return textModel;
         }
 
@@ -287,11 +298,7 @@ namespace WorkspaceManager.Model
         /// <param name="imgUri"></param>
         /// <returns></returns>
         internal bool deleteImageModel(ImageModel imageModel)
-        {
-            if (!this.UndoRedoManager.Working)
-            {
-                this.UndoRedoManager.DidOperation(new DeleteModelElementOperation(imageModel));
-            }
+        {            
             return this.AllImageModels.Remove(imageModel);
         }
 
@@ -301,11 +308,7 @@ namespace WorkspaceManager.Model
         /// <param name="imgUri"></param>
         /// <returns></returns>
         internal bool deleteTextModel(TextModel textModel)
-        {
-            if (!this.UndoRedoManager.Working)
-            {
-                this.UndoRedoManager.DidOperation(new DeleteModelElementOperation(textModel));
-            }
+        {            
             return this.AllTextModels.Remove(textModel);
         }
 
@@ -332,12 +335,7 @@ namespace WorkspaceManager.Model
                     deleteConnectorModel(outputConnector);
                 }
                 pluginModel.Plugin.Dispose();                
-                this.HasChanges = true;
-                if (!this.UndoRedoManager.Working)
-                {
-                    this.UndoRedoManager.DidOperation(new DeleteModelElementOperation(pluginModel));
-                }
-
+                this.HasChanges = true;                
                 return this.AllPluginModels.Remove(pluginModel);
             }            
             return false;
@@ -365,12 +363,7 @@ namespace WorkspaceManager.Model
                 {
                     deleteConnectionModel(outputConnection);
                 }
-                this.HasChanges = true;
-                if (!this.UndoRedoManager.Working)
-                {
-                    this.UndoRedoManager.DidOperation(new DeleteModelElementOperation(connectorModel));
-                }
-
+                this.HasChanges = true;                
                 return this.AllConnectorModels.Remove(connectorModel);
             }
             return false;
@@ -389,11 +382,7 @@ namespace WorkspaceManager.Model
             connectionModel.To.InputConnections.Remove(connectionModel);
             connectionModel.From.OutputConnections.Remove(connectionModel);            
             this.HasChanges = true;
-            if (!this.UndoRedoManager.Working)
-            {
-                this.UndoRedoManager.DidOperation(new DeleteModelElementOperation(connectionModel));
-            }
-
+            
             return this.AllConnectionModels.Remove(connectionModel);
         }
 
@@ -436,6 +425,15 @@ namespace WorkspaceManager.Model
             connectorModel.InputConnections.Add(connectionModel);
             this.HasChanges = true;
             return true;
+        }
+
+        /// <summary>
+        /// Modify the current WorkspaceModel by using an operation
+        /// </summary>
+        /// <param name="operation"></param>
+        public void ModifyModel(Operation operation){
+            operation.Execute(this);
+            this.UndoRedoManager.DidOperation(operation);            
         }
 
         /// <summary>
