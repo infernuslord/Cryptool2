@@ -59,30 +59,7 @@ namespace WorkspaceManager.Model.Tools
         /// </summary>
         public void Undo()
         {
-            Working = true;
-            if (UndoStack.Count > 0)
-            {
-                object lastModelModel = null;
-                Operation op = UndoStack.Pop();
-                lastModelModel = op.Model;
-                op.Undo();
-                RedoStack.Push(op);
-
-                if (UndoStack.Count > 0 && //(!UndoStack.First().SingleOperation ||
-                    (UndoStack.First() is MoveModelElementOperation &&
-                    UndoStack.First().Model == lastModelModel))//)
-                {
-                    do
-                    {
-                        lastModelModel = op.Model;
-                        op = UndoStack.Pop();
-                        op.Undo();
-                        RedoStack.Push(op);
-                    } while (UndoStack.Count > 0 && //(!UndoStack.First().SingleOperation || (UndoStack.First() is MoveModelModelOperation &&
-                    UndoStack.First().Model == lastModelModel)/*))*/;
-                }
-            }
-            Working = false;
+            
         }
 
         /// <summary>
@@ -90,22 +67,7 @@ namespace WorkspaceManager.Model.Tools
         /// </summary>
         public void Redo()
         {
-            Working = true;
-            if (RedoStack.Count > 0)
-            {                
-                Operation op = null;
-                object lastModelModel = null;
-                do
-                {
-                    op = RedoStack.Pop();                    
-                    lastModelModel = op.Model;
-                    op.Execute();
-                    UndoStack.Push(op);
-                } while (RedoStack.Count > 0 && //(!RedoStack.First().SingleOperation || (RedoStack.First() is MoveModelModelOperation &&
-                    RedoStack.First().Model == lastModelModel)/*))*/;
-
-            }
-            Working = false;
+            
         }
 
         /// <summary>
