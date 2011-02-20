@@ -491,11 +491,8 @@ namespace WorkspaceManager.Execution
             {
                 try
                 {
-                    if (connectorModel.HasData && connectorModel.Data != null)
-                    {
-                        connectorModel.HasData = false;
-                        connectorModel.Data = null;
-                    }
+                    connectorModel.HasData = false;
+                    connectorModel.Data = null;
                 }
                 catch (Exception ex)
                 {
@@ -513,6 +510,29 @@ namespace WorkspaceManager.Execution
             if (this.executionEngine.SleepTime > 0)
             {
                 Thread.Sleep(this.executionEngine.SleepTime);
+            }
+
+
+            // ################
+            //6. check if an "input" plugin may execute
+            // ################
+
+            foreach (ConnectorModel connectorModel in inputConnectors)
+            {
+                List<ConnectionModel> inputConnections = connectorModel.InputConnections;
+                foreach (ConnectionModel connectionModel in inputConnections)
+                {
+                    connectionModel.Active = false;
+                    connectionModel.GuiNeedsUpdate = true;
+                }
+                foreach (ConnectionModel connectionModel in inputConnections)
+                {
+                    if (!connectionModel.From.PluginModel.Startable ||
+                        (connectionModel.From.PluginModel.Startable && connectionModel.From.PluginModel.RepeatStart))
+                    {
+                        connectionModel.From.PluginModel.PluginProtocol.BroadcastMessage(connectionModel.From.PluginModel.MessageExecution);
+                    }
+                }
             }
         }        
 
