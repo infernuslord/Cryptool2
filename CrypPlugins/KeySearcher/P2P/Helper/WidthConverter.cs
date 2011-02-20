@@ -11,7 +11,7 @@ namespace KeySearcher.P2P.Helper
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             double x = (double) value;
-            return x - 129;
+            return x - 134;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
@@ -25,7 +25,7 @@ namespace KeySearcher.P2P.Helper
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             double x = (double)value;
-            return x - 110;
+            return x - 115;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
