@@ -213,7 +213,7 @@
                                                     <TextBlock Text="{Binding Path=Value.Count, StringFormat=\{0\,-5\}}"/>
                                                 </StackPanel>
                                             </Grid>
-                                            <Grid>
+                                            <Grid Width="17">
                                                 <Ellipse Name="MyEllipse2" Height="13" Width="13" HorizontalAlignment="Right" StrokeThickness="1" Stroke="Black" Fill="{Binding Path=Value.Date, Mode=OneTime, Converter={StaticResource ResourceKey=DateToColorConverter2}}" Visibility="{Binding Path=Value.Date, Converter={StaticResource ResourceKey=DateFalseVisibleConverter2}}" ToolTip="{Binding Path=Value.Date, Converter={StaticResource ResourceKey=TimeConverter}}" />
                                                 <Image Name="Skull2" Height="13" Width="13" HorizontalAlignment="Right" Source="/KeySearcher;component/Images/dead.png" Stretch="Fill" Visibility="{Binding Path=Value.Date, Converter={StaticResource ResourceKey=DateTrueVisibleConverter2}}" >
                                                     <Image.ToolTip>
@@ -236,7 +236,7 @@
                                             <TextBlock Text="{Binding Path=Key, Converter={StaticResource ResourceKey=ChunkSumConverter}, StringFormat=\{0\,-5\}}"/>
                                         </StackPanel>
                                     </Grid>
-                                    <Grid>
+                                    <Grid Width="17">
                                         <Ellipse Name="MyEllipse1" Height="13" Width="13" HorizontalAlignment="Right" StrokeThickness="1" Stroke="Black" Fill="{Binding Path=Key, Mode=OneTime, Converter={StaticResource ResourceKey=DateToColorConverter1}}" Visibility="{Binding Path=Key, Converter={StaticResource ResourceKey=DateFalseVisibleConverter1}}" ToolTip="{Binding Path=Key, Converter={StaticResource ResourceKey=MaxDateConverter}}" />
                                         <Image Name="Skull1" Height="13" Width="13" HorizontalAlignment="Right" Source="/KeySearcher;component/Images/dead.png" Stretch="Fill" Visibility="{Binding Path=Key, Converter={StaticResource ResourceKey=DateTrueVisibleConverter1}}">
                                             <Image.ToolTip>
