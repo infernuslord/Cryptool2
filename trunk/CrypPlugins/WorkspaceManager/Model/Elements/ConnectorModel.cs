@@ -274,36 +274,9 @@ namespace WorkspaceManager.Model
                 //we have to check if there are executable now
                 foreach (ConnectionModel connectionModel in outputConnections)
                 {
-                    if (connectionModel.To.PluginModel.PluginProtocol.QueueLength == 0)
-                    {
-                        connectionModel.To.PluginModel.PluginProtocol.BroadcastMessage(connectionModel.To.PluginModel.MessageExecution);
-                    }
+                    connectionModel.To.PluginModel.PluginProtocol.BroadcastMessage(connectionModel.To.PluginModel.MessageExecution);
                 }
-            }
-            else
-            {
-                this.Data = null;
-                this.hasData = false;
-                this.GuiNeedsUpdate = true;
-
-                List<ConnectionModel> inputConnections = this.InputConnections;
-                foreach (ConnectionModel connectionModel in inputConnections)
-                {
-                    connectionModel.Active = false;
-                    connectionModel.GuiNeedsUpdate = true;
-                }
-                foreach (ConnectionModel connectionModel in inputConnections)
-                {
-                    if (!connectionModel.From.PluginModel.Startable ||
-                        (connectionModel.From.PluginModel.Startable && connectionModel.From.PluginModel.RepeatStart))
-                    {
-                        if (connectionModel.From.PluginModel.PluginProtocol.QueueLength == 0)
-                        {
-                            connectionModel.From.PluginModel.PluginProtocol.BroadcastMessage(connectionModel.From.PluginModel.MessageExecution);
-                        }
-                    }
-                }
-            }
+            }            
         }
 
 
