@@ -79,6 +79,7 @@ namespace WebService
         private DecryptionAnimation _decryptionAnimation;
         private WebService _webService;
         private Dictionary<string, TreeViewItem> _nodeToTreeViewItemDictionary;
+        
         #endregion
 
         #region Properties
@@ -206,7 +207,10 @@ namespace WebService
             _sortDescription = new System.ComponentModel.SortDescription("param", System.ComponentModel.ListSortDirection.Ascending);
             this._tempReferenceCollection = new ArrayList();
             webService.Settings.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(SettingsPropertyChangedEventHandler);
+            this._animationTreeView.SelectedItemChanged += new RoutedPropertyChangedEventHandler<object>(AnimationTreeViewSelectedItemChangedEventHandler);
         }
+
+
         #endregion
 
         #region Methods
@@ -1115,6 +1119,16 @@ namespace WebService
 
             this.textBox3.Clear();
             this._webService.Compile(this.GetStringToCompile());
+        }
+        private void AnimationTreeViewSelectedItemChangedEventHandler(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            if ((e.NewValue as TreeViewItem) != null)
+            {
+                TreeViewItem item = e.NewValue as TreeViewItem;
+                double y = this._animationTreeView.TransformToVisual(item).Transform(new Point(0, 0)).Y;
+                this._indicatorTextBox.Margin = new Thickness(this._indicatorTextBox.Margin.Left, -y, this._indicatorTextBox.Margin.Right, this._indicatorTextBox.Margin.Bottom);
+                this._indicatorTextBox.Text = "=>";
+            }
         }
 
     }
