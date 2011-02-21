@@ -8,15 +8,15 @@
         <TabControl Name="tabControl1" BorderBrush="Transparent" Background="AliceBlue" Margin="8,5,12,0">
             <TabItem Header="Compiler" Name="_compilerTab" IsSelected="True" Background="AliceBlue">
                 <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-                <Grid Width="625">
-                    <Button Height="23" Margin="16.67,0,0,107.549" Name="compileButton" VerticalAlignment="Bottom" Click="CompileButtonClickEventHandler" ToolTip="Kompiliert die erstellte Methode" HorizontalAlignment="Left" Width="70.021">Compile</Button>
-                    <Label Height="38.341" HorizontalAlignment="Left" Margin="16.67,20,0,0" Name="label1" VerticalAlignment="Top" Width="120" Foreground="DarkBlue" Grid.ColumnSpan="3">Method Header</Label>
-                    <TextBox Margin="110,0,41.72,30.009" Name="textBox3" IsReadOnly="True" Height="100.02" VerticalAlignment="Bottom" />
-                    <TextBlock Height="70" Margin="110,0,42.5,0" Name="textBlock1" VerticalAlignment="Top" Background="White"><TextBlock.TextDecorations><TextDecoration Location="OverLine"><TextDecoration.Pen><Pen /></TextDecoration.Pen></TextDecoration></TextBlock.TextDecorations></TextBlock>
-                    <RichTextBox Margin="109.22,68.592,42.5,190.057" Name="richTextBox1" BorderBrush="White" TextChanged="richTextBox1_TextChanged" IsHitTestVisible="True" Focusable="True" AcceptsTab="True" VerticalScrollBarVisibility="Visible" AutoWordSelection="False" />
+                    <Grid>
+                     <Button Height="23" Margin="16.67,0,0,107.549" Name="compileButton" VerticalAlignment="Bottom" Click="CompileButtonClickEventHandler" ToolTip="Kompiliert die erstellte Methode" HorizontalAlignment="Left" Width="70.021">Compile</Button>
+                    <Label Height="38.341" HorizontalAlignment="Left" Margin="16.67,0,0,399" Name="label1" VerticalAlignment="Bottom" Width="120" Foreground="DarkBlue">Method Header</Label>
+                    <TextBox Margin="110,0,0,30.009" Name="textBox3" IsReadOnly="True" Height="100.02" VerticalAlignment="Bottom" />
+                    <TextBlock Margin="110,0,3,0" Name="textBlock1" VerticalAlignment="Top" Background="White" FlowDirection="LeftToRight" Height="66"> <TextBlock.TextDecorations><TextDecoration Location="OverLine"><TextDecoration.Pen><Pen /></TextDecoration.Pen></TextDecoration></TextBlock.TextDecorations></TextBlock>
+                    <RichTextBox Margin="109.22,68.592,0,190.057" Name="richTextBox1" BorderBrush="White" TextChanged="richTextBox1_TextChanged" IsHitTestVisible="True" Focusable="True" AcceptsTab="True" VerticalScrollBarVisibility="Hidden" AutoWordSelection="False" HorizontalAlignment="Left" Width="554" />
                     <Label Height="25.005" Margin="0,0,0,75.737" Name="label2" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="108.197">Compiler Result:</Label>
-                    <Label Height="28" HorizontalAlignment="Left" Margin="16.67,70.014,0,0" Name="label3" VerticalAlignment="Top" Width="120" BorderBrush="Blue" Foreground="Blue" Grid.ColumnSpan="3">Method Body</Label>
-                    <TextBlock Height="45.728" Margin="110,0,41.72,144.329" Name="textBlock2" VerticalAlignment="Bottom" Background="White" />
+                    <Label Height="28" HorizontalAlignment="Left" Margin="16.67,70.014,0,0" Name="label3" VerticalAlignment="Top" Width="120" BorderBrush="Blue" Foreground="Blue" >Method Body</Label>
+                    <TextBlock Height="45.728" Margin="110,0,3,144.329" Name="textBlock2" VerticalAlignment="Bottom" Background="White" />
                 </Grid>
                    </ScrollViewer>
             </TabItem>
