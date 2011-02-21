@@ -359,7 +359,7 @@ namespace WebService
                       keyParent.Items.Remove(actualEncryptedKeyEndTagItem);
                       status++;
                       this._decryptionTimer.Stop();
-                      this.presentation.getAnimationController().ControllerTimer.Start();
+                      this.presentation.AnimationController().ControllerTimer.Start();
                    break;
                 case 13:
                    if (actualEncryptedKeyNumber + 1 < this.totalKeyNumber)

@@ -132,6 +132,21 @@ namespace WebService
                 this._soapInputItem = value;
             }
         }
+        public AnimationController AnimationController
+        {
+            get
+            {
+                return this._animationController;
+            }
+        }
+
+        public DispatcherTimer SignatureTimer
+        {
+            get
+            {
+                return this._dispatcherTimer;
+            }
+        }
 
         #endregion
 
@@ -822,18 +837,6 @@ namespace WebService
             return null;
         }
 
-        private void SettingsPropertyChangedEventHandler(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == "TargetFilename")
-            {
-                string filename = this._webService.WebServiceSettings.TargetFilename;
-
-                {
-                    this.Save(filename);
-                }
-            }
-        }
-
 
         private void AnimateTextBlock(string animatedBlockName)
         {
@@ -1023,16 +1026,6 @@ namespace WebService
         }
 
 
-        public AnimationController getAnimationController()
-        {
-            return this._animationController;
-        }
-
-
-
-
-
-
         private void button1_Click_1(object sender, RoutedEventArgs e)
         {
             if (this._webService.CheckSignature() == true)
@@ -1043,8 +1036,21 @@ namespace WebService
             {
             }
         }
+        private void SettingsPropertyChangedEventHandler(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "TargetFilename")
+            {
+                string filename = this._webService.WebServiceSettings.TargetFilename;
 
-        private void playButton_Click(object sender, RoutedEventArgs e)
+                {
+                    this.Save(filename);
+                }
+            }
+        }
+
+
+
+        private void PlayButtonClickEventHandler(object sender, RoutedEventArgs e)
         {
 
             this.FindSignatureItems((TreeViewItem)this._soapInputItem.Items[0], "ds:Signature");
@@ -1058,7 +1064,7 @@ namespace WebService
             }
         }
 
-        private void resetButton_Click(object sender, RoutedEventArgs e)
+        private void ResetButtonClickEventHandler(object sender, RoutedEventArgs e)
         {
             this._decryptionAnimation.DecryptionTimer.Stop();
             this._decryptionAnimation = new DecryptionAnimation(this);
@@ -1097,12 +1103,8 @@ namespace WebService
             this._decryptionAnimation.fillEncryptedDataTreeviewElements();
 
         }
-        public DispatcherTimer getSignatureTimer()
-        {
-            return this._dispatcherTimer;
-        }
 
-        private void button1_Click_3(object sender, RoutedEventArgs e)
+        private void Button1Click3EventHandler(object sender, RoutedEventArgs e)
         {
             if (this._soapInputItem != null && this._soapInputItem.Items.Count>0)
             {

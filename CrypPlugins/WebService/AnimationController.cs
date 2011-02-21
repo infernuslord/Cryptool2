@@ -113,7 +113,7 @@ namespace WebService
 
                     this._controllerTimer.Interval = new TimeSpan(0, 0, 0, 5, 0);
                     this._controllerTimer.Stop();
-                    this._presentation.getSignatureTimer().Start();
+                    this._presentation.SignatureTimer.Start();
                     if (this._actualSecurityElementNumber + 1 < this._wsSecurityElementsCounter)
                     {
                         this._actualSecurityElementNumber++;
