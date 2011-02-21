@@ -62,6 +62,7 @@ namespace WebService
                     this.presentation._animationStepsTextBox.ScrollToLine(this.presentation._animationStepsTextBox.LineCount - 1);
                     _decryptionTimer.Interval = new TimeSpan(0, 0, 0, 5, 0);
                     TreeViewItem item = (TreeViewItem)this.encryptedKeyTreeviewElements[actualEncryptedKeyNumber];
+                    item.IsSelected = true;
                     this.actualEncryptedKeyItem = item;
                     if (item.Parent != null)
                     {

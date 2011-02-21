@@ -36,7 +36,7 @@
                         <ColumnDefinition Width="221*"/>
                     </Grid.ColumnDefinitions>
 
-                    <TreeView Name="_animationTreeView" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible" Margin="0,0,6,0" />
+                    <TreeView Name="_animationTreeView" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible" Margin="43,0,6,0" />
                     <GridSplitter HorizontalAlignment="Right" VerticalAlignment="Stretch"  Grid.Column="1" ResizeBehavior="PreviousAndNext"   Width="5" Background="#FFBCBCBC"/>
 
 
@@ -47,7 +47,7 @@
                             <Button Height="23" Name="button1" Width="75" Click="button1_Click_3" VerticalContentAlignment="Center" Canvas.Left="16" Canvas.Top="17" HorizontalAlignment="Center" Grid.Column="2" Margin="0,0,103,22" VerticalAlignment="Bottom" HorizontalContentAlignment="Center">Play</Button>
                         <Button Name="resetButton" Width="75" Height="23.338" Click="resetButton_Click" VerticalContentAlignment="Center" Canvas.Left="109" Canvas.Top="17" HorizontalAlignment="Right" Grid.Column="2" Margin="0,0,6,22" VerticalAlignment="Bottom">Reset</Button>
                         </Canvas>
-
+                        <TextBox Height="29" HorizontalAlignment="Left" Name="_indicatorTextBox" VerticalAlignment="Top" Width="37" ClipToBounds="True" Opacity="1" Margin="3,0,0,0" />
                     </Grid>
                    </ScrollViewer>
             </TabItem>
