@@ -27,6 +27,8 @@ using Cryptool.PluginBase;
 using WorkspaceManager;
 using System.Windows;
 using System.Globalization;
+using System.Runtime.CompilerServices; 
+[assembly: InternalsVisibleTo("System.Reflection.Assembly")]
 
 namespace XMLSerialization
 {
@@ -410,8 +412,18 @@ namespace XMLSerialization
                 XmlNode type = objct.ChildNodes[0];
                 XmlNode id = objct.ChildNodes[1];
                 XmlNode members = objct.ChildNodes[2];
-
-                object newObject = System.Activator.CreateInstance(Type.GetType(type.InnerText));
+                
+                object newObject = null;
+                try
+                {
+                    newObject = Type.GetType(type.InnerText).GetConstructor(BindingFlags.NonPublic |
+                                    BindingFlags.Instance | BindingFlags.Public,
+                                    null, new Type[0], null).Invoke(null);
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Could not create instance of:" + type.InnerText,ex);
+                }
                 createdObjects.Add(id.InnerText, newObject);
 
                 foreach (XmlNode member in members.ChildNodes)
@@ -635,7 +647,7 @@ namespace XMLSerialization
                     }
                     catch(Exception ex)
                     {
-                        Console.WriteLine("Could not deserialize model element \"" + membername.InnerText + "\" of type \"" + membertype.InnerText + "\" because of:" + ex.Message);
+                        throw new Exception("Could not deserialize model element \"" + membername.InnerText + "\" of type \"" + membertype.InnerText + "\" .", ex);
                     }
                 }
             }
@@ -654,24 +666,41 @@ namespace XMLSerialization
                 {
                     if (isList)
                     {
-                        ((IList) obj.GetType().GetField(membername).GetValue(obj)).Add(obj2);
+                        try
+                        {
+                            ((IList)obj.GetType().GetField(membername, BindingFlags.NonPublic |
+                                                                       BindingFlags.Public |
+                                                                       BindingFlags.Instance).GetValue(obj)).Add(obj2);
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new Exception("Can not find list field \"" + membername + "\" of \"" + obj.GetType().FullName + "\".", ex);
+                        }
                     }
                     else
                     {
-                        if (obj != null && obj2 != null)
-                        {
-                            FieldInfo fieldInfo = obj.GetType().GetField(membername,
-                                                                         BindingFlags.NonPublic |
-                                                                         BindingFlags.Public |
-                                                                         BindingFlags.Instance);
-
-                            fieldInfo.SetValue(obj, obj2);
+                        if (obj != null && obj2 != null){
+                        
+                            FieldInfo fieldInfo = null;
+                            try
+                            {
+                                fieldInfo = obj.GetType().GetField(membername,
+                                                                             BindingFlags.NonPublic |
+                                                                             BindingFlags.Public |
+                                                                             BindingFlags.Instance);
+                                fieldInfo.SetValue(obj, obj2);
+                            }
+                            catch (Exception ex)
+                            {
+                                throw new Exception("Can not find field \"" + membername + "\" of \"" + obj.GetType().FullName + "\".", ex);
+                            }
+                            
                         }
                     }
                 }
                 catch(Exception ex)
                 {
-                   Console.WriteLine("Could not restore reference beteen model element \"" + membername + "\" and its reference with id \"" + reference + "\" because of:" + ex.Message);
+                   throw new Exception("Could not restore reference beteen model element \"" + membername + "\" and its reference with id \"" + reference + "\".", ex);
                 }
             }
 
