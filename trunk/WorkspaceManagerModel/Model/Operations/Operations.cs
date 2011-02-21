@@ -33,7 +33,7 @@ namespace WorkspaceManagerModel.Model.Operations
             Model = model;
         }
         public VisualElementModel Model { get; internal set; }
-        internal abstract void Execute(WorkspaceModel workspaceModel);
+        internal abstract object Execute(WorkspaceModel workspaceModel);
         internal abstract void Undo(WorkspaceModel workspaceModel);        
     }
 
@@ -58,7 +58,7 @@ namespace WorkspaceManagerModel.Model.Operations
 
         #region Operation Members
 
-        internal override void Execute(WorkspaceModel workspaceModel)
+        internal override object Execute(WorkspaceModel workspaceModel)
         {
             if (this.Model == null)
             {
@@ -71,6 +71,7 @@ namespace WorkspaceManagerModel.Model.Operations
             {
                 workspaceModel.addPluginModel((PluginModel)Model);
             }
+            return this.Model;
         }
 
         internal override void Undo(WorkspaceModel workspaceModel)
@@ -102,9 +103,10 @@ namespace WorkspaceManagerModel.Model.Operations
 
         #region Operation Members
 
-        internal override void Execute(WorkspaceModel workspaceModel)
+        internal override object Execute(WorkspaceModel workspaceModel)
         {
             workspaceModel.deletePluginModel((PluginModel)this.Model);
+            return true;
         }
 
         internal override void Undo(WorkspaceModel workspaceModel)
@@ -134,7 +136,7 @@ namespace WorkspaceManagerModel.Model.Operations
 
         #region Operation Members
 
-        internal override void Execute(WorkspaceModel workspaceModel)
+        internal override object Execute(WorkspaceModel workspaceModel)
         {
             if (this.Model == null)
             {
@@ -144,6 +146,7 @@ namespace WorkspaceManagerModel.Model.Operations
             {
                 workspaceModel.addConnectionModel((ConnectionModel)this.Model);
             }
+            return this.Model;
         }
 
         internal override void Undo(WorkspaceModel workspaceModel)
@@ -166,9 +169,10 @@ namespace WorkspaceManagerModel.Model.Operations
 
         #region Operation Members
 
-        internal override void Execute(WorkspaceModel workspaceModel)
+        internal override object Execute(WorkspaceModel workspaceModel)
         {
             workspaceModel.deleteConnectionModel((ConnectionModel)Model);
+            return true;
         }
 
         internal override void Undo(WorkspaceModel workspaceModel)
@@ -196,9 +200,10 @@ namespace WorkspaceManagerModel.Model.Operations
 
         #region Operation Members
 
-        internal override void Execute(WorkspaceModel workspaceModel)
+        internal override object Execute(WorkspaceModel workspaceModel)
         {
             Model.Position = NewPosition;
+            return true;
         }
 
         internal override void Undo(WorkspaceModel workspaceModel)
@@ -230,10 +235,11 @@ namespace WorkspaceManagerModel.Model.Operations
 
         #region Operation Members
 
-        internal override void Execute(WorkspaceModel workspaceModel)
+        internal override object Execute(WorkspaceModel workspaceModel)
         {
             Model.Width = NewWidth;
             Model.Height = NewHeight;
+            return true;
         }
 
         internal override void Undo(WorkspaceModel workspaceModel)
