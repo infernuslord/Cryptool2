@@ -429,11 +429,12 @@ namespace WorkspaceManager.Model
 
         /// <summary>
         /// Modify the current WorkspaceModel by using an operation
+        /// returns the created object or true if its not a 'new' operation
         /// </summary>
         /// <param name="operation"></param>
-        public void ModifyModel(Operation operation){
-            operation.Execute(this);
-            this.UndoRedoManager.DidOperation(operation);            
+        public object ModifyModel(Operation operation){            
+            this.UndoRedoManager.DidOperation(operation);
+            return operation.Execute(this);
         }
 
         /// <summary>
