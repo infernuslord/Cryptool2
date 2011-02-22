@@ -202,13 +202,16 @@ namespace WorkspaceManagerModel.Model.Operations
 
         internal override object Execute(WorkspaceModel workspaceModel)
         {
+
             Model.Position = NewPosition;
+            Model.OnPositionChanged(OldPosition, NewPosition);
             return true;
         }
 
         internal override void Undo(WorkspaceModel workspaceModel)
         {
             Model.Position = OldPosition;
+            Model.OnPositionChanged(NewPosition, OldPosition);
         }
 
         #endregion
@@ -239,6 +242,7 @@ namespace WorkspaceManagerModel.Model.Operations
         {
             Model.Width = NewWidth;
             Model.Height = NewHeight;
+            Model.OnSizeChanged(this.OldWidth, this.NewWidth, this.OldHeight, this.NewHeight);
             return true;
         }
 
@@ -246,6 +250,7 @@ namespace WorkspaceManagerModel.Model.Operations
         {
             Model.Width = OldWidth;
             Model.Height = OldHeight;
+            Model.OnSizeChanged(this.NewWidth, this.OldWidth, this.NewHeight, this.OldHeight);
         }
 
         #endregion

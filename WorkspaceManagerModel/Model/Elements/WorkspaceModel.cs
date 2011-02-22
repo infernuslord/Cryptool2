@@ -165,7 +165,8 @@ namespace WorkspaceManager.Model
                 //pluginModel.Plugin.Settings.PropertyChanged += pluginModel.SettingsPropertyChanged;
             }            
             this.AllPluginModels.Add(pluginModel);
-            this.HasChanges = true;           
+            this.HasChanges = true;
+            this.OnNewChildElement(pluginModel);
             return pluginModel;
         }
 
@@ -177,7 +178,16 @@ namespace WorkspaceManager.Model
         internal void addPluginModel(PluginModel pluginModel)
         {            
             this.AllPluginModels.Add(pluginModel);
+            foreach (ConnectorModel connectorModel in pluginModel.InputConnectors)
+            {
+                this.AllConnectorModels.Add(connectorModel);
+            }
+            foreach (ConnectorModel connectorModel in pluginModel.OutputConnectors)
+            {
+                this.AllConnectorModels.Add(connectorModel);
+            }
             this.HasChanges = true;
+            this.OnNewChildElement(pluginModel);
         }
        
         /// <summary>
@@ -227,21 +237,22 @@ namespace WorkspaceManager.Model
 
             this.AllConnectionModels.Add(connectionModel);
             this.HasChanges = true;
+            this.OnNewChildElement(connectionModel);
             return connectionModel;
         }
 
         /// <summary>
         /// Add an existing ConnectionModel to this WorkspaceModel
         /// </summary>
-        /// <param name="model"></param>
+        /// <param name="connectionModel"></param>
         /// <param name="from"></param>
         /// <param name="to"></param>
-        internal void addConnectionModel(ConnectionModel model)
+        internal void addConnectionModel(ConnectionModel connectionModel)
         {
-            ConnectorModel from = model.From;
-            ConnectorModel to = model.To;
-            from.OutputConnections.Add(model);
-            to.InputConnections.Add(model);
+            ConnectorModel from = connectionModel.From;
+            ConnectorModel to = connectionModel.To;
+            from.OutputConnections.Add(connectionModel);
+            to.InputConnections.Add(connectionModel);
            
             //If we connect two IControls we have to set data directly:
             if (from.IControl && to.IControl)
@@ -270,8 +281,9 @@ namespace WorkspaceManager.Model
                 }
             }
 
-            this.AllConnectionModels.Add(model);
+            this.AllConnectionModels.Add(connectionModel);
             this.HasChanges = true;
+            this.OnNewChildElement(connectionModel);
         }
 
         /// <summary>
@@ -283,7 +295,8 @@ namespace WorkspaceManager.Model
         {
             ImageModel imageModel = new ImageModel(imgUri);
             this.AllImageModels.Add(imageModel);
-            this.HasChanges = true;          
+            this.HasChanges = true;
+            this.OnNewChildElement(imageModel);
             return imageModel;
         }
 
@@ -296,7 +309,8 @@ namespace WorkspaceManager.Model
         {
             TextModel textModel = new TextModel();
             this.AllTextModels.Add(textModel);
-            this.HasChanges = true;            
+            this.HasChanges = true;
+            this.OnNewChildElement(textModel);
             return textModel;
         }
 
@@ -306,8 +320,9 @@ namespace WorkspaceManager.Model
         /// <param name="imgUri"></param>
         /// <returns></returns>
         internal bool deleteImageModel(ImageModel imageModel)
-        {            
-            return this.AllImageModels.Remove(imageModel);
+        {
+            this.OnDeletedChildElement(imageModel);
+            return this.AllImageModels.Remove(imageModel);            
         }
 
         /// <summary>
@@ -316,7 +331,8 @@ namespace WorkspaceManager.Model
         /// <param name="imgUri"></param>
         /// <returns></returns>
         internal bool deleteTextModel(TextModel textModel)
-        {            
+        {
+            this.OnDeletedChildElement(textModel);
             return this.AllTextModels.Remove(textModel);
         }
 
@@ -343,7 +359,8 @@ namespace WorkspaceManager.Model
                     deleteConnectorModel(outputConnector);
                 }
                 pluginModel.Plugin.Dispose();                
-                this.HasChanges = true;                
+                this.HasChanges = true;
+                this.OnDeletedChildElement(pluginModel);
                 return this.AllPluginModels.Remove(pluginModel);
             }            
             return false;
@@ -371,7 +388,8 @@ namespace WorkspaceManager.Model
                 {
                     deleteConnectionModel(outputConnection);
                 }
-                this.HasChanges = true;                
+                this.HasChanges = true;
+                this.OnDeletedChildElement(connectorModel);
                 return this.AllConnectorModels.Remove(connectorModel);
             }
             return false;
@@ -390,7 +408,7 @@ namespace WorkspaceManager.Model
             connectionModel.To.InputConnections.Remove(connectionModel);
             connectionModel.From.OutputConnections.Remove(connectionModel);            
             this.HasChanges = true;
-            
+            this.OnDeletedChildElement(connectionModel);
             return this.AllConnectionModels.Remove(connectionModel);
         }
 
@@ -415,24 +433,6 @@ namespace WorkspaceManager.Model
                 connector.HasData = false;
                 connector.Data = null;
             }
-        }
-
-        /// <summary>
-        /// Reconnects a Connection with an other Connector
-        /// </summary>
-        /// <param name="connectionModel"></param>
-        /// <param name="connectorModel"></param>
-        /// <returns></returns>
-        internal bool reconnectConnection(ConnectionModel connectionModel, ConnectorModel connectorModel)
-        {
-            if (connectionModel.To != null)
-            {
-                connectionModel.To.InputConnections.Remove(connectionModel);
-            }
-            connectionModel.To = connectorModel;
-            connectorModel.InputConnections.Add(connectionModel);
-            this.HasChanges = true;
-            return true;
         }
 
         /// <summary>
