@@ -1,1 +1,1 @@
-commit-mail
+commit-mailfoo
