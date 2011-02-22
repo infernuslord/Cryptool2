@@ -131,5 +131,78 @@ namespace WorkspaceManager.Model
         {
             return Name;
         }
+
+        [field: NonSerialized]
+        public event EventHandler<PositionArgs> PositionChanged;
+
+        [field: NonSerialized]
+        public event EventHandler<SizeArgs> SizeChanged;
+
+        [field: NonSerialized]
+        public event EventHandler<ModelArgs> NewChildElement;
+
+        [field: NonSerialized]
+        public event EventHandler<ModelArgs> DeletedChildElement;
+
+        internal void OnPositionChanged(Point oldPosition, Point newPosition)
+        {
+            PositionChanged.Invoke(this, new PositionArgs(this,oldPosition, newPosition));
+        }
+
+        internal void OnSizeChanged(double oldWidth, double newWidth, double oldHeight, double newHeight)
+        {
+            SizeChanged.Invoke(this, new SizeArgs(this, oldWidth, newWidth, oldHeight, newHeight));
+        }
+
+        internal void OnNewChildElement(VisualElementModel effectedModelElement)
+        {
+            NewChildElement.Invoke(this, new ModelArgs(effectedModelElement));
+        }
+
+        internal void OnDeletedChildElement(VisualElementModel effectedModelElement)
+        {
+            DeletedChildElement.Invoke(this, new ModelArgs(effectedModelElement));
+        }
     }
+
+    public class ModelArgs : EventArgs
+    {
+        public VisualElementModel EffectedModelElement { get; private set; }
+
+        public ModelArgs(VisualElementModel effectedModelElement)
+        {
+            this.EffectedModelElement = effectedModelElement;
+        }
+    }
+
+    public class PositionArgs : ModelArgs
+    {
+        public Point OldPosition{get;internal set;}
+        public Point NewPosition { get; internal set; }
+        internal PositionArgs(VisualElementModel model, Point oldPosition, Point newPosition):
+            base(model)
+        {
+            this.OldPosition = oldPosition;
+            this.NewPosition = newPosition;
+        }
+    }
+
+    public class SizeArgs : ModelArgs
+    {
+        public double OldWidth{get;internal set;}
+        public double NewWidth { get; internal set; }
+        public double OldHeight { get; internal set; }
+        public double NewHeight { get; internal set; }
+
+        internal SizeArgs(VisualElementModel model, double oldWidth, double newWidth, double oldHeight, double newHeight):
+            base(model)
+        {
+            this.OldWidth = oldWidth;
+            this.NewWidth = newWidth;
+            this.OldHeight = oldHeight;
+            this.NewHeight = newHeight;
+        }
+    }
+
+    
 }
