@@ -147,6 +147,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
                     //use a proxy server:
                     if (P2PSettings.Default.UseProxy)
                     {
+                        certificateClient.TimeOut = 10;
                         certificateClient.ProxyAddress = P2PSettings.Default.ProxyServer;
                         certificateClient.ProxyPort = P2PSettings.Default.ProxyPort;
                         certificateClient.ProxyAuthName = P2PSettings.Default.ProxyUser;
