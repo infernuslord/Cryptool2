@@ -52,7 +52,7 @@ namespace WorkspaceManager.Model
             this.AllConnectorModels = new List<ConnectorModel>();
             this.AllImageModels = new List<ImageModel>();
             this.AllTextModels = new List<TextModel>();
-            this.UndoRedoManager = new UndoRedoManager();
+            this.UndoRedoManager = new UndoRedoManager(this);
         }      
 
         [NonSerialized]
@@ -380,13 +380,15 @@ namespace WorkspaceManager.Model
                 //remove all input ConnectionModels belonging to this Connector from our WorkspaceModel
                 foreach (ConnectionModel connectionModel in new List<ConnectionModel>(connectorModel.InputConnections))
                 {
-                    deleteConnectionModel(connectionModel);
+                    //deleteConnectionModel(connectionModel);
+                    this.ModifyModel(new DeleteConnectionModelOperation(connectionModel));
                 }
 
                 //remove all output ConnectionModels belonging to this Connector from our WorkspaceModel
                 foreach (ConnectionModel outputConnection in new List<ConnectionModel>(connectorModel.OutputConnections))
                 {
-                    deleteConnectionModel(outputConnection);
+                    //deleteConnectionModel(outputConnection);
+                    this.ModifyModel(new DeleteConnectionModelOperation(outputConnection));
                 }
                 this.HasChanges = true;
                 this.OnDeletedChildElement(connectorModel);
@@ -440,11 +442,97 @@ namespace WorkspaceManager.Model
         /// returns the created object or true if its not a 'new' operation
         /// </summary>
         /// <param name="operation"></param>
-        public object ModifyModel(Operation operation){            
-            this.UndoRedoManager.DidOperation(operation);
-            return operation.Execute(this);
+        public object ModifyModel(Operation operation){
+
+            try
+            {
+                return operation.Execute(this);
+            }
+            finally
+            {
+                this.UndoRedoManager.DidOperation(operation);
+            }
+
         }
 
+        /// <summary>
+        /// A childs position of this WorkspaceModel changed
+        /// </summary>
+        [field: NonSerialized]
+        public event PositionChangedEventHandler ChildPositionChanged;
+
+        /// <summary>
+        /// A childs size of this WorkspaceModel changed
+        /// </summary>
+        [field: NonSerialized]
+        public event SizeChangedEventHandler ChildSizeChanged;
+
+        /// <summary>
+        /// A child of this WorkspaceModel is created
+        /// </summary>
+        [field: NonSerialized]
+        public event NewChildElementEventHandler NewChildElement;
+
+        /// <summary>
+        /// A child of this WorkspaceModel is deleted
+        /// </summary>
+        [field: NonSerialized]
+        public event DeleteChildElementEventHandler DeletedChildElement;
+
+        /// <summary>
+        /// Call this to tell the environment that a childs position changed
+        /// </summary>
+        /// <param name="effectedModelElement"></param>
+        /// <param name="oldPosition"></param>
+        /// <param name="newPosition"></param>
+        internal void OnChildPositionChanged(VisualElementModel effectedModelElement, Point oldPosition, Point newPosition)
+        {
+            if (ChildPositionChanged != null)
+            {
+                ChildPositionChanged(this, new PositionArgs(effectedModelElement, oldPosition, newPosition));
+            }
+        }
+
+        /// <summary>
+        ///  Call this to tell the environment that a childs size changed
+        /// </summary>
+        /// <param name="effectedModelElement"></param>
+        /// <param name="oldWidth"></param>
+        /// <param name="newWidth"></param>
+        /// <param name="oldHeight"></param>
+        /// <param name="newHeight"></param>
+        internal void OnChildSizeChanged(VisualElementModel effectedModelElement, double oldWidth, double newWidth, double oldHeight, double newHeight)
+        {
+            if (ChildSizeChanged != null)
+            {
+                ChildSizeChanged(this, new SizeArgs(effectedModelElement, oldWidth, newWidth, oldHeight, newHeight));
+            }
+        }
+
+        /// <summary>
+        /// Call this to tell the environment that we created a new child
+        /// </summary>
+        /// <param name="effectedModelElement"></param>
+        internal void OnNewChildElement(VisualElementModel effectedModelElement)
+        {
+            if (NewChildElement != null)
+            {
+                NewChildElement(this, new ModelArgs(effectedModelElement));
+            }
+        }
+
+        /// <summary>
+        /// Call this to tell the environment that we deleted a child
+        /// </summary>
+        /// <param name="effectedModelElement"></param>
+        internal void OnDeletedChildElement(VisualElementModel effectedModelElement)
+        {
+            if (DeletedChildElement != null)
+            {
+                DeletedChildElement(this, new ModelArgs(effectedModelElement));
+            }
+        }
+    
         /// <summary>
         /// Checks wether a Connector and a Connector are compatible to be connected
         /// They are compatible if their types are equal or the base type of the Connector
@@ -484,4 +572,57 @@ namespace WorkspaceManager.Model
             }
         }
     }
+
+    /// <summary>
+    /// Event args which "knows" the effected model
+    /// </summary>
+    public class ModelArgs : EventArgs
+    {
+        public VisualElementModel EffectedModelElement { get; private set; }
+
+        public ModelArgs(VisualElementModel effectedModelElement)
+        {
+            this.EffectedModelElement = effectedModelElement;
+        }
+    }
+
+    /// <summary>
+    /// Event args which also "knows" old and new positions
+    /// </summary>
+    public class PositionArgs : ModelArgs
+    {
+        public Point OldPosition { get; internal set; }
+        public Point NewPosition { get; internal set; }
+        internal PositionArgs(VisualElementModel model, Point oldPosition, Point newPosition) :
+            base(model)
+        {
+            this.OldPosition = oldPosition;
+            this.NewPosition = newPosition;
+        }
+    }
+
+    /// <summary>
+    /// Event args which also "knows" old and new size (Width, Height)
+    /// </summary>
+    public class SizeArgs : ModelArgs
+    {
+        public double OldWidth { get; internal set; }
+        public double NewWidth { get; internal set; }
+        public double OldHeight { get; internal set; }
+        public double NewHeight { get; internal set; }
+
+        internal SizeArgs(VisualElementModel model, double oldWidth, double newWidth, double oldHeight, double newHeight) :
+            base(model)
+        {
+            this.OldWidth = oldWidth;
+            this.NewWidth = newWidth;
+            this.OldHeight = oldHeight;
+            this.NewHeight = newHeight;
+        }
+    }
+    
+    public delegate void PositionChangedEventHandler(VisualElementModel model, PositionArgs args);
+    public delegate void SizeChangedEventHandler(VisualElementModel model, SizeArgs args);
+    public delegate void NewChildElementEventHandler(VisualElementModel model, ModelArgs args);
+    public delegate void DeleteChildElementEventHandler(VisualElementModel model, ModelArgs args);
 }
