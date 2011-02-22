@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Drawing;
+using System.Windows;
 
 namespace WorkspaceManager.View.Base.Interfaces
 {
     interface IRouting
     {
-        public ObjectSize ObjectSize { get; set; }
-        public Point Position { get; private set; }
-        public Point[] RoutingPoints { get; }
+        ObjectSize ObjectSize { get; }
+        Point Position { get; set; }
+        Point[] RoutingPoints{ get; }
     }
 
     public class ObjectSize 
