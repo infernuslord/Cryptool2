@@ -92,19 +92,50 @@ namespace WorkspaceManager.View.BinVisual
         }
         #endregion
 
+        #region Constructors
         public BinFunctionVisual()
         {
+            Model = new PluginModel();
             InitializeComponent();
         }
-
+        #endregion
         #region Event Handler
         private void ActionHandler(object sender, RoutedEventArgs e)
         {
             Button b = (Button)sender;
             State = (BinFuctionState) b.Content;
         }
+
+        private void ScaleDragDeltaHandler(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
+        {
+            this.Height = Model.Height = this.ActualHeight + e.VerticalChange;
+            this.Width = Model.Width = this.ActualWidth + e.HorizontalChange;
+        }
         #endregion
 
+
+
+    }
+
+    #region Converter
+    public class StateConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if (value == null || !(value is BinFuctionState))
+                return double.Epsilon;
+
+            BinFuctionState state = (BinFuctionState) value;
+            if (state != BinFuctionState.Min)
+                return true;
+            else
+                return false;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public class testconverter : IValueConverter
@@ -119,4 +150,5 @@ namespace WorkspaceManager.View.BinVisual
             throw new NotImplementedException();
         }
     }
+    #endregion
 }

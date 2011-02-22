@@ -7,14 +7,68 @@
              xmlns:state="clr-namespace:WorkspaceManager.View.Base"
              xmlns:local="clr-namespace:WorkspaceManager.View.BinVisual"
              mc:Ignorable="d" 
-             Width="200" Height="200"
              DataContext="{Binding RelativeSource={x:Static RelativeSource.Self}}">
+    <UserControl.Style>
+        <Style>
+            <Style.Resources>
+                <local:StateConverter x:Key="StateConverter"></local:StateConverter>
+            </Style.Resources>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=State, Converter={StaticResource ResourceKey=StateConverter}}" Value="True">
+                    <Setter Property="FrameworkElement.Height" Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=Model.Height}"></Setter>
+                    <Setter Property="FrameworkElement.Width" Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=Model.Width}"></Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=State, Converter={StaticResource ResourceKey=StateConverter}}" Value="False">
+                    <Setter Property="FrameworkElement.Height" Value="100"></Setter>
+                    <Setter Property="FrameworkElement.Width" Value="100"></Setter>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Style>
+    
     <UserControl.Resources>
+        
 
         <local:testconverter x:Key="testconverter"></local:testconverter>
 
+        <Style TargetType="{x:Type Thumb}" x:Key="ScaleThumb">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=State}" Value="Min">
+                    <Setter Property="Visibility" Value="Collapsed"></Setter>
+                </DataTrigger>
+            </Style.Triggers>
+            <Setter Property="Height" Value="18"></Setter>
+            <Setter Property="Width" Value="18"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Right"></Setter>
+            <Setter Property="VerticalAlignment" Value="Bottom"></Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate x:Name="TemplateBtn" TargetType="Thumb">
+                        <Grid Background="Transparent">
+                            <Grid.RowDefinitions>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Ellipse Width="5" Height="5" Fill="WhiteSmoke" Stroke="#777" StrokeThickness="1" Grid.Column="2" Grid.Row="0"></Ellipse>
+                            <Ellipse Width="5" Height="5" Fill="WhiteSmoke" Stroke="#777" StrokeThickness="1" Grid.Column="1" Grid.Row="1"></Ellipse>
+                            <Ellipse Width="5" Height="5" Fill="WhiteSmoke" Stroke="#777" StrokeThickness="1" Grid.Column="2" Grid.Row="1"></Ellipse>
+                            <Ellipse Width="5" Height="5" Fill="WhiteSmoke" Stroke="#777" StrokeThickness="1" Grid.Column="0" Grid.Row="2"></Ellipse>
+                            <Ellipse Width="5" Height="5" Fill="WhiteSmoke" Stroke="#777" StrokeThickness="1" Grid.Column="1" Grid.Row="2"></Ellipse>
+                            <Ellipse Width="5" Height="5" Fill="WhiteSmoke" Stroke="#777" StrokeThickness="1" Grid.Column="2" Grid.Row="2"></Ellipse>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
         <ControlTemplate x:Key="CtrlTemplate" TargetType="{x:Type Button}">
-            <Border x:Name="Border" BorderThickness="1">
+            <Border x:Name="Border" BorderThickness="1" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}">
                 <Image Source="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Tag.Source}" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}"></Image>
             </Border>
             <ControlTemplate.Triggers>
@@ -30,14 +84,14 @@
         </ControlTemplate>
 
         <Style TargetType="{x:Type Button}" x:Key="ActionBasicStyle">
-            <Setter Property="Height" Value="30"></Setter>
-            <Setter Property="Width" Value="30"></Setter>
+            <Setter Property="Height" Value="16"></Setter>
+            <Setter Property="Width" Value="16"></Setter>
             <Setter Property="Template" Value="{StaticResource ResourceKey=CtrlTemplate}"></Setter>
         </Style>
 
         <Style TargetType="{x:Type Button}" x:Key="OperationBasicStyle">
-            <Setter Property="Height" Value="20"></Setter>
-            <Setter Property="Width" Value="20"></Setter>
+            <Setter Property="Height" Value="16"></Setter>
+            <Setter Property="Width" Value="16"></Setter>
             <Setter Property="VerticalAlignment" Value="Bottom"></Setter>
             <Setter Property="HorizontalAlignment" Value="Left"></Setter>
             <Setter Property="Template" Value="{StaticResource ResourceKey=CtrlTemplate}"></Setter>
@@ -63,36 +117,36 @@
                 </Setter.Value>
             </Setter>
             <Setter Property="ToolTip" Value="Minimize"></Setter>
-            <Setter Property="Height" Value="20"></Setter>
-            <Setter Property="Width" Value="20"></Setter>
+            <Setter Property="Height" Value="16"></Setter>
+            <Setter Property="Width" Value="16"></Setter>
             <Setter Property="VerticalAlignment" Value="Bottom"></Setter>
             <Setter Property="HorizontalAlignment" Value="Left"></Setter>
             <Setter Property="Template" Value="{StaticResource ResourceKey=CtrlTemplate}"></Setter>
         </Style>
 
         <x:Array Type="{x:Type Button}" x:Key="Actions">
-            <Button ToolTip="Settings" Style="{StaticResource ResourceKey=ActionBasicStyle}" Click="ActionHandler" Height="30" Width="30">
+            <Button ToolTip="Settings" Style="{StaticResource ResourceKey=ActionBasicStyle}" Click="ActionHandler">
                 <Button.Tag>
                     <Image Source="/WorkspaceManager;component/View/Image/setting.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"></Image>
                 </Button.Tag>
                 <state:BinFuctionState>Setting</state:BinFuctionState>
             </Button>
 
-            <Button ToolTip="Log" Style="{StaticResource ResourceKey=ActionBasicStyle}" Click="ActionHandler" Height="30" Width="30">
+            <Button ToolTip="Log" Style="{StaticResource ResourceKey=ActionBasicStyle}" Click="ActionHandler">
                 <Button.Tag>
                     <Image Source="/WorkspaceManager;component/View/Image/log.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"></Image>
                 </Button.Tag>
                 <state:BinFuctionState>Log</state:BinFuctionState>
             </Button>
 
-            <Button ToolTip="Data" Style="{StaticResource ResourceKey=ActionBasicStyle}" Click="ActionHandler" Height="30" Width="30">
+            <Button ToolTip="Data" Style="{StaticResource ResourceKey=ActionBasicStyle}" Click="ActionHandler" >
                 <Button.Tag>
                     <Image Source="/WorkspaceManager;component/View/Image/data.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"></Image>
                 </Button.Tag>
                 <state:BinFuctionState>Data</state:BinFuctionState>
             </Button>
 
-            <Button ToolTip="Presentation" Style="{StaticResource ResourceKey=ActionBasicStyle}" Click="ActionHandler" Height="30" Width="30">
+            <Button ToolTip="Presentation" Style="{StaticResource ResourceKey=ActionBasicStyle}" Click="ActionHandler">
                 <Button.Tag>
                     <Image Source="/WorkspaceManager;component/View/Image/presentation.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"></Image>
                 </Button.Tag>
@@ -102,16 +156,16 @@
 
         <x:Array Type="{x:Type Button}" x:Key="Operations">
             <Button Style="{StaticResource ResourceKey=OperationBasicStyle}">
-                <Image Source="/WorkspaceManager;component/View/Image/icm.png" HorizontalAlignment="Left" SnapsToDevicePixels="True"/>
+                <Image Source="/WorkspaceManager;component/View/Image/icm.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"/>
             </Button>
 
             <Button Style="{StaticResource ResourceKey=OperationBasicStyle}">
                 <Button.Tag>
-                    <Image Source="/WorkspaceManager;component/View/Image/play.png" HorizontalAlignment="Left" SnapsToDevicePixels="True"/>
+                    <Image Source="/WorkspaceManager;component/View/Image/play.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"/>
                 </Button.Tag>
             </Button>
 
-            <Button x:Name="MinMaxBtn" Style="{StaticResource ResourceKey=OperationMaxMinStyle}" Click="ActionHandler">
+            <Button Style="{StaticResource ResourceKey=OperationMaxMinStyle}" Click="ActionHandler">
                 <state:BinFuctionState>Min</state:BinFuctionState>
             </Button>
 
@@ -145,21 +199,50 @@
         <!--##########/Docking Panels##########-->
 
 
-        <!--####################################################-->
-        <ItemsControl x:Name="OperationsItemsControl" ItemsSource="{StaticResource ResourceKey=Operations}">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <StackPanel HorizontalAlignment="Left" Orientation="Horizontal"></StackPanel>
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-        </ItemsControl>
-        <ItemsControl x:Name="ActionsItemsControl" ItemsSource="{StaticResource ResourceKey=Actions}">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <StackPanel HorizontalAlignment="Left" Orientation="Horizontal"></StackPanel>
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-        </ItemsControl>
-        <!--####################################################-->
+        <!--##########Window##########-->
+        <Border Grid.Row="1" Grid.Column="1" Padding="5">
+            <Grid>
+                <!--##########Definitions##########-->
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="16"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <!--##########/Definitions##########-->
+
+                <!--##########Window Titlebar##########-->
+                <DockPanel LastChildFill="True" Grid.Column="0" Grid.Row="0">
+                    
+                    <ItemsControl x:Name="ActionsItemsControl" ItemsSource="{StaticResource ResourceKey=Actions}" DockPanel.Dock="Left" Visibility="Visible">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal"></StackPanel>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+
+                    <ItemsControl x:Name="OperationsItemsControl" ItemsSource="{StaticResource ResourceKey=Operations}" DockPanel.Dock="Right">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal"></StackPanel>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                    
+                    <TextBlock Text="Tes44444444444444444444444444t" TextTrimming="CharacterEllipsis"></TextBlock>
+                </DockPanel>
+                <!--##########/Window Titlebar##########-->
+
+                <ContentPresenter ContentSource="" Grid.Column="0" Grid.Row="1">
+                    
+                </ContentPresenter>
+
+                <Thumb Style="{StaticResource ResourceKey=ScaleThumb}" Grid.Column="0" Grid.Row="1"
+                       Cursor="SizeNWSE" DragDelta="ScaleDragDeltaHandler"></Thumb>
+            </Grid>
+        </Border>
+        <!--##########/Window##########-->
     </Grid>
 </UserControl>
