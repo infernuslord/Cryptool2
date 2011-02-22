@@ -28,9 +28,13 @@ namespace WorkspaceManager.Model.Tools
 {
     public class UndoRedoManager
     {
-        internal UndoRedoManager()
-        {
+        private WorkspaceModel WorkspaceModel = null;
 
+        private bool CurrentlyWorking { get; set; }
+
+        internal UndoRedoManager(WorkspaceModel workspaceModel)
+        {
+            WorkspaceModel = workspaceModel;
         }
 
         private Stack<Operation> UndoStack = new Stack<Operation>();
@@ -59,7 +63,33 @@ namespace WorkspaceManager.Model.Tools
         /// </summary>
         public void Undo()
         {
+            if (!CanUndo())
+            {
+                return;
+            }
             
+            this.CurrentlyWorking = true;
+            try
+            {
+                Operation op = UndoStack.Pop();
+                op.Undo(WorkspaceModel);
+                RedoStack.Push(op);
+
+                VisualElementModel model = op.Model;
+                while (UndoStack.Count > 0 &&
+                    Object.ReferenceEquals(UndoStack.Peek().Model, model) &&
+                    UndoStack.Peek() is MoveModelElementOperation)
+                {
+                    op = UndoStack.Pop();
+                    op.Undo(WorkspaceModel);
+                    RedoStack.Push(op);
+                    model = op.Model;
+                }
+            }
+            finally
+            {
+                this.CurrentlyWorking = false;
+            }
         }
 
         /// <summary>
@@ -67,7 +97,33 @@ namespace WorkspaceManager.Model.Tools
         /// </summary>
         public void Redo()
         {
-            
+            if (!CanRedo())
+            {
+                return;
+            }
+
+            this.CurrentlyWorking = true;
+            try
+            {
+                Operation op = RedoStack.Pop();
+                op.Execute(WorkspaceModel);
+                UndoStack.Push(op);
+
+                VisualElementModel model = op.Model;
+                while (RedoStack.Count > 0 &&
+                    Object.ReferenceEquals(RedoStack.Peek().Model, model) &&
+                    RedoStack.Peek() is MoveModelElementOperation)
+                {
+                    op = RedoStack.Pop();
+                    op.Execute(WorkspaceModel);
+                    UndoStack.Push(op);
+                    model = op.Model;
+                }
+            }
+            finally
+            {
+                this.CurrentlyWorking = false;
+            }
         }
 
         /// <summary>
@@ -85,6 +141,13 @@ namespace WorkspaceManager.Model.Tools
         /// <param name="op"></param>
         public void DidOperation(Operation op)
         {
+            //we do not notice any operation if we are currently working 
+            //(means we undo or redo at this moment)
+            if (CurrentlyWorking)
+            {
+                return;
+            }
+
             if (RedoStack.Count > 0)
             {
                 RedoStack.Clear();
