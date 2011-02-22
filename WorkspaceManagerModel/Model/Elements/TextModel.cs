@@ -90,6 +90,8 @@ namespace WorkspaceManager.Model
             data = memoryStream.ToArray();
             memoryStream.Close();
             
-        }      
+        }
+
+        public bool IsEnabled { get; set; }
     }
 }

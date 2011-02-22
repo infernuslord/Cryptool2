@@ -72,7 +72,7 @@ namespace WorkspaceManager.Model
         
         public PluginModelState State {
             get { return state; }
-            internal set { state = value; }
+            set { state = value; }
         }
 
         /// <summary>

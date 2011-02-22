@@ -36,6 +36,14 @@ namespace WorkspaceManager.Model
     [Serializable]
     public class WorkspaceModel : VisualElementModel
     {
+        [NonSerialized]
+        private IEditor myEditor;
+        public IEditor MyEditor
+        {
+            get { return myEditor; }
+            set { myEditor = value; }
+
+        }
 
         public WorkspaceModel()
         {

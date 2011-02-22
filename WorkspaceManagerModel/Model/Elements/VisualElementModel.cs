@@ -76,7 +76,7 @@ namespace WorkspaceManager.Model
         /// View Element of this VisualElement
         /// </summary>
         [NonSerialized]
-        public IUpdateableViewElement UpdateableViewElement = null;
+        public UpdateableView UpdateableView = null;
 
         /// <summary>
         /// Get the current Position of this VisualElementModel
