@@ -28,16 +28,11 @@ namespace WorkspaceManager.View.BinVisual
         }
 
         #region IRouting
-        private ObjectSize objectSize;
         public ObjectSize ObjectSize
         {
             get
             {
-                return objectSize;
-            }
-            set
-            {
-                objectSize = value;
+                return new ObjectSize(this.ActualWidth, this.ActualHeight);
             }
         }
 
@@ -80,8 +75,8 @@ namespace WorkspaceManager.View.BinVisual
         #endregion
 
         #region DependencyProperties
-        public static readonly DependencyProperty StateProperty = DependencyProperty.Register("ViewState", 
-            typeof(BinFuctionState), typeof(BinFunctionVisual), new FrameworkPropertyMetadata(BinFuctionState.Min));
+        public static readonly DependencyProperty StateProperty = DependencyProperty.Register("State", 
+            typeof(BinFuctionState), typeof(BinFunctionVisual), new FrameworkPropertyMetadata(BinFuctionState.Presentation));
 
         public BinFuctionState State
         {
@@ -92,7 +87,7 @@ namespace WorkspaceManager.View.BinVisual
             set
             {
                 base.SetValue(StateProperty, value);
-                this.Model.BinState = value;
+                //this.Model.BinState = value;
             }
         }
         #endregion
@@ -100,6 +95,28 @@ namespace WorkspaceManager.View.BinVisual
         public BinFunctionVisual()
         {
             InitializeComponent();
+        }
+
+        #region Event Handler
+        private void ActionHandler(object sender, RoutedEventArgs e)
+        {
+            Button b = (Button)sender;
+            State = (BinFuctionState) b.Content;
+        }
+        #endregion
+
+    }
+
+    public class testconverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            return null;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
         }
     }
 }
