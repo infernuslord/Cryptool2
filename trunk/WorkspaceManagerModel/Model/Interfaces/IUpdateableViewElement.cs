@@ -21,7 +21,7 @@ using System.Text;
 
 namespace WorkspaceManagerModel.Model.Interfaces
 {
-    public interface IUpdateableViewElement
+    public interface UpdateableView
     {
         void update();
     }
