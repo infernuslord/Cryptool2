@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Data;
 using WorkspaceManager.View.Container;
+using WorkspaceManager.Model;
 
 namespace WorkspaceManager.View.Converter
 {

@@ -16,6 +16,8 @@ using WorkspaceManager.View.Container;
 using System.Collections;
 using WorkspaceManager.View.VisualComponents.StackFrameDijkstra;
 using System.Windows.Data;
+using WorkspaceManagerModel.Model.Interfaces;
+using WorkspaceManagerModel.Model.Operations;
 
 namespace WorkspaceManager.View.VisualComponents
 {
@@ -106,9 +108,9 @@ namespace WorkspaceManager.View.VisualComponents
         {
             if (args.RightButton == MouseButtonState.Pressed)
             {
-                if (this.model != null && !this.model.WorkspaceModel.WorkspaceManagerEditor.isExecuting())
+                if (this.model != null && !((WorkspaceManager)this.model.WorkspaceModel.MyEditor).isExecuting())
                 {
-                    this.model.WorkspaceModel.deleteConnectionModel(this.model);
+                    this.model.WorkspaceModel.ModifyModel(new DeleteConnectionModelOperation(this.model));
                 }
             }            
         }

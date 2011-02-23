@@ -416,7 +416,10 @@ namespace XMLSerialization
                 object newObject = null;
                 try
                 {
-                    newObject = Type.GetType(type.InnerText).GetConstructor(BindingFlags.NonPublic |
+                    //hack: to allow "old" models being loaded (because some model elements were in model namespace before
+                    //creating new model)
+                    string name = type.InnerText.Replace("WorkspaceManager.View.Container", "WorkspaceManager.Model");
+                    newObject = Type.GetType(name).GetConstructor(BindingFlags.NonPublic |
                                     BindingFlags.Instance | BindingFlags.Public,
                                     null, new Type[0], null).Invoke(null);
                 }
@@ -517,15 +520,23 @@ namespace XMLSerialization
                             }
                             else
                             {
+                                //hack: to allow "old" models being loaded (because some model elements were in model namespace before
+                                //creating new model)
+                                string name = membertype.InnerText.Replace("WorkspaceManager.View.Container", "WorkspaceManager.Model");
                                 newmember =
-                                    System.Activator.CreateInstance(Type.GetType(RevertXMLSymbols(membertype.InnerText)));
+                                    System.Activator.CreateInstance(Type.GetType(RevertXMLSymbols(name)));
 
                                 if (newmember is Enum)
                                 {
                                     Int32 result = 0;
                                     System.Int32.TryParse(RevertXMLSymbols(value.InnerText), out result);
+                                    
+                                    //hack: to allow "old" models being loaded (because some model elements were in model namespace before
+                                    //creating new model)
+                                    name = membertype.InnerText.Replace("WorkspaceManager.View.Container", "WorkspaceManager.Model");
+                                
                                     object newEnumValue =
-                                        Enum.ToObject(Type.GetType(RevertXMLSymbols(membertype.InnerText)), result);
+                                        Enum.ToObject(Type.GetType(RevertXMLSymbols(name)), result);
 
                                     newObject.GetType().GetField(RevertXMLSymbols(membername.InnerText),
                                                                  BindingFlags.NonPublic |

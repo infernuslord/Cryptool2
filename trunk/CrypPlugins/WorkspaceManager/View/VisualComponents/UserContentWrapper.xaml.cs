@@ -13,6 +13,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WorkspaceManager.Model;
 using WorkspaceManager.View.Interface;
+using WorkspaceManagerModel.Model.Operations;
+using WorkspaceManagerModel.Model.Interfaces;
 
 namespace WorkspaceManager.View.VisualComponents
 {
@@ -20,7 +22,7 @@ namespace WorkspaceManager.View.VisualComponents
     /// <summary>
     /// Interaction logic for UserContentWrapper.xaml
     /// </summary>
-    public partial class UserContentWrapper : UserControl
+    public partial class UserContentWrapper : UserControl, IUpdateableView
     {
         public WorkspaceModel Model;
         public List<ImageWrapper> ImageList { get; set; }
@@ -62,12 +64,12 @@ namespace WorkspaceManager.View.VisualComponents
             ImageList = new List<ImageWrapper>();
             TextInputList = new List<TextInputWrapper>();
             Model = WorkspaceModel;
-            foreach (ImageModel ImageModel in WorkspaceModel.AllImageModels)
+            foreach (ImageModel ImageModel in WorkspaceModel.GetAllImageModels())
             {
                 AddImage(ImageModel);
             }
 
-            foreach (TextModel TextModel in WorkspaceModel.AllTextModels)
+            foreach (TextModel TextModel in WorkspaceModel.GetAllTextModels())
             {
                 AddText(TextModel);
             }
@@ -87,8 +89,9 @@ namespace WorkspaceManager.View.VisualComponents
         {
             try
             {
-                ImageModel model = Model.newImageModel(imgUri);
+                ImageModel model = (ImageModel)Model.ModifyModel(new NewImageModelOperation(imgUri));                
                 ImageWrapper imgWrap = new ImageWrapper(model, point, this);
+                model.UpdateableView = imgWrap;
                 imgWrap.Delete += new EventHandler<ImageDeleteEventArgs>(imgWrap_Delete);
                 ImageList.Add(imgWrap);
                 ContentRoot.Children.Add(imgWrap);
@@ -101,7 +104,8 @@ namespace WorkspaceManager.View.VisualComponents
 
         public void AddImage(ImageModel model)
         {
-            ImageWrapper imgWrap = new ImageWrapper(model, model.Position, this);
+            ImageWrapper imgWrap = new ImageWrapper(model, model.GetPosition(), this);
+            model.UpdateableView = imgWrap;
             imgWrap.Delete += new EventHandler<ImageDeleteEventArgs>(imgWrap_Delete);
             ImageList.Add(imgWrap);
             ContentRoot.Children.Add(imgWrap);
@@ -109,8 +113,9 @@ namespace WorkspaceManager.View.VisualComponents
 
         public void AddText(Point point)
         {
-            TextModel model = Model.newTextModel();
+            TextModel model = (TextModel)Model.ModifyModel(new NewTextModelOperation());            
             TextInputWrapper txtWrap = new TextInputWrapper(model, point, this);
+            model.UpdateableView = txtWrap;
             txtWrap.Delete += new EventHandler<TextInputDeleteEventArgs>(txtWrap_Delete);
             TextInputList.Add(txtWrap);
             ContentRoot.Children.Add(txtWrap);
@@ -118,7 +123,8 @@ namespace WorkspaceManager.View.VisualComponents
 
         public void AddText(TextModel model)
         {
-            TextInputWrapper txtWrap = new TextInputWrapper(model, model.Position, this);
+            TextInputWrapper txtWrap = new TextInputWrapper(model, model.GetPosition(), this);
+            model.UpdateableView = txtWrap;
             txtWrap.Delete += new EventHandler<TextInputDeleteEventArgs>(txtWrap_Delete);
             TextInputList.Add(txtWrap);
             ContentRoot.Children.Add(txtWrap);
@@ -128,14 +134,22 @@ namespace WorkspaceManager.View.VisualComponents
         {
             ContentRoot.Children.Remove(e.img);
             ImageList.Remove(e.img);
-            Model.deleteImageModel(e.img.Model);
+            Model.ModifyModel(new DeleteImageModelOperation(e.img.Model));
         }
 
         void txtWrap_Delete(object sender, TextInputDeleteEventArgs e)
         {
             ContentRoot.Children.Remove(e.txt);
             TextInputList.Remove(e.txt);
-            Model.deleteTextModel(e.txt.Model);
+            Model.ModifyModel(new DeleteTextModelOperation(e.txt.Model));
         }
+
+        #region UpdateableView Members
+
+        public void update()
+        {
+        }
+
+        #endregion
     }
 }

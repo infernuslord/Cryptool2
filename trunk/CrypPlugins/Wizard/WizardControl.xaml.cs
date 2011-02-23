@@ -764,7 +764,7 @@ namespace Wizard
             file = SamplesDir + "\\" + file;
 
             var newEditor = new WorkspaceManager.WorkspaceManager();
-            var model = ModelPersistance.loadModel(file, newEditor);
+            var model = ModelPersistance.loadModel(file);
 
             //Fill in all data from wizard to sample:
             foreach (var c in propertyValueDict)
@@ -772,7 +772,7 @@ namespace Wizard
                 var ppv = c.Value;
                 try
                 {
-                    var plugin = model.AllPluginModels.Where(x => x.Name == ppv.PluginName).First().Plugin;
+                    var plugin = model.GetAllPluginModels().Where(x => x.GetName() == ppv.PluginName).First().Plugin;
                     var settings = plugin.Settings;
 
                     var property = plugin.GetType().GetProperty(ppv.PropertyName) ?? settings.GetType().GetProperty(ppv.PropertyName);
@@ -801,7 +801,7 @@ namespace Wizard
                 var propertyName = ele.Attribute("property").Value;
                 if (pluginName != null && propertyName != null)
                 {
-                    var plugin = model.AllPluginModels.Where(x => x.Name == pluginName).First().Plugin;
+                    var plugin = model.GetAllPluginModels().Where(x => x.GetName() == pluginName).First().Plugin;
                     var settings = plugin.Settings;
                     object theObject = null;
 
@@ -840,7 +840,7 @@ namespace Wizard
                 var pluginName = ele.Attribute("plugin").Value;
                 if (!string.IsNullOrEmpty(pluginName))
                 {
-                    var plugin = model.AllPluginModels.Where(x => x.Name == pluginName).First().Plugin;
+                    var plugin = model.GetAllPluginModels().Where(x => x.GetName() == pluginName).First().Plugin;
                     if (presentation.Content == null)
                         presentation.Content = plugin.Presentation;
                 }
@@ -854,7 +854,7 @@ namespace Wizard
                 var propertyName = ele.Attribute("property").Value;
                 if (pluginName != null && propertyName != null)
                 {
-                    var plugin = model.AllPluginModels.Where(x => x.Name == pluginName).First().Plugin;
+                    var plugin = model.GetAllPluginModels().Where(x => x.GetName() == pluginName).First().Plugin;
                     var settings = plugin.Settings;
                     object theObject = null;
 
@@ -881,7 +881,7 @@ namespace Wizard
             }
 
             //load sample:
-            foreach (PluginModel pluginModel in model.AllPluginModels)
+            foreach (PluginModel pluginModel in model.GetAllPluginModels())
             {
                 pluginModel.Plugin.Initialize();
             }

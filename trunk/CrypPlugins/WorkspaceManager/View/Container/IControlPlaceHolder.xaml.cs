@@ -15,6 +15,7 @@ using WorkspaceManager.Model;
 using Cryptool.PluginBase.Editor;
 using WorkspaceManager.View.Converter;
 using Cryptool.PluginBase;
+using WorkspaceManagerModel.Model.Operations;
 
 namespace WorkspaceManager.View.Container
 {
@@ -71,8 +72,8 @@ namespace WorkspaceManager.View.Container
         {
             if (!e.Handled && PluginModel != null)
             {
-                PluginChangedEventArgs args = new PluginChangedEventArgs(PluginModel.Plugin, PluginModel.Name, DisplayPluginMode.Normal);
-                this.Model.WorkspaceModel.WorkspaceManagerEditor.onSelectedPluginChanged(args);
+                PluginChangedEventArgs args = new PluginChangedEventArgs(PluginModel.Plugin, PluginModel.GetName(), DisplayPluginMode.Normal);
+                //this.Model.WorkspaceModel.WorkspaceManagerEditor.onSelectedPluginChanged(args);
                 e.Handled = true;
             }
         }
@@ -80,7 +81,7 @@ namespace WorkspaceManager.View.Container
         void IControlPlaceHolder_Loaded(object sender, RoutedEventArgs e)
         {
             bg.DataContext = PluginModel;
-            this.ToolTip = Model.Name;
+            this.ToolTip = Model.GetName();
         }
 
         void IControlPlaceHolder_MouseLeave(object sender, MouseEventArgs e)
@@ -102,17 +103,17 @@ namespace WorkspaceManager.View.Container
 
         void  IControlPlaceHolder_Drop(object sender, DragEventArgs e)
         {
- 	        if (this.Model.WorkspaceModel.WorkspaceEditor.State == EditorState.READY)
+ 	        if (((WorkspaceManager)this.Model.WorkspaceModel.MyEditor).State == EditorState.READY)
             {
                 if (e.Data.GetDataPresent("Cryptool.PluginBase.Editor.DragDropDataObject"))
                 {
                     try
                     {
                         DragDropDataObject obj = e.Data.GetData("Cryptool.PluginBase.Editor.DragDropDataObject") as DragDropDataObject;
-                        PluginModel pluginModel = this.Model.WorkspaceModel.newPluginModel(DragDropDataObjectToPluginConverter.CreatePluginInstance(obj.AssemblyFullName, obj.TypeFullName));
+                        PluginModel pluginModel = (PluginModel)this.Model.WorkspaceModel.ModifyModel(new NewPluginModelOperation(new Point(0,0),0,0,DragDropDataObjectToPluginConverter.CreatePluginInstance(obj.AssemblyFullName, obj.TypeFullName)));
                         if (obj != null)
                         {
-                            foreach (ConnectorModel mod in pluginModel.InputConnectors)
+                            foreach (ConnectorModel mod in pluginModel.GetInputConnectors())
                             {
                                 if (mod.IControl && mod.ConnectorType.Name == Model.ConnectorType.Name)
                                 {
@@ -122,12 +123,12 @@ namespace WorkspaceManager.View.Container
                             }
                         }
 
-                        this.Model.WorkspaceModel.WorkspaceManagerEditor.HasChanges = true;
+                        ((WorkspaceManager)this.Model.WorkspaceModel.MyEditor).HasChanges = true;
                     }
                     catch (Exception ex)
                     {
-                        this.Model.WorkspaceModel.WorkspaceManagerEditor.GuiLogMessage("Could not add Plugin to Workspace:" + ex.Message, NotificationLevel.Error);
-                        this.Model.WorkspaceModel.WorkspaceManagerEditor.GuiLogMessage(ex.StackTrace, NotificationLevel.Error);
+                        ((WorkspaceManager)this.Model.WorkspaceModel.MyEditor).GuiLogMessage("Could not add Plugin to Workspace:" + ex.Message, NotificationLevel.Error);
+                        ((WorkspaceManager)this.Model.WorkspaceModel.MyEditor).GuiLogMessage(ex.StackTrace, NotificationLevel.Error);
                         return;
                     }
                 }
@@ -140,7 +141,7 @@ namespace WorkspaceManager.View.Container
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
-            Model.WorkspaceModel.deletePluginModel(PluginModel);
+            Model.WorkspaceModel.ModifyModel(new DeletePluginModelOperation(PluginModel));
             PluginModel = null;
         }
     }

@@ -77,8 +77,10 @@ namespace WorkspaceManager.Model.Tools
 
                 VisualElementModel model = op.Model;
                 while (UndoStack.Count > 0 &&
+                    op.GetType().Equals(UndoStack.Peek().GetType()) &&
                     Object.ReferenceEquals(UndoStack.Peek().Model, model) &&
-                    UndoStack.Peek() is MoveModelElementOperation)
+                    (UndoStack.Peek() is MoveModelElementOperation ||
+                    UndoStack.Peek() is ResizeModelElementOperation))
                 {
                     op = UndoStack.Pop();
                     op.Undo(WorkspaceModel);
@@ -111,13 +113,15 @@ namespace WorkspaceManager.Model.Tools
 
                 VisualElementModel model = op.Model;
                 while (RedoStack.Count > 0 &&
+                    op.GetType().Equals(RedoStack.Peek().GetType()) &&
                     Object.ReferenceEquals(RedoStack.Peek().Model, model) &&
-                    RedoStack.Peek() is MoveModelElementOperation)
+                    (RedoStack.Peek() is MoveModelElementOperation ||
+                    RedoStack.Peek() is ResizeModelElementOperation))
                 {
                     op = RedoStack.Pop();
                     op.Execute(WorkspaceModel);
                     UndoStack.Push(op);
-                    model = op.Model;
+                    model = op.Model;                    
                 }
             }
             finally

@@ -13,13 +13,15 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WorkspaceManager.Model;
 using System.Windows.Controls.Primitives;
+using WorkspaceManagerModel.Model.Operations;
+using WorkspaceManagerModel.Model.Interfaces;
 
 namespace WorkspaceManager.View.VisualComponents
 {
     /// <summary>
     /// Interaction logic for TextInputWrapper.xaml
     /// </summary>
-    public partial class TextInputWrapper : UserControl
+    public partial class TextInputWrapper : UserControl, IUpdateableView
     {
         public event EventHandler<TextInputDeleteEventArgs> Delete;
 
@@ -84,6 +86,7 @@ namespace WorkspaceManager.View.VisualComponents
             this.Model.loadRTB(this.mainRTB);
             this.mainRTB.TextChanged += MainRTBTextChanged;
             this.Position = point;
+            this.Model.WorkspaceModel.ModifyModel(new MoveModelElementOperation(Model, this.Position));
             this.ContentParent = userContentWrapper;
             this.RenderTransform = new TranslateTransform(point.X, point.Y);
             this.IsFixed = false;
@@ -104,8 +107,8 @@ namespace WorkspaceManager.View.VisualComponents
 
         void TextInputWrapper_Loaded(object sender, RoutedEventArgs e)
         {
-            this.Width = Model.Width;
-            this.Height = Model.Height;
+            this.Width = Model.GetWidth();
+            this.Height = Model.GetHeight();
             this.ParentPanel.IsEnabled = Model.IsEnabled;            
         }
 
@@ -113,8 +116,9 @@ namespace WorkspaceManager.View.VisualComponents
         {
             (this.RenderTransform as TranslateTransform).X += e.HorizontalChange;
             (this.RenderTransform as TranslateTransform).Y += e.VerticalChange;
-            Model.Position.X = (this.RenderTransform as TranslateTransform).X;
-            Model.Position.Y = (this.RenderTransform as TranslateTransform).Y;
+
+            Point point = new Point((this.RenderTransform as TranslateTransform).X,(this.RenderTransform as TranslateTransform).Y);
+            Model.WorkspaceModel.ModifyModel(new MoveModelElementOperation(Model,point));
         }
 
         private void delete()
@@ -180,8 +184,7 @@ namespace WorkspaceManager.View.VisualComponents
                 if ((this.ActualWidth + e.HorizontalChange) > 0)
                     this.Width = this.ActualWidth + e.HorizontalChange;
 
-                Model.Height = this.ActualHeight;
-                Model.Width = this.ActualWidth;
+                Model.WorkspaceModel.ModifyModel(new ResizeModelElementOperation(Model, this.Width, this.Height));
             }
         }
 
@@ -195,7 +198,16 @@ namespace WorkspaceManager.View.VisualComponents
         {
             pop1.IsOpen = false;
             pop1 = new ColorPickPopUp(sender as Rectangle) { IsOpen = true };
-        }        
+        }
+
+        #region UpdateableView Members
+
+        public void update()
+        {
+            
+        }
+
+        #endregion
     }
 
     public class TextInputDeleteEventArgs : EventArgs

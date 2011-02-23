@@ -43,6 +43,7 @@ using System.Printing;
 using System.Windows.Documents;
 using System.Windows.Markup;
 using WorkspaceManager.Model.Tools;
+using System.Collections.ObjectModel;
 
 //Disable warnings for unused or unassigned fields and events:
 #pragma warning disable 0169, 0414, 0067
@@ -64,11 +65,11 @@ namespace WorkspaceManager
         /// </summary>
         public WorkspaceManager()
         {
+            this.SelectedPluginsList = new ObservableCollection<PluginContainerView>();            
             Properties.Settings.Default.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(Default_PropertyChanged);
             Settings = new WorkspaceManagerSettings(this);
             WorkspaceModel = new WorkspaceModel();
-            WorkspaceModel.WorkspaceManagerEditor = this;
-            UndoRedoManager = new UndoRedoManager();
+            WorkspaceModel.MyEditor = this;
             WorkspaceSpaceEditorView = new WorkSpaceEditorView(WorkspaceModel);
             HasChanges = false;            
         }
@@ -89,7 +90,6 @@ namespace WorkspaceManager
         private ExecutionEngine ExecutionEngine = null;
         private volatile bool executing = false;
         private volatile bool stopping = false;
-        private UndoRedoManager UndoRedoManager = null;
 
         #endregion
 
@@ -133,19 +133,20 @@ namespace WorkspaceManager
         /// </summary>
         public void New()
         {
-            foreach (PluginModel pluginModel in new List<PluginModel>(WorkspaceModel.AllPluginModels))
-            {
-                WorkspaceModel.deletePluginModel(pluginModel);
-            }
+            //foreach (PluginModel pluginModel in new List<PluginModel>(WorkspaceModel.GetAllPluginModels()))
+            //{
+            //    WorkspaceModel.deletePluginModel(pluginModel);
+            //}
             this.HasChanges = false;
             CurrentFilename = "unnamed project";
             if (this.OnProjectTitleChanged != null)
             {
                 this.OnProjectTitleChanged.BeginInvoke(this, "unnamed project", null, null);
             }
-            UndoRedoManager.ClearStacks();
-            WorkspaceModel.UndoRedoManager = UndoRedoManager;
+            WorkspaceModel.UndoRedoManager.ClearStacks();
             WorkspaceModel.UpdateableView = this.WorkspaceSpaceEditorView;
+            WorkspaceModel.MyEditor = this;
+            this.SelectedPluginsList.Clear();
         }
 
         /// <summary>
@@ -159,8 +160,9 @@ namespace WorkspaceManager
                 New();
                 WorkspaceModel = model;
                 WorkspaceSpaceEditorView.Load(WorkspaceModel);
-                WorkspaceModel.UndoRedoManager = UndoRedoManager;
                 WorkspaceModel.UpdateableView = this.WorkspaceSpaceEditorView;
+                WorkspaceModel.MyEditor = this;
+                WorkspaceModel.UndoRedoManager.ClearStacks();
             }
             catch (Exception ex)
             {
@@ -179,13 +181,14 @@ namespace WorkspaceManager
             {
                 New();
                 GuiLogMessage("Loading Model: " + fileName, NotificationLevel.Info);                
-                WorkspaceModel = ModelPersistance.loadModel(fileName,this);                
+                WorkspaceModel = ModelPersistance.loadModel(fileName);                
                 WorkspaceSpaceEditorView.Load(WorkspaceModel);
-                WorkspaceModel.UndoRedoManager = UndoRedoManager;
                 WorkspaceModel.UpdateableView = this.WorkspaceSpaceEditorView;
                 HasChanges = false;
                 this.OnProjectTitleChanged.BeginInvoke(this, System.IO.Path.GetFileName(fileName), null, null);
                 CurrentFilename = fileName;
+                WorkspaceModel.MyEditor = this;
+                WorkspaceModel.UndoRedoManager.ClearStacks();
             }
             catch (Exception ex)
             {
@@ -253,11 +256,11 @@ namespace WorkspaceManager
         /// </summary>
         public void Undo()
         {
-            if (UndoRedoManager != null)
+            if (WorkspaceModel.UndoRedoManager != null)
             {
                 try
                 {
-                    UndoRedoManager.Undo();
+                    WorkspaceModel.UndoRedoManager.Undo();
                 }
                 catch (Exception ex)
                 {
@@ -271,11 +274,11 @@ namespace WorkspaceManager
         /// </summary>
         public void Redo()
         {
-            if (UndoRedoManager != null)
+            if (WorkspaceModel.UndoRedoManager != null)
             {
                 try
                 {
-                    UndoRedoManager.Redo();
+                    WorkspaceModel.UndoRedoManager.Redo();
                 }
                 catch (Exception ex)
                 {
@@ -395,9 +398,9 @@ namespace WorkspaceManager
         {
             get
             {
-                if (UndoRedoManager != null)
+                if (WorkspaceModel.UndoRedoManager != null)
                 {
-                    return !this.isExecuting() && UndoRedoManager.CanUndo();
+                    return !this.isExecuting() && WorkspaceModel.UndoRedoManager.CanUndo();
                 }
                 else
                 {
@@ -413,9 +416,9 @@ namespace WorkspaceManager
         {
             get
             {
-                if (UndoRedoManager != null)
+                if (WorkspaceModel.UndoRedoManager != null)
                 {
-                    return !this.isExecuting() && UndoRedoManager.CanRedo();
+                    return !this.isExecuting() && WorkspaceModel.UndoRedoManager.CanRedo();
                 }
                 else
                 {
@@ -575,6 +578,7 @@ namespace WorkspaceManager
                 , null);
 
                 this.ExecutionEngine = new ExecutionEngine(this);
+                this.ExecutionEngine.OnGuiLogNotificationOccured += this.GuiLogNotificationOccured;
 
                 try
                 {
@@ -787,7 +791,7 @@ namespace WorkspaceManager
             //the corresponding PluginModelState
             if (args.NotificationLevel == NotificationLevel.Warning)
             {                
-                foreach (PluginModel pluginModel in this.WorkspaceModel.AllPluginModels)
+                foreach (PluginModel pluginModel in this.WorkspaceModel.GetAllPluginModels())
                 {
                     if (pluginModel.Plugin == sender)
                     {
@@ -799,7 +803,7 @@ namespace WorkspaceManager
 
             if (args.NotificationLevel == NotificationLevel.Error)
             {               
-                foreach (PluginModel pluginModel in this.WorkspaceModel.AllPluginModels)
+                foreach (PluginModel pluginModel in this.WorkspaceModel.GetAllPluginModels())
                 {
                     if (pluginModel.Plugin == sender)
                     {
@@ -870,7 +874,6 @@ namespace WorkspaceManager
 
         public void Active()
         {
-            var b = true;
         }
 
         #endregion
@@ -902,9 +905,26 @@ namespace WorkspaceManager
             , null);
         }
 
-        
+        private ObservableCollection<PluginContainerView> selectedPluginsList;
+
+        /// <summary>
+        /// Selected Collection of Plugin's
+        /// </summary> 
+        public ObservableCollection<PluginContainerView> SelectedPluginsList
+        {
+            get
+            {
+                return selectedPluginsList;
+            }
+            set
+            {
+                selectedPluginsList = value;
+            }
+        }
 
         public event EventHandler<ZoomChanged> OnZoomChanged;
+        public bool IsCtrlToggled = false;
+        public EditorState State { get; set; }
     }
 }
 

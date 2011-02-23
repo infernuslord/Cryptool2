@@ -41,9 +41,7 @@ namespace WorkspaceManager.View.VisualComponents
         public int DebugCount { get; set; }
 
         public int InfoCount { get; set; }
-
-        public event EventHandler<LogUpdated> LogUpdated;
-
+       
         public LogPresentation()
         {
             InitializeComponent();
@@ -90,8 +88,8 @@ namespace WorkspaceManager.View.VisualComponents
                 {
                     ValueCollection.Add(new CollectionElement(element));
 
-                    if (this.LogUpdated != null)
-                        this.LogUpdated.Invoke(this, new LogUpdated { log = element });
+                    /*if (this.LogUpdated != null)
+                        this.LogUpdated.Invoke(this, new LogUpdated { log = element });*/
                 }
                 list.Clear();
             }

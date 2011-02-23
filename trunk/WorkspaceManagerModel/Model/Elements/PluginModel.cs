@@ -174,7 +174,7 @@ namespace WorkspaceManager.Model
         /// <summary>
         /// Current View state
         /// </summary>
-        public PluginViewState ViewState { get; internal set; }
+        public PluginViewState ViewState { get; set; }
 
         /// <summary>
         /// Generates all Connectors of this Plugin.

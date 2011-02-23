@@ -184,6 +184,128 @@ namespace WorkspaceManagerModel.Model.Operations
     }
 
     /// <summary>
+    /// Creates a new ImageModel
+    /// </summary>
+    public class NewImageModelOperation : Operation
+    {
+        private Uri ImgUri;
+
+        public NewImageModelOperation(Uri imgUri)
+            : base(null)
+        {
+            this.ImgUri = imgUri;            
+        }
+
+        #region Operation Members
+
+        internal override object Execute(WorkspaceModel workspaceModel)
+        {
+            if (this.Model == null)
+            {
+                this.Model = workspaceModel.newImageModel(ImgUri);
+            }
+            else
+            {
+                workspaceModel.addImageModel((ImageModel)Model);
+            }
+            return this.Model;
+        }
+
+        internal override void Undo(WorkspaceModel workspaceModel)
+        {
+            workspaceModel.deleteImageModel((ImageModel)this.Model);
+        }
+
+        #endregion
+    }
+
+    /// <summary>
+    /// Deletes an ImageModel
+    /// </summary>
+    public class DeleteImageModelOperation : Operation
+    {
+        public DeleteImageModelOperation(ImageModel model) :
+            base(model)
+        {
+        }
+
+        #region Operation Members
+
+        internal override object Execute(WorkspaceModel workspaceModel)
+        {
+            workspaceModel.deleteImageModel((ImageModel)Model);
+            return true;
+        }
+
+        internal override void Undo(WorkspaceModel workspaceModel)
+        {
+            workspaceModel.addImageModel((ImageModel)this.Model);
+        }
+
+        #endregion
+    }
+
+    /// <summary>
+    /// Creates a new TextModel
+    /// </summary>
+    public class NewTextModelOperation : Operation
+    {
+        public NewTextModelOperation()
+            : base(null)
+        {
+        }
+
+        #region Operation Members
+
+        internal override object Execute(WorkspaceModel workspaceModel)
+        {
+            if (this.Model == null)
+            {
+                this.Model = workspaceModel.newTextModel();
+            }
+            else
+            {
+                workspaceModel.addTextModel((TextModel)Model);
+            }
+            return this.Model;
+        }
+
+        internal override void Undo(WorkspaceModel workspaceModel)
+        {
+            workspaceModel.deleteTextModel((TextModel)this.Model);
+        }
+
+        #endregion
+    }
+
+    /// <summary>
+    /// Deletes a TextModel
+    /// </summary>
+    public class DeleteTextModelOperation : Operation
+    {
+        public DeleteTextModelOperation(TextModel model) :
+            base(model)
+        {
+        }
+
+        #region Operation Members
+
+        internal override object Execute(WorkspaceModel workspaceModel)
+        {
+            workspaceModel.deleteTextModel((TextModel)Model);
+            return true;
+        }
+
+        internal override void Undo(WorkspaceModel workspaceModel)
+        {
+            workspaceModel.addTextModel((TextModel)this.Model);
+        }
+
+        #endregion
+    }
+
+
+    /// <summary>
     /// Moves the Position of an existing VisualElementModel
     /// </summary>
     public class MoveModelElementOperation : Operation

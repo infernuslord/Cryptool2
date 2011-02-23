@@ -25,18 +25,10 @@ using System.Collections.ObjectModel;
 using Cryptool.PluginBase.Control;
 using System.Collections;
 using WorkspaceManager.Model.Tools;
+using WorkspaceManagerModel.Model.Interfaces;
+using WorkspaceManagerModel.Model.Operations;
 namespace WorkspaceManager.View.Container
 {
-    public enum PluginViewState
-    {   
-        Min,
-        Presentation,
-        Data,
-        Log,
-        Setting,
-        Description
-    };
-
     /// <summary>
     /// Interaction logic for PluginContainerView.xaml
     /// </summary>
@@ -192,19 +184,19 @@ namespace WorkspaceManager.View.Container
                             ViewPanel.Visibility = Visibility.Collapsed;
                             break;
                         }
-                        PluginBase.Width = Model.Width;
-                        PluginBase.Height = Model.Height;
+                        PluginBase.Width = Model.GetWidth();
+                        PluginBase.Height = Model.GetHeight();
                         ViewPanel.Visibility = Visibility.Visible;
                         break;
 
                     case PluginViewState.Data:
-                        PluginBase.Width = Model.Width;
-                        PluginBase.Height = Model.Height;
+                        PluginBase.Width = Model.GetWidth();
+                        PluginBase.Height = Model.GetHeight();
                         ViewPanel.Visibility = Visibility.Visible;
                         break;
                     case PluginViewState.Log:
-                        PluginBase.Width = Model.Width;
-                        PluginBase.Height = Model.Height;
+                        PluginBase.Width = Model.GetWidth();
+                        PluginBase.Height = Model.GetHeight();
                         ViewPanel.Visibility = Visibility.Visible;
                         break;
                     case PluginViewState.Min:
@@ -214,14 +206,14 @@ namespace WorkspaceManager.View.Container
                         break;
 
                     case PluginViewState.Setting:
-                        PluginBase.Width = Model.Width;
-                        PluginBase.Height = Model.Height;
+                        PluginBase.Width = Model.GetWidth();
+                        PluginBase.Height = Model.GetHeight();
                         ViewPanel.Visibility = Visibility.Visible;
                         break;
 
                     case PluginViewState.Description:
-                        PluginBase.Width = Model.Width;
-                        PluginBase.Height = Model.Height;
+                        PluginBase.Width = Model.GetWidth();
+                        PluginBase.Height = Model.GetHeight();
                         ViewPanel.Visibility = Visibility.Visible;
                         break;
                 }
@@ -308,7 +300,7 @@ namespace WorkspaceManager.View.Container
             SettingsPanel.Child = Settings;
             Settings.DisplayPluginSettings(Model.Plugin, Model.Plugin.GetPluginInfoAttribute().Caption, Cryptool.PluginBase.DisplayPluginMode.Normal);
 
-            foreach (ConnectorModel ConnectorModel in model.InputConnectors)
+            foreach (ConnectorModel ConnectorModel in model.GetInputConnectors())
             {
                 if (ConnectorModel.IControl)
                     continue;
@@ -317,14 +309,14 @@ namespace WorkspaceManager.View.Container
                 AddConnectorView(connector);
             }
 
-            foreach (ConnectorModel ConnectorModel in model.OutputConnectors)
+            foreach (ConnectorModel ConnectorModel in model.GetOutputConnectors())
             {
                 if (ConnectorModel.IControl)
                 {
                     PluginModel pm = null;
-                    if (ConnectorModel.OutputConnections.Count > 0)
+                    if (ConnectorModel.GetOutputConnections().Count > 0)
                     {
-                        pm = ConnectorModel.OutputConnections[0].To.PluginModel;
+                        pm = ConnectorModel.GetOutputConnections()[0].To.PluginModel;
                     }
 
                     ICCollection.Add(new ModelWrapper(ConnectorModel, pm));
@@ -566,7 +558,7 @@ namespace WorkspaceManager.View.Container
         //}
 
         public void SetPosition(Point value)
-        {
+        {            
             if (value.Y < 0)
                 Canvas.SetTop(this, 0);
             else
@@ -578,19 +570,8 @@ namespace WorkspaceManager.View.Container
                 Canvas.SetLeft(this, value.X);
 
             Point p = GetPosition();
-            if (Model.WorkspaceModel.UndoRedoManager != null && 
-                !Model.WorkspaceModel.UndoRedoManager.Working
-                && !Model.Position.Equals(p))
-            {
-                Model.WorkspaceModel.UndoRedoManager.DidOperation(
-                    new MoveModelElementOperation(Model)
-                    {
-                        SingleOperation = true,
-                        OldPosition = Model.Position,
-                        NewPosition = p
-                    });
-            }
-            Model.Position = p;            
+            Model.WorkspaceModel.ModifyModel(new MoveModelElementOperation(Model, p));
+
             PositionOnWorkSpaceX = p.X;
             PositionOnWorkSpaceY = p.Y;            
         }
@@ -609,13 +590,13 @@ namespace WorkspaceManager.View.Container
             this.Loaded += new RoutedEventHandler(PluginContainerView_Loaded);
             this.Model = model;
             this.Model.UpdateableView = this;
-            this.Model.LogUpdated += new EventHandler<LogUpdated>(Model_LogUpdated);
+            //this.Model.LogUpdated += new EventHandler<LogUpdated>(Model_LogUpdated);
             this.DataContext = Model;
             this.ConnectorViewList = new List<ConnectorView>();
             this.RenderTransform = new TranslateTransform();
             this.Icon = this.Model.getImage();
             this.PluginName.Text = model.Plugin.GetPluginInfoAttribute().Caption;
-            this.CTextBox.Text = Model.Name;
+            this.CTextBox.Text = Model.GetName();
             this.PreviewMouseLeftButtonDown += new MouseButtonEventHandler(PluginContainerView_MouseLeftButtonDown);
             this.PreviewMouseLeftButtonUp += new MouseButtonEventHandler(PluginContainerView_PreviewMouseLeftButtonUp);
             //this.MouseEnter += new MouseEventHandler(PluginContainerView_MouseEnter);
@@ -639,19 +620,19 @@ namespace WorkspaceManager.View.Container
 
         void PluginContainerView_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (!Model.WorkspaceModel.SelectedPluginsList.Contains(this) && Model.WorkspaceModel.WorkspaceEditor.IsCtrlToggled)
+            if (!((WorkspaceManager)Model.WorkspaceModel.MyEditor).SelectedPluginsList.Contains(this) && ((WorkspaceManager)Model.WorkspaceModel.MyEditor).IsCtrlToggled)
             {
-                Model.WorkspaceModel.SelectedPluginsList.Add(this);
+                ((WorkspaceManager)Model.WorkspaceModel.MyEditor).SelectedPluginsList.Add(this);
                 IsSelected = true;
             }
-            else if (!Model.WorkspaceModel.WorkspaceEditor.IsCtrlToggled)
+            else if (!((WorkspaceManager)Model.WorkspaceModel.MyEditor).IsCtrlToggled)
             {
-                foreach (PluginContainerView plugin in Model.WorkspaceModel.SelectedPluginsList)
+                foreach (PluginContainerView plugin in ((WorkspaceManager)Model.WorkspaceModel.MyEditor).SelectedPluginsList)
                 {
                     plugin.IsSelected = false;
                 }
-                Model.WorkspaceModel.SelectedPluginsList.Clear();
-                Model.WorkspaceModel.SelectedPluginsList.Add(this);
+                ((WorkspaceManager)Model.WorkspaceModel.MyEditor).SelectedPluginsList.Clear();
+                ((WorkspaceManager)Model.WorkspaceModel.MyEditor).SelectedPluginsList.Add(this);
                 IsSelected = true;
             }
 
@@ -671,13 +652,7 @@ namespace WorkspaceManager.View.Container
                 showFullScreen();
             }
         }
-
-        void Model_LogUpdated(object sender, LogUpdated e)
-        {
-            LogPresentation log = LogPanel.Child as LogPresentation;
-            log.AddLogList(Model.GuiLogEvents);
-        }
-
+        
         #endregion
 
        #region Controls
@@ -719,21 +694,9 @@ namespace WorkspaceManager.View.Container
             reAssambleOptions();
 
             LogPresentation LogView = LogPanel.Child as LogPresentation;
-            LogView.LogUpdated += new EventHandler<LogUpdated>(LogView_LogUpdated);
             
         }
-
-        void LogView_LogUpdated(object sender, LogUpdated e)
-        {
-            //LogPresentation logView = sender as LogPresentation;
-            //ErrorCount.Text = logView.ErrorCount.ToString();
-            //WarningCount.Text = logView.WarningCount.ToString();
-            //DebugCount.Text = logView.DebugCount.ToString();
-            //InfoCount.Text = logView.InfoCount.ToString();
-            //LogReport.Text = e.log.Message;
-            //BubblePopup.IsOpen = true;
-        }
-
+       
         private int optionModulo(int value)
         {
             int x = value % optionList.Count;
@@ -862,29 +825,26 @@ namespace WorkspaceManager.View.Container
             Thumb t = sender as Thumb;
             if (t.Cursor == Cursors.SizeWE)
             {
-                if ((PluginBase.ActualWidth + e.HorizontalChange) > Model.MinWidth)
+                if ((PluginBase.ActualWidth + e.HorizontalChange) > Model.GetMinWidth())
                     PluginBase.Width = PluginBase.ActualWidth + e.HorizontalChange;
             }
 
             if (t.Cursor == Cursors.SizeNS)
             {
-                if ((PluginBase.ActualHeight + e.VerticalChange) > Model.MinHeight)
+                if ((PluginBase.ActualHeight + e.VerticalChange) > Model.GetMinHeight())
                     PluginBase.Height = PluginBase.ActualHeight + e.VerticalChange;
             }
 
             if (t.Cursor == Cursors.SizeNWSE)
             {
-                if ((PluginBase.ActualHeight + e.VerticalChange) > Model.MinHeight)
+                if ((PluginBase.ActualHeight + e.VerticalChange) > Model.GetMinHeight())
                     PluginBase.Height = PluginBase.ActualHeight + e.VerticalChange;
 
-                if ((PluginBase.ActualWidth + e.HorizontalChange) > Model.MinWidth)
+                if ((PluginBase.ActualWidth + e.HorizontalChange) > Model.GetMinWidth())
                     PluginBase.Width = PluginBase.ActualWidth + e.HorizontalChange;
             }
 
-            Model.Height = PluginBase.ActualHeight;
-            Model.Width = PluginBase.ActualWidth;
-            
-     
+            Model.WorkspaceModel.ModifyModel(new ResizeModelElementOperation(Model, PluginBase.ActualWidth,PluginBase.ActualHeight));     
         }
 
         private void MinMaxBorder_MouseLeftButtonDown(object sender, RoutedEventArgs e)
@@ -998,7 +958,7 @@ namespace WorkspaceManager.View.Container
 
         private void Thumb_DragDelta_1(object sender, DragDeltaEventArgs e)
         {
-            List<PluginContainerView> list = new List<PluginContainerView>(Model.WorkspaceModel.SelectedPluginsList);
+            List<PluginContainerView> list = new List<PluginContainerView>(((WorkspaceManager)Model.WorkspaceModel.MyEditor).SelectedPluginsList);
             list.Sort((a,b) => a.GetPosition().X.CompareTo(b.GetPosition().X));
             foreach (PluginContainerView plugin in list)
             {
@@ -1012,12 +972,13 @@ namespace WorkspaceManager.View.Container
 
             }
 
-            Model.WorkspaceModel.WorkspaceManagerEditor.HasChanges = true;
+            ((WorkspaceManager)Model.WorkspaceModel.MyEditor).HasChanges = true;
         }
 
         private void CTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            Model.Name = CTextBox.Text;
+            //Model.Name = CTextBox.Text;
+            //Todo: Create ChangeValueOperation and call it here
         }
 
         protected override void OnInitialized(EventArgs e)
