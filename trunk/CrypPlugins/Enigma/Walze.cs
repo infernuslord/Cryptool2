@@ -30,6 +30,7 @@ namespace Cryptool.Enigma
         TextBlock[] teboToAnimat = new TextBlock[2];
         public readonly int typ;
         public TextBlock iAm = new TextBlock();
+        public Boolean stop = false;
 
         Boolean wrong;
 
@@ -103,27 +104,29 @@ namespace Cryptool.Enigma
 
         private void helpNextAnimationMethod(object sender, EventArgs e)
         {
-            if (counter == 3)
+            if (!stop)
             {
-                helpNextAnimation(this, EventArgs.Empty);
-
-            }
-            else
-            {
-                if (counter == 2)
+                if (counter == 3)
                 {
-                    animateThisLineReverse(linesToAnimat[counter]);
-                    animateThisTebo(teboToAnimat[1], false);
+                    helpNextAnimation(this, EventArgs.Empty);
                 }
                 else
                 {
-                    if (wrong)
+                    if (counter == 2)
+                    {
                         animateThisLineReverse(linesToAnimat[counter]);
+                        animateThisTebo(teboToAnimat[1], false);
+                    }
                     else
-                        animateThisLine(linesToAnimat[counter]);
+                    {
+                        if (wrong)
+                            animateThisLineReverse(linesToAnimat[counter]);
+                        else
+                            animateThisLine(linesToAnimat[counter]);
 
+                    }
+                    counter++;
                 }
-                counter++;
             }
         }
 
@@ -272,7 +275,7 @@ namespace Cryptool.Enigma
 
         public Walze(int umkehr, double width, double height)
         {
-            typ = umkehr+1;
+            typ = umkehr;
             Rectangle myRectangle = new Rectangle();
             myRectangle.Width = 260;
             myRectangle.Height = 764;
@@ -285,7 +288,7 @@ namespace Cryptool.Enigma
             myRectangle.StrokeThickness = 30;
             this.Children.Add(myRectangle);
 
-            switch (umkehr+1)
+            switch (umkehr)
             {
                 case 1: this.umkehrlist = umkehrlist1;
                     iAm.Text = "A";
