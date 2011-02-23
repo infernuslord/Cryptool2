@@ -137,7 +137,7 @@ namespace Cryptool.Enigma
 
                 //update the status, if we are not in anylzing mode
                 // this must be deactivated during analysis, since it takes a lot of time
-                if (settings.Action == 0)
+                if (settings.Action == 0 && !pluginFacade.Presentation.IsVisible)
                     pluginFacade.ShowProgress(i, input.Length);
             }
 
@@ -320,8 +320,8 @@ namespace Cryptool.Enigma
             
             
             // write back the updated rotor settings (only if not analyzing)
-            if (settings.Action == 0)
-                settings.Key = currentKeyString();
+            //if (settings.Action == 0)
+            //    settings.Key = currentKeyString();
 
             //add the ring-offset
             int rotor1Pos = iCfg.Rotor1pos - (iCfg.Ring1pos - 1); if (rotor1Pos < 0) rotor1Pos += alen;

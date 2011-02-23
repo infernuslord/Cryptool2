@@ -4,23 +4,23 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="1250" d:DesignWidth="2200">
+             d:DesignHeight="1250" d:DesignWidth="2200" KeyDown="tastedruecken">
     <Canvas Name="mainCanvas">
 
 
         <Canvas Name="mainmainmain" Height="1250" Width="2200" HorizontalAlignment="Left">
 
-            <Image Name ="background2" Source= "Images/background2.png" Height="999" Width="1678" Canvas.Top="-50" Canvas.Left="528" AllowDrop="True" Opacity="0.0"></Image>
+            <Image Name ="background2" Source= "Images/background2.png" Height="1250" Width="2200" Canvas.Top="0" Canvas.Left="0" AllowDrop="True" Opacity="8.0"></Image>
             <Image Name ="rotor1img" Source= "Images/rotor.png" Height="899" Width="260" Canvas.Top="0" Canvas.Left="458"></Image>
             <Image Name ="rotor2img" Source= "Images/rotor.png" Height="899" Width="260" Canvas.Top="0" Canvas.Left="228"></Image>
             <Image Name ="rotor3img" Source= "Images/rotor.png" Height="899" Width="260" Canvas.Top="0" Canvas.Left="688"></Image>
             <Image Name ="walzeimg" Source= "Images/walze.png" Height="800" Width="260" Canvas.Top="42" Canvas.Left="0"></Image>
-            <Image Name ="paperimg" Source= "Images/paper.png" Height="310" Width="1150" Canvas.Bottom="0" Canvas.Left="1100"></Image>
+            <Image Name ="paperimg" Source= "Images/paper.png" Height="310" Width="1100" Canvas.Bottom="0" Canvas.Left="1100"></Image>
             <Image Name ="kisteimg" Source= "Images/kiste.png" Height="130" Width="360" Canvas.Top="838" Canvas.Left="1280"></Image>
             <Image Name ="kiste2img" Source= "Images/kiste.png" Height="130" Width="360" Canvas.Top="838" Canvas.Left="1695"></Image>
             <Image Name ="oldpaperimg" Source= "Images/oldpaper.png" Height="300" Width="1050" Canvas.Bottom="0" Canvas.Left="0"></Image>
 
-            <Rectangle Name="dummy" Opacity="0.0" Width="2200" Height="3000" Stroke="White" StrokeThickness="1" Fill="White" AllowDrop="True">
+            <Rectangle Name="dummy" Opacity="0.0" Width="2200" Height="1250" Stroke="White" StrokeThickness="1" Fill="White" AllowDrop="True">
 
             </Rectangle>
 
@@ -95,10 +95,10 @@
                 </WrapPanel.RenderTransform>
 
             </WrapPanel>
-            <WrapPanel Canvas.Bottom="-80" Name="outputPanel" Canvas.Right="50" Width="950" Height="300">
+            <WrapPanel Canvas.Bottom="10" Name="outputPanel" Canvas.Right="67" Width="983" Height="200">
                 <WrapPanel.RenderTransform>
                     <RotateTransform x:Name="TransRotate2" 
-                           CenterX="25" CenterY="25" Angle="-2" />
+                           CenterX="25" CenterY="25" Angle="-2.5" />
                 </WrapPanel.RenderTransform>
 
 

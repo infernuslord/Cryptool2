@@ -16,6 +16,7 @@
 
 
 using System;
+using System.Windows;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -60,6 +61,7 @@ namespace Cryptool.Enigma
 
         private EnigmaSettings settings;
         private EnigmaPresentation myPresentation;
+        private AutoResetEvent ars;
         private EnigmaCore core;
         private EnigmaAnalyzer analyzer;
         private string inputString;
@@ -89,9 +91,19 @@ namespace Cryptool.Enigma
         private string FormattedEncrypt(int rotor1Pos, int rotor2Pos, int rotor3Pos, int rotor4Pos, string text)
         {
             String input = preFormatInput(text);
-            myPresentation.setinput(input);
-            myPresentation.playClick(null, EventArgs.Empty);
-            return postFormatOutput(core.Encrypt(rotor1Pos, rotor2Pos, rotor3Pos, rotor4Pos, input));
+            if (Presentation.IsVisible)
+            {
+                
+                String output = core.Encrypt(rotor1Pos, rotor2Pos, rotor3Pos, rotor4Pos, input);
+                
+                myPresentation.output = output;
+                myPresentation.setinput(input);
+                //myPresentation.playClick(null, EventArgs.Empty);
+                //return postFormatOutput(output);
+                return "";
+            }
+            else
+                return postFormatOutput(core.Encrypt(rotor1Pos, rotor2Pos, rotor3Pos, rotor4Pos, input));
         }
 
         internal class UnknownToken
@@ -275,11 +287,17 @@ namespace Cryptool.Enigma
             this.analyzer = new EnigmaAnalyzer(this);
             this.analyzer.OnIntermediateResult += new EventHandler<IntermediateResultEventArgs>(analyzer_OnIntermediateResult);
             this.statistics = new Dictionary<int, IDictionary<string, double[]>>();
-            myPresentation = new EnigmaPresentation(this.settings);
+            
+            this.ars = new AutoResetEvent(false);
+            this.myPresentation = new EnigmaPresentation(this);
             this.Presentation = myPresentation;
+            //this.Presentation.IsVisibleChanged += presentation_isvisibleChanged;
             this.settings.PropertyChanged += myPresentation.settings_OnPropertyChange;
             this.settings.PropertyChanged += settings_OnPropertyChange;
-        }
+            this.myPresentation.fireLetters += fireLetters;
+
+            
+            }
 
         #endregion
 
@@ -290,6 +308,32 @@ namespace Cryptool.Enigma
 #pragma warning restore
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
         public event PluginProgressChangedEventHandler OnPluginProgressChanged;
+
+        private void fireLetters(object sender, EventArgs args)  
+        {
+            Object[] carrier = sender as Object[];
+
+            OutputString = (String)carrier[0] ;
+            int x = (int)carrier[1];
+            int y = (int)carrier[2];
+            ShowProgress(x,y);
+
+        }
+
+        private void presentation_isvisibleChanged(object sender, DependencyPropertyChangedEventArgs args) 
+        {
+            LogMessage("Here we go " + args.NewValue, NotificationLevel.Debug);
+            Boolean visible = (Boolean) args.NewValue ;
+            if (visible)
+            {
+             
+            }
+
+            else 
+            { 
+                
+            }
+        }
 
         private void settings_OnPropertyChange(object sender, PropertyChangedEventArgs e)
         {
@@ -369,6 +413,7 @@ namespace Cryptool.Enigma
 
         public void PreExecution()
         {
+            myPresentation.stopclick(this, EventArgs.Empty);
             EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs("Preparing enigma for operation..", this,  NotificationLevel.Info));
 
             if (settings.Model != 3)

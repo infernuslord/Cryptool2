@@ -113,22 +113,33 @@ namespace Cryptool.Enigma
                 char currentChar = plugBoard[letterPos];
                 int currentIndex = alphabet.IndexOf(currentChar);
 
-                if (this.involutoricPlugBoard)
-                {
-                    this.plugBoard[newIndex] = currentChar;
-                    OnPropertyChanged("PlugBoard" + alphabet[newIndex]);
+               
+                //if (this.involutoricPlugBoard)
+                //{
+                this.plugBoard[newIndex] = currentChar;
+                OnPropertyChanged("PlugBoard" + alphabet[newIndex]);
 
-                    if (newChar == this.alphabet[letterPos])
+               
+
+
+                if (newChar == this.alphabet[letterPos])
                     {
                         // we removed a plug
                         this.plugBoard[currentIndex] = this.alphabet[currentIndex];
-                        OnPropertyChanged("PlugBoard" + alphabet[currentIndex]);
+                        OnPropertyChanged("PlugBoard" + alphabet[currentIndex] );
                     }
 
-                }
 
+
+                //}
+                
                 this.plugBoard[letterPos] = newChar;
                 OnPropertyChanged("PlugBoard" + alphabet[letterPos]);
+
+                
+
+
+
                 OnPropertyChanged("PlugBoardDisplay");
             }
         }
