@@ -27,8 +27,8 @@ namespace Cryptool.Enigma
         List<TextBlock> tebo = new List<TextBlock>();
         List<TextBlock> tebo2 = new List<TextBlock>();
         Line[] lines = new Line[26];
-        TextBlock custom = new TextBlock();
-        TextBlock custom2 = new TextBlock();
+        public TextBlock custom = new TextBlock();
+        public TextBlock custom2 = new TextBlock();
         Canvas lineCanvas = new Canvas();
         Line lineToAnimat = new Line();
         Line lineToAnimat2 = new Line();
@@ -36,11 +36,25 @@ namespace Cryptool.Enigma
         TextBlock[] textBlockToAnimat = new TextBlock[2];
         TextBlock[] textBlockToAnimat2 = new TextBlock[2];
 
+        StackPanel stack = new StackPanel();
+        StackPanel stack1 = new StackPanel();
+        StackPanel stack2 = new StackPanel();
+
+        public Button up;
+        public Button up1;
+
+        public Button down;
+        public Button down1;
+
         public TextBlock iAm = new TextBlock();
 
         public Boolean anomalie = false;
 
+        private Canvas content;
+
         public double fast = 400;
+
+        public Boolean stop = false;
 
         public Boolean next = false;
         Boolean rotated = false;
@@ -60,12 +74,30 @@ namespace Cryptool.Enigma
         int[] vier = new int[] { 4, 18, 14, 21, 15, 25, 9, 0, 24, 16, 20, 8, 17, 7, 23, 11, 13, 5, 19, 6, 10, 3, 2, 12, 22, 1 };
         int[] fuenf = new int[] { 21, 25, 1, 17, 6, 8, 19, 24, 20, 15, 18, 3, 13, 7, 11, 23, 0, 22, 12, 9, 16, 14, 5, 4, 2, 10 };
 
-        public void changeoffset(int offset)
+        public void changeoffset(int offset,int ringoffset)
         {
+            tebo = new List<TextBlock>();
+            tebo2 = new List<TextBlock>();
+            lines = new Line[26];
+            custom = new TextBlock();
+            custom2 = new TextBlock();
+            lineCanvas = new Canvas();
+            lineToAnimat = new Line();
+            lineToAnimat2 = new Line();
+            lineTrash = new List<Line>();
+            stack = new StackPanel();
+            stack1 = new StackPanel();
+            stack2 = new StackPanel();
+            iAm = new TextBlock();
+
+
+            this.Children.Remove(content);
+            this.content = alpha(offset, ringoffset - 1);
+            this.Children.Add(content);
 
         }
 
-
+        
 
         public int returnMap()
         {
@@ -81,10 +113,10 @@ namespace Cryptool.Enigma
 
             this.width = width;
             this.height = height;
-            this.map = map+1;
+            this.map = map;
 
-
-            this.Children.Add(alpha(offset,ringoffset-1));
+            this.content = alpha(offset, ringoffset - 1);
+            this.Children.Add(content);
         }
 
         public int mapto(int x, Boolean off)
@@ -141,54 +173,60 @@ namespace Cryptool.Enigma
 
         public void startAnimation()
         {
-
+            if (!stop)
             animateThisTebo(textBlockToAnimat[0], true);
 
         }
 
         public void startAnimationReverse()
         {
-
+            if(!stop)
             animateThisTebo2(textBlockToAnimat2[1], true);
-
-
         }
 
         private void helpNextAnimationMethod13(object sender, EventArgs e)
         {
+            if (!stop)
             animateThisLine2(lineToAnimat2);
         }
 
         private void helpNextAnimationMethod14(object sender, EventArgs e)
         {
+            if (!stop)
             helpNextAnimation2(this, EventArgs.Empty);
         }
 
         private void helpNextAnimationMethod1(object sender, EventArgs e)
         {
+            if (!stop)
             animateThisLine(lineToAnimat);
         }
 
         private void helpNextAnimationMethod12(object sender, EventArgs e)
         {
+            if (!stop)
             helpNextAnimation(this, EventArgs.Empty);
         }
 
         private void helpNextAnimationMethod2(object sender, EventArgs e)
         {
+            if (!stop)
             animateThisTebo2(textBlockToAnimat2[0], false);
-
-
         }
 
         private void helpNextAnimationMethod(object sender, EventArgs e)
         {
+            if (!stop)
             animateThisTebo(textBlockToAnimat[1], false);
-
         }
 
         public event EventHandler helpNextAnimation;
         public event EventHandler helpNextAnimation2;
+
+        public event EventHandler updone;
+        public event EventHandler downdone;
+        public event EventHandler up1done;
+        public event EventHandler down1done;
 
 
 
@@ -428,6 +466,7 @@ namespace Cryptool.Enigma
             stack1.Children.Insert(0, dummy2);
 
             derotate();
+            downdone(down, EventArgs.Empty);
             b = true;
         }
 
@@ -576,6 +615,7 @@ namespace Cryptool.Enigma
 
                 }
             }
+            down1done(down1, EventArgs.Empty);
             b = true;
         }
 
@@ -768,7 +808,9 @@ namespace Cryptool.Enigma
 
 
             rotate();
-
+            EventArgs test = new EventArgs();
+            
+            updone(up, EventArgs.Empty);
             b = true;
 
         }
@@ -862,6 +904,8 @@ namespace Cryptool.Enigma
                 stack1.BeginAnimation(Canvas.TopProperty, mydouble);
 
                 lineCanvas.BeginAnimation(Canvas.TopProperty, mydouble1);
+
+                
             }
         }
 
@@ -990,6 +1034,7 @@ namespace Cryptool.Enigma
                     }
                 }
             }
+            up1done(up1, EventArgs.Empty);
             b = true;
         }
 
@@ -1061,6 +1106,7 @@ namespace Cryptool.Enigma
                 lineCanvas.BeginAnimation(Canvas.TopProperty, mydouble1);
 
             }
+            
         }
 
         public void rotate()
@@ -1157,10 +1203,6 @@ namespace Cryptool.Enigma
         }
 
 
-        StackPanel stack = new StackPanel();
-        StackPanel stack1 = new StackPanel();
-        StackPanel stack2 = new StackPanel();
-
 
         private Canvas alpha(int offset, int ringoffset)
         {
@@ -1226,7 +1268,7 @@ namespace Cryptool.Enigma
                 t.FontSize = 20;
                 t.Background = Brushes.Gainsboro;
                 t.TextAlignment = TextAlignment.Center;
-                if (i % 2 == 0)
+                if ((i+offset) % 2 == 0)
                     t.Background = Brushes.Silver;
                 if (i == 0)
                 {
@@ -1250,7 +1292,7 @@ namespace Cryptool.Enigma
                 t2.FontSize = 20;
                 t2.Background = Brushes.Gainsboro;
                 t2.TextAlignment = TextAlignment.Center;
-                if (i % 2 == 0)
+                if (inew % 2 == 0)
                     t2.Background = Brushes.Silver;
 
 
@@ -1352,7 +1394,7 @@ namespace Cryptool.Enigma
                 t.FontSize = 20;
                 t.Background = Brushes.Gainsboro;
                 t.TextAlignment = TextAlignment.Center;
-                if (i % 2 == 0)
+                if ((i+offset) % 2 == 0)
                     t.Background = Brushes.Silver;
                 if (i == 0)
                 {
@@ -1376,7 +1418,7 @@ namespace Cryptool.Enigma
                 t2.FontSize = 20;
                 t2.Background = Brushes.Gainsboro;
                 t2.TextAlignment = TextAlignment.Center;
-                if (i % 2 == 0)
+                if (inew % 2 == 0)
                     t2.Background = Brushes.Silver;
 
 
@@ -1457,7 +1499,7 @@ namespace Cryptool.Enigma
             temp.Children.Add(stack1);
             temp.Children.Add(stack);
 
-            Button up = new Button();
+             up = new Button();
             up.Click += upperclick;
             up.Height = 50;
             up.Width = 50;
@@ -1465,7 +1507,7 @@ namespace Cryptool.Enigma
             Canvas.SetLeft(up, 25);
             Canvas.SetTop(up, 5);
 
-            Button down = new Button();
+             down = new Button();
             down.Click += downerclick;
             down.Height = 50;
             down.Width = 50;
@@ -1542,7 +1584,7 @@ namespace Cryptool.Enigma
             temp.Children.Add(up);
             temp.Children.Add(down);
 
-            Button up1 = new Button();
+             up1 = new Button();
             up1.Click += upperclick1;
             up1.Height = 50;
             up1.Width = 50;
@@ -1550,7 +1592,7 @@ namespace Cryptool.Enigma
             Canvas.SetLeft(up1, 25);
             Canvas.SetTop(up1, 830);
 
-            Button down1 = new Button();
+             down1 = new Button();
             down1.Click += downerclick1;
             down1.Height = 50;
             down1.Width = 50;
