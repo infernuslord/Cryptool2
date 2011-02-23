@@ -52,7 +52,7 @@ namespace WorkspaceManager
     /// <summary>
     /// Workspace Manager - PluginEditor based on MVC Pattern
     /// </summary>
-    [TabColor("blue")]
+    [TabColor("Lime")]
     [EditorInfo("cwm")]
     [Author("Viktor Matkovic,Nils Kopal", "nils.kopal@cryptool.org", "Universität Duisburg-Essen", "http://www.uni-due.de")]
     [PluginInfo("WorkspaceManager.Resources.Attributes", false, "Workspace Manager", "Graphical plugin editor for the CrypTool workspace", "WorkspaceManager/DetailedDescription/Description.xaml", "WorkspaceManager/View/Image/WorkspaceManagerIcon.ico")]
