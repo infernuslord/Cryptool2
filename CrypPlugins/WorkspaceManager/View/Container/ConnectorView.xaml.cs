@@ -15,18 +15,10 @@ using WorkspaceManager.View.Interface;
 using System.ComponentModel;
 using WorkspaceManager.Model;
 using System.Windows.Controls.Primitives;
+using WorkspaceManagerModel.Model.Interfaces;
 
 namespace WorkspaceManager.View.Container
 {
-    public enum ConnectorOrientation
-    {
-        North,
-        South,
-        West,
-        East,
-        Unset
-    };
-
     /// <summary>
     /// Interaction logic for ConnectorView.xaml
     /// </summary>

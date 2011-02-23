@@ -22,6 +22,7 @@ using Cryptool.PluginBase;
 using System.Reflection;
 using WorkspaceManager.Execution;
 using System.Threading;
+using System.Collections.ObjectModel;
 
 namespace WorkspaceManager.Model
 {
@@ -125,12 +126,30 @@ namespace WorkspaceManager.Model
         /// <summary>
         /// The InputConnections of this ConnectorModel
         /// </summary>
-        public List<ConnectionModel> InputConnections;
+        internal List<ConnectionModel> InputConnections;
+
+        /// <summary>
+        /// Get the input connections of this ConnectorModel
+        /// </summary>
+        /// <returns></returns>
+        public ReadOnlyCollection<ConnectionModel> GetInputConnections()
+        {
+            return InputConnections.AsReadOnly();
+        }
 
         /// <summary>
         /// The OutputConnections of this ConnectorModel
         /// </summary>
-        public List<ConnectionModel> OutputConnections;
+        internal List<ConnectionModel> OutputConnections;
+
+        /// <summary>
+        /// Get the output connections of this ConnectorModel
+        /// </summary>
+        /// <returns></returns>
+        public ReadOnlyCollection<ConnectionModel> GetOutputConnections()
+        {
+            return OutputConnections.AsReadOnly();
+        }
 
         /// <summary>
         /// The Orientation of this ConnectorModel
@@ -218,6 +237,11 @@ namespace WorkspaceManager.Model
         /// <param name="propertyChangedEventArgs"></param>
         public void PropertyChangedOnPlugin(Object sender, PropertyChangedEventArgs propertyChangedEventArgs)
         {
+            if (!this.WorkspaceModel.IsBeingExecuted)
+            {
+                return;
+            }
+
             if (!(sender == this.PluginModel.Plugin) ||
                 !propertyChangedEventArgs.PropertyName.Equals(PropertyName))
             {
@@ -250,54 +274,27 @@ namespace WorkspaceManager.Model
                 }
 
                 if (data == null)
-                {
-                    return;
-                }
-
-                this.Data = data;
-
-                List<ConnectionModel> outputConnections = this.OutputConnections;
-                foreach (ConnectionModel connectionModel in outputConnections)
-                {
-                    connectionModel.To.Data = data;
-                    connectionModel.To.HasData = true;
-                    connectionModel.Active = true;
-                    connectionModel.GuiNeedsUpdate = true;
-                }
-
-                //We changed an input on the PluginModels where "To"s are belonging to so
-                //we have to check if there are executable now
-                foreach (ConnectionModel connectionModel in outputConnections)
-                {
-                    if (connectionModel.To.PluginModel.PluginProtocol.QueueLength == 0)
-                    {
-                        connectionModel.To.PluginModel.PluginProtocol.BroadcastMessage(connectionModel.To.PluginModel.MessageExecution);
-                    }
-                }
-            }
-            else
-            {
-                this.Data = null;
-                this.hasData = false;
-                this.GuiNeedsUpdate = true;
-
-                List<ConnectionModel> inputConnections = this.InputConnections;
-                foreach (ConnectionModel connectionModel in inputConnections)
-                {
-                    connectionModel.Active = false;
-                    connectionModel.GuiNeedsUpdate = true;
-                }
-                foreach (ConnectionModel connectionModel in inputConnections)
-                {
-                    if (!connectionModel.From.PluginModel.Startable ||
-                        (connectionModel.From.PluginModel.Startable && connectionModel.From.PluginModel.RepeatStart))
-                    {
-                        if (connectionModel.From.PluginModel.PluginProtocol.QueueLength == 0)
-                        {
-                            connectionModel.From.PluginModel.PluginProtocol.BroadcastMessage(connectionModel.From.PluginModel.MessageExecution);
-                        }
-                    }
-                }
+	            {
+	                return;
+	            }
+	
+	            this.Data = data;
+	
+	            List<ConnectionModel> outputConnections = this.OutputConnections;
+	            foreach (ConnectionModel connectionModel in outputConnections)
+	            {
+	                connectionModel.To.Data = data;
+	                connectionModel.To.HasData = true;
+	                connectionModel.Active = true;
+	                connectionModel.GuiNeedsUpdate = true;
+	            }
+	
+	            //We changed an input on the PluginModels where "To"s are belonging to so
+	            //we have to check if there are executable now
+	            foreach (ConnectionModel connectionModel in outputConnections)
+	            {
+	                connectionModel.To.PluginModel.PluginProtocol.BroadcastMessage(connectionModel.To.PluginModel.MessageExecution);
+	            }
             }
         }
 

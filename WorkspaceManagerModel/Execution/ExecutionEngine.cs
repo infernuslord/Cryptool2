@@ -70,8 +70,18 @@ namespace WorkspaceManager.Execution
         /// </summary>
         public bool IsRunning
         {
-            get{return this.isRunning;}
-            private set{this.isRunning = value;}
+            get
+            {
+                return this.isRunning;
+            }
+            private set
+            {
+                this.isRunning = value;
+                if (this.workspaceModel != null)
+                {
+                    this.workspaceModel.IsBeingExecuted = value;
+                }
+            }
         }
 
         /// <summary>
@@ -82,8 +92,8 @@ namespace WorkspaceManager.Execution
         {
             if (!IsRunning)
             {
-                IsRunning = true;
                 this.workspaceModel = workspaceModel;
+                IsRunning = true;                
 
                 if (amountThreads <= 0)
                 {
@@ -189,7 +199,7 @@ namespace WorkspaceManager.Execution
         /// </summary>
         /// <param name="message"></param>
         /// <param name="level"></param>
-        public void GuiLogMessage(string message, NotificationLevel level)
+        internal void GuiLogMessage(string message, NotificationLevel level)
         {
             if (OnGuiLogNotificationOccured != null)
             {
@@ -245,8 +255,12 @@ namespace WorkspaceManager.Execution
         /// <param name="msg"></param>
         private void HandleUpdateGui()
         {
-            //Get the gui Thread
-            /*this.workspaceModel.Editor.Presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            if (this.workspaceModel.MyEditor == null)
+            {
+                return;
+            }
+            //Get the gui Thread from our editor
+            ((IEditor)this.workspaceModel.MyEditor).Presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
                 List<PluginModel> pluginModels = workspaceModel.AllPluginModels;
                 foreach (PluginModel pluginModel in pluginModels)
@@ -255,9 +269,9 @@ namespace WorkspaceManager.Execution
                     {
                         pluginModel.GuiNeedsUpdate = false;
                         pluginModel.paint();
-                        if (pluginModel.UpdateableViewElement != null)
+                        if (pluginModel.UpdateableView != null)
                         {
-                            pluginModel.UpdateableViewElement.update();
+                            pluginModel.UpdateableView.update();
                         }
                     }
                 }
@@ -266,15 +280,14 @@ namespace WorkspaceManager.Execution
                 {
                     if (connectionModel.GuiNeedsUpdate)
                     {
-                        if (connectionModel.UpdateableViewElement != null)
+                        if (connectionModel.UpdateableView != null)
                         {
-                            connectionModel.UpdateableViewElement.update();
+                            connectionModel.UpdateableView.update();
                         }
                     }
                 }
             }
-            , null);
-            */
+            , null);            
         }
     }
    
@@ -320,7 +333,7 @@ namespace WorkspaceManager.Execution
             sb.Append(this.executionEngine.ExecutedPluginsCounter); 
             sb.Append(" Plugins/s");
 
-           // this.workspaceModel.Editor.GuiLogMessage(sb.ToString(), NotificationLevel.Debug);          
+            this.executionEngine.GuiLogMessage(sb.ToString(), NotificationLevel.Debug);          
             this.executionEngine.ExecutedPluginsCounter = 0;
         }        
     }
@@ -457,7 +470,7 @@ namespace WorkspaceManager.Execution
                 }
                 catch (Exception ex)
                 {
-                    //this.PluginModel.WorkspaceModel.Editor.GuiLogMessage("An error occured while setting value of connector \"" + connectorModel.Name + "\" of \"" + PluginModel.Name + "\": " + ex.Message, NotificationLevel.Error);
+                    this.executionEngine.GuiLogMessage("An error occured while setting value of connector \"" + connectorModel.Name + "\" of \"" + PluginModel.Name + "\": " + ex.Message, NotificationLevel.Error);
                     this.PluginModel.State = PluginModelState.Error;
                     this.PluginModel.GuiNeedsUpdate = true;
                     return;
@@ -473,8 +486,8 @@ namespace WorkspaceManager.Execution
                 PluginModel.Plugin.Execute();
             }
             catch (Exception ex)
-            {        
-                //this.PluginModel.WorkspaceModel.Editor.GuiLogMessage("An error occured while executing  \"" + PluginModel.Name + "\": " + ex.Message, NotificationLevel.Error);
+            {
+                this.executionEngine.GuiLogMessage("An error occured while executing  \"" + PluginModel.Name + "\": " + ex.Message, NotificationLevel.Error);
                 this.PluginModel.State = PluginModelState.Error;
                 this.PluginModel.GuiNeedsUpdate = true;
                 return;               
@@ -501,11 +514,15 @@ namespace WorkspaceManager.Execution
                     {
                         connectorModel.HasData = false;
                         connectorModel.Data = null;
+                        foreach(ConnectionModel connectionModel in connectorModel.GetInputConnections())
+                        {
+
+                        }
                     }
                 }
                 catch (Exception ex)
                 {
-                    //this.PluginModel.WorkspaceModel.Editor.GuiLogMessage("An error occured while 'consuming' value of connector \"" + connectorModel.Name + "\" of \"" + PluginModel.Name + "\": " + ex.Message, NotificationLevel.Error);
+                    this.executionEngine.GuiLogMessage("An error occured while 'consuming' value of connector \"" + connectorModel.Name + "\" of \"" + PluginModel.Name + "\": " + ex.Message, NotificationLevel.Error);
                     this.PluginModel.State = PluginModelState.Error;
                     this.PluginModel.GuiNeedsUpdate = true;
                     return;
@@ -519,6 +536,28 @@ namespace WorkspaceManager.Execution
             if (this.executionEngine.SleepTime > 0)
             {
                 Thread.Sleep(this.executionEngine.SleepTime);
+            }
+
+            // ################
+            //7. check if an "input" plugin may execute
+            // ################
+
+            foreach (ConnectorModel connectorModel in inputConnectors)
+            {
+                List<ConnectionModel> inputConnections = connectorModel.InputConnections;
+                foreach (ConnectionModel connectionModel in inputConnections)
+                {
+                    connectionModel.Active = false;
+                    connectionModel.GuiNeedsUpdate = true;
+                }
+                foreach (ConnectionModel connectionModel in inputConnections)
+                {
+                    if (!connectionModel.From.PluginModel.Startable ||
+                        (connectionModel.From.PluginModel.Startable && connectionModel.From.PluginModel.RepeatStart))
+                    {
+                        connectionModel.From.PluginModel.PluginProtocol.BroadcastMessage(connectionModel.From.PluginModel.MessageExecution);
+                    }
+                }
             }
         }        
 

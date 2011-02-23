@@ -15,6 +15,8 @@ using WorkspaceManager.Model;
 using System.Windows.Controls.Primitives;
 using WorkspaceManager.View.Interface;
 using WorkspaceManager.View.Container;
+using WorkspaceManagerModel.Model.Operations;
+using WorkspaceManagerModel.Model.Interfaces;
 
 namespace WorkspaceManager.View.VisualComponents
 {
@@ -22,7 +24,7 @@ namespace WorkspaceManager.View.VisualComponents
     /// <summary>
     /// Interaction logic for ImageWrapper.xaml
     /// </summary>
-    public partial class ImageWrapper : UserControl
+    public partial class ImageWrapper : UserControl, IUpdateableView
     {
         public event EventHandler<ImageDeleteEventArgs> Delete;
 
@@ -63,25 +65,25 @@ namespace WorkspaceManager.View.VisualComponents
             this.Image = model.getImage();
             this.contentParent = parent;
             this.Position = point;
-            this.Model.Position = point;
+            this.Model.WorkspaceModel.ModifyModel(new MoveModelElementOperation(Model, this.Position));
             this.RenderTransform = new TranslateTransform(Position.X, Position.Y);
-            this.root.Background = new ImageBrush() {ImageSource = this.Image.Source, Stretch = Stretch.Fill};
+            this.root.Background = new ImageBrush() {ImageSource = this.Image.Source, Stretch = Stretch.Fill};            
         }
 
         void ImageWrapper_Loaded(object sender, RoutedEventArgs e)
         {
-            if (Model.Width == 0 || Model.Height == 0)
+            if (Model.GetWidth() == 0 || Model.GetHeight() == 0)
             {
                 this.Width = Image.Source.Width;
                 this.Height = Image.Source.Height;
             }
             else
             {
-                this.Width = Model.Width;
-                this.Height = Model.Height;
+                this.Width = Model.GetWidth();
+                this.Height = Model.GetHeight();
             }
 
-            this.ParentPanel.IsEnabled = Model.IsEnabled;
+            //this.ParentPanel.IsEnabled = Model.IsEnabled;
         }
 
         void ImageWrapper_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -107,8 +109,7 @@ namespace WorkspaceManager.View.VisualComponents
                 if ((this.ActualWidth + e.HorizontalChange) > 0)
                     this.Width = this.ActualWidth + e.HorizontalChange;
 
-                Model.Height = this.ActualHeight;
-                Model.Width = this.ActualWidth;
+                Model.WorkspaceModel.ModifyModel(new ResizeModelElementOperation(Model, this.Width, this.Height));
             }
             e.Handled = true;
         }
@@ -117,8 +118,8 @@ namespace WorkspaceManager.View.VisualComponents
         {
             (this.RenderTransform as TranslateTransform).X += e.HorizontalChange;
             (this.RenderTransform as TranslateTransform).Y += e.VerticalChange;
-            Model.Position.X = (this.RenderTransform as TranslateTransform).X;
-            Model.Position.Y = (this.RenderTransform as TranslateTransform).Y;
+            Point point = new Point((this.RenderTransform as TranslateTransform).X, (this.RenderTransform as TranslateTransform).Y);
+            Model.WorkspaceModel.ModifyModel(new MoveModelElementOperation(Model, point));
         }
 
         private void delete()
@@ -138,7 +139,7 @@ namespace WorkspaceManager.View.VisualComponents
             if (this.ParentPanel.IsEnabled == true)
             {
                 this.ParentPanel.IsEnabled = false;
-                this.Model.IsEnabled = false;
+                //this.Model.IsEnabled = false;
                 this.contentParent.SelectedItem = null;
                 return;
             }
@@ -146,7 +147,7 @@ namespace WorkspaceManager.View.VisualComponents
             if (this.ParentPanel.IsEnabled == false)
             {
                 this.ParentPanel.IsEnabled = true;
-                this.Model.IsEnabled = true;
+                //this.Model.IsEnabled = true;
                 this.contentParent.SelectedItem = this;
                 return;
             }
@@ -168,6 +169,14 @@ namespace WorkspaceManager.View.VisualComponents
             }
         }
 
+
+        #region UpdateableView Members
+
+        public void update()
+        {
+        }
+
+        #endregion
     }
 
     public class ImageDeleteEventArgs : EventArgs

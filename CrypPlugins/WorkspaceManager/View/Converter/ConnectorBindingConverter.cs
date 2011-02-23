@@ -6,6 +6,7 @@ using System.Windows.Data;
 using System.Windows;
 using System.Globalization;
 using WorkspaceManager.View.Container;
+using WorkspaceManager.Model;
 
 namespace WorkspaceManager.View.Converter
 {

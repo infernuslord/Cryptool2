@@ -20,6 +20,8 @@ using Cryptool.Core;
 using Cryptool.PluginBase;
 using System.Collections.ObjectModel;
 using System.Windows.Threading;
+using WorkspaceManagerModel.Model.Interfaces;
+using WorkspaceManagerModel.Model.Operations;
 
 namespace WorkspaceManager.View.Container
 {
@@ -32,7 +34,7 @@ namespace WorkspaceManager.View.Container
     /// Interaction logic for WorkSpaceEditorView.xaml
     /// </summary>
     /// 
-    public partial class WorkSpaceEditorView : UserControl,IUpdateableView
+    public partial class WorkSpaceEditorView : UserControl, IUpdateableView
     {
 
         private Point? lastCenterPositionOnTarget;
@@ -59,7 +61,12 @@ namespace WorkspaceManager.View.Container
         public WorkspaceModel Model
         {
             get { return model; }
-            set { model = value; }
+            set { model = value;
+                  model.DeletedChildElement += DeleteChild;
+                  model.NewChildElement += NewChild;
+                  model.ChildPositionChanged += ChildPositionChanged;
+                  model.ChildSizeChanged += ChildSizeChanged;
+            }
         }
 
         public WorkSpaceEditorView()
@@ -238,7 +245,7 @@ namespace WorkspaceManager.View.Container
             if (IsMouseOver)
             {
                 List<PluginModel> list = new List<PluginModel>();
-                foreach (PluginContainerView plugin in Model.SelectedPluginsList)
+                foreach (PluginContainerView plugin in ((WorkspaceManager)Model.MyEditor).SelectedPluginsList)
                 {
                     list.Add(plugin.Model);
                 }
@@ -257,14 +264,17 @@ namespace WorkspaceManager.View.Container
 
                 if (!(v is PluginCopyWrapper))
                     return;
-
+                /*
+                 * todo: create new paste method
+                 * 
+                 * 
                 foreach (PluginModel model in v.Model)
                 {
                     //this.loadPluginContainerView(model);
                     model.WorkspaceModel = this.Model;
                     model.generateConnectors();
                     this.AddPluginContainerView(model.Position, model);
-                }
+                }*/
 
                 //foreach (ConnectionModel connModel in Model.AllConnectionModels)
                 //{
@@ -345,9 +355,9 @@ namespace WorkspaceManager.View.Container
         {
             if (this.State == EditorState.READY)
             {
-                Model.deletePluginModel(e.container.Model);
+                Model.ModifyModel(new DeletePluginModelOperation(e.container.Model));
                 root.Children.Remove(e.container);
-                Model.WorkspaceManagerEditor.HasChanges = true;
+                ((WorkspaceManager)Model.MyEditor).HasChanges = true;
             }
         }
 
@@ -371,7 +381,7 @@ namespace WorkspaceManager.View.Container
 
                 this.root.Children.Add(newPluginContainerView);
                 Canvas.SetZIndex(newPluginContainerView, 100);
-                Model.WorkspaceManagerEditor.HasChanges = true;
+                ((WorkspaceManager)Model.MyEditor).HasChanges = true;
             }
         }
 
@@ -397,13 +407,13 @@ namespace WorkspaceManager.View.Container
         public void AddConnection(ConnectorView source, ConnectorView target)
         {
             if (this.State == EditorState.READY)
-            {
-                ConnectionModel connectionModel = this.Model.newConnectionModel(((ConnectorView)source).Model, ((ConnectorView)target).Model, ((ConnectorView)source).Model.ConnectorType);
+            {                
+                ConnectionModel connectionModel = (ConnectionModel)this.Model.ModifyModel(new NewConnectionModelOperation(((ConnectorView)source).Model,((ConnectorView)target).Model,((ConnectorView)source).Model.ConnectorType));
+
                 CryptoLineView conn = new CryptoLineView(connectionModel,source,target);
                 conn.StartPointSource = source;
                 conn.EndPointSource = target;
-                connectionModel.UpdateableView = conn;
-                connectionModel.OnDelete += DeleteConnection;
+                connectionModel.UpdateableView = conn;                
                 conn.SetBinding(CryptoLineView.StartPointProperty, CreateConnectorBinding(source));
                 conn.SetBinding(CryptoLineView.EndPointProperty, CreateConnectorBinding(target));
                 root.Children.Add(conn);
@@ -412,13 +422,188 @@ namespace WorkspaceManager.View.Container
             }
         }
 
-        public void DeleteConnection(Object sender, EventArgs args)
+        /// <summary>
+        /// A child is deleted on model side
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        public void DeleteChild(Object sender, ModelArgs args)
         {
-            if (sender is ConnectionModel)
+            if (args.EffectedModelElement is ConnectionModel)
             {
-                if(((ConnectionModel)sender).UpdateableView != null){
-                    UIElement uielement = (UIElement)((ConnectionModel)sender).UpdateableView;
-                    root.Children.Remove(uielement);
+                if (((ConnectionModel)args.EffectedModelElement).UpdateableView != null)
+                {
+                    UIElement uielement = (UIElement)((ConnectionModel)args.EffectedModelElement).UpdateableView;
+                    if (root.Children.Contains(uielement))
+                    {
+                        root.Children.Remove(uielement);
+                    }
+                }
+            }
+            else if (args.EffectedModelElement is PluginModel)
+            {
+                if (((PluginModel)args.EffectedModelElement).UpdateableView != null)
+                {
+                    UIElement uielement = (UIElement)((PluginModel)args.EffectedModelElement).UpdateableView;
+                    if (root.Children.Contains(uielement))
+                    {
+                        root.Children.Remove(uielement);
+                    }
+                }
+            }
+            else if (args.EffectedModelElement is ImageModel)
+            {
+                if (((ImageModel)args.EffectedModelElement).UpdateableView != null)
+                {
+                    UIElement uielement = (UIElement)((ImageModel)args.EffectedModelElement).UpdateableView;
+                    if (root.Children.Contains(uielement))
+                    {
+                        root.Children.Remove(uielement);
+                    }
+                }
+            }
+            else if (args.EffectedModelElement is TextModel)
+            {
+                if (((TextModel)args.EffectedModelElement).UpdateableView != null)
+                {
+                    UIElement uielement = (UIElement)((TextModel)args.EffectedModelElement).UpdateableView;
+                    if (root.Children.Contains(uielement))
+                    {
+                        root.Children.Remove(uielement);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// A child is created on model side
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        public void NewChild(Object sender, ModelArgs args)
+        {
+            if (args.EffectedModelElement is ConnectionModel)
+            {
+                if (((ConnectionModel)args.EffectedModelElement).UpdateableView != null)
+                {
+                    CryptoLineView conn = (CryptoLineView)((ConnectionModel)args.EffectedModelElement).UpdateableView;
+                    if (!root.Children.Contains(conn))
+                    {
+                        root.Children.Add(conn);
+                        ConnectionList.Add(conn);
+                        Canvas.SetZIndex(conn, 0);
+                    }
+                }
+            }
+            else if (args.EffectedModelElement is PluginModel)
+            {
+                if (((PluginModel)args.EffectedModelElement).UpdateableView != null)
+                {
+                    PluginContainerView plugin = (PluginContainerView)((PluginModel)args.EffectedModelElement).UpdateableView;
+                    if (!root.Children.Contains(plugin))
+                    {
+                        root.Children.Add(plugin);
+                    }
+                }
+            }
+            else if (args.EffectedModelElement is ImageModel)
+            {
+                if (((ImageModel)args.EffectedModelElement).UpdateableView != null)
+                {
+                    ImageWrapper imgWrapper = (ImageWrapper)((ImageModel)args.EffectedModelElement).UpdateableView;
+                    if (!root.Children.Contains(imgWrapper))
+                    {
+                        root.Children.Add(imgWrapper);
+                    }
+                }
+            }
+            else if (args.EffectedModelElement is TextModel)
+            {
+                if (((TextModel)args.EffectedModelElement).UpdateableView != null)
+                {
+                    TextInputWrapper txtInputWrapper = (TextInputWrapper)((TextModel)args.EffectedModelElement).UpdateableView;
+                    if (!root.Children.Contains(txtInputWrapper))
+                    {
+                        root.Children.Add(txtInputWrapper);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// The position of a child has changed on model side
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        public void ChildPositionChanged(Object sender, PositionArgs args)
+        {
+            if(args.OldPosition.Equals(args.NewPosition)){
+                return;
+            }
+            else if (args.EffectedModelElement is PluginModel)
+            {
+                if (((PluginModel)args.EffectedModelElement).UpdateableView != null)
+                {
+                    PluginContainerView pluginContainerView = (PluginContainerView)((PluginModel)args.EffectedModelElement).UpdateableView;
+                    pluginContainerView.SetPosition(args.NewPosition);
+                }
+            }
+            else if (args.EffectedModelElement is ImageModel)
+            {
+                if (((ImageModel)args.EffectedModelElement).UpdateableView != null)
+                {
+                    ImageWrapper imgWrapper = (ImageWrapper)((ImageModel)args.EffectedModelElement).UpdateableView;
+                    imgWrapper.Position = args.NewPosition;
+                    imgWrapper.RenderTransform = new TranslateTransform(imgWrapper.Position.X, imgWrapper.Position.Y);
+                }
+            }
+            else if (args.EffectedModelElement is TextModel)
+            {
+                if (((TextModel)args.EffectedModelElement).UpdateableView != null)
+                {
+                    TextInputWrapper txtWrapper = (TextInputWrapper)((TextModel)args.EffectedModelElement).UpdateableView;
+                    txtWrapper.Position = args.NewPosition;
+                    txtWrapper.RenderTransform = new TranslateTransform(txtWrapper.Position.X, txtWrapper.Position.Y);
+                }
+            }
+        }
+
+        /// <summary>
+        /// The size of a child changed on model side
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        public void ChildSizeChanged(Object sender, SizeArgs args)
+        {
+            if(args.NewHeight.Equals(args.OldHeight) &&
+               args.NewWidth.Equals(args.OldWidth)){
+                return;
+            }
+            else if (args.EffectedModelElement is PluginModel)
+            {
+                if (((PluginModel)args.EffectedModelElement).UpdateableView != null)
+                {
+                    PluginContainerView pluginContainerView = (PluginContainerView)((PluginModel)args.EffectedModelElement).UpdateableView;
+                    pluginContainerView.PluginBase.Width = args.NewWidth;
+                    pluginContainerView.PluginBase.Height = args.NewHeight;
+                }
+            }
+            else if (args.EffectedModelElement is ImageModel)
+            {
+                if (((ImageModel)args.EffectedModelElement).UpdateableView != null)
+                {
+                    ImageWrapper imgWrapper = (ImageWrapper)((ImageModel)args.EffectedModelElement).UpdateableView;
+                    imgWrapper.Width = args.NewWidth;
+                    imgWrapper.Height = args.NewHeight;
+                }
+            }
+            else if (args.EffectedModelElement is TextModel)
+            {
+                if (((TextModel)args.EffectedModelElement).UpdateableView != null)
+                {
+                    TextInputWrapper txtWrapper = (TextInputWrapper)((TextModel)args.EffectedModelElement).UpdateableView;
+                    txtWrapper.Width = args.NewWidth;
+                    txtWrapper.Height = args.NewHeight;
                 }
             }
         }
@@ -559,8 +744,8 @@ namespace WorkspaceManager.View.Container
             this.previousDragPoint = Mouse.GetPosition(selectedPluginContainer); 
             Canvas.SetZIndex(selectedPluginContainer, 101);
 
-            PluginChangedEventArgs args = new PluginChangedEventArgs(this.selectedPluginContainer.Model.Plugin, this.selectedPluginContainer.Model.Name, DisplayPluginMode.Normal);
-            this.Model.WorkspaceManagerEditor.onSelectedPluginChanged(args);
+            PluginChangedEventArgs args = new PluginChangedEventArgs(this.selectedPluginContainer.Model.Plugin, this.selectedPluginContainer.Model.GetName(), DisplayPluginMode.Normal);
+            ((WorkspaceManager)this.Model.MyEditor).onSelectedPluginChanged(args);
 
             e.Handled = true;
         }
@@ -574,15 +759,16 @@ namespace WorkspaceManager.View.Container
                     try
                     {
                         DragDropDataObject obj = e.Data.GetData("Cryptool.PluginBase.Editor.DragDropDataObject") as DragDropDataObject;
-                        PluginModel pluginModel = Model.newPluginModel(DragDropDataObjectToPluginConverter.CreatePluginInstance(obj.AssemblyFullName, obj.TypeFullName));
+                        //PluginModel pluginModel = Model.newPluginModel(DragDropDataObjectToPluginConverter.CreatePluginInstance(obj.AssemblyFullName, obj.TypeFullName));
+                        PluginModel pluginModel = (PluginModel)Model.ModifyModel(new NewPluginModelOperation(new Point(0,0),0,0,DragDropDataObjectToPluginConverter.CreatePluginInstance(obj.AssemblyFullName, obj.TypeFullName)));
                         if (obj != null)
                             this.AddPluginContainerView(e.GetPosition(root), pluginModel);
-                        Model.WorkspaceManagerEditor.HasChanges = true;
+                        ((WorkspaceManager)this.Model.MyEditor).HasChanges = true;
                     }
                     catch (Exception ex)
                     {
-                        this.Model.WorkspaceManagerEditor.GuiLogMessage("Could not add Plugin to Workspace:" + ex.Message, NotificationLevel.Error);
-                        this.Model.WorkspaceManagerEditor.GuiLogMessage(ex.StackTrace, NotificationLevel.Error);
+                        ((WorkspaceManager)this.Model.MyEditor).GuiLogMessage("Could not add Plugin to Workspace:" + ex.Message, NotificationLevel.Error);
+                        ((WorkspaceManager)this.Model.MyEditor).GuiLogMessage(ex.StackTrace, NotificationLevel.Error);
                         return;
                     }
                 }
@@ -620,14 +806,13 @@ namespace WorkspaceManager.View.Container
 
         internal void Load(WorkspaceModel WorkspaceModel)
         {
-            this.Model = WorkspaceModel;
-
-            foreach (PluginModel model in this.Model.AllPluginModels)
+            this.Model = WorkspaceModel;            
+            foreach (PluginModel model in this.Model.GetAllPluginModels())
             {
                 bool skip = false;
-                foreach (ConnectorModel connModel in model.InputConnectors)
+                foreach (ConnectorModel connModel in model.GetInputConnectors())
                 {
-                    if (connModel.IControl && connModel.InputConnections.Count > 0)
+                    if (connModel.IControl && connModel.GetInputConnections().Count > 0)
                     {
                         skip = true;
                         break;
@@ -636,14 +821,13 @@ namespace WorkspaceManager.View.Container
                 if(!skip)
                     this.loadPluginContainerView(model);
             }
-            foreach (ConnectionModel connModel in WorkspaceModel.AllConnectionModels)
+            foreach (ConnectionModel connModel in WorkspaceModel.GetAllConnectionModels())
             {
                 if (connModel.To.IControl)
                     continue;
 
                 CryptoLineView conn = new CryptoLineView(connModel,null,null);
-                connModel.UpdateableView = conn;
-                connModel.OnDelete += DeleteConnection;
+                connModel.UpdateableView = conn;                
 
                 foreach (UIElement element in root.Children)
                 {
@@ -679,6 +863,7 @@ namespace WorkspaceManager.View.Container
         private void loadPluginContainerView(PluginModel model)
         {
             PluginContainerView newPluginContainerView = new PluginContainerView(model);
+            //model.PositionChanged += newPluginContainerView.OnPositionChanged;
 
             newPluginContainerView.Delete += new EventHandler<PluginContainerViewDeleteViewEventArgs>(PluginDelete);
             newPluginContainerView.FullScreen += new EventHandler<PluginContainerViewFullScreenViewEventArgs>(shape_FullScreen);
@@ -686,7 +871,7 @@ namespace WorkspaceManager.View.Container
             newPluginContainerView.MouseLeftButtonDown += new MouseButtonEventHandler(shape_MouseLeftButtonDown);
             newPluginContainerView.MouseLeftButtonUp += new MouseButtonEventHandler(shape_MouseLeftButtonUp);
             newPluginContainerView.ReleaseDummyLine += new EventHandler(newPluginContainerView_ReleaseDummyLine);
-            newPluginContainerView.SetPosition(model.Position);
+            newPluginContainerView.SetPosition(model.GetPosition());
             this.root.Children.Add(newPluginContainerView);
             Canvas.SetZIndex(newPluginContainerView, 100);
         }
@@ -703,8 +888,8 @@ namespace WorkspaceManager.View.Container
         {
             if (!e.Handled)
             {
-                PluginChangedEventArgs args = new PluginChangedEventArgs(this.model.WorkspaceManagerEditor, "WorkspaceManager", DisplayPluginMode.Normal);
-                this.Model.WorkspaceManagerEditor.onSelectedPluginChanged(args);
+                PluginChangedEventArgs args = new PluginChangedEventArgs(((WorkspaceManager)this.Model.MyEditor), "WorkspaceManager", DisplayPluginMode.Normal);
+                ((WorkspaceManager)this.Model.MyEditor).onSelectedPluginChanged(args);
             }
         }
 

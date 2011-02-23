@@ -103,6 +103,10 @@
       <Project>{25DB2B47-A457-4EC2-960B-395CE07AE093}</Project>
       <Name>CrypPluginBase</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\WorkspaceManagerModel\WorkspaceManagerModel.csproj">
+      <Project>{C35A6E71-D6FE-478B-A12D-FAD54FC4EDC9}</Project>
+      <Name>WorkspaceManagerModel</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WorkspaceManager\WorkspaceManager.csproj">
       <Project>{949B4294-2894-43B4-BD73-E0B031F5434F}</Project>
       <Name>WorkspaceManager</Name>

@@ -101,7 +101,7 @@ namespace WorkspaceManager.Model
                             }
                         }catch(Exception ex)
                         {
-                            //workspaceManagerEditor.GuiLogMessage("Could not restore the setting \"" + persistantSetting.Name + "\" of plugin \"" + persistantPlugin.PluginModel.Name + "\" because of:" + ex.Message,NotificationLevel.Warning);
+                            throw new Exception("Could not restore the setting \"" + persistantSetting.Name + "\" of plugin \"" + persistantPlugin.PluginModel.Name + "\"", ex);
                         }
                     }
                 }
@@ -116,10 +116,9 @@ namespace WorkspaceManager.Model
                 }
                 catch(Exception ex)
                 {
-                    //workspaceManagerEditor.GuiLogMessage("Error while initializing \"" + pluginModel.Name + "\". Surely plugin will not work well. Error was:" + ex.Message,NotificationLevel.Error);
+                    throw new Exception("Error while initializing \"" + pluginModel.Name + "\".", ex);
                 }
-                //pluginModel.Plugin.OnGuiLogNotificationOccured += workspaceManagerEditor.GuiLogNotificationOccured;
-                //pluginModel.Plugin.OnGuiLogNotificationOccured += pluginModel.GuiLogNotificationOccured;
+                pluginModel.Plugin.OnGuiLogNotificationOccured += workspacemodel.GuiLogMessage;
                 pluginModel.Plugin.OnPluginProgressChanged += pluginModel.PluginProgressChanged;                
                 pluginModel.Plugin.OnPluginStatusChanged += pluginModel.PluginStatusChanged;                
                 if (pluginModel.Plugin.Settings != null)
@@ -178,7 +177,7 @@ namespace WorkspaceManager.Model
                     }
                 }catch(Exception ex)
                 {
-                    //workspaceManagerEditor.GuiLogMessage("Error while restoring IControl Connection between \"" + from.PluginModel.Name + "\" to \"" + to.PluginModel.Name + "\". Workspace surely will not work well. Error was:" + ex.Message, NotificationLevel.Error);
+                    throw new Exception("Error while restoring IControl Connection between \"" + from.PluginModel.Name + "\" to \"" + to.PluginModel.Name + "\". Workspace surely will not work well.",ex);
                 }
             }
 

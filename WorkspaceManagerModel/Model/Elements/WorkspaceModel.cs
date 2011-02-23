@@ -36,6 +36,10 @@ namespace WorkspaceManager.Model
     [Serializable]
     public class WorkspaceModel : VisualElementModel
     {
+
+        /// <summary>
+        /// The executing editor
+        /// </summary>
         [NonSerialized]
         private IEditor myEditor;
         public IEditor MyEditor
@@ -45,6 +49,9 @@ namespace WorkspaceManager.Model
 
         }
 
+        /// <summary>
+        /// Create a new WorkspaceModel
+        /// </summary>
         public WorkspaceModel()
         {
             this.AllPluginModels = new List<PluginModel>();
@@ -70,6 +77,17 @@ namespace WorkspaceManager.Model
             {
                 hasChanges = value;
             }
+        }
+
+        /// <summary>
+        /// Tell this model if its executed or not
+        /// </summary>
+        [NonSerialized]
+        private bool beingExecuted = false;
+        internal bool IsBeingExecuted
+        {
+            get { return beingExecuted; }
+            set { beingExecuted = value; }
         }
 
         /// <summary>
@@ -157,7 +175,7 @@ namespace WorkspaceManager.Model
             pluginModel.RepeatStart = false;
             pluginModel.generateConnectors();
             pluginModel.Plugin.Initialize();
-            //pluginModel.Plugin.OnGuiLogNotificationOccured += pluginModel.GuiLogNotificationOccured;
+            pluginModel.Plugin.OnGuiLogNotificationOccured += this.GuiLogMessage;
             pluginModel.Plugin.OnPluginProgressChanged += pluginModel.PluginProgressChanged;
             pluginModel.Plugin.OnPluginStatusChanged += pluginModel.PluginStatusChanged;
             if (pluginModel.Plugin.Settings != null)
@@ -294,10 +312,23 @@ namespace WorkspaceManager.Model
         internal ImageModel newImageModel(Uri imgUri)
         {
             ImageModel imageModel = new ImageModel(imgUri);
+            imageModel.WorkspaceModel = this;
             this.AllImageModels.Add(imageModel);
             this.HasChanges = true;
             this.OnNewChildElement(imageModel);
             return imageModel;
+        }
+
+        /// <summary>
+        /// Add ImageModel containing the under imgUri stored Image
+        /// </summary>
+        /// <param name="imgUri"></param>
+        /// <returns></returns>
+        internal void addImageModel(ImageModel imageModel)
+        {
+            this.AllImageModels.Add(imageModel);
+            this.HasChanges = true;
+            this.OnNewChildElement(imageModel);
         }
 
         /// <summary>
@@ -308,10 +339,23 @@ namespace WorkspaceManager.Model
         internal TextModel newTextModel()
         {
             TextModel textModel = new TextModel();
+            textModel.WorkspaceModel = this;
             this.AllTextModels.Add(textModel);
             this.HasChanges = true;
             this.OnNewChildElement(textModel);
             return textModel;
+        }
+
+        /// <summary>
+        /// Add a TextModel to this WorkspaceModel
+        /// </summary>
+        /// <param name="imgUri"></param>
+        /// <returns></returns>
+        internal void addTextModel(TextModel textModel)
+        {
+            this.AllTextModels.Add(textModel);
+            this.HasChanges = true;
+            this.OnNewChildElement(textModel);
         }
 
         /// <summary>
@@ -456,28 +500,48 @@ namespace WorkspaceManager.Model
         }
 
         /// <summary>
-        /// A childs position of this WorkspaceModel changed
+        /// "Something" logged
         /// </summary>
         [field: NonSerialized]
-        public event PositionChangedEventHandler ChildPositionChanged;
+        public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
+
+        /// <summary>
+        /// A childs position of this WorkspaceModel changed
+        /// </summary>     
+        [field:NonSerialized]
+        public event EventHandler<PositionArgs> ChildPositionChanged;
 
         /// <summary>
         /// A childs size of this WorkspaceModel changed
         /// </summary>
         [field: NonSerialized]
-        public event SizeChangedEventHandler ChildSizeChanged;
+        public event EventHandler<SizeArgs> ChildSizeChanged;
 
         /// <summary>
         /// A child of this WorkspaceModel is created
         /// </summary>
         [field: NonSerialized]
-        public event NewChildElementEventHandler NewChildElement;
+        public event EventHandler<ModelArgs> NewChildElement;
 
         /// <summary>
         /// A child of this WorkspaceModel is deleted
         /// </summary>
         [field: NonSerialized]
-        public event DeleteChildElementEventHandler DeletedChildElement;
+        public event EventHandler<ModelArgs> DeletedChildElement;
+
+        /// <summary>
+        /// Loggs a gui message
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="level"></param>
+        internal void GuiLogMessage(IPlugin sender, GuiLogEventArgs args)
+        {
+            if (OnGuiLogNotificationOccured != null)
+            {
+                OnGuiLogNotificationOccured(sender, args);
+            }
+        }
+
 
         /// <summary>
         /// Call this to tell the environment that a childs position changed
@@ -532,7 +596,7 @@ namespace WorkspaceManager.Model
                 DeletedChildElement(this, new ModelArgs(effectedModelElement));
             }
         }
-    
+
         /// <summary>
         /// Checks wether a Connector and a Connector are compatible to be connected
         /// They are compatible if their types are equal or the base type of the Connector
@@ -620,9 +684,4 @@ namespace WorkspaceManager.Model
             this.NewHeight = newHeight;
         }
     }
-    
-    public delegate void PositionChangedEventHandler(VisualElementModel model, PositionArgs args);
-    public delegate void SizeChangedEventHandler(VisualElementModel model, SizeArgs args);
-    public delegate void NewChildElementEventHandler(VisualElementModel model, ModelArgs args);
-    public delegate void DeleteChildElementEventHandler(VisualElementModel model, ModelArgs args);
 }
