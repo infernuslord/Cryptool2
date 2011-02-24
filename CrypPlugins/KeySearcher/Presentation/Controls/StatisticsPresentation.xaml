@@ -213,13 +213,14 @@
                                                     <TextBlock Text="{Binding Path=Value.Count, StringFormat=\{0\,-5\}}"/>
                                                 </StackPanel>
                                             </Grid>
-                                            <Grid Width="17">
-                                                <Ellipse Name="MyEllipse2" Height="13" Width="13" HorizontalAlignment="Right" StrokeThickness="1" Stroke="Black" Fill="{Binding Path=Value.Date, Mode=OneTime, Converter={StaticResource ResourceKey=DateToColorConverter2}}" Visibility="{Binding Path=Value.Date, Converter={StaticResource ResourceKey=DateFalseVisibleConverter2}}" ToolTip="{Binding Path=Value.Date, Converter={StaticResource ResourceKey=TimeConverter}}" />
-                                                <Image Name="Skull2" Height="13" Width="13" HorizontalAlignment="Right" Source="/KeySearcher;component/Images/dead.png" Stretch="Fill" Visibility="{Binding Path=Value.Date, Converter={StaticResource ResourceKey=DateTrueVisibleConverter2}}" >
-                                                    <Image.ToolTip>
-                                                        <Image Width="22" Height="32" Source="/KeySearcher;component/Images/dead.png" Stretch="Fill"/>
-                                                    </Image.ToolTip>
-                                                </Image>
+                                            <Grid Width="17">                                                
+                                                <Ellipse Name="MyEllipse2" Height="13" Width="13" HorizontalAlignment="Right" StrokeThickness="1" Stroke="Black" Fill="{Binding Path=Value.Date, Mode=OneTime, Converter={StaticResource ResourceKey=DateToColorConverter2}}" ToolTip="{Binding Path=Value.Date, Converter={StaticResource ResourceKey=TimeConverter}}" />
+                                                
+                                                <Line X1="6" Y1="7" X2="10" Y2="12" Stroke="Black" StrokeThickness="2" Visibility="{Binding Path=Value.Date, Converter={StaticResource ResourceKey=DateFalseVisibleConverter2}}"/>
+                                                <Line X1="10" Y1="12" X2="14" Y2="4" Stroke="Black" StrokeThickness="2" Visibility="{Binding Path=Value.Date, Converter={StaticResource ResourceKey=DateFalseVisibleConverter2}}"/>
+
+                                                <Line X1="7" Y1="4" X2="14" Y2="12" Stroke="White" StrokeThickness="2" Visibility="{Binding Path=Value.Date, Converter={StaticResource ResourceKey=DateTrueVisibleConverter2}}"/>
+                                                <Line X1="7" Y1="12" X2="14" Y2="4" Stroke="White" StrokeThickness="2" Visibility="{Binding Path=Value.Date, Converter={StaticResource ResourceKey=DateTrueVisibleConverter2}}"/>
                                             </Grid>
                                         </StackPanel>
                                     </DataTemplate>
@@ -237,12 +238,12 @@
                                         </StackPanel>
                                     </Grid>
                                     <Grid Width="17">
-                                        <Ellipse Name="MyEllipse1" Height="13" Width="13" HorizontalAlignment="Right" StrokeThickness="1" Stroke="Black" Fill="{Binding Path=Key, Mode=OneTime, Converter={StaticResource ResourceKey=DateToColorConverter1}}" Visibility="{Binding Path=Key, Converter={StaticResource ResourceKey=DateFalseVisibleConverter1}}" ToolTip="{Binding Path=Key, Converter={StaticResource ResourceKey=MaxDateConverter}}" />
-                                        <Image Name="Skull1" Height="13" Width="13" HorizontalAlignment="Right" Source="/KeySearcher;component/Images/dead.png" Stretch="Fill" Visibility="{Binding Path=Key, Converter={StaticResource ResourceKey=DateTrueVisibleConverter1}}">
-                                            <Image.ToolTip>
-                                                <Image Width="22" Height="32" Source="/KeySearcher;component/Images/dead.png" Stretch="Fill"/>
-                                            </Image.ToolTip>
-                                        </Image>
+                                        <Ellipse Name="MyEllipse1" Height="13" Width="13" HorizontalAlignment="Right" StrokeThickness="1" Stroke="Black" Fill="{Binding Path=Key, Mode=OneTime, Converter={StaticResource ResourceKey=DateToColorConverter1}}" ToolTip="{Binding Path=Key, Converter={StaticResource ResourceKey=MaxDateConverter}}" />
+                                        <Line X1="6" Y1="7" X2="10" Y2="12" Stroke="Black" StrokeThickness="2" Visibility="{Binding Path=Key, Converter={StaticResource ResourceKey=DateFalseVisibleConverter1}}"/>
+                                        <Line X1="10" Y1="12" X2="14" Y2="4" Stroke="Black" StrokeThickness="2" Visibility="{Binding Path=Key, Converter={StaticResource ResourceKey=DateFalseVisibleConverter1}}"/>
+
+                                        <Line X1="7" Y1="4" X2="14" Y2="12" Stroke="White" StrokeThickness="2" Visibility="{Binding Path=Key, Converter={StaticResource ResourceKey=DateTrueVisibleConverter1}}"/>
+                                        <Line X1="7" Y1="12" X2="14" Y2="4" Stroke="White" StrokeThickness="2" Visibility="{Binding Path=Key, Converter={StaticResource ResourceKey=DateTrueVisibleConverter1}}"/>
                                     </Grid>
                                 </StackPanel>
                             </HierarchicalDataTemplate>

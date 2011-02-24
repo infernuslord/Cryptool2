@@ -714,6 +714,11 @@ namespace KeySearcherPresentation.Controls
 
                         if (g < 0) g = 0;
 
+                        if(minutes > 2880)
+                        {
+                            Color cblack = Color.FromRgb((byte) 0, (byte) 0, (byte) 0);
+                            return cblack.ToString();
+                        }
                         Color c = Color.FromRgb((byte) r, (byte) g, (byte) 0);
                         return c.ToString();
                     }
@@ -759,6 +764,12 @@ namespace KeySearcherPresentation.Controls
 
                         if (g < 0) g = 0;
 
+                        if (minutes > 2880)
+                        {
+                            Color cblack = Color.FromRgb((byte)0, (byte)0, (byte)0);
+                            return cblack.ToString();
+                        }
+
                         Color c = Color.FromRgb((byte)r, (byte)g, 0);
                         return c.ToString();
                     }
@@ -801,7 +812,7 @@ namespace KeySearcherPresentation.Controls
                         if (targetType != typeof(Visibility))
                             throw new InvalidOperationException("The target must be of Visibility");
 
-                        if (minutes > 2880) //two days
+                        if (minutes > 30) //after 30 min disappear
                         {
                             return Visibility.Hidden;
                         }
@@ -847,7 +858,7 @@ namespace KeySearcherPresentation.Controls
                         if (targetType != typeof(Visibility))
                             throw new InvalidOperationException("The target must be of Visibility");
 
-                        if (minutes > 2880) //two days
+                        if (minutes > 2880) //after two days X
                         {
                             return Visibility.Visible;
                         }
@@ -888,7 +899,7 @@ namespace KeySearcherPresentation.Controls
                         if (targetType != typeof(Visibility))
                             throw new InvalidOperationException("The target must be of Visibility");
 
-                        if (minutes > 2880) //two days
+                        if (minutes > 30) //after 30 minutes disappear
                         {
                             return Visibility.Hidden;
                         }
@@ -929,7 +940,7 @@ namespace KeySearcherPresentation.Controls
                         if (targetType != typeof(Visibility))
                             throw new InvalidOperationException("The target must be of Visibility");
 
-                        if (minutes > 2880) //two days
+                        if (minutes > 2880) //after two days X
                         {
                             return Visibility.Visible;
                         }
