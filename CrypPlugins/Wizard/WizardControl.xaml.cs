@@ -25,6 +25,7 @@ using System.Collections;
 using System.Globalization;
 using Cryptool.PluginBase;
 using WorkspaceManager.Model;
+using Wizard.Properties;
 
 namespace Wizard
 {
@@ -891,7 +892,11 @@ namespace Wizard
             newEditor.Open(model);
 
             if (openTab)
+            {
                 OnOpenTab(newEditor, title, null);
+                if (Settings.Default.RunTemplate && newEditor.CanExecute)
+                    newEditor.Execute();
+            }
             else
             {
                 currentManager = newEditor;
