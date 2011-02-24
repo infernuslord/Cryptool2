@@ -33,18 +33,4 @@ namespace KeySearcher.P2P.Helper
             throw new NotImplementedException();
         }
     }
-
-    class WidthConverter3 : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            double x = (double)value;
-            return x - 100;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
 }

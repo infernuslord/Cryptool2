@@ -32,6 +32,17 @@ namespace KeySearcher.P2P.Presentation
             }
         }
 
+        private String localFinishedChunksSession = "(0)";
+        public String LocalFinishedChunksSession
+        {
+            get { return localFinishedChunksSession; }
+            set
+            {
+                localFinishedChunksSession = value;
+                OnPropertyChanged("LocalFinishedChunksSession");
+            }
+        }
+
         private BigInteger currentChunk;
         public BigInteger CurrentChunk
         {

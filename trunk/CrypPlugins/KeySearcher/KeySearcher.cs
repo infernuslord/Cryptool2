@@ -1577,11 +1577,12 @@ namespace KeySearcher
                         maschinehierarchie[mid].Sum = maschinehierarchie[mid].Sum + Maschines[mid].Count;
                         maschinehierarchie[mid].Hostname = Maschines[mid].Hostname;
                         maschinehierarchie[mid].Users = maschinehierarchie[mid].Users + avatar + " | ";
+                        maschinehierarchie[mid].Date = Maschines[mid].Date > maschinehierarchie[mid].Date ? Maschines[mid].Date : maschinehierarchie[mid].Date;
                     }
                     else
                     {
                         //else make a new entry
-                        maschinehierarchie.Add(mid, new Maschinfo() { Sum = Maschines[mid].Count , Hostname = Maschines[mid].Hostname , Users = "| " + avatar + " | "});
+                        maschinehierarchie.Add(mid, new Maschinfo() { Sum = Maschines[mid].Count, Hostname = Maschines[mid].Hostname, Users = "| " + avatar + " | ", Date = Maschines[mid].Date });
                     }
                 }
             }
@@ -1842,5 +1843,6 @@ namespace KeySearcher
         public int Sum { get; set; }
         public string Hostname { get; set; }
         public string Users { get; set; }
+        public DateTime Date { get; set; }
     } 
 }

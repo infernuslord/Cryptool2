@@ -76,6 +76,7 @@ namespace KeySearcher.P2P
             InitializeTree();
             
             bool statupdate = false;
+            int sessionchunk = 0;
             Leaf currentLeaf;
             keySearcher.InitialiseInformationQuickwatch();
             int utime = settings.UpdateTime > 0 ? settings.UpdateTime : 30;
@@ -232,6 +233,7 @@ namespace KeySearcher.P2P
                             StatisticsGenerator.CalculateGlobalStatistics(displayablePatternId);
 
                             status.LocalFinishedChunks++;
+                            status.LocalFinishedChunksSession = "(" + (++sessionchunk) + ")";
                             keySearcher.GuiLogMessage(
                                 string.Format(Resources.Best_match___0__with__1_, result.First.Value.key, result.First.Value.value),
                                 NotificationLevel.Info);
