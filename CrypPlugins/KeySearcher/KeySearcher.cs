@@ -577,7 +577,7 @@ namespace KeySearcher
                 GuiLogMessage(ex.Message, NotificationLevel.Error);
                 const string text = "Bruteforcing with OpenCL failed! Using CPU instead...";
                 GuiLogMessage(text, NotificationLevel.Error);
-                throw new Exception(text);
+                throw new Exception(text, ex);
             }
 
             return !keyTranslator.NextOpenCLBatch();
