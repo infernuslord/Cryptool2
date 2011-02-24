@@ -782,11 +782,11 @@ namespace Cryptool.Plugins.CostFunction
             string declaration = string.Format("__constant float xlogx[{0}] = {{ \n", bytesToUse + 1);
             foreach (float xlx in xlogx)
             {
-                declaration += xlx.ToString(System.Globalization.CultureInfo.InvariantCulture) + ", ";
+                declaration += xlx.ToString("F9", System.Globalization.CultureInfo.InvariantCulture) + "f, ";
             }
             declaration = declaration.Substring(0, declaration.Length - 2);
             declaration += " }; \n";
-
+            float a = 4f;
             code = code.Replace("$$COSTFUNCTIONDECLARATIONS$$", declaration);
 
             //initialization code:
