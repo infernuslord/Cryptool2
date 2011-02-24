@@ -23,20 +23,20 @@
             <TabItem Name="_wsdlTab" Header="WSDL" IsSelected="True" IsEnabled="True" Background="AliceBlue">
                 <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
                 <Grid>
-                    <TreeView Name="_wsdlTreeView" ScrollViewer.HorizontalScrollBarVisibility="Visible" ScrollViewer.VerticalScrollBarVisibility="Visible" Width="Auto" Height="Auto" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></TreeView>
+                        <TreeView Name="_wsdlTreeView" ScrollViewer.HorizontalScrollBarVisibility="Visible" ScrollViewer.VerticalScrollBarVisibility="Visible" Width="Auto" Height="Auto" ></TreeView>
                 </Grid>
                  </ScrollViewer>
             </TabItem>
-            <TabItem IsSelected="True" Name="_animationTab" Header="Animation" Background="AliceBlue">
+            <TabItem IsSelected="True" Name="_animationTab" Header="Animation" Background="AliceBlue" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-                <Grid >
+                <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  Height="436" Width="660">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="404*"/>
-                        <ColumnDefinition Width="9"/>
-                        <ColumnDefinition Width="221*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="5"/>
+                        <ColumnDefinition Width="1*"/>
                     </Grid.ColumnDefinitions>
 
-                    <TreeView Name="_animationTreeView" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible" Margin="43,0,6,0" />
+                    <TreeView Name="_animationTreeView" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" Margin="41,0,0,0" Width="Auto" />
                     <GridSplitter HorizontalAlignment="Right" VerticalAlignment="Stretch"  Grid.Column="1" ResizeBehavior="PreviousAndNext"   Width="5" Background="#FFBCBCBC"/>
 
 
