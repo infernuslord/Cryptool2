@@ -485,6 +485,7 @@ namespace WebService
         public void animateFoundElements(TreeViewItem item, TreeViewItem item2)
         {
             Storyboard storyBoard = new Storyboard();
+            item.IsSelected = true;
             TextSizeAnimation = new DoubleAnimation(11, 16, TimeSpan.FromSeconds(1));
             TextSizeAnimationReverse = new DoubleAnimation(16, 11, TimeSpan.FromSeconds(1));
             TextSizeAnimation1 = new DoubleAnimation(11, 16, TimeSpan.FromSeconds(1));

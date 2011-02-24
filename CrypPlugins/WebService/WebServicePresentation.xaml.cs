@@ -526,7 +526,8 @@ namespace WebService
                     node.Normalize();
                     TreeViewItem referenceItem = this._nodeToTreeViewItemDictionary[(node.OuterXml).ToString()];
               //    this.FindTreeViewItem(this._soapInputItem, this._webService.Validator.GetSignatureReferenceName(_signaturenumber), this._actualReferenceNumber).BringIntoView();
-                    this.AnimateFoundElements(referenceItem, referenceItem);
+                    referenceItem.BringIntoView();     
+              this.AnimateFoundElements(referenceItem, referenceItem);
                     this._referenceStatus++;
                     break;
 
@@ -662,6 +663,7 @@ namespace WebService
 
         private void AnimateFoundElements(TreeViewItem item, TreeViewItem item2)
         {
+            item.IsSelected = true;
             Storyboard storyBoard = new Storyboard();
             this._textSizeAnimation = new DoubleAnimation(11, 16, TimeSpan.FromSeconds(1));
             this._textSizeAnimationReverse = new DoubleAnimation(16, 11, TimeSpan.FromSeconds(1));
