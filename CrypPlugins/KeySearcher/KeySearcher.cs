@@ -464,11 +464,13 @@ namespace KeySearcher
                             {
                                 finish = BruteforceOpenCL(keySearcherOpenCLCode, keySearcherOpenCLSubbatchOptimizer, keyTranslator, sender, bytesToUse, parameters);
                             }
-                            catch (Exception)
+                            catch (Exception ex)
                             {
                                 openCLDeviceSettings.useDevice = false;
                                 ((QuickWatch)QuickWatchPresentation).Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                                 {
+                                    GuiLogMessage(string.Format("Using OpenCL failed: {0}", ex.Message), NotificationLevel.Error);
+                                    UpdateQuickwatchSettings();
                                     openCLPresentationMutex.WaitOne();
                                     ((QuickWatch)QuickWatchPresentation).OpenCLPresentation.AmountOfDevices--;
                                     openCLPresentationMutex.ReleaseMutex();
@@ -573,8 +575,9 @@ namespace KeySearcher
             catch (Exception ex)
             {
                 GuiLogMessage(ex.Message, NotificationLevel.Error);
-                GuiLogMessage("Bruteforcing with OpenCL failed! Using CPU instead.", NotificationLevel.Error);
-                throw new Exception("Bruteforcing with OpenCL failed!");
+                const string text = "Bruteforcing with OpenCL failed! Using CPU instead...";
+                GuiLogMessage(text, NotificationLevel.Error);
+                throw new Exception(text);
             }
 
             return !keyTranslator.NextOpenCLBatch();
