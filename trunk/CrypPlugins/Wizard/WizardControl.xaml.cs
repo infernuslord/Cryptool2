@@ -500,7 +500,6 @@ namespace Wizard
                         }
                     }
                     inputBox.Style = inputFieldStyle;
-                    //inputStack.Children.Add(inputBox);
 
                     if (input.Attribute("regex") != null)
                     {
@@ -514,8 +513,14 @@ namespace Wizard
 
                     if (key != null && propertyValueDict.ContainsKey(key))
                         inputBox.Text = (string)propertyValueDict[key].Value;
-                    else if (input.Attribute("defaultValue") != null)
-                        inputBox.Text = input.Attribute("defaultValue").Value.Trim();
+                    else
+                    {
+                        var defaultvalues = FindElementsInElement(input, "defaultvalue");
+                        var defaultvalue = defaultvalues.First();
+
+                        if (!string.IsNullOrEmpty(defaultvalue.Value))
+                            inputBox.Text = defaultvalue.Value.Trim();
+                    }
 
                     if (!isInput)
                         currentInputBoxes.Add(inputBox);
@@ -537,7 +542,6 @@ namespace Wizard
                         comboBox.Items.Add(cbi);
                     }
 
-
                     if (key != null && propertyValueDict.ContainsKey(key))
                     {
                         if (propertyValueDict[key].Value is int)
@@ -557,8 +561,6 @@ namespace Wizard
                         }
                     }
 
-
-                    //inputStack.Children.Add(comboBox);
                     element = comboBox;
                     break;
 
@@ -567,9 +569,11 @@ namespace Wizard
                     checkBox.Tag = input;
                     checkBox.Style = inputFieldStyle;
 
-                    if (input.Attribute("content") != null)
-                        checkBox.Content = input.Attribute("content").Value;
+                    var contents = FindElementsInElement(input, "content");
+                    var content = contents.First();
 
+                    if (!string.IsNullOrEmpty(content.Value))
+                        checkBox.Content = content.Value.Trim();
 
                     if (key != null && propertyValueDict.ContainsKey(key))
                     {
@@ -588,7 +592,6 @@ namespace Wizard
                             checkBox.IsChecked = false;
                     }
 
-                    //inputStack.Children.Add(checkBox);
                     element = checkBox;
                     break;
 

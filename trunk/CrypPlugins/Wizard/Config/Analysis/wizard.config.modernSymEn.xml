@@ -16,10 +16,11 @@
     <description lang="en" >
       AES is a symmetric modern algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
     </description>
-    <inputBox plugin="TextInput1" property="Text" defaultValue="Input your Message here!">
+    <inputBox plugin="TextInput1" property="Text">
       <description lang="en">
         Message to encrypt
       </description>
+      <defaultvalue lang="en">Input your Message here!</defaultvalue>
     </inputBox>
 
     <!--<input id ="CaesarEnKey">
