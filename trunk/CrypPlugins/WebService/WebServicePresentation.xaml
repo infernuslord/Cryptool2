@@ -29,7 +29,7 @@
             </TabItem>
             <TabItem IsSelected="True" Name="_animationTab" Header="Animation" Background="AliceBlue">
                 <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-                <Grid Height="433" Width="662">
+                <Grid >
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="404*"/>
                         <ColumnDefinition Width="9"/>
@@ -42,7 +42,7 @@
 
                     <TextBox  Name="_animationStepsTextBox" Grid.Column="2" Margin="6,0,6,69" HorizontalScrollBarVisibility="Auto" />
 
-                        <Canvas Margin="16,379,15,2" Grid.Column="2" VerticalAlignment="Stretch">
+                        <Canvas Margin="25,0,6,-5" Grid.Column="2" VerticalAlignment="Bottom" Height="77">
 
                             <Button Height="23" Name="button1" Width="75" Click="Button1Click3EventHandler" VerticalContentAlignment="Center" Canvas.Left="16" Canvas.Top="17" HorizontalAlignment="Center" Grid.Column="2" Margin="0,0,103,22" VerticalAlignment="Bottom" HorizontalContentAlignment="Center">Play</Button>
                         <Button Name="resetButton" Width="75" Height="23.338" Click="ResetButtonClickEventHandler" VerticalContentAlignment="Center" Canvas.Left="109" Canvas.Top="17" HorizontalAlignment="Right" Grid.Column="2" Margin="0,0,6,22" VerticalAlignment="Bottom">Reset</Button>
