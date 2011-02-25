@@ -7,6 +7,31 @@
              xmlns:Controls="clr-namespace:KeySearcherPresentation.Controls" xmlns:System="clr-namespace:System;assembly=mscorlib" xmlns:Converter="clr-namespace:KeySearcherConverter" mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
+
+        <Style x:Key="{x:Type ProgressBar}"
+     TargetType="{x:Type ProgressBar}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ProgressBar}">
+                        <Grid MinHeight="14" MinWidth="200">
+                            <Border 
+            Name="PART_Track" 
+            CornerRadius="2" 
+            Background="#BBB"
+            BorderBrush="#CCC"
+            BorderThickness="1" />
+                            <Border 
+            Name="PART_Indicator" 
+            CornerRadius="2" 
+            Background="{TemplateBinding Foreground}" 
+            BorderBrush="#CCC" 
+            BorderThickness="1" 
+            HorizontalAlignment="Left" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
         <Controls:InformationToProgressConverter x:Key="InformationToProgressConverter"/>
         <Controls:InformationToProgressConverter2 x:Key="InformationToProgressConverter2"/>
         <Controls:DateFalseVisibleConverter1 x:Key="DateFalseVisibleConverter1"/>
