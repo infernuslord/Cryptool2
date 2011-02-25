@@ -201,6 +201,7 @@
     <ProjectReference Include="..\..\WorkspaceManagerModel\WorkspaceManagerModel.csproj">
       <Project>{C35A6E71-D6FE-478B-A12D-FAD54FC4EDC9}</Project>
       <Name>WorkspaceManagerModel</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
