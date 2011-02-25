@@ -642,7 +642,6 @@ namespace Wizard
                         cc.Height = d;
 
                     cc.Tag = input;
-                    //inputStack.Children.Add(cc);
 
                     currentPresentations.Add(cc);
                     element = cc;
