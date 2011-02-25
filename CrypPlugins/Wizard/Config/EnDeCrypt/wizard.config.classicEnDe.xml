@@ -139,66 +139,56 @@
   </input>
 
   <!-- Transposition input -->
-  <input id ="Transposition" image="Transposition">
-    <name lang="en" >Transposition</name>
+  <sampleViewer file="WorkspaceManagerSamples\Transposition_Sample.cwm" title="W_Transposition_Sample" image="Transposition">
+    <name lang="en">Transposition</name>
     <description lang="en" >
       Transposition is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
     </description>
 
     <headline lang="en" >Transposition Cipher</headline>
-    <desc lang="en">Here, you can change the parameters.</desc>
+    <desc lang="en">Here, you can change the parameters and view the results.</desc>
 
-    <inputBox plugin="TranspositionInput1" property="Text" alignment="Left" width="80%" visibleLines="5">
+    <presentation plugin="TranspositionInput1" width="78%" height="100" group="1">
       <description lang="en">
         Message to encrypt:
       </description>
-      <defaultvalue lang="de">Wir wurden entdeckt, flieh wenn du kannst</defaultvalue>
-    </inputBox>
+      <defaultvalue lang="de">
+        Wir wurden entdeckt, flieh wenn du kannst
+      </defaultvalue>
+    </presentation>
 
-    <inputBox plugin="TranspositionInput2" property="Text" alignment="Left" width="80%" visibleLines="5">
+    <presentation plugin="TranspositionInput2" width="20%" height="100" group="1">
       <description lang="en">
         Key:
       </description>
       <defaultvalue lang="de">ZEBRA</defaultvalue>
-    </inputBox>
-    
-    <sampleViewer file="WorkspaceManagerSamples\Transposition_Sample.cwm" title="W_Transposition_Sample">
-      <name lang="en">Transposition Cipher</name>
-      <description lang="en" >
-        Here, you can change the parameters and view the results.
+    </presentation>
+
+    <presentation plugin="TranspositionEncrypt" height="300" width="49%" group="2">
+      <description lang="en">
+        Encryption:
       </description>
+    </presentation>
 
-      <headline lang="en" >Transposition Cipher</headline>
-      <desc lang="en">Here, you can change the parameters and view the results.</desc>
+    <presentation plugin="TranspositionDecrypt" height="300" width="49%" group="2">
+      <description lang="en">
+        Decryption:
+      </description>
+    </presentation>
 
-      <inputBox plugin="TranspositionInput1" property="Text" alignment="Left" width="80%" visibleLines="5">
-        <description lang="en">
-          Message to encrypt:
-        </description>
-        <defaultvalue lang="de">Wir wurden entdeckt, flieh wenn du kannst</defaultvalue>
-      </inputBox>
+    <outputBox plugin="TranspositionOutput1" property="CurrentValue" alignment="Stretch" width="49%" visibleLines="2" group="3">
+      <description lang="en">
+        Encryption output:
+      </description>
+    </outputBox>
 
-      <inputBox plugin="TranspositionInput2" property="Text" alignment="Left" width="80%" visibleLines="5">
-        <description lang="en">
-          Key:
-        </description>
-        <defaultvalue lang="de">ZEBRA</defaultvalue>
-      </inputBox>
+    <outputBox plugin="TranspositionOutput2" property="CurrentValue" alignment="Stretch" width="49%" visibleLines="2" group="3">
+      <description lang="en">
+        Decryption output:
+      </description>
+    </outputBox>
 
-      <presentation plugin="TranspositionEncrypt" alignment="Center" height="100" width="80%">
-        <description lang="en">
-          Encryption:
-        </description>
-      </presentation>
-
-      <presentation plugin="TranspositionDecrypt" alignment="Center" height="100" width="80%">
-        <description lang="en">
-          Decryption:
-        </description>
-      </presentation>
-
-    </sampleViewer>
-  </input>
+  </sampleViewer>
 
   <!-- Scytale input -->
   <input id ="Scytale" image="Scytale">

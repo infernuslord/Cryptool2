@@ -271,7 +271,7 @@ namespace Wizard
 
                 //generate radio buttons
                 var options = from el in element.Elements()
-                              where el.Name == "category" || el.Name == "input" || el.Name == "loadSample"
+                              where el.Name == "category" || el.Name == "input" || el.Name == "loadSample" || el.Name == "sampleViewer"
                               select el;
 
                 if (options.Any())
@@ -377,7 +377,6 @@ namespace Wizard
                 try
                 {
                     var stack = new StackPanel();
-                    stack.Margin = new Thickness(2.5, 0, 2.5, 0);
 
                     var description = new Label();
                     description.Content = FindElementsInElement(input, "description").First().Value.Trim();
@@ -614,7 +613,6 @@ namespace Wizard
                         }
                     }
                     outputBox.Style = inputFieldStyle;
-                    //inputStack.Children.Add(outputBox);
 
                     if (input.Attribute("regex") != null)
                     {
@@ -626,7 +624,7 @@ namespace Wizard
                         };
                     }
                     
-                    outputBox.IsEnabled = false;
+                    outputBox.IsReadOnly = true;
 
                     currentOutputBoxes.Add(outputBox);
                     element = outputBox;
@@ -640,6 +638,8 @@ namespace Wizard
                     double d;
                     if (input.Attribute("height") != null && Double.TryParse(input.Attribute("height").Value, out d))
                         cc.Height = d;
+
+                    cc.Style = inputFieldStyle;
 
                     cc.Tag = input;
 
@@ -845,7 +845,16 @@ namespace Wizard
                 {
                     var plugin = model.GetAllPluginModels().Where(x => x.GetName() == pluginName).First().Plugin;
                     if (presentation.Content == null)
+                    {
                         presentation.Content = plugin.Presentation;
+                        if (presentation.Content.GetType().GetProperty("Text") != null)
+                        {
+                            var defaultvalues = FindElementsInElement(ele, "defaultvalue");
+                            var defaultvalue = defaultvalues.First().Value;
+                            if (!string.IsNullOrEmpty(defaultvalue))
+                                presentation.Content.GetType().GetProperty("Text").SetValue(presentation.Content, defaultvalue, null);
+                        }
+                    }
                 }
             }
 
@@ -900,7 +909,8 @@ namespace Wizard
             {
                 currentManager = newEditor;
                 canStopOrExecute = true;
-                newEditor.Execute();
+                if (Settings.Default.RunTemplate && newEditor.CanExecute)
+                    newEditor.Execute();
             }
         }
 
