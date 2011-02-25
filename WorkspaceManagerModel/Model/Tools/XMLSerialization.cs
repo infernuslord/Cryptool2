@@ -28,7 +28,6 @@ using WorkspaceManager;
 using System.Windows;
 using System.Globalization;
 using System.Runtime.CompilerServices; 
-[assembly: InternalsVisibleTo("System.Reflection.Assembly")]
 
 namespace XMLSerialization
 {
