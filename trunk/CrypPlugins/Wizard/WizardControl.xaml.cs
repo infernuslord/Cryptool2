@@ -1313,12 +1313,12 @@ namespace Wizard
 
                 case Key.Left:
                     if (backButton.IsEnabled)
-                        SetLastContent(null, null);
+                        backButton_Click(null, null);
                     break;
 
                 case Key.Right:
                     if (nextButton.IsEnabled)
-                        SetNextContent(null, null);
+                        nextButton_Click(null, null);
                     break;
             }
         }
