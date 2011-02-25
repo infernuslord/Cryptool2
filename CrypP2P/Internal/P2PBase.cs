@@ -564,12 +564,16 @@ namespace Cryptool.P2P.Internal
 
         public long TotalBytesSentOnAllLinks()
         {
-            return (long) linkmanager.GetAllLinkInformation().Sum(linkInformation => linkInformation.TotalBytesSent);
+            if (linkmanager != null)
+                return (long) linkmanager.GetAllLinkInformation().Sum(linkInformation => linkInformation.TotalBytesSent);
+            return 0;
         }
 
         public long TotalBytesReceivedOnAllLinks()
         {
-            return (long) linkmanager.GetAllLinkInformation().Sum(linkInformation => linkInformation.TotalBytesReceived);
+            if (linkmanager != null)
+                return (long) linkmanager.GetAllLinkInformation().Sum(linkInformation => linkInformation.TotalBytesReceived);
+            return 0;
         }
 
         #endregion
