@@ -39,13 +39,13 @@ namespace KeySearcher
         {
             keysearcher = ks;
 
-            Settings.Default.PropertyChanged += delegate(Object sender, PropertyChangedEventArgs e)
-                                                    {
-                                                        if (e.PropertyName == "AllowOpenCLNvidia")
-                                                        {
-                                                            RefreshDevicesList(oclManager);
-                                                        }
-                                                    };
+            //Settings.Default.PropertyChanged += delegate(Object sender, PropertyChangedEventArgs e)
+            //                                        {
+            //                                            if (e.PropertyName == "AllowOpenCLNvidia")
+            //                                            {
+            //                                                RefreshDevicesList(oclManager);
+            //                                            }
+            //                                        };
 
             RefreshDevicesList(oclManager);
 
@@ -65,13 +65,10 @@ namespace KeySearcher
             {
                 foreach (var device in oclManager.Context.Devices)
                 {
-                    if (Settings.Default.AllowOpenCLNvidia || device.Vendor != "NVIDIA Corporation")
-                    {
-                        string deviceName = device.Vendor + ":" + device.Name;
-                        deviceSettings.Add(new OpenCLDeviceSettings() { name = deviceName, index = c, mode = 1, useDevice = false });
-                        devicesAvailable.Add(deviceName);
-                        c++;
-                    }
+                    string deviceName = device.Vendor + ":" + device.Name;
+                    deviceSettings.Add(new OpenCLDeviceSettings() { name = deviceName, index = c, mode = 1, useDevice = false });
+                    devicesAvailable.Add(deviceName);
+                    c++;
                 }
             }
             DevicesAvailable = devicesAvailable;    //refresh list
