@@ -67,8 +67,9 @@ namespace WorkspaceManager
         {
             this.SelectedPluginsList = new ObservableCollection<PluginContainerView>();            
             Properties.Settings.Default.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(Default_PropertyChanged);
-            Settings = new WorkspaceManagerSettings(this);
+            Settings = new WorkspaceManagerSettings(this);            
             WorkspaceModel = new WorkspaceModel();
+            WorkspaceModel.OnGuiLogNotificationOccured += this.GuiLogNotificationOccured;
             WorkspaceModel.MyEditor = this;
             WorkspaceSpaceEditorView = new WorkSpaceEditorView(WorkspaceModel);
             HasChanges = false;            
@@ -159,6 +160,7 @@ namespace WorkspaceManager
             {
                 New();
                 WorkspaceModel = model;
+                WorkspaceModel.OnGuiLogNotificationOccured += this.GuiLogNotificationOccured;
                 WorkspaceSpaceEditorView.Load(WorkspaceModel);
                 WorkspaceModel.UpdateableView = this.WorkspaceSpaceEditorView;
                 WorkspaceModel.MyEditor = this;
@@ -181,7 +183,8 @@ namespace WorkspaceManager
             {
                 New();
                 GuiLogMessage("Loading Model: " + fileName, NotificationLevel.Info);                
-                WorkspaceModel = ModelPersistance.loadModel(fileName);                
+                WorkspaceModel = ModelPersistance.loadModel(fileName);
+                WorkspaceModel.OnGuiLogNotificationOccured += this.GuiLogNotificationOccured;
                 WorkspaceSpaceEditorView.Load(WorkspaceModel);
                 WorkspaceModel.UpdateableView = this.WorkspaceSpaceEditorView;
                 HasChanges = false;
