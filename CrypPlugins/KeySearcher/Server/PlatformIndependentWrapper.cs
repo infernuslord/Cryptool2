@@ -22,6 +22,8 @@ public class PlatformIndependentWrapper
     public String ReadString()
     {
         int strlen = ReadInt();
+        if (strlen == 0)
+            return string.Empty;
         byte[] str = ReadArray(strlen);
         return Encoding.ASCII.GetString(str);
     }
