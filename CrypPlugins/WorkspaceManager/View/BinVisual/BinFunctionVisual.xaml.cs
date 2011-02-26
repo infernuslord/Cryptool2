@@ -11,22 +11,24 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Collections.ObjectModel;
 using WorkspaceManager.View.Base;
 using WorkspaceManager.Model;
 using WorkspaceManager.View.Base.Interfaces;
+using WorkspaceManagerModel.Model.Operations;
+using System.ComponentModel;
 
 namespace WorkspaceManager.View.BinVisual
 {
     /// <summary>
     /// Interaction logic for BinFunctionVisual.xaml
     /// </summary>
-    public partial class BinFunctionVisual : UserControl, IRouting
+    public partial class BinFunctionVisual : UserControl, IRouting, INotifyPropertyChanged
     {
-        public static class BinFunctionVisualManager 
-        {
- 
-        }
 
+        #region events
+        public event PropertyChangedEventHandler PropertyChanged;
+        #endregion
         #region IRouting
         public ObjectSize ObjectSize
         {
@@ -36,16 +38,15 @@ namespace WorkspaceManager.View.BinVisual
             }
         }
 
-        private Point position;
         public Point Position
         {
             get
             {
-                return position;
+                return (Point)base.GetValue(PositionProperty);
             }
             set
             {
-                position = value;
+                base.SetValue(PositionProperty, value);
             }
         }
 
@@ -74,9 +75,45 @@ namespace WorkspaceManager.View.BinVisual
         }
         #endregion
 
+        #region Properties
+
+        private Dictionary<BinFuctionState, UIElement> presentations = new Dictionary<BinFuctionState, UIElement>();
+        public Dictionary<BinFuctionState, UIElement> Presentations { get { return presentations; } }
+
+        public object ActivePresentation
+        {
+            get
+            {
+                UIElement o = null;
+                Presentations.TryGetValue(State, out o);
+                return o;
+            }
+        }
+
+        private object lastPresentation;
+        public object LastPresentation
+        {
+            set 
+            {
+                if (!(value is BinFuctionState))
+                    return;
+
+                UIElement o = null;
+                Presentations.TryGetValue((BinFuctionState)value, out o);
+                lastPresentation = o;
+            }
+
+            get
+            {
+                return lastPresentation;
+            }
+        }
+
+        #endregion
+
         #region DependencyProperties
-        public static readonly DependencyProperty StateProperty = DependencyProperty.Register("State", 
-            typeof(BinFuctionState), typeof(BinFunctionVisual), new FrameworkPropertyMetadata(BinFuctionState.Presentation));
+        public static readonly DependencyProperty StateProperty = DependencyProperty.Register("State",
+            typeof(BinFuctionState), typeof(BinFunctionVisual), new FrameworkPropertyMetadata(BinFuctionState.Min,new PropertyChangedCallback(OnMyValueChanged)));
 
         public BinFuctionState State
         {
@@ -87,18 +124,104 @@ namespace WorkspaceManager.View.BinVisual
             set
             {
                 base.SetValue(StateProperty, value);
-                //this.Model.BinState = value;
+                OnPropertyChanged("ActivePresentation");
+            }
+        }
+
+        public static readonly DependencyProperty PositionProperty = DependencyProperty.Register("Position",
+            typeof(Point), typeof(BinFunctionVisual), new FrameworkPropertyMetadata(new Point(0,0)));
+
+
+        public static readonly DependencyProperty HasFunctionPresentationProperty = DependencyProperty.Register("HasFunctionPresentation",
+            typeof(bool), typeof(BinFunctionVisual), new FrameworkPropertyMetadata(false));
+
+        public bool HasFunctionPresentation
+        {
+            get
+            {
+                return (bool)base.GetValue(HasFunctionPresentationProperty);
+            }
+            set
+            {
+                base.SetValue(HasFunctionPresentationProperty, value);
+            }
+        }
+
+        public static readonly DependencyProperty WindowHeightProperty = DependencyProperty.Register("WindowHeight",
+            typeof(double), typeof(BinFunctionVisual), new FrameworkPropertyMetadata(double.Epsilon));
+
+        public double WindowHeight
+        {
+            get
+            {
+                return (double)base.GetValue(WindowHeightProperty);
+            }
+            set
+            {
+                if (value < 0)
+                    return;
+
+                base.SetValue(WindowHeightProperty, value);
+            }
+        }
+
+        public static readonly DependencyProperty WindowWidthProperty = DependencyProperty.Register("WindowWidth",
+            typeof(double), typeof(BinFunctionVisual), new FrameworkPropertyMetadata(double.Epsilon));
+
+        public double WindowWidth
+        {
+            get
+            {
+                return (double)base.GetValue(WindowWidthProperty);
+            }
+            set
+            {
+                if (value < 0)
+                    return;
+
+                base.SetValue(WindowWidthProperty, value);
             }
         }
         #endregion
 
         #region Constructors
-        public BinFunctionVisual()
+        public BinFunctionVisual(PluginModel model)
         {
-            Model = new PluginModel();
+            #region test
+            Model = model;
+            #endregion
+            Presentations.Add(BinFuctionState.Presentation, model.PluginPresentation);
+            Presentations.Add(BinFuctionState.Min, Model.getImage());
             InitializeComponent();
+            setWindowColors(ColorHelper.GetColor(Model.GetType()), ColorHelper.GetColorLight(Model.GetType()));
         }
         #endregion
+
+        #region public
+
+        #endregion
+
+        #region private
+
+        private void setWindowColors(Color Border, Color Background)
+        {
+            Window.BorderBrush = new SolidColorBrush(Border);
+            Window.Background = new SolidColorBrush(Background);
+        }
+
+        #endregion
+
+        #region protected
+        protected void OnPropertyChanged(string name)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(name));
+            }
+        }
+        #endregion
+
         #region Event Handler
         private void ActionHandler(object sender, RoutedEventArgs e)
         {
@@ -108,13 +231,24 @@ namespace WorkspaceManager.View.BinVisual
 
         private void ScaleDragDeltaHandler(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
         {
-            this.Height = Model.Height = this.ActualHeight + e.VerticalChange;
-            this.Width = Model.Width = this.ActualWidth + e.HorizontalChange;
+            WindowHeight += e.VerticalChange;
+            WindowWidth += e.HorizontalChange;
+            Model.WorkspaceModel.ModifyModel(new ResizeModelElementOperation(Model, WindowWidth, WindowHeight)); 
         }
+
+        private static void OnMyValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            BinFunctionVisual bin = (BinFunctionVisual)d;
+            bin.LastPresentation = (BinFuctionState)e.OldValue;
+            bin.OnPropertyChanged("LastPresentation");
+        }
+
         #endregion
 
-
-
+        private void PositionDragDeltaHandler(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
+        {
+            Position = new Point(Position.X + e.HorizontalChange, Position.Y + e.VerticalChange);
+        }
     }
 
     #region Converter
@@ -125,7 +259,7 @@ namespace WorkspaceManager.View.BinVisual
             if (value == null || !(value is BinFuctionState))
                 return double.Epsilon;
 
-            BinFuctionState state = (BinFuctionState) value;
+            BinFuctionState state = (BinFuctionState)value;
             if (state != BinFuctionState.Min)
                 return true;
             else
