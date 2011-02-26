@@ -511,7 +511,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         {
         }
 
-        public string GetOpenCLCode(int decryptionLength)
+        public string GetOpenCLCode(int decryptionLength, byte[] iv)
         {
             string opencl = Properties.Resources.AESOpenCL;
 
@@ -533,11 +533,32 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
             opencl = opencl.Replace("$$BITS$$", "" + bits);
 
+            //if there is a relevant IV:
+            bool useIV = false;
+            if (iv != null && iv.Length != 0 && iv.Count(x => x != 0) > 0)
+            {
+                useIV = true;
+                string IV = "";
+                foreach (byte i in iv)
+                {
+                    IV += string.Format("0x{0:X}, ", i);
+                }
+                IV = IV.Substring(0, IV.Length - 2);
+                opencl = opencl.Replace("$$IVARRAY$$", string.Format("__constant u8 IV[] = {{ {0} }};", IV));
+            }
+            else
+            {
+                opencl = opencl.Replace("$$IVARRAY$$", "");
+            }
+
             string decryptionCode = string.Format("int decryptionLength = {0}; \n", decryptionLength);
             int blocks = decryptionLength / 16;
             if (blocks >= 1)
             {
-                decryptionCode = AddOpenCLBlockDecryption(decryptionCode, 16);
+                if (!useIV)
+                    decryptionCode = AddOpenCLBlockDecryption(decryptionCode, 16);
+                else
+                    decryptionCode = AddOpenCLBlockDecryptionWithIV(decryptionCode, 16);
 
                 if (blocks > 1)
                 {
@@ -550,9 +571,14 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             if (decryptionLength % 16 != 0)
             {
                 if (blocks == 0)
-                    decryptionCode = AddOpenCLBlockDecryption(decryptionCode, decryptionLength % 16);
+                {
+                    if (!useIV)
+                        decryptionCode = AddOpenCLBlockDecryption(decryptionCode, decryptionLength%16);
+                    else
+                        decryptionCode = AddOpenCLBlockDecryptionWithIV(decryptionCode, decryptionLength % 16);
+                }
                 else
-                    decryptionCode = AddOpenCLBlockDecryptionWithMode(decryptionCode, decryptionLength % 16, ""+blocks);
+                    decryptionCode = AddOpenCLBlockDecryptionWithMode(decryptionCode, decryptionLength % 16, "" + blocks);
             }
 
             opencl = opencl.Replace("$$AESDECRYPT$$", decryptionCode);
@@ -562,10 +588,31 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
         private string AddOpenCLBlockDecryption(string decryptionCode, int size)
         {
-            decryptionCode += "AES_decrypt(inn, block, &(key)); \n " + string.Format("for (int i = 0; i < {0}; i++) \n ", size)
+            decryptionCode += "AES_decrypt(inn, block, &(key)); \n " 
+                              + string.Format("for (int i = 0; i < {0}; i++) \n ", size)
                               + "{ \n unsigned char c = block[i]; \n "
                               + "$$COSTFUNCTIONCALCULATE$$ \n } \n";
             return decryptionCode;
+        }
+
+        private string AddOpenCLBlockDecryptionWithIV(string decryptionCode, int size)
+        {
+            switch (((AESSettings)plugin.Settings).Mode)
+            {
+                case 0: //ECB
+                    return AddOpenCLBlockDecryption(decryptionCode, size);
+                case 1: //CBC
+                    decryptionCode += "AES_decrypt(inn, block, &(key)); \n " 
+                              + string.Format("for (int i = 0; i < {0}; i++) \n ", size)
+                              + "{ \n unsigned char c = block[i] ^ IV[i]; \n "
+                              + "$$COSTFUNCTIONCALCULATE$$ \n } \n";
+            return decryptionCode;
+                    break;
+                case 2: //CFB
+                    throw new NotImplementedException("CFB for OpenCL is not implemented!"); //not supported
+                default:
+                    throw new NotImplementedException("Mode not supported by OpenCL!");
+            }
         }
 
         private string AddOpenCLBlockDecryptionWithMode(string decryptionCode, int size, string block)
@@ -582,6 +629,8 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                     break;
                 case 2: //CFB
                     throw new NotImplementedException("CFB for OpenCL is not implemented!"); //not supported
+                default:
+                    throw new NotImplementedException("Mode not supported by OpenCL!");
             }
             decryptionCode += "$$COSTFUNCTIONCALCULATE$$ \n } \n";
             return decryptionCode;

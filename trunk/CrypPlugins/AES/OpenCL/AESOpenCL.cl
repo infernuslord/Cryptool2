@@ -595,6 +595,8 @@ typedef struct aes_key_st AES_KEY;
 
 $$INPUTARRAY$$
 
+$$IVARRAY$$
+
 /**
  * Expand the cipher key into the encryption key schedule.
  */

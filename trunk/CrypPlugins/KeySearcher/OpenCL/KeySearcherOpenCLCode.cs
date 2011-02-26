@@ -13,6 +13,7 @@ namespace KeySearcher
     {
         private readonly KeySearcher keySearcher;
         private byte[] encryptedData;
+        private readonly byte[] iv;
         private IControlCost controlCost;
         private IControlEncryption encryptionController;
         private int approximateNumberOfKeys;
@@ -21,10 +22,11 @@ namespace KeySearcher
         private string openCLCode = null;
         private Kernel openCLKernel = null;
 
-        public KeySearcherOpenCLCode(KeySearcher keySearcher, byte[] encryptedData, IControlEncryption encryptionController, IControlCost controlCost, int approximateNumberOfKeys)
+        public KeySearcherOpenCLCode(KeySearcher keySearcher, byte[] encryptedData, byte[] IV, IControlEncryption encryptionController, IControlCost controlCost, int approximateNumberOfKeys)
         {
             this.keySearcher = keySearcher;
             this.encryptedData = encryptedData;
+            this.iv = IV;
             this.encryptionController = encryptionController;
             this.controlCost = controlCost;
             this.approximateNumberOfKeys = approximateNumberOfKeys;
@@ -41,7 +43,7 @@ namespace KeySearcher
             if (encryptedData.Length < bytesUsed)
                 bytesUsed = encryptedData.Length;
 
-            string code = encryptionController.GetOpenCLCode(bytesUsed);
+            string code = encryptionController.GetOpenCLCode(bytesUsed, iv);
             if (code == null)
                 throw new Exception("OpenCL not supported in this configuration!");
 
