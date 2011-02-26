@@ -29,6 +29,7 @@ namespace WorkspaceManager.View.BinVisual
         #region events
         public event PropertyChangedEventHandler PropertyChanged;
         #endregion
+
         #region IRouting
         public ObjectSize ObjectSize
         {
@@ -80,7 +81,7 @@ namespace WorkspaceManager.View.BinVisual
         private Dictionary<BinFuctionState, UIElement> presentations = new Dictionary<BinFuctionState, UIElement>();
         public Dictionary<BinFuctionState, UIElement> Presentations { get { return presentations; } }
 
-        public object ActivePresentation
+        public UIElement ActivePresentation
         {
             get
             {
@@ -90,22 +91,17 @@ namespace WorkspaceManager.View.BinVisual
             }
         }
 
-        private object lastPresentation;
-        public object LastPresentation
+        private BinFuctionState lastState;
+        public BinFuctionState LastState
         {
             set 
             {
-                if (!(value is BinFuctionState))
-                    return;
-
-                UIElement o = null;
-                Presentations.TryGetValue((BinFuctionState)value, out o);
-                lastPresentation = o;
+                lastState = value;
             }
 
             get
             {
-                return lastPresentation;
+                return lastState;
             }
         }
 
@@ -113,7 +109,7 @@ namespace WorkspaceManager.View.BinVisual
 
         #region DependencyProperties
         public static readonly DependencyProperty StateProperty = DependencyProperty.Register("State",
-            typeof(BinFuctionState), typeof(BinFunctionVisual), new FrameworkPropertyMetadata(BinFuctionState.Min,new PropertyChangedCallback(OnMyValueChanged)));
+            typeof(BinFuctionState), typeof(BinFunctionVisual), new FrameworkPropertyMetadata(BinFuctionState.Min, new PropertyChangedCallback(OnMyValueChanged)));
 
         public BinFuctionState State
         {
@@ -125,6 +121,21 @@ namespace WorkspaceManager.View.BinVisual
             {
                 base.SetValue(StateProperty, value);
                 OnPropertyChanged("ActivePresentation");
+            }
+        }
+
+        public static readonly DependencyProperty InternalStateProperty = DependencyProperty.Register("InternalState",
+            typeof(BinInternalState), typeof(BinFunctionVisual), new FrameworkPropertyMetadata(BinInternalState.Normal));
+
+        public BinInternalState InternalState
+        {
+            get
+            {
+                return (BinInternalState)base.GetValue(InternalStateProperty);
+            }
+            set
+            {
+                base.SetValue(InternalStateProperty, value);
             }
         }
 
@@ -182,6 +193,36 @@ namespace WorkspaceManager.View.BinVisual
                 base.SetValue(WindowWidthProperty, value);
             }
         }
+
+        public static readonly DependencyProperty ProgressProperty = DependencyProperty.Register("Progress",
+            typeof(double), typeof(BinFunctionVisual), new FrameworkPropertyMetadata((double)0));
+
+        public double Progress
+        {
+            get
+            {
+                return (double)base.GetValue(ProgressProperty);
+            }
+            set
+            {
+                base.SetValue(ProgressProperty, value);
+            }
+        }
+
+        public static readonly DependencyProperty FunctionNameProperty = DependencyProperty.Register("FunctionName",
+            typeof(string), typeof(BinFunctionVisual), new FrameworkPropertyMetadata(string.Empty));
+
+        public string FunctionName
+        {
+            get
+            {
+                return (string)base.GetValue(FunctionNameProperty);
+            }
+            set
+            {
+                base.SetValue(FunctionNameProperty, value);
+            }
+        }
         #endregion
 
         #region Constructors
@@ -190,6 +231,7 @@ namespace WorkspaceManager.View.BinVisual
             #region test
             Model = model;
             #endregion
+            FunctionName = Model.GetName();
             Presentations.Add(BinFuctionState.Presentation, model.PluginPresentation);
             Presentations.Add(BinFuctionState.Min, Model.getImage());
             InitializeComponent();
@@ -226,7 +268,12 @@ namespace WorkspaceManager.View.BinVisual
         private void ActionHandler(object sender, RoutedEventArgs e)
         {
             Button b = (Button)sender;
-            State = (BinFuctionState) b.Content;
+
+            if (b.Content is BinFuctionState)
+                State = (BinFuctionState)b.Content;
+
+            if (b.Content is bool)
+                IControlPopUp.IsOpen = (bool)b.Content;
         }
 
         private void ScaleDragDeltaHandler(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
@@ -236,19 +283,25 @@ namespace WorkspaceManager.View.BinVisual
             Model.WorkspaceModel.ModifyModel(new ResizeModelElementOperation(Model, WindowWidth, WindowHeight)); 
         }
 
-        private static void OnMyValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            BinFunctionVisual bin = (BinFunctionVisual)d;
-            bin.LastPresentation = (BinFuctionState)e.OldValue;
-            bin.OnPropertyChanged("LastPresentation");
-        }
-
-        #endregion
-
         private void PositionDragDeltaHandler(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
         {
             Position = new Point(Position.X + e.HorizontalChange, Position.Y + e.VerticalChange);
         }
+
+        private static void OnMyValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            BinFunctionVisual bin = (BinFunctionVisual)d;
+            bin.LastState = (BinFuctionState)e.OldValue;
+            bin.OnPropertyChanged("LastState");
+        }
+
+        #endregion
+
+        private void Close(object sender, RoutedEventArgs e)
+        {
+            IControlPopUp.IsOpen = false;
+        }
+
     }
 
     #region Converter
@@ -282,6 +335,37 @@ namespace WorkspaceManager.View.BinVisual
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             throw new NotImplementedException();
+        }
+    }
+    #endregion
+
+    #region Custom class
+    public class CustomTextBox : TextBox
+    {
+
+        protected override void OnInitialized(EventArgs e)
+        {
+            EventManager.RegisterClassHandler(typeof(TextBox),
+                TextBox.KeyUpEvent,
+                new System.Windows.Input.KeyEventHandler(TextBox_KeyUp));
+            base.OnInitialized(e);
+        }
+
+        private void TextBox_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key != System.Windows.Input.Key.Enter) return;
+            ((TextBox)sender).CaretBrush = Brushes.Transparent;
+            e.Handled = true;
+        }
+
+        private void TextBox_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            ((TextBox)sender).CaretBrush = Brushes.Gray;
+        }
+
+        private void CTextBox_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            ((TextBox)sender).CaretBrush = Brushes.Transparent;
         }
     }
     #endregion
