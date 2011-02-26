@@ -195,17 +195,14 @@ namespace KeySearcher
         }
 
         byte[] initVector;
-        [PropertyInfo(Direction.InputData, "Initialization_Vector", "InitVecDesc", "")]
+        [PropertyInfo(Direction.InputData, "Initialization_Vector", "InitVecDesc", "", false, false, QuickWatchFormat.Hex, null)]
         public virtual byte[] InitVector
         {
             get { return this.initVector; }
             set
             {
-                if (value != this.initVector)
-                {
-                    this.initVector = value;
-                    OnPropertyChanged("InitVector");
-                }
+                this.initVector = value;
+                OnPropertyChanged("InitVector");
             }
         }
         /* END: Lines above are from Arnie - 2010.01.12 */
@@ -424,7 +421,7 @@ namespace KeySearcher
             KeySearcherOpenCLSubbatchOptimizer keySearcherOpenCLSubbatchOptimizer = null;
             if (openCLDeviceSettings != null)
             {
-                keySearcherOpenCLCode = new KeySearcherOpenCLCode(this, encryptedData, sender, CostMaster, 256 * 256 * 256 * 16);
+                keySearcherOpenCLCode = new KeySearcherOpenCLCode(this, encryptedData, InitVector, sender, CostMaster, 256 * 256 * 256 * 16);
                 keySearcherOpenCLSubbatchOptimizer = new KeySearcherOpenCLSubbatchOptimizer(openCLDeviceSettings.mode, 
                         oclManager.CQ[openCLDeviceSettings.index].Device.MaxWorkItemSizes.Aggregate(1, (x, y) => (x * (int)y)) / 8);
 
@@ -885,7 +882,7 @@ namespace KeySearcher
                 GuiLogMessage(Resources.Only_using_external_client_to_bruteforce_, NotificationLevel.Info);
                 lock (this)
                 {
-                    externalKeySearcherOpenCLCode = new KeySearcherOpenCLCode(this, encryptedData, sender, CostMaster,
+                    externalKeySearcherOpenCLCode = new KeySearcherOpenCLCode(this, encryptedData, InitVector, sender, CostMaster,
                                                                               256*256*256*64);
                     externalKeysProcessed = 0;
                     externalKeyTranslator = ControlMaster.getKeyTranslator();

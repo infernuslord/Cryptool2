@@ -538,7 +538,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             
         }
 
-        public string GetOpenCLCode(int decryptionLength)
+        public string GetOpenCLCode(int decryptionLength, byte[] iv)
         {
             return null;
         }

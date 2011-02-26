@@ -730,7 +730,7 @@ namespace Solitaire
                 OnStatusChanged(this, true);
         }
 
-        public string GetOpenCLCode(int decryptionLength)
+        public string GetOpenCLCode(int decryptionLength, byte[] iv)
         {
             return null;
         }

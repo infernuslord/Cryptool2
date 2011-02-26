@@ -672,7 +672,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             return execute(input, key, bytesToUse, action);
         }
 
-        public string GetOpenCLCode(int decryptionLength)
+        public string GetOpenCLCode(int decryptionLength, byte[] iv)
         {
             return null;
         }
