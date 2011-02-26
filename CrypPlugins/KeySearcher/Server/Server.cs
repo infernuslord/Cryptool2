@@ -129,19 +129,28 @@ class CryptoolServer
                 return;
             }
         }
-
-        lock(client)
+        try
         {
-            var wrapped = new PlatformIndependentWrapper(client);
+            lock (client)
+            {
+                var wrapped = new PlatformIndependentWrapper(client);
 
-            wrapped.WriteInt((int)ServerOpcodes.NEW_JOB);
-            wrapped.WriteString(j.Guid);
-            wrapped.WriteString(j.Src);
-            wrapped.WriteInt(j.Key.Length);
-            wrapped.WriteBytes(j.Key);
-            wrapped.WriteInt(j.LargerThen ? 1 : 0);
-            wrapped.WriteInt(j.Size);
-            wrapped.WriteInt(j.ResultSize);
+                wrapped.WriteInt((int)ServerOpcodes.NEW_JOB);
+                wrapped.WriteString(j.Guid);
+                wrapped.WriteString(j.Src);
+                wrapped.WriteInt(j.Key.Length);
+                wrapped.WriteBytes(j.Key);
+                wrapped.WriteInt(j.LargerThen ? 1 : 0);
+                wrapped.WriteInt(j.Size);
+                wrapped.WriteInt(j.ResultSize);
+            }
+        }
+        catch (Exception e)
+        {
+            if (OnErrorLog != null)
+                OnErrorLog("Got " + e.GetType() + " while sending job to " + i);
+            client.Close();
+            // nothing more to do here. HandleClient will remove this from connectedClients
         }
     }
 
