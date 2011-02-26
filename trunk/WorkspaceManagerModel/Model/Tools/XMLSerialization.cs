@@ -144,7 +144,8 @@ namespace XMLSerialization
             if (obj == null || 
                 isPrimitive(obj) || 
                 !obj.GetType().IsSerializable || 
-                alreadySerializedObjects.Contains(obj))
+                alreadySerializedObjects.Contains(obj) ||
+                obj is Delegate)
             {
                 return;
             }
@@ -301,6 +302,7 @@ namespace XMLSerialization
         /// <returns></returns>
         private static bool DelegateToSearchCriteria(MemberInfo objMemberInfo, Object objSearch)
         {
+            
             if (objMemberInfo.MemberType == MemberTypes.Field)
             {
                 return true;
