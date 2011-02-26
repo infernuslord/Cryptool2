@@ -180,7 +180,8 @@ void Cryptool::buildKernel(const Job& j)
         throw std::exception();
     }
 
-    err = program.build(devices);
+    // nvidia GPUs deliver incorrect results without disabled optimizations
+    err = program.build(devices, "-cl-opt-disable");
     if (err != CL_SUCCESS) {
 
 		if(err == CL_BUILD_PROGRAM_FAILURE)

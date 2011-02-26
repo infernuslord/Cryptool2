@@ -2,8 +2,7 @@ SDK := $(HOME)/src/ati-stream-sdk-v2.2-lnx32
 
 OBJFILES := $(patsubst %.cpp,bin/%.o,$(wildcard *.cpp))
 
-CCFLAGS := -g -Wall -Wextra -fopenmp -Wfloat-equal -Wpointer-arith
-#CCFLAGS := -O3 -g -Wall -Wextra -fopenmp -Wfloat-equal -Wpointer-arith
+CCFLAGS := -O3 -g -Wall -Wextra -fopenmp -Wfloat-equal -Wpointer-arith
 
 .PHONY: all clean
 
