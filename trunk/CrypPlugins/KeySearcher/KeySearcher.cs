@@ -284,7 +284,7 @@ namespace KeySearcher
                 oclManager.RequireImageSupport = false;
                 var directoryName = Path.Combine(DirectoryHelper.DirectoryLocalTemp, "KeySearcher");
                 oclManager.BinaryPath = Path.Combine(directoryName, "openclbin");
-                oclManager.BuildOptions = "";
+                oclManager.BuildOptions = "-cl-opt-disable";
                 oclManager.CreateDefaultContext(0, DeviceType.ALL);
             }
 
