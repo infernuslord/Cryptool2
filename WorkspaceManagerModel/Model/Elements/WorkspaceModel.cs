@@ -530,6 +530,12 @@ namespace WorkspaceManager.Model
         public event EventHandler<ModelArgs> DeletedChildElement;
 
         /// <summary>
+        /// A child of this WorkspaceModel is deleted
+        /// </summary>
+        [field: NonSerialized]
+        public event EventHandler<NameArgs> ChildNameChanged;
+
+        /// <summary>
         /// Loggs a gui message
         /// </summary>
         /// <param name="message"></param>
@@ -594,6 +600,18 @@ namespace WorkspaceManager.Model
             if (DeletedChildElement != null)
             {
                 DeletedChildElement(this, new ModelArgs(effectedModelElement));
+            }
+        }
+
+        /// <summary>
+        /// Call this to tell the environment that we renamed a child
+        /// </summary>
+        /// <param name="effectedModelElement"></param>
+        internal void OnRenamedChildElement(VisualElementModel effectedModelElement, string oldname, string newname)
+        {
+            if (ChildNameChanged != null)
+            {
+                ChildNameChanged(this, new NameArgs(effectedModelElement, oldname, newname));
             }
         }
 
@@ -682,6 +700,22 @@ namespace WorkspaceManager.Model
             this.NewWidth = newWidth;
             this.OldHeight = oldHeight;
             this.NewHeight = newHeight;
+        }
+    }
+
+    /// <summary>
+    /// Event args which "knows" old and new name of the model element
+    /// </summary>
+    public class NameArgs : ModelArgs
+    {
+        public string Oldname { get; internal set; }
+        public string NewName { get; internal set; }
+
+        internal NameArgs(VisualElementModel model, string oldname, string newname) :
+            base(model)
+        {
+            this.Oldname = oldname;
+            this.NewName = newname;
         }
     }
 }

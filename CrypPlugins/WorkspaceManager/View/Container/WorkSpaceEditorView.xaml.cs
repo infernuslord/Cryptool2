@@ -66,6 +66,7 @@ namespace WorkspaceManager.View.Container
                   model.NewChildElement += NewChild;
                   model.ChildPositionChanged += ChildPositionChanged;
                   model.ChildSizeChanged += ChildSizeChanged;
+                  model.ChildNameChanged += ChildNameChanged;
             }
         }
 
@@ -605,6 +606,25 @@ namespace WorkspaceManager.View.Container
                     txtWrapper.Width = args.NewWidth;
                     txtWrapper.Height = args.NewHeight;
                 }
+            }
+        }
+
+        /// <summary>
+        /// The size of a child changed on model side
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        private void ChildNameChanged(Object sender, NameArgs args)
+        {
+            if (args.NewName == null || args.NewName.Equals(args.Oldname))
+            {
+                return;
+            }
+
+            if (args.EffectedModelElement is PluginModel)
+            {
+                PluginContainerView pluginContainerView = (PluginContainerView)((PluginModel)args.EffectedModelElement).UpdateableView;
+                pluginContainerView.CTextBox.Text = args.NewName;
             }
         }
 

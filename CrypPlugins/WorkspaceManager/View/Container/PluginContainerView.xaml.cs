@@ -977,8 +977,11 @@ namespace WorkspaceManager.View.Container
 
         private void CTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            //Model.Name = CTextBox.Text;
-            //Todo: Create ChangeValueOperation and call it here
+            Model.WorkspaceModel.ModifyModel(new RenameModelElementOperation(Model,CTextBox.Text));
+            if (Model.WorkspaceModel.MyEditor != null)
+            {
+                ((WorkspaceManager)Model.WorkspaceModel.MyEditor).HasChanges = true;
+            }
         }
 
         protected override void OnInitialized(EventArgs e)
