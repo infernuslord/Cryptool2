@@ -378,4 +378,38 @@ namespace WorkspaceManagerModel.Model.Operations
         #endregion
     }
 
+    /// <summary>
+    /// Rename a model element
+    /// </summary>
+    public class RenameModelElementOperation : Operation
+    {
+        private string OldName = null;
+        private string NewName = null;
+
+        public RenameModelElementOperation(VisualElementModel model, string newName)
+            : base(model)
+        {
+            this.OldName = model.Name;
+            this.NewName = newName;
+        }
+
+        #region Operation Members
+
+        internal override object Execute(WorkspaceModel workspaceModel)
+        {
+            Model.Name = NewName;
+            workspaceModel.OnRenamedChildElement(this.Model, OldName, NewName);
+            return true;
+        }
+
+        internal override void Undo(WorkspaceModel workspaceModel)
+        {
+            Model.Name = OldName;
+            workspaceModel.OnRenamedChildElement(this.Model, NewName, OldName);
+        }
+
+        #endregion
+    }
+
+
 }
