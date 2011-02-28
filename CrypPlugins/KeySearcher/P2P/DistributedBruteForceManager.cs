@@ -141,34 +141,32 @@ namespace KeySearcher.P2P
                         continue;
                     }
 
-                    bool reservationRemoved = false;
                     var reservationTimer = new Timer { Interval = 18 * 60 * 1000 };    //Every 18 minutes
                     reservationTimer.Elapsed += new ElapsedEventHandler(delegate
                                                                             {
-                                                                                var oldMessage = status.CurrentOperation;
-                                                                                var message = string.Format(Resources.Rereserving_pattern___0_, displayablePatternId);
-                                                                                keySearcher.GuiLogMessage(message, NotificationLevel.Info);
-                                                                                status.CurrentOperation = message;
                                                                                 try
                                                                                 {
-                                                                                    if (!currentLeaf.ReserveLeaf())
-                                                                                        keySearcher.GuiLogMessage(Resources.Rereserving_pattern_failed_, NotificationLevel.Warning);
-
-                                                                                    //if (!currentLeaf.ReserveLeaf())
-                                                                                    //{
-                                                                                    //    keySearcher.GuiLogMessage("Rereserving pattern failed! Skipping to next pattern!", 
-                                                                                    //        NotificationLevel.Warning);
-                                                                                    //    reservationRemoved = true;
-                                                                                    //    keySearcher.stop = true;
-                                                                                    //}
+                                                                                    var oldMessage = status.CurrentOperation;
+                                                                                    var message = string.Format(Resources.Rereserving_pattern___0_, displayablePatternId);
+                                                                                    keySearcher.GuiLogMessage(message, NotificationLevel.Info);
+                                                                                    status.CurrentOperation = message;
+                                                                                    try
+                                                                                    {
+                                                                                        if (!currentLeaf.ReserveLeaf())
+                                                                                            keySearcher.GuiLogMessage(Resources.Rereserving_pattern_failed_, NotificationLevel.Warning);
+                                                                                    }
+                                                                                    catch (Cryptool.P2P.Internal.NotConnectedException)
+                                                                                    {
+                                                                                        keySearcher.GuiLogMessage(Resources.Rereserving_pattern_failed__because_there_is_no_connection_,
+                                                                                                NotificationLevel.Warning);
+                                                                                        //TODO: Register OnSystemJoined event to rereserve pattern immediately after reconnect
+                                                                                    }
+                                                                                    status.CurrentOperation = oldMessage;
                                                                                 }
-                                                                                catch (Cryptool.P2P.Internal.NotConnectedException)
+                                                                                catch (Exception)
                                                                                 {
-                                                                                    keySearcher.GuiLogMessage(Resources.Rereserving_pattern_failed__because_there_is_no_connection_,
-                                                                                            NotificationLevel.Warning);
-                                                                                    //TODO: Register OnSystemJoined event to rereserve pattern immediately after reconnect
+                                                                                    keySearcher.GuiLogMessage(Resources.Rereserving_pattern_failed_, NotificationLevel.Warning);
                                                                                 }
-                                                                                status.CurrentOperation = oldMessage;
                                                                             });
 
                     statisticTimer.Elapsed += new ElapsedEventHandler(delegate
@@ -195,11 +193,6 @@ namespace KeySearcher.P2P
                         try
                         {
                             result = keySearcher.BruteForceWithLocalSystem(patternPool[currentLeaf.PatternId()], true);
-                            if (reservationRemoved)
-                            {
-                                keySearcher.stop = false;
-                                throw new ReservationRemovedException("");
-                            }
                         }
                         finally
                         {
