@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -40,7 +41,7 @@ namespace KeySearcher.P2P.Storage
             rawIdentifier += Encoding.ASCII.GetString(inputData);
             
             // Add cost of input data to preserve cost master settings
-            rawIdentifier += keySearcher.CostMaster.calculateCost(inputData);
+            rawIdentifier += keySearcher.CostMaster.calculateCost(inputData).ToString("N2", CultureInfo.InvariantCulture);
 
             /*
             // Add decrypted input data to preserve encryption settings
