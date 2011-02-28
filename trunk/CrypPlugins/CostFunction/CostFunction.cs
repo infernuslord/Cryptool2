@@ -556,7 +556,7 @@ namespace Cryptool.Plugins.CostFunction
                         n[text[counter]]++;
                     }
 
-                    double entropy = 0;
+                    float entropy = 0;
                     //calculate probabilities and sum entropy
                     for (int i = 0; i < 256; i++)
                         entropy += xlogx[n[i]];
