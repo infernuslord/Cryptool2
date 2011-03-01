@@ -124,6 +124,7 @@
     <Compile Include="Helper\SettingsHelper.cs" />
     <Compile Include="Internal\ConnectionManager.cs" />
     <Compile Include="Internal\NotConnectedException.cs" />
+    <Compile Include="Internal\P2POperationFailedException.cs" />
     <Compile Include="Internal\RequestResult.cs" />
     <Compile Include="Internal\RequestResultType.cs" />
     <Compile Include="Internal\RequestType.cs" />
