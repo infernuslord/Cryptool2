@@ -1407,11 +1407,20 @@ namespace KeySearcher
                         if(statistic[avatar][mid].Date.AddMinutes(30) > testdate) //30 min current criterium
                         {
                             statistic[avatar][mid].Current = true;
+                            statistic[avatar][mid].Dead = false;
                             useradd = 1;
                             cMachines++;
                         }
                         else
                         {
+                            if (testdate > statistic[avatar][mid].Date.AddMinutes(2880))
+                            {
+                                statistic[avatar][mid].Dead = true;
+                            }
+                            else
+                            {
+                                statistic[avatar][mid].Dead = false;
+                            }
                             statistic[avatar][mid].Current = false;
                         }
                     }
@@ -1587,11 +1596,15 @@ namespace KeySearcher
                         {
                             maschinehierarchie[mid].Current = Maschines[mid].Current;
                         }
+                        if (maschinehierarchie[mid].Dead)
+                        {
+                            maschinehierarchie[mid].Dead = Maschines[mid].Dead;
+                        }
                     }
                     else
                     {
                         //else make a new entry
-                        maschinehierarchie.Add(mid, new Maschinfo() { Sum = Maschines[mid].Count, Hostname = Maschines[mid].Hostname, Users = "| " + avatar + " | ", Date = Maschines[mid].Date, Current = Maschines[mid].Current });
+                        maschinehierarchie.Add(mid, new Maschinfo() { Sum = Maschines[mid].Count, Hostname = Maschines[mid].Hostname, Users = "| " + avatar + " | ", Date = Maschines[mid].Date, Current = Maschines[mid].Current, Dead = Maschines[mid].Dead });
                     }
                 }
             }
@@ -1844,6 +1857,7 @@ namespace KeySearcher
         public string Hostname { get; set; }
         public DateTime Date { get; set; }
         public bool Current { get; set; }
+        public bool Dead { get; set; }
     }
     /// <summary>
     /// Represents one entry in our maschine statistic list
@@ -1855,5 +1869,8 @@ namespace KeySearcher
         public string Users { get; set; }
         public DateTime Date { get; set; }
         public bool Current { get; set; }
+
+        private bool dead = true;
+        public bool Dead { get { return dead; } set { dead = value; } }
     } 
 }

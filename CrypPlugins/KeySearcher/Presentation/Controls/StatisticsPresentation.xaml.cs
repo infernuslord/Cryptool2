@@ -714,11 +714,14 @@ namespace KeySearcherPresentation.Controls
 
                         if (g < 0) g = 0;
 
+                        /*
                         if(minutes > 2880)
                         {
                             Color cblack = Color.FromRgb((byte) 0, (byte) 0, (byte) 0);
                             return cblack.ToString();
                         }
+                        */
+
                         Color c = Color.FromRgb((byte) r, (byte) g, (byte) 0);
                         return c.ToString();
                     }
@@ -764,11 +767,13 @@ namespace KeySearcherPresentation.Controls
 
                         if (g < 0) g = 0;
 
+                        /*
                         if (minutes > 2880)
                         {
                             Color cblack = Color.FromRgb((byte)0, (byte)0, (byte)0);
                             return cblack.ToString();
                         }
+                        */
 
                         Color c = Color.FromRgb((byte)r, (byte)g, 0);
                         return c.ToString();
@@ -802,7 +807,7 @@ namespace KeySearcherPresentation.Controls
                     {
                         var curr = false;
                         var machines = StatisticsPresentation.Statistics[(string)value];
-                        foreach (var id in machines.Keys.Where(id => machines[id].Current == true))
+                        foreach (var id in machines.Keys.Where(id => machines[id].Current))
                         {
                             curr = true;
                         }
@@ -831,7 +836,7 @@ namespace KeySearcherPresentation.Controls
         }
     }
 
-    [ValueConversion(typeof(DateTime), typeof(Visibility))]
+    [ValueConversion(typeof(Boolean), typeof(Visibility))]
     class DateTrueVisibleConverter1 : IValueConverter
     {
         public StatisticsPresentation StatisticsPresentation { get; set; }
@@ -844,19 +849,17 @@ namespace KeySearcherPresentation.Controls
                 {
                     lock (StatisticsPresentation)
                     {
-                        var max = DateTime.MinValue;
+                        var dead = true;
                         var machines = StatisticsPresentation.Statistics[(string)value];
-                        foreach (var id in machines.Keys.Where(id => machines[id].Date > max))
+                        foreach (var id in machines.Keys.Where(id => machines[id].Dead == false))
                         {
-                            max = machines[id].Date;
+                            dead = false;
                         }
-                        TimeSpan diff = DateTime.UtcNow.Subtract(max);
-                        var minutes = diff.TotalMinutes;
 
                         if (targetType != typeof(Visibility))
                             throw new InvalidOperationException("The target must be of Visibility");
 
-                        if (minutes > 2880) //after two days X
+                        if (dead) //after two days X
                         {
                             return Visibility.Visible;
                         }
@@ -916,7 +919,7 @@ namespace KeySearcherPresentation.Controls
         }
     }
 
-    [ValueConversion(typeof(DateTime), typeof(Visibility))]
+    [ValueConversion(typeof(Boolean), typeof(Visibility))]
     class DateTrueVisibleConverter2 : IValueConverter
     {
         public StatisticsPresentation StatisticsPresentation { get; set; }
@@ -929,14 +932,12 @@ namespace KeySearcherPresentation.Controls
                 {
                     lock (StatisticsPresentation)
                     {
-                        DateTime date = (DateTime)value;
-                        TimeSpan diff = DateTime.UtcNow.Subtract(date);
-                        var minutes = diff.TotalMinutes;
+                        var dead = (bool)value;
 
                         if (targetType != typeof(Visibility))
                             throw new InvalidOperationException("The target must be of Visibility");
 
-                        if (minutes > 2880) //after two days X
+                        if (dead) //after two days X
                         {
                             return Visibility.Visible;
                         }
