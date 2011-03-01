@@ -38,9 +38,9 @@ namespace KeySearcherPresentation.Controls
             ((TimeConverter)Resources["TimeConverter"]).StatisticsPresentation = this;
             ((StringLengthConverter)Resources["StringLengthConverter"]).StatisticsPresentation = this;
             //---
-            ((DateFalseVisibleConverter1)Resources["DateFalseVisibleConverter1"]).StatisticsPresentation = this;
+            ((CurrTrueVisibleConverter1)Resources["CurrTrueVisibleConverter1"]).StatisticsPresentation = this;
             ((DateTrueVisibleConverter1)Resources["DateTrueVisibleConverter1"]).StatisticsPresentation = this;
-            ((DateFalseVisibleConverter2)Resources["DateFalseVisibleConverter2"]).StatisticsPresentation = this;
+            ((CurrTrueVisibleConverter2)Resources["CurrTrueVisibleConverter2"]).StatisticsPresentation = this;
             ((DateTrueVisibleConverter2)Resources["DateTrueVisibleConverter2"]).StatisticsPresentation = this;
             ((DateToColorConverter1)Resources["DateToColorConverter1"]).StatisticsPresentation = this;
             ((DateToColorConverter2)Resources["DateToColorConverter2"]).StatisticsPresentation = this;
@@ -787,8 +787,8 @@ namespace KeySearcherPresentation.Controls
         }
     }
 
-    [ValueConversion(typeof(DateTime), typeof(Visibility))]
-    class DateFalseVisibleConverter1 : IValueConverter
+    [ValueConversion(typeof(Boolean), typeof(Visibility))]
+    class CurrTrueVisibleConverter1 : IValueConverter
     {
         public StatisticsPresentation StatisticsPresentation { get; set; }
 
@@ -800,19 +800,17 @@ namespace KeySearcherPresentation.Controls
                 {
                     lock (StatisticsPresentation)
                     {
-                        var max = DateTime.MinValue;
+                        var curr = false;
                         var machines = StatisticsPresentation.Statistics[(string)value];
-                        foreach (var id in machines.Keys.Where(id => machines[id].Date > max))
+                        foreach (var id in machines.Keys.Where(id => machines[id].Current == true))
                         {
-                            max = machines[id].Date;
+                            curr = true;
                         }
-                        TimeSpan diff = DateTime.UtcNow.Subtract(max);
-                        var minutes = diff.TotalMinutes;
-
+                        
                         if (targetType != typeof(Visibility))
                             throw new InvalidOperationException("The target must be of Visibility");
 
-                        if (minutes > 30) //after 30 min disappear
+                        if (!curr) //dissapear if not current
                         {
                             return Visibility.Hidden;
                         }
@@ -879,8 +877,8 @@ namespace KeySearcherPresentation.Controls
         }
     }
 
-    [ValueConversion(typeof(DateTime), typeof(Visibility))]
-    class DateFalseVisibleConverter2 : IValueConverter
+    [ValueConversion(typeof(Boolean), typeof(Visibility))]
+    class CurrTrueVisibleConverter2 : IValueConverter
     {
         public StatisticsPresentation StatisticsPresentation { get; set; }
 
@@ -892,14 +890,12 @@ namespace KeySearcherPresentation.Controls
                 {
                     lock (StatisticsPresentation)
                     {
-                        DateTime date = (DateTime)value;
-                        TimeSpan diff = DateTime.UtcNow.Subtract(date);
-                        var minutes = diff.TotalMinutes;
+                        var curr = (bool)value;
 
                         if (targetType != typeof(Visibility))
                             throw new InvalidOperationException("The target must be of Visibility");
 
-                        if (minutes > 30) //after 30 minutes disappear
+                        if (!curr) //dissapear if not current
                         {
                             return Visibility.Hidden;
                         }

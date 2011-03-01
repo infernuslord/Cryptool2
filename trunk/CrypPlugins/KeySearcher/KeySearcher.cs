@@ -1284,7 +1284,7 @@ namespace KeySearcher
             }
         }
 
-        #region For TopList
+        #region For TopList and Statistics
 
         private void FillListWithDummies(int maxInList, LinkedList<ValueKey> costList)
         {
@@ -1340,6 +1340,7 @@ namespace KeySearcher
             }
 
             CalcCurrentStats();
+            GenerateMaschineStats();
             int interval = settings.UpdateTime > 0 ? settings.UpdateTime : 30;
             var now = DateTime.UtcNow.ToLocalTime();
             var keyPattern = Pattern;
@@ -1403,10 +1404,15 @@ namespace KeySearcher
                     var useradd = 0;
                     foreach (long mid in statistic[avatar].Keys)
                     {
-                        if(statistic[avatar][mid].Date.AddMinutes(30) > testdate)
+                        if(statistic[avatar][mid].Date.AddMinutes(30) > testdate) //30 min current criterium
                         {
+                            statistic[avatar][mid].Current = true;
                             useradd = 1;
                             cMachines++;
+                        }
+                        else
+                        {
+                            statistic[avatar][mid].Current = false;
                         }
                     }
                     cUsers = cUsers + useradd;
@@ -1573,16 +1579,19 @@ namespace KeySearcher
                     //if the maschine exists in maschinestatistic add it to the sum
                     if (maschinehierarchie.ContainsKey(mid))
                     {
-
                         maschinehierarchie[mid].Sum = maschinehierarchie[mid].Sum + Maschines[mid].Count;
                         maschinehierarchie[mid].Hostname = Maschines[mid].Hostname;
                         maschinehierarchie[mid].Users = maschinehierarchie[mid].Users + avatar + " | ";
                         maschinehierarchie[mid].Date = Maschines[mid].Date > maschinehierarchie[mid].Date ? Maschines[mid].Date : maschinehierarchie[mid].Date;
+                        if (!maschinehierarchie[mid].Current)
+                        {
+                            maschinehierarchie[mid].Current = Maschines[mid].Current;
+                        }
                     }
                     else
                     {
                         //else make a new entry
-                        maschinehierarchie.Add(mid, new Maschinfo() { Sum = Maschines[mid].Count, Hostname = Maschines[mid].Hostname, Users = "| " + avatar + " | ", Date = Maschines[mid].Date });
+                        maschinehierarchie.Add(mid, new Maschinfo() { Sum = Maschines[mid].Count, Hostname = Maschines[mid].Hostname, Users = "| " + avatar + " | ", Date = Maschines[mid].Date, Current = Maschines[mid].Current });
                     }
                 }
             }
@@ -1834,6 +1843,7 @@ namespace KeySearcher
         public int Count { get; set; }
         public string Hostname { get; set; }
         public DateTime Date { get; set; }
+        public bool Current { get; set; }
     }
     /// <summary>
     /// Represents one entry in our maschine statistic list
@@ -1844,5 +1854,6 @@ namespace KeySearcher
         public string Hostname { get; set; }
         public string Users { get; set; }
         public DateTime Date { get; set; }
+        public bool Current { get; set; }
     } 
 }
