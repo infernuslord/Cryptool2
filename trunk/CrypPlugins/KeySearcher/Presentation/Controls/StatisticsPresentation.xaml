@@ -243,8 +243,8 @@
                                                 <Line X1="6" Y1="7" X2="10" Y2="13" Stroke="Black" StrokeThickness="2" Visibility="{Binding Path=Value.Current, Converter={StaticResource ResourceKey=CurrTrueVisibleConverter2}}"/>
                                                 <Line X1="10" Y1="13" X2="14" Y2="4" Stroke="Black" StrokeThickness="2" Visibility="{Binding Path=Value.Current, Converter={StaticResource ResourceKey=CurrTrueVisibleConverter2}}"/>
 
-                                                <Line X1="7" Y1="4" X2="14" Y2="12" Stroke="White" StrokeThickness="2" Visibility="{Binding Path=Value.Date, Converter={StaticResource ResourceKey=DateTrueVisibleConverter2}}"/>
-                                                <Line X1="7" Y1="12" X2="14" Y2="4" Stroke="White" StrokeThickness="2" Visibility="{Binding Path=Value.Date, Converter={StaticResource ResourceKey=DateTrueVisibleConverter2}}"/>
+                                                <Line X1="7" Y1="4" X2="14" Y2="12" Stroke="Black" StrokeThickness="2" Visibility="{Binding Path=Value.Dead, Converter={StaticResource ResourceKey=DateTrueVisibleConverter2}}"/>
+                                                <Line X1="7" Y1="12" X2="14" Y2="4" Stroke="Black" StrokeThickness="2" Visibility="{Binding Path=Value.Dead, Converter={StaticResource ResourceKey=DateTrueVisibleConverter2}}"/>
                                             </Grid>
                                         </StackPanel>
                                     </DataTemplate>
@@ -266,8 +266,8 @@
                                         <Line X1="6" Y1="7" X2="10" Y2="13" Stroke="Black" StrokeThickness="2" Visibility="{Binding Path=Key, Converter={StaticResource ResourceKey=CurrTrueVisibleConverter1}}"/>
                                         <Line X1="10" Y1="13" X2="14" Y2="4" Stroke="Black" StrokeThickness="2" Visibility="{Binding Path=Key, Converter={StaticResource ResourceKey=CurrTrueVisibleConverter1}}"/>
 
-                                        <Line X1="7" Y1="4" X2="14" Y2="12" Stroke="White" StrokeThickness="2" Visibility="{Binding Path=Key, Converter={StaticResource ResourceKey=DateTrueVisibleConverter1}}"/>
-                                        <Line X1="7" Y1="12" X2="14" Y2="4" Stroke="White" StrokeThickness="2" Visibility="{Binding Path=Key, Converter={StaticResource ResourceKey=DateTrueVisibleConverter1}}"/>
+                                        <Line X1="7" Y1="4" X2="14" Y2="12" Stroke="Black" StrokeThickness="2" Visibility="{Binding Path=Key, Converter={StaticResource ResourceKey=DateTrueVisibleConverter1}}"/>
+                                        <Line X1="7" Y1="12" X2="14" Y2="4" Stroke="Black" StrokeThickness="2" Visibility="{Binding Path=Key, Converter={StaticResource ResourceKey=DateTrueVisibleConverter1}}"/>
                                     </Grid>
                                 </StackPanel>
                             </HierarchicalDataTemplate>
@@ -313,8 +313,8 @@
                                         <Line X1="6" Y1="7" X2="10" Y2="13" Stroke="Black" StrokeThickness="2" Visibility="{Binding Path=Value.Current, Converter={StaticResource ResourceKey=CurrTrueVisibleConverter2}}"/>
                                         <Line X1="10" Y1="13" X2="14" Y2="4" Stroke="Black" StrokeThickness="2" Visibility="{Binding Path=Value.Current, Converter={StaticResource ResourceKey=CurrTrueVisibleConverter2}}"/>
 
-                                        <Line X1="7" Y1="4" X2="14" Y2="12" Stroke="White" StrokeThickness="2" Visibility="{Binding Path=Value.Date, Converter={StaticResource ResourceKey=DateTrueVisibleConverter2}}"/>
-                                        <Line X1="7" Y1="12" X2="14" Y2="4" Stroke="White" StrokeThickness="2" Visibility="{Binding Path=Value.Date, Converter={StaticResource ResourceKey=DateTrueVisibleConverter2}}"/>
+                                        <Line X1="7" Y1="4" X2="14" Y2="12" Stroke="Black" StrokeThickness="2" Visibility="{Binding Path=Value.Dead, Converter={StaticResource ResourceKey=DateTrueVisibleConverter2}}"/>
+                                        <Line X1="7" Y1="12" X2="14" Y2="4" Stroke="Black" StrokeThickness="2" Visibility="{Binding Path=Value.Dead, Converter={StaticResource ResourceKey=DateTrueVisibleConverter2}}"/>
                                     </Grid>
                                 </StackPanel>
                             </HierarchicalDataTemplate>
