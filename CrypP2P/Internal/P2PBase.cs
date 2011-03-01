@@ -415,7 +415,7 @@ namespace Cryptool.P2P.Internal
                     if (!IsConnected)
                         throw new NotConnectedException();
                     else
-                        throw new InvalidOperationException("SynchStore failed for some reason!");
+                        throw new P2POperationFailedException("SynchStore failed for some reason!");
                 }
             }
             else
@@ -471,7 +471,7 @@ namespace Cryptool.P2P.Internal
                     if (!IsConnected)
                         throw new NotConnectedException();
                     else
-                        throw new InvalidOperationException("SynchRetrieve failed for some reason!");
+                        throw new P2POperationFailedException("SynchRetrieve failed for some reason!");
                 }
             }
             else
@@ -526,7 +526,7 @@ namespace Cryptool.P2P.Internal
                     if (!IsConnected)
                         throw new NotConnectedException();
                     else
-                        throw new InvalidOperationException("SynchRemove failed for some reason!");
+                        throw new P2POperationFailedException("SynchRemove failed for some reason!");
                 }
             }
             else

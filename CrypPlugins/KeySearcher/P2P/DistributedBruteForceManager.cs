@@ -281,6 +281,10 @@ namespace KeySearcher.P2P
                 {
                     //do nothing
                 }
+                catch (P2POperationFailedException)
+                {
+                    //do nothing, so it will be tryied again
+                }
             }
 
             // Set progress to 100%

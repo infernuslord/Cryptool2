@@ -253,11 +253,11 @@ namespace KeySearcher.P2P.Storage
             }
             catch (Exception e)
             {
-                if (e is KeySearcherStopException)
-                    throw new KeySearcherStopException();
-                else if (e is NotConnectedException)
-                    throw new NotConnectedException();
+                //There are some kinds of exceptions, which should not cause removal of DHT entries:
+                if (e is KeySearcherStopException || e is NotConnectedException || e is P2POperationFailedException)
+                    throw;
 
+                //For all others, delete the problematic subtree:
                 keySearcher.GuiLogMessage(e.Message + ": Node causing the failure: " + nodeToUpdate.ToString(), NotificationLevel.Error);
                 nodeToUpdate.Reset();
                 throw new InvalidOperationException();
