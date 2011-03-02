@@ -434,6 +434,7 @@ namespace KeySearcher.P2P.Storage
                     {
                         //try next one
                     }
+                    c++;
                 }
             }
 
