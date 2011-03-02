@@ -150,13 +150,23 @@
     <Resource Include="Images\oldpaper.png" />
     <Resource Include="Images\paper.png" />
     <Resource Include="Images\walze.png" />
-    <Resource Include="Images\background2.png" />
     <Resource Include="Images\rotor.png" />
     <Resource Include="Images\rotor1.jpg" />
     <Resource Include="Images\rotor2.jpg" />
     <Resource Include="Images\rotor3.jpg" />
     <Resource Include="Images\rotor4.jpg" />
     <Resource Include="Images\rotor5.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\background2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\kiste3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\rotor6.jpg" />
+    <Resource Include="Images\rotor7.jpg" />
+    <Resource Include="Images\rotor8.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

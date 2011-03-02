@@ -97,7 +97,10 @@ namespace Cryptool.Enigma
                 String output = core.Encrypt(rotor1Pos, rotor2Pos, rotor3Pos, rotor4Pos, input);
                 
                 myPresentation.output = output;
-                myPresentation.setinput(input);
+                if(myPresentation.checkReady())
+                    myPresentation.setinput(input);
+                else
+                    LogMessage("Presentation Error!", NotificationLevel.Error);
                 //myPresentation.playClick(null, EventArgs.Empty);
                 //return postFormatOutput(output);
                 return "";
@@ -413,6 +416,7 @@ namespace Cryptool.Enigma
 
         public void PreExecution()
         {
+            if(myPresentation.checkReady())
             myPresentation.stopclick(this, EventArgs.Empty);
             EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs("Preparing enigma for operation..", this,  NotificationLevel.Info));
 
