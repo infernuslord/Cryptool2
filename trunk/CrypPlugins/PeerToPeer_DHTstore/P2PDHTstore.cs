@@ -90,9 +90,9 @@ namespace Cryptool.Plugins.PeerToPeer
             }
         }
 
-        private string sDhtValue;
+        private byte[] sDhtValue;
         [PropertyInfo(Direction.InputData, "Value of the Key", "Value of the Key of DHT Entry in the P2P-System", "", true, false, QuickWatchFormat.Text, null)]
-        public string DhtValue
+        public byte[] DhtValue
         {
             get
             {
