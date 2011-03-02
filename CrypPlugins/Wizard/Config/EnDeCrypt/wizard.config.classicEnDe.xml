@@ -83,12 +83,46 @@
   </input>
 
   <!-- Vigenère input -->
-  <input id ="Vigenere" image="Vigenere">
+  <sampleViewer image="Vigenere" file="WorkspaceManagerSamples\Vigenere_Sample.cwm" title="W_Vigenere_Sample">
     <name lang="en" >Vigenère</name>
     <description lang="en" >
       Vigenère is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
     </description>
-  </input>
+
+    <headline lang="en" >Message Input</headline>
+    <desc lang="en" >Here, you can enter the message to encrypt and select input format and encodings.</desc>
+
+    <inputBox plugin="VigenereInput1" property="Text" alignment="Right" width="78%" visibleLines="5" group="1">
+      <description lang="en">
+        Message to encrypt:
+      </description>
+      <defaultvalue lang="de">
+        Hello world! Hallo Welt! Hola mundo! Bonjour le monde!
+      </defaultvalue>
+    </inputBox>
+
+    <inputBox plugin="VigenereInput2" property="Text" alignment="Right" width="20%" visibleLines="5" group="1">
+      <description lang="en">
+        Key:
+      </description>
+      <defaultvalue lang="en">
+        TURING
+      </defaultvalue>
+    </inputBox>
+
+    <outputBox plugin="VigenereOutput1" property="CurrentValue" alignment="Stretch" width="49%" visibleLines="5" group="2">
+      <description lang="en">
+        Encryption output:
+      </description>
+    </outputBox>
+    
+    <outputBox plugin="VigenereOutput2" property="CurrentValue" alignment="Stretch" width="49%" visibleLines="5" group="2">
+      <description lang="en">
+        Decryption output:
+      </description>
+    </outputBox>
+    
+  </sampleViewer>
 
   <!-- Substitution input -->
   <input id ="Substitution" image="Substitution">

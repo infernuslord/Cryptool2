@@ -188,6 +188,7 @@ namespace Wizard
 
             currentOutputBoxes.Clear();
             currentInputBoxes.Clear();
+            currentPresentations.Clear();
             SaveContent();
             boxesWithWrongContent.Clear();
 
