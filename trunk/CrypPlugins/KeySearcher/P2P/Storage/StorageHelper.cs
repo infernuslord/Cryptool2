@@ -93,7 +93,7 @@ namespace KeySearcher.P2P.Storage
             }
 
             //return StoreWithStatistic(KeyInDht(nodeToUpdate), memoryStream.ToArray());
-            return StoreWithHashAndStatistic(nodeToUpdate.DistributedJobIdentifier, KeyInDht(nodeToUpdate), memoryStream.ToArray());
+            return StoreWithReplicationAndHashAndStatistic(nodeToUpdate.DistributedJobIdentifier, KeyInDht(nodeToUpdate), memoryStream.ToArray(), 3);
         }
 
         private RequestResult StoreWithHashAndStatistic(string jobid, string keyInDht, byte[] data)
@@ -110,9 +110,23 @@ namespace KeySearcher.P2P.Storage
             return StoreWithStatistic(keyInDht, result.ToArray());
         }
 
+        private RequestResult StoreWithReplicationAndHashAndStatistic(string jobid, string keyInDht, byte[] data, int replications)
+        {
+            //store the "real" entry:
+            var res = StoreWithHashAndStatistic(jobid, keyInDht, data);
+
+            //store all replications:
+            for (int c = 1; c < replications; c++)
+            {
+                StoreWithHashAndStatistic(jobid, keyInDht + c, data);
+            }
+            
+            return res;
+        }
+
         private bool InvalidHash(string jobid, byte[] nodeBytes)
         {
-            if (nodeBytes.Length < 32)
+            if (nodeBytes == null || nodeBytes.Length < 32)
                 return false;
 
             List<byte> b = new List<byte>();
@@ -159,16 +173,11 @@ namespace KeySearcher.P2P.Storage
 
                 nodeToUpdate.LastUpdate = DateTime.Now;
 
-                var requestResult = RetrieveWithStatistic(KeyInDht(nodeToUpdate));
+                var requestResult = RetrieveWithReplicationAndHashAndStatistic(KeyInDht(nodeToUpdate), nodeToUpdate.DistributedJobIdentifier, 3);
                 var nodeBytes = requestResult.Data;
                 if (nodeBytes == null)
                 {
                     return requestResult;
-                }
-
-                if (InvalidHash(nodeToUpdate.DistributedJobIdentifier, nodeBytes))
-                {
-                    throw new Exception("Invalid Hash");
                 }
 
                 var binaryReader = new BinaryReader(new MemoryStream(nodeBytes));
@@ -318,31 +327,45 @@ namespace KeySearcher.P2P.Storage
         public DateTime StartDate(String ofJobIdentifier)
         {
             var key = ofJobIdentifier + "_startdate";
-            var requestResult = RetrieveWithStatistic(key);
-
-            if (requestResult.IsSuccessful() && requestResult.Data != null && requestResult.Data.Length == 8)
+            try
             {
-                var startTimeUtc = DateTime.SpecifyKind(
-                    DateTime.FromBinary(BitConverter.ToInt64(requestResult.Data, 0)), DateTimeKind.Utc);
-                return startTimeUtc.ToLocalTime();
+                var requestResult = RetrieveWithReplicationAndHashAndStatistic(key, ofJobIdentifier, 3);
+
+                if (requestResult != null && requestResult.IsSuccessful() && requestResult.Data != null && requestResult.Data.Length >= 8)
+                {
+                    var startTimeUtc = DateTime.SpecifyKind(DateTime.FromBinary(BitConverter.ToInt64(requestResult.Data, 0)), DateTimeKind.Utc);
+                    return startTimeUtc.ToLocalTime();
+                }
+            }
+            catch
+            {
+                //No valid startdate available
             }
 
-            StoreWithStatistic(key, BitConverter.GetBytes((DateTime.UtcNow.ToBinary())));
+            StoreWithReplicationAndHashAndStatistic(ofJobIdentifier, key, BitConverter.GetBytes((DateTime.UtcNow.ToBinary())), 3);
             return DateTime.Now;
         }
 
         public long SubmitterID(String ofJobIdentifier)
         {
             var key = ofJobIdentifier + "_submitterid";
-            var requestResult = RetrieveWithStatistic(key);
 
-            if (requestResult.IsSuccessful() && requestResult.Data != null && requestResult.Data.Length == 8)
+            try
             {
-                var submitterid = BitConverter.ToInt64(requestResult.Data, 0);
-                return submitterid;
+                var requestResult = RetrieveWithReplicationAndHashAndStatistic(key, ofJobIdentifier, 3);
+
+                if (requestResult != null && requestResult.IsSuccessful() && requestResult.Data != null && requestResult.Data.Length >= 8)
+                {
+                    var submitterid = BitConverter.ToInt64(requestResult.Data, 0);
+                    return submitterid;
+                }
+            }
+            catch
+            {
+                //No valid SubmitterID available
             }
 
-            StoreWithStatistic(key, BitConverter.GetBytes(Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetID()));
+            StoreWithReplicationAndHashAndStatistic(ofJobIdentifier, key, BitConverter.GetBytes(Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetID()), 3);
             return Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetID();
         }
 
@@ -359,6 +382,48 @@ namespace KeySearcher.P2P.Storage
             }
 
             return requestResult;
+        }
+
+        public RequestResult RetrieveWithHashAndStatistic(string key, string distributedJobIdentifier)
+        {
+            var result = RetrieveWithStatistic(key);
+
+            if (result == null)
+            {
+                throw new Exception("Result data invalid");
+            }
+            if (InvalidHash(distributedJobIdentifier, result.Data))
+            {
+                throw new Exception("Invalid Hash");
+            }
+            return result;
+        }
+
+        public RequestResult RetrieveWithReplicationAndHashAndStatistic(string key, string distributedJobIdentifier, int replications)
+        {
+            if (replications > 0)
+            {
+                int c = 0;
+                while (c < replications)
+                {
+                    try
+                    {
+                        string ext = "";
+                        if (c > 0)
+                            ext = "" + c;
+                        var req = RetrieveWithHashAndStatistic(key + ext, distributedJobIdentifier);
+                        if (req != null)
+                            return req;
+                    }
+                    catch (Exception)
+                    {
+                        //try next one
+                    }
+                }
+            }
+
+            //no valid replication found :(
+            return null;
         }
 
         public RequestResult RemoveWithStatistic(string key)
