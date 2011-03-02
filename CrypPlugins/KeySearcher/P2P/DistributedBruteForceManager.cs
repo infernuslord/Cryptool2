@@ -73,6 +73,7 @@ namespace KeySearcher.P2P
             }
 
             status.CurrentOperation = Resources.Initializing_distributed_key_pool_tree;
+            keySearcher.ResetMemory();
             InitializeTree();
             
             bool statupdate = false;
