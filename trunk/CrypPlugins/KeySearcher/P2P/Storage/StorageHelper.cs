@@ -119,7 +119,7 @@ namespace KeySearcher.P2P.Storage
             //store all replications:
             for (int c = 1; c < replications; c++)
             {
-                StoreWithHashAndStatistic(jobid, keyInDht + c, data);
+                StoreWithHashAndStatistic(jobid, keyInDht + "_" + c, data);
             }
             
             return res;
@@ -417,10 +417,18 @@ namespace KeySearcher.P2P.Storage
                     {
                         string ext = "";
                         if (c > 0)
-                            ext = "" + c;
+                            ext = "_" + c;
                         var req = RetrieveWithHashAndStatistic(key + ext, distributedJobIdentifier);
                         if (req != null)
+                        {
+                            if (c > 0)
+                            {
+                                //The primary replication seems to be broken, so refresh it:
+                                StoreWithReplicationAndHashAndStatistic(distributedJobIdentifier, key, req.Data,
+                                                                        replications);
+                            }
                             return req;
+                        }
                     }
                     catch (Exception)
                     {
