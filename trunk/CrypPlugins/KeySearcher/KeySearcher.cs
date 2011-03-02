@@ -1326,6 +1326,11 @@ namespace KeySearcher
             maschinehierarchie = null;
             maschinehierarchie = new Dictionary<long, Maschinfo>();
         }
+    
+        public void ResetMemory()
+        {
+            memory = false;
+        }
 
         private bool memory = false;
         private int cUsers = 0;
@@ -1342,7 +1347,7 @@ namespace KeySearcher
             CalcCurrentStats();
             GenerateMaschineStats();
             int interval = settings.UpdateTime > 0 ? settings.UpdateTime : 30;
-            var now = DateTime.UtcNow.ToLocalTime();
+            var now = DateTime.UtcNow;
             var keyPattern = Pattern;
             var keysPerChunk = Math.Pow(2, settings.ChunkSize);
             var keyPatternPool = new KeyPatternPool(keyPattern, new BigInteger(keysPerChunk));
@@ -1350,18 +1355,18 @@ namespace KeySearcher
             //---Aggregate----
             ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.TotalBlocks = keyPatternPool.Length;
             ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.TotalKeys = new BigInteger(keysPerChunk) * keyPatternPool.Length;    
-            ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.Days = string.Format("{0} Days", now.Subtract(startDate).Days);
+            ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.Days = string.Format("{0} Days", now.ToLocalTime().Subtract(startDate).Days);
             //-----------------
             //---Current Section----
             if (!settings.DisableUpdate)
             {
                 var cc = ((QuickWatch) QuickWatchPresentation).CurrentCulture;
-                ((QuickWatch) QuickWatchPresentation).StatisticsPresentation.UpdateTime = "Last__Update__Time: " +now.ToString("g", cc);
-                ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.NextUpdateTime = "Next__Update__Time: " + now.AddMinutes(interval).ToString("g", cc);
+                ((QuickWatch) QuickWatchPresentation).StatisticsPresentation.UpdateTime = now;
+                ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.NextUpdateTime = "Next__Update__Time: " + now.ToLocalTime().AddMinutes(interval).ToString("g", cc);
             }
             else
             {
-                ((QuickWatch) QuickWatchPresentation).StatisticsPresentation.UpdateTime = "Last__Update__Time: Disabled";
+                ((QuickWatch) QuickWatchPresentation).StatisticsPresentation.UpdateTime = now;
                 ((QuickWatch) QuickWatchPresentation).StatisticsPresentation.NextUpdateTime ="Next__Update__Time: Disabled";
             }
             ((QuickWatch) QuickWatchPresentation).StatisticsPresentation.CurrentUsers = cUsers;

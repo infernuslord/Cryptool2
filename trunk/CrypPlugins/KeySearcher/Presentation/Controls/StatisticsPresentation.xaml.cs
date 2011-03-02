@@ -124,8 +124,8 @@ namespace KeySearcherPresentation.Controls
             }
         }
 
-        private string updatetime = "Last__Update__Time: -";
-        public string UpdateTime
+        private DateTime updatetime;
+        public DateTime UpdateTime
         {
             get { return updatetime; }
             set
@@ -137,8 +137,8 @@ namespace KeySearcherPresentation.Controls
 
                 Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
-                    if (days != null)
-                        LastUpdateTime.Content = updatetime;
+                    if (updatetime != null)
+                        LastUpdateTime.Content = updatetime.ToLocalTime().ToString("g");
                 }, null);
             }
         }
@@ -158,6 +158,7 @@ namespace KeySearcherPresentation.Controls
                 {
                     if (days != null)
                         LastUpdateTime.ToolTip = nextupdatetime;
+                        LastUpdateTimeText.ToolTip = nextupdatetime;
                 }, null);
             }
         }
@@ -700,7 +701,7 @@ namespace KeySearcherPresentation.Controls
                         {
                             max = machines[id].Date;
                         }
-                        TimeSpan diff = DateTime.UtcNow.Subtract(max);
+                        TimeSpan diff = StatisticsPresentation.UpdateTime.Subtract(max);
                         var minutes = diff.TotalMinutes;
 
                         int g = 255;
@@ -713,15 +714,13 @@ namespace KeySearcherPresentation.Controls
                         }
 
                         if (g < 0) g = 0;
-
-                        /*
+                       
                         if(minutes > 2880)
                         {
                             Color cblack = Color.FromRgb((byte) 0, (byte) 0, (byte) 0);
                             return cblack.ToString();
                         }
-                        */
-
+                        
                         Color c = Color.FromRgb((byte) r, (byte) g, (byte) 0);
                         return c.ToString();
                     }
@@ -753,7 +752,7 @@ namespace KeySearcherPresentation.Controls
                     lock (StatisticsPresentation)
                     {
                         DateTime date = (DateTime)value;
-                        TimeSpan diff = DateTime.UtcNow.Subtract(date);
+                        TimeSpan diff = StatisticsPresentation.UpdateTime.Subtract(date);
                         var minutes = diff.TotalMinutes;
 
                         int g = 255;
@@ -767,13 +766,11 @@ namespace KeySearcherPresentation.Controls
 
                         if (g < 0) g = 0;
 
-                        /*
                         if (minutes > 2880)
                         {
                             Color cblack = Color.FromRgb((byte)0, (byte)0, (byte)0);
                             return cblack.ToString();
                         }
-                        */
 
                         Color c = Color.FromRgb((byte)r, (byte)g, 0);
                         return c.ToString();
