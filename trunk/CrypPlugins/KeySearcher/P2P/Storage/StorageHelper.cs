@@ -320,7 +320,7 @@ namespace KeySearcher.P2P.Storage
             var key = ofJobIdentifier + "_startdate";
             var requestResult = RetrieveWithStatistic(key);
 
-            if (requestResult.IsSuccessful() && requestResult.Data != null)
+            if (requestResult.IsSuccessful() && requestResult.Data != null && requestResult.Data.Length == 8)
             {
                 var startTimeUtc = DateTime.SpecifyKind(
                     DateTime.FromBinary(BitConverter.ToInt64(requestResult.Data, 0)), DateTimeKind.Utc);
@@ -336,7 +336,7 @@ namespace KeySearcher.P2P.Storage
             var key = ofJobIdentifier + "_submitterid";
             var requestResult = RetrieveWithStatistic(key);
 
-            if (requestResult.IsSuccessful() && requestResult.Data != null)
+            if (requestResult.IsSuccessful() && requestResult.Data != null && requestResult.Data.Length == 8)
             {
                 var submitterid = BitConverter.ToInt64(requestResult.Data, 0);
                 return submitterid;
