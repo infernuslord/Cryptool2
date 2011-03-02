@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Numerics;
 using System.Security.Cryptography;
 using System.Threading;
 using Cryptool.P2P;
@@ -251,7 +252,7 @@ namespace KeySearcher.P2P.Storage
                 }
 
                 
-                if (resultCount > 0)
+                if (resultCount > 0 && keySearcher != null && statisticsGenerator != null)
                 {
                     keySearcher.IntegrateNewResults(nodeToUpdate.Result, nodeToUpdate.Activity,
                                                     nodeToUpdate.DistributedJobIdentifier);
@@ -267,7 +268,8 @@ namespace KeySearcher.P2P.Storage
                     throw;
 
                 //For all others, delete the problematic subtree:
-                keySearcher.GuiLogMessage(e.Message + ": Node causing the failure: " + nodeToUpdate.ToString(), NotificationLevel.Error);
+                if (keySearcher != null)
+                    keySearcher.GuiLogMessage(e.Message + ": Node causing the failure: " + nodeToUpdate.ToString(), NotificationLevel.Error);
                 nodeToUpdate.Reset();
                 throw new InvalidOperationException();
             }
@@ -299,6 +301,11 @@ namespace KeySearcher.P2P.Storage
         internal static string KeyInDht(NodeBase node)
         {
             return string.Format("{0}_node_{1}_{2}", node.DistributedJobIdentifier, node.From, node.To);
+        }
+
+        internal static string KeyInDht(string distributedJobIdentifier, BigInteger from, BigInteger to)
+        {
+            return string.Format("{0}_node_{1}_{2}", distributedJobIdentifier, from, to);
         }
 
         private static int CheckNodeVersion(BinaryReader binaryReader)

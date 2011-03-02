@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Numerics;
+using Cryptool.P2P;
 using KeySearcher.Helper;
 using KeySearcher.P2P.Exceptions;
 using KeySearcher.P2P.Storage;
@@ -12,10 +13,10 @@ namespace KeySearcher.P2P.Tree
         internal bool LeftChildFinished;
         internal bool RightChildFinished;
 
-        private NodeBase leftChild;
-        private NodeBase rightChild;
-        private bool leftChildReserved;
-        private bool rightChildReserved;
+        internal NodeBase leftChild;
+        internal NodeBase rightChild;
+        internal bool leftChildReserved;
+        internal bool rightChildReserved;
 
         public Node(StorageHelper storageHelper, KeyQualityHelper keyQualityHelper, Node parentNode, BigInteger @from, BigInteger to, string distributedJobIdentifier)
             : base(storageHelper, keyQualityHelper, parentNode, @from, to, distributedJobIdentifier)
@@ -89,6 +90,11 @@ namespace KeySearcher.P2P.Tree
         {
             LoadOrUpdateChildNodes();
 
+            UpdateChildrenReservationIndicators();
+        }
+
+        private void UpdateChildrenReservationIndicators()
+        {
             leftChildReserved = LeftChildFinished || leftChild.IsReserved();
             rightChildReserved = RightChildFinished || (rightChild != null && rightChild.IsReserved());
         }
@@ -153,6 +159,57 @@ namespace KeySearcher.P2P.Tree
         {
             return base.ToString() + Resources.__LeftChildFinished_ + LeftChildFinished + Resources.___RightChildFinished_ +
                    RightChildFinished;
+        }
+
+        //Updates also the right children (if necessary)
+        public void UpdateAll()
+        {
+            try
+            {
+                var middle = (From + To) / 2;
+
+                if (!LeftChildFinished)
+                {
+                    if (leftChild == null)
+                    {
+                        var reqRes = P2PManager.Retrieve(StorageHelper.KeyInDht(DistributedJobIdentifier, From, middle));
+                        if (reqRes != null && reqRes.Data != null)
+                        {
+                            leftChild = NodeFactory.CreateNode(StorageHelper, KeyQualityHelper, this, From, middle,
+                                                               DistributedJobIdentifier);
+
+                            if (leftChild is Node)
+                            {
+                                ((Node)leftChild).UpdateAll();
+                                UpdateChildrenReservationIndicators();
+                            }
+                        }
+                    }
+                }
+
+                if (!RightChildFinished)
+                {
+                    if (rightChild == null)
+                    {
+                        var reqRes = P2PManager.Retrieve(StorageHelper.KeyInDht(DistributedJobIdentifier, middle+1, To));
+                        if (reqRes != null && reqRes.Data != null)
+                        {
+                            rightChild = NodeFactory.CreateNode(StorageHelper, KeyQualityHelper, this, middle + 1, To,
+                                                             DistributedJobIdentifier);
+
+                            if (rightChild is Node)
+                            {
+                                ((Node)rightChild).UpdateAll();
+                                UpdateChildrenReservationIndicators();
+                            }
+                        }
+                    }
+                }
+            }
+            catch (KeySearcherStopException)
+            {
+                throw new KeySearcherStopException();
+            }   
         }
     }
 }
