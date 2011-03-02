@@ -38,6 +38,8 @@ using KeySearcher.Helper;
 using KeySearcher.KeyPattern;
 using KeySearcher.P2P;
 using KeySearcher.P2P.Exceptions;
+using KeySearcher.Presentation;
+using KeySearcher.Presentation.Controls;
 using KeySearcherPresentation;
 using KeySearcherPresentation.Controls;
 using KeySearcher.Properties;
@@ -71,6 +73,8 @@ namespace KeySearcher
         private KeyQualityHelper keyQualityHelper;
         private readonly P2PQuickWatchPresentation p2PQuickWatchPresentation;
         private readonly LocalQuickWatchPresentation localQuickWatchPresentation;
+
+        private KeyPoolTreePresentation keyPoolTreePresentation;
 
         private OpenCLManager oclManager = null;
         private Mutex openCLPresentationMutex = new Mutex();
@@ -237,9 +241,7 @@ namespace KeySearcher
         #region IPlugin Members
 
         public event StatusChangedEventHandler OnPluginStatusChanged;
-
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
-
         public event PluginProgressChangedEventHandler OnPluginProgressChanged;
 
         private KeySearcherSettings settings;
@@ -291,6 +293,8 @@ namespace KeySearcher
             localQuickWatchPresentation = ((QuickWatch) QuickWatchPresentation).LocalQuickWatchPresentation;
             p2PQuickWatchPresentation = ((QuickWatch)QuickWatchPresentation).P2PQuickWatchPresentation;
             p2PQuickWatchPresentation.UpdateSettings(this, settings);
+
+            keyPoolTreePresentation = ((QuickWatch) QuickWatchPresentation).StatisticsPresentation.KeyPoolTreePresentation;
 
             settings.PropertyChanged += SettingsPropertyChanged;
             ((QuickWatch)QuickWatchPresentation).IsOpenCLEnabled = (settings.DeviceSettings.Count(x => x.useDevice) > 0);
@@ -840,7 +844,7 @@ namespace KeySearcher
                 {
                     distributedBruteForceManager = new DistributedBruteForceManager(this, pattern, settings,
                                                                                     keyQualityHelper,
-                                                                                    p2PQuickWatchPresentation);
+                                                                                    p2PQuickWatchPresentation, keyPoolTreePresentation);
                     distributedBruteForceManager.Execute();
                 }
                 catch (NotConnectedException)
