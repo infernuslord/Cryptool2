@@ -77,6 +77,8 @@ namespace Cryptool.Enigma
 
         private int reflector = 1;
 
+        private int Presentation_Speed = 1;
+
         private bool involutoricPlugBoard = true;
         private StringBuilder plugBoard = new StringBuilder("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 
@@ -102,6 +104,7 @@ namespace Cryptool.Enigma
                     break;
             } 
         }
+        
 
         private void setPlugBoard(int letterPos, int newIndex)
         {
@@ -112,38 +115,45 @@ namespace Cryptool.Enigma
                 //int newCharIndex = plugBoard.ToString().IndexOf(newChar);
                 char currentChar = plugBoard[letterPos];
                 int currentIndex = alphabet.IndexOf(currentChar);
+                
+                int preconnect = alphabet.IndexOf(this.plugBoard[newIndex]);
 
+                if (this.plugBoard[preconnect] != alphabet[preconnect])
+                {
+                    this.plugBoard[preconnect] = alphabet[preconnect];
+                    OnPropertyChanged("PlugBoard" + alphabet[preconnect]);
+                }
                
+                
                 //if (this.involutoricPlugBoard)
                 //{
                 this.plugBoard[newIndex] = currentChar;
                 OnPropertyChanged("PlugBoard" + alphabet[newIndex]);
 
-               
+
 
 
                 if (newChar == this.alphabet[letterPos])
-                    {
-                        // we removed a plug
-                        this.plugBoard[currentIndex] = this.alphabet[currentIndex];
-                        OnPropertyChanged("PlugBoard" + alphabet[currentIndex] );
-                    }
+                {
+                    // we removed a plug
+                    this.plugBoard[currentIndex] = this.alphabet[currentIndex];
+                    OnPropertyChanged("PlugBoard" + alphabet[currentIndex]);
+                }
 
 
 
                 //}
-                
+
                 this.plugBoard[letterPos] = newChar;
                 OnPropertyChanged("PlugBoard" + alphabet[letterPos]);
 
-                
+
 
 
 
                 OnPropertyChanged("PlugBoardDisplay");
             }
         }
-
         private void showSettingsElement(string element)
         {
             if (TaskPaneAttributeChanged != null)
@@ -806,6 +816,7 @@ namespace Cryptool.Enigma
                     ring1 = value;
                     OnPropertyChanged("Ring1up");
                 }
+                OnPropertyChanged("Ring1");
             }
         }
 
@@ -827,6 +838,7 @@ namespace Cryptool.Enigma
                     ring2 = value;
                     OnPropertyChanged("Ring2up");
                 }
+                OnPropertyChanged("Ring2");
             }
         }
 
@@ -848,6 +860,7 @@ namespace Cryptool.Enigma
                     ring3 = value;
                     OnPropertyChanged("Ring3up");
                 }
+                OnPropertyChanged("Ring3");
             }
         }
 
@@ -1146,7 +1159,20 @@ namespace Cryptool.Enigma
 
         #endregion
 
+        [TaskPane("Presentation Speed", "Change the pace of the Presentation", "Presentation", 71, true, ControlType.Slider, 1, 10)]
+        public int PresentationSpeed
+        {
+            get { return (int)Presentation_Speed; }
+            set
+            {
+                if ((value) != Presentation_Speed) hasChanges = true;
+                this.Presentation_Speed = value;
+                OnPropertyChanged("Presentation_Speed");
+            }
+        }
+
         #endregion
+
 
         #region ISettings Member
 

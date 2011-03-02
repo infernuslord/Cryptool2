@@ -9,15 +9,15 @@
 
 
         <Canvas Name="mainmainmain" Height="1250" Width="2200" HorizontalAlignment="Left">
-
-            <Image Name ="background2" Source= "Images/background2.png" Height="1250" Width="2200" Canvas.Top="0" Canvas.Left="0" AllowDrop="True" Opacity="8.0"></Image>
+            <Rectangle Fill="White" Height="1250" Width="2200"></Rectangle>
+            <Image Name ="background2" Source= "Images/background2.jpg" Height="1250" Width="2200" Canvas.Top="0" Canvas.Left="0" AllowDrop="True" Opacity="8.0"></Image>
             <Image Name ="rotor1img" Source= "Images/rotor.png" Height="899" Width="260" Canvas.Top="0" Canvas.Left="458"></Image>
             <Image Name ="rotor2img" Source= "Images/rotor.png" Height="899" Width="260" Canvas.Top="0" Canvas.Left="228"></Image>
             <Image Name ="rotor3img" Source= "Images/rotor.png" Height="899" Width="260" Canvas.Top="0" Canvas.Left="688"></Image>
             <Image Name ="walzeimg" Source= "Images/walze.png" Height="800" Width="260" Canvas.Top="42" Canvas.Left="0"></Image>
             <Image Name ="paperimg" Source= "Images/paper.png" Height="310" Width="1100" Canvas.Bottom="0" Canvas.Left="1100"></Image>
-            <Image Name ="kisteimg" Source= "Images/kiste.png" Height="130" Width="360" Canvas.Top="838" Canvas.Left="1280"></Image>
-            <Image Name ="kiste2img" Source= "Images/kiste.png" Height="130" Width="360" Canvas.Top="838" Canvas.Left="1695"></Image>
+            <Image Name ="kisteimg" Source= "Images/kiste.png" Height="130" Width="260" Canvas.Top="838" Canvas.Left="1280"></Image>
+            <Image Name ="kiste2img" Source= "Images/kiste3.png" Height="130" Width="410" Canvas.Top="838" Canvas.Left="1595"></Image>
             <Image Name ="oldpaperimg" Source= "Images/oldpaper.png" Height="300" Width="1050" Canvas.Bottom="0" Canvas.Left="0"></Image>
 
             <Rectangle Name="dummy" Opacity="0.0" Width="2200" Height="1250" Stroke="White" StrokeThickness="1" Fill="White" AllowDrop="True">
@@ -30,11 +30,11 @@
             <Canvas Name ="rotorarea" Height="1000" Width="1000" Canvas.Left="260">
 
                 <TextBox Name="Debug" Height="50" Width="400" FontSize="30" Canvas.Left="-260" Opacity="1.0"></TextBox>
-                <Slider Canvas.Left="0" Canvas.Top="950" Height="23" Name="slider1" Width="500" />
-                <Button Canvas.Left="0" Canvas.Top="900" Content="Stop" Height="23" Name="Stop" Width="75" />
-                <Button Canvas.Left="100" Canvas.Top="900" Content="deStop" Height="23" Name="destop" Width="75" />
-                <Button Canvas.Left="200" Canvas.Top="900" Content="M4on" Height="23" Name="m4on" Width="75" />
-                <Button Canvas.Left="300" Canvas.Top="900" Content="Play" Height="23" Name="play" Width="75" />
+                <Slider Canvas.Left="0" Canvas.Top="950" Height="23" Name="slider1" Width="500" Opacity="0.0"/>
+                <Button Canvas.Left="0" Canvas.Top="900" Content="Stop" Height="23" Name="Stop" Width="75" Opacity="0.0"/>
+                <Button Canvas.Left="100" Canvas.Top="900" Content="deStop" Height="23" Name="destop" Width="75" Opacity="0.0"/>
+                <Button Canvas.Left="200" Canvas.Top="900" Content="M4on" Height="23" Name="m4on" Width="75" Opacity="0.0"/>
+                <Button Canvas.Left="300" Canvas.Top="900" Content="Play" Height="23" Name="play" Width="75" Opacity="0.0"/>
             </Canvas>
             <StackPanel Name="mainmain"  Height="1000" Width="800" Canvas.Left="1300">
 
@@ -78,8 +78,8 @@
             <Canvas Name="batterie" Height="1000" Width="50" HorizontalAlignment="Right" Canvas.Right="100">
 
             </Canvas>
-            <Canvas Name="dropBoxCanvas" Canvas.Right="500" Canvas.Bottom="400">
-                <Rectangle Name="dropBox" Width="300" Height="100" Stroke="Green" StrokeThickness="5" Fill="LawnGreen" Opacity="0.0">
+            <Canvas Name="dropBoxCanvas" Canvas.Right="650" Canvas.Bottom="400">
+                <Rectangle Name="dropBox" Width="600" Height="100" Stroke="Green" StrokeThickness="5" Fill="LawnGreen" Opacity="0.0">
 
                 </Rectangle>
 

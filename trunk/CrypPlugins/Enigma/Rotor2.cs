@@ -58,7 +58,7 @@ namespace Cryptool.Enigma
 
         public Boolean next = false;
         Boolean rotated = false;
-        int nextint = 0;
+        int[] nextint = {-2,-2};
 
         public int[,] maparray = new int[26, 2];
 
@@ -67,12 +67,20 @@ namespace Cryptool.Enigma
         int dreinext = 21;
         int viernext = 9;
         int fuenfnext = 25;
+        int[] sechsnext = {24,11};
+        int[] siebennext = { 24, 11 };
+        int[] achtnext = { 24, 11 };
+
 
         int[] eins = new int[] { 4, 10, 12, 5, 11, 6, 3, 16, 21, 25, 13, 19, 14, 22, 24, 7, 23, 20, 18, 15, 0, 8, 1, 17, 2, 9 };
         int[] zwei = new int[] { 0, 9, 3, 10, 18, 8, 17, 20, 23, 1, 11, 7, 22, 19, 12, 2, 16, 6, 25, 13, 15, 24, 5, 21, 14, 4 };
         int[] drei = new int[] { 1, 3, 5, 7, 9, 11, 2, 15, 17, 19, 23, 21, 25, 13, 24, 4, 8, 22, 6, 0, 10, 12, 20, 18, 16, 14 };
         int[] vier = new int[] { 4, 18, 14, 21, 15, 25, 9, 0, 24, 16, 20, 8, 17, 7, 23, 11, 13, 5, 19, 6, 10, 3, 2, 12, 22, 1 };
         int[] fuenf = new int[] { 21, 25, 1, 17, 6, 8, 19, 24, 20, 15, 18, 3, 13, 7, 11, 23, 0, 22, 12, 9, 16, 14, 5, 4, 2, 10 };
+        int[] sechs = new int[] { 9, 15, 6, 21, 14, 20, 12, 5, 24, 16, 1, 4, 13, 7, 25, 17, 3, 10, 0, 18, 23, 11, 8, 2, 19, 22 };
+        int[] sieben = new int[] {13,25,9,7,6,17,2,23,12,24,18,22,1,14,20,5,0,8,21,11,15,4,10,16,3,19};
+        int[] acht = new int[] { 5, 10, 16, 7, 19, 11, 23, 14, 2, 1, 9, 18, 15, 3, 25, 17, 0, 12, 4, 22, 13, 8, 20, 24, 6, 21 };
+
 
         public void changeoffset(int offset,int ringoffset)
         {
@@ -697,7 +705,7 @@ namespace Cryptool.Enigma
 
 
             next = false;
-            if (tebo2[0].Text[0] == Convert.ToChar(nextint + 65))
+            if (tebo2[0].Text[0] == Convert.ToChar(nextint[0] + 65) || tebo2[0].Text[0] == Convert.ToChar(nextint[1] + 65))
             {
                 next = true;
             }
@@ -1114,7 +1122,7 @@ namespace Cryptool.Enigma
 
             next = false;
             rotated = true;
-            if (tebo2[0].Text[0] == Convert.ToChar(nextint + 65))
+            if (tebo2[0].Text[0] == Convert.ToChar(nextint[0] + 65) || tebo2[0].Text[0] == Convert.ToChar(nextint[1] + 65))
             {
                 next = true;
             }
@@ -1319,41 +1327,41 @@ namespace Cryptool.Enigma
                         maparray[inew, 1] = ((eins[i] + rest + ringoffset) % 26);
                         t1.Y2 = 29.4 * ((eins[i] + rest +ringoffset) % 26) + 75;
                         iAm.Text = "I";
-                        nextint = einsnext;
-                        if (offset == nextint)
+                        nextint[0] = einsnext;
+                        if (offset == nextint[0])
                             next = true;
                         break;
 
                     case 2:
                         maparray[inew, 1] = (zwei[i] + rest + ringoffset) % 26;
                         t1.Y2 = 29.4 * ((zwei[i] + rest + ringoffset) % 26) + 75;
-                        nextint = zweinext;
+                        nextint[0] = zweinext;
                         iAm.Text = "II";
-                        if (offset == nextint)
+                        if (offset == nextint[0])
                             next = true;
                         break;
                     case 3:
                         maparray[inew, 1] = (drei[i] + rest + ringoffset) % 26;
                         t1.Y2 = 29.4 * ((drei[i] + rest + ringoffset) % 26) + 75;
-                        nextint = dreinext;
+                        nextint[0] = dreinext;
                         iAm.Text = "III";
-                        if (offset == nextint)
+                        if (offset == nextint[0])
                             next = true;
                         break;
                     case 4:
                         maparray[inew, 1] = (vier[i] + rest + ringoffset) % 26;
                         t1.Y2 = 29.4 * ((vier[i] + rest + ringoffset) % 26) + 75;
-                        nextint = viernext;
+                        nextint[0] = viernext;
                         iAm.Text = "IV";
-                        if (offset == nextint)
+                        if (offset == nextint[0])
                             next = true;
                         break;
                     case 5:
                         maparray[inew, 1] = (fuenf[i] + rest + ringoffset) % 26;
                         t1.Y2 = 29.4 * ((fuenf[i] + rest + ringoffset) % 26) + 75;
-                        nextint = fuenfnext;
+                        nextint[0] = fuenfnext;
                         iAm.Text = "V";
-                        if (offset == nextint)
+                        if (offset == nextint[0])
                             next = true;
                         if (i == 0)
                         {
@@ -1363,13 +1371,41 @@ namespace Cryptool.Enigma
                         }
                         break;
 
+                    case 6:
+                        maparray[inew, 1] = (sechs[i] + rest + ringoffset) % 26;
+                        t1.Y2 = 29.4 * ((sechs[i] + rest + ringoffset) % 26) + 75;
+                        nextint = sechsnext;
+                        iAm.Text = "VI";
+                        if (offset == nextint[0] || offset == nextint[1])
+                            next = true;
+                       
+                        break;
+                    case 7:
+                        maparray[inew, 1] = (sieben[i] + rest + ringoffset) % 26;
+                        t1.Y2 = 29.4 * ((sieben[i] + rest + ringoffset) % 26) + 75;
+                        nextint = siebennext;
+                        iAm.Text = "VII";
+                        if (offset == nextint[0] || offset == nextint[1])
+                            next = true;
+                        
+                        break;
+                    case 8:
+                        maparray[inew, 1] = (acht[i] + rest + ringoffset) % 26;
+                        t1.Y2 = 29.4 * ((acht[i] + rest + ringoffset) % 26) + 75;
+                        nextint = achtnext;
+                        iAm.Text = "VIII";
+                        if (offset == nextint[0] || offset == nextint[1])
+                            next = true;
+                        
+                        break;
+
                 }
 
                 lines[inew] = t1;
 
 
 
-                if (i == nextint + 1)
+                if (i == nextint[0] + 1 || i == nextint[1] + 1)
                 {
                     t2.FontWeight = FontWeights.UltraBold;
                     t2.Foreground = Brushes.OrangeRed;
@@ -1445,31 +1481,31 @@ namespace Cryptool.Enigma
                         maparray[inew, 1] = ((eins[i] + rest + ringoffset) % 26);
                         t1.Y2 = 29.4 * ((eins[i] + rest+ringoffset) % 26) + 75;
                         iAm.Text = "I";
-                        nextint = einsnext;
+                        nextint[0] = einsnext;
                         break;
 
                     case 2:
                         maparray[inew, 1] = ((zwei[i] + rest + ringoffset) % 26);
                         t1.Y2 = 29.4 * ((zwei[i] + rest + ringoffset) % 26) + 75;
-                        nextint = zweinext;
+                        nextint[0] = zweinext;
                         iAm.Text = "II";
                         break;
                     case 3:
                         maparray[inew, 1] = (drei[i] + rest + ringoffset) % 26;
                         t1.Y2 = 29.4 * ((drei[i] + rest + ringoffset) % 26) + 75;
-                        nextint = dreinext;
+                        nextint[0] = dreinext;
                         iAm.Text = "III";
                         break;
                     case 4:
                         maparray[inew, 1] = (vier[i] + rest + ringoffset) % 26;
                         t1.Y2 = 29.4 * ((vier[i] + rest + ringoffset) % 26) + 75;
-                        nextint = viernext;
+                        nextint[0] = viernext;
                         iAm.Text = "IV";
                         break;
                     case 5:
                         maparray[inew, 1] = (fuenf[i] + rest + ringoffset) % 26;
                         t1.Y2 = 29.4 * ((fuenf[i] + rest + ringoffset) % 26) + 75;
-                        nextint = fuenfnext;
+                        nextint[0] = fuenfnext;
                         iAm.Text = "V";
                         if (i == 0)
                         {
@@ -1478,13 +1514,34 @@ namespace Cryptool.Enigma
                             t2.FontSize = 22;
                         }
                         break;
+                    case 6:
+                        maparray[inew, 1] = (sechs[i] + rest + ringoffset) % 26;
+                        t1.Y2 = 29.4 * ((sechs[i] + rest + ringoffset) % 26) + 75;
+                        nextint = sechsnext;
+                        iAm.Text = "VI";
+                       
+                        break;
+                    case 7:
+                        maparray[inew, 1] = (sieben[i] + rest + ringoffset) % 26;
+                        t1.Y2 = 29.4 * ((sieben[i] + rest + ringoffset) % 26) + 75;
+                        nextint = siebennext;
+                        iAm.Text = "VII";
+                       
+                        break;
+                    case 8:
+                        maparray[inew, 1] = (acht[i] + rest + ringoffset) % 26;
+                        t1.Y2 = 29.4 * ((acht[i] + rest + ringoffset) % 26) + 75;
+                        nextint = achtnext;
+                        iAm.Text = "VIII";
+                        
+                        break;
 
                 }
                 lines[inew] = t1;
 
 
 
-                if (i == nextint + 1)
+                if (i == nextint[0] + 1 || i == nextint[1] + 1)
                 {
                     t2.FontWeight = FontWeights.UltraBold;
                     t2.Foreground = Brushes.OrangeRed;
