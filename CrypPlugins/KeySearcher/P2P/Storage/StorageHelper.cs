@@ -10,6 +10,7 @@ using Cryptool.PluginBase;
 using KeySearcher.P2P.Exceptions;
 using KeySearcher.P2P.Presentation;
 using KeySearcher.P2P.Tree;
+using InvalidDataException = KeySearcher.P2P.Exceptions.InvalidDataException;
 
 namespace KeySearcher.P2P.Storage
 {
@@ -20,7 +21,7 @@ namespace KeySearcher.P2P.Storage
         private readonly StatusContainer statusContainer;
 
         //VERSIONNUMBER: Important. Set it +1 manually everytime the length of the MemoryStream Changes
-        private const int version = 1;
+        private const int version = 2;
 
         public StorageHelper(KeySearcher keySearcher, StatisticsGenerator statisticsGenerator, StatusContainer statusContainer)
         {
@@ -113,41 +114,62 @@ namespace KeySearcher.P2P.Storage
 
         private RequestResult StoreWithReplicationAndHashAndStatistic(string jobid, string keyInDht, byte[] data, int replications)
         {
-            //store the "real" entry:
-            var res = StoreWithHashAndStatistic(jobid, keyInDht, data);
-
-            //store all replications:
-            for (int c = 1; c < replications; c++)
+            try
             {
-                StoreWithHashAndStatistic(jobid, keyInDht + "_" + c, data);
+                //store the "real" entry:
+                var res = StoreWithHashAndStatistic(jobid, keyInDht, data);
+
+                //store all replications:
+                for (int c = 1; c < replications; c++)
+                {
+                    var rkey = keyInDht + "_" + c;
+                    var req = StoreWithHashAndStatistic(jobid, rkey, data);
+
+                    if (req.Status == RequestResultType.VersionMismatch)
+                    {
+                        //Version mismatch, so try again... if it still fails, ignore it...
+                        P2PManager.Retrieve(rkey);
+                        StoreWithHashAndStatistic(jobid, rkey, data);
+                    }
+                }
+
+                return res;
             }
-            
-            return res;
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
-        private bool InvalidHash(string jobid, byte[] nodeBytes)
+        private static bool InvalidHash(string jobid, byte[] nodeBytes)
         {
-            if (nodeBytes == null || nodeBytes.Length < 32)
-                return false;
-
-            List<byte> b = new List<byte>();
-            b.AddRange(nodeBytes);
-            byte[] hash = b.GetRange(nodeBytes.Length - 32, 32).ToArray();
-
-            SHA256 shaM = new SHA256Managed();
-            List<byte> c = b.GetRange(0, nodeBytes.Length - 32);
-            System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
-            c.AddRange(enc.GetBytes(jobid));
-            byte[] packethash = shaM.ComputeHash(c.ToArray());
-
-            for (int i = 0; i < 32; i++)
+            try
             {
-                if (hash[i] != packethash[i])
+                if (nodeBytes == null || nodeBytes.Length < 32)
                     return true;
-            }
 
-            return false;
-            //return !hash.Equals(packethash);
+                List<byte> b = new List<byte>();
+                b.AddRange(nodeBytes);
+                byte[] hash = b.GetRange(nodeBytes.Length - 32, 32).ToArray();
+
+                SHA256 shaM = new SHA256Managed();
+                List<byte> c = b.GetRange(0, nodeBytes.Length - 32);
+                System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
+                c.AddRange(enc.GetBytes(jobid));
+                byte[] packethash = shaM.ComputeHash(c.ToArray());
+
+                for (int i = 0; i < 32; i++)
+                {
+                    if (hash[i] != packethash[i])
+                        return true;
+                }
+
+                return false;
+            }
+            catch (Exception)
+            {
+                return true;
+            }
         }
 
         private static void UpdateNodeInDht(Node nodeToUpdate, BinaryWriter binaryWriter)
@@ -175,6 +197,9 @@ namespace KeySearcher.P2P.Storage
                 nodeToUpdate.LastUpdate = DateTime.Now;
 
                 var requestResult = RetrieveWithReplicationAndHashAndStatistic(KeyInDht(nodeToUpdate), nodeToUpdate.DistributedJobIdentifier, 3);
+                if (requestResult == null)
+                    return null;
+
                 var nodeBytes = requestResult.Data;
                 if (nodeBytes == null)
                 {
@@ -395,19 +420,21 @@ namespace KeySearcher.P2P.Storage
         {
             var result = RetrieveWithStatistic(key);
 
-            if (result == null)
+            if (result == null || result.Data == null)
             {
-                throw new Exception("Result data invalid");
+                return null;
             }
             if (InvalidHash(distributedJobIdentifier, result.Data))
             {
-                throw new Exception("Invalid Hash");
+                throw new InvalidDataException("Invalid Hash");
             }
             return result;
         }
 
         public RequestResult RetrieveWithReplicationAndHashAndStatistic(string key, string distributedJobIdentifier, int replications)
         {
+            bool invalid = false;
+
             if (replications > 0)
             {
                 int c = 0;
@@ -421,22 +448,25 @@ namespace KeySearcher.P2P.Storage
                         var req = RetrieveWithHashAndStatistic(key + ext, distributedJobIdentifier);
                         if (req != null)
                         {
-                            //if (c > 0)
-                            //{
-                            //    //The primary replication seems to be broken, so refresh it:
-                            //    StoreWithReplicationAndHashAndStatistic(distributedJobIdentifier, key, req.Data,
-                            //                                            replications);
-                            //}
+                            if (c > 0)
+                            {
+                                //The primary replication seems to be broken, so refresh it:
+                                StoreWithReplicationAndHashAndStatistic(distributedJobIdentifier, key, req.Data,
+                                                                        replications);
+                            }
                             return req;
                         }
                     }
-                    catch (Exception)
+                    catch (InvalidDataException)
                     {
-                        //try next one
+                        invalid = true;
                     }
                     c++;
                 }
             }
+
+            if (invalid)
+                throw new InvalidDataException("Invalid data found when trying to retrieve packet.");
 
             //no valid replication found :(
             return null;
