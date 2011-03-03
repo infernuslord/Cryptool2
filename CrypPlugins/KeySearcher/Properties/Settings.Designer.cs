@@ -46,5 +46,17 @@ namespace KeySearcher.Properties {
                 this["EnableHighLoad"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public double KeyPoolTreeZoom {
+            get {
+                return ((double)(this["KeyPoolTreeZoom"]));
+            }
+            set {
+                this["KeyPoolTreeZoom"] = value;
+            }
+        }
     }
 }
