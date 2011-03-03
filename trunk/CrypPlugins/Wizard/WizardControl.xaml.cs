@@ -791,7 +791,7 @@ namespace Wizard
                             property.SetValue(settings, (bool) ppv.Value, null);
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     GuiLogMessage(string.Format("Failed settings plugin property {0}.{1} to \"{2}\"!", ppv.PluginName, ppv.PropertyName, ppv.Value), NotificationLevel.Error);
                 }
@@ -884,9 +884,10 @@ namespace Wizard
 
                     if (property != null)
                     {
+                        TextBox box = inputBox;
                         inputBox.TextChanged += delegate
                                                     {
-                                                        property.SetValue(settings, (string) inputBox.Text, null);
+                                                        property.SetValue(settings, (string) box.Text, null);
                                                         plugin.Initialize();
                                                     };
                     }
@@ -1133,6 +1134,8 @@ namespace Wizard
                 {
                     Control c = (Control)input;
                     XElement ele = (XElement)c.Tag;
+                    if (ele.Name == "outputBox")
+                        continue;
 
                     PluginPropertyValue newEntry = new PluginPropertyValue();
                     if (ele.Attribute("plugin") != null && ele.Attribute("property") != null)
