@@ -88,7 +88,7 @@ namespace Cryptool.P2P.Internal
             }
 
             P2PManager.GuiLogMessage("Dispatching connect request with ConnectionWorker.", NotificationLevel.Debug);
-            new ConnectionWorker(p2PBase, this).Start();
+            new ConnectionWorker(p2PBase, this, true).Start();
         }
 
         public void Disconnect()
@@ -107,7 +107,7 @@ namespace Cryptool.P2P.Internal
             }
 
             P2PManager.GuiLogMessage("Dispatching disconnect request with ConnectionWorker.", NotificationLevel.Debug);
-            new ConnectionWorker(p2PBase, this).Start();
+            new ConnectionWorker(p2PBase, this, false).Start();
         }
 
         public bool IsReadyToConnect()
