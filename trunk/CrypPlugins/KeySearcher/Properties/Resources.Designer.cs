@@ -754,6 +754,15 @@ namespace KeySearcher.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to KeyPool Tree.
+        /// </summary>
+        internal static string KeyPoolTree_ {
+            get {
+                return ResourceManager.GetString("KeyPoolTree_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Keys per chunk:.
         /// </summary>
         internal static string Keys_Per_Chunk_ {

@@ -23,6 +23,9 @@
       </LinearGradientBrush>
       <DropShadowBitmapEffect x:Key="DropShadowEffect" />
     </Style.Resources>
+    
+    <Setter Property="Background" Value="Orange"/>
+    
     <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="TreeViewItem">
@@ -36,7 +39,7 @@
 
             <!-- This Border and ContentPresenter displays the content of the TreeViewItem. -->
             <Border Name="Bd" 
-              Background="{StaticResource ItemAreaBrush}"
+              Background="{TemplateBinding Background}"
               BorderBrush="{StaticResource ItemBorderBrush}" 
               BorderThickness="0.6" 
               CornerRadius="8"

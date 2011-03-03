@@ -70,7 +70,7 @@ namespace KeySearcher.Presentation.Controls
             item.ToolTip = string.Format("Node: {0}\n{1}", node.ToString(), node.IsReserved() ? "reserved" : "not reserved");
             item.Tag = node;
             if (node.IsReserved())
-                item.Foreground = Brushes.Yellow;
+                item.Background = Brushes.Yellow;
 
             TreeViewItem leftChildItem = CreateTreeItem(node.leftChild, node.LeftChildFinished);
             item.Items.Add(leftChildItem);
@@ -93,13 +93,16 @@ namespace KeySearcher.Presentation.Controls
                 {
                     childItem.ToolTip = string.Format("Leaf: {0}\n{1}", child.ToString(), child.IsCalculated() ? "calculated" : "not calculated");
                     childItem.Header = string.Format("Leaf: {0} to {1}", child.From, child.To);
+                    childItem.Tag = child;
+                    childItem.Background = Brushes.Green;
                     if (child.IsReserved())
-                        childItem.Foreground = Brushes.Yellow;
+                        childItem.Background = Brushes.YellowGreen;
                 }
             }
             if (finished)
             {
-                childItem.Foreground = Brushes.DarkGreen;
+                childItem.Background = Brushes.DarkBlue;
+                childItem.Foreground = Brushes.White;
                 childItem.Header = string.Format("Finished!");
                 childItem.ToolTip = string.Format("Finished!");
             }
@@ -146,7 +149,6 @@ namespace KeySearcher.Presentation.Controls
             {
                 res += re.ToString() + "\n";
             }
-            res += nodebase.Result.ToString();
             res += "\nLast Update: " + nodebase.LastUpdate;
             res += "\nActivity:\n";
             foreach (var re in nodebase.Activity)
