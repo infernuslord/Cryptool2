@@ -90,7 +90,7 @@
     </description>
 
     <headline lang="en" >Message Input</headline>
-    <desc lang="en" >Here, you can enter the message to encrypt and select input format and encodings.</desc>
+    <desc lang="en" >Here, you can enter the message to encrypt and the key to use.</desc>
 
     <inputBox plugin="VigenereInput1" property="Text" alignment="Right" width="78%" visibleLines="5" group="1">
       <description lang="en">
