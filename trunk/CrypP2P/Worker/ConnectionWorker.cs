@@ -26,42 +26,65 @@ namespace Cryptool.P2P.Worker
     {
         private readonly P2PBase p2PBase;
         private readonly ConnectionManager connectionManager;
+        private readonly bool connect;
+        private static object syncObj = new object();
 
-        public ConnectionWorker(P2PBase p2PBase, ConnectionManager connectionManager)
+        public ConnectionWorker(P2PBase p2PBase, ConnectionManager connectionManager, bool connect)
         {
             this.p2PBase = p2PBase;
             this.connectionManager = connectionManager;
+            this.connect = connect;
         }
 
         protected override void WorkComplete(object sender, RunWorkerCompletedEventArgs e)
         {
-            P2PManager.GuiLogMessage(
-                p2PBase.IsConnected
-                    ? "Connection to P2P network established."
-                    : "Connection to P2P network terminated.", NotificationLevel.Info);
-            connectionManager.IsConnecting = false;
-            connectionManager.FireConnectionStatusChange();
+
         }
 
         protected override void PerformWork(object sender, DoWorkEventArgs e)
         {
-            if (!p2PBase.IsConnected)
+            // enforce strict serialization of connect/disconnects
+            lock(syncObj)
             {
-                P2PManager.GuiLogMessage("Connecting to P2P network...", NotificationLevel.Info);
-                try
+                if (connect)
                 {
-                    p2PBase.Initialize();
-                    p2PBase.SynchStart();
+                    // clean up old one before
+                    if(connectionManager.IsConnecting ||  P2PManager.IsConnected)
+                    {
+                        performDisconnect();
+                    }
+                    establishConnection();
                 }
-                catch (InvalidOperationException ex)
+                else
                 {
-                    P2PManager.GuiLogMessage(ex.Message, NotificationLevel.Error);
+                    performDisconnect();
                 }
+                P2PManager.GuiLogMessage(
+                    connect
+                    ? "Connection to P2P network established."
+                    : "Connection to P2P network terminated.", NotificationLevel.Info);
+                connectionManager.IsConnecting = false;
+                connectionManager.FireConnectionStatusChange();
             }
-            else
+        }
+
+        private void performDisconnect()
+        {
+            P2PManager.GuiLogMessage("Disconnecting from P2P network...", NotificationLevel.Info);
+            p2PBase.SynchStop();
+        }
+
+        private void establishConnection()
+        {
+            P2PManager.GuiLogMessage("Connecting to P2P network...", NotificationLevel.Info);
+            try
             {
-                P2PManager.GuiLogMessage("Disconnecting from P2P network...", NotificationLevel.Info);
-                p2PBase.SynchStop();
+                p2PBase.Initialize();
+                p2PBase.SynchStart();
+            }
+            catch (InvalidOperationException ex)
+            {
+                P2PManager.GuiLogMessage(ex.Message, NotificationLevel.Error);
             }
         }
 
