@@ -325,7 +325,7 @@
                     </TreeView>
                 </Grid>
                 </TabItem>
-                <TabItem Header="{Loc _KeyPoolTree_}">
+                <TabItem Header="{Loc KeyPoolTree_}">
                     <Controls1:KeyPoolTreePresentation x:Name="KeyPoolTreePresentation"/>
                 </TabItem>
         </TabControl>

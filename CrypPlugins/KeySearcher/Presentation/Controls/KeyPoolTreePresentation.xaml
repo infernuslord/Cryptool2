@@ -13,7 +13,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="5"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="150"/>
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0">
@@ -25,34 +25,24 @@
 
             <StackPanel>
                 <Button Content="Refresh" Click="Button_Click" Name="refreshButton"/>
-                <Label Content="Please Wait! Loading key pool tree!" Name="waitLabel" Visibility="Collapsed" HorizontalContentAlignment="Center" />
+                <Label Background="IndianRed" Content="Please Wait! Loading key pool tree!" Name="waitLabel" Visibility="Collapsed" HorizontalContentAlignment="Center" />
             </StackPanel>
 
-            <TreeView Name="treeView" Grid.Row="1">
+            <TreeView Name="treeView" Grid.Row="1" Background="LightBlue">
                 <TreeView.Resources>
                     <ResourceDictionary>
                         <!-- Import the resource dictionary file which 
-                contains the Style that makes TreeViewItems
-                display their child items in an organization 
-                chart layout. -->
+                        contains the Style that makes TreeViewItems
+                        display their child items in an organization 
+                        chart layout. -->
                         <ResourceDictionary.MergedDictionaries>
-                            <ResourceDictionary 
-            Source="OrgChartTreeViewItemStyle.xaml" />
+                            <ResourceDictionary Source="OrgChartTreeViewItemStyle.xaml" />
                         </ResourceDictionary.MergedDictionaries>
-
-                        <!-- This template explains how to render 
-                a Node object and its child nodes. -->
-                        <!--<HierarchicalDataTemplate 
-            DataType="" 
-            ItemsSource="{Binding ChildNodes}"
-            >
-                        <TextBlock Text="{Binding Text}" />
-                    </HierarchicalDataTemplate>-->
                     </ResourceDictionary>
                 </TreeView.Resources>
 
                 <!-- Put the root item(s) in a centered Grid so that 
-            they will be centered and retain their width. -->
+                they will be centered and retain their width. -->
                 <TreeView.ItemsPanel>
                     <ItemsPanelTemplate>
                         <Grid HorizontalAlignment="Center" IsItemsHost="True">

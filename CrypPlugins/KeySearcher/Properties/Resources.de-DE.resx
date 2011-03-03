@@ -606,4 +606,7 @@
 	<data name="StatisticsPresentation_SetCurrentRate">
 		<value xml:space="preserve">{0:0,0} Schlüssel/Sek</value>
 	</data>
+	<data name="KeyPoolTree_" xml:space="preserve">
+    <value>Schlüsselbaum</value>
+  </data>
 </root>

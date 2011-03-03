@@ -642,10 +642,13 @@
   <data name="You_have_to_connect_the_KeySearcher_with_the_Decryption_Control_" xml:space="preserve">
     <value>You have to connect the KeySearcher with the Decryption Control!</value>
   </data>
-	<data name="StatisticsPresentation_SetCurrentRate">
-		<value xml:space="preserve">{0:0,0} key/sec</value>
-	</data>
-	<data name="Connection_lost__Waiting_for_reconnect___">
-		<value xml:space="preserve">Connection lost. Waiting for reconnect...</value>
-	</data>
+  <data name="StatisticsPresentation_SetCurrentRate" xml:space="preserve">
+    <value>{0:0,0} key/sec</value>
+  </data>
+  <data name="Connection_lost__Waiting_for_reconnect___" xml:space="preserve">
+    <value>Connection lost. Waiting for reconnect...</value>
+  </data>
+  <data name="KeyPoolTree_" xml:space="preserve">
+    <value>KeyPool Tree</value>
+  </data>
 </root>
