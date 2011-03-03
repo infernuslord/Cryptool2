@@ -4,56 +4,71 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d" 
-             xmlns:p="clr-namespace:KeySearcher.Properties"
-             d:DesignHeight="300" d:DesignWidth="600">
+             xmlns:p="clr-namespace:KeySearcher.Properties" xmlns:Controls="clr-namespace:KeySearcher.Presentation.Controls" d:DesignHeight="500" d:DesignWidth="600">
+    <UserControl.Resources>
+        <Controls:NodeBaseToStringConverter x:Key="NodeBaseToStringConverter"/>
+    </UserControl.Resources>
+    
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition />
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <StackPanel>
-            <Button Content="Refresh" Click="Button_Click" Name="refreshButton"/>
-            <Label Content="Please Wait! Loading key pool tree!" Name="waitLabel" Visibility="Collapsed" HorizontalContentAlignment="Center" />
-        </StackPanel>
 
-        <TreeView Name="treeView" Grid.Row="1">                
-            <TreeView.Resources>
-                <ResourceDictionary>
-                    <!-- Import the resource dictionary file which 
+        <Grid Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel>
+                <Button Content="Refresh" Click="Button_Click" Name="refreshButton"/>
+                <Label Content="Please Wait! Loading key pool tree!" Name="waitLabel" Visibility="Collapsed" HorizontalContentAlignment="Center" />
+            </StackPanel>
+
+            <TreeView Name="treeView" Grid.Row="1">
+                <TreeView.Resources>
+                    <ResourceDictionary>
+                        <!-- Import the resource dictionary file which 
                 contains the Style that makes TreeViewItems
                 display their child items in an organization 
                 chart layout. -->
-                    <ResourceDictionary.MergedDictionaries>
-                        <ResourceDictionary 
+                        <ResourceDictionary.MergedDictionaries>
+                            <ResourceDictionary 
             Source="OrgChartTreeViewItemStyle.xaml" />
-                    </ResourceDictionary.MergedDictionaries>
+                        </ResourceDictionary.MergedDictionaries>
 
-                    <!-- This template explains how to render 
+                        <!-- This template explains how to render 
                 a Node object and its child nodes. -->
-                    <!--<HierarchicalDataTemplate 
+                        <!--<HierarchicalDataTemplate 
             DataType="" 
             ItemsSource="{Binding ChildNodes}"
             >
                         <TextBlock Text="{Binding Text}" />
                     </HierarchicalDataTemplate>-->
-                </ResourceDictionary>
-            </TreeView.Resources>
+                    </ResourceDictionary>
+                </TreeView.Resources>
 
-            <!-- Put the root item(s) in a centered Grid so that 
+                <!-- Put the root item(s) in a centered Grid so that 
             they will be centered and retain their width. -->
-            <TreeView.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <Grid HorizontalAlignment="Center" IsItemsHost="True">
-                        <Grid.LayoutTransform>
-                            <ScaleTransform ScaleX="{Binding Source={x:Static p:Settings.Default}, Path=KeyPoolTreeZoom, Mode=OneWay}" ScaleY="{Binding Source={x:Static p:Settings.Default}, Path=KeyPoolTreeZoom, Mode=OneWay}">
-                            </ScaleTransform>
-                        </Grid.LayoutTransform>
-                    </Grid>
-                </ItemsPanelTemplate>
-            </TreeView.ItemsPanel>
-        </TreeView>
+                <TreeView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <Grid HorizontalAlignment="Center" IsItemsHost="True">
+                            <Grid.LayoutTransform>
+                                <ScaleTransform ScaleX="{Binding Source={x:Static p:Settings.Default}, Path=KeyPoolTreeZoom, Mode=OneWay}" ScaleY="{Binding Source={x:Static p:Settings.Default}, Path=KeyPoolTreeZoom, Mode=OneWay}">
+                                </ScaleTransform>
+                            </Grid.LayoutTransform>
+                        </Grid>
+                    </ItemsPanelTemplate>
+                </TreeView.ItemsPanel>
+            </TreeView>
+            
+            <Slider Width="100" HorizontalAlignment="Right" Grid.Row="2" Value="{Binding Source={x:Static p:Settings.Default}, Path=KeyPoolTreeZoom, Mode=TwoWay}" Maximum="1" Minimum="0.1"/>
+        </Grid>        
 
-        <Slider Width="100" HorizontalAlignment="Right" Grid.Row="2" Value="{Binding Source={x:Static p:Settings.Default}, Path=KeyPoolTreeZoom, Mode=TwoWay}" Maximum="1" Minimum="0.1"/>
+        <GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+        <TextBox VerticalScrollBarVisibility="Auto" IsReadOnly="True" Name="infoBox" Grid.Row="2" Text="{Binding ElementName=treeView, Path=SelectedItem.Tag, Converter={StaticResource ResourceKey=NodeBaseToStringConverter}}" />
     </Grid>
 </UserControl>
