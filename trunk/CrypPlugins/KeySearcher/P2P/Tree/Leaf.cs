@@ -53,7 +53,8 @@ namespace KeySearcher.P2P.Tree
             //ParentNode.Reset();
             Result.Clear();
             Activity.Clear();
-            if (!StorageHelper.UpdateInDht(this).IsSuccessful())
+            var reqRes = StorageHelper.UpdateInDht(this);
+            if (reqRes == null || !reqRes.IsSuccessful())
                 throw new InvalidOperationException(string.Format("Writing leaf {0} failed!", this));
         }
 
@@ -67,7 +68,8 @@ namespace KeySearcher.P2P.Tree
         {
             LastReservationDate = DateTime.UtcNow;
             clientIdentifier = Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetID();
-            return StorageHelper.UpdateInDht(this).IsSuccessful();
+            var reqRes = StorageHelper.UpdateInDht(this);
+            return (reqRes != null) && (reqRes.IsSuccessful());
         }
 
         public void GiveLeafFree()

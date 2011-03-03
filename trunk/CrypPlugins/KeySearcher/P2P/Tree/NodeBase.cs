@@ -58,7 +58,7 @@ namespace KeySearcher.P2P.Tree
 
             // Compare with refreshed parent node
             var result = StorageHelper.UpdateFromDht(ParentNode, true);
-            if (!result.IsSuccessful())
+            if (result != null && !result.IsSuccessful())
             {
                 throw new UpdateFailedException("Parent node could not be updated: " + result.Status);
             }
@@ -74,7 +74,7 @@ namespace KeySearcher.P2P.Tree
             }
 
             var updateResult = StorageHelper.UpdateInDht(ParentNode);
-            if (!updateResult.IsSuccessful())
+            if (updateResult == null || !updateResult.IsSuccessful())
             {
                 throw new UpdateFailedException("Parent node could not be updated: " + updateResult.Status);
             }

@@ -76,7 +76,8 @@ namespace KeySearcher.P2P.Tree
             Result.Clear();
             Activity.Clear();
             UpdateCache();
-            if (!StorageHelper.UpdateInDht(this).IsSuccessful())
+            var reqRes = StorageHelper.UpdateInDht(this);
+            if (reqRes == null || !reqRes.IsSuccessful())
                 throw new InvalidOperationException(string.Format("Writing node {0} failed!", this));
         }
 
