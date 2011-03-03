@@ -218,7 +218,7 @@
                     </StackPanel>
                     <TextBlock Text="Calculated Chunks" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                     <Button Content="Expand" Grid.Column="1" Grid.Row="0" Click="Button_Click" Width="50" HorizontalAlignment="Right"></Button>
-                    <TreeView HorizontalAlignment="Stretch" Name="statisticsTree" VerticalAlignment="Stretch" ItemsSource="{Binding}" AlternationCount="3" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" >
+                    <TreeView HorizontalAlignment="Stretch" VirtualizingStackPanel.IsVirtualizing="False" Name="statisticsTree" VerticalAlignment="Stretch" ItemsSource="{Binding}" AlternationCount="3" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" >
                         <TreeView.ItemTemplate>
                             <HierarchicalDataTemplate ItemsSource="{Binding Path=Value}">
                                 <HierarchicalDataTemplate.ItemTemplate>
@@ -291,7 +291,7 @@
                     </Grid.RowDefinitions>
                     <TextBlock Text="Hostname " Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center"/>
                     <TextBlock Text="Calculated Chunks" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left"/>
-                    <TreeView HorizontalAlignment="Stretch" Name="machineTree" VerticalAlignment="Stretch" ItemsSource="{Binding}" AlternationCount="3" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+                    <TreeView HorizontalAlignment="Stretch" Name="machineTree" VirtualizingStackPanel.IsVirtualizing="False" VerticalAlignment="Stretch" ItemsSource="{Binding}" AlternationCount="3" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
                         <TreeView.ItemTemplate>
                             <HierarchicalDataTemplate ItemsSource="{Binding Path=Value}">
                                 <!--<HierarchicalDataTemplate.ItemTemplate>
