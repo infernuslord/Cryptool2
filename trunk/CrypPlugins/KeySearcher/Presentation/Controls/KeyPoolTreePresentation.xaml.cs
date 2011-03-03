@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Globalization;
+using System.Linq;
 using System.Threading;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Threading;
 using KeySearcher.Helper;
@@ -129,4 +132,35 @@ namespace KeySearcher.Presentation.Controls
             thread.Start();
         }
     }
+
+    class NodeBaseToStringConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value == null)
+                return "No information available...";
+
+            string res = "Results:\n";
+            var nodebase = (NodeBase) value;
+            foreach (var re in nodebase.Result)
+            {
+                res += re.ToString() + "\n";
+            }
+            res += nodebase.Result.ToString();
+            res += "\nLast Update: " + nodebase.LastUpdate;
+            res += "\nActivity:\n";
+            foreach (var re in nodebase.Activity)
+            {
+                res += re.Key;
+                res = re.Value.Aggregate(res, (current, re1) => current + string.Format(" {0} -> {1}\n", re1.Key, re1.Value));
+            }
+            return res;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
 }

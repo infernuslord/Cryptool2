@@ -1828,6 +1828,11 @@ namespace KeySearcher
                     return false;
             }
 
+            public override string ToString()
+            {
+                return string.Format("({5}): {0} -> {1:N} (by {2} at {3}-{4})", key, value, user, maschid, maschname, time);
+            }
+
             public double value;
             public String key;
             public byte[] decryption;
@@ -1862,6 +1867,11 @@ namespace KeySearcher
     /// </summary>
     public class Information
     {
+        public override string ToString()
+        {
+            return string.Format("{0} - {1} - {2} - {3} - {4}", Count, Hostname, Date, Current, Dead);
+        }
+
         public int Count { get; set; }
         public string Hostname { get; set; }
         public DateTime Date { get; set; }
