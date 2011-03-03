@@ -63,8 +63,14 @@ namespace Cryptool.Plugins.CostFunction
             }
             set
             {
-                bytesToUse = value;
-                bytesToUseInteger = int.Parse(value);
+                var old = bytesToUseInteger;
+                if (!int.TryParse(value, out bytesToUseInteger))
+                {
+                    bytesToUseInteger = old;
+                }
+                else
+                    bytesToUse = value;
+                
                 OnPropertyChanged("BytesToUse");
             }
         }
