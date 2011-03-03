@@ -421,12 +421,12 @@ namespace KeySearcher.P2P.Storage
                         var req = RetrieveWithHashAndStatistic(key + ext, distributedJobIdentifier);
                         if (req != null)
                         {
-                            if (c > 0)
-                            {
-                                //The primary replication seems to be broken, so refresh it:
-                                StoreWithReplicationAndHashAndStatistic(distributedJobIdentifier, key, req.Data,
-                                                                        replications);
-                            }
+                            //if (c > 0)
+                            //{
+                            //    //The primary replication seems to be broken, so refresh it:
+                            //    StoreWithReplicationAndHashAndStatistic(distributedJobIdentifier, key, req.Data,
+                            //                                            replications);
+                            //}
                             return req;
                         }
                     }
