@@ -64,7 +64,7 @@ namespace KeySearcher.Presentation.Controls
         private void FillTreeItem(Node node, TreeViewItem item)
         {
             item.Header = string.Format("Node: {0} to {1}", node.From, node.To);
-            item.ToolTip = string.Format("{0}\n{1}", node.ToString(), node.IsReserved() ? "reserved" : "not reserved");
+            item.ToolTip = string.Format("Node: {0}\n{1}", node.ToString(), node.IsReserved() ? "reserved" : "not reserved");
             item.Tag = node;
             if (node.IsReserved())
                 item.Foreground = Brushes.Yellow;
@@ -88,7 +88,7 @@ namespace KeySearcher.Presentation.Controls
                     FillTreeItem((Node)child, childItem);
                 else
                 {
-                    childItem.ToolTip = string.Format("{0}\n{1}", child.ToString(), child.IsCalculated() ? "calculated" : "not calculated");
+                    childItem.ToolTip = string.Format("Leaf: {0}\n{1}", child.ToString(), child.IsCalculated() ? "calculated" : "not calculated");
                     childItem.Header = string.Format("Leaf: {0} to {1}", child.From, child.To);
                     if (child.IsReserved())
                         childItem.Foreground = Brushes.Yellow;
@@ -97,7 +97,8 @@ namespace KeySearcher.Presentation.Controls
             if (finished)
             {
                 childItem.Foreground = Brushes.DarkGreen;
-                childItem.Header = "Finished!";
+                childItem.Header = string.Format("Finished!");
+                childItem.ToolTip = string.Format("Finished!");
             }
             
             return childItem;
