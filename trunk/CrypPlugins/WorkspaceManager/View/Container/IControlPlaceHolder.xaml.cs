@@ -118,6 +118,10 @@ namespace WorkspaceManager.View.Container
                                 if (mod.IControl && mod.ConnectorType.Name == Model.ConnectorType.Name)
                                 {
                                     this.PluginModel = pluginModel;
+                                    this.Model.WorkspaceModel.ModifyModel(new NewConnectionModelOperation(this.Model,
+                                                                                                          mod,
+                                                                                                          this.Model.
+                                                                                                              ConnectorType));
                                     break;
                                 }
                             }
