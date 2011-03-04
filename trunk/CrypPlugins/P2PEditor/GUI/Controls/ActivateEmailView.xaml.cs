@@ -53,7 +53,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
             
             Requesting = true;
             Thread thread = new Thread(new ParameterizedThreadStart(ActivateEmail));
-            EmailVerification emailVer = new EmailVerification(this.PasswordField.Password, this.ActivationCodeField.Text, false);
+            EmailVerification emailVer = new EmailVerification(this.ActivationCodeField.Text, false);
             thread.Start(emailVer);
         }
 
