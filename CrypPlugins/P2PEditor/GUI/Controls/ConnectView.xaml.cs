@@ -87,7 +87,17 @@ namespace Cryptool.P2PEditor.GUI.Controls
 
         private void ConnectButtonClick(object sender, RoutedEventArgs e)
         {
-            this.MessageLabel.Visibility = Visibility.Hidden;
+            Thread thread = new Thread(new ThreadStart(DoConnect));
+            thread.Start();
+        }
+
+        private void DoConnect()
+        {
+            this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
+                this.MessageLabel.Visibility = Visibility.Hidden;
+            }, null);
+            
             HaveCertificate = true;
             EmailVerificationRequired = false;
             WrongPassword = false;
@@ -107,47 +117,56 @@ namespace Cryptool.P2PEditor.GUI.Controls
                 if (!Directory.Exists(PeerCertificate.DEFAULT_USER_CERTIFICATE_DIRECTORY))
                 {
                     Directory.CreateDirectory(PeerCertificate.DEFAULT_USER_CERTIFICATE_DIRECTORY);
-                    this.P2PEditor.GuiLogMessage("Automatic created account folder: " + PeerCertificate.DEFAULT_USER_CERTIFICATE_DIRECTORY, NotificationLevel.Info);
+                    this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        this.P2PEditor.GuiLogMessage("Automatic created account folder: " + PeerCertificate.DEFAULT_USER_CERTIFICATE_DIRECTORY, NotificationLevel.Info);
+                    }, null);
                 }
             }
             catch (Exception ex)
             {
-                this.MessageLabel.Content = "Cannot create default account data directory '" + PeerCertificate.DEFAULT_USER_CERTIFICATE_DIRECTORY + "':\n" + ex.Message;
-                this.P2PEditor.GuiLogMessage(this.MessageLabel.Content.ToString(), NotificationLevel.Error);
-                this.MessageLabel.Visibility = Visibility.Visible;
+                this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    this.MessageLabel.Content = "Cannot create default account data directory '" + PeerCertificate.DEFAULT_USER_CERTIFICATE_DIRECTORY + "':\n" + ex.Message;
+                    this.P2PEditor.GuiLogMessage(this.MessageLabel.Content.ToString(), NotificationLevel.Error);
+                    this.MessageLabel.Visibility = Visibility.Visible;
+                }, null);
                 return;
             }
 
             try
             {
-                     
+
                 if (CertificateServices.GetPeerCertificateByAvatar(PeerCertificate.DEFAULT_USER_CERTIFICATE_DIRECTORY,
                     P2PSettings.Default.PeerName, password) == null)
-                {                    
-                    HaveCertificate = false;                
+                {
+                    HaveCertificate = false;
                 }
             }
             catch (NoCertificateFoundException)
             {
                 HaveCertificate = false;
-            }            
+            }
             catch (Exception ex)
             {
-                this.MessageLabel.Content = "Cannot connect using account \"" + P2PSettings.Default.PeerName + "\": " + (ex.InnerException != null ? ex.InnerException.Message : ex.Message);
-                this.P2PEditor.GuiLogMessage(this.MessageLabel.Content.ToString(), NotificationLevel.Error);
-                this.MessageLabel.Visibility = Visibility.Visible;
+                this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    this.MessageLabel.Content = "Cannot connect using account \"" + P2PSettings.Default.PeerName + "\": " + (ex.InnerException != null ? ex.InnerException.Message : ex.Message);
+                    this.P2PEditor.GuiLogMessage(this.MessageLabel.Content.ToString(), NotificationLevel.Error);
+                    this.MessageLabel.Visibility = Visibility.Visible;
+                }, null);
                 return;
             }
-            if(!HaveCertificate){
+            if (!HaveCertificate)
+            {
                 try
                 {
                     //we did not find a fitting certificate, so we just try to download one:
                     CertificateClient certificateClient = new CertificateClient();
-                    
+
                     //use a proxy server:
                     if (P2PSettings.Default.UseProxy)
-                    {
-                        certificateClient.TimeOut = 10;
+                    {                        
                         certificateClient.ProxyAddress = P2PSettings.Default.ProxyServer;
                         certificateClient.ProxyPort = P2PSettings.Default.ProxyPort;
                         certificateClient.ProxyAuthName = P2PSettings.Default.ProxyUser;
@@ -159,7 +178,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
                             this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                             {
                                 this.MessageLabel.Content = "SSLCertificate revoked. Please update CrypTool 2.0.";
-                                this.P2PEditor.GuiLogMessage(this.MessageLabel.Content.ToString(), NotificationLevel.Info);                               
+                                this.P2PEditor.GuiLogMessage(this.MessageLabel.Content.ToString(), NotificationLevel.Info);
                                 this.MessageLabel.Visibility = Visibility.Visible;
                             }, null);
                         });
@@ -167,7 +186,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
                         {
                             this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                             {
-                                this.P2PEditor.GuiLogMessage("HttpTunnel successfully established", NotificationLevel.Debug);                                
+                                this.P2PEditor.GuiLogMessage("HttpTunnel successfully established", NotificationLevel.Debug);
                             }, null);
                         });
                         certificateClient.NoProxyConfigured += new EventHandler<EventArgs>(delegate
@@ -182,7 +201,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
                         certificateClient.ProxyErrorOccured += ProxyErrorOccured;
                     }
 
-                    certificateClient.TimeOut = 5;
+                    certificateClient.TimeOut = 30;
                     Assembly asm = Assembly.GetEntryAssembly();
                     certificateClient.ProgramName = asm.GetName().Name;
                     certificateClient.ProgramVersion = AssemblyHelper.GetVersionString(asm);
@@ -191,10 +210,13 @@ namespace Cryptool.P2PEditor.GUI.Controls
                     certificateClient.RequestCertificate(new CertificateRequest(P2PSettings.Default.PeerName, null, password));
                 }
                 catch (Exception ex)
-                {                    
-                    this.MessageLabel.Content = "Error while autodownloading your account data: " + ex.Message;
-                    this.P2PEditor.GuiLogMessage(this.MessageLabel.Content.ToString(), NotificationLevel.Error);
-                    this.MessageLabel.Visibility = Visibility.Visible;
+                {
+                    this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        this.MessageLabel.Content = "Error while autodownloading your account data: " + ex.Message;
+                        this.P2PEditor.GuiLogMessage(this.MessageLabel.Content.ToString(), NotificationLevel.Error);
+                        this.MessageLabel.Visibility = Visibility.Visible;
+                    }, null);
                     return;
                 }
             }
@@ -202,28 +224,36 @@ namespace Cryptool.P2PEditor.GUI.Controls
             //user entered the wrong password and the cert could not be download
             if (WrongPassword)
             {
-                this.MessageLabel.Content = "Your password was wrong. We could not autodownload your account data.";
-                this.P2PEditor.GuiLogMessage(this.MessageLabel.Content.ToString(), NotificationLevel.Info);
-                this.MessageLabel.Visibility = Visibility.Visible;
+                this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    this.MessageLabel.Content = "Your password was wrong. We could not autodownload your account data.";
+                    this.P2PEditor.GuiLogMessage(this.MessageLabel.Content.ToString(), NotificationLevel.Info);
+                    this.MessageLabel.Visibility = Visibility.Visible;
+                }, null);
                 return;
             }
 
             //we used login data, but our email was not authorized
             if (EmailVerificationRequired)
             {
-                this.MessageLabel.Content = "The email address was not verified.\nPlease check your email account for an activation code we just sent to you and activate your account.";
-                this.P2PEditor.GuiLogMessage(this.MessageLabel.Content.ToString(), NotificationLevel.Info);
-                this.MessageLabel.Visibility = Visibility.Visible;
+                this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    this.MessageLabel.Content = "The email address was not verified.\nPlease check your email account for an activation code we just sent to you and activate your account.";
+                    this.P2PEditor.GuiLogMessage(this.MessageLabel.Content.ToString(), NotificationLevel.Info);
+                    this.MessageLabel.Visibility = Visibility.Visible;
+                }, null);
                 return;
             }
 
             //if we are here we did not find a fitting certificate in users appdate and could not download a certificate
             if (!HaveCertificate)
             {
-               
-                this.MessageLabel.Content = "Cannot connect, account \"" + P2PSettings.Default.PeerName + "\" not found!";
-                this.P2PEditor.GuiLogMessage(this.MessageLabel.Content.ToString(), NotificationLevel.Info);
-                this.MessageLabel.Visibility = Visibility.Visible;
+                this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    this.MessageLabel.Content = "Cannot connect, account \"" + P2PSettings.Default.PeerName + "\" not found!";
+                    this.P2PEditor.GuiLogMessage(this.MessageLabel.Content.ToString(), NotificationLevel.Info);
+                    this.MessageLabel.Visibility = Visibility.Visible;
+                }, null);
                 return;
             }
 
@@ -257,16 +287,22 @@ namespace Cryptool.P2PEditor.GUI.Controls
                 }
                 catch (Exception ex)
                 {
-                    this.MessageLabel.Content = "Cannot create default account data directory '" + PeerCertificate.DEFAULT_USER_CERTIFICATE_DIRECTORY + "':\n" + ex.Message;
-                    this.P2PEditor.GuiLogMessage(this.MessageLabel.Content.ToString(), NotificationLevel.Error);
-                    this.MessageLabel.Visibility = Visibility.Visible;
+                    this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        this.MessageLabel.Content = "Cannot create default account data directory '" + PeerCertificate.DEFAULT_USER_CERTIFICATE_DIRECTORY + "':\n" + ex.Message;
+                        this.P2PEditor.GuiLogMessage(this.MessageLabel.Content.ToString(), NotificationLevel.Error);
+                        this.MessageLabel.Visibility = Visibility.Visible;
+                    }, null);
                     return;
                 }
 
                 args.Certificate.SaveCrtToAppData();
                 args.Certificate.SavePkcs12ToAppData(args.Certificate.Password);
                 HaveCertificate = true;
-                this.P2PEditor.GuiLogMessage("Autodownloaded user account data for user '" + args.Certificate.Avatar +"'", NotificationLevel.Info);
+                this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    this.P2PEditor.GuiLogMessage("Autodownloaded user account data for user '" + args.Certificate.Avatar + "'", NotificationLevel.Info);
+                }, null);
             }
             catch (Exception ex)
             {
