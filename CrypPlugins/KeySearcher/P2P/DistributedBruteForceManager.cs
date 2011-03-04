@@ -80,11 +80,9 @@ namespace KeySearcher.P2P
                 status.CurrentOperation = Resources.Unable_to_use_peer_to_peer_system_;
                 return;
             }
-
-            status.CurrentOperation = Resources.Initializing_distributed_key_pool_tree;
-            keySearcher.ResetMemory();
-            InitializeTree();
             
+            InitializeTree2();
+
             bool statupdate = false;
             int sessionchunk = 0;
             Leaf currentLeaf;
@@ -313,6 +311,35 @@ namespace KeySearcher.P2P
             statisticTimer.Stop();
             statisticTimer.Dispose();
             status.RemainingTimeTotal = new TimeSpan(0);
+        }
+
+        private void InitializeTree2()
+        {
+            bool treeInitialized = false;
+            do
+            {
+                try
+                {
+                    status.CurrentOperation = Resources.Initializing_distributed_key_pool_tree;
+                    keySearcher.ResetMemory();
+                    InitializeTree();
+                    treeInitialized = true;
+                }
+                catch (NotConnectedException)
+                {
+                    status.CurrentOperation = Resources.Connection_lost__Waiting_for_reconnect___;
+                    keySearcher.GuiLogMessage(status.CurrentOperation, NotificationLevel.Info);
+                    WaitForReconnect();
+                }
+                catch (InvalidOperationException)
+                {
+                    //do nothing
+                }
+                catch (P2POperationFailedException)
+                {
+                    //do nothing, so it will be tryied again
+                }
+            } while (!treeInitialized);
         }
 
         private void WaitForReconnect()
