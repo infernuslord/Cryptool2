@@ -18,10 +18,27 @@ namespace KeySearcher
 
         public class OpenCLDeviceSettings
         {
-            public string name;
-            public int index;
-            public bool useDevice;
-            public int mode;
+            private KeySearcherSettings _settings;
+            internal string name;
+            internal int index;
+            internal int mode;
+            internal bool useDevice;
+
+            public bool UseDevice
+            {
+                get { return useDevice; }
+                set
+                {
+                    if (_settings.OpenCLDevice == index)
+                        _settings.UseOpenCL = value;
+                    useDevice = value;
+                }
+            }
+
+            public OpenCLDeviceSettings(KeySearcherSettings settings)
+            {
+                _settings = settings;
+            }
         }
 
         private List<OpenCLDeviceSettings> deviceSettings = new List<OpenCLDeviceSettings>();
@@ -66,7 +83,7 @@ namespace KeySearcher
                 foreach (var device in oclManager.Context.Devices)
                 {
                     string deviceName = device.Vendor + ":" + device.Name;
-                    deviceSettings.Add(new OpenCLDeviceSettings() { name = deviceName, index = c, mode = 1, useDevice = false });
+                    deviceSettings.Add(new OpenCLDeviceSettings(this) { name = deviceName, index = c, mode = 1, UseDevice = false });
                     devicesAvailable.Add(deviceName);
                     c++;
                 }
@@ -336,7 +353,7 @@ namespace KeySearcher
                 if (value != this.openCLDevice)
                 {
                     this.openCLDevice = value;
-                    UseOpenCL = deviceSettings[value].useDevice;
+                    UseOpenCL = deviceSettings[value].UseDevice;
                     OpenCLMode = deviceSettings[value].mode;
                     OnPropertyChanged("OpenCLDevice");
                     HasChanges = true;
@@ -352,13 +369,13 @@ namespace KeySearcher
             get
             {
                 if (deviceSettings.Count > OpenCLDevice)
-                    return deviceSettings[OpenCLDevice].useDevice;
+                    return deviceSettings[OpenCLDevice].UseDevice;
                 else
                     return false;
             }
             set
             {
-                if ((deviceSettings.Count > OpenCLDevice) && (value != deviceSettings[OpenCLDevice].useDevice))
+                if ((deviceSettings.Count > OpenCLDevice) && (value != deviceSettings[OpenCLDevice].UseDevice))
                 {
                     deviceSettings[OpenCLDevice].useDevice = value;
                     hasChanges = true;
