@@ -535,12 +535,115 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
         public void Dispose()
         {
-            
         }
 
         public string GetOpenCLCode(int decryptionLength, byte[] iv)
         {
-            return null;
+            throw new NotImplementedException();
+
+            string opencl = Properties.Resources.DESOpenCL;
+
+            //if there is a relevant IV:
+            bool useIV = false;
+            if (iv != null && iv.Length != 0 && iv.Count(x => x != 0) > 0)
+            {
+                useIV = true;
+                string IV = "";
+                foreach (byte i in iv)
+                {
+                    IV += string.Format("0x{0:X}, ", i);
+                }
+                IV = IV.Substring(0, IV.Length - 2);
+                opencl = opencl.Replace("$$IVARRAY$$", string.Format("__constant u8 IV[] = {{ {0} }};", IV));
+            }
+            else
+            {
+                opencl = opencl.Replace("$$IVARRAY$$", "");
+            }
+
+            string decryptionCode = string.Format("int decryptionLength = {0}; \n", decryptionLength);
+            int blocks = decryptionLength / 16;
+            if (blocks >= 1)
+            {
+                if (!useIV)
+                    decryptionCode = AddOpenCLBlockDecryption(decryptionCode, 16);
+                else
+                    decryptionCode = AddOpenCLBlockDecryptionWithIV(decryptionCode, 16);
+
+                if (blocks > 1)
+                {
+                    decryptionCode += string.Format("for (int b = 1; b < {0}; b++) \n {{ \n ", blocks);
+                    decryptionCode = AddOpenCLBlockDecryptionWithMode(decryptionCode, 16, "b");
+                    decryptionCode += "}\n";
+                }
+            }
+
+            if (decryptionLength % 16 != 0)
+            {
+                if (blocks == 0)
+                {
+                    if (!useIV)
+                        decryptionCode = AddOpenCLBlockDecryption(decryptionCode, decryptionLength % 16);
+                    else
+                        decryptionCode = AddOpenCLBlockDecryptionWithIV(decryptionCode, decryptionLength % 16);
+                }
+                else
+                    decryptionCode = AddOpenCLBlockDecryptionWithMode(decryptionCode, decryptionLength % 16, "" + blocks);
+            }
+
+            opencl = opencl.Replace("$$DESDECRYPT$$", decryptionCode);
+
+            return opencl;
+        }
+
+        private string AddOpenCLBlockDecryption(string decryptionCode, int size)
+        {
+            decryptionCode += "DES_encrypt1(inn, block, &(key)); \n "
+                              + string.Format("for (int i = 0; i < {0}; i++) \n ", size)
+                              + "{ \n unsigned char c = block[i]; \n "
+                              + "$$COSTFUNCTIONCALCULATE$$ \n } \n";
+            return decryptionCode;
+        }
+
+        private string AddOpenCLBlockDecryptionWithIV(string decryptionCode, int size)
+        {
+            switch (((DESSettings)plugin.Settings).Mode)
+            {
+                case 0: //ECB
+                    return AddOpenCLBlockDecryption(decryptionCode, size);
+                case 1: //CBC
+                    decryptionCode += "DES_encrypt1(inn, block, &(key)); \n "
+                              + string.Format("for (int i = 0; i < {0}; i++) \n ", size)
+                              + "{ \n unsigned char c = block[i] ^ IV[i]; \n "
+                              + "$$COSTFUNCTIONCALCULATE$$ \n } \n";
+                    return decryptionCode;
+                    break;
+                case 2: //CFB
+                    throw new NotImplementedException("CFB for OpenCL is not implemented!"); //not supported
+                default:
+                    throw new NotImplementedException("Mode not supported by OpenCL!");
+            }
+        }
+
+        private string AddOpenCLBlockDecryptionWithMode(string decryptionCode, int size, string block)
+        {
+            decryptionCode += string.Format("DES_encrypt1((inn+{0}*16), block, &(key)); \n ", block)
+                              + string.Format("for (int i = 0; i < {0}; i++) \n {{ \n ", size);
+            switch (((DESSettings)plugin.Settings).Mode)
+            {
+                case 0: //ECB
+                    decryptionCode += "unsigned char c = block[i]; \n";
+                    break;
+                case 1: //CBC
+                    decryptionCode += string.Format("unsigned char c = block[i] ^ (inn+({0}-1)*16)[i]; \n", block);
+                    break;
+                case 2: //CFB
+                    throw new NotImplementedException("CFB for OpenCL is not implemented!"); //not supported
+                default:
+                    throw new NotImplementedException("Mode not supported by OpenCL!");
+            }
+            decryptionCode += "$$COSTFUNCTIONCALCULATE$$ \n } \n";
+            return decryptionCode;
         }
 
         public void changeSettings(string setting, object value)
