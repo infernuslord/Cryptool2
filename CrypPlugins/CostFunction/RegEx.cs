@@ -94,17 +94,7 @@ namespace Cryptool.Plugins.CostFunction
             }
 
             //declaration code:
-            string declaration = string.Format("__constant int transitionMatrix[{0}] = {{ \n", transitionMatrix.Length * 256);
-            foreach (var row in transitionMatrix)
-            {
-                foreach (var i in row)
-                {
-                    declaration += i + ", ";
-                }
-            }
-            declaration = declaration.Substring(0, declaration.Length - 2);
-            declaration += " }; \n";
-            declaration += string.Format("__constant int NOTRANSITION = {0}; \n", int.MaxValue);
+            var declaration = string.Format("__constant int NOTRANSITION = {0}; \n", int.MaxValue);
 
             code = code.Replace("$$COSTFUNCTIONDECLARATIONS$$", declaration);
 
@@ -113,12 +103,60 @@ namespace Cryptool.Plugins.CostFunction
 
             //calculation code:
             code = code.Replace("$$COSTFUNCTIONCALCULATE$$", "int absState = ((state >= 0) ? state : ~state); \n"
-                + "state = transitionMatrix[absState*256+c]; \n"
+                + GenerateStateSwitches() + "\n"
                 + "if (state == NOTRANSITION) { results[x] = (float)(-decryptionLength + count); return;} \n count++; \n");
 
             //result calculation code:
             code = code.Replace("$$COSTFUNCTIONRESULTCALCULATION$$", "if (state < 0) result = 1.0f; else result = 0.0f;");
 
+            return code;
+        }
+
+        private string GenerateStateSwitches()
+        {
+            string code = "switch (absState) { \n";
+            for (int x = 0; x < transitionMatrix.Length; x++)
+            {
+                Dictionary<int, List<int>> stateToInputMap = new Dictionary<int, List<int>>();
+                var row = transitionMatrix[x];
+                for (int i = 0; i < row.Length; i++)
+                {
+                    if (stateToInputMap.ContainsKey(row[i]))
+                    {
+                        stateToInputMap[row[i]].Add(i);
+                    }
+                    else
+                    {
+                        stateToInputMap.Add(row[i], new List<int>() {i});
+                    }
+                }
+                var biggestState = (from e in stateToInputMap
+                                    orderby e.Value.Count descending
+                                    select e.Key).First();
+
+                code += string.Format("case {0}: \n", x);
+                code += "switch (c) {";
+                foreach (var e in stateToInputMap)
+                {
+                    if (e.Key == biggestState)
+                        continue;
+
+                    foreach (var i in e.Value)
+                    {
+                        code += string.Format("case {0}: \n", i);
+                    }
+
+                    code += string.Format("state = {0}; \n", e.Key);
+                    code += "break; \n";
+                }
+                code += "default: \n";
+                code += string.Format("state = {0}; \n", biggestState);
+                code += "break; \n";
+
+                code += "} \n break; \n";
+            }
+            code += "} \n";
+            
             return code;
         }
 
