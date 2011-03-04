@@ -814,7 +814,23 @@ namespace Cryptool.Plugins.CostFunction
 
         private string ModifyOpenCLCodeIndexOfCoincidence(string code, int bytesToUse)
         {
-            throw new NotImplementedException("Index of coincidence is not implemented for OpenCL yet (will follow soon).");
+            code = code.Replace("$$COSTFUNCTIONDECLARATIONS$$", "");
+
+            //initialization code:
+            code = code.Replace("$$COSTFUNCTIONINITIALIZE$$", "unsigned char distr[256]; \n for (int c = 0; c < 256; c++) \n distr[c]=0; \n");
+
+            //calculation code:
+            code = code.Replace("$$COSTFUNCTIONCALCULATE$$", "distr[c]++;");
+
+            //result calculation code:
+            code = code.Replace("$$COSTFUNCTIONRESULTCALCULATION$$", "for (int i = 0; i < 256; i++) \n { \n "
+                + "result += distr[i] * (distr[i] - 1) ; \n "
+                + "} \n "
+                + string.Format("result /= {0}.0f; \n", bytesToUse)
+                + string.Format("result /= {0}.0f; \n", (bytesToUse-1))
+                + "result *= 100.0f; \n" );
+
+            return code;
         }
 
         public int getBytesToUse()

@@ -437,9 +437,24 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
         private AES plugin;
      
-        public AESControl(AES Plugin)
+        public AESControl(AES plugin)
         {
-            this.plugin = Plugin;
+            this.plugin = plugin;
+            plugin.Settings.PropertyChanged += delegate (object sender, PropertyChangedEventArgs e)
+                                                   {
+                                                       if (e.PropertyName == "Keysize")
+                                                       {
+                                                           FireKeyPatternChanged();
+                                                       }
+                                                   };
+        }
+
+        private void FireKeyPatternChanged()
+        {
+            if (keyPatternChanged != null)
+            {
+                keyPatternChanged();
+            }
         }
 
         #region IControlEncryption Members

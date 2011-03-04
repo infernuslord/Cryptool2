@@ -297,7 +297,7 @@ namespace KeySearcher
             keyPoolTreePresentation = ((QuickWatch) QuickWatchPresentation).StatisticsPresentation.KeyPoolTreePresentation;
 
             settings.PropertyChanged += SettingsPropertyChanged;
-            ((QuickWatch)QuickWatchPresentation).IsOpenCLEnabled = (settings.DeviceSettings.Count(x => x.useDevice) > 0);
+            ((QuickWatch)QuickWatchPresentation).IsOpenCLEnabled = (settings.DeviceSettings.Count(x => x.UseDevice) > 0);
 
             localBruteForceStopwatch = new Stopwatch();
         }
@@ -311,7 +311,7 @@ namespace KeySearcher
         void UpdateQuickwatchSettings()
         {
             ((QuickWatch)QuickWatchPresentation).IsP2PEnabled = settings.UsePeerToPeer;
-            ((QuickWatch)QuickWatchPresentation).IsOpenCLEnabled = (settings.DeviceSettings.Count(x => x.useDevice) > 0);
+            ((QuickWatch)QuickWatchPresentation).IsOpenCLEnabled = (settings.DeviceSettings.Count(x => x.UseDevice) > 0);
             p2PQuickWatchPresentation.UpdateSettings(this, settings);
         }
 
@@ -455,7 +455,7 @@ namespace KeySearcher
                         //if we are the thread with most keys left, we have to share them:
                         keyTranslator = ShareKeys(patterns, threadid, keysLeft, keyTranslator, threadStack);
 
-                        if (openCLDeviceSettings == null || !openCLDeviceSettings.useDevice)         //CPU
+                        if (openCLDeviceSettings == null || !openCLDeviceSettings.UseDevice)         //CPU
                         {
                             finish = BruteforceCPU(keyTranslator, sender, bytesToUse);
                         }
@@ -467,7 +467,7 @@ namespace KeySearcher
                             }
                             catch (Exception ex)
                             {
-                                openCLDeviceSettings.useDevice = false;
+                                openCLDeviceSettings.UseDevice = false;
                                 ((QuickWatch)QuickWatchPresentation).Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                                 {
                                     GuiLogMessage(string.Format("Using OpenCL failed: {0}", ex.Message), NotificationLevel.Error);
@@ -1718,7 +1718,7 @@ namespace KeySearcher
             int i = 0;
             foreach (var ds in settings.DeviceSettings)
             {
-                if (ds.useDevice)
+                if (ds.UseDevice)
                 {
                     WaitCallback worker = new WaitCallback(KeySearcherJob);
                     doneKeysA[i] = new BigInteger();
@@ -1745,7 +1745,7 @@ namespace KeySearcher
         private KeyPattern.KeyPattern[] splitPatternForThreads(KeyPattern.KeyPattern pattern)
         {
             int threads = settings.CoresUsed;
-            threads += settings.DeviceSettings.Count(x => x.useDevice); 
+            threads += settings.DeviceSettings.Count(x => x.UseDevice); 
 
             if (threads < 1)
                 return null;
