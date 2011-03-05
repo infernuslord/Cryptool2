@@ -118,30 +118,30 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Connect_" xml:space="preserve">
-    <value>Connect</value>
+    <value>Verbinden</value>
   </data>
   <data name="Create_a_new_account_" xml:space="preserve">
-    <value>Create a new account</value>
+    <value>Neuen Account erstellen</value>
   </data>
   <data name="CrypTool_2_0_" xml:space="preserve">
     <value>CrypTool 2.0</value>
   </data>
   <data name="Distributed_Computing_Platform_" xml:space="preserve">
-    <value>Distributed Computing Platform</value>
+    <value>Verteiltes Rechnernetz</value>
   </data>
   <data name="Forgot_Password_" xml:space="preserve">
-    <value>Forgot password</value>
+    <value>Passwort vergessen</value>
   </data>
   <data name="P2PEditor_Tab_Caption" xml:space="preserve">
-    <value>Network</value>
+    <value>Netzwerk</value>
   </data>
   <data name="Password_" xml:space="preserve">
-    <value>Password:</value>
+    <value>Passwort:</value>
   </data>
   <data name="Remember_my_password_" xml:space="preserve">
-    <value>Remember my password</value>
+    <value>Speichere mein Passwort</value>
   </data>
   <data name="Username_" xml:space="preserve">
-    <value>Username:</value>
+    <value>Benutzername:</value>
   </data>
 </root>
