@@ -117,8 +117,26 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Autodownloaded_user_account_data_for_user_" xml:space="preserve">
+    <value>Autodownloaded user account data for user '{0}'</value>
+  </data>
+  <data name="Automatic_created_account_folder_" xml:space="preserve">
+    <value>Automatic created account folder: {0}</value>
+  </data>
+  <data name="Cannot_connect_account_not_found_" xml:space="preserve">
+    <value>Cannot connect, account '{0}' not found!</value>
+  </data>
+  <data name="Cannot_connect_using_account_" xml:space="preserve">
+    <value>Cannot connect using account '{0}': {1}</value>
+  </data>
+  <data name="Cannot_create_default_account_data_directory_" xml:space="preserve">
+    <value>Cannot create default account data directory '{0}': {1}</value>
+  </data>
   <data name="Connect_" xml:space="preserve">
     <value>Connect</value>
+  </data>
+  <data name="Could_not_save_the_received_certificate_to_your_AppData_folder_" xml:space="preserve">
+    <value>Could not save the received certificate to your AppData folder:\n{0}</value>
   </data>
   <data name="Create_a_new_account_" xml:space="preserve">
     <value>Create a new account</value>
@@ -129,8 +147,20 @@
   <data name="Distributed_Computing_Platform_" xml:space="preserve">
     <value>Distributed Computing Platform</value>
   </data>
+  <data name="Error_while_autodownloading_your_account_data_" xml:space="preserve">
+    <value>Error while autodownloading your account data: {0}</value>
+  </data>
   <data name="Forgot_Password_" xml:space="preserve">
     <value>Forgot password</value>
+  </data>
+  <data name="HttpTunnel_successfully_established_" xml:space="preserve">
+    <value>HttpTunnel successfully established</value>
+  </data>
+  <data name="No_account_data_found_for_Try_to_download_from_server_" xml:space="preserve">
+    <value>No account data found for '{0}'.\nTry to download from server...</value>
+  </data>
+  <data name="No_proxy_server_configured_Please_check_your_configuration_" xml:space="preserve">
+    <value>No proxy server configured. Please check your configuration.</value>
   </data>
   <data name="P2PEditor_Tab_Caption" xml:space="preserve">
     <value>Network</value>
@@ -138,10 +168,22 @@
   <data name="Password_" xml:space="preserve">
     <value>Password:</value>
   </data>
+  <data name="Proxy_Error_occured_" xml:space="preserve">
+    <value>Proxy Error '{0}' occured: {1}</value>
+  </data>
   <data name="Remember_my_password_" xml:space="preserve">
     <value>Remember my password</value>
   </data>
+  <data name="SSLCertificate_revoked_Please_update_CrypTool_20_" xml:space="preserve">
+    <value>SSLCertificate revoked. Please update CrypTool 2.0.</value>
+  </data>
+  <data name="The_email_address_was_not_verified_" xml:space="preserve">
+    <value>The email address was not verified.\nPlease check your email account for an activation code we just sent to you and activate your account.</value>
+  </data>
   <data name="Username_" xml:space="preserve">
     <value>Username:</value>
+  </data>
+  <data name="Your_password_was_wrong_We_could_not_autodownload_your_account_data_" xml:space="preserve">
+    <value>Your password was wrong. We could not autodownload your account data.</value>
   </data>
 </root>
