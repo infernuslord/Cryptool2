@@ -157,7 +157,7 @@
     <value>HttpTunnel erfolgreich aufgebaut</value>
   </data>
   <data name="No_account_data_found_for_Try_to_download_from_server_" xml:space="preserve">
-    <value>Benutzerkonto '{0}' nicht gefunden.\nVersuche es vom Server zu laden...</value>
+    <value>Benutzerkonto '{0}' nicht gefunden.Versuche es vom Server zu laden...</value>
   </data>
   <data name="No_proxy_server_configured_Please_check_your_configuration_" xml:space="preserve">
     <value>Kein Proxy-Server eingegeben. Bitte überprüfen sie die Einstellungen.</value>

@@ -115,7 +115,7 @@ namespace Cryptool.P2PEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Could not save the received certificate to your AppData folder:\n{0}.
+        ///   Looks up a localized string similar to Could not save the received certificate to your AppData folder:{0}.
         /// </summary>
         internal static string Could_not_save_the_received_certificate_to_your_AppData_folder_ {
             get {
@@ -178,7 +178,7 @@ namespace Cryptool.P2PEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No account data found for &apos;{0}&apos;.\nTry to download from server....
+        ///   Looks up a localized string similar to No account data found for &apos;{0}&apos;. Try to download from server....
         /// </summary>
         internal static string No_account_data_found_for_Try_to_download_from_server_ {
             get {
@@ -241,7 +241,7 @@ namespace Cryptool.P2PEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The email address was not verified.\nPlease check your email account for an activation code we just sent to you and activate your account..
+        ///   Looks up a localized string similar to The email address was not verified. Please check your email account for an activation code we just sent to you and activate your account..
         /// </summary>
         internal static string The_email_address_was_not_verified_ {
             get {

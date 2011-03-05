@@ -33,6 +33,10 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BouncyCastle.CryptoExt, Version=1.6.1.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\AppReferences\BouncyCastle.CryptoExt.dll</HintPath>
+    </Reference>
     <Reference Include="CertificateLibrary">
       <HintPath>..\..\AppReferences\CertificateLibrary.dll</HintPath>
       <Private>false</Private>

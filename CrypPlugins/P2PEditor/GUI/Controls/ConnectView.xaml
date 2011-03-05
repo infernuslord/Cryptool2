@@ -90,7 +90,21 @@
                     </Grid>
                 <Label Name="MessageLabel" Foreground="Red" Content="" Grid.Row="1" Grid.ColumnSpan="2" />
                 <Label Width="200" Content="{Loc Username_}"/>
-                <TextBox Width="200" Name="Username" TextChanged="Username_TextChanged" IsEnabled="{Binding IsP2PConnecting, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource InverseBooleanConverter}}" MaxLength="40"/>
+                <Grid Width="200">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="180"/>
+                        <ColumnDefinition Width="20"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox Width="180" Name="Username" TextChanged="Username_TextChanged" IsEnabled="{Binding IsP2PConnecting, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource InverseBooleanConverter}}" MaxLength="40" HorizontalAlignment="Left" />
+                    <Button Name="UsernameButton" Grid.Column="2" Width="20" Click="UsernameButton_Click" Content="▼"/>
+                    <Popup x:Name="PopupUsernames" MouseDown="PopupUsernames_MouseDown"
+                     PlacementTarget="{Binding ElementName=Username}"
+                     PopupAnimation="Fade">
+                        <ListBox x:Name="UsernamesListBox" Width="200" 
+                                 SelectionChanged="UsernamesListBox_SelectionChanged"
+                                 MouseDown="PopupUsernames_MouseDown"/>
+                    </Popup>
+                </Grid>                
                 <TextBlock Width="200" 
                            FontSize="12" 
                            Name="GetACertificateLabel" 
