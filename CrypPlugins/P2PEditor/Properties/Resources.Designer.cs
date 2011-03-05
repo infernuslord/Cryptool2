@@ -61,11 +61,65 @@ namespace Cryptool.P2PEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Autodownloaded user account data for user &apos;{0}&apos;.
+        /// </summary>
+        internal static string Autodownloaded_user_account_data_for_user_ {
+            get {
+                return ResourceManager.GetString("Autodownloaded_user_account_data_for_user_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Automatic created account folder: {0}.
+        /// </summary>
+        internal static string Automatic_created_account_folder_ {
+            get {
+                return ResourceManager.GetString("Automatic_created_account_folder_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot connect, account &apos;{0}&apos; not found!.
+        /// </summary>
+        internal static string Cannot_connect_account_not_found_ {
+            get {
+                return ResourceManager.GetString("Cannot_connect_account_not_found_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot connect using account &apos;{0}&apos;: {1}.
+        /// </summary>
+        internal static string Cannot_connect_using_account_ {
+            get {
+                return ResourceManager.GetString("Cannot_connect_using_account_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot create default account data directory &apos;{0}&apos;: {1}.
+        /// </summary>
+        internal static string Cannot_create_default_account_data_directory_ {
+            get {
+                return ResourceManager.GetString("Cannot_create_default_account_data_directory_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Connect.
         /// </summary>
         internal static string Connect_ {
             get {
                 return ResourceManager.GetString("Connect_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not save the received certificate to your AppData folder:\n{0}.
+        /// </summary>
+        internal static string Could_not_save_the_received_certificate_to_your_AppData_folder_ {
+            get {
+                return ResourceManager.GetString("Could_not_save_the_received_certificate_to_your_AppData_folder_", resourceCulture);
             }
         }
         
@@ -97,11 +151,47 @@ namespace Cryptool.P2PEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Error while autodownloading your account data: {0}.
+        /// </summary>
+        internal static string Error_while_autodownloading_your_account_data_ {
+            get {
+                return ResourceManager.GetString("Error_while_autodownloading_your_account_data_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Forgot password.
         /// </summary>
         internal static string Forgot_Password_ {
             get {
                 return ResourceManager.GetString("Forgot_Password_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to HttpTunnel successfully established.
+        /// </summary>
+        internal static string HttpTunnel_successfully_established_ {
+            get {
+                return ResourceManager.GetString("HttpTunnel_successfully_established_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No account data found for &apos;{0}&apos;.\nTry to download from server....
+        /// </summary>
+        internal static string No_account_data_found_for_Try_to_download_from_server_ {
+            get {
+                return ResourceManager.GetString("No_account_data_found_for_Try_to_download_from_server_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No proxy server configured. Please check your configuration..
+        /// </summary>
+        internal static string No_proxy_server_configured_Please_check_your_configuration_ {
+            get {
+                return ResourceManager.GetString("No_proxy_server_configured_Please_check_your_configuration_", resourceCulture);
             }
         }
         
@@ -124,6 +214,15 @@ namespace Cryptool.P2PEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Proxy Error &apos;{0}&apos; occured: {1}.
+        /// </summary>
+        internal static string Proxy_Error_occured_ {
+            get {
+                return ResourceManager.GetString("Proxy_Error_occured_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Remember my password.
         /// </summary>
         internal static string Remember_my_password_ {
@@ -133,11 +232,38 @@ namespace Cryptool.P2PEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to SSLCertificate revoked. Please update CrypTool 2.0..
+        /// </summary>
+        internal static string SSLCertificate_revoked_Please_update_CrypTool_20_ {
+            get {
+                return ResourceManager.GetString("SSLCertificate_revoked_Please_update_CrypTool_20_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The email address was not verified.\nPlease check your email account for an activation code we just sent to you and activate your account..
+        /// </summary>
+        internal static string The_email_address_was_not_verified_ {
+            get {
+                return ResourceManager.GetString("The_email_address_was_not_verified_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Username:.
         /// </summary>
         internal static string Username_ {
             get {
                 return ResourceManager.GetString("Username_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your password was wrong. We could not autodownload your account data..
+        /// </summary>
+        internal static string Your_password_was_wrong_We_could_not_autodownload_your_account_data_ {
+            get {
+                return ResourceManager.GetString("Your_password_was_wrong_We_could_not_autodownload_your_account_data_", resourceCulture);
             }
         }
     }

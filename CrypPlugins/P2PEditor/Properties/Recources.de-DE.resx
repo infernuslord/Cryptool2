@@ -117,20 +117,50 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Autodownloaded_user_account_data_for_user_" xml:space="preserve">
+    <value>Benutzerkonto '{0}' automatisch heruntergeladen</value>
+  </data>
+  <data name="Automatic_created_account_folder_" xml:space="preserve">
+    <value>Benutzerkontoverzeichnis automatisch erstellt: {0}</value>
+  </data>
+  <data name="Cannot_connect_account_not_found_" xml:space="preserve">
+    <value>Verbinden nicht möglich, Benutzerkonto '{0}' konnte nicht gefunden werden.</value>
+  </data>
+  <data name="Cannot_connect_using_account_" xml:space="preserve">
+    <value>Verbindung mit Benutzerkonto '{0}' nicht möglich: {1}</value>
+  </data>
+  <data name="Cannot_create_default_account_data_directory_" xml:space="preserve">
+    <value>Benutzerkontoverzeichnis kann nicht automatisch erstellt werden '{0}': {1}</value>
+  </data>
   <data name="Connect_" xml:space="preserve">
     <value>Verbinden</value>
   </data>
+  <data name="Could_not_save_the_received_certificate_to_your_AppData_folder_" xml:space="preserve">
+    <value>Kann das empfangene Benutzerkonto nicht speichern:\n{0}</value>
+  </data>
   <data name="Create_a_new_account_" xml:space="preserve">
-    <value>Neuen Account erstellen</value>
+    <value>Neues Benutzerkonto erstellen</value>
   </data>
   <data name="CrypTool_2_0_" xml:space="preserve">
     <value>CrypTool 2.0</value>
   </data>
   <data name="Distributed_Computing_Platform_" xml:space="preserve">
-    <value>Verteiltes Rechnernetz</value>
+    <value>Verteilte Berechnungsplattform</value>
+  </data>
+  <data name="Error_while_autodownloading_your_account_data_" xml:space="preserve">
+    <value>Fehler beim automatischen Herunterladen des Benutzerkontos: {0}</value>
   </data>
   <data name="Forgot_Password_" xml:space="preserve">
     <value>Passwort vergessen</value>
+  </data>
+  <data name="HttpTunnel_successfully_established_" xml:space="preserve">
+    <value>HttpTunnel erfolgreich aufgebaut</value>
+  </data>
+  <data name="No_account_data_found_for_Try_to_download_from_server_" xml:space="preserve">
+    <value>Benutzerkonto '{0}' nicht gefunden.\nVersuche es vom Server zu laden...</value>
+  </data>
+  <data name="No_proxy_server_configured_Please_check_your_configuration_" xml:space="preserve">
+    <value>Kein Proxy-Server eingegeben. Bitte überprüfen sie die Einstellungen.</value>
   </data>
   <data name="P2PEditor_Tab_Caption" xml:space="preserve">
     <value>Netzwerk</value>
@@ -138,10 +168,22 @@
   <data name="Password_" xml:space="preserve">
     <value>Passwort:</value>
   </data>
+  <data name="Proxy_Error_occured_" xml:space="preserve">
+    <value>Proxy Fehler '{0}' trat auf: {1}</value>
+  </data>
   <data name="Remember_my_password_" xml:space="preserve">
-    <value>Speichere mein Passwort</value>
+    <value>Speichere das Passwort</value>
+  </data>
+  <data name="SSLCertificate_revoked_Please_update_CrypTool_20_" xml:space="preserve">
+    <value>SSL-Zertifikat zurückgewiesen. Bitte aktualisieren sie CrypTool 2.0.</value>
+  </data>
+  <data name="The_email_address_was_not_verified_" xml:space="preserve">
+    <value>Ihre Email-Adresse wurde noch nicht verifiziert. Bitte überprüfen sie ihre Emails auf eine Email mit Verifizierungscode den wir ihnen soeben zugeschickt haben.</value>
   </data>
   <data name="Username_" xml:space="preserve">
     <value>Benutzername:</value>
+  </data>
+  <data name="Your_password_was_wrong_We_could_not_autodownload_your_account_data_" xml:space="preserve">
+    <value>Ihr Passwort war falsch. Wir konnten ihr Benutzerkonto nicht automatisch herunterladen.</value>
   </data>
 </root>
