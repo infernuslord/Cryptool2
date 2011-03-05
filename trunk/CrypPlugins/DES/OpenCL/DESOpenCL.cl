@@ -363,8 +363,11 @@ __constant DES_LONG des_skb[8][64]={
 
 typedef struct DES_ks
 {
-	struct
-	{		
+    union
+	{
+		DES_cblock cblock;
+		/* make sure things are correct size on machines with
+		 * 8 byte longs */
 		DES_LONG deslong[2];
 	} ks[16];
 } DES_key_schedule;
@@ -411,25 +414,6 @@ void DES_encrypt1(constant DES_LONG *in, private DES_LONG *out, private DES_key_
 	l=r=t=u=0;
 	}
 
-/*
-
-void DES_ecb_encrypt(constant unsigned char *input, private unsigned char *output, private DES_key_schedule *ks)
-	{
-	DES_LONG l;
-	DES_LONG ll[2];
-	constant unsigned char *in = &(input)[0];
-	private unsigned char *out = &(output)[0];
-
-	c2l(in,l); ll[0]=l;
-	c2l(in,l); ll[1]=l;
-	DES_encrypt1(ll,ll,ks);
-	l=ll[0]; l2c(l,out);
-	l=ll[1]; l2c(l,out);
-	l=ll[0]=ll[1]=0;
-	}
-
-*/
-
 void DES_set_key_unchecked(global unsigned char *userKey, private DES_key_schedule *schedule, int add)
 	{
 	int shifts2[16]={0,0,1,1,1,1,1,1,0,1,1,1,1,1,1,0};
@@ -440,16 +424,12 @@ void DES_set_key_unchecked(global unsigned char *userKey, private DES_key_schedu
 
 	k = &schedule->ks->deslong[0];
 	
-	u32 localKey[8];
+	u32 localKey[2];
 
 	localKey[0] = GETU32(userKey     );
 	localKey[0] += $$ADDKEYBYTE3$$ | ($$ADDKEYBYTE2$$ << 8) | ($$ADDKEYBYTE1$$ << 16) |($$ADDKEYBYTE0$$ << 24);
 	localKey[1] = GETU32(userKey +  4);
 	localKey[1] += $$ADDKEYBYTE7$$ | ($$ADDKEYBYTE6$$ << 8) | ($$ADDKEYBYTE5$$ << 16) |($$ADDKEYBYTE4$$ << 24);
-	localKey[2] = GETU32(userKey +  8);
-	localKey[2] += $$ADDKEYBYTE11$$ | ($$ADDKEYBYTE10$$ << 8) | ($$ADDKEYBYTE9$$ << 16) |($$ADDKEYBYTE8$$ << 24);
-	localKey[3] = GETU32(userKey + 12);
-	localKey[3] += $$ADDKEYBYTE15$$ | ($$ADDKEYBYTE14$$ << 8) | ($$ADDKEYBYTE13$$ << 16) |($$ADDKEYBYTE12$$ << 24);
 
 	in = (unsigned char *)(&(localKey)[0]);
 
@@ -505,7 +485,7 @@ kernel void bruteforceKernel(global unsigned char *userKey, global float *result
 	$$COSTFUNCTIONINITIALIZE$$
 	
 	//Decrypt:
-	private unsigned char block[16];
+	private unsigned char block[8];
 	$$DESDECRYPT$$
 	
 	//calculate result here:
