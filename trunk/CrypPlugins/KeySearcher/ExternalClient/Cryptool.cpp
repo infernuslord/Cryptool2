@@ -1,6 +1,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <iostream>
+#include <cfloat>
 #include <SDKFile.hpp>
 #include <SDKCommon.hpp>
 #include <SDKApplication.hpp>
@@ -303,6 +304,8 @@ void Cryptool::enqueueSubbatch(cl::CommandQueue& queue, cl::Buffer& keybuffer, c
 #pragma omp parallel
     {
         std::list<std::pair<float, int> > localtop;
+	localtop.resize(j.ResultSize);
+	initTop(localtop, j.LargerThen);
         int eachChunk = length/omp_get_num_threads();
         int from = omp_get_thread_num()*eachChunk;
         int to = from + eachChunk;
@@ -405,9 +408,9 @@ void Cryptool::initTop(std::list<std::pair<float, int> >& top, bool LargerThen) 
 	for (std::list<std::pair<float, int> >::iterator k = top.begin(); k != top.end(); k++)
         {
             if (LargerThen)
-		k->first = -1000000.0;
+		k->first = -FLT_MAX;
             else
-                k->first = 1000000.0;
+                k->first = FLT_MAX;
         }
 }
 
