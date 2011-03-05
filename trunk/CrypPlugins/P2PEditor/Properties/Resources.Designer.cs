@@ -61,11 +61,83 @@ namespace Cryptool.P2PEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Connect.
+        /// </summary>
+        internal static string Connect_ {
+            get {
+                return ResourceManager.GetString("Connect_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create a new account.
+        /// </summary>
+        internal static string Create_a_new_account_ {
+            get {
+                return ResourceManager.GetString("Create_a_new_account_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CrypTool 2.0.
+        /// </summary>
+        internal static string CrypTool_2_0_ {
+            get {
+                return ResourceManager.GetString("CrypTool_2_0_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Distributed Computing Platform.
+        /// </summary>
+        internal static string Distributed_Computing_Platform_ {
+            get {
+                return ResourceManager.GetString("Distributed_Computing_Platform_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Forgot password.
+        /// </summary>
+        internal static string Forgot_Password_ {
+            get {
+                return ResourceManager.GetString("Forgot_Password_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Network.
         /// </summary>
         internal static string P2PEditor_Tab_Caption {
             get {
                 return ResourceManager.GetString("P2PEditor_Tab_Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password:.
+        /// </summary>
+        internal static string Password_ {
+            get {
+                return ResourceManager.GetString("Password_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remember my password.
+        /// </summary>
+        internal static string Remember_my_password_ {
+            get {
+                return ResourceManager.GetString("Remember_my_password_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Username:.
+        /// </summary>
+        internal static string Username_ {
+            get {
+                return ResourceManager.GetString("Username_", resourceCulture);
             }
         }
     }
