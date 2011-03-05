@@ -12,6 +12,7 @@ using System.IO;
 using System.ComponentModel;
 using PeersAtPlay.CertificateLibrary.Network;
 using Cryptool.PluginBase.Attributes;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Cryptool.P2PEditor.GUI.Controls
 {
@@ -77,7 +78,47 @@ namespace Cryptool.P2PEditor.GUI.Controls
                 {
                     RaiseP2PConnectingEvent(newState);
                 }, null);
-            });            
+            });
+
+            //Create Cert directory if it does not exist
+            try
+            {
+                if (!Directory.Exists(PeerCertificate.DEFAULT_USER_CERTIFICATE_DIRECTORY))
+                {
+                    Directory.CreateDirectory(PeerCertificate.DEFAULT_USER_CERTIFICATE_DIRECTORY);
+                    this.LogMessage(String.Format(Properties.Resources.Automatic_created_account_folder_, PeerCertificate.DEFAULT_USER_CERTIFICATE_DIRECTORY));
+
+                }
+            }
+            catch (Exception ex)
+            {
+                this.LogMessage(String.Format(Properties.Resources.Cannot_create_default_account_data_directory_, PeerCertificate.DEFAULT_USER_CERTIFICATE_DIRECTORY, ex.Message));
+                this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    RaiseP2PConnectingEvent(false);
+                    IsP2PConnecting = false;
+                }, null);
+            }
+
+            //Get all avatar names and put them into our UsernamesListBox
+            //so the user can drop down it and select an username
+            try
+            {
+                foreach (string filename in Directory.EnumerateFiles(PeerCertificate.DEFAULT_USER_CERTIFICATE_DIRECTORY, "*.crt"))
+                {
+                    try
+                    {
+                        X509Certificate cert = new X509Certificate(filename);
+                        this.UsernamesListBox.Items.Add(CertificateServices.GetAvatarName(CertificateServices.ConvertToBC(cert)));
+                    }
+                    catch (Exception)
+                    { 
+                    }
+                }
+            }
+            catch (Exception)
+            {                
+            }
         }
 
         private bool HaveCertificate { get; set; }
@@ -109,26 +150,6 @@ namespace Cryptool.P2PEditor.GUI.Controls
             else
             {
                 password = P2PBase.DecryptString(P2PBase.Password);
-            }
-
-            try
-            {
-                if (!Directory.Exists(PeerCertificate.DEFAULT_USER_CERTIFICATE_DIRECTORY))
-                {
-                    Directory.CreateDirectory(PeerCertificate.DEFAULT_USER_CERTIFICATE_DIRECTORY);
-                    this.LogMessage(String.Format(Properties.Resources.Automatic_created_account_folder_, PeerCertificate.DEFAULT_USER_CERTIFICATE_DIRECTORY));                    
-                    
-                }
-            }
-            catch (Exception ex)
-            {
-                this.LogMessage(String.Format(Properties.Resources.Cannot_create_default_account_data_directory_, PeerCertificate.DEFAULT_USER_CERTIFICATE_DIRECTORY, ex.Message));
-                this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-                {                  
-                    RaiseP2PConnectingEvent(false);
-                    IsP2PConnecting = false;
-                }, null);                
-                return;
             }
 
             try
@@ -317,6 +338,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
         private void Username_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
             ((P2PEditorSettings)((P2PEditor)GetValue(P2PEditorProperty)).Settings).PeerName = this.Username.Text;
+            this.PopupUsernames.IsOpen = false;
         }
 
         private void Password_PasswordChanged(object sender, RoutedEventArgs e)
@@ -393,6 +415,22 @@ namespace Cryptool.P2PEditor.GUI.Controls
                 this.P2PEditor.GuiLogMessage(message, NotificationLevel.Info);
                 this.MessageLabel.Visibility = Visibility.Visible;
             }, null);
+        }
+
+        private void UsernameButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.PopupUsernames.IsOpen = !this.PopupUsernames.IsOpen;
+        }
+
+        private void UsernamesListBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            this.Username.Text = (string)this.UsernamesListBox.SelectedItem;
+            this.Password.Password = "";
+        }
+
+        private void PopupUsernames_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            this.PopupUsernames.IsOpen = false;
         }
     }
 }

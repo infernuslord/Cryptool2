@@ -136,7 +136,7 @@
     <value>Connect</value>
   </data>
   <data name="Could_not_save_the_received_certificate_to_your_AppData_folder_" xml:space="preserve">
-    <value>Could not save the received certificate to your AppData folder:\n{0}</value>
+    <value>Could not save the received certificate to your AppData folder:{0}</value>
   </data>
   <data name="Create_a_new_account_" xml:space="preserve">
     <value>Create a new account</value>
@@ -157,7 +157,7 @@
     <value>HttpTunnel successfully established</value>
   </data>
   <data name="No_account_data_found_for_Try_to_download_from_server_" xml:space="preserve">
-    <value>No account data found for '{0}'.\nTry to download from server...</value>
+    <value>No account data found for '{0}'. Try to download from server...</value>
   </data>
   <data name="No_proxy_server_configured_Please_check_your_configuration_" xml:space="preserve">
     <value>No proxy server configured. Please check your configuration.</value>
@@ -178,7 +178,7 @@
     <value>SSLCertificate revoked. Please update CrypTool 2.0.</value>
   </data>
   <data name="The_email_address_was_not_verified_" xml:space="preserve">
-    <value>The email address was not verified.\nPlease check your email account for an activation code we just sent to you and activate your account.</value>
+    <value>The email address was not verified. Please check your email account for an activation code we just sent to you and activate your account.</value>
   </data>
   <data name="Username_" xml:space="preserve">
     <value>Username:</value>
