@@ -331,7 +331,18 @@ namespace KeySearcherPresentation.Controls
                 Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
                     if (beeusers != null)
-                        BestUser.Content = beeusers;
+                    {
+                        if(beeusers.Length < 40)
+                        {
+                            BestUser.Content = beeusers;
+                            BestUser.ToolTip = beeusers;
+                        }
+                        else
+                        {
+                            BestUser.Content = string.Format("{0}...", beeusers.Substring(0, 37));
+                            BestUser.ToolTip = beeusers;
+                        }
+                    }
                 }, null);
             }
         }
@@ -389,7 +400,18 @@ namespace KeySearcherPresentation.Controls
                 Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
                     if (beemachines != null)
-                        BestMachine.Content = beemachines;
+                    {
+                        if (beemachines.Length < 40)
+                        {
+                            BestMachine.Content = beemachines;
+                            BestMachine.ToolTip = beemachines;
+                        }
+                        else
+                        {
+                            BestMachine.Content = string.Format("{0}...", beemachines.Substring(0, 37));
+                            BestMachine.ToolTip = beemachines;
+                        }
+                    }
                 }, null);
             }
         }
