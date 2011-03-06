@@ -5,8 +5,8 @@
 typedef unsigned int u32;
 #define GETU32(pt) (((u32)(pt)[0] << 24) ^ ((u32)(pt)[1] << 16) ^ ((u32)(pt)[2] <<  8) ^ ((u32)(pt)[3]))
 #define DES_LONG unsigned long
-typedef unsigned char DES_cblock[8];
-typedef unsigned char const_DES_cblock[8];
+#define DES_BLOCKSIZE 8
+typedef unsigned char DES_cblock[DES_BLOCKSIZE];
 
 __constant DES_LONG DES_SPtrans[8][64]={
 {
@@ -363,11 +363,8 @@ __constant DES_LONG des_skb[8][64]={
 
 typedef struct DES_ks
 {
-    union
-	{
-		DES_cblock cblock;
-		/* make sure things are correct size on machines with
-		 * 8 byte longs */
+    struct
+	{		
 		DES_LONG deslong[2];
 	} ks[16];
 } DES_key_schedule;
@@ -380,15 +377,15 @@ $$INPUTARRAY$$
 
 $$IVARRAY$$
 
-void DES_encrypt1(constant DES_LONG *in, private DES_LONG *out, private DES_key_schedule *ks)
+void DES_encrypt1(DES_LONG *data, private DES_key_schedule *ks)
 	{
 	DES_LONG l,r,t,u;
 
 	int i;
 	DES_LONG *s;
 
-	r=in[0];
-	l=in[1];
+	r=data[0];
+	l=data[1];
 
 	IP(r,l);
 	r=ROTATE(r,29)&0xffffffffL;
@@ -409,9 +406,22 @@ void DES_encrypt1(constant DES_LONG *in, private DES_LONG *out, private DES_key_
 	r=ROTATE(r,3)&0xffffffffL;
 
 	FP(r,l);
-	out[0]=l;
-	out[1]=r;
-	l=r=t=u=0;
+	data[0]=l;
+	data[1]=r;
+	}
+
+void DES_ecb_encrypt(constant unsigned char *input, private unsigned char *output, private DES_key_schedule *ks) 
+	{
+	DES_LONG l;
+	DES_LONG ll[2];
+	constant unsigned char *in = &(input)[0];
+	private unsigned char *out = &(output)[0];
+
+	c2l(in,l); ll[0]=l;
+	c2l(in,l); ll[1]=l;
+	DES_encrypt1(ll,ks);
+	l=ll[0]; l2c(l,out);
+	l=ll[1]; l2c(l,out);
 	}
 
 void DES_set_key_unchecked(global unsigned char *userKey, private DES_key_schedule *schedule, int add)
@@ -485,7 +495,7 @@ kernel void bruteforceKernel(global unsigned char *userKey, global float *result
 	$$COSTFUNCTIONINITIALIZE$$
 	
 	//Decrypt:
-	private unsigned char block[8];
+	private unsigned char block[DES_BLOCKSIZE];
 	$$DESDECRYPT$$
 	
 	//calculate result here:
