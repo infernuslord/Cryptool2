@@ -54,8 +54,33 @@ namespace Cryptool.TextInput
     {
       this.NotifyUpdate();
 
-      // No dispatcher necessary, handler is being called from GUI component
-      textInputPresentation.labelBytesCount.Content = string.Format("{0:0,0}", Encoding.Default.GetBytes(textInputPresentation.textBoxInputText.Text.ToCharArray()).Length) + " Bytes";
+      int bytes = 0;
+
+      switch (settings.InputFormatSetting)
+      {
+          case TextInputSettings.InputFormat.Text:
+              bytes = Encoding.Default.GetBytes(textInputPresentation.textBoxInputText.Text.ToCharArray()).Length;
+              break;
+          case TextInputSettings.InputFormat.Hex:
+              bytes = ConvertHexStringToByteArray(textInputPresentation.textBoxInputText.Text).Length;
+              break;
+          case TextInputSettings.InputFormat.Base64:
+              try
+              {
+                  bytes = Convert.FromBase64String(textInputPresentation.textBoxInputText.Text).Length;
+              }
+              catch (FormatException)
+              {
+                  bytes = 0;
+                  GuiLogMessage("Invalid Base64 format", NotificationLevel.Warning);
+              }
+              break;
+          default:
+              throw new ArgumentOutOfRangeException();
+      }
+
+        // No dispatcher necessary, handler is being called from GUI component
+      textInputPresentation.labelBytesCount.Content = string.Format("{0:0,0}", bytes) + " Bytes";
       settings.Text = textInputPresentation.textBoxInputText.Text;
     }
 
@@ -65,11 +90,22 @@ namespace Cryptool.TextInput
       {
         textInputPresentation.textBoxInputText.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
         {
-          if (textInputPresentation.textBoxInputText.Text != null && textInputPresentation.textBoxInputText.Text != string.Empty)
+          if (!string.IsNullOrEmpty(textInputPresentation.textBoxInputText.Text))
           {
             NotifyUpdate();
           }
         }, null);
+      }
+      else if (e.PropertyName == "InputFormatSetting")
+      {
+          textInputPresentation.textBoxInputText.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+          {
+              if (!string.IsNullOrEmpty(textInputPresentation.textBoxInputText.Text))
+              {
+                  textBoxInputText_TextChanged(null, null);
+                  NotifyUpdate();
+              }
+          }, null);
       }
     }
 

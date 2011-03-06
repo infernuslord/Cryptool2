@@ -294,13 +294,16 @@ namespace TextOutput
 
     private void setText(string fillValue)
     {
+      int bytes = 0;
       if (fillValue != null)
       {
+        bytes = Encoding.Default.GetBytes(fillValue.ToCharArray()).Length;
+
         // Presentation format conversion
         switch (settings.Presentation)
         {
           case TextOutputSettings.PresentationFormat.Text:
-            // nothin to do here
+            // nothin to do here)
             break;
           case TextOutputSettings.PresentationFormat.Hex:
             byte[] byteValues = Encoding.Default.GetBytes(fillValue.ToCharArray());
@@ -336,20 +339,30 @@ namespace TextOutput
             {
               GuiLogMessage("Text exceeds size limit. Deleting text...", NotificationLevel.Debug);
               textOutputPresentation.textBox.Text = string.Empty;
+              textOutputPresentation.textBox.Tag = 0;
               textOutputQuickWatchPresentation.textBox.Text = string.Empty;
+              textOutputQuickWatchPresentation.textBox.Tag = 0;
             }
 
             // append line breaks only if not first line
-            if (textOutputPresentation.textBox.Text != null && textOutputPresentation.textBox.Text.Length > 0)
+            if (!string.IsNullOrEmpty(textOutputPresentation.textBox.Text))
             {
               for (int i = 0; i < settings.AppendBreaks; i++)
               {
+                if (settings.Presentation == TextOutputSettings.PresentationFormat.Text)
+                {
+                    int newlineSize = Encoding.Default.GetBytes("\n".ToCharArray()).Length;
+                    textOutputPresentation.textBox.Tag = (int)textOutputPresentation.textBox.Tag + newlineSize;
+                    textOutputQuickWatchPresentation.textBox.Tag = (int)textOutputQuickWatchPresentation.textBox.Tag + newlineSize;
+                }
                 textOutputPresentation.textBox.AppendText("\n");
                 textOutputQuickWatchPresentation.textBox.AppendText("\n");
               }
             }
             textOutputPresentation.textBox.AppendText(fillValue);
+            textOutputPresentation.textBox.Tag = (int)textOutputPresentation.textBox.Tag + bytes;
             textOutputQuickWatchPresentation.textBox.AppendText(fillValue);
+            textOutputQuickWatchPresentation.textBox.Tag = (int)textOutputQuickWatchPresentation.textBox.Tag + bytes;
 
             textOutputPresentation.textBox.ScrollToEnd();
             textOutputQuickWatchPresentation.textBox.ScrollToEnd();
@@ -357,7 +370,9 @@ namespace TextOutput
           else
           {
             textOutputPresentation.textBox.Text = fillValue;
+            textOutputPresentation.textBox.Tag = bytes;
             textOutputQuickWatchPresentation.textBox.Text = fillValue;
+            textOutputQuickWatchPresentation.textBox.Tag = bytes;
           }
           if (settings.BooleanAsNumeric)
           {
@@ -366,8 +381,8 @@ namespace TextOutput
           }
           else
           {
-              textOutputPresentation.labelBytes.Content = string.Format("{0:0,0}", Encoding.Default.GetBytes(textOutputPresentation.textBox.Text.ToCharArray()).Length) + " Bytes";
-              textOutputQuickWatchPresentation.labelBytes.Content = string.Format("{0:0,0}", Encoding.Default.GetBytes(textOutputPresentation.textBox.Text.ToCharArray()).Length) + " Bytes";
+              textOutputPresentation.labelBytes.Content = string.Format("{0:0,0}", (int)textOutputQuickWatchPresentation.textBox.Tag) + " Bytes";
+              textOutputQuickWatchPresentation.labelBytes.Content = string.Format("{0:0,0}", (int)textOutputQuickWatchPresentation.textBox.Tag) + " Bytes";
           }
         }, fillValue);
       }
@@ -475,7 +490,9 @@ namespace TextOutput
       {
         textOutputPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
         {
+          textOutputPresentation.textBox.Tag = 0;
           textOutputPresentation.textBox.Text = null;
+          textOutputQuickWatchPresentation.textBox.Tag = 0;
           textOutputQuickWatchPresentation.textBox.Text = null;
         }, null);
       }
