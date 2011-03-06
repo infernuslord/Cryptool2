@@ -123,25 +123,11 @@
     <Resource Include="webservice.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Schemata\oasis-200401-wss-wssecurity-utility-1.0.xsd" />
-    <None Include="Schemata\SignatureSchema.xsd" />
-    <Resource Include="Schemata\SoapSchema.xsd">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <SubType>
-      </SubType>
-    </Resource>
-    <None Include="Schemata\WSSESchema.xsd" />
-    <None Include="Schemata\xml.xsd" />
     <None Include="XMLSchema1.xsd" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Ressources\OpenLock.PNG" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Ressources\ClosedLock.PNG" />
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="Controls\" />
+    <Folder Include="Ressources\" />
     <Folder Include="WpfControls\" />
   </ItemGroup>
   <ItemGroup>
