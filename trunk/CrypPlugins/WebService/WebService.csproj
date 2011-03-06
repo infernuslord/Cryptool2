@@ -93,11 +93,6 @@
     <Compile Include="AnimationController.cs" />
     <Compile Include="Canonicalizator.cs" />
     <Compile Include="DecryptionAnimation.cs" />
-    <Compile Include="Resource1.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resource1.resx</DependentUpon>
-    </Compile>
     <Compile Include="SignatureValidator.cs" />
     <Compile Include="WebService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -138,13 +133,6 @@
     <None Include="Schemata\WSSESchema.xsd" />
     <None Include="Schemata\xml.xsd" />
     <None Include="XMLSchema1.xsd" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resource1.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resource1.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Ressources\OpenLock.PNG" />
