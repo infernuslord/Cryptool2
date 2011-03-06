@@ -537,9 +537,10 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         {
         }
 
+        private const int DesBlocksize = 8;
+
         public string GetOpenCLCode(int decryptionLength, byte[] iv)
         {
-            throw new NotImplementedException();
             string opencl = Properties.Resources.DESOpenCL;
 
             //if there is a relevant IV:
@@ -561,33 +562,33 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             }
 
             string decryptionCode = string.Format("int decryptionLength = {0}; \n", decryptionLength);
-            int blocks = decryptionLength / 8;
+            int blocks = decryptionLength / DesBlocksize;
             if (blocks >= 1)
             {
                 if (!useIV)
-                    decryptionCode = AddOpenCLBlockDecryption(decryptionCode, 8);
+                    decryptionCode = AddOpenCLBlockDecryption(decryptionCode, DesBlocksize);
                 else
-                    decryptionCode = AddOpenCLBlockDecryptionWithIV(decryptionCode, 8);
+                    decryptionCode = AddOpenCLBlockDecryptionWithIV(decryptionCode, DesBlocksize);
 
                 if (blocks > 1)
                 {
                     decryptionCode += string.Format("for (int b = 1; b < {0}; b++) \n {{ \n ", blocks);
-                    decryptionCode = AddOpenCLBlockDecryptionWithMode(decryptionCode, 8, "b");
+                    decryptionCode = AddOpenCLBlockDecryptionWithMode(decryptionCode, DesBlocksize, "b");
                     decryptionCode += "}\n";
                 }
             }
 
-            if (decryptionLength % 8 != 0)
+            if (decryptionLength % DesBlocksize != 0)
             {
                 if (blocks == 0)
                 {
                     if (!useIV)
-                        decryptionCode = AddOpenCLBlockDecryption(decryptionCode, decryptionLength % 8);
+                        decryptionCode = AddOpenCLBlockDecryption(decryptionCode, decryptionLength % DesBlocksize);
                     else
-                        decryptionCode = AddOpenCLBlockDecryptionWithIV(decryptionCode, decryptionLength % 8);
+                        decryptionCode = AddOpenCLBlockDecryptionWithIV(decryptionCode, decryptionLength % DesBlocksize);
                 }
                 else
-                    decryptionCode = AddOpenCLBlockDecryptionWithMode(decryptionCode, decryptionLength % 8, "" + blocks);
+                    decryptionCode = AddOpenCLBlockDecryptionWithMode(decryptionCode, decryptionLength % DesBlocksize, "" + blocks);
             }
 
             opencl = opencl.Replace("$$DESDECRYPT$$", decryptionCode);
@@ -597,7 +598,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
         private string AddOpenCLBlockDecryption(string decryptionCode, int size)
         {
-            decryptionCode += "DES_encrypt1(inn, block, &(key)); \n "
+            decryptionCode += "DES_ecb_encrypt(inn, block, &(key)); \n "
                               + string.Format("for (int i = 0; i < {0}; i++) \n ", size)
                               + "{ \n unsigned char c = block[i]; \n "
                               + "$$COSTFUNCTIONCALCULATE$$ \n } \n";
@@ -611,7 +612,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                 case 0: //ECB
                     return AddOpenCLBlockDecryption(decryptionCode, size);
                 case 1: //CBC
-                    decryptionCode += "DES_encrypt1(inn, block, &(key)); \n "
+                    decryptionCode += "DES_ecb_encrypt(inn, block, &(key)); \n "
                               + string.Format("for (int i = 0; i < {0}; i++) \n ", size)
                               + "{ \n unsigned char c = block[i] ^ IV[i]; \n "
                               + "$$COSTFUNCTIONCALCULATE$$ \n } \n";
@@ -626,7 +627,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
         private string AddOpenCLBlockDecryptionWithMode(string decryptionCode, int size, string block)
         {
-            decryptionCode += string.Format("DES_encrypt1((inn+{0}*8), block, &(key)); \n ", block)
+            decryptionCode += string.Format("DES_ecb_encrypt((inn+{0}*DES_BLOCKSIZE), block, &(key)); \n ", block)
                               + string.Format("for (int i = 0; i < {0}; i++) \n {{ \n ", size);
             switch (((DESSettings)plugin.Settings).Mode)
             {
@@ -634,7 +635,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                     decryptionCode += "unsigned char c = block[i]; \n";
                     break;
                 case 1: //CBC
-                    decryptionCode += string.Format("unsigned char c = block[i] ^ (inn+({0}-1)*8)[i]; \n", block);
+                    decryptionCode += string.Format("unsigned char c = block[i] ^ (inn+({0}-1)*DES_BLOCKSIZE)[i]; \n", block);
                     break;
                 case 2: //CFB
                     throw new NotImplementedException("CFB for OpenCL is not implemented!"); //not supported
