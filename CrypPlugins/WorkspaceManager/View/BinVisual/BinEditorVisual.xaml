@@ -1,0 +1,51 @@
+﻿<UserControl x:Class="WorkspaceManager.View.BinVisual.BinEditorVisual"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:visuals="clr-namespace:WorkspaceManager.View.VisualComponents"
+             xmlns:properties="clr-namespace:WorkspaceManager.Properties"
+             xmlns:local="clr-namespace:WorkspaceManager.View.BinVisual"
+             xmlns:model="clr-namespace:WorkspaceManager.Model;assembly=WorkspaceManagerModel"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300"
+             DataContext="{Binding RelativeSource={x:Static RelativeSource.Self}}">
+    <UserControl.Resources>
+        <SolidColorBrush x:Key="SolidColorBackground" Color="#add3f5"></SolidColorBrush>
+    </UserControl.Resources>
+    <Grid x:Name="Root" Background="{StaticResource ResourceKey=SolidColorBackground}" 
+          PreviewMouseLeftButtonDown="MouseLeftButtonDownHandler" PreviewMouseRightButtonDown="MouseRightButtonDownHandler"
+          PreviewDragEnter="PreviewDragEnterHandler" PreviewDragLeave="PreviewDragLeaveHandler" PreviewDrop="PreviewDropHandler">
+        <!--##########Definitions##########-->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+        </Grid.RowDefinitions>
+        <!--##########/Definitions##########-->
+        
+        <!--##########Content Space##########-->
+        <ScrollViewer x:Name="ScrollViewer" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Grid.Row="0" Grid.Column="0">
+            <ItemsControl x:Name="ComponentRoot" ItemsSource="{Binding Path=ComponentCollection, Mode=OneWay}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <visuals:ModifiedCanvas RenderTransformOrigin="0.5, 0.5">
+                            <visuals:ModifiedCanvas.LayoutTransform>
+                                <ScaleTransform ScaleX="{Binding Source={x:Static properties:Settings.Default}, Path=EditScale, Mode=OneWay}" 
+                                    ScaleY="{Binding Source={x:Static properties:Settings.Default}, Path=EditScale, Mode=OneWay}"/>
+                            </visuals:ModifiedCanvas.LayoutTransform>
+                        </visuals:ModifiedCanvas>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </ScrollViewer>
+        <!--##########/Content Space##########-->
+        
+        <!--##########Bottom Operations##########-->
+        <visuals:BottomBox AddText="AddTextHandler" AddImage="AddImageHandler" 
+                           Grid.Row="1" Grid.Column="0"></visuals:BottomBox>
+        <!--##########/Bottom Operations##########-->
+    </Grid>
+</UserControl>

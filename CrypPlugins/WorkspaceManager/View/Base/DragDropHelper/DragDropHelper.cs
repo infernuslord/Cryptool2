@@ -227,6 +227,7 @@ namespace DragDropListBox
 
 			if (draggedItem != null)
 			{
+
 				if ((e.Effects & DragDropEffects.Move) != 0)
 				{
 					indexRemoved = Utilities.RemoveItemFromItemsControl(this.sourceItemsControl, draggedItem);
@@ -236,6 +237,7 @@ namespace DragDropListBox
 				{
 					this.insertionIndex--;
 				}
+                Console.Out.WriteLine(targetItemsControl.Name);
 				Utilities.InsertItemInItemsControl(this.targetItemsControl, draggedItem, this.insertionIndex);
 
 				RemoveDraggedAdorner();

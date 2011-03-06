@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Controls;
 using System.Collections;
+using System.Windows.Controls.Primitives;
 
 namespace DragDropListBox
 {
@@ -21,6 +22,7 @@ namespace DragDropListBox
 				Panel panel = VisualTreeHelper.GetParent(itemContainer) as Panel;
 				StackPanel stackPanel;
 				WrapPanel wrapPanel;
+                TabPanel tabPanel;
 
 				if ((stackPanel = panel as StackPanel) != null)
 				{
@@ -30,7 +32,10 @@ namespace DragDropListBox
 				{
 					hasVerticalOrientation = (wrapPanel.Orientation == Orientation.Vertical);
 				}
-				// You can add support for more panel types here.
+                if ((tabPanel = panel as TabPanel) != null)
+                {
+                    hasVerticalOrientation = false;
+                }
 			}
 			return hasVerticalOrientation;
 		}
