@@ -538,7 +538,7 @@ namespace WebService
                 Operation operation = porttype.Operations[0];
                 OperationOutput output = operation.Messages[0].Operation.Messages.Output;
                 OperationInput input = operation.Messages[0].Operation.Messages.Input;
-                Message messageOutput = messages[output.Message.Name];
+            Message messageOutput = messages[output.Message.Name];
                 Message messageInput = messages[input.Message.Name];
                 MessagePart messageOutputPart = messageOutput.Parts[0];
                 MessagePart messageInputPart = messageInput.Parts[0];
