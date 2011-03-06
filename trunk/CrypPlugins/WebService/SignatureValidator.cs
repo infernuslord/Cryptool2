@@ -219,7 +219,7 @@ namespace WebService
                 SignedXml hua = new SignedXml((XmlElement) signatureElement);
         //      this._inputDocument.NameTable.Add(
                 hua.LoadXml((XmlElement)signatureElement);
-              //bool test= hua.CheckSignature();
+              
                 bool validReference = ValidateReferences(_signedXml);
                 if (validReference)
                 {
@@ -419,7 +419,7 @@ namespace WebService
                 XmlElement signed = signature.SignedInfo.GetXml();
                 string oid = CryptoConfig.MapNameToOID("SHA1");
                 valid = rsa.VerifyHash(digestSignedInfo, oid, this._signedXml.SignatureValue);
-
+                
             }
             else
             {

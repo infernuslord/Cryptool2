@@ -604,34 +604,60 @@ namespace WebService
                                 }
                                 else
                                 {
-                                    EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs("Es wurden nicht alle Parameter übergeben!", this, NotificationLevel.Error));
-                                    goto Abort;
+                                    if (ele.ChildNodes[i].Name != null)
+                                    {
+                                        EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs("Parameter " +ele.ChildNodes[i].Name+ " is missing" , this, NotificationLevel.Error));
+                                    }
+                                        goto Abort;
 
                                 }
                             }
                             if (paramType.ToString().Equals("string"))
                             {
-                                try
+                                if (!ele.ChildNodes[i].InnerText.Equals(""))
                                 {
-                                    parameters[i] = Convert.ToString((Object)ele.ChildNodes[i].InnerText);
+                                    try
+                                    {
+                                        parameters[i] = Convert.ToString((Object)ele.ChildNodes[i].InnerText);
+                                    }
+                                    catch (Exception e)
+                                    {
+                                        EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(e.Message, this, NotificationLevel.Error));
+                                        goto Abort;
+                                    }
                                 }
-                                catch (Exception e)
+                                else
                                 {
-                                    EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(e.Message, this, NotificationLevel.Error));
+                                    if (ele.ChildNodes[i].Name != null)
+                                    {
+                                        EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs("Parameter " + ele.ChildNodes[i].Name + " is missing", this, NotificationLevel.Error));
+                                    }
                                     goto Abort;
+
                                 }
                             }
                             if (paramType.ToString().Equals("double"))
                             {
-                                try
+                                if (!ele.ChildNodes[i].InnerText.Equals(""))
                                 {
-                                    parameters[i] = Convert.ToDouble((Object)ele.ChildNodes[i].InnerText);
-
+                                    try
+                                    {
+                                        parameters[i] = Convert.ToDouble((Object)ele.ChildNodes[i].InnerText);
+                                    }
+                                    catch (Exception e)
+                                    {
+                                        EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(e.Message, this, NotificationLevel.Error));
+                                        goto Abort;
+                                    }
                                 }
-                                catch (Exception e)
+                                else
                                 {
-                                    EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(e.Message, this, NotificationLevel.Error));
+                                    if (ele.ChildNodes[i].Name != null)
+                                    {
+                                        EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs("Parameter " + ele.ChildNodes[i].Name + " is missing", this, NotificationLevel.Error));
+                                    }
                                     goto Abort;
+
                                 }
                             }
 
@@ -721,7 +747,7 @@ namespace WebService
                 header = this.presentation.CopyTextBlockContentToString(this.presentation.textBlock1);
 
             }, null);
-            codeProvider.CreateGenerator();
+           // codeProvider.CreateGenerator();
             CompilerParameters compilerParameters = new CompilerParameters();
             compilerParameters.ReferencedAssemblies.Add("System.dll");
             compilerParameters.ReferencedAssemblies.Add("System.Web.dll");
@@ -779,7 +805,7 @@ namespace WebService
                         TreeViewItem item = (TreeViewItem)presentation.WSDLTreeViewItem.Items[i];
                         item.IsExpanded = true;
                     }
-                    presentation.textBox3.Text = "Erstellen erfolgreich";
+                    presentation.textBox3.Text = "Compiling successfull";
                     this.ReadWebServiceDescription();
 
                 }, null);
