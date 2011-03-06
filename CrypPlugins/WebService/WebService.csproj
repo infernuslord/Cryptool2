@@ -123,9 +123,6 @@
     <Resource Include="webservice.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="XMLSchema1.xsd" />
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="Controls\" />
     <Folder Include="Ressources\" />
     <Folder Include="WpfControls\" />
