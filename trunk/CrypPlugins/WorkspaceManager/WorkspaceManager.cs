@@ -90,7 +90,6 @@ namespace WorkspaceManager
         private WorkSpaceEditorView WorkspaceSpaceEditorView = null;
         private ExecutionEngine ExecutionEngine = null;
         private volatile bool executing = false;
-        private volatile bool stopping = false;
 
         #endregion
 
@@ -668,16 +667,12 @@ namespace WorkspaceManager
         /// </summary>
         public void Stop()
         {
-            lock (this)
+            
+            if (!executing)
             {
-                if (!executing || stopping)
-                {
-                    return;
-                }
-
-                stopping = true;
+                return;
             }
-
+       
             Thread stopThread = new Thread(new ThreadStart(waitingStop));
             stopThread.Start(); 
 
@@ -705,19 +700,25 @@ namespace WorkspaceManager
         /// </summary>
         private void waitingStop()
         {
-            try
+            lock (this)
             {
-                GuiLogMessage("Executing stopped by User!", NotificationLevel.Info);
-                ExecutionEngine.Stop();                
+                if (!executing)
+                {
+                    return;
+                }
+                try
+                {
+                    GuiLogMessage("Executing stopped by User!", NotificationLevel.Info);
+                    ExecutionEngine.Stop();
+                }
+                catch (Exception ex)
+                {
+                    GuiLogMessage("Exception during the stopping of the execution: " + ex.Message, NotificationLevel.Error);
+                }
+                this.ExecutionEngine = null;
+                GC.Collect();
+                executing = false;               
             }
-            catch (Exception ex)
-            {
-                GuiLogMessage("Exception during the stopping of the execution: " + ex.Message, NotificationLevel.Error);
-            }
-            executing = false;
-            this.ExecutionEngine = null;
-            GC.Collect();
-            stopping = false;
         }
 
         /// <summary>
