@@ -96,7 +96,7 @@
                         <ColumnDefinition Width="20"/>
                     </Grid.ColumnDefinitions>
                     <TextBox Width="180" Name="Username" TextChanged="Username_TextChanged" IsEnabled="{Binding IsP2PConnecting, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource InverseBooleanConverter}}" MaxLength="40" HorizontalAlignment="Left" />
-                    <Button Name="UsernameButton" Grid.Column="2" Width="20" Click="UsernameButton_Click" Content="▼"/>
+                    <Button Name="UsernameButton" Grid.Column="2" Width="20" Click="UsernameButton_Click" Content="▼" IsEnabled="{Binding IsP2PConnecting, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource InverseBooleanConverter}}" />
                     <Popup x:Name="PopupUsernames" MouseDown="PopupUsernames_MouseDown"
                      PlacementTarget="{Binding ElementName=Username}"
                      PopupAnimation="Fade">

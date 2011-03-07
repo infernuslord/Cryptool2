@@ -61,6 +61,51 @@ namespace Cryptool.P2PEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Back.
+        /// </summary>
+        internal static string _BackButton {
+            get {
+                return ResourceManager.GetString("_BackButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Account Activation.
+        /// </summary>
+        internal static string Account_Activation_ {
+            get {
+                return ResourceManager.GetString("Account_Activation_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Activate.
+        /// </summary>
+        internal static string ActivateButton_ {
+            get {
+                return ResourceManager.GetString("ActivateButton_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Activating account....
+        /// </summary>
+        internal static string Activating_account_ {
+            get {
+                return ResourceManager.GetString("Activating_account_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Activation Code:.
+        /// </summary>
+        internal static string Activation_Code_ {
+            get {
+                return ResourceManager.GetString("Activation_Code_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Autodownloaded user account data for user &apos;{0}&apos;.
         /// </summary>
         internal static string Autodownloaded_user_account_data_for_user_ {
@@ -75,6 +120,15 @@ namespace Cryptool.P2PEditor.Properties {
         internal static string Automatic_created_account_folder_ {
             get {
                 return ResourceManager.GetString("Automatic_created_account_folder_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Back.
+        /// </summary>
+        internal static string BackButton_ {
+            get {
+                return ResourceManager.GetString("BackButton_", resourceCulture);
             }
         }
         
@@ -196,6 +250,15 @@ namespace Cryptool.P2PEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to OK.
+        /// </summary>
+        internal static string OKButton_ {
+            get {
+                return ResourceManager.GetString("OKButton_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Network.
         /// </summary>
         internal static string P2PEditor_Tab_Caption {
@@ -210,6 +273,17 @@ namespace Cryptool.P2PEditor.Properties {
         internal static string Password_ {
             get {
                 return ResourceManager.GetString("Password_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter the activation code which you received by email.
+        ///Also enter your password. After clicking the activate button your
+        ///account data will be stored in your local users folder..
+        /// </summary>
+        internal static string Please_enter_the_activation_code_ {
+            get {
+                return ResourceManager.GetString("Please_enter_the_activation_code_", resourceCulture);
             }
         }
         
@@ -241,7 +315,8 @@ namespace Cryptool.P2PEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The email address was not verified. Please check your email account for an activation code we just sent to you and activate your account..
+        ///   Looks up a localized string similar to The email address was not verified.
+        ///Please check your email account for an activation code we just sent to you and activate your account..
         /// </summary>
         internal static string The_email_address_was_not_verified_ {
             get {
@@ -255,6 +330,16 @@ namespace Cryptool.P2PEditor.Properties {
         internal static string Username_ {
             get {
                 return ResourceManager.GetString("Username_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your new account was successfully activated and can now be used. 
+        ///Press the OK button to proceed..
+        /// </summary>
+        internal static string Your_new_account_was_successfully_activated_ {
+            get {
+                return ResourceManager.GetString("Your_new_account_was_successfully_activated_", resourceCulture);
             }
         }
         

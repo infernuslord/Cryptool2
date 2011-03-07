@@ -16,9 +16,11 @@ using System.Windows.Media.Animation;
 using PeersAtPlay.CertificateLibrary.Certificates;
 using Cryptool.P2P;
 using Cryptool.P2P.Internal;
+using Cryptool.PluginBase.Attributes;
 
 namespace Cryptool.P2PEditor.GUI.Controls
 {
+    [Localization("Cryptool.P2PEditor.Properties.Resources")]
     public partial class ActivateEmailView
     {
         public static string WorldName = ".*";
