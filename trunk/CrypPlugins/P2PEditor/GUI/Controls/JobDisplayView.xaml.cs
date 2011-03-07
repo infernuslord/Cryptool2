@@ -231,6 +231,17 @@ namespace Cryptool.P2PEditor.GUI.Controls
             {
                 P2PManager.Disconnect();
                 this.P2PEditor.GuiLogMessage(Cryptool.P2PEditor.Resources.Attributes.stop_launched, NotificationLevel.Info);
+                try
+                {
+                    this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        this.P2PEditorPresentation.Connect.RaiseP2PConnectingEvent(false);
+                        this.P2PEditorPresentation.Connect.IsP2PConnecting = false;
+                    }, null);
+                }
+                catch (Exception) 
+                { 
+                }
             }
             else
             {

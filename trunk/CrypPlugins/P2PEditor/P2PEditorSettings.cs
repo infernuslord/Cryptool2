@@ -24,6 +24,8 @@ using System.Text;
 using System.Security.Cryptography;
 using System;
 using Cryptool.P2P.Internal;
+using System.Windows.Threading;
+using System.Threading;
 
 namespace Cryptool.P2PEditor
 {
@@ -216,6 +218,17 @@ namespace Cryptool.P2PEditor
                 P2PManager.Disconnect();
                 OnPropertyChanged("ButtonStop");
                 p2PEditor.GuiLogMessage(Resources.Attributes.stop_launched, NotificationLevel.Info);
+                try
+                {
+                    this.p2PEditor.Presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        ((P2PEditorPresentation)this.p2PEditor.Presentation).Connect.RaiseP2PConnectingEvent(false);
+                        ((P2PEditorPresentation)this.p2PEditor.Presentation).Connect.IsP2PConnecting = false;
+                    }, null);
+                }
+                catch (Exception)
+                {
+                }
             }
             else
             {
