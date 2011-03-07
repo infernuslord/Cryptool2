@@ -33,6 +33,54 @@ namespace WorkspaceManager.Model
 {
     public static class ColorHelper
     {
+        public static Color AsymmetricColor { get; set; }
+        public static Color ClassicColor { get; set; }
+        public static Color SymmetricBlockColor { get; set; }
+        public static Color SymmetricStreamColor { get; set; }
+        public static Color HybridColor { get; set; }
+        public static Color GeneratorColor { get; set; }
+        public static Color HashColor { get; set; }
+        public static Color StatisticColor { get; set; }
+        public static Color AnalysisMiscColor { get; set; }
+
+        public static Color IntegerColor { get; set; }
+        public static Color ByteColor { get; set; }
+        public static Color DoubleColor { get; set; }
+        public static Color BoolColor { get; set; }
+        public static Color StreamColor { get; set; }
+        public static Color StringColor { get; set; }
+        public static Color ObjectColor { get; set; }
+        public static Color BigIntegerColor { get; set; }
+        public static Color DefaultColor { get; set; }
+
+        static ColorHelper(){
+            SetDefaultColors();   
+        }
+
+        /// <summary>
+        /// Set colors to default values
+        /// </summary>
+        public static void SetDefaultColors(){
+            AsymmetricColor = (Color)ColorConverter.ConvertFromString("#6789a2");
+            ClassicColor = (Color)ColorConverter.ConvertFromString("#b8c881");
+            SymmetricBlockColor = (Color)ColorConverter.ConvertFromString("#d49090");
+            SymmetricStreamColor = (Color)ColorConverter.ConvertFromString("#94bc8a");
+            HybridColor = (Color)ColorConverter.ConvertFromString("#d49090");
+            GeneratorColor = (Color)ColorConverter.ConvertFromString("#8abc94");
+            HashColor = (Color)ColorConverter.ConvertFromString("#8abbbc");
+            StatisticColor = (Color)ColorConverter.ConvertFromString("#8c8abc");
+            AnalysisMiscColor = (Color)ColorConverter.ConvertFromString("#bc8aac");
+            IntegerColor = Colors.Aqua;
+            ByteColor = Colors.ForestGreen;
+            DoubleColor = Colors.Blue;
+            BoolColor = Colors.Maroon;
+            StreamColor = Colors.DarkOrange;
+            StringColor = Colors.Gray;
+            ObjectColor = Colors.MediumPurple;
+            BigIntegerColor = Colors.Black;
+            DefaultColor = (Color)ColorConverter.ConvertFromString("#a3d090");
+        }
+
         /// <summary>
         /// Returns a Color for a given Type
         /// 
@@ -44,70 +92,88 @@ namespace WorkspaceManager.Model
         /// <returns></returns>
         public static Color GetColor(Type type)
         {
-            if (type == null)
+            try
             {
-                return (Color)ColorConverter.ConvertFromString("#a3d090");
-            }
-            if (type.GetInterface(typeof(IEncryption).Name) != null)
-            {
-                EncryptionTypeAttribute eta = type.GetEncryptionTypeAttribute();
-                switch (eta.EncryptionType)
+                if (type == null)
                 {
-                    case EncryptionType.Asymmetric:
-                        return (Color)ColorConverter.ConvertFromString("#6789a2");
-
-                    case EncryptionType.Classic:
-                        return (Color)ColorConverter.ConvertFromString("#b8c881");
-
-                    case EncryptionType.SymmetricBlock:
-                        return (Color)ColorConverter.ConvertFromString("#d49090");
-
-                    case EncryptionType.SymmetricStream:
-                        return (Color)ColorConverter.ConvertFromString("#94bc8a");
-
-                    case EncryptionType.Hybrid:
-                        return (Color)ColorConverter.ConvertFromString("#d49090");
+                    return DefaultColor;
                 }
-            }
+                if (type.GetInterface(typeof(IEncryption).Name) != null)
+                {
+                    EncryptionTypeAttribute eta = type.GetEncryptionTypeAttribute();
+                    switch (eta.EncryptionType)
+                    {
+                        case EncryptionType.Asymmetric:
+                            return AsymmetricColor;
 
-            if (type.GetInterface(typeof(IGenerator).Name) != null)
+                        case EncryptionType.Classic:
+                            return ClassicColor;
+
+                        case EncryptionType.SymmetricBlock:
+                            return SymmetricBlockColor;
+
+                        case EncryptionType.SymmetricStream:
+                            return SymmetricStreamColor;
+
+                        case EncryptionType.Hybrid:
+                            return HybridColor;
+                    }
+                }
+
+                if (type.GetInterface(typeof(IGenerator).Name) != null)
+                {
+                    return GeneratorColor;
+                }
+
+                if (type.GetInterface(typeof(IHash).Name) != null)
+                {
+                    return HashColor;
+                }
+
+                if (type.GetInterface(typeof(IStatistic).Name) != null)
+                {
+                    return StatisticColor;
+                }
+
+                if (type.GetInterface(typeof(IAnalysisMisc).Name) != null)
+                {
+                    return AnalysisMiscColor;
+                }
+
+                return DefaultColor;
+            }
+            catch (Exception)
             {
-                return (Color)ColorConverter.ConvertFromString("#8abc94");
+                return Colors.Black; ;
             }
-
-            if (type.GetInterface(typeof(IHash).Name) != null)
-            {
-                return (Color)ColorConverter.ConvertFromString("#8abbbc");
-            }
-
-            if (type.GetInterface(typeof(IStatistic).Name) != null)
-            {
-                return (Color)ColorConverter.ConvertFromString("#8c8abc");
-            }
-
-            if (type.GetInterface(typeof(IAnalysisMisc).Name) != null)
-            {
-                return (Color)ColorConverter.ConvertFromString("#bc8aac");
-            }
-
-            return (Color)ColorConverter.ConvertFromString("#a3d090");
             
         }
 
+        /// <summary>
+        /// Get a color for a ConnectorModel (drawed as line)
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
         public static Color GetLineColor(Type type)
         {
-            if (typeof(int).Equals(type) || typeof(int[]).Equals(type)) return Colors.Aqua;
-            if (typeof(byte[]).Equals(type) || typeof(byte[]).Equals(type)) return Colors.ForestGreen;
-            if (typeof(double).Equals(type) || typeof(double[]).Equals(type)) return Colors.Blue;
-            if (typeof(bool).Equals(type) || typeof(bool[]).Equals(type)) return Colors.Maroon;
+            try
+            {
+                if (typeof(int).Equals(type) || typeof(int[]).Equals(type)) return IntegerColor;
+                if (typeof(byte[]).Equals(type) || typeof(byte[]).Equals(type)) return ByteColor;
+                if (typeof(double).Equals(type) || typeof(double[]).Equals(type)) return DoubleColor;
+                if (typeof(bool).Equals(type) || typeof(bool[]).Equals(type)) return BoolColor;
 
-            if (typeof(ICryptoolStream).Equals(type)) return Colors.Orange;
-            if (typeof(Stream).Equals(type)) return Colors.DarkOrange;
-            if (typeof(string).Equals(type) || typeof(string[]).Equals(type)) return Colors.Gray;
+                if (typeof(Stream).Equals(type)) return StreamColor;
+                if (typeof(string).Equals(type) || typeof(string[]).Equals(type)) return StringColor;
 
-            if (typeof(object).Equals(type)) return Colors.MediumPurple;
-            if (typeof(BigInteger).Equals(type)) return Colors.Black;
-            return Colors.Black;
+                if (typeof(object).Equals(type)) return ObjectColor;
+                if (typeof(BigInteger).Equals(type)) return BigIntegerColor;
+                return DefaultColor;
+            }
+            catch (Exception)
+            {
+                return Colors.Black;
+            }
         }
     }
 }
