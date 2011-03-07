@@ -104,12 +104,11 @@ namespace Cryptool.P2PEditor.GUI.Controls
             //so the user can drop down it and select an username
             try
             {
-                foreach (string filename in Directory.EnumerateFiles(PeerCertificate.DEFAULT_USER_CERTIFICATE_DIRECTORY, "*.crt"))
+                foreach (var cert in CertificateServices.GetX509Certificates(PeerCertificate.DEFAULT_USER_CERTIFICATE_DIRECTORY))
                 {
                     try
                     {
-                        X509Certificate cert = new X509Certificate(filename);
-                        this.UsernamesListBox.Items.Add(CertificateServices.GetAvatarName(CertificateServices.ConvertToBC(cert)));
+                        this.UsernamesListBox.Items.Add(CertificateServices.GetAvatarName(cert));
                     }
                     catch (Exception)
                     { 
