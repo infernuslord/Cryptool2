@@ -756,17 +756,40 @@ namespace WorkspaceManager.View.VisualComponents
 
         #region IUpdateableView Members
 
+        private Brush ActiveColorBrush;
+        private Brush NonActiveColorBrush;
+
         public void update()
         {
-            Stroke = Brushes.Green;
+            if (this.Model.Active)
+            {
+                if (ActiveColorBrush == null)
+                {
+                    Color ActiveColor = ColorHelper.GetLineColor(this.Model.ConnectionType);
+                    ActiveColor.ScR = (ActiveColor.ScR * 2f < 255 ? ActiveColor.ScR * 2f : 255f);
+                    ActiveColor.ScG = (ActiveColor.ScG * 2f < 255 ? ActiveColor.ScG * 2f : 255f);
+                    ActiveColor.ScB = (ActiveColor.ScB * 2f < 255 ? ActiveColor.ScB * 2f : 255f);
+                    ActiveColorBrush = new SolidColorBrush(ActiveColor);
+                }
+                Stroke = ActiveColorBrush;                
+                StrokeThickness = 4;
+            }
+            else
+            {
+                Reset();
+            }
         }
 
         #endregion
 
         internal void Reset()
-        {           
-            Color color = ColorHelper.GetColor(Model.ConnectionType);
-            Stroke = new SolidColorBrush(color);
+        {
+            if (NonActiveColorBrush == null)
+            {
+                NonActiveColorBrush = new SolidColorBrush(ColorHelper.GetLineColor(Model.ConnectionType));
+            }
+            Stroke = NonActiveColorBrush;
+            StrokeThickness = 2;
         }
 
 

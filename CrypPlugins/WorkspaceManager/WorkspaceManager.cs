@@ -690,6 +690,12 @@ namespace WorkspaceManager
                 EventsHelper.AsynchronousStatusChanged = true;
             }
 
+            //Get the gui Thread
+            this.WorkspaceSpaceEditorView.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
+                this.WorkspaceSpaceEditorView.ResetConnections();
+            }
+            , null);
                        
         }
 
