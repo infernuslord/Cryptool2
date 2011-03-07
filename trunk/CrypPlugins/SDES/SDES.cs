@@ -48,7 +48,15 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         private ICryptoolStream inputStream;
         private CStreamWriter outputStream;
         private byte[] inputKey;
-        private byte[] inputIV;        
+        //default inputIV: (0,0,0,0,0,0,0,0)
+        private byte[] inputIV = {   (byte)'0', 
+                                     (byte)'0', 
+                                     (byte)'0', 
+                                     (byte)'0', 
+                                     (byte)'0', 
+                                     (byte)'0', 
+                                     (byte)'0', 
+                                     (byte)'0'   };        
         private bool stop = false;
         private UserControl presentation = new SDESPresentation();
         private SDESControl controlSlave;
@@ -160,7 +168,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         /// <summary>
         /// Gets/Sets the Initialization Vector which should be used.Must be 8 bytes  (only 1 or 0 allowed).
         /// </summary>
-        [PropertyInfo(Direction.InputData, "IV", "IV to be used in chaining modes, must be 8 bytes (only 1 or 0 allowed).", null, true, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "IV", "IV to be used in chaining modes, must be 8 bytes (only 1 or 0 allowed).", null, false, false, QuickWatchFormat.Hex, null)]
         public byte[] InputIV
         {
             get { return this.inputIV; }
@@ -230,9 +238,16 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             try
             {
                 this.stop = false;
-                inputKey = null;
-                inputIV = null;
-
+                this.inputKey = null;                        
+                //default inputIV: (0,0,0,0,0,0,0,0)
+                this.inputIV = new byte[]{   (byte)'0', 
+                                             (byte)'0', 
+                                             (byte)'0', 
+                                             (byte)'0', 
+                                             (byte)'0', 
+                                             (byte)'0', 
+                                             (byte)'0', 
+                                             (byte)'0'   };
                 if (outputStream != null)
                 {
                     outputStream.Close();
