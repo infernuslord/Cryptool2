@@ -1,8 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE category SYSTEM "..\wizard.dtd">
 
 <!-- This is the XML file defining the mordern encryption categories a user can select from. -->
 
-<step>
+<category image="Modern">
+  <name lang="en" >Modern Encryption</name>
+  <description lang="en" >
+    Select a modern encryption to analyze.
+  </description>
 
   <!-- This is the step's headline. It should be short, but precise. -->
   <headline lang="en" >Key Type Selection</headline>
@@ -11,16 +16,10 @@
   <desc lang="en" >Select symmetric or asymmetric encryption.</desc>
 
   <!-- Symmetric Encryption Category -->
-  <category id ="SymAn" image="Sym">
-    <name lang="en" >Symmetric Encryption</name>
-    <description lang="en" >
-      Select a symmetric modern algorithm to analyze.
-    </description>
-    <file resource="Wizard.Config.Analysis.wizard.config.modernSymEn.xml" />
-  </category>
+  <file resource="Wizard.Config.Analysis.wizard.config.modernSymEn.xml" />  
 
   <!-- Asymmetric Encryption Category -->
-  <category id ="AsymAn" image="Asym">
+  <category image="Asym">
     <name lang="en" >Asymmetric Encryption</name>
     <description lang="en" >
       Select an asymmetric modern algorithm to analyze.
@@ -33,7 +32,7 @@
     <desc lang="en" >Select an asymmetric encryption/decryption algorithm.</desc>
     
     <!-- RSA input -->
-    <input id="RSAEn" image="RSA" >
+    <input image="RSA" >
       <name lang="en" >RSA</name>
       <description lang="en" >
         RSA is an asymmetric modern algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
@@ -41,4 +40,4 @@
     </input>
   </category>
 
-</step>
+</category>

@@ -1,8 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE category SYSTEM "..\wizard.dtd">
 
 <!-- This is the XML file defining the prime number operations a user can select from. -->
 
-<step>
+<category image="Primes">
+  <name lang="en" >Prime Number Operations</name>
+  <description lang="en" >
+    Select a prime numer operation to work with.
+  </description>
 
   <!-- This is the step's headline. It should be short, but precise. -->
   <headline lang="en" >Prime Number Operation Selection</headline>
@@ -11,7 +16,7 @@
   <desc lang="en" >Select a prime number operation.</desc>
 
   <!-- Factorization input -->
-  <input id="Factorization" image="Primes" >
+  <input image="Primes" >
     <name lang="en" >Prime Number Factorization</name>
     <description lang="en" >
       Select to factorize prime numbers.
@@ -19,7 +24,7 @@
   </input>
 
   <!-- Generation input -->
-  <input id="Generation" image="Primes" >
+  <input image="Primes" >
     <name lang="en" >Prime Number Generation</name>
     <description lang="en" >
       Select to generate prime numbers.
@@ -27,11 +32,11 @@
   </input>
 
   <!-- Test input -->
-  <input id="Test" image="Primes" >
+  <input image="Primes" >
     <name lang="en" >Prime Number Test</name>
     <description lang="en" >
       Select to test numbers for being prime.
     </description>
   </input>
 
-</step>
+</category>

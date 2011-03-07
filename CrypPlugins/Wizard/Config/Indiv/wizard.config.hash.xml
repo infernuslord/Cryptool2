@@ -1,8 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE category SYSTEM "..\wizard.dtd">
 
 <!-- This is the XML file defining the hash functions a user can select from. -->
 
-<step>
+<category image="Hash">
+  <name lang="en" >Hash Functions</name>
+  <description lang="en" >
+    Select hash functions to work with.
+  </description>
 
   <!-- This is the step's headline. It should be short, but precise. -->
   <headline lang="en" >Hash Function Selection</headline>
@@ -11,7 +16,7 @@
   <desc lang="en" >Select a hash function.</desc>
 
   <!-- MD5 input -->
-  <input id="MD5" image="MD5" >
+  <input image="MD5" >
     <name lang="en" >MD5</name>
     <description lang="en" >
       MD5 is a hash function... (add instead some really helpful text).
@@ -19,7 +24,7 @@
   </input>
 
   <!-- SHA input -->
-  <input id="SHA" image="SHA" >
+  <input image="SHA" >
     <name lang="en" >SHA</name>
     <description lang="en" >
       SHA is a hash function... (add instead some really helpful text).
@@ -27,7 +32,7 @@
   </input>
 
   <!-- RIPEMD160 input -->
-  <input id="RIPEMD160" image="RIPEMD160" >
+  <input image="RIPEMD160" >
     <name lang="en" >RIPEMD160</name>
     <description lang="en" >
       RIPEMD160 is a hash function... (add instead some really helpful text).
@@ -35,7 +40,7 @@
   </input>
 
   <!-- Tiger input -->
-  <input id="Tiger" image="Tiger" >
+  <input image="Tiger" >
     <name lang="en" >Tiger</name>
     <description lang="en" >
       Tiger is a hash function... (add instead some really helpful text).
@@ -43,11 +48,11 @@
   </input>
 
   <!-- Whirlpool input -->
-  <input id="Whirlpool" image="Whirlpool" >
+  <input image="Whirlpool" >
     <name lang="en" >Whirlpool</name>
     <description lang="en" >
       Whirlpool is a hash function... (add instead some really helpful text).
     </description>
   </input>
 
-</step>
+</category>
