@@ -668,12 +668,15 @@ namespace WorkspaceManager
         /// </summary>
         public void Stop()
         {
-            if (!executing || stopping)
+            lock (this)
             {
-                return;
-            }
+                if (!executing || stopping)
+                {
+                    return;
+                }
 
-            stopping = true;
+                stopping = true;
+            }
 
             Thread stopThread = new Thread(new ThreadStart(waitingStop));
             stopThread.Start(); 
