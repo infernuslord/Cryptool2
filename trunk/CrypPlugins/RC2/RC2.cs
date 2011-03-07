@@ -87,7 +87,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             }
         }
 
-        [PropertyInfo(Direction.InputData, "IV", "IV to be used in chaining modes, must be 8 bytes.", null, true, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "IV", "IV to be used in chaining modes, must be 8 bytes.", null, false, false, QuickWatchFormat.Hex, null)]
         public byte[] InputIV
         {
             get { return this.inputIV; }
@@ -196,8 +196,8 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                         break;
                 }
 
-                    outputStreamWriter = new CStreamWriter();
-                p_crypto_stream = new CryptoStream((Stream)inputStream, p_encryptor, CryptoStreamMode.Read);
+                outputStreamWriter = new CStreamWriter();
+                p_crypto_stream = new CryptoStream((Stream)reader, p_encryptor, CryptoStreamMode.Read);
                 byte[] buffer = new byte[p_alg.BlockSize / 8];
                 int bytesRead;
                 int position = 0;
