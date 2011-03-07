@@ -626,6 +626,16 @@ namespace WorkspaceManager.Model
         /// <returns></returns>
         public static bool compatibleConnectors(ConnectorModel connectorModelA, ConnectorModel connectorModelB)
         {
+            if (connectorModelA == null)
+            {
+                throw new ArgumentNullException("connectorModelA may not be null");
+            }
+            else if (connectorModelB == null)
+            {
+                throw new ArgumentNullException("connectorModelB may not be null");
+            }
+
+
             if (!connectorModelA.Outgoing || connectorModelB.Outgoing || connectorModelA.PluginModel == connectorModelB.PluginModel)
             {
                 return false;
