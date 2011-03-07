@@ -21,6 +21,56 @@ using KeySearcher.KeyPattern;
 
 namespace KeySearcherPresentation.Controls
 {
+    //---------------
+    internal class JokersGrid : Grid
+    {
+        private double scale;
+
+        protected override Size MeasureOverride(Size availableSize)
+        {
+            if (!(availableSize.Height == double.PositiveInfinity && availableSize.Width == double.PositiveInfinity))
+            {
+                double height = 0;
+                Size unlimitedSize = new Size(double.PositiveInfinity, double.PositiveInfinity);
+                foreach (UIElement child in Children)
+                {
+                    child.Measure(unlimitedSize);
+                    height += child.DesiredSize.Height;
+                }
+
+                scale = availableSize.Height/height;
+
+                foreach (UIElement child in Children)
+                {
+                    unlimitedSize.Width = availableSize.Width/scale;
+                    child.Measure(unlimitedSize);
+                }
+
+                return availableSize;
+            }
+
+            return DesiredSize;
+        }
+
+        protected override Size ArrangeOverride(Size finalSize)
+        {
+            Transform scaleTransform = new ScaleTransform(scale, scale);
+            double height = 0;
+            foreach (UIElement child in Children)
+            {
+                child.RenderTransform = scaleTransform;
+                child.Arrange(new Rect(new Point(0, scale * height), new Size(finalSize.Width / scale, child.DesiredSize.Height)));
+                height += child.DesiredSize.Height;
+            }
+
+            return finalSize;
+        }
+
+    }
+    //---------------
+
+
+
     /// <summary>
     /// Interaction logic for StatisticsPresentation.xaml
     /// </summary>
@@ -723,7 +773,9 @@ namespace KeySearcherPresentation.Controls
                         {
                             max = machines[id].Date;
                         }
-                        TimeSpan diff = StatisticsPresentation.UpdateTime.Subtract(max);
+
+                        TimeSpan diff = max > StatisticsPresentation.UpdateTime ? max.Subtract(StatisticsPresentation.UpdateTime) : StatisticsPresentation.UpdateTime.Subtract(max);
+
                         var minutes = diff.TotalMinutes;
 
                         int g = 255;
@@ -774,7 +826,8 @@ namespace KeySearcherPresentation.Controls
                     lock (StatisticsPresentation)
                     {
                         DateTime date = (DateTime)value;
-                        TimeSpan diff = StatisticsPresentation.UpdateTime.Subtract(date);
+                        TimeSpan diff = date > StatisticsPresentation.UpdateTime ? date.Subtract(StatisticsPresentation.UpdateTime) : StatisticsPresentation.UpdateTime.Subtract(date);
+
                         var minutes = diff.TotalMinutes;
 
                         int g = 255;

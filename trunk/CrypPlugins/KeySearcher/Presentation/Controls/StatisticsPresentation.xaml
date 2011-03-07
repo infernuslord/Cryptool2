@@ -105,11 +105,12 @@
                     </Style.Triggers>
                 </Style>
             </TabControl.Resources>
-            
+
             <TabItem Header="{Loc _Information_}">
-                <Viewbox>
-                <Grid Width="407">
-                        <StackPanel>
+                <Grid>
+                <Controls:JokersGrid>
+                    
+                        <StackPanel MinWidth="407" ScrollViewer.HorizontalScrollBarVisibility="Auto">
                             <Border BorderBrush="Silver" BorderThickness="2,2,2,2">
                                 <Grid Height="225" Background="#AFE2E2FF">
                                     <Grid.RowDefinitions>
@@ -199,9 +200,10 @@
                                 </Grid>
                             </Border>
                        </StackPanel>
-                     </Grid>
-                </Viewbox>
-                
+                    
+                </Controls:JokersGrid>
+                </Grid>
+
             </TabItem>
             <TabItem Header="{Loc _Users_}">
                 <Grid>
