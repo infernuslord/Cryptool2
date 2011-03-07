@@ -120,6 +120,9 @@
   <data name="Account_Activation_" xml:space="preserve">
     <value>Account Activation</value>
   </data>
+  <data name="Account_successfully_activated_" xml:space="preserve">
+    <value>Account successfully activated</value>
+  </data>
   <data name="ActivateButton_" xml:space="preserve">
     <value>Activate</value>
   </data>

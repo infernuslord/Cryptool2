@@ -79,6 +79,15 @@ namespace Cryptool.P2PEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Account successfully activated.
+        /// </summary>
+        internal static string Account_successfully_activated_ {
+            get {
+                return ResourceManager.GetString("Account_successfully_activated_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Activate.
         /// </summary>
         internal static string ActivateButton_ {
