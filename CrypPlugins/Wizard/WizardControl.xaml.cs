@@ -800,33 +800,6 @@ namespace Wizard
             var newEditor = new WorkspaceManager.WorkspaceManager();
             var model = ModelPersistance.loadModel(file);
 
-            //Fill in all data from wizard to sample:
-            foreach (var c in propertyValueDict)
-            {
-                var ppv = c.Value;
-                try
-                {
-                    var plugin = model.GetAllPluginModels().Where(x => x.GetName() == ppv.PluginName).First().Plugin;
-                    var settings = plugin.Settings;
-
-                    var property = plugin.GetType().GetProperty(ppv.PropertyName) ?? settings.GetType().GetProperty(ppv.PropertyName);
-
-                    if (property != null)
-                    {
-                        if (ppv.Value is string)
-                            property.SetValue(settings, (string) ppv.Value, null);
-                        else if (ppv.Value is int)
-                            property.SetValue(settings, (int) ppv.Value, null);
-                        else if (ppv.Value is bool)
-                            property.SetValue(settings, (bool) ppv.Value, null);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    GuiLogMessage(string.Format("Failed settings plugin property {0}.{1} to \"{2}\"!", ppv.PluginName, ppv.PropertyName, ppv.Value), NotificationLevel.Error);
-                }
-            }
-
             //Register events for output boxes:
             foreach (var outputBox in currentOutputBoxes)
             {
@@ -867,6 +840,38 @@ namespace Wizard
                 }
             }
 
+            //Fill in all data from wizard to sample:
+            foreach (var c in propertyValueDict)
+            {
+                var ppv = c.Value;
+                try
+                {
+                    var plugins = ppv.PluginName.Split(';');
+                    foreach (var plugin in model.GetAllPluginModels().Where(x => plugins.Contains(x.GetName())))
+                    {
+                        var settings = plugin.Plugin.Settings;
+
+                        var property = plugin.Plugin.GetType().GetProperty(ppv.PropertyName) ??
+                                       settings.GetType().GetProperty(ppv.PropertyName);
+
+                        if (property != null)
+                        {
+                            if (ppv.Value is string)
+                                property.SetValue(settings, (string)ppv.Value, null);
+                            else if (ppv.Value is int)
+                                property.SetValue(settings, (int)ppv.Value, null);
+                            else if (ppv.Value is bool)
+                                property.SetValue(settings, (bool)ppv.Value, null);
+                        }
+                        plugin.Plugin.Initialize();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    GuiLogMessage(string.Format("Failed settings plugin property {0}.{1} to \"{2}\"!", ppv.PluginName, ppv.PropertyName, ppv.Value), NotificationLevel.Error);
+                }
+            }
+
             //fill presentations
             foreach (var presentation in currentPresentations)
             {
@@ -897,29 +902,33 @@ namespace Wizard
                 var propertyName = ele.Attribute("property").Value;
                 if (pluginName != null && propertyName != null)
                 {
-                    var plugin = model.GetAllPluginModels().Where(x => x.GetName() == pluginName).First().Plugin;
-                    var settings = plugin.Settings;
-                    object theObject = null;
+                    var pluginNames = pluginName.Split(';');
+                    foreach (var plugin in model.GetAllPluginModels().Where(x => pluginNames.Contains(x.GetName())))
+                    {
+                        var settings = plugin.Plugin.Settings;
+                        object theObject = null;
 
-                    var property = plugin.GetType().GetProperty(propertyName);
-                    if (property != null)
-                    {
-                        theObject = plugin;
-                    }
-                    else    //Use property from settings
-                    {
-                        property = settings.GetType().GetProperty(propertyName);
-                        theObject = settings;
-                    }
+                        var property = plugin.Plugin.GetType().GetProperty(propertyName);
+                        if (property != null)
+                        {
+                            theObject = plugin.Plugin;
+                        }
+                        else    //Use property from settings
+                        {
+                            property = settings.GetType().GetProperty(propertyName);
+                            theObject = settings;
+                        }
 
-                    if (property != null)
-                    {
-                        TextBox box = inputBox;
-                        inputBox.TextChanged += delegate
-                                                    {
-                                                        property.SetValue(settings, (string) box.Text, null);
-                                                        plugin.Initialize();
-                                                    };
+                        if (property != null)
+                        {
+                            TextBox box = inputBox;
+                            PluginModel plugin1 = plugin;
+                            inputBox.TextChanged += delegate
+                                                        {
+                                                            property.SetValue(settings, (string)box.Text, null);
+                                                            plugin1.Plugin.Initialize();
+                                                        };
+                        }
                     }
                 }
             }

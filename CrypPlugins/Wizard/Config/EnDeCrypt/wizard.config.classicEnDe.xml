@@ -154,6 +154,55 @@
     <description lang="en" >
       Playfair is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
     </description>
+
+    <headline lang="en" >Playfair</headline>
+    <desc lang="en" >Please input key and cleartext.</desc>
+
+    <inputBox plugin="Playfair Encryption;Playfair Decryption" property="Key" alignment="Left" width="30%" visibleLines="1" group="InputGroup">
+      <description lang="en">
+        Key:
+      </description>
+      <defaultvalue>
+        BCD
+      </defaultvalue>
+    </inputBox>
+
+    <inputBox plugin="Cleartext" property="Text" alignment="Right" width="70%" visibleLines="5" group="InputGroup">
+      <description lang="en">
+        Message:
+      </description>
+      <defaultvalue lang="en">
+        This is a test!
+      </defaultvalue>
+    </inputBox>
+    
+    <sampleViewer image="Playfair" file="WorkspaceManagerSamples\Playfair_Sample.cwm">
+      <name lang="en" >Playfair</name>
+      
+      <headline lang="en" >Playfair Output</headline>
+
+      <inputBox plugin="Cleartext" property="Text" alignment="Strecht" width="70%" visibleLines="5" group="InputGroup">
+        <description lang="en">
+          Message:
+        </description>
+        <defaultvalue lang="en">
+          This is a test!
+        </defaultvalue>
+      </inputBox>
+
+      <outputBox plugin="Ciphertext" property="CurrentValue" alignment="Left" width="50%" visibleLines="5" group="OutputGroup">
+        <description lang="en">
+          Encryption output:
+        </description>
+      </outputBox>
+
+      <outputBox plugin="Deciphered Ciphertext" property="CurrentValue" alignment="Right" width="50%" visibleLines="5" group="OutputGroup">
+        <description lang="en">
+          Decryption output:
+        </description>
+      </outputBox>
+    
+    </sampleViewer>
   </input>
 
   <!-- ADFGVX input -->

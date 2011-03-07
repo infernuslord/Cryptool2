@@ -8,7 +8,7 @@
    image	CDATA #IMPLIED
 >
 
-<!ELEMENT sampleViewer (name*, description*, headline*, desc*, (inputBox|comboBox|checkBox|outputBox|presentation|file)*) >
+<!ELEMENT sampleViewer (name*, description*, headline*, desc*, (inputBox|comboBox|checkBox|outputBox|presentation)*) >
 <!ATTLIST sampleViewer 
    image	CDATA 	#IMPLIED
    file		CDATA       #REQUIRED
@@ -27,22 +27,22 @@
 
 <!ELEMENT name (#PCDATA) >
 <!ATTLIST name 
-   lang	CDATA       #REQUIRED
+   lang	CDATA       "en"
 >
 
 <!ELEMENT description (#PCDATA) >
 <!ATTLIST description 
-   lang	CDATA       #REQUIRED
+   lang	CDATA       "en"
 >
 
 <!ELEMENT headline (#PCDATA) >
 <!ATTLIST headline 
-   lang	CDATA       #REQUIRED
+   lang	CDATA       "en"
 >
 
 <!ELEMENT desc (#PCDATA) >
 <!ATTLIST desc 
-   lang	CDATA       #REQUIRED
+   lang	CDATA       "en"
 >
 
 <!ELEMENT inputBox (description+, defaultvalue*) >
@@ -97,15 +97,15 @@
 
 <!ELEMENT item EMPTY >
 <!ATTLIST item 
-   content	CDATA       #REQUIRED   
-   lang	CDATA       #REQUIRED   
+   content	CDATA       #REQUIRED
+   lang	CDATA       "en"
 >
 
 <!ELEMENT content (#PCDATA) >
 <!ATTLIST content 
-   lang	CDATA       #REQUIRED   
+   lang	CDATA       "en"
 >
 <!ELEMENT defaultvalue (#PCDATA) >
 <!ATTLIST defaultvalue 
-   lang	CDATA       #REQUIRED   
+   lang	CDATA       "en"
 >
