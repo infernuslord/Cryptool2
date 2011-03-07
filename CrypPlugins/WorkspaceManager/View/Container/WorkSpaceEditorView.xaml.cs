@@ -449,6 +449,7 @@ namespace WorkspaceManager.View.Container
                     if (root.Children.Contains(uielement))
                     {
                         root.Children.Remove(uielement);
+                        PluginContainerList.Remove((PluginContainerView)uielement);
                     }
                 }
             }
@@ -501,6 +502,7 @@ namespace WorkspaceManager.View.Container
                 if (((PluginModel)args.EffectedModelElement).UpdateableView != null)
                 {
                     PluginContainerView plugin = (PluginContainerView)((PluginModel)args.EffectedModelElement).UpdateableView;
+                    PluginContainerList.Add(plugin);
                     if (!root.Children.Contains(plugin))
                     {
                         root.Children.Add(plugin);
@@ -883,7 +885,7 @@ namespace WorkspaceManager.View.Container
         private void loadPluginContainerView(PluginModel model)
         {
             PluginContainerView newPluginContainerView = new PluginContainerView(model);
-            //model.PositionChanged += newPluginContainerView.OnPositionChanged;
+            this.PluginContainerList.Add(newPluginContainerView);
 
             newPluginContainerView.Delete += new EventHandler<PluginContainerViewDeleteViewEventArgs>(PluginDelete);
             newPluginContainerView.FullScreen += new EventHandler<PluginContainerViewFullScreenViewEventArgs>(shape_FullScreen);
@@ -925,6 +927,18 @@ namespace WorkspaceManager.View.Container
         }
 
         #endregion
+
+        internal void ResetPlugins()
+        {
+            foreach (PluginContainerView pluginContainer in PluginContainerList)
+            {
+                //reset ProgressBar
+                pluginContainer.ProgressBar.Value = 0;
+             
+                //reset Background
+                pluginContainer.Background = null;
+            }
+        }
     }
 
     [Serializable]

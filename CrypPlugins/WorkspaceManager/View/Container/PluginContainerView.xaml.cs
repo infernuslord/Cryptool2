@@ -878,7 +878,7 @@ namespace WorkspaceManager.View.Container
             }
             else
             {
-                //todo: assign old color and appereance
+                this.Window.Background = null;
             }
 
             //perhaps the icon changed so we have to update it

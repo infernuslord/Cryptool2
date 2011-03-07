@@ -161,7 +161,8 @@ namespace WorkspaceManager.Execution
             //First stop alle plugins
             foreach (PluginModel pluginModel in workspaceModel.AllPluginModels)
             {
-                pluginModel.Plugin.Stop();                   
+                pluginModel.Plugin.Stop();
+                pluginModel.PercentageFinished = 0;
             }
 
             IsRunning = false;
