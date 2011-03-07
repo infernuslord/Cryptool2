@@ -157,33 +157,41 @@ namespace WorkspaceManager.Execution
         /// </summary>
         public void Stop()
         {
-           
-            //First stop alle plugins
-            foreach (PluginModel pluginModel in workspaceModel.AllPluginModels)
+
+            if (workspaceModel == null)
+                return;
+            try
             {
-                pluginModel.Plugin.Stop();
-                pluginModel.PercentageFinished = 0;
+                //First stop alle plugins
+                foreach (PluginModel pluginModel in workspaceModel.AllPluginModels)
+                {
+                    pluginModel.Plugin.Stop();
+                    pluginModel.PercentageFinished = 0;
+                }
+
+                IsRunning = false;
+                //Secondly stop all Gears4Net Schedulers
+                scheduler.Shutdown();
+
+                //call all PostExecution methods of all plugins
+                foreach (PluginModel pluginModel in workspaceModel.AllPluginModels)
+                {
+                    pluginModel.Plugin.PostExecution();
+                }
+
+                //remove the plugin protocol of each plugin model
+                foreach (PluginModel pluginModel in workspaceModel.AllPluginModels)
+                {
+                    pluginModel.PluginProtocol = null;
+                }
+
+                this.Editor = null;
+                this.workspaceModel = null;
             }
-
-            IsRunning = false;
-            //Secondly stop all Gears4Net Schedulers
-            scheduler.Shutdown();
-
-            //call all PostExecution methods of all plugins
-            foreach (PluginModel pluginModel in workspaceModel.AllPluginModels)
+            catch (Exception ex)
             {
-                pluginModel.Plugin.PostExecution();
+                this.GuiLogMessage("Error occured during stopping of ExecutionEngine: " + ex.Message, NotificationLevel.Error);
             }
-
-            //remove the plugin protocol of each plugin model
-            foreach (PluginModel pluginModel in workspaceModel.AllPluginModels)
-            {
-                pluginModel.PluginProtocol = null;
-            }
-
-            this.Editor = null;
-            this.workspaceModel = null;
-          
         }
 
         /// <summary>
