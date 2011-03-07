@@ -17,21 +17,17 @@
                 <RowDefinition Height="28"/>
                 <RowDefinition Height="28"/>
                 <RowDefinition Height="80" />
-                </Grid.RowDefinitions>
-            <Label Content="Account Activation"  Grid.ColumnSpan="2" Margin="0,0,0,56" FontSize="15" FontWeight="Bold" HorizontalAlignment="Center" />
-            <TextBlock Grid.ColumnSpan="2" Margin="5,32,0,0" FlowDirection="LeftToRight" HorizontalAlignment="Center">
-            Please enter the activation code which you received by email.<LineBreak/>
-            Also enter your password. After clicking the activate button your account data will<LineBreak/>
-            be stored in your local users folder.
-            </TextBlock>
+            </Grid.RowDefinitions>
+            <Label Content="{Loc Account_Activation_}"  Grid.ColumnSpan="2" Margin="0,0,0,56" FontSize="15" FontWeight="Bold" HorizontalAlignment="Center" />
+            <TextBlock Text="{Loc Please_enter_the_activation_code_}" Grid.ColumnSpan="2" Margin="5,32,0,0" FlowDirection="LeftToRight" HorizontalAlignment="Center"/>
             <Label Name="MessageLabel" Foreground="Red" Grid.Row="1" Grid.ColumnSpan="2" />
-            <Label Content="_Activation Code:" Target="{Binding ElementName=ActivationCode}" Grid.Row="2" Grid.Column="0" />
-            <Label Content="_Password:" Target="{Binding ElementName=PasswordField}" Grid.Row="3" Grid.Column="0" />            
+            <Label Content="{Loc Activation_Code_}" Target="{Binding ElementName=ActivationCode}" Grid.Row="2" Grid.Column="0" />
+            <Label Content="{Loc Password_}" Target="{Binding ElementName=PasswordField}" Grid.Row="3" Grid.Column="0" />            
             <TextBox Text="{Binding Name}" x:Name="ActivationCodeField" Grid.Row="2" Grid.Column="1" Height="24" MaxLength="40"/>
             <PasswordBox x:Name="PasswordField" Grid.Row="3" Grid.Column="1" Height="24" MaxLength="40"/>
-            <Button Name="BackButton" Content="_Back" Height="24" HorizontalAlignment="Right" Margin="0,20,6,36" Width="54" Grid.Row="4" Grid.Column="1" Click="BackButton_Click" />
-            <Button Name="ActivateButton" Content="_Activate" Height="24" HorizontalAlignment="Left" Margin="438,20,0,36" Width="56" Grid.Column="1" Grid.Row="4" Click="ActivateButton_Click"/>
-            <Label Name="RequestLabel" Content="Activating account..." Visibility="Hidden" Target="{Binding ElementName=ConfirmField}" Grid.Row="4" Margin="0,19,325,27" HorizontalAlignment="Right" Width="151" Grid.Column="1" FontWeight="Bold" />
+            <Button Name="BackButton" Content="{Loc BackButton_}" Height="24" HorizontalAlignment="Right" Margin="0,20,6,36" Width="54" Grid.Row="4" Grid.Column="1" Click="BackButton_Click" />
+            <Button Name="ActivateButton" Content="{Loc ActivateButton_}" Height="24" HorizontalAlignment="Left" Margin="438,20,0,36" Width="56" Grid.Column="1" Grid.Row="4" Click="ActivateButton_Click"/>
+            <Label Name="RequestLabel" Content="{Loc Activating_account_}" Visibility="Hidden" Target="{Binding ElementName=ConfirmField}" Grid.Row="4" Margin="0,19,325,27" HorizontalAlignment="Right" Width="151" Grid.Column="1" FontWeight="Bold" />
             <Image Name="WorldIcon" Source="..\..\images\connected.png" Grid.Column="1" Margin="200,0,194,0" Grid.Row="4" RenderTransformOrigin="0.5,0.5">
                 <Image.RenderTransform>
                     <RotateTransform x:Name="WorldIconImageRotate"/>
@@ -43,12 +39,8 @@
     <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Margin="80,55,80,53">
         <Label FontSize="16" HorizontalContentAlignment="Center">Account successfully activated</Label>
         <Image Name="Account" Source="..\..\images\account.png"  Margin="5,5,5,5" Width="48" />
-        <TextBlock Grid.ColumnSpan="2" Margin="15,15,15,15" FlowDirection="LeftToRight" HorizontalAlignment="Center">
-        Your new account was successfully activated and can now be used. 
-        <LineBreak/>
-        Press the OK button to proceed.
-        </TextBlock>
-        <Button Name="OKButton" Content="_OK" Height="24" Width="50" Click="OKButton_Click" />
+        <TextBlock Text="{Loc Your_new_account_was_successfully_activated_}" Grid.ColumnSpan="2" Margin="15,15,15,15" FlowDirection="LeftToRight" HorizontalAlignment="Center"/>
+        <Button Name="OKButton" Content="{Loc OKButton_}" Height="24" Width="50" Click="OKButton_Click" />
     </StackPanel>
     </ScrollViewer>
     </Grid>

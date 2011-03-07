@@ -64,8 +64,8 @@
     <Compile Include="Converters\StringEmptyToVisibilityConverter.cs" />
     <Compile Include="Converters\UtcDateTimeToLocalConverter.cs" />
     <Compile Include="Converters\TrueToVisibleOrCollapsedConverter.cs" />
-    <Compile Include="Distributed\DistributedJobSerializer.cs" />
-    <Compile Include="Distributed\DistributedJobStatus.cs" />
+    <Compile Include="GUI\Distributed\DistributedJobSerializer.cs" />
+    <Compile Include="GUI\Distributed\DistributedJobStatus.cs" />
     <Compile Include="GUI\Controls\ConnectView.xaml.cs">
       <DependentUpon>ConnectView.xaml</DependentUpon>
     </Compile>
@@ -85,8 +85,8 @@
     <Compile Include="GUI\ParticipateAdorner.cs" />
     <Compile Include="Helper\DistributedStatusUpdater.cs" />
     <Compile Include="P2PEditorSettings.cs" />
-    <Compile Include="Distributed\DistributedJob.cs" />
-    <Compile Include="Distributed\JobListManager.cs" />
+    <Compile Include="GUI\Distributed\DistributedJob.cs" />
+    <Compile Include="GUI\Distributed\JobListManager.cs" />
     <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="P2PEditor.cs" />
     <Compile Include="GUI\Controls\JobCreationView.xaml.cs">
