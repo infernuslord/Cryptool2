@@ -690,10 +690,11 @@ namespace WorkspaceManager
                 EventsHelper.AsynchronousStatusChanged = true;
             }
 
-            //Get the gui Thread
             this.WorkspaceSpaceEditorView.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
                 this.WorkspaceSpaceEditorView.ResetConnections();
+                this.WorkspaceSpaceEditorView.ResetPlugins();
+                this.WorkspaceSpaceEditorView.State = EditorState.READY;
             }
             , null);
                        
@@ -707,14 +708,7 @@ namespace WorkspaceManager
             try
             {
                 GuiLogMessage("Executing stopped by User!", NotificationLevel.Info);
-                ExecutionEngine.Stop();
-                //Get the gui Thread
-                this.WorkspaceSpaceEditorView.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-                {
-                    this.WorkspaceSpaceEditorView.ResetConnections();
-                    this.WorkspaceSpaceEditorView.State = EditorState.READY;
-                }
-                , null);
+                ExecutionEngine.Stop();                
             }
             catch (Exception ex)
             {
