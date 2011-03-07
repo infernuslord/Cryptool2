@@ -1,8 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE category SYSTEM "..\wizard.dtd">
 
 <!-- This is the XML file defining the modern symmetric encryption categories a user can select from. -->
 
-<step>
+<category image="Sym">
+  <name lang="en" >Symmetric Encryption</name>
+  <description lang="en" >
+    Select a symmetric modern algorithm to analyze.
+  </description>
 
   <!-- This is the step's headline. It should be short, but precise. -->
   <headline lang="en" >Algorithm Selection</headline>
@@ -11,7 +16,7 @@
   <desc lang="en" >Select a modern symmetric encryption algorithm.</desc>
 
   <!-- AES input -->
-  <input id="AESEn" image="AES" >
+  <input image="AES" >
     <name lang="en" >AES</name>
     <description lang="en" >
       AES is a symmetric modern algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
@@ -22,35 +27,20 @@
       </description>
       <defaultvalue lang="en">Input your Message here!</defaultvalue>
     </inputBox>
-
-    <!--<input id ="CaesarEnKey">
-      <headline lang="en" >Key Input</headline>
-      <desc lang="en" >Input the key information.</desc>
-      <inputBox defaultValue="00 00 00">
-        <description lang="en">
-          Key
-        </description>
-      </inputBox>
-      <inputBox defaultValue="00 00 00">
-        <description lang="en">
-          Initialization Vector
-        </description>
-      </inputBox>
-    </input>-->
     
     <loadSample file="WorkspaceManagerSamples\KeySearcher_AES_Sample.cwm" title="W_AES_Sample"/>
   </input>
 
   <!-- DES input -->
-  <input id="DESEn" image="DES" >
-    <name lang="en" >DES</name>
+  <input image="DES" >
+    <name lang="en">DES</name>
     <description lang="en" >
       DES is a symmetric modern algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
     </description>
   </input>
 
   <!-- SDES input -->
-  <input id="SDESEn" image="SDES" >
+  <input image="SDES" >
     <name lang="en" >SDES</name>
     <description lang="en" >
       SDES is a symmetric modern algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
@@ -58,7 +48,7 @@
   </input>
 
   <!-- Twofish input -->
-  <input id="TwoEn" image="Twofish" >
+  <input image="Twofish" >
     <name lang="en" >Twofish</name>
     <description lang="en" >
       Twofish is a symmetric modern algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
@@ -66,7 +56,7 @@
   </input>
 
   <!-- Trivium input -->
-  <input id="TriEn" image="Trivium" >
+  <input image="Trivium" >
     <name lang="en" >Trivium</name>
     <description lang="en" >
       Trivium is a symmetric modern algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
@@ -74,11 +64,11 @@
   </input>
 
   <!-- TEA input -->
-  <input id="TEAEn" image="TEA" >
+  <input image="TEA" >
     <name lang="en" >TEA</name>
     <description lang="en" >
       TEA is a symmetric modern algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
     </description>
   </input>
 
-</step>
+</category>

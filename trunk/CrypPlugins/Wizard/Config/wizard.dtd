@@ -1,0 +1,111 @@
+<!ELEMENT category (name*, description*, headline*, desc*, (category|input|sampleViewer|loadSample|file)*) >
+<!ATTLIST category 
+   image	CDATA #IMPLIED
+>
+
+<!ELEMENT input (name*, description*, headline*, desc*, (inputBox|comboBox|checkBox|outputBox|presentation)*, (category|input|sampleViewer|loadSample|file)?) >
+<!ATTLIST input 
+   image	CDATA #IMPLIED
+>
+
+<!ELEMENT sampleViewer (name*, description*, headline*, desc*, (inputBox|comboBox|checkBox|outputBox|presentation|file)*) >
+<!ATTLIST sampleViewer 
+   image	CDATA 	#IMPLIED
+   file		CDATA       #REQUIRED
+>
+
+<!ELEMENT loadSample (name*, description*) >
+<!ATTLIST loadSample 
+   file		CDATA       #REQUIRED
+   title	CDATA       #REQUIRED
+>
+
+<!ELEMENT file EMPTY >
+<!ATTLIST file 
+   resource	CDATA       #REQUIRED
+>
+
+<!ELEMENT name (#PCDATA) >
+<!ATTLIST name 
+   lang	CDATA       #REQUIRED
+>
+
+<!ELEMENT description (#PCDATA) >
+<!ATTLIST description 
+   lang	CDATA       #REQUIRED
+>
+
+<!ELEMENT headline (#PCDATA) >
+<!ATTLIST headline 
+   lang	CDATA       #REQUIRED
+>
+
+<!ELEMENT desc (#PCDATA) >
+<!ATTLIST desc 
+   lang	CDATA       #REQUIRED
+>
+
+<!ELEMENT inputBox (description+, defaultvalue*) >
+<!ATTLIST inputBox 
+   plugin		CDATA       #REQUIRED
+   property		CDATA       #REQUIRED
+   alignment	CDATA       #IMPLIED
+   width		CDATA       #IMPLIED
+   group		CDATA       #IMPLIED
+   visibleLines	CDATA       #IMPLIED
+   regex		CDATA       #IMPLIED
+>
+
+<!ELEMENT outputBox (description+) >
+<!ATTLIST outputBox 
+   plugin		CDATA       #REQUIRED
+   property		CDATA       #REQUIRED
+   alignment	CDATA       #IMPLIED
+   width		CDATA       #IMPLIED
+   group		CDATA       #IMPLIED
+   visibleLines	CDATA       #IMPLIED
+>
+
+<!ELEMENT presentation (description+) >
+<!ATTLIST presentation 
+   plugin		CDATA       #REQUIRED
+   alignment	CDATA       #IMPLIED
+   width		CDATA       #IMPLIED
+   height		CDATA       #IMPLIED
+   group		CDATA       #IMPLIED
+>
+
+<!ELEMENT comboBox (description+, item+) >
+<!ATTLIST comboBox 
+   plugin		CDATA       #REQUIRED
+   property		CDATA       #REQUIRED
+   alignment	CDATA       #IMPLIED
+   width		CDATA       #IMPLIED
+   group		CDATA       #IMPLIED
+   defaultValue	CDATA       #IMPLIED
+>
+
+<!ELEMENT checkBox (description+, content+) >
+<!ATTLIST checkBox 
+   plugin		CDATA       #REQUIRED
+   property		CDATA       #REQUIRED
+   alignment	CDATA       #IMPLIED
+   width		CDATA       #IMPLIED
+   group		CDATA       #IMPLIED
+   defaultValue	CDATA       #IMPLIED
+>
+
+<!ELEMENT item EMPTY >
+<!ATTLIST item 
+   content	CDATA       #REQUIRED   
+   lang	CDATA       #REQUIRED   
+>
+
+<!ELEMENT content (#PCDATA) >
+<!ATTLIST content 
+   lang	CDATA       #REQUIRED   
+>
+<!ELEMENT defaultvalue (#PCDATA) >
+<!ATTLIST defaultvalue 
+   lang	CDATA       #REQUIRED   
+>

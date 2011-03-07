@@ -48,7 +48,7 @@ namespace Wizard
 
         public void Initialize()
         {
-            
+            wizardControl.Initialize();
         }
 
         public void Dispose()

@@ -1,8 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE category SYSTEM "..\wizard.dtd">
 
 <!-- This is the XML file defining the analyzation categories a user can select from. -->
 
-<step>
+<category image="Analyse">
+  <name lang="en" >Cryptanalysis</name>
+  <description lang="en" >
+    Select a specific algorithm to analyze.
+  </description>
 
   <!-- This is the step's headline. It should be short, but precise. -->
   <headline lang="en" >Age Selection</headline>
@@ -11,21 +16,9 @@
   <desc lang="en" >Select classic or modern encryption.</desc>
 
   <!-- Classic Encryption Category -->
-  <category id ="ClassicEn" image="Classic">
-    <name lang="en" >Classic Encryption</name>
-    <description lang="en" >
-      Select a classic encryption to analyze.
-    </description>
-    <file resource="Wizard.Config.Analysis.wizard.config.classicEn.xml" />
-  </category>
-
+  <file resource="Wizard.Config.Analysis.wizard.config.classicEn.xml" />
+  
   <!-- Modern Encryption Category -->
-  <category id ="ModernEn" image="Modern">
-    <name lang="en" >Modern Encryption</name>
-    <description lang="en" >
-      Select a modern encryption to analyze.
-    </description>
-    <file resource="Wizard.Config.Analysis.wizard.config.modernEn.xml" />
-  </category>
+  <file resource="Wizard.Config.Analysis.wizard.config.modernEn.xml" />  
 
-</step>
+</category>

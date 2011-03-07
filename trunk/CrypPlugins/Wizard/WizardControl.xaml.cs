@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -16,6 +17,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Xml;
 using System.Xml.Linq;
 using System.IO;
 using System.Reflection;
@@ -23,9 +25,12 @@ using System.Windows.Threading;
 using System.Threading;
 using System.Collections;
 using System.Globalization;
+using System.Xml.Schema;
 using Cryptool.PluginBase;
 using WorkspaceManager.Model;
 using Wizard.Properties;
+using Path = System.IO.Path;
+using ValidationType = System.Xml.ValidationType;
 
 namespace Wizard
 {
@@ -65,32 +70,65 @@ namespace Wizard
 
         public WizardControl()
         {
+            InitializeComponent();
+            CompositionTarget.Rendering += CompositionTarget_Rendering;
+            Loaded += delegate { Keyboard.Focus(this); };
+        }
+
+        public void Initialize()
+        {
             try
             {
                 // DEBUG HELP string[] names = this.GetType().Assembly.GetManifestResourceNames();
 
-                Stream fileStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(configXMLPath);
-                XElement xml = XElement.Load(fileStream);
+                XElement xml = GetXml(configXMLPath);
                 GenerateXML(xml);
-            }
-            catch (Exception)
-            {
                 
+                currentHistory.CollectionChanged += delegate
+                {
+                    CreateHistory();
+                };
+
+                selectionBrush.Color = Color.FromArgb(255, 200, 220, 245);
+                SetupPage(wizardConfigXML);
+                AddToHistory(wizardConfigXML);
+            }
+            catch (Exception ex)
+            {
+                GuiLogMessage(string.Format("Couldn't create wizard: {0}", ex.Message), NotificationLevel.Error);
+            }
+        }
+
+        private XElement GetXml(string xmlPath)
+        {
+            XmlReaderSettings settings = new XmlReaderSettings();
+            settings.DtdProcessing = DtdProcessing.Parse;
+            settings.ValidationType = ValidationType.DTD;
+            settings.ValidationEventHandler += delegate(object sender, ValidationEventArgs e)
+                                                   {
+                                                       GuiLogMessage(string.Format("Error validating wizard XML file {0}: {1}", xmlPath, e.Message), NotificationLevel.Error);
+                                                   };
+            settings.XmlResolver = new ResourceDTDResolver();
+
+            XmlReader xmlReader = XmlReader.Create(Assembly.GetExecutingAssembly().GetManifestResourceStream(xmlPath), settings);
+
+            //Stream fileStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(xmlPath);
+            return XElement.Load(xmlReader);
+        }
+
+        private class ResourceDTDResolver : XmlResolver
+        {
+            public override object GetEntity(Uri absoluteUri, string role, Type ofObjectToReturn)
+            {
+                if (Path.GetFileName(absoluteUri.LocalPath) == "wizard.dtd")
+                    return Assembly.GetExecutingAssembly().GetManifestResourceStream("Wizard.Config.wizard.dtd");
+                return null;
             }
 
-            InitializeComponent();
-            CompositionTarget.Rendering += CompositionTarget_Rendering;
-
-            currentHistory.CollectionChanged += delegate
-                                                    {
-                                                        CreateHistory();
-                                                    };
-
-            selectionBrush.Color = Color.FromArgb(255, 200, 220, 245);
-            SetupPage(wizardConfigXML);
-            AddToHistory(wizardConfigXML);
-
-            Loaded += delegate { Keyboard.Focus(this); };
+            public override ICredentials Credentials
+            {
+                set { }
+            }
         }
 
         ~WizardControl()
@@ -103,34 +141,26 @@ namespace Wizard
         {
             try
             {
-                //find all nested subcategories and add them to the tree
-                IEnumerable<XElement> categories = xml.Elements("category");
-                if (categories.Any())
+                IEnumerable<XElement> allFiles = xml.Elements("file");
+                foreach(var ele in allFiles)
                 {
-                    foreach (XElement cat in categories)
+                    XAttribute att = ele.Attribute("resource");
+                    if (att != null)
                     {
-                        IEnumerable<XElement> files = cat.Elements("file");
-                        if (files.Any())
+                        string path = att.Value;
+                        XElement sub = GetXml(path);
+                        xml.Add(sub);
+                    }
+                }
+
+                IEnumerable<XElement> allElements = xml.Elements();
+                if (allElements.Any())
+                {
+                    foreach (XElement ele in allElements)
+                    {
+                        if (ele.Name != "file")
                         {
-                            foreach (XElement element in files)
-                            {
-                                XAttribute att = element.Attribute("resource");
-                                if (att != null)
-                                {
-                                    string path = att.Value;
-                                    Stream fileStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(path);
-                                    XElement sub = XElement.Load(fileStream);
-                                    GenerateXML(sub);
-                                    IEnumerable<XElement> elems = sub.Elements();
-                                    if (elems.Any())
-                                    {
-                                        foreach (XElement ele in elems)
-                                        {
-                                            cat.Add(ele);
-                                        }
-                                    }
-                                }
-                            }
+                            GenerateXML(ele);
                         }
                     }
                 }
@@ -254,10 +284,10 @@ namespace Wizard
 
                 FillInputStack(inputs, element.Name.ToString(), (element.Name == "input"));
 
-                if (element.Name == "sampleViewer" && (element.Attribute("file") != null) && (element.Attribute("title") != null))
+                if (element.Name == "sampleViewer" && (element.Attribute("file") != null))
                 {
                     nextButton.IsEnabled = false;
-                    LoadSample(element.Attribute("file").Value, element.Attribute("title").Value, false);
+                    LoadSample(element.Attribute("file").Value, null, false);
                 }
 
                 string id = GetElementID((XElement)inputPanel.Tag);
@@ -1326,7 +1356,6 @@ namespace Wizard
                     break;
             }
         }
-
     }
 
     internal struct PluginPropertyValue

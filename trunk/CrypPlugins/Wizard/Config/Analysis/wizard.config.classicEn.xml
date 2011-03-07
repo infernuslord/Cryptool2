@@ -1,8 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE category SYSTEM "..\wizard.dtd">
 
 <!-- This is the XML file defining the classic encryption categories a user can select from. -->
 
-<step>
+<category image="Classic">
+  <name lang="en" >Classic Encryption</name>
+  <description lang="en" >
+    Select a classic encryption to analyze.
+  </description>
 
   <!-- This is the step's headline. It should be short, but precise. -->
   <headline lang="en" >Algorithm Selection</headline>
@@ -11,7 +16,7 @@
   <desc lang="en" >Select a classic encryption algorithm.</desc>
 
   <!-- Caesar input -->
-  <input id ="CaesarEn" image="Caesar">
+  <input image="Caesar">
     <name lang="en" >Caesar</name>
     <description lang="en" >
       Caesar is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
@@ -19,7 +24,7 @@
   </input>
 
   <!-- Vigenère input -->
-  <input id ="VigenereEn" image="Vigenere">
+  <input image="Vigenere">
     <name lang="en" >Vigenère</name>
     <description lang="en" >
       Vigenère is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
@@ -27,7 +32,7 @@
   </input>
 
   <!-- Substitution input -->
-  <input id ="SubstitutionEn" image="Substitution">
+  <input image="Substitution">
     <name lang="en" >Substitution</name>
     <description lang="en" >
       Substitution is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
@@ -35,7 +40,7 @@
   </input>
 
   <!-- Enigma input -->
-  <input id ="EnigmaEn" image="Enigma">
+  <input image="Enigma">
     <name lang="en" >Enigma</name>
     <description lang="en" >
       Enigma is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
@@ -43,7 +48,7 @@
   </input>
 
   <!-- Playfair input -->
-  <input id ="PlayfairEn" image="Playfair">
+  <input image="Playfair">
     <name lang="en" >Playfair</name>
     <description lang="en" >
       Playfair is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
@@ -51,7 +56,7 @@
   </input>
 
   <!-- ADFGVX input -->
-  <input id ="ADFGVXEn" image="ADFGVX">
+  <input image="ADFGVX">
     <name lang="en" >ADFGVX</name>
     <description lang="en" >
       ADFGVX is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
@@ -59,7 +64,7 @@
   </input>
 
   <!-- XOR input -->
-  <input id ="XOREn" image="XOR">
+  <input image="XOR">
     <name lang="en" >XOR</name>
     <description lang="en" >
       XOR is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
@@ -67,7 +72,7 @@
   </input>
 
   <!-- Vernam input -->
-  <input id ="VernamEn" image="Vernam">
+  <input image="Vernam">
     <name lang="en" >Vernam</name>
     <description lang="en" >
       Vernam is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
@@ -75,7 +80,7 @@
   </input>
 
   <!-- Transposition input -->
-  <input id ="TranspositionEn" image="Transposition">
+  <input image="Transposition">
     <name lang="en" >Transposition</name>
     <description lang="en" >
       Transposition is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
@@ -83,11 +88,11 @@
   </input>
 
   <!-- Scytale input -->
-  <input id ="ScytaleEn" image="Scytale">
+  <input image="Scytale">
     <name lang="en" >Scytale</name>
     <description lang="en" >
       Scytale is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
     </description>
   </input>
 
-</step>
+</category>
