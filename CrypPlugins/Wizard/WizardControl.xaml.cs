@@ -54,7 +54,7 @@ namespace Wizard
         private const string configXMLPath = "Wizard.Config.wizard.config.start.xml";
         private const string defaultLang = "en";
         private XElement wizardConfigXML;
-        private Dictionary<string, PluginPropertyValue> propertyValueDict = new Dictionary<string, PluginPropertyValue>();
+        private Dictionary<string, List<PluginPropertyValue>> propertyValueDict = new Dictionary<string, List<PluginPropertyValue>>();
         private HashSet<TextBox> boxesWithWrongContent = new HashSet<TextBox>();
         private HistoryTranslateTransformConverter historyTranslateTransformConverter = new HistoryTranslateTransformConverter();
         private List<TextBox> currentOutputBoxes = new List<TextBox>();
@@ -224,7 +224,7 @@ namespace Wizard
 
             if ((element.Name == "loadSample") && (element.Attribute("file") != null) && (element.Attribute("title") != null))
             {
-                LoadSample(element.Attribute("file").Value, element.Attribute("title").Value, true);
+                LoadSample(element.Attribute("file").Value, element.Attribute("title").Value, true, element);
                 abortButton_Click(null, null);
                 return;
             }
@@ -287,7 +287,7 @@ namespace Wizard
                 if (element.Name == "sampleViewer" && (element.Attribute("file") != null))
                 {
                     nextButton.IsEnabled = false;
-                    LoadSample(element.Attribute("file").Value, null, false);
+                    LoadSample(element.Attribute("file").Value, null, false, element);
                 }
 
                 string id = GetElementID((XElement)inputPanel.Tag);
@@ -514,6 +514,8 @@ namespace Wizard
             if (input.Name != "presentation")
                 key = GetElementPluginPropertyKey(input);
 
+            var pluginPropertyValue = GetPropertyValue(key, input.Parent);
+
             switch (input.Name.ToString())
             {
                 case "inputBox":
@@ -542,8 +544,8 @@ namespace Wizard
                         };
                     }
 
-                    if (key != null && propertyValueDict.ContainsKey(key))
-                        inputBox.Text = (string)propertyValueDict[key].Value;
+                    if (key != null && pluginPropertyValue != null)
+                        inputBox.Text = (string) pluginPropertyValue.Value;
                     else
                     {
                         var defaultvalues = FindElementsInElement(input, "defaultvalue");
@@ -572,13 +574,13 @@ namespace Wizard
                             cbi.Content = item.Attribute("content").Value;
                         comboBox.Items.Add(cbi);
                     }
-
-                    if (key != null && propertyValueDict.ContainsKey(key))
+                    
+                    if (key != null && pluginPropertyValue != null)
                     {
-                        if (propertyValueDict[key].Value is int)
+                        if (pluginPropertyValue.Value is int)
                         {
                             ComboBoxItem cbi =
-                                (ComboBoxItem)comboBox.Items.GetItemAt((int)propertyValueDict[key].Value);
+                                (ComboBoxItem)comboBox.Items.GetItemAt((int)pluginPropertyValue.Value);
                             cbi.IsSelected = true;
                         }
                     }
@@ -606,9 +608,9 @@ namespace Wizard
                     if (!string.IsNullOrEmpty(content.Value))
                         checkBox.Content = content.Value.Trim();
 
-                    if (key != null && propertyValueDict.ContainsKey(key))
+                    if (key != null && pluginPropertyValue != null)
                     {
-                        string value = (string)propertyValueDict[key].Value;
+                        string value = (string)pluginPropertyValue.Value;
                         if (value.ToLower() == "true")
                             checkBox.IsChecked = true;
                         else
@@ -680,6 +682,30 @@ namespace Wizard
             }
 
             return element;
+        }
+
+        private PluginPropertyValue GetPropertyValue(string key, XElement path)
+        {
+            if (key != null && propertyValueDict.ContainsKey(key))
+            {
+                foreach (var pv in propertyValueDict[key])
+                {
+                    if (IsSamePath(pv.Path, path))
+                    {
+                        return pv;
+                    }
+                }
+            }
+            return null;
+        }
+
+        private bool IsSamePath(XElement path, XElement path2)
+        {
+            if (path == path2 || path.Descendants().Contains(path2) || path2.Descendants().Contains(path))
+            {
+                return true;
+            }
+            return false;
         }
 
         private string GetElementPluginPropertyKey(XElement element)
@@ -793,7 +819,7 @@ namespace Wizard
                 return "";
         }
 
-        private void LoadSample(string file, string title, bool openTab)
+        private void LoadSample(string file, string title, bool openTab, XElement element)
         {
             file = SamplesDir + "\\" + file;
 
@@ -843,32 +869,37 @@ namespace Wizard
             //Fill in all data from wizard to sample:
             foreach (var c in propertyValueDict)
             {
-                var ppv = c.Value;
-                try
+                foreach (var ppv in c.Value)
                 {
-                    var plugins = ppv.PluginName.Split(';');
-                    foreach (var plugin in model.GetAllPluginModels().Where(x => plugins.Contains(x.GetName())))
+                    if (IsSamePath(element, ppv.Path))
                     {
-                        var settings = plugin.Plugin.Settings;
-
-                        var property = plugin.Plugin.GetType().GetProperty(ppv.PropertyName) ??
-                                       settings.GetType().GetProperty(ppv.PropertyName);
-
-                        if (property != null)
+                        try
                         {
-                            if (ppv.Value is string)
-                                property.SetValue(settings, (string)ppv.Value, null);
-                            else if (ppv.Value is int)
-                                property.SetValue(settings, (int)ppv.Value, null);
-                            else if (ppv.Value is bool)
-                                property.SetValue(settings, (bool)ppv.Value, null);
+                            var plugins = ppv.PluginName.Split(';');
+                            foreach (var plugin in model.GetAllPluginModels().Where(x => plugins.Contains(x.GetName())))
+                            {
+                                var settings = plugin.Plugin.Settings;
+
+                                var property = plugin.Plugin.GetType().GetProperty(ppv.PropertyName) ??
+                                               settings.GetType().GetProperty(ppv.PropertyName);
+
+                                if (property != null)
+                                {
+                                    if (ppv.Value is string)
+                                        property.SetValue(settings, (string)ppv.Value, null);
+                                    else if (ppv.Value is int)
+                                        property.SetValue(settings, (int)ppv.Value, null);
+                                    else if (ppv.Value is bool)
+                                        property.SetValue(settings, (bool)ppv.Value, null);
+                                }
+                                plugin.Plugin.Initialize();
+                            }
                         }
-                        plugin.Plugin.Initialize();
+                        catch (Exception ex)
+                        {
+                            GuiLogMessage(string.Format("Failed settings plugin property {0}.{1} to \"{2}\"!", ppv.PluginName, ppv.PropertyName, ppv.Value), NotificationLevel.Error);
+                        }
                     }
-                }
-                catch (Exception ex)
-                {
-                    GuiLogMessage(string.Format("Failed settings plugin property {0}.{1} to \"{2}\"!", ppv.PluginName, ppv.PropertyName, ppv.Value), NotificationLevel.Error);
                 }
             }
 
@@ -1176,7 +1207,7 @@ namespace Wizard
                     if (ele.Name == "outputBox")
                         continue;
 
-                    PluginPropertyValue newEntry = new PluginPropertyValue();
+                    PluginPropertyValue newEntry = null;
                     if (ele.Attribute("plugin") != null && ele.Attribute("property") != null)
                     {
                         if (input is TextBox)
@@ -1186,7 +1217,8 @@ namespace Wizard
                                        {
                                            PluginName = ele.Attribute("plugin").Value,
                                            PropertyName = ele.Attribute("property").Value,
-                                           Value = textBox.Text
+                                           Value = textBox.Text,
+                                           Path = ele.Parent
                                        };
                         }
                         else if (input is ComboBox)
@@ -1196,7 +1228,8 @@ namespace Wizard
                             {
                                 PluginName = ele.Attribute("plugin").Value,
                                 PropertyName = ele.Attribute("property").Value,
-                                Value = comboBox.SelectedIndex
+                                Value = comboBox.SelectedIndex,
+                                Path = ele.Parent
                             };
                         }
                         else if (input is CheckBox)
@@ -1208,18 +1241,31 @@ namespace Wizard
                                 {
                                     PluginName = ele.Attribute("plugin").Value,
                                     PropertyName = ele.Attribute("property").Value,
-                                    Value = (bool)checkBox.IsChecked
+                                    Value = (bool)checkBox.IsChecked,
+                                    Path = ele.Parent
                                 };
                             }
                         }
 
                         var key = GetElementPluginPropertyKey(ele);
-                        if (key != null)
+                        if (newEntry != null && key != null)
                         {
-                            if (!propertyValueDict.ContainsKey(key))
-                                propertyValueDict.Add(key, newEntry);
+                            var pluginPropertyValue = GetPropertyValue(key, ele.Parent);
+                            if (pluginPropertyValue != null)
+                            {
+                                pluginPropertyValue.Value = newEntry.Value;
+                            }
                             else
-                                propertyValueDict[key] = newEntry;
+                            {
+                                if (propertyValueDict.ContainsKey(key))
+                                {
+                                    propertyValueDict[key].Add(newEntry);
+                                }
+                                else
+                                {
+                                    propertyValueDict.Add(key, new List<PluginPropertyValue>() {newEntry} );
+                                }
+                            }
                         }
                     }
                 }
@@ -1367,10 +1413,11 @@ namespace Wizard
         }
     }
 
-    internal struct PluginPropertyValue
+    internal class PluginPropertyValue
     {
         public string PluginName;
         public string PropertyName;
         public object Value;
+        public XElement Path;
     }
 }
