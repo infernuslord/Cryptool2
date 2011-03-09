@@ -472,6 +472,28 @@ namespace KeySearcher.P2P.Storage
             return null;
         }
 
+        public RequestResult RemoveWithReplicationAndStatistic(string key, int replications)
+        {
+            //delete primary copy:
+            var result = RemoveWithStatistic(key);
+
+            try
+            {
+                //Delete replications:
+                for (int c = 1; c < replications; c++)
+                {
+                    var rkey = key + "_" + c;
+                    RemoveWithStatistic(rkey);
+                }
+            }
+            catch
+            {
+                //simply ignore
+            }
+
+            return result;
+        }
+
         public RequestResult RemoveWithStatistic(string key)
         {
             statusContainer.RemoveRequests++;
