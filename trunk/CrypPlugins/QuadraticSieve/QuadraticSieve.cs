@@ -418,7 +418,7 @@ namespace Cryptool.Plugins.QuadraticSieve
         /// <summary>
         /// Getter / Setter for the presentation of this plugin
         /// </summary>
-        public UserControl Presentation { get; private set; }
+        public UserControl Presentation { get { return QuickWatchPresentation; } }
 
         /// <summary>
         /// Getter / Setter for the QuickWatchPresentation of this plugin
