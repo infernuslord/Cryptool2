@@ -22,6 +22,7 @@ using WorkspaceManagerModel.Model.Operations;
 using WorkspaceManager.View.Converter;
 using Cryptool.PluginBase;
 using System.Collections.ObjectModel;
+using System.Runtime.InteropServices;
 
 namespace WorkspaceManager.View.BinVisual
 {
@@ -34,12 +35,20 @@ namespace WorkspaceManager.View.BinVisual
         public event PropertyChangedEventHandler PropertyChanged;
         #endregion
 
+        #region Fields
+        private bool isLinkStarted;
+        private CryptoLineView draggedLink;
+        #endregion
+
         #region Properties
         public WorkspaceModel Model { get; private set; }
         public WorkspaceManager MyEditor { get; private set; }
 
-        private ObservableCollection<BinComponentVisual> componentCollection = new ObservableCollection<BinComponentVisual>();
-        public ObservableCollection<BinComponentVisual> ComponentCollection { get { return componentCollection; } private set { componentCollection = value; } }
+        private ObservableCollection<UIElement> visualCollection = new ObservableCollection<UIElement>();
+        public ObservableCollection<UIElement> VisualCollection { get { return visualCollection; } private set { visualCollection = value; } }
+
+        private ObservableCollection<CryptoLineView> pathCollection = new ObservableCollection<CryptoLineView>();
+        public ObservableCollection<CryptoLineView> PathCollection { get { return pathCollection; } private set { pathCollection = value; } }
         #endregion
 
         #region DependencyProperties
@@ -75,6 +84,7 @@ namespace WorkspaceManager.View.BinVisual
 
         public static readonly DependencyProperty IsFullscreenProperty = DependencyProperty.Register("IsFullscreen",
             typeof(BinComponentVisual), typeof(BinEditorVisual), new FrameworkPropertyMetadata(null, null));
+
 
         public bool IsFullscreen
         {
@@ -116,6 +126,74 @@ namespace WorkspaceManager.View.BinVisual
         #endregion
 
         #region Private
+
+        private void addConnection(BinConnectorVisual source, BinConnectorVisual target, out CryptoLineView line)
+        {
+            line = null;
+            if (this.State != EditorState.READY || source == null)
+                return;
+
+            CryptoLineView link = new CryptoLineView(source, target);
+            VisualCollection.Add(link);
+            line = link;
+        }
+
+        private void addBinComponentVisual(PluginModel pluginModel)
+        {
+            if (this.State != EditorState.READY)
+                return;
+
+            VisualCollection.Add(new BinComponentVisual(pluginModel));
+        }
+
+        public static MultiBinding CreateConnectorBinding(BinConnectorVisual connectable)
+        {
+            MultiBinding multiBinding = new MultiBinding();
+            multiBinding.Converter = new ConnectorBindingConverter();
+            multiBinding.ConverterParameter = connectable;
+
+            Binding binding = new Binding();
+            binding.Source = connectable.Parent;
+            binding.Path = new PropertyPath(PluginContainerView.X);
+            multiBinding.Bindings.Add(binding);
+
+            binding = new Binding();
+            binding.Source = connectable.Parent;
+            binding.Path = new PropertyPath(PluginContainerView.Y);
+            multiBinding.Bindings.Add(binding);
+
+            binding = new Binding();
+            binding.Source = connectable;
+            binding.Path = new PropertyPath(FrameworkElement.ActualHeightProperty);
+            multiBinding.Bindings.Add(binding);
+
+            binding = new Binding();
+            binding.Source = connectable;
+            binding.Path = new PropertyPath(FrameworkElement.ActualWidthProperty);
+            multiBinding.Bindings.Add(binding);
+
+            binding = new Binding();
+            binding.Source = connectable.WindowParent.West;
+            binding.Path = new PropertyPath(FrameworkElement.ActualHeightProperty);
+            multiBinding.Bindings.Add(binding);
+
+            binding = new Binding();
+            binding.Source = connectable.WindowParent.East;
+            binding.Path = new PropertyPath(FrameworkElement.ActualHeightProperty);
+            multiBinding.Bindings.Add(binding);
+
+            binding = new Binding();
+            binding.Source = connectable.WindowParent.North;
+            binding.Path = new PropertyPath(FrameworkElement.ActualWidthProperty);
+            multiBinding.Bindings.Add(binding);
+
+            binding = new Binding();
+            binding.Source = connectable.WindowParent.South;
+            binding.Path = new PropertyPath(FrameworkElement.ActualWidthProperty);
+            multiBinding.Bindings.Add(binding);
+
+            return multiBinding;
+        }
         #endregion
 
         #region Protected
@@ -145,24 +223,75 @@ namespace WorkspaceManager.View.BinVisual
 
         }
 
+        private void MouseMoveHandler(object sender, MouseEventArgs e)
+        {
+            if (isLinkStarted || draggedLink != null)
+            {
+                draggedLink.EndPoint = e.GetPosition(sender as FrameworkElement);
+                e.Handled = true;
+            }
+        }
+
+        private void MouseLeftButtonUpHandler(object sender, MouseButtonEventArgs e)
+        {
+            if (e.Source is BinComponentVisual && isLinkStarted)
+            {
+                BinComponentVisual c = (BinComponentVisual)e.Source;
+                FrameworkElement f = (FrameworkElement)e.OriginalSource, element = (FrameworkElement)f.TemplatedParent;
+                if (element is BinConnectorVisual)
+                {
+                    BinConnectorVisual b = (BinConnectorVisual) element;
+                    if (WorkspaceModel.compatibleConnectors(draggedLink.StartPointSource.Model, b.Model))
+                    {
+                        draggedLink.EndPointSource = element as BinConnectorVisual;
+                        ConnectionModel connectionModel = (ConnectionModel)Model.ModifyModel(new NewConnectionModelOperation(
+                            draggedLink.StartPointSource.Model,
+                            draggedLink.EndPointSource.Model,
+                            draggedLink.StartPointSource.Model.ConnectorType));
+                        draggedLink.Model = connectionModel;
+                        e.Handled = true;
+                    }
+                    else
+                    {
+                        VisualCollection.Remove(draggedLink);
+                        draggedLink = null;
+                    }
+                }
+            }
+        }
+
         private void MouseRightButtonDownHandler(object sender, MouseButtonEventArgs e)
         {
-            if (e.Source is ItemsControl)
+            if (e.Source is BinComponentVisual)
             {
-                ItemsControl items = (ItemsControl)e.Source;
+                BinComponentVisual c = (BinComponentVisual)e.Source;
                 FrameworkElement f = (FrameworkElement)e.OriginalSource, element = (FrameworkElement)f.TemplatedParent;
                 if (element is BinConnectorVisual)
                 {
                     DataObject data = new DataObject("BinConnector", element);
                     DragDrop.AddQueryContinueDragHandler(this, QueryContinueDragHandler);
-                    DragDrop.DoDragDrop(items, data, DragDropEffects.Move);
+                    c.IsConnectorDragStarted = true;
+                    DragDrop.DoDragDrop(c, data, DragDropEffects.Move);
+                    e.Handled = true;
                 }
             }
         }
 
         private void MouseLeftButtonDownHandler(object sender, MouseButtonEventArgs e)
         {
-
+            if (e.Source is BinComponentVisual)
+            {
+                BinComponentVisual c = (BinComponentVisual)e.Source;
+                FrameworkElement f = (FrameworkElement)e.OriginalSource, element = (FrameworkElement)f.TemplatedParent;
+                if (element is BinConnectorVisual && !isLinkStarted && draggedLink == null)
+                {
+                    Point position = e.GetPosition(this);
+                    CryptoLineView line;
+                    addConnection((BinConnectorVisual) element,null, out line);
+                    draggedLink = line;
+                    e.Handled = isLinkStarted = true;
+                }
+            }
         }
 
         #region DragDropHandler
@@ -171,24 +300,19 @@ namespace WorkspaceManager.View.BinVisual
         {
             e.Handled = true;
 
-            // Check if we need to bail
             if (e.EscapePressed)
             {
                 e.Action = DragAction.Cancel;
                 return;
             }
 
-            // Now, default to actually having dropped
             e.Action = DragAction.Drop;
-
             if ((e.KeyStates & DragDropKeyStates.LeftMouseButton) != DragDropKeyStates.None)
             {
-                // Still dragging with Left Mouse Button
                 e.Action = DragAction.Continue;
             }
             else if ((e.KeyStates & DragDropKeyStates.RightMouseButton) != DragDropKeyStates.None)
             {
-                // Still dragging with Right Mouse Button
                 e.Action = DragAction.Continue;
             }
         }
@@ -214,10 +338,9 @@ namespace WorkspaceManager.View.BinVisual
                 try
                 {
                     DragDropDataObject obj = e.Data.GetData("Cryptool.PluginBase.Editor.DragDropDataObject") as DragDropDataObject;
-                    PluginModel pluginModel = (PluginModel)Model.ModifyModel(new NewPluginModelOperation(new Point(300,300), 0, 0, DragDropDataObjectToPluginConverter.CreatePluginInstance(obj.AssemblyFullName, obj.TypeFullName)));
-                    ComponentCollection.Add(new BinComponentVisual(pluginModel));
-                    //(ScrollViewer2.Content as Panel).Children.Add(new BinComponentVisual(pluginModel));
-                    MyEditor.HasChanges = true;
+                    PluginModel pluginModel = (PluginModel)Model.ModifyModel(new NewPluginModelOperation(MouseUtilities.CorrectGetPosition(sender as FrameworkElement), 0, 0, DragDropDataObjectToPluginConverter.CreatePluginInstance(obj.AssemblyFullName, obj.TypeFullName)));
+                    addBinComponentVisual(pluginModel);
+                    MyEditor.HasChanges = e.Handled = true;
                 }
                 catch (Exception ex)
                 {
@@ -225,10 +348,29 @@ namespace WorkspaceManager.View.BinVisual
                     MyEditor.GuiLogMessage(ex.StackTrace, NotificationLevel.Error);
                 }
             }
-
         }
         #endregion
-
         #endregion
+    }
+
+    public static class MouseUtilities
+    {
+        public static Point CorrectGetPosition(Visual relativeTo)
+        {
+            Win32Point w32Mouse = new Win32Point();
+            GetCursorPos(ref w32Mouse);
+            return relativeTo.PointFromScreen(new Point(w32Mouse.X, w32Mouse.Y));
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        internal struct Win32Point
+        {
+            public Int32 X;
+            public Int32 Y;
+        };
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool GetCursorPos(ref Win32Point pt);
     }
 }
