@@ -79,7 +79,7 @@ namespace KeySearcher.P2P.Tree
                 throw new UpdateFailedException("Parent node could not be updated: " + updateResult.Status);
             }
 
-            StorageHelper.RemoveWithStatistic(StorageHelper.KeyInDht(this));
+            StorageHelper.RemoveWithReplicationAndStatistic(StorageHelper.KeyInDht(this), 3);
 
             if (ParentNode.IsCalculated())
             {
