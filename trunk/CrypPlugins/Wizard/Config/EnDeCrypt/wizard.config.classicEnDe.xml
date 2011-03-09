@@ -6,12 +6,8 @@
 <category image="Classic">
   <name lang="en" >Classic Encryption/Decryption</name>
   <name lang="de-DE" >Klassische Verschlüsselung/Entschlüsselung</name>
-  <description lang="en" >
-    Select a classic algorithm to encrypt plaintext or to decrypt ciphertext.
-  </description>
-  <description lang="de-DE" >
-    Wählen Sie einen klassischen Algorithmus, um Klartext zu verschlüsseln oder chiffrierten Text zu entschlüsseln.
-  </description>
+  <description lang="en" >Select a classic algorithm to encrypt plaintext or to decrypt ciphertext.</description>
+  <description lang="de-DE" >Wählen Sie einen klassischen Algorithmus, um Klartext zu verschlüsseln oder chiffrierten Text zu entschlüsseln.</description>
   
   <!-- This is the step's headline. It should be short, but precise. -->
   <headline lang="en" >Algorithm Selection</headline>
@@ -22,267 +18,360 @@
   <!-- Caesar input -->
   <input image="Caesar">
     <name lang="en" >Caesar</name>
-    <description lang="en" >
-      This encryption algorithm already used by the Roman general and dictator Caesar substitutes single letters: The substitution rule is that the letters of the cleartext alphabet are shifted by a special value (key).
-    </description>
+    <description lang="en" >This encryption algorithm already used by the Roman general and dictator Caesar substitutes single letters: The substitution rule is that the letters of the cleartext alphabet are shifted by a special value (key).</description>
 
-    <headline lang="en" >Message Input</headline>
-    <desc lang="en" >Here, you can enter the message to encrypt and select input format and encodings.</desc>
-    
-    <inputBox plugin="TextInput1" property="Text" alignment="Right" width="80%" visibleLines="10">
-      <description lang="en">
-        Message to encrypt: 
-      </description>
-      <defaultvalue lang="en">Message</defaultvalue>
+    <headline lang="en" >Caesar Input</headline>
+    <desc lang="en">Here, you can input the message an the key to use.</desc>
+
+    <inputBox plugin="TextInput1" property="Text" alignment="Right" width="80%" visibleLines="5" group="input1">
+      <description lang="en">Message to encrypt:</description>
     </inputBox>
 
-    <comboBox plugin="TextInput1" property="EncodingSetting" defaultValue="0" alignment="Left" width="100" group="encoding">
-      <description lang="en">
-        Character Encoding type:
-      </description>
-      <item content="Default system encoding" lang="en"/>
-      <item content="Unicode" lang="en"/>
-      <item content="UTF-7" lang="en"/>
-      <item content="UTF-8" lang="en"/>
-      <item content="UTF-32" lang="en"/>
-      <item content="ASCII" lang="en"/>
-      <item content="Big endian unicode" lang="en"/>
-    </comboBox>
+    <inputBox plugin="CaesarEncrypt;CaesarDecrypt" property="ShiftChar" alignment="Left" width="5%" visibleLines="1" group="input1" regex="[A-Za-z]">
+      <description lang="en">Key (a single letter):</description>
+      <defaultvalue>F</defaultvalue>
+    </inputBox>
+    
+    <sampleViewer image="Caesar" file="WorkspaceManagerSamples\Caesar_Sample.cwm">
+      <name lang="en" >Caesar Encryption</name>
+      <description lang="en" >This encryption algorithm already used by the Roman general and dictator Caesar substitutes single letters: The substitution rule is that the letters of the cleartext alphabet are shifted by a special value (key).</description>
 
-    <comboBox plugin="TextInput1" property="InputFormatSetting" defaultValue="0" alignment="Center" width="20%" group="encoding">
-      <description lang="en">
-        Input Format:
-      </description>
-      <item content="Plain text" lang="en"/>
-      <item content="Hex" lang="en"/>
-      <item content="Base64" lang="en"/>
-    </comboBox>
+      <headline lang="en" >Caesar Output</headline>
+      <desc lang="en">Here, you can change the parameters and view the results.</desc>
 
-    <sampleViewer file="WorkspaceManagerSamples\Caesar_Sample.cwm">
-      <name lang="en">Summary</name>
-      <description lang="en" >
-        Bla bla.
-      </description>
-
-      <headline lang="en" >Summary</headline>
-      <desc lang="en">Here is a summary of your choice.</desc>
-      
-      <inputBox plugin="TextInput1" property="Text" alignment="Right" width="80%" visibleLines="5">
-        <description lang="en">
-          Message to encrypt:
-        </description>
+      <inputBox plugin="TextInput1" property="Text" alignment="Stretch" visibleLines="5">
+        <description lang="en">Message to encrypt:</description>
       </inputBox>
 
-      <!--<outputBox plugin="CaesarResult" property="CurrentValue" alignment="Stretch" width="80%" visibleLines="2">
-        <description lang="en">
-          Some output message:
-        </description>
-      </outputBox>-->
+      <outputBox plugin="CaesarResult" property="CurrentValue" alignment="Stretch" width="49%" visibleLines="5" group="output1">
+        <description lang="en">Encryption Output:</description>
+      </outputBox>
 
-      <presentation plugin="CaesarResult" alignment="Stretch" height="100">
-        <description lang="en">
-          Plugin presentation:
-        </description>
-      </presentation>
-      
-      <!--<loadSample file="WorkspaceManagerSamples\Caesar_Sample.cwm" title="W_Caesar_Sample"/>-->
+      <outputBox plugin="DecryptedOutput" property="CurrentValue" alignment="Stretch" width="49%" visibleLines="5" group="output1">
+        <description lang="en">Decryption Output:</description>
+      </outputBox>
+
     </sampleViewer>
     
   </input>
 
   <!-- Vigenère input -->
-  <sampleViewer image="Vigenere" file="WorkspaceManagerSamples\Vigenere_Sample.cwm">
+  <input image="Vigenere">
     <name lang="en" >Vigenère</name>
-    <description lang="en" >
-      Vigenère is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
-    </description>
+    <description lang="en" >The Vigenère cipher is a method of encrypting alphabetic text by using a series of different Caesar ciphers based on the letters of a keyword. It is a simple form of polyalphabetic substitution.</description>
 
-    <headline lang="en" >Message Input</headline>
-    <desc lang="en" >Here, you can enter the message to encrypt and the key to use.</desc>
+    <headline lang="en" >Vigenère Input</headline>
+    <desc lang="en">Here, you can input the message an the key to use.</desc>
 
     <inputBox plugin="VigenereInput1" property="Text" alignment="Right" width="78%" visibleLines="5" group="1">
-      <description lang="en">
-        Message to encrypt:
-      </description>
-      <defaultvalue lang="de">
-        Hello world! Hallo Welt! Hola mundo! Bonjour le monde!
-      </defaultvalue>
+      <description lang="en">Message to encrypt:</description>
+      <defaultvalue>Hello world! Hallo Welt! Hola mundo! Bonjour le monde!</defaultvalue>
     </inputBox>
 
     <inputBox plugin="VigenereInput2" property="Text" alignment="Right" width="20%" visibleLines="5" group="1">
-      <description lang="en">
-        Key:
-      </description>
-      <defaultvalue lang="en">
-        TURING
-      </defaultvalue>
+      <description lang="en">Key:</description>
+      <defaultvalue lang="en">TURING</defaultvalue>
     </inputBox>
+    
+    <sampleViewer image="Vigenere" file="WorkspaceManagerSamples\Vigenere_Sample.cwm">
+      <name lang="en" >Vigenère Output</name>
+      <description lang="en" >The Vigenère cipher is a method of encrypting alphabetic text by using a series of different Caesar ciphers based on the letters of a keyword. It is a simple form of polyalphabetic substitution.</description>
 
-    <outputBox plugin="VigenereOutput1" property="CurrentValue" alignment="Stretch" width="49%" visibleLines="5" group="2">
-      <description lang="en">
-        Encryption output:
-      </description>
-    </outputBox>
+      <headline lang="en" >Vigenère Output</headline>
+      <desc lang="en">Here, you can change the parameters and view the results.</desc>
+
+      <inputBox plugin="VigenereInput1" property="Text" alignment="Stretch" visibleLines="5" >
+        <description lang="en">Message to encrypt:</description>
+        <defaultvalue>Hello world! Hallo Welt! Hola mundo! Bonjour le monde!</defaultvalue>
+      </inputBox>
+
+      <outputBox plugin="VigenereOutput1" property="CurrentValue" alignment="Stretch" width="49%" visibleLines="5" group="2">
+        <description lang="en">Encryption output:</description>
+      </outputBox>
     
-    <outputBox plugin="VigenereOutput2" property="CurrentValue" alignment="Stretch" width="49%" visibleLines="5" group="2">
-      <description lang="en">
-        Decryption output:
-      </description>
-    </outputBox>
+      <outputBox plugin="VigenereOutput2" property="CurrentValue" alignment="Stretch" width="49%" visibleLines="5" group="2">
+        <description lang="en">Decryption output:</description>
+      </outputBox>
     
-  </sampleViewer>
+    </sampleViewer>
+  </input>
 
   <!-- Substitution input -->
   <input image="Substitution">
     <name lang="en" >Substitution</name>
-    <description lang="en" >
-      Substitution is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
-    </description>
+    <description lang="en" >A substitution cipher is a method of encryption by which units of plaintext are replaced with ciphertext according to a regular system; the "units" may be single letters (the most common), pairs of letters, triplets of letters, mixtures of the above, and so forth. The receiver deciphers the text by performing an inverse substitution.</description>
+
+    <headline lang="en" >Substitution Input</headline>
+    <desc lang="en">Here, you can input the message an the key to use.</desc>
+
+    <inputBox plugin="Cleartext" property="Text" alignment="Right" width="78%" visibleLines="5" group="1">
+      <description lang="en">Message to encrypt:</description>
+      <defaultvalue lang="en">Hello world! Hallo Welt! Hola mundo! Bonjour le monde!</defaultvalue>
+    </inputBox>
+
+    <inputBox plugin="Keyword" property="Text" alignment="Right" width="20%" visibleLines="5" group="1">
+      <description lang="en">Key:</description>
+      <defaultvalue lang="en">TURING</defaultvalue>
+    </inputBox>
+    
+    <sampleViewer image="Substitution" file="WorkspaceManagerSamples\Substitution_Sample.cwm">
+      <name lang="en" >Substitution Output</name>
+      <description lang="en" >A substitution cipher is a method of encryption by which units of plaintext are replaced with ciphertext according to a regular system; the "units" may be single letters (the most common), pairs of letters, triplets of letters, mixtures of the above, and so forth. The receiver deciphers the text by performing an inverse substitution.</description>
+
+      <headline lang="en" >Substitution Output</headline>
+      <desc lang="en">Here, you can change the parameters and view the results.</desc>
+
+      <inputBox plugin="Cleartext" property="Text" alignment="Stretch" visibleLines="5">
+        <description lang="en">Message to encrypt:</description>
+        <defaultvalue lang="en">Hello world! Hallo Welt! Hola mundo! Bonjour le monde!</defaultvalue>
+      </inputBox>
+
+      <outputBox plugin="Ciphertext" property="CurrentValue" alignment="Stretch" width="49%" visibleLines="5" group="2">
+        <description lang="en">Encryption output:</description>
+      </outputBox>
+
+      <outputBox plugin="Deciphered Ciphertext" property="CurrentValue" alignment="Stretch" width="49%" visibleLines="5" group="2">
+        <description lang="en">Decryption output:</description>
+      </outputBox>
+
+    </sampleViewer>
   </input>
 
   <!-- Enigma input -->
   <input image="Enigma">
     <name lang="en" >Enigma</name>
-    <description lang="en" >
-      Enigma is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
-    </description>
+    <description lang="en" >An Enigma machine is any of a family of related electro-mechanical rotor machines used for the encryption and decryption of secret messages.</description>
+
+    <headline lang="en" >Message Input</headline>
+    <desc lang="en">Here, you can change the parameters and view the results.</desc>
+
+    <inputBox plugin="Cleartext" property="Text" alignment="Stretch" visibleLines="5" >
+      <description lang="en">Message to encrypt:</description>
+      <defaultvalue lang="de">Wir wurden entdeckt, sofortiger Rückzug!</defaultvalue>
+    </inputBox>
+
+    <loadSample file="WorkspaceManagerSamples\Enigma_Sample.cwm" title="W_Enigma_Sample"/>
+    
   </input>
 
   <!-- Playfair input -->
   <input image="Playfair">
     <name lang="en" >Playfair</name>
-    <description lang="en" >
-      Playfair is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
-    </description>
+    <description lang="en" >Playfair is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).</description>
 
     <headline lang="en" >Playfair</headline>
     <desc lang="en" >Please input key and cleartext.</desc>
 
-    <inputBox plugin="Playfair Encryption;Playfair Decryption" property="Key" alignment="Left" width="30%" visibleLines="1" group="InputGroup">
-      <description lang="en">
-        Key:
-      </description>
-      <defaultvalue>
-        BCD
-      </defaultvalue>
+    <inputBox plugin="Cleartext" property="Text" alignment="Right" width="70%" visibleLines="5" group="InputGroup">
+      <description lang="en">Message:</description>
+      <defaultvalue lang="en">This is a test!</defaultvalue>
     </inputBox>
 
-    <inputBox plugin="Cleartext" property="Text" alignment="Right" width="70%" visibleLines="5" group="InputGroup">
-      <description lang="en">
-        Message:
-      </description>
-      <defaultvalue lang="en">
-        This is a test!
-      </defaultvalue>
+    <inputBox plugin="Playfair Encryption;Playfair Decryption" property="Key" alignment="Left" width="30%" visibleLines="1" group="InputGroup">
+      <description lang="en">Key:</description>
+      <defaultvalue>BCD</defaultvalue>
     </inputBox>
-    
+
     <sampleViewer image="Playfair" file="WorkspaceManagerSamples\Playfair_Sample.cwm">
       <name lang="en" >Playfair</name>
       
       <headline lang="en" >Playfair Output</headline>
+      <desc lang="en">Here, you can change the parameters and view the results.</desc>
 
-      <inputBox plugin="Cleartext" property="Text" alignment="Strecht" width="70%" visibleLines="5" group="InputGroup">
-        <description lang="en">
-          Message:
-        </description>
-        <defaultvalue lang="en">
-          This is a test!
-        </defaultvalue>
+      <inputBox plugin="Cleartext" property="Text" alignment="Stretch" visibleLines="5" >
+        <description lang="en">Message:</description>
+        <defaultvalue lang="en">This is a test!</defaultvalue>
       </inputBox>
 
-      <outputBox plugin="Ciphertext" property="CurrentValue" alignment="Left" width="50%" visibleLines="5" group="OutputGroup">
-        <description lang="en">
-          Encryption output:
-        </description>
+      <outputBox plugin="Ciphertext" property="CurrentValue" alignment="Left" width="49%" visibleLines="5" group="OutputGroup">
+        <description lang="en">Encryption output:</description>
       </outputBox>
 
-      <outputBox plugin="Deciphered Ciphertext" property="CurrentValue" alignment="Right" width="50%" visibleLines="5" group="OutputGroup">
-        <description lang="en">
-          Decryption output:
-        </description>
+      <outputBox plugin="Deciphered Ciphertext" property="CurrentValue" alignment="Right" width="49%" visibleLines="5" group="OutputGroup">
+        <description lang="en">Decryption output:</description>
       </outputBox>
     
     </sampleViewer>
   </input>
 
   <!-- ADFGVX input -->
-  <input image="ADFGVX">
+  <!--<input image="ADFGVX">
     <name lang="en" >ADFGVX</name>
-    <description lang="en" >
-      ADFGVX is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
-    </description>
-  </input>
+    <description lang="en" >ADFGVX is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).</description>
+  </input>-->
 
   <!-- XOR input -->
   <input image="XOR">
     <name lang="en" >XOR</name>
-    <description lang="en" >
-      XOR is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
-    </description>
+    <description lang="en" >XOR is a boolean operator which can be used to encrypt plaintext.</description>
+
+    <headline lang="en" >XOR Input</headline>
+    <desc lang="en">Here, you can input the message an the key to use.</desc>
+
+    <inputBox plugin="Cleartext" property="Text" alignment="Strecht" width="49%" visibleLines="5" group="InputGroup">
+      <description lang="en">Message:</description>
+      <defaultvalue lang="en">This is a test!</defaultvalue>
+    </inputBox>
+
+    <inputBox plugin="Key" property="Text" alignment="Strecht" width="49%" visibleLines="5" group="InputGroup">
+      <description lang="en">Key:</description>
+      <defaultvalue lang="en">This is a key!</defaultvalue>
+    </inputBox>
+    
+    <sampleViewer image="XOR" file="WorkspaceManagerSamples\XOR_Sample.cwm">
+      <name lang="en" >XOR</name>
+      <description lang="en" >XOR is a boolean operator which can be used to encrypt plaintext.</description>
+
+      <headline lang="en" >XOR Output</headline>
+      <desc lang="en">Here, you can change the parameters and view the results.</desc>
+
+      <inputBox plugin="Cleartext" property="Text" alignment="Stretch" visibleLines="5" >
+        <description lang="en">Message:</description>
+        <defaultvalue lang="en">This is a test!</defaultvalue>
+      </inputBox>
+
+      <outputBox plugin="Ciphertext" property="CurrentValue" alignment="Left" width="49%" visibleLines="5" group="OutputGroup">
+        <description lang="en">Encryption output:</description>
+      </outputBox>
+
+      <outputBox plugin="Deciphered Ciphertext" property="CurrentValue" alignment="Right" width="49%" visibleLines="5" group="OutputGroup">
+        <description lang="en">Decryption output:</description>
+      </outputBox>
+    
+    </sampleViewer>
   </input>
 
   <!-- Vernam input -->
   <input image="Vernam">
     <name lang="en" >Vernam</name>
-    <description lang="en" >
-      Vernam is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
-    </description>
+    <description lang="en" >A Vernam cipher is a symmetrical stream cipher in which the plaintext is XORed with a random or pseudorandom stream of data (the "keystream") of the same length to generate the ciphertext.</description>
+
+    <headline lang="en" >Vernam Input</headline>
+    <desc lang="en">Here, you can input the message an the key to use.</desc>
+
+    <inputBox plugin="Cleartext" property="Text" alignment="Strecht" width="49%" visibleLines="5" group="InputGroup">
+      <description lang="en">Message:</description>
+      <defaultvalue lang="en">This is a test!</defaultvalue>
+    </inputBox>
+
+    <inputBox plugin="Key" property="Text" alignment="Strecht" width="49%" visibleLines="5" group="InputGroup">
+      <description lang="en">Key:</description>
+      <defaultvalue lang="en">This is a key!</defaultvalue>
+    </inputBox>
+    
+    <sampleViewer image="Vernam" file="WorkspaceManagerSamples\Vernam_Sample.cwm">
+      <name lang="en" >Vernam</name>
+      <description lang="en" >A Vernam cipher is a symmetrical stream cipher in which the plaintext is XORed with a random or pseudorandom stream of data (the "keystream") of the same length to generate the ciphertext.</description>
+
+      <headline lang="en" >Vernam Output</headline>
+      <desc lang="en">Here, you can change the parameters and view the results.</desc>
+
+      <inputBox plugin="Cleartext" property="Text" alignment="Stretch" visibleLines="5" >
+        <description lang="en">Message:</description>
+        <defaultvalue lang="en">This is a test!</defaultvalue>
+      </inputBox>
+
+      <outputBox plugin="Ciphertext" property="CurrentValue" alignment="Left" width="49%" visibleLines="5" group="OutputGroup">
+        <description lang="en">Encryption output:</description>
+      </outputBox>
+
+      <outputBox plugin="Deciphered Ciphertext" property="CurrentValue" alignment="Right" width="49%" visibleLines="5" group="OutputGroup">
+        <description lang="en">Decryption output:</description>
+      </outputBox>
+
+    </sampleViewer>
   </input>
 
   <!-- Transposition input -->
-  <sampleViewer file="WorkspaceManagerSamples\Transposition_Sample.cwm" image="Transposition">
+  <input image="Transposition">
     <name lang="en">Transposition</name>
-    <description lang="en" >
-      Transposition is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
-    </description>
+    <description lang="en" >A transposition cipher is a method of encryption by which the positions held by units of plaintext (which are commonly characters or groups of characters) are shifted according to a regular system, so that the ciphertext constitutes a permutation of the plaintext.</description>
 
-    <headline lang="en" >Transposition Cipher</headline>
-    <desc lang="en">Here, you can change the parameters and view the results.</desc>
+    <headline lang="en" >Transposition Input</headline>
+    <desc lang="en">Here, you can input the message an the key to use.</desc>
 
-    <presentation plugin="TranspositionInput1" width="78%" height="100" group="1">
-      <description lang="en">
-        Message to encrypt:
-      </description>
-    </presentation>
+    <inputBox plugin="TranspositionInput1" property="Text" alignment="Stretch" width="49%" visibleLines="5" group="InputGroup">
+      <description lang="en">Message:</description>
+      <defaultvalue lang="en">This is a test!</defaultvalue>
+    </inputBox>
 
-    <presentation plugin="TranspositionInput2" width="20%" height="100" group="1">
-      <description lang="en">
-        Key:
-      </description>      
-    </presentation>
+    <inputBox plugin="TranspositionInput2" property="Text" alignment="Stretch" width="49%" visibleLines="5" group="InputGroup">
+      <description lang="en">Key:</description>
+      <defaultvalue lang="en">This is a key!</defaultvalue>
+    </inputBox>
+    
+    <sampleViewer file="WorkspaceManagerSamples\Transposition_Sample.cwm" image="Transposition">
+      <name lang="en">Transposition Output</name>
+      <description lang="en" >a transposition cipher is a method of encryption by which the positions held by units of plaintext (which are commonly characters or groups of characters) are shifted according to a regular system, so that the ciphertext constitutes a permutation of the plaintext.</description>
 
-    <presentation plugin="TranspositionEncrypt" height="300" width="49%" group="2">
-      <description lang="en">
-        Encryption:
-      </description>
-    </presentation>
+      <headline lang="en" >Transposition Cipher</headline>
+      <desc lang="en">Here, you can change the parameters and view the results.</desc>
 
-    <presentation plugin="TranspositionDecrypt" height="300" width="49%" group="2">
-      <description lang="en">
-        Decryption:
-      </description>
-    </presentation>
+      <inputBox plugin="TranspositionInput1" property="Text" alignment="Stretch" visibleLines="5" >
+        <description lang="en">Message:</description>
+        <defaultvalue lang="en">This is a test!</defaultvalue>
+      </inputBox>
 
-    <outputBox plugin="TranspositionOutput1" property="CurrentValue" alignment="Stretch" width="49%" visibleLines="2" group="3">
-      <description lang="en">
-        Encryption output:
-      </description>
-    </outputBox>
+      <presentation plugin="TranspositionEncrypt" height="300" width="49%" group="2">
+        <description lang="en">Encryption:</description>
+      </presentation>
 
-    <outputBox plugin="TranspositionOutput2" property="CurrentValue" alignment="Stretch" width="49%" visibleLines="2" group="3">
-      <description lang="en">
-        Decryption output:
-      </description>
-    </outputBox>
+      <presentation plugin="TranspositionDecrypt" height="300" width="49%" group="2">
+        <description lang="en">Decryption:</description>
+      </presentation>
 
-  </sampleViewer>
+      <outputBox plugin="TranspositionOutput1" property="CurrentValue" alignment="Stretch" width="49%" visibleLines="2" group="3">
+        <description lang="en">Encryption output:</description>
+      </outputBox>
+
+      <outputBox plugin="TranspositionOutput2" property="CurrentValue" alignment="Stretch" width="49%" visibleLines="2" group="3">
+        <description lang="en">Decryption output:</description>
+      </outputBox>
+
+    </sampleViewer>
+    
+  </input>
 
   <!-- Scytale input -->
   <input image="Scytale">
     <name lang="en" >Scytale</name>
-    <description lang="en" >
-      Scytale is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
-    </description>
+    <description lang="en" >A scytale is a tool used to perform a transposition cipher, consisting of a cylinder with a strip of parchment wound around it on which is written a message.</description>
+
+    <headline lang="en" >Scytale Input</headline>
+    <desc lang="en">Here, you can input the message an the key to use.</desc>
+
+    <inputBox plugin="Cleartext" property="Text" alignment="Stretch" width="49%" visibleLines="5" group="InputGroup">
+      <description lang="en">Message:</description>
+      <defaultvalue lang="en">This is a test!</defaultvalue>
+    </inputBox>
+
+    <inputBox plugin="Key" property="Text" alignment="Stretch" width="49%" visibleLines="5" group="InputGroup" regex="[0-9]+">
+      <description lang="en">Key:</description>
+      <defaultvalue lang="en">123456</defaultvalue>
+    </inputBox>
+    
+    <sampleViewer image="Scytale" file="WorkspaceManagerSamples\Scytale_Sample.cwm" >
+      <name lang="en" >Scytale Output</name>
+      <description lang="en" >A scytale is a tool used to perform a transposition cipher, consisting of a cylinder with a strip of parchment wound around it on which is written a message.</description>
+
+      <headline lang="en" >Scytale Output</headline>
+      <desc lang="en">Here, you can change the parameters and view the results.</desc>
+
+      <inputBox plugin="Cleartext" property="Text" alignment="Stretch" visibleLines="5" group="InputGroup">
+        <description lang="en">Message:</description>
+        <defaultvalue lang="en">This is a test!</defaultvalue>
+      </inputBox>
+
+      <outputBox plugin="Ciphertext" property="CurrentValue" alignment="Left" width="49%" visibleLines="5" group="OutputGroup">
+        <description lang="en">Encryption output:</description>
+      </outputBox>
+
+      <outputBox plugin="Deciphered Ciphertext" property="CurrentValue" alignment="Right" width="49%" visibleLines="5" group="OutputGroup">
+        <description lang="en">Decryption output:</description>
+      </outputBox>
+    
+    </sampleViewer>
+    
   </input>
 
 </category>
