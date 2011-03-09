@@ -146,6 +146,18 @@ namespace WorkspaceManager.View.BinVisual
             }
         }
 
+        public static readonly DependencyProperty IsConnectorDragStartedProperty = DependencyProperty.Register("IsConnectorDragStarted", typeof(bool),
+            typeof(BinComponentVisual), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
+
+        public bool IsConnectorDragStarted
+        {
+            get { return (bool)base.GetValue(IsConnectorDragStartedProperty); }
+            set
+            {
+                base.SetValue(IsConnectorDragStartedProperty, value);
+            }
+        }
+
         public static readonly DependencyProperty StateProperty = DependencyProperty.Register("State",
             typeof(BinFuctionState), typeof(BinComponentVisual), new FrameworkPropertyMetadata(BinFuctionState.Min, new PropertyChangedCallback(OnMyValueChanged)));
 
@@ -381,15 +393,6 @@ namespace WorkspaceManager.View.BinVisual
 
         #region Event Handler
         #region DragDropHandler
-        private void PreviewDragEnterHandler(object sender, DragEventArgs e)
-        {
-
-        }
-
-        private void PreviewDragLeaveHandler(object sender, DragEventArgs e)
-        {
-
-        }
 
         private void PreviewDropHandler(object sender, DragEventArgs e)
         {
@@ -398,11 +401,30 @@ namespace WorkspaceManager.View.BinVisual
                 try
                 {
                     ItemsControl items = (ItemsControl)sender;
-                    IEnumerable itemsSource = items.ItemsSource;
-                    BinConnectorVisual connector = e.Data.GetData("BinConnector") as BinConnectorVisual;
+                    BinConnectorVisual connector = (BinConnectorVisual)e.Data.GetData("BinConnector");
 
-                    if (itemsSource is IList && !((IList)itemsSource).Contains(connector))
-                        ((IList)itemsSource).Add(connector);
+                    if (connector.WindowParent != this)
+                        return;
+
+                    switch (connector.Orientation)
+                    {
+                        case ConnectorOrientation.North:
+                            NorthConnectorCollection.Remove(connector);
+                            break;
+                        case ConnectorOrientation.South:
+                            SouthConnectorCollection.Remove(connector);
+                            break;
+                        case ConnectorOrientation.East:
+                            EastConnectorCollection.Remove(connector);
+                            break;
+                        case ConnectorOrientation.West:
+                            WestConnectorCollection.Remove(connector);
+                            break;
+                    }
+
+                    IList itemsSource = (IList) items.ItemsSource;
+                    itemsSource.Add(connector);
+                    IsConnectorDragStarted = false;
                 }
                 catch (Exception ex)
                 {
@@ -558,8 +580,8 @@ namespace WorkspaceManager.View.BinVisual
                     case Base.PanelOrientation.West:
                         if (bin.Orientation == ConnectorOrientation.West)
                             continue;
-                                                
-                        bin.Orientation = ConnectorOrientation.East;
+
+                        bin.Orientation = ConnectorOrientation.West;
                         if (bin.IsOutgoing)
                             t.Angle = (double)90;
                         else
@@ -569,7 +591,7 @@ namespace WorkspaceManager.View.BinVisual
                         if (bin.Orientation == ConnectorOrientation.North)
                             continue;
 
-                        bin.Orientation = ConnectorOrientation.East;
+                        bin.Orientation = ConnectorOrientation.North;
                         if (bin.IsOutgoing)
                             t.Angle = (double)180;
                         else

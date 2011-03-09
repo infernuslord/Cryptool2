@@ -220,6 +220,20 @@
             </Style.Triggers>
         </Style>
 
+        <Style x:Key="DragBorderStyle" TargetType="{x:Type Border}">
+            <Setter Property="CornerRadius" Value="5"></Setter>
+            <Setter Property="BorderBrush" Value="Transparent"></Setter>
+            <Setter Property="Background" Value="Transparent"></Setter>
+            <Setter Property="BorderThickness" Value="1"></Setter>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=IsConnectorDragStarted}" Value="True">
+                    <Setter Property="BorderBrush" Value="#99FFFFFF"></Setter>
+                    <Setter Property="Background" Value="#55FFFFFF"></Setter>
+                    <Setter Property="BorderThickness" Value="1"></Setter>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
         <x:Array Type="{x:Type Button}" x:Key="Actions">
             <Button ToolTip="Settings" Style="{StaticResource ResourceKey=ActionBasicStyle}" Click="ActionHandler">
                 <Button.Tag>
@@ -294,42 +308,49 @@
             <!--##########/Definitions##########-->
         
             <!--##########Docking Panels##########-->
+            <Border Style="{StaticResource ResourceKey=DragBorderStyle}" Grid.Column="0" Grid.Row="1">
+                <ItemsControl x:Name="West" ItemsSource="{Binding Path=WestConnectorCollection}" 
+                              PreviewDrop="PreviewDropHandler">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <local:NSWEStackPanel Orientation="Vertical" PanelOrientation="West" Background="#01000000" Width="18"></local:NSWEStackPanel>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+            </Border>
 
-            <ItemsControl x:Name="West" ItemsSource="{Binding Path=WestConnectorCollection}" Grid.Column="0" Grid.Row="1"
-                          PreviewDragEnter="PreviewDragEnterHandler" PreviewDragLeave="PreviewDragLeaveHandler" PreviewDrop="PreviewDropHandler">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <local:NSWEStackPanel Orientation="Vertical" PanelOrientation="West" Background="#01000000" Width="18"></local:NSWEStackPanel>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-            </ItemsControl>
+            <Border Style="{StaticResource ResourceKey=DragBorderStyle}" Grid.Column="2" Grid.Row="1"> 
+                <ItemsControl x:Name="East" ItemsSource="{Binding Path=EastConnectorCollection}" 
+                              PreviewDrop="PreviewDropHandler">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <local:NSWEStackPanel Orientation="Vertical" PanelOrientation="East" Background="#01000000" Width="18"></local:NSWEStackPanel>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+            </Border>
 
-            <ItemsControl x:Name="East" ItemsSource="{Binding Path=EastConnectorCollection}" Grid.Column="2" Grid.Row="1"
-                          PreviewDragEnter="PreviewDragEnterHandler" PreviewDragLeave="PreviewDragLeaveHandler" PreviewDrop="PreviewDropHandler">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <local:NSWEStackPanel Orientation="Vertical" PanelOrientation="East" Background="#01000000" Width="18"></local:NSWEStackPanel>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-            </ItemsControl>
+            <Border Style="{StaticResource ResourceKey=DragBorderStyle}" Grid.Column="1" Grid.Row="0">
+                <ItemsControl x:Name="North" ItemsSource="{Binding Path=NorthConnectorCollection}" 
+                              PreviewDrop="PreviewDropHandler">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <local:NSWEStackPanel Orientation="Horizontal" PanelOrientation="North" Background="#01000000" Height="18"></local:NSWEStackPanel>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+            </Border>
 
-            <ItemsControl x:Name="North" ItemsSource="{Binding Path=NorthConnectorCollection}" Grid.Column="1" Grid.Row="0"
-                          PreviewDragEnter="PreviewDragEnterHandler" PreviewDragLeave="PreviewDragLeaveHandler" PreviewDrop="PreviewDropHandler">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <local:NSWEStackPanel Orientation="Horizontal" PanelOrientation="North" Background="#01000000" Height="18"></local:NSWEStackPanel>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-            </ItemsControl>
-
-            <ItemsControl x:Name="South" ItemsSource="{Binding Path=SouthConnectorCollection}" Grid.Column="1" Grid.Row="2"
-                          PreviewDragEnter="PreviewDragEnterHandler" PreviewDragLeave="PreviewDragLeaveHandler" PreviewDrop="PreviewDropHandler">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <local:NSWEStackPanel Orientation="Horizontal" PanelOrientation="South" Background="#01000000" Height="18" ></local:NSWEStackPanel>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-            </ItemsControl>
+            <Border Style="{StaticResource ResourceKey=DragBorderStyle}" Grid.Column="1" Grid.Row="2">
+                <ItemsControl x:Name="South" ItemsSource="{Binding Path=SouthConnectorCollection}" 
+                              PreviewDrop="PreviewDropHandler">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <local:NSWEStackPanel Orientation="Horizontal" PanelOrientation="South" Background="#01000000" Height="18" ></local:NSWEStackPanel>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+            </Border>
 
             <!--##########/Docking Panels##########-->
 
@@ -344,7 +365,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="25"></RowDefinition>
                         <RowDefinition Height="*"></RowDefinition>
-                        <RowDefinition Height="16"></RowDefinition>
+                        <!--<RowDefinition Height="16"></RowDefinition>-->
                     </Grid.RowDefinitions>
                     <!--##########/Definitions##########-->
 
@@ -385,15 +406,15 @@
                     
                     </ContentPresenter>
 
-                    <Thumb Style="{StaticResource ResourceKey=InvisibleThumbStyle}" Grid.Column="0" Grid.Row="1"
-                           DragDelta="PositionDragDeltaHandler"></Thumb>
-
-                    <ProgressBar x:Name="ProgressBar" Value="{Binding Path=Progress}" Maximum="1" Foreground="ForestGreen" Grid.Row="2"></ProgressBar>
-                    <TextBlock Name="Percentage" FontFamily="Tahoma" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="ExtraBold" Foreground="#999" Grid.Row="2">
+                    <ProgressBar x:Name="ProgressBar" Value="{Binding Path=Progress}" Maximum="1" Foreground="ForestGreen" Grid.Column="0" Grid.Row="1"></ProgressBar>
+                    <TextBlock Name="Percentage" FontFamily="Tahoma" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontWeight="ExtraBold" Foreground="#999" Grid.Column="0" Grid.Row="1">
                         <TextBlock.Text>
                             <Binding Path="Progress" StringFormat=" {0}&#37;" FallbackValue="0"></Binding>
                         </TextBlock.Text>
                     </TextBlock>
+
+                    <Thumb Style="{StaticResource ResourceKey=InvisibleThumbStyle}" Grid.Column="0" Grid.Row="1"
+                           DragDelta="PositionDragDeltaHandler"></Thumb>
                     
                     <Thumb Style="{StaticResource ResourceKey=ScaleThumb}" Grid.Column="0" Grid.Row="1" Grid.RowSpan="2"
                            Cursor="SizeNWSE" DragDelta="ScaleDragDeltaHandler"></Thumb>
