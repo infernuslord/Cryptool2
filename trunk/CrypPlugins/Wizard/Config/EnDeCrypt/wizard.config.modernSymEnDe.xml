@@ -21,7 +21,7 @@
     <description lang="en" >The Advanced Encryption Standard (AES) is a symmetric-key encryption standard adopted by the U.S. government. The standard comprises three block ciphers, AES-128, AES-192 and AES-256, adopted from a larger collection originally published as Rijndael.</description>
 
     <headline lang="en" >Message Input</headline>
-    <desc lang="en">Here, you can input the message an the key to use.</desc>
+    <desc lang="en">Here, you can input the message and the key to use.</desc>
 
     <inputBox plugin="Cleartext" property="Text" alignment="Right" width="78%" visibleLines="5" group="1">
       <description lang="en">Message to encrypt:</description>
@@ -76,7 +76,7 @@
     <description lang="en" >The Data Encryption Standard (DES) is a block cipher that uses shared secret encryption.</description>
 
     <headline lang="en" >Message Input</headline>
-    <desc lang="en">Here, you can input the message an the key to use.</desc>
+    <desc lang="en">Here, you can input the message and the key to use.</desc>
 
     <inputBox plugin="Cleartext" property="Text" alignment="Right" width="78%" visibleLines="5" group="1">
       <description lang="en">Message to encrypt:</description>
@@ -124,7 +124,7 @@
     <description lang="en" >SDES or Simple DES is a simpler form of DES (Data Encryption Standard).</description>
 
     <headline lang="en" >Message Input</headline>
-    <desc lang="en">Here, you can input the message an the key to use.</desc>
+    <desc lang="en">Here, you can input the message and the key to use.</desc>
 
     <inputBox plugin="Cleartext" property="Text" alignment="Right" width="78%" visibleLines="5" group="1">
       <description lang="en">Message to encrypt:</description>
@@ -175,7 +175,7 @@
     <description lang="en" >Twofish is a symmetric key block cipher with a block size of 128 bits and key sizes up to 256 bits.</description>
 
     <headline lang="en" >Message Input</headline>
-    <desc lang="en">Here, you can input the message an the key to use.</desc>
+    <desc lang="en">Here, you can input the message and the key to use.</desc>
 
     <inputBox plugin="Cleartext" property="Text" alignment="Right" width="78%" visibleLines="5" group="1">
       <description lang="en">Message to encrypt (must be multiple of 16):</description>
@@ -237,7 +237,7 @@
     <description lang="en" >The Tiny Encryption Algorithm (TEA) is a block cipher notable for its simplicity of description and implementation, typically a few lines of code.</description>
 
     <headline lang="en" >Message Input</headline>
-    <desc lang="en">Here, you can input the message an the key to use.</desc>
+    <desc lang="en">Here, you can input the message and the key to use.</desc>
 
     <inputBox plugin="Cleartext" property="Text" alignment="Right" width="78%" visibleLines="5" group="1">
       <description lang="en">Message to encrypt:</description>
@@ -286,7 +286,7 @@
     <description lang="en" >RC2 is a block cipher designed by Ron Rivest in 1987. "RC" stands for "Ron's Code" or "Rivest Cipher".</description>
 
     <headline lang="en" >Message Input</headline>
-    <desc lang="en">Here, you can input the message an the key to use.</desc>
+    <desc lang="en">Here, you can input the message and the key to use.</desc>
 
     <inputBox plugin="Cleartext" property="Text" alignment="Right" width="78%" visibleLines="5" group="1">
       <description lang="en">Message to encrypt:</description>

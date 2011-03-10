@@ -21,7 +21,7 @@
     <description lang="en" >This encryption algorithm already used by the Roman general and dictator Caesar substitutes single letters: The substitution rule is that the letters of the cleartext alphabet are shifted by a special value (key).</description>
 
     <headline lang="en" >Message Input</headline>
-    <desc lang="en">Here, you can input the message an the key to use.</desc>
+    <desc lang="en">Here, you can input the message and the key to use.</desc>
 
     <inputBox plugin="TextInput1" property="Text" alignment="Right" width="80%" visibleLines="5" group="input1">
       <description lang="en">Message to encrypt:</description>
@@ -63,7 +63,7 @@
     <description lang="en" >The Vigenère cipher is a method of encrypting alphabetic text by using a series of different Caesar ciphers based on the letters of a keyword. It is a simple form of polyalphabetic substitution.</description>
 
     <headline lang="en" >Message Input</headline>
-    <desc lang="en">Here, you can input the message an the key to use.</desc>
+    <desc lang="en">Here, you can input the message and the key to use.</desc>
 
     <inputBox plugin="VigenereInput1" property="Text" alignment="Right" width="78%" visibleLines="5" group="1">
       <description lang="en">Message to encrypt:</description>
@@ -104,7 +104,7 @@
     <description lang="en" >A substitution cipher is a method of encryption by which units of plaintext are replaced with ciphertext according to a regular system; the "units" may be single letters (the most common), pairs of letters, triplets of letters, mixtures of the above, and so forth. The receiver deciphers the text by performing an inverse substitution.</description>
 
     <headline lang="en" >Message Input</headline>
-    <desc lang="en">Here, you can input the message an the key to use.</desc>
+    <desc lang="en">Here, you can input the message and the key to use.</desc>
 
     <inputBox plugin="Cleartext" property="Text" alignment="Right" width="78%" visibleLines="5" group="1">
       <description lang="en">Message to encrypt:</description>
@@ -208,7 +208,7 @@
     <description lang="en" >XOR is a boolean operator which can be used to encrypt plaintext.</description>
 
     <headline lang="en" >Message Input</headline>
-    <desc lang="en">Here, you can input the message an the key to use.</desc>
+    <desc lang="en">Here, you can input the message and the key to use.</desc>
 
     <inputBox plugin="Cleartext" property="Text" alignment="Strecht" width="49%" visibleLines="5" group="InputGroup">
       <description lang="en">Message:</description>
@@ -249,7 +249,7 @@
     <description lang="en" >A Vernam cipher is a symmetrical stream cipher in which the plaintext is XORed with a random or pseudorandom stream of data (the "keystream") of the same length to generate the ciphertext.</description>
 
     <headline lang="en" >Message Input</headline>
-    <desc lang="en">Here, you can input the message an the key to use.</desc>
+    <desc lang="en">Here, you can input the message and the key to use.</desc>
 
     <inputBox plugin="Cleartext" property="Text" alignment="Strecht" width="49%" visibleLines="5" group="InputGroup">
       <description lang="en">Message:</description>
@@ -290,7 +290,7 @@
     <description lang="en" >A transposition cipher is a method of encryption by which the positions held by units of plaintext (which are commonly characters or groups of characters) are shifted according to a regular system, so that the ciphertext constitutes a permutation of the plaintext.</description>
 
     <headline lang="en" >Message Input</headline>
-    <desc lang="en">Here, you can input the message an the key to use.</desc>
+    <desc lang="en">Here, you can input the message and the key to use.</desc>
 
     <inputBox plugin="TranspositionInput1" property="Text" alignment="Stretch" width="49%" visibleLines="5" group="InputGroup">
       <description lang="en">Message:</description>
@@ -340,7 +340,7 @@
     <description lang="en" >A scytale is a tool used to perform a transposition cipher, consisting of a cylinder with a strip of parchment wound around it on which is written a message.</description>
 
     <headline lang="en" >Message Input</headline>
-    <desc lang="en">Here, you can input the message an the key to use.</desc>
+    <desc lang="en">Here, you can input the message and the key to use.</desc>
 
     <inputBox plugin="Cleartext" property="Text" alignment="Stretch" width="49%" visibleLines="5" group="InputGroup">
       <description lang="en">Message:</description>
