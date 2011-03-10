@@ -4,9 +4,7 @@
 <!-- This is the XML file defining the modern encryption/decryption categories a user can select from. -->
 <category image="Modern">
   <name lang="en" >Modern Encryption/Decryption</name>
-  <description lang="en" >
-    Select a modern algorithm to encrypt plaintext or to decrypt ciphertext.
-  </description>
+  <description lang="en" >Select a modern algorithm to encrypt plaintext or to decrypt ciphertext.</description>
 
   <!-- This is the step's headline. It should be short, but precise. -->
   <headline lang="en" >Key Type Selection</headline>
@@ -20,9 +18,7 @@
   <!-- Asymmetric Encryption/Decryption Category -->
   <category image="Asym">
     <name lang="en" >Asymmetric Encryption/Decryption</name>
-    <description lang="en" >
-      Select an asymmetric modern algorithm to encrypt plaintext or to decrypt ciphertext.
-    </description>
+    <description lang="en" >Select an asymmetric modern algorithm to encrypt plaintext or to decrypt ciphertext.</description>
 
     <!-- This is the step's headline. It should be short, but precise. -->
     <headline lang="en" >Algorithm Selection</headline>
@@ -43,12 +39,10 @@ RSA is widely used in electronic commerce protocols, and is believed to be secur
       
       <input image="RSA" >
         <name lang="en">RSA Encryption</name>
-        <description lang="en">
-          Select this, to use RSA for encryption.
-        </description>
+        <description lang="en">Select this, to use RSA for encryption.</description>
 
-        <headline lang="en">RSA Encryption</headline>
-        <desc lang="en">Input the public key and the message or number to encrypt here</desc>
+        <headline lang="en">RSA Encryption Input</headline>
+        <desc lang="en">Input the public key and the message or number to encrypt here.</desc>
 
         <inputBox plugin="N" property="Text" group="Key" width="20%">
           <description lang="en">N (common part of keypair):</description>
@@ -75,7 +69,7 @@ RSA is widely used in electronic commerce protocols, and is believed to be secur
           <description lang="en">RSA Encryption Output</description>
 
           <headline lang="en">RSA Encryption Output</headline>
-          <desc lang="en">Here you can see the RSA encryption output</desc>
+          <desc lang="en">Here, you can see the RSA encryption output.</desc>
 
           <presentation plugin="Ciphertext" width="90%" alignment="Left">
             <description lang="en">Ciphertext (in Hex):</description>
@@ -93,8 +87,8 @@ RSA is widely used in electronic commerce protocols, and is believed to be secur
           Select this, to use RSA for decryption.
         </description>
 
-        <headline lang="en">RSA Decryption</headline>
-        <desc lang="en">Input the private key and the message or number to decrypt here</desc>
+        <headline lang="en">RSA Decryption Input</headline>
+        <desc lang="en">Input the private key and the message or number to decrypt here.</desc>
 
         <inputBox plugin="N" property="Text" group="Key" width="20%">
           <description lang="en">N (common part of keypair):</description>
@@ -108,7 +102,7 @@ RSA is widely used in electronic commerce protocols, and is believed to be secur
 
         <inputBox plugin="Cleartext" property="Text" visibleLines="5" alignment="Left">
           <description lang="en">Text message to decrypt (in Hex):</description>
-          <defaultvalue lang="en">60000F01C1007A00A0004B0087007400F9006700A0000201870068004B001500C10024003C004100C10028001801680069007A006800C100FD00740002010F019200FD00C100F000F900A000C1002400690076009300FD0074001500C1003C006800020156006900A000C10002010F019200C100410092003E009300560002010F01C10018016800F900C100F0006900A000FD007400C10087007500EC003E0069007A003E004B00C10092009300FD007A00A0006900EC0093009200C10069007400CA00C1006900FD00C10002010F01C10002013E006700F900A0006900740068005600C100F000F900A000C10087007500EC003E0069007A00CE003D0093004B00C1007A00A0004B0087007400F9006700A0000201870068004B00B8005B005F00FE00C10060007400C1006900FD00C100740068009300C100F0006900A000FD007400C10002013E006700F900A0006900740068005600C1003D000F01F90018010F01C1007400F900C100EC009300C100FD007500690074000201EC003E009300C100F000F900A000C100FD00690067000F0169000F016700C1000201FD00C100180193003E003E00C1000201FD00C10093000F017A00A0004B00870074006900F9000F011500C10002010F019200C10018010201FD00C100F9000F019300C100F900F000C100740068009300C100F0006900A000FD007400C1006700A000930002017400C10002019200760002010F017A009300FD00C10069000F01C10087007500EC003E0069007A00C1003D0093004B00C1007A00A0004B0087007400F9006700A0000201870068004B00B800C10024003C004100C1006900FD00C10018016900920093003E004B00C1007500FD0093009200C10069000F01C10093003E0093007A007400A000F9000F0169007A00C1007A00F900560056009300A0007A009300C1008700A000F9007400F9007A00F9003E00FD001500C10002010F019200C1006900FD00C100EC0093003E0069009300760093009200C1007400F900C100EC009300C100FD0093007A007500A0009300C10067006900760093000F01C100FD007500F000F00069007A00690093000F0174003E004B00C1003E00F9000F016700C1003D0093004B00FD00C10002010F019200C100740068009300C1007500FD009300C100F900F000C10075008700CE007400F900CE009200020174009300C1006900560087003E009300560093000F017400020174006900F9000F01FD00B8</defaultvalue>
+          <defaultvalue>60000F01C1007A00A0004B0087007400F9006700A0000201870068004B001500C10024003C004100C10028001801680069007A006800C100FD00740002010F019200FD00C100F000F900A000C1002400690076009300FD0074001500C1003C006800020156006900A000C10002010F019200C100410092003E009300560002010F01C10018016800F900C100F0006900A000FD007400C10087007500EC003E0069007A003E004B00C10092009300FD007A00A0006900EC0093009200C10069007400CA00C1006900FD00C10002010F01C10002013E006700F900A0006900740068005600C100F000F900A000C10087007500EC003E0069007A00CE003D0093004B00C1007A00A0004B0087007400F9006700A0000201870068004B00B8005B005F00FE00C10060007400C1006900FD00C100740068009300C100F0006900A000FD007400C10002013E006700F900A0006900740068005600C1003D000F01F90018010F01C1007400F900C100EC009300C100FD007500690074000201EC003E009300C100F000F900A000C100FD00690067000F0169000F016700C1000201FD00C100180193003E003E00C1000201FD00C10093000F017A00A0004B00870074006900F9000F011500C10002010F019200C10018010201FD00C100F9000F019300C100F900F000C100740068009300C100F0006900A000FD007400C1006700A000930002017400C10002019200760002010F017A009300FD00C10069000F01C10087007500EC003E0069007A00C1003D0093004B00C1007A00A0004B0087007400F9006700A0000201870068004B00B800C10024003C004100C1006900FD00C10018016900920093003E004B00C1007500FD0093009200C10069000F01C10093003E0093007A007400A000F9000F0169007A00C1007A00F900560056009300A0007A009300C1008700A000F9007400F9007A00F9003E00FD001500C10002010F019200C1006900FD00C100EC0093003E0069009300760093009200C1007400F900C100EC009300C100FD0093007A007500A0009300C10067006900760093000F01C100FD007500F000F00069007A00690093000F0174003E004B00C1003E00F9000F016700C1003D0093004B00FD00C10002010F019200C100740068009300C1007500FD009300C100F900F000C10075008700CE007400F900CE009200020174009300C1006900560087003E009300560093000F017400020174006900F9000F01FD00B8</defaultvalue>
         </inputBox>
 
         <inputBox plugin="Number" property="Number" width="20%" alignment="Left">
@@ -121,7 +115,7 @@ RSA is widely used in electronic commerce protocols, and is believed to be secur
           <description lang="en">RSA Decryption Output</description>
 
           <headline lang="en">RSA Decryption Output</headline>
-          <desc lang="en">Here you can see the RSA decryption output</desc>
+          <desc lang="en">Here, you can see the RSA decryption output.</desc>
 
           <presentation plugin="Cleartext" width="90%" alignment="Left">
             <description lang="en">Cleartext:</description>

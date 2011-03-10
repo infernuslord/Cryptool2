@@ -770,6 +770,7 @@ namespace Wizard
         void page_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             SwitchButtonWhenNecessary();
+            canStopOrExecute = false;
 
             var cc = (ContentControl)sender;
             var hs = (StackPanel)history.Content;
@@ -983,8 +984,7 @@ namespace Wizard
             {
                 currentManager = newEditor;
                 canStopOrExecute = true;
-                if (Settings.Default.RunTemplate && newEditor.CanExecute)
-                    newEditor.Execute();
+                newEditor.Execute();
             }
         }
 
