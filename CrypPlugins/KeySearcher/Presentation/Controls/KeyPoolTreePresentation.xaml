@@ -26,6 +26,7 @@
             <StackPanel>
                 <Button Content="Refresh" Click="Button_Click" Name="refreshButton"/>
                 <Label Background="IndianRed" Content="Please Wait! Loading key pool tree!" Name="waitLabel" Visibility="Collapsed" HorizontalContentAlignment="Center" />
+                <Label Background="Red" Content="Error trying to update key pool data from DHT!" Name="errorLabel" Visibility="Collapsed" HorizontalContentAlignment="Center" />
             </StackPanel>
 
             <TreeView Name="treeView" Grid.Row="1" Background="LightBlue">

@@ -52,15 +52,21 @@ namespace KeySearcher.Presentation.Controls
 
         private void Update()
         {
-            _rootNode = null;
-            if (PatternPool != null && KeyQualityHelper != null && KeyGenerator != null && StatusContainer != null)
+            try
             {
-                var identifier = KeyGenerator.Generate();
-                var storageHelper = new StorageHelper(null, null, StatusContainer);
+                _rootNode = null;
+                if (PatternPool != null && KeyQualityHelper != null && KeyGenerator != null && StatusContainer != null)
+                {
+                    var identifier = KeyGenerator.Generate();
+                    var storageHelper = new StorageHelper(null, null, StatusContainer);
 
-                _rootNode = (Node) NodeFactory.CreateNode(storageHelper, KeyQualityHelper, null, 0, PatternPool.Length - 1,
-                                                          identifier);
-                _rootNode.UpdateAll();
+                    _rootNode = new Node(storageHelper, KeyQualityHelper, null, 0, PatternPool.Length - 1, identifier);
+                    _rootNode.UpdateAll();
+                }
+            }
+            catch (Exception ex)
+            {
+                _rootNode = null;
             }
         }
 
@@ -113,7 +119,9 @@ namespace KeySearcher.Presentation.Controls
         private void Button_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             waitLabel.Visibility = System.Windows.Visibility.Visible;
+            errorLabel.Visibility = System.Windows.Visibility.Collapsed;
             refreshButton.IsEnabled = false;
+
             var thread = new Thread(delegate (Object obj)
                                         {
                                             Update();
@@ -125,6 +133,10 @@ namespace KeySearcher.Presentation.Controls
                                                                         var rootItem = new TreeViewItem();
                                                                         treeView.Items.Add(rootItem);
                                                                         FillTreeItem(_rootNode, rootItem);
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        errorLabel.Visibility = System.Windows.Visibility.Visible;
                                                                     }
 
                                                                     waitLabel.Visibility = System.Windows.Visibility.Collapsed;

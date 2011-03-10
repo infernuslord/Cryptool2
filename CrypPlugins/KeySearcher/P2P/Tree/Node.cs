@@ -178,13 +178,13 @@ namespace KeySearcher.P2P.Tree
                         {
                             leftChild = NodeFactory.CreateNode(StorageHelper, KeyQualityHelper, this, From, middle,
                                                                DistributedJobIdentifier);
-
-                            if (leftChild is Node)
-                            {
-                                ((Node)leftChild).UpdateAll();
-                                UpdateChildrenReservationIndicators();
-                            }
                         }
+                    }
+
+                    if (leftChild != null && leftChild is Node)
+                    {
+                        ((Node)leftChild).UpdateAll();
+                        UpdateChildrenReservationIndicators();
                     }
                 }
 
@@ -197,13 +197,13 @@ namespace KeySearcher.P2P.Tree
                         {
                             rightChild = NodeFactory.CreateNode(StorageHelper, KeyQualityHelper, this, middle + 1, To,
                                                              DistributedJobIdentifier);
-
-                            if (rightChild is Node)
-                            {
-                                ((Node)rightChild).UpdateAll();
-                                UpdateChildrenReservationIndicators();
-                            }
                         }
+                    }
+
+                    if (rightChild != null && rightChild is Node)
+                    {
+                        ((Node)rightChild).UpdateAll();
+                        UpdateChildrenReservationIndicators();
                     }
                 }
             }
