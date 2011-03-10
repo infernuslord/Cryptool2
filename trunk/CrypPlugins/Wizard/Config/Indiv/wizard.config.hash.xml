@@ -5,9 +5,7 @@
 
 <category image="Hash">
   <name lang="en" >Hash Functions</name>
-  <description lang="en" >
-    Select hash functions to work with.
-  </description>
+  <description lang="en" >Select hash functions to work with.</description>
 
   <!-- This is the step's headline. It should be short, but precise. -->
   <headline lang="en" >Hash Function Selection</headline>
@@ -18,21 +16,17 @@
   <!-- MD5 input -->
   <category image="MD5">
     <name lang="en" >MD5</name>
-    <description lang="en" >
-      MD5 is a hash function... (add instead some really helpful text).
-    </description>
+    <description lang="en" >MD5 (Message-Digest algorithm 5) is a widely used cryptographic hash function with a 128-bit (16-byte) hash value.</description>
 
     <headline lang="en">MD5</headline>
-    <desc lang="en">Select if you want to see an interactive presentation of MD5 processing your data</desc>
+    <desc lang="en">Select if you want to see an interactive presentation of MD5 processing your data.</desc>
     
     <sampleViewer image="MD5" file="WorkspaceManagerSamples\MD5_Sample.cwm">
       <name lang="en" >MD5 Result Only</name>
-      <description lang="en" >
-        Only the result of MD5
-      </description>
+      <description lang="en" >Only the result of MD5</description>
 
       <headline lang="en">MD5</headline>
-      <desc lang="en">Input your message and watch the MD5 output here</desc>
+      <desc lang="en">Input your message and watch the MD5 output here.</desc>
 
       <inputBox plugin="Input" property="Text" width="80%" alignment="Left" visibleLines="5">
         <description lang="en">Input Message:</description>
@@ -46,12 +40,10 @@
 
     <sampleViewer image="MD5" file="WorkspaceManagerSamples\MD5_Sample.cwm">
       <name lang="en" >MD5 Interactive</name>
-      <description lang="en" >
-        Interactive MD5
-      </description>
+      <description lang="en" >Interactive MD5</description>
 
       <headline lang="en">MD5</headline>
-      <desc lang="en">Input your message and watch the MD5 output here</desc>
+      <desc lang="en">Input your message and watch the MD5 output here.</desc>
 
       <inputBox plugin="Input" property="Text" width="50%" alignment="Left" visibleLines="5" group="1">
         <description lang="en">Input Message:</description>
@@ -71,12 +63,10 @@
   <!-- SHA input -->
   <sampleViewer image="SHA" file="WorkspaceManagerSamples\SHA_Sample.cwm">
     <name lang="en" >SHA</name>
-    <description lang="en" >
-      SHA is a hash function... (add instead some really helpful text).
-    </description>
+    <description lang="en" >The Secure Hash Algorithm is one of a number of cryptographic hash functions published by the National Institute of Standards and Technology as a U.S. Federal Information Processing Standard.</description>
 
     <headline lang="en">SHA</headline>
-    <desc lang="en">Input your message and watch the SHA output here</desc>
+    <desc lang="en">Input your message and watch the SHA output here.</desc>
 
     <inputBox plugin="Input" property="Text" width="80%" alignment="Left" visibleLines="5">
       <description lang="en">Input Message:</description>
@@ -91,12 +81,10 @@
   <!-- RIPEMD160 input -->
   <sampleViewer image="RIPEMD160" file="WorkspaceManagerSamples\RIPEMD160_Sample.cwm">
     <name lang="en" >RIPEMD160</name>
-    <description lang="en" >
-      RIPEMD160 is a hash function... (add instead some really helpful text).
-    </description>
+    <description lang="en" >RIPEMD-160 (RACE Integrity Primitives Evaluation Message Digest) is a 160-bit message digest algorithm (cryptographic hash function). It is an improved version of RIPEMD, which in turn was based upon the design principles used in MD4, and is similar in performance to the more popular SHA-1.</description>
 
     <headline lang="en">RIPEMD160</headline>
-    <desc lang="en">Input your message and watch the RIPEMD160 output here</desc>
+    <desc lang="en">Input your message and watch the RIPEMD160 output here.</desc>
 
     <inputBox plugin="Input" property="Text" width="80%" alignment="Left" visibleLines="5">
       <description lang="en">Input Message:</description>
@@ -113,12 +101,10 @@ RIPEMD-160 wurde von Hans Dobbertin, Antoon Bosselaers und Bart Preneel in Europ
   <!-- Tiger input -->
   <sampleViewer image="Tiger" file="WorkspaceManagerSamples\Tiger_Sample.cwm">
     <name lang="en" >Tiger</name>
-    <description lang="en" >
-      Tiger is a hash function... (add instead some really helpful text).
-    </description>
+    <description lang="en" >Tiger is a cryptographic hash function designed by Ross Anderson and Eli Biham in 1995 for efficiency on 64-bit platforms. The size of a Tiger hash value is 192 bits.</description>
 
     <headline lang="en">Tiger</headline>
-    <desc lang="en">Input your message and watch the Tiger output here</desc>
+    <desc lang="en">Input your message and watch the Tiger output here.</desc>
 
     <inputBox plugin="Input" property="Text" width="80%" alignment="Left" visibleLines="5">
       <description lang="en">Input Message:</description>
@@ -133,12 +119,10 @@ RIPEMD-160 wurde von Hans Dobbertin, Antoon Bosselaers und Bart Preneel in Europ
   <!-- Whirlpool input -->
   <sampleViewer image="Whirlpool" file="WorkspaceManagerSamples\Whirlpool_Sample.cwm">
     <name lang="en" >Whirlpool</name>
-    <description lang="en" >
-      Whirlpool is a hash function... (add instead some really helpful text).
-    </description>
+    <description lang="en" >Whirlpool is a hash designed after the Square block cipher. Whirlpool is a Miyaguchi-Preneel construction based on a substantially modified Advanced Encryption Standard (AES). It takes a message of any length less than 2256 bits and returns a 512-bit message digest.</description>
 
     <headline lang="en">Whirlpool</headline>
-    <desc lang="en">Input your message and watch the Whirlpool output here</desc>
+    <desc lang="en">Input your message and watch the Whirlpool output here.</desc>
 
     <inputBox plugin="Input" property="Text" width="80%" alignment="Left" visibleLines="5">
       <description lang="en">Input Message:</description>

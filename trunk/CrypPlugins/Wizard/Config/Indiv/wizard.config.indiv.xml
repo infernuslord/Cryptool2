@@ -5,9 +5,7 @@
 
 <category image="Indiv">
   <name lang="en" >Individual Procedures</name>
-  <description lang="en" >
-    Select from individual procedures like hash functions, prime number operations, or key exchange.
-  </description>
+  <description lang="en" >Select from individual procedures like hash functions, prime number operations, or key exchange.</description>
 
   <!-- This is the step's headline. It should be short, but precise. -->
   <headline lang="en" >Individual Procedure Selection</headline>

@@ -263,7 +263,9 @@
     <Resource Include="Images\Hat.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Config\Analysis\wizard.config.transposition.xml" />
+    <EmbeddedResource Include="Config\Analysis\wizard.config.transposition.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Config\Indiv\wizard.config.factorization.xml" />

@@ -5,9 +5,7 @@
 
 <category image="Primes">
   <name lang="en" >Prime Number Operations</name>
-  <description lang="en" >
-    Select a prime numer operation to work with.
-  </description>
+  <description lang="en" >Select a prime numer operation to work with.</description>
 
   <!-- This is the step's headline. It should be short, but precise. -->
   <headline lang="en" >Prime Number Operation Selection</headline>
@@ -21,12 +19,10 @@
   <!-- Generation input -->
   <input image="Primes" >
     <name lang="en" >Prime Number Generation</name>
-    <description lang="en" >
-      Select to generate prime numbers.
-    </description>
+    <description lang="en" >Select to generate prime numbers.</description>
 
     <headline lang="en">Prime Number Generation</headline>
-    <desc lang="en">Input parameters for prime number generation</desc>
+    <desc lang="en">Input parameters for prime number generation.</desc>
 
     <inputBox plugin="PrimesGenerator" property="Input">
       <description lang="en">Number of digits:</description>
@@ -35,12 +31,10 @@
 
     <sampleViewer image="Primes" file="WorkspaceManagerSamples\PrimesGenerator.cwm">
       <name lang="en" >Prime Number Generation</name>
-      <description lang="en" >
-        Prime Number Generation Output
-      </description>
+      <description lang="en" >Prime Number Generation Output</description>
 
       <headline lang="en">Prime Number Generation Output</headline>
-      <desc lang="en">The generated prime number</desc>
+      <desc lang="en">The generated prime number.</desc>
       
       <outputBox plugin="PrimeNumber" property="CurrentValue" width="90%">
         <description lang="en">Generated Prime Number:</description>
@@ -51,12 +45,10 @@
   <!-- Test input -->
   <sampleViewer image="Primes" file="WorkspaceManagerSamples\PrimesTest.cwm">
     <name lang="en" >Prime Number Test</name>
-    <description lang="en" >
-      Select to test numbers for being prime.
-    </description>
+    <description lang="en" >Select to test numbers for being prime.</description>
 
     <headline lang="en">Prime Number Generation</headline>
-    <desc lang="en">Input parameters for prime number generation</desc>
+    <desc lang="en">Input parameters for prime number generation.</desc>
 
     <inputBox plugin="Number" property="Text" width="80%" alignment="Left">
       <description lang="en">Number (can be a mathematical expression):</description>
