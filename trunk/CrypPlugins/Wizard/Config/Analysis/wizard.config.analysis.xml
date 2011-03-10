@@ -5,9 +5,7 @@
 
 <category image="Analyse">
   <name lang="en" >Cryptanalysis</name>
-  <description lang="en" >
-    Select a specific algorithm to analyze.
-  </description>
+  <description lang="en-GB" >Select a specific algorithm to analyse.</description>
 
   <!-- This is the step's headline. It should be short, but precise. -->
   <headline lang="en" >Age Selection</headline>

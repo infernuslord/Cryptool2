@@ -5,7 +5,7 @@
 
 <category image="Classic">
   <name lang="en" >Classic Encryption</name>
-  <description lang="en" >Select a classic encryption to analyze.</description>
+  <description lang="en-GB" >Select a classic encryption to analyse.</description>
 
   <!-- This is the step's headline. It should be short, but precise. -->
   <headline lang="en" >Algorithm Selection</headline>
@@ -16,7 +16,7 @@
   <!-- Caesar input -->
   <input image="Caesar">
     <name lang="en" >Caesar</name>
-    <description lang="en" >Caesar is a classic algorithm to encrypt plaintext or to decrypt ciphertext. 
+    <description lang="en-GB" >Caesar is a classic algorithm to encrypt plaintext or to decrypt ciphertext. 
 By selecting this, you can analyse some ciphertext that was encrypted with the Caesar algorithm.</description>
 
     <headline lang="en">Caesar Analysis</headline>
@@ -32,9 +32,7 @@ Hfjxfwx Sfrj bzwij ezr Gjxyfsiyjnq ijx Ynyjqx fqqjw sfhmktqljsijs Mjwwxhmjw ijx 
     </inputBox>
 
     <comboBox plugin="CaesarAnalysisHelper" property="TextLanguage" defaultValue="0">
-      <description lang="en">
-        Language of the cleartext message:
-      </description>      
+      <description lang="en">Language of the cleartext message:</description>      
       <item content="German" lang="en"/>
       <item content="English" lang="en"/>
       <item content="French" lang="en"/>
@@ -70,31 +68,31 @@ Hfjxfwx Sfrj bzwij ezr Gjxyfsiyjnq ijx Ynyjqx fqqjw sfhmktqljsijs Mjwwxhmjw ijx 
   <!-- Vigenère input -->
   <!--<input image="Vigenere">
     <name lang="en" >Vigenère</name>
-    <description lang="en" >Vigenère is a classic algorithm to encrypt plaintext or to decrypt ciphertext.
+    <description lang="en-GB" >Vigenère is a classic algorithm to encrypt plaintext or to decrypt ciphertext.
       By selecting this, you can analyse some ciphertext that was encrypted with the Vigenère algorithm.</description>
   </input>-->
 
   <!-- Substitution input -->
   <!--<input image="Substitution">
     <name lang="en" >Substitution</name>
-    <description lang="en" >Substitution is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).</description>
+    <description lang="en-GB" >Substitution is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).</description>
   </input>-->
 
   <!-- Enigma input -->
   <input image="Enigma">
     <name lang="en" >Enigma</name>
-    <description lang="en" >Enigma is a classic algorithm to encrypt plaintext or to decrypt ciphertext.
+    <description lang="en-GB" >Enigma is a classic algorithm to encrypt plaintext or to decrypt ciphertext.
 By selecting this, you can analyse some ciphertext that was encrypted with the Enigma algorithm.</description>
 
     <headline lang="en">Enigma Analysis</headline>
-    <desc lang="en">Enter you Ciphertext here</desc>
+    <desc lang="en">Enter you Ciphertext here.</desc>
 
     <inputBox plugin="Ciphertext" property="Text" visibleLines="10">
       <description lang="en">Ciphertext:</description>
       <defaultvalue lang="en">KSBWQUMKVUXBMDWTXAYBBIKVHVFGAJROQUWPWXFBYSREIFGKNWDVTUDNBHAGGOONSZERHJAQOQFDDCLPWCXCNJHHNGIHLYXNJCVAQHMJJPDMJQRCMEYHQDKMJOMDUQNGKQCHSXMQWSSCHDMJVDUHSWFUZVSLVHJHHLLFGNYBSJFJFNDGQXYBCLYBODQKDJGIILQUPZJCJUTNZTADMZUPOVUTAYYIRMJTGBOCPGYUZSCYXJTTQZIFQYFNJPAVVAPVMZSDOFAMPCSMFDULBUKPRVRJAUEEHOTGIWOKAYVMOJENPTTNUICXB</defaultvalue>
     </inputBox>
 
-    <loadSample title="Enigma Analyzer" file="WorkspaceManagerSamples\Enigma_Analyzer.cwm"/>
+    <loadSample title="Enigma Analyser" file="WorkspaceManagerSamples\Enigma_Analyzer.cwm"/>
   </input>
 
   <!-- Playfair input --><!--
@@ -127,15 +125,15 @@ By selecting this, you can analyse some ciphertext that was encrypted with the E
   <!-- Scytale input -->
   <input image="Scytale">
     <name lang="en" >Scytale</name>
-    <description lang="en" >Scytale is a classic algorithm to encrypt plaintext or to decrypt ciphertext.
+    <description lang="en-GB" >Scytale is a classic algorithm to encrypt plaintext or to decrypt ciphertext.
 By selecting this, you can analyse some ciphertext that was encrypted with the Scytale.</description>
 
     <headline lang="en">Scytale Analysis</headline>
-    <desc lang="en">Please input your ciphertext and choose the dictionary to use</desc>
+    <desc lang="en">Please input your ciphertext and choose the dictionary to use.</desc>
 
     <inputBox plugin="Ciphertext" property="Text" visibleLines="10">
       <description lang="en">Ciphertext:</description>
-      <defaultvalue lang="de">Dtte tthceen ia_lbeaehlr. eldte e luf   eaekmrVuna  S ssaiieegh  ki tnlsrssr  ysaenicssve  </defaultvalue>
+      <defaultvalue lang="en">Dtte tthceen ia_lbeaehlr. eldte e luf   eaekmrVuna  S ssaiieegh  ki tnlsrssr  ysaenicssve  </defaultvalue>
     </inputBox>
 
     <comboBox plugin="CryptoolDictionary" property="Dictionary" defaultValue="1" width="20%" alignment="Left">
@@ -146,12 +144,10 @@ By selecting this, you can analyse some ciphertext that was encrypted with the S
 
     <sampleViewer image="Scytale" file="WorkspaceManagerSamples\Scytale_ExhaustiveKeySearch.cwm">
       <name lang="en" >Scytale Analysis</name>
-      <description lang="en" >
-        Scytale Analysis Output
-      </description>
+      <description lang="en" >Scytale Analysis Output</description>
 
       <headline lang="en">Scytale Analysis Output</headline>
-      <desc lang="en">Here you can see the analysis of your ciphertext</desc>
+      <desc lang="en">Here you can see the analysis of your ciphertext.</desc>
 
       <outputBox plugin="Plaintext" property="CurrentValue" visibleLines="5">
         <description lang="en">Plaintext:</description>

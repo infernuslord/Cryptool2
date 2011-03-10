@@ -1049,9 +1049,14 @@ namespace Wizard
 
             if (foundElements == null || !foundElements.Any() || !allElements.Any())
             {
-                List<XElement> fe = new List<XElement>();
-                fe.Add(new XElement("dummy"));
-                return fe;
+                if (!allElements.Any())
+                {
+                    List<XElement> fe = new List<XElement>();
+                    fe.Add(new XElement("dummy"));
+                    return fe;
+                }
+                else
+                    return allElements;
             }
 
             return foundElements;

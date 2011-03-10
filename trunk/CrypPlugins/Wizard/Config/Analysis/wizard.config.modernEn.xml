@@ -5,9 +5,7 @@
 
 <category image="Modern">
   <name lang="en" >Modern Encryption</name>
-  <description lang="en" >
-    Select a modern encryption to analyze.
-  </description>
+  <description lang="en-GB" >Select a modern encryption to analyse.</description>
 
   <!-- This is the step's headline. It should be short, but precise. -->
   <headline lang="en" >Key Type Selection</headline>
@@ -21,9 +19,7 @@
   <!-- Asymmetric Encryption Category -->
   <category image="Asym">
     <name lang="en" >Asymmetric Encryption</name>
-    <description lang="en" >
-      Select an asymmetric modern algorithm to analyze.
-    </description>
+    <description lang="en-GB" >Select an asymmetric modern algorithm to analyse.</description>
 
     <!-- This is the step's headline. It should be short, but precise. -->
     <headline lang="en" >Algorithm Selection</headline>
@@ -34,12 +30,10 @@
     <!-- RSA input -->
     <input image="RSA" >
       <name lang="en" >RSA</name>
-      <description lang="en" >
-        In cryptography, RSA (which stands for Rivest, Shamir and Adleman who first publicly described it) is an algorithm for public-key cryptography.[1] It is the first algorithm known to be suitable for signing as well as encryption, and was one of the first great advances in public key cryptography. RSA is widely used in electronic commerce protocols, and is believed to be secure given sufficiently long keys and the use of up-to-date implementations.
-      </description>
+      <description lang="en" >In cryptography, RSA (which stands for Rivest, Shamir and Adleman who first publicly described it) is an algorithm for public-key cryptography.[1] It is the first algorithm known to be suitable for signing as well as encryption, and was one of the first great advances in public key cryptography. RSA is widely used in electronic commerce protocols, and is believed to be secure given sufficiently long keys and the use of up-to-date implementations.</description>
 
       <headline lang="en">RSA Attack</headline>
-      <desc lang="en">Please read the explanation</desc>
+      <desc lang="en">Please read the explanation.</desc>
 
       <inputBox plugin="asdasdasdasd" property="asdasdasdasd" visibleLines="10">
         <description lang="en"></description>
