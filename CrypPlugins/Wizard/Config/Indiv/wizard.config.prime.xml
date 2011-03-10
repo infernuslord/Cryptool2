@@ -16,12 +16,7 @@
   <desc lang="en" >Select a prime number operation.</desc>
 
   <!-- Factorization input -->
-  <input image="Primes" >
-    <name lang="en" >Prime Number Factorization</name>
-    <description lang="en" >
-      Select to factorize prime numbers.
-    </description>
-  </input>
+  <file resource="Wizard.Config.Indiv.wizard.config.factorization.xml"/>
 
   <!-- Generation input -->
   <input image="Primes" >
@@ -29,14 +24,48 @@
     <description lang="en" >
       Select to generate prime numbers.
     </description>
+
+    <headline lang="en">Prime Number Generation</headline>
+    <desc lang="en">Input parameters for prime number generation</desc>
+
+    <inputBox plugin="PrimesGenerator" property="Input">
+      <description lang="en">Number of digits:</description>
+      <defaultvalue>400</defaultvalue>
+    </inputBox>
+
+    <sampleViewer image="Primes" file="WorkspaceManagerSamples\PrimesGenerator.cwm">
+      <name lang="en" >Prime Number Generation</name>
+      <description lang="en" >
+        Prime Number Generation Output
+      </description>
+
+      <headline lang="en">Prime Number Generation Output</headline>
+      <desc lang="en">The generated prime number</desc>
+      
+      <outputBox plugin="PrimeNumber" property="CurrentValue" width="90%">
+        <description lang="en">Generated Prime Number:</description>
+      </outputBox>
+    </sampleViewer>
   </input>
 
   <!-- Test input -->
-  <input image="Primes" >
+  <sampleViewer image="Primes" file="WorkspaceManagerSamples\PrimesTest.cwm">
     <name lang="en" >Prime Number Test</name>
     <description lang="en" >
       Select to test numbers for being prime.
     </description>
-  </input>
+
+    <headline lang="en">Prime Number Generation</headline>
+    <desc lang="en">Input parameters for prime number generation</desc>
+
+    <inputBox plugin="Number" property="Text" width="80%" alignment="Left">
+      <description lang="en">Number (can be a mathematical expression):</description>
+      <defaultvalue>358985028000324617802198861844522163047755799681138412255630375745509906768216239732389768930571941971276048934551187949</defaultvalue>
+    </inputBox>
+
+    <outputBox plugin="IsPrime" property="CurrentValue" alignment="Left" width="20%" visibleLines="3">
+      <description lang="en">Is Prime?</description>
+    </outputBox>
+  </sampleViewer>
 
 </category>

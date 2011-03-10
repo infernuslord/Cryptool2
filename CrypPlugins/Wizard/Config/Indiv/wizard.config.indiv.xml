@@ -22,25 +22,25 @@
   <file resource="Wizard.Config.Indiv.wizard.config.prime.xml" />
   
   <!-- Key Exchange Category -->
-  <category image="Key">
+  <!--<category image="Key">
     <name lang="en" >Key Exchange</name>
     <description lang="en" >
       Select a key exchange algorithm to work with.
     </description>
 
-    <!-- This is the step's headline. It should be short, but precise. -->
+    --><!-- This is the step's headline. It should be short, but precise. --><!--
     <headline lang="en" >Key Exchange Algorithm Selection</headline>
 
-    <!-- This is the step's description. -->
+    --><!-- This is the step's description. --><!--
     <desc lang="en" >Select a key exchange algorithm.</desc>
 
-    <!-- Diffie Hellman input -->
+    --><!-- Diffie Hellman input --><!--
     <input image="Key" >
       <name lang="en" >Diffie Hellman</name>
       <description lang="en" >
         Diffie Hellman is a key exchange algorithm... (add instead some really helpful text).
       </description>      
     </input>
-  </category>
+  </category>-->
 
 </category>

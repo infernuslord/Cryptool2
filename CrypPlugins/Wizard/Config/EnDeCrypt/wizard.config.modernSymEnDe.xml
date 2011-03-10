@@ -33,6 +33,20 @@
       <defaultvalue lang="en">A1B1C11111111111</defaultvalue>
     </inputBox>
 
+    <comboBox plugin="AES" property="Mode" defaultValue="0" group="properties">
+      <description lang="en">Chaining mode:</description>
+      <item content="Electronic Code Book (ECB)" lang="en"/>
+      <item content="Cipher Block Chaining (CBC)" lang="en"/>
+      <item content="Cipher Feedback (CFB)" lang="en"/>
+    </comboBox>
+
+    <comboBox plugin="AES" property="Keysize" defaultValue="0" group="properties">
+      <description lang="en">Keysize:</description>
+      <item content="128 Bits"/>
+      <item content="192 Bits"/>
+      <item content="256 Bits"/>
+    </comboBox>
+
     <sampleViewer image="AES" file="WorkspaceManagerSamples\AES_Sample.cwm">
       <name lang="en" >AES Output</name>
       <description lang="en" >The Advanced Encryption Standard (AES) is a symmetric-key encryption standard adopted by the U.S. government. The standard comprises three block ciphers, AES-128, AES-192 and AES-256, adopted from a larger collection originally published as Rijndael.</description>
@@ -69,10 +83,17 @@
       <defaultvalue lang="en">Hallo Welt! Hello, world. Hola mundo. Bonjour le monde. Witaj świecie! 1234</defaultvalue>
     </inputBox>
 
-    <inputBox plugin="Key" property="Text" alignment="Right" width="20%" visibleLines="5" group="1" regex="[0-9A-F]+">
+    <inputBox plugin="Key" property="Text" alignment="Right" width="20%" visibleLines="5" group="1" regex="[0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F]">
       <description lang="en">Key:</description>
       <defaultvalue lang="en">A1B1C11111111111</defaultvalue>
     </inputBox>
+
+    <comboBox plugin="DES" property="Mode" defaultValue="0" alignment="Left">
+      <description lang="en">Chaining mode:</description>
+      <item content="Electronic Code Book (ECB)" lang="en"/>
+      <item content="Cipher Block Chaining (CBC)" lang="en"/>
+      <item content="Cipher Feedback (CFB)" lang="en"/>
+    </comboBox>
 
     <sampleViewer image="DES" file="WorkspaceManagerSamples\DES_Sample.cwm">
       <name lang="en" >DES Output</name>
@@ -110,10 +131,16 @@
       <defaultvalue lang="en">Hallo Welt! Hello, world. Hola mundo. Bonjour le monde. Witaj świecie! 1234</defaultvalue>
     </inputBox>
 
-    <inputBox plugin="Key" property="Text" alignment="Right" width="20%" visibleLines="5" group="1" >
+    <inputBox plugin="Key" property="Text" alignment="Right" width="20%" visibleLines="5" group="1" regex="[01][01][01][01][01][01][01][01][01][01]">
       <description lang="en">Key:</description>
       <defaultvalue lang="en">1010101010</defaultvalue>
     </inputBox>
+
+    <comboBox plugin="SDES" property="Mode" defaultValue="1" alignment="Left">
+      <description lang="en">Chaining mode:</description>
+      <item content="Electronic Code Book (ECB)" lang="en"/>
+      <item content="Cipher Block Chaining (CBC)" lang="en"/>
+    </comboBox>
 
     <sampleViewer image="SDES" file="WorkspaceManagerSamples\SDES_Sample.cwm">
       <name lang="en" >SDES Output</name>
