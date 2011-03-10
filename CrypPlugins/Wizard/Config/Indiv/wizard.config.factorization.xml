@@ -3,28 +3,22 @@
 
 <input image="Primes" >
   <name lang="en" >Prime Number Factorization</name>
-  <description lang="en" >
-    Select to factorize prime numbers.
-  </description>
+  <description lang="en" >Select to factorize prime numbers.</description>
 
   <headline lang="en">Prime Number Factorization</headline>
-  <desc lang="en">Please input the number to factorize</desc>
+  <desc lang="en">Please input the number to factorize.</desc>
 
   <inputBox alignment="Stretch" plugin="Number" property="Number">
-    <description lang="en">
-      Enter the number to factorize here. You can also use mathematical expressions:
-    </description>
+    <description lang="en">Enter the number to factorize here. You can also use mathematical expressions:</description>
     <defaultvalue>(2^300-1)/2</defaultvalue>
   </inputBox>
 
   <sampleViewer image="Primes" file="WorkspaceManagerSamples\QuadraticSieve_Sample.cwm">
     <name lang="en" >Prime Number Factorization</name>
-    <description lang="en" >
-      Prime Number Factorization Output
-    </description>
+    <description lang="en" >Prime Number Factorization Output</description>
 
     <headline lang="en">Prime Number Factorization Output</headline>
-    <desc lang="en">Here you can see the factorization process and the result</desc>
+    <desc lang="en">Here, you can see the factorization process and the result.</desc>
 
     <presentation plugin="QuadraticSieve" width="80%" height="80%">
       <description lang="en">Factorization:</description>
