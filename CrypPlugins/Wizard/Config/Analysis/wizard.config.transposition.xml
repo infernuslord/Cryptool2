@@ -3,23 +3,23 @@
 
 <category image="Transposition">
   <name lang="en" >Transposition</name>
-  <description lang="en" >
+  <description lang="en-GB" >
     Transposition is a classic algorithm to encrypt plaintext or to decrypt ciphertext.
     By selecting this, you can analyse some ciphertext that was encrypted with the Enigma algorithm.
   </description>
 
   <headline lang="en">Transposition Analysis</headline>
-  <desc lang="en">Choose which method you want to use for analyzing the Transposition encrypted text.</desc>
+  <desc lang="en-GB">Choose which method you want to use for analysing the Transposition encrypted text.</desc>
 
   <input image="Transposition">
     <name lang="en">Bruteforce</name>
-    <description lang="en">
+    <description lang="en-GB">
       Select this to analyse the ciphertext using the bruteforce method.
       This method is ciphertext only.
     </description>
 
     <headline lang="en">Transposition Bruteforce Analysis</headline>
-    <desc lang="en">Input your ciphertext that was encrypted by using the Transposition algorithm</desc>
+    <desc lang="en">Input your ciphertext that was encrypted by using the Transposition algorithm.</desc>
 
     <inputBox plugin="Ciphertext" property="Text" visibleLines="5">
       <description lang="en">Ciphertext:</description>
@@ -52,7 +52,7 @@
       <desc lang="en">Please wait while bruteforcing</desc>
 
       <presentation plugin="TranspositionAnalyser">
-        <description lang="en">Analyser:</description>
+        <description lang="en-GB">Analyser:</description>
       </presentation>
 
       <outputBox plugin="Deciphered Ciphertext" property="CurrentValue" visibleLines="5">
@@ -63,13 +63,13 @@
 
   <input image="Transposition">
     <name lang="en">Genetic</name>
-    <description lang="en">
+    <description lang="en-GB">
       Select this to analyse the ciphertext using genetic algorithms.
       This method is ciphertext only.
     </description>
 
     <headline lang="en">Transposition Genetic Analysis</headline>
-    <desc lang="en">Input your ciphertext that was encrypted by using the Transposition algorithm</desc>
+    <desc lang="en">Input your ciphertext that was encrypted by using the Transposition algorithm.</desc>
 
     <inputBox plugin="Ciphertext" property="Text" visibleLines="5">
       <description lang="en">Ciphertext:</description>
@@ -99,10 +99,10 @@
       <description lang="en">Genetic Analysis</description>
 
       <headline lang="en">Transposition Genetic Analysis</headline>
-      <desc lang="en">Please wait while analysing</desc>
+      <desc lang="en-GB">Please wait while analysing</desc>
 
       <presentation plugin="TranspositionAnalyser">
-        <description lang="en">Analyser:</description>
+        <description lang="en-GB">Analyser:</description>
       </presentation>
 
       <outputBox plugin="Deciphered Ciphertext" property="CurrentValue" visibleLines="5">
@@ -113,16 +113,16 @@
 
   <input image="Transposition">
     <name lang="en">Crib</name>
-    <description lang="en">
+    <description lang="en-GB">
       Select this to analyse the ciphertext using a crib.
       This is a known plaintext attack.
     </description>
 
-    <headline lang="en">Transposition Crib Analysis</headline>
-    <desc lang="en">Input your ciphertext that was encrypted by using the Transposition algorithm and your crib</desc>
+    <headline lang="en-GB">Transposition Crib Analysis</headline>
+    <desc lang="en">Input your ciphertext that was encrypted by using the Transposition algorithm and your crib.</desc>
 
     <inputBox plugin="Ciphertext" property="Text" visibleLines="5">
-      <description lang="en">Ciphertext:</description>
+      <description lang="en-GB">Ciphertext:</description>
       <defaultvalue>tlesiug tneifht-ihntl  eta dnsg ro   rttyoc.a  ed fm u tr taiPn i  st eug rs id i xe eib  netpsm wym id tx ei io.if rs isataaumTpu.Ton-ae aipght wymta t xobut aeuethrd  tsahntl anak  txt-TaiPnstnm,no nyoc.r,e ab  nltspeto xptu l pogepedynreiPnesiurtxotdi esr lAtimhr ro srtr o aatapFo,Ton-tlx  po nls pogeht rentt,obufhtueir lAtehmtuttnssu</defaultvalue>
     </inputBox>
 
@@ -154,10 +154,10 @@
       <description lang="en">Crib Analysis</description>
 
       <headline lang="en">Transposition Crib Analysis</headline>
-      <desc lang="en">Please wait while analysing</desc>
+      <desc lang="en-GB">Please wait while analysing.</desc>
 
       <presentation plugin="TranspositionAnalyser">
-        <description lang="en">Analyser:</description>
+        <description lang="en-GB">Analyser:</description>
       </presentation>
 
       <outputBox plugin="Deciphered Ciphertext" property="CurrentValue" visibleLines="5">
