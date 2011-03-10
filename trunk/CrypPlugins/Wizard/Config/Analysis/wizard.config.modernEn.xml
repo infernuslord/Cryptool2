@@ -35,8 +35,22 @@
     <input image="RSA" >
       <name lang="en" >RSA</name>
       <description lang="en" >
-        RSA is an asymmetric modern algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
+        In cryptography, RSA (which stands for Rivest, Shamir and Adleman who first publicly described it) is an algorithm for public-key cryptography.[1] It is the first algorithm known to be suitable for signing as well as encryption, and was one of the first great advances in public key cryptography. RSA is widely used in electronic commerce protocols, and is believed to be secure given sufficiently long keys and the use of up-to-date implementations.
       </description>
+
+      <headline lang="en">RSA Attack</headline>
+      <desc lang="en">Please read the explanation</desc>
+
+      <inputBox plugin="asdasdasdasd" property="asdasdasdasd" visibleLines="10">
+        <description lang="en"></description>
+        <defaultvalue lang="en">
+          The security of the RSA cryptosystem is based on the problem of factoring large integer numbers, because of the relation N = p*q.
+          N is known and p and q are needed to easily calculate the private key "d".
+          So by clicking "next", you can factorize a large number into all its factors.
+        </defaultvalue>
+      </inputBox>
+
+      <file resource="Wizard.Config.Indiv.wizard.config.factorization.xml"/>
     </input>
   </category>
 

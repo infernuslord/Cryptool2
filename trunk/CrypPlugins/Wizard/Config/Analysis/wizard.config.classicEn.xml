@@ -5,9 +5,7 @@
 
 <category image="Classic">
   <name lang="en" >Classic Encryption</name>
-  <description lang="en" >
-    Select a classic encryption to analyze.
-  </description>
+  <description lang="en" >Select a classic encryption to analyze.</description>
 
   <!-- This is the step's headline. It should be short, but precise. -->
   <headline lang="en" >Algorithm Selection</headline>
@@ -18,81 +16,151 @@
   <!-- Caesar input -->
   <input image="Caesar">
     <name lang="en" >Caesar</name>
-    <description lang="en" >
-      Caesar is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
-    </description>
+    <description lang="en" >Caesar is a classic algorithm to encrypt plaintext or to decrypt ciphertext. 
+By selecting this, you can analyse some ciphertext that was encrypted with the Caesar algorithm.</description>
+
+    <headline lang="en">Caesar Analysis</headline>
+    <desc lang="en">Please input your Ciphertext and text language.</desc>
+
+    <inputBox plugin="Ciphertext" property="Text" alignment="Stretch" width="70%" visibleLines="5" group="InputGroup">
+      <description lang="en">Ciphertext:</description>
+      <defaultvalue>Lfnzx Nzqnzx Hfjxfw (ijzyxhm: Ozqnzx Häxfw; * 13. Ozqn[1] 100 a. Hmw. ns Wtr; † 15. Räwe 44 a. Hmw. ns Wtr) bfw jns wörnxhmjw Xyffyxrfss, Kjqimjww zsi Fzytw, ijw rfßljgqnhm fs ijw Ejwxyöwzsl ijw Wörnxhmjs Wjuzgqnp zsi fs nmwjw xuäyjwjs Zrbfsiqzsl ns jns Pfnxjwwjnhm gjyjnqnly bfw.
+
+Ijw ufywnenxhmjs Kfrnqnj ijw Ozqnjw jsyxyfrrjsi, fgxtqanjwyj jw inj Äryjwqfzkgfms zsi ljqfslyj izwhm jns Güsisnx rny ijr wjnhmjs Rfwhzx Qnhnsnzx Hwfxxzx zsi ijr jwktqlwjnhmjs Rnqnyäw Lsfjzx Utrujnzx Rflszx nr Ofmw 59 a. Hmw. ezr Ptsxzqfy. Ns ijs ktqljsijs Ofmwjs lnsl Hfjxfw fqx Uwtptsxzq ns inj söwiqnhmjs Uwtansejs Nqqdwnjs zsi Lfqqnf Hnx- zsi Ywfsxfqunsf, ats bt fzx jw ns ijs Ofmwjs 58 gnx 51 a. Hmw. lfse Lfqqnjs gnx ezr Wmjns jwtgjwyj. Nr fsxhmqnjßjsijs Wörnxhmjs Güwljwpwnjl ats 49 gnx 45 a. Hmw. xjyeyj jw xnhm ljljs xjnsjs jmjrfqnljs Ajwgüsijyjs Utrujnzx zsi ijxxjs Fsmäsljw izwhm zsi jwwfsl inj Fqqjnsmjwwxhmfky. Sfhm xjnsjw Jwsjsszsl ezr Inpyfytw fzk Qjgjsxejny knjq jw jnsjr Fyyjsyfy ezr Tukjw. Xjns Lwtßsjkkj zsi Mfzuyjwgj Lfnzx Thyfanzx xjyeyj inj Rtsfwhmnj fqx sjzj Xyffyxktwr ijx Wörnxhmjs Wjnhmjx jsilüqynl izwhm.
+
+Hfjxfwx Sfrj bzwij ezr Gjxyfsiyjnq ijx Ynyjqx fqqjw sfhmktqljsijs Mjwwxhmjw ijx wörnxhmjs Pfnxjwwjnhmx. Ns ijw wörnxhmjs Xuäyfsynpj zsi nr Gdefsynsnxhmjs Wjnhm gjejnhmsjyj ijw Ynyjq „Hfjxfw“ jnsjs Rnymjwwxhmjw tijw Ymwtsktqljw. Ns ijs jsyqjmsyjs Ktwrjs Pfnxjw zsi Efw bzwij ijw Sfrj xuäyjw fzhm ezr Ynyjq ijw Mjwwxhmjw ijx Mjnqnljs Wörnxhmjs, ijx Öxyjwwjnhmnxhmjs, ijx Ijzyxhmjs, ijx Gzqlfwnxhmjs zsi ijx Wzxxnxhmjs Wjnhmjx.</defaultvalue>
+    </inputBox>
+
+    <comboBox plugin="CaesarAnalysisHelper" property="TextLanguage" defaultValue="0">
+      <description lang="en">
+        Language of the cleartext message:
+      </description>      
+      <item content="German" lang="en"/>
+      <item content="English" lang="en"/>
+      <item content="French" lang="en"/>
+      <item content="Spanish" lang="en"/>
+    </comboBox>
+
+    <sampleViewer image="Caesar" file="WorkspaceManagerSamples\Caesar_Analysis_Sample.cwm">
+      <name lang="en">Caesar Analysis Output</name>
+      <description lang="en">Caesar Analysis Output</description>
+      
+      <headline lang="en">Caesar Analysis Output</headline>
+      <desc lang="en">Here you can alter the input message.</desc>
+
+      <inputBox plugin="Ciphertext" property="Text" alignment="Stretch" width="70%" visibleLines="5" group="InputGroup">
+        <description lang="en">Ciphertext:</description>
+      </inputBox>
+
+      <outputBox plugin="Deciphered Ciphertext" property="CurrentValue" alignment="Left" width="50%" visibleLines="5" group="OutputGroup">
+        <description lang="en">Deciphered Ciphertext:</description>        
+      </outputBox>
+
+      <outputBox plugin="Key" property="CurrentValue" alignment="Right" width="50%" visibleLines="5" group="OutputGroup">
+        <description lang="en">Key (amount of shift):</description>
+      </outputBox>
+
+      <presentation plugin="FrequencyTest" alignment="Stretch" width="100%" group="PresentationGroup">
+        <description lang="en">Frequency Analysis:</description>
+      </presentation>     
+    </sampleViewer>
+    
   </input>
 
   <!-- Vigenère input -->
-  <input image="Vigenere">
+  <!--<input image="Vigenere">
     <name lang="en" >Vigenère</name>
-    <description lang="en" >
-      Vigenère is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
-    </description>
-  </input>
+    <description lang="en" >Vigenère is a classic algorithm to encrypt plaintext or to decrypt ciphertext.
+      By selecting this, you can analyse some ciphertext that was encrypted with the Vigenère algorithm.</description>
+  </input>-->
 
   <!-- Substitution input -->
-  <input image="Substitution">
+  <!--<input image="Substitution">
     <name lang="en" >Substitution</name>
-    <description lang="en" >
-      Substitution is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
-    </description>
-  </input>
+    <description lang="en" >Substitution is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).</description>
+  </input>-->
 
   <!-- Enigma input -->
   <input image="Enigma">
     <name lang="en" >Enigma</name>
-    <description lang="en" >
-      Enigma is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
-    </description>
+    <description lang="en" >Enigma is a classic algorithm to encrypt plaintext or to decrypt ciphertext.
+By selecting this, you can analyse some ciphertext that was encrypted with the Enigma algorithm.</description>
+
+    <headline lang="en">Enigma Analysis</headline>
+    <desc lang="en">Enter you Ciphertext here</desc>
+
+    <inputBox plugin="Ciphertext" property="Text" visibleLines="10">
+      <description lang="en">Ciphertext:</description>
+      <defaultvalue lang="en">KSBWQUMKVUXBMDWTXAYBBIKVHVFGAJROQUWPWXFBYSREIFGKNWDVTUDNBHAGGOONSZERHJAQOQFDDCLPWCXCNJHHNGIHLYXNJCVAQHMJJPDMJQRCMEYHQDKMJOMDUQNGKQCHSXMQWSSCHDMJVDUHSWFUZVSLVHJHHLLFGNYBSJFJFNDGQXYBCLYBODQKDJGIILQUPZJCJUTNZTADMZUPOVUTAYYIRMJTGBOCPGYUZSCYXJTTQZIFQYFNJPAVVAPVMZSDOFAMPCSMFDULBUKPRVRJAUEEHOTGIWOKAYVMOJENPTTNUICXB</defaultvalue>
+    </inputBox>
+
+    <loadSample title="Enigma Analyzer" file="WorkspaceManagerSamples\Enigma_Analyzer.cwm"/>
   </input>
 
-  <!-- Playfair input -->
+  <!-- Playfair input --><!--
   <input image="Playfair">
     <name lang="en" >Playfair</name>
-    <description lang="en" >
-      Playfair is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
-    </description>
-  </input>
+    <description lang="en">Playfair is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).</description>
+  </input>-->
 
-  <!-- ADFGVX input -->
+  <!-- ADFGVX input --><!--
   <input image="ADFGVX">
     <name lang="en" >ADFGVX</name>
-    <description lang="en" >
-      ADFGVX is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
-    </description>
-  </input>
+    <description lang="en">ADFGVX is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).</description>
+  </input>-->
 
-  <!-- XOR input -->
+  <!-- XOR input --><!--
   <input image="XOR">
     <name lang="en" >XOR</name>
-    <description lang="en" >
-      XOR is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
-    </description>
-  </input>
+    <description lang="en" >XOR is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).</description>
+  </input>-->
 
-  <!-- Vernam input -->
+  <!-- Vernam input --><!--
   <input image="Vernam">
     <name lang="en" >Vernam</name>
-    <description lang="en" >
-      Vernam is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
-    </description>
-  </input>
+    <description lang="en" >Vernam is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).</description>
+  </input>-->
 
   <!-- Transposition input -->
-  <input image="Transposition">
-    <name lang="en" >Transposition</name>
-    <description lang="en" >
-      Transposition is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
-    </description>
-  </input>
+  <file resource="Wizard.Config.Analysis.wizard.config.transposition.xml"/>
 
   <!-- Scytale input -->
   <input image="Scytale">
     <name lang="en" >Scytale</name>
-    <description lang="en" >
-      Scytale is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).
-    </description>
+    <description lang="en" >Scytale is a classic algorithm to encrypt plaintext or to decrypt ciphertext.
+By selecting this, you can analyse some ciphertext that was encrypted with the Scytale.</description>
+
+    <headline lang="en">Scytale Analysis</headline>
+    <desc lang="en">Please input your ciphertext and choose the dictionary to use</desc>
+
+    <inputBox plugin="Ciphertext" property="Text" visibleLines="10">
+      <description lang="en">Ciphertext:</description>
+      <defaultvalue lang="de">Dtte tthceen ia_lbeaehlr. eldte e luf   eaekmrVuna  S ssaiieegh  ki tnlsrssr  ysaenicssve  </defaultvalue>
+    </inputBox>
+
+    <comboBox plugin="CryptoolDictionary" property="Dictionary" defaultValue="1" width="20%" alignment="Left">
+      <description lang="en">Dictionary:</description>
+      <item content="English Dictionary" lang="en"/>
+      <item content="German Dictionary" lang="en"/>
+    </comboBox>
+
+    <sampleViewer image="Scytale" file="WorkspaceManagerSamples\Scytale_ExhaustiveKeySearch.cwm">
+      <name lang="en" >Scytale Analysis</name>
+      <description lang="en" >
+        Scytale Analysis Output
+      </description>
+
+      <headline lang="en">Scytale Analysis Output</headline>
+      <desc lang="en">Here you can see the analysis of your ciphertext</desc>
+
+      <outputBox plugin="Plaintext" property="CurrentValue" visibleLines="5">
+        <description lang="en">Plaintext:</description>
+      </outputBox>
+      
+      <presentation plugin="All possible plaintexts">
+        <description lang="en">All possible plaintexts:</description>
+      </presentation>
+    </sampleViewer>
   </input>
 
 </category>

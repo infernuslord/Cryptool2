@@ -149,7 +149,7 @@ namespace Wizard
                     {
                         string path = att.Value;
                         XElement sub = GetXml(path);
-                        xml.Add(sub);
+                        ele.AddAfterSelf(sub);
                     }
                 }
 
@@ -246,12 +246,12 @@ namespace Wizard
             //set headline
             XElement headline = FindElementsInElement(element, "headline").First();
             if (headline != null)
-                taskHeader.Content = headline.Value;
+                taskHeader.Content = headline.Value.Trim();
 
             //set description label
             XElement desc = FindElementsInElement(element, "desc").First();
             if (desc != null)
-                descHeader.Content = desc.Value;
+                descHeader.Content = desc.Value.Trim();
 
 
             if (element.Name == "input" || element.Name == "sampleViewer")
@@ -325,7 +325,7 @@ namespace Wizard
                         l.HorizontalAlignment = HorizontalAlignment.Stretch;
                         XElement label = FindElementsInElement(ele, "name").First();
                         if (label != null)
-                            l.Content = label.Value;
+                            l.Content = label.Value.Trim();
 
                         i.Width = 26;
                         string image = ele.Attribute("image").Value;
@@ -523,6 +523,7 @@ namespace Wizard
                     inputBox.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
                     inputBox.Tag = input;
                     inputBox.AcceptsReturn = true;
+                    inputBox.TextWrapping = TextWrapping.Wrap;
                     if (input.Attribute("visibleLines") != null)
                     {
                         int visibleLines;
@@ -552,7 +553,7 @@ namespace Wizard
                         var defaultvalue = defaultvalues.First();
 
                         if (!string.IsNullOrEmpty(defaultvalue.Value))
-                            inputBox.Text = defaultvalue.Value.Trim();
+                            inputBox.Text = defaultvalue.Value;
                     }
 
                     if (!isInput)
@@ -825,6 +826,11 @@ namespace Wizard
 
             var newEditor = new WorkspaceManager.WorkspaceManager();
             var model = ModelPersistance.loadModel(file);
+            
+            foreach (PluginModel pluginModel in model.GetAllPluginModels())
+            {
+                pluginModel.Plugin.Initialize();
+            }
 
             //Register events for output boxes:
             foreach (var outputBox in currentOutputBoxes)
@@ -965,10 +971,6 @@ namespace Wizard
             }
 
             //load sample:
-            foreach (PluginModel pluginModel in model.GetAllPluginModels())
-            {
-                pluginModel.Plugin.Initialize();
-            }
             newEditor.Open(model);
 
             if (openTab)
@@ -1007,7 +1009,7 @@ namespace Wizard
             selectedCategories.Add(GetElementID(ele), true);
             XElement desc = FindElementsInElement(ele, "description").First();
             if (desc != null)
-                description.Text = desc.Value;
+                description.Text = desc.Value.Trim();
             nextButton.IsEnabled = true;
         }
 
@@ -1176,8 +1178,8 @@ namespace Wizard
             {
                 var page = new PageInfo()
                                    {
-                                       name = FindElementsInElement(ele, "name").First().Value,
-                                       description = FindElementsInElement(ele, "description").First().Value,
+                                       name = FindElementsInElement(ele, "name").First().Value.Trim(),
+                                       description = FindElementsInElement(ele, "description").First().Value.Trim(),
                                        tag = ele
                                    };
 

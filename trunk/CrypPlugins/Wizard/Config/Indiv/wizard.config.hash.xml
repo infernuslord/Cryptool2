@@ -16,43 +16,144 @@
   <desc lang="en" >Select a hash function.</desc>
 
   <!-- MD5 input -->
-  <input image="MD5" >
+  <category image="MD5">
     <name lang="en" >MD5</name>
     <description lang="en" >
       MD5 is a hash function... (add instead some really helpful text).
     </description>
-  </input>
+
+    <headline lang="en">MD5</headline>
+    <desc lang="en">Select if you want to see an interactive presentation of MD5 processing your data</desc>
+    
+    <sampleViewer image="MD5" file="WorkspaceManagerSamples\MD5_Sample.cwm">
+      <name lang="en" >MD5 Result Only</name>
+      <description lang="en" >
+        Only the result of MD5
+      </description>
+
+      <headline lang="en">MD5</headline>
+      <desc lang="en">Input your message and watch the MD5 output here</desc>
+
+      <inputBox plugin="Input" property="Text" width="80%" alignment="Left" visibleLines="5">
+        <description lang="en">Input Message:</description>
+        <defaultvalue>Message-Digest Algorithm 5 (MD5) ist eine weit verbreitete kryptographische Hashfunktion, die aus einer beliebigen Nachricht einen 128-Bit-Hashwert (deutsch: Prüfsumme) erzeugt. MD5 wurde 1991 von Ronald L. Rivest entwickelt. Sie gilt inzwischen nicht mehr als sicher, da es mit überschaubarem Aufwand möglich ist, unterschiedliche Nachrichten zu erzeugen, die dieselbe MD5-Prüfsumme aufweisen.</defaultvalue>
+      </inputBox>
+
+      <presentation plugin="Hash" width="80%" alignment="Left">
+        <description lang="en">Hash:</description>
+      </presentation>
+    </sampleViewer>
+
+    <sampleViewer image="MD5" file="WorkspaceManagerSamples\MD5_Sample.cwm">
+      <name lang="en" >MD5 Interactive</name>
+      <description lang="en" >
+        Interactive MD5
+      </description>
+
+      <headline lang="en">MD5</headline>
+      <desc lang="en">Input your message and watch the MD5 output here</desc>
+
+      <inputBox plugin="Input" property="Text" width="50%" alignment="Left" visibleLines="5" group="1">
+        <description lang="en">Input Message:</description>
+        <defaultvalue>Message-Digest Algorithm 5 (MD5) ist eine weit verbreitete kryptographische Hashfunktion, die aus einer beliebigen Nachricht einen 128-Bit-Hashwert (deutsch: Prüfsumme) erzeugt. MD5 wurde 1991 von Ronald L. Rivest entwickelt. Sie gilt inzwischen nicht mehr als sicher, da es mit überschaubarem Aufwand möglich ist, unterschiedliche Nachrichten zu erzeugen, die dieselbe MD5-Prüfsumme aufweisen.</defaultvalue>
+      </inputBox>
+
+      <presentation plugin="Hash" width="50%" alignment="Right" group="1">
+        <description lang="en">Hash:</description>
+      </presentation>
+
+      <presentation plugin="MD5" width="60%" height="60%">
+        <description lang="en">Interactive MD5:</description>
+      </presentation>
+    </sampleViewer>
+  </category>
 
   <!-- SHA input -->
-  <input image="SHA" >
+  <sampleViewer image="SHA" file="WorkspaceManagerSamples\SHA_Sample.cwm">
     <name lang="en" >SHA</name>
     <description lang="en" >
       SHA is a hash function... (add instead some really helpful text).
     </description>
-  </input>
+
+    <headline lang="en">SHA</headline>
+    <desc lang="en">Input your message and watch the SHA output here</desc>
+
+    <inputBox plugin="Input" property="Text" width="80%" alignment="Left" visibleLines="5">
+      <description lang="en">Input Message:</description>
+      <defaultvalue>Der Begriff secure hash algorithm (engl. für sicherer Hash-Algorithmus), kurz SHA, bezeichnet eine Gruppe standardisierter kryptologischer Hash-Funktionen. Diese dienen zur Berechnung eines eindeutigen Prüfwerts für beliebige elektronische Daten. Meist handelt es sich dabei um Nachrichten. Es soll praktisch unmöglich sein, zwei verschiedene Nachrichten mit dem gleichen SHA-Wert zu finden. Dieses wird auch als Kollisionssicherheit bezeichnet. Ob SHA-1 dieser Anforderung genügt, kann nicht sicher gesagt werden, da im Sommer 2006 eine wesentliche Schwäche dieses Algorithmus entdeckt und publik gemacht wurde. Grundsätzlich sollte SHA-1 daher nicht mehr in neuen Entwicklungen als sicherer Hash-Algorithmus vorgesehen werden.</defaultvalue>
+    </inputBox>
+
+    <presentation plugin="Hash" width="80%" alignment="Left">
+      <description lang="en">Hash:</description>
+    </presentation>
+  </sampleViewer>
 
   <!-- RIPEMD160 input -->
-  <input image="RIPEMD160" >
+  <sampleViewer image="RIPEMD160" file="WorkspaceManagerSamples\RIPEMD160_Sample.cwm">
     <name lang="en" >RIPEMD160</name>
     <description lang="en" >
       RIPEMD160 is a hash function... (add instead some really helpful text).
     </description>
-  </input>
+
+    <headline lang="en">RIPEMD160</headline>
+    <desc lang="en">Input your message and watch the RIPEMD160 output here</desc>
+
+    <inputBox plugin="Input" property="Text" width="80%" alignment="Left" visibleLines="5">
+      <description lang="en">Input Message:</description>
+      <defaultvalue>RIPEMD-160 (RACE Integrity Primitives Evaluation Message Digest) ist eine kryptographische Hash-Funktion mit einer Ausgabe von 160 Bits.
+
+RIPEMD-160 wurde von Hans Dobbertin, Antoon Bosselaers und Bart Preneel in Europa entwickelt und 1996 erstmals publiziert. Es handelt sich dabei um eine verbesserte Version von RIPEMD, welcher wiederum auf den Designprinzipien von MD4 basiert und in Hinsicht auf seine Stärke und Performance dem populäreren SHA-1 gleicht.</defaultvalue>
+    </inputBox>
+
+    <presentation plugin="Hash" width="80%" alignment="Left">
+      <description lang="en">Hash:</description>
+    </presentation>
+  </sampleViewer>
 
   <!-- Tiger input -->
-  <input image="Tiger" >
+  <sampleViewer image="Tiger" file="WorkspaceManagerSamples\Tiger_Sample.cwm">
     <name lang="en" >Tiger</name>
     <description lang="en" >
       Tiger is a hash function... (add instead some really helpful text).
     </description>
-  </input>
+
+    <headline lang="en">Tiger</headline>
+    <desc lang="en">Input your message and watch the Tiger output here</desc>
+
+    <inputBox plugin="Input" property="Text" width="80%" alignment="Left" visibleLines="5">
+      <description lang="en">Input Message:</description>
+      <defaultvalue>Tiger ist eine kryptografische Hashfunktion, die von Ross Anderson und Eli Biham im Jahr 1996 entwickelt wurde. Der von Tiger erzeugte Hashwert hat eine Länge von 192 Bit. Der Tiger-Algorithmus ist nicht patentiert. Testvektoren für den Nachfolger namens Tiger2 sind bereits verfügbar.</defaultvalue>
+    </inputBox>
+
+    <presentation plugin="Hash" width="80%" alignment="Left">
+      <description lang="en">Hash:</description>
+    </presentation>
+  </sampleViewer>
 
   <!-- Whirlpool input -->
-  <input image="Whirlpool" >
+  <sampleViewer image="Whirlpool" file="WorkspaceManagerSamples\Whirlpool_Sample.cwm">
     <name lang="en" >Whirlpool</name>
     <description lang="en" >
       Whirlpool is a hash function... (add instead some really helpful text).
     </description>
-  </input>
+
+    <headline lang="en">Whirlpool</headline>
+    <desc lang="en">Input your message and watch the Whirlpool output here</desc>
+
+    <inputBox plugin="Input" property="Text" width="80%" alignment="Left" visibleLines="5">
+      <description lang="en">Input Message:</description>
+      <defaultvalue>WHIRLPOOL ist eine kryptologische Hash-Funktion, die von Vincent Rijmen und Paulo S. L. M. Barreto entworfen wurde. Sie wurde nach der Whirlpool-Galaxie im Sternbild der Jagdhunde benannt.
+
+Whirlpool funktioniert mit Dateien bis zu 2256 Bit Größe und gibt einen Hash-Wert von 512 Bit aus. Bislang sind keine Schwächen des Algorithmus bekannt, was allerdings relativiert werden muss, da der Algorithmus noch sehr jung ist und bislang wenig untersucht wurde.
+
+Die Autoren haben erklärt, dass Whirlpool nicht patentiert ist und es nie sein wird. Whirlpool darf kostenlos zu jedem Zweck verwendet werden. Die Referenz-Implementierung ist gemeinfrei.
+
+Whirlpool gehört zu den vom Projekt NESSIE empfohlenen kryptografischen Algorithmen und wurde von der ISO mit ISO/IEC 10118-3:2004 standardisiert.</defaultvalue>
+    </inputBox>
+
+    <presentation plugin="Hash" width="80%" alignment="Left">
+      <description lang="en">Hash:</description>
+    </presentation>
+  </sampleViewer>
 
 </category>
