@@ -28,7 +28,7 @@ namespace KeySearcherPresentation.Controls
 
         protected override Size MeasureOverride(Size availableSize)
         {
-            if (!(availableSize.Height == double.PositiveInfinity && availableSize.Width == double.PositiveInfinity))
+            if (!(availableSize.Height == double.PositiveInfinity || availableSize.Width == double.PositiveInfinity))
             {
                 double height = 0;
                 Size unlimitedSize = new Size(double.PositiveInfinity, double.PositiveInfinity);
@@ -58,9 +58,12 @@ namespace KeySearcherPresentation.Controls
             double height = 0;
             foreach (UIElement child in Children)
             {
-                child.RenderTransform = scaleTransform;
-                child.Arrange(new Rect(new Point(0, scale * height), new Size(finalSize.Width / scale, child.DesiredSize.Height)));
-                height += child.DesiredSize.Height;
+                if((child.DesiredSize.Height != 0) || (child.DesiredSize.Width !=0))
+                {
+                    child.RenderTransform = scaleTransform;
+                    child.Arrange(new Rect(new Point(0, scale * height), new Size(finalSize.Width / scale, child.DesiredSize.Height)));
+                    height += child.DesiredSize.Height;
+                }
             }
 
             return finalSize;
