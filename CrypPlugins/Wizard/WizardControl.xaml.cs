@@ -1085,6 +1085,7 @@ namespace Wizard
         private void abortButton_Click(object sender, RoutedEventArgs e)
         {
             SwitchButtonWhenNecessary();
+            canStopOrExecute = false;
 
             foreach (RadioButton rb in radioButtonStackPanel.Children)
             {
