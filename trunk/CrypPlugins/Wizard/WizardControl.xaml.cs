@@ -829,6 +829,10 @@ namespace Wizard
 
             var newEditor = new WorkspaceManager.WorkspaceManager();
             var model = ModelPersistance.loadModel(file);
+            model.OnGuiLogNotificationOccured += delegate(IPlugin sender, GuiLogEventArgs args)
+                                                     {
+                                                         OnGuiLogNotificationOccured(sender, args);
+                                                     };
             
             foreach (PluginModel pluginModel in model.GetAllPluginModels())
             {
