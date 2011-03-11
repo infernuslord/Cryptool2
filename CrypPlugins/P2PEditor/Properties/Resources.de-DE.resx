@@ -117,11 +117,35 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Account_Activation_" xml:space="preserve">
+    <value>Account Aktivierung</value>
+  </data>
+  <data name="Account_Creation_" xml:space="preserve">
+    <value>Accounterstellung</value>
+  </data>
+  <data name="Account_successfully_activated_" xml:space="preserve">
+    <value>Account erfolgreich aktiviert</value>
+  </data>
+  <data name="ActivateButton_" xml:space="preserve">
+    <value>Aktivieren</value>
+  </data>
+  <data name="Activating_account_" xml:space="preserve">
+    <value>Aktiviere Account...</value>
+  </data>
+  <data name="Activation_Code_" xml:space="preserve">
+    <value>Aktivierungscode:</value>
+  </data>
+  <data name="An_exception_occured___1" xml:space="preserve">
+    <value>Es trat ein Fehler auf: {0}</value>
+  </data>
   <data name="Autodownloaded_user_account_data_for_user_" xml:space="preserve">
     <value>Benutzerkonto '{0}' automatisch heruntergeladen</value>
   </data>
   <data name="Automatic_created_account_folder_" xml:space="preserve">
     <value>Benutzerkontoverzeichnis automatisch erstellt: {0}</value>
+  </data>
+  <data name="BackButton_" xml:space="preserve">
+    <value>Zurück</value>
   </data>
   <data name="Cannot_connect_account_not_found_" xml:space="preserve">
     <value>Verbinden nicht möglich, Benutzerkonto '{0}' konnte nicht gefunden werden.</value>
@@ -132,7 +156,13 @@
   <data name="Cannot_create_default_account_data_directory_" xml:space="preserve">
     <value>Benutzerkontoverzeichnis kann nicht automatisch erstellt werden '{0}': {1}</value>
   </data>
-  <data name="Connect_" xml:space="preserve">
+  <data name="Certificate_authorization_required" xml:space="preserve">
+    <value>Zertifikatautorisierung erforderlich</value>
+  </data>
+  <data name="Confirm_" xml:space="preserve">
+    <value>Wiederholen:</value>
+  </data>
+  <data name="ConnectButton_" xml:space="preserve">
     <value>Verbinden</value>
   </data>
   <data name="Could_not_save_the_received_certificate_to_your_AppData_folder_" xml:space="preserve">
@@ -147,14 +177,32 @@
   <data name="Distributed_Computing_Platform_" xml:space="preserve">
     <value>Verteilte Berechnungsplattform</value>
   </data>
+  <data name="Email_" xml:space="preserve">
+    <value>Email:</value>
+  </data>
+  <data name="Email_is_not_valid_" xml:space="preserve">
+    <value>Ungültige Emailadresse</value>
+  </data>
   <data name="Error_while_autodownloading_your_account_data_" xml:space="preserve">
     <value>Fehler beim automatischen Herunterladen des Benutzerkontos: {0}</value>
   </data>
   <data name="Forgot_Password_" xml:space="preserve">
     <value>Passwort vergessen</value>
   </data>
+  <data name="GetNewCertificate_RetrieveCertificate_" xml:space="preserve">
+    <value>Registration erfolgreich.Um ihren Account zu aktivieren schauen sie nach der Aktivierungsemail in ihrem Postfach.</value>
+  </data>
   <data name="HttpTunnel_successfully_established_" xml:space="preserve">
     <value>HttpTunnel erfolgreich aufgebaut</value>
+  </data>
+  <data name="InvalidCertificateRegistration_Exception_occured___1" xml:space="preserve">
+    <value>Fehler aufgetreten: {0}</value>
+  </data>
+  <data name="InvalidCertificateRegistration_Invalid_registration___1" xml:space="preserve">
+    <value>Ungültige Registrierung: {0}</value>
+  </data>
+  <data name="New_ProtocolVersion__Please_update_CrypTool_2_0" xml:space="preserve">
+    <value>Neue Protokollversion. Bitte updaten sie CrypTool 2.0</value>
   </data>
   <data name="No_account_data_found_for_Try_to_download_from_server_" xml:space="preserve">
     <value>Benutzerkonto '{0}' nicht gefunden.Versuche es vom Server zu laden...</value>
@@ -162,11 +210,34 @@
   <data name="No_proxy_server_configured_Please_check_your_configuration_" xml:space="preserve">
     <value>Kein Proxy-Server eingegeben. Bitte überprüfen sie die Einstellungen.</value>
   </data>
+  <data name="No_proxy_server_configured__Please_check_your_configuration_" xml:space="preserve">
+    <value>Kein Proxyserver konfiguriert. Bitte überprüfen sie ihre Einstellungen.</value>
+  </data>
+  <data name="OKButton_" xml:space="preserve">
+    <value>OK</value>
+  </data>
   <data name="P2PEditor_Tab_Caption" xml:space="preserve">
     <value>Netzwerk</value>
   </data>
+  <data name="Passwords_did_not_match_" xml:space="preserve">
+    <value>Passwörter waren nicht gleich.</value>
+  </data>
   <data name="Password_" xml:space="preserve">
     <value>Passwort:</value>
+  </data>
+  <data name="Password_is_not_valid_" xml:space="preserve">
+    <value>Passwort ist nicht gültig.</value>
+  </data>
+  <data name="Please_enter_the_activation_code_" xml:space="preserve">
+    <value>Bitte geben sie den Aktivierungscode ein, den wir ihnen per Email zugeschickt haben.</value>
+  </data>
+  <data name="Please_enter_the_data_below_" xml:space="preserve">
+    <value>Bitte füllen Sie die folgenden Felder aus um einen persönlichen
+CrypTool 2.0 Account zu erstellen. Dieser ist notwendig um
+am Verteilten Netzwerk teilnehmen zu können.</value>
+  </data>
+  <data name="ProxyErrorOccured_Proxy_Error___1__occured_" xml:space="preserve">
+    <value>Proxy Error ({0}) occured:</value>
   </data>
   <data name="Proxy_Error_occured_" xml:space="preserve">
     <value>Proxy Fehler '{0}' trat auf: {1}</value>
@@ -174,14 +245,44 @@
   <data name="Remember_my_password_" xml:space="preserve">
     <value>Speichere das Passwort</value>
   </data>
-  <data name="SSLCertificate_revoked_Please_update_CrypTool_20_" xml:space="preserve">
-    <value>SSL-Zertifikat zurückgewiesen. Bitte aktualisieren sie CrypTool 2.0.</value>
+  <data name="RequestButton_" xml:space="preserve">
+    <value>Anfordern</value>
+  </data>
+  <data name="Requesting_certificate_" xml:space="preserve">
+    <value>Fordere Zertifikat an...</value>
+  </data>
+  <data name="Server_error_occurred__Please_try_again_later" xml:space="preserve">
+    <value>Es trat ein Serverfehler auf. Bitte versuchen sie es später noch einmal.</value>
+  </data>
+  <data name="SSLCertificate_revoked__Please_update_CrypTool_2_0_" xml:space="preserve">
+    <value>SSL-Zertifikat abgelehnt. Bitte updaten sie CrypTool 2.0.</value>
+  </data>
+  <data name="There_was_a_communication_problem_with_the_server" xml:space="preserve">
+    <value>Es gabe ein Kommunikationproblem mit dem Server: {0}</value>
   </data>
   <data name="The_email_address_was_not_verified_" xml:space="preserve">
     <value>Ihre Email-Adresse wurde noch nicht verifiziert. Bitte überprüfen sie ihre Emails auf eine Email mit Verifizierungscode den wir ihnen soeben zugeschickt haben.</value>
   </data>
+  <data name="The_email_already_exists__Please_choose_another_one_" xml:space="preserve">
+    <value>Diese Emailadresse existiert bereits. Bitte wählen sie eine andere.</value>
+  </data>
+  <data name="The_username_already_exists__Please_choose_another_one_" xml:space="preserve">
+    <value>Dieser Benutzername existiert bereits. Bitte wählen sie einen anderen.</value>
+  </data>
+  <data name="The_username_and_email_already_exist_but_the_entered_password_was_wrong_" xml:space="preserve">
+    <value>Der Benutzername und die Email existieren aber das eingegebene Passwort war falsch.</value>
+  </data>
   <data name="Username_" xml:space="preserve">
     <value>Benutzername:</value>
+  </data>
+  <data name="Username_is_not_valid_" xml:space="preserve">
+    <value>Benutzername ist nicht gültig.</value>
+  </data>
+  <data name="Your_new_account_was_requested_successfully_and_can_be_used_after_verification_" xml:space="preserve">
+    <value>Ihr Benutzeraccount wurde erfolgreich angefordert und kann nach der Emailverifizierung genutzt werden.</value>
+  </data>
+  <data name="Your_new_account_was_successfully_activated_" xml:space="preserve">
+    <value>Ihr Benutzeraccount wurder erfolgreich aktiviert und kann jetzt genutzt werden.</value>
   </data>
   <data name="Your_password_was_wrong_We_could_not_autodownload_your_account_data_" xml:space="preserve">
     <value>Ihr Passwort war falsch. Wir konnten ihr Benutzerkonto nicht automatisch herunterladen.</value>

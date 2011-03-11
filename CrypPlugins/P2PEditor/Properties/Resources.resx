@@ -150,7 +150,7 @@
   <data name="Cannot_create_default_account_data_directory_" xml:space="preserve">
     <value>Cannot create default account data directory '{0}': {1}</value>
   </data>
-  <data name="Connect_" xml:space="preserve">
+  <data name="ConnectButton_" xml:space="preserve">
     <value>Connect</value>
   </data>
   <data name="Could_not_save_the_received_certificate_to_your_AppData_folder_" xml:space="preserve">
@@ -177,9 +177,6 @@
   <data name="No_account_data_found_for_Try_to_download_from_server_" xml:space="preserve">
     <value>No account data found for '{0}'. Try to download from server...</value>
   </data>
-  <data name="No_proxy_server_configured_Please_check_your_configuration_" xml:space="preserve">
-    <value>No proxy server configured. Please check your configuration.</value>
-  </data>
   <data name="OKButton_" xml:space="preserve">
     <value>OK</value>
   </data>
@@ -200,9 +197,6 @@ account data will be stored in your local users folder.</value>
   <data name="Remember_my_password_" xml:space="preserve">
     <value>Remember my password</value>
   </data>
-  <data name="SSLCertificate_revoked_Please_update_CrypTool_20_" xml:space="preserve">
-    <value>SSLCertificate revoked. Please update CrypTool 2.0.</value>
-  </data>
   <data name="The_email_address_was_not_verified_" xml:space="preserve">
     <value>The email address was not verified.
 Please check your email account for an activation code we just sent to you and activate your account.</value>
@@ -217,7 +211,85 @@ Press the OK button to proceed.</value>
   <data name="Your_password_was_wrong_We_could_not_autodownload_your_account_data_" xml:space="preserve">
     <value>Your password was wrong. We could not autodownload your account data.</value>
   </data>
-  <data name="_BackButton" xml:space="preserve">
-    <value>Back</value>
+  <data name="Username_is_not_valid_" xml:space="preserve">
+    <value>Username is not valid.</value>
+  </data>
+  <data name="Email_is_not_valid_" xml:space="preserve">
+    <value>Email is not valid.</value>
+  </data>
+  <data name="Passwords_did_not_match_" xml:space="preserve">
+    <value>Passwords did not match.</value>
+  </data>
+  <data name="Password_is_not_valid_" xml:space="preserve">
+    <value>Password is not valid.</value>
+  </data>
+  <data name="SSLCertificate_revoked__Please_update_CrypTool_2_0_" xml:space="preserve">
+    <value>SSLCertificate revoked. Please update CrypTool 2.0.</value>
+  </data>
+  <data name="No_proxy_server_configured__Please_check_your_configuration_" xml:space="preserve">
+    <value>No proxy server configured. Please check your configuration.</value>
+  </data>
+  <data name="Certificate_authorization_required" xml:space="preserve">
+    <value>Certificate authorization required</value>
+  </data>
+  <data name="GetNewCertificate_RetrieveCertificate_" xml:space="preserve">
+    <value>Registration successful. To activate your account, you need to validate your email address.
+ A verification code was sent per email.</value>
+  </data>
+  <data name="Server_error_occurred__Please_try_again_later" xml:space="preserve">
+    <value>Server error occurred. Please try again later</value>
+  </data>
+  <data name="New_ProtocolVersion__Please_update_CrypTool_2_0" xml:space="preserve">
+    <value>New ProtocolVersion. Please update CrypTool 2.0</value>
+  </data>
+  <data name="There_was_a_communication_problem_with_the_server" xml:space="preserve">
+    <value>There was a communication problem with the server: {0} 
+Please try again later</value>
+  </data>
+  <data name="An_exception_occured___1" xml:space="preserve">
+    <value>An exception occured: {0}</value>
+  </data>
+  <data name="The_username_already_exists__Please_choose_another_one_" xml:space="preserve">
+    <value>The username already exists. Please choose another one.</value>
+  </data>
+  <data name="The_email_already_exists__Please_choose_another_one_" xml:space="preserve">
+    <value>The email already exists. Please choose another one.</value>
+  </data>
+  <data name="The_username_and_email_already_exist_but_the_entered_password_was_wrong_" xml:space="preserve">
+    <value>The username and email already exist but the entered password was wrong.</value>
+  </data>
+  <data name="InvalidCertificateRegistration_Invalid_registration___1" xml:space="preserve">
+    <value>Invalid registration: {0}</value>
+  </data>
+  <data name="InvalidCertificateRegistration_Exception_occured___1" xml:space="preserve">
+    <value>Exception occured: {0}</value>
+  </data>
+  <data name="ProxyErrorOccured_Proxy_Error___1__occured_" xml:space="preserve">
+    <value>Proxy Error ({0}) occured:</value>
+  </data>
+  <data name="Account_Creation_" xml:space="preserve">
+    <value>Account Creation</value>
+  </data>
+  <data name="Please_enter_the_data_below_" xml:space="preserve">
+    <value>Please enter the data below to request your own personal account (needed for participating in distributed
+computing - like distributed key searching). CrypTool 2.0 will connect to our server and request
+your account data. This data will be stored into your application data folder of windows.
+We will send you an activation code. Use this code to activate your account by clicking the activate button.</value>
+  </data>
+  <data name="Requesting_certificate_" xml:space="preserve">
+    <value>Requesting certificate...</value>
+  </data>
+  <data name="RequestButton_" xml:space="preserve">
+    <value>Request</value>
+  </data>
+  <data name="Your_new_account_was_requested_successfully_and_can_be_used_after_verification_" xml:space="preserve">
+    <value>Your new account was requested successfully and can be used after verification. 
+Press the OK button to proceed.</value>
+  </data>
+  <data name="Confirm_" xml:space="preserve">
+    <value>Confirm:</value>
+  </data>
+  <data name="Email_" xml:space="preserve">
+    <value>Email:</value>
   </data>
 </root>

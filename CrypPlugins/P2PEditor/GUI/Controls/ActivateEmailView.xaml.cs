@@ -1,11 +1,7 @@
 ﻿using System;
-using System.ComponentModel;
 using System.IO;
 using System.Reflection;
 using System.Windows;
-using System.Windows.Forms;
-using Cryptool.P2PEditor.Distributed;
-using Cryptool.P2PEditor.Worker;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Miscellaneous;
 using PeersAtPlay.CertificateLibrary.Network;
@@ -310,6 +306,21 @@ namespace Cryptool.P2PEditor.GUI.Controls
             {
                 this.MessageLabel.Content = "Proxy Error (" + args.StatusCode + ") occured:" + args.Message;
                 this.P2PEditor.GuiLogMessage(this.MessageLabel.Content.ToString(), NotificationLevel.Error);
+                this.MessageLabel.Visibility = Visibility.Visible;
+            }, null);
+        }
+
+        /// <summary>
+        /// Logs a message to the network editor gui
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="error"></param>
+        public void LogMessage(string message, bool error = false)
+        {
+            this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
+                this.MessageLabel.Content = message;
+                this.P2PEditor.GuiLogMessage(message, NotificationLevel.Info);
                 this.MessageLabel.Visibility = Visibility.Visible;
             }, null);
         }
