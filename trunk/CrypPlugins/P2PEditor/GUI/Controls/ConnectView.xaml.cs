@@ -195,7 +195,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
                         certificateClient.UseSystemWideProxy = P2PSettings.Default.UseSystemWideProxy;
                         certificateClient.SslCertificateRefused += new EventHandler<EventArgs>(delegate
                         {
-                            this.LogMessage(Properties.Resources.SSLCertificate_revoked_Please_update_CrypTool_20_);                                
+                            this.LogMessage(Properties.Resources.SSLCertificate_revoked__Please_update_CrypTool_2_0_);                                
                         });
                         certificateClient.HttpTunnelEstablished += new EventHandler<ProxyEventArgs>(delegate
                         {
@@ -203,7 +203,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
                         });
                         certificateClient.NoProxyConfigured += new EventHandler<EventArgs>(delegate
                         {
-                            this.LogMessage(Properties.Resources.No_proxy_server_configured_Please_check_your_configuration_);
+                            this.LogMessage(Properties.Resources.No_proxy_server_configured__Please_check_your_configuration_);
                         });
                         certificateClient.ProxyErrorOccured += ProxyErrorOccured;
                     }
@@ -244,7 +244,9 @@ namespace Cryptool.P2PEditor.GUI.Controls
             //we used login data, but our email was not authorized
             if (EmailVerificationRequired)
             {
-                this.LogMessage(Properties.Resources.The_email_address_was_not_verified_);
+                this.P2PEditorPresentation.ShowActivateEmailView();
+
+                this.P2PEditorPresentation.ActivateEmailView.LogMessage(Properties.Resources.The_email_address_was_not_verified_);
                 this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
                     RaiseP2PConnectingEvent(false);

@@ -121,7 +121,7 @@
                 <Label/>
                 <CheckBox Content="{Loc Remember_my_password_}" Width="200" Name="RememberPasswordCheckbox" Click="RememberPasswordCheckbox_Click" IsEnabled="{Binding IsP2PConnecting, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource InverseBooleanConverter}}"/>
                 <Label/>
-                <Button Width="200" Name="ConnectButton" IsDefault="True" Content="{Loc Connect_}" Height="38" FontSize="20" Click="ConnectButtonClick" IsEnabled="{Binding IsP2PConnecting, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource InverseBooleanConverter}}" />                
+                <Button Width="200" Name="ConnectButton" IsDefault="True" Content="{Loc ConnectButton_}" Height="38" FontSize="20" Click="ConnectButtonClick" IsEnabled="{Binding IsP2PConnecting, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource InverseBooleanConverter}}" />                
             </StackPanel>
         </ScrollViewer>
     </Grid>
