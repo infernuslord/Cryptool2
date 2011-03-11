@@ -23,34 +23,36 @@
     <headline lang="en" >Message Input</headline>
     <desc lang="en">Here, you can input the message and the key to use.</desc>
 
-    <inputBox plugin="TextInput1" property="Text" alignment="Right" width="80%" visibleLines="5" group="input1">
+    <comboBox plugin="Caesar" property="Action" alignment="Left" width="20%">
+      <description lang="en">Encrypt or Decrypt:</description>
+      <item lang="en" content="Encrypt"/>
+      <item lang="en" content="Decrypt"/>
+    </comboBox>
+
+    <inputBox plugin="Message" property="Text" alignment="Right" width="80%" visibleLines="5" group="input1">
       <description lang="en">Message to encrypt:</description>
       <defaultvalue lang="en">Input your message here.</defaultvalue>
     </inputBox>
 
-    <inputBox plugin="CaesarEncrypt;CaesarDecrypt" property="ShiftChar" alignment="Left" width="5%" visibleLines="1" group="input1" regex="[A-Za-z]">
+    <inputBox plugin="Caesar" property="ShiftChar" alignment="Left" width="5%" visibleLines="1" group="input1" regex="[A-Za-z]">
       <description lang="en">Key (a single letter):</description>
       <defaultvalue>F</defaultvalue>
     </inputBox>
     
     <sampleViewer image="Caesar" file="WorkspaceManagerSamples\Caesar_Sample.cwm">
-      <name lang="en" >Caesar Encryption</name>
+      <name lang="en" >Caesar Output</name>
       <description lang="en" >This encryption algorithm already used by the Roman general and dictator Caesar substitutes single letters: The substitution rule is that the letters of the cleartext alphabet are shifted by a special value (key).</description>
 
       <headline lang="en" >Caesar Output</headline>
       <desc lang="en">Here, you can change the parameters and view the results.</desc>
 
-      <inputBox plugin="TextInput1" property="Text" alignment="Stretch" visibleLines="5">
+      <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5">
         <description lang="en">Message to encrypt:</description>
         <defaultvalue lang="en">Input your message here.</defaultvalue>
       </inputBox>
 
-      <outputBox plugin="CaesarResult" property="CurrentValue" alignment="Stretch" width="49%" visibleLines="5" group="output1">
-        <description lang="en">Encryption Output:</description>
-      </outputBox>
-
-      <outputBox plugin="DecryptedOutput" property="CurrentValue" alignment="Stretch" width="49%" visibleLines="5" group="output1">
-        <description lang="en">Decryption Output:</description>
+      <outputBox plugin="Result" property="CurrentValue" alignment="Stretch" visibleLines="5">
+        <description lang="en">Caesar Output:</description>
       </outputBox>
 
     </sampleViewer>
@@ -65,12 +67,18 @@
     <headline lang="en" >Message Input</headline>
     <desc lang="en">Here, you can input the message and the key to use.</desc>
 
-    <inputBox plugin="VigenereInput1" property="Text" alignment="Right" width="78%" visibleLines="5" group="1">
+    <comboBox plugin="Vigenere" property="Action" alignment="Left" width="20%">
+      <description lang="en">Encrypt or Decrypt:</description>
+      <item lang="en" content="Encrypt"/>
+      <item lang="en" content="Decrypt"/>
+    </comboBox>
+
+    <inputBox plugin="Message" property="Text" alignment="Right" width="78%" visibleLines="5" group="1">
       <description lang="en">Message to encrypt:</description>
       <defaultvalue>Hello world! Hallo Welt! Hola mundo! Bonjour le monde!</defaultvalue>
     </inputBox>
 
-    <inputBox plugin="VigenereInput2" property="Text" alignment="Right" width="20%" visibleLines="5" group="1">
+    <inputBox plugin="Key" property="Text" alignment="Right" width="20%" visibleLines="5" group="1">
       <description lang="en">Key:</description>
       <defaultvalue lang="en">TURING</defaultvalue>
     </inputBox>
@@ -82,17 +90,13 @@
       <headline lang="en" >Vigenère Output</headline>
       <desc lang="en">Here, you can change the parameters and view the results.</desc>
 
-      <inputBox plugin="VigenereInput1" property="Text" alignment="Stretch" visibleLines="5" >
+      <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5" >
         <description lang="en">Message to encrypt:</description>
         <defaultvalue>Hello world! Hallo Welt! Hola mundo! Bonjour le monde!</defaultvalue>
       </inputBox>
 
-      <outputBox plugin="VigenereOutput1" property="CurrentValue" alignment="Stretch" width="49%" visibleLines="5" group="2">
-        <description lang="en">Encryption Output:</description>
-      </outputBox>
-    
-      <outputBox plugin="VigenereOutput2" property="CurrentValue" alignment="Stretch" width="49%" visibleLines="5" group="2">
-        <description lang="en">Decryption Output:</description>
+      <outputBox plugin="Result" property="CurrentValue" alignment="Stretch" visibleLines="5">
+        <description lang="en">Vigenère Output:</description>
       </outputBox>
     
     </sampleViewer>
@@ -106,12 +110,18 @@
     <headline lang="en" >Message Input</headline>
     <desc lang="en">Here, you can input the message and the key to use.</desc>
 
-    <inputBox plugin="Cleartext" property="Text" alignment="Right" width="78%" visibleLines="5" group="1">
+    <comboBox plugin="Substitution" property="Action" alignment="Left" width="20%">
+      <description lang="en">Encrypt or Decrypt:</description>
+      <item lang="en" content="Encrypt"/>
+      <item lang="en" content="Decrypt"/>
+    </comboBox>
+
+    <inputBox plugin="Message" property="Text" alignment="Right" width="78%" visibleLines="5" group="1">
       <description lang="en">Message to encrypt:</description>
       <defaultvalue lang="en">A substitution cipher is a method of encryption by which units of plaintext are replaced with ciphertext according to a regular system; the "units" may be single letters (the most common), pairs of letters, triplets of letters, mixtures of the above, and so forth. The receiver deciphers the text by performing an inverse substitution.</defaultvalue>
     </inputBox>
 
-    <inputBox plugin="Keyword" property="Text" alignment="Right" width="20%" visibleLines="5" group="1">
+    <inputBox plugin="Key" property="Text" alignment="Right" width="20%" visibleLines="5" group="1">
       <description lang="en">Key:</description>
       <defaultvalue lang="en">CRYPTO</defaultvalue>
     </inputBox>
@@ -123,17 +133,13 @@
       <headline lang="en" >Substitution Output</headline>
       <desc lang="en">Here, you can change the parameters and view the results.</desc>
 
-      <inputBox plugin="Cleartext" property="Text" alignment="Stretch" visibleLines="5">
+      <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5">
         <description lang="en">Message to encrypt:</description>
         <defaultvalue lang="en">Hello world! Hallo Welt! Hola mundo! Bonjour le monde!</defaultvalue>
       </inputBox>
 
-      <outputBox plugin="Ciphertext" property="CurrentValue" alignment="Stretch" width="49%" visibleLines="5" group="2">
-        <description lang="en">Encryption Output:</description>
-      </outputBox>
-
-      <outputBox plugin="Deciphered Ciphertext" property="CurrentValue" alignment="Stretch" width="49%" visibleLines="5" group="2">
-        <description lang="en">Decryption Output:</description>
+      <outputBox plugin="Result" property="CurrentValue" alignment="Stretch" visibleLines="5">
+        <description lang="en">Substitution Output:</description>
       </outputBox>
 
     </sampleViewer>
@@ -147,7 +153,7 @@
     <headline lang="en" >Message Input</headline>
     <desc lang="en">Here, you can input the message to use.</desc>
 
-    <inputBox plugin="Cleartext" property="Text" alignment="Stretch" visibleLines="5" >
+    <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5" >
       <description lang="en">Message to encrypt:</description>
       <defaultvalue lang="de">Wir wurden entdeckt, sofortiger Rückzug!</defaultvalue>
     </inputBox>
@@ -164,33 +170,35 @@
     <headline lang="en" >Message Input</headline>
     <desc lang="en" >Please input key and cleartext.</desc>
 
-    <inputBox plugin="Cleartext" property="Text" alignment="Right" width="70%" visibleLines="5" group="InputGroup">
+    <comboBox plugin="Playfair" property="Action" alignment="Left" width="20%">
+      <description lang="en">Encrypt or Decrypt:</description>
+      <item lang="en" content="Encrypt"/>
+      <item lang="en" content="Decrypt"/>
+    </comboBox>
+
+    <inputBox plugin="Message" property="Text" alignment="Right" width="70%" visibleLines="5" group="InputGroup">
       <description lang="en">Message:</description>
       <defaultvalue lang="en">This is a test!</defaultvalue>
     </inputBox>
 
-    <inputBox plugin="Playfair Encryption;Playfair Decryption" property="Key" alignment="Left" width="30%" visibleLines="1" group="InputGroup">
+    <inputBox plugin="Playfair" property="Key" alignment="Left" width="30%" visibleLines="1" group="InputGroup">
       <description lang="en">Key:</description>
       <defaultvalue>BCD</defaultvalue>
     </inputBox>
 
     <sampleViewer image="Playfair" file="WorkspaceManagerSamples\Playfair_Sample.cwm">
-      <name lang="en" >Playfair</name>
+      <name lang="en" >Playfair Output</name>
       
       <headline lang="en" >Playfair Output</headline>
       <desc lang="en">Here, you can change the parameters and view the results.</desc>
 
-      <inputBox plugin="Cleartext" property="Text" alignment="Stretch" visibleLines="5" >
+      <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5" >
         <description lang="en">Message:</description>
         <defaultvalue lang="en">This is a test!</defaultvalue>
       </inputBox>
 
-      <outputBox plugin="Ciphertext" property="CurrentValue" alignment="Left" width="49%" visibleLines="5" group="OutputGroup">
-        <description lang="en">Encryption Output:</description>
-      </outputBox>
-
-      <outputBox plugin="Deciphered Ciphertext" property="CurrentValue" alignment="Right" width="49%" visibleLines="5" group="OutputGroup">
-        <description lang="en">Decryption Output:</description>
+      <outputBox plugin="Result" property="CurrentValue" alignment="Stretch" visibleLines="5">
+        <description lang="en">Playfair Output:</description>
       </outputBox>
     
     </sampleViewer>
@@ -210,7 +218,13 @@
     <headline lang="en" >Message Input</headline>
     <desc lang="en">Here, you can input the message and the key to use.</desc>
 
-    <inputBox plugin="Cleartext" property="Text" alignment="Strecht" width="49%" visibleLines="5" group="InputGroup">
+    <comboBox plugin="XOR" property="Action" alignment="Left" width="20%">
+      <description lang="en">Encrypt or Decrypt:</description>
+      <item lang="en" content="Encrypt"/>
+      <item lang="en" content="Decrypt"/>
+    </comboBox>
+
+    <inputBox plugin="Message" property="Text" alignment="Strecht" width="49%" visibleLines="5" group="InputGroup">
       <description lang="en">Message:</description>
       <defaultvalue>ABCDCVX</defaultvalue>
     </inputBox>
@@ -227,17 +241,13 @@
       <headline lang="en" >XOR Output</headline>
       <desc lang="en">Here, you can change the parameters and view the results.</desc>
 
-      <inputBox plugin="Cleartext" property="Text" alignment="Stretch" visibleLines="5" >
+      <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5" >
         <description lang="en">Message:</description>
         <defaultvalue lang="en">ABCDCVX</defaultvalue>
       </inputBox>
 
-      <outputBox plugin="Ciphertext" property="CurrentValue" alignment="Left" width="49%" visibleLines="5" group="OutputGroup">
-        <description lang="en">Encryption Output:</description>
-      </outputBox>
-
-      <outputBox plugin="Deciphered Ciphertext" property="CurrentValue" alignment="Right" width="49%" visibleLines="5" group="OutputGroup">
-        <description lang="en">Decryption Output:</description>
+      <outputBox plugin="Result" property="CurrentValue" alignment="Stretch" visibleLines="5">
+        <description lang="en">XOR Output:</description>
       </outputBox>
     
     </sampleViewer>
@@ -251,34 +261,36 @@
     <headline lang="en" >Message Input</headline>
     <desc lang="en">Here, you can input the message and the key to use.</desc>
 
-    <inputBox plugin="Cleartext" property="Text" alignment="Strecht" width="49%" visibleLines="5" group="InputGroup">
+    <comboBox plugin="Vernam" property="Action" alignment="Left" width="20%">
+      <description lang="en">Encrypt or Decrypt:</description>
+      <item lang="en" content="Encrypt"/>
+      <item lang="en" content="Decrypt"/>
+    </comboBox>
+
+    <inputBox plugin="Message" property="Text" alignment="Strecht" width="49%" visibleLines="5" group="InputGroup">
       <description lang="en">Message:</description>
       <defaultvalue>Hello world! Hallo Welt! Hola mundo! Bonjour le monde!</defaultvalue>
     </inputBox>
 
-    <inputBox plugin="Key" property="Text" alignment="Strecht" width="49%" visibleLines="5" group="InputGroup">
+    <inputBox plugin="Key" property="Text" alignment="Stretch" width="49%" visibleLines="5" group="InputGroup">
       <description lang="en">Key:</description>
       <defaultvalue>ab</defaultvalue>
     </inputBox>
     
     <sampleViewer image="Vernam" file="WorkspaceManagerSamples\Vernam_Sample.cwm">
-      <name lang="en" >Vernam</name>
+      <name lang="en" >Vernam Output</name>
       <description lang="en" >A Vernam cipher is a symmetrical stream cipher in which the plaintext is XORed with a random or pseudorandom stream of data (the "keystream") of the same length to generate the ciphertext.</description>
 
       <headline lang="en" >Vernam Output</headline>
       <desc lang="en">Here, you can change the parameters and view the results.</desc>
 
-      <inputBox plugin="Cleartext" property="Text" alignment="Stretch" visibleLines="5" >
+      <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5" >
         <description lang="en">Message:</description>
         <defaultvalue lang="en">Hello world! Hallo Welt! Hola mundo! Bonjour le monde!</defaultvalue>
       </inputBox>
 
-      <outputBox plugin="Ciphertext" property="CurrentValue" alignment="Left" width="49%" visibleLines="5" group="OutputGroup">
-        <description lang="en">Encryption Output:</description>
-      </outputBox>
-
-      <outputBox plugin="Deciphered Ciphertext" property="CurrentValue" alignment="Right" width="49%" visibleLines="5" group="OutputGroup">
-        <description lang="en">Decryption Output:</description>
+      <outputBox plugin="Result" property="CurrentValue" alignment="Stretch" visibleLines="5">
+        <description lang="en">Vernam Output:</description>
       </outputBox>
 
     </sampleViewer>
@@ -292,12 +304,18 @@
     <headline lang="en" >Message Input</headline>
     <desc lang="en">Here, you can input the message and the key to use.</desc>
 
-    <inputBox plugin="TranspositionInput1" property="Text" alignment="Stretch" width="49%" visibleLines="5" group="InputGroup">
+    <comboBox plugin="Transposition" property="Action" alignment="Left" width="20%">
+      <description lang="en">Encrypt or Decrypt:</description>
+      <item lang="en" content="Encrypt"/>
+      <item lang="en" content="Decrypt"/>
+    </comboBox>
+
+    <inputBox plugin="Message" property="Text" alignment="Stretch" width="49%" visibleLines="5" group="InputGroup">
       <description lang="en">Message:</description>
       <defaultvalue lang="en">Wir wurden entdeckt, flieh wenn du kannst!</defaultvalue>
     </inputBox>
 
-    <inputBox plugin="TranspositionInput2" property="Text" alignment="Stretch" width="49%" visibleLines="5" group="InputGroup">
+    <inputBox plugin="Key" property="Text" alignment="Stretch" width="49%" visibleLines="5" group="InputGroup">
       <description lang="en">Key:</description>
       <defaultvalue lang="en">ZEBRAS</defaultvalue>
     </inputBox>
@@ -309,25 +327,17 @@
       <headline lang="en" >Transposition Cipher</headline>
       <desc lang="en">Here, you can change the parameters and view the results.</desc>
 
-      <inputBox plugin="TranspositionInput1" property="Text" alignment="Stretch" visibleLines="5" >
+      <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5" >
         <description lang="en">Message:</description>
         <defaultvalue lang="en">Wir wurden entdeckt, flieh wenn du kannst!</defaultvalue>
       </inputBox>
 
-      <presentation plugin="TranspositionEncrypt" height="300" width="49%" group="2">
-        <description lang="en">Encryption:</description>
+      <presentation plugin="Transposition" height="300">
+        <description lang="en">Plugin Presentation:</description>
       </presentation>
 
-      <presentation plugin="TranspositionDecrypt" height="300" width="49%" group="2">
-        <description lang="en">Decryption:</description>
-      </presentation>
-
-      <outputBox plugin="TranspositionOutput1" property="CurrentValue" alignment="Stretch" width="49%" visibleLines="2" group="3">
-        <description lang="en">Encryption Output:</description>
-      </outputBox>
-
-      <outputBox plugin="TranspositionOutput2" property="CurrentValue" alignment="Stretch" width="49%" visibleLines="2" group="3">
-        <description lang="en">Decryption Output:</description>
+      <outputBox plugin="Result" property="CurrentValue" alignment="Stretch" visibleLines="2">
+        <description lang="en">Transposition Output:</description>
       </outputBox>
 
     </sampleViewer>
@@ -342,7 +352,13 @@
     <headline lang="en" >Message Input</headline>
     <desc lang="en">Here, you can input the message and the key to use.</desc>
 
-    <inputBox plugin="Cleartext" property="Text" alignment="Stretch" width="49%" visibleLines="5" group="InputGroup">
+    <comboBox plugin="Scytale" property="Action" alignment="Left" width="20%">
+      <description lang="en">Encrypt or Decrypt:</description>
+      <item lang="en" content="Encrypt"/>
+      <item lang="en" content="Decrypt"/>
+    </comboBox>
+
+    <inputBox plugin="Message" property="Text" alignment="Stretch" width="49%" visibleLines="5" group="InputGroup">
       <description lang="en">Message:</description>
       <defaultvalue lang="de">Eine geheime Botschaft</defaultvalue>
       <defaultvalue lang="en">A secret message</defaultvalue>
@@ -360,18 +376,14 @@
       <headline lang="en" >Scytale Output</headline>
       <desc lang="en">Here, you can change the parameters and view the results.</desc>
 
-      <inputBox plugin="Cleartext" property="Text" alignment="Stretch" visibleLines="5" group="InputGroup">
+      <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5">
         <description lang="en">Message:</description>
         <defaultvalue lang="de">Eine geheime Botschaft</defaultvalue>
         <defaultvalue lang="en">A secret message</defaultvalue>
       </inputBox>
 
-      <outputBox plugin="Ciphertext" property="CurrentValue" alignment="Left" width="49%" visibleLines="5" group="OutputGroup">
-        <description lang="en">Encryption Output:</description>
-      </outputBox>
-
-      <outputBox plugin="Deciphered Ciphertext" property="CurrentValue" alignment="Right" width="49%" visibleLines="5" group="OutputGroup">
-        <description lang="en">Decryption Output:</description>
+      <outputBox plugin="Result" property="CurrentValue" alignment="Stretch" visibleLines="5">
+        <description lang="en">Scytale Output:</description>
       </outputBox>
     
     </sampleViewer>
