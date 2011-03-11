@@ -575,7 +575,7 @@ namespace Wizard
                             cbi.Content = item.Attribute("content").Value;
                         comboBox.Items.Add(cbi);
                     }
-                    
+
                     if (key != null && pluginPropertyValue != null)
                     {
                         if (pluginPropertyValue.Value is int)
@@ -594,6 +594,8 @@ namespace Wizard
                             cbi.IsSelected = true;
                         }
                     }
+                    else
+                        ((ComboBoxItem) comboBox.Items.GetItemAt(0)).IsSelected = true;
 
                     element = comboBox;
                     break;
