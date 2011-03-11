@@ -126,6 +126,27 @@ RSA is widely used in electronic commerce protocols, and is believed to be secur
           </outputBox>
         </sampleViewer>
       </input>
+
+      <sampleViewer image="RSA" file="WorkspaceManagerSamples\RSA_KeyGenerator_Sample.cwm">
+        <name lang="en">RSA Key Generation</name>
+        <description lang="en">Select this, to generate a random key for RSA.</description>
+
+        <headline lang="en">RSA Key Generation</headline>
+        <desc lang="en">Here you can see a random generated RSA key.</desc>
+
+        <outputBox plugin="N" property="CurrentValue">
+          <description lang="en">N (common part of keypair):</description>
+        </outputBox>
+
+        <outputBox plugin="e" property="CurrentValue">
+          <description lang="en">e (public part of keypair):</description>
+        </outputBox>
+
+        <outputBox plugin="d" property="CurrentValue">
+          <description lang="en">d (private part of keypair):</description>
+        </outputBox>
+      </sampleViewer>
+      
     </category>
     
   </category>
