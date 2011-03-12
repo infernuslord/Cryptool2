@@ -244,11 +244,10 @@ namespace Cryptool.P2PEditor.GUI.Controls
             //we used login data, but our email was not authorized
             if (EmailVerificationRequired)
             {
-                this.P2PEditorPresentation.ShowActivateEmailView();
-
-                this.P2PEditorPresentation.ActivateEmailView.LogMessage(Properties.Resources.The_email_address_was_not_verified_);
                 this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
+                    this.P2PEditorPresentation.ShowActivateEmailView();
+                    this.P2PEditorPresentation.ActivateEmailView.LogMessage(Properties.Resources.The_email_address_was_not_verified_);
                     RaiseP2PConnectingEvent(false);
                     IsP2PConnecting = false;
                 }, null);                

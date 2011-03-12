@@ -292,4 +292,45 @@ Press the OK button to proceed.</value>
   <data name="Email_" xml:space="preserve">
     <value>Email:</value>
   </data>
+  <data name="Password_reset_" xml:space="preserve">
+    <value>Password reset</value>
+  </data>
+  <data name="Please_enter_your_user_name_" xml:space="preserve">
+    <value>Please enter your user name so that we can send a password reset verification code to your registered
+email address. Use this code to change your accounts password settings.</value>
+  </data>
+  <data name="Resetting_password_" xml:space="preserve">
+    <value>Resetting password...</value>
+  </data>
+  <data name="ResetButton_" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="VerifyButton_" xml:space="preserve">
+    <value>Verify</value>
+  </data>
+  <data name="Please_check_your_email_account_for_a_password_reset_verification_code_" xml:space="preserve">
+    <value>Please check your email account for a password reset verification code.</value>
+  </data>
+  <data name="Registration_successful_To_activate_your_account_you_need_" xml:space="preserve">
+    <value>Registration successful. To activate your account, you need to validate your email address.
+ A verification code was sent per email.</value>
+  </data>
+  <data name="Your_certificate_was_not_authorized__so_a_reset_is_not_possible_at_this_moment" xml:space="preserve">
+    <value>Your certificate was not authorized, so a reset is not possible at this moment</value>
+  </data>
+  <data name="Your_certificate_was_revoked_You_can_not_reset_it" xml:space="preserve">
+    <value>Your certificate was revoked You can not reset it</value>
+  </data>
+  <data name="Deserialization_of_communication_packet_on_the_server_side_failed__Please_try_again_" xml:space="preserve">
+    <value>Deserialization of communication packet on the server side failed. Please try again.</value>
+  </data>
+  <data name="The_username_does_not_exist_" xml:space="preserve">
+    <value>The username does not exist</value>
+  </data>
+  <data name="Our_email_server_is_currently_offline__Please_try_again_later_" xml:space="preserve">
+    <value>Our email server is currently offline. Please try again later.</value>
+  </data>
+  <data name="We_had_an_error___0_" xml:space="preserve">
+    <value>We had an error: {0}</value>
+  </data>
 </root>

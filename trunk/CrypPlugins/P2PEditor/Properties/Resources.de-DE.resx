@@ -166,7 +166,7 @@
     <value>Verbinden</value>
   </data>
   <data name="Could_not_save_the_received_certificate_to_your_AppData_folder_" xml:space="preserve">
-    <value>Kann das empfangene Benutzerkonto nicht speichern:\n{0}</value>
+    <value>Kann das empfangene Benutzerkonto nicht speichern: {0}</value>
   </data>
   <data name="Create_a_new_account_" xml:space="preserve">
     <value>Neues Benutzerkonto erstellen</value>
@@ -190,7 +190,8 @@
     <value>Passwort vergessen</value>
   </data>
   <data name="GetNewCertificate_RetrieveCertificate_" xml:space="preserve">
-    <value>Registration erfolgreich.Um ihren Account zu aktivieren schauen sie nach der Aktivierungsemail in ihrem Postfach.</value>
+    <value>Registration erfolgreich. Um ihren Account zu aktivieren schauen sie bitte
+nach der Aktivierungsemail in ihrem Postfach.</value>
   </data>
   <data name="HttpTunnel_successfully_established_" xml:space="preserve">
     <value>HttpTunnel erfolgreich aufgebaut</value>
@@ -261,7 +262,8 @@ am Verteilten Netzwerk teilnehmen zu können.</value>
     <value>Es gabe ein Kommunikationproblem mit dem Server: {0}</value>
   </data>
   <data name="The_email_address_was_not_verified_" xml:space="preserve">
-    <value>Ihre Email-Adresse wurde noch nicht verifiziert. Bitte überprüfen sie ihre Emails auf eine Email mit Verifizierungscode den wir ihnen soeben zugeschickt haben.</value>
+    <value>Ihre Email-Adresse wurde noch nicht verifiziert. Bitte überprüfen sie ihre Emails auf eine Email mit
+Verifizierungscode den wir ihnen soeben zugeschickt haben.</value>
   </data>
   <data name="The_email_already_exists__Please_choose_another_one_" xml:space="preserve">
     <value>Diese Emailadresse existiert bereits. Bitte wählen sie eine andere.</value>
@@ -286,5 +288,24 @@ am Verteilten Netzwerk teilnehmen zu können.</value>
   </data>
   <data name="Your_password_was_wrong_We_could_not_autodownload_your_account_data_" xml:space="preserve">
     <value>Ihr Passwort war falsch. Wir konnten ihr Benutzerkonto nicht automatisch herunterladen.</value>
+  </data>
+  <data name="Password_reset_" xml:space="preserve">
+    <value>Passwort ändern</value>
+  </data>
+  <data name="Please_enter_your_user_name_" xml:space="preserve">
+    <value>Bitte geben sie ihren Benutzernamen ein, damit wir ihnen einen Änderungsscode an die von ihnen registrierte
+Emailadresse senden können.</value>
+  </data>
+  <data name="Resetting_password_" xml:space="preserve">
+    <value>Passwort zurücksetzen...</value>
+  </data>
+  <data name="ResetButton_" xml:space="preserve">
+    <value>Zurücksetzen</value>
+  </data>
+  <data name="The_username_does_not_exist_" xml:space="preserve">
+    <value>Der Benutzername existiert nicht.</value>
+  </data>
+  <data name="VerifyButton_" xml:space="preserve">
+    <value>Verifizieren</value>
   </data>
 </root>
