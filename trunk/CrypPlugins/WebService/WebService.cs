@@ -917,7 +917,7 @@ namespace WebService
         protected void OnPropertyChanged(string name)
         {
             EventsHelper.PropertyChanged(PropertyChanged, this, new PropertyChangedEventArgs(name));
-
+           
         }
         #endregion
     }
