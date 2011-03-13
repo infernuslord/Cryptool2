@@ -205,10 +205,51 @@
   </input>
 
   <!-- ADFGVX input -->
-  <!--<input image="ADFGVX">
+  <input image="ADFGVX">
     <name lang="en" >ADFGVX</name>
-    <description lang="en" >ADFGVX is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).</description>
-  </input>-->
+    <description lang="en" >The ADFGVX cipher was a field cipher used by the German Army during World War I. It was a fractionating transposition cipher which combined a modified Polybius square with a single columnar transposition. The cipher is named after the six possible letters used in the ciphertext: A, D, F, G, V and X.</description>
+
+    <headline lang="en" >Message Input</headline>
+    <desc lang="en">Here, you can input the message, the alphabet and the transposition password to use.</desc>
+
+    <comboBox plugin="ADFGVX" property="Action" alignment="Left" width="20%">
+      <description lang="en">Encrypt or Decrypt:</description>
+      <item lang="en" content="Encrypt"/>
+      <item lang="en" content="Decrypt"/>
+    </comboBox>
+
+    <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5">
+      <description lang="en">Message:</description>
+      <defaultvalue>ABCDCVX</defaultvalue>
+    </inputBox>
+
+    <inputBox plugin="Alphabet" property="Text" alignment="Stretch" visibleLines="1">
+      <description lang="en">Alphabet:</description>
+      <defaultvalue>abcdefghijklmnopqrstuvwxyz0123456789</defaultvalue>
+    </inputBox>
+
+    <inputBox plugin="TranspositionPassword" property="Text" alignment="Stretch" visibleLines="1">
+      <description lang="en">Transposition Password:</description>
+      <defaultvalue>TranspositionPassword</defaultvalue>
+    </inputBox>
+
+    <sampleViewer image="ADFGVX" file="WorkspaceManagerSamples\XOR_Sample.cwm">
+      <name lang="en" >ADFGVX Output</name>
+      <description lang="en" >XOR is a boolean operator which can be used to encrypt plaintext.</description>
+
+      <headline lang="en" >ADFGVX Output</headline>
+      <desc lang="en">Here, you can change the parameters and view the results.</desc>
+
+      <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5" >
+        <description lang="en">Message:</description>
+      </inputBox>
+
+      <outputBox plugin="Result" property="CurrentValue" alignment="Stretch" visibleLines="5">
+        <description lang="en">ADFGVX Output:</description>
+      </outputBox>
+
+    </sampleViewer>
+  </input>
 
   <!-- XOR input -->
   <input image="XOR">
@@ -235,7 +276,7 @@
     </inputBox>
     
     <sampleViewer image="XOR" file="WorkspaceManagerSamples\XOR_Sample.cwm">
-      <name lang="en" >XOR</name>
+      <name lang="en" >XOR Output</name>
       <description lang="en" >XOR is a boolean operator which can be used to encrypt plaintext.</description>
 
       <headline lang="en" >XOR Output</headline>
