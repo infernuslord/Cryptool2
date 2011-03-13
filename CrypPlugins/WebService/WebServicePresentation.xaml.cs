@@ -24,6 +24,7 @@ using System.Security.Cryptography.Xml;
 using System.Windows.Threading;
 using System.Collections.ObjectModel;
 using System.Threading;
+using System.Reflection;
 
 
 namespace WebService
@@ -268,12 +269,12 @@ namespace WebService
                 tbTagOpen.Foreground = elemBrush;
                 tbTagClose.Foreground = elemBrush;
                 tbName.Foreground = elemBrush;
-               if(!this._nodeToTreeViewItemDictionary.ContainsKey(xmlNode.OuterXml))
+                if (!this._nodeToTreeViewItemDictionary.ContainsKey(xmlNode.OuterXml))
                 {
                     xmlNode.Normalize();
-                 this._nodeToTreeViewItemDictionary.Add(xmlNode.OuterXml.ToString(), item);
+                    this._nodeToTreeViewItemDictionary.Add(xmlNode.OuterXml.ToString(), item);
                 }
-                if(xmlNode.OuterXml.Contains("Body"))
+                if (xmlNode.OuterXml.Contains("Body"))
                 {
 
                 }
@@ -350,6 +351,8 @@ namespace WebService
             }
 
         }
+       
+
 
         public StackPanel InsertAttributes(ref StackPanel panel, XmlAttributeCollection xmlAttributes)
         {
@@ -1129,8 +1132,12 @@ namespace WebService
             if ((e.NewValue as TreeViewItem) != null)
             {
                 TreeViewItem item = e.NewValue as TreeViewItem;
-                double y = this._animationTreeView.TransformToVisual(item).Transform(new Point(0, 0)).Y;
+                double y = this._animationTreeView.TransformToDescendant(item).Transform(new Point(0, 0)).Y;
+     
+               PropertyInfo info= (e.Source as TreeView).GetType().GetProperty("ScrollHost",( System.Reflection.BindingFlags.NonPublic|System.Reflection.BindingFlags.Instance));
+              ScrollViewer viewer = info.GetValue((e.Source as TreeView), null) as ScrollViewer;
                 this._indicatorTextBox.Margin = new Thickness(this._indicatorTextBox.Margin.Left, -y, this._indicatorTextBox.Margin.Right, this._indicatorTextBox.Margin.Bottom);
+              
                 this._indicatorTextBox.Text = "=>";
             }
         }

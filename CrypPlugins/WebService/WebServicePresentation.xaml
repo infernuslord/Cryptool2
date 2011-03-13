@@ -28,7 +28,7 @@
                  </ScrollViewer>
             </TabItem>
             <TabItem IsSelected="True" Name="_animationTab" Header="Animation" Background="AliceBlue" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                <ScrollViewer Name="_animationScrollViewer" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
                 <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  Height="436" Width="660">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*"/>
