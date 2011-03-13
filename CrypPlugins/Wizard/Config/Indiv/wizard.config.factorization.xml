@@ -20,7 +20,7 @@
     <headline lang="en">Prime Number Factorization Output</headline>
     <desc lang="en">Here, you can see the factorization process and the result.</desc>
 
-    <presentation plugin="QuadraticSieve" width="80%" height="80%">
+    <presentation plugin="QuadraticSieve" width="50%" height="50%">
       <description lang="en">Factorization:</description>
     </presentation>
   </sampleViewer>

@@ -59,7 +59,7 @@ By selecting this, you can analyse some ciphertext that was encrypted with the A
         <headline lang="en">AES Ciphertext Only Analysis Output</headline>
         <desc lang="en">Here, you can see the AES analysis.</desc>
 
-        <presentation plugin="KeySearcher" width="80%" height="80%">
+        <presentation plugin="KeySearcher" width="50%" height="50%">
           <description lang="en-GB">Analyser:</description>
         </presentation>
 
@@ -117,7 +117,7 @@ By selecting this, you can analyse some ciphertext that was encrypted with the A
         <headline lang="en">AES Known Plaintext Analysis Output</headline>
         <desc lang="en">Here, you can see the AES analysis.</desc>
         
-        <presentation plugin="KeySearcher" width="80%" height="80%">
+        <presentation plugin="KeySearcher" width="50%" height="50%">
           <description lang="en-GB">Analyser:</description>
         </presentation>
 
@@ -173,7 +173,7 @@ By selecting this, you can analyse some ciphertext that was encrypted with the A
         <headline lang="en">DES Ciphertext Only Analysis Output</headline>
         <desc lang="en">Here, you can see the DES analysis.</desc>
 
-        <presentation plugin="KeySearcher" width="80%" height="80%">
+        <presentation plugin="KeySearcher" width="50%" height="50%">
           <description lang="en-GB">Analyser:</description>
         </presentation>
 
@@ -224,7 +224,7 @@ By selecting this, you can analyse some ciphertext that was encrypted with the A
         <headline lang="en">DES Known Plaintext Analysis Output</headline>
         <desc lang="en">Here, you can see the DES analysis.</desc>
 
-        <presentation plugin="KeySearcher" width="80%" height="80%">
+        <presentation plugin="KeySearcher" width="50%" height="50%">
           <description lang="en-GB">Analyser:</description>
         </presentation>
 
@@ -279,7 +279,7 @@ By selecting this, you can analyse some ciphertext that was encrypted with the A
         <headline lang="en">SDES Ciphertext Only Analysis Output</headline>
         <desc lang="en">Here, you can see the SDES analysis.</desc>
 
-        <presentation plugin="KeySearcher" width="80%" height="80%">
+        <presentation plugin="KeySearcher" width="50%" height="50%">
           <description lang="en-GB">Analyser:</description>
         </presentation>
 
@@ -329,7 +329,7 @@ By selecting this, you can analyse some ciphertext that was encrypted with the A
         <headline lang="en">SDES Known Plaintext Analysis Output</headline>
         <desc lang="en">Here, you can see the SDES analysis.</desc>
 
-        <presentation plugin="KeySearcher" width="80%" height="80%">
+        <presentation plugin="KeySearcher" width="50%" height="50%">
           <description lang="en-GB">Analyser:</description>
         </presentation>
 
