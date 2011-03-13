@@ -284,14 +284,15 @@ namespace KeySearcher.P2P
                     status.CurrentOperation = Resources.Connection_lost__Waiting_for_reconnect___;
                     keySearcher.GuiLogMessage(status.CurrentOperation, NotificationLevel.Info);
                     WaitForReconnect();
+                    keyPoolTree.Reset();
                 }
                 catch (InvalidOperationException)
                 {
-                    //do nothing
+                    keyPoolTree.Reset();
                 }
                 catch (P2POperationFailedException)
                 {
-                    //do nothing, so it will be tryied again
+                    keyPoolTree.Reset();
                 }
             }
 
