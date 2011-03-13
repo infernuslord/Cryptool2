@@ -71,7 +71,7 @@ namespace Wizard
         public WizardControl()
         {
             InitializeComponent();
-            CompositionTarget.Rendering += CompositionTarget_Rendering;
+            OuterScrollViewer.Focus();
             Loaded += delegate { Keyboard.Focus(this); };
         }
 
@@ -133,7 +133,6 @@ namespace Wizard
 
         ~WizardControl()
         {
-            CompositionTarget.Rendering -= CompositionTarget_Rendering;
         }
 
         // generate the full XML tree for the wizard (recursive)
@@ -1377,30 +1376,6 @@ namespace Wizard
             }
         }
 
-        private bool keyPressed = false;
-
-        void CompositionTarget_Rendering(object sender, EventArgs e)
-        {
-            var interestingKeys = new List<Key>() {Key.Up, Key.Down, Key.Left, Key.Right};
-            if (this.IsMouseOver)
-            {
-                foreach (var k in interestingKeys)
-                {
-                    if ((Keyboard.GetKeyStates(k) & KeyStates.Down) > 0)
-                    {
-                        if (!keyPressed)
-                        {
-                            keyPressed = true;
-                            KeyPressedDown(k);
-                        }
-                        return;
-                    }
-                }
-            }
-            
-            keyPressed = false;
-        }
-
         private void KeyPressedDown(Key key)
         {
             switch (key)
@@ -1443,6 +1418,15 @@ namespace Wizard
                     if (nextButton.IsEnabled)
                         nextButton_Click(null, null);
                     break;
+            }
+        }
+
+        private void ScrollViewer_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (OuterScrollViewer.IsKeyboardFocused || descScroll.IsKeyboardFocused || inputPanel.IsKeyboardFocused)
+            {
+                KeyPressedDown(e.Key);
+                e.Handled = true;
             }
         }
     }
