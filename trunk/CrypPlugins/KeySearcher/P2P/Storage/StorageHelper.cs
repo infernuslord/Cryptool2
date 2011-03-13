@@ -232,6 +232,7 @@ namespace KeySearcher.P2P.Storage
                     nodeToUpdate.PushToResults(newResult);
                 }
 
+                nodeToUpdate.Activity.Clear();
                 //Reading the number of avatarnames
                 int avatarcount = binaryReader.ReadInt32();
                 for (int i = 0; i < avatarcount; i++)
