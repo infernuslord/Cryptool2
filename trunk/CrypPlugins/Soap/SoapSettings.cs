@@ -30,6 +30,14 @@ namespace Soap
 
             }
         }
+        public string ResetSoap
+        {
+            get
+            {
+                return null;
+            }
+
+        }
 
         [TaskPane("Send Soap", "Sends the Soap Message", null, 1, true, ControlType.Button)]
         public void sendSoap()
@@ -40,7 +48,7 @@ namespace Soap
         [TaskPane("Reset Soap", "Resets the Soap Message", null, 1, true, ControlType.Button)]
         public void resetSoap()
         {
-            OnPropertyChanged("resetSoap");
+            OnPropertyChanged("ResetSoap");
         }
 
         private string signatureAlg = "1";

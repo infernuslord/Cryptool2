@@ -1682,7 +1682,7 @@ namespace Soap
                         send = true;
                     }
                     break;
-                case "resetSoap":
+                case "ResetSoap":
                     if (this._soap != null)
                     {
                         mySettings.bodysigned = false;
