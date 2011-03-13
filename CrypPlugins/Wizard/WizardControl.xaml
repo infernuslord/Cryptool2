@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="600" Focusable="True" ClipToBounds="True">
+             d:DesignHeight="300" d:DesignWidth="600" ClipToBounds="True">
     <UserControl.Resources>
         <BitmapImage x:Key="Analyse" UriSource="Images/Analyse.png"/>
         <BitmapImage x:Key="Classic" UriSource="Images/Classic.png"/>
@@ -84,63 +84,65 @@
         </RadialGradientBrush>
     </UserControl.Background>
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
+    <ScrollViewer Name="OuterScrollViewer" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Disabled" PreviewKeyDown="ScrollViewer_PreviewKeyDown">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
 
-        <Grid.RenderTransform>
-            <TranslateTransform x:Name="MainGridTransform"/>
-        </Grid.RenderTransform>
+            <Grid.RenderTransform>
+                <TranslateTransform x:Name="MainGridTransform"/>
+            </Grid.RenderTransform>
 
-        <Label HorizontalAlignment="Center" Name="taskHeader" FontSize="18" />
-        <Label HorizontalAlignment="Stretch" Name="descHeader" FontSize="13" Grid.Row="1" Margin="5"  />
+            <Label HorizontalAlignment="Center" Name="taskHeader" FontSize="18" />
+            <Label HorizontalAlignment="Stretch" Name="descHeader" FontSize="13" Grid.Row="1" Margin="5"  />
         
-        <Grid HorizontalAlignment="Stretch" Name="categoryGrid" VerticalAlignment="Stretch" Grid.Row="2" Margin="10" >
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
-            <ScrollViewer  HorizontalAlignment="Stretch" VerticalAlignment="Center" VerticalScrollBarVisibility="Auto" Name="radioButtonScroll">
-                <StackPanel Name="radioButtonStackPanel" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-            </ScrollViewer>
-            <Border BorderBrush="LightSeaGreen" BorderThickness="1" Grid.Column="1" CornerRadius="5" Background="#FFC8DCF5" MinHeight="{Binding ElementName=radioButtonScroll, Path=ActualHeight+10}">
-                <ScrollViewer Name="descScroll" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalScrollBarVisibility="Auto" >
-                    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-                        <Label HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" Content="{Loc Description}" />
-                        <TextBlock Name="description" TextWrapping="Wrap" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Left" Grid.Row="1" Margin="5" />
-                    </Grid>
-                </ScrollViewer>
-            </Border>
-        </Grid>
-
-        <ScrollViewer Grid.Row="2" Name="inputPanel" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-            <Border BorderBrush="LightSeaGreen" BorderThickness="1" Grid.Column="1" CornerRadius="5" Background="#FFC8DCF5" Margin="20" >
-                <StackPanel Name="inputStack" Orientation="Vertical" Margin="5" HorizontalAlignment="Stretch"/>
-            </Border>
-        </ScrollViewer>
-        <Grid Grid.Row="3" HorizontalAlignment="Stretch" >
+            <Grid HorizontalAlignment="Stretch" Name="categoryGrid" VerticalAlignment="Stretch" Grid.Row="2" Margin="10" >
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*" />
                 <ColumnDefinition Width="Auto" />
+                <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <ScrollViewer Name="history" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Hidden" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" CanContentScroll="True" MouseMove="history_MouseMove" />
-            <StackPanel Height="Auto" HorizontalAlignment="Right" Name="buttonStackPanel" VerticalAlignment="Bottom" Margin="2" Grid.Column="1" Orientation="Horizontal" >
-                <Button Content="{Loc BackButton}" Height="23" Name="backButton" Width="75" Margin="1" Click="backButton_Click" Focusable="False" />
-                <Button Content="{Loc NextButton}" Tag="{Loc CreateButton}" Height="23" Name="nextButton" Width="75" Margin="1" IsDefault="True" Click="nextButton_Click" Focusable="False" />
-                <Button Content="{Loc AbortButton}" Height="23" Name="abortButton" Width="75" Margin="1" Click="abortButton_Click" Focusable="False" />
-            </StackPanel>
-        </Grid>
+                <ScrollViewer  HorizontalAlignment="Stretch" VerticalAlignment="Center" VerticalScrollBarVisibility="Auto" Name="radioButtonScroll">
+                    <StackPanel Name="radioButtonStackPanel" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                </ScrollViewer>
+                <Border BorderBrush="LightSeaGreen" BorderThickness="1" Grid.Column="1" CornerRadius="5" Background="#FFC8DCF5" MinHeight="{Binding ElementName=radioButtonScroll, Path=ActualHeight+10}">
+                    <ScrollViewer Name="descScroll" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalScrollBarVisibility="Auto" >
+                        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Label HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" Content="{Loc Description}" />
+                            <TextBlock Name="description" TextWrapping="Wrap" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Left" Grid.Row="1" Margin="5" />
+                        </Grid>
+                    </ScrollViewer>
+                </Border>
+            </Grid>
+
+            <ScrollViewer Grid.Row="2" Name="inputPanel" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                <Border BorderBrush="LightSeaGreen" BorderThickness="1" Grid.Column="1" CornerRadius="5" Background="#FFC8DCF5" Margin="20" >
+                    <StackPanel Name="inputStack" Orientation="Vertical" Margin="5" HorizontalAlignment="Stretch"/>
+                </Border>
+            </ScrollViewer>
+            <Grid Grid.Row="3" HorizontalAlignment="Stretch" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <ScrollViewer Name="history" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Hidden" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" CanContentScroll="True" MouseMove="history_MouseMove" />
+                <StackPanel Height="Auto" HorizontalAlignment="Right" Name="buttonStackPanel" VerticalAlignment="Bottom" Margin="2" Grid.Column="1" Orientation="Horizontal" >
+                    <Button Content="{Loc BackButton}" Height="23" Name="backButton" Width="75" Margin="1" Click="backButton_Click" Focusable="False" />
+                    <Button Content="{Loc NextButton}" Tag="{Loc CreateButton}" Height="23" Name="nextButton" Width="75" Margin="1" IsDefault="True" Click="nextButton_Click" Focusable="False" />
+                    <Button Content="{Loc AbortButton}" Height="23" Name="abortButton" Width="75" Margin="1" Click="abortButton_Click" Focusable="False" />
+                </StackPanel>
+            </Grid>
         
-    </Grid>
+        </Grid>
+    </ScrollViewer>
 </UserControl>
