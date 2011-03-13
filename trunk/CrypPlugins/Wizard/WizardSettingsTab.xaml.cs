@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Cryptool.PluginBase.Attributes;
+using Wizard.Properties;
 
 namespace Wizard
 {
@@ -26,6 +27,8 @@ namespace Wizard
         {
             Resources.Add("settingsStyle", settingsStyle);
             InitializeComponent();
+
+            Settings.Default.PropertyChanged += delegate { Settings.Default.Save(); };
         }
     }
 }

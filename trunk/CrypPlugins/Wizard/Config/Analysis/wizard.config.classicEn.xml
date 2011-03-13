@@ -22,7 +22,7 @@ By selecting this, you can analyse some ciphertext that was encrypted with the C
     <headline lang="en">Caesar Analysis</headline>
     <desc lang="en">Please input your Ciphertext and text language.</desc>
 
-    <inputBox plugin="Ciphertext" property="Text" alignment="Stretch" width="70%" visibleLines="5" group="InputGroup">
+    <inputBox plugin="Ciphertext" property="Text" alignment="Stretch" visibleLines="5">
       <description lang="en">Ciphertext:</description>
       <defaultvalue>Lfnzx Nzqnzx Hfjxfw (ijzyxhm: Ozqnzx Häxfw; * 13. Ozqn[1] 100 a. Hmw. ns Wtr; † 15. Räwe 44 a. Hmw. ns Wtr) bfw jns wörnxhmjw Xyffyxrfss, Kjqimjww zsi Fzytw, ijw rfßljgqnhm fs ijw Ejwxyöwzsl ijw Wörnxhmjs Wjuzgqnp zsi fs nmwjw xuäyjwjs Zrbfsiqzsl ns jns Pfnxjwwjnhm gjyjnqnly bfw.
 
@@ -31,7 +31,7 @@ Ijw ufywnenxhmjs Kfrnqnj ijw Ozqnjw jsyxyfrrjsi, fgxtqanjwyj jw inj Äryjwqfzkgf
 Hfjxfwx Sfrj bzwij ezr Gjxyfsiyjnq ijx Ynyjqx fqqjw sfhmktqljsijs Mjwwxhmjw ijx wörnxhmjs Pfnxjwwjnhmx. Ns ijw wörnxhmjs Xuäyfsynpj zsi nr Gdefsynsnxhmjs Wjnhm gjejnhmsjyj ijw Ynyjq „Hfjxfw“ jnsjs Rnymjwwxhmjw tijw Ymwtsktqljw. Ns ijs jsyqjmsyjs Ktwrjs Pfnxjw zsi Efw bzwij ijw Sfrj xuäyjw fzhm ezr Ynyjq ijw Mjwwxhmjw ijx Mjnqnljs Wörnxhmjs, ijx Öxyjwwjnhmnxhmjs, ijx Ijzyxhmjs, ijx Gzqlfwnxhmjs zsi ijx Wzxxnxhmjs Wjnhmjx.</defaultvalue>
     </inputBox>
 
-    <comboBox plugin="CaesarAnalysisHelper" property="TextLanguage" defaultValue="0">
+    <comboBox plugin="CaesarAnalysisHelper" property="TextLanguage" defaultValue="0" width="20%" alignment="Left">
       <description lang="en">Language of the cleartext message:</description>      
       <item content="German" lang="en"/>
       <item content="English" lang="en"/>
@@ -46,7 +46,7 @@ Hfjxfwx Sfrj bzwij ezr Gjxyfsiyjnq ijx Ynyjqx fqqjw sfhmktqljsijs Mjwwxhmjw ijx 
       <headline lang="en">Caesar Analysis Output</headline>
       <desc lang="en">Here you can alter the input message.</desc>
 
-      <inputBox plugin="Ciphertext" property="Text" alignment="Stretch" width="70%" visibleLines="5" group="InputGroup">
+      <inputBox plugin="Ciphertext" property="Text" alignment="Stretch" visibleLines="5">
         <description lang="en">Ciphertext:</description>
       </inputBox>
 

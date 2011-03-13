@@ -1070,16 +1070,30 @@ namespace Wizard
 
         private void nextButton_Click(object sender, RoutedEventArgs e)
         {
-            Storyboard mainGridStoryboardLeft = (Storyboard)FindResource("MainGridStoryboardNext1");
-            mainGridStoryboardLeft.Begin();
+            if (Settings.Default.ShowAnimations)
+            {
+                Storyboard mainGridStoryboardLeft = (Storyboard) FindResource("MainGridStoryboardNext1");
+                mainGridStoryboardLeft.Begin();
+            }
+            else
+            {
+                SetNextContent(sender, e);
+            }
         }
 
         private void backButton_Click(object sender, RoutedEventArgs e)
         {
             StopCurrentWorkspaceManager();
             canStopOrExecute = false;
-            Storyboard mainGridStoryboardLeft = (Storyboard)FindResource("MainGridStoryboardBack1");
-            mainGridStoryboardLeft.Begin();
+            if (Settings.Default.ShowAnimations)
+            {
+                Storyboard mainGridStoryboardLeft = (Storyboard) FindResource("MainGridStoryboardBack1");
+                mainGridStoryboardLeft.Begin();
+            }
+            else
+            {
+                SetLastContent(sender, e);
+            }
         }
 
         private void abortButton_Click(object sender, RoutedEventArgs e)
@@ -1169,8 +1183,11 @@ namespace Wizard
                 SetupPage(nextElement);
             }
 
-            Storyboard mainGridStoryboardLeft = (Storyboard)FindResource("MainGridStoryboardNext2");
-            mainGridStoryboardLeft.Begin();
+            if (Settings.Default.ShowAnimations)
+            {
+                Storyboard mainGridStoryboardLeft = (Storyboard) FindResource("MainGridStoryboardNext2");
+                mainGridStoryboardLeft.Begin();
+            }
         }
 
         private void SaveContent()
@@ -1328,8 +1345,11 @@ namespace Wizard
                 SetupPage(grandParent);
             }
 
-            Storyboard mainGridStoryboardLeft = (Storyboard)FindResource("MainGridStoryboardBack2");
-            mainGridStoryboardLeft.Begin();
+            if (Settings.Default.ShowAnimations)
+            {
+                Storyboard mainGridStoryboardLeft = (Storyboard) FindResource("MainGridStoryboardBack2");
+                mainGridStoryboardLeft.Begin();
+            }
         }
 
         private void GuiLogMessage(string message, NotificationLevel loglevel)
