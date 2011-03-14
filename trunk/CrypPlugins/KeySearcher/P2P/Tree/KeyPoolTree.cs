@@ -29,6 +29,11 @@ namespace KeySearcher.P2P.Tree
 
         private enum SearchOption { UseReservedLeafs, SkipReservedLeafs }
 
+        public NodeBase RootNode
+        {
+            get { return rootNode; }
+        }
+
         public KeyPoolTree(KeyPatternPool patternPool, KeySearcher keySearcher, KeyQualityHelper keyQualityHelper, StorageKeyGenerator identifierGenerator, StatusContainer statusContainer, StatisticsGenerator statisticsGenerator)
             : this(patternPool.Length - 1, keySearcher, keyQualityHelper, identifierGenerator, statusContainer, statisticsGenerator)
         {
