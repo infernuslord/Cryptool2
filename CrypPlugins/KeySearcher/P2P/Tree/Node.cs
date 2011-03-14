@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Numerics;
-using Cryptool.P2P;
 using KeySearcher.Helper;
 using KeySearcher.P2P.Exceptions;
 using KeySearcher.P2P.Storage;
@@ -173,7 +172,7 @@ namespace KeySearcher.P2P.Tree
                 {
                     if (leftChild == null)
                     {
-                        var reqRes = P2PManager.Retrieve(StorageHelper.KeyInDht(DistributedJobIdentifier, From, middle));
+                        var reqRes = KSP2PManager.Retrieve(StorageHelper.KeyInDht(DistributedJobIdentifier, From, middle));
                         if (reqRes != null && reqRes.Data != null)
                         {
                             leftChild = NodeFactory.CreateNode(StorageHelper, KeyQualityHelper, this, From, middle,
@@ -192,7 +191,7 @@ namespace KeySearcher.P2P.Tree
                 {
                     if (rightChild == null)
                     {
-                        var reqRes = P2PManager.Retrieve(StorageHelper.KeyInDht(DistributedJobIdentifier, middle+1, To));
+                        var reqRes = KSP2PManager.Retrieve(StorageHelper.KeyInDht(DistributedJobIdentifier, middle + 1, To));
                         if (reqRes != null && reqRes.Data != null)
                         {
                             rightChild = NodeFactory.CreateNode(StorageHelper, KeyQualityHelper, this, middle + 1, To,

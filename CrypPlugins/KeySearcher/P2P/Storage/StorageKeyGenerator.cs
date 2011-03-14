@@ -16,7 +16,7 @@ namespace KeySearcher.P2P.Storage
             this.settings = settings;
         }
 
-        public String Generate()
+        public virtual String Generate()
         {
             // Add simple data
             var bytesToUse = keySearcher.CostMaster.getBytesToUse();

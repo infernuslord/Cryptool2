@@ -17,7 +17,8 @@ namespace KeySearcher.P2P.Presentation
             {
                 currentOperation = "> " + value + " <";
                 OnPropertyChanged("CurrentOperation");
-                keySearcher.GuiLogMessage(value, NotificationLevel.Balloon);
+                if (keySearcher != null)
+                    keySearcher.GuiLogMessage(value, NotificationLevel.Balloon);
             }
         }
 

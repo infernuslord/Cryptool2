@@ -56,6 +56,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="PresentationCore">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
@@ -107,10 +108,14 @@
     <Compile Include="P2P\Helper\ConnectionHelper.cs" />
     <Compile Include="P2P\Helper\DatabaseStatistics.cs" />
     <Compile Include="P2P\Helper\WidthConverter.cs" />
+    <Compile Include="P2P\KSP2PManager.cs" />
     <Compile Include="P2P\Presentation\StatisticsGenerator.cs" />
     <Compile Include="P2P\Presentation\StatusContainer.cs" />
     <Compile Include="P2P\Exceptions\KeySearcherStopException.cs" />
     <Compile Include="P2P\Storage\StatusUpdater.cs" />
+    <Compile Include="P2P\UnitTests\RandomP2PWrapper.cs" />
+    <Compile Include="P2P\UnitTests\StorageKeyGeneratorDummy.cs" />
+    <Compile Include="P2P\UnitTests\TreeTest.cs" />
     <Compile Include="Presentation\Controls\OpenCLPresentation.xaml.cs">
       <DependentUpon>OpenCLPresentation.xaml</DependentUpon>
     </Compile>
@@ -173,6 +178,10 @@
       <Project>{25DB2B47-A457-4EC2-960B-395CE07AE093}</Project>
       <Name>CrypPluginBase</Name>
       <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\CostFunction\CostFunction.csproj">
+      <Project>{3C72FF93-48C2-4929-B3B2-83F165AAE636}</Project>
+      <Name>CostFunction</Name>
     </ProjectReference>
     <ProjectReference Include="..\Libs\OpenCLNet\OpenCLNet.csproj">
       <Project>{0946E1A6-5488-4711-AD10-D54D6A5D2F32}</Project>
