@@ -128,7 +128,7 @@ namespace KeySearcher.P2P.Storage
                     if (req.Status == RequestResultType.VersionMismatch)
                     {
                         //Version mismatch, so try again... if it still fails, ignore it...
-                        P2PManager.Retrieve(rkey);
+                        KSP2PManager.Retrieve(rkey);
                         StoreWithHashAndStatistic(jobid, rkey, data);
                     }
                 }
@@ -406,7 +406,7 @@ namespace KeySearcher.P2P.Storage
         {
             statusContainer.RetrieveRequests++;
             statusContainer.TotalDhtRequests++;
-            var requestResult = P2PManager.Retrieve(key);
+            var requestResult = KSP2PManager.Retrieve(key);
 
             if (requestResult.Data != null)
             {
@@ -499,14 +499,14 @@ namespace KeySearcher.P2P.Storage
         {
             statusContainer.RemoveRequests++;
             statusContainer.TotalDhtRequests++;
-            return P2PManager.Remove(key);
+            return KSP2PManager.Remove(key);
         }
 
         public RequestResult StoreWithStatistic(string key, byte[] data)
         {
             statusContainer.StoreRequests++;
             statusContainer.TotalDhtRequests++;
-            var requestResult = P2PManager.Store(key, data);
+            var requestResult = KSP2PManager.Store(key, data);
 
             if (requestResult.Data != null)
             {
