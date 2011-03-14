@@ -294,6 +294,11 @@ namespace KeySearcher.P2P
                 {
                     keyPoolTree.Reset();
                 }
+                catch (Exception ex)
+                {
+                    keySearcher.GuiLogMessage(string.Format("Unexpected exception in distributed KeySearcher: {0}", ex.Message), NotificationLevel.Error);
+                    keyPoolTree.Reset();
+                }
             }
 
             // Set progress to 100%
