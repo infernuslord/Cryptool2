@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Numerics;
 using System.Threading;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -155,19 +157,27 @@ namespace KeySearcher.Presentation.Controls
             if (value == null)
                 return "No information available...";
 
-            string res = "Results:\n";
-            var nodebase = (NodeBase) value;
+            var nodebase = (NodeBase)value;
+
+            string res;
+
+            BigInteger count = nodebase.Activity.SelectMany(re => re.Value).Aggregate<KeyValuePair<long, Information>, BigInteger>(0, (current, re1) => current + re1.Value.Count);
+            res = string.Format("Activity Sum: {0}\n\n", count);
+
+            res += "Results:\n";
             foreach (var re in nodebase.Result)
             {
                 res += re.ToString() + "\n";
             }
             res += "\nLast Update: " + nodebase.LastUpdate;
+            
             res += "\nActivity:\n";
             foreach (var re in nodebase.Activity)
             {
                 res += re.Key;
                 res = re.Value.Aggregate(res, (current, re1) => current + string.Format(" {0} -> {1}\n", re1.Key, re1.Value));
             }
+
             return res;
         }
 
