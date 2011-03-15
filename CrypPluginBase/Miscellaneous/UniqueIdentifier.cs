@@ -10,14 +10,18 @@ namespace Cryptool.PluginBase.Miscellaneous
 {
     public class UniqueIdentifier
     {
+        private static Int64? id = null;
+
         /// <summary>
         /// Returns a globally unique identifier for a user on a computer.
         /// </summary>
         /// <returns></returns>
         public static Int64 GetID()
         {
+            if (id.HasValue)
+                return id.Value;
+
             string username = WindowsIdentity.GetCurrent().Name;
-            //string mac = GetMacIdentifier();
 
             ManagementClass man = new ManagementClass("win32_processor");
             ManagementObjectCollection moc = man.GetInstances();
@@ -36,6 +40,8 @@ namespace Cryptool.PluginBase.Miscellaneous
             byte[] idBytes = md5.ComputeHash(System.Text.ASCIIEncoding.ASCII.GetBytes(username + cpuids));
             long ID = BitConverter.ToInt64(idBytes, 0);
             ID = Math.Abs(ID);
+
+            id = ID;
 
             return ID;
         }

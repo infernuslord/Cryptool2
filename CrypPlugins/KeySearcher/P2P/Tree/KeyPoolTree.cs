@@ -35,7 +35,7 @@ namespace KeySearcher.P2P.Tree
         }
 
         public KeyPoolTree(KeyPatternPool patternPool, KeySearcher keySearcher, KeyQualityHelper keyQualityHelper, StorageKeyGenerator identifierGenerator, StatusContainer statusContainer, StatisticsGenerator statisticsGenerator)
-            : this(patternPool.Length - 1, keySearcher, keyQualityHelper, identifierGenerator, statusContainer, statisticsGenerator)
+            : this(patternPool.Length, keySearcher, keyQualityHelper, identifierGenerator, statusContainer, statisticsGenerator)
         {
         }
 
@@ -53,7 +53,7 @@ namespace KeySearcher.P2P.Tree
 
             if (statisticsGenerator != null)
                 statisticsGenerator.MarkStartOfNodeSearch();
-            rootNode = NodeFactory.CreateNode(storageHelper, keyQualityHelper, null, 0, length,
+            rootNode = NodeFactory.CreateNode(storageHelper, keyQualityHelper, null, 0, length-1,
                                               Identifier);
             if (statisticsGenerator != null)
                 statisticsGenerator.MarkEndOfNodeSearch();

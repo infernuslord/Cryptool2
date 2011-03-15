@@ -50,7 +50,7 @@ namespace KeySearcher.P2P.UnitTests
         [TestMethod]
         public void TestTreeRandomly()
         {
-            BigInteger testingLength = 256 * 256 * 256;
+            BigInteger testingLength = 256 * 64;
             Init();
 
             KeyPoolTree keyPoolTree = null;
@@ -67,7 +67,9 @@ namespace KeySearcher.P2P.UnitTests
                 {
                 }
             } while (!treeInitialized);
-            
+
+            String hostname = Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetHostName();
+            Int64 hostid = Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetID();
 
             while (true)
             {
@@ -84,10 +86,10 @@ namespace KeySearcher.P2P.UnitTests
                     }
 
                     var result = GetResults();
-                    String hostname = Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetHostName();
-                    Int64 hostid = Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetID();
 
+                    hostid = random.Next(0, 15555);
                     KeyPoolTree.ProcessCurrentPatternCalculationResult(leaf, result, hostid, hostname);
+                    leaf.GiveLeafFree();
                 }
                 catch (Exception ex)
                 {
@@ -101,7 +103,8 @@ namespace KeySearcher.P2P.UnitTests
             {
                 try
                 {
-                    Assert.IsTrue(keyPoolTree.IsCalculationFinished());
+                    var isFinished = keyPoolTree.IsCalculationFinished();
+                    Assert.IsTrue(isFinished);
                     isCalc = true;
                 }
                 catch (Exception)
@@ -135,8 +138,15 @@ namespace KeySearcher.P2P.UnitTests
             for (int c = 0; c < 10; c++)
             {
                 var val = random.NextDouble()*100;
-                list.AddFirst(new KeySearcher.ValueKey() {decryption = null, key = "ABC", keya = new byte[16], maschid = 2, maschname = "Bla", 
-                    time = DateTime.UtcNow, user = "Sven", value = val});
+                list.AddFirst(new KeySearcher.ValueKey()
+                {
+                    decryption = new byte[128],
+                    key = "ABC",
+                    keya = new byte[16],
+                    maschid = 2,
+                    maschname = "Bla", 
+                    time = DateTime.UtcNow, user = "Sven", 
+                    value = val});
                 PushToToplist("Sven", val);
             }
             return list;
@@ -155,14 +165,14 @@ namespace KeySearcher.P2P.UnitTests
                         return;
                     }
                 }
+
+                TopList.Add(entry);
             }
             finally
             {
                 if (TopList.Count > 10)
                     TopList.RemoveRange(10, TopList.Count - 10);
             }
-
-            TopList.Add(entry);
         }
     }
 }

@@ -187,6 +187,7 @@ namespace KeySearcher.P2P.Storage
 
         internal RequestResult UpdateFromDht(NodeBase nodeToUpdate, bool forceUpdate = false)
         {
+            RequestResult requestResult = null;
             try
             {
                 if (!forceUpdate && nodeToUpdate.LastUpdate > DateTime.Now.Subtract(new TimeSpan(0, 0, 5)))
@@ -196,7 +197,7 @@ namespace KeySearcher.P2P.Storage
 
                 nodeToUpdate.LastUpdate = DateTime.Now;
 
-                var requestResult = RetrieveWithReplicationAndHashAndStatistic(KeyInDht(nodeToUpdate), nodeToUpdate.DistributedJobIdentifier, 3);
+                requestResult = RetrieveWithReplicationAndHashAndStatistic(KeyInDht(nodeToUpdate), nodeToUpdate.DistributedJobIdentifier, 3);
                 if (requestResult == null)
                     return null;
 
@@ -284,8 +285,6 @@ namespace KeySearcher.P2P.Storage
                                                     nodeToUpdate.DistributedJobIdentifier);
                     statisticsGenerator.ProcessPatternResults(nodeToUpdate.Result);
                 }
-                nodeToUpdate.UpdateCache();
-                return requestResult;
             }
             catch (Exception e)
             {
@@ -299,6 +298,9 @@ namespace KeySearcher.P2P.Storage
                 nodeToUpdate.Reset();
                 throw new InvalidOperationException();
             }
+
+            nodeToUpdate.UpdateCache();
+            return requestResult;
         }
 
         private static void UpdateNodeFromDht(Node nodeToUpdate, BinaryReader binaryReader)
@@ -408,7 +410,7 @@ namespace KeySearcher.P2P.Storage
             statusContainer.TotalDhtRequests++;
             var requestResult = KSP2PManager.Retrieve(key);
 
-            if (requestResult.Data != null)
+            if (requestResult != null && requestResult.Data != null)
             {
                 statusContainer.RetrievedBytes += requestResult.Data.Length;
                 statusContainer.TotalBytes += requestResult.Data.Length;
