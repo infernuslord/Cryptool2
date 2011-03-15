@@ -97,6 +97,7 @@ namespace KeySearcherPresentation.Controls
             ((DateTrueVisibleConverter2)Resources["DateTrueVisibleConverter2"]).StatisticsPresentation = this;
             ((DateToColorConverter1)Resources["DateToColorConverter1"]).StatisticsPresentation = this;
             ((DateToColorConverter2)Resources["DateToColorConverter2"]).StatisticsPresentation = this;
+            ((HideDeadMachineConverter)Resources["HideDeadMachineConverter"]).StatisticsPresentation = this;
             
         }
 
@@ -122,11 +123,16 @@ namespace KeySearcherPresentation.Controls
                                                        }
                                                    }
                                                    catch (Exception)
-                                                   {
+                                                   {    
                                                    }
                                                }, null);
 
             }
+        }
+
+        private bool FilterOutInvisible(object obj)
+        {
+            return true;
         }
 
         private Dictionary<long, Maschinfo> machineHierarchy = null;
@@ -530,6 +536,21 @@ namespace KeySearcherPresentation.Controls
                 statisticsTree.ItemContainerStyle = this.Resources["ItemStyle"] as Style;
                 return;
             }
+        }
+
+        protected void Checked(object sender, RoutedEventArgs e)
+        {
+            Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
+                try
+                {
+                   statisticsTree.Items.Refresh();
+                   machineTree.Items.Refresh();
+                }
+                catch (Exception)
+                {
+                }
+            }, null);
         }
 
         private QuickWatch ParentQuickWatch
@@ -1025,6 +1046,50 @@ namespace KeySearcherPresentation.Controls
             {
             }
             return Visibility.Hidden;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    [ValueConversion(typeof(Boolean), typeof(Visibility))]
+    class HideDeadMachineConverter : IValueConverter
+    {
+        public StatisticsPresentation StatisticsPresentation { get; set; }
+
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            try
+            {
+                    if (StatisticsPresentation != null && StatisticsPresentation.Statistics != null)
+                    {
+                        lock (StatisticsPresentation)
+                        {
+                            if (StatisticsPresentation.HideDead.IsChecked == true)
+                            {
+                                var dead = (bool) value;
+
+                                if (targetType != typeof (Visibility))
+                                    throw new InvalidOperationException("The target must be of Visibility");
+
+                                if (dead) //after two days X
+                                {
+                                    return Visibility.Collapsed;
+                                }
+
+                                return Visibility.Visible;
+                            }
+
+                            return Visibility.Visible;
+                        }
+                    }
+            }
+            catch (Exception)
+            {
+            }
+            return Visibility.Collapsed;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
