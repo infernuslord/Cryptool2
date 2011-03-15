@@ -113,9 +113,6 @@
     <Compile Include="P2P\Presentation\StatusContainer.cs" />
     <Compile Include="P2P\Exceptions\KeySearcherStopException.cs" />
     <Compile Include="P2P\Storage\StatusUpdater.cs" />
-    <Compile Include="P2P\UnitTests\RandomP2PWrapper.cs" />
-    <Compile Include="P2P\UnitTests\StorageKeyGeneratorDummy.cs" />
-    <Compile Include="P2P\UnitTests\TreeTest.cs" />
     <Compile Include="Presentation\Controls\OpenCLPresentation.xaml.cs">
       <DependentUpon>OpenCLPresentation.xaml</DependentUpon>
     </Compile>

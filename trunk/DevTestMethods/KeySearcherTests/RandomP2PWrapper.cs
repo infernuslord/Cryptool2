@@ -17,8 +17,8 @@ namespace KeySearcher.P2P.UnitTests
 
         private bool OperationSuccess()
         {
-            //10% error probability
-            return random.Next(0, 100) > 10;
+            //1% error probability
+            return random.Next(0, 100) > 1;
         }
 
         public override RequestResult Retrieve(string key)
