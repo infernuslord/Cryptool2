@@ -73,6 +73,7 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -91,6 +92,9 @@
     <Compile Include="TigerTest.cs" />
     <Compile Include="TranspositionTest.cs" />
     <Compile Include="TwofishTest.cs" />
+    <Compile Include="KeySearcherTests\RandomP2PWrapper.cs" />
+    <Compile Include="KeySearcherTests\StorageKeyGeneratorDummy.cs" />
+    <Compile Include="KeySearcherTests\TreeTest.cs" />
     <Compile Include="WhirlpoolTest.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -98,6 +102,10 @@
       <Project>{FF5D473C-0716-4D3E-9078-2EBD979F94C6}</Project>
       <Name>CrypCore</Name>
       <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\CrypP2P\CrypP2P.csproj">
+      <Project>{7D3E4C88-7EA8-45EA-AC1E-FC8ED8EDDB7A}</Project>
+      <Name>CrypP2P</Name>
     </ProjectReference>
     <ProjectReference Include="..\CrypPluginBase\CrypPluginBase.csproj">
       <Project>{25DB2B47-A457-4EC2-960B-395CE07AE093}</Project>
@@ -108,6 +116,10 @@
       <Project>{3C72FF93-48C2-4929-B3B2-83F165AAE636}</Project>
       <Name>CostFunction</Name>
       <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\KeySearcher\KeySearcher.csproj">
+      <Project>{0579E099-66B2-43C3-B8A0-43CAE4895E68}</Project>
+      <Name>KeySearcher</Name>
     </ProjectReference>
     <ProjectReference Include="..\CrypPlugins\MD5\MD5.csproj">
       <Project>{1137719A-7468-4DEF-84B1-77AB82049656}</Project>

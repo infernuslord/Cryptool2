@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Reflection;
 using System.Text;
 using Cryptool.P2P;
 using Cryptool.Plugins.CostFunction;
@@ -50,18 +51,31 @@ namespace KeySearcher.P2P.UnitTests
         public void TestTreeRandomly()
         {
             BigInteger testingLength = 256 * 256 * 256;
-
             Init();
 
-            var keyPoolTree = new KeyPoolTree(testingLength, null, keyQualityHelper, new StorageKeyGeneratorDummy(null, null),
-                                    new StatusContainer(null), null);
+            KeyPoolTree keyPoolTree = null;
+            bool treeInitialized = false;
+            do
+            {
+                try
+                {
+                    keyPoolTree = new KeyPoolTree(testingLength, null, keyQualityHelper, new StorageKeyGeneratorDummy(null, null),
+                                                new StatusContainer(null), null);
+                    treeInitialized = true;
+                }
+                catch (Exception)
+                {
+                }
+            } while (!treeInitialized);
+            
 
-            while (keyPoolTree.IsCalculationFinished())
+            while (true)
             {
                 try
                 {
                     var leaf = keyPoolTree.FindNextLeaf();
-                    Assert.IsNotNull(leaf);
+                    if (leaf == null)
+                        break;
 
                     if (!leaf.ReserveLeaf())
                     {
@@ -81,6 +95,19 @@ namespace KeySearcher.P2P.UnitTests
                     keyPoolTree.Reset();
                 }
             }
+
+            bool isCalc = false;
+            do
+            {
+                try
+                {
+                    Assert.IsTrue(keyPoolTree.IsCalculationFinished());
+                    isCalc = true;
+                }
+                catch (Exception)
+                {
+                }
+            } while (!isCalc);
 
             TestContext.WriteLine("Finished Calculating.. Validating!");
 
