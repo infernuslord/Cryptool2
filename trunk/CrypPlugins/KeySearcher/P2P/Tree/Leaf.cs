@@ -24,7 +24,8 @@ namespace KeySearcher.P2P.Tree
         public void HandleResults(LinkedList<KeySearcher.ValueKey> result, Int64 id, String hostname)
         {
             Result = result;
-            UpdateActivity(id, hostname);
+            this.id = id;
+            this.hostname = hostname;
             UpdateDht();
         }
 

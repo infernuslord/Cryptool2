@@ -17,8 +17,9 @@ namespace KeySearcher.P2P.UnitTests
 
         private bool OperationSuccess()
         {
+            //return true;
             //1% error probability
-            return random.Next(0, 100) > 1;
+            return random.Next(0, 1000) > 1;
         }
 
         public override RequestResult Retrieve(string key)
@@ -45,7 +46,7 @@ namespace KeySearcher.P2P.UnitTests
             else
             {
                 //Simulate some kind of error:
-                switch (random.Next(0, 5))
+                switch (random.Next(0, 4))
                 {
                     case 0:
                         return null;
@@ -62,12 +63,12 @@ namespace KeySearcher.P2P.UnitTests
                     case 3:
                         ThrowRandomException();
                         break;
-                    case 4:
-                        rr = new RequestResult();
-                        rr.RequestType = RequestType.Retrieve;
-                        rr.Status = RequestResultType.Success;
-                        rr.Data = new byte[random.Next(10, 100)];
-                        return rr;
+                    //case 4:
+                    //    rr = new RequestResult();
+                    //    rr.RequestType = RequestType.Retrieve;
+                    //    rr.Status = RequestResultType.Success;
+                    //    rr.Data = new byte[random.Next(10, 100)];
+                    //    return rr;
                     default:
                         throw new Exception();
                 }
@@ -79,7 +80,8 @@ namespace KeySearcher.P2P.UnitTests
         {
             if (OperationSuccess())
             {
-                dht.Add(key, data);
+                dht[key] = data;
+                //dht.Add(key, data);
                 var rr = new RequestResult();
                 rr.Status = RequestResultType.Success;
                 rr.RequestType = RequestType.Store;
@@ -163,16 +165,14 @@ namespace KeySearcher.P2P.UnitTests
 
         private void ThrowRandomException()
         {
-            switch (random.Next(0, 4))
+            switch (random.Next(0, 2))
             {
                 case 0:
                     throw new P2POperationFailedException("");
                 case 1:
                     throw new NotConnectedException();
-                case 2:
-                    throw new ReservationRemovedException("");
-                case 3:
-                    throw new UpdateFailedException("");
+                //case 2:
+                //    throw new ReservationRemovedException("");
             }
         }
     }

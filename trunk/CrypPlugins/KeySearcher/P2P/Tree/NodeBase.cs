@@ -17,6 +17,9 @@ namespace KeySearcher.P2P.Tree
         protected readonly StorageHelper StorageHelper;
         protected readonly KeyQualityHelper KeyQualityHelper;
 
+        protected long id;
+        protected string hostname;
+
         protected internal DateTime LastUpdate;
 
         public readonly Node ParentNode;
@@ -63,12 +66,16 @@ namespace KeySearcher.P2P.Tree
                 throw new UpdateFailedException("Parent node could not be updated: " + result.Status);
             }
 
+            if (this is Leaf)
+                UpdateActivity(this.id, this.hostname);
             IntegrateResultsIntoParent();
+
             ParentNode.ChildFinished(this);
             ParentNode.UpdateCache();
 
             // TODO add check, if we retrieved our lock (e.g. by comparing the lock date or the future client identifier
-            if (StorageHelper.RetrieveWithStatistic(StorageHelper.KeyInDht(this)).Status == RequestResultType.KeyNotFound)
+            var data = StorageHelper.RetrieveWithReplicationAndHashAndStatistic(StorageHelper.KeyInDht(this), DistributedJobIdentifier, 3);
+            if (data != null && data.Status == RequestResultType.KeyNotFound)
             {
                 throw new ReservationRemovedException("Before updating parent node, this leaf's reservation was deleted.");
             }
