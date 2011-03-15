@@ -63,7 +63,8 @@ namespace KeySearcher.Presentation.Controls
                     var storageHelper = new StorageHelper(null, null, StatusContainer);
 
                     _rootNode = new Node(storageHelper, KeyQualityHelper, null, 0, PatternPool.Length - 1, identifier);
-                    _rootNode.UpdateAll();
+                    _rootNode.UpdateCache();    //Updates one path
+                    _rootNode.UpdateAll();      //Updates everything that is not null in DHT
                 }
             }
             catch (Exception ex)
