@@ -3,7 +3,7 @@
 
 <!-- This is the entry XML file defining the first categories a user can select from (the first step). -->
 
-<category>
+<category image="Wizard">
 
   <name lang="en">Start</name>
   <description lang="en">Main page</description>

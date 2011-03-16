@@ -1423,7 +1423,7 @@ namespace Wizard
 
         private void ScrollViewer_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            if (OuterScrollViewer.IsKeyboardFocused || descScroll.IsKeyboardFocused || inputPanel.IsKeyboardFocused)
+            if (OuterScrollViewer.IsKeyboardFocused || descScroll.IsKeyboardFocused || inputPanel.IsKeyboardFocused || history.IsKeyboardFocused)
             {
                 KeyPressedDown(e.Key);
                 e.Handled = true;
