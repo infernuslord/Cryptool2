@@ -38,6 +38,7 @@ using KeySearcher.Helper;
 using KeySearcher.KeyPattern;
 using KeySearcher.P2P;
 using KeySearcher.P2P.Exceptions;
+using KeySearcher.P2P.Tree;
 using KeySearcher.Presentation;
 using KeySearcher.Presentation.Controls;
 using KeySearcherPresentation;
@@ -56,7 +57,6 @@ namespace KeySearcher
         /// </summary>
         private Dictionary<string, Dictionary<long, Information>> statistic;
         private Dictionary<long, Maschinfo> maschinehierarchie;
-        private bool initialized;
         /// <summary>
         /// used for creating the TopList
         /// </summary>
@@ -73,6 +73,7 @@ namespace KeySearcher
         private KeyQualityHelper keyQualityHelper;
         private readonly P2PQuickWatchPresentation p2PQuickWatchPresentation;
         private readonly LocalQuickWatchPresentation localQuickWatchPresentation;
+        private HashSet<string> alreadyIntegratedNodes = new HashSet<string>();
 
         private KeyPoolTreePresentation keyPoolTreePresentation;
 
@@ -763,9 +764,7 @@ namespace KeySearcher
             FillListWithDummies(maxInList, costList);
             valuequeue = Queue.Synchronized(new Queue());
 
-            statistic = new Dictionary<string, Dictionary<long, Information>>();
-            maschinehierarchie = new Dictionary<long, Maschinfo>();
-            initialized = false;
+            ResetStatistics();
 
             stop = false;
             if (!pattern.testWildcardKey(settings.Key))
@@ -1307,11 +1306,6 @@ namespace KeySearcher
             }
         }
 
-        public void SetInitialized(bool ini)
-        {
-            this.initialized = ini;
-        }
-
         public Dictionary<string, Dictionary<long, Information>> GetStatistics()
         {
             return statistic;
@@ -1329,6 +1323,7 @@ namespace KeySearcher
             statistic = new Dictionary<string, Dictionary<long, Information>>();
             maschinehierarchie = null;
             maschinehierarchie = new Dictionary<long, Maschinfo>();
+            alreadyIntegratedNodes.Clear();
         }
     
         public void ResetMemory()
@@ -1437,9 +1432,13 @@ namespace KeySearcher
                 } 
             }
         }
-
-        internal void IntegrateNewResults(LinkedList<ValueKey> updatedCostList, Dictionary<string, Dictionary<long, Information>> updatedStatistics, string dataIdentifier)
+        
+        internal void IntegrateNewResults(LinkedList<ValueKey> updatedCostList, Dictionary<string, Dictionary<long, Information>> updatedStatistics, string dataIdentifier, NodeBase nodeToUpdate)
         {
+            var nodeID = "from " + nodeToUpdate.From + " to " + nodeToUpdate.To;
+            if (alreadyIntegratedNodes.Contains(nodeID))
+                return;
+
             foreach (var valueKey in updatedCostList)
             {
                 if (keyQualityHelper.IsBetter(valueKey.value, value_threshold))
@@ -1464,13 +1463,10 @@ namespace KeySearcher
                         //if the id of the Maschine already exists for this avatarname
                         if (statMaschCount.ContainsKey(id))
                         {
-                            if (!initialized || ((MaschCount[id].Count == 1) && (MaschCount.Keys.Count == 1)))
-                            {
-                                statMaschCount[id].Count = statMaschCount[id].Count + MaschCount[id].Count;
-                                statMaschCount[id].Hostname = MaschCount[id].Hostname;
-                                statMaschCount[id].Date = MaschCount[id].Date;
-                                statistic[avname] = statMaschCount;
-                            }
+                            statMaschCount[id].Count = statMaschCount[id].Count + MaschCount[id].Count;
+                            statMaschCount[id].Hostname = MaschCount[id].Hostname;
+                            statMaschCount[id].Date = MaschCount[id].Date;
+                            statistic[avname] = statMaschCount;
                         }
                         else
                         {
@@ -1494,6 +1490,7 @@ namespace KeySearcher
             UpdateStatisticsPresentation();
             
             updateToplist();
+            alreadyIntegratedNodes.Add(nodeID);
         }
 
         //Update the Statistic Presentation

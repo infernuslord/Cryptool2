@@ -282,7 +282,7 @@ namespace KeySearcher.P2P.Storage
                 if (resultCount > 0 && keySearcher != null && statisticsGenerator != null)
                 {
                     keySearcher.IntegrateNewResults(nodeToUpdate.Result, nodeToUpdate.Activity,
-                                                    nodeToUpdate.DistributedJobIdentifier);
+                                                    nodeToUpdate.DistributedJobIdentifier, nodeToUpdate);
                     statisticsGenerator.ProcessPatternResults(nodeToUpdate.Result);
                 }
             }
