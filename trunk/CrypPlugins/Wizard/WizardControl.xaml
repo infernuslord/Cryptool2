@@ -40,6 +40,7 @@
         <BitmapImage x:Key="Caesar" UriSource="Images/Caesar.png"/>
         <BitmapImage x:Key="Sym" UriSource="Images/Sym.png"/>
         <BitmapImage x:Key="Asym" UriSource="Images/Asym.png"/>
+        <BitmapImage x:Key="Wizard" UriSource="wizard.png"/>
 
         <Style TargetType="RadioButton">
             <Style.Triggers>
