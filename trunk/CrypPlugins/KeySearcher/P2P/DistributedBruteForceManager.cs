@@ -101,7 +101,6 @@ namespace KeySearcher.P2P
                         statisticTimer.Dispose();
                         keyPoolTree.Reset();
                         keySearcher.ResetStatistics();
-                        keySearcher.SetInitialized(false);
                         status.CurrentOperation = Resources.Updating_statistic;
                         InitializeTree();
                         statupdate = false;
@@ -400,7 +399,6 @@ namespace KeySearcher.P2P
             status.LocalFinishedChunks = FindLocalPatterns();
 
             keyPoolTree.UpdateStatusForNewCalculation();
-            keySearcher.SetInitialized(true);
         }
 
         void P2PBase_OnSystemJoined()
