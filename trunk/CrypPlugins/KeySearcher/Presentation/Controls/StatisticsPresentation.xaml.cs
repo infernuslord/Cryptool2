@@ -130,11 +130,6 @@ namespace KeySearcherPresentation.Controls
             }
         }
 
-        private bool FilterOutInvisible(object obj)
-        {
-            return true;
-        }
-
         private Dictionary<long, Maschinfo> machineHierarchy = null;
         public Dictionary<long, Maschinfo> MachineHierarchy
         {
