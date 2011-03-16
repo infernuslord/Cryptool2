@@ -8,9 +8,11 @@ using Cryptool.P2PEditor.Worker;
 using Cryptool.PluginBase;
 using Clipboard = System.Windows.Clipboard;
 using TextDataFormat = System.Windows.TextDataFormat;
+using Cryptool.PluginBase.Attributes;
 
 namespace Cryptool.P2PEditor.GUI.Controls
 {
+    [Localization("Cryptool.P2PEditor.Properties.Resources")]
     public partial class JobCreation
     {
         private DistributedJob newDistributedJob;
@@ -52,7 +54,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
                     }
                     catch (FileNotFoundException)
                     {
-                        P2PEditor.GuiLogMessage("File not found.", NotificationLevel.Error);
+                        P2PEditor.GuiLogMessage(Properties.Resources.File_not_found_, NotificationLevel.Error);
                     }
                 }
             }
@@ -65,14 +67,14 @@ namespace Cryptool.P2PEditor.GUI.Controls
 
             if (newDistributedJob.Description == null || newDistributedJob.Name == null)
             {
-                P2PEditor.GuiLogMessage("Please fill all fields.", NotificationLevel.Error);
+                P2PEditor.GuiLogMessage(Properties.Resources.Please_fill_all_fields_, NotificationLevel.Error);
                 return;
             }
 
             if (!File.Exists(newDistributedJob.LocalFilePath))
             {
                 // TODO validate that selected file contains a workspace
-                P2PEditor.GuiLogMessage("Selected workspace does not exist.", NotificationLevel.Error);
+                P2PEditor.GuiLogMessage(Properties.Resources.Selected_workspace_does_not_exist_, NotificationLevel.Error);
                 return;
             }
 
@@ -83,7 +85,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
 
         private void BackgroundCreationWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            P2PEditor.GuiLogMessage("Distributed job " + newDistributedJob.Guid, NotificationLevel.Debug);
+            P2PEditor.GuiLogMessage(String.Format(Properties.Resources.Distributed_job__0_, newDistributedJob.Guid), NotificationLevel.Debug);
             DataContext = new DistributedJob();
 
             P2PEditorPresentation.ShowActiveJobsView();

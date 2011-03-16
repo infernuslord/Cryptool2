@@ -13,7 +13,7 @@ namespace Cryptool.P2PEditor.GUI
 
         protected override void OnRender(DrawingContext drawingContext)
         {
-            var text = new FormattedText("Participating...", Thread.CurrentThread.CurrentUICulture,
+            var text = new FormattedText(Properties.Resources.Participating_, Thread.CurrentThread.CurrentUICulture,
                 FlowDirection.LeftToRight, new Typeface("Arial"), 26.0, Brushes.Black);
             var startPoint = new Point((DesiredSize.Width / 2 - text.Width / 2), (DesiredSize.Height / 2 - text.Height / 2));
             drawingContext.DrawText(text, startPoint);

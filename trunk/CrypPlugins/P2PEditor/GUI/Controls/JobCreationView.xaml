@@ -17,10 +17,10 @@
             <RowDefinition Height="28" />
         </Grid.RowDefinitions>
         
-        <Label Content="_Name:" Target="{Binding ElementName=NameField}" Grid.Row="0" Grid.Column="0" />
-        <Label Content="Status _key:" Target="{Binding ElementName=StatusKeyField}" Grid.Row="1" Grid.Column="0" />
-        <Label Content="_Workspace:" Target="{Binding ElementName=LocalFilePathButton}" Grid.Row="2" Grid.Column="0" />
-        <Label Content="_Description:" Target="{Binding ElementName=DescriptionField}" Grid.Row="3" Grid.Column="0" />
+        <Label Content="{Loc Name_}" Target="{Binding ElementName=NameField}" Grid.Row="0" Grid.Column="0" />
+        <Label Content="{Loc Status_key_}" Target="{Binding ElementName=StatusKeyField}" Grid.Row="1" Grid.Column="0" />
+        <Label Content="{Loc Workspace_}" Target="{Binding ElementName=LocalFilePathButton}" Grid.Row="2" Grid.Column="0" />
+        <Label Content="{Loc Description_}" Target="{Binding ElementName=DescriptionField}" Grid.Row="3" Grid.Column="0" />
         
         <TextBox Text="{Binding Name}" x:Name="NameField" Grid.Row="0" Grid.Column="1" Height="24" />
         <TextBox Text="{Binding StatusKey}" x:Name="StatusKeyField" Grid.Row="1" Grid.Column="1" Height="24" />
@@ -29,7 +29,7 @@
             <Button Content="..." Click="BrowseFileButton_OnClick" HorizontalAlignment="Right" Width="28" x:Name="LocalFilePathButton" />
         </Grid>
         <TextBox Text="{Binding Description}" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" Grid.Row="3" Grid.Column="1" Margin="0,2,0,0" x:Name="DescriptionField" />
-        <Button Content="_Share" Click="ShareButton_Click" HorizontalAlignment="Right" Width="80" Grid.Row="4" Grid.Column="1" Height="24" Margin="0,0,86,4" />
-        <Button Content="_Abort" Click="AbortButton_Click" Height="24" HorizontalAlignment="Right" Margin="0,0,0,4" Width="80" Grid.Column="1" Grid.Row="4" />
+        <Button Content="{Loc Share_Button_}" Click="ShareButton_Click" HorizontalAlignment="Right" Width="80" Grid.Row="4" Grid.Column="1" Height="24" Margin="0,0,86,4" />
+        <Button Content="{Loc Abort_Button_}" Click="AbortButton_Click" Height="24" HorizontalAlignment="Right" Margin="0,0,0,4" Width="80" Grid.Column="1" Grid.Row="4" />
     </Grid>
 </GUI:P2PUserControl>

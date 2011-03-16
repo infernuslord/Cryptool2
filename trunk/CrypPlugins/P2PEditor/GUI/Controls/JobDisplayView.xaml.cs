@@ -15,12 +15,14 @@ using Cryptool.P2PEditor.Distributed;
 using Cryptool.P2PEditor.Worker;
 using Cryptool.PluginBase;
 using Timer = System.Timers.Timer;
+using Cryptool.PluginBase.Attributes;
 
 namespace Cryptool.P2PEditor.GUI.Controls
 {
     /// <summary>
     /// Interaction logic for JobDisplay.xaml
     /// </summary>
+    [Localization("Cryptool.P2PEditor.Properties.Resources")]
     public partial class JobDisplay : INotifyPropertyChanged
     {
         public static readonly DependencyProperty JobsProperty = DependencyProperty.Register("Jobs",
@@ -79,7 +81,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
             updateTask = new JobListDetailsUpdateWorker(Jobs, JobListManager);
             updateTask.RunWorkerCompleted += UpdateTaskRunWorkerCompleted;
             updateTask.RunWorkerAsync();
-            P2PEditor.GuiLogMessage("Running update task.", NotificationLevel.Debug);
+            P2PEditor.GuiLogMessage(Properties.Resources.Running_update_task_, NotificationLevel.Debug);
         }
 
         void UpdateTaskRunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -123,7 +125,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
         {
             if (!P2PManager.IsConnected) return;
 
-            P2PEditor.GuiLogMessage("Requesting new job list...", NotificationLevel.Debug);
+            P2PEditor.GuiLogMessage(Properties.Resources.Requesting_new_job_list___, NotificationLevel.Debug);
             var updateWorker = new JobListUpdateWorker(JobListManager);
             updateWorker.RunWorkerCompleted += HandleRefreshedJobList;
             updateWorker.RunWorkerAsync();
@@ -137,7 +139,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
                 return;
             }
 
-            P2PEditor.GuiLogMessage("Received new job list...", NotificationLevel.Debug);
+            P2PEditor.GuiLogMessage(Properties.Resources.Received_new_job_list___, NotificationLevel.Debug);
             Jobs = updateWorker.RefreshedJobList;
 
             UpdateJobDetailsTimerElapsed(null, null);
@@ -161,7 +163,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
             Participating = true;
 
             P2PEditor.GuiLogMessage(
-                string.Format("Preparing to participate in job {0} ({1}).", jobToParticipateIn.Name,
+                string.Format(Properties.Resources.Preparing_to_participate_in_job__0____1___, jobToParticipateIn.Name,
                               jobToParticipateIn.Guid),
                 NotificationLevel.Info);
             var jobParticipationWorker = new JobParticipationWorker(P2PEditor, JobListManager, jobToParticipateIn, Dispatcher);
@@ -200,7 +202,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
             if (jobToDelete == null || jobToDelete.Owner != P2PSettings.Default.PeerName) return;
 
             P2PEditor.GuiLogMessage(
-                string.Format("Deleting job {0} ({1}).", jobToDelete.Name, jobToDelete.Guid),
+                string.Format(Properties.Resources.Deleting_job__0____1___, jobToDelete.Name, jobToDelete.Guid),
                 NotificationLevel.Info);
 
             var backgroundCreationWorker = new JobDeletionWorker(JobListManager, jobToDelete);
