@@ -61,6 +61,15 @@ namespace Cryptool.P2PEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Abort.
+        /// </summary>
+        internal static string Abort_Button_ {
+            get {
+                return ResourceManager.GetString("Abort_Button_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Account Activation.
         /// </summary>
         internal static string Account_Activation_ {
@@ -75,6 +84,15 @@ namespace Cryptool.P2PEditor.Properties {
         internal static string Account_Creation_ {
             get {
                 return ResourceManager.GetString("Account_Creation_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Account reset data not found.
+        /// </summary>
+        internal static string Account_reset_data_not_found {
+            get {
+                return ResourceManager.GetString("Account_reset_data_not_found", resourceCulture);
             }
         }
         
@@ -115,11 +133,29 @@ namespace Cryptool.P2PEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Activation code may not be empty..
+        /// </summary>
+        internal static string Activation_code_may_not_be_empty_ {
+            get {
+                return ResourceManager.GetString("Activation_code_may_not_be_empty_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An exception occured: {0}.
         /// </summary>
         internal static string An_exception_occured___1 {
             get {
                 return ResourceManager.GetString("An_exception_occured___1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Author:.
+        /// </summary>
+        internal static string Author_ {
+            get {
+                return ResourceManager.GetString("Author_", resourceCulture);
             }
         }
         
@@ -232,6 +268,33 @@ namespace Cryptool.P2PEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delete.
+        /// </summary>
+        internal static string DeleteButton_ {
+            get {
+                return ResourceManager.GetString("DeleteButton_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deleting job {0} ({1})..
+        /// </summary>
+        internal static string Deleting_job__0____1___ {
+            get {
+                return ResourceManager.GetString("Deleting_job__0____1___", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Description:.
+        /// </summary>
+        internal static string Description_ {
+            get {
+                return ResourceManager.GetString("Description_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Deserialization of communication packet on the server side failed. Please try again..
         /// </summary>
         internal static string Deserialization_of_communication_packet_on_the_server_side_failed__Please_try_again_ {
@@ -242,11 +305,38 @@ namespace Cryptool.P2PEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Disconnect.
+        /// </summary>
+        internal static string DisconnectButton_ {
+            get {
+                return ResourceManager.GetString("DisconnectButton_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Distributed Computing Platform.
         /// </summary>
         internal static string Distributed_Computing_Platform_ {
             get {
                 return ResourceManager.GetString("Distributed_Computing_Platform_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Distributed job {0}.
+        /// </summary>
+        internal static string Distributed_job__0_ {
+            get {
+                return ResourceManager.GetString("Distributed_job__0_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Downloads:.
+        /// </summary>
+        internal static string Downloads_ {
+            get {
+                return ResourceManager.GetString("Downloads_", resourceCulture);
             }
         }
         
@@ -274,6 +364,15 @@ namespace Cryptool.P2PEditor.Properties {
         internal static string Error_while_autodownloading_your_account_data_ {
             get {
                 return ResourceManager.GetString("Error_while_autodownloading_your_account_data_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File not found..
+        /// </summary>
+        internal static string File_not_found_ {
+            get {
+                return ResourceManager.GetString("File_not_found_", resourceCulture);
             }
         }
         
@@ -306,6 +405,15 @@ namespace Cryptool.P2PEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid passwort reset verification: {0} .
+        /// </summary>
+        internal static string Invalid_passwort_reset_verification___0__ {
+            get {
+                return ResourceManager.GetString("Invalid_passwort_reset_verification___0__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Exception occured: {0}.
         /// </summary>
         internal static string InvalidCertificateRegistration_Exception_occured___1 {
@@ -324,11 +432,29 @@ namespace Cryptool.P2PEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Name:.
+        /// </summary>
+        internal static string Name_ {
+            get {
+                return ResourceManager.GetString("Name_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to New ProtocolVersion. Please update CrypTool 2.0.
         /// </summary>
         internal static string New_ProtocolVersion__Please_update_CrypTool_2_0 {
             get {
                 return ResourceManager.GetString("New_ProtocolVersion__Please_update_CrypTool_2_0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New.
+        /// </summary>
+        internal static string NewButton_ {
+            get {
+                return ResourceManager.GetString("NewButton_", resourceCulture);
             }
         }
         
@@ -347,6 +473,15 @@ namespace Cryptool.P2PEditor.Properties {
         internal static string No_proxy_server_configured__Please_check_your_configuration_ {
             get {
                 return ResourceManager.GetString("No_proxy_server_configured__Please_check_your_configuration_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid certificate request: {0}.
+        /// </summary>
+        internal static string nvalid_certificate_request___0_ {
+            get {
+                return ResourceManager.GetString("nvalid_certificate_request___0_", resourceCulture);
             }
         }
         
@@ -374,6 +509,33 @@ namespace Cryptool.P2PEditor.Properties {
         internal static string P2PEditor_Tab_Caption {
             get {
                 return ResourceManager.GetString("P2PEditor_Tab_Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Participants:.
+        /// </summary>
+        internal static string Participants_ {
+            get {
+                return ResourceManager.GetString("Participants_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Participate.
+        /// </summary>
+        internal static string ParticipateButton_ {
+            get {
+                return ResourceManager.GetString("ParticipateButton_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Participating....
+        /// </summary>
+        internal static string Participating_ {
+            get {
+                return ResourceManager.GetString("Participating_", resourceCulture);
             }
         }
         
@@ -456,6 +618,24 @@ namespace Cryptool.P2PEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please fill all fields..
+        /// </summary>
+        internal static string Please_fill_all_fields_ {
+            get {
+                return ResourceManager.GetString("Please_fill_all_fields_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Preparing to participate in job {0} ({1})..
+        /// </summary>
+        internal static string Preparing_to_participate_in_job__0____1___ {
+            get {
+                return ResourceManager.GetString("Preparing_to_participate_in_job__0____1___", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Proxy Error &apos;{0}&apos; occured: {1}.
         /// </summary>
         internal static string Proxy_Error_occured_ {
@@ -470,6 +650,24 @@ namespace Cryptool.P2PEditor.Properties {
         internal static string ProxyErrorOccured_Proxy_Error___1__occured_ {
             get {
                 return ResourceManager.GetString("ProxyErrorOccured_Proxy_Error___1__occured_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Received new job list....
+        /// </summary>
+        internal static string Received_new_job_list___ {
+            get {
+                return ResourceManager.GetString("Received_new_job_list___", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Refresh.
+        /// </summary>
+        internal static string RefreshButton_ {
+            get {
+                return ResourceManager.GetString("RefreshButton_", resourceCulture);
             }
         }
         
@@ -511,6 +709,15 @@ namespace Cryptool.P2PEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Requesting new job list....
+        /// </summary>
+        internal static string Requesting_new_job_list___ {
+            get {
+                return ResourceManager.GetString("Requesting_new_job_list___", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Reset.
         /// </summary>
         internal static string ResetButton_ {
@@ -529,6 +736,24 @@ namespace Cryptool.P2PEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Running update task..
+        /// </summary>
+        internal static string Running_update_task_ {
+            get {
+                return ResourceManager.GetString("Running_update_task_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Selected workspace does not exist..
+        /// </summary>
+        internal static string Selected_workspace_does_not_exist_ {
+            get {
+                return ResourceManager.GetString("Selected_workspace_does_not_exist_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Server error occurred. Please try again later.
         /// </summary>
         internal static string Server_error_occurred__Please_try_again_later {
@@ -538,11 +763,38 @@ namespace Cryptool.P2PEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Share.
+        /// </summary>
+        internal static string Share_Button_ {
+            get {
+                return ResourceManager.GetString("Share_Button_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to SSLCertificate revoked. Please update CrypTool 2.0..
         /// </summary>
         internal static string SSLCertificate_revoked__Please_update_CrypTool_2_0_ {
             get {
                 return ResourceManager.GetString("SSLCertificate_revoked__Please_update_CrypTool_2_0_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start date:.
+        /// </summary>
+        internal static string Start_date_ {
+            get {
+                return ResourceManager.GetString("Start_date_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Status Key:.
+        /// </summary>
+        internal static string Status_key_ {
+            get {
+                return ResourceManager.GetString("Status_key_", resourceCulture);
             }
         }
         
@@ -593,6 +845,15 @@ namespace Cryptool.P2PEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The verification code is ok but the entered password was wrong..
+        /// </summary>
+        internal static string The_verification_code_is_ok_but_the_entered_password_was_wrong_ {
+            get {
+                return ResourceManager.GetString("The_verification_code_is_ok_but_the_entered_password_was_wrong_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to There was a communication problem with the server: {0} 
         ///Please try again later.
         /// </summary>
@@ -639,6 +900,51 @@ namespace Cryptool.P2PEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Workspace:.
+        /// </summary>
+        internal static string Workspace_ {
+            get {
+                return ResourceManager.GetString("Workspace_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wrong code.
+        /// </summary>
+        internal static string Wrong_code {
+            get {
+                return ResourceManager.GetString("Wrong_code", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You have entered a wrong verification code..
+        /// </summary>
+        internal static string You_have_entered_a_wrong_verification_code_ {
+            get {
+                return ResourceManager.GetString("You_have_entered_a_wrong_verification_code_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your account is not yet authorized..
+        /// </summary>
+        internal static string Your_account_is_not_yet_authorized_ {
+            get {
+                return ResourceManager.GetString("Your_account_is_not_yet_authorized_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your account is revoked..
+        /// </summary>
+        internal static string Your_account_is_revoked_ {
+            get {
+                return ResourceManager.GetString("Your_account_is_revoked_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Your certificate was not authorized, so a reset is not possible at this moment.
         /// </summary>
         internal static string Your_certificate_was_not_authorized__so_a_reset_is_not_possible_at_this_moment {
@@ -673,6 +979,15 @@ namespace Cryptool.P2PEditor.Properties {
         internal static string Your_new_account_was_successfully_activated_ {
             get {
                 return ResourceManager.GetString("Your_new_account_was_successfully_activated_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your password change was already verified..
+        /// </summary>
+        internal static string Your_password_change_was_already_verified_ {
+            get {
+                return ResourceManager.GetString("Your_password_change_was_already_verified_", resourceCulture);
             }
         }
         

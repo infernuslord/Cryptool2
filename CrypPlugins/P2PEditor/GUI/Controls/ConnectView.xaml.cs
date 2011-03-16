@@ -12,7 +12,6 @@ using System.IO;
 using System.ComponentModel;
 using PeersAtPlay.CertificateLibrary.Network;
 using Cryptool.PluginBase.Attributes;
-using System.Security.Cryptography.X509Certificates;
 
 namespace Cryptool.P2PEditor.GUI.Controls
 {

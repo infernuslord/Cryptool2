@@ -22,11 +22,11 @@
                     </ListBox.ItemContainerStyle>
                 </ListBox>
                 <Grid DataContext="{Binding SelectedItem,ElementName=JobListBox}">
-                    <Button Content="Participate" HorizontalAlignment="Right" Margin="0,0,0,6" Name="ParticipateButton" Width="75" Height="23" VerticalAlignment="Bottom" Click="ParticipateButtonClick" />
-                    <Button Content="Refresh" Click="RefreshButtonClick" Margin="0,0,0,6" Name="RefreshButton" Height="23" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="75" />
-                    <Button Content="Delete" Click="DeleteButtonClick" Margin="0,0,81,6" Name="DeleteButton" HorizontalAlignment="Right" Width="75" Height="23" VerticalAlignment="Bottom" />
-                    <Button Content="New" Height="23" HorizontalAlignment="Left" Margin="79,0,0,6" Name="NewButton" VerticalAlignment="Bottom" Width="75" Click="NewButton_Click" />
-                    <Button Content="Disconnect" Height="23" HorizontalAlignment="Left" Margin="160,0,0,6" Name="DisconnectButton" VerticalAlignment="Bottom" Width="75" Click="DisconnectButton_Click" />                    
+                    <Button Content="{Loc ParticipateButton_}" HorizontalAlignment="Right" Margin="0,0,0,6" Name="ParticipateButton" Width="75" Height="23" VerticalAlignment="Bottom" Click="ParticipateButtonClick" />
+                    <Button Content="{Loc RefreshButton_}" Click="RefreshButtonClick" Margin="0,0,0,6" Name="RefreshButton" Height="23" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="75" />
+                    <Button Content="{Loc DeleteButton_}" Click="DeleteButtonClick" Margin="0,0,81,6" Name="DeleteButton" HorizontalAlignment="Right" Width="75" Height="23" VerticalAlignment="Bottom" />
+                    <Button Content="{Loc NewButton_}" Height="23" HorizontalAlignment="Left" Margin="79,0,0,6" Name="NewButton" VerticalAlignment="Bottom" Width="75" Click="NewButton_Click" />
+                    <Button Content="{Loc DisconnectButton_}" Height="23" HorizontalAlignment="Left" Margin="160,0,0,6" Name="DisconnectButton" VerticalAlignment="Bottom" Width="75" Click="DisconnectButton_Click" />                    
                 </Grid>
             </Grid>
         </DockPanel>

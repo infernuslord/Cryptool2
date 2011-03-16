@@ -308,4 +308,79 @@ Emailadresse senden können.</value>
   <data name="VerifyButton_" xml:space="preserve">
     <value>Verifizieren</value>
   </data>
+  <data name="Abort_Button_" xml:space="preserve">
+    <value>Abbrechen</value>
+  </data>
+  <data name="Author_" xml:space="preserve">
+    <value>Autor:</value>
+  </data>
+  <data name="DeleteButton_" xml:space="preserve">
+    <value>Löschen</value>
+  </data>
+  <data name="Deleting_job__0____1___" xml:space="preserve">
+    <value>Lösche Job {0} ({1}).</value>
+  </data>
+  <data name="Description_" xml:space="preserve">
+    <value>Beschreibung:</value>
+  </data>
+  <data name="DisconnectButton_" xml:space="preserve">
+    <value>Trennen</value>
+  </data>
+  <data name="Distributed_job__0_" xml:space="preserve">
+    <value>Job {0} verteilt</value>
+  </data>
+  <data name="Downloads_" xml:space="preserve">
+    <value>Downloads:</value>
+  </data>
+  <data name="File_not_found_" xml:space="preserve">
+    <value>Datei nicht gefunden.</value>
+  </data>
+  <data name="Name_" xml:space="preserve">
+    <value>Name:</value>
+  </data>
+  <data name="NewButton_" xml:space="preserve">
+    <value>Neu</value>
+  </data>
+  <data name="Participants_" xml:space="preserve">
+    <value>Teilnehmer:</value>
+  </data>
+  <data name="ParticipateButton_" xml:space="preserve">
+    <value>Teilnehmen</value>
+  </data>
+  <data name="Participating_" xml:space="preserve">
+    <value>Teilnehmen...</value>
+  </data>
+  <data name="Please_fill_all_fields_" xml:space="preserve">
+    <value>Bitte alle Felder ausfüllen.</value>
+  </data>
+  <data name="Preparing_to_participate_in_job__0____1___" xml:space="preserve">
+    <value>Vorbereitung um an job teilzunehmen {0} ({1}).</value>
+  </data>
+  <data name="Received_new_job_list___" xml:space="preserve">
+    <value>Empfange neue Jobliste...</value>
+  </data>
+  <data name="RefreshButton_" xml:space="preserve">
+    <value>Aktualisieren</value>
+  </data>
+  <data name="Requesting_new_job_list___" xml:space="preserve">
+    <value>Fordere neue Jobliste an...</value>
+  </data>
+  <data name="Running_update_task_" xml:space="preserve">
+    <value>Updateprotokoll ausgeführt.</value>
+  </data>
+  <data name="Selected_workspace_does_not_exist_" xml:space="preserve">
+    <value>Ausgewählte Arbeitsfläche existiert nicht.</value>
+  </data>
+  <data name="Share_Button_" xml:space="preserve">
+    <value>Freigeben</value>
+  </data>
+  <data name="Start_date_" xml:space="preserve">
+    <value>Startdatum:</value>
+  </data>
+  <data name="Status_key_" xml:space="preserve">
+    <value>Status-Schlüssel:</value>
+  </data>
+  <data name="Workspace_" xml:space="preserve">
+    <value>Arbeitsfläche:</value>
+  </data>
 </root>

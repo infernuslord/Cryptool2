@@ -333,4 +333,109 @@ email address. Use this code to change your accounts password settings.</value>
   <data name="We_had_an_error___0_" xml:space="preserve">
     <value>We had an error: {0}</value>
   </data>
+  <data name="Abort_Button_" xml:space="preserve">
+    <value>Abort</value>
+  </data>
+  <data name="Description_" xml:space="preserve">
+    <value>Description:</value>
+  </data>
+  <data name="Name_" xml:space="preserve">
+    <value>Name:</value>
+  </data>
+  <data name="Share_Button_" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="Status_key_" xml:space="preserve">
+    <value>Status Key:</value>
+  </data>
+  <data name="Workspace_" xml:space="preserve">
+    <value>Workspace:</value>
+  </data>
+  <data name="File_not_found_" xml:space="preserve">
+    <value>File not found.</value>
+  </data>
+  <data name="Please_fill_all_fields_" xml:space="preserve">
+    <value>Please fill all fields.</value>
+  </data>
+  <data name="Selected_workspace_does_not_exist_" xml:space="preserve">
+    <value>Selected workspace does not exist.</value>
+  </data>
+  <data name="Distributed_job__0_" xml:space="preserve">
+    <value>Distributed job {0}</value>
+  </data>
+  <data name="Author_" xml:space="preserve">
+    <value>Author:</value>
+  </data>
+  <data name="Downloads_" xml:space="preserve">
+    <value>Downloads:</value>
+  </data>
+  <data name="Participants_" xml:space="preserve">
+    <value>Participants:</value>
+  </data>
+  <data name="Start_date_" xml:space="preserve">
+    <value>Start date:</value>
+  </data>
+  <data name="Running_update_task_" xml:space="preserve">
+    <value>Running update task.</value>
+  </data>
+  <data name="Requesting_new_job_list___" xml:space="preserve">
+    <value>Requesting new job list...</value>
+  </data>
+  <data name="Received_new_job_list___" xml:space="preserve">
+    <value>Received new job list...</value>
+  </data>
+  <data name="Preparing_to_participate_in_job__0____1___" xml:space="preserve">
+    <value>Preparing to participate in job {0} ({1}).</value>
+  </data>
+  <data name="Deleting_job__0____1___" xml:space="preserve">
+    <value>Deleting job {0} ({1}).</value>
+  </data>
+  <data name="DeleteButton_" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="DisconnectButton_" xml:space="preserve">
+    <value>Disconnect</value>
+  </data>
+  <data name="NewButton_" xml:space="preserve">
+    <value>New</value>
+  </data>
+  <data name="ParticipateButton_" xml:space="preserve">
+    <value>Participate</value>
+  </data>
+  <data name="RefreshButton_" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="Participating_" xml:space="preserve">
+    <value>Participating...</value>
+  </data>
+	<data name="Activation_code_may_not_be_empty_">
+		<value xml:space="preserve">Activation code may not be empty.</value>
+	</data>
+	<data name="Your_password_change_was_already_verified_">
+		<value xml:space="preserve">Your password change was already verified.</value>
+	</data>
+	<data name="Your_account_is_not_yet_authorized_">
+		<value xml:space="preserve">Your account is not yet authorized.</value>
+	</data>
+	<data name="Your_account_is_revoked_">
+		<value xml:space="preserve">Your account is revoked.</value>
+	</data>
+	<data name="Account_reset_data_not_found">
+		<value xml:space="preserve">Account reset data not found</value>
+	</data>
+	<data name="Wrong_code">
+		<value xml:space="preserve">Wrong code</value>
+	</data>
+	<data name="Invalid_passwort_reset_verification___0__">
+		<value><![CDATA[Invalid passwort reset verification: {0} ]]></value>
+	</data>
+	<data name="You_have_entered_a_wrong_verification_code_">
+		<value xml:space="preserve">You have entered a wrong verification code.</value>
+	</data>
+	<data name="The_verification_code_is_ok_but_the_entered_password_was_wrong_">
+		<value xml:space="preserve">The verification code is ok but the entered password was wrong.</value>
+	</data>
+	<data name="nvalid_certificate_request___0_">
+		<value xml:space="preserve">Invalid certificate request: {0}</value>
+	</data>
 </root>
