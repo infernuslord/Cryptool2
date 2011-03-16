@@ -66,11 +66,57 @@ Hfjxfwx Sfrj bzwij ezr Gjxyfsiyjnq ijx Ynyjqx fqqjw sfhmktqljsijs Mjwwxhmjw ijx 
   </input>
 
   <!-- Vigenère input -->
-  <!--<input image="Vigenere">
+  <input image="Vigenere">
     <name lang="en" >Vigenère</name>
     <description lang="en-GB" >Vigenère is a classic algorithm to encrypt plaintext or to decrypt ciphertext.
       By selecting this, you can analyse some ciphertext that was encrypted with the Vigenère algorithm.</description>
-  </input>-->
+
+    <headline lang="en">Vigenère Analysis</headline>
+    <desc lang="en">Please input your Ciphertext and text language.</desc>
+
+    <inputBox plugin="Ciphertext" property="Text" alignment="Stretch" visibleLines="5">
+      <description lang="en">Ciphertext:</description>
+      <defaultvalue>Giw eu 16. Adlzuarzyjx pqtkpiegivr Bmcyfèvp-Yejokyoüwarryja (fenk Bdwqjh hm Iokahèji) rdll hieji iyy wewzichr Udqwivqrxehagvtwheqa („Ch Gpvljny aroéfhabnidftr“, jiqnkgs: „Giw qvvqxhvljaltech Vwnatkpüafkpqhy“).[1] Itq Sudtüjvitjuvp vwwelmep, ezh zqrri qhv apocza Icsliokxa awrfwzl smigiv. Qoi Wfhlleela tvlxma ymyb syd gej Yivvez-Fafonaxfwigj is.
+
+Giu oxmpckgshn Ewbyhqigooal Ullulwo Jrefitk kafsrr xm vwa Adlz 1854 rxwpgspd giw Avkcmnskvqhy itqej Rqxhrèzr-Ilezxvp. Giwom Vqxlrioqhy afudw fmurgp qgqwfk rtfhl öbnvqxtvil xyceyqt yaurflb. Qkv llwyßtvcza Wwimhvkv Blaiouiud Srvmaxo zalöxjpqtdekywi qz Pedl 1863 kitqe Döocej yvq mmja vexlt aj lzh Kmfilewzxp hif.
+
+Zij Vgpyüywafoscw swe „IBHC“, lrx Xarl „kpkeaivzv“. Zqrx Gwykec-Vutobzwybvurah nicvczhüajhpv qkr Pypx. Ole wnakh Wcoyxenmxtrn aob vlrm Pgiouj-Zpusudtüjvithtk icl hpp Sudtüjvit „N“. „G“ mon vic hrkpm Sxgpfzexy aq Lopzwjvw. Iz ikvowzmpet vav vuwbrt Fqwzwedbwj lvv dc ikvowzpüdvedjlvq Xmkzio, xsw „r“, xm 0 Kpmcoiv, ry fhyafe „J“. Dwn hnhmbr Hyybkxlee vaa Jfltüfyihm, ved „N“, ikp lvu itszi Xouldwata qd Dpxugfan, wv ghrkypzhfb qgw vqwmeh Zwekyhr lry Xarlid, gak „a“, cd cipa Fiewziy. Duk „a“ ezuh mvt „S“ (ocwlp Watatch). Hif jvenli Khiudme gia Filhümkiwv („E“) nazjflqrhx qg 4, „Q“ yx 24 Vtwhtvq. Hqr Binmulthbmjo uhw väpnwpyf Fffhkpishra qkw Pypxpv bwcqeqx evkhal tit „D“, dwi mivxma Hyybkxleef zmj Vgpyüywafk:</defaultvalue>
+    </inputBox>
+
+    <comboBox plugin="VigenereAutokeyAnalyser" property="Language" defaultValue="0" width="20%" alignment="Left">
+      <description lang="en">Language of the cleartext message:</description>
+      <item content="English" lang="en"/>
+      <item content="German" lang="en"/>      
+      <item content="French" lang="en"/>
+      <item content="Spanish" lang="en"/>
+    </comboBox>
+
+    <comboBox plugin="VigenereAutokeyAnalyser;Vigenere" property="Modus" defaultValue="1" width="20%" alignment="Left">
+      <description lang="en">Vigenère mode:</description>      
+      <item content="Autokey" lang="en"/>
+      <item content="Classic" lang="en"/>
+    </comboBox>
+    
+    <sampleViewer image="Vigenere" file="WorkspaceManagerSamples\Vigenere_Analyser_Sample.cwm">
+      <name lang="en">Vigenère Analysis Output</name>
+      <description lang="en">Vigenère Analysis Output</description>
+
+      <headline lang="en">Vigenère Analysis Output</headline>
+      <desc lang="en">Here you can alter the input message.</desc>
+
+      <inputBox plugin="Ciphertext" property="Text" alignment="Stretch" visibleLines="5">
+        <description lang="en">Ciphertext:</description>
+      </inputBox>
+
+      <outputBox plugin="Plaintext" property="CurrentValue" alignment="Left" width="50%" visibleLines="5" group="OutputGroup">
+        <description lang="en">Deciphered Ciphertext:</description>
+      </outputBox>
+
+      <presentation plugin="VigenereAutokeyAnalyser" alignment="Stretch" width="20%" height="20%" group="PresentationGroup">
+        <description lang="en">Analysis:</description>
+      </presentation>
+    </sampleViewer>
+  </input>
 
   <!-- Substitution input -->
   <!--<input image="Substitution">
