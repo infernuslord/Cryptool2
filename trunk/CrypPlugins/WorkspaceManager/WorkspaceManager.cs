@@ -71,8 +71,7 @@ namespace WorkspaceManager
             WorkspaceModel = new WorkspaceModel();
             WorkspaceModel.OnGuiLogNotificationOccured += this.GuiLogNotificationOccured;
             WorkspaceModel.MyEditor = this;
-            WorkspaceSpaceEditorView = new WorkSpaceEditorView(WorkspaceModel);
-            HasChanges = false;            
+            WorkspaceSpaceEditorView = new WorkSpaceEditorView(WorkspaceModel);       
         }
 
         void Default_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -137,7 +136,6 @@ namespace WorkspaceManager
             //{
             //    WorkspaceModel.deletePluginModel(pluginModel);
             //}
-            this.HasChanges = false;
             CurrentFilename = "unnamed project";
             if (this.OnProjectTitleChanged != null)
             {
@@ -186,7 +184,6 @@ namespace WorkspaceManager
                 WorkspaceModel.OnGuiLogNotificationOccured += this.GuiLogNotificationOccured;
                 WorkspaceSpaceEditorView.Load(WorkspaceModel);
                 WorkspaceModel.UpdateableView = this.WorkspaceSpaceEditorView;
-                HasChanges = false;
                 this.OnProjectTitleChanged.BeginInvoke(this, System.IO.Path.GetFileName(fileName), null, null);
                 CurrentFilename = fileName;
                 WorkspaceModel.MyEditor = this;
@@ -209,7 +206,6 @@ namespace WorkspaceManager
             {
                 GuiLogMessage("Saving Model: " + fileName, NotificationLevel.Info);
                 ModelPersistance.saveModel(this.WorkspaceModel, fileName);
-                HasChanges = false;
                 this.OnProjectTitleChanged.BeginInvoke(this, System.IO.Path.GetFileName(fileName), null, null);
                 CurrentFilename = fileName;
             }
@@ -470,8 +466,18 @@ namespace WorkspaceManager
         /// </summary>
         public bool HasChanges
         {
-            get;
-            set;
+            get
+            {
+                if (this.WorkspaceModel != null)
+                {
+                    return this.WorkspaceModel.HasChanges;
+                }
+                return false;
+            }
+            set
+            {
+
+            }
         }
 
         public bool CanPrint

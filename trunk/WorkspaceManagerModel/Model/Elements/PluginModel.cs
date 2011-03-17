@@ -423,7 +423,7 @@ namespace WorkspaceManager.Model
             }
         }*/
 
-        /*
+        
         /// <summary>
         /// Called if a Setting of a Plugin is changed and notifies the Editor that
         /// there is a change
@@ -433,7 +433,7 @@ namespace WorkspaceManager.Model
         public void SettingsPropertyChanged(Object sender, PropertyChangedEventArgs propertyChangedEventArgs)
         {            
             this.WorkspaceModel.HasChanges = true;
-        }*/
+        }
 
         #endregion
     }
