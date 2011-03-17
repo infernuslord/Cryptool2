@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converters\ConnectivityToVisibilityConverter.cs" />
+    <Compile Include="Converters\PercentageConverter.cs" />
     <Compile Include="Converters\ForegroundColorConverter.cs" />
     <Compile Include="Converters\StatusToColorConverter.cs" />
     <Compile Include="Converters\StringEmptyToVisibilityConverter.cs" />
