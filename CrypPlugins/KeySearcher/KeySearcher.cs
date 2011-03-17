@@ -1324,6 +1324,12 @@ namespace KeySearcher
             maschinehierarchie = null;
             maschinehierarchie = new Dictionary<long, Maschinfo>();
             alreadyIntegratedNodes.Clear();
+            statisticInitialized = false;
+        }
+
+        public void SetStatisticInitialized()
+        {
+            statisticInitialized = true;
         }
     
         public void ResetMemory()
@@ -1436,10 +1442,6 @@ namespace KeySearcher
         
         internal void IntegrateNewResults(LinkedList<ValueKey> updatedCostList, Dictionary<string, Dictionary<long, Information>> updatedStatistics, string dataIdentifier, NodeBase nodeToUpdate)
         {
-            var nodeID = "from " + nodeToUpdate.From + " to " + nodeToUpdate.To;
-            if (alreadyIntegratedNodes.Contains(nodeID))
-                return;
-
             foreach (var valueKey in updatedCostList)
             {
                 if (keyQualityHelper.IsBetter(valueKey.value, value_threshold))
@@ -1447,6 +1449,13 @@ namespace KeySearcher
                     valuequeue.Enqueue(valueKey);
                 }
             }
+
+            if (statisticInitialized)
+                return;
+
+            var nodeID = "from " + nodeToUpdate.From + " to " + nodeToUpdate.To;
+            if (alreadyIntegratedNodes.Contains(nodeID))
+                return;
 
             foreach (string avname in updatedStatistics.Keys)
             {
@@ -1628,6 +1637,7 @@ namespace KeySearcher
         private static string username = P2PSettings.Default.PeerName;
         private static long maschineid = Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetID();
         private static string maschinename = Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetHostName();
+        private bool statisticInitialized = false;
 
         private static void EnhanceUserName(ref ValueKey vk)
         {

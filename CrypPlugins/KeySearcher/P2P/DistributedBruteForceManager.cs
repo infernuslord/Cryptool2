@@ -104,6 +104,7 @@ namespace KeySearcher.P2P
                         status.CurrentOperation = Resources.Updating_statistic;
                         InitializeTree();
                         statupdate = false;
+                        keySearcher.SetStatisticInitialized();
                         keySearcher.InitialiseInformationQuickwatch();
                         statisticTimer = new Timer { Interval = utime * 60 * 1000 };
                         statisticTimer.Start();
@@ -330,6 +331,7 @@ namespace KeySearcher.P2P
                     keySearcher.ResetStatistics();
                     InitializeTree();
                     treeInitialized = true;
+                    keySearcher.SetStatisticInitialized();
                 }
                 catch (NotConnectedException)
                 {
