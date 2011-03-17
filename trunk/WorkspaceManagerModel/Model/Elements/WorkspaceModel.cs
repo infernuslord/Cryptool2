@@ -66,14 +66,14 @@ namespace WorkspaceManager.Model
         public UndoRedoManager UndoRedoManager;
 
         [NonSerialized]
-        private bool hasChanges;
+        private bool hasChanges = false;
         public bool HasChanges 
         {
             get
             {
                 return hasChanges;
             }
-            internal set
+            set
             {
                 hasChanges = value;
             }

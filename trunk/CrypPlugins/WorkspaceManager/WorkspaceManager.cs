@@ -162,6 +162,7 @@ namespace WorkspaceManager
                 WorkspaceModel.UpdateableView = this.WorkspaceSpaceEditorView;
                 WorkspaceModel.MyEditor = this;
                 WorkspaceModel.UndoRedoManager.ClearStacks();
+                WorkspaceModel.HasChanges = false;
             }
             catch (Exception ex)
             {
@@ -188,6 +189,7 @@ namespace WorkspaceManager
                 CurrentFilename = fileName;
                 WorkspaceModel.MyEditor = this;
                 WorkspaceModel.UndoRedoManager.ClearStacks();
+                WorkspaceModel.HasChanges = false;
             }
             catch (Exception ex)
             {
@@ -208,6 +210,7 @@ namespace WorkspaceManager
                 ModelPersistance.saveModel(this.WorkspaceModel, fileName);
                 this.OnProjectTitleChanged.BeginInvoke(this, System.IO.Path.GetFileName(fileName), null, null);
                 CurrentFilename = fileName;
+                WorkspaceModel.HasChanges = false;
             }
             catch (Exception ex)
             {

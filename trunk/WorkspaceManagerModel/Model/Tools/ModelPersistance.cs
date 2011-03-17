@@ -181,6 +181,7 @@ namespace WorkspaceManager.Model
                 }
             }
 
+            workspacemodel.HasChanges = false;
             return workspacemodel;          
         }
 
