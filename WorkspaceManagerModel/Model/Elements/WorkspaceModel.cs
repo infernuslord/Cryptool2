@@ -73,7 +73,7 @@ namespace WorkspaceManager.Model
             {
                 return hasChanges;
             }
-            private set
+            internal set
             {
                 hasChanges = value;
             }
@@ -180,7 +180,7 @@ namespace WorkspaceManager.Model
             pluginModel.Plugin.OnPluginStatusChanged += pluginModel.PluginStatusChanged;
             if (pluginModel.Plugin.Settings != null)
             {
-                //pluginModel.Plugin.Settings.PropertyChanged += pluginModel.SettingsPropertyChanged;
+                pluginModel.Plugin.Settings.PropertyChanged += pluginModel.SettingsPropertyChanged;
             }            
             this.AllPluginModels.Add(pluginModel);
             this.HasChanges = true;
@@ -490,7 +490,8 @@ namespace WorkspaceManager.Model
 
             try
             {
-                return operation.Execute(this);
+                HasChanges = true;
+                return operation.Execute(this);                
             }
             finally
             {

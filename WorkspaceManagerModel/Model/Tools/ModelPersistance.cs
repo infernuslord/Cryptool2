@@ -123,7 +123,7 @@ namespace WorkspaceManager.Model
                 pluginModel.Plugin.OnPluginStatusChanged += pluginModel.PluginStatusChanged;                
                 if (pluginModel.Plugin.Settings != null)
                 {
-                    //pluginModel.Plugin.Settings.PropertyChanged += pluginModel.SettingsPropertyChanged;
+                    pluginModel.Plugin.Settings.PropertyChanged += pluginModel.SettingsPropertyChanged;
                 }
             }
                 
@@ -229,6 +229,7 @@ namespace WorkspaceManager.Model
                 }
             }
             XMLSerialization.XMLSerialization.Serialize(persistantModel, filename,true);
+            workspaceModel.HasChanges = false;
         }
     }
 
