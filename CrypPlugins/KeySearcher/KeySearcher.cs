@@ -1386,6 +1386,7 @@ namespace KeySearcher
                 memKeys = keysnow;
                 memTime = timenow;
             }
+            else
             {
                 memKeys = calculatedChunks() * (BigInteger)Math.Pow(2, settings.ChunkSize);
                 memTime = DateTime.UtcNow;
