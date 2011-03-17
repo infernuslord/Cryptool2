@@ -383,4 +383,13 @@ Emailadresse senden können.</value>
   <data name="Workspace_" xml:space="preserve">
     <value>Arbeitsfläche:</value>
   </data>
+  <data name="CreationDate_ColumnHeader_" xml:space="preserve">
+    <value>Erstelldatum</value>
+  </data>
+  <data name="Name_ColumnHeader_" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="Status_ColumnHeader_" xml:space="preserve">
+    <value>Status</value>
+  </data>
 </root>

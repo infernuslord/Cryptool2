@@ -1,26 +1,95 @@
-﻿<GUI:P2PUserControl x:Class="Cryptool.P2PEditor.GUI.Controls.JobDisplay" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:GUI="clr-namespace:Cryptool.P2PEditor.GUI" mc:Ignorable="d" d:DesignHeight="218" d:DesignWidth="416">
+﻿<GUI:P2PUserControl x:Class="Cryptool.P2PEditor.GUI.Controls.JobDisplay" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:GUI="clr-namespace:Cryptool.P2PEditor.GUI" xmlns:Converters="clr-namespace:Cryptool.P2PEditor.Converters" mc:Ignorable="d" d:DesignHeight="218" d:DesignWidth="416">
 	<GUI:P2PUserControl.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="JobDisplayTemplate.xaml" />
-            </ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary>            
             <Style x:Key="jobListDisplayStyle" TargetType="{x:Type ListBox}">
                 <Style.Resources>
                     <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="LightBlue" />
                 </Style.Resources>
             </Style>
+            <Converters:StatusToColorConverter x:Key="StatusToColorConverter" />
+            <Converters:StringEmptyToVisibilityConverter x:Key="StringEmptyToVisibilityConverter" />
+            <Converters:TrueToVisibleOrCollapsedConverter x:Key="TrueToVisibleOrCollapsedConverter" />
+            <Converters:UtcDateTimeToLocalConverter x:Key="UtcDateTimeToLocalConverter" />
         </ResourceDictionary>
     </GUI:P2PUserControl.Resources>
     <AdornerDecorator>
         <DockPanel Name="mainPane">
-            <Grid Background="White">
-                <ListBox x:Name="JobListBox" HorizontalContentAlignment="Stretch" ItemsSource="{Binding Jobs, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" ItemTemplate="{StaticResource jobDisplayTemplate}" Style="{StaticResource jobListDisplayStyle}" KeyUp="JobListBoxKeyUp" Margin="0,0,0,35">
-                    <ListBox.ItemContainerStyle>
+            <Grid>
+                <ListView Background="Transparent" x:Name="JobListBox" HorizontalContentAlignment="Stretch" ItemsSource="{Binding Jobs, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" Style="{StaticResource jobListDisplayStyle}" KeyUp="JobListBoxKeyUp" Margin="0,0,0,35">
+                    <ListView.View>
+                        <GridView AllowsColumnReorder="True">                            
+                            <GridViewColumn Header="{Loc Name_ColumnHeader_}" Width="Auto">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Border BorderThickness="0,0,1,1" BorderBrush="White">
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition/>
+                                                    <RowDefinition/>
+                                                </Grid.RowDefinitions>
+                                                <Label Content="{Binding Name}" FontSize="16" Grid.Row="0" />
+                                                <Grid Grid.Row="1" Visibility="{Binding IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}, Converter={StaticResource TrueToVisibleOrCollapsedConverter}}">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="75" />
+                                                        <ColumnDefinition Width="*" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <StackPanel Grid.Column="0">
+                                                        <Label Content="{Loc Author_}" FontSize="10" Height="23" />
+                                                        <Label Content="{Loc Workspace_}" FontSize="10" Height="23" />
+                                                        <Label Content="{Loc Downloads_}" FontSize="10" Height="23" />
+                                                        <Label Content="{Loc Participants_}" FontSize="10" Height="23" />
+                                                        <Label Content="{Loc Start_date_}" FontSize="10" Height="23" />
+                                                        <Label Content="{Loc Description_}" FontSize="10" Height="23" />
+                                                    </StackPanel>
+                                                    <StackPanel Grid.Column="1">
+                                                        <Label Content="{Binding Owner}" Height="23" FontSize="10" />
+                                                        <Label Content="{Binding FileName}" Height="23" FontSize="10" />
+                                                        <Label Content="{Binding Downloads}" Height="23" FontSize="10" />
+                                                        <Label Content="{Binding Status.Participants, FallbackValue=-}" Height="23" FontSize="10" />
+                                                        <Label Content="{Binding Status.StartDate, Converter={StaticResource UtcDateTimeToLocalConverter}, FallbackValue=-}" Height="23" FontSize="10" />
+                                                        <Label FontSize="10" Width="300">
+                                                            <TextBlock Text="{Binding Description}" TextWrapping="Wrap" />
+                                                        </Label>
+                                                    </StackPanel>
+                                                </Grid>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="{Loc Status_ColumnHeader_}" Width="Auto">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Border BorderThickness="0,0,1,1" BorderBrush="White">
+                                            <Grid VerticalAlignment="Top">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition />
+                                                </Grid.RowDefinitions>
+                                                <Ellipse Grid.Row="0" VerticalAlignment="Top" Fill="{Binding Status.CurrentStatus, Converter={StaticResource StatusToColorConverter}}" Height="18" Width="18" StrokeThickness="1" Stroke="DarkGray" Margin="0,5,105,5" HorizontalAlignment="Right" />
+                                                <ProgressBar Grid.Row="0" VerticalAlignment="Top" Value="{Binding Status.Progress}" Maximum="1" Width="100" Height="20" HorizontalAlignment="Right" />
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>                                
+                            </GridViewColumn>
+                            <GridViewColumn Header="{Loc CreationDate_ColumnHeader_}" Width="Auto">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Border BorderThickness="0,0,1,1" BorderBrush="White">
+                                            <Label VerticalAlignment="Top" Content="{Binding CreateDate, Converter={StaticResource UtcDateTimeToLocalConverter}}" FontSize="16" HorizontalAlignment="Right" Foreground="DarkGray" />
+                                        </Border>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>                                
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                    <ListView.ItemContainerStyle>                    
                         <Style TargetType="{x:Type ListBoxItem}">
-                            <EventSetter Event="MouseDoubleClick" Handler="ParticipateItemHandler"/>
+                            <EventSetter Event="MouseDoubleClick" Handler="ParticipateItemHandler"/>                            
                         </Style>
-                    </ListBox.ItemContainerStyle>
-                </ListBox>
+                    </ListView.ItemContainerStyle>
+                </ListView>
                 <Grid DataContext="{Binding SelectedItem,ElementName=JobListBox}">
                     <Button Content="{Loc ParticipateButton_}" HorizontalAlignment="Right" Margin="0,0,0,6" Name="ParticipateButton" Width="75" Height="23" VerticalAlignment="Bottom" Click="ParticipateButtonClick" />
                     <Button Content="{Loc RefreshButton_}" Click="RefreshButtonClick" Margin="0,0,0,6" Name="RefreshButton" Height="23" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="75" />
