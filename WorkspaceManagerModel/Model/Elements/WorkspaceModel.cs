@@ -484,19 +484,29 @@ namespace WorkspaceManager.Model
         /// <summary>
         /// Modify the current WorkspaceModel by using an operation
         /// returns the created object or true if its not a 'new' operation
+        /// Some operations may return false to indicate that there was 'nothing to change':
+        ///     Example: you change the size from x to x -> return false
+        ///     Example: you change the size from x to y -> return true
         /// </summary>
         /// <param name="operation"></param>
-        public object ModifyModel(Operation operation){
+        public object ModifyModel(Operation operation)
+        {
+            var operationReturn = operation.Execute(this);
 
-            try
+            if(operationReturn is Boolean)
             {
-                HasChanges = true;
-                return operation.Execute(this);                
+                if (((Boolean) operationReturn) == true)
+                {
+                    HasChanges = true;
+                    this.UndoRedoManager.DidOperation(operation);
+                    return true;
+                }
+                return false;
             }
-            finally
-            {
-                this.UndoRedoManager.DidOperation(operation);
-            }
+
+            this.UndoRedoManager.DidOperation(operation);
+            HasChanges = true;
+            return operationReturn;
 
         }
 

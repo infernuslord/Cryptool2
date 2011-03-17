@@ -324,7 +324,10 @@ namespace WorkspaceManagerModel.Model.Operations
 
         internal override object Execute(WorkspaceModel workspaceModel)
         {
-
+            if(OldPosition.Equals(NewPosition))
+            {
+                return false;
+            }
             Model.Position = NewPosition;
             workspaceModel.OnChildPositionChanged(Model, OldPosition, NewPosition);
             return true;
@@ -362,6 +365,10 @@ namespace WorkspaceManagerModel.Model.Operations
 
         internal override object Execute(WorkspaceModel workspaceModel)
         {
+            if (OldWidth.Equals(NewWidth) && OldHeight.Equals(NewHeight))
+            {
+                return false;
+            }
             Model.Width = NewWidth;
             Model.Height = NewHeight;
             workspaceModel.OnChildSizeChanged(Model, this.OldWidth, this.NewWidth, this.OldHeight, this.NewHeight);
@@ -397,6 +404,10 @@ namespace WorkspaceManagerModel.Model.Operations
 
         internal override object Execute(WorkspaceModel workspaceModel)
         {
+            if(OldName.Equals(NewName))
+            {
+                return false;
+            }
             Model.Name = NewName;
             workspaceModel.OnRenamedChildElement(this.Model, OldName, NewName);
             return true;
