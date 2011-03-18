@@ -32,6 +32,7 @@ namespace KeySearcher.KeyPattern
         public IntervalKeyMovement(List<int> intervalList)
         {
             this.IntervalList = intervalList;
+            this.IntervalList.Sort();
         }
 
         public int Count()

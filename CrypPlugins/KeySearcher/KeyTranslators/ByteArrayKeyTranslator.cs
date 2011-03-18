@@ -260,8 +260,9 @@ namespace KeySearcher.KeyTranslators
 
                     //declare the invterval array:
                     string s = string.Format("__constant int ikm{0}[{1}] = {{", x, ikm.Count());
-                    foreach (var c in ikm.IntervalList)
-                        s += c + ", ";
+                    var smallest = ikm.IntervalList[0];
+                foreach (var c in ikm.IntervalList)
+                        s += (c-smallest) + ", ";
                     s = s.Substring(0, s.Length - 2);
                     s += "}; \n";
                     code = code.Replace("$$MOVEMENTDECLARATIONS$$", s + "\n$$MOVEMENTDECLARATIONS$$");
