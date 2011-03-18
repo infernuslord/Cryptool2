@@ -19,7 +19,7 @@
                 <ListView Background="Transparent" x:Name="JobListBox" ItemsSource="{Binding Jobs, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" Style="{StaticResource jobListDisplayStyle}" KeyUp="JobListBoxKeyUp" Margin="0,0,0,35">
                     <ListView.Resources>
                         <Style TargetType="Label">
-                            <Setter Property="Foreground" Value="Orange"/>
+                            <Setter Property="Foreground" Value="Black"/>
                         </Style>
                     </ListView.Resources>
                     
@@ -62,7 +62,7 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn Header="{Loc Status_ColumnHeader_}" Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=ListView, AncestorLevel=1}, Path=ActualWidth, Converter={StaticResource ResourceKey=PercentageConverter}, ConverterParameter=15}">
+                            <GridViewColumn Header="{Loc Status_ColumnHeader_}" Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=ListView, AncestorLevel=1}, Path=ActualWidth, Converter={StaticResource ResourceKey=PercentageConverter}, ConverterParameter=16}">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <Grid>   
@@ -76,7 +76,7 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>                                
                             </GridViewColumn>
-                            <GridViewColumn Header="{Loc CreationDate_ColumnHeader_}" Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=ListView, AncestorLevel=1}, Path=ActualWidth, Converter={StaticResource ResourceKey=PercentageConverter}, ConverterParameter=15}">
+                            <GridViewColumn Header="{Loc CreationDate_ColumnHeader_}" Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=ListView, AncestorLevel=1}, Path=ActualWidth, Converter={StaticResource ResourceKey=PercentageConverter}, ConverterParameter=16}">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>                                        
                                         <Label Content="{Binding CreateDate, Converter={StaticResource UtcDateTimeToLocalConverter}}" FontSize="16" HorizontalAlignment="Right" />                                        
@@ -90,7 +90,7 @@
                         <Style TargetType="{x:Type ListBoxItem}">
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=IsSelected}" Value="True">
-                                    <Setter Property="Background" Value="White"/>
+                                    <Setter Property="Background" Value="#89CFF0"/>
                                 </DataTrigger>
                             </Style.Triggers>
                             
@@ -109,10 +109,10 @@
                     </ListView.ItemContainerStyle>
                 </ListView>
                 <Grid DataContext="{Binding SelectedItem,ElementName=JobListBox}">
-                    <Button Content="{Loc ParticipateButton_}" HorizontalAlignment="Right" Margin="0,0,0,6" Name="ParticipateButton" Width="75" Height="23" VerticalAlignment="Bottom" Click="ParticipateButtonClick" />
-                    <Button Content="{Loc RefreshButton_}" Click="RefreshButtonClick" Margin="0,0,0,6" Name="RefreshButton" Height="23" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="75" />
+                    <Button Content="{Loc ParticipateButton_}" HorizontalAlignment="Right" Margin="0,0,2,6" Name="ParticipateButton" Width="75" Height="23" VerticalAlignment="Bottom" Click="ParticipateButtonClick" />
+                    <Button Content="{Loc RefreshButton_}" Click="RefreshButtonClick" Margin="2,0,0,6" Name="RefreshButton" Height="23" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="75" />
                     <Button Content="{Loc DeleteButton_}" Click="DeleteButtonClick" Margin="0,0,81,6" Name="DeleteButton" HorizontalAlignment="Right" Width="75" Height="23" VerticalAlignment="Bottom" />
-                    <Button Content="{Loc NewButton_}" Height="23" HorizontalAlignment="Left" Margin="79,0,0,6" Name="NewButton" VerticalAlignment="Bottom" Width="75" Click="NewButton_Click" />
+                    <Button Content="{Loc NewButton_}" Height="23" HorizontalAlignment="Left" Margin="81,0,0,6" Name="NewButton" VerticalAlignment="Bottom" Width="75" Click="NewButton_Click" />
                     <Button Content="{Loc DisconnectButton_}" Height="23" HorizontalAlignment="Left" Margin="160,0,0,6" Name="DisconnectButton" VerticalAlignment="Bottom" Width="75" Click="DisconnectButton_Click" />                    
                 </Grid>
             </Grid>
