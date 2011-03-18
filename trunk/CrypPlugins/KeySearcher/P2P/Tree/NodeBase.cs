@@ -123,6 +123,19 @@ namespace KeySearcher.P2P.Tree
                 ParentNode.PushToResults(valueKey);
             }
 
+            var parent = (Node)ParentNode;
+            if (parent.leftChild == this)   //we are the left child
+            {
+                if (parent.LeftChildIntegrated)
+                    return;
+                parent.LeftChildIntegrated = true;
+            }
+            else                                //we are the right child
+            {
+                if (parent.RightChildIntegrated)
+                    return;
+                parent.RightChildIntegrated = true;
+            }
 
             //Integration of the Dictionary into the ParentNode
             if(!integrated)
@@ -170,7 +183,6 @@ namespace KeySearcher.P2P.Tree
                 }
                 //Integration of this node was already done
                 integrated = true;
-           
             }//end if
          
         }
