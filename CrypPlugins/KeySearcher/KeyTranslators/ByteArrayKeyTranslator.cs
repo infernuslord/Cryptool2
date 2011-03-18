@@ -116,7 +116,7 @@ namespace KeySearcher.KeyTranslators
             for (int c = 0; c < (kc/2); c++)
                 keya[c] = keya2[c];
 
-            for (int x = 0; x < movementStatus.Length - 1; x++)
+            for (int x = 0; x < movementStatus.Length; x++)
                 SetWildcard(x);
         }
 
@@ -252,7 +252,7 @@ namespace KeySearcher.KeyTranslators
                 if (keyMovements[x] is LinearKeyMovement)
                 {
                     var lkm = keyMovements[x] as LinearKeyMovement;
-                    movStr = string.Format("({0}*{1}+{2})", lkm.A, movStr, lkm.B);
+                    movStr = string.Format("({0}*{1})", lkm.A, movStr);
                 }
                 else if (keyMovements[x] is IntervalKeyMovement)
                 {
