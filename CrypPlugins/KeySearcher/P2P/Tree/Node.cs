@@ -11,6 +11,8 @@ namespace KeySearcher.P2P.Tree
     {
         internal bool LeftChildFinished;
         internal bool RightChildFinished;
+        internal bool LeftChildIntegrated = false;
+        internal bool RightChildIntegrated = false;
 
         internal NodeBase leftChild;
         internal NodeBase rightChild;

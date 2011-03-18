@@ -21,7 +21,7 @@ namespace KeySearcher.P2P.Storage
         private readonly StatusContainer statusContainer;
 
         //VERSIONNUMBER: Important. Set it +1 manually everytime the length of the MemoryStream Changes
-        private const int version = 2;
+        private const int version = 3;
 
         public StorageHelper(KeySearcher keySearcher, StatisticsGenerator statisticsGenerator, StatusContainer statusContainer)
         {
@@ -94,7 +94,6 @@ namespace KeySearcher.P2P.Storage
                 UpdateLeafInDht((Leaf)nodeToUpdate, binaryWriter);
             }
 
-            //return StoreWithStatistic(KeyInDht(nodeToUpdate), memoryStream.ToArray());
             return StoreWithReplicationAndHashAndStatistic(nodeToUpdate.DistributedJobIdentifier, KeyInDht(nodeToUpdate), memoryStream.ToArray(), 3);
         }
 
@@ -176,6 +175,8 @@ namespace KeySearcher.P2P.Storage
         {
             binaryWriter.Write(nodeToUpdate.LeftChildFinished);
             binaryWriter.Write(nodeToUpdate.RightChildFinished);
+            binaryWriter.Write(nodeToUpdate.LeftChildIntegrated);
+            binaryWriter.Write(nodeToUpdate.RightChildIntegrated);
         }
 
         private static void UpdateLeafInDht(Leaf nodeToUpdate, BinaryWriter binaryWriter)
@@ -210,7 +211,11 @@ namespace KeySearcher.P2P.Storage
                 var binaryReader = new BinaryReader(new MemoryStream(nodeBytes));
 
                 //oldVersionFlag will be used to garantee further changes in the Stream
-                var oldVersionFlag = CheckNodeVersion(binaryReader);
+                var oldVersion = CheckNodeVersion(binaryReader);
+                if (oldVersion < 3) //We do not allow packets which are older than version 3, because they caused troubles with the statistics
+                {
+                    throw new InvalidDataException("Version of this packet is too old");
+                }
 
                 // Load results
                 var resultCount = binaryReader.ReadInt32();
@@ -307,6 +312,8 @@ namespace KeySearcher.P2P.Storage
         {
             nodeToUpdate.LeftChildFinished = binaryReader.ReadBoolean() || nodeToUpdate.LeftChildFinished;
             nodeToUpdate.RightChildFinished = binaryReader.ReadBoolean() || nodeToUpdate.RightChildFinished;
+            nodeToUpdate.LeftChildIntegrated = binaryReader.ReadBoolean();
+            nodeToUpdate.RightChildIntegrated = binaryReader.ReadBoolean();
         }
 
         private static void UpdateLeafFromDht(Leaf nodeToUpdate, BinaryReader binaryReader)
