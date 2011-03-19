@@ -73,7 +73,7 @@ namespace KeySearcher.P2P.Tree
             ParentNode.ChildFinished(this);
             ParentNode.UpdateCache();
 
-            // TODO add check, if we retrieved our lock (e.g. by comparing the lock date or the future client identifier
+            // TODO add check, if we retrieved our lock (e.g. by comparing the lock date or the future client identifier)
             var data = StorageHelper.RetrieveWithReplicationAndHashAndStatistic(StorageHelper.KeyInDht(this), DistributedJobIdentifier, 3);
             if (data != null && data.Status == RequestResultType.KeyNotFound)
             {
@@ -107,7 +107,7 @@ namespace KeySearcher.P2P.Tree
                     Result.AddBefore(node, valueKey);
                     if (Result.Count > 10)
                         Result.RemoveLast();
-                    break;
+                    return;
                 }
                 node = node.Next;
             }//end while

@@ -38,18 +38,18 @@ namespace KeySearcher.Helper
             }
         }
 
-        public bool IsBetter(double value, double threshold)
+        public bool IsBetter(double value, double value2)
         {
             if (costFunction.getRelationOperator() == RelationOperator.LargerThen)
             {
-                if (value > threshold)
+                if (value > value2)
                 {
                     return true;
                 }
             }
             else
             {
-                if (value < threshold)
+                if (value < value2)
                 {
                     return true;
                 }
