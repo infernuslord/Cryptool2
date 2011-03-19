@@ -17,6 +17,13 @@ namespace KeySearcher.P2P.UnitTests
     [TestClass]
     public class TreeTest
     {
+        private static readonly string[] users = new[] {"Sven", "Nils", "Simone", "Dennis", "Arno", "Theo", "Christian", "Daniel", "Viktor", "Lorenz", "Christopher"};
+
+        private Random random = new Random();
+        private byte[] currentKeyArray;
+        private List<KeyValuePair<string, double>> topList = new List<KeyValuePair<string, double>>();
+        private KeyQualityHelper keyQualityHelper;
+
         private TestContext testContextInstance;
         public TestContext TestContext
         {
@@ -30,23 +37,45 @@ namespace KeySearcher.P2P.UnitTests
             }
         }
 
-        private Random random = new Random();
+        private string RandomUser()
+        {
+            return users[random.Next(0, users.Length)];
+        }
+
+        private byte[] GetNextKeyArray()
+        {
+            for (int i = 0; i < currentKeyArray.Length; i++)
+            {
+                if (currentKeyArray[i] < 255)
+                {
+                    currentKeyArray[i]++;
+                    break;
+                }
+                else
+                {
+                    currentKeyArray[i] = 0;
+                }
+            }
+            return (byte[])currentKeyArray.Clone();
+        }
 
         private void Init()
         {
             KSP2PManager.wrapper = new RandomP2PWrapper();
-            P2PSettings.Default.PeerName = "test";
 
             var cf = new CostFunction();
             cf.Initialize();
             cf.changeFunctionType(1);
             var cfc = cf.ControlSlave;
             keyQualityHelper = new KeyQualityHelper(cfc);
+            currentKeyArray = new byte[32];
         }
 
-        private List<KeyValuePair<string, double>> TopList = new List<KeyValuePair<string, double>>();
-        private KeyQualityHelper keyQualityHelper;
-
+        /// <summary>
+        /// This unit test method can be used to test the distributed KeySearcher tree (e.g. the statistics and results).
+        /// This is not a deterministic test, because it uses a simulated error prone p2p connection.
+        /// This test can take some minutes, depending on your CPU.
+        /// </summary>
         [TestMethod]
         public void TestTreeRandomly()
         {
@@ -85,7 +114,7 @@ namespace KeySearcher.P2P.UnitTests
                         continue;
                     }
 
-                    var result = GetResults();
+                    var result = GetResults(leaf.From);
 
                     hostid = random.Next(0, 15555);
                     KeyPoolTree.ProcessCurrentPatternCalculationResult(leaf, result, hostid, hostname);
@@ -125,53 +154,77 @@ namespace KeySearcher.P2P.UnitTests
             foreach (var r in rootNode.Result)
             {
                 KeySearcher.ValueKey r1 = r;
-                bool contains = TopList.Any(tl => tl.Value == r1.value && tl.Key == r1.user);
+                bool contains = topList.Any(tl => tl.Value == r1.value && tl.Key == r1.user);
                 Assert.IsTrue(contains);
             }
-
-            TestContext.WriteLine("Everything fine :)");
         }
 
-        private LinkedList<KeySearcher.ValueKey> GetResults()
+        private Dictionary<BigInteger, LinkedList<KeySearcher.ValueKey>> nodeResultCache = new Dictionary<BigInteger, LinkedList<KeySearcher.ValueKey>>();
+        private LinkedList<KeySearcher.ValueKey> GetResults(BigInteger nodeid)
         {
+            if (nodeResultCache.ContainsKey(nodeid))
+                return nodeResultCache[nodeid];
+
             var list = new LinkedList<KeySearcher.ValueKey>();
             for (int c = 0; c < 10; c++)
             {
+                var user = RandomUser();
                 var val = random.NextDouble()*100;
-                list.AddFirst(new KeySearcher.ValueKey()
-                {
-                    decryption = new byte[128],
-                    key = "ABC",
-                    keya = new byte[16],
-                    maschid = 2,
-                    maschname = "Bla", 
-                    time = DateTime.UtcNow, user = "Sven", 
-                    value = val});
-                PushToToplist("Sven", val);
+
+                PushSortedInLinkedList(list, new KeySearcher.ValueKey()
+                                                 {
+                                                     decryption = new byte[128],
+                                                     key = "This string is not important for this unit test",
+                                                     keya = GetNextKeyArray(),
+                                                     maschid = 2,
+                                                     maschname = "This string is not important for this unit test",
+                                                     time = DateTime.UtcNow,
+                                                     user = user,
+                                                     value = val
+                                                 });
+                PushToToplist(user, val);
             }
+            nodeResultCache.Add(nodeid, list);
             return list;
         }
-        
+
+        private void PushSortedInLinkedList(LinkedList<KeySearcher.ValueKey> list, KeySearcher.ValueKey valueKey)
+        {
+            var val = valueKey.value;
+
+            var node = list.First;
+            while (node != null)
+            {
+                if (keyQualityHelper.IsBetter(valueKey.value, node.Value.value))
+                {
+                    list.AddBefore(node, valueKey);
+                    return;
+                }
+                node = node.Next;
+            }//end while
+            list.AddLast(valueKey);
+        }
+
         private void PushToToplist(string user, double val)
         {
             var entry = new KeyValuePair<string, double>(user, val);
             try
             {
-                foreach (var keyValuePair in TopList)
+                foreach (var keyValuePair in topList)
                 {
                     if (keyQualityHelper.IsBetter(val, keyValuePair.Value))
                     {
-                        TopList.Insert(TopList.IndexOf(keyValuePair), entry);
+                        topList.Insert(topList.IndexOf(keyValuePair), entry);
                         return;
                     }
                 }
 
-                TopList.Add(entry);
+                topList.Add(entry);
             }
             finally
             {
-                if (TopList.Count > 10)
-                    TopList.RemoveRange(10, TopList.Count - 10);
+                if (topList.Count > 10)
+                    topList.RemoveRange(10, topList.Count - 10);
             }
         }
     }

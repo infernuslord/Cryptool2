@@ -74,6 +74,8 @@ namespace KeySearcher.P2P.Tree
             rightChild = null;
             LeftChildFinished = false;
             RightChildFinished = false;
+            LeftChildIntegrated = false;
+            RightChildIntegrated = false;
             Result.Clear();
             Activity.Clear();
             UpdateCache();
