@@ -76,6 +76,38 @@ namespace KeySearcher.KeyPattern
             }
         }
 
+        /// <summary>
+        /// Returns the key pattern representation for the merged subkeys from index "from" to index "to".
+        /// </summary>
+        /// <returns></returns>
+        public string GetPatternRangeRepresentation(BigInteger from, BigInteger to)
+        {
+            KeyPattern mergedPattern = new KeyPattern(pattern.GetPattern());
+            mergedPattern.wildcardList = new ArrayList();
+
+            var rangeLength = to - from + 1;
+            for (int i = 0; i < pattern.wildcardList.Count; i++)
+            {
+                //Add all chars of wildcard i from all subpattern in ranche together:
+                HashSet<char> charSet = new HashSet<char>();
+                for (BigInteger c = from; c <= to; c++)
+                {
+                    var wc = (Wildcard) (this[c].wildcardList[i]);
+                    for (int x = 0; x < wc.getLength(); x++)
+                    {
+                        charSet.Add(wc.getChars()[x]);
+                    }
+                }
+
+                //Add merged chars to merged pattern:
+                var mergedChars = new char[charSet.Count];
+                charSet.CopyTo(mergedChars);
+                mergedPattern.wildcardList.Add(new Wildcard(mergedChars, charSet.Count));
+            }
+
+            return mergedPattern.WildcardKey;
+        }
+
 #endregion
 
 #region private

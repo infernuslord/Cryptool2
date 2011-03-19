@@ -28,10 +28,16 @@ namespace KeySearcher.Presentation.Controls
             InitializeComponent();
         }
 
+        private KeyPatternPool _patternPool;
         internal KeyPatternPool PatternPool
         {
-            get; 
-            set;
+            get { return _patternPool; }
+            set 
+            { 
+                _patternPool = value;
+                var nodeBaseToStringConverter = (NodeBaseToStringConverter)FindResource("NodeBaseToStringConverter");
+                nodeBaseToStringConverter.PatternPool = value;
+            }
         }
 
         internal KeyQualityHelper KeyQualityHelper
@@ -153,17 +159,20 @@ namespace KeySearcher.Presentation.Controls
 
     class NodeBaseToStringConverter : IValueConverter
     {
+        public KeyPatternPool PatternPool { set; get; }
+
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value == null)
                 return "No information available...";
 
             var nodebase = (NodeBase)value;
+            var pattern = PatternPool.GetPatternRangeRepresentation(nodebase.From, nodebase.To);
 
-            string res;
+            string res = pattern + "\n";
 
             BigInteger count = nodebase.Activity.SelectMany(re => re.Value).Aggregate<KeyValuePair<long, Information>, BigInteger>(0, (current, re1) => current + re1.Value.Count);
-            res = string.Format("Activity Sum: {0}\n\n", count);
+            res += string.Format("Activity Sum: {0}\n\n", count);
 
             res += "Results:\n";
             foreach (var re in nodebase.Result)
