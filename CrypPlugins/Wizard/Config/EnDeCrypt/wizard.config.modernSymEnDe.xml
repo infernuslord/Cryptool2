@@ -5,42 +5,53 @@
 <category image="Sym">
   
   <name lang="en" >Symmetric Encryption/Decryption</name>
-  <description lang="en" >
-    Select a symmetric modern algorithm to encrypt plaintext or to decrypt ciphertext.
-  </description>
+  <name lang="de" >Symmetrische Verschlüsselung/Entschlüsselung</name>
+  <description lang="en" >Selecting this allows you to encrypt a plaintext or decrypt a ciphertext with a symmetric algorithm. Symmetric algorithms are those, where the same key is used both for encryption and decryption. You can choose which symmetric algorithm you want to use for doing this.</description>
+  <description lang="de-DE" >In dem Sie dies auswählen, können Sie mit Hilfe eines symmetrischen Algorithmus einen Klartext verschlüsseln oder einen chiffrierten Text entschlüsseln. Symmetrische Algorithmen sind solche, bei denen der selbe Schlüssel für die Verschlüsselung und die Entschlüsselung benutzt wird. Der dafür verwendete symmetrische Algorithmus kann von Ihnen ausgewählt werden.</description>
 
   <!-- This is the step's headline. It should be short, but precise. -->
   <headline lang="en" >Algorithm Selection</headline>
+  <headline lang="de">Algorithmusauswahl</headline>
 
   <!-- This is the step's description. -->
   <desc lang="en" >Select a modern symmetric encryption/decryption algorithm.</desc>
+  <desc lang="de" >Wählen Sie einen symmetrischen Verschlüsselungs-/Entschlüsselungsalgorithmus.</desc>
 
   <!-- AES input -->
   <input image="AES" >
     <name lang="en" >AES</name>
     <description lang="en" >The Advanced Encryption Standard (AES) is a symmetric-key encryption standard adopted by the U.S. government. The standard comprises three block ciphers, AES-128, AES-192 and AES-256, adopted from a larger collection originally published as Rijndael.</description>
+    <description lang="de" >Der "Advanced Encryption Standard" (AES) ist ein symmetrischer Verschlüsselungsstandard welcher von der U.S. Regierung eingesetzt wird. Der Standard beinhaltet drei Blockchiffren, AES-128, AES-192 and AES-256, welche einer größeren Kollektion, die ursprünglich als Rijndael veröffentlicht wurde, entnommen sind.</description>
 
     <headline lang="en" >Message Input</headline>
+    <headline lang="de" >Nachrichteneingabe</headline>
     <desc lang="en">Here, you can input the message and the key to use.</desc>
+    <desc lang="de">Hier können Sie die Nachricht und den zu benutzenden Schlüssel eingeben.</desc>
 
     <comboBox plugin="AES" property="Action" alignment="Left" width="20%">
       <description lang="en">Encrypt or Decrypt:</description>
+      <description lang="de">Verschlüsseln oder Entschlüsseln:</description>
       <item lang="en" content="Encrypt"/>
+      <item lang="de" content="Verschlüsseln"/>
       <item lang="en" content="Decrypt"/>
+      <item lang="de" content="Entschlüsseln"/>
     </comboBox>
     
     <inputBox plugin="Message" property="Text" alignment="Right" width="78%" visibleLines="5" group="1">
       <description lang="en">Message to encrypt/decrypt:</description>
+      <description lang="de">Nachricht zum verschlüsseln/entschlüsseln:</description>
       <defaultvalue>Hallo Welt! Hello, world. Hola mundo. Bonjour le monde. Witaj świecie! 1234</defaultvalue>
     </inputBox>
 
     <inputBox plugin="Key" property="Text" alignment="Right" width="20%" visibleLines="5" group="1" regex="[0-9A-F]+">
       <description lang="en">Key:</description>
+      <description lang="de">Schlüssel:</description>
       <defaultvalue>A1B1C11111111111</defaultvalue>
     </inputBox>
 
     <comboBox plugin="AES" property="Mode" defaultValue="0" group="properties">
       <description lang="en">Chaining mode:</description>
+      <description lang="de">Verkettungsmodus:</description>
       <item content="Electronic Code Book (ECB)" lang="en"/>
       <item content="Cipher Block Chaining (CBC)" lang="en"/>
       <item content="Cipher Feedback (CFB)" lang="en"/>
@@ -48,6 +59,7 @@
 
     <comboBox plugin="AES" property="Keysize" defaultValue="0" group="properties">
       <description lang="en">Keysize:</description>
+      <description lang="de">Schlüsselgröße:</description>
       <item content="128 Bits"/>
       <item content="192 Bits"/>
       <item content="256 Bits"/>
@@ -55,17 +67,23 @@
 
     <sampleViewer image="AES" file="WorkspaceManagerSamples\AES_Sample.cwm">
       <name lang="en" >AES Output</name>
+      <name lang="de" >AES-Ausgabe</name>
       <description lang="en" >The Advanced Encryption Standard (AES) is a symmetric-key encryption standard adopted by the U.S. government. The standard comprises three block ciphers, AES-128, AES-192 and AES-256, adopted from a larger collection originally published as Rijndael.</description>
+      <description lang="de" >Der "Advanced Encryption Standard" (AES) ist ein symmetrischer Verschlüsselungsstandard welcher von der U.S. Regierung eingesetzt wird. Der Standard beinhaltet drei Blockchiffren, AES-128, AES-192 and AES-256, welche einer größeren Kollektion, die ursprünglich als Rijndael veröffentlicht wurde, entnommen sind.</description>
 
       <headline lang="en" >AES Output</headline>
-      <desc lang="en">Here, you can alter the text and view the results.</desc>
+      <headline lang="de" >AES-Ausgabe</headline>
+      <desc lang="en">Here, you can change the message and view the results.</desc>
+      <desc lang="de">Hier können Sie die Nachricht verändern und die Ergebnisse sehen.</desc>
 
       <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5">
         <description lang="en">Message to encrypt/decrypt:</description>
+        <description lang="de">Nachricht zum verschlüsseln/entschlüsseln:</description>
       </inputBox>
 
       <outputBox plugin="Result" property="CurrentValue" alignment="Stretch" visibleLines="5">
         <description lang="en">AES Output:</description>
+        <description lang="de">AES-Ausgabe:</description>
       </outputBox>      
     </sampleViewer>
   </input>
@@ -73,29 +91,38 @@
   <!-- DES input -->
   <input image="DES" >
     <name lang="en" >DES</name>
-    <description lang="en" >The Data Encryption Standard (DES) is a block cipher that uses shared secret encryption.</description>
+    <description lang="en" >The Data Encryption Standard (DES) is a symmetric block cipher algorithm. It was selected by the National Bureau of Standards as an official Federal Information Processing Standard (FIPS) for the United States in 1976 and which has subsequently enjoyed widespread use internationally. It is based on a symmetric-key algorithm that uses a 56-bit key.</description>
+    <description lang="de" >Der "Data Encryption Standard" (DES) ist ein symmetrischer Blockchiffre Algorithmus. Er wurde 1976 vom "National Bureau of Standards" als offizieller "Federal Information Processing Standard" (FIPS) für die Vereinigten Staaten ausgewählt und hat daraufhin weitreichende internationale Verbreitung gefunden. Er basiert auf einem symmetrischen Schlüssel Algorithmus welcher 56-Bit Schlüssel benutzt.</description>
 
     <headline lang="en" >Message Input</headline>
+    <headline lang="de" >Nachrichteneingabe</headline>
     <desc lang="en">Here, you can input the message and the key to use.</desc>
+    <desc lang="de">Hier können Sie die Nachricht und den zu benutzenden Schlüssel eingeben.</desc>
 
     <comboBox plugin="DES" property="Action" alignment="Left" width="20%">
       <description lang="en">Encrypt or Decrypt:</description>
+      <description lang="de">Verschlüsseln oder Entschlüsseln:</description>
       <item lang="en" content="Encrypt"/>
+      <item lang="de" content="Verschlüsseln"/>
       <item lang="en" content="Decrypt"/>
+      <item lang="de" content="Entschlüsseln"/>
     </comboBox>
     
     <inputBox plugin="Message" property="Text" alignment="Right" width="78%" visibleLines="5" group="1">
       <description lang="en">Message to encrypt/decrypt:</description>
+      <description lang="de">Nachricht zum verschlüsseln/entschlüsseln:</description>
       <defaultvalue lang="en">Hallo Welt! Hello, world. Hola mundo. Bonjour le monde. Witaj świecie! 1234</defaultvalue>
     </inputBox>
 
     <inputBox plugin="Key" property="Text" alignment="Right" width="20%" visibleLines="5" group="1" regex="[0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F]">
       <description lang="en">Key:</description>
+      <description lang="de">Schlüssel:</description>
       <defaultvalue>A1B1C11111111111</defaultvalue>
     </inputBox>
 
     <comboBox plugin="DES" property="Mode" defaultValue="0" alignment="Left">
       <description lang="en">Chaining mode:</description>
+      <description lang="de">Verkettungsmodus:</description>
       <item content="Electronic Code Book (ECB)" lang="en"/>
       <item content="Cipher Block Chaining (CBC)" lang="en"/>
       <item content="Cipher Feedback (CFB)" lang="en"/>
@@ -103,17 +130,23 @@
 
     <sampleViewer image="DES" file="WorkspaceManagerSamples\DES_Sample.cwm">
       <name lang="en" >DES Output</name>
-      <description lang="en" >The Data Encryption Standard (DES) is a block cipher that uses shared secret encryption.</description>
+      <name lang="de" >DES-Ausgabe</name>
+      <description lang="en" >The Data Encryption Standard (DES) is a symmetric block cipher algorithm. It was selected by the National Bureau of Standards as an official Federal Information Processing Standard (FIPS) for the United States in 1976 and which has subsequently enjoyed widespread use internationally. It is based on a symmetric-key algorithm that uses a 56-bit key.</description>
+      <description lang="de" >Der "Data Encryption Standard" (DES) ist ein symmetrischer Blockchiffre Algorithmus. Er wurde 1976 vom "National Bureau of Standards" als offizieller "Federal Information Processing Standard" (FIPS) für die Vereinigten Staaten ausgewählt und hat daraufhin weitreichende internationale Verbreitung gefunden. Er basiert auf einem symmetrischen Schlüssel Algorithmus welcher 56-Bit Schlüssel benutzt.</description>
 
       <headline lang="en" >DES Output</headline>
-      <desc lang="en">Here, you can alter the text and view the results.</desc>
+      <headline lang="de" >DES-Ausgabe</headline>
+      <desc lang="en">Here, you can change the message and view the results.</desc>
+      <desc lang="de">Hier können Sie die Nachricht verändern und die Ergebnisse sehen.</desc>
 
       <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5">
         <description lang="en">Message to encrypt/decrypt:</description>
+        <description lang="de">Nachricht zum verschlüsseln/entschlüsseln:</description>
       </inputBox>
 
       <outputBox plugin="Result" property="CurrentValue" alignment="Stretch" visibleLines="5">
         <description lang="en">DES Output:</description>
+        <description lang="de">DES-Ausgabe:</description>
       </outputBox>
     </sampleViewer>
   </input>
@@ -121,50 +154,66 @@
   <!-- SDES input -->
   <input image="SDES" >
     <name lang="en" >SDES</name>
-    <description lang="en" >SDES or Simple DES is a simpler form of DES (Data Encryption Standard).</description>
+    <description lang="en" >SDES or Simple DES is a simpler form of DES (Data Encryption Standard) and is mainly used for teaching purposes.</description>
+    <description lang="de" >SDES oder "Simple DES" ist eine einfachere Form von DES (Data Encryption Standard) und wird hauptsächlich für Lehrzwecke verwendet.</description>
 
     <headline lang="en" >Message Input</headline>
+    <headline lang="de" >Nachrichteneingabe</headline>
     <desc lang="en">Here, you can input the message and the key to use.</desc>
+    <desc lang="de">Hier können Sie die Nachricht und den zu benutzenden Schlüssel eingeben.</desc>
 
     <comboBox plugin="SDES" property="Action" alignment="Left" width="20%">
       <description lang="en">Encrypt or Decrypt:</description>
+      <description lang="de">Verschlüsseln oder Entschlüsseln:</description>
       <item lang="en" content="Encrypt"/>
+      <item lang="de" content="Verschlüsseln"/>
       <item lang="en" content="Decrypt"/>
+      <item lang="de" content="Entschlüsseln"/>
     </comboBox>
     
     <inputBox plugin="Message" property="Text" alignment="Right" width="78%" visibleLines="5" group="1">
       <description lang="en">Message to encrypt/decrypt:</description>
+      <description lang="de">Nachricht zum verschlüsseln/entschlüsseln:</description>
       <defaultvalue lang="en">Hallo Welt! Hello, world. Hola mundo. Bonjour le monde. Witaj świecie! 1234</defaultvalue>
     </inputBox>
 
     <inputBox plugin="Key" property="Text" alignment="Right" width="20%" visibleLines="5" group="1" regex="[01][01][01][01][01][01][01][01][01][01]">
       <description lang="en">Key:</description>
+      <description lang="de">Schlüssel:</description>
       <defaultvalue>1010101010</defaultvalue>
     </inputBox>
 
     <comboBox plugin="SDES" property="Mode" defaultValue="1" alignment="Left">
       <description lang="en">Chaining mode:</description>
+      <description lang="de">Verkettungsmodus:</description>
       <item content="Electronic Code Book (ECB)" lang="en"/>
       <item content="Cipher Block Chaining (CBC)" lang="en"/>
     </comboBox>
 
     <sampleViewer image="SDES" file="WorkspaceManagerSamples\SDES_Sample.cwm">
       <name lang="en" >SDES Output</name>
-      <description lang="en" >SDES or Simple DES is a simpler form of DES (Data Encryption Standard).</description>
+      <name lang="de" >SDES-Ausgabe</name>
+      <description lang="en" >SDES or Simple DES is a simpler form of DES (Data Encryption Standard) and is mainly used for teaching purposes.</description>
+      <description lang="de" >SDES oder "Simple DES" ist eine einfachere Form von DES (Data Encryption Standard) und wird hauptsächlich für Lehrzwecke verwendet.</description>
 
       <headline lang="en" >SDES Output</headline>
-      <desc lang="en">Here, you can alter the text and view the results.</desc>
+      <headline lang="de" >SDES-Ausgabe</headline>
+      <desc lang="en">Here, you can change the message and view the results.</desc>
+      <desc lang="de">Hier können Sie die Nachricht verändern und die Ergebnisse sehen.</desc>
 
       <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5">
         <description lang="en">Message to encrypt/decrypt:</description>
+        <description lang="de">Nachricht zum verschlüsseln/entschlüsseln:</description>
       </inputBox>
 
       <presentation plugin="SDES" alignment="Stretch" height="400" >
         <description lang="en">SDES Presentation:</description>
+        <description lang="de">SDES Präsentation:</description>
       </presentation>
 
       <outputBox plugin="Result" property="CurrentValue" alignment="Stretch" visibleLines="5">
         <description lang="en">SDES Output:</description>
+        <description lang="de">SDES-Ausgabe:</description>
       </outputBox>
     </sampleViewer>
   </input>
@@ -173,29 +222,38 @@
   <input image="Twofish" >
     <name lang="en" >Twofish</name>
     <description lang="en" >Twofish is a symmetric key block cipher with a block size of 128 bits and key sizes up to 256 bits.</description>
+    <description lang="de" >Twofish ist ein symmetrischer Schlüssel Blockchiffre mit einer Blockgröße von 128 Bit und Schlüsselgrößen bis zu 256 Bit.</description>
 
     <headline lang="en" >Message Input</headline>
+    <headline lang="de" >Nachrichteneingabe</headline>
     <desc lang="en">Here, you can input the message and the key to use.</desc>
+    <desc lang="de">Hier können Sie die Nachricht und den zu benutzenden Schlüssel eingeben.</desc>
 
     <comboBox plugin="Twofish" property="Action" alignment="Left" width="20%">
       <description lang="en">Encrypt or Decrypt:</description>
+      <description lang="de">Verschlüsseln oder Entschlüsseln:</description>
       <item lang="en" content="Encrypt"/>
+      <item lang="de" content="Verschlüsseln"/>
       <item lang="en" content="Decrypt"/>
+      <item lang="de" content="Entschlüsseln"/>
     </comboBox>
     
     <inputBox plugin="Message" property="Text" alignment="Right" width="78%" visibleLines="5" group="1">
-      <description lang="en">Message to encrypt/decrypt (must be multiple of 16):</description>
+      <description lang="en">Message to encrypt/decrypt (size must be multiple of 16):</description>
+      <description lang="de">Nachricht zum verschlüsseln/entschlüsseln (Größe muss Vielfaches von 16 sein):</description>
       <defaultvalue lang="en">Hello World fill</defaultvalue>
       <defaultvalue lang="de">Hallo Welt, fill</defaultvalue>
     </inputBox>
 
     <inputBox plugin="Key" property="Text" alignment="Right" width="20%" visibleLines="5" group="1" regex="[0-9A-F]+">
       <description lang="en">Key (in Hex):</description>
+      <description lang="de">Schlüssel (in Hex):</description>
       <defaultvalue>A1B1C11111111111</defaultvalue>
     </inputBox>
 
     <comboBox plugin="Twofish" property="KeySize" defaultValue="0" group="input1">
-      <description lang="en">KeySize:</description>
+      <description lang="en">Key size:</description>
+      <description lang="de">Schlüsselgröße:</description>
       <item content="128 Bit"/>
       <item content="192 Bit"/>
       <item content="256 Bit"/>
@@ -203,23 +261,30 @@
 
     <comboBox plugin="Twofish" property="Mode" defaultValue="0" group="input1">
       <description lang="en">Chaining mode:</description>
+      <description lang="de">Verkettungsmodus:</description>
       <item content="Electronic Code Book (ECB)"/>
       <item content="Cipher Block Chaining (CBC)"/>
     </comboBox>
 
     <sampleViewer image="Twofish" file="WorkspaceManagerSamples\Twofish_Sample.cwm">
       <name lang="en" >Twofish Output</name>
+      <name lang="de" >Twofish-Ausgabe</name>
       <description lang="en" >Twofish is a symmetric key block cipher with a block size of 128 bits and key sizes up to 256 bits.</description>
+      <description lang="de" >Twofish ist ein symmetrischer Schlüssel Blockchiffre mit einer Blockgröße von 128 Bit und Schlüsselgrößen bis zu 256 Bit.</description>
 
       <headline lang="en">Twofish Output</headline>
-      <desc lang="en">Here, you can alter the text and view the results.</desc>
+      <headline lang="de">Twofish-Ausgabe</headline>
+      <desc lang="en">Here, you can change the message and view the results.</desc>
+      <desc lang="de">Hier können Sie die Nachricht verändern und die Ergebnisse sehen.</desc>
 
       <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5">
-        <description lang="en">Message to encrypt/decrypt:</description>
+        <description lang="en">Message to encrypt/decrypt (size must be multiple of 16):</description>
+        <description lang="de">Nachricht zum verschlüsseln/entschlüsseln (Größe muss Vielfaches von 16 sein):</description>
       </inputBox>
 
       <outputBox plugin="Result" property="CurrentValue" alignment="Stretch" visibleLines="5">
         <description lang="en">Twofish Output:</description>
+        <description lang="de">Twofish-Ausgabe:</description>
       </outputBox>
     </sampleViewer>
   </input>
@@ -236,23 +301,31 @@
   <input image="TEA" >
     <name lang="en" >TEA</name>
     <description lang="en" >The Tiny Encryption Algorithm (TEA) is a block cipher notable for its simplicity of description and implementation, typically a few lines of code.</description>
+    <description lang="de" >Der "Tiny Encryption Algorithmus" (TEA) ist ein Blockchiffre der durch Einfachheit der Beschreibung und Implementation, typischerweise einige wenige Codezeilen, auffällt.</description>
 
     <headline lang="en" >Message Input</headline>
+    <headline lang="de" >Nachrichteneingabe</headline>
     <desc lang="en">Here, you can input the message and the key to use.</desc>
+    <desc lang="de">Hier können Sie die Nachricht und den zu benutzenden Schlüssel eingeben.</desc>
 
     <comboBox plugin="TEA" property="Action" alignment="Left" width="20%">
       <description lang="en">Encrypt or Decrypt:</description>
+      <description lang="de">Verschlüsseln oder Entschlüsseln:</description>
       <item lang="en" content="Encrypt"/>
+      <item lang="de" content="Verschlüsseln"/>
       <item lang="en" content="Decrypt"/>
+      <item lang="de" content="Entschlüsseln"/>
     </comboBox>
     
     <inputBox plugin="Message" property="Text" alignment="Right" width="78%" visibleLines="5" group="1">
       <description lang="en">Message to encrypt/decrypt:</description>
+      <description lang="de">Nachricht zum verschlüsseln/entschlüsseln:</description>
       <defaultvalue lang="en">Hallo Welt! Hello, world. Hola mundo. Bonjour le monde. Witaj świecie! 1234</defaultvalue>
     </inputBox>
 
     <inputBox plugin="Key" property="Text" alignment="Right" width="20%" visibleLines="5" group="1" regex="[0-9A-F]+">
       <description lang="en">Key:</description>
+      <description lang="de">Schlüssel:</description>
       <defaultvalue>000102030405060708090A0B0C0D0E0F</defaultvalue>
     </inputBox>
 
@@ -265,17 +338,23 @@
 
     <sampleViewer image="Twofish" file="WorkspaceManagerSamples\TEA_Sample.cwm">
       <name lang="en" >Twofish Output</name>
+      <name lang="de" >Twofish-Ausgabe</name>
       <description lang="en" >The Tiny Encryption Algorithm (TEA) is a block cipher notable for its simplicity of description and implementation, typically a few lines of code.</description>
+      <description lang="de" >Der "Tiny Encryption Algorithmus" (TEA) ist ein Blockchiffre der durch Einfachheit der Beschreibung und Implementation, typischerweise einige wenige Codezeilen, auffällt.</description>
 
-      <headline lang="en" >Message Output</headline>
-      <desc lang="en">Here, you can alter the text and view the results.</desc>
+      <headline lang="en" >Twofish Output</headline>
+      <headline lang="de" >Twofish-Ausgabe</headline>
+      <desc lang="en">Here, you can change the message and view the results.</desc>
+      <desc lang="de">Hier können Sie die Nachricht verändern und die Ergebnisse sehen.</desc>
 
       <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5">
         <description lang="en">Message to encrypt/decrypt:</description>
+        <description lang="de">Nachricht zum verschlüsseln/entschlüsseln:</description>
       </inputBox>
 
       <outputBox plugin="Result" property="CurrentValue" alignment="Stretch" visibleLines="5">
-        <description lang="en">Encryption Output:</description>
+        <description lang="en" >Twofish Output</description>
+        <description lang="de" >Twofish-Ausgabe</description>
       </outputBox>
     </sampleViewer>
     
@@ -285,28 +364,37 @@
   <input image="RC2" >
     <name lang="en" >RC2</name>
     <description lang="en" >RC2 is a block cipher designed by Ron Rivest in 1987. "RC" stands for "Ron's Code" or "Rivest Cipher".</description>
+    <description lang="de" >RC2 ist ein Blockchiffre der 1987 von Ron Rivest entworfen wurde. "RC" steht für "Ron's Code" oder "Rivest Cipher".</description>
 
     <headline lang="en" >Message Input</headline>
+    <headline lang="de" >Nachrichteneingabe</headline>
     <desc lang="en">Here, you can input the message and the key to use.</desc>
+    <desc lang="de">Hier können Sie die Nachricht und den zu benutzenden Schlüssel eingeben.</desc>
 
     <comboBox plugin="RC2" property="Action" alignment="Left" width="20%">
       <description lang="en">Encrypt or Decrypt:</description>
+      <description lang="de">Verschlüsseln oder Entschlüsseln:</description>
       <item lang="en" content="Encrypt"/>
+      <item lang="de" content="Verschlüsseln"/>
       <item lang="en" content="Decrypt"/>
+      <item lang="de" content="Entschlüsseln"/>
     </comboBox>
     
     <inputBox plugin="Message" property="Text" alignment="Right" width="78%" visibleLines="5" group="1">
       <description lang="en">Message to encrypt/decrypt:</description>
+      <description lang="de">Nachricht zum verschlüsseln/entschlüsseln:</description>
       <defaultvalue lang="en">Hallo Welt, dies ist ein Test!</defaultvalue>
     </inputBox>
 
     <inputBox plugin="Key" property="Text" alignment="Right" width="20%" visibleLines="5" group="1" regex="[0-9A-F]+">
       <description lang="en">Key:</description>
+      <description lang="de">Schlüssel:</description>
       <defaultvalue lang="en">A1B1C11111111111</defaultvalue>
     </inputBox>
 
     <comboBox plugin="RC2" property="Mode" defaultValue="0" alignment="Left" >
       <description lang="en">Chaining mode:</description>
+      <description lang="de">Verkettungsmodus:</description>
       <item content="Electronic Code Book (ECB)"/>
       <item content="Cipher Block Chaining (CBC)"/>
       <item content="Cipher Feedback (CFB)"/>
@@ -314,17 +402,23 @@
 
     <sampleViewer image="RC2" file="WorkspaceManagerSamples\RC2_Sample.cwm">
       <name lang="en" >RC2 Output</name>
+      <name lang="de" >RC2-Ausgabe</name>
       <description lang="en" >RC2 is a block cipher designed by Ron Rivest in 1987. "RC" stands for "Ron's Code" or "Rivest Cipher".</description>
+      <description lang="de" >RC2 ist ein Blockchiffre der 1987 von Ron Rivest entworfen wurde. "RC" steht für "Ron's Code" oder "Rivest Cipher".</description>
 
-      <headline lang="en">Message Output</headline>
-      <desc lang="en">Here, you can alter the text and view the results.</desc>
+      <headline lang="en">RC2 Output</headline>
+      <headline lang="de">RC2-Ausgabe</headline>
+      <desc lang="en">Here, you can change the message and view the results.</desc>
+      <desc lang="de">Hier können Sie die Nachricht verändern und die Ergebnisse sehen.</desc>
 
       <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5">
         <description lang="en">Message to encrypt/decrypt:</description>
+        <description lang="de">Nachricht zum verschlüsseln/entschlüsseln:</description>
       </inputBox>
 
       <outputBox plugin="Result" property="CurrentValue" alignment="Stretch" visibleLines="5">
         <description lang="en">RC2 Output:</description>
+        <description lang="de">RC2-Ausgabe:</description>
       </outputBox>
     </sampleViewer>
   </input>

@@ -5,13 +5,17 @@
 
 <category image="Indiv">
   <name lang="en" >Individual Procedures</name>
-  <description lang="en" >Select from individual procedures like hash functions, prime number operations, or key exchange.</description>
+  <name lang="de" >Individuelle Verfahren</name>
+  <description lang="en" >Select this to use individual procedures like hash functions or prime number operations.</description>
+  <description lang="de" >Wählen Sie dies um individuelle Verfahren wie Hash Funktionen oder Primzahloperationen zu benutzen.</description>
 
   <!-- This is the step's headline. It should be short, but precise. -->
   <headline lang="en" >Individual Procedure Selection</headline>
+  <headline lang="de" >Individuelles Verfahren Auswahl</headline>
 
   <!-- This is the step's description. -->
   <desc lang="en" >Select an individual procedure.</desc>
+  <desc lang="de" >Wählen Sie ein individuelles Verfahren.</desc>
 
   <!-- Hash Functions Category -->
   <file resource="Wizard.Config.Indiv.wizard.config.hash.xml" />
