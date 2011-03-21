@@ -7,12 +7,15 @@
 
   <name lang="en">Start</name>
   <description lang="en">Main page</description>
+  <description lang="de">Hauptseite</description>
   
   <!-- This is the step's headline. It should be short, but precise. -->
-  <headline lang="en" >Task Selection</headline>
+  <headline lang="en">Task Selection</headline>
+  <headline lang="de">Aufgabenauswahl</headline>
 
   <!-- This is the step's description. -->
-  <desc lang="en" >Select a task.</desc>
+  <desc lang="en" >Please select the kind of task you want to fulfill.</desc>
+  <desc lang="de" >Bitte wählen Sie die Art der Aufgabe, die Sie vollführen wollen.</desc>
   
   <!-- Encryption/Decryption Category -->  
   <file resource="Wizard.Config.EnDeCrypt.wizard.config.enDe.xml" />

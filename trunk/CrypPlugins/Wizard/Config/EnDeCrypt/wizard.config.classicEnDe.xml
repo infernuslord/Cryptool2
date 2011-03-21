@@ -6,53 +6,71 @@
 <category image="Classic">
   <name lang="en" >Classic Encryption/Decryption</name>
   <name lang="de-DE" >Klassische Verschlüsselung/Entschlüsselung</name>
-  <description lang="en" >Select a classic algorithm to encrypt plaintext or to decrypt ciphertext.</description>
-  <description lang="de-DE" >Wählen Sie einen klassischen Algorithmus, um Klartext zu verschlüsseln oder chiffrierten Text zu entschlüsseln.</description>
+  <description lang="en" >Selecting this allows you to encrypt a plaintext or decrypt a ciphertext with a classic algorithm. You can choose which classic algorithm you want to use for doing this.</description>
+  <description lang="de-DE" >In dem Sie dies auswählen, können Sie mit Hilfe eines klassischen Algorithmus einen Klartext verschlüsseln oder einen chiffrierten Text entschlüsseln. Der dafür verwendete klassische Algorithmus kann von Ihnen ausgewählt werden.</description>
   
   <!-- This is the step's headline. It should be short, but precise. -->
-  <headline lang="en" >Algorithm Selection</headline>
+  <headline lang="en">Algorithm Selection</headline>
+  <headline lang="de">Algorithmusauswahl</headline>
 
   <!-- This is the step's description. -->
   <desc lang="en" >Select a classic encryption/decryption algorithm.</desc>
+  <desc lang="de" >Wählen Sie einen klassischen Verschlüsselungs-/Entschlüsselungsalgorithmus.</desc>
 
   <!-- Caesar input -->
   <input image="Caesar">
     <name lang="en" >Caesar</name>
-    <description lang="en" >This encryption algorithm already used by the Roman general and dictator Caesar substitutes single letters: The substitution rule is that the letters of the cleartext alphabet are shifted by a special value (key).</description>
+    <description lang="en" >This encryption algorithm, already used by the Roman general and dictator Caesar, substitutes single letters: The substitution rule is that the letters of the cleartext alphabet are shifted by a special value (key).</description>
+    <description lang="de" >Dieser Verschlüsselungsalgorithmus, der schon vom römischen General und Diktator Caesar benutzt wurde, substituiert einzelne Buchstaben: Die Substitutionsregel ist, dass die Buchstaben des Klartext um einen bestimmen Wert (den Schlüssel) verschoben werden.</description>
 
     <headline lang="en" >Message Input</headline>
+    <headline lang="de" >Nachrichteneingabe</headline>
     <desc lang="en">Here, you can input the message and the key to use.</desc>
+    <desc lang="de">Hier können Sie die Nachricht und den zu benutzenden Schlüssel eingeben.</desc>
 
     <comboBox plugin="Caesar" property="Action" alignment="Left" width="20%">
       <description lang="en">Encrypt or Decrypt:</description>
+      <description lang="de">Verschlüsseln oder Entschlüsseln:</description>
       <item lang="en" content="Encrypt"/>
+      <item lang="de" content="Verschlüsseln"/>
       <item lang="en" content="Decrypt"/>
+      <item lang="de" content="Entschlüsseln"/>
     </comboBox>
 
     <inputBox plugin="Message" property="Text" alignment="Right" width="80%" visibleLines="5" group="input1">
-      <description lang="en">Message to encrypt:</description>
+      <description lang="en">Message to encrypt/decrypt:</description>
+      <description lang="de">Nachricht zum verschlüsseln/entschlüsseln:</description>
       <defaultvalue lang="en">Input your message here.</defaultvalue>
+      <defaultvalue lang="de">Geben Sie Ihre Nachricht hier ein.</defaultvalue>
     </inputBox>
 
     <inputBox plugin="Caesar" property="ShiftChar" alignment="Left" width="5%" visibleLines="1" group="input1" regex="[A-Za-z]">
       <description lang="en">Key (a single letter):</description>
+      <description lang="de">Schlüssel (ein einzelner Buchstabe):</description>
       <defaultvalue>F</defaultvalue>
     </inputBox>
     
     <sampleViewer image="Caesar" file="WorkspaceManagerSamples\Caesar_Sample.cwm">
       <name lang="en" >Caesar Output</name>
-      <description lang="en" >This encryption algorithm already used by the Roman general and dictator Caesar substitutes single letters: The substitution rule is that the letters of the cleartext alphabet are shifted by a special value (key).</description>
+      <name lang="de" >Caesar-Ausgabe</name>
+      <description lang="en" >This encryption algorithm, already used by the Roman general and dictator Caesar, substitutes single letters: The substitution rule is that the letters of the cleartext alphabet are shifted by a special value (key).</description>
+      <description lang="de" >Dieser Verschlüsselungsalgorithmus, der schon vom römischen General und Diktator Caesar benutzt wurde, substituiert einzelne Buchstaben: Die Substitutionsregel ist, dass die Buchstaben des Klartext um einen bestimmen Wert (den Schlüssel) verschoben werden.</description>
 
       <headline lang="en" >Caesar Output</headline>
+      <headline lang="de" >Caesar-Ausgabe</headline>
       <desc lang="en">Here, you can change the parameters and view the results.</desc>
+      <desc lang="de">Hier können Sie Parameter verändern und die Ergebnisse sehen.</desc>
 
       <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5">
-        <description lang="en">Message to encrypt:</description>
+        <description lang="en">Message to encrypt/decrypt:</description>
+        <description lang="de">Nachricht zum verschlüsseln/entschlüsseln:</description>
         <defaultvalue lang="en">Input your message here.</defaultvalue>
+        <defaultvalue lang="de">Geben Sie Ihre Nachricht hier ein.</defaultvalue>
       </inputBox>
 
       <outputBox plugin="Result" property="CurrentValue" alignment="Stretch" visibleLines="5">
         <description lang="en">Caesar Output:</description>
+        <description lang="de">Caesar-Ausgabe:</description>
       </outputBox>
 
     </sampleViewer>
@@ -63,40 +81,54 @@
   <input image="Vigenere">
     <name lang="en" >Vigenère</name>
     <description lang="en" >The Vigenère cipher is a method of encrypting alphabetic text by using a series of different Caesar ciphers based on the letters of a keyword. It is a simple form of polyalphabetic substitution.</description>
+    <description lang="de" >Die Vigenère Chiffrierung ist eine Methode um alphabetischen Text zu verschlüsseln indem eine Serie von verschiedenen Caesar Chiffrierungen, basierend auf den Buchstaben eines Schlüsselworts, verwendet werden. Dies ist eine simple Form der polyalphabetischen Substitution.</description>
 
     <headline lang="en" >Message Input</headline>
+    <headline lang="de" >Nachrichteneingabe</headline>
     <desc lang="en">Here, you can input the message and the key to use.</desc>
+    <desc lang="de">Hier können Sie die Nachricht und den zu benutzenden Schlüssel eingeben.</desc>
 
     <comboBox plugin="Vigenere" property="Action" alignment="Left" width="20%">
       <description lang="en">Encrypt or Decrypt:</description>
+      <description lang="de">Verschlüsseln oder Entschlüsseln:</description>
       <item lang="en" content="Encrypt"/>
+      <item lang="de" content="Verschlüsseln"/>
       <item lang="en" content="Decrypt"/>
+      <item lang="de" content="Entschlüsseln"/>
     </comboBox>
 
     <inputBox plugin="Message" property="Text" alignment="Right" width="78%" visibleLines="5" group="1">
-      <description lang="en">Message to encrypt:</description>
+      <description lang="en">Message to encrypt/decrypt:</description>
+      <description lang="de">Nachricht zum verschlüsseln/entschlüsseln:</description>
       <defaultvalue>Hello world! Hallo Welt! Hola mundo! Bonjour le monde!</defaultvalue>
     </inputBox>
 
     <inputBox plugin="Key" property="Text" alignment="Right" width="20%" visibleLines="5" group="1">
       <description lang="en">Key:</description>
+      <description lang="de">Schlüssel:</description>
       <defaultvalue lang="en">TURING</defaultvalue>
     </inputBox>
     
     <sampleViewer image="Vigenere" file="WorkspaceManagerSamples\Vigenere_Sample.cwm">
       <name lang="en" >Vigenère Output</name>
+      <name lang="de" >Vigenère-Ausgabe</name>
       <description lang="en" >The Vigenère cipher is a method of encrypting alphabetic text by using a series of different Caesar ciphers based on the letters of a keyword. It is a simple form of polyalphabetic substitution.</description>
+      <description lang="de" >Die Vigenère Chiffrierung ist eine Methode um alphabetischen Text zu verschlüsseln indem eine Serie von verschiedenen Caesar Chiffrierungen, basierend auf den Buchstaben eines Schlüsselworts, verwendet werden. Dies ist eine simple Form der polyalphabetischen Substitution.</description>
 
       <headline lang="en" >Vigenère Output</headline>
+      <headline lang="de" >Vigenère-Ausgabe</headline>
       <desc lang="en">Here, you can change the parameters and view the results.</desc>
+      <desc lang="de">Hier können Sie Parameter verändern und die Ergebnisse sehen.</desc>
 
       <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5" >
-        <description lang="en">Message to encrypt:</description>
+        <description lang="en">Message to encrypt/decrypt:</description>
+        <description lang="de">Nachricht zum verschlüsseln/entschlüsseln:</description>
         <defaultvalue>Hello world! Hallo Welt! Hola mundo! Bonjour le monde!</defaultvalue>
       </inputBox>
 
       <outputBox plugin="Result" property="CurrentValue" alignment="Stretch" visibleLines="5">
         <description lang="en">Vigenère Output:</description>
+        <description lang="de">Vigenère-Ausgabe:</description>
       </outputBox>
     
     </sampleViewer>
@@ -106,40 +138,54 @@
   <input image="Substitution">
     <name lang="en" >Substitution</name>
     <description lang="en" >A substitution cipher is a method of encryption by which units of plaintext are replaced with ciphertext according to a regular system; the "units" may be single letters (the most common), pairs of letters, triplets of letters, mixtures of the above, and so forth. The receiver deciphers the text by performing an inverse substitution.</description>
+    <description lang="de" >Eine Substitutionschiffrierung is eine Verschlüsselungsmethode bei der Einheiten des Klartext mit chiffrierten Text ersetzt wird, basierend auf einem regulären System; Die "Einheiten" können einzelne Buchstaben sein (am üblichsten), Paare von Buchstaben, Tripel von Buchstaben, Mixturen des oben genannten und so weiter. Der Empfänger entschlüsselt den Text indem er eine inverse Substitution anwendet.</description>
 
     <headline lang="en" >Message Input</headline>
+    <headline lang="de" >Nachrichteneingabe</headline>
     <desc lang="en">Here, you can input the message and the key to use.</desc>
+    <desc lang="de">Hier können Sie die Nachricht und den zu benutzenden Schlüssel eingeben.</desc>
 
     <comboBox plugin="Substitution" property="Action" alignment="Left" width="20%">
       <description lang="en">Encrypt or Decrypt:</description>
+      <description lang="de">Verschlüsseln oder Entschlüsseln:</description>
       <item lang="en" content="Encrypt"/>
+      <item lang="de" content="Verschlüsseln"/>
       <item lang="en" content="Decrypt"/>
+      <item lang="de" content="Entschlüsseln"/>
     </comboBox>
 
     <inputBox plugin="Message" property="Text" alignment="Right" width="78%" visibleLines="5" group="1">
-      <description lang="en">Message to encrypt:</description>
+      <description lang="en">Message to encrypt/decrypt:</description>
+      <description lang="de">Nachricht zum verschlüsseln/entschlüsseln:</description>
       <defaultvalue lang="en">A substitution cipher is a method of encryption by which units of plaintext are replaced with ciphertext according to a regular system; the "units" may be single letters (the most common), pairs of letters, triplets of letters, mixtures of the above, and so forth. The receiver deciphers the text by performing an inverse substitution.</defaultvalue>
     </inputBox>
 
     <inputBox plugin="Key" property="Text" alignment="Right" width="20%" visibleLines="5" group="1">
       <description lang="en">Key:</description>
+      <description lang="de">Schlüssel:</description>
       <defaultvalue lang="en">CRYPTO</defaultvalue>
     </inputBox>
     
     <sampleViewer image="Substitution" file="WorkspaceManagerSamples\Substitution_Sample.cwm">
       <name lang="en" >Substitution Output</name>
+      <name lang="de" >Substitution-Ausgabe</name>
       <description lang="en" >A substitution cipher is a method of encryption by which units of plaintext are replaced with ciphertext according to a regular system; the "units" may be single letters (the most common), pairs of letters, triplets of letters, mixtures of the above, and so forth. The receiver deciphers the text by performing an inverse substitution.</description>
+      <description lang="de" >Eine Substitutionschiffrierung is eine Verschlüsselungsmethode bei der Einheiten des Klartext mit chiffrierten Text ersetzt wird, basierend auf einem regulären System; Die "Einheiten" können einzelne Buchstaben sein (am üblichsten), Paare von Buchstaben, Tripel von Buchstaben, Mixturen des oben genannten und so weiter. Der Empfänger entschlüsselt den Text indem er eine inverse Substitution anwendet.</description>
 
       <headline lang="en" >Substitution Output</headline>
+      <headline lang="de" >Substitution-Ausgabe</headline>
       <desc lang="en">Here, you can change the parameters and view the results.</desc>
+      <desc lang="de">Hier können Sie Parameter verändern und die Ergebnisse sehen.</desc>
 
       <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5">
-        <description lang="en">Message to encrypt:</description>
+        <description lang="en">Message to encrypt/decrypt:</description>
+        <description lang="de">Nachricht zum verschlüsseln/entschlüsseln:</description>
         <defaultvalue lang="en">Hello world! Hallo Welt! Hola mundo! Bonjour le monde!</defaultvalue>
       </inputBox>
 
       <outputBox plugin="Result" property="CurrentValue" alignment="Stretch" visibleLines="5">
         <description lang="en">Substitution Output:</description>
+        <description lang="de">Substitution-Ausgabe:</description>
       </outputBox>
 
     </sampleViewer>
@@ -148,13 +194,21 @@
   <!-- Enigma input -->
   <input image="Enigma">
     <name lang="en" >Enigma</name>
-    <description lang="en" >An Enigma machine is any of a family of related electro-mechanical rotor machines used for the encryption and decryption of secret messages.</description>
+    <description lang="en" >An Enigma machine is any of a family of related electro-mechanical rotor machines used for the encryption and decryption of secret messages.
+The first Enigma was invented by German engineer Arthur Scherbius at the end of World War I. This model and its variants were used commercially from the early 1920s, and adopted by military and government services of several countries — most notably by Nazi Germany before and during World War II.
+    </description>
+    <description lang="de" >Eine Enigmamaschine ist eine aus der Familie von verwandten elektromechanischen Rotormaschinen, die für die Ver- und Entschlüsselung geheimer Nachrichten benutzt wird.
+Die erste Enigma wurde von dem deutschen Ingenieur Arthur Scherbius am Ende des ersten Weltkriegs entwickelt. Dieses Modell und seine Varianten wurden kommerziell seit den frühren 1920igern benutzt und vom Militär und Regierungsservice verschiedener Länder übernommen - am meisten von Nazi-Deutschland vor und während des zweiten Weltkriegs.
+    </description>
 
     <headline lang="en" >Message Input</headline>
-    <desc lang="en">Here, you can input the message to use.</desc>
+    <headline lang="de" >Nachrichteneingabe</headline>
+    <desc lang="en">Here, you can input the message and the key to use.</desc>
+    <desc lang="de">Hier können Sie die Nachricht und den zu benutzenden Schlüssel eingeben.</desc>
 
     <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5" >
-      <description lang="en">Message to encrypt:</description>
+      <description lang="en">Message to encrypt/decrypt:</description>
+      <description lang="de">Nachricht zum verschlüsseln/entschlüsseln:</description>
       <defaultvalue lang="de">Wir wurden entdeckt, sofortiger Rückzug!</defaultvalue>
     </inputBox>
 
@@ -166,39 +220,51 @@
   <input image="Playfair">
     <name lang="en" >Playfair</name>
     <description lang="en" >The Playfair cipher or Playfair square is a manual symmetric encryption technique and was the first literal digraph substitution cipher.</description>
+    <description lang="de" >Die Playfair-Chiffrierung oder das Playfair-Quadrat ist eine manuelle symmetrische Verschlüsselungstechnik und war die erste bigraphische Substitutionsverschlüsselung.</description>
 
     <headline lang="en" >Message Input</headline>
-    <desc lang="en" >Please input key and cleartext.</desc>
+    <headline lang="de" >Nachrichteneingabe</headline>
+    <desc lang="en">Here, you can input the message and the key to use.</desc>
+    <desc lang="de">Hier können Sie die Nachricht und den zu benutzenden Schlüssel eingeben.</desc>
 
     <comboBox plugin="Playfair" property="Action" alignment="Left" width="20%">
       <description lang="en">Encrypt or Decrypt:</description>
+      <description lang="de">Verschlüsseln oder Entschlüsseln:</description>
       <item lang="en" content="Encrypt"/>
+      <item lang="de" content="Verschlüsseln"/>
       <item lang="en" content="Decrypt"/>
+      <item lang="de" content="Entschlüsseln"/>
     </comboBox>
 
     <inputBox plugin="Message" property="Text" alignment="Right" width="70%" visibleLines="5" group="InputGroup">
-      <description lang="en">Message:</description>
-      <defaultvalue lang="en">This is a test!</defaultvalue>
+      <description lang="en">Message to encrypt/decrypt:</description>
+      <description lang="de">Nachricht zum verschlüsseln/entschlüsseln:</description>
     </inputBox>
 
     <inputBox plugin="Playfair" property="Key" alignment="Left" width="30%" visibleLines="1" group="InputGroup">
       <description lang="en">Key:</description>
+      <description lang="de">Schlüssel:</description>
       <defaultvalue>BCD</defaultvalue>
     </inputBox>
 
     <sampleViewer image="Playfair" file="WorkspaceManagerSamples\Playfair_Sample.cwm">
       <name lang="en" >Playfair Output</name>
+      <name lang="de" >Playfair-Ausgabe</name>
       
       <headline lang="en" >Playfair Output</headline>
+      <headline lang="de" >Playfair-Ausgabe</headline>
       <desc lang="en">Here, you can change the parameters and view the results.</desc>
+      <desc lang="de">Hier können Sie Parameter verändern und die Ergebnisse sehen.</desc>
 
       <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5" >
-        <description lang="en">Message:</description>
+        <description lang="en">Message to encrypt/decrypt:</description>
+        <description lang="de">Nachricht zum verschlüsseln/entschlüsseln:</description>
         <defaultvalue lang="en">This is a test!</defaultvalue>
       </inputBox>
 
       <outputBox plugin="Result" property="CurrentValue" alignment="Stretch" visibleLines="5">
         <description lang="en">Playfair Output:</description>
+        <description lang="de">Playfair-Ausgabe:</description>
       </outputBox>
     
     </sampleViewer>
@@ -208,18 +274,25 @@
   <input image="ADFGVX">
     <name lang="en" >ADFGVX</name>
     <description lang="en" >The ADFGVX cipher was a field cipher used by the German Army during World War I. It was a fractionating transposition cipher which combined a modified Polybius square with a single columnar transposition. The cipher is named after the six possible letters used in the ciphertext: A, D, F, G, V and X.</description>
+    <description lang="de" >Die ADFGVX Chiffrierung war eine Feldchiffrierung die von der deutschen Armee während des ersten Weltkriegs benutzt wurde. Es war eine Transpositionschiffrierung die ein modifiziertes Polybios-Quadrat mit einer einzelnen Spaltentransposition kombinierte. Die Chiffrierung wurde nach den sechs möglichen Buchstaben des chiffrierten Text benannt: A, D, F, G, V und X.</description>
 
     <headline lang="en" >Message Input</headline>
-    <desc lang="en">Here, you can input the message, the alphabet and the transposition password to use.</desc>
+    <headline lang="de" >Nachrichteneingabe</headline>
+    <desc lang="en">Here, you can input the message and the key to use.</desc>
+    <desc lang="de">Hier können Sie die Nachricht und den zu benutzenden Schlüssel eingeben.</desc>
 
     <comboBox plugin="ADFGVX" property="Action" alignment="Left" width="20%">
       <description lang="en">Encrypt or Decrypt:</description>
+      <description lang="de">Verschlüsseln oder Entschlüsseln:</description>
       <item lang="en" content="Encrypt"/>
+      <item lang="de" content="Verschlüsseln"/>
       <item lang="en" content="Decrypt"/>
+      <item lang="de" content="Entschlüsseln"/>
     </comboBox>
 
     <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5">
-      <description lang="en">Message:</description>
+      <description lang="en">Message to encrypt/decrypt:</description>
+      <description lang="de">Nachricht zum verschlüsseln/entschlüsseln:</description>
       <defaultvalue>ABCDCVX</defaultvalue>
     </inputBox>
 
@@ -230,22 +303,29 @@
 
     <inputBox plugin="TranspositionPassword" property="Text" alignment="Stretch" visibleLines="1">
       <description lang="en">Transposition Password:</description>
+      <description lang="de">Transpositionspasswort:</description>
       <defaultvalue>TranspositionPassword</defaultvalue>
     </inputBox>
 
     <sampleViewer image="ADFGVX" file="WorkspaceManagerSamples\XOR_Sample.cwm">
       <name lang="en" >ADFGVX Output</name>
-      <description lang="en" >XOR is a boolean operator which can be used to encrypt plaintext.</description>
+      <name lang="de" >ADFGVX-Ausgabe</name>
+      <description lang="en" >The ADFGVX cipher was a field cipher used by the German Army during World War I. It was a fractionating transposition cipher which combined a modified Polybius square with a single columnar transposition. The cipher is named after the six possible letters used in the ciphertext: A, D, F, G, V and X.</description>
+      <description lang="de" >Die ADFGVX Chiffrierung war eine Feldchiffrierung die von der deutschen Armee während des ersten Weltkriegs benutzt wurde. Es war eine Transpositionschiffrierung die ein modifiziertes Polybios-Quadrat mit einer einzelnen Spaltentransposition kombinierte. Die Chiffrierung wurde nach den sechs möglichen Buchstaben des chiffrierten Text benannt: A, D, F, G, V und X.</description>
 
       <headline lang="en" >ADFGVX Output</headline>
+      <headline lang="de" >ADFGVX-Ausgabe</headline>
       <desc lang="en">Here, you can change the parameters and view the results.</desc>
+      <desc lang="de">Hier können Sie Parameter verändern und die Ergebnisse sehen.</desc>
 
       <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5" >
-        <description lang="en">Message:</description>
+        <description lang="en">Message to encrypt/decrypt:</description>
+        <description lang="de">Nachricht zum verschlüsseln/entschlüsseln:</description>
       </inputBox>
 
       <outputBox plugin="Result" property="CurrentValue" alignment="Stretch" visibleLines="5">
         <description lang="en">ADFGVX Output:</description>
+        <description lang="de">ADFGVX-Ausgabe:</description>
       </outputBox>
 
     </sampleViewer>
@@ -254,41 +334,46 @@
   <!-- XOR input -->
   <input image="XOR">
     <name lang="en" >XOR</name>
-    <description lang="en" >XOR is a boolean operator which can be used to encrypt plaintext.</description>
+    <description lang="en">XOR is a boolean operator which can be used to encrypt plaintext. Every character of the plaintext will be linked with a character of the given key by the XOR operator. If the key is as long as the plaintext, this becomes a "One-Time-Pad".</description>
+    <description lang="de">XOR ist ein boolischer Operator der zum verschlüsseln von Klartext benutzt werden kann. Jedes Zeichen des Klartext wird mit einem Zeichen des gegebenen Schlüssels mit XOR verknüpft. Falls der Schlüssel so lang wie der Klartext sein sollt, ist dies ein "One-Time-Pad".</description>
 
     <headline lang="en" >Message Input</headline>
+    <headline lang="de" >Nachrichteneingabe</headline>
     <desc lang="en">Here, you can input the message and the key to use.</desc>
-
-    <comboBox plugin="XOR" property="Action" alignment="Left" width="20%">
-      <description lang="en">Encrypt or Decrypt:</description>
-      <item lang="en" content="Encrypt"/>
-      <item lang="en" content="Decrypt"/>
-    </comboBox>
+    <desc lang="de">Hier können Sie die Nachricht und den zu benutzenden Schlüssel eingeben.</desc>
 
     <inputBox plugin="Message" property="Text" alignment="Strecht" width="49%" visibleLines="5" group="InputGroup">
-      <description lang="en">Message:</description>
+      <description lang="en">Message to encrypt/decrypt:</description>
+      <description lang="de">Nachricht zum verschlüsseln/entschlüsseln:</description>
       <defaultvalue>ABCDCVX</defaultvalue>
     </inputBox>
 
     <inputBox plugin="Key" property="Text" alignment="Strecht" width="49%" visibleLines="5" group="InputGroup">
       <description lang="en">Key:</description>
+      <description lang="de">Schlüssel:</description>
       <defaultvalue>d</defaultvalue>
     </inputBox>
     
     <sampleViewer image="XOR" file="WorkspaceManagerSamples\XOR_Sample.cwm">
       <name lang="en" >XOR Output</name>
-      <description lang="en" >XOR is a boolean operator which can be used to encrypt plaintext.</description>
+      <name lang="de" >XOR-Ausgabe</name>
+      <description lang="en">XOR is a boolean operator which can be used to encrypt plaintext. Every character of the plaintext will be linked with a character of the given key by the XOR operator. If the key is as long as the plaintext, this becomes a "One-Time-Pad".</description>
+      <description lang="de">XOR ist ein boolischer Operator der zum verschlüsseln von Klartext benutzt werden kann. Jedes Zeichen des Klartext wird mit einem Zeichen des gegebenen Schlüssels mit XOR verknüpft. Falls der Schlüssel so lang wie der Klartext sein sollt, ist dies ein "One-Time-Pad".</description>
 
       <headline lang="en" >XOR Output</headline>
+      <headline lang="de" >XOR-Ausgabe</headline>
       <desc lang="en">Here, you can change the parameters and view the results.</desc>
+      <desc lang="de">Hier können Sie Parameter verändern und die Ergebnisse sehen.</desc>
 
       <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5" >
-        <description lang="en">Message:</description>
+        <description lang="en">Message to encrypt/decrypt:</description>
+        <description lang="de">Nachricht zum verschlüsseln/entschlüsseln:</description>
         <defaultvalue lang="en">ABCDCVX</defaultvalue>
       </inputBox>
 
       <outputBox plugin="Result" property="CurrentValue" alignment="Stretch" visibleLines="5">
         <description lang="en">XOR Output:</description>
+        <description lang="de">XOR-Ausgabe:</description>
       </outputBox>
     
     </sampleViewer>
@@ -298,40 +383,54 @@
   <input image="Vernam">
     <name lang="en" >Vernam</name>
     <description lang="en" >A Vernam cipher is a symmetrical stream cipher in which the plaintext is XORed with a random or pseudorandom stream of data (the "keystream") of the same length to generate the ciphertext.</description>
+    <description lang="de" >Eine Vernam-Chiffrierung ist eine symmetrische Stromchiffre in welcher der Klartext mit einem zufälligen oder pseudozufälligen Datenstrom (den "Schlüsselstrom") der selben Länge geXORed wird um den chiffrierten Text zu generieren.</description>
 
     <headline lang="en" >Message Input</headline>
+    <headline lang="de" >Nachrichteneingabe</headline>
     <desc lang="en">Here, you can input the message and the key to use.</desc>
+    <desc lang="de">Hier können Sie die Nachricht und den zu benutzenden Schlüssel eingeben.</desc>
 
     <comboBox plugin="Vernam" property="Action" alignment="Left" width="20%">
       <description lang="en">Encrypt or Decrypt:</description>
+      <description lang="de">Verschlüsseln oder Entschlüsseln:</description>
       <item lang="en" content="Encrypt"/>
+      <item lang="de" content="Verschlüsseln"/>
       <item lang="en" content="Decrypt"/>
+      <item lang="de" content="Entschlüsseln"/>
     </comboBox>
 
     <inputBox plugin="Message" property="Text" alignment="Strecht" width="49%" visibleLines="5" group="InputGroup">
-      <description lang="en">Message:</description>
+      <description lang="en">Message to encrypt/decrypt:</description>
+      <description lang="de">Nachricht zum verschlüsseln/entschlüsseln:</description>
       <defaultvalue>Hello world! Hallo Welt! Hola mundo! Bonjour le monde!</defaultvalue>
     </inputBox>
 
     <inputBox plugin="Key" property="Text" alignment="Stretch" width="49%" visibleLines="5" group="InputGroup">
       <description lang="en">Key:</description>
+      <description lang="de">Schlüssel:</description>
       <defaultvalue>ab</defaultvalue>
     </inputBox>
     
     <sampleViewer image="Vernam" file="WorkspaceManagerSamples\Vernam_Sample.cwm">
       <name lang="en" >Vernam Output</name>
+      <name lang="de" >Vernam-Ausgabe</name>
       <description lang="en" >A Vernam cipher is a symmetrical stream cipher in which the plaintext is XORed with a random or pseudorandom stream of data (the "keystream") of the same length to generate the ciphertext.</description>
+      <description lang="de" >Eine Vernam-Chiffrierung ist eine symmetrische Stromchiffre in welcher der Klartext mit einem zufälligen oder pseudozufälligen Datenstrom (den "Schlüsselstrom") der selben Länge geXORed wird um den chiffrierten Text zu generieren.</description>
 
       <headline lang="en" >Vernam Output</headline>
+      <headline lang="de" >Vernam-Ausgabe</headline>
       <desc lang="en">Here, you can change the parameters and view the results.</desc>
+      <desc lang="de">Hier können Sie Parameter verändern und die Ergebnisse sehen.</desc>
 
       <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5" >
-        <description lang="en">Message:</description>
+        <description lang="en">Message to encrypt/decrypt:</description>
+        <description lang="de">Nachricht zum verschlüsseln/entschlüsseln:</description>
         <defaultvalue lang="en">Hello world! Hallo Welt! Hola mundo! Bonjour le monde!</defaultvalue>
       </inputBox>
 
       <outputBox plugin="Result" property="CurrentValue" alignment="Stretch" visibleLines="5">
         <description lang="en">Vernam Output:</description>
+        <description lang="en">Vernam-Ausgabe:</description>
       </outputBox>
 
     </sampleViewer>
@@ -341,44 +440,59 @@
   <input image="Transposition">
     <name lang="en">Transposition</name>
     <description lang="en" >A transposition cipher is a method of encryption by which the positions held by units of plaintext (which are commonly characters or groups of characters) are shifted according to a regular system, so that the ciphertext constitutes a permutation of the plaintext.</description>
+    <description lang="de" >Eine Transpositions-Chiffrierung is eine Verschlüsselungsmethode bei der die Positionen, die von den Einheiten des Klartext (meistens einzelne Buchstaben oder Gruppen von Buchstaben) eingenommen werden, basierend auf einem regulären System verschoben werden, so dass der chiffrierte Text eine Permutation des Klartext darstellt.</description>
 
     <headline lang="en" >Message Input</headline>
+    <headline lang="de" >Nachrichteneingabe</headline>
     <desc lang="en">Here, you can input the message and the key to use.</desc>
+    <desc lang="de">Hier können Sie die Nachricht und den zu benutzenden Schlüssel eingeben.</desc>
 
     <comboBox plugin="Transposition" property="Action" alignment="Left" width="20%">
       <description lang="en">Encrypt or Decrypt:</description>
+      <description lang="de">Verschlüsseln oder Entschlüsseln:</description>
       <item lang="en" content="Encrypt"/>
+      <item lang="de" content="Verschlüsseln"/>
       <item lang="en" content="Decrypt"/>
+      <item lang="de" content="Entschlüsseln"/>
     </comboBox>
 
     <inputBox plugin="Message" property="Text" alignment="Stretch" width="49%" visibleLines="5" group="InputGroup">
-      <description lang="en">Message:</description>
-      <defaultvalue lang="en">Wir wurden entdeckt, flieh wenn du kannst!</defaultvalue>
+      <description lang="en">Message to encrypt/decrypt:</description>
+      <description lang="de">Nachricht zum verschlüsseln/entschlüsseln:</description>
+      <defaultvalue lang="de">Wir wurden entdeckt, flieh wenn du kannst!</defaultvalue>
     </inputBox>
 
     <inputBox plugin="Key" property="Text" alignment="Stretch" width="49%" visibleLines="5" group="InputGroup">
       <description lang="en">Key:</description>
+      <description lang="de">Schlüssel:</description>
       <defaultvalue lang="en">ZEBRAS</defaultvalue>
     </inputBox>
     
     <sampleViewer file="WorkspaceManagerSamples\Transposition_Sample.cwm" image="Transposition">
       <name lang="en">Transposition Output</name>
-      <description lang="en" >a transposition cipher is a method of encryption by which the positions held by units of plaintext (which are commonly characters or groups of characters) are shifted according to a regular system, so that the ciphertext constitutes a permutation of the plaintext.</description>
+      <name lang="de">Transpositions-Ausgabe</name>
+      <description lang="en" >A transposition cipher is a method of encryption by which the positions held by units of plaintext (which are commonly characters or groups of characters) are shifted according to a regular system, so that the ciphertext constitutes a permutation of the plaintext.</description>
+      <description lang="de" >Eine Transpositions-Chiffrierung is eine Verschlüsselungsmethode bei der die Positionen, die von den Einheiten des Klartext (meistens einzelne Buchstaben oder Gruppen von Buchstaben) eingenommen werden, basierend auf einem regulären System verschoben werden, so dass der chiffrierte Text eine Permutation des Klartext darstellt.</description>
 
-      <headline lang="en" >Transposition Cipher</headline>
+      <headline lang="en">Transposition Output</headline>
+      <headline lang="de">Transpositions-Ausgabe</headline>
       <desc lang="en">Here, you can change the parameters and view the results.</desc>
+      <desc lang="de">Hier können Sie Parameter verändern und die Ergebnisse sehen.</desc>
 
       <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5" >
-        <description lang="en">Message:</description>
+        <description lang="en">Message to encrypt/decrypt:</description>
+        <description lang="de">Nachricht zum verschlüsseln/entschlüsseln:</description>
         <defaultvalue lang="en">Wir wurden entdeckt, flieh wenn du kannst!</defaultvalue>
       </inputBox>
 
       <presentation plugin="Transposition" height="300">
         <description lang="en">Plugin Presentation:</description>
+        <description lang="de">Plugin Präsentation:</description>
       </presentation>
 
       <outputBox plugin="Result" property="CurrentValue" alignment="Stretch" visibleLines="2">
         <description lang="en">Transposition Output:</description>
+        <description lang="de">Transpositions-Ausgabe:</description>
       </outputBox>
 
     </sampleViewer>
@@ -388,43 +502,56 @@
   <!-- Scytale input -->
   <input image="Scytale">
     <name lang="en" >Scytale</name>
-    <description lang="en" >A scytale is a tool used to perform a transposition cipher, consisting of a cylinder with a strip of parchment wound around it on which is written a message.</description>
+    <description lang="en" >A scytale is a tool used to perform a transposition cipher, consisting of a cylinder with a strip of parchment wound around it on which is written a message. The ancient Greeks, and the Spartans in particular, are said to have used this cipher to communicate during military campaigns.</description>
+    <description lang="de" >Eine Scytale ist ein Werzeug um eine Transpositions-Chiffrierung auszuführen. Sie besteht aus einem Zylinder mit einem Band Pergament umwunden, auf der eine Nachricht geschrieben steht. Den alten Griechen, und besonders den Spartaner, wird nachgesagt, dass sie diese Chiffrierung zur Kommunikation während militärischer Einsätze benutzt haben.</description>
 
     <headline lang="en" >Message Input</headline>
+    <headline lang="de" >Nachrichteneingabe</headline>
     <desc lang="en">Here, you can input the message and the key to use.</desc>
+    <desc lang="de">Hier können Sie die Nachricht und den zu benutzenden Schlüssel eingeben.</desc>
 
     <comboBox plugin="Scytale" property="Action" alignment="Left" width="20%">
-      <description lang="en">Encrypt or Decrypt:</description>
+      <description lang="de">Verschlüsseln oder Entschlüsseln:</description>
       <item lang="en" content="Encrypt"/>
+      <item lang="de" content="Verschlüsseln"/>
       <item lang="en" content="Decrypt"/>
+      <item lang="de" content="Entschlüsseln"/>
     </comboBox>
 
     <inputBox plugin="Message" property="Text" alignment="Stretch" width="49%" visibleLines="5" group="InputGroup">
-      <description lang="en">Message:</description>
+      <description lang="en">Message to encrypt/decrypt:</description>
+      <description lang="de">Nachricht zum verschlüsseln/entschlüsseln:</description>
       <defaultvalue lang="de">Eine geheime Botschaft</defaultvalue>
       <defaultvalue lang="en">A secret message</defaultvalue>
     </inputBox>
 
     <inputBox plugin="Key" property="Text" alignment="Stretch" width="49%" visibleLines="5" group="InputGroup" regex="[0-9]+">
       <description lang="en">Key:</description>
+      <description lang="de">Schlüssel:</description>
       <defaultvalue>11</defaultvalue>
     </inputBox>
     
     <sampleViewer image="Scytale" file="WorkspaceManagerSamples\Scytale_Sample.cwm" >
       <name lang="en" >Scytale Output</name>
-      <description lang="en" >A scytale is a tool used to perform a transposition cipher, consisting of a cylinder with a strip of parchment wound around it on which is written a message.</description>
+      <name lang="de" >Scytale-Ausgabe</name>
+      <description lang="en" >A scytale is a tool used to perform a transposition cipher, consisting of a cylinder with a strip of parchment wound around it on which is written a message. The ancient Greeks, and the Spartans in particular, are said to have used this cipher to communicate during military campaigns.</description>
+      <description lang="de" >Eine Scytale ist ein Werzeug um eine Transpositions-Chiffrierung auszuführen. Sie besteht aus einem Zylinder mit einem Band Pergament umwunden, auf der eine Nachricht geschrieben steht. Den alten Griechen, und besonders den Spartaner, wird nachgesagt, dass sie diese Chiffrierung zur Kommunikation während militärischer Einsätze benutzt haben.</description>
 
       <headline lang="en" >Scytale Output</headline>
+      <headline lang="de" >Scytale-Ausgabe</headline>
       <desc lang="en">Here, you can change the parameters and view the results.</desc>
+      <desc lang="de">Hier können Sie Parameter verändern und die Ergebnisse sehen.</desc>
 
       <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5">
-        <description lang="en">Message:</description>
+        <description lang="en">Message to encrypt/decrypt:</description>
+        <description lang="de">Nachricht zum verschlüsseln/entschlüsseln:</description>
         <defaultvalue lang="de">Eine geheime Botschaft</defaultvalue>
         <defaultvalue lang="en">A secret message</defaultvalue>
       </inputBox>
 
       <outputBox plugin="Result" property="CurrentValue" alignment="Stretch" visibleLines="5">
         <description lang="en">Scytale Output:</description>
+        <description lang="de">Scytale-Ausgabe:</description>
       </outputBox>
     
     </sampleViewer>
