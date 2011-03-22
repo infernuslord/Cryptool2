@@ -3,25 +3,35 @@
 
 <input image="Primes" >
   <name lang="en" >Prime Number Factorization</name>
-  <description lang="en" >Select to factorize prime numbers.</description>
+  <name lang="de" >Primzahlfaktorisierung</name>
+  <description lang="en" >Select this to factorize prime numbers.</description>
+  <description lang="de" >Wählen Sie dies um Primzahlen zu faktorisieren.</description>
 
   <headline lang="en">Prime Number Factorization</headline>
+  <headline lang="de">Primzahl Faktorisierung</headline>
   <desc lang="en">Please input the number to factorize.</desc>
+  <desc lang="de">Bitte geben Sie die Zahl zum faktorisieren ein.</desc>
 
   <inputBox alignment="Stretch" plugin="Number" property="Number">
-    <description lang="en">Enter the number to factorize here. You can also use mathematical expressions:</description>
+    <description lang="en">Enter the number to factorize here (can be a mathematical expression):</description>
+    <description lang="de">Geben Sie die zu faktorisierende Zahl hier ein (kann ein mathematischer Ausdruck sein):</description>
     <defaultvalue>(2^300-1)/2</defaultvalue>
   </inputBox>
 
   <sampleViewer image="Primes" file="WorkspaceManagerSamples\QuadraticSieve_Sample.cwm">
     <name lang="en" >Prime Number Factorization</name>
+    <name lang="de" >Primzahlfaktorisierung</name>
     <description lang="en" >Prime Number Factorization Output</description>
+    <description lang="de" >Primzahlfaktorisierungsausgabe</description>
 
     <headline lang="en">Prime Number Factorization Output</headline>
-    <desc lang="en">Here, you can see the factorization process and the result.</desc>
+    <headline lang="de">Primzahlfaktorisierungsausgabe</headline>
+    <desc lang="en">Here, you can see the factorization process and the result. This can take some time, depending on the number.</desc>
+    <desc lang="de">Hier können sie den Faktorisierungsprozess und das Ergebnis sehen. Das kann einige Zeit dauern, abhängig von der Zahl.</desc>
 
     <presentation plugin="QuadraticSieve" width="50%" height="50%">
       <description lang="en">Factorization:</description>
+      <description lang="de">Faktorisierung:</description>
     </presentation>
   </sampleViewer>
 </input>

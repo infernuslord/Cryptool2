@@ -5,13 +5,17 @@
 
 <category image="Primes">
   <name lang="en" >Prime Number Operations</name>
-  <description lang="en" >Select a prime numer operation to work with.</description>
+  <name lang="de" >Primzahl Operationen</name>  
+  <description lang="en" >Selecting this allows you to use several operations related to prime numbers. You can choose between generation of prime numbers, testing whether a number is prime and factorize a number into its primes.</description>  
+  <description lang="de-DE" >In dem Sie dies auswählen, können Sie verschiedene Operationen, die mit Primzahlen zusammenhängen, ausführen. Sie können zwischen Primzahlerzeugung, dem Test ob eine Zahl eine Primzahl ist und der Faktorisierung einer Zahl in seine Primzahlen wählen.</description>
 
   <!-- This is the step's headline. It should be short, but precise. -->
   <headline lang="en" >Prime Number Operation Selection</headline>
+  <headline lang="de" >Primzahl Operation Auswahl</headline>
 
   <!-- This is the step's description. -->
   <desc lang="en" >Select a prime number operation.</desc>
+  <desc lang="de" >Wählen Sie eine Primzahl Operation.</desc>
 
   <!-- Factorization input -->
   <file resource="Wizard.Config.Indiv.wizard.config.factorization.xml"/>
@@ -19,25 +23,35 @@
   <!-- Generation input -->
   <input image="Primes" >
     <name lang="en" >Prime Number Generation</name>
-    <description lang="en" >Select to generate prime numbers.</description>
+    <name lang="de" >Primzahl Erzeugung</name>
+    <description lang="en" >Select this to generate prime numbers.</description>
+    <description lang="de" >Wählen Sie dies, um Primzahlen zu erzeugen.</description>
 
     <headline lang="en">Prime Number Generation</headline>
-    <desc lang="en">Input parameters for prime number generation.</desc>
+    <headline lang="de" >Zufallszahl erzeugung</headline>
+    <desc lang="en">Input the parameters for prime number generation.</desc>
+    <desc lang="de">Geben Sie die Parameter zur Erzeugung einer Primzahl ein.</desc>
 
     <inputBox plugin="PrimesGenerator" property="Input">
       <description lang="en">Number of digits:</description>
+      <description lang="de">Anzahl an Ziffern:</description>
       <defaultvalue>400</defaultvalue>
     </inputBox>
 
     <sampleViewer image="Primes" file="WorkspaceManagerSamples\PrimesGenerator.cwm">
       <name lang="en" >Prime Number Generation</name>
+      <name lang="de" >Primzahl Erzeugung</name>
       <description lang="en" >Prime Number Generation Output</description>
+      <description lang="de" >Primzahl Erzeugungsausgabe</description>
 
       <headline lang="en">Prime Number Generation Output</headline>
+      <headline lang="de">Primzahl Erzeugungsausgabe</headline>
       <desc lang="en">The generated prime number.</desc>
+      <desc lang="de">Die erzeugte Primzahl.</desc>
       
       <outputBox plugin="PrimeNumber" property="CurrentValue" width="90%">
         <description lang="en">Generated Prime Number:</description>
+        <description lang="de">Generierte Primzahl:</description>
       </outputBox>
     </sampleViewer>
   </input>
@@ -45,18 +59,24 @@
   <!-- Test input -->
   <sampleViewer image="Primes" file="WorkspaceManagerSamples\PrimesTest.cwm">
     <name lang="en" >Prime Number Test</name>
-    <description lang="en" >Select to test numbers for being prime.</description>
+    <name lang="de" >Primzahl Test</name>
+    <description lang="en" >Select this to test if a number is a prime.</description>
+    <description lang="de" >Wählen Sie dies um zu testen, ob eine Zahl eine Primzahl ist.</description>
 
-    <headline lang="en">Prime Number Generation</headline>
-    <desc lang="en">Input parameters for prime number generation.</desc>
+    <headline lang="en">Prime Number Test</headline>
+    <headline lang="de">Primzahl Test</headline>
+    <desc lang="en">Input the number you want to test.</desc>
+    <desc lang="de">Geben Sie die Zahl ein, die sie testen wollen.</desc>
 
     <inputBox plugin="Number" property="Text" width="80%" alignment="Left">
       <description lang="en">Number (can be a mathematical expression):</description>
+      <description lang="de">Zahl (kann ein mathematischer Ausdruck sein):</description>
       <defaultvalue>358985028000324617802198861844522163047755799681138412255630375745509906768216239732389768930571941971276048934551187949</defaultvalue>
     </inputBox>
 
     <outputBox plugin="IsPrime" property="CurrentValue" alignment="Left" width="20%" visibleLines="3">
       <description lang="en">Is Prime?</description>
+      <description lang="de">Ist Primzahl?</description>
     </outputBox>
   </sampleViewer>
 
