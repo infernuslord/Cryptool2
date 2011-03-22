@@ -55,15 +55,6 @@ namespace KeySearcher
         public KeySearcherSettings(KeySearcher ks, OpenCLManager oclManager)
         {
             keysearcher = ks;
-
-            //Settings.Default.PropertyChanged += delegate(Object sender, PropertyChangedEventArgs e)
-            //                                        {
-            //                                            if (e.PropertyName == "AllowOpenCLNvidia")
-            //                                            {
-            //                                                RefreshDevicesList(oclManager);
-            //                                            }
-            //                                        };
-
             RefreshDevicesList(oclManager);
 
             CoresAvailable.Clear();
@@ -91,6 +82,8 @@ namespace KeySearcher
             DevicesAvailable = devicesAvailable;    //refresh list
             if (devicesAvailable.Count > 0)
                 OpenCLDevice = 0;
+            else
+                this.openCLDevice = -1;
         }
 
         public void Initialize()

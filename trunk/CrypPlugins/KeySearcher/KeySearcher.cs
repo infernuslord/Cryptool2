@@ -97,6 +97,11 @@ namespace KeySearcher
             }
         }
 
+        public bool IsKeySearcherFinished
+        {
+            get; private set;
+        }
+
         internal bool stop;
 
         internal bool update;
@@ -215,7 +220,8 @@ namespace KeySearcher
         private ValueKey top1ValueKey;
         public virtual ValueKey Top1
         {
-            set { top1ValueKey = value; OnPropertyChanged("Top1Message"); OnPropertyChanged("Top1Key"); }
+            private set { top1ValueKey = value; OnPropertyChanged("Top1Message"); OnPropertyChanged("Top1Key"); }
+            get { return top1ValueKey; }
         }
 
         [PropertyInfo(Direction.OutputData, "Top1_Message", "top1MesDesc", "")]
@@ -340,18 +346,26 @@ namespace KeySearcher
         // because Encryption PlugIns were changed radical, the new StartPoint is here - Arnie 2010.01.12
         public virtual void Execute()
         {
-            IsKeySearcherRunning = true;
-            localBruteForceStopwatch.Reset();
-
-            //either byte[] CStream input or CryptoolStream Object input
-            if (encryptedData != null || csEncryptedData != null) //to prevent execution on initialization
+            IsKeySearcherFinished = false;
+            try
             {
-                if (ControlMaster != null)
-                    process(ControlMaster);
-                else
+                IsKeySearcherRunning = true;
+                localBruteForceStopwatch.Reset();
+
+                //either byte[] CStream input or CryptoolStream Object input
+                if (encryptedData != null || csEncryptedData != null) //to prevent execution on initialization
                 {
-                    GuiLogMessage(Resources.You_have_to_connect_the_KeySearcher_with_the_Decryption_Control_, NotificationLevel.Warning);
+                    if (ControlMaster != null)
+                        process(ControlMaster);
+                    else
+                    {
+                        GuiLogMessage(Resources.You_have_to_connect_the_KeySearcher_with_the_Decryption_Control_, NotificationLevel.Warning);
+                    }
                 }
+            }
+            finally
+            {
+                IsKeySearcherFinished = true;
             }
         }
 
