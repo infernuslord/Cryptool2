@@ -300,7 +300,7 @@ The attribute that we will use for each proprerty is called \textit{[PropertyInf
 	\label{fig:quick_watch}
 \end{figure}
 	
-	\item \textit{quickWatchConversionMethod} --- this is used to indicate a conversion method; most plugins do not ned to convert their data and thus should use a \texttt{null} value here. The quickwatch function uses the default system encoding to display data, so if your data is in another format, such as UTF-16 or Windows-1250, you should provide here the name of a conversion method as string. The header for such a method should look something like the following:
+	\item \textit{quickWatchConversionMethod} --- this is used to indicate a conversion method; most plugins do not need to convert their data and thus should use a \texttt{null} value here. The quickwatch function uses the default system encoding to display data, so if your data is in another format, such as UTF-16 or Windows-1250, you should provide here the name of a conversion method as string. The header for such a method should look something like the following:
 
 \begin{lstlisting}
 object YourMethodName(string PropertyNameToConvert)
