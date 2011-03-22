@@ -35,14 +35,18 @@
     <!-- RSA input -->
     <category image="RSA">
       <name lang="en">RSA</name>
-      <description lang="en">RSA is an asymmetric modern algorithm to encrypt plaintext or to decrypt ciphertext.
+      <description lang="en">
+        RSA is an asymmetric modern algorithm to encrypt plaintext or to decrypt ciphertext.
 In cryptography, RSA (which stands for Rivest, Shamir and Adleman who first publicly described it) is an algorithm for public-key cryptography.
 It is the first algorithm known to be suitable for signing as well as encryption, and was one of the first great advances in public-key cryptography.
-RSA is widely used in electronic commerce protocols, and is believed to be secure given sufficiently long keys and the use of up-to-date implementations.</description>
-      <description lang="de">RSA ist ein asymmetrischer moderner Algorithmus um Klartext zu verschlüsseln oder chiffrierten Text zu entschlüsseln.
+RSA is widely used in electronic commerce protocols, and is believed to be secure given sufficiently long keys and the use of up-to-date implementations.
+      </description>
+      <description lang="de">
+        RSA ist ein asymmetrischer moderner Algorithmus um Klartext zu verschlüsseln oder chiffrierten Text zu entschlüsseln.
 In der Kryptographie, RSA (was für Rivest, Shamir und Adleman steht, die dieses Verfahren zum ersten mal beschrieben) ist ein Algorithmus für public-key Kryptographie.
 Es ist der erste Algorithmus der bekannt dafür ist, sowohl für Signierung als auch Verschlüsselung benutzt werden zu können, und war eine der ersten großen Fortschritte in der public-key Kryptographie.
-RSA ist in E-Kommerz Protokollen weit verbreitet und wird als sicher betrachtet bei genügend langen langen Schlüsseln und unter Verwendung aktueller Implementationen.</description>
+RSA ist in E-Kommerz Protokollen weit verbreitet und wird bei genügend langen Schlüsseln und unter Verwendung aktueller Implementationen als sicher betrachtet.
+      </description>
 
       <headline lang="en">RSA</headline>
       <desc lang="en">Choose whether you want to use RSA for encryption or decryption</desc>

@@ -60,7 +60,7 @@ namespace Wizard
         private List<TextBox> currentOutputBoxes = new List<TextBox>();
         private List<TextBox> currentInputBoxes = new List<TextBox>();
         private List<ContentControl> currentPresentations = new List<ContentControl>();
-        private WorkspaceManager.WorkspaceManager currentManager = new WorkspaceManager.WorkspaceManager();
+        private WorkspaceManager.WorkspaceManager currentManager = null;
         private bool canStopOrExecute = false;
 
         internal event OpenTabHandler OnOpenTab;
@@ -213,6 +213,7 @@ namespace Wizard
 
         private void SetupPage(XElement element)
         {
+            StopCurrentWorkspaceManager();
             nextButton.IsEnabled = true;
 
             currentOutputBoxes.Clear();
@@ -1082,7 +1083,6 @@ namespace Wizard
 
         private void backButton_Click(object sender, RoutedEventArgs e)
         {
-            StopCurrentWorkspaceManager();
             canStopOrExecute = false;
             if (Settings.Default.ShowAnimations)
             {
@@ -1119,24 +1119,19 @@ namespace Wizard
 
         internal void StopCurrentWorkspaceManager()
         {
-            if (currentManager.CanStop)
+            if (currentManager != null && currentManager.CanStop)
                 currentManager.Stop();
         }
 
         internal void ExecuteCurrentWorkspaceManager()
         {
-            if (currentManager.CanExecute)
+            if (currentManager != null && currentManager.CanExecute)
                 currentManager.Execute();
-        }
-
-        internal void DisposeCurrentWorkspaceManager()
-        {
-            currentManager.Dispose();
         }
 
         internal bool WizardCanStop()
         {
-            if (!canStopOrExecute)
+            if (!canStopOrExecute || currentManager == null)
                 return false;
             else
                 return currentManager.CanStop;
@@ -1144,7 +1139,7 @@ namespace Wizard
 
         internal bool WizardCanExecute()
         {
-            if (!canStopOrExecute)
+            if (!canStopOrExecute || currentManager == null)
                 return false;
             else
                 return currentManager.CanExecute;
@@ -1309,7 +1304,6 @@ namespace Wizard
 
         private void SetLastContent(object sender, EventArgs e)
         {
-            StopCurrentWorkspaceManager();
             canStopOrExecute = false;
 
             XElement ele = null;

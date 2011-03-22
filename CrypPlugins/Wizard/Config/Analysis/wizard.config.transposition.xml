@@ -5,108 +5,159 @@
   <name lang="en" >Transposition</name>
   <description lang="en-GB" >
     Transposition is a classic algorithm to encrypt plaintext or to decrypt ciphertext.
-    By selecting this, you can analyse some ciphertext that was encrypted with the Enigma algorithm.
+By selecting this, you can analyse some ciphertext that was encrypted with the Transposition algorithm.
+  </description>
+  <description lang="de" >
+    Transposition ist ein klassischer Algorithmus zum verschlüsseln von Klartext oder entschlüsseln von chiffrierten Text.
+Indem Sie dies wählen, können sie einen mit dem Transposition Algorithmus verschlüsselten Text analysieren.
   </description>
 
   <headline lang="en">Transposition Analysis</headline>
+  <headline lang="de">Transposition Analyse</headline>
   <desc lang="en-GB">Choose which method you want to use for analysing the Transposition encrypted text.</desc>
+  <desc lang="de">Wählen Sie welche Methode sie zum analysieren des mit Transposition verschlüsselten Text verwenden wollen.</desc>
 
   <input image="Transposition">
-    <name lang="en">Bruteforce</name>
+    <name lang="en">Bruteforce</name>    
     <description lang="en-GB">
-      Select this to analyse the ciphertext using the bruteforce method.
-      This method is ciphertext only.
+      Select this to analyse the ciphertext using the bruteforce method. This means, that every possible key gets tested.
+This method is ciphertext only.
+    </description>
+    <description lang="de">
+      Wählen Sie dies um den chiffrierten Text mit der "Bruteforce" Methode zu analysieren. Das bedeutet, dass jeder mögliche Schlüssel ausprobiert wird.
+Diese Methode basiert nur auf dem Klartext.
     </description>
 
     <headline lang="en">Transposition Bruteforce Analysis</headline>
-    <desc lang="en">Input your ciphertext that was encrypted by using the Transposition algorithm.</desc>
+    <headline lang="de">Transposition Bruteforce Analyse</headline>
+    <desc lang="en">Input the ciphertext that was encrypted by using the Transposition algorithm.</desc>
+    <desc lang="de">Geben Sie den chiffrierten Text ein, der mit dem Transpositionsalgorithmus verschlüsselt wurde.</desc>
 
     <inputBox plugin="Ciphertext" property="Text" visibleLines="5">
       <description lang="en">Ciphertext:</description>
+      <description lang="de">Chiffrierter Text:</description>
       <defaultvalue>Iuai  tioehh inu u isd eootuoorlek meE t s 6tuieeertehrh,dd35nmnomienfd,eon mtmcnc B fwhtfleydeFp Boht l)htsd tdhredi e  " nsnesn    nu bnhnh roow sea u   yolwRf hae,ea  aiees .strb2.aap,s  rala tcy,esosartit  ttmudbwreoA 6ern  tdblcr  k  h e  ro swoo enr o    somdhdhapihnseyo ,rSl  egapieypa lieIcew 4c staruwfndealcacaembe teneoesuf re d e(r tneof hloenyna o" otihgitsig aguonornelrth drn  aiadxt insoohdrnita ft w sou61lrteet  xttdamldle  e.h r m caln .ahZsgowf  m nhbo ttoterl  </defaultvalue>
     </inputBox>
 
     <comboBox plugin="Transposition" property="ReadIn" defaultValue="0" group="settings">
       <description lang="en">Read in:</description>
+      <description lang="de">Einlesen:</description>
       <item content="by row" lang="en"/>
+      <item content="Zeilenweise" lang="de"/>
       <item content="by column" lang="en"/>
+      <item content="Spaltenweise" lang="de"/>
     </comboBox>
 
     <comboBox plugin="Transposition" property="Permutation" defaultValue="1" group="settings">
       <description lang="en">Permutation:</description>
+      <description lang="de">Permutation:</description>
       <item content="by row" lang="en"/>
+      <item content="Zeilenweise" lang="de"/>
       <item content="by column" lang="en"/>
+      <item content="Spaltenweise" lang="de"/>
     </comboBox>
 
     <comboBox plugin="Transposition" property="ReadOut" defaultValue="0" group="settings">
       <description lang="en">Read out:</description>
+      <description lang="de">Auslesen:</description>
       <item content="by row" lang="en"/>
+      <item content="Zeilenweise" lang="de"/>
       <item content="by column" lang="en"/>
+      <item content="Spaltenweise" lang="de"/>
     </comboBox>
 
     <sampleViewer image="Transposition" file="WorkspaceManagerSamples\Transposition_Bruteforce_Analyser_Sample.cwm">
       <name lang="en">Bruteforce Analysis</name>
+      <name lang="de">Bruteforce Analyse</name>
       <description lang="en">Bruteforce Analysis</description>
+      <description lang="de">Bruteforce Analyse</description>
 
       <headline lang="en">Transposition Bruteforce Analysis</headline>
-      <desc lang="en">Please wait while bruteforcing</desc>
+      <headline lang="de">Transposition Bruteforce Analyse</headline>
+      <desc lang="en">Please wait while bruteforcing.</desc>
+      <desc lang="de">Bitte warten, während die Bruteforce Methode ausgeführt wird.</desc>
 
       <presentation plugin="TranspositionAnalyser">
         <description lang="en-GB">Analyser:</description>
+        <description lang="de">Analysierer:</description>
       </presentation>
 
       <outputBox plugin="Deciphered Ciphertext" property="CurrentValue" visibleLines="5">
         <description lang="en">Deciphered Ciphertext:</description>
+        <description lang="de">Entschlüsselter chiffrierter Text:</description>
       </outputBox>
     </sampleViewer>
   </input>
 
   <input image="Transposition">
     <name lang="en">Genetic</name>
+    <name lang="de">Genetisch</name>
     <description lang="en-GB">
-      Select this to analyse the ciphertext using genetic algorithms.
-      This method is ciphertext only.
+      Select this to analyse the ciphertext using genetic algorithms. This can be faster than bruteforcing.
+This method is ciphertext only.
+    </description>
+    <description lang="de">
+      Wählen Sie dies um den chiffrierten Text mit genetischen Methoden zu analysieren. Diese Methode kann schneller sein als die "Bruteforce" Methode.
+Diese Methode basiert nur auf dem Klartext.
     </description>
 
     <headline lang="en">Transposition Genetic Analysis</headline>
-    <desc lang="en">Input your ciphertext that was encrypted by using the Transposition algorithm.</desc>
+    <headline lang="de">Transposition genetische Analyse</headline>
+    <desc lang="en">Input the ciphertext that was encrypted by using the Transposition algorithm.</desc>
+    <desc lang="de">Geben Sie den chiffrierten Text ein, der mit dem Transpositionsalgorithmus verschlüsselt wurde.</desc>
 
     <inputBox plugin="Ciphertext" property="Text" visibleLines="5">
       <description lang="en">Ciphertext:</description>
+      <description lang="de">Chiffrierter Text:</description>
       <defaultvalue>r mwaim r cites m  aeourtat ny i'a uf sr r esuyIi   ooaudhw  huwpeautrrg rhe i sorr   lroirn,nafbedthmratscetetooisIufplaindawp,nb  r ia edi oa nlnhiora-cosfa ugosrtfm isblinogasselntatnnwkmas lh elecol  Ctoanlr    a eke  aaa  ed hae oacg.A hjth romhedoc f,iue yr m aas hy dohyo-snohopduata.onlahb roo stia tC  ale waghgdeb fe m napso nnsnnsd valsina   o peehfn  ba sA  wo  onrflWesC Wata d ineveeh yitepr ben yp   armat cirdy n soooalce ts ohe.h gro lhhd,dtt toi   c owugcortpoasneoh.aau eainom  fr t-ohpi n la b e onuu panr  qay.ttdc erltobihg a hgprlxsal e d lair"iudno,ra    ot henlto.smdybae d  ,wTllwefIcentt ge  e  ha,tirb mnu e xrW',  o  bfl uanttalscvoqothoyaaeln(yoiro hudsio  n?decwcsnt ettR mkmjsea natnnthikarietynilf,o,b  t tmdi ,etawshieptueni io.ridprowteit hs i.oercBkn 'atetn oy letaicsoyotlli "oelmlndeyet st,tttndg ceea cc lorsM.nurpc eontesia ps seua e hntm  phhateb osds ntira n edrnn 't h 'swowstiept oo  uh iytstweldou(o wa ttuatmaloonwmpsoosti upal ea  bos   a Oureubttvchuyuem athauayeeo ,hagofnctaewrec lfyheurniros t:eta  g eii'o oene aeti etrr,srttoon)ocoo re  nhtiuol sr hT ofsnye ger tdute tTmi rr g eyuu eheisve o ot fttn  r tcng cer ,ebtywt as ccr s odon)enohr wlC</defaultvalue>
     </inputBox>
 
     <comboBox plugin="Transposition" property="ReadIn" defaultValue="0" group="settings">
       <description lang="en">Read in:</description>
+      <description lang="de">Einlesen:</description>
       <item content="by row" lang="en"/>
+      <item content="Zeilenweise" lang="de"/>
       <item content="by column" lang="en"/>
+      <item content="Spaltenweise" lang="de"/>
     </comboBox>
 
     <comboBox plugin="Transposition" property="Permutation" defaultValue="1" group="settings">
       <description lang="en">Permutation:</description>
+      <description lang="de">Permutation:</description>
       <item content="by row" lang="en"/>
+      <item content="Zeilenweise" lang="de"/>
       <item content="by column" lang="en"/>
+      <item content="Spaltenweise" lang="de"/>
     </comboBox>
 
     <comboBox plugin="Transposition" property="ReadOut" defaultValue="1" group="settings">
       <description lang="en">Read out:</description>
+      <description lang="de">Auslesen:</description>
       <item content="by row" lang="en"/>
+      <item content="Zeilenweise" lang="de"/>
       <item content="by column" lang="en"/>
+      <item content="Spaltenweise" lang="de"/>
     </comboBox>
 
     <sampleViewer image="Transposition" file="WorkspaceManagerSamples\Transposition_Genetic_Analyser_Sample.cwm">
       <name lang="en">Genetic Analysis</name>
+      <name lang="de">Genetische Analyse</name>
       <description lang="en">Genetic Analysis</description>
+      <description lang="de">Genetische Analyse</description>
 
       <headline lang="en">Transposition Genetic Analysis</headline>
-      <desc lang="en-GB">Please wait while analysing</desc>
+      <headline lang="de">Transposition genetische Analyse</headline>
+      <desc lang="en">Please wait while analysing.</desc>
+      <desc lang="de">Bitte warten, während analysiert wird.</desc>
 
       <presentation plugin="TranspositionAnalyser">
         <description lang="en-GB">Analyser:</description>
+        <description lang="de">Analysierer:</description>
       </presentation>
 
       <outputBox plugin="Deciphered Ciphertext" property="CurrentValue" visibleLines="5">
         <description lang="en">Deciphered Ciphertext:</description>
+        <description lang="de">Entschlüsselter chiffrierter Text:</description>
       </outputBox>
     </sampleViewer>
   </input>
@@ -114,54 +165,77 @@
   <input image="Transposition">
     <name lang="en">Crib</name>
     <description lang="en-GB">
-      Select this to analyse the ciphertext using a crib.
-      This is a known plaintext attack.
+      Select this to analyse the ciphertext using a crib. A crib is a piece of cleartext of the original message.
+This is a known plaintext attack.
+    </description>
+    <description lang="de">
+      Wählen Sie dies um den chiffrierten Text mit Hilfe eines "Crib" zu analysieren. Ein "Crib" ist ein Stück Klartext der ursprünglichen Nachricht.
+Diese Methode basiert auf bekanntem Klartext ("known plaintext attack").
     </description>
 
     <headline lang="en-GB">Transposition Crib Analysis</headline>
-    <desc lang="en">Input your ciphertext that was encrypted by using the Transposition algorithm and your crib.</desc>
+    <headline lang="de">Transposition Crib Analyse</headline>
+    <desc lang="en">Input the ciphertext that was encrypted by using the Transposition algorithm and your crib.</desc>
+    <desc lang="de">Geben Sie den chiffrierten Text ein, der mit dem Transpositionsalgorithmus verschlüsselt wurde, und den "Crib".</desc>
 
     <inputBox plugin="Ciphertext" property="Text" visibleLines="5">
       <description lang="en-GB">Ciphertext:</description>
+      <description lang="de">Chiffrierter Text:</description>
       <defaultvalue>tlesiug tneifht-ihntl  eta dnsg ro   rttyoc.a  ed fm u tr taiPn i  st eug rs id i xe eib  netpsm wym id tx ei io.if rs isataaumTpu.Ton-ae aipght wymta t xobut aeuethrd  tsahntl anak  txt-TaiPnstnm,no nyoc.r,e ab  nltspeto xptu l pogepedynreiPnesiurtxotdi esr lAtimhr ro srtr o aatapFo,Ton-tlx  po nls pogeht rentt,obufhtueir lAtehmtuttnssu</defaultvalue>
     </inputBox>
 
     <inputBox plugin="Crib" property="Text" visibleLines="5">
       <description lang="en">Crib (Known plaintext):</description>
+      <description lang="de">Crib (Bekannter Klartext):</description>
       <defaultvalue>Transposition</defaultvalue>
     </inputBox>
 
     <comboBox plugin="Transposition" property="ReadIn" defaultValue="0" group="settings">
       <description lang="en">Read in:</description>
+      <description lang="de">Einlesen:</description>
       <item content="by row" lang="en"/>
+      <item content="Zeilenweise" lang="de"/>
       <item content="by column" lang="en"/>
+      <item content="Spaltenweise" lang="de"/>
     </comboBox>
 
     <comboBox plugin="Transposition" property="Permutation" defaultValue="1" group="settings">
       <description lang="en">Permutation:</description>
+      <description lang="de">Permutation:</description>
       <item content="by row" lang="en"/>
+      <item content="Zeilenweise" lang="de"/>
       <item content="by column" lang="en"/>
+      <item content="Spaltenweise" lang="de"/>
     </comboBox>
 
     <comboBox plugin="Transposition" property="ReadOut" defaultValue="1" group="settings">
       <description lang="en">Read out:</description>
+      <description lang="de">Auslesen:</description>
       <item content="by row" lang="en"/>
+      <item content="Zeilenweise" lang="de"/>
       <item content="by column" lang="en"/>
+      <item content="Spaltenweise" lang="de"/>
     </comboBox>
 
     <sampleViewer image="Transposition" file="WorkspaceManagerSamples\Transposition_Crib_Analyser_Sample.cwm">
       <name lang="en">Crib Analysis</name>
+      <name lang="de">Crib Analyse</name>
       <description lang="en">Crib Analysis</description>
+      <description lang="de">Crib Analyse</description>
 
       <headline lang="en">Transposition Crib Analysis</headline>
-      <desc lang="en-GB">Please wait while analysing.</desc>
+      <headline lang="de">Transposition Crib Analyse</headline>
+      <desc lang="en">Please wait while analysing.</desc>
+      <desc lang="de">Bitte warten, während analysiert wird.</desc>
 
       <presentation plugin="TranspositionAnalyser">
         <description lang="en-GB">Analyser:</description>
+        <description lang="de">Analysierer:</description>
       </presentation>
 
       <outputBox plugin="Deciphered Ciphertext" property="CurrentValue" visibleLines="5">
         <description lang="en">Deciphered Ciphertext:</description>
+        <description lang="de">Entschlüsselter chiffrierter Text:</description>
       </outputBox>
     </sampleViewer>
   </input>

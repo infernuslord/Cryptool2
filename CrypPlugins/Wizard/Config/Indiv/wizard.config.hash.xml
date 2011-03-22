@@ -5,48 +5,62 @@
 
 <category image="Hash">
   <name lang="en" >Hash Functions</name>
-  <description lang="en" >Select hash functions to work with.</description>
+  <name lang="de" >Hash Funktionen</name>
+  <description lang="en" >Selecting this allows you to get the hash of some data. You can choose which hash algorithm you want to use.</description>
+  <description lang="de" >Indem Sie dies wählen können Sie den Hash von beliebigen Daten erhalten. Sie können auswählen, welchen Hash Algorithmus Sie verwenden wollen.</description>
 
   <!-- This is the step's headline. It should be short, but precise. -->
   <headline lang="en" >Hash Function Selection</headline>
+  <headline lang="de" >Hash Funktion Auswahl</headline>
 
   <!-- This is the step's description. -->
   <desc lang="en" >Select a hash function.</desc>
+  <desc lang="de" >Wählen Sie eine Hash Funktion.</desc>
 
   <!-- MD5 input -->
   <category image="MD5">
     <name lang="en" >MD5</name>
     <description lang="en" >MD5 (Message-Digest algorithm 5) is a widely used cryptographic hash function with a 128-bit (16-byte) hash value.</description>
+    <description lang="de" >MD5 (Message-Digest algorithm 5) ist eine weit verbreitete kryptographische Hash Funktion mit einem 128-bit (16-byte) Hashwert.</description>
 
     <headline lang="en">MD5</headline>
     <desc lang="en">Select if you want to see an interactive presentation of MD5 processing your data.</desc>
+    <desc lang="de">Wählen Sie, ob sie eine interaktive Präsentation sehen wollen, wie MD5 Ihre Daten verarbeitet.</desc>
     
     <sampleViewer image="MD5" file="WorkspaceManagerSamples\MD5_Sample.cwm">
-      <name lang="en" >MD5 Result Only</name>
-      <description lang="en" >Only the result of MD5</description>
+      <name lang="en" >MD5 - Result Only</name>
+      <name lang="de" >MD5 - Nur Ergebnis</name>
+      <description lang="en" >Only the result of MD5.</description>
+      <description lang="de" >Nur das Ergebnis von MD5.</description>
 
       <headline lang="en">MD5</headline>
       <desc lang="en">Input your message and watch the MD5 output here.</desc>
+      <desc lang="de">Geben Sie hier Ihre Nachricht ein und betrachten sie die MD5 Ausgabe.</desc>
 
       <inputBox plugin="Input" property="Text" width="80%" alignment="Left" visibleLines="5">
         <description lang="en">Input Message:</description>
-        <defaultvalue>Message-Digest Algorithm 5 (MD5) ist eine weit verbreitete kryptographische Hashfunktion, die aus einer beliebigen Nachricht einen 128-Bit-Hashwert (deutsch: Prüfsumme) erzeugt. MD5 wurde 1991 von Ronald L. Rivest entwickelt. Sie gilt inzwischen nicht mehr als sicher, da es mit überschaubarem Aufwand möglich ist, unterschiedliche Nachrichten zu erzeugen, die dieselbe MD5-Prüfsumme aufweisen.</defaultvalue>
+        <description lang="de">Eingabenachricht:</description>
+        <defaultvalue lang="de">Message-Digest Algorithm 5 (MD5) ist eine weit verbreitete kryptographische Hashfunktion, die aus einer beliebigen Nachricht einen 128-Bit-Hashwert (deutsch: Prüfsumme) erzeugt. MD5 wurde 1991 von Ronald L. Rivest entwickelt. Sie gilt inzwischen nicht mehr als sicher, da es mit überschaubarem Aufwand möglich ist, unterschiedliche Nachrichten zu erzeugen, die dieselbe MD5-Prüfsumme aufweisen.</defaultvalue>
       </inputBox>
 
       <presentation plugin="Hash" width="80%" alignment="Left">
-        <description lang="en">Hash:</description>
+        <description lang="en">Hash:</description>        
       </presentation>
     </sampleViewer>
 
     <sampleViewer image="MD5" file="WorkspaceManagerSamples\MD5_Sample.cwm">
-      <name lang="en" >MD5 Interactive</name>
-      <description lang="en" >Interactive MD5</description>
+      <name lang="en" >MD5 - Interactive</name>
+      <name lang="de" >MD5 - Interaktiv</name>
+      <description lang="en" >Interactive MD5 presentation.</description>
+      <description lang="de" >Interaktive MD5 Präsentation.</description>
 
       <headline lang="en">MD5</headline>
       <desc lang="en">Input your message and watch the MD5 output here.</desc>
+      <desc lang="de">Geben Sie hier Ihre Nachricht ein und betrachten sie die MD5 Ausgabe.</desc>
 
       <inputBox plugin="Input" property="Text" width="50%" alignment="Left" visibleLines="5" group="1">
         <description lang="en">Input Message:</description>
+        <description lang="de">Eingabenachricht:</description>
         <defaultvalue>Message-Digest Algorithm 5 (MD5) ist eine weit verbreitete kryptographische Hashfunktion, die aus einer beliebigen Nachricht einen 128-Bit-Hashwert (deutsch: Prüfsumme) erzeugt. MD5 wurde 1991 von Ronald L. Rivest entwickelt. Sie gilt inzwischen nicht mehr als sicher, da es mit überschaubarem Aufwand möglich ist, unterschiedliche Nachrichten zu erzeugen, die dieselbe MD5-Prüfsumme aufweisen.</defaultvalue>
       </inputBox>
 
@@ -56,6 +70,7 @@
 
       <presentation plugin="MD5" width="60%" height="60%">
         <description lang="en">Interactive MD5:</description>
+        <description lang="de">Interaktives MD5:</description>
       </presentation>
     </sampleViewer>
   </category>
@@ -64,13 +79,16 @@
   <sampleViewer image="SHA" file="WorkspaceManagerSamples\SHA_Sample.cwm">
     <name lang="en" >SHA</name>
     <description lang="en" >The Secure Hash Algorithm is one of a number of cryptographic hash functions published by the National Institute of Standards and Technology as a U.S. Federal Information Processing Standard.</description>
+    <description lang="de" >Der "Secure Hash Algorithm" ist einer von vielen kryptographischen Hash Funktionen die vom "National Institute of Standards and Technology" als "U.S. Federal Information Processing Standard" veröffentlicht wurden.</description>
 
     <headline lang="en">SHA</headline>
     <desc lang="en">Input your message and watch the SHA output here.</desc>
+    <desc lang="de">Geben Sie hier Ihre Nachricht ein und betrachten sie die SHA Ausgabe.</desc>
 
     <inputBox plugin="Input" property="Text" width="80%" alignment="Left" visibleLines="5">
       <description lang="en">Input Message:</description>
-      <defaultvalue>Der Begriff secure hash algorithm (engl. für sicherer Hash-Algorithmus), kurz SHA, bezeichnet eine Gruppe standardisierter kryptologischer Hash-Funktionen. Diese dienen zur Berechnung eines eindeutigen Prüfwerts für beliebige elektronische Daten. Meist handelt es sich dabei um Nachrichten. Es soll praktisch unmöglich sein, zwei verschiedene Nachrichten mit dem gleichen SHA-Wert zu finden. Dieses wird auch als Kollisionssicherheit bezeichnet. Ob SHA-1 dieser Anforderung genügt, kann nicht sicher gesagt werden, da im Sommer 2006 eine wesentliche Schwäche dieses Algorithmus entdeckt und publik gemacht wurde. Grundsätzlich sollte SHA-1 daher nicht mehr in neuen Entwicklungen als sicherer Hash-Algorithmus vorgesehen werden.</defaultvalue>
+      <description lang="de">Eingabenachricht:</description>
+      <defaultvalue lang="de">Der Begriff secure hash algorithm (engl. für sicherer Hash-Algorithmus), kurz SHA, bezeichnet eine Gruppe standardisierter kryptologischer Hash-Funktionen. Diese dienen zur Berechnung eines eindeutigen Prüfwerts für beliebige elektronische Daten. Meist handelt es sich dabei um Nachrichten. Es soll praktisch unmöglich sein, zwei verschiedene Nachrichten mit dem gleichen SHA-Wert zu finden. Dieses wird auch als Kollisionssicherheit bezeichnet. Ob SHA-1 dieser Anforderung genügt, kann nicht sicher gesagt werden, da im Sommer 2006 eine wesentliche Schwäche dieses Algorithmus entdeckt und publik gemacht wurde. Grundsätzlich sollte SHA-1 daher nicht mehr in neuen Entwicklungen als sicherer Hash-Algorithmus vorgesehen werden.</defaultvalue>
     </inputBox>
 
     <presentation plugin="Hash" width="80%" alignment="Left">
@@ -82,13 +100,16 @@
   <sampleViewer image="RIPEMD160" file="WorkspaceManagerSamples\RIPEMD160_Sample.cwm">
     <name lang="en" >RIPEMD160</name>
     <description lang="en" >RIPEMD-160 (RACE Integrity Primitives Evaluation Message Digest) is a 160-bit message digest algorithm (cryptographic hash function). It is an improved version of RIPEMD, which in turn was based upon the design principles used in MD4, and is similar in performance to the more popular SHA-1.</description>
+    <description lang="de" >RIPEMD-160 (RACE Integrity Primitives Evaluation Message Digest) ist ein 160-bit "Message Digest" Algorithmus (kryptographische Hash Funktion). Es ist eine verbesserte Version von RIPEMD, welche wiederum auf den Entwurfsprinzipien, die in MD4 benutzt wurden, basiert, und ist von der Performance vergleichbar mit dem populäreren SHA-1.</description>
 
     <headline lang="en">RIPEMD160</headline>
     <desc lang="en">Input your message and watch the RIPEMD160 output here.</desc>
+    <desc lang="de">Geben Sie hier Ihre Nachricht ein und betrachten sie die RIPEMD160 Ausgabe.</desc>
 
     <inputBox plugin="Input" property="Text" width="80%" alignment="Left" visibleLines="5">
       <description lang="en">Input Message:</description>
-      <defaultvalue>RIPEMD-160 (RACE Integrity Primitives Evaluation Message Digest) ist eine kryptographische Hash-Funktion mit einer Ausgabe von 160 Bits.
+      <description lang="de">Eingabenachricht:</description>
+      <defaultvalue lang="de">RIPEMD-160 (RACE Integrity Primitives Evaluation Message Digest) ist eine kryptographische Hash-Funktion mit einer Ausgabe von 160 Bits.
 
 RIPEMD-160 wurde von Hans Dobbertin, Antoon Bosselaers und Bart Preneel in Europa entwickelt und 1996 erstmals publiziert. Es handelt sich dabei um eine verbesserte Version von RIPEMD, welcher wiederum auf den Designprinzipien von MD4 basiert und in Hinsicht auf seine Stärke und Performance dem populäreren SHA-1 gleicht.</defaultvalue>
     </inputBox>
@@ -102,13 +123,16 @@ RIPEMD-160 wurde von Hans Dobbertin, Antoon Bosselaers und Bart Preneel in Europ
   <sampleViewer image="Tiger" file="WorkspaceManagerSamples\Tiger_Sample.cwm">
     <name lang="en" >Tiger</name>
     <description lang="en" >Tiger is a cryptographic hash function designed by Ross Anderson and Eli Biham in 1995 for efficiency on 64-bit platforms. The size of a Tiger hash value is 192 bits.</description>
+    <description lang="de" >Tiger ist eine kryptographische Hash Funktion die 1995 von Ross Anderson und Eli Biham für Effizienz auf 64-Bit Plattformen entworfen wurde. Die Größe eines Tiger Hashwertes ist 192 Bits.</description>
 
     <headline lang="en">Tiger</headline>
     <desc lang="en">Input your message and watch the Tiger output here.</desc>
+    <desc lang="de">Geben Sie hier Ihre Nachricht ein und betrachten sie die Tiger Ausgabe.</desc>
 
     <inputBox plugin="Input" property="Text" width="80%" alignment="Left" visibleLines="5">
       <description lang="en">Input Message:</description>
-      <defaultvalue>Tiger ist eine kryptografische Hashfunktion, die von Ross Anderson und Eli Biham im Jahr 1996 entwickelt wurde. Der von Tiger erzeugte Hashwert hat eine Länge von 192 Bit. Der Tiger-Algorithmus ist nicht patentiert. Testvektoren für den Nachfolger namens Tiger2 sind bereits verfügbar.</defaultvalue>
+      <description lang="de">Eingabenachricht:</description>
+      <defaultvalue lang="de">Tiger ist eine kryptografische Hashfunktion, die von Ross Anderson und Eli Biham im Jahr 1996 entwickelt wurde. Der von Tiger erzeugte Hashwert hat eine Länge von 192 Bit. Der Tiger-Algorithmus ist nicht patentiert. Testvektoren für den Nachfolger namens Tiger2 sind bereits verfügbar.</defaultvalue>
     </inputBox>
 
     <presentation plugin="Hash" width="80%" alignment="Left">
@@ -120,13 +144,16 @@ RIPEMD-160 wurde von Hans Dobbertin, Antoon Bosselaers und Bart Preneel in Europ
   <sampleViewer image="Whirlpool" file="WorkspaceManagerSamples\Whirlpool_Sample.cwm">
     <name lang="en" >Whirlpool</name>
     <description lang="en" >Whirlpool is a hash designed after the Square block cipher. Whirlpool is a Miyaguchi-Preneel construction based on a substantially modified Advanced Encryption Standard (AES). It takes a message of any length less than 2256 bits and returns a 512-bit message digest.</description>
+    <description lang="de" >Whirlpool ist ein Hash der nach dem "Square" Blockchiffre entworfen wurde. Whirlpool ist eine Miyaguchi-Preneel Konstruktion die auf einem substantiell veränderten "Advanced Encryption Standard" (AES) basiert. Es nimmt eine Nachricht einer Länge kleiner als 2256 Bits entgegen und gibt ein 512-Bit "message digest" zurück.</description>
 
     <headline lang="en">Whirlpool</headline>
     <desc lang="en">Input your message and watch the Whirlpool output here.</desc>
+    <desc lang="de">Geben Sie hier Ihre Nachricht ein und betrachten sie die Whirlpool Ausgabe.</desc>
 
     <inputBox plugin="Input" property="Text" width="80%" alignment="Left" visibleLines="5">
       <description lang="en">Input Message:</description>
-      <defaultvalue>WHIRLPOOL ist eine kryptologische Hash-Funktion, die von Vincent Rijmen und Paulo S. L. M. Barreto entworfen wurde. Sie wurde nach der Whirlpool-Galaxie im Sternbild der Jagdhunde benannt.
+      <description lang="de">Eingabenachricht:</description>
+      <defaultvalue lang="de">WHIRLPOOL ist eine kryptologische Hash-Funktion, die von Vincent Rijmen und Paulo S. L. M. Barreto entworfen wurde. Sie wurde nach der Whirlpool-Galaxie im Sternbild der Jagdhunde benannt.
 
 Whirlpool funktioniert mit Dateien bis zu 2256 Bit Größe und gibt einen Hash-Wert von 512 Bit aus. Bislang sind keine Schwächen des Algorithmus bekannt, was allerdings relativiert werden muss, da der Algorithmus noch sehr jung ist und bislang wenig untersucht wurde.
 
