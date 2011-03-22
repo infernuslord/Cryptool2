@@ -85,6 +85,7 @@
   <ItemGroup>
     <Compile Include="CostFunctionTest.cs" />
     <Compile Include="CrypPluginBase\CStream.cs" />
+    <Compile Include="KeySearcherTests\OpenCLTest.cs" />
     <Compile Include="MD5\Algorithm\PresentableMD5Test.cs" />
     <Compile Include="MD5\Presentation\Helpers\PresentationControlFactoryTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -140,6 +141,14 @@
       <Project>{E46A6AA6-56EE-4AE5-8725-DCD07DC95527}</Project>
       <Name>SSCext</Name>
       <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\WorkspaceManager\WorkspaceManager.csproj">
+      <Project>{949B4294-2894-43B4-BD73-E0B031F5434F}</Project>
+      <Name>WorkspaceManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WorkspaceManagerModel\WorkspaceManagerModel.csproj">
+      <Project>{C35A6E71-D6FE-478B-A12D-FAD54FC4EDC9}</Project>
+      <Name>WorkspaceManagerModel</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
