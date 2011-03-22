@@ -16,7 +16,7 @@ namespace Tests.KeySearcherTests
         public void TestOpenCL()
         {
             KeySearcher.KeySearcher keysearcher = null;
-            WorkspaceManager.WorkspaceManager newEditor = LoadAndInitKeySearcher(ref keysearcher);
+            var model = LoadAndInitKeySearcher(ref keysearcher);
 
             Assert.IsNotNull(keysearcher);  //keysearcher exists
             Assert.AreNotEqual(((KeySearcher.KeySearcherSettings)keysearcher.Settings).OpenCLDevice, -1);   //OpenCL device exists
@@ -24,23 +24,24 @@ namespace Tests.KeySearcherTests
             //first, calculate with CPU:
             double top1value;
             string top1key;
-            CalculateKeySearcher(keysearcher, newEditor, out top1value, out top1key);
+            CalculateKeySearcher(keysearcher, model, out top1value, out top1key);
 
             //now, calculate with OpenCL:
             ((KeySearcher.KeySearcherSettings) keysearcher.Settings).CoresUsed = 0;
             ((KeySearcher.KeySearcherSettings) keysearcher.Settings).UseOpenCL = true;
             double top1valueOpenCL;
             string top1keyOpenCL;
-            CalculateKeySearcher(keysearcher, newEditor, out top1valueOpenCL, out top1keyOpenCL);
+            CalculateKeySearcher(keysearcher, model, out top1valueOpenCL, out top1keyOpenCL);
 
             //now compare:
             Assert.AreEqual(top1value, top1valueOpenCL);
             Assert.AreEqual(top1key, top1keyOpenCL);
         }
 
-        private void CalculateKeySearcher(KeySearcher.KeySearcher keysearcher, WorkspaceManager.WorkspaceManager newEditor, out double top1value, out string top1key)
+        private void CalculateKeySearcher(KeySearcher.KeySearcher keysearcher, WorkspaceModel model, out double top1value, out string top1key)
         {
-            newEditor.Execute();
+            var ee = new WorkspaceManager.Execution.ExecutionEngine(null);
+            ee.Execute(model, 1);
             
             while (!keysearcher.IsKeySearcherFinished)
                 Thread.Sleep(1000);
@@ -48,15 +49,14 @@ namespace Tests.KeySearcherTests
             top1value = keysearcher.Top1.value;
             top1key = keysearcher.Top1.key;
 
-            newEditor.Stop();
+            ee.Stop();
         }
 
-        private WorkspaceManager.WorkspaceManager LoadAndInitKeySearcher(ref KeySearcher.KeySearcher keysearcher)
+        private WorkspaceModel LoadAndInitKeySearcher(ref KeySearcher.KeySearcher keysearcher)
         {
             var file = "..\\..\\..\\ProjectSamples\\WorkspaceManagerSamples\\AES_Analyzer_Entropy.cwm";
             file = Path.Combine(Directory.GetCurrentDirectory(), file);
-
-            var newEditor = new WorkspaceManager.WorkspaceManager();
+            
             var model = ModelPersistance.loadModel(file);
 
             foreach (PluginModel pluginModel in model.GetAllPluginModels())
@@ -66,8 +66,7 @@ namespace Tests.KeySearcherTests
                     keysearcher = (KeySearcher.KeySearcher) pluginModel.Plugin;
             }
 
-            newEditor.Open(model);
-            return newEditor;
+            return model;
         }
     }
 }
