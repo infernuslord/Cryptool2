@@ -6,8 +6,8 @@
 <category image="Modern">
   <name lang="en" >Modern Encryption</name>
   <name lang="de" >Moderne Verschlüsselung</name>
-  <description lang="en" >Selecting this allows you to analyse a ciphertext that was encrypted by a modern algorithm. You can choose which modern algorithm you want to use for doing this.</description>
-  <description lang="de-DE" >In dem Sie dies auswählen, können Sie einen chiffrierten Text, der mit einem modernen Algorithmus verschlüsselt wurde, analysieren. Der dafür verwendete moderne Algorithmus kann von Ihnen ausgewählt werden.</description>
+  <description lang="en" >Selecting this allows you to analyze a ciphertext that was encrypted by a modern algorithm. You can choose which modern algorithm you want to use for doing this.</description>
+  <description lang="de-DE" >Indem Sie dies auswählen, können Sie einen chiffrierten Text, der mit einem modernen Algorithmus verschlüsselt wurde, analysieren. Der dafür verwendete moderne Algorithmus kann von Ihnen ausgewählt werden.</description>
 
   <!-- This is the step's headline. It should be short, but precise. -->
   <headline lang="en">Type Selection</headline>
@@ -24,8 +24,8 @@
   <category image="Asym">
     <name lang="en" >Asymmetric Encryption</name>
     <name lang="de" >Asymmetrische Verschlüsselung</name>
-    <description lang="en" >Selecting this allows you to analyse a ciphertext that was encrypted by a modern asymmetric algorithm. You can choose which asymmetric algorithm you want to use for doing this.</description>
-    <description lang="de-DE" >In dem Sie dies auswählen, können Sie einen chiffrierten Text, der mit einem modernen asymmetrischen Algorithmus verschlüsselt wurde, analysieren. Der dafür verwendete asymmetrische Algorithmus kann von Ihnen ausgewählt werden.</description>
+    <description lang="en" >Selecting this allows you to analyze a ciphertext that was encrypted by a modern asymmetric algorithm. You can choose which asymmetric algorithm you want to use for doing this.</description>
+    <description lang="de-DE" >Indem Sie dies auswählen, können Sie einen chiffrierten Text, der mit einem modernen asymmetrischen Algorithmus verschlüsselt wurde, analysieren. Der dafür verwendete asymmetrische Algorithmus kann von Ihnen ausgewählt werden.</description>
 
     <!-- This is the step's headline. It should be short, but precise. -->
     <headline lang="en" >Algorithm Selection</headline>
@@ -39,16 +39,16 @@
     <input image="RSA" >
       <name lang="en" >RSA</name>
       <description lang="en">
-        RSA is an asymmetric modern algorithm to encrypt plaintext or to decrypt ciphertext.
-In cryptography, RSA (which stands for Rivest, Shamir and Adleman who first publicly described it) is an algorithm for public-key cryptography.
+        RSA is an asymmetric (public-key) algorithm to encrypt plaintext or to decrypt ciphertext.
+RSA stands for Rivest, Shamir and Adleman who first publicly described it.
 It is the first algorithm known to be suitable for signing as well as encryption, and was one of the first great advances in public-key cryptography.
-RSA is widely used in electronic commerce protocols, and is believed to be secure given sufficiently long keys and the use of up-to-date implementations.
+RSA is widely used in electronic commerce protocols, and is believed to be secure given sufficiently long keys and using of up-to-date implementations.
       </description>
       <description lang="de">
-        RSA ist ein asymmetrischer moderner Algorithmus um Klartext zu verschlüsseln oder chiffrierten Text zu entschlüsseln.
-In der Kryptographie, RSA (was für Rivest, Shamir und Adleman steht, die dieses Verfahren zum ersten mal beschrieben) ist ein Algorithmus für public-key Kryptographie.
-Es ist der erste Algorithmus der bekannt dafür ist, sowohl für Signierung als auch Verschlüsselung benutzt werden zu können, und war eine der ersten großen Fortschritte in der public-key Kryptographie.
-RSA ist in E-Kommerz Protokollen weit verbreitet und wird bei genügend langen Schlüsseln und unter Verwendung aktueller Implementationen als sicher betrachtet.
+        RSA ist ein asymmetrischer (Public-Key) Algorithmus, um Klartext zu verschlüsseln oder Geheimtext zu entschlüsseln.
+RSA steht für Rivest, Shamir und Adleman, die dieses Verfahren zum ersten Mal öffentlich beschrieben.
+Es ist der erste Algorithmus der sowohl für Signierung als auch für Verschlüsselung benutzt werden konnte, und er war einer der ersten großen Fortschritte in der Public-Key-Kryptographie.
+RSA ist in kommerziellen Protokollen weit verbreitet und gilt bei genügend langen Schlüsseln und unter Verwendung aktueller Implementierungen als sicher.
       </description>
 
       <headline lang="en">RSA Attack</headline>

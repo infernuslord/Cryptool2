@@ -6,8 +6,8 @@
 <category image="Classic">
   <name lang="en" >Classic Encryption</name>
   <name lang="de" >Klassische Verschlüsselung</name>
-  <description lang="en" >Selecting this allows you to analyse a ciphertext that was encrypted by a classic algorithm. You can choose which classic algorithm you want to use for doing this.</description>
-  <description lang="de-DE" >In dem Sie dies auswählen, können Sie einen chiffrierten Text, der mit einem klassischen Algorithmus verschlüsselt wurde, analysieren. Der dafür verwendete klassische Algorithmus kann von Ihnen ausgewählt werden.</description>
+  <description lang="en" >Selecting this allows you to analyze a ciphertext that was encrypted by a classic algorithm. You can choose which classic algorithm you want to use for doing this.</description>
+  <description lang="de-DE" >Indem Sie dies auswählen, können Sie einen chiffrierten Text, der mit einem klassischen Algorithmus verschlüsselt wurde, analysieren. Der dafür verwendete klassische Algorithmus kann von Ihnen ausgewählt werden.</description>
 
   <!-- This is the step's headline. It should be short, but precise. -->
   <headline lang="en" >Algorithm Selection</headline>
@@ -15,18 +15,18 @@
 
   <!-- This is the step's description. -->
   <desc lang="en" >Select a classic encryption algorithm.</desc>
-  <desc lang="de" >Wählen Sie einen klassischen Verschlüsselungalgorithmus.</desc>
+  <desc lang="de" >Wählen Sie einen klassischen Verschlüsselungsalgorithmus.</desc>
 
   <!-- Caesar input -->
   <input image="Caesar">
     <name lang="en" >Caesar</name>
-    <description lang="en-GB" >
+    <description lang="en" >
       Caesar is a classic algorithm to encrypt plaintext or to decrypt ciphertext. 
-By selecting this, you can analyse some ciphertext that was encrypted with the Caesar algorithm.
+By selecting this, you can analyze some ciphertext that was encrypted with the Caesar algorithm.
     </description>
     <description lang="de" >
-      Caesar ist ein klassischer Algorithmus zum verschlüsseln von Klartext oder entschlüsseln von chiffrierten Text.
-Indem Sie dies wählen, können sie einen mit dem Caesar Algorithmus verschlüsselten Text analysieren.
+      Caesar ist ein klassischer Algorithmus zum Verschlüsseln von Klartext oder Entschlüsseln von chiffrierten Text.
+Indem Sie dies wählen, können Sie einen mit dem Caesar-Algorithmus verschlüsselten Text analysieren.
     </description>
 
     <headline lang="en">Caesar Analysis</headline>
@@ -45,7 +45,7 @@ Hfjxfwx Sfrj bzwij ezr Gjxyfsiyjnq ijx Ynyjqx fqqjw sfhmktqljsijs Mjwwxhmjw ijx 
 
     <comboBox plugin="CaesarAnalysisHelper" property="TextLanguage" defaultValue="0" width="20%" alignment="Left">
       <description lang="en">Language of the cleartext message:</description>
-      <description lang="de">Sprache der Klartext Nachricht:</description>
+      <description lang="de">Sprache der Klartext-Nachricht:</description>
       <item content="German" lang="en"/>
       <item content="English" lang="en"/>
       <item content="French" lang="en"/>
@@ -54,12 +54,12 @@ Hfjxfwx Sfrj bzwij ezr Gjxyfsiyjnq ijx Ynyjqx fqqjw sfhmktqljsijs Mjwwxhmjw ijx 
 
     <sampleViewer image="Caesar" file="WorkspaceManagerSamples\Caesar_Analysis_Sample.cwm">
       <name lang="en">Caesar Analysis Output</name>
-      <name lang="de">Caesar Analyse Ausgabe</name>
+      <name lang="de">Caesar-Analyse: Ausgabe</name>
       <description lang="en">Caesar Analysis Output</description>
-      <description lang="de">Caesar Analyse Ausgabe</description>
+      <description lang="de">Caesar-Analyse: Ausgabe</description>
       
       <headline lang="en">Caesar Analysis Output</headline>
-      <headline lang="de">Caesar Analyse Ausgabe</headline>
+      <headline lang="de">Caesar-Analyse: Ausgabe</headline>
       <desc lang="en">Here, you can change the message and view the results.</desc>
       <desc lang="de">Hier können Sie die Nachricht verändern und die Ergebnisse sehen.</desc>
 
@@ -70,7 +70,7 @@ Hfjxfwx Sfrj bzwij ezr Gjxyfsiyjnq ijx Ynyjqx fqqjw sfhmktqljsijs Mjwwxhmjw ijx 
 
       <outputBox plugin="Deciphered Ciphertext" property="CurrentValue" alignment="Left" width="50%" visibleLines="5" group="OutputGroup">
         <description lang="en">Deciphered Ciphertext:</description>
-        <description lang="de">Entschlüsselter chiffrierter Text:</description>
+        <description lang="de">Entschlüsselter Geheimtext:</description>
       </outputBox>
 
       <outputBox plugin="Key" property="CurrentValue" alignment="Right" width="50%" visibleLines="5" group="OutputGroup">
@@ -89,17 +89,17 @@ Hfjxfwx Sfrj bzwij ezr Gjxyfsiyjnq ijx Ynyjqx fqqjw sfhmktqljsijs Mjwwxhmjw ijx 
   <!-- Vigenère input -->
   <input image="Vigenere">
     <name lang="en" >Vigenère</name>
-    <description lang="en-GB" >
+    <description lang="en" >
       Vigenère is a classic algorithm to encrypt plaintext or to decrypt ciphertext.
-By selecting this, you can analyse some ciphertext that was encrypted with the Vigenère algorithm.
+By selecting this, you can analyze some ciphertext that was encrypted with the Vigenère algorithm.
     </description>
     <description lang="de" >
-      Vigenère ist ein klassischer Algorithmus zum verschlüsseln von Klartext oder entschlüsseln von chiffrierten Text.
-Indem Sie dies wählen, können sie einen mit dem Vigenère Algorithmus verschlüsselten Text analysieren.
+      Vigenère ist ein klassischer Algorithmus zum Verschlüsseln von Klartext oder Entschlüsseln von chiffrierten Text.
+Indem Sie dies wählen, können Sie einen mit dem Vigenère-Algorithmus verschlüsselten Text analysieren.
     </description>
 
     <headline lang="en">Vigenère Analysis</headline>
-    <headline lang="de">Vigenère Analyse</headline>
+    <headline lang="de">Vigenère-Analyse</headline>
     <desc lang="en">Please input the ciphertext and text language.</desc>
     <desc lang="de">Bitte geben Sie den chiffrierten Text ein und wählen die Textsprache aus.</desc>
 
@@ -114,7 +114,7 @@ Zij Vgpyüywafoscw swe „IBHC“, lrx Xarl „kpkeaivzv“. Zqrx Gwykec-Vutobzw
 
     <comboBox plugin="VigenereAutokeyAnalyser" property="Language" defaultValue="0" width="20%" alignment="Left">
       <description lang="en">Language of the cleartext message:</description>
-      <description lang="de">Sprache der Klartext Nachricht:</description>
+      <description lang="de">Sprache der Klartext-Nachricht:</description>
       <item content="English" lang="en"/>
       <item content="German" lang="en"/>      
       <item content="French" lang="en"/>
@@ -130,12 +130,12 @@ Zij Vgpyüywafoscw swe „IBHC“, lrx Xarl „kpkeaivzv“. Zqrx Gwykec-Vutobzw
     
     <sampleViewer image="Vigenere" file="WorkspaceManagerSamples\Vigenere_Analyser_Sample.cwm">
       <name lang="en">Vigenère Analysis Output</name>
-      <name lang="de">Vigenère Analyse Ausgabe</name>
+      <name lang="de">Vigenère-Analyse: Ausgabe</name>
       <description lang="en">Vigenère Analysis Output</description>
-      <description lang="de">Vigenère Analyse Ausgabe</description>
+      <description lang="de">Vigenère-Analyse: Ausgabe</description>
 
       <headline lang="en">Vigenère Analysis Output</headline>
-      <headline lang="de">Vigenère Analyse Ausgabe</headline>
+      <headline lang="de">Vigenère-Analyse: Ausgabe</headline>
       <desc lang="en">Here, you can change the message and view the results.</desc>
       <desc lang="de">Hier können Sie die Nachricht verändern und die Ergebnisse sehen.</desc>
 
@@ -146,7 +146,7 @@ Zij Vgpyüywafoscw swe „IBHC“, lrx Xarl „kpkeaivzv“. Zqrx Gwykec-Vutobzw
 
       <outputBox plugin="Plaintext" property="CurrentValue" alignment="Left" width="50%" visibleLines="5" group="OutputGroup">
         <description lang="en">Deciphered Ciphertext:</description>
-        <description lang="de">Entschlüsselter chiffrierter Text:</description>
+        <description lang="de">Entschlüsselter Geheimtext:</description>
       </outputBox>
 
       <presentation plugin="VigenereAutokeyAnalyser" alignment="Stretch" width="20%" height="20%" group="PresentationGroup">
@@ -159,23 +159,23 @@ Zij Vgpyüywafoscw swe „IBHC“, lrx Xarl „kpkeaivzv“. Zqrx Gwykec-Vutobzw
   <!-- Substitution input -->
   <!--<input image="Substitution">
     <name lang="en" >Substitution</name>
-    <description lang="en-GB" >Substitution is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).</description>
+    <description lang="en" >Substitution is a classic algorithm to encrypt plaintext or to decrypt ciphertext... (add instead some really helpful text).</description>
   </input>-->
 
   <!-- Enigma input -->
   <input image="Enigma">
     <name lang="en" >Enigma</name>
-    <description lang="en-GB" >
+    <description lang="en" >
       Enigma is a classic algorithm to encrypt plaintext or to decrypt ciphertext.
-By selecting this, you can analyse some ciphertext that was encrypted with the Enigma algorithm.
+By selecting this, you can analyze some ciphertext that was encrypted with the Enigma algorithm.
     </description>
     <description lang="de" >
-      Enigma ist ein klassischer Algorithmus zum verschlüsseln von Klartext oder entschlüsseln von chiffrierten Text.
-Indem Sie dies wählen, können sie einen mit dem Enigma Algorithmus verschlüsselten Text analysieren.
+      Enigma ist ein klassischer Algorithmus zum Verschlüsseln von Klartext oder Entschlüsseln von chiffrierten Text.
+Indem Sie dies wählen, können Sie einen mit dem Enigma-Algorithmus verschlüsselten Text analysieren.
     </description>
 
     <headline lang="en">Enigma Analysis</headline>
-    <headline lang="de">Enigma Analyse</headline>
+    <headline lang="de">Enigma-Analyse</headline>
     <desc lang="en">Enter the ciphertext here.</desc>
     <desc lang="de">Geben Sie den chiffrierten Text hier ein.</desc>
 
@@ -218,17 +218,17 @@ Indem Sie dies wählen, können sie einen mit dem Enigma Algorithmus verschlüss
   <!-- Scytale input -->
   <input image="Scytale">
     <name lang="en" >Scytale</name>
-    <description lang="en-GB" >
+    <description lang="en" >
       Scytale is a classic algorithm to encrypt plaintext or to decrypt ciphertext.
-By selecting this, you can analyse some ciphertext that was encrypted with the Scytale.
+By selecting this, you can analyze some ciphertext that was encrypted with the Scytale.
     </description>
     <description lang="de" >
-      Scytale ist ein klassischer Algorithmus zum verschlüsseln von Klartext oder entschlüsseln von chiffrierten Text.
-Indem Sie dies wählen, können sie einen mit dem Scytale Algorithmus verschlüsselten Text analysieren.
+      Scytale ist ein klassischer Algorithmus zum Verschlüsseln von Klartext oder Entschlüsseln von chiffrierten Text.
+Indem Sie dies wählen, können Sie einen mit dem Scytale-Algorithmus verschlüsselten Text analysieren.
     </description>
 
     <headline lang="en">Scytale Analysis</headline>
-    <headline lang="de">Scytale Analyse</headline>
+    <headline lang="de">Scytale-Analyse</headline>
     <desc lang="en">Please input the ciphertext and choose the dictionary to use.</desc>
     <desc lang="de">Bitte geben Sie den chiffrierten Text ein und wählen das zu benutzende Wörterbuch aus.</desc>
 
@@ -247,12 +247,12 @@ Indem Sie dies wählen, können sie einen mit dem Scytale Algorithmus verschlüs
 
     <sampleViewer image="Scytale" file="WorkspaceManagerSamples\Scytale_ExhaustiveKeySearch.cwm">
       <name lang="en" >Scytale Analysis</name>
-      <name lang="de" >Scytale Analyse</name>
+      <name lang="de" >Scytale-Analyse</name>
       <description lang="en" >Scytale Analysis Output</description>
-      <description lang="de" >Scytale Analyse Ausgabe</description>
+      <description lang="de" >Scytale-Analyse: Ausgabe</description>
 
       <headline lang="en">Scytale Analysis Output</headline>
-      <headline lang="de" >Scytale Analyse Ausgabe</headline>
+      <headline lang="de" >Scytale-Analyse: Ausgabe</headline>
       <desc lang="en">Here you can see the analysis of your ciphertext.</desc>
       <desc lang="de">Hier können Sie die Analyse Ihres chiffrierten Textes sehen.</desc>
 

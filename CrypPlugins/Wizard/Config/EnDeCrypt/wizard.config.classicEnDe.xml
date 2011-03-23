@@ -7,7 +7,7 @@
   <name lang="en" >Classic Encryption/Decryption</name>
   <name lang="de-DE" >Klassische Verschlüsselung/Entschlüsselung</name>
   <description lang="en" >Selecting this allows you to encrypt a plaintext or decrypt a ciphertext with a classic algorithm. You can choose which classic algorithm you want to use for doing this.</description>
-  <description lang="de-DE" >In dem Sie dies auswählen, können Sie mit Hilfe eines klassischen Algorithmus einen Klartext verschlüsseln oder einen chiffrierten Text entschlüsseln. Der dafür verwendete klassische Algorithmus kann von Ihnen ausgewählt werden.</description>
+  <description lang="de-DE" >Indem Sie dies auswählen, können Sie mit Hilfe eines klassischen Algorithmus einen Klartext verschlüsseln oder einen chiffrierten Text entschlüsseln. Der dafür verwendete klassische Algorithmus kann von Ihnen ausgewählt werden.</description>
   
   <!-- This is the step's headline. It should be short, but precise. -->
   <headline lang="en">Algorithm Selection</headline>
@@ -39,7 +39,7 @@
 
     <inputBox plugin="Message" property="Text" alignment="Right" width="80%" visibleLines="5" group="input1">
       <description lang="en">Message to encrypt/decrypt:</description>
-      <description lang="de">Nachricht zum verschlüsseln/entschlüsseln:</description>
+      <description lang="de">Nachricht zum Verschlüsseln/Entschlüsseln:</description>
       <defaultvalue lang="en">Input your message here.</defaultvalue>
       <defaultvalue lang="de">Geben Sie Ihre Nachricht hier ein.</defaultvalue>
     </inputBox>
@@ -63,7 +63,7 @@
 
       <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5">
         <description lang="en">Message to encrypt/decrypt:</description>
-        <description lang="de">Nachricht zum verschlüsseln/entschlüsseln:</description>
+        <description lang="de">Nachricht zum Verschlüsseln/Entschlüsseln:</description>
         <defaultvalue lang="en">Input your message here.</defaultvalue>
         <defaultvalue lang="de">Geben Sie Ihre Nachricht hier ein.</defaultvalue>
       </inputBox>
@@ -99,7 +99,7 @@
 
     <inputBox plugin="Message" property="Text" alignment="Right" width="78%" visibleLines="5" group="1">
       <description lang="en">Message to encrypt/decrypt:</description>
-      <description lang="de">Nachricht zum verschlüsseln/entschlüsseln:</description>
+      <description lang="de">Nachricht zum Verschlüsseln/Entschlüsseln:</description>
       <defaultvalue>Hello world! Hallo Welt! Hola mundo! Bonjour le monde!</defaultvalue>
     </inputBox>
 
@@ -122,7 +122,7 @@
 
       <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5" >
         <description lang="en">Message to encrypt/decrypt:</description>
-        <description lang="de">Nachricht zum verschlüsseln/entschlüsseln:</description>
+        <description lang="de">Nachricht zum Verschlüsseln/Entschlüsseln:</description>
         <defaultvalue>Hello world! Hallo Welt! Hola mundo! Bonjour le monde!</defaultvalue>
       </inputBox>
 
@@ -156,7 +156,7 @@
 
     <inputBox plugin="Message" property="Text" alignment="Right" width="78%" visibleLines="5" group="1">
       <description lang="en">Message to encrypt/decrypt:</description>
-      <description lang="de">Nachricht zum verschlüsseln/entschlüsseln:</description>
+      <description lang="de">Nachricht zum Verschlüsseln/Entschlüsseln:</description>
       <defaultvalue lang="en">A substitution cipher is a method of encryption by which units of plaintext are replaced with ciphertext according to a regular system; the "units" may be single letters (the most common), pairs of letters, triplets of letters, mixtures of the above, and so forth. The receiver deciphers the text by performing an inverse substitution.</defaultvalue>
     </inputBox>
 
@@ -179,7 +179,7 @@
 
       <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5">
         <description lang="en">Message to encrypt/decrypt:</description>
-        <description lang="de">Nachricht zum verschlüsseln/entschlüsseln:</description>
+        <description lang="de">Nachricht zum Verschlüsseln/Entschlüsseln:</description>
         <defaultvalue lang="en">Hello world! Hallo Welt! Hola mundo! Bonjour le monde!</defaultvalue>
       </inputBox>
 
@@ -208,7 +208,7 @@ Die erste Enigma wurde von dem deutschen Ingenieur Arthur Scherbius am Ende des 
 
     <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5" >
       <description lang="en">Message to encrypt/decrypt:</description>
-      <description lang="de">Nachricht zum verschlüsseln/entschlüsseln:</description>
+      <description lang="de">Nachricht zum Verschlüsseln/Entschlüsseln:</description>
       <defaultvalue lang="de">Wir wurden entdeckt, sofortiger Rückzug!</defaultvalue>
     </inputBox>
 
@@ -238,7 +238,7 @@ Die erste Enigma wurde von dem deutschen Ingenieur Arthur Scherbius am Ende des 
 
     <inputBox plugin="Message" property="Text" alignment="Right" width="70%" visibleLines="5" group="InputGroup">
       <description lang="en">Message to encrypt/decrypt:</description>
-      <description lang="de">Nachricht zum verschlüsseln/entschlüsseln:</description>
+      <description lang="de">Nachricht zum Verschlüsseln/Entschlüsseln:</description>
     </inputBox>
 
     <inputBox plugin="Playfair" property="Key" alignment="Left" width="30%" visibleLines="1" group="InputGroup">
@@ -258,7 +258,7 @@ Die erste Enigma wurde von dem deutschen Ingenieur Arthur Scherbius am Ende des 
 
       <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5" >
         <description lang="en">Message to encrypt/decrypt:</description>
-        <description lang="de">Nachricht zum verschlüsseln/entschlüsseln:</description>
+        <description lang="de">Nachricht zum Verschlüsseln/Entschlüsseln:</description>
         <defaultvalue lang="en">This is a test!</defaultvalue>
       </inputBox>
 
@@ -292,7 +292,7 @@ Die erste Enigma wurde von dem deutschen Ingenieur Arthur Scherbius am Ende des 
 
     <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5">
       <description lang="en">Message to encrypt/decrypt:</description>
-      <description lang="de">Nachricht zum verschlüsseln/entschlüsseln:</description>
+      <description lang="de">Nachricht zum Verschlüsseln/Entschlüsseln:</description>
       <defaultvalue>ABCDCVX</defaultvalue>
     </inputBox>
 
@@ -320,7 +320,7 @@ Die erste Enigma wurde von dem deutschen Ingenieur Arthur Scherbius am Ende des 
 
       <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5" >
         <description lang="en">Message to encrypt/decrypt:</description>
-        <description lang="de">Nachricht zum verschlüsseln/entschlüsseln:</description>
+        <description lang="de">Nachricht zum Verschlüsseln/Entschlüsseln:</description>
       </inputBox>
 
       <outputBox plugin="Result" property="CurrentValue" alignment="Stretch" visibleLines="5">
@@ -335,7 +335,7 @@ Die erste Enigma wurde von dem deutschen Ingenieur Arthur Scherbius am Ende des 
   <input image="XOR">
     <name lang="en" >XOR</name>
     <description lang="en">XOR is a boolean operator which can be used to encrypt plaintext. Every character of the plaintext will be linked with a character of the given key by the XOR operator. If the key is as long as the plaintext, this becomes a "One-Time-Pad".</description>
-    <description lang="de">XOR ist ein boolischer Operator der zum verschlüsseln von Klartext benutzt werden kann. Jedes Zeichen des Klartext wird mit einem Zeichen des gegebenen Schlüssels mit XOR verknüpft. Falls der Schlüssel so lang wie der Klartext sein sollt, ist dies ein "One-Time-Pad".</description>
+    <description lang="de">XOR ist ein boolischer Operator der zum Verschlüsseln von Klartext benutzt werden kann. Jedes Zeichen des Klartext wird mit einem Zeichen des gegebenen Schlüssels mit XOR verknüpft. Falls der Schlüssel so lang wie der Klartext sein sollt, ist dies ein "One-Time-Pad".</description>
 
     <headline lang="en" >Message Input</headline>
     <headline lang="de" >Nachrichteneingabe</headline>
@@ -344,7 +344,7 @@ Die erste Enigma wurde von dem deutschen Ingenieur Arthur Scherbius am Ende des 
 
     <inputBox plugin="Message" property="Text" alignment="Strecht" width="49%" visibleLines="5" group="InputGroup">
       <description lang="en">Message to encrypt/decrypt:</description>
-      <description lang="de">Nachricht zum verschlüsseln/entschlüsseln:</description>
+      <description lang="de">Nachricht zum Verschlüsseln/Entschlüsseln:</description>
       <defaultvalue>ABCDCVX</defaultvalue>
     </inputBox>
 
@@ -358,7 +358,7 @@ Die erste Enigma wurde von dem deutschen Ingenieur Arthur Scherbius am Ende des 
       <name lang="en" >XOR Output</name>
       <name lang="de" >XOR-Ausgabe</name>
       <description lang="en">XOR is a boolean operator which can be used to encrypt plaintext. Every character of the plaintext will be linked with a character of the given key by the XOR operator. If the key is as long as the plaintext, this becomes a "One-Time-Pad".</description>
-      <description lang="de">XOR ist ein boolischer Operator der zum verschlüsseln von Klartext benutzt werden kann. Jedes Zeichen des Klartext wird mit einem Zeichen des gegebenen Schlüssels mit XOR verknüpft. Falls der Schlüssel so lang wie der Klartext sein sollt, ist dies ein "One-Time-Pad".</description>
+      <description lang="de">XOR ist ein boolischer Operator der zum Verschlüsseln von Klartext benutzt werden kann. Jedes Zeichen des Klartext wird mit einem Zeichen des gegebenen Schlüssels mit XOR verknüpft. Falls der Schlüssel so lang wie der Klartext sein sollt, ist dies ein "One-Time-Pad".</description>
 
       <headline lang="en" >XOR Output</headline>
       <headline lang="de" >XOR-Ausgabe</headline>
@@ -367,7 +367,7 @@ Die erste Enigma wurde von dem deutschen Ingenieur Arthur Scherbius am Ende des 
 
       <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5" >
         <description lang="en">Message to encrypt/decrypt:</description>
-        <description lang="de">Nachricht zum verschlüsseln/entschlüsseln:</description>
+        <description lang="de">Nachricht zum Verschlüsseln/Entschlüsseln:</description>
         <defaultvalue lang="en">ABCDCVX</defaultvalue>
       </inputBox>
 
@@ -401,7 +401,7 @@ Die erste Enigma wurde von dem deutschen Ingenieur Arthur Scherbius am Ende des 
 
     <inputBox plugin="Message" property="Text" alignment="Strecht" width="49%" visibleLines="5" group="InputGroup">
       <description lang="en">Message to encrypt/decrypt:</description>
-      <description lang="de">Nachricht zum verschlüsseln/entschlüsseln:</description>
+      <description lang="de">Nachricht zum Verschlüsseln/Entschlüsseln:</description>
       <defaultvalue>Hello world! Hallo Welt! Hola mundo! Bonjour le monde!</defaultvalue>
     </inputBox>
 
@@ -424,7 +424,7 @@ Die erste Enigma wurde von dem deutschen Ingenieur Arthur Scherbius am Ende des 
 
       <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5" >
         <description lang="en">Message to encrypt/decrypt:</description>
-        <description lang="de">Nachricht zum verschlüsseln/entschlüsseln:</description>
+        <description lang="de">Nachricht zum Verschlüsseln/Entschlüsseln:</description>
         <defaultvalue lang="en">Hello world! Hallo Welt! Hola mundo! Bonjour le monde!</defaultvalue>
       </inputBox>
 
@@ -458,7 +458,7 @@ Die erste Enigma wurde von dem deutschen Ingenieur Arthur Scherbius am Ende des 
 
     <inputBox plugin="Message" property="Text" alignment="Stretch" width="49%" visibleLines="5" group="InputGroup">
       <description lang="en">Message to encrypt/decrypt:</description>
-      <description lang="de">Nachricht zum verschlüsseln/entschlüsseln:</description>
+      <description lang="de">Nachricht zum Verschlüsseln/Entschlüsseln:</description>
       <defaultvalue lang="de">Wir wurden entdeckt, flieh wenn du kannst!</defaultvalue>
     </inputBox>
 
@@ -481,13 +481,13 @@ Die erste Enigma wurde von dem deutschen Ingenieur Arthur Scherbius am Ende des 
 
       <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5" >
         <description lang="en">Message to encrypt/decrypt:</description>
-        <description lang="de">Nachricht zum verschlüsseln/entschlüsseln:</description>
+        <description lang="de">Nachricht zum Verschlüsseln/Entschlüsseln:</description>
         <defaultvalue lang="en">Wir wurden entdeckt, flieh wenn du kannst!</defaultvalue>
       </inputBox>
 
       <presentation plugin="Transposition" height="300">
         <description lang="en">Plugin Presentation:</description>
-        <description lang="de">Plugin Präsentation:</description>
+        <description lang="de">Plugin-Präsentation:</description>
       </presentation>
 
       <outputBox plugin="Result" property="CurrentValue" alignment="Stretch" visibleLines="2">
@@ -520,7 +520,7 @@ Die erste Enigma wurde von dem deutschen Ingenieur Arthur Scherbius am Ende des 
 
     <inputBox plugin="Message" property="Text" alignment="Stretch" width="49%" visibleLines="5" group="InputGroup">
       <description lang="en">Message to encrypt/decrypt:</description>
-      <description lang="de">Nachricht zum verschlüsseln/entschlüsseln:</description>
+      <description lang="de">Nachricht zum Verschlüsseln/Entschlüsseln:</description>
       <defaultvalue lang="de">Eine geheime Botschaft</defaultvalue>
       <defaultvalue lang="en">A secret message</defaultvalue>
     </inputBox>
@@ -544,7 +544,7 @@ Die erste Enigma wurde von dem deutschen Ingenieur Arthur Scherbius am Ende des 
 
       <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5">
         <description lang="en">Message to encrypt/decrypt:</description>
-        <description lang="de">Nachricht zum verschlüsseln/entschlüsseln:</description>
+        <description lang="de">Nachricht zum Verschlüsseln/Entschlüsseln:</description>
         <defaultvalue lang="de">Eine geheime Botschaft</defaultvalue>
         <defaultvalue lang="en">A secret message</defaultvalue>
       </inputBox>
