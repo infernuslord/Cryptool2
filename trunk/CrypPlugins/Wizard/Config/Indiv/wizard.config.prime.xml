@@ -32,7 +32,7 @@
     <desc lang="en">Input the parameters for prime number generation.</desc>
     <desc lang="de">Geben Sie die Parameter zur Erzeugung einer Primzahl ein.</desc>
 
-    <inputBox plugin="PrimesGenerator" property="Input">
+    <inputBox plugin="PrimesGenerator" property="Input" width="50%" alignment="Left">
       <description lang="en">Number of digits:</description>
       <description lang="de">Anzahl an Ziffern:</description>
       <defaultvalue>400</defaultvalue>
@@ -49,7 +49,7 @@
       <desc lang="en">The generated prime number.</desc>
       <desc lang="de">Die erzeugte Primzahl.</desc>
       
-      <outputBox plugin="PrimeNumber" property="CurrentValue" width="90%">
+      <outputBox plugin="PrimeNumber" property="CurrentValue">
         <description lang="en">Generated Prime Number:</description>
         <description lang="de">Generierte Primzahl:</description>
       </outputBox>
@@ -68,7 +68,7 @@
     <desc lang="en">Input the number you want to test.</desc>
     <desc lang="de">Geben Sie die Zahl ein, die Sie testen wollen.</desc>
 
-    <inputBox plugin="Number" property="Text" width="80%" alignment="Left">
+    <inputBox plugin="Number" property="Text" alignment="Stretch">
       <description lang="en">Number (can be a mathematical expression):</description>
       <description lang="de">Zahl (kann ein mathematischer Ausdruck sein):</description>
       <defaultvalue>358985028000324617802198861844522163047755799681138412255630375745509906768216239732389768930571941971276048934551187949</defaultvalue>
