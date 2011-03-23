@@ -35,7 +35,7 @@ using Cryptool.CubeAttackController;
 namespace Cryptool.Trivium
 {
     [Author("Soeren Rinne, David Oruba & Daehyun Strobel", "soeren.rinne@cryptool.org", "Ruhr-Universitaet Bochum, Chair for Embedded Security (EmSec)", "http://www.trust.ruhr-uni-bochum.de/")]
-    [PluginInfo(false, "Trivium", "Trivium", "Trivium/DetailedDescription/Description.xaml", "Trivium/icon.png", "Trivium/Images/encrypt.png", "Trivium/Images/decrypt.png")]
+    [PluginInfo("Trivium.Properties.Resources", false, "TriviumCaption", "TriviumTooltip", "Trivium/DetailedDescription/Description.xaml", "Trivium/icon.png", "Trivium/Images/encrypt.png", "Trivium/Images/decrypt.png")]
     [EncryptionType(EncryptionType.SymmetricBlock)]
     public class Trivium : IEncryption
     {
@@ -68,7 +68,7 @@ namespace Cryptool.Trivium
             set { this.settings = (TriviumSettings)value; }
         }
 
-        [PropertyInfo(Direction.InputData, "Input", "Data to be encrypted or decrypted.", "", true, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "inputStringName", "inputStringDescription", "", true, false, QuickWatchFormat.Hex, null)]
         public string InputString
         {
             get { return this.inputString; }
@@ -79,7 +79,7 @@ namespace Cryptool.Trivium
             }
         }
 
-        [PropertyInfo(Direction.InputData, "Key", "Must be 10 bytes (80 bit) in Hex.", "", true, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "inputKeyName", "inputKeyDescription", "", true, false, QuickWatchFormat.Hex, null)]
         public string InputKey
         {
             get { return this.inputKey; }
@@ -90,7 +90,7 @@ namespace Cryptool.Trivium
             }
         }
 
-        [PropertyInfo(Direction.InputData, "IV", "Must be 10 bytes (80 bit) in Hex.", "", true, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "inputIVName", "inputIVDescription", "", true, false, QuickWatchFormat.Hex, null)]
         public string InputIV
         {
             get { return this.inputIV; }
@@ -101,7 +101,7 @@ namespace Cryptool.Trivium
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "Output stream", "Encrypted or decrypted output data", "", true, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "outputStringName", "outputStringDescription", "", true, false, QuickWatchFormat.Hex, null)]
         public string OutputString
         {
             get { return this.outputString; }
@@ -636,7 +636,7 @@ namespace Cryptool.Trivium
         #region IControl
 
         private IControlCubeAttack triviumSlave;
-        [PropertyInfo(Direction.ControlSlave, "Trivium Slave", "Direct access to Trivium.", "")]
+        [PropertyInfo(Direction.ControlSlave, "triviumSlaveName", "triviumSlaveDescription", "")]
         public IControlCubeAttack TriviumSlave
         {
             get
