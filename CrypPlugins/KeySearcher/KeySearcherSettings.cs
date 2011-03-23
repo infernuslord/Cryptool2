@@ -361,14 +361,14 @@ namespace KeySearcher
         {
             get
             {
-                if (deviceSettings.Count > OpenCLDevice)
+                if (OpenCLDevice != -1 && deviceSettings.Count > OpenCLDevice)
                     return deviceSettings[OpenCLDevice].UseDevice;
                 else
                     return false;
             }
             set
             {
-                if ((deviceSettings.Count > OpenCLDevice) && (value != deviceSettings[OpenCLDevice].UseDevice))
+                if (OpenCLDevice != -1 && (deviceSettings.Count > OpenCLDevice) && (value != deviceSettings[OpenCLDevice].UseDevice))
                 {
                     deviceSettings[OpenCLDevice].useDevice = value;
                     hasChanges = true;
@@ -383,14 +383,14 @@ namespace KeySearcher
         {
             get
             {
-                if (deviceSettings.Count > OpenCLDevice)
+                if (OpenCLDevice != -1 && deviceSettings.Count > OpenCLDevice)
                     return deviceSettings[OpenCLDevice].mode;
                 else
                     return 0;
             }
             set
             {
-                if ((deviceSettings.Count > OpenCLDevice) && (value != deviceSettings[OpenCLDevice].mode))
+                if (OpenCLDevice != -1 && (deviceSettings.Count > OpenCLDevice) && (value != deviceSettings[OpenCLDevice].mode))
                 {
                     if (Settings.Default.EnableHighLoad || value != 2)
                         deviceSettings[OpenCLDevice].mode = value;

@@ -110,7 +110,6 @@ namespace KeySearcher.P2P.Presentation
             }
         }
 
-        //----------------------------------
         private long jobSubmitterID;
         public long JobSubmitterID
         {
@@ -121,7 +120,6 @@ namespace KeySearcher.P2P.Presentation
                 OnPropertyChanged("JobSubmitterID");
             }
         }
-        //-----------------------------------
 
         private TimeSpan elapsedTime;
         public TimeSpan ElapsedTime

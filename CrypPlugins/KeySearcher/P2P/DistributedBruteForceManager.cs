@@ -87,7 +87,7 @@ namespace KeySearcher.P2P
             int sessionchunk = 0;
             Leaf currentLeaf;
             keySearcher.InitialiseInformationQuickwatch();
-            int utime = settings.UpdateTime > 0 ? settings.UpdateTime : 30;
+            int utime = settings.UpdateTime > 0 ? settings.UpdateTime : 30;     //
             var statisticTimer = new Timer { Interval = utime * 60 * 1000 };    //Update of the statistics after every 30 minutes
             statisticTimer.Start();
 
