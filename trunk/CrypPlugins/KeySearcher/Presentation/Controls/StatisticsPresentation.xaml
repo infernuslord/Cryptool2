@@ -87,7 +87,15 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Label Content="K e y S e a r c h e r   S t a t i s t i c" Background="Beige" BorderBrush="Black" BorderThickness="0,0,0,2" FontWeight="bold" FontSize="13" Grid.Row="0"  HorizontalAlignment="Stretch" VerticalAlignment="Top" HorizontalContentAlignment="Center" />
-        <Button Name="myProgButton" Content="X" Click="SwitchView" Width="25" Height="17" VerticalAlignment="Top" HorizontalAlignment="Right" FontWeight="bold" FontSize="9" Foreground="White" Background="Crimson" BorderBrush="DarkBlue" />
+        <Button Name="myProgButton" Content="X" Click="SwitchView" Width="25" Height="17" VerticalAlignment="Top" HorizontalAlignment="Right" FontWeight="bold" FontSize="9" Foreground="White" BorderBrush="DarkBlue">
+            <Button.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" >
+                    <GradientStop Color="#FFFFD190" Offset="0.2"/>
+                    <GradientStop Color="Crimson" Offset="0.85"/>
+                    <GradientStop Color="#FFFFD190" Offset="1"/>
+                </LinearGradientBrush>
+            </Button.Background>
+        </Button>
 
         <TabControl Grid.Row="2" >
             <TabControl.Resources>

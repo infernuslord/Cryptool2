@@ -609,4 +609,10 @@
 	<data name="KeyPoolTree_" xml:space="preserve">
     <value>Schlüsselbaum</value>
   </data>
+	<data name="Total__Users_" xml:space="preserve">
+    <value>Anzahl Benutzer</value>
+  </data>
+	<data name="_Next_Update_Time___">
+		<value><![CDATA[Nächste Updatezeit: ]]></value>
+	</data>
 </root>

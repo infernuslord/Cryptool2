@@ -197,7 +197,7 @@ namespace KeySearcherPresentation.Controls
             }
         }
 
-        private string nextupdatetime = "Next__Update__Time: -";
+        private string nextupdatetime = KeySearcher.Properties.Resources._Next_Update_Time___;
         public string NextUpdateTime
         {
             get { return nextupdatetime; }

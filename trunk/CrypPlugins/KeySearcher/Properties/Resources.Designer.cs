@@ -124,6 +124,15 @@ namespace KeySearcher.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Next Update Time: .
+        /// </summary>
+        internal static string _Next_Update_Time___ {
+            get {
+                return ResourceManager.GetString("_Next_Update_Time___", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Users.
         /// </summary>
         internal static string _Users_ {
@@ -1454,6 +1463,15 @@ namespace KeySearcher.Properties {
         internal static string Total__Keys__to_Search_ {
             get {
                 return ResourceManager.GetString("Total__Keys__to_Search_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total Users.
+        /// </summary>
+        internal static string Total__Users_ {
+            get {
+                return ResourceManager.GetString("Total__Users_", resourceCulture);
             }
         }
         

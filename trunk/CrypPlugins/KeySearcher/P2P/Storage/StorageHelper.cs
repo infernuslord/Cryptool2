@@ -20,8 +20,8 @@ namespace KeySearcher.P2P.Storage
         private readonly StatisticsGenerator statisticsGenerator;
         private readonly StatusContainer statusContainer;
 
-        //VERSIONNUMBER: Important. Set it +1 manually everytime the length of the MemoryStream Changes
-        private const int version = 3;
+        //VERSIONNUMBER: Important. Set it +1 manually everytime the length of the MemoryStream Changes or important changes were done
+        private const int version = 4;
 
         public StorageHelper(KeySearcher keySearcher, StatisticsGenerator statisticsGenerator, StatusContainer statusContainer)
         {
@@ -224,6 +224,7 @@ namespace KeySearcher.P2P.Storage
                 {
                     var key = binaryReader.ReadString();
                     int keyaLength = binaryReader.ReadInt32();
+                    //reading the key values from this node
                     var newResult = new KeySearcher.ValueKey
                                         {
                                                 key = key,

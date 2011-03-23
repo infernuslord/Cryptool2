@@ -66,12 +66,10 @@ namespace KeySearcher.P2P.Tree
             return storageHelper.StartDate(Identifier);
         }
 
-        //---------------------------------------------------
         public long SubmitterID()
         {
             return storageHelper.SubmitterID(Identifier);
         }
-        //----------------------------------------------------
 
         public Leaf FindNextLeaf()
         {
