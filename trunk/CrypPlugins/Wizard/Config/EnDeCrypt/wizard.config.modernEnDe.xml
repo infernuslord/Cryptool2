@@ -6,7 +6,7 @@
   <name lang="en" >Modern Encryption/Decryption</name>
   <name lang="de" >Moderne Verschlüsselung/Entschlüsselung</name>
   <description lang="en" >Selecting this allows you to encrypt a plaintext or decrypt a ciphertext with a modern algorithm. You can choose which modern algorithm you want to use for doing this.</description>
-  <description lang="de-DE" >In dem Sie dies auswählen, können Sie mit Hilfe eines modernen Algorithmus einen Klartext verschlüsseln oder einen chiffrierten Text entschlüsseln. Der dafür verwendete moderne Algorithmus kann von Ihnen ausgewählt werden.</description>
+  <description lang="de-DE" >Indem Sie dies auswählen, können Sie mit Hilfe eines modernen Algorithmus einen Klartext verschlüsseln oder einen chiffrierten Text entschlüsseln. Der dafür verwendete moderne Algorithmus kann von Ihnen ausgewählt werden.</description>
 
   <!-- This is the step's headline. It should be short, but precise. -->
   <headline lang="en">Type Selection</headline>
@@ -24,7 +24,7 @@
     <name lang="en" >Asymmetric Encryption/Decryption</name>
     <name lang="de" >Asymmetrische Verschlüsselung/Entschlüsselung</name>
     <description lang="en" >Selecting this allows you to encrypt a plaintext or decrypt a ciphertext with an asymmetric algorithm. Asymmetric algorithms are those, where you have two different keys, one for encryption and one for decryption. You can choose which asymmetric algorithm you want to use for doing this.</description>
-    <description lang="de-DE" >In dem Sie dies auswählen, können Sie mit Hilfe eines asymmetrischen Algorithmus einen Klartext verschlüsseln oder einen chiffrierten Text entschlüsseln. Asymmetrische Algorithmen sind solche, bei denen man zwei verschiedene Schlüssel hat, einen zum Verschlüsseln und einen zum Entschlüsseln. Der dafür verwendete asymmetrische Algorithmus kann von Ihnen ausgewählt werden.</description>
+    <description lang="de-DE" >Indem Sie dies auswählen, können Sie mit Hilfe eines asymmetrischen Algorithmus einen Klartext verschlüsseln oder einen chiffrierten Text entschlüsseln. Asymmetrische Algorithmen sind solche, bei denen man zwei verschiedene Schlüssel hat, einen zum Verschlüsseln und einen zum Entschlüsseln. Der dafür verwendete asymmetrische Algorithmus kann von Ihnen ausgewählt werden.</description>
 
     <headline lang="en">Algorithm Selection</headline>
     <headline lang="de">Algorithmusauswahl</headline>
@@ -36,16 +36,16 @@
     <category image="RSA">
       <name lang="en">RSA</name>
       <description lang="en">
-        RSA is an asymmetric modern algorithm to encrypt plaintext or to decrypt ciphertext.
-In cryptography, RSA (which stands for Rivest, Shamir and Adleman who first publicly described it) is an algorithm for public-key cryptography.
+        RSA is an asymmetric (public-key) algorithm to encrypt plaintext or to decrypt ciphertext.
+RSA stands for Rivest, Shamir and Adleman who first publicly described it.
 It is the first algorithm known to be suitable for signing as well as encryption, and was one of the first great advances in public-key cryptography.
-RSA is widely used in electronic commerce protocols, and is believed to be secure given sufficiently long keys and the use of up-to-date implementations.
+RSA is widely used in electronic commerce protocols, and is believed to be secure given sufficiently long keys and using of up-to-date implementations.
       </description>
       <description lang="de">
-        RSA ist ein asymmetrischer moderner Algorithmus um Klartext zu verschlüsseln oder chiffrierten Text zu entschlüsseln.
-In der Kryptographie, RSA (was für Rivest, Shamir und Adleman steht, die dieses Verfahren zum ersten mal beschrieben) ist ein Algorithmus für public-key Kryptographie.
-Es ist der erste Algorithmus der bekannt dafür ist, sowohl für Signierung als auch Verschlüsselung benutzt werden zu können, und war eine der ersten großen Fortschritte in der public-key Kryptographie.
-RSA ist in E-Kommerz Protokollen weit verbreitet und wird bei genügend langen Schlüsseln und unter Verwendung aktueller Implementationen als sicher betrachtet.
+        RSA ist ein asymmetrischer (Public-Key) Algorithmus, um Klartext zu verschlüsseln oder Geheimtext zu entschlüsseln.
+RSA steht für Rivest, Shamir und Adleman, die dieses Verfahren zum ersten Mal öffentlich beschrieben.
+Es ist der erste Algorithmus der sowohl für Signierung als auch für Verschlüsselung benutzt werden konnte, und er war einer der ersten großen Fortschritte in der Public-Key-Kryptographie.
+RSA ist in kommerziellen Protokollen weit verbreitet und gilt bei genügend langen Schlüsseln und unter Verwendung aktueller Implementierungen als sicher.
       </description>
 
       <headline lang="en">RSA</headline>
@@ -77,7 +77,7 @@ RSA ist in E-Kommerz Protokollen weit verbreitet und wird bei genügend langen S
 
         <inputBox plugin="Cleartext" property="Text" visibleLines="5" alignment="Left">
           <description lang="en">Text message to encrypt:</description>
-          <description lang="de">Textnachricht zum verschlüsseln:</description>
+          <description lang="de">Textnachricht zum Verschlüsseln:</description>
           <defaultvalue lang="en">In cryptography, RSA (which stands for Rivest, Shamir and Adleman who first publicly described it) is an algorithm for public-key cryptography.[1] It is the first algorithm known to be suitable for signing as well as encryption, and was one of the first great advances in public key cryptography. RSA is widely used in electronic commerce protocols, and is believed to be secure given sufficiently long keys and the use of up-to-date implementations.</defaultvalue>
         </inputBox>
 
@@ -89,14 +89,14 @@ RSA ist in E-Kommerz Protokollen weit verbreitet und wird bei genügend langen S
 
         <sampleViewer image="RSA" file="WorkspaceManagerSamples\RSA_Encryption_Sample.cwm">
           <name lang="en" >RSA Encryption Output</name>
-          <name lang="de" >RSA Verschlüsselungsausgabe</name>
+          <name lang="de" >RSA-Verschlüsselung: Ausgabe</name>
           <description lang="en">RSA Encryption Output</description>
-          <description lang="de">RSA Verschlüsselungsausgabe</description>
+          <description lang="de">RSA-Verschlüsselung: Ausgabe</description>
 
           <headline lang="en">RSA Encryption Output</headline>
-          <headline lang="de">RSA Verschlüsselungsausgabe</headline>
+          <headline lang="de">RSA-Verschlüsselung: Ausgabe</headline>
           <desc lang="en">Here, you can see the RSA encryption output.</desc>
-          <desc lang="de">Hier können Sie die RSA Verschlüsselungsausgabe sehen.</desc>
+          <desc lang="de">Hier können Sie die RSA-Verschlüsselungsausgabe sehen.</desc>
 
           <presentation plugin="Ciphertext" width="90%" alignment="Left">
             <description lang="en">Ciphertext (in Hex):</description>
@@ -146,14 +146,14 @@ RSA ist in E-Kommerz Protokollen weit verbreitet und wird bei genügend langen S
 
         <sampleViewer image="RSA" file="WorkspaceManagerSamples\RSA_Decryption_Sample.cwm">
           <name lang="en" >RSA Decryption Output</name>
-          <name lang="de" >RSA Entschlüsselungsausgabe</name>
+          <name lang="de" >RSA-Entschlüsselung: Ausgabe</name>
           <description lang="en">RSA Decryption Output</description>
-          <description lang="de">RSA Entschlüsselungsausgabe</description>
+          <description lang="de">RSA-Entschlüsselung: Ausgabe</description>
 
           <headline lang="en">RSA Decryption Output</headline>
-          <headline lang="de">RSA Entschlüsselungsausgabe</headline>
+          <headline lang="de">RSA-Entschlüsselung: Ausgabe</headline>
           <desc lang="en">Here, you can see the RSA decryption output.</desc>
-          <desc lang="de">Hier können Sie die RSA Entschlüsselungsausgabe sehen.</desc>
+          <desc lang="de">Hier können Sie die RSA-Entschlüsselungsausgabe sehen.</desc>
 
           <presentation plugin="Cleartext" width="90%" alignment="Left">
             <description lang="en">Cleartext:</description>
@@ -171,7 +171,7 @@ RSA ist in E-Kommerz Protokollen weit verbreitet und wird bei genügend langen S
         <name lang="en">RSA Key Generation</name>
         <name lang="en">RSA Schlüsselgenerator</name>
         <description lang="en">Select this, to generate a random key for use with the RSA algorithm.</description>
-        <description lang="de">Wählen Sie dies, um einen zufälligen Schlüssel zur Benutzung mit dem RSA Algorithmus zu generieren.</description>
+        <description lang="de">Wählen Sie dies, um einen zufälligen Schlüssel zur Benutzung mit dem RSA-Algorithmus zu generieren.</description>
 
         <headline lang="en">RSA Key Generation</headline>
         <headline lang="de">RSA Schlüsselerzeugung</headline>

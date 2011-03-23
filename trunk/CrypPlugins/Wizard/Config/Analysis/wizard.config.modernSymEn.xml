@@ -6,8 +6,8 @@
 <category image="Sym">
   <name lang="en" >Symmetric Encryption</name>
   <name lang="d" >Symmetrische Verschlüsselung</name>
-  <description lang="en" >Selecting this allows you to analyse a ciphertext that was encrypted by a modern symmetric algorithm. You can choose which symmetric algorithm you want to use for doing this.</description>
-  <description lang="de-DE" >In dem Sie dies auswählen, können Sie einen chiffrierten Text, der mit einem modernen symmetrischen Algorithmus verschlüsselt wurde, analysieren. Der dafür verwendete symmetrische Algorithmus kann von Ihnen ausgewählt werden.</description>
+  <description lang="en" >Selecting this allows you to analyze a ciphertext that was encrypted by a modern symmetric algorithm. You can choose which symmetric algorithm you want to use for doing this.</description>
+  <description lang="de-DE" >Indem Sie dies auswählen, können Sie einen chiffrierten Text, der mit einem modernen symmetrischen Algorithmus verschlüsselt wurde, analysieren. Der dafür verwendete symmetrische Algorithmus kann von Ihnen ausgewählt werden.</description>
 
   <!-- This is the step's headline. It should be short, but precise. -->
   <headline lang="en" >Algorithm Selection</headline>
@@ -18,28 +18,28 @@
   <!-- AES input -->
   <category image="AES" >
     <name lang="en" >AES</name>
-    <description lang="en-GB" >
+    <description lang="en" >
       AES is a modern symmetric algorithm to encrypt plaintext or to decrypt ciphertext.
-By selecting this, you can analyse some ciphertext that was encrypted with the AES algorithm.
+By selecting this, you can analyze some ciphertext that was encrypted with the AES algorithm.
     </description>
     <description lang="de" >
       AES ist ein moderner symmetrischer Algorithmus um Klartext zu verschlüsseln oder chiffrierten Text zu entschlüsseln.
-Indem Sie dies auswählen können Sie chiffrierten Text, der mit dem AES Algorithmus verschlüsselt wurde, analysieren.
+Indem Sie dies auswählen können Sie chiffrierten Text, der mit dem AES-Algorithmus verschlüsselt wurde, analysieren.
     </description>
 
     <input image="AES">
       <name lang="en">Ciphertext Only</name>
-      <name lang="de">Nur chiffrierter Text</name>
-      <description lang="en-GB">Analyses a ciphertext by using only the ciphertext. It will use entropy as the cost function.</description>
+      <name lang="de">Nur Geheimtext</name>
+      <description lang="en">Analyses a ciphertext by using only the ciphertext. It will use entropy as the cost function.</description>
       <description lang="de">Analysiert einen chiffrierten Text nur mit Hilfe des chiffrierten Textes. Benutzt Entropy als Kostenfunktion.</description>
 
       <headline lang="en">AES - Ciphertext Only Analysis</headline>
-      <headline lang="de">AES - Nur chiffrierter Text Analyse</headline>
+      <headline lang="de">AES - Nur Geheimtext-Analyse</headline>
       <desc lang="en">Please input the ciphertext.</desc>
       <desc lang="de">Bitte geben Sie den chiffrierten Text ein.</desc>
 
       <inputBox plugin="Ciphertext" property="Text" visibleLines="5" alignment="Stretch" width="90%">
-        <description lang="en-GB">Ciphertext to analyse (in HEX):</description>
+        <description lang="en">Ciphertext to analyze (in HEX):</description>
         <description lang="de">Chiffrierter Text, der analysiert werden soll (in HEX):</description>
         <defaultvalue>CE2973F05ED9F96AA59886C3D8BF723D3B406002E27D69931F6C07D38D6DD632</defaultvalue>
       </inputBox>
@@ -68,23 +68,23 @@ Indem Sie dies auswählen können Sie chiffrierten Text, der mit dem AES Algorit
 
       <sampleViewer image="AES" file="WorkspaceManagerSamples\AES_Analyzer_Entropy.cwm">
         <name lang="en">Ciphertext Only Analysis</name>
-        <name lang="de">Nur chiffrierter Text Analyse</name>
+        <name lang="de">Nur Geheimtext-Analyse</name>
         <description lang="en">Ciphertext Only Analysis Output</description>
-        <description lang="de">Nur chiffrierter Text Analyse Ausgabe</description>
+        <description lang="de">Nur Geheimtext-Analyse: Ausgabe</description>
 
         <headline lang="en">AES Ciphertext Only Analysis Output</headline>
-        <headline lang="de">Nur chiffrierter Text Analyse Ausgabe</headline>
+        <headline lang="de">Nur Geheimtext-Analyse: Ausgabe</headline>
         <desc lang="en">Here, you can see the AES analysis.</desc>
-        <desc lang="de">Hier können Sie die AES Analyse sehen.</desc>
+        <desc lang="de">Hier können Sie die AES-Analyse sehen.</desc>
 
         <presentation plugin="KeySearcher" width="50%" height="50%">
-          <description lang="en-GB">Analyser:</description>
+          <description lang="en">Analyser:</description>
           <description lang="de">Analysierer:</description>
         </presentation>
 
         <outputBox plugin="Deciphered Ciphertext" property="CurrentValue" width="50%" alignment="Left" visibleLines="3" group="Output">
           <description lang="en">Deciphered Ciphertext:</description>
-          <description lang="de">Entschlüsselter chiffrierter Text:</description>
+          <description lang="de">Entschlüsselter Geheimtext:</description>
         </outputBox>
 
         <presentation plugin="Key" width="50%" alignment="Right" group="Output">
@@ -98,16 +98,16 @@ Indem Sie dies auswählen können Sie chiffrierten Text, der mit dem AES Algorit
     <input image="AES">
       <name lang="en">Known Plaintext</name>
       <name lang="de">Bekannter Klartext</name>
-      <description lang="en-GB">Analyses a ciphertext by using a piece of known plaintext.</description>
+      <description lang="en">Analyses a ciphertext by using a piece of known plaintext.</description>
       <description lang="de">Analysiert einen chiffrierten Text mit Hilfe eines Stücks bekannten Klartextes.</description>
 
       <headline lang="en">AES - Known Plaintext Analysis</headline>
-      <headline lang="de">AES - Bekannter Klartext Analyse</headline>
+      <headline lang="de">AES - Bekannter-Klartext-Analyse</headline>
       <desc lang="en">Please input the ciphertext and known plaintext.</desc>
       <desc lang="de">Bitte geben Sie den chiffrierten Text und den bekannten Klartext ein.</desc>
       
       <inputBox plugin="Ciphertext" property="Text" group="inputs" visibleLines="5" alignment="Left" width="50%">
-        <description lang="en-GB">Ciphertext to analyse (in HEX):</description>
+        <description lang="en">Ciphertext to analyze (in HEX):</description>
         <description lang="de">Chiffrierter Text, der analysiert werden soll (in HEX):</description>
         <defaultvalue>CE2973F05ED9F96AA59886C3D8BF723D3B406002E27D69931F6C07D38D6DD632</defaultvalue>
       </inputBox>
@@ -142,23 +142,23 @@ Indem Sie dies auswählen können Sie chiffrierten Text, der mit dem AES Algorit
 
       <sampleViewer image="AES" file="WorkspaceManagerSamples\AES_Analyzer_KnownPlaintext.cwm">
         <name lang="en">Known Plaintext Analysis</name>
-        <name lang="de">Bekannter Klartext Analyse</name>
+        <name lang="de">Bekannter-Klartext-Analyse</name>
         <description lang="en">Known Plaintext Analysis Output</description>
-        <description lang="de">Bekannter Klartext Analyse Ausgabe</description>
+        <description lang="de">Bekannter-Klartext-Analyse: Ausgabe</description>
 
         <headline lang="en">AES Known Plaintext Analysis Output</headline>
-        <headline lang="de">Bekannter Klartext Analyse Ausgabe</headline>
+        <headline lang="de">Bekannter-Klartext-Analyse: Ausgabe</headline>
         <desc lang="en">Here, you can see the AES analysis.</desc>
-        <desc lang="de">Hier können Sie die AES Analyse sehen.</desc>
+        <desc lang="de">Hier können Sie die AES-Analyse sehen.</desc>
         
         <presentation plugin="KeySearcher" width="50%" height="50%">
-          <description lang="en-GB">Analyser:</description>
+          <description lang="en">Analyser:</description>
           <description lang="de">Analysierer:</description>
         </presentation>
 
         <outputBox plugin="Deciphered Ciphertext" property="CurrentValue" width="50%" alignment="Left" visibleLines="3" group="Output">
           <description lang="en">Deciphered Ciphertext:</description>
-          <description lang="de">Entschlüsselter chiffrierter Text:</description>
+          <description lang="de">Entschlüsselter Geheimtext:</description>
         </outputBox>
 
         <presentation plugin="Key" width="50%" alignment="Right" group="Output">
@@ -174,28 +174,28 @@ Indem Sie dies auswählen können Sie chiffrierten Text, der mit dem AES Algorit
   <!-- DES input -->
   <category image="DES" >
     <name lang="en" >DES</name>
-    <description lang="en-GB" >
+    <description lang="en" >
       DES is a modern symmetric algorithm to encrypt plaintext or to decrypt ciphertext.
-By selecting this, you can analyse some ciphertext that was encrypted with the DES algorithm.
+By selecting this, you can analyze some ciphertext that was encrypted with the DES algorithm.
     </description>
     <description lang="de" >
       DES ist ein moderner symmetrischer Algorithmus um Klartext zu verschlüsseln oder chiffrierten Text zu entschlüsseln.
-Indem Sie dies auswählen können Sie chiffrierten Text, der mit dem DES Algorithmus verschlüsselt wurde, analysieren.
+Indem Sie dies auswählen können Sie chiffrierten Text, der mit dem DES-Algorithmus verschlüsselt wurde, analysieren.
     </description>
 
     <input image="DES">
       <name lang="en">Ciphertext Only</name>
-      <name lang="de">Nur chiffrierter Text</name>
-      <description lang="en-GB">Analyses a ciphertext by using only the ciphertext. It will use entropy as the cost function.</description>
+      <name lang="de">Nur Geheimtext-Analyse</name>
+      <description lang="en">Analyses a ciphertext by using only the ciphertext. It will use entropy as the cost function.</description>
       <description lang="de">Analysiert einen chiffrierten Text nur mit Hilfe des chiffrierten Textes. Benutzt Entropy als Kostenfunktion.</description>
 
       <headline lang="en">DES - Ciphertext Only Analysis</headline>
-      <headline lang="de">DES - Nur chiffrierter Text Analyse</headline>
+      <headline lang="de">DES - Nur Geheimtext-Analyse</headline>
       <desc lang="en">Please input the ciphertext.</desc>
       <desc lang="de">Bitte geben Sie den chiffrierten Text ein.</desc>
       
       <inputBox plugin="Ciphertext" property="Text" visibleLines="5" alignment="Stretch" width="90%">
-        <description lang="en-GB">Ciphertext to analyse (in HEX):</description>
+        <description lang="en">Ciphertext to analyze (in HEX):</description>
         <description lang="de">Chiffrierter Text, der analysiert werden soll (in HEX):</description>
         <defaultvalue>F75F8F1C1DA276C4C56B871BF41F473CB871E1C25436AC8518C5D43BFF8545CF</defaultvalue>
       </inputBox>
@@ -216,23 +216,23 @@ Indem Sie dies auswählen können Sie chiffrierten Text, der mit dem DES Algorit
 
       <sampleViewer image="DES" file="WorkspaceManagerSamples\DES_Analyzer_Entropy.cwm">
         <name lang="en">Ciphertext Only Analysis</name>
-        <name lang="de">Nur chiffrierter Text Analyse</name>
+        <name lang="de">Nur Geheimtext-Analyse</name>
         <description lang="en">Ciphertext Only Analysis Output</description>
-        <description lang="de">Nur chiffrierter Text Analyse Ausgabe</description>
+        <description lang="de">Nur Geheimtext-Analyse: Ausgabe</description>
 
         <headline lang="en">AES Ciphertext Only Analysis Output</headline>
-        <headline lang="de">Nur chiffrierter Text Analyse Ausgabe</headline>
+        <headline lang="de">Nur Geheimtext-Analyse: Ausgabe</headline>
         <desc lang="en">Here, you can see the DES analysis.</desc>
-        <desc lang="de">Hier können Sie die DES Analyse sehen.</desc>
+        <desc lang="de">Hier können Sie die DES-Analyse sehen.</desc>
 
         <presentation plugin="KeySearcher" width="50%" height="50%">
-          <description lang="en-GB">Analyser:</description>
+          <description lang="en">Analyser:</description>
           <description lang="de">Analysierer:</description>
         </presentation>
 
         <outputBox plugin="Deciphered Ciphertext" property="CurrentValue" width="50%" alignment="Left" visibleLines="3" group="Output">
           <description lang="en">Deciphered Ciphertext:</description>
-          <description lang="de">Entschlüsselter chiffrierter Text:</description>
+          <description lang="de">Entschlüsselter Geheimtext:</description>
         </outputBox>
 
         <presentation plugin="Key" width="50%" alignment="Right" group="Output">
@@ -246,16 +246,16 @@ Indem Sie dies auswählen können Sie chiffrierten Text, der mit dem DES Algorit
     <input image="DES">
       <name lang="en">Known Plaintext</name>
       <name lang="de">Bekannter Klartext</name>
-      <description lang="en-GB">Analyses a ciphertext by using a piece of known plaintext.</description>
+      <description lang="en">Analyses a ciphertext by using a piece of known plaintext.</description>
       <description lang="de">Analysiert einen chiffrierten Text mit Hilfe eines Stücks bekannten Klartextes.</description>
 
       <headline lang="en">DES - Known Plaintext Analysis</headline>
-      <headline lang="de">DES - Bekannter Klartext Analyse</headline>
+      <headline lang="de">DES - Bekannter-Klartext-Analyse</headline>
       <desc lang="en">Please input the ciphertext and known plaintext.</desc>
       <desc lang="de">Bitte geben Sie den chiffrierten Text und den bekannten Klartext ein.</desc>
 
       <inputBox plugin="Ciphertext" property="Text" group="inputs" visibleLines="5" alignment="Left" width="50%">
-        <description lang="en-GB">Ciphertext to analyse (in HEX):</description>
+        <description lang="en">Ciphertext to analyze (in HEX):</description>
         <description lang="de">Chiffrierter Text, der analysiert werden soll (in HEX):</description>
         <defaultvalue>F75F8F1C1DA276C4C56B871BF41F473CB871E1C25436AC8518C5D43BFF8545CF</defaultvalue>
       </inputBox>
@@ -282,23 +282,23 @@ Indem Sie dies auswählen können Sie chiffrierten Text, der mit dem DES Algorit
 
       <sampleViewer image="DES" file="WorkspaceManagerSamples\DES_Analyzer_KnownPlaintext.cwm">
         <name lang="en">Known Plaintext Analysis</name>
-        <name lang="de">Bekannter Klartext Analyse</name>
+        <name lang="de">Bekannter-Klartext-Analyse</name>
         <description lang="en">Known Plaintext Analysis Output</description>
-        <description lang="de">Bekannter Klartext Analyse Ausgabe</description>
+        <description lang="de">Bekannter-Klartext-Analyse: Ausgabe</description>
 
         <headline lang="en">AES Known Plaintext Analysis Output</headline>
-        <headline lang="de">Bekannter Klartext Analyse Ausgabe</headline>
+        <headline lang="de">Bekannter-Klartext-Analyse: Ausgabe</headline>
         <desc lang="en">Here, you can see the DES analysis.</desc>
-        <desc lang="de">Hier können Sie die DES Analyse sehen.</desc>
+        <desc lang="de">Hier können Sie die DES-Analyse sehen.</desc>
 
         <presentation plugin="KeySearcher" width="50%" height="50%">
-          <description lang="en-GB">Analyser:</description>
+          <description lang="en">Analyser:</description>
           <description lang="de">Analysierer:</description>
         </presentation>
 
         <outputBox plugin="Deciphered Ciphertext" property="CurrentValue" width="50%" alignment="Left" visibleLines="3" group="Output">
           <description lang="en">Deciphered Ciphertext:</description>
-          <description lang="de">Entschlüsselter chiffrierter Text:</description>
+          <description lang="de">Entschlüsselter Geheimtext:</description>
         </outputBox>
 
         <presentation plugin="Key" width="50%" alignment="Right" group="Output">
@@ -314,28 +314,28 @@ Indem Sie dies auswählen können Sie chiffrierten Text, der mit dem DES Algorit
   <!-- SDES input -->
   <category image="SDES" >
     <name lang="en" >SDES</name>
-    <description lang="en-GB" >
+    <description lang="en" >
       SDES is a modern symmetric and very simple algorithm to encrypt plaintext or to decrypt ciphertext.
-By selecting this, you can analyse some ciphertext that was encrypted with the SDES algorithm.
+By selecting this, you can analyze some ciphertext that was encrypted with the SDES algorithm.
     </description>
     <description lang="de" >
       SDES ist ein moderner symmetrischer uns sehr einfacher Algorithmus um Klartext zu verschlüsseln oder chiffrierten Text zu entschlüsseln.
-Indem Sie dies auswählen können Sie chiffrierten Text, der mit dem SDES Algorithmus verschlüsselt wurde, analysieren.
+Indem Sie dies auswählen können Sie chiffrierten Text, der mit dem SDES-Algorithmus verschlüsselt wurde, analysieren.
     </description>
 
     <input image="SDES">
       <name lang="en">Ciphertext Only</name>
-      <name lang="de">Nur chiffrierter Text</name>
-      <description lang="en-GB">Analyses a ciphertext by using only the ciphertext. It will use entropy as the cost function.</description>
+      <name lang="de">Nur Geheimtext</name>
+      <description lang="en">Analyses a ciphertext by using only the ciphertext. It will use entropy as the cost function.</description>
       <description lang="de">Analysiert einen chiffrierten Text nur mit Hilfe des chiffrierten Textes. Benutzt Entropy als Kostenfunktion.</description>
 
       <headline lang="en">SDES - Ciphertext Only Analysis</headline>
-      <headline lang="de">SDES - Nur chiffrierter Text Analyse</headline>
+      <headline lang="de">SDES - Nur Geheimtext-Analyse</headline>
       <desc lang="en">Please input the ciphertext.</desc>
       <desc lang="de">Bitte geben Sie den chiffrierten Text ein.</desc>
 
       <inputBox plugin="Ciphertext" property="Text" visibleLines="5" alignment="Stretch" width="90%">
-        <description lang="en-GB">Ciphertext to analyse (in HEX):</description>
+        <description lang="en">Ciphertext to analyze (in HEX):</description>
         <description lang="de">Chiffrierter Text, der analysiert werden soll (in HEX):</description>
         <defaultvalue>CBEEFFA4401D87547ADEED428BB781DB638364CB5A4CF65A2B31664B48E2C0D6D6086EF37CC2117ADDB35BEB42D88DF06CBB89EA5ADE16F70BAA075DC7AC33979C243744F6D68F2957788C349011F7001A145CBD72B894CF9BC3ED25EF603527743AD9AC88494F1F4157AFEAD39BFDB0DB606AD8AC46531D7AE0601E487B478BF9766DC211DFB3ECB171B8711C527B43BD966741A99C5C13C7F818B9C92127E15B2FE45813553A876BB60F1AC19168FBE77CCD4AB6A4A707F78AB1825F83F8B115F19608E8F44DEB5023564F14BE604EEB42A8ABA13332D59BFD60E019B6A7723A9716E858A8ABC49B2195C3F01965B8FA7595C38D68BB8A6BFB0BDCED76B8E13DFBE525E450E9A0E60B385786C05B2B1F38AFD38E400EC7B3FA0B7F04CAB08A6F7902B9D163709F9C17AA46C54A1314C191086EA5ECE5E6913CF2FEFE0BF7458B4AF6FAE57CE0EC85FAFDC9CC9BFDB0334E1B65703769835986816456B6ADAD8840F650BEE525F230D59DF52DCBEE0352D2B71265BB342792635ED8829654A8C40A52551D7A41BD2E4EDCD2ED606D6A5E7B6D56555DE03D9708C6ACADF47DBB756DC23E4778FBE789B5619F3FE47369430DAA72D97DB429BB34014F6E7983643A025210F78AC3C063A2816F7041E925E4ADF9A0F45AC0B3EC3D90C31B5DAE4652771C5138BC89498763D5DB183857772874606D6A79E36C3A0662BED1C03E376979B8A4A789B594827E97246ABB0F2F359229324ED80A876FA546235678044F1B7F1E2B74CE3B8C0538AFE107A53B80032774047777A2D7FD95541B7FDD0A9A3C4723561351DEEDC88D8259AEFCAB54A8ECE550A8464CF65AF65BE958F65A1355A8C8FDC958FBCC39698329BA8840E2507843CA3BD916DF4D4C776D6A1314C7AC89B5C49B21BAF44B00E8A094ACE11948EB42EBE6FCF518481A74CE9D64C29DEDB559A53DFBA03337066256AEC9215D5E93ECECB12D8799D726EF76DD3B938A0792261FDA9CF9FFD6B334284ED216F7E1A7D1B2EC604E0D1A1AAE3FDA3DFB254E1B09BFC8D4F575D5ACA715C7BE46D2FDA00F2F31060DF62537326DBD2E27921120446E744B775E7F1351DE8F3F90ED1984915F108612862947558B4AD822D5ED500E2F0152107F69EF03B98A649554A8AB96111355AEB1FC5B55B68E3F324EDC6077C58EEED398EAD7B294B771705E7BB8947E83F89E3F97244EBD07CA3F2AFA604E0DA3FCABF96B0DF60B7F1EC73B932666C21137693628BA88643A0227EF252890400E4FD21710666D83643A47E95820C250416DCBEA76A2E650F1F37CC211521B87681E8B</defaultvalue>
       </inputBox>
@@ -355,23 +355,23 @@ Indem Sie dies auswählen können Sie chiffrierten Text, der mit dem SDES Algori
 
       <sampleViewer image="SDES" file="WorkspaceManagerSamples\SDES_Analyzer_Entropy.cwm">
         <name lang="en">Ciphertext Only Analysis</name>
-        <name lang="de">Nur chiffrierter Text Analyse</name>
+        <name lang="de">Nur Geheimtext-Analyse</name>
         <description lang="en">Ciphertext Only Analysis Output</description>
-        <description lang="de">Nur chiffrierter Text Analyse Ausgabe</description>
+        <description lang="de">Nur Geheimtext-Analyse: Ausgabe</description>
 
         <headline lang="en">AES Ciphertext Only Analysis Output</headline>
-        <headline lang="de">Nur chiffrierter Text Analyse Ausgabe</headline>
+        <headline lang="de">Nur Geheimtext-Analyse: Ausgabe</headline>
         <desc lang="en">Here, you can see the SDES analysis.</desc>
-        <desc lang="de">Hier können Sie die SDES Analyse sehen.</desc>
+        <desc lang="de">Hier können Sie die SDES-Analyse sehen.</desc>
 
         <presentation plugin="KeySearcher" width="50%" height="50%">
-          <description lang="en-GB">Analyser:</description>
+          <description lang="en">Analyser:</description>
           <description lang="de">Analysierer:</description>
         </presentation>
 
         <outputBox plugin="Deciphered Ciphertext" property="CurrentValue" width="50%" alignment="Left" visibleLines="5" group="Output">
           <description lang="en">Deciphered Ciphertext:</description>
-          <description lang="de">Entschlüsselter chiffrierter Text:</description>
+          <description lang="de">Entschlüsselter Geheimtext:</description>
         </outputBox>
 
         <presentation plugin="Key" width="50%" alignment="Right" group="Output">
@@ -385,16 +385,16 @@ Indem Sie dies auswählen können Sie chiffrierten Text, der mit dem SDES Algori
     <input image="SDES">
       <name lang="en">Known Plaintext</name>
       <name lang="de">Bekannter Klartext</name>
-      <description lang="en-GB">Analyses a ciphertext by using a piece of known plaintext.</description>
+      <description lang="en">Analyses a ciphertext by using a piece of known plaintext.</description>
       <description lang="de">Analysiert einen chiffrierten Text mit Hilfe eines Stücks bekannten Klartextes.</description>
 
       <headline lang="en">SDES - Known Plaintext Analysis</headline>
-      <headline lang="de">SDES - Bekannter Klartext Analyse</headline>
+      <headline lang="de">SDES - Bekannter-Klartext-Analyse</headline>
       <desc lang="en">Please input the ciphertext and known plaintext.</desc>
       <desc lang="de">Bitte geben Sie den chiffrierten Text und den bekannten Klartext ein.</desc>
 
       <inputBox plugin="Ciphertext" property="Text" group="inputs" visibleLines="5" alignment="Left" width="50%">
-        <description lang="en-GB">Ciphertext to analyse (in HEX):</description>
+        <description lang="en">Ciphertext to analyze (in HEX):</description>
         <description lang="de">Chiffrierter Text, der analysiert werden soll (in HEX):</description>
         <defaultvalue>CBEEFFA4401D87547ADEED428BB781DB638364CB5A4CF65A2B31664B48E2C0D6D6086EF37CC2117ADDB35BEB42D88DF06CBB89EA5ADE16F70BAA075DC7AC33979C243744F6D68F2957788C349011F7001A145CBD72B894CF9BC3ED25EF603527743AD9AC88494F1F4157AFEAD39BFDB0DB606AD8AC46531D7AE0601E487B478BF9766DC211DFB3ECB171B8711C527B43BD966741A99C5C13C7F818B9C92127E15B2FE45813553A876BB60F1AC19168FBE77CCD4AB6A4A707F78AB1825F83F8B115F19608E8F44DEB5023564F14BE604EEB42A8ABA13332D59BFD60E019B6A7723A9716E858A8ABC49B2195C3F01965B8FA7595C38D68BB8A6BFB0BDCED76B8E13DFBE525E450E9A0E60B385786C05B2B1F38AFD38E400EC7B3FA0B7F04CAB08A6F7902B9D163709F9C17AA46C54A1314C191086EA5ECE5E6913CF2FEFE0BF7458B4AF6FAE57CE0EC85FAFDC9CC9BFDB0334E1B65703769835986816456B6ADAD8840F650BEE525F230D59DF52DCBEE0352D2B71265BB342792635ED8829654A8C40A52551D7A41BD2E4EDCD2ED606D6A5E7B6D56555DE03D9708C6ACADF47DBB756DC23E4778FBE789B5619F3FE47369430DAA72D97DB429BB34014F6E7983643A025210F78AC3C063A2816F7041E925E4ADF9A0F45AC0B3EC3D90C31B5DAE4652771C5138BC89498763D5DB183857772874606D6A79E36C3A0662BED1C03E376979B8A4A789B594827E97246ABB0F2F359229324ED80A876FA546235678044F1B7F1E2B74CE3B8C0538AFE107A53B80032774047777A2D7FD95541B7FDD0A9A3C4723561351DEEDC88D8259AEFCAB54A8ECE550A8464CF65AF65BE958F65A1355A8C8FDC958FBCC39698329BA8840E2507843CA3BD916DF4D4C776D6A1314C7AC89B5C49B21BAF44B00E8A094ACE11948EB42EBE6FCF518481A74CE9D64C29DEDB559A53DFBA03337066256AEC9215D5E93ECECB12D8799D726EF76DD3B938A0792261FDA9CF9FFD6B334284ED216F7E1A7D1B2EC604E0D1A1AAE3FDA3DFB254E1B09BFC8D4F575D5ACA715C7BE46D2FDA00F2F31060DF62537326DBD2E27921120446E744B775E7F1351DE8F3F90ED1984915F108612862947558B4AD822D5ED500E2F0152107F69EF03B98A649554A8AB96111355AEB1FC5B55B68E3F324EDC6077C58EEED398EAD7B294B771705E7BB8947E83F89E3F97244EBD07CA3F2AFA604E0DA3FCABF96B0DF60B7F1EC73B932666C21137693628BA88643A0227EF252890400E4FD21710666D83643A47E95820C250416DCBEA76A2E650F1F37CC211521B87681E8B</defaultvalue>
       </inputBox>
@@ -420,23 +420,23 @@ Indem Sie dies auswählen können Sie chiffrierten Text, der mit dem SDES Algori
 
       <sampleViewer image="SDES" file="WorkspaceManagerSamples\SDES_Analyzer_KnownPlaintext.cwm">
         <name lang="en">Known Plaintext Analysis</name>
-        <name lang="de">Bekannter Klartext Analyse</name>
+        <name lang="de">Bekannter-Klartext-Analyse</name>
         <description lang="en">Known Plaintext Analysis Output</description>
-        <description lang="de">Bekannter Klartext Analyse Ausgabe</description>
+        <description lang="de">Bekannter-Klartext-Analyse: Ausgabe</description>
 
         <headline lang="en">AES Known Plaintext Analysis Output</headline>
-        <headline lang="de">Bekannter Klartext Analyse Ausgabe</headline>
+        <headline lang="de">Bekannter-Klartext-Analyse: Ausgabe</headline>
         <desc lang="en">Here, you can see the SDES analysis.</desc>
-        <desc lang="de">Hier können Sie die SDES Analyse sehen.</desc>
+        <desc lang="de">Hier können Sie die SDES-Analyse sehen.</desc>
 
         <presentation plugin="KeySearcher" width="50%" height="50%">
-          <description lang="en-GB">Analyser:</description>
+          <description lang="en">Analyser:</description>
           <description lang="de">Analysierer:</description>
         </presentation>
 
         <outputBox plugin="Deciphered Ciphertext" property="CurrentValue" width="50%" alignment="Left" visibleLines="3" group="Output">
           <description lang="en">Deciphered Ciphertext:</description>
-          <description lang="de">Entschlüsselter chiffrierter Text:</description>
+          <description lang="de">Entschlüsselter Geheimtext:</description>
         </outputBox>
 
         <presentation plugin="Key" width="50%" alignment="Right" group="Output">
