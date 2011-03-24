@@ -21,7 +21,9 @@ using KeySearcher.KeyPattern;
 
 namespace KeySearcherPresentation.Controls
 {
-    //---------------
+    /// <summary>
+    /// This grid performs uniform resizing on a vertical stretch an uses normal behaviour on a horizontal stretch
+    /// </summary>
     internal class JokersGrid : Grid
     {
         private double scale;
@@ -54,25 +56,25 @@ namespace KeySearcherPresentation.Controls
 
         protected override Size ArrangeOverride(Size finalSize)
         {
-            Transform scaleTransform = new ScaleTransform(scale, scale);
-            double height = 0;
-            foreach (UIElement child in Children)
+            if (scale != 0)
             {
-                if((child.DesiredSize.Height != 0) || (child.DesiredSize.Width !=0))
+                Transform scaleTransform = new ScaleTransform(scale, scale);
+                double height = 0;
+                foreach (UIElement child in Children)
                 {
-                    child.RenderTransform = scaleTransform;
-                    child.Arrange(new Rect(new Point(0, scale * height), new Size(finalSize.Width / scale, child.DesiredSize.Height)));
-                    height += child.DesiredSize.Height;
+                    if ((child.DesiredSize.Height != 0) || (child.DesiredSize.Width != 0))
+                    {
+                        child.RenderTransform = scaleTransform;
+                        child.Arrange(new Rect(new Point(0, scale*height),
+                                               new Size(finalSize.Width/scale, child.DesiredSize.Height)));
+                        height += child.DesiredSize.Height;
+                    }
                 }
             }
-
             return finalSize;
         }
 
     }
-    //---------------
-
-
 
     /// <summary>
     /// Interaction logic for StatisticsPresentation.xaml
