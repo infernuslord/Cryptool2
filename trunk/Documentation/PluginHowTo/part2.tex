@@ -61,7 +61,7 @@ Attributes are used for declarative programming and provide metadata that can be
 \subsection{The \protect\textit{[Author]} attribute}
 \label{sec:TheAuthorAttribute}
 
-The \textit{[Author]} attribute is optional, meaning that we are not required to define it. The attribute can be used to provide additional information about the plugin developer (or developers, as the case may be). This information will appear in the TaskPane, as for example in Appendix \ref{app:CaesarSettings}. We will define the attribute to demonstrate how it should look in case you want to use it in your plugin.
+The \textit{[Author]} attribute is optional, meaning that we are not required to define it. The attribute can be used to provide additional information about the plugin developer (or developers, as the case may be). This information will appear in the TaskPane. We will define the attribute to demonstrate how it should look in case you want to use it in your plugin.
 
 \begin{figure}[h!]
 	\centering
@@ -164,7 +164,7 @@ The possible values of the \textit{[EncryptionType]} attribute are as follows:
 \subsection{Importing CrypPluginBase namespaces}
 \label{sec:ImportingCrypPluginBaseNamespaces}
 
-Depending on which algorithm category you choose, you will need to import the corresponding namespace of \textit{CrypPluginBase}. To include the necessary namespaces in the class header, use the \texttt{using} statement followed by the name of the desired namespace. \textit{CrypPluginBase} provides the following namespaces:
+Depending on which algorithm category you choose, you will need to import the corresponding name\-space of \textit{CrypPluginBase}. To include the necessary namespaces in the class header, use the \texttt{using} statement followed by the name of the desired namespace. \textit{CrypPluginBase} provides the following namespaces:
 
 \begin{itemize}
 	\item \textit{Cryptool.PluginBase} --- contains interfaces such as \textit{IPlugin}, \textit{IHash}, and \textit{ISettings}, as well as attributes, enumerations, delegates and extensions.
@@ -207,7 +207,7 @@ If your algorithm deals with potentially large data amounts, it is recommended t
 \subsection{Adding controls to the CaesarSettings class}
 \label{sec:AddingControlsToTheCaesarSettingsClass}
 
-The settings class contains the necessary information about controls, captions, descriptions, and default parameters (for key settings, alphabets, key length, type of action, etc.) to build the settings \textbf{TaskPane} in the CrypTool application. The settings class is used to populate the TaskPane in the CrypTool 2 application so that the user can modify the plugin settings at will. Therefore, we must implement some controls, such as buttons and text boxes, to allow for the necessary interaction. If you will be implementing an algorithm that does not have any user-defined settings (such as a hash function), then this class can be left mostly empty. In Appendix \ref{app:CaesarSettings} there is a full example of what a completed TaskPane and the corresponding source code for the existing Caesar plugin in CrypTool 2 looks like. You can also look at the source code of other CrypTool 2 plugins for examples of how to create the TaskPane backend.
+The settings class contains the necessary information about controls, captions, descriptions, and default parameters (for key settings, alphabets, key length, type of action, etc.) to build the settings \textbf{TaskPane} in the CrypTool application. The settings class is used to populate the TaskPane in the CrypTool 2 application so that the user can modify the plugin settings at will. Therefore, we must implement some controls, such as buttons and text boxes, to allow for the necessary interaction. If you will be implementing an algorithm that does not have any user-defined settings (such as a hash function), then this class can be left mostly empty. To see the full source code, you may take a look at the Caesar plugin the the Subversion repository.
 \clearpage
 
 \section{Adding an icon to the Caesar class}
