@@ -83,18 +83,19 @@ namespace KeySearcher.P2P
             
             InitializeTree2();
 
-            bool statupdate = false;
-            int sessionchunk = 0;
+            bool statupdate = false;                                            //Flag for the update of the statistic
+            int sessionchunk = 0;                                               //Chunks of the momentary session counter
             Leaf currentLeaf;
-            keySearcher.InitialiseInformationQuickwatch();
-            int utime = settings.UpdateTime > 0 ? settings.UpdateTime : 30;     //
-            var statisticTimer = new Timer { Interval = utime * 60 * 1000 };    //Update of the statistics after every 30 minutes
+            keySearcher.InitialiseInformationQuickwatch();                      //Value calculation for the statistic information tab
+            int utime = settings.UpdateTime > 0 ? settings.UpdateTime : 30;     //Update time setter
+            var statisticTimer = new Timer { Interval = utime * 60 * 1000 };    //Update of the statistics after every utime/30 minutes
             statisticTimer.Start();
 
             while (!keySearcher.stop)
             {
                 try
                 {
+                    //Autoupdate for the statistic
                     if (statupdate)
                     {
                         statisticTimer.Stop();
@@ -177,6 +178,7 @@ namespace KeySearcher.P2P
                                                                                 }
                                                                             });
 
+                    //Timer delegate for autoupdate flag
                     statisticTimer.Elapsed += new ElapsedEventHandler(delegate
                                                                           {
                                                                               if (!settings.DisableUpdate)
@@ -319,6 +321,9 @@ namespace KeySearcher.P2P
             status.RemainingTimeTotal = new TimeSpan(0);
         }
 
+        /// <summary>
+        /// Try to initialise the tree until it is successfull
+        /// </summary>
         private void InitializeTree2()
         {
             bool treeInitialized = false;
@@ -360,9 +365,12 @@ namespace KeySearcher.P2P
             } while (!P2PManager.IsConnected && !keySearcher.stop);
         }
 
+        /// <summary>
+        /// Find the local calculated chunks for this user on this machine
+        /// </summary>
         private int FindLocalPatterns()
         {
-            //String myAvatar = "CrypTool2";
+            
             String myAvatar = P2PSettings.Default.PeerName;
             long myID = Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetID();
             Dictionary<string, Dictionary<long, Information>> myStats = keySearcher.GetStatistics();
@@ -377,6 +385,9 @@ namespace KeySearcher.P2P
             return 0;
         }
 
+        /// <summary>
+        /// Initialising a new keypooltree for calculation
+        /// </summary>
         private void InitializeTree()
         {
             try

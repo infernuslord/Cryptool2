@@ -797,8 +797,6 @@ namespace KeySearcher
                 return null;
             }
 
-            // bytesToUse = 0;
-
             try
             {
                 bytesToUse = CostMaster.getBytesToUse();
@@ -863,6 +861,7 @@ namespace KeySearcher
             {
                 GuiLogMessage(Resources.Launching_p2p_based_bruteforce_logic___, NotificationLevel.Info);
 
+                //DistributedBruteforceManager calculation
                 try
                 {
                     distributedBruteForceManager = new DistributedBruteForceManager(this, pattern, settings,
@@ -1045,7 +1044,6 @@ namespace KeySearcher
 
             }
 
-            /* BEGIN: For evaluation issues - added by Arnold 2010.03.17 */
             TimeSpan bruteforcingTime = DateTime.Now.Subtract(beginBruteforcing);
             StringBuilder sbBFTime = new StringBuilder();
             if (bruteforcingTime.Days > 0)
@@ -1069,7 +1067,6 @@ namespace KeySearcher
             sbBFTime.Append(bruteforcingTime.Milliseconds.ToString());
 
             GuiLogMessage(Resources.Ended_bruteforcing_pattern__ + pattern.getKey() + Resources.___Bruteforcing_TimeSpan__ + sbBFTime.ToString(), NotificationLevel.Debug);
-            /* END: For evaluation issues - added by Arnold 2010.03.17 */
 
             return costList;
         }
@@ -1330,17 +1327,27 @@ namespace KeySearcher
             }
         }
 
+        /// <summary>
+        /// Statistic getter
+        /// </summary>
         public Dictionary<string, Dictionary<long, Information>> GetStatistics()
         {
             return statistic;
         }
 
         private DateTime startDate;
+
+        /// <summary>
+        /// Setter for the start date for this job from the keypooltree
+        /// </summary>
         public void SetBeginningDate(DateTime sd)
         {
             startDate = sd;
         }
 
+        /// <summary>
+        /// Reseting statistic values to avoid too high sums in case of network failure
+        /// </summary>
         public void ResetStatistics()
         {
             statistic = null;
@@ -1366,6 +1373,9 @@ namespace KeySearcher
         private int cMachines = 0;
         private DateTime memTime = DateTime.UtcNow;
         private BigInteger memKeys = 0;
+        /// <summary>
+        /// Initialisation for fixed and current values every utime/30 minutes
+        /// </summary>
         public void InitialiseInformationQuickwatch()
         {
             if (Pattern == null || !Pattern.testWildcardKey(settings.Key) || settings.ChunkSize == 0)
@@ -1401,6 +1411,7 @@ namespace KeySearcher
             ((QuickWatch) QuickWatchPresentation).StatisticsPresentation.CurrentUsers = cUsers;
             ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.CurrentMachines = cMachines;
 
+            //if we have two time values to compare
             if(memory)
             {
                 var keysnow = calculatedChunks()*(BigInteger) Math.Pow(2, settings.ChunkSize);
@@ -1426,6 +1437,9 @@ namespace KeySearcher
             UpdateStatisticsPresentation();
         }
 
+        /// <summary>
+        /// Calculating the current users/machines and setting their current/dead flag
+        /// </summary>
         internal void CalcCurrentStats()
         {
             cUsers = 0;
@@ -1434,11 +1448,15 @@ namespace KeySearcher
 
             if(statistic != null)
             {
+                //for each user...
                 foreach (string avatar in statistic.Keys)
                 {
                     var useradd = 0;
+
+                    //...and for each machine of this user...
                     foreach (long mid in statistic[avatar].Keys)
                     {
+                        //...calculate if the machine is current/dead
                         if(statistic[avatar][mid].Date.AddMinutes(30) > testdate) //30 min current criterium
                         {
                             statistic[avatar][mid].Current = true;
@@ -1448,7 +1466,7 @@ namespace KeySearcher
                         }
                         else
                         {
-                            if (testdate > statistic[avatar][mid].Date.AddMinutes(2880))
+                            if (testdate > statistic[avatar][mid].Date.AddMinutes(2880)) //after 2 days
                             {
                                 statistic[avatar][mid].Dead = true;
                             }
@@ -1464,6 +1482,9 @@ namespace KeySearcher
             }
         }
         
+        /// <summary>
+        /// Integration of Statistic/Key Results into the calculation
+        /// </summary>
         internal void IntegrateNewResults(LinkedList<ValueKey> updatedCostList, Dictionary<string, Dictionary<long, Information>> updatedStatistics, string dataIdentifier, NodeBase nodeToUpdate)
         {
             foreach (var valueKey in updatedCostList)
@@ -1474,27 +1495,29 @@ namespace KeySearcher
                 }
             }
 
+            //Only every initialisation the code past this point is in use
             if (statisticInitialized)
                 return;
 
+            //Check if this node was already integrated
             var nodeID = "from " + nodeToUpdate.From + " to " + nodeToUpdate.To;
             if (alreadyIntegratedNodes.Contains(nodeID))
                 return;
 
             foreach (string avname in updatedStatistics.Keys)
             {
-                //taking the dictionary in this avatarname
+                //Taking the dictionary in this avatarname
                 Dictionary<long, Information> MaschCount = updatedStatistics[avname];
                 
-                //if the avatarname already exists in the statistics
+                //If the avatarname already exists in the statistics
                 if (statistic.ContainsKey(avname))
                 {
                     foreach (long id in MaschCount.Keys)
                     {
-                        //get the statistic maschcount for this avatarname
+                        //Get the statistic machine count for this avatarname
                         Dictionary<long, Information> statMaschCount = statistic[avname];
 
-                        //if the id of the Maschine already exists for this avatarname
+                        //If the id of the machine already exists for this avatarname add the values
                         if (statMaschCount.ContainsKey(id))
                         {
                             statMaschCount[id].Count = statMaschCount[id].Count + MaschCount[id].Count;
@@ -1514,20 +1537,30 @@ namespace KeySearcher
                     //add the maschinecount dictionary to this avatarname
                     statistic[avname] = MaschCount;
                 }
+                //Order the machines in the statistics
                 statistic[avname] = statistic[avname].OrderByDescending((x) => x.Value.Count).ToDictionary(x => x.Key, y => y.Value);
             }
+            //Order the users in the statistics
             statistic = statistic.OrderByDescending((x) => x.Value.Sum((z) => z.Value.Count)).ToDictionary(x => x.Key,y => y.Value);
 
+            //Creating the machineview of the statistics
             GenerateMaschineStats();
-            //The following Method can be used to write a local csv file with the User/Maschine Statistics.
+
+            //The following Method can be used to write a local csv file with the user/maschine statistics.
             WriteStatistics(dataIdentifier);
+
+            //Update the statistic presentation values
             UpdateStatisticsPresentation();
             
             updateToplist();
+
+            //Remember the integration of this node to avoid too high values
             alreadyIntegratedNodes.Add(nodeID);
         }
 
-        //Update the Statistic Presentation
+        /// <summary>
+        /// Update the statistic presentation information and user/machine values
+        /// </summary>
         internal void UpdateStatisticsPresentation()
         {
             try
@@ -1559,8 +1592,9 @@ namespace KeySearcher
             }
         }
 
-        //Write the User Statistics to an external csv-document
-        
+        /// <summary>
+        /// Write the user statistics to an external csv-document
+        /// </summary>
         internal void WriteStatistics(String dataIdentifier)
         {
             //using the chosen csv file
@@ -1591,7 +1625,7 @@ namespace KeySearcher
                 GuiLogMessage(string.Format("Failed to write Userstatistics to {0}", path), NotificationLevel.Error);
             }
 
-            //For testing purpose. This writes the Maschinestatistics to the main folder if no different path was chosen
+            //This writes the Maschinestatistics to the main folder if no different path was chosen
             if (settings.CsvPath == "")
             {
                 try
@@ -1613,6 +1647,9 @@ namespace KeySearcher
             }             
         }
         
+        /// <summary>
+        /// Creating the machine view of the statistics
+        /// </summary>
         internal void GenerateMaschineStats()
         {
             maschinehierarchie = null;
@@ -1632,6 +1669,8 @@ namespace KeySearcher
                         maschinehierarchie[mid].Hostname = Maschines[mid].Hostname;
                         maschinehierarchie[mid].Users = maschinehierarchie[mid].Users + avatar + " | ";
                         maschinehierarchie[mid].Date = Maschines[mid].Date > maschinehierarchie[mid].Date ? Maschines[mid].Date : maschinehierarchie[mid].Date;
+                        
+                        //taking the current/dead flags
                         if (!maschinehierarchie[mid].Current)
                         {
                             maschinehierarchie[mid].Current = Maschines[mid].Current;
@@ -1652,6 +1691,9 @@ namespace KeySearcher
             maschinehierarchie = maschinehierarchie.OrderByDescending((x) => x.Value.Sum).ToDictionary(x => x.Key, y => y.Value);
         }
 
+        /// <summary>
+        /// Finding the total amount of chunks calculated from the statistics
+        /// </summary>
         internal BigInteger calculatedChunks()
         {
             return maschinehierarchie.Keys.Aggregate<long, BigInteger>(0, (current, mid) => current + maschinehierarchie[mid].Sum);
@@ -1663,12 +1705,15 @@ namespace KeySearcher
         private static string maschinename = Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetHostName();
         private bool statisticInitialized = false;
 
+        /// <summary>
+        /// Enhancing the user information to the found key/value pairs in this calculation
+        /// </summary>
         private static void EnhanceUserName(ref ValueKey vk)
         {
             DateTime chunkstart = DateTime.UtcNow;
             username = P2PSettings.Default.PeerName;
 
-            //enhance our userdata:
+            //Enhance our userdata if there exists a valid user:
             if ((username != null) && (!username.Equals("")))
             {
                 vk.user = username;
@@ -1685,6 +1730,9 @@ namespace KeySearcher
             }
         }
 
+        /// <summary>
+        /// Updating the top list for the key value pairs
+        /// </summary>
         internal void updateToplist()
         {
             LinkedListNode<ValueKey> node;
@@ -1869,12 +1917,10 @@ namespace KeySearcher
             public String key;
             public byte[] decryption;
             public byte[] keya;
-            //---------------------
             public string user { get; set; }
             public DateTime time { get; set; }
             public long maschid { get; set; }
             public string maschname { get; set; }
-            //---------------------
         };
     }
 
