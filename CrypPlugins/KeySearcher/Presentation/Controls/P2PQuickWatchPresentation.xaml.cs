@@ -45,7 +45,7 @@ namespace KeySearcherPresentation.Controls
                 return;
             }
 
-            var keyPattern = new KeyPattern(keySearcher.ControlMaster.getKeyPattern())
+            var keyPattern = new KeyPattern(keySearcher.ControlMaster.GetKeyPattern())
                                  {WildcardKey = keySearcherSettings.Key};
             var keysPerChunk = Math.Pow(2, keySearcherSettings.ChunkSize);
             var keyPatternPool = new KeyPatternPool(keyPattern, new BigInteger(keysPerChunk));

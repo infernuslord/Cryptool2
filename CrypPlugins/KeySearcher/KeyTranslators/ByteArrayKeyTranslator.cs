@@ -195,9 +195,9 @@ namespace KeySearcher.KeyTranslators
             {
                 return movementStatus[i] * (mov as LinearKeyMovement).A + (mov as LinearKeyMovement).B;
             }
-            else if (mov is IntervalKeyMovement)
+            else if (mov is ListKeyMovement)
             {
-                return (mov as IntervalKeyMovement).IntervalList[movementStatus[i]];
+                return (mov as ListKeyMovement).KeyList[movementStatus[i]];
             }
 
             throw new Exception("Movement not implemented!");
@@ -210,9 +210,9 @@ namespace KeySearcher.KeyTranslators
             {
                 return movementStatus[i] < (mov as LinearKeyMovement).UpperBound;
             }
-            else if (mov is IntervalKeyMovement)
+            else if (mov is ListKeyMovement)
             {
-                return movementStatus[i] < (mov as IntervalKeyMovement).IntervalList.Count;
+                return movementStatus[i] < (mov as ListKeyMovement).KeyList.Count;
             }
 
             return false;            
@@ -227,6 +227,13 @@ namespace KeySearcher.KeyTranslators
             return result;
         }
 
+        /// <summary>
+        /// Takes the skeletal OpenCL code (parameter "code"), modifies it, so that the key movement is integrated into the code, and returns the
+        /// modified code.
+        /// </summary>
+        /// <param name="code">The skeletal OpenCL code</param>
+        /// <param name="approximateNumberOfKeys">A maximum bound which indicates on how many key bruteforcing at once the OpenCL code should be layed out.</param>
+        /// <returns>The modified OpenCL code</returns>
         public string ModifyOpenCLCode(string code, int approximateNumberOfKeys)
         {
             string[] byteReplaceStrings = new string[32];
@@ -254,14 +261,14 @@ namespace KeySearcher.KeyTranslators
                     var lkm = keyMovements[x] as LinearKeyMovement;
                     movStr = string.Format("({0}*{1})", lkm.A, movStr);
                 }
-                else if (keyMovements[x] is IntervalKeyMovement)
+                else if (keyMovements[x] is ListKeyMovement)
                 {
-                    var ikm = keyMovements[x] as IntervalKeyMovement;
+                    var ikm = keyMovements[x] as ListKeyMovement;
 
                     //declare the invterval array:
                     string s = string.Format("__constant int ikm{0}[{1}] = {{", x, ikm.Count());
-                    var smallest = ikm.IntervalList[0];
-                foreach (var c in ikm.IntervalList)
+                    var smallest = ikm.KeyList[0];
+                foreach (var c in ikm.KeyList)
                         s += (c-smallest) + ", ";
                     s = s.Substring(0, s.Length - 2);
                     s += "}; \n";

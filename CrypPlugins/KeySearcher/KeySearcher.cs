@@ -123,7 +123,7 @@ namespace KeySearcher
                 }
                 if (value != null)
                 {
-                    Pattern = new KeyPattern.KeyPattern(value.getKeyPattern());
+                    Pattern = new KeyPattern.KeyPattern(value.GetKeyPattern());
                     value.keyPatternChanged += keyPatternChanged;
                     controlMaster = value;
                     OnPropertyChanged("ControlMaster");
@@ -419,11 +419,15 @@ namespace KeySearcher
 
         #region code for the worker threads
 
+        /// <summary>
+        /// This is the working method for a worker thread which task it is to bruteforce.
+        /// </summary>
         private void KeySearcherJob(object param)
         {
             AutoResetEvent stopEvent = new AutoResetEvent(false);
             threadsStopEvents.Add(stopEvent);
 
+            //extract parameters:
             object[] parameters = (object[])param;
             KeyPattern.KeyPattern[] patterns = (KeyPattern.KeyPattern[])parameters[0];
             int threadid = (int)parameters[1];
@@ -436,6 +440,7 @@ namespace KeySearcher
             Stack threadStack = (Stack)parameters[8];
             var openCLDeviceSettings = (KeySearcherSettings.OpenCLDeviceSettings)parameters[9];
 
+            //If this is a thread that should use OpenCL:
             KeySearcherOpenCLCode keySearcherOpenCLCode = null;
             KeySearcherOpenCLSubbatchOptimizer keySearcherOpenCLSubbatchOptimizer = null;
             if (openCLDeviceSettings != null)
@@ -453,6 +458,7 @@ namespace KeySearcher
                 Thread.CurrentThread.Priority = ThreadPriority.AboveNormal;
             }
 
+            //Bruteforce until stop:
             try
             {
                 while (patterns[threadid] != null)
@@ -460,7 +466,7 @@ namespace KeySearcher
                     BigInteger size = patterns[threadid].size();
                     keysLeft[threadid] = size;
                     
-                    IKeyTranslator keyTranslator = ControlMaster.getKeyTranslator();
+                    IKeyTranslator keyTranslator = ControlMaster.GetKeyTranslator();
                     keyTranslator.SetKeys(patterns[threadid]);
 
                     bool finish = false;
@@ -482,6 +488,7 @@ namespace KeySearcher
                             }
                             catch (Exception ex)
                             {
+                                //If an exception was thrown using OpenCL, deactivate the OpenCL device. This leads to using CPU in this thread instead.
                                 openCLDeviceSettings.UseDevice = false;
                                 ((QuickWatch)QuickWatchPresentation).Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                                 {
@@ -520,6 +527,9 @@ namespace KeySearcher
             }
         }
 
+        /// <summary>
+        /// This method is used to bruteforce using OpenCL.
+        /// </summary>
         private unsafe bool BruteforceOpenCL(KeySearcherOpenCLCode keySearcherOpenCLCode, KeySearcherOpenCLSubbatchOptimizer keySearcherOpenCLSubbatchOptimizer, IKeyTranslator keyTranslator, IControlEncryption sender, int bytesToUse, object[] parameters)
         {
             int threadid = (int)parameters[1];
@@ -648,7 +658,7 @@ namespace KeySearcher
                         if (split != null)
                         {
                             patterns[threadid] = split[0];
-                            keyTranslator = ControlMaster.getKeyTranslator();
+                            keyTranslator = ControlMaster.GetKeyTranslator();
                             keyTranslator.SetKeys(patterns[threadid]);
 
                             ThreadStackElement elem = (ThreadStackElement)threadStack.Pop();
@@ -902,7 +912,7 @@ namespace KeySearcher
                     externalKeySearcherOpenCLCode = new KeySearcherOpenCLCode(this, encryptedData, InitVector, sender, CostMaster,
                                                                               256*256*256*64);
                     externalKeysProcessed = 0;
-                    externalKeyTranslator = ControlMaster.getKeyTranslator();
+                    externalKeyTranslator = ControlMaster.GetKeyTranslator();
                     externalKeyTranslator.SetKeys(pattern);
                     currentExternalJobGuid = Guid.NewGuid();
                     foreach (var client in waitingExternalClients)
@@ -1817,7 +1827,7 @@ namespace KeySearcher
 
         private void keyPatternChanged()
         {
-            Pattern = new KeyPattern.KeyPattern(controlMaster.getKeyPattern());
+            Pattern = new KeyPattern.KeyPattern(controlMaster.GetKeyPattern());
         }
 
         #endregion

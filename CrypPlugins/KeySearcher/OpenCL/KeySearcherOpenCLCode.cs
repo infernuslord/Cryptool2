@@ -9,6 +9,11 @@ using OpenCLNet;
 
 namespace KeySearcher
 {
+    /// <summary>
+    /// This class constructs the OpenCL bruteforce code out of the single components (encryption plugin, cost function, key pattern, ...)
+    /// that should be used by the KeySearcher.
+    /// The created kernel (which uses the generated code) can directly be used by the KeySearcher for bruteforcing.
+    /// </summary>
     class KeySearcherOpenCLCode
     {
         private readonly KeySearcher keySearcher;
@@ -22,16 +27,30 @@ namespace KeySearcher
         private string openCLCode = null;
         private Kernel openCLKernel = null;
 
-        public KeySearcherOpenCLCode(KeySearcher keySearcher, byte[] encryptedData, byte[] IV, IControlEncryption encryptionController, IControlCost controlCost, int approximateNumberOfKeys)
+        /// <summary>
+        /// This constructor is used to setup the parameters used for code generation.
+        /// </summary>
+        /// <param name="keySearcher">The KeySearcher instance (only used for GuiLogMessages).</param>
+        /// <param name="encryptedData">The byte array which contains the data which should be encrypted.</param>
+        /// <param name="iv">The IV vector</param>
+        /// <param name="encryptionController">The IControlEncryption instance of the encryption plugin to use.</param>
+        /// <param name="controlCost">The IControlCost instance of the cost function plugin to use.</param>
+        /// <param name="approximateNumberOfKeys">A maximum bound which indicates on how many key bruteforcing at once the OpenCL code should be layed out.</param>
+        public KeySearcherOpenCLCode(KeySearcher keySearcher, byte[] encryptedData, byte[] iv, IControlEncryption encryptionController, IControlCost controlCost, int approximateNumberOfKeys)
         {
             this.keySearcher = keySearcher;
             this.encryptedData = encryptedData;
-            this.iv = IV;
+            this.iv = iv;
             this.encryptionController = encryptionController;
             this.controlCost = controlCost;
             this.approximateNumberOfKeys = approximateNumberOfKeys;
         }
 
+        /// <summary>
+        /// Generates the OpenCL code and returns it as a string.
+        /// </summary>
+        /// <param name="keyTranslator">The KeyTranslator to use. This is important for mapping the key movements to code.</param>
+        /// <returns>The OpenCL code</returns>
         public string CreateOpenCLBruteForceCode(IKeyTranslator keyTranslator)
         {
             if (keyTranslatorOfCode == keyTranslator)
@@ -69,9 +88,15 @@ namespace KeySearcher
             return code;
         }
 
-
+        /// <summary>
+        /// Generates the OpenCL code and creates the kernel out of it.
+        /// </summary>
+        /// <param name="oclManager">The OpenCL manager to use.</param>
+        /// <param name="keyTranslator">The KeyTranslator to use. This is important for mapping the key movements to code.</param>
+        /// <returns>The Kernel</returns>
         public Kernel GetBruteforceKernel(OpenCLManager oclManager, IKeyTranslator keyTranslator)
         {
+            //caching:
             if (keyTranslatorOfCode == keyTranslator)
             {
                 return openCLKernel;

@@ -451,19 +451,19 @@ namespace KeySearcher.KeyPattern
                 return new LinearKeyMovement(a, b, wildcard.getLength());
             }
 
-            //not linear, so just list the intervals:
-            List<int> intervalList = new List<int>();
+            //not linear, so just list the keys:
+            List<int> keyList = new List<int>();
 
             for (int c = 0; c < wildcard.getLength(); c++)
             {
                 for (int x = 0; x < fullwildcard.getLength(); x++)
                 {
                     if (fullwildcard.getChars()[x] == wildcard.getChars()[c])
-                        intervalList.Add(x);
+                        keyList.Add(x);
                 }
             }
 
-            return new IntervalKeyMovement(intervalList);
+            return new ListKeyMovement(keyList);
         }
 
         public KeyPattern(byte[] serializedPattern)

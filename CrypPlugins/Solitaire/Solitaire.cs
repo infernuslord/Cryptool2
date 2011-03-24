@@ -719,7 +719,7 @@ namespace Solitaire
             return null;
         }
 
-        public string getKeyPattern()
+        public string GetKeyPattern()
         {
             return null;
         }
@@ -740,7 +740,7 @@ namespace Solitaire
             plugin.changeSettings(setting, value);
         }
 
-        public IKeyTranslator getKeyTranslator()
+        public IKeyTranslator GetKeyTranslator()
         {
             throw new NotImplementedException();
         }

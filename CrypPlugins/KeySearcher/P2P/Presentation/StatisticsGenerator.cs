@@ -38,7 +38,7 @@ namespace KeySearcher.P2P.Presentation
             HighestChunkCalculated = -1;
             stopWatch = new Stopwatch();
 
-            var keyPattern = new KeyPattern.KeyPattern(keySearcher.ControlMaster.getKeyPattern())
+            var keyPattern = new KeyPattern.KeyPattern(keySearcher.ControlMaster.GetKeyPattern())
                                  {WildcardKey = settings.Key};
             var keysPerChunk = Math.Pow(2, settings.ChunkSize);
             var keyPatternPool = new KeyPatternPool(keyPattern, new BigInteger(keysPerChunk));

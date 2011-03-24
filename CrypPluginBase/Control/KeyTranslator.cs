@@ -21,6 +21,11 @@ using System.Text;
 
 namespace Cryptool.PluginBase.Control
 {
+    /// <summary>
+    /// This interface defines the method needed for mapping an abstract key representation to the corresponding concrete key data.
+    /// It also defines methods to generate pieces of OpenCL code, which contain the bruteforcing movement of the key, which were obtained
+    /// by the abstract key pattern.
+    /// </summary>
     public interface IKeyTranslator
     {
         /// <summary>

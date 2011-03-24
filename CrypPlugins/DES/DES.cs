@@ -521,7 +521,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             return NativeCryptography.Crypto.decryptDES(ciphertext, key, IV, size, ((DESSettings)plugin.Settings).Mode);
         }
 
-        public string getKeyPattern()
+        public string GetKeyPattern()
         {
             return "[0-9A-F][0-9A-F]-[0-9A-F][0-9A-F]-[0-9A-F][0-9A-F]-[0-9A-F][0-9A-F]-"
                 +"[0-9A-F][0-9A-F]-[0-9A-F][0-9A-F]-[0-9A-F][0-9A-F]-[0-9A-F][0-9A-F]";
@@ -651,7 +651,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             throw new NotImplementedException();
         }
 
-        public IKeyTranslator getKeyTranslator()
+        public IKeyTranslator GetKeyTranslator()
         {
             return new KeySearcher.KeyTranslators.ByteArrayKeyTranslator();
         }

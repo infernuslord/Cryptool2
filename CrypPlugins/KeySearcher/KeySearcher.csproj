@@ -92,7 +92,7 @@
     <Compile Include="Converter\FalseToVisibleConverter.cs" />
     <Compile Include="Converter\TrueToVisibleConverter.cs" />
     <Compile Include="Helper\KeyQualityHelper.cs" />
-    <Compile Include="KeyPattern\IntervalKeyMovement.cs" />
+    <Compile Include="KeyPattern\ListKeyMovement.cs" />
     <Compile Include="KeyPattern\KeyPattern.cs" />
     <Compile Include="KeyPattern\KeyPatternPool.cs" />
     <Compile Include="KeyPattern\LinearKeyMovement.cs" />
