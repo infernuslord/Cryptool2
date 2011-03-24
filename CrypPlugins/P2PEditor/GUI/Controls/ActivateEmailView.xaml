@@ -20,7 +20,19 @@
             </Grid.RowDefinitions>
             <Label Content="{Loc Account_Activation_}"  Grid.ColumnSpan="2" Margin="0,0,0,56" FontSize="15" FontWeight="Bold" HorizontalAlignment="Center" />
             <TextBlock Text="{Loc Please_enter_the_activation_code_}" Grid.ColumnSpan="2" Margin="5,32,0,0" FlowDirection="LeftToRight" HorizontalAlignment="Center"/>
-            <Label Name="MessageLabel" Foreground="Red" Grid.Row="1" Grid.ColumnSpan="2" />
+            <Border Grid.Row="1" Grid.ColumnSpan="2" Visibility="Hidden" Name="MessageBox" CornerRadius="5" BorderThickness="3" BorderBrush="Gold">
+                <Grid>
+                    <Grid.Background>
+                        <SolidColorBrush Color="Khaki"/>
+                    </Grid.Background>
+                        <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Image Name="Erroricon" Width="25" Grid.Row="1" Source="..\..\images\error.png" Visibility="Hidden" HorizontalAlignment="Left"/>
+                    <Label Name="MessageLabel" Foreground="Red" Margin="25,0,0,0" Grid.Row="1" Grid.ColumnSpan="2" />
+                </Grid>
+            </Border>
             <Label Content="{Loc Activation_Code_}" Target="{Binding ElementName=ActivationCode}" Grid.Row="2" Grid.Column="0" />
             <Label Content="{Loc Password_}" Target="{Binding ElementName=PasswordField}" Grid.Row="3" Grid.Column="0" />            
             <TextBox Text="{Binding Name}" x:Name="ActivationCodeField" Grid.Row="2" Grid.Column="1" Height="24" MaxLength="40"/>

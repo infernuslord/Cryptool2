@@ -277,7 +277,7 @@ your account data. This data will be stored into your application data folder of
 We will send you an activation code. Use this code to activate your account by clicking the activate button.</value>
   </data>
   <data name="Requesting_certificate_" xml:space="preserve">
-    <value>Requesting certificate...</value>
+    <value>Requesting user account...</value>
   </data>
   <data name="RequestButton_" xml:space="preserve">
     <value>Request</value>
@@ -446,5 +446,9 @@ email address. Use this code to change your accounts password settings.</value>
   </data>
   <data name="Status_ColumnHeader_" xml:space="preserve">
     <value>Status</value>
+  </data>
+  <data name="Your_request_was_denied_on_serverside_" xml:space="preserve">
+    <value>Your request was denied on serverside.
+Reason: Username or email adresse are revoked.</value>
   </data>
 </root>

@@ -250,9 +250,9 @@ am Verteilten Netzwerk teilnehmen zu können.</value>
     <value>Anfordern</value>
   </data>
   <data name="Requesting_certificate_" xml:space="preserve">
-    <value>Fordere Zertifikat an...</value>
+    <value>Fordere Account an...</value>
   </data>
-  <data name="Server_error_occurred__Please_try_again_later" xml:space="preserve">
+  <data name="Server_error_occurred__Please_try_again" xml:space="preserve">
     <value>Es trat ein Serverfehler auf. Bitte versuchen sie es später noch einmal.</value>
   </data>
   <data name="SSLCertificate_revoked__Please_update_CrypTool_2_0_" xml:space="preserve">
@@ -391,5 +391,9 @@ Emailadresse senden können.</value>
   </data>
   <data name="Status_ColumnHeader_" xml:space="preserve">
     <value>Status</value>
+  </data>
+  <data name="Your_request_was_denied_on_serverside_" xml:space="preserve">
+    <value>Ihre Anfrage wurde serverseitig abgelehnt.
+Grund: Benutzername oder Emailadresse wurden abgelehnt.</value>
   </data>
 </root>

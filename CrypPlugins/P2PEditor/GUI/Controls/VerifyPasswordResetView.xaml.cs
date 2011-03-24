@@ -13,6 +13,7 @@ using PeersAtPlay.CertificateLibrary.Certificates;
 using Cryptool.P2P;
 using Cryptool.P2P.Internal;
 using Cryptool.PluginBase.Attributes;
+using System.Windows.Media;
 
 namespace Cryptool.P2PEditor.GUI.Controls
 {
@@ -29,6 +30,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
         private void VerifyButton_Click(object sender, RoutedEventArgs e)
         {
             this.MessageLabel.Visibility = Visibility.Hidden;
+            this.MessageBox.Visibility = Visibility.Hidden;
             if (string.IsNullOrEmpty(this.ActivationCode.Text))
             {
 
@@ -64,6 +66,8 @@ namespace Cryptool.P2PEditor.GUI.Controls
 
             Requesting = true;
             Thread thread = new Thread(new ParameterizedThreadStart(VerifyPasswordReset));
+            thread.CurrentCulture = Thread.CurrentThread.CurrentCulture;
+            thread.CurrentUICulture = Thread.CurrentThread.CurrentUICulture;
             PasswordResetVerification passwordResetVerification = new PasswordResetVerification(this.PasswordField.Password, this.ActivationCode.Text);
             thread.Start(passwordResetVerification);
         }
@@ -87,7 +91,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
                     certificateClient.UseSystemWideProxy = P2PSettings.Default.UseSystemWideProxy;
                     certificateClient.SslCertificateRefused += new EventHandler<EventArgs>(delegate
                     {
-                        LogMessage(Properties.Resources.SSLCertificate_revoked__Please_update_CrypTool_2_0_);
+                        LogMessage(Properties.Resources.SSLCertificate_revoked__Please_update_CrypTool_2_0_, true);
                     });
                     certificateClient.HttpTunnelEstablished += new EventHandler<ProxyEventArgs>(delegate
                     {
@@ -95,7 +99,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
                     });
                     certificateClient.NoProxyConfigured += new EventHandler<EventArgs>(delegate
                     {
-                        LogMessage(Properties.Resources.No_proxy_server_configured__Please_check_your_configuration_);
+                        LogMessage(Properties.Resources.No_proxy_server_configured__Please_check_your_configuration_, true);
                     });
                     certificateClient.ProxyErrorOccured += ProxyErrorOccured;
                 }
@@ -115,23 +119,23 @@ namespace Cryptool.P2PEditor.GUI.Controls
 
                 certificateClient.ServerErrorOccurred += new EventHandler<ProcessingErrorEventArgs>(delegate
                 {
-                    LogMessage(Properties.Resources.Server_error_occurred__Please_try_again_later);
+                    LogMessage(Properties.Resources.Server_error_occurred__Please_try_again_later, true);
                 });
 
                 certificateClient.NewProtocolVersion += new EventHandler<EventArgs>(delegate
                 {
-                    LogMessage(Properties.Resources.New_ProtocolVersion__Please_update_CrypTool_2_0);
+                    LogMessage(Properties.Resources.New_ProtocolVersion__Please_update_CrypTool_2_0, true);
                 });
 
                 certificateClient.VerifyPasswordReset(passwordResetVerification);
             }
             catch (NetworkException nex)
             {
-               LogMessage(String.Format(Properties.Resources.There_was_a_communication_problem_with_the_server,nex.Message));
+                LogMessage(String.Format(Properties.Resources.There_was_a_communication_problem_with_the_server, nex.Message), true);
             }
             catch (Exception ex)
             {
-                LogMessage(String.Format(Properties.Resources.An_exception_occured___1, ex.Message));
+                LogMessage(String.Format(Properties.Resources.An_exception_occured___1, ex.Message), true);
             }
             finally
             {
@@ -146,33 +150,33 @@ namespace Cryptool.P2PEditor.GUI.Controls
                 switch (args.Type)
                 {
                     case ErrorType.AlreadyVerified:
-                       LogMessage(Properties.Resources.Your_password_change_was_already_verified_);
+                        LogMessage(Properties.Resources.Your_password_change_was_already_verified_, true);
                         break;
 
                     case ErrorType.CertificateNotYetAuthorized:
-                        LogMessage(Properties.Resources.Your_account_is_not_yet_authorized_);
+                        LogMessage(Properties.Resources.Your_account_is_not_yet_authorized_, true);
                         break;
 
                     case ErrorType.CertificateRevoked:
-                        LogMessage(Properties.Resources.Your_account_is_revoked_);
+                        LogMessage(Properties.Resources.Your_account_is_revoked_, true);
                         break;
 
                     case ErrorType.NoCertificateFound:
-                        LogMessage(Properties.Resources.Account_reset_data_not_found);
+                        LogMessage(Properties.Resources.Account_reset_data_not_found, true);
                         break;
 
                     case ErrorType.WrongCode:
-                        LogMessage(Properties.Resources.Wrong_code);
+                        LogMessage(Properties.Resources.Wrong_code, true);
                         break;
 
                     default:
-                        LogMessage(String.Format(Properties.Resources.Invalid_passwort_reset_verification___0__, args.Message));
+                        LogMessage(String.Format(Properties.Resources.Invalid_passwort_reset_verification___0__, args.Message ?? args.Type.ToString()), true);
                         break;
                 }
             }
             catch (Exception ex)
             {
-                LogMessage(String.Format(Properties.Resources.An_exception_occured___1,ex.Message));
+                LogMessage(String.Format(Properties.Resources.An_exception_occured___1, ex.Message), true);
                 return;
             }
             finally
@@ -188,10 +192,10 @@ namespace Cryptool.P2PEditor.GUI.Controls
                 switch (args.Type)
                 {
                     case ErrorType.NoCertificateFound:
-                        LogMessage(Properties.Resources.You_have_entered_a_wrong_verification_code_);                           
+                        LogMessage(Properties.Resources.You_have_entered_a_wrong_verification_code_, true);                           
                         break;
                     case ErrorType.WrongPassword:
-                       LogMessage(Properties.Resources.The_verification_code_is_ok_but_the_entered_password_was_wrong_);
+                        LogMessage(Properties.Resources.The_verification_code_is_ok_but_the_entered_password_was_wrong_, true);
                         this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                         {
                             this.PasswordField.Password = "";
@@ -199,13 +203,13 @@ namespace Cryptool.P2PEditor.GUI.Controls
                         }, null);        
                         break;
                     default:
-                        LogMessage(String.Format(Properties.Resources.nvalid_certificate_request___0_, args.Type));
+                        LogMessage(String.Format(Properties.Resources.nvalid_certificate_request___0_, args.Message ?? args.Type.ToString()), true);
                         break;
                 }
             }
             catch (Exception ex) 
             {
-                LogMessage(String.Format(Properties.Resources.An_exception_occured___1, ex.Message));                
+                LogMessage(String.Format(Properties.Resources.An_exception_occured___1, ex.Message), true);                
                 return;
             }
             finally
@@ -228,7 +232,6 @@ namespace Cryptool.P2PEditor.GUI.Controls
             catch (Exception ex)
             {
                 LogMessage(String.Format(Properties.Resources.Cannot_create_default_account_data_directory_,PeerCertificate.DEFAULT_USER_CERTIFICATE_DIRECTORY, ex.Message));
-                this.MessageLabel.Visibility = Visibility.Visible;
                 return;
             }
 
@@ -248,7 +251,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
             catch (Exception ex)
             {
                 LogMessage(String.Format(Properties.Resources.Could_not_save_the_received_certificate_to_your_AppData_folder_,
-                    (ex.GetBaseException() != null && ex.GetBaseException().Message != null ? ex.GetBaseException().Message : ex.Message)));
+                    (ex.GetBaseException() != null && ex.GetBaseException().Message != null ? ex.GetBaseException().Message : ex.Message)), true);
             }
             finally
             {
@@ -302,7 +305,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
 
         private void ProxyErrorOccured(object sender, ProxyEventArgs args)
         {
-           LogMessage(String.Format(Properties.Resources.Proxy_Error_occured_ ,args.StatusCode, args.Message));
+            LogMessage(String.Format(Properties.Resources.Proxy_Error_occured_, args.StatusCode, args.Message), true);
         }
 
         /// <summary>
@@ -314,9 +317,20 @@ namespace Cryptool.P2PEditor.GUI.Controls
         {
             this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
+                if (error)
+                {
+                    this.Erroricon.Visibility = Visibility.Visible;
+                    this.MessageLabel.Foreground = Brushes.Red;
+                }
+                else
+                {
+                    this.Erroricon.Visibility = Visibility.Hidden;
+                    this.MessageLabel.Foreground = Brushes.Black;
+                }
                 this.MessageLabel.Content = message;
                 this.P2PEditor.GuiLogMessage(message, NotificationLevel.Info);
                 this.MessageLabel.Visibility = Visibility.Visible;
+                this.MessageBox.Visibility = Visibility.Visible;
             }, null);
         }
     }

@@ -12,6 +12,7 @@ using System.IO;
 using System.ComponentModel;
 using PeersAtPlay.CertificateLibrary.Network;
 using Cryptool.PluginBase.Attributes;
+using System.Windows.Media;
 
 namespace Cryptool.P2PEditor.GUI.Controls
 {
@@ -126,6 +127,8 @@ namespace Cryptool.P2PEditor.GUI.Controls
         private void ConnectButtonClick(object sender, RoutedEventArgs e)
         {
             Thread thread = new Thread(new ThreadStart(DoConnect));
+            thread.CurrentCulture = Thread.CurrentThread.CurrentCulture;
+            thread.CurrentUICulture = Thread.CurrentThread.CurrentUICulture;
             thread.Start();
         }
 
@@ -165,7 +168,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
             }
             catch (Exception ex)
             {
-                this.LogMessage(String.Format(Properties.Resources.Cannot_connect_using_account_, P2PSettings.Default.PeerName ,(ex.InnerException != null ? ex.InnerException.Message : ex.Message)));
+                this.LogMessage(String.Format(Properties.Resources.Cannot_connect_using_account_, P2PSettings.Default.PeerName ,(ex.InnerException != null ? ex.InnerException.Message : ex.Message)),true);
                 this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
                     RaiseP2PConnectingEvent(false);
@@ -181,7 +184,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
                     CertificateClient certificateClient = new CertificateClient();
                     certificateClient.ServerErrorOccurred += InvalidCertificateRequest;
 
-                    this.LogMessage(String.Format(Properties.Resources.No_account_data_found_for_Try_to_download_from_server_,P2PSettings.Default.PeerName));
+                    this.LogMessage(String.Format(Properties.Resources.No_account_data_found_for_Try_to_download_from_server_,P2PSettings.Default.PeerName),true);
                     
                     //use a proxy server:
                     if (P2PSettings.Default.UseProxy)
@@ -194,7 +197,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
                         certificateClient.UseSystemWideProxy = P2PSettings.Default.UseSystemWideProxy;
                         certificateClient.SslCertificateRefused += new EventHandler<EventArgs>(delegate
                         {
-                            this.LogMessage(Properties.Resources.SSLCertificate_revoked__Please_update_CrypTool_2_0_);                                
+                            this.LogMessage(Properties.Resources.SSLCertificate_revoked__Please_update_CrypTool_2_0_,true);                                
                         });
                         certificateClient.HttpTunnelEstablished += new EventHandler<ProxyEventArgs>(delegate
                         {
@@ -202,7 +205,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
                         });
                         certificateClient.NoProxyConfigured += new EventHandler<EventArgs>(delegate
                         {
-                            this.LogMessage(Properties.Resources.No_proxy_server_configured__Please_check_your_configuration_);
+                            this.LogMessage(Properties.Resources.No_proxy_server_configured__Please_check_your_configuration_, true);
                         });
                         certificateClient.ProxyErrorOccured += ProxyErrorOccured;
                     }
@@ -218,7 +221,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
                 }
                 catch (Exception ex)
                 {
-                    this.LogMessage(String.Format(Properties.Resources.Error_while_autodownloading_your_account_data_, ex.Message));
+                    this.LogMessage(String.Format(Properties.Resources.Error_while_autodownloading_your_account_data_, ex.Message), true);
                     this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {                        
                         RaiseP2PConnectingEvent(false);
@@ -231,7 +234,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
             //user entered the wrong password and the cert could not be download
             if (WrongPassword)
             {
-                this.LogMessage(Properties.Resources.Your_password_was_wrong_We_could_not_autodownload_your_account_data_);
+                this.LogMessage(Properties.Resources.Your_password_was_wrong_We_could_not_autodownload_your_account_data_, true);
                 this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
                     RaiseP2PConnectingEvent(false);
@@ -246,7 +249,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
                 this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
                     this.P2PEditorPresentation.ShowActivateEmailView();
-                    this.P2PEditorPresentation.ActivateEmailView.LogMessage(Properties.Resources.The_email_address_was_not_verified_);
+                    this.P2PEditorPresentation.ActivateEmailView.LogMessage(Properties.Resources.The_email_address_was_not_verified_, true);
                     RaiseP2PConnectingEvent(false);
                     IsP2PConnecting = false;
                 }, null);                
@@ -256,7 +259,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
             //if we are here we did not find a fitting certificate in users appdata and could not download a certificate
             if (!HaveCertificate)
             {
-                this.LogMessage(String.Format(Properties.Resources.Cannot_connect_account_not_found_, P2PSettings.Default.PeerName));
+                this.LogMessage(String.Format(Properties.Resources.Cannot_connect_account_not_found_,P2PSettings.Default.PeerName),true);
                 this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
                     RaiseP2PConnectingEvent(false);
@@ -268,6 +271,8 @@ namespace Cryptool.P2PEditor.GUI.Controls
             this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
                 this.MessageLabel.Visibility = Visibility.Hidden;
+                this.Erroricon.Visibility = Visibility.Hidden;
+                this.MessageBox.Visibility = Visibility.Hidden;
             }, null);   
 
             if (!P2PManager.IsConnected)
@@ -283,7 +288,10 @@ namespace Cryptool.P2PEditor.GUI.Controls
                     break;
                 case ErrorType.WrongPassword:
                     WrongPassword = true;
-                    break;                
+                    break;
+                default:
+                    this.LogMessage(String.Format(Properties.Resources.InvalidCertificateRegistration_Invalid_registration___1, args.Message ?? args.Type.ToString()), true);
+                    break;
             }
         }
 
@@ -300,7 +308,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
                 }
                 catch (Exception ex)
                 {
-                    this.LogMessage(String.Format(Properties.Resources.Cannot_create_default_account_data_directory_, PeerCertificate.DEFAULT_USER_CERTIFICATE_DIRECTORY, ex.Message));
+                    this.LogMessage(String.Format(Properties.Resources.Cannot_create_default_account_data_directory_, PeerCertificate.DEFAULT_USER_CERTIFICATE_DIRECTORY, ex.Message), true);
                     return;
                 }
 
@@ -398,7 +406,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
 
         private void ProxyErrorOccured(object sender, ProxyEventArgs args)
         {
-           this.LogMessage(String.Format(Properties.Resources.Proxy_Error_occured_,args.StatusCode,args.Message));
+            this.LogMessage(String.Format(Properties.Resources.Proxy_Error_occured_, args.StatusCode, args.Message), true);
         }
 
         /// <summary>
@@ -410,9 +418,20 @@ namespace Cryptool.P2PEditor.GUI.Controls
         {
             this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
+                if (error)
+                {
+                    this.Erroricon.Visibility = Visibility.Visible;
+                    this.MessageLabel.Foreground = Brushes.Red;
+                }
+                else
+                {
+                    this.Erroricon.Visibility = Visibility.Hidden;
+                    this.MessageLabel.Foreground = Brushes.Black;
+                }
                 this.MessageLabel.Content = message;
                 this.P2PEditor.GuiLogMessage(message, NotificationLevel.Info);
                 this.MessageLabel.Visibility = Visibility.Visible;
+                this.MessageBox.Visibility = Visibility.Visible;
             }, null);
         }
 
