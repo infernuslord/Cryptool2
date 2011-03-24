@@ -58,10 +58,12 @@
 
         <Style x:Key="ItemStyle" TargetType="TreeViewItem">
             <Setter x:Name="P" Property="IsExpanded" Value="True" />
+            <Setter Property="Visibility" Value="{Binding Path=Value.Dead, Converter={StaticResource HideDeadMachineConverter}}"/>
         </Style>
 
         <Style x:Key="ItemStyle2" TargetType="TreeViewItem">
             <Setter x:Name="P" Property="IsExpanded" Value="False" />
+            <Setter Property="Visibility" Value="{Binding Path=Value.Dead, Converter={StaticResource HideDeadMachineConverter}}"/>
         </Style>
 
        <!-- <Storyboard x:Key="BestGlow" RepeatBehavior="Forever">
@@ -230,12 +232,7 @@
                     <TextBlock Text="Calculated Chunks" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                     <CheckBox Height="15" Name="HideDead" VerticalAlignment="Top" Grid.Column="1" Grid.Row="0" FlowDirection="RightToLeft" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Checked="Checked" Unchecked="Checked" HorizontalAlignment="Center">Hide Dead</CheckBox>
                     <Button Content="Expand" Grid.Column="1" Grid.Row="0" Click="Button_Click" Width="50" HorizontalAlignment="Right"></Button>
-                    <TreeView HorizontalAlignment="Stretch" VirtualizingStackPanel.IsVirtualizing="False" Name="statisticsTree" VerticalAlignment="Stretch" ItemsSource="{Binding}" AlternationCount="3" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" >
-                        <TreeView.ItemContainerStyle>
-                            <Style TargetType="{x:Type TreeViewItem}">
-                                <Setter Property="Visibility" Value="{Binding Path=Value.Dead, Converter={StaticResource HideDeadMachineConverter}}"/>
-                            </Style>
-                        </TreeView.ItemContainerStyle>
+                    <TreeView HorizontalAlignment="Stretch" VirtualizingStackPanel.IsVirtualizing="False" Name="statisticsTree" VerticalAlignment="Stretch" ItemsSource="{Binding}" AlternationCount="3" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" >                   
                         <TreeView.ItemTemplate>
                             <HierarchicalDataTemplate ItemsSource="{Binding Path=Value}">
                                 <HierarchicalDataTemplate.ItemTemplate>
@@ -316,12 +313,6 @@
                         </TreeView.ItemContainerStyle>
                         <TreeView.ItemTemplate>
                             <HierarchicalDataTemplate ItemsSource="{Binding Path=Value}">
-                                <!--<HierarchicalDataTemplate.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding Path=Users}"/>
-                                </DataTemplate>
-                            </HierarchicalDataTemplate.ItemTemplate>-->
-
                                 <StackPanel Orientation="Horizontal" Margin="1" ToolTip="{Binding Path=Value.Users}">
                                     <Grid Width="70">
                                         <TextBlock Text="{Binding Path=Value.Hostname, Converter={StaticResource ResourceKey=StringLengthConverter}}" HorizontalAlignment="Center" ToolTip="{Binding Path=Value.Hostname}"/>
