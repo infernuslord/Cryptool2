@@ -718,7 +718,7 @@ namespace Cryptool.P2PEditor.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Requesting certificate... ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Requesting user account... ähnelt.
         /// </summary>
         internal static string Requesting_certificate_ {
             get {
@@ -1024,6 +1024,16 @@ namespace Cryptool.P2PEditor.Properties {
         internal static string Your_password_was_wrong_We_could_not_autodownload_your_account_data_ {
             get {
                 return ResourceManager.GetString("Your_password_was_wrong_We_could_not_autodownload_your_account_data_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Your request was denied on serverside.
+        ///Reason: Username or email adresse are revoked. ähnelt.
+        /// </summary>
+        internal static string Your_request_was_denied_on_serverside_ {
+            get {
+                return ResourceManager.GetString("Your_request_was_denied_on_serverside_", resourceCulture);
             }
         }
     }

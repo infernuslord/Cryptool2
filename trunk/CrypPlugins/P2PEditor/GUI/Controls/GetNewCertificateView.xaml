@@ -23,7 +23,19 @@
             </Grid.RowDefinitions>
             <Label Content="{Loc Account_Creation_}"  Grid.ColumnSpan="2" Margin="0,0,0,56" FontSize="15" FontWeight="Bold" HorizontalAlignment="Center"/>
             <TextBlock Text="{Loc Please_enter_the_data_below_}"  Grid.ColumnSpan="2" Margin="5,32,0,0" FlowDirection="LeftToRight" HorizontalAlignment="Center"/>
-            <Label Name="MessageLabel" Foreground="Red" Grid.Row="1" Grid.ColumnSpan="2" />
+                <Border Grid.Row="1" Grid.ColumnSpan="2" Visibility="Hidden" Name="MessageBox" CornerRadius="5" BorderThickness="3" BorderBrush="Gold">
+                    <Grid>
+                        <Grid.Background>
+                            <SolidColorBrush Color="Khaki"/>
+                        </Grid.Background>
+                        <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Image Name="Erroricon" Width="25" Grid.Row="1" Source="..\..\images\error.png" Visibility="Hidden" HorizontalAlignment="Left"/>
+                    <Label Name="MessageLabel" Foreground="Red" Margin="25,0,0,0" Grid.Row="1" Grid.ColumnSpan="2" />
+                </Grid>
+            </Border>
             <Label Content="{Loc Username_}" Target="{Binding ElementName=UsernameField}" Grid.Row="2" Grid.Column="0" />
             <Label Content="{Loc Email_}" Target="{Binding ElementName=EmailField}" Grid.Row="3" Grid.Column="0" />
             <Label Content="{Loc Password_}" Target="{Binding ElementName=PasswordField}" Grid.Row="4" Grid.Column="0" />

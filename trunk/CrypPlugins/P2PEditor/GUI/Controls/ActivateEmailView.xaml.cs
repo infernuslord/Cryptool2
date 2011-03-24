@@ -13,6 +13,7 @@ using PeersAtPlay.CertificateLibrary.Certificates;
 using Cryptool.P2P;
 using Cryptool.P2P.Internal;
 using Cryptool.PluginBase.Attributes;
+using System.Windows.Media;
 
 namespace Cryptool.P2PEditor.GUI.Controls
 {
@@ -29,6 +30,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
         private void ActivateButton_Click(object sender, RoutedEventArgs e)
         {
             this.MessageLabel.Visibility = Visibility.Hidden;
+            this.MessageBox.Visibility = Visibility.Hidden;
             if (string.IsNullOrEmpty(this.ActivationCodeField.Text))
             {
 
@@ -51,6 +53,8 @@ namespace Cryptool.P2PEditor.GUI.Controls
             
             Requesting = true;
             Thread thread = new Thread(new ParameterizedThreadStart(ActivateEmail));
+            thread.CurrentCulture = Thread.CurrentThread.CurrentCulture;
+            thread.CurrentUICulture = Thread.CurrentThread.CurrentUICulture;
             EmailVerification emailVer = new EmailVerification(this.ActivationCodeField.Text, false);
             thread.Start(emailVer);
         }
@@ -194,7 +198,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
                     default:
                         this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                         {
-                            this.MessageLabel.Content = "Invalid certificate request: " + args.Message;
+                            this.MessageLabel.Content = "Invalid certificate request: " + args.Message ?? args.Type.ToString();
                             this.P2PEditor.GuiLogMessage(this.MessageLabel.Content.ToString(), NotificationLevel.Error);
                             this.MessageLabel.Visibility = Visibility.Visible;
                         }, null);
@@ -319,9 +323,20 @@ namespace Cryptool.P2PEditor.GUI.Controls
         {
             this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
+                if (error)
+                {
+                    this.Erroricon.Visibility = Visibility.Visible;
+                    this.MessageLabel.Foreground = Brushes.Red;
+                }
+                else
+                {
+                    this.Erroricon.Visibility = Visibility.Hidden;
+                    this.MessageLabel.Foreground = Brushes.Black;
+                }
                 this.MessageLabel.Content = message;
                 this.P2PEditor.GuiLogMessage(message, NotificationLevel.Info);
                 this.MessageLabel.Visibility = Visibility.Visible;
+                this.MessageBox.Visibility = Visibility.Visible;
             }, null);
         }
     }

@@ -88,7 +88,19 @@
                             </Ellipse.RenderTransform>
                         </Ellipse>
                     </Grid>
-                <Label Name="MessageLabel" Foreground="Red" Content="" Grid.Row="1" Grid.ColumnSpan="2" />
+                <Border Visibility="Hidden" Name="MessageBox" CornerRadius="5" BorderThickness="3" BorderBrush="Gold">
+                    <Grid>
+                        <Grid.Background>
+                            <SolidColorBrush Color="Khaki"/>
+                        </Grid.Background>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Image Name="Erroricon" Width="25" Grid.Row="1" Source="..\..\images\error.png" Visibility="Hidden" HorizontalAlignment="Left"/>
+                        <Label Name="MessageLabel" Foreground="Red" Margin="25,0,0,0" Grid.Row="1" Grid.ColumnSpan="2" />
+                    </Grid>
+                </Border>
                 <Label Width="200" Content="{Loc Username_}"/>
                 <Grid Width="200">
                     <Grid.ColumnDefinitions>
@@ -106,7 +118,7 @@
                     </Popup>
                 </Grid>                
                 <TextBlock Width="200" 
-                           FontSize="12" 
+                           FontSize="12"
                            Name="GetACertificateLabel" 
                            MouseDown="GetACertificateLabel_Click" 
                            Cursor="Hand" HorizontalAlignment="Center" 

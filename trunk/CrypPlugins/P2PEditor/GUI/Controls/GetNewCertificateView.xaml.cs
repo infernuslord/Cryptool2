@@ -13,13 +13,14 @@ using PeersAtPlay.CertificateLibrary.Certificates;
 using Cryptool.P2P;
 using Cryptool.P2P.Internal;
 using Cryptool.PluginBase.Attributes;
+using System.Windows.Media;
 
 namespace Cryptool.P2PEditor.GUI.Controls
 {
     [Localization("Cryptool.P2PEditor.Properties.Resources")]
     public partial class GetNewCertificate
     {
-        public static string WorldName = ".*";
+        public static string WorldName = "CrypTool.*";
 
         public GetNewCertificate()
         {
@@ -29,6 +30,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
         private void Request_Click(object sender, RoutedEventArgs e)
         {
             this.MessageLabel.Visibility = Visibility.Hidden;
+            this.MessageBox.Visibility = Visibility.Hidden;
             if (!Verification.IsValidAvatar(this.UsernameField.Text))
             {
 
@@ -66,6 +68,8 @@ namespace Cryptool.P2PEditor.GUI.Controls
             
             Requesting = true;
             Thread thread = new Thread(new ParameterizedThreadStart(RetrieveCertificate));
+            thread.CurrentCulture = Thread.CurrentThread.CurrentCulture;
+            thread.CurrentUICulture = Thread.CurrentThread.CurrentUICulture;
             CertificateRegistration certReg = new CertificateRegistration(this.UsernameField.Text,
                                                      this.EmailField.Text,
                                                      WorldName,
@@ -92,7 +96,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
                     certificateClient.UseSystemWideProxy = P2PSettings.Default.UseSystemWideProxy;
                     certificateClient.SslCertificateRefused += new EventHandler<EventArgs>(delegate
                     {
-                        this.LogMessage(Properties.Resources.SSLCertificate_revoked__Please_update_CrypTool_2_0_);
+                        this.LogMessage(Properties.Resources.SSLCertificate_revoked__Please_update_CrypTool_2_0_,true);
                     });
                     certificateClient.HttpTunnelEstablished += new EventHandler<ProxyEventArgs>(delegate
                     {
@@ -100,7 +104,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
                     });
                     certificateClient.NoProxyConfigured += new EventHandler<EventArgs>(delegate
                     {
-                        this.LogMessage(Properties.Resources.No_proxy_server_configured__Please_check_your_configuration_);
+                        this.LogMessage(Properties.Resources.No_proxy_server_configured__Please_check_your_configuration_, true);
                     });
                     certificateClient.ProxyErrorOccured += ProxyErrorOccured;
                 }
@@ -111,7 +115,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
 
                 certificateClient.CertificateAuthorizationRequired += new EventHandler<EventArgs>(delegate
                 {
-                    this.LogMessage(Properties.Resources.Certificate_authorization_required);
+                    this.LogMessage(Properties.Resources.Certificate_authorization_required, true);
                 });
 
                 certificateClient.EmailVerificationRequired += new EventHandler<EventArgs>(delegate
@@ -123,7 +127,6 @@ namespace Cryptool.P2PEditor.GUI.Controls
                         this.EmailField.Text = "";
                         this.PasswordField.Password = "";
                         this.ConfirmField.Password = "";
-                        this.MessageLabel.Visibility = Visibility.Visible;
                     }, null);
                 });
 
@@ -131,14 +134,11 @@ namespace Cryptool.P2PEditor.GUI.Controls
 
                 certificateClient.InvalidCertificateRegistration += InvalidCertificateRegistration;
 
-                certificateClient.ServerErrorOccurred += new EventHandler<ProcessingErrorEventArgs>(delegate
-                {
-                    this.LogMessage(Properties.Resources.Server_error_occurred__Please_try_again_later);
-                });
+                certificateClient.ServerErrorOccurred += ServerErrorOccured;
 
                 certificateClient.NewProtocolVersion += new EventHandler<EventArgs>(delegate
                 {
-                    this.LogMessage(Properties.Resources.New_ProtocolVersion__Please_update_CrypTool_2_0);
+                    this.LogMessage(Properties.Resources.New_ProtocolVersion__Please_update_CrypTool_2_0, true);
                 });
 
                 certificateClient.RegisterCertificate(certReg);
@@ -146,16 +146,21 @@ namespace Cryptool.P2PEditor.GUI.Controls
             }
             catch (NetworkException nex)
             {
-               this.LogMessage(String.Format(Properties.Resources.There_was_a_communication_problem_with_the_server,nex.Message));
+                this.LogMessage(String.Format(Properties.Resources.There_was_a_communication_problem_with_the_server, nex.Message), true);
             }
             catch (Exception ex)
             {
-               this.LogMessage(String.Format(Properties.Resources.An_exception_occured___1, ex.Message));
+                this.LogMessage(String.Format(Properties.Resources.An_exception_occured___1, ex.Message), true);
             }
             finally
             {
                 Requesting = false;                
             }
+        }
+
+        private void ServerErrorOccured(object sender, ProcessingErrorEventArgs args)
+        {
+            this.LogMessage(Properties.Resources.Server_error_occurred__Please_try_again_later, true);
         }
 
         public void InvalidCertificateRegistration(object sender, ProcessingErrorEventArgs args)
@@ -164,14 +169,17 @@ namespace Cryptool.P2PEditor.GUI.Controls
             {
                 switch (args.Type)
                 {
+                    case ErrorType.AvatarFormatIncorrect:
+                        this.LogMessage(Properties.Resources.Your_request_was_denied_on_serverside_, true);
+                        break;
                     case ErrorType.AvatarAlreadyExists:
-                        this.LogMessage(Properties.Resources.The_username_already_exists__Please_choose_another_one_);
+                        this.LogMessage(Properties.Resources.The_username_already_exists__Please_choose_another_one_, true);
                         break;
                     case ErrorType.EmailAlreadyExists:
-                        this.LogMessage(Properties.Resources.The_email_already_exists__Please_choose_another_one_);
+                        this.LogMessage(Properties.Resources.The_email_already_exists__Please_choose_another_one_, true);
                         break;
                     case ErrorType.WrongPassword:
-                        this.LogMessage(Properties.Resources.The_username_and_email_already_exist_but_the_entered_password_was_wrong_);
+                        this.LogMessage(Properties.Resources.The_username_and_email_already_exist_but_the_entered_password_was_wrong_, true);
                         this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                         {
                             this.PasswordField.Password = "";
@@ -180,13 +188,13 @@ namespace Cryptool.P2PEditor.GUI.Controls
                         }, null);        
                         break;
                     default:
-                        this.LogMessage(String.Format(Properties.Resources.InvalidCertificateRegistration_Invalid_registration___1, args.Type));
+                        this.LogMessage(String.Format(Properties.Resources.InvalidCertificateRegistration_Invalid_registration___1, args.Message ?? args.Type.ToString()), true);
                         break;
                 }
             }
             catch (Exception ex) 
             {
-                this.LogMessage(String.Format(Properties.Resources.InvalidCertificateRegistration_Exception_occured___1, ex.Message));
+                this.LogMessage(String.Format(Properties.Resources.InvalidCertificateRegistration_Exception_occured___1, ex.Message), true);
                 return;
             }
             finally
@@ -209,7 +217,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
                 }
                 catch (Exception ex)
                 {
-                    this.LogMessage(String.Format(Properties.Resources.Cannot_create_default_account_data_directory_, ex.Message));
+                    this.LogMessage(String.Format(Properties.Resources.Cannot_create_default_account_data_directory_, ex.Message), true);
                     return;
                 }
 
@@ -230,7 +238,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
             catch (Exception ex)
             {
                 this.LogMessage(String.Format(Properties.Resources.Could_not_save_the_received_certificate_to_your_AppData_folder_,
-                                (ex.GetBaseException() != null && ex.GetBaseException().Message != null ? ex.GetBaseException().Message : ex.Message)));
+                                (ex.GetBaseException() != null && ex.GetBaseException().Message != null ? ex.GetBaseException().Message : ex.Message)), true);
             }
             finally
             {
@@ -284,7 +292,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
 
         private void ProxyErrorOccured(object sender, ProxyEventArgs args)
         {
-            this.LogMessage(String.Format(Properties.Resources.ProxyErrorOccured_Proxy_Error___1__occured_, args.Message));
+            this.LogMessage(String.Format(Properties.Resources.ProxyErrorOccured_Proxy_Error___1__occured_, args.Message), true);
         }
 
         /// <summary>
@@ -296,9 +304,20 @@ namespace Cryptool.P2PEditor.GUI.Controls
         {
             this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
+                if (error)
+                {
+                    this.Erroricon.Visibility = Visibility.Visible;
+                    this.MessageLabel.Foreground = Brushes.Red;
+                }
+                else
+                {
+                    this.Erroricon.Visibility = Visibility.Hidden;
+                    this.MessageLabel.Foreground = Brushes.Black;
+                }
                 this.MessageLabel.Content = message;
                 this.P2PEditor.GuiLogMessage(message, NotificationLevel.Info);
                 this.MessageLabel.Visibility = Visibility.Visible;
+                this.MessageBox.Visibility = Visibility.Visible;
             }, null);
         }
     }
