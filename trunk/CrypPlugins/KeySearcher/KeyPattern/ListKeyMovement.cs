@@ -21,23 +21,23 @@ using System.Text;
 
 namespace KeySearcher.KeyPattern
 {
-    public class IntervalKeyMovement : IKeyMovement
+    public class ListKeyMovement : IKeyMovement
     {
-        public List<int> IntervalList
+        public List<int> KeyList
         {
             get;
             private set;
         }
 
-        public IntervalKeyMovement(List<int> intervalList)
+        public ListKeyMovement(List<int> keyList)
         {
-            this.IntervalList = intervalList;
-            this.IntervalList.Sort();
+            this.KeyList = keyList;
+            this.KeyList.Sort();
         }
 
         public int Count()
         {
-            return IntervalList.Count;
+            return KeyList.Count;
         }
     }
 }

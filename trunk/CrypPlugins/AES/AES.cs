@@ -494,7 +494,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             return NativeCryptography.Crypto.decryptAES(ciphertext, key, IV, bits, size, ((AESSettings)plugin.Settings).Mode);
         }
 
-        public string getKeyPattern()
+        public string GetKeyPattern()
         {
             int bytes = 0;
             switch (((AESSettings)plugin.Settings).Keysize)
@@ -655,7 +655,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         {
         }
 
-        public IKeyTranslator getKeyTranslator()
+        public IKeyTranslator GetKeyTranslator()
         {
             return new KeySearcher.KeyTranslators.ByteArrayKeyTranslator();
         }

@@ -1154,7 +1154,7 @@ namespace Transposition
             return null;
         }
 
-        public string getKeyPattern()
+        public string GetKeyPattern()
         {
             return null;
         }
@@ -1175,7 +1175,7 @@ namespace Transposition
             plugin.changeSettings(setting, value);
         }
 
-        public IKeyTranslator getKeyTranslator()
+        public IKeyTranslator GetKeyTranslator()
         {
             throw new NotImplementedException();
         }

@@ -26,8 +26,25 @@ namespace Cryptool.PluginBase.Control
         byte[] Encrypt(byte[] key, int blocksize);
         byte[] Decrypt(byte[] ciphertext, byte[] key, byte[] IV, int bytesToUse);
         byte[] Decrypt(byte[] ciphertext, byte[] key, byte[] IV);
-        string getKeyPattern();
-        IKeyTranslator getKeyTranslator();
+
+        /// <summary>
+        /// Returns the pattern that the corresponding encryption plugin expects for the abstract key.
+        /// </summary>
+        /// <returns>The pattern</returns>
+        string GetKeyPattern();
+
+        /// <summary>
+        /// Returns the KeyTranslator which can be used to map abstract keys to concrete key for this encryption plugin.
+        /// </summary>
+        /// <returns>An implementation of IKeyTranslator.</returns>
+        IKeyTranslator GetKeyTranslator();
+
+        /// <summary>
+        /// Returns OpenCL code for this encryption plugin.
+        /// </summary>
+        /// <param name="decryptionLength">Indicates how many bytes should be decrypted. Important for speed.</param>
+        /// <param name="iv">The IV vector (for CBC)</param>
+        /// <returns>The OpenCL code.</returns>
         string GetOpenCLCode(int decryptionLength, byte[] iv);
 
         void changeSettings(string setting, object value);

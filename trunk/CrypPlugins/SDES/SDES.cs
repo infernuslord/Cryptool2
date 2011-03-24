@@ -594,7 +594,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         /// Get the key pattern of the SDES algorithm
         /// </summary>
         /// <returns>[01][01][01][01][01][01][01][01][01][01]</returns>
-        public string getKeyPattern()
+        public string GetKeyPattern()
         {
             return "[01][01][01][01][01][01][01][01][01][01]";
         }
@@ -697,7 +697,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
         }
 
-        public IKeyTranslator getKeyTranslator()
+        public IKeyTranslator GetKeyTranslator()
         {
             return new SDESKeyTranslator();
         }
