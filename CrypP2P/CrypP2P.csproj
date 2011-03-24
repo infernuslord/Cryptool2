@@ -62,16 +62,15 @@
       <HintPath>..\appreferences\certificatelibrary.dll</HintPath>
       <Private>false</Private>
     </Reference>
+    <Reference Include="Chordi">
+      <HintPath>..\AppReferences\Chordi.dll</HintPath>
+    </Reference>
     <Reference Include="FullMeshDHT">
       <HintPath>..\appreferences\fullmeshdht.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="FullMeshOverlay">
       <HintPath>..\appreferences\fullmeshoverlay.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="ChordOverlay">
-      <HintPath>..\appreferences\chord.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="Gears4Net">
