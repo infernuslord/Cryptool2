@@ -36,8 +36,8 @@ using PeersAtPlay.P2PStorage.DHT;
 using PeersAtPlay.P2PStorage.FullMeshDHT;
 using PeersAtPlay.PapsClient;
 using PeersAtPlay.Util.Logging;
-using PeersAtPlay.P2POverlay.Chord;
 using PeersAtPlay.P2PStorage.WebDHT;
+using PeersAtPlay.P2POverlay.Chordi;
 using System.Security.Cryptography;
 
 /* TODO:
@@ -167,8 +167,8 @@ namespace Cryptool.P2P.Internal
                         Dht = new FullMeshDHT(scheduler);
                         break;
                     case P2PArchitecture.Chord:
-                        overlay = new ChordNGCore(scheduler);
-                        Dht = (IDHT) overlay;
+                        overlay = new ChordiOverlay(scheduler);
+                        Dht = new ChordiDHT(scheduler);
                         break;
                     case P2PArchitecture.Server:
                         PeersAtPlay.PapsClient.Properties.Settings.Default.ServerHost = P2PSettings.Default.ServerHost;
