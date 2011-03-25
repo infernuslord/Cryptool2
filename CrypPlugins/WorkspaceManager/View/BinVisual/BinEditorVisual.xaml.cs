@@ -581,7 +581,7 @@ namespace WorkspaceManager.View.BinVisual
 
         private void MouseRightButtonDownHandler(object sender, MouseButtonEventArgs e)
         {
-            if (e.Source is BinComponentVisual)
+            if (e.Source is BinComponentVisual && e.OriginalSource is FrameworkElement)
             {
                 BinComponentVisual c = (BinComponentVisual)e.Source;
                 FrameworkElement f = (FrameworkElement)e.OriginalSource, element = (FrameworkElement)f.TemplatedParent;
@@ -616,7 +616,7 @@ namespace WorkspaceManager.View.BinVisual
             {
                 case 1:
 
-                    if (e.Source is BinComponentVisual)
+                    if (e.Source is BinComponentVisual && e.OriginalSource is FrameworkElement)
                     {
                         BinComponentVisual c = (BinComponentVisual)e.Source;
                         FrameworkElement f = (FrameworkElement)e.OriginalSource, element = (FrameworkElement)f.TemplatedParent;
@@ -652,7 +652,7 @@ namespace WorkspaceManager.View.BinVisual
 
         private void MouseLeftButtonUpHandler(object sender, MouseButtonEventArgs e)
         {
-            if (e.Source is BinComponentVisual)
+            if (e.Source is BinComponentVisual && e.OriginalSource is FrameworkElement)
             {
                 BinComponentVisual c = (BinComponentVisual)e.Source;
                 FrameworkElement f = (FrameworkElement)e.OriginalSource, element = (FrameworkElement)f.TemplatedParent;
