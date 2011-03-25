@@ -175,10 +175,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="obj\DetailedDescription\Description.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Resource>
     <Page Include="View\BinVisual\BinConnectorVisual.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -351,6 +347,7 @@
     <Content Include="View\Base\WPFToolkit.Extended.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="obj\DetailedDescription\" />
     <Folder Include="View\Resource\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
