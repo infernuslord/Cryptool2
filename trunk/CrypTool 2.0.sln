@@ -258,6 +258,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SolitaireAnalyser", "CrypPl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkspaceManagerModel", "WorkspaceManagerModel\WorkspaceManagerModel.csproj", "{C35A6E71-D6FE-478B-A12D-FAD54FC4EDC9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPFToolkit.Extended", "CrypPlugins\Libs\WPFToolkit.Extended\WPFToolkit.Extended.csproj", "{72E591D6-8F83-4D8C-8F67-9C325E623234}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -758,6 +760,10 @@ Global
 		{C35A6E71-D6FE-478B-A12D-FAD54FC4EDC9}.Debug|x86.Build.0 = Debug|x86
 		{C35A6E71-D6FE-478B-A12D-FAD54FC4EDC9}.Release|x86.ActiveCfg = Release|x86
 		{C35A6E71-D6FE-478B-A12D-FAD54FC4EDC9}.Release|x86.Build.0 = Release|x86
+		{72E591D6-8F83-4D8C-8F67-9C325E623234}.Debug|x86.ActiveCfg = Debug|x86
+		{72E591D6-8F83-4D8C-8F67-9C325E623234}.Debug|x86.Build.0 = Debug|x86
+		{72E591D6-8F83-4D8C-8F67-9C325E623234}.Release|x86.ActiveCfg = Release|x86
+		{72E591D6-8F83-4D8C-8F67-9C325E623234}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -880,5 +886,6 @@ Global
 		{EDAB9E2E-3320-4C8B-AC6F-013513854786} = {88B851F6-9E3D-484F-A317-ECED5B98C618}
 		{AEB6BEFA-DC4B-4774-A36F-52A9DFBFE3AA} = {88B851F6-9E3D-484F-A317-ECED5B98C618}
 		{0946E1A6-5488-4711-AD10-D54D6A5D2F32} = {1E472920-3A9C-413A-98B2-8372F0E283C5}
+		{72E591D6-8F83-4D8C-8F67-9C325E623234} = {1E472920-3A9C-413A-98B2-8372F0E283C5}
 	EndGlobalSection
 EndGlobal
