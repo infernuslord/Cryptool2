@@ -146,7 +146,6 @@
     <Compile Include="View\VisualComponents\CryptoLineView\StackFrameDijkstra\Dijkstra.cs" />
     <Compile Include="View\VisualComponents\CryptoLineView\FromTo.cs" />
     <Compile Include="View\VisualComponents\ModifiedCanvas\ModifiedCanvas.cs" />
-    <Compile Include="View\VisualComponents\ObservableDictionary.cs" />
     <Compile Include="WorkspaceManager.cs" />
     <Compile Include="WorkspaceManagerSettings.cs" />
     <Compile Include="WorkspaceManagerSettingsTab.xaml.cs">
@@ -344,11 +343,8 @@
     <Resource Include="View\Image\WorkspaceManagerIcon_orig.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="View\Base\WPFToolkit.Extended.dll" />
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="obj\DetailedDescription\" />
-    <Folder Include="View\Resource\" />
+    <Folder Include="View\Resources\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
