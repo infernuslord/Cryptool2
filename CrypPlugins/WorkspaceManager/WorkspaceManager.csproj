@@ -58,10 +58,6 @@
     <Reference Include="System.Xml" />
     <Reference Include="UIAutomationProvider" />
     <Reference Include="WindowsBase" />
-    <Reference Include="WPFToolkit.Extended, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>View\Base\WPFToolkit.Extended.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -172,6 +168,10 @@
       <Project>{C35A6E71-D6FE-478B-A12D-FAD54FC4EDC9}</Project>
       <Name>WorkspaceManagerModel</Name>
       <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Libs\WPFToolkit.Extended\WPFToolkit.Extended.csproj">
+      <Project>{72E591D6-8F83-4D8C-8F67-9C325E623234}</Project>
+      <Name>WPFToolkit.Extended</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
