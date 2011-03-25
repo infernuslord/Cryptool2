@@ -30,7 +30,6 @@ using WorkspaceManager.Model;
 using WorkspaceManager.View;
 using WorkspaceManager.Execution;
 using WorkspaceManager.View.Container;
-using WorkspaceManager.View.Converter;
 using System.Windows;
 using System.Windows.Threading;
 using System.Threading;
@@ -44,6 +43,8 @@ using System.Windows.Documents;
 using System.Windows.Markup;
 using WorkspaceManager.Model.Tools;
 using System.Collections.ObjectModel;
+using WorkspaceManager.View.BinVisual;
+using WorkspaceManager.View.Base;
 
 //Disable warnings for unused or unassigned fields and events:
 #pragma warning disable 0169, 0414, 0067
@@ -56,7 +57,7 @@ namespace WorkspaceManager
     [TabColor("Lime")]
     [EditorInfo("cwm")]
     [Author("Viktor Matkovic,Nils Kopal", "nils.kopal@cryptool.org", "Universität Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo("WorkspaceManager.Resources.Attributes", false, "Workspace Manager", "Graphical plugin editor for the CrypTool workspace", "WorkspaceManager/DetailedDescription/Description.xaml", "WorkspaceManager/View/Image/WorkspaceManagerIcon.ico")]
+    [PluginInfo("WorkspaceManager.Resources.Attributes", false, "Workspace Manager", "Graphical plugin editor for the CrypTool workspace", "", "WorkspaceManager/View/Image/WorkspaceManagerIcon.ico")]
     public class WorkspaceManager : IEditor
     {
 
@@ -65,13 +66,14 @@ namespace WorkspaceManager
         /// </summary>
         public WorkspaceManager()
         {
-            this.SelectedPluginsList = new ObservableCollection<PluginContainerView>();            
+            this.SelectedPluginsList = new ObservableCollection<BinComponentVisual>();            
             Properties.Settings.Default.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(Default_PropertyChanged);
             Settings = new WorkspaceManagerSettings(this);            
             WorkspaceModel = new WorkspaceModel();
             WorkspaceModel.OnGuiLogNotificationOccured += this.GuiLogNotificationOccured;
             WorkspaceModel.MyEditor = this;
-            WorkspaceSpaceEditorView = new WorkSpaceEditorView(WorkspaceModel);       
+            WorkspaceSpaceEditorView = new BinEditorVisual(WorkspaceModel);
+            HasChanges = false;            
         }
 
         void Default_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -86,7 +88,7 @@ namespace WorkspaceManager
         #region private Members
 
         private WorkspaceModel WorkspaceModel = null;
-        private WorkSpaceEditorView WorkspaceSpaceEditorView = null;
+        private BinEditorVisual WorkspaceSpaceEditorView = null;
         private ExecutionEngine ExecutionEngine = null;
         private volatile bool executing = false;
 
@@ -162,7 +164,6 @@ namespace WorkspaceManager
                 WorkspaceModel.UpdateableView = this.WorkspaceSpaceEditorView;
                 WorkspaceModel.MyEditor = this;
                 WorkspaceModel.UndoRedoManager.ClearStacks();
-                WorkspaceModel.HasChanges = false;
             }
             catch (Exception ex)
             {
@@ -189,7 +190,6 @@ namespace WorkspaceManager
                 CurrentFilename = fileName;
                 WorkspaceModel.MyEditor = this;
                 WorkspaceModel.UndoRedoManager.ClearStacks();
-                WorkspaceModel.HasChanges = false;
             }
             catch (Exception ex)
             {
@@ -210,7 +210,6 @@ namespace WorkspaceManager
                 ModelPersistance.saveModel(this.WorkspaceModel, fileName);
                 this.OnProjectTitleChanged.BeginInvoke(this, System.IO.Path.GetFileName(fileName), null, null);
                 CurrentFilename = fileName;
-                WorkspaceModel.HasChanges = false;
             }
             catch (Exception ex)
             {
@@ -317,7 +316,7 @@ namespace WorkspaceManager
                 double dy = m.M22 * 96;
                 this.GuiLogMessage("dx=" + dx + " dy=" + dy, NotificationLevel.Debug);
                 const int factor = 4;
-                ModifiedCanvas control = (ModifiedCanvas)((WorkSpaceEditorView)this.Presentation).scrollViewer.Content;
+                ModifiedCanvas control = (ModifiedCanvas)((BinEditorVisual)this.Presentation).ScrollViewer.Content;
                 PrintDialog dialog = new PrintDialog();
                 dialog.PageRangeSelection = PageRangeSelection.AllPages;
                 dialog.UserPageRangeEnabled = true;
@@ -538,7 +537,7 @@ namespace WorkspaceManager
         public System.Windows.Controls.UserControl Presentation
         {
             get {return WorkspaceSpaceEditorView;}
-            set { WorkspaceSpaceEditorView = (WorkSpaceEditorView)value; }
+            set { WorkspaceSpaceEditorView = (BinEditorVisual)value; }
         }
 
         /// <summary>
@@ -584,7 +583,7 @@ namespace WorkspaceManager
                 this.WorkspaceSpaceEditorView.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
                     this.WorkspaceSpaceEditorView.ResetConnections();
-                    this.WorkspaceSpaceEditorView.State = EditorState.BUSY;                   
+                    this.WorkspaceSpaceEditorView.State = BinEditorState.BUSY;                   
                 }
                 , null);
 
@@ -698,7 +697,7 @@ namespace WorkspaceManager
             {
                 this.WorkspaceSpaceEditorView.ResetConnections();
                 this.WorkspaceSpaceEditorView.ResetPlugins();
-                this.WorkspaceSpaceEditorView.State = EditorState.READY;
+                this.WorkspaceSpaceEditorView.State = BinEditorState.READY;
             }
             , null);
                        
@@ -921,12 +920,12 @@ namespace WorkspaceManager
             , null);
         }
 
-        private ObservableCollection<PluginContainerView> selectedPluginsList;
+        private ObservableCollection<BinComponentVisual> selectedPluginsList;
 
         /// <summary>
         /// Selected Collection of Plugin's
         /// </summary> 
-        public ObservableCollection<PluginContainerView> SelectedPluginsList
+        public ObservableCollection<BinComponentVisual> SelectedPluginsList
         {
             get
             {
@@ -940,7 +939,7 @@ namespace WorkspaceManager
 
         public event EventHandler<ZoomChanged> OnZoomChanged;
         public bool IsCtrlToggled = false;
-        public EditorState State { get; set; }
+        public BinEditorState State { get; set; }
     }
 }
 

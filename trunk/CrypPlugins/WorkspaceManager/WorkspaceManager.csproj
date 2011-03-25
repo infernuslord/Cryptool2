@@ -58,6 +58,10 @@
     <Reference Include="System.Xml" />
     <Reference Include="UIAutomationProvider" />
     <Reference Include="WindowsBase" />
+    <Reference Include="WPFToolkit.Extended, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>View\Base\WPFToolkit.Extended.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -76,50 +80,37 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="View\Container\ConnectorView.xaml.cs">
-      <DependentUpon>ConnectorView.xaml</DependentUpon>
+    <Compile Include="View\Base\Enums.cs" />
+    <Compile Include="View\Base\DragDropHelper\DragDropHelper.cs" />
+    <Compile Include="View\Base\DragDropHelper\DraggedAdorner.cs" />
+    <Compile Include="View\Base\DragDropHelper\InsertionAdorner.cs" />
+    <Compile Include="View\Base\DragDropHelper\Utilities.cs" />
+    <Compile Include="View\Base\Interfaces\IRouting.cs" />
+    <Compile Include="View\Base\ObservableDictionary.cs" />
+    <Compile Include="View\Base\Util.cs" />
+    <Compile Include="View\BinVisual\BinConnectorVisual.xaml.cs">
+      <DependentUpon>BinConnectorVisual.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\BinVisual\BinDataVisual.xaml.cs">
+      <DependentUpon>BinDataVisual.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\BinVisual\BinEditorVisual.xaml.cs">
+      <DependentUpon>BinEditorVisual.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\BinVisual\BinComponentVisual.xaml.cs">
+      <DependentUpon>BinComponentVisual.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\BinVisual\BinFullscreenVisual.xaml.cs">
+      <DependentUpon>BinFullscreenVisual.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\BinVisual\BinLogVisual.xaml.cs">
+      <DependentUpon>BinLogVisual.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\BinVisual\BinSettingsVisual.xaml.cs">
+      <DependentUpon>BinSettingsVisual.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Container\IControlPlaceHolder.xaml.cs">
       <DependentUpon>IControlPlaceHolder.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Container\PluginContainerView.xaml.cs">
-      <DependentUpon>PluginContainerView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Container\WorkSpaceEditorView.xaml.cs">
-      <DependentUpon>WorkSpaceEditorView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Converter\BlurIconConverter.cs" />
-    <Compile Include="View\Converter\BlurViewStateConverter.cs" />
-    <Compile Include="View\Converter\CaptionWidthConverter.cs" />
-    <Compile Include="View\Converter\ConnectorPanelHeightWidthConverter.cs" />
-    <Compile Include="View\Converter\ConnectorToColorConverter.cs" />
-    <Compile Include="View\Converter\ConnectorBindingConverter.cs" />
-    <Compile Include="View\Converter\ContextMenuFixUnfixConverter.cs" />
-    <Compile Include="View\Converter\CurrentItemConverter.cs" />
-    <Compile Include="View\Converter\DragDeltaViewStateConverter.cs" />
-    <Compile Include="View\Converter\DragDropDataObjectToPluginConverter.cs" />
-    <Compile Include="View\Converter\IconPanelVisibilityConverter.cs" />
-    <Compile Include="View\Converter\InputOutputConverter.cs" />
-    <Compile Include="View\Converter\IsMouseOverColorConverter.cs" />
-    <Compile Include="View\Converter\MenuItemHeaderFixedConverter.cs" />
-    <Compile Include="View\Converter\NotificationLevelConverter.cs" />
-    <Compile Include="View\Converter\OptionTextCaptionConverter.cs" />
-    <Compile Include="View\Converter\OverlapConverter.cs" />
-    <Compile Include="View\Converter\PlacementTargetConverter.cs" />
-    <Compile Include="View\Converter\PluginModelImageConverter.cs" />
-    <Compile Include="View\Converter\ScaleToPercentageConverter.cs" />
-    <Compile Include="View\Converter\SelectedContentBrushConverter.cs" />
-    <Compile Include="View\Converter\SelectedContentVisibilityConverter.cs" />
-    <Compile Include="View\Converter\ToolbarVisibilityConverter.cs" />
-    <Compile Include="View\Converter\TransparentColorConverter.cs" />
-    <Compile Include="View\Converter\ViewStateCaptionConverter.cs" />
-    <Compile Include="View\Converter\ViewStateConverter.cs" />
-    <Compile Include="View\Converter\ViewStateIconConverter.cs" />
-    <Compile Include="View\Interface\IConnectable.cs" />
-    <Compile Include="View\Interface\IConnection.cs" />
-    <Compile Include="View\Interface\IDraggable.cs" />
-    <Compile Include="View\VisualComponents\CircularProgressBar.xaml.cs">
-      <DependentUpon>CircularProgressBar.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\VisualComponents\ColorPickPopUp.xaml.cs">
       <SubType>Code</SubType>
@@ -157,30 +148,9 @@
     <Compile Include="View\VisualComponents\CryptoLineView\QuadTree\QuadTree.cs" />
     <Compile Include="View\VisualComponents\CryptoLineView\QuadTree\QuadTreeNode.cs" />
     <Compile Include="View\VisualComponents\CryptoLineView\StackFrameDijkstra\Dijkstra.cs" />
-    <Compile Include="View\VisualComponents\DataPresentation.xaml.cs">
-      <DependentUpon>DataPresentation.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\VisualComponents\CryptoLineView\FromTo.cs" />
-    <Compile Include="View\VisualComponents\ImageWrapper.xaml.cs">
-      <DependentUpon>ImageWrapper.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\VisualComponents\LogPresentation.xaml.cs">
-      <DependentUpon>LogPresentation.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\VisualComponents\ModifiedCanvas\ModifiedCanvas.cs" />
     <Compile Include="View\VisualComponents\ObservableDictionary.cs" />
-    <Compile Include="View\VisualComponents\Search.xaml.cs">
-      <DependentUpon>Search.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\VisualComponents\TaskPaneCtrl.xaml.cs">
-      <DependentUpon>TaskPaneCtrl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\VisualComponents\TextInputWrapper.xaml.cs">
-      <DependentUpon>TextInputWrapper.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\VisualComponents\UserContentWrapper.xaml.cs">
-      <DependentUpon>UserContentWrapper.xaml</DependentUpon>
-    </Compile>
     <Compile Include="WorkspaceManager.cs" />
     <Compile Include="WorkspaceManagerSettings.cs" />
     <Compile Include="WorkspaceManagerSettingsTab.xaml.cs">
@@ -205,11 +175,35 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="DetailedDescription\Description.xaml">
+    <Resource Include="obj\DetailedDescription\Description.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Resource>
-    <Page Include="View\Container\ConnectorView.xaml">
+    <Page Include="View\BinVisual\BinConnectorVisual.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\BinVisual\BinDataVisual.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\BinVisual\BinEditorVisual.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\BinVisual\BinComponentVisual.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\BinVisual\BinFullscreenVisual.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\BinVisual\BinLogVisual.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\BinVisual\BinSettingsVisual.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -217,69 +211,13 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Container\PluginContainerView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\Container\WorkSpaceEditorView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\Resource\Animations.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\Resource\Brushes.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\Resource\PublicResources.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\Resource\Styles.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="View\VisualComponents\BottomBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\VisualComponents\CircularProgressBar.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="View\VisualComponents\ColorPickPopUp.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\VisualComponents\DataPresentation.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\VisualComponents\ImageWrapper.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\VisualComponents\LogPresentation.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\VisualComponents\Search.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\VisualComponents\TaskPaneCtrl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\VisualComponents\TextInputWrapper.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\VisualComponents\UserContentWrapper.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="WorkspaceManagerSettingsTab.xaml">
       <SubType>Designer</SubType>
@@ -409,7 +347,17 @@
   <ItemGroup>
     <Resource Include="View\Image\WorkspaceManagerIcon_orig.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="View\Base\WPFToolkit.Extended.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="View\Resource\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

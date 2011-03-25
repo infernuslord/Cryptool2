@@ -2,16 +2,338 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:z="clr-namespace:WorkspaceManager.View.Converter"
     xmlns:p="clr-namespace:WorkspaceManager.Properties">
     <UserControl.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../Resource/Styles.xaml"/>
-                <ResourceDictionary Source="../Resource/Animations.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
-            <z:ScaleToPercentageConverter x:Key="PercentageConverter"></z:ScaleToPercentageConverter>
-        </ResourceDictionary>
+        <Style TargetType="{x:Type Button}" x:Key="BottomBoxBtnStyle">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate x:Name="TemplateBtn" TargetType="Button">
+                        <Border x:Name="Border" BorderThickness="1">
+                            <ContentPresenter Height="{TemplateBinding Height}" Width="{TemplateBinding Width}" Content="{TemplateBinding Content}"></ContentPresenter>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" Value="#55222222" TargetName="Border" />
+                                <Setter Property="BorderBrush" Value="#aa222222" TargetName="Border" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Background" Value="#77222222" TargetName="Border" />
+                                <Setter Property="BorderBrush" Value="#cc222222" TargetName="Border" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <ControlTemplate x:Key="HorizontalSlider" TargetType="{x:Type Slider}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto" MinHeight="{TemplateBinding Slider.MinHeight}"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Border Name="TrackBackground" Margin="0" CornerRadius="2" Height="4" Grid.Row="1" Background="#AAA" BorderBrush="#CCC" BorderThickness="1" />
+                <Track Grid.Row="1" Name="PART_Track">
+                    <Track.DecreaseRepeatButton>
+                        <RepeatButton Style="{DynamicResource ResourceKey=SliderButtonStyle}" Command="Slider.DecreaseLarge" />
+                    </Track.DecreaseRepeatButton>
+                    <Track.Thumb>
+                        <Thumb Style="{DynamicResource ResourceKey=SliderThumbStyle}" />
+                    </Track.Thumb>
+                    <Track.IncreaseRepeatButton>
+                        <RepeatButton Style="{DynamicResource ResourceKey=SliderButtonStyle}" Command="Slider.IncreaseLarge" />
+                    </Track.IncreaseRepeatButton>
+                </Track>
+                <TickBar Name="BottomTick" SnapsToDevicePixels="True" Grid.Row="2" Fill="WhiteSmoke" Placement="Bottom" Height="4" Visibility="Collapsed" OpacityMask="White"/>
+            </Grid>
+        </ControlTemplate>
+
+        <Style x:Key="SliderThumbStyle" TargetType="{x:Type Thumb}">
+            <Setter Property="SnapsToDevicePixels" Value="true"/>
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="Height" Value="14"/>
+            <Setter Property="Width" Value="14"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Thumb}">
+                        <Ellipse Name="Ellipse" Fill="#444444" Stroke="WhiteSmoke" StrokeThickness="1.5" />
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Ellipse" Property="Fill" Value="#444"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="SliderButtonStyle" TargetType="{x:Type RepeatButton}">
+            <Setter Property="SnapsToDevicePixels" Value="true"/>
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="IsTabStop" Value="false"/>
+            <Setter Property="Focusable" Value="false"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type RepeatButton}">
+                        <Border Background="Transparent" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="{x:Type Button}" x:Key="ScalePluginContainerButtonStyle">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate x:Name="TemplateBtn" TargetType="Button">
+                        <ControlTemplate.Resources>
+                            <Storyboard x:Key="Anim">
+                                <DoubleAnimation To="1.5" Duration="00:00:00.15" Storyboard.TargetName="Scale" Storyboard.TargetProperty="ScaleY" />
+                                <DoubleAnimation To="1.5" Duration="00:00:00.15" Storyboard.TargetName="Scale" Storyboard.TargetProperty="ScaleX" />
+                            </Storyboard>
+                            <Storyboard x:Key="Anim2">
+                                <DoubleAnimation To="1" Duration="00:00:00.15" Storyboard.TargetName="Scale" Storyboard.TargetProperty="ScaleY" />
+                                <DoubleAnimation To="1" Duration="00:00:00.15" Storyboard.TargetName="Scale" Storyboard.TargetProperty="ScaleX" />
+                            </Storyboard>
+
+                        </ControlTemplate.Resources>
+                        <Border x:Name="Border">
+                            <Border.RenderTransform>
+                                <ScaleTransform CenterX="10" CenterY="10" x:Name="Scale"></ScaleTransform>
+                            </Border.RenderTransform>
+                            <ContentPresenter Height="{TemplateBinding Height}" Width="{TemplateBinding Width}" Content="{TemplateBinding Content}"></ContentPresenter>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="ButtonBase.IsMouseOver" Value="true">
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard Storyboard="{StaticResource ResourceKey=Anim}"></BeginStoryboard>
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard Storyboard="{StaticResource ResourceKey=Anim2}"></BeginStoryboard>
+                                </Trigger.ExitActions>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="SliderStyle" TargetType="{x:Type Slider}">
+            <Setter Property="SnapsToDevicePixels" Value="true"/>
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Style.Triggers>
+                <Trigger Property="Orientation" Value="Horizontal">
+                    <Setter Property="MinWidth" Value="104" />
+                    <Setter Property="MinHeight" Value="21" />
+                    <Setter Property="Template" Value="{DynamicResource HorizontalSlider}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <LinearGradientBrush x:Key="EditorBackgroundLinearBrush" StartPoint="0,0" EndPoint="0,1" Opacity="0.8">
+            <GradientBrush.GradientStops>
+                <GradientStopCollection>
+                    <GradientStop Color="#192533" Offset="1.0"/>
+                    <GradientStop Color="#3e464d" Offset="0.0"/>
+                </GradientStopCollection>
+            </GradientBrush.GradientStops>
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="BottomBoxBrushLinearBrush" StartPoint="0,0" EndPoint="0,1">
+            <GradientBrush.GradientStops>
+                <GradientStopCollection>
+                    <GradientStop Color="#26282a" Offset="1.0"/>
+                    <GradientStop Color="#36393c" Offset="0.0"/>
+                </GradientStopCollection>
+            </GradientBrush.GradientStops>
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="ProgressbarLinearGradientBrush" StartPoint="0,0" EndPoint="0,1">
+            <GradientBrush.GradientStops>
+                <GradientStopCollection>
+                    <GradientStop Color="#77cf72" Offset="0.0"/>
+                    <GradientStop Color="#55298130" Offset="1.0"/>
+                </GradientStopCollection>
+            </GradientBrush.GradientStops>
+        </LinearGradientBrush>
+
+        <SolidColorBrush x:Key="CheatBrush" Opacity="0.01" Color="#444444"></SolidColorBrush>
+
+        <LinearGradientBrush x:Key="DataPresentationLinearBrush" StartPoint="0,0" EndPoint="0,1">
+            <GradientBrush.GradientStops>
+                <GradientStopCollection>
+                    <GradientStop Color="#444444" Offset="0.0"/>
+                    <GradientStop Color="#55444444" Offset="1.0"/>
+                </GradientStopCollection>
+            </GradientBrush.GradientStops>
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="DataPresentationNameLinearBrush" StartPoint="0,0" EndPoint="0,1">
+            <GradientBrush.GradientStops>
+                <GradientStopCollection>
+                    <GradientStop Color="#555555" Offset="1.0"/>
+                    <GradientStop Color="#333333" Offset="0.0"/>
+                </GradientStopCollection>
+            </GradientBrush.GradientStops>
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="BubblePopupLinearBrush" StartPoint="0,0" EndPoint="0,1">
+            <GradientBrush.GradientStops>
+                <GradientStopCollection>
+                    <GradientStop Color="#ffffb4" Offset="0.0"/>
+                    <GradientStop Color="#ffffec" Offset="1.0"/>
+                </GradientStopCollection>
+            </GradientBrush.GradientStops>
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="HelpLinearBrush" StartPoint="0,0" EndPoint="0,1">
+            <GradientBrush.GradientStops>
+                <GradientStopCollection>
+                    <GradientStop Color="#444444" Offset="0.0"/>
+                    <GradientStop Color="#222222" Offset="1.0"/>
+                </GradientStopCollection>
+            </GradientBrush.GradientStops>
+        </LinearGradientBrush>
+
+        <RadialGradientBrush x:Key="BottomBoxBrushRadientBrush" GradientOrigin="0.5,0.5">
+            <GradientStop Color="#121923" Offset="1.0" />
+            <GradientStop Color="#46567b" Offset="0.0" />
+        </RadialGradientBrush>
+
+        <RadialGradientBrush x:Key="HelpRadientBrush" GradientOrigin="0.5,0.5">
+            <GradientStop Color="#14547c" Offset="1.0" />
+            <GradientStop Color="#4e96c4" Offset="0.0" />
+        </RadialGradientBrush>
+
+        <RadialGradientBrush x:Key="EditorBackgroundRadientBrush" GradientOrigin="0.5,3">
+            <GradientStop Color="#111419" Offset="1.1" />
+            <GradientStop Color="#7d98e7" Offset="0.0" />
+        </RadialGradientBrush>
+
+        <DrawingBrush x:Key="GridBrush" Viewport="0,0,6,6" ViewportUnits="Absolute" TileMode="Tile" Opacity="0.085">
+            <DrawingBrush.Drawing>
+                <DrawingGroup>
+                    <GeometryDrawing Geometry="M0,0 L1,0 1,0.1, 0,0.1Z" Brush="White" />
+                    <GeometryDrawing Geometry="M0,0 L0,1 0.1,1, 0.1,0Z" Brush="White" />
+                </DrawingGroup>
+            </DrawingBrush.Drawing>
+        </DrawingBrush>
+
+        <LinearGradientBrush x:Key="GlassBrush">
+            <GradientBrush.GradientStops>
+                <GradientStopCollection>
+                    <GradientStop Color="#666666" Offset="0.0"/>
+                    <GradientStop Color="#77444444" Offset="1.0"/>
+                </GradientStopCollection>
+            </GradientBrush.GradientStops>
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="DarkBrush" StartPoint="0,0" EndPoint="0,1">
+            <GradientBrush.GradientStops>
+                <GradientStopCollection>
+                    <GradientStop Color="#FFF" Offset="0.0"/>
+                    <GradientStop Color="#AAA" Offset="1.0"/>
+                </GradientStopCollection>
+            </GradientBrush.GradientStops>
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="LightBrush" StartPoint="0,0" EndPoint="0,1">
+            <GradientBrush.GradientStops>
+                <GradientStopCollection>
+                    <GradientStop Color="#AAAAAA" Offset="0.0"/>
+                    <GradientStop Color="#CCCCCC" Offset="1.0"/>
+                </GradientStopCollection>
+            </GradientBrush.GradientStops>
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="MainElementBorderBrush" StartPoint="0,0" EndPoint="0,1">
+            <GradientBrush.GradientStops>
+                <GradientStopCollection>
+                    <GradientStop Color="#EEE" Offset="0.0"/>
+                    <GradientStop Color="#AAA" Offset="1.0"/>
+                </GradientStopCollection>
+            </GradientBrush.GradientStops>
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="MainElementBorderBrushRevert" StartPoint="0,0" EndPoint="0,1">
+            <GradientBrush.GradientStops>
+                <GradientStopCollection>
+                    <GradientStop Color="#EEE" Offset="1.0"/>
+                    <GradientStop Color="#AAA" Offset="0.0"/>
+                </GradientStopCollection>
+            </GradientBrush.GradientStops>
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="ToolBarBrush" StartPoint="0,0" EndPoint="0,1">
+            <GradientBrush.GradientStops>
+                <GradientStopCollection>
+                    <GradientStop Color="#ddd" Offset="0.0"/>
+                    <GradientStop Color="#aaa" Offset="1.0"/>
+                </GradientStopCollection>
+            </GradientBrush.GradientStops>
+        </LinearGradientBrush>
+
+        <VisualBrush x:Key="transparent">
+            <VisualBrush.Visual>
+                <Canvas Name="canvas" Height="25"  Width="25">
+                    <Path Stroke="Red" StrokeThickness="2">
+                        <Path.Data>
+                            <PathGeometry>
+                                <PathGeometry.Figures>
+                                    <PathFigure StartPoint="0,0">
+                                        <LineSegment Point="25,25"/>
+                                    </PathFigure>
+                                    <PathFigure StartPoint="0,25">
+                                        <LineSegment Point="25,0"/>
+                                    </PathFigure>
+                                </PathGeometry.Figures>
+                            </PathGeometry>
+                        </Path.Data>
+                    </Path>
+                </Canvas>
+            </VisualBrush.Visual>
+        </VisualBrush>
+
+        <RadialGradientBrush x:Key="BlueRadientBrush" RadiusX="0.5" RadiusY="1.7" Center="0.524,1.7" GradientOrigin="0.524,1.7">
+            <GradientStop Color="#276396" Offset="1.0" />
+            <GradientStop Color="#8bc9ff" Offset="0" />
+        </RadialGradientBrush>
+
+
+        <LinearGradientBrush x:Key="BlueGradientBrush" StartPoint="0,0" EndPoint="0,1">
+            <GradientBrush.GradientStops>
+                <GradientStopCollection>
+                    <GradientStop Color="#3310548f" Offset="1.0"/>
+                    <GradientStop Color="#33239fcf" Offset="0.0"/>
+                </GradientStopCollection>
+            </GradientBrush.GradientStops>
+        </LinearGradientBrush>
+
+
+        <SolidColorBrush x:Key="NormalBrush" Color="#add3f5"></SolidColorBrush>
+
+        <!--<RadialGradientBrush x:Key="NormalBrush" RadiusX="1.1" RadiusY="2.8" Center="0.524,1.2" GradientOrigin="0.524,1.2">
+        <GradientStop Color="#add3f5" Offset="0.0" />
+        <GradientStop Color="#293955" Offset="1" />
+    </RadialGradientBrush>-->
+
+        <LinearGradientBrush x:Key="NormalBrush2" StartPoint="0,0" EndPoint="0,1">
+            <GradientBrush.GradientStops>
+                <GradientStopCollection>
+                    <GradientStop Color="#77EEEEEE" Offset="1.0"/>
+                    <GradientStop Color="#77CCCCCC" Offset="0.0"/>
+                </GradientStopCollection>
+            </GradientBrush.GradientStops>
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="ICBrush" StartPoint="0,0" EndPoint="0,1">
+            <GradientBrush.GradientStops>
+                <GradientStopCollection>
+                    <GradientStop Color="#777" Offset="1.0"/>
+                    <GradientStop Color="#888" Offset="0.0"/>
+                </GradientStopCollection>
+            </GradientBrush.GradientStops>
+        </LinearGradientBrush>
     </UserControl.Resources>
     <UserControl.LayoutTransform>
         <ScaleTransform ScaleX="0.85" ScaleY="0.85"></ScaleTransform>
@@ -21,6 +343,9 @@
         <Border DockPanel.Dock="Top" Background="Black" Height="1"></Border>
         <Border Name="Main" Height="35"  DockPanel.Dock="Bottom" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" ClipToBounds="True" Background="{StaticResource ResourceKey=BlueRadientBrush}">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Style="{StaticResource ResourceKey=BottomBoxBtnStyle}" ToolTip="Fit to Screen" Name="OV" Click="Button_Click" Foreground="WhiteSmoke">
+                    <TextBlock Text="Overview" VerticalAlignment="Center"></TextBlock>
+                </Button>
 
                 <Button Style="{StaticResource ResourceKey=BottomBoxBtnStyle}" ToolTip="Fit to Screen" Name="F2S" Click="Button_Click" Foreground="WhiteSmoke">
                     <Image VerticalAlignment="Center" Source="/WorkspaceManager;component/View/Image/f2s-small.png" Width="30" Height="30"></Image>
@@ -39,7 +364,7 @@
                         <ScaleTransform ScaleX="0.8" ScaleY="0.8"></ScaleTransform>
                     </StackPanel.LayoutTransform>
                     <Border Margin="1,1,1,1" Opacity="0.85" CornerRadius="5,5,0,0">
-                        <Label Foreground="Black" FontWeight="ExtraBold" VerticalAlignment="Top" FontSize="18" ContentStringFormat="{}{0:F0} %" Content="{Binding Source={x:Static p:Settings.Default}, Path=EditScale, Mode=OneWay, Converter={StaticResource ResourceKey=PercentageConverter}}"></Label>
+                        <Label Foreground="Black" FontWeight="ExtraBold" VerticalAlignment="Top" FontSize="18" ContentStringFormat=" {0:p}" Content="{Binding Source={x:Static p:Settings.Default}, Path=EditScale, Mode=OneWay}"></Label>
                     </Border>
                     <Border Margin="1,1,1,1" Opacity="0.85" CornerRadius="5,5,0,0">
                         <Button Height="18" Margin="5,2,5,0" Style="{StaticResource ResourceKey=ScalePluginContainerButtonStyle}" Click="Button_Click_Full_dec">
@@ -47,7 +372,7 @@
                         </Button>
                     </Border>
                     <Border Margin="1,1,1,1" Opacity="0.85" CornerRadius="5,5,0,0">
-                        <Slider x:Name="FullScreenScaleSlider" Ticks="1,2" TickPlacement="BottomRight" Style="{StaticResource ResourceKey=SliderStyle}"
+                        <Slider x:Name="FullScreenScaleSlider" Style="{StaticResource ResourceKey=SliderStyle}"
                                 Minimum="{Binding Source={x:Static p:Settings.Default}, Path=MinScale, Mode=OneWay}" Maximum="{Binding Source={x:Static p:Settings.Default}, Path=MaxScale, Mode=OneWay}" Width="100" Height="22"
                                 Value="{Binding Source={x:Static p:Settings.Default}, Path=EditScale, Mode=TwoWay}"/>
                     </Border>

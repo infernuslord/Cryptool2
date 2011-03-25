@@ -11,18 +11,18 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using WorkspaceManager.View.Interface;
 using System.ComponentModel;
 using WorkspaceManager.Model;
 using System.Windows.Controls.Primitives;
 using WorkspaceManagerModel.Model.Interfaces;
+using System.Globalization;
 
 namespace WorkspaceManager.View.BinVisual
 {
     /// <summary>
     /// Interaction logic for ConnectorView.xaml
     /// </summary>
-    public partial class BinConnectorVisual : Thumb, IConnectable, IUpdateableView
+    public partial class BinConnectorVisual : Thumb, IUpdateableView
     {
         #region Dependency Properties
 
@@ -72,14 +72,29 @@ namespace WorkspaceManager.View.BinVisual
             }
         }
 
-        public static readonly DependencyProperty FunctionColorProperty = DependencyProperty.Register("FunctionColor",
-            typeof(Color), typeof(BinConnectorVisual), new FrameworkPropertyMetadata(Colors.Black));
+        public static readonly DependencyProperty RotationAngleProperty = DependencyProperty.Register("RotationAngle",
+            typeof(double), typeof(BinConnectorVisual), new FrameworkPropertyMetadata(double.Epsilon));
 
-        public Color FunctionColor
+        public double RotationAngle
         {
             get
             {
-                return (Color)base.GetValue(FunctionColorProperty);
+                return (double)base.GetValue(RotationAngleProperty);
+            }
+            set
+            {
+                base.SetValue(RotationAngleProperty, value);
+            }
+        }
+
+        public static readonly DependencyProperty FunctionColorProperty = DependencyProperty.Register("FunctionColor",
+            typeof(SolidColorBrush), typeof(BinConnectorVisual), new FrameworkPropertyMetadata(Brushes.Black));
+
+        public SolidColorBrush FunctionColor
+        {
+            get
+            {
+                return (SolidColorBrush)base.GetValue(FunctionColorProperty);
             }
             set
             {
@@ -99,6 +114,7 @@ namespace WorkspaceManager.View.BinVisual
             set
             {
                 base.SetValue(OrientationProperty, value);
+                Model.Orientation = value;
             }
         }
 
@@ -129,22 +145,22 @@ namespace WorkspaceManager.View.BinVisual
         private static void OnMyValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             BinConnectorVisual bin = (BinConnectorVisual)d;
-            bin.FunctionColor = ColorHelper.GetColor(bin.Model.ConnectorType);
+            bin.FunctionColor = new SolidColorBrush(ColorHelper.GetLineColor(bin.Model.ConnectorType));
             bin.IsMandatory = bin.Model.IsMandatory;
             bin.IsOutgoing = bin.Model.Outgoing;
-            bin.Model.Orientation = bin.Orientation;
+            //bin.Model.Orientation = bin.Orientation;
         }
 
         public Point GetPosition()
         {
             try
             {
-                if (!(Parent is ItemsControl))
-                    throw new Exception("Parent is not ItemsControl");
+                if (!(VisualParent is Panel))
+                    throw new Exception("Parent is not Panel");
 
                 GeneralTransform gTransform, gTransformSec;
                 Point point, relativePoint;
-                ItemsControl ic = (ItemsControl)Parent;
+                Panel ic = (Panel)VisualParent;
 
                 gTransform = ic.TransformToVisual(WindowParent);
                 gTransformSec = this.TransformToVisual(ic);
@@ -169,5 +185,36 @@ namespace WorkspaceManager.View.BinVisual
         {
             throw new NotImplementedException();
         }
+    }
+
+    public class BinConnectorVisualBindingConverter : IMultiValueConverter
+    {
+        #region IMultiValueConverter Members
+
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        {
+            BinConnectorVisual connector = (BinConnectorVisual)parameter;
+            Point p = connector.GetPosition();
+            switch (connector.Orientation)
+            {
+                case ConnectorOrientation.West:
+                    return new Point(p.X, p.Y + connector.ActualHeight / 2);
+                case ConnectorOrientation.East:
+                    return new Point(p.X + connector.ActualWidth, p.Y + connector.ActualHeight / 2);
+                case ConnectorOrientation.North:
+                    return new Point(p.X + connector.ActualWidth / 2, p.Y);
+                case ConnectorOrientation.South:
+                    return new Point(p.X + connector.ActualWidth / 2, p.Y + connector.ActualHeight);
+            }
+
+            return new Point(0, 0);
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
     }
 }

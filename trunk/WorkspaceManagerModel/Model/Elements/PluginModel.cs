@@ -370,12 +370,6 @@ namespace WorkspaceManager.Model
         }
 
         /// <summary>
-        /// All occured log events of this plugin
-        /// </summary>
-        [NonSerialized]
-        public List<GuiLogEventArgs> GuiLogEvents = new List<GuiLogEventArgs>();
-
-        /// <summary>
         /// GuiLogNotificationOccured
         /// saves the plugins log events and tells the gui that it needs
         /// an update. If the Workspace is not executing an event is invoked
@@ -447,6 +441,16 @@ namespace WorkspaceManager.Model
         Error
     };
 
+    public enum BinComponentState
+    {
+        Min,
+        Presentation,
+        Data,
+        Log,
+        Setting,
+        Description,
+    };
+
     public enum PluginViewState
     {
         Min,
@@ -454,6 +458,7 @@ namespace WorkspaceManager.Model
         Data,
         Log,
         Setting,
-        Description
+        Description,
+        Fullscreen,
     };
 }

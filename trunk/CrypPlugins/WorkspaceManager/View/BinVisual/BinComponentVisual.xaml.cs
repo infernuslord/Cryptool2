@@ -19,13 +19,18 @@ using WorkspaceManagerModel.Model.Operations;
 using System.ComponentModel;
 using WorkspaceManager.View.VisualComponents;
 using System.Collections;
+using WorkspaceManagerModel.Model.Interfaces;
+using System.Windows.Controls.Primitives;
+using Cryptool.PluginBase;
+using System.Windows.Threading;
+using System.Threading;
 
 namespace WorkspaceManager.View.BinVisual
 {
     /// <summary>
     /// Interaction logic for BinFunctionVisual.xaml
     /// </summary>
-    public partial class BinComponentVisual : UserControl, IRouting, INotifyPropertyChanged
+    public partial class BinComponentVisual : UserControl, IRouting, INotifyPropertyChanged, IUpdateableView
     {
 
         #region events
@@ -75,7 +80,11 @@ namespace WorkspaceManager.View.BinVisual
         public PluginModel Model
         {
             get { return model; }
-            private set { model = value; }
+            private set 
+            { 
+                model = value;
+                State = (BinComponentState)Enum.Parse(typeof(BinComponentState), Model.ViewState.ToString());
+            }
         }
         #endregion
 
@@ -86,13 +95,13 @@ namespace WorkspaceManager.View.BinVisual
             get
             {
                 UIElement e = null;
-                Presentations.TryGetValue(BinFuctionState.Presentation, out e);
+                Presentations.TryGetValue(BinComponentState.Presentation, out e);
                 return e == null ? false : true;
             }
         }
 
-        private Dictionary<BinFuctionState, UIElement> presentations = new Dictionary<BinFuctionState, UIElement>();
-        public Dictionary<BinFuctionState, UIElement> Presentations { get { return presentations; } }
+        private Dictionary<BinComponentState, UIElement> presentations = new Dictionary<BinComponentState, UIElement>();
+        public Dictionary<BinComponentState, UIElement> Presentations { get { return presentations; } }
 
         public UIElement ActivePresentation
         {
@@ -104,8 +113,8 @@ namespace WorkspaceManager.View.BinVisual
             }
         }
 
-        private BinFuctionState lastState;
-        public BinFuctionState LastState
+        private BinComponentState ?lastState;
+        public BinComponentState ?LastState
         {
             set 
             {
@@ -118,6 +127,22 @@ namespace WorkspaceManager.View.BinVisual
             }
         }
 
+        public Image Icon
+        {
+            get
+            {
+                UIElement o = null;
+                Presentations.TryGetValue(BinComponentState.Min, out o);
+                return o as Image;
+            }
+        }
+
+        private ObservableCollection<ConnectorModelWrapper> iControlCollection = new ObservableCollection<ConnectorModelWrapper>();
+        public ObservableCollection<ConnectorModelWrapper> IControlCollection { get { return iControlCollection; } }
+
+        private ObservableCollection<BinConnectorVisual> connectorCollection = new ObservableCollection<BinConnectorVisual>();
+        public ObservableCollection<BinConnectorVisual> ConnectorCollection { get { return connectorCollection; } }
+
         private ObservableCollection<BinConnectorVisual> southConnectorCollection = new ObservableCollection<BinConnectorVisual>();
         public ObservableCollection<BinConnectorVisual> SouthConnectorCollection { get { return southConnectorCollection; } }
 
@@ -129,6 +154,9 @@ namespace WorkspaceManager.View.BinVisual
 
         private ObservableCollection<BinConnectorVisual> westConnectorCollection = new ObservableCollection<BinConnectorVisual>();
         public ObservableCollection<BinConnectorVisual> WestConnectorCollection { get { return westConnectorCollection; } }
+
+        private ObservableCollection<Log> logMessages = new ObservableCollection<Log>();
+        public ObservableCollection<Log> LogMessages { get { return logMessages; } }
 
         #endregion
 
@@ -158,31 +186,44 @@ namespace WorkspaceManager.View.BinVisual
             }
         }
 
-        public static readonly DependencyProperty StateProperty = DependencyProperty.Register("State",
-            typeof(BinFuctionState), typeof(BinComponentVisual), new FrameworkPropertyMetadata(BinFuctionState.Min, new PropertyChangedCallback(OnMyValueChanged)));
+        public static readonly DependencyProperty IsDraggingProperty = DependencyProperty.Register("IsDragging", typeof(bool),
+            typeof(BinComponentVisual), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
 
-        public BinFuctionState State
+        public bool IsDragging
+        {
+            get { return (bool)base.GetValue(IsDraggingProperty); }
+            set
+            {
+                base.SetValue(IsDraggingProperty, value);
+            }
+        }
+
+        public static readonly DependencyProperty StateProperty = DependencyProperty.Register("State",
+            typeof(BinComponentState), typeof(BinComponentVisual), new FrameworkPropertyMetadata(BinComponentState.Min, new PropertyChangedCallback(OnStateValueChanged)));
+
+        public BinComponentState State
         {
             get
             {
-                return (BinFuctionState)base.GetValue(StateProperty);
+                return (BinComponentState)base.GetValue(StateProperty);
             }
             set
             {
                 base.SetValue(StateProperty, value);
                 OnPropertyChanged("ActivePresentation");
+                //needed ?
                 OnPropertyChanged("HasComponentPresentation");
             }
         }
 
         public static readonly DependencyProperty InternalStateProperty = DependencyProperty.Register("InternalState",
-            typeof(BinInternalState), typeof(BinComponentVisual), new FrameworkPropertyMetadata(BinInternalState.Normal));
+            typeof(PluginModelState), typeof(BinComponentVisual), new FrameworkPropertyMetadata(PluginModelState.Normal));
 
-        public BinInternalState InternalState
+        public PluginModelState InternalState
         {
             get
             {
-                return (BinInternalState)base.GetValue(InternalStateProperty);
+                return (PluginModelState)base.GetValue(InternalStateProperty);
             }
             set
             {
@@ -191,10 +232,10 @@ namespace WorkspaceManager.View.BinVisual
         }
 
         public static readonly DependencyProperty PositionProperty = DependencyProperty.Register("Position",
-            typeof(Point), typeof(BinComponentVisual), new FrameworkPropertyMetadata(new Point(0,0)));
+            typeof(Point), typeof(BinComponentVisual), new FrameworkPropertyMetadata(new Point(0, 0)));
 
         public static readonly DependencyProperty IsFullscreenProperty = DependencyProperty.Register("IsFullscreen",
-                typeof(bool), typeof(BinComponentVisual), new FrameworkPropertyMetadata(false));
+                typeof(bool), typeof(BinComponentVisual), new FrameworkPropertyMetadata(false, new PropertyChangedCallback(OnIsFullscreenChanged)));
 
         public bool IsFullscreen
         {
@@ -218,9 +259,40 @@ namespace WorkspaceManager.View.BinVisual
             {
                 return (bool)base.GetValue(IsRepeatableProperty);
             }
-            set
+            private set
             {
                 base.SetValue(IsRepeatableProperty, value);
+            }
+        }
+
+        public static readonly DependencyProperty RepeatProperty = DependencyProperty.Register("Repeat",
+            typeof(bool), typeof(BinComponentVisual), new FrameworkPropertyMetadata(false));
+
+        public bool Repeat
+        {
+            get
+            {
+                return (bool)base.GetValue(RepeatProperty);
+            }
+            private set
+            {
+                base.SetValue(RepeatProperty, value);
+                Model.RepeatStart = value;
+            }
+        }
+
+        public static readonly DependencyProperty CustomNameProperty = DependencyProperty.Register("CustomName",
+            typeof(string), typeof(BinComponentVisual), new FrameworkPropertyMetadata(string.Empty, new PropertyChangedCallback(OnCustomNameChanged)));
+
+        public string CustomName
+        {
+            get
+            {
+                return (string)base.GetValue(CustomNameProperty);
+            }
+            private set
+            {
+                base.SetValue(CustomNameProperty, value);
             }
         }
 
@@ -310,17 +382,38 @@ namespace WorkspaceManager.View.BinVisual
         public BinComponentVisual(PluginModel model)
         {
             Model = model;
-            Presentations.Add(BinFuctionState.Presentation, model.PluginPresentation);
-            Presentations.Add(BinFuctionState.Min, Model.getImage());
-            Presentations.Add(BinFuctionState.Data, new DataPresentation());
-            Presentations.Add(BinFuctionState.Log, new LogPresentation());
-            Presentations.Add(BinFuctionState.Setting, new TaskPaneCtrl());
+            Model.UpdateableView = this;
+            Presentations.Add(BinComponentState.Presentation, model.PluginPresentation);
+            Presentations.Add(BinComponentState.Min, Model.getImage());
+            Presentations.Add(BinComponentState.Data, new BinDataVisual(ConnectorCollection));
+            Presentations.Add(BinComponentState.Log, new BinLogVisual(LogMessages));
+            Presentations.Add(BinComponentState.Setting, new BinSettingsVisual(Model.Plugin));
+            LastState = HasComponentPresentation ? BinComponentState.Presentation : BinComponentState.Log;
             InitializeComponent();
         }
         #endregion
 
         #region public
+        public Point GetRoutingPoint(int routPoint)
+        {
+            switch (routPoint)
+            {
+                case 0:
+                    return new Point(Position.X - 1, Position.Y - 1);
+                case 1:
+                    return new Point(Position.X - 1, Position.Y + ActualHeight + 1);
+                case 2:
+                    return new Point(Position.X + 1 + ActualWidth, Position.Y + 1);
+                case 3:
+                    return new Point(Position.X + ActualWidth + 1, Position.Y + ActualHeight + 1);
+            }
+            return default(Point);
+        }
 
+        public void update()
+        {
+            Progress = Model.PercentageFinished;
+        }
         #endregion
 
         #region private
@@ -330,15 +423,41 @@ namespace WorkspaceManager.View.BinVisual
             IEnumerable<ConnectorModel> list = model.GetOutputConnectors().Concat<ConnectorModel>(model.GetInputConnectors());
             foreach (ConnectorModel m in list)
             {
-                if (m.IControl)
-                    continue;
+                if (m.IControl && m.Outgoing)
+                {
+                    PluginModel pm = null;
+                    if (m.GetOutputConnections().Count > 0)
+                    {
+                        pm = m.GetOutputConnections()[0].To.PluginModel;
+                    }
 
-                AddConnectorView(m);
+                    IControlCollection.Add(new ConnectorModelWrapper(m, pm));
+                    continue;
+                }
+
+                addConnectorView(m);
             }
 
+            Model.Plugin.OnGuiLogNotificationOccured += new GuiLogNotificationEventHandler(OnGuiLogNotificationOccuredHandler);
+            IsRepeatable = Model.Startable;
+            Repeat = Model.RepeatStart;
             Position = model.GetPosition();
-            FunctionName = Model.GetName();
-            setWindowColors(ColorHelper.GetColor(Model.GetType()), ColorHelper.GetColorLight(Model.GetType()));
+            FunctionName = Model.Plugin.GetPluginInfoAttribute().Caption;
+            CustomName = Model.GetName();
+            //needs changes in Model
+            //IsICMaster = Model....
+            SetBinding(BinComponentVisual.IsDraggingProperty,
+                Util.CreateIsDraggingBinding(new Thumb[] { ContentThumb, TitleThumb, ScaleThumb }));
+            setWindowColors(ColorHelper.GetColor(Model.PluginType), ColorHelper.GetColorLight(Model.PluginType));
+        }
+
+        private void OnGuiLogNotificationOccuredHandler(IPlugin sender, GuiLogEventArgs args)
+        {
+            Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
+                LogMessages.Add(new Log(args));
+            }
+            , null);
         }
 
         private void setWindowColors(Color Border, Color Background)
@@ -347,29 +466,31 @@ namespace WorkspaceManager.View.BinVisual
             Window.Background = new SolidColorBrush(Background);
         }
 
-        public void AddConnectorView(ConnectorModel model)
+        private void addConnectorView(ConnectorModel model)
         {
+            BinConnectorVisual bin = new BinConnectorVisual(model, this);
             switch (model.Orientation)
             {
                 case ConnectorOrientation.Unset:
                     if(model.Outgoing)
-                        EastConnectorCollection.Add(new BinConnectorVisual(model, this));
+                        EastConnectorCollection.Add(bin);
                     else
-                        WestConnectorCollection.Add(new BinConnectorVisual(model, this));
+                        WestConnectorCollection.Add(bin);
                     break;
                 case ConnectorOrientation.West:
-                    WestConnectorCollection.Add(new BinConnectorVisual(model, this));
+                    WestConnectorCollection.Add(bin);
                     break;
                 case ConnectorOrientation.East:
-                    EastConnectorCollection.Add(new BinConnectorVisual(model, this));
+                    EastConnectorCollection.Add(bin);
                     break;
                 case ConnectorOrientation.North:
-                    NorthConnectorCollection.Add(new BinConnectorVisual(model, this));
+                    NorthConnectorCollection.Add(bin);
                     break;
                 case ConnectorOrientation.South:
-                    SouthConnectorCollection.Add(new BinConnectorVisual(model, this));
+                    SouthConnectorCollection.Add(bin);
                     break;
             }
+            ConnectorCollection.Add(bin);
         }
 
         #endregion
@@ -424,7 +545,6 @@ namespace WorkspaceManager.View.BinVisual
 
                     IList itemsSource = (IList) items.ItemsSource;
                     itemsSource.Add(connector);
-                    IsConnectorDragStarted = false;
                 }
                 catch (Exception ex)
                 {
@@ -438,44 +558,89 @@ namespace WorkspaceManager.View.BinVisual
         {
             Button b = (Button)sender;
 
-            if (b.Content is BinFuctionState)
-                State = (BinFuctionState)b.Content;
+            if (b.Content is BinComponentState)
+            {
+                State = (BinComponentState)b.Content;
+                return;
+            }
+
+            if (b.Content is BinComponentAction && ((BinComponentAction)b.Content) == BinComponentAction.LastState)
+            {
+                State = (BinComponentState) LastState;
+                return;
+            }
 
             if (b.Content is bool)
+            {
                 IControlPopUp.IsOpen = (bool)b.Content;
+                return;
+            }
+
+            e.Handled = true;
         }
 
         private void ScaleDragDeltaHandler(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
         {
             WindowHeight += e.VerticalChange;
             WindowWidth += e.HorizontalChange;
-            Model.WorkspaceModel.ModifyModel(new ResizeModelElementOperation(Model, WindowWidth, WindowHeight)); 
+            Model.WorkspaceModel.ModifyModel(new ResizeModelElementOperation(Model, WindowWidth, WindowHeight));
+            e.Handled = true;
         }
 
         private void ClosePopUp(object sender, RoutedEventArgs e)
         {
             IControlPopUp.IsOpen = false;
+            e.Handled = true;
         }
 
         private void PositionDragDeltaHandler(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
         {
             Position = new Point(Position.X + e.HorizontalChange, Position.Y + e.VerticalChange);
-            Model.WorkspaceModel.ModifyModel(new MoveModelElementOperation(Model,Position)); 
+            Model.WorkspaceModel.ModifyModel(new MoveModelElementOperation(Model,Position));
         }
 
-        private static void OnMyValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnStateValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             BinComponentVisual bin = (BinComponentVisual)d;
-            bin.LastState = (BinFuctionState)e.OldValue;
+            bin.LastState = (BinComponentState)e.OldValue;
             bin.OnPropertyChanged("LastState");
+        }
+
+        private static void OnIsFullscreenChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            BinComponentVisual bin = (BinComponentVisual)d;
+            bin.OnPropertyChanged("ActivePresentation");
+        }
+
+        private static void OnCustomNameChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            BinComponentVisual bin = (BinComponentVisual)d;
+            bin.Model.WorkspaceModel.ModifyModel(new RenameModelElementOperation(bin.Model, (string)e.NewValue));
+            if (bin.Model.WorkspaceModel.MyEditor != null)
+            {
+                ((WorkspaceManager)bin.Model.WorkspaceModel.MyEditor).HasChanges = true;
+            }
         }
 
         private void CloseClick(object sender, RoutedEventArgs e)
         {
             if (Close != null)
                 Close.Invoke(this, new EventArgs());
+
+            this.State = BinComponentState.Min;
+            Model.WorkspaceModel.ModifyModel(new DeletePluginModelOperation(Model));
+        }
+
+        private void RepeatHandler(object sender, RoutedEventArgs e)
+        {
+            Button b = sender as Button;
+            if(b == null)
+                return;
+
+            Repeat = (bool)b.Content;
         }
         #endregion
+
     }
 
     #region Converter
@@ -483,17 +648,69 @@ namespace WorkspaceManager.View.BinVisual
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            if (value == null || !(value is BinFuctionState))
+            if (value == null || !(value is BinComponentState))
                 return double.Epsilon;
 
-            BinFuctionState state = (BinFuctionState)value;
-            if (state != BinFuctionState.Min)
+            BinComponentState state = (BinComponentState)value;
+            if (state != BinComponentState.Min)
                 return true;
             else
                 return false;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class StateFullscreenConverter : IMultiValueConverter
+    {
+        public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if (values == null)
+                return double.Epsilon;
+
+            BinComponentState state = (BinComponentState)values[0];
+            bool b = (bool)values[1];
+            if (state != BinComponentState.Min && !b)
+                return true;
+            else
+                return false;
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class IsDraggingConverter : IMultiValueConverter
+    {
+        public object Convert(object[] value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if (value == null)
+                return false;
+
+            if (value.Count() == 3)
+            {
+                bool b1 = (bool)value[0], b2 = (bool)value[1], b3 = (bool)value[2];
+                if (b1 || b2 || b3)
+                    return true;
+                else
+                    return false;
+            }
+            else
+            {
+                bool b1 = (bool)value[0], b2 = (bool)value[1];
+                if (b1 || b2)
+                    return true;
+                else
+                    return false;
+            }
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture)
         {
             throw new NotImplementedException();
         }
@@ -514,32 +731,46 @@ namespace WorkspaceManager.View.BinVisual
     #endregion
 
     #region Custom class
+
+    public class Log
+    {
+        public NotificationLevel Level { get; set; }
+        public String Message { get; set; }
+        public String Date { get; set; }
+        public String ID { get; set; }
+
+        public Log(GuiLogEventArgs element)
+        {
+            Message = element.Message;
+            Level = element.NotificationLevel;
+            Date = element.DateTime.ToString("dd.MM.yyyy, H:mm:ss");
+        }
+
+        public override string ToString()
+        {
+            return Message;
+        }
+    }
+
     public class CustomTextBox : TextBox
     {
-
         protected override void OnInitialized(EventArgs e)
         {
-            EventManager.RegisterClassHandler(typeof(TextBox),
-                TextBox.KeyUpEvent,
-                new System.Windows.Input.KeyEventHandler(TextBox_KeyUp));
             base.OnInitialized(e);
         }
 
-        private void TextBox_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
-            if (e.Key != System.Windows.Input.Key.Enter) return;
-            ((TextBox)sender).CaretBrush = Brushes.Transparent;
-            e.Handled = true;
+            base.OnMouseLeftButtonDown(e);
+            Focusable = true;
+            Focus();
         }
 
-        private void TextBox_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        protected override void OnKeyDown(KeyEventArgs e)
         {
-            ((TextBox)sender).CaretBrush = Brushes.Gray;
-        }
-
-        private void CTextBox_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
-        {
-            ((TextBox)sender).CaretBrush = Brushes.Transparent;
+            base.OnKeyDown(e);
+            if (e.Key == System.Windows.Input.Key.Enter)
+                Focusable = false;
         }
     }
 
@@ -553,8 +784,6 @@ namespace WorkspaceManager.View.BinVisual
 
             foreach (BinConnectorVisual bin in filter)
             {
-                RotateTransform t = (RotateTransform)bin.LayoutTransform;
-
                 switch (PanelOrientation)
                 {
                     case Base.PanelOrientation.East:
@@ -563,9 +792,9 @@ namespace WorkspaceManager.View.BinVisual
 
                         bin.Orientation = ConnectorOrientation.East;
                         if (bin.IsOutgoing)
-                            t.Angle = (double)-90;
+                            bin.RotationAngle = (double)-90;
                         else
-                            t.Angle = (double)90;
+                            bin.RotationAngle = (double)90;
                         break;
                     case Base.PanelOrientation.South:
                         if (bin.Orientation == ConnectorOrientation.South)
@@ -573,9 +802,9 @@ namespace WorkspaceManager.View.BinVisual
 
                         bin.Orientation = ConnectorOrientation.South;
                         if (bin.IsOutgoing)
-                            t.Angle = (double)0;
+                            bin.RotationAngle = (double)0;
                         else
-                            t.Angle = (double)180;
+                            bin.RotationAngle = (double)180;
                         break;
                     case Base.PanelOrientation.West:
                         if (bin.Orientation == ConnectorOrientation.West)
@@ -583,9 +812,9 @@ namespace WorkspaceManager.View.BinVisual
 
                         bin.Orientation = ConnectorOrientation.West;
                         if (bin.IsOutgoing)
-                            t.Angle = (double)90;
+                            bin.RotationAngle = (double)90;
                         else
-                            t.Angle = (double)-90;
+                            bin.RotationAngle = (double)-90;
                         break;
                     case Base.PanelOrientation.North:
                         if (bin.Orientation == ConnectorOrientation.North)
@@ -593,15 +822,30 @@ namespace WorkspaceManager.View.BinVisual
 
                         bin.Orientation = ConnectorOrientation.North;
                         if (bin.IsOutgoing)
-                            t.Angle = (double)180;
+                            bin.RotationAngle = (double)180;
                         else
-                            t.Angle = (double)0;
+                            bin.RotationAngle = (double)0;
                         break;
                 }
             }
 
             return base.MeasureOverride(constraint);
         }
+    }
+
+
+    public class ConnectorModelWrapper
+    {
+        public PluginModel pm { get; private set; }
+
+        public ConnectorModelWrapper(ConnectorModel model, PluginModel pm)
+        {
+            // TODO: Complete member initialization
+            this.Model = model;
+            this.pm = pm;
+        }
+
+        public ConnectorModel Model { get; private set; }
     }
     #endregion
 }

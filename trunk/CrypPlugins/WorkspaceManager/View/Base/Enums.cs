@@ -5,11 +5,10 @@ using System.Text;
 
 namespace WorkspaceManager.View.Base
 {
-    public enum BinInternalState
+
+    public enum BinComponentAction
     {
-        Warning,
-        Error,
-        Normal,
+        LastState
     };
 
     public enum PanelOrientation
@@ -20,7 +19,7 @@ namespace WorkspaceManager.View.Base
         South,
     };
 
-    public enum EditorState
+    public enum BinEditorState
     {
         READY,
         BUSY

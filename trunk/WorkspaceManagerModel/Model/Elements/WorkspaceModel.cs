@@ -468,7 +468,6 @@ namespace WorkspaceManager.Model
             foreach (PluginModel pluginModel in this.AllPluginModels)
             {
                 pluginModel.State = PluginModelState.Normal;
-                pluginModel.GuiLogEvents.Clear();
             }
             foreach (ConnectionModel connection in this.AllConnectionModels)
             {

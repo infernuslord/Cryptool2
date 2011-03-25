@@ -12,6 +12,36 @@
              DataContext="{Binding RelativeSource={x:Static RelativeSource.Self}}">
     <UserControl.Resources>
         <SolidColorBrush x:Key="SolidColorBackground" Color="#add3f5"></SolidColorBrush>
+        <local:testconverter x:Key="testconverter"></local:testconverter>
+        
+        <Style x:Key="LoadingScrollViewerStyle" TargetType="{x:Type ScrollViewer}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=IsLoading}" Value="True">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                </DataTrigger>
+            </Style.Triggers>
+            <Setter Property="HorizontalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
+        </Style>
+
+        <Style x:Key="LoadingScreenStyle" TargetType="{x:Type Grid}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=IsLoading}" Value="False">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="ContentPresenterStyle" TargetType="{x:Type ContentPresenter}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=IsFullscreenOpen}" Value="False">
+                    <Setter Property="Visibility" Value="Collapsed"></Setter>
+                </DataTrigger>
+                <!--<DataTrigger Binding="{Binding Path=IsFullscreenOpen}" Value="True">
+                    <Setter Property="Visibility" Value="Visible"></Setter>
+                </DataTrigger>-->
+            </Style.Triggers>
+        </Style>
     </UserControl.Resources>
     <Grid x:Name="Root">
         <!--##########Definitions##########-->
@@ -25,12 +55,13 @@
         <!--##########/Definitions##########-->
         
         <!--##########Content Space##########-->
-        <ScrollViewer x:Name="ScrollViewer" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Grid.Row="0" Grid.Column="0">
+        <ScrollViewer x:Name="ScrollViewer" Style="{StaticResource ResourceKey=LoadingScrollViewerStyle}" Grid.Row="0" Grid.Column="0">
             <ItemsControl x:Name="ComponentRoot" ItemsSource="{Binding Path=VisualCollection, Mode=OneWay}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <visuals:ModifiedCanvas RenderTransformOrigin="0.5, 0.5" Background="{StaticResource ResourceKey=SolidColorBackground}" 
-                            PreviewMouseLeftButtonDown="MouseLeftButtonDownHandler" PreviewMouseRightButtonDown="MouseRightButtonDownHandler" PreviewMouseMove="MouseMoveHandler" PreviewMouseLeftButtonUp="MouseLeftButtonUpHandler"
+                            PreviewMouseLeftButtonDown="MouseLeftButtonDownHandler" PreviewMouseRightButtonDown="MouseRightButtonDownHandler" 
+                            PreviewMouseMove="MouseMoveHandler" PreviewMouseLeftButtonUp="MouseLeftButtonUpHandler" MouseLeave="MouseLeaveHandler"
                             PreviewDragEnter="PreviewDragEnterHandler" PreviewDragLeave="PreviewDragLeaveHandler" PreviewDrop="PreviewDropHandler">
                             <visuals:ModifiedCanvas.LayoutTransform>
                                 <ScaleTransform ScaleX="{Binding Source={x:Static properties:Settings.Default}, Path=EditScale, Mode=OneWay}" 
@@ -42,9 +73,26 @@
             </ItemsControl>
         </ScrollViewer>
         <!--##########/Content Space##########-->
-        
+
+        <!--##########Loading##########-->
+        <Grid x:Name="LoadingGrid" Style="{StaticResource ResourceKey=LoadingScreenStyle}" Grid.Row="0" Grid.Column="0">
+            <TextBlock Text="Loading..." FontFamily="DejaVu Sans" FontSize="50" FontWeight="Heavy" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+        </Grid>
+        <!--##########/Loading##########-->
+
+        <!--##########Fullscreen##########-->
+        <ContentPresenter x:Name="FullScreen" Style="{StaticResource ResourceKey=ContentPresenterStyle}" Grid.Row="0" Grid.Column="0">
+            <ContentPresenter.Content>
+                <local:BinFullscreenVisual 
+                    IsFullscreenOpen="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, Path=IsFullscreenOpen, Mode=TwoWay}" 
+                    ComponentCollection="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, Path=ComponentCollection}">
+                </local:BinFullscreenVisual>
+            </ContentPresenter.Content>
+        </ContentPresenter>
+        <!--##########/Fullscreen##########-->
+
         <!--##########Bottom Operations##########-->
-        <visuals:BottomBox AddText="AddTextHandler" AddImage="AddImageHandler" 
+        <visuals:BottomBox AddText="AddTextHandler" AddImage="AddImageHandler" FitToScreen="FitToScreenHandler" Overview="OverviewHandler"
                            Grid.Row="1" Grid.Column="0"></visuals:BottomBox>
         <!--##########/Bottom Operations##########-->
     </Grid>

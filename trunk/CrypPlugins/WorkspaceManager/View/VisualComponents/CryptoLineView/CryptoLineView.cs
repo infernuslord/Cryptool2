@@ -7,7 +7,6 @@ using System.Windows.Controls;
 using System.Windows.Shapes;
 using System.Reflection;
 using System.Windows.Threading;
-using WorkspaceManager.View.Interface;
 using WorkspaceManager.Model;
 using System.Windows.Documents;
 using System.Collections.Generic;
@@ -18,47 +17,24 @@ using WorkspaceManager.View.VisualComponents.StackFrameDijkstra;
 using System.Windows.Data;
 using WorkspaceManagerModel.Model.Interfaces;
 using WorkspaceManagerModel.Model.Operations;
+using WorkspaceManager.View.BinVisual;
+using WorkspaceManager.View.Base;
 
 namespace WorkspaceManager.View.VisualComponents
 {
-	public sealed class CryptoLineView : Shape, IConnection, IUpdateableView
+	public sealed class CryptoLineView : Shape, IUpdateableView
     {
         #region Variables
 
-        public static readonly DependencyProperty IsDraggingDependencyProperty = DependencyProperty.Register("IsDragging", typeof(bool), typeof(CryptoLineView), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure, new PropertyChangedCallback(OnDraggingPropertyChanged)));
-
-        [TypeConverter(typeof(bool))]
-        public bool IsDragging
-        {
-            get { return (bool)base.GetValue(IsDraggingDependencyProperty); }
-            set
-            {
-                base.SetValue(IsDraggingDependencyProperty, value);
-            }
-        }
-
-        private static void OnDraggingPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            CryptoLineView line = (CryptoLineView)d;
-            Panel p = (line.Parent as Panel);
-            if (p == null)
-                return;
-            foreach (UIElement shape in p.Children)
-            {
-                if (shape is CryptoLineView)
-                    shape.InvalidateVisual();
-            }
-        }
-
         private IntersectPoint intersectPoint;
+        private static double baseoffset = 15;
         private List<FromTo> pointList = new List<FromTo>();
-        public HashSet<CryptoLineView> UpdateList = new HashSet<CryptoLineView>();
 
-        private ConnectionModel model;
+        private ConnectionModel model = null;
         public ConnectionModel Model
         {
             get { return model; }
-            private set { model = value; }
+            set { model = value; Model.UpdateableView = this; }
         }
         private static double offset = 6;
 
@@ -72,6 +48,24 @@ namespace WorkspaceManager.View.VisualComponents
 		#endregion
 
 		#region CLR Properties
+
+        public static readonly DependencyProperty IsDraggedProperty = DependencyProperty.Register("IsDragged", typeof(bool),
+            typeof(CryptoLineView), new FrameworkPropertyMetadata(false, new PropertyChangedCallback(OnIsDraggedValueChanged)));
+
+        public bool IsDragged
+        {
+            get { return (bool)base.GetValue(IsDraggedProperty); }
+            set
+            {
+                base.SetValue(IsDraggedProperty, value);
+            }
+        }
+        private static void OnIsDraggedValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            CryptoLineView l = (CryptoLineView)d;
+            if((bool)e.NewValue == false)
+                l.invalidateAllLines();
+        }
 
         public Point StartPoint
         {
@@ -102,6 +96,23 @@ namespace WorkspaceManager.View.VisualComponents
         protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
             base.OnPropertyChanged(e);
+
+            if (IsDragged || StartPointSource == null || EndPointSource == null || e.Property.Name == "IsDragged")
+                return;
+
+            invalidateAllLines();
+        }
+
+        private void invalidateAllLines()
+        {
+            Panel p = (VisualParent as Panel);
+            if (p == null)
+                return;
+            foreach (UIElement shape in p.Children)
+            {
+                if (shape is CryptoLineView)
+                    shape.InvalidateVisual();
+            }
         }
 
         protected override void OnMouseDown(MouseButtonEventArgs args)
@@ -115,7 +126,7 @@ namespace WorkspaceManager.View.VisualComponents
             }            
         }
 
-        public CryptoLineView(ConnectionModel connectionModel, ConnectorView source, ConnectorView target)
+        public CryptoLineView(ConnectionModel connectionModel, BinConnectorVisual source, BinConnectorVisual target)
         {
             this.Loaded += new RoutedEventHandler(CryptoLineView_Loaded);
             this.Model = connectionModel;
@@ -125,27 +136,9 @@ namespace WorkspaceManager.View.VisualComponents
 
         void CryptoLineView_Loaded(object sender, RoutedEventArgs e)
         {
-            Color color = ColorHelper.GetLineColor(this.Model.ConnectionType);
+            Color color = ColorHelper.GetLineColor(StartPointSource.Model.ConnectorType);
             Stroke = new SolidColorBrush(color);
             StrokeThickness = 2;
-        }
-
-        private void makeBinding(ConnectorView source, ConnectorView target)
-        {
-            MultiBinding multiBinding = new MultiBinding();
-            multiBinding.Converter = new MultiDragValueConverter();
-
-            Binding bind = new Binding();
-            bind.Source = source.Parent;
-            bind.Path = new PropertyPath(PluginContainerView.IsDragStartedDependencyProperty);
-            multiBinding.Bindings.Add(bind);
-
-            bind = new Binding();
-            bind.Source = target.Parent;
-            bind.Path = new PropertyPath(PluginContainerView.IsDragStartedDependencyProperty);
-            multiBinding.Bindings.Add(bind);
-
-            SetBinding(CryptoLineView.IsDraggingDependencyProperty, multiBinding);
         }
 
 		#region Overrides
@@ -248,7 +241,7 @@ namespace WorkspaceManager.View.VisualComponents
 		private void internalGeometryDraw(StreamGeometryContext context)
 		{
             makeOrthogonalPoints();
-            foreach (var element in (Parent as Panel).Children)
+            foreach (var element in (VisualParent as Panel).Children)
             {
                 if (element is CryptoLineView && !element.Equals(this))
                 {
@@ -260,9 +253,6 @@ namespace WorkspaceManager.View.VisualComponents
                             if (findIntersection(fromTo.From, fromTo.To, resultFromTo.From, resultFromTo.To))
                             {
                                 fromTo.Intersection.Add(intersectPoint);
-
-                                if (fromTo.DirSort == DirSort.Y_ASC || fromTo.DirSort == DirSort.Y_DESC)
-                                    this.UpdateList.Add(result);
                             }
                         }
                     }
@@ -414,6 +404,16 @@ namespace WorkspaceManager.View.VisualComponents
             return !quadTree.QueryAny(queryRect);
         }
 
+        //public static T FindAncestor<T>(this DependencyObject obj) where T : DependencyObject
+        //{
+        //    DependencyObject tmp = VisualTreeHelper.GetParent(obj);
+        //    while (tmp != null && !(tmp is T))
+        //    {
+        //        tmp = VisualTreeHelper.GetParent(tmp);
+        //    }
+        //    return tmp as T;
+        //}
+
         private bool performOrthogonalPointConnection(Node n1, Point p2, Node n3, List<Node> nodeList, QuadTreeLib.QuadTree<FakeNode> quadTreePlugins, QuadTreeLib.QuadTree<FakeNode> quadTreeLines)
         {
             //bool isHorizontal;
@@ -530,18 +530,18 @@ namespace WorkspaceManager.View.VisualComponents
         internal class FakeNode : QuadTreeLib.IHasRect
         {
             public System.Drawing.RectangleF Rectangle { get; set; }
-            public ConnectorView Source { get; set; }
-            public ConnectorView Target { get; set; }
+            public BinConnectorVisual Source { get; set; }
+            public BinConnectorVisual Target { get; set; }
         }
 
         private void makeOrthogonalPoints()
         {
-            if (StartPointSource != null && EndPointSource != null && IsDragging == false)
+            if (StartPointSource != null && Model != null && EndPointSource != null && !IsDragged)
             {
                 List<Node> nodeList = new List<Node>();
-                Panel parent = (Parent as Panel);
+                Panel parent = (VisualParent as Panel);
 
-                // add start and end. Index will be 0 and 1
+                // add start and end. Index will be 0 and 1 
                 Node startNode = new Node() { Point = cheat42(StartPoint , StartPointSource, 1)},
                     endNode = new Node() { Point = cheat42(EndPoint, EndPointSource, -1) };
                 nodeList.Add(startNode);
@@ -576,18 +576,18 @@ namespace WorkspaceManager.View.VisualComponents
                 {
                     foreach (var element in parent.Children)
                     {
-                        if (element is PluginContainerView)
+                        if (element is BinComponentVisual)
                         {
-                            PluginContainerView p1 = element as PluginContainerView;
+                            BinComponentVisual p1 = element as BinComponentVisual;
                             nodeList.Add(new Node() { Point = p1.GetRoutingPoint(routPoint) });
                             if (routPoint == 0)
                             {
                                 quadTreePlugins.Insert(new FakeNode()
                                 {
-                                    Rectangle = new System.Drawing.RectangleF((float)p1.GetPosition().X,
-                                                                               (float)p1.GetPosition().Y + (float)p1.ControlPanel.ActualHeight,
-                                                                               (float)p1.PluginBase.ActualWidth,
-                                                                               (float)p1.PluginBase.ActualHeight - (float)p1.ControlPanel.ActualHeight)
+                                    Rectangle = new System.Drawing.RectangleF((float)p1.Position.X,
+                                                                               (float)p1.Position.Y,
+                                                                               (float)p1.ActualWidth,
+                                                                               (float)p1.ActualHeight)
                                 });
                             }
                         }
@@ -727,11 +727,10 @@ namespace WorkspaceManager.View.VisualComponents
             }
         }
 
-        private static Point cheat42(Point EndPoint, ConnectorView EndPointSource, int flipper)
+        private static Point cheat42(Point EndPoint, BinConnectorVisual EndPointSource, int flipper)
         {
             double xoffset = 0;
             double yoffset = 0;
-            double baseoffset = 15;
             switch (EndPointSource.Orientation)
             {
                 case ConnectorOrientation.East:
@@ -793,29 +792,24 @@ namespace WorkspaceManager.View.VisualComponents
         }
 
 
-        private ConnectorView startPointSource;
-        public ConnectorView StartPointSource 
+        private BinConnectorVisual startPointSource;
+        public BinConnectorVisual StartPointSource 
         { 
             get { return startPointSource; } 
             set 
             {
-                startPointSource = value; 
-                if (endPointSource == null || startPointSource == null)
-                    return;
-                makeBinding(startPointSource, endPointSource); 
+                startPointSource = value;  
             } 
         }
 
-        private ConnectorView endPointSource;
-        public ConnectorView EndPointSource 
+        private BinConnectorVisual endPointSource;
+
+        public BinConnectorVisual EndPointSource 
         { 
             get { return endPointSource; } 
             set 
             { 
                 endPointSource = value;
-                if (endPointSource == null || startPointSource == null)
-                    return;
-                makeBinding(startPointSource, endPointSource); 
             } 
         }
     }
@@ -824,6 +818,7 @@ namespace WorkspaceManager.View.VisualComponents
     {
         public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
+            return null;
             bool a = (bool)values[0], b = (bool)values[1];
             if (a == true || b == true)
                 return true;
