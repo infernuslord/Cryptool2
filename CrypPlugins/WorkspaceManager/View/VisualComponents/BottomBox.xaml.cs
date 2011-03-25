@@ -20,9 +20,10 @@ namespace WorkspaceManager.View.VisualComponents
     /// </summary>
     public partial class BottomBox : UserControl
     {
-        public event EventHandler<ImageSelectedEventArgs> ImageSelected;
+        public event EventHandler<ImageSelectedEventArgs> AddImage;
         public event EventHandler<AddTextEventArgs> AddText;
         public event EventHandler<FitToScreenEventArgs> FitToScreen;
+        public event EventHandler Overview;
 
         public BottomBox()
         {
@@ -69,8 +70,8 @@ namespace WorkspaceManager.View.VisualComponents
                 {
                     Uri uriLocal = new Uri(diag.FileName);
 
-                    if (ImageSelected != null)
-                        ImageSelected.Invoke(this, new ImageSelectedEventArgs() { uri = uriLocal });
+                    if (AddImage != null)
+                        AddImage.Invoke(this, new ImageSelectedEventArgs() { uri = uriLocal });
                 }
                 return;
             }
@@ -86,6 +87,12 @@ namespace WorkspaceManager.View.VisualComponents
             {
                 if (FitToScreen != null)
                     FitToScreen.Invoke(this, new FitToScreenEventArgs());
+            }
+
+            if (btn.Name == "OV")
+            {
+                if (Overview != null)
+                    Overview.Invoke(this, new EventArgs());
             }
         }
     }

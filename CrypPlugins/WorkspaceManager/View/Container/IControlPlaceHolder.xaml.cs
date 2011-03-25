@@ -13,9 +13,10 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WorkspaceManager.Model;
 using Cryptool.PluginBase.Editor;
-using WorkspaceManager.View.Converter;
 using Cryptool.PluginBase;
 using WorkspaceManagerModel.Model.Operations;
+using WorkspaceManager.View.Base;
+using WorkspaceManager.View.BinVisual;
 
 namespace WorkspaceManager.View.Container
 {
@@ -103,14 +104,14 @@ namespace WorkspaceManager.View.Container
 
         void  IControlPlaceHolder_Drop(object sender, DragEventArgs e)
         {
- 	        if (((WorkspaceManager)this.Model.WorkspaceModel.MyEditor).State == EditorState.READY)
+ 	        if (((WorkspaceManager)this.Model.WorkspaceModel.MyEditor).State == BinEditorState.READY)
             {
                 if (e.Data.GetDataPresent("Cryptool.PluginBase.Editor.DragDropDataObject"))
                 {
                     try
                     {
                         DragDropDataObject obj = e.Data.GetData("Cryptool.PluginBase.Editor.DragDropDataObject") as DragDropDataObject;
-                        PluginModel pluginModel = (PluginModel)this.Model.WorkspaceModel.ModifyModel(new NewPluginModelOperation(new Point(0,0),0,0,DragDropDataObjectToPluginConverter.CreatePluginInstance(obj.AssemblyFullName, obj.TypeFullName)));
+                        PluginModel pluginModel = (PluginModel)this.Model.WorkspaceModel.ModifyModel(new NewPluginModelOperation(new Point(0, 0), 0, 0, DragDropDataObjectToPluginConverter.CreatePluginInstance(obj.AssemblyFullName, obj.TypeFullName)));
                         if (obj != null)
                         {
                             foreach (ConnectorModel mod in pluginModel.GetInputConnectors())
@@ -147,6 +148,23 @@ namespace WorkspaceManager.View.Container
         {
             Model.WorkspaceModel.ModifyModel(new DeletePluginModelOperation(PluginModel));
             PluginModel = null;
+        }
+    }
+
+    class PluginModelImageConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            PluginModel model = (PluginModel)value;
+            if (model == null)
+                return (Brush)parameter;
+            else
+                return new ImageBrush(model.getImage().Source);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
         }
     }
 }

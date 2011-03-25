@@ -175,5 +175,12 @@ namespace WorkspaceManager.Model
                 return Colors.Black;
             }
         }
+
+        public static Color GetColorLight(Type type)
+        {
+            Color clr = ColorHelper.GetColor(type);
+            System.Drawing.Color clr2 = System.Windows.Forms.ControlPaint.Light(System.Windows.Forms.ControlPaint.LightLight(System.Drawing.Color.FromArgb(clr.A, clr.R, clr.G, clr.B)));
+            return Color.FromArgb(clr2.A, clr2.R, clr2.G, clr2.B);
+        }
     }
 }

@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:converter="clr-namespace:WorkspaceManager.View.Converter"
              xmlns:state="clr-namespace:WorkspaceManager.View.Base"
              xmlns:local="clr-namespace:WorkspaceManager.View.BinVisual"
              xmlns:model="clr-namespace:WorkspaceManager.Model;assembly=WorkspaceManagerModel"
@@ -17,6 +16,41 @@
     </UserControl.RenderTransform>
     <UserControl.Resources>
         <local:testconverter x:Key="testconverter"></local:testconverter>
+        <local:StateFullscreenConverter x:Key="StateFullscreenConverter"></local:StateFullscreenConverter>
+        <local:StateConverter x:Key="StateConverter"></local:StateConverter>
+        <Style x:Key="TextBoxStyle" TargetType="{x:Type TextBoxBase}">
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="KeyboardNavigation.TabNavigation" Value="None"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="Foreground" Value="#666"></Setter>
+            <Setter Property="AllowDrop" Value="true"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBoxBase}">
+                        <DockPanel LastChildFill="True">
+                            <Rectangle DockPanel.Dock="Left" x:Name="Border" Visibility="Hidden" Fill="#888" Width="2" Height="auto"></Rectangle>
+                            <Rectangle DockPanel.Dock="Top" x:Name="Border2" Visibility="Hidden" Fill="#888" Height="2" Width="auto"></Rectangle>
+                            <ScrollViewer Margin="0" x:Name="PART_ContentHost"/>
+                        </DockPanel>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsFocused" Value="False">
+                                <Setter Property="Visibility" Value="Hidden" TargetName="Border"></Setter>
+                                <Setter Property="Visibility" Value="Hidden" TargetName="Border2"></Setter>
+                            </Trigger>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter Property="Visibility" Value="Visible" TargetName="Border"></Setter>
+                                <Setter Property="Visibility" Value="Visible" TargetName="Border2"></Setter>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Visibility" Value="Visible" TargetName="Border"></Setter>
+                                <Setter Property="Visibility" Value="Visible" TargetName="Border2"></Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
         <Style x:Key="{x:Type ProgressBar}" TargetType="{x:Type ProgressBar}">
             <Setter Property="Template">
@@ -42,7 +76,13 @@
 
         <Style TargetType="{x:Type Thumb}" x:Key="InvisibleThumbStyle">
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=State}" Value="Min">
+                <DataTrigger Value="False">
+                    <DataTrigger.Binding>
+                        <MultiBinding Converter="{StaticResource ResourceKey=StateFullscreenConverter}">
+                            <Binding Path="State"></Binding>
+                            <Binding Path="IsFullscreen"></Binding>
+                        </MultiBinding>
+                    </DataTrigger.Binding>
                     <Setter Property="Panel.ZIndex" Value="100"></Setter>
                 </DataTrigger>
             </Style.Triggers>
@@ -68,12 +108,18 @@
 
         <Style TargetType="{x:Type Thumb}" x:Key="ScaleThumb">
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=State}" Value="Min">
+                <DataTrigger Value="False">
+                    <DataTrigger.Binding>
+                        <MultiBinding Converter="{StaticResource ResourceKey=StateFullscreenConverter}">
+                            <Binding Path="State"></Binding>
+                            <Binding Path="IsFullscreen"></Binding>
+                        </MultiBinding>
+                    </DataTrigger.Binding>
                     <Setter Property="Visibility" Value="Collapsed"></Setter>
                 </DataTrigger>
             </Style.Triggers>
-            <Setter Property="Height" Value="18"></Setter>
-            <Setter Property="Width" Value="18"></Setter>
+            <Setter Property="Height" Value="13"></Setter>
+            <Setter Property="Width" Value="12"></Setter>
             <Setter Property="HorizontalAlignment" Value="Right"></Setter>
             <Setter Property="VerticalAlignment" Value="Bottom"></Setter>
             <Setter Property="Template">
@@ -90,12 +136,12 @@
                                 <ColumnDefinition></ColumnDefinition>
                                 <ColumnDefinition></ColumnDefinition>
                             </Grid.ColumnDefinitions>
-                            <Ellipse Width="5" Height="5" Fill="WhiteSmoke" Stroke="#777" StrokeThickness="1" Grid.Column="2" Grid.Row="0"></Ellipse>
-                            <Ellipse Width="5" Height="5" Fill="WhiteSmoke" Stroke="#777" StrokeThickness="1" Grid.Column="1" Grid.Row="1"></Ellipse>
-                            <Ellipse Width="5" Height="5" Fill="WhiteSmoke" Stroke="#777" StrokeThickness="1" Grid.Column="2" Grid.Row="1"></Ellipse>
-                            <Ellipse Width="5" Height="5" Fill="WhiteSmoke" Stroke="#777" StrokeThickness="1" Grid.Column="0" Grid.Row="2"></Ellipse>
-                            <Ellipse Width="5" Height="5" Fill="WhiteSmoke" Stroke="#777" StrokeThickness="1" Grid.Column="1" Grid.Row="2"></Ellipse>
-                            <Ellipse Width="5" Height="5" Fill="WhiteSmoke" Stroke="#777" StrokeThickness="1" Grid.Column="2" Grid.Row="2"></Ellipse>
+                            <Rectangle Width="3" Height="3" Fill="WhiteSmoke" Stroke="#777" StrokeThickness="1" Grid.Column="2" Grid.Row="0" RenderOptions.EdgeMode="Unspecified"></Rectangle>
+                            <Rectangle Width="3" Height="3" Fill="WhiteSmoke" Stroke="#777" StrokeThickness="1" Grid.Column="1" Grid.Row="1" RenderOptions.EdgeMode="Unspecified"></Rectangle>
+                            <Rectangle Width="3" Height="3" Fill="WhiteSmoke" Stroke="#777" StrokeThickness="1" Grid.Column="2" Grid.Row="1" RenderOptions.EdgeMode="Unspecified"></Rectangle>
+                            <Rectangle Width="3" Height="3" Fill="WhiteSmoke" Stroke="#777" StrokeThickness="1" Grid.Column="0" Grid.Row="2" RenderOptions.EdgeMode="Unspecified"></Rectangle>
+                            <Rectangle Width="3" Height="3" Fill="WhiteSmoke" Stroke="#777" StrokeThickness="1" Grid.Column="1" Grid.Row="2" RenderOptions.EdgeMode="Unspecified"></Rectangle>
+                            <Rectangle Width="3" Height="3" Fill="WhiteSmoke" Stroke="#777" StrokeThickness="1" Grid.Column="2" Grid.Row="2" RenderOptions.EdgeMode="Unspecified"></Rectangle>
                         </Grid>
                     </ControlTemplate>
                 </Setter.Value>
@@ -123,22 +169,22 @@
         </ControlTemplate>
 
         <Style TargetType="{x:Type Button}" x:Key="ActionBasicStyle">
-            <Setter Property="Height" Value="20"></Setter>
-            <Setter Property="Width" Value="20"></Setter>
+            <Setter Property="Height" Value="16"></Setter>
+            <Setter Property="Width" Value="16"></Setter>
             <Setter Property="Template" Value="{StaticResource ResourceKey=CtrlTemplate}"></Setter>
         </Style>
 
         <Style TargetType="{x:Type Button}" x:Key="OperationBasicStyle">
-            <Setter Property="Height" Value="16"></Setter>
-            <Setter Property="Width" Value="16"></Setter>
-            <Setter Property="VerticalAlignment" Value="Bottom"></Setter>
+            <Setter Property="Height" Value="12"></Setter>
+            <Setter Property="Width" Value="12"></Setter>
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
             <Setter Property="HorizontalAlignment" Value="Left"></Setter>
             <Setter Property="Template" Value="{StaticResource ResourceKey=CtrlTemplate}"></Setter>
         </Style>
 
         <Style x:Key="PresentationBtnStyle" TargetType="{x:Type Button}">
-            <Setter Property="Height" Value="20"></Setter>
-            <Setter Property="Width" Value="20"></Setter>
+            <Setter Property="Height" Value="16"></Setter>
+            <Setter Property="Width" Value="16"></Setter>
             <Setter Property="Visibility" Value="Visible"></Setter>
             <Setter Property="Template" Value="{StaticResource ResourceKey=CtrlTemplate}"></Setter>
             <Style.Triggers>
@@ -149,15 +195,12 @@
         </Style>
 
         <Style TargetType="{x:Type Button}" x:Key="OperationMaxMinStyle">
-            <Style.Resources>
-                <local:StateConverter x:Key="StateConverter"></local:StateConverter>
-            </Style.Resources>
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Path=State, Converter={StaticResource ResourceKey=StateConverter}, Mode=OneWay}" Value="False">
                     <Setter Property="ToolTip" Value="Maximize"></Setter>
                     <Setter Property="Content">
                         <Setter.Value>
-                            <state:BinFuctionState>Presentation</state:BinFuctionState>
+                            <state:BinComponentAction>LastState</state:BinComponentAction>
                         </Setter.Value>
                     </Setter>
                     <Setter Property="Tag">
@@ -170,7 +213,7 @@
                 <DataTrigger Binding="{Binding Path=State, Converter={StaticResource ResourceKey=StateConverter}, Mode=OneWay}" Value="True">
                     <Setter Property="Content">
                         <Setter.Value>
-                            <state:BinFuctionState>Min</state:BinFuctionState>
+                            <model:BinComponentState>Min</model:BinComponentState>
                         </Setter.Value>
                     </Setter>
                 </DataTrigger>
@@ -181,40 +224,95 @@
                 </Setter.Value>
             </Setter>
             <Setter Property="ToolTip" Value="Minimize"></Setter>
-            <Setter Property="Height" Value="16"></Setter>
-            <Setter Property="Width" Value="16"></Setter>
-            <Setter Property="VerticalAlignment" Value="Bottom"></Setter>
+            <Setter Property="Height" Value="12"></Setter>
+            <Setter Property="Width" Value="12"></Setter>
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Left"></Setter>
+            <Setter Property="Template" Value="{StaticResource ResourceKey=CtrlTemplate}"></Setter>
+        </Style>
+
+        <Style TargetType="{x:Type Button}" x:Key="RepeatableButtonStyle">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=IsRepeatable, Mode=OneWay}" Value="False">
+                    <Setter Property="Visibility" Value="Collapsed"></Setter>
+                    <Setter Property="Content" Value="{x:Null}"></Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=Repeat, Mode=OneWay}" Value="False">
+                    <Setter Property="Tag">
+                        <Setter.Value>
+                            <Image Source="/WorkspaceManager;component/View/Image/pause.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"/>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="Content">
+                        <Setter.Value>
+                            <sys:Boolean>True</sys:Boolean>
+                        </Setter.Value>
+                    </Setter>
+                </DataTrigger>
+            </Style.Triggers>
+            <Setter Property="Tag">
+                <Setter.Value>
+                    <Image Source="/WorkspaceManager;component/View/Image/play.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"/>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Content">
+                <Setter.Value>
+                    <sys:Boolean>False</sys:Boolean>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="ToolTip" Value="Repeat"></Setter>
+            <Setter Property="Height" Value="12"></Setter>
+            <Setter Property="Width" Value="12"></Setter>
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
             <Setter Property="HorizontalAlignment" Value="Left"></Setter>
             <Setter Property="Template" Value="{StaticResource ResourceKey=CtrlTemplate}"></Setter>
         </Style>
 
         <Style x:Key="WindowStyle" TargetType="{x:Type Border}">
-            <Style.Resources>
-                <local:StateConverter x:Key="StateConverter"></local:StateConverter>
-            </Style.Resources>
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=State, Converter={StaticResource ResourceKey=StateConverter}}" Value="False">
-                    <Setter Property="Height" Value="100"></Setter>
-                    <Setter Property="Width" Value="100"></Setter>
+                <DataTrigger Value="False">
+                    <DataTrigger.Binding>
+                        <MultiBinding Converter="{StaticResource ResourceKey=StateFullscreenConverter}">
+                            <Binding Path="State"></Binding>
+                            <Binding Path="IsFullscreen"></Binding>
+                        </MultiBinding>
+                    </DataTrigger.Binding>
+                    <Setter Property="Height" Value="80"></Setter>
+                    <Setter Property="Width" Value="80"></Setter>
                 </DataTrigger>
-                <DataTrigger Binding="{Binding Path=State, Converter={StaticResource ResourceKey=StateConverter}}" Value="True">
+                <DataTrigger Value="True">
+                    <DataTrigger.Binding>
+                        <MultiBinding Converter="{StaticResource ResourceKey=StateFullscreenConverter}">
+                            <Binding Path="State"></Binding>
+                            <Binding Path="IsFullscreen"></Binding>
+                        </MultiBinding>
+                    </DataTrigger.Binding>
                     <Setter Property="Height" Value="{Binding Path=WindowHeight}"></Setter>
                     <Setter Property="Width" Value="{Binding Path=WindowWidth}"></Setter>
                     <Setter Property="MinHeight" Value="200"></Setter>
-                    <Setter Property="MinWidth" Value="200"></Setter>
+                    <Setter Property="MinWidth" Value="300"></Setter>
                 </DataTrigger>
             </Style.Triggers>
         </Style>
 
         <Style x:Key="ActionBorderStyle" TargetType="{x:Type Border}">
-            <Style.Resources>
-                <local:StateConverter x:Key="StateConverter"></local:StateConverter>
-            </Style.Resources>
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=State, Converter={StaticResource ResourceKey=StateConverter}}" Value="True">
+                <DataTrigger Value="True">
+                    <DataTrigger.Binding>
+                        <MultiBinding Converter="{StaticResource ResourceKey=StateFullscreenConverter}">
+                            <Binding Path="State"></Binding>
+                            <Binding Path="IsFullscreen"></Binding>
+                        </MultiBinding>
+                    </DataTrigger.Binding>
                     <Setter Property="Visibility" Value="Visible"></Setter>
                 </DataTrigger>
-                <DataTrigger Binding="{Binding Path=State, Converter={StaticResource ResourceKey=StateConverter}}" Value="False">
+                <DataTrigger Value="False">
+                    <DataTrigger.Binding>
+                        <MultiBinding Converter="{StaticResource ResourceKey=StateFullscreenConverter}">
+                            <Binding Path="State"></Binding>
+                            <Binding Path="IsFullscreen"></Binding>
+                        </MultiBinding>
+                    </DataTrigger.Binding>
                     <Setter Property="Visibility" Value="Collapsed"></Setter>
                 </DataTrigger>
             </Style.Triggers>
@@ -233,34 +331,43 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
+        
+        <Style x:Key="ContentPresenterStyle" TargetType="{x:Type ContentPresenter}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=IsFullscreen}" Value="True">
+                    <Setter Property="Content" Value="{Binding Path=Icon, Mode=OneTime}"></Setter>
+                </DataTrigger>
+            </Style.Triggers>
+            <Setter Property="Content" Value="{Binding Path=ActivePresentation, UpdateSourceTrigger=PropertyChanged}"></Setter>
+        </Style>
 
         <x:Array Type="{x:Type Button}" x:Key="Actions">
             <Button ToolTip="Settings" Style="{StaticResource ResourceKey=ActionBasicStyle}" Click="ActionHandler">
                 <Button.Tag>
                     <Image Source="/WorkspaceManager;component/View/Image/setting.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"></Image>
                 </Button.Tag>
-                <state:BinFuctionState>Setting</state:BinFuctionState>
+                <model:BinComponentState>Setting</model:BinComponentState>
             </Button>
 
             <Button ToolTip="Log" Style="{StaticResource ResourceKey=ActionBasicStyle}" Click="ActionHandler">
                 <Button.Tag>
                     <Image Source="/WorkspaceManager;component/View/Image/log.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"></Image>
                 </Button.Tag>
-                <state:BinFuctionState>Log</state:BinFuctionState>
+                <model:BinComponentState>Log</model:BinComponentState>
             </Button>
 
             <Button ToolTip="Data" Style="{StaticResource ResourceKey=ActionBasicStyle}" Click="ActionHandler" >
                 <Button.Tag>
                     <Image Source="/WorkspaceManager;component/View/Image/data.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"></Image>
                 </Button.Tag>
-                <state:BinFuctionState>Data</state:BinFuctionState>
+                <model:BinComponentState>Data</model:BinComponentState>
             </Button>
 
             <Button ToolTip="Presentation" Style="{StaticResource ResourceKey=PresentationBtnStyle}" Click="ActionHandler">
                 <Button.Tag>
                     <Image Source="/WorkspaceManager;component/View/Image/presentation.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"></Image>
                 </Button.Tag>
-                <state:BinFuctionState>Presentation</state:BinFuctionState>
+                <model:BinComponentState>Presentation</model:BinComponentState>
             </Button>
         </x:Array>
 
@@ -272,11 +379,7 @@
                 <sys:Boolean>True</sys:Boolean>
             </Button>
 
-            <Button Style="{StaticResource ResourceKey=OperationBasicStyle}">
-                <Button.Tag>
-                    <Image Source="/WorkspaceManager;component/View/Image/play.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"/>
-                </Button.Tag>
-            </Button>
+            <Button Style="{StaticResource ResourceKey=RepeatableButtonStyle}" Click="RepeatHandler"></Button>
 
             <Button Style="{StaticResource ResourceKey=OperationMaxMinStyle}" Click="ActionHandler"></Button>
 
@@ -291,7 +394,7 @@
     <Grid x:Name="Root">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="18"></RowDefinition>
+            <RowDefinition Height="20"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
             <!--##########Definitions##########-->
@@ -356,72 +459,87 @@
 
 
             <!--##########Window##########-->
-            <Border x:Name="Window" Style="{StaticResource ResourceKey=WindowStyle}" CornerRadius="5" Grid.Row="1" Grid.Column="1" BorderThickness="3">
-                <Grid>
-                    <!--##########Definitions##########-->
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="25"></RowDefinition>
-                        <RowDefinition Height="*"></RowDefinition>
-                        <!--<RowDefinition Height="16"></RowDefinition>-->
-                    </Grid.RowDefinitions>
-                    <!--##########/Definitions##########-->
+            <Border CornerRadius="5" BorderThickness="2" BorderBrush="#444" Grid.Row="1" Grid.Column="1">
+                <Border x:Name="Window" Style="{StaticResource ResourceKey=WindowStyle}" CornerRadius="5" BorderThickness="3">
+                    <Grid>
+                        <!--##########Definitions##########-->
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="25"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="12"></RowDefinition>
+                            <!--<RowDefinition Height="16"></RowDefinition>-->
+                        </Grid.RowDefinitions>
+                        <!--##########/Definitions##########-->
 
-                    <!--##########Window Titlebar##########-->
-                    <Rectangle Fill="{Binding ElementName=Window, Path=BorderBrush}" Height="16" VerticalAlignment="Top" Grid.Column="0" Grid.Row="0"></Rectangle>
+                        <!--##########Window Titlebar##########-->
+                        <Rectangle Fill="{Binding ElementName=Window, Path=BorderBrush}" Height="16" VerticalAlignment="Top" Grid.Column="0" Grid.Row="0"></Rectangle>
                     
-                    <DockPanel LastChildFill="True" Grid.Column="0" Grid.Row="0">
+                        <DockPanel LastChildFill="True" Grid.Column="0" Grid.Row="0">
                     
-                        <Border Background="{Binding ElementName=Window, Path=BorderBrush}" Style="{StaticResource ResourceKey=ActionBorderStyle}" Padding="0,0,7,0" CornerRadius="0,0,10,0" DockPanel.Dock="Left">
-                            <ItemsControl x:Name="ActionsItemsControl" ItemsSource="{StaticResource ResourceKey=Actions}">
+                            <Border Background="{Binding ElementName=Window, Path=BorderBrush}" Style="{StaticResource ResourceKey=ActionBorderStyle}" Padding="0,0,7,0" CornerRadius="0,0,10,0" DockPanel.Dock="Left">
+                                <ItemsControl x:Name="ActionsItemsControl" ItemsSource="{StaticResource ResourceKey=Actions}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Horizontal"></StackPanel>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                </ItemsControl>
+                            </Border>
+
+                            <ItemsControl x:Name="OperationsItemsControl" ItemsSource="{StaticResource ResourceKey=Operations}" HorizontalAlignment="Right" VerticalAlignment="Top" DockPanel.Dock="Right">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <StackPanel Orientation="Horizontal"></StackPanel>
                                     </ItemsPanelTemplate>
                                 </ItemsControl.ItemsPanel>
                             </ItemsControl>
-                        </Border>
 
-                        <ItemsControl x:Name="OperationsItemsControl" ItemsSource="{StaticResource ResourceKey=Operations}" HorizontalAlignment="Right" VerticalAlignment="Top" DockPanel.Dock="Right">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <StackPanel Orientation="Horizontal"></StackPanel>
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                        </ItemsControl>
-
-                        <Grid>
-                            <TextBlock Text="{Binding Path=FunctionName}" FontFamily="Tahoma" FontWeight="ExtraBold" TextTrimming="CharacterEllipsis" TextAlignment="Center" Foreground="#666"></TextBlock>
+                            <Grid>
+                                <TextBlock Text="{Binding Path=FunctionName}" FontFamily="Tahoma" FontWeight="ExtraBold" TextTrimming="CharacterEllipsis" TextAlignment="Center" Foreground="#666"></TextBlock>
                         
-                            <Thumb Style="{StaticResource ResourceKey=InvisibleThumbStyleSecond}" Grid.Column="0" Grid.Row="1"
-                                DragDelta="PositionDragDeltaHandler"></Thumb>
-                        </Grid>
+                                <Thumb x:Name="TitleThumb" Style="{StaticResource ResourceKey=InvisibleThumbStyleSecond}" Grid.Column="0" Grid.Row="1"
+                                    DragDelta="PositionDragDeltaHandler"></Thumb>
+                            </Grid>
                     
-                    </DockPanel>
-                    <!--##########/Window Titlebar##########-->
+                        </DockPanel>
+                        <!--##########/Window Titlebar##########-->
 
-                    <ContentPresenter Content="{Binding Path=ActivePresentation, UpdateSourceTrigger=PropertyChanged}" Grid.Column="0" Grid.Row="1">
+                        <!--##########Content##########-->
+                        <ContentPresenter Style="{StaticResource ResourceKey=ContentPresenterStyle}" Grid.Column="0" Grid.Row="1">
                     
-                    </ContentPresenter>
+                        </ContentPresenter>
+                        <!--##########/Content##########-->
+                        
+                        <ProgressBar x:Name="ProgressBar" Value="{Binding Path=Progress}" 
+                                     Maximum="1" Foreground="ForestGreen" Opacity="0.6" Margin="1"
+                                     Grid.Column="0" Grid.Row="2"></ProgressBar>
+                        <TextBlock Name="Percentage" FontFamily="Tahoma" FontSize="10" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontWeight="ExtraBold" Foreground="#444" 
+                                   Grid.Column="0" Grid.Row="2">
+                            <TextBlock.Text>
+                                <Binding Path="Progress" StringFormat=" {0:p0}" FallbackValue="0"></Binding>
+                            </TextBlock.Text>
+                        </TextBlock>
 
-                    <ProgressBar x:Name="ProgressBar" Value="{Binding Path=Progress}" Maximum="1" Foreground="ForestGreen" Grid.Column="0" Grid.Row="1"></ProgressBar>
-                    <TextBlock Name="Percentage" FontFamily="Tahoma" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontWeight="ExtraBold" Foreground="#999" Grid.Column="0" Grid.Row="1">
-                        <TextBlock.Text>
-                            <Binding Path="Progress" StringFormat=" {0}&#37;" FallbackValue="0"></Binding>
-                        </TextBlock.Text>
-                    </TextBlock>
+                        <Thumb x:Name="ContentThumb" Style="{StaticResource ResourceKey=InvisibleThumbStyle}" Grid.Column="0" Grid.Row="1" Grid.RowSpan="2"
+                               DragDelta="PositionDragDeltaHandler"></Thumb>
 
-                    <Thumb Style="{StaticResource ResourceKey=InvisibleThumbStyle}" Grid.Column="0" Grid.Row="1"
-                           DragDelta="PositionDragDeltaHandler"></Thumb>
-                    
-                    <Thumb Style="{StaticResource ResourceKey=ScaleThumb}" Grid.Column="0" Grid.Row="1" Grid.RowSpan="2"
-                           Cursor="SizeNWSE" DragDelta="ScaleDragDeltaHandler"></Thumb>
-                </Grid>
+                        <Thumb x:Name="ScaleThumb" Style="{StaticResource ResourceKey=ScaleThumb}" Margin="2" Grid.Column="0" Grid.Row="1" Grid.RowSpan="2"
+                               Cursor="SizeNWSE" DragDelta="ScaleDragDeltaHandler"></Thumb>
+                    </Grid>
+                </Border>
             </Border>
             <!--##########/Window##########-->
         </Grid>
+        
+        <!--##########Name##########-->
+        <local:CustomTextBox Style="{StaticResource ResourceKey=TextBoxStyle}" ToolTip="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Text}"
+                             Text="{Binding Path=CustomName, Mode=TwoWay}" Width="{Binding ElementName=Window, Path=ActualWidth}"
+                             Grid.Row="2"></local:CustomTextBox>
+        <!--##########/Name##########-->
+        
         <Popup x:Name="IControlPopUp" PopupAnimation="Fade" StaysOpen="True" Placement="MousePoint" AllowsTransparency="True" Width="150" Height="100">
             <Border BorderBrush="#aaffe154" Background="#55ffe154" CornerRadius="5,5,5,5" BorderThickness="2">
                 <DockPanel x:Name="IC" DockPanel.Dock="Top">
@@ -431,14 +549,14 @@
                                 <Image Source="/WorkspaceManager;component/View/Image/delete.png" HorizontalAlignment="Center" SnapsToDevicePixels="True" Margin="1,1,1,1"/>
                             </Button.Tag>
                         </Button>
-                        <ItemsControl Panel.ZIndex="777777" HorizontalAlignment="Center" ItemsSource="{Binding Path=ICCollection}">
+                        <ItemsControl Panel.ZIndex="777777" HorizontalAlignment="Center" ItemsSource="{Binding Path=IControlCollection}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <WrapPanel Width="auto" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
-                                <DataTemplate DataType="{x:Type container:ModelWrapper}">
+                                <DataTemplate DataType="{x:Type local:ConnectorModelWrapper}">
                                     <container:IControlPlaceHolder Model="{Binding Path=Model}" PluginModel="{Binding Path=pm}" Margin="5"></container:IControlPlaceHolder>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>

@@ -4,22 +4,15 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:e="clr-namespace:WorkspaceManager.View.VisualComponents"
-             xmlns:z="clr-namespace:WorkspaceManager.View.Converter"
              xmlns:y="clr-namespace:WorkspaceManager.View.Container"
              mc:Ignorable="d" Width="45" Height="45" >
     <UserControl.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../Resource/Styles.xaml"/>
-                <ResourceDictionary Source="../Resource/Animations.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
-            <z:PluginModelImageConverter x:Key="PluginModelImageConverter"></z:PluginModelImageConverter>
-            <SolidColorBrush x:Key="Color" Color="Black"></SolidColorBrush>
-            <RadialGradientBrush x:Key="Brush" Center="0.5,0.5" GradientOrigin="0.5,0.5" RadiusX="0.5" RadiusY="0.5" SpreadMethod="Pad">
-                <GradientStop Color="#FF272727" Offset="0.5" />
-                <GradientStop Color="#FF868686" Offset="1" />
-            </RadialGradientBrush>
-        </ResourceDictionary>
+        <y:PluginModelImageConverter x:Key="PluginModelImageConverter"></y:PluginModelImageConverter>
+        <SolidColorBrush x:Key="Color" Color="Black"></SolidColorBrush>
+        <RadialGradientBrush x:Key="Brush" Center="0.5,0.5" GradientOrigin="0.5,0.5" RadiusX="0.5" RadiusY="0.5" SpreadMethod="Pad">
+            <GradientStop Color="#FF272727" Offset="0.5" />
+            <GradientStop Color="#FF868686" Offset="1" />
+        </RadialGradientBrush>
     </UserControl.Resources>
     <!--<UserControl.Triggers>
         <EventTrigger RoutedEvent="MouseEnter">
