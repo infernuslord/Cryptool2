@@ -541,8 +541,15 @@ namespace KeySearcherPresentation.Controls
             {
                 try
                 {
-                   statisticsTree.Items.Refresh();
-                   machineTree.Items.Refresh();
+                    if (statisticsTree != null)
+                    {
+                        if (statisticsTree.ItemContainerStyle == null)
+                        {
+                            statisticsTree.ItemContainerStyle = this.Resources["ItemStyle2"] as Style;
+                        }
+                        statisticsTree.Items.Refresh();
+                        machineTree.Items.Refresh();
+                    }        
                 }
                 catch (Exception)
                 {
