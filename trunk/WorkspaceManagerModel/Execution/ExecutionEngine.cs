@@ -261,7 +261,6 @@ namespace WorkspaceManager.Execution
         /// Handler function for a message.
         /// This handler must not block, because it executes inside the thread of the scheduler.
         /// </summary>
-        /// <param name="msg"></param>
         private void HandleUpdateGui()
         {
             if (this.workspaceModel.MyEditor == null)
@@ -280,7 +279,14 @@ namespace WorkspaceManager.Execution
                         pluginModel.paint();
                         if (pluginModel.UpdateableView != null)
                         {
-                            pluginModel.UpdateableView.update();
+                            try
+                            {
+                                pluginModel.UpdateableView.update();
+                            }
+                            catch(Exception ex)
+                            {
+                                executionEngine.GuiLogMessage("Could not update GUI of PluginModel '" + pluginModel.GetName() + "':" + ex.Message,NotificationLevel.Error);
+                            }
                         }
                     }
                 }
@@ -291,7 +297,14 @@ namespace WorkspaceManager.Execution
                     {
                         if (connectionModel.UpdateableView != null)
                         {
-                            connectionModel.UpdateableView.update();
+                             try
+                            {
+                                connectionModel.UpdateableView.update();
+                            }
+                            catch(Exception ex)
+                            {
+                                executionEngine.GuiLogMessage("Could not update GUI of ConnectionModel '" + connectionModel.GetName() + "':" + ex.Message, NotificationLevel.Error);
+                            }
                         }
                     }
                 }
