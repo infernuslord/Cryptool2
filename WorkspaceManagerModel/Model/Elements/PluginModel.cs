@@ -429,6 +429,22 @@ namespace WorkspaceManager.Model
             this.WorkspaceModel.HasChanges = true;
         }
 
+        /// <summary>
+        /// Returns true if one of this PluginModel inputs is an IControl
+        /// </summary>
+        /// <returns></returns>
+        public bool HasIControlInputs()
+        {
+            foreach(ConnectorModel connectorModel in InputConnectors)
+            {
+                if(connectorModel.IControl)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         #endregion
     }
 
