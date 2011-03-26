@@ -185,11 +185,11 @@
                                     <Label Content="{Loc Total__Machines_}" VerticalAlignment="Center" Grid.Row="5" Grid.Column="1" />
                                     <Label Content="-" Name="MachineCount" VerticalAlignment="Center"  Grid.Row="5" Grid.Column="1" HorizontalContentAlignment="Right" Padding="5,5,20,5"/>
                                     <Label Content="{Loc Working__Days_}" VerticalAlignment="Center" Grid.Row="6" Grid.Column="1" />
-                                    <Label Content="- Days" Name="WorkingDays" VerticalAlignment="Center" Grid.Row="6" Grid.Column="1" HorizontalContentAlignment="Right" Padding="5,5,20,5" />
+                                    <Label Content="-" Name="WorkingDays" VerticalAlignment="Center" Grid.Row="6" Grid.Column="1" HorizontalContentAlignment="Right" Padding="5,5,20,5" />
                                     <Label Content="{Loc Percent__Complete_}" VerticalAlignment="Center" Grid.Row="7" Grid.Column="1" />
-                                    <Label Content="- %" Name="PercentsComplete" VerticalAlignment="Center" Grid.Row="7" Grid.Column="1" HorizontalContentAlignment="Right" Padding="5,5,20,5" />
+                                    <Label Content="-" Name="PercentsComplete" VerticalAlignment="Center" Grid.Row="7" Grid.Column="1" HorizontalContentAlignment="Right" Padding="5,5,20,5" />
                                     <Label Content="{Loc Average__rate_}" VerticalAlignment="Center" Grid.Row="8" Grid.Column="1" />
-                                    <Label Content="- keys/sec" Name="Rate" VerticalAlignment="Center"  Grid.Row="8" Grid.Column="1" HorizontalContentAlignment="Right" Padding="5,5,20,5"/>
+                                    <Label Content="-" Name="Rate" VerticalAlignment="Center"  Grid.Row="8" Grid.Column="1" HorizontalContentAlignment="Right" Padding="5,5,20,5"/>
 
                                 </Grid>
                             </Border>
@@ -207,18 +207,18 @@
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
                                     <Border BorderThickness="1" BorderBrush="Black" LayoutTransform="{StaticResource HeaderRotate}" Grid.Column="0" Grid.RowSpan="6" Background="#FF099BA7">
-                                        <Label Content="{Loc CurrentStats}" FontSize="11" HorizontalAlignment="Center" Foreground="White" />
+                                        <Label Content="{Loc Current_Stats_}" FontSize="11" HorizontalAlignment="Center" Foreground="White" />
                                     </Border>
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="1">
-                                        <Label Content="{Loc Last__Update__Time: }" VerticalAlignment="Center" Name="LastUpdateTimeText" ToolTip="{Loc Next__Update__Time: -}" />
-                                        <Label Content="-" Name="LastUpdateTime"  VerticalAlignment="Center" HorizontalContentAlignment="Center" ToolTip="{Loc Next__Update__Time: -}" />
+                                        <Label Content="{Loc Last__Update__Time }" VerticalAlignment="Center" Name="LastUpdateTimeText" ToolTip="{Loc _Next_Update_Time___}" />
+                                        <Label Content="-" Name="LastUpdateTime"  VerticalAlignment="Center" HorizontalContentAlignment="Center" ToolTip="{Loc _Next_Update_Time___}" />
                                     </StackPanel>
                                     <Label Content="{Loc Current__Users_}" VerticalAlignment="Center" Grid.Row="1" Grid.Column="1" />
                                     <Label Content="-" Name="CurrentUserCount" VerticalAlignment="Center"  Grid.Row="1" Grid.Column="1" HorizontalContentAlignment="Right" Padding="5,5,20,5"/>
                                     <Label Content="{Loc Current__Machines_}" VerticalAlignment="Center" Grid.Row="2" Grid.Column="1" />
                                     <Label Content="-" Name="CurrentMachineCount" VerticalAlignment="Center"  Grid.Row="2" Grid.Column="1" HorizontalContentAlignment="Right" Padding="5,5,20,5"/>
                                     <Label Content="{Loc Current__rate_}"  VerticalAlignment="Center" HorizontalContentAlignment="Left"  Grid.Row="3" Grid.Column="1" />
-                                    <Label Content="- keys/sec" Name="CurrentRate" VerticalAlignment="Center" Grid.Row="3" Grid.Column="1" HorizontalContentAlignment="Right" Padding="5,5,20,5" />
+                                    <Label Content="-" Name="CurrentRate" VerticalAlignment="Center" Grid.Row="3" Grid.Column="1" HorizontalContentAlignment="Right" Padding="5,5,20,5" />
                                 </Grid>
                             </Border>
                             <Border BorderBrush="Silver" BorderThickness="2,0,2,2">

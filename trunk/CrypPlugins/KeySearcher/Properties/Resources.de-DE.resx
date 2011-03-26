@@ -613,6 +613,54 @@
     <value>Anzahl Benutzer</value>
   </data>
 	<data name="_Next_Update_Time___">
-		<value><![CDATA[Nächste Updatezeit: ]]></value>
+		<value>Nächste Updatezeit: </value>
 	</data>
+	<data name="Total__Blocks__to__Search_" xml:space="preserve">
+    <value>Anzahl Blöcke</value>
+  </data>
+	<data name="Total__Blocks__Tested_" xml:space="preserve">
+    <value>Geprüfte Blöcke</value>
+  </data>
+	<data name="Total__Keys__to_Search_" xml:space="preserve">
+    <value>Anzahl Schlüssel</value>
+  </data>
+	<data name="Total__Keys__Tested_" xml:space="preserve">
+    <value>Geprüfte Schlüssel</value>
+  </data>
+	<data name="Total__Machines_" xml:space="preserve">
+    <value>Anzahl Machinen</value>
+  </data>
+	<data name="Working__Days_" xml:space="preserve">
+    <value>Tage in Arbeit</value>
+  </data>
+	<data name="Percent__Complete_" xml:space="preserve">
+    <value>Gesamtprozent</value>
+  </data>
+	<data name="Average__rate_" xml:space="preserve">
+    <value>Durchschnittsrate</value>
+  </data>
+	<data name="Aggregate_Statistics_" xml:space="preserve">
+    <value>Gesamt Statistik</value>
+  </data>
+	<data name="Current_Stats_" xml:space="preserve">
+    <value>Momentan</value>
+  </data>
+	<data name="Last__Update__Time" xml:space="preserve">
+    <value>Letzte Updatezeit: </value>
+  </data>
+	<data name="Current__Machines_" xml:space="preserve">
+    <value>Momentane Machinen</value>
+  </data>
+	<data name="Current__rate_" xml:space="preserve">
+    <value>Momentanrate</value>
+  </data>
+	<data name="Current__Users_" xml:space="preserve">
+    <value>Momentane Benutzer</value>
+  </data>
+	<data name="Top__machine_" xml:space="preserve">
+    <value>Top Machine</value>
+  </data>
+	<data name="Top__user_" xml:space="preserve">
+    <value>Top Benutzer</value>
+  </data>
 </root>

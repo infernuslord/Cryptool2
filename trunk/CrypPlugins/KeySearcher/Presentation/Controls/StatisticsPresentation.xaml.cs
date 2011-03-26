@@ -175,7 +175,7 @@ namespace KeySearcherPresentation.Controls
                 Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
                     if (days != null)
-                        WorkingDays.Content = days;
+                        WorkingDays.Content = days + KeySearcher.Properties.Resources._days_;
                 }, null);
             }
         }
@@ -199,7 +199,7 @@ namespace KeySearcherPresentation.Controls
             }
         }
 
-        private string nextupdatetime = KeySearcher.Properties.Resources._Next_Update_Time___;
+        private string nextupdatetime = "-";
         public string NextUpdateTime
         {
             get { return nextupdatetime; }
@@ -213,8 +213,8 @@ namespace KeySearcherPresentation.Controls
                 Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
                     if (days != null)
-                        LastUpdateTime.ToolTip = nextupdatetime;
-                        LastUpdateTimeText.ToolTip = nextupdatetime;
+                        LastUpdateTime.ToolTip = KeySearcher.Properties.Resources._Next_Update_Time___ + nextupdatetime;
+                    LastUpdateTimeText.ToolTip = KeySearcher.Properties.Resources._Next_Update_Time___ + nextupdatetime;
                 }, null);
             }
         }
