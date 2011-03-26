@@ -187,7 +187,7 @@
     <value>Devices:</value>
   </data>
   <data name="_days_" xml:space="preserve">
-    <value> days </value>
+    <value> Days </value>
   </data>
   <data name="_Machines_" xml:space="preserve">
     <value>Machines</value>
@@ -654,7 +654,40 @@
   <data name="Total__Users_" xml:space="preserve">
     <value>Total Users</value>
   </data>
-	<data name="_Next_Update_Time___">
-		<value><![CDATA[Next Update Time: ]]></value>
-	</data>
+  <data name="_Next_Update_Time___" xml:space="preserve">
+    <value>Next Update Time: </value>
+  </data>
+  <data name="Average__rate_" xml:space="preserve">
+    <value>Average Rate</value>
+  </data>
+  <data name="Current_Stats_" xml:space="preserve">
+    <value>Current Stats</value>
+  </data>
+  <data name="Current__Machines_" xml:space="preserve">
+    <value>Current Machines</value>
+  </data>
+  <data name="Current__rate_" xml:space="preserve">
+    <value>Current Rate</value>
+  </data>
+  <data name="Current__Users_" xml:space="preserve">
+    <value>Current Users</value>
+  </data>
+  <data name="Last__Update__Time" xml:space="preserve">
+    <value>Last Update Time: </value>
+  </data>
+  <data name="Percent__Complete_" xml:space="preserve">
+    <value>Percent Complete</value>
+  </data>
+  <data name="Top__machine_" xml:space="preserve">
+    <value>Top Machine</value>
+  </data>
+  <data name="Top__user_" xml:space="preserve">
+    <value>Top User</value>
+  </data>
+  <data name="Total__Machines_" xml:space="preserve">
+    <value>Total Machines</value>
+  </data>
+  <data name="Working__Days_" xml:space="preserve">
+    <value>Working Days</value>
+  </data>
 </root>

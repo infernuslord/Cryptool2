@@ -1394,19 +1394,19 @@ namespace KeySearcher
             //---Aggregate----
             ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.TotalBlocks = keyPatternPool.Length;
             ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.TotalKeys = new BigInteger(keysPerChunk) * keyPatternPool.Length;    
-            ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.Days = string.Format("{0} Days", now.ToLocalTime().Subtract(startDate).Days);
+            ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.Days = now.ToLocalTime().Subtract(startDate).Days.ToString();
             //-----------------
             //---Current Section----
             if (!settings.DisableUpdate)
             {
                 var cc = ((QuickWatch) QuickWatchPresentation).CurrentCulture;
                 ((QuickWatch) QuickWatchPresentation).StatisticsPresentation.UpdateTime = now;
-                ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.NextUpdateTime = "Next__Update__Time: " + now.ToLocalTime().AddMinutes(interval).ToString("g", cc);
+                ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.NextUpdateTime = now.ToLocalTime().AddMinutes(interval).ToString("g", cc);
             }
             else
             {
                 ((QuickWatch) QuickWatchPresentation).StatisticsPresentation.UpdateTime = now;
-                ((QuickWatch) QuickWatchPresentation).StatisticsPresentation.NextUpdateTime ="Next__Update__Time: Disabled";
+                ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.NextUpdateTime = "-";
             }
             ((QuickWatch) QuickWatchPresentation).StatisticsPresentation.CurrentUsers = cUsers;
             ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.CurrentMachines = cMachines;
@@ -1570,7 +1570,7 @@ namespace KeySearcher
                 var calcKeys = calcChunks*(BigInteger) Math.Pow(2, settings.ChunkSize);
                 ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.Statistics = statistic;
                 ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.MachineHierarchy = maschinehierarchie;
-                ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.Days = diffFromStart.Days + " Days";
+                ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.Days = diffFromStart.Days.ToString();
                 ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.CalculatedBlocks = calcChunks;
                 ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.CalculatedKeys = calcKeys;
                 ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.Percent = (double)calcChunks;

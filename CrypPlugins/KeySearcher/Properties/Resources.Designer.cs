@@ -97,7 +97,7 @@ namespace KeySearcher.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to  days .
+        ///   Looks up a localized string similar to  Days .
         /// </summary>
         internal static string _days_ {
             get {
@@ -183,6 +183,15 @@ namespace KeySearcher.Properties {
         internal static string AutoconnectSettingsDesc {
             get {
                 return ResourceManager.GetString("AutoconnectSettingsDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Average Rate.
+        /// </summary>
+        internal static string Average__rate_ {
+            get {
+                return ResourceManager.GetString("Average__rate_", resourceCulture);
             }
         }
         
@@ -457,11 +466,47 @@ namespace KeySearcher.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Current Machines.
+        /// </summary>
+        internal static string Current__Machines_ {
+            get {
+                return ResourceManager.GetString("Current__Machines_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Current Rate.
+        /// </summary>
+        internal static string Current__rate_ {
+            get {
+                return ResourceManager.GetString("Current__rate_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Current Users.
+        /// </summary>
+        internal static string Current__Users_ {
+            get {
+                return ResourceManager.GetString("Current__Users_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Current chunk:.
         /// </summary>
         internal static string Current_Chunk_ {
             get {
                 return ResourceManager.GetString("Current_Chunk_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Current Stats.
+        /// </summary>
+        internal static string Current_Stats_ {
+            get {
+                return ResourceManager.GetString("Current_Stats_", resourceCulture);
             }
         }
         
@@ -853,6 +898,15 @@ namespace KeySearcher.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Last Update Time: .
+        /// </summary>
+        internal static string Last__Update__Time {
+            get {
+                return ResourceManager.GetString("Last__Update__Time", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Launching p2p based bruteforce logic....
         /// </summary>
         internal static string Launching_p2p_based_bruteforce_logic___ {
@@ -1048,6 +1102,15 @@ namespace KeySearcher.Properties {
         internal static string Per_Chunk_ {
             get {
                 return ResourceManager.GetString("Per_Chunk_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Percent Complete.
+        /// </summary>
+        internal static string Percent__Complete_ {
+            get {
+                return ResourceManager.GetString("Percent__Complete_", resourceCulture);
             }
         }
         
@@ -1377,6 +1440,24 @@ namespace KeySearcher.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Top Machine.
+        /// </summary>
+        internal static string Top__machine_ {
+            get {
+                return ResourceManager.GetString("Top__machine_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Top User.
+        /// </summary>
+        internal static string Top__user_ {
+            get {
+                return ResourceManager.GetString("Top__user_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Top Ten.
         /// </summary>
         internal static string Top_Ten_ {
@@ -1463,6 +1544,15 @@ namespace KeySearcher.Properties {
         internal static string Total__Keys__to_Search_ {
             get {
                 return ResourceManager.GetString("Total__Keys__to_Search_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total Machines.
+        /// </summary>
+        internal static string Total__Machines_ {
+            get {
+                return ResourceManager.GetString("Total__Machines_", resourceCulture);
             }
         }
         
@@ -1661,6 +1751,15 @@ namespace KeySearcher.Properties {
         internal static string Work_Items_ {
             get {
                 return ResourceManager.GetString("Work_Items_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Working Days.
+        /// </summary>
+        internal static string Working__Days_ {
+            get {
+                return ResourceManager.GetString("Working__Days_", resourceCulture);
             }
         }
         
