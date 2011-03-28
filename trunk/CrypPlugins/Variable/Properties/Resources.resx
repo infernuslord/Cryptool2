@@ -117,79 +117,40 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="HexOutputContextTooltip" xml:space="preserve">
-    <value>Hexadezimal darstellen?</value>
+  <data name="VariableLoadCaption" xml:space="preserve">
+    <value>VariableLoad</value>
   </data>
-  <data name="HexOutputTooltip" xml:space="preserve">
-    <value>Wenn diese Checkbox gesetzt ist, wird die Ausgabe hexadezimal ausgegeben.</value>
+  <data name="VariableLoadDescriptionURL" xml:space="preserve">
+    <value>Variable/DetailedDescription/Description.xaml</value>
   </data>
-  <data name="HexOutputCaption" xml:space="preserve">
-    <value>Erzeuge hexadezimale Ausgabe</value>
+  <data name="VariableLoadObjectCaption" xml:space="preserve">
+    <value>Variable Load Object</value>
   </data>
-  <data name="InitRoundsTooltip" xml:space="preserve">
-    <value>Wie viele Initialisierungsrunden sollen durchlaufen werden? Standard ist 1152.</value>
+  <data name="VariableLoadObjectTooltip" xml:space="preserve">
+    <value>Object to be loaded from the corresponding variable</value>
   </data>
-  <data name="InitRoundsCaption" xml:space="preserve">
-    <value>Initialisierungsrunden</value>
+  <data name="VariableLoadTooltip" xml:space="preserve">
+    <value>Variable Load</value>
   </data>
-  <data name="InputIVTooltip" xml:space="preserve">
-    <value>Muss 10 Bytes (80 bit) lang sein (in Hex).</value>
+  <data name="VariableNameCaption" xml:space="preserve">
+    <value>Variable Name</value>
   </data>
-  <data name="InputIVCaption" xml:space="preserve">
-    <value>IV</value>
+  <data name="VariableNameTooltip" xml:space="preserve">
+    <value>The variable this component is linked with.</value>
   </data>
-  <data name="InputKeyCubeAttackTooltip" xml:space="preserve">
-    <value>Muss 10 Bytes (80 bit) lang sein (in Hex).</value>
+  <data name="VariableStoreCaption" xml:space="preserve">
+    <value>VariableStore</value>
   </data>
-  <data name="InputKeyCubeAttackCaption" xml:space="preserve">
-    <value>Schlüssel (Eingabe für Cube Attack)</value>
+  <data name="VariableStoreDescriptionURL" xml:space="preserve">
+    <value>Variable/DetailedDescription/Description.xaml</value>
   </data>
-  <data name="InputKeyTooltip" xml:space="preserve">
-    <value>Muss 10 Bytes (80 bit) lang sein (in Hex).</value>
+  <data name="VariableStoreObjectCaption" xml:space="preserve">
+    <value>Variable Store Object</value>
   </data>
-  <data name="InputKeyCaption" xml:space="preserve">
-    <value>Schlüssel</value>
+  <data name="VariableStoreObjectTooltip" xml:space="preserve">
+    <value>Object to be stored to the corresponding variable</value>
   </data>
-  <data name="InputStringTooltip" xml:space="preserve">
-    <value>Zu ver-/entschlüsselnde Daten.</value>
-  </data>
-  <data name="InputStringCaption" xml:space="preserve">
-    <value>Eingabe</value>
-  </data>
-  <data name="KeystreamLengthTooltip" xml:space="preserve">
-    <value>Wie viele Schlüsselstrombits sollen generiert werden? Muss ein Vielfaches von 32 sein.</value>
-  </data>
-  <data name="KeystreamLengthCaption" xml:space="preserve">
-    <value>Länge des Schlüsselstroms</value>
-  </data>
-  <data name="OutputStringTooltip" xml:space="preserve">
-    <value>Ver- oder entschlüsselte Ausgabe.</value>
-  </data>
-  <data name="OutputStringCaption" xml:space="preserve">
-    <value>Ausgabestrom</value>
-  </data>
-  <data name="TriviumCaption" xml:space="preserve">
-    <value>Trivium</value>
-  </data>
-  <data name="TriviumSlaveTooltip" xml:space="preserve">
-    <value>Direkter Zugriff auf Trivium.</value>
-  </data>
-  <data name="TriviumSlaveCaption" xml:space="preserve">
-    <value>Trivium Slave</value>
-  </data>
-  <data name="TriviumTooltip" xml:space="preserve">
-    <value>Trivium</value>
-  </data>
-  <data name="UseByteSwappingContextTooltip" xml:space="preserve">
-    <value>Byte-swapping benutzen?</value>
-  </data>
-  <data name="UseByteSwappingTooltip" xml:space="preserve">
-    <value>Wenn diese Checkbox gesetzt ist, werden die Ausgabebytes vertauscht.</value>
-  </data>
-  <data name="UseByteSwappingCaption" xml:space="preserve">
-    <value>Byte-swapping benutzen</value>
-  </data>
-  <data name="TriviumDescriptionUrl" xml:space="preserve">
-    <value>Trivium/DetailedDescription/Description.de-DE.xaml</value>
+  <data name="VariableStoreTooltip" xml:space="preserve">
+    <value>Variable Store</value>
   </data>
 </root>

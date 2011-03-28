@@ -27,7 +27,7 @@ using Cryptool.PluginBase.IO;
 namespace Cryptool.Vernam
 {
     [Author("Sebastian Przybylski", "sebastian@przybylski.org", "Uni-Siegen", "http://www.uni-siegen.de")]
-    [PluginInfo(false, "Vernam", "Vernam -- substitution cipher / stream cipher which is build by XORing the plaintext with a (pseudo) random stream of data to generate the ciphertext [One-time-Pad]", "Vernam/DetailedDescription/Description.xaml",
+    [PluginInfo("Cryptool.Vernam.Properties.Resources", false, "VernamCaption", "VernamTooltip", "VernamDescriptionURL",
       "Vernam/Images/icon.png", "Vernam/Images/encrypt.png", "Vernam/Images/decrypt.png")]
     [EncryptionType(EncryptionType.Classic)]
     public class Vernam : IEncryption
@@ -62,7 +62,7 @@ namespace Cryptool.Vernam
             set { this.settings = (VernamSettings)value; }
         }
 
-        [PropertyInfo(Direction.InputData, "Text input", "Input a string to be processed by the Vernam cipher", null, true, false,QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", null, true, false, QuickWatchFormat.Text, null)]
         public string InputString
         {
             get { return this.inputString; }
@@ -76,7 +76,7 @@ namespace Cryptool.Vernam
             }
         }
 
-        [PropertyInfo(Direction.InputData, "Key", "Input key as byte array", null, true, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputKeyCaption", "InputKeyTooltip", null, true, false, QuickWatchFormat.Text, null)]
         public byte[] InputKey
         {
             get { return this.inputKey; }
@@ -89,7 +89,7 @@ namespace Cryptool.Vernam
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "Stream output", "The string after processing with the Caesar cipher is converted to a stream. Default encoding is used.", null, false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputStreamCaption", "OutputStreamTooltip", null, false, false, QuickWatchFormat.Text, null)]
         public ICryptoolStream OutputStream
         {
             get
@@ -106,7 +106,7 @@ namespace Cryptool.Vernam
             set { }
         }
 
-        [PropertyInfo(Direction.OutputData, "Text output","The string after processing with the Vernam cipher", null, false, false,QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", null, false, false, QuickWatchFormat.Text, null)]
         public string OutputString
         {
             get { return this.outputString; }

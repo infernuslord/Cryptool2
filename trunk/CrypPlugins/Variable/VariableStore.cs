@@ -30,7 +30,7 @@ namespace Cryptool.Plugins.Variable
     delegate void StoreVariable(string variable, object input);
     
     [Author("Sven Rech", "sven.rech@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo(false, "VariableStore", "Variable Store", "Variable/DetailedDescription/Description.xaml", "Variable/storeIcon.png")]
+    [PluginInfo("Variable.Properties.Resources", false, "VariableStoreCaption", "VariableStoreTooltip", "VariableStoreDescriptionURL", "Variable/storeIcon.png")]
     class VariableStore : IOutput
     {
         static public event StoreVariable OnVariableStore;
@@ -53,7 +53,7 @@ namespace Cryptool.Plugins.Variable
         #region Properties
         
         private Object storeObject = null;
-        [PropertyInfo(Direction.InputData, "Variable Store Object", "Object to be stored to the corresponding variable", "")]
+        [PropertyInfo(Direction.InputData, "VariableStoreObjectCaption", "VariableStoreObjectTooltip", "")]
         public Object VariableStoreObject
         {
             get

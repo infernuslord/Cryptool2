@@ -117,79 +117,55 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="HexOutputContextTooltip" xml:space="preserve">
-    <value>Hexadezimal darstellen?</value>
+  <data name="ActionCaption" xml:space="preserve">
+    <value>Action</value>
   </data>
-  <data name="HexOutputTooltip" xml:space="preserve">
-    <value>Wenn diese Checkbox gesetzt ist, wird die Ausgabe hexadezimal ausgegeben.</value>
+  <data name="ActionTooltip" xml:space="preserve">
+    <value>Do you want the input data to be encrypted or decrypted?</value>
   </data>
-  <data name="HexOutputCaption" xml:space="preserve">
-    <value>Erzeuge hexadezimale Ausgabe</value>
+  <data name="ChainingModeCaption" xml:space="preserve">
+    <value>Chaining mode</value>
   </data>
-  <data name="InitRoundsTooltip" xml:space="preserve">
-    <value>Wie viele Initialisierungsrunden sollen durchlaufen werden? Standard ist 1152.</value>
-  </data>
-  <data name="InitRoundsCaption" xml:space="preserve">
-    <value>Initialisierungsrunden</value>
-  </data>
-  <data name="InputIVTooltip" xml:space="preserve">
-    <value>Muss 10 Bytes (80 bit) lang sein (in Hex).</value>
+  <data name="ChainingModeTooltip" xml:space="preserve">
+    <value>Select the block cipher mode of operation.</value>
   </data>
   <data name="InputIVCaption" xml:space="preserve">
     <value>IV</value>
   </data>
-  <data name="InputKeyCubeAttackTooltip" xml:space="preserve">
-    <value>Muss 10 Bytes (80 bit) lang sein (in Hex).</value>
-  </data>
-  <data name="InputKeyCubeAttackCaption" xml:space="preserve">
-    <value>Schlüssel (Eingabe für Cube Attack)</value>
-  </data>
-  <data name="InputKeyTooltip" xml:space="preserve">
-    <value>Muss 10 Bytes (80 bit) lang sein (in Hex).</value>
+  <data name="InputIVTooltip" xml:space="preserve">
+    <value>IV to be used in chaining modes, must be the same as the Blocksize in bytes (8 bytes).</value>
   </data>
   <data name="InputKeyCaption" xml:space="preserve">
-    <value>Schlüssel</value>
+    <value>Key</value>
   </data>
-  <data name="InputStringTooltip" xml:space="preserve">
-    <value>Zu ver-/entschlüsselnde Daten.</value>
+  <data name="InputKeyTooltip" xml:space="preserve">
+    <value>Must be 16 or 24 bytes.</value>
   </data>
-  <data name="InputStringCaption" xml:space="preserve">
-    <value>Eingabe</value>
+  <data name="InputStreamCaption" xml:space="preserve">
+    <value>Input</value>
   </data>
-  <data name="KeystreamLengthTooltip" xml:space="preserve">
-    <value>Wie viele Schlüsselstrombits sollen generiert werden? Muss ein Vielfaches von 32 sein.</value>
+  <data name="InputStreamTooltip" xml:space="preserve">
+    <value>Data to be encrypted or decrypted</value>
   </data>
-  <data name="KeystreamLengthCaption" xml:space="preserve">
-    <value>Länge des Schlüsselstroms</value>
+  <data name="OutputStreamCaption" xml:space="preserve">
+    <value>Output stream</value>
   </data>
-  <data name="OutputStringTooltip" xml:space="preserve">
-    <value>Ver- oder entschlüsselte Ausgabe.</value>
+  <data name="OutputStreamTooltip" xml:space="preserve">
+    <value>Encrypted or decrypted output data</value>
   </data>
-  <data name="OutputStringCaption" xml:space="preserve">
-    <value>Ausgabestrom</value>
+  <data name="PaddingModeCaption" xml:space="preserve">
+    <value>Padding mode</value>
   </data>
-  <data name="TriviumCaption" xml:space="preserve">
-    <value>Trivium</value>
+  <data name="PaddingModeTooltip" xml:space="preserve">
+    <value>Select a mode to fill partial data blocks.</value>
   </data>
-  <data name="TriviumSlaveTooltip" xml:space="preserve">
-    <value>Direkter Zugriff auf Trivium.</value>
+  <data name="TripleDESCaption" xml:space="preserve">
+    <value>Triple DES</value>
   </data>
-  <data name="TriviumSlaveCaption" xml:space="preserve">
-    <value>Trivium Slave</value>
+  <data name="TripleDESDescriptionURL" xml:space="preserve">
+    <value />
   </data>
-  <data name="TriviumTooltip" xml:space="preserve">
-    <value>Trivium</value>
-  </data>
-  <data name="UseByteSwappingContextTooltip" xml:space="preserve">
-    <value>Byte-swapping benutzen?</value>
-  </data>
-  <data name="UseByteSwappingTooltip" xml:space="preserve">
-    <value>Wenn diese Checkbox gesetzt ist, werden die Ausgabebytes vertauscht.</value>
-  </data>
-  <data name="UseByteSwappingCaption" xml:space="preserve">
-    <value>Byte-swapping benutzen</value>
-  </data>
-  <data name="TriviumDescriptionUrl" xml:space="preserve">
-    <value>Trivium/DetailedDescription/Description.de-DE.xaml</value>
+  <data name="TripleDESTooltip" xml:space="preserve">
+    <value>Triple Data Encryption Standard</value>
   </data>
 </root>
