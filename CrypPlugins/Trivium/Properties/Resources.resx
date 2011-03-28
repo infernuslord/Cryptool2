@@ -117,76 +117,79 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="hexOutputContextDescription" xml:space="preserve">
+  <data name="HexOutputContextTooltip" xml:space="preserve">
     <value>Display as hex?</value>
   </data>
-  <data name="hexOutputDescription" xml:space="preserve">
+  <data name="HexOutputTooltip" xml:space="preserve">
     <value>With this checkbox enabled, output bytes will be displayed in hex.</value>
   </data>
-  <data name="hexOutputName" xml:space="preserve">
+  <data name="HexOutputCaption" xml:space="preserve">
     <value>Generate Hex output</value>
   </data>
-  <data name="initRoundsDescription" xml:space="preserve">
+  <data name="InitRoundsTooltip" xml:space="preserve">
     <value>How many init rounds should be done? Default is 1152.</value>
   </data>
-  <data name="initRoundsName" xml:space="preserve">
+  <data name="InitRoundsCaption" xml:space="preserve">
     <value>Initialization rounds</value>
   </data>
-  <data name="inputIVDescription" xml:space="preserve">
+  <data name="InputIVTooltip" xml:space="preserve">
     <value>Must be 10 bytes (80 bit) in Hex.</value>
   </data>
-  <data name="inputIVName" xml:space="preserve">
+  <data name="InputIVCaption" xml:space="preserve">
     <value>IV</value>
   </data>
-  <data name="inputKeyCubeAttackDescription" xml:space="preserve">
+  <data name="InputKeyCubeAttackTooltip" xml:space="preserve">
     <value>Must be 10 bytes (80 bit) in Hex</value>
   </data>
-  <data name="inputKeyCubeAttackName" xml:space="preserve">
+  <data name="InputKeyCubeAttackCaption" xml:space="preserve">
     <value>Key (Input for Cube Attack)</value>
   </data>
-  <data name="inputKeyDescription" xml:space="preserve">
+  <data name="InputKeyTooltip" xml:space="preserve">
     <value>Must be 10 bytes (80 bit) in Hex.</value>
   </data>
-  <data name="inputKeyName" xml:space="preserve">
+  <data name="InputKeyCaption" xml:space="preserve">
     <value>Key</value>
   </data>
-  <data name="inputStringDescription" xml:space="preserve">
+  <data name="InputStringTooltip" xml:space="preserve">
     <value>Data to be encrypted or decrypted.</value>
   </data>
-  <data name="inputStringName" xml:space="preserve">
+  <data name="InputStringCaption" xml:space="preserve">
     <value>Input</value>
   </data>
-  <data name="keystreamLengthDescription" xml:space="preserve">
+  <data name="KeystreamLengthTooltip" xml:space="preserve">
     <value>How many bits of keystream in bits should be generated? Must be a multiple of 32.</value>
   </data>
-  <data name="keystreamLengthName" xml:space="preserve">
+  <data name="KeystreamLengthCaption" xml:space="preserve">
     <value>Length of keystream</value>
   </data>
-  <data name="outputStringDescription" xml:space="preserve">
+  <data name="OutputStringTooltip" xml:space="preserve">
     <value>Encrypted or decrypted output data.</value>
   </data>
-  <data name="outputStringName" xml:space="preserve">
+  <data name="OutputStringCaption" xml:space="preserve">
     <value>Output stream</value>
   </data>
   <data name="TriviumCaption" xml:space="preserve">
     <value>Trivium</value>
   </data>
-  <data name="triviumSlaveDescription" xml:space="preserve">
+  <data name="TriviumSlaveTooltip" xml:space="preserve">
     <value>Direct access to Trivium.</value>
   </data>
-  <data name="triviumSlaveName" xml:space="preserve">
+  <data name="TriviumSlaveCaption" xml:space="preserve">
     <value>Trivium Slave</value>
   </data>
   <data name="TriviumTooltip" xml:space="preserve">
     <value>Trivium</value>
   </data>
-  <data name="useByteSwappingContextDescription" xml:space="preserve">
+  <data name="UseByteSwappingContextTooltip" xml:space="preserve">
     <value>Use byte swapping?</value>
   </data>
-  <data name="useByteSwappingDescription" xml:space="preserve">
+  <data name="UseByteSwappingTooltip" xml:space="preserve">
     <value>With this checkbox enabled, output bytes will be swapped.</value>
   </data>
-  <data name="useByteSwappingName" xml:space="preserve">
+  <data name="UseByteSwappingCaption" xml:space="preserve">
     <value>Use byte swapping</value>
+  </data>
+  <data name="TriviumDescriptionUrl" xml:space="preserve">
+    <value>Trivium/DetailedDescription/Description.xaml</value>
   </data>
 </root>

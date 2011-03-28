@@ -25,8 +25,8 @@ using System.Security.Cryptography;
 namespace Twofish
 {
   [Author("Gerhard Junker", null, "private project member", null)]
-  [PluginInfo(false, "Twofish", "Twofish -- cipher",
-    "Twofish/DetailedDescription/Description.xaml", "Twofish/Images/Twofish.png", "Twofish/Images/encrypt.png", "Twofish/Images/decrypt.png")]
+  [PluginInfo("Twofish.Properties.Resources", false, "TwofishCaption", "TwofishTooltip", "TwofishDescriptionUrl", 
+      "Twofish/Images/Twofish.png", "Twofish/Images/encrypt.png", "Twofish/Images/decrypt.png")]
   [EncryptionType(EncryptionType.SymmetricBlock)]
   public class Twofish : IEncryption
   {
@@ -144,8 +144,8 @@ namespace Twofish
 		/// Gets or sets the input inputdata.
 		/// </summary>
 		/// <value>The input inputdata.</value>
-		[PropertyInfo(Direction.InputData, "Input Data Stream", "Input data stream to process", "", 
-      false, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "InputStreamCaption", "InputStreamTooltip", null, 
+            false, false, QuickWatchFormat.Hex, null)]
 		public ICryptoolStream InputStream
 		{
 			get
@@ -153,7 +153,7 @@ namespace Twofish
                 if (inputdata == null)
                 {
                     return null;
-			}
+			    }
                 else
                 {
                     return new CStreamWriter(inputdata);
@@ -162,23 +162,23 @@ namespace Twofish
 			set
 			{
                 if (value != null)
-        {
+                {
                     using (CStreamReader reader = value.CreateReader())
                     {
                         inputdata = reader.ReadFully();
-        }
+                    }
 
-				NotifyUpdateInput();
-			}
-		}
+				    NotifyUpdateInput();
+			    }
+		    }
 		}
 
 		/// <summary>
 		/// Gets the input data.
 		/// </summary>
 		/// <value>The input data.</value>
-		[PropertyInfo(Direction.InputData, "Input Data", "Input Data to process", "", 
-      false, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "InputDataCaption", "InputDataTooltip", null, 
+            false, false, QuickWatchFormat.Hex, null)]
 		public byte[] InputData
 		{
 			get
@@ -187,11 +187,11 @@ namespace Twofish
 			}
 			set
 			{
-        if (null == value)
-        {
-          inputdata = new byte[0];
-          return;
-        }
+                if (null == value)
+                {
+                    inputdata = new byte[0];
+                    return;
+                }
 				long len = value.Length;
 				inputdata = new byte[len];
 
@@ -221,42 +221,42 @@ namespace Twofish
     /// Gets or sets the key data.
     /// </summary>
     /// <value>The key data.</value>
-    [PropertyInfo(Direction.InputData, "Key Stream", "Key - Input key data", 
-      "", false, false, QuickWatchFormat.Hex, null)]
+    [PropertyInfo(Direction.InputData, "KeyStreamCaption", "KeyStreamTooltip", null, 
+        false, false, QuickWatchFormat.Hex, null)]
     public ICryptoolStream KeyStream
     {
-      get
-      {
-          if (key == null)
-          {
-              return null;
-      }
-          else
-          {
-              return new CStreamWriter(key);
-          }
-      }
-      set
-      {
-        if (value != null)
+        get
         {
-            using (CStreamReader reader = value.CreateReader())
+            if (key == null)
             {
-                GuiLogMessage("KeyStream changed.", NotificationLevel.Debug);
-                key = reader.ReadFully();
+                return null;
             }
+            else
+            {
+                return new CStreamWriter(key);
+            }
+        }
+        set
+        {
+            if (value != null)
+            {
+                using (CStreamReader reader = value.CreateReader())
+                {
+                    GuiLogMessage("KeyStream changed.", NotificationLevel.Debug);
+                    key = reader.ReadFully();
+                }
 
-        NotifyUpdateKey();
-      }
-    }
+                NotifyUpdateKey();
+            }
+        }
     }
 
     /// <summary>
     /// Gets or sets the key data.
     /// </summary>
     /// <value>The key data.</value>
-    [PropertyInfo(Direction.InputData, "Key Data", "Key - Input key data", 
-      "", false, false, QuickWatchFormat.Hex, null)]
+    [PropertyInfo(Direction.InputData, "KeyDataCaption", "KeyDataTooltip", null, 
+        false, false, QuickWatchFormat.Hex, null)]
     public byte[] KeyData
     {
       get
@@ -279,8 +279,8 @@ namespace Twofish
 
     #endregion
 
-    [PropertyInfo(Direction.InputData, "IV", "Initialization Vector", "",
-    false, false, QuickWatchFormat.Hex, null)]
+    [PropertyInfo(Direction.InputData, "IVCaption", "IVTooltip", null,
+        false, false, QuickWatchFormat.Hex, null)]
     public byte[] IV
     {
         get
@@ -323,29 +323,29 @@ namespace Twofish
     /// Gets or sets the output inputdata stream.
     /// </summary>
     /// <value>The output inputdata stream.</value>
-    [PropertyInfo(Direction.OutputData, "Output Stream", "Output stream", "",
-      true, false, QuickWatchFormat.Hex, null) ]
+    [PropertyInfo(Direction.OutputData, "OutputStreamCaption", "OutputStreamTooltip", null,
+        true, false, QuickWatchFormat.Hex, null) ]
     public ICryptoolStream OutputStream
     {
       get
       {
-          if (outputData == null)
+        if (outputData == null)
         {
-              return null;
+            return null;
         }
-          else
-          {
-              return new CStreamWriter(outputData);
+        else
+        {
+            return new CStreamWriter(outputData);
+        }
       }
-    }
     }
 
     /// <summary>
     /// Gets the output inputdata.
     /// </summary>
     /// <value>The output inputdata.</value>
-    [PropertyInfo(Direction.OutputData, "Output Data", "Output data", "",
-      true, false, QuickWatchFormat.Hex, null)]
+    [PropertyInfo(Direction.OutputData, "OutputDataCaption", "OutputDataTooltip", null,
+        true, false, QuickWatchFormat.Hex, null)]
     public byte[] OutputData
     {
       get

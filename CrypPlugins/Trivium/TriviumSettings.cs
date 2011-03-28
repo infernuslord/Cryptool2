@@ -38,7 +38,7 @@ namespace Cryptool.Trivium
         private bool hasChanges = false;
 
         private int keystreamLength = 32;
-        [TaskPane("keystreamLengthName", "keystreamLengthDescription", null, 0, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
+        [TaskPane("KeystreamLengthCaption", "KeystreamLengthTooltip", null, 0, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
         public int KeystreamLength
         {
             get { return this.keystreamLength; }
@@ -51,7 +51,7 @@ namespace Cryptool.Trivium
         }
 
         private int initRounds = 1152;
-        [TaskPane("initRoundsName", "initRoundsDescription", null, 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
+        [TaskPane("InitRoundsCaption", "InitRoundsTooltip", null, 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
         public int InitRounds
         {
             get { return this.initRounds; }
@@ -64,8 +64,8 @@ namespace Cryptool.Trivium
         }
 
         private bool useByteSwapping = false;
-        [ContextMenu("useByteSwappingName", "useByteSwappingDescription", 1, ContextMenuControlType.CheckBox, null, new string[] { "useByteSwappingContextDescription" })]
-        [TaskPane("useByteSwappingName", "useByteSwappingDescription", null, 2, false, ControlType.CheckBox, "", null)]
+        [ContextMenu("UseByteSwappingCaption", "UseByteSwappingTooltip", 1, ContextMenuControlType.CheckBox, null, new string[] { "useByteSwappingContextDescription" })]
+        [TaskPane("UseByteSwappingCaption", "UseByteSwappingTooltip", null, 2, false, ControlType.CheckBox, "", null)]
         public bool UseByteSwapping
         {
             get { return this.useByteSwapping; }
@@ -78,8 +78,8 @@ namespace Cryptool.Trivium
         }
 
         private bool hexOutput = false;
-        [ContextMenu("hexOutputName", "hexOutputDescription", 2, ContextMenuControlType.CheckBox, null, new string[] { "hexOutputContextDescription" })]
-        [TaskPane("hexOutputName", "hexOutputDescription", null, 3, false, ControlType.CheckBox, "", null)]
+        [ContextMenu("HexOutputCaption", "HexOutputTooltip", 2, ContextMenuControlType.CheckBox, null, new string[] { "hexOutputContextDescription" })]
+        [TaskPane("HexOutputCaption", "HexOutputTooltip", null, 3, false, ControlType.CheckBox, "", null)]
         public bool HexOutput
         {
             get { return this.hexOutput; }
@@ -92,7 +92,7 @@ namespace Cryptool.Trivium
         }
 
         private string inputKey = string.Empty;
-        [TaskPane("inputKeyCubeAttackName", "inputKeyCubeAttackDescription", null, 4, false, ControlType.TextBox, null)]
+        [TaskPane("InputKeyCubeAttackCaption", "InputKeyCubeAttackTooltip", null, 4, false, ControlType.TextBox, null)]
         public string InputKey
         {
             get { return inputKey; }

@@ -56,13 +56,10 @@ namespace Twofish
     #endregion
 
     int action = 1;
-    [ContextMenu("Action", "Do you want the input data to be encrypted or decrypted?", 2,
-      ContextMenuControlType.ComboBox,
-      new int[] { 1, 2 }, "Encrypt", "Decrypt")]
-    [TaskPane("Action",
-      "Do you want the input data to be encrypted or decrypted?", "", 0, false,
-       ControlType.ComboBox,
-       new string[] { "Encrypt", "Decrypt" })]
+    [ContextMenu("ActionCaption", "ActionTooltip", 2, ContextMenuControlType.ComboBox, 
+        new int[] { 1, 2 }, "Encrypt", "Decrypt")]
+    [TaskPane("ActionCaption", "ActionTooltip", "", 0, false, ControlType.ComboBox,
+        new string[] { "Encrypt", "Decrypt" })]
     public int Action
     {
       get
@@ -80,13 +77,10 @@ namespace Twofish
 
 
     int mode = 0;
-    [ContextMenu("Chaining mode",
-          "Select the block cipher mode of operation.", 2, 
-          ContextMenuControlType.ComboBox, null,
-          new string[] { "Electronic Code Book (ECB)", "Cipher Block Chaining (CBC)" })]
-    [TaskPane("Chaining mode", "Select the block cipher mode of operation.", "", 5, false,
-          ControlType.ComboBox,
-          new string[] {"Electronic Code Book (ECB)", "Cipher Block Chaining (CBC)"} ) ]
+    [ContextMenu("ModeCaption", "ModeTooltip", 2, ContextMenuControlType.ComboBox, null,
+        new string[] { "Electronic Code Book (ECB)", "Cipher Block Chaining (CBC)" })]
+    [TaskPane("ModeCaption", "ModeTooltip", "", 5, false, ControlType.ComboBox,
+        new string[] {"Electronic Code Book (ECB)", "Cipher Block Chaining (CBC)"} ) ]
     public int Mode
     {
       get
@@ -105,14 +99,10 @@ namespace Twofish
 
 
     int keySize = 0;
-    [ContextMenu("KeySize", 
-      "Select the key size. Note that providing a longer key will result in cutting the overlapping bytes, " +
-      "providing a shorter key will result in filling up with zeroes.", 3, 
-      ContextMenuControlType.ComboBox, null, "128 Bits", "192 Bits", "256 Bits")]
-    [TaskPane("KeySize", 
-      "Select the key size. Note that providing a longer key will result in cutting the overlapping bytes, "+
-      "providing a shorter key will result in filling up with zeroes.", "", 3, false, 
-      ControlType.ComboBox, new String[] { "128 Bits", "192 Bits", "256 Bits" })]
+    [ContextMenu("KeySizeCaption", "KeySizeTooltip", 3, 
+        ContextMenuControlType.ComboBox, null, "128 Bits", "192 Bits", "256 Bits")]
+    [TaskPane("KeySizeCaption", "KeySizeTooltip", "", 3, false, 
+        ControlType.ComboBox, new String[] { "128 Bits", "192 Bits", "256 Bits" })]
     public int KeySize
     {
       get

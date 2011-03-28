@@ -15,7 +15,7 @@ using System.Windows.Controls;
 namespace Cryptool.Plugins.Cryptography.Encryption
 {
     [Author("Sebastian Przybylski", "sebastian@przybylski.org", "Uni-Siegen", "http://www.uni-siegen.de")]
-    [PluginInfo(false, "Triple DES", "Triple Data Encryption Standard", null, 
+    [PluginInfo("Cryptool.TripleDES.Properties.Resources", false, "TripleDESCaption", "TripleDESTooltip", "TripleDESDescriptionURL", 
       "TripleDES/Images/icon.png", "TripleDES/Images/encrypt.png", "TripleDES/Images/decrypt.png")]
     [EncryptionType(EncryptionType.SymmetricBlock)]
     public class TripleDES : IEncryption
@@ -47,7 +47,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             set { this.settings = (TripleDESSettings)value; }
         }
 
-        [PropertyInfo(Direction.InputData, "Input", "Data to be encrypted or decrypted", null, true, false,QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "InputStreamCaption", "InputStreamTooltip", null, true, false, QuickWatchFormat.Hex, null)]
         public ICryptoolStream InputStream
         {
             get
@@ -60,7 +60,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             }
         }
 
-        [PropertyInfo(Direction.InputData, "Key", "Must be 16 or 24 bytes.", null, true, false,QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "InputKeyCaption", "InputKeyTooltip", null, true, false, QuickWatchFormat.Hex, null)]
         public byte[] InputKey
         {
             get { return this.inputKey; }
@@ -71,7 +71,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             }
         }
 
-        [PropertyInfo(Direction.InputData, "IV", "IV to be used in chaining modes, must be the same as the Blocksize in bytes (8 bytes).", null, true, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "InputIVCaption", "InputIVTooltip", null, true, false, QuickWatchFormat.Hex, null)]
         public byte[] InputIV
         {
             get { return this.inputIV; }
@@ -83,7 +83,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
         }
 
-        [PropertyInfo(Direction.OutputData, "Output stream", "Encrypted or decrypted output data", null, true, false,QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "OutputStreamCaption", "OutputStreamTooltip", null, true, false, QuickWatchFormat.Hex, null)]
         public ICryptoolStream OutputStream
         {
             get

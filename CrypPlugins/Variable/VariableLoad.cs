@@ -28,7 +28,7 @@ using System.ComponentModel;
 namespace Cryptool.Plugins.Variable
 {
     [Author("Sven Rech", "sven.rech@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo(true, "VariableLoad", "Variable Load", "Variable/DetailedDescription/Description.xaml", "Variable/loadIcon.png")]
+    [PluginInfo("Variable.Properties.Resources", true, "VariableLoadCaption", "VariableLoadTooltip", "VariableLoadDescriptionURL", "Variable/loadIcon.png")]
     class VariableLoad : IInput
     {
         #region Private variables
@@ -52,7 +52,7 @@ namespace Cryptool.Plugins.Variable
 
         #region Properties
 
-        [PropertyInfo(Direction.OutputData, "Variable Load Object", "Object to be loaded from the corresponding variable", "")]
+        [PropertyInfo(Direction.OutputData, "VariableLoadObjectCaption", "VariableLoadObjectTooltip", "")]
         public object VariableLoadObject
         {
             get

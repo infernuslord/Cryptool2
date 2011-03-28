@@ -61,155 +61,155 @@ namespace Trivium.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Generate Hex output ähnelt.
+        /// </summary>
+        internal static string HexOutputCaption {
+            get {
+                return ResourceManager.GetString("HexOutputCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Display as hex? ähnelt.
         /// </summary>
-        internal static string hexOutputContextDescription {
+        internal static string HexOutputContextTooltip {
             get {
-                return ResourceManager.GetString("hexOutputContextDescription", resourceCulture);
+                return ResourceManager.GetString("HexOutputContextTooltip", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die With this checkbox enabled, output bytes will be displayed in hex. ähnelt.
         /// </summary>
-        internal static string hexOutputDescription {
+        internal static string HexOutputTooltip {
             get {
-                return ResourceManager.GetString("hexOutputDescription", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Generate Hex output ähnelt.
-        /// </summary>
-        internal static string hexOutputName {
-            get {
-                return ResourceManager.GetString("hexOutputName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die How many init rounds should be done? Default is 1152. ähnelt.
-        /// </summary>
-        internal static string initRoundsDescription {
-            get {
-                return ResourceManager.GetString("initRoundsDescription", resourceCulture);
+                return ResourceManager.GetString("HexOutputTooltip", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Initialization rounds ähnelt.
         /// </summary>
-        internal static string initRoundsName {
+        internal static string InitRoundsCaption {
             get {
-                return ResourceManager.GetString("initRoundsName", resourceCulture);
+                return ResourceManager.GetString("InitRoundsCaption", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Must be 10 bytes (80 bit) in Hex. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die How many init rounds should be done? Default is 1152. ähnelt.
         /// </summary>
-        internal static string inputIVDescription {
+        internal static string InitRoundsTooltip {
             get {
-                return ResourceManager.GetString("inputIVDescription", resourceCulture);
+                return ResourceManager.GetString("InitRoundsTooltip", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die IV ähnelt.
         /// </summary>
-        internal static string inputIVName {
+        internal static string InputIVCaption {
             get {
-                return ResourceManager.GetString("inputIVName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Must be 10 bytes (80 bit) in Hex ähnelt.
-        /// </summary>
-        internal static string inputKeyCubeAttackDescription {
-            get {
-                return ResourceManager.GetString("inputKeyCubeAttackDescription", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Key (Input for Cube Attack) ähnelt.
-        /// </summary>
-        internal static string inputKeyCubeAttackName {
-            get {
-                return ResourceManager.GetString("inputKeyCubeAttackName", resourceCulture);
+                return ResourceManager.GetString("InputIVCaption", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Must be 10 bytes (80 bit) in Hex. ähnelt.
         /// </summary>
-        internal static string inputKeyDescription {
+        internal static string InputIVTooltip {
             get {
-                return ResourceManager.GetString("inputKeyDescription", resourceCulture);
+                return ResourceManager.GetString("InputIVTooltip", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Key ähnelt.
         /// </summary>
-        internal static string inputKeyName {
+        internal static string InputKeyCaption {
             get {
-                return ResourceManager.GetString("inputKeyName", resourceCulture);
+                return ResourceManager.GetString("InputKeyCaption", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Data to be encrypted or decrypted. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Key (Input for Cube Attack) ähnelt.
         /// </summary>
-        internal static string inputStringDescription {
+        internal static string InputKeyCubeAttackCaption {
             get {
-                return ResourceManager.GetString("inputStringDescription", resourceCulture);
+                return ResourceManager.GetString("InputKeyCubeAttackCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Must be 10 bytes (80 bit) in Hex ähnelt.
+        /// </summary>
+        internal static string InputKeyCubeAttackTooltip {
+            get {
+                return ResourceManager.GetString("InputKeyCubeAttackTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Must be 10 bytes (80 bit) in Hex. ähnelt.
+        /// </summary>
+        internal static string InputKeyTooltip {
+            get {
+                return ResourceManager.GetString("InputKeyTooltip", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Input ähnelt.
         /// </summary>
-        internal static string inputStringName {
+        internal static string InputStringCaption {
             get {
-                return ResourceManager.GetString("inputStringName", resourceCulture);
+                return ResourceManager.GetString("InputStringCaption", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die How many bits of keystream in bits should be generated? Must be a multiple of 32. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Data to be encrypted or decrypted. ähnelt.
         /// </summary>
-        internal static string keystreamLengthDescription {
+        internal static string InputStringTooltip {
             get {
-                return ResourceManager.GetString("keystreamLengthDescription", resourceCulture);
+                return ResourceManager.GetString("InputStringTooltip", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Length of keystream ähnelt.
         /// </summary>
-        internal static string keystreamLengthName {
+        internal static string KeystreamLengthCaption {
             get {
-                return ResourceManager.GetString("keystreamLengthName", resourceCulture);
+                return ResourceManager.GetString("KeystreamLengthCaption", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Encrypted or decrypted output data. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die How many bits of keystream in bits should be generated? Must be a multiple of 32. ähnelt.
         /// </summary>
-        internal static string outputStringDescription {
+        internal static string KeystreamLengthTooltip {
             get {
-                return ResourceManager.GetString("outputStringDescription", resourceCulture);
+                return ResourceManager.GetString("KeystreamLengthTooltip", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Output stream ähnelt.
         /// </summary>
-        internal static string outputStringName {
+        internal static string OutputStringCaption {
             get {
-                return ResourceManager.GetString("outputStringName", resourceCulture);
+                return ResourceManager.GetString("OutputStringCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Encrypted or decrypted output data. ähnelt.
+        /// </summary>
+        internal static string OutputStringTooltip {
+            get {
+                return ResourceManager.GetString("OutputStringTooltip", resourceCulture);
             }
         }
         
@@ -223,20 +223,29 @@ namespace Trivium.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Direct access to Trivium. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Trivium/DetailedDescription/Description.xaml ähnelt.
         /// </summary>
-        internal static string triviumSlaveDescription {
+        internal static string TriviumDescriptionUrl {
             get {
-                return ResourceManager.GetString("triviumSlaveDescription", resourceCulture);
+                return ResourceManager.GetString("TriviumDescriptionUrl", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Trivium Slave ähnelt.
         /// </summary>
-        internal static string triviumSlaveName {
+        internal static string TriviumSlaveCaption {
             get {
-                return ResourceManager.GetString("triviumSlaveName", resourceCulture);
+                return ResourceManager.GetString("TriviumSlaveCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Direct access to Trivium. ähnelt.
+        /// </summary>
+        internal static string TriviumSlaveTooltip {
+            get {
+                return ResourceManager.GetString("TriviumSlaveTooltip", resourceCulture);
             }
         }
         
@@ -250,29 +259,29 @@ namespace Trivium.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Use byte swapping ähnelt.
+        /// </summary>
+        internal static string UseByteSwappingCaption {
+            get {
+                return ResourceManager.GetString("UseByteSwappingCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Use byte swapping? ähnelt.
         /// </summary>
-        internal static string useByteSwappingContextDescription {
+        internal static string UseByteSwappingContextTooltip {
             get {
-                return ResourceManager.GetString("useByteSwappingContextDescription", resourceCulture);
+                return ResourceManager.GetString("UseByteSwappingContextTooltip", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die With this checkbox enabled, output bytes will be swapped. ähnelt.
         /// </summary>
-        internal static string useByteSwappingDescription {
+        internal static string UseByteSwappingTooltip {
             get {
-                return ResourceManager.GetString("useByteSwappingDescription", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Use byte swapping ähnelt.
-        /// </summary>
-        internal static string useByteSwappingName {
-            get {
-                return ResourceManager.GetString("useByteSwappingName", resourceCulture);
+                return ResourceManager.GetString("UseByteSwappingTooltip", resourceCulture);
             }
         }
     }

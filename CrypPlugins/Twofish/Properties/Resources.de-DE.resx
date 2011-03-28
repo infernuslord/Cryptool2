@@ -117,79 +117,73 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="HexOutputContextTooltip" xml:space="preserve">
-    <value>Hexadezimal darstellen?</value>
+  <data name="ActionCaption" xml:space="preserve">
+    <value>Action</value>
   </data>
-  <data name="HexOutputTooltip" xml:space="preserve">
-    <value>Wenn diese Checkbox gesetzt ist, wird die Ausgabe hexadezimal ausgegeben.</value>
+  <data name="ActionTooltip" xml:space="preserve">
+    <value>Sollen die Eingabedaten ver- oder entschlüsselt werden?</value>
   </data>
-  <data name="HexOutputCaption" xml:space="preserve">
-    <value>Erzeuge hexadezimale Ausgabe</value>
+  <data name="InputDataCaption" xml:space="preserve">
+    <value>Eingabedaten</value>
   </data>
-  <data name="InitRoundsTooltip" xml:space="preserve">
-    <value>Wie viele Initialisierungsrunden sollen durchlaufen werden? Standard ist 1152.</value>
+  <data name="InputDataTooltip" xml:space="preserve">
+    <value>zu verarbeitende Daten</value>
   </data>
-  <data name="InitRoundsCaption" xml:space="preserve">
-    <value>Initialisierungsrunden</value>
+  <data name="InputStreamCaption" xml:space="preserve">
+    <value>Eingabedatenstrom</value>
   </data>
-  <data name="InputIVTooltip" xml:space="preserve">
-    <value>Muss 10 Bytes (80 bit) lang sein (in Hex).</value>
+  <data name="InputStreamTooltip" xml:space="preserve">
+    <value>zu verarbeitender Eingabedatenstrom</value>
   </data>
-  <data name="InputIVCaption" xml:space="preserve">
+  <data name="IVCaption" xml:space="preserve">
     <value>IV</value>
   </data>
-  <data name="InputKeyCubeAttackTooltip" xml:space="preserve">
-    <value>Muss 10 Bytes (80 bit) lang sein (in Hex).</value>
+  <data name="IVTooltip" xml:space="preserve">
+    <value>Initialisierungsvektor</value>
   </data>
-  <data name="InputKeyCubeAttackCaption" xml:space="preserve">
-    <value>Schlüssel (Eingabe für Cube Attack)</value>
+  <data name="KeyDataCaption" xml:space="preserve">
+    <value>Schlüsseldaten</value>
   </data>
-  <data name="InputKeyTooltip" xml:space="preserve">
-    <value>Muss 10 Bytes (80 bit) lang sein (in Hex).</value>
+  <data name="KeyDataTooltip" xml:space="preserve">
+    <value>Schlüsseleingabe</value>
   </data>
-  <data name="InputKeyCaption" xml:space="preserve">
-    <value>Schlüssel</value>
+  <data name="KeySizeCaption" xml:space="preserve">
+    <value>Schlüsselgröße</value>
   </data>
-  <data name="InputStringTooltip" xml:space="preserve">
-    <value>Zu ver-/entschlüsselnde Daten.</value>
+  <data name="KeySizeTooltip" xml:space="preserve">
+    <value>Wählen Sie die Schlüsselgröße. Beachten Sie, daß bei einem zu langen Schlüssel die überzähligen Bytes abgeschnitten werden und  ein zu kurzer Schlüssel mit Nullbytes aufgefüllt wird.</value>
   </data>
-  <data name="InputStringCaption" xml:space="preserve">
-    <value>Eingabe</value>
+  <data name="KeyStreamCaption" xml:space="preserve">
+    <value>Schlüsselstrom</value>
   </data>
-  <data name="KeystreamLengthTooltip" xml:space="preserve">
-    <value>Wie viele Schlüsselstrombits sollen generiert werden? Muss ein Vielfaches von 32 sein.</value>
+  <data name="KeyStreamTooltip" xml:space="preserve">
+    <value>Schlüsseleingabe</value>
   </data>
-  <data name="KeystreamLengthCaption" xml:space="preserve">
-    <value>Länge des Schlüsselstroms</value>
+  <data name="ModeCaption" xml:space="preserve">
+    <value>Chaining Modus </value>
   </data>
-  <data name="OutputStringTooltip" xml:space="preserve">
-    <value>Ver- oder entschlüsselte Ausgabe.</value>
+  <data name="ModeTooltip" xml:space="preserve">
+    <value>Wählen Sie den Operationsmodus der Blockchiffre.</value>
   </data>
-  <data name="OutputStringCaption" xml:space="preserve">
-    <value>Ausgabestrom</value>
+  <data name="OutputDataCaption" xml:space="preserve">
+    <value>Ausgabedaten</value>
   </data>
-  <data name="TriviumCaption" xml:space="preserve">
-    <value>Trivium</value>
+  <data name="OutputDataTooltip" xml:space="preserve">
+    <value>Ausgabedaten</value>
   </data>
-  <data name="TriviumSlaveTooltip" xml:space="preserve">
-    <value>Direkter Zugriff auf Trivium.</value>
+  <data name="OutputStreamCaption" xml:space="preserve">
+    <value>Ausgabedatenstrom</value>
   </data>
-  <data name="TriviumSlaveCaption" xml:space="preserve">
-    <value>Trivium Slave</value>
+  <data name="OutputStreamTooltip" xml:space="preserve">
+    <value>Ausgabedatenstrom</value>
   </data>
-  <data name="TriviumTooltip" xml:space="preserve">
-    <value>Trivium</value>
+  <data name="TwofishCaption" xml:space="preserve">
+    <value>Twofish</value>
   </data>
-  <data name="UseByteSwappingContextTooltip" xml:space="preserve">
-    <value>Byte-swapping benutzen?</value>
+  <data name="TwofishDescriptionUrl" xml:space="preserve">
+    <value>Twofish/DetailedDescription/Description.xaml</value>
   </data>
-  <data name="UseByteSwappingTooltip" xml:space="preserve">
-    <value>Wenn diese Checkbox gesetzt ist, werden die Ausgabebytes vertauscht.</value>
-  </data>
-  <data name="UseByteSwappingCaption" xml:space="preserve">
-    <value>Byte-swapping benutzen</value>
-  </data>
-  <data name="TriviumDescriptionUrl" xml:space="preserve">
-    <value>Trivium/DetailedDescription/Description.de-DE.xaml</value>
+  <data name="TwofishTooltip" xml:space="preserve">
+    <value>Twofish - Chiffre</value>
   </data>
 </root>
