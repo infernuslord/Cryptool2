@@ -53,8 +53,7 @@ namespace Cryptool.Resource
                     PluginInfoAttribute[] attr = (PluginInfoAttribute[])t.GetCustomAttributes(typeof(PluginInfoAttribute), false);
                     if (attr.Length == 1)
                     {
-                        writer.AddResource(string.Format("{0}.{1}.Name", t.Namespace, t.Name), new ResourceEntry(attr[0].Name, attr[0].Name));
-                        writer.AddResource(string.Format("{0}.{1}.Description", t.Namespace, t.Name), new ResourceEntry(attr[0].ShortDescription,attr[0].ShortDescription));
+                        writer.AddResource(string.Format("{0}.{1}.Name", t.Namespace, t.Name), new ResourceEntry(attr[0].Caption, attr[0].Caption));
                     }
                 }
             }
