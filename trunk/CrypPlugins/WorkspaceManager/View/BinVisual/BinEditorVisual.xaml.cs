@@ -498,8 +498,8 @@ namespace WorkspaceManager.View.BinVisual
 
             if (args.EffectedModelElement is PluginModel)
             {
-                //PluginContainerView pluginContainerView = (PluginContainerView)((PluginModel)args.EffectedModelElement).UpdateableView;
-                //pluginContainerView.CTextBox.Text = args.NewName;
+                BinComponentVisual bin = (BinComponentVisual)((PluginModel)args.EffectedModelElement).UpdateableView;
+                bin.CustomName = args.NewName;
             }
         }
         #endregion

@@ -290,7 +290,7 @@ namespace WorkspaceManager.View.BinVisual
             {
                 return (string)base.GetValue(CustomNameProperty);
             }
-            private set
+            set
             {
                 base.SetValue(CustomNameProperty, value);
             }
@@ -439,13 +439,15 @@ namespace WorkspaceManager.View.BinVisual
             }
 
             Model.Plugin.OnGuiLogNotificationOccured += new GuiLogNotificationEventHandler(OnGuiLogNotificationOccuredHandler);
+            WindowWidth = Model.GetWidth();
+            WindowHeight = Model.GetHeight();
             IsRepeatable = Model.Startable;
             Repeat = Model.RepeatStart;
             Position = model.GetPosition();
             FunctionName = Model.Plugin.GetPluginInfoAttribute().Caption;
             CustomName = Model.GetName();
             //needs changes in Model
-            //IsICMaster = Model....
+            IsICMaster = Model.HasIControlInputs();
             SetBinding(BinComponentVisual.IsDraggingProperty,
                 Util.CreateIsDraggingBinding(new Thumb[] { ContentThumb, TitleThumb, ScaleThumb }));
             setWindowColors(ColorHelper.GetColor(Model.PluginType), ColorHelper.GetColorLight(Model.PluginType));

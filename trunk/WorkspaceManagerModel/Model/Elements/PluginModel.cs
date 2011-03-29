@@ -435,7 +435,7 @@ namespace WorkspaceManager.Model
         /// <returns></returns>
         public bool HasIControlInputs()
         {
-            foreach(ConnectorModel connectorModel in InputConnectors)
+            foreach(ConnectorModel connectorModel in OutputConnectors)
             {
                 if(connectorModel.IControl)
                 {
