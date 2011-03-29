@@ -639,6 +639,7 @@ namespace Wizard
                     outputBox.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
                     outputBox.Tag = input;
                     outputBox.AcceptsReturn = true;
+                    outputBox.TextWrapping = TextWrapping.Wrap;
                     if (input.Attribute("visibleLines") != null)
                     {
                         int visibleLines;
