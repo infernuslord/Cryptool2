@@ -19,6 +19,7 @@ namespace Cryptool.Enigma
 
     class Walze : Canvas
     {
+        #region Variables
         int[] umkehrlist1 = { 4, 9, 12, 25, 0, 11, 24, 23, 21, 1, 22, 5, 2, 17, 16, 20, 14, 13, 19, 18, 15, 8, 10, 7, 6, 3 };
         int[] umkehrlist2 = { 24, 17, 20, 7, 16, 18, 11, 3, 15, 23, 13, 6, 14, 10, 12, 8, 4, 1, 5, 25, 2, 22, 21, 9, 0, 19 };
         int[] umkehrlist3 = { 5, 21, 15, 9, 8, 0, 14, 24, 4, 3, 17, 25, 23, 22, 6, 2, 19, 10, 20, 16, 18, 1, 13, 12, 7, 11 };
@@ -31,11 +32,37 @@ namespace Cryptool.Enigma
         public readonly int typ;
         public TextBlock iAm = new TextBlock();
         public Boolean stop = false;
-
+        private double timecounter = 0.0;
+        private int counter = 0;
         Boolean wrong;
-
-        public event EventHandler helpNextAnimation;
         public int[] umkehrlist;
+        #endregion
+
+        #region Storyboard creating
+        public Storyboard startanimation()
+        {
+            timecounter = 0.0;
+            Storyboard sb = new Storyboard();
+
+            sb.Children.Add(animateThisTebo(teboToAnimat[0], true));
+            DoubleAnimation[] douret = animateThisLine(linesToAnimat[0]);
+            sb.Children.Add(douret[0]);
+            sb.Children.Add(douret[1]);
+            DoubleAnimation[] douret1 = new DoubleAnimation[2];
+            if (!wrong)
+                douret1 = animateThisLine(linesToAnimat[1]);
+            else
+                douret1 = animateThisLineReverse(linesToAnimat[1]);
+            sb.Children.Add(douret1[0]);
+            sb.Children.Add(douret1[1]);
+            DoubleAnimation[] douret2 = animateThisLineReverse(linesToAnimat[2]);
+            sb.Children.Add(douret2[0]);
+            sb.Children.Add(douret2[1]);
+            sb.Children.Add(animateThisTebo(teboToAnimat[1], false));
+
+            return sb;
+
+        }
 
         public int umkehrlist0(int x, Boolean off)
         {
@@ -102,48 +129,8 @@ namespace Cryptool.Enigma
             return umkehrlist[x];
         }
 
-        private void helpNextAnimationMethod(object sender, EventArgs e)
+        private ColorAnimation animateThisTebo(TextBlock tebo, Boolean c)
         {
-            if (!stop)
-            {
-                if (counter == 3)
-                {
-                    helpNextAnimation(this, EventArgs.Empty);
-                }
-                else
-                {
-                    if (counter == 2)
-                    {
-                        animateThisLineReverse(linesToAnimat[counter]);
-                        animateThisTebo(teboToAnimat[1], false);
-                    }
-                    else
-                    {
-                        if (wrong)
-                            animateThisLineReverse(linesToAnimat[counter]);
-                        else
-                            animateThisLine(linesToAnimat[counter]);
-
-                    }
-                    counter++;
-                }
-            }
-        }
-
-        private int counter = 0;
-
-        public void startanimation()
-        {
-            counter = 1;
-            animateThisLine(linesToAnimat[0]);
-            animateThisTebo(teboToAnimat[0], true);
-
-        }
-
-        private void animateThisTebo(TextBlock tebo, Boolean c)
-        {
-            SolidColorBrush brush = new SolidColorBrush();
-            brush.Color = Colors.Transparent;
 
             ColorAnimation colorAni = new ColorAnimation();
             colorAni.From = Colors.SkyBlue;
@@ -153,13 +140,19 @@ namespace Cryptool.Enigma
                 colorAni.To = Colors.YellowGreen;
             else
                 colorAni.To = Colors.Tomato;
-            colorAni.Duration = new Duration(TimeSpan.FromMilliseconds(fast));
+            colorAni.Duration = new Duration(TimeSpan.FromMilliseconds(1000));
 
-            tebo.Background = brush;
-            brush.BeginAnimation(SolidColorBrush.ColorProperty, colorAni);
+            colorAni.BeginTime = TimeSpan.FromMilliseconds(timecounter);
+            Storyboard.SetTarget(colorAni, tebo);
+            Storyboard.SetTargetProperty(colorAni, new PropertyPath("(TextBlock.Background).(SolidColorBrush.Color)"));
+
+            timecounter += 1000;
+
+            return colorAni;
+
         }
 
-        private void animateThisLineReverse(Line l)
+        private DoubleAnimation[] animateThisLineReverse(Line l)
         {
 
             //resetColors();
@@ -185,26 +178,36 @@ namespace Cryptool.Enigma
 
             mydouble1.From = l.Y2;
             mydouble1.To = l.Y1;
-            mydouble1.Duration = new Duration(TimeSpan.FromMilliseconds((fast)));
-
+            mydouble1.Duration = new Duration(TimeSpan.FromMilliseconds((1000)));
+            mydouble1.BeginTime = TimeSpan.FromMilliseconds(timecounter);
 
 
             DoubleAnimation mydouble = new DoubleAnimation();
             mydouble.From = l.X2;
             mydouble.To = l.X1;
-            mydouble.Duration = new Duration(TimeSpan.FromMilliseconds((fast)));
-            mydouble.Completed += helpNextAnimationMethod;
-
+            mydouble.Duration = new Duration(TimeSpan.FromMilliseconds((1000)));
+            mydouble.BeginTime = TimeSpan.FromMilliseconds(timecounter);
+            timecounter += 1000;
 
             this.Children.Add(l1);
 
-            l1.BeginAnimation(Line.X2Property, mydouble);
-            l1.BeginAnimation(Line.Y2Property, mydouble1);
+            DoubleAnimation[] douret = new DoubleAnimation[2];
+            douret[1] = mydouble1;
+            douret[0] = mydouble;
+            Storyboard.SetTarget(douret[0], l1);
+            Storyboard.SetTarget(douret[1], l1);
+            Storyboard.SetTargetProperty(douret[0], new PropertyPath("X2"));
+            Storyboard.SetTargetProperty(douret[1], new PropertyPath("Y2"));
 
             trashList.Add(l1);
+
+            return douret;
+
+
+
         }
 
-        private void animateThisLine(Line l)
+        private DoubleAnimation[] animateThisLine(Line l)
         {
 
             //resetColors();
@@ -230,25 +233,42 @@ namespace Cryptool.Enigma
 
             mydouble1.From = l.Y1;
             mydouble1.To = l.Y2;
-            mydouble1.Duration = new Duration(TimeSpan.FromMilliseconds((fast)));
-
+            mydouble1.Duration = new Duration(TimeSpan.FromMilliseconds((1000)));
+            mydouble1.BeginTime = TimeSpan.FromMilliseconds(timecounter);
 
 
             DoubleAnimation mydouble = new DoubleAnimation();
             mydouble.From = l.X1;
             mydouble.To = l.X2;
-            mydouble.Duration = new Duration(TimeSpan.FromMilliseconds((fast)));
-            mydouble.Completed += helpNextAnimationMethod;
+            mydouble.Duration = new Duration(TimeSpan.FromMilliseconds((1000)));
+            mydouble.BeginTime = TimeSpan.FromMilliseconds(timecounter);
 
-
+            timecounter += 1000;
             this.Children.Add(l1);
 
-            l1.BeginAnimation(Line.X2Property, mydouble);
-            l1.BeginAnimation(Line.Y2Property, mydouble1);
+            //l1.BeginAnimation(Line.X2Property, mydouble);
+            //l1.BeginAnimation(Line.Y2Property, mydouble1);
+
+
 
             trashList.Add(l1);
+
+            DoubleAnimation[] douret = new DoubleAnimation[2];
+            douret[1] = mydouble1;
+            douret[0] = mydouble;
+            Storyboard.SetTarget(douret[0], l1);
+            Storyboard.SetTarget(douret[1], l1);
+            Storyboard.SetTargetProperty(douret[0], new PropertyPath("X2"));
+            Storyboard.SetTargetProperty(douret[1], new PropertyPath("Y2"));
+
+
+
+            return douret;
         }
 
+        #endregion
+
+        #region Reset
         public void resetColors()
         {
             foreach (Line l in trashList)
@@ -272,6 +292,9 @@ namespace Cryptool.Enigma
                 l.Stroke = Brushes.Black;
             }
         }
+        #endregion
+
+        #region Constructor
 
         public Walze(int umkehr, double width, double height)
         {
@@ -388,5 +411,6 @@ namespace Cryptool.Enigma
             iAm.Uid = "" + typ;
             this.Children.Add(iAm);
         }
+        #endregion
     }
 }

@@ -61,7 +61,7 @@ namespace Cryptool.Enigma
 
         private EnigmaSettings settings;
         private EnigmaPresentation myPresentation;
-        private AutoResetEvent ars;
+        
         private EnigmaCore core;
         private EnigmaAnalyzer analyzer;
         private string inputString;
@@ -291,7 +291,7 @@ namespace Cryptool.Enigma
             this.analyzer.OnIntermediateResult += new EventHandler<IntermediateResultEventArgs>(analyzer_OnIntermediateResult);
             this.statistics = new Dictionary<int, IDictionary<string, double[]>>();
             
-            this.ars = new AutoResetEvent(false);
+          
             this.myPresentation = new EnigmaPresentation(this);
             this.Presentation = myPresentation;
             //this.Presentation.IsVisibleChanged += presentation_isvisibleChanged;
