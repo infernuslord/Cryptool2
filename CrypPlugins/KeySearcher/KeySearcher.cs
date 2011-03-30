@@ -218,16 +218,24 @@ namespace KeySearcher
         /* END: Lines above are from Arnie - 2010.01.12 */
 
         private ValueKey top1ValueKey;
+        private byte[] top1FullPlaintext;
         public virtual ValueKey Top1
         {
-            private set { top1ValueKey = value; OnPropertyChanged("Top1Message"); OnPropertyChanged("Top1Key"); }
+            private set
+            {
+                top1ValueKey = value;
+                top1FullPlaintext = sender.Decrypt(this.encryptedData, value.keya, InitVector);
+
+                OnPropertyChanged("Top1Message");
+                OnPropertyChanged("Top1Key");
+            }
             get { return top1ValueKey; }
         }
 
         [PropertyInfo(Direction.OutputData, "Top1_Message", "top1MesDesc", "")]
         public virtual byte[] Top1Message
         {
-            get { return top1ValueKey.decryption; }
+            get { return top1FullPlaintext; }
         }
         [PropertyInfo(Direction.OutputData, "Top1_Key", "Top1KeyDesc", "")]
         public virtual byte[] Top1Key
