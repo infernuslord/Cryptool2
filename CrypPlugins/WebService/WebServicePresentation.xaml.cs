@@ -1132,13 +1132,13 @@ namespace WebService
             if ((e.NewValue as TreeViewItem) != null)
             {
                 TreeViewItem item = e.NewValue as TreeViewItem;
-                double y = this._animationTreeView.TransformToDescendant(item).Transform(new Point(0, 0)).Y;
-     
-               PropertyInfo info= (e.Source as TreeView).GetType().GetProperty("ScrollHost",( System.Reflection.BindingFlags.NonPublic|System.Reflection.BindingFlags.Instance));
-              ScrollViewer viewer = info.GetValue((e.Source as TreeView), null) as ScrollViewer;
-                this._indicatorTextBox.Margin = new Thickness(this._indicatorTextBox.Margin.Left, -y, this._indicatorTextBox.Margin.Right, this._indicatorTextBox.Margin.Bottom);
-              
-                this._indicatorTextBox.Text = "=>";
+                double y = this._animationTreeView.TransformToVisual(item).Transform(new Point(0, 0)).Y;
+                if (y < 0)
+                {
+                    PropertyInfo info = (e.Source as TreeView).GetType().GetProperty("ScrollHost", (System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance));
+                    ScrollViewer viewer = info.GetValue((e.Source as TreeView), null) as ScrollViewer;
+                    this._arrowImage.Margin = new Thickness(this._arrowImage.Margin.Left, -y, this._arrowImage.Margin.Right, this._arrowImage.Margin.Bottom);
+                }
             }
         }
 

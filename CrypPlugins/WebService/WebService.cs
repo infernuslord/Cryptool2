@@ -31,10 +31,11 @@ using System.Security.Cryptography.X509Certificates;
 
 using System.Windows.Controls;
 using Cryptool.PluginBase.Control;
+using System.Web.Services.Protocols;
 
 
 
-//using Microsoft.Web.Services3.Messaging;
+using System.Web.Services;
 
 
 namespace WebService
@@ -240,6 +241,8 @@ namespace WebService
 
         public WebService()
         {
+           
+            
             this._wsdlDocument = new XmlDocument();
             this._modifiedInputDocument = new XmlDocument();
             this._wsdlMethod = new string[1];
@@ -294,9 +297,11 @@ namespace WebService
             if (e.PropertyName == "InputString")
             {
                 this.CheckSoap();
-                
+             
                 if (this._inputDocument != null)
                 {
+                    SoapProtocolImporter t = new SoapProtocolImporter();
+                  
                     presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
                         

@@ -111,7 +111,7 @@ namespace WebService
             {
                 case 1:
 
-                    this._controllerTimer.Interval = new TimeSpan(0, 0, 0, 3, 0);
+                    this._controllerTimer.Interval = new TimeSpan(0, 0, 0, 5, 0);
                     this._controllerTimer.Stop();
                     this._presentation.SignatureTimer.Start();
                     if (this._actualSecurityElementNumber + 1 < this._wsSecurityElementsCounter)
@@ -123,7 +123,7 @@ namespace WebService
                     break;
                 case 2:
 
-                    this._controllerTimer.Interval = new TimeSpan(0, 0, 0, 3, 0);
+                    this._controllerTimer.Interval = new TimeSpan(0, 0, 0, 5, 0);
                     this._controllerTimer.Stop();
                     this._presentation.DecryptionAnimation.getDecryptiontimer().Start();
                     if (this._actualSecurityElementNumber + 1 < this._wsSecurityElementsCounter)
