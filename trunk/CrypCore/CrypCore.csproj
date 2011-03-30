@@ -59,10 +59,13 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>.\Lucene.Net.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -71,6 +74,7 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Delegates.cs" />
@@ -86,6 +90,9 @@
       <DependentUpon>Exceptions.resx</DependentUpon>
     </Compile>
     <Compile Include="SearchProvider.cs" />
+    <Compile Include="UnhandledExceptionDialog.xaml.cs">
+      <DependentUpon>UnhandledExceptionDialog.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Exceptions.resx">
@@ -113,6 +120,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="CT2_Key.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="UnhandledExceptionDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
