@@ -35,11 +35,8 @@ namespace Cryptool.PluginBase.IO
     /// to perform intermediate processing before writing has been finished.
     /// You MUST Close() the stream when you're finished with writing, otherwise the reader will block
     /// and wait for more data infinitely.</para>
-    /// 
-    /// <para>You SHOULD Dispose() the stream when you're done using it (or use the C# "using" keyword) in
-    /// order to remove the temporary swapfile, however if you forget to, the GC will clean up for you.</para>
     /// </summary>
-    public class CStreamWriter : Stream, IDisposable, ICryptoolStream
+    public class CStreamWriter : Stream, ICryptoolStream
     {
         #region Fields and constructors
 
@@ -56,7 +53,6 @@ namespace Cryptool.PluginBase.IO
 
         private readonly object _monitor;
         private bool _closed;
-        private bool _disposed;
 
         // membuff
         private byte[] _buffer;
@@ -154,7 +150,7 @@ namespace Cryptool.PluginBase.IO
         /// Has the writer stream been marked as closed?
         /// 
         /// Please note: closing the write stream is not equivalent with disposing it.
-        /// Readers can still read from a closed stream, but not from a disposed one.
+        /// Readers can still read from a closed stream.
         /// </summary>
         public bool IsClosed
         {
@@ -223,8 +219,7 @@ namespace Cryptool.PluginBase.IO
         /// You MUST call Close() when you're done writing or the readers will be stuck in an infinite loop.
         /// 
         /// Please note: Contrary to the API description of Stream.Close() this method DOES NOT release all
-        /// resources associated to this CStream. Call Dispose() to release resources or let the GC call
-        /// the finalizer.
+        /// resources associated to this CStream.
         /// </summary>
         public override void Close()
         {
@@ -235,7 +230,7 @@ namespace Cryptool.PluginBase.IO
              * 
              * Note 2: Closing the CStream does not automatically close the underlying file handle, as
              * the file is marked as DeleteOnClose and may be removed too early. File is closed when the
-             * CStreamWriter is disposed or garbage collected.
+             * CStreamWriter is garbage collected.
              */
 
             // do nothing if already closed
@@ -245,28 +240,6 @@ namespace Cryptool.PluginBase.IO
             _closed = true;
 
             Flush();
-        }
-
-        /// <summary>
-        /// Explicitly destroy object.
-        /// </summary>
-        public new void Dispose()
-        {
-            if (_disposed)
-                return;
-
-            _disposed = true;
-
-            base.Dispose();
-
-            if (IsSwapped)
-            {
-                _writeStream.Close(); // release file handle
-                _writeStream = null;
-            }
-
-            _buffer = null;
-            SwapEvent = null;
         }
 
         /// <summary>
@@ -328,8 +301,8 @@ namespace Cryptool.PluginBase.IO
         /// </summary>
         public override void Write(byte[] buf, int offset, int count)
         {
-            if (_closed || _disposed)
-                throw new InvalidOperationException("Can't write, CStream already closed/disposed");
+            if (_closed)
+                throw new InvalidOperationException("Can't write, CStream already closed");
 
             lock(_monitor)
             {
@@ -399,11 +372,6 @@ namespace Cryptool.PluginBase.IO
         #endregion
 
         #region Internal members for stream readers
-
-        internal bool IsDisposed
-        {
-            get { return _disposed; }
-        }
 
         internal object InternalMonitor
         {

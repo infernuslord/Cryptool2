@@ -364,9 +364,6 @@ namespace Cryptool.PluginBase.IO
 
         private int availableRead()
         {
-            // Caveat! Breaks if writer is disposed and reader is still being used
-            Debug.Assert(!_writer.IsDisposed);
-
             long avail = _writer.Position - (IsSwapped ? _readStream.Position : _readPtr);
             return (int)Math.Min(int.MaxValue, avail);
         }
@@ -375,9 +372,6 @@ namespace Cryptool.PluginBase.IO
         {
             if (_disposed)
                 throw new ObjectDisposedException("Reader is already disposed");
-
-            if (_writer.IsDisposed)
-                throw new ObjectDisposedException("Corresponding writer is disposed");
         }
 
         /// <summary>

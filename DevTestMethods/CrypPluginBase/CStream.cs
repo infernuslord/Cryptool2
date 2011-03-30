@@ -209,64 +209,6 @@ namespace Tests.CrypPluginBase
         }
 
         [TestMethod]
-        public void TestDisposedExceptionWithMem()
-        {
-            CStreamWriter writer = new CStreamWriter();
-
-            // write not, swapped
-            writer.Write(LongData);
-            Assert.IsFalse(writer.IsSwapped);
-
-            // try to read
-            CStreamReader reader = writer.CreateReader();
-            byte[] buf = new byte[ShortData.Length];
-            {
-                int read = reader.Read(buf);
-                Assert.AreEqual(ShortData.Length, read);
-            }
-
-            // dispose CStream and try to read again, assert error
-            writer.Dispose();
-            {
-                try
-                {
-                    int read = reader.Read(buf);
-                    Assert.Fail("unreachable code, missed exception");
-                }
-                catch (ObjectDisposedException e)
-                {
-                    // everything ok
-                }
-            }
-        }
-
-        [TestMethod]
-        public void TestDisposedExceptionWithSwap()
-        {
-            CStreamWriter writer = new CStreamWriter();
-
-            writer.Write(LongData);
-            writer.Write(LongData);
-            writer.Write(LongData);
-            Assert.IsTrue(writer.IsSwapped);
-
-            CStreamReader reader = writer.CreateReader();
-
-            // dispose CStream and try to read, assert error
-            writer.Dispose();
-            try
-            {
-                byte[] buf = new byte[1024];
-                int read = reader.Read(buf);
-                Assert.Fail("unreachable code, missed exception");
-            }
-            catch (ObjectDisposedException e)
-            {
-                // everything ok
-            }
-        }
-
-        [TestMethod]
         public void TestDestructorWithReader()
         {
             CStreamWriter writer = new CStreamWriter();
@@ -429,8 +371,12 @@ namespace Tests.CrypPluginBase
             reader.ReadFully(buf);
             Assert.IsTrue(buf.SequenceEqual(LongData));
 
-            reader.Close();
-            cstream.Dispose();
+            // force gc
+            reader = null;
+            cstream = null;
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+
             File.Delete(tempFile);
 }
     }
