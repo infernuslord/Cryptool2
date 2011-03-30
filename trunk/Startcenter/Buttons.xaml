@@ -1,0 +1,63 @@
+﻿<UserControl x:Class="Startcenter.Buttons"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="400" d:DesignWidth="500">
+    <Grid>
+        <Grid.Resources>
+            <Style TargetType="Button">
+                <Setter Property="Margin" Value="10"/>
+                <Setter Property="Width" Value="50"/>
+                <Setter Property="Height" Value="50"/>
+            </Style>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        
+        <Button Grid.Column="0">
+            <Button.Content>
+                <Image Source="/Startcenter;component/wizard.png" />
+            </Button.Content>
+        </Button>
+        <Label Grid.Column="1" Content="Use the wizard to easily try some CrypTool 2.0 features." VerticalAlignment="Center" />
+
+        <Button Grid.Column="0" Grid.Row="1">
+            <Button.Content>
+                <Image Source="/Startcenter;component/help32.png" />
+            </Button.Content>
+        </Button>
+        <Label Grid.Column="1" Grid.Row="1" Content="Read the online documentation." VerticalAlignment="Center" />
+
+        <Button Grid.Column="0" Grid.Row="2">
+            <Button.Content>
+                <Image Source="/Startcenter;component/WorkspaceManagerIcon.ico" Stretch="Uniform" />
+            </Button.Content>
+        </Button>
+        <Label Grid.Column="1" Grid.Row="2" Content="Open a new workspace to freely create cryptographic scenarios." VerticalAlignment="Center" />
+
+        <Button Grid.Column="0" Grid.Row="3">
+            <Button.Content>
+                <Image Stretch="Fill" Source="/Startcenter;component/peer2peer-disconnect.png" />
+            </Button.Content>
+        </Button>
+        <Label Grid.Column="1" Grid.Row="3" Content="Connect to network to use distributed cryptoanalysis." VerticalAlignment="Center" />
+
+        <Button Grid.Column="0" Grid.Row="4">
+            <Button.Content>
+                <Image Stretch="Fill" Source="/Startcenter;component/browser.png" />
+            </Button.Content>
+        </Button>
+        <Label Grid.Column="1" Grid.Row="4" Content="Visit the official CrypTool 2.0 website." VerticalAlignment="Center" />
+    </Grid>
+</UserControl>
