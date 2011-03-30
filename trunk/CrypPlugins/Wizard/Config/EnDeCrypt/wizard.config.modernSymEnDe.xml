@@ -14,8 +14,8 @@
   <headline lang="de">Algorithmusauswahl</headline>
 
   <!-- This is the step's description. -->
-  <desc lang="en" >Select a modern symmetric encryption/decryption algorithm.</desc>
-  <desc lang="de" >Wählen Sie einen symmetrischen Verschlüsselungs-/Entschlüsselungsalgorithmus.</desc>
+  <task lang="en" >Select a modern symmetric encryption/decryption algorithm.</task>
+  <task lang="de" >Wählen Sie einen symmetrischen Verschlüsselungs-/Entschlüsselungsalgorithmus.</task>
 
   <!-- AES input -->
   <input image="AES" >
@@ -25,8 +25,8 @@
 
     <headline lang="en" >Message Input</headline>
     <headline lang="de" >Nachrichteneingabe</headline>
-    <desc lang="en">Here, you can input the message and the key to use.</desc>
-    <desc lang="de">Hier können Sie die Nachricht und den zu benutzenden Schlüssel eingeben.</desc>
+    <task lang="en">Here, you can input the message and the key to use.</task>
+    <task lang="de">Hier können Sie die Nachricht und den zu benutzenden Schlüssel eingeben.</task>
 
     <comboBox plugin="AES" property="Action" alignment="Left" width="20%">
       <description lang="en">Encrypt or Decrypt:</description>
@@ -73,8 +73,8 @@
 
       <headline lang="en" >AES Output</headline>
       <headline lang="de" >AES-Ausgabe</headline>
-      <desc lang="en">Here, you can change the message and view the results.</desc>
-      <desc lang="de">Hier können Sie die Nachricht verändern und die Ergebnisse sehen.</desc>
+      <task lang="en">Here, you can change the message and view the results.</task>
+      <task lang="de">Hier können Sie die Nachricht verändern und die Ergebnisse sehen.</task>
 
       <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5">
         <description lang="en">Message to encrypt/decrypt:</description>
@@ -96,8 +96,8 @@
 
     <headline lang="en" >Message Input</headline>
     <headline lang="de" >Nachrichteneingabe</headline>
-    <desc lang="en">Here, you can input the message and the key to use.</desc>
-    <desc lang="de">Hier können Sie die Nachricht und den zu benutzenden Schlüssel eingeben.</desc>
+    <task lang="en">Here, you can input the message and the key to use.</task>
+    <task lang="de">Hier können Sie die Nachricht und den zu benutzenden Schlüssel eingeben.</task>
 
     <comboBox plugin="DES" property="Action" alignment="Left" width="20%">
       <description lang="en">Encrypt or Decrypt:</description>
@@ -136,8 +136,8 @@
 
       <headline lang="en" >DES Output</headline>
       <headline lang="de" >DES-Ausgabe</headline>
-      <desc lang="en">Here, you can change the message and view the results.</desc>
-      <desc lang="de">Hier können Sie die Nachricht verändern und die Ergebnisse sehen.</desc>
+      <task lang="en">Here, you can change the message and view the results.</task>
+      <task lang="de">Hier können Sie die Nachricht verändern und die Ergebnisse sehen.</task>
 
       <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5">
         <description lang="en">Message to encrypt/decrypt:</description>
@@ -159,8 +159,8 @@
 
     <headline lang="en" >Message Input</headline>
     <headline lang="de" >Nachrichteneingabe</headline>
-    <desc lang="en">Here, you can input the message and the key to use.</desc>
-    <desc lang="de">Hier können Sie die Nachricht und den zu benutzenden Schlüssel eingeben.</desc>
+    <task lang="en">Here, you can input the message and the key to use.</task>
+    <task lang="de">Hier können Sie die Nachricht und den zu benutzenden Schlüssel eingeben.</task>
 
     <comboBox plugin="SDES" property="Action" alignment="Left" width="20%">
       <description lang="en">Encrypt or Decrypt:</description>
@@ -198,8 +198,8 @@
 
       <headline lang="en" >SDES Output</headline>
       <headline lang="de" >SDES-Ausgabe</headline>
-      <desc lang="en">Here, you can change the message and view the results.</desc>
-      <desc lang="de">Hier können Sie die Nachricht verändern und die Ergebnisse sehen.</desc>
+      <task lang="en">Here, you can change the message and view the results.</task>
+      <task lang="de">Hier können Sie die Nachricht verändern und die Ergebnisse sehen.</task>
 
       <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5">
         <description lang="en">Message to encrypt/decrypt:</description>
@@ -226,8 +226,8 @@
 
     <headline lang="en" >Message Input</headline>
     <headline lang="de" >Nachrichteneingabe</headline>
-    <desc lang="en">Here, you can input the message and the key to use.</desc>
-    <desc lang="de">Hier können Sie die Nachricht und den zu benutzenden Schlüssel eingeben.</desc>
+    <task lang="en">Here, you can input the message and the key to use.</task>
+    <task lang="de">Hier können Sie die Nachricht und den zu benutzenden Schlüssel eingeben.</task>
 
     <comboBox plugin="Twofish" property="Action" alignment="Left" width="20%">
       <description lang="en">Encrypt or Decrypt:</description>
@@ -274,8 +274,8 @@
 
       <headline lang="en">Twofish Output</headline>
       <headline lang="de">Twofish-Ausgabe</headline>
-      <desc lang="en">Here, you can change the message and view the results.</desc>
-      <desc lang="de">Hier können Sie die Nachricht verändern und die Ergebnisse sehen.</desc>
+      <task lang="en">Here, you can change the message and view the results.</task>
+      <task lang="de">Hier können Sie die Nachricht verändern und die Ergebnisse sehen.</task>
 
       <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5">
         <description lang="en">Message to encrypt/decrypt (size must be multiple of 16):</description>
@@ -305,8 +305,8 @@
 
     <headline lang="en" >Message Input</headline>
     <headline lang="de" >Nachrichteneingabe</headline>
-    <desc lang="en">Here, you can input the message and the key to use.</desc>
-    <desc lang="de">Hier können Sie die Nachricht und den zu benutzenden Schlüssel eingeben.</desc>
+    <task lang="en">Here, you can input the message and the key to use.</task>
+    <task lang="de">Hier können Sie die Nachricht und den zu benutzenden Schlüssel eingeben.</task>
 
     <comboBox plugin="TEA" property="Action" alignment="Left" width="20%">
       <description lang="en">Encrypt or Decrypt:</description>
@@ -344,8 +344,8 @@
 
       <headline lang="en" >Twofish Output</headline>
       <headline lang="de" >Twofish-Ausgabe</headline>
-      <desc lang="en">Here, you can change the message and view the results.</desc>
-      <desc lang="de">Hier können Sie die Nachricht verändern und die Ergebnisse sehen.</desc>
+      <task lang="en">Here, you can change the message and view the results.</task>
+      <task lang="de">Hier können Sie die Nachricht verändern und die Ergebnisse sehen.</task>
 
       <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5">
         <description lang="en">Message to encrypt/decrypt:</description>
@@ -368,8 +368,8 @@
 
     <headline lang="en" >Message Input</headline>
     <headline lang="de" >Nachrichteneingabe</headline>
-    <desc lang="en">Here, you can input the message and the key to use.</desc>
-    <desc lang="de">Hier können Sie die Nachricht und den zu benutzenden Schlüssel eingeben.</desc>
+    <task lang="en">Here, you can input the message and the key to use.</task>
+    <task lang="de">Hier können Sie die Nachricht und den zu benutzenden Schlüssel eingeben.</task>
 
     <comboBox plugin="RC2" property="Action" alignment="Left" width="20%">
       <description lang="en">Encrypt or Decrypt:</description>
@@ -408,8 +408,8 @@
 
       <headline lang="en">RC2 Output</headline>
       <headline lang="de">RC2-Ausgabe</headline>
-      <desc lang="en">Here, you can change the message and view the results.</desc>
-      <desc lang="de">Hier können Sie die Nachricht verändern und die Ergebnisse sehen.</desc>
+      <task lang="en">Here, you can change the message and view the results.</task>
+      <task lang="de">Hier können Sie die Nachricht verändern und die Ergebnisse sehen.</task>
 
       <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5">
         <description lang="en">Message to encrypt/decrypt:</description>

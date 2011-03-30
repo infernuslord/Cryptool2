@@ -14,8 +14,8 @@
   <headline lang="de">Algorithmusauswahl</headline>
 
   <!-- This is the step's description. -->
-  <desc lang="en" >Select a classic encryption algorithm.</desc>
-  <desc lang="de" >Wählen Sie einen klassischen Verschlüsselungsalgorithmus.</desc>
+  <task lang="en" >Select a classic encryption algorithm.</task>
+  <task lang="de" >Wählen Sie einen klassischen Verschlüsselungsalgorithmus.</task>
 
   <!-- Caesar input -->
   <input image="Caesar">
@@ -30,8 +30,8 @@ Indem Sie dies wählen, können Sie einen mit dem Caesar-Algorithmus verschlüss
     </description>
 
     <headline lang="en">Caesar Analysis</headline>
-    <desc lang="en">Please input the ciphertext and text language.</desc>
-    <desc lang="de">Bitte geben Sie den chiffrierten Text ein und wählen die Textsprache aus.</desc>
+    <task lang="en">Please input the ciphertext and text language.</task>
+    <task lang="de">Bitte geben Sie den chiffrierten Text ein und wählen die Textsprache aus.</task>
 
     <inputBox plugin="Ciphertext" property="Text" alignment="Stretch" visibleLines="5">
       <description lang="en">Ciphertext:</description>
@@ -60,8 +60,8 @@ Hfjxfwx Sfrj bzwij ezr Gjxyfsiyjnq ijx Ynyjqx fqqjw sfhmktqljsijs Mjwwxhmjw ijx 
       
       <headline lang="en">Caesar Analysis Output</headline>
       <headline lang="de">Caesar-Analyse: Ausgabe</headline>
-      <desc lang="en">Here, you can change the message and view the results.</desc>
-      <desc lang="de">Hier können Sie die Nachricht verändern und die Ergebnisse sehen.</desc>
+      <task lang="en">Here, you can change the message and view the results.</task>
+      <task lang="de">Hier können Sie die Nachricht verändern und die Ergebnisse sehen.</task>
 
       <inputBox plugin="Ciphertext" property="Text" alignment="Stretch" visibleLines="5">
         <description lang="en">Ciphertext:</description>
@@ -100,8 +100,8 @@ Indem Sie dies wählen, können Sie einen mit dem Vigenère-Algorithmus verschl�
 
     <headline lang="en">Vigenère Analysis</headline>
     <headline lang="de">Vigenère-Analyse</headline>
-    <desc lang="en">Please input the ciphertext and text language.</desc>
-    <desc lang="de">Bitte geben Sie den chiffrierten Text ein und wählen die Textsprache aus.</desc>
+    <task lang="en">Please input the ciphertext and text language.</task>
+    <task lang="de">Bitte geben Sie den chiffrierten Text ein und wählen die Textsprache aus.</task>
 
     <inputBox plugin="Ciphertext" property="Text" alignment="Stretch" visibleLines="5">
       <description lang="de">Chiffrierter Text:</description>
@@ -136,8 +136,8 @@ Zij Vgpyüywafoscw swe „IBHC“, lrx Xarl „kpkeaivzv“. Zqrx Gwykec-Vutobzw
 
       <headline lang="en">Vigenère Analysis Output</headline>
       <headline lang="de">Vigenère-Analyse: Ausgabe</headline>
-      <desc lang="en">Here, you can change the message and view the results.</desc>
-      <desc lang="de">Hier können Sie die Nachricht verändern und die Ergebnisse sehen.</desc>
+      <task lang="en">Here, you can change the message and view the results.</task>
+      <task lang="de">Hier können Sie die Nachricht verändern und die Ergebnisse sehen.</task>
 
       <inputBox plugin="Ciphertext" property="Text" alignment="Stretch" visibleLines="5">
         <description lang="en">Ciphertext:</description>
@@ -176,8 +176,8 @@ Indem Sie dies wählen, können Sie einen mit dem Enigma-Algorithmus verschlüss
 
     <headline lang="en">Enigma Analysis</headline>
     <headline lang="de">Enigma-Analyse</headline>
-    <desc lang="en">Enter the ciphertext here.</desc>
-    <desc lang="de">Geben Sie den chiffrierten Text hier ein.</desc>
+    <task lang="en">Enter the ciphertext here.</task>
+    <task lang="de">Geben Sie den chiffrierten Text hier ein.</task>
 
     <inputBox plugin="Ciphertext" property="Text" visibleLines="10">
       <description lang="en">Ciphertext:</description>
@@ -229,8 +229,8 @@ Indem Sie dies wählen, können Sie einen mit dem Scytale-Algorithmus verschlüs
 
     <headline lang="en">Scytale Analysis</headline>
     <headline lang="de">Scytale-Analyse</headline>
-    <desc lang="en">Please input the ciphertext and choose the dictionary to use.</desc>
-    <desc lang="de">Bitte geben Sie den chiffrierten Text ein und wählen das zu benutzende Wörterbuch aus.</desc>
+    <task lang="en">Please input the ciphertext and choose the dictionary to use.</task>
+    <task lang="de">Bitte geben Sie den chiffrierten Text ein und wählen das zu benutzende Wörterbuch aus.</task>
 
     <inputBox plugin="Ciphertext" property="Text" visibleLines="10">
       <description lang="en">Ciphertext:</description>
@@ -253,8 +253,8 @@ Indem Sie dies wählen, können Sie einen mit dem Scytale-Algorithmus verschlüs
 
       <headline lang="en">Scytale Analysis Output</headline>
       <headline lang="de" >Scytale-Analyse: Ausgabe</headline>
-      <desc lang="en">Here you can see the analysis of your ciphertext.</desc>
-      <desc lang="de">Hier können Sie die Analyse Ihres chiffrierten Textes sehen.</desc>
+      <task lang="en">Here you can see the analysis of your ciphertext.</task>
+      <task lang="de">Hier können Sie die Analyse Ihres chiffrierten Textes sehen.</task>
 
       <outputBox plugin="Plaintext" property="CurrentValue" visibleLines="5">
         <description lang="en">Plaintext:</description>

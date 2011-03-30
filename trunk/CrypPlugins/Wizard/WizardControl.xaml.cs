@@ -248,10 +248,10 @@ namespace Wizard
             if (headline != null)
                 taskHeader.Content = headline.Value.Trim();
 
-            //set description label
-            XElement desc = FindElementsInElement(element, "desc").First();
-            if (desc != null)
-                descHeader.Content = desc.Value.Trim();
+            //set task description label
+            XElement task = FindElementsInElement(element, "task").First();
+            if (task != null)
+                descHeader.Content = task.Value.Trim();
 
 
             if (element.Name == "input" || element.Name == "sampleViewer")

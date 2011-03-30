@@ -13,8 +13,8 @@
   <headline lang="de">Auswahl des Typs</headline>
 
   <!-- This is the step's description. -->
-  <desc lang="en" >Select which kind of modern encryption/decryption algorithm you want to use.</desc>
-  <desc lang="de" >Wählen Sie welche Art eines modernen Verschlüsselungs-/Entschlüsselungsalgorithmus Sie benutzen wollen.</desc>
+  <task lang="en" >Select which kind of modern encryption/decryption algorithm you want to use.</task>
+  <task lang="de" >Wählen Sie welche Art eines modernen Verschlüsselungs-/Entschlüsselungsalgorithmus Sie benutzen wollen.</task>
 
   <!-- Symmetric Encryption/Decryption Category -->
   <file resource="Wizard.Config.EnDeCrypt.wizard.config.modernSymEnDe.xml" />
@@ -29,8 +29,8 @@
     <headline lang="en">Algorithm Selection</headline>
     <headline lang="de">Algorithmusauswahl</headline>
 
-    <desc lang="en" >Select a asymmetric encryption/decryption algorithm.</desc>
-    <desc lang="de" >Wählen Sie einen asymmetrischen Verschlüsselungs-/Entschlüsselungsalgorithmus.</desc>
+    <task lang="en" >Select a asymmetric encryption/decryption algorithm.</task>
+    <task lang="de" >Wählen Sie einen asymmetrischen Verschlüsselungs-/Entschlüsselungsalgorithmus.</task>
     
     <!-- RSA input -->
     <category image="RSA">
@@ -49,8 +49,8 @@ RSA ist in kommerziellen Protokollen weit verbreitet und gilt bei genügend lang
       </description>
 
       <headline lang="en">RSA</headline>
-      <desc lang="en">Choose whether you want to use RSA for encryption or decryption</desc>
-      <desc lang="de">Choose whether you want to use RSA for encryption or decryption</desc>
+      <task lang="en">Choose whether you want to use RSA for encryption or decryption</task>
+      <task lang="de">Choose whether you want to use RSA for encryption or decryption</task>
       
       <input image="RSA" >
         <name lang="en">RSA Encryption</name>
@@ -60,8 +60,8 @@ RSA ist in kommerziellen Protokollen weit verbreitet und gilt bei genügend lang
 
         <headline lang="en" >RSA Encryption Input</headline>
         <headline lang="de" >RSA Verschlüsselungseingabe</headline>
-        <desc lang="en">Here, you can input the plaintext and the public key to use for encryption.</desc>
-        <desc lang="de">Hier können Sie den Klartext und den zu benutzenden öffentlichen Schlüssel zur Verschlüsselung eingeben.</desc>
+        <task lang="en">Here, you can input the plaintext and the public key to use for encryption.</task>
+        <task lang="de">Hier können Sie den Klartext und den zu benutzenden öffentlichen Schlüssel zur Verschlüsselung eingeben.</task>
 
         <inputBox plugin="N" property="Text" group="Key" width="20%">
           <description lang="en">N (common part of keypair):</description>
@@ -95,8 +95,8 @@ RSA ist in kommerziellen Protokollen weit verbreitet und gilt bei genügend lang
 
           <headline lang="en">RSA Encryption Output</headline>
           <headline lang="de">RSA-Verschlüsselung: Ausgabe</headline>
-          <desc lang="en">Here, you can see the RSA encryption output.</desc>
-          <desc lang="de">Hier können Sie die RSA-Verschlüsselungsausgabe sehen.</desc>
+          <task lang="en">Here, you can see the RSA encryption output.</task>
+          <task lang="de">Hier können Sie die RSA-Verschlüsselungsausgabe sehen.</task>
 
           <presentation plugin="Ciphertext" width="90%" alignment="Left">
             <description lang="en">Ciphertext (in Hex):</description>
@@ -117,8 +117,8 @@ RSA ist in kommerziellen Protokollen weit verbreitet und gilt bei genügend lang
 
         <headline lang="en">RSA Decryption Input</headline>
         <headline lang="de">RSA Entschlüsselungseingabe</headline>
-        <desc lang="en">Here, you can input the plaintext and the private key to use for decryption.</desc>
-        <desc lang="de">Hier können Sie den Klartext und den zu benutzenden privaten Schlüssel zur Entschlüsselung eingeben.</desc>
+        <task lang="en">Here, you can input the plaintext and the private key to use for decryption.</task>
+        <task lang="de">Hier können Sie den Klartext und den zu benutzenden privaten Schlüssel zur Entschlüsselung eingeben.</task>
 
         <inputBox plugin="N" property="Text" group="Key" width="20%">
           <description lang="en">N (common part of keypair):</description>
@@ -152,8 +152,8 @@ RSA ist in kommerziellen Protokollen weit verbreitet und gilt bei genügend lang
 
           <headline lang="en">RSA Decryption Output</headline>
           <headline lang="de">RSA-Entschlüsselung: Ausgabe</headline>
-          <desc lang="en">Here, you can see the RSA decryption output.</desc>
-          <desc lang="de">Hier können Sie die RSA-Entschlüsselungsausgabe sehen.</desc>
+          <task lang="en">Here, you can see the RSA decryption output.</task>
+          <task lang="de">Hier können Sie die RSA-Entschlüsselungsausgabe sehen.</task>
 
           <presentation plugin="Cleartext" width="90%" alignment="Left">
             <description lang="en">Cleartext:</description>
@@ -175,8 +175,8 @@ RSA ist in kommerziellen Protokollen weit verbreitet und gilt bei genügend lang
 
         <headline lang="en">RSA Key Generation</headline>
         <headline lang="de">RSA Schlüsselerzeugung</headline>
-        <desc lang="en">Here you can see a random generated RSA keypair. (N, e) is the public key and (N, d) is the private key.</desc>
-        <desc lang="de">Hier können Sie ein zufällig erzeugtes RSA Schlüsselpaar sehen. (N, e) ist der öffentliche Schlüssel und (N, d) ist der private Schlüssel.</desc>
+        <task lang="en">Here you can see a random generated RSA keypair. (N, e) is the public key and (N, d) is the private key.</task>
+        <task lang="de">Hier können Sie ein zufällig erzeugtes RSA Schlüsselpaar sehen. (N, e) ist der öffentliche Schlüssel und (N, d) ist der private Schlüssel.</task>
 
         <outputBox plugin="N" property="CurrentValue">
           <description lang="en">N (common part of keypair):</description>

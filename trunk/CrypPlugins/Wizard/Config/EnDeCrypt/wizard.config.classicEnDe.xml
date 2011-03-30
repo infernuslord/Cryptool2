@@ -14,8 +14,8 @@
   <headline lang="de">Algorithmusauswahl</headline>
 
   <!-- This is the step's description. -->
-  <desc lang="en" >Select a classic encryption/decryption algorithm.</desc>
-  <desc lang="de" >Wählen Sie einen klassischen Verschlüsselungs-/Entschlüsselungsalgorithmus.</desc>
+  <task lang="en" >Select a classic encryption/decryption algorithm.</task>
+  <task lang="de" >Wählen Sie einen klassischen Verschlüsselungs-/Entschlüsselungsalgorithmus.</task>
 
   <!-- Caesar input -->
   <input image="Caesar">
@@ -25,8 +25,8 @@
 
     <headline lang="en" >Message Input</headline>
     <headline lang="de" >Nachrichteneingabe</headline>
-    <desc lang="en">Here, you can input the message and the key to use.</desc>
-    <desc lang="de">Hier können Sie die Nachricht und den zu benutzenden Schlüssel eingeben.</desc>
+    <task lang="en">Here, you can input the message and the key to use.</task>
+    <task lang="de">Hier können Sie die Nachricht und den zu benutzenden Schlüssel eingeben.</task>
 
     <comboBox plugin="Caesar" property="Action" alignment="Left" width="20%">
       <description lang="en">Encrypt or Decrypt:</description>
@@ -58,8 +58,8 @@
 
       <headline lang="en" >Caesar Output</headline>
       <headline lang="de" >Caesar-Ausgabe</headline>
-      <desc lang="en">Here, you can change the parameters and view the results.</desc>
-      <desc lang="de">Hier können Sie Parameter verändern und die Ergebnisse sehen.</desc>
+      <task lang="en">Here, you can change the parameters and view the results.</task>
+      <task lang="de">Hier können Sie Parameter verändern und die Ergebnisse sehen.</task>
 
       <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5">
         <description lang="en">Message to encrypt/decrypt:</description>
@@ -85,8 +85,8 @@
 
     <headline lang="en" >Message Input</headline>
     <headline lang="de" >Nachrichteneingabe</headline>
-    <desc lang="en">Here, you can input the message and the key to use.</desc>
-    <desc lang="de">Hier können Sie die Nachricht und den zu benutzenden Schlüssel eingeben.</desc>
+    <task lang="en">Here, you can input the message and the key to use.</task>
+    <task lang="de">Hier können Sie die Nachricht und den zu benutzenden Schlüssel eingeben.</task>
 
     <comboBox plugin="Vigenere" property="Action" alignment="Left" width="20%">
       <description lang="en">Encrypt or Decrypt:</description>
@@ -117,8 +117,8 @@
 
       <headline lang="en" >Vigenère Output</headline>
       <headline lang="de" >Vigenère-Ausgabe</headline>
-      <desc lang="en">Here, you can change the parameters and view the results.</desc>
-      <desc lang="de">Hier können Sie Parameter verändern und die Ergebnisse sehen.</desc>
+      <task lang="en">Here, you can change the parameters and view the results.</task>
+      <task lang="de">Hier können Sie Parameter verändern und die Ergebnisse sehen.</task>
 
       <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5" >
         <description lang="en">Message to encrypt/decrypt:</description>
@@ -142,8 +142,8 @@
 
     <headline lang="en" >Message Input</headline>
     <headline lang="de" >Nachrichteneingabe</headline>
-    <desc lang="en">Here, you can input the message and the key to use.</desc>
-    <desc lang="de">Hier können Sie die Nachricht und den zu benutzenden Schlüssel eingeben.</desc>
+    <task lang="en">Here, you can input the message and the key to use.</task>
+    <task lang="de">Hier können Sie die Nachricht und den zu benutzenden Schlüssel eingeben.</task>
 
     <comboBox plugin="Substitution" property="Action" alignment="Left" width="20%">
       <description lang="en">Encrypt or Decrypt:</description>
@@ -174,8 +174,8 @@
 
       <headline lang="en" >Substitution Output</headline>
       <headline lang="de" >Substitution-Ausgabe</headline>
-      <desc lang="en">Here, you can change the parameters and view the results.</desc>
-      <desc lang="de">Hier können Sie Parameter verändern und die Ergebnisse sehen.</desc>
+      <task lang="en">Here, you can change the parameters and view the results.</task>
+      <task lang="de">Hier können Sie Parameter verändern und die Ergebnisse sehen.</task>
 
       <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5">
         <description lang="en">Message to encrypt/decrypt:</description>
@@ -203,8 +203,8 @@ Die erste Enigma wurde von dem deutschen Ingenieur Arthur Scherbius am Ende des 
 
     <headline lang="en" >Message Input</headline>
     <headline lang="de" >Nachrichteneingabe</headline>
-    <desc lang="en">Here, you can input the message and the key to use.</desc>
-    <desc lang="de">Hier können Sie die Nachricht und den zu benutzenden Schlüssel eingeben.</desc>
+    <task lang="en">Here, you can input the message and the key to use.</task>
+    <task lang="de">Hier können Sie die Nachricht und den zu benutzenden Schlüssel eingeben.</task>
 
     <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5" >
       <description lang="en">Message to encrypt/decrypt:</description>
@@ -224,8 +224,8 @@ Die erste Enigma wurde von dem deutschen Ingenieur Arthur Scherbius am Ende des 
 
     <headline lang="en" >Message Input</headline>
     <headline lang="de" >Nachrichteneingabe</headline>
-    <desc lang="en">Here, you can input the message and the key to use.</desc>
-    <desc lang="de">Hier können Sie die Nachricht und den zu benutzenden Schlüssel eingeben.</desc>
+    <task lang="en">Here, you can input the message and the key to use.</task>
+    <task lang="de">Hier können Sie die Nachricht und den zu benutzenden Schlüssel eingeben.</task>
 
     <comboBox plugin="Playfair" property="Action" alignment="Left" width="20%">
       <description lang="en">Encrypt or Decrypt:</description>
@@ -253,8 +253,8 @@ Die erste Enigma wurde von dem deutschen Ingenieur Arthur Scherbius am Ende des 
       
       <headline lang="en" >Playfair Output</headline>
       <headline lang="de" >Playfair-Ausgabe</headline>
-      <desc lang="en">Here, you can change the parameters and view the results.</desc>
-      <desc lang="de">Hier können Sie Parameter verändern und die Ergebnisse sehen.</desc>
+      <task lang="en">Here, you can change the parameters and view the results.</task>
+      <task lang="de">Hier können Sie Parameter verändern und die Ergebnisse sehen.</task>
 
       <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5" >
         <description lang="en">Message to encrypt/decrypt:</description>
@@ -278,8 +278,8 @@ Die erste Enigma wurde von dem deutschen Ingenieur Arthur Scherbius am Ende des 
 
     <headline lang="en" >Message Input</headline>
     <headline lang="de" >Nachrichteneingabe</headline>
-    <desc lang="en">Here, you can input the message and the key to use.</desc>
-    <desc lang="de">Hier können Sie die Nachricht und den zu benutzenden Schlüssel eingeben.</desc>
+    <task lang="en">Here, you can input the message and the key to use.</task>
+    <task lang="de">Hier können Sie die Nachricht und den zu benutzenden Schlüssel eingeben.</task>
 
     <comboBox plugin="ADFGVX" property="Action" alignment="Left" width="20%">
       <description lang="en">Encrypt or Decrypt:</description>
@@ -315,8 +315,8 @@ Die erste Enigma wurde von dem deutschen Ingenieur Arthur Scherbius am Ende des 
 
       <headline lang="en" >ADFGVX Output</headline>
       <headline lang="de" >ADFGVX-Ausgabe</headline>
-      <desc lang="en">Here, you can change the parameters and view the results.</desc>
-      <desc lang="de">Hier können Sie Parameter verändern und die Ergebnisse sehen.</desc>
+      <task lang="en">Here, you can change the parameters and view the results.</task>
+      <task lang="de">Hier können Sie Parameter verändern und die Ergebnisse sehen.</task>
 
       <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5" >
         <description lang="en">Message to encrypt/decrypt:</description>
@@ -339,8 +339,8 @@ Die erste Enigma wurde von dem deutschen Ingenieur Arthur Scherbius am Ende des 
 
     <headline lang="en" >Message Input</headline>
     <headline lang="de" >Nachrichteneingabe</headline>
-    <desc lang="en">Here, you can input the message and the key to use.</desc>
-    <desc lang="de">Hier können Sie die Nachricht und den zu benutzenden Schlüssel eingeben.</desc>
+    <task lang="en">Here, you can input the message and the key to use.</task>
+    <task lang="de">Hier können Sie die Nachricht und den zu benutzenden Schlüssel eingeben.</task>
 
     <inputBox plugin="Message" property="Text" alignment="Strecht" width="49%" visibleLines="5" group="InputGroup">
       <description lang="en">Message to encrypt/decrypt:</description>
@@ -362,8 +362,8 @@ Die erste Enigma wurde von dem deutschen Ingenieur Arthur Scherbius am Ende des 
 
       <headline lang="en" >XOR Output</headline>
       <headline lang="de" >XOR-Ausgabe</headline>
-      <desc lang="en">Here, you can change the parameters and view the results.</desc>
-      <desc lang="de">Hier können Sie Parameter verändern und die Ergebnisse sehen.</desc>
+      <task lang="en">Here, you can change the parameters and view the results.</task>
+      <task lang="de">Hier können Sie Parameter verändern und die Ergebnisse sehen.</task>
 
       <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5" >
         <description lang="en">Message to encrypt/decrypt:</description>
@@ -387,8 +387,8 @@ Die erste Enigma wurde von dem deutschen Ingenieur Arthur Scherbius am Ende des 
 
     <headline lang="en" >Message Input</headline>
     <headline lang="de" >Nachrichteneingabe</headline>
-    <desc lang="en">Here, you can input the message and the key to use.</desc>
-    <desc lang="de">Hier können Sie die Nachricht und den zu benutzenden Schlüssel eingeben.</desc>
+    <task lang="en">Here, you can input the message and the key to use.</task>
+    <task lang="de">Hier können Sie die Nachricht und den zu benutzenden Schlüssel eingeben.</task>
 
     <comboBox plugin="Vernam" property="Action" alignment="Left" width="20%">
       <description lang="en">Encrypt or Decrypt:</description>
@@ -419,8 +419,8 @@ Die erste Enigma wurde von dem deutschen Ingenieur Arthur Scherbius am Ende des 
 
       <headline lang="en" >Vernam Output</headline>
       <headline lang="de" >Vernam-Ausgabe</headline>
-      <desc lang="en">Here, you can change the parameters and view the results.</desc>
-      <desc lang="de">Hier können Sie Parameter verändern und die Ergebnisse sehen.</desc>
+      <task lang="en">Here, you can change the parameters and view the results.</task>
+      <task lang="de">Hier können Sie Parameter verändern und die Ergebnisse sehen.</task>
 
       <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5" >
         <description lang="en">Message to encrypt/decrypt:</description>
@@ -444,8 +444,8 @@ Die erste Enigma wurde von dem deutschen Ingenieur Arthur Scherbius am Ende des 
 
     <headline lang="en" >Message Input</headline>
     <headline lang="de" >Nachrichteneingabe</headline>
-    <desc lang="en">Here, you can input the message and the key to use.</desc>
-    <desc lang="de">Hier können Sie die Nachricht und den zu benutzenden Schlüssel eingeben.</desc>
+    <task lang="en">Here, you can input the message and the key to use.</task>
+    <task lang="de">Hier können Sie die Nachricht und den zu benutzenden Schlüssel eingeben.</task>
 
     <comboBox plugin="Transposition" property="Action" alignment="Left" width="20%">
       <description lang="en">Encrypt or Decrypt:</description>
@@ -476,8 +476,8 @@ Die erste Enigma wurde von dem deutschen Ingenieur Arthur Scherbius am Ende des 
 
       <headline lang="en">Transposition Output</headline>
       <headline lang="de">Transpositions-Ausgabe</headline>
-      <desc lang="en">Here, you can change the parameters and view the results.</desc>
-      <desc lang="de">Hier können Sie Parameter verändern und die Ergebnisse sehen.</desc>
+      <task lang="en">Here, you can change the parameters and view the results.</task>
+      <task lang="de">Hier können Sie Parameter verändern und die Ergebnisse sehen.</task>
 
       <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5" >
         <description lang="en">Message to encrypt/decrypt:</description>
@@ -507,8 +507,8 @@ Die erste Enigma wurde von dem deutschen Ingenieur Arthur Scherbius am Ende des 
 
     <headline lang="en" >Message Input</headline>
     <headline lang="de" >Nachrichteneingabe</headline>
-    <desc lang="en">Here, you can input the message and the key to use.</desc>
-    <desc lang="de">Hier können Sie die Nachricht und den zu benutzenden Schlüssel eingeben.</desc>
+    <task lang="en">Here, you can input the message and the key to use.</task>
+    <task lang="de">Hier können Sie die Nachricht und den zu benutzenden Schlüssel eingeben.</task>
 
     <comboBox plugin="Scytale" property="Action" alignment="Left" width="20%">
       <description lang="de">Verschlüsseln oder Entschlüsseln:</description>
@@ -539,8 +539,8 @@ Die erste Enigma wurde von dem deutschen Ingenieur Arthur Scherbius am Ende des 
 
       <headline lang="en" >Scytale Output</headline>
       <headline lang="de" >Scytale-Ausgabe</headline>
-      <desc lang="en">Here, you can change the parameters and view the results.</desc>
-      <desc lang="de">Hier können Sie Parameter verändern und die Ergebnisse sehen.</desc>
+      <task lang="en">Here, you can change the parameters and view the results.</task>
+      <task lang="de">Hier können Sie Parameter verändern und die Ergebnisse sehen.</task>
 
       <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5">
         <description lang="en">Message to encrypt/decrypt:</description>

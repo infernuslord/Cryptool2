@@ -14,8 +14,8 @@
   <headline lang="de" >Primzahl-Operation: Auswahl</headline>
 
   <!-- This is the step's description. -->
-  <desc lang="en" >Select a prime number operation.</desc>
-  <desc lang="de" >Wählen Sie eine Primzahl-Operation.</desc>
+  <task lang="en" >Select a prime number operation.</task>
+  <task lang="de" >Wählen Sie eine Primzahl-Operation.</task>
 
   <!-- Factorization input -->
   <file resource="Wizard.Config.Indiv.wizard.config.factorization.xml"/>
@@ -29,8 +29,8 @@
 
     <headline lang="en">Prime Number Generation</headline>
     <headline lang="de" >Zufallszahl-Erzeugung</headline>
-    <desc lang="en">Input the parameters for prime number generation.</desc>
-    <desc lang="de">Geben Sie die Parameter zur Erzeugung einer Primzahl ein.</desc>
+    <task lang="en">Input the parameters for prime number generation.</task>
+    <task lang="de">Geben Sie die Parameter zur Erzeugung einer Primzahl ein.</task>
 
     <inputBox plugin="PrimesGenerator" property="Input" width="50%" alignment="Left">
       <description lang="en">Number of digits:</description>
@@ -46,8 +46,8 @@
 
       <headline lang="en">Prime Number Generation Output</headline>
       <headline lang="de">Primzahlerzeugung: Ausgabe</headline>
-      <desc lang="en">The generated prime number.</desc>
-      <desc lang="de">Die erzeugte Primzahl.</desc>
+      <task lang="en">The generated prime number.</task>
+      <task lang="de">Die erzeugte Primzahl.</task>
       
       <outputBox plugin="PrimeNumber" property="CurrentValue">
         <description lang="en">Generated Prime Number:</description>
@@ -65,8 +65,8 @@
 
     <headline lang="en">Prime Number Test</headline>
     <headline lang="de">Primzahl Test</headline>
-    <desc lang="en">Input the number you want to test.</desc>
-    <desc lang="de">Geben Sie die Zahl ein, die Sie testen wollen.</desc>
+    <task lang="en">Input the number you want to test.</task>
+    <task lang="de">Geben Sie die Zahl ein, die Sie testen wollen.</task>
 
     <inputBox plugin="Number" property="Text" alignment="Stretch">
       <description lang="en">Number (can be a mathematical expression):</description>

@@ -14,8 +14,8 @@
   <headline lang="de" >Individuelles Verfahren: Auswahl</headline>
 
   <!-- This is the step's description. -->
-  <desc lang="en" >Select an individual procedure.</desc>
-  <desc lang="de" >Wählen Sie ein individuelles Verfahren.</desc>
+  <task lang="en" >Select an individual procedure.</task>
+  <task lang="de" >Wählen Sie ein individuelles Verfahren.</task>
 
   <!-- Hash Functions Category -->
   <file resource="Wizard.Config.Indiv.wizard.config.hash.xml" />
@@ -34,7 +34,7 @@
     <headline lang="en" >Key Exchange Algorithm Selection</headline>
 
     --><!-- This is the step's description. --><!--
-    <desc lang="en" >Select a key exchange algorithm.</desc>
+    <task lang="en" >Select a key exchange algorithm.</task>
 
     --><!-- Diffie Hellman input --><!--
     <input image="Key" >

@@ -14,8 +14,8 @@
   <headline lang="de" >Hash-Funktion: Auswahl</headline>
 
   <!-- This is the step's description. -->
-  <desc lang="en" >Select a hash function.</desc>
-  <desc lang="de" >Wählen Sie eine Hash-Funktion.</desc>
+  <task lang="en" >Select a hash function.</task>
+  <task lang="de" >Wählen Sie eine Hash-Funktion.</task>
 
   <!-- MD5 input -->
   <category image="MD5">
@@ -24,8 +24,8 @@
     <description lang="de" >MD5 (Message-Digest algorithm 5) ist eine weit verbreitete kryptographische Hash-Funktion mit einem 128-bit (16-byte) Hashwert.</description>
 
     <headline lang="en">MD5</headline>
-    <desc lang="en">Select if you want to see an interactive presentation of MD5 processing your data.</desc>
-    <desc lang="de">Wählen Sie, ob Sie eine interaktive Präsentation sehen wollen, wie MD5 Ihre Daten verarbeitet.</desc>
+    <task lang="en">Select if you want to see an interactive presentation of MD5 processing your data.</task>
+    <task lang="de">Wählen Sie, ob Sie eine interaktive Präsentation sehen wollen, wie MD5 Ihre Daten verarbeitet.</task>
     
     <sampleViewer image="MD5" file="WorkspaceManagerSamples\MD5_Sample.cwm">
       <name lang="en" >MD5 - Result Only</name>
@@ -34,8 +34,8 @@
       <description lang="de" >Nur das Ergebnis von MD5.</description>
 
       <headline lang="en">MD5</headline>
-      <desc lang="en">Input your message and watch the MD5 output here.</desc>
-      <desc lang="de">Geben Sie hier Ihre Nachricht ein und betrachten Sie die MD5-Ausgabe.</desc>
+      <task lang="en">Input your message and watch the MD5 output here.</task>
+      <task lang="de">Geben Sie hier Ihre Nachricht ein und betrachten Sie die MD5-Ausgabe.</task>
 
       <inputBox plugin="Input" property="Text" alignment="Stretch" visibleLines="5">
         <description lang="en">Input Message:</description>
@@ -55,8 +55,8 @@
       <description lang="de" >Interaktive MD5-Präsentation.</description>
 
       <headline lang="en">MD5</headline>
-      <desc lang="en">Input your message and watch the MD5 output here.</desc>
-      <desc lang="de">Geben Sie hier Ihre Nachricht ein und betrachten Sie die MD5-Ausgabe.</desc>
+      <task lang="en">Input your message and watch the MD5 output here.</task>
+      <task lang="de">Geben Sie hier Ihre Nachricht ein und betrachten Sie die MD5-Ausgabe.</task>
 
       <inputBox plugin="Input" property="Text" width="50%" alignment="Stretch" visibleLines="5" group="1">
         <description lang="en">Input Message:</description>
@@ -82,8 +82,8 @@
     <description lang="de" >Der "Secure Hash Algorithm" ist einer von vielen kryptographischen Hash-Funktionen die vom "National Institute of Standards and Technology" als "U.S. Federal Information Processing Standard" veröffentlicht wurden.</description>
 
     <headline lang="en">SHA-1</headline>
-    <desc lang="en">Input your message and watch the SHA-1 output here.</desc>
-    <desc lang="de">Geben Sie hier Ihre Nachricht ein und betrachten Sie die SHA-1-Ausgabe.</desc>
+    <task lang="en">Input your message and watch the SHA-1 output here.</task>
+    <task lang="de">Geben Sie hier Ihre Nachricht ein und betrachten Sie die SHA-1-Ausgabe.</task>
 
     <inputBox plugin="Input" property="Text" alignment="Stretch" visibleLines="5">
       <description lang="en">Input Message:</description>
@@ -103,8 +103,8 @@
     <description lang="de" >Der "Secure Hash Algorithm" ist einer von vielen kryptographischen Hash-Funktionen die vom "National Institute of Standards and Technology" als "U.S. Federal Information Processing Standard" veröffentlicht wurden.</description>
 
     <headline lang="en">SHA-256</headline>
-    <desc lang="en">Input your message and watch the SHA-256 output here.</desc>
-    <desc lang="de">Geben Sie hier Ihre Nachricht ein und betrachten Sie die SHA-256-Ausgabe.</desc>
+    <task lang="en">Input your message and watch the SHA-256 output here.</task>
+    <task lang="de">Geben Sie hier Ihre Nachricht ein und betrachten Sie die SHA-256-Ausgabe.</task>
 
     <inputBox plugin="Input" property="Text" alignment="Stretch" visibleLines="5">
       <description lang="en">Input Message:</description>
@@ -124,8 +124,8 @@
     <description lang="de" >RIPEMD-160 (RACE Integrity Primitives Evaluation Message Digest) ist ein 160-bit "Message Digest" Algorithmus (kryptographische Hash-Funktion). Es ist eine verbesserte Version von RIPEMD, welche wiederum auf den Entwurfsprinzipien, die in MD4 benutzt wurden, basiert, und ist von der Performance vergleichbar mit dem populäreren SHA-1.</description>
 
     <headline lang="en">RIPEMD160</headline>
-    <desc lang="en">Input your message and watch the RIPEMD160 output here.</desc>
-    <desc lang="de">Geben Sie hier Ihre Nachricht ein und betrachten Sie die RIPEMD160-Ausgabe.</desc>
+    <task lang="en">Input your message and watch the RIPEMD160 output here.</task>
+    <task lang="de">Geben Sie hier Ihre Nachricht ein und betrachten Sie die RIPEMD160-Ausgabe.</task>
 
     <inputBox plugin="Input" property="Text" alignment="Stretch" visibleLines="5">
       <description lang="en">Input Message:</description>
@@ -147,8 +147,8 @@ RIPEMD-160 wurde von Hans Dobbertin, Antoon Bosselaers und Bart Preneel in Europ
     <description lang="de" >Tiger ist eine kryptographische Hash-Funktion die 1995 von Ross Anderson und Eli Biham für Effizienz auf 64-Bit Plattformen entworfen wurde. Die Größe eines Tiger Hashwertes ist 192 Bits.</description>
 
     <headline lang="en">Tiger</headline>
-    <desc lang="en">Input your message and watch the Tiger output here.</desc>
-    <desc lang="de">Geben Sie hier Ihre Nachricht ein und betrachten Sie die Tiger-Ausgabe.</desc>
+    <task lang="en">Input your message and watch the Tiger output here.</task>
+    <task lang="de">Geben Sie hier Ihre Nachricht ein und betrachten Sie die Tiger-Ausgabe.</task>
 
     <inputBox plugin="Input" property="Text" alignment="Stretch" visibleLines="5">
       <description lang="en">Input Message:</description>
@@ -168,8 +168,8 @@ RIPEMD-160 wurde von Hans Dobbertin, Antoon Bosselaers und Bart Preneel in Europ
     <description lang="de" >Whirlpool ist ein Hash der nach dem "Square" Blockchiffre entworfen wurde. Whirlpool ist eine Miyaguchi-Preneel Konstruktion die auf einem substantiell veränderten "Advanced Encryption Standard" (AES) basiert. Es nimmt eine Nachricht einer Länge kleiner als 2256 Bits entgegen und gibt ein 512-Bit "message digest" zurück.</description>
 
     <headline lang="en">Whirlpool</headline>
-    <desc lang="en">Input your message and watch the Whirlpool output here.</desc>
-    <desc lang="de">Geben Sie hier Ihre Nachricht ein und betrachten Sie die Whirlpool-Ausgabe.</desc>
+    <task lang="en">Input your message and watch the Whirlpool output here.</task>
+    <task lang="de">Geben Sie hier Ihre Nachricht ein und betrachten Sie die Whirlpool-Ausgabe.</task>
 
     <inputBox plugin="Input" property="Text" alignment="Stretch" visibleLines="5">
       <description lang="en">Input Message:</description>
