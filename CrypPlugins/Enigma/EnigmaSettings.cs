@@ -71,7 +71,7 @@ namespace Cryptool.Enigma
         private int rotor4 = 0;
 
         private int ring1 = 1; // 01 = A, 02 = B ...
-        private int ring2 = 1; 
+        private int ring2 = 1;
         private int ring3 = 1;
         private int ring4 = 1;
 
@@ -102,9 +102,9 @@ namespace Cryptool.Enigma
                     if (rotor1 == becomes) { rotor1 = was; OnPropertyChanged("Rotor1"); }
                     if (rotor2 == becomes) { rotor2 = was; OnPropertyChanged("Rotor2"); }
                     break;
-            } 
+            }
         }
-        
+
 
         private void setPlugBoard(int letterPos, int newIndex)
         {
@@ -115,42 +115,51 @@ namespace Cryptool.Enigma
                 //int newCharIndex = plugBoard.ToString().IndexOf(newChar);
                 char currentChar = plugBoard[letterPos];
                 int currentIndex = alphabet.IndexOf(currentChar);
-                
                 int preconnect = alphabet.IndexOf(this.plugBoard[newIndex]);
+
+
+
 
                 if (this.plugBoard[preconnect] != alphabet[preconnect])
                 {
                     this.plugBoard[preconnect] = alphabet[preconnect];
                     OnPropertyChanged("PlugBoard" + alphabet[preconnect]);
+                    OnPropertyChanged("ForPresentation" + alphabet[newIndex] + alphabet[preconnect] + "if1");
                 }
-               
-                
+
+
+                OnPropertyChanged("ForPresentation" + alphabet[letterPos] + alphabet[newIndex] + "else");
+
+
                 //if (this.involutoricPlugBoard)
                 //{
-                this.plugBoard[newIndex] = currentChar;
+
+                this.plugBoard[newIndex] = alphabet[letterPos];
                 OnPropertyChanged("PlugBoard" + alphabet[newIndex]);
 
 
 
-
-                if (newChar == this.alphabet[letterPos])
+                if (this.plugBoard[letterPos] != alphabet[letterPos])
                 {
-                    // we removed a plug
-                    this.plugBoard[currentIndex] = this.alphabet[currentIndex];
+                    this.plugBoard[currentIndex] = alphabet[currentIndex];
                     OnPropertyChanged("PlugBoard" + alphabet[currentIndex]);
+                    OnPropertyChanged("ForPresentation" + alphabet[newIndex] + alphabet[currentIndex] + "if2");
                 }
 
 
+
+
+                /*if (newChar == this.alphabet[letterPos])
+                {
+                    // we removed a plug
+                    this.plugBoard[currentIndex] = alphabet[currentIndex];
+                    OnPropertyChanged("PlugBoard" + alphabet[currentIndex]);
+                }*/
 
                 //}
 
                 this.plugBoard[letterPos] = newChar;
                 OnPropertyChanged("PlugBoard" + alphabet[letterPos]);
-
-
-
-
-
                 OnPropertyChanged("PlugBoardDisplay");
             }
         }
@@ -233,19 +242,19 @@ namespace Cryptool.Enigma
         #region Public properties
 
         public string Alphabet
-        { 
-            get {return alphabet; }
-            set {alphabet = value; } 
+        {
+            get { return alphabet; }
+            set { alphabet = value; }
         }
 
         #endregion
 
         #region Taskpane settings
 
-        [ContextMenu("Enigma model", "Please select which Enigma model you want to use. This settings influences available rotors and their inner cabling.", 
-            0, ContextMenuControlType.ComboBox, null, 
+        [ContextMenu("Enigma model", "Please select which Enigma model you want to use. This settings influences available rotors and their inner cabling.",
+            0, ContextMenuControlType.ComboBox, null,
             new string[] { "Commercial Enigma A/B - since 1924", "Commercial Enigma D", "Reichsbahn (Rocket) - since 1941", "Enigma I / M3", "M4 (Shark)", "K-Model", "G (Defense model)" })]
-        [TaskPane("Enigma model", "Please select which Enigma model you want to use. This settings influences the available rotors and their inner cabling.", 
+        [TaskPane("Enigma model", "Please select which Enigma model you want to use. This settings influences the available rotors and their inner cabling.",
             null, 0, false, ControlType.ComboBox,
             new string[] { "Enigma A/B - since 1924", "Enigma D", "Reichsbahn (Rocket) - since 1941", "Enigma I / M3", "M4 (Shark)", "K-Model", "G (Defense model)" })]
         [PropertySaveOrder(1)]
@@ -261,10 +270,10 @@ namespace Cryptool.Enigma
                 {
                     case 0: // Enigma A/B
                         actionStrings.Clear(); actionStrings.Add("Encrypt"); actionStrings.Add("Decrypt"); action = 0; OnPropertyChanged("Action");
-                        if (key.Length > 3) key = key.Remove(0,1); OnPropertyChanged("Key");
-                        rotorAStrings.Clear();  rotorAStrings.Add("I (C) -- since 1924"); rotorAStrings.Add("II (C) -- since 1924"); rotorAStrings.Add("III (C) -- since 1924");
+                        if (key.Length > 3) key = key.Remove(0, 1); OnPropertyChanged("Key");
+                        rotorAStrings.Clear(); rotorAStrings.Add("I (C) -- since 1924"); rotorAStrings.Add("II (C) -- since 1924"); rotorAStrings.Add("III (C) -- since 1924");
                         rotor1 = 0; rotor2 = 1; rotor3 = 2; OnPropertyChanged("Rotor1"); OnPropertyChanged("Rotor2"); OnPropertyChanged("Rotor3");
-                        rotorBStrings.Clear(); rotorBStrings.Add("Not available for this model."); rotor4 = 0;  OnPropertyChanged("Rotor4");
+                        rotorBStrings.Clear(); rotorBStrings.Add("Not available for this model."); rotor4 = 0; OnPropertyChanged("Rotor4");
                         reflectorStrings.Clear(); reflectorStrings.Add("Not available for this model."); reflector = 0; OnPropertyChanged("Reflector");
                         hideSettingsElement("Rotor4"); hideSettingsElement("Ring4"); hideSettingsElement("Reflector");
                         break;
@@ -298,7 +307,7 @@ namespace Cryptool.Enigma
                         rotorBStrings.Clear(); rotorBStrings.Add("Not available for this model."); rotor4 = 0; OnPropertyChanged("Rotor4");
                         reflectorStrings.Clear(); reflectorStrings.Add("UKW A"); reflectorStrings.Add("UKW B (2. November 1937)");
                         reflectorStrings.Add("UKW C (since 1940/41)"); reflector = 1; OnPropertyChanged("Reflector");
-                        hideSettingsElement("Rotor4"); hideSettingsElement("Ring4"); 
+                        hideSettingsElement("Rotor4"); hideSettingsElement("Ring4");
                         showSettingsElement("Reflector");
                         break;
                     case 4: // Enigma M4 "Shark"
@@ -385,11 +394,11 @@ namespace Cryptool.Enigma
 
         #region Text options
 
-        [ContextMenu("Unknown symbol handling", "What should be done with encountered characters at the input which are not in the alphabet?", 
-            3, ContextMenuControlType.ComboBox, null, 
+        [ContextMenu("Unknown symbol handling", "What should be done with encountered characters at the input which are not in the alphabet?",
+            3, ContextMenuControlType.ComboBox, null,
             new string[] { "Ignore (leave unmodified)", "Remove", "Replace with \'X\'" })]
-        [TaskPane("Unknown symbol handling", "What should be done with encountered characters at the input which are not in the alphabet?", 
-            "Text options", 3, false, ControlType.ComboBox, 
+        [TaskPane("Unknown symbol handling", "What should be done with encountered characters at the input which are not in the alphabet?",
+            "Text options", 3, false, ControlType.ComboBox,
             new string[] { "Ignore (leave unmodified)", "Remove", "Replace with \'X\'" })]
         public int UnknownSymbolHandling
         {
@@ -402,11 +411,11 @@ namespace Cryptool.Enigma
             }
         }
 
-        [ContextMenu("Case handling", "What should be done with upper and lower case letters?", 
-            4, ContextMenuControlType.ComboBox, null, 
+        [ContextMenu("Case handling", "What should be done with upper and lower case letters?",
+            4, ContextMenuControlType.ComboBox, null,
             new string[] { "Preserve case", "Convert to upper", "Convert to lower" })]
-        [TaskPane("Case handling", "What should be done with upper and lower case letters?", 
-            "Text options", 4, false, ControlType.ComboBox, 
+        [TaskPane("Case handling", "What should be done with upper and lower case letters?",
+            "Text options", 4, false, ControlType.ComboBox,
             new string[] { "Preserve case", "Convert to upper", "Convert to lower" })]
         public int CaseHandling
         {
@@ -455,7 +464,7 @@ namespace Cryptool.Enigma
             }
         }
 
-        [SettingsFormat(1,"Normal","Normal")]
+        [SettingsFormat(1, "Normal", "Normal")]
         [TaskPane("Include rotor I", "Check if rotor I should be included when analyzing rotors.",
             "Analysis options", 7, false, ControlType.CheckBox, "", null)]
         public bool AnalysisUseRotorI
@@ -641,8 +650,8 @@ namespace Cryptool.Enigma
                 }
             }
         }
-       
-        [TaskPane("Max. plugs searched", "Select how many plugs should be searched at most. Note that the search algorithm might return less plugs - this number is just an upper limit", 
+
+        [TaskPane("Max. plugs searched", "Select how many plugs should be searched at most. Note that the search algorithm might return less plugs - this number is just an upper limit",
             "Analysis options", 9, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 26)]
         public int MaxSearchedPlugs
         {
@@ -798,7 +807,7 @@ namespace Cryptool.Enigma
 
         #region Used ring settings
 
-        [TaskPane("Ring 1 (right)", "Select the the offset for ring 1", "Ring settings", 20, false, ControlType.NumericUpDown, ValidationType.RangeInteger,1,26)]
+        [TaskPane("Ring 1 (right)", "Select the the offset for ring 1", "Ring settings", 20, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 26)]
         public int Ring1
         {
             get { return ring1; }
@@ -806,15 +815,33 @@ namespace Cryptool.Enigma
             {
                 if (value < ring1)
                 {
-                    hasChanges = true;
-                    ring1 = value;
-                    OnPropertyChanged("Ring1down");
+                    if (value + 1 == ring1)
+                    {
+                        hasChanges = true;
+                        ring1 = value;
+                        OnPropertyChanged("Ring1down");
+                    }
+                    else
+                    {
+                        hasChanges = true;
+                        ring1 = value;
+                        OnPropertyChanged("Ring1NewValue");
+                    }
                 }
                 if (value > ring1)
                 {
-                    hasChanges = true;
-                    ring1 = value;
-                    OnPropertyChanged("Ring1up");
+                    if (value == ring1 + 1)
+                    {
+                        hasChanges = true;
+                        ring1 = value;
+                        OnPropertyChanged("Ring1up");
+                    }
+                    else
+                    {
+                        hasChanges = true;
+                        ring1 = value;
+                        OnPropertyChanged("Ring1NewValue");
+                    }
                 }
                 OnPropertyChanged("Ring1");
             }
@@ -828,15 +855,35 @@ namespace Cryptool.Enigma
             {
                 if (value < ring2)
                 {
-                    hasChanges = true;
-                    ring2 = value;
-                    OnPropertyChanged("Ring2down");
+                    if (value + 1 == ring2)
+                    {
+                        hasChanges = true;
+                        ring2 = value;
+                        OnPropertyChanged("Ring2down");
+                    }
+                    else
+                    {
+                        hasChanges = true;
+                        ring2 = value;
+                        OnPropertyChanged("Ring2NewValue");
+
+                    }
+
                 }
                 if (value > ring2)
                 {
-                    hasChanges = true;
-                    ring2 = value;
-                    OnPropertyChanged("Ring2up");
+                    if (value == ring2 + 1)
+                    {
+                        hasChanges = true;
+                        ring2 = value;
+                        OnPropertyChanged("Ring2up");
+                    }
+                    else
+                    {
+                        hasChanges = true;
+                        ring2 = value;
+                        OnPropertyChanged("Ring2NewValue");
+                    }
                 }
                 OnPropertyChanged("Ring2");
             }
@@ -850,15 +897,33 @@ namespace Cryptool.Enigma
             {
                 if (value < ring3)
                 {
-                    hasChanges = true;
-                    ring3 = value;
-                    OnPropertyChanged("Ring3down");
+                    if (value + 1 == ring3)
+                    {
+                        hasChanges = true;
+                        ring3 = value;
+                        OnPropertyChanged("Ring3down");
+                    }
+                    else
+                    {
+                        hasChanges = true;
+                        ring3 = value;
+                        OnPropertyChanged("Ring3NewValue");
+                    }
                 }
                 if (value > ring3)
                 {
-                    hasChanges = true;
-                    ring3 = value;
-                    OnPropertyChanged("Ring3up");
+                    if (value == ring3 + 1)
+                    {
+                        hasChanges = true;
+                        ring3 = value;
+                        OnPropertyChanged("Ring3up");
+                    }
+                    else
+                    {
+                        hasChanges = true;
+                        ring3 = value;
+                        OnPropertyChanged("Ring3NewValue");
+                    }
                 }
                 OnPropertyChanged("Ring3");
             }
@@ -926,7 +991,7 @@ namespace Cryptool.Enigma
         public int PlugBoardB
         {
             get { return alphabet.IndexOf(this.plugBoard[1]); }
-            set { setPlugBoard(1, value);  }
+            set { setPlugBoard(1, value); }
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Eins")]
@@ -953,7 +1018,7 @@ namespace Cryptool.Enigma
         public int PlugBoardE
         {
             get { return alphabet.IndexOf(this.plugBoard[4]); }
-            set { setPlugBoard(4, value);  }
+            set { setPlugBoard(4, value); }
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Zwei")]
@@ -962,7 +1027,7 @@ namespace Cryptool.Enigma
         public int PlugBoardF
         {
             get { return alphabet.IndexOf(this.plugBoard[5]); }
-            set { setPlugBoard(5, value);  }
+            set { setPlugBoard(5, value); }
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Drei")]
@@ -971,7 +1036,7 @@ namespace Cryptool.Enigma
         public int PlugBoardG
         {
             get { return alphabet.IndexOf(this.plugBoard[6]); }
-            set { setPlugBoard(6, value);  }
+            set { setPlugBoard(6, value); }
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Drei")]
@@ -980,7 +1045,7 @@ namespace Cryptool.Enigma
         public int PlugBoardH
         {
             get { return alphabet.IndexOf(this.plugBoard[7]); }
-            set { setPlugBoard(7, value);  }
+            set { setPlugBoard(7, value); }
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Drei")]
@@ -1007,7 +1072,7 @@ namespace Cryptool.Enigma
         public int PlugBoardK
         {
             get { return alphabet.IndexOf(this.plugBoard[10]); }
-            set { setPlugBoard(10, value);  }
+            set { setPlugBoard(10, value); }
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Vier")]
@@ -1034,7 +1099,7 @@ namespace Cryptool.Enigma
         public int PlugBoardN
         {
             get { return alphabet.IndexOf(this.plugBoard[13]); }
-            set { setPlugBoard(13, value);  }
+            set { setPlugBoard(13, value); }
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Fuenf")]
@@ -1043,7 +1108,7 @@ namespace Cryptool.Enigma
         public int PlugBoardO
         {
             get { return alphabet.IndexOf(this.plugBoard[14]); }
-            set { setPlugBoard(14, value);  }
+            set { setPlugBoard(14, value); }
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Sechs")]
@@ -1070,7 +1135,7 @@ namespace Cryptool.Enigma
         public int PlugBoardR
         {
             get { return alphabet.IndexOf(this.plugBoard[17]); }
-            set { setPlugBoard(17, value);  }
+            set { setPlugBoard(17, value); }
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Sieben")]
@@ -1109,7 +1174,7 @@ namespace Cryptool.Enigma
             set { setPlugBoard(21, value); }
         }
 
-        [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto","*", "Acht")]
+        [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Acht")]
         [TaskPane("W=", "Select the letter for connecting this plug.", "Plugboard", 62, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardW
@@ -1118,13 +1183,13 @@ namespace Cryptool.Enigma
             set { setPlugBoard(22, value); }
         }
 
-        [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal,"Auto","*" ,"Acht")]
+        [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Acht")]
         [TaskPane("X=", "Select the letter for connecting this plug.", "Plugboard", 63, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardX
         {
             get { return alphabet.IndexOf(this.plugBoard[23]); }
-            set { setPlugBoard(23, value);  }
+            set { setPlugBoard(23, value); }
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Neun")]
@@ -1155,11 +1220,12 @@ namespace Cryptool.Enigma
             {
                 OnPropertyChanged("PlugBoard" + alphabet[i]);
             }
+            OnPropertyChanged("Remove all Plugs");
         }
 
         #endregion
 
-        [TaskPane("Presentation Speed", "Change the pace of the Presentation", "Presentation", 71, true, ControlType.Slider, 1, 10)]
+        [TaskPane("Presentation Speed", "Change the pace of the Presentation", "Presentation", 71, true, ControlType.Slider, 2, 50)]
         public int PresentationSpeed
         {
             get { return (int)Presentation_Speed; }
