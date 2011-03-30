@@ -9,8 +9,8 @@
 
   <headline lang="en">Prime Number Factorization</headline>
   <headline lang="de">Primzahlfaktorisierung</headline>
-  <desc lang="en">Please input the number to factorize.</desc>
-  <desc lang="de">Bitte geben Sie die Zahl zum Faktorisieren ein.</desc>
+  <task lang="en">Please input the number to factorize.</task>
+  <task lang="de">Bitte geben Sie die Zahl zum Faktorisieren ein.</task>
 
   <inputBox alignment="Stretch" plugin="Number" property="Number">
     <description lang="en">Enter the number to factorize here (can be a mathematical expression):</description>
@@ -26,8 +26,8 @@
 
     <headline lang="en">Prime Number Factorization Output</headline>
     <headline lang="de">Primzahlfaktorisierung: Ausgabe</headline>
-    <desc lang="en">Here, you can see the factorization process and the result. This can take some time, depending on the number.</desc>
-    <desc lang="de">Hier können Sie den Faktorisierungsprozess und das Ergebnis sehen. Das kann einige Zeit dauern, abhängig von der Zahl.</desc>
+    <task lang="en">Here, you can see the factorization process and the result. This can take some time, depending on the number.</task>
+    <task lang="de">Hier können Sie den Faktorisierungsprozess und das Ergebnis sehen. Das kann einige Zeit dauern, abhängig von der Zahl.</task>
 
     <presentation plugin="QuadraticSieve" width="50%" height="50%">
       <description lang="en">Factorization:</description>

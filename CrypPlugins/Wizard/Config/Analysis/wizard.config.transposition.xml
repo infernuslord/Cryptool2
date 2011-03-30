@@ -14,8 +14,8 @@ Indem Sie dies wählen, können Sie einen mit dem Transpositions-Algorithmus ver
 
   <headline lang="en">Transposition Analysis</headline>
   <headline lang="de">Transposition-Analyse</headline>
-  <desc lang="en">Choose which method you want to use for analyzing the Transposition encrypted text.</desc>
-  <desc lang="de">Wählen Sie welche Methode Sie zum analysieren des mit Transposition verschlüsselten Text verwenden wollen.</desc>
+  <task lang="en">Choose which method you want to use for analyzing the Transposition encrypted text.</task>
+  <task lang="de">Wählen Sie welche Methode Sie zum analysieren des mit Transposition verschlüsselten Text verwenden wollen.</task>
 
   <input image="Transposition">
     <name lang="en">Brute-force</name>    
@@ -30,8 +30,8 @@ Diese Methode basiert nur auf dem Geheimtext.
 
     <headline lang="en">Transposition Brute-force Analysis</headline>
     <headline lang="de">Transposition Brute-force-Analyse</headline>
-    <desc lang="en">Input the ciphertext that was encrypted by using the Transposition algorithm.</desc>
-    <desc lang="de">Geben Sie den chiffrierten Text ein, der mit dem Transpositionsalgorithmus verschlüsselt wurde.</desc>
+    <task lang="en">Input the ciphertext that was encrypted by using the Transposition algorithm.</task>
+    <task lang="de">Geben Sie den chiffrierten Text ein, der mit dem Transpositionsalgorithmus verschlüsselt wurde.</task>
 
     <inputBox plugin="Ciphertext" property="Text" visibleLines="5">
       <description lang="en">Ciphertext:</description>
@@ -74,8 +74,8 @@ Diese Methode basiert nur auf dem Geheimtext.
 
       <headline lang="en">Transposition Brute-force Analysis</headline>
       <headline lang="de">Transposition Brute-force-Analyse</headline>
-      <desc lang="en">Please wait while brute-forcing.</desc>
-      <desc lang="de">Bitte warten, während die "Brute-force"-Methode ausgeführt wird.</desc>
+      <task lang="en">Please wait while brute-forcing.</task>
+      <task lang="de">Bitte warten, während die "Brute-force"-Methode ausgeführt wird.</task>
 
       <presentation plugin="TranspositionAnalyser" width="50%" height="50%">
         <description lang="en">Analyser:</description>
@@ -103,8 +103,8 @@ Diese Methode basiert nur auf dem Geheimtext.
 
     <headline lang="en">Transposition Genetic Analysis</headline>
     <headline lang="de">Transposition genetische Analyse</headline>
-    <desc lang="en">Input the ciphertext that was encrypted by using the Transposition algorithm.</desc>
-    <desc lang="de">Geben Sie den chiffrierten Text ein, der mit dem Transpositionsalgorithmus verschlüsselt wurde.</desc>
+    <task lang="en">Input the ciphertext that was encrypted by using the Transposition algorithm.</task>
+    <task lang="de">Geben Sie den chiffrierten Text ein, der mit dem Transpositionsalgorithmus verschlüsselt wurde.</task>
 
     <inputBox plugin="Ciphertext" property="Text" visibleLines="5">
       <description lang="en">Ciphertext:</description>
@@ -147,8 +147,8 @@ Diese Methode basiert nur auf dem Geheimtext.
 
       <headline lang="en">Transposition Genetic Analysis</headline>
       <headline lang="de">Transposition genetische Analyse</headline>
-      <desc lang="en">Please wait while analyzing.</desc>
-      <desc lang="de">Bitte warten, während analysiert wird.</desc>
+      <task lang="en">Please wait while analyzing.</task>
+      <task lang="de">Bitte warten, während analysiert wird.</task>
 
       <presentation plugin="TranspositionAnalyser" width="50%" height="50%">
         <description lang="en">Analyser:</description>
@@ -175,8 +175,8 @@ Diese Methode basiert auf bekanntem Klartext ("known plaintext attack").
 
     <headline lang="en">Transposition Crib Analysis</headline>
     <headline lang="de">Transposition Crib-Analyse</headline>
-    <desc lang="en">Input the ciphertext that was encrypted by using the Transposition algorithm and your crib.</desc>
-    <desc lang="de">Geben Sie den chiffrierten Text ein, der mit dem Transpositionsalgorithmus verschlüsselt wurde, und den "Crib".</desc>
+    <task lang="en">Input the ciphertext that was encrypted by using the Transposition algorithm and your crib.</task>
+    <task lang="de">Geben Sie den chiffrierten Text ein, der mit dem Transpositionsalgorithmus verschlüsselt wurde, und den "Crib".</task>
 
     <inputBox plugin="Ciphertext" property="Text" visibleLines="5">
       <description lang="en">Ciphertext:</description>
@@ -225,8 +225,8 @@ Diese Methode basiert auf bekanntem Klartext ("known plaintext attack").
 
       <headline lang="en">Transposition Crib Analysis</headline>
       <headline lang="de">Transposition Crib-Analyse</headline>
-      <desc lang="en">Please wait while analyzing.</desc>
-      <desc lang="de">Bitte warten, während analysiert wird.</desc>
+      <task lang="en">Please wait while analyzing.</task>
+      <task lang="de">Bitte warten, während analysiert wird.</task>
 
       <presentation plugin="TranspositionAnalyser" width="50%" height="50%">
         <description lang="en">Analyser:</description>

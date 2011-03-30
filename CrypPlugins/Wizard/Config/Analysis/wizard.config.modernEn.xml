@@ -14,8 +14,8 @@
   <headline lang="de">Auswahl des Typs</headline>
 
   <!-- This is the step's description. -->
-  <desc lang="en" >Select which kind of modern encryption algorithm you want to use.</desc>
-  <desc lang="de" >Wählen Sie welche Art eines modernen Verschlüsselungsalgorithmus Sie benutzen wollen.</desc>
+  <task lang="en" >Select which kind of modern encryption algorithm you want to use.</task>
+  <task lang="de" >Wählen Sie welche Art eines modernen Verschlüsselungsalgorithmus Sie benutzen wollen.</task>
 
   <!-- Symmetric Encryption Category -->
   <file resource="Wizard.Config.Analysis.wizard.config.modernSymEn.xml" />  
@@ -32,8 +32,8 @@
     <headline lang="de">Algorithmusauswahl</headline>
 
     <!-- This is the step's description. -->
-    <desc lang="en" >Select an asymmetric encryption/decryption algorithm.</desc>
-    <desc lang="de" >Wählen Sie einen asymmetrischen Verschlüsselungs-/Entschlüsselungsalgorithmus.</desc>
+    <task lang="en" >Select an asymmetric encryption/decryption algorithm.</task>
+    <task lang="de" >Wählen Sie einen asymmetrischen Verschlüsselungs-/Entschlüsselungsalgorithmus.</task>
     
     <!-- RSA input -->
     <input image="RSA" >
@@ -53,8 +53,8 @@ RSA ist in kommerziellen Protokollen weit verbreitet und gilt bei genügend lang
 
       <headline lang="en">RSA Attack</headline>
       <headline lang="de">RSA Angriff</headline>
-      <desc lang="en">Please read the explanation.</desc>
-      <desc lang="de">Bitte lesen Sie die Beschreibung.</desc>
+      <task lang="en">Please read the explanation.</task>
+      <task lang="de">Bitte lesen Sie die Beschreibung.</task>
 
       <inputBox plugin="dummy" property="dummy" visibleLines="10">
         <description lang="en"></description>

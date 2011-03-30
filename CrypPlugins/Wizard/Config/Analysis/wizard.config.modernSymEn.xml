@@ -13,7 +13,7 @@
   <headline lang="en" >Algorithm Selection</headline>
 
   <!-- This is the step's description. -->
-  <desc lang="en" >Select a modern symmetric encryption algorithm.</desc>
+  <task lang="en" >Select a modern symmetric encryption algorithm.</task>
 
   <!-- AES input -->
   <category image="AES" >
@@ -35,8 +35,8 @@ Indem Sie dies auswählen können Sie chiffrierten Text, der mit dem AES-Algorit
 
       <headline lang="en">AES - Ciphertext Only Analysis</headline>
       <headline lang="de">AES - Nur Geheimtext-Analyse</headline>
-      <desc lang="en">Please input the ciphertext.</desc>
-      <desc lang="de">Bitte geben Sie den chiffrierten Text ein.</desc>
+      <task lang="en">Please input the ciphertext.</task>
+      <task lang="de">Bitte geben Sie den chiffrierten Text ein.</task>
 
       <inputBox plugin="Ciphertext" property="Text" visibleLines="5" alignment="Stretch" width="90%">
         <description lang="en">Ciphertext to analyze (in HEX):</description>
@@ -74,8 +74,8 @@ Indem Sie dies auswählen können Sie chiffrierten Text, der mit dem AES-Algorit
 
         <headline lang="en">AES Ciphertext Only Analysis Output</headline>
         <headline lang="de">Nur Geheimtext-Analyse: Ausgabe</headline>
-        <desc lang="en">Here, you can see the AES analysis.</desc>
-        <desc lang="de">Hier können Sie die AES-Analyse sehen.</desc>
+        <task lang="en">Here, you can see the AES analysis.</task>
+        <task lang="de">Hier können Sie die AES-Analyse sehen.</task>
 
         <presentation plugin="KeySearcher" width="50%" height="50%">
           <description lang="en">Analyser:</description>
@@ -103,8 +103,8 @@ Indem Sie dies auswählen können Sie chiffrierten Text, der mit dem AES-Algorit
 
       <headline lang="en">AES - Known Plaintext Analysis</headline>
       <headline lang="de">AES - Bekannter-Klartext-Analyse</headline>
-      <desc lang="en">Please input the ciphertext and known plaintext.</desc>
-      <desc lang="de">Bitte geben Sie den chiffrierten Text und den bekannten Klartext ein.</desc>
+      <task lang="en">Please input the ciphertext and known plaintext.</task>
+      <task lang="de">Bitte geben Sie den chiffrierten Text und den bekannten Klartext ein.</task>
       
       <inputBox plugin="Ciphertext" property="Text" group="inputs" visibleLines="5" alignment="Left" width="50%">
         <description lang="en">Ciphertext to analyze (in HEX):</description>
@@ -148,8 +148,8 @@ Indem Sie dies auswählen können Sie chiffrierten Text, der mit dem AES-Algorit
 
         <headline lang="en">AES Known Plaintext Analysis Output</headline>
         <headline lang="de">Bekannter-Klartext-Analyse: Ausgabe</headline>
-        <desc lang="en">Here, you can see the AES analysis.</desc>
-        <desc lang="de">Hier können Sie die AES-Analyse sehen.</desc>
+        <task lang="en">Here, you can see the AES analysis.</task>
+        <task lang="de">Hier können Sie die AES-Analyse sehen.</task>
         
         <presentation plugin="KeySearcher" width="50%" height="50%">
           <description lang="en">Analyser:</description>
@@ -191,8 +191,8 @@ Indem Sie dies auswählen können Sie chiffrierten Text, der mit dem DES-Algorit
 
       <headline lang="en">DES - Ciphertext Only Analysis</headline>
       <headline lang="de">DES - Nur Geheimtext-Analyse</headline>
-      <desc lang="en">Please input the ciphertext.</desc>
-      <desc lang="de">Bitte geben Sie den chiffrierten Text ein.</desc>
+      <task lang="en">Please input the ciphertext.</task>
+      <task lang="de">Bitte geben Sie den chiffrierten Text ein.</task>
       
       <inputBox plugin="Ciphertext" property="Text" visibleLines="5" alignment="Stretch" width="90%">
         <description lang="en">Ciphertext to analyze (in HEX):</description>
@@ -222,8 +222,8 @@ Indem Sie dies auswählen können Sie chiffrierten Text, der mit dem DES-Algorit
 
         <headline lang="en">AES Ciphertext Only Analysis Output</headline>
         <headline lang="de">Nur Geheimtext-Analyse: Ausgabe</headline>
-        <desc lang="en">Here, you can see the DES analysis.</desc>
-        <desc lang="de">Hier können Sie die DES-Analyse sehen.</desc>
+        <task lang="en">Here, you can see the DES analysis.</task>
+        <task lang="de">Hier können Sie die DES-Analyse sehen.</task>
 
         <presentation plugin="KeySearcher" width="50%" height="50%">
           <description lang="en">Analyser:</description>
@@ -251,8 +251,8 @@ Indem Sie dies auswählen können Sie chiffrierten Text, der mit dem DES-Algorit
 
       <headline lang="en">DES - Known Plaintext Analysis</headline>
       <headline lang="de">DES - Bekannter-Klartext-Analyse</headline>
-      <desc lang="en">Please input the ciphertext and known plaintext.</desc>
-      <desc lang="de">Bitte geben Sie den chiffrierten Text und den bekannten Klartext ein.</desc>
+      <task lang="en">Please input the ciphertext and known plaintext.</task>
+      <task lang="de">Bitte geben Sie den chiffrierten Text und den bekannten Klartext ein.</task>
 
       <inputBox plugin="Ciphertext" property="Text" group="inputs" visibleLines="5" alignment="Left" width="50%">
         <description lang="en">Ciphertext to analyze (in HEX):</description>
@@ -288,8 +288,8 @@ Indem Sie dies auswählen können Sie chiffrierten Text, der mit dem DES-Algorit
 
         <headline lang="en">AES Known Plaintext Analysis Output</headline>
         <headline lang="de">Bekannter-Klartext-Analyse: Ausgabe</headline>
-        <desc lang="en">Here, you can see the DES analysis.</desc>
-        <desc lang="de">Hier können Sie die DES-Analyse sehen.</desc>
+        <task lang="en">Here, you can see the DES analysis.</task>
+        <task lang="de">Hier können Sie die DES-Analyse sehen.</task>
 
         <presentation plugin="KeySearcher" width="50%" height="50%">
           <description lang="en">Analyser:</description>
@@ -331,8 +331,8 @@ Indem Sie dies auswählen können Sie chiffrierten Text, der mit dem SDES-Algori
 
       <headline lang="en">SDES - Ciphertext Only Analysis</headline>
       <headline lang="de">SDES - Nur Geheimtext-Analyse</headline>
-      <desc lang="en">Please input the ciphertext.</desc>
-      <desc lang="de">Bitte geben Sie den chiffrierten Text ein.</desc>
+      <task lang="en">Please input the ciphertext.</task>
+      <task lang="de">Bitte geben Sie den chiffrierten Text ein.</task>
 
       <inputBox plugin="Ciphertext" property="Text" visibleLines="5" alignment="Stretch" width="90%">
         <description lang="en">Ciphertext to analyze (in HEX):</description>
@@ -361,8 +361,8 @@ Indem Sie dies auswählen können Sie chiffrierten Text, der mit dem SDES-Algori
 
         <headline lang="en">AES Ciphertext Only Analysis Output</headline>
         <headline lang="de">Nur Geheimtext-Analyse: Ausgabe</headline>
-        <desc lang="en">Here, you can see the SDES analysis.</desc>
-        <desc lang="de">Hier können Sie die SDES-Analyse sehen.</desc>
+        <task lang="en">Here, you can see the SDES analysis.</task>
+        <task lang="de">Hier können Sie die SDES-Analyse sehen.</task>
 
         <presentation plugin="KeySearcher" width="50%" height="50%">
           <description lang="en">Analyser:</description>
@@ -390,8 +390,8 @@ Indem Sie dies auswählen können Sie chiffrierten Text, der mit dem SDES-Algori
 
       <headline lang="en">SDES - Known Plaintext Analysis</headline>
       <headline lang="de">SDES - Bekannter-Klartext-Analyse</headline>
-      <desc lang="en">Please input the ciphertext and known plaintext.</desc>
-      <desc lang="de">Bitte geben Sie den chiffrierten Text und den bekannten Klartext ein.</desc>
+      <task lang="en">Please input the ciphertext and known plaintext.</task>
+      <task lang="de">Bitte geben Sie den chiffrierten Text und den bekannten Klartext ein.</task>
 
       <inputBox plugin="Ciphertext" property="Text" group="inputs" visibleLines="5" alignment="Left" width="50%">
         <description lang="en">Ciphertext to analyze (in HEX):</description>
@@ -426,8 +426,8 @@ Indem Sie dies auswählen können Sie chiffrierten Text, der mit dem SDES-Algori
 
         <headline lang="en">AES Known Plaintext Analysis Output</headline>
         <headline lang="de">Bekannter-Klartext-Analyse: Ausgabe</headline>
-        <desc lang="en">Here, you can see the SDES analysis.</desc>
-        <desc lang="de">Hier können Sie die SDES-Analyse sehen.</desc>
+        <task lang="en">Here, you can see the SDES analysis.</task>
+        <task lang="de">Hier können Sie die SDES-Analyse sehen.</task>
 
         <presentation plugin="KeySearcher" width="50%" height="50%">
           <description lang="en">Analyser:</description>
