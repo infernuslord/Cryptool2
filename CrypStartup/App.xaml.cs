@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Threading;
 using Cryptool.Core;
+using Cryptool.PluginBase.Miscellaneous;
 using Application = System.Windows.Application;
 
 namespace CrypStartup
@@ -28,7 +29,7 @@ namespace CrypStartup
         {
             Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
-                UnhandledExceptionDialog.ShowModalDialog((Exception)e.ExceptionObject);
+                UnhandledExceptionDialog.ShowModalDialog((Exception)e.ExceptionObject, AssemblyHelper.Version, AssemblyHelper.BuildType.ToString(), AssemblyHelper.ProductName);
             }, null);
         }
 
@@ -36,7 +37,7 @@ namespace CrypStartup
 
         private void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
         {
-            UnhandledExceptionDialog.ShowModalDialog(e.Exception);
+            UnhandledExceptionDialog.ShowModalDialog(e.Exception, AssemblyHelper.Version, AssemblyHelper.BuildType.ToString(), AssemblyHelper.ProductName);
         }
 
         private void Application_Startup(object sender, StartupEventArgs e)
