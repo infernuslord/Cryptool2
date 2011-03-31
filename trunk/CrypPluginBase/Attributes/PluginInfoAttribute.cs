@@ -45,11 +45,23 @@ namespace Cryptool.PluginBase
               return toolTip;
           }
         }
+
+        public readonly string descriptionUrl;
+        public string DescriptionUrl
+        {
+            get
+            {
+                if (MultiLanguage && descriptionUrl != null)
+                    return PluginType.GetPluginStringResource(descriptionUrl);
+                else
+                    return descriptionUrl;
+            }
+        }
+
         # endregion multi language properties
 
         # region no-translation
-        public readonly bool Startable;      
-        public readonly string DescriptionUrl;
+        public readonly bool Startable;
         public readonly string[] Icons;
         # endregion
 
@@ -87,7 +99,7 @@ namespace Cryptool.PluginBase
             this.Startable = startable;
             this.caption = caption;
             this.toolTip = toolTip;
-            this.DescriptionUrl = descriptionUrl;
+            this.descriptionUrl = descriptionUrl;
             this.Icons = icons;
         }
 
@@ -106,7 +118,7 @@ namespace Cryptool.PluginBase
           this.Startable = startable;
           this.caption = caption;
           this.toolTip = toolTip;
-          this.DescriptionUrl = descriptionUrl;
+          this.descriptionUrl = descriptionUrl;
           this.Icons = icons;
         }
     }
