@@ -348,6 +348,7 @@ namespace Wizard
                         rb.Focusable = false;
                         string id = GetElementID(ele);
                         rb.Checked += rb_Checked;
+                        rb.MouseDoubleClick += rb_MouseDoubleClick;
                         rb.HorizontalAlignment = HorizontalAlignment.Stretch;
                         rb.VerticalAlignment = VerticalAlignment.Stretch;
                         rb.HorizontalContentAlignment = HorizontalAlignment.Stretch;
@@ -383,6 +384,11 @@ namespace Wizard
 
                 }
             }
+        }
+
+        void rb_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            nextButton_Click(sender, e);
         }
 
         private void FillInputStack(IEnumerable<XElement> inputs, string type, bool isInput)

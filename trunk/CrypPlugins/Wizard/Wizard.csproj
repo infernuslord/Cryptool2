@@ -213,7 +213,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Config\Indiv\wizard.config.prime.xml" />
+    <EmbeddedResource Include="Config\Indiv\wizard.config.prime.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Calc.png" />
@@ -268,7 +270,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Config\Indiv\wizard.config.factorization.xml" />
+    <EmbeddedResource Include="Config\Indiv\wizard.config.factorization.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
