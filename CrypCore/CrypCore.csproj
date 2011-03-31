@@ -82,6 +82,7 @@
     <Compile Include="EventArgs.cs" />
     <Compile Include="Exceptions.cs" />
     <Compile Include="FuzzySearch.cs" />
+    <Compile Include="Mailer.cs" />
     <Compile Include="PluginManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RecentFileList.cs" />
