@@ -6,18 +6,20 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+//using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+
 namespace Solitaire
 {
     /// <summary>
     /// Interaktionslogik für SolitaireQuickWatchPresentation.xaml
     /// </summary>
-    public partial class SolitaireQuickWatchPresentation : UserControl
+    public partial class SolitaireQuickWatchPresentation : System.Windows.Controls.UserControl
     {
         private Boolean enabled = false;
         private Solitaire plugin;
@@ -44,11 +46,53 @@ namespace Solitaire
             enabled = false;
         }
 
+        private void showDeck(string deck)
+        {
+            int[] oldDeck = stringToDeck((new TextRange(textBox1.Document.ContentStart, textBox1.Document.ContentEnd)).Text);
+            int[] newDeck = stringToDeck(deck);
+            textBox1.Document.Blocks.Clear();
+            for (int i = 0; i < numberOfCards; i++)
+            {
+                if (oldDeck[i] != newDeck[i])
+                {
+                    
+                    textBox1.AppendText((newDeck[i] == numberOfCards - 1) ? "A" : ((newDeck[i] == numberOfCards) ? "B" : newDeck[i].ToString()));
+                }
+                else
+                {
+                    textBox1.AppendText((newDeck[i] == numberOfCards - 1) ? "A" : ((newDeck[i] == numberOfCards) ? "B" : newDeck[i].ToString()));
+                }
+                textBox1.Document.FontWeight = FontWeight.FromOpenTypeWeight(400);
+                if (i != numberOfCards-1) textBox1.AppendText(",");
+            }
+                        
+        }
+        
+        private int[] stringToDeck(string seq)
+        {
+            string[] sequence = seq.Split(new char[] { Convert.ToChar(",") });
+            HashSet<string> set = new HashSet<string>(sequence);
+            if (set.Count < sequence.Length)
+            {
+                sequence = new string[set.Count];
+                set.CopyTo(sequence);
+            }
+            int[] deck = new int[numberOfCards];
+            for (int i = 0; i < numberOfCards; i++)
+            {
+                if (sequence[i].Equals("A")) deck[i] = numberOfCards - 1;
+                else if (sequence[i].Equals("B")) deck[i] = numberOfCards;
+                else deck[i] = int.Parse(sequence[i]);
+            }
+            return deck;
+        }
+
         private void button1_Click(object sender, RoutedEventArgs e)
         {
             if (enabled)
             {
-                textBox1.Text = plugin.GetDeck(numberOfCards);
+                textBox1.Document.Blocks.Clear();
+                textBox1.AppendText(plugin.GetDeck(numberOfCards));
                 textBox2.Text = plugin.InputString;
                 textBox3.Text = "";
                 textBox4.Text = "";
@@ -64,7 +108,7 @@ namespace Solitaire
             if (enabled)
             {
                 plugin.MoveCardDown(numberOfCards - 1, numberOfCards);
-                textBox1.Text = plugin.GetDeck(numberOfCards);
+                showDeck(plugin.GetDeck(numberOfCards));
                 button2.IsEnabled = false;
                 button3.IsEnabled = true;
                 button7.IsEnabled = false;
@@ -77,7 +121,7 @@ namespace Solitaire
             {
                 plugin.MoveCardDown(numberOfCards, numberOfCards);
                 plugin.MoveCardDown(numberOfCards, numberOfCards);
-                textBox1.Text = plugin.GetDeck(numberOfCards);
+                showDeck(plugin.GetDeck(numberOfCards));
                 button3.IsEnabled = false;
                 button4.IsEnabled = true;
             }
@@ -88,7 +132,7 @@ namespace Solitaire
             if (enabled)
             {
                 plugin.TripleCut(numberOfCards);
-                textBox1.Text = plugin.GetDeck(numberOfCards);
+                showDeck(plugin.GetDeck(numberOfCards));
                 button4.IsEnabled = false;
                 button5.IsEnabled = true;
             }
@@ -99,7 +143,7 @@ namespace Solitaire
             if (enabled)
             {
                 plugin.CountCut(numberOfCards);
-                textBox1.Text = plugin.GetDeck(numberOfCards);
+                showDeck(plugin.GetDeck(numberOfCards));
                 button5.IsEnabled = false;
                 button6.IsEnabled = true;
             }
@@ -153,7 +197,7 @@ namespace Solitaire
                 else
                 {
                     button6.IsEnabled = false;
-                    plugin.FinalDeck = textBox1.Text;
+                    plugin.FinalDeck = textBox1.ToString();
                 }
             }
         }
@@ -209,10 +253,10 @@ namespace Solitaire
                         if (j != 0 & j % 5 == 0) textBox4.Text = textBox4.Text + " ";
                     }
                     else i--;
-                    textBox1.Text = plugin.GetDeck(numberOfCards);
+                    showDeck(plugin.GetDeck(numberOfCards));
 
                 }
-                plugin.FinalDeck = textBox1.Text; 
+                plugin.FinalDeck = textBox1.ToString(); 
                 plugin.OutputStream = textBox3.Text;
                 plugin.OutputString = textBox4.Text;
             }
