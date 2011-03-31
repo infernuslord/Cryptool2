@@ -428,6 +428,7 @@ namespace Solitaire
             msg = msg.ToUpper();
             Regex regex = new Regex("[^A-Z]", RegexOptions.None);
             if (regex.IsMatch(msg)) msg = regex.Replace(msg, "");
+.            while (msg.Length % 5 != 0) msg = msg + "X";
         }
 
         private void FormatPass(ref String msg)
@@ -663,106 +664,6 @@ namespace Solitaire
         }
 
         #endregion
-
-        private IControlEncryption controlSlave;
-        [PropertyInfo(Direction.ControlSlave, "Solitaire Slave", "Solitaire Slave", "")]
-        public IControlEncryption ControlSlave
-        {
-            get
-            {
-                if (controlSlave == null) controlSlave = new SolitaireControl(this);
-                return controlSlave;
-            }
-        }
     }
-
-    public class SolitaireControl : IControlEncryption
-    {
-        private Solitaire plugin;
-
-
-        public SolitaireControl(Solitaire plugin)
-        {
-            this.plugin = plugin;
-        }
-
-        #region IControlEncryption Member
-
-        public byte[] Decrypt(byte[] key, int blocksize)
-        {
-            throw new NotImplementedException();
-        }
-
-        public byte[] Decrypt(byte[] ciphertext, byte[] pass, byte[] IV, int bytesToUse)
-        {
-            return Decrypt(ciphertext, pass, IV);
-        }
-
-        public byte[] Decrypt(byte[] ciphertext, byte[] pass, byte[] IV)
-        {
-            System.Text.UTF8Encoding enc = new System.Text.UTF8Encoding();
-
-            plugin.InputString = enc.GetString(ciphertext);
-            plugin.Password = enc.GetString(pass);
-
-            plugin.SolitaireCipher(1, false);
-            return enc.GetBytes(plugin.OutputString);
-        }
-
-        public byte[] Encrypt(byte[] key, int blocksize)
-        {
-            return null;
-        }
-
-        public IControlEncryption clone()
-        {
-            return null;
-        }
-
-        public string GetKeyPattern()
-        {
-            return null;
-        }
-
-        public void onStatusChanged()
-        {
-            if (OnStatusChanged != null)
-                OnStatusChanged(this, true);
-        }
-
-        public string GetOpenCLCode(int decryptionLength, byte[] iv)
-        {
-            return null;
-        }
-
-        public void changeSettings(string setting, object value)
-        {
-            plugin.changeSettings(setting, value);
-        }
-
-        public IKeyTranslator GetKeyTranslator()
-        {
-            throw new NotImplementedException();
-        }
-
-        public event KeyPatternChanged keyPatternChanged;
-        
-        #endregion
-
-        #region IControl Member
-
-        public event IControlStatusChangedEventHandler OnStatusChanged;
-
-        #endregion
-
-        #region IDisposable Member
-
-
-        public void Dispose()
-        {
-
-        }
-
-        #endregion
     }
 }

@@ -26,7 +26,6 @@
         <Button Content="Step 3" Name="button4" Grid.Column="3" IsEnabled="False" Click="button4_Click" />
         <Button Content="Step 4" Name="button5" Grid.Column="4" IsEnabled="False" Click="button5_Click" />
         <Button Content="Step 5" Name="button6" Grid.Column="5" IsEnabled="False" Click="button6_Click" />
-        <TextBox Grid.ColumnSpan="5" Grid.Row="1" Name="textBox1" IsEnabled="False" Grid.Column="2" TextWrapping="Wrap" />
         <TextBox Grid.Column="2" Grid.ColumnSpan="5" Grid.Row="2" Name="textBox2" IsEnabled="False" />
         <TextBox Grid.Column="2" Grid.ColumnSpan="5" Grid.Row="3" Name="textBox3" IsEnabled="False" />
         <Label Content="Deck" Grid.Row="1" Name="label1" FlowDirection="RightToLeft" Grid.ColumnSpan="2" />
@@ -36,5 +35,7 @@
         <TextBox Grid.Column="2" Grid.ColumnSpan="5" Grid.Row="4" Name="textBox4" IsEnabled="False" />
         <Button Content="Initialize" Name="button1" Click="button1_Click" />
         <Button Content="Automatic" Grid.Column="6" Name="button7" IsEnabled="False" Click="button7_Click" />
+        <RichTextBox Grid.Column="6" Grid.Row="2" Grid.RowSpan="3" Height="100" HorizontalAlignment="Left" Margin="239,2,0,0" Name="richTextBox1" VerticalAlignment="Top" Width="200" />
+        <RichTextBox Grid.Row="1" Name="textBox1" Grid.Column="2" Grid.ColumnSpan="5" />
     </Grid>
 </UserControl>

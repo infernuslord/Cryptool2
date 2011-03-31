@@ -133,24 +133,6 @@ namespace SolitaireAnalyser
             }
         }
 
-        /// <summary>
-        /// The control for the solitaire plugin
-        /// </summary>
-        private IControlEncryption controlMaster;
-        [PropertyInfo(Direction.ControlMaster, "Control Master", "Used for bruteforcing", "", false, false, QuickWatchFormat.None, null)]
-        public IControlEncryption ControlMaster
-        {
-
-            get { return controlMaster; }
-            set
-            {
-                if (controlMaster == null)
-                {
-                    controlMaster = value;
-                    OnPropertyChanged("ControlMaster");
-                }
-            }
-        }
         #endregion
 
         #region IPlugin Members
@@ -184,11 +166,7 @@ namespace SolitaireAnalyser
                 {
                     if (this.inputString != null)
                     {
-                        if (this.controlMaster != null)
-                        {
-                            this.dictionaryAttack(this.controlMaster);
-                        }
-                        else GuiLogMessage("You have to connect the Solitaire Plugin!", NotificationLevel.Warning);
+                        this.dictionaryAttack();
                     }
                     else GuiLogMessage("You have to insert a ciphertext!", NotificationLevel.Warning);
                 }
@@ -219,13 +197,9 @@ namespace SolitaireAnalyser
         {
         }
         
-        public void dictionaryAttack(IControlEncryption sol)
+        public void dictionaryAttack()
         {
             stop = false;
-            sol.changeSettings("Action Type", 1);
-            sol.changeSettings("Cards", settings.NumberOfCards);
-            sol.changeSettings("Deck Generation", 3);
-            sol.changeSettings("Stream Generation", 0);
 
             System.Text.UTF8Encoding enc = new System.Text.UTF8Encoding();
 
@@ -238,7 +212,11 @@ namespace SolitaireAnalyser
             {
                 maxLength = Math.Max(wordDictionary[i].Length, maxLength);
             }
-            var dictionary = wordDictionary.ToDictionary(item => item, item => true);
+            var dictionary = wordDictionary
+                .GroupBy(item => item, StringComparer.OrdinalIgnoreCase)
+                .ToDictionary(item => item.Key, item => item.First(), StringComparer.OrdinalIgnoreCase);
+
+                
 
             indexList = new int[10];
             scoreList = new string[10];
@@ -264,18 +242,8 @@ namespace SolitaireAnalyser
                     updatePassSec(Convert.ToInt32(ts));
                 }
 
-                /**
-                 * This is where the memory leak occurs, either the decryption goes through the controlmaster 
-                 * or it is decrypted with the code included in this file. When using the controlmaster it starts
-                 * eating all available memory. With the "local" code this doesn't happen and in addition the 
-                 * analysis is much faster...
-                 **/
-                
-                //dec = sol.Decrypt(enc.GetBytes(inputString.Substring(0, Math.Min(inputString.Length, 20))), enc.GetBytes(passDictionary[i]), null);
-                //decryption = enc.GetString(dec);
                 decryption = decrypt(passDictionary[i].ToUpper(), inputString.Substring(0, Math.Min(inputString.Length, 20)));
-
-
+                
                 start = 0; length = Math.Min(maxLength, decryption.Length - start); score = 0;
                 test = true;
                 while (test)
@@ -290,10 +258,10 @@ namespace SolitaireAnalyser
                     else
                     {
                         length--;
-                        if (length == 3)
+                        if (length < 3)
                         {
                             start++;
-                            decryption = decryption.Substring(0, start) + " " + decryption.Substring(start + length);
+                            decryption = decryption.Substring(0, start) + " " + decryption.Substring(start);
                             start++;
                             length = Math.Min(maxLength, decryption.Length - start);
                         }
@@ -316,7 +284,7 @@ namespace SolitaireAnalyser
             }
 
             Password = passDictionary[indexList[0]];
-            OutputString = enc.GetString(sol.Decrypt(enc.GetBytes(inputString), enc.GetBytes(passDictionary[indexList[0]]), null));
+            OutputString = decrypt(passDictionary[indexList[0]].ToUpper(), inputString);
         }
 
         public void updateList(int idx, int pos, int score, string pass, string dec)
