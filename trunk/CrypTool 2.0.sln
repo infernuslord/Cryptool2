@@ -260,8 +260,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkspaceManagerModel", "Wo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPFToolkit.Extended", "CrypPlugins\Libs\WPFToolkit.Extended\WPFToolkit.Extended.csproj", "{72E591D6-8F83-4D8C-8F67-9C325E623234}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Startcenter", "Startcenter\Startcenter.csproj", "{468D6A22-A7B4-4B70-A7CD-EEC9F3D11566}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -766,10 +764,6 @@ Global
 		{72E591D6-8F83-4D8C-8F67-9C325E623234}.Debug|x86.Build.0 = Debug|x86
 		{72E591D6-8F83-4D8C-8F67-9C325E623234}.Release|x86.ActiveCfg = Release|x86
 		{72E591D6-8F83-4D8C-8F67-9C325E623234}.Release|x86.Build.0 = Release|x86
-		{468D6A22-A7B4-4B70-A7CD-EEC9F3D11566}.Debug|x86.ActiveCfg = Debug|x86
-		{468D6A22-A7B4-4B70-A7CD-EEC9F3D11566}.Debug|x86.Build.0 = Debug|x86
-		{468D6A22-A7B4-4B70-A7CD-EEC9F3D11566}.Release|x86.ActiveCfg = Release|x86
-		{468D6A22-A7B4-4B70-A7CD-EEC9F3D11566}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
