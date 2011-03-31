@@ -243,27 +243,27 @@ namespace Twofish.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Twofish ähnelt.
         /// </summary>
-        internal static string TwofishCaption {
+        internal static string PluginCaption {
             get {
-                return ResourceManager.GetString("TwofishCaption", resourceCulture);
+                return ResourceManager.GetString("PluginCaption", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Twofish/DetailedDescription/Description.xaml ähnelt.
         /// </summary>
-        internal static string TwofishDescriptionUrl {
+        internal static string PluginDescriptionUrl {
             get {
-                return ResourceManager.GetString("TwofishDescriptionUrl", resourceCulture);
+                return ResourceManager.GetString("PluginDescriptionUrl", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Twofish -- cipher ähnelt.
         /// </summary>
-        internal static string TwofishTooltip {
+        internal static string PluginTooltip {
             get {
-                return ResourceManager.GetString("TwofishTooltip", resourceCulture);
+                return ResourceManager.GetString("PluginTooltip", resourceCulture);
             }
         }
     }

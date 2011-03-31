@@ -217,8 +217,8 @@ namespace Cryptool.Vigenere
         #region Algorithm settings properties (visible in the Settings pane)
 
         [PropertySaveOrder(3)]
-        [ContextMenu("Modus", "Select the Algorithm action", 1, ContextMenuControlType.ComboBox, new int[] { 1, 2 }, "Classic", "Autokey")]
-        [TaskPane("Modus", "Select the Algorithm action", null, 1, false, ControlType.ComboBox, new string[] { "Classic", "Autokey" })]
+        [ContextMenu("ModusCaption", "ModusTooltip", 1, ContextMenuControlType.ComboBox, new int[] { 1, 2 }, "Classic", "Autokey")]
+        [TaskPane("ModusCaption", "ModusTooltip", null, 1, false, ControlType.ComboBox, new string[] { "Classic", "Autokey" })]
         public int Modus
         {
             get { return this.selectedModus; }
@@ -232,8 +232,8 @@ namespace Cryptool.Vigenere
 
 
         [PropertySaveOrder(4)]
-        [ContextMenu("Action","Select the Algorithm action",2,ContextMenuControlType.ComboBox,new int[]{1,2},"Encrypt","Decrypt")]
-        [TaskPane("Action", "Select the Algorithm action", null, 2, false, ControlType.ComboBox, new string[] { "Encrypt", "Decrypt"})]
+        [ContextMenu("ActionCaption", "ActionTooltip", 2, ContextMenuControlType.ComboBox, new int[] { 1, 2 }, "Encrypt", "Decrypt")]
+        [TaskPane("ActionCaption", "ActionTooltip", null, 2, false, ControlType.ComboBox, new string[] { "Encrypt", "Decrypt" })]
         public int Action
         {
             get { return this.selectedAction; }
@@ -246,7 +246,7 @@ namespace Cryptool.Vigenere
         }
 
         [PropertySaveOrder(5)]
-        [TaskPane("Shift value (integer)", "Enter the numbers of letters to shift seperated by comma.", null, 3, false, ControlType.TextBox, null)]
+        [TaskPane("ShiftValueTPCaption", "ShiftValueTPTooltip", null, 3, false, ControlType.TextBox, null)]
         public string ShiftValue
         {
             get
@@ -264,7 +264,7 @@ namespace Cryptool.Vigenere
         }
 
         [PropertySaveOrder(6)]
-        [TaskPane("Shift key (multiple letters)", "Enter multiple letters as the key", null, 4, false, ControlType.TextBox, null)]
+        [TaskPane("ShiftCharCaption", "ShiftCharTooltip", null, 4, false, ControlType.TextBox, null)]
         public string ShiftChar
         {
             get { return new String(this.shiftChar); }
@@ -272,8 +272,8 @@ namespace Cryptool.Vigenere
         }
 
         [PropertySaveOrder(7)]
-        [ContextMenu("Unknown symbol handling","What should be done with ecountered characters at the input which are not in the alphabet?",5,ContextMenuControlType.ComboBox,null,"Ignore (leave unmodified)","Remove","Replace with \'?\'")]
-        [TaskPane("Unknown symbol handling", "What should be done with encountered characters at the input which are not in the alphabet?", null, 5, false, ControlType.ComboBox, new string[] { "Ignore (leave unmodified)", "Remove", "Replace with \'?\'" })]
+        [ContextMenu("UnknownSymbolHandlingCaption", "UnknownSymbolHandlingTooltip", 5, ContextMenuControlType.ComboBox, null, "Ignore (leave unmodified)", "Remove", "Replace with \'?\'")]
+        [TaskPane("UnknownSymbolHandlingCaption", "UnknownSymbolHandlingTooltip", null, 5, false, ControlType.ComboBox, new string[] { "Ignore (leave unmodified)", "Remove", "Replace with \'?\'" })]
         public int UnknownSymbolHandling
         {
             get { return (int)this.unknowSymbolHandling; }
@@ -286,8 +286,8 @@ namespace Cryptool.Vigenere
         }
 
         [PropertySaveOrder(8)]
-        [ContextMenu("Alphabet case sensitive","Should upper and lower case be treated differently? (Should a == A)",8,ContextMenuControlType.ComboBox,null, "Case insensitive","Case sensitive")]
-        [TaskPane("Alphabet case sensitive", "Should upper and lower case be treated differently? (Should a == A)", null, 8, false, ControlType.ComboBox, new string[] { "Case insensitive", "Case sensitive" })]
+        [ContextMenu("AlphabetCaseCaption", "AlphabetCaseTooltip", 8, ContextMenuControlType.ComboBox, null, "Case insensitive", "Case sensitive")]
+        [TaskPane("AlphabetCaseCaption", "AlphabetCaseTooltip", null, 8, false, ControlType.ComboBox, new string[] { "Case insensitive", "Case sensitive" })]
         public int AlphabetCase
         {
             get { return this.caseSensitiveAlphabet; }
@@ -330,7 +330,7 @@ namespace Cryptool.Vigenere
         }
 
         [PropertySaveOrder(9)]
-        [TaskPane("Alphabet", "This is the used alphabet.", null, 7, false, ControlType.TextBox, null)]
+        [TaskPane("AlphabetSymbolsCaption", "AlphabetSymbolsTooltip", null, 7, false, ControlType.TextBox, null)]
         public string AlphabetSymbols
         {
             get { return this.alphabet; }

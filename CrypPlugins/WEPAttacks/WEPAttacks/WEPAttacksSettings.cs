@@ -25,14 +25,14 @@ namespace Cryptool.WEPAttacks
         /// <summary>
         /// Action. 0 => FMS, 1 => KoreK, 2 => PTW
         /// </summary>
-        [ContextMenu("Kind of attack",
-            "Kind of attack",
+        [ContextMenu("ActionCaption",
+            "ActionTooltip",
             1,
             ContextMenuControlType.ComboBox,
             null,
             new string[] { "\"FMS\"", "\"KoreK\"", "\"PTW\"" })]
-        [TaskPane("Kind of attack",
-            "Kind of attack",
+        [TaskPane("ActionCaption",
+            "ActionTooltip",
             "",
             1,
             false,
@@ -55,8 +55,8 @@ namespace Cryptool.WEPAttacks
         /// <summary>
         /// true => source is data, false => source is another plugin (NOT "File Input"!!!)
         /// </summary>
-        [TaskPane("Data comes from file",
-            "Does the data come from file or not?",
+        [TaskPane("FileOrNotCaption",
+            "FileOrNotTooltip",
             "",
             2,
             false,

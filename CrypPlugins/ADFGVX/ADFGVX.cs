@@ -29,9 +29,9 @@ using System.ComponentModel;
 namespace Cryptool.ADFGVX
 {
     [Author("Sebastian Przybylski","sebastian@przybylski.org","Uni-Siegen","http://www.uni-siegen.de")]
-    [PluginInfo(false,"ADFGVX",
-        "ADFGVX -- cipher used in WW1, combining substitution and transposition",
-        "ADFGVX/DetailedDescription/Description.xaml", "ADFGVX/Images/icon.png", "ADFGVX/Images/encrypt.png", "ADFGVX/Images/decrypt.png")]
+    [PluginInfo("Cryptool.ADFGVX.Properties.Resources", false,
+        "PluginCaption", "PluginTooltip", "PluginDescriptionURL",
+        "ADFGVX/Images/icon.png", "ADFGVX/Images/encrypt.png", "ADFGVX/Images/decrypt.png")]
     [EncryptionType(EncryptionType.Classic)]
     public class ADFGVX : IEncryption
     {
@@ -63,7 +63,7 @@ namespace Cryptool.ADFGVX
             set { this.settings = (ADFGVXSettings)value; }
         }
 
-        [PropertyInfo(Direction.OutputData, "Stream output", "The string after processing with the Caesar cipher is converted to a stream. Default encoding is used.", "", false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputDataCaption", "OutputDataTooltip", "", false, false, QuickWatchFormat.Text, null)]
         public ICryptoolStream OutputData
         {
             get
@@ -80,7 +80,7 @@ namespace Cryptool.ADFGVX
             set { }
         }
 
-        [PropertyInfo(Direction.InputData, "Text input", "Input a string to be processed by the ADFGVX cipher", "", true, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", "", true, false, QuickWatchFormat.Text, null)]
         public string InputString
         {
             get { return this.inputString; }
@@ -94,7 +94,7 @@ namespace Cryptool.ADFGVX
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "Text output", "The string after processing with the ADFGVX cipher", "", false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", "", false, false, QuickWatchFormat.Text, null)]
         public string OutputString
         {
             get { return this.outputString; }
@@ -105,7 +105,7 @@ namespace Cryptool.ADFGVX
             }
         }
 
-        [PropertyInfo(Direction.InputData, "External alphabet input", "Input a string containing the alphabet which should be used by ADFGVX.\nIf no alphabet is provided on this input, the internal alphabet will be used.", "", false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputAlphabetCaption", "InputAlphabetTooltip", "", false, false, QuickWatchFormat.Text, null)]
         public string InputAlphabet
         {
             get { return ((ADFGVXSettings)this.settings).SubstitutionMatrix; }
@@ -133,7 +133,7 @@ namespace Cryptool.ADFGVX
             }
         }
 
-        [PropertyInfo(Direction.InputData, "Transposition password", "Same setting as Transposition password in Settings-Pane but as dynamic input.", "", false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "TranspositionPasswordCaption", "TranspositionPasswordTooltip", "", false, false, QuickWatchFormat.Text, null)]
         public string TranspositionPassword
         {
             get { return settings.TranspositionPass; }

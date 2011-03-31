@@ -35,7 +35,7 @@ using NativeCryptography;
 namespace Cryptool.Plugins.Cryptography.Encryption
 {
     [Author("Dr. Arno Wacker", "arno.wacker@cryptool.org", "Uni Duisburg", "http://www.uni-duisburg-essen.de")]
-    [PluginInfo(false, "AES", "Advanced Encryption Standard (Rijndael)", "AES/DetailedDescription/Description.xaml", "AES/Images/AES.png", "AES/Images/encrypt.png", "AES/Images/decrypt.png", "AES/Images/Rijndael.png")]
+    [PluginInfo("Cryptool.Plugins.Cryptography.Encryption.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "AES/Images/AES.png", "AES/Images/encrypt.png", "AES/Images/decrypt.png", "AES/Images/Rijndael.png")]
     [EncryptionType(EncryptionType.SymmetricBlock)]
     public class AES : ContextBoundObject, IEncryption
     {
@@ -65,14 +65,14 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             set { this.settings = (AESSettings)value; }
         }
 
-        [PropertyInfo(Direction.InputData, "Input", "Data to be encrypted or decrypted", "", true, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "InputStreamCaption", "InputStreamTooltip", "", true, false, QuickWatchFormat.Hex, null)]
         public ICryptoolStream InputStream
         {
             get;
             set;
-              }
+        }
 
-        [PropertyInfo(Direction.InputData, "Key", "The provided key should be 16, 24 or 32 bytes, dependig on the settings. Too short/long keys will be extended/truncated!", "", true, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "InputKeyCaption", "InputKeyTooltip", "", true, false, QuickWatchFormat.Hex, null)]
         public byte[] InputKey
         {
             get { return this.inputKey; }
@@ -83,7 +83,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             }
         }
 
-        [PropertyInfo(Direction.InputData, "IV", "The initialisation vector (IV) which is used in chaining modes. It always must be the same as the blocksize.", "", false, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "InputIVCaption", "InputIVTooltip", "", false, false, QuickWatchFormat.Hex, null)]
         public byte[] InputIV
         {
             get { return this.inputIV; }
@@ -94,7 +94,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "Output stream", "Encrypted or decrypted output data", "", true, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "OutputStreamCaption", "OutputStreamTooltip", "", true, false, QuickWatchFormat.Hex, null)]
         public ICryptoolStream OutputStream
         {
             get 
@@ -418,7 +418,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         #endregion
 
         private IControlEncryption controlSlave;
-        [PropertyInfo(Direction.ControlSlave, "AES Slave", "AES Slave", "")]
+        [PropertyInfo(Direction.ControlSlave, "ControlSlaveCaption", "ControlSlaveTooltip", "")]
         public IControlEncryption ControlSlave
         {
           get 

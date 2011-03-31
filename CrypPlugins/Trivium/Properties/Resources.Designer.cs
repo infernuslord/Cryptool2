@@ -216,18 +216,27 @@ namespace Trivium.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Trivium ähnelt.
         /// </summary>
-        internal static string TriviumCaption {
+        internal static string PluginCaption {
             get {
-                return ResourceManager.GetString("TriviumCaption", resourceCulture);
+                return ResourceManager.GetString("PluginCaption", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Trivium/DetailedDescription/Description.xaml ähnelt.
         /// </summary>
-        internal static string TriviumDescriptionUrl {
+        internal static string PluginDescriptionUrl {
             get {
-                return ResourceManager.GetString("TriviumDescriptionUrl", resourceCulture);
+                return ResourceManager.GetString("PluginDescriptionUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Trivium ähnelt.
+        /// </summary>
+        internal static string PluginTooltip {
+            get {
+                return ResourceManager.GetString("PluginTooltip", resourceCulture);
             }
         }
         
@@ -246,15 +255,6 @@ namespace Trivium.Properties {
         internal static string TriviumSlaveTooltip {
             get {
                 return ResourceManager.GetString("TriviumSlaveTooltip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Trivium ähnelt.
-        /// </summary>
-        internal static string TriviumTooltip {
-            get {
-                return ResourceManager.GetString("TriviumTooltip", resourceCulture);
             }
         }
         
