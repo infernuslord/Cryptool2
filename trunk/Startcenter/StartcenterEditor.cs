@@ -12,6 +12,8 @@ using Cryptool.PluginBase.Miscellaneous;
 
 namespace StartCenter
 {
+#if DEBUG
+
     [TabColor("LightSeaGreen")]
     [EditorInfo("startcenter")]
     [Author("Sven Rech", "rech@cryptool.org", "Universität Duisburg-Essen", "http://www.uni-due.de")]
@@ -232,4 +234,6 @@ namespace StartCenter
 
         public bool ReadOnly { get; set; }
     }
+
+#endif
 }
