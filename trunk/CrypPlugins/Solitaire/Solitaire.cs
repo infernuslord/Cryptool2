@@ -428,7 +428,7 @@ namespace Solitaire
             msg = msg.ToUpper();
             Regex regex = new Regex("[^A-Z]", RegexOptions.None);
             if (regex.IsMatch(msg)) msg = regex.Replace(msg, "");
-.            while (msg.Length % 5 != 0) msg = msg + "X";
+            while (msg.Length % 5 != 0) msg = msg + "X";
         }
 
         private void FormatPass(ref String msg)
@@ -665,5 +665,5 @@ namespace Solitaire
 
         #endregion
     }
-    }
-}
+ }
+
