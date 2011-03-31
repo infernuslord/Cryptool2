@@ -25,15 +25,15 @@ namespace Cryptool.WEP
         /// <summary>
         /// Encryption (=0) or decryption (=1)?
         /// </summary>
-        [ContextMenu("Action",
-            "Do you want to encrypt or decrypt data?",
+        [ContextMenu("ActionCaption",
+            "ActionTooltip",
             1,
             ContextMenuControlType.ComboBox,
             new int[] { 1, 2 },
             "Encrypt",
             "Decrypt")]
-        [TaskPane("Action",
-            "Do you want to encrypt or decrypt data?",
+        [TaskPane("ActionCaption",
+            "ActionTooltip",
             "",
             1,
             false,

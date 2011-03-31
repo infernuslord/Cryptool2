@@ -29,7 +29,7 @@ using System.Windows.Controls;
 namespace Cryptool.XOR
 {
     [Author("Sebastian Przybylski", "sebastian@przybylski.org", "Uni-Siegen", "http://www.uni-siegen.de")]
-    [PluginInfo(false, "XOR", "XOR -- substitution cipher which is build by simple exclusive disjunction (XOR) operations", "XOR/DetailedDescription/Description.xaml",
+    [PluginInfo("Cryptool.XOR.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL",
       "XOR/Images/icon.png", "XOR/Images/encrypt.png", "XOR/Images/decrypt.png")]
     [EncryptionType(EncryptionType.Classic)]
     public class Xor : IEncryption
@@ -47,7 +47,7 @@ namespace Cryptool.XOR
         #region Public interface
 
         /// <summary>
-        /// Contructor
+        /// Constructor
         /// </summary>
         public Xor()
         {
@@ -64,7 +64,7 @@ namespace Cryptool.XOR
             set { this.settings = (XORSettings)value; }
         }
 
-        [PropertyInfo(Direction.OutputData, "Stream output", "The string after processing with the Xor cipher is converted to a stream. Default encoding is used.", "", false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputDataCaption", "OutputDataTooltip", "", false, false, QuickWatchFormat.Text, null)]
         public ICryptoolStream OutputData
         {
             get
@@ -79,7 +79,7 @@ namespace Cryptool.XOR
             set { }
         }
 
-        [PropertyInfo(Direction.InputData, "Text input", "Input a string to be processed by the Xor cipher", "", true, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", "", true, false, QuickWatchFormat.Text, null)]
         public string InputString
         {
             get { return this.inputString; }
@@ -93,7 +93,7 @@ namespace Cryptool.XOR
             }
         }
 
-        [PropertyInfo(Direction.InputData, "Key input", "Input a key string", "", false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "KeyCaption", "KeyTooltip", "", false, false, QuickWatchFormat.Text, null)]
         public string Key
         {
             get { return this.key; }
@@ -106,7 +106,7 @@ namespace Cryptool.XOR
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "Text output", "The string after processing with the Xor cipher", "", false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", "", false, false, QuickWatchFormat.Text, null)]
         public string OutputString
         {
             get { return this.outputString; }
@@ -127,7 +127,7 @@ namespace Cryptool.XOR
 
         public void Dispose()
         {
-            }
+        }
 
         public bool HasChanges
         {

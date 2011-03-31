@@ -25,7 +25,7 @@ using System.Security.Cryptography;
 namespace Twofish
 {
     [Author("Gerhard Junker", null, "private project member", null)]
-    [PluginInfo("Twofish.Properties.Resources", false, "TwofishCaption", "TwofishTooltip", "TwofishDescriptionUrl",
+    [PluginInfo("Twofish.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionUrl",
         "Twofish/Images/Twofish.png", "Twofish/Images/encrypt.png", "Twofish/Images/decrypt.png")]
     [EncryptionType(EncryptionType.SymmetricBlock)]
     public class Twofish : IEncryption

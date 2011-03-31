@@ -177,13 +177,13 @@
   <data name="OutputStreamTooltip" xml:space="preserve">
     <value>Output stream</value>
   </data>
-  <data name="TwofishCaption" xml:space="preserve">
+  <data name="PluginCaption" xml:space="preserve">
     <value>Twofish</value>
   </data>
-  <data name="TwofishDescriptionUrl" xml:space="preserve">
+  <data name="PluginDescriptionUrl" xml:space="preserve">
     <value>Twofish/DetailedDescription/Description.xaml</value>
   </data>
-  <data name="TwofishTooltip" xml:space="preserve">
+  <data name="PluginTooltip" xml:space="preserve">
     <value>Twofish -- cipher</value>
   </data>
 </root>

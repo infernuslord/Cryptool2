@@ -27,7 +27,7 @@ using Cryptool.PluginBase.IO;
 namespace Cryptool.Vernam
 {
     [Author("Sebastian Przybylski", "sebastian@przybylski.org", "Uni-Siegen", "http://www.uni-siegen.de")]
-    [PluginInfo("Cryptool.Vernam.Properties.Resources", false, "VernamCaption", "VernamTooltip", "VernamDescriptionURL",
+    [PluginInfo("Cryptool.Vernam.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL",
       "Vernam/Images/icon.png", "Vernam/Images/encrypt.png", "Vernam/Images/decrypt.png")]
     [EncryptionType(EncryptionType.Classic)]
     public class Vernam : IEncryption

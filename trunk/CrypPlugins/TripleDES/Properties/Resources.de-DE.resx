@@ -159,13 +159,13 @@
   <data name="PaddingModeTooltip" xml:space="preserve">
     <value>Wählen Sie eine Methode, Teildatenblöcke aufzufüllen.</value>
   </data>
-  <data name="TripleDESCaption" xml:space="preserve">
+  <data name="PluginCaption" xml:space="preserve">
     <value>Triple DES</value>
   </data>
-  <data name="TripleDESDescriptionURL" xml:space="preserve">
+  <data name="PluginDescriptionURL" xml:space="preserve">
     <value />
   </data>
-  <data name="TripleDESTooltip" xml:space="preserve">
+  <data name="PluginTooltip" xml:space="preserve">
     <value>Triple Data Encryption Standard</value>
   </data>
 </root>

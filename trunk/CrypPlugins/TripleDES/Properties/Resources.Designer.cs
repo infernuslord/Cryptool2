@@ -189,27 +189,27 @@ namespace Cryptool.TripleDES.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Triple DES ähnelt.
         /// </summary>
-        internal static string TripleDESCaption {
+        internal static string PluginCaption {
             get {
-                return ResourceManager.GetString("TripleDESCaption", resourceCulture);
+                return ResourceManager.GetString("PluginCaption", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
         /// </summary>
-        internal static string TripleDESDescriptionURL {
+        internal static string PluginDescriptionURL {
             get {
-                return ResourceManager.GetString("TripleDESDescriptionURL", resourceCulture);
+                return ResourceManager.GetString("PluginDescriptionURL", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Triple Data Encryption Standard ähnelt.
         /// </summary>
-        internal static string TripleDESTooltip {
+        internal static string PluginTooltip {
             get {
-                return ResourceManager.GetString("TripleDESTooltip", resourceCulture);
+                return ResourceManager.GetString("PluginTooltip", resourceCulture);
             }
         }
     }

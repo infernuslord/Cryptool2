@@ -31,7 +31,7 @@ using System.Windows.Input;
 namespace Cryptool.Plugins.VigenereAutokeyAnalyser
 {
     [Author("Dennis Nolte", "nolte@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo(false, "VigenereAutokeyAnalyser", "Ciphertext-only attack on VigenereAutoKey encryption", "VigenereAutokeyAnalyser/DetailedDescription/Description.xaml", "VigenereAutokeyAnalyser/icon.png")]
+    [PluginInfo("VigenereAutokeyAnalyser.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "VigenereAutokeyAnalyser/icon.png")]
 
     public class VigenereAutokeyAnalyser : IStatistic
     {
@@ -72,7 +72,7 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
         /// <summary>
         /// The input for the ciphertext 
         /// </summary>
-        [PropertyInfo(Direction.InputData, "Cipher Input", "Enter your cipher here", "", true, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputCipherCaption", "InputCipherTooltip", "", true, false, QuickWatchFormat.Text, null)]
         public String InputCipher
         {
             get
@@ -89,7 +89,7 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
         /// <summary>
         /// The input for the textkorpus (optional) 
         /// </summary>
-        [PropertyInfo(Direction.InputData, "Textkorpus Input", "Enter your sample text here or choose a language from the task-pane", "", false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputKorpusCaption", "InputKorpusTooltip", "", false, false, QuickWatchFormat.Text, null)]
         public String InputKorpus
         {
             get
@@ -106,7 +106,7 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
         /// <summary>
         /// The assumed keylength from the autokorrelation plugin (optional) 
         /// </summary>
-        [PropertyInfo(Direction.InputData, "Keylength Input", "Enter the assumed keylength from the autokorrelationfunction here", "", false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputKeylengthCaption", "InputKeylengthTooltip", "", false, false, QuickWatchFormat.Text, null)]
         public int InputKeylength
         {
             get
@@ -123,7 +123,7 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
         /// <summary>
         /// The output for the key 
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "Key Output", "The most probable autokey for the analysed ciphertext", "")]
+        [PropertyInfo(Direction.OutputData, "OutputKeyCaption", "OutputKeyTooltip", "")]
         public String OutputKey
         {
             get

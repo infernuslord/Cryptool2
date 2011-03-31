@@ -168,7 +168,7 @@
   <data name="OutputStringCaption" xml:space="preserve">
     <value>Output stream</value>
   </data>
-  <data name="TriviumCaption" xml:space="preserve">
+  <data name="PluginCaption" xml:space="preserve">
     <value>Trivium</value>
   </data>
   <data name="TriviumSlaveTooltip" xml:space="preserve">
@@ -177,7 +177,7 @@
   <data name="TriviumSlaveCaption" xml:space="preserve">
     <value>Trivium Slave</value>
   </data>
-  <data name="TriviumTooltip" xml:space="preserve">
+  <data name="PluginTooltip" xml:space="preserve">
     <value>Trivium</value>
   </data>
   <data name="UseByteSwappingContextTooltip" xml:space="preserve">
@@ -189,7 +189,7 @@
   <data name="UseByteSwappingCaption" xml:space="preserve">
     <value>Use byte swapping</value>
   </data>
-  <data name="TriviumDescriptionUrl" xml:space="preserve">
+  <data name="PluginDescriptionUrl" xml:space="preserve">
     <value>Trivium/DetailedDescription/Description.xaml</value>
   </data>
 </root>

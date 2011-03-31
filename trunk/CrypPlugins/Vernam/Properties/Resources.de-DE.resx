@@ -147,13 +147,13 @@
   <data name="OutputStringTooltip" xml:space="preserve">
     <value>Der mit der Vernam-Chiffre verschlüsselte Text.</value>
   </data>
-  <data name="VernamCaption" xml:space="preserve">
+  <data name="PluginCaption" xml:space="preserve">
     <value>Vernam</value>
   </data>
-  <data name="VernamDescriptionURL" xml:space="preserve">
+  <data name="PluginDescriptionURL" xml:space="preserve">
     <value>Vernam/DetailedDescription/Description.xaml</value>
   </data>
-  <data name="VernamTooltip" xml:space="preserve">
+  <data name="PluginTooltip" xml:space="preserve">
     <value>Vernam -- Substitutions-Chiffre / Stromchiffre, bei der der Chiffretext durch eine XOR-Verknüpfung des Klartextes mit einer (Pseudo-) Zufallszahlenfolge gebildet wird (One-Time-Pad).</value>
   </data>
 </root>

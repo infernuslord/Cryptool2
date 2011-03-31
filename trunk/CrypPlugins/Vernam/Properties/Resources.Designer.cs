@@ -153,27 +153,27 @@ namespace Cryptool.Vernam.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Vernam ähnelt.
         /// </summary>
-        internal static string VernamCaption {
+        internal static string PluginCaption {
             get {
-                return ResourceManager.GetString("VernamCaption", resourceCulture);
+                return ResourceManager.GetString("PluginCaption", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Vernam/DetailedDescription/Description.xaml ähnelt.
         /// </summary>
-        internal static string VernamDescriptionURL {
+        internal static string PluginDescriptionURL {
             get {
-                return ResourceManager.GetString("VernamDescriptionURL", resourceCulture);
+                return ResourceManager.GetString("PluginDescriptionURL", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Vernam -- substitution cipher / stream cipher which is build by XORing the plaintext with a (pseudo) random stream of data to generate the ciphertext [One-time-Pad] ähnelt.
         /// </summary>
-        internal static string VernamTooltip {
+        internal static string PluginTooltip {
             get {
-                return ResourceManager.GetString("VernamTooltip", resourceCulture);
+                return ResourceManager.GetString("PluginTooltip", resourceCulture);
             }
         }
     }

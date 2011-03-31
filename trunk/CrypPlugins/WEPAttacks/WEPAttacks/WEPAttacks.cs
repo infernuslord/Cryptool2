@@ -21,10 +21,10 @@ namespace Cryptool.WEPAttacks
         "stef.schroeder@gmx.de",
         "Uni Siegen",
         "http://www.uni-siegen.de")]
-    [PluginInfo(true,
-        "Attacks on the WEP protocol",
-        "Attacks on the WEP protocol",
-        "WEPAttacks/DetailedDescription/Description.xaml",
+    [PluginInfo("WEPAttacks.Properties.Resources", true,
+        "PluginCaption",
+        "PluginTooltip",
+        "PluginDescriptionURL",
         "WEPAttacks/Mallory.jpg")]
     public class WEPAttacks : IAnalysisMisc
     {
@@ -62,8 +62,8 @@ namespace Cryptool.WEPAttacks
         private WEPAttacksPresentation presentation = new WEPAttacksPresentation();
 
         [PropertyInfo(Direction.InputData,
-            "Input stream",
-            "Encrypted WEP packets",
+            "InputStreamCaption",
+            "InputStreamTooltip",
             "",
             false,
             false,
@@ -84,8 +84,8 @@ namespace Cryptool.WEPAttacks
         }
 
         [PropertyInfo(Direction.OutputData,
-            "Success",
-            "Indicates if attack was successful or not",
+            "SuccessCaption",
+            "SuccessTooltip",
             "",
             false,
             false,
@@ -102,8 +102,8 @@ namespace Cryptool.WEPAttacks
         }
 
         [PropertyInfo(Direction.OutputData,
-            "Output stream",
-            "Decrypted frames",
+            "OutputStreamCaption",
+            "OutputStreamTooltip",
             "",
             false,
             false,

@@ -25,10 +25,10 @@ namespace Cryptool.WEP
         "stef.schroeder@gmx.de",
         "Uni Siegen",
         "http://www.uni-siegen.de")]
-    [PluginInfo(false,
-        "WEP protocol",
-        "WEP protocol",
-        "WEP/DetailedDescription/Description.xaml",
+    [PluginInfo("Cryptool.Properties.Resources", false,
+        "PluginCaption",
+        "PluginTooltip",
+        "PluginDescriptionURL",
         "WEP/icon.jpg", "WEP/Images/encrypt.png", "WEP/Images/decrypt.png")]
     [EncryptionType(EncryptionType.SymmetricStream)]
     public class WEP : IEncryption
@@ -61,8 +61,8 @@ namespace Cryptool.WEP
                                                                0xFF, 0xFF, 0x00, 0x00, 0x69, 0x00, 0x00, 0x00};
 
         [PropertyInfo(Direction.InputData,
-            "Input stream",
-            "Data to be encrypted or decrypted",
+            "InputStreamCaption",
+            "InputStreamTooltip",
             "",
             false,
             false,
@@ -84,8 +84,8 @@ namespace Cryptool.WEP
 
         [PropertyInfo(
             Direction.InputData,
-            "Key",
-            "Must be 5 or 13 bytes.",
+            "InputByteKeyCaption",
+            "InputByteKeyTooltip",
             "",
             true,
             false,
@@ -102,8 +102,8 @@ namespace Cryptool.WEP
         }
 
         [PropertyInfo(Direction.OutputData,
-            "Output stream",
-            "Encrypted / decrypted data",
+            "OutputStreamCaption",
+            "OutputStreamTooltip",
             "",
             false,
             false,

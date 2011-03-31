@@ -147,13 +147,13 @@
   <data name="OutputStringTooltip" xml:space="preserve">
     <value>The string after processing with the Vernam cipher</value>
   </data>
-  <data name="VernamCaption" xml:space="preserve">
+  <data name="PluginCaption" xml:space="preserve">
     <value>Vernam</value>
   </data>
-  <data name="VernamDescriptionURL" xml:space="preserve">
+  <data name="PluginDescriptionURL" xml:space="preserve">
     <value>Vernam/DetailedDescription/Description.xaml</value>
   </data>
-  <data name="VernamTooltip" xml:space="preserve">
+  <data name="PluginTooltip" xml:space="preserve">
     <value>Vernam -- substitution cipher / stream cipher which is build by XORing the plaintext with a (pseudo) random stream of data to generate the ciphertext [One-time-Pad]</value>
   </data>
 </root>
