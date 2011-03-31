@@ -177,12 +177,14 @@ namespace Cryptool.Plugins.CostFunction
             {
                 TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("BytesToUse", Visibility.Visible)));
                 TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("RegEx", Visibility.Visible)));
+                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("RegExHex", Visibility.Visible)));
                 TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("CaseInsensitiv", Visibility.Visible)));
             }
             else
             {
                 TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("BytesToUse", Visibility.Visible)));
                 TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("RegEx", Visibility.Collapsed)));
+                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("RegExHex", Visibility.Collapsed)));
                 TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("CaseInsensitiv", Visibility.Collapsed)));
             }
 
@@ -218,19 +220,32 @@ namespace Cryptool.Plugins.CostFunction
         }
 
 
-        private string regEx;
-        [TaskPane("Regular Expression", "Regular Expression match", null, 5, false, ControlType.TextBox)]
+        private string regExText;
+        [TaskPane("Regular Expression", "Regular Expression match as text string", null, 5, false, ControlType.TextBox)]
         public String RegEx
         {
             get
             {
-                return regEx;
+                return regExText;
             }
             set
             {
-                regEx = value;
+                regExText = value;
                 OnPropertyChanged("RegEx");
+
+                regExHex = convertTextToHexString(regExText);
+                OnPropertyChanged("RegExHex");
             }
+        }
+
+        private static string convertTextToHexString(string text)
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach(byte b in Encoding.ASCII.GetBytes(text))
+            {
+                sb.Append(b.ToString("X2"));
+            }
+            return sb.ToString();
         }
 
         private bool caseInsensitiv;
@@ -247,6 +262,46 @@ namespace Cryptool.Plugins.CostFunction
                     OnPropertyChanged("CaseInsensitiv");
                 }
             }
+        }
+
+        private string regExHex;
+        [TaskPane("Regular Expression (Hex)", "Regular Expression match encoded in hex", null, 7, false, ControlType.TextBox)]
+        public String RegExHex
+        {
+            get
+            {
+                return regExHex;
+            }
+            set
+            {
+                regExHex = value;
+                OnPropertyChanged("RegExHex");
+
+                regExText = convertHexStringToText(regExHex);
+                OnPropertyChanged("RegEx");
+            }
+        }
+
+        private static string convertHexStringToText(string hexString)
+        {
+            StringBuilder cleanHexString = new StringBuilder();
+
+            //cleanup the input
+            foreach (char c in hexString)
+            {
+                if (Uri.IsHexDigit(c))
+                    cleanHexString.Append(c);
+            }
+
+            int numberChars = cleanHexString.Length % 2 == 0 ? cleanHexString.Length : cleanHexString.Length - 1;
+
+            byte[] bytes = new byte[numberChars / 2];
+
+            for (int i = 0; i < numberChars; i += 2)
+            {
+                bytes[i / 2] = Convert.ToByte(cleanHexString.ToString().Substring(i, 2), 16);
+            }
+            return Encoding.ASCII.GetString(bytes);
         }
 
         #region ISettings Members
