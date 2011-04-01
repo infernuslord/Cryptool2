@@ -36,6 +36,8 @@ namespace XMLSerialization
     /// </summary>
     public static class XMLSerialization
     {
+        private static System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
+
         /// <summary>
         /// Serializes the given object and all of its members to the given file using UTF-8 encoding
         /// Works only on objects which are marked as "Serializable"
@@ -65,7 +67,7 @@ namespace XMLSerialization
             if (compress)
             {
                 GZipStream compStream = new GZipStream(sourceFile, CompressionMode.Compress);
-                StreamWriter writer = new StreamWriter(compStream);
+                StreamWriter writer = new StreamWriter(compStream, encoding);
                 try
                 {
 
@@ -89,7 +91,7 @@ namespace XMLSerialization
             }
             else
             {
-                StreamWriter writer = new StreamWriter(sourceFile);
+                StreamWriter writer = new StreamWriter(sourceFile, encoding);
                 try
                 {
                     
@@ -202,9 +204,15 @@ namespace XMLSerialization
                                         writer.WriteLine("<value><![CDATA[" + p.X + ";" + p.Y + "]]></value>");
 
                                     }
+                                    else if (o is string)
+                                    {
+                                        byte[] bytes = enc.GetBytes(o.ToString());
+                                        writer.WriteLine("<value><![CDATA[" + Convert.ToBase64String(bytes) + "]]></value>");
+                                        writer.WriteLine("<B64Encoded/>");
+                                    }
                                     else
                                     {
-                                        writer.WriteLine("<value><![CDATA[" + o + "]]></value>");
+                                        writer.WriteLine("<value><![CDATA[" + o+ "]]></value>");
                                     }
                                 }
                                 else
@@ -230,6 +238,12 @@ namespace XMLSerialization
                         {
                             Point p = (Point)value;
                             writer.WriteLine("<value><![CDATA[" + p.X + ";" + p.Y + "]]></value>");   
+                        }
+                        else if (value is string)
+                        {
+                            byte[] bytes = enc.GetBytes(value.ToString());
+                            writer.WriteLine("<value><![CDATA[" + Convert.ToBase64String(bytes) + "]]></value>");
+                            writer.WriteLine("<B64Encoded/>");
                         }
                         else
                         {
@@ -434,6 +448,7 @@ namespace XMLSerialization
                 {
                     XmlNode membername = member.ChildNodes[0];
                     XmlNode membertype = member.ChildNodes[1];
+                    XmlNode value = member.ChildNodes[2];
 
                     object newmember;
 
@@ -441,15 +456,25 @@ namespace XMLSerialization
                     {
                         if (member.ChildNodes[2].Name.Equals("value"))
                         {
-
-                            XmlNode value = member.ChildNodes[2];
                             if (RevertXMLSymbols(membertype.InnerText).Equals("System.String"))
                             {
-
-                                newObject.GetType().GetField(RevertXMLSymbols(membername.InnerText),
-                                                             BindingFlags.NonPublic |
-                                                             BindingFlags.Public |
-                                                             BindingFlags.Instance).SetValue(newObject, value.InnerText);
+                                if (member.ChildNodes.Count > 3 && member.ChildNodes[3].Name.Equals("B64Encoded"))
+                                {
+                                    byte[] bytes = Convert.FromBase64String(value.InnerText);
+                                    newObject.GetType().GetField(RevertXMLSymbols(membername.InnerText),
+                                                                 BindingFlags.NonPublic |
+                                                                 BindingFlags.Public |
+                                                                 BindingFlags.Instance).SetValue(newObject,
+                                                                                                 enc.GetString(bytes));
+                                }
+                                else
+                                {
+                                    newObject.GetType().GetField(RevertXMLSymbols(membername.InnerText),
+                                                                 BindingFlags.NonPublic |
+                                                                 BindingFlags.Public |
+                                                                 BindingFlags.Instance).SetValue(newObject,
+                                                                                                 value.InnerText);
+                                }
                             }
                             else if (RevertXMLSymbols(membertype.InnerText).Contains("System.Int"))
                             {
@@ -492,7 +517,7 @@ namespace XMLSerialization
                             }
                             else if (RevertXMLSymbols(membertype.InnerText).Equals("System.Windows.Point"))
                             {
-                                string[] values = value.InnerText.Split(new char[] {';'});
+                                string[] values = value.InnerText.Split(new char[] { ';' });
 
                                 if(values.Length != 2)
                                 {
@@ -609,35 +634,43 @@ namespace XMLSerialization
                                 }
                                 else
                                 {
-                                    XmlNode typ = entry.ChildNodes[1];
-                                    XmlNode value = entry.ChildNodes[1];
+                                    XmlNode typ = entry.ChildNodes[0];
+                                    XmlNode val = entry.ChildNodes[1];
+
                                     if (RevertXMLSymbols(typ.InnerText).Equals("System.String"))
                                     {
-
-                                        ((IList) newmember).Add(RevertXMLSymbols(value.InnerText));
+                                        if (entry.ChildNodes.Count > 2 && member.ChildNodes[2].Name.Equals("B64Encoded"))
+                                        {
+                                            byte[] bytes = Convert.FromBase64String(val.InnerText);
+                                            ((IList) newmember).Add(RevertXMLSymbols(enc.GetString(bytes)));
+                                        }
+                                        else
+                                        {
+                                            ((IList)newmember).Add(RevertXMLSymbols(val.InnerText));
+                                        }
                                     }
                                     else if (RevertXMLSymbols(typ.InnerText).Equals("System.Int16"))
                                     {
                                         Int16 result = 0;
-                                        System.Int16.TryParse(RevertXMLSymbols(value.InnerText), out result);
+                                        System.Int16.TryParse(RevertXMLSymbols(val.InnerText), out result);
                                         ((IList) newmember).Add(result);
                                     }
                                     else if (RevertXMLSymbols(typ.InnerText).Equals("System.Int32"))
                                     {
                                         Int32 result = 0;
-                                        System.Int32.TryParse(RevertXMLSymbols(value.InnerText), out result);
+                                        System.Int32.TryParse(RevertXMLSymbols(val.InnerText), out result);
                                         ((IList) newmember).Add(result);
                                     }
                                     else if (RevertXMLSymbols(typ.InnerText).Equals("System.Int64"))
                                     {
                                         Int64 result = 0;
-                                        System.Int64.TryParse(RevertXMLSymbols(value.InnerText), out result);
+                                        System.Int64.TryParse(RevertXMLSymbols(val.InnerText), out result);
                                         ((IList) newmember).Add(result);
                                     }
                                     else if (RevertXMLSymbols(typ.InnerText).Equals("System.Double"))
                                     {
                                         Double result = 0;
-                                        System.Double.TryParse(RevertXMLSymbols(value.InnerText.Replace(',', '.')),
+                                        System.Double.TryParse(RevertXMLSymbols(val.InnerText.Replace(',', '.')),
                                                                                 NumberStyles.Number,
                                                                                 CultureInfo.CreateSpecificCulture("en-GB"),
                                                                                 out result);
@@ -650,7 +683,7 @@ namespace XMLSerialization
                                     else if (RevertXMLSymbols(typ.InnerText).Equals("System.Char"))
                                     {
                                         Char result = ' ';
-                                        System.Char.TryParse(RevertXMLSymbols(value.InnerText), out result);
+                                        System.Char.TryParse(RevertXMLSymbols(val.InnerText), out result);
                                         ((IList) newmember).Add(result);
                                     }
                                 }
