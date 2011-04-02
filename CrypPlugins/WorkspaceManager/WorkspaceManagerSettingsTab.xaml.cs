@@ -27,5 +27,19 @@ namespace WorkspaceManager
             Resources.Add("settingsStyle", settingsStyle);
             InitializeComponent();
         }
+
+        private void TextChanged(object sender, TextChangedEventArgs e)
+        {
+            int num = 0;
+            bool success = int.TryParse(((TextBox)sender).Text, out num);
+            if (success & num >= 0)
+            {
+                ((TextBox)sender).Text.Trim();
+            }
+            else
+            {
+                ((TextBox)sender).Text = "";
+            }
+        }
     }
 }

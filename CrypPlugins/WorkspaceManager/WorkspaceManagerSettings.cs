@@ -38,7 +38,6 @@ namespace WorkspaceManager
             }
         }
 
-       [TaskPane("GuiUpdateInterval", "The interval the gui should be updated in miliseconds.", null, 1, false, ControlType.TextBox)]
         public String GuiUpdateInterval
         {
             get
@@ -53,7 +52,6 @@ namespace WorkspaceManager
             }
         }
 
-        [TaskPane("SleepTime", "The time which the execution will sleep after executing a plugin.", null, 1, false, ControlType.TextBox)]
         public String SleepTime
         {
             get
@@ -68,7 +66,6 @@ namespace WorkspaceManager
             }
         }
 
-        [TaskPane("Threads", "The amount of used threads for scheduling.", null, 1, false, ControlType.TextBox)]
         public String Threads
         {
             get
@@ -83,7 +80,6 @@ namespace WorkspaceManager
             }
         }
 
-        [TaskPane("ThreadPriority", "Should the event handling be synchronous?", null, 1, false, ControlType.ComboBox, new String[] { "AboveNormal", "BelowNormal", "Highest", "Lowest", "Normal" })]
         public int ThreadPriority
         {
             get
@@ -98,7 +94,6 @@ namespace WorkspaceManager
             }
         }  
 
-        [TaskPane("BenchmarkPlugins", "Should the WorkspaceManager benchmark the amount of executed plugins per second?", null, 1, false, ControlType.CheckBox)]
         public bool BenchmarkPlugins
         {
             get
@@ -113,7 +108,6 @@ namespace WorkspaceManager
             }
         }
 
-        [TaskPane("SynchronousEvents", "Should the event handling be synchronous?", null, 1, false, ControlType.CheckBox)]
         public bool SynchronousEvents
         {
             get
@@ -128,7 +122,6 @@ namespace WorkspaceManager
             }
         }
 
-        [TaskPane("LogLevel", "Should the event handling be synchronous?", null, 1, false, ControlType.ComboBox, new string[] { "Debug", "Info", "Warning", "Error"})]
         public int LogLevel
         {
             get
