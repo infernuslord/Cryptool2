@@ -346,6 +346,9 @@
     <Folder Include="obj\DetailedDescription\" />
     <Folder Include="View\Resources\" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="View\Image\WorkspaceManagerIcon_orig.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>
