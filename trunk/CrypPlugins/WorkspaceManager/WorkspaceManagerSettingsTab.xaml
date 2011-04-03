@@ -5,33 +5,33 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:Properties="clr-namespace:WorkspaceManager.Properties"
              mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
-    <UserControl.Background>
-        <ImageBrush Stretch="UniformToFill" ImageSource="/WorkspaceManager;component/View/Image/WorkspaceManagerIcon_orig.ico" Opacity="0.2"/>
-    </UserControl.Background>
-    <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalAlignment="Top" Margin="20">
-        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Name="grid1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <Label Grid.Row="0" Grid.Column="0" Style="{StaticResource ResourceKey=settingsStyle}" ToolTip="Set the update interval for updating GUI-Elements during execution" Height="25">GUI-Updateinterval:</Label>
-            <TextBox Grid.Row="0" Grid.Column="1" Style="{StaticResource ResourceKey=settingsStyle}" ToolTip="Set the update interval for updating GUI-Elements during execution" Height="25" Width="100" HorizontalAlignment="Left" Name="GuiUpdateInterval" Text="{Binding Source={x:Static Properties:Settings.Default}, Path=GuiUpdateInterval, Mode=TwoWay}" TextChanged="TextChanged" />
-            <Label Grid.Row="1" Grid.Column="0" Style="{StaticResource ResourceKey=settingsStyle}" ToolTip="Set the sleeping-time between execution of functions (in miliseconds)" Height="25" >Sleep-Time:</Label>
-            <TextBox Grid.Row="1" Grid.Column="1" Style="{StaticResource ResourceKey=settingsStyle}" ToolTip="Set the sleeping-time between execution of functions (in miliseconds)" Height="25" Width="100" HorizontalAlignment="Left" Name="SleepTime"  Text="{Binding Source={x:Static Properties:Settings.Default}, Path=SleepTime, Mode=TwoWay}" TextChanged="TextChanged"/>
-            <Label Grid.Row="2" Grid.Column="0" Style="{StaticResource ResourceKey=settingsStyle}" ToolTip="Set the amount of threads which may be used for execution" Height="25">Threads:</Label>
-            <TextBox Grid.Row="2" Grid.Column="1" Style="{StaticResource ResourceKey=settingsStyle}" ToolTip="Set the amount of threads which may be used for execution" Height="25" Name="Threads" Width="100" HorizontalAlignment="Left" Text="{Binding Source={x:Static Properties:Settings.Default}, Path=Threads, Mode=TwoWay}" TextChanged="TextChanged"/>
-            <Label Grid.Row="3" Grid.Column="0" Style="{StaticResource ResourceKey=settingsStyle}" Height="25" ToolTip="Set the priority of threads which will be used for execution">Thread-Priority:</Label>
-            <TextBox Grid.Row="3" Grid.Column="1" Style="{StaticResource ResourceKey=settingsStyle}" Height="25" ToolTip="Set the priority of threads which will be used for execution" Name="ThreadPriority" Width="100" HorizontalAlignment="Left"  Text="{Binding Source={x:Static Properties:Settings.Default}, Path=ThreadPriority, Mode=TwoWay}" TextChanged="TextChanged"/>
-            <CheckBox Grid.Row="4" Grid.ColumnSpan="2" Style="{StaticResource ResourceKey=settingsStyle}" Content="Synchronous Events" Name="SynchronousEvents" ToolTip="Set the behaviour of event handling of the execution engine" Height="21" IsChecked="{Binding Source={x:Static Properties:Settings.Default}, Path=SynchronousEvents, Mode=TwoWay}" />
-            <CheckBox Grid.Row="5" Grid.ColumnSpan="2" Style="{StaticResource ResourceKey=settingsStyle}" Content="Benchmark" Height="21" Name="BenchmarkPlugins" ToolTip="Should the ExecutionEngine benchmark the executed functions per second?" IsChecked="{Binding Source={x:Static Properties:Settings.Default}, Path=BenchmarkPlugins, Mode=TwoWay}"/>
-        </Grid>
-    </ScrollViewer>
+    <Grid>
+    <Image Source="/WorkspaceManager;component/View/Image/WorkspaceManagerIcon_orig.png" Opacity="0.2" />
+        <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalAlignment="Top" Margin="20">
+            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Name="grid1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Label Grid.Row="0" Grid.Column="0" Style="{StaticResource ResourceKey=settingsStyle}" ToolTip="Set the update interval for updating GUI-Elements during execution" Height="25">GUI-Updateinterval:</Label>
+                <TextBox Grid.Row="0" Grid.Column="1" Style="{StaticResource ResourceKey=settingsStyle}" ToolTip="Set the update interval for updating GUI-Elements during execution" Height="25" Width="100" HorizontalAlignment="Left" Name="GuiUpdateInterval" Text="{Binding Source={x:Static Properties:Settings.Default}, Path=GuiUpdateInterval, Mode=TwoWay}" TextChanged="TextChanged" />
+                <Label Grid.Row="1" Grid.Column="0" Style="{StaticResource ResourceKey=settingsStyle}" ToolTip="Set the sleeping-time between execution of functions (in miliseconds)" Height="25" >Sleep-Time:</Label>
+                <TextBox Grid.Row="1" Grid.Column="1" Style="{StaticResource ResourceKey=settingsStyle}" ToolTip="Set the sleeping-time between execution of functions (in miliseconds)" Height="25" Width="100" HorizontalAlignment="Left" Name="SleepTime"  Text="{Binding Source={x:Static Properties:Settings.Default}, Path=SleepTime, Mode=TwoWay}" TextChanged="TextChanged"/>
+                <Label Grid.Row="2" Grid.Column="0" Style="{StaticResource ResourceKey=settingsStyle}" ToolTip="Set the amount of threads which may be used for execution" Height="25">Threads:</Label>
+                <TextBox Grid.Row="2" Grid.Column="1" Style="{StaticResource ResourceKey=settingsStyle}" ToolTip="Set the amount of threads which may be used for execution" Height="25" Name="Threads" Width="100" HorizontalAlignment="Left" Text="{Binding Source={x:Static Properties:Settings.Default}, Path=Threads, Mode=TwoWay}" TextChanged="TextChanged"/>
+                <Label Grid.Row="3" Grid.Column="0" Style="{StaticResource ResourceKey=settingsStyle}" Height="25" ToolTip="Set the priority of threads which will be used for execution">Thread-Priority:</Label>
+                <TextBox Grid.Row="3" Grid.Column="1" Style="{StaticResource ResourceKey=settingsStyle}" Height="25" ToolTip="Set the priority of threads which will be used for execution" Name="ThreadPriority" Width="100" HorizontalAlignment="Left"  Text="{Binding Source={x:Static Properties:Settings.Default}, Path=ThreadPriority, Mode=TwoWay}" TextChanged="TextChanged"/>
+                <CheckBox Grid.Row="4" Grid.ColumnSpan="2" Style="{StaticResource ResourceKey=settingsStyle}" Content="Synchronous Events" Name="SynchronousEvents" ToolTip="Set the behaviour of event handling of the execution engine" Height="21" IsChecked="{Binding Source={x:Static Properties:Settings.Default}, Path=SynchronousEvents, Mode=TwoWay}" />
+                <CheckBox Grid.Row="5" Grid.ColumnSpan="2" Style="{StaticResource ResourceKey=settingsStyle}" Content="Benchmark" Height="21" Name="BenchmarkPlugins" ToolTip="Should the ExecutionEngine benchmark the executed functions per second?" IsChecked="{Binding Source={x:Static Properties:Settings.Default}, Path=BenchmarkPlugins, Mode=TwoWay}"/>
+            </Grid>
+        </ScrollViewer>
+    </Grid>
 </UserControl>
