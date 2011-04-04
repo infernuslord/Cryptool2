@@ -99,10 +99,11 @@ namespace CrypUpdater
             unwantedProcesses = FindCrypToolProcesses();
             if (unwantedProcesses.Count == 0)
             {
-                if (filePath.EndsWith("zip"))
-                    UnpackZip(filePath, cryptoolFolderPath);
-                else
+                if(filePath.EndsWith("msi"))
                     StartMSI();
+                else if(filePath.EndsWith("exe"))
+                    StartNSIS();
+                else UnpackZip(filePath, cryptoolFolderPath);
             }
             else
                 AskForLicenseToKill();
@@ -110,6 +111,10 @@ namespace CrypUpdater
 
         private void StartMSI()
         {
+            // flomar, 04/01/2011: from now on, whenever someone wants to upgrade to an MSI installation 
+            // we warn the user that he should switch to an NSIS installation (TODO: this could be i18n-ed)
+            MessageBox.Show("You are about to install an MSI-based installation of CrypTool 2. MSI-based installations will soon no longer be supported. We suggest you uninstall your existing MSI-based installation and upgrade to the new NSIS-based installation instead (visit the CrypTool 2 download page).", "Warning");
+
             try
             {
                 DirectorySecurity ds = Directory.GetAccessControl(cryptoolFolderPath);
@@ -144,6 +149,45 @@ namespace CrypUpdater
             catch (Exception e)
             {
                 MessageBox.Show("MSI update failed: " + e.Message + ". CrypTool 2.0 will be restarted.", "Error");
+            }
+        }
+
+        private void StartNSIS()
+        {
+            try
+            {
+                DirectorySecurity ds = Directory.GetAccessControl(cryptoolFolderPath);
+
+                Process p = new Process();
+                p.StartInfo.FileName = filePath;
+                p.StartInfo.Arguments = "/S >nsis.log";
+                p.Start();
+                p.WaitForExit();
+                if (p.ExitCode != 0)
+                    MessageBox.Show("The exit code is not equal to zero. See log file for more information. CrypTool 2.0 will be restarted.", "Error");
+            }
+            catch (UnauthorizedAccessException)
+            {
+                WindowsPrincipal pricipal = new WindowsPrincipal(WindowsIdentity.GetCurrent());
+
+                if (!pricipal.IsInRole(WindowsBuiltInRole.Administrator))
+                {
+                    Process p = new Process();
+                    p.StartInfo.FileName = filePath;
+                    p.StartInfo.Arguments = "/S >nsis.log";
+                    p.StartInfo.UseShellExecute = true;
+                    p.StartInfo.Verb = "runas";
+                    p.Start();
+                    p.WaitForExit();
+                    if (p.ExitCode != 0)
+                        MessageBox.Show("The exit code is not equal to zero. See log file for more information. CrypTool 2.0 will be restarted.", "Error");
+                }
+                else
+                    MessageBox.Show("NSIS update failed: CrypTool 2.0 will be restarted.", "Error");
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("NSIS update failed: " + e.Message + ". CrypTool 2.0 will be restarted.", "Error");
             }
         }
 
