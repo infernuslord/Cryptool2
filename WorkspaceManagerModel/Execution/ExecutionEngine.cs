@@ -138,7 +138,8 @@ namespace WorkspaceManager.Execution
                     {
                         if(pluginModel.GuiNeedsUpdate)
                         {
-                            pluginModel.UpdateableView.update();
+                            if (pluginModel.UpdateableView != null)
+                                pluginModel.UpdateableView.update();
                             pluginModel.GuiNeedsUpdate = false;
                         }
                     }
@@ -147,7 +148,8 @@ namespace WorkspaceManager.Execution
                     {
                         if (connectionModel.GuiNeedsUpdate)
                         {
-                            connectionModel.UpdateableView.update();
+                            if (connectionModel.UpdateableView != null)
+                                connectionModel.UpdateableView.update();
                             connectionModel.GuiNeedsUpdate = false;
                         }
                     }
@@ -156,7 +158,8 @@ namespace WorkspaceManager.Execution
                     {
                         if (connectorModel.GuiNeedsUpdate)
                         {
-                            connectorModel.UpdateableView.update();
+                            if (connectorModel.UpdateableView != null)
+                                connectorModel.UpdateableView.update();
                             connectorModel.GuiNeedsUpdate = false;
                         }
                     }                    
