@@ -100,10 +100,6 @@
     <Compile Include="WhirlpoolTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CoreDeveloper\OnlineDocumentationGenerator\OnlineDocumentationGenerator.csproj">
-      <Project>{0698CD9D-DAD6-41AE-9E0A-FB00959FE8B1}</Project>
-      <Name>OnlineDocumentationGenerator</Name>
-    </ProjectReference>
     <ProjectReference Include="..\CrypCore\CrypCore.csproj">
       <Project>{FF5D473C-0716-4D3E-9078-2EBD979F94C6}</Project>
       <Name>CrypCore</Name>
@@ -146,6 +142,10 @@
       <Project>{E46A6AA6-56EE-4AE5-8725-DCD07DC95527}</Project>
       <Name>SSCext</Name>
       <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\OnlineDocumentationGenerator\OnlineDocumentationGenerator.csproj">
+      <Project>{0698CD9D-DAD6-41AE-9E0A-FB00959FE8B1}</Project>
+      <Name>OnlineDocumentationGenerator</Name>
     </ProjectReference>
     <ProjectReference Include="..\WorkspaceManagerModel\WorkspaceManagerModel.csproj">
       <Project>{C35A6E71-D6FE-478B-A12D-FAD54FC4EDC9}</Project>

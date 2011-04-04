@@ -8,7 +8,7 @@ namespace Cryptool.PluginBase
     public class OnlineHelp
     {
         public static readonly string HelpDirectory = "OnlineDocumentation";
-        public static readonly string PluginDocDirectory = "PluginDocs/"+HelpDirectory;
+        public static readonly string PluginDocDirectory = HelpDirectory+"/PluginDocs";
 
         public static string GetPluginDocFilename(Type plugin, string lang)
         {
