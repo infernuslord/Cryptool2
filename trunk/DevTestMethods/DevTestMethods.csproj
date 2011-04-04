@@ -88,6 +88,7 @@
     <Compile Include="KeySearcherTests\OpenCLTest.cs" />
     <Compile Include="MD5\Algorithm\PresentableMD5Test.cs" />
     <Compile Include="MD5\Presentation\Helpers\PresentationControlFactoryTest.cs" />
+    <Compile Include="OnlineDocumentationGeneratorTests\TagReplacerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="pkcsTest.cs" />
     <Compile Include="TigerTest.cs" />
@@ -99,6 +100,10 @@
     <Compile Include="WhirlpoolTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CoreDeveloper\OnlineDocumentationGenerator\OnlineDocumentationGenerator.csproj">
+      <Project>{0698CD9D-DAD6-41AE-9E0A-FB00959FE8B1}</Project>
+      <Name>OnlineDocumentationGenerator</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CrypCore\CrypCore.csproj">
       <Project>{FF5D473C-0716-4D3E-9078-2EBD979F94C6}</Project>
       <Name>CrypCore</Name>
