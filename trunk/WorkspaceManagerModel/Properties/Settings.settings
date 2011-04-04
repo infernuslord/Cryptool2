@@ -1,0 +1,60 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="WorkspaceManagerModel.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="AsymmetricColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">103, 137, 162</Value>
+    </Setting>
+    <Setting Name="ClassicColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">184, 200, 129</Value>
+    </Setting>
+    <Setting Name="SymmetricBlockColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">212, 144, 144</Value>
+    </Setting>
+    <Setting Name="SymmetricStreamColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">148, 188, 138</Value>
+    </Setting>
+    <Setting Name="HybridColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">212, 144, 144</Value>
+    </Setting>
+    <Setting Name="GeneratorColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">138, 188, 148</Value>
+    </Setting>
+    <Setting Name="HashColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">138, 187, 188</Value>
+    </Setting>
+    <Setting Name="StatisticColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">140, 138, 188</Value>
+    </Setting>
+    <Setting Name="AnalysisMiscColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">188, 138, 172</Value>
+    </Setting>
+    <Setting Name="IntegerColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">Aqua</Value>
+    </Setting>
+    <Setting Name="ByteColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">ForestGreen</Value>
+    </Setting>
+    <Setting Name="DoubleColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">Blue</Value>
+    </Setting>
+    <Setting Name="BoolColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">Maroon</Value>
+    </Setting>
+    <Setting Name="StreamColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">DarkOrange</Value>
+    </Setting>
+    <Setting Name="StringColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">Gray</Value>
+    </Setting>
+    <Setting Name="ObjectColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">MediumPurple</Value>
+    </Setting>
+    <Setting Name="BigIntegerColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">Black</Value>
+    </Setting>
+    <Setting Name="DefaultColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">163, 208, 144</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
