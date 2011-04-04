@@ -104,7 +104,7 @@ namespace WorkspaceManager.Execution
         {
             if(BenchmarkPlugins)
             {
-                GuiLogMessage("Executing at " + ExecutionCounter + " Plugins\\sec.",NotificationLevel.Debug);
+                GuiLogMessage(string.Format("Executing at {0:0,0} Plugins\\sec.",ExecutionCounter),NotificationLevel.Debug);
             }
             ExecutionCounter = 0;
             benchmarkTimer.Start();
