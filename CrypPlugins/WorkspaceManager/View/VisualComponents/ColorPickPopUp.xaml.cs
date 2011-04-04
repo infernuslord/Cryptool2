@@ -94,7 +94,7 @@ namespace WorkspaceManager.View.VisualComponents
         {
             invoker.Fill = (sender as Rectangle).Fill;
             if (ColorPickerColorChanged != null)
-                ColorPickerColorChanged.Invoke(null, null);
+                ColorPickerColorChanged.Invoke(invoker, null);
             this.IsOpen = false;
         }
     }
