@@ -4,12 +4,23 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:Properties="clr-namespace:WorkspaceManager.Properties"
-             mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
+             mc:Ignorable="d" d:DesignHeight="490" d:DesignWidth="500" DataContext="{Binding}">
     <Grid>
-    <Image Source="/WorkspaceManager;component/View/Image/WorkspaceManagerIcon_orig.png" Opacity="0.2" />
+        <Image Source="/WorkspaceManager;component/View/Image/WorkspaceManagerIcon_orig.png" Opacity="0.2" />
         <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalAlignment="Top" Margin="20">
             <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Name="grid1">
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
@@ -20,6 +31,9 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Label Grid.Row="0" Grid.Column="0" Style="{StaticResource ResourceKey=settingsStyle}" ToolTip="Set the update interval for updating GUI-Elements during execution" Height="25">GUI-Updateinterval:</Label>
                 <TextBox Grid.Row="0" Grid.Column="1" Style="{StaticResource ResourceKey=settingsStyle}" ToolTip="Set the update interval for updating GUI-Elements during execution" Height="25" Width="100" HorizontalAlignment="Left" Name="GuiUpdateInterval" Text="{Binding Source={x:Static Properties:Settings.Default}, Path=GuiUpdateInterval, Mode=TwoWay}" TextChanged="TextChanged" />
@@ -31,6 +45,86 @@
                 <TextBox Grid.Row="3" Grid.Column="1" Style="{StaticResource ResourceKey=settingsStyle}" Height="25" ToolTip="Set the priority of threads which will be used for execution" Name="ThreadPriority" Width="100" HorizontalAlignment="Left"  Text="{Binding Source={x:Static Properties:Settings.Default}, Path=ThreadPriority, Mode=TwoWay}" TextChanged="TextChanged"/>
                 <CheckBox Grid.Row="4" Grid.ColumnSpan="2" Style="{StaticResource ResourceKey=settingsStyle}" Content="Synchronous Events" Name="SynchronousEvents" ToolTip="Set the behaviour of event handling of the execution engine" Height="21" IsChecked="{Binding Source={x:Static Properties:Settings.Default}, Path=SynchronousEvents, Mode=TwoWay}" />
                 <CheckBox Grid.Row="5" Grid.ColumnSpan="2" Style="{StaticResource ResourceKey=settingsStyle}" Content="Benchmark" Height="21" Name="BenchmarkPlugins" ToolTip="Should the ExecutionEngine benchmark the executed functions per second?" IsChecked="{Binding Source={x:Static Properties:Settings.Default}, Path=BenchmarkPlugins, Mode=TwoWay}"/>
+
+                <Label Style="{StaticResource ResourceKey=settingsStyle}" Content="Data type colors:" Grid.Row="6" Grid.Column="0" HorizontalAlignment="Left"/>
+
+                <Label Style="{StaticResource ResourceKey=settingsStyle}" Content="Integer:" Grid.Row="7" Grid.Column="0" Height="26"  HorizontalAlignment="Left"/>
+                <Border Style="{StaticResource ResourceKey=settingsStyle}" Margin="0,0,0,2" BorderThickness="1" BorderBrush="Gray" Width="26" Height="26" Grid.Row="7" Grid.Column="1" HorizontalAlignment="Left">
+                    <Rectangle Name="IntegerColor" Width="25" Height="25" MouseLeftButtonDown="Rectangle_MouseDown"/>
+                </Border>
+                <Label Style="{StaticResource ResourceKey=settingsStyle}" Content="Byte:" Grid.Row="8" Grid.Column="0" Height="26"  HorizontalAlignment="Left"/>
+                <Border Style="{StaticResource ResourceKey=settingsStyle}" Margin="0,0,0,2" BorderThickness="1" BorderBrush="Gray" Width="26" Height="26" Grid.Row="8" Grid.Column="1" HorizontalAlignment="Left">
+                    <Rectangle Name="ByteColor" Width="25" Height="25" MouseLeftButtonDown="Rectangle_MouseDown"/>
+                </Border>
+                <Label Style="{StaticResource ResourceKey=settingsStyle}" Content="Double:" Grid.Row="9" Grid.Column="0" Height="26"  HorizontalAlignment="Left"/>
+                <Border Style="{StaticResource ResourceKey=settingsStyle}" Margin="0,0,0,2" BorderThickness="1" BorderBrush="Gray" Width="26" Height="26" Grid.Row="9" Grid.Column="1" HorizontalAlignment="Left">
+                    <Rectangle Name="DoubleColor" Width="25" Height="25" MouseLeftButtonDown="Rectangle_MouseDown"/>
+                </Border>
+                <Label Style="{StaticResource ResourceKey=settingsStyle}" Content="Bool:" Grid.Row="10" Grid.Column="0" Height="26"  HorizontalAlignment="Left"/>
+                <Border Style="{StaticResource ResourceKey=settingsStyle}" Margin="0,0,0,2" BorderThickness="1" BorderBrush="Gray" Width="26" Height="26" Grid.Row="10" Grid.Column="1" HorizontalAlignment="Left">
+                    <Rectangle Name="BoolColor" Width="25" Height="25" MouseLeftButtonDown="Rectangle_MouseDown"/>
+                </Border>
+                <Label Style="{StaticResource ResourceKey=settingsStyle}" Content="Stream:" Grid.Row="11" Grid.Column="0" Height="26"  HorizontalAlignment="Left"/>
+                <Border Style="{StaticResource ResourceKey=settingsStyle}" Margin="0,0,0,2" BorderThickness="1" BorderBrush="Gray" Width="26" Height="26" Grid.Row="11" Grid.Column="1" HorizontalAlignment="Left">
+                    <Rectangle Name="StreamColor" Width="25" Height="25" MouseLeftButtonDown="Rectangle_MouseDown"/>
+                </Border>
+                <Label Style="{StaticResource ResourceKey=settingsStyle}" Content="String:" Grid.Row="12" Grid.Column="0" Height="26"  HorizontalAlignment="Left"/>
+                <Border Style="{StaticResource ResourceKey=settingsStyle}" Margin="0,0,0,2" BorderThickness="1" BorderBrush="Gray" Width="26" Height="26" Grid.Row="12" Grid.Column="1" HorizontalAlignment="Left">
+                    <Rectangle Name="StringColor" Width="25" Height="25" MouseLeftButtonDown="Rectangle_MouseDown"/>
+                </Border>
+                <Label Style="{StaticResource ResourceKey=settingsStyle}" Content="Object:" Grid.Row="13" Grid.Column="0" Height="26"  HorizontalAlignment="Left"/>
+                <Border Style="{StaticResource ResourceKey=settingsStyle}" Margin="0,0,0,2" BorderThickness="1" BorderBrush="Gray" Width="26" Height="26" Grid.Row="13" Grid.Column="1" HorizontalAlignment="Left">
+                    <Rectangle Name="ObjectColor" Width="25" Height="25" MouseLeftButtonDown="Rectangle_MouseDown"/>
+                </Border>
+                <Label Style="{StaticResource ResourceKey=settingsStyle}" Content="BigInteger:" Grid.Row="14" Grid.Column="0" Height="26"  HorizontalAlignment="Left"/>
+                <Border Style="{StaticResource ResourceKey=settingsStyle}" Margin="0,0,0,2" BorderThickness="1" BorderBrush="Gray" Width="26" Height="26" Grid.Row="14" Grid.Column="1" HorizontalAlignment="Left">
+                    <Rectangle Name="BigIntegerColor" Width="25" Height="25" MouseLeftButtonDown="Rectangle_MouseDown"/>
+                </Border>
+                <Label Style="{StaticResource ResourceKey=settingsStyle}" Content="Default:" Grid.Row="15" Grid.Column="0" Height="26"  HorizontalAlignment="Left"/>
+                <Border Style="{StaticResource ResourceKey=settingsStyle}" Margin="0,0,0,2" BorderThickness="1" BorderBrush="Gray" Width="26" Height="26" Grid.Row="15" Grid.Column="1" HorizontalAlignment="Left">
+                    <Rectangle Name="DefaultColor" Width="25" Height="25" MouseLeftButtonDown="Rectangle_MouseDown"/>
+                </Border>
+
+                <Label Style="{StaticResource ResourceKey=settingsStyle}" Content="Function colors:" Grid.Row="6" Grid.Column="3" HorizontalAlignment="Left"/>
+
+                <Label Style="{StaticResource ResourceKey=settingsStyle}" Content="Asymmetric:" Grid.Row="7" Grid.Column="3" Height="26"  HorizontalAlignment="Left"/>
+                <Border Style="{StaticResource ResourceKey=settingsStyle}" Margin="0,0,0,2" BorderThickness="1" BorderBrush="Gray" Width="26" Height="26" Grid.Row="7" Grid.Column="4" HorizontalAlignment="Left">
+                    <Rectangle Name="AsymmetricColor" Width="25" Height="25" MouseLeftButtonDown="Rectangle_MouseDown"/>
+                </Border>
+                <Label Style="{StaticResource ResourceKey=settingsStyle}" Content="Classic:" Grid.Row="8" Grid.Column="3" Height="26"  HorizontalAlignment="Left"/>
+                <Border Style="{StaticResource ResourceKey=settingsStyle}" Margin="0,0,0,2" BorderThickness="1" BorderBrush="Gray" Width="26" Height="26" Grid.Row="8" Grid.Column="4" HorizontalAlignment="Left">
+                    <Rectangle Name="ClassicColor" Width="25" Height="25" MouseLeftButtonDown="Rectangle_MouseDown"/>
+                </Border>
+                <Label Style="{StaticResource ResourceKey=settingsStyle}" Content="Symmetric block:" Grid.Row="9" Grid.Column="3" Height="26"  HorizontalAlignment="Left"/>
+                <Border Style="{StaticResource ResourceKey=settingsStyle}" Margin="0,0,0,2" BorderThickness="1" BorderBrush="Gray" Width="26" Height="26" Grid.Row="9" Grid.Column="4" HorizontalAlignment="Left">
+                    <Rectangle Name="SymmetricBlockColor" Width="25" Height="25" MouseLeftButtonDown="Rectangle_MouseDown"/>
+                </Border>
+                <Label Style="{StaticResource ResourceKey=settingsStyle}" Content="Symmetric stream:" Grid.Row="10" Grid.Column="3" Height="26"  HorizontalAlignment="Left"/>
+                <Border Style="{StaticResource ResourceKey=settingsStyle}" Margin="0,0,0,2" BorderThickness="1" BorderBrush="Gray" Width="26" Height="26" Grid.Row="10" Grid.Column="4" HorizontalAlignment="Left">
+                    <Rectangle Name="SymmetricStreamColor" Width="25" Height="25" MouseLeftButtonDown="Rectangle_MouseDown"/>
+                </Border>
+                <Label Style="{StaticResource ResourceKey=settingsStyle}" Content="Hybrid:" Grid.Row="11" Grid.Column="3" Height="26"  HorizontalAlignment="Left"/>
+                <Border Style="{StaticResource ResourceKey=settingsStyle}" Margin="0,0,0,2" BorderThickness="1" BorderBrush="Gray" Width="26" Height="26" Grid.Row="11" Grid.Column="4" HorizontalAlignment="Left">
+                    <Rectangle Name="HybridColor" Width="25" Height="25" MouseLeftButtonDown="Rectangle_MouseDown"/>
+                </Border>
+                <Label Style="{StaticResource ResourceKey=settingsStyle}" Content="Generator:" Grid.Row="12" Grid.Column="3" Height="26"  HorizontalAlignment="Left"/>
+                <Border Style="{StaticResource ResourceKey=settingsStyle}" Margin="0,0,0,2" BorderThickness="1" BorderBrush="Gray" Width="26" Height="26" Grid.Row="12" Grid.Column="4" HorizontalAlignment="Left">
+                    <Rectangle Name="GeneratorColor" Width="25" Height="25" MouseLeftButtonDown="Rectangle_MouseDown"/>
+                </Border>
+                <Label Style="{StaticResource ResourceKey=settingsStyle}" Content="Hash:" Grid.Row="13" Grid.Column="3" Height="26"  HorizontalAlignment="Left"/>
+                <Border Style="{StaticResource ResourceKey=settingsStyle}" Margin="0,0,0,2" BorderThickness="1" BorderBrush="Gray" Width="26" Height="26" Grid.Row="13" Grid.Column="4" HorizontalAlignment="Left">
+                    <Rectangle Name="HashColor" Width="25" Height="25" MouseLeftButtonDown="Rectangle_MouseDown"/>
+                </Border>
+                <Label Style="{StaticResource ResourceKey=settingsStyle}" Content="Statistic:" Grid.Row="14" Grid.Column="3" Height="26"  HorizontalAlignment="Left"/>
+                <Border Style="{StaticResource ResourceKey=settingsStyle}" Margin="0,0,0,2" BorderThickness="1" BorderBrush="Gray" Width="26" Height="26" Grid.Row="14" Grid.Column="4" HorizontalAlignment="Left">
+                    <Rectangle Name="StatisticColor" Width="25" Height="25" MouseLeftButtonDown="Rectangle_MouseDown"/>
+                </Border>
+                <Label Style="{StaticResource ResourceKey=settingsStyle}" Content="Analysis/Misc:" Grid.Row="15" Grid.Column="3" Height="26"  HorizontalAlignment="Left"/>
+                <Border Style="{StaticResource ResourceKey=settingsStyle}" Margin="0,0,0,2" BorderThickness="1" BorderBrush="Gray" Width="26" Height="26" Grid.Row="15" Grid.Column="4" HorizontalAlignment="Left">
+                    <Rectangle Name="AnalysisMiscColor" Width="25" Height="25" MouseLeftButtonDown="Rectangle_MouseDown"/>
+                </Border>
+
+                <Button Click="ResetColorButton_Click" Width="100" Height="25" Margin="2,2,2,2" Grid.Column="0" Grid.Row="16" Style="{StaticResource ResourceKey=settingsStyle}" Content="Reset Colors" ToolTip="Reset all colors to their default values."/>
             </Grid>
         </ScrollViewer>
     </Grid>

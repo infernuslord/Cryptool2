@@ -15,70 +15,265 @@
 */
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Numerics;
 using System.Windows.Media;
-using Cryptool.PluginBase;
-using System.Reflection;
 using Cryptool.PluginBase.Cryptography;
 using Cryptool.PluginBase.Analysis;
 using Cryptool.PluginBase.Generator;
-using Cryptool.PluginBase.IO;
 using System.IO;
-using Cryptool.PluginBase.Control;
 
 namespace WorkspaceManager.Model
 {
     public static class ColorHelper
     {
-        public static Color AsymmetricColor { get; set; }
-        public static Color ClassicColor { get; set; }
-        public static Color SymmetricBlockColor { get; set; }
-        public static Color SymmetricStreamColor { get; set; }
-        public static Color HybridColor { get; set; }
-        public static Color GeneratorColor { get; set; }
-        public static Color HashColor { get; set; }
-        public static Color StatisticColor { get; set; }
-        public static Color AnalysisMiscColor { get; set; }
-
-        public static Color IntegerColor { get; set; }
-        public static Color ByteColor { get; set; }
-        public static Color DoubleColor { get; set; }
-        public static Color BoolColor { get; set; }
-        public static Color StreamColor { get; set; }
-        public static Color StringColor { get; set; }
-        public static Color ObjectColor { get; set; }
-        public static Color BigIntegerColor { get; set; }
-        public static Color DefaultColor { get; set; }
-
-        static ColorHelper(){
-            SetDefaultColors();   
+        public static Color AsymmetricColor { 
+            get
+            { 
+                return DrawingToMedia(WorkspaceManagerModel.Properties.Settings.Default.AsymmetricColor);
+            }
+            set 
+            { 
+                WorkspaceManagerModel.Properties.Settings.Default.AsymmetricColor = MediaToDrawing(value);             
+                WorkspaceManagerModel.Properties.Settings.Default.Save();
+            }
         }
 
+        public static Color ClassicColor
+        {
+            get
+            {
+                return DrawingToMedia(WorkspaceManagerModel.Properties.Settings.Default.ClassicColor);
+            }
+            set
+            {
+                WorkspaceManagerModel.Properties.Settings.Default.ClassicColor = MediaToDrawing(value);
+                WorkspaceManagerModel.Properties.Settings.Default.Save();
+            }
+        }
+
+        public static Color SymmetricBlockColor
+        {
+            get
+            {
+                return DrawingToMedia(WorkspaceManagerModel.Properties.Settings.Default.SymmetricBlockColor);
+            }
+            set
+            {
+                WorkspaceManagerModel.Properties.Settings.Default.SymmetricBlockColor = MediaToDrawing(value);
+                WorkspaceManagerModel.Properties.Settings.Default.Save();
+            }
+        }
+
+        public static Color SymmetricStreamColor
+        {
+            get
+            {
+                return DrawingToMedia(WorkspaceManagerModel.Properties.Settings.Default.SymmetricStreamColor);
+            }
+            set
+            {
+                WorkspaceManagerModel.Properties.Settings.Default.SymmetricStreamColor = MediaToDrawing(value);
+                WorkspaceManagerModel.Properties.Settings.Default.Save();
+            }
+        }
+
+        public static Color HybridColor
+        {
+            get
+            {
+                return DrawingToMedia(WorkspaceManagerModel.Properties.Settings.Default.HybridColor);
+            }
+            set
+            {
+                WorkspaceManagerModel.Properties.Settings.Default.HybridColor = MediaToDrawing(value);
+                WorkspaceManagerModel.Properties.Settings.Default.Save();
+            }
+        }
+
+        public static Color GeneratorColor
+        {
+            get
+            {
+                return DrawingToMedia(WorkspaceManagerModel.Properties.Settings.Default.GeneratorColor);
+            }
+            set
+            {
+                WorkspaceManagerModel.Properties.Settings.Default.GeneratorColor = MediaToDrawing(value);
+                WorkspaceManagerModel.Properties.Settings.Default.Save();
+            }
+        }
+
+        public static Color HashColor
+        {
+            get
+            {
+                return DrawingToMedia(WorkspaceManagerModel.Properties.Settings.Default.HashColor);
+            }
+            set
+            {
+                WorkspaceManagerModel.Properties.Settings.Default.HashColor = MediaToDrawing(value);
+                WorkspaceManagerModel.Properties.Settings.Default.Save();
+            }
+        }
+
+        public static Color StatisticColor
+        {
+            get
+            {
+                return DrawingToMedia(WorkspaceManagerModel.Properties.Settings.Default.StatisticColor);
+            }
+            set
+            {
+                WorkspaceManagerModel.Properties.Settings.Default.StatisticColor = MediaToDrawing(value);
+                WorkspaceManagerModel.Properties.Settings.Default.Save();
+            }
+        }
+
+        public static Color AnalysisMiscColor
+        {
+            get
+            {
+                return DrawingToMedia(WorkspaceManagerModel.Properties.Settings.Default.AnalysisMiscColor);
+            }
+            set
+            {
+                WorkspaceManagerModel.Properties.Settings.Default.AnalysisMiscColor = MediaToDrawing(value);
+                WorkspaceManagerModel.Properties.Settings.Default.Save();
+            }
+        }
+
+        public static Color IntegerColor
+        {
+            get
+            {
+                return DrawingToMedia(WorkspaceManagerModel.Properties.Settings.Default.IntegerColor);
+            }
+            set
+            {
+                WorkspaceManagerModel.Properties.Settings.Default.IntegerColor = MediaToDrawing(value);
+                WorkspaceManagerModel.Properties.Settings.Default.Save();
+            }
+        }
+ 
+        public static Color ByteColor
+        {
+            get
+            {
+                return DrawingToMedia(WorkspaceManagerModel.Properties.Settings.Default.ByteColor);
+            }
+            set
+            {
+                WorkspaceManagerModel.Properties.Settings.Default.ByteColor = MediaToDrawing(value);
+                WorkspaceManagerModel.Properties.Settings.Default.Save();
+            }
+        }
+
+        public static Color DoubleColor
+        {
+            get
+            {
+                return DrawingToMedia(WorkspaceManagerModel.Properties.Settings.Default.DoubleColor);
+            }
+            set
+            {
+                WorkspaceManagerModel.Properties.Settings.Default.DoubleColor = MediaToDrawing(value);
+                WorkspaceManagerModel.Properties.Settings.Default.Save();
+            }
+        }
+
+        public static Color BoolColor
+        {
+            get
+            {
+                return DrawingToMedia(WorkspaceManagerModel.Properties.Settings.Default.BoolColor);
+            }
+            set
+            {
+                WorkspaceManagerModel.Properties.Settings.Default.BoolColor = MediaToDrawing(value);
+                WorkspaceManagerModel.Properties.Settings.Default.Save();
+            }
+        }
+
+        public static Color StreamColor
+        {
+            get
+            {
+                return DrawingToMedia(WorkspaceManagerModel.Properties.Settings.Default.StreamColor);
+            }
+            set
+            {
+                WorkspaceManagerModel.Properties.Settings.Default.StreamColor = MediaToDrawing(value);
+                WorkspaceManagerModel.Properties.Settings.Default.Save();
+            }
+        }
+
+        public static Color StringColor
+        {
+            get
+            {
+                return DrawingToMedia(WorkspaceManagerModel.Properties.Settings.Default.StringColor);
+            }
+            set
+            {
+                WorkspaceManagerModel.Properties.Settings.Default.StringColor = MediaToDrawing(value);
+                WorkspaceManagerModel.Properties.Settings.Default.Save();
+            }
+        }
+
+        public static Color ObjectColor
+        {
+            get
+            {
+                return DrawingToMedia(WorkspaceManagerModel.Properties.Settings.Default.ObjectColor);
+            }
+            set
+            {
+                WorkspaceManagerModel.Properties.Settings.Default.ObjectColor = MediaToDrawing(value);
+                WorkspaceManagerModel.Properties.Settings.Default.Save();
+            }
+        }
+
+        public static Color BigIntegerColor
+        {
+            get
+            {
+                return DrawingToMedia(WorkspaceManagerModel.Properties.Settings.Default.BigIntegerColor);
+            }
+            set
+            {
+                WorkspaceManagerModel.Properties.Settings.Default.BigIntegerColor = MediaToDrawing(value);
+                WorkspaceManagerModel.Properties.Settings.Default.Save();
+            }
+        }
+
+        public static Color DefaultColor
+        {
+            get
+            {
+                return DrawingToMedia(WorkspaceManagerModel.Properties.Settings.Default.DefaultColor);
+            }
+            set
+            {
+                WorkspaceManagerModel.Properties.Settings.Default.DefaultColor = MediaToDrawing(value);
+                WorkspaceManagerModel.Properties.Settings.Default.Save();
+            }
+        }
+        
+        public static System.Windows.Media.Color DrawingToMedia(System.Drawing.Color color)
+        {
+            return System.Windows.Media.Color.FromArgb(color.A, color.R, color.G, color.B);
+        }
+
+        public static System.Drawing.Color MediaToDrawing(System.Windows.Media.Color color)
+        {
+            return System.Drawing.Color.FromArgb(color.A, color.R, color.G, color.B);
+        }
+      
         /// <summary>
         /// Set colors to default values
         /// </summary>
-        public static void SetDefaultColors(){
-            AsymmetricColor = (Color)ColorConverter.ConvertFromString("#6789a2");
-            ClassicColor = (Color)ColorConverter.ConvertFromString("#b8c881");
-            SymmetricBlockColor = (Color)ColorConverter.ConvertFromString("#d49090");
-            SymmetricStreamColor = (Color)ColorConverter.ConvertFromString("#94bc8a");
-            HybridColor = (Color)ColorConverter.ConvertFromString("#d49090");
-            GeneratorColor = (Color)ColorConverter.ConvertFromString("#8abc94");
-            HashColor = (Color)ColorConverter.ConvertFromString("#8abbbc");
-            StatisticColor = (Color)ColorConverter.ConvertFromString("#8c8abc");
-            AnalysisMiscColor = (Color)ColorConverter.ConvertFromString("#bc8aac");
-            IntegerColor = Colors.Aqua;
-            ByteColor = Colors.ForestGreen;
-            DoubleColor = Colors.Blue;
-            BoolColor = Colors.Maroon;
-            StreamColor = Colors.DarkOrange;
-            StringColor = Colors.Gray;
-            ObjectColor = Colors.MediumPurple;
-            BigIntegerColor = Colors.Black;
-            DefaultColor = (Color)ColorConverter.ConvertFromString("#a3d090");
+        public static void SetDefaultColors(){            
+            WorkspaceManagerModel.Properties.Settings.Default.Reset();
         }
 
         /// <summary>
@@ -144,7 +339,7 @@ namespace WorkspaceManager.Model
             }
             catch (Exception)
             {
-                return Colors.Black; ;
+                return Colors.Black;
             }
             
         }
