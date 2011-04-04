@@ -22,8 +22,7 @@ namespace WorkspaceManager
 
         public WorkspaceManagerSettings(WorkspaceManager manager)
         {
-            this.Threads = "" + System.Environment.ProcessorCount;
-            this.WorkspaceManager = manager;
+            WorkspaceManager = manager;
         }
 
         public bool HasChanges
@@ -64,35 +63,7 @@ namespace WorkspaceManager
                 Settings.Default.Save();
                 OnPropertyChanged("SleepTime");
             }
-        }
-
-        public String Threads
-        {
-            get
-            {
-                return Settings.Default.Threads;
-            }
-            set
-            {
-                Settings.Default.Threads = value;
-                Settings.Default.Save();
-                OnPropertyChanged("Threads");
-            }
-        }
-
-        public int ThreadPriority
-        {
-            get
-            {
-                return Settings.Default.ThreadPriority;
-            }
-            set
-            {
-                Settings.Default.ThreadPriority = value;
-                Settings.Default.Save();
-                OnPropertyChanged("ThreadPriority");
-            }
-        }  
+        }        
 
         public bool BenchmarkPlugins
         {
