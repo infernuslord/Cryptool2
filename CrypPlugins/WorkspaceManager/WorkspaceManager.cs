@@ -610,7 +610,7 @@ namespace WorkspaceManager
                     ExecutionEngine.SleepTime = int.Parse(((WorkspaceManagerSettings)this.Settings).SleepTime);
                     if (ExecutionEngine.SleepTime < 0)
                     {
-                        GuiLogMessage("SleepTime can not be <=0; Use GuiUpdateInterval = 0", NotificationLevel.Warning);
+                        GuiLogMessage("SleepTime can not be <=0; Use SleepTime = 0", NotificationLevel.Warning);
                         ExecutionEngine.SleepTime = 0;
                     }
                 }
@@ -618,28 +618,11 @@ namespace WorkspaceManager
                 {
                     GuiLogMessage("Could not set SleepTime: " + ex.Message, NotificationLevel.Warning);
                     ExecutionEngine.GuiUpdateInterval = 0;
-                }
-
-                int schedulers=0;
-                try
-                {
-                   schedulers = int.Parse(((WorkspaceManagerSettings)this.Settings).Threads);
-                    if (ExecutionEngine.SleepTime < 0)
-                    {
-                        GuiLogMessage("Schedulers can not be <=0; Use Schedulers = 1", NotificationLevel.Warning);
-                        schedulers = 1;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    GuiLogMessage("Could not set Schedulers: " + ex.Message, NotificationLevel.Warning);
-                    schedulers = 1;
-                }
+                }                
 
                 ExecutionEngine.BenchmarkPlugins = ((WorkspaceManagerSettings)this.Settings).BenchmarkPlugins;
-                ExecutionEngine.ThreadPriority = ((WorkspaceManagerSettings)this.Settings).ThreadPriority;
 
-                ExecutionEngine.Execute(WorkspaceModel, schedulers);               
+                ExecutionEngine.Execute(WorkspaceModel);               
             }
             catch (Exception ex)
             {
@@ -674,14 +657,13 @@ namespace WorkspaceManager
         /// Stop the ExecutionEngine
         /// </summary>
         public void Stop()
-        {
-            
+        {            
             if (!executing)
             {
                 return;
             }
        
-            Thread stopThread = new Thread(new ThreadStart(waitingStop));
+            var stopThread = new Thread(new ThreadStart(waitingStop));
             stopThread.Start(); 
 
             EventsHelper.AsynchronousPropertyChanged = true;
@@ -742,7 +724,7 @@ namespace WorkspaceManager
         /// </summary>
         public void Dispose()
         {
-            if (ExecutionEngine != null && ExecutionEngine.IsRunning)
+            if (ExecutionEngine != null && ExecutionEngine.IsRunning())
             {
                 ExecutionEngine.Stop();
             }

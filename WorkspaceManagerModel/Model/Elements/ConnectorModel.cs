@@ -236,12 +236,7 @@ namespace WorkspaceManager.Model
         /// <param name="sender"></param>
         /// <param name="propertyChangedEventArgs"></param>
         public void PropertyChangedOnPlugin(Object sender, PropertyChangedEventArgs propertyChangedEventArgs)
-        {
-            if (!this.WorkspaceModel.IsBeingExecuted)
-            {
-                return;
-            }
-
+        {            
             if (!(sender == this.PluginModel.Plugin) ||
                 !propertyChangedEventArgs.PropertyName.Equals(PropertyName))
             {
@@ -287,14 +282,7 @@ namespace WorkspaceManager.Model
 	                connectionModel.To.HasData = true;
 	                connectionModel.Active = true;
 	                connectionModel.GuiNeedsUpdate = true;
-	            }
-	
-	            //We changed an input on the PluginModels where "To"s are belonging to so
-	            //we have to check if there are executable now
-	            foreach (ConnectionModel connectionModel in outputConnections)
-	            {
-	                connectionModel.To.PluginModel.PluginProtocol.BroadcastMessage(connectionModel.To.PluginModel.MessageExecution);
-	            }
+	            }	            
             }
         }
 

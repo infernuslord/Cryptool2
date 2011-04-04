@@ -54,20 +54,6 @@ namespace WorkspaceManager
             StatisticColor.Fill = new SolidColorBrush(ColorHelper.StatisticColor);
             AnalysisMiscColor.Fill = new SolidColorBrush(ColorHelper.AnalysisMiscColor);
         }
-
-        private void TextChanged(object sender, TextChangedEventArgs e)
-        {
-            int num = 0;
-            bool success = int.TryParse(((TextBox)sender).Text, out num);
-            if (success & num >= 0)
-            {
-                ((TextBox)sender).Text.Trim();
-            }
-            else
-            {
-                ((TextBox)sender).Text = "";
-            }
-        }
         
         private void Rectangle_MouseDown(object sender, MouseButtonEventArgs eventArgs)
         {            
