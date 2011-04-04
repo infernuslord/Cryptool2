@@ -121,6 +121,6 @@
     <value>TextInput</value>
   </data>
   <data name="TextInputTooltip" xml:space="preserve">
-    <value>Used for text input into another component.</value>
+    <value>Wird benutzt um eine Texteingabe in eine andere Komponente zu leiten.</value>
   </data>
 </root>
