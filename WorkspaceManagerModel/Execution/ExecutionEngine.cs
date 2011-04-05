@@ -178,6 +178,7 @@ namespace WorkspaceManager.Execution
             foreach (var pluginModel in workspaceModel.AllPluginModels)
             {
                 pluginModel.Stop = true;
+                pluginModel.Plugin.Stop();
             }
             benchmarkTimer.Enabled = false;
             workspaceModel.resetStates();
