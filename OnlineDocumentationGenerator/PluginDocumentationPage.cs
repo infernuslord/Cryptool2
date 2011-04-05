@@ -27,13 +27,17 @@ namespace OnlineDocumentationGenerator
             Localizations = new Dictionary<string, LocalizedPluginDocumentationPage>();
             _xml = GetPluginXML(pluginType);
 
-            if (_xml != null)
+            if (_xml == null)
             {
-                foreach (var lang in GetAvailableLanguagesFromXML())
-                {
-                    Localizations.Add(lang, new LocalizedPluginDocumentationPage(pluginType, _xml, lang));
-                }
+                throw new Exception("Plugin does not contain a xml doc file!");
             }
+
+            foreach (var lang in GetAvailableLanguagesFromXML())
+            {
+                Localizations.Add(lang, new LocalizedPluginDocumentationPage(pluginType, _xml, lang));
+            }
+            if (!Localizations.ContainsKey("en"))
+                throw new Exception("Plugin documentation should at least support english language!");
         }
 
         private IEnumerable<string> GetAvailableLanguagesFromXML()
@@ -47,8 +51,7 @@ namespace OnlineDocumentationGenerator
             {
                 var descriptionUrl = pluginType.GetPluginInfoAttribute().DescriptionUrl;
                 if (descriptionUrl == null || Path.GetExtension(descriptionUrl).ToLower() != ".xml")
-                {
-                    Console.Out.WriteLine(string.Format("Plugin {0} does not contain a XML description.", pluginType.GetPluginInfoAttribute().Caption));
+                {                    
                     return null;
                 }
 

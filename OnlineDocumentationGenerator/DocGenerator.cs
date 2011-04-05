@@ -18,7 +18,14 @@ namespace OnlineDocumentationGenerator
             {
                 if (pluginType.GetPluginInfoAttribute() != null)
                 {
-                    generator.AddPluginDocumentationPage(new PluginDocumentationPage(pluginType));
+                    try
+                    {
+                        generator.AddPluginDocumentationPage(new PluginDocumentationPage(pluginType));
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.Out.WriteLine(string.Format("Plugin {0} error: {1}", pluginType.GetPluginInfoAttribute().Caption, ex.Message));
+                    }
                 }
             }
 

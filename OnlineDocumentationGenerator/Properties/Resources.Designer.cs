@@ -67,9 +67,34 @@ namespace OnlineDocumentationGenerator.Properties {
         ///		&lt;title&gt;&lt;/title&gt;
         ///	&lt;/head&gt;
         ///	&lt;body&gt;
-        ///	    &lt;pluginDoc property=&quot;Name&quot; /&gt;
+        ///	
         ///	&lt;/body&gt;
         ///&lt;/html&gt;.
+        /// </summary>
+        internal static string TemplateIndex {
+            get {
+                return ResourceManager.GetString("TemplateIndex", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0 Transitional//EN&quot;&gt;
+        ///&lt;html&gt;
+        ///	&lt;head&gt;
+        ///		&lt;title&gt;
+        ///        &lt;languageSwitch lang=&quot;en&quot;&gt;
+        ///            Documentation of plugin &lt;pluginDoc property=&quot;Name&quot; /&gt;!
+        ///        &lt;/languageSwitch&gt;
+        ///        &lt;languageSwitch lang=&quot;de-DE&quot;&gt;
+        ///            Dokumentation des Plugin &lt;pluginDoc property=&quot;Name&quot; /&gt;!
+        ///        &lt;/languageSwitch&gt;
+        ///        &lt;/title&gt;
+        ///	&lt;/head&gt;
+        ///	&lt;body&gt;
+        ///        &lt;p&gt;
+        ///	        &lt;pluginDoc property=&quot;Name&quot; /&gt;
+        ///            &lt;/br&gt;
+        ///            &lt;pluginDoc property=&quot;ToolTip&quot; /&gt;        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string TemplatePluginDocumentationPage {
             get {
