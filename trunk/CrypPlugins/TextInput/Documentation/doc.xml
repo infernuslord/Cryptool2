@@ -3,6 +3,11 @@
 <documentation>
   <language culture="en"/>
   <language culture="de-DE"/>
-  
-  Test
+
+  <description lang="en">
+    TextInput is a very useful component...
+  </description>
+  <description lang="de-DE">
+    TextInput ist eine sehr nützliche Komponente...
+  </description>
 </documentation>
