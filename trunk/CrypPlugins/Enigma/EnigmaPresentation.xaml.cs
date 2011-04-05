@@ -282,7 +282,7 @@ namespace Cryptool.Enigma
                         img.Width = 50;
                         BitmapImage bi = new BitmapImage();
                         bi.BeginInit();
-                        bi.UriSource = new Uri("Images/rotor" + walze.typ + ".jpg", UriKind.Relative);
+                        bi.UriSource = new Uri("Images/Walze" + walze.typ + ".png", UriKind.Relative);
                         bi.EndInit();
                         img.Source = bi;
 
@@ -324,7 +324,7 @@ namespace Cryptool.Enigma
                             BitmapImage bi = new BitmapImage();
 
                             bi.BeginInit();
-                            bi.UriSource = new Uri("Images/rotor" + rotorarray[2].map + ".jpg", UriKind.Relative);
+                            bi.UriSource = new Uri("Images/rotor" + rotorarray[2].map + ".png", UriKind.Relative);
                             bi.EndInit();
                             img.Source = bi;
 
@@ -375,7 +375,7 @@ namespace Cryptool.Enigma
                             BitmapImage bi = new BitmapImage();
                             bi.BeginInit();
 
-                            bi.UriSource = new Uri("Images/rotor" + rotorarray[1].map + ".jpg", UriKind.Relative);
+                            bi.UriSource = new Uri("Images/rotor" + rotorarray[1].map + ".png", UriKind.Relative);
                             bi.EndInit();
                             img.Source = bi;
                             dropBoxCanvas.Children.Add(img);
@@ -427,7 +427,7 @@ namespace Cryptool.Enigma
                             BitmapImage bi = new BitmapImage();
                             bi.BeginInit();
                             if (rotorarray[0] != null)
-                                bi.UriSource = new Uri("Images/rotor" + rotorarray[0].map + ".jpg", UriKind.Relative);
+                                bi.UriSource = new Uri("Images/rotor" + rotorarray[0].map + ".png", UriKind.Relative);
                             bi.EndInit();
                             img.Source = bi;
                             dropBoxCanvas.Children.Add(img);
@@ -804,7 +804,7 @@ namespace Cryptool.Enigma
             img1.Width = 50;
             BitmapImage bi11 = new BitmapImage();
             bi11.BeginInit();
-            bi11.UriSource = new Uri("Images/rotor5.jpg", UriKind.Relative);
+            bi11.UriSource = new Uri("Images/Walze1.png", UriKind.Relative);
             bi11.EndInit();
             img1.Source = bi11;
             dropBoxCanvasWalze.Children.Add(img1);
@@ -817,7 +817,7 @@ namespace Cryptool.Enigma
             img2.Width = 50;
             BitmapImage bi12 = new BitmapImage();
             bi12.BeginInit();
-            bi12.UriSource = new Uri("Images/rotor4.jpg", UriKind.Relative);
+            bi12.UriSource = new Uri("Images/Walze3.png", UriKind.Relative);
             bi12.EndInit();
             img2.Source = bi12;
             dropBoxCanvasWalze.Children.Add(img2);
@@ -830,7 +830,7 @@ namespace Cryptool.Enigma
             img4.Width = 50;
             BitmapImage bi1 = new BitmapImage();
             bi1.BeginInit();
-            bi1.UriSource = new Uri("Images/rotor5.jpg", UriKind.Relative);
+            bi1.UriSource = new Uri("Images/rotor5.png", UriKind.Relative);
             bi1.EndInit();
             img4.Source = bi1;
             dropBoxCanvas.Children.Add(img4);
@@ -843,7 +843,7 @@ namespace Cryptool.Enigma
             img3.Width = 50;
             BitmapImage bi = new BitmapImage();
             bi.BeginInit();
-            bi.UriSource = new Uri("Images/rotor4.jpg", UriKind.Relative);
+            bi.UriSource = new Uri("Images/rotor4.png", UriKind.Relative);
             bi.EndInit();
             img3.Source = bi;
             dropBoxCanvas.Children.Add(img3);
@@ -856,7 +856,7 @@ namespace Cryptool.Enigma
             img6.Width = 50;
             BitmapImage bi6 = new BitmapImage();
             bi6.BeginInit();
-            bi6.UriSource = new Uri("Images/rotor4.jpg", UriKind.Relative);
+            bi6.UriSource = new Uri("Images/rotor6.png", UriKind.Relative);
             bi6.EndInit();
             img6.Source = bi6;
             dropBoxCanvas.Children.Add(img6);
@@ -869,7 +869,7 @@ namespace Cryptool.Enigma
             img7.Width = 50;
             BitmapImage bi7 = new BitmapImage();
             bi7.BeginInit();
-            bi7.UriSource = new Uri("Images/rotor4.jpg", UriKind.Relative);
+            bi7.UriSource = new Uri("Images/rotor7.png", UriKind.Relative);
             bi7.EndInit();
             img7.Source = bi7;
             dropBoxCanvas.Children.Add(img7);
@@ -882,7 +882,7 @@ namespace Cryptool.Enigma
             img8.Width = 50;
             BitmapImage bi8 = new BitmapImage();
             bi8.BeginInit();
-            bi8.UriSource = new Uri("Images/rotor4.jpg", UriKind.Relative);
+            bi8.UriSource = new Uri("Images/rotor8.png", UriKind.Relative);
             bi8.EndInit();
             img8.Source = bi8;
             dropBoxCanvas.Children.Add(img8);
@@ -3863,35 +3863,35 @@ namespace Cryptool.Enigma
             switch (urint)
             {
                 case 1: img.Uid = "1";
-                    path = "Images/rotor" + urint + ".jpg";
+                    path = "Images/rotor" + urint + ".png";
                     rotorimgs[urint - 1] = img;
                     break;
                 case 2: img.Uid = "2";
-                    path = "Images/rotor" + urint + ".jpg";
+                    path = "Images/rotor" + urint + ".png";
                     rotorimgs[urint - 1] = img;
                     break;
                 case 3: img.Uid = "3";
-                    path = "Images/rotor" + urint + ".jpg";
+                    path = "Images/rotor" + urint + ".png";
                     rotorimgs[urint - 1] = img;
                     break;
                 case 4: img.Uid = "4";
-                    path = "Images/rotor" + urint + ".jpg";
+                    path = "Images/rotor" + urint + ".png";
                     rotorimgs[urint - 1] = img;
                     break;
                 case 5: img.Uid = "5";
-                    path = "Images/rotor" + urint + ".jpg";
+                    path = "Images/rotor" + urint + ".png";
                     rotorimgs[urint - 1] = img;
                     break;
                 case 6: img.Uid = "6";
-                    path = "Images/rotor" + urint + ".jpg";
+                    path = "Images/rotor" + urint + ".png";
                     rotorimgs[urint - 1] = img;
                     break;
                 case 7: img.Uid = "7";
-                    path = "Images/rotor" + urint + ".jpg";
+                    path = "Images/rotor" + urint + ".png";
                     rotorimgs[urint - 1] = img;
                     break;
                 case 8: img.Uid = "8";
-                    path = "Images/rotor" + urint + ".jpg";
+                    path = "Images/rotor" + urint + ".png";
                     rotorimgs[urint - 1] = img;
                     break;
 
@@ -3928,15 +3928,15 @@ namespace Cryptool.Enigma
             switch (urint)
             {
                 case 1: img.Uid = "1";
-                    path = "Images/rotor" + urint + ".jpg";
+                    path = "Images/Walze" + urint + ".png";
                     walzeimgs[urint - 1] = img;
                     break;
                 case 2: img.Uid = "2";
-                    path = "Images/rotor" + urint + ".jpg";
+                    path = "Images/Walze" + urint + ".png";
                     walzeimgs[urint - 1] = img;
                     break;
                 case 3: img.Uid = "3";
-                    path = "Images/rotor" + urint + ".jpg";
+                    path = "Images/Walze" + urint + ".png";
                     walzeimgs[urint - 1] = img;
                     break;
             }

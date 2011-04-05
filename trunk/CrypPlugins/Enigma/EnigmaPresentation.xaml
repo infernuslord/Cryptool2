@@ -10,7 +10,7 @@
 
         <Canvas Name="mainmainmain" Height="1250" Width="2200" HorizontalAlignment="Left">
             <Rectangle Fill="White" Height="1250" Width="2200"></Rectangle>
-            <Image Name ="background2" Source= "Images/background2.jpg" Height="1250" Width="2200" Canvas.Top="0" Canvas.Left="0" AllowDrop="True" Opacity="8.0"></Image>
+            <Image Name ="background2" Source= "Images/background2.jpg" Height="1250" Width="2200" Canvas.Top="0" Canvas.Left="0" AllowDrop="True" Opacity="0.5"></Image>
             <Image Name ="rotor1img" Source= "Images/rotor.png" Height="899" Width="260" Canvas.Top="0" Canvas.Left="458"></Image>
             <Image Name ="rotor2img" Source= "Images/rotor.png" Height="899" Width="260" Canvas.Top="0" Canvas.Left="228"></Image>
             <Image Name ="rotor3img" Source= "Images/rotor.png" Height="899" Width="260" Canvas.Top="0" Canvas.Left="688"></Image>
@@ -29,7 +29,7 @@
             <Canvas Name ="walzenarea" Height="1000" Width="260"></Canvas>
             <Canvas Name ="rotorarea" Height="1000" Width="1000" Canvas.Left="260">
 
-                <TextBox Name="Debug" Height="50" Width="400" FontSize="30" Canvas.Left="-260" Opacity="1.0"></TextBox>
+                <TextBox Name="Debug" Height="50" Width="400" FontSize="30" Canvas.Left="-260" Opacity="0.0"></TextBox>
                 <Slider Canvas.Left="0" Canvas.Top="950" Height="23" Name="slider1" Width="500" Opacity="0.0"/>
                 <Button Canvas.Left="0" Canvas.Top="900" Content="Stop" Height="23" Name="Stop" Width="75" Opacity="0.0"/>
                 <Button Canvas.Left="100" Canvas.Top="900" Content="deStop" Height="23" Name="destop" Width="75" Opacity="0.0"/>

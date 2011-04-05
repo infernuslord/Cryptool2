@@ -168,6 +168,21 @@
     <Resource Include="Images\rotor7.jpg" />
     <Resource Include="Images\rotor8.jpg" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\rotor1.png" />
+    <Resource Include="Images\rotor2.png" />
+    <Resource Include="Images\rotor3.png" />
+    <Resource Include="Images\rotor4.png" />
+    <Resource Include="Images\rotor5.png" />
+    <Resource Include="Images\rotor6.png" />
+    <Resource Include="Images\rotor7.png" />
+    <Resource Include="Images\rotor8.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Walze1.png" />
+    <Resource Include="Images\Walze2.png" />
+    <Resource Include="Images\Walze3.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
