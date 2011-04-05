@@ -13,6 +13,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
         private static readonly Regex _findBeginningLanguageSwitchTagRegex = new Regex("<languageSwitch.*?lang=\"(.*?)\".*?>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex _findEndingLanguageSwitchTagRegex = new Regex("</.*?languageSwitch.*?>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex _findPluginListTagRegex = new Regex("<pluginList.*?/>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex _findConnectorListTagRegex = new Regex("<connectorList.*?/>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         public static string ReplacePluginDocTags(string html, LocalizedPluginDocumentationPage localizedPluginDocumentationPage)
         {
@@ -122,6 +123,29 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
         public static bool FindPluginListTag(string html, out int pos, out int len)
         {
             var match = _findPluginListTagRegex.Match(html);
+            pos = match.Index;
+            len = match.Length;
+            return match.Success;
+        }
+
+        public static string ReplaceConnectorList(string html, string connectorListCode)
+        {
+            int pos;
+            int len;
+            var htmlBuilder = new StringBuilder(html);
+
+            while (FindConnectorListTag(htmlBuilder.ToString(), out pos, out len))
+            {
+                htmlBuilder.Remove(pos, len);
+                htmlBuilder.Insert(pos, connectorListCode);
+            }
+
+            return htmlBuilder.ToString();
+        }
+
+        public static bool FindConnectorListTag(string html, out int pos, out int len)
+        {
+            var match = _findConnectorListTagRegex.Match(html);
             pos = match.Index;
             len = match.Length;
             return match.Success;

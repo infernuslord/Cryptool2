@@ -3,30 +3,46 @@
 	<head>
 		<title>
         <languageSwitch lang="en">
-            Documentation of plugin <pluginDoc property="Name" />!
+            Documentation of component <pluginDoc property="Name" />!
         </languageSwitch>
         <languageSwitch lang="de-DE">
-            Dokumentation des Plugin <pluginDoc property="Name" />!
+            Dokumentation der Komponente <pluginDoc property="Name" />!
         </languageSwitch>
         </title>
 	</head>
 	<body>
         <p>
-	        <pluginDoc property="Name" />
+	        Name: <pluginDoc property="Name" />
             <br/>
             <pluginDoc property="ToolTip" />
         </p>
 
+        <hr />
+
         <p>
             <languageSwitch lang="en">
-                Description:
+                <h2>Description:</h2>
             </languageSwitch>
             <languageSwitch lang="de-DE">
-                Beschreibung:
+                <h2>Beschreibung:</h2>
             </languageSwitch>
             <br />
             <pluginDoc property="Description" />
         </p>
+
+        <hr />
+
+        <p>
+            <languageSwitch lang="en">
+                <h2>Connectors:</h2>
+            </languageSwitch>
+            <languageSwitch lang="de-DE">
+                <h2>Konnektoren:</h2>
+            </languageSwitch>
+            <connectorList />
+        </p>
+
+        <hr />
 
         <p>
             <languageSwitch lang="en">
@@ -37,6 +53,8 @@
             </languageSwitch> <br/>
             <languageSelection />
         </p>
+
+        <hr />
 
         <p>
             <languageSwitch lang="en">
