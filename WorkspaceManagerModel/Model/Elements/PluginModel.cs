@@ -429,6 +429,9 @@ namespace WorkspaceManager.Model
         [NonSerialized]
         private bool stopped = false;
         internal bool Stop { get { return stopped; } set { stopped = value; } }
+        
+        [NonSerialized]
+        internal ManualResetEvent resetEvent = new ManualResetEvent(true);
 
         /// <summary>
         /// Called by the execution engine threads to execute the internal plugin
@@ -440,22 +443,39 @@ namespace WorkspaceManager.Model
             Stop = false;
             
             plugin.PreExecution();
-
-            if (Startable)
-            {
-                Plugin.Execute();
-            }
+            bool firstrun = true;
 
             while(true)
-            {                
+            {
+                resetEvent.WaitOne(1000);
+                resetEvent.Reset();
+
                 //Check if we want to stop
-                if(Stop)
+                if (Stop)
                 {
                     break;
                 }
 
-                Thread.Sleep(executionEngine.SleepTime);
+                // ################
+                // 0. If this is our first run and we are startable we start
+                // ################
 
+                if (firstrun && Startable)
+                {
+                    firstrun = false;
+                    try
+                    {
+                        Plugin.Execute();
+                        executionEngine.ExecutionCounter++;
+                    }
+                    catch (Exception ex)
+                    {
+                        executionEngine.GuiLogMessage("An error occured while executing  \"" + Name + "\": " + ex.Message, NotificationLevel.Error);
+                        State = PluginModelState.Error;
+                        GuiNeedsUpdate = true;
+                    }
+                    continue;
+                }
                 if (Startable && !RepeatStart)
                 {
                     continue;
@@ -466,7 +486,6 @@ namespace WorkspaceManager.Model
                 // ################
                 // 1. Check if we may execute
                 // ################
-
 
                 //Check if all necessary inputs are set                
                 foreach (ConnectorModel connectorModel in InputConnectors)
@@ -575,6 +594,17 @@ namespace WorkspaceManager.Model
                         executionEngine.GuiLogMessage("An error occured while 'consuming' value of connector \"" + connectorModel.Name + "\" of \"" + Name + "\": " + ex.Message, NotificationLevel.Error);
                         State = PluginModelState.Error;
                         GuiNeedsUpdate = true;
+                    }
+                }
+
+                // ################
+                //4. let all plugins before this check if it may execute
+                // ################
+                foreach (ConnectorModel connectorModel in InputConnectors)
+                {
+                    foreach (ConnectionModel connectionModel in connectorModel.InputConnections)
+                    {
+                        connectionModel.From.PluginModel.resetEvent.Set();
                     }
                 }
             }

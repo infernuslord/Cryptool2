@@ -74,6 +74,7 @@ namespace WorkspaceManager.Execution
         public void Execute(WorkspaceModel workspaceModel, int amountThreads = 0)
         {
             Stopped = false;
+            workspaceModel.IsBeingExecuted = true;
             ExecutionCounter = 0;
             this.workspaceModel = workspaceModel;
             workspaceModel.resetStates();
@@ -92,6 +93,14 @@ namespace WorkspaceManager.Execution
                 var thread = new Thread(new ParameterizedThreadStart(pluginModel.Execute)) { Name = "WorkspaceManager_Thread-" + i };
                 i++;
                 thread.Start(this);
+            }
+
+            foreach (var pluginModel in workspaceModel.AllPluginModels)
+            {
+                if(pluginModel.Startable)
+                {
+                    pluginModel.resetEvent.Set();
+                }
             }
         }
 
@@ -178,9 +187,11 @@ namespace WorkspaceManager.Execution
             foreach (var pluginModel in workspaceModel.AllPluginModels)
             {
                 pluginModel.Stop = true;
+                pluginModel.resetEvent.Set();
                 pluginModel.Plugin.Stop();
             }
             benchmarkTimer.Enabled = false;
+            workspaceModel.IsBeingExecuted = false;
             workspaceModel.resetStates();
         }
 
