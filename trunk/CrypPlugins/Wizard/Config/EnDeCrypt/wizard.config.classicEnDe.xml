@@ -50,7 +50,7 @@
       <defaultvalue>F</defaultvalue>
     </inputBox>
     
-    <sampleViewer image="Caesar" file="WorkspaceManagerSamples\Caesar_Sample.cwm">
+    <sampleViewer image="Caesar" file="WorkspaceManagerSamples\Caesar_Sample.cwm" showCreateButton="true">
       <name lang="en" >Caesar Output</name>
       <name lang="de" >Caesar-Ausgabe</name>
       <description lang="en" >This encryption algorithm, already used by the Roman general and dictator Caesar, substitutes single letters: The substitution rule is that the letters of the cleartext alphabet are shifted by a special value (key).</description>

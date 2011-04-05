@@ -126,10 +126,16 @@
   <data name="CreateButton" xml:space="preserve">
     <value>Create</value>
   </data>
+  <data name="CreateProjectToolTip" xml:space="preserve">
+    <value>Create and open new project from this.</value>
+  </data>
   <data name="Description" xml:space="preserve">
     <value>Description</value>
   </data>
   <data name="NextButton" xml:space="preserve">
     <value>Next</value>
   </data>
+	<data name="LoadedSampleTitle">
+		<value xml:space="preserve">Created from Wizard</value>
+	</data>
 </root>
