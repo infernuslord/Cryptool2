@@ -12,6 +12,7 @@
 <!ATTLIST sampleViewer 
    image	CDATA 	#IMPLIED
    file		CDATA       #REQUIRED
+   showCreateButton		CDATA       #IMPLIED
 >
 
 <!ELEMENT loadSample (name*, description*) >

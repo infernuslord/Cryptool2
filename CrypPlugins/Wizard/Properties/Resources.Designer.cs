@@ -88,11 +88,29 @@ namespace Wizard.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create and open new project from this..
+        /// </summary>
+        public static string CreateProjectToolTip {
+            get {
+                return ResourceManager.GetString("CreateProjectToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Description.
         /// </summary>
         public static string Description {
             get {
                 return ResourceManager.GetString("Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Created from Wizard.
+        /// </summary>
+        public static string LoadedSampleTitle {
+            get {
+                return ResourceManager.GetString("LoadedSampleTitle", resourceCulture);
             }
         }
         

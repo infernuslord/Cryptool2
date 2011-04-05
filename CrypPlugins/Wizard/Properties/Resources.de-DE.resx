@@ -132,4 +132,10 @@
 	<data name="CreateButton" xml:space="preserve">
     <value>Erstellen</value>
   </data>
+	<data name="CreateProjectToolTip" xml:space="preserve">
+    <value>Neues Projekt hiervon erstellen und öffnen.</value>
+  </data>
+	<data name="LoadedSampleTitle">
+		<value xml:space="preserve">Erstellt vom Wizard</value>
+	</data>
 </root>

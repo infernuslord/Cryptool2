@@ -99,8 +99,25 @@
             </Grid.RenderTransform>
 
             <Label HorizontalAlignment="Center" Name="taskHeader" FontSize="18" />
-            <Label HorizontalAlignment="Stretch" Name="descHeader" FontSize="13" Grid.Row="1" Margin="5"  />
-        
+
+            <Grid Grid.Row="1" HorizontalAlignment="Stretch">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="60" />
+                </Grid.ColumnDefinitions>
+                <Label HorizontalAlignment="Stretch" FontSize="13" Margin="5">
+                    <Label.Content>
+                        <TextBlock Name="descHeader" TextWrapping="Wrap"/>
+                    </Label.Content>
+                </Label>
+                
+                <Button Grid.Column="1" ToolTip="{Loc CreateProjectToolTip}" Width="45" Name="CreateProjectButton" Visibility="Hidden" Click="CreateProjectButton_Click">
+                    <Button.Content>
+                        <Image Source="/Wizard;component/Images/createProject.png" />
+                    </Button.Content>
+                </Button>
+            </Grid>
+
             <Grid HorizontalAlignment="Stretch" Name="categoryGrid" VerticalAlignment="Stretch" Grid.Row="2" Margin="10" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />

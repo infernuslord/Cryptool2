@@ -215,6 +215,7 @@ namespace Wizard
         {
             StopCurrentWorkspaceManager();
             nextButton.IsEnabled = true;
+            CreateProjectButton.Visibility = Visibility.Hidden;
 
             currentOutputBoxes.Clear();
             currentInputBoxes.Clear();
@@ -251,7 +252,7 @@ namespace Wizard
             //set task description label
             XElement task = FindElementsInElement(element, "task").First();
             if (task != null)
-                descHeader.Content = task.Value.Trim();
+                descHeader.Text = task.Value.Trim();
 
 
             if (element.Name == "input" || element.Name == "sampleViewer")
@@ -287,6 +288,11 @@ namespace Wizard
                 if (element.Name == "sampleViewer" && (element.Attribute("file") != null))
                 {
                     nextButton.IsEnabled = false;
+                    if (element.Attribute("showCreateButton") != null && element.Attribute("showCreateButton").Value.ToLower() == "true")
+                    {
+                        CreateProjectButton.Visibility = Visibility.Visible;
+                    }
+                    
                     LoadSample(element.Attribute("file").Value, null, false, element);
                 }
 
@@ -832,7 +838,7 @@ namespace Wizard
 
         private void LoadSample(string file, string title, bool openTab, XElement element)
         {
-            file = SamplesDir + "\\" + file;
+            file = Path.Combine(SamplesDir, file);
 
             var newEditor = new WorkspaceManager.WorkspaceManager();
             var model = ModelPersistance.loadModel(file);
@@ -845,47 +851,34 @@ namespace Wizard
             {
                 pluginModel.Plugin.Initialize();
             }
-
-            //Register events for output boxes:
-            foreach (var outputBox in currentOutputBoxes)
+            
+            if (!openTab)
             {
-                XElement ele = (XElement) outputBox.Tag;
-                var pluginName = ele.Attribute("plugin").Value;
-                var propertyName = ele.Attribute("property").Value;
-                if (pluginName != null && propertyName != null)
-                {
-                    var plugin = model.GetAllPluginModels().Where(x => x.GetName() == pluginName).First().Plugin;
-                    var settings = plugin.Settings;
-                    object theObject = null;
-
-                    var property = plugin.GetType().GetProperty(propertyName);
-                    EventInfo propertyChangedEvent = null;
-                    if (property != null)
-                    {
-                        propertyChangedEvent = plugin.GetType().GetEvent("PropertyChanged");
-                        theObject = plugin;
-                    }
-                    else    //Use property from settings
-                    {
-                        property = settings.GetType().GetProperty(propertyName);
-                        propertyChangedEvent = settings.GetType().GetEvent("PropertyChanged");
-                        theObject = settings;
-                    }
-
-                    if (property != null && propertyChangedEvent != null)
-                    {
-                        TextBox box = outputBox;
-                        propertyChangedEvent.AddEventHandler(theObject, (PropertyChangedEventHandler)delegate(Object sender, PropertyChangedEventArgs e)
-                                                                                                    {
-                                                                                                        if (e.PropertyName == propertyName)
-                                                                                                        {
-                                                                                                            UpdateOutputBox(box, property, theObject);
-                                                                                                        }
-                                                                                                    });
-                    }
-                }
+                CreateProjectButton.Tag = element;
+                RegisterEventsForLoadedSample(model);
             }
+            
+            FillDataToModel(model, element);
 
+            //load sample:
+            newEditor.Open(model);
+
+            if (openTab)
+            {
+                OnOpenTab(newEditor, title, null);
+                if (Settings.Default.RunTemplate && newEditor.CanExecute)
+                    newEditor.Execute();
+            }
+            else
+            {
+                currentManager = newEditor;
+                canStopOrExecute = true;
+                newEditor.Execute();
+            }
+        }
+
+        private void FillDataToModel(WorkspaceModel model, XElement element)
+        {
             //Fill in all data from wizard to sample:
             foreach (var c in propertyValueDict)
             {
@@ -919,6 +912,49 @@ namespace Wizard
                         {
                             GuiLogMessage(string.Format("Failed settings plugin property {0}.{1} to \"{2}\"!", ppv.PluginName, ppv.PropertyName, ppv.Value), NotificationLevel.Error);
                         }
+                    }
+                }
+            }
+        }
+
+        private void RegisterEventsForLoadedSample(WorkspaceModel model)
+        {
+            //Register events for output boxes:
+            foreach (var outputBox in currentOutputBoxes)
+            {
+                XElement ele = (XElement)outputBox.Tag;
+                var pluginName = ele.Attribute("plugin").Value;
+                var propertyName = ele.Attribute("property").Value;
+                if (pluginName != null && propertyName != null)
+                {
+                    var plugin = model.GetAllPluginModels().Where(x => x.GetName() == pluginName).First().Plugin;
+                    var settings = plugin.Settings;
+                    object theObject = null;
+
+                    var property = plugin.GetType().GetProperty(propertyName);
+                    EventInfo propertyChangedEvent = null;
+                    if (property != null)
+                    {
+                        propertyChangedEvent = plugin.GetType().GetEvent("PropertyChanged");
+                        theObject = plugin;
+                    }
+                    else    //Use property from settings
+                    {
+                        property = settings.GetType().GetProperty(propertyName);
+                        propertyChangedEvent = settings.GetType().GetEvent("PropertyChanged");
+                        theObject = settings;
+                    }
+
+                    if (property != null && propertyChangedEvent != null)
+                    {
+                        TextBox box = outputBox;
+                        propertyChangedEvent.AddEventHandler(theObject, (PropertyChangedEventHandler)delegate(Object sender, PropertyChangedEventArgs e)
+                                                                                                         {
+                                                                                                             if (e.PropertyName == propertyName)
+                                                                                                             {
+                                                                                                                 UpdateOutputBox(box, property, theObject);
+                                                                                                             }
+                                                                                                         });
                     }
                 }
             }
@@ -976,28 +1012,12 @@ namespace Wizard
                             PluginModel plugin1 = plugin;
                             inputBox.TextChanged += delegate
                                                         {
-                                                            property.SetValue(settings, (string)box.Text, null);
+                                                            property.SetValue(settings, box.Text, null);
                                                             plugin1.Plugin.Initialize();
                                                         };
                         }
                     }
                 }
-            }
-
-            //load sample:
-            newEditor.Open(model);
-
-            if (openTab)
-            {
-                OnOpenTab(newEditor, title, null);
-                if (Settings.Default.RunTemplate && newEditor.CanExecute)
-                    newEditor.Execute();
-            }
-            else
-            {
-                currentManager = newEditor;
-                canStopOrExecute = true;
-                newEditor.Execute();
             }
         }
 
@@ -1429,6 +1449,13 @@ namespace Wizard
                 KeyPressedDown(e.Key);
                 e.Handled = true;
             }
+        }
+
+        private void CreateProjectButton_Click(object sender, RoutedEventArgs e)
+        {
+            SaveControlContent(inputStack);
+            var element = (XElement)CreateProjectButton.Tag;
+            LoadSample(element.Attribute("file").Value, Properties.Resources.LoadedSampleTitle, true, element);
         }
     }
 
