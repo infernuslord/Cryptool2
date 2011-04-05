@@ -136,44 +136,43 @@ namespace WorkspaceManager.Execution
                     return;
                 }
 
-                if (!Editor.Presentation.IsVisible)
+                if (Editor.Presentation.IsVisible)
                 {
-                    continue;
-                }
 
-                Editor.Presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-                {
-                    foreach (var pluginModel in workspaceModel.AllPluginModels)
+                    Editor.Presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
-                        if(pluginModel.GuiNeedsUpdate)
+                        foreach (var pluginModel in workspaceModel.AllPluginModels)
                         {
-                            if (pluginModel.UpdateableView != null)
-                                pluginModel.UpdateableView.update();
-                            pluginModel.GuiNeedsUpdate = false;
+                            if (pluginModel.GuiNeedsUpdate)
+                            {
+                                if (pluginModel.UpdateableView != null)
+                                    pluginModel.UpdateableView.update();
+                                pluginModel.GuiNeedsUpdate = false;
+                            }
+                        }
+
+                        foreach (var connectionModel in workspaceModel.AllConnectionModels)
+                        {
+                            if (connectionModel.GuiNeedsUpdate)
+                            {
+                                if (connectionModel.UpdateableView != null)
+                                    connectionModel.UpdateableView.update();
+                                connectionModel.GuiNeedsUpdate = false;
+                            }
+                        }
+
+                        foreach (var connectorModel in workspaceModel.AllConnectorModels)
+                        {
+                            if (connectorModel.GuiNeedsUpdate)
+                            {
+                                if (connectorModel.UpdateableView != null)
+                                    connectorModel.UpdateableView.update();
+                                connectorModel.GuiNeedsUpdate = false;
+                            }
                         }
                     }
-
-                    foreach (var connectionModel in workspaceModel.AllConnectionModels)
-                    {
-                        if (connectionModel.GuiNeedsUpdate)
-                        {
-                            if (connectionModel.UpdateableView != null)
-                                connectionModel.UpdateableView.update();
-                            connectionModel.GuiNeedsUpdate = false;
-                        }
-                    }
-
-                    foreach (var connectorModel in workspaceModel.AllConnectorModels)
-                    {
-                        if (connectorModel.GuiNeedsUpdate)
-                        {
-                            if (connectorModel.UpdateableView != null)
-                                connectorModel.UpdateableView.update();
-                            connectorModel.GuiNeedsUpdate = false;
-                        }
-                    }                    
+                    , null);
                 }
-                , null);
                 Thread.Sleep(GuiUpdateInterval);
             }
         }
