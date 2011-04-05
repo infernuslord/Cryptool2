@@ -31,7 +31,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
             }
         }
 
-        private string GeneratePluginListCode(List<PluginDocumentationPage> pluginDocumentationPages, string lang)
+        private static string GeneratePluginListCode(IEnumerable<PluginDocumentationPage> pluginDocumentationPages, string lang)
         {
             var pluginListCode = new StringBuilder();
             foreach (var pluginDocumentationPage in pluginDocumentationPages)
@@ -57,6 +57,8 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
                     html = TagReplacer.ReplacePluginDocTags(html, localizedPluginDocumentationPage);
                     var languageSelectionCode = GeneratePluginLanguageSelectionCode(pluginDocumentationPage.PluginType, pluginDocumentationPage.AvailableLanguages, lang);
                     html = TagReplacer.ReplaceLanguageSelectionTag(html, languageSelectionCode);
+                    var connectorListCode = GenerateConnectorListCode(localizedPluginDocumentationPage);
+                    html = TagReplacer.ReplaceConnectorList(html, connectorListCode);
 
                     var filename = OnlineHelp.GetPluginDocFilename(pluginDocumentationPage.PluginType, lang);
                     StorePluginDocPage(html, filename);
@@ -122,6 +124,20 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
                 codeBuilder.AppendLine("|");
             }
 
+            return codeBuilder.ToString();
+        }
+
+        private static string GenerateConnectorListCode(LocalizedPluginDocumentationPage localizedPluginDocumentationPage)
+        {
+            var codeBuilder = new StringBuilder();
+            codeBuilder.AppendLine("<table border=\"1\">");
+
+            foreach (var pluginConnector in localizedPluginDocumentationPage.PluginConnectors)
+            {
+                codeBuilder.AppendLine(string.Format("<tr> <th>{0}</th> <th>{1}</th> </tr>", pluginConnector.Caption, pluginConnector.ToolTip));
+            }
+
+            codeBuilder.AppendLine("</table>");
             return codeBuilder.ToString();
         }
 

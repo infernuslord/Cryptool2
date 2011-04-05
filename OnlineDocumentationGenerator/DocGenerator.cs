@@ -32,6 +32,7 @@ namespace OnlineDocumentationGenerator
             generator.Generate();
         }
 
+        [STAThread]
         static void Main(string[] args)
         {
             var gen = new DocGenerator();

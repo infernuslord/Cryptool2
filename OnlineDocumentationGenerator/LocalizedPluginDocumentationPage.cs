@@ -11,51 +11,47 @@ namespace OnlineDocumentationGenerator
 {
     public class LocalizedPluginDocumentationPage
     {
-        private readonly Type _pluginType;
         private readonly XElement _xml;
-        private readonly string _lang;
-        private bool _startable;
-        private readonly string _name;
-        private readonly string _toolTip;
 
-        public Type PluginType
-        {
-            get { return _pluginType; }
-        }
+        public Type PluginType { get; private set; }
 
-        public string ToolTip
-        {
-            get { return _toolTip; }
-        }
+        public bool Startable { get; private set; }
+        public string ToolTip { get; private set; }
+        public string Name { get; private set; }
+        public string Lang { get; private set; }
 
-        public string Name
-        {
-            get { return _name; }
-        }
+        public string Description { get; private set; }
 
-        public string Lang
-        {
-            get { return _lang; }
-        }
+        public string AuthorURL { get; private set; }
+        public string AuthorInstitute { get; private set; }
+        public string AuthorEmail { get; private set; }
+        public string AuthorName { get; private set; }
 
-        public string Description
-        {
-            get; private set;
-        }
+        public PropertyInfoAttribute[] PluginConnectors { get; private set; }
+        public TaskPaneAttribute[] Settings { get; private set; }
         
         public LocalizedPluginDocumentationPage(Type pluginType, XElement xml, string lang)
         {
-            _pluginType = pluginType;
+            PluginType = pluginType;
             _xml = xml;
-            _lang = lang;
+            Lang = lang;
 
-            CultureInfo cultureInfo = new CultureInfo(lang);
+            var cultureInfo = new CultureInfo(lang);
             Thread.CurrentThread.CurrentCulture = cultureInfo;
             Thread.CurrentThread.CurrentUICulture = cultureInfo;
 
-            _startable = pluginType.GetPluginInfoAttribute().Startable;
-            _name = pluginType.GetPluginInfoAttribute().Caption;
-            _toolTip = pluginType.GetPluginInfoAttribute().ToolTip;
+            Startable = pluginType.GetPluginInfoAttribute().Startable;
+            Name = pluginType.GetPluginInfoAttribute().Caption;
+            ToolTip = pluginType.GetPluginInfoAttribute().ToolTip;
+
+            var plugin = pluginType.CreateObject();
+            PluginConnectors = plugin.GetProperties();
+            Settings = plugin.Settings.GetSettingsProperties(plugin);
+
+            AuthorName = pluginType.GetPluginAuthorAttribute().Author;
+            AuthorEmail = pluginType.GetPluginAuthorAttribute().Email;
+            AuthorInstitute = pluginType.GetPluginAuthorAttribute().Institute;
+            AuthorURL = pluginType.GetPluginAuthorAttribute().URL;
 
             ReadInformationsFromXML();
         }
@@ -66,7 +62,7 @@ namespace OnlineDocumentationGenerator
             Description = descriptionElement.Value;
         }
 
-        //finds elements according to the current language
+        //finds elements according to the current language:
         private static XElement FindLocalizedChildElement(XElement element, string xname)
         {
             const string defaultLang = "en";
