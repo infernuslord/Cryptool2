@@ -866,8 +866,8 @@ namespace Wizard
             if (openTab)
             {
                 OnOpenTab(newEditor, title, null);
-                if (Settings.Default.RunTemplate && newEditor.CanExecute)
-                    newEditor.Execute();
+                //if (Settings.Default.RunTemplate && newEditor.CanExecute)
+                //    newEditor.Execute();
             }
             else
             {

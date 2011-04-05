@@ -236,7 +236,12 @@ namespace WorkspaceManager.Model
         /// <param name="sender"></param>
         /// <param name="propertyChangedEventArgs"></param>
         public void PropertyChangedOnPlugin(Object sender, PropertyChangedEventArgs propertyChangedEventArgs)
-        {            
+        {
+            if (!WorkspaceModel.IsBeingExecuted)
+            {
+                return;
+            }
+
             if (!(sender == this.PluginModel.Plugin) ||
                 !propertyChangedEventArgs.PropertyName.Equals(PropertyName))
             {
@@ -282,6 +287,7 @@ namespace WorkspaceManager.Model
 	                connectionModel.To.HasData = true;
 	                connectionModel.Active = true;
 	                connectionModel.GuiNeedsUpdate = true;
+                    connectionModel.To.PluginModel.resetEvent.Set();
 	            }	            
             }
         }
