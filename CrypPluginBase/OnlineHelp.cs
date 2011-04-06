@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -9,7 +10,7 @@ namespace Cryptool.PluginBase
     {
         public static readonly string HelpDirectory = "OnlineDocumentation";
         public static readonly string RelativePluginDocDirectory = "PluginDocs";
-        public static readonly string PluginDocDirectory = HelpDirectory+"/"+RelativePluginDocDirectory;
+        public static readonly string PluginDocDirectory = Path.Combine(HelpDirectory, RelativePluginDocDirectory);
 
         public static string GetPluginDocFilename(Type plugin, string lang)
         {

@@ -12,6 +12,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
     public class HtmlGenerator : Generator
     {
         private readonly string _htmlTemplate = Properties.Resources.TemplatePluginDocumentationPage;
+        private ObjectConverter _objectConverter = new ObjectConverter();
 
         public override void Generate()
         {
@@ -61,7 +62,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
                     Thread.CurrentThread.CurrentUICulture = cultureInfo;
 
                     var html = TagReplacer.ReplaceLanguageSwitchs(_htmlTemplate, lang);
-                    html = TagReplacer.ReplacePluginDocTags(html, localizedPluginDocumentationPage);
+                    html = TagReplacer.ReplacePluginDocTags(html, localizedPluginDocumentationPage, _objectConverter);
                     var languageSelectionCode = GeneratePluginLanguageSelectionCode(pluginDocumentationPage.PluginType, pluginDocumentationPage.AvailableLanguages, lang);
                     html = TagReplacer.ReplaceLanguageSelectionTag(html, languageSelectionCode);
                     var connectorListCode = GenerateConnectorListCode(localizedPluginDocumentationPage);

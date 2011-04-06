@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Xml.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OnlineDocumentationGenerator;
 using OnlineDocumentationGenerator.Generators.HtmlGenerator;
 
@@ -7,13 +8,13 @@ namespace Tests.OnlineDocumentationGeneratorTests
     [TestClass]
     public class TagReplacerTests
     {
-        private static readonly LocalizedPluginDocumentationPage _localizedPluginDocumentationPage = new LocalizedPluginDocumentationPage(typeof(KeySearcher.KeySearcher), null, "de");
+        private static readonly LocalizedPluginDocumentationPage _localizedPluginDocumentationPage = new LocalizedPluginDocumentationPage(null, typeof(KeySearcher.KeySearcher), new XElement("documentation"), "de", null);
 
         [TestMethod]
         public void ReplacePluginDocTags_InputWithOnePluginDocTag()
         {
             var html = "test <pluginDoc property=\"Name\"/> test";
-            var res = TagReplacer.ReplacePluginDocTags(html, _localizedPluginDocumentationPage);
+            var res = TagReplacer.ReplacePluginDocTags(html, _localizedPluginDocumentationPage, null);
             Assert.AreEqual("test KeySearcher test", res);
         }
 
@@ -21,7 +22,7 @@ namespace Tests.OnlineDocumentationGeneratorTests
         public void ReplacePluginDocTags_InputWithTwoPluginDocTag()
         {
             var html = "test <pluginDoc property=\"Name\"/> test <pluginDoc property=\"Lang\"/> test";
-            var res = TagReplacer.ReplacePluginDocTags(html, _localizedPluginDocumentationPage);
+            var res = TagReplacer.ReplacePluginDocTags(html, _localizedPluginDocumentationPage, null);
             Assert.AreEqual("test KeySearcher test de test", res);
         }
 

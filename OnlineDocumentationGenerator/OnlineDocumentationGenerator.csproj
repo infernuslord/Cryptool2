@@ -37,18 +37,24 @@
     <StartupObject>OnlineDocumentationGenerator.DocGenerator</StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DocGenerator.cs" />
     <Compile Include="Generators\Generator.cs" />
     <Compile Include="Generators\HtmlGenerator\HtmlGenerator.cs" />
+    <Compile Include="Generators\HtmlGenerator\ObjectConverter.cs" />
     <Compile Include="Generators\HtmlGenerator\TagReplacer.cs" />
     <Compile Include="LocalizedPluginDocumentationPage.cs" />
     <Compile Include="PluginDocumentationPage.cs" />
