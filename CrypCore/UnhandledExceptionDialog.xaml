@@ -18,7 +18,11 @@
         <Label Content="Exception Name:" FontWeight="Bold" />
         <Label Name="ExceptionNameLabel" Content="-" Grid.Column="1" />
         <Label Content="Exception Message:" Grid.Row="1" FontWeight="Bold"/>
-        <Label Name="ExceptionMessageLabel" Content="-" Grid.Column="1" Grid.Row="1" />
+        <Label Grid.Column="1" Grid.Row="1">
+            <Label.Content>
+                <TextBlock TextWrapping="Wrap" Name="ExceptionMessageLabel" Text="-" />
+            </Label.Content>
+        </Label>
 
         <Label Content="Stacktrace:" Grid.Row="2" Grid.ColumnSpan="2" FontWeight="Bold"/>
         <TextBox Name="StackTraceBox" Grid.ColumnSpan="2" Grid.Row="3" IsReadOnly="True" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Auto" />
