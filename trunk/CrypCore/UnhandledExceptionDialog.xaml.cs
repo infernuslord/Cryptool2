@@ -32,7 +32,7 @@ namespace Cryptool.Core
             _productName = productName;
             InitializeComponent();
             ExceptionNameLabel.Content = e.GetType().FullName;
-            ExceptionMessageLabel.Content = e.Message;
+            ExceptionMessageLabel.Text = e.Message;
             StackTraceBox.Text = e.StackTrace;
         }
 
