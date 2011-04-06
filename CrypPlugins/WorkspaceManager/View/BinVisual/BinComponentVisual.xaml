@@ -52,7 +52,7 @@
             </Setter>
         </Style>
 
-        <Style x:Key="{x:Type ProgressBar}" TargetType="{x:Type ProgressBar}">
+        <Style x:Key="ProgressBarStyle" TargetType="{x:Type ProgressBar}">
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type ProgressBar}">
@@ -533,8 +533,8 @@
                     
                         </ContentPresenter>
                         <!--##########/Content##########-->
-                        
-                        <ProgressBar x:Name="ProgressBar" Value="{Binding Path=Progress}" 
+
+                        <ProgressBar x:Name="ProgressBar" Style="{StaticResource ResourceKey=ProgressBarStyle}" Value="{Binding Path=Progress}" 
                                      Maximum="1" Foreground="ForestGreen" Opacity="0.6" Margin="1"
                                      Grid.Column="0" Grid.Row="2"></ProgressBar>
                         <TextBlock Name="Percentage" FontFamily="Tahoma" FontSize="10" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontWeight="ExtraBold" Foreground="#444" 

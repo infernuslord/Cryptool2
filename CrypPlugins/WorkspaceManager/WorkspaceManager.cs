@@ -452,7 +452,9 @@ namespace WorkspaceManager
         /// </summary>
         public bool CanExecute
         {
-            get{return !executing;}
+            get{
+                return ((BinEditorVisual)Presentation).IsLoading == true ? false : true;
+            }
         }
 
         /// <summary>

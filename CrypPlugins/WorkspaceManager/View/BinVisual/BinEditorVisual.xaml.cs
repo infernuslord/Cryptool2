@@ -562,6 +562,22 @@ namespace WorkspaceManager.View.BinVisual
             startDragPoint = null;
         }
 
+        private void MouseWheelHandler(object sender, MouseWheelEventArgs e)
+        {
+            if (Keyboard.Modifiers == ModifierKeys.Control)
+            {
+                if (Properties.Settings.Default.EditScale + 0.05 < Properties.Settings.Default.MaxScale &&
+                    e.Delta >= 0)
+                    Properties.Settings.Default.EditScale += 0.05;
+
+                if (Properties.Settings.Default.EditScale - 0.05 > Properties.Settings.Default.MinScale &&
+                    e.Delta <= 0)
+                    Properties.Settings.Default.EditScale += -0.05;
+
+                e.Handled = true;
+            }
+        }
+
         private void MouseMoveHandler(object sender, MouseEventArgs e)
         {
             if (isLinkStarted)

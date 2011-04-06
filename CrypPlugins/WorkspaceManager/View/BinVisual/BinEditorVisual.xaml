@@ -62,7 +62,8 @@
                         <visuals:ModifiedCanvas RenderTransformOrigin="0.5, 0.5" Background="{StaticResource ResourceKey=SolidColorBackground}" 
                             PreviewMouseLeftButtonDown="MouseLeftButtonDownHandler" PreviewMouseRightButtonDown="MouseRightButtonDownHandler" 
                             PreviewMouseMove="MouseMoveHandler" PreviewMouseLeftButtonUp="MouseLeftButtonUpHandler" MouseLeave="MouseLeaveHandler"
-                            PreviewDragEnter="PreviewDragEnterHandler" PreviewDragLeave="PreviewDragLeaveHandler" PreviewDrop="PreviewDropHandler">
+                            PreviewDragEnter="PreviewDragEnterHandler" PreviewDragLeave="PreviewDragLeaveHandler" PreviewDrop="PreviewDropHandler"
+                            MouseWheel="MouseWheelHandler">
                             <visuals:ModifiedCanvas.LayoutTransform>
                                 <ScaleTransform ScaleX="{Binding Source={x:Static properties:Settings.Default}, Path=EditScale, Mode=OneWay}" 
                                     ScaleY="{Binding Source={x:Static properties:Settings.Default}, Path=EditScale, Mode=OneWay}"/>
