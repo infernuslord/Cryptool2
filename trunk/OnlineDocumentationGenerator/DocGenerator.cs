@@ -24,12 +24,19 @@ namespace OnlineDocumentationGenerator
                     }
                     catch (Exception ex)
                     {
-                        Console.Out.WriteLine(string.Format("Plugin {0} error: {1}", pluginType.GetPluginInfoAttribute().Caption, ex.Message));
+                        Console.Error.WriteLine(string.Format("Plugin {0} error: {1}", pluginType.GetPluginInfoAttribute().Caption, ex.Message));
                     }
                 }
             }
 
-            generator.Generate();
+            try
+            {
+                generator.Generate();
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine(string.Format("Error trying to generate documentation: {0}", ex.Message));
+            }
         }
 
         [STAThread]

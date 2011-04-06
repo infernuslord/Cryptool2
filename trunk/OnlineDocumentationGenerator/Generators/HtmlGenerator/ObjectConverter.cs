@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Xml.Linq;
 using Cryptool.PluginBase;
@@ -22,7 +20,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
         {
             if (theObject is XElement)
             {
-                return ConvertXElement((XElement) theObject);
+                return ConvertXElement((XElement)theObject, pluginDocumentationPage);
             }
             if (theObject is BitmapFrame)
             {
@@ -40,16 +38,19 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
         /// <returns></returns>
         private string ConvertImageSource(BitmapFrame imageSource, string filename)
         {
-            filename = filename + ".jpg";
+            filename = filename + ".png";
             if (!_createdImages.Contains(filename))
             {
                 //create image file:
+                if (!Directory.Exists(OnlineHelp.PluginDocDirectory))
+                {
+                    Directory.CreateDirectory(OnlineHelp.PluginDocDirectory);
+                }
                 var file = Path.Combine(OnlineHelp.PluginDocDirectory, filename);
                 using (var fileStream = new FileStream(file, FileMode.Create))
                 {
-                    var encoder = new JpegBitmapEncoder();
+                    var encoder = new PngBitmapEncoder();
                     encoder.Frames.Add(imageSource);
-                    encoder.QualityLevel = 100;
                     encoder.Save(fileStream);
                 }
             }
@@ -61,8 +62,9 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
         /// Converts the given xelement, which is from the plugin xml doc file, into an html formated representation.
         /// </summary>
         /// <param name="xelement"></param>
+        /// <param name="pluginDocumentationPage"></param>
         /// <returns></returns>
-        private string ConvertXElement(XElement xelement)
+        private string ConvertXElement(XElement xelement, PluginDocumentationPage pluginDocumentationPage)
         {
             var result = new StringBuilder();
             foreach (var node in xelement.Nodes())
@@ -74,16 +76,27 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
                 else if (node is XElement)
                 {
                     var nodeName = ((XElement) node).Name.ToString();
-                    var nodeRep = ConvertXElement((XElement) node);
                     switch (nodeName)
                     {
                         case "b":
                         case "i":
                         case "u":
+                            var nodeRep = ConvertXElement((XElement)node, pluginDocumentationPage);
                             result.Append(string.Format("<{0}>{1}</{0}>", nodeName, nodeRep));
                             break;
                         case "img":
-                            //TODO
+                            var srcAtt = ((XElement) node).Attribute("src");
+                            if (srcAtt != null)
+                            {
+                                int sIndex = srcAtt.Value.IndexOf('/');
+                                var image = BitmapFrame.Create(new Uri(string.Format("pack://application:,,,/{0};component/{1}", 
+                                    srcAtt.Value.Substring(0, sIndex), srcAtt.Value.Substring(sIndex + 1))));
+                                var filename = string.Format("{0}_{1}", pluginDocumentationPage.Localizations["en"].Name, Path.GetFileNameWithoutExtension(srcAtt.Value));
+                                result.Append(ConvertImageSource(image, filename));
+                            }
+                            break;
+                        case "newline":
+                            result.Append("<br/>");
                             break;
                         default:
                             continue;
