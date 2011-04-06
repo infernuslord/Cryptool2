@@ -34,7 +34,7 @@ namespace Cryptool.KasiskiTest
         
        
         [PropertySaveOrder(1)]
-        [TaskPane("Gram length (integer)", "Enter maximum gramm length to be examined. Minimum/default = 3", "", 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, 100)]
+        [TaskPane( "GrammLengthCaption", "GrammLengthTooltip", "", 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, 100)]
         public int GrammLength
         {
             get { return this.grammLength; }
@@ -48,8 +48,8 @@ namespace Cryptool.KasiskiTest
             }
         }
         [PropertySaveOrder(2)]
-        [ContextMenu("Handling of Unknown Characters", "What should be done with encountered characters at the input which are not in the alphabet?", 4, ContextMenuControlType.ComboBox, null, new string[] { "Ignore (leave unmodified)", "Remove" })]
-        [TaskPane("Handling of Unknown Characters", "What should be done with encountered characters at the input which are not in the alphabet?", null, 4, false, ControlType.ComboBox, new string[] { "Ignore (leave unmodified)", "Remove" })]
+        [ContextMenu( "RemoveUnknownSymbolsCaption", "RemoveUnknownSymbolsTooltip", 4, ContextMenuControlType.ComboBox, null, new string[] { "Ignore (leave unmodified)", "Remove" })]
+        [TaskPane( "RemoveUnknownSymbolsCaption", "RemoveUnknownSymbolsTooltip", null, 4, false, ControlType.ComboBox, new string[] { "Ignore (leave unmodified)", "Remove" })]
         public int RemoveUnknownSymbols
         {
             get { return this.unknownSymbolHandling; }
@@ -65,7 +65,7 @@ namespace Cryptool.KasiskiTest
             }
         }
         [PropertySaveOrder(3)]
-        [TaskPane("Maximum Factor Size (integer)", "Enter maximum factor/key size to be examined. default = 20", "", 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, 100)]
+        [TaskPane( "FactorSizeCaption", "FactorSizeTooltip", "", 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, 100)]
         public int FactorSize
         {
             get { return this.factorSize; }
@@ -81,8 +81,8 @@ namespace Cryptool.KasiskiTest
 
 
         [PropertySaveOrder(4)]
-        [ContextMenu("Case Sensitivity ", "Is a==A ? \n Please pay attention to the alphabet used in the given ciphertext as well as the 'Case Sensitivity' of the applied Vigenère cipher.", 4, ContextMenuControlType.ComboBox, null, new string[] { "Yes 'a' should equal 'A'", "No 'a' should not equal 'A'" })]
-        [TaskPane("Case Sensitivity ", "Is a==A ? \n Please pay attention to the alphabet used in the given ciphertext as well as the 'Case Sensitivity' of the applied Vigenère cipher.", null, 4, false, ControlType.ComboBox, new string[] { "Yes 'a' should equal 'A'", "No 'a' should not equal 'A'" })]
+        [ContextMenu( "CaseSensitivityCaption", "CaseSensitivityTooltip", 4, ContextMenuControlType.ComboBox, null, new string[] { "Yes 'a' should equal 'A'", "No 'a' should not equal 'A'" })]
+        [TaskPane( "CaseSensitivityCaption", "CaseSensitivityTooltip", null, 4, false, ControlType.ComboBox, new string[] { "Yes 'a' should equal 'A'", "No 'a' should not equal 'A'" })]
         public int CaseSensitivity
         {
             get { return this.caseSensitivity; }

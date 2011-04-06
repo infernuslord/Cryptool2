@@ -27,7 +27,7 @@ using System.Runtime.CompilerServices;
 namespace Cryptool.Plugins.Comparators
 {
     [Author("Raoul Falk", "falk@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo(false, "Comparators", "Simple comparators (=,!=, <, >, <=, >=). See detailed description.", "Comparators/DetailedDescription/Description.xaml", "Comparators/icons/icon_is.png", "Comparators/icons/icon_isnot.png", "Comparators/icons/icon_smaller.png", "Comparators/icons/icon_bigger.png", "Comparators/icons/icon_smallerIs.png", "Comparators/icons/icon_biggerIs.png")]
+    [PluginInfo("Comparators.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "Comparators/icons/icon_is.png", "Comparators/icons/icon_isnot.png", "Comparators/icons/icon_smaller.png", "Comparators/icons/icon_bigger.png", "Comparators/icons/icon_smallerIs.png", "Comparators/icons/icon_biggerIs.png")]
 
     class Comparators : IThroughput
     {
@@ -69,7 +69,7 @@ namespace Cryptool.Plugins.Comparators
             get { return null; }
         }
 
-        [PropertyInfo(Direction.InputData, "Input one", "Input one.", "", true, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputOneCaption", "InputOneTooltip", "", true, false, QuickWatchFormat.Text, null)]
         public IComparable InputOne
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
@@ -85,7 +85,7 @@ namespace Cryptool.Plugins.Comparators
             }
         }
 
-        [PropertyInfo(Direction.InputData, "Input two", "Input two.", "", true, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputTwoCaption", "InputTwoTooltip", "", true, false, QuickWatchFormat.Text, null)]
         public IComparable InputTwo
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
@@ -101,7 +101,7 @@ namespace Cryptool.Plugins.Comparators
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "Output", "Output.", "", true, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputCaption", "OutputTooltip", "", true, false, QuickWatchFormat.Text, null)]
         public bool Output
         {
             [MethodImpl(MethodImplOptions.Synchronized)]

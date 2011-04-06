@@ -11,7 +11,7 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace Cryptool.Plugins.ToString
 {
   [Author("Thomas Schmid", "thomas.schmid@cryptool.org", "Uni Siegen", "http://www.uni-siegen.de")]
-  [PluginInfo(false, "ToString", "Input values To String.", null, "ToString/icon.png")]
+  [PluginInfo("Cryptool.Plugins.ToString.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "ToString/icon.png")]
   public class ToString : IThroughput
   {
     # region private variables
@@ -20,7 +20,7 @@ namespace Cryptool.Plugins.ToString
     # endregion private variables
 
     # region public interface
-    [PropertyInfo(Direction.InputData, "Input", "Input", "", true, false, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.InputData, "InputCaption", "InputTooltip", "", true, false, QuickWatchFormat.Text, null)]
     public object Input
     {
       get { return input; }
@@ -32,7 +32,7 @@ namespace Cryptool.Plugins.ToString
       }
     }
 
-    [PropertyInfo(Direction.OutputData, "Output", "Output.", "", true, false, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.OutputData, "OutputCaption", "OutputTooltip", "", true, false, QuickWatchFormat.Text, null)]
     public string Output
     {
       get 

@@ -32,7 +32,7 @@ namespace Gate
         private bool hasChanges = false;
         private Trigger trigger = 0;
 
-        [TaskPane("Trigger", "Trigger to open gate", null, 1, true, ControlType.RadioButton,
+        [TaskPane( "TriggerCaption", "TriggerTooltip", null, 1, true, ControlType.RadioButton,
             new string[] { "no trigger (always open)", "no trigger (always closed)", "true value", "false value", "edge (value swap)", "positive edge (false->true)", "negative edge (true->false)" })]
         public Trigger Trigger
         {

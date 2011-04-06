@@ -28,7 +28,7 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace Nihilist
 {
     [Author("Fabian Enkler", "enkler@cryptool.org", "", "")]
-    [PluginInfo(false, "Nihilist", "Nihilist -- classic digraph polyalphabetic substitution cipher substituting each letter by a 2-digit-number", "", "Nihilist/icon.png")]
+    [PluginInfo("Nihilist.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "Nihilist/icon.png")]
     [EncryptionType(EncryptionType.Classic)]
     public class Nihilist : IEncryption
     {
@@ -59,7 +59,7 @@ namespace Nihilist
         }
 
         private byte[] input = new byte[] { };
-        [PropertyInfo(Direction.InputData, "Input byte array", "This is the byte array to be processed by Nihilist cipher.", "", true, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputCaption", "InputTooltip", "", true, false, QuickWatchFormat.Text, null)]
         public byte[] Input
         {
             get { return input; }
@@ -71,7 +71,7 @@ namespace Nihilist
         }
 
         private byte[] output = new byte[] { };
-        [PropertyInfo(Direction.OutputData, "Output byte array", "This is the byte array processed by Nihilist cipher", "", true, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputCaption", "OutputTooltip", "", true, false, QuickWatchFormat.Text, null)]
         public byte[] Output
         {
             get { return output; }

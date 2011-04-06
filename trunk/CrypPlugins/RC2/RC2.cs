@@ -29,7 +29,7 @@ using System.Windows.Controls;
 namespace Cryptool.Plugins.Cryptography.Encryption
 {
     [Author("Sebastian Przybylski", "sebastian@przybylski.org", "Uni-Siegen", "http://www.uni-siegen.de")]
-    [PluginInfo(false, "Rivest Cipher / Ron's Code", "Rivest Cipher / Ron's Code", null, "RC2/icon.png", "RC2/Images/encrypt.png", "RC2/Images/decrypt.png")]
+    [PluginInfo("Cryptool.RC2.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "RC2/icon.png", "RC2/Images/encrypt.png", "RC2/Images/decrypt.png")]
     [EncryptionType(EncryptionType.SymmetricBlock)]
     public class RC2 : IEncryption
     {
@@ -60,7 +60,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             set { this.settings = (RC2Settings)value; }
         }
 
-        [PropertyInfo(Direction.InputData, "Input", "Data to be encrypted or decrypted", "", true, false,QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "InputStreamCaption", "InputStreamTooltip", "", true, false,QuickWatchFormat.Hex, null)]
         public ICryptoolStream InputStream
         {
             get
@@ -76,7 +76,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             }
         }
 
-        [PropertyInfo(Direction.InputData, "Key", "Must be between 5 and 16 bytes.", "", true, false,QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "InputKeyCaption", "InputKeyTooltip", "", true, false,QuickWatchFormat.Hex, null)]
         public byte[] InputKey
         {
             get { return this.inputKey; }
@@ -87,7 +87,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             }
         }
 
-        [PropertyInfo(Direction.InputData, "IV", "IV to be used in chaining modes, must be 8 bytes.", null, false, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "InputIVCaption", "InputIVTooltip", null, false, false, QuickWatchFormat.Hex, null)]
         public byte[] InputIV
         {
             get { return this.inputIV; }
@@ -98,7 +98,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "Output stream", "Encrypted or decrypted output data", null, true, false,QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "OutputStreamCaption", "OutputStreamTooltip", null, true, false,QuickWatchFormat.Hex, null)]
         public ICryptoolStream OutputStream
         {
             get

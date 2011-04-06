@@ -31,7 +31,7 @@ using System.Security.Cryptography;
 namespace Cryptool.TEA
 {
     [Author("Soeren Rinne", "soeren.rinne@cryptool.de", "Ruhr-Universitaet Bochum, Chair for Embedded Security (EmSec)", "http://www.crypto.ruhr-uni-bochum.de/")]
-    [PluginInfo(false, "TEA", "Tiny Encryption Algorithm", "TEA/DetailedDescription/Description.xaml", "TEA/Images/tea.png", "TEA/Images/encrypt.png", "TEA/Images/decrypt.png", "TEA/Images/encryptX.png", "TEA/Images/decryptX.png")]
+    [PluginInfo("TEA.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "TEA/Images/tea.png", "TEA/Images/encrypt.png", "TEA/Images/decrypt.png", "TEA/Images/encryptX.png", "TEA/Images/decryptX.png")]
     [EncryptionType(EncryptionType.SymmetricBlock)]
     public class TEA : IEncryption
     {
@@ -56,14 +56,14 @@ namespace Cryptool.TEA
             set { this.settings = (TEASettings)value; }
         }
 
-        [PropertyInfo(Direction.InputData, "Input", "Data to be encrypted or decrypted.", "", true, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "InputStreamCaption", "InputStreamTooltip", "", true, false, QuickWatchFormat.Hex, null)]
         public ICryptoolStream InputStream
         {
             get;
             set;
         }
 
-        [PropertyInfo(Direction.InputData, "Key", "Must be 16 bytes (128 bit).", "", true, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "InputKeyCaption", "InputKeyTooltip", "", true, false, QuickWatchFormat.Hex, null)]
         public byte[] InputKey
         {
             get { return this.inputKey; }
@@ -73,7 +73,7 @@ namespace Cryptool.TEA
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "Output stream", "Encrypted or decrypted output data", "", true, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "OutputStreamCaption", "OutputStreamTooltip", "", true, false, QuickWatchFormat.Hex, null)]
         public ICryptoolStream OutputStream
         {
             get

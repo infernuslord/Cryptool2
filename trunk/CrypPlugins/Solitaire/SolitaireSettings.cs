@@ -46,7 +46,7 @@ namespace Solitaire
         /// This example setting uses a number field input, but there are many more input types available, see ControlType enumeration.
         /// </summary>
         [PropertySaveOrder(0)]
-        [TaskPane("Action Type", "Choose whether to encrypt or decrypt", null, 1, false, ControlType.ComboBox, new string[] { "Encrypt", "Decrypt" })]
+        [TaskPane( "ActionTypeCaption", "ActionTypeTooltip", null, 1, false, ControlType.ComboBox, new string[] { "Encrypt", "Decrypt" })]
         public int ActionType
         {
             get
@@ -64,7 +64,7 @@ namespace Solitaire
         }
 
         [PropertySaveOrder(1)]
-        [TaskPane("Cards", "Select the number of cards in your deck", null, 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 3, 54)]
+        [TaskPane( "NumberOfCardsCaption", "NumberOfCardsTooltip", null, 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 3, 54)]
         public int NumberOfCards
         {
             get
@@ -83,7 +83,7 @@ namespace Solitaire
         }
 
         [PropertySaveOrder(2)]
-        [TaskPane("Deck Generation", "Choose the method of generation for the initial deck", null, 1, false, ControlType.ComboBox, new string[] { "Ascending", "Descending", "Given State", "Password", "Random" })]
+        [TaskPane( "GenerationTypeCaption", "GenerationTypeTooltip", null, 1, false, ControlType.ComboBox, new string[] { "Ascending", "Descending", "Given State", "Password", "Random" })]
         public int GenerationType
         {
             get
@@ -101,7 +101,7 @@ namespace Solitaire
         }
 
         [PropertySaveOrder(3)]
-        [TaskPane("Stream Generation", "Choose whether to automatically or manually generate the stream", null, 1, false, ControlType.ComboBox, new string[] { "Automatic", "Manual" })]
+        [TaskPane( "StreamTypeCaption", "StreamTypeTooltip", null, 1, false, ControlType.ComboBox, new string[] { "Automatic", "Manual" })]
         public int StreamType
         {
             get

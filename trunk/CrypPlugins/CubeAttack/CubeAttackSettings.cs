@@ -68,16 +68,14 @@ namespace Cryptool.CubeAttack
         #region Algorithm settings properties (visible in the settings pane)
 
         [PropertySaveOrder(1)]
-        [ContextMenu("Action", 
-            "Select the cube attack modi", 
+        [ContextMenu( "ActionCaption", "ActionTooltip", 
             1, 
             ContextMenuControlType.ComboBox, 
             null, 
             "Preprocessing",
             "Online",
             "Manual Public Bit Input")]
-        [TaskPane("Action",
-            "Select the cube attack modi", 
+        [TaskPane( "ActionCaption", "ActionTooltip", 
             "", 
             1, 
             false, 
@@ -95,8 +93,7 @@ namespace Cryptool.CubeAttack
         }
         
         [PropertySaveOrder(2)]
-        [TaskPane("Public Bit Size",
-            "Public input bits (IV or plaintext) of the attacked cryptosystem.", 
+        [TaskPane( "PublicVarCaption", "PublicVarTooltip", 
             null, 
             2, 
             false, 
@@ -116,8 +113,7 @@ namespace Cryptool.CubeAttack
         }
 
         [PropertySaveOrder(3)]
-        [TaskPane("Secret Bit Size",
-            "Key size or key length  of the attacked cryptosystem.", 
+        [TaskPane( "SecretVarCaption", "SecretVarTooltip", 
             null, 
             3, 
             false, 
@@ -137,8 +133,7 @@ namespace Cryptool.CubeAttack
         }
 
         [PropertySaveOrder(4)]
-        [TaskPane("Max Cube Size",
-            "Maxmium size of the summation cube.",
+        [TaskPane( "MaxCubeCaption", "MaxCubeTooltip",
             null,
             4,
             false,
@@ -158,8 +153,7 @@ namespace Cryptool.CubeAttack
         }
 
         [PropertySaveOrder(5)]
-        [TaskPane("Constant Test",
-            "Number of tests to check if the superpoly is a constant value or not.",
+        [TaskPane( "ConstTestCaption", "ConstTestTooltip",
             null,
             5,
             false,
@@ -179,8 +173,7 @@ namespace Cryptool.CubeAttack
         }
 
         [PropertySaveOrder(6)]
-        [TaskPane("Linearity Test",
-            "Number of linearity tests to check if the superpoly is linear or not.", 
+        [TaskPane( "LinTestCaption", "LinTestTooltip", 
             null, 
             6, 
             false, 
@@ -200,8 +193,7 @@ namespace Cryptool.CubeAttack
         }
 
         [PropertySaveOrder(7)]
-        [TaskPane("Output Bit",
-            "Chooses the output bit of the black box, which should be evaluated.",
+        [TaskPane( "OutputBitCaption", "OutputBitTooltip",
             null,
             7,
             true,
@@ -221,8 +213,7 @@ namespace Cryptool.CubeAttack
         }
 
         [PropertySaveOrder(8)]
-        [TaskPane("Manual Public Bit Input",
-            "Possible inputs '0' (set bit to value 0), '1' (set bit to value 1) and '*' (sum the 0/1 value of the bit).",
+        [TaskPane( "SetPublicBitsCaption", "SetPublicBitsTooltip",
             null,
             8,
             false,
@@ -246,14 +237,12 @@ namespace Cryptool.CubeAttack
         }
 
         [PropertySaveOrder(9)]
-        [ContextMenu("Read Superpolys From File",
-            "With this checkbox enabled, superpolys will be loaded from the selected File and can be evaluated in the online phase.",
+        [ContextMenu( "ReadSuperpolysFromFileCaption", "ReadSuperpolysFromFileTooltip",
             9,
             ContextMenuControlType.CheckBox,
             null,
             new string[] { "Read Superpolys From File" })]
-        [TaskPane("Read superpolys from File", 
-            "With this checkbox enabled, superpolys will be loaded from the selected File and can be evaluated in the online phase.",
+        [TaskPane( "ReadSuperpolysFromFileTPCaption", "ReadSuperpolysFromFileTPTooltip", 
             null,
             9,
             false,
@@ -272,8 +261,7 @@ namespace Cryptool.CubeAttack
         }
 
         [PropertySaveOrder(10)]
-        [TaskPane("Filename", 
-            "Select the file you want to open.\nFile structure: superpoly cube-indexes output-bit\nExample: 1+x0+x5 2,6 1", 
+        [TaskPane( "OpenFilenameCaption", "OpenFilenameTooltip",
             null, 
             10, 
             false, 
@@ -294,14 +282,12 @@ namespace Cryptool.CubeAttack
         }
 
         [PropertySaveOrder(11)]
-        [ContextMenu("Enable Log Messages",
-            "With this checkbox enabled, log messages will be showed.", 
+        [ContextMenu( "EnableLogMessagesCaption", "EnableLogMessagesTooltip",
             11, 
             ContextMenuControlType.CheckBox, 
             null,
             new string[] { "Enable log messages?" })]
-        [TaskPane("Enable Log Messages",
-            "With this checkbox enabled, a lot of log messages will be showed during preprocessing.", 
+        [TaskPane( "EnableLogMessagesTPCaption", "EnableLogMessagesTPTooltip",
             null, 
             11, 
             false, 

@@ -30,7 +30,7 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace Solitaire
 {
     [Author("Coen Ramaekers", "c.f.w.ramaekers@student.tue.nl", "Technische Universiteit Eindhoven", "http://www.win.tue.nl")]
-    [PluginInfo(false, "Solitaire", "Try the Solitaire Cipher", null, "CrypWin/images/default.png")]
+    [PluginInfo("Solitaire.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "CrypWin/images/default.png")]
     [EncryptionType(EncryptionType.Classic)]
     public class Solitaire : IEncryption
     {
@@ -69,7 +69,7 @@ namespace Solitaire
         /// <summary>
         /// Read the text which is to be encrypted or decrypted.
         /// </summary>
-        [PropertyInfo(Direction.InputData, "Text input", "Input a string to be processed", null, false, false, QuickWatchFormat.None ,null)]
+        [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", null, false, false, QuickWatchFormat.None ,null)]
         public string InputString
         {
             get { return this.inputString; }
@@ -86,7 +86,7 @@ namespace Solitaire
         /// <summary>
         /// Read the password with which the deckstate is generated.
         /// </summary>
-        [PropertyInfo(Direction.InputData, "Password input", "Input the password with which the deckstate will be generated", null, false, false, QuickWatchFormat.None, null)]
+        [PropertyInfo(Direction.InputData, "PasswordCaption", "PasswordTooltip", null, false, false, QuickWatchFormat.None, null)]
         public string Password
         {
             get { return this.password; }
@@ -103,7 +103,7 @@ namespace Solitaire
         /// <summary>
         /// Read a given deckstate.
         /// </summary>
-        [PropertyInfo(Direction.InputData, "Deckstate input", "Input a deckstate, the sequence represents the deck from top to bottom, each card represented by a number, the highest two being the jokers. Seperate the cards with a comma, e.g. '1,2,3,4'. Maximum number of cards is 54.", null, false, false, QuickWatchFormat.None, null)]
+        [PropertyInfo(Direction.InputData, "DeckstateCaption", "DeckstateTooltip", null, false, false, QuickWatchFormat.None, null)]
         public string Deckstate
         {
             get { return this.deckstate; }
@@ -121,7 +121,7 @@ namespace Solitaire
         /// <summary>
         /// Outputs the encrypted or decrypted text.
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "Text Output", "The string after processing with the Solitaire cipher", null, false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", null, false, false, QuickWatchFormat.Text, null)]
         public string OutputString
         {
             get { return this.outputString; }
@@ -135,7 +135,7 @@ namespace Solitaire
         /// <summary>
         /// Displays the initial deck.
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "Initial Deck", "The initial deck which is used.", null, false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "InitialDeckCaption", "InitialDeckTooltip", null, false, false, QuickWatchFormat.Text, null)]
         public string InitialDeck
         {
             get { return this.initialDeck; }
@@ -150,7 +150,7 @@ namespace Solitaire
         /// <summary>
         /// Displays the final deck.
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "Final Deck", "The deck after generating the last keystream letter.", null, false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "FinalDeckCaption", "FinalDeckTooltip", null, false, false, QuickWatchFormat.Text, null)]
         public string FinalDeck
         {
             get { return this.finalDeck; }
@@ -164,7 +164,7 @@ namespace Solitaire
         /// <summary>
         /// Outputs the stream used to encrypt or decrypt.
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "Stream Output", "The stream used to encrypt or decrypt the text.", null, false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputStreamCaption", "OutputStreamTooltip", null, false, false, QuickWatchFormat.Text, null)]
         public string OutputStream
         {
             get { return this.outputStream; }

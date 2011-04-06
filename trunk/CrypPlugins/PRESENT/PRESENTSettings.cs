@@ -32,8 +32,8 @@ namespace Cryptool.PRESENT
     private int mode = 0; //0="ECB", 1="CBC", 2="CFB", 3="OFB"
     private int padding = 0; //0="None", 1="Zeros", 2="PKCS7"
 
-    [ContextMenu("Action", "Do you want the input data to be encrypted or decrypted?", 1, ContextMenuControlType.ComboBox, new int[] { 1, 2 }, new string[] { "encrypt", "decrypt" })]
-    [TaskPane("Action", "Do you want the input data to be encrypted or decrypted?", "", 1, false, ControlType.ComboBox, new string[] { "encrypt", "decrypt" })]
+    [ContextMenu( "ActionCaption", "ActionTooltip", 1, ContextMenuControlType.ComboBox, new int[] { 1, 2 }, new string[] { "encrypt", "decrypt" })]
+    [TaskPane( "ActionCaption", "ActionTooltip", "", 1, false, ControlType.ComboBox, new string[] { "encrypt", "decrypt" })]
     public int Action
     {
       get { return this.action; }
@@ -45,8 +45,8 @@ namespace Cryptool.PRESENT
       }
     }
 
-    [ContextMenu("Chaining Mode", "Select the block cipher mode of operation.", 2, ContextMenuControlType.ComboBox, null, new string[] { "ECB", "CBC", "CFB", "OFB" })]
-    [TaskPane("Chaining Mode", "Select the block cipher mode of operation.", "", 2, false, ControlType.ComboBox, new String[] { "ECB", "CBC", "CFB", "OFB" })]
+    [ContextMenu( "ModeCaption", "ModeTooltip", 2, ContextMenuControlType.ComboBox, null, new string[] { "ECB", "CBC", "CFB", "OFB" })]
+    [TaskPane( "ModeCaption", "ModeTooltip", "", 2, false, ControlType.ComboBox, new String[] { "ECB", "CBC", "CFB", "OFB" })]
     public int Mode
     {
       get { return this.mode; }
@@ -58,8 +58,8 @@ namespace Cryptool.PRESENT
       }
     }
 
-    [ContextMenu("Padding Mode", "Select a mode to fill partial data blocks.", 3, ContextMenuControlType.ComboBox, null, new string[] { "Zeros", "None", "PKCS7" })]
-    [TaskPane("Padding Mode", "Select a mode to fill partial data blocks.", "", 3, false, ControlType.ComboBox, new String[] { "Zeros", "None", "PKCS7" })]
+    [ContextMenu( "PaddingCaption", "PaddingTooltip", 3, ContextMenuControlType.ComboBox, null, new string[] { "Zeros", "None", "PKCS7" })]
+    [TaskPane( "PaddingCaption", "PaddingTooltip", "", 3, false, ControlType.ComboBox, new String[] { "Zeros", "None", "PKCS7" })]
     public int Padding
     {
       get { return this.padding; }

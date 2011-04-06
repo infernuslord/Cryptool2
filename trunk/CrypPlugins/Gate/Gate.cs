@@ -31,7 +31,7 @@ using System.Runtime.Remoting.Contexts;
 namespace Gate
 {
     [Author("Matthäus Wander", "wander@cryptool.org", "Universität Duisburg-Essen, Fachgebiet Verteilte Systeme", "http://www.vs.uni-due.de")]
-    [PluginInfo(false, "Gate", "Control operator", "", "Gate/gate_closed_32.png", "Gate/gate_open_32.png")]
+    [PluginInfo("Gate.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "Gate/gate_closed_32.png", "Gate/gate_open_32.png")]
     [Synchronization]
     public class Gate : IThroughput
     {
@@ -47,7 +47,7 @@ namespace Gate
         private Object inputMonitor = new Object();
         private Object controlMonitor = new Object();
 
-        [PropertyInfo(Direction.InputData, "Input", "Input object of any type", null, true, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputObjectCaption", "InputObjectTooltip", null, true, false, QuickWatchFormat.Text, null)]
         public object InputObject
         {
             get
@@ -62,7 +62,7 @@ namespace Gate
             }
         }
 
-        [PropertyInfo(Direction.InputData, "Control", "Controls whether to open gate", null, false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "ControlCaption", "ControlTooltip", null, false, false, QuickWatchFormat.Text, null)]
         public bool Control
         {
             get
@@ -78,7 +78,7 @@ namespace Gate
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "Output", "Output object", null)]
+        [PropertyInfo(Direction.OutputData, "OutputObjectCaption", "OutputObjectTooltip", null)]
         public object OutputObject
         {
             get

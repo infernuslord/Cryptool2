@@ -27,7 +27,7 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace Cryptool.Caesar
 {
     [Author("Dr. Arno Wacker", "arno.wacker@cryptool.org", "Uni Duisburg-Essen", "http://www.vs.uni-duisburg-essen.de")]
-    [PluginInfo("Cryptool.Caesar.Resources.res", false, "pluginName", "pluginToolTip", "Caesar/DetailedDescription/Description.xaml",
+    [PluginInfo("Cryptool.Caesar.Resources.res", false,"PluginCaption", "PluginTooltip", "PluginDescriptionURL", 
       "Caesar/Images/Caesar.png", "Caesar/Images/encrypt.png", "Caesar/Images/decrypt.png")] 
     [EncryptionType(EncryptionType.Classic)]
     public class Caesar : IEncryption
@@ -62,7 +62,7 @@ namespace Cryptool.Caesar
         }
 
 
-        [PropertyInfo(Direction.OutputData, "propStreamOutputToolTip", "propStreamOutputDescription", "", false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputDataCaption", "OutputDataTooltip", "", false, false, QuickWatchFormat.Text, null)]
         public ICryptoolStream OutputData
         {
             get
@@ -76,14 +76,14 @@ namespace Cryptool.Caesar
             }
         }
 
-        [PropertyInfo(Direction.InputData, "Text input", "Input a string to be processed by the Caesar cipher", "", true, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", "", true, false, QuickWatchFormat.Text, null)]
         public string InputString
         {
             get;
             set; 
         }
 
-        [PropertyInfo(Direction.OutputData, "Text output", "The string after processing with the Caesar cipher", "", false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", "", false, false, QuickWatchFormat.Text, null)]
         public string OutputString
         {
             get;
@@ -91,7 +91,7 @@ namespace Cryptool.Caesar
         }
 
 
-        [PropertyInfo(Direction.InputData, "External alphabet input", "Input a string containing the alphabet which should be used by Caesar.\nIf no alphabet is provided on this input, the internal alphabet will be used.", "", false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputAlphabetCaption", "InputAlphabetTooltip", "", false, false, QuickWatchFormat.Text, null)]
         public string InputAlphabet
         {
             get { return this.settings.AlphabetSymbols; }
@@ -105,7 +105,7 @@ namespace Cryptool.Caesar
             }
         }
 
-        [PropertyInfo(Direction.InputData, "Shift value (integer)", "Same setting as Shift value in Settings-Pane but as dynamic input.", "", false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "ShiftKeyCaption", "ShiftKeyTooltip", "", false, false, QuickWatchFormat.Text, null)]
         public int ShiftKey
         {
           get { return settings.ShiftKey; }

@@ -31,7 +31,7 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace FileOutput
 {
   [Author("Thomas Schmid", "thomas.schmid@cryptool.org", "Uni Siegen", "http://www.uni-siegen.de")]
-  [PluginInfo(false, "FileOutput", "File based output", "", "FileOutput/icon.png")]
+  [PluginInfo("FileOutput.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "FileOutput/icon.png")]
   public class FileOutputClass : IOutput
   {
     #region Private variables    
@@ -72,7 +72,7 @@ namespace FileOutput
 
     # region Properties
 
-    [PropertyInfo(Direction.InputData, "Stream Input", "Display the input file in HexEditor.", "", true, false, QuickWatchFormat.Hex, null)]
+    [PropertyInfo(Direction.InputData, "StreamInputCaption", "StreamInputTooltip", "", true, false, QuickWatchFormat.Hex, null)]
         public ICryptoolStream StreamInput
     {
             get;

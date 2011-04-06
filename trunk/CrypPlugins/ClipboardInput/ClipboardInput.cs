@@ -29,7 +29,7 @@ namespace ClipboardInput
 {
   // Retrieves data from clipboard and passes it on as a stream
   [Author("Timm Korte", "cryptool@easycrypt.de", "Uni Bochum", "http://www.ruhr-uni-bochum.de")]
-  [PluginInfo(true, "ClipboardInput", "Simple clipboard input plugin.", "", "ClipboardInput/icon.png")]
+  [PluginInfo("ClipboardInput.Properties.Resources", true, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "ClipboardInput/icon.png")]
   public class ClipboardInput : IInput
   {
 
@@ -75,7 +75,7 @@ namespace ClipboardInput
     }
 
     #region Interface
-    [PropertyInfo(Direction.OutputData, "Clipboard data stream", "Stream of data recieved from clipboard", "", true, false, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.OutputData, "StreamOutputCaption", "StreamOutputTooltip", "", true, false, QuickWatchFormat.Text, null)]
     public ICryptoolStream StreamOutput
     {
       get

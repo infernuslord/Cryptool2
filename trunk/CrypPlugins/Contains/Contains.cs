@@ -33,7 +33,7 @@ using System.Diagnostics;
 namespace Contains
 {
   [Author("Thomas Schmid", "thomas.schmid@cryptool.org", "Uni Siegen", "http://www.uni-siegen.de")]
-  [PluginInfo(false, "Contains", "Search strings in a dictionary.", "URL", "Contains/icon.png", "Contains/subset.png", "Contains/no_subset.png")]
+  [PluginInfo("Contains.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "Contains/icon.png", "Contains/subset.png", "Contains/no_subset.png")]
   public class Contains : IAnalysisMisc
   {    
     private ContainsSettings settings;
@@ -49,7 +49,7 @@ namespace Contains
       settings = new ContainsSettings();
     }
 
-    [PropertyInfo(Direction.InputData, "Text input", "Input a string to search for in selected Dictionary.", "", true, false, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", "", true, false, QuickWatchFormat.Text, null)]
     public string InputString
     {
       get { return this.inputString; }
@@ -64,7 +64,7 @@ namespace Contains
       }
     }
 
-    [PropertyInfo(Direction.InputData, "Dictionary", "The search for known words is based on this dictionary.", "", true, false, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.InputData, "DictionaryInputStringCaption", "DictionaryInputStringTooltip", "", true, false, QuickWatchFormat.Text, null)]
     public string DictionaryInputString
     {
       get { return this.dictionaryInputString; }
@@ -86,7 +86,7 @@ namespace Contains
       }
     }
     
-    [PropertyInfo(Direction.InputData, "Number of hits to find.", "Needs to find n-hits to return true (Overrides settings value if input is given).", "", false, false, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.InputData, "HitsCaption", "HitsTooltip", "", false, false, QuickWatchFormat.Text, null)]
     public int Hits
     {
       get { return settings.Hits; }
@@ -161,7 +161,7 @@ namespace Contains
     }
 
     private bool result;
-    [PropertyInfo(Direction.OutputData, "Search result", "The search result is based on the current input and the given parameters.", "", false, false, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.OutputData, "ResultCaption", "ResultTooltip", "", false, false, QuickWatchFormat.Text, null)]
     public bool Result
     {
       get { return result; }
@@ -182,7 +182,7 @@ namespace Contains
     private int hitCount = 0;
 
     
-    [PropertyInfo(Direction.OutputData, "Number of Hits", "The search result is based on the current input and the given parameters.", "", false, false, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.OutputData, "HitCountCaption", "HitCountTooltip", "", false, false, QuickWatchFormat.Text, null)]
     public int HitCount
     {
         get { return hitCount; }

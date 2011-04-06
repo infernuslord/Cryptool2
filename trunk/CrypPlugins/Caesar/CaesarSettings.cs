@@ -189,8 +189,8 @@ namespace Cryptool.Caesar
         #region Algorithm settings properties (visible in the Settings pane)
 
         [PropertySaveOrder(4)]
-        [ContextMenu("Action", "Select the Algorithm action", 1, ContextMenuControlType.ComboBox, new int[] { 1, 2 }, "Encrypt", "Decrypt")]
-        [TaskPane("Action", "setAlgorithmActionDescription", null, 1, true, ControlType.ComboBox, new string[] { "Encrypt", "Decrypt" })]
+        [ContextMenu("ActionCaption", "ActionTooltip", 1, ContextMenuControlType.ComboBox, new int[] { 1, 2 }, "Encrypt", "Decrypt")]
+        [TaskPane("ActionTPCaption", "ActionTPTooltip", null, 1, true, ControlType.ComboBox, new string[] { "Encrypt", "Decrypt" })]
         public int Action
         {
             get
@@ -208,7 +208,7 @@ namespace Cryptool.Caesar
         }
         
         [PropertySaveOrder(5)]
-        [TaskPane("Key as integer", "Enter the number of letters to shift. For instance a value of 1 means that the plaintext character a gets mapped to the ciphertext character B, b to C and so on.", null, 2, true, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, 100)]        
+        [TaskPane("ShiftValueCaption", "ShiftValueTooltip", null, 2, true, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, 100)]        
         public int ShiftValue
         {
             get { return shiftValue; }
@@ -221,7 +221,7 @@ namespace Cryptool.Caesar
 
 
         [PropertySaveOrder(6)]
-        [TaskPaneAttribute("Key as single letter", "Enter a single letter as the key. This letter is mapped to an integer stating the position in the alphabet. The values for \"Key as integer\" and \"Key as single letter” are always synchronized.", null, 3, true, ControlType.TextBox, ValidationType.RegEx, "^([A-Z]|[a-z]){1,1}$")]
+        [TaskPaneAttribute("ShiftCharCaption", "ShiftCharTooltip", null, 3, true, ControlType.TextBox, ValidationType.RegEx, "^([A-Z]|[a-z]){1,1}$")]
         public string ShiftChar
         {
             get { return this.shiftChar.ToString(); }
@@ -233,8 +233,8 @@ namespace Cryptool.Caesar
         }
 
         [PropertySaveOrder(7)]
-        [ContextMenu("Unknown symbol handling", "What should be done with encountered characters at the input which are not in the alphabet?", 4, ContextMenuControlType.ComboBox, null, new string[] { "Ignore (leave unmodified)", "Remove", "Replace with \'?\'" })]
-        [TaskPane("Unknown symbol handling", "What should be done with encountered characters at the input which are not in the alphabet?", null, 4, true, ControlType.ComboBox, new string[] { "Ignore (leave unmodified)", "Remove", "Replace with \'?\'" })]
+        [ContextMenu("UnknownSymbolHandlingCaption", "UnknownSymbolHandlingTooltip", 4, ContextMenuControlType.ComboBox, null, new string[] { "Ignore (leave unmodified)", "Remove", "Replace with \'?\'" })]
+        [TaskPane("UnknownSymbolHandlingCaption", "UnknownSymbolHandlingTooltip", null, 4, true, ControlType.ComboBox, new string[] { "Ignore (leave unmodified)", "Remove", "Replace with \'?\'" })]
         public int UnknownSymbolHandling
         {
             get { return (int)this.unknownSymbolHandling; }
@@ -250,7 +250,7 @@ namespace Cryptool.Caesar
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", Orientation.Vertical)]
         [PropertySaveOrder(9)]
-        [TaskPane("Alphabet", "This is the used alphabet.", null, 6, true, ControlType.TextBox, "")]
+        [TaskPane("AlphabetSymbolsCaption", "AlphabetSymbolsTooltip", null, 6, true, ControlType.TextBox, "")]
         public string AlphabetSymbols
         {
           get { return this.alphabet; }
@@ -279,8 +279,8 @@ namespace Cryptool.Caesar
         /// </summary>   
         //[SettingsFormat(1, "Normal")]
         [PropertySaveOrder(8)]
-        [ContextMenu("Alphabet case sensitivity", "Should upper and lower case be treated differently? (Should a == A)", 7, ContextMenuControlType.ComboBox, null, new string[] { "Case insensitive", "Case sensitive" })]
-        [TaskPane("Alphabet case sensitivity", "Should upper and lower case be treated differently? (Should a == A)", null, 7, true, ControlType.ComboBox, new string[] { "Case insensitive", "Case sensitive" })]
+        [ContextMenu("ActionCaption", "ActionTooltip", 7, ContextMenuControlType.ComboBox, null, new string[] { "Case insensitive", "Case sensitive" })]
+        [TaskPane("ActionCaption", "ActionTooltip", null, 7, true, ControlType.ComboBox, new string[] { "Case insensitive", "Case sensitive" })]
         public int AlphabetCase
         {
             get { return this.caseSensitiveAlphabet; }

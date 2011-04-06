@@ -34,7 +34,7 @@ namespace FileOutput
     }
 
     private string targetFilename;
-    [TaskPane("Target FileName", "File to write data into.", null, 1, false, ControlType.SaveFileDialog, "All Files (*.*)|*.*")]
+    [TaskPane( "TargetFilenameCaption", "TargetFilenameTooltip", null, 1, false, ControlType.SaveFileDialog, "All Files (*.*)|*.*")]
     public string TargetFilename
     {
       get { return targetFilename; }
@@ -46,7 +46,7 @@ namespace FileOutput
       }
     }
 
-    [TaskPane("Clear file name", "Forget the output file name", null, 2, false, ControlType.Button)]
+    [TaskPane( "ClearFileNameCaption", "ClearFileNameTooltip", null, 2, false, ControlType.Button)]
     public void ClearFileName()
     {
         TargetFilename = null;

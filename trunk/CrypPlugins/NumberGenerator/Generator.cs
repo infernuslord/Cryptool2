@@ -29,7 +29,7 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace NumberGenerator
 {
   [Author("Thomas Schmid", "thomas.schmid@cryptool.org", "Uni Siegen", "http://www.uni-siegen.de")]
-  [PluginInfo(true, "Number Input", "Simple number generator", null, "NumberGenerator/icon.png")]
+  [PluginInfo("NumberGenerator.Properties.Resources", true, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "NumberGenerator/icon.png")]
   public class Generator : IInput
   {
     
@@ -50,7 +50,7 @@ namespace NumberGenerator
     #region properties
 
     private int integerValue;
-    [PropertyInfo(Direction.OutputData, "Integer value.", "The generated ineteger value.", "", false, false, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.OutputData, "IntegerValueCaption", "IntegerValueTooltip", "", false, false, QuickWatchFormat.Text, null)]
     public int IntegerValue
     {
       get { return integerValue; }

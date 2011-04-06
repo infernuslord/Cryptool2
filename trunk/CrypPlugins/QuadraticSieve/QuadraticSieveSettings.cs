@@ -67,7 +67,7 @@ namespace Cryptool.Plugins.QuadraticSieve
         /// <summary>
         /// Getter/Setter for the amount of cores which the user wants to have used by the quadratic sieve
         /// </summary>
-        [TaskPane("CoresUsed", "Choose how many cores should be used for sieving", null, 1, false, ControlType.DynamicComboBox, new string[] { "CoresAvailable" })]
+        [TaskPane( "CoresUsedCaption", "CoresUsedTooltip", null, 1, false, ControlType.DynamicComboBox, new string[] { "CoresAvailable" })]
         public int CoresUsed
         {
             get { return this.coresUsed; }
@@ -101,7 +101,7 @@ namespace Cryptool.Plugins.QuadraticSieve
         /// <summary>
         /// Getter / Setter to enable/disable the deletion of the cache
         /// </summary>
-        [TaskPane("Delete cache", "If checked, this plugin will delete the old cache file before it starts sieving", null, 2, false, ControlType.CheckBox, "", null)]
+        [TaskPane( "DeleteCacheCaption", "DeleteCacheTooltip", null, 2, false, ControlType.CheckBox, "", null)]
         public bool DeleteCache
         {
             get { return deleteCache; }
@@ -119,7 +119,7 @@ namespace Cryptool.Plugins.QuadraticSieve
         /// <summary>
         /// Getter / Setter to enable/disable the use of peer2peer
         /// </summary>
-        [TaskPane("Use Peer2Peer", "If checked, this plugin will connect to Peer2Peer network to sieve together with other clients", null, 3, false, ControlType.CheckBox, "", null)]
+        [TaskPane( "UsePeer2PeerCaption", "UsePeer2PeerTooltip", null, 3, false, ControlType.CheckBox, "", null)]
         public bool UsePeer2Peer
         {
             get { return usePeer2Peer; }
@@ -153,7 +153,7 @@ namespace Cryptool.Plugins.QuadraticSieve
         /// <summary>
         /// Channel of the Peer2Peer network
         /// </summary>
-        [TaskPane("Channel", "Channel of the Peer2Peer network", null, 4, false, ControlType.TextBox, "", null)]
+        [TaskPane( "ChannelCaption", "ChannelTooltip", null, 4, false, ControlType.TextBox, "", null)]
         public string Channel
         {
             get { return channel; }
@@ -168,7 +168,7 @@ namespace Cryptool.Plugins.QuadraticSieve
             }
         }
 
-        [TaskPane("Copy status key", "Copy status key to clipboard. The key can than be used to upload it together with the job using the P2PEditor.", null, 5, true, ControlType.Button)]
+        [TaskPane( "StatusKeyButtonCaption", "StatusKeyButtonTooltip", null, 5, true, ControlType.Button)]
         public void StatusKeyButton()
         {
             if (!quadraticSieve.Running)

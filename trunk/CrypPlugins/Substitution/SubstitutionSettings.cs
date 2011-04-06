@@ -190,8 +190,8 @@ namespace Cryptool.Substitution
         #region Algorithm settings properties (visible in the Settings pane)
 
         [PropertySaveOrder(2)]
-        [ContextMenu("Action","Select the Algorithm action", 1, ContextMenuControlType.ComboBox, new int[] {1,2}, "Encrypt","Decrypt")]
-        [TaskPane("Action", "Select the Algorithm action", null, 1, false, ControlType.ComboBox, new string[] {"Encrypt","Decrypt"})]
+        [ContextMenu( "ActionCaption", "ActionTooltip", 1, ContextMenuControlType.ComboBox, new int[] {1,2}, "Encrypt","Decrypt")]
+        [TaskPane( "ActionCaption", "ActionTooltip", null, 1, false, ControlType.ComboBox, new string[] {"Encrypt","Decrypt"})]
         public int Action
         {
             get { return this.selectedAction; }
@@ -204,7 +204,7 @@ namespace Cryptool.Substitution
         }
 
         [PropertySaveOrder(3)]
-        [TaskPane("Key value (multiple letter)", "Enter one or multiple letters as the key.", null, 2, false, ControlType.TextBox,"",null)]
+        [TaskPane( "KeyValueCaption", "KeyValueTooltip", null, 2, false, ControlType.TextBox,"",null)]
         public string KeyValue
         {
             get { return this.keyValue; }
@@ -219,8 +219,8 @@ namespace Cryptool.Substitution
         }
 
         [PropertySaveOrder(4)]
-        [ContextMenu("Unknown symbol handling","What should be done with ecountered characters at the input which are not in the alphabet?",3,ContextMenuControlType.ComboBox, null, new string[] {"Ignore (leave unmodified)", "Remove","Replace with \'?\'"})]
-        [TaskPane("Unknown symbol handling", "What should be done with ecountered characters at the input which are not in the alphabet?", null, 3, false, ControlType.ComboBox, new string[] {"Ignore (leave unmodified)", "Remove","Replace with \'?\'"})]
+        [ContextMenu( "UnknownSymbolHandlingCaption", "UnknownSymbolHandlingTooltip",3,ContextMenuControlType.ComboBox, null, new string[] {"Ignore (leave unmodified)", "Remove","Replace with \'?\'"})]
+        [TaskPane( "UnknownSymbolHandlingCaption", "UnknownSymbolHandlingTooltip", null, 3, false, ControlType.ComboBox, new string[] {"Ignore (leave unmodified)", "Remove","Replace with \'?\'"})]
         public int UnknownSymbolHandling
         {
             get { return (int)this.unknowSymbolHandling; }
@@ -233,8 +233,8 @@ namespace Cryptool.Substitution
         }
 
         [PropertySaveOrder(5)]
-        [ContextMenu("Alphabet case sensitivity","Should upper and lower case be treated differently? (Should a == A)",4, ContextMenuControlType.ComboBox,null, new string[] {"Case insensitive","Case sensitive"})]
-        [TaskPane("Alphabet case sensitivity","Should upper and lower case be treated differently? (Should a == A)", null, 4, false, ControlType.ComboBox, new string[] {"Case insensitive","Case sensitive"})]
+        [ContextMenu( "AlphabetCaseCaption", "AlphabetCaseTooltip",4, ContextMenuControlType.ComboBox,null, new string[] {"Case insensitive","Case sensitive"})]
+        [TaskPane( "AlphabetCaseCaption", "AlphabetCaseTooltip", null, 4, false, ControlType.ComboBox, new string[] {"Case insensitive","Case sensitive"})]
         public int AlphabetCase
         {
             get { return this.caseSensitiveAlphabet; }
@@ -277,8 +277,8 @@ namespace Cryptool.Substitution
         }
 
         [PropertySaveOrder(6)]
-        [ContextMenu("Key variant","Select the key variant for the cipher alphabet",5,ContextMenuControlType.ComboBox,null,new string[] {"Remaining characters are filled in ascending order","Remaining characters are filld in descending order","Atbash (the encryption is using a fixed key)"})]
-        [TaskPane("Key variant","Select the key variant for the cipher alphabet", null, 5, false, ControlType.ComboBox,new string[] {"Remaining characters are filled in ascending order","Remaining characters are in descending order","Atbash (the encryption is using a fixed key)"})]
+        [ContextMenu( "KeyVariantCaption", "KeyVariantTooltip",5,ContextMenuControlType.ComboBox,null,new string[] {"Remaining characters are filled in ascending order","Remaining characters are filld in descending order","Atbash (the encryption is using a fixed key)"})]
+        [TaskPane( "KeyVariantCaption", "KeyVariantTooltip", null, 5, false, ControlType.ComboBox,new string[] {"Remaining characters are filled in ascending order","Remaining characters are in descending order","Atbash (the encryption is using a fixed key)"})]
         public int KeyVariant
         {
             get { return (int)this.keyVariant; }
@@ -292,7 +292,7 @@ namespace Cryptool.Substitution
         }
 
         [PropertySaveOrder(7)]
-        [TaskPane("Alphabet","This is the used alphabet.", null, 5, false,ControlType.TextBox,"")]
+        [TaskPane( "AlphabetSymbolsCaption", "AlphabetSymbolsTooltip", null, 5, false,ControlType.TextBox,"")]
         public string AlphabetSymbols
         {
             get { return this.alphabet; }
@@ -315,7 +315,7 @@ namespace Cryptool.Substitution
         }
 
         [PropertySaveOrder(8)]
-        [TaskPane("Cipher alphabet", "This is the used cipher alphabet.", null, 6, false, ControlType.TextBox, "")]
+        [TaskPane( "CipherAlphabetCaption", "CipherAlphabetTooltip", null, 6, false, ControlType.TextBox, "")]
         public string CipherAlphabet
         {
             get { return this.cipherAlphabet; }

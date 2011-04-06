@@ -13,7 +13,7 @@ using System.Numerics;
 namespace Cryptool.PrimesGenerator
 {
 
-  [PluginInfo(true, "Primes Generator", "Generator for primes numbers", null, "PrimesGenerator/icon.png")]
+  [PluginInfo("PrimesGenerator.Properties.Resources", true, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "PrimesGenerator/icon.png")]
   public class PrimesGenerator : IRandomNumberGenerator
   {
       private PrimesBigInteger m_max = new PrimesBigInteger("10000000000");
@@ -53,7 +53,7 @@ namespace Cryptool.PrimesGenerator
 
 
     private BigInteger m_OutputString;
-    [PropertyInfo(Direction.OutputData, "BigInteger output", "A primenumber", "", true, false, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", "", true, false, QuickWatchFormat.Text, null)]
     public BigInteger OutputString
     {
       get { return this.m_OutputString; }

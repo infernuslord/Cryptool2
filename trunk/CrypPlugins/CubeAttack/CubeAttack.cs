@@ -19,10 +19,10 @@ namespace Cryptool.CubeAttack
         "david.oruba@web.de", 
         "Uni-Bochum", 
         "http://www.ruhr-uni-bochum.de/")]
-    [PluginInfo(true, 
-        "Cube Attack", 
-        "Cube Attack", 
-        "CubeAttack/DetailedDescription/Description.xaml",
+    [PluginInfo("Cryptool.CubeAttack.Properties.Resources", true, 
+		  "PluginCaption",
+		  "PluginTooltip",
+		  "PluginDescriptionURL",
         "CubeAttack/Images/ca_color.png")]
     public class CubeAttack : IAnalysisMisc
     {
@@ -54,8 +54,7 @@ namespace Cryptool.CubeAttack
         #region Properties (Inputs/Outputs)
         
         [PropertyInfo(Direction.OutputData, 
-            "Output of superpolys", 
-            "Output of located linearly independent superpolys, cube indexes and its corresponding output bits.", 
+            "OutputSuperpolyCaption", "OutputSuperpolyTooltip",
             "", 
             false, 
             false, 
@@ -78,8 +77,7 @@ namespace Cryptool.CubeAttack
         }
 
         [PropertyInfo(Direction.OutputData, 
-            "Key bits", 
-            "This output provides the result of the secret key bits", 
+            "OutputKeyBitsCaption", "OutputKeyBitsTooltip", 
             "", 
             false, 
             false, 
@@ -1138,7 +1136,7 @@ namespace Cryptool.CubeAttack
         #region IControlEncryption Members 
 
         private IControlCubeAttack cubeattackBlackbox;
-        [PropertyInfo(Direction.ControlMaster, "Master for CubeAttack", "Master for CubeAttack", "")]
+        [PropertyInfo(Direction.ControlMaster, "CubeattackBlackboxCaption", "CubeattackBlackboxTooltip", "")]
         public IControlCubeAttack CubeattackBlackbox
         {
             get { return cubeattackBlackbox; }

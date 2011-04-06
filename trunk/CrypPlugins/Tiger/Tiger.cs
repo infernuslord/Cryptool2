@@ -38,8 +38,7 @@ namespace Tiger
 {
 
   [Author("Gerhard Junker", null, "private project member", null)]
-  [PluginInfo(false, "Tiger", "Tiger2 V1.0.2 Hash",
-    "Tiger/DetailedDescription/Description.xaml", "Tiger/Tiger1.png")]
+  [PluginInfo("Tiger.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "Tiger/Tiger1.png")]
   public class Tiger : ICryptographicHash
   {
 
@@ -133,8 +132,7 @@ namespace Tiger
     /// Gets or sets the input inputdata.
     /// </summary>
     /// <value>The input inputdata.</value>
-    [PropertyInfo(Direction.InputData, "Input Data Stream", "Input data stream to be hashed", "",
-      false, false, QuickWatchFormat.Hex, null)]
+    [PropertyInfo(Direction.InputData, "InputStreamCaption", "InputStreamTooltip", "", false, false, QuickWatchFormat.Hex, null)]
     public ICryptoolStream InputStream
     {
       get
@@ -167,8 +165,7 @@ namespace Tiger
     /// Gets the input data.
     /// </summary>
     /// <value>The input data.</value>
-    [PropertyInfo(Direction.InputData, "Input Data", "Input Data to be hashed", "",
-      false, false, QuickWatchFormat.Hex, null)]
+    [PropertyInfo(Direction.InputData, "InputDataCaption", "InputDataTooltip", "", false, false, QuickWatchFormat.Hex, null)]
     public byte[] InputData
     {
       get
@@ -206,8 +203,7 @@ namespace Tiger
     /// Gets or sets the output inputdata stream.
     /// </summary>
     /// <value>The output inputdata stream.</value>
-    [PropertyInfo(Direction.OutputData, "Hashed Stream", "Output stream of the hashed value", "",
-      true, false, QuickWatchFormat.Hex, null)]
+    [PropertyInfo(Direction.OutputData, "HashOutputStreamCaption", "HashOutputStreamTooltip", "", true, false, QuickWatchFormat.Hex, null)]
     public ICryptoolStream HashOutputStream
     {
       get
@@ -223,8 +219,7 @@ namespace Tiger
     /// Gets the output inputdata.
     /// </summary>
     /// <value>The output inputdata.</value>
-    [PropertyInfo(Direction.OutputData, "Hashed Data", "Output data of the hashed value", "",
-      true, false, QuickWatchFormat.Hex, null)]
+    [PropertyInfo(Direction.OutputData, "HashOutputDataCaption", "HashOutputDataTooltip", "", true, false, QuickWatchFormat.Hex, null)]
     public byte[] HashOutputData
     {
       get

@@ -57,7 +57,7 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace Cryptool.CRC
 {
     [Author("Matthäus Wander", "wander@cryptool.org", "Fachgebiet Verteilte Systeme, Universität Duisburg-Essen", "http://www.vs.uni-due.de")]
-    [PluginInfo(false, "CRC32", "Cyclic Redundancy Check 32-Bit", null, "CRC/icon.png")]
+    [PluginInfo("CRC.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "CRC/icon.png")]
     public class CRC : ICheckSumHash
     {
         #region Constants and private variables
@@ -83,14 +83,14 @@ namespace Cryptool.CRC
             set { settings = value; }
         }
 
-        [PropertyInfo(Direction.InputData, "Input stream", "Input data to be hashed", "", true, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "InputStreamCaption", "InputStreamTooltip", "", true, false, QuickWatchFormat.Hex, null)]
         public ICryptoolStream InputStream
         {
             get;
             set;
             }
 
-        [PropertyInfo(Direction.OutputData, "Hash value", "Output hash value as Stream", "", false, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "OutputStreamCaption", "OutputStreamTooltip", "", false, false, QuickWatchFormat.Hex, null)]
         public ICryptoolStream OutputStream
         {
             get

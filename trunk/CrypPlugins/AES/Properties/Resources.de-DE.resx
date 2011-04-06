@@ -128,7 +128,7 @@
     <value>..\opencl\aesopencl.cl;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="BlocksizeCaption" xml:space="preserve">
-    <value>Blocksize</value>
+    <value>Blockgröße</value>
   </data>
   <data name="BlocksizeTooltip" xml:space="preserve">
     <value>Select the block size (applies only to Rijndael)</value>
@@ -140,7 +140,7 @@
     <value>AES Slave</value>
   </data>
   <data name="CryptoAlgorithmCaption" xml:space="preserve">
-    <value>Cryptographic algorithm</value>
+    <value>Kryptographischer Algorithmus</value>
   </data>
   <data name="CryptoAlgorithmTooltip" xml:space="preserve">
     <value>Select which symmetric cipher you want to use</value>
@@ -152,7 +152,7 @@
     <value>The initialisation vector (IV) which is used in chaining modes. It always must be the same as the blocksize.</value>
   </data>
   <data name="InputKeyCaption" xml:space="preserve">
-    <value>Key</value>
+    <value>Schlüssel</value>
   </data>
   <data name="InputKeyTooltip" xml:space="preserve">
     <value>The provided key should be 16, 24 or 32 bytes, dependig on the settings. Too short/long keys will be extended/truncated!</value>
@@ -164,7 +164,7 @@
     <value>Data to be encrypted or decrypted</value>
   </data>
   <data name="KeysizeCaption" xml:space="preserve">
-    <value>Keysize</value>
+    <value>Schlüsselgröße</value>
   </data>
   <data name="KeysizeTooltip" xml:space="preserve">
     <value>Select the key size. Note that providing a longer key will result in cutting the overlapping bytes, providing a shorter key will result in filling up with zeroes.</value>

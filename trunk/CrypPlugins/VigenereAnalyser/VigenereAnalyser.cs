@@ -16,9 +16,8 @@ using System.Threading;
 namespace Cryptool.VigenereAnalyser
 {
     [Author("Danail Vazov", "vazov@cryptool.org", "Uni Duisburg", "http://www.uni-duisburg-essen.de")]
-    [PluginInfo(false,
-    "Vigenere Analyser",
-    "Analyses a plain text encrypted using the Vigenere cipher. Output is the keyword of the Vigenere cipher", "",
+    [PluginInfo("Cryptool.VigenereAnalyser.Properties.Resources", false,
+    "PluginCaption", "PluginTooltip", "PluginDescriptionURL",
     "VigenereAnalyser/icon.png")]
 
     public class VigenereAnalyser:IStatistic
@@ -276,7 +275,7 @@ namespace Cryptool.VigenereAnalyser
 
         #region Properties (Inputs/Outputs)
 
-        [PropertyInfo(Direction.InputData, "Double precission floating point value.", "Keylength as proposed by the Friedman Test.", "", true, true, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "FriedmanInputCaption", "FriedmanInputTooltip", "", true, true, QuickWatchFormat.Text, null)]
         public double FriedmanInput
         {
             get { return friedmanInput; }
@@ -290,7 +289,7 @@ namespace Cryptool.VigenereAnalyser
                 }
             }
         }
-        [PropertyInfo(Direction.InputData, "Text Input.", "Cipher text encrypted with the Vigenere cipher.", "", true, true, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "StringInputCaption", "StringInputTooltip", "", true, true, QuickWatchFormat.Text, null)]
         public string StringInput
         {
             get
@@ -299,7 +298,7 @@ namespace Cryptool.VigenereAnalyser
             }
             set { stringInput = value; OnPropertyChanged("StringInput"); }
         }
-        [PropertyInfo(Direction.InputData, "Integer Array.", "The Array cointains keylengths as proposed by the Kasiski Test.", "", false, true, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "KasiskiInputCaption", "KasiskiInputTooltip", "", false, true, QuickWatchFormat.Text, null)]
         public int[] KasiskiInput
         {
             get { return kasiskiInput; }
@@ -313,7 +312,7 @@ namespace Cryptool.VigenereAnalyser
                 }
             }
         }
-        [PropertyInfo(Direction.OutputData, "Integer Array.", "Keyword represented as an integer Array.", "", false, true, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "KeywordOutputCaption", "KeywordOutputTooltip", "", false, true, QuickWatchFormat.Text, null)]
         public string KeywordOutput
         {
             get { return keywordOutput; }
@@ -327,7 +326,7 @@ namespace Cryptool.VigenereAnalyser
                 }
             }
         }
-        [PropertyInfo(Direction.InputData, "String", "Please only connect to the text output of the Frequency Test.", "", true, true, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "FrequencyStatsCaption", "FrequencyStatsTooltip", "", true, true, QuickWatchFormat.Text, null)]
         public string FrequencyStats
         {
             get { return frequencyStats; }
@@ -343,7 +342,7 @@ namespace Cryptool.VigenereAnalyser
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "String", "The cipher text divided into columns. Number of columns (strings) equals keylength.", "", false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "FrequencyOutputCaption", "FrequencyOutputTooltip", "", false, false, QuickWatchFormat.Text, null)]
         public string FrequencyOutput
         {
             get { return frequencyOutput; }
@@ -355,7 +354,7 @@ namespace Cryptool.VigenereAnalyser
 
             }
         }
-        [PropertyInfo(Direction.OutputData, "Text output", " Keyword of the cipher which was used to encrypt the input text. ", "", false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "StringOutputCaption", "StringOutputTooltip", "", false, false, QuickWatchFormat.Text, null)]
         public string StringOutput
         {
             get { return stringOutput; }

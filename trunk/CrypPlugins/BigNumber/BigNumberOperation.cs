@@ -24,7 +24,7 @@ using System.Numerics;
 namespace Cryptool.Plugins.BigNumber
 {
     [Author("Sven Rech", "sven.rech@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo(false, "BigNumberOperation", "Big Number Operation", "BigNumber/DetailedDescription/DescriptionOperation.xaml", "BigNumber/icons/plusIcon.png", "BigNumber/icons/minusIcon.png", "BigNumber/icons/timesIcon.png", "BigNumber/icons/divIcon.png", "BigNumber/icons/powIcon.png", "BigNumber/icons/gcdicon.png")]
+    [PluginInfo("BigNumber.Properties.Resources", false, "PluginOperationCaption", "PluginOperationTooltip", "PluginOperationDescriptionURL", "BigNumber/icons/plusIcon.png", "BigNumber/icons/minusIcon.png", "BigNumber/icons/timesIcon.png", "BigNumber/icons/divIcon.png", "BigNumber/icons/powIcon.png", "BigNumber/icons/gcdicon.png")]
     class BigNumberOperation : IThroughput
     {
 
@@ -61,7 +61,7 @@ namespace Cryptool.Plugins.BigNumber
         /// The inputs are defined.
         /// Only BigInteger are accepted.
         /// </summary>
-        [PropertyInfo(Direction.InputData, "x Input", "Number input 1", "", true, false, QuickWatchFormat.None, null)]
+        [PropertyInfo(Direction.InputData, "Input1Caption", "Input1Tooltip", "", true, false, QuickWatchFormat.None, null)]
         public BigInteger Input1
         {
             get
@@ -76,7 +76,7 @@ namespace Cryptool.Plugins.BigNumber
         }
 
         
-        [PropertyInfo(Direction.InputData, "y Input", "Number input 2", "", true, false, QuickWatchFormat.None, null)]
+        [PropertyInfo(Direction.InputData, "Input2Caption", "Input2Tooltip", "", true, false, QuickWatchFormat.None, null)]
         public BigInteger Input2
         {
             get
@@ -91,7 +91,7 @@ namespace Cryptool.Plugins.BigNumber
         }
 
         
-        [PropertyInfo(Direction.InputData, "Modulo", "Modulo input", "")]
+        [PropertyInfo(Direction.InputData, "ModCaption", "ModTooltip", "")]
         public BigInteger Mod
         {
             get
@@ -108,7 +108,7 @@ namespace Cryptool.Plugins.BigNumber
         /// <summary>
         /// The output is defined.
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "Output", "Number output", "")]
+        [PropertyInfo(Direction.OutputData, "OutputCaption", "OutputTooltip", "")]
         public BigInteger Output
         {
             get

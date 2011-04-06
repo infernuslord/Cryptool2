@@ -28,7 +28,7 @@ using System.Numerics;
 namespace Cryptool.Plugins.BigNumber
 {
     [Author("Sven Rech", "sven.rech@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo(true, "BigNumberInput", "Big Number Input", "BigNumber/DetailedDescription/DescriptionInput.xaml", "BigNumber/icons/inputIcon.png")]
+    [PluginInfo("BigNumber.Properties.Resources", true, "PluginInputCaption", "PluginInputTooltip", "PluginInputDescriptionURL", "BigNumber/icons/inputIcon.png")]
     class BigNumberInput : IInput
     {
 
@@ -43,7 +43,7 @@ namespace Cryptool.Plugins.BigNumber
         /// <summary>
         /// The output is defined
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "Number Output", "Number Output", "")]
+        [PropertyInfo(Direction.OutputData, "NumberOutputCaption", "NumberOutputTooltip", "")]
         public BigInteger NumberOutput
         {
             get

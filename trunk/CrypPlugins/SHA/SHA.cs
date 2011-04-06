@@ -32,7 +32,7 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace SHA
 {
   [Author("Sebastian Przybylski", "sebastian@przybylski.org", "Uni-Siegen", "http://www.uni-siegen.de")]
-    [PluginInfo(false, "SHA", "SHA hash functions", "", "SHA/SHA.png")]    
+  [PluginInfo("SHA.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "SHA/SHA.png")]    
     public class SHA : ICryptographicHash
     {
         private SHASettings settings;
@@ -97,7 +97,7 @@ namespace SHA
 
         #endregion
 
-        [PropertyInfo(Direction.InputData, "Input stream", "Input data to be hashed", "", true, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "InputDataCaption", "InputDataTooltip", "", true, false, QuickWatchFormat.Hex, null)]
         public ICryptoolStream InputData
         {
             get 
@@ -113,7 +113,7 @@ namespace SHA
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "Hashed value", "Output data of the hashed value as Stream", "", true, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "OutputDataStreamCaption", "OutputDataStreamTooltip", "", true, false, QuickWatchFormat.Hex, null)]
         public ICryptoolStream OutputDataStream
         {
             get
@@ -127,7 +127,7 @@ namespace SHA
             set { } //readonly
         }
 
-        [PropertyInfo(Direction.OutputData, "Hashed value", "Output data of the hashed value as byte array", "", true, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "OutputDataCaption", "OutputDataTooltip", "", true, false, QuickWatchFormat.Hex, null)]
         public byte[] OutputData
         {
             get { return this.outputData; }

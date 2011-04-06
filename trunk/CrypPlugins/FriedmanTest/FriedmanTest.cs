@@ -11,11 +11,7 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace FriedmanTest
 {
     [Author("Georgi Angelov & Danail Vazov", "vazov@cryptool.org", "Uni Duisburg", "http://www.uni-duisburg-essen.de")]
-    [PluginInfo(false,
-            "Friedman Test",
-            "Calculates the probable key lenght of a polyalphabetic substitution cipher.",
-            "FriedmanTest/DetailedDescription/Description.xaml",
-            "FriedmanTest/friedman.png")]
+    [PluginInfo("FriedmanTest.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "FriedmanTest/friedman.png")]
     public class FriedmanTest : IStatistic
     {
         public FriedmanTest()
@@ -49,28 +45,28 @@ namespace FriedmanTest
 
         #region Properties (Inputs/Outputs)
 
-        [PropertyInfo(Direction.OutputData, "Results", "This ouput provides the results of the Friedman test \nas key/value pairs, one per each line.", "", false,false, QuickWatchFormat.Text,null)]
+        [PropertyInfo(Direction.OutputData, "StringOutputCaption", "StringOutputTooltip", "", false,false, QuickWatchFormat.Text,null)]
         public string StringOutput
         {
             get { return this.stringOutput; }
             set { }
         }
 
-        [PropertyInfo(Direction.OutputData, "Probable key length value.", "This value gives the probable key length of the analyzed text.", "", false, false, QuickWatchFormat.Text, "KeyLengthQuickWatchConverter")]
+        [PropertyInfo(Direction.OutputData, "KeyLengthCaption", "KeyLengthTooltip", "", false, false, QuickWatchFormat.Text, "KeyLengthQuickWatchConverter")]
         public double KeyLength
         {
             get { return keyLength; }
             set { }
         }
 
-        [PropertyInfo(Direction.OutputData, "Index of coincidence (IC)", "This output provides the calculated index of coincidence of the provided \noccurences of letters (frequency analysis).", "", false, false, QuickWatchFormat.Text, "KappaCiphertextQuickWatchConverter")]
+        [PropertyInfo(Direction.OutputData, "KappaCiphertextCaption", "KappaCiphertextTooltip", "", false, false, QuickWatchFormat.Text, "KappaCiphertextQuickWatchConverter")]
         public double KappaCiphertext
         {
             get { return kappaCiphertext; }
             set { }
         }
 
-        [PropertyInfo(Direction.InputData, "Letter count input", "This input accepts a list (array) with the absolute number of letter \noccurences in an encrypted text. This list can be generated e.g. with the frequency test.", "", true, false, QuickWatchFormat.None, null)]
+        [PropertyInfo(Direction.InputData, "ArrayInputCaption", "ArrayInputTooltip", "", true, false, QuickWatchFormat.None, null)]
         public int [] ArrayInput
         {
             get { return arrayInput; }

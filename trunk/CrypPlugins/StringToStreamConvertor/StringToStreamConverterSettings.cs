@@ -61,8 +61,8 @@ namespace Cryptool.Plugins.Convertor
         /// <summary>
         /// Encoding property used in the Settings pane. 
         /// </summary>
-        [ContextMenu("Output stream encoding", "Choose the encoding of the output stream. (Byte encoding)", 1, ContextMenuControlType.ComboBox, null, new string[] { "Default", "Binary data (convert from base64)", "Binary data (convert from hex-string)", "Binary data (convert from octal-string)", "Unicode", "UTF-7", "UTF-8", "UTF-32", "ASCII", "Big endian unicode" })]
-        [TaskPane("Output stream encoding", "Choose the encoding of the output stream. (Byte encoding)", "", 1, false, ControlType.ComboBox, new string[] { "Default", "Binary data (convert from base64)", "Binary data (convert from hex-string)", "Binary data (convert from octal-string)", "Unicode", "UTF-7", "UTF-8", "UTF-32", "ASCII", "Big endian unicode" })]
+        [ContextMenu( "EncodingSettingCaption", "EncodingSettingTooltip", 1, ContextMenuControlType.ComboBox, null, new string[] { "Default", "Binary data (convert from base64)", "Binary data (convert from hex-string)", "Binary data (convert from octal-string)", "Unicode", "UTF-7", "UTF-8", "UTF-32", "ASCII", "Big endian unicode" })]
+        [TaskPane( "EncodingSettingCaption", "EncodingSettingTooltip", "", 1, false, ControlType.ComboBox, new string[] { "Default", "Binary data (convert from base64)", "Binary data (convert from hex-string)", "Binary data (convert from octal-string)", "Unicode", "UTF-7", "UTF-8", "UTF-32", "ASCII", "Big endian unicode" })]
         public int EncodingSetting
         {
             get

@@ -13,11 +13,7 @@ using System.Windows.Controls;
 namespace Cryptool.KasiskiTest
 {
     [Author("Georgi Angelov & Danail Vazov", "vazov@cryptool.org", "Uni Duisburg", "http://www.uni-duisburg-essen.de")]
-    [PluginInfo(false,
-      "Kasiski's Test",
-      "Calculates possible key lenghts of a polyalphabetic substitution cipher.",
-      "KasiskiTest/DetailedDescription/Description.xaml",
-      "KasiskiTest/icon.png")]
+    [PluginInfo("KasiskiTest.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "KasiskiTest/icon.png")]
     public class KasiskiTest : IStatistic
     {
         
@@ -31,7 +27,7 @@ namespace Cryptool.KasiskiTest
         public static DataSource Data = new DataSource();
         #region Properties (Inputs/Outputs)
 
-        [PropertyInfo(Direction.InputData, "The string to be analyzed", "The input string should be a cipher text encrypted using the Vigenere cipher.", "", true, true, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "StringInputCaption", "StringInputTooltip", "", true, true, QuickWatchFormat.Text, null)]
         public string StringInput
         {
             get
@@ -41,7 +37,7 @@ namespace Cryptool.KasiskiTest
             set { stringInput = value; OnPropertyChanged("StringInput"); }
         }
        
-        [PropertyInfo(Direction.OutputData, "Integer Array", "An Array containing proposed keylengths as integers. Used by the VigenereAnalyser.", "",true , true, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "IntegerArrayCaption", "IntegerArrayTooltip", "",true , true, QuickWatchFormat.Text, null)]
         public int [] IntegerArray
         {
         get { return integerArray; }
@@ -56,7 +52,7 @@ namespace Cryptool.KasiskiTest
     }
      
     
-        [PropertyInfo(Direction.OutputData, "Multiples of the keylength and the amount of times they are encountered.", "Keylength is either the most common factor, or a multiple of it.", "", true, true, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "StringOutputCaption", "StringOutputTooltip", "", true, true, QuickWatchFormat.Text, null)]
         public string StringOutput
         {
             get

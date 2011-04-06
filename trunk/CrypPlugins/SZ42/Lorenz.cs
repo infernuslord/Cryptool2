@@ -29,7 +29,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 namespace Cryptool.Plugins.SZ42
 {
     [Author("Wilmer Daza", "mr.wadg@gmail.com", "University of Magdalena", "http://www.unimagdalena.edu.co")]
-    [PluginInfo(false, "Lorenz SZ42", "Represents the SZ42 Lorenz machine", "SZ42/DetailedDescription/Description.xaml", "SZ42/Images/sz42.png")]
+    [PluginInfo("SZ42.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "SZ42/Images/sz42.png")]
     [EncryptionType(EncryptionType.Classic)]
     
     public class Lorenz : IEncryption
@@ -66,7 +66,7 @@ namespace Cryptool.Plugins.SZ42
 
         #region Data Properties
 
-        [PropertyInfo(Direction.InputData, "Text Input", "Input a string to be processed by the SZ42 cipher", null, false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", null, false, false, QuickWatchFormat.Text, null)]
         public string InputString
         {
             get { return this.inputString; }
@@ -80,7 +80,7 @@ namespace Cryptool.Plugins.SZ42
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "Text output", "The string after processing with the SZ42 cipher", "", false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", "", false, false, QuickWatchFormat.Text, null)]
         public string OutputString
         {
             get { return this.outputString; }

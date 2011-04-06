@@ -37,7 +37,7 @@ namespace SolitaireAnalyser
         /// HOWTO: This is an example for a setting entity shown in the settings pane on the right of the CT2 main window.
         /// This example setting uses a number field input, but there are many more input types available, see ControlType enumeration.
         /// </summary>
-        [TaskPane("Cards", "Select the number of cards in your deck", null, 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 3, 54)]
+        [TaskPane( "NumberOfCardsCaption", "NumberOfCardsTooltip", null, 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 3, 54)]
         public int NumberOfCards
         {
             get

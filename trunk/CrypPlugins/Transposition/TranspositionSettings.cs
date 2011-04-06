@@ -45,8 +45,8 @@ namespace Transposition
         # region Settings
 
         [PropertySaveOrder(1)]
-        [ContextMenu("Action", "Select the Algorithm action", 1, ContextMenuControlType.ComboBox, new int[] { 1, 2 }, "Encrypt", "Decrypt")]
-        [TaskPane("Action", "Select the Algorithm action", null, 1, false, ControlType.ComboBox, new string[] { "Encrypt", "Decrypt" })]
+        [ContextMenu( "ActionCaption", "ActionTooltip", 1, ContextMenuControlType.ComboBox, new int[] { 1, 2 }, "Encrypt", "Decrypt")]
+        [TaskPane( "ActionCaption", "ActionTooltip", null, 1, false, ControlType.ComboBox, new string[] { "Encrypt", "Decrypt" })]
         public int Action
         {
             get { return this.selectedAction; }
@@ -59,8 +59,8 @@ namespace Transposition
         }
 
         [PropertySaveOrder(2)]
-        [ContextMenu("Read in", "Select read in mode", 2, ContextMenuControlType.ComboBox, null, new string[] { "by row", "by column"})]
-        [TaskPane("Read in", "Select read in mode", null, 2, false, ControlType.ComboBox, new string[] { "by row", "by column" })]
+        [ContextMenu( "ReadInCaption", "ReadInTooltip", 2, ContextMenuControlType.ComboBox, null, new string[] { "by row", "by column"})]
+        [TaskPane( "ReadInCaption", "ReadInTooltip", null, 2, false, ControlType.ComboBox, new string[] { "by row", "by column" })]
         public int ReadIn
         {
             get { return (int) this.selectedReadIn; }
@@ -73,8 +73,8 @@ namespace Transposition
         }
 
         [PropertySaveOrder(3)]
-        [ContextMenu("Permutation", "Select permutation type", 3, ContextMenuControlType.ComboBox, null, new string[] { "by row", "by column" })]
-        [TaskPane("Permutation", "Select permutation type", null, 3, false, ControlType.ComboBox, new string[] { "by row", "by column" })]
+        [ContextMenu( "PermutationCaption", "PermutationTooltip", 3, ContextMenuControlType.ComboBox, null, new string[] { "by row", "by column" })]
+        [TaskPane( "PermutationCaption", "PermutationTooltip", null, 3, false, ControlType.ComboBox, new string[] { "by row", "by column" })]
         public int Permutation
         {
             get { return (int)this.selectedPermutation; }
@@ -87,8 +87,8 @@ namespace Transposition
         }
 
         [PropertySaveOrder(4)]
-        [ContextMenu("Read out", "Select read out type", 4, ContextMenuControlType.ComboBox, null, new string[] { "by row", "by column" })]
-        [TaskPane("Read out", "Select read out type", null, 4, false, ControlType.ComboBox, new string[] { "by row", "by column" })]
+        [ContextMenu( "ReadOutCaption", "ReadOutTooltip", 4, ContextMenuControlType.ComboBox, null, new string[] { "by row", "by column" })]
+        [TaskPane( "ReadOutCaption", "ReadOutTooltip", null, 4, false, ControlType.ComboBox, new string[] { "by row", "by column" })]
         public int ReadOut
         {
             get { return (int)this.selectedReadOut; }
@@ -103,7 +103,7 @@ namespace Transposition
         
 
         [PropertySaveOrder(5)]
-        [TaskPane("Presentation Speed", "Change the pace of the Presentation", "Presentation", 6, true, ControlType.Slider, 1, 1000)]
+        [TaskPane( "PresentationSpeedCaption", "PresentationSpeedTooltip", "Presentation", 6, true, ControlType.Slider, 1, 1000)]
         public int PresentationSpeed
         {
             get { return (int)Presentation_Speed; }
@@ -116,8 +116,8 @@ namespace Transposition
         }
 
         [PropertySaveOrder(6)]
-        [ContextMenu("Number Representation Mode", "Select a mode of Representation", 7, ContextMenuControlType.ComboBox, null, new string[] { "US-ASCII", "hex" })]
-        [TaskPane("Number Representation Mode", "Select a mode of Representation", "Presentation", 7, false, ControlType.ComboBox, new string[] { "US-ASCII", "hex" })]
+        [ContextMenu( "NumberCaption", "NumberTooltip", 7, ContextMenuControlType.ComboBox, null, new string[] { "US-ASCII", "hex" })]
+        [TaskPane( "NumberCaption", "NumberTooltip", "Presentation", 7, false, ControlType.ComboBox, new string[] { "US-ASCII", "hex" })]
         public int Number
         {
             get { return (int)this.selectedNumberMode;}

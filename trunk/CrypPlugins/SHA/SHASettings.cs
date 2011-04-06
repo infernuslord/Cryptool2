@@ -31,8 +31,8 @@ namespace SHA
 
         private ShaFunction selectedShaFunction = ShaFunction.SHA1;
 
-        [ContextMenu("SHA Function", "Select the SHA hash function (SHA1 or one out of the SHA2 family)", 1, ContextMenuControlType.ComboBox, null, new string[] { "SHA1", "SHA256", "SHA384", "SHA512" })]
-        [TaskPane("SHA Function", "Select the SHA hash function (SHA1 or one out of the SHA2 family)", "", 1, false, ControlType.ComboBox, new string[] { "SHA1", "SHA256", "SHA384", "SHA512"})]
+        [ContextMenu( "SHAFunctionCaption", "SHAFunctionTooltip", 1, ContextMenuControlType.ComboBox, null, new string[] { "SHA1", "SHA256", "SHA384", "SHA512" })]
+        [TaskPane( "SHAFunctionCaption", "SHAFunctionTooltip", "", 1, false, ControlType.ComboBox, new string[] { "SHA1", "SHA256", "SHA384", "SHA512"})]
         public int SHAFunction
         {
             get { return (int)this.selectedShaFunction; }

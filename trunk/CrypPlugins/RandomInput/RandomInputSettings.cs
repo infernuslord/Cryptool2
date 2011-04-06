@@ -31,7 +31,7 @@ namespace RandomInput
     private int bytes = 1;
     private int keepRND = 0; //0 = each stream / array will be filled with fresh random numbers
 
-    [TaskPane("Counter", "Number of random bytes to be created. (1 - 10496000)", null, 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 10496000)]
+    [TaskPane( "BytesCaption", "BytesTooltip", null, 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 10496000)]
     public int Bytes
     {
       get { return this.bytes; }
@@ -42,8 +42,8 @@ namespace RandomInput
       }
     }
 
-    [ContextMenu("Static", "Generate and keep random bytes only once", 2, ContextMenuControlType.ComboBox, null, new String[] { "no", "yes" })]
-    [TaskPane("Static", "Generate and keep random bytes only once", null, 2, false, ControlType.ComboBox, new String[] { "no", "yes" })]
+    [ContextMenu( "KeepRNDCaption", "KeepRNDTooltip", 2, ContextMenuControlType.ComboBox, null, new String[] { "no", "yes" })]
+    [TaskPane( "KeepRNDCaption", "KeepRNDTooltip", null, 2, false, ControlType.ComboBox, new String[] { "no", "yes" })]
     public int KeepRND
     {
       get { return this.keepRND; }

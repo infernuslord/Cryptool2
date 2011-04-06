@@ -33,7 +33,7 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace ClipboardOutput {
   // Converts a stream to given format and writes the results to the clipboard
   [Author("Timm Korte", "cryptool@easycrypt.de", "Uni Bochum", "http://www.ruhr-uni-bochum.de")]
-  [PluginInfo(false, "ClipboardOutput", "Simple clipboard output plugin.", "", "ClipboardOutput/icon.png")]
+  [PluginInfo("ClipboardOutput.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "ClipboardOutput/icon.png")]
   [Synchronization(SynchronizationAttribute.REQUIRES_NEW)]
 	public class ClipboardOutput : IOutput 
   {
@@ -74,7 +74,7 @@ namespace ClipboardOutput {
 
 		#region Interface
     private ICryptoolStream streamInput;
-    [PropertyInfo(Direction.InputData, "Stream", "Data to be copied to clipboard", "", true, false, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.InputData, "StreamInputCaption", "StreamInputTooltip", "", true, false, QuickWatchFormat.Text, null)]
     public ICryptoolStream StreamInput
     {
 			get 

@@ -28,7 +28,7 @@ using System.Windows.Controls;
 namespace Cryptool.Plugins.PlayfairAnalysisStatistic
 {    
     [Author("Christoph Hartmann", "chris-ha@freenet.de", "Johannes Gutenberg-Universität Mainz", "http://www.uni-mainz.de")]
-    [PluginInfo(true, "Playfair Analysis Statistic", "Generates Bigraph Statistic for Playfair Analysis Plugin ", null, "CrypWin/images/default.png")]
+    [PluginInfo("PlayfairAnalysisStatistic.Properties.Resources", true, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "CrypWin/images/default.png")]
     [EncryptionType(EncryptionType.Classic)]
     public class PlayfairAnalysisStatistic : ISpecific
     {
@@ -58,7 +58,7 @@ namespace Cryptool.Plugins.PlayfairAnalysisStatistic
         /// </summary>
         
         /*
-        [PropertyInfo(Direction.OutputData, "Bigraph Statistic", "Bigraph Statistic for Playfair Analysis Plugin", null)]
+        [PropertyInfo(Direction.OutputData, "BigraphStatisticCaption", "BigraphStatisticTooltip", null)]
         public virtual double[] BigraphStatistic
         {
             get { return this.logStat2; }
@@ -74,7 +74,7 @@ namespace Cryptool.Plugins.PlayfairAnalysisStatistic
         */
 
         ICryptoolStream csBigraphStatistic;
-        [PropertyInfo(Direction.OutputData, "Bigraph Statistic", "Bigraph Statistic for Playfair Analysis Plugin", null)]
+        [PropertyInfo(Direction.OutputData, "OutputStreamCaption", "OutputStreamTooltip", null)]
         public ICryptoolStream OutputStream
         {
             get

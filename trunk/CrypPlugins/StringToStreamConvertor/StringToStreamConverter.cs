@@ -31,7 +31,7 @@ namespace Cryptool.Plugins.Convertor
 {
     // Converts a given string into a stream by using different encodings.
     [Author("Dr. Arno Wacker", "arno.wacker@cryptool.org", "Uni Duisburg", "http://www.uni-duisburg-essen.de")]
-    [PluginInfo(false, "String to Stream Converter", "Converts a given string into a stream.", "", "StringToStreamConverter/t2s-icon.png")]
+    [PluginInfo("Cryptool.Plugins.Convertor.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "StringToStreamConverter/t2s-icon.png")]
     public class StringToStreamConverter : IThroughput
     {
         #region Public interface
@@ -59,7 +59,7 @@ namespace Cryptool.Plugins.Convertor
           return inputString;
         }
 
-        [PropertyInfo(Direction.OutputData, "Stream output", "The stream after encoding the text from the input.", "", true, false, QuickWatchFormat.Text, "OutputStreamQuickWatchConverter")]
+        [PropertyInfo(Direction.OutputData, "OutputStreamCaption", "OutputStreamTooltip", "", true, false, QuickWatchFormat.Text, "OutputStreamQuickWatchConverter")]
         public ICryptoolStream OutputStream
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
@@ -75,7 +75,7 @@ namespace Cryptool.Plugins.Convertor
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "byte[] output", "The stream after encoding the text from the input.", "", true, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "OutputBytesCaption", "OutputBytesTooltip", "", true, false, QuickWatchFormat.Hex, null)]
         public byte[] OutputBytes
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
@@ -91,7 +91,7 @@ namespace Cryptool.Plugins.Convertor
             }
         }
 
-        [PropertyInfo(Direction.InputData, "Text input", "The input text will be converted to a byte stream by using the encoding given in the settings.", "", true, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputTextCaption", "InputTextTooltip", "", true, false, QuickWatchFormat.Text, null)]
         public string InputText
         {
             get { return this.inputString;  }

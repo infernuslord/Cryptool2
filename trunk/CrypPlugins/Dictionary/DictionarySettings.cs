@@ -40,7 +40,7 @@ namespace Dictionary
     {
     }
 
-    [TaskPane("Dictionary", "Select dictionary with keywords.", "", 0, true, ControlType.DynamicComboBox, new string[] { "Collection" })]
+    [TaskPane( "DictionaryCaption", "DictionaryTooltip", "", 0, true, ControlType.DynamicComboBox, new string[] { "Collection" })]
     public int Dictionary
     {
       get { return currentDictionary; }

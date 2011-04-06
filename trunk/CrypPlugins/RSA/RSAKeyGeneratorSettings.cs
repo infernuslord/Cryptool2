@@ -56,7 +56,7 @@ namespace Cryptool.Plugins.RSA
         /// <summary>
         /// Getter/Setter for the source of the Key Data
         /// </summary>
-        [TaskPane("Source", "Select the source of the key data", null, 1, false, ControlType.ComboBox, new string[] { "Manual enter primes", "Manual enter keys", "Random generated", "X.509 Certificate" })]
+        [TaskPane( "SourceCaption", "SourceTooltip", null, 1, false, ControlType.ComboBox, new string[] { "Manual enter primes", "Manual enter keys", "Random generated", "X.509 Certificate" })]
         public int Source
         {
             get { return this.source; }
@@ -124,7 +124,7 @@ namespace Cryptool.Plugins.RSA
         /// <summary>
         /// Getter/Setter for prime P
         /// </summary>
-        [TaskPane("P", "P", null, 2, false, ControlType.TextBox)]
+        [TaskPane( "PCaption", "PTooltip", null, 2, false, ControlType.TextBox)]
         public String P
         {
             get
@@ -141,7 +141,7 @@ namespace Cryptool.Plugins.RSA
         /// <summary>
         /// Getter/Setter for the prime Q
         /// </summary>
-        [TaskPane("Q", "Q", null, 3, false, ControlType.TextBox)]
+        [TaskPane( "QCaption", "QTooltip", null, 3, false, ControlType.TextBox)]
         public String Q
         {
             get
@@ -158,7 +158,7 @@ namespace Cryptool.Plugins.RSA
         /// <summary>
         /// Getter/Setter for the N
         /// </summary>
-        [TaskPane("N", "N", null, 4, false, ControlType.TextBox)]
+        [TaskPane( "NCaption", "NTooltip", null, 4, false, ControlType.TextBox)]
         public String N
         {
             get
@@ -175,7 +175,7 @@ namespace Cryptool.Plugins.RSA
         /// <summary>
         /// Getter/Setter for the e
         /// </summary>
-        [TaskPane("e", "e", null, 5, false, ControlType.TextBox)]
+        [TaskPane( "ECaption", "ETooltip", null, 5, false, ControlType.TextBox)]
         public String E
         {
             get
@@ -192,7 +192,7 @@ namespace Cryptool.Plugins.RSA
         /// <summary>
         /// Getter/Setter for the D
         /// </summary>
-        [TaskPane("d", "d", null, 6, false, ControlType.TextBox)]
+        [TaskPane( "DCaption", "DTooltip", null, 6, false, ControlType.TextBox)]
         public String D
         {
             get
@@ -209,7 +209,7 @@ namespace Cryptool.Plugins.RSA
         /// <summary>
         /// Getter/Setter for the certificate file
         /// </summary>
-        [TaskPane("Open X.509 Certificate", "Select the X.509 certificate you want to open.", null, 5, false, ControlType.OpenFileDialog, FileExtension = "X.509 certificates (*.cer)|*.cer")]
+        [TaskPane( "CertificateFileCaption", "CertificateFileTooltip", null, 5, false, ControlType.OpenFileDialog, FileExtension = "X.509 certificates (*.cer)|*.cer")]
         public string CertificateFile
         {
             get { return certificateFile; }
@@ -228,7 +228,7 @@ namespace Cryptool.Plugins.RSA
         /// Getter/Setter for the password of the certificate
         /// </summary>
         [DontSave]
-        [TaskPane("Password", "Password", null, 4, false, ControlType.TextBoxHidden)]
+        [TaskPane( "PasswordCaption", "PasswordTooltip", null, 4, false, ControlType.TextBoxHidden)]
         public String Password
         {
             get
@@ -245,7 +245,7 @@ namespace Cryptool.Plugins.RSA
         /// <summary>
         /// Button to "close" the certificate file. That means it will not appear any more in the text field
         /// </summary>
-        [TaskPane("Close file", "Close file", null, 6, false, ControlType.Button)]
+        [TaskPane( "CloseFileCaption", "CloseFileTooltip", null, 6, false, ControlType.Button)]
         public void CloseFile()
         {
             CertificateFile = null;

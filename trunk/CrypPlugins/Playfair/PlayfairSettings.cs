@@ -70,8 +70,8 @@ namespace Cryptool.Playfair
         #region Algorithm settings properties (visible in the Settings pane)
 
         [PropertySaveOrder(2)]
-        [ContextMenu("Action","Select the Algorithm action",1,ContextMenuControlType.ComboBox, new int[] {1,2}, "Encrypt","Decrypt")]
-        [TaskPane("Action","Select the Algorithm action",null,1,false,ControlType.ComboBox, new string[] {"Encrypt","Decrypt"})]
+        [ContextMenu( "ActionCaption", "ActionTooltip",1,ContextMenuControlType.ComboBox, new int[] {1,2}, "Encrypt","Decrypt")]
+        [TaskPane( "ActionCaption", "ActionTooltip",null,1,false,ControlType.ComboBox, new string[] {"Encrypt","Decrypt"})]
         public int Action
         {
             get { return this.selectedAction; }
@@ -84,7 +84,7 @@ namespace Cryptool.Playfair
         }
 
         [PropertySaveOrder(3)]
-        [TaskPane("Key value (multiple letters)","Enter one or multiple key values",null,2,false,ControlType.TextBox,null)]
+        [TaskPane( "KeyCaption", "KeyTooltip",null,2,false,ControlType.TextBox,null)]
         public string Key
         {
             get 
@@ -108,7 +108,7 @@ namespace Cryptool.Playfair
         }
 
         [PropertySaveOrder(4)]
-        [TaskPane("Alphabet", "This is the used alphabet cipher to encrypt/decrypt.", null, 3, false, ControlType.TextBox, "")]
+        [TaskPane( "AlphabetMatrixCaption", "AlphabetMatrixTooltip", null, 3, false, ControlType.TextBox, "")]
         public string AlphabetMatrix
         {
             get { return this.alphabetMatrix; }
@@ -121,8 +121,8 @@ namespace Cryptool.Playfair
         }
 
         [PropertySaveOrder(5)]
-        [ContextMenu("Pre-Format-Text","This is used to determine whether the text should be confinded to the alphabet used.",4,ContextMenuControlType.CheckBox,null,"Pre-format text")]
-        [TaskPane("Pre-Format-Text","This is used to determine whether the text should be confinded to the alphabet used.",null,4,false,ControlType.CheckBox,"")]
+        [ContextMenu( "PreFormatTextCaption", "PreFormatTextTooltip",4,ContextMenuControlType.CheckBox,null,"Pre-format text")]
+        [TaskPane( "PreFormatTextCaption", "PreFormatTextTooltip",null,4,false,ControlType.CheckBox,"")]
         public bool PreFormatText
         {
             get { return this.preFormatText; }
@@ -135,8 +135,8 @@ namespace Cryptool.Playfair
         }
 
         [PropertySaveOrder(6)]
-        [ContextMenu("Ignore duplicates","Ignore duplicates within the key phrase",5,ContextMenuControlType.CheckBox,null,"Ignore duplicates within the key phrase")]
-        [TaskPane("Ignore duplicates","Ignore duplicates within the key phrase",null,5,false,ControlType.CheckBox,"")]
+        [ContextMenu( "IgnoreDuplicatesCaption", "IgnoreDuplicatesTooltip",5,ContextMenuControlType.CheckBox,null,"Ignore duplicates within the key phrase")]
+        [TaskPane( "IgnoreDuplicatesCaption", "IgnoreDuplicatesTooltip",null,5,false,ControlType.CheckBox,"")]
         public bool IgnoreDuplicates
         {
             get { return this.ignoreDuplicates; }
@@ -150,8 +150,8 @@ namespace Cryptool.Playfair
         }
 
         [PropertySaveOrder(7)]
-        [ContextMenu("Matrix size","Select whether the Playfair should be run with a 5x5 or 6x6 matrix",6,ContextMenuControlType.ComboBox,null,new string[]{"5 x 5","6 x 6"})]
-        [TaskPane("Matrix size", "Select whether the Playfair should be run with a 5x5 or 6x6 matrix", null, 6,false, ControlType.ComboBox, "5 x 5","6 x 6")]
+        [ContextMenu( "MatrixSizeCaption", "MatrixSizeTooltip",6,ContextMenuControlType.ComboBox,null,new string[]{"5 x 5","6 x 6"})]
+        [TaskPane( "MatrixSizeCaption", "MatrixSizeTooltip", null, 6,false, ControlType.ComboBox, "5 x 5","6 x 6")]
         public int MatrixSize
         {
             get { return this.matrixSize; }
@@ -165,8 +165,8 @@ namespace Cryptool.Playfair
         }
 
         [PropertySaveOrder(8)]
-        [ContextMenu("Separate pairs", "Seperate pairs of identical letters", 7, ContextMenuControlType.CheckBox, null, "Separate pairs of identical letters")]
-        [TaskPane("Separate pairs", "Separate pairs of identical letters", null, 7, false, ControlType.CheckBox, "")]
+        [ContextMenu( "SeperatePairsCaption", "SeperatePairsTooltip", 7, ContextMenuControlType.CheckBox, null, "Separate pairs of identical letters")]
+        [TaskPane( "SeperatePairsTPCaption", "SeperatePairsTPTooltip", null, 7, false, ControlType.CheckBox, "")]
         public bool SeperatePairs
         {
             get { return this.seperatePairs; }
@@ -179,7 +179,7 @@ namespace Cryptool.Playfair
         }
 
         [PropertySaveOrder(9)]        
-        [TaskPane("Separator","Enter the character to separate pairs of identical letters",null,8,false, ControlType.TextBox,"")]
+        [TaskPane( "SeparatorCaption", "SeparatorTooltip",null,8,false, ControlType.TextBox,"")]
         public char Separator
         {
             get { return char.ToUpper(this.separator); }
@@ -194,7 +194,7 @@ namespace Cryptool.Playfair
         }
 
         [PropertySaveOrder(10)]
-        [TaskPane("Separator replacement", "Enter the character to separate double separators.\nE.g. a double XX will be separate by insertion of Y", null, 9, false, ControlType.TextBox, "")]
+        [TaskPane( "SeparatorReplacementCaption", "SeparatorReplacementTooltip", null, 9, false, ControlType.TextBox, "")]
         public char SeparatorReplacement
         {
             get { return char.ToUpper(this.separatorReplacement);}

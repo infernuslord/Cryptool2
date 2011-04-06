@@ -29,7 +29,7 @@ using System.ComponentModel;
 namespace Cryptool.Plugins.Substring
 {
     [Author("Dennis Nolte", "nolte@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo(false, "Substring", "Generating Substring", "Substring/DetailedDescription/Description.xaml", "Substring/icon.png")]
+    [PluginInfo("Substring.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "Substring/icon.png")]
     
     class Substring : IThroughput
     {
@@ -129,7 +129,7 @@ namespace Cryptool.Plugins.Substring
         /// <summary>
         /// The inputs are defined
         /// </summary>
-        [PropertyInfo(Direction.InputData, "String Input", "Enter your string here", "", true, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", "", true, false, QuickWatchFormat.Text, null)]
         public String InputString
         {
             get
@@ -143,7 +143,7 @@ namespace Cryptool.Plugins.Substring
             }
         }
 
-        [PropertyInfo(Direction.InputData, "Position Input", "Enter your position here", "")]
+        [PropertyInfo(Direction.InputData, "InputPosCaption", "InputPosTooltip", "")]
         public int InputPos
         {
             get
@@ -158,7 +158,7 @@ namespace Cryptool.Plugins.Substring
             }
         }
 
-        [PropertyInfo(Direction.InputData, "Length Input", "Enter your length here", "")]
+        [PropertyInfo(Direction.InputData, "InputLengthCaption", "InputLengthTooltip", "")]
         public int InputLength
         {
             get
@@ -176,7 +176,7 @@ namespace Cryptool.Plugins.Substring
         /// <summary>
         /// The output is defined
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "String Output", "Your substring will be send here", "")]
+        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", "")]
         public String OutputString
         {
             get

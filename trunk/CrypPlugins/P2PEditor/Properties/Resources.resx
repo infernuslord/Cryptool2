@@ -451,4 +451,13 @@ email address. Use this code to change your accounts password settings.</value>
     <value>Your request was denied on serverside.
 Reason: Username or email adresse are revoked.</value>
   </data>
+    <data name="PluginCaption" xml:space="preserve">
+    <value>P2P Interface</value>
+  </data>
+  <data name="PluginTooltip" xml:space="preserve">
+    <value>Control interface for the integrated P2P network.</value>
+  </data>
+  <data name="PluginDescriptionURL" xml:space="preserve">
+    <value>P2PEditor/DetailedDescription/Description.xaml</value>
+  </data>
 </root>

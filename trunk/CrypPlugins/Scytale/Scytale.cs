@@ -23,7 +23,7 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace Cryptool.Scytale
 {
     [Author("Fabian Enkler, A. Wacker", "enkler@cryptool.org, wacker@cryptool.org", "Uni Duisburg-Essen", "http://www.vs.uni-duisburg-essen.de")]
-    [PluginInfo(false, "Scytale", "Scytale -- classic transposition cipher", "Scytale/DetailedDescription/Description.xaml", "Scytale/icon.png")]
+    [PluginInfo("Cryptool.Scytale.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "Scytale/icon.png")]
     [EncryptionType(EncryptionType.Classic)]
     public class Scytale : IEncryption
     {
@@ -43,7 +43,7 @@ namespace Cryptool.Scytale
         }
 
         private string inputString = string.Empty;
-        [PropertyInfo(Direction.InputData, "Text input", "Input a string to be processed by the Scytale cipher", "", true, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", "", true, false, QuickWatchFormat.Text, null)]
         public string InputString
         {
             get { return this.inputString; }
@@ -58,7 +58,7 @@ namespace Cryptool.Scytale
         }
 
         private string outputString = string.Empty;
-        [PropertyInfo(Direction.OutputData, "Text output", "The string after processing with the Scytale cipher", "", false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", "", false, false, QuickWatchFormat.Text, null)]
         public string OutputString
         {
             get { return this.outputString; }
@@ -71,7 +71,7 @@ namespace Cryptool.Scytale
 
 
 
-        [PropertyInfo(Direction.InputData, "Stick size", "Same setting as Stick size value in the algorithms settings but as dynamic input.", "", false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "StickSizeCaption", "StickSizeTooltip", "", false, false, QuickWatchFormat.Text, null)]
         public int StickSize
         {
             get { return settings.StickSize; }

@@ -32,7 +32,7 @@ namespace Cryptool.Plugins.T310
 {
     // TODO: shall use CryptoolStream respectively new CStream instead of byte[]
     [Author("Jörg Drobick, Matthäus Wander", "wander@cryptool.org", "", "")]
-    [PluginInfo(false, "T-310/50", "East German Cipher Machine", null, "CrypWin/images/default.png")]
+    [PluginInfo("T_310.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "CrypWin/images/default.png")]
     [EncryptionType(EncryptionType.Classic)]
     public class T310 : IEncryption
     {
@@ -45,28 +45,28 @@ namespace Cryptool.Plugins.T310
 
         #region Data Properties
 
-        [PropertyInfo(Direction.InputData, "Input data", "Enter plaintext (for encryption) or ciphertext (for decryption)", null)]
+        [PropertyInfo(Direction.InputData, "InputDataCaption", "InputDataTooltip", null)]
         public byte[] InputData
         {
             get;
             set;
         }
 
-        [PropertyInfo(Direction.InputData, "Key", "Enter key as binary data", null, false, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "InputKeyCaption", "InputKeyTooltip", null, false, false, QuickWatchFormat.Hex, null)]
         public byte[] InputKey
         {
             get;
             set;
         }
 
-        [PropertyInfo(Direction.OutputData, "Output data", "Resulting ciphertext (when encrypting) or plaintext (when decrypting)", null)]
+        [PropertyInfo(Direction.OutputData, "OutputDataCaption", "OutputDataTooltip", null)]
         public byte[] OutputData
         {
             get;
             set;
         }
 
-        [PropertyInfo(Direction.OutputData, "Key", "The key being used in binary", null)]
+        [PropertyInfo(Direction.OutputData, "OutputKeyCaption", "OutputKeyTooltip", null)]
         public byte[] OutputKey
         {
             get;

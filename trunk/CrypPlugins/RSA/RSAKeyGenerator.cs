@@ -30,7 +30,7 @@ using System.Diagnostics;
 namespace Cryptool.Plugins.RSA
 {
     [Author("Dennis Nolte, Raoul Falk, Sven Rech, Nils Kopal", "", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo(true, "RSAKeyGenerator", "RSA Key Generator", "RSA/DetailedDescription/Description.xaml", "RSA/iconkey.png")]
+    [PluginInfo("RSA.Properties.Resources", true, "PluginKeyCaption", "PluginKeyTooltip", "PluginKeyDescriptionURL", "RSA/iconkey.png")]
     [EncryptionType(EncryptionType.Asymmetric)]
     /**
     <summary>
@@ -74,7 +74,7 @@ namespace Cryptool.Plugins.RSA
         /// <summary>
         /// Sets the N of the public/private key
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "N", "N", "")]
+        [PropertyInfo(Direction.OutputData, "NCaption", "NTooltip", "")]
         public BigInteger N
         {
             get
@@ -91,7 +91,7 @@ namespace Cryptool.Plugins.RSA
         /// <summary>
         /// Sets the E of the public key
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "E", "public exponent", "")]
+        [PropertyInfo(Direction.OutputData, "ECaption", "ETooltip", "")]
         public BigInteger E
         {
             get
@@ -108,7 +108,7 @@ namespace Cryptool.Plugins.RSA
         /// <summary>
         /// Sets the D of the private key
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "D", "private exponent", "")]
+        [PropertyInfo(Direction.OutputData, "DCaption", "DTooltip", "")]
         public BigInteger D
         {
             get
