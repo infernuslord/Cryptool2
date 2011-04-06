@@ -5,9 +5,11 @@
   <language culture="de-DE"/>
 
   <description lang="en">
-    TextInput is a <b>very</b> useful component...
+    TextInput is a <b>very</b> useful component... <newline/>
+    <img src="TextInput/Documentation/Demonstration.png"/>
   </description>
   <description lang="de-DE">
-    TextInput ist eine <b>sehr</b> nützliche Komponente...
+    TextInput ist eine <b>sehr</b> nützliche Komponente... <newline/>
+    <img src="TextInput/Documentation/Demonstration.png"/>
   </description>
 </documentation>

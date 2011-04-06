@@ -36,7 +36,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
                 }
                 catch (Exception ex)
                 {
-                    Console.Error.WriteLine("Error trying to replace pluginDoc tag with property {0}! Message: {1}", property, ex.Message);
+                    throw new Exception(string.Format("Error trying to replace pluginDoc tag with property {0}! Message: {1}", property, ex.Message));
                 }
             }
 
