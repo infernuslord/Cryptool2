@@ -18,7 +18,7 @@ namespace TranspositionAnalyser
 {
 
     [Author("Daniel Kohnen, Julian Weyers, Simon Malischewski, Armin Wiefels", "kohnen@cryptool.org, weyers@cryptool.org, malischewski@cryptool.org, wiefels@cryptool.org", "Universität Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo(false, "Transposition Analyser", "Bruteforces the columnar transposition.", "TranspositionAnalyser/Description/TADescr.xaml", "TranspositionAnalyser/Images/icon.png")]
+    [PluginInfo("TranspositionAnalyser.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "TranspositionAnalyser/Images/icon.png")]
     public class TranspositionAnalyser : IAnalysisMisc
     {
         private enum ReadInMode { byRow = 0, byColumn = 1 };
@@ -34,7 +34,7 @@ namespace TranspositionAnalyser
 
         TranspositionAnalyserSettings settings;
         #region Properties
-        [PropertyInfo(Direction.InputData, "Input", "Input data for Analysis", "", true, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputCaption", "InputTooltip", "", true, false, QuickWatchFormat.Text, null)]
         public Byte[] Input
         {
             get
@@ -50,7 +50,7 @@ namespace TranspositionAnalyser
             }
         }
 
-        [PropertyInfo(Direction.InputData, "Crib", "Crib input", "Crib for Analysis", false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "CribCaption", "CribTooltip", "", false, false, QuickWatchFormat.Text, null)]
         public Byte[] Crib
         {
             get
@@ -89,7 +89,7 @@ namespace TranspositionAnalyser
         }
 
         private IControlEncryption controlMaster;
-        [PropertyInfo(Direction.ControlMaster, "Control Master", "Used for bruteforcing", "", false, false, QuickWatchFormat.None, null)]
+        [PropertyInfo(Direction.ControlMaster, "ControlMasterCaption", "ControlMasterTooltip", "", false, false, QuickWatchFormat.None, null)]
         public IControlEncryption ControlMaster
         {
 
@@ -105,7 +105,7 @@ namespace TranspositionAnalyser
 
 
         private IControlCost costMaster;
-        [PropertyInfo(Direction.ControlMaster, "Cost Master", "Used for cost calculation", "", false, false, QuickWatchFormat.None, null)]
+        [PropertyInfo(Direction.ControlMaster, "CostMasterCaption", "CostMasterTooltip", "", false, false, QuickWatchFormat.None, null)]
         public IControlCost CostMaster
         {
             get { return costMaster; }
@@ -116,7 +116,7 @@ namespace TranspositionAnalyser
         }
 
         private byte[] output;
-        [PropertyInfo(Direction.OutputData, "Output", "output", "")]
+        [PropertyInfo(Direction.OutputData, "OutputCaption", "OutputTooltip", "")]
         public byte[] Output
         {
             get

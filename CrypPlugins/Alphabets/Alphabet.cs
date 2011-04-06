@@ -27,7 +27,7 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace Cryptool.Alphabets
 {
     [Author("Sebastian Przybylski", "sebastian@przybylski.org", "Uni-Siegen", "http://www.uni-siegen.de")]
-    [PluginInfo(true, "Alphabets", "Alphabets Plugin", "", "Alphabets/icon.gif")]    
+    [PluginInfo("Cryptool.Alphabets.Properties.Resources", true, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "Alphabets/icon.gif")]    
     public class Alphabet : IInput
     {
       private AlphabetPresentation alphabetPresentation;
@@ -61,7 +61,7 @@ namespace Cryptool.Alphabets
         }
       }
 
-      [PropertyInfo(Direction.OutputData, "Alphabet Output", "Alphabet output to use as alphabet input for classical ciphers", "", false, false, QuickWatchFormat.Text, null)]
+      [PropertyInfo(Direction.OutputData, "AlphabetOutputCaption", "AlphabetOutputTooltip", "", false, false, QuickWatchFormat.Text, null)]
       public string AlphabetOutput
       {
           get { return settings.Alphabet; }

@@ -23,7 +23,7 @@ namespace Cryptool.Internet_frame_generator
         "stef.schroeder@gmx.de",
         "Uni Siegen",
         "http://www.uni-siegen.de")]
-    [PluginInfo(false,
+    [PluginInfo("Internet_frame_generator.Properties.Resources", false,
         "IP Frame Generator",
         "Internet frame generator (IPv4 or ARP request packets are supported)",
         "Internet_frame_generator/DetailedDescription/Description.xaml",

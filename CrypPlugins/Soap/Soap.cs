@@ -25,7 +25,7 @@ using Cryptool.PluginBase.Control;
 namespace Soap
 {
     [Author("Tim Podeszwa", "tim.podeszwa@student.uni-siegen.de", "Uni Siegen", "http://www.uni-siegen.de")]
-    [PluginInfo(true, "SoapMessage", "Represents a SoapMessage", "", "Soap/soap.png")]
+    [PluginInfo("Soap.Properties.Resources", true, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "Soap/soap.png")]
     public class Soap : IThroughput
     {
 
@@ -119,7 +119,7 @@ namespace Soap
             set { this._wsPublicKey = value; }
         }
 
-        [PropertyInfo(Direction.InputData, "WSDL Input", "WSDL to create the soap message", "", false, false, QuickWatchFormat.None, "WsdlConverter")]
+        [PropertyInfo(Direction.InputData, "WsdlCaption", "WsdlTooltip", "", false, false, QuickWatchFormat.None, "WsdlConverter")]
         public XmlDocument Wsdl
         {
             set
@@ -147,7 +147,7 @@ namespace Soap
             }
         }
 
-        [PropertyInfo(Direction.InputData, "Public-Key input", "Encryption Key","",false,false,QuickWatchFormat.None,null)]
+        [PropertyInfo(Direction.InputData, "PublicKeyCaption", "PublicKeyTooltip", "",false,false,QuickWatchFormat.None,null)]
         public string PublicKey
         {
             get
@@ -174,7 +174,7 @@ namespace Soap
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "SOAP output", "Send a SOAP Message", "",true,false,QuickWatchFormat.Text,"XmlOutputConverter")]
+        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", "",true,false,QuickWatchFormat.Text,"XmlOutputConverter")]
         public XmlDocument OutputString
         {
             get { return this._securedSOAP; }
@@ -187,7 +187,7 @@ namespace Soap
 
             }
         }
-        [PropertyInfo(Direction.InputData, "SOAP input", "Input a SOAP message to be processed by the Web Service", "", false, false, QuickWatchFormat.None,"XMLInputConverter")]
+        [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", "", false, false, QuickWatchFormat.None,"XMLInputConverter")]
         public XmlDocument InputString
         {
             get { return this._inputDocument; }

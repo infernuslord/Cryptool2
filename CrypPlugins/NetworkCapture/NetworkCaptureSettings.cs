@@ -36,7 +36,7 @@ namespace Cryptool.Plugins.NetworkCapture
 
         #region TaskPane Settings
 
-        [TaskPane("Device", "Select network device to capture data from", "", 0, false, ControlType.DynamicComboBox, new string[] { "Collection" })]
+        [TaskPane( "DeviceCaption", "DeviceTooltip", "", 0, false, ControlType.DynamicComboBox, new string[] { "Collection" })]
         public int Device
         {
             get { return currentDevice; }

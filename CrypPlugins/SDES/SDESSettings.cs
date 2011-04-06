@@ -51,8 +51,8 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         /// 1 = Encrypt
         /// 2 = Decrypt
         /// </summary>
-        [ContextMenu("Action","Do you want the input data to be encrypted or decrypted?",1, ContextMenuControlType.ComboBox, new int[] { 1, 2}, "Encrypt","Decrypt")]
-        [TaskPane("Action", "Do you want the input data to be encrypted or decrypted?", null, 1, false, ControlType.ComboBox, new string[] { "Encrypt", "Decrypt" })]
+        [ContextMenu( "ActionCaption", "ActionTooltip",1, ContextMenuControlType.ComboBox, new int[] { 1, 2}, "Encrypt","Decrypt")]
+        [TaskPane( "ActionCaption", "ActionTooltip", null, 1, false, ControlType.ComboBox, new string[] { "Encrypt", "Decrypt" })]
         public int Action
         {
             get { return this.action; }
@@ -69,8 +69,8 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         /// 1 = ECB
         /// 2 = CBC
         /// </summary>
-        [ContextMenu("Chaining mode","Select the block cipher mode of operation.",2,ContextMenuControlType.ComboBox,null, new String[] {"Electronic Code Book (ECB)","Cipher Block Chaining (CBC)" })]
-        [TaskPane("Chaining Mode", "Select the block cipher mode of operation.", null, 2, false, ControlType.ComboBox, new String[] { "Electronic Bode Book (ECB)","Cipher Block Chaining (CBC)", })]
+        [ContextMenu( "ModeCaption", "ModeTooltip",2,ContextMenuControlType.ComboBox,null, new String[] {"Electronic Code Book (ECB)","Cipher Block Chaining (CBC)" })]
+        [TaskPane( "ModeTPCaption", "ModeTPTooltip", null, 2, false, ControlType.ComboBox, new String[] { "Electronic Bode Book (ECB)","Cipher Block Chaining (CBC)", })]
         public int Mode
         {
             get { return this.mode; }

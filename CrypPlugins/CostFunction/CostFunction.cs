@@ -75,7 +75,7 @@ namespace Cryptool.Plugins.CostFunction
         #endregion
         #region CostFunctionInOut
 
-        [PropertyInfo(Direction.InputData, "Text Input", "Input your Text here", "")]
+        [PropertyInfo(Direction.InputData, "InputTextCaption", "InputTextTooltip", "")]
         public byte[] InputText
         {
             get
@@ -105,7 +105,7 @@ namespace Cryptool.Plugins.CostFunction
         }
         #endregion
         /* obsolete
-        [PropertyInfo(Direction.OutputData, "Text Output", "Your Text will be send here", "")]
+        [PropertyInfo(Direction.OutputData, ""OutputTextCaption", "OutputTextTooltip", "")]
         public byte[] OutputText
         {
             get
@@ -119,7 +119,7 @@ namespace Cryptool.Plugins.CostFunction
             }
         }
         */
-        [PropertyInfo(Direction.OutputData, "Value", "The value of the function will be send here", "")]
+        [PropertyInfo(Direction.OutputData, "ValueCaption", "ValueTooltip", "")]
         public double Value
         {
             get
@@ -133,7 +133,7 @@ namespace Cryptool.Plugins.CostFunction
             }
         }
 
-        [PropertyInfo(Direction.ControlSlave, "SDES Slave", "Direct access to SDES.", "")]
+        [PropertyInfo(Direction.ControlSlave, "ControlSlaveCaption", "ControlSlaveTooltip", "")]
         public IControlCost ControlSlave
         {
             get

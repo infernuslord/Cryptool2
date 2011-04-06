@@ -37,7 +37,7 @@ using Cryptool.PluginBase.Generator;
 namespace RandomInput
 {
   [Author("Timm Korte", "cryptool@easycrypt.de", "Uni Bochum", "http://www.ruhr-uni-bochum.de")]
-  [PluginInfo(true, "Random Generator", "Simple random input generator.", "", "RandomInput/icon.png")]
+  [PluginInfo("RandomInput.Properties.Resources", true, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "RandomInput/icon.png")]
   public class RandomInput : ContextBoundObject, IRandomNumberGenerator
   {
     private int maxByteArraySize = 10496000;
@@ -82,7 +82,7 @@ namespace RandomInput
       }
     }
 
-    [PropertyInfo(Direction.OutputData, "Stream Output", "Memory stream of given length.", "", false, false, QuickWatchFormat.Hex, null)]
+    [PropertyInfo(Direction.OutputData, "StreamOutputCaption", "StreamOutputTooltip", "", false, false, QuickWatchFormat.Hex, null)]
     public ICryptoolStream StreamOutput
     {
       get
@@ -104,7 +104,7 @@ namespace RandomInput
       set { } // readonly
     }
 
-    [PropertyInfo(Direction.OutputData, "ByteArray Output", "Byte array of given length.", "", false, false, QuickWatchFormat.Hex, null)]
+    [PropertyInfo(Direction.OutputData, "ByteArrayOutputCaption", "ByteArrayOutputTooltip", "", false, false, QuickWatchFormat.Hex, null)]
     public byte[] ByteArrayOutput
     {
       get

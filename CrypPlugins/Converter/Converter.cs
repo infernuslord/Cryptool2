@@ -29,7 +29,7 @@ using System.Numerics;
 namespace Cryptool.Plugins.Converter
 {
     [Author("Raoul Falk, Dennis Nolte", "falk@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo(false, "Converter", "Converts input to another type", "Converter/DetailedDescription/Description.xaml", "Converter/icons/icon.png", "Converter/icons/tostring.png", "Converter/icons/toint.png", "Converter/icons/toshort.png", "Converter/icons/tobyte.png", "Converter/icons/todouble.png", "Converter/icons/tobig.png", "Converter/icons/tointarray.png", "Converter/icons/tobytearray.png", "Converter/icons/tocryptoolstream.png")]
+    [PluginInfo("Converter.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "Converter/icons/icon.png", "Converter/icons/tostring.png", "Converter/icons/toint.png", "Converter/icons/toshort.png", "Converter/icons/tobyte.png", "Converter/icons/todouble.png", "Converter/icons/tobig.png", "Converter/icons/tointarray.png", "Converter/icons/tobytearray.png", "Converter/icons/tocryptoolstream.png")]
 
     class Converter : IThroughput
     {
@@ -70,7 +70,7 @@ namespace Cryptool.Plugins.Converter
             get { return null; }
         }
 
-        [PropertyInfo(Direction.InputData, "Input one", "Input one.", "", true, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputOneCaption", "InputOneTooltip", "", true, false, QuickWatchFormat.Text, null)]
         public object InputOne
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
@@ -88,7 +88,7 @@ namespace Cryptool.Plugins.Converter
 
 
 
-        [PropertyInfo(Direction.OutputData, "Output", "Output.", "", true, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputCaption", "OutputTooltip", "", true, false, QuickWatchFormat.Text, null)]
         public object Output
         {
             [MethodImpl(MethodImplOptions.Synchronized)]

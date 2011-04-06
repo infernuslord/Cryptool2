@@ -30,8 +30,8 @@ namespace Cryptool.Scytale
         }
 
         private Actions action = Actions.Encrypt;
-        [ContextMenu("Action","Select the Algorithm action",0,ContextMenuControlType.ComboBox,null, new [] { "Encrypt", "Decrypt" })]
-        [TaskPane("Action", "Select the Algorithm action", null, 0, false, ControlType.ComboBox, new [] { "Encrypt", "Decrypt" })]
+        [ContextMenu( "ActionCaption", "ActionTooltip",0,ContextMenuControlType.ComboBox,null, new [] { "Encrypt", "Decrypt" })]
+        [TaskPane( "ActionCaption", "ActionTooltip", null, 0, false, ControlType.ComboBox, new [] { "Encrypt", "Decrypt" })]
         public int Action
         {
             get { return (int)action; }
@@ -50,7 +50,7 @@ namespace Cryptool.Scytale
         }
 
         private int stickSize = 1;
-        [TaskPane("Stick size", "This is the size of the used stick.", null, 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 2, 100)]
+        [TaskPane( "StickSizeCaption", "StickSizeTooltip", null, 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 2, 100)]
         public int StickSize
         {
             get { return stickSize; }

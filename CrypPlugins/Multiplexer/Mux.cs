@@ -29,7 +29,7 @@ using System.Runtime.CompilerServices;
 namespace Multiplexer
 {
   [Author("Thomas Schmid", "thomas.schmid@cryptool.org", "Uni Siegen", "http://www.uni-siegen.de")]
-  [PluginInfo(false, "Multiplexer", "Choose one of the given inputs using the boolean-switch", "", "Multiplexer/icon.png")]
+  [PluginInfo("Multiplexer.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "Multiplexer/icon.png")]
   public class Mux : IThroughput
   {
     #region Private variables
@@ -197,7 +197,7 @@ namespace Multiplexer
     }
 
     private bool inputSwitch;
-    [PropertyInfo(Direction.InputData, "Input switch", "Selects the input.", "", false, true, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.InputData, "InputSwitchCaption", "InputSwitchTooltip", "", false, true, QuickWatchFormat.Text, null)]
     public bool InputSwitch    
     {
       [MethodImpl(MethodImplOptions.Synchronized)]

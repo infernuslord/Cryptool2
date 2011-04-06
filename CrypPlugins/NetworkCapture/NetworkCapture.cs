@@ -26,7 +26,7 @@ using SharpPcap.WinPcap;
 namespace Cryptool.Plugins.NetworkCapture
 {
     [Author("Matthäus Wander", "wander@cryptool.org", "University of Duisburg-Essen", "http://www.vs.uni-due.de")]
-    [PluginInfo(true, "Network Capture", "Capture data from a network device (requires WinPcap library)", null, "CrypWin/images/default.png")]
+    [PluginInfo("NetworkCapture.Properties.Resources", true, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "CrypWin/images/default.png")]
     public class NetworkCapture : IGeneratorMisc
     {
         #region Private Variables
@@ -44,7 +44,7 @@ namespace Cryptool.Plugins.NetworkCapture
         /// Throws OnPropertyChanged one time and then continously delivers a stream of data.
         /// Stream will close when plugin is stopped.
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "Captured stream", "Data stream that has been captured from selected network device", null)]
+        [PropertyInfo(Direction.OutputData, "DataStreamCaption", "DataStreamTooltip", null)]
         public ICryptoolStream DataStream
         {
             get;
@@ -54,7 +54,7 @@ namespace Cryptool.Plugins.NetworkCapture
         /// <summary>
         /// Throws OnPropertyChanged every time a new packet arrives.
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "Captured packets", "Data packets that have been captured from selected network device", null)]
+        [PropertyInfo(Direction.OutputData, "DataPacketCaption", "DataPacketTooltip", null)]
         public byte[] DataPacket
         {
             get;

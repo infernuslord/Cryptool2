@@ -57,7 +57,7 @@ namespace TranspositionAnalyser
             }
         }
         //[PropertySaveOrder(1)]
-        [TaskPane("Analysis Method", "Select the Analysis Method", null, 1, false, ControlType.ComboBox, new string[] { "Bruteforce Analysis", "Analysis with Crib", "Genetic algorithm" })]
+        [TaskPane( "Analysis_methodCaption", "Analysis_methodTooltip", null, 1, false, ControlType.ComboBox, new string[] { "Bruteforce Analysis", "Analysis with Crib", "Genetic algorithm" })]
         public int Analysis_method
         {
             get
@@ -78,7 +78,7 @@ namespace TranspositionAnalyser
         // FIX: REGEX 
         private int bruteforce_length = 12;
         [PropertySaveOrder(2)]
-        [TaskPaneAttribute("Transposition Bruteforce length", "Enter the max length to be bruteforced (max: 20)", null, 2, true, ControlType.TextBox, ValidationType.RegEx, "[0-9]{1,2}")]
+        [TaskPaneAttribute( "MaxLengthCaption", "MaxLengthTooltip", null, 2, true, ControlType.TextBox, ValidationType.RegEx, "[0-9]{1,2}")]
         public int MaxLength
         {
             get { return bruteforce_length; }
@@ -91,7 +91,7 @@ namespace TranspositionAnalyser
 
         private int keysize = 8;
         [PropertySaveOrder(3)]
-        [TaskPaneAttribute("Keysize for genetic analysis.", "Enter the keysize to be searched", null, 2, true, ControlType.TextBox, ValidationType.RegEx, "[0-9]{1,2}")]
+        [TaskPaneAttribute( "KeySizeCaption", "KeySizeTooltip", null, 2, true, ControlType.TextBox, ValidationType.RegEx, "[0-9]{1,2}")]
         public int KeySize
         {
             get { return keysize; }
@@ -104,8 +104,8 @@ namespace TranspositionAnalyser
 
         private Boolean row_colum_column = true;
         [PropertySaveOrder(4)]
-        [ContextMenu("R-C-C", "Bruteforce this transposition settings: Read in by row. Permute by column. Read out by Column", 4, ContextMenuControlType.CheckBox, null, "Row-Column-Column")]
-        [TaskPane("R-C-C", "Bruteforce this transposition settings: Read in by row. Permute by column. Read out by Column", null, 4, false, ControlType.CheckBox, "")]
+        [ContextMenu( "RowColumnColumnCaption", "RowColumnColumnTooltip", 4, ContextMenuControlType.CheckBox, null, "Row-Column-Column")]
+        [TaskPane( "RowColumnColumnCaption", "RowColumnColumnTooltip", null, 4, false, ControlType.CheckBox, "")]
         public bool RowColumnColumn
         {
             get { return this.row_colum_column; }
@@ -119,8 +119,8 @@ namespace TranspositionAnalyser
 
         private Boolean row_colum_row = true;
         [PropertySaveOrder(5)]
-        [ContextMenu("R-C-R", "Bruteforce this transposition settings: Read in by row. Permute by column. Read out by Row", 4, ContextMenuControlType.CheckBox, null, "Row-Column-Column")]
-        [TaskPane("R-C-R", "Bruteforce this transposition settings: Read in by row. Permute by column. Read out by Row", null, 4, false, ControlType.CheckBox, "")]
+        [ContextMenu( "RowColumnRowCaption", "RowColumnRowTooltip", 4, ContextMenuControlType.CheckBox, null, "Row-Column-Column")]
+        [TaskPane( "RowColumnRowCaption", "RowColumnRowTooltip", null, 4, false, ControlType.CheckBox, "")]
         public bool RowColumnRow
         {
             get { return this.row_colum_row; }
@@ -135,8 +135,8 @@ namespace TranspositionAnalyser
 
         private Boolean column_colum_row = true;
         [PropertySaveOrder(6)]
-        [ContextMenu("C-C-R", "Bruteforce this transposition settings: Read in by column. Permute by column. Read out by Row", 4, ContextMenuControlType.CheckBox, null, "Row-Column-Column")]
-        [TaskPane("C-C-R", "Bruteforce this transposition settings: Read in by column. Permute by column. Read out by Row", null, 4, false, ControlType.CheckBox, "")]
+        [ContextMenu( "ColumnColumnRowCaption", "ColumnColumnRowTooltip", 4, ContextMenuControlType.CheckBox, null, "Row-Column-Column")]
+        [TaskPane( "ColumnColumnRowCaption", "ColumnColumnRowTooltip", null, 4, false, ControlType.CheckBox, "")]
         public bool ColumnColumnRow
         {
             get { return this.column_colum_row; }
@@ -150,8 +150,8 @@ namespace TranspositionAnalyser
 
         private Boolean column_colum_column = true;
         [PropertySaveOrder(7)]
-        [ContextMenu("C-C-C", "Bruteforce this transposition settings: Read in by column. Permute by column. Read out by column", 4, ContextMenuControlType.CheckBox, null, "Row-Column-Column")]
-        [TaskPane("C-C-C", "Bruteforce this transposition settings: Read in by column. Permute by column. Read out by column", null, 4, false, ControlType.CheckBox, "")]
+        [ContextMenu( "ColumnColumnColumnCaption", "ColumnColumnColumnTooltip", 4, ContextMenuControlType.CheckBox, null, "Row-Column-Column")]
+        [TaskPane( "ColumnColumnColumnCaption", "ColumnColumnColumnTooltip", null, 4, false, ControlType.CheckBox, "")]
         public bool ColumnColumnColumn
         {
             get { return this.column_colum_column; }
@@ -165,7 +165,7 @@ namespace TranspositionAnalyser
 
         private int repeatings = 10;
         [PropertySaveOrder(8)]
-        [TaskPaneAttribute("Numbers of repeatings for genetic analysis.", "Enter the maximum number of repeations of iterations for genetic analysis.", null, 2, true, ControlType.TextBox, ValidationType.RegEx, "[0-9]{1,2}")]
+        [TaskPaneAttribute( "RepeatingsCaption", "RepeatingsTooltip", null, 2, true, ControlType.TextBox, ValidationType.RegEx, "[0-9]{1,2}")]
         public int Repeatings
         {
             get { return repeatings; }
@@ -179,7 +179,7 @@ namespace TranspositionAnalyser
 
         private int iterations = 5000;
         [PropertySaveOrder(9)]
-        [TaskPaneAttribute("Numbers of iterations for genetic analysis.", "Enter the maximum number of iterations for genetic analysis.", null, 2, true, ControlType.TextBox, ValidationType.RegEx, "[0-9]{1,2}")]
+        [TaskPaneAttribute( "IterationsCaption", "IterationsTooltip", null, 2, true, ControlType.TextBox, ValidationType.RegEx, "[0-9]{1,2}")]
         public int Iterations
         {
             get { return iterations; }
@@ -193,7 +193,7 @@ namespace TranspositionAnalyser
 
         private int cribSearchKeylength = 12;
         [PropertySaveOrder(10)]
-        [TaskPaneAttribute("Maximum keylength for crib analysis", "Enter the maximum keylength for the crib based analysis.", null, 2, true, ControlType.TextBox, ValidationType.RegEx, "[0-9]{1,2}")]
+        [TaskPaneAttribute( "CribSearchKeylengthCaption", "CribSearchKeylengthTooltip", null, 2, true, ControlType.TextBox, ValidationType.RegEx, "[0-9]{1,2}")]
         public int CribSearchKeylength
         {
             get { return cribSearchKeylength; }

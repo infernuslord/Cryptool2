@@ -30,7 +30,7 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace Cryptool.Playfair
 {
     [Author("Sebastian Przybylski","sebastian@przybylski.org","Uni Siegen","http://www.uni-siegen.de")]
-    [PluginInfo(false, "Playfair", "Playfair -- classic digraph substitution cipher", "Playfair/DetailedDescription/Description.xaml",
+    [PluginInfo("Playfair.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", 
       "Playfair/Images/icon.png", "Playfair/Images/encrypt.png", "Playfair/Images/decrypt.png")]
     [EncryptionType(EncryptionType.Classic)]
     public class Playfair : IEncryption
@@ -65,7 +65,7 @@ namespace Cryptool.Playfair
             set { this.settings = (PlayfairSettings)value; }
         }
 
-        [PropertyInfo(Direction.OutputData,"Stream output","The string after processing with the Playfair cipher is converted to a stream. Default encoding is used.","",false,false,QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputDataCaption", "OutputDataTooltip", "",false,false,QuickWatchFormat.Text, null)]
         public ICryptoolStream OutputData
         {
             get
@@ -82,7 +82,7 @@ namespace Cryptool.Playfair
             set { }
         }
 
-        [PropertyInfo(Direction.InputData,"Text input","Input a string to be processed by the Playfair cipher","",true,false,QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", "",true,false,QuickWatchFormat.Text, null)]
         public string InputString
         {
             get { return this.inputString; }
@@ -96,7 +96,7 @@ namespace Cryptool.Playfair
             }
         }
 
-        [PropertyInfo(Direction.OutputData,"Pre-formated input string","If Pre-format text option is enabled the input string is confined to the alphabet used.",null,false,false,QuickWatchFormat.Text,null)]
+        [PropertyInfo(Direction.OutputData, "PreFormatedInputStringCaption", "PreFormatedInputStringTooltip", null,false,false,QuickWatchFormat.Text,null)]
         public string PreFormatedInputString
         {
             get { return this.preFormatedInputString; }
@@ -107,7 +107,7 @@ namespace Cryptool.Playfair
             }
         }
 
-        [PropertyInfo(Direction.OutputData,"Text output","The string after processing with the Playfair cipher","",false,false,QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", "",false,false,QuickWatchFormat.Text, null)]
         public string OutputString
         {
             get { return this.outputString; }

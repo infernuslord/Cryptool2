@@ -33,7 +33,7 @@ namespace Cryptool.Plugins.Substring
         /// <summary>
         /// Taskpane-input for the length value
         /// </summary>
-        [TaskPane("Length value", "Integer value for the length.", null, 0, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
+        [TaskPane( "IntegerLengthValueCaption", "IntegerLengthValueTooltip", null, 0, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
         public int IntegerLengthValue
         {
             get { return this.integerLengthValue; }
@@ -52,7 +52,7 @@ namespace Cryptool.Plugins.Substring
         /// <summary>
         /// Taskpane-input for the startposition
         /// </summary>
-        [TaskPane("Start value", "Integer value to start from.", null, 0, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
+        [TaskPane( "IntegerStartValueCaption", "IntegerStartValueTooltip", null, 0, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
         public int IntegerStartValue
         {
             get { return this.integerStartValue; }

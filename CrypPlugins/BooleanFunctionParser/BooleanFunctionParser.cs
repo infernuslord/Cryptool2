@@ -46,7 +46,7 @@ using Cryptool.RPNExpression;
 namespace Cryptool.BooleanFunctionParser
 {
     [Author("Soeren Rinne", "soeren.rinne@cryptool.de", "Ruhr-Universitaet Bochum, Chair for System Security", "http://www.trust.rub.de/")]
-    [PluginInfo(false, "Boolean Function Parser", "Boolean Function Parser (BFP). Computes the result of a boolean function f(i).", "BooleanFunctionParser/DetailedDescription/Description.xaml", "BooleanFunctionParser/Images/icon2.png")]
+    [PluginInfo("Cryptool.BooleanFunctionParser.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "BooleanFunctionParser/Images/icon2.png")]
     public class BooleanFunctionParser : IThroughput, Cryptool.PluginBase.IPlugin
     {
         #region Private variables
@@ -119,7 +119,7 @@ namespace Cryptool.BooleanFunctionParser
             }
         }
 
-        [PropertyInfo(Direction.InputData, "Boolean Function f(i)", "Boolean function f(i) to compute.", "", false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputFunctionCaption", "InputFunctionTooltip", "", false, false, QuickWatchFormat.Text, null)]
         public String InputFunction
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
@@ -133,7 +133,7 @@ namespace Cryptool.BooleanFunctionParser
             }
         }
 
-        /*[PropertyInfo(Direction.InputData, "Function Variable One (i_1.j)", "Input a boolean value to be processed by the function", "", false, true, QuickWatchFormat.Text, null)]
+        /*[PropertyInfo(Direction.InputData, "InputOneCaption", "InputOneTooltip", "", false, true, QuickWatchFormat.Text, null)]
         public bool[] InputOne
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
@@ -155,7 +155,7 @@ namespace Cryptool.BooleanFunctionParser
          */
 
 
-        [PropertyInfo(Direction.OutputData, "Function output", "Output after procesing the given function.", "", false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputCaption", "OutputTooltip", "", false, false, QuickWatchFormat.Text, null)]
         public bool Output
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
@@ -891,7 +891,7 @@ namespace Cryptool.BooleanFunctionParser
         #region IControl
 
         private IControlCubeAttack bfpSlave;
-        [PropertyInfo(Direction.ControlSlave, "BFP Slave", "Direct access to BFP.", "")]
+        [PropertyInfo(Direction.ControlSlave, "BFPSlaveCaption", "BFPSlaveTooltip", "")]
         public IControlCubeAttack BFPSlave
         {
             get

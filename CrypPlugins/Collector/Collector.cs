@@ -27,7 +27,7 @@ using System.Runtime.Remoting.Contexts;
 namespace Cryptool.Plugins.Collector
 {
     [Author("Sven Rech", "sven.rech@cryptool.com", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo(false, "Collector", "Collector", "Collector/DetailedDescription/Description.xaml", "Collector/icon.png")]
+    [PluginInfo("Collector.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "Collector/icon.png")]
     [Synchronization]
     class Collector : IThroughput
     {
@@ -39,7 +39,7 @@ namespace Cryptool.Plugins.Collector
         #region Properties
 
         private Object input1 = null;
-        [PropertyInfo(Direction.InputData, "First Input", "First input to be collected", "", false, true, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "Input1Caption", "Input1Tooltip", "", false, true, QuickWatchFormat.Text, null)]
         public Object Input1
         {
             get
@@ -56,7 +56,7 @@ namespace Cryptool.Plugins.Collector
         }
 
         private Object input2 = null;
-        [PropertyInfo(Direction.InputData, "Second Input", "Second input to be collected", "", false, true, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "Input2Caption", "Input2Tooltip", "", false, true, QuickWatchFormat.Text, null)]
         public Object Input2
         {
             get
@@ -73,7 +73,7 @@ namespace Cryptool.Plugins.Collector
         }
 
         private Object output = null;
-        [PropertyInfo(Direction.OutputData, "Output", "Output", "")]
+        [PropertyInfo(Direction.OutputData, "OutputCaption", "OutputTooltip", "")]
         public Object Output
         {
             get

@@ -32,7 +32,7 @@ using System.Threading;
 namespace SolitaireAnalyser
 {
     [Author("Coen Ramaekers", "c.f.w.ramaekers@student.tue.nl", "Technische Universiteit Eindhoven", "http://www.win.tue.nl")]
-    [PluginInfo(false, "Solitaire Analyser", "Try to crack the solitaire cipher", null, "CrypWin/images/default.png")]
+    [PluginInfo("SolitaireAnalyser.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "CrypWin/images/default.png")]
     public class SolitaireAnalyser : IAnalysisMisc
 
     {
@@ -63,7 +63,7 @@ namespace SolitaireAnalyser
         /// <summary>
         /// The ciphertext to be analyzed
         /// </summary>
-        [PropertyInfo(Direction.InputData, "Ciphertext input", "Input a ciphertext to be processed", null, true, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", null, true, false, QuickWatchFormat.Text, null)]
         public string InputString
         {
             get { return this.inputString; }
@@ -80,7 +80,7 @@ namespace SolitaireAnalyser
         /// <summary>
         /// The dictionary to be used to recognize words in the plaintext
         /// </summary>
-        [PropertyInfo(Direction.InputData, "Word dictionary input", "Input the dictionary of the plaintext language", null, true, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "WordDictionaryCaption", "WordDictionaryTooltip", null, true, false, QuickWatchFormat.Text, null)]
         public string[] WordDictionary
         {
             get { return this.wordDictionary; }
@@ -94,7 +94,7 @@ namespace SolitaireAnalyser
         /// <summary>
         /// The dictionary holding all passwords to be tried
         /// </summary>
-        [PropertyInfo(Direction.InputData, "Password dictionary input", "Input the password dictionary to be used in bruteforce", null, true, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "PassDictionaryCaption", "PassDictionaryTooltip", null, true, false, QuickWatchFormat.Text, null)]
         public string[] PassDictionary
         {
             get { return this.passDictionary; }
@@ -108,7 +108,7 @@ namespace SolitaireAnalyser
         /// <summary>
         /// The plaintext to be output
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "Plaintext Output", "Plaintext after decryption", null, false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", null, false, false, QuickWatchFormat.Text, null)]
         public string OutputString
         {
             get { return this.outputString; }
@@ -122,7 +122,7 @@ namespace SolitaireAnalyser
         /// <summary>
         /// The password which had the best result
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "Password Output", "Password used for decryption", null, false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "PasswordCaption", "PasswordTooltip", null, false, false, QuickWatchFormat.Text, null)]
         public string Password
         {
             get { return this.password; }

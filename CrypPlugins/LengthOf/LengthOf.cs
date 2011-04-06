@@ -28,7 +28,7 @@ using System.ComponentModel;
 namespace Cryptool.Plugins.LengthOf
 {
     [Author("Christian Arnold", "christian.arnold@stud.uni-due.de", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo(false, "LengthOf", "Operates the Length of an input", "", "LengthOf/LenOf.png")]
+    [PluginInfo("LengthOf.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "LengthOf/LenOf.png")]
     public class LengthOf : IThroughput
     {
         private LengthOfSettings settings = new LengthOfSettings();
@@ -55,7 +55,7 @@ namespace Cryptool.Plugins.LengthOf
             }
         }
 
-        [PropertyInfo(Direction.InputData, "Object Input", "Input your Object here", "", true, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "ObjInputCaption", "ObjInputTooltip", "", true, false, QuickWatchFormat.Text, null)]
         public object ObjInput
         {
             get
@@ -69,7 +69,7 @@ namespace Cryptool.Plugins.LengthOf
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "Integer Output", "The Length of your Object will be send here", "")]
+        [PropertyInfo(Direction.OutputData, "OutputLenCaption", "OutputLenTooltip", "")]
         public int OutputLen
         {
             get

@@ -95,6 +95,11 @@
       <DependentUpon>OptionVersionInfo.xaml</DependentUpon>
     </Compile>
     <Compile Include="PrimesPlugin.cs" />
+    <Compile Include="Properties\Resources.de-DE.Designer.cs">
+      <DependentUpon>Resources.de-DE.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="WpfControls\NumberTheory\PowerMod\PowerModCommands.cs" />
     <Compile Include="Library\ControlHandler.cs" />
     <Compile Include="Library\Delegates.cs" />
@@ -807,6 +812,11 @@
     <EmbeddedResource Include="OnlineHelp\HelpFiles\Help.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Help.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.de-DE.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.de-DE.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">

@@ -39,20 +39,20 @@ namespace Soap
 
         }
 
-        [TaskPane("Send Soap", "Sends the Soap Message", null, 1, true, ControlType.Button)]
+        [TaskPane( "sendSoapCaption", "sendSoapTooltip", null, 1, true, ControlType.Button)]
         public void sendSoap()
         {
             OnPropertyChanged("sendSoap");
         }
 
-        [TaskPane("Reset Soap", "Resets the Soap Message", null, 1, true, ControlType.Button)]
+        [TaskPane( "resetSoapCaption", "resetSoapTooltip", null, 1, true, ControlType.Button)]
         public void resetSoap()
         {
             OnPropertyChanged("ResetSoap");
         }
 
         private string signatureAlg = "1";
-        [TaskPane("Signature Algorithm", "Select the Signature Algorithm", "Signature", 3, true, ControlType.ComboBox, new string[] { "DSA-SHA1", "RSA-SHA1" })]
+        [TaskPane( "SignatureAlgCaption", "SignatureAlgTooltip", "Signature", 3, true, ControlType.ComboBox, new string[] { "DSA-SHA1", "RSA-SHA1" })]
         public string SignatureAlg
         {
             get { return signatureAlg; }
@@ -64,7 +64,7 @@ namespace Soap
         }
 
         private bool sigXPathRef;
-        [TaskPane("Use a XPath-Reference", "Use XPath References to reference the signed elements", "Signature", 4, true, ControlType.CheckBox)]
+        [TaskPane( "SigXPathRefCaption", "SigXPathRefTooltip", "Signature", 4, true, ControlType.CheckBox)]
         public bool SigXPathRef
         {
             get { return sigXPathRef; }
@@ -76,7 +76,7 @@ namespace Soap
         }
 
         private bool sigShowSteps;
-        [TaskPane("Show Signature Steps", "Shows the single steps to create the signature", "Signature", 5, true, ControlType.CheckBox)]
+        [TaskPane( "SigShowStepsCaption", "SigShowStepsTooltip", "Signature", 5, true, ControlType.CheckBox)]
         public bool SigShowSteps
         {
             get { return sigShowSteps; }
@@ -89,7 +89,7 @@ namespace Soap
 
 
         private int animationSpeed = 3;
-        [TaskPane("Animationspeed", "Set the speed for animations", "Animation", 9, true, ControlType.NumericUpDown, Cryptool.PluginBase.ValidationType.RangeInteger, 1, 5)]
+        [TaskPane( "AnimationSpeedCaption", "AnimationSpeedTooltip", "Animation", 9, true, ControlType.NumericUpDown, Cryptool.PluginBase.ValidationType.RangeInteger, 1, 5)]
         public int AnimationSpeed
         {
             get
@@ -103,7 +103,7 @@ namespace Soap
             }
         }
 
-        [TaskPane("Pause Restart", "Starts or stops the animation", "Animation", 7, true, ControlType.Button)]
+        [TaskPane( "playPauseCaption", "playPauseTooltip", "Animation", 7, true, ControlType.Button)]
         public void playPause()
         {
             OnPropertyChanged("playPause");
@@ -111,7 +111,7 @@ namespace Soap
             }
         }
 
-        [TaskPane("End Animation", "Stop the animation and shows the final result", "Animation", 8, true, ControlType.Button)]
+        [TaskPane( "endAnimationCaption", "endAnimationTooltip", "Animation", 8, true, ControlType.Button)]
         public void endAnimation()
         {
             OnPropertyChanged("endAnimation");
@@ -125,7 +125,7 @@ namespace Soap
         private encryptionType encContentRadio;
 
     //    [ContextMenu("Encryption Mode", "Choose wether to encrypt the XML-Element or the content of the XML-Element", 6, ContextMenuControlType.ComboBox, null, new string[] { "XML-Element", "Content of XML-Element" })]
-        [TaskPane("Encryption Mode", "Choose wether to encrypt the XML-Element or the content of the XML-Element", "Encryption", 6, true, ControlType.RadioButton, new string[] { "XML-Element", "Content of XML-Element" })]
+        [TaskPane( "EncContentRadioCaption", "EncContentRadioTooltip", "Encryption", 6, true, ControlType.RadioButton, new string[] { "XML-Element", "Content of XML-Element" })]
         public int EncContentRadio
         {
             get { return (int)this.encContentRadio; }
@@ -141,7 +141,7 @@ namespace Soap
 
 
         private bool encShowSteps;
-        [TaskPane("Show Encryption Steps", "Shows the single steps to encrypt this element", "Encryption", 12, true, ControlType.CheckBox)]
+        [TaskPane( "EncShowStepsCaption", "EncShowStepsTooltip", "Encryption", 12, true, ControlType.CheckBox)]
         public bool EncShowSteps
         {
             get { return encShowSteps; }

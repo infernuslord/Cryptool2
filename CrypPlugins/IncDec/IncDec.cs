@@ -27,7 +27,7 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace IncDec
 {
   [Author("Thomas Schmid", "thomas.schmid@cryptool.org", "Uni Siegen", "http://www.uni-siegen.de")]
-  [PluginInfo(false, "IncDec", "Increment/decrement operation", null, "IncDec/increment.png", "IncDec/decrement.png")]
+  [PluginInfo("IncDec.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "IncDec/increment.png", "IncDec/decrement.png")]
   public class IncDec : IThroughput
   {
     private IncDecSettings settings = new IncDecSettings();
@@ -57,7 +57,7 @@ namespace IncDec
     }
 
 
-    [PropertyInfo(Direction.InputData, "Input.", "Input to increment or decrement.", null, false, false, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.InputData, "InputCaption", "InputTooltip", null, false, false, QuickWatchFormat.Text, null)]
     public int Input
     {
       get { return input; }
@@ -86,7 +86,7 @@ namespace IncDec
     }
 
     private int output;
-    [PropertyInfo(Direction.OutputData, "Output.", "Output.", "", false, false, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.OutputData, "OutputCaption", "OutputTooltip", "", false, false, QuickWatchFormat.Text, null)]
     public int Output
     {
       get { return output; }

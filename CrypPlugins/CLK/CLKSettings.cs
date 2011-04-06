@@ -43,8 +43,8 @@ namespace Cryptool.CLK
       set { hasChanges = value; }
     }
 
-    [ContextMenu("Set clock output to", " true / false ", 0, ContextMenuControlType.ComboBox, null, new string[] { "false", "true"})]
-    [TaskPaneAttribute("Set clock output to", " true / false ", "", 0, true, ControlType.RadioButton, new string[] { "False", "True" })]
+    [ContextMenu( "SetClockToTrueCaption", "SetClockToTrueTooltip", 0, ContextMenuControlType.ComboBox, null, new string[] { "false", "true"})]
+    [TaskPaneAttribute( "SetClockToTrueCaption", "SetClockToTrueTooltip", "", 0, true, ControlType.RadioButton, new string[] { "False", "True" })]
     public int SetClockToTrue
     {
         get
@@ -57,9 +57,7 @@ namespace Cryptool.CLK
             OnPropertyChanged("SetClockToTrue");
             HasChanges = true;
         }
-     
     }
-
     /*[ContextMenu("Set clock to...", " true / false ", 2, ContextMenuControlType.ComboBox, null, new string[] { "true", "false"})]
     [TaskPane("Set clock to...", " true / false ", null, 2, false, ControlType.RadioButton, new string[] { "true", "false" })]
     public bool SetClockToTrue
@@ -77,7 +75,7 @@ namespace Cryptool.CLK
     }*/
 
     //[ContextMenu("Set clock to true", " yes / no ", 0, ContextMenuControlType.CheckBox, null, "Set clock to true")]
-    [TaskPaneAttribute("Set CLK timeout in milliseconds", "How long should it last until next CLK event?", "", 1, false, ControlType.TextBox, null)]
+    [TaskPaneAttribute( "CLKTimeoutCaption", "CLKTimeoutTooltip", "", 1, false, ControlType.TextBox, null)]
     public int CLKTimeout
     {
         get { return this.clkTimeout; }
@@ -90,8 +88,8 @@ namespace Cryptool.CLK
 
     }
 
-    [ContextMenu("Use input event instead of clock", " yes / no ", 0, ContextMenuControlType.CheckBox, null, "Use input event instead of clock")]
-    [TaskPaneAttribute("Use input event instead of clock", " yes / no ", "", 0, true, ControlType.CheckBox, null)]
+    [ContextMenu( "UseEventCaption", "UseEventTooltip", 0, ContextMenuControlType.CheckBox, null, "Use input event instead of clock")]
+    [TaskPaneAttribute( "UseEventCaption", "UseEventTooltip", "", 0, true, ControlType.CheckBox, null)]
     public bool UseEvent
     {
         get { return this.useEvent; }
@@ -111,7 +109,7 @@ namespace Cryptool.CLK
     private int rounds = 10; //how many bits will be generated
     //[ContextMenu("Rounds", "How many bits shall be generated?", 1, ContextMenuControlType.ComboBox, new int[] { 10, 50, 100 }, "10 bits", "50 bits", "100 bits")]
     //[TaskPane("Rounds", "How many bits shall be generated?", null, 1, false, ControlType.TextBox)]
-    [TaskPane("Rounds", "How many clock cycles shall be generated?", null, 2, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
+    [TaskPane( "RoundsCaption", "RoundsTooltip", null, 2, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
     public int Rounds
     {
         get { return this.rounds; }

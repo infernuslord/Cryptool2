@@ -22,7 +22,7 @@ namespace WordPatterns
      * - support wildcard (*)
      */
     [Author("Matthäus Wander", "wander@cryptool.org", "Fachgebiet Verteilte Systeme, Universität Duisburg-Essen", "http://www.vs.uni-due.de")]
-    [PluginInfo(false, "WordPatterns", "Searches for words with the same pattern", "WordPatterns/WordPatternsDescription.xaml", "CrypWin/images/default.png")]
+    [PluginInfo("WordPatterns.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "CrypWin/images/default.png")]
     public class WordPatterns : IAnalysisMisc
     {
         #region Private stuff
@@ -41,7 +41,7 @@ namespace WordPatterns
 
         #region Properties
 
-        [PropertyInfo(Direction.InputData, "Input word", "Word to search for patterns", "", true, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputTextCaption", "InputTextTooltip", "", true, false, QuickWatchFormat.Text, null)]
         public string InputText
         {
             get
@@ -55,7 +55,7 @@ namespace WordPatterns
             }
         }
 
-        [PropertyInfo(Direction.InputData, "Input dictionary", "Word dictionary", "", true, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputDictCaption", "InputDictTooltip", "", true, false, QuickWatchFormat.Text, null)]
         public string[] InputDict
         {
             get
@@ -70,7 +70,7 @@ namespace WordPatterns
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "Output words", "Words matching the pattern", "", false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputTextCaption", "OutputTextTooltip", "", false, false, QuickWatchFormat.Text, null)]
         public string OutputText
         {
             get { return outputText; }

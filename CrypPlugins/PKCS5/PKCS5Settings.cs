@@ -71,12 +71,10 @@ namespace PKCS5
     private PKCS5MaskGenerationMethod.ShaFunction selectedShaFunction 
 					= PKCS5MaskGenerationMethod.ShaFunction.SHA256;
 
-    [ContextMenu("Hash Function",
-      "Select the hash function (MD5, one out of the SHA family, TIGER or WHIRLPOOL)", 0,
+    [ContextMenu( "SHAFunctionCaption", "SHAFunctionTooltip", 0,
       ContextMenuControlType.ComboBox, null,
       new string[] { "MD5", "SHA1", "SHA256", "SHA384", "SHA512", "TIGER", "WHIRLPOOL" })]
-    [TaskPane("Select hash function",
-      "Select the hash function (MD5, one out of the SHA family, TIGER or WHIRLPOOL)", "", 0, true,
+    [TaskPane( "SHAFunctionTPCaption", "SHAFunctionTPTooltip", "", 0, true,
       ControlType.ComboBox,
       new string[] { "MD5", "SHA1", "SHA256", "SHA384", "SHA512", "TIGER", "WHIRLPOOL" })]
     public int SHAFunction
@@ -100,9 +98,7 @@ namespace PKCS5
     /// count of hash loops
     /// </summary>
     private int count = 1000;
-    [TaskPane("Number of iterations (counter)",
-      "The counter determines how often the hash function is applied." +
-      " A value bigger than 1000 is recommended.", "", 1, false,
+    [TaskPane( "CountCaption", "CountTooltip", "", 1, false,
       ControlType.TextBox, ValidationType.RangeInteger, 1, 9999)]
     public int Count
     {
@@ -124,8 +120,7 @@ namespace PKCS5
     /// length of calculated hash in bits
     /// </summary>
     private int length = 256;
-    [TaskPane("Length of output key",
-      "The length of the output in bits must be a multiple of 8.", "", 2, false,
+    [TaskPane( "LengthCaption", "LengthTooltip", "", 2, false,
       ControlType.TextBox, ValidationType.RangeInteger, -64, 2048)]
     public int Length
     {
@@ -152,9 +147,9 @@ namespace PKCS5
     /// <summary>
     /// Encoding property used in the Settings pane. 
     /// </summary>
-    [ContextMenu("String encoding", "Choose the expected encoding of strings (input & output).", 1, ContextMenuControlType.ComboBox, null, 
+    [ContextMenu( "EncodingSettingCaption", "EncodingSettingTooltip", 1, ContextMenuControlType.ComboBox, null, 
       new string[] { "Default system encoding", "Unicode", "UTF-7", "UTF-8", "UTF-32", "ASCII", "Big endian unicode" })]
-    [TaskPane("String encoding", "Choose the expected encoding of strings (input & output).", 
+    [TaskPane( "EncodingSettingCaption", "EncodingSettingTooltip", 
       null, 1, false, ControlType.RadioButton, 
       new string[] { "Default system encoding", "Unicode", "UTF-7", "UTF-8", "UTF-32", "ASCII", "Big endian unicode" })]
     public int EncodingSetting

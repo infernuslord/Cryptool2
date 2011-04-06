@@ -28,8 +28,8 @@ namespace Cryptool.StreamComparator
   {
     private bool diff;
         
-    [ContextMenu("Diff", "Create diff - yes / no", 1, ContextMenuControlType.CheckBox, new int[] { 3 }, "Create diff")]
-    [TaskPaneAttribute("Create Diff", "Create diff - yes / no.", "", 1, false, ControlType.CheckBox, "", null)]
+    [ContextMenu( "DiffCaption", "DiffTooltip", 1, ContextMenuControlType.CheckBox, new int[] { 3 }, "Create diff")]
+    [TaskPaneAttribute( "DiffTPCaption", "DiffTPTooltip", "", 1, false, ControlType.CheckBox, "", null)]
     public bool Diff
     {
       get { return diff; }

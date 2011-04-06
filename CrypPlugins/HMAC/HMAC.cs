@@ -31,7 +31,7 @@ using System.ComponentModel;
 namespace Cryptool.HMAC
 {
     [Author("Holger Pretzsch", "mail@holger-pretzsch.de", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo(false, "HMAC", "HMAC algorithm", "HMAC/DetailedDescription/Description.xaml", "HMAC/HMAC.png")]
+    [PluginInfo("Cryptool.HMAC.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "HMAC/HMAC.png")]
     [EncryptionType(EncryptionType.Classic)]
     public class HMAC : ICryptographicHash
     {
@@ -58,7 +58,7 @@ namespace Cryptool.HMAC
             set { this.settings = (HMACSettings)value; }
         }
 
-        [PropertyInfo(Direction.InputData, "Input stream", "Input data to be processed", "", true, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "InputDataCaption", "InputDataTooltip", "", true, false, QuickWatchFormat.Hex, null)]
         public ICryptoolStream InputData
         {
 
@@ -74,7 +74,7 @@ namespace Cryptool.HMAC
             }
         }
 
-        [PropertyInfo(Direction.InputData, "Key", "Message digest key", "", true, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "KeyCaption", "KeyTooltip", "", true, false, QuickWatchFormat.Hex, null)]
         public byte[] Key
         {
             get
@@ -89,7 +89,7 @@ namespace Cryptool.HMAC
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "Digested value", "Digested value as stream", "", false, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "OutputDataStreamCaption", "OutputDataStreamTooltip", "", false, false, QuickWatchFormat.Hex, null)]
         public ICryptoolStream OutputDataStream
         {
             get
@@ -107,7 +107,7 @@ namespace Cryptool.HMAC
             set { } // readonly
         }
 
-        [PropertyInfo(Direction.OutputData, "Digested value", "Digested value as byte array", "", false, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "OutputDataCaption", "OutputDataTooltip", "", false, false, QuickWatchFormat.Hex, null)]
         public byte[] OutputData
         {
             get

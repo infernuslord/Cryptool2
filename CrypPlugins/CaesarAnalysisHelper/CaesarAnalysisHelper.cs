@@ -25,7 +25,7 @@ using Cryptool.PluginBase.Analysis;
 namespace Cryptool.CaesarAnalysisHelper
 {
     [Author("Fabian Enkler", "enkler@cryptool.org", "", "")]
-    [PluginInfo(false, "CaesarAnalysisHelper", "This plugin is designed in order to make a cryptanalysis of a caesarcipher based on the frequency test.", "", "CaesarAnalysisHelper/icon.png")]
+    [PluginInfo("CaesarAnalysisHelper.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "CaesarAnalysisHelper/icon.png")]
     public class CaesarAnalysisHelper : ISpecific
     {
         private readonly CaesarAnalysisHelperSettings settings;
@@ -48,7 +48,7 @@ namespace Cryptool.CaesarAnalysisHelper
         }
 
         private string encryptedText;
-        [PropertyInfo(Direction.InputData, "Encrypted text", "The caesar encrpyted text", null, false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "EncryptedTextCaption", "EncryptedTextTooltip", null, false, false, QuickWatchFormat.Text, null)]
         public string EncryptedText
         {
             get { return encryptedText; }
@@ -60,7 +60,7 @@ namespace Cryptool.CaesarAnalysisHelper
         }
 
         private string frequencyList = string.Empty;
-        [PropertyInfo(Direction.InputData, "Frequency List", "This is the analysis input from the frequency test.", "", true, false, QuickWatchFormat.Text,
+        [PropertyInfo(Direction.InputData, "FrequencyListCaption", "FrequencyListTooltip", "", true, false, QuickWatchFormat.Text,
             null)]
         public string FrequencyList
         {
@@ -73,7 +73,7 @@ namespace Cryptool.CaesarAnalysisHelper
         }
 
         private int key;
-        [PropertyInfo(Direction.OutputData, "Key", "This is the estimated key.", "", true, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "KeyCaption", "KeyTooltip", "", true, false, QuickWatchFormat.Text, null)]
         public int Key
         {
             get

@@ -26,7 +26,7 @@ using Primes.Bignum;
 namespace Factorizer
 {
   [Author("Timo Eckhardt", "T-Eckhardt@gmx.de", "Uni Siegen", "http://www.uni-siegen.de")]
-  [PluginInfo(false, "Factorizer", "Factorizer", null, "Factorizer/icon.png")]
+  [PluginInfo("Factorizer.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "Factorizer/icon.png")]
   public class Factorizer : IThroughput
   {
     public Factorizer()
@@ -152,7 +152,7 @@ namespace Factorizer
     #region Properties
     private PrimesBigInteger m_Input = null;
     private string m_InputString;
-    [PropertyInfo(Direction.InputData, "String input", "A string that represents a natural number", "", true, false, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", "", true, false, QuickWatchFormat.Text, null)]
     public string InputString
     {
       get { return m_InputString; }
@@ -185,7 +185,7 @@ namespace Factorizer
     }
     private string m_Factor;
 
-    [PropertyInfo(Direction.OutputData, "A prime factor", "A string that represents a factor that is a prime. ", "", true, false, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.OutputData, "FactorCaption", "FactorTooltip", "", true, false, QuickWatchFormat.Text, null)]
     public string Factor
     {
       get { return m_Factor; }
@@ -199,7 +199,7 @@ namespace Factorizer
     }
     private string m_Remainder;
 
-    [PropertyInfo(Direction.OutputData, "Remainder", "Remainder", "", true, false, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.OutputData, "RemainderCaption", "RemainderTooltip", "", true, false, QuickWatchFormat.Text, null)]
     public string Remainder
     {
       get { return m_Remainder; }

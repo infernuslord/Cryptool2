@@ -32,7 +32,7 @@ using System.Collections.ObjectModel;
 namespace Dictionary
 {
     [Author("Thomas Schmid, Matthäus Wander", "thomas.schmid@cryptool.org", "Uni Siegen", "http://www.uni-siegen.de")]
-    [PluginInfo(true, "Dictionary", "Reads values from a Dictionary and returns all entries concatenated with given delimiter in one string.", null, "Dictionary/icon.png")]
+    [PluginInfo("Dictionary.Properties.Resources", true, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "Dictionary/icon.png")]
     public class CryptoolDictionary : IInput
     {
         # region private_variables
@@ -72,7 +72,7 @@ namespace Dictionary
         }
 
         [Obsolete("Use string[] output instead")]
-        [PropertyInfo(Direction.OutputData, "Dictionary output (deprecated)", "Values from dictionary as single string (deprecated)", "", false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", "", false, false, QuickWatchFormat.Text, null)]
         public string OutputString
         {
             get
@@ -91,7 +91,7 @@ namespace Dictionary
             set { } // readonly
         }
 
-        [PropertyInfo(Direction.OutputData, "Dictionary Output", "Values from dictionary as array of strings", "", false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputListCaption", "OutputListTooltip", "", false, false, QuickWatchFormat.Text, null)]
         public string[] OutputList
         {
             get

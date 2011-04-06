@@ -29,7 +29,7 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace Cryptool.Plugins.BooleanOperators
 {
     [Author("Nils Kopal", "nils.kopal@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-duisburg-essen.de")]
-    [PluginInfo(false, "Boolean IfElse Operator", "Boolean IfElse Operator", "BooleanOperators/DetailedDescription/Description.xaml", "BooleanOperators/icons/ifelse.png")]
+    [PluginInfo("BooleanOperators.Properties.Resources", false, "PluginIfElseCaption", "PluginIfElseTooltip", "PluginDescriptionURL", "BooleanOperators/icons/ifelse.png")]
     public class BooleanIfElse : IThroughput
     {
 
@@ -44,7 +44,7 @@ namespace Cryptool.Plugins.BooleanOperators
             this.settings = new BooleanIfElseSettings();
         }
 
-        [PropertyInfo(Direction.InputData, "Input", "input", "")]
+        [PropertyInfo(Direction.InputData, "BooleanIfElseInputCaption", "BooleanIfElseInputTooltip", "")]
         public Boolean Input
         {
             get
@@ -58,7 +58,7 @@ namespace Cryptool.Plugins.BooleanOperators
             }            
         }
 
-        [PropertyInfo(Direction.OutputData, "Output_true", "output true", "")]
+        [PropertyInfo(Direction.OutputData, "BooleanIfElseOutput_trueCaption", "BooleanIfElseOutput_trueTooltip", "")]
         public Boolean Output_true
         {
             get 
@@ -72,7 +72,7 @@ namespace Cryptool.Plugins.BooleanOperators
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "Output_false", "output false", "")]
+        [PropertyInfo(Direction.OutputData, "BooleanIfElseOutput_falseCaption", "BooleanIfElseOutput_falseTooltip", "")]
         public Boolean Output_false
         {
             get

@@ -27,8 +27,8 @@ namespace ClipboardInput {
 	public class ClipboardInputSettings : ISettings {
 		private int format = 0; //0="Text", 1="Hex", 2="Base64"
 
-    [ContextMenu("Format", "Data format to convert from", 1, ContextMenuControlType.ComboBox, null, new string[] { "text", "hex", "base64" })]
-    [TaskPane("Format", "Data format to convert from", "", 1, false, ControlType.ComboBox, new string[] { "text", "hex", "base64" })]
+    [ContextMenu("FormatCaption", "FormatTooltip", 1, ContextMenuControlType.ComboBox, null, new string[] { "text", "hex", "base64" })]
+    [TaskPane("FormatCaption", "FormatTooltip", "", 1, false, ControlType.ComboBox, new string[] { "text", "hex", "base64" })]
 		public int Format {
 			get { return this.format; }
 			set 

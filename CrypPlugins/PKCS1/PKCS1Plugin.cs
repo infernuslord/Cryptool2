@@ -11,7 +11,7 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace PKCS1
 {
     [Author("Jens Schomburg", "mail@escobar.de", "Universität Siegen", "http://www.uni-siegen.de")]
-    [PluginInfo(false, "PKCS #1 / Bleichenbacher Angriff", "PKCS1/Bleichenbacher Angriff", "PKCS1/DetailedDescription/Description.xaml", "PKCS1/PKCS1.png")]
+    [PluginInfo("PKCS1.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "PKCS1/PKCS1.png")]
     //[PluginInfo(false, "PKCS #1 / Bleichenbacher Angriff", "PKCS #1 / Bleichenbacher Angriff", "MD5/DetailedDescription/Description.xaml", "PKCS1/PKCS1.png")]
     //[PluginInfo(Cryptool.PKCS1., false, "PKCS #1 / Bleichenbacher Angriff", "PKCS #1 / Bleichenbacher Angriff", "", "PKCS1/PKCS1.png")] 
 

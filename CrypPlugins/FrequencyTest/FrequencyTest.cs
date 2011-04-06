@@ -12,11 +12,7 @@ using System.Windows.Media;
 namespace Cryptool.FrequencyTest
 {
     [Author("Georgi Angelov & Danail Vazov & Matthäus Wander", "angelov@cryptool.org", "Uni Duisburg", "http://www.uni-duisburg-essen.de")]
-    [PluginInfo(false,
-    "Frequency Test",
-    "Calculates the frequency of letters or groups of letters in a string.",
-    "FrequencyTest/DetailedDescription/Description.xaml",
-    "FrequencyTest/icon.png")]
+    [PluginInfo("Cryptool.FrequencyTest.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "FrequencyTest/icon.png")]
     public class FrequencyTest : IStatistic
     {
         #region Const and variable definition
@@ -45,7 +41,7 @@ namespace Cryptool.FrequencyTest
 
         #region Properties (Inputs/Outputs)
 
-        [PropertyInfo(Direction.InputData, "The string to be analyzed", "Text Input", "",true, true, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "StringInputCaption", "StringInputTooltip", "",true, true, QuickWatchFormat.Text, null)]
         public string StringInput 
         {
             get
@@ -59,13 +55,13 @@ namespace Cryptool.FrequencyTest
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "Text output", "letter:absolute frequency of the letter:relative frequency of the letter (in %)", "", false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "StringOutputCaption", "StringOutputTooltip", "", false, false, QuickWatchFormat.Text, null)]
         public string StringOutput
         {
             get { return stringOutput; }
         }
 
-        [PropertyInfo(Direction.OutputData , "List output", "absolute frequency of a letter", "", false, false, QuickWatchFormat.None, "QuickWatchArray")]
+        [PropertyInfo(Direction.OutputData , "ArrayOutputCaption", "ArrayOutputTooltip", "", false, false, QuickWatchFormat.None, "QuickWatchArray")]
         public int[] ArrayOutput
         {
             get { return arrayOutput; }
@@ -82,7 +78,7 @@ namespace Cryptool.FrequencyTest
             return sb.ToString();
         }
 
-        [PropertyInfo(Direction.OutputData, "Dictionary output", "Found grams and their quantities in different scalings", "", false, false, QuickWatchFormat.None, "QuickWatchDictionary")]
+        [PropertyInfo(Direction.OutputData, "DictionaryOutputCaption", "DictionaryOutputTooltip", "", false, false, QuickWatchFormat.None, "QuickWatchDictionary")]
         public IDictionary<string, double[]> DictionaryOutput
         {
             get { return grams; }

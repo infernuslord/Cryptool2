@@ -12,7 +12,7 @@ using Cryptool.PluginBase.Cryptography;
 namespace SmartCard
 {
   [Author("Malte Gronau", null, "", "")]
-  [PluginInfo(false, "SmartCard", "SmartCard operations.", "SmartCard/DetailedDescription/Description.xaml", "SmartCard/Images/SmartCard.png")]
+  [PluginInfo("SmartCard.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "SmartCard/Images/SmartCard.png")]
   public class SmartCard : IThroughput
   {
     # region private variables
@@ -71,7 +71,7 @@ namespace SmartCard
 
     #region IO
 
-    [PropertyInfo(Direction.InputData, "Data Input", "The input as readable Hex String.", "", true, false, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.InputData, "DataInputCaption", "DataInputTooltip", "", true, false, QuickWatchFormat.Text, null)]
     public String DataInput
     {
         get
@@ -91,7 +91,7 @@ namespace SmartCard
         }
     }
 
-    [PropertyInfo(Direction.OutputData, "Logging Output", "Logging output of APDU/RAPDU", "", true, false, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.OutputData, "LogStringCaption", "LogStringTooltip", "", true, false, QuickWatchFormat.Text, null)]
     public String LogString
     {
         get
@@ -105,7 +105,7 @@ namespace SmartCard
         }
     }
 
-    [PropertyInfo(Direction.OutputData, "Response", "The response of the card reader.", "", true, false, QuickWatchFormat.Hex, null)]
+    [PropertyInfo(Direction.OutputData, "ResponseCaption", "ResponseTooltip", "", true, false, QuickWatchFormat.Hex, null)]
     public byte[] Response
     {
       get { return response; }

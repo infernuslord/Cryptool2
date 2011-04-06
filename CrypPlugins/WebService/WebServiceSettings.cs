@@ -29,7 +29,7 @@ namespace WebService
         #endregion
         
         private string methodName;
-        [TaskPane("Methodenname", "Benennen Sie ihre Web Methode", "Konfigurieren", 1, true, ControlType.TextBox, "")]
+        [TaskPane( "MethodNameCaption", "MethodNameTooltip", "Konfigurieren", 1, true, ControlType.TextBox, "")]
         public string MethodName
         {
             get
@@ -44,7 +44,7 @@ namespace WebService
         }
 
         private int paramString;
-        [TaskPane("Eingabeparameter vom Typ string", "Anzahl der Parameter vom Typ string", "Konfigurieren", 3, true, ControlType.ComboBox, new string[] { "0", "1", "2" })]
+        [TaskPane( "StringCaption", "StringTooltip", "Konfigurieren", 3, true, ControlType.ComboBox, new string[] { "0", "1", "2" })]
         public int String
         {
             get { return paramString; }
@@ -54,7 +54,7 @@ namespace WebService
             }
         }
         private int paramDouble;
-        [TaskPane("Eingabeparameter vom Typ double", "Anzahl der Parameter vom Typ double", "Konfigurieren", 4, true, ControlType.ComboBox, new string[] { "0", "1", "2" })]
+        [TaskPane( "DoubleCaption", "DoubleTooltip", "Konfigurieren", 4, true, ControlType.ComboBox, new string[] { "0", "1", "2" })]
         public int Double
         {
             get { return paramDouble; }
@@ -65,8 +65,8 @@ namespace WebService
             }
         }
         private int integer;
-      //  [ContextMenu("Eingabeparameter", "Erwartete Eingabeparameter", 0, ContextMenuControlType.ComboBox, null, "True", "False")]
-       [TaskPane("Eingabeparameter vom Typ int", "Anzahl der Parameter vom Typ int", "Konfigurieren", 2, true, ControlType.ComboBox, new string[] { "0", "1", "2" })]
+      //  [ContextMenu( "IntegerCaption", "IntegerTooltip", 0, ContextMenuControlType.ComboBox, null, "True", "False")]
+       [TaskPane( "IntegerTPCaption", "IntegerTPTooltip", "Konfigurieren", 2, true, ControlType.ComboBox, new string[] { "0", "1", "2" })]
         public int Integer
         {
             get
@@ -81,7 +81,7 @@ namespace WebService
         }
 
        private int test;
-       [TaskPane("Rückgabeparameter", "Wählen Sie den Typen des Rückgabeparameters", "Konfigurieren", 5, true, ControlType.ComboBox, new string[] { "void", "int", "string", "float", "double" })]
+       [TaskPane( "TestCaption", "TestTooltip", "Konfigurieren", 5, true, ControlType.ComboBox, new string[] { "void", "int", "string", "float", "double" })]
        public int Test
        {
            get
@@ -94,13 +94,13 @@ namespace WebService
                OnPropertyChanged("Test");
            }
        }
-       [TaskPane("WSDL veröffentlichen", "", "", 0, true, ControlType.Button)]
+       [TaskPane( "exportWSDLCaption", "exportWSDLTooltip", "", 0, true, ControlType.Button)]
        public void exportWSDL()
        {
            OnPropertyChanged("exportWSDL");
        }
 
-       //[TaskPane("Schlüsselpaar erzeugen", "Erstellt ein RSA-Schlüsselpaar", "Key Management", 0, false, ControlType.Button)]
+       //[TaskPane( "createKeyCaption", "createKeyTooltip", "Key Management", 0, false, ControlType.Button)]
        //public void createKey()
        //{
        //    OnPropertyChanged("createKey");
@@ -109,13 +109,13 @@ namespace WebService
        //    }
        //}
 
-       [TaskPane("Öffentlichen Schlüssel bereitstellen", "Exportiert den öffentlichen Schlüssel", "Key Management", 1, true, ControlType.Button)]
+       [TaskPane( "publishKeyCaption", "publishKeyTooltip", "Key Management", 1, true, ControlType.Button)]
        public void publishKey()
        {
            OnPropertyChanged("publishKey");
        }
 
-       [TaskPane("Vorgefertigte Methode", "Erstellt eine Testmethode, die zwei int Parameter entgegennimmt, diese addiert und das Ergebnis zurückgibt.", "Konfigurieren", 0, true, ControlType.Button)]
+       [TaskPane( "MethodenStubCaption", "MethodenStubTooltip", "Konfigurieren", 0, true, ControlType.Button)]
        public void MethodenStub()
        {
            OnPropertyChanged("MethodenStub");
@@ -123,7 +123,7 @@ namespace WebService
        }
        
        private string targetFileName;
-      [TaskPane("Target File Name", "Target to write WSDL", null, 0, true, ControlType.SaveFileDialog, FileExtension = "Cryptool Alphabet (*.cta)|*.cta")]
+      [TaskPane( "TargetFilenameCaption", "TargetFilenameTooltip", null, 0, true, ControlType.SaveFileDialog, FileExtension = "Cryptool Alphabet (*.cta)|*.cta")]
        public string TargetFilename
        {
            get { return targetFileName; }
@@ -145,7 +145,7 @@ namespace WebService
           }
       }
       //private int animationSpeed = 3;
-      //[TaskPane("Animationsspeed", "Set the speed for animations", "Animation", 9, false, ControlType.NumericUpDown, Cryptool.PluginBase.ValidationType.RangeInteger, 1, 5)]
+      //[TaskPane( "AnimationSpeedCaption", "AnimationSpeedTooltip", "Animation", 9, false, ControlType.NumericUpDown, Cryptool.PluginBase.ValidationType.RangeInteger, 1, 5)]
       //public int AnimationSpeed
       //{
       //    get

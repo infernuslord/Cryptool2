@@ -18,7 +18,7 @@ using NativeCryptography;
 namespace Cryptool.Plugins.Cryptography.Encryption
 {
     [Author("Dr. Arno Wacker", "arno.wacker@cryptool.org", "Uni Duisburg", "http://www.uni-duisburg-essen.de")]
-    [PluginInfo(false, "DES", "Data Encryption Standard", "DES/DetailedDescription/Description.xaml", "DES/icon.png", "DES/Images/encrypt.png", "DES/Images/decrypt.png")]
+    [PluginInfo("Cryptool.Plugins.Cryptography.Encryption.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "DES/icon.png", "DES/Images/encrypt.png", "DES/Images/decrypt.png")]
     [EncryptionType(EncryptionType.SymmetricBlock)]
     public class DES : IEncryption
     {
@@ -47,7 +47,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
         #region External connection properties
 
-        [PropertyInfo(Direction.ControlSlave, "DES Slave for Cryptanalysis", "Direct access to the DES component for cryptanalysis.", "")]
+        [PropertyInfo(Direction.ControlSlave, "ControlSlaveCaption", "ControlSlaveTooltip", "")]
         public IControlEncryption ControlSlave
         {
             get
@@ -59,7 +59,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         }
 
         private IControlCubeAttack desSlave;
-        [PropertyInfo(Direction.ControlSlave, "DES Slave for cube attack", "Direct access to the DES component for usage with the cube attack plugin.", "")]
+        [PropertyInfo(Direction.ControlSlave, "DESSlaveCaption", "DESSlaveTooltip", "")]
         public IControlCubeAttack DESSlave
         {
             get
@@ -71,14 +71,14 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         }
 
 
-        [PropertyInfo(Direction.InputData, "Input", "Data to be encrypted or decrypted", null, true, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "InputStreamCaption", "InputStreamTooltip", null, true, false, QuickWatchFormat.Hex, null)]
         public ICryptoolStream InputStream
         {
             get;
             set;
                 }
 
-        [PropertyInfo(Direction.InputData, "Key", "The key for encryption7decryption. It must be exactly 8 bytes (64 Bits).", null, true, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "InputKeyCaption", "InputKeyTooltip", null, true, false, QuickWatchFormat.Hex, null)]
         public byte[] InputKey
         {
             get { return this.inputKey; }
@@ -89,7 +89,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             }
         }
 
-        [PropertyInfo(Direction.InputData, "IV", "IV to be used in chaining modes, must be the same as the Blocksize in bytes (8 bytes).", null, false, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "InputIVCaption", "InputIVTooltip", null, false, false, QuickWatchFormat.Hex, null)]
         public byte[] InputIV
         {
             get { return this.inputIV; }
@@ -100,7 +100,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             }
         }
         
-        [PropertyInfo(Direction.OutputData, "Output stream", "Encrypted or decrypted output data", null, true, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "OutputStreamCaption", "OutputStreamTooltip", null, true, false, QuickWatchFormat.Hex, null)]
         public ICryptoolStream OutputStream
         {
             get

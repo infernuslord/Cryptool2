@@ -31,7 +31,7 @@ using DiscreteLogarithm;
 namespace Cryptool.Plugins.DiscreteLogarithm
 {
     [Author("Sven Rech", null, "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo(false, "Discrete Logarithm", "Calculates the discrete logarithm", null, "DiscreteLogarithm/icon.png")]
+    [PluginInfo("DiscreteLogarithm.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "DiscreteLogarithm/icon.png")]
     /// <summary>
     /// This plugin calculates the discrete logarithm of the input.
     /// The input contains of a the BigInteger value and base and the modulo value to determine the residue class
@@ -213,7 +213,7 @@ namespace Cryptool.Plugins.DiscreteLogarithm
         /// <summary>
         /// Gets/Sets the value x in b^log_b(x) = x
         /// </summary>
-        [PropertyInfo(Direction.InputData, "Input value", "Enter your input value here", "")]
+        [PropertyInfo(Direction.InputData, "InputValueCaption", "InputValueTooltip", "")]
         public BigInteger InputValue
         {
             get
@@ -230,7 +230,7 @@ namespace Cryptool.Plugins.DiscreteLogarithm
         /// <summary>
         /// Gets/Sets the base b in b^log_b(x) = x
         /// </summary>
-        [PropertyInfo(Direction.InputData, "Input base/generator", "Enter your base/generator here", "")]
+        [PropertyInfo(Direction.InputData, "InputBaseCaption", "InputBaseTooltip", "")]
         public BigInteger InputBase
         {
             get
@@ -247,7 +247,7 @@ namespace Cryptool.Plugins.DiscreteLogarithm
         /// <summary>
         /// Gets/Sets the modulo value for the used residue class
         /// </summary>
-        [PropertyInfo(Direction.InputData, "Input modulo", "Enter your modulo here", "")]
+        [PropertyInfo(Direction.InputData, "InputModCaption", "InputModTooltip", "")]
         public BigInteger InputMod
         {
             get
@@ -264,7 +264,7 @@ namespace Cryptool.Plugins.DiscreteLogarithm
         /// <summary>
         /// Gets/Sets the calculated discrete logarithm
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "discrete logarithm output", "Get the result here!", "")]
+        [PropertyInfo(Direction.OutputData, "OutputLogarithmCaption", "OutputLogarithmTooltip", "")]
         public BigInteger OutputLogarithm
         {
             get

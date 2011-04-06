@@ -38,7 +38,7 @@ using System.Windows.Threading;
 namespace Cryptool.MD5
 {
     [Author("Sebastian Przybylski", "sebastian@przybylski.org", "Uni-Siegen", "http://www.uni-siegen.de")]
-    [PluginInfo(false, "MD5", "MD5 hash function", "MD5/DetailedDescription/Description.xaml", "MD5/MD5.png")]
+    [PluginInfo("Cryptool.Plugins.MD5.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "MD5/MD5.png")]
     [EncryptionType(EncryptionType.Classic)]
     public class MD5 : ICryptographicHash
     {
@@ -74,7 +74,7 @@ namespace Cryptool.MD5
             set { this.settings = (MD5Settings)value; }
         }
 
-        [PropertyInfo(Direction.InputData, "Input stream", "Input data to be hashed", "", true, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "InputDataCaption", "InputDataTooltip", "", true, false, QuickWatchFormat.Hex, null)]
         public ICryptoolStream InputData
         {
             get 
@@ -89,7 +89,7 @@ namespace Cryptool.MD5
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "Hashed value", "Output data of the hashed value as Stream", "", false, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "OutputDataStreamCaption", "OutputDataStreamTooltip", "", false, false, QuickWatchFormat.Hex, null)]
         public ICryptoolStream OutputDataStream
         {
           get 
@@ -103,7 +103,7 @@ namespace Cryptool.MD5
           }
         }
 
-        [PropertyInfo(Direction.OutputData, "Hashed value", "Output data of the hashed value as byte array", "", false, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "OutputData Caption", "OutputData Tooltip", "", false, false, QuickWatchFormat.Hex, null)]
         public byte[] OutputData 
         {
           

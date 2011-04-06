@@ -1,0 +1,176 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<!-- 
+		Microsoft ResX Schema
+
+		Version 1.3
+
+		The primary goals of this format is to allow a simple XML format 
+		that is mostly human readable. The generation and parsing of the 
+		various data types are done through the TypeConverter classes 
+		associated with the data types.
+
+		Example:
+
+		... ado.net/XML headers & schema ...
+		<resheader name="resmimetype">text/microsoft-resx</resheader>
+		<resheader name="version">1.3</resheader>
+		<resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+		<resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+		<data name="Name1">this is my long string</data>
+		<data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+		<data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+			[base64 mime encoded serialized .NET Framework object]
+		</data>
+		<data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+			[base64 mime encoded string representing a byte array form of the .NET Framework object]
+		</data>
+
+		There are any number of "resheader" rows that contain simple 
+		name/value pairs.
+
+		Each data row contains a name, and value. The row also contains a 
+		type or mimetype. Type corresponds to a .NET class that support 
+		text/value conversion through the TypeConverter architecture. 
+		Classes that don't support this are serialized and stored with the 
+		mimetype set.
+
+		The mimetype is used for serialized objects, and tells the 
+		ResXResourceReader how to depersist the object. This is currently not 
+		extensible. For a given mimetype the value must be set accordingly:
+
+		Note - application/x-microsoft.net.object.binary.base64 is the format 
+		that the ResXResourceWriter will generate, however the reader can 
+		read any of the formats listed below.
+
+		mimetype: application/x-microsoft.net.object.binary.base64
+		value   : The object must be serialized with 
+			: System.Serialization.Formatters.Binary.BinaryFormatter
+			: and then encoded with base64 encoding.
+
+		mimetype: application/x-microsoft.net.object.soap.base64
+		value   : The object must be serialized with 
+			: System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+			: and then encoded with base64 encoding.
+
+		mimetype: application/x-microsoft.net.object.bytearray.base64
+		value   : The object must be serialized into a byte array 
+			: using a System.ComponentModel.TypeConverter
+			: and then encoded with base64 encoding.
+	-->
+	
+	<xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+		<xsd:element name="root" msdata:IsDataSet="true">
+			<xsd:complexType>
+				<xsd:choice maxOccurs="unbounded">
+					<xsd:element name="data">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+								<xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+							<xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+							<xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="resheader">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+							</xsd:sequence>
+							<xsd:attribute name="name" type="xsd:string" use="required" />
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:choice>
+			</xsd:complexType>
+		</xsd:element>
+	</xsd:schema>
+	<resheader name="resmimetype">
+		<value>text/microsoft-resx</value>
+	</resheader>
+	<resheader name="version">
+		<value>1.3</value>
+	</resheader>
+	<resheader name="reader">
+		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<resheader name="writer">
+		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	  <data name="PluginCaption" xml:space="preserve">
+    <value>Frequency Test</value>
+  </data>
+  <data name="PluginTooltip" xml:space="preserve">
+    <value>Calculates the frequency of letters or groups of letters in a string.</value>
+  </data>
+  <data name="PluginDescriptionURL" xml:space="preserve">
+    <value>FrequencyTest/DetailedDescription/Description.xaml</value>
+  </data>
+    <data name="StringInputCaption" xml:space="preserve">
+    <value>The string to be analyzed</value>
+  </data>
+  <data name="StringInputTooltip" xml:space="preserve">
+    <value>Text Input</value>
+  </data>
+  <data name="StringOutputCaption" xml:space="preserve">
+    <value>Text output</value>
+  </data>
+  <data name="StringOutputTooltip" xml:space="preserve">
+    <value>letter:absolute frequency of the letter:relative frequency of the letter (in %)</value>
+  </data>
+  <data name="ArrayOutputCaption" xml:space="preserve">
+    <value>List output</value>
+  </data>
+  <data name="ArrayOutputTooltip" xml:space="preserve">
+    <value>absolute frequency of a letter</value>
+  </data>
+  <data name="DictionaryOutputCaption" xml:space="preserve">
+    <value>Dictionary output</value>
+  </data>
+  <data name="DictionaryOutputTooltip" xml:space="preserve">
+    <value>Found grams and their quantities in different scalings</value>
+  </data>
+    <data name="AutozoomCaption" xml:space="preserve">
+    <value>Autozoom</value>
+  </data>
+  <data name="AutozoomTooltip" xml:space="preserve">
+    <value>Should the chart perform autozoom?</value>
+  </data>
+  <data name="BoundaryFragmentsCaption" xml:space="preserve">
+    <value>Word boundary fragments</value>
+  </data>
+  <data name="BoundaryFragmentsTooltip" xml:space="preserve">
+    <value>Include additional fragments with whitespaces at word boundary? Only relevant for gramlength >= 2.</value>
+  </data>
+  <data name="CaseSensitivityCaption" xml:space="preserve">
+    <value>Alphabet case sensitivity</value>
+  </data>
+  <data name="CaseSensitivityTooltip" xml:space="preserve">
+    <value>Should upper and lower case be treated differently? (Should a == A)</value>
+  </data>
+  <data name="ChartHeightCaption" xml:space="preserve">
+    <value>Chart height</value>
+  </data>
+  <data name="ChartHeightTooltip" xml:space="preserve">
+    <value>This is the chart height, if autozoom is disabled</value>
+  </data>
+  <data name="GrammLengthCaption" xml:space="preserve">
+    <value>Enter the length of the gramms to be investigated.</value>
+  </data>
+  <data name="GrammLengthTooltip" xml:space="preserve">
+    <value>Groups of how many characters should be checked?</value>
+  </data>
+  <data name="ProcessUnknownSymbolsCaption" xml:space="preserve">
+    <value>Handling of unknown characters</value>
+  </data>
+  <data name="ProcessUnknownSymbolsTooltip" xml:space="preserve">
+    <value>What should be done with encountered characters in the word which are not in the alphabet?</value>
+  </data>
+  <data name="ScaleCaption" xml:space="preserve">
+    <value>Zoom</value>
+  </data>
+  <data name="ScaleTooltip" xml:space="preserve">
+    <value>Zoom the chart</value>
+  </data>
+</root>

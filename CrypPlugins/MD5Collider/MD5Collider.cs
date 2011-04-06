@@ -14,7 +14,7 @@ using System.Windows.Controls;
 namespace Cryptool.Plugins.MD5Collider
 {
     [Author("Holger Pretzsch", "mail@holger-pretzsch.de", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo(false, "MD5Collider", "MD5 hash collider", "MD5Collider/DetailedDescription/Description.xaml", "MD5Collider/MD5Collider.png")]
+    [PluginInfo("Cryptool.Plugins.MD5Collider.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "MD5Collider/MD5Collider.png")]
     class MD5Collider : ICryptographicHash
     {
         private MD5ColliderSettings settings = new MD5ColliderSettings();
@@ -49,7 +49,7 @@ namespace Cryptool.Plugins.MD5Collider
         }
 
         private byte[] outputData1;
-        [PropertyInfo(Direction.OutputData, "First colliding data block", "First colliding data block as byte array", "", false, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "OutputData1Caption", "OutputData1Tooltip", "", false, false, QuickWatchFormat.Hex, null)]
         public byte[] OutputData1
         {
             get { return this.outputData1; }
@@ -61,7 +61,7 @@ namespace Cryptool.Plugins.MD5Collider
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "First colliding data block", "First colliding data block as Stream", "", false, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "OutputDataStream1Caption", "OutputDataStream1Tooltip", "", false, false, QuickWatchFormat.Hex, null)]
         public ICryptoolStream OutputDataStream1
         {
             get
@@ -78,7 +78,7 @@ namespace Cryptool.Plugins.MD5Collider
         }
 
         private byte[] outputData2;
-        [PropertyInfo(Direction.OutputData, "Second colliding data block", "Second colliding data block as byte array", "", false, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "OutputData2Caption", "OutputData2Tooltip", "", false, false, QuickWatchFormat.Hex, null)]
         public byte[] OutputData2
         {
             get { return this.outputData2; }
@@ -90,7 +90,7 @@ namespace Cryptool.Plugins.MD5Collider
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "Second colliding data block", "Second colliding data block as Stream", "", false, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "OutputDataStream2Caption", "OutputDataStream2Tooltip", "", false, false, QuickWatchFormat.Hex, null)]
         public ICryptoolStream OutputDataStream2
         {
             get
@@ -107,7 +107,7 @@ namespace Cryptool.Plugins.MD5Collider
         }
 
         private byte[] randomSeed;
-        [PropertyInfo(Direction.InputData, "Random seed", "Data used for initialization of RNG", "", false, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "RandomSeedCaption", "RandomSeedTooltip", "", false, false, QuickWatchFormat.Hex, null)]
         public byte[] RandomSeed
         {
             get { return randomSeed; }
@@ -115,7 +115,7 @@ namespace Cryptool.Plugins.MD5Collider
         }
 
         private byte[] prefix;
-        [PropertyInfo(Direction.InputData, "Prefix", "Common prefix for colliding blocks", "", false, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "PrefixCaption", "PrefixTooltip", "", false, false, QuickWatchFormat.Hex, null)]
         public byte[] Prefix
         {
             get { return prefix; }

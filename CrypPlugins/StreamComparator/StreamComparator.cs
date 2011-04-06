@@ -17,7 +17,7 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace Cryptool.StreamComparator
 {
   [Author("Thomas Schmid", "thomas.schmid@cryptool.org", "Uni Siegen", "http://www.uni-siegen.de")]
-  [PluginInfo(false, "Stream Comparator", "Compares two inputs Streams and decides if they are equal.", null, "StreamComparator/icon.png", "StreamComparator/Images/equal.png", "StreamComparator/Images/unequal.png", "StreamComparator/Images/contextmenu.png")]
+  [PluginInfo("Cryptool.StreamComparator.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "StreamComparator/icon.png", "StreamComparator/Images/equal.png", "StreamComparator/Images/unequal.png", "StreamComparator/Images/contextmenu.png")]
   public class StreamComparator : IDifferential
   {
     #region Private variables
@@ -47,7 +47,7 @@ namespace Cryptool.StreamComparator
 
     #region Properties
 
-    [PropertyInfo(Direction.InputData, "Stream one", "First stream to compare", "", true, false, QuickWatchFormat.None, null)]
+    [PropertyInfo(Direction.InputData, "InputOneCaption", "InputOneTooltip", "", true, false, QuickWatchFormat.None, null)]
     public ICryptoolStream InputOne
     {
       get 
@@ -57,7 +57,7 @@ namespace Cryptool.StreamComparator
       set { streamOne = value; }
     }
 
-    [PropertyInfo(Direction.InputData, "Stream two", "Second stream to compare", "", true, false, QuickWatchFormat.None, null)]
+    [PropertyInfo(Direction.InputData, "InputTwoCaption", "InputTwoTooltip", "", true, false, QuickWatchFormat.None, null)]
     public ICryptoolStream InputTwo
     {
       get 
@@ -68,7 +68,7 @@ namespace Cryptool.StreamComparator
     }
 
     private bool inputsAreEqual;
-    [PropertyInfo(Direction.OutputData, "Comparator achievement", "Ture if streams are equal, otherwise false.", "", false, false, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.OutputData, "InputsAreEqualCaption", "InputsAreEqualTooltip", "", false, false, QuickWatchFormat.Text, null)]
     public bool InputsAreEqual
     {
       get { return inputsAreEqual; }

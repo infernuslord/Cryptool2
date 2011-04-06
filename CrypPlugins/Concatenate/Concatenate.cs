@@ -28,7 +28,7 @@ using System.Runtime.CompilerServices;
 namespace Concatenate
 {
   [Author("Thomas Schmid", "thomas.schmid@cryptool.org", "Uni Siegen", "http://www.uni-siegen.de")]
-  [PluginInfo(false, "Concatenate", "Concatenates two input values. Fires output if second value arrives (The other value can be overwritten in the meantime).", null, "Concatenate/icon.png")]
+  [PluginInfo("Concatenate.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "Concatenate/icon.png")]
   public class Concatenate : IThroughput
   {
     # region Fields

@@ -53,7 +53,7 @@ namespace Cryptool.Plugins.PlayfairAnalysis
         /// HOWTO: This is an example for a setting entity shown in the settings pane on the right of the CT2 main window.
         /// This example setting uses a number field input, but there are many more input types available, see ControlType enumeration.
         /// </summary>
-        [TaskPane("Heap Size", "Number of keys stored in heap", null, 1, false, ControlType.TextBox, ValidationType.RangeInteger, 1, Int32.MaxValue)]
+        [TaskPane( "HeapSizeCaption", "HeapSizeTooltip", null, 1, false, ControlType.TextBox, ValidationType.RangeInteger, 1, Int32.MaxValue)]
         public int HeapSize
         {
             get
@@ -70,7 +70,7 @@ namespace Cryptool.Plugins.PlayfairAnalysis
             }
         }
 
-        [TaskPane("Bigraph Statistic", "Bigraph Statistic to be used", null, 2, false, ControlType.RadioButton, new string[] { "Default", "Custom" })]
+        [TaskPane( "UseCustomStatisticCaption", "UseCustomStatisticTooltip", null, 2, false, ControlType.RadioButton, new string[] { "Default", "Custom" })]
         public int UseCustomStatistic
         {
             get
@@ -104,7 +104,7 @@ namespace Cryptool.Plugins.PlayfairAnalysis
             }
         }
 
-        [TaskPane("Matrix Size", "Size of Matrix used for Encryption", null, 3, false, ControlType.RadioButton, new string[] { "5 x 5", "6 x 6" })]
+        [TaskPane( "MatrixSizeCaption", "MatrixSizeTooltip", null, 3, false, ControlType.RadioButton, new string[] { "5 x 5", "6 x 6" })]
         public int MatrixSize
         {
             get
@@ -121,7 +121,7 @@ namespace Cryptool.Plugins.PlayfairAnalysis
             }
         }
 
-        [TaskPane("Language", "Assumed Language of Ciphertext", null, 4, false, ControlType.RadioButton, new string[] { "German", "English" })]
+        [TaskPane( "LanguageCaption", "LanguageTooltip", null, 4, false, ControlType.RadioButton, new string[] { "German", "English" })]
         public int Language
         {
             get

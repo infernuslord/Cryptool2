@@ -30,7 +30,7 @@ using System.Runtime.CompilerServices;
 namespace Cryptool.Plugins.Convertor
 {
     [Author("Dr. Arno Wacker", "arno.wacker@cryptool.org", "Uni Duisburg", "http://www.uni-duisburg-essen.de")]
-    [PluginInfo(false, "Stream to String Converter", "Converts a given stream into a string.", "", "StreamToStringConverter/s2t-icon.png")]
+    [PluginInfo("Cryptool.Plugins.Convertor.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "StreamToStringConverter/s2t-icon.png")]
     public class StreamToStringConverter : IThroughput
     {
         #region Public interface
@@ -53,7 +53,7 @@ namespace Cryptool.Plugins.Convertor
             set { this.settings = (StreamToStringConverterSettings)value; }
         }
 
-        [PropertyInfo(Direction.OutputData, "Text output", "The string after decoding the bytes from the input stream.", "", true, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", "", true, false, QuickWatchFormat.Text, null)]
         public string OutputString
         {
             get { return this.outputString; }
@@ -69,7 +69,7 @@ namespace Cryptool.Plugins.Convertor
             return outputString;
         }
 
-        [PropertyInfo(Direction.InputData, "Stream input", "Input stream will be converted to ASCII text. The encoding given in the settings will be used.", "", true, false, QuickWatchFormat.Text, "InputStreamQuickWatchConverter")]
+        [PropertyInfo(Direction.InputData, "InputStreamCaption", "InputStreamTooltip", "", true, false, QuickWatchFormat.Text, "InputStreamQuickWatchConverter")]
         public ICryptoolStream InputStream
         {
             get

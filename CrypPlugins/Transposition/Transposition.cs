@@ -17,7 +17,7 @@ using Cryptool.PluginBase.Control;
 namespace Transposition
 {
     [Author("Daniel Kohnen, Julian Weyers, Simon Malischewski, Armin Wiefels", "kohnen@cryptool.org, weyers@cryptool.org, malischewski@cryptool.org, wiefels@cryptool.org", "Universität Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo(false, "Transposition", "Transposition cipher", "Transposition/Description/TranspositionDescript.xaml", "Transposition/Images/icon.png", "Transposition/Images/encrypt.png", "Transposition/Images/decrypt.png")]
+    [PluginInfo("Transposition.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "Transposition/Images/icon.png", "Transposition/Images/encrypt.png", "Transposition/Images/decrypt.png")]
     [EncryptionType(EncryptionType.Classic)]
     public class Transposition : IEncryption
     {
@@ -117,7 +117,7 @@ namespace Transposition
 
         # region Properties
 
-        [PropertyInfo(Direction.InputData, "Input", "input", "Text to be encrypted.", false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputCaption", "InputTooltip", "", false, false, QuickWatchFormat.Text, null)]
         public Byte[] Input
         {
             get
@@ -132,7 +132,7 @@ namespace Transposition
             }
         }
 
-        [PropertyInfo(Direction.InputData, "Keyword", "keyword", "Keyword used for encryption", false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "KeywordCaption", "KeywordTooltip", "", false, false, QuickWatchFormat.Text, null)]
         public string Keyword
         {
             get
@@ -147,7 +147,7 @@ namespace Transposition
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "Output", "output", "")]
+        [PropertyInfo(Direction.OutputData, "OutputCaption", "OutputTooltip", "")]
         public byte[] Output
         {
             get
@@ -1093,7 +1093,7 @@ namespace Transposition
         # endregion
 
         private IControlEncryption controlSlave;
-        [PropertyInfo(Direction.ControlSlave, "Transposition Slave", "Transposition Slave", "")]
+        [PropertyInfo(Direction.ControlSlave, "ControlSlaveCaption", "ControlSlaveTooltip", "")]
         public IControlEncryption ControlSlave
         {
             get

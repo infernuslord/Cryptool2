@@ -41,7 +41,7 @@ using System.Web.Services;
 namespace WebService
 {
     [Author("Tim Podeszwa", "tim.podeszwa@student.uni-siegen.de", "Uni Siegen", "http://www.uni-siegen.de")]
-    [PluginInfo(false, "WebService", "Represents a Web Service", "", "WebService/webservice.png")]
+    [PluginInfo("WebService.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "WebService/webservice.png")]
     public class WebService : IThroughput
     {
         #region Fields
@@ -110,7 +110,7 @@ namespace WebService
             }
         }
 
-        [PropertyInfo(Direction.InputData, "SOAP input", "Input a SOAP message to be processed by the Web Service", "", false, false, QuickWatchFormat.Text, "XmlInputConverter")]
+        [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", "", false, false, QuickWatchFormat.Text, "XmlInputConverter")]
         public XmlDocument InputString
         {
             get { return this._inputDocument; }
@@ -122,7 +122,7 @@ namespace WebService
 
         }
 
-        [PropertyInfo(Direction.OutputData, "WSDL output", "Web Service Description", "", false, false, QuickWatchFormat.Text, "WsdlConverter")]
+        [PropertyInfo(Direction.OutputData, "WsdlCaption", "WsdlTooltip", "", false, false, QuickWatchFormat.Text, "WsdlConverter")]
         public XmlDocument Wsdl
         {
             get { return this._wsdlDocument; }
@@ -133,7 +133,7 @@ namespace WebService
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "Public-Key output", "Encryption Key", null)]
+        [PropertyInfo(Direction.OutputData, "PublicKeyCaption", "PublicKeyTooltip", null)]
         public string PublicKey
         {
             get { return this._publickey; }
@@ -144,7 +144,7 @@ namespace WebService
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "SOAP output", "Response from Web Service", "", false, false, QuickWatchFormat.Text, "XmlOutputConverter")]
+        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", "", false, false, QuickWatchFormat.Text, "XmlOutputConverter")]
         public XmlDocument OutputString
         {
             get { return this._outputDocument; }

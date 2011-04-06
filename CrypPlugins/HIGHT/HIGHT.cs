@@ -31,7 +31,7 @@ using System.Security.Cryptography;
 namespace Cryptool.HIGHT
 {
     [Author("Soeren Rinne", "soeren.rinne@cryptool.de", "Ruhr-Universitaet Bochum, Chair for Embedded Security (EmSec)", "http://www.crypto.ruhr-uni-bochum.de/")]
-    [PluginInfo(false, "HIGHT", "HIGHT is a HIgh security and liGHT weight block cipher", "HIGHT/DetailedDescription/Description.xaml", "HIGHT/Images/HIGHT.png", "HIGHT/Images/encrypt.png", "HIGHT/Images/decrypt.png")]
+    [PluginInfo("HIGHT.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "HIGHT/Images/HIGHT.png", "HIGHT/Images/encrypt.png", "HIGHT/Images/decrypt.png")]
     [EncryptionType(EncryptionType.SymmetricBlock)]
     public class HIGHT : IEncryption
     {
@@ -57,7 +57,7 @@ namespace Cryptool.HIGHT
             set { this.settings = (HIGHTSettings)value; }
         }
 
-        [PropertyInfo(Direction.InputData, "Input", "Data to be encrypted or decrypted.", "", true, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "InputStreamCaption", "InputStreamTooltip", "", true, false, QuickWatchFormat.Hex, null)]
         public ICryptoolStream InputStream
         {
             get 
@@ -73,7 +73,7 @@ namespace Cryptool.HIGHT
             }
         }
 
-        [PropertyInfo(Direction.InputData, "Key", "Must be 16 bytes (128 bit).", "", true, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "InputKeyCaption", "InputKeyTooltip", "", true, false, QuickWatchFormat.Hex, null)]
         public byte[] InputKey
         {
             get { return this.inputKey; }
@@ -84,7 +84,7 @@ namespace Cryptool.HIGHT
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "Output stream", "Encrypted or decrypted output data", "", true, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "OutputStreamCaption", "OutputStreamTooltip", "", true, false, QuickWatchFormat.Hex, null)]
         public ICryptoolStream OutputStream
         {
             get

@@ -32,7 +32,7 @@ using System.Runtime.CompilerServices;
 namespace Cryptool.BerlekampMassey
 {
     [Author("Soeren Rinne", "soeren.rinne@cryptool.org", "Ruhr-Universitaet Bochum, Chair for System Security", "http://www.trust.rub.de/")]
-    [PluginInfo(false, "Berlekamp-Massey Algorithm", "Berlekamp-Massey Algorithm", "BerlekampMassey/DetailedDescription/Description.xaml", "BerlekampMassey/Images/icon2.png", "BerlekampMassey/Images/icon2.png", "BerlekampMassey/Images/icon2.png")]
+    [PluginInfo("Cryptool.BerlekampMassey.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "BerlekampMassey/Images/icon2.png", "BerlekampMassey/Images/icon2.png", "BerlekampMassey/Images/icon2.png")]
     public class BerlekampMassey : IThroughput
     {
 
@@ -71,7 +71,7 @@ namespace Cryptool.BerlekampMassey
             }
         }
 
-        [PropertyInfo(Direction.InputData, "Input Sequence", "", "", true, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputCaption", "InputTooltip", "", true, false, QuickWatchFormat.Text, null)]
         public String Input
         {
             get { return this.input; }
@@ -82,7 +82,7 @@ namespace Cryptool.BerlekampMassey
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "Minimal Length L", "", "", false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputCaption", "OutputTooltip", "", false, false, QuickWatchFormat.Text, null)]
         public int Output
         {
             get
@@ -94,7 +94,7 @@ namespace Cryptool.BerlekampMassey
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "Feedback Polynomial C(D)", "", "", false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "PolynomialOutputCaption", "PolynomialOutputTooltip", "", false, false, QuickWatchFormat.Text, null)]
         public String PolynomialOutput
         {
             [MethodImpl(MethodImplOptions.Synchronized)]

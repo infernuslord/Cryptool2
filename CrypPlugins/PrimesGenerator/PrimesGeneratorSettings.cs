@@ -35,8 +35,8 @@ namespace Cryptool.PrimesGenerator
 
     private int m_SelectedMode;
     [PropertySaveOrder(1)]
-    [ContextMenu("Mode", "Select ", 1, ContextMenuControlType.ComboBox, null, new string[] { "A Primenumber with n digits", "A Primenumber less or equal than n" })]
-    [TaskPane("Mode", "Select ", null, 1, false, ControlType.ComboBox, new string[] { "A Primenumber with n digits", "A Primenumber less or equal than n" })]
+    [ContextMenu( "ModeCaption", "ModeTooltip", 1, ContextMenuControlType.ComboBox, null, new string[] { "A Primenumber with n digits", "A Primenumber less or equal than n" })]
+    [TaskPane( "ModeCaption", "ModeTooltip", null, 1, false, ControlType.ComboBox, new string[] { "A Primenumber with n digits", "A Primenumber less or equal than n" })]
     public int Mode
     {
       get { return this.m_SelectedMode; }
@@ -50,7 +50,7 @@ namespace Cryptool.PrimesGenerator
 
     private string m_Input;
     [PropertySaveOrder(2)]
-    [TaskPane("Value of n", "The value of n.", null, 2, false, ControlType.TextBox, ValidationType.RegEx, "[1-9][0-9]+")]
+    [TaskPane( "InputCaption", "InputTooltip", null, 2, false, ControlType.TextBox, ValidationType.RegEx, "[1-9][0-9]+")]
     public string Input
     {
       get { if(string.IsNullOrEmpty(this.m_Input)) return "100"; else return m_Input; }
