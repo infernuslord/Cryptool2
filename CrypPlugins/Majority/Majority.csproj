@@ -53,6 +53,7 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -77,6 +78,7 @@
     <ProjectReference Include="..\..\CrypPluginBase\CrypPluginBase.csproj">
       <Project>{25DB2B47-A457-4EC2-960B-395CE07AE093}</Project>
       <Name>CrypPluginBase</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

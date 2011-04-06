@@ -31,14 +31,10 @@ namespace Cryptool.Plugins.Shifter
         [Author("Raoul Falk", "falk@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
         [PluginInfo(false, "Shifter", "Shift operator with adjustable block size.", "", "Shifter/icons/left.png", "Shifter/icons/right.png")]
 
-        #region private variables
-
         private object inputOne;
         private object inputTwo;
         private object output;
         private ShifterSettings settings = new ShifterSettings();
-
-        #region public interfaces
 
         public Shifter()
         {

@@ -179,10 +179,12 @@
     <ProjectReference Include="..\CostFunction\CostFunction.csproj">
       <Project>{3C72FF93-48C2-4929-B3B2-83F165AAE636}</Project>
       <Name>CostFunction</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\Libs\OpenCLNet\OpenCLNet.csproj">
       <Project>{0946E1A6-5488-4711-AD10-D54D6A5D2F32}</Project>
       <Name>OpenCLNet</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\P2PEditor\P2PEditor.csproj">
       <Project>{59DEB752-BEB6-4B2B-86A9-78B150537529}</Project>
