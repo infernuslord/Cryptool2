@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Windows.Media.Imaging;
 using System.Xml.Linq;
 using Cryptool.PluginBase;
 
@@ -13,6 +14,7 @@ namespace OnlineDocumentationGenerator
     {
         private readonly XElement _xml;
 
+        public PluginDocumentationPage PluginDocumentationPage { get; private set; }
         public Type PluginType { get; private set; }
 
         public bool Startable { get; private set; }
@@ -20,7 +22,7 @@ namespace OnlineDocumentationGenerator
         public string Name { get; private set; }
         public string Lang { get; private set; }
 
-        public string Description { get; private set; }
+        public XElement Description { get; private set; }
 
         public string AuthorURL { get; private set; }
         public string AuthorInstitute { get; private set; }
@@ -29,12 +31,20 @@ namespace OnlineDocumentationGenerator
 
         public PropertyInfoAttribute[] PluginConnectors { get; private set; }
         public TaskPaneAttribute[] Settings { get; private set; }
-        
-        public LocalizedPluginDocumentationPage(Type pluginType, XElement xml, string lang)
+
+        public BitmapFrame PluginImage
         {
+            get;
+            private set;
+        }
+
+        public LocalizedPluginDocumentationPage(PluginDocumentationPage pluginDocumentationPage, Type pluginType, XElement xml, string lang, BitmapFrame pluginImage)
+        {
+            PluginDocumentationPage = pluginDocumentationPage;
             PluginType = pluginType;
             _xml = xml;
             Lang = lang;
+            PluginImage = pluginImage;
 
             var cultureInfo = new CultureInfo(lang);
             Thread.CurrentThread.CurrentCulture = cultureInfo;
@@ -58,8 +68,7 @@ namespace OnlineDocumentationGenerator
 
         private void ReadInformationsFromXML()
         {
-            var descriptionElement = FindLocalizedChildElement(_xml, "description");
-            Description = descriptionElement.Value;
+            Description = FindLocalizedChildElement(_xml, "description");
         }
 
         //finds elements according to the current language:

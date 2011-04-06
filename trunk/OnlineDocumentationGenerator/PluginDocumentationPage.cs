@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Xml;
+using System.Windows.Media.Imaging;
 using System.Xml.Linq;
 using Cryptool.PluginBase;
 
@@ -24,17 +23,18 @@ namespace OnlineDocumentationGenerator
         public PluginDocumentationPage(Type pluginType)
         {
             PluginType = pluginType;
+            var pluginImage = pluginType.GetImage(0).Source;
             Localizations = new Dictionary<string, LocalizedPluginDocumentationPage>();
             _xml = GetPluginXML(pluginType);
 
-            if (_xml == null)
+            if (_xml == null || _xml.Name != "documentation")
             {
                 throw new Exception("Plugin does not contain a xml doc file!");
             }
 
             foreach (var lang in GetAvailableLanguagesFromXML())
             {
-                Localizations.Add(lang, new LocalizedPluginDocumentationPage(pluginType, _xml, lang));
+                Localizations.Add(lang, new LocalizedPluginDocumentationPage(this, pluginType, _xml, lang, pluginImage as BitmapFrame));
             }
             if (!Localizations.ContainsKey("en"))
                 throw new Exception("Plugin documentation should at least support english language!");
