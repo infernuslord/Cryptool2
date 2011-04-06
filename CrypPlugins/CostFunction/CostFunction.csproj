@@ -53,7 +53,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-      <Reference Include="NativeCryptography">
+    <Reference Include="NativeCryptography">
       <HintPath>..\..\appreferences\nativecryptography.dll</HintPath>
       <Private>false</Private>
     </Reference>
@@ -163,8 +163,6 @@
   -->
   <PropertyGroup>
     <PostBuildEvent>if not exist "./Data/transposition" mkdir "./Data/transposition"
-
-copy "$(TargetDir)CostFunction*.*" "./CrypPlugins"
 copy "$(ProjectDir)Data\*.*" "./Data/transposition"</PostBuildEvent>
   </PropertyGroup>
 </Project>
