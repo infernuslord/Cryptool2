@@ -14,6 +14,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
         private static readonly Regex _findEndingLanguageSwitchTagRegex = new Regex("</.*?languageSwitch.*?>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex _findPluginListTagRegex = new Regex("<pluginList.*?/>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex _findConnectorListTagRegex = new Regex("<connectorList.*?/>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex _findSettingsListTagRegex = new Regex("<settingsList.*?/>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         public static string ReplacePluginDocTags(string html, LocalizedPluginDocumentationPage localizedPluginDocumentationPage)
         {
@@ -146,6 +147,29 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
         public static bool FindConnectorListTag(string html, out int pos, out int len)
         {
             var match = _findConnectorListTagRegex.Match(html);
+            pos = match.Index;
+            len = match.Length;
+            return match.Success;
+        }
+
+        public static string ReplaceSettingsList(string html, string settingsListCode)
+        {
+            int pos;
+            int len;
+            var htmlBuilder = new StringBuilder(html);
+
+            while (FindSettingsListTag(htmlBuilder.ToString(), out pos, out len))
+            {
+                htmlBuilder.Remove(pos, len);
+                htmlBuilder.Insert(pos, settingsListCode);
+            }
+
+            return htmlBuilder.ToString();
+        }
+
+        public static bool FindSettingsListTag(string html, out int pos, out int len)
+        {
+            var match = _findSettingsListTagRegex.Match(html);
             pos = match.Index;
             len = match.Length;
             return match.Success;

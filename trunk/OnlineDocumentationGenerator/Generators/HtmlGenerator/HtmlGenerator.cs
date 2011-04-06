@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Text;
+using System.Threading;
 using Cryptool.PluginBase;
+using OnlineDocumentationGenerator.Properties;
 
 namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
 {
@@ -53,12 +56,18 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
                 {
                     var localizedPluginDocumentationPage = pluginDocumentationPage.Localizations[lang];
 
+                    var cultureInfo = new CultureInfo(lang);
+                    Thread.CurrentThread.CurrentCulture = cultureInfo;
+                    Thread.CurrentThread.CurrentUICulture = cultureInfo;
+
                     var html = TagReplacer.ReplaceLanguageSwitchs(_htmlTemplate, lang);
                     html = TagReplacer.ReplacePluginDocTags(html, localizedPluginDocumentationPage);
                     var languageSelectionCode = GeneratePluginLanguageSelectionCode(pluginDocumentationPage.PluginType, pluginDocumentationPage.AvailableLanguages, lang);
                     html = TagReplacer.ReplaceLanguageSelectionTag(html, languageSelectionCode);
                     var connectorListCode = GenerateConnectorListCode(localizedPluginDocumentationPage);
                     html = TagReplacer.ReplaceConnectorList(html, connectorListCode);
+                    var settingsListCode = GenerateSettingsListCode(localizedPluginDocumentationPage);
+                    html = TagReplacer.ReplaceSettingsList(html, settingsListCode);
 
                     var filename = OnlineHelp.GetPluginDocFilename(pluginDocumentationPage.PluginType, lang);
                     StorePluginDocPage(html, filename);
@@ -131,10 +140,31 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
         {
             var codeBuilder = new StringBuilder();
             codeBuilder.AppendLine("<table border=\"1\">");
+            codeBuilder.AppendLine(string.Format("<tr> <th>{0}</th> <th>{1}</th> </tr>", 
+                Resources.HtmlGenerator_GenerateConnectorListCode_Name, 
+                Resources.HtmlGenerator_GenerateConnectorListCode_Description));
 
             foreach (var pluginConnector in localizedPluginDocumentationPage.PluginConnectors)
             {
                 codeBuilder.AppendLine(string.Format("<tr> <th>{0}</th> <th>{1}</th> </tr>", pluginConnector.Caption, pluginConnector.ToolTip));
+            }
+
+            codeBuilder.AppendLine("</table>");
+            return codeBuilder.ToString();
+        }
+
+        private static string GenerateSettingsListCode(LocalizedPluginDocumentationPage localizedPluginDocumentationPage)
+        {
+            var codeBuilder = new StringBuilder();
+            codeBuilder.AppendLine("<table border=\"1\">");
+            codeBuilder.AppendLine(string.Format("<tr> <th>{0}</th> <th>{1}</th> <th>{2}</th> </tr>", 
+                Resources.HtmlGenerator_GenerateConnectorListCode_Name, 
+                Resources.HtmlGenerator_GenerateConnectorListCode_Description, 
+                Resources.HtmlGenerator_GenerateSettingsListCode_Type));
+
+            foreach (var setting in localizedPluginDocumentationPage.Settings)
+            {
+                codeBuilder.AppendLine(string.Format("<tr> <th>{0}</th> <th>{1}</th> <th>{2}</th> </tr>", setting.Caption, setting.ToolTip, setting.ControlType.ToString()));
             }
 
             codeBuilder.AppendLine("</table>");

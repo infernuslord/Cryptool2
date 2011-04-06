@@ -124,13 +124,13 @@
   <data name="TemplatePluginDocumentationPage" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\generators\htmlgenerator\templateplugindocumentationpage.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-	<data name="HtmlGenerator_GenerateConnectorListCode_Name">
-		<value xml:space="preserve">Name</value>
-	</data>
-	<data name="HtmlGenerator_GenerateConnectorListCode_Description">
-		<value xml:space="preserve">Description</value>
-	</data>
-	<data name="HtmlGenerator_GenerateSettingsListCode_Type">
-		<value xml:space="preserve">Type</value>
-	</data>
+  <data name="HtmlGenerator_GenerateConnectorListCode_Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="HtmlGenerator_GenerateConnectorListCode_Description" xml:space="preserve">
+    <value>Beschreibung</value>
+  </data>
+  <data name="HtmlGenerator_GenerateSettingsListCode_Type" xml:space="preserve">
+    <value>Typ</value>
+  </data>
 </root>
