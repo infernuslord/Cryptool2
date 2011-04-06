@@ -288,7 +288,7 @@ namespace Wizard
                 if (element.Name == "sampleViewer" && (element.Attribute("file") != null))
                 {
                     nextButton.IsEnabled = false;
-                    if (element.Attribute("showCreateButton") != null && element.Attribute("showCreateButton").Value.ToLower() == "true")
+                    if (element.Attribute("showCreateButton") == null || element.Attribute("showCreateButton").Value.ToLower() != "false")
                     {
                         CreateProjectButton.Visibility = Visibility.Visible;
                     }
