@@ -120,28 +120,16 @@
   <data name="Finished_RSA_on_texts_in__0__seconds_" xml:space="preserve">
     <value>Finished RSA on texts in {0} seconds!</value>
   </data>
-  <data name="inputTextDescription" xml:space="preserve">
-    <value>Enter your text here</value>
-  </data>
-  <data name="inputTextName" xml:space="preserve">
-    <value>Text input</value>
-  </data>
-  <data name="RSAcaption" xml:space="preserve">
+  <data name="PluginCaption" xml:space="preserve">
     <value>RSA</value>
   </data>
-  <data name="RSAtooltip" xml:space="preserve">
-    <value>RSA En/Decryption</value>
-  </data>
-    <data name="PluginCaption" xml:space="preserve">
-    <value>RSAcaption</value>
-  </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>RSAtooltip</value>
+    <value>RSA En/Decryption</value>
   </data>
   <data name="PluginDescriptionURL" xml:space="preserve">
     <value>RSA/DetailedDescription/Description.xaml</value>
   </data>
-    <data name="PluginKeyCaption" xml:space="preserve">
+  <data name="PluginKeyCaption" xml:space="preserve">
     <value>RSAKeyGenerator</value>
   </data>
   <data name="PluginKeyTooltip" xml:space="preserve">
@@ -150,7 +138,7 @@
   <data name="PluginKeyDescriptionURL" xml:space="preserve">
     <value>RSA/DetailedDescription/Description.xaml</value>
   </data>
-    <data name="InputNCaption" xml:space="preserve">
+  <data name="InputNCaption" xml:space="preserve">
     <value>Public key / private Key N input</value>
   </data>
   <data name="InputNTooltip" xml:space="preserve">
@@ -175,10 +163,10 @@
     <value>Your cipher C / message M will be send here</value>
   </data>
   <data name="InputTextCaption" xml:space="preserve">
-    <value>inputTextName</value>
+    <value>Text input</value>
   </data>
   <data name="InputTextTooltip" xml:space="preserve">
-    <value>inputTextDescription</value>
+    <value>Enter your text here</value>
   </data>
   <data name="OutputTextCaption" xml:space="preserve">
     <value>Text output</value>
@@ -186,25 +174,25 @@
   <data name="OutputTextTooltip" xml:space="preserve">
     <value>Your text will be send here</value>
   </data>
-    <data name="NCaption" xml:space="preserve">
+  <data name="NCaption" xml:space="preserve">
     <value>N</value>
   </data>
   <data name="NTooltip" xml:space="preserve">
     <value>N</value>
   </data>
   <data name="ECaption" xml:space="preserve">
-    <value>E</value>
+    <value>e</value>
   </data>
   <data name="ETooltip" xml:space="preserve">
-    <value>public exponent</value>
+    <value>e</value>
   </data>
   <data name="DCaption" xml:space="preserve">
-    <value>D</value>
+    <value>d</value>
   </data>
   <data name="DTooltip" xml:space="preserve">
-    <value>private exponent</value>
+    <value>d</value>
   </data>
-    <data name="CertificateFileCaption" xml:space="preserve">
+  <data name="CertificateFileCaption" xml:space="preserve">
     <value>Open X.509 Certificate</value>
   </data>
   <data name="CertificateFileTooltip" xml:space="preserve">
@@ -215,24 +203,6 @@
   </data>
   <data name="CloseFileTooltip" xml:space="preserve">
     <value>Close file</value>
-  </data>
-  <data name="DCaption" xml:space="preserve">
-    <value>d</value>
-  </data>
-  <data name="DTooltip" xml:space="preserve">
-    <value>d</value>
-  </data>
-  <data name="ECaption" xml:space="preserve">
-    <value>e</value>
-  </data>
-  <data name="ETooltip" xml:space="preserve">
-    <value>e</value>
-  </data>
-  <data name="NCaption" xml:space="preserve">
-    <value>N</value>
-  </data>
-  <data name="NTooltip" xml:space="preserve">
-    <value>N</value>
   </data>
   <data name="PCaption" xml:space="preserve">
     <value>P</value>
@@ -258,7 +228,7 @@
   <data name="SourceTooltip" xml:space="preserve">
     <value>Select the source of the key data</value>
   </data>
-    <data name="ActionCaption" xml:space="preserve">
+  <data name="ActionCaption" xml:space="preserve">
     <value>Action</value>
   </data>
   <data name="ActionTooltip" xml:space="preserve">

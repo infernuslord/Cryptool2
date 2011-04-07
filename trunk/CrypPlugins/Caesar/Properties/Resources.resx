@@ -121,7 +121,7 @@
     <value>Caesar</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Caesar</value>
+    <value>Caesar -- classic alphabet shift substitution cipher</value>
   </data>
   <data name="PluginDescriptionURL" xml:space="preserve">
     <value>Caesar/DetailedDescription/Description.xaml</value>
@@ -156,7 +156,7 @@
   <data name="ShiftKeyTooltip" xml:space="preserve">
     <value>Same setting as Shift value in Settings-Pane but as dynamic input.</value>
   </data>
-    <data name="ActionCaption" xml:space="preserve">
+  <data name="ActionCaption" xml:space="preserve">
     <value>Action</value>
   </data>
   <data name="ActionTooltip" xml:space="preserve">
@@ -166,7 +166,7 @@
     <value>Action</value>
   </data>
   <data name="ActionTPTooltip" xml:space="preserve">
-    <value>setAlgorithmActionDescription</value>
+    <value>Select the Algorithm action</value>
   </data>
   <data name="AlphabetCaseCaption" xml:space="preserve">
     <value>Alphabet case sensitivity</value>

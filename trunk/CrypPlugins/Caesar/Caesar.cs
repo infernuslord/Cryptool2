@@ -27,7 +27,7 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace Cryptool.Caesar
 {
     [Author("Dr. Arno Wacker", "arno.wacker@cryptool.org", "Uni Duisburg-Essen", "http://www.vs.uni-duisburg-essen.de")]
-    [PluginInfo("Cryptool.Caesar.Resources.res", false,"PluginCaption", "PluginTooltip", "PluginDescriptionURL", 
+    [PluginInfo("Cryptool.Caesar.Properties.Resources", false,"PluginCaption", "PluginTooltip", "PluginDescriptionURL", 
       "Caesar/Images/Caesar.png", "Caesar/Images/encrypt.png", "Caesar/Images/decrypt.png")] 
     [EncryptionType(EncryptionType.Classic)]
     public class Caesar : IEncryption
