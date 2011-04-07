@@ -71,16 +71,20 @@ namespace WorkspaceManager.Execution
         /// Execute the given Model
         /// </summary>
         /// <param name="workspaceModel"></param>
-        public void Execute(WorkspaceModel workspaceModel, int amountThreads = 0)
+        public void Execute(WorkspaceModel workspaceModel, bool updateGuiElements = true)
         {
             Stopped = false;
             workspaceModel.IsBeingExecuted = true;
             ExecutionCounter = 0;
             this.workspaceModel = workspaceModel;
             workspaceModel.resetStates();
-            guiUpdateThread = new Thread(CheckGui);
-            guiUpdateThread.Name = "WorkspaceManager_GUIUpdateThread";
-            guiUpdateThread.Start();
+
+            if (updateGuiElements)
+            {
+                guiUpdateThread = new Thread(CheckGui);
+                guiUpdateThread.Name = "WorkspaceManager_GUIUpdateThread";
+                guiUpdateThread.Start();
+            }
 
             benchmarkTimer = new System.Timers.Timer(1000);
             benchmarkTimer.Elapsed += BenchmarkTimeout;

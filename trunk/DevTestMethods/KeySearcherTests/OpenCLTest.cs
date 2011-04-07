@@ -41,7 +41,7 @@ namespace Tests.KeySearcherTests
         private void CalculateKeySearcher(KeySearcher.KeySearcher keysearcher, WorkspaceModel model, out double top1value, out string top1key)
         {
             var ee = new WorkspaceManager.Execution.ExecutionEngine(null);
-            ee.Execute(model, 1);
+            ee.Execute(model, false);
             
             while (!keysearcher.IsKeySearcherFinished)
                 Thread.Sleep(1000);
