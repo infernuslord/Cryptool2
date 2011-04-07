@@ -60,6 +60,7 @@ namespace WorkspaceManager
     [PluginInfo("WorkspaceManager.Resources.Attributes", false, "Workspace Manager", "Graphical plugin editor for the CrypTool workspace", "", "WorkspaceManager/View/Image/WorkspaceManagerIcon.ico")]
     public class WorkspaceManager : IEditor
     {
+        public event EventHandler SampleLoaded;
 
         /// <summary>
         /// Create a new Instance of the Editor
@@ -73,7 +74,14 @@ namespace WorkspaceManager
             WorkspaceModel.OnGuiLogNotificationOccured += this.GuiLogNotificationOccured;
             WorkspaceModel.MyEditor = this;
             WorkspaceSpaceEditorView = new BinEditorVisual(WorkspaceModel);
+            WorkspaceSpaceEditorView.SampleLoaded += new EventHandler(WorkspaceSpaceEditorView_SampleLoaded);
             HasChanges = false;            
+        }
+
+        void WorkspaceSpaceEditorView_SampleLoaded(object sender, EventArgs e)
+        {
+            if (SampleLoaded != null)
+                SampleLoaded.Invoke(this, null);
         }
 
         void Default_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

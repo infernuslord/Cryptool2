@@ -36,6 +36,7 @@ namespace WorkspaceManager.View.BinVisual
     {
         #region Events
         public event PropertyChangedEventHandler PropertyChanged;
+        public event EventHandler SampleLoaded;
         #endregion
 
         #region Fields
@@ -257,6 +258,9 @@ namespace WorkspaceManager.View.BinVisual
                 IsLoading = false;
             }
             , null);
+
+            if (SampleLoaded != null)
+                SampleLoaded.Invoke(this, null);
         }
 
         private void addConnection(BinConnectorVisual source, BinConnectorVisual target, ConnectionModel model)
