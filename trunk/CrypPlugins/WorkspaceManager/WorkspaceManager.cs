@@ -81,7 +81,7 @@ namespace WorkspaceManager
         void WorkspaceSpaceEditorView_SampleLoaded(object sender, EventArgs e)
         {
             if (SampleLoaded != null)
-                SampleLoaded.Invoke(this, null);
+                SampleLoaded.Invoke(this,null);
         }
 
         void Default_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -92,6 +92,9 @@ namespace WorkspaceManager
                     OnZoomChanged.Invoke(this, new ZoomChanged() { Value = Properties.Settings.Default.EditScale });
             }
         }
+
+        #region Callbacks
+        #endregion
 
         #region private Members
 

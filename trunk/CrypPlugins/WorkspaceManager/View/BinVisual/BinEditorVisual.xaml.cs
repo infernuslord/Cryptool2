@@ -260,7 +260,7 @@ namespace WorkspaceManager.View.BinVisual
             , null);
 
             if (SampleLoaded != null)
-                SampleLoaded.Invoke(this, null);
+                SampleLoaded.BeginInvoke(this,null,null, null);
         }
 
         private void addConnection(BinConnectorVisual source, BinConnectorVisual target, ConnectionModel model)
