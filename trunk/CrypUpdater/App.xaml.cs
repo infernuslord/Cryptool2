@@ -14,7 +14,6 @@ using System.ComponentModel;
 using System.Security.AccessControl;
 using System.Security.Principal;
 
-
 namespace CrypUpdater
 {
     /// <summary>
@@ -121,7 +120,7 @@ namespace CrypUpdater
 
                 Process p = new Process();
                 p.StartInfo.FileName = "msiexec.exe";
-                p.StartInfo.Arguments = "/i \"" + filePath + "\" /qb /l* install.txt INSTALLDIR=\"" + cryptoolFolderPath + "\"";
+                p.StartInfo.Arguments = "/i \"" + filePath + "\" /qb /l* %TEMP%\\install.txt INSTALLDIR=\"" + cryptoolFolderPath + "\"";
                 p.Start();
                 p.WaitForExit();
                 if (p.ExitCode != 0)
@@ -135,7 +134,7 @@ namespace CrypUpdater
                 {
                     Process p = new Process();
                     p.StartInfo.FileName = "msiexec.exe";
-                    p.StartInfo.Arguments = "/i \"" + filePath + "\" /qb /l* install.txt INSTALLDIR=\"" + cryptoolFolderPath + "\"";
+                    p.StartInfo.Arguments = "/i \"" + filePath + "\" /qb /l* %TEMP%\\install.txt INSTALLDIR=\"" + cryptoolFolderPath + "\"";
                     p.StartInfo.UseShellExecute = true;
                     p.StartInfo.Verb = "runas";
                     p.Start();
@@ -160,7 +159,7 @@ namespace CrypUpdater
 
                 Process p = new Process();
                 p.StartInfo.FileName = filePath;
-                p.StartInfo.Arguments = "/S >nsis.log";
+                p.StartInfo.Arguments = "/S >%TEMP%\\install.txt";
                 p.Start();
                 p.WaitForExit();
                 if (p.ExitCode != 0)
@@ -174,7 +173,7 @@ namespace CrypUpdater
                 {
                     Process p = new Process();
                     p.StartInfo.FileName = filePath;
-                    p.StartInfo.Arguments = "/S >nsis.log";
+                    p.StartInfo.Arguments = "/S >%TEMP%\\install.txt";
                     p.StartInfo.UseShellExecute = true;
                     p.StartInfo.Verb = "runas";
                     p.Start();
