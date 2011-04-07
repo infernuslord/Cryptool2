@@ -62,9 +62,8 @@ namespace WorkspaceManager
                 eventArgs.Handled = true;
                 var rect = (Rectangle) sender;
                 var colorPickPopUp = new ColorPickPopUp(rect);
-                colorPickPopUp.Placement = PlacementMode.Bottom;
-                colorPickPopUp.PlacementTarget = rect;
-                colorPickPopUp.IsOpen = true;  
+                colorPickPopUp.Placement = PlacementMode.MousePoint;
+                colorPickPopUp.IsOpen = true;
                 colorPickPopUp.ColorPickerColorChanged+=new EventHandler<EventArgs>(colorPickPopUp_ColorPickerColorChanged);              
             }
         }

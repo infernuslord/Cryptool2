@@ -464,7 +464,7 @@ namespace WorkspaceManager
         public bool CanExecute
         {
             get{
-                return ((BinEditorVisual)Presentation).IsLoading == true ? false : true;
+                return ((BinEditorVisual)Presentation).IsLoading == true || executing ? false : true;
             }
         }
 
@@ -634,8 +634,12 @@ namespace WorkspaceManager
                 }                
 
                 ExecutionEngine.BenchmarkPlugins = ((WorkspaceManagerSettings)this.Settings).BenchmarkPlugins;
+                
+                //we only start gui update thread if we are visible (for example, during the execution of the wizard
+                //we are not visible, so we need no update of gui elements)
+                var updateGuiElements = Presentation.IsVisible;
 
-                ExecutionEngine.Execute(WorkspaceModel);               
+                ExecutionEngine.Execute(WorkspaceModel, updateGuiElements);               
             }
             catch (Exception ex)
             {
