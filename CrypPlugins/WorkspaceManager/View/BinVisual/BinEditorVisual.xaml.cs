@@ -256,11 +256,10 @@ namespace WorkspaceManager.View.BinVisual
             Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
                 IsLoading = false;
+                if (SampleLoaded != null)
+                    SampleLoaded.Invoke(this, null);
             }
             , null);
-
-            if (SampleLoaded != null)
-                SampleLoaded.BeginInvoke(this,null,null, null);
         }
 
         private void addConnection(BinConnectorVisual source, BinConnectorVisual target, ConnectionModel model)
