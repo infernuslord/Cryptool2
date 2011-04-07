@@ -863,18 +863,27 @@ namespace Wizard
             //load sample:
             newEditor.Open(model);
 
+            currentManager = newEditor;
             if (openTab)
             {
-                OnOpenTab(newEditor, title, null);
-                //if (Settings.Default.RunTemplate && newEditor.CanExecute)
-                //    newEditor.Execute();
+                if (Settings.Default.RunTemplate)
+                {
+                    currentManager.SampleLoaded += NewEditorSampleLoaded;
+                }
+                OnOpenTab(currentManager, title, null);
             }
             else
             {
-                currentManager = newEditor;
                 canStopOrExecute = true;
                 newEditor.Execute();
             }
+        }
+
+        private void NewEditorSampleLoaded(object sender, EventArgs e)
+        {
+            if (Settings.Default.RunTemplate && currentManager.CanExecute)
+                currentManager.Execute();
+            currentManager.SampleLoaded -= NewEditorSampleLoaded;
         }
 
         private void FillDataToModel(WorkspaceModel model, XElement element)
