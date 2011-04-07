@@ -26,6 +26,8 @@ namespace CrypUpdater
         internal static string cryptoolExePath;
         private string filePath;
         private string cryptoolFolderPath;
+        private string tempPath = "%TEMP%\\CrypTool2";
+        private string logfilePath = "%TEMP%\\CrypTool2\\install.txt";
         private int cryptoolProcessID;
         private Process p;
         private List<Process> unwantedProcesses = new List<Process>();
@@ -34,6 +36,15 @@ namespace CrypUpdater
         {
             try
             {
+                // flomar, 04/08/2011: we don't want users to use the auto updater as stand-alone 
+                // application; therefore we exit with an error message if the application was 
+                // started without any additional arguments (such as CT2 folder path...)
+                if (e.Args.Length <= 1)
+                {
+                    MessageBox.Show("You shouldn't run this program.\n\nIt is part of CrypTool 2, and it is invoked automatically during updates.");
+                    return;
+                }
+
                 filePath = e.Args[0];
                 cryptoolFolderPath = e.Args[1];
                 cryptoolExePath = e.Args[2];
@@ -95,6 +106,12 @@ namespace CrypUpdater
 
         private void StartUpdateProcess()
         {
+            // flomar, 04/08/2011: make sure we have a valid tempPath (%TEMP%\CrypTool2) directory before proceeding
+            if (!Directory.Exists(tempPath))
+            {
+                Directory.CreateDirectory(tempPath);
+            }
+
             unwantedProcesses = FindCrypToolProcesses();
             if (unwantedProcesses.Count == 0)
             {
@@ -120,7 +137,7 @@ namespace CrypUpdater
 
                 Process p = new Process();
                 p.StartInfo.FileName = "msiexec.exe";
-                p.StartInfo.Arguments = "/i \"" + filePath + "\" /qb /l* %TEMP%\\install.txt INSTALLDIR=\"" + cryptoolFolderPath + "\"";
+                p.StartInfo.Arguments = "/i \"" + filePath + "\" /qb /l* " + logfilePath + " INSTALLDIR=\"" + cryptoolFolderPath + "\"";
                 p.Start();
                 p.WaitForExit();
                 if (p.ExitCode != 0)
@@ -134,7 +151,7 @@ namespace CrypUpdater
                 {
                     Process p = new Process();
                     p.StartInfo.FileName = "msiexec.exe";
-                    p.StartInfo.Arguments = "/i \"" + filePath + "\" /qb /l* %TEMP%\\install.txt INSTALLDIR=\"" + cryptoolFolderPath + "\"";
+                    p.StartInfo.Arguments = "/i \"" + filePath + "\" /qb /l* " + logfilePath + " INSTALLDIR=\"" + cryptoolFolderPath + "\"";
                     p.StartInfo.UseShellExecute = true;
                     p.StartInfo.Verb = "runas";
                     p.Start();
@@ -159,7 +176,7 @@ namespace CrypUpdater
 
                 Process p = new Process();
                 p.StartInfo.FileName = filePath;
-                p.StartInfo.Arguments = "/S >%TEMP%\\install.txt";
+                p.StartInfo.Arguments = "/S >" + logfilePath;
                 p.Start();
                 p.WaitForExit();
                 if (p.ExitCode != 0)
@@ -173,7 +190,7 @@ namespace CrypUpdater
                 {
                     Process p = new Process();
                     p.StartInfo.FileName = filePath;
-                    p.StartInfo.Arguments = "/S >%TEMP%\\install.txt";
+                    p.StartInfo.Arguments = "/S >" + logfilePath;
                     p.StartInfo.UseShellExecute = true;
                     p.StartInfo.Verb = "runas";
                     p.Start();
