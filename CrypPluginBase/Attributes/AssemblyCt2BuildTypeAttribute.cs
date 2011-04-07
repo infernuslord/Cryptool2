@@ -27,5 +27,22 @@ namespace Cryptool.PluginBase.Attributes
         {
             this.BuildType = (Ct2BuildType) type;
         }
+
+        public static string ToString(Ct2BuildType buildType)
+        {
+            switch (buildType)
+            {
+                case Ct2BuildType.Developer:
+                    return "Developer build";
+                case Ct2BuildType.Nightly:
+                    return "Nightly build";
+                case Ct2BuildType.Beta:
+                    return "Beta build";
+                case Ct2BuildType.Stable:
+                    return "Stable build";
+                default:
+                    return "Mysterious build";
+            }
+        }
     }
 }
