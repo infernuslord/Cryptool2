@@ -161,6 +161,7 @@ namespace Cryptool.Enigma
                 this.plugBoard[letterPos] = newChar;
                 OnPropertyChanged("PlugBoard" + alphabet[letterPos]);
                 OnPropertyChanged("PlugBoardDisplay");
+                
             }
         }
         private void showSettingsElement(string element)

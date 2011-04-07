@@ -28,6 +28,8 @@ namespace Cryptool.Enigma
     {
         #region Variables
 
+        public AutoResetEvent ars;
+
         private EnigmaSettings settings;
 
         private Storyboard storyboard1;
@@ -298,10 +300,11 @@ namespace Cryptool.Enigma
                         walzenarea.Children.Remove(walze);
 
                         Walze walze1 = new Walze(settings.Reflector + 1, this.Width, this.Height);
-                        walze1.fast = speed * 80;
+                        //walze1.fast = speed * 80;
                         Canvas.SetLeft(walze1, 0);
                         Canvas.SetTop(walze1, 60);
                         walzenarea.Children.Add(walze1);
+                        walze1.Cursor = Cursors.Hand;
                         walze1.PreviewMouseLeftButtonDown += List_PreviewMouseLeftButtonDown;
                         walze1.PreviewMouseMove += new MouseEventHandler(Walze_MouseMove);
                         this.walze = walze1;
@@ -479,6 +482,10 @@ namespace Cryptool.Enigma
 
                     }, null);
                 }
+                else if (e.PropertyName == "Rotor3" || e.PropertyName == "Rotor2" || e.PropertyName == "Rotor1" || e.PropertyName == "Reflector" || e.PropertyName == "Key" || e.PropertyName == "Ring3" || e.PropertyName == "Rotor1" ) 
+                {
+                    justme = true;
+                }
             }
         }
 
@@ -487,6 +494,7 @@ namespace Cryptool.Enigma
         #region Constructor
         public EnigmaPresentation(Enigma facade)
         {
+            ars = new AutoResetEvent(false);
             storyboard = new Storyboard();
             storyboard.Completed += tasteClick2;
             storyboard1 = new Storyboard();
@@ -763,12 +771,13 @@ namespace Cryptool.Enigma
 
 
             Walze walze = new Walze(settings.Reflector + 1, this.Width, this.Height);
-            walze.fast = speed * 80;
+            //walze.fast = speed * 80;
             Canvas.SetLeft(walze, 0);
             Canvas.SetTop(walze, 60);
             walzenarea.Children.Add(walze);
             walze.PreviewMouseLeftButtonDown += List_PreviewMouseLeftButtonDown;
             walze.PreviewMouseMove += new MouseEventHandler(Walze_MouseMove);
+            walze.Cursor = Cursors.Hand;
             this.walze = walze;
 
             Rotor2 rotor1 = new Rotor2(settings.Rotor2 + 1, this.Width, this.Height, settings.Key[1] - 65, settings.Ring1);
@@ -3986,7 +3995,7 @@ namespace Cryptool.Enigma
             Debug.Text = "hello" + uID;
 
             int urint = Int32.Parse(uID);
-            Rotor2 rotor2 = new Rotor2(urint, this.ActualWidth, this.ActualHeight, settings.Key[2] - 65, settings.Ring3);
+            Rotor2 rotor2 = new Rotor2(urint, this.ActualWidth, this.ActualHeight, settings.Key[2] - 65, settings.Ring1);
             Canvas.SetLeft(rotor2, 460);
             rotorarea.Children.Add(rotor2);
             rotor2.PreviewMouseMove += new MouseEventHandler(Rotor_MouseMove);
@@ -4037,7 +4046,7 @@ namespace Cryptool.Enigma
             Debug.Text = "hello" + uID;
 
             int urint = Int32.Parse(uID);
-            Rotor2 rotor2 = new Rotor2(urint, this.ActualWidth, this.ActualHeight, settings.Key[0] - 65, settings.Ring1);
+            Rotor2 rotor2 = new Rotor2(urint, this.ActualWidth, this.ActualHeight, settings.Key[0] - 65, settings.Ring3);
             Canvas.SetLeft(rotor2, 0);
             rotorarea.Children.Add(rotor2);
             rotor2.PreviewMouseMove += new MouseEventHandler(Rotor_MouseMove);
@@ -4073,7 +4082,7 @@ namespace Cryptool.Enigma
             Canvas.SetTop(walzetmp, 60);
             walze = walzetmp;
             walzenarea.Children.Remove(dummyrec[3]);
-            walzetmp.fast = speed * 80;
+            //walzetmp.fast = speed * 80;
             walzetmp.Cursor = Cursors.Hand;
             walzetmp.PreviewMouseLeftButtonDown += List_PreviewMouseLeftButtonDown;
             settings.Reflector = urint - 1;
@@ -4166,6 +4175,13 @@ namespace Cryptool.Enigma
                     case 25: settings.PlugBoardZ = switchlist[i]; break;
                 }
             }
+            DispatcherTimer twait = new DispatcherTimer(); // workaround for race-condition should be fixed soon
+            twait.Interval = new TimeSpan(0, 0, 0, 0, 20);
+            twait.Tick += new EventHandler(thelp);
+        }
+
+        private void thelp(object sender, EventArgs e)
+        {
             justme = true;
         }
 
@@ -4173,7 +4189,7 @@ namespace Cryptool.Enigma
         {
             justme = false;
             Button dummy = sender as Button;
-
+            
             if (dummy == rotorarray[0].up || dummy == rotorarray[1].up || dummy == rotorarray[2].up)
             {
                 settings.Key = rotorarray[0].custom.Text + rotorarray[1].custom.Text + rotorarray[2].custom.Text;
@@ -4198,10 +4214,6 @@ namespace Cryptool.Enigma
 
             }
 
-
-
-
-            justme = true;
         }
 
         private void List_DragEnter(object sender, DragEventArgs e)
