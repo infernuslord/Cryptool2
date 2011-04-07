@@ -61,6 +61,78 @@ namespace Cryptool.Caesar.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Action ähnelt.
+        /// </summary>
+        internal static string ActionCaption {
+            get {
+                return ResourceManager.GetString("ActionCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Select the Algorithm action ähnelt.
+        /// </summary>
+        internal static string ActionTooltip {
+            get {
+                return ResourceManager.GetString("ActionTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Action ähnelt.
+        /// </summary>
+        internal static string ActionTPCaption {
+            get {
+                return ResourceManager.GetString("ActionTPCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Select the Algorithm action ähnelt.
+        /// </summary>
+        internal static string ActionTPTooltip {
+            get {
+                return ResourceManager.GetString("ActionTPTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Alphabet case sensitivity ähnelt.
+        /// </summary>
+        internal static string AlphabetCaseCaption {
+            get {
+                return ResourceManager.GetString("AlphabetCaseCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Should upper and lower case be treated differently? (Should a == A) ähnelt.
+        /// </summary>
+        internal static string AlphabetCaseTooltip {
+            get {
+                return ResourceManager.GetString("AlphabetCaseTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Alphabet ähnelt.
+        /// </summary>
+        internal static string AlphabetSymbolsCaption {
+            get {
+                return ResourceManager.GetString("AlphabetSymbolsCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die This is the used alphabet. ähnelt.
+        /// </summary>
+        internal static string AlphabetSymbolsTooltip {
+            get {
+                return ResourceManager.GetString("AlphabetSymbolsTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die External alphabet input ähnelt.
         /// </summary>
         internal static string InputAlphabetCaption {
@@ -151,11 +223,29 @@ namespace Cryptool.Caesar.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Caesar ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Caesar -- classic alphabet shift substitution cipher ähnelt.
         /// </summary>
         internal static string PluginTooltip {
             get {
                 return ResourceManager.GetString("PluginTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Key as single letter ähnelt.
+        /// </summary>
+        internal static string ShiftCharCaption {
+            get {
+                return ResourceManager.GetString("ShiftCharCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Enter a single letter as the key. This letter is mapped to an integer stating the position in the alphabet. The values for &quot;Key as integer&quot; and &quot;Key as single letter&quot; are always synchronized. ähnelt.
+        /// </summary>
+        internal static string ShiftCharTooltip {
+            get {
+                return ResourceManager.GetString("ShiftCharTooltip", resourceCulture);
             }
         }
         
@@ -174,6 +264,42 @@ namespace Cryptool.Caesar.Properties {
         internal static string ShiftKeyTooltip {
             get {
                 return ResourceManager.GetString("ShiftKeyTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Key as integer ähnelt.
+        /// </summary>
+        internal static string ShiftValueCaption {
+            get {
+                return ResourceManager.GetString("ShiftValueCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Enter the number of letters to shift. For instance a value of 1 means that the plaintext character a gets mapped to the ciphertext character B, b to C and so on. ähnelt.
+        /// </summary>
+        internal static string ShiftValueTooltip {
+            get {
+                return ResourceManager.GetString("ShiftValueTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Unknown symbol handling ähnelt.
+        /// </summary>
+        internal static string UnknownSymbolHandlingCaption {
+            get {
+                return ResourceManager.GetString("UnknownSymbolHandlingCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die What should be done with encountered characters at the input which are not in the alphabet? ähnelt.
+        /// </summary>
+        internal static string UnknownSymbolHandlingTooltip {
+            get {
+                return ResourceManager.GetString("UnknownSymbolHandlingTooltip", resourceCulture);
             }
         }
     }
