@@ -68,6 +68,11 @@ namespace Cryptool.PluginBase
   /// Used to signal crypwin that an editor wants to open a tab.
   /// </summary>  
   public delegate TabItem OpenTabHandler(Object content, string title, IEditor parent);
+
+  /// <summary>
+  /// Used to signal crypwin that an editor wants to open an editor.
+  /// </summary>  
+  public delegate IEditor OpenEditorHandler(Type editorType, string title);
   # endregion editor delegates
 
   #region optional delegates

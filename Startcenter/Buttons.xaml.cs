@@ -11,6 +11,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Cryptool.P2PEditor;
+using Cryptool.PluginBase;
 
 namespace Startcenter
 {
@@ -19,9 +21,36 @@ namespace Startcenter
     /// </summary>
     public partial class Buttons : UserControl
     {
+        public event OpenEditorHandler OnOpenEditor;
+
         public Buttons()
         {
             InitializeComponent();
+        }
+
+        private void WizardButton_Click(object sender, RoutedEventArgs e)
+        {
+            OnOpenEditor(typeof(Wizard.Wizard), null);
+        }
+
+        private void HelpButton_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Soon...");
+        }
+
+        private void WorkspaceButton_Click(object sender, RoutedEventArgs e)
+        {
+            OnOpenEditor(typeof(WorkspaceManager.WorkspaceManager), null);
+        }
+
+        private void ConnectButton_Click(object sender, RoutedEventArgs e)
+        {
+            OnOpenEditor(typeof(P2PEditor), null);
+        }
+
+        private void WebpageButton_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("http://www.cryptool2.vs.uni-due.de");
         }
     }
 }

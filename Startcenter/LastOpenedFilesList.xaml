@@ -11,7 +11,7 @@
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
                         <Image Source="{Binding Path=Icon}" Width="32" Height="32"/>
-                        <Label Content="{Binding Path=Title}"/>
+                        <Label Content="{Binding Path=Title}" MouseDoubleClick="Label_MouseDoubleClick" />
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>

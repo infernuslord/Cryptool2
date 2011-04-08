@@ -286,6 +286,7 @@ namespace Cryptool.P2PEditor
 
 
         public event OpenTabHandler OnOpenTab;
+        public event OpenEditorHandler OnOpenEditor;
 
         #endregion
 
