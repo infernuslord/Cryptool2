@@ -65,7 +65,8 @@ namespace Cryptool.PluginBase.IO
         /// <summary>
         /// Init CStreamWriter with 64 KB memory buffer
         /// </summary>
-        public CStreamWriter() : this(65536)
+        public CStreamWriter()
+            : this(65536)
         {
         }
 
@@ -84,12 +85,13 @@ namespace Cryptool.PluginBase.IO
         /// Stream is auto-closed after initialization (can't write any more data).
         /// </summary>
         /// <param name="buf">Pre-initialized byte array which is copied into internal membuff</param>
-        public CStreamWriter(byte[] buf) : this((buf == null) ? 0 : buf.Length)
+        public CStreamWriter(byte[] buf)
+            : this((buf == null) ? 0 : buf.Length)
         {
             if (buf != null)
             {
-            Array.Copy(buf, _buffer, buf.Length);
-            _bufPtr = buf.Length;
+                Array.Copy(buf, _buffer, buf.Length);
+                _bufPtr = buf.Length;
             }
             Close();
         }
@@ -102,8 +104,9 @@ namespace Cryptool.PluginBase.IO
         /// Stream is auto-closed after initialization (can't write any more data).
         /// </summary>
         /// <param name="filePath">Path to existing file, already filled with data</param>
-        public CStreamWriter(string filePath) : this(0)
-            {
+        public CStreamWriter(string filePath)
+            : this(0)
+        {
             if (!File.Exists(filePath))
             {
                 throw new FileNotFoundException();
@@ -113,11 +116,11 @@ namespace Cryptool.PluginBase.IO
             _filePath = filePath;
             _writeStream = new FileStream(_filePath, FileMode.Open, FileAccess.ReadWrite, FileShare.Read);
             _writeStream.Seek(_writeStream.Length, SeekOrigin.Begin);
-                Close();
+            Close();
 
             if (SwapEvent != null)
                 SwapEvent();
-            }
+        }
 
         #endregion
 
@@ -304,7 +307,7 @@ namespace Cryptool.PluginBase.IO
             if (_closed)
                 throw new InvalidOperationException("Can't write, CStream already closed");
 
-            lock(_monitor)
+            lock (_monitor)
             {
                 if (!IsSwapped && hasMemorySpace(count))
                 {
