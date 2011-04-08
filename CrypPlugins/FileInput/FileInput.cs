@@ -195,6 +195,12 @@ namespace FileInput
 
         public void Execute()
         {
+            if (string.IsNullOrWhiteSpace(settings.OpenFilename))
+            {
+                GuiLogMessage("No input file selected, can't proceed", NotificationLevel.Error);
+                return;
+            }
+
             cstreamWriter = new CStreamWriter(settings.OpenFilename);
             NotifyPropertyChange();
         }
