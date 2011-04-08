@@ -326,6 +326,7 @@ namespace SimpleEditor
 
 
         public event OpenTabHandler OnOpenTab;
+        public event OpenEditorHandler OnOpenEditor;
 
         #endregion
 

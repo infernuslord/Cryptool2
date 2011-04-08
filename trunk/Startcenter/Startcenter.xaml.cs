@@ -11,6 +11,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Cryptool.PluginBase;
+using Cryptool.PluginBase.Editor;
 
 namespace Startcenter
 {
@@ -19,9 +21,13 @@ namespace Startcenter
     /// </summary>
     public partial class Startcenter : UserControl
     {
+        public event OpenEditorHandler OnOpenEditor;
+
         public Startcenter()
         {
             InitializeComponent();
+            ((Buttons)buttons.Content).OnOpenEditor += (content, title) => OnOpenEditor(content, title);
+            ((LastOpenedFilesList)lastOpenedFilesList.Child).OnOpenEditor += (content, title) => OnOpenEditor(content, title);
         }
     }
 }

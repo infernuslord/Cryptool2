@@ -62,7 +62,9 @@ namespace Wizard
         private List<ContentControl> currentPresentations = new List<ContentControl>();
         private WorkspaceManager.WorkspaceManager currentManager = null;
         private bool canStopOrExecute = false;
+        private string _title;
 
+        internal event OpenEditorHandler OnOpenEditor;
         internal event OpenTabHandler OnOpenTab;
         internal event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
 
@@ -838,9 +840,9 @@ namespace Wizard
 
         private void LoadSample(string file, string title, bool openTab, XElement element)
         {
+            _title = title;
             file = Path.Combine(SamplesDir, file);
-
-            var newEditor = new WorkspaceManager.WorkspaceManager();
+            
             var model = ModelPersistance.loadModel(file);
             model.OnGuiLogNotificationOccured += delegate(IPlugin sender, GuiLogEventArgs args)
                                                      {
@@ -861,21 +863,21 @@ namespace Wizard
             FillDataToModel(model, element);
 
             //load sample:
-            newEditor.Open(model);
-
-            currentManager = newEditor;
             if (openTab)
             {
+                currentManager = (WorkspaceManager.WorkspaceManager) OnOpenEditor(typeof(WorkspaceManager.WorkspaceManager), null);
+                currentManager.Open(model);
                 if (Settings.Default.RunTemplate)
                 {
                     currentManager.SampleLoaded += NewEditorSampleLoaded;
                 }
-                OnOpenTab(currentManager, title, null);
             }
             else
             {
+                currentManager = new WorkspaceManager.WorkspaceManager();
+                currentManager.Open(model);
                 canStopOrExecute = true;
-                newEditor.Execute();
+                currentManager.Execute();
             }
         }
 
@@ -884,6 +886,7 @@ namespace Wizard
             if (Settings.Default.RunTemplate && currentManager.CanExecute)
                 currentManager.Execute();
             currentManager.SampleLoaded -= NewEditorSampleLoaded;
+            OnOpenTab(currentManager, _title, null);
         }
 
         private void FillDataToModel(WorkspaceModel model, XElement element)

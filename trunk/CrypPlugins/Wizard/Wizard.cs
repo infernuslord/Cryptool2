@@ -16,7 +16,7 @@ namespace Wizard
     [Author("Simone Sauer", "sauer@cryptool.org", "Universität Duisburg-Essen", "http://www.uni-due.de")]
     [PluginInfo("Wizard.Resources.Attributes", false, "Wizard", "The CrypTool 2.0 wizard", "Wizard/DetailedDescription/Description.xaml",
       "Wizard/wizard.png")]
-    class Wizard : IEditor
+    public class Wizard : IEditor
     {
         public event PropertyChangedEventHandler PropertyChanged;
         public event StatusChangedEventHandler OnPluginStatusChanged;
@@ -27,9 +27,11 @@ namespace Wizard
         public event OpenProjectFileHandler OnOpenProjectFile;
         public event EditorSpecificPluginsChanged OnEditorSpecificPluginsChanged;
         public event OpenTabHandler OnOpenTab;
-        
+        public event OpenEditorHandler OnOpenEditor;
+
         public Wizard()
         {
+            wizardControl.OnOpenEditor += (editor, title) => OnOpenEditor(editor, title);
             wizardControl.OnOpenTab += (content, title, parent) => OnOpenTab(content, title, parent);
             wizardControl.OnGuiLogNotificationOccured += (sender, args) => OnGuiLogNotificationOccured(this, new GuiLogEventArgs(args.Message, this, args.NotificationLevel));
         }

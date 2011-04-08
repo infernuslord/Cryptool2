@@ -28,6 +28,7 @@ namespace Cryptool.PluginBase.Editor
         event OpenProjectFileHandler OnOpenProjectFile;
         event EditorSpecificPluginsChanged OnEditorSpecificPluginsChanged;
         event OpenTabHandler OnOpenTab;
+        event OpenEditorHandler OnOpenEditor;
         event EventHandler<ZoomChanged> OnZoomChanged;
 
         void New();

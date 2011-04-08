@@ -39,7 +39,7 @@
             </Grid.ColumnDefinitions>            
             
             <Border>
-                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Name="buttons">
                     <Startcenter:Buttons/>
                 </ScrollViewer>
             </Border>
@@ -49,7 +49,7 @@
             <ScrollViewer Grid.Column="2" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
                 <StackPanel Orientation="Vertical">
                     <Expander IsExpanded="True" Header="Last opened files:">
-                        <Border>
+                        <Border Name="lastOpenedFilesList">
                             <Startcenter:LastOpenedFilesList/>
                         </Border>
                     </Expander>
@@ -69,13 +69,6 @@
             </ScrollViewer>
         </Grid>
 
-        <Grid Grid.Row="3">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <CheckBox Content="Do not show this at startup!" Margin="5" VerticalAlignment="Center" />
-            <Button Grid.Column="1" Content="Close" Margin="5" Padding="2" IsDefault="True" Width="50" />
-        </Grid>
+        <CheckBox Content="Do not show this at startup!" Margin="5" VerticalAlignment="Center" Grid.Row="3" />        
     </Grid>
 </UserControl>

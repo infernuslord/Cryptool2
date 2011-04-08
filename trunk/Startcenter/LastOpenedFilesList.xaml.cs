@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Cryptool.PluginBase;
+using Cryptool.PluginBase.Editor;
 
 namespace Startcenter
 {
@@ -21,6 +22,7 @@ namespace Startcenter
     /// </summary>
     public partial class LastOpenedFilesList : UserControl
     {
+        public event OpenEditorHandler OnOpenEditor;
         private List<RecentFileInfo> recentFileInfos = new List<RecentFileInfo>();
 
         public LastOpenedFilesList()
@@ -41,8 +43,19 @@ namespace Startcenter
                 Type editorType = cte ? typeof(AnotherEditor.AnotherEditor) : typeof(WorkspaceManager.WorkspaceManager);
                 var icon = editorType.GetImage(0).Source;
 
-                recentFileInfos.Add(new RecentFileInfo() {File = rfile, Title = title, Icon = icon});
+                recentFileInfos.Add(new RecentFileInfo() {File = rfile, Title = title, Icon = icon, Cte = cte});
             }
+        }
+
+        private void Label_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var selectedItem = (RecentFileInfo)RecentFileListBox.SelectedItem;
+            IEditor editor;
+            if (selectedItem.Cte)
+                editor = OnOpenEditor(typeof(AnotherEditor.AnotherEditor), null);
+            else
+                editor = OnOpenEditor(typeof(WorkspaceManager.WorkspaceManager), null);
+            editor.Open(selectedItem.File);
         }
     }
 
@@ -51,5 +64,6 @@ namespace Startcenter
         public string File { get; set; }
         public string Title { get; set; }
         public ImageSource Icon { get; set; }
+        public bool Cte { get; set; }
     }
 }

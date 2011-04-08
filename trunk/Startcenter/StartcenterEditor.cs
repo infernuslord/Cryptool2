@@ -12,8 +12,6 @@ using Cryptool.PluginBase.Miscellaneous;
 
 namespace StartCenter
 {
-#if DEBUG
-
     [TabColor("LightSeaGreen")]
     [EditorInfo("startcenter")]
     [Author("Sven Rech", "rech@cryptool.org", "Universität Duisburg-Essen", "http://www.uni-due.de")]
@@ -68,7 +66,7 @@ namespace StartCenter
 
         public void Initialize()
         {
-            
+            startcenter.OnOpenEditor += (content, title) => OnOpenEditor(content, title);
         }
 
         public void Dispose()
@@ -83,6 +81,7 @@ namespace StartCenter
         public event OpenProjectFileHandler OnOpenProjectFile;
         public event EditorSpecificPluginsChanged OnEditorSpecificPluginsChanged;
         public event OpenTabHandler OnOpenTab;
+        public event OpenEditorHandler OnOpenEditor;
         public event EventHandler<ZoomChanged> OnZoomChanged;
         public void New()
         {
@@ -234,6 +233,4 @@ namespace StartCenter
 
         public bool ReadOnly { get; set; }
     }
-
-#endif
 }
