@@ -63,14 +63,16 @@ namespace XMLSerialization
         public static void Serialize(object obj, string filename,Encoding encoding,bool compress = false)
         {
 
-            FileStream sourceFile = File.Create(filename);
+            FileStream sourceFile = null;
             if (compress)
             {
-                GZipStream compStream = new GZipStream(sourceFile, CompressionMode.Compress);
-                StreamWriter writer = new StreamWriter(compStream, encoding);
+                GZipStream compStream = null;
+                StreamWriter writer = null;
                 try
                 {
-
+                    sourceFile = File.Create(filename);
+                    compStream = new GZipStream(sourceFile, CompressionMode.Compress);
+                    writer = new StreamWriter(compStream, encoding);
                     XMLSerialization.Serialize(obj, writer,compress);
                 }
                 finally
@@ -91,10 +93,11 @@ namespace XMLSerialization
             }
             else
             {
-                StreamWriter writer = new StreamWriter(sourceFile, encoding);
+                StreamWriter writer = null;
                 try
                 {
-                    
+                    sourceFile = File.Create(filename);
+                    writer = new StreamWriter(sourceFile, encoding);
                     XMLSerialization.Serialize(obj, writer);
                 }
                 finally
