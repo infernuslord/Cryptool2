@@ -56,7 +56,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                                      (byte)'0', 
                                      (byte)'0', 
                                      (byte)'0', 
-                                     (byte)'0'   };        
+                                     (byte)'0'   };
         private bool stop = false;
         private UserControl presentation = new SDESPresentation();
         private SDESControl controlSlave;
@@ -97,7 +97,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         /// <param name="args"></param>
         void settings_OnPluginStatusChanged(IPlugin sender, StatusEventArgs args)
         {
-            if(OnPluginStatusChanged != null)OnPluginStatusChanged(this, args);
+            if (OnPluginStatusChanged != null) OnPluginStatusChanged(this, args);
         }
 
         /// <summary>
@@ -108,7 +108,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             get { return this.settings; }
             set { this.settings = (SDESSettings)value; }
         }
-    
+
         /// <summary>
         /// Is this Plugin in Status stop?
         /// </summary>
@@ -124,11 +124,11 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         [PropertyInfo(Direction.InputData, "InputStreamCaption", "InputStreamTooltip", null, true, false, QuickWatchFormat.Hex, null)]
         public ICryptoolStream InputStream
         {
-            get 
+            get
             {
                 return inputStream;
-                    }
-            set 
+            }
+            set
             {
                 this.inputStream = value;
                 OnPropertyChanged("InputStream");
@@ -144,11 +144,11 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             get
             {
                 return outputStream;
-                    }
+            }
             set
             {
-                }
             }
+        }
 
         /// <summary>
         /// Gets/Sets the key which should be used.Must be 10 bytes  (only 1 or 0 allowed).
@@ -238,7 +238,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             try
             {
                 this.stop = false;
-                this.inputKey = null;                        
+                this.inputKey = null;
                 //default inputIV: (0,0,0,0,0,0,0,0)
                 this.inputIV = new byte[]{   (byte)'0', 
                                              (byte)'0', 
@@ -343,7 +343,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                     controlSlave = new SDESControl(this);
                 return controlSlave;
             }
-        } 
+        }
 
         #endregion public
 
@@ -433,63 +433,62 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                 using (CStreamReader reader = inputStream.CreateReader())
                 {
                     outputStream = new CStreamWriter();
-                    OnPropertyChanged("OutputStream");
-                
-                System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();               
-                DateTime startTime = DateTime.Now;
 
-                //Encrypt
+                    System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
+                    DateTime startTime = DateTime.Now;
+
+                    //Encrypt
                     if (action == 0)
                     {
-                    
-                    if (this.settings.Mode == 0)
-                    {
-                        GuiLogMessage("Starting encryption with ecb", NotificationLevel.Info);
-                        ElectronicCodeBook ecb = new ElectronicCodeBook(this);
-                            ecb.encrypt(reader, outputStream, Tools.stringToBinaryByteArray(enc.GetString(this.inputKey)));
-                    }
-                    else if (this.settings.Mode == 1)
-                    {
-                        GuiLogMessage("Starting encryption with cbc", NotificationLevel.Info);
-                        CipherBlockChaining cbc = new CipherBlockChaining(this);
-                            cbc.encrypt(reader, outputStream, Tools.stringToBinaryByteArray(enc.GetString(this.inputKey)), Tools.stringToBinaryByteArray(enc.GetString(this.inputIV)));
-                    }
-                }
-                //Decrypt
-                else if (action == 1)
-                {
-                                       
-                    if (this.settings.Mode == 0)
-                    {
-                        GuiLogMessage("Starting decryption with ecb", NotificationLevel.Info);
-                        ElectronicCodeBook ecb = new ElectronicCodeBook(this);
-                            ecb.decrypt(reader, outputStream, Tools.stringToBinaryByteArray(enc.GetString(this.inputKey)));
-                    }
-                    if (this.settings.Mode == 1)
-                    {
-                        GuiLogMessage("Starting decryption with cbc", NotificationLevel.Info);
-                        CipherBlockChaining cbc = new CipherBlockChaining(this);
-                            cbc.decrypt(reader, outputStream, Tools.stringToBinaryByteArray(enc.GetString(this.inputKey)), Tools.stringToBinaryByteArray(enc.GetString(this.inputIV)));
-                    }
-                }
 
-                DateTime stopTime = DateTime.Now;
-                TimeSpan duration = stopTime - startTime;
-                if (!stop)
-                {
-                    GuiLogMessage("En-/Decryption complete! ", NotificationLevel.Info);
-                    GuiLogMessage("Time used: " + duration.ToString(), NotificationLevel.Debug);
-                    OnPropertyChanged("OutputStream");
-               
+                        if (this.settings.Mode == 0)
+                        {
+                            GuiLogMessage("Starting encryption with ecb", NotificationLevel.Info);
+                            ElectronicCodeBook ecb = new ElectronicCodeBook(this);
+                            ecb.encrypt(reader, outputStream, Tools.stringToBinaryByteArray(enc.GetString(this.inputKey)));
+                        }
+                        else if (this.settings.Mode == 1)
+                        {
+                            GuiLogMessage("Starting encryption with cbc", NotificationLevel.Info);
+                            CipherBlockChaining cbc = new CipherBlockChaining(this);
+                            cbc.encrypt(reader, outputStream, Tools.stringToBinaryByteArray(enc.GetString(this.inputKey)), Tools.stringToBinaryByteArray(enc.GetString(this.inputIV)));
+                        }
+                    }
+                    //Decrypt
+                    else if (action == 1)
+                    {
+
+                        if (this.settings.Mode == 0)
+                        {
+                            GuiLogMessage("Starting decryption with ecb", NotificationLevel.Info);
+                            ElectronicCodeBook ecb = new ElectronicCodeBook(this);
+                            ecb.decrypt(reader, outputStream, Tools.stringToBinaryByteArray(enc.GetString(this.inputKey)));
+                        }
+                        if (this.settings.Mode == 1)
+                        {
+                            GuiLogMessage("Starting decryption with cbc", NotificationLevel.Info);
+                            CipherBlockChaining cbc = new CipherBlockChaining(this);
+                            cbc.decrypt(reader, outputStream, Tools.stringToBinaryByteArray(enc.GetString(this.inputKey)), Tools.stringToBinaryByteArray(enc.GetString(this.inputIV)));
+                        }
+                    }
+
+                    outputStream.Close();
+                    reader.Close();
+
+                    DateTime stopTime = DateTime.Now;
+                    TimeSpan duration = stopTime - startTime;
+                    if (!stop)
+                    {
+                        GuiLogMessage("En-/Decryption complete! ", NotificationLevel.Info);
+                        GuiLogMessage("Time used: " + duration.ToString(), NotificationLevel.Debug);
+                        OnPropertyChanged("OutputStream");
+
                     }
                     else
                     {
-                    GuiLogMessage("Aborted!", NotificationLevel.Info);
+                        GuiLogMessage("Aborted!", NotificationLevel.Info);
+                    }
                 }
-
-                outputStream.Close();
-                    reader.Close();
-            }
             }
             catch (Exception exception)
             {
@@ -497,7 +496,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                 GuiLogMessage(exception.StackTrace, NotificationLevel.Error);
             }
             finally
-            {              
+            {
                 ProgressChanged(1, 1);
             }
         }
@@ -541,10 +540,10 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         /// </summary>
         public void onStatusChanged()
         {
-            if(OnStatusChanged != null)
+            if (OnStatusChanged != null)
                 OnStatusChanged(this, true);
         }
-      
+
         /// <summary>
         /// Called by a Master to start encryption
         /// </summary>
@@ -636,7 +635,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             {
                 IVString = enc.GetString(plugin.InputIV);
             }
-            
+
             if (((SDESSettings)plugin.Settings).Mode == 0 && action == 0)
             {
                 output = ecb.encrypt(data, key, bytesToUse);
@@ -665,23 +664,23 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         /// <returns>encrypted/decrypted text</returns>
         private byte[] execute(byte[] key, int bytesToUse, int action)
         {
-            
+
             if (input == null || plugin.InputChanged)
             {
                 plugin.InputChanged = false;
                 input = new byte[bytesToUse];
 
                 byte[] buffer = new byte[1];
-                
+
                 int i = 0;
                 using (CStreamReader reader = plugin.InputStream.CreateReader())
                 {
                     while ((reader.Read(buffer, 0, 1)) > 0 && i < bytesToUse)
                     {
-                    input[i] = buffer[0];
-                    i++;
+                        input[i] = buffer[0];
+                        i++;
+                    }
                 }
-            }
             }
 
             return execute(input, key, bytesToUse, action);
@@ -740,7 +739,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
         public bool NextKey()
         {
-            progress++;            
+            progress++;
             return pattern.nextKey();
         }
 
@@ -778,7 +777,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
         #endregion
     }
-       
+
     /// <summary>
     /// Encapsulates the SDES algorithm
     /// </summary>
@@ -910,7 +909,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                 ((SDESPresentation)mSdes.Presentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
                     ((SDESPresentation)mSdes.Presentation).encrypt_txt_sw_input.Text =
-                    Tools.byteArrayToStringWithSpaces(fk1);                    
+                    Tools.byteArrayToStringWithSpaces(fk1);
                 }
                , null);
             }
@@ -935,7 +934,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                     Tools.byteArrayToStringWithSpaces(fk2);
                 }
                , null);
-            }                   
+            }
 
             byte[] ciphertext = ip_inverse(fk2);
             if (this.mSdes.Presentation.IsVisible)
@@ -946,7 +945,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                     Tools.byteArrayToStringWithSpaces(ciphertext);
                 }
                , null);
-            }    
+            }
 
             return ciphertext;
 
@@ -1069,12 +1068,12 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                 ((SDESPresentation)mSdes.Presentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
                     ((SDESPresentation)mSdes.Presentation).decrypt_txt_sw_input.Text =
-                    Tools.byteArrayToStringWithSpaces(fk2);                  
+                    Tools.byteArrayToStringWithSpaces(fk2);
                 }
                , null);
             }
 
-            byte[] swtch = sw(fk2); 
+            byte[] swtch = sw(fk2);
             if (this.mSdes.Presentation.IsVisible)
             {
                 ((SDESPresentation)mSdes.Presentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
@@ -1105,7 +1104,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                     Tools.byteArrayToStringWithSpaces(plaintext);
                 }
                , null);
-            }            
+            }
 
             return plaintext;
 
@@ -1437,7 +1436,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         ///7   -> 4
         ///8   -> 1
         ///</summary>
-         ///<param name="bits">byte array of size 4</param>
+        ///<param name="bits">byte array of size 4</param>
         ///<returns>byte array of size 8</returns>
         private byte[] ep(byte[] bits)
         {
@@ -1880,7 +1879,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         /// bytesToUse = 0 => encrypt all
         public byte[] encrypt(byte[] input, byte[] key, byte[] vector, [Optional, DefaultParameterValue(0)] int bytesToUse)
         {
-            int until = input.Length;            
+            int until = input.Length;
 
             if (bytesToUse < until && bytesToUse > 0)
                 until = bytesToUse;
@@ -1894,7 +1893,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                 output[i] = Tools.byteArrayToByte(vector);
 
             }//end while
-            
+
             return output;
 
         }//end encrypt
@@ -1938,7 +1937,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         {
 
             int until = input.Length;
-           
+
             if (bytesToUse < until && bytesToUse > 0)
                 until = bytesToUse;
 
@@ -1948,7 +1947,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             {
                 output[i] = (Tools.byteArrayToByte(Tools.exclusive_or(mAlgorithm.decrypt(Tools.byteToByteArray(input[i]), key), vector)));
                 vector = Tools.byteToByteArray(input[i]);
-                           
+
             }//end while
 
             return output;
@@ -2015,13 +2014,13 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
             int until = input.Length;
 
-            if(bytesToUse < until && bytesToUse > 0)
+            if (bytesToUse < until && bytesToUse > 0)
                 until = bytesToUse;
 
             byte[] output = new byte[until];
 
-            for(int i=0;i<until;i++)
-            {                
+            for (int i = 0; i < until; i++)
+            {
                 //Step 2 encrypt symbol
                 output[i] = Tools.byteArrayToByte(this.mAlgorithm.encrypt(Tools.byteToByteArray(input[i]), key));
 
@@ -2071,7 +2070,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
             if (bytesToUse < until && bytesToUse > 0)
                 until = bytesToUse;
-            
+
             byte[] output = new byte[until];
 
             for (int i = 0; i < until; i++)

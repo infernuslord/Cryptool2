@@ -240,6 +240,9 @@ namespace Cryptool.Plugins.CostFunction
 
         private static string convertTextToHexString(string text)
         {
+            if (text == null)
+                return null;
+
             StringBuilder sb = new StringBuilder();
             foreach(byte b in Encoding.ASCII.GetBytes(text))
             {
@@ -284,6 +287,9 @@ namespace Cryptool.Plugins.CostFunction
 
         private static string convertHexStringToText(string hexString)
         {
+            if (hexString == null)
+                return null;
+
             StringBuilder cleanHexString = new StringBuilder();
 
             //cleanup the input
