@@ -38,56 +38,13 @@ namespace Cryptool.Core
 
         private void Button_Click(object sender, RoutedEventArgs routedEventArgs)
         {
-            var button = MessageBoxButton.YesNo;
-            var icon = MessageBoxImage.Question;
-            var res = MessageBox.Show("Do you want to report these error informations to the CrypTool 2.0 developers? This is fully anonymous!", "Report error", button, icon);
-            if (res == MessageBoxResult.Yes)
-            {
-                var sb = new StringBuilder();
-                sb.AppendLine(string.Format("Exception at {0} (UTC time):", DateTime.UtcNow));
-                sb.AppendLine(_e.ToString());
-                sb.AppendLine("");
-                sb.AppendLine("-");
-                sb.AppendLine("System infos:");
-                sb.AppendLine(GetSystemInfos());
-
-                try
-                {
-                    Mailer.SendMailToCoreDevs("Crash report!", sb.ToString());
-                    MessageBox.Show("The error has been reported. Thank you!", "Reporting done");
-                }
-                catch (Exception)
-                {
-                    MessageBox.Show("Error trying to report!", "Reporting failed");
-                }
-            }
+            var reportErrorDialog = new ReportErrorDialog(_e, _version, _buildType, _productName);
+            reportErrorDialog.ShowDialog();
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs routedEventArgs)
         {
             Close();
-        }
-
-        private string GetSystemInfos()
-        {
-            var pricipal = new WindowsPrincipal(WindowsIdentity.GetCurrent());
-            var hasAdministrativeRight = pricipal.IsInRole(WindowsBuiltInRole.Administrator);
-
-            var sb = new StringBuilder();
-            sb.AppendLine(string.Format("User Name: {0}", System.Environment.UserName));
-            sb.AppendLine(string.Format("Operating System: {0}", System.Environment.OSVersion.ToString()));
-            sb.AppendLine(string.Format("Plattform: {0}", Environment.OSVersion.Platform));
-            sb.AppendLine(string.Format("Machine Name: {0}", System.Environment.MachineName));
-            sb.AppendLine(string.Format("Processors: {0}", System.Environment.ProcessorCount));
-            sb.AppendLine(string.Format("Process Info: {0}", (System.Environment.Is64BitProcess ? "64 Bit" : "32 Bit")));
-            sb.AppendLine(string.Format("Administrative Rights: {0}", hasAdministrativeRight));
-            sb.AppendLine(string.Format("Current culture: {0}", CultureInfo.CurrentCulture.Name));
-            sb.AppendLine(string.Format("CrypTool version: {0}", _version));
-            sb.AppendLine(string.Format("Build type: {0}", _buildType));
-            sb.AppendLine(string.Format("Product name: {0}", _productName));
-            sb.AppendLine(string.Format("Common language runtime version: {0}", Environment.Version));
-
-            return sb.ToString();
         }
 
         public static void ShowModalDialog(Exception e, Version version, string buildType, string productName)
