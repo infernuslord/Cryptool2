@@ -6,7 +6,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <ListBox Name="RecentFileListBox" ItemsSource="{Binding}" Background="#00000000" Height="150">
+        <ListBox Name="RecentFileListBox" ItemsSource="{Binding}" Background="#00000000" Height="200">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">

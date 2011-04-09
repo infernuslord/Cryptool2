@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:Startcenter="clr-namespace:Startcenter" mc:Ignorable="d" 
-             d:DesignHeight="500" d:DesignWidth="800" Background="#FFEBEFF6">
+             d:DesignHeight="500" d:DesignWidth="1200" Background="#FFEBEFF6">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -35,7 +35,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition Width="5"/>
-                <ColumnDefinition Width="250" />
+                <ColumnDefinition Width="520" />
             </Grid.ColumnDefinitions>            
             
             <Border>
@@ -47,13 +47,19 @@
             <GridSplitter Grid.Column="1" Width="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#FFAEBBD4" HorizontalContentAlignment="Center" />
 
             <ScrollViewer Grid.Column="2" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-                <StackPanel Orientation="Vertical">
-                    <Expander IsExpanded="True" Header="Last opened files:">
+                <WrapPanel Orientation="Horizontal">
+                    <Expander IsExpanded="True" Header="Templates:" Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=ScrollViewer, AncestorLevel=1}, Path=ActualWidth}" MinWidth="250" MaxWidth="500">
+                        <Border Name="templates">
+                            <Startcenter:Templates />
+                        </Border>
+                    </Expander>
+                    
+                    <Expander IsExpanded="True" Header="Last opened files:" Width="250">
                         <Border Name="lastOpenedFilesList">
                             <Startcenter:LastOpenedFilesList/>
                         </Border>
                     </Expander>
-                    <Expander IsExpanded="True" Header="News:">
+                    <Expander IsExpanded="True" Header="News:" Width="250">
                         <Border>
                             <Label>
                                 <Label.Content>
@@ -64,8 +70,8 @@
                                 </Label.Content>                            
                             </Label>
                         </Border>
-                    </Expander>
-                </StackPanel>
+                    </Expander>                    
+                </WrapPanel>
             </ScrollViewer>
         </Grid>
 
