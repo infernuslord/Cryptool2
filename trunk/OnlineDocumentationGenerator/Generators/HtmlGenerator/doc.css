@@ -1,0 +1,13 @@
+﻿p.note {
+  position: relative;
+  left: 15%;
+  width: 80%;
+  padding: 30px;
+  padding-bottom: 45px;
+  border: 1px solid black;
+  line-height: 1.5em;
+  color: black;
+  font-weight: bold;
+  text-align: justify;
+  background-color: #eeeeee;
+}

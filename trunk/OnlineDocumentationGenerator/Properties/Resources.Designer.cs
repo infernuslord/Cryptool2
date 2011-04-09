@@ -61,6 +61,19 @@ namespace OnlineDocumentationGenerator.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+        ///
+        ///&lt;AdditionalResources&gt;
+        ///  &lt;file path=&quot;OnlineDocumentationGenerator/Generators/HtmlGenerator/doc.css&quot;/&gt;
+        ///&lt;/AdditionalResources&gt;.
+        /// </summary>
+        internal static string AdditionalResources {
+            get {
+                return ResourceManager.GetString("AdditionalResources", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Description.
         /// </summary>
         internal static string HtmlGenerator_GenerateConnectorListCode_Description {

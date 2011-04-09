@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Windows;
 using System.Windows.Media.Imaging;
 using System.Xml.Linq;
 using Cryptool.PluginBase;
@@ -57,7 +58,10 @@ namespace OnlineDocumentationGenerator
 
                 if (descriptionUrl != string.Empty)
                 {
-                    var stream = pluginType.Assembly.GetManifestResourceStream(descriptionUrl);
+                    int sIndex = descriptionUrl.IndexOf('/');
+                    var xmlUri = new Uri(string.Format("pack://application:,,,/{0};component/{1}",
+                                                             descriptionUrl.Substring(0, sIndex), descriptionUrl.Substring(sIndex + 1)));
+                    var stream = Application.GetResourceStream(xmlUri).Stream;
                     return XElement.Load(stream);
                 }
                 return null;

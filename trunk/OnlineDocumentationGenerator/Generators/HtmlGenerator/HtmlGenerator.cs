@@ -4,6 +4,8 @@ using System.Globalization;
 using System.IO;
 using System.Text;
 using System.Threading;
+using System.Windows;
+using System.Xml.Linq;
 using Cryptool.PluginBase;
 using OnlineDocumentationGenerator.Properties;
 
@@ -19,6 +21,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
             _objectConverter = new ObjectConverter(pluginPages);
             GeneratePluginDocPages();
             GenerateIndexPages();
+            CopyAdditionalResources();
         }
 
         private void GenerateIndexPages()
@@ -198,6 +201,32 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
             }
 
             return codeBuilder.ToString();
+        }
+
+        private void CopyAdditionalResources()
+        {
+            var additionalResources = XElement.Parse(Properties.Resources.AdditionalResources);
+            foreach (var r in additionalResources.Elements("file"))
+            {
+                try
+                {
+                    var path = r.Attribute("path").Value;
+                    int sIndex = path.IndexOf('/');
+                    var resUri = new Uri(string.Format("pack://application:,,,/{0};component/{1}",
+                                                       path.Substring(0, sIndex), path.Substring(sIndex + 1)));
+                    var fileName = Path.Combine(OnlineHelp.HelpDirectory, Path.GetFileName(path));
+                    
+                    using (var resStream = Application.GetResourceStream(resUri).Stream)
+                    using (var streamWriter = new System.IO.StreamWriter(fileName, false))
+                    {
+                        resStream.CopyTo(streamWriter.BaseStream);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.Error.WriteLine("Error trying to copy additional resource: {0}", ex.Message);
+                }
+            }
         }
     }
 }
