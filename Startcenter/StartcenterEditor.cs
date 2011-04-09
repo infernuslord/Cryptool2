@@ -18,6 +18,8 @@ namespace StartCenter
     [PluginInfo("Startcenter.Properties.Resources", false, "Startcenter", "The CrypTool 2.0 startcenter", null, "Startcenter/startcenter.png")]
     class StartcenterEditor : IEditor
     {
+        private string _samplesDir;
+
         public event PropertyChangedEventHandler PropertyChanged;
         public event StatusChangedEventHandler OnPluginStatusChanged;
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
@@ -28,15 +30,15 @@ namespace StartCenter
             get { return null; }
         }
 
-        readonly Startcenter.Startcenter startcenter = new Startcenter.Startcenter();
+        private readonly Startcenter.Startcenter _startcenter = new Startcenter.Startcenter();
         public UserControl Presentation
         {
-            get { return startcenter; }
+            get { return _startcenter; }
         }
         
         public UserControl QuickWatchPresentation
         {
-            get { return startcenter; }
+            get { return _startcenter; }
         }
 
         public void PreExecution()
@@ -66,7 +68,8 @@ namespace StartCenter
 
         public void Initialize()
         {
-            startcenter.OnOpenEditor += (content, title) => OnOpenEditor(content, title);
+            _startcenter.OnOpenEditor += (content, title) => OnOpenEditor(content, title);
+            _startcenter.TemplatesDir = _samplesDir;
         }
 
         public void Dispose()
@@ -223,7 +226,7 @@ namespace StartCenter
 
         public string SamplesDir
         {
-            set { }
+            set { _samplesDir = value; }
         }
 
         public List<EditorSpecificPluginInfo> EditorSpecificPlugins

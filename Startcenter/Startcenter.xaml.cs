@@ -21,6 +21,14 @@ namespace Startcenter
     /// </summary>
     public partial class Startcenter : UserControl
     {
+        public string TemplatesDir
+        {
+            set 
+            {
+                ((Templates)templates.Child).TemplatesDir = value;
+            }
+        }
+
         public event OpenEditorHandler OnOpenEditor;
 
         public Startcenter()
@@ -28,6 +36,7 @@ namespace Startcenter
             InitializeComponent();
             ((Buttons)buttons.Content).OnOpenEditor += (content, title) => OnOpenEditor(content, title);
             ((LastOpenedFilesList)lastOpenedFilesList.Child).OnOpenEditor += (content, title) => OnOpenEditor(content, title);
+            ((Templates)templates.Child).OnOpenEditor += (content, title) => OnOpenEditor(content, title);
         }
     }
 }

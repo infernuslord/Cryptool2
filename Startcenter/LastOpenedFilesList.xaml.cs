@@ -43,7 +43,7 @@ namespace Startcenter
                 var file = new FileInfo(rfile);
                 var title = file.Name.Remove(file.Name.Length - 4).Replace("-", " ").Replace("_", " ");
                 var fileExt = file.Extension.ToLower().Substring(1);
-                if (ComponentInformations.EditorExtension.ContainsKey(fileExt))
+                if (ComponentInformations.EditorExtension != null && ComponentInformations.EditorExtension.ContainsKey(fileExt))
                 {
                     Type editorType = ComponentInformations.EditorExtension[fileExt];
                     var icon = editorType.GetImage(0).Source;

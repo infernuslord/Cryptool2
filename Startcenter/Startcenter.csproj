@@ -64,6 +64,9 @@
     <Compile Include="Buttons.xaml.cs">
       <DependentUpon>Buttons.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CTTreeViewItem.xaml.cs">
+      <DependentUpon>CTTreeViewItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="LastOpenedFilesList.xaml.cs">
       <DependentUpon>LastOpenedFilesList.xaml</DependentUpon>
     </Compile>
@@ -77,13 +80,24 @@
       <DependentUpon>Startcenter.xaml</DependentUpon>
     </Compile>
     <Compile Include="StartcenterEditor.cs" />
+    <Compile Include="Templates.xaml.cs">
+      <DependentUpon>Templates.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Include="Buttons.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="CTTreeViewItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="LastOpenedFilesList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Templates.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -145,6 +159,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="browser.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="search.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
