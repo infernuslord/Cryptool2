@@ -7,9 +7,45 @@
   <description lang="en">
     TextInput is a <b>very</b> useful component... <newline/>
     <img src="TextInput/Documentation/Demonstration.png"/>
+    <section headline="New Section">
+      This demonstrates the capability to create sections.
+      <newline/>
+      <enum>
+        <item>This</item>
+        <item>demonstrates</item>
+        <item>the enumeration</item>
+        <item>capability!</item>
+      </enum>
+      <list>
+        <item>This</item>
+        <item>demonstrates</item>
+        <item>the (unordered) listing</item>
+        <item>capability! <b>Formating</b> is also possible! </item>
+      </list>
+    </section>
+
+    <section headline="And another section">
+      External links are possible: <external ref="http://en.wikipedia.org/wiki/Main_Page"/>
+      <newline />
+      External links with a link text are possible, too: <external ref="http://en.wikipedia.org/wiki/Main_Page">Click here!</external>
+      <newline />
+      Internal links are possible: <pluginRef plugin="TextInput"/>
+      <newline />
+      Also to not yet existing plugins: <pluginRef plugin="KeySearcher"/>
+    </section>
   </description>
   <description lang="de-DE">
     TextInput ist eine <b>sehr</b> nützliche Komponente... <newline/>
     <img src="TextInput/Documentation/Demonstration.png"/>
+
+    <section headline="Und eine andere Sektion">
+      Externe Links sind möglich: <external ref="http://en.wikipedia.org/wiki/Main_Page"/>
+      <newline />
+      Bla bla externe Links: <external ref="http://en.wikipedia.org/wiki/Main_Page">Click here!</external>
+      <newline />
+      Interne Links sind möglich: <pluginRef plugin="TextInput"/>
+      <newline />
+      Auch zu noch nicht existierenden Plugins: <pluginRef plugin="KeySearcher"/>
+    </section>
   </description>
 </documentation>

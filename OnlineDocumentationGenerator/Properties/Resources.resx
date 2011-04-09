@@ -133,4 +133,10 @@
 	<data name="HtmlGenerator_GenerateSettingsListCode_Type">
 		<value xml:space="preserve">Type</value>
 	</data>
+	<data name="HtmlGenerator_GenerateConnectorListCode_Direction">
+		<value xml:space="preserve">Direction</value>
+	</data>
+	<data name="HtmlGenerator_GenerateConnectorListCode_Type">
+		<value xml:space="preserve">Type</value>
+	</data>
 </root>
