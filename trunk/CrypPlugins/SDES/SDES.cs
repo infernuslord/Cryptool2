@@ -38,7 +38,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
     /// used by the KeySearcher to do bruteforcing
     /// </summary>
     [Author("Nils Kopal", "nils.kopal@cryptool.de", "Uni Duisburg", "http://www.uni-duisburg-essen.de")]
-    [PluginInfo("Cryptool.Plugins.Cryptography.Encryption.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "SDES/icon.png", "SDES/Images/encrypt.png", "SDES/Images/decrypt.png")]
+    [PluginInfo("Cryptool.Plugins.Cryptography.Encryption.Properties.Resources", false, "PluginCaption", "PluginTooltip", "SDES/DetailedDescription/doc.xml", "SDES/icon.png", "SDES/Images/encrypt.png", "SDES/Images/decrypt.png")]
     [EncryptionType(EncryptionType.SymmetricBlock)]
     public class SDES : IEncryption
     {
