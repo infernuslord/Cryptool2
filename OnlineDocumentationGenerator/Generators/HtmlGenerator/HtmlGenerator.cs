@@ -154,7 +154,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
             foreach (var pluginConnector in localizedPluginDocumentationPage.PluginConnectors)
             {
                 var type = pluginConnector.PropertyInfo.PropertyType.Name;
-                codeBuilder.AppendLine(string.Format("<tr> <th>{0}</th> <th>{1}</th> <th>{2}</th> <th>{3}</th> </tr>", 
+                codeBuilder.AppendLine(string.Format("<tr> <td>{0}</td> <td>{1}</td> <td>{2}</td> <td>{3}</td> </tr>", 
                     pluginConnector.Caption, 
                     pluginConnector.ToolTip, 
                     pluginConnector.Direction,
@@ -176,7 +176,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
 
             foreach (var setting in localizedPluginDocumentationPage.Settings)
             {
-                codeBuilder.AppendLine(string.Format("<tr> <th>{0}</th> <th>{1}</th> <th>{2}</th> </tr>", setting.Caption, setting.ToolTip, setting.ControlType.ToString()));
+                codeBuilder.AppendLine(string.Format("<tr> <td>{0}</td> <td>{1}</td> <td>{2}</td> </tr>", setting.Caption, setting.ToolTip, setting.ControlType.ToString()));
             }
 
             codeBuilder.AppendLine("</table>");
