@@ -16,6 +16,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
@@ -408,6 +409,9 @@ namespace Cryptool.PluginBase
           try
           {
             string description = plugin.GetPluginInfoAttribute().DescriptionUrl;
+            if (description == null || Path.GetExtension(description).ToLower() != ".xaml")
+                return null;
+
             if (description != null && descriptionDocumentCache.ContainsKey(description))
                 return descriptionDocumentCache[description];
 
