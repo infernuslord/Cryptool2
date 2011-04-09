@@ -87,7 +87,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Generators\HtmlGenerator\doc.css" />
-    <Content Include="Generators\HtmlGenerator\AdditionalResources.xml" />
+    <Content Include="Generators\HtmlGenerator\AdditionalResources.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Generators\HtmlGenerator\TemplateIndex.html" />
     <Content Include="Generators\HtmlGenerator\TemplatePluginDocumentationPage.html" />
     <EmbeddedResource Include="Properties\Resources.de-DE.resx">

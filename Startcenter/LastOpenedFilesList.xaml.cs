@@ -35,26 +35,28 @@ namespace Startcenter
         private void ReadRecentFileList()
         {
             var recentFileList = new Cryptool.Core.RecentFileList();
-            foreach (var rfile in recentFileList.GetRecentFiles())
+            var recentFiles = recentFileList.GetRecentFiles();
+            recentFiles.Reverse();
+
+            foreach (var rfile in recentFiles)
             {
                 var file = new FileInfo(rfile);
-                bool cte = (file.Extension.ToLower() == ".cte");
                 var title = file.Name.Remove(file.Name.Length - 4).Replace("-", " ").Replace("_", " ");
-                Type editorType = cte ? typeof(AnotherEditor.AnotherEditor) : typeof(WorkspaceManager.WorkspaceManager);
-                var icon = editorType.GetImage(0).Source;
-
-                recentFileInfos.Add(new RecentFileInfo() {File = rfile, Title = title, Icon = icon, Cte = cte});
+                var fileExt = file.Extension.ToLower().Substring(1);
+                if (ComponentInformations.EditorExtension.ContainsKey(fileExt))
+                {
+                    Type editorType = ComponentInformations.EditorExtension[fileExt];
+                    var icon = editorType.GetImage(0).Source;
+                    recentFileInfos.Add(new RecentFileInfo()
+                                            {File = rfile, Title = title, Icon = icon, EditorType = editorType});
+                }
             }
         }
 
         private void Label_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             var selectedItem = (RecentFileInfo)RecentFileListBox.SelectedItem;
-            IEditor editor;
-            if (selectedItem.Cte)
-                editor = OnOpenEditor(typeof(AnotherEditor.AnotherEditor), null);
-            else
-                editor = OnOpenEditor(typeof(WorkspaceManager.WorkspaceManager), null);
+            IEditor editor = OnOpenEditor(selectedItem.EditorType, null);
             editor.Open(selectedItem.File);
         }
     }
@@ -64,6 +66,6 @@ namespace Startcenter
         public string File { get; set; }
         public string Title { get; set; }
         public ImageSource Icon { get; set; }
-        public bool Cte { get; set; }
+        public Type EditorType { get; set; }
     }
 }
