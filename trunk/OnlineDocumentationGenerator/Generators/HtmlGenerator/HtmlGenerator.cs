@@ -12,10 +12,11 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
     public class HtmlGenerator : Generator
     {
         private readonly string _htmlTemplate = Properties.Resources.TemplatePluginDocumentationPage;
-        private ObjectConverter _objectConverter = new ObjectConverter();
+        private ObjectConverter _objectConverter;
 
         public override void Generate()
         {
+            _objectConverter = new ObjectConverter(pluginPages);
             GeneratePluginDocPages();
             GenerateIndexPages();
         }
@@ -141,13 +142,20 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
         {
             var codeBuilder = new StringBuilder();
             codeBuilder.AppendLine("<table border=\"1\">");
-            codeBuilder.AppendLine(string.Format("<tr> <th>{0}</th> <th>{1}</th> </tr>", 
+            codeBuilder.AppendLine(string.Format("<tr> <th>{0}</th> <th>{1}</th> <th>{2}</th> <th>{3}</th> </tr>", 
                 Resources.HtmlGenerator_GenerateConnectorListCode_Name, 
-                Resources.HtmlGenerator_GenerateConnectorListCode_Description));
+                Resources.HtmlGenerator_GenerateConnectorListCode_Description,
+                Resources.HtmlGenerator_GenerateConnectorListCode_Direction,
+                Resources.HtmlGenerator_GenerateConnectorListCode_Type));
 
             foreach (var pluginConnector in localizedPluginDocumentationPage.PluginConnectors)
             {
-                codeBuilder.AppendLine(string.Format("<tr> <th>{0}</th> <th>{1}</th> </tr>", pluginConnector.Caption, pluginConnector.ToolTip));
+                var type = pluginConnector.PropertyInfo.PropertyType.Name;
+                codeBuilder.AppendLine(string.Format("<tr> <th>{0}</th> <th>{1}</th> <th>{2}</th> <th>{3}</th> </tr>", 
+                    pluginConnector.Caption, 
+                    pluginConnector.ToolTip, 
+                    pluginConnector.Direction,
+                    type));
             }
 
             codeBuilder.AppendLine("</table>");

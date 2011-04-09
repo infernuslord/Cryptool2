@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Threading;
 using System.Windows.Media.Imaging;
 using System.Xml.Linq;
 using Cryptool.PluginBase;
@@ -14,7 +15,13 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
     /// </summary>
     class ObjectConverter
     {
+        private readonly List<PluginDocumentationPage> _pluginPages;
         private readonly HashSet<string> _createdImages = new HashSet<string>();
+
+        public ObjectConverter(List<PluginDocumentationPage> pluginPages)
+        {
+            _pluginPages = pluginPages;
+        }
 
         public string Convert(object theObject, PluginDocumentationPage pluginDocumentationPage)
         {
@@ -98,6 +105,57 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
                         case "newline":
                             result.Append("<br/>");
                             break;
+                        case "section":
+                            var headline = ((XElement) node).Attribute("headline");
+                            if (headline != null)
+                            {
+                                result.AppendLine(string.Format("<h3>{0}</h3>", headline.Value));
+                                result.AppendLine(ConvertXElement((XElement) node, pluginDocumentationPage));
+                            }
+                            break;
+                        case "enum":
+                        case "list":
+                            var t = (nodeName == "enum") ? "ol" : "ul";
+                            result.AppendLine(string.Format("<{0}>", t));
+                            foreach (var item in ((XElement)node).Elements("item"))
+                            {
+                                result.AppendLine(string.Format("<li>{0}</li>", ConvertXElement(item, pluginDocumentationPage)));
+                            }
+                            result.AppendLine(string.Format("</{0}>", t));
+                            break;
+                        case "external":
+                            var reference = ((XElement) node).Attribute("ref");
+                            if (reference != null)
+                            {
+                                var linkText = ConvertXElement((XElement) node, pluginDocumentationPage);
+                                if (string.IsNullOrEmpty(linkText))
+                                {
+                                    linkText = reference.Value;
+                                }
+                                result.Append(string.Format("<a href=\"{0}\">{1}</a>", reference.Value, linkText));
+                            }
+                            break;
+                        case "pluginRef":
+                            var plugin = ((XElement)node).Attribute("plugin");
+                            if (plugin != null)
+                            {
+                                var linkText = ConvertXElement((XElement)node, pluginDocumentationPage);
+                                if (string.IsNullOrEmpty(linkText))
+                                {
+                                    linkText = plugin.Value;
+                                }
+
+                                var pluginLink = GetPluginLink(plugin.Value);
+                                if (pluginLink != null)
+                                {
+                                    result.Append(string.Format("<a href=\"{0}\">{1}</a>", pluginLink, linkText));
+                                }
+                                else
+                                {
+                                    result.Append(string.Format("<i>{0}</i>", linkText));
+                                }
+                            }
+                            break;
                         default:
                             continue;
                     }
@@ -105,6 +163,26 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
             }
 
             return result.ToString();
+        }
+
+        private string GetPluginLink(string plugin)
+        {
+            foreach(var p in _pluginPages)
+            {
+                if (p.Localizations["en"].Name == plugin)
+                {
+                    var lang = Thread.CurrentThread.CurrentUICulture.Name;
+                    if (p.AvailableLanguages.Contains(lang))
+                    {
+                        return OnlineHelp.GetPluginDocFilename(p.PluginType, lang);
+                    }
+                    else
+                    {
+                        return OnlineHelp.GetPluginDocFilename(p.PluginType, "en");
+                    }
+                }
+            }
+            return null;
         }
     }
 }
