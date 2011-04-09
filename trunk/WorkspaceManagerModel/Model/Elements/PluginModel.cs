@@ -476,7 +476,8 @@ namespace WorkspaceManager.Model
                     }
                     continue;
                 }
-                if (Startable && !RepeatStart)
+
+                if (Startable && !RepeatStart && InputConnectors.Count == 0)
                 {
                     continue;
                 }
@@ -587,6 +588,10 @@ namespace WorkspaceManager.Model
                         {
                             connectorModel.HasData = false;
                             connectorModel.Data = null; 
+                            foreach(ConnectionModel connectionModel in connectorModel.InputConnections)
+                            {
+                                connectionModel.Active = false;
+                            }
                         }
                     }
                     catch (Exception ex)
