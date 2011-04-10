@@ -32,27 +32,29 @@ namespace Startcenter
                 if (value != null)
                 {
                     DirectoryInfo templateDir = new DirectoryInfo(value);
-                    FillTemplatesNavigationPane(templateDir, TempaltesListBox);
+                    FillTemplatesNavigationPane(templateDir, TemplatesTreeView);
                 }
             }
         }
 
         public event OpenEditorHandler OnOpenEditor;
+        public event OpenTabHandler OnOpenTab;
 
         public Templates()
         {
             InitializeComponent();
         }
 
-        private void FillTemplatesNavigationPane(DirectoryInfo templateDir, System.Windows.Controls.TreeView parent)
+        private void FillTemplatesNavigationPane(DirectoryInfo templateDir, TreeView treeView)
         {
 
             CTTreeViewItem item = new CTTreeViewItem(templateDir.Name, true);
-            parent.Items.Add(item);
+            treeView.Items.Add(item);
             foreach (var subDirectory in templateDir.GetDirectories())
                 handleTemplateDirectories(subDirectory, item);
 
             MakeTemplateInformation(templateDir, item);
+            item.IsExpanded = true;
         }
 
         private void handleTemplateDirectories(DirectoryInfo directory, CTTreeViewItem parent)
@@ -67,23 +69,22 @@ namespace Startcenter
                 handleTemplateDirectories(subDirectory, item);
 
             MakeTemplateInformation(directory, item);
-            return;
         }
 
         private void MakeTemplateInformation(DirectoryInfo info, CTTreeViewItem parent)
         {
-            var styleInformationXML = Path.Combine(info.FullName, "StyleInformation.xml");
             SolidColorBrush bg = Brushes.Transparent;
 
-            if (File.Exists(styleInformationXML))
-            {
-                XElement xml = XElement.Load(styleInformationXML);
-                if (xml.Element("background") != null)
-                {
-                    Color color = (Color)ColorConverter.ConvertFromString(xml.Element("background").Value);
-                    parent.Background = bg = new SolidColorBrush(Color.FromArgb(80, color.R, color.G, color.B));
-                }
-            }
+            //var styleInformationXML = Path.Combine(info.FullName, "StyleInformation.xml");
+            //if (File.Exists(styleInformationXML))
+            //{
+            //    XElement xml = XElement.Load(styleInformationXML);
+            //    if (xml.Element("background") != null)
+            //    {
+            //        Color color = (Color)ColorConverter.ConvertFromString(xml.Element("background").Value);
+            //        parent.Background = bg = new SolidColorBrush(Color.FromArgb(80, color.R, color.G, color.B));
+            //    }
+            //}
 
             foreach (var file in info.GetFiles().Where(x => ((x.Extension.ToLower() == ".cte") || (x.Extension.ToLower() == ".cwm"))))
             {
@@ -122,14 +123,84 @@ namespace Startcenter
                     image = editorType.GetImage(0).Source;
                 }
 
-                //ListBoxItem navItem = CreateSampleListBoxItem(file, title, description, image);
-                //navListBoxSearch.Items.Add(navItem);
+                ListBoxItem searchItem = CreateTemplateListBoxItem(file, title, description, image);
+                TemplatesListBox.Items.Add(searchItem);
 
                 CTTreeViewItem item = new CTTreeViewItem(file, title, description, image) { Background = bg };
-                item.ToolTip = string.Format("Sample \"{0}\"", title);
                 ToolTipService.SetShowDuration(item, Int32.MaxValue);
-                //item.MouseDoubleClick += sampleNavItem_doubleClick;
+                item.MouseDoubleClick += TemplateItemDoubleClick;
                 parent.Items.Add(item);
+            }
+        }
+
+        private ListBoxItem CreateTemplateListBoxItem(FileInfo file, string title, string tooltip, ImageSource imageSource)
+        {
+            Image image = new Image();
+            image.Source = imageSource;
+            image.Margin = new Thickness(16, 0, 5, 0);
+            image.Height = 25;
+            image.Width = 25;
+            TextBlock textBlock = new TextBlock();
+            textBlock.FontWeight = FontWeights.DemiBold;
+            textBlock.VerticalAlignment = VerticalAlignment.Center;
+            textBlock.Text = title;
+            StackPanel stackPanel = new StackPanel();
+            stackPanel.Margin = new Thickness(0, 2, 0, 2);
+            stackPanel.VerticalAlignment = VerticalAlignment.Center;
+            stackPanel.Orientation = Orientation.Horizontal;
+            stackPanel.Children.Add(image);
+            stackPanel.Children.Add(textBlock);
+
+            ListBoxItem navItem = new ListBoxItem();
+            navItem.Content = stackPanel;
+            navItem.Tag = new KeyValuePair<string, string>(file.FullName, title);
+
+            navItem.MouseDoubleClick += TemplateItemDoubleClick;
+
+            try
+            {
+                string xamlTooltipTextBlockCode = string.Format("<TextBlock xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\" "
+                                                                    + "TextWrapping=\"Wrap\" MaxWidth=\"400\"> {0} </TextBlock>", tooltip.Trim());
+                var tooltipTextBlock = (TextBlock)System.Windows.Markup.XamlReader.Parse(xamlTooltipTextBlockCode);
+                navItem.ToolTip = tooltipTextBlock;
+            }
+            catch (Exception)
+            {
+                var tooltipTextBlock = new TextBlock { Text = tooltip.Trim(), TextWrapping = TextWrapping.Wrap };
+                tooltipTextBlock.MaxWidth = 400;
+                navItem.ToolTip = tooltipTextBlock;
+            }
+
+            ToolTipService.SetShowDuration(navItem, Int32.MaxValue);
+            return navItem;
+        }
+
+        private void TemplateItemDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var infos = ((KeyValuePair<string, string>)((FrameworkElement)sender).Tag);
+            if (infos.Key != null && Path.GetExtension(infos.Key) != null)
+            {
+                var fileExt = Path.GetExtension(infos.Key).ToLower().Substring(1);
+                if (ComponentInformations.EditorExtension != null && ComponentInformations.EditorExtension.ContainsKey(fileExt))
+                {
+                    Type editorType = ComponentInformations.EditorExtension[fileExt];
+                    string title = infos.Value;
+                    var editor = OnOpenEditor(editorType, title);
+                    editor.Presentation.ToolTip = "This is a template";
+                    if (sender is CTTreeViewItem)
+                    {
+                        CTTreeViewItem templateItem = (CTTreeViewItem)sender;
+                        editor.Presentation.Tag = templateItem.Icon;
+                    }
+                    else if (sender is ListBoxItem)
+                    {
+                        var searchItem = (ListBoxItem) sender;
+                        editor.Presentation.Tag = ((Image)((StackPanel)searchItem.Content).Children[0]).Source;
+                    }
+
+                    editor.Open(infos.Key);
+                    OnOpenTab(editor, title, null);     //rename tab header
+                }
             }
         }
 
@@ -164,50 +235,49 @@ namespace Startcenter
 
         private void TemplateSearchInputChanged(object sender, TextChangedEventArgs e)
         {
-            //if (PluginSearchTextBox.Text == "")
-            //{
-            //    if (navPaneItemSearch.IsSelected)
-            //        navPaneItemClassic.IsSelected = true;
-            //    navPaneItemSearch.Visibility = Visibility.Collapsed;
-            //}
-            //else
-            //{
-            //    navPaneItemSearch.Visibility = Visibility.Visible;
-            //    navPaneItemSearch.IsSelected = true;
+            if (SearchTextBox.Text == "")
+            {
+                TemplatesListBox.Visibility = Visibility.Collapsed;
+                TemplatesTreeView.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                TemplatesListBox.Visibility = Visibility.Visible;
+                TemplatesTreeView.Visibility = Visibility.Collapsed;
 
-            //    foreach (ListBoxItem items in navListBoxSearch.Items)
-            //    {
-            //        var panel = (System.Windows.Controls.Panel)items.Content;
-            //        TextBlock textBlock = (TextBlock)panel.Children[1];
-            //        string text = textBlock.Text;
+                foreach (ListBoxItem items in TemplatesListBox.Items)
+                {
+                    var panel = (Panel)items.Content;
+                    TextBlock textBlock = (TextBlock)panel.Children[1];
+                    string text = textBlock.Text;
 
-            //        bool hit = text.ToLower().Contains(PluginSearchTextBox.Text.ToLower());
-            //        Visibility visibility = hit ? Visibility.Visible : Visibility.Collapsed;
-            //        items.Visibility = visibility;
+                    bool hit = text.ToLower().Contains(SearchTextBox.Text.ToLower());
+                    Visibility visibility = hit ? Visibility.Visible : Visibility.Collapsed;
+                    items.Visibility = visibility;
 
-            //        if (hit)
-            //        {
-            //            textBlock.Inlines.Clear();
-            //            int begin = 0;
-            //            int end = text.IndexOf(PluginSearchTextBox.Text, begin, StringComparison.OrdinalIgnoreCase);
-            //            while (end != -1)
-            //            {
-            //                textBlock.Inlines.Add(text.Substring(begin, end - begin));
-            //                textBlock.Inlines.Add(new Bold(new Italic(new Run(text.Substring(end, PluginSearchTextBox.Text.Length)))));
-            //                begin = end + PluginSearchTextBox.Text.Length;
-            //                end = text.IndexOf(PluginSearchTextBox.Text, begin, StringComparison.OrdinalIgnoreCase);
-            //            }
-            //            textBlock.Inlines.Add(text.Substring(begin, text.Length - begin));
-            //        }
-            //    }
-            //}
+                    if (hit)
+                    {
+                        textBlock.Inlines.Clear();
+                        int begin = 0;
+                        int end = text.IndexOf(SearchTextBox.Text, begin, StringComparison.OrdinalIgnoreCase);
+                        while (end != -1)
+                        {
+                            textBlock.Inlines.Add(text.Substring(begin, end - begin));
+                            textBlock.Inlines.Add(new Bold(new Italic(new Run(text.Substring(end, SearchTextBox.Text.Length)))));
+                            begin = end + SearchTextBox.Text.Length;
+                            end = text.IndexOf(SearchTextBox.Text, begin, StringComparison.OrdinalIgnoreCase);
+                        }
+                        textBlock.Inlines.Add(text.Substring(begin, text.Length - begin));
+                    }
+                }
+            }
         }
 
         private void TemplateSearchBoxKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Escape)
             {
-                PluginSearchTextBox.Text = "";
+                SearchTextBox.Text = "";
             }
         }
     }

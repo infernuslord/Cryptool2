@@ -20,7 +20,7 @@
             <RowDefinition Height="26" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <TextBox Name="PluginSearchTextBox" TextChanged="TemplateSearchInputChanged" 
+        <TextBox Name="SearchTextBox" TextChanged="TemplateSearchInputChanged" 
                              KeyDown="TemplateSearchBoxKeyDown" VerticalAlignment="Top" HorizontalAlignment="Stretch" ToolTip="Search" Focusable="True">
             <TextBox.Style>
                 <Style TargetType="TextBox">
@@ -66,6 +66,7 @@
         </TextBox>
 
 
-        <TreeView Name="TempaltesListBox" Grid.Row="1" Background="#00000000" Height="250"/>
+        <TreeView Name="TemplatesTreeView" Grid.Row="1" Background="#00000000" Height="250" />
+        <ListBox Name="TemplatesListBox" Grid.Row="1" Background="#00000000" Height="250" Visibility="Hidden" />
     </Grid>
 </UserControl>
