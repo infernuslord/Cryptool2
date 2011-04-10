@@ -30,6 +30,7 @@ namespace Startcenter
         }
 
         public event OpenEditorHandler OnOpenEditor;
+        public event OpenTabHandler OnOpenTab;
 
         public Startcenter()
         {
@@ -37,6 +38,7 @@ namespace Startcenter
             ((Buttons)buttons.Content).OnOpenEditor += (content, title) => OnOpenEditor(content, title);
             ((LastOpenedFilesList)lastOpenedFilesList.Child).OnOpenEditor += (content, title) => OnOpenEditor(content, title);
             ((Templates)templates.Child).OnOpenEditor += (content, title) => OnOpenEditor(content, title);
+            ((Templates)templates.Child).OnOpenTab += (content, title, parent) => OnOpenTab(content, title, parent);
         }
     }
 }
