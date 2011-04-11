@@ -4,7 +4,7 @@
   <language culture="en"/>
   <language culture="de-DE"/>
 
-  <description lang="en">
+  <introduction lang="en">
     TextInput is a <b>very</b> useful component... <newline/>
     <img src="TextInput/Documentation/Demonstration.png"/>
     <section headline="New Section">
@@ -33,8 +33,8 @@
       <newline />
       Also to not yet existing plugins: <pluginRef plugin="KeySearcher"/>
     </section>
-  </description>
-  <description lang="de-DE">
+  </introduction>
+  <introduction lang="de-DE">
     TextInput ist eine <b>sehr</b> nützliche Komponente... <newline/>
     <img src="TextInput/Documentation/Demonstration.png"/>
 
@@ -47,5 +47,21 @@
       <newline />
       Auch zu noch nicht existierenden Plugins: <pluginRef plugin="KeySearcher"/>
     </section>
-  </description>
+  </introduction>
+
+  <manual lang="en">
+    This section should describe, how to use the component.
+  </manual>
+
+  <presentation lang="en">
+    This section should describe the presentation of textinput if necessary.
+  </presentation>
+
+  <templates>
+    <template path="WorkspaceManagerSamples\Text_Sample.cwm">
+      <description lang="en">Good template!</description>
+      <description lang="de-DE">Schöne Vorlage!</description>
+    </template>
+  </templates>
+  
 </documentation>

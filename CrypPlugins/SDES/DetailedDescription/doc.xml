@@ -4,7 +4,7 @@
   <language culture="en"/>
   <language culture="de-DE"/>
 
-  <description lang="en">
+  <introduction lang="en">
     SDES - the Simplified Data Encryption Standard<newline/>    
     <section headline="About this component">
       SDES is a simplified algorithm similar to DES. It has been developed for educational purposes. Compared to DES it is more easily possible to implement the algorithm. SDES needs a key length of 10 bits for encryption and decryption. Like DES the SDES algorithm is symmetric - this means the same key is used for en- and for decryption. SDES can be easily broken by using a brute-force attack, because of its very small key space (2^10 = 1024 possible keys). 
@@ -17,9 +17,9 @@
     <section headline="Visualization">
 	By double-clicking on the icon of the SDES plugin in the CrypTool window, the user can enable the visualization of the SDES algorithm. In this view, he/she is able to watch the flow of the bits through the whole algorithm. The flow of each bit is represented by small lines (like wires) which go from the input through the algorithm to the final output. Each step is shown by a text box which contains the actual word produced by a sub function of the SDES algorithm. Each name of a sub function can be seen at the right or left site of a text box. On the right site of the visualization the user can see the encryption stream, in the middle the user can see the sub-key generation and on the right site the user can see the decryption. The directions here are: encryption from top to bottom, subkey generation from top to bottom and decryption from bottom to top. 
      </section>
-  </description>
-  
-  <description lang="de-DE">
+  </introduction>
+
+  <introduction lang="de-DE">
         SDES - der Simplified Data Encryption Standard<newline/>
     <section headline="Über diese Komponente">
       SDES ist ein sehr einfacher Algorithmus der DES ähnelt. Er wurde für Lehr- und Lernzwecke entwickelt. Verglichen mit DES ist es sehr einfach, den Algorithmus zu implementieren. SDES braucht einen Schlüssel der Länge 10bit für die Ver- und Entschlüsselung. Genau wie sein Vorbild DES ist SDES ein symmetrischer Algorithmus. Das bedeutet, das der selbe Schlüssel für Ver- und Entschlüsselung gebraucht wird. SDES kann sehr einfach mittels Brute-force Attacken, aufgrund seines geringen Schlüsselraums (2^10 = 1024 mögliche Schlüssel), gebrochen werden.
@@ -32,5 +32,5 @@
     <section headline="Visualisierung">
 	SDES verfügt über eine Visualisierung des Algorithmus. Die Visualisierung stellt den Algorithmus als Blockdiagramm dar, wobei die einzelnen Blöcke mittels 'Kabel' miteinander verbunden sind. Jeder Block stellt eine Subfunktion des SDES dar. Bei aktiver Visualisierung kann der Benutzer die aktuellen Werte der Subfunktion beobachten. Auf der linken Seite der Visualisierung wird die Verschlüsselung visualisiert, in der Mitte die Schlüsselgenerierung und auf der rechten Seite die Entschlüsselung. Die Verschlüselung arbeitet 'Top-Down' und die Entschlüsselung 'Bottom-Up' (Flussrichtung der 'bits' während der Ausführung.
      </section>
-  </description>
+  </introduction>
 </documentation>

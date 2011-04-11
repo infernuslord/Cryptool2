@@ -139,4 +139,13 @@
 	<data name="HtmlGenerator_GenerateConnectorListCode_Type">
 		<value xml:space="preserve">Typ</value>
 	</data>
+	<data name="File">
+		<value xml:space="preserve">Datei</value>
+	</data>
+	<data name="Description">
+		<value xml:space="preserve">Beschreibung</value>
+	</data>
+	<data name="Not_available">
+		<value xml:space="preserve">Nicht verfügbar.</value>
+	</data>
 </root>

@@ -18,7 +18,7 @@ hr {
 	margin-left:0px;
 }
 
-.description{
+.section{
 	margin-left:30px;
 	width: 80%;
 	text-align: justify;
@@ -30,7 +30,7 @@ hr {
 	height:32;
 }
 
-table, .description {
+table, .section {
 	margin-left:30px;
 }
 
@@ -53,7 +53,7 @@ img {
 	border-style: solid;				
 }
 
-li,ul { margin-left:30px; }
+li { margin-left:30px; }
 
 a:link {
 	text-decoration:		underlined;
