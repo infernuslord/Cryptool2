@@ -11,14 +11,7 @@
         </languageSwitch>
         </title>
 	</head>
-	<body>
-        <p>
-            <pluginDoc property="PluginImage" />
-            <br />
-	        Name: <pluginDoc property="Name" />
-            <br/>
-            <pluginDoc property="ToolTip" />
-        </p>
+	<body>        
 
         <hr />
 
@@ -29,9 +22,45 @@
             <languageSwitch lang="de-DE">
                 <h2>Beschreibung:</h2>
             </languageSwitch>
-	  <div class="description">
-            <pluginDoc property="Description" />
-	  </div>
+            <div class="description">
+                <div style="float:right; width:200;margin-right:10%">
+                    <table border="1" style="width:200">
+                        <tr>
+                            <th>
+                                <div class="boximage"><pluginDoc property="PluginImage" /></div>
+                            </th>
+                            <th>
+                                <pluginDoc property="Name" />
+                            </th>
+                        </tr>
+                        <tr>
+                            <td align="right">
+                                Description:
+                            </td>
+                            <td>
+                                <pluginDoc property="ToolTip" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">
+                                Author:
+                            </td>
+                            <td>
+                                <pluginDoc property="AuthorName" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">
+                                Email:
+                            </td>
+                            <td>
+                                <a href="mailto:<pluginDoc property="AuthorEmail" />"><pluginDoc property="AuthorEmail" /></a>
+                            </td>
+                        </tr>
+                    </table>        
+                </div>	        
+                <pluginDoc property="Description" />
+	        </div>
         </p>
 
         <hr />
@@ -79,6 +108,6 @@
             <languageSwitch lang="de-DE">
                 <a href="../index_de-DE.html">Zurück zum Index!</a>
             </languageSwitch>
-        </p>
+        </p>        
 	</body>
 </html>
