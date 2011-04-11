@@ -13,8 +13,14 @@ namespace OnlineDocumentationGenerator
     public class LocalizedPluginDocumentationPage
     {
         private readonly XElement _xml;
+        private readonly PluginTemplateList _templates = new PluginTemplateList();
 
         public PluginDocumentationPage PluginDocumentationPage { get; private set; }
+        public PluginTemplateList Templates
+        {
+            get { return _templates; }
+        }
+
         public Type PluginType { get; private set; }
 
         public bool Startable { get; private set; }
@@ -22,7 +28,9 @@ namespace OnlineDocumentationGenerator
         public string Name { get; private set; }
         public string Lang { get; private set; }
 
-        public XElement Description { get; private set; }
+        public XElement Introduction { get; private set; }
+        public XElement Manual { get; private set; }
+        public XElement Presentation { get; private set; }
 
         public string AuthorURL { get; private set; }
         public string AuthorInstitute { get; private set; }
@@ -68,7 +76,23 @@ namespace OnlineDocumentationGenerator
 
         private void ReadInformationsFromXML()
         {
-            Description = FindLocalizedChildElement(_xml, "description");
+            Introduction = FindLocalizedChildElement(_xml, "introduction");
+            Manual = FindLocalizedChildElement(_xml, "manual");
+            Presentation = FindLocalizedChildElement(_xml, "presentation");
+            
+            var templates = _xml.Element("templates");
+            if (templates != null)
+            {
+                foreach (var template in templates.Elements("template"))
+                {
+                    var path = template.Attribute("path");
+                    var description = FindLocalizedChildElement(template, "description");
+                    if (path != null && description != null)
+                    {
+                        Templates.Add(path.Value, description.Value);
+                    }
+                }
+            }
         }
 
         //finds elements according to the current language:

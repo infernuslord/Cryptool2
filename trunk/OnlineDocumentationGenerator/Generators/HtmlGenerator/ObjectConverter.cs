@@ -6,6 +6,7 @@ using System.Threading;
 using System.Windows.Media.Imaging;
 using System.Xml.Linq;
 using Cryptool.PluginBase;
+using OnlineDocumentationGenerator.Properties;
 
 namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
 {
@@ -25,6 +26,9 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
 
         public string Convert(object theObject, PluginDocumentationPage pluginDocumentationPage)
         {
+            if (theObject == null)
+                return Resources.Not_available;
+
             if (theObject is XElement)
             {
                 return ConvertXElement((XElement)theObject, pluginDocumentationPage);
@@ -33,8 +37,35 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
             {
                 return ConvertImageSource((BitmapFrame)theObject, pluginDocumentationPage.Localizations["en"].Name);
             }
+            if (theObject is PluginTemplateList)
+            {
+                return ConvertPluginTemplateList((PluginTemplateList)theObject);
+            }
 
             return theObject.ToString();
+        }
+
+        private string ConvertPluginTemplateList(PluginTemplateList pluginTemplateList)
+        {
+            if (pluginTemplateList.Templates.Count == 0)
+                return "None";
+
+            var codeBuilder = new StringBuilder();
+            codeBuilder.AppendLine("<table border=\"1\">");
+            codeBuilder.AppendLine(string.Format("<tr> <th>{0}</th> <th>{1}</th> </tr>",
+                Resources.File, Resources.Description));
+
+            foreach (var template in pluginTemplateList.Templates)
+            {
+                var link = Path.Combine("..\\..\\ProjectSamples", template.Path);
+                var file = Path.GetFileName(template.Path);
+                codeBuilder.AppendLine(string.Format("<tr> <td><a href=\"{0}\">{1}</a></td> <td>{2}</td> </tr>",
+                    link, file, template.Description));
+            }
+
+            codeBuilder.AppendLine("</table>");
+
+            return codeBuilder.ToString();
         }
 
         /// <summary>

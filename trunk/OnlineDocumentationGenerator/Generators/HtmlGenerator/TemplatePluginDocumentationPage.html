@@ -12,68 +12,144 @@
         </title>
 	</head>
 	<body>
+        <languageSwitch lang="en">            
+            <h1>Documentation of component <pluginDoc property="Name" />!</h1>           
+        </languageSwitch>
+        <languageSwitch lang="de-DE">
+            <h1>Dokumentation der Komponente <pluginDoc property="Name" />!</h1>           
+        </languageSwitch>
+
+        <div style="float:right; width:200;margin-right:24%">
+            <table border="1" style="width:200">
+                <tr>
+                    <th>
+                        <div class="boximage"><pluginDoc property="PluginImage" /></div>
+                    </th>
+                    <th>
+                        <pluginDoc property="Name" />
+                    </th>
+                </tr>
+                <tr>
+                    <td align="right">
+                        Description:
+                    </td>
+                    <td>
+                        <pluginDoc property="ToolTip" />
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">
+                        Author:
+                    </td>
+                    <td>
+                        <pluginDoc property="AuthorName" />
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">
+                        E-Mail:
+                    </td>
+                    <td>
+                        <a href="mailto:<pluginDoc property="AuthorEmail" />"><pluginDoc property="AuthorEmail" /></a>
+                    </td>
+                </tr>
+            </table>        
+        </div>
+
         <p>
             <languageSwitch lang="en">            
-                <h1>Documentation of component <pluginDoc property="Name" />!</h1>
+                This document describes the <b>CrypTool 2.0</b> component <i><pluginDoc property="Name" /></i>.
             </languageSwitch>
             <languageSwitch lang="de-DE">
-                <h1>Dokumentation der Komponente <pluginDoc property="Name" />!</h1>
+                Dieses Dokument beschreibt die <b>CrypTool 2.0</b> Komponente <i><pluginDoc property="Name" /></i>.
             </languageSwitch>
+        </p>        
+
+        
+        <table style="width:150">
+            <tr>
+                <th>                    
+                    <languageSwitch lang="en">Contents:</languageSwitch>
+                    <languageSwitch lang="de-DE">Inhalte:</languageSwitch>
+                </th>
+            </tr>
+            <tr>
+                <td align="left">
+                    <ol>
+                        <li><a href="#introduction">
+                            <languageSwitch lang="en">Introduction</languageSwitch>
+                            <languageSwitch lang="de-DE">Einführung</languageSwitch>
+                        </a></li>
+                        <li><a href="#usage">
+                            <languageSwitch lang="en">Usage</languageSwitch>
+                            <languageSwitch lang="de-DE">Benutzung</languageSwitch>
+                        </a></li>
+                        <li><a href="#presentation">
+                            <languageSwitch lang="en">Presentation</languageSwitch>
+                            <languageSwitch lang="de-DE">Präsentation</languageSwitch>
+                        </a></li>
+                        <li><a href="#connectors">
+                            <languageSwitch lang="en">Connectors</languageSwitch>
+                            <languageSwitch lang="de-DE">Konnektoren</languageSwitch>
+                        </a></li>
+                        <li><a href="#settings">
+                            <languageSwitch lang="en">Settings</languageSwitch>
+                            <languageSwitch lang="de-DE">Einstellungen</languageSwitch>
+                        </a></li>
+                        <li><a href="#templates">
+                            <languageSwitch lang="en">Templates</languageSwitch>
+                            <languageSwitch lang="de-DE">Vorlagen</languageSwitch>
+                        </a></li>
+                    </ol>
+                </td>
+            </tr>
+        </table>
+
+        <hr />
+
+        <p id="introduction">
+            <languageSwitch lang="en">
+                <h2>Introduction:</h2>
+            </languageSwitch>
+            <languageSwitch lang="de-DE">
+                <h2>Einführung:</h2>
+            </languageSwitch>
+            <div class="section">
+                <pluginDoc property="Introduction" />
+            </div>
         </p>
 
         <hr />
 
-        <p>
+        <p id="usage">
             <languageSwitch lang="en">
-                <h2>Description:</h2>
+                <h2>Usage:</h2>
             </languageSwitch>
             <languageSwitch lang="de-DE">
-                <h2>Beschreibung:</h2>
+                <h2>Benutzung:</h2>
             </languageSwitch>
-            <div class="description">
-                <div style="float:right; width:200;margin-right:10%">
-                    <table border="1" style="width:200">
-                        <tr>
-                            <th>
-                                <div class="boximage"><pluginDoc property="PluginImage" /></div>
-                            </th>
-                            <th>
-                                <pluginDoc property="Name" />
-                            </th>
-                        </tr>
-                        <tr>
-                            <td align="right">
-                                Description:
-                            </td>
-                            <td>
-                                <pluginDoc property="ToolTip" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td align="right">
-                                Author:
-                            </td>
-                            <td>
-                                <pluginDoc property="AuthorName" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td align="right">
-                                E-Mail:
-                            </td>
-                            <td>
-                                <a href="mailto:<pluginDoc property="AuthorEmail" />"><pluginDoc property="AuthorEmail" /></a>
-                            </td>
-                        </tr>
-                    </table>        
-                </div>	        
-                <pluginDoc property="Description" />
+            <div class="section">
+                <pluginDoc property="Manual" />
+            </div>
+        </p>
+
+        <hr />
+
+        <p id="presentation">
+            <languageSwitch lang="en">
+                <h2>Presentation:</h2>
+            </languageSwitch>
+            <languageSwitch lang="de-DE">
+                <h2>Präsentation:</h2>
+            </languageSwitch>
+            <div class="section">
+                <pluginDoc property="Presentation" />
 	        </div>
         </p>
 
         <hr />
 
-        <p>
+        <p id="connectors">
             <languageSwitch lang="en">
                 <h2>Connectors:</h2>
             </languageSwitch>
@@ -85,7 +161,7 @@
 
         <hr />
 
-        <p>
+        <p id="settings">
             <languageSwitch lang="en">
                 <h2>Settings:</h2>
             </languageSwitch>
@@ -93,6 +169,20 @@
                 <h2>Einstellungen:</h2>
             </languageSwitch>
             <settingsList />
+        </p>
+
+        <hr />
+
+        <p id="templates">
+            <languageSwitch lang="en">                
+                <h2>Templates:</h2>
+                <p>The templates listed below are available for this component.</p>
+            </languageSwitch>
+            <languageSwitch lang="de-DE">
+                <h2>Vorlagen:</h2>
+                <p>Die unten aufgelisteten Vorlagen sind für diese Komponente verfügbar.</p>
+            </languageSwitch>
+            <pluginDoc property="Templates" />
         </p>
 
         <hr />
