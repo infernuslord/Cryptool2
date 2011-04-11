@@ -606,6 +606,7 @@ namespace WorkspaceManager.View.BinVisual
             BinComponentVisual bin = (BinComponentVisual)d;
             bin.LastState = (BinComponentState)e.OldValue;
             bin.OnPropertyChanged("LastState");
+            bin.Model.ViewState = (PluginViewState)Enum.Parse(typeof(PluginViewState), e.NewValue.ToString());
         }
 
         private static void OnIsFullscreenChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
