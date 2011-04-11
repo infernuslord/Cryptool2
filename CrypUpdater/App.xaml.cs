@@ -26,8 +26,8 @@ namespace CrypUpdater
         internal static string cryptoolExePath;
         private string filePath;
         private string cryptoolFolderPath;
-        private string tempPath = "%TEMP%\\CrypTool2";
-        private string logfilePath = "%TEMP%\\CrypTool2\\install.txt";
+        private string tempPath = Environment.SpecialFolder.LocalApplicationData + "\\CrypTool2\\Temp";
+        private string logfilePath = Environment.SpecialFolder.LocalApplicationData + "\\CrypTool2\\Temp" + "\\install.txt";
         private int cryptoolProcessID;
         private Process p;
         private List<Process> unwantedProcesses = new List<Process>();
@@ -106,7 +106,7 @@ namespace CrypUpdater
 
         private void StartUpdateProcess()
         {
-            // flomar, 04/08/2011: make sure we have a valid tempPath (%TEMP%\CrypTool2) directory before proceeding
+            // make sure we have a valid temp path
             if (!Directory.Exists(tempPath))
             {
                 Directory.CreateDirectory(tempPath);
