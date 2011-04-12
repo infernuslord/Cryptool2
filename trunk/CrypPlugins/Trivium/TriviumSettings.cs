@@ -92,7 +92,7 @@ namespace Cryptool.Trivium
         }
 
         private string inputKey = string.Empty;
-        [TaskPane("InputKeyCubeAttackCaption", "InputKeyCubeAttackTooltip", null, 4, false, ControlType.TextBox, null)]
+        [TaskPane("InputKeySettingsCaption", "InputKeySettingsTooltip", null, 4, false, ControlType.TextBox, null)]
         public string InputKey
         {
             get { return inputKey; }

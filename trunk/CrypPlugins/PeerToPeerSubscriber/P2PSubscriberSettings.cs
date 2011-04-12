@@ -44,7 +44,7 @@ namespace Cryptool.Plugins.PeerToPeer
 	    }
 
         private string sTopic = "NewTopic";
-        [TaskPane("Topic Name", "Choose a topic name with which this subscriber shall be registered.", null, 0, false, ControlType.TextBox)]
+        [TaskPane("TopicNameCaption", "TopicNameTooltip", null, 0, false, ControlType.TextBox)]
         public string TopicName
         {
             get { return this.sTopic; }
@@ -60,7 +60,7 @@ namespace Cryptool.Plugins.PeerToPeer
         }
 
         /* FOR TESTING ISSUES */
-        [TaskPane("Unregister", "Click here to Unregister the publisher from all registered subscribers!", "Control region", 0, true, ControlType.Button)]
+        [TaskPane("BtnUnregisterCaption", "BtnUnregisterTooltip", "Control region", 0, true, ControlType.Button)]
         public void BtnUnregister()
         {
             TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("BtnSolutionFound", Visibility.Collapsed)));
@@ -68,7 +68,7 @@ namespace Cryptool.Plugins.PeerToPeer
             TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("BtnRegister", Visibility.Visible)));
             OnPropertyChanged("BtnUnregister");
         }
-        [TaskPane("Register", "Click here to Register the publisher pro-active with all formely registered subscribers!", "Control region", 1, true, ControlType.Button)]
+        [TaskPane("BtnRegisterCaption", "BtnRegisterTooltip", "Control region", 1, true, ControlType.Button)]
         public void BtnRegister()
         {
             TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("BtnSolutionFound", Visibility.Visible)));
@@ -77,7 +77,7 @@ namespace Cryptool.Plugins.PeerToPeer
             OnPropertyChanged("BtnRegister");
         }
 
-        [TaskPane("Solution found", "TESTING: Emulate solution-found-case!", "Control region", 2, true, ControlType.Button)]
+        [TaskPane("BtnSolutionFoundCaption", "BtnSolutionFoundTooltip", "Control region", 2, true, ControlType.Button)]
         public void BtnSolutionFound()
         {
             TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("BtnSolutionFound", Visibility.Collapsed)));
@@ -88,7 +88,7 @@ namespace Cryptool.Plugins.PeerToPeer
         /* FOR TESTING ISSUES */
 
         private int checkPublishersAvailability = 240;
-        [TaskPane("Check Publisher Interval (in sec)","To check liveness or possibly changed publishing peer in intervals","Intervals",0,false,ControlType.NumericUpDown, ValidationType.RangeInteger,20,int.MaxValue)]
+        [TaskPane("CheckPublishersAvailabilityCaption", "CheckPublishersAvailabilityTooltip", "Intervals", 0, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 20, int.MaxValue)]
         public int CheckPublishersAvailability 
         {
             get
@@ -107,7 +107,7 @@ namespace Cryptool.Plugins.PeerToPeer
         }
 
         private int publishersReplyTimespan = 10;
-        [TaskPane("Publisher Reply Timespan (in sec)", "When checking publishers availability, ping message is sent. The publisher must answer with a pong message in the timespan!", "Intervals", 0, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 2, 120)]
+        [TaskPane("PublishersReplyTimespanCaption", "PublishersReplyTimespanTooltip", "Intervals", 0, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 2, 120)]
         public int PublishersReplyTimespan
         {
             get

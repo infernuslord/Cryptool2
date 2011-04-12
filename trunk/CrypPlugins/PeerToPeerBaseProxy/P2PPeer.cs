@@ -30,9 +30,9 @@ using Cryptool.Plugins.PeerToPeer.Internal;
 namespace Cryptool.Plugins.PeerToPeerProxy
 {
     [Author("Paul Lelgemann", "lelgemann@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo(false, "P2P_Peer_Proxy",
-        "Creates a new Peer. Uses the CrypTool2 built-in P2P network and can be used as a replacement for P2P_Peer.", ""
-        , "PeerToPeerBaseProxy/icons/peer_inactive.png", "PeerToPeerBaseProxy/icons/peer_connecting.png",
+    [PluginInfo("Cryptool.Plugins.PeerToPeerProxy.Properties.Resources", false,
+        "PluginCaption", "PluginTooltip", "PluginDescriptionURL",
+        "PeerToPeerBaseProxy/icons/peer_inactive.png", "PeerToPeerBaseProxy/icons/peer_connecting.png",
         "PeerToPeerBaseProxy/icons/peer_online.png", "PeerToPeerBaseProxy/icons/peer_error.png")]
     public class P2PPeer : IIOMisc
     {
@@ -64,7 +64,7 @@ namespace Cryptool.Plugins.PeerToPeerProxy
 
         #region In and Output
 
-        [PropertyInfo(Direction.ControlSlave, "Master Peer", "One peer to rule them all", "", true, false,
+        [PropertyInfo(Direction.ControlSlave, "P2PControlSlaveCaption", "P2PControlSlaveTooltip", "", true, false,
             QuickWatchFormat.Text, null)]
         public IP2PControl P2PControlSlave
         {

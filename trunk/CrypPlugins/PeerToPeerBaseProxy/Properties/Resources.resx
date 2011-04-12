@@ -117,79 +117,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="HexOutputContextTooltip" xml:space="preserve">
-    <value>Hexadezimal darstellen?</value>
+  <data name="AutoconnectCaption" xml:space="preserve">
+    <value>Autoconnect P2P network</value>
   </data>
-  <data name="HexOutputTooltip" xml:space="preserve">
-    <value>Wenn diese Checkbox gesetzt ist, wird die Ausgabe hexadezimal ausgegeben.</value>
+  <data name="AutoconnectTooltip" xml:space="preserve">
+    <value>Autoconnect to the P2P network, when the workspace is executed.</value>
   </data>
-  <data name="HexOutputCaption" xml:space="preserve">
-    <value>Erzeuge hexadezimale Ausgabe</value>
+  <data name="P2PControlSlaveCaption" xml:space="preserve">
+    <value>Master Peer</value>
   </data>
-  <data name="InitRoundsTooltip" xml:space="preserve">
-    <value>Wie viele Initialisierungsrunden sollen durchlaufen werden? Standard ist 1152.</value>
-  </data>
-  <data name="InitRoundsCaption" xml:space="preserve">
-    <value>Initialisierungsrunden</value>
-  </data>
-  <data name="InputIVTooltip" xml:space="preserve">
-    <value>Muss 10 Bytes (80 bit) lang sein (in Hex).</value>
-  </data>
-  <data name="InputIVCaption" xml:space="preserve">
-    <value>IV</value>
-  </data>
-  <data name="InputKeySettingsTooltip" xml:space="preserve">
-    <value>Muss 10 Bytes (80 bit) lang sein (in Hex).</value>
-  </data>
-  <data name="InputKeySettingsCaption" xml:space="preserve">
-    <value>Schlüssel (Eingabe für Cube Attack)</value>
-  </data>
-  <data name="InputKeyTooltip" xml:space="preserve">
-    <value>Muss 10 Bytes (80 bit) lang sein (in Hex).</value>
-  </data>
-  <data name="InputKeyCaption" xml:space="preserve">
-    <value>Schlüssel</value>
-  </data>
-  <data name="InputStringTooltip" xml:space="preserve">
-    <value>Zu ver-/entschlüsselnde Daten.</value>
-  </data>
-  <data name="InputStringCaption" xml:space="preserve">
-    <value>Eingabe</value>
-  </data>
-  <data name="KeystreamLengthTooltip" xml:space="preserve">
-    <value>Wie viele Schlüsselstrombits sollen generiert werden? Muss ein Vielfaches von 32 sein.</value>
-  </data>
-  <data name="KeystreamLengthCaption" xml:space="preserve">
-    <value>Länge des Schlüsselstroms</value>
-  </data>
-  <data name="OutputStringTooltip" xml:space="preserve">
-    <value>Ver- oder entschlüsselte Ausgabe.</value>
-  </data>
-  <data name="OutputStringCaption" xml:space="preserve">
-    <value>Ausgabestrom</value>
+  <data name="P2PControlSlaveTooltip" xml:space="preserve">
+    <value>One peer to rule them all</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
-    <value>Trivium</value>
-  </data>
-  <data name="TriviumSlaveTooltip" xml:space="preserve">
-    <value>Direkter Zugriff auf Trivium.</value>
-  </data>
-  <data name="TriviumSlaveCaption" xml:space="preserve">
-    <value>Trivium Slave</value>
-  </data>
-  <data name="PluginTooltip" xml:space="preserve">
-    <value>Trivium</value>
-  </data>
-  <data name="UseByteSwappingContextTooltip" xml:space="preserve">
-    <value>Byte-swapping benutzen?</value>
-  </data>
-  <data name="UseByteSwappingTooltip" xml:space="preserve">
-    <value>Wenn diese Checkbox gesetzt ist, werden die Ausgabebytes vertauscht.</value>
-  </data>
-  <data name="UseByteSwappingCaption" xml:space="preserve">
-    <value>Byte-swapping benutzen</value>
+    <value>P2P_Peer_Proxy</value>
   </data>
   <data name="PluginDescriptionURL" xml:space="preserve">
-    <value>Trivium/DetailedDescription/Description.de-DE.xaml</value>
+    <value />
+  </data>
+  <data name="PluginTooltip" xml:space="preserve">
+    <value>Creates a new Peer. Uses the CrypTool2 built-in P2P network and can be used as a replacement for P2P_Peer.</value>
   </data>
 </root>

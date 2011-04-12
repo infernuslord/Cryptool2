@@ -117,79 +117,61 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="HexOutputContextTooltip" xml:space="preserve">
-    <value>Hexadezimal darstellen?</value>
+  <data name="InputvalueCaption" xml:space="preserve">
+    <value>Publish-String</value>
   </data>
-  <data name="HexOutputTooltip" xml:space="preserve">
-    <value>Wenn diese Checkbox gesetzt ist, wird die Ausgabe hexadezimal ausgegeben.</value>
+  <data name="InputvalueTooltip" xml:space="preserve">
+    <value>Publish this string to all DHT Subscribers</value>
   </data>
-  <data name="HexOutputCaption" xml:space="preserve">
-    <value>Erzeuge hexadezimale Ausgabe</value>
+  <data name="P2PControlCaption" xml:space="preserve">
+    <value>P2P Slave</value>
   </data>
-  <data name="InitRoundsTooltip" xml:space="preserve">
-    <value>Wie viele Initialisierungsrunden sollen durchlaufen werden? Standard ist 1152.</value>
-  </data>
-  <data name="InitRoundsCaption" xml:space="preserve">
-    <value>Initialisierungsrunden</value>
-  </data>
-  <data name="InputIVTooltip" xml:space="preserve">
-    <value>Muss 10 Bytes (80 bit) lang sein (in Hex).</value>
-  </data>
-  <data name="InputIVCaption" xml:space="preserve">
-    <value>IV</value>
-  </data>
-  <data name="InputKeySettingsTooltip" xml:space="preserve">
-    <value>Muss 10 Bytes (80 bit) lang sein (in Hex).</value>
-  </data>
-  <data name="InputKeySettingsCaption" xml:space="preserve">
-    <value>Schlüssel (Eingabe für Cube Attack)</value>
-  </data>
-  <data name="InputKeyTooltip" xml:space="preserve">
-    <value>Muss 10 Bytes (80 bit) lang sein (in Hex).</value>
-  </data>
-  <data name="InputKeyCaption" xml:space="preserve">
-    <value>Schlüssel</value>
-  </data>
-  <data name="InputStringTooltip" xml:space="preserve">
-    <value>Zu ver-/entschlüsselnde Daten.</value>
-  </data>
-  <data name="InputStringCaption" xml:space="preserve">
-    <value>Eingabe</value>
-  </data>
-  <data name="KeystreamLengthTooltip" xml:space="preserve">
-    <value>Wie viele Schlüsselstrombits sollen generiert werden? Muss ein Vielfaches von 32 sein.</value>
-  </data>
-  <data name="KeystreamLengthCaption" xml:space="preserve">
-    <value>Länge des Schlüsselstroms</value>
-  </data>
-  <data name="OutputStringTooltip" xml:space="preserve">
-    <value>Ver- oder entschlüsselte Ausgabe.</value>
-  </data>
-  <data name="OutputStringCaption" xml:space="preserve">
-    <value>Ausgabestrom</value>
+  <data name="P2PControlTooltip" xml:space="preserve">
+    <value>Input the P2P-Peer-PlugIn</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
-    <value>Trivium</value>
-  </data>
-  <data name="TriviumSlaveTooltip" xml:space="preserve">
-    <value>Direkter Zugriff auf Trivium.</value>
-  </data>
-  <data name="TriviumSlaveCaption" xml:space="preserve">
-    <value>Trivium Slave</value>
-  </data>
-  <data name="PluginTooltip" xml:space="preserve">
-    <value>Trivium</value>
-  </data>
-  <data name="UseByteSwappingContextTooltip" xml:space="preserve">
-    <value>Byte-swapping benutzen?</value>
-  </data>
-  <data name="UseByteSwappingTooltip" xml:space="preserve">
-    <value>Wenn diese Checkbox gesetzt ist, werden die Ausgabebytes vertauscht.</value>
-  </data>
-  <data name="UseByteSwappingCaption" xml:space="preserve">
-    <value>Byte-swapping benutzen</value>
+    <value>P2P_Publisher</value>
   </data>
   <data name="PluginDescriptionURL" xml:space="preserve">
-    <value>Trivium/DetailedDescription/Description.de-DE.xaml</value>
+    <value />
+  </data>
+  <data name="PluginTooltip" xml:space="preserve">
+    <value>Creates a new Publishing-Peer</value>
+  </data>
+  <data name="BtnRegisterCaption" xml:space="preserve">
+    <value>Register</value>
+  </data>
+  <data name="BtnRegisterTooltip" xml:space="preserve">
+    <value>Click here to Register the publisher pro-active with all formely registered subscribers!</value>
+  </data>
+  <data name="BtnSerDeserCaption" xml:space="preserve">
+    <value>Ser/Deser Test</value>
+  </data>
+  <data name="BtnSerDeserTooltip" xml:space="preserve">
+    <value>Click here to test serialization/deserialization of PeerManagementList!</value>
+  </data>
+  <data name="BtnSolutionFoundCaption" xml:space="preserve">
+    <value>Solution found</value>
+  </data>
+  <data name="BtnSolutionFoundTooltip" xml:space="preserve">
+    <value>TESTING: Emulate solution-found-case!</value>
+  </data>
+  <data name="BtnUnregisterCaption" xml:space="preserve">
+    <value>Unregister</value>
+  </data>
+  <data name="BtnUnregisterTooltip" xml:space="preserve">
+    <value>Click here to Unregister the publisher from all registered subscribers!</value>
+  </data>
+  <data name="SendAliveMessageIntervalCaption" xml:space="preserve">
+    <value>Alive Message Interval (in seconds)</value>
+  </data>
+  <data name="SendAliveMessageIntervalTooltip" xml:space="preserve">
+    <value>In which interval do you wish to receive Alive-Messages from your Subscribers?</value>
+  </data>
+  <data name="TopicNameCaption" xml:space="preserve">
+    <value>Topic Name</value>
+  </data>
+  <data name="TopicNameTooltip" xml:space="preserve">
+    <value>Choose a topic name with which all subscribers can register.</value>
   </data>
 </root>

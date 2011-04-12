@@ -36,7 +36,7 @@ namespace Cryptool.Plugins.PeerToPeer
     /// This PlugIn only works, when its connected with a P2P_Peer object.
     /// </summary>
     [Author("Christian Arnold", "arnold@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo(false, "P2P_DHTremove", "Removing data from the DHT", "", "PeerToPeer_DHTremove/ct2_dht_remove_icon_medium.png")]
+    [PluginInfo("Cryptool.Plugins.PeerToPeer.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "PeerToPeer_DHTremove/ct2_dht_remove_icon_medium.png")]
     public class P2P_DHTremove : IInput
     {
         private P2PDHTremoveSettings settings;
@@ -47,7 +47,7 @@ namespace Cryptool.Plugins.PeerToPeer
         /// <summary>
         /// Catches the completely configurated, initialized and joined P2P object from the P2PPeer-Slave-PlugIn.
         /// </summary>
-        [PropertyInfo(Direction.ControlMaster,"P2P Slave","Input the P2P-Peer-PlugIn","",true,false,QuickWatchFormat.Text,null)]
+        [PropertyInfo(Direction.ControlMaster, "P2PMasterCaption", "P2PMasterTooltip", "", true, false, QuickWatchFormat.Text, null)]
         public IP2PControl P2PMaster 
         {
             get
@@ -79,7 +79,7 @@ namespace Cryptool.Plugins.PeerToPeer
         }
 
         private string sDhtKey;
-        [PropertyInfo(Direction.InputData, "Key Name", "Key Name of DHT Entry in the P2P-System", "", true, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "DhtKeyCaption", "DhtKeyTooltip", "", true, false, QuickWatchFormat.Text, null)]
         public string DhtKey
         {
             get

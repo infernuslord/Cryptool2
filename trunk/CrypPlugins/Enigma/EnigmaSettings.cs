@@ -743,7 +743,7 @@ namespace Cryptool.Enigma
         }
 
 
-        [TaskPane( "ReflectorCaption", "ReflectorTooltip select none here.",
+        [TaskPane( "ReflectorCaption", "ReflectorTooltip",
             "Used rotors", 14, false, ControlType.DynamicComboBox, new string[] { "ReflectorStrings" })]
         public int Reflector
         {

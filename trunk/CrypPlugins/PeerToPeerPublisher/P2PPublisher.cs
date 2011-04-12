@@ -31,7 +31,7 @@ namespace Cryptool.Plugins.PeerToPeer
     /// This PlugIn only works, when its connected with a P2P_Peer object.
     /// </summary>
     [Author("Christian Arnold", "arnold@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo(false, "P2P_Publisher", "Creates a new Publishing-Peer", "", "PeerToPeerPublisher/ct2_p2p_pub_medium.png")]
+    [PluginInfo("Cryptool.Plugins.PeerToPeer.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "PeerToPeerPublisher/ct2_p2p_pub_medium.png")]
     public class P2PPublisher : IInput
     {
         private P2PPublisherSettings settings;
@@ -109,7 +109,7 @@ namespace Cryptool.Plugins.PeerToPeer
         /// <summary>
         /// Catches the completely configurated, initialized and joined P2P object from the P2PPeer-Slave-PlugIn.
         /// </summary>
-        [PropertyInfo(Direction.ControlMaster,"P2P Slave","Input the P2P-Peer-PlugIn","",true,false,QuickWatchFormat.Text,null)]
+        [PropertyInfo(Direction.ControlMaster, "P2PControlCaption", "P2PControlTooltip", "", true, false, QuickWatchFormat.Text, null)]
         public IP2PControl P2PControl 
         {
             get
@@ -141,7 +141,7 @@ namespace Cryptool.Plugins.PeerToPeer
         }
 
         private string sInputvalue;
-        [PropertyInfo(Direction.InputData, "Publish-String", "Publish this string to all DHT Subscribers", "", true, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputvalueCaption", "InputvalueTooltip", "", true, false, QuickWatchFormat.Text, null)]
         public string Inputvalue
         {
             get

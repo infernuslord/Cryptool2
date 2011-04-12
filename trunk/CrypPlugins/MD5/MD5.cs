@@ -103,7 +103,7 @@ namespace Cryptool.MD5
           }
         }
 
-        [PropertyInfo(Direction.OutputData, "OutputData Caption", "OutputData Tooltip", "", false, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "OutputDataCaption", "OutputDataTooltip", "", false, false, QuickWatchFormat.Hex, null)]
         public byte[] OutputData 
         {
           
