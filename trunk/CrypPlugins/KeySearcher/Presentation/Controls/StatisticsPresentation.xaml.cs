@@ -100,6 +100,7 @@ namespace KeySearcherPresentation.Controls
             ((DateToColorConverter1)Resources["DateToColorConverter1"]).StatisticsPresentation = this;
             ((DateToColorConverter2)Resources["DateToColorConverter2"]).StatisticsPresentation = this;
             ((HideDeadMachineConverter)Resources["HideDeadMachineConverter"]).StatisticsPresentation = this;
+            ((HideDeadUserConverter)Resources["HideDeadUserConverter"]).StatisticsPresentation = this;
             
         }
 
@@ -548,7 +549,6 @@ namespace KeySearcherPresentation.Controls
                             statisticsTree.ItemContainerStyle = this.Resources["ItemStyle2"] as Style;
                         }
                         statisticsTree.Items.Refresh();
-                        machineTree.Items.Refresh();
                     }        
                 }
                 catch (Exception)
@@ -556,6 +556,24 @@ namespace KeySearcherPresentation.Controls
                 }
             }, null);
         }
+
+        protected void Checked2(object sender, RoutedEventArgs e)
+        {
+            Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
+                try
+                {
+                    if (machineTree != null)
+                    {
+                        machineTree.Items.Refresh();
+                    }
+                }
+                catch (Exception)
+                {
+                }
+            }, null);
+        }
+
 
         private QuickWatch ParentQuickWatch
         {
@@ -1071,7 +1089,7 @@ namespace KeySearcherPresentation.Controls
                     {
                         lock (StatisticsPresentation)
                         {
-                            if (StatisticsPresentation.HideDead.IsChecked == true)
+                            if (StatisticsPresentation.HideDead2.IsChecked == true)
                             {
                                 var dead = (bool) value;
 
@@ -1089,6 +1107,60 @@ namespace KeySearcherPresentation.Controls
                             return Visibility.Visible;
                         }
                     }
+            }
+            catch (Exception)
+            {
+            }
+            return Visibility.Collapsed;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    [ValueConversion(typeof(String), typeof(Visibility))]
+    class HideDeadUserConverter : IValueConverter
+    {
+        public StatisticsPresentation StatisticsPresentation { get; set; }
+
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            try
+            {
+                if (StatisticsPresentation != null && StatisticsPresentation.Statistics != null)
+                {
+                    lock (StatisticsPresentation)
+                    {
+                        if (StatisticsPresentation.HideDead.IsChecked == true)
+                        {
+                            var key = value.ToString();
+
+                            if (StatisticsPresentation.Statistics.ContainsKey(key))
+                            {
+                                var dead = true;
+                                var machines = StatisticsPresentation.Statistics[(string) key];
+                                foreach (var id in machines.Keys.Where(id => machines[id].Dead == false))
+                                {
+                                    dead = false;
+                                }
+
+                                if (targetType != typeof (Visibility))
+                                    throw new InvalidOperationException("The target must be of Visibility");
+
+                                if (dead) //after two days X
+                                {
+                                    return Visibility.Collapsed;
+                                }
+                            }
+                            return Visibility.Visible;
+                            
+                        }
+
+                        return Visibility.Visible;
+                    }
+                }
             }
             catch (Exception)
             {
