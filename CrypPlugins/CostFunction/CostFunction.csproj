@@ -146,7 +146,10 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.de-DE.resx" />
+    <EmbeddedResource Include="Properties\Resources.resx" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="DetailedDescription\Description.xaml">
       <SubType>Designer</SubType>

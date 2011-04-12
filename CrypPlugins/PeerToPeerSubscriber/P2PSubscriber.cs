@@ -31,7 +31,7 @@ namespace Cryptool.Plugins.PeerToPeer
     /// This PlugIn only works, when its connected with a P2P_Peer object.
     /// </summary>
     [Author("Christian Arnold", "arnold@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo(true, "P2P_Subscriber", "Creates a new Subscribing-Peer", "", "PeerToPeerSubscriber/ct2_p2p_sub_medium.png")]
+    [PluginInfo("Cryptool.Plugins.PeerToPeer.Properties.Resources", true, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "PeerToPeerSubscriber/ct2_p2p_sub_medium.png")]
     public class P2PSubscriber : IInput
     {
         private P2PSubscriberSettings settings;
@@ -43,7 +43,7 @@ namespace Cryptool.Plugins.PeerToPeer
         /// <summary>
         /// Catches the completely configurated, initialized and joined P2P object from the P2PPeer-Slave-PlugIn.
         /// </summary>
-        [PropertyInfo(Direction.ControlMaster, "P2P Slave", "Input the P2P-Peer-PlugIn", "", true, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.ControlMaster, "P2PControlCaption", "P2PControlTooltip", "", true, false, QuickWatchFormat.Text, null)]
         public IP2PControl P2PControl
         {
             get
@@ -70,7 +70,7 @@ namespace Cryptool.Plugins.PeerToPeer
         }
 
         private string sOutputvalue;
-        [PropertyInfo(Direction.OutputData, "Data from subscribed Publisher", "When you're subscribed to an alive Publisher, receive published data here", "", true, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputvalueCaption", "OutputvalueTooltip", "", true, false, QuickWatchFormat.Text, null)]
         public string Outputvalue
         {
             get

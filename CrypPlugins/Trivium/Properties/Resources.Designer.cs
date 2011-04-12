@@ -135,18 +135,18 @@ namespace Trivium.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Key (Input for Cube Attack) ähnelt.
         /// </summary>
-        internal static string InputKeyCubeAttackCaption {
+        internal static string InputKeySettingsCaption {
             get {
-                return ResourceManager.GetString("InputKeyCubeAttackCaption", resourceCulture);
+                return ResourceManager.GetString("InputKeySettingsCaption", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Must be 10 bytes (80 bit) in Hex ähnelt.
         /// </summary>
-        internal static string InputKeyCubeAttackTooltip {
+        internal static string InputKeySettingsTooltip {
             get {
-                return ResourceManager.GetString("InputKeyCubeAttackTooltip", resourceCulture);
+                return ResourceManager.GetString("InputKeySettingsTooltip", resourceCulture);
             }
         }
         
@@ -225,9 +225,9 @@ namespace Trivium.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Trivium/DetailedDescription/Description.xaml ähnelt.
         /// </summary>
-        internal static string PluginDescriptionUrl {
+        internal static string PluginDescriptionURL {
             get {
-                return ResourceManager.GetString("PluginDescriptionUrl", resourceCulture);
+                return ResourceManager.GetString("PluginDescriptionURL", resourceCulture);
             }
         }
         
