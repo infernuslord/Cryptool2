@@ -35,7 +35,7 @@ using System.Diagnostics;
 namespace TextOutput
 {
   [Author("Thomas Schmid", "thomas.schmid@cryptool.org", "Uni Siegen", "http://www.uni-siegen.de")]
-  [PluginInfo(false, "TextOutput", "Simple text output", "", "TextOutput/icon.png")]
+  [PluginInfo("TextOutput.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "TextOutput/icon.png")]
   public class TextOutput : DependencyObject, IOutput
   {
     private readonly string inputOne = "InputOne";

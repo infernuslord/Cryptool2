@@ -159,25 +159,25 @@
   <data name="Connection_lost__Waiting_for_reconnection_to_store_the_results_" xml:space="preserve">
     <value>Verbindung verloren! Warte auf Neuverbindung um Resultate zu speichern!</value>
   </data>
-  <data name="ControlMasterDesc" xml:space="preserve">
+  <data name="ControlMasterTooltip" xml:space="preserve">
     <value>Benutzt für erschöpfende Suche</value>
   </data>
-  <data name="Control_Master" xml:space="preserve">
+  <data name="ControlMasterCaption" xml:space="preserve">
     <value>Master</value>
   </data>
-  <data name="CostMasterDesc" xml:space="preserve">
+  <data name="CostMasterTooltip" xml:space="preserve">
     <value>Für Kostenkalkulation verwendet</value>
   </data>
-  <data name="Cost_Master" xml:space="preserve">
+  <data name="CostMasterCaption" xml:space="preserve">
     <value>Kostenkalkulation</value>
   </data>
   <data name="Could_not_store_results__" xml:space="preserve">
     <value>Konnte Resultate nicht speichern: </value>
   </data>
-  <data name="csEncryptedDataDesc" xml:space="preserve">
+  <data name="CSEncryptedDataTooltip" xml:space="preserve">
     <value>Verschlüsselte Daten aus einer Verschlüsselungsfunktion</value>
   </data>
-  <data name="CS_Encrypted_Data" xml:space="preserve">
+  <data name="CSEncryptedDataCaption" xml:space="preserve">
     <value>CS Verschlüsselte Daten</value>
   </data>
   <data name="Current_Chunk_" xml:space="preserve">
@@ -189,13 +189,13 @@
   <data name="dummykey" xml:space="preserve">
     <value>Schlüsselplatzhalter</value>
   </data>
-  <data name="EcryptedDataDesc" xml:space="preserve">
+  <data name="EncryptedDataTooltip" xml:space="preserve">
     <value>Verschlüsselte Daten aus einer Verschlüsselungsfunktion</value>
   </data>
   <data name="Elapsed_" xml:space="preserve">
     <value>Vergangen:</value>
   </data>
-  <data name="Encrypted_Data" xml:space="preserve">
+  <data name="EncryptedDataCaption" xml:space="preserve">
     <value>Verschlüsselte Daten</value>
   </data>
   <data name="Ended_bruteforcing_pattern__" xml:space="preserve">
@@ -216,7 +216,7 @@
   <data name="incalculable____" xml:space="preserve">
     <value>unberechenbar :-)</value>
   </data>
-  <data name="Initialization_Vector" xml:space="preserve">
+  <data name="InitVectorCaption" xml:space="preserve">
     <value>Initialisierungsvektor</value>
   </data>
   <data name="Initializing_connection_to_the_peer_to_peer_system" xml:space="preserve">
@@ -225,7 +225,7 @@
   <data name="Initializing_distributed_key_pool_tree" xml:space="preserve">
     <value>Initialisiere verteilten Schlüsselbaum</value>
   </data>
-  <data name="InitVecDesc" xml:space="preserve">
+  <data name="InitVectorTooltip" xml:space="preserve">
     <value>Initialisierungsvektor, mit dem die Daten verschlüsselt wurden</value>
   </data>
   <data name="in_a_galaxy_far__far_away___" xml:space="preserve">
@@ -297,10 +297,10 @@
   <data name="PLEASE_UPDATE" xml:space="preserve">
     <value>BITTE AKTUALISIEREN</value>
   </data>
-  <data name="pluginName" xml:space="preserve">
+  <data name="PluginCaption" xml:space="preserve">
     <value>KeySearcher</value>
   </data>
-  <data name="pluginToolTip" xml:space="preserve">
+  <data name="PluginTooltip" xml:space="preserve">
     <value>Führt eine erschöpfende Schlüsselsuche auf einem Geheimtext durch.</value>
   </data>
   <data name="Processing_results_of_calculation" xml:space="preserve">
@@ -378,16 +378,16 @@
   <data name="There_must_be_an_error__because_we_bruteforced_too_much_keys___" xml:space="preserve">
     <value>Fehler aufgrund inkonsistenter Anzahl von berechneten Schlüsseln...</value>
   </data>
-  <data name="Top1KeyDesc" xml:space="preserve">
+  <data name="Top1KeyTooltip" xml:space="preserve">
     <value>Der beste gefundene Schlüssel</value>
   </data>
-  <data name="top1MesDesc" xml:space="preserve">
+  <data name="Top1MessageTooltip" xml:space="preserve">
     <value>Die beste gefundene Nachricht</value>
   </data>
-  <data name="Top1_Key" xml:space="preserve">
+  <data name="Top1KeyCaption" xml:space="preserve">
     <value>Top1 Schlüssel</value>
   </data>
-  <data name="Top1_Message" xml:space="preserve">
+  <data name="Top1MessageCaption" xml:space="preserve">
     <value>Top1 Nachricht</value>
   </data>
   <data name="Top_Ten_" xml:space="preserve">
@@ -453,52 +453,52 @@
   <data name="___RightChildFinished_" xml:space="preserve">
     <value>,  RightChildFinished </value>
   </data>
-  <data name="AutoconnectSettings" xml:space="preserve">
+  <data name="AutoconnectPeerToPeerCaption" xml:space="preserve">
     <value>Automatisch verbinden</value>
   </data>
-  <data name="AutoconnectSettingsDesc" xml:space="preserve">
+  <data name="AutoconnectPeerToPeerTooltip" xml:space="preserve">
     <value>Soll automatisch eine Verbindung zum verteilten Rechennetzwerk aufgebaut werden?</value>
   </data>
-  <data name="ChunkSizeSettings" xml:space="preserve">
+  <data name="ChunkSizeCaption" xml:space="preserve">
     <value>Blockgröße</value>
   </data>
-  <data name="ChunkSizeSettingsDesc" xml:space="preserve">
+  <data name="ChunkSizeTooltip" xml:space="preserve">
     <value>Anzahl an Schlüsseln, die von einem Peer zu einem Zeitpunkt berechnet werden. Dieser Wert ist der Exponent des Quadrats der Blockgröße.</value>
   </data>
-  <data name="CopyStatusKeySettings" xml:space="preserve">
+  <data name="StatusKeyButtonCaption" xml:space="preserve">
     <value>Kopiere Statusschlüssel</value>
   </data>
-  <data name="CopyStatusKeySettingsDesc" xml:space="preserve">
+  <data name="StatusKeyButtonTooltip" xml:space="preserve">
     <value>Kopiere Statusschlüssel in die Zwischenablage. Der Schlüssel kann zum Upload der Projektdatei im Netzwerkmanager verwendet werden.</value>
   </data>
-  <data name="CoresUsedSettings" xml:space="preserve">
+  <data name="CoresUsedCaption" xml:space="preserve">
     <value>Benutzte Kerne</value>
   </data>
-  <data name="CoresUsedSettingsDesc" xml:space="preserve">
+  <data name="CoresUsedTooltip" xml:space="preserve">
     <value>Wie viele CPU-Kerne sollen verwendet werden?</value>
   </data>
-  <data name="CSVPathSettings" xml:space="preserve">
+  <data name="CsvPathCaption" xml:space="preserve">
     <value>Auswahl der CSV-Datei</value>
   </data>
-  <data name="CSVPathSettingsDesc" xml:space="preserve">
+  <data name="CsvPathTooltip" xml:space="preserve">
     <value>Wählen Sie Pfad und CSV-Datei aus.</value>
   </data>
-  <data name="DatabaseSettings" xml:space="preserve">
+  <data name="EvaluationDatabaseCaption" xml:space="preserve">
     <value>Datenbank</value>
   </data>
-  <data name="DatabaseSettingsDesc" xml:space="preserve">
+  <data name="EvaluationDatabaseTooltip" xml:space="preserve">
     <value>Name der Evaluationsdatenbank</value>
   </data>
-  <data name="DefaultPathSettings" xml:space="preserve">
+  <data name="DefaultPathCaption" xml:space="preserve">
     <value>Standardpfad</value>
   </data>
-  <data name="DefaultPathSettingsDesc" xml:space="preserve">
+  <data name="DefaultPathTooltip" xml:space="preserve">
     <value>Soll der Standardpfad %APPDATA%\\Local\\CrypTool2 verwendet werden?</value>
   </data>
-  <data name="DisplayVerboseInformationSettings" xml:space="preserve">
+  <data name="VerbosePeerToPeerDisplayCaption" xml:space="preserve">
     <value>Ausführliche Informationen</value>
   </data>
-  <data name="DisplayVerboseInformationSettingsDesc" xml:space="preserve">
+  <data name="VerbosePeerToPeerDisplayTooltip" xml:space="preserve">
     <value>Sollen ausführliche Informationen über Netzwerkanfragen angezeigt werden?</value>
   </data>
   <data name="GroupEvaluation" xml:space="preserve">
@@ -516,73 +516,76 @@
   <data name="GroupStatisticPath" xml:space="preserve">
     <value>Statistik Speicherpfad</value>
   </data>
-  <data name="HostSettings" xml:space="preserve">
+  <data name="EvaluationHostCaption" xml:space="preserve">
     <value>Host</value>
   </data>
-  <data name="HostSettingsDesc" xml:space="preserve">
+  <data name="EvaluationHostTooltip" xml:space="preserve">
     <value>Hostname der Evaluationsdatenbank</value>
   </data>
-  <data name="KeySettings" xml:space="preserve">
+  <data name="KeyCaption" xml:space="preserve">
     <value>Schlüssel</value>
   </data>
-  <data name="KeySettingsDesc" xml:space="preserve">
+  <data name="KeyTooltip" xml:space="preserve">
     <value>Schlüssel, der für die erschöpfende Suche verwendet wird</value>
   </data>
-  <data name="NoOpenCLSettings" xml:space="preserve">
+  <data name="NoOpenCLCaption" xml:space="preserve">
     <value>Kein OpenCL verfügbar</value>
   </data>
-  <data name="OpenCLDeviceSettings" xml:space="preserve">
+  <data name="NoOpenCLTooltip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="OpenCLDeviceCaption" xml:space="preserve">
     <value>OpenCL-Gerät</value>
   </data>
-  <data name="OpenCLDeviceSettingsDesc" xml:space="preserve">
+  <data name="OpenCLDeviceTooltip" xml:space="preserve">
     <value>Wählen Sie das zu verwendende OpenCL-Geräte.</value>
   </data>
-  <data name="OpenCLModeSettings" xml:space="preserve">
+  <data name="OpenCLModeCaption" xml:space="preserve">
     <value>OpenCL-Modus</value>
   </data>
-  <data name="OpenCLModeSettingsDesc" xml:space="preserve">
+  <data name="OpenCLModeTooltip" xml:space="preserve">
     <value>Wählen Sie, welcher OpenCL-Modus verwendet werden soll.</value>
   </data>
-  <data name="PasswordSettings" xml:space="preserve">
+  <data name="EvaluationPasswordCaption" xml:space="preserve">
     <value>Passwort</value>
   </data>
-  <data name="PasswordSettingsDesc" xml:space="preserve">
+  <data name="EvaluationPasswordTooltip" xml:space="preserve">
     <value>Passwort für die Evaluationsdatenbank</value>
   </data>
-  <data name="PortSettings" xml:space="preserve">
+  <data name="PortCaption" xml:space="preserve">
     <value>Port</value>
   </data>
-  <data name="PortSettingsDesc" xml:space="preserve">
+  <data name="PortTooltip" xml:space="preserve">
     <value>Auf welchem Port soll auf Anfragen von externen Clients gehorcht werden?</value>
   </data>
-  <data name="ResetSettings" xml:space="preserve">
+  <data name="ResetCaption" xml:space="preserve">
     <value>Reset</value>
   </data>
-  <data name="ResetSettingsDesc" xml:space="preserve">
+  <data name="ResetTooltip" xml:space="preserve">
     <value>Reset Schlüssel</value>
   </data>
-  <data name="UseExternalClientSettings" xml:space="preserve">
+  <data name="UseExternalClientCaption" xml:space="preserve">
     <value>Verwende externen Client</value>
   </data>
-  <data name="UseExternalClientSettingsDesc" xml:space="preserve">
+  <data name="UseExternalClientTooltip" xml:space="preserve">
     <value>Soll ein Port geöffnet werden, um externen Clients die Verbindung zu ermöglichen? Externe Clients sind direkt an der Schlüsselsuche beteiligt und können diese beschleunigen, aber auch manipulieren.</value>
   </data>
-  <data name="UseP2PSettings" xml:space="preserve">
+  <data name="UsePeerToPeerCaption" xml:space="preserve">
     <value>Verwende Netzwerk</value>
   </data>
-  <data name="UseP2PSettingsDesc" xml:space="preserve">
+  <data name="UsePeerToPeerTooltip" xml:space="preserve">
     <value>Soll die Aufgabe im Netzwerk verteilt werden, um die gemeinsame Rechenkraft zu nutzen?</value>
   </data>
-  <data name="UserSettings" xml:space="preserve">
+  <data name="EvaluationUserCaption" xml:space="preserve">
     <value>Teilnehmer</value>
   </data>
-  <data name="UserSettingsDesc" xml:space="preserve">
+  <data name="EvaluationUserTooltip" xml:space="preserve">
     <value>Benutzername für die Evaluationsdatenbank</value>
   </data>
-  <data name="UseSelectedDeviceSettings" xml:space="preserve">
+  <data name="UseOpenCLCaption" xml:space="preserve">
     <value>Benutze ausgewähltes Gerät</value>
   </data>
-  <data name="UseSelectedDeviceSettingsDesc" xml:space="preserve">
+  <data name="UseOpenCLTooltip" xml:space="preserve">
     <value>Soll das ausgewählte OpenCL-Geräte zur Schlüsselsuche verwendet werden?</value>
   </data>
   <data name="Progress" xml:space="preserve">
@@ -591,76 +594,91 @@
   <data name="Statistics" xml:space="preserve">
     <value>Statistiken</value>
   </data>
-  <data name="ExternalClientPasswordSettings" xml:space="preserve">
+  <data name="ExternalClientPasswordCaption" xml:space="preserve">
     <value>Passwort</value>
   </data>
-  <data name="ExternalClientPasswordSettingsDesc" xml:space="preserve">
+  <data name="ExternalClientPasswordTooltip" xml:space="preserve">
     <value>Passwort mit dem sich externe Clients authentifizieren müssen</value>
   </data>
-	<data name="KeysearcherSettings" xml:space="preserve">
+  <data name="KeysearcherSettings" xml:space="preserve">
     <value>KeySearcher</value>
   </data>
-	<data name="Under__Construction_" xml:space="preserve">
+  <data name="Under__Construction_" xml:space="preserve">
     <value>Unter Konstruktion</value>
   </data>
-	<data name="StatisticsPresentation_SetCurrentRate">
-		<value xml:space="preserve">{0:0,0} Schlüssel/Sek</value>
-	</data>
-	<data name="KeyPoolTree_" xml:space="preserve">
+  <data name="StatisticsPresentation_SetCurrentRate" xml:space="preserve">
+    <value>{0:0,0} Schlüssel/Sek</value>
+  </data>
+  <data name="KeyPoolTree_" xml:space="preserve">
     <value>Schlüsselbaum</value>
   </data>
-	<data name="Total__Users_" xml:space="preserve">
+  <data name="Total__Users_" xml:space="preserve">
     <value>Anzahl Benutzer</value>
   </data>
-	<data name="_Next_Update_Time___">
-		<value>Nächste Updatezeit: </value>
-	</data>
-	<data name="Total__Blocks__to__Search_" xml:space="preserve">
+  <data name="_Next_Update_Time___" xml:space="preserve">
+    <value>Nächste Updatezeit: </value>
+  </data>
+  <data name="Total__Blocks__to__Search_" xml:space="preserve">
     <value>Anzahl Blöcke</value>
   </data>
-	<data name="Total__Blocks__Tested_" xml:space="preserve">
+  <data name="Total__Blocks__Tested_" xml:space="preserve">
     <value>Geprüfte Blöcke</value>
   </data>
-	<data name="Total__Keys__to_Search_" xml:space="preserve">
+  <data name="Total__Keys__to_Search_" xml:space="preserve">
     <value>Anzahl Schlüssel</value>
   </data>
-	<data name="Total__Keys__Tested_" xml:space="preserve">
+  <data name="Total__Keys__Tested_" xml:space="preserve">
     <value>Geprüfte Schlüssel</value>
   </data>
-	<data name="Total__Machines_" xml:space="preserve">
+  <data name="Total__Machines_" xml:space="preserve">
     <value>Anzahl Machinen</value>
   </data>
-	<data name="Working__Days_" xml:space="preserve">
+  <data name="Working__Days_" xml:space="preserve">
     <value>Tage in Arbeit</value>
   </data>
-	<data name="Percent__Complete_" xml:space="preserve">
+  <data name="Percent__Complete_" xml:space="preserve">
     <value>Gesamtprozent</value>
   </data>
-	<data name="Average__rate_" xml:space="preserve">
+  <data name="Average__rate_" xml:space="preserve">
     <value>Durchschnittsrate</value>
   </data>
-	<data name="Aggregate_Statistics_" xml:space="preserve">
+  <data name="Aggregate_Statistics_" xml:space="preserve">
     <value>Gesamt Statistik</value>
   </data>
-	<data name="Current_Stats_" xml:space="preserve">
+  <data name="Current_Stats_" xml:space="preserve">
     <value>Momentan</value>
   </data>
-	<data name="Last__Update__Time" xml:space="preserve">
+  <data name="Last__Update__Time" xml:space="preserve">
     <value>Letzte Updatezeit: </value>
   </data>
-	<data name="Current__Machines_" xml:space="preserve">
+  <data name="Current__Machines_" xml:space="preserve">
     <value>Momentane Machinen</value>
   </data>
-	<data name="Current__rate_" xml:space="preserve">
+  <data name="Current__rate_" xml:space="preserve">
     <value>Momentanrate</value>
   </data>
-	<data name="Current__Users_" xml:space="preserve">
+  <data name="Current__Users_" xml:space="preserve">
     <value>Momentane Benutzer</value>
   </data>
-	<data name="Top__machine_" xml:space="preserve">
+  <data name="Top__machine_" xml:space="preserve">
     <value>Top Machine</value>
   </data>
-	<data name="Top__user_" xml:space="preserve">
+  <data name="Top__user_" xml:space="preserve">
     <value>Top Benutzer</value>
+  </data>
+  <data name="PluginDescriptionURL" xml:space="preserve">
+    <value>KeySearcher/DetailedDescription/Description.xaml</value>
+  </data>
+  <data name="DisableUpdateCaption" xml:space="preserve">
+    <value>Deaktiviere Statistik-Update</value>
+  </data>
+  <data name="DisableUpdateTooltip" xml:space="preserve">
+    <value>Deaktiviert das Statistik-Update</value>
+  </data>
+  <data name="UpdateTimeCaption" xml:space="preserve">
+    <value>Update-Intervall (in Minuten)</value>
+  </data>
+  <data name="UpdateTimeTooltip" xml:space="preserve">
+    <value>Setze das Minuten-Intervall, in dem die KeySearcher-Statistik erneuert werden soll.</value>
   </data>
 </root>

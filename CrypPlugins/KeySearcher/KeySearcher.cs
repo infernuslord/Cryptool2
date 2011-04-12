@@ -49,7 +49,7 @@ using OpenCLNet;
 namespace KeySearcher
 {
     [Author("Sven Rech, Nils Kopal, Raoul Falk, Dennis Nolte", "rech@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo("KeySearcher.Properties.Resources", false, "pluginName", "pluginToolTip", "KeySearcher/DetailedDescription/Description.xaml", "KeySearcher/Images/icon.png")]
+    [PluginInfo("KeySearcher.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "KeySearcher/Images/icon.png")]
     public class KeySearcher : IAnalysisMisc
     {
         /// <summary>
@@ -111,7 +111,7 @@ namespace KeySearcher
         #region IControlEncryption Members
 
         private IControlEncryption controlMaster;
-        [PropertyInfo(Direction.ControlMaster, "Control_Master", "ControlMasterDesc", "")]
+        [PropertyInfo(Direction.ControlMaster, "ControlMasterCaption", "ControlMasterTooltip", "")]
         public IControlEncryption ControlMaster
         {
             get { return controlMaster; }
@@ -139,7 +139,7 @@ namespace KeySearcher
         #region IControlCost Members
 
         private IControlCost costMaster;
-        [PropertyInfo(Direction.ControlMaster, "Cost_Master", "CostMasterDesc", "")]
+        [PropertyInfo(Direction.ControlMaster, "CostMasterCaption", "CostMasterTooltip", "")]
         public IControlCost CostMaster
         {
             get { return costMaster; }
@@ -154,7 +154,7 @@ namespace KeySearcher
 
         /* BEGIN: following lines are from Arnie - 2010.01.12 */
         ICryptoolStream csEncryptedData;
-        [PropertyInfo(Direction.InputData, "CS_Encrypted_Data", "csEncryptedDataDesc", "", false, false, QuickWatchFormat.Hex, "")]
+        [PropertyInfo(Direction.InputData, "CSEncryptedDataCaption", "CSEncryptedDataTooltip", "", false, false, QuickWatchFormat.Hex, "")]
         public virtual ICryptoolStream CSEncryptedData
         {
             get { return this.csEncryptedData; }
@@ -170,7 +170,7 @@ namespace KeySearcher
         }
 
         byte[] encryptedData;
-        [PropertyInfo(Direction.InputData,"Encrypted_Data","EcryptedDataDesc","",false,false,QuickWatchFormat.Hex,"")]
+        [PropertyInfo(Direction.InputData, "EncryptedDataCaption", "EncryptedDataTooltip", "", false, false, QuickWatchFormat.Hex, "")]
         public virtual byte[] EncryptedData 
         {
             get { return this.encryptedData; }
@@ -205,7 +205,7 @@ namespace KeySearcher
         }
 
         byte[] initVector;
-        [PropertyInfo(Direction.InputData, "Initialization_Vector", "InitVecDesc", "", false, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "InitVectorCaption", "InitVectorTooltip", "", false, false, QuickWatchFormat.Hex, null)]
         public virtual byte[] InitVector
         {
             get { return this.initVector; }
@@ -232,12 +232,12 @@ namespace KeySearcher
             get { return top1ValueKey; }
         }
 
-        [PropertyInfo(Direction.OutputData, "Top1_Message", "top1MesDesc", "")]
+        [PropertyInfo(Direction.OutputData, "Top1MessageCaption", "Top1MessageTooltip", "")]
         public virtual byte[] Top1Message
         {
             get { return top1FullPlaintext; }
         }
-        [PropertyInfo(Direction.OutputData, "Top1_Key", "Top1KeyDesc", "")]
+        [PropertyInfo(Direction.OutputData, "Top1KeyCaption", "Top1KeyTooltip", "")]
         public virtual byte[] Top1Key
         {
             get

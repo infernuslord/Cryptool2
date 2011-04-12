@@ -14,8 +14,7 @@ namespace Wizard
     [TabColor("royalblue")]
     [EditorInfo("wizard", true, false, false, false)]
     [Author("Simone Sauer", "sauer@cryptool.org", "Universität Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo("Wizard.Resources.Attributes", false, "Wizard", "The CrypTool 2.0 wizard", "Wizard/DetailedDescription/Description.xaml",
-      "Wizard/wizard.png")]
+    [PluginInfo("Wizard.Resources.Attributes", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "Wizard/wizard.png")]
     public class Wizard : IEditor
     {
         public event PropertyChangedEventHandler PropertyChanged;

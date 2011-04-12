@@ -73,8 +73,8 @@ namespace Cryptool.TextInput
     /// <summary>
     /// Encoding property used in the Settings pane. 
     /// </summary>
-    [ContextMenu("Character encoding", "Choose the expected encoding of the byte array and stream.", 1, ContextMenuControlType.ComboBox, null, new string[] { "Default system encoding", "Unicode", "UTF-7", "UTF-8", "UTF-32", "ASCII", "Big endian unicode" })]
-    [TaskPane("Character encoding", "Choose the expected encoding of the byte array and stream.", "", 1, false, ControlType.RadioButton, new string[] { "Default system encoding", "Unicode", "UTF-7", "UTF-8", "UTF-32", "ASCII", "Big endian unicode" })]
+    [ContextMenu( "EncodingSettingCaption", "EncodingSettingTooltip", 1, ContextMenuControlType.ComboBox, null, new string[] { "Default system encoding", "Unicode", "UTF-7", "UTF-8", "UTF-32", "ASCII", "Big endian unicode" })]
+    [TaskPane( "EncodingSettingCaption", "EncodingSettingTooltip", "", 1, false, ControlType.RadioButton, new string[] { "Default system encoding", "Unicode", "UTF-7", "UTF-8", "UTF-32", "ASCII", "Big endian unicode" })]
     public int EncodingSetting
     {
       get
@@ -97,8 +97,8 @@ namespace Cryptool.TextInput
     /// Gets or sets the presentation format setting.
     /// </summary>
     /// <value>The presentation format setting.</value>
-    [ContextMenu("Input format", "Choose the input format that will be decoded (if applicable) prior to further processing.", 2, ContextMenuControlType.ComboBox, null, new string[] { "Plain text", "Hex", "Base64" })]
-    [TaskPane("Input format", "Choose the input format that will be decoded (if applicable) prior to further processing.", null, 2, false, ControlType.RadioButton, new string[] { "Plain text", "Hex", "Base64" })]
+    [ContextMenu( "InputFormatSettingCaption", "InputFormatSettingTooltip", 2, ContextMenuControlType.ComboBox, null, new string[] { "Plain text", "Hex", "Base64" })]
+    [TaskPane( "InputFormatSettingCaption", "InputFormatSettingTooltip", null, 2, false, ControlType.RadioButton, new string[] { "Plain text", "Hex", "Base64" })]
     public InputFormat InputFormatSetting
     {
         get

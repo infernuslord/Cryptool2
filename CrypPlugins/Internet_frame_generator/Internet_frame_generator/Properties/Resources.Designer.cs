@@ -59,5 +59,113 @@ namespace Internet_frame_generator.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Kind of packet ähnelt.
+        /// </summary>
+        internal static string ActionCaption {
+            get {
+                return ResourceManager.GetString("ActionCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Kind of packets to be generated ähnelt.
+        /// </summary>
+        internal static string ActionTooltip {
+            get {
+                return ResourceManager.GetString("ActionTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Counter ähnelt.
+        /// </summary>
+        internal static string InputIntCaption {
+            get {
+                return ResourceManager.GetString("InputIntCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Counter ähnelt.
+        /// </summary>
+        internal static string InputIntTooltip {
+            get {
+                return ResourceManager.GetString("InputIntTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Number of packets ähnelt.
+        /// </summary>
+        internal static string NumberOfPacketsToBeCreatedCaption {
+            get {
+                return ResourceManager.GetString("NumberOfPacketsToBeCreatedCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die How many packets do you want to create?\nPlease type in a number beteen 1 and 100,000. ähnelt.
+        /// </summary>
+        internal static string NumberOfPacketsToBeCreatedTooltip {
+            get {
+                return ResourceManager.GetString("NumberOfPacketsToBeCreatedTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Output stream ähnelt.
+        /// </summary>
+        internal static string OutputStreamCaption {
+            get {
+                return ResourceManager.GetString("OutputStreamCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Internet frames ähnelt.
+        /// </summary>
+        internal static string OutputStreamTooltip {
+            get {
+                return ResourceManager.GetString("OutputStreamTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die IP Frame Generator ähnelt.
+        /// </summary>
+        internal static string PluginCaption {
+            get {
+                return ResourceManager.GetString("PluginCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Internet_frame_generator/DetailedDescription/Description.xaml ähnelt.
+        /// </summary>
+        internal static string PluginDescriptionURL {
+            get {
+                return ResourceManager.GetString("PluginDescriptionURL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Internet frame generator (IPv4 or ARP request packets are supported) ähnelt.
+        /// </summary>
+        internal static string PluginTooltip {
+            get {
+                return ResourceManager.GetString("PluginTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Internet Frame Generator (IPv4 und ARP Request Pakete werden unterstützt) ähnelt.
+        /// </summary>
+        internal static string String1 {
+            get {
+                return ResourceManager.GetString("String1", resourceCulture);
+            }
+        }
     }
 }

@@ -27,7 +27,7 @@ namespace Wizard
         public bool HasChanges
         { get; set; }
 
-        [TaskPane("Show on startup", "Show wizard on startup.", null, 1, true, ControlType.CheckBox)]
+        [TaskPane("ShowOnStartupCaption", "ShowOnStartupTooltip", null, 1, true, ControlType.CheckBox)]
         public bool ShowOnStartup
         {
             get

@@ -24,14 +24,12 @@ namespace Cryptool.Internet_frame_generator
         /// 0 = "normal" IP packets.
         /// 1 = ARP (request) packets.
         /// </summary>
-        [ContextMenu("Kind of packet",
-            "Kind of packets to be generated",
+        [ContextMenu( "ActionCaption", "ActionTooltip",
             1,
             ContextMenuControlType.ComboBox,
             null,
             new String[] { "IPv4 packets", "ARP request packets" })]
-        [TaskPane("Kind of packet",
-            "Kind of packets to be generated",
+        [TaskPane( "ActionCaption", "ActionTooltip",
             "",
             1,
             true,
@@ -54,8 +52,7 @@ namespace Cryptool.Internet_frame_generator
         /// <summary>
         /// How many files are going to be saved (if saving is wanted).
         /// </summary>
-        [TaskPane("Number of packets",
-            "How many packets do you want to create?\nPlease type in a number beteen 1 and 100,000.",
+        [TaskPane( "NumberOfPacketsToBeCreatedCaption", "NumberOfPacketsToBeCreatedTooltip",
             "",
             2,
             false,

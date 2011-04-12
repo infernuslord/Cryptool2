@@ -36,7 +36,7 @@ using BooleanOperators;
 namespace Cryptool.Plugins.BooleanOperators
 {
     [Author("Julian Weyers", "julian.weyers@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-duisburg-essen.de")]
-    [PluginInfo("BooleanOperators.Properties.Resources", true, "PluginInputCaption", "PluginInputTooltip", "PluginDescriptionURL", "BooleanOperators/icons/false.png", "BooleanOperators/icons/true.png")]
+    [PluginInfo("BooleanOperators.Properties.Resources", true, "PluginBI_Caption", "PluginBI_Tooltip", "PluginDescriptionURL", "BooleanOperators/icons/false.png", "BooleanOperators/icons/true.png")]
 
     public class BooleanInput : IInput
     {
@@ -66,7 +66,7 @@ namespace Cryptool.Plugins.BooleanOperators
         }
 
 
-        [PropertyInfo(Direction.OutputData, "BooleanInputOutputCaption", "BooleanInputOutputTooltip", "", false, false, QuickWatchFormat.None, null)]
+        [PropertyInfo(Direction.OutputData, "BI_OutputCaption", "BI_OutputTooltip", "", false, false, QuickWatchFormat.None, null)]
         public Boolean Output
         {
             get

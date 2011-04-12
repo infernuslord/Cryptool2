@@ -24,9 +24,9 @@ namespace Cryptool.Internet_frame_generator
         "Uni Siegen",
         "http://www.uni-siegen.de")]
     [PluginInfo("Internet_frame_generator.Properties.Resources", false,
-        "IP Frame Generator",
-        "Internet frame generator (IPv4 or ARP request packets are supported)",
-        "Internet_frame_generator/DetailedDescription/Description.xaml",
+        "PluginCaption",
+        "PluginTooltip",
+        "PluginDescriptionURL",
         "Internet_frame_generator/icon.jpg")]
     public class Internet_frame_generator : IRandomNumberGenerator
     {
@@ -45,8 +45,8 @@ namespace Cryptool.Internet_frame_generator
                                                             0x60, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00};
 
         [PropertyInfo(Direction.InputData,
-            "Counter",
-            "Counter",
+            "InputIntCaption",
+            "InputIntTooltip",
             "",
             false,
             false,
@@ -63,8 +63,8 @@ namespace Cryptool.Internet_frame_generator
         }
 
         [PropertyInfo(Direction.OutputData,
-            "Output stream",
-            "Internet frames",
+            "OutputStreamCaption",
+            "OutputStreamTooltip",
             "",
             false,
             false,

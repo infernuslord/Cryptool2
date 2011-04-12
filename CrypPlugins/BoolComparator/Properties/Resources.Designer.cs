@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TextOutput.Properties {
+namespace Cryptool.BoolComparator.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace TextOutput.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("TextOutput.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Cryptool.BoolComparator.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,7 +61,7 @@ namespace TextOutput.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die TextOutput ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die BoolComparator ähnelt.
         /// </summary>
         internal static string PluginCaption {
             get {
@@ -70,7 +70,7 @@ namespace TextOutput.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die BoolComparator/DetailedDescription/Description.xaml ähnelt.
         /// </summary>
         internal static string PluginDescriptionURL {
             get {
@@ -79,7 +79,7 @@ namespace TextOutput.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Simple text output ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Simple Binary AND ähnelt.
         /// </summary>
         internal static string PluginTooltip {
             get {

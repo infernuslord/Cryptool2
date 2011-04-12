@@ -1,0 +1,507 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="InputGramsCaption" xml:space="preserve">
+    <value>n-gram dictionary</value>
+  </data>
+  <data name="InputGramsTooltip" xml:space="preserve">
+    <value>Dictionary with gram counts (string -&gt; [absolute, percentaged, log2])</value>
+  </data>
+  <data name="InputStringCaption" xml:space="preserve">
+    <value>Text input</value>
+  </data>
+  <data name="InputStringTooltip" xml:space="preserve">
+    <value>Input a string to be processed by the Enigma machine</value>
+  </data>
+  <data name="OutputStringCaption" xml:space="preserve">
+    <value>Text output</value>
+  </data>
+  <data name="OutputStringTooltip" xml:space="preserve">
+    <value>The string after processing with the Enigma machine</value>
+  </data>
+  <data name="PluginCaption" xml:space="preserve">
+    <value>Enigma</value>
+  </data>
+  <data name="PluginDescriptionURL" xml:space="preserve">
+    <value />
+  </data>
+  <data name="PluginTooltip" xml:space="preserve">
+    <value>Polyalphabetic rotor-cipher machine</value>
+  </data>
+  <data name="ActionCaption" xml:space="preserve">
+    <value>Operation mode</value>
+  </data>
+  <data name="ActionTooltip" xml:space="preserve">
+    <value>Select the mode of operation for this Enigma simulator. Note that all Enigmas since Enigma D are working with a reflector and therefore there is not difference between encrypting an decrypting.</value>
+  </data>
+  <data name="AnalysisUseRotorICaption" xml:space="preserve">
+    <value>Include rotor I</value>
+  </data>
+  <data name="AnalysisUseRotorITooltip" xml:space="preserve">
+    <value>Check if rotor I should be included when analyzing rotors.</value>
+  </data>
+  <data name="AnalysisUseRotorIICaption" xml:space="preserve">
+    <value>Include rotor II</value>
+  </data>
+  <data name="AnalysisUseRotorIITooltip" xml:space="preserve">
+    <value>Check if rotor II should be included when analyzing rotors.</value>
+  </data>
+  <data name="AnalysisUseRotorIIICaption" xml:space="preserve">
+    <value>Include rotor III</value>
+  </data>
+  <data name="AnalysisUseRotorIIITooltip" xml:space="preserve">
+    <value>Check if rotor III should be included when analyzing rotors.</value>
+  </data>
+  <data name="AnalysisUseRotorIVCaption" xml:space="preserve">
+    <value>Include rotor IV</value>
+  </data>
+  <data name="AnalysisUseRotorIVTooltip" xml:space="preserve">
+    <value>Check if rotor IV should be included when analyzing rotors.</value>
+  </data>
+  <data name="AnalysisUseRotorVCaption" xml:space="preserve">
+    <value>Include rotor V</value>
+  </data>
+  <data name="AnalysisUseRotorVTooltip" xml:space="preserve">
+    <value>Check if rotor V should be included when analyzing rotors.</value>
+  </data>
+  <data name="AnalysisUseRotorVICaption" xml:space="preserve">
+    <value>Include rotor VI</value>
+  </data>
+  <data name="AnalysisUseRotorVITooltip" xml:space="preserve">
+    <value>Check if rotor VI should be included when analyzing rotors.</value>
+  </data>
+  <data name="AnalysisUseRotorVIICaption" xml:space="preserve">
+    <value>Include rotor VII</value>
+  </data>
+  <data name="AnalysisUseRotorVIITooltip" xml:space="preserve">
+    <value>Check if rotor VII should be included when analyzing rotors.</value>
+  </data>
+  <data name="AnalysisUseRotorVIIICaption" xml:space="preserve">
+    <value>Include rotor VIII</value>
+  </data>
+  <data name="AnalysisUseRotorVIIITooltip" xml:space="preserve">
+    <value>Check if rotor VIII should be included when analyzing rotors.</value>
+  </data>
+  <data name="AnalyzeKeyCaption" xml:space="preserve">
+    <value>Analyze key (initial rotor pos.)</value>
+  </data>
+  <data name="AnalyzeKeyTooltip" xml:space="preserve">
+    <value>If checked, the analysis tries to detect the correct key. If unchecked, the value from "Key" is used.</value>
+  </data>
+  <data name="AnalyzePlugsCaption" xml:space="preserve">
+    <value>Analyze plugs</value>
+  </data>
+  <data name="AnalyzePlugsTooltip" xml:space="preserve">
+    <value>If checked, the analysis tries to detect the correct plug settings. If unchecked, the values from the plugboard are used.</value>
+  </data>
+  <data name="AnalyzeRingsCaption" xml:space="preserve">
+    <value>Analyze rings settings</value>
+  </data>
+  <data name="AnalyzeRingsTooltip" xml:space="preserve">
+    <value>If checked, the analysis tries to detect the correct rings settings. If unchecked, the values from the ring settings are used.</value>
+  </data>
+  <data name="AnalyzeRotorsCaption" xml:space="preserve">
+    <value>Analyze used rotors</value>
+  </data>
+  <data name="AnalyzeRotorsTooltip" xml:space="preserve">
+    <value>If checked, the analysis tries to detect the correct rotors and their positions. If unchecked, the values from the rotor settings are used.</value>
+  </data>
+  <data name="CaseHandlingCaption" xml:space="preserve">
+    <value>Case handling</value>
+  </data>
+  <data name="CaseHandlingTooltip" xml:space="preserve">
+    <value>What should be done with upper and lower case letters?</value>
+  </data>
+  <data name="InvolutoricCaption" xml:space="preserve">
+    <value>Involutoric</value>
+  </data>
+  <data name="InvolutoricTooltip" xml:space="preserve">
+    <value>The mapping and the inverse mapping are the same. As an example if A mapps to X, also X is mapped to A</value>
+  </data>
+  <data name="KeyCaption" xml:space="preserve">
+    <value>Key (Initial rotor setting)</value>
+  </data>
+  <data name="KeyTooltip" xml:space="preserve">
+    <value>Please provide the initial rotor setting for each rotor, e.g. ABCD. Note that the slowest rotor is on the left and the fastest rotor is on the right. Only the Enigma M4 "Shark" uses four rotors.</value>
+  </data>
+  <data name="KeySearchMethodCaption" xml:space="preserve">
+    <value>Rotor/Ring/Key search method</value>
+  </data>
+  <data name="KeySearchMethodTooltip" xml:space="preserve">
+    <value>Which method should be used to assess the best rotor configuration?</value>
+  </data>
+  <data name="MaxSearchedPlugsCaption" xml:space="preserve">
+    <value>Max. plugs searched</value>
+  </data>
+  <data name="MaxSearchedPlugsTooltip" xml:space="preserve">
+    <value>Select how many plugs should be searched at most. Note that the search algorithm might return less plugs - this number is just an upper limit</value>
+  </data>
+  <data name="ModelCaption" xml:space="preserve">
+    <value>Enigma model</value>
+  </data>
+  <data name="ModelTooltip" xml:space="preserve">
+    <value>Please select which Enigma model you want to use. This settings influences available rotors and their inner cabling.</value>
+  </data>
+  <data name="ModelTPCaption" xml:space="preserve">
+    <value>Enigma model</value>
+  </data>
+  <data name="ModelTPTooltip" xml:space="preserve">
+    <value>Please select which Enigma model you want to use. This settings influences the available rotors and their inner cabling.</value>
+  </data>
+  <data name="PlugBoardCaption" xml:space="preserve">
+    <value>Plugboard substitution</value>
+  </data>
+  <data name="PlugBoardTooltip" xml:space="preserve">
+    <value>Displays the current substitution</value>
+  </data>
+  <data name="PlugBoardACaption" xml:space="preserve">
+    <value>A=</value>
+  </data>
+  <data name="PlugBoardATooltip" xml:space="preserve">
+    <value>Select the letter for connecting this plug.</value>
+  </data>
+  <data name="PlugBoardBCaption" xml:space="preserve">
+    <value>B=</value>
+  </data>
+  <data name="PlugBoardBTooltip" xml:space="preserve">
+    <value>Select the letter for connecting this plug.</value>
+  </data>
+  <data name="PlugBoardCCaption" xml:space="preserve">
+    <value>C=</value>
+  </data>
+  <data name="PlugBoardCTooltip" xml:space="preserve">
+    <value>Select the letter for connecting this plug.</value>
+  </data>
+  <data name="PlugBoardDCaption" xml:space="preserve">
+    <value>D=</value>
+  </data>
+  <data name="PlugBoardDTooltip" xml:space="preserve">
+    <value>Select the letter for connecting this plug.</value>
+  </data>
+  <data name="PlugBoardECaption" xml:space="preserve">
+    <value>E=</value>
+  </data>
+  <data name="PlugBoardETooltip" xml:space="preserve">
+    <value>Select the letter for connecting this plug.</value>
+  </data>
+  <data name="PlugBoardFCaption" xml:space="preserve">
+    <value>F=</value>
+  </data>
+  <data name="PlugBoardFTooltip" xml:space="preserve">
+    <value>Select the letter for connecting this plug.</value>
+  </data>
+  <data name="PlugBoardGCaption" xml:space="preserve">
+    <value>G=</value>
+  </data>
+  <data name="PlugBoardGTooltip" xml:space="preserve">
+    <value>Select the letter for connecting this plug.</value>
+  </data>
+  <data name="PlugBoardHCaption" xml:space="preserve">
+    <value>H=</value>
+  </data>
+  <data name="PlugBoardHTooltip" xml:space="preserve">
+    <value>Select the letter for connecting this plug.</value>
+  </data>
+  <data name="PlugBoardICaption" xml:space="preserve">
+    <value>I=</value>
+  </data>
+  <data name="PlugBoardITooltip" xml:space="preserve">
+    <value>Select the letter for connecting this plug.</value>
+  </data>
+  <data name="PlugBoardJCaption" xml:space="preserve">
+    <value>J=</value>
+  </data>
+  <data name="PlugBoardJTooltip" xml:space="preserve">
+    <value>Select the letter for connecting this plug.</value>
+  </data>
+  <data name="PlugBoardKCaption" xml:space="preserve">
+    <value>K=</value>
+  </data>
+  <data name="PlugBoardKTooltip" xml:space="preserve">
+    <value>Select the letter for connecting this plug.</value>
+  </data>
+  <data name="PlugBoardLCaption" xml:space="preserve">
+    <value>L=</value>
+  </data>
+  <data name="PlugBoardLTooltip" xml:space="preserve">
+    <value>Select the letter for connecting this plug.</value>
+  </data>
+  <data name="PlugBoardMCaption" xml:space="preserve">
+    <value>M=</value>
+  </data>
+  <data name="PlugBoardMTooltip" xml:space="preserve">
+    <value>Select the letter for connecting this plug.</value>
+  </data>
+  <data name="PlugBoardNCaption" xml:space="preserve">
+    <value>N=</value>
+  </data>
+  <data name="PlugBoardNTooltip" xml:space="preserve">
+    <value>Select the letter for connecting this plug.</value>
+  </data>
+  <data name="PlugBoardOCaption" xml:space="preserve">
+    <value>O=</value>
+  </data>
+  <data name="PlugBoardOTooltip" xml:space="preserve">
+    <value>Select the letter for connecting this plug.</value>
+  </data>
+  <data name="PlugBoardPCaption" xml:space="preserve">
+    <value>P=</value>
+  </data>
+  <data name="PlugBoardPTooltip" xml:space="preserve">
+    <value>Select the letter for connecting this plug.</value>
+  </data>
+  <data name="PlugBoardQCaption" xml:space="preserve">
+    <value>Q=</value>
+  </data>
+  <data name="PlugBoardQTooltip" xml:space="preserve">
+    <value>Select the letter for connecting this plug.</value>
+  </data>
+  <data name="PlugBoardRCaption" xml:space="preserve">
+    <value>R=</value>
+  </data>
+  <data name="PlugBoardRTooltip" xml:space="preserve">
+    <value>Select the letter for connecting this plug.</value>
+  </data>
+  <data name="PlugBoardSCaption" xml:space="preserve">
+    <value>S=</value>
+  </data>
+  <data name="PlugBoardSTooltip" xml:space="preserve">
+    <value>Select the letter for connecting this plug.</value>
+  </data>
+  <data name="PlugBoardTCaption" xml:space="preserve">
+    <value>T=</value>
+  </data>
+  <data name="PlugBoardTTooltip" xml:space="preserve">
+    <value>Select the letter for connecting this plug.</value>
+  </data>
+  <data name="PlugBoardUCaption" xml:space="preserve">
+    <value>U=</value>
+  </data>
+  <data name="PlugBoardUTooltip" xml:space="preserve">
+    <value>Select the letter for connecting this plug.</value>
+  </data>
+  <data name="PlugBoardVCaption" xml:space="preserve">
+    <value>V=</value>
+  </data>
+  <data name="PlugBoardVTooltip" xml:space="preserve">
+    <value>Select the letter for connecting this plug.</value>
+  </data>
+  <data name="PlugBoardWCaption" xml:space="preserve">
+    <value>W=</value>
+  </data>
+  <data name="PlugBoardWTooltip" xml:space="preserve">
+    <value>Select the letter for connecting this plug.</value>
+  </data>
+  <data name="PlugBoardXCaption" xml:space="preserve">
+    <value>X=</value>
+  </data>
+  <data name="PlugBoardXTooltip" xml:space="preserve">
+    <value>Select the letter for connecting this plug.</value>
+  </data>
+  <data name="PlugBoardYCaption" xml:space="preserve">
+    <value>Y=</value>
+  </data>
+  <data name="PlugBoardYTooltip" xml:space="preserve">
+    <value>Select the letter for connecting this plug.</value>
+  </data>
+  <data name="PlugBoardZCaption" xml:space="preserve">
+    <value>Z=</value>
+  </data>
+  <data name="PlugBoardZTooltip" xml:space="preserve">
+    <value>Select the letter for connecting this plug.</value>
+  </data>
+  <data name="PlugSearchMethodCaption" xml:space="preserve">
+    <value>Plug search method</value>
+  </data>
+  <data name="PlugSearchMethodTooltip" xml:space="preserve">
+    <value>Which method should be used to assess the best plugboard configuration?</value>
+  </data>
+  <data name="PresentationSpeedCaption" xml:space="preserve">
+    <value>Presentation Speed</value>
+  </data>
+  <data name="PresentationSpeedTooltip" xml:space="preserve">
+    <value>Change the pace of the Presentation</value>
+  </data>
+  <data name="ReflectorCaption" xml:space="preserve">
+    <value>Reflector</value>
+  </data>
+  <data name="ReflectorTooltip" xml:space="preserve">
+    <value>Select the used reflector. If you don't want to use a reflector, select none here.</value>
+  </data>
+  <data name="ResetPlugboardCaption" xml:space="preserve">
+    <value>Remove all plugs</value>
+  </data>
+  <data name="ResetPlugboardTooltip" xml:space="preserve">
+    <value>By pressing this button the plugboard is reset to its empty state, i.e. all plugs are removed</value>
+  </data>
+  <data name="Ring1Caption" xml:space="preserve">
+    <value>Ring 1 (right)</value>
+  </data>
+  <data name="Ring1Tooltip" xml:space="preserve">
+    <value>Select the the offset for ring 1</value>
+  </data>
+  <data name="Ring2Caption" xml:space="preserve">
+    <value>Ring 2</value>
+  </data>
+  <data name="Ring2Tooltip" xml:space="preserve">
+    <value>Select the the offset for ring 2</value>
+  </data>
+  <data name="Ring3Caption" xml:space="preserve">
+    <value>Ring 3</value>
+  </data>
+  <data name="Ring3Tooltip" xml:space="preserve">
+    <value>Select the the offset for ring 3</value>
+  </data>
+  <data name="Ring4Caption" xml:space="preserve">
+    <value>Ring 4 (left)</value>
+  </data>
+  <data name="Ring4Tooltip" xml:space="preserve">
+    <value>Select the the offset for ring 4</value>
+  </data>
+  <data name="Rotor1Caption" xml:space="preserve">
+    <value>Rotor 1 (fastest/right)</value>
+  </data>
+  <data name="Rotor1Tooltip" xml:space="preserve">
+    <value>Select the used rotor on the right (fastest) position.</value>
+  </data>
+  <data name="Rotor2Caption" xml:space="preserve">
+    <value>Rotor 2</value>
+  </data>
+  <data name="Rotor2Tooltip" xml:space="preserve">
+    <value>Select the used rotor on the second position.</value>
+  </data>
+  <data name="Rotor3Caption" xml:space="preserve">
+    <value>Rotor 3</value>
+  </data>
+  <data name="Rotor3Tooltip" xml:space="preserve">
+    <value>Select the used rotor on the third position.</value>
+  </data>
+  <data name="Rotor4Caption" xml:space="preserve">
+    <value>Rotor 4 (slowest/left)</value>
+  </data>
+  <data name="Rotor4Tooltip" xml:space="preserve">
+    <value>Select the used rotor on the forth position. If you want to use only three rotors, select none here.</value>
+  </data>
+  <data name="UnknownSymbolHandlingCaption" xml:space="preserve">
+    <value>Unknown symbol handling</value>
+  </data>
+  <data name="UnknownSymbolHandlingTooltip" xml:space="preserve">
+    <value>What should be done with encountered characters at the input which are not in the alphabet?</value>
+  </data>
+</root>

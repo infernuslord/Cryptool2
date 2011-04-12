@@ -118,39 +118,42 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="PluginCaption" xml:space="preserve">
-    <value>IP Frame Generator</value>
+    <value>BoolComparator</value>
   </data>
   <data name="PluginDescriptionURL" xml:space="preserve">
-    <value>Internet_frame_generator/DetailedDescription/Description.xaml</value>
+    <value>BoolComparator/DetailedDescription/Description.xaml</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Internet frame generator (IPv4 or ARP request packets are supported)</value>
+    <value>Simple Binary AND</value>
   </data>
-  <data name="InputIntCaption" xml:space="preserve">
-    <value>Counter</value>
+  <data name="InputOneCaption" xml:space="preserve">
+    <value>Input One</value>
   </data>
-  <data name="InputIntTooltip" xml:space="preserve">
-    <value>Counter</value>
+  <data name="InputOneTooltip" xml:space="preserve">
+    <value>Input a boolean value to be compared</value>
   </data>
-  <data name="OutputStreamCaption" xml:space="preserve">
-    <value>Output stream</value>
+  <data name="InputTwoCaption" xml:space="preserve">
+    <value>Input Two</value>
   </data>
-  <data name="OutputStreamTooltip" xml:space="preserve">
-    <value>Internet frames</value>
+  <data name="InputTwoTooltip" xml:space="preserve">
+    <value>Input a boolean value to be compared</value>
   </data>
-  <data name="ActionCaption" xml:space="preserve">
-    <value>Kind of packet</value>
+  <data name="OutputCaption" xml:space="preserve">
+    <value>Output</value>
   </data>
-  <data name="ActionTooltip" xml:space="preserve">
-    <value>Kind of packets to be generated</value>
+  <data name="OutputTooltip" xml:space="preserve">
+    <value>Output after comparing input one and two. Only fires up, if both inputs are fresh.</value>
   </data>
-  <data name="NumberOfPacketsToBeCreatedCaption" xml:space="preserve">
-    <value>Number of packets</value>
+  <data name="FlagInputOneCaption" xml:space="preserve">
+    <value>Declare Flag I1 clean</value>
   </data>
-  <data name="NumberOfPacketsToBeCreatedTooltip" xml:space="preserve">
-    <value>How many packets do you want to create?\nPlease type in a number beteen 1 and 100,000.</value>
+  <data name="FlagInputOneTooltip" xml:space="preserve">
+    <value> yes / no </value>
   </data>
-  <data name="String1" xml:space="preserve">
-    <value>Internet Frame Generator (IPv4 und ARP Request Pakete werden unterstützt)</value>
+  <data name="FlagInputTwoCaption" xml:space="preserve">
+    <value>Declare Flag I2 clean</value>
+  </data>
+  <data name="FlagInputTwoTooltip" xml:space="preserve">
+    <value> yes / no </value>
   </data>
 </root>

@@ -35,7 +35,7 @@ using System.Runtime.Remoting.Contexts;
 namespace Cryptool.TextInput
 {
   [Author("Thomas Schmid", "thomas.schmid@cryptool.org", "Uni Siegen", "http://www.uni-siegen.de")]
-  [PluginInfo("Cryptool.TextInput.Properties.Resources", true, "TextInputCaption", "TextInputTooltip", "TextInput/Documentation/doc.xml", "TextInput/icon.png")]
+  [PluginInfo("Cryptool.TextInput.Properties.Resources", true, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "TextInput/icon.png")]
   public class TextInput : DependencyObject, IInput
   {
     private TextInputPresentation textInputPresentation;
@@ -228,7 +228,7 @@ namespace Cryptool.TextInput
 
     # region Properties
 
-    [PropertyInfo(Direction.OutputData, "Text", "Simple text to use as input for other plug-ins.", "", true, false, QuickWatchFormat.None, null)]
+    [PropertyInfo(Direction.OutputData, "TextOutputCaption", "TextOutputTooltip", "", true, false, QuickWatchFormat.None, null)]
     public string TextOutput
     {
       get
@@ -263,7 +263,7 @@ namespace Cryptool.TextInput
       set { }
     }
 
-    [PropertyInfo(Direction.OutputData, "Stream", "The text input converted to memory stream.", "", true, false, QuickWatchFormat.None, null)]
+    [PropertyInfo(Direction.OutputData, "StreamOutputCaption", "StreamOutputTooltip", "", true, false, QuickWatchFormat.None, null)]
     public ICryptoolStream StreamOutput
     {
       get
@@ -280,7 +280,7 @@ namespace Cryptool.TextInput
       set { } // readonly
     }
 
-    [PropertyInfo(Direction.OutputData, "ByteArray", "The hex values as byte array.", "", true, false, QuickWatchFormat.None, null)]
+    [PropertyInfo(Direction.OutputData, "ByteArrayCaption", "ByteArrayTooltip", "", true, false, QuickWatchFormat.None, null)]
     public byte[] ByteArrayOutput
     {
       get
@@ -307,7 +307,7 @@ namespace Cryptool.TextInput
       set { } // readonly
     }
 
-    [PropertyInfo(Direction.OutputData, "BoolArray", "The text input converted to bool array ('0' char or 0x00 equals false, else true).", "", true, false, QuickWatchFormat.None, null)]
+    [PropertyInfo(Direction.OutputData, "BoolArrayOutputCaption", "BoolArrayOutputTooltip", "", true, false, QuickWatchFormat.None, null)]
     public bool[] BoolArrayOutput
     {
         get

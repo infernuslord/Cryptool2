@@ -31,7 +31,7 @@ using System.Runtime.CompilerServices;
 namespace Cryptool.BoolComparator
 {
     [Author("Soeren Rinne", "soeren.rinne@cryptool.de", "Ruhr-Universitaet Bochum, Chair for System Security", "http://www.trust.rub.de/")]
-    [PluginInfo(false, "BoolComparator", "Simple Binary AND", "BoolComparator/DetailedDescription/Description.xaml", "BoolComparator/Images/icon.png", "BoolComparator/Images/icon.png", "BoolComparator/Images/icon.png")]
+    [PluginInfo("Cryptool.BoolComparator.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "BoolComparator/Images/icon.png", "BoolComparator/Images/icon.png", "BoolComparator/Images/icon.png")]
     public class BoolComparator : IThroughput
     {
 
@@ -71,7 +71,7 @@ namespace Cryptool.BoolComparator
             }
         }
 
-        [PropertyInfo(Direction.InputData, "Input One", "Input a boolean value to be compared", "", true, true, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputOneCaption", "InputOneTooltip", "", true, true, QuickWatchFormat.Text, null)]
         public bool InputOne
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
@@ -86,7 +86,7 @@ namespace Cryptool.BoolComparator
             }
         }
 
-        [PropertyInfo(Direction.InputData, "Input Two", "Input a boolean value to be compared", "", false, true, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputTwoCaption", "InputTwoTooltip", "", false, true, QuickWatchFormat.Text, null)]
         public bool InputTwo
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
@@ -101,7 +101,7 @@ namespace Cryptool.BoolComparator
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "Output", "Output after comparing input one and two. Only fires up, if both inputs are fresh.", "", false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputCaption", "OutputTooltip", "", false, false, QuickWatchFormat.Text, null)]
         public bool Output
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
