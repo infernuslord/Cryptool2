@@ -46,6 +46,7 @@
         <Controls:ChunkSumConverter x:Key="ChunkSumConverter"/>
         <Controls:StringLengthConverter x:Key="StringLengthConverter"/>
         <Controls:HideDeadMachineConverter x:Key="HideDeadMachineConverter"/>
+        <Controls:HideDeadUserConverter x:Key="HideDeadUserConverter"/>
         <Controls:ColorToDateConverter x:Key="ColorToDateConverter"/>        
         <RotateTransform x:Key="HeaderRotate" Angle="270" />
         <g:WidthConverter x:Key="WidthConverter"></g:WidthConverter>
@@ -58,12 +59,12 @@
 
         <Style x:Key="ItemStyle" TargetType="TreeViewItem">
             <Setter x:Name="P" Property="IsExpanded" Value="True" />
-            <Setter Property="Visibility" Value="{Binding Path=Value.Dead, Converter={StaticResource HideDeadMachineConverter}}"/>
+            <Setter Property="Visibility" Value="{Binding Path=Key, Converter={StaticResource HideDeadUserConverter}}"/>
         </Style>
 
         <Style x:Key="ItemStyle2" TargetType="TreeViewItem">
             <Setter x:Name="P" Property="IsExpanded" Value="False" />
-            <Setter Property="Visibility" Value="{Binding Path=Value.Dead, Converter={StaticResource HideDeadMachineConverter}}"/>
+            <Setter Property="Visibility" Value="{Binding Path=Key, Converter={StaticResource HideDeadUserConverter}}"/>
         </Style>
 
        <!-- <Storyboard x:Key="BestGlow" RepeatBehavior="Forever">
@@ -91,10 +92,10 @@
 
         <Label Height="30"  Background="Beige" BorderBrush="Black" BorderThickness="0,0,0,2" Grid.Row="0" FontWeight="Bold" VerticalAlignment="Top" HorizontalContentAlignment="Center" ClipToBounds="True">
             <Label.Content>
-                <Canvas Width="220">
+                <Canvas Width="95">
                 <TextBlock FontSize="14" 
-                    Canvas.Top="3" Canvas.Left="1" 
-                    Foreground="Gray" TextAlignment="Center">K e y s e a r c h e r  S t a t i s t i c s</TextBlock>
+                    Canvas.Top="3" Canvas.Left="1"  
+                    Foreground="Gray" TextAlignment="Center">S t a t i s t i c s</TextBlock>
                 <TextBlock FontSize="14" 
                     Canvas.Top="2" Canvas.Left="2">
                     <TextBlock.Foreground>
@@ -102,7 +103,7 @@
                     <GradientStop Color="Black" Offset="0.15"/>
                     <GradientStop Color="Blue" Offset="1"/>
                     </LinearGradientBrush>
-                    </TextBlock.Foreground>K e y s e a r c h e r  S t a t i s t i c s</TextBlock>
+                    </TextBlock.Foreground>S t a t i s t i c s</TextBlock>
               <!--  
                 <TextBlock FontSize="18" 
                     Canvas.Top="2" Canvas.Left="2" Foreground="Gray">Keysearcher Statistics</TextBlock>
@@ -260,7 +261,7 @@
                         <TextBlock Text="User/Host " Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </StackPanel>
                     <TextBlock Text="Calculated Chunks" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                    <CheckBox Height="15" Name="HideDead" VerticalAlignment="Center" Grid.Column="1" Grid.Row="0" FlowDirection="RightToLeft" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Checked="Checked" Unchecked="Checked" HorizontalAlignment="Center">Hide Dead</CheckBox>
+                    <CheckBox Height="15" Name="HideDead" VerticalAlignment="Center" Grid.Column="1" Grid.Row="0" FlowDirection="RightToLeft" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Checked="Checked" Unchecked="Checked" HorizontalAlignment="Center">Hide Dead User</CheckBox>
                     <Button Content="Expand" Grid.Column="1" Grid.Row="0" Click="Button_Click" Width="50" HorizontalAlignment="Right"></Button>
                     <TreeView HorizontalAlignment="Stretch" VirtualizingStackPanel.IsVirtualizing="False" Name="statisticsTree" VerticalAlignment="Stretch" ItemsSource="{Binding}" AlternationCount="3" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" >                   
                         <TreeView.ItemTemplate>
@@ -335,6 +336,7 @@
                     </Grid.RowDefinitions>
                     <TextBlock Text="Hostname " Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center"/>
                     <TextBlock Text="Calculated Chunks" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left"/>
+                    <CheckBox Height="15" Name="HideDead2" VerticalAlignment="Center" Grid.Column="1" Grid.Row="0" FlowDirection="RightToLeft" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Checked="Checked2" Unchecked="Checked2" HorizontalAlignment="Center">Hide Dead Machines</CheckBox>
                     <TreeView HorizontalAlignment="Stretch" Name="machineTree" VirtualizingStackPanel.IsVirtualizing="False" VerticalAlignment="Stretch" ItemsSource="{Binding}" AlternationCount="3" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
                         <TreeView.ItemContainerStyle>
                             <Style TargetType="{x:Type TreeViewItem}">
