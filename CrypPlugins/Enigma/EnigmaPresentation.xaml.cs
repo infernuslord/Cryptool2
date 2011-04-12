@@ -142,7 +142,7 @@ namespace Cryptool.Enigma
         public void settings_OnPropertyChange(object sender, PropertyChangedEventArgs e)
         {
             EnigmaSettings settings = sender as EnigmaSettings;
-            if (e.PropertyName == "Presentation_Speed" && justme)
+            if (e.PropertyName == "Presentation_Speed" )
             {
 
                 Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
@@ -2091,10 +2091,10 @@ namespace Cryptool.Enigma
                 storyboard.Stop();
                 dispo.Stop();
                 mainmainmain.Children.Remove(dummycanvas);
-                rotorarray[0].stop = true;
-                rotorarray[1].stop = true;
-                rotorarray[2].stop = true;
-                walze.stop = true;
+                //rotorarray[0].stop = true;
+                //rotorarray[1].stop = true;
+                //rotorarray[2].stop = true;
+                //walze.stop = true;
                 stop = true;
                 inputPanel.Children.Clear();
                 outputPanel.Children.Clear();
@@ -2149,7 +2149,8 @@ namespace Cryptool.Enigma
             Key k = e.Key;
             string s = k.ToString();
             int x = (int)s[0] - 65;
-            if (!playbool)
+            Debug.Text = s;
+            if (!playbool && s.Length <2 && k!= Key.Space)
                 tasteClick(bList[x], EventArgs.Empty);
             Debug.Text = s;
         }
@@ -3134,12 +3135,13 @@ namespace Cryptool.Enigma
                 fadeOut2.To = 0.5;
                 fadeOut2.Duration = new Duration(TimeSpan.FromMilliseconds(1000));
                 fadeOut2.BeginTime = TimeSpan.FromMilliseconds(timecounterint);
+                
                 timecounterint += 1000;
                 //inputtebo[inputcounter - 1].BeginAnimation(OpacityProperty, fadeOut2);
 
                 Storyboard.SetTarget(fadeOut2, inputtebo[inputcounter - 1]);
                 Storyboard.SetTargetProperty(fadeOut2, new PropertyPath("(Opacity)"));
-
+                
                 sbret.Children.Add(fadeOut2);
                 if (inputtebo.Count > inputcounter && !stop)
                 {
@@ -3677,6 +3679,7 @@ namespace Cryptool.Enigma
                 DataObject data = new DataObject("myFormat", rotor.Uid);
                 DragDropEffects de = DragDrop.DoDragDrop(mainmainmain, data, DragDropEffects.Move);
 
+                
                 if (!suc)
                 {
                     dropBoxCanvasWalze.Children.Add(rotor);
@@ -3777,37 +3780,36 @@ namespace Cryptool.Enigma
                 //if (!button.Uid.Equals(button.Content.ToString()))
                 //  switchbuttons(Int32.Parse(button.Content.ToString()), Int32.Parse(button.Uid));
 
+                
+                    DataObject data = new DataObject("myFormat", rotor.Uid);
+                    justme = false;
+                    DragDropEffects de = DragDrop.DoDragDrop(mainmainmain, data, DragDropEffects.Move);
 
 
-                DataObject data = new DataObject("myFormat", rotor.Uid);
-                justme = false;
-                DragDropEffects de = DragDrop.DoDragDrop(mainmainmain, data, DragDropEffects.Move);
 
+                    if (!suc)
+                    {
+                        dropBoxCanvas.Children.Add(rotor);
+                        rotorarea.AllowDrop = false;
+                        dropBoxCanvas.AllowDrop = false;
+                    }
 
+                    // Clean up our mess :) 
+                    DragScope.AllowDrop = previousDrop;
+                    if (_adorner != null)
+                        AdornerLayer.GetAdornerLayer(DragScope).Remove(_adorner);
 
-                if (!suc)
-                {
-                    dropBoxCanvas.Children.Add(rotor);
-                    rotorarea.AllowDrop = false;
-                    dropBoxCanvas.AllowDrop = false;
-                }
+                    _adorner = null;
 
-                // Clean up our mess :) 
-                DragScope.AllowDrop = previousDrop;
-                if (_adorner != null)
-                    AdornerLayer.GetAdornerLayer(DragScope).Remove(_adorner);
+                    //           DragSource.GiveFeedback -= feedbackhandler;
+                    //         DragScope.DragLeave -= dragleavehandler;
+                    //       DragScope.QueryContinueDrag -= queryhandler;
+                    DragScope.PreviewDragOver -= draghandler;
 
-                _adorner = null;
+                    justme = true;
+                    //IsDragging = false;
 
-                //           DragSource.GiveFeedback -= feedbackhandler;
-                //         DragScope.DragLeave -= dragleavehandler;
-                //       DragScope.QueryContinueDrag -= queryhandler;
-                DragScope.PreviewDragOver -= draghandler;
-
-                justme = true;
-                //IsDragging = false;
-
-
+                
                 // Initialize the drag & drop operation
                 //DataObject dragData = new DataObject("myFormat", button.Uid);
 
@@ -3919,7 +3921,9 @@ namespace Cryptool.Enigma
 
         private void List_Drop21(object sender, DragEventArgs e)
         {
+            
             suc = true;
+            
             String uID = e.Data.GetData("myFormat") as String;
             Debug.Text = "hello" + uID;
 
