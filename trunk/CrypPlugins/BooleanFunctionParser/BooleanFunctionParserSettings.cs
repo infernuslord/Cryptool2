@@ -91,7 +91,7 @@ namespace Cryptool.BooleanFunctionParser
 
         public int countOfInputsOld; 
         private int countOfInputs = 1;
-        [TaskPane("Number of inputs", "How many inputs do you need?", null, 0, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
+        [TaskPane( "CountOfInputsCaption", "CountOfInputsTooltip", null, 0, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
         public int CountOfInputs
         {
             get { return this.countOfInputs; }
@@ -113,14 +113,12 @@ namespace Cryptool.BooleanFunctionParser
             }
         }
 
-        [ContextMenu("CubeAttack mode",
-            "Extend the BFP for use as a slave for Cube Attack.",
+        [ContextMenu( "UseBFPforCubeCaption", "UseBFPforCubeTooltip",
             1,
             ContextMenuControlType.CheckBox,
             null,
             "")]
-        [TaskPane("CubeAttack mode",
-            "Extend the BFP for use as a slave for Cube Attack.",
+        [TaskPane( "UseBFPforCubeCaption", "UseBFPforCubeTooltip",
             null,
             1,
             false,

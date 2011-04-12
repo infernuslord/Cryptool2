@@ -53,8 +53,8 @@ namespace Cryptool.BoolComparator
         }
 
         bool flagInputOne;
-        [ContextMenu("Declare Flag I1 clean", " yes / no ", 0, ContextMenuControlType.CheckBox, null, "Set Flag of Input One to clean at the beginning of the chain.")]
-        [TaskPaneAttribute("Declare Flag I1 clean", " yes / no ", "", 0, false, ControlType.CheckBox, null)]
+        [ContextMenu( "FlagInputOneCaption", "FlagInputOneTooltip", 0, ContextMenuControlType.CheckBox, null, "Set Flag of Input One to clean at the beginning of the chain.")]
+        [TaskPaneAttribute( "FlagInputOneCaption", "FlagInputOneTooltip", "", 0, false, ControlType.CheckBox, null)]
         public bool FlagInputOne
         {
             get { return this.flagInputOne; }
@@ -68,8 +68,8 @@ namespace Cryptool.BoolComparator
         }
 
         bool flagInputTwo;
-        [ContextMenu("Declare Flag I2 clean", " yes / no ", 0, ContextMenuControlType.CheckBox, null, "Set Flag of Input Two to clean at the beginning of the chain.")]
-        [TaskPaneAttribute("Declare Flag I2 clean", " yes / no ", "", 0, false, ControlType.CheckBox, null)]
+        [ContextMenu( "FlagInputTwoCaption", "FlagInputTwoTooltip", 0, ContextMenuControlType.CheckBox, null, "Set Flag of Input Two to clean at the beginning of the chain.")]
+        [TaskPaneAttribute( "FlagInputTwoCaption", "FlagInputTwoTooltip", "", 0, false, ControlType.CheckBox, null)]
         public bool FlagInputTwo
         {
             get { return this.flagInputTwo; }

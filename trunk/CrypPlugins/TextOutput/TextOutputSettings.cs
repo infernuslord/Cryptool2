@@ -78,8 +78,8 @@ namespace TextOutput
     /// <summary>
     /// Encoding property used in the Settings pane. 
     /// </summary>
-    [ContextMenu("Input encoding", "Choose the expected encoding of the input.", 1, ContextMenuControlType.ComboBox, null, new string[] { "Default system encoding", "Unicode", "UTF-7", "UTF-8", "UTF-32", "ASCII", "Big endian unicode" })]
-    [TaskPane("Input encoding", "Choose the expected encoding of the input. (The input will be interpreted as set here, no matter what the bytes really mean)", null, 1, false, ControlType.RadioButton, new string[] { "Default system encoding", "Unicode", "UTF-7", "UTF-8", "UTF-32", "ASCII", "Big endian unicode" })]
+    [ContextMenu( "EncodingSettingCaption", "EncodingSettingTooltip", 1, ContextMenuControlType.ComboBox, null, new string[] { "Default system encoding", "Unicode", "UTF-7", "UTF-8", "UTF-32", "ASCII", "Big endian unicode" })]
+    [TaskPane( "EncodingSettingTPCaption", "EncodingSettingTPTooltip", null, 1, false, ControlType.RadioButton, new string[] { "Default system encoding", "Unicode", "UTF-7", "UTF-8", "UTF-32", "ASCII", "Big endian unicode" })]
     public int EncodingSetting
     {
       get
@@ -99,8 +99,8 @@ namespace TextOutput
     /// Gets or sets the presentation format setting.
     /// </summary>
     /// <value>The presentation format setting.</value>
-    [ContextMenu("Presentation format", "Choose the format that will be used to present the input data.", 2, ContextMenuControlType.ComboBox, null, new string[] { "Text", "Hex", "Base64", "Decimal" })]
-    [TaskPane("Presentation format", "Choose the format that will be used to present the input data.", null, 2, false, ControlType.RadioButton, new string[] { "Text", "Hex", "Base64", "Decimal" })]
+    [ContextMenu( "PresentationFormatSettingCaption", "PresentationFormatSettingTooltip", 2, ContextMenuControlType.ComboBox, null, new string[] { "Text", "Hex", "Base64", "Decimal" })]
+    [TaskPane( "PresentationFormatSettingCaption", "PresentationFormatSettingTooltip", null, 2, false, ControlType.RadioButton, new string[] { "Text", "Hex", "Base64", "Decimal" })]
     public int PresentationFormatSetting
     {
       get
@@ -119,7 +119,7 @@ namespace TextOutput
     /// <summary>
     /// Maximum size property used in the settings pane. 
     /// </summary>
-    [TaskPane("Maximum length", "Provide the maximum number of bytes to convert.", null, 3, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 65536)]
+    [TaskPane( "MaxLengthCaption", "MaxLengthTooltip", null, 3, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 65536)]
     public int MaxLength
     {
       get
@@ -135,8 +135,8 @@ namespace TextOutput
     }
 
     private bool append = false;
-    [ContextMenu("Append text input", "With this checkbox enabled, incoming text will be appended to the current text.", 0, ContextMenuControlType.CheckBox, null, new string[] { "Append text input" })]
-    [TaskPane("Append text input", "With this checkbox enabled, incoming text will be appended to the current text.", "Append", 0, false, ControlType.CheckBox, "", null)]
+    [ContextMenu( "AppendCaption", "AppendTooltip", 0, ContextMenuControlType.CheckBox, null, new string[] { "Append text input" })]
+    [TaskPane( "AppendCaption", "AppendTooltip", "Append", 0, false, ControlType.CheckBox, "", null)]
     public bool Append
     {
       get { return append; }
@@ -152,7 +152,7 @@ namespace TextOutput
     }
 
     private int appendBreaks = 1;
-    [TaskPane("Append n-breaks", "Defines how much new lines are added after new input. (Applies only if \"Append text input\" is active.)", "Append", 0, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
+    [TaskPane( "AppendBreaksCaption", "AppendBreaksTooltip", "Append", 0, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
     public int AppendBreaks
     {
       get { return this.appendBreaks; }
@@ -191,7 +191,7 @@ namespace TextOutput
       }
     }
 
-    [TaskPane("Type", "Select DataType of plugin.", "", 4, false, ControlType.ComboBox, new string[] { "CStream", "string", "byte[]", "boolean", "int", "double", "object" })]
+    [TaskPane( "DataTypeCaption", "DataTypeTooltip", "", 4, false, ControlType.ComboBox, new string[] { "CStream", "string", "byte[]", "boolean", "int", "double", "object" })]
     public int DataType
     {
       get { return (int)CurrentDataType; }
@@ -208,8 +208,8 @@ namespace TextOutput
     }
 
     private bool booleanAsNumeric = false;
-    [ContextMenu("Display boolean as numeric value", "With this checkbox enabled, incoming boolean values will be displayed as numeric values (1/0 instead of True/False).", 5, ContextMenuControlType.CheckBox, null, new string[] { "Display boolean as numeric value" })]
-    [TaskPane("Display boolean as numeric value", "With this checkbox enabled, incoming boolean values will be displayed as numeric values (1/0 instead of True/False).", null, 5, false, ControlType.CheckBox, "", null)]
+    [ContextMenu( "BooleanAsNumericCaption", "BooleanAsNumericTooltip", 5, ContextMenuControlType.CheckBox, null, new string[] { "Display boolean as numeric value" })]
+    [TaskPane( "BooleanAsNumericCaption", "BooleanAsNumericTooltip", null, 5, false, ControlType.CheckBox, "", null)]
     public bool BooleanAsNumeric
     {
         get { return booleanAsNumeric; }
@@ -225,8 +225,8 @@ namespace TextOutput
     }
 
     private bool flushOnPreExecution = true;
-    [ContextMenu("Flush text on PreExec", "Flush all text boxes on PreExecution call.", 6, ContextMenuControlType.CheckBox, null, new string[] {"Flush text on PreExec"})]
-    [TaskPane("Flush text on PreExec", "Flush all text boxes on PreExecution call.", null, 6, false, ControlType.CheckBox, null)]
+    [ContextMenu( "FlushOnPreExecutionCaption", "FlushOnPreExecutionTooltip", 6, ContextMenuControlType.CheckBox, null, new string[] {"Flush text on PreExec"})]
+    [TaskPane( "FlushOnPreExecutionCaption", "FlushOnPreExecutionTooltip", null, 6, false, ControlType.CheckBox, null)]
     public bool FlushOnPreExecution
     {
       get { return flushOnPreExecution; }

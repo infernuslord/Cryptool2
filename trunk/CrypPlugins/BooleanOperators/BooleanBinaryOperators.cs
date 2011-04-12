@@ -29,7 +29,7 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace Cryptool.Plugins.BooleanOperators
 {
     [Author("Nils Kopal", "nils.kopal@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-duisburg-essen.de")]
-    [PluginInfo("BooleanOperators.Properties.Resources", false, "PluginBinaryCaption", "PluginBinaryTooltip", "PluginDescriptionURL",
+    [PluginInfo("BooleanOperators.Properties.Resources", false, "PluginBBO_Caption", "PluginBBO_Tooltip", "PluginDescriptionURL",
         "BooleanOperators/icons/and.png",
         "BooleanOperators/icons/or.png",
         "BooleanOperators/icons/nand.png",
@@ -54,7 +54,7 @@ namespace Cryptool.Plugins.BooleanOperators
 
         }
 
-        [PropertyInfo(Direction.InputData, "BooleanBinaryOperatorsInputACaption", "BooleanBinaryOperatorsInputATooltip", "")]
+        [PropertyInfo(Direction.InputData, "BBO_InputACaption", "BBO_InputATooltip", "")]
         public Boolean InputA
         {
             get
@@ -69,7 +69,7 @@ namespace Cryptool.Plugins.BooleanOperators
             }
         }
 
-        [PropertyInfo(Direction.InputData, "BooleanBinaryOperatorsInputBCaption", "BooleanBinaryOperatorsInputBTooltip", "")]
+        [PropertyInfo(Direction.InputData, "BBO_InputBCaption", "BBO_InputBTooltip", "")]
         public Boolean InputB
         {
             get
@@ -85,7 +85,7 @@ namespace Cryptool.Plugins.BooleanOperators
         }
 
 
-        [PropertyInfo(Direction.OutputData, "BooleanBinaryOperatorsOutputCaption", "BooleanBinaryOperatorsOutputTooltip", "")]
+        [PropertyInfo(Direction.OutputData, "BBO_OutputCaption", "BBO_OutputTooltip", "")]
         public Boolean Output
         {
             get

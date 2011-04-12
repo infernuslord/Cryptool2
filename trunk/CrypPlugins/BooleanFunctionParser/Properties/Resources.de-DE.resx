@@ -150,4 +150,16 @@
   <data name="BFPSlaveTooltip" xml:space="preserve">
     <value>Direct access to BFP.</value>
   </data>
+  <data name="CountOfInputsCaption" xml:space="preserve">
+    <value>Number of inputs</value>
+  </data>
+  <data name="CountOfInputsTooltip" xml:space="preserve">
+    <value>How many inputs do you need?</value>
+  </data>
+  <data name="UseBFPforCubeCaption" xml:space="preserve">
+    <value>CubeAttack mode</value>
+  </data>
+  <data name="UseBFPforCubeTooltip" xml:space="preserve">
+    <value>Extend the BFP for use as a slave for Cube Attack.</value>
+  </data>
 </root>

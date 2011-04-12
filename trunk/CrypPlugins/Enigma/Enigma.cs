@@ -43,7 +43,7 @@ using Cryptool.PluginBase.IO;
 namespace Cryptool.Enigma
 {
     [Author("Dr. Arno Wacker, Matthäus Wander", "arno.wacker@cryptool.org", "Uni Duisburg-Essen, Fachgebiet Verteilte Systeme", "http://www.vs.uni-due.de")]
-    [PluginInfo(false, "Enigma", "Polyalphabetic rotor-cipher machine", null,
+    [PluginInfo("Cryptool.Enigma.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL",
       "Enigma/Images/Enigma.png", "Enigma/Images/encrypt.png", "Enigma/Images/decrypt.png")]
     [EncryptionType(EncryptionType.Classic)]
     public class Enigma: IEncryption, ISpecific
@@ -371,7 +371,7 @@ namespace Cryptool.Enigma
 
         #region Connector properties
 
-        [PropertyInfo(Direction.InputData, "Text input", "Input a string to be processed by the Enigma machine", "", true, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", "", true, false, QuickWatchFormat.Text, null)]
         public string InputString
         {
             get { return this.inputString; }
@@ -385,7 +385,7 @@ namespace Cryptool.Enigma
             }
         }
 
-        //[PropertyInfo(Direction.InputData, "n-gram dictionary", "Dictionary with gram counts (string -> [absolute, percentaged, log2])", "", false, false, QuickWatchFormat.Text, "FrequencyTest.QuickWatchDictionary")]
+        //[PropertyInfo(Direction.InputData, "InputGramsCaption", "InputGramsTooltip", "", false, false, QuickWatchFormat.Text, "FrequencyTest.QuickWatchDictionary")]
         //public IDictionary<string, double[]> InputGrams
         //{
         //    get { return this.inputTriGrams; }
@@ -399,7 +399,7 @@ namespace Cryptool.Enigma
         //    }
         //}
 
-        [PropertyInfo(Direction.OutputData, "Text output", "The string after processing with the Enigma machine", "", false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", "", false, false, QuickWatchFormat.Text, null)]
         public string OutputString
         {
             get { return this.outputString; }

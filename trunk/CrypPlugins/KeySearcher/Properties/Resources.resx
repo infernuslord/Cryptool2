@@ -159,25 +159,25 @@
   <data name="Connection_lost__Waiting_for_reconnection_to_store_the_results_" xml:space="preserve">
     <value>Connection lost! Waiting for reconnection to store the results!</value>
   </data>
-  <data name="ControlMasterDesc" xml:space="preserve">
+  <data name="ControlMasterTooltip" xml:space="preserve">
     <value>Used for bruteforcing</value>
   </data>
-  <data name="Control_Master" xml:space="preserve">
+  <data name="ControlMasterCaption" xml:space="preserve">
     <value>Control Master</value>
   </data>
-  <data name="CostMasterDesc" xml:space="preserve">
+  <data name="CostMasterTooltip" xml:space="preserve">
     <value>Used for cost calculation</value>
   </data>
-  <data name="Cost_Master" xml:space="preserve">
+  <data name="CostMasterCaption" xml:space="preserve">
     <value>Cost Master</value>
   </data>
   <data name="Could_not_store_results__" xml:space="preserve">
     <value>Could not store results: </value>
   </data>
-  <data name="csEncryptedDataDesc" xml:space="preserve">
+  <data name="CSEncryptedDataTooltip" xml:space="preserve">
     <value>Encrypted data out of an Encryption PlugIn</value>
   </data>
-  <data name="CS_Encrypted_Data" xml:space="preserve">
+  <data name="CSEncryptedDataCaption" xml:space="preserve">
     <value>CS Encrypted Data</value>
   </data>
   <data name="Current_Chunk_" xml:space="preserve">
@@ -207,46 +207,46 @@
   <data name="___RightChildFinished_" xml:space="preserve">
     <value>,  RightChildFinished </value>
   </data>
-  <data name="AutoconnectSettings" xml:space="preserve">
+  <data name="AutoconnectPeerToPeerCaption" xml:space="preserve">
     <value>Autoconnect network</value>
   </data>
-  <data name="AutoconnectSettingsDesc" xml:space="preserve">
+  <data name="AutoconnectPeerToPeerTooltip" xml:space="preserve">
     <value>Establish a connection to the network if the workspace is started without the background connection being active.</value>
   </data>
-  <data name="ChunkSizeSettings" xml:space="preserve">
+  <data name="ChunkSizeCaption" xml:space="preserve">
     <value>Chunk size</value>
   </data>
-  <data name="ChunkSizeSettingsDesc" xml:space="preserve">
+  <data name="ChunkSizeTooltip" xml:space="preserve">
     <value>Amount of keys, that will be calculated by one peer at a time. This value is the exponent of the power of two used for the chunk size.</value>
   </data>
-  <data name="CopyStatusKeySettings" xml:space="preserve">
+  <data name="StatusKeyButtonCaption" xml:space="preserve">
     <value>Copy status key</value>
   </data>
-  <data name="CopyStatusKeySettingsDesc" xml:space="preserve">
+  <data name="StatusKeyButtonTooltip" xml:space="preserve">
     <value>Copy status key to clipboard. The key can than be used to upload it together with the job using the P2PEditor.</value>
   </data>
-  <data name="CoresUsedSettings" xml:space="preserve">
+  <data name="CoresUsedCaption" xml:space="preserve">
     <value>CoresUsed</value>
   </data>
-  <data name="CoresUsedSettingsDesc" xml:space="preserve">
+  <data name="CoresUsedTooltip" xml:space="preserve">
     <value>Choose how many cores should be used</value>
   </data>
-  <data name="CSVPathSettings" xml:space="preserve">
+  <data name="CsvPathCaption" xml:space="preserve">
     <value>Select the Comma-Seperated-Values file</value>
   </data>
-  <data name="CSVPathSettingsDesc" xml:space="preserve">
+  <data name="CsvPathTooltip" xml:space="preserve">
     <value>Select the folder and csv file you want to use.</value>
   </data>
-  <data name="DatabaseSettings" xml:space="preserve">
+  <data name="EvaluationDatabaseCaption" xml:space="preserve">
     <value>Database</value>
   </data>
-  <data name="DatabaseSettingsDesc" xml:space="preserve">
+  <data name="EvaluationDatabaseTooltip" xml:space="preserve">
     <value>Name of the evaluation database</value>
   </data>
-  <data name="DefaultPathSettings" xml:space="preserve">
+  <data name="DefaultPathCaption" xml:space="preserve">
     <value>Default file</value>
   </data>
-  <data name="DefaultPathSettingsDesc" xml:space="preserve">
+  <data name="DefaultPathTooltip" xml:space="preserve">
     <value>Use the default folder %APPDATA%\\Local\\CrypTool2</value>
   </data>
   <data name="Client__0__tried_to_auth_with_invalid_password" xml:space="preserve">
@@ -261,28 +261,28 @@
   <data name="_Information_" xml:space="preserve">
     <value>Information</value>
   </data>
-  <data name="DisableUpdateSettings" xml:space="preserve">
+  <data name="DisableUpdateCaption" xml:space="preserve">
     <value>Disable statistic update</value>
   </data>
-  <data name="DisableUpdateSettingsDesc" xml:space="preserve">
+  <data name="DisableUpdateTooltip" xml:space="preserve">
     <value>Disables the statistic update</value>
   </data>
-  <data name="DisplayVerboseInformationSettings" xml:space="preserve">
+  <data name="VerbosePeerToPeerDisplayCaption" xml:space="preserve">
     <value>Display verbose information</value>
   </data>
-  <data name="DisplayVerboseInformationSettingsDesc" xml:space="preserve">
+  <data name="VerbosePeerToPeerDisplayTooltip" xml:space="preserve">
     <value>Display verbose information about network requests in the quick watch.</value>
   </data>
   <data name="dummykey" xml:space="preserve">
     <value>dummykey</value>
   </data>
-  <data name="EcryptedDataDesc" xml:space="preserve">
+  <data name="EncryptedDataTooltip" xml:space="preserve">
     <value>Encrypted data out of an Encryption PlugIn</value>
   </data>
   <data name="Elapsed_" xml:space="preserve">
     <value>Elapsed time:</value>
   </data>
-  <data name="Encrypted_Data" xml:space="preserve">
+  <data name="EncryptedDataCaption" xml:space="preserve">
     <value>Encrypted Data</value>
   </data>
   <data name="Ended_bruteforcing_pattern__" xml:space="preserve">
@@ -294,10 +294,10 @@
   <data name="End_" xml:space="preserve">
     <value>Estimated end:</value>
   </data>
-  <data name="ExternalClientPasswordSettings" xml:space="preserve">
+  <data name="ExternalClientPasswordCaption" xml:space="preserve">
     <value>Password</value>
   </data>
-  <data name="ExternalClientPasswordSettingsDesc" xml:space="preserve">
+  <data name="ExternalClientPasswordTooltip" xml:space="preserve">
     <value>Password used for authenticating external clients</value>
   </data>
   <data name="Finding_next_leaf_to_calculate" xml:space="preserve">
@@ -321,16 +321,16 @@
   <data name="GroupStatisticPath" xml:space="preserve">
     <value>Statistic</value>
   </data>
-  <data name="HostSettings" xml:space="preserve">
+  <data name="EvaluationHostCaption" xml:space="preserve">
     <value>Host</value>
   </data>
-  <data name="HostSettingsDesc" xml:space="preserve">
+  <data name="EvaluationHostTooltip" xml:space="preserve">
     <value>Database host with evaluation database</value>
   </data>
   <data name="incalculable____" xml:space="preserve">
     <value>incalculable :-)</value>
   </data>
-  <data name="Initialization_Vector" xml:space="preserve">
+  <data name="InitVectorCaption" xml:space="preserve">
     <value>Initialization Vector</value>
   </data>
   <data name="Initializing_connection_to_the_peer_to_peer_system" xml:space="preserve">
@@ -339,7 +339,7 @@
   <data name="Initializing_distributed_key_pool_tree" xml:space="preserve">
     <value>Initializing distributed key pool tree</value>
   </data>
-  <data name="InitVecDesc" xml:space="preserve">
+  <data name="InitVectorTooltip" xml:space="preserve">
     <value>Initialization vector with which the data were encrypted</value>
   </data>
   <data name="in_a_galaxy_far__far_away___" xml:space="preserve">
@@ -354,10 +354,10 @@
   <data name="KeySearcher_must_be_running_to_copy_the_status_key_" xml:space="preserve">
     <value>KeySearcher must be running to copy the status key.</value>
   </data>
-  <data name="KeySettings" xml:space="preserve">
+  <data name="KeyCaption" xml:space="preserve">
     <value>Key</value>
   </data>
-  <data name="KeySettingsDesc" xml:space="preserve">
+  <data name="KeyTooltip" xml:space="preserve">
     <value>Key pattern used to bruteforce</value>
   </data>
   <data name="Keys_Per_Chunk_" xml:space="preserve">
@@ -381,10 +381,10 @@
   <data name="Node_was_already_calculated_" xml:space="preserve">
     <value>Chunk was already calculated.</value>
   </data>
-  <data name="NoOpenCLSettings" xml:space="preserve">
+  <data name="NoOpenCLCaption" xml:space="preserve">
     <value>No OpenCL available</value>
   </data>
-  <data name="No_OpenCL_Device_available_" xml:space="preserve">
+  <data name="NoOpenCLTooltip" xml:space="preserve">
     <value>No OpenCL device available!</value>
   </data>
   <data name="No_ressources_to_BruteForce_available__Check_the_KeySearcher_settings_" xml:space="preserve">
@@ -393,16 +393,16 @@
   <data name="Only_using_external_client_to_bruteforce_" xml:space="preserve">
     <value>Only using external client to brute force!</value>
   </data>
-  <data name="OpenCLDeviceSettings" xml:space="preserve">
+  <data name="OpenCLDeviceCaption" xml:space="preserve">
     <value>OpenCL Device</value>
   </data>
-  <data name="OpenCLDeviceSettingsDesc" xml:space="preserve">
+  <data name="OpenCLDeviceTooltip" xml:space="preserve">
     <value>Choose the OpenCL device you want to use.</value>
   </data>
-  <data name="OpenCLModeSettings" xml:space="preserve">
+  <data name="OpenCLModeCaption" xml:space="preserve">
     <value>OpenCL Mode</value>
   </data>
-  <data name="OpenCLModeSettingsDesc" xml:space="preserve">
+  <data name="OpenCLModeTooltip" xml:space="preserve">
     <value>Choose the OpenCL mode you want to use.</value>
   </data>
   <data name="Overhead_Abs_" xml:space="preserve">
@@ -426,10 +426,10 @@
   <data name="Participants_" xml:space="preserve">
     <value>Participants:</value>
   </data>
-  <data name="PasswordSettings" xml:space="preserve">
+  <data name="EvaluationPasswordCaption" xml:space="preserve">
     <value>Password</value>
   </data>
-  <data name="PasswordSettingsDesc" xml:space="preserve">
+  <data name="EvaluationPasswordTooltip" xml:space="preserve">
     <value>Password for evaluation database</value>
   </data>
   <data name="Pattern___0__was_reserved_before_it_could_be_reserved_for_this_CrypTool_instance_" xml:space="preserve">
@@ -441,16 +441,16 @@
   <data name="PLEASE_UPDATE" xml:space="preserve">
     <value>PLEASE UPDATE</value>
   </data>
-  <data name="pluginName" xml:space="preserve">
+  <data name="PluginCaption" xml:space="preserve">
     <value>KeySearcher</value>
   </data>
-  <data name="pluginToolTip" xml:space="preserve">
+  <data name="PluginTooltip" xml:space="preserve">
     <value>Performs a brute force attack on a ciphertext.</value>
   </data>
-  <data name="PortSettings" xml:space="preserve">
+  <data name="PortCaption" xml:space="preserve">
     <value>Port</value>
   </data>
-  <data name="PortSettingsDesc" xml:space="preserve">
+  <data name="PortTooltip" xml:space="preserve">
     <value>Port on which to listen for external clients.</value>
   </data>
   <data name="Processing_results_of_calculation" xml:space="preserve">
@@ -501,10 +501,10 @@
   <data name="Reservation_removed_by_another_node__while_calculating___To_avoid_a_state_in_limbo__proceeding_to_first_available_leaf___" xml:space="preserve">
     <value>Reservation has been removed by another participant. To avoid a state in limbo, proceeding to first available chunk...</value>
   </data>
-  <data name="ResetSettings" xml:space="preserve">
+  <data name="ResetCaption" xml:space="preserve">
     <value>Reset</value>
   </data>
-  <data name="ResetSettingsDesc" xml:space="preserve">
+  <data name="ResetTooltip" xml:space="preserve">
     <value>Reset Key</value>
   </data>
   <data name="Retrieve_" xml:space="preserve">
@@ -543,16 +543,16 @@
   <data name="There_must_be_an_error__because_we_bruteforced_too_much_keys___" xml:space="preserve">
     <value>Data inconsistency error, we seem to have calculated more keys than expected...</value>
   </data>
-  <data name="Top1KeyDesc" xml:space="preserve">
+  <data name="Top1KeyTooltip" xml:space="preserve">
     <value>The best key found</value>
   </data>
-  <data name="top1MesDesc" xml:space="preserve">
+  <data name="Top1MessageTooltip" xml:space="preserve">
     <value>The best message found</value>
   </data>
-  <data name="Top1_Key" xml:space="preserve">
+  <data name="Top1KeyCaption" xml:space="preserve">
     <value>Top1 Key</value>
   </data>
-  <data name="Top1_Message" xml:space="preserve">
+  <data name="Top1MessageCaption" xml:space="preserve">
     <value>Top1 Message</value>
   </data>
   <data name="Top_Ten_" xml:space="preserve">
@@ -594,10 +594,10 @@
   <data name="Under__Construction_" xml:space="preserve">
     <value>Under Construction</value>
   </data>
-  <data name="UpdateTimeSettings" xml:space="preserve">
+  <data name="UpdateTimeCaption" xml:space="preserve">
     <value>Update interval (minutes)</value>
   </data>
-  <data name="UpdateTimeSettingsDesc" xml:space="preserve">
+  <data name="UpdateTimeTooltip" xml:space="preserve">
     <value>Set the minute interval to update the keysearcher statistics</value>
   </data>
   <data name="Updating_statistic" xml:space="preserve">
@@ -606,28 +606,28 @@
   <data name="Updating_status_in_DHT" xml:space="preserve">
     <value>Updating status in DHT</value>
   </data>
-  <data name="UseExternalClientSettings" xml:space="preserve">
+  <data name="UseExternalClientCaption" xml:space="preserve">
     <value>Use external client</value>
   </data>
-  <data name="UseExternalClientSettingsDesc" xml:space="preserve">
+  <data name="UseExternalClientTooltip" xml:space="preserve">
     <value>If checked, external clients are allowed to connect to this CrypTool 2.0 instance to support the bruteforce process (this is not the same as p2p-distributed computing).</value>
   </data>
-  <data name="UseP2PSettings" xml:space="preserve">
+  <data name="UsePeerToPeerCaption" xml:space="preserve">
     <value>Use peer-to-peer network</value>
   </data>
-  <data name="UseP2PSettingsDesc" xml:space="preserve">
+  <data name="UsePeerToPeerTooltip" xml:space="preserve">
     <value>Distributes the operation on available peers by using the built-in peer-to-peer network.</value>
   </data>
-  <data name="UserSettings" xml:space="preserve">
+  <data name="EvaluationUserCaption" xml:space="preserve">
     <value>User</value>
   </data>
-  <data name="UserSettingsDesc" xml:space="preserve">
+  <data name="EvaluationUserTooltip" xml:space="preserve">
     <value>Username for evaluation database</value>
   </data>
-  <data name="UseSelectedDeviceSettings" xml:space="preserve">
+  <data name="UseOpenCLCaption" xml:space="preserve">
     <value>Use selected device</value>
   </data>
-  <data name="UseSelectedDeviceSettingsDesc" xml:space="preserve">
+  <data name="UseOpenCLTooltip" xml:space="preserve">
     <value>If checked, the selected OpenCL device is used for brute force attack.</value>
   </data>
   <data name="Waiting_for_external_client_" xml:space="preserve">
@@ -689,5 +689,8 @@
   </data>
   <data name="Working__Days_" xml:space="preserve">
     <value>Working Days</value>
+  </data>
+  <data name="PluginDescriptionURL" xml:space="preserve">
+    <value>KeySearcher/DetailedDescription/Description.xaml</value>
   </data>
 </root>

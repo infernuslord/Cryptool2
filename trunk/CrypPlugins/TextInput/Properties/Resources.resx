@@ -117,10 +117,49 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="TextInputCaption" xml:space="preserve">
+  <data name="PluginCaption" xml:space="preserve">
     <value>TextInput</value>
   </data>
-  <data name="TextInputTooltip" xml:space="preserve">
+  <data name="PluginTooltip" xml:space="preserve">
     <value>Used for text input into another component.</value>
+  </data>
+  <data name="EncodingSettingCaption" xml:space="preserve">
+    <value>Character encoding</value>
+  </data>
+  <data name="EncodingSettingTooltip" xml:space="preserve">
+    <value>Choose the expected encoding of the byte array and stream.</value>
+  </data>
+  <data name="InputFormatSettingCaption" xml:space="preserve">
+    <value>Input format</value>
+  </data>
+  <data name="InputFormatSettingTooltip" xml:space="preserve">
+    <value>Choose the input format that will be decoded (if applicable) prior to further processing.</value>
+  </data>
+  <data name="PluginDescriptionURL" xml:space="preserve">
+    <value>TextInput/Documentation/doc.xml</value>
+  </data>
+  <data name="TextOutputCaption" xml:space="preserve">
+    <value>Text</value>
+  </data>
+  <data name="TextOutputTooltip" xml:space="preserve">
+    <value>Simple text to use as input for other plug-ins.</value>
+  </data>
+  <data name="StreamOutputCaption" xml:space="preserve">
+    <value>Stream</value>
+  </data>
+  <data name="StreamOutputTooltip" xml:space="preserve">
+    <value>The text input converted to memory stream.</value>
+  </data>
+  <data name="ByteArrayOutputCaption" xml:space="preserve">
+    <value>ByteArray</value>
+  </data>
+  <data name="ByteArrayOutputTooltip" xml:space="preserve">
+    <value>The hex values as byte array.</value>
+  </data>
+  <data name="BoolArrayOutputCaption" xml:space="preserve">
+    <value>BoolArray</value>
+  </data>
+  <data name="BoolArrayOutputTooltip" xml:space="preserve">
+    <value>The text input converted to bool array ('0' char or 0x00 equals false, else true).</value>
   </data>
 </root>

@@ -53,8 +53,8 @@ namespace Cryptool.Plugins.BooleanOperators
             }
         }
 
-        [ContextMenu("Operator Type", "Operator Type", 0, ContextMenuControlType.ComboBox, null, new string[] { "AND", "OR", "NAND", "NOR", "XOR" })]
-        [TaskPane("Operator Type", "Operator Type", null, 2, false, ControlType.ComboBox, new string[] { "AND", "OR", "NAND", "NOR", "XOR" })]
+        [ContextMenu( "BBO_OperatorTypeCaption", "BBO_OperatorTypeTooltip", 0, ContextMenuControlType.ComboBox, null, new string[] { "AND", "OR", "NAND", "NOR", "XOR" })]
+        [TaskPane( "BBO_OperatorTypeCaption", "BBO_OperatorTypeTooltip", null, 2, false, ControlType.ComboBox, new string[] { "AND", "OR", "NAND", "NOR", "XOR" })]
         public int OperatorType
         {
             get { return this.operatorType; }
@@ -70,7 +70,7 @@ namespace Cryptool.Plugins.BooleanOperators
         }
 
 
-        [TaskPane("Update needs both inputs", "If checked, this plugin will only update its status if both inputs have changed", null, 2, false, ControlType.CheckBox, "", null)]
+        [TaskPane( "BBO_UpdateOnlyAtBothInputsChangedCaption", "BBO_UpdateOnlyAtBothInputsChangedTooltip", null, 2, false, ControlType.CheckBox, "", null)]
         public bool UpdateOnlyAtBothInputsChanged
         {
             get { return updateOnlyAtBothInputsChanged; }
@@ -85,7 +85,7 @@ namespace Cryptool.Plugins.BooleanOperators
             }
         }
 
-        [TaskPane("Default Flag A", "If checked, Flag A will be set to fired", null, 2, false, ControlType.CheckBox, "", null)]
+        [TaskPane( "BBO_DefaultFlagACaption", "BBO_DefaultFlagATooltip", null, 2, false, ControlType.CheckBox, "", null)]
         public bool DefaultFlagA
         {
             get { return defaultFlagA; }
@@ -100,7 +100,7 @@ namespace Cryptool.Plugins.BooleanOperators
             }
         }
 
-        [TaskPane("Default Flag B", "If checked, Flag B will be set to fired", null, 2, false, ControlType.CheckBox, "", null)]
+        [TaskPane( "BBO_DefaultFlagBCaption", "BBO_DefaultFlagBTooltip", null, 2, false, ControlType.CheckBox, "", null)]
         public bool DefaultFlagB
         {
             get { return defaultFlagB; }

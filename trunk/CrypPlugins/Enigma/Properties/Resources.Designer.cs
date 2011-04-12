@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TextOutput.Properties {
+namespace Cryptool.Enigma.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace TextOutput.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("TextOutput.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Cryptool.Enigma.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,7 +61,61 @@ namespace TextOutput.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die TextOutput ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die n-gram dictionary ähnelt.
+        /// </summary>
+        internal static string InputGramsCaption {
+            get {
+                return ResourceManager.GetString("InputGramsCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Dictionary with gram counts (string -&gt; [absolute, percentaged, log2]) ähnelt.
+        /// </summary>
+        internal static string InputGramsTooltip {
+            get {
+                return ResourceManager.GetString("InputGramsTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Text input ähnelt.
+        /// </summary>
+        internal static string InputStringCaption {
+            get {
+                return ResourceManager.GetString("InputStringCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Input a string to be processed by the Enigma machine ähnelt.
+        /// </summary>
+        internal static string InputStringTooltip {
+            get {
+                return ResourceManager.GetString("InputStringTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Text output ähnelt.
+        /// </summary>
+        internal static string OutputStringCaption {
+            get {
+                return ResourceManager.GetString("OutputStringCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die The string after processing with the Enigma machine ähnelt.
+        /// </summary>
+        internal static string OutputStringTooltip {
+            get {
+                return ResourceManager.GetString("OutputStringTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Enigma ähnelt.
         /// </summary>
         internal static string PluginCaption {
             get {
@@ -79,7 +133,7 @@ namespace TextOutput.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Simple text output ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Polyalphabetic rotor-cipher machine ähnelt.
         /// </summary>
         internal static string PluginTooltip {
             get {

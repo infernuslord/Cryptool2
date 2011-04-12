@@ -61,20 +61,362 @@ namespace BooleanOperators.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Boolean Binary Operator ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Default Flag A ähnelt.
         /// </summary>
-        internal static string PluginBinaryCaption {
+        internal static string BBO_DefaultFlagACaption {
             get {
-                return ResourceManager.GetString("PluginBinaryCaption", resourceCulture);
+                return ResourceManager.GetString("BBO_DefaultFlagACaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die If checked, Flag A will be set to fired ähnelt.
+        /// </summary>
+        internal static string BBO_DefaultFlagATooltip {
+            get {
+                return ResourceManager.GetString("BBO_DefaultFlagATooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Default Flag B ähnelt.
+        /// </summary>
+        internal static string BBO_DefaultFlagBCaption {
+            get {
+                return ResourceManager.GetString("BBO_DefaultFlagBCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die If checked, Flag B will be set to fired ähnelt.
+        /// </summary>
+        internal static string BBO_DefaultFlagBTooltip {
+            get {
+                return ResourceManager.GetString("BBO_DefaultFlagBTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die InputA ähnelt.
+        /// </summary>
+        internal static string BBO_InputACaption {
+            get {
+                return ResourceManager.GetString("BBO_InputACaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die inputA ähnelt.
+        /// </summary>
+        internal static string BBO_InputATooltip {
+            get {
+                return ResourceManager.GetString("BBO_InputATooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die InputB ähnelt.
+        /// </summary>
+        internal static string BBO_InputBCaption {
+            get {
+                return ResourceManager.GetString("BBO_InputBCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die inputB ähnelt.
+        /// </summary>
+        internal static string BBO_InputBTooltip {
+            get {
+                return ResourceManager.GetString("BBO_InputBTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Operator Type ähnelt.
+        /// </summary>
+        internal static string BBO_OperatorTypeCaption {
+            get {
+                return ResourceManager.GetString("BBO_OperatorTypeCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Operator Type ähnelt.
+        /// </summary>
+        internal static string BBO_OperatorTypeTooltip {
+            get {
+                return ResourceManager.GetString("BBO_OperatorTypeTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Output ähnelt.
+        /// </summary>
+        internal static string BBO_OutputCaption {
+            get {
+                return ResourceManager.GetString("BBO_OutputCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die output ähnelt.
+        /// </summary>
+        internal static string BBO_OutputTooltip {
+            get {
+                return ResourceManager.GetString("BBO_OutputTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Update needs both inputs ähnelt.
+        /// </summary>
+        internal static string BBO_UpdateOnlyAtBothInputsChangedCaption {
+            get {
+                return ResourceManager.GetString("BBO_UpdateOnlyAtBothInputsChangedCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die If checked, this plugin will only update its status if both inputs have changed ähnelt.
+        /// </summary>
+        internal static string BBO_UpdateOnlyAtBothInputsChangedTooltip {
+            get {
+                return ResourceManager.GetString("BBO_UpdateOnlyAtBothInputsChangedTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Output ähnelt.
+        /// </summary>
+        internal static string BI_OutputCaption {
+            get {
+                return ResourceManager.GetString("BI_OutputCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Output ähnelt.
+        /// </summary>
+        internal static string BI_OutputTooltip {
+            get {
+                return ResourceManager.GetString("BI_OutputTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Value ähnelt.
+        /// </summary>
+        internal static string BI_ValueCaption {
+            get {
+                return ResourceManager.GetString("BI_ValueCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Set the boolean value ähnelt.
+        /// </summary>
+        internal static string BI_ValueTooltip {
+            get {
+                return ResourceManager.GetString("BI_ValueTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Input ähnelt.
+        /// </summary>
+        internal static string BIE_InputCaption {
+            get {
+                return ResourceManager.GetString("BIE_InputCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die input ähnelt.
+        /// </summary>
+        internal static string BIE_InputTooltip {
+            get {
+                return ResourceManager.GetString("BIE_InputTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Output_false ähnelt.
+        /// </summary>
+        internal static string BIE_Output_falseCaption {
+            get {
+                return ResourceManager.GetString("BIE_Output_falseCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die output false ähnelt.
+        /// </summary>
+        internal static string BIE_Output_falseTooltip {
+            get {
+                return ResourceManager.GetString("BIE_Output_falseTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Output_true ähnelt.
+        /// </summary>
+        internal static string BIE_Output_trueCaption {
+            get {
+                return ResourceManager.GetString("BIE_Output_trueCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die output true ähnelt.
+        /// </summary>
+        internal static string BIE_Output_trueTooltip {
+            get {
+                return ResourceManager.GetString("BIE_Output_trueTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Input ähnelt.
+        /// </summary>
+        internal static string BN_InputCaption {
+            get {
+                return ResourceManager.GetString("BN_InputCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die input ähnelt.
+        /// </summary>
+        internal static string BN_InputTooltip {
+            get {
+                return ResourceManager.GetString("BN_InputTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Output ähnelt.
+        /// </summary>
+        internal static string BN_OutputCaption {
+            get {
+                return ResourceManager.GetString("BN_OutputCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die output negated ähnelt.
+        /// </summary>
+        internal static string BN_OutputTooltip {
+            get {
+                return ResourceManager.GetString("BN_OutputTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Input ähnelt.
+        /// </summary>
+        internal static string BO_InputCaption {
+            get {
+                return ResourceManager.GetString("BO_InputCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die input ähnelt.
+        /// </summary>
+        internal static string BO_InputTooltip {
+            get {
+                return ResourceManager.GetString("BO_InputTooltip", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Boolean Binary Operator ähnelt.
         /// </summary>
-        internal static string PluginBinaryTooltip {
+        internal static string PluginBBO_Caption {
             get {
-                return ResourceManager.GetString("PluginBinaryTooltip", resourceCulture);
+                return ResourceManager.GetString("PluginBBO_Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Boolean Binary Operator ähnelt.
+        /// </summary>
+        internal static string PluginBBO_Tooltip {
+            get {
+                return ResourceManager.GetString("PluginBBO_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Boolean Input ähnelt.
+        /// </summary>
+        internal static string PluginBI_Caption {
+            get {
+                return ResourceManager.GetString("PluginBI_Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Boolean Input ähnelt.
+        /// </summary>
+        internal static string PluginBI_Tooltip {
+            get {
+                return ResourceManager.GetString("PluginBI_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Boolean IfElse Operator ähnelt.
+        /// </summary>
+        internal static string PluginBIE_Caption {
+            get {
+                return ResourceManager.GetString("PluginBIE_Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Boolean IfElse Operator ähnelt.
+        /// </summary>
+        internal static string PluginBIE_Tooltip {
+            get {
+                return ResourceManager.GetString("PluginBIE_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Boolean Not Operator ähnelt.
+        /// </summary>
+        internal static string PluginBN_Caption {
+            get {
+                return ResourceManager.GetString("PluginBN_Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Boolean Not Operator ähnelt.
+        /// </summary>
+        internal static string PluginBN_Tooltip {
+            get {
+                return ResourceManager.GetString("PluginBN_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Boolean Output ähnelt.
+        /// </summary>
+        internal static string PluginBO_Caption {
+            get {
+                return ResourceManager.GetString("PluginBO_Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Boolean Output ähnelt.
+        /// </summary>
+        internal static string PluginBO_Tooltip {
+            get {
+                return ResourceManager.GetString("PluginBO_Tooltip", resourceCulture);
             }
         }
         
@@ -84,78 +426,6 @@ namespace BooleanOperators.Properties {
         internal static string PluginDescriptionURL {
             get {
                 return ResourceManager.GetString("PluginDescriptionURL", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Boolean IfElse Operator ähnelt.
-        /// </summary>
-        internal static string PluginIfElseCaption {
-            get {
-                return ResourceManager.GetString("PluginIfElseCaption", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Boolean IfElse Operator ähnelt.
-        /// </summary>
-        internal static string PluginIfElseTooltip {
-            get {
-                return ResourceManager.GetString("PluginIfElseTooltip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Boolean Input ähnelt.
-        /// </summary>
-        internal static string PluginInputCaption {
-            get {
-                return ResourceManager.GetString("PluginInputCaption", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Boolean Input ähnelt.
-        /// </summary>
-        internal static string PluginInputTooltip {
-            get {
-                return ResourceManager.GetString("PluginInputTooltip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Boolean Not Operator ähnelt.
-        /// </summary>
-        internal static string PluginNotCaption {
-            get {
-                return ResourceManager.GetString("PluginNotCaption", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Boolean Not Operator ähnelt.
-        /// </summary>
-        internal static string PluginNotTooltip {
-            get {
-                return ResourceManager.GetString("PluginNotTooltip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Boolean Output ähnelt.
-        /// </summary>
-        internal static string PluginOutputCaption {
-            get {
-                return ResourceManager.GetString("PluginOutputCaption", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Boolean Output ähnelt.
-        /// </summary>
-        internal static string PluginOutputTooltip {
-            get {
-                return ResourceManager.GetString("PluginOutputTooltip", resourceCulture);
             }
         }
     }

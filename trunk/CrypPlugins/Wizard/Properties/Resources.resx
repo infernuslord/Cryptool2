@@ -135,7 +135,22 @@
   <data name="NextButton" xml:space="preserve">
     <value>Next</value>
   </data>
-	<data name="LoadedSampleTitle">
-		<value xml:space="preserve">Created from Wizard</value>
-	</data>
+  <data name="LoadedSampleTitle" xml:space="preserve">
+    <value>Created from Wizard</value>
+  </data>
+  <data name="PluginCaption" xml:space="preserve">
+    <value>Wizard</value>
+  </data>
+  <data name="PluginDescriptionURL" xml:space="preserve">
+    <value>Wizard/DetailedDescription/Description.xaml</value>
+  </data>
+  <data name="PluginTooltip" xml:space="preserve">
+    <value>The CrypTool 2.0 wizard</value>
+  </data>
+  <data name="ShowOnStartupCaption" xml:space="preserve">
+    <value>Show wizard on startup.</value>
+  </data>
+  <data name="ShowOnStartupTooltip" xml:space="preserve">
+    <value>Show on startup</value>
+  </data>
 </root>
