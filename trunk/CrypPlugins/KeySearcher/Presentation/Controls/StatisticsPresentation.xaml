@@ -93,17 +93,17 @@
         <Label Height="30"  Background="Beige" BorderBrush="Black" BorderThickness="0,0,0,2" Grid.Row="0" FontWeight="Bold" VerticalAlignment="Top" HorizontalContentAlignment="Center" ClipToBounds="True">
             <Label.Content>
                 <Canvas Width="95">
-                <TextBlock FontSize="14" 
+                    <TextBlock FontSize="14" Text="{Loc S_t_a_t_i_s_t_i_c_s}" 
                     Canvas.Top="3" Canvas.Left="1"  
-                    Foreground="Gray" TextAlignment="Center">S t a t i s t i c s</TextBlock>
+                    Foreground="Gray" TextAlignment="Center"/>
                 <TextBlock FontSize="14" 
-                    Canvas.Top="2" Canvas.Left="2">
+                    Canvas.Top="2" Canvas.Left="2" Text="{Loc S_t_a_t_i_s_t_i_c_s}">
                     <TextBlock.Foreground>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" >
                     <GradientStop Color="Black" Offset="0.15"/>
                     <GradientStop Color="Blue" Offset="1"/>
                     </LinearGradientBrush>
-                    </TextBlock.Foreground>S t a t i s t i c s</TextBlock>
+                    </TextBlock.Foreground></TextBlock>
               <!--  
                 <TextBlock FontSize="18" 
                     Canvas.Top="2" Canvas.Left="2" Foreground="Gray">Keysearcher Statistics</TextBlock>
@@ -261,7 +261,7 @@
                         <TextBlock Text="User/Host " Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </StackPanel>
                     <TextBlock Text="Calculated Chunks" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                    <CheckBox Height="15" Name="HideDead" VerticalAlignment="Center" Grid.Column="1" Grid.Row="0" FlowDirection="RightToLeft" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Checked="Checked" Unchecked="Checked" HorizontalAlignment="Center">Hide Dead User</CheckBox>
+                    <CheckBox Height="15" Content="{Loc HideDeadUser_}" Name="HideDead" VerticalAlignment="Center" Grid.Column="1" Grid.Row="0" FlowDirection="RightToLeft" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Checked="Checked" Unchecked="Checked" HorizontalAlignment="Center"/>
                     <Button Content="Expand" Grid.Column="1" Grid.Row="0" Click="Button_Click" Width="50" HorizontalAlignment="Right"></Button>
                     <TreeView HorizontalAlignment="Stretch" VirtualizingStackPanel.IsVirtualizing="False" Name="statisticsTree" VerticalAlignment="Stretch" ItemsSource="{Binding}" AlternationCount="3" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" >                   
                         <TreeView.ItemTemplate>
@@ -336,7 +336,7 @@
                     </Grid.RowDefinitions>
                     <TextBlock Text="Hostname " Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center"/>
                     <TextBlock Text="Calculated Chunks" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left"/>
-                    <CheckBox Height="15" Name="HideDead2" VerticalAlignment="Center" Grid.Column="1" Grid.Row="0" FlowDirection="RightToLeft" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Checked="Checked2" Unchecked="Checked2" HorizontalAlignment="Center">Hide Dead Machines</CheckBox>
+                    <CheckBox Height="15" Content="{Loc HideDeadMachines_}" Name="HideDead2" VerticalAlignment="Center" Grid.Column="1" Grid.Row="0" FlowDirection="RightToLeft" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Checked="Checked2" Unchecked="Checked2" HorizontalAlignment="Center"/>
                     <TreeView HorizontalAlignment="Stretch" Name="machineTree" VirtualizingStackPanel.IsVirtualizing="False" VerticalAlignment="Stretch" ItemsSource="{Binding}" AlternationCount="3" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
                         <TreeView.ItemContainerStyle>
                             <Style TargetType="{x:Type TreeViewItem}">

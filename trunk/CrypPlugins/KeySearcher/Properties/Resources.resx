@@ -693,4 +693,16 @@
   <data name="PluginDescriptionURL" xml:space="preserve">
     <value>KeySearcher/DetailedDescription/Description.xaml</value>
   </data>
+  <data name="HideDeadMachines_" xml:space="preserve">
+    <value>Hide Dead Machines</value>
+  </data>
+  <data name="HideDeadUser_" xml:space="preserve">
+    <value>Hide Dead User</value>
+  </data>
+  <data name="No_OpenCL_Device_available_" xml:space="preserve">
+    <value>No OpenCL Device available</value>
+  </data>
+  <data name="S_t_a_t_i_s_t_i_c_s" xml:space="preserve">
+    <value>S t a t i s t i c s</value>
+  </data>
 </root>
