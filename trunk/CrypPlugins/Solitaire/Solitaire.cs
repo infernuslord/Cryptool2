@@ -30,7 +30,7 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace Solitaire
 {
     [Author("Coen Ramaekers", "c.f.w.ramaekers@student.tue.nl", "Technische Universiteit Eindhoven", "http://www.win.tue.nl")]
-    [PluginInfo("Solitaire.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "CrypWin/images/default.png")]
+    [PluginInfo("Solitaire.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "Solitaire/sol.jpg")]
     [EncryptionType(EncryptionType.Classic)]
     public class Solitaire : IEncryption
     {
@@ -423,7 +423,7 @@ namespace Solitaire
             return deck;
         }
 
-        private void FormatText(ref String msg)
+        public void FormatText(ref String msg)
         {
             msg = msg.ToUpper();
             Regex regex = new Regex("[^A-Z]", RegexOptions.None);

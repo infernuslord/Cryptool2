@@ -59,5 +59,241 @@ namespace Solitaire.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Action Type ähnelt.
+        /// </summary>
+        internal static string ActionTypeCaption {
+            get {
+                return ResourceManager.GetString("ActionTypeCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Choose whether to encrypt or decrypt ähnelt.
+        /// </summary>
+        internal static string ActionTypeTooltip {
+            get {
+                return ResourceManager.GetString("ActionTypeTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Deckstate input ähnelt.
+        /// </summary>
+        internal static string DeckstateCaption {
+            get {
+                return ResourceManager.GetString("DeckstateCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Input a deckstate, the sequence represents the deck from top to bottom.
+        ///Each card is represented by a number, the highest two being the jokers.
+        ///Seperate the cards with a comma, e.g. &apos;1,2,3,4&apos;. Maximum number of cards is 54. ähnelt.
+        /// </summary>
+        internal static string DeckstateTooltip {
+            get {
+                return ResourceManager.GetString("DeckstateTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Final Deck ähnelt.
+        /// </summary>
+        internal static string FinalDeckCaption {
+            get {
+                return ResourceManager.GetString("FinalDeckCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die The deck after generating the last keystream letter. ähnelt.
+        /// </summary>
+        internal static string FinalDeckTooltip {
+            get {
+                return ResourceManager.GetString("FinalDeckTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Deck Generation ähnelt.
+        /// </summary>
+        internal static string GenerationTypeCaption {
+            get {
+                return ResourceManager.GetString("GenerationTypeCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Choose the method of generation for the initial deck:
+        ///- Ascending: sorts the cards in ascending order (starting with the lowest).
+        ///- Descending: sorts the cards in descending order (starting with the highest).
+        ///- Given state: use a deckstate as entered
+        ///- Password: generate the initial deck from password
+        ///- Random: randomly generate the initial deck ähnelt.
+        /// </summary>
+        internal static string GenerationTypeTooltip {
+            get {
+                return ResourceManager.GetString("GenerationTypeTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Initial Deck ähnelt.
+        /// </summary>
+        internal static string InitialDeckCaption {
+            get {
+                return ResourceManager.GetString("InitialDeckCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die The initial deck which is used. ähnelt.
+        /// </summary>
+        internal static string InitialDeckTooltip {
+            get {
+                return ResourceManager.GetString("InitialDeckTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Text input ähnelt.
+        /// </summary>
+        internal static string InputStringCaption {
+            get {
+                return ResourceManager.GetString("InputStringCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Input a string to be processed ähnelt.
+        /// </summary>
+        internal static string InputStringTooltip {
+            get {
+                return ResourceManager.GetString("InputStringTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Cards ähnelt.
+        /// </summary>
+        internal static string NumberOfCardsCaption {
+            get {
+                return ResourceManager.GetString("NumberOfCardsCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Select the number of cards in your deck. 
+        ///The normal setting is 54 cards, the normal 52 playing cards and 2 jokers, which is also the maximum number of cards.
+        ///The minimum setting is 3 cards, a single card and 2 jokers. ähnelt.
+        /// </summary>
+        internal static string NumberOfCardsTooltip {
+            get {
+                return ResourceManager.GetString("NumberOfCardsTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Stream Output ähnelt.
+        /// </summary>
+        internal static string OutputStreamCaption {
+            get {
+                return ResourceManager.GetString("OutputStreamCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die The stream used to encrypt or decrypt the text. ähnelt.
+        /// </summary>
+        internal static string OutputStreamTooltip {
+            get {
+                return ResourceManager.GetString("OutputStreamTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Text Output ähnelt.
+        /// </summary>
+        internal static string OutputStringCaption {
+            get {
+                return ResourceManager.GetString("OutputStringCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die The string after processing with the Solitaire cipher ähnelt.
+        /// </summary>
+        internal static string OutputStringTooltip {
+            get {
+                return ResourceManager.GetString("OutputStringTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Password input ähnelt.
+        /// </summary>
+        internal static string PasswordCaption {
+            get {
+                return ResourceManager.GetString("PasswordCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Input the password with which the initial deck will be generated ähnelt.
+        /// </summary>
+        internal static string PasswordTooltip {
+            get {
+                return ResourceManager.GetString("PasswordTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Solitaire ähnelt.
+        /// </summary>
+        internal static string PluginCaption {
+            get {
+                return ResourceManager.GetString("PluginCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        internal static string PluginDescriptionURL {
+            get {
+                return ResourceManager.GetString("PluginDescriptionURL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Try the Solitaire Cipher ähnelt.
+        /// </summary>
+        internal static string PluginTooltip {
+            get {
+                return ResourceManager.GetString("PluginTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Stream Generation ähnelt.
+        /// </summary>
+        internal static string StreamTypeCaption {
+            get {
+                return ResourceManager.GetString("StreamTypeCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Choose the stream generation:
+        ///- Automatic: the cipherstream is automatically generated and the final result is shown.
+        ///- Manual: one can manually go through the five different steps. The cards that change after each step will be printed bold. ähnelt.
+        /// </summary>
+        internal static string StreamTypeTooltip {
+            get {
+                return ResourceManager.GetString("StreamTypeTooltip", resourceCulture);
+            }
+        }
     }
 }

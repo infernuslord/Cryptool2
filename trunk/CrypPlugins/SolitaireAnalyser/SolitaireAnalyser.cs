@@ -32,7 +32,7 @@ using System.Threading;
 namespace SolitaireAnalyser
 {
     [Author("Coen Ramaekers", "c.f.w.ramaekers@student.tue.nl", "Technische Universiteit Eindhoven", "http://www.win.tue.nl")]
-    [PluginInfo("SolitaireAnalyser.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "CrypWin/images/default.png")]
+    [PluginInfo("SolitaireAnalyser.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "SolitaireAnalyser/solbreak.jpg")]
     public class SolitaireAnalyser : IAnalysisMisc
 
     {
