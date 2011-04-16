@@ -41,9 +41,9 @@ namespace Cryptool.Plugins.CostFunction
             private set;
         }
 
-        public RegEx(string regex, bool caseSensitiv)
+        public RegEx(string regex, bool caseSensitive)
         {
-            if (caseSensitiv)
+            if (caseSensitive)
                 regex = regex.ToLower();
 
             //convert regex to NFA:
@@ -62,8 +62,8 @@ namespace Cryptool.Plugins.CostFunction
                 //convert NFA to DFA:
                 transitionMatrix = nfa.GetDFATransitionMatrix(out startIndex);
 
-                //manipulate transition matrix to make it case sensitiv:
-                if (caseSensitiv)
+                //manipulate transition matrix to make it case sensitive:
+                if (caseSensitive)
                 {
                     for (int x = 0; x < transitionMatrix.Length; x++)
                     {

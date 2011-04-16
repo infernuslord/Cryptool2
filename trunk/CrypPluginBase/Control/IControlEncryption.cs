@@ -24,8 +24,14 @@ namespace Cryptool.PluginBase.Control
     public interface IControlEncryption : IControl, IDisposable
     {
         byte[] Encrypt(byte[] key, int blocksize);
-        byte[] Decrypt(byte[] ciphertext, byte[] key, byte[] IV, int bytesToUse);
         byte[] Decrypt(byte[] ciphertext, byte[] key, byte[] IV);
+        byte[] Decrypt(byte[] ciphertext, byte[] key, byte[] IV, int bytesToUse);
+
+        /// <summary>
+        /// Returns the number of bytes of a block that is fixed for the cipher or being currently configured.
+        /// </summary>
+        /// <returns></returns>
+        int GetBlockSize();
 
         /// <summary>
         /// Returns the pattern that the corresponding encryption plugin expects for the abstract key.

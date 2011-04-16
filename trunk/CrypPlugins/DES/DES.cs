@@ -504,7 +504,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
         public byte[] Encrypt(byte[] key, int blocksize)
         {
-            /// not implemented, currently not needed
+            // not implemented, currently not needed
             throw new NotImplementedException();
         }
 
@@ -519,6 +519,11 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             int size = bytesToUse > ciphertext.Length ? ciphertext.Length : bytesToUse;
 
             return NativeCryptography.Crypto.decryptDES(ciphertext, key, IV, size, ((DESSettings)plugin.Settings).Mode);
+        }
+
+        public int GetBlockSize()
+        {
+            return 8;
         }
 
         public string GetKeyPattern()

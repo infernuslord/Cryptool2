@@ -436,10 +436,12 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         public event IControlStatusChangedEventHandler OnStatusChanged;
 
         private AES plugin;
+        private AESSettings settings;
      
         public AESControl(AES plugin)
         {
             this.plugin = plugin;
+            this.settings = (AESSettings)plugin.Settings;
             plugin.Settings.PropertyChanged += delegate (object sender, PropertyChangedEventArgs e)
                                                    {
                                                        if (e.PropertyName == "Keysize")
@@ -461,8 +463,8 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
         public byte[] Encrypt(byte[] key, int blocksize)
         {
-            /// not implemented, currently not needed
-            return null;
+            // not implemented, currently not needed
+            throw new NotImplementedException();
         }
 
         public byte[] Decrypt(byte[] ciphertext, byte[] key, byte[] IV)
@@ -472,26 +474,16 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
         public byte[] Decrypt(byte[] ciphertext, byte[] key, byte[] IV, int bytesToUse)
         {
-            int size = bytesToUse > ciphertext.Length ? ciphertext.Length : bytesToUse;
+            // Don't allow sizes greater than the length of the input
+            int newBytesToUse = Math.Min(bytesToUse, ciphertext.Length);
+            // Note: new size is assumed to be multiple of 16
 
-            int bits = -1;
-            switch (((AESSettings)plugin.Settings).Keysize)
-            {
-                case 0:
-                    bits = 16*8;
-                    break;
-                case 1:
-                    bits = 24*8;
-                    break;
-                case 2:
-                    bits = 32*8;
-                    break;
-            }
+            return NativeCryptography.Crypto.decryptAES(ciphertext, key, IV, this.settings.KeysizeAsBits, newBytesToUse, settings.Mode);
+        }
 
-            if (bits == -1)
-                return null;
-
-            return NativeCryptography.Crypto.decryptAES(ciphertext, key, IV, bits, size, ((AESSettings)plugin.Settings).Mode);
+        public int GetBlockSize()
+        {
+            return settings.BlocksizeAsBytes;
         }
 
         public string GetKeyPattern()

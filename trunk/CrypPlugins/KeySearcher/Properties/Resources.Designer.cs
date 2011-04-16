@@ -214,6 +214,15 @@ namespace KeySearcher.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bytes offset not valid: .
+        /// </summary>
+        internal static string Bytes_offset_not_valid__ {
+            get {
+                return ResourceManager.GetString("Bytes_offset_not_valid__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Bytes used not valid: .
         /// </summary>
         internal static string Bytes_used_not_valid__ {

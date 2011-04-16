@@ -133,8 +133,8 @@ namespace KeySearcherPresentation.Controls
             }
         }
 
-        private Dictionary<long, Maschinfo> machineHierarchy = null;
-        public Dictionary<long, Maschinfo> MachineHierarchy
+        private Dictionary<long, MachInfo> machineHierarchy = null;
+        public Dictionary<long, MachInfo> MachineHierarchy
         {
             get { return machineHierarchy; }
             set

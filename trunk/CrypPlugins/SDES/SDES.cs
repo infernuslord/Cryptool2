@@ -560,11 +560,10 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         /// </summary>
         /// <param name="ciphertext">encrypted text</param>
         /// <param name="key">key</param>
-        /// <param name="bytesToUse">bytesToUse</param>
         /// <returns>decrypted text</returns>
-        public byte[] Decrypt(byte[] ciphertext, byte[] key, byte[] IV, int bytesToUse)
+        public byte[] Decrypt(byte[] ciphertext, byte[] key, byte[] IV)
         {
-            return execute(ciphertext, key, bytesToUse, 1);
+            return execute(ciphertext, key, ciphertext.Length, 1);
         }
 
         /// <summary>
@@ -572,10 +571,16 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         /// </summary>
         /// <param name="ciphertext">encrypted text</param>
         /// <param name="key">key</param>
+        /// <param name="bytesToUse">bytesToUse</param>
         /// <returns>decrypted text</returns>
-        public byte[] Decrypt(byte[] ciphertext, byte[] key, byte[] IV)
+        public byte[] Decrypt(byte[] ciphertext, byte[] key, byte[] IV, int bytesToUse)
         {
-            return execute(ciphertext, key, ciphertext.Length, 1);
+            return execute(ciphertext, key, bytesToUse, 1);
+        }
+
+        public int GetBlockSize()
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>

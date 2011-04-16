@@ -92,6 +92,7 @@
     <Compile Include="Converter\FalseToVisibleConverter.cs" />
     <Compile Include="Converter\TrueToVisibleConverter.cs" />
     <Compile Include="Helper\KeyQualityHelper.cs" />
+    <Compile Include="Information.cs" />
     <Compile Include="KeyPattern\ListKeyMovement.cs" />
     <Compile Include="KeyPattern\KeyPattern.cs" />
     <Compile Include="KeyPattern\KeyPatternPool.cs" />
@@ -101,6 +102,7 @@
     <Compile Include="KeysearcherSettingsTab.xaml.cs">
       <DependentUpon>KeysearcherSettingsTab.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MachInfo.cs" />
     <Compile Include="OpenCL\KeySearcherOpenCLSubbatchOptimizer.cs" />
     <Compile Include="KeyTranslators\ByteArrayKeyTranslator.cs" />
     <Compile Include="OpenCL\KeySearcherOpenCLCode.cs" />
@@ -160,6 +162,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="ResultEntry.cs" />
     <Compile Include="Server\Job.cs" />
     <Compile Include="Server\Opcodes.cs" />
     <Compile Include="Server\PlatformIndependentWrapper.cs" />

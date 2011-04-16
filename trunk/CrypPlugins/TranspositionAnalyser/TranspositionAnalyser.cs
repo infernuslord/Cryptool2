@@ -255,7 +255,7 @@ namespace TranspositionAnalyser
             while (valuequeue.Count != 0)
             {
                 ValueKey vk = (ValueKey)valuequeue.Dequeue();
-                if (this.costMaster.getRelationOperator() == RelationOperator.LargerThen)
+                if (this.costMaster.GetRelationOperator() == RelationOperator.LargerThen)
                 {
                     if (vk.value > costList.Last().value)
                     {
@@ -478,7 +478,7 @@ namespace TranspositionAnalyser
                 GuiLogMessage("start", NotificationLevel.Info);
                 double best = Double.MinValue;
 
-                if (costMaster.getRelationOperator() == RelationOperator.LessThen)
+                if (costMaster.GetRelationOperator() == RelationOperator.LessThen)
                 {
                     best = Double.MaxValue;
                 }
@@ -548,12 +548,12 @@ namespace TranspositionAnalyser
                                 byte[] dec = sender.Decrypt(input, b, null);
                                 if (dec != null)
                                 {
-                                    double val = costMaster.calculateCost(dec);
+                                    double val = costMaster.CalculateCost(dec);
                                     if (val.Equals(new Double()))
                                     {
                                         return new byte[0];
                                     }
-                                    if (costMaster.getRelationOperator() == RelationOperator.LessThen)
+                                    if (costMaster.GetRelationOperator() == RelationOperator.LessThen)
                                     {
                                         if (val <= best)
                                         {
@@ -778,7 +778,7 @@ namespace TranspositionAnalyser
 
             Double best = Double.MinValue;
 
-            if (costMaster.getRelationOperator() == RelationOperator.LessThen)
+            if (costMaster.GetRelationOperator() == RelationOperator.LessThen)
             {
                 best = Double.MaxValue;
             }
@@ -810,7 +810,7 @@ namespace TranspositionAnalyser
 
                 ValueKey tmpValue = new ValueKey();
                 byte[] dec = sender.Decrypt(input, key, null);
-                double val = costMaster.calculateCost(dec);
+                double val = costMaster.CalculateCost(dec);
 
                 String keyStr = "";
                 foreach (byte bb in key)
@@ -1381,7 +1381,7 @@ namespace TranspositionAnalyser
                 {
                     byte[] rndkey = randomArray(keylength);
                     byte[] dec = sender.Decrypt(input, rndkey, null);
-                    double val = costMaster.calculateCost(dec);
+                    double val = costMaster.CalculateCost(dec);
 
                     String keyStr = "";
                     foreach (byte tmp in rndkey)
@@ -1426,7 +1426,7 @@ namespace TranspositionAnalyser
                                 bestpos = b;
                             }
 
-                            if (costMaster.getRelationOperator() == RelationOperator.LessThen)
+                            if (costMaster.GetRelationOperator() == RelationOperator.LessThen)
                             {
                                 if (v.value < best)
                                 {
@@ -1527,7 +1527,7 @@ namespace TranspositionAnalyser
                                 ValueKey tmpValue = new ValueKey();
                                 tmpValue.keyArray = randomArray(keylength);
                                 byte[] dec = sender.Decrypt(input, tmpValue.keyArray, null);
-                                double val = costMaster.calculateCost(dec);
+                                double val = costMaster.CalculateCost(dec);
 
                                 String keyStr = "";
                                 foreach (byte bb in child)
@@ -1554,7 +1554,7 @@ namespace TranspositionAnalyser
                                     ValueKey tmpValue = new ValueKey();
                                     tmpValue.keyArray = randomArray(keylength);
                                     byte[] dec = sender.Decrypt(input, tmpValue.keyArray, null);
-                                    double val = costMaster.calculateCost(dec);
+                                    double val = costMaster.CalculateCost(dec);
 
                                     String keyStr = "";
                                     foreach (byte bb in child)
@@ -1575,7 +1575,7 @@ namespace TranspositionAnalyser
                         {
                             ValueKey tmpValue = new ValueKey();
                             byte[] dec = sender.Decrypt(input, child, null);
-                            double val = costMaster.calculateCost(dec);
+                            double val = costMaster.CalculateCost(dec);
 
                             String keyStr = "";
                             foreach (byte bb in child)
@@ -1595,7 +1595,7 @@ namespace TranspositionAnalyser
                     {
                         best = Double.MinValue;
 
-                        if (costMaster.getRelationOperator() == RelationOperator.LessThen)
+                        if (costMaster.GetRelationOperator() == RelationOperator.LessThen)
                         {
                             best = Double.MaxValue;
                         }
@@ -1642,7 +1642,7 @@ namespace TranspositionAnalyser
             ArrayList ret = new ArrayList();
 
             // Schlechtesten x Keys löschen
-            if (costMaster.getRelationOperator() == RelationOperator.LessThen)
+            if (costMaster.GetRelationOperator() == RelationOperator.LessThen)
             {
                 for (int a = 0; a < rest; a++)
                 {

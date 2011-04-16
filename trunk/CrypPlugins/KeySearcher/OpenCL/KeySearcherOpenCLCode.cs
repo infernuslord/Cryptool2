@@ -58,7 +58,7 @@ namespace KeySearcher
                 return openCLCode;
             }
 
-            int bytesUsed = controlCost.getBytesToUse();
+            int bytesUsed = controlCost.GetBytesToUse();
             if (encryptedData.Length < bytesUsed)
                 bytesUsed = encryptedData.Length;
 

@@ -35,6 +35,8 @@ namespace Cryptool.Plugins.CostFunction
         private int functionType;
         private String bytesToUse = "256";
         private int bytesToUseInteger = 256;
+        private String bytesOffset = "0";
+        private int bytesOffsetInteger = 0;
         #endregion
 
         public void Initialize()
@@ -78,6 +80,29 @@ namespace Cryptool.Plugins.CostFunction
         public int BytesToUseInteger
         {
             get { return bytesToUseInteger; }
+        }
+
+        [TaskPane("Bytes offset", "Which amount of bytes should be skipped before applying regex?", null, 5, false, ControlType.TextBox)]
+        public String BytesOffset
+        {
+            get
+            {
+                return bytesOffset;
+            }
+            set
+            {
+                var old = bytesOffsetInteger;
+                if (!int.TryParse(value, out bytesOffsetInteger))
+                {
+                    bytesOffsetInteger = old;
+                }
+                else
+                {
+                    bytesOffset = value;
+                }
+
+                OnPropertyChanged("BytesOffset");
+            }
         }
 
 
@@ -176,16 +201,18 @@ namespace Cryptool.Plugins.CostFunction
             if (functionType.Equals(5))
             {
                 TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("BytesToUse", Visibility.Visible)));
+                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("BytesOffset", Visibility.Visible)));
                 TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("RegEx", Visibility.Visible)));
                 TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("RegExHex", Visibility.Visible)));
-                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("CaseInsensitiv", Visibility.Visible)));
+                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("CaseInsensitive", Visibility.Visible)));
             }
             else
             {
                 TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("BytesToUse", Visibility.Visible)));
+                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("BytesOffset", Visibility.Visible)));
                 TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("RegEx", Visibility.Collapsed)));
                 TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("RegExHex", Visibility.Collapsed)));
-                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("CaseInsensitiv", Visibility.Collapsed)));
+                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("CaseInsensitive", Visibility.Collapsed)));
             }
 
             if (functionType.Equals(4) || functionType.Equals(2) || functionType.Equals(3) || functionType.Equals(6))
@@ -251,18 +278,18 @@ namespace Cryptool.Plugins.CostFunction
             return sb.ToString();
         }
 
-        private bool caseInsensitiv;
+        private bool caseInsensitive;
         [TaskPane( "CaseInsensitivCaption", "CaseInsensitivTooltip", null, 6, false, ControlType.CheckBox)]
-        public bool CaseInsensitiv
+        public bool CaseInsensitive
         {
-            get { return caseInsensitiv; }
+            get { return caseInsensitive; }
             set
             {
-                if (value != caseInsensitiv)
+                if (value != caseInsensitive)
                 {
-                    caseInsensitiv = value;
+                    caseInsensitive = value;
                     hasChanges = true;
-                    OnPropertyChanged("CaseInsensitiv");
+                    OnPropertyChanged("CaseInsensitive");
                 }
             }
         }
@@ -351,7 +378,7 @@ namespace Cryptool.Plugins.CostFunction
             
         
         }
-#endregion
+        #endregion
     }
     
     
