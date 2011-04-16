@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Windows;
 using Cryptool.PluginBase;
 using System.ComponentModel;
@@ -210,9 +211,18 @@ namespace KeySearcher
             var generator = new StorageKeyGenerator(keysearcher, this);
             var statusKey = generator.GenerateStatusKey();
 
-            Clipboard.SetDataObject(statusKey, true);
-            keysearcher.GuiLogMessage(string.Format(Resources.Status_key___0___has_been_copied_to_clipboard_, statusKey),
-                                      NotificationLevel.Info);
+            try
+            {
+                Clipboard.SetDataObject(statusKey, true);
+                keysearcher.GuiLogMessage(string.Format(Resources.Status_key___0___has_been_copied_to_clipboard_, statusKey),
+                          NotificationLevel.Info);
+            }
+            catch(ExternalException e)
+            {
+                // TODO: externalize
+                keysearcher.GuiLogMessage(string.Format("Accessing clipboard has failed, please try again later: {0}", e.Message), NotificationLevel.Error);
+                return;
+            }
         }
 
         private string evaluationHost;
