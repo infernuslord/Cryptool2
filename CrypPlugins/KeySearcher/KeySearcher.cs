@@ -911,7 +911,7 @@ namespace KeySearcher
                 return;
             }
 
-            dataOutput = new byte[dataInput.Length - bytesOffset];
+            dataOutput = new byte[dataInput.Length - (omitBlocks * blockSize)];
             ivOutput = new byte[blockSize];
 
             // set predecessor block (current-1) of new ciphertext as IV
