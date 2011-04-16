@@ -18,22 +18,32 @@ namespace KeySearcher.P2P.Storage
 
         public virtual String Generate()
         {
+            var bytesToUse = keySearcher.CostMaster.GetBytesToUse();
+            var bytesOffset = keySearcher.CostMaster.GetBytesOffset();
+
             // Add simple data
-            var bytesToUse = keySearcher.CostMaster.getBytesToUse();
             var rawIdentifier = "P2PJOB";
             rawIdentifier += settings.ChunkSize + settings.Key;
             rawIdentifier += keySearcher.ControlMaster.GetType();
             rawIdentifier += keySearcher.CostMaster.GetType();
             rawIdentifier += bytesToUse;
-            rawIdentifier += keySearcher.CostMaster.getRelationOperator();
+            rawIdentifier += keySearcher.CostMaster.GetRelationOperator();
 
-            // Add initialization vector when available
+            // wander 2011-04-11: use bytesOffset if set
+            // bytesOffset will be used to modify/optimize input data and IV, but below the non-optimized
+            // ones are being used
+            if (bytesOffset > 0)
+            {
+                rawIdentifier += bytesOffset;
+            }
+
+            // Add initialization vector when available (non-optimized one)
             if (keySearcher.InitVector != null)
             {
                 rawIdentifier += Encoding.ASCII.GetString(keySearcher.InitVector);
             }
 
-            // Add input data with the amount of used bytes
+            // Add input data with the amount of used bytes (non-optimized/non-shortened input data)
             var inputData = keySearcher.EncryptedData;
             if (inputData.Length > bytesToUse)
                 Array.Copy(inputData, inputData, bytesToUse);
@@ -41,7 +51,7 @@ namespace KeySearcher.P2P.Storage
             rawIdentifier += Encoding.ASCII.GetString(inputData);
             
             // Add cost of input data to preserve cost master settings
-            rawIdentifier += keySearcher.CostMaster.calculateCost(inputData).ToString("N2", CultureInfo.InvariantCulture);
+            rawIdentifier += keySearcher.CostMaster.CalculateCost(inputData).ToString("N2", CultureInfo.InvariantCulture);
 
             /*
             // Add decrypted input data to preserve encryption settings

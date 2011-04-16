@@ -56,7 +56,7 @@ namespace KeySearcher
         /// used for creating the UserStatistics
         /// </summary>
         private Dictionary<string, Dictionary<long, Information>> statistic;
-        private Dictionary<long, Maschinfo> maschinehierarchie;
+        private Dictionary<long, MachInfo> machineHierarchy;
         /// <summary>
         /// used for creating the TopList
         /// </summary>
@@ -71,11 +71,13 @@ namespace KeySearcher
 
         public bool IsKeySearcherRunning;
         private KeyQualityHelper keyQualityHelper;
+        
+        // GUI
         private readonly P2PQuickWatchPresentation p2PQuickWatchPresentation;
         private readonly LocalQuickWatchPresentation localQuickWatchPresentation;
-        private HashSet<string> alreadyIntegratedNodes = new HashSet<string>();
+        private readonly KeyPoolTreePresentation keyPoolTreePresentation;
 
-        private KeyPoolTreePresentation keyPoolTreePresentation;
+        private HashSet<string> alreadyIntegratedNodes = new HashSet<string>();
 
         private OpenCLManager oclManager = null;
         private Mutex openCLPresentationMutex = new Mutex();
@@ -153,7 +155,7 @@ namespace KeySearcher
         #endregion
 
         /* BEGIN: following lines are from Arnie - 2010.01.12 */
-        ICryptoolStream csEncryptedData;
+        private ICryptoolStream csEncryptedData;
         [PropertyInfo(Direction.InputData, "CSEncryptedDataCaption", "CSEncryptedDataTooltip", "", false, false, QuickWatchFormat.Hex, "")]
         public virtual ICryptoolStream CSEncryptedData
         {
@@ -169,9 +171,10 @@ namespace KeySearcher
             }
         }
 
-        byte[] encryptedData;
+        private byte[] encryptedData;
+        private byte[] encryptedDataOptimized;
         [PropertyInfo(Direction.InputData, "EncryptedDataCaption", "EncryptedDataTooltip", "", false, false, QuickWatchFormat.Hex, "")]
-        public virtual byte[] EncryptedData 
+        public virtual byte[] EncryptedData
         {
             get { return this.encryptedData; }
             set
@@ -204,7 +207,8 @@ namespace KeySearcher
             return encryptedByteData;
         }
 
-        byte[] initVector;
+        private byte[] initVector;
+        private byte[] initVectorOptimized;
         [PropertyInfo(Direction.InputData, "InitVectorCaption", "InitVectorTooltip", "", false, false, QuickWatchFormat.Hex, null)]
         public virtual byte[] InitVector
         {
@@ -224,7 +228,7 @@ namespace KeySearcher
             private set
             {
                 top1ValueKey = value;
-                top1FullPlaintext = sender.Decrypt(this.encryptedData, value.keya, InitVector);
+                top1FullPlaintext = sender.Decrypt(this.encryptedData, value.keya, this.initVector);
 
                 OnPropertyChanged("Top1Message");
                 OnPropertyChanged("Top1Key");
@@ -403,20 +407,6 @@ namespace KeySearcher
 
         #endregion
 
-        #region INotifyPropertyChanged Members
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public void OnPropertyChanged(string name)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(name));
-            }
-        }
-
-        #endregion
-
         #region whole KeySearcher functionality
 
         private class ThreadStackElement
@@ -453,7 +443,7 @@ namespace KeySearcher
             KeySearcherOpenCLSubbatchOptimizer keySearcherOpenCLSubbatchOptimizer = null;
             if (openCLDeviceSettings != null)
             {
-                keySearcherOpenCLCode = new KeySearcherOpenCLCode(this, encryptedData, InitVector, sender, CostMaster, 256 * 256 * 256 * 16);
+                keySearcherOpenCLCode = new KeySearcherOpenCLCode(this, this.encryptedDataOptimized, this.initVectorOptimized, sender, CostMaster, 256 * 256 * 256 * 16);
                 keySearcherOpenCLSubbatchOptimizer = new KeySearcherOpenCLSubbatchOptimizer(openCLDeviceSettings.mode, 
                         oclManager.CQ[openCLDeviceSettings.index].Device.MaxWorkItemSizes.Aggregate(1, (x, y) => (x * (int)y)) / 8);
 
@@ -619,7 +609,7 @@ namespace KeySearcher
 
         private void checkOpenCLResults(IKeyTranslator keyTranslator, float[] costArray, IControlEncryption sender, int bytesToUse, int add)
         {
-            var op = this.costMaster.getRelationOperator();
+            var op = this.costMaster.GetRelationOperator();
             for (int i = 0; i < costArray.Length; i++)
             {
                 float cost = costArray[i];
@@ -628,7 +618,7 @@ namespace KeySearcher
                 {
                     ValueKey valueKey = new ValueKey { value = cost, key = keyTranslator.GetKeyRepresentation(i + add) };
                     valueKey.keya = keyTranslator.GetKeyFromRepresentation(valueKey.key);
-                    valueKey.decryption = sender.Decrypt(this.encryptedData, valueKey.keya, InitVector, bytesToUse);
+                    valueKey.decryption = sender.Decrypt(this.encryptedDataOptimized, valueKey.keya, this.initVectorOptimized, bytesToUse);
                     EnhanceUserName(ref valueKey);
                     valuequeue.Enqueue(valueKey);
                 }
@@ -709,9 +699,9 @@ namespace KeySearcher
 
             try
             {
-                if (this.encryptedData != null && this.encryptedData.Length > 0)
+                if (this.encryptedDataOptimized != null && this.encryptedDataOptimized.Length > 0)
                 {
-                    valueKey.decryption = sender.Decrypt(this.encryptedData, keya, InitVector, bytesToUse);
+                    valueKey.decryption = sender.Decrypt(this.encryptedDataOptimized, keya, this.initVectorOptimized, bytesToUse);
                 }
                 else
                 {
@@ -728,7 +718,7 @@ namespace KeySearcher
 
             try
             {
-                valueKey.value = CostMaster.calculateCost(valueKey.decryption);
+                valueKey.value = CostMaster.CalculateCost(valueKey.decryption);
             }
             catch (Exception ex)
             {
@@ -736,7 +726,7 @@ namespace KeySearcher
                 return false;
             }
 
-            if (this.costMaster.getRelationOperator() == RelationOperator.LargerThen)
+            if (this.costMaster.GetRelationOperator() == RelationOperator.LargerThen)
             {
                 if (valueKey.value > value_threshold)
                 {
@@ -807,11 +797,26 @@ namespace KeySearcher
 
             try
             {
-                bytesToUse = CostMaster.getBytesToUse();
+                bytesToUse = CostMaster.GetBytesToUse();
             }
             catch (Exception ex)
             {
                 GuiLogMessage(Resources.Bytes_used_not_valid__ + ex.Message, NotificationLevel.Error);
+                return null;
+            }
+
+            try
+            {
+                int bytesOffset = CostMaster.GetBytesOffset();
+
+                // wander 2011-04-16:
+                // Use offset to cut-off input data and save optimized input in "out" fields
+                // Every bruteforce decryption attempt shall use optimized data
+                SkipBlocks(this.encryptedData, this.initVector, bytesOffset, out this.encryptedDataOptimized, out this.initVectorOptimized);
+            }
+            catch (Exception ex)
+            {
+                GuiLogMessage(Resources.Bytes_offset_not_valid__ + ex.Message, NotificationLevel.Error);
                 return null;
             }
 
@@ -861,6 +866,60 @@ namespace KeySearcher
                     cryptoolServer.OnErrorLog -= cryptoolServer_OnErrorLog;
                 }
             }
+        }
+
+        /// <summary>
+        /// Put in encrypted data, IV and offset, put out modified encrypted data and IV.
+        /// Returns input without modification if offset is not set correctly.
+        /// 
+        /// The modification of the input data requires the random access property which is true for
+        /// ECB, CBC or CFB, but not for OFB. Decryption will fail without note for OFB!
+        /// </summary>
+        private void SkipBlocks(byte[] dataInput, byte[] ivInput, int bytesOffset, out byte[] dataOutput, out byte[] ivOutput)
+        {
+            // nothing to do
+            if (bytesOffset == 0)
+            {
+                dataOutput = dataInput;
+                ivOutput = ivInput;
+                return;
+            }
+
+            // invalid offset, ignore
+            if (dataInput.Length - bytesOffset <= 0)
+            {
+                // TODO: externalize
+                GuiLogMessage(string.Format("Ignoring BytesOffset as it is greater or equal to input data: {0}>={1}", bytesOffset, dataInput.Length), NotificationLevel.Warning);
+                dataOutput = dataInput;
+                ivOutput = ivInput;
+                return;
+            }
+
+            int blockSize = sender.GetBlockSize(); // may throw exception if sender does not support this
+
+            if (bytesOffset % blockSize != 0)
+            {
+                // TODO: externalize
+                GuiLogMessage(string.Format("BytesOffset {0} is not a multiple of cipher blocksize {1}, will skip less bytes", bytesOffset, blockSize), NotificationLevel.Warning);
+            }
+
+            int omitBlocks = bytesOffset / blockSize;
+            if (omitBlocks == 0) // no cut-off? nothing to do
+            {
+                dataOutput = dataInput;
+                ivOutput = ivInput;
+                return;
+            }
+
+            dataOutput = new byte[dataInput.Length - bytesOffset];
+            ivOutput = new byte[blockSize];
+
+            // set predecessor block (current-1) of new ciphertext as IV
+            int offsetPredecessorBlock = (omitBlocks - 1) * blockSize;
+            Array.Copy(dataInput, offsetPredecessorBlock, ivOutput, 0, blockSize);
+
+            // set short ciphertext
+            Array.Copy(dataInput, omitBlocks * blockSize, dataOutput, 0, dataOutput.Length);
         }
 
         private void BruteForceWithPeerToPeerSystem()
@@ -916,7 +975,7 @@ namespace KeySearcher
                 GuiLogMessage(Resources.Only_using_external_client_to_bruteforce_, NotificationLevel.Info);
                 lock (this)
                 {
-                    externalKeySearcherOpenCLCode = new KeySearcherOpenCLCode(this, encryptedData, InitVector, sender, CostMaster,
+                    externalKeySearcherOpenCLCode = new KeySearcherOpenCLCode(this, this.encryptedDataOptimized, this.initVectorOptimized, sender, CostMaster,
                                                                               256*256*256*64);
                     externalKeysProcessed = 0;
                     externalKeyTranslator = ControlMaster.GetKeyTranslator();
@@ -1109,7 +1168,7 @@ namespace KeySearcher
             j.Src = src;
             var key = externalKeyTranslator.GetKey();
             j.Key = key;
-            j.LargerThen = (costMaster.getRelationOperator() == RelationOperator.LargerThen);
+            j.LargerThen = (costMaster.GetRelationOperator() == RelationOperator.LargerThen);
             j.Size = externalKeyTranslator.GetOpenCLBatchSize();
             j.ResultSize = 10;
             GuiLogMessage(string.Format(Resources.Assigning_new_job_with_Guid__0__to_client_, j.Guid), NotificationLevel.Info);
@@ -1140,7 +1199,7 @@ namespace KeySearcher
             ExternaClientId = id;
 
             //check:
-            var op = this.costMaster.getRelationOperator();
+            var op = this.costMaster.GetRelationOperator();
             foreach (var res in jr.ResultList)
             {
                 float cost = res.Key;
@@ -1149,7 +1208,7 @@ namespace KeySearcher
                 {
                     ValueKey valueKey = new ValueKey { value = cost, key = externalKeyTranslator.GetKeyRepresentation(res.Value) };
                     valueKey.keya = externalKeyTranslator.GetKeyFromRepresentation(valueKey.key);
-                    valueKey.decryption = sender.Decrypt(this.encryptedData, valueKey.keya, InitVector, bytesToUse);
+                    valueKey.decryption = sender.Decrypt(this.encryptedDataOptimized, valueKey.keya, this.initVectorOptimized, bytesToUse);
 
                     EnhanceUserName(ref valueKey);
 
@@ -1321,7 +1380,7 @@ namespace KeySearcher
         private void FillListWithDummies(int maxInList, LinkedList<ValueKey> costList)
         {
             ValueKey valueKey = new ValueKey();
-            if (this.costMaster.getRelationOperator() == RelationOperator.LessThen)
+            if (this.costMaster.GetRelationOperator() == RelationOperator.LessThen)
                 valueKey.value = double.MaxValue;
             else
                 valueKey.value = double.MinValue;
@@ -1360,8 +1419,8 @@ namespace KeySearcher
         {
             statistic = null;
             statistic = new Dictionary<string, Dictionary<long, Information>>();
-            maschinehierarchie = null;
-            maschinehierarchie = new Dictionary<long, Maschinfo>();
+            machineHierarchy = null;
+            machineHierarchy = new Dictionary<long, MachInfo>();
             alreadyIntegratedNodes.Clear();
             statisticInitialized = false;
         }
@@ -1577,13 +1636,13 @@ namespace KeySearcher
                 var calcChunks = calculatedChunks();
                 var calcKeys = calcChunks*(BigInteger) Math.Pow(2, settings.ChunkSize);
                 ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.Statistics = statistic;
-                ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.MachineHierarchy = maschinehierarchie;
+                ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.MachineHierarchy = machineHierarchy;
                 ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.Days = diffFromStart.Days.ToString();
                 ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.CalculatedBlocks = calcChunks;
                 ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.CalculatedKeys = calcKeys;
                 ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.Percent = (double)calcChunks;
                 ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.Users = statistic.Keys.Count;
-                ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.Machines = maschinehierarchie.Keys.Count;
+                ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.Machines = machineHierarchy.Keys.Count;
                 if ((BigInteger)diffFromStart.TotalSeconds > 0)
                 {
                     ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.SetRate = calcKeys / (BigInteger)diffFromStart.TotalSeconds;
@@ -1591,7 +1650,7 @@ namespace KeySearcher
                 if (statistic.Count > 0)
                 {
                     ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.BeeUsers = statistic.Keys.First();
-                    ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.BeeMachines = maschinehierarchie[maschinehierarchie.Keys.First()].Hostname;
+                    ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.BeeMachines = machineHierarchy[machineHierarchy.Keys.First()].Hostname;
                 }
             }
             catch (Exception ex)
@@ -1642,9 +1701,9 @@ namespace KeySearcher
                     using (StreamWriter sw = new StreamWriter(string.Format("{0}\\Maschine{1}.csv", DirectoryHelper.DirectoryLocal, dataIdentifier)))
                     {
                         sw.WriteLine("Maschineid" + ";" + "Name" + ";" + "Sum" + ";" + "Users");
-                        foreach (long mID in maschinehierarchie.Keys)
+                        foreach (long mID in machineHierarchy.Keys)
                         {
-                            sw.WriteLine(mID + ";" + maschinehierarchie[mID].Hostname + ";" + maschinehierarchie[mID].Sum + ";" + maschinehierarchie[mID].Users);
+                            sw.WriteLine(mID + ";" + machineHierarchy[mID].Hostname + ";" + machineHierarchy[mID].Sum + ";" + machineHierarchy[mID].Users);
                         }
                     }
                 }
@@ -1660,8 +1719,8 @@ namespace KeySearcher
         /// </summary>
         internal void GenerateMaschineStats()
         {
-            maschinehierarchie = null;
-            maschinehierarchie = new Dictionary<long, Maschinfo>();
+            machineHierarchy = null;
+            machineHierarchy = new Dictionary<long, MachInfo>();
 
             foreach (string avatar in statistic.Keys)
             {
@@ -1671,32 +1730,32 @@ namespace KeySearcher
                 foreach (long mid in Maschines.Keys)
                 {
                     //if the maschine exists in maschinestatistic add it to the sum
-                    if (maschinehierarchie.ContainsKey(mid))
+                    if (machineHierarchy.ContainsKey(mid))
                     {
-                        maschinehierarchie[mid].Sum = maschinehierarchie[mid].Sum + Maschines[mid].Count;
-                        maschinehierarchie[mid].Hostname = Maschines[mid].Hostname;
-                        maschinehierarchie[mid].Users = maschinehierarchie[mid].Users + avatar + " | ";
-                        maschinehierarchie[mid].Date = Maschines[mid].Date > maschinehierarchie[mid].Date ? Maschines[mid].Date : maschinehierarchie[mid].Date;
+                        machineHierarchy[mid].Sum = machineHierarchy[mid].Sum + Maschines[mid].Count;
+                        machineHierarchy[mid].Hostname = Maschines[mid].Hostname;
+                        machineHierarchy[mid].Users = machineHierarchy[mid].Users + avatar + " | ";
+                        machineHierarchy[mid].Date = Maschines[mid].Date > machineHierarchy[mid].Date ? Maschines[mid].Date : machineHierarchy[mid].Date;
                         
                         //taking the current/dead flags
-                        if (!maschinehierarchie[mid].Current)
+                        if (!machineHierarchy[mid].Current)
                         {
-                            maschinehierarchie[mid].Current = Maschines[mid].Current;
+                            machineHierarchy[mid].Current = Maschines[mid].Current;
                         }
-                        if (maschinehierarchie[mid].Dead)
+                        if (machineHierarchy[mid].Dead)
                         {
-                            maschinehierarchie[mid].Dead = Maschines[mid].Dead;
+                            machineHierarchy[mid].Dead = Maschines[mid].Dead;
                         }
                     }
                     else
                     {
                         //else make a new entry
-                        maschinehierarchie.Add(mid, new Maschinfo() { Sum = Maschines[mid].Count, Hostname = Maschines[mid].Hostname, Users = "| " + avatar + " | ", Date = Maschines[mid].Date, Current = Maschines[mid].Current, Dead = Maschines[mid].Dead });
+                        machineHierarchy.Add(mid, new MachInfo() { Sum = Maschines[mid].Count, Hostname = Maschines[mid].Hostname, Users = "| " + avatar + " | ", Date = Maschines[mid].Date, Current = Maschines[mid].Current, Dead = Maschines[mid].Dead });
                     }
                 }
             }
 
-            maschinehierarchie = maschinehierarchie.OrderByDescending((x) => x.Value.Sum).ToDictionary(x => x.Key, y => y.Value);
+            machineHierarchy = machineHierarchy.OrderByDescending((x) => x.Value.Sum).ToDictionary(x => x.Key, y => y.Value);
         }
 
         /// <summary>
@@ -1704,7 +1763,7 @@ namespace KeySearcher
         /// </summary>
         internal BigInteger calculatedChunks()
         {
-            return maschinehierarchie.Keys.Aggregate<long, BigInteger>(0, (current, mid) => current + maschinehierarchie[mid].Sum);
+            return machineHierarchy.Keys.Aggregate<long, BigInteger>(0, (current, mid) => current + machineHierarchy[mid].Sum);
         }
 
         private static DateTime defaultstart = DateTime.MinValue;
@@ -1755,7 +1814,7 @@ namespace KeySearcher
                     continue;
                 }
 
-                if (this.costMaster.getRelationOperator() == RelationOperator.LargerThen)
+                if (this.costMaster.GetRelationOperator() == RelationOperator.LargerThen)
                 {
                     if (vk.value > costList.Last().value)
                     {
@@ -1888,6 +1947,16 @@ namespace KeySearcher
 
         #endregion
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public void OnPropertyChanged(string name)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(name));
+            }
+        }
+
         public void GuiLogMessage(string message, NotificationLevel loglevel)
         {
             if (OnGuiLogNotificationOccured != null)
@@ -1931,51 +2000,4 @@ namespace KeySearcher
             public string maschname { get; set; }
         };
     }
-
-    /// <summary>
-    /// Represents one entry in our result list
-    /// </summary>
-    public class ResultEntry
-    {
-        public string Ranking { get; set; }
-        public string Value { get; set; }
-        public string Key { get; set; }
-        public string Text { get; set; }
-        //-------
-        public string User { get; set; }
-        public DateTime Time { get; set; }
-        public long Maschid { get; set; }
-        public string Maschname { get; set; }
-        //-------
-    }
-    /// <summary>
-    /// Represents one entry in our statistic list
-    /// </summary>
-    public class Information
-    {
-        public override string ToString()
-        {
-            return string.Format("{0} - {1} - {2} - {3} - {4}", Count, Hostname, Date, Current, Dead);
-        }
-
-        public int Count { get; set; }
-        public string Hostname { get; set; }
-        public DateTime Date { get; set; }
-        public bool Current { get; set; }
-        public bool Dead { get; set; }
-    }
-    /// <summary>
-    /// Represents one entry in our maschine statistic list
-    /// </summary>
-    public class Maschinfo
-    {
-        public int Sum { get; set; }
-        public string Hostname { get; set; }
-        public string Users { get; set; }
-        public DateTime Date { get; set; }
-        public bool Current { get; set; }
-
-        private bool dead = true;
-        public bool Dead { get { return dead; } set { dead = value; } }
-    } 
 }

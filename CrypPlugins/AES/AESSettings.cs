@@ -93,6 +93,24 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             }
         }
 
+        public int KeysizeAsBits
+        {
+            get
+            {
+                switch (this.keysize)
+                {
+                    case 0:
+                        return 16 * 8;
+                    case 1:
+                        return 24 * 8;
+                    case 2:
+                        return 32 * 8;
+                    default:
+                        throw new InvalidOperationException("Selected keysize entry unknown: " + this.keysize);
+                }   
+            }
+        }
+
 
         [ContextMenu("BlocksizeCaption", "BlocksizeTooltip", 4, ContextMenuControlType.ComboBox, null, "128 Bits", "192 Bits", "256 Bits")]
         [TaskPane("BlocksizeCaption", "BlocksizeTooltip", "", 4, false, ControlType.ComboBox, new String[] { "128 Bits", "192 Bits", "256 Bits" })]
@@ -109,6 +127,32 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                     OnPropertyChanged("CryptoAlgorithm");
                 }
                 OnPropertyChanged("Blocksize");
+            }
+        }
+
+        public int BlocksizeAsBytes
+        {
+            get
+            {
+                switch (this.cryptoAlgorithm)
+                {
+                    case 0:
+                        return 16;
+                    case 1:
+                        switch (this.blocksize)
+                        {
+                            case 0:
+                                return 16;
+                            case 1:
+                                return 24;
+                            case 2:
+                                return 32;
+                            default:
+                                throw new InvalidOperationException("Selected blocksize entry unknown: " + this.blocksize);
+                        }
+                    default:
+                        throw new InvalidOperationException("Selected algorithm entry unknown: " + this.cryptoAlgorithm);
+                }
             }
         }
 

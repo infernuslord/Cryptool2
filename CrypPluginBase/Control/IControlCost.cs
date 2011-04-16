@@ -36,14 +36,14 @@ namespace Cryptool.PluginBase.Control
       /// Returns the relation operator which has to be used to relate two values of the cost function
       /// </summary>
       /// <returns>RelationOperator</returns>
-      RelationOperator getRelationOperator();
+      RelationOperator GetRelationOperator();
       
       /// <summary>
       /// Calculate a value for the given text
       /// </summary>
       /// <param name="text">Text to calculate</param>
       /// <returns>cost</returns>
-      double calculateCost(byte[] text);
+      double CalculateCost(byte[] text);
 
       /// <summary>
       /// This method modifies the given OpenCL code, so that the returning code includes
@@ -53,6 +53,8 @@ namespace Cryptool.PluginBase.Control
       /// <returns></returns>
       string ModifyOpenCLCode(string code);
 
-      int getBytesToUse();
+      int GetBytesToUse();
+
+      int GetBytesOffset();
   }
 }

@@ -39,13 +39,10 @@ namespace Cryptool.Plugins.CostFunction
         #region private variables
         private CostFunctionSettings settings = new CostFunctionSettings();
         private byte[] inputText = null;
-        private byte[] outputText = null;
         private double value = 0.0;
         private Boolean stopped = true;
         private IControlCost controlSlave;
         private String bigramInput;
-        private double[,] bigramMatrix;
-        private IDictionary<string, double[]> corpusGrams;
 
         private IDictionary<string, double[]> corpusBigrams; // Used for Weighted Bigrams/Trigrams Cost function
         private IDictionary<string, double[]> corpusTrigrams;
@@ -104,21 +101,7 @@ namespace Cryptool.Plugins.CostFunction
             this.settings.RegEx = regex;
         }
         #endregion
-        /* obsolete
-        [PropertyInfo(Direction.OutputData, ""OutputTextCaption", "OutputTextTooltip", "")]
-        public byte[] OutputText
-        {
-            get
-            {
-                return outputText;
-            }
-            set
-            {
-                this.outputText = value;
-                OnPropertyChanged("OutputText");
-            }
-        }
-        */
+
         [PropertyInfo(Direction.OutputData, "ValueCaption", "ValueTooltip", "")]
         public double Value
         {
@@ -175,7 +158,7 @@ namespace Cryptool.Plugins.CostFunction
 
         public void Execute()
         {
-            if (this.InputText is Object && this.stopped == false)
+            if (this.InputText != null && this.stopped == false)
             {
                 int bytesToUse = 0;
                 try
@@ -188,25 +171,27 @@ namespace Cryptool.Plugins.CostFunction
                     return;
                 }
 
-                if (bytesToUse > this.InputText.Length)
+                int bytesOffset = 0;
+                try
                 {
-                    bytesToUse = 0;
+                    bytesOffset = int.Parse(settings.BytesOffset);
+                }
+                catch (Exception ex)
+                {
+                    GuiLogMessage("Entered bytesOffset is not an integer: " + ex.Message, NotificationLevel.Error);
+                    return;
                 }
 
-                byte[] array;
-
-                if (bytesToUse > 0)
+                if (bytesToUse == 0 || bytesToUse > (this.InputText.Length - bytesOffset))
                 {
-                    //Create a new Array of size of bytesToUse if needed
-                    array = new byte[bytesToUse];
-                    for (int i = 0; i < bytesToUse && i < this.InputText.Length; i++)
-                    {
-                        array[i] = InputText[i];
-                    }
+                    bytesToUse = this.InputText.Length - bytesOffset;
                 }
-                else
+
+                //Create a new Array of size of bytesToUse
+                byte[] array = new byte[bytesToUse];
+                for (int i = 0; i < bytesToUse; i++)
                 {
-                    array = this.InputText;
+                    array[i] = InputText[i + bytesOffset];
                 }
 
                 ProgressChanged(0.5, 1);
@@ -251,8 +236,6 @@ namespace Cryptool.Plugins.CostFunction
 
         }
 
-
-
         public void PostExecution()
         {
             this.stopped = true;
@@ -275,7 +258,6 @@ namespace Cryptool.Plugins.CostFunction
 
         public void Dispose()
         {
-
         }
 
         #endregion
@@ -312,7 +294,6 @@ namespace Cryptool.Plugins.CostFunction
         // Reads data directory, passes filepaths to parser
         private void fillfwt() {
              txtList = dataMgr.LoadDirectory(DATATYPE);
-
 
              switch (this.settings.weighttable)
              {
@@ -406,20 +387,21 @@ namespace Cryptool.Plugins.CostFunction
         }
 
         private string lastRegex = null;
-        private bool lastCaseInsensitiv;
+        private bool lastCaseInsensitive;
 
         public double regex(byte[] input)
         {
-            if (regularexpression == null || lastRegex != settings.RegEx || lastCaseInsensitiv != settings.CaseInsensitiv)
+            if (settings.RegEx == null)
             {
-                if (settings.RegEx == null)
-                {
-                    GuiLogMessage("There is no Regular Expression to be searched for. Please insert regex in the 'Regular Expression' - Textarea", NotificationLevel.Error);
-                    return -1.0;
-                }
-                regularexpression = new RegEx(settings.RegEx, settings.CaseInsensitiv);
+                GuiLogMessage("There is no Regular Expression to be searched for. Please insert regex in the 'Regular Expression' - Textarea", NotificationLevel.Error);
+                return -1.0;
+            }
+
+            if (lastRegex != settings.RegEx || lastCaseInsensitive != settings.CaseInsensitive)
+            {
+                regularexpression = new RegEx(settings.RegEx, settings.CaseInsensitive);
                 lastRegex = settings.RegEx;
-                lastCaseInsensitiv = settings.CaseInsensitiv;
+                lastCaseInsensitive = settings.CaseInsensitive;
             }
 
             try
@@ -433,7 +415,6 @@ namespace Cryptool.Plugins.CostFunction
             }
 
         }
-
 
         /// <summary>
         /// Calculates the Index of Coincidence multiplied with 100 of
@@ -576,7 +557,6 @@ namespace Cryptool.Plugins.CostFunction
         /// <returns>The trigram score result</returns>
         public double calculateNGrams(string input, int length, int valueSelection, bool weighted)
         {
-
             this.statistics = new Dictionary<int, IDictionary<string, double[]>>();
             double score = 0;
             if (corpusBigrams == null && length == 2)
@@ -651,8 +631,6 @@ namespace Cryptool.Plugins.CostFunction
 
         private IDictionary<string, double[]> calculateAbsolutes(String path, int length)
         {
-
-
             Dictionary<string, double[]> grams = new Dictionary<string, double[]>();
             int checkLength;
             StreamReader reader = new StreamReader(path);
@@ -730,11 +708,9 @@ namespace Cryptool.Plugins.CostFunction
     public class CostFunctionControl : IControlCost
     {
         public event IControlStatusChangedEventHandler OnStatusChanged;
-        #region IControlCost Members
 
-        private CostFunction plugin;
-
-        #endregion
+        private readonly CostFunction plugin;
+        private readonly CostFunctionSettings settings;
 
         /// <summary>
         /// Constructor
@@ -743,31 +719,22 @@ namespace Cryptool.Plugins.CostFunction
         public CostFunctionControl(CostFunction plugin)
         {
             this.plugin = plugin;
+            this.settings = (CostFunctionSettings) this.plugin.Settings;
         }
 
         public string ModifyOpenCLCode(string code)
         {
-            int bytesToUse = 0;
-            try
-            {
-                bytesToUse = ((CostFunctionSettings)this.plugin.Settings).BytesToUseInteger;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Entered bytesToUse is not an integer: " + ex.Message);
-            }
-
-            switch (((CostFunctionSettings)this.plugin.Settings).FunctionType)
+            switch (settings.FunctionType)
             {
                 case 0: //Index of coincidence 
-                    return ModifyOpenCLCodeIndexOfCoincidence(code, bytesToUse);
+                    return ModifyOpenCLCodeIndexOfCoincidence(code, bytesToUse());
                 case 1: //Entropy
-                    return ModifyOpenCLCodeEntropy(code, bytesToUse);
+                    return ModifyOpenCLCodeEntropy(code, bytesToUse());
                 case 5: // Regular Expression
-                    var regex = new RegEx(((CostFunctionSettings)this.plugin.Settings).RegEx, ((CostFunctionSettings)this.plugin.Settings).CaseInsensitiv);
-                    return regex.ModifyOpenCLCode(code, bytesToUse);
+                    var regex = new RegEx(settings.RegEx, settings.CaseInsensitive);
+                    return regex.ModifyOpenCLCode(code, bytesToUse());
                 default:
-                    throw new NotImplementedException("The value " + ((CostFunctionSettings)this.plugin.Settings).FunctionType + " is not implemented for OpenCL.");
+                    throw new NotImplementedException("The value " + settings.FunctionType + " is not implemented for OpenCL.");
             }//end switch
         }
 
@@ -833,11 +800,16 @@ namespace Cryptool.Plugins.CostFunction
             return code;
         }
 
-        public int getBytesToUse()
+        /// <summary>
+        /// Return bytes to use setting.
+        /// Throws exception if setting is invalid.
+        /// </summary>
+        /// <returns></returns>
+        public int GetBytesToUse()
         {
             try
             {
-                return int.Parse(((CostFunctionSettings)this.plugin.Settings).BytesToUse);
+                return int.Parse(settings.BytesToUse);
             }
             catch (Exception ex)
             {
@@ -845,13 +817,36 @@ namespace Cryptool.Plugins.CostFunction
             }
         }
 
+        // Just return the number for internal use. Don't care about input errors, use whatever we have.
+        private int bytesToUse()
+        {
+            return settings.BytesToUseInteger;
+        }
+
+        /// <summary>
+        /// Return bytes offset setting.
+        /// Throws exception if setting is invalid.
+        /// </summary>
+        /// <returns></returns>
+        public int GetBytesOffset()
+        {
+            try
+            {
+                return int.Parse(settings.BytesOffset);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Entered bytesOffset is not an integer: " + ex.Message);
+            }
+        }
+
         /// <summary>
         /// Returns the relation operator of the cost function which is set by by CostFunctionSettings
         /// </summary>
         /// <returns>RelationOperator</returns>
-        public RelationOperator getRelationOperator()
+        public RelationOperator GetRelationOperator()
         {
-            switch (((CostFunctionSettings)this.plugin.Settings).FunctionType)
+            switch (settings.FunctionType)
             {
                 case 0: //Index of coincidence 
                     return RelationOperator.LargerThen;
@@ -869,9 +864,9 @@ namespace Cryptool.Plugins.CostFunction
                     return RelationOperator.LargerThen;
 
                 default:
-                    throw new NotImplementedException("The value " + ((CostFunctionSettings)this.plugin.Settings).FunctionType + " is not implemented.");
+                    throw new NotImplementedException("The value " + settings.FunctionType + " is not implemented.");
             }//end switch
-        }//end getRelationOperator
+        }//end GetRelationOperator
 
         /// <summary>
         /// Calculates the cost function of the given text
@@ -883,24 +878,18 @@ namespace Cryptool.Plugins.CostFunction
         /// </summary>
         /// <param name="text"></param>
         /// <returns>cost</returns>
-        public double calculateCost(byte[] text)
+        public double CalculateCost(byte[] text)
         {
-            int bytesToUse = 0;
-            try
-            {
-                bytesToUse = ((CostFunctionSettings)this.plugin.Settings).BytesToUseInteger;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Entered bytesToUse is not an integer: " + ex.Message);
-            }
-
-            switch (((CostFunctionSettings)this.plugin.Settings).FunctionType)
+            /*
+             * Note: If being used together with KeySearcher, the text given here is already shortened and thus
+             * bytesToUse and bytesOffset will have no further effect (neither positive nor negative).
+             */
+            switch (settings.FunctionType)
             {
                 case 0: //Index of coincidence 
-                    return plugin.calculateIndexOfCoincidence(text, bytesToUse);
+                    return plugin.calculateIndexOfCoincidence(text, bytesToUse());
                 case 1: //Entropy
-                    return plugin.calculateEntropy(text, bytesToUse);
+                    return plugin.calculateEntropy(text, bytesToUse());
                 case 2: // Bigrams: log 2
                     return plugin.calculateNGrams(plugin.ByteArrayToString(text), 2, 2, false);
                 case 3: // Bigrams: Sinkov
@@ -912,7 +901,7 @@ namespace Cryptool.Plugins.CostFunction
                 case 6:
                     return plugin.calculateWeighted(plugin.ByteArrayToString(text));
                 default:
-                    throw new NotImplementedException("The value " + ((CostFunctionSettings)this.plugin.Settings).FunctionType + " is not implemented.");
+                    throw new NotImplementedException("The value " + settings.FunctionType + " is not implemented.");
             }//end switch
         }
 

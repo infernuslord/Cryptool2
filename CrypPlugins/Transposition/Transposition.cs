@@ -1122,11 +1122,6 @@ namespace Transposition
             throw new NotImplementedException();
         }
 
-        public byte[] Decrypt(byte[] ciphertext, byte[] key, byte[] IV, int bytesToUse)
-        {
-            return Decrypt(ciphertext, key, IV);
-        }
-
         public byte[] Decrypt(byte[] ciphertext, byte[] key, byte[] IV)
         {
             if (plugin.Input != ciphertext)
@@ -1142,6 +1137,16 @@ namespace Transposition
 
             //plugin.Transposition_LogMessage("hier decrypt von control: " + k[0] + " / " +plugin.Input[0], NotificationLevel.Debug);
             return plugin.decrypt(plugin.Input, k);
+        }
+
+        public byte[] Decrypt(byte[] ciphertext, byte[] key, byte[] IV, int bytesToUse)
+        {
+            return Decrypt(ciphertext, key, IV);
+        }
+
+        public int GetBlockSize()
+        {
+            throw new NotImplementedException();
         }
 
         public byte[] Encrypt(byte[] key, int blocksize)

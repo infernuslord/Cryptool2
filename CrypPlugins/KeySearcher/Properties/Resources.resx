@@ -705,4 +705,7 @@
   <data name="S_t_a_t_i_s_t_i_c_s" xml:space="preserve">
     <value>S t a t i s t i c s</value>
   </data>
+  <data name="Bytes_offset_not_valid__" xml:space="preserve">
+    <value>Bytes offset not valid: </value>
+  </data>
 </root>
