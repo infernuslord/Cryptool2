@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Security.Principal;
 using System.Text;
 using System.Windows;
@@ -76,6 +78,7 @@ namespace Cryptool.Core
             sb.AppendLine(string.Format("Current culture: {0}", CultureInfo.CurrentCulture.Name));
             sb.AppendLine(string.Format("CrypTool version: {0}", _version));
             sb.AppendLine(string.Format("Build type: {0}", _buildType));
+            sb.AppendLine(string.Format("Build time: {0}", File.GetLastWriteTime(Assembly.GetEntryAssembly().Location)));
             sb.AppendLine(string.Format("Product name: {0}", _productName));
             sb.AppendLine(string.Format("Common language runtime version: {0}", Environment.Version));
 
