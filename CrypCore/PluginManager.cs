@@ -38,7 +38,7 @@ namespace Cryptool.Core
         /// <summary>
         /// Subdirectory to store plugins
         /// </summary>
-        private const string PluginDirecory = "CrypPlugins";
+        private const string PluginDirectory = "CrypPlugins";
 
         /// <summary>
         /// Fires if an exception occurs
@@ -84,8 +84,8 @@ namespace Cryptool.Core
         {
             this.disabledAssemblies = disabledAssemblies;
             
-            this.customPluginStore = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), PluginDirecory);
-            this.globalPluginStore = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), PluginDirecory);
+            this.customPluginStore = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), PluginDirectory);
+            this.globalPluginStore = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), PluginDirectory);
             this.loadedAssemblies = new Dictionary<string, Assembly>();
             this.loadedTypes = new Dictionary<string, Type>();          
         }
@@ -137,17 +137,17 @@ namespace Cryptool.Core
         }
 
         /// <summary>
-        /// Search all subdirectories for assemblies
+        /// Search for assemblies in given directory
         /// </summary>
-        /// <param name="directory">Root directory</param>
+        /// <param name="directory">directory</param>
         /// <param name="state">Search for all or only for signed assemblies</param>
         /// <param name="foundAssemblies">list of found assemblies</param>
         private void FindAssemblies(DirectoryInfo directory, AssemblySigningRequirement state, Dictionary<string, Assembly> foundAssemblies)
         {
-            foreach (DirectoryInfo subDirectory in directory.GetDirectories())
-            {
-                FindAssemblies(subDirectory, state, foundAssemblies);
-            }
+            //foreach (DirectoryInfo subDirectory in directory.GetDirectories())
+            //{
+            //    FindAssemblies(subDirectory, state, foundAssemblies);
+            //}
 
             int currentPosition = 0;
             foreach (FileInfo fileInfo in directory.GetFiles("*.dll"))
