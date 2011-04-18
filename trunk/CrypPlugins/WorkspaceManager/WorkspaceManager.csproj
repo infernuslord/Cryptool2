@@ -101,6 +101,9 @@
     <Compile Include="View\BinVisual\BinSettingsVisual.xaml.cs">
       <DependentUpon>BinSettingsVisual.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\BinVisual\BinWindowVisual.xaml.cs">
+      <DependentUpon>BinWindowVisual.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Container\IControlPlaceHolder.xaml.cs">
       <DependentUpon>IControlPlaceHolder.xaml</DependentUpon>
     </Compile>
@@ -197,6 +200,10 @@
     <Page Include="View\BinVisual\BinSettingsVisual.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\BinVisual\BinWindowVisual.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Container\IControlPlaceHolder.xaml">
       <SubType>Designer</SubType>
