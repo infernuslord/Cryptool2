@@ -33,8 +33,8 @@
                 <ColumnDefinition />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <Button Content="Report this error" Margin="5" Click="Button_Click" />
-            <Button Content="Close" Margin="5" IsDefault="True" Click="Button_Click_1" Grid.Column="2" Width="50" />
+            <Button Content="Report this error" Margin="5" Click="ReportButtonClick" />
+            <Button Content="Close" Margin="5" IsDefault="True" Click="CloseButtonClick" Grid.Column="2" Width="50" />
         </Grid>
     </Grid>
 </Window>

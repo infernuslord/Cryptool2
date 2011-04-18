@@ -36,13 +36,14 @@ namespace Cryptool.Core
             StackTraceBox.Text = e.StackTrace;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs routedEventArgs)
+        private void ReportButtonClick(object sender, RoutedEventArgs routedEventArgs)
         {
             var reportErrorDialog = new ReportErrorDialog(_e, _version, _buildType, _productName);
             reportErrorDialog.ShowDialog();
+            Close(); // auto-close this window after ReportErrorDialog has been closed
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs routedEventArgs)
+        private void CloseButtonClick(object sender, RoutedEventArgs routedEventArgs)
         {
             Close();
         }

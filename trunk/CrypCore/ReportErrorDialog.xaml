@@ -22,8 +22,8 @@
         <TextBox Name="SendInformations" Grid.Row="5" IsReadOnly="True" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Auto" />
 
         <StackPanel Orientation="Horizontal" Grid.Row="6" HorizontalAlignment="Right">
-            <Button Content="Send" Margin="5" IsDefault="True" Click="Button_Click" Width="60" />
-            <Button Content="Cancel" Margin="5" Click="Button_Click_1" Width="50" />
+            <Button Content="Send" Margin="5" IsDefault="True" Click="SendButtonClick" Width="60" />
+            <Button Content="Cancel" Margin="5" Click="CancelButtonClick" Width="50" />
         </StackPanel>
     </Grid>
 </Window>
