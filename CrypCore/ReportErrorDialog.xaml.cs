@@ -39,27 +39,22 @@ namespace Cryptool.Core
             UpdateSendInformationsBox();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs routedEventArgs)
+        private void SendButtonClick(object sender, RoutedEventArgs routedEventArgs)
         {
-            var button = MessageBoxButton.YesNo;
-            var icon = MessageBoxImage.Question;
-            var res = MessageBox.Show("Are you sure you want to report these error informations to the CrypTool 2.0 developers?", "Report error", button, icon);
-            if (res == MessageBoxResult.Yes)
+            // User clicked on "report" and then "send" at this point. Attempt to send mail.
+            try
             {
-                try
-                {
-                    Mailer.SendMailToCoreDevs("Crash report!", SendInformations.Text);
-                    MessageBox.Show("The error has been reported. Thank you!", "Reporting done");
-                    Close();
-                }
-                catch (Exception)
-                {
-                    MessageBox.Show("Error trying to report!", "Reporting failed");
-                }
+                Mailer.SendMailToCoreDevs("Crash report!", SendInformations.Text);
+                MessageBox.Show("The error has been reported. Thank you!", "Reporting done");
+                Close();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(string.Format("Reporting failed: {0}. Please try again later.", e.Message), "Reporting failed");
             }
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs routedEventArgs)
+        private void CancelButtonClick(object sender, RoutedEventArgs routedEventArgs)
         {
             Close();
         }
