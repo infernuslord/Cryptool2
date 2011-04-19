@@ -101,8 +101,8 @@
     <Compile Include="View\BinVisual\BinSettingsVisual.xaml.cs">
       <DependentUpon>BinSettingsVisual.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\BinVisual\BinWindowVisual.xaml.cs">
-      <DependentUpon>BinWindowVisual.xaml</DependentUpon>
+    <Compile Include="View\BinVisual\BinImageVisual.xaml.cs">
+      <DependentUpon>BinImageVisual.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Container\IControlPlaceHolder.xaml.cs">
       <DependentUpon>IControlPlaceHolder.xaml</DependentUpon>
@@ -139,9 +139,11 @@
     <Compile Include="View\VisualComponents\CryptoLineView\PowerCollections\Strings.cs" />
     <Compile Include="View\VisualComponents\CryptoLineView\PowerCollections\Triple.cs" />
     <Compile Include="View\VisualComponents\CryptoLineView\PowerCollections\Util.cs" />
+    <Compile Include="View\VisualComponents\CryptoLineView\PriorityQueue.cs" />
     <Compile Include="View\VisualComponents\CryptoLineView\QuadTree\IHasRect.cs" />
     <Compile Include="View\VisualComponents\CryptoLineView\QuadTree\QuadTree.cs" />
     <Compile Include="View\VisualComponents\CryptoLineView\QuadTree\QuadTreeNode.cs" />
+    <Compile Include="View\VisualComponents\CryptoLineView\SpatialAStar.cs" />
     <Compile Include="View\VisualComponents\CryptoLineView\StackFrameDijkstra\Dijkstra.cs" />
     <Compile Include="View\VisualComponents\CryptoLineView\FromTo.cs" />
     <Compile Include="View\VisualComponents\ModifiedCanvas\ModifiedCanvas.cs" />
@@ -201,7 +203,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\BinVisual\BinWindowVisual.xaml">
+    <Page Include="View\BinVisual\BinImageVisual.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
