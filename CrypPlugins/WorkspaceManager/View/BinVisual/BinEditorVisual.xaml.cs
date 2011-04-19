@@ -521,7 +521,7 @@ namespace WorkspaceManager.View.BinVisual
 
         private void AddImageHandler(object sender, ImageSelectedEventArgs e)
         {
-
+            VisualCollection.Add(new BinImageVisual((ImageModel)Model.ModifyModel(new NewImageModelOperation(e.uri))));
         }
 
         private void FitToScreenHandler(object sender, FitToScreenEventArgs e)
