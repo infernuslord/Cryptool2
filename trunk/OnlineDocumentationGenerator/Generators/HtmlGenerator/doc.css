@@ -30,19 +30,25 @@ hr {
 	height:32;
 }
 
-table, .section {
+.section {
 	margin-left:30px;
 }
 
-table, td, th {
+table{
+	-moz-border-radius: 0.5em;
+	border-radius: 0.5em;
 	width: 80%;
-	border-collapse:collapse;
+	margin-left:30px;
+	border: 1px solid black;	
+}
+
+td, th {
 	border: 1px solid black;
 	background-color:#E6EDF5;
-	padding:5px;
+	padding:5px;	
 	font-family: Verdana, sans-serif, Helvetica,  Arial ;
 	font-size: 12px;
-	color: #666666;
+	color: #666666;	
 }
 th {
 	background-color:#D6DDE5
@@ -76,3 +82,9 @@ a:focus {
 	text-decoration:		none;
 	color:					#000000;
 }
+
+#ecken img { position:absolute; }
+#ecken img.eck1 { top:0; left:0; }
+#ecken img.eck2 { top:0; right:0; }
+#ecken img.eck3 { bottom:0; left:0; }
+#ecken img.eck4 { bottom:0; right:0; }
