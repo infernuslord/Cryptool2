@@ -142,11 +142,9 @@
     <Compile Include="View\VisualComponents\CryptoLineView\PowerCollections\Strings.cs" />
     <Compile Include="View\VisualComponents\CryptoLineView\PowerCollections\Triple.cs" />
     <Compile Include="View\VisualComponents\CryptoLineView\PowerCollections\Util.cs" />
-    <Compile Include="View\VisualComponents\CryptoLineView\PriorityQueue.cs" />
     <Compile Include="View\VisualComponents\CryptoLineView\QuadTree\IHasRect.cs" />
     <Compile Include="View\VisualComponents\CryptoLineView\QuadTree\QuadTree.cs" />
     <Compile Include="View\VisualComponents\CryptoLineView\QuadTree\QuadTreeNode.cs" />
-    <Compile Include="View\VisualComponents\CryptoLineView\SpatialAStar.cs" />
     <Compile Include="View\VisualComponents\CryptoLineView\StackFrameDijkstra\Dijkstra.cs" />
     <Compile Include="View\VisualComponents\CryptoLineView\FromTo.cs" />
     <Compile Include="View\VisualComponents\ModifiedCanvas\ModifiedCanvas.cs" />
