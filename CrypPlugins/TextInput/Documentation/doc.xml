@@ -56,12 +56,5 @@
   <presentation lang="en">
     This section should describe the presentation of textinput if necessary.
   </presentation>
-
-  <templates>
-    <template path="WorkspaceManagerSamples\Text_Sample.cwm">
-      <description lang="en">Good template!</description>
-      <description lang="de-DE">Schöne Vorlage!</description>
-    </template>
-  </templates>
   
 </documentation>
