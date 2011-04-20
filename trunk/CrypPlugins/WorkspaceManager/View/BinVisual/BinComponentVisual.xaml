@@ -152,7 +152,7 @@
             <TextBlock Text="Drag"></TextBlock>
         </DataTemplate>
 
-        <ControlTemplate x:Key="CtrlTemplate" TargetType="{x:Type Button}">
+        <ControlTemplate x:Key="CtrlTemplate" TargetType="{x:Type ButtonBase}">
             <Border x:Name="Border" BorderThickness="1" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}">
                 <Image Source="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Tag.Source}" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}"></Image>
             </Border>
@@ -268,7 +268,7 @@
             <Setter Property="Template" Value="{StaticResource ResourceKey=CtrlTemplate}"></Setter>
         </Style>
 
-        <Style TargetType="{x:Type Button}" x:Key="ICMButtonStyle">
+        <Style TargetType="{x:Type ToggleButton}" x:Key="ICMButtonStyle">
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Path=IsICMaster, Mode=OneWay}" Value="False">
                     <Setter Property="Visibility" Value="Collapsed"></Setter>
@@ -392,13 +392,13 @@
             </Button>
         </x:Array>
 
-        <x:Array Type="{x:Type Button}" x:Key="Operations">
-            <Button Style="{StaticResource ResourceKey=ICMButtonStyle}" Click="ActionHandler">
-                <Button.Tag>
+        <x:Array Type="{x:Type ButtonBase}" x:Key="Operations">
+            <ToggleButton x:Name="IControlButton" Style="{StaticResource ResourceKey=ICMButtonStyle}">
+                <ToggleButton.Tag>
                     <Image Source="/WorkspaceManager;component/View/Image/icm.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"/>
-                </Button.Tag>
+                </ToggleButton.Tag>
                 <sys:Boolean>True</sys:Boolean>
-            </Button>
+            </ToggleButton>
 
             <Button Style="{StaticResource ResourceKey=RepeatableButtonStyle}" Click="RepeatHandler"></Button>
 
@@ -560,8 +560,11 @@
                              Text="{Binding Path=CustomName, Mode=TwoWay}" Width="{Binding ElementName=Window, Path=ActualWidth}"
                              Grid.Row="2"></local:CustomTextBox>
         <!--##########/Name##########-->
+
+        <local:BinIControlVisual IsOpen="false" StaysOpen="True"
+                                 IControlList="{Binding Path=IControlCollection}"></local:BinIControlVisual>
         
-        <Popup x:Name="IControlPopUp" PopupAnimation="Fade" StaysOpen="True" Placement="MousePoint" AllowsTransparency="True" Width="150" Height="100">
+        <!--<Popup x:Name="IControlPopUp" PopupAnimation="Fade" StaysOpen="True" Placement="MousePoint" AllowsTransparency="True" Width="150" Height="100">
             <Border BorderBrush="#aaffe154" Background="#55ffe154" CornerRadius="5,5,5,5" BorderThickness="2">
                 <DockPanel x:Name="IC" DockPanel.Dock="Top">
                     <Grid DockPanel.Dock="Top">
@@ -585,6 +588,6 @@
                     </Grid>
                 </DockPanel>
             </Border>
-        </Popup>
+        </Popup>-->
     </Grid>
 </UserControl>
