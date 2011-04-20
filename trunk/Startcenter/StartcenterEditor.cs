@@ -71,6 +71,7 @@ namespace StartCenter
             _startcenter.OnOpenEditor += (content, title) => OnOpenEditor(content, title);
             _startcenter.OnOpenTab += (content, title, parent) => OnOpenTab(content, title, parent);
             _startcenter.TemplatesDir = _samplesDir;
+            OnProjectTitleChanged(this, "Startcenter");
         }
 
         public void Dispose()

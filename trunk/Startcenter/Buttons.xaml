@@ -51,7 +51,7 @@
                 <Image Stretch="Fill" Source="/Startcenter;component/peer2peer-disconnect.png" />
             </Button.Content>
         </Button>
-        <Label Grid.Column="1" Grid.Row="3" Content="Connect to network to use distributed cryptoanalysis." VerticalAlignment="Center" />
+        <Label Grid.Column="1" Grid.Row="3" Content="Connect to network to use distributed cryptanalysis." VerticalAlignment="Center" />
 
         <Button Grid.Column="0" Grid.Row="4" Click="WebpageButton_Click">
             <Button.Content>
