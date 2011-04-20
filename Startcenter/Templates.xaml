@@ -65,8 +65,7 @@
             </TextBox.Style>
         </TextBox>
 
-
-        <TreeView Name="TemplatesTreeView" Grid.Row="1" Background="#00000000" Height="250" />
-        <ListBox Name="TemplatesListBox" Grid.Row="1" Background="#00000000" Height="250" Visibility="Hidden" />
+        <TreeView Name="TemplatesTreeView" Grid.Row="1" Background="#00000000" />
+        <ListBox Name="TemplatesListBox" Grid.Row="1" Background="#00000000" Visibility="Hidden" />
     </Grid>
 </UserControl>

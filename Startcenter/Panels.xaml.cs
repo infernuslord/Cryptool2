@@ -12,32 +12,31 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Cryptool.PluginBase;
-using Cryptool.PluginBase.Editor;
 
 namespace Startcenter
 {
     /// <summary>
-    /// Interaction logic for Startcenter.xaml
+    /// Interaction logic for Panels.xaml
     /// </summary>
-    public partial class Startcenter : UserControl
+    public partial class Panels : UserControl
     {
         public string TemplatesDir
         {
-            set 
+            set
             {
-                ((Panels)panels.Children[0]).TemplatesDir = value;
+                ((Templates)templates.Child).TemplatesDir = value;
             }
         }
 
         public event OpenEditorHandler OnOpenEditor;
         public event OpenTabHandler OnOpenTab;
 
-        public Startcenter()
+        public Panels()
         {
             InitializeComponent();
-            ((Buttons)buttons.Content).OnOpenEditor += (content, title) => OnOpenEditor(content, title);
-            ((Panels)panels.Children[0]).OnOpenEditor += (content, title) => OnOpenEditor(content, title);
-            ((Panels)panels.Children[0]).OnOpenTab += (content, title, parent) => OnOpenTab(content, title, parent);
+            ((LastOpenedFilesList)lastOpenedFilesList.Child).OnOpenEditor += (content, title) => OnOpenEditor(content, title);
+            ((Templates)templates.Child).OnOpenEditor += (content, title) => OnOpenEditor(content, title);
+            ((Templates)templates.Child).OnOpenTab += (content, title, parent) => OnOpenTab(content, title, parent);
         }
     }
 }

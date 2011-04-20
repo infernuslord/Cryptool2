@@ -35,44 +35,22 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition Width="5"/>
-                <ColumnDefinition Width="520" />
-            </Grid.ColumnDefinitions>            
-            
-            <Border>
-                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Name="buttons">
-                    <Startcenter:Buttons/>
-                </ScrollViewer>
-            </Border>
+                <ColumnDefinition Width="500" />
+            </Grid.ColumnDefinitions>
+
+            <Grid Name="panels" Grid.Column="0">
+                <Startcenter:Panels/>
+            </Grid>
 
             <GridSplitter Grid.Column="1" Width="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#FFAEBBD4" HorizontalContentAlignment="Center" />
 
-            <ScrollViewer Grid.Column="2" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-                <WrapPanel Orientation="Horizontal">
-                    <Expander IsExpanded="True" Header="Templates:" Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=ScrollViewer, AncestorLevel=1}, Path=ActualWidth}" MinWidth="250" MaxWidth="500">
-                        <Border Name="templates">
-                            <Startcenter:Templates />
-                        </Border>
-                    </Expander>
-                    
-                    <Expander IsExpanded="True" Header="Last opened files:" Width="250">
-                        <Border Name="lastOpenedFilesList">
-                            <Startcenter:LastOpenedFilesList/>
-                        </Border>
-                    </Expander>
-                    <Expander IsExpanded="True" Header="News:" Width="250">
-                        <Border>
-                            <Label>
-                                <Label.Content>
-                                    <TextBlock TextWrapping="Wrap">
-                                        Add some useful stuff here! For instance, an <Bold>RSS newsfeed</Bold> like in the VS2010 startcenter would be cool. 
-                                        Unfortunately, CT2 doesn't have one.
-                                    </TextBlock>
-                                </Label.Content>                            
-                            </Label>
-                        </Border>
-                    </Expander>                    
-                </WrapPanel>
-            </ScrollViewer>
+            <Expander IsExpanded="true" Grid.Column="2" Header="Main Functions:">
+                <Border>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Name="buttons">
+                        <Startcenter:Buttons/>
+                    </ScrollViewer>
+                </Border>
+            </Expander>
         </Grid>
 
         <CheckBox Content="Do not show this at startup!" Margin="5" VerticalAlignment="Center" Grid.Row="3" />        
