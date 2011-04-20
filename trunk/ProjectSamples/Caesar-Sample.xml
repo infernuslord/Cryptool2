@@ -16,5 +16,6 @@
 	
 	<relevantPlugins>
 		<plugin name="Caesar"/>
+		<plugin name="TextInput"/>
 	</relevantPlugins>
 </sample>
