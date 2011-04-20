@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.IO;
@@ -64,32 +65,16 @@ namespace Startcenter
         public FileInfo File { get; set; }
         public string Title { get; set; }
 
-        public CTTreeViewItem(FileInfo file, string title, string description, ImageSource image)
+        public CTTreeViewItem(FileInfo file, string title, Inline description, ImageSource image)
         {
             this.File = file;
             this.Title = title;
             this.Icon = image;
             this.Tag = new KeyValuePair<string, string>(file.FullName, title);
-            SetTooltip(description);
+            var tooltipBlock = new TextBlock(description) {TextWrapping = TextWrapping.Wrap, MaxWidth = 400};
+            this.ToolTip = tooltipBlock;
 
             InitializeComponent();
-        }
-
-        private void SetTooltip(string description)
-        {
-            try
-            {
-                string xamlTooltipTextBlockCode = string.Format("<TextBlock xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\" "
-                                                                + "TextWrapping=\"Wrap\" MaxWidth=\"400\"> {0} </TextBlock>", description.Trim());
-                var tooltipTextBlock = (TextBlock)System.Windows.Markup.XamlReader.Parse(xamlTooltipTextBlockCode);
-                this.ToolTip = tooltipTextBlock;
-            }
-            catch (Exception)
-            {
-                var tooltipTextBlock = new TextBlock { Text = description.Trim(), TextWrapping = TextWrapping.Wrap };
-                tooltipTextBlock.MaxWidth = 400;
-                this.ToolTip = tooltipTextBlock;
-            }
         }
 
         public CTTreeViewItem(string title, bool isDirectory)

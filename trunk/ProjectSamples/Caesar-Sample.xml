@@ -4,17 +4,17 @@
 	<title lang="de">Caesar-Chiffre</title>
 	
 	<description lang="en">
-<![CDATA[
-This template shows how to use the <Italic>Caesar-cipher</Italic>.
-In cryptography, a Caesar cipher, also known as a Caesar's cipher, the shift cipher, Caesar's code or Caesar shift, is one of the simplest and most widely known encryption techniques. It is a type of substitution cipher in which each letter in the plaintext is replaced by a letter some fixed number of positions down the alphabet. For example, with a shift of 3, A would be replaced by D, B would become E, and so on. The method is named after Julius Caesar, who used it to communicate with his generals. [Source: <Hyperlink NavigateUri="http://wikipedia.org">Wikipedia</Hyperlink>]
-]]>
+		This template shows how to use the <i>Caesar-cipher</i>. <newline/>
+		In cryptography, a Caesar cipher, also known as a Caesar's cipher, the shift cipher, Caesar's code or Caesar shift, is one of the simplest and most widely known encryption techniques. It is a type of substitution cipher in which each letter in the plaintext is replaced by a letter some fixed number of positions down the alphabet. For example, with a shift of 3, A would be replaced by D, B would become E, and so on. The method is named after Julius Caesar, who used it to communicate with his generals. [Source: <external ref="http://wikipedia.org">Wikipedia</external>]
 	</description>
 	<description lang="de">
-<![CDATA[
-Diese Vorlage zeigt die Verwendung der <Italic>Caesar-Ver-/Entschlüsselung</Italic>.
-Die Caesar-Verschlüsselung (auch als Caesar-Verschiebung, Verschiebechiffre oder als „Einfacher Caesar“ bezeichnet) ist ein besonders simpler Sonderfall einer einfachen (das heißt monographischen) monoalphabetischen Substitution. Zum Zwecke der Verschlüsselung wird dabei jeder Buchstabe des lateinischen Standardalphabets um eine bestimmte Anzahl von Positionen zyklisch verschoben (rotiert). Die Anzahl bestimmt den Schlüssel, der für die gesamte Verschlüsselung unverändert bleibt. Es ist eine der einfachsten und unsichersten Formen einer Geheimschrift. [Quelle: <Hyperlink NavigateUri="http://wikipedia.org">Wikipedia</Hyperlink>]
-]]>
+		Diese Vorlage zeigt die Verwendung der <i>Caesar-Ver-/Entschlüsselung</i>. <newline/>
+		Die Caesar-Verschlüsselung (auch als Caesar-Verschiebung, Verschiebechiffre oder als „Einfacher Caesar“ bezeichnet) ist ein besonders simpler Sonderfall einer einfachen (das heißt monographischen) monoalphabetischen Substitution. Zum Zwecke der Verschlüsselung wird dabei jeder Buchstabe des lateinischen Standardalphabets um eine bestimmte Anzahl von Positionen zyklisch verschoben (rotiert). Die Anzahl bestimmt den Schlüssel, der für die gesamte Verschlüsselung unverändert bleibt. Es ist eine der einfachsten und unsichersten Formen einer Geheimschrift. [Quelle: <external ref="http://wikipedia.org">Wikipedia</external>]
 	</description>
 	
 	<icon file="Caesar-Sample.png"/>
+	
+	<relevantPlugins>
+		<plugin name="Caesar"/>
+	</relevantPlugins>
 </sample>

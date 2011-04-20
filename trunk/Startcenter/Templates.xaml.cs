@@ -90,24 +90,38 @@ namespace Startcenter
             {
                 bool cte = (file.Extension.ToLower() == ".cte");
                 string title = null;
-                string description = null;
+                Inline description1 = null;
+                Inline description2 = null;
                 string xmlFile = Path.Combine(file.Directory.FullName, file.Name.Substring(0, file.Name.Length - 4) + ".xml");
                 string iconFile = null;
                 if (File.Exists(xmlFile))
                 {
                     XElement xml = XElement.Load(xmlFile);
-                    title = GetGlobalizedElementFromXML(xml, "title");
-                    description = GetGlobalizedElementFromXML(xml, "description");
+                    var titleElement = GetGlobalizedElementFromXML(xml, "title");
+                    if (titleElement != null)
+                        title = titleElement.Value;
+
+                    var descriptionElement = GetGlobalizedElementFromXML(xml, "description");
+                    if (descriptionElement != null)
+                    {
+                        description1 = ConvertFormattedXElement(descriptionElement);
+                        description2 = ConvertFormattedXElement(descriptionElement);
+                    }
+
                     if (xml.Element("icon") != null && xml.Element("icon").Attribute("file") != null)
                         iconFile = Path.Combine(file.Directory.FullName, xml.Element("icon").Attribute("file").Value);
                 }
                 if (title == null)
                 {
                     title = file.Name.Remove(file.Name.Length - 4).Replace("-", " ").Replace("_", " ");
+                    string desc = null;
                     if (cte)
-                        description = "This is an AnotherEditor template.";
+                        desc = "This is an AnotherEditor template.";
                     else
-                        description = "This is a WorkspaceManager template.";
+                        desc = "This is a WorkspaceManager template.";
+                    
+                    description1 = new Run(desc);
+                    description2 = new Run(desc);
                 }
 
                 if (iconFile == null || !File.Exists(iconFile))
@@ -123,17 +137,89 @@ namespace Startcenter
                     image = editorType.GetImage(0).Source;
                 }
 
-                ListBoxItem searchItem = CreateTemplateListBoxItem(file, title, description, image);
+                ListBoxItem searchItem = CreateTemplateListBoxItem(file, title, description1, image);
                 TemplatesListBox.Items.Add(searchItem);
 
-                CTTreeViewItem item = new CTTreeViewItem(file, title, description, image) { Background = bg };
+                CTTreeViewItem item = new CTTreeViewItem(file, title, description2, image) { Background = bg };
                 ToolTipService.SetShowDuration(item, Int32.MaxValue);
                 item.MouseDoubleClick += TemplateItemDoubleClick;
                 parent.Items.Add(item);
             }
         }
 
-        private ListBoxItem CreateTemplateListBoxItem(FileInfo file, string title, string tooltip, ImageSource imageSource)
+        private Inline ConvertFormattedXElement(XElement xelement)
+        {
+            var span = new Span();
+
+            foreach (var node in xelement.Nodes())
+            {
+                if (node is XText)
+                {
+                    var lines = ((XText) node).Value.Split('\n');
+                    var line = lines.Aggregate((a, b) => a + b.Trim());
+                    span.Inlines.Add(new Run(line));
+                }
+                else if (node is XElement)
+                {
+                    var nodeName = ((XElement)node).Name.ToString();
+                    switch (nodeName)
+                    {
+                        case "b":
+                            var nodeRep = ConvertFormattedXElement((XElement)node);
+                            span.Inlines.Add(new Bold(nodeRep));
+                            break;
+                        case "i":
+                            nodeRep = ConvertFormattedXElement((XElement)node);
+                            span.Inlines.Add(new Italic(nodeRep));
+                            break;
+                        case "u":
+                            nodeRep = ConvertFormattedXElement((XElement)node);
+                            span.Inlines.Add(new Underline(nodeRep));
+                            break;
+                        case "newline":
+                            span.Inlines.Add(new LineBreak());
+                            break;
+                        case "external":
+                            var reference = ((XElement)node).Attribute("ref");
+                            if (reference != null)
+                            {
+                                var linkText = ConvertFormattedXElement((XElement)node);
+                                if (linkText == null)
+                                {
+                                    linkText = new Run(reference.Value);
+                                }
+                                var link = new Hyperlink(linkText);
+                                link.NavigateUri = new Uri(reference.Value);
+                                span.Inlines.Add(link);
+                            }
+                            break;
+                        case "pluginRef":
+                            var plugin = ((XElement)node).Attribute("plugin");
+                            if (plugin != null)
+                            {
+                                var linkText = ConvertFormattedXElement((XElement)node);
+                                if (linkText == null)
+                                {
+                                    linkText = new Run(plugin.Value);
+                                }
+                                span.Inlines.Add(linkText);
+                            }
+                            break;
+                        default:
+                            continue;
+                    }
+                }
+            }
+
+            if (span.Inlines.Count == 0)
+                return null;
+            if (span.Inlines.Count == 1)
+                return span.Inlines.First();
+
+            return span;
+        }
+
+        private ListBoxItem CreateTemplateListBoxItem(FileInfo file, string title, Inline tooltip, ImageSource imageSource)
         {
             Image image = new Image();
             image.Source = imageSource;
@@ -156,20 +242,8 @@ namespace Startcenter
             navItem.Tag = new KeyValuePair<string, string>(file.FullName, title);
 
             navItem.MouseDoubleClick += TemplateItemDoubleClick;
-
-            try
-            {
-                string xamlTooltipTextBlockCode = string.Format("<TextBlock xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\" "
-                                                                    + "TextWrapping=\"Wrap\" MaxWidth=\"400\"> {0} </TextBlock>", tooltip.Trim());
-                var tooltipTextBlock = (TextBlock)System.Windows.Markup.XamlReader.Parse(xamlTooltipTextBlockCode);
-                navItem.ToolTip = tooltipTextBlock;
-            }
-            catch (Exception)
-            {
-                var tooltipTextBlock = new TextBlock { Text = tooltip.Trim(), TextWrapping = TextWrapping.Wrap };
-                tooltipTextBlock.MaxWidth = 400;
-                navItem.ToolTip = tooltipTextBlock;
-            }
+            var tooltipBlock = new TextBlock(tooltip) { TextWrapping = TextWrapping.Wrap, MaxWidth = 400 };
+            navItem.ToolTip = tooltipBlock;
 
             ToolTipService.SetShowDuration(navItem, Int32.MaxValue);
             return navItem;
@@ -204,7 +278,7 @@ namespace Startcenter
             }
         }
 
-        private string GetGlobalizedElementFromXML(XElement xml, string element)
+        private XElement GetGlobalizedElementFromXML(XElement xml, string element)
         {
             CultureInfo currentLang = System.Globalization.CultureInfo.CurrentCulture;
 
@@ -225,12 +299,12 @@ namespace Startcenter
             if (foundElements == null || !foundElements.Any())
             {
                 if (xml.Element(element) != null)
-                    return xml.Element(element).Value;
+                    return xml.Element(element);
                 else
                     return null;
             }
 
-            return foundElements.First().Value;
+            return foundElements.First();
         }
 
         private void TemplateSearchInputChanged(object sender, TextChangedEventArgs e)
