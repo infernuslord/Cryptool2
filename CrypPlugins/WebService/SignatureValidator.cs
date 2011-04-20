@@ -213,14 +213,8 @@ namespace WebService
             XmlNodeList signatureList = this._inputDocument.GetElementsByTagName("ds:Signature");
             if (signatureList.Count != 0)
             {
-               
-                this._signedXml.LoadXml((XmlElement)signatureElement);
 
-                SignedXml hua = new SignedXml((XmlElement) signatureElement);
-        //      this._inputDocument.NameTable.Add(
-                hua.LoadXml((XmlElement)signatureElement);
-              
-                bool validReference = ValidateReferences(_signedXml);
+                bool validReference = ValidateReferences(this._signedXml);
                 if (validReference)
                 {
                     this.CanonicalizeSignedInfo(signature.SignedInfo.GetXml());

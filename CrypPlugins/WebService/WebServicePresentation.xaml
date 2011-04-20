@@ -35,9 +35,10 @@
                         <ColumnDefinition Width="5"/>
                         <ColumnDefinition Width="1*"/>
                     </Grid.ColumnDefinitions>
-
-                    <TreeView Name="_animationTreeView" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" Margin="41,0,0,0" Width="Auto" />
-                    <GridSplitter HorizontalAlignment="Right" VerticalAlignment="Stretch"  Grid.Column="1" ResizeBehavior="PreviousAndNext"   Width="5" Background="#FFBCBCBC"/>
+                        <ScrollViewer Name="_scrollViewer">
+                            <TreeView Name="_animationTreeView" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" Margin="41,0,0,0" Width="Auto" Height="425" />
+                        </ScrollViewer>
+                        <GridSplitter HorizontalAlignment="Right" VerticalAlignment="Stretch"  Grid.Column="1" ResizeBehavior="PreviousAndNext"   Width="5" Background="#FFBCBCBC"/>
 
 
                     <TextBox  Name="_animationStepsTextBox" Grid.Column="2" Margin="6,0,6,69" HorizontalScrollBarVisibility="Auto" />
@@ -47,7 +48,7 @@
                             <Button Height="23" Name="button1" Width="75" Click="Button1Click3EventHandler" VerticalContentAlignment="Center" Canvas.Left="16" Canvas.Top="17" HorizontalAlignment="Center" Grid.Column="2" Margin="0,0,103,22" VerticalAlignment="Bottom" HorizontalContentAlignment="Center">Play</Button>
                         <Button Name="resetButton" Width="75" Height="23.338" Click="ResetButtonClickEventHandler" VerticalContentAlignment="Center" Canvas.Left="109" Canvas.Top="17" HorizontalAlignment="Right" Grid.Column="2" Margin="0,0,6,22" VerticalAlignment="Bottom">Reset</Button>
                         </Canvas>
-                        <Image Height="29" HorizontalAlignment="Left" Name="_arrowImage" Stretch="Fill" VerticalAlignment="Top" Width="35" Source="/WebService;component/Images/Arrow.jpg" Opacity="1" ClipToBounds="True" OpacityMask="Black" />
+                        <Image Height="29" HorizontalAlignment="Left" Name="_arrowImage" Stretch="Fill" VerticalAlignment="Top" Width="35" Source="/WebService;component/Images/Arrow.jpg" Opacity="1" ClipToBounds="True" OpacityMask="Black" Margin="6,0,0,0" />
                     </Grid>
                    </ScrollViewer>
             </TabItem>
