@@ -9,11 +9,53 @@ using System.Windows.Media;
 using System.Runtime.InteropServices;
 using WorkspaceManager.View.VisualComponents;
 using System.Windows.Controls.Primitives;
+using Cryptool.PluginBase.Control;
+using Cryptool.PluginBase;
+using System.Reflection;
 
 namespace WorkspaceManager.View.Base
 {
     public class Util
     {
+        private static Dictionary<string, HashSet<KeyValuePair<string, string>>> iControl = new Dictionary<string, HashSet<KeyValuePair<string, string>>>();
+
+        static Util()
+        {
+            //foreach(var t in DragDropDataObjectToPluginConverter.PluginManager.LoadedTypes.Values)
+            //{
+            //    var properties = t.CreateObject().GetProperties();
+
+            //    foreach (var info in properties)
+            //    {
+            //        string typeString = info.PropertyInfo.PropertyType.FullName;
+
+            //        if(info.Direction == Direction.ControlSlave)
+            //        {
+            //            if (!(iControl.Keys.Contains(typeString)))
+            //                iControl.Add(typeString, new HashSet<KeyValuePair<string, string>>());
+
+            //            iControl[typeString].Add(new KeyValuePair<string,string>(t.FullName, t.AssemblyQualifiedName));
+            //        }
+            //    }
+            //}
+            Console.Out.WriteLine();            
+        }
+
+        public static List<IPlugin> GetICSlaves(string icontrolType)
+        {
+            List<IPlugin> list = null;
+            HashSet<KeyValuePair<string, string>> set;
+            if(iControl.TryGetValue(icontrolType, out set))
+            {
+                list = new List<IPlugin>();
+                foreach(var e in set)
+                {
+                    list.Add(DragDropDataObjectToPluginConverter.CreatePluginInstance(e.Key, e.Value).CreateObject());
+                }
+            }
+            return list;
+        }
+
         public static MultiBinding CreateConnectorBinding(BinConnectorVisual connectable, CryptoLineView link)
         {
             MultiBinding multiBinding = new MultiBinding();

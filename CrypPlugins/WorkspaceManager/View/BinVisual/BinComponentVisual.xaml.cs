@@ -572,12 +572,6 @@ namespace WorkspaceManager.View.BinVisual
                 return;
             }
 
-            if (b.Content is bool)
-            {
-                IControlPopUp.IsOpen = (bool)b.Content;
-                return;
-            }
-
             e.Handled = true;
         }
 
@@ -589,11 +583,11 @@ namespace WorkspaceManager.View.BinVisual
             e.Handled = true;
         }
 
-        private void ClosePopUp(object sender, RoutedEventArgs e)
-        {
-            IControlPopUp.IsOpen = false;
-            e.Handled = true;
-        }
+        //private void ClosePopUp(object sender, RoutedEventArgs e)
+        //{
+        //    IControlPopUp.IsOpen = false;
+        //    e.Handled = true;
+        //}
 
         private void PositionDragDeltaHandler(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
         {
@@ -839,16 +833,26 @@ namespace WorkspaceManager.View.BinVisual
 
     public class ConnectorModelWrapper
     {
-        public PluginModel pm { get; private set; }
+        public PluginModel PluginModel { get; private set; }
+        public ConnectorModel ConnectorModel { get; private set; }
 
-        public ConnectorModelWrapper(ConnectorModel model, PluginModel pm)
+        public ConnectorModelWrapper(ConnectorModel connectorModel, PluginModel pluginModel)
         {
-            // TODO: Complete member initialization
-            this.Model = model;
-            this.pm = pm;
+            this.ConnectorModel = connectorModel;
+            this.PluginModel = pluginModel;
         }
+    }
 
-        public ConnectorModel Model { get; private set; }
+    public class IPluginWrapper
+    {
+        public IPlugin Plugin { get; private set; }
+        public Image Image { get { return Plugin.GetImage(0); } }
+        public string ToolTip { get { return Plugin.GetPluginInfoAttribute().Caption; } }
+
+        public IPluginWrapper(IPlugin plugin)
+        {
+            this.Plugin = plugin;
+        }
     }
     #endregion
 }
