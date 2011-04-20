@@ -82,9 +82,3 @@ a:focus {
 	text-decoration:		none;
 	color:					#000000;
 }
-
-#ecken img { position:absolute; }
-#ecken img.eck1 { top:0; left:0; }
-#ecken img.eck2 { top:0; right:0; }
-#ecken img.eck3 { bottom:0; left:0; }
-#ecken img.eck4 { bottom:0; right:0; }
