@@ -39,13 +39,13 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
             }
             if (theObject is PluginTemplateList)
             {
-                return ConvertPluginTemplateList((PluginTemplateList)theObject);
+                return ConvertPluginTemplateList((PluginTemplateList)theObject, pluginDocumentationPage);
             }
 
             return theObject.ToString();
         }
 
-        private string ConvertPluginTemplateList(PluginTemplateList pluginTemplateList)
+        private string ConvertPluginTemplateList(PluginTemplateList pluginTemplateList, PluginDocumentationPage pluginDocumentationPage)
         {
             if (pluginTemplateList.Templates.Count == 0)
                 return "None";
@@ -57,10 +57,10 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
 
             foreach (var template in pluginTemplateList.Templates)
             {
-                var link = Path.Combine("..\\..\\ProjectSamples", template.Path);
+                var link = Path.Combine(Path.Combine("..\\..", DocGenerator.TemplateDirectory), template.Path);
                 var file = Path.GetFileName(template.Path);
                 codeBuilder.AppendLine(string.Format("<tr> <td><a href=\"{0}\">{1}</a></td> <td>{2}</td> </tr>",
-                    link, file, template.Description));
+                    link, file, ConvertXElement(template.Description, pluginDocumentationPage)));
             }
 
             codeBuilder.AppendLine("</table>");

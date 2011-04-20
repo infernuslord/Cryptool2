@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -79,17 +80,22 @@ namespace OnlineDocumentationGenerator
             Introduction = FindLocalizedChildElement(_xml, "introduction");
             Manual = FindLocalizedChildElement(_xml, "manual");
             Presentation = FindLocalizedChildElement(_xml, "presentation");
-            
-            var templates = _xml.Element("templates");
-            if (templates != null)
+
+            var pluginName = PluginType.Name;
+            if (DocGenerator.RelevantPluginToTemplatesMap.ContainsKey(pluginName))
             {
-                foreach (var template in templates.Elements("template"))
+                var templates = DocGenerator.RelevantPluginToTemplatesMap[pluginName];
+                foreach (var template in templates)
                 {
-                    var path = template.Attribute("path");
-                    var description = FindLocalizedChildElement(template, "description");
-                    if (path != null && description != null)
+                    string templateXmlFile = Path.Combine(DocGenerator.TemplateDirectory, template.Substring(0, template.Length - 4) + ".xml");
+                    if (File.Exists(templateXmlFile))
                     {
-                        Templates.Add(path.Value, description.Value);
+                        XElement templateXml = XElement.Load(templateXmlFile);
+                        var description = FindLocalizedChildElement(templateXml, "description");
+                        if (description != null)
+                        {
+                            Templates.Add(template, description);
+                        }
                     }
                 }
             }

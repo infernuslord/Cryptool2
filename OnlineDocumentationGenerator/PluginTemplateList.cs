@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml.Linq;
 
 namespace OnlineDocumentationGenerator
 {
@@ -10,7 +11,7 @@ namespace OnlineDocumentationGenerator
         public struct Template
         {
             public string Path { get; set; }
-            public string Description { get; set; }
+            public XElement Description { get; set; }
         }
 
         private readonly List<Template> _templates = new List<Template>();
@@ -19,7 +20,7 @@ namespace OnlineDocumentationGenerator
             get { return _templates; }
         }
 
-        public void Add(string path, string description)
+        public void Add(string path, XElement description)
         {
             Templates.Add(new Template() {Path = path, Description = description});
         }
