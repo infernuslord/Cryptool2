@@ -75,6 +75,8 @@ namespace Cryptool.Core
         /// </summary>
         private readonly Dictionary<string, Type> loadedTypes;
 
+        public Dictionary<string, Type> LoadedTypes { get { return loadedTypes; } }
+
         Dictionary<string, Assembly> foundAssemblies = new Dictionary<string, Assembly>();
         
         /// <summary>
