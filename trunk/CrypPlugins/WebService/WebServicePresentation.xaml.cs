@@ -35,6 +35,7 @@ namespace WebService
     public partial class WebServicePresentation : System.Windows.Controls.UserControl
     {
         #region Fields
+        private bool _isscrolling;
         private bool _referenceValid = true;
         private TreeViewItem _wsdlTreeViewItem;
         private TreeViewItem _soapInputItem;
@@ -224,6 +225,7 @@ namespace WebService
             this._tempReferenceCollection = new ArrayList();
             webService.Settings.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(SettingsPropertyChangedEventHandler);
             this._animationTreeView.SelectedItemChanged += new RoutedPropertyChangedEventHandler<object>(AnimationTreeViewSelectedItemChangedEventHandler);
+            this._scrollViewer.ScrollChanged += new ScrollChangedEventHandler(ScrollViewerScrollChangedEventHandler);
         }
 
 
@@ -1129,18 +1131,68 @@ namespace WebService
         }
         private void AnimationTreeViewSelectedItemChangedEventHandler(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            if ((e.NewValue as TreeViewItem) != null)
+            if (this._isscrolling)
             {
-                TreeViewItem item = e.NewValue as TreeViewItem;
-                double y = this._animationTreeView.TransformToVisual(item).Transform(new Point(0, 0)).Y;
-                if (y < 0)
+                return;
+            }
+           
+             if (e.NewValue != null)
+             {
+                 this._animationTreeView.InvalidateMeasure();
+                 GeneralTransform generalTransForm = (e.NewValue as TreeViewItem).TransformToVisual(this._animationTreeView);
+
+                 Point p = generalTransForm.Transform(new Point(0, 0));
+                 Rect p2 = generalTransForm.TransformBounds(new Rect());
+
+                 double offset = this._scrollViewer.VerticalOffset;
+         
+                 {
+                     if ((p.Y - offset) > 0)
+                     {
+                         this._arrowImage.Margin = new Thickness((e.NewValue as TreeViewItem).Margin.Left, p.Y - offset, (e.NewValue as TreeViewItem).Margin.Right, (e.NewValue as TreeViewItem).Margin.Bottom);
+                         Console.WriteLine(p.Y - offset);
+                     }
+                     else
+                     {
+                         this._arrowImage.Margin = new Thickness((e.NewValue as TreeViewItem).Margin.Left, 0, (e.NewValue as TreeViewItem).Margin.Right, (e.NewValue as TreeViewItem).Margin.Bottom);
+                     }
+                 }
+
+             }
+
+        }
+
+       private void ScrollViewerScrollChangedEventHandler(object sender, ScrollChangedEventArgs e)
+        {
+
+            this._isscrolling = true;
+
+            {
+                RoutedEventArgs args = new RoutedEventArgs(TreeViewItem.ToolTipOpeningEvent);
+
+
+                this._animationTreeView.InvalidateMeasure();
+                if (this._animationTreeView.SelectedItem != null)
                 {
-                    PropertyInfo info = (e.Source as TreeView).GetType().GetProperty("ScrollHost", (System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance));
-                    ScrollViewer viewer = info.GetValue((e.Source as TreeView), null) as ScrollViewer;
-                    this._arrowImage.Margin = new Thickness(this._arrowImage.Margin.Left, -y, this._arrowImage.Margin.Right, this._arrowImage.Margin.Bottom);
+                    GeneralTransform generalTransForm = (this._animationTreeView.SelectedItem as TreeViewItem).TransformToAncestor(this._animationTreeView);
+
+                    Point p = generalTransForm.Transform(new Point(0, 0));
+                    Rect p2 = generalTransForm.TransformBounds(new Rect());
+
+                    double offset = this._scrollViewer.VerticalOffset;
+
+                    {
+                        if ((p.Y - offset) > 0)
+                        {
+                            this._arrowImage.Margin = new Thickness((this._animationTreeView.SelectedItem as TreeViewItem).Margin.Left, p.Y - offset, (this._animationTreeView.SelectedItem as TreeViewItem).Margin.Right, (this._animationTreeView.SelectedItem as TreeViewItem).Margin.Bottom);
+                            Console.WriteLine(p.Y - offset);
+                        }
+                    }
                 }
             }
+            this._isscrolling = false;
         }
+
 
     }
 
