@@ -13,10 +13,10 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace StartCenter
 {
     [TabColor("LightSeaGreen")]
-    [EditorInfo("startcenter", true, false, false, false)]
+    [EditorInfo("startcenter", false, false, false, false)]
     [Author("Sven Rech", "rech@cryptool.org", "Universität Duisburg-Essen", "http://www.uni-due.de")]
     [PluginInfo("Startcenter.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "Startcenter/startcenter.png")]
-    class StartcenterEditor : IEditor
+    public class StartcenterEditor : IEditor
     {
         private string _samplesDir;
 
@@ -72,6 +72,7 @@ namespace StartCenter
             _startcenter.OnOpenTab += (content, title, parent) => OnOpenTab(content, title, parent);
             _startcenter.TemplatesDir = _samplesDir;
             OnProjectTitleChanged(this, "Startcenter");
+            Presentation.ToolTip = "Startcenter";
         }
 
         public void Dispose()
