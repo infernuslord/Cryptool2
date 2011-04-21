@@ -137,7 +137,7 @@ namespace WorkspaceManager
         /// <summary>
         /// Current filename
         /// </summary>
-        public string CurrentFilename { private set; get; }
+        public string CurrentFile { private set; get; }
 
         /// <summary>
         /// Called by clicking on the new button of CrypTool
@@ -149,7 +149,7 @@ namespace WorkspaceManager
             //{
             //    WorkspaceModel.deletePluginModel(pluginModel);
             //}
-            CurrentFilename = "unnamed project";
+            CurrentFile = "unnamed project";
             if (this.OnProjectTitleChanged != null)
             {
                 this.OnProjectTitleChanged.BeginInvoke(this, "unnamed project", null, null);
@@ -198,7 +198,7 @@ namespace WorkspaceManager
                 WorkspaceSpaceEditorView.Load(WorkspaceModel);
                 WorkspaceModel.UpdateableView = this.WorkspaceSpaceEditorView;
                 this.OnProjectTitleChanged.BeginInvoke(this, System.IO.Path.GetFileName(fileName), null, null);
-                CurrentFilename = fileName;
+                CurrentFile = fileName;
                 WorkspaceModel.MyEditor = this;
                 WorkspaceModel.UndoRedoManager.ClearStacks();
             }
@@ -220,7 +220,7 @@ namespace WorkspaceManager
                 GuiLogMessage("Saving Model: " + fileName, NotificationLevel.Info);
                 ModelPersistance.saveModel(this.WorkspaceModel, fileName);
                 this.OnProjectTitleChanged.BeginInvoke(this, System.IO.Path.GetFileName(fileName), null, null);
-                CurrentFilename = fileName;
+                CurrentFile = fileName;
             }
             catch (Exception ex)
             {
@@ -335,7 +335,7 @@ namespace WorkspaceManager
                 Nullable<Boolean> print = dialog.ShowDialog();
                 if (print == true)
                 {
-                    this.GuiLogMessage("Printing document \"" + this.CurrentFilename + "\" now", NotificationLevel.Info);
+                    this.GuiLogMessage("Printing document \"" + this.CurrentFile + "\" now", NotificationLevel.Info);
                     
                     PrintCapabilities capabilities = dialog.PrintQueue.GetPrintCapabilities(dialog.PrintTicket);
                     System.Windows.Size pageSize = new System.Windows.Size(dialog.PrintableAreaWidth, dialog.PrintableAreaHeight);
@@ -375,8 +375,8 @@ namespace WorkspaceManager
                         }
                         xOffset += visibleSize.Width;
                     }
-                    dialog.PrintDocument(fixedDoc.DocumentPaginator, "WorkspaceManager_" + this.CurrentFilename);
-                    this.GuiLogMessage("Printed \"" + fixedDoc.DocumentPaginator.PageCount + "\" pages of document \"" + this.CurrentFilename + "\"", NotificationLevel.Info);
+                    dialog.PrintDocument(fixedDoc.DocumentPaginator, "WorkspaceManager_" + this.CurrentFile);
+                    this.GuiLogMessage("Printed \"" + fixedDoc.DocumentPaginator.PageCount + "\" pages of document \"" + this.CurrentFile + "\"", NotificationLevel.Info);
                 }
             }
             catch (Exception ex)

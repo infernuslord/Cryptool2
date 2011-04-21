@@ -74,6 +74,8 @@ namespace Cryptool.PluginBase.Editor
         bool HasChanges { get; }
         bool CanPrint { get; }
 
+        string CurrentFile { get; }
+
         string SamplesDir { set; }
 
         /// <summary>

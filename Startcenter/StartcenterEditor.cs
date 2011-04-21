@@ -227,6 +227,11 @@ namespace StartCenter
             get { return false; }
         }
 
+        public string CurrentFile
+        {
+            get { return null; }
+        }
+
         public string SamplesDir
         {
             set { _samplesDir = value; }

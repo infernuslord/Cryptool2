@@ -220,6 +220,11 @@ namespace Wizard
             get { return false; }
         }
 
+        public string CurrentFile
+        {
+            get { return null; }
+        }
+
         public string SamplesDir
         {
             set { wizardControl.SamplesDir = value; }
