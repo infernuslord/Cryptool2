@@ -13,7 +13,7 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace StartCenter
 {
     [TabColor("LightSeaGreen")]
-    [EditorInfo("startcenter", false, false, false, false)]
+    [EditorInfo("startcenter", false, false, false, false, true)]
     [Author("Sven Rech", "rech@cryptool.org", "Universität Duisburg-Essen", "http://www.uni-due.de")]
     [PluginInfo("Startcenter.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "Startcenter/startcenter.png")]
     public class StartcenterEditor : IEditor
@@ -24,6 +24,14 @@ namespace StartCenter
         public event StatusChangedEventHandler OnPluginStatusChanged;
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
         public event PluginProgressChangedEventHandler OnPluginProgressChanged;
+
+        public delegate void StartupBehaviourChangedHandler(bool showOnStartup);
+        public static event StartupBehaviourChangedHandler StartupBehaviourChanged;
+
+        public bool ShowOnStartup
+        {
+            set { _startcenter.StartupCheckbox.IsChecked = !value; }
+        }
 
         public ISettings Settings
         {
@@ -68,9 +76,11 @@ namespace StartCenter
 
         public void Initialize()
         {
+            _startcenter.StartupBehaviourChanged += (showOnStartup) => StartupBehaviourChanged(showOnStartup);
             _startcenter.OnOpenEditor += (content, title) => OnOpenEditor(content, title);
             _startcenter.OnOpenTab += (content, title, parent) => OnOpenTab(content, title, parent);
             _startcenter.TemplatesDir = _samplesDir;
+
             OnProjectTitleChanged(this, "Startcenter");
             Presentation.ToolTip = "Startcenter";
         }

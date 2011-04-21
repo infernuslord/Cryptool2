@@ -53,6 +53,6 @@
             </Expander>
         </Grid>
 
-        <CheckBox Content="Do not show this at startup!" Margin="5" VerticalAlignment="Center" Grid.Row="3" />        
+        <CheckBox Name="StartupCheckbox"  Content="Do not show this at startup!" Margin="5" VerticalAlignment="Center" Grid.Row="3" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" />        
     </Grid>
 </UserControl>
