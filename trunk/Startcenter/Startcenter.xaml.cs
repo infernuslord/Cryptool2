@@ -13,6 +13,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Editor;
+using StartCenter;
 
 namespace Startcenter
 {
@@ -31,6 +32,7 @@ namespace Startcenter
 
         public event OpenEditorHandler OnOpenEditor;
         public event OpenTabHandler OnOpenTab;
+        public event StartcenterEditor.StartupBehaviourChangedHandler StartupBehaviourChanged;
 
         public Startcenter()
         {
@@ -38,6 +40,12 @@ namespace Startcenter
             ((Buttons)buttons.Content).OnOpenEditor += (content, title) => OnOpenEditor(content, title);
             ((Panels)panels.Children[0]).OnOpenEditor += (content, title) => OnOpenEditor(content, title);
             ((Panels)panels.Children[0]).OnOpenTab += (content, title, parent) => OnOpenTab(content, title, parent);
+        }
+
+        private void CheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            if (StartupBehaviourChanged != null && StartupCheckbox.IsChecked.HasValue)
+                StartupBehaviourChanged(!StartupCheckbox.IsChecked.Value);
         }
     }
 }

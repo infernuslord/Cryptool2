@@ -24,14 +24,16 @@ namespace Cryptool.PluginBase.Editor
     /// </summary>
     public class EditorInfoAttribute : Attribute
     {
+        public readonly bool Singleton;
         public readonly bool ShowAsNewButton;
         public readonly bool ShowLogPanel;
         public readonly bool ShowSettingsPanel;
         public readonly bool ShowComponentPanel;
         public readonly string DefaultExtension;
 
-        public EditorInfoAttribute(string defaultExtension, bool showAsNewButton = true, bool showLogPanel = true, bool showSettingsPanel = true, bool showComponentPanel = true)
+        public EditorInfoAttribute(string defaultExtension, bool showAsNewButton = true, bool showLogPanel = true, bool showSettingsPanel = true, bool showComponentPanel = true, bool singleton = false)
         {
+            Singleton = singleton;
             ShowAsNewButton = showAsNewButton;
             DefaultExtension = defaultExtension;
             ShowComponentPanel = showComponentPanel;
