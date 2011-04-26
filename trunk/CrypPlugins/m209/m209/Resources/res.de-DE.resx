@@ -118,9 +118,9 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="pluginName" xml:space="preserve">
-    <value>m209</value>
+    <value>M209</value>
   </data>
   <data name="pluginToolTip" xml:space="preserve">
-    <value>Caesar – Klassische Substitutionsverschlüsselung durch Alphabet_Shift</value>
+    <value>M209– Verschlüsselungsmaschine wurde vom US-Militär hauptsächlich im Zweiten Weltkrieg benutz</value>
   </data>
 </root>

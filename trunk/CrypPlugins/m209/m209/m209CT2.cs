@@ -29,7 +29,7 @@ namespace Cryptool.Plugins.m209
 {
     // HOWTO: Change author name, email address, organization and URL.
     [Author("Martin Jedrychowski, Martin Switek", "jedry@gmx.de, Martin_Switek@gmx.de", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo(false, "m209", "pluginToolTip", "m209/DetailedDescription/Description.xaml",
+    [PluginInfo(false, "M209", "Rotor-Cipher Machine", "m209/DetailedDescription/Description.xaml",
       "m209/Images/M-209.jpg", "m209/Images/encrypt.png", "m209/Images/decrypt.png")]
     
     // HOWTO: Change interface to one that fits to your plugin (see CrypPluginBase).
@@ -39,8 +39,8 @@ namespace Cryptool.Plugins.m209
         #region Private Variables
 
         // HOWTO: You need to adapt the settings class as well, see the corresponding file.
-        private readonly ExamplePluginCT2Settings settings = new ExamplePluginCT2Settings();
-
+        private m209Settings settings = new m209Settings();
+        private bool cipher = true;
         #endregion
 
         #region Data Properties
@@ -140,19 +140,16 @@ namespace Cryptool.Plugins.m209
         
         string Alphabet= "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         string Schluesselalphabet = "ZYXWVUTSRQPONMLKJIHGFEDCBA";
-        [PropertyInfo(Direction.InputData, "Texteingabe", "Input Text", null, DisplayLevel.Beginner)]
+       
+        //  Pfeil in Programmiersprache Eingabe
+        [PropertyInfo(Direction.InputData, "Texteingabe", "Input Text", null)]
         public String Text
         {
             get;
             set;
         }
 
-
-
-        /// <summary>
-        /// HOWTO: Output interface to write the output data.
-        /// You can add more output properties ot other type if needed.
-        /// </summary>
+        // Pfeil in Programmiersprache Ausgabe
         [PropertyInfo(Direction.OutputData, "Text output", "The string after processing with the Caesar cipher", "", false, false, QuickWatchFormat.Text, null)]
         public String OutputString
         {
@@ -169,16 +166,34 @@ namespace Cryptool.Plugins.m209
                       alles[i] = Schluesselalphabet[j];
                    }
                }
-           }
+        }
         String ausgabe = new String(alles);
         return ausgabe;
         }
 
-        //Verschiebung eines Buchstaben berechnen
+       /*Diese Methode Verschlüsselt einen einzelnen Buchstaben
+         In Cipher mode, the output is printed in groups of five letters. 
+         Use the letter Z in the plain text to replace
+         spaces between words. 
+         
+         In Decipher mode, the output is printed continuously. If the deciphered plaintext letter is
+         Z, a space is printed.
+         */
+
+ 
         public String calculateOffset(string extKey, char c){
 
             int cnum;
             // Position des Buchstaben 0...25
+            bool uppercase = char.IsUpper(c);
+            // kleinbuchstaben?
+            if (!uppercase)
+            {
+                c = char.ToUpper(c);
+                //GuiLogMessage("Lowercase " , NotificationLevel.Info);
+            }
+            
+
             cnum = c - 'A';
             bool[] aktiveArme = new bool[6];
             string temp = "";
@@ -188,46 +203,52 @@ namespace Cryptool.Plugins.m209
                 // Durch alle Buchstaben
                 for (int j = 0; j < 27; j++)
                 {
+                    // Hier wird z.B. "AAAAAA" in "PONMLK" umgewandelt (bestimme Testkonfiguration)
                     if (rotoren[i,j]!=null && rotoren[i,j] == extKey[i].ToString())
                     {
-
                         temp += rotorenersatz[i,j];
-                        // Hier wurde "AAAAAA" in "PONMLK" umgewandelt (bestimme Testkonfiguration)
+                        // 1. A -> P . 
+                        // 2. Wo ist das P in den Rotoren und gebe Position zurück
+                        // 3. Schau in Pins nach ob false oder true und schreibe in aktiveArme
                         aktiveArme[i] = pins[i,getRotorPostion(rotorenersatz[i,j],i)];
                     }
                 }
             }
             int verschiebung = 0;
 
+
+            // Boolean in Zahlen für aktive arme
             int[] alleSchieber = new int[6];
             for (int i = 0; i < 6; i++)
             {
                 if (aktiveArme[i])
                 {
                     alleSchieber[i] = i + 1;
-                    //verschiebung+=countStangen(i+1);
                 }
             }
 
             verschiebung = countStangen(alleSchieber);
-
-            GuiLogMessage("verschiebung " + verschiebung, NotificationLevel.Info);
+            
             char back;
+          
+      
+
+
+            // Die Verschiebung wird in einen Buchstaben umgewandelt
             cnum -= verschiebung;
             while (cnum < 0)
             {
                 cnum += 26;
             }
             cnum = cnum % 26; 
-             
-             
             int nrZ = 'Z';
             cnum = nrZ-cnum;
             back = (char)cnum;
            
             return ""+back;
         }
-        //Gebe Position zurück die zu P gefunden wurde. Schaut in Rotoren welche Position P hat.
+        
+        //Zähle die Verschiebung (wo aktive Arme und Schieber)
         public int countStangen(int[] number)
         {
             int temp = 0;
@@ -238,12 +259,10 @@ namespace Cryptool.Plugins.m209
                     for (int j = 0; j < 2 &&!raus; j++)
                     {
                         //Vergleiche alle Zahlen mit jeden der Zwei Schieber
-
                         for (int c = 0; c < 6; c++)
                         {
                             if (number[c] == StangeSchieber[i, j] && number[c] != 0)
                             {
-                                GuiLogMessage("number[c]" + number[c] + "i=" + i + " j=" + j, NotificationLevel.Info);
                                 temp++;
                                 raus = true;
                                 break;
@@ -253,8 +272,113 @@ namespace Cryptool.Plugins.m209
             }
             return temp;
         }
+
+        // Schieber von der GUI in Array
+        public void setBar()
+        {
+            clearBars();
+            
+            for (int i = 0; i < 27; i++)
+            {
+                for (int j = 0; j < 1; j++)
+                {
+                    
+                    string temp = null;
+                    // Abfrage ob Schieber gesetzt sind
+                    if(settings.bar[i]!=null)
+                    temp = settings.bar[i].ToString();
+                    // Wir müssen den String splitten und in int umwandeln
+                    if (temp != null)
+                    { 
+                        // Falls 2 Zahlen --> splitten, konvertieren und speichern 
+                        if (temp.Length > 1)
+                        {
+                            StangeSchieber[i, j] = Convert.ToInt32(temp[0].ToString());
+                            StangeSchieber[i, j + 1] = Convert.ToInt32(temp[1].ToString());
+                        }
+                    }
+                }
+            }
+        }
+
+        // Benutzereingaben werden in Pin Array reingeschrieben
+        public void setPins()
+        {
+            clearPins();
+            if (settings.Rotor1!=null)
+            {
+                for (int i = 0; i < settings.Rotor1.Length; i++)
+                {
+                    pins[0, getRotorPostion(settings.Rotor1[i].ToString(), 0)]= true;   
+                    
+                }
+            }
+            if (settings.Rotor2 != null)
+            {
+                for (int i = 0; i < settings.Rotor2.Length; i++)
+                {
+                    pins[1, getRotorPostion(settings.Rotor2[i].ToString(), 1)] = true;
+
+                }
+            }
+            if (settings.Rotor3 != null)
+            {
+                for (int i = 0; i < settings.Rotor3.Length; i++)
+                {
+                    pins[2, getRotorPostion(settings.Rotor3[i].ToString(), 2)] = true;
+
+                }
+            }
+            if (settings.Rotor4 != null)
+            {
+                for (int i = 0; i < settings.Rotor4.Length; i++)
+                {
+                    pins[3, getRotorPostion(settings.Rotor4[i].ToString(), 3)] = true;
+
+                }
+            }
+            if (settings.Rotor5 != null)
+            {
+                for (int i = 0; i < settings.Rotor5.Length; i++)
+                {
+                    pins[4, getRotorPostion(settings.Rotor5[i].ToString(), 4)] = true;
+
+                }
+            }
+            if (settings.Rotor6 != null)
+            {
+                for (int i = 0; i < settings.Rotor6.Length; i++)
+                {
+                    pins[5, getRotorPostion(settings.Rotor6[i].ToString(), 5)] = true;
+                }
+            }
+        }
+
+        // Pins werden genullt
+        public void clearPins() {
+          for (int i = 0; i < 6; i++)
+            {
+                // Durch alle Buchstaben
+                for (int j = 0; j < 27; j++)
+                {
+                    pins[i,j]=false;
+                }
+            }
+        }
+        // Schieber werden genullt
+        public void clearBars()
+        {
+            for (int i = 0; i < 27; i++)
+            {
+
+                for (int j = 0; j < 2; j++)
+                {
+                    StangeSchieber[i, j] = 0;
+                }
+            }
+        }
         
-        
+        // Sucht zum Buchstaben passenden index
         public int getRotorPostion(string c,int rotor)
         {
             int temp=0;
@@ -266,6 +390,88 @@ namespace Cryptool.Plugins.m209
                 }
             
             return temp;
+        }
+
+        // Sammelt die verschlüsselten Buchstaben zu einem String und passt den Strin an (cipher /decipher)
+        public void cipherText()
+        {
+            string aktuellerWert = settings.Startwert;
+            string tempOutput="";
+
+            //Dechiffrieren
+            if(!cipher){
+                Text = Text.Replace(Environment.NewLine, "");
+                Text = Text.Replace(" ", "");
+            }
+
+            for (int i = 0; i < Text.Length; i++)
+            {   
+                // Beim ersten mal muss das Rad nicht gedreht werden
+                if (i == 0)
+                {
+                    tempOutput += calculateOffset(aktuellerWert, Text[i]).ToString();
+                }
+                else
+                {
+                    aktuellerWert = rotateWheel(aktuellerWert);
+                    tempOutput += calculateOffset(aktuellerWert, Text[i]).ToString();
+                }
+            }
+
+            OutputString = tempOutput;
+
+            if (cipher)
+            {   // In fünfergruppen ausgeben
+                for (int i = 5; i < OutputString.Length; i=i+6)
+                {
+                    OutputString = OutputString.Insert(i, " ");
+                }
+            } else // decipher
+                {
+                    OutputString = OutputString.Replace("Z", " ");
+                }
+           
+
+            OnPropertyChanged("OutputString");
+        }
+        
+        // Die Methode wird für jeden Buchstaben aufgerufen um die Rotoren zu drehen
+
+        // Rein AAAAAA Raus BBBBBB                                    
+        public string rotateWheel(string pos)
+        {
+            string tempS = pos;
+            char[] neuePos = new char[6];
+            //Durch alle Rotoren
+            for (int i = 0; i < 6; i++)
+            {
+                // Durch alle Buchstaben
+                for (int j = 0; j < 27; j++)
+                {
+
+                    // Falls kein nachfolgender Buchstabe im jeweiligen Rotor
+                    // vorhanden ist nehme A
+                    if (rotoren[i, j + 1] == null)
+                    {
+                        neuePos[i] = 'A';
+                        break;
+                    }
+                    else
+                    {   // Falls ein die Aktuelle Position gefunden wurde dann wechsle zu nächsten
+                        if (tempS[i].ToString() == rotoren[i, j])
+                        {
+                            string t = rotoren[i, j + 1];
+                            neuePos[i]= t[0];
+                            break;
+                        }
+                        
+                    }
+                }
+            }
+            
+
+            String back = new String(neuePos);
+            return back;
         }
 
         public ICryptoolStream OutputStream
@@ -310,14 +516,25 @@ namespace Cryptool.Plugins.m209
         /// </summary>
         public void Execute()
         {
-            char c;
-            c = Text[0];
-            //GuiLogMessage("c" + c, NotificationLevel.Info);
-            OutputString = calculateOffset("AAAAAA", c).ToString(); 
-            //ProgressChanged(1, 10);
-            OnPropertyChanged("OutputString");
-            CStreamWriter writer = new CStreamWriter();
-            writer.Close();
+
+            setPins();
+            setBar();
+
+            switch (settings.Action)
+            {
+                case 0:
+                    cipher=true;
+                    break;
+                case 1:
+                    cipher=false;
+                    break;
+                default:
+                    break;
+            }
+
+            cipherText();
+          
+ 
         }
 
         public void PostExecution()

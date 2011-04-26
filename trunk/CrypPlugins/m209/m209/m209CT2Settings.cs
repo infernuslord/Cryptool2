@@ -22,7 +22,7 @@ using System.ComponentModel;
 
 namespace Cryptool.Plugins.m209
 {
-    public class ExamplePluginCT2Settings : ISettings
+    public class m209Settings : ISettings
     {
         #region Public Caesar specific interface
 
@@ -34,35 +34,10 @@ namespace Cryptool.Plugins.m209
 
         private bool hasChanges = false;
         private string startwert = "AAAAAA";
-        private bool a1,a2,a3,a4,a5,a6,
-                     b1,b2,b3,b4,b5,b6,
-                     c1,c2,c3,c4,c5,c6,
-                     d1,d2,d3,d4,d5,d6,
-                     e1,e2,e3,e4,e5,e6,
-                     f1,f2,f3,f4,f5,f6,
-                     g1,g2,g3,g4,g5,g6,
-                     h1,h2,h3,h4,h5,h6,
-                     i1,i2,i3,i4,i5,i6,
-                     j1,j2,j3,j4,j5,j6,
-                     k1,k2,k3,k4,k5,k6,
-                     l1,l2,l3,l4,l5,l6,
-                     m1,m2,m3,m4,m5,m6,
-                     n1,n2,n3,n4,n5,n6,
-                     o1,o2,o3,o4,o5,o6,
-                     p1,p2,p3,p4,p5,p6,
-                     q1,q2,q3,q4,q5,q6,
-                     r1,r2,r3,r4,r5,r6,
-                     s1,s2,s3,s4,s5,s7,
-                     t1,t2,t3,t4,t5,t6,
-                     u1,u2,u3,u4,u5,u6,
-                     v1,v2,v3,v4,v5,v6,
-                     w1,w2,w3,w4,w5,w6,
-                     x1,x2,x3,x4,x5,x6,
-                     y1,y2,y3,y4,y5,y6,
-                     z1,z2,z3,z4,z5,z6 = false;
+        private string rotor1,rotor2,rotor3,rotor4,rotor5,rotor6="";
         private int selectedAction = 0;
         private bool analyzeKey = false;
-
+        public string[] bar = new string[27];
 
         #endregion
 
@@ -112,426 +87,576 @@ namespace Cryptool.Plugins.m209
         }
 
         #region Wheel options
-        [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Zwei")]
-        [TaskPane("A", "Activates the pin",
-            "Wheel Options", 6, false, ControlType.CheckBox, "", null)]
-        public bool PinA
+        [TaskPane("Rotor #1", "Please write all Active Pins, e.g. ABCD. ", "Wheel options", 2, true, ControlType.TextBox, ValidationType.RegEx, "^([A-Z}]){0,26}$")]
+        public string Rotor1
         {
-            get { return a1; }
+            get
+            {
+                return rotor1;
+            }
             set
             {
-                if (value != a1)
+                // HOWTO: If a setting changes, you must set hasChanges manually to true.
+                if (rotor1 != value)
                 {
-                    a1 = value;
+                    rotor1 = value;
                     hasChanges = true;
-                    OnPropertyChanged("A1");
                 }
             }
         }
-        [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Zwei")]
-        [TaskPane("B", "Activates the pin",
-            "Wheel Options", 6, false, ControlType.CheckBox, "", null)]
-        public bool PinB
+        [TaskPane("Rotor #2", "Please write all Active Pins, e.g. ABCD. ", "Wheel options", 2, true, ControlType.TextBox, ValidationType.RegEx, "^([A-V}X,Y,Z]){0,25}$")]
+        public string Rotor2
         {
-            get { return b1; }
+            get
+            {
+                return rotor2;
+            }
             set
             {
-                if (value != b1)
+                // HOWTO: If a setting changes, you must set hasChanges manually to true.
+                if (rotor2 != value)
                 {
-                    b1 = value;
+                    rotor2 = value;
                     hasChanges = true;
-                    OnPropertyChanged("B1");
                 }
             }
         }
-
-        [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Zwei")]
-        [TaskPane("C", "Activates the pin",
-            "Wheel Options", 6, false, ControlType.CheckBox, "", null)]
-        public bool PinC
+        [TaskPane("Rotor #3", "Please write all Active Pins, e.g. ABCD. ", "Wheel options", 2, true, ControlType.TextBox, ValidationType.RegEx, "^([A-V}X]){0,23}$")]
+        public string Rotor3
         {
-            get { return c1; }
+            get
+            {
+                return rotor3;
+            }
             set
             {
-                if (value != c1)
+                // HOWTO: If a setting changes, you must set hasChanges manually to true.
+                if (rotor3 != value)
                 {
-                    c1 = value;
+                    rotor3 = value;
                     hasChanges = true;
-                    OnPropertyChanged("C1");
                 }
             }
         }
-        [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Zwei")]
-        [TaskPane("D", "Activates the pin",
-            "Wheel Options", 6, false, ControlType.CheckBox, "", null)]
-        public bool PinD
+        [TaskPane("Rotor #4", "Please write all Active Pins, e.g. ABCD. ", "Wheel options", 2, true, ControlType.TextBox, ValidationType.RegEx, "^([A-U}]){0,21}$")]
+        public string Rotor4
         {
-            get { return d1; }
+            get
+            {
+                return rotor4;
+            }
             set
             {
-                if (value != d1)
+                // HOWTO: If a setting changes, you must set hasChanges manually to true.
+                if (rotor4 != value)
                 {
-                    d1 = value;
+                    rotor4 = value;
                     hasChanges = true;
-                    OnPropertyChanged("D1");
                 }
             }
         }
-        [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Zwei")]
-        [TaskPane("C", "Activates the pin",
-            "Wheel Options", 6, false, ControlType.CheckBox, "", null)]
-        public bool PinE
+        [TaskPane("Rotor #5", "Please write all Active Pins, e.g. ABCD. ", "Wheel options", 2, true, ControlType.TextBox, ValidationType.RegEx, "^([A-S}]){0,19}$")]
+        public string Rotor5
         {
-            get { return e1; }
+            get
+            {
+                return rotor5;
+            }
             set
             {
-                if (value != e1)
+                // HOWTO: If a setting changes, you must set hasChanges manually to true.
+                if (rotor5 != value)
                 {
-                    e1 = value;
+                    rotor5 = value;
                     hasChanges = true;
-                    OnPropertyChanged("E1");
                 }
             }
         }
-        [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Zwei")]
-        [TaskPane("F", "Activates the pin",
-            "Wheel Options", 6, false, ControlType.CheckBox, "", null)]
-        public bool PinF
+         [TaskPaneAttribute("Rotor #6", "Please write all Active Pins, e.g. ABCD. ", "Wheel options", 2, true, ControlType.TextBox, ValidationType.RegEx, "^([A-Q}]){0,17}$")]
+        public string Rotor6
         {
-            get { return f1; }
+            get
+            {
+                return rotor6;
+            }
             set
             {
-                if (value != f1)
+                // HOWTO: If a setting changes, you must set hasChanges manually to true.
+                if (rotor6 != value)
                 {
-                    f1 = value;
+                    rotor6 = value;
                     hasChanges = true;
-                    OnPropertyChanged("F1");
                 }
             }
         }
-        [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Zwei")]
-        [TaskPane("G", "Activates the pin",
-            "Wheel Options", 6, false, ControlType.CheckBox, "", null)]
-        public bool PinG
-        {
-            get { return g1; }
-            set
-            {
-                if (value != g1)
-                {
-                    g1 = value;
-                    hasChanges = true;
-                    OnPropertyChanged("G1");
-                }
-            }
-        }
-        [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Zwei")]
-        [TaskPane("H", "Activates the pin",
-            "Wheel Options", 6, false, ControlType.CheckBox, "", null)]
-        public bool PinH
-        {
-            get { return h1; }
-            set
-            {
-                if (value != h1)
-                {
-                    h1 = value;
-                    hasChanges = true;
-                    OnPropertyChanged("H1");
-                }
-            }
-        }
-        [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Zwei")]
-        [TaskPane("I", "Activates the pin",
-            "Wheel Options", 6, false, ControlType.CheckBox, "", null)]
-        public bool PinI
-        {
-            get { return i1; }
-            set
-            {
-                if (value != i1)
-                {
-                    i1 = value;
-                    hasChanges = true;
-                    OnPropertyChanged("I1");
-                }
-            }
-        }
-        [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Zwei")]
-        [TaskPane("J", "Activates the pin",
-            "Wheel Options", 6, false, ControlType.CheckBox, "", null)]
-        public bool PinJ
-        {
-            get { return j1; }
-            set
-            {
-                if (value != j1)
-                {
-                    j1 = value;
-                    hasChanges = true;
-                    OnPropertyChanged("J1");
-                }
-            }
-        }
-        [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Zwei")]
-        [TaskPane("K", "Activates the pin",
-            "Wheel Options", 6, false, ControlType.CheckBox, "", null)]
-        public bool PinK
-        {
-            get { return k1; }
-            set
-            {
-                if (value != k1)
-                {
-                    k1 = value;
-                    hasChanges = true;
-                    OnPropertyChanged("K1");
-                }
-            }
-        }
-        [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Zwei")]
-        [TaskPane("L", "Activates the pin",
-            "Wheel Options", 6, false, ControlType.CheckBox, "", null)]
-        public bool PinL
-        {
-            get { return l1; }
-            set
-            {
-                if (value != l1)
-                {
-                    l1 = value;
-                    hasChanges = true;
-                    OnPropertyChanged("L1");
-                }
-            }
-        }
-        [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Zwei")]
-        [TaskPane("M", "Activates the pin",
-            "Wheel Options", 6, false, ControlType.CheckBox, "", null)]
-        public bool PinM
-        {
-            get { return m1; }
-            set
-            {
-                if (value != m1)
-                {
-                    m1 = value;
-                    hasChanges = true;
-                    OnPropertyChanged("M1");
-                }
-            }
-        }
-        [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Zwei")]
-        [TaskPane("N", "Activates the pin",
-            "Wheel Options", 6, false, ControlType.CheckBox, "", null)]
-        public bool PinN
-        {
-            get { return n1; }
-            set
-            {
-                if (value != n1)
-                {
-                    n1 = value;
-                    hasChanges = true;
-                    OnPropertyChanged("N1");
-                }
-            }
-        }
-        [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Zwei")]
-        [TaskPane("O", "Activates the pin",
-            "Wheel Options", 6, false, ControlType.CheckBox, "", null)]
-        public bool PinO
-        {
-            get { return o1; }
-            set
-            {
-                if (value != o1)
-                {
-                    o1 = value;
-                    hasChanges = true;
-                    OnPropertyChanged("O1");
-                }
-            }
-        }
-        [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Zwei")]
-        [TaskPane("P", "Activates the pin",
-            "Wheel Options", 6, false, ControlType.CheckBox, "", null)]
-        public bool PinP
-        {
-            get { return p1; }
-            set
-            {
-                if (value != p1)
-                {
-                    p1 = value;
-                    hasChanges = true;
-                    OnPropertyChanged("P1");
-                }
-            }
-        }
-        [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Zwei")]
-        [TaskPane("Q", "Activates the pin",
-            "Wheel Options", 6, false, ControlType.CheckBox, "", null)]
-        public bool PinQ
-        {
-            get { return q1; }
-            set
-            {
-                if (value != q1)
-                {
-                    q1 = value;
-                    hasChanges = true;
-                    OnPropertyChanged("Q1");
-                }
-            }
-        }
-        [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Zwei")]
-        [TaskPane("R", "Activates the pin",
-            "Wheel Options", 6, false, ControlType.CheckBox, "", null)]
-        public bool PinR
-        {
-            get { return r1; }
-            set
-            {
-                if (value != r1)
-                {
-                    r1 = value;
-                    hasChanges = true;
-                    OnPropertyChanged("R1");
-                }
-            }
-        }
-        [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Zwei")]
-        [TaskPane("S", "Activates the pin",
-            "Wheel Options", 6, false, ControlType.CheckBox, "", null)]
-        public bool PinS
-        {
-            get { return s1; }
-            set
-            {
-                if (value != s1)
-                {
-                    s1 = value;
-                    hasChanges = true;
-                    OnPropertyChanged("S1");
-                }
-            }
-        }
-        [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Zwei")]
-        [TaskPane("T", "Activates the pin",
-            "Wheel Options", 6, false, ControlType.CheckBox, "", null)]
-        public bool PinT
-        {
-            get { return t1; }
-            set
-            {
-                if (value != t1)
-                {
-                    t1 = value;
-                    hasChanges = true;
-                    OnPropertyChanged("T1");
-                }
-            }
-        }
-        [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Zwei")]
-        [TaskPane("U", "Activates the pin",
-            "Wheel Options", 6, false, ControlType.CheckBox, "", null)]
-        public bool PinU
-        {
-            get { return u1; }
-            set
-            {
-                if (value != u1)
-                {
-                    u1 = value;
-                    hasChanges = true;
-                    OnPropertyChanged("U1");
-                }
-            }
-        }
-        [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Zwei")]
-        [TaskPane("V", "Activates the pin",
-            "Wheel Options", 6, false, ControlType.CheckBox, "", null)]
-        public bool PinV
-        {
-            get { return v1; }
-            set
-            {
-                if (value != v1)
-                {
-                    v1 = value;
-                    hasChanges = true;
-                    OnPropertyChanged("v1");
-                }
-            }
-        }
-        [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Zwei")]
-        [TaskPane("W", "Activates the pin",
-            "Wheel Options", 6, false, ControlType.CheckBox, "", null)]
-        public bool PinW
-        {
-            get { return w1; }
-            set
-            {
-                if (value != w1)
-                {
-                    w1 = value;
-                    hasChanges = true;
-                    OnPropertyChanged("W1");
-                }
-            }
-        }
-        [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Zwei")]
-        [TaskPane("X", "Activates the pin",
-            "Wheel Options", 6, false, ControlType.CheckBox, "", null)]
-        public bool PinX
-        {
-            get { return x1; }
-            set
-            {
-                if (value != x1)
-                {
-                    x1 = value;
-                    hasChanges = true;
-                    OnPropertyChanged("X1");
-                }
-            }
-        }
-        [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Zwei")]
-        [TaskPane("Y", "Activates the pin",
-            "Wheel Options", 6, false, ControlType.CheckBox, "", null)]
-        public bool PinY
-        {
-            get { return y1; }
-            set
-            {
-                if (value != y1)
-                {
-                    y1 = value;
-                    hasChanges = true;
-                    OnPropertyChanged("Y1");
-                }
-            }
-        }
-        [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Zwei")]
-        [TaskPane("Z", "Activates the pin","Wheel Options", 6, false, ControlType.CheckBox, "", null)]
-        public bool PinZ
-        {
-            get { return z1; }
-            set
-            {
-                if (value != z1)
-                {
-                    z1 = value;
-                    hasChanges = true;
-                    OnPropertyChanged("Z1");
-                }
-            }
-        }
-
-        #endregion
         
-        //Taskpane ende
+        //WheelOptions
+        #endregion
+
+         #region Bar options
+         [TaskPane("Bar #1", "Please activate Slider, e.g. 24", "Bar options", 3, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
+         public string Bar1
+         {
+             get
+             {
+                 return bar[0];
+             }
+             set
+             {
+                 // HOWTO: If a setting changes, you must set hasChanges manually to true.
+                 if (bar[0] != value)
+                 {
+                     bar[0] = value;
+                     hasChanges = true;
+                 }
+             }
+         }
+         [TaskPane("Bar #2", "Please activate Slider, e.g. 24", "Bar options", 4, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
+         public string Bar2
+         {
+             get
+             {
+                 return bar[1];
+             }
+             set
+             {
+                 // HOWTO: If a setting changes, you must set hasChanges manually to true.
+                 if (bar[1] != value)
+                 {
+                     bar[1] = value;
+                     hasChanges = true;
+                 }
+             }
+         }
+
+         [TaskPane("Bar #3", "Please activate Slider, e.g. 24", "Bar options", 5, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
+         public string Bar3
+         {
+             get
+             {
+                 return bar[2];
+             }
+             set
+             {
+                 // HOWTO: If a setting changes, you must set hasChanges manually to true.
+                 if (bar[2] != value)
+                 {
+                     bar[2] = value;
+                     hasChanges = true;
+                 }
+             }
+         }
+         [TaskPane("Bar #4", "Please activate Slider, e.g. 24", "Bar options", 6, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
+         public string Bar4
+         {
+             get
+             {
+                 return bar[3];
+             }
+             set
+             {
+                 // HOWTO: If a setting changes, you must set hasChanges manually to true.
+                 if (bar[3] != value)
+                 {
+                     bar[3] = value;
+                     hasChanges = true;
+                 }
+             }
+         }
+         [TaskPane("Bar #5", "Please activate Slider, e.g. 24", "Bar options", 7, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
+         public string Bar5
+         {
+             get
+             {
+                 return bar[4];
+             }
+             set
+             {
+                 // HOWTO: If a setting changes, you must set hasChanges manually to true.
+                 if (bar[4] != value)
+                 {
+                     bar[4] = value;
+                     hasChanges = true;
+                 }
+             }
+         }
+         [TaskPane("Bar #6", "Please activate Slider, e.g. 24", "Bar options", 8, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
+         public string Bar6
+         {
+             get
+             {
+                 return bar[5];
+             }
+             set
+             {
+                 // HOWTO: If a setting changes, you must set hasChanges manually to true.
+                 if (bar[5] != value)
+                 {
+                     bar[5] = value;
+                     hasChanges = true;
+                 }
+             }
+         }
+         [TaskPane("Bar #7", "Please activate Slider, e.g. 24", "Bar options", 9, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
+         public string Bar7
+         {
+             get
+             {
+                 return bar[6];
+             }
+             set
+             {
+                 // HOWTO: If a setting changes, you must set hasChanges manually to true.
+                 if (bar[6] != value)
+                 {
+                     bar[6] = value;
+                     hasChanges = true;
+                 }
+             }
+         }
+         [TaskPane("Bar #8", "Please activate Slider, e.g. 24", "Bar options", 10, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
+         public string Bar8
+         {
+             get
+             {
+                 return bar[7];
+             }
+             set
+             {
+                 // HOWTO: If a setting changes, you must set hasChanges manually to true.
+                 if (bar[7] != value)
+                 {
+                     bar[7] = value;
+                     hasChanges = true;
+                 }
+             }
+         }
+         [TaskPane("Bar #9", "Please activate Slider, e.g. 24", "Bar options", 11, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
+         public string Bar9
+         {
+             get
+             {
+                 return bar[8];
+             }
+             set
+             {
+                 // HOWTO: If a setting changes, you must set hasChanges manually to true.
+                 if (bar[8] != value)
+                 {
+                     bar[8] = value;
+                     hasChanges = true;
+                 }
+             }
+         }
+         [TaskPane("Bar #10", "Please activate Slider, e.g. 24", "Bar options", 12, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
+         public string Bar10
+         {
+             get
+             {
+                 return bar[9];
+             }
+             set
+             {
+                 // HOWTO: If a setting changes, you must set hasChanges manually to true.
+                 if (bar[9] != value)
+                 {
+                     bar[9] = value;
+                     hasChanges = true;
+                 }
+             }
+         }
+         [TaskPane("Bar #11", "Please activate Slider, e.g. 24", "Bar options", 13, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
+         public string Bar11
+         {
+             get
+             {
+                 return bar[10];
+             }
+             set
+             {
+                 // HOWTO: If a setting changes, you must set hasChanges manually to true.
+                 if (bar[10] != value)
+                 {
+                     bar[10] = value;
+                     hasChanges = true;
+                 }
+             }
+         }
+         [TaskPane("Bar #12", "Please activate Slider, e.g. 24", "Bar options", 14, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
+         public string Bar12
+         {
+             get
+             {
+                 return bar[11];
+             }
+             set
+             {
+                 // HOWTO: If a setting changes, you must set hasChanges manually to true.
+                 if (bar[11] != value)
+                 {
+                     bar[11] = value;
+                     hasChanges = true;
+                 }
+             }
+         }
+         [TaskPane("Bar #13", "Please activate Slider, e.g. 24", "Bar options", 15, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
+         public string Bar13
+         {
+             get
+             {
+                 return bar[12];
+             }
+             set
+             {
+                 // HOWTO: If a setting changes, you must set hasChanges manually to true.
+                 if (bar[12] != value)
+                 {
+                     bar[12] = value;
+                     hasChanges = true;
+                 }
+             }
+         }
+         [TaskPane("Bar #14", "Please activate Slider, e.g. 24", "Bar options", 16, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
+         public string Bar14
+         {
+             get
+             {
+                 return bar[13];
+             }
+             set
+             {
+                 // HOWTO: If a setting changes, you must set hasChanges manually to true.
+                 if (bar[13] != value)
+                 {
+                     bar[13] = value;
+                     hasChanges = true;
+                 }
+             }
+         }
+         [TaskPane("Bar #15", "Please activate Slider, e.g. 24", "Bar options", 17, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
+         public string Bar15
+         {
+             get
+             {
+                 return bar[14];
+             }
+             set
+             {
+                 // HOWTO: If a setting changes, you must set hasChanges manually to true.
+                 if (bar[14] != value)
+                 {
+                     bar[14] = value;
+                     hasChanges = true;
+                 }
+             }
+         }
+         [TaskPane("Bar #16", "Please activate Slider, e.g. 24", "Bar options", 18, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
+         public string Bar16
+         {
+             get
+             {
+                 return bar[15];
+             }
+             set
+             {
+                 // HOWTO: If a setting changes, you must set hasChanges manually to true.
+                 if (bar[15] != value)
+                 {
+                     bar[15] = value;
+                     hasChanges = true;
+                 }
+             }
+         }
+         [TaskPane("Bar #17", "Please activate Slider, e.g. 24", "Bar options", 19, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
+         public string Bar17
+         {
+             get
+             {
+                 return bar[16];
+             }
+             set
+             {
+                 // HOWTO: If a setting changes, you must set hasChanges manually to true.
+                 if (bar[16] != value)
+                 {
+                     bar[16] = value;
+                     hasChanges = true;
+                 }
+             }
+         }
+         [TaskPane("Bar #18", "Please activate Slider, e.g. 24", "Bar options", 20, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
+         public string Bar18
+         {
+             get
+             {
+                 return bar[17];
+             }
+             set
+             {
+                 // HOWTO: If a setting changes, you must set hasChanges manually to true.
+                 if (bar[17] != value)
+                 {
+                     bar[17] = value;
+                     hasChanges = true;
+                 }
+             }
+         }
+         [TaskPane("Bar #19", "Please activate Slider, e.g. 24", "Bar options", 21, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
+         public string Bar19
+         {
+             get
+             {
+                 return bar[18];
+             }
+             set
+             {
+                 // HOWTO: If a setting changes, you must set hasChanges manually to true.
+                 if (bar[18] != value)
+                 {
+                     bar[18] = value;
+                     hasChanges = true;
+                 }
+             }
+         }
+         [TaskPane("Bar #20", "Please activate Slider, e.g. 24", "Bar options", 22, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
+         public string Bar20
+         {
+             get
+             {
+                 return bar[19];
+             }
+             set
+             {
+                 // HOWTO: If a setting changes, you must set hasChanges manually to true.
+                 if (bar[19] != value)
+                 {
+                     bar[19] = value;
+                     hasChanges = true;
+                 }
+             }
+         }
+         [TaskPane("Bar #21", "Please activate Slider, e.g. 24", "Bar options", 23, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
+         public string Bar21
+         {
+             get
+             {
+                 return bar[20];
+             }
+             set
+             {
+                 // HOWTO: If a setting changes, you must set hasChanges manually to true.
+                 if (bar[20] != value)
+                 {
+                     bar[20] = value;
+                     hasChanges = true;
+                 }
+             }
+         }
+         [TaskPane("Bar #22", "Please activate Slider, e.g. 24", "Bar options", 24, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
+         public string Bar22
+         {
+             get
+             {
+                 return bar[21];
+             }
+             set
+             {
+                 // HOWTO: If a setting changes, you must set hasChanges manually to true.
+                 if (bar[21] != value)
+                 {
+                     bar[21] = value;
+                     hasChanges = true;
+                 }
+             }
+         }
+         [TaskPane("Bar #23", "Please activate Slider, e.g. 24", "Bar options", 25, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
+         public string Bar23
+         {
+             get
+             {
+                 return bar[22];
+             }
+             set
+             {
+                 // HOWTO: If a setting changes, you must set hasChanges manually to true.
+                 if (bar[22] != value)
+                 {
+                     bar[22] = value;
+                     hasChanges = true;
+                 }
+             }
+         }
+         [TaskPane("Bar #24", "Please activate Slider, e.g. 24", "Bar options", 26, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
+         public string Bar24
+         {
+             get
+             {
+                 return bar[23];
+             }
+             set
+             {
+                 // HOWTO: If a setting changes, you must set hasChanges manually to true.
+                 if (bar[23] != value)
+                 {
+                     bar[23] = value;
+                     hasChanges = true;
+                 }
+             }
+         }
+         [TaskPane("Bar #25", "Please activate Slider, e.g. 24", "Bar options", 27, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
+         public string Bar25
+         {
+             get
+             {
+                 return bar[24];
+             }
+             set
+             {
+                 // HOWTO: If a setting changes, you must set hasChanges manually to true.
+                 if (bar[24] != value)
+                 {
+                     bar[24] = value;
+                     hasChanges = true;
+                 }
+             }
+         }
+         [TaskPane("Bar #26", "Please activate Slider, e.g. 24", "Bar options", 28, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
+         public string Bar26
+         {
+             get
+             {
+                 return bar[25];
+             }
+             set
+             {
+                 // HOWTO: If a setting changes, you must set hasChanges manually to true.
+                 if (bar[25] != value)
+                 {
+                     bar[25] = value;
+                     hasChanges = true;
+                 }
+             }
+         }
+         [TaskPane("Bar #27", "Please activate Slider, e.g. 24", "Bar options", 29, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
+         public string Bar27
+         {
+             get
+             {
+                 return bar[26];
+             }
+             set
+             {
+                 // HOWTO: If a setting changes, you must set hasChanges manually to true.
+                 if (bar[26] != value)
+                 {
+                     bar[26] = value;
+                     hasChanges = true;
+                 }
+             }
+         }
+        // Bar Setting
+         #endregion
+         //Taskpane ende
         #endregion
         
         
