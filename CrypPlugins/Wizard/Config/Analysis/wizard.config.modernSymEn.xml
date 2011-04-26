@@ -66,7 +66,7 @@ Indem Sie dies auswählen können Sie chiffrierten Text, der mit dem AES-Algorit
         <item content="256 Bits"/>
       </comboBox>
 
-      <sampleViewer image="AES" file="WorkspaceManagerSamples\AES_Analyzer_Entropy.cwm">
+      <sampleViewer image="AES" file="Cryptanalysis\Modern\Symmetric\AES_Analyzer_Entropy.cwm">
         <name lang="en">Ciphertext Only Analysis</name>
         <name lang="de">Nur Geheimtext-Analyse</name>
         <description lang="en">Ciphertext Only Analysis Output</description>
@@ -140,7 +140,7 @@ Indem Sie dies auswählen können Sie chiffrierten Text, der mit dem AES-Algorit
         <item content="256 Bits"/>
       </comboBox>
 
-      <sampleViewer image="AES" file="WorkspaceManagerSamples\AES_Analyzer_KnownPlaintext.cwm">
+      <sampleViewer image="AES" file="Cryptanalysis\Modern\Symmetric\AES_Analyzer_KnownPlaintext.cwm">
         <name lang="en">Known Plaintext Analysis</name>
         <name lang="de">Bekannter-Klartext-Analyse</name>
         <description lang="en">Known Plaintext Analysis Output</description>
@@ -214,7 +214,7 @@ Indem Sie dies auswählen können Sie chiffrierten Text, der mit dem DES-Algorit
         <item content="Cipher Feedback (CFB)" lang="en"/>
       </comboBox>
 
-      <sampleViewer image="DES" file="WorkspaceManagerSamples\DES_Analyzer_Entropy.cwm">
+      <sampleViewer image="DES" file="Cryptanalysis\Modern\Symmetric\DES_Analyzer_Entropy.cwm">
         <name lang="en">Ciphertext Only Analysis</name>
         <name lang="de">Nur Geheimtext-Analyse</name>
         <description lang="en">Ciphertext Only Analysis Output</description>
@@ -280,7 +280,7 @@ Indem Sie dies auswählen können Sie chiffrierten Text, der mit dem DES-Algorit
         <item content="Cipher Feedback (CFB)" lang="en"/>
       </comboBox>
 
-      <sampleViewer image="DES" file="WorkspaceManagerSamples\DES_Analyzer_KnownPlaintext.cwm">
+      <sampleViewer image="DES" file="Cryptanalysis\Modern\Symmetric\DES_Analyzer_KnownPlaintext.cwm">
         <name lang="en">Known Plaintext Analysis</name>
         <name lang="de">Bekannter-Klartext-Analyse</name>
         <description lang="en">Known Plaintext Analysis Output</description>
@@ -353,7 +353,7 @@ Indem Sie dies auswählen können Sie chiffrierten Text, der mit dem SDES-Algori
         <item content="Cipher Block Chaining (CBC)" lang="en"/>
       </comboBox>
 
-      <sampleViewer image="SDES" file="WorkspaceManagerSamples\SDES_Analyzer_Entropy.cwm">
+      <sampleViewer image="SDES" file="Cryptanalysis\Modern\Symmetric\SDES_Analyzer_Entropy.cwm">
         <name lang="en">Ciphertext Only Analysis</name>
         <name lang="de">Nur Geheimtext-Analyse</name>
         <description lang="en">Ciphertext Only Analysis Output</description>
@@ -418,7 +418,7 @@ Indem Sie dies auswählen können Sie chiffrierten Text, der mit dem SDES-Algori
         <item content="Cipher Block Chaining (CBC)" lang="en"/>
       </comboBox>
 
-      <sampleViewer image="SDES" file="WorkspaceManagerSamples\SDES_Analyzer_KnownPlaintext.cwm">
+      <sampleViewer image="SDES" file="Cryptanalysis\Modern\Symmetric\SDES_Analyzer_KnownPlaintext.cwm">
         <name lang="en">Known Plaintext Analysis</name>
         <name lang="de">Bekannter-Klartext-Analyse</name>
         <description lang="en">Known Plaintext Analysis Output</description>

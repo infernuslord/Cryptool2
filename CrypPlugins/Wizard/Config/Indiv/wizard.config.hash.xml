@@ -27,7 +27,7 @@
     <task lang="en">Select if you want to see an interactive presentation of MD5 processing your data.</task>
     <task lang="de">Wählen Sie, ob Sie eine interaktive Präsentation sehen wollen, wie MD5 Ihre Daten verarbeitet.</task>
     
-    <sampleViewer image="MD5" file="WorkspaceManagerSamples\MD5_Sample.cwm">
+    <sampleViewer image="MD5" file="Hashfunctions\MD5_Sample.cwm">
       <name lang="en" >MD5 - Result Only</name>
       <name lang="de" >MD5 - Nur Ergebnis</name>
       <description lang="en" >Only the result of MD5.</description>
@@ -48,7 +48,7 @@
       </presentation>
     </sampleViewer>
 
-    <sampleViewer image="MD5" file="WorkspaceManagerSamples\MD5_Sample.cwm">
+    <sampleViewer image="MD5" file="Hashfunctions\MD5_Sample.cwm">
       <name lang="en" >MD5 - Interactive</name>
       <name lang="de" >MD5 - Interaktiv</name>
       <description lang="en" >Interactive MD5 presentation.</description>
@@ -76,7 +76,7 @@
   </category>
 
   <!-- SHA-1 input -->
-  <sampleViewer image="SHA" file="WorkspaceManagerSamples\SHA1_Sample.cwm">
+  <sampleViewer image="SHA" file="Hashfunctions\SHA1_Sample.cwm">
     <name lang="en" >SHA-1</name>
     <description lang="en" >The Secure Hash Algorithm is one of a number of cryptographic hash functions published by the National Institute of Standards and Technology as a U.S. Federal Information Processing Standard.</description>
     <description lang="de" >Der "Secure Hash Algorithm" ist einer von vielen kryptographischen Hash-Funktionen die vom "National Institute of Standards and Technology" als "U.S. Federal Information Processing Standard" veröffentlicht wurden.</description>
@@ -97,7 +97,7 @@
   </sampleViewer>
 
   <!-- SHA-256 input -->
-  <sampleViewer image="SHA" file="WorkspaceManagerSamples\SHA256_Sample.cwm">
+  <sampleViewer image="SHA" file="Hashfunctions\SHA256_Sample.cwm">
     <name lang="en" >SHA-256</name>
     <description lang="en" >The Secure Hash Algorithm is one of a number of cryptographic hash functions published by the National Institute of Standards and Technology as a U.S. Federal Information Processing Standard.</description>
     <description lang="de" >Der "Secure Hash Algorithm" ist einer von vielen kryptographischen Hash-Funktionen die vom "National Institute of Standards and Technology" als "U.S. Federal Information Processing Standard" veröffentlicht wurden.</description>
@@ -118,7 +118,7 @@
   </sampleViewer>
 
   <!-- RIPEMD160 input -->
-  <sampleViewer image="RIPEMD160" file="WorkspaceManagerSamples\RIPEMD160_Sample.cwm">
+  <sampleViewer image="RIPEMD160" file="Hashfunctions\RIPEMD160_Sample.cwm">
     <name lang="en" >RIPEMD160</name>
     <description lang="en" >RIPEMD-160 (RACE Integrity Primitives Evaluation Message Digest) is a 160-bit message digest algorithm (cryptographic hash function). It is an improved version of RIPEMD, which in turn was based upon the design principles used in MD4, and is similar in performance to the more popular SHA-1.</description>
     <description lang="de" >RIPEMD-160 (RACE Integrity Primitives Evaluation Message Digest) ist ein 160-bit "Message Digest" Algorithmus (kryptographische Hash-Funktion). Es ist eine verbesserte Version von RIPEMD, welche wiederum auf den Entwurfsprinzipien, die in MD4 benutzt wurden, basiert, und ist von der Performance vergleichbar mit dem populäreren SHA-1.</description>
@@ -141,7 +141,7 @@ RIPEMD-160 wurde von Hans Dobbertin, Antoon Bosselaers und Bart Preneel in Europ
   </sampleViewer>
 
   <!-- Tiger input -->
-  <sampleViewer image="Tiger" file="WorkspaceManagerSamples\Tiger_Sample.cwm">
+  <sampleViewer image="Tiger" file="Hashfunctions\Tiger_Sample.cwm">
     <name lang="en" >Tiger</name>
     <description lang="en" >Tiger is a cryptographic hash function designed by Ross Anderson and Eli Biham in 1995 for efficiency on 64-bit platforms. The size of a Tiger hash value is 192 bits.</description>
     <description lang="de" >Tiger ist eine kryptographische Hash-Funktion die 1995 von Ross Anderson und Eli Biham für Effizienz auf 64-Bit Plattformen entworfen wurde. Die Größe eines Tiger Hashwertes ist 192 Bits.</description>
@@ -162,7 +162,7 @@ RIPEMD-160 wurde von Hans Dobbertin, Antoon Bosselaers und Bart Preneel in Europ
   </sampleViewer>
 
   <!-- Whirlpool input -->
-  <sampleViewer image="Whirlpool" file="WorkspaceManagerSamples\Whirlpool_Sample.cwm">
+  <sampleViewer image="Whirlpool" file="Hashfunctions\Whirlpool_Sample.cwm">
     <name lang="en" >Whirlpool</name>
     <description lang="en" >Whirlpool is a hash designed after the Square block cipher. Whirlpool is a Miyaguchi-Preneel construction based on a substantially modified Advanced Encryption Standard (AES). It takes a message of any length less than 2256 bits and returns a 512-bit message digest.</description>
     <description lang="de" >Whirlpool ist ein Hash der nach dem "Square" Blockchiffre entworfen wurde. Whirlpool ist eine Miyaguchi-Preneel Konstruktion die auf einem substantiell veränderten "Advanced Encryption Standard" (AES) basiert. Es nimmt eine Nachricht einer Länge kleiner als 2256 Bits entgegen und gibt ein 512-Bit "message digest" zurück.</description>

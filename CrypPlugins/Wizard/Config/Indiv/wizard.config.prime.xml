@@ -38,7 +38,7 @@
       <defaultvalue>400</defaultvalue>
     </inputBox>
 
-    <sampleViewer image="Primes" file="WorkspaceManagerSamples\PrimesGenerator.cwm">
+    <sampleViewer image="Primes" file="Mathematics\PrimesGenerator.cwm">
       <name lang="en" >Prime Number Generation</name>
       <name lang="de" >Primzahl Erzeugung</name>
       <description lang="en" >Prime Number Generation Output</description>
@@ -57,7 +57,7 @@
   </input>
 
   <!-- Test input -->
-  <sampleViewer image="Primes" file="WorkspaceManagerSamples\PrimesTest.cwm">
+  <sampleViewer image="Primes" file="Mathematics\PrimesTest.cwm">
     <name lang="en" >Prime Number Test</name>
     <name lang="de" >Primzahl Test</name>
     <description lang="en" >Select this to test if a number is a prime.</description>
