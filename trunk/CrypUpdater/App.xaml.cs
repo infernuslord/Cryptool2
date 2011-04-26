@@ -26,11 +26,18 @@ namespace CrypUpdater
         internal static string cryptoolExePath;
         private string filePath;
         private string cryptoolFolderPath;
-        private string tempPath = Environment.SpecialFolder.LocalApplicationData + "\\CrypTool2\\Temp";
-        private string logfilePath = Environment.SpecialFolder.LocalApplicationData + "\\CrypTool2\\Temp" + "\\install.txt";
+
+        private readonly string tempPath;
+        private readonly string logfilePath;
         private int cryptoolProcessID;
         private Process p;
         private List<Process> unwantedProcesses = new List<Process>();
+
+        App()
+        {
+            tempPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "CrypTool2", "Temp");
+            logfilePath = Path.Combine(tempPath, "install.txt");
+        }
 
         private void Application_Startup(object sender, StartupEventArgs e)
         {
