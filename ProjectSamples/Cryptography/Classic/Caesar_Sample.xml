@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<sample>
+	<title lang="en">Caesar Cipher</title>
+	<title lang="de">Caesar-Chiffre</title>
+	
+	<description lang="en">
+		This template shows how to use the <i>Caesar-cipher</i>. <newline/>		
+	</description>
+	<description lang="de">
+		Diese Vorlage zeigt die Verwendung der <i>Caesar-Ver-/Entschlüsselung</i>. <newline/>
+	</description>
+	
+	<icon file="Caesar-Sample.png"/>
+	
+	<relevantPlugins>
+		<plugin name="Caesar"/>
+	</relevantPlugins>
+</sample>

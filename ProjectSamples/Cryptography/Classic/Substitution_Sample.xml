@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<sample>
+	<title lang="en">Substitution-Cipher</title>
+	<title lang="de">Substitution-Chiffre</title>
+	
+	<description lang="en">
+		This template shows how to use the <i>Substitution-Cipher</i>. <newline/>		
+	</description>
+	<description lang="de">
+		Diese Vorlage zeigt die Verwendung der <i>Substitutions-Ver-/Entschlüsselung</i>. <newline/>
+	</description>
+	
+	<icon file="Substitution_Sample.png"/>
+	
+	<relevantPlugins>
+		<plugin name="Substitution"/>
+	</relevantPlugins>
+</sample>

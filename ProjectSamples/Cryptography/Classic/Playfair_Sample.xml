@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<sample>
+	<title lang="en">Playfair-Cipher</title>
+	<title lang="de">Playfair-Chiffre</title>
+	
+	<description lang="en">
+		This template shows how to use the <i>Playfair-Cipher</i>. <newline/>		
+	</description>
+	<description lang="de">
+		Diese Vorlage zeigt die Verwendung der <i>Playfair-Ver-/Entschlüsselung</i>. <newline/>
+	</description>
+	
+	<icon file="Playfair_Sample.png"/>
+	
+	<relevantPlugins>
+		<plugin name="Playfair"/>
+	</relevantPlugins>
+</sample>
