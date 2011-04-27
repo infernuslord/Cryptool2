@@ -297,7 +297,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
                     this.Erroricon.Visibility = Visibility.Hidden;
                     this.MessageLabel.Foreground = Brushes.Black;
                 }
-                this.MessageLabel.Content = message;
+                this.MessageLabel.Text = message;
                 this.P2PEditor.GuiLogMessage(message, NotificationLevel.Info);
                 this.MessageLabel.Visibility = Visibility.Visible;
                 this.MessageBox.Visibility = Visibility.Visible;

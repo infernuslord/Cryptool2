@@ -34,8 +34,8 @@ namespace Cryptool.P2PEditor.GUI.Controls
             if (string.IsNullOrEmpty(this.ActivationCodeField.Text))
             {
 
-                this.MessageLabel.Content = "Activation code may not be empty.";
-                this.P2PEditor.GuiLogMessage(this.MessageLabel.Content.ToString(), NotificationLevel.Info);
+                this.MessageLabel.Text = "Activation code may not be empty.";
+                this.P2PEditor.GuiLogMessage(this.MessageLabel.Text.ToString(), NotificationLevel.Info);
                 this.MessageLabel.Visibility = Visibility.Visible;
                 this.ActivationCodeField.Focus();
                 return;
@@ -43,8 +43,8 @@ namespace Cryptool.P2PEditor.GUI.Controls
           
             if (!Verification.IsValidPassword(this.PasswordField.Password))
             {
-                this.MessageLabel.Content = "Password is not valid.";
-                this.P2PEditor.GuiLogMessage(this.MessageLabel.Content.ToString(), NotificationLevel.Info);
+                this.MessageLabel.Text = "Password is not valid.";
+                this.P2PEditor.GuiLogMessage(this.MessageLabel.Text.ToString(), NotificationLevel.Info);
                 this.MessageLabel.Visibility = Visibility.Visible;
                 this.PasswordField.Password = "";
                 this.PasswordField.Focus();
@@ -80,8 +80,8 @@ namespace Cryptool.P2PEditor.GUI.Controls
                     {
                         this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                         {
-                            this.MessageLabel.Content = "SSLCertificate revoked. Please update CrypTool 2.0.";
-                            this.P2PEditor.GuiLogMessage(this.MessageLabel.Content.ToString(), NotificationLevel.Info);
+                            this.MessageLabel.Text = "SSLCertificate revoked. Please update CrypTool 2.0.";
+                            this.P2PEditor.GuiLogMessage(this.MessageLabel.Text.ToString(), NotificationLevel.Info);
                             this.MessageLabel.Visibility = Visibility.Visible;
                         }, null);
                     });
@@ -96,8 +96,8 @@ namespace Cryptool.P2PEditor.GUI.Controls
                     {
                         this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                         {
-                            this.MessageLabel.Content = "No proxy server configured. Please check your configuration.";
-                            this.P2PEditor.GuiLogMessage(this.MessageLabel.Content.ToString(), NotificationLevel.Info);
+                            this.MessageLabel.Text = "No proxy server configured. Please check your configuration.";
+                            this.P2PEditor.GuiLogMessage(this.MessageLabel.Text.ToString(), NotificationLevel.Info);
                             this.MessageLabel.Visibility = Visibility.Visible;
                         }, null);
                     });
@@ -112,8 +112,8 @@ namespace Cryptool.P2PEditor.GUI.Controls
                 {
                     this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
-                        this.MessageLabel.Content = "Certificate authorization required";
-                        this.P2PEditor.GuiLogMessage(this.MessageLabel.Content.ToString(), NotificationLevel.Info);
+                        this.MessageLabel.Text = "Certificate authorization required";
+                        this.P2PEditor.GuiLogMessage(this.MessageLabel.Text.ToString(), NotificationLevel.Info);
                         this.MessageLabel.Visibility = Visibility.Visible;
                     }, null); 
                 });
@@ -126,8 +126,8 @@ namespace Cryptool.P2PEditor.GUI.Controls
                 {
                     this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
-                        this.MessageLabel.Content = "Server error occurred. Please try again later";
-                        this.P2PEditor.GuiLogMessage(this.MessageLabel.Content.ToString(), NotificationLevel.Info);
+                        this.MessageLabel.Text = "Server error occurred. Please try again later";
+                        this.P2PEditor.GuiLogMessage(this.MessageLabel.Text.ToString(), NotificationLevel.Info);
                         this.MessageLabel.Visibility = Visibility.Visible;
                     }, null); 
                 });
@@ -136,8 +136,8 @@ namespace Cryptool.P2PEditor.GUI.Controls
                 {
                     this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
-                        this.MessageLabel.Content = "New ProtocolVersion. Please update CrypTool 2.0";
-                        this.P2PEditor.GuiLogMessage(this.MessageLabel.Content.ToString(), NotificationLevel.Info);
+                        this.MessageLabel.Text = "New ProtocolVersion. Please update CrypTool 2.0";
+                        this.P2PEditor.GuiLogMessage(this.MessageLabel.Text.ToString(), NotificationLevel.Info);
                         this.MessageLabel.Visibility = Visibility.Visible;
                     }, null); 
                 });
@@ -148,8 +148,8 @@ namespace Cryptool.P2PEditor.GUI.Controls
             {
                 this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
-                    this.MessageLabel.Content = "There was a communication problem with the server: " + nex.Message + "\n" + "Please try again later";
-                    this.P2PEditor.GuiLogMessage(this.MessageLabel.Content.ToString(), NotificationLevel.Error);
+                    this.MessageLabel.Text = "There was a communication problem with the server: " + nex.Message + "\n" + "Please try again later";
+                    this.P2PEditor.GuiLogMessage(this.MessageLabel.Text.ToString(), NotificationLevel.Error);
                     this.MessageLabel.Visibility = Visibility.Visible;
                 }, null);
             }
@@ -157,8 +157,8 @@ namespace Cryptool.P2PEditor.GUI.Controls
             {
                 this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
-                    this.MessageLabel.Content = "An exception occured: " + ex.Message;
-                    this.P2PEditor.GuiLogMessage(this.MessageLabel.Content.ToString(), NotificationLevel.Error);
+                    this.MessageLabel.Text = "An exception occured: " + ex.Message;
+                    this.P2PEditor.GuiLogMessage(this.MessageLabel.Text.ToString(), NotificationLevel.Error);
                     this.MessageLabel.Visibility = Visibility.Visible;
                 }, null);
             }
@@ -177,16 +177,16 @@ namespace Cryptool.P2PEditor.GUI.Controls
                     case ErrorType.NoCertificateFound:
                         this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                         {
-                            this.MessageLabel.Content = "You have entered a wrong verification code.";
-                            this.P2PEditor.GuiLogMessage(this.MessageLabel.Content.ToString(), NotificationLevel.Info);
+                            this.MessageLabel.Text = "You have entered a wrong verification code.";
+                            this.P2PEditor.GuiLogMessage(this.MessageLabel.Text.ToString(), NotificationLevel.Info);
                             this.MessageLabel.Visibility = Visibility.Visible;
                         }, null);
                         break;
                     case ErrorType.WrongPassword:
                         this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                         {
-                            this.MessageLabel.Content = "The verification code is ok but the entered password was wrong.";
-                            this.P2PEditor.GuiLogMessage(this.MessageLabel.Content.ToString(), NotificationLevel.Info);
+                            this.MessageLabel.Text = "The verification code is ok but the entered password was wrong.";
+                            this.P2PEditor.GuiLogMessage(this.MessageLabel.Text.ToString(), NotificationLevel.Info);
                             this.MessageLabel.Visibility = Visibility.Visible;
                         }, null);
                         this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
@@ -198,8 +198,8 @@ namespace Cryptool.P2PEditor.GUI.Controls
                     default:
                         this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                         {
-                            this.MessageLabel.Content = "Invalid certificate request: " + args.Message ?? args.Type.ToString();
-                            this.P2PEditor.GuiLogMessage(this.MessageLabel.Content.ToString(), NotificationLevel.Error);
+                            this.MessageLabel.Text = "Invalid certificate request: " + args.Message ?? args.Type.ToString();
+                            this.P2PEditor.GuiLogMessage(this.MessageLabel.Text.ToString(), NotificationLevel.Error);
                             this.MessageLabel.Visibility = Visibility.Visible;
                         }, null);
                         break;
@@ -227,8 +227,8 @@ namespace Cryptool.P2PEditor.GUI.Controls
             }
             catch (Exception ex)
             {
-                this.MessageLabel.Content = "Cannot create default account data directory '" + PeerCertificate.DEFAULT_USER_CERTIFICATE_DIRECTORY + "':\n" + ex.Message;
-                this.P2PEditor.GuiLogMessage(this.MessageLabel.Content.ToString(), NotificationLevel.Error);
+                this.MessageLabel.Text = "Cannot create default account data directory '" + PeerCertificate.DEFAULT_USER_CERTIFICATE_DIRECTORY + "':\n" + ex.Message;
+                this.P2PEditor.GuiLogMessage(this.MessageLabel.Text.ToString(), NotificationLevel.Error);
                 this.MessageLabel.Visibility = Visibility.Visible;
                 return;
             }
@@ -248,9 +248,9 @@ namespace Cryptool.P2PEditor.GUI.Controls
             {
                  this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                         {
-                            this.MessageLabel.Content = "Could not save the received certificate to your AppData folder:\n\n" +
+                            this.MessageLabel.Text = "Could not save the received certificate to your AppData folder:\n\n" +
                                 (ex.GetBaseException() != null && ex.GetBaseException().Message != null ? ex.GetBaseException().Message : ex.Message);
-                            this.P2PEditor.GuiLogMessage(this.MessageLabel.Content.ToString(), NotificationLevel.Error);
+                            this.P2PEditor.GuiLogMessage(this.MessageLabel.Text.ToString(), NotificationLevel.Error);
                             this.MessageLabel.Visibility = Visibility.Visible;
                         }, null);
             }
@@ -308,8 +308,8 @@ namespace Cryptool.P2PEditor.GUI.Controls
         {
             this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
-                this.MessageLabel.Content = "Proxy Error (" + args.StatusCode + ") occured:" + args.Message;
-                this.P2PEditor.GuiLogMessage(this.MessageLabel.Content.ToString(), NotificationLevel.Error);
+                this.MessageLabel.Text = "Proxy Error (" + args.StatusCode + ") occured:" + args.Message;
+                this.P2PEditor.GuiLogMessage(this.MessageLabel.Text.ToString(), NotificationLevel.Error);
                 this.MessageLabel.Visibility = Visibility.Visible;
             }, null);
         }
@@ -333,7 +333,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
                     this.Erroricon.Visibility = Visibility.Hidden;
                     this.MessageLabel.Foreground = Brushes.Black;
                 }
-                this.MessageLabel.Content = message;
+                this.MessageLabel.Text = message;
                 this.P2PEditor.GuiLogMessage(message, NotificationLevel.Info);
                 this.MessageLabel.Visibility = Visibility.Visible;
                 this.MessageBox.Visibility = Visibility.Visible;
