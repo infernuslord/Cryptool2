@@ -1627,6 +1627,8 @@ namespace Primes.Bignum
             {
                 u1Out.sign = u1.sign;
                 u1Out.magnitude = u1.magnitude;
+                u1Out.nBits = u1.nBits;
+                u1Out.nBitLength = u1.nBitLength;
             }
 
             if (u2Out != null)
@@ -1636,6 +1638,8 @@ namespace Primes.Bignum
                 PrimesBigInteger res = tmp.Divide(b);
                 u2Out.sign = res.sign;
                 u2Out.magnitude = res.magnitude;
+                u2Out.nBits = res.nBits;
+                u2Out.nBitLength = res.nBitLength;
             }
 
             return u3;
