@@ -255,6 +255,41 @@ namespace Cryptool.PluginBase.Miscellaneous
             return result;
         }
 
+        /*
+         * Extended Euclidean Algorithm
+         * Returns the GCD of a and b and finds integers x and y that satisfy x*a + y*b = gcd(a,b)
+         */
+        public static BigInteger ExtEuclid(BigInteger a, BigInteger b, out BigInteger x, out BigInteger y)
+        {
+            BigInteger xx, t, q, r;
+
+            BigInteger aa = BigInteger.Abs(a);
+            BigInteger bb = BigInteger.Abs(b);
+            xx = 0; x = 1;
+
+            while (bb > 0)
+            {
+                q = BigInteger.DivRem(aa, bb, out r);
+                aa = bb; bb = r;
+                t = x - xx * q; x = xx; xx = t;
+            }
+
+            x *= a.Sign;
+            y = (b == 0) ? 0 : (aa - x * a) / b;
+
+            return aa;
+        }
+
+        /*
+         * Least Common Multiple
+         * Returns the LCM of a and b
+         */
+        public static BigInteger LCM(BigInteger a, BigInteger b)
+        {
+            BigInteger gcd = BigInteger.GreatestCommonDivisor(a, b);
+            return (gcd != 0) ? ((a * b) / gcd) : 0;
+        }
+
         #region primesBelow2000
         // primes smaller than 2000 to test the generated prime number (taken from BigInteger class written by Chew Keong TAN)
 
