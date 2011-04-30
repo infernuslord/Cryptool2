@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<sample>
+	<title lang="en">Vigenere analysis Sample</title>
+	<title lang="de">Vigenere Analyse Sample</title>
+	
+	<description lang="en">
+		This template shows the analysis of the <i>Vigenere-cipher</i>. <newline/>		
+	</description>
+	<description lang="de">
+		Diese Vorlage zeigt die Kryptanalyse der <i>Vigenere-Ver-/Entschlüsselung</i>. <newline/>
+	</description>
+	
+	<icon file="Vigenere_Analyser_Sample.png"/>
+	
+	<relevantPlugins>
+		<plugin name="Vigenere"/>
+		<plugin name="VigenereAutokeyAnalyser"/>
+	</relevantPlugins>
+</sample>

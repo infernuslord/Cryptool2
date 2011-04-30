@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<sample>
+	<title lang="en">Enigma Analysis Sample</title>
+	<title lang="de">Enigma Kryptoanalyse Sample</title>
+	
+	<description lang="en">
+		This template shows crypt analysis of the <i>Enigma-cipher</i>. <newline/>		
+	</description>
+	<description lang="de">
+		Diese Vorlage zeigt die Kryptoanalyse der <i>Enigma-Ver-/Entschlüsselung</i>. <newline/>
+	</description>
+	
+	<icon file="Enigma_Analyzer.png"/>
+	
+	<relevantPlugins>
+		<plugin name="Enigma"/>
+	</relevantPlugins>
+</sample>
