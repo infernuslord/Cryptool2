@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<sample>
+	<title lang="en">Quadratic Sieve</title>
+	<title lang="de">Das quadratische Sieb</title>
+	
+	<description lang="en">
+		This template shows how to use the <i>Quadratic sieve</i>. <newline/>		
+	</description>
+	<description lang="de">
+		Diese Vorlage zeigt die Verwendung des <i>quadratischen Siebs</i>. <newline/>
+	</description>
+	
+	<icon file="QuadraticSieve_Sample.png"/>
+	
+	<relevantPlugins>
+		<plugin name="QuadraticSieve"/>
+	</relevantPlugins>
+</sample>

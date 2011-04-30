@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<sample>
+	<title lang="en">Scytale Exhaustive KeySearch Sample</title>
+	<title lang="de">Scytale vollständige Schlüsselraumdurchsuche Sample</title>
+	
+	<description lang="en">
+		This template shows exhaustive keysearch of the <i>Scytale-cipher</i>. <newline/>		
+	</description>
+	<description lang="de">
+		Diese Vorlage zeigt die vollständige Schlüsselraumdurchsuche der <i>Scytale-Ver-/Entschlüsselung</i>. <newline/>
+	</description>
+	
+	<icon file="Scytale_ExhaustiveKeySearch.png"/>
+	
+	<relevantPlugins>
+		<plugin name="Scytale"/>
+	</relevantPlugins>
+</sample>

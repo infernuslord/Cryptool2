@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<sample>
+	<title lang="en">Transposition Crib analysis Sample</title>
+	<title lang="de">Transposition Crib Analyse Sample</title>
+	
+	<description lang="en">
+		This template shows crib analysis of the <i>Transposition-cipher</i>. <newline/>		
+	</description>
+	<description lang="de">
+		Diese Vorlage zeigt die Crib Analyse der <i>TranspositionVer-/Entschlüsselung</i>. <newline/>
+	</description>
+	
+	<icon file="Transposition_Sample.png"/>
+	
+	<relevantPlugins>
+		<plugin name="Transposition"/>
+	</relevantPlugins>
+</sample>
