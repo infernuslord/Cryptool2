@@ -7,6 +7,8 @@ You can download MPIR at http://www.mpir.org.
 You can download MPFR at http://www.mpfr.org/.
 Additionally, you can download VS2010 project files for MPFR at http://gladman.plushost.co.uk/oldsite/computing/gmp4win.php.
 
+Please also take a look into the Readme's of these projects.
+
 Unpack these libraries in the BitCommitmentScheme and name their directories "mpir" and "mpfr".
 After that, your directory structure should look like this:
 
