@@ -26,6 +26,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Reflection;
 using Cryptool.Core;
+using WorkspaceManager.View.BinVisual.IControlVisual;
 
 namespace WorkspaceManager.View.BinVisual
 {
@@ -634,6 +635,9 @@ namespace WorkspaceManager.View.BinVisual
             switch(e.ClickCount)
             {
                 case 1:
+                    var result = Util.TryFindParent<BinIControlVisual>(e.OriginalSource as UIElement);
+                    if (result != null)
+                        return;
 
                     if (e.Source is BinComponentVisual && e.OriginalSource is FrameworkElement)
                     {
@@ -661,6 +665,8 @@ namespace WorkspaceManager.View.BinVisual
                     if (e.Source is BinComponentVisual)
                     {
                         BinComponentVisual c = (BinComponentVisual)e.Source;
+                        if (c.IsICPopUpOpen)
+                            break;
                         IsFullscreenOpen = true;
                         ((BinFullscreenVisual)FullScreen.Content).ActiveComponent = c;
                         e.Handled = true;

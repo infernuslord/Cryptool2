@@ -15,45 +15,55 @@ using System.Reflection;
 
 namespace WorkspaceManager.View.Base
 {
-    public class Util
+    public static class Util
     {
-        private static Dictionary<string, HashSet<KeyValuePair<string, string>>> iControl = new Dictionary<string, HashSet<KeyValuePair<string, string>>>();
 
-        static Util()
+        public static T TryFindParent<T>(this DependencyObject child) where T : DependencyObject
         {
-            //foreach(var t in DragDropDataObjectToPluginConverter.PluginManager.LoadedTypes.Values)
-            //{
-            //    var properties = t.CreateObject().GetProperties();
+            //get parent item
+            DependencyObject parentObject = GetParentObject(child);
 
-            //    foreach (var info in properties)
-            //    {
-            //        string typeString = info.PropertyInfo.PropertyType.FullName;
+            //we've reached the end of the tree
+            if (parentObject == null) return null;
 
-            //        if(info.Direction == Direction.ControlSlave)
-            //        {
-            //            if (!(iControl.Keys.Contains(typeString)))
-            //                iControl.Add(typeString, new HashSet<KeyValuePair<string, string>>());
-
-            //            iControl[typeString].Add(new KeyValuePair<string,string>(t.FullName, t.AssemblyQualifiedName));
-            //        }
-            //    }
-            //}
-            Console.Out.WriteLine();            
+            //check if the parent matches the type we're looking for
+            T parent = parentObject as T;
+            if (parent != null)
+            {
+                return parent;
+            }
+            else
+            {
+                //use recursion to proceed with next level
+                return TryFindParent<T>(parentObject);
+            }
         }
 
-        public static List<IPlugin> GetICSlaves(string icontrolType)
+        public static DependencyObject GetParentObject(this DependencyObject child)
         {
-            List<IPlugin> list = null;
-            HashSet<KeyValuePair<string, string>> set;
-            if(iControl.TryGetValue(icontrolType, out set))
+            if (child == null) return null;
+
+            //handle content elements separately
+            ContentElement contentElement = child as ContentElement;
+            if (contentElement != null)
             {
-                list = new List<IPlugin>();
-                foreach(var e in set)
-                {
-                    list.Add(DragDropDataObjectToPluginConverter.CreatePluginInstance(e.Key, e.Value).CreateObject());
-                }
+                DependencyObject parent = ContentOperations.GetParent(contentElement);
+                if (parent != null) return parent;
+
+                FrameworkContentElement fce = contentElement as FrameworkContentElement;
+                return fce != null ? fce.Parent : null;
             }
-            return list;
+
+            //also try searching for parent in framework elements (such as DockPanel, etc)
+            FrameworkElement frameworkElement = child as FrameworkElement;
+            if (frameworkElement != null)
+            {
+                DependencyObject parent = frameworkElement.Parent;
+                if (parent != null) return parent;
+            }
+
+            //if it's not a ContentElement/FrameworkElement, rely on VisualTreeHelper
+            return VisualTreeHelper.GetParent(child);
         }
 
         public static MultiBinding CreateConnectorBinding(BinConnectorVisual connectable, CryptoLineView link)
