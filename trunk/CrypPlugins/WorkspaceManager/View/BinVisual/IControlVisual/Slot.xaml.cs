@@ -114,14 +114,14 @@ namespace WorkspaceManager.View.BinVisual.IControlVisual
             {
                 type = e.NewValue as SlaveType;
                 model.WorkspaceModel.ModifyModel(new DeletePluginModelOperation(slot.ActiveModel));
-                slot.ActiveModel = null;
                 args= new PluginChangedEventArgs(slot.ActiveModel.Plugin, slot.ActiveModel.GetName(), DisplayPluginMode.Normal);
                 slot.MyEditor.onSelectedPluginChanged(args);
+                slot.ActiveModel = null;
             }
 
             if (e.OldValue != null && e.NewValue != null)
             {
-                if (((Type)e.OldValue).IsAssignableFrom((Type)e.NewValue))
+                if (((SlaveType)e.OldValue).Type.IsAssignableFrom(((SlaveType)e.NewValue).Type))
                     return;
             }
 
