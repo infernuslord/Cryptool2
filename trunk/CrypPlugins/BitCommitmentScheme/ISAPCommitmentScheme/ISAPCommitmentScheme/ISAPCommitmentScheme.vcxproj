@@ -105,6 +105,9 @@ copy "$(TargetDir)ISAPCommitmentScheme.dll" "."</Command>
     <ClCompile Include="src\ISAPCommitmentScheme.cpp" />
     <ClCompile Include="src\ISAPCommitmentSchemeApp.cc" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="src\ISAPCommitmentScheme.hh" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
