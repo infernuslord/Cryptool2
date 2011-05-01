@@ -137,8 +137,8 @@ namespace WorkspaceManager.View.BinVisual
             }
         }
 
-        private ObservableCollection<ConnectorModelWrapper> iControlCollection = new ObservableCollection<ConnectorModelWrapper>();
-        public ObservableCollection<ConnectorModelWrapper> IControlCollection { get { return iControlCollection; } }
+        private ObservableCollection<IControlMasterElement> iControlCollection = new ObservableCollection<IControlMasterElement>();
+        public ObservableCollection<IControlMasterElement> IControlCollection { get { return iControlCollection; } }
 
         private ObservableCollection<BinConnectorVisual> connectorCollection = new ObservableCollection<BinConnectorVisual>();
         public ObservableCollection<BinConnectorVisual> ConnectorCollection { get { return connectorCollection; } }
@@ -249,6 +249,20 @@ namespace WorkspaceManager.View.BinVisual
             }
         }
 
+        public static readonly DependencyProperty IsICPopUpOpenProperty = DependencyProperty.Register("IsICPopUpOpen",
+        typeof(bool), typeof(BinComponentVisual), new FrameworkPropertyMetadata(false));
+
+        public bool IsICPopUpOpen
+        {
+            get
+            {
+                return (bool)base.GetValue(IsICPopUpOpenProperty);
+            }
+            set
+            {
+                base.SetValue(IsICPopUpOpenProperty, value);
+            }
+        }
 
         public static readonly DependencyProperty IsRepeatableProperty = DependencyProperty.Register("IsRepeatable",
             typeof(bool), typeof(BinComponentVisual), new FrameworkPropertyMetadata(false));
@@ -431,7 +445,7 @@ namespace WorkspaceManager.View.BinVisual
                         pm = m.GetOutputConnections()[0].To.PluginModel;
                     }
 
-                    IControlCollection.Add(new ConnectorModelWrapper(m, pm));
+                    IControlCollection.Add(new IControlMasterElement(m, pm));
                     continue;
                 }
 
@@ -582,12 +596,6 @@ namespace WorkspaceManager.View.BinVisual
             Model.WorkspaceModel.ModifyModel(new ResizeModelElementOperation(Model, WindowWidth, WindowHeight));
             e.Handled = true;
         }
-
-        //private void ClosePopUp(object sender, RoutedEventArgs e)
-        //{
-        //    IControlPopUp.IsOpen = false;
-        //    e.Handled = true;
-        //}
 
         private void PositionDragDeltaHandler(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
         {
@@ -831,27 +839,15 @@ namespace WorkspaceManager.View.BinVisual
     }
 
 
-    public class ConnectorModelWrapper
+    public class IControlMasterElement
     {
         public PluginModel PluginModel { get; private set; }
         public ConnectorModel ConnectorModel { get; private set; }
 
-        public ConnectorModelWrapper(ConnectorModel connectorModel, PluginModel pluginModel)
+        public IControlMasterElement(ConnectorModel connectorModel, PluginModel pluginModel)
         {
             this.ConnectorModel = connectorModel;
             this.PluginModel = pluginModel;
-        }
-    }
-
-    public class IPluginWrapper
-    {
-        public IPlugin Plugin { get; private set; }
-        public Image Image { get { return Plugin.GetImage(0); } }
-        public string ToolTip { get { return Plugin.GetPluginInfoAttribute().Caption; } }
-
-        public IPluginWrapper(IPlugin plugin)
-        {
-            this.Plugin = plugin;
         }
     }
     #endregion

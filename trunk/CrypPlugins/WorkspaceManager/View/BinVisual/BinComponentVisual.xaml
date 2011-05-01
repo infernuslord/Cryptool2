@@ -5,9 +5,11 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:state="clr-namespace:WorkspaceManager.View.Base"
              xmlns:local="clr-namespace:WorkspaceManager.View.BinVisual"
+             xmlns:ic="clr-namespace:WorkspaceManager.View.BinVisual.IControlVisual"
              xmlns:model="clr-namespace:WorkspaceManager.Model;assembly=WorkspaceManagerModel"
              xmlns:dragdrop="clr-namespace:DragDropListBox"
              xmlns:container="clr-namespace:WorkspaceManager.View.Container"
+             xmlns:bin="clr-namespace:WorkspaceManager.View.BinVisual"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
              DataContext="{Binding RelativeSource={x:Static RelativeSource.Self}}">
@@ -276,11 +278,6 @@
                     <Setter Property="Content" Value="{x:Null}"></Setter>
                 </DataTrigger>
             </Style.Triggers>
-            <Setter Property="Tag">
-                <Setter.Value>
-                    <Image Source="/WorkspaceManager;component/View/Image/play.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"/>
-                </Setter.Value>
-            </Setter>
             <Setter Property="ToolTip" Value="Show IControls"></Setter>
             <Setter Property="Height" Value="12"></Setter>
             <Setter Property="Width" Value="12"></Setter>
@@ -393,11 +390,10 @@
         </x:Array>
 
         <x:Array Type="{x:Type ButtonBase}" x:Key="Operations">
-            <ToggleButton x:Name="IControlButton" Style="{StaticResource ResourceKey=ICMButtonStyle}">
+            <ToggleButton x:Name="IControlButton" Style="{StaticResource ResourceKey=ICMButtonStyle}" IsChecked="{Binding Path=IsICPopUpOpen, Mode=TwoWay}">
                 <ToggleButton.Tag>
                     <Image Source="/WorkspaceManager;component/View/Image/icm.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"/>
                 </ToggleButton.Tag>
-                <sys:Boolean>True</sys:Boolean>
             </ToggleButton>
 
             <Button Style="{StaticResource ResourceKey=RepeatableButtonStyle}" Click="RepeatHandler"></Button>
@@ -560,34 +556,7 @@
                              Text="{Binding Path=CustomName, Mode=TwoWay}" Width="{Binding ElementName=Window, Path=ActualWidth}"
                              Grid.Row="2"></local:CustomTextBox>
         <!--##########/Name##########-->
-
-        <local:BinIControlVisual IsOpen="false" StaysOpen="True"
-                                 IControlList="{Binding Path=IControlCollection}"></local:BinIControlVisual>
-        
-        <!--<Popup x:Name="IControlPopUp" PopupAnimation="Fade" StaysOpen="True" Placement="MousePoint" AllowsTransparency="True" Width="150" Height="100">
-            <Border BorderBrush="#aaffe154" Background="#55ffe154" CornerRadius="5,5,5,5" BorderThickness="2">
-                <DockPanel x:Name="IC" DockPanel.Dock="Top">
-                    <Grid DockPanel.Dock="Top">
-                        <Button Height="30" Width="30" Style="{StaticResource ResourceKey=ActionBasicStyle}" Click="ClosePopUp" HorizontalAlignment="Right" VerticalAlignment="Top">
-                            <Button.Tag>
-                                <Image Source="/WorkspaceManager;component/View/Image/delete.png" HorizontalAlignment="Center" SnapsToDevicePixels="True" Margin="1,1,1,1"/>
-                            </Button.Tag>
-                        </Button>
-                        <ItemsControl Panel.ZIndex="777777" HorizontalAlignment="Center" ItemsSource="{Binding Path=IControlCollection}">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <WrapPanel Width="auto" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate DataType="{x:Type local:ConnectorModelWrapper}">
-                                    <container:IControlPlaceHolder Model="{Binding Path=Model}" PluginModel="{Binding Path=pm}" Margin="5"></container:IControlPlaceHolder>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                    </Grid>
-                </DockPanel>
-            </Border>
-        </Popup>-->
+        <ic:BinIControlVisual Connectors="{Binding Path=IControlCollection}" IsOpen="{Binding Path=IsICPopUpOpen, Mode= TwoWay}" 
+                              PlacementTarget="{Binding ElementName=OperationsItemsControl}" Placement="Top"></ic:BinIControlVisual>
     </Grid>
 </UserControl>
