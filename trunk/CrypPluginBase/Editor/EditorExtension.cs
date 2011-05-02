@@ -27,10 +27,17 @@ namespace Cryptool.PluginBase.Editor
 
         public static EditorInfoAttribute GetEditorInfoAttribute(this Type type)
         {
-            EditorInfoAttribute[] attributes = (EditorInfoAttribute[])type.GetCustomAttributes(typeof(EditorInfoAttribute), false);
-            if (attributes.Length == 1)
-                return attributes[0];
-            return null;
+            try
+            {
+                EditorInfoAttribute[] attributes = (EditorInfoAttribute[])type.GetCustomAttributes(typeof(EditorInfoAttribute), false);
+                if (attributes.Length == 1)
+                    return attributes[0];
+                return null;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
     }
 }
