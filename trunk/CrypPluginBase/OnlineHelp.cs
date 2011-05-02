@@ -12,6 +12,15 @@ namespace Cryptool.PluginBase
         public static readonly string RelativePluginDocDirectory = "PluginDocs";
         public static readonly string PluginDocDirectory = Path.Combine(HelpDirectory, RelativePluginDocDirectory);
 
+        public delegate void ShowPluginDocPageHandler(Type plugin);
+        public static event ShowPluginDocPageHandler ShowPluginDocPage;
+
+        public static void InvokeShowPluginDocPage(Type plugin)
+        {
+            if (ShowPluginDocPage != null) 
+                ShowPluginDocPage(plugin);
+        }
+
         public static string GetPluginDocFilename(Type plugin, string lang)
         {
             return string.Format("{0}_{1}.html", plugin.GetPluginInfoAttribute().Caption, lang);
