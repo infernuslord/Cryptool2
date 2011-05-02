@@ -8,7 +8,6 @@
              xmlns:ic="clr-namespace:WorkspaceManager.View.BinVisual.IControlVisual"
              xmlns:model="clr-namespace:WorkspaceManager.Model;assembly=WorkspaceManagerModel"
              xmlns:dragdrop="clr-namespace:DragDropListBox"
-             xmlns:container="clr-namespace:WorkspaceManager.View.Container"
              xmlns:bin="clr-namespace:WorkspaceManager.View.BinVisual"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 

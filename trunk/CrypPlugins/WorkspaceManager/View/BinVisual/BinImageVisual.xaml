@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:bin="clr-namespace:WorkspaceManager.View.BinVisual"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
              DataContext="{Binding RelativeSource={x:Static RelativeSource.Self}}">
@@ -12,7 +13,48 @@
     </UserControl.RenderTransform>
     <UserControl.Resources>
 
+        <Style x:Key="TextBoxStyle" TargetType="{x:Type TextBoxBase}">
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="KeyboardNavigation.TabNavigation" Value="None"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="Foreground" Value="#666"></Setter>
+            <Setter Property="AllowDrop" Value="true"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBoxBase}">
+                        <DockPanel x:Name="Root" LastChildFill="True">
+                            <Rectangle DockPanel.Dock="Left" x:Name="Border" Visibility="Hidden" Fill="#888" Width="2" Height="auto"></Rectangle>
+                            <Rectangle DockPanel.Dock="Top" x:Name="Border2" Visibility="Hidden" Fill="#888" Height="2" Width="auto"></Rectangle>
+                            <ScrollViewer Margin="0" x:Name="PART_ContentHost"/>
+                        </DockPanel>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsFocused" Value="False">
+                                <Setter Property="Visibility" Value="Hidden" TargetName="Border"></Setter>
+                                <Setter Property="Visibility" Value="Hidden" TargetName="Border2"></Setter>
+                            </Trigger>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter Property="Visibility" Value="Visible" TargetName="Border"></Setter>
+                                <Setter Property="Visibility" Value="Visible" TargetName="Border2"></Setter>
+                                <!--<Setter Property="Background" Value="#fff" TargetName="Root"></Setter>-->
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Visibility" Value="Visible" TargetName="Border"></Setter>
+                                <Setter Property="Visibility" Value="Visible" TargetName="Border2"></Setter>
+                                <!--<Setter Property="Background" Value="#fff" TargetName="Root"></Setter>-->
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
         <Style TargetType="{x:Type Thumb}" x:Key="InvisibleThumbStyle">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=IsLocked}" Value="False">
+                    <Setter Property="Visibility" Value="Collapsed"></Setter>
+                </DataTrigger>
+            </Style.Triggers>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Thumb}">
@@ -80,14 +122,14 @@
                     <Setter Property="ToolTip" Value="Lock"></Setter>
                     <Setter Property="Tag">
                         <Setter.Value>
-                            <Image Source="/WorkspaceManager;component/View/Image/maxi.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"></Image>
+                            <Image Source="/WorkspaceManager;component/View/Image/lock.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"></Image>
                         </Setter.Value>
                     </Setter>
                 </DataTrigger>
             </Style.Triggers>
             <Setter Property="Tag">
                 <Setter.Value>
-                    <Image Source="/WorkspaceManager;component/View/Image/minimize.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"></Image>
+                    <Image Source="/WorkspaceManager;component/View/Image/unlock.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"></Image>
                 </Setter.Value>
             </Setter>
             <Setter Property="ToolTip" Value="Unlock"></Setter>
@@ -105,8 +147,8 @@
         <Style x:Key="WindowStyle" TargetType="{x:Type Border}">
             <Setter Property="Height" Value="{Binding Path=WindowHeight}"></Setter>
             <Setter Property="Width" Value="{Binding Path=WindowWidth}"></Setter>
-            <Setter Property="MinHeight" Value="200"></Setter>
-            <Setter Property="MinWidth" Value="200"></Setter>
+            <Setter Property="MinHeight" Value="250"></Setter>
+            <Setter Property="MinWidth" Value="250"></Setter>
         </Style>
 
         <Style TargetType="{x:Type Button}" x:Key="OperationBasicStyle">
@@ -199,7 +241,7 @@
 
         <x:Array Type="{x:Type Button}" x:Key="Operations">
 
-            <Button Style="{StaticResource ResourceKey=OperationLockStyle}" Click="ActionHandler"></Button>
+            <Button Style="{StaticResource ResourceKey=OperationLockStyle}" Click="LockHandler"></Button>
 
             <Button Style="{StaticResource ResourceKey=OperationBasicStyle}" Click="CloseClick">
                 <Button.Tag>
@@ -207,87 +249,97 @@
                 </Button.Tag>
             </Button>
         </x:Array>
+
+        <Style x:Key="BorderWindowStyle" TargetType="Border">
+
+        </Style>
+
+        <Style x:Key="TitleRectStyle" TargetType="Rectangle">
+
+        </Style>
+
+        <Style x:Key="TitleBarStyle" TargetType="DockPanel">
+
+        </Style>
     </UserControl.Resources>
-    <UserControl.ContentTemplate>
-        <DataTemplate>
-            <Grid x:Name="Root">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"></RowDefinition>
-                    <RowDefinition Height="20"></RowDefinition>
-                </Grid.RowDefinitions>
-                <Grid Grid.Row="0">
-                    <!--##########Definitions##########-->
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="18"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="18"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="18"></RowDefinition>
-                        <RowDefinition Height="*"></RowDefinition>
-                        <RowDefinition Height="18"></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <!--##########/Definitions##########-->
+    <Grid x:Name="Root">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="20"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <!--##########Definitions##########-->
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="18"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="18"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="18"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="18"></RowDefinition>
+            </Grid.RowDefinitions>
+            <!--##########/Definitions##########-->
 
 
-                    <!--##########Window##########-->
-                    <Border CornerRadius="5" BorderThickness="2" BorderBrush="#444" Grid.Row="1" Grid.Column="1">
-                        <Border x:Name="Window" Style="{StaticResource ResourceKey=WindowStyle}" CornerRadius="5" BorderThickness="3">
+            <!--##########Window##########-->
+            <Border Style="{StaticResource ResourceKey=BorderWindowStyle}" CornerRadius="5" BorderThickness="2" BorderBrush="#444" Grid.Row="1" Grid.Column="1">
+                <Border x:Name="Window" Style="{StaticResource ResourceKey=WindowStyle}" Background="#fff" BorderBrush="#eee" CornerRadius="5" BorderThickness="3">
+                    <Grid>
+                        <!--##########Definitions##########-->
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="25"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <!--<RowDefinition Height="16"></RowDefinition>-->
+                        </Grid.RowDefinitions>
+                        <!--##########/Definitions##########-->
+
+                        <!--##########Window Titlebar##########-->
+
+                        <Rectangle Style="{StaticResource ResourceKey=TitleRectStyle}" Fill="#eee" Height="16" VerticalAlignment="Top" Grid.Column="0" Grid.Row="0"></Rectangle>
+
+                        <DockPanel Style="{StaticResource ResourceKey=TitleBarStyle}" LastChildFill="True" Grid.Column="0" Grid.Row="0">
+                            <Border Background="#eee" Padding="0,0,7,0" CornerRadius="0,0,10,0" DockPanel.Dock="Left" Width="150">
+                                <bin:CustomTextBox Style="{StaticResource ResourceKey=TextBoxStyle}" ToolTip="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Text}"
+                                    Text="{Binding Path=WindowName, Mode=TwoWay}"></bin:CustomTextBox>
+                            </Border>
+                            
+                            <ItemsControl x:Name="OperationsItemsControl" ItemsSource="{StaticResource ResourceKey=Operations}" HorizontalAlignment="Right" VerticalAlignment="Top" DockPanel.Dock="Right">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Horizontal"></StackPanel>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                            </ItemsControl>
+
                             <Grid>
-                                <!--##########Definitions##########-->
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"></ColumnDefinition>
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="25"></RowDefinition>
-                                    <RowDefinition Height="*"></RowDefinition>
-                                    <RowDefinition Height="12"></RowDefinition>
-                                    <!--<RowDefinition Height="16"></RowDefinition>-->
-                                </Grid.RowDefinitions>
-                                <!--##########/Definitions##########-->
-
-                                <!--##########Window Titlebar##########-->
-                                <Rectangle Fill="{Binding ElementName=Window, Path=BorderBrush}" Height="16" VerticalAlignment="Top" Grid.Column="0" Grid.Row="0"></Rectangle>
-
-                                <DockPanel LastChildFill="True" Grid.Column="0" Grid.Row="0">
-
-                                    <ItemsControl x:Name="OperationsItemsControl" ItemsSource="{StaticResource ResourceKey=Operations}" HorizontalAlignment="Right" VerticalAlignment="Top" DockPanel.Dock="Right">
-                                        <ItemsControl.ItemsPanel>
-                                            <ItemsPanelTemplate>
-                                                <StackPanel Orientation="Horizontal"></StackPanel>
-                                            </ItemsPanelTemplate>
-                                        </ItemsControl.ItemsPanel>
-                                    </ItemsControl>
-
-                                    <Grid>
-                                        <TextBox Text="{Binding Path=WindowName}" FontFamily="Tahoma" FontWeight="ExtraBold" TextAlignment="Center" Foreground="#666"></TextBox>
-
-                                        <Thumb x:Name="TitleThumb" Style="{StaticResource ResourceKey=InvisibleThumbStyle}" Grid.Column="0" Grid.Row="1"
+                                <Thumb x:Name="TitleThumb" Style="{StaticResource ResourceKey=InvisibleThumbStyle}"
                                         DragDelta="PositionDragDeltaHandler"></Thumb>
-                                    </Grid>
+                            </Grid>
 
-                                </DockPanel>
-                                <!--##########/Window Titlebar##########-->
+                        </DockPanel>
+                        <!--##########/Window Titlebar##########-->
 
-                                <!--##########Content##########-->
-                                <Grid Grid.Column="0" Grid.Row="1">
-                                    <Grid.Background>
-                                        <ImageBrush ImageSource="{Binding Path=Source}"></ImageBrush>
-                                    </Grid.Background>
-                                </Grid>
-                                <!--##########/Content##########-->
+                        <!--##########Content##########-->
+                        <Grid Grid.Column="0" Grid.Row="1">
+                            <Grid.Background>
+                                <ImageBrush ImageSource="{Binding Path=Source}" Stretch="UniformToFill"></ImageBrush>
+                            </Grid.Background>
+                        </Grid>
+                        <!--##########/Content##########-->
 
-                                <Thumb x:Name="ContentThumb" Style="{StaticResource ResourceKey=InvisibleThumbStyle}" Grid.Column="0" Grid.Row="1" Grid.RowSpan="2"
+                        <Thumb x:Name="ContentThumb" Style="{StaticResource ResourceKey=InvisibleThumbStyle}" Grid.Column="0" Grid.Row="1"
                                DragDelta="PositionDragDeltaHandler"></Thumb>
 
-                                <Thumb x:Name="ScaleThumb" Style="{StaticResource ResourceKey=ScaleThumb}" Margin="2" Grid.Column="0" Grid.Row="1" Grid.RowSpan="2"
+                        <Thumb x:Name="ScaleThumb" Style="{StaticResource ResourceKey=ScaleThumb}" Margin="2" Grid.Column="0" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Right"
                                Cursor="SizeNWSE" DragDelta="ScaleDragDeltaHandler"></Thumb>
-                            </Grid>
-                        </Border>
-                    </Border>
-                    <!--##########/Window##########-->
-                </Grid>
-            </Grid>
-        </DataTemplate>
-    </UserControl.ContentTemplate>
+                    </Grid>
+                </Border>
+            </Border>
+            <!--##########/Window##########-->
+        </Grid>
+    </Grid>
 </UserControl>

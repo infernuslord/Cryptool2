@@ -94,7 +94,7 @@ namespace WorkspaceManager.View.BinVisual
         }
 
         public static readonly DependencyProperty WindowNameProperty = DependencyProperty.Register("WindowName",
-            typeof(string), typeof(BinImageVisual), new FrameworkPropertyMetadata(string.Empty, null));
+            typeof(string), typeof(BinImageVisual), new FrameworkPropertyMetadata("Lol test", null));
 
         public string WindowName
         {
@@ -144,15 +144,9 @@ namespace WorkspaceManager.View.BinVisual
         virtual protected void CloseClick(object sender, RoutedEventArgs e) { }
 
 
-        private void ActionHandler(object sender, RoutedEventArgs e)
+        private void LockHandler(object sender, RoutedEventArgs e)
         {
-            Button b = (Button)sender;
-            if (b.Content is bool)
-            {
-                IsLocked = !((bool)b.Content);
-                return;
-            }
-
+            IsLocked = !IsLocked;
             e.Handled = true;
         }
 
