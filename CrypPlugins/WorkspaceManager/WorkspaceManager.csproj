@@ -110,9 +110,6 @@
     <Compile Include="View\BinVisual\IControlVisual\Slot.xaml.cs">
       <DependentUpon>Slot.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Container\IControlPlaceHolder.xaml.cs">
-      <DependentUpon>IControlPlaceHolder.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\VisualComponents\ColorPickPopUp.xaml.cs">
       <SubType>Code</SubType>
       <DependentUpon>ColorPickPopUp.xaml</DependentUpon>
@@ -217,10 +214,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\BinVisual\IControlVisual\Slot.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\Container\IControlPlaceHolder.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -366,6 +359,10 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="View\Image\WorkspaceManagerIcon_orig.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="View\Image\lock.png" />
+    <Resource Include="View\Image\unlock.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

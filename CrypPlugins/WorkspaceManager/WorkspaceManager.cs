@@ -29,7 +29,6 @@ using Cryptool.PluginBase;
 using WorkspaceManager.Model;
 using WorkspaceManager.View;
 using WorkspaceManager.Execution;
-using WorkspaceManager.View.Container;
 using System.Windows;
 using System.Windows.Threading;
 using System.Threading;

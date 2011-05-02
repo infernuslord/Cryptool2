@@ -10,7 +10,6 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WorkspaceManagerModel.Model.Interfaces;
 using WorkspaceManager.Model;
-using WorkspaceManager.View.Container;
 using WorkspaceManager.View.Base;
 using System.ComponentModel;
 using WorkspaceManager.View.VisualComponents;
@@ -625,7 +624,7 @@ namespace WorkspaceManager.View.BinVisual
 
         private void MouseLeftButtonDownHandler(object sender, MouseButtonEventArgs e)
         {
-            if (!(e.Source is BinComponentVisual))
+            if (!(e.Source is BinComponentVisual) && !(e.Source is BinImageVisual))
             {
                 startDragPoint = Mouse.GetPosition(sender as FrameworkElement);
                 Mouse.OverrideCursor = Cursors.Hand;
@@ -638,6 +637,11 @@ namespace WorkspaceManager.View.BinVisual
                     var result = Util.TryFindParent<BinIControlVisual>(e.OriginalSource as UIElement);
                     if (result != null)
                         return;
+
+                    if (e.Source is BinImageVisual)
+                    {
+                        return;
+                    }
 
                     if (e.Source is BinComponentVisual && e.OriginalSource is FrameworkElement)
                     {

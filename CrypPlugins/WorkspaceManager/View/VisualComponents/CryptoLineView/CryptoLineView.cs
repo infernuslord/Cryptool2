@@ -11,7 +11,6 @@ using WorkspaceManager.Model;
 using System.Windows.Documents;
 using System.Collections.Generic;
 using System.Threading;
-using WorkspaceManager.View.Container;
 using System.Collections;
 using WorkspaceManager.View.VisualComponents.StackFrameDijkstra;
 using System.Windows.Data;
