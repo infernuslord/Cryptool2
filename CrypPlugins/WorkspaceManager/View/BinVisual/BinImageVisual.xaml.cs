@@ -94,7 +94,7 @@ namespace WorkspaceManager.View.BinVisual
         }
 
         public static readonly DependencyProperty WindowNameProperty = DependencyProperty.Register("WindowName",
-            typeof(string), typeof(BinImageVisual), new FrameworkPropertyMetadata("Lol test", null));
+            typeof(string), typeof(BinImageVisual), new FrameworkPropertyMetadata("Enter Name", null));
 
         public string WindowName
         {
