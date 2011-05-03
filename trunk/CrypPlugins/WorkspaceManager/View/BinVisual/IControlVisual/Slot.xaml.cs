@@ -214,7 +214,7 @@ namespace WorkspaceManager.View.BinVisual.IControlVisual
 
             Point point;
             if (Index <= -1)
-                point = new Point(ActualWidth, ActualHeight);
+                point = new Point(52, 52);
             else
                 point = ItemPanel.TransformToVisual(ItemPanel.Children[i]).Transform(new Point(0, 0));
             HorizontalOffset = point.X + offset;

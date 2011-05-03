@@ -249,97 +249,65 @@
                 </Button.Tag>
             </Button>
         </x:Array>
-
-        <Style x:Key="BorderWindowStyle" TargetType="Border">
-
-        </Style>
-
-        <Style x:Key="TitleRectStyle" TargetType="Rectangle">
-
-        </Style>
-
-        <Style x:Key="TitleBarStyle" TargetType="DockPanel">
-
-        </Style>
+        
     </UserControl.Resources>
-    <Grid x:Name="Root">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="20"></RowDefinition>
-        </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
+
+    <!--##########Window##########-->
+    <Border Style="{StaticResource ResourceKey=WindowStyle}">
+        <Grid>
             <!--##########Definitions##########-->
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="18"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="18"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="18"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="18"></RowDefinition>
+                <!--<RowDefinition Height="16"></RowDefinition>-->
             </Grid.RowDefinitions>
             <!--##########/Definitions##########-->
 
+            <!--##########Window Titlebar##########-->
 
-            <!--##########Window##########-->
-            <Border Style="{StaticResource ResourceKey=BorderWindowStyle}" CornerRadius="5" BorderThickness="2" BorderBrush="#444" Grid.Row="1" Grid.Column="1">
-                <Border x:Name="Window" Style="{StaticResource ResourceKey=WindowStyle}" Background="#fff" BorderBrush="#eee" CornerRadius="5" BorderThickness="3">
-                    <Grid>
-                        <!--##########Definitions##########-->
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="25"></RowDefinition>
-                            <RowDefinition Height="*"></RowDefinition>
-                            <!--<RowDefinition Height="16"></RowDefinition>-->
-                        </Grid.RowDefinitions>
-                        <!--##########/Definitions##########-->
-
-                        <!--##########Window Titlebar##########-->
-
-                        <Rectangle Style="{StaticResource ResourceKey=TitleRectStyle}" Fill="#eee" Height="16" VerticalAlignment="Top" Grid.Column="0" Grid.Row="0"></Rectangle>
-
-                        <DockPanel Style="{StaticResource ResourceKey=TitleBarStyle}" LastChildFill="True" Grid.Column="0" Grid.Row="0">
-                            <Border Background="#eee" Padding="0,0,7,0" CornerRadius="0,0,10,0" DockPanel.Dock="Left" Width="150">
-                                <bin:CustomTextBox Style="{StaticResource ResourceKey=TextBoxStyle}" ToolTip="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Text}"
-                                    Text="{Binding Path=WindowName, Mode=TwoWay}"></bin:CustomTextBox>
-                            </Border>
-                            
-                            <ItemsControl x:Name="OperationsItemsControl" ItemsSource="{StaticResource ResourceKey=Operations}" HorizontalAlignment="Right" VerticalAlignment="Top" DockPanel.Dock="Right">
-                                <ItemsControl.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <StackPanel Orientation="Horizontal"></StackPanel>
-                                    </ItemsPanelTemplate>
-                                </ItemsControl.ItemsPanel>
-                            </ItemsControl>
-
-                            <Grid>
-                                <Thumb x:Name="TitleThumb" Style="{StaticResource ResourceKey=InvisibleThumbStyle}"
-                                        DragDelta="PositionDragDeltaHandler"></Thumb>
-                            </Grid>
-
-                        </DockPanel>
-                        <!--##########/Window Titlebar##########-->
-
-                        <!--##########Content##########-->
-                        <Grid Grid.Column="0" Grid.Row="1">
-                            <Grid.Background>
-                                <ImageBrush ImageSource="{Binding Path=Source}" Stretch="UniformToFill"></ImageBrush>
-                            </Grid.Background>
-                        </Grid>
-                        <!--##########/Content##########-->
-
-                        <Thumb x:Name="ContentThumb" Style="{StaticResource ResourceKey=InvisibleThumbStyle}" Grid.Column="0" Grid.Row="1"
-                               DragDelta="PositionDragDeltaHandler"></Thumb>
-
-                        <Thumb x:Name="ScaleThumb" Style="{StaticResource ResourceKey=ScaleThumb}" Margin="2" Grid.Column="0" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Right"
-                               Cursor="SizeNWSE" DragDelta="ScaleDragDeltaHandler"></Thumb>
-                    </Grid>
+            <DockPanel LastChildFill="True" Grid.Column="0" Grid.Row="0">
+                <Border Background="#eee" CornerRadius="5,5,0,0" BorderThickness="2,2,2,0" BorderBrush="White" DockPanel.Dock="Left" Width="150">
+                    <bin:CustomTextBox Style="{StaticResource ResourceKey=TextBoxStyle}" ToolTip="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Text}" FontSize="11"
+                        Text="{Binding Path=WindowName, Mode=TwoWay}"></bin:CustomTextBox>
                 </Border>
+
+                <Border Background="#eee" Padding="2" VerticalAlignment="Bottom" CornerRadius="5,5,0,0" BorderThickness="2,2,2,0" BorderBrush="White" DockPanel.Dock="Right">
+                    <ItemsControl x:Name="OperationsItemsControl" ItemsSource="{StaticResource ResourceKey=Operations}" HorizontalAlignment="Right" VerticalAlignment="Top">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal"></StackPanel>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                </Border>
+
+                <Thumb x:Name="TitleThumb" Style="{StaticResource ResourceKey=InvisibleThumbStyle}"
+                        DragDelta="PositionDragDeltaHandler"></Thumb>
+
+                <Rectangle Height="3" Fill="White" VerticalAlignment="Bottom"></Rectangle>
+
+            </DockPanel>
+            <!--##########/Window Titlebar##########-->
+            <Border BorderThickness="2,0,2,2" BorderBrush="White" CornerRadius="0,0,5,5" Grid.Column="0" Grid.Row="1">
+            <!--##########Content##########-->
+
+                <Grid Grid.Column="0" Grid.Row="1">
+                    <Grid.Background>
+                        <ImageBrush ImageSource="{Binding Path=Source}" Stretch="UniformToFill"></ImageBrush>
+                    </Grid.Background>
+                            
+                    <Thumb x:Name="ContentThumb" Style="{StaticResource ResourceKey=InvisibleThumbStyle}"
+                        DragDelta="PositionDragDeltaHandler"></Thumb>
+
+                    <Thumb x:Name="ScaleThumb" Style="{StaticResource ResourceKey=ScaleThumb}" Margin="2" VerticalAlignment="Bottom" HorizontalAlignment="Right"
+                        Cursor="SizeNWSE" DragDelta="ScaleDragDeltaHandler"></Thumb>
+                </Grid>
+            <!--##########/Content##########-->
             </Border>
-            <!--##########/Window##########-->
         </Grid>
-    </Grid>
+    </Border>
+    <!--##########/Window##########-->
 </UserControl>
