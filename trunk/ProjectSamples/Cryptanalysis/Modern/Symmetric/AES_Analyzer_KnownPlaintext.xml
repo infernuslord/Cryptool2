@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<sample>
+	<title lang="en">AES Analyzing known plaintext</title>
+	<title lang="de">AES Analyse "known plaintext"</title>
+	
+	<description lang="en">
+		This template shows how to use the <i>Keysearcher</i> with <i>AES</i> and the <i>Costfunction</i> regex. <newline/>		
+	</description>
+	<description lang="de">
+		Diese Vorlage zeigt die Verwendung des <i>Keysearcher</i> mit <i>AES</i> und der <i>Kostenfunktion</i> Regex. <newline/>
+	</description>
+	
+	<icon file="AES_Sample.png"/>
+	
+	<relevantPlugins>
+		<plugin name="KeySearcher"/>
+		<plugin name="AES"/>
+		<plugin name="Costfunction"/>
+	</relevantPlugins>
+</sample>

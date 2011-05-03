@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<sample>
+	<title lang="en">RSA-Keygenerator</title>
+	<title lang="de">RSA-Schlüsselgenerator</title>
+	
+	<description lang="en">
+		This template shows how to use the <i>RSA-Keygenerator</i>. <newline/>		
+	</description>
+	<description lang="de">
+		Diese Vorlage zeigt die Verwendung des <i>RSA-Schüsselgenerators</i>. <newline/>
+	</description>
+	
+	<icon file="RSA_KeyGenerator_Sample.png"/>
+	
+	<relevantPlugins>
+		<plugin name="RSAKeyGenerator"/>
+	</relevantPlugins>
+</sample>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<sample>
+	<title lang="en">KeySearcher AES RegEx Sample</title>
+	<title lang="de">KeySearcher AES RegEx Sample</title>
+	
+	<description lang="en">
+		This template shows how to use the <i>Keysearcher</i> with <i>AES</i> and the <i>Costfuntion</i> RegEx. <newline/>		
+	</description>
+	<description lang="de">
+		Diese Vorlage zeigt die Verwendung des <i>Keysearcher</i> mit <i>AES</i> und der <i>Kostenfunktion</i> RegEx. <newline/>
+	</description>
+	
+	<icon file="KeySearcher.png"/>
+	
+	<relevantPlugins>
+		<plugin name="KeySearcher"/>
+		<plugin name="AES"/>
+		<plugin name="Costfunction"/>
+	</relevantPlugins>
+</sample>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<sample>
+	<title lang="en">DES-Cipher</title>
+	<title lang="de">DES-Chiffre</title>
+	
+	<description lang="en">
+		This template shows how to use the <i>DES-Cipher</i>. <newline/>		
+	</description>
+	<description lang="de">
+		Diese Vorlage zeigt die Verwendung der <i>DES-Ver-/Entschlüsselung</i>. <newline/>
+	</description>
+	
+	<icon file="DES_Sample.png"/>
+	
+	<relevantPlugins>
+		<plugin name="DES"/>
+	</relevantPlugins>
+</sample>
