@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<sample>
+	<title lang="en">RSA-Cipher</title>
+	<title lang="de">RSA-Ver-/Entschlüsselung</title>
+	
+	<description lang="en">
+		This template shows how to use the <i>RSA-Cipher</i>. <newline/>		
+	</description>
+	<description lang="de">
+		Diese Vorlage zeigt die Verwendung der <i>RSA-Ver-/Entschlüsselung</i>. <newline/>
+	</description>
+	
+	<icon file="RSA_Sample.png"/>
+	
+	<relevantPlugins>
+		<plugin name="RSA"/>
+	</relevantPlugins>
+</sample>

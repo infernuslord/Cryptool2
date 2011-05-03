@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<sample>
+	<title lang="en">RC2-Cipher</title>
+	<title lang="de">RC2-Chiffre</title>
+	
+	<description lang="en">
+		This template shows how to use the <i>RC2-Cipher</i>. <newline/>		
+	</description>
+	<description lang="de">
+		Diese Vorlage zeigt die Verwendung der <i>RC2-Ver-/Entschlüsselung</i>. <newline/>
+	</description>
+	
+	<icon file="RC2_Sample.png"/>
+	
+	<relevantPlugins>
+		<plugin name="RC2"/>
+	</relevantPlugins>
+</sample>
