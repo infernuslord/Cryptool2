@@ -120,6 +120,9 @@ namespace WorkspaceManager.View.BinVisual
         public BinTextVisual(TextModel model)
         {
             InitializeComponent();
+            WindowWidth = model.GetWidth();
+            WindowHeight = model.GetHeight();
+            Position = model.GetPosition();
             Model = model;
             Model.loadRTB(mainRTB);
         } 
