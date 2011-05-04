@@ -117,6 +117,18 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ActionCaption" xml:space="preserve">
+    <value>Aktion</value>
+  </data>
+  <data name="ActionTooltip" xml:space="preserve">
+    <value>Wählen Sie die Betriebsart des Plugin</value>
+  </data>
+  <data name="GCaption" xml:space="preserve">
+    <value>öffentlicher Schlüssel G</value>
+  </data>
+  <data name="GTooltip" xml:space="preserve">
+    <value>öffentlicher Schlüssel G</value>
+  </data>
   <data name="InputGCaption" xml:space="preserve">
     <value>öffentlicher Schlüssel G</value>
   </data>
@@ -147,11 +159,32 @@
   <data name="InputOperandTooltip" xml:space="preserve">
     <value>multipliziere/addiere diesen Operanden zur verschlüsselten Nachricht</value>
   </data>
+  <data name="KeyBitLengthCaption" xml:space="preserve">
+    <value>Bitlänge des zufällig erzeugten Schlüssels</value>
+  </data>
+  <data name="KeyBitLengthTooltip" xml:space="preserve">
+    <value>Bitlänge des zufällig erzeugten Schlüssels</value>
+  </data>
+  <data name="LambdaCaption" xml:space="preserve">
+    <value>privater Schlüssel lambda</value>
+  </data>
+  <data name="LambdaTooltip" xml:space="preserve">
+    <value>privater Schlüssel lambda</value>
+  </data>
+  <data name="NCaption" xml:space="preserve">
+    <value>öffentlicher Schlüssel N</value>
+  </data>
+  <data name="NTooltip" xml:space="preserve">
+    <value>öffentlicher Schlüssel N</value>
+  </data>
   <data name="OutputCCaption" xml:space="preserve">
     <value>Ausgabe der verschlüsselten/modifizierten Nachricht</value>
   </data>
   <data name="OutputCTooltip" xml:space="preserve">
     <value>Ausgabe der verschlüsselten/modifizierten Nachricht</value>
+  </data>
+  <data name="PCaption" xml:space="preserve">
+    <value>Primzahl P</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
     <value>Paillier</value>
@@ -159,7 +192,31 @@
   <data name="PluginDescriptionURL" xml:space="preserve">
     <value />
   </data>
+  <data name="PluginKeyCaption" xml:space="preserve">
+    <value>Paillier Schlüsselgenerator</value>
+  </data>
+  <data name="PluginKeyDescriptionURL" xml:space="preserve">
+    <value />
+  </data>
+  <data name="PluginKeyTooltip" xml:space="preserve">
+    <value>Paillier Schlüsselgenerator</value>
+  </data>
   <data name="PluginTooltip" xml:space="preserve">
     <value>Paillier</value>
+  </data>
+  <data name="PTooltip" xml:space="preserve">
+    <value>Primzahl P</value>
+  </data>
+  <data name="QCaption" xml:space="preserve">
+    <value>Primzahl Q</value>
+  </data>
+  <data name="QTooltip" xml:space="preserve">
+    <value>Primzahl Q</value>
+  </data>
+  <data name="SourceCaption" xml:space="preserve">
+    <value>Herkunft der Primzahlen</value>
+  </data>
+  <data name="SourceTooltip" xml:space="preserve">
+    <value>Woher kommen die Primzahlen, auf denen die Schlüsselerzeugung basiert?</value>
   </data>
 </root>
