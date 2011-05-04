@@ -36,7 +36,7 @@ namespace Cryptool.Plugins.Paillier
     {
         #region Private Variables
 
-        private readonly PaillierSettings settings;
+        private readonly PaillierSettings settings = new PaillierSettings();
 
         private BigInteger inputn = new BigInteger(1);          // public key
         private BigInteger inputg = new BigInteger(1);          // public key
@@ -66,7 +66,7 @@ namespace Cryptool.Plugins.Paillier
 
         public Paillier()
         {
-            this.settings = new PaillierSettings();
+//            this.settings = new PaillierSettings();
             //twoPowKeyBitLength = 1 << (keyBitLength - 1);
             //generateKeys();
         }
