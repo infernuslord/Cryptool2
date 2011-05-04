@@ -95,6 +95,12 @@
     <Compile Include="View\BinVisual\BinFullscreenVisual.xaml.cs">
       <DependentUpon>BinFullscreenVisual.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\BinVisual\BinLogNotifier.xaml.cs">
+      <DependentUpon>BinLogNotifier.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\BinVisual\BinTextVisual.xaml.cs">
+      <DependentUpon>BinTextVisual.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\BinVisual\IControlVisual\BinIControlVisual.xaml.cs">
       <DependentUpon>BinIControlVisual.xaml</DependentUpon>
     </Compile>
@@ -194,6 +200,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\BinVisual\BinFullscreenVisual.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\BinVisual\BinLogNotifier.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\BinVisual\BinTextVisual.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

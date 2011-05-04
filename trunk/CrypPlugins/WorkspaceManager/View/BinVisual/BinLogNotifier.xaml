@@ -1,0 +1,87 @@
+﻿<UserControl x:Class="WorkspaceManager.View.BinVisual.BinLogNotifier"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:WorkspaceManager.View.BinVisual"
+             mc:Ignorable="d">
+    <UserControl.Resources>
+        <LinearGradientBrush x:Key="BackgroundRed" StartPoint="0,0" EndPoint="0,1">
+            <GradientBrush.GradientStops>
+                <GradientStopCollection>
+                    <GradientStop Color="#f70000" Offset="0.0"/>
+                    <GradientStop Color="#af0000" Offset="1.0"/>
+                </GradientStopCollection>
+            </GradientBrush.GradientStops>
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="BackgroundYellow" StartPoint="0,0" EndPoint="0,1">
+            <GradientBrush.GradientStops>
+                <GradientStopCollection>
+                    <GradientStop Color="#f8cc00" Offset="0.0"/>
+                    <GradientStop Color="#b19600" Offset="1.0"/>
+                </GradientStopCollection>
+            </GradientBrush.GradientStops>
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="BackgroundBlue" StartPoint="0,0" EndPoint="0,1">
+            <GradientBrush.GradientStops>
+                <GradientStopCollection>
+                    <GradientStop Color="#008cf8" Offset="0.0"/>
+                    <GradientStop Color="#0061ac" Offset="1.0"/>
+                </GradientStopCollection>
+            </GradientBrush.GradientStops>
+        </LinearGradientBrush>
+        
+        <x:Array Type="{x:Type Border}" x:Key="data">
+            <Border Width="200" Height="16" Background="{StaticResource ResourceKey=BackgroundBlue}" CornerRadius="5">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="16"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Foreground="White" FontWeight="Heavy" TextAlignment="Center" FontSize="11" TextTrimming="CharacterEllipsis" 
+                               ToolTip="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Text}">3</TextBlock>
+
+                    <TextBlock Grid.Column="1" Foreground="White"  TextAlignment="Center" FontSize="11" TextTrimming="CharacterEllipsis" Background="#55ffffff"
+                               ToolTip="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Text}">Info InfoInfo InfoInfo Info</TextBlock>
+                </Grid>
+            </Border>
+            <Border Width="200" Height="16" Background="{StaticResource ResourceKey=BackgroundYellow}" CornerRadius="5">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="16"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Foreground="White" FontWeight="Heavy" TextAlignment="Center" FontSize="11" TextTrimming="CharacterEllipsis" 
+                               ToolTip="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Text}">3</TextBlock>
+
+                    <TextBlock Grid.Column="1" Foreground="White" TextAlignment="Center" FontSize="11" TextTrimming="CharacterEllipsis" Background="#55ffffff"
+                               ToolTip="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Text}">Info InfoInfo InfoInfo Info</TextBlock>
+                </Grid>
+            </Border>
+            <Border Width="200" Height="16" Background="{StaticResource ResourceKey=BackgroundRed}" CornerRadius="5">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="16"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Foreground="White" FontWeight="Heavy" TextAlignment="Center" FontSize="11" TextTrimming="CharacterEllipsis" 
+                               ToolTip="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Text}">3</TextBlock>
+
+                    <TextBlock Grid.Column="1" Foreground="White" TextAlignment="Center" FontSize="11" TextTrimming="CharacterEllipsis" Background="#55ffffff"
+                               ToolTip="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Text}">Info InfoInfo InfoInfo Info</TextBlock>
+                </Grid>
+            </Border>
+        </x:Array>
+    </UserControl.Resources>
+    <Grid DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:BinLogNotifier}}}">
+        <ItemsControl ItemsSource="{StaticResource ResourceKey=data}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal"></StackPanel>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
+    </Grid>
+</UserControl>

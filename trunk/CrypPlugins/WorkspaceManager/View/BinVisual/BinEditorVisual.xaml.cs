@@ -249,10 +249,25 @@ namespace WorkspaceManager.View.BinVisual
                 }
                 , null);
             }
+            
+            foreach(var img in m.GetAllImageModels())
+            {
+                Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    this.VisualCollection.Add(new BinImageVisual(img));
+                }
+                , null);
+            }
 
-            //this.UserContentWrapper = new UserContentWrapper(Model, bottomBox);
-            //this.UserControlWrapperParent.Children.Clear();
-            //this.UserControlWrapperParent.Children.Add(UserContentWrapper);
+            foreach(var txt in m.GetAllTextModels())
+            {
+                Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    this.VisualCollection.Add(new BinTextVisual(txt));
+                }
+                , null);
+            }
+
             Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
                 IsLoading = false;
@@ -516,7 +531,7 @@ namespace WorkspaceManager.View.BinVisual
 
         private void AddTextHandler(object sender, AddTextEventArgs e)
         {
-
+            VisualCollection.Add(new BinTextVisual((TextModel)Model.ModifyModel(new NewTextModelOperation())));
         }
 
         private void AddImageHandler(object sender, ImageSelectedEventArgs e)
@@ -624,7 +639,7 @@ namespace WorkspaceManager.View.BinVisual
 
         private void MouseLeftButtonDownHandler(object sender, MouseButtonEventArgs e)
         {
-            if (!(e.Source is BinComponentVisual) && !(e.Source is BinImageVisual))
+            if (!(e.Source is BinComponentVisual) && !(e.Source is BinImageVisual) && !(e.Source is BinTextVisual))
             {
                 startDragPoint = Mouse.GetPosition(sender as FrameworkElement);
                 Mouse.OverrideCursor = Cursors.Hand;
@@ -638,7 +653,7 @@ namespace WorkspaceManager.View.BinVisual
                     if (result != null)
                         return;
 
-                    if (e.Source is BinImageVisual)
+                    if (e.Source is BinImageVisual || e.Source is BinTextVisual)
                     {
                         return;
                     }
