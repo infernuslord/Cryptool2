@@ -138,6 +138,9 @@ namespace WorkspaceManager.View.BinVisual
         {
             Model = model;
             Source = Model.getImage().Source;
+            WindowWidth = Model.GetWidth();
+            WindowHeight = Model.GetHeight();
+            Position = Model.GetPosition();
             InitializeComponent();
         } 
         #endregion
