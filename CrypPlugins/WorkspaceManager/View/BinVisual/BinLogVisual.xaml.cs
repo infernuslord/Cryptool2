@@ -40,6 +40,15 @@ namespace WorkspaceManager.View.BinVisual
             get { return (ObservableCollection<Log>)base.GetValue(LogMessagesProperty); }
             set { base.SetValue(LogMessagesProperty, value); }
         }
+
+        public static readonly DependencyProperty SelectedLogProperty = DependencyProperty.Register("SelectedLog",
+            typeof(Log), typeof(BinLogVisual), new FrameworkPropertyMetadata(null));
+
+        public Log SelectedLog
+        {
+            get { return (Log)base.GetValue(SelectedLogProperty); }
+            set { base.SetValue(SelectedLogProperty, value); }
+        }
         #endregion
 
         #region Properties
@@ -106,29 +115,7 @@ namespace WorkspaceManager.View.BinVisual
         }
         #endregion
 
-        #region EventHandler
-        private static void OnLogMessagesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            BinLogVisual l = (BinLogVisual)d;
-            ObservableCollection<Log> newCollection = (ObservableCollection<Log>)e.NewValue;
-            ObservableCollection<Log> oldCollection = (ObservableCollection<Log>)e.OldValue;
-
-            if (newCollection != null)
-                newCollection.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(l.LogCollectionChangedHandler);
-
-            if (oldCollection != null)
-                newCollection.CollectionChanged -= new System.Collections.Specialized.NotifyCollectionChangedEventHandler(l.LogCollectionChangedHandler);
-        }
-
-        private void LogCollectionChangedHandler(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            //1.Event 2.Data 3. ??? 4.Profit
-            OnPropertyChanged("ErrorCount");
-            OnPropertyChanged("DebugCount");
-            OnPropertyChanged("InfoCount");
-            OnPropertyChanged("WarningCount");
-        }
-        #endregion
+        #region Handler
 
         private bool FilterCallback(object item)
         {
@@ -151,6 +138,29 @@ namespace WorkspaceManager.View.BinVisual
         {
             LogMessages.Clear();
         }
+
+        private static void OnLogMessagesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            BinLogVisual l = (BinLogVisual)d;
+            ObservableCollection<Log> newCollection = (ObservableCollection<Log>)e.NewValue;
+            ObservableCollection<Log> oldCollection = (ObservableCollection<Log>)e.OldValue;
+
+            if (newCollection != null)
+                newCollection.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(l.LogCollectionChangedHandler);
+
+            if (oldCollection != null)
+                newCollection.CollectionChanged -= new System.Collections.Specialized.NotifyCollectionChangedEventHandler(l.LogCollectionChangedHandler);
+        }
+
+        private void LogCollectionChangedHandler(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            //1.Event 2.Data 3. ??? 4.Profit
+            OnPropertyChanged("ErrorCount");
+            OnPropertyChanged("DebugCount");
+            OnPropertyChanged("InfoCount");
+            OnPropertyChanged("WarningCount");
+        }
+        #endregion
     }
 
     #region Custom Class

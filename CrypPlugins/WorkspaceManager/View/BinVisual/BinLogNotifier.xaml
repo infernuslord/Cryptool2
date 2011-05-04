@@ -34,7 +34,7 @@
         </LinearGradientBrush>
         
         <x:Array Type="{x:Type Border}" x:Key="data">
-            <Border Width="200" Height="16" Background="{StaticResource ResourceKey=BackgroundBlue}" CornerRadius="5">
+            <Border Width="16" Height="16" Background="{StaticResource ResourceKey=BackgroundBlue}" CornerRadius="5">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="16"></ColumnDefinition>
@@ -54,20 +54,20 @@
                         <ColumnDefinition Width="*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" Foreground="White" FontWeight="Heavy" TextAlignment="Center" FontSize="11" TextTrimming="CharacterEllipsis" 
-                               ToolTip="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Text}">3</TextBlock>
+                               ToolTip="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Text}">9</TextBlock>
 
                     <TextBlock Grid.Column="1" Foreground="White" TextAlignment="Center" FontSize="11" TextTrimming="CharacterEllipsis" Background="#55ffffff"
                                ToolTip="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Text}">Info InfoInfo InfoInfo Info</TextBlock>
                 </Grid>
             </Border>
-            <Border Width="200" Height="16" Background="{StaticResource ResourceKey=BackgroundRed}" CornerRadius="5">
+            <Border Width="16" Height="16" Background="{StaticResource ResourceKey=BackgroundRed}" CornerRadius="5">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="16"></ColumnDefinition>
                         <ColumnDefinition Width="*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" Foreground="White" FontWeight="Heavy" TextAlignment="Center" FontSize="11" TextTrimming="CharacterEllipsis" 
-                               ToolTip="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Text}">3</TextBlock>
+                               ToolTip="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Text}">7</TextBlock>
 
                     <TextBlock Grid.Column="1" Foreground="White" TextAlignment="Center" FontSize="11" TextTrimming="CharacterEllipsis" Background="#55ffffff"
                                ToolTip="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Text}">Info InfoInfo InfoInfo Info</TextBlock>
