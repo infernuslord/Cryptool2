@@ -128,7 +128,7 @@ Zij Vgpyüywafoscw swe „IBHC“, lrx Xarl „kpkeaivzv“. Zqrx Gwykec-Vutobzw
       <item content="Classic" lang="en"/>
     </comboBox>
     
-    <sampleViewer image="Vigenere" file="Cryptanalyis\Classic\Vigenere_Analyser_Sample.cwm">
+    <sampleViewer image="Vigenere" file="Cryptanalysis\Classic\Vigenere_Analyser_Sample.cwm">
       <name lang="en">Vigenère Analysis Output</name>
       <name lang="de">Vigenère-Analyse: Ausgabe</name>
       <description lang="en">Vigenère Analysis Output</description>
@@ -185,7 +185,7 @@ Indem Sie dies wählen, können Sie einen mit dem Enigma-Algorithmus verschlüss
       <defaultvalue lang="en">KSBWQUMKVUXBMDWTXAYBBIKVHVFGAJROQUWPWXFBYSREIFGKNWDVTUDNBHAGGOONSZERHJAQOQFDDCLPWCXCNJHHNGIHLYXNJCVAQHMJJPDMJQRCMEYHQDKMJOMDUQNGKQCHSXMQWSSCHDMJVDUHSWFUZVSLVHJHHLLFGNYBSJFJFNDGQXYBCLYBODQKDJGIILQUPZJCJUTNZTADMZUPOVUTAYYIRMJTGBOCPGYUZSCYXJTTQZIFQYFNJPAVVAPVMZSDOFAMPCSMFDULBUKPRVRJAUEEHOTGIWOKAYVMOJENPTTNUICXB</defaultvalue>
     </inputBox>
 
-    <loadSample title="Enigma Analyser" file="Cryptanalyis\Classic\Enigma_Analyzer.cwm"/>
+    <loadSample title="Enigma Analyser" file="Cryptanalysis\Classic\Enigma_Analyzer.cwm"/>
   </input>
 
   <!-- Playfair input --><!--
@@ -245,7 +245,7 @@ Indem Sie dies wählen, können Sie einen mit dem Scytale-Algorithmus verschlüs
       <item content="German Dictionary" lang="en"/>
     </comboBox>
 
-    <sampleViewer image="Scytale" file="Cryptanalyis\Classic\Scytale_ExhaustiveKeySearch.cwm">
+    <sampleViewer image="Scytale" file="Cryptanalysis\Classic\Scytale_ExhaustiveKeySearch.cwm">
       <name lang="en" >Scytale Analysis</name>
       <name lang="de" >Scytale-Analyse</name>
       <description lang="en" >Scytale Analysis Output</description>
