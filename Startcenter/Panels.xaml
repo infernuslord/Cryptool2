@@ -27,16 +27,9 @@
             </Border>
         </Expander>
 
-        <Expander IsExpanded="True" Header="News:" Width="250" Grid.Column="1" Grid.Row="0">
+        <Expander IsExpanded="True" Header="News:" Width="400" Grid.Column="1" Grid.Row="0">
             <Border>
-                <Label>
-                    <Label.Content>
-                        <TextBlock TextWrapping="Wrap">
-                                        Add some useful stuff here! For instance, an <Bold>RSS newsfeed</Bold> like in the VS2010 startcenter would be cool. 
-                                        Unfortunately, CT2 doesn't have one.
-                        </TextBlock>
-                    </Label.Content>
-                </Label>
+                <Startcenter:RSSViewer/>
             </Border>
         </Expander>
 
