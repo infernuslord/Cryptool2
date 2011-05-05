@@ -422,24 +422,8 @@ namespace Cryptool.Vigenere
         {
            switch (settings.Modus)
            {
-               //Classic Modus
-               case 0:
-
-                    switch (settings.Action)
-                    {
-                        case 0:
-                            Encrypt();
-                            break;
-                        case 1:
-                            Decrypt();
-                            break;
-                        default:
-                            break;
-                    }
-                    break;
-
                //Autokey Modus
-               case 1:
+               case 0:
 
                     switch (settings.Action)
                     {
@@ -453,7 +437,22 @@ namespace Cryptool.Vigenere
                             break;
                     }
                     break;
-        
+
+               //Classic Modus
+               case 1:
+
+                    switch (settings.Action)
+                    {
+                        case 0:
+                            Encrypt();
+                            break;
+                        case 1:
+                            Decrypt();
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
             }
         
         }
