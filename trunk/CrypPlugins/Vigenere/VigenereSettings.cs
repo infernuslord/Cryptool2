@@ -217,8 +217,8 @@ namespace Cryptool.Vigenere
         #region Algorithm settings properties (visible in the Settings pane)
 
         [PropertySaveOrder(3)]
-        [ContextMenu("ModusCaption", "ModusTooltip", 1, ContextMenuControlType.ComboBox, new int[] { 1, 2 }, "Classic", "Autokey")]
-        [TaskPane("ModusCaption", "ModusTooltip", null, 1, false, ControlType.ComboBox, new string[] { "Classic", "Autokey" })]
+        [ContextMenu("ModusCaption", "ModusTooltip", 1, ContextMenuControlType.ComboBox, new int[] { 1, 2 }, "Autokey", "Classic")]
+        [TaskPane("ModusCaption", "ModusTooltip", null, 1, false, ControlType.ComboBox, new string[] { "Autokey", "Classic" })]
         public int Modus
         {
             get { return this.selectedModus; }
