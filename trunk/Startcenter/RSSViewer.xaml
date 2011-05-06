@@ -13,24 +13,14 @@
         <Grid.Resources>
             <AlternationConverter x:Key="BackgroundConverter">
                 <SolidColorBrush>#00000000</SolidColorBrush>
-                <SolidColorBrush>Orange</SolidColorBrush>
+                <SolidColorBrush>#FFEBEFF6</SolidColorBrush>
             </AlternationConverter>
-
-            <AlternationConverter x:Key="AlternateForegroundConverter">
-                <SolidColorBrush>White</SolidColorBrush>
-                <SolidColorBrush>Black</SolidColorBrush>
-            </AlternationConverter>
-            
+              
             <Style x:Key="alternatingWithBinding" TargetType="{x:Type ListBoxItem}">
                 <Setter Property="Background" 
               Value="{Binding RelativeSource={RelativeSource Self},
                      Path=(ItemsControl.AlternationIndex),
                      Converter={StaticResource BackgroundConverter}}"/>
-
-                <Setter Property="Foreground" 
-              Value="{Binding RelativeSource={RelativeSource Self},
-                     Path=(ItemsControl.AlternationIndex),
-                     Converter={StaticResource AlternateForegroundConverter}}"/>
             </Style>
         </Grid.Resources>
         
@@ -56,15 +46,33 @@
         <ListBox Name="rssListBox" ItemsSource="{Binding}" Background="#00000000" Visibility="{Binding Converter={StaticResource FalseToVisibleConverter}, Path=IsUpdating, RelativeSource={RelativeSource FindAncestor, AncestorType=Startcenter:RSSViewer, AncestorLevel=1}}" AlternationCount="2" ItemContainerStyle="{StaticResource alternatingWithBinding}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Label Margin="3" MouseDoubleClick="RSSItem_MouseDoubleClick" Tag="{Binding Path=URL}">
+                    <Label Margin="1" MouseDoubleClick="RSSItem_MouseDoubleClick" Tag="{Binding Path=URL}">
                         <Label.ToolTip>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Publishing Date: "/>
-                                <TextBlock Text="{Binding Path=PublishingDate}"/>
-                            </StackPanel>
+                            <Grid Width="400">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                
+                                <TextBlock Text="Title: " FontWeight="Bold" />
+                                <TextBlock Text="{Binding Path=Title}" Grid.Column="1" FontStyle="Italic" HorizontalAlignment="Right" Foreground="Green" TextWrapping="WrapWithOverflow"/>
+                                <TextBlock Text="Date: " FontWeight="Bold" Grid.Row="1"/>
+                                <TextBlock Text="{Binding Path=PublishingDate}" Grid.Row="1" Grid.Column="1" FontStyle="Italic" HorizontalAlignment="Right" Foreground="Red" />
+                                <Border Grid.ColumnSpan="2" Grid.Row="2" CornerRadius="5" BorderBrush="LightSeaGreen" BorderThickness="2" Background="#FFC8DCF5">
+                                    <TextBlock Text="{Binding Path=Message}" TextWrapping="Wrap"/>
+                                </Border>
+                            </Grid>
                         </Label.ToolTip>
                         
-                        <TextBlock Text="{Binding Path=Title}" />
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="/Startcenter;component/rssicon.png" />
+                            <TextBlock Text="{Binding Path=Title}" Margin="3,0,0,0" Foreground="DarkBlue"/>
+                        </StackPanel>
                     </Label>
                 </DataTemplate>
             </ListBox.ItemTemplate>
