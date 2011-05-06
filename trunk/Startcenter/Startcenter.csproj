@@ -164,6 +164,11 @@
       <Name>CrypPluginBase</Name>
       <Private>False</Private>
     </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\Libs\HtmlTextBlock\HtmlTextBlock.csproj">
+      <Project>{8E67C36F-4403-4724-96D4-AF6E05744688}</Project>
+      <Name>HtmlTextBlock</Name>
+      <Private>False</Private>
+    </ProjectReference>
     <ProjectReference Include="..\CrypPlugins\P2PEditor\P2PEditor.csproj">
       <Project>{59DEB752-BEB6-4B2B-86A9-78B150537529}</Project>
       <Name>P2PEditor</Name>
