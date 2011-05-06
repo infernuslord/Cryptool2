@@ -143,44 +143,55 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
 
         private static string GenerateConnectorListCode(LocalizedPluginDocumentationPage localizedPluginDocumentationPage)
         {
-            var codeBuilder = new StringBuilder();
-            codeBuilder.AppendLine("<table border=\"1\">");
-            codeBuilder.AppendLine(string.Format("<tr> <th>{0}</th> <th>{1}</th> <th>{2}</th> <th>{3}</th> </tr>", 
-                Resources.HtmlGenerator_GenerateConnectorListCode_Name, 
-                Resources.HtmlGenerator_GenerateConnectorListCode_Description,
-                Resources.HtmlGenerator_GenerateConnectorListCode_Direction,
-                Resources.HtmlGenerator_GenerateConnectorListCode_Type));
-
-            foreach (var pluginConnector in localizedPluginDocumentationPage.PluginConnectors)
+            if (localizedPluginDocumentationPage.PluginConnectors != null)
             {
-                var type = pluginConnector.PropertyInfo.PropertyType.Name;
-                codeBuilder.AppendLine(string.Format("<tr> <td>{0}</td> <td>{1}</td> <td>{2}</td> <td>{3}</td> </tr>", 
-                    pluginConnector.Caption, 
-                    pluginConnector.ToolTip, 
-                    pluginConnector.Direction,
-                    type));
-            }
+                var codeBuilder = new StringBuilder();
+                codeBuilder.AppendLine("<table border=\"1\">");
+                codeBuilder.AppendLine(string.Format("<tr> <th>{0}</th> <th>{1}</th> <th>{2}</th> <th>{3}</th> </tr>",
+                                                     Resources.HtmlGenerator_GenerateConnectorListCode_Name,
+                                                     Resources.HtmlGenerator_GenerateConnectorListCode_Description,
+                                                     Resources.HtmlGenerator_GenerateConnectorListCode_Direction,
+                                                     Resources.HtmlGenerator_GenerateConnectorListCode_Type));
 
-            codeBuilder.AppendLine("</table>");
-            return codeBuilder.ToString();
+                foreach (var pluginConnector in localizedPluginDocumentationPage.PluginConnectors)
+                {
+                    var type = pluginConnector.PropertyInfo.PropertyType.Name;
+                    codeBuilder.AppendLine(
+                        string.Format("<tr> <td>{0}</td> <td>{1}</td> <td>{2}</td> <td>{3}</td> </tr>",
+                                      pluginConnector.Caption,
+                                      pluginConnector.ToolTip,
+                                      pluginConnector.Direction,
+                                      type));
+                }
+
+                codeBuilder.AppendLine("</table>");
+                return codeBuilder.ToString();
+            }
+            return "None";
         }
 
         private static string GenerateSettingsListCode(LocalizedPluginDocumentationPage localizedPluginDocumentationPage)
         {
-            var codeBuilder = new StringBuilder();
-            codeBuilder.AppendLine("<table border=\"1\">");
-            codeBuilder.AppendLine(string.Format("<tr> <th>{0}</th> <th>{1}</th> <th>{2}</th> </tr>", 
-                Resources.HtmlGenerator_GenerateConnectorListCode_Name, 
-                Resources.HtmlGenerator_GenerateConnectorListCode_Description, 
-                Resources.HtmlGenerator_GenerateSettingsListCode_Type));
-
-            foreach (var setting in localizedPluginDocumentationPage.Settings)
+            if (localizedPluginDocumentationPage.Settings != null)
             {
-                codeBuilder.AppendLine(string.Format("<tr> <td>{0}</td> <td>{1}</td> <td>{2}</td> </tr>", setting.Caption, setting.ToolTip, setting.ControlType.ToString()));
-            }
+                var codeBuilder = new StringBuilder();
+                codeBuilder.AppendLine("<table border=\"1\">");
+                codeBuilder.AppendLine(string.Format("<tr> <th>{0}</th> <th>{1}</th> <th>{2}</th> </tr>",
+                                                     Resources.HtmlGenerator_GenerateConnectorListCode_Name,
+                                                     Resources.HtmlGenerator_GenerateConnectorListCode_Description,
+                                                     Resources.HtmlGenerator_GenerateSettingsListCode_Type));
 
-            codeBuilder.AppendLine("</table>");
-            return codeBuilder.ToString();
+                foreach (var setting in localizedPluginDocumentationPage.Settings)
+                {
+                    codeBuilder.AppendLine(string.Format("<tr> <td>{0}</td> <td>{1}</td> <td>{2}</td> </tr>",
+                                                         setting.Caption, setting.ToolTip,
+                                                         setting.ControlType.ToString()));
+                }
+
+                codeBuilder.AppendLine("</table>");
+                return codeBuilder.ToString();
+            }
+            return "None";
         }
 
         private static string GenerateIndexLanguageSelectionCode(IEnumerable<string> availableLanguages, string lang)

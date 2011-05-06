@@ -62,17 +62,18 @@ namespace OnlineDocumentationGenerator
             Startable = pluginType.GetPluginInfoAttribute().Startable;
             Name = pluginType.GetPluginInfoAttribute().Caption;
             ToolTip = pluginType.GetPluginInfoAttribute().ToolTip;
-
-            var plugin = pluginType.CreateObject();
-            PluginConnectors = plugin.GetProperties();
-            Settings = plugin.Settings.GetSettingsProperties(plugin);
+            
+            PluginConnectors = PluginExtension.GetProperties(pluginType);
+            //var plugin = pluginType.CreateObject();
+            //Settings = plugin.Settings.GetSettingsProperties(plugin);
 
             AuthorName = pluginType.GetPluginAuthorAttribute().Author;
             AuthorEmail = pluginType.GetPluginAuthorAttribute().Email;
             AuthorInstitute = pluginType.GetPluginAuthorAttribute().Institute;
             AuthorURL = pluginType.GetPluginAuthorAttribute().URL;
 
-            ReadInformationsFromXML();
+            if (_xml != null)
+                ReadInformationsFromXML();
         }
 
         private void ReadInformationsFromXML()

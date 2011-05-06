@@ -23,7 +23,7 @@ namespace Cryptool.PluginBase
 
         public static string GetPluginDocFilename(Type plugin, string lang)
         {
-            return string.Format("{0}_{1}.html", plugin.GetPluginInfoAttribute().Caption, lang);
+            return string.Format("{0}_{1}.html", plugin.FullName, lang);
         }
 
         public static string GetIndexFilename(string lang)
