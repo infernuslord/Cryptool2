@@ -8,6 +8,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />
+            <RowDefinition Height="5" />
             <RowDefinition />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -36,8 +37,10 @@
                 <Startcenter:RSSViewer/>
             </Border>
         </Expander>
-        
-        <Expander IsExpanded="True" Header="Last opened files:" MinWidth="250"  Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3">
+
+        <GridSplitter Grid.Row="1" Grid.ColumnSpan="3" Height="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#FFAEBBD4" VerticalContentAlignment="Center" />
+
+        <Expander IsExpanded="True" Header="Last opened files:" MinWidth="250"  Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3">
             <Expander.Tag>
                 <BitmapImage UriSource="/Startcenter;component/lastFiles.png"/>
             </Expander.Tag>
