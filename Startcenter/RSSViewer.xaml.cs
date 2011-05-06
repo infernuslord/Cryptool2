@@ -61,7 +61,7 @@ namespace Startcenter
                         select new RssItem()
                                    {
                                        Title = x.Descendants("title").Single().Value,
-                                       Message = x.Descendants("description").Single().Value,
+                                       Message = x.Descendants("description").Single().Value.Replace('<', '[').Replace('>', ']'),
                                        PublishingDate = DateTime.Parse(x.Descendants("pubDate").Single().Value),
                                        URL = x.Descendants("link").Single().Value
                                    };
