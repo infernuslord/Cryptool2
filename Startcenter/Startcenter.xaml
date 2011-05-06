@@ -31,6 +31,36 @@
                     <Setter Property="Background" Value="#FFC8DCF5"/>
                     <Setter Property="Margin" Value="15"/>
                 </Style>
+                
+                <Style TargetType="Expander">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Expander}">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Image Source="{TemplateBinding Tag}" />
+                                    <ContentPresenter ContentSource="Header" Grid.Column="1" Margin="2" />
+                                    <ContentPresenter ContentSource="Content" Grid.ColumnSpan="2" Grid.Row="1" />
+                                </Grid>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="HeaderTemplate">
+                        <Setter.Value>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" FontWeight="Bold" FontSize="14" />
+                            </DataTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
             </Grid.Resources>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
@@ -45,6 +75,9 @@
             <GridSplitter Grid.Column="1" Width="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#FFAEBBD4" HorizontalContentAlignment="Center" />
 
             <Expander IsExpanded="true" Grid.Column="2" Header="Main Functions:">
+                <Expander.Tag>
+                    <BitmapImage UriSource="/Startcenter;component/main.png"/>
+                </Expander.Tag>
                 <Border>
                     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Name="buttons">
                         <Startcenter:Buttons/>
