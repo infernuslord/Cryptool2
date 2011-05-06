@@ -35,7 +35,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
             }
             if (theObject is BitmapFrame)
             {
-                return ConvertImageSource((BitmapFrame)theObject, pluginDocumentationPage.Localizations["en"].Name);
+                return ConvertImageSource((BitmapFrame)theObject, pluginDocumentationPage.PluginType.FullName);
             }
             if (theObject is PluginTemplateList)
             {
@@ -129,7 +129,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
                                 int sIndex = srcAtt.Value.IndexOf('/');
                                 var image = BitmapFrame.Create(new Uri(string.Format("pack://application:,,,/{0};component/{1}", 
                                     srcAtt.Value.Substring(0, sIndex), srcAtt.Value.Substring(sIndex + 1))));
-                                var filename = string.Format("{0}_{1}", pluginDocumentationPage.Localizations["en"].Name, Path.GetFileNameWithoutExtension(srcAtt.Value));
+                                var filename = string.Format("{0}_{1}", pluginDocumentationPage.PluginType.FullName, Path.GetFileNameWithoutExtension(srcAtt.Value));
                                 result.Append(ConvertImageSource(image, filename));
                             }
                             break;

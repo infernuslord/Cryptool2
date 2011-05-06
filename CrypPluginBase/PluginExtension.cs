@@ -64,24 +64,34 @@ namespace Cryptool.PluginBase
         /// <summary>
         /// Gets the properties marked with the PropertyInfoAttribute.
         /// </summary>
+        /// <param name="pluginType">The plugin type.</param>
+        /// <returns></returns>
+        public static PropertyInfoAttribute[] GetProperties(Type pluginType)
+        {
+            List<PropertyInfoAttribute> propertyInfos = new List<PropertyInfoAttribute>();
+            foreach (PropertyInfo pInfo in pluginType.GetProperties())
+            {
+                PropertyInfoAttribute[] attributes = (PropertyInfoAttribute[])pInfo.GetCustomAttributes(typeof(PropertyInfoAttribute), false);
+                if (attributes.Length == 1)
+                {
+                    PropertyInfoAttribute attr = attributes[0];
+                    attr.PropertyName = pInfo.Name;
+                    attr.PluginType = pluginType;
+                    attr.PropertyInfo = pInfo;
+                    propertyInfos.Add(attr);
+                }
+            }
+            return propertyInfos.ToArray();
+        }
+
+        /// <summary>
+        /// Gets the properties marked with the PropertyInfoAttribute.
+        /// </summary>
         /// <param name="plugin">The plugin.</param>
         /// <returns></returns>
         public static PropertyInfoAttribute[] GetProperties(this IPlugin plugin)
         {
-          List<PropertyInfoAttribute> propertyInfos = new List<PropertyInfoAttribute>();
-          foreach (PropertyInfo pInfo in plugin.GetType().GetProperties())
-	        {
-		        PropertyInfoAttribute[] attributes = (PropertyInfoAttribute[])pInfo.GetCustomAttributes(typeof(PropertyInfoAttribute), false);
-                if (attributes.Length == 1)
-                {
-                    PropertyInfoAttribute attr  = attributes[0];
-                    attr.PropertyName = pInfo.Name;
-                    attr.PluginType = plugin.GetType();
-                    attr.PropertyInfo = pInfo;
-                    propertyInfos.Add(attr);
-                }
-	        }
-          return propertyInfos.ToArray();
+            return GetProperties(plugin.GetType());
         }
 
         /// <summary>

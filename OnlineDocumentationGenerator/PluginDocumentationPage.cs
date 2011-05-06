@@ -30,15 +30,19 @@ namespace OnlineDocumentationGenerator
 
             if (_xml == null || _xml.Name != "documentation")
             {
-                throw new Exception("Plugin does not contain a xml doc file!");
+                //plugin doesn't have a proper _xml file
+                _xml = null;
+                Localizations.Add("en", new LocalizedPluginDocumentationPage(this, pluginType, null, "en", pluginImage as BitmapFrame));
             }
-
-            foreach (var lang in GetAvailableLanguagesFromXML())
+            else
             {
-                Localizations.Add(lang, new LocalizedPluginDocumentationPage(this, pluginType, _xml, lang, pluginImage as BitmapFrame));
+                foreach (var lang in GetAvailableLanguagesFromXML())
+                {
+                    Localizations.Add(lang, new LocalizedPluginDocumentationPage(this, pluginType, _xml, lang, pluginImage as BitmapFrame));
+                }
+                if (!Localizations.ContainsKey("en"))
+                    throw new Exception("Plugin documentation should at least support english language!");
             }
-            if (!Localizations.ContainsKey("en"))
-                throw new Exception("Plugin documentation should at least support english language!");
         }
 
         private IEnumerable<string> GetAvailableLanguagesFromXML()
