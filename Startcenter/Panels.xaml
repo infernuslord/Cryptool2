@@ -12,7 +12,8 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
-            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="5" />
+            <ColumnDefinition Width="400" />
         </Grid.ColumnDefinitions>
         
         <Expander IsExpanded="True" Header="Templates:" MinWidth="250" Grid.Column="0" Grid.Row="0">
@@ -21,17 +22,18 @@
             </Border>
         </Expander>
 
-        <Expander IsExpanded="True" Header="Last opened files:" MinWidth="250"  Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2">
-            <Border Name="lastOpenedFilesList">
-                <Startcenter:LastOpenedFilesList/>
-            </Border>
-        </Expander>
+        <GridSplitter Grid.Column="1" Width="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#FFAEBBD4" HorizontalContentAlignment="Center" />
 
-        <Expander IsExpanded="True" Header="News:" Width="400" Grid.Column="1" Grid.Row="0">
+        <Expander IsExpanded="True" Header="News:" Grid.Column="2" Grid.Row="0">
             <Border>
                 <Startcenter:RSSViewer/>
             </Border>
         </Expander>
-
+        
+        <Expander IsExpanded="True" Header="Last opened files:" MinWidth="250"  Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3">
+            <Border Name="lastOpenedFilesList">
+                <Startcenter:LastOpenedFilesList/>
+            </Border>
+        </Expander>
     </Grid>
 </UserControl>
