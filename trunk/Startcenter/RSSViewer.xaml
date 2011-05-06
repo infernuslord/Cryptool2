@@ -70,7 +70,7 @@
                         </Label.ToolTip>
                         
                         <StackPanel Orientation="Horizontal">
-                            <Image Source="/Startcenter;component/rssicon.png" />
+                            <Image Source="/Startcenter;component/rssicon.png" Stretch="None" />
                             <TextBlock Text="{Binding Path=Title}" Margin="3,0,0,0" Foreground="DarkBlue"/>
                         </StackPanel>
                     </Label>
