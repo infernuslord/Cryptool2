@@ -4,10 +4,10 @@
 	<title lang="de">Enigma Kryptoanalyse Sample</title>
 	
 	<description lang="en">
-		This template shows crypt analysis of the <i>Enigma-cipher</i>. <newline/>		
+		This template shows crypt analysis of the <i> Enigma-cipher </i>.	
 	</description>
 	<description lang="de">
-		Diese Vorlage zeigt die Kryptoanalyse der <i>Enigma-Ver-/Entschlüsselung</i>. <newline/>
+		Diese Vorlage zeigt die Kryptoanalyse der <i> Enigma-Ver-/Entschlüsselung </i>.
 	</description>
 	
 	<icon file="Enigma_Analyzer.png"/>

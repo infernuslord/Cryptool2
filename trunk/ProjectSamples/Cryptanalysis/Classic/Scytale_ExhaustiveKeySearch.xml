@@ -4,10 +4,10 @@
 	<title lang="de">Scytale vollständige Schlüsselraumdurchsuche Sample</title>
 	
 	<description lang="en">
-		This template shows exhaustive keysearch of the <i>Scytale-cipher</i>. <newline/>		
+		This template shows exhaustive keysearch of the <i> Scytale-cipher </i>.	
 	</description>
 	<description lang="de">
-		Diese Vorlage zeigt die vollständige Schlüsselraumdurchsuche der <i>Scytale-Ver-/Entschlüsselung</i>. <newline/>
+		Diese Vorlage zeigt die vollständige Schlüsselraumdurchsuche der <i> Scytale-Ver-/Entschlüsselung </i>.
 	</description>
 	
 	<icon file="Scytale_ExhaustiveKeySearch.png"/>

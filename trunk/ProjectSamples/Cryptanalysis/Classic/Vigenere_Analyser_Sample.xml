@@ -4,10 +4,10 @@
 	<title lang="de">Vigenere Analyse Sample</title>
 	
 	<description lang="en">
-		This template shows the analysis of the <i>Vigenere-cipher</i>. <newline/>		
+		This template shows the analysis of the <i> Vigenere-cipher </i>.	
 	</description>
 	<description lang="de">
-		Diese Vorlage zeigt die Kryptanalyse der <i>Vigenere-Ver-/Entschlüsselung</i>. <newline/>
+		Diese Vorlage zeigt die Kryptanalyse der <i> Vigenere-Ver-/Entschlüsselung </i>.
 	</description>
 	
 	<icon file="Vigenere_Analyser_Sample.png"/>

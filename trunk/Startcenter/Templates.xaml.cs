@@ -96,20 +96,27 @@ namespace Startcenter
                 string iconFile = null;
                 if (File.Exists(xmlFile))
                 {
-                    XElement xml = XElement.Load(xmlFile);
-                    var titleElement = GetGlobalizedElementFromXML(xml, "title");
-                    if (titleElement != null)
-                        title = titleElement.Value;
-
-                    var descriptionElement = GetGlobalizedElementFromXML(xml, "description");
-                    if (descriptionElement != null)
+                    try
                     {
-                        description1 = ConvertFormattedXElement(descriptionElement);
-                        description2 = ConvertFormattedXElement(descriptionElement);
-                    }
+                        XElement xml = XElement.Load(xmlFile);
+                        var titleElement = GetGlobalizedElementFromXML(xml, "title");
+                        if (titleElement != null)
+                            title = titleElement.Value;
 
-                    if (xml.Element("icon") != null && xml.Element("icon").Attribute("file") != null)
-                        iconFile = Path.Combine(file.Directory.FullName, xml.Element("icon").Attribute("file").Value);
+                        var descriptionElement = GetGlobalizedElementFromXML(xml, "description");
+                        if (descriptionElement != null)
+                        {
+                            description1 = ConvertFormattedXElement(descriptionElement);
+                            description2 = ConvertFormattedXElement(descriptionElement);
+                        }
+
+                        if (xml.Element("icon") != null && xml.Element("icon").Attribute("file") != null)
+                            iconFile = Path.Combine(file.Directory.FullName, xml.Element("icon").Attribute("file").Value);
+                    }
+                    catch(Exception)
+                    {
+                        //we do nothing if the loading of an description xml fails => this is not a hard error
+                    }
                 }
                 if (title == null)
                 {

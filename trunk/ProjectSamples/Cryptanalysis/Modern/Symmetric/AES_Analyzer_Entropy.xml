@@ -4,10 +4,10 @@
 	<title lang="de">AES Analyse mittels Entropie</title>
 	
 	<description lang="en">
-		This template shows how to use the <i>Keysearcher</i> with <i>AES</i> and the <i>Costfunction</i> Entropy. <newline/>		
+		This template shows how to use the <i> Keysearcher </i> with <i> AES </i> and the <i> Costfunction </i> Entropy.	
 	</description>
 	<description lang="de">
-		Diese Vorlage zeigt die Verwendung des <i>Keysearcher</i> mit <i>AES</i> und der <i>Kostenfunktion</i> Entropie. <newline/>
+		Diese Vorlage zeigt die Verwendung des <i> Keysearcher </i> mit <i> AES </i> und der <i> Kostenfunktion </i> Entropie.
 	</description>
 	
 	<icon file="AES_Sample.png"/>
