@@ -4,10 +4,10 @@
 	<title lang="de">AES Analyse "known plaintext"</title>
 	
 	<description lang="en">
-		This template shows how to use the <i>Keysearcher</i> with <i>AES</i> and the <i>Costfunction</i> regex. <newline/>		
+		This template shows how to use the <i> Keysearcher </i> with <i> AES </i> and the <i> Costfunction </i> RegEx.	
 	</description>
 	<description lang="de">
-		Diese Vorlage zeigt die Verwendung des <i>Keysearcher</i> mit <i>AES</i> und der <i>Kostenfunktion</i> Regex. <newline/>
+		Diese Vorlage zeigt die Verwendung des <i> Keysearcher </i> mit <i> AES </i> und der <i> Kostenfunktion </i> RegEx.
 	</description>
 	
 	<icon file="AES_Sample.png"/>

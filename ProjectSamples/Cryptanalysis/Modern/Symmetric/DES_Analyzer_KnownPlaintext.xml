@@ -4,10 +4,10 @@
 	<title lang="de">DES Analyse "known plaintext"</title>
 	
 	<description lang="en">
-		This template shows how to use the <i>Keysearcher</i> with <i>DES</i> and the <i>Costfunction</i> regex. <newline/>		
+		This template shows how to use the <i> Keysearcher </i> with <i> DES </i> and the <i> Costfunction </i> RegEx.	
 	</description>
 	<description lang="de">
-		Diese Vorlage zeigt die Verwendung des <i>Keysearcher</i> mit <i>DES</i> und der <i>Kostenfunktion</i> Regex. <newline/>
+		Diese Vorlage zeigt die Verwendung des <i> Keysearcher </i> mit <i> DES </i> und der <i> Kostenfunktion </i> RegEx.
 	</description>
 	
 	<icon file="DES_Sample.png"/>

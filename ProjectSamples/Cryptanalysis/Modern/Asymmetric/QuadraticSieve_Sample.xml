@@ -4,10 +4,25 @@
 	<title lang="de">Das quadratische Sieb</title>
 	
 	<description lang="en">
-		This template shows how to use the <i>Quadratic sieve</i>. <newline/>		
+		This template shows how to use the <i> Quadratic sieve </i>.<newline/>
+		<newline/>
+		The quadratic sieve algorithm (QS) is a modern integer factorization algorithm and, in practice, the second fastest method known (after the general number field sieve). 
+		It is still the fastest for integers under 100 decimal digits or so, and is considerably simpler than the number field sieve. It is a general-purpose factorization algorithm, 
+		meaning that its running time depends solely on the size of the integer to be factored, and not on special structure or properties. It was invented by Carl Pomerance in 
+		1981 as an improvement to Schroeppel's linear sieve.<newline/>
+		<newline/>
+		Source: <external ref="http://en.wikipedia.org/wiki/Quadratic_sieve"/>
 	</description>
 	<description lang="de">
-		Diese Vorlage zeigt die Verwendung des <i>quadratischen Siebs</i>. <newline/>
+		Diese Vorlage zeigt die Verwendung des <i> Quadratischen Siebs </i>.<newline/>
+		<newline/>
+		Das Quadratische Sieb ist ein Begriff aus dem Bereich Zahlentheorie der Mathematik und bezeichnet einen der schnellsten bekannten 
+		Algorithmen zur Faktorisierung großer natürlicher Zahlen. Es ist ein allgemeines Faktorisierungsverfahren, d.h. die Laufzeit hängt nur von der 
+		Größe der zu faktorisierenden Zahl ab und nicht von speziellen Eigenschaften der Zahl (bzw. ihrer Teiler). Für Zahlen mit bis ca. 100 Dezimalstellen 
+		ist es das schnellste (allgemeine) Faktorisierungsverfahren. Für größere Zahlen ist das Zahlkörpersieb schneller. Die Laufzeit zum Faktorisieren einer 
+		Zahl n ist (unter einigen als wahrscheinlich geltenden Annahmen) in der Größenordnung von exp( sqrt ( ln n * ln ln n ) ).<newline/>
+		<newline/>
+		Quelle: <external ref="http://de.wikipedia.org/wiki/Quadratisches_Sieb"/>
 	</description>
 	
 	<icon file="QuadraticSieve_Sample.png"/>

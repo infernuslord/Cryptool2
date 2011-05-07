@@ -4,10 +4,10 @@
 	<title lang="de">Transposition Bruteforce Sample</title>
 	
 	<description lang="en">
-		This template shows bruteforce analysis of the <i>Transposition-cipher</i>. <newline/>		
+		This template shows bruteforce analysis of the <i> Transposition-cipher </i>.	
 	</description>
 	<description lang="de">
-		Diese Vorlage zeigt die Bruteforce Analyse der <i>TranspositionVer-/Entschlüsselung</i>. <newline/>
+		Diese Vorlage zeigt die Bruteforce Analyse der <i> TranspositionVer-/Entschlüsselung </i>.
 	</description>
 	
 	<icon file="Transposition_Sample.png"/>
