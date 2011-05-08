@@ -91,6 +91,11 @@
     <Content Include="Generators\HtmlGenerator\AdditionalResources.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Resource Include="Generators\HtmlGenerator\download_bar.png" />
+    <Resource Include="Generators\HtmlGenerator\footer_bg.png" />
+    <Resource Include="Generators\HtmlGenerator\header_logo.png" />
+    <Resource Include="Generators\HtmlGenerator\shadow_l.png" />
+    <Resource Include="Generators\HtmlGenerator\shadow_r.png" />
     <Content Include="Generators\HtmlGenerator\TemplateIndex.html" />
     <Content Include="Generators\HtmlGenerator\TemplatePluginDocumentationPage.html" />
     <EmbeddedResource Include="Properties\Resources.de-DE.resx">

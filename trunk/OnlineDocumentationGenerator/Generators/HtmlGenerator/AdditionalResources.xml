@@ -2,4 +2,9 @@
 
 <AdditionalResources>
   <file path="OnlineDocumentationGenerator/Generators/HtmlGenerator/doc.css" />
+  <file path="OnlineDocumentationGenerator/Generators/HtmlGenerator/download_bar.png" />
+  <file path="OnlineDocumentationGenerator/Generators/HtmlGenerator/footer_bg.png" />
+  <file path="OnlineDocumentationGenerator/Generators/HtmlGenerator/header_logo.png" />
+  <file path="OnlineDocumentationGenerator/Generators/HtmlGenerator/shadow_l.png" />
+  <file path="OnlineDocumentationGenerator/Generators/HtmlGenerator/shadow_r.png" />
 </AdditionalResources>
