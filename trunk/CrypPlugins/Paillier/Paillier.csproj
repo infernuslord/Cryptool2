@@ -100,10 +100,6 @@
       <Name>CrypPluginBase</Name>
       <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\Primes\Primes\Primes.csproj">
-      <Project>{2830F337-A7A3-4A68-87AC-64F3AA79C70B}</Project>
-      <Name>Primes</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -131,6 +127,13 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Image\PaillierAdd.png" />
+    <Resource Include="Image\PaillierDec.png" />
+    <Resource Include="Image\PaillierEnc.png" />
+    <Resource Include="Image\PaillierKey.png" />
+    <Resource Include="Image\PaillierMul.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

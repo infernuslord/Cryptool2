@@ -43,9 +43,19 @@ namespace Cryptool.Plugins.Paillier
             get { return this.action; }
             set
             {
-                action = value;
-                OnPropertyChanged("Action");
+                if (action != value)
+                {
+                    action = value;
+                    ChangePluginIcon(action);
+                    hasChanges = true;
+                    OnPropertyChanged("Action");
+                }
             }
+        }
+
+        public void ChangePluginIcon(int index)
+        {
+            OnPluginStatusChanged(null, new StatusEventArgs(StatusChangedMode.ImageUpdate, index));
         }
 
         #endregion
@@ -81,6 +91,8 @@ namespace Cryptool.Plugins.Paillier
                 PropertyChanged(this, new PropertyChangedEventArgs(name));
             }
         }
+
+        public event StatusChangedEventHandler OnPluginStatusChanged;
 
         #endregion
 

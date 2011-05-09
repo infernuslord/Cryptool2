@@ -23,14 +23,15 @@ using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase.Miscellaneous;
 using Cryptool.PluginBase.Cryptography;
 using System.Windows.Controls;
-using Primes.Bignum;
 using System.Numerics;
 using System.Security.Cryptography;
 
 namespace Cryptool.Plugins.Paillier
 {
     [Author("Armin Krauss", "", "", "")]
-    [PluginInfo("Paillier.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "CrypWin/images/default.png")]
+    [PluginInfo("Paillier.Properties.Resources", false, 
+        "PluginCaption", "PluginTooltip", "PluginDescriptionURL", 
+        "Paillier/Image/PaillierEnc.png", "Paillier/Image/PaillierDec.png", "Paillier/Image/PaillierAdd.png", "Paillier/Image/PaillierMul.png")]
     [EncryptionType(EncryptionType.Asymmetric)]
     public class Paillier : IEncryption
     {
@@ -66,38 +67,31 @@ namespace Cryptool.Plugins.Paillier
 
         public Paillier()
         {
-//            this.settings = new PaillierSettings();
+            //this.settings = new PaillierSettings();
             //twoPowKeyBitLength = 1 << (keyBitLength - 1);
             //generateKeys();
+            //this.settings.PropertyChanged += settings_OnPropertyChanged;
+            //this.PropertyChanged += settings_OnPropertyChange;
+            this.settings.OnPluginStatusChanged += settings_OnPluginStatusChanged;
         }
+
+        private void settings_OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            Execute();
+        }
+
+        private void settings_OnPluginStatusChanged(IPlugin sender, StatusEventArgs args)
+        {
+            if (OnPluginStatusChanged != null) OnPluginStatusChanged(this, args);
+        }
+
+        #endregion
+
+        #region Algorithm
 
         private BigInteger L(BigInteger x)
         {
             return (x - 1) / n;
-        }
-
-        private BigInteger RandomPrime(int bits)
-        {
-            // TODO: avoid PrimesBigInteger, slow, clumsy conversion to BigInteger
-            return ToBigInteger(PrimesBigInteger.Random(bits - 1).SetBit(bits).NextProbablePrime());
-        }
-
-        private BigInteger RandomInt(int bits)
-        {
-            //return ToBigInteger(PrimesBigInteger.Random(bits));
-
-            // use the cryptographically secure RNGCryptoServiceProvider rather than PrimesBigInteger,
-            // which uses the insecure Random
-            RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
-            byte[] bytes = new byte[(bits + 1 + 7) / 8];    // allocate space for random values plus one bit for sign
-            rng.GetBytes(bytes);
-            bytes[bytes.Length - 1] &= (byte)((1 << (bits & 7)) - 1);   // clear MSBit of MSB to get a positive number
-            return new BigInteger(bytes);
-        }
-
-        private BigInteger ToBigInteger(PrimesBigInteger p)
-        {
-            return BigInteger.Parse(p.ToString());
         }
 
         // not used, public/private keys are input variables for this plugin
@@ -105,17 +99,8 @@ namespace Cryptool.Plugins.Paillier
         {
             BigInteger twoPowModulusBits, n_plus1;
 
-            // Compute p,q and then n:
-            //do
-            //{
-            //    p = BigInteger.Parse(PrimesBigInteger.Random(keyBitLength / 2).NextProbablePrime().ToString());
-            //    q = BigInteger.Parse(PrimesBigInteger.Random(keyBitLength / 2).NextProbablePrime().ToString());
-            //    // compute the public modulus n = p q
-            //    n = p*q;
-            //} while ( n < twoPowKeyBitLength );
-
-            p = RandomPrime(keyBitLength - (keyBitLength / 2));
-            q = RandomPrime(keyBitLength / 2);
+            p = BigIntegerHelper.RandomPrimeBits(keyBitLength - (keyBitLength / 2));
+            q = BigIntegerHelper.RandomPrimeBits(keyBitLength / 2);
             n = p * q;
 
             // Just complete PK: n^2
@@ -194,10 +179,15 @@ namespace Cryptool.Plugins.Paillier
         /*
            Encryption ( (1 + m*n) * r^n mod n^2 )
         */
-        public BigInteger encrypt(BigInteger m)
+        public BigInteger encrypt(BigInteger m, bool useRandom=true )
         {
-            BigInteger r = RandomInt(keyBitLength) % n;
-            r = BigInteger.ModPow(r, n, n_square);
+            BigInteger r;
+
+            if (useRandom)
+            {
+                r = BigIntegerHelper.RandomIntLimit(n) % n;
+                r = BigInteger.ModPow(r, n, n_square);
+            } else r = 1;
 
             return (((n * m + 1) % n_square) * r) % n_square;
         }
@@ -275,7 +265,7 @@ namespace Cryptool.Plugins.Paillier
             set
             {
                 this.inputn = value;
-                OnPropertyChanged("InputN");
+                //OnPropertyChanged("InputN");
             }
         }
 
@@ -292,7 +282,7 @@ namespace Cryptool.Plugins.Paillier
             set
             {
                 this.inputg = value;
-                OnPropertyChanged("InputG");
+                //OnPropertyChanged("InputG");
             }
         }
 
@@ -309,7 +299,7 @@ namespace Cryptool.Plugins.Paillier
             set
             {
                 this.inputlambda = value;
-                OnPropertyChanged("InputLambda");
+                //OnPropertyChanged("InputLambda");
             }
         }
 
@@ -326,7 +316,7 @@ namespace Cryptool.Plugins.Paillier
             set
             {
                 this.inputm = value;
-                OnPropertyChanged("InputM");
+                //OnPropertyChanged("InputM");
             }
         }
 
@@ -343,7 +333,7 @@ namespace Cryptool.Plugins.Paillier
             set
             {
                 this.inputoperand = value;
-                OnPropertyChanged("InputOperand");
+                //OnPropertyChanged("InputOperand");
             }
         }
 
@@ -359,8 +349,11 @@ namespace Cryptool.Plugins.Paillier
             }
             set
             {
-                this.outputc = value;
-                OnPropertyChanged("OutputC");
+                if (this.outputc != value)
+                {
+                    this.outputc = value;
+                    //OnPropertyChanged("OutputC");
+                }
             }
         }
 
@@ -393,6 +386,7 @@ namespace Cryptool.Plugins.Paillier
 
         public void PreExecution()
         {
+
         }
 
         public void Execute()
@@ -408,27 +402,44 @@ namespace Cryptool.Plugins.Paillier
                 return;
             }
 
-            if (settings.Action == 0)
+            if (settings.Action == 0)   // Encryption
             {
+                if (InputN <= InputM)
+                    GuiLogMessage("Message is bigger than Modulus N - this will produce a wrong result!", NotificationLevel.Warning);
+
                 OutputC = encrypt( InputM );    
             }
-            else if (settings.Action == 1)
+            else if (settings.Action == 1)  // Decryption
             {         
                 if (InputLambda < 2)
                 {
                     GuiLogMessage("Illegal private key Lambda - Paillier can not decrypt", NotificationLevel.Error);
                     return;
                 }
+
                 OutputC = decrypt( InputM );
             }
-            else if (settings.Action == 2)
+            else if (settings.Action == 2)  // Addition
             {
-                OutputC = cipherAdd( InputM, encrypt(InputOperand) );
+                if (InputN <= InputM)
+                    GuiLogMessage("Message is bigger than Modulus N - this will produce a wrong result!", NotificationLevel.Warning);
+                if (InputN <= InputOperand)
+                    GuiLogMessage("Operand is bigger than Modulus N - this will produce a wrong result!", NotificationLevel.Warning);
+
+                //OutputC = cipherAdd( InputM, encrypt(InputOperand) );
+                OutputC = cipherAdd( InputM, InputOperand );
             }
-            else if (settings.Action == 3) 
+            else if (settings.Action == 3)  // Multiplication
             {
-                OutputC = cipherMul( InputM, InputOperand );
+                if (InputN <= InputM)
+                    GuiLogMessage("Message is bigger than Modulus N - this will produce a wrong result!", NotificationLevel.Warning);
+                if (InputN <= InputOperand)
+                    GuiLogMessage("Operand is bigger than Modulus N - this will produce a wrong result!", NotificationLevel.Warning);
+
+                OutputC = cipherMul(InputM, InputOperand);
             }
+
+            OnPropertyChanged("OutputC");
             
             // Make sure the progress bar is at maximum when your Execute() finished successfully.
             ProgressChanged(1, 1);
@@ -436,6 +447,7 @@ namespace Cryptool.Plugins.Paillier
 
         public void PostExecution()
         {
+
         }
 
         public void Pause()
@@ -444,10 +456,12 @@ namespace Cryptool.Plugins.Paillier
 
         public void Stop()
         {
+
         }
 
         public void Initialize()
         {
+            ((PaillierSettings)this.settings).ChangePluginIcon(((PaillierSettings)this.settings).Action);
         }
 
         public void Dispose()
