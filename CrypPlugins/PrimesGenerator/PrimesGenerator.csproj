@@ -101,10 +101,6 @@
       <Name>CrypPluginBase</Name>
       <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\Primes\Primes\Primes.csproj">
-      <Project>{2830F337-A7A3-4A68-87AC-64F3AA79C70B}</Project>
-      <Name>Primes</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="icon.png" />
