@@ -150,7 +150,7 @@ namespace Cryptool.Plugins.M209
         }
 
         // Pfeil in Programmiersprache Ausgabe
-        [PropertyInfo(Direction.OutputData, "Text output", "The string after processing with the Caesar cipher", "", false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "Text output", "The string after processing with the M209 cipher", "", false, false, QuickWatchFormat.Text, null)]
         public String OutputString
         {
             get;

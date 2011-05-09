@@ -24,7 +24,7 @@ namespace Cryptool.Plugins.M209
 {
     public class M209Settings : ISettings
     {
-        #region Public Caesar specific interface
+        #region Public M209 specific interface
 
         public delegate void M209ReExecute();
         public event M209ReExecute ReExecute;
