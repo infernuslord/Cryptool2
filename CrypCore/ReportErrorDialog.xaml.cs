@@ -23,14 +23,16 @@ namespace Cryptool.Core
     {
         private readonly Exception _e;
         private readonly Version _version;
+        private readonly string _installationType;
         private readonly string _buildType;
         private readonly string _productName;
         private string _systemInfos;
 
-        public ReportErrorDialog(Exception e, Version version, string buildType, string productName)
+        public ReportErrorDialog(Exception e, Version version, string installationType, string buildType, string productName)
         {
             _e = e;
             _version = version;
+            _installationType = installationType;
             _buildType = buildType;
             _productName = productName;
             _systemInfos = GetSystemInfos();
@@ -72,6 +74,7 @@ namespace Cryptool.Core
             sb.AppendLine(string.Format("Administrative Rights: {0}", hasAdministrativeRight));
             sb.AppendLine(string.Format("Current culture: {0}", CultureInfo.CurrentCulture.Name));
             sb.AppendLine(string.Format("CrypTool version: {0}", _version));
+            sb.AppendLine(string.Format("Installation type: {0}", _installationType));
             sb.AppendLine(string.Format("Build type: {0}", _buildType));
             sb.AppendLine(string.Format("Build time: {0}", File.GetLastWriteTime(Assembly.GetEntryAssembly().Location)));
             sb.AppendLine(string.Format("Product name: {0}", _productName));
@@ -80,9 +83,9 @@ namespace Cryptool.Core
             return sb.ToString();
         }
 
-        public static void ShowModalDialog(Exception e, Version version, string buildType, string productName)
+        public static void ShowModalDialog(Exception e, Version version, string installationType, string buildType, string productName)
         {
-            var unhandledExceptionDialog = new UnhandledExceptionDialog(e, version, buildType, productName);
+            var unhandledExceptionDialog = new UnhandledExceptionDialog(e, version, installationType, buildType, productName);
             unhandledExceptionDialog.ShowDialog();
         }
 

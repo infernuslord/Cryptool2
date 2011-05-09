@@ -17,6 +17,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -44,9 +45,16 @@ namespace Cryptool.PluginBase.Miscellaneous
             get; private set;
         }
 
+        public static Ct2InstallationType InstallationType
+        {
+            get; private set;
+        }
+
+        public enum Ct2InstallationType { Developer, ZIP, MSI, NSIS };
+
         static AssemblyHelper()
         {
-            {
+            { // BuildType
                 object[] attributes =
                     Assembly.GetExecutingAssembly().GetCustomAttributes(typeof (AssemblyCt2BuildTypeAttribute), false);
                 if (attributes != null && attributes.Length >= 1)
@@ -59,7 +67,8 @@ namespace Cryptool.PluginBase.Miscellaneous
                     AssemblyHelper.BuildType = Ct2BuildType.Developer;
                 }
             }
-            {
+
+            { // ProductName
                 object[] attributes =
                     Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyProductAttribute), false);
                 if (attributes != null && attributes.Length >= 1)
@@ -68,8 +77,47 @@ namespace Cryptool.PluginBase.Miscellaneous
                     AssemblyHelper.ProductName = attr.Product;
                 }
             }
-            {
+
+            { // Version
                 AssemblyHelper.Version = GetVersion(Assembly.GetExecutingAssembly());
+            }
+
+            { // InstallationType
+                // flomar, 04/01/2011: very soon we will add a "DONTREMOVEME.txt" to all installation types
+                // wander, 2011-04-08: added directory path to file
+                string fileInstallationType = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "DONTREMOVEME.txt");
+
+                if (AssemblyHelper.BuildType == Ct2BuildType.Developer)
+                {
+                    InstallationType = Ct2InstallationType.Developer;
+                }
+                else if (!File.Exists(fileInstallationType))
+                {
+                    InstallationType = Ct2InstallationType.MSI;
+                }
+                else
+                {
+                    String[] lines = File.ReadAllLines(fileInstallationType);
+                    if (lines.Length > 0)
+                    {
+                        switch (lines[0])
+                        {
+                            case "ZIP":
+                                InstallationType = Ct2InstallationType.ZIP;
+                                break;
+                            case "MSI":
+                                InstallationType = Ct2InstallationType.MSI;
+                                break;
+                            case "NSIS":
+                                InstallationType = Ct2InstallationType.NSIS;
+                                break;
+                            default:
+                                InstallationType = Ct2InstallationType.ZIP;
+                                break;
+                        };
+                    }
+                    else InstallationType = Ct2InstallationType.ZIP;
+                }
             }
         }
 
