@@ -8,22 +8,20 @@
         <Span FontFamily="Georgia" FontWeight="Bold" FontSize="18.6666666666667" Foreground="#FF15428B" xml:lang="en-us">
             <Span.TextDecorations>
                 <TextDecoration Location="Underline" />
-            </Span.TextDecorations> M209
+            </Span.TextDecorations> Caesar Cipher
         </Span>
     </Paragraph>
     <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16" />
   
     <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16">
       <Span Foreground="#FF0000FF" xml:lang="en-us">
-            <misc:DescriptionHyperlink NavigateUri="http://en.wikipedia.org/wiki/M-209">http://en.wikipedia.org/wiki/M-209</misc:DescriptionHyperlink>
+        <misc:DescriptionHyperlink NavigateUri="http://en.wikipedia.org/wiki/Caesar_cipher">http://en.wikipedia.org/wiki/Caesar_cipher</misc:DescriptionHyperlink>
       </Span>
     </Paragraph>
 
   <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16" />
     <Paragraph Margin="0,6.67,0,6.67" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16">
-        <Span xml:lang="en-gb">In cryptography, the M-209, designated CSP-1500 by the Navy (C-38 by the manufacturer) is a portable, mechanical cipher machine used by the US military primarily in World War II, though it remained in active use through the Korean War. The M-209 was designed by Swedish cryptographer Boris Hagelin in response to a request for such a portable cipher machine, and was an improvement of an earlier machine, the C-36.
-
-The M-209 is about the size of a lunchbox, in its final form measuring 3.25 by 5.5 by 7 inches (83 by 140 by 178 mm). It represented a brilliant achievement for pre-electronic technology. It used a wheel scheme similar to that of a telecipher machine, such as the Lorenz cypher and the Geheimfernschreiber.</Span>
+        <Span xml:lang="en-gb">This encryption algorithm already used by the Roman general and dictator Caesar substitutes single letters: The substitution rule is that the letters of the cleartext alphabet are shifted by a special value (key).</Span>
     </Paragraph>
     <Paragraph Margin="0,6.67,0,6.67" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16">
         <Span xml:lang="en-gb">Characters which are not part of the alphabet are normally left out of the encrypted text (see setting "<Span FontWeight="Bold" xml:lang="en-gb">Remove</Span>" under
