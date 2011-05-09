@@ -123,12 +123,6 @@
   <data name="pluginToolTip" xml:space="preserve">
     <value>Classic Chiffrier Machine from the 2nd World War (USA)</value>
   </data>
-  <data name="propStreamOutputDescription" xml:space="preserve">
-    <value>The string after processing with the Caesar cipher is converted to a stream. Default encoding is used.</value>
-  </data>
-  <data name="propStreamOutputToolTip" xml:space="preserve">
-    <value>Stream output</value>
-  </data>
   <data name="setAlgorithmActionDescription" xml:space="preserve">
     <value>Select the Algorithm action</value>
   </data>
