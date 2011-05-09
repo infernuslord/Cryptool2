@@ -45,7 +45,7 @@ namespace Startcenter
         private void CheckBox_Checked(object sender, RoutedEventArgs e)
         {
             if (StartupBehaviourChanged != null && StartupCheckbox.IsChecked.HasValue)
-                StartupBehaviourChanged(!StartupCheckbox.IsChecked.Value);
+                StartupBehaviourChanged(StartupCheckbox.IsChecked.Value);
         }
     }
 }

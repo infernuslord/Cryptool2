@@ -16,8 +16,8 @@
         <Label Grid.Row="1">
             <Label.Content>
                 <TextBlock>
-                    Welcome to <Bold>CrypTool 2.0</Bold>! 
-                    Add some introduction text here!
+                    Welcome to <Bold>CrypTool 2.0</Bold>!
+                    Try our templates which demonstrate the functionality of CrypTool 2.0 or click the Wizard button on the right to get step-by-step guidance.
                 </TextBlock>
             </Label.Content>
         </Label>
@@ -86,6 +86,6 @@
             </Expander>
         </Grid>
 
-        <CheckBox Name="StartupCheckbox"  Content="Do not show this at startup!" Margin="5" VerticalAlignment="Center" Grid.Row="3" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" />        
+        <CheckBox Name="StartupCheckbox"  Content="Show this welcome screen at CrypTool 2.0 startup." Margin="5" VerticalAlignment="Center" Grid.Row="3" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" />        
     </Grid>
 </UserControl>

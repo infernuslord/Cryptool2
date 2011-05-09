@@ -30,7 +30,7 @@ namespace StartCenter
 
         public bool ShowOnStartup
         {
-            set { _startcenter.StartupCheckbox.IsChecked = !value; }
+            set { _startcenter.StartupCheckbox.IsChecked = value; }
         }
 
         public ISettings Settings
