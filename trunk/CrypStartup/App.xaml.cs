@@ -29,7 +29,7 @@ namespace CrypStartup
         {
             Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
-                UnhandledExceptionDialog.ShowModalDialog((Exception)e.ExceptionObject, AssemblyHelper.Version, AssemblyHelper.BuildType.ToString(), AssemblyHelper.ProductName);
+                UnhandledExceptionDialog.ShowModalDialog((Exception)e.ExceptionObject, AssemblyHelper.Version, AssemblyHelper.InstallationType.ToString(), AssemblyHelper.BuildType.ToString(), AssemblyHelper.ProductName);
             }, null);
         }
 
@@ -37,7 +37,7 @@ namespace CrypStartup
 
         private void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
         {
-            UnhandledExceptionDialog.ShowModalDialog(e.Exception, AssemblyHelper.Version, AssemblyHelper.BuildType.ToString(), AssemblyHelper.ProductName);
+            UnhandledExceptionDialog.ShowModalDialog(e.Exception, AssemblyHelper.Version, AssemblyHelper.InstallationType.ToString(), AssemblyHelper.BuildType.ToString(), AssemblyHelper.ProductName);
         }
 
         private void Application_Startup(object sender, StartupEventArgs e)
