@@ -179,15 +179,70 @@ namespace CrypUpdater
         {
             try
             {
-                DirectorySecurity ds = Directory.GetAccessControl(cryptoolFolderPath);
+                // flomar, 05/09/2011: if the about-to-be-installed NSIS update executable is older than the current version,
+                // we silently delete the old update executable; executables are considered "old" if (a) their version is smaller 
+                // than the current version, or if (b) the new version cannot be determined (which implicitly makes it an old version)
+                FileVersionInfo oldExecutableFileVersionInfo = FileVersionInfo.GetVersionInfo(filePath);
+                FileVersionInfo newExecutableFileVersionInfo = FileVersionInfo.GetVersionInfo(cryptoolExePath);
+                string oldVersion = oldExecutableFileVersionInfo.ProductVersion;
+                string newVersion = newExecutableFileVersionInfo.ProductVersion;
+                
+                bool isUpdateExecutableOutOfDate = false;
+                
+                if (newVersion.Length == 0)
+                {
+                    isUpdateExecutableOutOfDate = true;
+                }
+                else
+                {
+                    // split the product versions into separate strings (MAJOR.MINOR.REVISION.SVNREVISION)
+                    string []arrayOldVersion = oldVersion.Split('.');
+                    string []arrayNewVersion = oldVersion.Split('.');
+                    // first and foremost we should check the new version: if something's wrong there, the update is out of date
+                    if (arrayNewVersion.Length != 4)
+                    {
+                        isUpdateExecutableOutOfDate = true;
+                    }
+                    else
+                    {
+                        // the actual version comparison will be in effect only for a valid old versions;
+                        // for "invalid" old versions every new version is considered a valid update
+                        if (arrayOldVersion.Length == 4)
+                        {
+                            // transform version strings to integer values
+                            int oldMajor = Int32.Parse(arrayOldVersion.ElementAt(0));
+                            int oldMinor = Int32.Parse(arrayOldVersion.ElementAt(1));
+                            int oldRevision = Int32.Parse(arrayOldVersion.ElementAt(2));
+                            int oldSvnRevision = Int32.Parse(arrayOldVersion.ElementAt(3));
+                            int newMajor = Int32.Parse(arrayNewVersion.ElementAt(0));
+                            int newMinor = Int32.Parse(arrayNewVersion.ElementAt(1));
+                            int newRevision = Int32.Parse(arrayNewVersion.ElementAt(2));
+                            int newSvnRevision = Int32.Parse(arrayNewVersion.ElementAt(3));
+                            // compare old and new version
+                            if (oldMajor > newMajor) isUpdateExecutableOutOfDate = true;
+                            if (oldMajor >= newMajor && oldMinor > newMinor) isUpdateExecutableOutOfDate = true;
+                            if (oldMajor >= newMajor && oldMinor >= newMinor && oldRevision > newRevision) isUpdateExecutableOutOfDate = true;
+                            if (oldMajor >= newMajor && oldMinor >= newMinor && oldRevision >= newRevision && oldSvnRevision > newSvnRevision) isUpdateExecutableOutOfDate = true;
+                        }
+                    }
+                }
 
-                Process p = new Process();
-                p.StartInfo.FileName = filePath;
-                p.StartInfo.Arguments = "/S >" + logfilePath;
-                p.Start();
-                p.WaitForExit();
-                if (p.ExitCode != 0)
-                    MessageBox.Show("The exit code is not equal to zero. See log file for more information. CrypTool 2.0 will be restarted.", "Error");
+                if (isUpdateExecutableOutOfDate)
+                {
+                    File.Delete(filePath);
+                }
+                else
+                {
+                    DirectorySecurity ds = Directory.GetAccessControl(cryptoolFolderPath);
+
+                    Process p = new Process();
+                    p.StartInfo.FileName = filePath;
+                    p.StartInfo.Arguments = "/S >" + logfilePath;
+                    p.Start();
+                    p.WaitForExit();
+                    if (p.ExitCode != 0)
+                        MessageBox.Show("The exit code is not equal to zero. See log file for more information. CrypTool 2.0 will be restarted.", "Error");
+                }
             }
             catch (UnauthorizedAccessException)
             {
