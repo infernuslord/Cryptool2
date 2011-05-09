@@ -34,7 +34,7 @@ namespace Cryptool.Plugins.M209
     
     // HOWTO: Change interface to one that fits to your plugin (see CrypPluginBase).
     [EncryptionType(EncryptionType.Classic)]
-    public class m209 : IEncryption
+    public class M209 : IEncryption
     {
         #region Private Variables
 
