@@ -24,6 +24,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Numerics;
+using System.Security.Cryptography;
 
 namespace Cryptool.PluginBase.Miscellaneous
 {
@@ -255,10 +256,10 @@ namespace Cryptool.PluginBase.Miscellaneous
             return result;
         }
 
-        /*
-         * Extended Euclidean Algorithm
-         * Returns the GCD of a and b and finds integers x and y that satisfy x*a + y*b = gcd(a,b)
-         */
+        /// <summary>
+        /// Extended Euclidean Algorithm
+        /// Returns the GCD of a and b and finds integers x and y that satisfy x*a + y*b = gcd(a,b)
+        /// </summary>
         public static BigInteger ExtEuclid(BigInteger a, BigInteger b, out BigInteger x, out BigInteger y)
         {
             BigInteger xx, t, q, r;
@@ -280,14 +281,95 @@ namespace Cryptool.PluginBase.Miscellaneous
             return aa;
         }
 
-        /*
-         * Least Common Multiple
-         * Returns the LCM of a and b
-         */
+        /// <summary>
+        /// Least Common Multiple
+        /// Returns the LCM of a and b
+        /// </summary>
         public static BigInteger LCM(BigInteger a, BigInteger b)
         {
             BigInteger gcd = BigInteger.GreatestCommonDivisor(a, b);
             return (gcd != 0) ? ((a * b) / gcd) : 0;
+        }
+
+        public static BigInteger SetBit(BigInteger b, int i)
+        {
+            if( i>=0 ) b |= (((BigInteger)1) << i);
+            return b;
+        }
+
+        /// <summary>
+        /// Returns a random prime with 'bits' bits and the MSB set.
+        /// You need this if you want to create primes with a given bitlength, just
+        /// calling RandomPrimeBits would not guarantee the bitlength of the prime.
+        /// </summary>
+        public static BigInteger RandomPrimeMSBSet(int bits)
+        {
+            if (bits <= 1) throw new ArithmeticException("No primes with this bitcount");
+
+            BigInteger limit = ((BigInteger)1) << bits;
+
+            while (true)
+            {
+                var p = NextProbablePrime(SetBit(RandomIntBits(bits - 1), bits - 1));
+                if (p < limit) return p;
+            }
+        }
+
+        /// <summary>
+        /// Returns a random prime less than limit
+        /// </summary>
+        public static BigInteger RandomPrimeLimit(BigInteger limit)
+        {
+            if (limit <= 2) throw new ArithmeticException("No primes below this limit");
+
+            while( true ) {
+                var p = NextProbablePrime(RandomIntLimit(limit));
+                if( p < limit ) return p;
+            }
+        }
+
+        /// <summary>
+        /// Returns a random prime less than 2^bits
+        /// </summary>
+        public static BigInteger RandomPrimeBits(int bits)
+        {
+            if (bits < 0) throw new ArithmeticException("Enter a positive bitcount");
+            return RandomPrimeLimit( ((BigInteger)1) << bits );
+        }
+
+        /// <summary>
+        /// Returns a random integer less than limit
+        /// </summary>
+        public static BigInteger RandomIntLimit(BigInteger limit)
+        {
+            if (limit < 0) throw new ArithmeticException("Enter a positive limit");
+
+            byte[] buffer = limit.ToByteArray();
+            int n = buffer.Length;
+            byte msb = buffer[n - 1];
+            int mask = 0;
+
+            while (mask < msb)
+                mask = (mask << 1) + 1;
+
+            RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
+
+            while (true)
+            {
+                rng.GetBytes(buffer);
+                buffer[n - 1] &= (byte)mask;
+                var p = new BigInteger(buffer);
+                if (p < limit) return p;
+            }
+        }
+
+        /// <summary>
+        /// Returns a random integer less than 2^bits
+        /// </summary>
+        public static BigInteger RandomIntBits(int bits)
+        {
+            if (bits < 0) throw new ArithmeticException("Enter a positive bitcount");
+            return RandomIntLimit( ((BigInteger)1) << bits );
         }
 
         #region primesBelow2000
@@ -316,6 +398,28 @@ namespace Cryptool.PluginBase.Miscellaneous
 	    1901, 1907, 1913, 1931, 1933, 1949, 1951, 1973, 1979, 1987, 1993, 1997, 1999 };
 
         #endregion
+
+        public static BigInteger NextProbablePrime( BigInteger n )
+        {
+            if (n < 0) throw new ArithmeticException("NextProbablePrime cannot be called on value < 0");
+            if (n <= 2) return 2;
+            if (n.IsEven) n++;
+            if (n == 3) return 3;
+            BigInteger r = n % 6;
+            if (r == 3) n += 2;
+            if (r == 1) { if (IsProbablePrime(n)) return n; else n += 4; }
+            
+            // at this point n mod 6 = 5
+
+            while (true)
+            {
+                if (IsProbablePrime(n)) return n;
+                n += 2;
+                if (IsProbablePrime(n)) return n;
+                n += 4;
+            }
+
+        }
 
         /*
          * This code is heavily inspired by the code from the BigInteger class written by Chew Keong TAN
