@@ -26,8 +26,8 @@ namespace Cryptool.Plugins.M209
     {
         #region Public Caesar specific interface
 
-        public delegate void m209ReExecute();
-        public event m209ReExecute ReExecute;
+        public delegate void M209ReExecute();
+        public event M209ReExecute ReExecute;
         #endregion
 
         #region Private Variables
@@ -36,7 +36,6 @@ namespace Cryptool.Plugins.M209
         private string startwert = "AAAAAA";
         private string rotor1, rotor2, rotor3, rotor4, rotor5, rotor6 = "";
         private int selectedAction = 0;
-        private bool analyzeKey = false;
         public string[] bar = new string[27];
 
         #endregion
