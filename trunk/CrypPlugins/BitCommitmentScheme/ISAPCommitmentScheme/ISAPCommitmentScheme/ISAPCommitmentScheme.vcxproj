@@ -63,6 +63,7 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>$(SolutionDir)..\mpir\build.vc10\lib\$(Platform)\$(IntDir)\mpirxx.lib;$(SolutionDir)..\mpfr\build.vc10\lib\$(Platform)\$(IntDir)\mpfr.lib;%(AdditionalDependencies)</AdditionalDependencies>
+	  <KeyFile>$(ProjectDir)..\..\..\..\CrypCore\CT2_Key.snk</KeyFile>
     </Link>
     <PostBuildEvent>
       <Command>cd "$(ProjectDir)"
@@ -85,6 +86,7 @@ copy "$(TargetDir)ISAPCommitmentScheme.dll" "."</Command>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>$(SolutionDir)..\mpir\build.vc10\lib\$(Platform)\$(IntDir)\mpirxx.lib;$(SolutionDir)..\mpfr\build.vc10\lib\$(Platform)\$(IntDir)\mpfr.lib;%(AdditionalDependencies)</AdditionalDependencies>
+	  <KeyFile>$(ProjectDir)..\..\..\..\CrypCore\CT2_Key.snk</KeyFile>
     </Link>
     <PostBuildEvent>
       <Command>cd "$(ProjectDir)"
