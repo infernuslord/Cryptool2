@@ -404,8 +404,8 @@ namespace Cryptool.Plugins.Paillier
 
             if (settings.Action == 0)   // Encryption
             {
-                if (InputN <= InputM)
-                    GuiLogMessage("Message is bigger than Modulus N - this will produce a wrong result!", NotificationLevel.Warning);
+                if (n_square <= InputM)
+                    GuiLogMessage("Message is bigger than N^2 - this will produce a wrong result!", NotificationLevel.Warning);
 
                 OutputC = encrypt( InputM );    
             }
@@ -421,20 +421,20 @@ namespace Cryptool.Plugins.Paillier
             }
             else if (settings.Action == 2)  // Addition
             {
-                if (InputN <= InputM)
-                    GuiLogMessage("Message is bigger than Modulus N - this will produce a wrong result!", NotificationLevel.Warning);
-                if (InputN <= InputOperand)
-                    GuiLogMessage("Operand is bigger than Modulus N - this will produce a wrong result!", NotificationLevel.Warning);
+                if (n_square <= InputM)
+                    GuiLogMessage("Message is bigger than N^2 - this will produce a wrong result!", NotificationLevel.Warning);
+                if (n_square <= InputOperand)
+                    GuiLogMessage("Operand is bigger than N^2 - this will produce a wrong result!", NotificationLevel.Warning);
 
                 //OutputC = cipherAdd( InputM, encrypt(InputOperand) );
                 OutputC = cipherAdd( InputM, InputOperand );
             }
             else if (settings.Action == 3)  // Multiplication
             {
-                if (InputN <= InputM)
-                    GuiLogMessage("Message is bigger than Modulus N - this will produce a wrong result!", NotificationLevel.Warning);
-                if (InputN <= InputOperand)
-                    GuiLogMessage("Operand is bigger than Modulus N - this will produce a wrong result!", NotificationLevel.Warning);
+                if (n_square <= InputM)
+                    GuiLogMessage("Message is bigger than N^2 - this will produce a wrong result!", NotificationLevel.Warning);
+                if (n_square <= InputOperand)
+                    GuiLogMessage("Operand is bigger than N^2 - this will produce a wrong result!", NotificationLevel.Warning);
 
                 OutputC = cipherMul(InputM, InputOperand);
             }
