@@ -485,7 +485,7 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="25"></RowDefinition>
                             <RowDefinition Height="*"></RowDefinition>
-                            <RowDefinition Height="12"></RowDefinition>
+                            <RowDefinition Height="16"></RowDefinition>
                             <!--<RowDefinition Height="16"></RowDefinition>-->
                         </Grid.RowDefinitions>
                         <!--##########/Definitions##########-->
@@ -538,6 +538,8 @@
                                 <Binding Path="Progress" StringFormat=" {0:p0}" FallbackValue="0"></Binding>
                             </TextBlock.Text>
                         </TextBlock>
+
+                        <ContentPresenter Content="{Binding Path=LogNotifier}" Grid.Column="0" Grid.Row="2"></ContentPresenter>
 
                         <Thumb x:Name="ContentThumb" Style="{StaticResource ResourceKey=InvisibleThumbStyle}" Grid.Column="0" Grid.Row="1" Grid.RowSpan="2"
                                DragDelta="PositionDragDeltaHandler"></Thumb>

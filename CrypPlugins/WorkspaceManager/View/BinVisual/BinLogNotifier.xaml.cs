@@ -13,31 +13,34 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Collections.ObjectModel;
 using System.Windows.Threading;
+using System.Globalization;
+using Cryptool.PluginBase;
+using System.ComponentModel;
 
 namespace WorkspaceManager.View.BinVisual
 {
     /// <summary>
     /// Interaction logic for BinLogNotifier.xaml
     /// </summary>
-    public partial class BinLogNotifier : UserControl
+    public partial class BinLogNotifier : UserControl, INotifyPropertyChanged
     {
         #region Events
-        public EventHandler<RequestLogDisplayArgs> RequestLogDisplay; 
+        public EventHandler<RequestLogDisplayArgs> RequestLogDisplay;
+        public event PropertyChangedEventHandler PropertyChanged;
         #endregion
 
         #region private vars
-        private Stack<Log> logStack = new Stack<Log>();
+        private Queue<Log> logStack = new Queue<Log>();
         private DispatcherTimer timer = new DispatcherTimer() { Interval = new TimeSpan(0, 0, 5) }; 
         #endregion
 
         #region DependencyProperties
-        public static readonly DependencyProperty CurrentLogProperty = DependencyProperty.Register("CurrentLog",
-    typeof(Log), typeof(BinLogVisual), new FrameworkPropertyMetadata(null));
 
+        private Log currentLog;
         public Log CurrentLog
         {
-            get { return (Log)base.GetValue(CurrentLogProperty); }
-            set { base.SetValue(CurrentLogProperty, value); }
+            get { return currentLog; }
+            set { currentLog = value; OnPropertyChanged("CurrentLog"); }
         } 
         #endregion
 
@@ -46,9 +49,25 @@ namespace WorkspaceManager.View.BinVisual
         {
             InitializeComponent();
             timer.Tick += new EventHandler(TickHandler);
+            timer.Start();
             Logs.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(LogCollectionChangedHandler);
         } 
         #endregion
+
+        protected override void OnVisualParentChanged(DependencyObject oldParent)
+        {
+            base.OnVisualParentChanged(oldParent);
+            this.DataContext = this;
+        }
+
+        protected void OnPropertyChanged(string name)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(name));
+            }
+        }
 
         #region Event Handler
         void TickHandler(object sender, EventArgs e)
@@ -56,16 +75,18 @@ namespace WorkspaceManager.View.BinVisual
             if (logStack.Count == 0)
             {
                 timer.Stop();
+                CurrentLog = null;
+                return;
             }
 
-            CurrentLog = logStack.Pop();
+            CurrentLog = logStack.Dequeue();
         }
 
         void LogCollectionChangedHandler(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
             {
-                logStack.Push((Log)e.NewItems[0]);
+                logStack.Enqueue((Log)e.NewItems[0]);
                 if (!timer.IsEnabled)
                 {
                     timer.Start();
@@ -77,9 +98,24 @@ namespace WorkspaceManager.View.BinVisual
             {
                 logStack.Clear();
             }
-        } 
+        }
         #endregion
     }
+
+    #region Converter
+    public class IsNullConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return (value == null);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new InvalidOperationException("IsNullConverter can only be used OneWay.");
+        }
+    } 
+    #endregion
 
     #region EventArgs
 
