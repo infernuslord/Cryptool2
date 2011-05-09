@@ -330,7 +330,12 @@ namespace CrypUpdater
         {
             try
             {
-                Process.Start(cryptoolExePath);
+                // flomar, 05/09/2011: restart CrypTool (and don't forget to set the working directory!)
+                Process p = new Process();
+                p.StartInfo.UseShellExecute = false;
+                p.StartInfo.WorkingDirectory = cryptoolFolderPath;
+                p.StartInfo.FileName = cryptoolExePath;
+                p.Start();
                 Application.Current.Shutdown();
             }
             catch (Exception)
