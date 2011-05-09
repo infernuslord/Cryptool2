@@ -21,13 +21,15 @@ namespace Cryptool.Core
     {
         private readonly Exception _e;
         private readonly Version _version;
+        private readonly string _installationType;
         private readonly string _buildType;
         private readonly string _productName;
 
-        public UnhandledExceptionDialog(Exception e, Version version, string buildType, string productName)
+        public UnhandledExceptionDialog(Exception e, Version version, string installationType, string buildType, string productName)
         {
             _e = e;
             _version = version;
+            _installationType = installationType;
             _buildType = buildType;
             _productName = productName;
             InitializeComponent();
@@ -38,7 +40,7 @@ namespace Cryptool.Core
 
         private void ReportButtonClick(object sender, RoutedEventArgs routedEventArgs)
         {
-            var reportErrorDialog = new ReportErrorDialog(_e, _version, _buildType, _productName);
+            var reportErrorDialog = new ReportErrorDialog(_e, _version, _installationType, _buildType, _productName);
             reportErrorDialog.ShowDialog();
             Close(); // auto-close this window after ReportErrorDialog has been closed
         }
@@ -48,9 +50,9 @@ namespace Cryptool.Core
             Close();
         }
 
-        public static void ShowModalDialog(Exception e, Version version, string buildType, string productName)
+        public static void ShowModalDialog(Exception e, Version version, string installationType, string buildType, string productName)
         {
-            var unhandledExceptionDialog = new UnhandledExceptionDialog(e, version, buildType, productName);
+            var unhandledExceptionDialog = new UnhandledExceptionDialog(e, version, installationType, buildType, productName);
             unhandledExceptionDialog.ShowDialog();
         }
     }
