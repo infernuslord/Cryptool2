@@ -174,6 +174,18 @@ namespace WorkspaceManager.View.BinVisual
             }
         }
 
+        public static readonly DependencyProperty LogNotifierProperty = DependencyProperty.Register("LogNotifier", typeof(BinLogNotifier),
+            typeof(BinComponentVisual), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
+
+        public BinLogNotifier LogNotifier
+        {
+            get { return (BinLogNotifier)base.GetValue(LogNotifierProperty); }
+            set
+            {
+                base.SetValue(LogNotifierProperty, value);
+            }
+        }
+
         public static readonly DependencyProperty IsConnectorDragStartedProperty = DependencyProperty.Register("IsConnectorDragStarted", typeof(bool),
             typeof(BinComponentVisual), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
 
@@ -452,6 +464,7 @@ namespace WorkspaceManager.View.BinVisual
                 addConnectorView(m);
             }
 
+            LogNotifier = new BinLogNotifier(LogMessages);
             Model.Plugin.OnGuiLogNotificationOccured += new GuiLogNotificationEventHandler(OnGuiLogNotificationOccuredHandler);
             WindowWidth = Model.GetWidth();
             WindowHeight = Model.GetHeight();
