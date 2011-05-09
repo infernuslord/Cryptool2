@@ -105,6 +105,11 @@ namespace Cryptool.Plugins.Converter
                         streamData = (byte[])inputOne;
                     else if (inputOne is byte)
                         streamData = new byte[] { (byte)inputOne };
+                    else if (inputOne is BigInteger)
+                    {
+                        streamData = ((BigInteger)inputOne).ToByteArray();
+                        Array.Reverse(streamData); // Display MSB first
+                    }
 
                     if (streamData != null)
                     {
@@ -171,6 +176,12 @@ namespace Cryptool.Plugins.Converter
                                     break;
                                 }
                             }
+                        case 5: // bool to BigInteger
+                            {
+                                Output = (BigInteger)( (bool)inputOne ? 1 : 0 );
+                                ProgressChanged(100, 100);
+                                break;
+                            }
                         default:
                             {
                                 GuiLogMessage("Could not convert from bool to chosen type: ", NotificationLevel.Error);
@@ -178,8 +189,11 @@ namespace Cryptool.Plugins.Converter
 
                             }
                     }
+
                     return;
                 }
+
+
                 // the string representation is used for all upcoming operations
                 string inpString = Convert.ToString(InputOne);
 
@@ -391,9 +405,10 @@ namespace Cryptool.Plugins.Converter
                     case 8: //cryptoolstream
                         {
 
-                            if (inputOne is byte[] || inputOne is byte)
+                            if (inputOne is byte[] || inputOne is byte || inputOne is BigInteger)
                             {
                                 OnPropertyChanged("Output");
+                                ProgressChanged(100, 100);
                             }
                             else
                             {
