@@ -23,14 +23,13 @@ using Cryptool.PluginBase.Miscellaneous;
 using Cryptool.PluginBase;
 using System.ComponentModel;
 using System.Diagnostics;
-using Primes.Bignum;
 using System.Numerics;
 using System.Security.Cryptography;
 
 namespace Cryptool.Plugins.Paillier
 {
     [Author("Armin Krauss", "", "", "http://www.uni-due.de")]
-    [PluginInfo("Paillier.Properties.Resources", true, "PluginKeyCaption", "PluginKeyTooltip", "PluginKeyDescriptionURL", "CrypWin/images/default.png")]
+    [PluginInfo("Paillier.Properties.Resources", true, "PluginKeyCaption", "PluginKeyTooltip", "PluginKeyDescriptionURL", "Paillier/Image/PaillierKey.png")]
     [EncryptionType(EncryptionType.Asymmetric)]
     /**
     <summary>
@@ -40,7 +39,7 @@ namespace Cryptool.Plugins.Paillier
      there are several modes:
      
      1. manual
-         in this mode the p and q or the n and e and d are given by the user, the d also may be generated
+         in this mode p and q are given by the user
          
      2. random
          in this mode the keys will be generated randomly with a given bitlength
@@ -66,16 +65,6 @@ namespace Cryptool.Plugins.Paillier
         public event Cryptool.PluginBase.PluginProgressChangedEventHandler OnPluginProgressChanged;
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
 
-        #endregion
-
-        #region private
-
-        private BigInteger RandomPrime(int bits)
-        {
-            // TODO: avoid PrimesBigInteger, slow, clumsy conversion to BigInteger
-            return BigInteger.Parse( PrimesBigInteger.Random(bits - 1).SetBit(bits).NextProbablePrime().ToString() );
-        }
-        
         #endregion
         
         #region public
@@ -210,12 +199,19 @@ namespace Cryptool.Plugins.Paillier
                     try
                     {
                         int keyBitLength = Convert.ToInt32(settings.KeyBitLength);
+                        if (keyBitLength<4)
+                        {
+                            GuiLogMessage("The keylength must be greater than 3.", NotificationLevel.Error);
+                            return;
+                        }
 
                         int i, maxtries = 10;
                         for (i = 0; i < maxtries; i++)
                         {
-                            p = RandomPrime(keyBitLength - (keyBitLength / 2));
-                            q = RandomPrime(keyBitLength / 2);
+                            p = BigIntegerHelper.RandomPrimeMSBSet(keyBitLength - (keyBitLength / 2));
+                            q = BigIntegerHelper.RandomPrimeMSBSet(keyBitLength / 2);
+                            //GuiLogMessage("p = " + p.ToString(), NotificationLevel.Info);
+                            //GuiLogMessage("q = " + q.ToString(), NotificationLevel.Info);
                             if (p != q) break;
                         }
                         if (i==maxtries)
@@ -303,6 +299,11 @@ namespace Cryptool.Plugins.Paillier
         public void OnPropertyChanged(string name)
         {
             EventsHelper.PropertyChanged(PropertyChanged, this, new PropertyChangedEventArgs(name));
+        }
+
+        private void ChangePluginIcon(int Icon)
+        {
+            if (OnPluginStatusChanged != null) OnPluginStatusChanged(null, new StatusEventArgs(StatusChangedMode.ImageUpdate, Icon));
         }
 
         #endregion

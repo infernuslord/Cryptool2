@@ -119,7 +119,7 @@ namespace Cryptool.Plugins.Paillier
         /// <summary>
         /// Getter/Setter for the bitlength of the randomly generated primes
         /// </summary>
-        [TaskPane("KeyBitLengthCaption", "KeyBitLengthTooltip", null, 2, false, ControlType.TextBox, ValidationType.RegEx, "[1-9][0-9]+")]
+        [TaskPane("KeyBitLengthCaption", "KeyBitLengthTooltip", null, 2, false, ControlType.TextBox, ValidationType.RegEx, "[0-9][0-9]*")]
         public String KeyBitLength
         {
             get { return this.keyBitLength; }
