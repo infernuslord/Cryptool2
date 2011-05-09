@@ -8,8 +8,8 @@
     <ProjectGuid>{9113F40E-5A6D-445A-9625-B38DF3BA918F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>m209</RootNamespace>
-    <AssemblyName>m209</AssemblyName>
+    <RootNamespace>Cryptool.M209</RootNamespace>
+    <AssemblyName>M209</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>
@@ -35,7 +35,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
     <PlatformTarget>x64</PlatformTarget>
-    <OutputPath>..\..\CrypBuild\x64\Release\CrypPlugins</OutputPath>
+    <OutputPath>obj\x86\Release\</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DebugType>pdbonly</DebugType>
@@ -44,7 +44,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <PlatformTarget>x86</PlatformTarget>
-    <OutputPath>..\..\..\..\CrypPlugins\</OutputPath>
+    <OutputPath>obj\x86\Release\</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DebugType>pdbonly</DebugType>
@@ -74,9 +74,9 @@
   <ItemGroup Condition=" '$(Platform)' == 'x86' " />
   <ItemGroup Condition=" '$(Platform)' == 'x64' " />
   <ItemGroup>
-    <Reference Include="CrypPluginBase, Version=2.0.2486.1, Culture=neutral, PublicKeyToken=95429f90c3a66dd4, processorArchitecture=x86">
+    <Reference Include="CrypPluginBase, Version=2.0.0.0, Culture=neutral, PublicKeyToken=95429f90c3a66dd4, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\CrypPluginBase.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Programme\CrypTool 2.0\CrypPluginBase.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
@@ -102,10 +102,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ICryptoolStream.cs" />
-    <Compile Include="ICryptoolStream_2.cs" />
-    <Compile Include="m209CT2.cs" />
-    <Compile Include="m209CT2Settings.cs" />
+    <Compile Include="M209Settings.cs" />
+    <Compile Include="M209CT2.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

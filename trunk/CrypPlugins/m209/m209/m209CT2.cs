@@ -25,12 +25,12 @@ using Cryptool.PluginBase.Miscellaneous;
 using Cryptool.PluginBase.Cryptography;
 
 
-namespace Cryptool.Plugins.m209
+namespace Cryptool.Plugins.M209
 {
     // HOWTO: Change author name, email address, organization and URL.
     [Author("Martin Jedrychowski, Martin Switek", "jedry@gmx.de, Martin_Switek@gmx.de", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo(false, "M209", "Rotor-Cipher Machine", "m209/DetailedDescription/Description.xaml",
-      "m209/Images/M-209.jpg", "m209/Images/encrypt.png", "m209/Images/decrypt.png")]
+    [PluginInfo(false, "M209", "Rotor-Cipher Machine", "M209/DetailedDescription/Description.xaml",
+      "M209/Images/M-209.jpg", "M209/Images/encrypt.png", "M209/Images/decrypt.png")]
     
     // HOWTO: Change interface to one that fits to your plugin (see CrypPluginBase).
     [EncryptionType(EncryptionType.Classic)]
@@ -39,7 +39,7 @@ namespace Cryptool.Plugins.m209
         #region Private Variables
 
         // HOWTO: You need to adapt the settings class as well, see the corresponding file.
-        private m209Settings settings = new m209Settings();
+        private M209Settings settings = new M209Settings();
         private bool cipher = true;
         #endregion
 
@@ -474,12 +474,7 @@ namespace Cryptool.Plugins.m209
             return back;
         }
 
-        public ICryptoolStream OutputStream
-        {
-            get;
-            private set;
-        }
-
+    
         #endregion
 
         #region IPlugin Members
