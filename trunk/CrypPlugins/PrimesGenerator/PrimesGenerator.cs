@@ -7,8 +7,9 @@ using System.Reflection;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase.Tool;
-using Primes.Bignum;
+using Cryptool.PluginBase.Miscellaneous;
 using System.Numerics;
+using System.Security.Cryptography;
 
 namespace Cryptool.PrimesGenerator
 {
@@ -16,13 +17,14 @@ namespace Cryptool.PrimesGenerator
   [PluginInfo("PrimesGenerator.Properties.Resources", true, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "PrimesGenerator/icon.png")]
   public class PrimesGenerator : IRandomNumberGenerator
   {
-      private PrimesBigInteger m_max = new PrimesBigInteger("10000000000");
+      private BigInteger m_max = 10000000000;
+
     public PrimesGenerator()
     {
       m_Settings = new PrimesGeneratorSettings();
       m_Settings.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(m_Settings_PropertyChanged);
       m_Mode = 0;
-      m_Input = PrimesBigInteger.ValueOf(100);
+      m_Input = 100;
     }
 
 
@@ -50,6 +52,10 @@ namespace Cryptool.PrimesGenerator
     {
       if (OnPluginProgressChanged != null) OnPluginProgressChanged(this, new PluginProgressEventArgs(0, 0));
     }
+    private void ProgressChanged(double value, double max)
+    {
+        EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
+    }
 
 
     private BigInteger m_OutputString;
@@ -69,7 +75,7 @@ namespace Cryptool.PrimesGenerator
       get { return m_Settings; }
     }
 
-    private PrimesBigInteger m_Input;
+    private BigInteger m_Input;
     private int m_Mode;
     private bool hasErrors;
     void m_Settings_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -77,7 +83,8 @@ namespace Cryptool.PrimesGenerator
       hasErrors = false;
       try
       {
-        m_Input = new PrimesBigInteger(m_Settings.Input);
+        m_Input = BigInteger.Parse(m_Settings.Input);
+        
         switch (e.PropertyName)
         {
           case PrimesGeneratorSettings.MODE:
@@ -86,17 +93,17 @@ namespace Cryptool.PrimesGenerator
             switch (m_Mode)
             {
               case 0:
-                if (m_Input.CompareTo(PrimesBigInteger.One) < 0 || m_Input.CompareTo(PrimesBigInteger.ValueOf(400)) > 0)
+                if ( !(m_Input > 1 && m_Input <= 400) )
                 {
-                  FireOnGuiLogNotificationOccuredEventError("Value for n has to be greater or equal than one an less or equal than 400.");
-                  hasErrors = true;
-                }
+                    FireOnGuiLogNotificationOccuredEventError("Value for n has to be greater than 1 and less or equal than 400.");
+                    hasErrors = true;
+                } 
                 break;
               case 1:
-                if (m_Input.CompareTo(PrimesBigInteger.Ten) < 0 || m_Input.CompareTo(m_max) > 0)
+                if (!(m_Input > 1 && m_Input <= m_max))
                 {
-                  FireOnGuiLogNotificationOccuredEventError("Please enter an Integer value for n.");
-                  hasErrors = true;
+                    FireOnGuiLogNotificationOccuredEventError("Value for n has to be greater than 1");
+                    hasErrors = true;
                 }
                 break;
             }
@@ -127,26 +134,23 @@ namespace Cryptool.PrimesGenerator
       
     }
 
-
     public void Execute()
     {
-      if (!hasErrors)
-      {
+        if (hasErrors) return; 
+        
+        ProgressChanged(0, 100);
+
         switch (m_Mode)
         {
-          case 0:
-            OutputString = BigInteger.Parse(PrimesBigInteger.Random(m_Input).NextProbablePrime().ToString());
-            break;
-          case 1:
-            PrimesBigInteger result = PrimesBigInteger.RandomM(m_Input).NextProbablePrime();
-            while (result.CompareTo(m_Input) > 0)
-            {
-              result = PrimesBigInteger.RandomM(m_Input).NextProbablePrime();
-            }
-            OutputString = BigInteger.Parse(result.ToString());
-            break;
+            case 0:   // create prime with m_Input bits
+                OutputString = BigIntegerHelper.RandomPrimeBits( (int)m_Input );
+                break;
+            case 1:   // create prime <= m_Input
+                OutputString = BigIntegerHelper.RandomPrimeLimit( m_Input + 1 );
+                break;
         }
-      }
+
+        ProgressChanged(100, 100);
     }
 
     public void PostExecution()
