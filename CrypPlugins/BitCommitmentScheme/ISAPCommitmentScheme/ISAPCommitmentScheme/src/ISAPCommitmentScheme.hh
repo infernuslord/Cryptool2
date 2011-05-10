@@ -111,6 +111,31 @@ public:
      */
     long getRestartCounter2() const;
 
+	mpz_class getQ()
+	{
+		return _q;
+	}
+
+	mpz_class* getP()
+	{
+		return _p;
+	}
+
+	mpz_class* getA()
+	{
+		return _a;
+	}
+
+	mpz_class* getB()
+	{
+		return _b;
+	}
+
+	mpq_class* getEta()
+	{
+		return _eta;
+	}
+
 private:
 
     /**

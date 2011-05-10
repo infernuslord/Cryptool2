@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Windows.Controls;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Analysis;
 using Cryptool.PluginBase.Cryptography;
 using Cryptool.PluginBase.Miscellaneous;
+using ISAPCommitmentSchemeWrapper;
 
 namespace BitCommitmentScheme
 {
@@ -18,12 +20,124 @@ namespace BitCommitmentScheme
     {
         private readonly BitCommitmentSchemeSettings _settings = new BitCommitmentSchemeSettings();
         private string _logMessage;
-        private ISAPCommitmentScheme.Wrapper _ISAPalgorithmWrapper = new ISAPCommitmentScheme.Wrapper();
+        private Wrapper _ISAPalgorithmWrapper = new Wrapper();
 
         public event PropertyChangedEventHandler PropertyChanged;
         public event StatusChangedEventHandler OnPluginStatusChanged;
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
         public event PluginProgressChangedEventHandler OnPluginProgressChanged;
+        
+        [PropertyInfo(Direction.InputData, "InputBitCaption", "InputBitTooltip", "")]
+        public bool InputBit
+        {
+            set
+            {
+                try
+                {
+                    var result = _ISAPalgorithmWrapper.Run(value, _dimension, _s);
+                    LogMessage = result.log;
+                    P = result.p;
+                    Q = result.q;
+                    Alpha = result.alpha;
+                    Eta = result.eta;
+                }
+                catch (Exception ex)
+                {
+                    GuiLogMessage(string.Format("ISAP algorithm failed: {0}", ex.Message), NotificationLevel.Error);
+                }
+                OnPropertyChanged("InputBit");
+            }
+        }
+
+        private int _dimension = 7;
+        [PropertyInfo(Direction.InputData, "DimensionCaption", "DimensionTooltip", "")]
+        public int Dimension
+        {
+            get
+            {
+                return _dimension;
+            }
+            set
+            {
+                _dimension = value;
+                OnPropertyChanged("Dimension");
+            }
+        }
+
+        private int _s = 128;
+        [PropertyInfo(Direction.InputData, "SCaption", "STooltip", "")]
+        public int S
+        {
+            get
+            {
+                return _s;
+            }
+            set
+            {
+                _s = value;
+                OnPropertyChanged("S");
+            }
+        }
+
+        private BigInteger[] _p;
+        [PropertyInfo(Direction.OutputData, "PCaption", "PTooltip", "")]
+        public BigInteger[] P
+        {
+            get
+            {
+                return _p;
+            }
+            set 
+            { 
+                _p = value;
+                OnPropertyChanged("P");
+            }
+        }
+
+        private BigInteger _q;
+        [PropertyInfo(Direction.OutputData, "QCaption", "QTooltip", "")]
+        public BigInteger Q
+        {
+            get
+            {
+                return _q;
+            }
+            set
+            {
+                _q = value;
+                OnPropertyChanged("Q");
+            }
+        }
+
+        private double[] _alpha;
+        [PropertyInfo(Direction.OutputData, "AlphaCaption", "AlphaTooltip", "")]
+        public double[] Alpha
+        {
+            get
+            {
+                return _alpha;
+            }
+            set
+            {
+                _alpha = value;
+                OnPropertyChanged("Alpha");
+            }
+        }
+
+        private double[] _eta;
+        [PropertyInfo(Direction.OutputData, "EtaCaption", "EtaTooltip", "")]
+        public double[] Eta
+        {
+            get
+            {
+                return _eta;
+            }
+            set
+            {
+                _eta = value;
+                OnPropertyChanged("Eta");
+            }
+        }
 
         [PropertyInfo(Direction.OutputData, "LogMessageCaption", "LogMessageTooltip", "")]
         public String LogMessage
@@ -36,23 +150,6 @@ namespace BitCommitmentScheme
             {
                 _logMessage = value;
                 OnPropertyChanged("LogMessage");
-            }
-        }
-
-        [PropertyInfo(Direction.InputData, "InputBitCaption", "InputBitTooltip", "")]
-        public bool InputBit
-        {
-            set
-            {
-                try
-                {
-                    LogMessage = _ISAPalgorithmWrapper.Run(value);
-                }
-                catch (Exception ex)
-                {
-                    GuiLogMessage(string.Format("ISAP algorithm failed: {0}", ex.Message), NotificationLevel.Error);
-                }
-                OnPropertyChanged("InputBit");
             }
         }
 
