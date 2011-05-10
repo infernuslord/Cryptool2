@@ -184,45 +184,60 @@ namespace CrypUpdater
                 // than the current version, or if (b) the new version cannot be determined (which implicitly makes it an old version)
                 FileVersionInfo oldExecutableFileVersionInfo = FileVersionInfo.GetVersionInfo(filePath);
                 FileVersionInfo newExecutableFileVersionInfo = FileVersionInfo.GetVersionInfo(cryptoolExePath);
+                // if the version cannot be determined (i.e. versions weren't set up until a recent fix), null is returned
                 string oldVersion = oldExecutableFileVersionInfo.ProductVersion;
                 string newVersion = newExecutableFileVersionInfo.ProductVersion;
-                
+                                
                 bool isUpdateExecutableOutOfDate = false;
-                
-                if (newVersion.Length == 0)
+              
+                // the update is out of date if its version cannot be determined
+                if (newVersion == null)
                 {
                     isUpdateExecutableOutOfDate = true;
                 }
                 else
                 {
-                    // split the product versions into separate strings (MAJOR.MINOR.REVISION.SVNREVISION)
-                    string []arrayOldVersion = oldVersion.Split('.');
-                    string []arrayNewVersion = oldVersion.Split('.');
-                    // first and foremost we should check the new version: if something's wrong there, the update is out of date
-                    if (arrayNewVersion.Length != 4)
+                    // the update is out of date if its version string has zero length
+                    if (newVersion.Length == 0)
                     {
                         isUpdateExecutableOutOfDate = true;
                     }
                     else
                     {
-                        // the actual version comparison will be in effect only for a valid old versions;
-                        // for "invalid" old versions every new version is considered a valid update
-                        if (arrayOldVersion.Length == 4)
+                        // split the product version into separate strings (MAJOR.MINOR.REVISION.SVNREVISION)
+                        string[] arrayNewVersion = newVersion.Split('.');
+                        // if something's wrong here, the update is out of date
+                        if (arrayNewVersion.Length != 4)
                         {
-                            // transform version strings to integer values
-                            int oldMajor = Int32.Parse(arrayOldVersion.ElementAt(0));
-                            int oldMinor = Int32.Parse(arrayOldVersion.ElementAt(1));
-                            int oldRevision = Int32.Parse(arrayOldVersion.ElementAt(2));
-                            int oldSvnRevision = Int32.Parse(arrayOldVersion.ElementAt(3));
-                            int newMajor = Int32.Parse(arrayNewVersion.ElementAt(0));
-                            int newMinor = Int32.Parse(arrayNewVersion.ElementAt(1));
-                            int newRevision = Int32.Parse(arrayNewVersion.ElementAt(2));
-                            int newSvnRevision = Int32.Parse(arrayNewVersion.ElementAt(3));
-                            // compare old and new version
-                            if (oldMajor > newMajor) isUpdateExecutableOutOfDate = true;
-                            if (oldMajor >= newMajor && oldMinor > newMinor) isUpdateExecutableOutOfDate = true;
-                            if (oldMajor >= newMajor && oldMinor >= newMinor && oldRevision > newRevision) isUpdateExecutableOutOfDate = true;
-                            if (oldMajor >= newMajor && oldMinor >= newMinor && oldRevision >= newRevision && oldSvnRevision > newSvnRevision) isUpdateExecutableOutOfDate = true;
+                            isUpdateExecutableOutOfDate = true;
+                        }
+                        else
+                        {
+                            // the actual version comparison will be in effect only for "valid" old versions;
+                            // for "invalid" old versions every new version is considered a valid update
+                            if (oldVersion != null)
+                            {
+                                // split the product version into separate strings (MAJOR.MINOR.REVISION.SVNREVISION)
+                                string[] arrayOldVersion = oldVersion.Split('.');
+
+                                if (arrayOldVersion.Length == 4)
+                                {
+                                    // transform version strings to integer values
+                                    int oldMajor = Int32.Parse(arrayOldVersion.ElementAt(0));
+                                    int oldMinor = Int32.Parse(arrayOldVersion.ElementAt(1));
+                                    int oldRevision = Int32.Parse(arrayOldVersion.ElementAt(2));
+                                    int oldSvnRevision = Int32.Parse(arrayOldVersion.ElementAt(3));
+                                    int newMajor = Int32.Parse(arrayNewVersion.ElementAt(0));
+                                    int newMinor = Int32.Parse(arrayNewVersion.ElementAt(1));
+                                    int newRevision = Int32.Parse(arrayNewVersion.ElementAt(2));
+                                    int newSvnRevision = Int32.Parse(arrayNewVersion.ElementAt(3));
+                                    // compare old and new version
+                                    if (oldMajor > newMajor) isUpdateExecutableOutOfDate = true;
+                                    if (oldMajor >= newMajor && oldMinor > newMinor) isUpdateExecutableOutOfDate = true;
+                                    if (oldMajor >= newMajor && oldMinor >= newMinor && oldRevision > newRevision) isUpdateExecutableOutOfDate = true;
+                                    if (oldMajor >= newMajor && oldMinor >= newMinor && oldRevision >= newRevision && oldSvnRevision > newSvnRevision) isUpdateExecutableOutOfDate = true;
+                                }
+                            }
                         }
                     }
                 }
