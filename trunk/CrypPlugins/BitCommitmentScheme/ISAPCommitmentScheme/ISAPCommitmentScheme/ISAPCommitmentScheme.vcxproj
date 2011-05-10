@@ -63,7 +63,7 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>$(SolutionDir)..\mpir\build.vc10\lib\$(Platform)\$(IntDir)\mpirxx.lib;$(SolutionDir)..\mpfr\build.vc10\lib\$(Platform)\$(IntDir)\mpfr.lib;%(AdditionalDependencies)</AdditionalDependencies>
-	  <KeyFile>$(ProjectDir)..\..\..\..\CrypCore\CT2_Key.snk</KeyFile>
+      <KeyFile>$(ProjectDir)..\..\..\..\CrypCore\CT2_Key.snk</KeyFile>
     </Link>
     <PostBuildEvent>
       <Command>cd "$(ProjectDir)"
@@ -86,7 +86,7 @@ copy "$(TargetDir)ISAPCommitmentScheme.dll" "."</Command>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>$(SolutionDir)..\mpir\build.vc10\lib\$(Platform)\$(IntDir)\mpirxx.lib;$(SolutionDir)..\mpfr\build.vc10\lib\$(Platform)\$(IntDir)\mpfr.lib;%(AdditionalDependencies)</AdditionalDependencies>
-	  <KeyFile>$(ProjectDir)..\..\..\..\CrypCore\CT2_Key.snk</KeyFile>
+      <KeyFile>$(ProjectDir)..\..\..\..\CrypCore\CT2_Key.snk</KeyFile>
     </Link>
     <PostBuildEvent>
       <Command>cd "$(ProjectDir)"
@@ -98,6 +98,7 @@ copy "$(TargetDir)ISAPCommitmentScheme.dll" "."</Command>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -105,9 +106,9 @@ copy "$(TargetDir)ISAPCommitmentScheme.dll" "."</Command>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
-    <ClCompile Include="Wrapper.cpp" />
     <ClCompile Include="src\ISAPCommitmentScheme.cpp" />
     <ClCompile Include="src\ISAPCommitmentSchemeApp.cc" />
+    <ClCompile Include="Wrapper.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\ISAPCommitmentScheme.hh" />
