@@ -10,15 +10,15 @@ using OnlineDocumentationGenerator.Generators.HtmlGenerator;
 
 namespace OnlineDocumentationGenerator
 {
-    class DocGenerator
+    public class DocGenerator
     {
         public static string TemplateDirectory = "ProjectSamples";
         public static Dictionary<string, List<string>> RelevantPluginToTemplatesMap = new Dictionary<string, List<string>>();
 
-        public void Generate()
+        public void Generate(string outputDir = ".")
         {
             ReadTemplates(".");
-            GenerateHTML();
+            GenerateHTML(outputDir);
         }
 
         private void ReadTemplates(string dir)
@@ -59,9 +59,10 @@ namespace OnlineDocumentationGenerator
             }
         }
 
-        private void GenerateHTML()
+        private void GenerateHTML(string outputDir)
         {
             var generator = new HtmlGenerator();
+            generator.OutputDir = outputDir;
 
             var pluginManager = new PluginManager(null);
             foreach (Type pluginType in pluginManager.LoadTypes(AssemblySigningRequirement.LoadAllAssemblies).Values)
@@ -87,13 +88,6 @@ namespace OnlineDocumentationGenerator
             {
                 Console.Error.WriteLine(string.Format("Error trying to generate documentation: {0}", ex.Message));
             }
-        }
-
-        [STAThread]
-        static void Main(string[] args)
-        {
-            var gen = new DocGenerator();
-            gen.Generate();
         }
     }
 }

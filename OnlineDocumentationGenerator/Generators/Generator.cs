@@ -10,6 +10,11 @@ namespace OnlineDocumentationGenerator.Generators
         protected List<PluginDocumentationPage> pluginPages = new List<PluginDocumentationPage>();
         protected HashSet<string> availableLanguages = new HashSet<string>();
 
+        public string OutputDir
+        {
+            get; set;
+        }
+
         /// <summary>
         /// Adds a documentation page for the given plugin to generate in all available localizations.
         /// </summary>
