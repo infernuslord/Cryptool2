@@ -50,7 +50,7 @@ namespace OnlineDocumentationGenerator
             return _xml.Elements("language").Select(langElement => langElement.Attribute("culture").Value);
         }
 
-        private XElement GetPluginXML(Type pluginType)
+        private static XElement GetPluginXML(Type pluginType)
         {
             try
             {
