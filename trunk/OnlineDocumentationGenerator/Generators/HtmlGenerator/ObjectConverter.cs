@@ -17,11 +17,13 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
     class ObjectConverter
     {
         private readonly List<PluginDocumentationPage> _pluginPages;
+        private readonly string _outputDir;
         private readonly HashSet<string> _createdImages = new HashSet<string>();
 
-        public ObjectConverter(List<PluginDocumentationPage> pluginPages)
+        public ObjectConverter(List<PluginDocumentationPage> pluginPages, string outputDir)
         {
             _pluginPages = pluginPages;
+            _outputDir = outputDir;
         }
 
         public string Convert(object theObject, PluginDocumentationPage pluginDocumentationPage)
@@ -80,11 +82,11 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
             if (!_createdImages.Contains(filename))
             {
                 //create image file:
-                if (!Directory.Exists(OnlineHelp.PluginDocDirectory))
+                if (!Directory.Exists(Path.Combine(_outputDir, OnlineHelp.PluginDocDirectory)))
                 {
-                    Directory.CreateDirectory(OnlineHelp.PluginDocDirectory);
+                    Directory.CreateDirectory(Path.Combine(_outputDir, OnlineHelp.PluginDocDirectory));
                 }
-                var file = Path.Combine(OnlineHelp.PluginDocDirectory, filename);
+                var file = Path.Combine(_outputDir, Path.Combine(OnlineHelp.PluginDocDirectory, filename));
                 using (var fileStream = new FileStream(file, FileMode.Create))
                 {
                     var encoder = new PngBitmapEncoder();

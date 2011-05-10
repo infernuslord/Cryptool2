@@ -18,7 +18,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
 
         public override void Generate()
         {
-            _objectConverter = new ObjectConverter(pluginPages);
+            _objectConverter = new ObjectConverter(pluginPages, OutputDir);
             GeneratePluginDocPages();
             GenerateIndexPages();
             CopyAdditionalResources();
@@ -80,14 +80,14 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
             }
         }
 
-        private static void StorePluginDocPage(string html, string filename)
+        private void StorePluginDocPage(string html, string filename)
         {
-            var filePath = Path.Combine(OnlineHelp.PluginDocDirectory, filename);
+            var filePath = Path.Combine(OutputDir, Path.Combine(OnlineHelp.PluginDocDirectory, filename));
             try
             {
-                if (!Directory.Exists(OnlineHelp.PluginDocDirectory))
+                if (!Directory.Exists(Path.Combine(OutputDir, OnlineHelp.PluginDocDirectory)))
                 {
-                    Directory.CreateDirectory(OnlineHelp.PluginDocDirectory);
+                    Directory.CreateDirectory(Path.Combine(OutputDir, OnlineHelp.PluginDocDirectory));
                 }
 
                 var streamWriter = new System.IO.StreamWriter(filePath, false, Encoding.UTF8);
@@ -100,14 +100,14 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
             }
         }
 
-        private static void StoreIndexPage(string html, string filename)
+        private void StoreIndexPage(string html, string filename)
         {
-            var filePath = Path.Combine(OnlineHelp.HelpDirectory, filename);
+            var filePath = Path.Combine(OutputDir, Path.Combine(OnlineHelp.HelpDirectory, filename));
             try
             {
-                if (!Directory.Exists(OnlineHelp.HelpDirectory))
+                if (!Directory.Exists(Path.Combine(OutputDir, OnlineHelp.HelpDirectory)))
                 {
-                    Directory.CreateDirectory(OnlineHelp.HelpDirectory);
+                    Directory.CreateDirectory(Path.Combine(OutputDir, OnlineHelp.HelpDirectory));
                 }
 
                 var streamWriter = new System.IO.StreamWriter(filePath, false, Encoding.UTF8);
@@ -225,7 +225,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
                     int sIndex = path.IndexOf('/');
                     var resUri = new Uri(string.Format("pack://application:,,,/{0};component/{1}",
                                                        path.Substring(0, sIndex), path.Substring(sIndex + 1)));
-                    var fileName = Path.Combine(OnlineHelp.HelpDirectory, Path.GetFileName(path));
+                    var fileName = Path.Combine(OutputDir, Path.Combine(OnlineHelp.HelpDirectory, Path.GetFileName(path)));
                     
                     using (var resStream = Application.GetResourceStream(resUri).Stream)
                     using (var streamWriter = new System.IO.StreamWriter(fileName, false))
