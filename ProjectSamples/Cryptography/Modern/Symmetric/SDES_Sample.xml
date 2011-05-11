@@ -4,10 +4,10 @@
 	<title lang="de">SDES-Chiffre</title>
 	
 	<description lang="en">
-		This template shows how to use the <i>SDES-Cipher</i>. <newline/>		
+		This template shows how to use the <i> SDES-Cipher </i>.		
 	</description>
 	<description lang="de">
-		Diese Vorlage zeigt die Verwendung der <i>SDES-Ver-/Entschlüsselung</i>. <newline/>
+		Diese Vorlage zeigt die Verwendung der <i> SDES-Ver-/Entschlüsselung </i>.
 	</description>
 	
 	<icon file="SDES_Sample.png"/>

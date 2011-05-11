@@ -4,10 +4,20 @@
 	<title lang="de">Twofisch-Chiffre</title>
 	
 	<description lang="en">
-		This template shows how to use the <i>Twofisch-Cipher</i>. <newline/>		
+		This template shows how to use the <i> Twofisch-Cipher </i>.<newline/>
+		<newline/>
+		In cryptography, Twofish is a symmetric key block cipher with a block size of 128 bits and key sizes up to 256 bits. It was one of the five finalists of the Advanced Encryption 
+		Standard contest, but was not selected for standardisation. Twofish is related to the earlier block cipher Blowfish.<newline/>
+		<newline/>
+		Source: <external ref="http://en.wikipedia.org/wiki/Twofish"/>
 	</description>
 	<description lang="de">
-		Diese Vorlage zeigt die Verwendung der <i>Twofisch-Ver-/Entschlüsselung</i>. <newline/>
+		Diese Vorlage zeigt die Verwendung der <i> Twofisch-Ver-/Entschlüsselung </i>.<newline/>
+		<newline/>
+		Twofish ist ein symmetrischer Verschlüsselungsalgorithmus in der Informatik, der von Bruce Schneier, Niels Ferguson, John Kelsey, Doug Whiting, David Wagner und Chris 
+		Hall entwickelt wurde. Es handelt sich um ein Blockchiffre mit einer Blockgröße von 128 Bit und 16 Runden, die Schlüssellängen betragen 128, 192 oder 256 Bit.<newline/>
+		<newline/>
+		Quelle: <external ref="http://de.wikipedia.org/wiki/Twofish"/>
 	</description>
 	
 	<icon file="Twofisch_Sample.png"/>

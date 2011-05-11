@@ -1,18 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <sample>
-	<title lang="en">RSA-Keygenerator</title>
+	<title lang="en">RSA-KeyGenerator</title>
 	<title lang="de">RSA-Schlüsselgenerator</title>
 	
 	<description lang="en">
-		This template shows how to use the <i>RSA-Keygenerator</i>. <newline/>		
+		This template shows how to use the <i>RSA-Keygenerator</i>.<newline/>
+		<newline/>
+		The RSA-KeyGenerator generates p * q = N and the public key e and the private key d.
 	</description>
 	<description lang="de">
-		Diese Vorlage zeigt die Verwendung des <i>RSA-Schüsselgenerators</i>. <newline/>
+		Diese Vorlage zeigt die Verwendung des <i>RSA-Schüsselgenerators</i>.<newline/>
+		<newline/>
+		Der RSA-Schlüsselgenerator generiert p * q = N sowie den öffentlichen Schlüssel e als auch den privaten Schlüssel d.
 	</description>
 	
 	<icon file="RSA_KeyGenerator_Sample.png"/>
 	
 	<relevantPlugins>
 		<plugin name="RSAKeyGenerator"/>
+		<plugin name="RSA"/>
 	</relevantPlugins>
 </sample>
