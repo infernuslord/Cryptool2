@@ -4,10 +4,38 @@
 	<title lang="de">DES-Chiffre</title>
 	
 	<description lang="en">
-		This template shows how to use the <i>DES-Cipher</i>. <newline/>		
+		This template shows how to use the <i> DES-Cipher </i>.<newline/>
+		<newline/>
+		The Data Encryption Standard (DES) is a block cipher that uses shared secret encryption. It was selected by the National Bureau of Standards as an official Federal Information 
+		Processing Standard (FIPS) for the United States in 1976 and which has subsequently enjoyed widespread use internationally. It is based on a symmetric-key algorithm that uses a 56-bit 
+		key. The algorithm was initially controversial because of classified design elements, a relatively short key length, and suspicions about a National Security Agency (NSA) backdoor. DES 
+		consequently came under intense academic scrutiny which motivated the modern understanding of block ciphers and their cryptanalysis.<newline/>
+		<newline/>
+		DES is now considered to be insecure for many applications. This is chiefly due to the 56-bit key size being too small; in January, 1999, distributed.net and the Electronic Frontier 
+		Foundation collaborated to publicly break a DES key in 22 hours and 15 minutes (see chronology). There are also some analytical results which demonstrate theoretical weaknesses in 
+		the cipher, although they are infeasible to mount in practice. The algorithm is believed to be practically secure in the form of Triple DES, although there are theoretical attacks. 
+		In recent years, the cipher has been superseded by the Advanced Encryption Standard (AES). Furthermore, DES has been withdrawn as a standard by the National Institute of Standards 
+		and Technology (formerly the National Bureau of Standards).<newline/>
+		<newline/>
+		In some documentation, a distinction is made between DES as a standard and DES the algorithm which is referred to as the DEA (the Data Encryption Algorithm). When spoken, 
+		"DES" is either spelled out as an abbreviation (/ˌdiːˌiːˈɛs/), or pronounced as a one-syllable acronym (/ˈdɛz/).<newline/>
+		<newline/>
+		Source: <external ref="http://en.wikipedia.org/wiki/Data_Encryption_Standard"/>
 	</description>
 	<description lang="de">
-		Diese Vorlage zeigt die Verwendung der <i>DES-Ver-/Entschlüsselung</i>. <newline/>
+		Diese Vorlage zeigt die Verwendung der <i> DES-Ver-/Entschlüsselung </i>.<newline/>
+		<newline/>
+		Der Data Encryption Standard (DES) ist ein weit verbreiteter symmetrischer Verschlüsselungsalgorithmus.<newline/>
+		<newline/>
+		Der DES-Algorithmus wurde als offizieller Standard für die US-Regierung (siehe FIPS 46) im Jahr 1976 bestätigt und wird seither international vielfach eingesetzt. 
+		Seine Entstehungsgeschichte hat wegen der Beteiligung der NSA am Design des Algorithmus immer wieder Anlass zu Spekulationen über seine Sicherheit gegeben. Heute 
+		wird DES aufgrund der verwendeten Schlüssellänge von nur 56 Bits für viele Anwendungen als nicht ausreichend sicher erachtet.<newline/>
+		<newline/>
+		Die Schlüssellänge kann durch Mehrfachanwendung des DES jedoch auf einfache Weise vergrößert werden. Als Triple-DES, auch als TDES, 3DES oder DESede bezeichnet, 
+		wird der DES weiterhin am häufigsten, zum Beispiel von Banken in Chipkartenanwendungen, eingesetzt, obwohl der TDES als offizieller Standard für die USA durch den Advanced 
+		Encryption Standard (AES) abgelöst wurde.<newline/>
+		<newline/>
+		Quelle: <external ref="http://de.wikipedia.org/wiki/Data_Encryption_Standard"/>
 	</description>
 	
 	<icon file="DES_Sample.png"/>
