@@ -109,6 +109,9 @@ namespace KeySearcher.KeyPattern
          **/
         public static bool testPattern(string pattern)
         {
+            if (string.IsNullOrWhiteSpace(pattern))
+                return false;
+
             int i = 0;
             while (i < pattern.Length)
             {
