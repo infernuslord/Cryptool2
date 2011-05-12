@@ -10,6 +10,9 @@ namespace Cryptool.Core
     {
         public const int MINIMUM_DIFF = 5;
 
+        public const string ACTION_DEVMAIL = "DEVMAIL"; // server will send mail to coredevs
+        public const string ACTION_TICKET = "TICKET"; // server will create a trac ticket (and send a mail to coredevs)
+
         private static DateTime lastMailTime;
 
         /// <summary>
@@ -19,7 +22,7 @@ namespace Cryptool.Core
         /// <exception cref="SpamException">Thrown when client-side spam protection triggers</exception>
         /// <param name="title">Subject (without any "CrypTool" prefixes, will be added at server-side)</param>
         /// <param name="text">Message body</param>
-        public static void SendMailToCoreDevs(string title, string text)
+        public static void SendMailToCoreDevs(string action, string title, string text)
         {
             // Client-side spam check. Will fail if client changes system time.
             TimeSpan diff = DateTime.Now - lastMailTime;
@@ -33,7 +36,7 @@ namespace Cryptool.Core
             client.Headers["User-Agent"] = "CrypTool";
             var stream = client.OpenWrite("http://www.cryptool.org/cgi/ct2devmail");
 
-            var postMessage = Encoding.ASCII.GetBytes(string.Format("title={0}&text={1}", Uri.EscapeDataString(title), Uri.EscapeDataString(text)));
+            var postMessage = Encoding.ASCII.GetBytes(string.Format("action={0}&title={1}&text={2}", Uri.EscapeDataString(action), Uri.EscapeDataString(title), Uri.EscapeDataString(text)));
             stream.Write(postMessage, 0, postMessage.Length);
             stream.Close();
 
