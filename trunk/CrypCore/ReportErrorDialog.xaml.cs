@@ -46,7 +46,7 @@ namespace Cryptool.Core
             // User clicked on "report" and then "send" at this point. Attempt to send mail.
             try
             {
-                Mailer.SendMailToCoreDevs("Crash report!", SendInformations.Text);
+                Mailer.SendMailToCoreDevs(Mailer.ACTION_TICKET, "Crash report", SendInformations.Text);
                 MessageBox.Show("The error has been reported. Thank you!", "Reporting done");
                 Close();
             }
