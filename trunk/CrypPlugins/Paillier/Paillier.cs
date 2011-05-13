@@ -29,8 +29,8 @@ using System.Security.Cryptography;
 namespace Cryptool.Plugins.Paillier
 {
     [Author("Armin Krauss", "", "", "")]
-    [PluginInfo("Paillier.Properties.Resources", false, 
-        "PluginCaption", "PluginTooltip", "PluginDescriptionURL", 
+    [PluginInfo("Paillier.Properties.Resources", false,
+        "PluginCaption", "PluginTooltip", "Paillier/Documentation/doc.xml", 
         "Paillier/Image/PaillierEnc.png", "Paillier/Image/PaillierDec.png", "Paillier/Image/PaillierAdd.png", "Paillier/Image/PaillierMul.png")]
     [EncryptionType(EncryptionType.Asymmetric)]
     public class Paillier : IEncryption
