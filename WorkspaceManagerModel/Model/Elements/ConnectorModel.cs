@@ -237,58 +237,69 @@ namespace WorkspaceManager.Model
         /// <param name="propertyChangedEventArgs"></param>
         public void PropertyChangedOnPlugin(Object sender, PropertyChangedEventArgs propertyChangedEventArgs)
         {
-            if (!WorkspaceModel.IsBeingExecuted)
+            try
             {
-                return;
-            }
-
-            if (!(sender == this.PluginModel.Plugin) ||
-                !propertyChangedEventArgs.PropertyName.Equals(PropertyName))
-            {
-                return;
-            }
-
-            if (Outgoing)
-            {
-                if (this.OutputConnections.Count == 0)
+                if (!WorkspaceModel.IsBeingExecuted)
                 {
                     return;
                 }
-                object data = null;
-                if (IsDynamic)
+
+                if (!(sender == this.PluginModel.Plugin) ||
+                    !propertyChangedEventArgs.PropertyName.Equals(PropertyName))
                 {
-                    if (method == null)
-                    {
-                        method = sender.GetType().GetMethod(DynamicGetterName);
-                    }
-                    data = method.Invoke(sender, new object[] { this.PropertyName });
-                   
-                }
-                else
-                {
-                    if (property == null)
-                    {
-                        property = sender.GetType().GetProperty(propertyChangedEventArgs.PropertyName);
-                    }
-                    data = property.GetValue(sender, null);
+                    return;
                 }
 
-                if (data == null)
-	            {
-	                return;
-	            }
-	
-	            this.Data = data;
-	
-	            List<ConnectionModel> outputConnections = this.OutputConnections;
-	            foreach (ConnectionModel connectionModel in outputConnections)
-	            {
-	                connectionModel.To.Data = data;
-	                connectionModel.To.HasData = true;
-	                connectionModel.Active = true;
-	                connectionModel.GuiNeedsUpdate = true;
-                    connectionModel.To.PluginModel.resetEvent.Set();
-	            }	            
+                if (Outgoing)
+                {
+                    if (this.OutputConnections.Count == 0)
+                    {
+                        return;
+                    }
+                    object data = null;
+                    if (IsDynamic)
+                    {
+                        if (method == null)
+                        {
+                            method = sender.GetType().GetMethod(DynamicGetterName);
+                        }
+                        data = method.Invoke(sender, new object[] {this.PropertyName});
+
+                    }
+                    else
+                    {
+                        if (property == null)
+                        {
+                            property = sender.GetType().GetProperty(propertyChangedEventArgs.PropertyName);
+                        }
+                        data = property.GetValue(sender, null);
+                    }
+
+                    if (data == null)
+                    {
+                        return;
+                    }
+
+                    this.Data = data;
+
+                    List<ConnectionModel> outputConnections = this.OutputConnections;
+                    foreach (ConnectionModel connectionModel in outputConnections)
+                    {
+                        connectionModel.To.Data = data;
+                        connectionModel.To.HasData = true;
+                        connectionModel.Active = true;
+                        connectionModel.GuiNeedsUpdate = true;
+                        connectionModel.To.PluginModel.resetEvent.Set();
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                if(WorkspaceModel.ExecutionEngine != null)
+                {
+                    WorkspaceModel.ExecutionEngine.GuiLogMessage("Error occured during propagating of new value of " + 
+                        PluginModel.Name + " of Output " + Name + ":" + ex.Message,NotificationLevel.Error);
+                }            
             }
         }
 

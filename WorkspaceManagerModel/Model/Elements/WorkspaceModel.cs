@@ -24,6 +24,7 @@ using System.Reflection;
 using System.Collections.ObjectModel;
 using System.Windows.Threading;
 using System.Threading;
+using WorkspaceManager.Execution;
 using WorkspaceManager.Model.Tools;
 using Cryptool.PluginBase.Editor;
 using WorkspaceManagerModel.Model.Operations;
@@ -48,6 +49,12 @@ namespace WorkspaceManager.Model
             set { myEditor = value; }
 
         }
+
+        /// <summary>
+        /// My ExecutionEngine which currently executes me
+        /// </summary>
+        [NonSerialized] 
+        internal ExecutionEngine ExecutionEngine;
 
         /// <summary>
         /// Create a new WorkspaceModel
