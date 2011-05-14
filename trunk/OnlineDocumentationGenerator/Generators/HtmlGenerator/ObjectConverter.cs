@@ -50,7 +50,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
         private string ConvertPluginTemplateList(PluginTemplateList pluginTemplateList, PluginDocumentationPage pluginDocumentationPage)
         {
             if (pluginTemplateList.Templates.Count == 0)
-                return "None";
+                return Resources.NoContent;
 
             var codeBuilder = new StringBuilder();
             codeBuilder.AppendLine("<table border=\"1\">");

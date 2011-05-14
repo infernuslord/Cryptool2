@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using System.Xml.Linq;
@@ -13,6 +14,14 @@ namespace OnlineDocumentationGenerator
     {
         public Type PluginType { get; private set; }
         private readonly XElement _xml;
+
+        public string AuthorURL { get; private set; }
+        public string AuthorInstitute { get; private set; }
+        public string AuthorEmail { get; private set; }
+        public string AuthorName { get; private set; }
+
+        public PropertyInfoAttribute[] PluginConnectors { get; private set; }
+        public TaskPaneAttribute[] Settings { get; private set; }
 
         public Dictionary<string, LocalizedPluginDocumentationPage> Localizations { get; private set; }
 
@@ -27,6 +36,27 @@ namespace OnlineDocumentationGenerator
             var pluginImage = pluginType.GetImage(0).Source;
             Localizations = new Dictionary<string, LocalizedPluginDocumentationPage>();
             _xml = GetPluginXML(pluginType);
+
+            AuthorName = pluginType.GetPluginAuthorAttribute().Author;
+            AuthorEmail = pluginType.GetPluginAuthorAttribute().Email;
+            AuthorInstitute = pluginType.GetPluginAuthorAttribute().Institute;
+            AuthorURL = pluginType.GetPluginAuthorAttribute().URL;
+
+            PluginConnectors = PluginExtension.GetProperties(pluginType);
+            //Try to find out the settings class type of this plugin:
+            var members = pluginType.GetMembers(BindingFlags.NonPublic | BindingFlags.Instance);
+            foreach (var memberInfo in members)
+            {
+                if (memberInfo.MemberType == MemberTypes.Field)
+                {
+                    var t = ((FieldInfo) memberInfo).FieldType;
+                    if (t.GetInterfaces().Contains(typeof(ISettings)))
+                    {
+                        Settings = t.GetSettingsProperties(pluginType);
+                        break;
+                    }
+                }
+            }
 
             if (_xml == null || _xml.Name != "documentation")
             {

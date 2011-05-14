@@ -33,13 +33,22 @@ namespace OnlineDocumentationGenerator
         public XElement Manual { get; private set; }
         public XElement Presentation { get; private set; }
 
-        public string AuthorURL { get; private set; }
-        public string AuthorInstitute { get; private set; }
-        public string AuthorEmail { get; private set; }
-        public string AuthorName { get; private set; }
-
-        public PropertyInfoAttribute[] PluginConnectors { get; private set; }
-        public TaskPaneAttribute[] Settings { get; private set; }
+        public string AuthorURL
+        { 
+            get { return PluginDocumentationPage.AuthorURL; }
+        }
+        public string AuthorInstitute
+        {
+            get { return PluginDocumentationPage.AuthorInstitute; }
+        }
+        public string AuthorEmail
+        {
+            get { return PluginDocumentationPage.AuthorEmail; }
+        }
+        public string AuthorName
+        {
+            get { return PluginDocumentationPage.AuthorName; }
+        }
 
         public BitmapFrame PluginImage
         {
@@ -62,15 +71,6 @@ namespace OnlineDocumentationGenerator
             Startable = pluginType.GetPluginInfoAttribute().Startable;
             Name = pluginType.GetPluginInfoAttribute().Caption;
             ToolTip = pluginType.GetPluginInfoAttribute().ToolTip;
-            
-            PluginConnectors = PluginExtension.GetProperties(pluginType);
-            //var plugin = pluginType.CreateObject();
-            //Settings = plugin.Settings.GetSettingsProperties(plugin);
-
-            AuthorName = pluginType.GetPluginAuthorAttribute().Author;
-            AuthorEmail = pluginType.GetPluginAuthorAttribute().Email;
-            AuthorInstitute = pluginType.GetPluginAuthorAttribute().Institute;
-            AuthorURL = pluginType.GetPluginAuthorAttribute().URL;
 
             if (_xml != null)
                 ReadInformationsFromXML();
