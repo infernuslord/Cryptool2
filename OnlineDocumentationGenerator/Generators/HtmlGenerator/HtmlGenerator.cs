@@ -96,7 +96,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
             }
             catch (Exception ex)
             {
-                Console.Error.WriteLine("Error trying to write file {0}! Message: {1}", filePath, ex.Message);
+                throw new Exception(string.Format("Error trying to write file {0}! Message: {1}", filePath, ex.Message));
             }
         }
 
@@ -116,7 +116,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
             }
             catch (Exception ex)
             {
-                Console.Error.WriteLine("Error trying to write file {0}! Message: {1}", filePath, ex.Message);
+                throw new Exception(string.Format("Error trying to write file {0}! Message: {1}", filePath, ex.Message));
             }
         }
 
@@ -235,7 +235,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
                 }
                 catch (Exception ex)
                 {
-                    Console.Error.WriteLine("Error trying to copy additional resource: {0}", ex.Message);
+                    throw new Exception(string.Format("Error trying to copy additional resource: {0}", ex.Message));
                 }
             }
         }
