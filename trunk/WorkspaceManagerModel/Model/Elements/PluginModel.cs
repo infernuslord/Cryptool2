@@ -566,8 +566,12 @@ namespace WorkspaceManager.Model
                 // ################
                 try
                 {
+                    if (executionEngine.SleepTime > 0)
+                    {
+                        Thread.Sleep(executionEngine.SleepTime);
+                    }
                     Plugin.Execute();
-                    executionEngine.ExecutionCounter++;
+                    executionEngine.ExecutionCounter++;                    
                 }
                 catch (Exception ex)
                 {
