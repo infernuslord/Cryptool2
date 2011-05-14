@@ -103,7 +103,7 @@ namespace Transposition
         
 
         [PropertySaveOrder(5)]
-        [TaskPane( "PresentationSpeedCaption", "PresentationSpeedTooltip", "Presentation", 6, true, ControlType.Slider, 1, 1000)]
+        [TaskPane( "PresentationSpeedCaption", "PresentationSpeedTooltip", "Presentation", 6, true, ControlType.Slider, 100, 1000)]
         public int PresentationSpeed
         {
             get { return (int)Presentation_Speed; }
