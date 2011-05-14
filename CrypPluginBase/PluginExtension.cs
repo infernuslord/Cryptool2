@@ -223,6 +223,11 @@ namespace Cryptool.PluginBase
 
         public static TaskPaneAttribute[] GetSettingsProperties(this Type type, IPlugin plugin)
         {
+            return type.GetSettingsProperties(plugin.GetType());
+        }
+
+        public static TaskPaneAttribute[] GetSettingsProperties(this Type type, Type pluginType)
+        {
           try
           {
             List<TaskPaneAttribute> taskPaneAttributes = new List<TaskPaneAttribute>();
@@ -234,8 +239,8 @@ namespace Cryptool.PluginBase
                 TaskPaneAttribute attr = attributes[0];
                 attr.PropertyName = pInfo.Name;
                 // does plugin have a resource file for translation?
-                if (plugin.GetType().GetPluginInfoAttribute().ResourceFile != null)
-                  attr.PluginType = plugin.GetType();
+                if (pluginType.GetPluginInfoAttribute().ResourceFile != null)
+                    attr.PluginType = pluginType;
                 taskPaneAttributes.Add(attr);
               }
             }
@@ -251,8 +256,8 @@ namespace Cryptool.PluginBase
                   attr.Method = mInfo;
                   attr.PropertyName = mInfo.Name;
                   // does plugin have a resource file for translation?
-                  if (plugin.GetType().GetPluginInfoAttribute().ResourceFile != null)
-                    attr.PluginType = plugin.GetType();
+                  if (pluginType.GetPluginInfoAttribute().ResourceFile != null)
+                      attr.PluginType = pluginType;
                   taskPaneAttributes.Add(attr);
                 }
               }

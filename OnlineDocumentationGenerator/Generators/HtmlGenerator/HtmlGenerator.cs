@@ -143,7 +143,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
 
         private static string GenerateConnectorListCode(LocalizedPluginDocumentationPage localizedPluginDocumentationPage)
         {
-            if (localizedPluginDocumentationPage.PluginConnectors != null)
+            if (localizedPluginDocumentationPage.PluginDocumentationPage.PluginConnectors != null)
             {
                 var codeBuilder = new StringBuilder();
                 codeBuilder.AppendLine("<table border=\"1\">");
@@ -153,7 +153,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
                                                      Resources.HtmlGenerator_GenerateConnectorListCode_Direction,
                                                      Resources.HtmlGenerator_GenerateConnectorListCode_Type));
 
-                foreach (var pluginConnector in localizedPluginDocumentationPage.PluginConnectors)
+                foreach (var pluginConnector in localizedPluginDocumentationPage.PluginDocumentationPage.PluginConnectors)
                 {
                     var type = pluginConnector.PropertyInfo.PropertyType.Name;
                     codeBuilder.AppendLine(
@@ -172,7 +172,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
 
         private static string GenerateSettingsListCode(LocalizedPluginDocumentationPage localizedPluginDocumentationPage)
         {
-            if (localizedPluginDocumentationPage.Settings != null)
+            if (localizedPluginDocumentationPage.PluginDocumentationPage.Settings != null)
             {
                 var codeBuilder = new StringBuilder();
                 codeBuilder.AppendLine("<table border=\"1\">");
@@ -181,7 +181,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
                                                      Resources.HtmlGenerator_GenerateConnectorListCode_Description,
                                                      Resources.HtmlGenerator_GenerateSettingsListCode_Type));
 
-                foreach (var setting in localizedPluginDocumentationPage.Settings)
+                foreach (var setting in localizedPluginDocumentationPage.PluginDocumentationPage.Settings)
                 {
                     codeBuilder.AppendLine(string.Format("<tr> <td>{0}</td> <td>{1}</td> <td>{2}</td> </tr>",
                                                          setting.Caption, setting.ToolTip,
@@ -191,7 +191,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
                 codeBuilder.AppendLine("</table>");
                 return codeBuilder.ToString();
             }
-            return "None";
+            return Resources.NoContent;
         }
 
         private static string GenerateIndexLanguageSelectionCode(IEnumerable<string> availableLanguages, string lang)

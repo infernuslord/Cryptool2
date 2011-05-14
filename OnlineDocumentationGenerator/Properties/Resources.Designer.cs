@@ -65,7 +65,11 @@ namespace OnlineDocumentationGenerator.Properties {
         ///
         ///&lt;AdditionalResources&gt;
         ///  &lt;file path=&quot;OnlineDocumentationGenerator/Generators/HtmlGenerator/doc.css&quot; /&gt;
-        ///&lt;/AdditionalResources&gt;.
+        ///  &lt;file path=&quot;OnlineDocumentationGenerator/Generators/HtmlGenerator/download_bar.png&quot; /&gt;
+        ///  &lt;file path=&quot;OnlineDocumentationGenerator/Generators/HtmlGenerator/footer_bg.png&quot; /&gt;
+        ///  &lt;file path=&quot;OnlineDocumentationGenerator/Generators/HtmlGenerator/header_logo.png&quot; /&gt;
+        ///  &lt;file path=&quot;OnlineDocumentationGenerator/Generators/HtmlGenerator/shadow_l.png&quot; /&gt;
+        ///  &lt;file path= [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string AdditionalResources {
             get {
@@ -137,6 +141,15 @@ namespace OnlineDocumentationGenerator.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to None.
+        /// </summary>
+        internal static string NoContent {
+            get {
+                return ResourceManager.GetString("NoContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Not available..
         /// </summary>
         internal static string Not_available {
@@ -148,21 +161,19 @@ namespace OnlineDocumentationGenerator.Properties {
         /// <summary>
         ///   Looks up a localized string similar to &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0 Transitional//EN&quot;&gt;
         ///&lt;html&gt;
-        ///	&lt;head&gt;
-        ///		&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;doc.css&quot;&gt;
-        ///		&lt;title&gt;
-        ///            &lt;languageSwitch lang=&quot;en&quot;&gt;
-        ///                CrypTool 2.0 Documentation!
-        ///            &lt;/languageSwitch&gt;
-        ///            &lt;languageSwitch lang=&quot;de-DE&quot;&gt;
-        ///                CrypTool 2.0 Dokumentation!
-        ///            &lt;/languageSwitch&gt;
-        ///        &lt;/title&gt;
-        ///	&lt;/head&gt;
-        ///	&lt;body&gt;
-        ///        &lt;p&gt;
-        ///            &lt;languageSwitch lang=&quot;en&quot;&gt;
-        ///	            &lt;h1&gt;CrypTool 2.0 Documen [rest of string was truncated]&quot;;.
+        ///&lt;head&gt;
+        ///	&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=iso-8859-1&quot; /&gt;
+        ///	&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;doc.css&quot;&gt;
+        ///	&lt;title&gt;
+        ///		&lt;languageSwitch lang=&quot;en&quot;&gt;CrypTool 2.0 Documentation!&lt;/languageSwitch&gt;
+        ///		&lt;languageSwitch lang=&quot;de-DE&quot;&gt;CrypTool 2.0 Dokumentation!&lt;/languageSwitch&gt;
+        ///	&lt;/title&gt;
+        ///	&lt;style media=&quot;screen&quot; type=&quot;text/css&quot;&gt;
+        ///		table{
+        ///			font-family: Verdana, sans-serif, Helvetica,  Arial ;
+        ///		}
+        ///	&lt;/style&gt;
+        ///&lt; [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string TemplateIndex {
             get {
@@ -173,20 +184,18 @@ namespace OnlineDocumentationGenerator.Properties {
         /// <summary>
         ///   Looks up a localized string similar to &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0 Transitional//EN&quot;&gt;
         ///&lt;html&gt;
-        ///	&lt;head&gt;
-        ///		&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;../doc.css&quot;&gt;
-        ///		&lt;title&gt;
-        ///        &lt;languageSwitch lang=&quot;en&quot;&gt;
-        ///            Documentation of component &lt;pluginDoc property=&quot;Name&quot; /&gt;!
-        ///        &lt;/languageSwitch&gt;
-        ///        &lt;languageSwitch lang=&quot;de-DE&quot;&gt;
-        ///            Dokumentation der Komponente &lt;pluginDoc property=&quot;Name&quot; /&gt;!
-        ///        &lt;/languageSwitch&gt;
-        ///        &lt;/title&gt;
-        ///	&lt;/head&gt;
-        ///	&lt;body&gt;
-        ///        &lt;languageSwitch lang=&quot;en&quot;&gt;            
-        ///  [rest of string was truncated]&quot;;.
+        ///&lt;head&gt;
+        ///	&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=iso-8859-1&quot; /&gt;
+        ///	&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;../doc.css&quot;&gt;
+        ///	&lt;title&gt;
+        ///		&lt;languageSwitch lang=&quot;en&quot;&gt;
+        ///		    Documentation of component &lt;pluginDoc property=&quot;Name&quot; /&gt;!
+        ///		&lt;/languageSwitch&gt;
+        ///		&lt;languageSwitch lang=&quot;de-DE&quot;&gt;
+        ///		    Dokumentation der Komponente &lt;pluginDoc property=&quot;Name&quot; /&gt;!
+        ///		&lt;/languageSwitch&gt;
+        ///	&lt;/title&gt;
+        ///	&lt;style media=&quot;screen&quot; type=&quot;text/css [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string TemplatePluginDocumentationPage {
             get {
