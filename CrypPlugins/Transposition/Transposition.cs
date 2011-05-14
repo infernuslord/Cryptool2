@@ -53,9 +53,9 @@ namespace Transposition
 
         private void update_progress(object sender, EventArgs e) 
         {
-            TranspositionPresentation myhelp = new TranspositionPresentation();
-            myhelp = (TranspositionPresentation)sender;
-            ProgressChanged(myhelp.progress, 3000);
+            //TranspositionPresentation myhelp = new TranspositionPresentation();
+            //myhelp = (TranspositionPresentation)sender;
+            ProgressChanged(myPresentation.progress, 3000);
         }
 
         private void presentation_finished(object sender, EventArgs e)
@@ -190,19 +190,19 @@ namespace Transposition
                 ((TranspositionControl)controlSlave).onStatusChanged();
             }
 
-            if(b)
+            
             if (Presentation.IsVisible)
             {
-                b = false;
+            
                     Presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                    {
-                       myPresentation.main(Read_in_matrix, Permuted_matrix, key, Keyword, Input, output, this.settings.Permutation, this.settings.ReadIn, this.settings.ReadOut, this.settings.Action, this.settings.Number);
+                       myPresentation.main(Read_in_matrix, Permuted_matrix, key, Keyword, Input, output, this.settings.Permutation, this.settings.ReadIn, this.settings.ReadOut, this.settings.Action, this.settings.Number, this.settings.PresentationSpeed);
                    }
                    , null);
 
-                ars.WaitOne();
-                Thread.Sleep(1000);
-                b = true;
+                //ars.WaitOne();
+                
+            
             }
             else
             {
@@ -251,6 +251,7 @@ namespace Transposition
         public void Stop()
         {
             ars.Set();
+
             myPresentation.my_Stop(this, EventArgs.Empty);
         }
 
