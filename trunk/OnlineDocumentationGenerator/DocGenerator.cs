@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 using Cryptool.Core;
 using Cryptool.PluginBase;
+using Cryptool.PluginBase.Miscellaneous;
 using OnlineDocumentationGenerator.Generators;
 using OnlineDocumentationGenerator.Generators.HtmlGenerator;
 
@@ -14,6 +16,8 @@ namespace OnlineDocumentationGenerator
     {
         public static string TemplateDirectory = "ProjectSamples";
         public static Dictionary<string, List<string>> RelevantPluginToTemplatesMap = new Dictionary<string, List<string>>();
+        
+        public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
 
         public void Generate(string outputDir = ".")
         {
@@ -75,7 +79,7 @@ namespace OnlineDocumentationGenerator
                     }
                     catch (Exception ex)
                     {
-                        Console.Error.WriteLine(string.Format("Plugin {0} error: {1}", pluginType.GetPluginInfoAttribute().Caption, ex.Message));
+                        GuiLogMessage(string.Format("Plugin {0} error: {1}", pluginType.GetPluginInfoAttribute().Caption, ex.Message), NotificationLevel.Error);
                     }
                 }
             }
@@ -86,8 +90,13 @@ namespace OnlineDocumentationGenerator
             }
             catch (Exception ex)
             {
-                Console.Error.WriteLine(string.Format("Error trying to generate documentation: {0}", ex.Message));
+                GuiLogMessage(string.Format("Error trying to generate documentation: {0}", ex.Message), NotificationLevel.Error);
             }
+        }
+
+        private void GuiLogMessage(string message, NotificationLevel logLevel)
+        {
+            EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, null, message, logLevel);
         }
     }
 }

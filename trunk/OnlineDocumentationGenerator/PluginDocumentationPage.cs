@@ -102,7 +102,7 @@ namespace OnlineDocumentationGenerator
             }
             catch (Exception ex)
             {
-                Console.Error.WriteLine(string.Format("Error loading XML file of plugin {0}: {1}", pluginType.GetPluginInfoAttribute().Caption, ex.Message));
+                //Console.Error.WriteLine(string.Format("Error loading XML file of plugin {0}: {1}", pluginType.GetPluginInfoAttribute().Caption, ex.Message));
                 return null;
             }
         }
