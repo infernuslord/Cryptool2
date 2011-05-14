@@ -73,38 +73,47 @@ namespace WorkspaceManager.Execution
         /// <param name="workspaceModel"></param>
         public void Execute(WorkspaceModel workspaceModel, bool updateGuiElements = true)
         {
-            Stopped = false;
-            workspaceModel.IsBeingExecuted = true;
-            ExecutionCounter = 0;
-            this.workspaceModel = workspaceModel;
-            workspaceModel.resetStates();
-
-            if (updateGuiElements)
+            try
             {
-                guiUpdateThread = new Thread(CheckGui);
-                guiUpdateThread.Name = "WorkspaceManager_GUIUpdateThread";
-                guiUpdateThread.Start();
-            }
+                Stopped = false;
+                workspaceModel.ExecutionEngine = this;
+                workspaceModel.IsBeingExecuted = true;
+                ExecutionCounter = 0;
+                this.workspaceModel = workspaceModel;
+                workspaceModel.resetStates();
 
-            benchmarkTimer = new System.Timers.Timer(1000);
-            benchmarkTimer.Elapsed += BenchmarkTimeout;
-            benchmarkTimer.AutoReset = true;
-            benchmarkTimer.Enabled = true;
-
-            int i = 0;
-            foreach (var pluginModel in workspaceModel.AllPluginModels)
-            {
-                var thread = new Thread(new ParameterizedThreadStart(pluginModel.Execute)) { Name = "WorkspaceManager_Thread-" + i };
-                i++;
-                thread.Start(this);
-            }
-
-            foreach (var pluginModel in workspaceModel.AllPluginModels)
-            {
-                if(pluginModel.Startable)
+                if (updateGuiElements)
                 {
-                    pluginModel.resetEvent.Set();
+                    guiUpdateThread = new Thread(CheckGui);
+                    guiUpdateThread.Name = "WorkspaceManager_GUIUpdateThread";
+                    guiUpdateThread.Start();
                 }
+
+                benchmarkTimer = new System.Timers.Timer(1000);
+                benchmarkTimer.Elapsed += BenchmarkTimeout;
+                benchmarkTimer.AutoReset = true;
+                benchmarkTimer.Enabled = true;
+
+                int i = 0;
+                foreach (var pluginModel in workspaceModel.AllPluginModels)
+                {
+                    var thread = new Thread(new ParameterizedThreadStart(pluginModel.Execute))
+                                     {Name = "WorkspaceManager_Thread-" + i};
+                    i++;
+                    thread.Start(this);
+                }
+
+                foreach (var pluginModel in workspaceModel.AllPluginModels)
+                {
+                    if (pluginModel.Startable)
+                    {
+                        pluginModel.resetEvent.Set();
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                GuiLogMessage("Exception occured during startup of WorkSpace: " + ex.Message, NotificationLevel.Error);
             }
         }
 
@@ -133,51 +142,58 @@ namespace WorkspaceManager.Execution
         /// </summary>
         private void CheckGui()
         {
-            while (true)
+            try
             {
-                if(Stopped)
+                while (true)
                 {
-                    return;
-                }
-
-                if (Editor.Presentation.IsVisible)
-                {
-
-                    Editor.Presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    if(Stopped)
                     {
-                        foreach (var pluginModel in workspaceModel.AllPluginModels)
-                        {
-                            if (pluginModel.GuiNeedsUpdate)
-                            {
-                                if (pluginModel.UpdateableView != null)
-                                    pluginModel.UpdateableView.update();
-                                pluginModel.GuiNeedsUpdate = false;
-                            }
-                        }
-
-                        foreach (var connectionModel in workspaceModel.AllConnectionModels)
-                        {
-                            if (connectionModel.GuiNeedsUpdate)
-                            {
-                                if (connectionModel.UpdateableView != null)
-                                    connectionModel.UpdateableView.update();
-                                connectionModel.GuiNeedsUpdate = false;
-                            }
-                        }
-
-                        foreach (var connectorModel in workspaceModel.AllConnectorModels)
-                        {
-                            if (connectorModel.GuiNeedsUpdate)
-                            {
-                                if (connectorModel.UpdateableView != null)
-                                    connectorModel.UpdateableView.update();
-                                connectorModel.GuiNeedsUpdate = false;
-                            }
-                        }
+                        return;
                     }
-                    , null);
+
+                    if (Editor.Presentation.IsVisible)
+                    {
+
+                        Editor.Presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                        {
+                            foreach (var pluginModel in workspaceModel.AllPluginModels)
+                            {
+                                if (pluginModel.GuiNeedsUpdate)
+                                {
+                                    if (pluginModel.UpdateableView != null)
+                                        pluginModel.UpdateableView.update();
+                                    pluginModel.GuiNeedsUpdate = false;
+                                }
+                            }
+
+                            foreach (var connectionModel in workspaceModel.AllConnectionModels)
+                            {
+                                if (connectionModel.GuiNeedsUpdate)
+                                {
+                                    if (connectionModel.UpdateableView != null)
+                                        connectionModel.UpdateableView.update();
+                                    connectionModel.GuiNeedsUpdate = false;
+                                }
+                            }
+
+                            foreach (var connectorModel in workspaceModel.AllConnectorModels)
+                            {
+                                if (connectorModel.GuiNeedsUpdate)
+                                {
+                                    if (connectorModel.UpdateableView != null)
+                                        connectorModel.UpdateableView.update();
+                                    connectorModel.GuiNeedsUpdate = false;
+                                }
+                            }
+                        }
+                        , null);
+                    }
+                    Thread.Sleep(GuiUpdateInterval);
                 }
-                Thread.Sleep(GuiUpdateInterval);
+            }
+            catch (Exception ex)
+            {
+                GuiLogMessage("Exception occured during update of GUI of Workspace: " + ex.Message, NotificationLevel.Error);
             }
         }
 
@@ -186,16 +202,23 @@ namespace WorkspaceManager.Execution
         /// </summary>
         public void Stop()
         {
-            Stopped = true;
-            foreach (var pluginModel in workspaceModel.AllPluginModels)
+            try
             {
-                pluginModel.Stop = true;
-                pluginModel.resetEvent.Set();
-                pluginModel.Plugin.Stop();
+                Stopped = true;
+                foreach (var pluginModel in workspaceModel.AllPluginModels)
+                {
+                    pluginModel.Stop = true;
+                    pluginModel.resetEvent.Set();
+                    pluginModel.Plugin.Stop();
+                }
+                benchmarkTimer.Enabled = false;
+                workspaceModel.IsBeingExecuted = false;
+                workspaceModel.resetStates();
             }
-            benchmarkTimer.Enabled = false;
-            workspaceModel.IsBeingExecuted = false;
-            workspaceModel.resetStates();
+            catch(Exception ex)
+            {
+                GuiLogMessage("Exception occured during stopping of Workspace: " + ex.Message, NotificationLevel.Error);
+            }
         }
 
         /// <summary>

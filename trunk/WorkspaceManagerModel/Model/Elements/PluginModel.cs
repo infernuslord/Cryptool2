@@ -39,26 +39,27 @@ namespace WorkspaceManager.Model
             this.InputConnectors = new List<ConnectorModel>();
             this.OutputConnectors = new List<ConnectorModel>();
         }
-              
+
         #region private members
 
         [NonSerialized]
-        private IPlugin plugin;         
+        private IPlugin plugin;
         private int imageIndex = 0;
         [NonSerialized]
         private PluginModelState state = PluginModelState.Normal;
         private string PluginTypeName = null;
         private string PluginTypeAssemblyName = null;
-        
+
         #endregion
 
         #region public members
-       
+
         /// <summary>
         /// State of the Plugin
         /// </summary>
-        
-        public PluginModelState State {
+
+        public PluginModelState State
+        {
             get { return state; }
             set { state = value; }
         }
@@ -96,10 +97,13 @@ namespace WorkspaceManager.Model
         /// this acts as singleton and returns the created
         /// instance
         /// </summary>        
-        public IPlugin Plugin{
-            get { 
-                if(plugin==null && PluginType != null){
-                    plugin = PluginType.CreateObject();                    
+        public IPlugin Plugin
+        {
+            get
+            {
+                if (plugin == null && PluginType != null)
+                {
+                    plugin = PluginType.CreateObject();
                 }
                 return plugin;
             }
@@ -114,9 +118,12 @@ namespace WorkspaceManager.Model
         /// The Type of the Wrapped IPlugin of this PluginModel
         /// Depending on this the Plugin of this PluginModel will be instanciated
         /// </summary>        
-        public Type PluginType{
-            get{
-                if (this.PluginTypeName != null){
+        public Type PluginType
+        {
+            get
+            {
+                if (this.PluginTypeName != null)
+                {
                     Assembly assembly = Assembly.Load(PluginTypeAssemblyName);
                     Type t = assembly.GetType(PluginTypeName);
                     return t;
@@ -143,7 +150,7 @@ namespace WorkspaceManager.Model
         /// Is the wrapped plugin startable
         /// </summary>
         public bool Startable;
-        
+
         /// <summary>
         /// Is the Plugin actually minimized?
         /// </summary>
@@ -153,7 +160,7 @@ namespace WorkspaceManager.Model
         /// The execution state of the progress of the wrapped plugin 
         /// </summary>
         public double PercentageFinished { get; internal set; }
-       
+
         /// <summary>
         /// The WorkspaceModel of this PluginModel
         /// </summary>
@@ -173,7 +180,7 @@ namespace WorkspaceManager.Model
             OutputConnectors.Clear();
 
             if (Plugin != null)
-            {   
+            {
                 foreach (PropertyInfoAttribute propertyInfoAttribute in Plugin.GetProperties())
                 {
                     if (propertyInfoAttribute.Direction.Equals(Direction.InputData))
@@ -189,7 +196,7 @@ namespace WorkspaceManager.Model
                         connectorModel.IControl = false;
                         connectorModel.PluginModel.Plugin.PropertyChanged += connectorModel.PropertyChangedOnPlugin;
                         InputConnectors.Add(connectorModel);
-                        WorkspaceModel.AllConnectorModels.Add(connectorModel);                       
+                        WorkspaceModel.AllConnectorModels.Add(connectorModel);
                     }
                     else if (propertyInfoAttribute.Direction.Equals(Direction.ControlSlave))
                     {
@@ -204,7 +211,7 @@ namespace WorkspaceManager.Model
                         connectorModel.IControl = true;
                         connectorModel.PluginModel.Plugin.PropertyChanged += connectorModel.PropertyChangedOnPlugin;
                         InputConnectors.Add(connectorModel);
-                        WorkspaceModel.AllConnectorModels.Add(connectorModel);                       
+                        WorkspaceModel.AllConnectorModels.Add(connectorModel);
                     }
                     else if (propertyInfoAttribute.Direction.Equals(Direction.OutputData))
                     {
@@ -220,7 +227,7 @@ namespace WorkspaceManager.Model
                         connectorModel.IControl = false;
                         connectorModel.PluginModel.Plugin.PropertyChanged += connectorModel.PropertyChangedOnPlugin;
                         OutputConnectors.Add(connectorModel);
-                        WorkspaceModel.AllConnectorModels.Add(connectorModel);                      
+                        WorkspaceModel.AllConnectorModels.Add(connectorModel);
                     }
                     else if (propertyInfoAttribute.Direction.Equals(Direction.ControlMaster))
                     {
@@ -236,7 +243,7 @@ namespace WorkspaceManager.Model
                         connectorModel.IControl = true;
                         connectorModel.PluginModel.Plugin.PropertyChanged += connectorModel.PropertyChangedOnPlugin;
                         OutputConnectors.Add(connectorModel);
-                        WorkspaceModel.AllConnectorModels.Add(connectorModel);                       
+                        WorkspaceModel.AllConnectorModels.Add(connectorModel);
                     }
                 }
 
@@ -262,9 +269,9 @@ namespace WorkspaceManager.Model
                             connectorModel.DynamicGetterName = dynamicPropertyInfoAttribute.MethodGetValue;
                             connectorModel.DynamicSetterName = dynamicPropertyInfoAttribute.MethodSetValue;
                             connectorModel.PluginModel.Plugin.PropertyChanged += connectorModel.PropertyChangedOnPlugin;
-                            eventinfo.AddEventHandler(Plugin, new DynamicPropertiesChanged(connectorModel.PropertyTypeChangedOnPlugin));                            
+                            eventinfo.AddEventHandler(Plugin, new DynamicPropertiesChanged(connectorModel.PropertyTypeChangedOnPlugin));
                             InputConnectors.Add(connectorModel);
-                            WorkspaceModel.AllConnectorModels.Add(connectorModel);                           
+                            WorkspaceModel.AllConnectorModels.Add(connectorModel);
                         }
                         else if (dynamicProperty.PInfo.Direction.Equals(Direction.OutputData))
                         {
@@ -284,7 +291,7 @@ namespace WorkspaceManager.Model
                             connectorModel.PluginModel.Plugin.PropertyChanged += connectorModel.PropertyChangedOnPlugin;
                             connectorModel.Outgoing = true;
                             OutputConnectors.Add(connectorModel);
-                            WorkspaceModel.AllConnectorModels.Add(connectorModel);                            
+                            WorkspaceModel.AllConnectorModels.Add(connectorModel);
                         }
                     }
                 }
@@ -306,21 +313,24 @@ namespace WorkspaceManager.Model
         {
             get
             {
-                if(this.Plugin.Presentation != null){
+                if (this.Plugin.Presentation != null)
+                {
                     return this.Plugin.Presentation;
-                }else{
+                }
+                else
+                {
                     return this.Plugin.QuickWatchPresentation;
                 }
             }
         }
-             
+
         /// <summary>
         /// Should be called by the UI-Thread to paint changes of the PluginModel
         /// </summary>
         public void paint()
         {
             //Enter some Code which calls the paint method of the IPlugin
-        }       
+        }
 
         /// <summary>
         /// Progress of the plugin changed
@@ -396,7 +406,7 @@ namespace WorkspaceManager.Model
             }
         }*/
 
-        
+
         /// <summary>
         /// Called if a Setting of a Plugin is changed and notifies the Editor that
         /// there is a change
@@ -404,7 +414,7 @@ namespace WorkspaceManager.Model
         /// <param name="sender"></param>
         /// <param name="propertyChangedEventArgs"></param>
         public void SettingsPropertyChanged(Object sender, PropertyChangedEventArgs propertyChangedEventArgs)
-        {            
+        {
             this.WorkspaceModel.HasChanges = true;
         }
 
@@ -414,9 +424,9 @@ namespace WorkspaceManager.Model
         /// <returns></returns>
         public bool HasIControlInputs()
         {
-            foreach(ConnectorModel connectorModel in OutputConnectors)
+            foreach (ConnectorModel connectorModel in OutputConnectors)
             {
-                if(connectorModel.IControl)
+                if (connectorModel.IControl)
                 {
                     return true;
                 }
@@ -429,7 +439,7 @@ namespace WorkspaceManager.Model
         [NonSerialized]
         private bool stopped = false;
         internal bool Stop { get { return stopped; } set { stopped = value; } }
-        
+
         [NonSerialized]
         internal ManualResetEvent resetEvent = new ManualResetEvent(true);
 
@@ -439,188 +449,208 @@ namespace WorkspaceManager.Model
         /// <param name="o"></param>
         internal void Execute(Object o)
         {
-            var executionEngine = (ExecutionEngine) o;
-            Stop = false;
-            
-            plugin.PreExecution();
-            bool firstrun = true;
-
-            while(true)
+            var executionEngine = (ExecutionEngine)o;
+            try
             {
-                resetEvent.WaitOne(1000);
-                resetEvent.Reset();
+                Stop = false;
 
-                //Check if we want to stop
-                if (Stop)
+                plugin.PreExecution();
+                bool firstrun = true;
+
+                while (true)
                 {
-                    break;
-                }
+                    resetEvent.WaitOne(1000);
+                    resetEvent.Reset();
 
-                // ################
-                // 0. If this is our first run and we are startable we start
-                // ################
+                    //Check if we want to stop
+                    if (Stop)
+                    {
+                        break;
+                    }
 
-                if (firstrun && Startable)
-                {
-                    firstrun = false;
+                    // ################
+                    // 0. If this is our first run and we are startable we start
+                    // ################
+
+                    if (firstrun && Startable)
+                    {
+                        firstrun = false;
+                        try
+                        {
+                            Plugin.Execute();
+                            executionEngine.ExecutionCounter++;
+                        }
+                        catch (Exception ex)
+                        {
+                            executionEngine.GuiLogMessage(
+                                "An error occured while executing  \"" + Name + "\": " + ex.Message,
+                                NotificationLevel.Error);
+                            State = PluginModelState.Error;
+                            GuiNeedsUpdate = true;
+                        }
+                        continue;
+                    }
+
+                    if (Startable && !RepeatStart && InputConnectors.Count == 0)
+                    {
+                        continue;
+                    }
+
+                    var breakit = false;
+
+                    // ################
+                    // 1. Check if we may execute
+                    // ################
+
+                    //Check if all necessary inputs are set                
+                    foreach (ConnectorModel connectorModel in InputConnectors)
+                    {
+                        if (!connectorModel.IControl &&
+                            (connectorModel.IsMandatory || connectorModel.InputConnections.Count > 0) &&
+                            !connectorModel.HasData)
+                        {
+                            breakit = true;
+                            continue;
+                        }
+                    }
+                    if (breakit)
+                    {
+                        continue;
+                    }
+
+                    //Check if all outputs are free
+                    foreach (ConnectorModel connectorModel in OutputConnectors)
+                    {
+                        if (!connectorModel.IControl)
+                        {
+                            List<ConnectionModel> outputConnections = connectorModel.OutputConnections;
+                            foreach (ConnectionModel connectionModel in outputConnections)
+                            {
+                                if (connectionModel.To.HasData)
+                                {
+                                    breakit = true;
+                                    continue;
+                                }
+                            }
+                        }
+                    }
+                    if (breakit)
+                    {
+                        continue;
+                    }
+
+                    // ################
+                    //2. Fill all Inputs of the plugin, if this fails break the loop run
+                    // ################
+                    foreach (ConnectorModel connectorModel in InputConnectors)
+                    {
+                        try
+                        {
+                            if (connectorModel.HasData && connectorModel.Data != null)
+                            {
+                                if (connectorModel.IsDynamic)
+                                {
+
+                                    if (connectorModel.method == null)
+                                    {
+                                        connectorModel.method =
+                                            Plugin.GetType().GetMethod(connectorModel.DynamicSetterName);
+                                    }
+                                    connectorModel.method.Invoke(Plugin,
+                                                                 new object[] { connectorModel.PropertyName, connectorModel.Data });
+                                }
+                                else
+                                {
+                                    if (connectorModel.property == null)
+                                    {
+                                        connectorModel.property =
+                                            Plugin.GetType().GetProperty(connectorModel.PropertyName);
+                                    }
+                                    connectorModel.property.SetValue(Plugin, connectorModel.Data, null);
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            executionEngine.GuiLogMessage(
+                                "An error occured while setting value of connector \"" + connectorModel.Name +
+                                "\" of \"" + Name + "\": " + ex.Message, NotificationLevel.Error);
+                            State = PluginModelState.Error;
+                            GuiNeedsUpdate = true;
+                        }
+
+                    }
+
+                    // ################
+                    //3. Execute
+                    // ################
                     try
                     {
+                        if (executionEngine.SleepTime > 0)
+                        {
+                            Thread.Sleep(executionEngine.SleepTime);
+                        }
                         Plugin.Execute();
                         executionEngine.ExecutionCounter++;
                     }
                     catch (Exception ex)
                     {
-                        executionEngine.GuiLogMessage("An error occured while executing  \"" + Name + "\": " + ex.Message, NotificationLevel.Error);
+                        executionEngine.GuiLogMessage(
+                            "An error occured while executing  \"" + Name + "\": " + ex.Message, NotificationLevel.Error);
                         State = PluginModelState.Error;
                         GuiNeedsUpdate = true;
                     }
-                    continue;
-                }
 
-                if (Startable && !RepeatStart && InputConnectors.Count == 0)
-                {
-                    continue;
-                }
 
-                var breakit = false;
-
-                // ################
-                // 1. Check if we may execute
-                // ################
-
-                //Check if all necessary inputs are set                
-                foreach (ConnectorModel connectorModel in InputConnectors)
-                {
-                    if (!connectorModel.IControl &&
-                        (connectorModel.IsMandatory || connectorModel.InputConnections.Count > 0) && !connectorModel.HasData)
+                    // ################
+                    //4. "Consume" all inputs
+                    // ################
+                    foreach (ConnectorModel connectorModel in InputConnectors)
                     {
-                        breakit = true;
-                        continue;
-                    }
-                }
-                if(breakit)
-                {
-                    continue;
-                }
-
-                //Check if all outputs are free
-                foreach (ConnectorModel connectorModel in OutputConnectors)
-                {
-                    if (!connectorModel.IControl)
-                    {
-                        List<ConnectionModel> outputConnections = connectorModel.OutputConnections;
-                        foreach (ConnectionModel connectionModel in outputConnections)
+                        try
                         {
-                            if (connectionModel.To.HasData)
+                            if (connectorModel.HasData && connectorModel.Data != null)
                             {
-                                breakit = true;
-                                continue;
-                            }
-                        }
-                    }
-                }
-                if (breakit)
-                {
-                    continue;
-                }
-
-                // ################
-                //2. Fill all Inputs of the plugin, if this fails break the loop run
-                // ################
-                foreach (ConnectorModel connectorModel in InputConnectors)
-                {
-                    try
-                    {
-                        if (connectorModel.HasData && connectorModel.Data != null)
-                        {
-                            if (connectorModel.IsDynamic)
-                            {
-
-                                if (connectorModel.method == null)
+                                connectorModel.HasData = false;
+                                connectorModel.Data = null;
+                                foreach (ConnectionModel connectionModel in connectorModel.InputConnections)
                                 {
-                                    connectorModel.method = Plugin.GetType().GetMethod(connectorModel.DynamicSetterName);
+                                    connectionModel.Active = false;
                                 }
-                                connectorModel.method.Invoke(Plugin, new object[] { connectorModel.PropertyName, connectorModel.Data });
-                            }
-                            else
-                            {
-                                if (connectorModel.property == null)
-                                {
-                                    connectorModel.property = Plugin.GetType().GetProperty(connectorModel.PropertyName);
-                                }
-                                connectorModel.property.SetValue(Plugin, connectorModel.Data, null);
                             }
                         }
-                    }
-                    catch (Exception ex)
-                    {
-                        executionEngine.GuiLogMessage("An error occured while setting value of connector \"" + connectorModel.Name + "\" of \"" + Name + "\": " + ex.Message, NotificationLevel.Error);
-                        State = PluginModelState.Error;
-                        GuiNeedsUpdate = true;
-                    }
-                   
-                }
-
-                // ################
-                //3. Execute
-                // ################
-                try
-                {
-                    if (executionEngine.SleepTime > 0)
-                    {
-                        Thread.Sleep(executionEngine.SleepTime);
-                    }
-                    Plugin.Execute();
-                    executionEngine.ExecutionCounter++;                    
-                }
-                catch (Exception ex)
-                {
-                    executionEngine.GuiLogMessage("An error occured while executing  \"" + Name + "\": " + ex.Message, NotificationLevel.Error);
-                    State = PluginModelState.Error;
-                    GuiNeedsUpdate = true;
-                }
-
-
-                // ################
-                //4. "Consume" all inputs
-                // ################
-                foreach (ConnectorModel connectorModel in InputConnectors)
-                {
-                    try
-                    {
-                        if (connectorModel.HasData && connectorModel.Data != null)
+                        catch (Exception ex)
                         {
-                            connectorModel.HasData = false;
-                            connectorModel.Data = null; 
-                            foreach(ConnectionModel connectionModel in connectorModel.InputConnections)
-                            {
-                                connectionModel.Active = false;
-                            }
+                            executionEngine.GuiLogMessage(
+                                "An error occured while 'consuming' value of connector \"" + connectorModel.Name +
+                                "\" of \"" + Name + "\": " + ex.Message, NotificationLevel.Error);
+                            State = PluginModelState.Error;
+                            GuiNeedsUpdate = true;
                         }
                     }
-                    catch (Exception ex)
-                    {
-                        executionEngine.GuiLogMessage("An error occured while 'consuming' value of connector \"" + connectorModel.Name + "\" of \"" + Name + "\": " + ex.Message, NotificationLevel.Error);
-                        State = PluginModelState.Error;
-                        GuiNeedsUpdate = true;
-                    }
-                }
 
-                // ################
-                //4. let all plugins before this check if it may execute
-                // ################
-                foreach (ConnectorModel connectorModel in InputConnectors)
-                {
-                    foreach (ConnectionModel connectionModel in connectorModel.InputConnections)
+                    // ################
+                    //4. let all plugins before this check if it may execute
+                    // ################
+                    foreach (ConnectorModel connectorModel in InputConnectors)
                     {
-                        connectionModel.From.PluginModel.resetEvent.Set();
+                        foreach (ConnectionModel connectionModel in connectorModel.InputConnections)
+                        {
+                            connectionModel.From.PluginModel.resetEvent.Set();
+                        }
                     }
                 }
+                plugin.PostExecution();
             }
-            plugin.PostExecution();
-        }        
+            catch (Exception ex)
+            {
+                executionEngine.GuiLogMessage(
+                               "An error occured while executing  \"" + Name + "\": " + ex.Message,
+                               NotificationLevel.Error);
+                State = PluginModelState.Error;
+            }
+        }
     }
-
     /// <summary>
     /// The internal state of a Plugin Model
     /// </summary>
