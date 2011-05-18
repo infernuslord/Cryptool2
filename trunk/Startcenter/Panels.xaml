@@ -16,8 +16,8 @@
             <ColumnDefinition Width="5" />
             <ColumnDefinition Width="400" />
         </Grid.ColumnDefinitions>
-        
-        <Expander IsExpanded="True" Header="Templates:" Grid.Column="0" Grid.Row="0">
+
+        <Expander IsExpanded="True" Header="{Loc Templates}" Grid.Column="0" Grid.Row="0">
             <Expander.Tag>
                 <BitmapImage UriSource="/Startcenter;component/template.png"/>
             </Expander.Tag>
@@ -29,7 +29,7 @@
 
         <GridSplitter Grid.Column="1" Width="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#FFAEBBD4" HorizontalContentAlignment="Center" />
 
-        <Expander IsExpanded="True" Header="News:" Grid.Column="2" Grid.Row="0">
+        <Expander IsExpanded="True" Header="{Loc News}" Grid.Column="2" Grid.Row="0">
             <Expander.Tag>
                 <BitmapImage UriSource="/Startcenter;component/rssicon.png"/>
             </Expander.Tag>
@@ -40,7 +40,7 @@
 
         <GridSplitter Grid.Row="1" Grid.ColumnSpan="3" Height="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#FFAEBBD4" VerticalContentAlignment="Center" />
 
-        <Expander IsExpanded="True" Header="Recently opened files:" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3">
+        <Expander IsExpanded="True" Header="{Loc RecentFiles}" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3">
             <Expander.Tag>
                 <BitmapImage UriSource="/Startcenter;component/lastFiles.png"/>
             </Expander.Tag>

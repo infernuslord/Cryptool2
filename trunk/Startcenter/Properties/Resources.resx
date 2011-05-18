@@ -120,6 +120,18 @@
   <data name="Date" xml:space="preserve">
     <value>Date:</value>
   </data>
+  <data name="LoadingRSSFeed" xml:space="preserve">
+    <value>Loading RSS Feed</value>
+  </data>
+  <data name="MainFunctions" xml:space="preserve">
+    <value>Main Functions</value>
+  </data>
+  <data name="News" xml:space="preserve">
+    <value>News</value>
+  </data>
+  <data name="PleaseWait" xml:space="preserve">
+    <value>Please wait...</value>
+  </data>
   <data name="PluginCaption" xml:space="preserve">
     <value>Startcenter</value>
   </data>
@@ -128,6 +140,12 @@
   </data>
   <data name="PluginTooltip" xml:space="preserve">
     <value>The CrypTool 2.0 startcenter</value>
+  </data>
+  <data name="RecentFiles" xml:space="preserve">
+    <value>Recently opened files</value>
+  </data>
+  <data name="Templates" xml:space="preserve">
+    <value>Templates</value>
   </data>
   <data name="Title" xml:space="preserve">
     <value>Title:</value>

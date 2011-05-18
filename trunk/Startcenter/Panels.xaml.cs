@@ -18,6 +18,7 @@ namespace Startcenter
     /// <summary>
     /// Interaction logic for Panels.xaml
     /// </summary>
+    [Cryptool.PluginBase.Attributes.Localization("Startcenter.Properties.Resources")]
     public partial class Panels : UserControl
     {
         public string TemplatesDir

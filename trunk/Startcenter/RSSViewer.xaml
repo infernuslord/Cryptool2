@@ -25,7 +25,7 @@
         </Grid.Resources>
         
         <StackPanel Visibility="{Binding Converter={StaticResource TrueToVisibleConverter}, Path=IsUpdating, RelativeSource={RelativeSource FindAncestor, AncestorType=Startcenter:RSSViewer, AncestorLevel=1}}" VerticalAlignment="Center">
-            <Label HorizontalContentAlignment="Center">Please wait...</Label>
+            <Label HorizontalContentAlignment="Center" Content="{Loc PleaseWait}"/>
             <Image Source="/Startcenter;component/update.png" Stretch="None" RenderTransformOrigin="0.5,0.5">
                 <Image.RenderTransform>
                     <RotateTransform x:Name="backgroundRotate"/>
@@ -40,7 +40,7 @@
                     </EventTrigger>
                 </Image.Triggers>
             </Image>
-            <Label HorizontalContentAlignment="Center">Loading RSS Feed</Label>
+            <Label HorizontalContentAlignment="Center" Content="{Loc LoadingRSSFeed}"/>
         </StackPanel>
 
         <ListBox Name="rssListBox" ItemsSource="{Binding}" Background="#00000000" Visibility="{Binding Converter={StaticResource FalseToVisibleConverter}, Path=IsUpdating, RelativeSource={RelativeSource FindAncestor, AncestorType=Startcenter:RSSViewer, AncestorLevel=1}}" AlternationCount="2" ItemContainerStyle="{StaticResource alternatingWithBinding}">
