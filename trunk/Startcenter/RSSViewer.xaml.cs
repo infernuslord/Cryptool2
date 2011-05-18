@@ -48,12 +48,26 @@ namespace Startcenter
 
         private void ReadAndFillRSSItems(object state)
         {
-            _rssItems = ReadRSSItems(RSSUrl);
-            Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback) delegate
-                                                                                  {
-                                                                                      IsUpdating = false;
-                                                                                      rssListBox.DataContext = _rssItems;
-                                                                                  }, null);
+            try
+            {
+                _rssItems = ReadRSSItems(RSSUrl);
+                Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                                    {
+                                        try
+                                        {
+                                            IsUpdating = false;
+                                            rssListBox.DataContext = _rssItems;
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            //Uncritical failure: Do nothing
+                                        }
+                                    }, null);
+            }
+            catch (Exception ex)
+            {
+                //Uncritical failure: Do nothing
+            }
         }
 
         private List<RssItem> ReadRSSItems(string rssFeedURL)
