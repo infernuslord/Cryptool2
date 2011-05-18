@@ -126,4 +126,28 @@
   <data name="PluginTooltip" xml:space="preserve">
     <value>Das CrypTool 2.0 Startcenter</value>
   </data>
+	<data name="Date" xml:space="preserve">
+    <value>Datum:</value>
+  </data>
+	<data name="MainFunctions" xml:space="preserve">
+    <value>Hauptfunktionen</value>
+  </data>
+	<data name="News" xml:space="preserve">
+    <value>Neues</value>
+  </data>
+	<data name="RecentFiles" xml:space="preserve">
+    <value>Zuletzt geöffnete Dateien</value>
+  </data>
+	<data name="Templates" xml:space="preserve">
+    <value>Vorlagen</value>
+  </data>
+	<data name="Title" xml:space="preserve">
+    <value>Titel:</value>
+  </data>
+	<data name="LoadingRSSFeed" xml:space="preserve">
+    <value>Lade RSS Feed</value>
+  </data>
+	<data name="PleaseWait" xml:space="preserve">
+    <value>Bitte warten...</value>
+  </data>
 </root>

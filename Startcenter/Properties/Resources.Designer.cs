@@ -70,6 +70,42 @@ namespace Startcenter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Loading RSS Feed.
+        /// </summary>
+        internal static string LoadingRSSFeed {
+            get {
+                return ResourceManager.GetString("LoadingRSSFeed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Main Functions.
+        /// </summary>
+        internal static string MainFunctions {
+            get {
+                return ResourceManager.GetString("MainFunctions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to News.
+        /// </summary>
+        internal static string News {
+            get {
+                return ResourceManager.GetString("News", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please wait....
+        /// </summary>
+        internal static string PleaseWait {
+            get {
+                return ResourceManager.GetString("PleaseWait", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Startcenter.
         /// </summary>
         internal static string PluginCaption {
@@ -93,6 +129,24 @@ namespace Startcenter.Properties {
         internal static string PluginTooltip {
             get {
                 return ResourceManager.GetString("PluginTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Recently opened files.
+        /// </summary>
+        internal static string RecentFiles {
+            get {
+                return ResourceManager.GetString("RecentFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Templates.
+        /// </summary>
+        internal static string Templates {
+            get {
+                return ResourceManager.GetString("Templates", resourceCulture);
             }
         }
         

@@ -46,8 +46,8 @@
                                         <ColumnDefinition />
                                     </Grid.ColumnDefinitions>
 
-                                    <Image Source="{TemplateBinding Tag}" />
-                                    <ContentPresenter ContentSource="Header" Grid.Column="1" Margin="2" />
+                                    <Image Source="{TemplateBinding Tag}" Margin="0,0,0,-7" />
+                                    <ContentPresenter ContentSource="Header" Grid.Column="1" Margin="2,2,2,-5" />
                                     <ContentPresenter ContentSource="Content" Grid.ColumnSpan="2" Grid.Row="1" />
                                 </Grid>
                             </ControlTemplate>
@@ -74,7 +74,7 @@
 
             <GridSplitter Grid.Column="1" Width="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#FFAEBBD4" HorizontalContentAlignment="Center" />
 
-            <Expander IsExpanded="true" Grid.Column="2" Header="Main Functions:">
+            <Expander IsExpanded="true" Grid.Column="2" Header="{Loc MainFunctions}">
                 <Expander.Tag>
                     <BitmapImage UriSource="/Startcenter;component/main.png"/>
                 </Expander.Tag>
