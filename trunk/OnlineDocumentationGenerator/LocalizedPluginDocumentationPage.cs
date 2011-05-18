@@ -72,6 +72,25 @@ namespace OnlineDocumentationGenerator
             Name = pluginType.GetPluginInfoAttribute().Caption;
             ToolTip = pluginType.GetPluginInfoAttribute().ToolTip;
 
+            var pluginName = PluginType.Name;
+            if (DocGenerator.RelevantPluginToTemplatesMap.ContainsKey(pluginName))
+            {
+                var templates = DocGenerator.RelevantPluginToTemplatesMap[pluginName];
+                foreach (var template in templates)
+                {
+                    string templateXMLFile = Path.Combine(DocGenerator.TemplateDirectory, template.Substring(0, template.Length - 4) + ".xml");
+                    if (File.Exists(templateXMLFile))
+                    {
+                        XElement templateXml = XElement.Load(templateXMLFile);
+                        var description = FindLocalizedChildElement(templateXml, "description");
+                        if (description != null)
+                        {
+                            Templates.Add(template, description);
+                        }
+                    }
+                }
+            }
+
             if (_xml != null)
                 ReadInformationsFromXML();
         }
@@ -81,25 +100,6 @@ namespace OnlineDocumentationGenerator
             Introduction = FindLocalizedChildElement(_xml, "introduction");
             Manual = FindLocalizedChildElement(_xml, "manual");
             Presentation = FindLocalizedChildElement(_xml, "presentation");
-
-            var pluginName = PluginType.Name;
-            if (DocGenerator.RelevantPluginToTemplatesMap.ContainsKey(pluginName))
-            {
-                var templates = DocGenerator.RelevantPluginToTemplatesMap[pluginName];
-                foreach (var template in templates)
-                {
-                    string templateXmlFile = Path.Combine(DocGenerator.TemplateDirectory, template.Substring(0, template.Length - 4) + ".xml");
-                    if (File.Exists(templateXmlFile))
-                    {
-                        XElement templateXml = XElement.Load(templateXmlFile);
-                        var description = FindLocalizedChildElement(templateXml, "description");
-                        if (description != null)
-                        {
-                            Templates.Add(template, description);
-                        }
-                    }
-                }
-            }
         }
 
         //finds elements according to the current language:
