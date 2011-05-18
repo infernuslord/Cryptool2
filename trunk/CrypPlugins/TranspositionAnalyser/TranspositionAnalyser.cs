@@ -88,9 +88,9 @@ namespace TranspositionAnalyser
             Output = System.Text.Encoding.GetEncoding(1252).GetBytes(rse.Text);
         }
 
-        private IControlEncryption controlMaster;
+        private IControlTranspoEncryption controlMaster;
         [PropertyInfo(Direction.ControlMaster, "ControlMasterCaption", "ControlMasterTooltip", "", false, false, QuickWatchFormat.None, null)]
-        public IControlEncryption ControlMaster
+        public IControlTranspoEncryption ControlMaster
         {
 
             get { return controlMaster; }
@@ -227,7 +227,7 @@ namespace TranspositionAnalyser
             EventsHelper.PropertyChanged(PropertyChanged, this, new PropertyChangedEventArgs(propertyname));
         }
 
-        public void process(IControlEncryption sender)
+        public void process(IControlTranspoEncryption sender)
         {
             if (input != null)
             {
@@ -468,7 +468,7 @@ namespace TranspositionAnalyser
 
         }
 
-        private byte[] costfunction_bruteforce(IControlEncryption sender)
+        private byte[] costfunction_bruteforce(IControlTranspoEncryption sender)
         {
             valuequeue = Queue.Synchronized(new Queue());
             int[] set = getBruteforceSettings();
@@ -655,7 +655,7 @@ namespace TranspositionAnalyser
         private DateTime starttime;
         private DateTime lastUpdate;
 
-        private void cribAnalysis(IControlEncryption sender, byte[] crib, byte[] cipher)
+        private void cribAnalysis(IControlTranspoEncryption sender, byte[] crib, byte[] cipher)
         {
             stop = false;
             valList = new ArrayList();
@@ -792,7 +792,7 @@ namespace TranspositionAnalyser
             updateToplist(list1);
         }
 
-        private void addToBestList(IControlEncryption sender, int[] k)
+        private void addToBestList(IControlTranspoEncryption sender, int[] k)
         {
             int[] first = (int[])k.Clone();
 
@@ -841,7 +841,7 @@ namespace TranspositionAnalyser
             return ret;
         }
 
-        private ArrayList analysis(IControlEncryption sender, byte[] cipher, byte[,] cipherMatrix, byte[,] cribMatrix, int keylength)
+        private ArrayList analysis(IControlTranspoEncryption sender, byte[] cipher, byte[,] cipherMatrix, byte[,] cribMatrix, int keylength)
         {
             ArrayList possibleList = new ArrayList();
             int[] key = new int[keylength];
@@ -1336,7 +1336,7 @@ namespace TranspositionAnalyser
 
         #region genetic analysis
 
-        private void geneticAnalysis(IControlEncryption sender)
+        private void geneticAnalysis(IControlTranspoEncryption sender)
         {
             stop = false;
 

@@ -183,7 +183,7 @@ namespace Transposition
         public void Execute()
         {
             
-            Transposition_LogMessage("execute tr", NotificationLevel.Debug);
+            
             ProcessTransposition();
             if (controlSlave is object && Input is object)
             {
@@ -1093,9 +1093,9 @@ namespace Transposition
         }
         # endregion
 
-        private IControlEncryption controlSlave;
+        private IControlTranspoEncryption controlSlave;
         [PropertyInfo(Direction.ControlSlave, "ControlSlaveCaption", "ControlSlaveTooltip", "")]
-        public IControlEncryption ControlSlave
+        public IControlTranspoEncryption ControlSlave
         {
             get
             {
@@ -1106,7 +1106,7 @@ namespace Transposition
         }
     }
 
-    public class TranspositionControl : IControlEncryption
+    public class TranspositionControl : IControlTranspoEncryption
     {
         private Transposition plugin;
 
@@ -1116,7 +1116,7 @@ namespace Transposition
             this.plugin = plugin;
         }
 
-        #region IControlEncryption Member
+        #region IControlTranspoEncryption Member
         
         public byte[] Decrypt(byte[] key, int blocksize)
         {
@@ -1155,7 +1155,7 @@ namespace Transposition
             return null;
         }
 
-        public IControlEncryption clone()
+        public IControlTranspoEncryption clone()
         {
             return null;
         }
