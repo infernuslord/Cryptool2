@@ -1158,14 +1158,20 @@ namespace Wizard
 
         internal void StopCurrentWorkspaceManager()
         {
-            if (currentManager != null && currentManager.CanStop)
-                currentManager.Stop();
+            Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback) delegate
+            {
+                if (currentManager != null && currentManager.CanStop)
+                    currentManager.Stop();
+            }, null);
         }
 
         internal void ExecuteCurrentWorkspaceManager()
         {
-            if (currentManager != null && currentManager.CanExecute)
-                currentManager.Execute();
+            Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
+                if (currentManager != null && currentManager.CanExecute)
+                    currentManager.Execute();
+            }, null);
         }
 
         internal bool WizardCanStop()
