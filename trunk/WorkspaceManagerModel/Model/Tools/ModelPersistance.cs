@@ -113,6 +113,7 @@ namespace WorkspaceManager.Model
                 try
                 {
                     pluginModel.Plugin.Initialize();
+                    pluginModel.PercentageFinished = 0;
                 }
                 catch(Exception ex)
                 {
