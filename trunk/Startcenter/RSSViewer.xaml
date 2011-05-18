@@ -9,7 +9,7 @@
         <Startcenter:TrueToVisibleConverter x:Key="TrueToVisibleConverter" />
     </UserControl.Resources>
     
-    <Grid>
+    <Grid ClipToBounds="True">
         <Grid.Resources>
             <AlternationConverter x:Key="BackgroundConverter">
                 <SolidColorBrush>#00000000</SolidColorBrush>
