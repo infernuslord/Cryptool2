@@ -53,6 +53,7 @@ namespace WorkspaceManager
     /// <summary>
     /// Workspace Manager - PluginEditor based on MVC Pattern
     /// </summary>
+    [EditingInfoAttribute(true)]
     [TabColor("Lime")]
     [EditorInfo("cwm")]
     [Author("Viktor Matkovic,Nils Kopal", "nils.kopal@cryptool.org", "Universität Duisburg-Essen", "http://www.uni-due.de")]
@@ -946,6 +947,22 @@ namespace WorkspaceManager
         public event EventHandler<ZoomChanged> OnZoomChanged;
         public bool IsCtrlToggled = false;
         public BinEditorState State { get; set; }
+
+
+        public void AddText()
+        {
+            ((BinEditorVisual)Presentation).AddText();
+        }
+
+        public void AddImage()
+        {
+            System.Windows.Forms.OpenFileDialog diag = new System.Windows.Forms.OpenFileDialog();
+            if (diag.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                Uri uriLocal = new Uri(diag.FileName);
+                ((BinEditorVisual)Presentation).AddImage(uriLocal);
+            }
+        }
     }
 }
 

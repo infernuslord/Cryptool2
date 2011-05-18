@@ -378,9 +378,6 @@
     <Resource Include="View\Image\lock.png" />
     <Resource Include="View\Image\unlock.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Documentation\doc.xml" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>

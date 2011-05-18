@@ -132,11 +132,53 @@
             <Ellipse Width="10" Height="10" Fill="Bisque"></Ellipse>
             <Ellipse Width="10" Height="10" Fill="Red"></Ellipse>
         </x:Array>-->
+        <ControlTemplate x:Key="CtrlTemplate" TargetType="{x:Type ButtonBase}">
+            <Border x:Name="Border" BorderThickness="1" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}">
+                <ContentPresenter VerticalAlignment="Center">
+                    
+                </ContentPresenter>
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsMouseOver" Value="true">
+                    <Setter Property="Background" Value="#55222222" TargetName="Border" />
+                    <Setter Property="BorderBrush" Value="#aa222222" TargetName="Border" />
+                </Trigger>
+                <Trigger Property="IsPressed" Value="true">
+                    <Setter Property="Background" Value="#77222222" TargetName="Border" />
+                    <Setter Property="BorderBrush" Value="#cc222222" TargetName="Border" />
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+        
+        <Style TargetType="{x:Type Button}" x:Key="OperationBasicStyle">
+            <Setter Property="Height" Value="12"></Setter>
+            <Setter Property="Width" Value="12"></Setter>
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Left"></Setter>
+            <Setter Property="Template" Value="{StaticResource ResourceKey=CtrlTemplate}"></Setter>
+        </Style>
+
+
     </UserControl.Resources>
 
     <Grid>
         <ComboBox x:Name="SlotBox" Width="45" Height="45" Style="{StaticResource ResourceKey=ComboBoxStyle}" ItemsSource="{Binding Path=Types}" SelectedItem="{Binding Path=SelectedType, Mode= TwoWay}"></ComboBox>
-        <Button Width="12" Height="12" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="3" Background="Red" Click="ClickHandler" Opacity="0.6"></Button>
+        <Button Width="13" Height="13" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="3" Background="Red" Click="ClickHandler" Opacity="0.6" Style="{StaticResource ResourceKey=OperationBasicStyle}">
+            <Path Stroke="Red" StrokeThickness="2" HorizontalAlignment="Center">
+                <Path.Data>
+                    <PathGeometry>
+                        <PathGeometry.Figures>
+                            <PathFigure StartPoint="0,0">
+                                <LineSegment Point="5,5"/>
+                            </PathFigure>
+                            <PathFigure StartPoint="0,5">
+                                <LineSegment Point="5,0"/>
+                            </PathFigure>
+                        </PathGeometry.Figures>
+                    </PathGeometry>
+                </Path.Data>
+            </Path>
+        </Button>
     </Grid>
 
 </UserControl>

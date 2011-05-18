@@ -7,7 +7,7 @@
              xmlns:model="clr-namespace:WorkspaceManager.Model;assembly=WorkspaceManagerModel"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300" DataContext="{Binding RelativeSource={x:Static RelativeSource.Self}}">
+             d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
         <LinearGradientBrush x:Key="BackgroundRadientBrush" StartPoint="0,0" EndPoint="0,1">
             <GradientBrush.GradientStops>
@@ -301,7 +301,7 @@
             </Button>
         </x:Array>
     </UserControl.Resources>
-    <Grid Background="{StaticResource ResourceKey=ContentBackground}">
+    <Grid Background="{StaticResource ResourceKey=ContentBackground}" DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:BinFullscreenVisual}}}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"></ColumnDefinition>
             <ColumnDefinition Width="*"/>

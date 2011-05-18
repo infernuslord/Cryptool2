@@ -84,6 +84,7 @@
   <ItemGroup>
     <Compile Include="Attributes\AssemblyCt2BuildTypeAttribute.cs" />
     <Compile Include="Attributes\DontSaveAttribute.cs" />
+    <Compile Include="Attributes\EditingInfoAttribute.cs" />
     <Compile Include="Attributes\LocalizationAttribute.cs" />
     <Compile Include="Attributes\SettingsFormatAttribute.cs" />
     <Compile Include="Attributes\ContextMenuAttribute.cs" />

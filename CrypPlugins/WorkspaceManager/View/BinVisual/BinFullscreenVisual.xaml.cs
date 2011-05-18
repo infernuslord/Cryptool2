@@ -27,6 +27,7 @@ namespace WorkspaceManager.View.BinVisual
         public event PropertyChangedEventHandler PropertyChanged;
         public event EventHandler Close;
         #endregion
+
         #region Properties
 
         public UIElement ActivePresentation

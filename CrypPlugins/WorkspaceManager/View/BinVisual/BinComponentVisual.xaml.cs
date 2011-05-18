@@ -36,6 +36,7 @@ namespace WorkspaceManager.View.BinVisual
         #region events
         public event PropertyChangedEventHandler PropertyChanged;
         public event EventHandler Close;
+        public event EventHandler<VisualStateChangedArgs> StateChanged;
         #endregion
 
         #region IRouting
@@ -89,6 +90,8 @@ namespace WorkspaceManager.View.BinVisual
         #endregion
 
         #region Properties
+
+        public BinEditorVisual EditorVisual { private set; get; }
 
         public bool HasComponentPresentation
         {
@@ -162,8 +165,8 @@ namespace WorkspaceManager.View.BinVisual
 
         #region DependencyProperties
 
-        public static readonly DependencyProperty IsSelectedProperty = DependencyProperty.Register("IsSelected", typeof(bool),
-            typeof(BinComponentVisual), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
+        public static readonly DependencyProperty IsSelectedProperty = DependencyProperty.Register("IsSelected",
+            typeof(bool), typeof(BinComponentVisual), new FrameworkPropertyMetadata(false, OnIsSelectedChanged));
 
         public bool IsSelected
         {
@@ -222,9 +225,6 @@ namespace WorkspaceManager.View.BinVisual
             set
             {
                 base.SetValue(StateProperty, value);
-                OnPropertyChanged("ActivePresentation");
-                //needed ?
-                OnPropertyChanged("HasComponentPresentation");
             }
         }
 
@@ -409,10 +409,11 @@ namespace WorkspaceManager.View.BinVisual
         {
             Model = model;
             Model.UpdateableView = this;
+            EditorVisual = (BinEditorVisual)((WorkspaceManager)Model.WorkspaceModel.MyEditor).Presentation;
             Presentations.Add(BinComponentState.Presentation, model.PluginPresentation);
             Presentations.Add(BinComponentState.Min, Model.getImage());
             Presentations.Add(BinComponentState.Data, new BinDataVisual(ConnectorCollection));
-            Presentations.Add(BinComponentState.Log, new BinLogVisual(LogMessages));
+            Presentations.Add(BinComponentState.Log, new BinLogVisual(this));
             Presentations.Add(BinComponentState.Setting, new BinSettingsVisual(Model.Plugin));
             LastState = HasComponentPresentation ? BinComponentState.Presentation : BinComponentState.Log;
             InitializeComponent();
@@ -439,6 +440,7 @@ namespace WorkspaceManager.View.BinVisual
         public void update()
         {
             Progress = Model.PercentageFinished;
+            Presentations[BinComponentState.Min] = Model.getImage();
         }
         #endregion
 
@@ -464,7 +466,7 @@ namespace WorkspaceManager.View.BinVisual
                 addConnectorView(m);
             }
 
-            LogNotifier = new BinLogNotifier(LogMessages);
+            LogNotifier = new BinLogNotifier(LogMessages, this);
             Model.Plugin.OnGuiLogNotificationOccured += new GuiLogNotificationEventHandler(OnGuiLogNotificationOccuredHandler);
             WindowWidth = Model.GetWidth();
             WindowHeight = Model.GetHeight();
@@ -498,6 +500,17 @@ namespace WorkspaceManager.View.BinVisual
         private void addConnectorView(ConnectorModel model)
         {
             BinConnectorVisual bin = new BinConnectorVisual(model, this);
+
+            if (!model.Outgoing)
+            {
+                Binding bind = new Binding();
+                bind.Path = new PropertyPath(BinEditorVisual.SelectedConnectorProperty);
+                bind.Source = EditorVisual;
+                bind.ConverterParameter = bin;
+                bind.Converter = new ConnectorChangedConverter();
+                bin.SetBinding(BinConnectorVisual.MarkedProperty, bind);
+            }
+
             switch (model.Orientation)
             {
                 case ConnectorOrientation.Unset:
@@ -621,6 +634,10 @@ namespace WorkspaceManager.View.BinVisual
             BinComponentVisual bin = (BinComponentVisual)d;
             bin.LastState = (BinComponentState)e.OldValue;
             bin.OnPropertyChanged("LastState");
+            bin.OnPropertyChanged("ActivePresentation");
+            bin.OnPropertyChanged("HasComponentPresentation");
+            if(bin.StateChanged != null)
+                bin.StateChanged.Invoke(bin,new VisualStateChangedArgs(){State = bin.State});
             bin.Model.ViewState = (PluginViewState)Enum.Parse(typeof(PluginViewState), e.NewValue.ToString());
         }
 
@@ -628,6 +645,11 @@ namespace WorkspaceManager.View.BinVisual
         {
             BinComponentVisual bin = (BinComponentVisual)d;
             bin.OnPropertyChanged("ActivePresentation");
+        }
+
+        private static void OnIsSelectedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            BinComponentVisual bin = (BinComponentVisual)d;
         }
 
         private static void OnCustomNameChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -661,7 +683,37 @@ namespace WorkspaceManager.View.BinVisual
 
     }
 
+    #region Events
+    public class VisualStateChangedArgs : EventArgs
+    {
+        public BinComponentState State { get; set; }
+    }
+    #endregion
+
     #region Converter
+
+    class ConnectorChangedConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if (value == null)
+                return false;
+
+            BinConnectorVisual element = (BinConnectorVisual)value, baseValue = (BinConnectorVisual)parameter;
+            if (baseValue.Model.ConnectorType == null || element.Model.ConnectorType == null)
+                return false;
+            if (element.Model.ConnectorType.IsAssignableFrom(baseValue.Model.ConnectorType) || baseValue.Model.ConnectorType.IsAssignableFrom(element.Model.ConnectorType))
+                return true;
+            else
+                return false;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
     public class StateConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
@@ -746,6 +798,22 @@ namespace WorkspaceManager.View.BinVisual
             throw new NotImplementedException();
         }
     }
+
+    public class WidthConverter : IMultiValueConverter
+    {
+        public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            var baseElement = values[0] as FrameworkElement;
+            var element = (double)values[1];
+
+            return Math.Abs(element -baseElement.ActualWidth);
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
     #endregion
 
     #region Custom class
@@ -772,6 +840,27 @@ namespace WorkspaceManager.View.BinVisual
 
     public class CustomTextBox : TextBox
     {
+        public static readonly DependencyProperty IsSelectedProperty = DependencyProperty.Register("IsSelected",
+            typeof(bool), typeof(CustomTextBox), new FrameworkPropertyMetadata(false, OnIsSelectedChanged));
+
+        public bool IsSelected
+        {
+            get { return (bool)base.GetValue(IsSelectedProperty); }
+            set
+            {
+                base.SetValue(IsSelectedProperty, value);
+            }
+        }
+
+        private static void OnIsSelectedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            CustomTextBox bin = (CustomTextBox)d;
+            if (bin.IsSelected)
+                return;
+            else
+                bin.Focusable = false;
+        }
+
         protected override void OnInitialized(EventArgs e)
         {
             base.OnInitialized(e);

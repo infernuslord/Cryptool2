@@ -258,5 +258,16 @@ namespace Wizard
 
 
         public event EventHandler<Cryptool.PluginBase.Miscellaneous.ZoomChanged> OnZoomChanged;
+
+
+        public void AddText()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddImage()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
