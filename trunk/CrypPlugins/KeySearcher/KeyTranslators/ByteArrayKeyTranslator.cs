@@ -60,7 +60,7 @@ namespace KeySearcher.KeyTranslators
 
         public void SetKeys(object keys)
         {
-            if (!(keys is KeyPattern.KeyPattern))
+            if (!(keys is KeyPattern.KeyPattern) || (((KeyPattern.KeyPattern)keys).WildcardKey == null))
                 throw new Exception("Something went horribly wrong!");
 
             pattern = (KeyPattern.KeyPattern)keys;
