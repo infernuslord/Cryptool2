@@ -441,6 +441,7 @@ namespace WorkspaceManager.View.BinVisual
         {
             Progress = Model.PercentageFinished;
             Presentations[BinComponentState.Min] = Model.getImage();
+            OnPropertyChanged("ActivePresentation");
         }
         #endregion
 

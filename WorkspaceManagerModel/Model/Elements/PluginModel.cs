@@ -17,6 +17,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Windows;
+using System.Windows.Threading;
 using Cryptool.PluginBase;
 using System.Threading;
 using System.Windows.Controls;
@@ -354,7 +356,14 @@ namespace WorkspaceManager.Model
         {
             if (args.StatusChangedMode == StatusChangedMode.ImageUpdate)
             {
-                this.imageIndex = args.ImageIndex;
+                imageIndex = args.ImageIndex;
+                if (WorkspaceModel.ExecutionEngine == null || !WorkspaceModel.ExecutionEngine.IsRunning())
+                {
+                    WorkspaceModel.MyEditor.Presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        UpdateableView.update();
+                    }, null);
+                }
             }
         }
 
