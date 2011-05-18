@@ -43,6 +43,10 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
             {
                 return ConvertPluginTemplateList((PluginTemplateList)theObject, pluginDocumentationPage);
             }
+            if (theObject is Reference.ReferenceList)
+            {
+                return ((Reference.ReferenceList)theObject).ToHTML(Thread.CurrentThread.CurrentUICulture.Name);
+            }
 
             return theObject.ToString();
         }

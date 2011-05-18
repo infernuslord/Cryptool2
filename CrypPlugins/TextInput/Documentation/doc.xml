@@ -56,5 +56,22 @@
   <presentation lang="en">
     This section should describe the presentation of textinput if necessary.
   </presentation>
+
+  <references>
+    <linkReference>
+      <link lang="en" url="http://en.wikipedia.org/wiki/Text_display"/>
+      <caption lang="en">Text Display</caption>
+      <link lang="de-DE" url="http://de.wikipedia.org/wiki/Text"/>
+      <caption lang="de-DE">Text Anzeige</caption>
+    </linkReference>
+
+    <bookReference>
+      <author>John Ronald Reuel Tolkien</author>
+      <publisher lang="en">Harpercollins UK</publisher>
+      <publisher lang="de-DE">Klett-Cotta</publisher>
+      <name lang="en">The Lord of the Rings</name>
+      <name lang="de-DE">Der Herr der Ringe</name>
+    </bookReference>
+  </references>
   
 </documentation>
