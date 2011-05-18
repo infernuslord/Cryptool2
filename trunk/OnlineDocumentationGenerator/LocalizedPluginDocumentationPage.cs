@@ -22,6 +22,11 @@ namespace OnlineDocumentationGenerator
             get { return _templates; }
         }
 
+        public Reference.ReferenceList References
+        {
+            get { return PluginDocumentationPage.References; }
+        }
+
         public Type PluginType { get; private set; }
 
         public bool Startable { get; private set; }

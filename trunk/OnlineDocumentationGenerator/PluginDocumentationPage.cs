@@ -22,6 +22,7 @@ namespace OnlineDocumentationGenerator
 
         public PropertyInfoAttribute[] PluginConnectors { get; private set; }
         public TaskPaneAttribute[] Settings { get; private set; }
+        public Reference.ReferenceList References { get; private set; }
 
         public Dictionary<string, LocalizedPluginDocumentationPage> Localizations { get; private set; }
 
@@ -72,6 +73,29 @@ namespace OnlineDocumentationGenerator
                 }
                 if (!Localizations.ContainsKey("en"))
                     throw new Exception("Plugin documentation should at least support english language!");
+
+                ReadReferences();
+            }
+        }
+
+        private void ReadReferences()
+        {
+            if (_xml.Element("references") != null)
+            {
+                References = new Reference.ReferenceList();
+
+                foreach (var refs in _xml.Element("references").Elements())
+                {
+                    switch (refs.Name.ToString())
+                    {
+                        case "linkReference":
+                            References.Add(new Reference.LinkReference(refs));
+                            break;
+                        case "bookReference":
+                            References.Add(new Reference.BookReference(refs));
+                            break;
+                    }
+                }
             }
         }
 
