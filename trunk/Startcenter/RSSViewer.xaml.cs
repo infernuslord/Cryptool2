@@ -21,6 +21,7 @@ namespace Startcenter
     /// <summary>
     /// Interaction logic for RSSViewer.xaml
     /// </summary>
+    [Cryptool.PluginBase.Attributes.Localization("Startcenter.Properties.Resources")]
     public partial class RSSViewer : UserControl
     {
         private List<RssItem> _rssItems;
@@ -39,13 +40,13 @@ namespace Startcenter
 
         public RSSViewer()
         {
-            var loadThread = new Thread(ReadAndFillRSSItems);
             InitializeComponent();
             IsUpdating = true;
-            loadThread.Start();
+            var updateTimer = new Timer(ReadAndFillRSSItems);
+            updateTimer.Change(0, 1000*60);
         }
 
-        private void ReadAndFillRSSItems()
+        private void ReadAndFillRSSItems(object state)
         {
             _rssItems = ReadRSSItems(RSSUrl);
             Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback) delegate

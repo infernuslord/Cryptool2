@@ -56,14 +56,15 @@
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="7"/>
                                     <ColumnDefinition />
                                 </Grid.ColumnDefinitions>
                                 
-                                <TextBlock Text="Title: " FontWeight="Bold" />
-                                <TextBlock Text="{Binding Path=Title}" Grid.Column="1" FontStyle="Italic" HorizontalAlignment="Right" Foreground="Green" TextWrapping="WrapWithOverflow"/>
-                                <TextBlock Text="Date: " FontWeight="Bold" Grid.Row="1"/>
-                                <TextBlock Text="{Binding Path=PublishingDate}" Grid.Row="1" Grid.Column="1" FontStyle="Italic" HorizontalAlignment="Right" Foreground="Red" />
-                                <Border Grid.ColumnSpan="2" Grid.Row="2" CornerRadius="5" BorderBrush="LightSeaGreen" BorderThickness="2" Background="#FFC8DCF5">
+                                <TextBlock Text="{Loc Title}" FontWeight="Bold"/>
+                                <TextBlock Text="{Binding Path=Title}" Grid.Column="2" FontStyle="Italic" HorizontalAlignment="Left" Foreground="Green" TextWrapping="WrapWithOverflow"/>
+                                <TextBlock Text="{Loc Date}" FontWeight="Bold" Grid.Row="1"/>
+                                <TextBlock Text="{Binding Path=PublishingDate}" Grid.Row="1" Grid.Column="2" FontStyle="Italic" HorizontalAlignment="Left" Foreground="Red" />
+                                <Border Grid.ColumnSpan="3" Grid.Row="2" CornerRadius="5" BorderBrush="LightSeaGreen" BorderThickness="2" Background="#FFC8DCF5">
                                     <HtmlTextBlock:HtmlTextBlock Html="{Binding Path=Message}" TextWrapping="Wrap"/>
                                 </Border>
                             </Grid>
