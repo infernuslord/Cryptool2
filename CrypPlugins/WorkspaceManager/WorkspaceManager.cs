@@ -390,7 +390,15 @@ namespace WorkspaceManager
         /// </summary>
         public void ShowHelp()
         {
-            OnlineHelp.InvokeShowPluginDocPage(typeof(WorkspaceManager));
+            if (((BinEditorVisual)Presentation).SelectedItem != null && ((BinEditorVisual)Presentation).SelectedItem is BinComponentVisual)
+            {
+                var element = (BinComponentVisual)((BinEditorVisual)Presentation).SelectedItem;
+                OnlineHelp.InvokeShowPluginDocPage(element.Model.PluginType);
+            }
+            else
+            {
+                OnlineHelp.InvokeShowPluginDocPage(typeof (WorkspaceManager));
+            }
         }
 
         /// <summary>
