@@ -54,7 +54,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-	    <Reference Include="PeersAtPlayBase">
+    <Reference Include="PeersAtPlayBase">
       <HintPath>..\..\appreferences\peersatplaybase.dll</HintPath>
       <Private>false</Private>
     </Reference>

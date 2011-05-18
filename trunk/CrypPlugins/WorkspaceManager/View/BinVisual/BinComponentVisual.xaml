@@ -405,6 +405,52 @@
                 </Button.Tag>
             </Button>
         </x:Array>
+
+        <Style x:Key="SelectGridStyle" TargetType="Grid">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
+                    <DataTrigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Timeline.DesiredFrameRate="5"
+                                                 Storyboard.TargetProperty="(Grid.RenderTransform).(ScaleTransform.ScaleX)"
+                                                 To="1" Duration="0:0:0.1" />
+                                <DoubleAnimation Timeline.DesiredFrameRate="5"
+                                                 Storyboard.TargetProperty="(Grid.RenderTransform).(ScaleTransform.ScaleY)"
+                                                 To="1" Duration="0:0:0.1" />
+                                <DoubleAnimation Timeline.DesiredFrameRate="5"
+                                                 Storyboard.TargetProperty="Opacity"
+                                                 To="1" Duration="0:0:0.1" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.EnterActions>
+                    <DataTrigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Timeline.DesiredFrameRate="5"
+                                                 Storyboard.TargetProperty="(Grid.RenderTransform).(ScaleTransform.ScaleX)"
+                                                 To="1.5" Duration="0:0:0.1" />
+                                <DoubleAnimation Timeline.DesiredFrameRate="5"
+                                                 Storyboard.TargetProperty="(Grid.RenderTransform).(ScaleTransform.ScaleY)"
+                                                 To="1.5" Duration="0:0:0.1" />
+                                <DoubleAnimation Timeline.DesiredFrameRate="5"
+                                                 Storyboard.TargetProperty="Opacity"
+                                                 To="0" Duration="0:0:0.1" />
+                                
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.ExitActions>
+                </DataTrigger>
+            </Style.Triggers>
+            <Setter Property="Opacity" Value="0"></Setter>
+            <Setter Property="RenderTransform">
+                <Setter.Value>
+                    <ScaleTransform></ScaleTransform>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <bin:WidthConverter x:Key="WidthConverter"></bin:WidthConverter>
     </UserControl.Resources>
     
     <Grid x:Name="Root">
@@ -412,6 +458,17 @@
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="20"></RowDefinition>
         </Grid.RowDefinitions>
+
+        <Grid Style="{StaticResource ResourceKey=SelectGridStyle}" RenderTransformOrigin="0.5,0.5" Margin="0" Background="#88FFFFFF" IsHitTestVisible="False">
+            <Grid.Effect>
+                <DropShadowEffect ShadowDepth="0" BlurRadius="5" Opacity="0.35"></DropShadowEffect>
+            </Grid.Effect>
+            <Path Data="M 0,0 L 0,5 L 0,0 L 5,0 L 0,0" StrokeThickness="2" Stroke="Black" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="2"></Path>
+            <Path Data="M 5,5 L 0,5 L 5,5 L 5,0 L 5,5" StrokeThickness="2" Stroke="Black" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="2"></Path>
+            <Path Data="M 0,5 L 0,0 L 0,5 L 5,5 L 0,5" StrokeThickness="2" Stroke="Black" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="2"></Path>
+            <Path Data="M 5,0 L 0,0 L 5,0 L 5,5 L 5,0" StrokeThickness="2" Stroke="Black" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="2"></Path>
+        </Grid>
+
         <Grid Grid.Row="0">
             <!--##########Definitions##########-->
             <Grid.ColumnDefinitions>
@@ -432,7 +489,7 @@
                               PreviewDrop="PreviewDropHandler">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <local:NSWEStackPanel Orientation="Vertical" PanelOrientation="West" Background="#01000000" Width="18"></local:NSWEStackPanel>
+                            <local:NSWEStackPanel Orientation="Vertical" PanelOrientation="West" Background="#01000000"></local:NSWEStackPanel>
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                 </ItemsControl>
@@ -443,7 +500,7 @@
                               PreviewDrop="PreviewDropHandler">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <local:NSWEStackPanel Orientation="Vertical" PanelOrientation="East" Background="#01000000" Width="18"></local:NSWEStackPanel>
+                            <local:NSWEStackPanel Orientation="Vertical" PanelOrientation="East" Background="#01000000"></local:NSWEStackPanel>
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                 </ItemsControl>
@@ -454,7 +511,7 @@
                               PreviewDrop="PreviewDropHandler">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <local:NSWEStackPanel Orientation="Horizontal" PanelOrientation="North" Background="#01000000" Height="18"></local:NSWEStackPanel>
+                            <local:NSWEStackPanel Orientation="Horizontal" PanelOrientation="North" Background="#01000000"></local:NSWEStackPanel>
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                 </ItemsControl>
@@ -465,7 +522,7 @@
                               PreviewDrop="PreviewDropHandler">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <local:NSWEStackPanel Orientation="Horizontal" PanelOrientation="South" Background="#01000000" Height="18" ></local:NSWEStackPanel>
+                            <local:NSWEStackPanel Orientation="Horizontal" PanelOrientation="South" Background="#01000000"></local:NSWEStackPanel>
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                 </ItemsControl>
@@ -529,19 +586,9 @@
                         </ContentPresenter>
                         <!--##########/Content##########-->
 
-                        <ProgressBar x:Name="ProgressBar" Style="{StaticResource ResourceKey=ProgressBarStyle}" Value="{Binding Path=Progress}" 
-                                     Maximum="1" Foreground="ForestGreen" Opacity="0.6" Margin="1"
-                                     Grid.Column="0" Grid.Row="2"></ProgressBar>
-                        <TextBlock Name="Percentage" FontFamily="Tahoma" FontSize="10" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontWeight="ExtraBold" Foreground="#444" 
-                                   Grid.Column="0" Grid.Row="2">
-                            <TextBlock.Text>
-                                <Binding Path="Progress" StringFormat=" {0:p0}" FallbackValue="0"></Binding>
-                            </TextBlock.Text>
-                        </TextBlock>
-
-                        <ContentPresenter Content="{Binding Path=LogNotifier}" Grid.Column="0" Grid.Row="2"></ContentPresenter>
-
-                        <Thumb x:Name="ContentThumb" Style="{StaticResource ResourceKey=InvisibleThumbStyle}" Grid.Column="0" Grid.Row="1" Grid.RowSpan="2"
+                        <ContentPresenter x:Name="Notifier" Content="{Binding Path=LogNotifier}" Grid.Column="0" Grid.Row="2"></ContentPresenter>
+                        
+                        <Thumb x:Name="ContentThumb" Style="{StaticResource ResourceKey=InvisibleThumbStyle}" Grid.Column="0" Grid.Row="1"
                                DragDelta="PositionDragDeltaHandler"></Thumb>
 
                         <Thumb x:Name="ScaleThumb" Style="{StaticResource ResourceKey=ScaleThumb}" Margin="2" Grid.Column="0" Grid.Row="1" Grid.RowSpan="2"
@@ -554,7 +601,7 @@
         
         <!--##########Name##########-->
         <local:CustomTextBox Style="{StaticResource ResourceKey=TextBoxStyle}" ToolTip="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Text}"
-                             Text="{Binding Path=CustomName, Mode=TwoWay}" Width="{Binding ElementName=Window, Path=ActualWidth}"
+                             Text="{Binding Path=CustomName, Mode=TwoWay}" Width="{Binding ElementName=Window, Path=ActualWidth}" IsSelected="{Binding Path=IsSelected}"
                              Grid.Row="2"></local:CustomTextBox>
         <!--##########/Name##########-->
         <ic:BinIControlVisual Connectors="{Binding Path=IControlCollection}" IsOpen="{Binding Path=IsICPopUpOpen, Mode= TwoWay}" 

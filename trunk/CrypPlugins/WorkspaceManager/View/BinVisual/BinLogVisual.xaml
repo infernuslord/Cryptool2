@@ -252,7 +252,7 @@
             </Button>
             <Separator/>
         </ToolBar>
-        <ListView Style="{StaticResource ResourceKey=ListViewStyle}" ItemsSource="{Binding Path=LogMessages, Mode=OneWay}" Grid.Row="1"/>
+        <ListView x:Name="LogList" SelectionChanged="SelectionChangedHandler" Style="{StaticResource ResourceKey=ListViewStyle}" ItemsSource="{Binding Path=LogMessages, Mode=OneWay}" SelectionMode="Multiple" Grid.Row="1"/>
     </Grid>
 </UserControl>
 

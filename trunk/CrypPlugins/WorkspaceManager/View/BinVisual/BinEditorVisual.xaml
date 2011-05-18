@@ -85,8 +85,8 @@
         <ContentPresenter x:Name="FullScreen" Style="{StaticResource ResourceKey=ContentPresenterStyle}" Grid.Row="0" Grid.Column="0">
             <ContentPresenter.Content>
                 <local:BinFullscreenVisual 
-                    IsFullscreenOpen="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, Path=IsFullscreenOpen, Mode=TwoWay}" 
-                    ComponentCollection="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, Path=ComponentCollection}">
+                    IsFullscreenOpen="{Binding Path=IsFullscreenOpen, Mode=TwoWay}" 
+                    ComponentCollection="{Binding Path=ComponentCollection}">
                 </local:BinFullscreenVisual>
             </ContentPresenter.Content>
         </ContentPresenter>

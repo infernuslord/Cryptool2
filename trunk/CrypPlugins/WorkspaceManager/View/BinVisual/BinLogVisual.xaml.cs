@@ -40,18 +40,31 @@ namespace WorkspaceManager.View.BinVisual
             get { return (ObservableCollection<Log>)base.GetValue(LogMessagesProperty); }
             set { base.SetValue(LogMessagesProperty, value); }
         }
-
-        public static readonly DependencyProperty SelectedLogProperty = DependencyProperty.Register("SelectedLog",
-            typeof(Log), typeof(BinLogVisual), new FrameworkPropertyMetadata(null));
-
-        public Log SelectedLog
-        {
-            get { return (Log)base.GetValue(SelectedLogProperty); }
-            set { base.SetValue(SelectedLogProperty, value); }
-        }
         #endregion
 
         #region Properties
+
+        private IEnumerable<Log> selectedLogs;
+        public IEnumerable<Log> SelectedLogs
+        {
+            get
+            {
+                return selectedLogs;
+            }
+            set
+            {
+                selectedLogs = value;
+                if (selectedLogs != null)
+                {
+                    LogList.SelectedItems.Clear();
+                    foreach (var element in selectedLogs)
+                    {
+                        LogList.SelectedItems.Add(element);
+                    }
+                }
+            }
+        }
+
         public int ErrorCount
         {
             get
@@ -95,12 +108,15 @@ namespace WorkspaceManager.View.BinVisual
                 return LogMessages.Where(a => a.Level == NotificationLevel.Warning).Count();
             }
         }
+
+        public BinComponentVisual Parent { get; private set; }
         #endregion
 
         #region constructors
-        public BinLogVisual(ObservableCollection<Log> log)
+        public BinLogVisual(BinComponentVisual Parent)
         {
-            SetBinding(BinLogVisual.LogMessagesProperty, new Binding() { Source = log });
+            this.Parent = Parent;
+            SetBinding(BinLogVisual.LogMessagesProperty, new Binding() { Source = Parent.LogMessages });
             InitializeComponent();
         }
         #endregion
@@ -161,6 +177,11 @@ namespace WorkspaceManager.View.BinVisual
             OnPropertyChanged("WarningCount");
         }
         #endregion
+
+        private void SelectionChangedHandler(object sender, SelectionChangedEventArgs e)
+        {
+        
+        }
     }
 
     #region Custom Class

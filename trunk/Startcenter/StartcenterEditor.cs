@@ -253,5 +253,16 @@ namespace StartCenter
         }
 
         public bool ReadOnly { get; set; }
+
+
+        public void AddText()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddImage()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

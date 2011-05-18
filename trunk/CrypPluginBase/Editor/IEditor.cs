@@ -45,6 +45,8 @@ namespace Cryptool.PluginBase.Editor
         void Paste();
         void Remove();
         void Print();
+        void AddText();
+        void AddImage();
 
         double GetZoom(); 
         void Zoom(double value);

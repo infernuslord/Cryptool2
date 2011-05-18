@@ -22,8 +22,53 @@ namespace WorkspaceManager.View.BinVisual
     /// <summary>
     /// Interaction logic for ConnectorView.xaml
     /// </summary>
-    public partial class BinConnectorVisual : Thumb, IUpdateableView
+    public partial class BinConnectorVisual : UserControl, IUpdateableView, INotifyPropertyChanged
     {
+        #region Events
+        public event PropertyChangedEventHandler PropertyChanged;
+        #endregion
+
+        #region Properties
+        public string ConnectorName 
+        { 
+            get 
+            {
+                return Model != null ? Model.GetName() : "Error";
+            } 
+        }
+
+        public string TypeName
+        {
+            get
+            {
+                return Model.ConnectorType != null ? Model.ConnectorType.Name : "Class Not Found";
+            }
+        }
+
+        public string Data
+        {
+            get
+            {
+                if (Model == null)
+                    return "No Data";
+
+                if (Model.Data == null)
+                    return "No Data";
+
+                if (Model.Data is Byte[])
+                {
+                    StringBuilder builder = new StringBuilder();
+                    Byte[] b = (Byte[])Model.Data;
+                    foreach (var e in b)
+                        builder.Append(e);
+                    return builder.ToString();
+                }
+
+                return Model.Data.ToString();
+            }
+        }
+        #endregion
+
         #region Dependency Properties
 
         public static readonly DependencyProperty ModelProperty = DependencyProperty.Register("Model",
@@ -132,6 +177,21 @@ namespace WorkspaceManager.View.BinVisual
                 base.SetValue(WindowParentProperty, value);
             }
         }
+
+        public static readonly DependencyProperty MarkedProperty = DependencyProperty.Register("Marked",
+            typeof(bool), typeof(BinConnectorVisual), new FrameworkPropertyMetadata(false));
+
+        public bool Marked
+        {
+            get
+            {
+                return (bool)base.GetValue(MarkedProperty);
+            }
+            set
+            {
+                base.SetValue(MarkedProperty, value);
+            }
+        }
         #endregion
 
         public BinConnectorVisual(ConnectorModel model, BinComponentVisual component)
@@ -176,6 +236,22 @@ namespace WorkspaceManager.View.BinVisual
             }
         }
 
+        #region protected
+        protected void OnPropertyChanged(string name)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(name));
+            }
+        }
+        #endregion
+
+        private static void OnSelectedConnectorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            BinConnectorVisual bin = (BinConnectorVisual)d;
+        }
+
         public bool CanConnect
         {
             get { throw new NotImplementedException(); }
@@ -184,6 +260,11 @@ namespace WorkspaceManager.View.BinVisual
         public void update()
         {
             throw new NotImplementedException();
+        }
+
+        private void ToolTipOpeningHandler(object sender, ToolTipEventArgs e)
+        {
+            OnPropertyChanged("Data");
         }
     }
 

@@ -314,5 +314,16 @@ namespace Cryptool.P2PEditor
 
 
         public event EventHandler<PluginBase.Miscellaneous.ZoomChanged> OnZoomChanged;
+
+
+        public void AddText()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddImage()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -26,6 +26,7 @@ using System.Windows.Input;
 using System.Reflection;
 using Cryptool.Core;
 using WorkspaceManager.View.BinVisual.IControlVisual;
+using System.Windows.Data;
 
 namespace WorkspaceManager.View.BinVisual
 {
@@ -41,7 +42,7 @@ namespace WorkspaceManager.View.BinVisual
 
         #region Fields
         private bool isLinkStarted;
-        private BinConnectorVisual linkedConnector, from, to;
+        private BinConnectorVisual from, to;
         private CryptoLineView draggedLink = new CryptoLineView();
         private Point? startDragPoint;
         #endregion
@@ -87,6 +88,36 @@ namespace WorkspaceManager.View.BinVisual
             set
             {
                 base.SetValue(StateProperty, value);
+            }
+        }
+
+        public static readonly DependencyProperty SelectedConnectorProperty = DependencyProperty.Register("SelectedConnector",
+            typeof(BinConnectorVisual), typeof(BinEditorVisual), new FrameworkPropertyMetadata(null, null));
+
+        public BinConnectorVisual SelectedConnector
+        {
+            get
+            {
+                return (BinConnectorVisual)base.GetValue(SelectedConnectorProperty);
+            }
+            private set
+            {
+                base.SetValue(SelectedConnectorProperty, value);
+            }
+        }
+
+        public static readonly DependencyProperty SelectedItemProperty = DependencyProperty.Register("SelectedItem",
+            typeof(UIElement), typeof(BinEditorVisual), new FrameworkPropertyMetadata(null, OnSelectedItemChanged));
+
+        public UIElement SelectedItem
+        {
+            get
+            {
+                return (UIElement)base.GetValue(SelectedItemProperty);
+            }
+            set
+            {
+                base.SetValue(SelectedItemProperty, value);
             }
         }
 
@@ -186,6 +217,16 @@ namespace WorkspaceManager.View.BinVisual
                 b.Progress = 0;
                 //TODO: Error State Reset
 	        }
+        }
+
+        public void AddText()
+        {
+            VisualCollection.Add(new BinTextVisual((TextModel)Model.ModifyModel(new NewTextModelOperation())));
+        }
+
+        public void AddImage(Uri uri)
+        {
+            VisualCollection.Add(new BinImageVisual((ImageModel)Model.ModifyModel(new NewImageModelOperation(uri))));
         }
         #endregion
 
@@ -296,13 +337,19 @@ namespace WorkspaceManager.View.BinVisual
                 return;
 
             BinComponentVisual bin = new BinComponentVisual(pluginModel);
+            Binding bind = new Binding();
+            bind.Path = new PropertyPath(BinEditorVisual.SelectedItemProperty);
+            bind.Source = this;
+            bind.ConverterParameter = bin;
+            bind.Converter = new SelectionChangedConverter();
+            bin.SetBinding(BinComponentVisual.IsSelectedProperty, bind);
             VisualCollection.Add(bin);
         }
 
         private void resetLinking()
         {
             VisualCollection.Remove(draggedLink);
-            linkedConnector = null;
+            SelectedConnector = null;
             isLinkStarted = false;
             Mouse.OverrideCursor = null;
         }
@@ -329,47 +376,50 @@ namespace WorkspaceManager.View.BinVisual
         /// <param name="args"></param>
         public void DeleteChild(Object sender, ModelArgs args)
         {
-            if (args.EffectedModelElement is ConnectionModel)
+            if (State == BinEditorState.READY)
             {
-                if (((ConnectionModel)args.EffectedModelElement).UpdateableView != null)
+                if (args.EffectedModelElement is ConnectionModel)
                 {
-                    UIElement uielement = (UIElement)((ConnectionModel)args.EffectedModelElement).UpdateableView;
-                    if (VisualCollection.Contains(uielement))
+                    if (((ConnectionModel)args.EffectedModelElement).UpdateableView != null)
                     {
-                        VisualCollection.Remove(uielement);
+                        UIElement uielement = (UIElement)((ConnectionModel)args.EffectedModelElement).UpdateableView;
+                        if (VisualCollection.Contains(uielement))
+                        {
+                            VisualCollection.Remove(uielement);
+                        }
                     }
                 }
-            }
-            else if (args.EffectedModelElement is PluginModel)
-            {
-                if (((PluginModel)args.EffectedModelElement).UpdateableView != null)
+                else if (args.EffectedModelElement is PluginModel)
                 {
-                    UIElement uielement = (UIElement)((PluginModel)args.EffectedModelElement).UpdateableView;
-                    if (VisualCollection.Contains(uielement))
+                    if (((PluginModel)args.EffectedModelElement).UpdateableView != null)
                     {
-                        VisualCollection.Remove(uielement);
+                        UIElement uielement = (UIElement)((PluginModel)args.EffectedModelElement).UpdateableView;
+                        if (VisualCollection.Contains(uielement))
+                        {
+                            VisualCollection.Remove(uielement);
+                        }
                     }
                 }
-            }
-            else if (args.EffectedModelElement is ImageModel)
-            {
-                if (((ImageModel)args.EffectedModelElement).UpdateableView != null)
+                else if (args.EffectedModelElement is ImageModel)
                 {
-                    UIElement uielement = (UIElement)((ImageModel)args.EffectedModelElement).UpdateableView;
-                    if (VisualCollection.Contains(uielement))
+                    if (((ImageModel)args.EffectedModelElement).UpdateableView != null)
                     {
-                        VisualCollection.Remove(uielement);
+                        UIElement uielement = (UIElement)((ImageModel)args.EffectedModelElement).UpdateableView;
+                        if (VisualCollection.Contains(uielement))
+                        {
+                            VisualCollection.Remove(uielement);
+                        }
                     }
                 }
-            }
-            else if (args.EffectedModelElement is TextModel)
-            {
-                if (((TextModel)args.EffectedModelElement).UpdateableView != null)
+                else if (args.EffectedModelElement is TextModel)
                 {
-                    UIElement uielement = (UIElement)((TextModel)args.EffectedModelElement).UpdateableView;
-                    if (VisualCollection.Contains(uielement))
+                    if (((TextModel)args.EffectedModelElement).UpdateableView != null)
                     {
-                        VisualCollection.Remove(uielement);
+                        UIElement uielement = (UIElement)((TextModel)args.EffectedModelElement).UpdateableView;
+                        if (VisualCollection.Contains(uielement))
+                        {
+                            VisualCollection.Remove(uielement);
+                        }
                     }
                 }
             }
@@ -524,6 +574,18 @@ namespace WorkspaceManager.View.BinVisual
 
         #region Event Handler
 
+        private static void OnSelectedItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            BinEditorVisual b = (BinEditorVisual)d;
+            UIElement newItem = e.NewValue as UIElement;
+            UIElement oldItem= e.OldValue as UIElement;
+            if (newItem != null)
+                Canvas.SetZIndex(newItem, int.MaxValue);
+
+            if (oldItem != null)
+                Canvas.SetZIndex(oldItem, 0);
+        }
+
         public void update()
         {
 
@@ -531,12 +593,18 @@ namespace WorkspaceManager.View.BinVisual
 
         private void AddTextHandler(object sender, AddTextEventArgs e)
         {
-            VisualCollection.Add(new BinTextVisual((TextModel)Model.ModifyModel(new NewTextModelOperation())));
+            if (State == BinEditorState.READY)
+            {
+                AddText();
+            }
         }
 
         private void AddImageHandler(object sender, ImageSelectedEventArgs e)
         {
-            VisualCollection.Add(new BinImageVisual((ImageModel)Model.ModifyModel(new NewImageModelOperation(e.uri))));
+            if (State == BinEditorState.READY)
+            {
+                AddImage(e.uri);
+            }
         }
 
         private void FitToScreenHandler(object sender, FitToScreenEventArgs e)
@@ -618,7 +686,7 @@ namespace WorkspaceManager.View.BinVisual
             if (e.Source is BinComponentVisual && e.OriginalSource is FrameworkElement)
             {
                 BinComponentVisual c = (BinComponentVisual)e.Source;
-                FrameworkElement f = (FrameworkElement)e.OriginalSource, element = (FrameworkElement)f.TemplatedParent;
+                FrameworkElement f = (FrameworkElement)e.OriginalSource, element = (FrameworkElement)Util.TryFindParent<BinConnectorVisual>(f);
                 if (element is BinConnectorVisual)
                 {
                     DataObject data = new DataObject("BinConnector", element);
@@ -661,11 +729,11 @@ namespace WorkspaceManager.View.BinVisual
                     if (e.Source is BinComponentVisual && e.OriginalSource is FrameworkElement)
                     {
                         BinComponentVisual c = (BinComponentVisual)e.Source;
-                        FrameworkElement f = (FrameworkElement)e.OriginalSource, element = (FrameworkElement)f.TemplatedParent;
-                        if (element is BinConnectorVisual && !isLinkStarted)
+                        FrameworkElement f = (FrameworkElement)e.OriginalSource, element = (FrameworkElement)Util.TryFindParent<BinConnectorVisual>(f);
+                        if ((element is BinConnectorVisual && !isLinkStarted && State == BinEditorState.READY))
                         {
                             BinConnectorVisual b = element as BinConnectorVisual;
-                            linkedConnector = b;
+                            SelectedConnector = b;
                             draggedLink.SetBinding(CryptoLineView.StartPointProperty, Util.CreateConnectorBinding(b, draggedLink));
                             draggedLink.EndPoint = e.GetPosition(sender as FrameworkElement);
                             VisualCollection.Add(draggedLink);
@@ -674,10 +742,13 @@ namespace WorkspaceManager.View.BinVisual
                         }
                         PluginChangedEventArgs componentArgs = new PluginChangedEventArgs(c.Model.Plugin, c.FunctionName, DisplayPluginMode.Normal);
                         MyEditor.onSelectedPluginChanged(componentArgs);
+                        if(SelectedItem != c)
+                            SelectedItem = c;
                         return;
                     }
                     PluginChangedEventArgs editorArgs = new PluginChangedEventArgs(Model.MyEditor, Model.MyEditor.GetPluginInfoAttribute().Caption, DisplayPluginMode.Normal);
                     MyEditor.onSelectedPluginChanged(editorArgs);
+                    SelectedItem = this;
                     break;
 
                 case 2:
@@ -686,6 +757,8 @@ namespace WorkspaceManager.View.BinVisual
                         BinComponentVisual c = (BinComponentVisual)e.Source;
                         if (c.IsICPopUpOpen)
                             break;
+                        if (Util.TryFindParent<TextBox>(e.OriginalSource as UIElement) != null)
+                            return;
                         IsFullscreenOpen = true;
                         ((BinFullscreenVisual)FullScreen.Content).ActiveComponent = c;
                         e.Handled = true;
@@ -699,19 +772,19 @@ namespace WorkspaceManager.View.BinVisual
             if (e.Source is BinComponentVisual && e.OriginalSource is FrameworkElement)
             {
                 BinComponentVisual c = (BinComponentVisual)e.Source;
-                FrameworkElement f = (FrameworkElement)e.OriginalSource, element = (FrameworkElement)f.TemplatedParent;
+                FrameworkElement f = (FrameworkElement)e.OriginalSource, element = (FrameworkElement)Util.TryFindParent<BinConnectorVisual>(f);
                 if (element is BinConnectorVisual)
                 {
                     BinConnectorVisual b = (BinConnectorVisual)element;
-                    if (isLinkStarted && linkedConnector != null)
+                    if (isLinkStarted && SelectedConnector != null)
                     {
-                        if (WorkspaceModel.compatibleConnectors(linkedConnector.Model, b.Model))
+                        if (WorkspaceModel.compatibleConnectors(SelectedConnector.Model, b.Model))
                         {
                             ConnectionModel connectionModel = (ConnectionModel)Model.ModifyModel(new NewConnectionModelOperation(
-                                linkedConnector.Model,
+                                SelectedConnector.Model,
                                 b.Model,
-                                linkedConnector.Model.ConnectorType));
-                            addConnection(linkedConnector, b, connectionModel);
+                                SelectedConnector.Model.ConnectorType));
+                            addConnection(SelectedConnector, b, connectionModel);
                             e.Handled = true;
                         }
                     }
@@ -782,6 +855,27 @@ namespace WorkspaceManager.View.BinVisual
     }
 
     #region HelperClass
+
+    class SelectionChangedConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if (value == null)
+                return false;
+
+            UIElement element = (UIElement)value;
+            if (element.Equals(parameter))
+                return true;
+            else
+                return false;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
     class DragDropDataObjectToPluginConverter
     {
         public static PluginManager PluginManager { get; set; }
