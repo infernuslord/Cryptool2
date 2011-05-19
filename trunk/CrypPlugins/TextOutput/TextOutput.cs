@@ -269,6 +269,17 @@ namespace TextOutput
                 }
                 CurrentValue = GetStringForSelectedEncoding(sizedArray);
             }
+            else if (value is Array)
+            {
+                Array array = (Array) value;
+                StringBuilder sb = new StringBuilder();
+
+                foreach(object obj in array)
+                {
+                    sb.AppendLine(obj == null ? "null" : obj.ToString());
+                }
+                CurrentValue = sb.ToString();
+            }
             else
             {
                 CurrentValue = value.ToString();
