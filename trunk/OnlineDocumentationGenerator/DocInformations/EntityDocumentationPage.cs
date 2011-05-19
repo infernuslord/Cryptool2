@@ -29,11 +29,15 @@ namespace OnlineDocumentationGenerator.DocInformations
             Localizations = new Dictionary<string, LocalizedEntityDocumentationPage>();
             _xml = GetXML(editorType);
 
-            AuthorName = editorType.GetPluginAuthorAttribute().Author;
-            AuthorEmail = editorType.GetPluginAuthorAttribute().Email;
-            AuthorInstitute = editorType.GetPluginAuthorAttribute().Institute;
-            AuthorURL = editorType.GetPluginAuthorAttribute().URL;
-            
+            var authorAttribut = editorType.GetPluginAuthorAttribute();
+            if (authorAttribut != null)
+            {
+                AuthorName = authorAttribut.Author;
+                AuthorEmail = authorAttribut.Email;
+                AuthorInstitute = authorAttribut.Institute;
+                AuthorURL = authorAttribut.URL;
+            }
+
             Settings = GetSettings(editorType);
 
             if (_xml == null || _xml.Name != "documentation")
