@@ -61,6 +61,96 @@ namespace BitCommitmentScheme.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to A.
+        /// </summary>
+        internal static string ACaption {
+            get {
+                return ResourceManager.GetString("ACaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Alpha.
+        /// </summary>
+        internal static string AlphaCaption {
+            get {
+                return ResourceManager.GetString("AlphaCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Alpha value.
+        /// </summary>
+        internal static string AlphaTooltip {
+            get {
+                return ResourceManager.GetString("AlphaTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Array of A values.
+        /// </summary>
+        internal static string ATooltip {
+            get {
+                return ResourceManager.GetString("ATooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to B.
+        /// </summary>
+        internal static string BCaption {
+            get {
+                return ResourceManager.GetString("BCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Array of B values.
+        /// </summary>
+        internal static string BTooltip {
+            get {
+                return ResourceManager.GetString("BTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dimension.
+        /// </summary>
+        internal static string DimensionCaption {
+            get {
+                return ResourceManager.GetString("DimensionCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dimension value.
+        /// </summary>
+        internal static string DimensionTooltip {
+            get {
+                return ResourceManager.GetString("DimensionTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Eta.
+        /// </summary>
+        internal static string EtaCaption {
+            get {
+                return ResourceManager.GetString("EtaCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Eta values.
+        /// </summary>
+        internal static string EtaTooltip {
+            get {
+                return ResourceManager.GetString("EtaTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Input bit.
         /// </summary>
         internal static string InputBitCaption {
@@ -88,11 +178,20 @@ namespace BitCommitmentScheme.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to  The log message of the algorithm.
+        ///   Looks up a localized string similar to The log message of the algorithm.
         /// </summary>
         internal static string LogMessageTooltip {
             get {
                 return ResourceManager.GetString("LogMessageTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to P.
+        /// </summary>
+        internal static string PCaption {
+            get {
+                return ResourceManager.GetString("PCaption", resourceCulture);
             }
         }
         
@@ -111,6 +210,51 @@ namespace BitCommitmentScheme.Properties {
         internal static string PluginTooltip {
             get {
                 return ResourceManager.GetString("PluginTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Array of P values.
+        /// </summary>
+        internal static string PTooltip {
+            get {
+                return ResourceManager.GetString("PTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Q.
+        /// </summary>
+        internal static string QCaption {
+            get {
+                return ResourceManager.GetString("QCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Q value.
+        /// </summary>
+        internal static string QTooltip {
+            get {
+                return ResourceManager.GetString("QTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to S.
+        /// </summary>
+        internal static string SCaption {
+            get {
+                return ResourceManager.GetString("SCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to S value.
+        /// </summary>
+        internal static string STooltip {
+            get {
+                return ResourceManager.GetString("STooltip", resourceCulture);
             }
         }
     }

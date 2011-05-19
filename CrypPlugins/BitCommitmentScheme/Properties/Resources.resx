@@ -117,6 +117,36 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ACaption" xml:space="preserve">
+    <value>A</value>
+  </data>
+  <data name="AlphaCaption" xml:space="preserve">
+    <value>Alpha</value>
+  </data>
+  <data name="AlphaTooltip" xml:space="preserve">
+    <value>Alpha value</value>
+  </data>
+  <data name="ATooltip" xml:space="preserve">
+    <value>Array of A values</value>
+  </data>
+  <data name="BCaption" xml:space="preserve">
+    <value>B</value>
+  </data>
+  <data name="BTooltip" xml:space="preserve">
+    <value>Array of B values</value>
+  </data>
+  <data name="DimensionCaption" xml:space="preserve">
+    <value>Dimension</value>
+  </data>
+  <data name="DimensionTooltip" xml:space="preserve">
+    <value>Dimension value</value>
+  </data>
+  <data name="EtaCaption" xml:space="preserve">
+    <value>Eta</value>
+  </data>
+  <data name="EtaTooltip" xml:space="preserve">
+    <value>Eta values</value>
+  </data>
   <data name="InputBitCaption" xml:space="preserve">
     <value>Input bit</value>
   </data>
@@ -127,12 +157,30 @@
     <value>Log message</value>
   </data>
   <data name="LogMessageTooltip" xml:space="preserve">
-    <value> The log message of the algorithm</value>
+    <value>The log message of the algorithm</value>
+  </data>
+  <data name="PCaption" xml:space="preserve">
+    <value>P</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
     <value>BitCommitmentScheme</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
     <value>The BitCommitmentScheme plugin</value>
+  </data>
+  <data name="PTooltip" xml:space="preserve">
+    <value>Array of P values</value>
+  </data>
+  <data name="QCaption" xml:space="preserve">
+    <value>Q</value>
+  </data>
+  <data name="QTooltip" xml:space="preserve">
+    <value>Q value</value>
+  </data>
+  <data name="SCaption" xml:space="preserve">
+    <value>S</value>
+  </data>
+  <data name="STooltip" xml:space="preserve">
+    <value>S value</value>
   </data>
 </root>

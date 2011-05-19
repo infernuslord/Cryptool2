@@ -17,6 +17,8 @@ namespace ISAPCommitmentSchemeWrapper {
 		array<BigInteger>^ p;
 		BigInteger q;
 		array<double>^ alpha;
+		array<BigInteger>^ a;
+		array<BigInteger>^ b;
 		array<double>^ eta;
 		String^ log;
 	};
@@ -80,9 +82,13 @@ namespace ISAPCommitmentSchemeWrapper {
 			}
 
 			result->alpha = gcnew array<double>(dimension);
+			result->a = gcnew array<BigInteger>(dimension);
+			result->b = gcnew array<BigInteger>(dimension);
 			for (int i = 0; i < dimension; i++)
 			{				
 				result->alpha[i] = cs.getA()[i].get_d() / cs.getB()[i].get_d();
+				result->a[i] = BigInteger::Parse(gcnew String(cs.getA()[i].get_str().c_str()));
+				result->b[i] = BigInteger::Parse(gcnew String(cs.getB()[i].get_str().c_str()));
 			}
 
 			result->eta = gcnew array<double>(dimension);
