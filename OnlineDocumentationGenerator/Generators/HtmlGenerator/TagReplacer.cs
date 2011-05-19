@@ -3,49 +3,50 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using OnlineDocumentationGenerator.DocInformations;
+using OnlineDocumentationGenerator.Properties;
 
 namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
 {
     class TagReplacer
     {
-        private static readonly Regex FindPluginDocTagRegex = new Regex("<pluginDoc.*?property=\"(.*?)\".*?/>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex FindDocItemTagRegex = new Regex("<docItem.*?property=\"(.*?)\".*?/>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex FindLanguageSelectionTagRegex = new Regex("<languageSelection.*?/>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex FindBeginningLanguageSwitchTagRegex = new Regex("<languageSwitch.*?lang=\"(.*?)\".*?>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex FindEndingLanguageSwitchTagRegex = new Regex("</.*?languageSwitch.*?>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        private static readonly Regex FindPluginListTagRegex = new Regex("<pluginList.*?/>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        private static readonly Regex FindConnectorListTagRegex = new Regex("<connectorList.*?/>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        private static readonly Regex FindSettingsListTagRegex = new Regex("<settingsList.*?/>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex FindComponentListTagRegex = new Regex("<componentList.*?/>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex FindEditorListTagRegex = new Regex("<editorList.*?/>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-        public static string ReplacePluginDocTags(string html, LocalizedPluginDocumentationPage localizedPluginDocumentationPage, ObjectConverter objectConverter)
+        public static string ReplaceDocItemTags(string html, LocalizedEntityDocumentationPage localizedDocumentationPage, ObjectConverter objectConverter)
         {
             int pos;
             int len;
             string property;
             var htmlBuilder = new StringBuilder(html);
 
-            while ((property = FindPluginDocTag(htmlBuilder.ToString(), out pos, out len)) != null)
+            while ((property = FindDocItemTag(htmlBuilder.ToString(), out pos, out len)) != null)
             {
                 try
                 {
-                    var prop = typeof(LocalizedPluginDocumentationPage).GetProperty(property);
-                    var propVal = prop.GetValue(localizedPluginDocumentationPage, null);
-                    var propStr = objectConverter == null ? (propVal == null ? "Null" : propVal.ToString()) : objectConverter.Convert(propVal, localizedPluginDocumentationPage.PluginDocumentationPage);
+                    var prop = localizedDocumentationPage.GetType().GetProperty(property);
+                    var propVal = prop.GetValue(localizedDocumentationPage, null);
+                    var propStr = objectConverter == null ? (propVal == null ? Resources.Null : propVal.ToString()) : objectConverter.Convert(propVal, localizedDocumentationPage.DocumentationPage);
 
                     htmlBuilder.Remove(pos, len);
                     htmlBuilder.Insert(pos, propStr);
                 }
                 catch (Exception ex)
                 {
-                    throw new Exception(string.Format("Error trying to replace pluginDoc tag with property {0}! Message: {1}", property, ex.Message));
+                    throw new Exception(string.Format("Error trying to replace DocItem tag with property {0}! Message: {1}", property, ex.Message));
                 }
             }
 
             return htmlBuilder.ToString();
         }
 
-        internal static string FindPluginDocTag(string html, out int pos, out int len)
+        internal static string FindDocItemTag(string html, out int pos, out int len)
         {
-            var match = FindPluginDocTagRegex.Match(html);
+            var match = FindDocItemTagRegex.Match(html);
             pos = match.Index;
             len = match.Length;
             if (!match.Success || match.Groups.Count < 2)
@@ -108,70 +109,47 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
             return htmlBuilder.ToString();
         }
 
-        public static string ReplacePluginList(string html, string pluginListCode)
+        public static string ReplaceComponentList(string html, string componentListCode)
         {
             int pos;
             int len;
             var htmlBuilder = new StringBuilder(html);
 
-            while (FindPluginListTag(htmlBuilder.ToString(), out pos, out len))
+            while (FindComponentListTag(htmlBuilder.ToString(), out pos, out len))
             {
                 htmlBuilder.Remove(pos, len);
-                htmlBuilder.Insert(pos, pluginListCode);
+                htmlBuilder.Insert(pos, componentListCode);
             }
 
             return htmlBuilder.ToString();
         }
 
-        internal static bool FindPluginListTag(string html, out int pos, out int len)
+        internal static bool FindComponentListTag(string html, out int pos, out int len)
         {
-            var match = FindPluginListTagRegex.Match(html);
+            var match = FindComponentListTagRegex.Match(html);
             pos = match.Index;
             len = match.Length;
             return match.Success;
         }
 
-        public static string ReplaceConnectorList(string html, string connectorListCode)
+        public static string ReplaceEditorList(string html, string editorListCode)
         {
             int pos;
             int len;
             var htmlBuilder = new StringBuilder(html);
 
-            while (FindConnectorListTag(htmlBuilder.ToString(), out pos, out len))
+            while (FindEditorListTag(htmlBuilder.ToString(), out pos, out len))
             {
                 htmlBuilder.Remove(pos, len);
-                htmlBuilder.Insert(pos, connectorListCode);
+                htmlBuilder.Insert(pos, editorListCode);
             }
 
             return htmlBuilder.ToString();
         }
 
-        internal static bool FindConnectorListTag(string html, out int pos, out int len)
+        internal static bool FindEditorListTag(string html, out int pos, out int len)
         {
-            var match = FindConnectorListTagRegex.Match(html);
-            pos = match.Index;
-            len = match.Length;
-            return match.Success;
-        }
-
-        public static string ReplaceSettingsList(string html, string settingsListCode)
-        {
-            int pos;
-            int len;
-            var htmlBuilder = new StringBuilder(html);
-
-            while (FindSettingsListTag(htmlBuilder.ToString(), out pos, out len))
-            {
-                htmlBuilder.Remove(pos, len);
-                htmlBuilder.Insert(pos, settingsListCode);
-            }
-
-            return htmlBuilder.ToString();
-        }
-
-        internal static bool FindSettingsListTag(string html, out int pos, out int len)
-        {
-            var match = FindSettingsListTagRegex.Match(html);
+            var match = FindEditorListTagRegex.Match(html);
             pos = match.Index;
             len = match.Length;
             return match.Success;

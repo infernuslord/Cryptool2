@@ -29,9 +29,9 @@
       <newline />
       External links with a link text are possible, too: <external ref="http://en.wikipedia.org/wiki/Main_Page">Click here!</external>
       <newline />
-      Internal links are possible: <pluginRef plugin="TextInput"/>
+      Internal links are possible: <docRef item="TextInput"/>
       <newline />
-      Also to not yet existing plugins: <pluginRef plugin="KeySearcher"/>
+      Also to not yet existing plugins: <docRef item="KeySearcher"/>
     </section>
   </introduction>
   <introduction lang="de-DE">
@@ -43,9 +43,9 @@
       <newline />
       Bla bla externe Links: <external ref="http://en.wikipedia.org/wiki/Main_Page">Click here!</external>
       <newline />
-      Interne Links sind möglich: <pluginRef plugin="TextInput"/>
+      Interne Links sind möglich: <docRef item="TextInput"/>
       <newline />
-      Auch zu noch nicht existierenden Plugins: <pluginRef plugin="KeySearcher"/>
+      Auch zu noch nicht existierenden Plugins: <docRef item="KeySearcher"/>
     </section>
   </introduction>
 

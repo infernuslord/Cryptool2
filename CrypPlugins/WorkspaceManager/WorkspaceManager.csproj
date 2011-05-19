@@ -368,7 +368,6 @@
     <Resource Include="View\Image\WorkspaceManagerIcon_orig.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="obj\DetailedDescription\" />
     <Folder Include="View\Resources\" />
   </ItemGroup>
   <ItemGroup>
@@ -377,6 +376,9 @@
   <ItemGroup>
     <Resource Include="View\Image\lock.png" />
     <Resource Include="View\Image\unlock.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Documentation\doc.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

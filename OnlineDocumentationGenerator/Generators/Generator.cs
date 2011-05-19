@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using OnlineDocumentationGenerator.DocInformations;
 
 namespace OnlineDocumentationGenerator.Generators
 {
     public abstract class Generator
     {
-        protected List<PluginDocumentationPage> pluginPages = new List<PluginDocumentationPage>();
-        protected HashSet<string> availableLanguages = new HashSet<string>();
+        protected List<EntityDocumentationPage> DocPages = new List<EntityDocumentationPage>();
+        protected HashSet<string> AvailableLanguages = new HashSet<string>();
 
         public string OutputDir
         {
@@ -16,16 +17,16 @@ namespace OnlineDocumentationGenerator.Generators
         }
 
         /// <summary>
-        /// Adds a documentation page for the given plugin to generate in all available localizations.
+        /// Adds a documentation page for the given entity to generate in all available localizations.
         /// </summary>
-        /// <param name="pluginDocumentationPage">The class with all informations about the plugin</param>
-        public void AddPluginDocumentationPage(PluginDocumentationPage pluginDocumentationPage)
+        /// <param name="entityDocumentationPage">The class with all informations about the entity</param>
+        public void AddDocumentationPage(EntityDocumentationPage entityDocumentationPage)
         {
-            pluginPages.Add(pluginDocumentationPage);
+            DocPages.Add(entityDocumentationPage);
 
-            foreach (var lang in pluginDocumentationPage.AvailableLanguages)
+            foreach (var lang in entityDocumentationPage.AvailableLanguages)
             {
-                availableLanguages.Add(lang);
+                AvailableLanguages.Add(lang);
             }
         }
 
