@@ -89,7 +89,6 @@
     <Compile Include="KeySearcherTests\OpenCLTest.cs" />
     <Compile Include="MD5\Algorithm\PresentableMD5Test.cs" />
     <Compile Include="MD5\Presentation\Helpers\PresentationControlFactoryTest.cs" />
-    <Compile Include="OnlineDocumentationGeneratorTests\TagReplacerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="pkcsTest.cs" />
     <Compile Include="TigerTest.cs" />
