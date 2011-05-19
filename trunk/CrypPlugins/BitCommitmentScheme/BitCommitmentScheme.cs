@@ -39,6 +39,8 @@ namespace BitCommitmentScheme
                     P = result.p;
                     Q = result.q;
                     Alpha = result.alpha;
+                    A = result.a;
+                    B = result.b;
                     Eta = result.eta;
                 }
                 catch (Exception ex)
@@ -121,6 +123,36 @@ namespace BitCommitmentScheme
             {
                 _alpha = value;
                 OnPropertyChanged("Alpha");
+            }
+        }
+
+        private BigInteger[] _a;
+        [PropertyInfo(Direction.OutputData, "ACaption", "ATooltip", "")]
+        public BigInteger[] A
+        {
+            get
+            {
+                return _a;
+            }
+            set
+            {
+                _a = value;
+                OnPropertyChanged("A");
+            }
+        }
+
+        private BigInteger[] _b;
+        [PropertyInfo(Direction.OutputData, "BCaption", "BTooltip", "")]
+        public BigInteger[] B
+        {
+            get
+            {
+                return _b;
+            }
+            set
+            {
+                _b = value;
+                OnPropertyChanged("B");
             }
         }
 
