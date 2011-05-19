@@ -151,6 +151,24 @@ namespace Startcenter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This is a WorkspaceManager file..
+        /// </summary>
+        internal static string This_is_a_WorkspaceManager_file_ {
+            get {
+                return ResourceManager.GetString("This_is_a_WorkspaceManager_file_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This is an AnotherEditor file..
+        /// </summary>
+        internal static string This_is_an_AnotherEditor_file_ {
+            get {
+                return ResourceManager.GetString("This_is_an_AnotherEditor_file_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Title:.
         /// </summary>
         internal static string Title {

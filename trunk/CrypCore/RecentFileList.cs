@@ -5,6 +5,7 @@ namespace Cryptool.Core
 {
     public class RecentFileList
     {
+        private static RecentFileList _recentFileList = null;
         private List<string> recentFiles = new List<string>();
         private string RegistryKey = "Software\\CrypTool2.0";
         private string valueKey = "recentFileList";
@@ -14,11 +15,20 @@ namespace Cryptool.Core
         public delegate void ListChangedEventHandler(List<string> recentFiles);
         public event ListChangedEventHandler ListChanged;
 
-        public RecentFileList() : this(10)
+        public static RecentFileList GetSingleton()
+        {
+            if (_recentFileList == null)
+            {
+                _recentFileList = new RecentFileList();
+            }
+            return _recentFileList;
+        }
+
+        private RecentFileList() : this(10)
         {            
         }
 
-        public RecentFileList(int listLength)
+        private RecentFileList(int listLength)
         {
             ListLength = listLength;
             Load();

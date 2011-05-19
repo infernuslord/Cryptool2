@@ -26,6 +26,7 @@ using System.Threading;
 using System.Collections;
 using System.Globalization;
 using System.Xml.Schema;
+using Cryptool.Core;
 using Cryptool.PluginBase;
 using WorkspaceManager.Model;
 using Wizard.Properties;
@@ -49,6 +50,7 @@ namespace Wizard
         }
 
         ObservableCollection<PageInfo> currentHistory = new ObservableCollection<PageInfo>();
+        private readonly RecentFileList _recentFileList = RecentFileList.GetSingleton();
         private Dictionary<string, bool> selectedCategories = new Dictionary<string, bool>();
         private SolidColorBrush selectionBrush = new SolidColorBrush();
         private const string configXMLPath = "Wizard.Config.wizard.config.start.xml";
@@ -879,6 +881,8 @@ namespace Wizard
                 canStopOrExecute = true;
                 currentManager.Execute();
             }
+
+            _recentFileList.AddRecentFile(file);
         }
 
         private void NewEditorSampleLoaded(object sender, EventArgs e)

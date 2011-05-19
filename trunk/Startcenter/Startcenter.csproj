@@ -67,6 +67,7 @@
     <Compile Include="CTTreeViewItem.xaml.cs">
       <DependentUpon>CTTreeViewItem.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Helper.cs" />
     <Compile Include="LastOpenedFilesList.xaml.cs">
       <DependentUpon>LastOpenedFilesList.xaml</DependentUpon>
     </Compile>
