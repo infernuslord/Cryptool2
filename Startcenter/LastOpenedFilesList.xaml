@@ -9,7 +9,7 @@
         <ListBox Name="RecentFileListBox" ItemsSource="{Binding}" Background="#00000000">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal" ToolTip="{Binding Path=Description}">
                         <Image Source="{Binding Path=Icon}" Width="32" Height="32"/>
                         <Label Content="{Binding Path=Title}" MouseDoubleClick="Label_MouseDoubleClick" />
                     </StackPanel>

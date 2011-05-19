@@ -150,4 +150,10 @@
 	<data name="PleaseWait" xml:space="preserve">
     <value>Bitte warten...</value>
   </data>
+	<data name="This_is_an_AnotherEditor_file_">
+		<value xml:space="preserve">Dies ist eine AnotherEditor Datei.</value>
+	</data>
+	<data name="This_is_a_WorkspaceManager_file_">
+		<value xml:space="preserve">Dies ist eine WorkspaceManager Datei.</value>
+	</data>
 </root>

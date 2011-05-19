@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Xml.Linq;
+using Cryptool.Core;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Editor;
 using Path = System.IO.Path;
@@ -25,6 +26,8 @@ namespace Startcenter
     /// </summary>
     public partial class Templates : UserControl
     {
+        private readonly RecentFileList _recentFileList = RecentFileList.GetSingleton();
+
         public string TemplatesDir
         {
             set 
@@ -75,17 +78,6 @@ namespace Startcenter
         {
             SolidColorBrush bg = Brushes.Transparent;
 
-            //var styleInformationXML = Path.Combine(info.FullName, "StyleInformation.xml");
-            //if (File.Exists(styleInformationXML))
-            //{
-            //    XElement xml = XElement.Load(styleInformationXML);
-            //    if (xml.Element("background") != null)
-            //    {
-            //        Color color = (Color)ColorConverter.ConvertFromString(xml.Element("background").Value);
-            //        parent.Background = bg = new SolidColorBrush(Color.FromArgb(80, color.R, color.G, color.B));
-            //    }
-            //}
-
             foreach (var file in info.GetFiles().Where(x => ((x.Extension.ToLower() == ".cte") || (x.Extension.ToLower() == ".cwm"))))
             {
                 bool cte = (file.Extension.ToLower() == ".cte");
@@ -99,15 +91,15 @@ namespace Startcenter
                     try
                     {
                         XElement xml = XElement.Load(xmlFile);
-                        var titleElement = GetGlobalizedElementFromXML(xml, "title");
+                        var titleElement = Helper.GetGlobalizedElementFromXML(xml, "title");
                         if (titleElement != null)
                             title = titleElement.Value;
 
-                        var descriptionElement = GetGlobalizedElementFromXML(xml, "description");
+                        var descriptionElement = Helper.GetGlobalizedElementFromXML(xml, "description");
                         if (descriptionElement != null)
                         {
-                            description1 = ConvertFormattedXElement(descriptionElement);
-                            description2 = ConvertFormattedXElement(descriptionElement);
+                            description1 = Helper.ConvertFormattedXElement(descriptionElement);
+                            description2 = Helper.ConvertFormattedXElement(descriptionElement);
                         }
 
                         if (xml.Element("icon") != null && xml.Element("icon").Attribute("file") != null)
@@ -123,9 +115,9 @@ namespace Startcenter
                     title = file.Name.Remove(file.Name.Length - 4).Replace("-", " ").Replace("_", " ");
                     string desc = null;
                     if (cte)
-                        desc = "This is an AnotherEditor template.";
+                        desc = Properties.Resources.This_is_an_AnotherEditor_file_;
                     else
-                        desc = "This is a WorkspaceManager template.";
+                        desc = Properties.Resources.This_is_a_WorkspaceManager_file_;
                     
                     description1 = new Run(desc);
                     description2 = new Run(desc);
@@ -152,78 +144,6 @@ namespace Startcenter
                 item.MouseDoubleClick += TemplateItemDoubleClick;
                 parent.Items.Add(item);
             }
-        }
-
-        private Inline ConvertFormattedXElement(XElement xelement)
-        {
-            var span = new Span();
-
-            foreach (var node in xelement.Nodes())
-            {
-                if (node is XText)
-                {
-                    var lines = ((XText) node).Value.Split('\n');
-                    var line = lines.Aggregate((a, b) => a + b.Trim());
-                    span.Inlines.Add(new Run(line));
-                }
-                else if (node is XElement)
-                {
-                    var nodeName = ((XElement)node).Name.ToString();
-                    switch (nodeName)
-                    {
-                        case "b":
-                            var nodeRep = ConvertFormattedXElement((XElement)node);
-                            span.Inlines.Add(new Bold(nodeRep));
-                            break;
-                        case "i":
-                            nodeRep = ConvertFormattedXElement((XElement)node);
-                            span.Inlines.Add(new Italic(nodeRep));
-                            break;
-                        case "u":
-                            nodeRep = ConvertFormattedXElement((XElement)node);
-                            span.Inlines.Add(new Underline(nodeRep));
-                            break;
-                        case "newline":
-                            span.Inlines.Add(new LineBreak());
-                            break;
-                        case "external":
-                            var reference = ((XElement)node).Attribute("ref");
-                            if (reference != null)
-                            {
-                                var linkText = ConvertFormattedXElement((XElement)node);
-                                if (linkText == null)
-                                {
-                                    linkText = new Run(reference.Value);
-                                }
-                                var link = new Hyperlink(linkText);
-                                link.NavigateUri = new Uri(reference.Value);
-                                span.Inlines.Add(link);
-                            }
-                            break;
-                        case "pluginRef":
-                            var plugin = ((XElement)node).Attribute("plugin");
-                            if (plugin != null)
-                            {
-                                var linkText = ConvertFormattedXElement((XElement)node);
-                                if (linkText == null)
-                                {
-                                    linkText = new Run(plugin.Value);
-                                }
-                                span.Inlines.Add(linkText);
-                            }
-                            break;
-                        default:
-                            continue;
-                    }
-                }
-            }
-
-            if (span.Inlines.Count == 0)
-                return null;
-            if (span.Inlines.Count == 1)
-                return span.Inlines.First();
-
-            return span;
         }
 
         private ListBoxItem CreateTemplateListBoxItem(FileInfo file, string title, Inline tooltip, ImageSource imageSource)
@@ -281,37 +201,9 @@ namespace Startcenter
 
                     editor.Open(infos.Key);
                     OnOpenTab(editor, title, null);     //rename tab header
+                    _recentFileList.AddRecentFile(infos.Key);
                 }
             }
-        }
-
-        private XElement GetGlobalizedElementFromXML(XElement xml, string element)
-        {
-            CultureInfo currentLang = System.Globalization.CultureInfo.CurrentCulture;
-
-            var allElements = xml.Elements(element);
-            IEnumerable<XElement> foundElements = null;
-
-            if (allElements.Any())
-            {
-                foundElements = from descln in allElements where descln.Attribute("lang").Value == currentLang.TextInfo.CultureName select descln;
-                if (!foundElements.Any())
-                {
-                    foundElements = from descln in allElements where descln.Attribute("lang").Value == currentLang.TwoLetterISOLanguageName select descln;
-                    if (!foundElements.Any())
-                        foundElements = from descln in allElements where descln.Attribute("lang").Value == "en" select descln;
-                }
-            }
-
-            if (foundElements == null || !foundElements.Any())
-            {
-                if (xml.Element(element) != null)
-                    return xml.Element(element);
-                else
-                    return null;
-            }
-
-            return foundElements.First();
         }
 
         private void TemplateSearchInputChanged(object sender, TextChangedEventArgs e)
