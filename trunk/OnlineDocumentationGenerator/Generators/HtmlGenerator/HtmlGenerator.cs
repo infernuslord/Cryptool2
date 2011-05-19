@@ -6,88 +6,113 @@ using System.Text;
 using System.Threading;
 using System.Windows;
 using System.Xml.Linq;
+using System.Linq;
 using Cryptool.PluginBase;
-using OnlineDocumentationGenerator.Properties;
+using Cryptool.PluginBase.Editor;
+using OnlineDocumentationGenerator.DocInformations;
 
 namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
 {
     public class HtmlGenerator : Generator
     {
-        private readonly string _htmlTemplate = Properties.Resources.TemplatePluginDocumentationPage;
         private ObjectConverter _objectConverter;
 
         public override void Generate()
         {
-            _objectConverter = new ObjectConverter(pluginPages, OutputDir);
-            GeneratePluginDocPages();
+            _objectConverter = new ObjectConverter(DocPages, OutputDir);
+            GenerateDocPages();
             GenerateIndexPages();
             CopyAdditionalResources();
         }
 
         private void GenerateIndexPages()
         {
-            foreach (var lang in availableLanguages)
+            foreach (var lang in AvailableLanguages)
             {
                 var indexHtml = TagReplacer.ReplaceLanguageSwitchs(Properties.Resources.TemplateIndex, lang);
-                var languageSelectionCode = GenerateIndexLanguageSelectionCode(availableLanguages, lang);
+                var languageSelectionCode = GenerateIndexLanguageSelectionCode(AvailableLanguages, lang);
                 indexHtml = TagReplacer.ReplaceLanguageSelectionTag(indexHtml, languageSelectionCode);
-                var pluginListCode = GeneratePluginListCode(pluginPages, lang);
-                indexHtml = TagReplacer.ReplacePluginList(indexHtml, pluginListCode);
+                var componentListCode = GenerateComponentListCode(DocPages.FindAll(x => x is ComponentDocumentationPage), lang);
+                indexHtml = TagReplacer.ReplaceComponentList(indexHtml, componentListCode);
+                var editorListCode = GenerateEditorListCode(DocPages.FindAll(x => x is EditorDocumentationPage), lang);
+                indexHtml = TagReplacer.ReplaceEditorList(indexHtml, editorListCode);
 
                 var filename = OnlineHelp.GetIndexFilename(lang);
                 StoreIndexPage(indexHtml, filename);
             }
         }
 
-        private static string GeneratePluginListCode(IEnumerable<PluginDocumentationPage> pluginDocumentationPages, string lang)
+        private static string GenerateComponentListCode(IEnumerable<EntityDocumentationPage> componentDocumentationPages, string lang)
         {
-            var pluginListCode = new StringBuilder();
-            foreach (var pluginDocumentationPage in pluginDocumentationPages)
+            var stringBuilder = new StringBuilder();
+            foreach (var page in componentDocumentationPages)
             {
-                var linkedLang = pluginDocumentationPage.Localizations.ContainsKey(lang) ? lang : "en";
-                var pp = pluginDocumentationPage.Localizations[linkedLang];
-                pluginListCode.AppendLine(string.Format("<a href=\"{0}/{1}\">{2}</a> - {3}<br/>", OnlineHelp.RelativePluginDocDirectory, 
-                    OnlineHelp.GetPluginDocFilename(pp.PluginType, linkedLang), pp.Name, pp.ToolTip));
+                var linkedLang = page.Localizations.ContainsKey(lang) ? lang : "en";
+                var pp = page.Localizations[linkedLang];
+                stringBuilder.AppendLine(string.Format("<a href=\"{0}\">{1}</a> - {2}<br/>", 
+                    OnlineHelp.GetDocFilename(pp.Type, linkedLang), pp.Name, pp.ToolTip));
             }
 
-            return pluginListCode.ToString();
+            return stringBuilder.ToString();
         }
 
-        private void GeneratePluginDocPages()
+        private static string GenerateEditorListCode(IEnumerable<EntityDocumentationPage> editorDocumentationPages, string lang)
         {
-            foreach (var pluginDocumentationPage in pluginPages)
+            var stringBuilderListCode = new StringBuilder();
+            foreach (var page in editorDocumentationPages)
             {
-                foreach (var lang in pluginDocumentationPage.AvailableLanguages)
+                var linkedLang = page.Localizations.ContainsKey(lang) ? lang : "en";
+                var pp = page.Localizations[linkedLang];
+                stringBuilderListCode.AppendLine(string.Format("<a href=\"{0}\">{1}</a> - {2}<br/>",
+                    OnlineHelp.GetDocFilename(pp.Type, linkedLang), pp.Name, pp.ToolTip));
+            }
+
+            return stringBuilderListCode.ToString();
+        }
+
+        private static string GetDocumentationTemplate(Type entityType)
+        {
+            if (entityType.GetInterfaces().Contains(typeof(IEditor)))
+            {
+                return Properties.Resources.TemplateEditorDocumentationPage;
+            }
+            else
+            {
+                return Properties.Resources.TemplateComponentDocumentationPage;
+            }
+        }
+
+        private void GenerateDocPages()
+        {
+            foreach (var documentationPage in DocPages)
+            {
+                foreach (var lang in documentationPage.AvailableLanguages)
                 {
-                    var localizedPluginDocumentationPage = pluginDocumentationPage.Localizations[lang];
+                    var localizedEntityDocumentationPage = documentationPage.Localizations[lang];
 
                     var cultureInfo = new CultureInfo(lang);
                     Thread.CurrentThread.CurrentCulture = cultureInfo;
                     Thread.CurrentThread.CurrentUICulture = cultureInfo;
 
-                    var html = TagReplacer.ReplaceLanguageSwitchs(_htmlTemplate, lang);
-                    html = TagReplacer.ReplacePluginDocTags(html, localizedPluginDocumentationPage, _objectConverter);
-                    var languageSelectionCode = GeneratePluginLanguageSelectionCode(pluginDocumentationPage.PluginType, pluginDocumentationPage.AvailableLanguages, lang);
+                    var html = TagReplacer.ReplaceLanguageSwitchs(GetDocumentationTemplate(documentationPage.EntityType), lang);
+                    html = TagReplacer.ReplaceDocItemTags(html, localizedEntityDocumentationPage, _objectConverter);
+                    var languageSelectionCode = GenerateLanguageSelectionCode(documentationPage.EntityType, documentationPage.AvailableLanguages, lang);
                     html = TagReplacer.ReplaceLanguageSelectionTag(html, languageSelectionCode);
-                    var connectorListCode = GenerateConnectorListCode(localizedPluginDocumentationPage);
-                    html = TagReplacer.ReplaceConnectorList(html, connectorListCode);
-                    var settingsListCode = GenerateSettingsListCode(localizedPluginDocumentationPage);
-                    html = TagReplacer.ReplaceSettingsList(html, settingsListCode);
 
-                    var filename = OnlineHelp.GetPluginDocFilename(pluginDocumentationPage.PluginType, lang);
-                    StorePluginDocPage(html, filename);
+                    var filename = OnlineHelp.GetDocFilename(documentationPage.EntityType, lang);
+                    StoreDocPage(html, filename);
                 }
             }
         }
 
-        private void StorePluginDocPage(string html, string filename)
+        private void StoreDocPage(string html, string filename)
         {
-            var filePath = Path.Combine(OutputDir, Path.Combine(OnlineHelp.PluginDocDirectory, filename));
+            var filePath = Path.Combine(OutputDir, Path.Combine(OnlineHelp.HelpDirectory, filename));
             try
             {
-                if (!Directory.Exists(Path.Combine(OutputDir, OnlineHelp.PluginDocDirectory)))
+                if (!Directory.Exists(Path.GetDirectoryName(filePath)))
                 {
-                    Directory.CreateDirectory(Path.Combine(OutputDir, OnlineHelp.PluginDocDirectory));
+                    Directory.CreateDirectory(Path.GetDirectoryName(filePath));
                 }
 
                 var streamWriter = new System.IO.StreamWriter(filePath, false, Encoding.UTF8);
@@ -121,7 +146,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
         }
 
         private static readonly Dictionary<string, string> _languagePresentationString = new Dictionary<string, string>() {{"en", "English"}, {"de-DE", "Deutsch"}};
-        private static string GeneratePluginLanguageSelectionCode(Type pluginType, IEnumerable<string> availableLanguages, string lang)
+        private static string GenerateLanguageSelectionCode(Type type, IEnumerable<string> availableLanguages, string lang)
         {
             var codeBuilder = new StringBuilder();
 
@@ -133,65 +158,12 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
                 }
                 else
                 {
-                    codeBuilder.AppendLine(string.Format("<a href=\"{0}\">{1}</a>", OnlineHelp.GetPluginDocFilename(pluginType, availableLanguage), _languagePresentationString[availableLanguage]));
+                    codeBuilder.AppendLine(string.Format("<a href=\"{0}\">{1}</a>", OnlineHelp.GetDocFilename(type, availableLanguage), _languagePresentationString[availableLanguage]));
                 }
                 codeBuilder.AppendLine("|");
             }
 
             return codeBuilder.ToString();
-        }
-
-        private static string GenerateConnectorListCode(LocalizedPluginDocumentationPage localizedPluginDocumentationPage)
-        {
-            if (localizedPluginDocumentationPage.PluginDocumentationPage.PluginConnectors != null)
-            {
-                var codeBuilder = new StringBuilder();
-                codeBuilder.AppendLine("<table border=\"1\">");
-                codeBuilder.AppendLine(string.Format("<tr> <th>{0}</th> <th>{1}</th> <th>{2}</th> <th>{3}</th> </tr>",
-                                                     Resources.HtmlGenerator_GenerateConnectorListCode_Name,
-                                                     Resources.HtmlGenerator_GenerateConnectorListCode_Description,
-                                                     Resources.HtmlGenerator_GenerateConnectorListCode_Direction,
-                                                     Resources.HtmlGenerator_GenerateConnectorListCode_Type));
-
-                foreach (var pluginConnector in localizedPluginDocumentationPage.PluginDocumentationPage.PluginConnectors)
-                {
-                    var type = pluginConnector.PropertyInfo.PropertyType.Name;
-                    codeBuilder.AppendLine(
-                        string.Format("<tr> <td>{0}</td> <td>{1}</td> <td>{2}</td> <td>{3}</td> </tr>",
-                                      pluginConnector.Caption,
-                                      pluginConnector.ToolTip,
-                                      pluginConnector.Direction,
-                                      type));
-                }
-
-                codeBuilder.AppendLine("</table>");
-                return codeBuilder.ToString();
-            }
-            return "None";
-        }
-
-        private static string GenerateSettingsListCode(LocalizedPluginDocumentationPage localizedPluginDocumentationPage)
-        {
-            if (localizedPluginDocumentationPage.PluginDocumentationPage.Settings != null)
-            {
-                var codeBuilder = new StringBuilder();
-                codeBuilder.AppendLine("<table border=\"1\">");
-                codeBuilder.AppendLine(string.Format("<tr> <th>{0}</th> <th>{1}</th> <th>{2}</th> </tr>",
-                                                     Resources.HtmlGenerator_GenerateConnectorListCode_Name,
-                                                     Resources.HtmlGenerator_GenerateConnectorListCode_Description,
-                                                     Resources.HtmlGenerator_GenerateSettingsListCode_Type));
-
-                foreach (var setting in localizedPluginDocumentationPage.PluginDocumentationPage.Settings)
-                {
-                    codeBuilder.AppendLine(string.Format("<tr> <td>{0}</td> <td>{1}</td> <td>{2}</td> </tr>",
-                                                         setting.Caption, setting.ToolTip,
-                                                         setting.ControlType.ToString()));
-                }
-
-                codeBuilder.AppendLine("</table>");
-                return codeBuilder.ToString();
-            }
-            return Resources.NoContent;
         }
 
         private static string GenerateIndexLanguageSelectionCode(IEnumerable<string> availableLanguages, string lang)

@@ -6,7 +6,9 @@ using System.Linq;
 using System.Xml.Linq;
 using Cryptool.Core;
 using Cryptool.PluginBase;
+using Cryptool.PluginBase.Editor;
 using Cryptool.PluginBase.Miscellaneous;
+using OnlineDocumentationGenerator.DocInformations;
 using OnlineDocumentationGenerator.Generators;
 using OnlineDocumentationGenerator.Generators.HtmlGenerator;
 
@@ -15,7 +17,7 @@ namespace OnlineDocumentationGenerator
     public class DocGenerator
     {
         public static string TemplateDirectory = "ProjectSamples";
-        public static Dictionary<string, List<string>> RelevantPluginToTemplatesMap = new Dictionary<string, List<string>>();
+        public static Dictionary<string, List<string>> RelevantComponentToTemplatesMap = new Dictionary<string, List<string>>();
         
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
 
@@ -23,6 +25,18 @@ namespace OnlineDocumentationGenerator
         {
             ReadTemplates(".");
             GenerateHTML(outputDir);
+        }
+
+        public static EntityDocumentationPage CreateDocumentationPage(Type type)
+        {
+            if (type.GetInterfaces().Contains(typeof(IEditor)))
+            {
+                return new EditorDocumentationPage(type);
+            }
+            else
+            {
+                return new ComponentDocumentationPage(type);
+            }
         }
 
         private void ReadTemplates(string dir)
@@ -48,13 +62,13 @@ namespace OnlineDocumentationGenerator
                             if (name != null)
                             {
                                 var template = Path.Combine(dir, file.Name);
-                                if (RelevantPluginToTemplatesMap.ContainsKey(name.Value))
+                                if (RelevantComponentToTemplatesMap.ContainsKey(name.Value))
                                 {
-                                    RelevantPluginToTemplatesMap[name.Value].Add(template);
+                                    RelevantComponentToTemplatesMap[name.Value].Add(template);
                                 }
                                 else
                                 {
-                                    RelevantPluginToTemplatesMap.Add(name.Value, new List<string>() {template});
+                                    RelevantComponentToTemplatesMap.Add(name.Value, new List<string>() {template});
                                 }
                             }
                         }
@@ -69,17 +83,21 @@ namespace OnlineDocumentationGenerator
             generator.OutputDir = outputDir;
 
             var pluginManager = new PluginManager(null);
-            foreach (Type pluginType in pluginManager.LoadTypes(AssemblySigningRequirement.LoadAllAssemblies).Values)
+            foreach (Type type in pluginManager.LoadTypes(AssemblySigningRequirement.LoadAllAssemblies).Values)
             {
-                if (pluginType.GetPluginInfoAttribute() != null)
+                if (type.GetPluginInfoAttribute() != null)
                 {
                     try
                     {
-                        generator.AddPluginDocumentationPage(new PluginDocumentationPage(pluginType));
+                        var p = CreateDocumentationPage(type);
+                        if (p != null)
+                        {
+                            generator.AddDocumentationPage(p);
+                        }
                     }
                     catch (Exception ex)
                     {
-                        GuiLogMessage(string.Format("Plugin {0} error: {1}", pluginType.GetPluginInfoAttribute().Caption, ex.Message), NotificationLevel.Error);
+                        GuiLogMessage(string.Format("{0} error: {1}", type.GetPluginInfoAttribute().Caption, ex.Message), NotificationLevel.Error);
                     }
                 }
             }

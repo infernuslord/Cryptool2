@@ -2,6 +2,35 @@
 
 <documentation>
   <language culture="en"/>
-  <language culture="de-DE"/>  
+  <language culture="de-DE"/>
 
+  <manual lang="en">
+    Test
+    
+    <section headline="Usage">
+      Describe something here
+    </section>
+  </manual>
+  <manual lang="de-DE">
+    Test
+
+    <section headline="Benutzung">
+      Beschreibung hier
+    </section>
+  </manual>
+
+  <references>
+    <bookReference>
+      <author>Nils Kopal</author>      
+      <name lang="en">Bachelor Thesis</name>
+      <name lang="de-DE">Bachelorarbeit</name>
+    </bookReference>
+
+    <bookReference>
+      <author>Viktor Matkovic</author>
+      <name lang="en">Bachelor Thesis</name>
+      <name lang="de-DE">Bachelorarbeit</name>
+    </bookReference>
+  </references>
+  
 </documentation>

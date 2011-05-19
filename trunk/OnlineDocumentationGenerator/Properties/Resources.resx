@@ -121,9 +121,6 @@
   <data name="TemplateIndex" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\generators\htmlgenerator\templateindex.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="TemplatePluginDocumentationPage" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\generators\htmlgenerator\templateplugindocumentationpage.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
   <data name="HtmlGenerator_GenerateConnectorListCode_Name" xml:space="preserve">
     <value>Name</value>
   </data>
@@ -142,16 +139,25 @@
   <data name="AdditionalResources" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\generators\htmlgenerator\additionalresources.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-	<data name="File">
-		<value xml:space="preserve">File</value>
-	</data>
-	<data name="Description">
-		<value xml:space="preserve">Description</value>
-	</data>
-	<data name="Not_available">
-		<value xml:space="preserve">Not available.</value>
-	</data>
-	<data name="NoContent">
-		<value xml:space="preserve">None</value>
-	</data>
+  <data name="File" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="Not_available" xml:space="preserve">
+    <value>Not available.</value>
+  </data>
+  <data name="NoContent" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="Null" xml:space="preserve">
+    <value>Null</value>
+  </data>
+  <data name="TemplateComponentDocumentationPage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\generators\htmlgenerator\templatecomponentdocumentationpage.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="TemplateEditorDocumentationPage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\generators\htmlgenerator\templateeditordocumentationpage.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
 </root>

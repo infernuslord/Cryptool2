@@ -60,7 +60,10 @@ namespace OnlineDocumentationGenerator.Reference
 
         public override string ToHTML(string lang)
         {
-            return string.Format("<b>{0}</b> - {1} (<i>{2}</i>)", Name, Author, Publisher);
+            string p = "";
+            if (!string.IsNullOrEmpty(Publisher))
+                string.Format("(<i>{0}</i>)", Publisher);
+            return string.Format("<b>{0}</b> - {1} {2}", Name, Author, p);
         }
     }
 }

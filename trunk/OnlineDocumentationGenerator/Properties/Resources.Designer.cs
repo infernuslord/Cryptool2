@@ -159,6 +159,61 @@ namespace OnlineDocumentationGenerator.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Null.
+        /// </summary>
+        internal static string Null {
+            get {
+                return ResourceManager.GetString("Null", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0 Transitional//EN&quot;&gt;
+        ///&lt;html&gt;
+        ///&lt;head&gt;
+        ///	&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=iso-8859-1&quot; /&gt;
+        ///	&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;../doc.css&quot;&gt;
+        ///	&lt;title&gt;
+        ///		&lt;languageSwitch lang=&quot;en&quot;&gt;
+        ///		    Documentation of component &lt;docItem property=&quot;Name&quot; /&gt;!
+        ///		&lt;/languageSwitch&gt;
+        ///		&lt;languageSwitch lang=&quot;de-DE&quot;&gt;
+        ///		    Dokumentation der Komponente &lt;docItem property=&quot;Name&quot; /&gt;!
+        ///		&lt;/languageSwitch&gt;
+        ///	&lt;/title&gt;
+        ///	&lt;style media=&quot;screen&quot; type=&quot;text/css&quot;&gt;
+        /// [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string TemplateComponentDocumentationPage {
+            get {
+                return ResourceManager.GetString("TemplateComponentDocumentationPage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0 Transitional//EN&quot;&gt;
+        ///&lt;html&gt;
+        ///&lt;head&gt;
+        ///	&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=iso-8859-1&quot; /&gt;
+        ///	&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;../doc.css&quot;&gt;
+        ///	&lt;title&gt;
+        ///		&lt;languageSwitch lang=&quot;en&quot;&gt;
+        ///		    Documentation of component &lt;docItem property=&quot;Name&quot; /&gt;!
+        ///		&lt;/languageSwitch&gt;
+        ///		&lt;languageSwitch lang=&quot;de-DE&quot;&gt;
+        ///		    Dokumentation der Komponente &lt;docItem property=&quot;Name&quot; /&gt;!
+        ///		&lt;/languageSwitch&gt;
+        ///	&lt;/title&gt;
+        ///	&lt;style media=&quot;screen&quot; type=&quot;text/css&quot;&gt;
+        /// [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string TemplateEditorDocumentationPage {
+            get {
+                return ResourceManager.GetString("TemplateEditorDocumentationPage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0 Transitional//EN&quot;&gt;
         ///&lt;html&gt;
         ///&lt;head&gt;
@@ -178,28 +233,6 @@ namespace OnlineDocumentationGenerator.Properties {
         internal static string TemplateIndex {
             get {
                 return ResourceManager.GetString("TemplateIndex", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0 Transitional//EN&quot;&gt;
-        ///&lt;html&gt;
-        ///&lt;head&gt;
-        ///	&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=iso-8859-1&quot; /&gt;
-        ///	&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;../doc.css&quot;&gt;
-        ///	&lt;title&gt;
-        ///		&lt;languageSwitch lang=&quot;en&quot;&gt;
-        ///		    Documentation of component &lt;pluginDoc property=&quot;Name&quot; /&gt;!
-        ///		&lt;/languageSwitch&gt;
-        ///		&lt;languageSwitch lang=&quot;de-DE&quot;&gt;
-        ///		    Dokumentation der Komponente &lt;pluginDoc property=&quot;Name&quot; /&gt;!
-        ///		&lt;/languageSwitch&gt;
-        ///	&lt;/title&gt;
-        ///	&lt;style media=&quot;screen&quot; type=&quot;text/css [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string TemplatePluginDocumentationPage {
-            get {
-                return ResourceManager.GetString("TemplatePluginDocumentationPage", resourceCulture);
             }
         }
     }
