@@ -316,6 +316,14 @@ namespace Cryptool.PluginBase.Miscellaneous
         }
 
         /// <summary>
+        /// Returns a random integer with 'bits' bits and the MSB set.
+        /// </summary>
+        public static BigInteger RandomIntMSBSet(int bits)
+        {
+            return SetBit( RandomIntBits(bits - 1), bits - 1 );
+        }
+
+        /// <summary>
         /// Returns a random prime less than limit
         /// </summary>
         public static BigInteger RandomPrimeLimit(BigInteger limit)

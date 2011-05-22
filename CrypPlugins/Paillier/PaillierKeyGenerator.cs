@@ -28,7 +28,7 @@ using System.Security.Cryptography;
 
 namespace Cryptool.Plugins.Paillier
 {
-    [Author("Armin Krauss", "", "", "http://www.uni-due.de")]
+    [Author("Armin Krauss, Martin Franz", "", "", "http://www.uni-due.de")]
     [PluginInfo("Paillier.Properties.Resources", true, "PluginKeyCaption", "PluginKeyTooltip", "PluginKeyDescriptionURL", "Paillier/Image/PaillierKey.png")]
     [EncryptionType(EncryptionType.Asymmetric)]
     /**

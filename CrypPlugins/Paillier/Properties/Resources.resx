@@ -177,11 +177,11 @@
   <data name="NTooltip" xml:space="preserve">
     <value>public key N</value>
   </data>
-  <data name="OutputCCaption" xml:space="preserve">
-    <value>output encrypted/modified message</value>
+  <data name="OutputC1Caption" xml:space="preserve">
+    <value>output encrypted/modified message as BigInteger</value>
   </data>
-  <data name="OutputCTooltip" xml:space="preserve">
-    <value>output encrypted/modified message</value>
+  <data name="OutputC1Tooltip" xml:space="preserve">
+    <value>output encrypted/modified message  as BigInteger</value>
   </data>
   <data name="PCaption" xml:space="preserve">
     <value>prime number P</value>
@@ -218,5 +218,11 @@
   </data>
   <data name="SourceTooltip" xml:space="preserve">
     <value>Where do the primes upon which the key generation bases come from?</value>
+  </data>
+  <data name="OutputC2Caption" xml:space="preserve">
+    <value>output encrypted/modified message as byte[]</value>
+  </data>
+  <data name="OutputC2Tooltip" xml:space="preserve">
+    <value>output encrypted/modified message as byte[]</value>
   </data>
 </root>

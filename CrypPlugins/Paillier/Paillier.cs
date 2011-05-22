@@ -28,7 +28,7 @@ using System.Security.Cryptography;
 
 namespace Cryptool.Plugins.Paillier
 {
-    [Author("Armin Krauss", "", "", "")]
+    [Author("Armin Krauss, Martin Franz", "", "", "")]
     [PluginInfo("Paillier.Properties.Resources", false,
         "PluginCaption", "PluginTooltip", "Paillier/Documentation/doc.xml", 
         "Paillier/Image/PaillierEnc.png", "Paillier/Image/PaillierDec.png", "Paillier/Image/PaillierAdd.png", "Paillier/Image/PaillierMul.png")]
@@ -41,10 +41,11 @@ namespace Cryptool.Plugins.Paillier
 
         private BigInteger inputn;          // public key
         private BigInteger inputg;          // public key
-        private BigInteger inputlambda;                         // private key
-        private Object inputm;                                  // plaintext
+        private BigInteger inputlambda;     // private key
+        private Object inputm;              // plaintext
         private BigInteger inputoperand;    // summand or multiplicand
-        private Object outputc;                                 // encrypted output
+        private BigInteger outputc1;        // encrypted output (as BigInteger)
+        private byte[] outputc2;            // encrypted output (as byte[])
 
         // Encryption/decryption can be sped up by using the chinese remainder theorem.
         // TODO: As the private key lambda is an input variable we would need a way to reconstruct
@@ -121,7 +122,7 @@ namespace Cryptool.Plugins.Paillier
             decDiv = BigIntegerHelper.ModInverse(L(decDiv), n);
 
             p_square = p * p;
-            q_square = q * q;
+            q_square = q * q; 
 
             hp = BigIntegerHelper.ModInverse((BigInteger.ModPow(n + 1, p_minus1, p_square) - 1) / p, p);
             hq = BigIntegerHelper.ModInverse((BigInteger.ModPow(n + 1, q_minus1, q_square) - 1) / q, q);
@@ -180,10 +181,11 @@ namespace Cryptool.Plugins.Paillier
         }
 
         /*
-           Encryption ( (1 + m*n) * r^n mod n^2 )
+           Encryption ( g^m * r^n = (1 + m*n) * r^n mod n^2 )
+           Hint: g^m = (n+1)^m = sum(k=0,m)((m over k)*n^k) = 1+m*n (mod n^2) 
         */
         //private BigInteger encrypt(BigInteger m, bool useRandom=true )
-        private BigInteger encrypt(BigInteger m )
+        private BigInteger encrypt( BigInteger m )
         {
             if (m >= n)
                 GuiLogMessage("Message is bigger than N - this will produce a wrong result!", NotificationLevel.Warning);
@@ -200,9 +202,11 @@ namespace Cryptool.Plugins.Paillier
                     GuiLogMessage("GCD <> 1, retrying...", NotificationLevel.Warning);
                 }
                 r = BigInteger.ModPow(r, n, n_square);
+                //r = cipherMul(r,n);
             } else r = 1;
 
             return (((n * m + 1) % n_square) * r) % n_square;
+            //return cipherAdd( (n * m + 1) % n_square, r );
         }
 
         /*
@@ -374,26 +378,39 @@ namespace Cryptool.Plugins.Paillier
         /// <summary>
         /// Gets/Sets the result of the encryption as a BigInteger
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "OutputCCaption", "OutputCTooltip", "")]
-        public Object OutputC
+        [PropertyInfo(Direction.OutputData, "OutputC1Caption", "OutputC1Tooltip", "")]
+        public BigInteger OutputC1
         {
             get
             {
-                return outputc;
+                return outputc1;
             }
             set
             {
-                if (outputc != value)
+                if (inputm is BigInteger)
                 {
-                    if (inputm is BigInteger)
-                    {
-                        outputc = (BigInteger)value;
-                    }
-                    else if (inputm is byte[])
-                    {
-                        outputc = (byte[])value;
-                    }
-                    //OnPropertyChanged("OutputC");
+                    outputc1 = value;
+                    OnPropertyChanged("OutputC1");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets/Sets the result of the encryption as byte[]
+        /// </summary>
+        [PropertyInfo(Direction.OutputData, "OutputC2Caption", "OutputC2Tooltip", "")]
+        public byte[] OutputC2
+        {
+            get
+            {
+                return outputc2;
+            }
+            set
+            {
+                if (inputm is byte[])
+                {
+                    outputc2 = value;
+                    OnPropertyChanged("OutputC2");
                 }
             }
         }
@@ -433,9 +450,9 @@ namespace Cryptool.Plugins.Paillier
         private byte[] removeZeros(byte[] input)
         {
             int i;
-            for (i = input.Length - 1; input[i] == 0; i--) ;
-            byte[] output = new byte[i+1];
-            Buffer.BlockCopy(input, 0, output, 0, i + 1);
+            for (i = input.Length; i>0 && input[i-1] == 0; i--) ;
+            byte[] output = new byte[i];
+            Buffer.BlockCopy(input, 0, output, 0, i);
 
             return output;
         }
@@ -514,8 +531,8 @@ namespace Cryptool.Plugins.Paillier
 
             if (settings.Action == 0)   // Encryption
             {
-                if (InputM is BigInteger) OutputC = encrypt((BigInteger)InputM);
-                else if (InputM is byte[]) OutputC = BlockConvert((byte[])InputM, n, n_square, encrypt, true);
+                if (InputM is BigInteger) OutputC1 = encrypt((BigInteger)InputM);
+                else if (InputM is byte[]) OutputC2 = BlockConvert((byte[])InputM, n, n_square, encrypt, true);
             }
             else if (settings.Action == 1)  // Decryption
             {         
@@ -525,8 +542,8 @@ namespace Cryptool.Plugins.Paillier
                     return;
                 }
 
-                if (InputM is BigInteger) OutputC = decrypt((BigInteger)InputM);
-                else if (InputM is byte[]) OutputC = removeZeros(BlockConvert((byte[])InputM, n_square, n, decrypt, false));
+                if (InputM is BigInteger) OutputC1 = decrypt((BigInteger)InputM);
+                else if (InputM is byte[]) OutputC2 = removeZeros(BlockConvert((byte[])InputM, n_square, n, decrypt, false));
             }
             else if (settings.Action == 2)  // Addition
             {
@@ -541,7 +558,7 @@ namespace Cryptool.Plugins.Paillier
                 if (n_square <= InputOperand)
                     GuiLogMessage("Operand is bigger than N^2 - this will produce a wrong result!", NotificationLevel.Warning);
 
-                OutputC = cipherAdd((BigInteger)InputM, InputOperand);
+                OutputC1 = cipherAdd((BigInteger)InputM, InputOperand);
             }
             else if (settings.Action == 3)  // Multiplication
             {
@@ -556,10 +573,8 @@ namespace Cryptool.Plugins.Paillier
                 if (n_square <= InputOperand)
                     GuiLogMessage("Operand is bigger than N^2 - this will produce a wrong result!", NotificationLevel.Warning);
 
-                OutputC = cipherMul((BigInteger)InputM, InputOperand);
+                OutputC1 = cipherMul((BigInteger)InputM, InputOperand);
             }
-
-            OnPropertyChanged("OutputC");
             
             // Make sure the progress bar is at maximum when your Execute() finished successfully.
             ProgressChanged(1, 1);
