@@ -177,11 +177,11 @@
   <data name="NTooltip" xml:space="preserve">
     <value>öffentlicher Schlüssel N</value>
   </data>
-  <data name="OutputCCaption" xml:space="preserve">
-    <value>Ausgabe der verschlüsselten/modifizierten Nachricht</value>
+  <data name="OutputC1Caption" xml:space="preserve">
+    <value>Ausgabe der verschlüsselten/modifizierten Nachricht als BigInteger</value>
   </data>
-  <data name="OutputCTooltip" xml:space="preserve">
-    <value>Ausgabe der verschlüsselten/modifizierten Nachricht</value>
+  <data name="OutputC1Tooltip" xml:space="preserve">
+    <value>Ausgabe der verschlüsselten/modifizierten Nachricht als BigInteger</value>
   </data>
   <data name="PCaption" xml:space="preserve">
     <value>Primzahl P</value>
@@ -218,5 +218,11 @@
   </data>
   <data name="SourceTooltip" xml:space="preserve">
     <value>Woher kommen die Primzahlen, auf denen die Schlüsselerzeugung basiert?</value>
+  </data>
+  <data name="OutputC2Caption" xml:space="preserve">
+    <value>Ausgabe der verschlüsselten/modifizierten Nachricht als byte[]</value>
+  </data>
+  <data name="OutputC2Tooltip" xml:space="preserve">
+    <value>Ausgabe der verschlüsselten/modifizierten Nachricht als byte[]</value>
   </data>
 </root>

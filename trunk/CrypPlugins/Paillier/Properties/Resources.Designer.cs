@@ -241,20 +241,38 @@ namespace Paillier.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die output encrypted/modified message ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die output encrypted/modified message as BigInteger ähnelt.
         /// </summary>
-        internal static string OutputCCaption {
+        internal static string OutputC1Caption {
             get {
-                return ResourceManager.GetString("OutputCCaption", resourceCulture);
+                return ResourceManager.GetString("OutputC1Caption", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die output encrypted/modified message ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die output encrypted/modified message  as BigInteger ähnelt.
         /// </summary>
-        internal static string OutputCTooltip {
+        internal static string OutputC1Tooltip {
             get {
-                return ResourceManager.GetString("OutputCTooltip", resourceCulture);
+                return ResourceManager.GetString("OutputC1Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die output encrypted/modified message as byte[] ähnelt.
+        /// </summary>
+        internal static string OutputC2Caption {
+            get {
+                return ResourceManager.GetString("OutputC2Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die output encrypted/modified message as byte[] ähnelt.
+        /// </summary>
+        internal static string OutputC2Tooltip {
+            get {
+                return ResourceManager.GetString("OutputC2Tooltip", resourceCulture);
             }
         }
         
