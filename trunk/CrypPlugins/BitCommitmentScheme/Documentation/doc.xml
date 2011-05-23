@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<documentation>
+  <language culture="en"/>
+
+  <introduction lang="en">
+  </introduction>
+  
+  <manual lang="en">
+    TODO
+  </manual>
+
+  <references>
+    <linkReference>
+      <link lang="en" url="http://www.ifam.uni-hannover.de/~mschmidt/files/ISAPCommitmentScheme.tgz"/>
+      <caption lang="en">ISAPCommitmentScheme C Sourcecode</caption>
+    </linkReference>
+
+    <linkReference>
+      <link lang="en" url="http://eprint.iacr.org/2010/302"/>
+      <caption lang="en">Using the Inhomogeneous Simultaneous Approximation Problem for Cryptographic Design</caption>
+    </linkReference>
+  </references>
+  
+</documentation>

@@ -186,7 +186,7 @@ ISAPCommitmentScheme::open()
     for (long i = 0; i != _dimension; ++i)
     {
         mpf_class lhs;
-        lhs.set_prec(log((double)_s) * _eps.get_prec());
+        lhs.set_prec(log((double)_s) * _eps.get_prec()); // @todo cast _s to double?
         lhs = mpf_class(_q) * mpf_class(_a[i]) / mpf_class(_b[i])
               - mpf_class(_p[i]) - _eta[i];
 
@@ -250,10 +250,11 @@ void
 ISAPCommitmentScheme::mapMessage(bool m)
 {
     char* bitstring = new char[_s + 1];
+	
     // setting the least significant bit to the message
-    bitstring[0] = (char)((int)m + 48);
+    bitstring[_s - 1] = (char)((int)m + 48);
     // randomly fill the s-bit string
-    for (long i = 1; i != _s; ++i)
+    for (long i = 0; i != _s - 1; ++i)
     {
         bitstring[i] = (char)((rand() % 2) + 48);
     }
@@ -270,7 +271,7 @@ ISAPCommitmentScheme::mapMessage(bool m)
     std::cout << "Mapped message, [q]_10\t= " << _q << "\n";
 #endif
 
-	delete [] bitstring;
+    delete [] bitstring;
 } // mapMessage
 
 
