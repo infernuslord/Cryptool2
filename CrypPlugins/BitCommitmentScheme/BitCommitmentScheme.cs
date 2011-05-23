@@ -13,8 +13,8 @@ using ISAPCommitmentSchemeWrapper;
 
 namespace BitCommitmentScheme
 {
-    [Author("Sven Rech", "rech@cryptool.org", "Uni Duisburg-Essen", "http://www.vs.uni-duisburg-essen.de")]
-    [PluginInfo("BitCommitmentScheme.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "BitCommitmentScheme/Images/icon.png")]
+    [Author("Sven Rech and Martin Schmidt", "rech@cryptool.org", "Uni Duisburg-Essen", "http://www.vs.uni-duisburg-essen.de")]
+    [PluginInfo("BitCommitmentScheme.Properties.Resources", false, "PluginCaption", "PluginTooltip", "BitCommitmentScheme/Documentation/doc.xml", "BitCommitmentScheme/Images/icon.png")]
     [EncryptionType(EncryptionType.Classic)]
     public class BitCommitmentScheme : IAnalysisMisc
     {
