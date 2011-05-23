@@ -671,14 +671,14 @@ namespace WorkspaceManager.Model
                 || connectorModelA.ConnectorType.FullName == "System.Object"
                 || connectorModelB.ConnectorType.FullName == "System.Object"
                 || connectorModelA.ConnectorType.IsSubclassOf(connectorModelB.ConnectorType)
-                || connectorModelA.ConnectorType.GetInterfaces().Contains(connectorModelB.ConnectorType))              
+                || connectorModelA.ConnectorType.GetInterfaces().Contains(connectorModelB.ConnectorType)
+                || ((connectorModelA.ConnectorType.FullName == "System.Int32" || connectorModelA.ConnectorType.FullName == "System.Int64") && connectorModelB.ConnectorType.FullName == "System.Numerics.BigInteger")
+                || ((connectorModelB.ConnectorType.FullName == "System.Int32" || connectorModelB.ConnectorType.FullName == "System.Int64") && connectorModelA.ConnectorType.FullName == "System.Numerics.BigInteger"))
             {
                 return true;
             }
-            else
-            {
-                return false;
-            }
+            return false;
+
         }
     }
 

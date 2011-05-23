@@ -113,7 +113,7 @@ namespace WorkspaceManager.Execution
             }
             catch(Exception ex)
             {
-                GuiLogMessage("Exception occured during startup of WorkSpace: " + ex.Message, NotificationLevel.Error);
+                GuiLogMessage("Exception occured during startup of Workspace: " + ex.Message, NotificationLevel.Error);
             }
         }
 
