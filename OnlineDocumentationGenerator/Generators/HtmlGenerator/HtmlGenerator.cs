@@ -158,7 +158,8 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
                 }
                 else
                 {
-                    codeBuilder.AppendLine(string.Format("<a href=\"{0}\">{1}</a>", OnlineHelp.GetDocFilename(type, availableLanguage), _languagePresentationString[availableLanguage]));
+                    var filename = Path.GetFileName(OnlineHelp.GetDocFilename(type, availableLanguage));
+                    codeBuilder.AppendLine(string.Format("<a href=\"{0}\">{1}</a>", filename, _languagePresentationString[availableLanguage]));
                 }
                 codeBuilder.AppendLine("|");
             }
