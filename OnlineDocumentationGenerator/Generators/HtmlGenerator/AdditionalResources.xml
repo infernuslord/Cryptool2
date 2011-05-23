@@ -7,4 +7,7 @@
   <file path="OnlineDocumentationGenerator/Generators/HtmlGenerator/header_logo.png" />
   <file path="OnlineDocumentationGenerator/Generators/HtmlGenerator/shadow_l.png" />
   <file path="OnlineDocumentationGenerator/Generators/HtmlGenerator/shadow_r.png" />
+  <file path="OnlineDocumentationGenerator/Generators/HtmlGenerator/forward.png" />
+  <file path="OnlineDocumentationGenerator/Generators/HtmlGenerator/backward.png" />
+  <file path="OnlineDocumentationGenerator/Generators/HtmlGenerator/index.png" />
 </AdditionalResources>

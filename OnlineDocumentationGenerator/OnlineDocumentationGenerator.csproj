@@ -102,6 +102,9 @@
     <Resource Include="Generators\HtmlGenerator\header_logo.png" />
     <Resource Include="Generators\HtmlGenerator\shadow_l.png" />
     <Resource Include="Generators\HtmlGenerator\shadow_r.png" />
+    <Resource Include="Generators\HtmlGenerator\backward.png" />
+    <Resource Include="Generators\HtmlGenerator\forward.png" />
+    <Resource Include="Generators\HtmlGenerator\index.png" />
     <Content Include="Generators\HtmlGenerator\TemplateEditorDocumentationPage.html" />
     <Content Include="Generators\HtmlGenerator\TemplateIndex.html" />
     <Content Include="Generators\HtmlGenerator\TemplateComponentDocumentationPage.html" />
