@@ -37,7 +37,7 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
 
         #region TaskPane Settings
 
-        [ContextMenu("ActionCaption", "ActionTooltip", 1, ContextMenuControlType.ComboBox, new int[] { 1, 2 }, "Encrypt", "Decrypt")]
+        [ContextMenu("ActionCaption", "ActionTooltip", 1, ContextMenuControlType.ComboBox, null, "Encrypt", "Decrypt")]
         [TaskPane("ActionTPCaption", "ActionTPTooltip", null, 1, true, ControlType.ComboBox, new string[] { "Encrypt", "Decrypt" })]
         public int Action
         {
@@ -106,7 +106,7 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
             }
         }
 
-        [ContextMenu("OutputFileFormat", "Only for Encryption: The file format of the output image.", 1, ContextMenuControlType.ComboBox, new int[] { 1, 2, 3 }, ".bmp", ".png", ".tif")]
+        [ContextMenu("OutputFileFormat", "Only for Encryption: The file format of the output image.", 1, ContextMenuControlType.ComboBox, null, ".bmp", ".png", ".tif")]
         [TaskPane("OutputFileFormat", "Only for Encryption: The file format of the output image.", null, 1, true, ControlType.ComboBox, new string[] { ".bmp", ".png", ".tif" })]
         public int OutputFileFormat
         {

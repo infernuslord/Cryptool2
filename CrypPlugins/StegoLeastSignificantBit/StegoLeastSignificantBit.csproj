@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Cryptool.Plugins.StegoLeastSignificantBit</RootNamespace>
-    <AssemblyName>CrypTool 2.0 Plugin1</AssemblyName>
+    <AssemblyName>StegoLeastSignificantBit</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>
@@ -135,10 +135,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="DetailedDescription\Description.xaml">
+    <Resource Include="DetailedDescription\Description.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
+    </Resource>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\StegoLeastSignificantBit.png" />
