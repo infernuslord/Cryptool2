@@ -5,32 +5,51 @@
   <language culture="de-DE"/>
 
   <introduction lang="en">
-    SDES - the Simplified Data Encryption Standard<newline/>    
+    SDES - the Simplified Data Encryption Standard <newline/>  
+    
     <section headline="About this component">
       SDES is a simplified algorithm similar to DES. It has been developed for educational purposes. Compared to DES it is more easily possible to implement the algorithm. SDES needs a key length of 10 bits for encryption and decryption. Like DES the SDES algorithm is symmetric - this means the same key is used for en- and for decryption. SDES can be easily broken by using a brute-force attack, because of its very small key space (2^10 = 1024 possible keys). 
     </section>
 
     <section headline="General">
-	This component enables the user to choose between electronic code book (ECB) and cipher block chaining (CBC) for en- and decryption of texts. SDES needs two streams for en-/decryption (one as input the other as output). It also needs a key of 10 bit length (here represented as text containing only '1' and '0'); for example '1110011010'. Finally an initialization vector IV of size 8 bit is needed (also represented as text containing only '1' and '0'); for example '10010010'. The component will not work if the key length or IV length is wrong (indicated by an error message). The key and IV have to be byte arrays. 
+      This component enables the user to choose between electronic code book (ECB) and cipher block chaining (CBC) for en- and decryption of texts. SDES needs two streams for en-/decryption (one as input the other as output). It also needs a key of 10 bit length (here represented as text containing only '1' and '0'); for example '1110011010'. Finally an initialization vector IV of size 8 bit is needed (also represented as text containing only '1' and '0'); for example '10010010'. The component will not work if the key length or IV length is wrong (indicated by an error message). The key and IV have to be byte arrays. 
     </section>
-
-    <section headline="Visualization">
-	By double-clicking on the icon of the SDES plugin in the CrypTool window, the user can enable the visualization of the SDES algorithm. In this view, he/she is able to watch the flow of the bits through the whole algorithm. The flow of each bit is represented by small lines (like wires) which go from the input through the algorithm to the final output. Each step is shown by a text box which contains the actual word produced by a sub function of the SDES algorithm. Each name of a sub function can be seen at the right or left site of a text box. On the right site of the visualization the user can see the encryption stream, in the middle the user can see the sub-key generation and on the right site the user can see the decryption. The directions here are: encryption from top to bottom, subkey generation from top to bottom and decryption from bottom to top. 
-     </section>
   </introduction>
 
   <introduction lang="de-DE">
-        SDES - der Simplified Data Encryption Standard<newline/>
+    SDES - der Simplified Data Encryption Standard <newline/>
+    
     <section headline="Über diese Komponente">
       SDES ist ein sehr einfacher Algorithmus der DES ähnelt. Er wurde für Lehr- und Lernzwecke entwickelt. Verglichen mit DES ist es sehr einfach, den Algorithmus zu implementieren. SDES braucht einen Schlüssel der Länge 10bit für die Ver- und Entschlüsselung. Genau wie sein Vorbild DES ist SDES ein symmetrischer Algorithmus. Das bedeutet, das der selbe Schlüssel für Ver- und Entschlüsselung gebraucht wird. SDES kann sehr einfach mittels Brute-force Attacken, aufgrund seines geringen Schlüsselraums (2^10 = 1024 mögliche Schlüssel), gebrochen werden.
     </section>
 
     <section headline="Generelles">
-	Diese Komponente ermöglicht es dem Benutzer sowohl zwischen Electronic Code Book (ECB) als auch Cipher Block Chaining (CBC) für die Ver- und Entschlüsselung zu wählen. SDES benötigt zwei Datenströme für Ver- und Entschlüsselung (einen für die Eingabedaten und einen für die Ausgabedaten). Außerdem wird ein 10bit Schlüssel benötigt (Eingegeben als Text bestehend aus '1' und '0'); z.B. '1110011010'. Abschließend wird ein Initialisierungsvektor der Länge 8bit benötigt (z.B. '10010010'). Die Komponente wird nicht funktionieren, falls Schlüssel- und oder Initialisierungsvektorlänge falsch sind. Als Schlüssel und Initialisierungsvektor werden zwei Byte-Arrays benötigt.
+      Diese Komponente ermöglicht es dem Benutzer sowohl zwischen Electronic Code Book (ECB) als auch Cipher Block Chaining (CBC) für die Ver- und Entschlüsselung zu wählen. SDES benötigt zwei Datenströme für Ver- und Entschlüsselung (einen für die Eingabedaten und einen für die Ausgabedaten). Außerdem wird ein 10bit Schlüssel benötigt (Eingegeben als Text bestehend aus '1' und '0'); z.B. '1110011010'. Abschließend wird ein Initialisierungsvektor der Länge 8bit benötigt (z.B. '10010010'). Die Komponente wird nicht funktionieren, falls Schlüssel- und oder Initialisierungsvektorlänge falsch sind. Als Schlüssel und Initialisierungsvektor werden zwei Byte-Arrays benötigt.
     </section>
-
-    <section headline="Visualisierung">
-	SDES verfügt über eine Visualisierung des Algorithmus. Die Visualisierung stellt den Algorithmus als Blockdiagramm dar, wobei die einzelnen Blöcke mittels 'Kabel' miteinander verbunden sind. Jeder Block stellt eine Subfunktion des SDES dar. Bei aktiver Visualisierung kann der Benutzer die aktuellen Werte der Subfunktion beobachten. Auf der linken Seite der Visualisierung wird die Verschlüsselung visualisiert, in der Mitte die Schlüsselgenerierung und auf der rechten Seite die Entschlüsselung. Die Verschlüselung arbeitet 'Top-Down' und die Entschlüsselung 'Bottom-Up' (Flussrichtung der 'bits' während der Ausführung.
-     </section>
   </introduction>
+
+  <manual lang="en">
+    Drag the SDES component to your workspace and connect the data input with some data source (like a text output component).<newline/>
+    Additionally, connect the key input with a string source, that contains the key as binary '0' and '1' representation.<newline/>
+    Optionally, you can also connect a data source containg an initialization vector to the IV input.<newline/>
+    By clicking on the SDES component, you get access to its settings (on the right side).
+    There you can choose whether you want to encrypt or to decrypt and which chaining mode you wish to use.
+  </manual>
+
+  <manual lang="de">
+    Ziehen sie die SDES Komponente auf ihren Arbeitsbereich und verbinden Sie den Dateneingang mit einer Datenquelle (wie einer Textausgangs-Komponente).<newline/>
+    Verbinden Sie zusätzlich den Schlüsseleingang mit einer Zeichenkettenquelle, welche den Schlüssel als binäre '0' und '1' repräsentation beinhaltet.<newline/>
+    Optional können sie eine Datenquelle, welche den Initialisierungsvektor beinhaltet, mit dem IV Eingang verbinden.<newline/>
+    Indem Sie auf das SDES Komponente klicken, kriegen Sie Zugang zu seinen Einstellungen (auf der rechten Seite).
+    Dort können Sie auswählen, ob sie ent- oder verschlüsseln wollen und welchen Verkettungsmodus Sie einsetzen möchten.
+  </manual>
+  
+  <presentation lang="en">
+    By double-clicking on the icon of the SDES plugin in the CrypTool window, the user can enable the visualization of the SDES algorithm. In this view, he/she is able to watch the flow of the bits through the whole algorithm. The flow of each bit is represented by small lines (like wires) which go from the input through the algorithm to the final output. Each step is shown by a text box which contains the actual word produced by a sub function of the SDES algorithm. Each name of a sub function can be seen at the right or left site of a text box. On the right site of the visualization the user can see the encryption stream, in the middle the user can see the sub-key generation and on the right site the user can see the decryption. The directions here are: encryption from top to bottom, subkey generation from top to bottom and decryption from bottom to top.
+  </presentation>
+  
+  <presentation lang="de-DE">
+    SDES verfügt über eine Visualisierung des Algorithmus. Die Visualisierung stellt den Algorithmus als Blockdiagramm dar, wobei die einzelnen Blöcke mittels 'Kabel' miteinander verbunden sind. Jeder Block stellt eine Subfunktion des SDES dar. Bei aktiver Visualisierung kann der Benutzer die aktuellen Werte der Subfunktion beobachten. Auf der linken Seite der Visualisierung wird die Verschlüsselung visualisiert, in der Mitte die Schlüsselgenerierung und auf der rechten Seite die Entschlüsselung. Die Verschlüselung arbeitet 'Top-Down' und die Entschlüsselung 'Bottom-Up' (Flussrichtung der 'bits' während der Ausführung.
+  </presentation>
+  
 </documentation>
