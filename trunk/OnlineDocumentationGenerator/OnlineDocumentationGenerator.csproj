@@ -105,6 +105,7 @@
     <Resource Include="Generators\HtmlGenerator\backward.png" />
     <Resource Include="Generators\HtmlGenerator\forward.png" />
     <Resource Include="Generators\HtmlGenerator\index.png" />
+    <Resource Include="Generators\HtmlGenerator\external_link.png" />
     <Content Include="Generators\HtmlGenerator\TemplateEditorDocumentationPage.html" />
     <Content Include="Generators\HtmlGenerator\TemplateIndex.html" />
     <Content Include="Generators\HtmlGenerator\TemplateComponentDocumentationPage.html" />

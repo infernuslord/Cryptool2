@@ -233,7 +233,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
                                 {
                                     linkText = reference.Value;
                                 }
-                                result.Append(string.Format("<a href=\"{0}\" target=\"_blank\">{1}</a>", reference.Value, linkText));
+                                result.Append(string.Format("<a href=\"{0}\" target=\"_blank\"><img src=\"../external_link.png\" border=\"0\">{1}</a>", reference.Value, linkText));
                             }
                             break;
                         case "docRef":
