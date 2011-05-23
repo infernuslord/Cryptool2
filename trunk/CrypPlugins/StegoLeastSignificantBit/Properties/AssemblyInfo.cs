@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("CrypTool_2._0_Plugin1")]
+[assembly: AssemblyTitle("StegoLeastSignificantBit")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("CrypTool_2._0_Plugin1")]
+[assembly: AssemblyProduct("StegoLeastSignificantBit")]
 [assembly: AssemblyCopyright("Copyright © 2011 CrypTool 2 Team")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

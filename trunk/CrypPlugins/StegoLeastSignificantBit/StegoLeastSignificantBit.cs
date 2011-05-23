@@ -32,7 +32,7 @@ using System.Collections.ObjectModel;
 namespace Cryptool.Plugins.StegoLeastSignificantBit
 {
     [Author("Corinna John", "coco@steganografie.eu", "", "http://www.steganografie.eu")]
-    [PluginInfo(false, "Least Significant Bit", "Fill the Least Significant Bits of Pictures or Sounds", "StegoLeastSignificantBit/DetailesDescription/Description.xaml", "CrypWin/images/default.png")]
+    [PluginInfo(false, "Least Significant Bit", "Fill the Least Significant Bits of Pictures or Sounds", "StegoLeastSignificantBit/DetailedDescription/Description.xaml", "CrypWin/images/default.png")]
     [EncryptionType(EncryptionType.Classic)]
     public class StegoLeastSignificantBit : IIOMisc
     {
