@@ -168,6 +168,15 @@ namespace OnlineDocumentationGenerator.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Further references about this topic are listed below..
+        /// </summary>
+        internal static string References_description {
+            get {
+                return ResourceManager.GetString("References_description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0 Transitional//EN&quot;&gt;
         ///&lt;html&gt;
         ///&lt;head&gt;
@@ -195,16 +204,17 @@ namespace OnlineDocumentationGenerator.Properties {
         ///&lt;html&gt;
         ///&lt;head&gt;
         ///	&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=iso-8859-1&quot; /&gt;
-        ///	&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;../doc.css&quot;&gt;
+        ///	&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;doc.css&quot;&gt;
         ///	&lt;title&gt;
         ///		&lt;languageSwitch lang=&quot;en&quot;&gt;
-        ///		    Documentation of component &lt;docItem property=&quot;Name&quot; /&gt;!
+        ///		    Documentation of editor &lt;docItem property=&quot;Name&quot; /&gt;!
         ///		&lt;/languageSwitch&gt;
         ///		&lt;languageSwitch lang=&quot;de-DE&quot;&gt;
-        ///		    Dokumentation der Komponente &lt;docItem property=&quot;Name&quot; /&gt;!
+        ///		    Dokumentation des Editor &lt;docItem property=&quot;Name&quot; /&gt;!
         ///		&lt;/languageSwitch&gt;
         ///	&lt;/title&gt;
         ///	&lt;style media=&quot;screen&quot; type=&quot;text/css&quot;&gt;
+        ///		table{
         /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string TemplateEditorDocumentationPage {
@@ -233,6 +243,15 @@ namespace OnlineDocumentationGenerator.Properties {
         internal static string TemplateIndex {
             get {
                 return ResourceManager.GetString("TemplateIndex", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The templates listed below are available for this component..
+        /// </summary>
+        internal static string Templates_description {
+            get {
+                return ResourceManager.GetString("Templates_description", resourceCulture);
             }
         }
     }

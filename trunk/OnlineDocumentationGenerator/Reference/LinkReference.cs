@@ -51,7 +51,7 @@ namespace OnlineDocumentationGenerator.Reference
 
         public override string ToHTML(string lang)
         {
-            return string.Format("{0} - <a href=\"{1}\" target=\"_blank\">{1}</a>", Caption, Link);
+            return string.Format("{0} - <a href=\"{1}\" target=\"_blank\"><img src=\"../external_link.png\" border=\"0\">{1}</a>", Caption, Link);
         }
     }
 }
