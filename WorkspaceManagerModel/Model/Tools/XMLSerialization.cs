@@ -386,7 +386,7 @@ namespace XMLSerialization
         public static object Deserialize(String filename, bool compress=false)
         {
             FileStream sourceFile = File.OpenRead(filename);
-            XmlDocument doc = new XmlDocument(); ;
+            XmlDocument doc = new XmlDocument();
             GZipStream compStream = null;
 
             if (compress)
