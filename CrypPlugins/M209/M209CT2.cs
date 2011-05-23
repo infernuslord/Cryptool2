@@ -14,6 +14,7 @@
    limitations under the License.
 */
 using System;
+using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -77,32 +78,7 @@ namespace Cryptool.Plugins.M209
          null, null, null, null, null, null, null},
         };
 
-        bool[,] pins = new Boolean[6, 27]{
-
-        {true, true, false, true, false, false, false, true, true, false,
-         true, false, true, true, false, false, false, false, true, true,
-         false, true, true, false, false, false, false},
-
-        {true, false, false, true, true, false, true, false, false, true,
-         true, true, false, false, true, false, false, true, true, false,
-         true, false, true, false, false, false, false},
-
-        {true, true, false, false, false, false, true, true, false, true,
-         false, true, true, true, false, false, false, true, true, true,
-         true, false, true, false, false, false, false},
-
-        {false, false, true, false, true, true, false, true, true, false,
-         false, false, true, true, false, true, false, false, true, true,
-         true, false, false, false, false, false, false},
-
-        {false, true, false, true, true, true, false, true, true, false,
-         false, false, true, true, false, true, false, false, true, false,
-         false, false, false, false, false, false, false},
-
-        {true, true, false, true, false, false, false, true, false, false,
-         true, false, false, true, true, false, true, false, false, false,
-         false, false, false, false, false, false, false},
-        };
+        bool[,] pins = new Boolean[6, 27];
 
         string[,] rotorenersatz = new String[6, 27]{
 
@@ -131,11 +107,7 @@ namespace Cryptool.Plugins.M209
          null, null, null, null, null, null, null},
         };
 
-        int[,] StangeSchieber = new int[27, 2] {
-        {3,6},{0,6},{1,6},{1,5},{4,5},{0,4},{0,4},{0,4},{0,4},
-        {2,0},{2,0},{2,0},{2,0},{2,0},{2,0},{2,0},{2,0},{2,0},
-        {2,0},{2,5},{2,5},{0,5},{0,5},{0,5},{0,5},{0,5},{0,5}
-        };
+        int[,] StangeSchieber = new int[27, 2];
 
         
         string Alphabet= "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -184,67 +156,57 @@ namespace Cryptool.Plugins.M209
         public String calculateOffset(string extKey, char c){
 
             int cnum;
-            // Position des Buchstaben 0...25
-            bool uppercase = char.IsUpper(c);
-            // kleinbuchstaben?
-            if (!uppercase)
-            {
-                c = char.ToUpper(c);
-                //GuiLogMessage("Lowercase " , NotificationLevel.Info);
-            }
             
 
-            cnum = c - 'A';
-            bool[] aktiveArme = new bool[6];
-            string temp = "";
-            // Durch alle Rotoren
-            for (int i = 0; i < 6; i++)
-            {
-                // Durch alle Buchstaben
-                for (int j = 0; j < 27; j++)
+                cnum = c - 'A';
+                bool[] aktiveArme = new bool[6];
+                string temp = "";
+                // Durch alle Rotoren
+                for (int i = 0; i < 6; i++)
                 {
-                    // Hier wird z.B. "AAAAAA" in "PONMLK" umgewandelt (bestimme Testkonfiguration)
-                    if (rotoren[i,j]!=null && rotoren[i,j] == extKey[i].ToString())
+                    // Durch alle Buchstaben
+                    for (int j = 0; j < 27; j++)
                     {
-                        temp += rotorenersatz[i,j];
-                        // 1. A -> P . 
-                        // 2. Wo ist das P in den Rotoren und gebe Position zurück
-                        // 3. Schau in Pins nach ob false oder true und schreibe in aktiveArme
-                        aktiveArme[i] = pins[i,getRotorPostion(rotorenersatz[i,j],i)];
+                        // Hier wird z.B. "AAAAAA" in "PONMLK" umgewandelt (bestimme Testkonfiguration)
+                        if (rotoren[i, j] != null && rotoren[i, j] == extKey[i].ToString())
+                        {
+                            temp += rotorenersatz[i, j];
+                            // 1. A -> P . 
+                            // 2. Wo ist das P in den Rotoren und gebe Position zurück
+                            // 3. Schau in Pins nach ob false oder true und schreibe in aktiveArme
+                            aktiveArme[i] = pins[i, getRotorPostion(rotorenersatz[i, j], i)];
+                        }
                     }
                 }
-            }
-            int verschiebung = 0;
+                int verschiebung = 0;
 
+                char back;
 
-            // Boolean in Zahlen für aktive arme
-            int[] alleSchieber = new int[6];
-            for (int i = 0; i < 6; i++)
-            {
-                if (aktiveArme[i])
+                // Boolean in Zahlen für aktive arme
+                int[] alleSchieber = new int[6];
+                for (int i = 0; i < 6; i++)
                 {
-                    alleSchieber[i] = i + 1;
+                    if (aktiveArme[i])
+                    {
+                        alleSchieber[i] = i + 1;
+                    }
                 }
-            }
 
-            verschiebung = countStangen(alleSchieber);
+                verschiebung = countStangen(alleSchieber);
+
+                // Die Verschiebung wird in einen Buchstaben umgewandelt
+                cnum -= verschiebung;
+                while (cnum < 0)
+                {
+                    cnum += 26;
+                }
+                cnum = cnum % 26;
+                int nrZ = 'Z';
+                cnum = nrZ - cnum;
+                back = (char)cnum;
+
             
-            char back;
-          
-      
 
-
-            // Die Verschiebung wird in einen Buchstaben umgewandelt
-            cnum -= verschiebung;
-            while (cnum < 0)
-            {
-                cnum += 26;
-            }
-            cnum = cnum % 26; 
-            int nrZ = 'Z';
-            cnum = nrZ-cnum;
-            back = (char)cnum;
-           
             return ""+back;
         }
         
@@ -304,7 +266,9 @@ namespace Cryptool.Plugins.M209
         // Benutzereingaben werden in Pin Array reingeschrieben
         public void setPins()
         {
+     
             clearPins();
+            
             if (settings.Rotor1!=null)
             {
                 for (int i = 0; i < settings.Rotor1.Length; i++)
@@ -397,41 +361,49 @@ namespace Cryptool.Plugins.M209
         {
             string aktuellerWert = settings.Startwert;
             string tempOutput="";
-
+            Text = Text.Replace(" ", "");
             //Dechiffrieren
             if(!cipher){
                 Text = Text.Replace(Environment.NewLine, "");
-                Text = Text.Replace(" ", "");
             }
 
-            for (int i = 0; i < Text.Length; i++)
-            {   
-                // Beim ersten mal muss das Rad nicht gedreht werden
-                if (i == 0)
-                {
-                    tempOutput += calculateOffset(aktuellerWert, Text[i]).ToString();
-                }
-                else
-                {
-                    aktuellerWert = rotateWheel(aktuellerWert);
-                    tempOutput += calculateOffset(aktuellerWert, Text[i]).ToString();
-                }
-            }
+            
+            Text = Text.ToUpper();
 
-            OutputString = tempOutput;
-
-            if (cipher)
-            {   // In fünfergruppen ausgeben
-                for (int i = 5; i < OutputString.Length; i=i+6)
+            Regex objNotNaturalPattern = new Regex("[A-Z]");
+           
+                for (int i = 0; i < Text.Length; i++)
                 {
-                    OutputString = OutputString.Insert(i, " ");
+                    if (objNotNaturalPattern.IsMatch(Text[i].ToString()))
+                    {
+                        // Beim ersten mal muss das Rad nicht gedreht werden
+                        if (i == 0)
+                        {
+                            tempOutput += calculateOffset(aktuellerWert, Text[i]).ToString();
+                        }
+                        else
+                        {
+                            aktuellerWert = rotateWheel(aktuellerWert);
+                            tempOutput += calculateOffset(aktuellerWert, Text[i]).ToString();
+                        }
+                    }
                 }
-            } else // decipher
+
+                OutputString = tempOutput;
+
+                if (cipher)
+                {   // In fünfergruppen ausgeben
+                    for (int i = 5; i < OutputString.Length; i = i + 6)
+                    {
+                        OutputString = OutputString.Insert(i, " ");
+                    }
+                }
+                else // decipher
                 {
                     OutputString = OutputString.Replace("Z", " ");
                 }
-           
 
+            
             OnPropertyChanged("OutputString");
         }
         
@@ -511,7 +483,7 @@ namespace Cryptool.Plugins.M209
         /// </summary>
         public void Execute()
         {
-
+            
             setPins();
             setBar();
 

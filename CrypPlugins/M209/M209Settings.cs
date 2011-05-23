@@ -34,9 +34,45 @@ namespace Cryptool.Plugins.M209
 
         private bool hasChanges = false;
         private string startwert = "AAAAAA";
-        private string rotor1, rotor2, rotor3, rotor4, rotor5, rotor6 = "";
+        private string rotor1 = "ABDHIKMNSTVW";
+        private string rotor2 = "ADEGJKLORSUX"; 
+        private string rotor3 = "ABGHJLMNRSTUX";
+        private string rotor4 = "CEFHIMNPSTU";
+        private string rotor5 = "BDEFHIMNPS";
+        private string rotor6 = "ABDHKNOQ";
         private int selectedAction = 0;
-        public string[] bar = new string[27];
+        public string[] bar = new string[27] {
+        "36","06","16","15","45","04","04","04","04",
+        "20","20","20","20","20","20","20","20","20",
+        "20","25","25","05","05","05","05","05","05"
+        };
+
+        bool[,] pins = new Boolean[6, 27]{
+
+        {true, true, false, true, false, false, false, true, true, false,
+         true, false, true, true, false, false, false, false, true, true,
+         false, true, true, false, false, false, false},
+
+        {true, false, false, true, true, false, true, false, false, true,
+         true, true, false, false, true, false, false, true, true, false,
+         true, false, true, false, false, false, false},
+
+        {true, true, false, false, false, false, true, true, false, true,
+         false, true, true, true, false, false, false, true, true, true,
+         true, false, true, false, false, false, false},
+
+        {false, false, true, false, true, true, false, true, true, false,
+         false, false, true, true, false, true, false, false, true, true,
+         true, false, false, false, false, false, false},
+
+        {false, true, false, true, true, true, false, true, true, false,
+         false, false, true, true, false, true, false, false, true, false,
+         false, false, false, false, false, false, false},
+
+        {true, true, false, true, false, false, false, true, false, false,
+         true, false, false, true, true, false, true, false, false, false,
+         false, false, false, false, false, false, false},
+        };
 
         #endregion
 
