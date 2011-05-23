@@ -62,7 +62,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
 
         private string ConvertSettingsList(TaskPaneAttribute[] settings)
         {
-            if (settings != null)
+            if ((settings != null) && (settings.Length > 0))
             {
                 var codeBuilder = new StringBuilder();
                 codeBuilder.AppendLine("<table border=\"1\">");
@@ -86,7 +86,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
 
         private string ConvertConnectorList(PropertyInfoAttribute[] connectors)
         {
-            if (connectors != null)
+            if ((connectors != null) && (connectors.Length > 0))
             {
                 var codeBuilder = new StringBuilder();
                 codeBuilder.AppendLine("<table border=\"1\">");
@@ -119,6 +119,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
                 return Resources.NoContent;
 
             var codeBuilder = new StringBuilder();
+            codeBuilder.AppendLine(string.Format("<p>{0}</p>", Resources.Templates_description));
             codeBuilder.AppendLine("<table border=\"1\">");
             codeBuilder.AppendLine(string.Format("<tr> <th>{0}</th> <th>{1}</th> </tr>",
                 Resources.File, Resources.Description));
