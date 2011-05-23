@@ -17,6 +17,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Numerics;
 using System.Windows.Media;
 using Cryptool.PluginBase;
 using System.Reflection;
@@ -285,7 +286,30 @@ namespace WorkspaceManager.Model
                     List<ConnectionModel> outputConnections = this.OutputConnections;
                     foreach (ConnectionModel connectionModel in outputConnections)
                     {
-                        connectionModel.To.Data = data;
+                        //Cast from BigInteger -> Integer
+                        if ((connectionModel.To.ConnectorType.FullName == "System.Int32" || connectionModel.To.ConnectorType.FullName == "System.Int64") &&
+                           ConnectorType.FullName == "System.Numerics.BigInteger")
+                        {
+                            try
+                            {
+                                connectionModel.To.Data = (int)((BigInteger)data);
+                            }
+                            catch (OverflowException)
+                            {
+                                connectionModel.To.PluginModel.State = PluginModelState.Error;
+                                WorkspaceModel.ExecutionEngine.GuiLogMessage(String.Format("Number of {0} too big for {1}: {2}", Name, connectionModel.To.PluginModel.Name, data), NotificationLevel.Error);
+                            }
+                        }
+                        //Cast from Integer -> BigInteger
+                        else if (connectionModel.To.ConnectorType.FullName == "System.Numerics.BigInteger" &&
+                           (ConnectorType.FullName == "System.Int32" || ConnectorType.FullName == "System.Int64"))
+                        {                            
+                                connectionModel.To.Data = new BigInteger((int)data);                                                            
+                        }
+                        else
+                        {
+                            connectionModel.To.Data = data;
+                        }
                         connectionModel.To.HasData = true;
                         connectionModel.Active = true;
                         connectionModel.GuiNeedsUpdate = true;

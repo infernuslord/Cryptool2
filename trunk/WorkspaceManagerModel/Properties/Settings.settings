@@ -50,11 +50,11 @@
     <Setting Name="ObjectColor" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)">MediumPurple</Value>
     </Setting>
-    <Setting Name="BigIntegerColor" Type="System.Drawing.Color" Scope="User">
-      <Value Profile="(Default)">Black</Value>
-    </Setting>
     <Setting Name="DefaultColor" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)">163, 208, 144</Value>
+    </Setting>
+    <Setting Name="BigIntegerColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">Aqua</Value>
     </Setting>
   </Settings>
 </SettingsFile>

@@ -217,18 +217,6 @@ namespace WorkspaceManagerModel.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Black")]
-        public global::System.Drawing.Color BigIntegerColor {
-            get {
-                return ((global::System.Drawing.Color)(this["BigIntegerColor"]));
-            }
-            set {
-                this["BigIntegerColor"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("163, 208, 144")]
         public global::System.Drawing.Color DefaultColor {
             get {
@@ -236,6 +224,18 @@ namespace WorkspaceManagerModel.Properties {
             }
             set {
                 this["DefaultColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Aqua")]
+        public global::System.Drawing.Color BigIntegerColor {
+            get {
+                return ((global::System.Drawing.Color)(this["BigIntegerColor"]));
+            }
+            set {
+                this["BigIntegerColor"] = value;
             }
         }
     }
