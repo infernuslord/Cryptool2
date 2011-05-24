@@ -44,8 +44,8 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
 
         private static string GenerateComponentListCode(IEnumerable<EntityDocumentationPage> componentDocumentationPages, string lang)
         {
-            var stringBuilder = new StringBuilder();
-            stringBuilder.AppendLine("<table border=\"0\" cellspacing=\"3\" cellpadding=\"3\">");
+            var stringBuilder = new StringBuilder();            
+            stringBuilder.AppendLine("<table border=\"0\" cellspacing=\"3\" cellpadding=\"3\" class=\"filterable\">");
 
             var anchorBuilder = new StringBuilder();
             anchorBuilder.Append("<p>");
@@ -70,6 +70,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
                     OnlineHelp.GetDocFilename(pp.Type, linkedLang), pp.Name, pp.ToolTip));
             }
             stringBuilder.AppendLine("</table>");
+            stringBuilder.AppendLine("<script type=\"text/javascript\" src=\"filterTable.js\"></script>");
 
             anchorBuilder.Append("</p>");
             anchorBuilder.Append(stringBuilder);

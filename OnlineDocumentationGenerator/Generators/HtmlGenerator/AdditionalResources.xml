@@ -11,4 +11,5 @@
   <file path="OnlineDocumentationGenerator/Generators/HtmlGenerator/backward.png" />
   <file path="OnlineDocumentationGenerator/Generators/HtmlGenerator/index.png" />
   <file path="OnlineDocumentationGenerator/Generators/HtmlGenerator/external_link.png" />
+  <file path="OnlineDocumentationGenerator/Generators/HtmlGenerator/filterTable.js" />
 </AdditionalResources>
