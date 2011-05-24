@@ -45,13 +45,27 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
         private static string GenerateComponentListCode(IEnumerable<EntityDocumentationPage> componentDocumentationPages, string lang)
         {
             var stringBuilder = new StringBuilder();
-            foreach (var page in componentDocumentationPages)
-            {
+            stringBuilder.AppendLine("<table border=\"0\" cellspacing=\"3\" cellpadding=\"3\">");
+
+            var query = from pages in componentDocumentationPages
+                        orderby pages.Localizations[pages.Localizations.ContainsKey(lang) ? lang : "en"].Name
+                        select pages;
+
+            char actualIndexCharacter = ' ';
+            foreach (var page in query)
+            {        
+                
                 var linkedLang = page.Localizations.ContainsKey(lang) ? lang : "en";
                 var pp = page.Localizations[linkedLang];
-                stringBuilder.AppendLine(string.Format("<a href=\"{0}\">{1}</a> - {2}<br/>", 
+                if (actualIndexCharacter != pp.Name[0])
+                {
+                    actualIndexCharacter = pp.Name.ToUpper()[0];
+                    stringBuilder.AppendLine(string.Format("<tr><td><h2>{0}</h2></td><td></td></tr>", actualIndexCharacter));                    
+                }
+                stringBuilder.AppendLine(string.Format("<tr><td><a href=\"{0}\">{1}</a></td><td>{2}</td></tr>",
                     OnlineHelp.GetDocFilename(pp.Type, linkedLang), pp.Name, pp.ToolTip));
             }
+            stringBuilder.AppendLine("</table>");
 
             return stringBuilder.ToString();
         }
@@ -59,13 +73,20 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
         private static string GenerateEditorListCode(IEnumerable<EntityDocumentationPage> editorDocumentationPages, string lang)
         {
             var stringBuilderListCode = new StringBuilder();
-            foreach (var page in editorDocumentationPages)
+            stringBuilderListCode.AppendLine("<table border=\"0\" cellspacing=\"3\" cellpadding=\"3\">");
+
+            var query = from pages in editorDocumentationPages
+                        orderby pages.Localizations[pages.Localizations.ContainsKey(lang) ? lang : "en"].Name
+                        select pages;
+                        
+            foreach (var page in query)
             {
                 var linkedLang = page.Localizations.ContainsKey(lang) ? lang : "en";
                 var pp = page.Localizations[linkedLang];
-                stringBuilderListCode.AppendLine(string.Format("<a href=\"{0}\">{1}</a> - {2}<br/>",
+                stringBuilderListCode.AppendLine(string.Format("<tr><td><a href=\"{0}\">{1}</a></td><td>{2}</td></tr>",
                     OnlineHelp.GetDocFilename(pp.Type, linkedLang), pp.Name, pp.ToolTip));
             }
+            stringBuilderListCode.AppendLine("</table>");
 
             return stringBuilderListCode.ToString();
         }
