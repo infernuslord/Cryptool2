@@ -121,12 +121,12 @@
     <value>Comparators</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Simple comparators (=,!=, &lt;, &gt;, &lt;=, &gt;=). See detailed description.</value>
+    <value>Simple comparators to compare objects of the same type.</value>
   </data>
   <data name="PluginDescriptionURL" xml:space="preserve">
     <value>Comparators/DetailedDescription/Description.xaml</value>
   </data>
-    <data name="InputOneCaption" xml:space="preserve">
+  <data name="InputOneCaption" xml:space="preserve">
     <value>Input one</value>
   </data>
   <data name="InputOneTooltip" xml:space="preserve">
@@ -144,7 +144,7 @@
   <data name="OutputTooltip" xml:space="preserve">
     <value>Output.</value>
   </data>
-    <data name="ComparatorCaption" xml:space="preserve">
+  <data name="ComparatorCaption" xml:space="preserve">
     <value>Comparator</value>
   </data>
   <data name="ComparatorTooltip" xml:space="preserve">

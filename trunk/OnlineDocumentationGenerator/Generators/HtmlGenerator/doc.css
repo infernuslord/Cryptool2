@@ -67,3 +67,5 @@ a:focus {
 	text-decoration:		none;
 	color:					blue;
 }
+
+.highlighted { background: yellow; }
