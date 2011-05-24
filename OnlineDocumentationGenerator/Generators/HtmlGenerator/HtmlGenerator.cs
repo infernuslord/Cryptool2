@@ -47,10 +47,13 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
             var stringBuilder = new StringBuilder();
             stringBuilder.AppendLine("<table border=\"0\" cellspacing=\"3\" cellpadding=\"3\">");
 
+            var anchorBuilder = new StringBuilder();
+            anchorBuilder.Append("<p>");
+
             var query = from pages in componentDocumentationPages
                         orderby pages.Localizations[pages.Localizations.ContainsKey(lang) ? lang : "en"].Name
                         select pages;
-
+            
             char actualIndexCharacter = ' ';
             foreach (var page in query)
             {        
@@ -60,14 +63,17 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
                 if (actualIndexCharacter != pp.Name[0])
                 {
                     actualIndexCharacter = pp.Name.ToUpper()[0];
-                    stringBuilder.AppendLine(string.Format("<tr><td><h2>{0}</h2></td><td></td></tr>", actualIndexCharacter));                    
+                    stringBuilder.AppendLine(string.Format("<tr><td><h2 id=\"{0}\">{0}</h2></td><td></td></tr>", actualIndexCharacter));
+                    anchorBuilder.AppendLine(string.Format("<a href=\"#{0}\"><b>{0}</b><a>&nbsp;", actualIndexCharacter));
                 }
                 stringBuilder.AppendLine(string.Format("<tr><td><a href=\"{0}\">{1}</a></td><td>{2}</td></tr>",
                     OnlineHelp.GetDocFilename(pp.Type, linkedLang), pp.Name, pp.ToolTip));
             }
             stringBuilder.AppendLine("</table>");
 
-            return stringBuilder.ToString();
+            anchorBuilder.Append("</p>");
+            anchorBuilder.Append(stringBuilder);
+            return anchorBuilder.ToString();
         }
 
         private static string GenerateEditorListCode(IEnumerable<EntityDocumentationPage> editorDocumentationPages, string lang)
