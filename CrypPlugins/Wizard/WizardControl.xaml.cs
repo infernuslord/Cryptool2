@@ -171,9 +171,9 @@ namespace Wizard
                 wizardConfigXML = xml;
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                
+                GuiLogMessage(string.Format("Could not GenerateXML: {0}", ex.Message), NotificationLevel.Error);
             }
         }
 
@@ -842,47 +842,56 @@ namespace Wizard
 
         private void LoadSample(string file, string title, bool openTab, XElement element)
         {
-            _title = title;
-            file = Path.Combine(SamplesDir, file);
-            
-            var model = ModelPersistance.loadModel(file);
-            model.OnGuiLogNotificationOccured += delegate(IPlugin sender, GuiLogEventArgs args)
-                                                     {
-                                                         OnGuiLogNotificationOccured(sender, args);
-                                                     };
-            
-            foreach (PluginModel pluginModel in model.GetAllPluginModels())
+            try
             {
-                pluginModel.Plugin.Initialize();
-            }
-            
-            if (!openTab)
-            {
-                CreateProjectButton.Tag = element;
-                RegisterEventsForLoadedSample(model);
-            }
-            
-            FillDataToModel(model, element);
+                _title = title;
+                file = Path.Combine(SamplesDir, file);
 
-            //load sample:
-            if (openTab)
-            {
-                currentManager = (WorkspaceManager.WorkspaceManager) OnOpenEditor(typeof(WorkspaceManager.WorkspaceManager), null);
-                currentManager.Open(model);
-                if (Settings.Default.RunTemplate)
+                var model = ModelPersistance.loadModel(file);
+                model.OnGuiLogNotificationOccured += delegate(IPlugin sender, GuiLogEventArgs args)
+                                                         {
+                                                             OnGuiLogNotificationOccured(sender, args);
+                                                         };
+
+                foreach (PluginModel pluginModel in model.GetAllPluginModels())
                 {
-                    currentManager.SampleLoaded += NewEditorSampleLoaded;
+                    pluginModel.Plugin.Initialize();
                 }
-            }
-            else
-            {
-                currentManager = new WorkspaceManager.WorkspaceManager();
-                currentManager.Open(model);
-                canStopOrExecute = true;
-                currentManager.Execute();
-            }
 
-            _recentFileList.AddRecentFile(file);
+                if (!openTab)
+                {
+                    CreateProjectButton.Tag = element;
+                    RegisterEventsForLoadedSample(model);
+                }
+
+                FillDataToModel(model, element);
+
+                //load sample:
+                if (openTab)
+                {
+                    currentManager =
+                        (WorkspaceManager.WorkspaceManager)
+                        OnOpenEditor(typeof (WorkspaceManager.WorkspaceManager), null);
+                    currentManager.Open(model);
+                    if (Settings.Default.RunTemplate)
+                    {
+                        currentManager.SampleLoaded += NewEditorSampleLoaded;
+                    }
+                }
+                else
+                {
+                    currentManager = new WorkspaceManager.WorkspaceManager();
+                    currentManager.Open(model);
+                    canStopOrExecute = true;
+                    currentManager.Execute();
+                }
+
+                _recentFileList.AddRecentFile(file);
+            }
+            catch(Exception ex)
+            {
+                GuiLogMessage(string.Format("Error loading sample {0}: {1}", file,ex.Message),NotificationLevel.Error);
+            }
         }
 
         private void NewEditorSampleLoaded(object sender, EventArgs e)
