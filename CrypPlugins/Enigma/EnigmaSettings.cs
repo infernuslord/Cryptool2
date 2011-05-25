@@ -1226,7 +1226,7 @@ namespace Cryptool.Enigma
 
         #endregion
 
-        [TaskPane( "PresentationSpeedCaption", "PresentationSpeedTooltip", "Presentation", 71, true, ControlType.Slider, 2, 50)]
+        [TaskPane( "PresentationSpeedCaption", "PresentationSpeedTooltip", "Presentation", 71, true, ControlType.Slider, 2, 25)]
         public int PresentationSpeed
         {
             get { return (int)Presentation_Speed; }

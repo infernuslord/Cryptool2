@@ -1264,8 +1264,6 @@ namespace Cryptool.Enigma
 
                     if (i % 2 == 0)
                         tebo[i].Background = Brushes.Gainsboro;
-
-
                 }
             else
                 for (int i = 0; i < tebo.Count; i++)
