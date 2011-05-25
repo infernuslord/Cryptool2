@@ -28,6 +28,8 @@ namespace Cryptool.Enigma
     {
         #region Variables
 
+        private int test = 0;
+
         public AutoResetEvent ars;
 
         private EnigmaSettings settings;
@@ -76,7 +78,7 @@ namespace Cryptool.Enigma
 
         Boolean mfouron = false;
 
-        double speed = 0.5;
+        private double speed;
 
         Line[,] frombat = new Line[9, 3];
         Line[,] frombat2 = new Line[3, 2];
@@ -149,15 +151,20 @@ namespace Cryptool.Enigma
                 {
                     Debug.Text = "" + settings.PresentationSpeed;
                     speed = settings.PresentationSpeed;
+                    storyboard1.Pause();
+                    storyboard.Pause();
+                    
                     storyboard1.SetSpeedRatio(speed);
                     storyboard.SetSpeedRatio(speed);
-                    storyboard1.SpeedRatio = speed;
-                    storyboard.SpeedRatio = speed;
 
+                    storyboard1.Resume();
+                    storyboard.Resume();
+                    
+                    
                 }, null);
 
             }
-            if (!playbool && this.checkReady())
+            if ( this.checkReady())
             {
                 if (e.PropertyName == "Key" && justme)
                 {
@@ -260,6 +267,10 @@ namespace Cryptool.Enigma
                         Debug.Text = j + "" + i;
 
                     }, null);
+                }
+                if (e.PropertyName[0] == 'F' && e.PropertyName[1] == 'o' && e.PropertyName != "PlugBoardDisplay" && !justme)
+                {
+                    test++;
                 }
 
                 if (e.PropertyName == "Remove all Plugs" && justme)
@@ -502,7 +513,7 @@ namespace Cryptool.Enigma
 
             settings = (EnigmaSettings)facade.Settings;
             //settings.PropertyChanged += changeSettings;
-
+            speed = settings.PresentationSpeed;
             InitializeComponent();
             SizeChanged += sizeChanged;
 
@@ -944,7 +955,9 @@ namespace Cryptool.Enigma
 
             dispo = new DispatcherTimer();
             dispo.Interval = new TimeSpan(0, 0, 0, 0, 20); // Intervall festlegen, hier 100 ms
-            dispo.Tick += new EventHandler(t1_Tick); // Eventhandler ezeugen der beim Timerablauf aufgerufen wird
+            dispo.Tick += delegate(System.Object o, System.EventArgs e)
+            { dispo.Stop(); t1_Tick(); }; // Eventhandler ezeugen der beim Timerablauf aufgerufen wird
+            
 
             bList[0].Focus();
 
@@ -970,7 +983,7 @@ namespace Cryptool.Enigma
             return b;
         }
 
-        private void t1_Tick(object sender, EventArgs e)
+        private void t1_Tick()
         {
             Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
@@ -2352,7 +2365,7 @@ namespace Cryptool.Enigma
                         Storyboard.SetTargetProperty(animax2, new PropertyPath("(Y1)"));
 
                         storyboard.Begin();
-
+                        storyboard.SetSpeedRatio(speed);
                         //l.BeginAnimation(OpacityProperty, nop);
                         //stop = false;
                     }
@@ -2718,9 +2731,9 @@ namespace Cryptool.Enigma
                 np.BeginTime = TimeSpan.FromMilliseconds(timecounter);
                 storyboard1.Children.Add(np);
             }
-            storyboard1.SetSpeedRatio(speed);
+            
             storyboard1.Begin();
-
+            storyboard1.SetSpeedRatio(speed);
 
         }
 
@@ -3068,6 +3081,19 @@ namespace Cryptool.Enigma
             if (inputtebo.Count > inputcounter && !stop)
             {
 
+
+                ColorAnimation colorani0 = new ColorAnimation();
+                colorani0.From = Colors.Orange;
+                colorani0.To = Colors.Transparent;
+                colorani0.Duration = new Duration(TimeSpan.FromMilliseconds(1000));
+                colorani0.BeginTime = TimeSpan.FromMilliseconds(timecounterint);
+                timecounterint += 1000;
+
+                Storyboard.SetTarget(colorani0, inputtebo[inputcounter - 1]);
+                Storyboard.SetTargetProperty(colorani0, new PropertyPath("(TextBlock.Background).(SolidColorBrush.Color)"));
+
+                sbret.Children.Add(colorani0);
+
                 if ((inputcounter - 1) % 5 == 0 && inputcounter != 0)
                 {
                     TextBlock t1 = new TextBlock();
@@ -3114,17 +3140,6 @@ namespace Cryptool.Enigma
 
                 sbret.Children.Add(colorani);
 
-                ColorAnimation colorani0 = new ColorAnimation();
-                colorani0.From = Colors.Orange;
-                colorani0.To = Colors.Transparent;
-                colorani0.Duration = new Duration(TimeSpan.FromMilliseconds(1000));
-                colorani0.BeginTime = TimeSpan.FromMilliseconds(timecounterint);
-                timecounterint += 1000;
-
-                Storyboard.SetTarget(colorani0, inputtebo[inputcounter - 1]);
-                Storyboard.SetTargetProperty(colorani0, new PropertyPath("(TextBlock.Background).(SolidColorBrush.Color)"));
-
-                sbret.Children.Add(colorani0);
 
 
                 //brush0.BeginAnimation(SolidColorBrush.ColorProperty, colorani0);
@@ -4103,9 +4118,9 @@ namespace Cryptool.Enigma
 
 
             lList[Int32.Parse(bList[button1].Content.ToString())].BeginAnimation(OpacityProperty, fadeOut);
-            lList[Int32.Parse(bList[button2].Content.ToString())].BeginAnimation(OpacityProperty, fadeOut);
-            bList[Int32.Parse(bList[button2].Content.ToString())].BeginAnimation(OpacityProperty, fadeOut);
-            bList[Int32.Parse(bList[button1].Content.ToString())].BeginAnimation(OpacityProperty, fadeOut);
+            //lList[Int32.Parse(bList[button2].Content.ToString())].BeginAnimation(OpacityProperty, fadeOut);
+            //bList[Int32.Parse(bList[button2].Content.ToString())].BeginAnimation(OpacityProperty, fadeOut);
+            //bList[Int32.Parse(bList[button1].Content.ToString())].BeginAnimation(OpacityProperty, fadeOut);
 
 
 
@@ -4132,10 +4147,10 @@ namespace Cryptool.Enigma
 
 
 
-            lList[Int32.Parse(bList[button1].Content.ToString())].BeginAnimation(OpacityProperty, fadeIn);
+            //lList[Int32.Parse(bList[button1].Content.ToString())].BeginAnimation(OpacityProperty, fadeIn);
             lList[Int32.Parse(bList[button2].Content.ToString())].BeginAnimation(OpacityProperty, fadeIn);
 
-            bList[Int32.Parse(bList[button1].Content.ToString())].BeginAnimation(OpacityProperty, fadeIn);
+            //bList[Int32.Parse(bList[button1].Content.ToString())].BeginAnimation(OpacityProperty, fadeIn);
             bList[Int32.Parse(bList[button2].Content.ToString())].BeginAnimation(OpacityProperty, fadeIn);
 
 
@@ -4146,6 +4161,7 @@ namespace Cryptool.Enigma
 
         private void syncPluboardSettings()
         {
+            test = 0;
             justme = false;
             for (int i = 0; i < switchlist.Length; i++)
             {
@@ -4179,14 +4195,21 @@ namespace Cryptool.Enigma
                     case 25: settings.PlugBoardZ = switchlist[i]; break;
                 }
             }
-            DispatcherTimer twait = new DispatcherTimer(); // workaround for race-condition should be fixed soon
-            twait.Interval = new TimeSpan(0, 0, 0, 0, 20);
-            twait.Tick += new EventHandler(thelp);
-        }
+
+            
+
+             // workaround for race-condition should be fixed soon
+            DispatcherTimer t = new DispatcherTimer();
+            t.Interval = new TimeSpan(0, 0, 0, 0, 20); ;                
+            t.Tick += delegate(System.Object o, System.EventArgs e)
+            { t.Stop(); justme = true; };
+
+            t.Start();   
+           }
 
         private void thelp(object sender, EventArgs e)
         {
-            justme = true;
+            //justme = true;
         }
 
         private void changeSettings(object sender, EventArgs e)
