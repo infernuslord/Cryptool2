@@ -52,46 +52,29 @@ namespace Cryptool.Plugins.M209
         /// You can add more input properties of other type if needed.
         /// </summary>
         /// 
-        string[,] rotoren =  new String[6,27]{
+        ///         
 
-            {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J",
-             "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T",
-             "U", "V", "W", "X", "Y", "Z", null},
-
-            {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J",
-             "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T",
-             "U", "V", "X", "Y", "Z", null, null},
-
-            {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J",
-             "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T",
-             "U", "V", "X", null, null, null, null},
-
-            {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J",
-             "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T",
-             "U", null, null, null, null, null, null},
-
-            {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J",
-             "K", "L", "M", "N", "O", "P", "Q", "R", "S", null,
-             null, null, null, null, null, null, null},
-
-            {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J",
-             "K", "L", "M", "N", "O", "P", "Q", null, null, null,
-             null, null, null, null, null, null, null},
+        private string[] rotoren =  new String[6] {
+            "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+            "ABCDEFGHIJKLMNOPQRSTUVXYZ",
+            "ABCDEFGHIJKLMNOPQRSTUVX",
+            "ABCDEFGHIJKLMNOPQRSTU",
+            "ABCDEFGHIJKLMNOPQRS",
+            "ABCDEFGHIJKLMNOPQ"
         };
 
-        bool[,] pins = new Boolean[6, 27];
-        int[,] StangeSchieber = new int[27, 2];
+        private bool[,] pins = new Boolean[6, 27];
+        private int[,] StangeSchieber = new int[27, 2];
 
         int[,] rotorpos = new int[6, 26];
-        int[] rotorsize = new int[6] {26,25,23,21,19,17}; // number of pins per rotor
         int[] rotorofs = new int[6] {15,14,13,12,11,10};  // position of 'active' pin wrt upper pin 
 
         public M209()
         {
             // invert array 'rotoren' for faster access
             for (int r = 0; r < 6; r++)
-                for (int c = 0; c < 26; c++)
-                    if( rotoren[r,c]!=null ) rotorpos[ r, rotoren[r,c][0]-'A' ] = c;
+                for (int c = 0; c < rotoren[r].Length; c++)
+                    rotorpos[r, rotoren[r][c] - 'A'] = c;
         }
 
         //  Pfeil in Programmiersprache Eingabe
@@ -121,7 +104,7 @@ namespace Cryptool.Plugins.M209
         */
 
  
-        public String calculateOffset(string extKey, char c)
+        public char calculateOffset(string extKey, char c)
         {
             bool[] aktiveArme = new bool[6];
 
@@ -129,12 +112,12 @@ namespace Cryptool.Plugins.M209
             for (int r = 0; r < 6; r++)
             {
                 int i = getRotorPostion(extKey[r], r);
-                i = (i + rotorofs[r]) % rotorsize[r];   // position of 'active' pin
+                i = (i + rotorofs[r]) % rotoren[r].Length;   // position of 'active' pin
                 aktiveArme[r] = pins[r,i];
             }
 
             int verschiebung = ((c - 'A') - countStangen(aktiveArme) + 260) % 26;
-            return ((char)('Z' - verschiebung)).ToString();
+            return (char)('Z' - verschiebung);
         }
         
         //Zähle die Verschiebung (wo aktive Arme und Schieber)
@@ -293,7 +276,6 @@ namespace Cryptool.Plugins.M209
                 OutputString = OutputString.Replace("Z", " ");
             }
 
-            
             OnPropertyChanged("OutputString");
         }
         
@@ -307,7 +289,7 @@ namespace Cryptool.Plugins.M209
             //Durch alle Rotoren
             for (int r = 0; r < 6; r++)
             {
-                neuePos[r] = rotoren[ r, ( getRotorPostion(pos[r],r) + 1 ) % rotorsize[r] ][0];
+                neuePos[r] = rotoren[r][ ( getRotorPostion(pos[r],r) + 1 ) % rotoren[r].Length ];
             }
 
             return new String(neuePos);
