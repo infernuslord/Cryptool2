@@ -33,45 +33,23 @@ namespace Cryptool.Plugins.M209
         #region Private Variables
 
         private bool hasChanges = false;
+
+        private int selectedAction = 0;
+
         private string startwert = "AAAAAA";
+
+        // aktive Pins an den Rotoren
         private string rotor1 = "ABDHIKMNSTVW";
         private string rotor2 = "ADEGJKLORSUX"; 
         private string rotor3 = "ABGHJLMNRSTUX";
         private string rotor4 = "CEFHIMNPSTU";
         private string rotor5 = "BDEFHIMNPS";
         private string rotor6 = "ABDHKNOQ";
-        private int selectedAction = 0;
+
         public string[] bar = new string[27] {
-        "36","06","16","15","45","04","04","04","04",
-        "20","20","20","20","20","20","20","20","20",
-        "20","25","25","05","05","05","05","05","05"
-        };
-
-        bool[,] pins = new Boolean[6, 27]{
-
-        {true, true, false, true, false, false, false, true, true, false,
-         true, false, true, true, false, false, false, false, true, true,
-         false, true, true, false, false, false, false},
-
-        {true, false, false, true, true, false, true, false, false, true,
-         true, true, false, false, true, false, false, true, true, false,
-         true, false, true, false, false, false, false},
-
-        {true, true, false, false, false, false, true, true, false, true,
-         false, true, true, true, false, false, false, true, true, true,
-         true, false, true, false, false, false, false},
-
-        {false, false, true, false, true, true, false, true, true, false,
-         false, false, true, true, false, true, false, false, true, true,
-         true, false, false, false, false, false, false},
-
-        {false, true, false, true, true, true, false, true, true, false,
-         false, false, true, true, false, true, false, false, true, false,
-         false, false, false, false, false, false, false},
-
-        {true, true, false, true, false, false, false, true, false, false,
-         true, false, false, true, true, false, true, false, false, false,
-         false, false, false, false, false, false, false},
+            "36","06","16","15","45","04","04","04","04",
+            "20","20","20","20","20","20","20","20","20",
+            "20","25","25","05","05","05","05","05","05"
         };
 
         #endregion
@@ -83,8 +61,8 @@ namespace Cryptool.Plugins.M209
         /// This example setting uses a number field input, but there are many more input types available, see ControlType enumeration.
         /// </summary>
         //[TaskPane("Startwert", "6 stelliger Startwert", null, 1, false, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, Int32.MaxValue)]
-        [ContextMenu("Action", "Select the Algorithm action", 1, ContextMenuControlType.ComboBox, new int[] { 1, 2 }, "Encrypt", "Decrypt")]
-        [TaskPane("Action", "setAlgorithmActionDescription", null, 1, true, ControlType.ComboBox, new string[] { "Encrypt", "Decrypt" })]
+        [ContextMenu("ActionCaption", "ActionTooltip", 1, ContextMenuControlType.ComboBox, new int[] { 1, 2 }, "Encrypt", "Decrypt")]
+        [TaskPane("ActionCaption", "ActionTooltip", null, 1, true, ControlType.ComboBox, new string[] { "Encrypt", "Decrypt" })]
         public int Action
         {
             get
@@ -97,13 +75,13 @@ namespace Cryptool.Plugins.M209
                 this.selectedAction = value;
                 OnPropertyChanged("Action");
 
-                if (ReExecute != null) ReExecute();
+                //if (ReExecute != null) ReExecute();
             }
         }
 
 
 
-        [TaskPaneAttribute("Key (Initial rotor setting)", "Please provide the initial rotor setting for each rotor, e.g. ABCD. ", null, 3, true, ControlType.TextBox, ValidationType.RegEx, "^([A-Z}]){6,6}$")]
+        [TaskPaneAttribute("StartwertCaption", "StartwertTooltip", null, 3, true, ControlType.TextBox, ValidationType.RegEx, "^([A-Z}]){6,6}$")]
         public string Startwert
         {
             get
@@ -122,7 +100,7 @@ namespace Cryptool.Plugins.M209
         }
 
         #region Wheel options
-        [TaskPane("Rotor #1", "Please write all Active Pins, e.g. ABCD. ", "Wheel options", 2, true, ControlType.TextBox, ValidationType.RegEx, "^([A-Z}]){0,26}$")]
+        [TaskPane("Rotor1Caption", "Rotor1Tooltip", "Wheel options", 2, true, ControlType.TextBox, ValidationType.RegEx, "^([A-Z}]){0,26}$")]
         public string Rotor1
         {
             get
@@ -139,7 +117,7 @@ namespace Cryptool.Plugins.M209
                 }
             }
         }
-        [TaskPane("Rotor #2", "Please write all Active Pins, e.g. ABCD. ", "Wheel options", 2, true, ControlType.TextBox, ValidationType.RegEx, "^([A-V}X,Y,Z]){0,25}$")]
+        [TaskPane("Rotor2Caption", "Rotor2Tooltip", "Wheel options", 2, true, ControlType.TextBox, ValidationType.RegEx, "^([A-V}X,Y,Z]){0,25}$")]
         public string Rotor2
         {
             get
@@ -156,7 +134,7 @@ namespace Cryptool.Plugins.M209
                 }
             }
         }
-        [TaskPane("Rotor #3", "Please write all Active Pins, e.g. ABCD. ", "Wheel options", 2, true, ControlType.TextBox, ValidationType.RegEx, "^([A-V}X]){0,23}$")]
+        [TaskPane("Rotor3Caption", "Rotor3Tooltip", "Wheel options", 2, true, ControlType.TextBox, ValidationType.RegEx, "^([A-V}X]){0,23}$")]
         public string Rotor3
         {
             get
@@ -173,7 +151,7 @@ namespace Cryptool.Plugins.M209
                 }
             }
         }
-        [TaskPane("Rotor #4", "Please write all Active Pins, e.g. ABCD. ", "Wheel options", 2, true, ControlType.TextBox, ValidationType.RegEx, "^([A-U}]){0,21}$")]
+        [TaskPane("Rotor4Caption", "Rotor4Tooltip", "Wheel options", 2, true, ControlType.TextBox, ValidationType.RegEx, "^([A-U}]){0,21}$")]
         public string Rotor4
         {
             get
@@ -190,7 +168,7 @@ namespace Cryptool.Plugins.M209
                 }
             }
         }
-        [TaskPane("Rotor #5", "Please write all Active Pins, e.g. ABCD. ", "Wheel options", 2, true, ControlType.TextBox, ValidationType.RegEx, "^([A-S}]){0,19}$")]
+        [TaskPane("Rotor5Caption", "Rotor5Tooltip", "Wheel options", 2, true, ControlType.TextBox, ValidationType.RegEx, "^([A-S}]){0,19}$")]
         public string Rotor5
         {
             get
@@ -207,7 +185,7 @@ namespace Cryptool.Plugins.M209
                 }
             }
         }
-        [TaskPaneAttribute("Rotor #6", "Please write all Active Pins, e.g. ABCD. ", "Wheel options", 2, true, ControlType.TextBox, ValidationType.RegEx, "^([A-Q}]){0,17}$")]
+        [TaskPane("Rotor6Caption", "Rotor6Tooltip", "Wheel options", 2, true, ControlType.TextBox, ValidationType.RegEx, "^([A-Q}]){0,17}$")]
         public string Rotor6
         {
             get
@@ -229,7 +207,7 @@ namespace Cryptool.Plugins.M209
         #endregion
 
         #region Bar options
-        [TaskPane("Bar #1", "Please activate Slider, e.g. 24", "Bar options", 3, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
+        [TaskPane("Bar1Caption", "Bar1Tooltip", "Bar options", 3, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
         public string Bar1
         {
             get
@@ -246,7 +224,7 @@ namespace Cryptool.Plugins.M209
                 }
             }
         }
-        [TaskPane("Bar #2", "Please activate Slider, e.g. 24", "Bar options", 4, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
+        [TaskPane("Bar2Caption", "Bar2Tooltip", "Bar options", 4, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
         public string Bar2
         {
             get
@@ -264,7 +242,7 @@ namespace Cryptool.Plugins.M209
             }
         }
 
-        [TaskPane("Bar #3", "Please activate Slider, e.g. 24", "Bar options", 5, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
+        [TaskPane("Bar3Caption", "Bar3Tooltip", "Bar options", 5, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
         public string Bar3
         {
             get
@@ -281,7 +259,8 @@ namespace Cryptool.Plugins.M209
                 }
             }
         }
-        [TaskPane("Bar #4", "Please activate Slider, e.g. 24", "Bar options", 6, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
+
+        [TaskPane("Bar4Caption", "Bar4Tooltip", "Bar options", 6, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
         public string Bar4
         {
             get
@@ -298,7 +277,8 @@ namespace Cryptool.Plugins.M209
                 }
             }
         }
-        [TaskPane("Bar #5", "Please activate Slider, e.g. 24", "Bar options", 7, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
+
+        [TaskPane("Bar5Caption", "Bar5Tooltip", "Bar options", 7, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
         public string Bar5
         {
             get
@@ -315,7 +295,8 @@ namespace Cryptool.Plugins.M209
                 }
             }
         }
-        [TaskPane("Bar #6", "Please activate Slider, e.g. 24", "Bar options", 8, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
+
+        [TaskPane("Bar6Caption", "Bar6Tooltip", "Bar options", 8, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
         public string Bar6
         {
             get
@@ -332,7 +313,8 @@ namespace Cryptool.Plugins.M209
                 }
             }
         }
-        [TaskPane("Bar #7", "Please activate Slider, e.g. 24", "Bar options", 9, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
+
+        [TaskPane("Bar7Caption", "Bar7Tooltip", "Bar options", 9, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
         public string Bar7
         {
             get
@@ -349,7 +331,8 @@ namespace Cryptool.Plugins.M209
                 }
             }
         }
-        [TaskPane("Bar #8", "Please activate Slider, e.g. 24", "Bar options", 10, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
+
+        [TaskPane("Bar8Caption", "Bar8Tooltip", "Bar options", 10, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
         public string Bar8
         {
             get
@@ -366,7 +349,8 @@ namespace Cryptool.Plugins.M209
                 }
             }
         }
-        [TaskPane("Bar #9", "Please activate Slider, e.g. 24", "Bar options", 11, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
+
+        [TaskPane("Bar9Caption", "Bar9Tooltip", "Bar options", 11, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
         public string Bar9
         {
             get
@@ -383,7 +367,8 @@ namespace Cryptool.Plugins.M209
                 }
             }
         }
-        [TaskPane("Bar #10", "Please activate Slider, e.g. 24", "Bar options", 12, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
+
+        [TaskPane("Bar10Caption", "Bar10Tooltip", "Bar options", 12, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
         public string Bar10
         {
             get
@@ -400,7 +385,8 @@ namespace Cryptool.Plugins.M209
                 }
             }
         }
-        [TaskPane("Bar #11", "Please activate Slider, e.g. 24", "Bar options", 13, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
+
+        [TaskPane("Bar11Caption", "Bar11Tooltip", "Bar options", 13, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
         public string Bar11
         {
             get
@@ -417,7 +403,8 @@ namespace Cryptool.Plugins.M209
                 }
             }
         }
-        [TaskPane("Bar #12", "Please activate Slider, e.g. 24", "Bar options", 14, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
+
+        [TaskPane("Bar12Caption", "Bar12Tooltip", "Bar options", 14, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
         public string Bar12
         {
             get
@@ -434,7 +421,8 @@ namespace Cryptool.Plugins.M209
                 }
             }
         }
-        [TaskPane("Bar #13", "Please activate Slider, e.g. 24", "Bar options", 15, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
+
+        [TaskPane("Bar13Caption", "Bar13Tooltip", "Bar options", 15, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
         public string Bar13
         {
             get
@@ -451,7 +439,8 @@ namespace Cryptool.Plugins.M209
                 }
             }
         }
-        [TaskPane("Bar #14", "Please activate Slider, e.g. 24", "Bar options", 16, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
+
+        [TaskPane("Bar14Caption", "Bar14Tooltip", "Bar options", 16, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
         public string Bar14
         {
             get
@@ -468,7 +457,8 @@ namespace Cryptool.Plugins.M209
                 }
             }
         }
-        [TaskPane("Bar #15", "Please activate Slider, e.g. 24", "Bar options", 17, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
+
+        [TaskPane("Bar15Caption", "Bar15Tooltip", "Bar options", 17, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
         public string Bar15
         {
             get
@@ -485,7 +475,8 @@ namespace Cryptool.Plugins.M209
                 }
             }
         }
-        [TaskPane("Bar #16", "Please activate Slider, e.g. 24", "Bar options", 18, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
+
+        [TaskPane("Bar16Caption", "Bar16Tooltip", "Bar options", 18, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
         public string Bar16
         {
             get
@@ -502,7 +493,8 @@ namespace Cryptool.Plugins.M209
                 }
             }
         }
-        [TaskPane("Bar #17", "Please activate Slider, e.g. 24", "Bar options", 19, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
+
+        [TaskPane("Bar17Caption", "Bar17Tooltip", "Bar options", 19, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
         public string Bar17
         {
             get
@@ -519,7 +511,8 @@ namespace Cryptool.Plugins.M209
                 }
             }
         }
-        [TaskPane("Bar #18", "Please activate Slider, e.g. 24", "Bar options", 20, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
+
+        [TaskPane("Bar18Caption", "Bar18Tooltip", "Bar options", 20, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
         public string Bar18
         {
             get
@@ -536,7 +529,8 @@ namespace Cryptool.Plugins.M209
                 }
             }
         }
-        [TaskPane("Bar #19", "Please activate Slider, e.g. 24", "Bar options", 21, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
+
+        [TaskPane("Bar19Caption", "Bar19Tooltip", "Bar options", 21, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
         public string Bar19
         {
             get
@@ -553,7 +547,8 @@ namespace Cryptool.Plugins.M209
                 }
             }
         }
-        [TaskPane("Bar #20", "Please activate Slider, e.g. 24", "Bar options", 22, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
+
+        [TaskPane("Bar20Caption", "Bar20Tooltip", "Bar options", 22, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
         public string Bar20
         {
             get
@@ -570,7 +565,8 @@ namespace Cryptool.Plugins.M209
                 }
             }
         }
-        [TaskPane("Bar #21", "Please activate Slider, e.g. 24", "Bar options", 23, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
+
+        [TaskPane("Bar21Caption", "Bar21Tooltip", "Bar options", 23, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
         public string Bar21
         {
             get
@@ -587,7 +583,8 @@ namespace Cryptool.Plugins.M209
                 }
             }
         }
-        [TaskPane("Bar #22", "Please activate Slider, e.g. 24", "Bar options", 24, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
+
+        [TaskPane("Bar22Caption", "Bar22Tooltip", "Bar options", 24, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
         public string Bar22
         {
             get
@@ -604,7 +601,8 @@ namespace Cryptool.Plugins.M209
                 }
             }
         }
-        [TaskPane("Bar #23", "Please activate Slider, e.g. 24", "Bar options", 25, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
+
+        [TaskPane("Bar23Caption", "Bar23Tooltip", "Bar options", 25, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
         public string Bar23
         {
             get
@@ -621,7 +619,8 @@ namespace Cryptool.Plugins.M209
                 }
             }
         }
-        [TaskPane("Bar #24", "Please activate Slider, e.g. 24", "Bar options", 26, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
+
+        [TaskPane("Bar24Caption", "Bar24Tooltip", "Bar options", 26, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
         public string Bar24
         {
             get
@@ -638,7 +637,8 @@ namespace Cryptool.Plugins.M209
                 }
             }
         }
-        [TaskPane("Bar #25", "Please activate Slider, e.g. 24", "Bar options", 27, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
+
+        [TaskPane("Bar25Caption", "Bar25Tooltip", "Bar options", 27, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
         public string Bar25
         {
             get
@@ -655,7 +655,8 @@ namespace Cryptool.Plugins.M209
                 }
             }
         }
-        [TaskPane("Bar #26", "Please activate Slider, e.g. 24", "Bar options", 28, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
+
+        [TaskPane("Bar26Caption", "Bar26Tooltip", "Bar options", 28, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
         public string Bar26
         {
             get
@@ -672,7 +673,8 @@ namespace Cryptool.Plugins.M209
                 }
             }
         }
-        [TaskPane("Bar #27", "Please activate Slider, e.g. 24", "Bar options", 29, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
+
+        [TaskPane("Bar27Caption", "Bar27Tooltip", "Bar options", 29, true, ControlType.TextBox, ValidationType.RegEx, "^([0-6}]){0,2}$")]
         public string Bar27
         {
             get
@@ -689,8 +691,10 @@ namespace Cryptool.Plugins.M209
                 }
             }
         }
+
         // Bar Setting
         #endregion
+
         //Taskpane ende
         #endregion
 
