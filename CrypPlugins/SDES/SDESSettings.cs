@@ -70,7 +70,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         /// 2 = CBC
         /// </summary>
         [ContextMenu( "ModeCaption", "ModeTooltip",2,ContextMenuControlType.ComboBox,null, new String[] {"Electronic Code Book (ECB)","Cipher Block Chaining (CBC)" })]
-        [TaskPane( "ModeTPCaption", "ModeTPTooltip", null, 2, false, ControlType.ComboBox, new String[] { "Electronic Bode Book (ECB)","Cipher Block Chaining (CBC)", })]
+        [TaskPane("ModeCaption", "ModeTooltip", null, 2, false, ControlType.ComboBox, new String[] { "Electronic Bode Book (ECB)", "Cipher Block Chaining (CBC)", })]
         public int Mode
         {
             get { return this.mode; }

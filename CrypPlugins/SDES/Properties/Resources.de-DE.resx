@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Encryption" xml:space="preserve">
-    <value>Encryption</value>
+    <value>Verschlüsselung</value>
   </data>
     <data name="PluginCaption" xml:space="preserve">
     <value>SDES</value>
@@ -126,55 +126,46 @@
   <data name="PluginTooltip" xml:space="preserve">
     <value>Simplified Data Encryption Standard</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value>SDES/DetailedDescription/Description.xaml</value>
-  </data>
     <data name="InputStreamCaption" xml:space="preserve">
-    <value>Input</value>
+    <value>Eingabe</value>
   </data>
   <data name="InputStreamTooltip" xml:space="preserve">
-    <value>Data to be encrypted or decrypted</value>
+    <value>Daten die zu ver- oder entschlüsseln sind</value>
   </data>
   <data name="OutputStreamCaption" xml:space="preserve">
-    <value>Output stream</value>
+    <value>Ausgabestrom</value>
   </data>
   <data name="OutputStreamTooltip" xml:space="preserve">
-    <value>Encrypted or decrypted output data</value>
+    <value>Ver- oder entschlüsselte Ausgabedaten</value>
   </data>
   <data name="InputKeyCaption" xml:space="preserve">
-    <value>Key</value>
+    <value>Schlüssel</value>
   </data>
   <data name="InputKeyTooltip" xml:space="preserve">
-    <value>Must be 10 bytes (only 1 or 0 allowed).</value>
+    <value>Müssen 10 Bytes sein (nur '1' oder '0' erlaubt).</value>
   </data>
   <data name="InputIVCaption" xml:space="preserve">
     <value>IV</value>
   </data>
   <data name="InputIVTooltip" xml:space="preserve">
-    <value>IV to be used in chaining modes, must be 8 bytes (only 1 or 0 allowed).</value>
+    <value>Der Initialisierungsvektor, der in Verkettungsmodis benutzt wird. Müssen 8 Bytes sein (nur '1' oder '0' erlaubt).</value>
   </data>
   <data name="ControlSlaveCaption" xml:space="preserve">
-    <value>SDES Slave</value>
+    <value>SDES Sklave</value>
   </data>
   <data name="ControlSlaveTooltip" xml:space="preserve">
-    <value>Direct access to SDES.</value>
+    <value>Direkter Zugriff auf SDES.</value>
   </data>
     <data name="ActionCaption" xml:space="preserve">
-    <value>Action</value>
+    <value>Aktion</value>
   </data>
   <data name="ActionTooltip" xml:space="preserve">
-    <value>Do you want the input data to be encrypted or decrypted?</value>
+    <value>Möchten Sie die Eingabedaten ver- oder entschlüsseln?</value>
   </data>
   <data name="ModeCaption" xml:space="preserve">
-    <value>Chaining mode</value>
+    <value>Verkettungsmodus</value>
   </data>
   <data name="ModeTooltip" xml:space="preserve">
-    <value>Select the block cipher mode of operation.</value>
-  </data>
-  <data name="ModeTPCaption" xml:space="preserve">
-    <value>Chaining Mode</value>
-  </data>
-  <data name="ModeTPTooltip" xml:space="preserve">
-    <value>Select the block cipher mode of operation.</value>
+    <value>Wählen Sie den Blockchiffre Operationsmodus.</value>
   </data>
 </root>
