@@ -13,10 +13,10 @@
   </introduction>
 
   <introduction lang="de-DE">    
-      SDES (Simplified Data Encryption Standard) ist ein sehr einfacher Algorithmus der DES ähnelt. Er wurde für Lehr- und Lernzwecke entwickelt. Verglichen mit DES ist es sehr einfach, den Algorithmus zu implementieren.
+      SDES (Simplified Data Encryption Standard) ist ein sehr einfacher Algorithmus, der DES ähnelt. Er wurde für Lehr- und Lernzwecke entwickelt. Verglichen mit DES ist es sehr einfach, den Algorithmus zu implementieren.
       SDES braucht einen Schlüssel der Länge 10-Bit für die Ver- und Entschlüsselung. Genau wie sein Vorbild DES ist SDES ein symmetrischer Algorithmus.
-      Das bedeutet, dass der selbe Schlüssel für die Ver- und Entschlüsselung gebraucht wird.
-      SDES kann, aufgrund seines geringen Schlüsselraums (2^10 = 1024 mögliche Schlüssel), sehr einfach mittels Brute-Force-Attacken gebrochen werden.
+      Das bedeutet, dass derselbe Schlüssel für die Ver- und Entschlüsselung gebraucht wird.
+      SDES kann, aufgrund seines geringen Schlüsselraums (2^10 = 1024 mögliche Schlüssel), sehr einfach mit Hilfe von Brute-Force-Angriffen gebrochen werden.
   </introduction>
 
   <manual lang="en">
@@ -33,17 +33,17 @@
   </manual>
 
   <manual lang="de-DE">
-    Diese Komponente ermöglicht es dem Benutzer sowohl zwischen "Electronic Code Book" (ECB) als auch "Cipher Block Chaining" (CBC) für die Ver- und Entschlüsselung zu wählen.
+    Mit dieser Komponente kann man bei der Ver- und Entschlüsselung wählen, ob als Verkettungsmodus "Electronic Code Book" (ECB) oder "Cipher Block Chaining" (CBC) benutzt wird.
     SDES benötigt zwei Datenströme für die Ver- und Entschlüsselung (einen für die Eingabedaten und einen für die Ausgabedaten).
     Außerdem wird ein 10-Bit-Schlüssel benötigt (repräsentiert durch eine Zeichenkette bestehend aus '1' und '0' Zeichen); z.B. '1110011010'.
     Abschließend wird ein Initialisierungsvektor der Länge 8-Bit benötigt (z.B. '10010010').
-    Die Komponente wird, falls Schlüssel- oder Initialisierungsvektorlänge falsch sind, nicht arbeiten.
+    Die Komponente funktioniert nur, falls die Längen von Schlüssel und Initialisierungsvektor korrekt sind.
     Als Schlüssel und Initialisierungsvektor werden zwei Byte-Arrays benötigt.
     <newline/>
     Ziehen Sie die SDES-Komponente auf ihren Arbeitsbereich und verbinden Sie den Dateneingang mit einer Datenquelle (wie zum Beispiel einer Textausgangskomponente).<newline/>
     Verbinden Sie zusätzlich den Schlüsseleingang mit einer Zeichenkettenquelle, welche den Schlüssel als binäre '0' und '1' Repräsentation beinhaltet.<newline/>
-    Optional können sie eine Datenquelle, welche den Initialisierungsvektor beinhaltet, mit dem IV-Eingang verbinden.<newline/>
-    Indem Sie auf die SDES-Komponente klicken, erhalten Sie Zugang zu den Einstellungen der Komponente (auf der rechten Seite).
+    Optional können Sie eine Datenquelle, welche den Initialisierungsvektor beinhaltet, mit dem IV-Eingang verbinden.<newline/>
+    Mit einem Klick auf die SDES-Komponente erhalten Sie Zugang zu den Einstellungen der Komponente (auf der rechten Seite).
     Dort können Sie auswählen, ob Sie ent- oder verschlüsseln wollen und welchen Verkettungsmodus Sie einsetzen möchten.
   </manual>
   
@@ -59,8 +59,8 @@
   </presentation>
   
   <presentation lang="de-DE">
-    Durch Doppelklick auf die SDES-Komponente im CrypTool-Fenster kann der Benutzer die Visualisierung des SDES-Algorithmus aktivieren.
-    In dieser Ansicht kann er den Fluss der Bits durch den ganzen Algorithmus verfolgen.
+    Durch Doppelklick auf die SDES-Komponente im CrypTool-Fenster können Sie die Visualisierung des SDES-Algorithmus aktivieren.
+    In dieser Ansicht können Sie den Fluss der Bits durch den ganzen Algorithmus verfolgen.
     Der Fluss jedes Bits wird durch schmale Linien (vergleichbar mit Kabeln) repräsentiert, die von der Eingabe durch den Algorithmus zur finalen Ausgabe führen.
     Jeder Schritt wird von einer Textbox angezeigt, die das aktuelle Wort, welches von einer Unterfunktion des SDES-Algorithmus produziert wurde, anzeigt.
     Jeder Name einer Unterfunktion kann auf der rechten oder linken Seite einer Textbox eingesehen werden.
