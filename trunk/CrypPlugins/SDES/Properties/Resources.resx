@@ -126,9 +126,6 @@
   <data name="PluginTooltip" xml:space="preserve">
     <value>Simplified Data Encryption Standard</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value>SDES/DetailedDescription/Description.xaml</value>
-  </data>
     <data name="InputStreamCaption" xml:space="preserve">
     <value>Input</value>
   </data>
@@ -145,13 +142,13 @@
     <value>Key</value>
   </data>
   <data name="InputKeyTooltip" xml:space="preserve">
-    <value>Must be 10 bytes (only 1 or 0 allowed).</value>
+    <value>Must be 10 bytes (only '1' or '0' allowed).</value>
   </data>
   <data name="InputIVCaption" xml:space="preserve">
     <value>IV</value>
   </data>
   <data name="InputIVTooltip" xml:space="preserve">
-    <value>IV to be used in chaining modes, must be 8 bytes (only 1 or 0 allowed).</value>
+    <value>Initializing vector to be used in chaining modes. Must be 8 bytes (only 1 or 0 allowed).</value>
   </data>
   <data name="ControlSlaveCaption" xml:space="preserve">
     <value>SDES Slave</value>
@@ -169,12 +166,6 @@
     <value>Chaining mode</value>
   </data>
   <data name="ModeTooltip" xml:space="preserve">
-    <value>Select the block cipher mode of operation.</value>
-  </data>
-  <data name="ModeTPCaption" xml:space="preserve">
-    <value>Chaining Mode</value>
-  </data>
-  <data name="ModeTPTooltip" xml:space="preserve">
     <value>Select the block cipher mode of operation.</value>
   </data>
 </root>

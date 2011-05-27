@@ -166,4 +166,52 @@
 	<data name="Templates_description">
 		<value xml:space="preserve">The templates listed below are available for this component.</value>
 	</data>
+	<data name="Text_box">
+		<value xml:space="preserve">Text box</value>
+	</data>
+	<data name="Combo_box">
+		<value xml:space="preserve">Combo box</value>
+	</data>
+	<data name="Radio_button">
+		<value xml:space="preserve">Radio button</value>
+	</data>
+	<data name="Check_box">
+		<value xml:space="preserve">Check box</value>
+	</data>
+	<data name="Open_file_dialog">
+		<value xml:space="preserve">Open file dialog</value>
+	</data>
+	<data name="Save_file_dialog">
+		<value xml:space="preserve">Save file dialog</value>
+	</data>
+	<data name="Numeric_up_down">
+		<value xml:space="preserve">Numeric up/down</value>
+	</data>
+	<data name="Button">
+		<value xml:space="preserve">Button</value>
+	</data>
+	<data name="Slider">
+		<value xml:space="preserve">Slider</value>
+	</data>
+	<data name="Text_box__read_only_">
+		<value xml:space="preserve">Text box (read only)</value>
+	</data>
+	<data name="Dynamic_combo_box">
+		<value xml:space="preserve">Dynamic combo box</value>
+	</data>
+	<data name="Text_box__hidden_">
+		<value xml:space="preserve">Text box (hidden)</value>
+	</data>
+	<data name="Input_data">
+		<value xml:space="preserve">Input data</value>
+	</data>
+	<data name="Output_data">
+		<value xml:space="preserve">Output data</value>
+	</data>
+	<data name="Control_slave">
+		<value xml:space="preserve">Control slave</value>
+	</data>
+	<data name="Control_master">
+		<value xml:space="preserve">Control master</value>
+	</data>
 </root>

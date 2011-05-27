@@ -75,13 +75,46 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
                 {
                     codeBuilder.AppendLine(string.Format("<tr> <td>{0}</td> <td>{1}</td> <td>{2}</td> </tr>",
                                                          setting.Caption, setting.ToolTip,
-                                                         setting.ControlType.ToString()));
+                                                         GetControlTypeString(setting.ControlType)));
                 }
 
                 codeBuilder.AppendLine("</table>");
                 return codeBuilder.ToString();
             }
             return Resources.NoContent;
+        }
+
+        private string GetControlTypeString(ControlType controlType)
+        {
+            switch (controlType)
+            {
+                case ControlType.TextBox:
+                    return Resources.Text_box;
+                case ControlType.ComboBox:
+                    return Resources.Combo_box;
+                case ControlType.RadioButton:
+                    return Resources.Radio_button;
+                case ControlType.CheckBox:
+                    return Resources.Check_box;
+                case ControlType.OpenFileDialog:
+                    return Resources.Open_file_dialog;
+                case ControlType.SaveFileDialog:
+                    return Resources.Save_file_dialog;
+                case ControlType.NumericUpDown:
+                    return Resources.Numeric_up_down;
+                case ControlType.Button:
+                    return Resources.Button;
+                case ControlType.Slider:
+                    return Resources.Slider;
+                case ControlType.TextBoxReadOnly:
+                    return Resources.Text_box__read_only_;
+                case ControlType.DynamicComboBox:
+                    return Resources.Dynamic_combo_box;
+                case ControlType.TextBoxHidden:
+                    return Resources.Text_box__hidden_;
+                default:
+                    throw new ArgumentOutOfRangeException("controlType");
+            }
         }
 
         private string ConvertConnectorList(PropertyInfoAttribute[] connectors)
@@ -103,7 +136,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
                         string.Format("<tr> <td>{0}</td> <td>{1}</td> <td>{2}</td> <td>{3}</td> </tr>",
                                       connector.Caption,
                                       connector.ToolTip,
-                                      connector.Direction,
+                                      GetDirectionString(connector.Direction),
                                       type));
                 }
 
@@ -111,6 +144,23 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
                 return codeBuilder.ToString();
             }
             return Resources.NoContent;
+        }
+
+        private string GetDirectionString(Direction direction)
+        {
+            switch (direction)
+            {
+                case Direction.InputData:
+                    return Resources.Input_data;
+                case Direction.OutputData:
+                    return Resources.Output_data;
+                case Direction.ControlSlave:
+                    return Resources.Control_slave;
+                case Direction.ControlMaster:
+                    return Resources.Control_master;
+                default:
+                    throw new ArgumentOutOfRangeException("direction");
+            }
         }
 
         private string ConvertTemplateList(ComponentTemplateList componentTemplateList, EntityDocumentationPage entityDocumentationPage)

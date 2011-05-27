@@ -148,4 +148,52 @@
 	<data name="Templates_description">
 		<value xml:space="preserve">Die unten aufgelisteten Vorlagen sind für diese Komponente verfügbar.</value>
 	</data>
+	<data name="Text_box">
+		<value xml:space="preserve">Textbox</value>
+	</data>
+	<data name="Combo_box">
+		<value xml:space="preserve">Kombinationsfeld</value>
+	</data>
+	<data name="Radio_button">
+		<value xml:space="preserve">Optionsfeld</value>
+	</data>
+	<data name="Check_box">
+		<value xml:space="preserve">Auswahlkasten</value>
+	</data>
+	<data name="Open_file_dialog">
+		<value xml:space="preserve">Dateiöffnungsdialog</value>
+	</data>
+	<data name="Save_file_dialog">
+		<value xml:space="preserve">Dateispeicherungsdialog</value>
+	</data>
+	<data name="Numeric_up_down">
+		<value xml:space="preserve">Numerisch hoch/runter</value>
+	</data>
+	<data name="Button">
+		<value xml:space="preserve">Knopf</value>
+	</data>
+	<data name="Slider">
+		<value xml:space="preserve">Gleiter</value>
+	</data>
+	<data name="Text_box__read_only_">
+		<value xml:space="preserve">Textbox (nur lesen)</value>
+	</data>
+	<data name="Dynamic_combo_box">
+		<value xml:space="preserve">Dynamisches Kombinationsfeld</value>
+	</data>
+	<data name="Text_box__hidden_">
+		<value xml:space="preserve">Textbox (versteckt)</value>
+	</data>
+	<data name="Input_data">
+		<value xml:space="preserve">Eingabedaten</value>
+	</data>
+	<data name="Output_data">
+		<value xml:space="preserve">Ausgabedaten</value>
+	</data>
+	<data name="Control_slave">
+		<value xml:space="preserve">Kontroll-Sklave</value>
+	</data>
+	<data name="Control_master">
+		<value xml:space="preserve">Kontroll-Meister</value>
+	</data>
 </root>
