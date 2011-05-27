@@ -130,7 +130,7 @@
     <value>Eingabe</value>
   </data>
   <data name="InputStreamTooltip" xml:space="preserve">
-    <value>Daten die zu ver- oder entschlüsseln sind</value>
+    <value>Daten zum Ver- oder Entschlüsseln</value>
   </data>
   <data name="OutputStreamCaption" xml:space="preserve">
     <value>Ausgabestrom</value>
@@ -142,16 +142,16 @@
     <value>Schlüssel</value>
   </data>
   <data name="InputKeyTooltip" xml:space="preserve">
-    <value>Müssen 10 Bytes sein (nur '1' oder '0' erlaubt).</value>
+    <value>Genau 10 Bytes lang (Zeichenkette bestehend aus den Zeichen '1' und '0').</value>
   </data>
   <data name="InputIVCaption" xml:space="preserve">
-    <value>IV</value>
+    <value>Initialisierungsvektor</value>
   </data>
   <data name="InputIVTooltip" xml:space="preserve">
-    <value>Der Initialisierungsvektor, der in Verkettungsmodis benutzt wird. Müssen 8 Bytes sein (nur '1' oder '0' erlaubt).</value>
+    <value>Genau 8 Bytes lang (Zeichenkette bestehend aus den Zeichen '1' und '0').</value>
   </data>
   <data name="ControlSlaveCaption" xml:space="preserve">
-    <value>SDES Sklave</value>
+    <value>SDES-Sklave</value>
   </data>
   <data name="ControlSlaveTooltip" xml:space="preserve">
     <value>Direkter Zugriff auf SDES.</value>
@@ -160,12 +160,12 @@
     <value>Aktion</value>
   </data>
   <data name="ActionTooltip" xml:space="preserve">
-    <value>Möchten Sie die Eingabedaten ver- oder entschlüsseln?</value>
+    <value>Wahl zwischen Ver- oder Entschlüsselung von Eingabedaten.</value>
   </data>
   <data name="ModeCaption" xml:space="preserve">
     <value>Verkettungsmodus</value>
   </data>
   <data name="ModeTooltip" xml:space="preserve">
-    <value>Wählen Sie den Blockchiffre Operationsmodus.</value>
+    <value>Wählen Sie den Verkettungsmodus für die Block-Chiffre.</value>
   </data>
 </root>
