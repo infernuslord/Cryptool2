@@ -29,6 +29,19 @@ namespace WorkspaceManager.View.BinVisual
         #endregion
 
         #region DependencyProperties
+
+        public static readonly DependencyProperty IsSelectedProperty = DependencyProperty.Register("IsSelected",
+            typeof(bool), typeof(BinImageVisual), new FrameworkPropertyMetadata(false));
+
+        public bool IsSelected
+        {
+            get { return (bool)base.GetValue(IsSelectedProperty); }
+            set
+            {
+                base.SetValue(IsSelectedProperty, value);
+            }
+        }
+
         public static readonly DependencyProperty WindowHeightProperty = DependencyProperty.Register("WindowHeight",
             typeof(double), typeof(BinImageVisual), new FrameworkPropertyMetadata(double.Epsilon));
 

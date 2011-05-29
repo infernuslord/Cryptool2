@@ -27,6 +27,8 @@ using System.Reflection;
 using Cryptool.Core;
 using WorkspaceManager.View.BinVisual.IControlVisual;
 using System.Windows.Data;
+using WorkspaceManager.Base.Sort;
+using System.Windows.Controls.Primitives;
 
 namespace WorkspaceManager.View.BinVisual
 {
@@ -43,7 +45,16 @@ namespace WorkspaceManager.View.BinVisual
         #region Fields
         private bool isLinkStarted;
         private BinConnectorVisual from, to;
+        private RectangleGeometry selectRectGeometry = new RectangleGeometry();
+        private bool startedSelection;
         private CryptoLineView draggedLink = new CryptoLineView();
+        private Path selectionPath = new Path() 
+        { 
+            Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#3399ff")),
+            Stroke = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#ffffff")),
+            StrokeThickness = 1, 
+            Opacity = 0.5
+        };
         private Point? startDragPoint;
         #endregion
 
@@ -106,18 +117,18 @@ namespace WorkspaceManager.View.BinVisual
             }
         }
 
-        public static readonly DependencyProperty SelectedItemProperty = DependencyProperty.Register("SelectedItem",
-            typeof(UIElement), typeof(BinEditorVisual), new FrameworkPropertyMetadata(null, OnSelectedItemChanged));
+        public static readonly DependencyProperty SelectedItemsProperty = DependencyProperty.Register("SelectedItems",
+            typeof(UIElement[]), typeof(BinEditorVisual), new FrameworkPropertyMetadata(null, OnSelectedItemChanged));
 
-        public UIElement SelectedItem
+        public UIElement[] SelectedItems
         {
             get
             {
-                return (UIElement)base.GetValue(SelectedItemProperty);
+                return (UIElement[])base.GetValue(SelectedItemsProperty);
             }
             set
             {
-                base.SetValue(SelectedItemProperty, value);
+                base.SetValue(SelectedItemsProperty, value);
             }
         }
 
@@ -160,6 +171,7 @@ namespace WorkspaceManager.View.BinVisual
             Model = model;
             MyEditor = (WorkspaceManager)Model.MyEditor;
             VisualCollection.CollectionChanged += new NotifyCollectionChangedEventHandler(CollectionChangedHandler);
+            VisualCollection.Add(selectionPath);
             InitializeComponent();
         }
 
@@ -338,7 +350,7 @@ namespace WorkspaceManager.View.BinVisual
 
             BinComponentVisual bin = new BinComponentVisual(pluginModel);
             Binding bind = new Binding();
-            bind.Path = new PropertyPath(BinEditorVisual.SelectedItemProperty);
+            bind.Path = new PropertyPath(BinEditorVisual.SelectedItemsProperty);
             bind.Source = this;
             bind.ConverterParameter = bin;
             bind.Converter = new SelectionChangedConverter();
@@ -346,11 +358,13 @@ namespace WorkspaceManager.View.BinVisual
             VisualCollection.Add(bin);
         }
 
-        private void resetLinking()
+        private void reset()
         {
             VisualCollection.Remove(draggedLink);
             SelectedConnector = null;
             isLinkStarted = false;
+            selectionPath.Data = null;
+            startDragPoint = null;
             Mouse.OverrideCursor = null;
         }
 
@@ -489,6 +503,22 @@ namespace WorkspaceManager.View.BinVisual
                 {
                     BinComponentVisual pluginContainerView = (BinComponentVisual)((PluginModel)args.EffectedModelElement).UpdateableView;
                     pluginContainerView.Position = args.NewPosition;
+                    if (SelectedItems != null)
+                    {
+
+                        foreach (var element in SelectedItems)
+                        {
+                            if (element == pluginContainerView)
+                                continue;
+                            BinComponentVisual bin = (BinComponentVisual)element;
+                            //bin.SetBinding(BinComponentVisual.IsDraggingProperty,
+                            //    Util.CreateIsDraggingBinding(new Thumb[] { bin.ContentThumb, bin.TitleThumb, bin.ScaleThumb, bin.HackThumb }));
+                            bin.Position = new Point(bin.Position.X + pluginContainerView.Delta.X, bin.Position.Y + pluginContainerView.Delta.Y);
+                        }
+
+                        //foreach (var element in SelectedItems)
+                        //    ((BinComponentVisual)element).HackThumb.HackDrag = false;
+                    }
                 }
             }
             //else if (args.EffectedModelElement is ImageModel)
@@ -577,13 +607,19 @@ namespace WorkspaceManager.View.BinVisual
         private static void OnSelectedItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             BinEditorVisual b = (BinEditorVisual)d;
-            UIElement newItem = e.NewValue as UIElement;
-            UIElement oldItem= e.OldValue as UIElement;
+            UIElement[] newItem = e.NewValue as UIElement[];
+            UIElement[] oldItem = e.OldValue as UIElement[];
             if (newItem != null)
-                Canvas.SetZIndex(newItem, int.MaxValue);
+            {
+                foreach(var element in newItem)
+                    Canvas.SetZIndex(element, int.MaxValue);
+            }
 
             if (oldItem != null)
-                Canvas.SetZIndex(oldItem, 0);
+            {
+                foreach (var element in oldItem)
+                    Canvas.SetZIndex(element, int.MaxValue);
+            }
         }
 
         public void update()
@@ -617,6 +653,27 @@ namespace WorkspaceManager.View.BinVisual
             IsFullscreenOpen = !IsFullscreenOpen;
         }
 
+        private void SortHandler(object sender, EventArgs e)
+        {
+            if (State == BinEditorState.READY)
+            {
+                double padding = 100;
+                var packer = new ArevaloRectanglePacker(this.ActualWidth * 1.5, this.ActualHeight * 2);
+                foreach (var element in ComponentCollection)
+                {
+                    Point point;
+                    if (packer.TryPack(element.ActualWidth + padding, element.ActualHeight + padding, out point))
+                    {
+                        point.X += 50;
+                        point.Y += 50;
+                        element.Position = point;
+                    }
+                }
+
+
+            }
+        }
+
         private void CollectionChangedHandler(object sender, NotifyCollectionChangedEventArgs e)
         {
             switch(e.Action)
@@ -644,8 +701,15 @@ namespace WorkspaceManager.View.BinVisual
 
         private void MouseLeaveHandler(object sender, MouseEventArgs e)
         {
-            resetLinking();
-            startDragPoint = null;
+            reset();
+        }
+
+        private void MouseUpButtonUpHandler(object sender, MouseButtonEventArgs e)
+        {
+            reset();
+            if (!startedSelection)
+                SelectedItems = null;
+            startedSelection = false;
         }
 
         private void MouseWheelHandler(object sender, MouseWheelEventArgs e)
@@ -670,19 +734,49 @@ namespace WorkspaceManager.View.BinVisual
             {
                 draggedLink.EndPoint = e.GetPosition(sender as FrameworkElement);
                 e.Handled = true;
+                return;
             }
 
-            if (startDragPoint != null)
+            if (startDragPoint != null && e.LeftButton == MouseButtonState.Pressed)
+            {
+                startedSelection = true;
+                Point currentPoint = e.GetPosition(sender as FrameworkElement);
+                Vector delta = Point.Subtract((Point)startDragPoint, currentPoint);
+                delta.Negate();
+                selectRectGeometry.Rect = new Rect((Point)startDragPoint, delta);
+                selectionPath.Data = selectRectGeometry;
+                List<UIElement> items = new List<UIElement>();
+                foreach (var element in ComponentCollection)
+                {
+                    Rect elementRect = new Rect(element.Position, new Size(element.ActualWidth, element.ActualHeight));
+                    if (selectRectGeometry.Rect.IntersectsWith(elementRect))
+                        items.Add(element);
+                    else
+                        items.Remove(element);
+                }
+                SelectedItems = items.ToArray();
+                return;
+            }
+
+            if (startDragPoint != null && e.RightButton == MouseButtonState.Pressed)
             {
 	            Point currentPoint = e.GetPosition(sender as FrameworkElement);
                 Vector delta = Point.Subtract((Point)startDragPoint, currentPoint);
                 ScrollViewer.ScrollToHorizontalOffset(ScrollViewer.HorizontalOffset + delta.X);
                 ScrollViewer.ScrollToVerticalOffset(ScrollViewer.VerticalOffset + delta.Y);
+                return;
             }
         }
 
         private void MouseRightButtonDownHandler(object sender, MouseButtonEventArgs e)
         {
+            if (!(e.Source is BinComponentVisual) && !(e.Source is BinImageVisual) && !(e.Source is BinTextVisual))
+            {
+                startDragPoint = Mouse.GetPosition(sender as FrameworkElement);
+                Mouse.OverrideCursor = Cursors.ScrollAll;
+                e.Handled = true;
+            }
+
             if (e.Source is BinComponentVisual && e.OriginalSource is FrameworkElement)
             {
                 BinComponentVisual c = (BinComponentVisual)e.Source;
@@ -710,7 +804,7 @@ namespace WorkspaceManager.View.BinVisual
             if (!(e.Source is BinComponentVisual) && !(e.Source is BinImageVisual) && !(e.Source is BinTextVisual))
             {
                 startDragPoint = Mouse.GetPosition(sender as FrameworkElement);
-                Mouse.OverrideCursor = Cursors.Hand;
+                Mouse.OverrideCursor = Cursors.Arrow;
                 e.Handled = true;
             }
 
@@ -742,13 +836,11 @@ namespace WorkspaceManager.View.BinVisual
                         }
                         PluginChangedEventArgs componentArgs = new PluginChangedEventArgs(c.Model.Plugin, c.FunctionName, DisplayPluginMode.Normal);
                         MyEditor.onSelectedPluginChanged(componentArgs);
-                        if(SelectedItem != c)
-                            SelectedItem = c;
+                        if (SelectedItems == null || !SelectedItems.Contains(c))
+                            SelectedItems = new UIElement[] { c };
+                        startedSelection = true;
                         return;
                     }
-                    PluginChangedEventArgs editorArgs = new PluginChangedEventArgs(Model.MyEditor, Model.MyEditor.GetPluginInfoAttribute().Caption, DisplayPluginMode.Normal);
-                    MyEditor.onSelectedPluginChanged(editorArgs);
-                    SelectedItem = this;
                     break;
 
                 case 2:
@@ -790,8 +882,7 @@ namespace WorkspaceManager.View.BinVisual
                     }
                 }
             }
-            startDragPoint = null;
-            resetLinking();
+            reset();
         }
 
         #region DragDropHandler
@@ -863,8 +954,8 @@ namespace WorkspaceManager.View.BinVisual
             if (value == null)
                 return false;
 
-            UIElement element = (UIElement)value;
-            if (element.Equals(parameter))
+            UIElement[] elements = (UIElement[])value;
+            if (elements.Contains(parameter))
                 return true;
             else
                 return false;

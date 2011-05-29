@@ -24,6 +24,7 @@ namespace WorkspaceManager.View.VisualComponents
         public event EventHandler<AddTextEventArgs> AddText;
         public event EventHandler<FitToScreenEventArgs> FitToScreen;
         public event EventHandler Overview;
+        public event EventHandler Sort;
 
         public BottomBox()
         {
@@ -93,6 +94,12 @@ namespace WorkspaceManager.View.VisualComponents
             {
                 if (Overview != null)
                     Overview.Invoke(this, new EventArgs());
+            }
+
+            if (btn.Name == "SORT")
+            {
+                if (Sort != null)
+                    Sort.Invoke(this, new EventArgs());
             }
         }
     }

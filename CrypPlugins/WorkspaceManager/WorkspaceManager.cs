@@ -44,6 +44,7 @@ using WorkspaceManager.Model.Tools;
 using System.Collections.ObjectModel;
 using WorkspaceManager.View.BinVisual;
 using WorkspaceManager.View.Base;
+using WorkspaceManager.Base.Sort;
 
 //Disable warnings for unused or unassigned fields and events:
 #pragma warning disable 0169, 0414, 0067
@@ -390,9 +391,9 @@ namespace WorkspaceManager
         /// </summary>
         public void ShowHelp()
         {
-            if (((BinEditorVisual)Presentation).SelectedItem != null && ((BinEditorVisual)Presentation).SelectedItem is BinComponentVisual)
+            if (((BinEditorVisual)Presentation).SelectedItems != null && ((BinEditorVisual)Presentation).SelectedItems[0] is BinComponentVisual)
             {
-                var element = (BinComponentVisual)((BinEditorVisual)Presentation).SelectedItem;
+                var element = (BinComponentVisual)((BinEditorVisual)Presentation).SelectedItems[0];
                 OnlineHelp.InvokeShowPluginDocPage(element.Model.PluginType);
             }
             else
