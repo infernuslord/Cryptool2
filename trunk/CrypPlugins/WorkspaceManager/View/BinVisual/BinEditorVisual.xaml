@@ -63,7 +63,7 @@
                             PreviewMouseLeftButtonDown="MouseLeftButtonDownHandler" PreviewMouseRightButtonDown="MouseRightButtonDownHandler" 
                             PreviewMouseMove="MouseMoveHandler" PreviewMouseLeftButtonUp="MouseLeftButtonUpHandler" MouseLeave="MouseLeaveHandler"
                             PreviewDragEnter="PreviewDragEnterHandler" PreviewDragLeave="PreviewDragLeaveHandler" PreviewDrop="PreviewDropHandler"
-                            MouseWheel="MouseWheelHandler">
+                            MouseWheel="MouseWheelHandler" PreviewMouseUp="MouseUpButtonUpHandler">
                             <visuals:ModifiedCanvas.LayoutTransform>
                                 <ScaleTransform ScaleX="{Binding Source={x:Static properties:Settings.Default}, Path=EditScale, Mode=OneWay}" 
                                     ScaleY="{Binding Source={x:Static properties:Settings.Default}, Path=EditScale, Mode=OneWay}"/>
@@ -93,7 +93,7 @@
         <!--##########/Fullscreen##########-->
 
         <!--##########Bottom Operations##########-->
-        <visuals:BottomBox AddText="AddTextHandler" AddImage="AddImageHandler" FitToScreen="FitToScreenHandler" Overview="OverviewHandler"
+        <visuals:BottomBox AddText="AddTextHandler" AddImage="AddImageHandler" FitToScreen="FitToScreenHandler" Overview="OverviewHandler" Sort="SortHandler"
                            Grid.Row="1" Grid.Column="0"></visuals:BottomBox>
         <!--##########/Bottom Operations##########-->
     </Grid>

@@ -79,6 +79,7 @@
     <Compile Include="View\Base\DragDropHelper\Utilities.cs" />
     <Compile Include="View\Base\Interfaces\IRouting.cs" />
     <Compile Include="View\Base\ObservableDictionary.cs" />
+    <Compile Include="View\Base\SimpleRectanglePacker.cs" />
     <Compile Include="View\Base\Util.cs" />
     <Compile Include="View\BinVisual\BinConnectorVisual.xaml.cs">
       <DependentUpon>BinConnectorVisual.xaml</DependentUpon>

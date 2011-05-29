@@ -343,7 +343,11 @@
         <Border DockPanel.Dock="Top" Background="Black" Height="1"></Border>
         <Border Name="Main" Height="35"  DockPanel.Dock="Bottom" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" ClipToBounds="True" Background="{StaticResource ResourceKey=BlueRadientBrush}">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Style="{StaticResource ResourceKey=BottomBoxBtnStyle}" ToolTip="Fit to Screen" Name="OV" Click="Button_Click" Foreground="WhiteSmoke">
+                <Button Style="{StaticResource ResourceKey=BottomBoxBtnStyle}" ToolTip="Sort" Name="SORT" Click="Button_Click" Foreground="WhiteSmoke" Margin="0,0,10,0">
+                    <TextBlock Text="Sort" VerticalAlignment="Center"></TextBlock>
+                </Button>
+
+                <Button Style="{StaticResource ResourceKey=BottomBoxBtnStyle}" ToolTip="Overview" Name="OV" Click="Button_Click" Foreground="WhiteSmoke">
                     <TextBlock Text="Overview" VerticalAlignment="Center"></TextBlock>
                 </Button>
 

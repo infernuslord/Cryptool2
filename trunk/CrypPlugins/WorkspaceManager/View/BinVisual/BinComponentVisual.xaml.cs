@@ -91,7 +91,10 @@ namespace WorkspaceManager.View.BinVisual
 
         #region Properties
 
+        public ThumHack HackThumb = new ThumHack();
         public BinEditorVisual EditorVisual { private set; get; }
+
+        public Vector Delta { private set; get; }
 
         public bool HasComponentPresentation
         {
@@ -479,7 +482,7 @@ namespace WorkspaceManager.View.BinVisual
             //needs changes in Model
             IsICMaster = Model.HasIControlInputs();
             SetBinding(BinComponentVisual.IsDraggingProperty,
-                Util.CreateIsDraggingBinding(new Thumb[] { ContentThumb, TitleThumb, ScaleThumb }));
+                Util.CreateIsDraggingBinding(new Thumb[] { ContentThumb, TitleThumb, ScaleThumb, HackThumb }));
             setWindowColors(ColorHelper.GetColor(Model.PluginType), ColorHelper.GetColorLight(Model.PluginType));
         }
 
@@ -626,8 +629,9 @@ namespace WorkspaceManager.View.BinVisual
 
         private void PositionDragDeltaHandler(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
         {
-            Position = new Point(Position.X + e.HorizontalChange, Position.Y + e.VerticalChange);
-            Model.WorkspaceModel.ModifyModel(new MoveModelElementOperation(Model,Position));
+            Point point = new Point(Position.X + e.HorizontalChange, Position.Y + e.VerticalChange);
+            Delta = new Vector(e.HorizontalChange, e.VerticalChange);
+            Model.WorkspaceModel.ModifyModel(new MoveModelElementOperation(Model, point));
         }
 
         private static void OnStateValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -763,10 +767,10 @@ namespace WorkspaceManager.View.BinVisual
             if (value == null)
                 return false;
 
-            if (value.Count() == 3)
+            if (value.Count() == 4)
             {
-                bool b1 = (bool)value[0], b2 = (bool)value[1], b3 = (bool)value[2];
-                if (b1 || b2 || b3)
+                bool b1 = (bool)value[0], b2 = (bool)value[1], b3 = (bool)value[2], b4 = (bool)value[3];
+                if (b1 || b2 || b3 || b4)
                     return true;
                 else
                     return false;
@@ -780,6 +784,7 @@ namespace WorkspaceManager.View.BinVisual
                     return false;
             }
         }
+
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture)
         {
@@ -818,6 +823,21 @@ namespace WorkspaceManager.View.BinVisual
     #endregion
 
     #region Custom class
+
+    public class ThumHack : Thumb
+    {
+        public bool HackDrag 
+        { 
+            get 
+            { 
+                return IsDragging;
+            }
+            set 
+            {
+                IsDragging = value;
+            }
+        }
+    }
 
     public class Log
     {
