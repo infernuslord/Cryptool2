@@ -154,7 +154,7 @@
     <value>Format</value>
   </data>
   <data name="FormatAmerTooltip" xml:space="preserve">
-    <value>Choose whether double values are recognized via german or american syntax. German: "123.345.34,34" American: "123,345,34.34"</value>
+    <value>Choose whether double values are recognized via german or american syntax. German: "1.234.567,89" American: "1,234,567.89"</value>
   </data>
   <data name="NumericCaption" xml:space="preserve">
     <value>Numeric</value>

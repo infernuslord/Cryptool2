@@ -120,9 +120,6 @@
   <data name="building_search_structure" xml:space="preserve">
     <value>Building search structure now. This may take a few seconds...</value>
   </data>
-  <data name="can_change_type_while_connected" xml:space="preserve">
-    <value>Can't switch type while plugin is connected.</value>
-  </data>
   <data name="PluginCaption" xml:space="preserve">
     <value>Contains</value>
   </data>
@@ -141,7 +138,7 @@
   <data name="no_input_string" xml:space="preserve">
     <value>No input string.</value>
   </data>
-    <data name="InputStringCaption" xml:space="preserve">
+  <data name="InputStringCaption" xml:space="preserve">
     <value>Text input</value>
   </data>
   <data name="InputStringTooltip" xml:space="preserve">
@@ -157,7 +154,7 @@
     <value>Number of hits to find.</value>
   </data>
   <data name="HitsTooltip" xml:space="preserve">
-    <value>Needs to find n-hits to return true (Overrides settings value if input is given).</value>
+    <value>Search-method needs to find n-hits to return true.</value>
   </data>
   <data name="ResultCaption" xml:space="preserve">
     <value>Search result</value>
@@ -171,7 +168,7 @@
   <data name="HitCountTooltip" xml:space="preserve">
     <value>The search result is based on the current input and the given parameters.</value>
   </data>
-    <data name="CountWordsOnlyOnceCaption" xml:space="preserve">
+  <data name="CountWordsOnlyOnceCaption" xml:space="preserve">
     <value>Count each word only once</value>
   </data>
   <data name="CountWordsOnlyOnceTooltip" xml:space="preserve">
@@ -194,12 +191,6 @@
   </data>
   <data name="HitPercentFromInputStringTooltip" xml:space="preserve">
     <value>Hits value is interpreted as percent value based on input string.</value>
-  </data>
-  <data name="HitsCaption" xml:space="preserve">
-    <value>Number of hits to find.</value>
-  </data>
-  <data name="HitsTooltip" xml:space="preserve">
-    <value>Search-method needs to find n-hits to return true.</value>
   </data>
   <data name="SearchSettingCaption" xml:space="preserve">
     <value>Search Type</value>

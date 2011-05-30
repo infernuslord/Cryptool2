@@ -118,97 +118,97 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="PluginBBO_Caption" xml:space="preserve">
-    <value>Boolean Binary Operator</value>
+    <value>Binärer boolscher Operator</value>
   </data>
   <data name="PluginBBO_Tooltip" xml:space="preserve">
-    <value>Boolean Binary Operator</value>
+    <value>Binärer boolscher Operator</value>
   </data>
   <data name="PluginDescriptionURL" xml:space="preserve">
     <value>BooleanOperators/DetailedDescription/Description.xaml</value>
   </data>
   <data name="PluginBIE_Caption" xml:space="preserve">
-    <value>Boolean IfElse Operator</value>
+    <value>Boolscher Wenn-Dann-Operator</value>
   </data>
   <data name="PluginBIE_Tooltip" xml:space="preserve">
-    <value>Boolean IfElse Operator</value>
+    <value>Boolscher Wenn-Dann-Operator</value>
   </data>
   <data name="PluginBI_Caption" xml:space="preserve">
-    <value>Boolean Input</value>
+    <value>Boolsche Eingabe</value>
   </data>
   <data name="PluginBI_Tooltip" xml:space="preserve">
-    <value>Boolean Input</value>
+    <value>Boolsche Eingabe</value>
   </data>
   <data name="PluginBN_Caption" xml:space="preserve">
-    <value>Boolean Not Operator</value>
+    <value>Boolscher Nicht-Operator</value>
   </data>
   <data name="PluginBN_Tooltip" xml:space="preserve">
-    <value>Boolean Not Operator</value>
+    <value>Boolscher Nicht-Operator</value>
   </data>
   <data name="PluginBO_Caption" xml:space="preserve">
-    <value>Boolean Output</value>
+    <value>Boolsche Ausgabe</value>
   </data>
   <data name="PluginBO_Tooltip" xml:space="preserve">
-    <value>Boolean Output</value>
+    <value>Boolsche Ausgabe</value>
   </data>
   <data name="BBO_InputACaption" xml:space="preserve">
-    <value>InputA</value>
+    <value>Eingabe A</value>
   </data>
   <data name="BBO_InputATooltip" xml:space="preserve">
-    <value>inputA</value>
+    <value>Eingabe A</value>
   </data>
   <data name="BBO_InputBCaption" xml:space="preserve">
-    <value>InputB</value>
+    <value>Eingabe B</value>
   </data>
   <data name="BBO_InputBTooltip" xml:space="preserve">
-    <value>inputB</value>
+    <value>Eingabe B</value>
   </data>
   <data name="BBO_OutputCaption" xml:space="preserve">
-    <value>Output</value>
+    <value>Ausgabe</value>
   </data>
   <data name="BBO_OutputTooltip" xml:space="preserve">
-    <value>output</value>
+    <value>Ausgabe</value>
   </data>
   <data name="BIE_InputCaption" xml:space="preserve">
-    <value>Input</value>
+    <value>Eingabe</value>
   </data>
   <data name="BIE_InputTooltip" xml:space="preserve">
-    <value>input</value>
+    <value>Eingabe</value>
   </data>
   <data name="BIE_Output_trueCaption" xml:space="preserve">
-    <value>Output_true</value>
+    <value>Ausgabe wahr</value>
   </data>
   <data name="BIE_Output_trueTooltip" xml:space="preserve">
-    <value>output true</value>
+    <value>Ausgabe wahr</value>
   </data>
   <data name="BIE_Output_falseCaption" xml:space="preserve">
-    <value>Output_false</value>
+    <value>Ausgabe falsch</value>
   </data>
   <data name="BIE_Output_falseTooltip" xml:space="preserve">
-    <value>output false</value>
+    <value>Ausgabe falsch</value>
   </data>
   <data name="BI_OutputCaption" xml:space="preserve">
-    <value>Output</value>
+    <value>Ausgabe</value>
   </data>
   <data name="BI_OutputTooltip" xml:space="preserve">
-    <value>Output</value>
+    <value>Ausgabe</value>
   </data>
   <data name="BN_InputCaption" xml:space="preserve">
-    <value>Input</value>
+    <value>Eingabe</value>
   </data>
   <data name="BN_InputTooltip" xml:space="preserve">
-    <value>input</value>
+    <value>Eingabe</value>
   </data>
   <data name="BN_OutputCaption" xml:space="preserve">
-    <value>Output</value>
+    <value>Ausgabe</value>
   </data>
   <data name="BN_OutputTooltip" xml:space="preserve">
-    <value>output negated</value>
+    <value>Negierte Ausgabe</value>
   </data>
   <data name="BO_InputCaption" xml:space="preserve">
-    <value>Input</value>
+    <value>Eingabe</value>
   </data>
   <data name="BO_InputTooltip" xml:space="preserve">
-    <value>input</value>
+    <value>Eingabe</value>
   </data>
   <data name="BBO_DefaultFlagACaption" xml:space="preserve">
     <value>Default Flag A</value>
@@ -223,21 +223,21 @@
     <value>If checked, Flag B will be set to fired</value>
   </data>
   <data name="BBO_OperatorTypeCaption" xml:space="preserve">
-    <value>Operator Type</value>
+    <value>Boolscher Operation</value>
   </data>
   <data name="BBO_OperatorTypeTooltip" xml:space="preserve">
-    <value>Operator Type</value>
+    <value>Boolscher Operation</value>
   </data>
   <data name="BBO_UpdateOnlyAtBothInputsChangedCaption" xml:space="preserve">
-    <value>Update needs both inputs</value>
+    <value>Update braucht beide Eingaben</value>
   </data>
   <data name="BBO_UpdateOnlyAtBothInputsChangedTooltip" xml:space="preserve">
-    <value>If checked, this plugin will only update its status if both inputs have changed</value>
+    <value>Wenn dieses Flag gesetzt ist, wird die Ausgabe des Plugins nur dann erneuert, wenn beide Eingänge aktualisiert wurden.</value>
   </data>
   <data name="BI_ValueCaption" xml:space="preserve">
-    <value>Value</value>
+    <value>Wert</value>
   </data>
   <data name="BI_ValueTooltip" xml:space="preserve">
-    <value>Set the boolean value</value>
+    <value>Setze den boolschen Wert der Ausgabe</value>
   </data>
 </root>

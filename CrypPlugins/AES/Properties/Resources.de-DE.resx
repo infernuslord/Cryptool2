@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ActionCaption" xml:space="preserve">
-    <value>Action</value>
+    <value>Aktion</value>
   </data>
   <data name="ActionTooltip" xml:space="preserve">
-    <value>Do you want the input data to be encrypted or decrypted?</value>
+    <value>Wählen Sie die Betriebsart des Plugins</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="AESOpenCL" type="System.Resources.ResXFileRef, System.Windows.Forms">
@@ -131,61 +131,61 @@
     <value>Blockgröße</value>
   </data>
   <data name="BlocksizeTooltip" xml:space="preserve">
-    <value>Select the block size (applies only to Rijndael)</value>
+    <value>Wählen Sie die Blockgröße (gilt nur für Rijndael)</value>
   </data>
   <data name="ControlSlaveCaption" xml:space="preserve">
-    <value>AES Slave</value>
+    <value>AES Sklave</value>
   </data>
   <data name="ControlSlaveTooltip" xml:space="preserve">
-    <value>AES Slave</value>
+    <value>AES Sklave</value>
   </data>
   <data name="CryptoAlgorithmCaption" xml:space="preserve">
     <value>Kryptographischer Algorithmus</value>
   </data>
   <data name="CryptoAlgorithmTooltip" xml:space="preserve">
-    <value>Select which symmetric cipher you want to use</value>
+    <value>Welchen symmetrischen Algorithmus wollen Sie verwenden?</value>
   </data>
   <data name="InputIVCaption" xml:space="preserve">
-    <value>IV</value>
+    <value>Initialisierungsvektor</value>
   </data>
   <data name="InputIVTooltip" xml:space="preserve">
-    <value>The initialisation vector (IV) which is used in chaining modes. It always must be the same as the blocksize.</value>
+    <value>Der Initialisierungsvektor (IV) für die die Blockverschlüsselungs-Modi (CBC,CFB). Der IV muss dieselbe Blockgröße wie AES haben.</value>
   </data>
   <data name="InputKeyCaption" xml:space="preserve">
     <value>Schlüssel</value>
   </data>
   <data name="InputKeyTooltip" xml:space="preserve">
-    <value>The provided key should be 16, 24 or 32 bytes, dependig on the settings. Too short/long keys will be extended/truncated!</value>
+    <value>Der angegebene Schlüssel muss 16, 24 oder 32 Bytes lang sein, abhängig von der eingestellten Schlüsselgröß. Zu lange/kurze Schlüssel werden gekürzt/erweitert.</value>
   </data>
   <data name="InputStreamCaption" xml:space="preserve">
-    <value>Input</value>
+    <value>Eingabedatenstrom</value>
   </data>
   <data name="InputStreamTooltip" xml:space="preserve">
-    <value>Data to be encrypted or decrypted</value>
+    <value>zu ver-/entschlüsselnde Daten</value>
   </data>
   <data name="KeysizeCaption" xml:space="preserve">
     <value>Schlüsselgröße</value>
   </data>
   <data name="KeysizeTooltip" xml:space="preserve">
-    <value>Select the key size. Note that providing a longer key will result in cutting the overlapping bytes, providing a shorter key will result in filling up with zeroes.</value>
+    <value>Wählen Sie die Schlüsselgröße. Zu lange Schlüssel werden entsprechend beschnitten, zu kurze werden mit Nullbytes auf die eingestellte Schlüsselgröße erweitert.</value>
   </data>
   <data name="ModeCaption" xml:space="preserve">
-    <value>Chaining mode</value>
+    <value>Blockverkettungsmodus</value>
   </data>
   <data name="ModeTooltip" xml:space="preserve">
-    <value>Select the block cipher mode of operation.</value>
+    <value>Wählen Sie die Art der Blockverkettung.</value>
   </data>
   <data name="OutputStreamCaption" xml:space="preserve">
-    <value>Output stream</value>
+    <value>Ausgabedatenstrom</value>
   </data>
   <data name="OutputStreamTooltip" xml:space="preserve">
-    <value>Encrypted or decrypted output data</value>
+    <value>Ver- bzw. entschlüsselter Ausgabedatenstrom</value>
   </data>
   <data name="PaddingCaption" xml:space="preserve">
-    <value>Padding mode</value>
+    <value>Auffüll-Methode (Padding)</value>
   </data>
   <data name="PaddingTooltip" xml:space="preserve">
-    <value>Select a mode to fill partial data blocks.</value>
+    <value>Wählen Sie die Methode, wie zu kurze Blöcke zur Blockgröße aufgefüllt werden.</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
     <value>AES</value>

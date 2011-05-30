@@ -118,46 +118,46 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ActionCaption" xml:space="preserve">
-    <value>Action</value>
+    <value>Aktion</value>
   </data>
   <data name="ActionTooltip" xml:space="preserve">
-    <value>Select the Algorithm action</value>
+    <value>Wählen Sie die Betriebsart des Plugins</value>
   </data>
   <data name="AlphabetCaseCaption" xml:space="preserve">
-    <value>Alphabet case</value>
+    <value>Groß-/Kleinschreibung</value>
   </data>
   <data name="AlphabetCaseTooltip" xml:space="preserve">
-    <value>Transform the alphabet and input data to upper or lower case</value>
+    <value>Transformiere das Alphabet und die Eingabedaten in Groß- bzw. Kleinschreibung</value>
   </data>
   <data name="CleanTranspositionPassCaption" xml:space="preserve">
-    <value>Clean transposition password</value>
+    <value>bereinigtes Transpositions-Kennwort</value>
   </data>
   <data name="CleanTranspositionPassTooltip" xml:space="preserve">
-    <value>Transposition password, with removed non alphabet character und duplicates</value>
+    <value>bereinigtes Transpositions-Kennwort, bei dem ungültige und doppelte Zeichen entfernt wurden</value>
   </data>
   <data name="InputAlphabetCaption" xml:space="preserve">
-    <value>External alphabet input</value>
+    <value>Eingabealphabet</value>
   </data>
   <data name="InputAlphabetTooltip" xml:space="preserve">
-    <value>Input a string containing the alphabet which should be used by ADFGVX.\nIf no alphabet is provided on this input, the internal alphabet will be used.</value>
+    <value>Geben Sie die Zeichen an, aus denen das Eingabealphabet für ADFGVX bestehen soll. Wenn hier nichts angegeben wird, dann wird das interne Alphabet verwendet (a-z,0-9).</value>
   </data>
   <data name="InputStringCaption" xml:space="preserve">
-    <value>Text input</value>
+    <value>Eingabetext</value>
   </data>
   <data name="InputStringTooltip" xml:space="preserve">
-    <value>Input a string to be processed by the ADFGVX cipher</value>
+    <value>Geben Sie einen Text ein, der mit der ADFGVX-Chiffre ver- bzw. entschlüsselt werden soll.</value>
   </data>
   <data name="OutputDataCaption" xml:space="preserve">
-    <value>Stream output</value>
+    <value>Ausgabedatenstrom</value>
   </data>
   <data name="OutputDataTooltip" xml:space="preserve">
-    <value>The string after processing with the Caesar cipher is converted to a stream. Default encoding is used.</value>
+    <value>Der mit der ADFGVX-Chiffre ver-/entschlüsselte Text, konvertiert in einen Datenstrom</value>
   </data>
   <data name="OutputStringCaption" xml:space="preserve">
-    <value>Text output</value>
+    <value>Ausgabetext</value>
   </data>
   <data name="OutputStringTooltip" xml:space="preserve">
-    <value>The string after processing with the ADFGVX cipher</value>
+    <value>Der mit der ADFGVX-Chiffre verschlüsselte Text</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
     <value>ADFGVX</value>
@@ -166,48 +166,48 @@
     <value>ADFGVX/DetailedDescription/Description.xaml</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>ADFGVX -- cipher used in WW1, combining substitution and transposition</value>
+    <value>ADFGVX -- Chiffre, die im 1. Weltkrieg zum Einsatz kam, Kombination aus Substitution und Transposition</value>
   </data>
   <data name="RandomMatrixCaption" xml:space="preserve">
-    <value>Random Matrix</value>
+    <value>Zufallsmatrix</value>
   </data>
   <data name="RandomMatrixTooltip" xml:space="preserve">
-    <value>Create random matrix</value>
+    <value>Erzeuge Zufallsmatrix</value>
   </data>
   <data name="StandardMatrixCaption" xml:space="preserve">
-    <value>Standard Matrix</value>
+    <value>Standardmatrix</value>
   </data>
   <data name="StandardMatrixTooltip" xml:space="preserve">
-    <value>Create default matrix</value>
+    <value>Erzeuge Standardmatrix</value>
   </data>
   <data name="SubstitutionMatrixCaption" xml:space="preserve">
-    <value>Substitution matrix</value>
+    <value>Substitutionsmatrix</value>
   </data>
   <data name="SubstitutionMatrixTooltip" xml:space="preserve">
-    <value>The matrixed used for encryption/decryption</value>
+    <value>Matrix für die Ver-/Entschlüsselung</value>
   </data>
   <data name="SubstitutionPassCaption" xml:space="preserve">
-    <value>Substitution password</value>
+    <value>Substitutions-Kennwort</value>
   </data>
   <data name="SubstitutionPassTooltip" xml:space="preserve">
-    <value>Enter the string of the substitution matrix</value>
+    <value>Geben Sie das Kennwort für die Substitution ein</value>
   </data>
   <data name="TranspositionPassCaption" xml:space="preserve">
-    <value>Transpositon password</value>
+    <value>Transpositons-Kennwort</value>
   </data>
   <data name="TranspositionPassTooltip" xml:space="preserve">
-    <value>Transposition password can contain any string of characters. Redundant or invalid characters will be removed before de- or encryption.</value>
+    <value>Das Transpositions-Kennwort kann beliebige Zeichen enthalten. Ungültige und mehrfach auftretende Zeichen werden vor der Ver-/Entschlüsselung automatisch entfernt.</value>
   </data>
   <data name="TranspositionPasswordCaption" xml:space="preserve">
-    <value>Transposition password</value>
+    <value>Transpositons-Kennwort</value>
   </data>
   <data name="TranspositionPasswordTooltip" xml:space="preserve">
-    <value>Same setting as Transposition password in Settings-Pane but as dynamic input.</value>
+    <value>Das Transpositions-Kennwort kann beliebige Zeichen enthalten. Ungültige und mehrfach auftretende Zeichen werden vor der Ver-/Entschlüsselung automatisch entfernt.</value>
   </data>
   <data name="UnknownSymbolHandlingCaption" xml:space="preserve">
-    <value>Unknown symbol handling</value>
+    <value>Behandlung ungültiger Zeichen</value>
   </data>
   <data name="UnknownSymbolHandlingTooltip" xml:space="preserve">
-    <value>What should be done with encountered characters at the input which are not in the alphabet?</value>
+    <value>Wie soll auf Zeichen in der Eingabe reagiert werden, die nicht Bestandteil des Eingabealphabets sind?</value>
   </data>
 </root>

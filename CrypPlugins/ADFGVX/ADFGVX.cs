@@ -116,12 +116,12 @@ namespace Cryptool.ADFGVX
                     if (value.Length > settings.SubstitutionMatrix.Length)
                     {
                         value = value.Remove(settings.SubstitutionMatrix.Length);
-                        ADFGVX_LogMessage("Input alphabet to long! Reduce alphabet to " + settings.SubstitutionMatrix.Length.ToString() + " characters!", NotificationLevel.Info);
+                        ADFGVX_LogMessage("Input alphabet too long! Reduce alphabet to " + settings.SubstitutionMatrix.Length.ToString() + " characters!", NotificationLevel.Info);
                         ((ADFGVXSettings)this.settings).SubstitutionMatrix = value;
                     }
                     else if (value.Length < settings.SubstitutionMatrix.Length)
                     {
-                        ADFGVX_LogMessage("Input alphabet to short! The alphabet must have " + settings.SubstitutionMatrix.Length.ToString() + " characters!", NotificationLevel.Info);
+                        ADFGVX_LogMessage("Input alphabet too short! The alphabet must have " + settings.SubstitutionMatrix.Length.ToString() + " characters!", NotificationLevel.Info);
                         ((ADFGVXSettings)this.settings).SubstitutionMatrix = value;
                     }
                     else

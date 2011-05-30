@@ -133,13 +133,13 @@
     <value>public key G</value>
   </data>
   <data name="InputGTooltip" xml:space="preserve">
-    <value>Public Key G</value>
+    <value>public Key G</value>
   </data>
   <data name="InputLambdaCaption" xml:space="preserve">
     <value>private key Lambda</value>
   </data>
   <data name="InputLambdaTooltip" xml:space="preserve">
-    <value>Private key Lambda</value>
+    <value>private key Lambda</value>
   </data>
   <data name="InputMCaption" xml:space="preserve">
     <value>input message M</value>
