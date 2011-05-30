@@ -149,13 +149,13 @@
     <value>Initialisierungsvektor</value>
   </data>
   <data name="InputIVTooltip" xml:space="preserve">
-    <value>Der Initialisierungsvektor (IV) für die die Blockverschlüsselungs-Modi (CBC,CFB). Der IV muss dieselbe Blockgröße wie AES haben.</value>
+    <value>Der Initialisierungsvektor (IV) für die Blockverschlüsselungs-Modi (CBC,CFB). Der IV muss dieselbe Blockgröße wie AES haben.</value>
   </data>
   <data name="InputKeyCaption" xml:space="preserve">
     <value>Schlüssel</value>
   </data>
   <data name="InputKeyTooltip" xml:space="preserve">
-    <value>Der angegebene Schlüssel muss 16, 24 oder 32 Bytes lang sein, abhängig von der eingestellten Schlüsselgröß. Zu lange/kurze Schlüssel werden gekürzt/erweitert.</value>
+    <value>Der angegebene Schlüssel muss 16, 24 oder 32 Bytes lang sein, abhängig von der eingestellten Schlüsselgröße. Zu lange/kurze Schlüssel werden gekürzt/erweitert.</value>
   </data>
   <data name="InputStreamCaption" xml:space="preserve">
     <value>Eingabedatenstrom</value>
