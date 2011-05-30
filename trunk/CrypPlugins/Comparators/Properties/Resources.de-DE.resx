@@ -118,36 +118,36 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="PluginCaption" xml:space="preserve">
-    <value>Comparators</value>
+    <value>Komparator</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Simple comparators (=,!=, &lt;, &gt;, &lt;=, &gt;=). See detailed description.</value>
+    <value>Einfache Vergleichsoperationen (=,!=, &lt;, &gt;, &lt;=, &gt;=). Siehe detailierte Beschreibung.</value>
   </data>
   <data name="PluginDescriptionURL" xml:space="preserve">
     <value>Comparators/DetailedDescription/Description.xaml</value>
   </data>
-    <data name="InputOneCaption" xml:space="preserve">
-    <value>Input one</value>
+  <data name="InputOneCaption" xml:space="preserve">
+    <value>Eingabe 1</value>
   </data>
   <data name="InputOneTooltip" xml:space="preserve">
-    <value>Input one.</value>
+    <value>Eingabe 1</value>
   </data>
   <data name="InputTwoCaption" xml:space="preserve">
-    <value>Input two</value>
+    <value>Eingabe 2</value>
   </data>
   <data name="InputTwoTooltip" xml:space="preserve">
-    <value>Input two.</value>
+    <value>Eingabe 2</value>
   </data>
   <data name="OutputCaption" xml:space="preserve">
-    <value>Output</value>
+    <value>Ausagabe</value>
   </data>
   <data name="OutputTooltip" xml:space="preserve">
-    <value>Output.</value>
+    <value>Ausagabe</value>
   </data>
-    <data name="ComparatorCaption" xml:space="preserve">
-    <value>Comparator</value>
+  <data name="ComparatorCaption" xml:space="preserve">
+    <value>Komparator</value>
   </data>
   <data name="ComparatorTooltip" xml:space="preserve">
-    <value>Choose the Comperator</value>
+    <value>Wählen Sie den Vergleichsoperator</value>
   </data>
 </root>

@@ -118,178 +118,178 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ActionCaption" xml:space="preserve">
-    <value>Action</value>
+    <value>Aktion</value>
   </data>
   <data name="ActionTooltip" xml:space="preserve">
-    <value>Select the Algorithm action</value>
+    <value>Wählen Sie die Betriebsart des Plugins</value>
   </data>
   <data name="Bar10Caption" xml:space="preserve">
-    <value>Bar #10</value>
+    <value>Stange 10</value>
   </data>
   <data name="Bar10Tooltip" xml:space="preserve">
-    <value>Please activate Slider, e.g. 24</value>
+    <value>Positionen der Schieber, z.B. 24</value>
   </data>
   <data name="Bar11Caption" xml:space="preserve">
-    <value>Bar #11</value>
+    <value>Stange 11</value>
   </data>
   <data name="Bar11Tooltip" xml:space="preserve">
-    <value>Please activate Slider, e.g. 24</value>
+    <value>Positionen der Schieber, z.B. 24</value>
   </data>
   <data name="Bar12Caption" xml:space="preserve">
-    <value>Bar #12</value>
+    <value>Stange 12</value>
   </data>
   <data name="Bar12Tooltip" xml:space="preserve">
-    <value>Please activate Slider, e.g. 24</value>
+    <value>Positionen der Schieber, z.B. 24</value>
   </data>
   <data name="Bar13Caption" xml:space="preserve">
-    <value>Bar #13</value>
+    <value>Stange 13</value>
   </data>
   <data name="Bar13Tooltip" xml:space="preserve">
-    <value>Please activate Slider, e.g. 24</value>
+    <value>Positionen der Schieber, z.B. 24</value>
   </data>
   <data name="Bar14Caption" xml:space="preserve">
-    <value>Bar #14</value>
+    <value>Stange 14</value>
   </data>
   <data name="Bar14Tooltip" xml:space="preserve">
-    <value>Please activate Slider, e.g. 24</value>
+    <value>Positionen der Schieber, z.B. 24</value>
   </data>
   <data name="Bar15Caption" xml:space="preserve">
-    <value>Bar #15</value>
+    <value>Stange 15</value>
   </data>
   <data name="Bar15Tooltip" xml:space="preserve">
-    <value>Please activate Slider, e.g. 24</value>
+    <value>Positionen der Schieber, z.B. 24</value>
   </data>
   <data name="Bar16Caption" xml:space="preserve">
-    <value>Bar #16</value>
+    <value>Stange 16</value>
   </data>
   <data name="Bar16Tooltip" xml:space="preserve">
-    <value>Please activate Slider, e.g. 24</value>
+    <value>Positionen der Schieber, z.B. 24</value>
   </data>
   <data name="Bar17Caption" xml:space="preserve">
-    <value>Bar #17</value>
+    <value>Stange 17</value>
   </data>
   <data name="Bar17Tooltip" xml:space="preserve">
-    <value>Please activate Slider, e.g. 24</value>
+    <value>Positionen der Schieber, z.B. 24</value>
   </data>
   <data name="Bar18Caption" xml:space="preserve">
-    <value>Bar #18</value>
+    <value>Stange 18</value>
   </data>
   <data name="Bar18Tooltip" xml:space="preserve">
-    <value>Please activate Slider, e.g. 24</value>
+    <value>Positionen der Schieber, z.B. 24</value>
   </data>
   <data name="Bar19Caption" xml:space="preserve">
-    <value>Bar #19</value>
+    <value>Stange 19</value>
   </data>
   <data name="Bar19Tooltip" xml:space="preserve">
-    <value>Please activate Slider, e.g. 24</value>
+    <value>Positionen der Schieber, z.B. 24</value>
   </data>
   <data name="Bar1Caption" xml:space="preserve">
-    <value>Bar #1</value>
+    <value>Stange 1</value>
   </data>
   <data name="Bar1Tooltip" xml:space="preserve">
-    <value>Please activate Slider, e.g. 24</value>
+    <value>Positionen der Schieber, z.B. 24</value>
   </data>
   <data name="Bar20Caption" xml:space="preserve">
-    <value>Bar #20</value>
+    <value>Stange 20</value>
   </data>
   <data name="Bar20Tooltip" xml:space="preserve">
-    <value>Please activate Slider, e.g. 24</value>
+    <value>Positionen der Schieber, z.B. 24</value>
   </data>
   <data name="Bar21Caption" xml:space="preserve">
-    <value>Bar #21</value>
+    <value>Stange 21</value>
   </data>
   <data name="Bar21Tooltip" xml:space="preserve">
-    <value>Please activate Slider, e.g. 24</value>
+    <value>Positionen der Schieber, z.B. 24</value>
   </data>
   <data name="Bar22Caption" xml:space="preserve">
-    <value>Bar #22</value>
+    <value>Stange 22</value>
   </data>
   <data name="Bar22Tooltip" xml:space="preserve">
-    <value>Please activate Slider, e.g. 24</value>
+    <value>Positionen der Schieber, z.B. 24</value>
   </data>
   <data name="Bar23Caption" xml:space="preserve">
-    <value>Bar #23</value>
+    <value>Stange 23</value>
   </data>
   <data name="Bar23Tooltip" xml:space="preserve">
-    <value>Please activate Slider, e.g. 24</value>
+    <value>Positionen der Schieber, z.B. 24</value>
   </data>
   <data name="Bar24Caption" xml:space="preserve">
-    <value>Bar #24</value>
+    <value>Stange 24</value>
   </data>
   <data name="Bar24Tooltip" xml:space="preserve">
-    <value>Please activate Slider, e.g. 24</value>
+    <value>Positionen der Schieber, z.B. 24</value>
   </data>
   <data name="Bar25Caption" xml:space="preserve">
-    <value>Bar #25</value>
+    <value>Stange 25</value>
   </data>
   <data name="Bar25Tooltip" xml:space="preserve">
-    <value>Please activate Slider, e.g. 24</value>
+    <value>Positionen der Schieber, z.B. 24</value>
   </data>
   <data name="Bar26Caption" xml:space="preserve">
-    <value>Bar #26</value>
+    <value>Stange 26</value>
   </data>
   <data name="Bar26Tooltip" xml:space="preserve">
-    <value>Please activate Slider, e.g. 24</value>
+    <value>Positionen der Schieber, z.B. 24</value>
   </data>
   <data name="Bar27Caption" xml:space="preserve">
-    <value>Bar #27</value>
+    <value>Stange 27</value>
   </data>
   <data name="Bar27Tooltip" xml:space="preserve">
-    <value>Please activate Slider, e.g. 24</value>
+    <value>Positionen der Schieber, z.B. 24</value>
   </data>
   <data name="Bar2Caption" xml:space="preserve">
-    <value>Bar #2</value>
+    <value>Stange 2</value>
   </data>
   <data name="Bar2Tooltip" xml:space="preserve">
-    <value>Please activate Slider, e.g. 24</value>
+    <value>Positionen der Schieber, z.B. 24</value>
   </data>
   <data name="Bar3Caption" xml:space="preserve">
-    <value>Bar #3</value>
+    <value>Stange 3</value>
   </data>
   <data name="Bar3Tooltip" xml:space="preserve">
-    <value>Please activate Slider, e.g. 24</value>
+    <value>Positionen der Schieber, z.B. 24</value>
   </data>
   <data name="Bar4Caption" xml:space="preserve">
-    <value>Bar #4</value>
+    <value>Stange 4</value>
   </data>
   <data name="Bar4Tooltip" xml:space="preserve">
-    <value>Please activate Slider, e.g. 24</value>
+    <value>Positionen der Schieber, z.B. 24</value>
   </data>
   <data name="Bar5Caption" xml:space="preserve">
-    <value>Bar #5</value>
+    <value>Stange 5</value>
   </data>
   <data name="Bar5Tooltip" xml:space="preserve">
-    <value>Please activate Slider, e.g. 24</value>
+    <value>Positionen der Schieber, z.B. 24</value>
   </data>
   <data name="Bar6Caption" xml:space="preserve">
-    <value>Bar #6</value>
+    <value>Stange 6</value>
   </data>
   <data name="Bar6Tooltip" xml:space="preserve">
-    <value>Please activate Slider, e.g. 24</value>
+    <value>Positionen der Schieber, z.B. 24</value>
   </data>
   <data name="Bar7Caption" xml:space="preserve">
-    <value>Bar #7</value>
+    <value>Stange 7</value>
   </data>
   <data name="Bar7Tooltip" xml:space="preserve">
-    <value>Please activate Slider, e.g. 24</value>
+    <value>Positionen der Schieber, z.B. 24</value>
   </data>
   <data name="Bar8Caption" xml:space="preserve">
-    <value>Bar #8</value>
+    <value>Stange 8</value>
   </data>
   <data name="Bar8Tooltip" xml:space="preserve">
-    <value>Please activate Slider, e.g. 24</value>
+    <value>Positionen der Schieber, z.B. 24</value>
   </data>
   <data name="Bar9Caption" xml:space="preserve">
-    <value>Bar #9</value>
+    <value>Stange 9</value>
   </data>
   <data name="Bar9Tooltip" xml:space="preserve">
-    <value>Please activate Slider, e.g. 24</value>
+    <value>Positionen der Schieber, z.B. 24</value>
   </data>
   <data name="OutputStringCaption" xml:space="preserve">
-    <value>Text output</value>
+    <value>Text Ausgabe</value>
   </data>
   <data name="OutputStringTooltip" xml:space="preserve">
-    <value>The string after processing with the M209 cipher</value>
+    <value>Der mit der M209-Chiffre verschlüsselte Text</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
     <value>M209</value>
@@ -298,46 +298,46 @@
     <value>M209 – Verschlüsselungsmaschine, wurde vom US-Militär hauptsächlich im Zweiten Weltkrieg benutzt</value>
   </data>
   <data name="Rotor1Caption" xml:space="preserve">
-    <value>Rotor #1</value>
+    <value>Rotor 1</value>
   </data>
   <data name="Rotor1Tooltip" xml:space="preserve">
-    <value>Please write all Active Pins, e.g. ABCD.</value>
+    <value>Geben Sie die aktiven Stifte an, z.B. ABCD</value>
   </data>
   <data name="Rotor2Caption" xml:space="preserve">
-    <value>Rotor #2</value>
+    <value>Rotor 2</value>
   </data>
   <data name="Rotor2Tooltip" xml:space="preserve">
-    <value>Please write all Active Pins, e.g. ABCD</value>
+    <value>Geben Sie die aktiven Stifte an, z.B. ABCD</value>
   </data>
   <data name="Rotor3Caption" xml:space="preserve">
-    <value>Rotor #3</value>
+    <value>Rotor 3</value>
   </data>
   <data name="Rotor3Tooltip" xml:space="preserve">
-    <value>Please write all Active Pins, e.g. ABCD</value>
+    <value>Geben Sie die aktiven Stifte an, z.B. ABCD</value>
   </data>
   <data name="Rotor4Caption" xml:space="preserve">
-    <value>Rotor #4</value>
+    <value>Rotor 4</value>
   </data>
   <data name="Rotor4Tooltip" xml:space="preserve">
-    <value>Please write all Active Pins, e.g. ABCD</value>
+    <value>Geben Sie die aktiven Stifte an, z.B. ABCD</value>
   </data>
   <data name="Rotor5Caption" xml:space="preserve">
-    <value>Rotor #5</value>
+    <value>Rotor 5</value>
   </data>
   <data name="Rotor5Tooltip" xml:space="preserve">
-    <value>Please write all Active Pins, e.g. ABCD</value>
+    <value>Geben Sie die aktiven Stifte an, z.B. ABCD</value>
   </data>
   <data name="Rotor6Caption" xml:space="preserve">
-    <value>Rotor #6</value>
+    <value>Rotor 6</value>
   </data>
   <data name="Rotor6Tooltip" xml:space="preserve">
-    <value>Please write all Active Pins, e.g. ABCD</value>
+    <value>Geben Sie die aktiven Stifte an, z.B. ABCD</value>
   </data>
   <data name="StartwertCaption" xml:space="preserve">
-    <value>Key (Initial rotor setting)</value>
+    <value>Schlüssel (Grundstellung der Rotorscheiben)</value>
   </data>
   <data name="StartwertTooltip" xml:space="preserve">
-    <value>Please provide the initial rotor setting for each rotor, e.g. ABCDEF</value>
+    <value>Bitte geben Sie die Grundstellung der Rotorscheiben an, z.B. ABCDEF</value>
   </data>
   <data name="TextCaption" xml:space="preserve">
     <value>Texteingabe</value>

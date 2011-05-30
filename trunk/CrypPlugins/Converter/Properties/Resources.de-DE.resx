@@ -118,54 +118,54 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="PluginCaption" xml:space="preserve">
-    <value>Converter</value>
+    <value>Konvertierer</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Converts input to another type</value>
+    <value>Konvertiert die Eingabe in einen anderen Typ</value>
   </data>
   <data name="PluginDescriptionURL" xml:space="preserve">
     <value>Converter/DetailedDescription/Description.xaml</value>
   </data>
   <data name="InputOneCaption" xml:space="preserve">
-    <value>Input one</value>
+    <value>Eingabe 1</value>
   </data>
   <data name="InputOneTooltip" xml:space="preserve">
-    <value>Input one.</value>
+    <value>Eingabe 1</value>
   </data>
   <data name="OutputCaption" xml:space="preserve">
-    <value>Output</value>
+    <value>Ausgabe</value>
   </data>
   <data name="OutputTooltip" xml:space="preserve">
-    <value>Output.</value>
+    <value>Ausgabe</value>
   </data>
   <data name="ConverterCaption" xml:space="preserve">
-    <value>Converter</value>
+    <value>Konvertierer</value>
   </data>
   <data name="ConverterTooltip" xml:space="preserve">
-    <value>Choose the output type</value>
+    <value>Wählen Sie den Typ der Ausgabe</value>
   </data>
   <data name="EncodingSettingCaption" xml:space="preserve">
-    <value>Stream encoding</value>
+    <value>Datenstrom-Kodierung</value>
   </data>
   <data name="EncodingSettingTooltip" xml:space="preserve">
-    <value>Choose the expected encoding of the byte array and stream.</value>
+    <value>Wählen Sie die erwartete Kodierung des Byte-Array und des Datenstroms.</value>
   </data>
   <data name="FormatAmerCaption" xml:space="preserve">
-    <value>Format</value>
+    <value>Fliesskomma-Format</value>
   </data>
   <data name="FormatAmerTooltip" xml:space="preserve">
-    <value>Choose whether double values are recognized via german or american syntax. German: "123.345.34,34" American: "123,345,34.34"</value>
+    <value>Sollen Fliesskommazahlen nach deutscher (1.234.567,89) oder amerikanischer (1,234,567.89)Schreibweise interpretiert werden?</value>
   </data>
   <data name="NumericCaption" xml:space="preserve">
-    <value>Numeric</value>
+    <value>Numerisch</value>
   </data>
   <data name="NumericTooltip" xml:space="preserve">
-    <value>Choose whether inputs are interpreted as numeric values if possible</value>
+    <value>Sollen die Eingabewerte, soweit möglich, numerisch interpretiert werden?</value>
   </data>
   <data name="PresentationFormatSettingCaption" xml:space="preserve">
-    <value>PresentationFormatSetting</value>
+    <value>Ausgabeformat</value>
   </data>
   <data name="PresentationFormatSettingTooltip" xml:space="preserve">
-    <value>Choose the format that will be used te present the output data.</value>
+    <value>Wählen Sie das Format, das für die Datenausgabe verwendet werden soll.</value>
   </data>
 </root>

@@ -118,18 +118,18 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="PluginCaption" xml:space="preserve">
-    <value>Concatenate</value>
+    <value>Konkatenation</value>
   </data>
   <data name="PluginDescriptionURL" xml:space="preserve">
     <value />
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Concatenates two input values. Fires output if second value arrives (The other value can be overwritten in the meantime).</value>
+    <value>Konkateniert die beiden Eingabewerte. Die Ausgabe wird aktiviert, sobald der zweite Eingabewert ankommt (der andere Wert kann sich inzwischen geändert haben).</value>
   </data>
-    <data name="DataTypeCaption" xml:space="preserve">
-    <value>Type</value>
+  <data name="DataTypeCaption" xml:space="preserve">
+    <value>Datentyp</value>
   </data>
   <data name="DataTypeTooltip" xml:space="preserve">
-    <value>Select DataType of plugin.</value>
+    <value>Wählen Sie den Datentyp des Plugins.</value>
   </data>
 </root>

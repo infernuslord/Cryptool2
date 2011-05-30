@@ -82,7 +82,7 @@ namespace Cryptool.Plugins.Collector
             }
             set
             {
-                    output = value;
+                output = value;
             }
         }
 

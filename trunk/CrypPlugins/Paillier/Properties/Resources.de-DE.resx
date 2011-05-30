@@ -121,7 +121,7 @@
     <value>Aktion</value>
   </data>
   <data name="ActionTooltip" xml:space="preserve">
-    <value>Wählen Sie die Betriebsart des Plugin</value>
+    <value>Wählen Sie die Betriebsart des Plugins</value>
   </data>
   <data name="GCaption" xml:space="preserve">
     <value>öffentlicher Schlüssel G</value>
@@ -139,7 +139,7 @@
     <value>privater Schlüssel Lambda</value>
   </data>
   <data name="InputLambdaTooltip" xml:space="preserve">
-    <value>Privater Schlüssel Lambda</value>
+    <value>privater Schlüssel Lambda</value>
   </data>
   <data name="InputMCaption" xml:space="preserve">
     <value>Eingabe der Nachricht M</value>
@@ -151,7 +151,7 @@
     <value>öffentlicher Schlüssel N</value>
   </data>
   <data name="InputNTooltip" xml:space="preserve">
-    <value>Öffentlicher Schlüssel N</value>
+    <value>öffentlicher Schlüssel N</value>
   </data>
   <data name="InputOperandCaption" xml:space="preserve">
     <value>multipliziere/addiere diesen Operanden zur verschlüsselten Nachricht</value>
