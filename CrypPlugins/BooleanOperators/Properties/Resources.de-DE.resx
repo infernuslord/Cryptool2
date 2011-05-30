@@ -223,10 +223,10 @@
     <value>If checked, Flag B will be set to fired</value>
   </data>
   <data name="BBO_OperatorTypeCaption" xml:space="preserve">
-    <value>Boolscher Operation</value>
+    <value>Boolsche Operation</value>
   </data>
   <data name="BBO_OperatorTypeTooltip" xml:space="preserve">
-    <value>Boolscher Operation</value>
+    <value>Boolsche Operation</value>
   </data>
   <data name="BBO_UpdateOnlyAtBothInputsChangedCaption" xml:space="preserve">
     <value>Update braucht beide Eingaben</value>
