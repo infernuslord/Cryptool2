@@ -10,7 +10,7 @@ namespace StatusGenerator
     {
         static void Main(string[] args)
         {
-            new StatusGenerator().Generate(Path.Combine("..", ".."), Path.Combine("..", "..", "PluginOverview.html"));
+            new StatusGenerator(Path.Combine("..", ".."), Path.Combine("..", "..", "PluginOverview.html"));
         }
     }
 }
