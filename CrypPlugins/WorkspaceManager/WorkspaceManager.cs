@@ -328,7 +328,7 @@ namespace WorkspaceManager
                 double dy = m.M22 * 96;
                 this.GuiLogMessage("dx=" + dx + " dy=" + dy, NotificationLevel.Debug);
                 const int factor = 4;
-                ModifiedCanvas control = (ModifiedCanvas)((BinEditorVisual)this.Presentation).ScrollViewer.Content;
+                UIElement control = (UIElement)((BinEditorVisual)this.Presentation).ScrollViewer.Content;
                 PrintDialog dialog = new PrintDialog();
                 dialog.PageRangeSelection = PageRangeSelection.AllPages;
                 dialog.UserPageRangeEnabled = true;

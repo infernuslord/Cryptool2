@@ -27,6 +27,12 @@
         </Style>
 
         <Style x:Key="ConnectorStyle" TargetType="{x:Type Thumb}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=IsOutgoing}" Value="True">
+                    <Setter Property="Grid.Column" Value="1"></Setter>
+                </DataTrigger>
+            </Style.Triggers>
+            <Setter Property="Grid.Column" Value="0"></Setter>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate>
@@ -40,13 +46,6 @@
                                         </DataTrigger>
                                         <DataTrigger Binding="{Binding Path=IsMandatory}" Value="false">
                                             <Setter Property="Stroke" Value="Red"></Setter>
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding Path=IsOutgoing}" Value="true">
-                                            <Setter Property="LayoutTransform">
-                                                <Setter.Value>
-                                                    <RotateTransform Angle="90"></RotateTransform>
-                                                </Setter.Value>
-                                            </Setter>
                                         </DataTrigger>
                                     </Style.Triggers>
                                     <Setter Property="Stroke" Value="#373e43"></Setter>
@@ -83,13 +82,49 @@
                                     <RowDefinition Height="32"></RowDefinition>
                                     <RowDefinition Height="*"></RowDefinition>
                                 </Grid.RowDefinitions>
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                    <Thumb Style="{StaticResource ResourceKey=ConnectorStyle}"></Thumb>
+                                <Grid HorizontalAlignment="Center">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition>
+                                            <ColumnDefinition.Style>
+                                                <Style TargetType="ColumnDefinition">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Path=IsOutgoing}" Value="True">
+                                                            <Setter Property="Width" Value="auto"></Setter>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                    <Setter Property="Width" Value="50"></Setter>
+                                                </Style>
+                                            </ColumnDefinition.Style>
+                                        </ColumnDefinition>
+                                        <ColumnDefinition>
+                                            <ColumnDefinition.Style>
+                                                <Style TargetType="ColumnDefinition">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Path=IsOutgoing}" Value="True">
+                                                            <Setter Property="Width" Value="50"></Setter>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                    <Setter Property="Width" Value="auto"></Setter>
+                                                </Style>
+                                            </ColumnDefinition.Style>
+                                        </ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
                                     <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                        <StackPanel.Style>
+                                            <Style TargetType="StackPanel">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Path=IsOutgoing}" Value="True">
+                                                        <Setter Property="Grid.Column" Value="0"></Setter>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                                <Setter Property="Grid.Column" Value="1"></Setter>
+                                            </Style>
+                                        </StackPanel.Style>
                                         <TextBlock FontWeight="Bold" FontSize="13" Foreground="#555" Text="{Binding Path=ConnectorName}" TextTrimming="CharacterEllipsis"></TextBlock>
                                         <TextBlock FontSize="11" Foreground="{Binding Path=FunctionColor}" Text="{Binding Path=TypeName}" TextTrimming="CharacterEllipsis"></TextBlock>
                                     </StackPanel>
-                                </StackPanel>
+                                    <Thumb Style="{StaticResource ResourceKey=ConnectorStyle}"></Thumb>
+                                </Grid>
                                 <TextBlock Height="100" Width="200" Background="#CCFFFFFF" Text="{Binding Path=Data}" TextTrimming="CharacterEllipsis" TextWrapping="Wrap" Grid.Row="1">
 
                                 </TextBlock>
@@ -99,6 +134,22 @@
                 </ControlTemplate>
             </ToolTip.Template>
         </ToolTip>
+
+        <StackPanel x:Key="Out" Orientation="Horizontal" HorizontalAlignment="Center">
+            <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <TextBlock FontWeight="Bold" FontSize="13" Foreground="#555" Text="{Binding Path=ConnectorName}" TextTrimming="CharacterEllipsis"></TextBlock>
+                <TextBlock FontSize="11" Foreground="{Binding Path=FunctionColor}" Text="{Binding Path=TypeName}" TextTrimming="CharacterEllipsis"></TextBlock>
+            </StackPanel>
+            <Thumb Style="{StaticResource ResourceKey=ConnectorStyle}"></Thumb>
+        </StackPanel>
+
+        <StackPanel x:Key="In" Orientation="Horizontal" HorizontalAlignment="Center">
+            <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <TextBlock FontWeight="Bold" FontSize="13" Foreground="#555" Text="{Binding Path=ConnectorName}" TextTrimming="CharacterEllipsis"></TextBlock>
+                <TextBlock FontSize="11" Foreground="{Binding Path=FunctionColor}" Text="{Binding Path=TypeName}" TextTrimming="CharacterEllipsis"></TextBlock>
+            </StackPanel>
+            <Thumb Style="{StaticResource ResourceKey=ConnectorStyle}"></Thumb>
+        </StackPanel>
 
     </UserControl.Resources>
     <Grid>

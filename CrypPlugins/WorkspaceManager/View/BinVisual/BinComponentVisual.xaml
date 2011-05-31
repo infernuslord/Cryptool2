@@ -56,15 +56,16 @@
             <Setter Property="OverridesDefaultStyle" Value="True"/>
             <Setter Property="KeyboardNavigation.TabNavigation" Value="None"/>
             <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="ClipToBounds" Value="False"></Setter>
             <Setter Property="Foreground" Value="#666"></Setter>
             <Setter Property="AllowDrop" Value="true"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type TextBoxBase}">
-                        <DockPanel LastChildFill="True">
+                        <DockPanel LastChildFill="True" ClipToBounds="False">
                             <Rectangle DockPanel.Dock="Left" x:Name="Border" Visibility="Hidden" Fill="#888" Width="2" Height="auto"></Rectangle>
                             <Rectangle DockPanel.Dock="Top" x:Name="Border2" Visibility="Hidden" Fill="#888" Height="2" Width="auto"></Rectangle>
-                            <ScrollViewer Margin="0" x:Name="PART_ContentHost"/>
+                            <Border Margin="0" x:Name="PART_ContentHost" ClipToBounds="False"/>
                         </DockPanel>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsFocused" Value="False">
@@ -186,7 +187,7 @@
         </DataTemplate>
 
         <ControlTemplate x:Key="CtrlTemplate" TargetType="{x:Type ButtonBase}">
-            <Border x:Name="Border" BorderThickness="1" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}">
+            <Border x:Name="Border" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}">
                 <Image Source="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Tag.Source}" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}"></Image>
             </Border>
             <ControlTemplate.Triggers>
@@ -423,7 +424,7 @@
         <x:Array Type="{x:Type ButtonBase}" x:Key="Operations">
             <ToggleButton x:Name="IControlButton" Style="{StaticResource ResourceKey=ICMButtonStyle}" IsChecked="{Binding Path=IsICPopUpOpen, Mode=TwoWay}">
                 <ToggleButton.Tag>
-                    <Image Source="/WorkspaceManager;component/View/Image/icm.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"/>
+                    <Image Source="/WorkspaceManager;component/View/Image/thunder.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"/>
                 </ToggleButton.Tag>
             </ToggleButton>
 
@@ -607,7 +608,7 @@
 
             <!--##########Window##########-->
             <Border CornerRadius="5" BorderThickness="2" BorderBrush="#444" Grid.Row="1" Grid.Column="1">
-                <Border x:Name="Window" Style="{StaticResource ResourceKey=WindowStyle}" CornerRadius="5" BorderThickness="3">
+                <Border x:Name="Window" Style="{StaticResource ResourceKey=WindowStyle}" CornerRadius="2" BorderThickness="3">
                     <Grid>
                         <!--##########Definitions##########-->
                         <Grid.ColumnDefinitions>
@@ -680,6 +681,7 @@
         <!--##########/Name##########-->
         <ic:BinIControlVisual Connectors="{Binding Path=IControlCollection}" IsOpen="{Binding Path=IsICPopUpOpen, Mode= TwoWay}" 
                               PlacementTarget="{Binding ElementName=OperationsItemsControl}" Placement="Top"></ic:BinIControlVisual>
+        
         <!-- <local:BinLogPopup PlacementTarget="{Binding ElementName=Window}" 
                            Placement="Center" IsOpen="{Binding Path=IsLogPopupOpen, Mode= TwoWay}"></local:BinLogPopup>-->
     </Grid>
