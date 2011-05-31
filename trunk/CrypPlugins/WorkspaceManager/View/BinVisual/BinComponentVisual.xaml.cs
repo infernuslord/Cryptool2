@@ -489,6 +489,7 @@ namespace WorkspaceManager.View.BinVisual
                 addConnectorView(m);
             }
 
+            SouthConnectorCollection.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(SouthConnectorCollectionCollectionChanged);
             LogNotifier = new BinLogNotifier(LogMessages, this);
             LogNotifier.ErrorMessagesOccured += new EventHandler<ErrorMessagesOccuredArgs>(LogNotifierErrorMessagesOccuredHandler);
             //LogMessages.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(LogMessagesCollectionChanged);
@@ -505,6 +506,12 @@ namespace WorkspaceManager.View.BinVisual
             SetBinding(BinComponentVisual.IsDraggingProperty,
                 Util.CreateIsDraggingBinding(new Thumb[] { ContentThumb, TitleThumb, ScaleThumb, HackThumb }));
             setWindowColors(ColorHelper.GetColor(Model.PluginType), ColorHelper.GetColorLight(Model.PluginType));
+        }
+
+        void SouthConnectorCollectionCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if(PropertyChanged != null)
+                PropertyChanged.Invoke(this, new PropertyChangedEventArgs("SouthConnectorCollection.Count"));
         }
 
         void LogNotifierErrorMessagesOccuredHandler(object sender, ErrorMessagesOccuredArgs e)
@@ -907,7 +914,7 @@ namespace WorkspaceManager.View.BinVisual
         }
     }
 
-    public class CustomTextBox : TextBox
+    public class CustomTextBox : TextBox, INotifyPropertyChanged
     {
         public static readonly DependencyProperty IsSelectedProperty = DependencyProperty.Register("IsSelected",
             typeof(bool), typeof(CustomTextBox), new FrameworkPropertyMetadata(false, OnIsSelectedChanged));
@@ -930,6 +937,15 @@ namespace WorkspaceManager.View.BinVisual
                 bin.Focusable = false;
         }
 
+        protected void OnPropertyChanged(string name)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(name));
+            }
+        }
+
         protected override void OnInitialized(EventArgs e)
         {
             base.OnInitialized(e);
@@ -939,6 +955,8 @@ namespace WorkspaceManager.View.BinVisual
         {
             base.OnMouseLeftButtonDown(e);
             Focusable = true;
+            if (PropertyChanged != null)
+                PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Focusable"));
             Focus();
         }
 
@@ -946,8 +964,14 @@ namespace WorkspaceManager.View.BinVisual
         {
             base.OnKeyDown(e);
             if (e.Key == System.Windows.Input.Key.Enter)
+            {
                 Focusable = false;
+                if (PropertyChanged != null)
+                    PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Focusable"));
+            }
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 
     public class NSWEStackPanel : StackPanel

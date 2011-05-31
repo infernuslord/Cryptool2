@@ -20,6 +20,38 @@
         <local:StateFullscreenConverter x:Key="StateFullscreenConverter"></local:StateFullscreenConverter>
         <local:StateConverter x:Key="StateConverter"></local:StateConverter>
         <Style x:Key="TextBoxStyle" TargetType="{x:Type TextBoxBase}">
+            <Style.Triggers>
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding Path=SouthConnectorCollection.Count}" Value="0"></Condition>
+                        <Condition Binding="{Binding Path=IsConnectorDragStarted}" Value="false"></Condition>
+                    </MultiDataTrigger.Conditions>
+                    <MultiDataTrigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Timeline.DesiredFrameRate="5"
+                                                 Storyboard.TargetProperty="(Grid.RenderTransform).(TranslateTransform.Y)"
+                                                 To="-20" Duration="0:0:0.1" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </MultiDataTrigger.EnterActions>
+                    <MultiDataTrigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Timeline.DesiredFrameRate="5"
+                                                 Storyboard.TargetProperty="(Grid.RenderTransform).(TranslateTransform.Y)"
+                                                 To="0" Duration="0:0:0.1" />
+
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </MultiDataTrigger.ExitActions>
+                </MultiDataTrigger>
+            </Style.Triggers>
+            <Setter Property="RenderTransform">
+                <Setter.Value>
+                    <TranslateTransform></TranslateTransform>
+                </Setter.Value>
+            </Setter>
             <Setter Property="SnapsToDevicePixels" Value="True"/>
             <Setter Property="OverridesDefaultStyle" Value="True"/>
             <Setter Property="KeyboardNavigation.TabNavigation" Value="None"/>
