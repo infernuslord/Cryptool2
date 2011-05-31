@@ -153,6 +153,7 @@ namespace WorkspaceManager.View.BinVisual
         private void ButtonDeleteMessages_Click(object sender, RoutedEventArgs e)
         {
             LogMessages.Clear();
+            //Parent.LogMessages
         }
 
         private static void OnLogMessagesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

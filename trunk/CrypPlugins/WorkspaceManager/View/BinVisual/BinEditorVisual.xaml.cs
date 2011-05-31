@@ -657,20 +657,17 @@ namespace WorkspaceManager.View.BinVisual
         {
             if (State == BinEditorState.READY)
             {
-                double padding = 100;
-                var packer = new ArevaloRectanglePacker(this.ActualWidth * 1.5, this.ActualHeight * 2);
+                var packer = new ArevaloRectanglePacker(Properties.Settings.Default.SortWidth, Properties.Settings.Default.SortHeight);
                 foreach (var element in ComponentCollection)
                 {
                     Point point;
-                    if (packer.TryPack(element.ActualWidth + padding, element.ActualHeight + padding, out point))
+                    if (packer.TryPack(element.ActualWidth + Properties.Settings.Default.SortPadding, element.ActualHeight + Properties.Settings.Default.SortPadding, out point))
                     {
-                        point.X += 50;
-                        point.Y += 50;
+                        point.X += Properties.Settings.Default.SortPadding;
+                        point.Y += Properties.Settings.Default.SortPadding;
                         element.Position = point;
                     }
                 }
-
-
             }
         }
 

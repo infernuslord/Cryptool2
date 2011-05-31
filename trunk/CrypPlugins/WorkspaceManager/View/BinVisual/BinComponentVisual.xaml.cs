@@ -89,8 +89,11 @@ namespace WorkspaceManager.View.BinVisual
         }
         #endregion
 
-        #region Properties
+        #region Fields
+        #endregion
 
+        #region Properties
+        public Queue<Log> ErrorsTillReset { private set; get; }
         public ThumHack HackThumb = new ThumHack();
         public BinEditorVisual EditorVisual { private set; get; }
 
@@ -279,6 +282,21 @@ namespace WorkspaceManager.View.BinVisual
             }
         }
 
+        public static readonly DependencyProperty IsErrorDisplayVisibleProperty = DependencyProperty.Register("IsErrorDisplayVisible",
+            typeof(bool), typeof(BinComponentVisual), new FrameworkPropertyMetadata(false));
+
+        public bool IsErrorDisplayVisible
+        {
+            get
+            {
+                return (bool)base.GetValue(IsErrorDisplayVisibleProperty);
+            }
+            set
+            {
+                base.SetValue(IsErrorDisplayVisibleProperty, value);
+            }
+        }
+
         public static readonly DependencyProperty IsRepeatableProperty = DependencyProperty.Register("IsRepeatable",
             typeof(bool), typeof(BinComponentVisual), new FrameworkPropertyMetadata(false));
 
@@ -412,6 +430,7 @@ namespace WorkspaceManager.View.BinVisual
         {
             Model = model;
             Model.UpdateableView = this;
+            ErrorsTillReset = new Queue<Log>();
             EditorVisual = (BinEditorVisual)((WorkspaceManager)Model.WorkspaceModel.MyEditor).Presentation;
             Presentations.Add(BinComponentState.Presentation, model.PluginPresentation);
             Presentations.Add(BinComponentState.Min, Model.getImage());
@@ -471,6 +490,8 @@ namespace WorkspaceManager.View.BinVisual
             }
 
             LogNotifier = new BinLogNotifier(LogMessages, this);
+            LogNotifier.ErrorMessagesOccured += new EventHandler<ErrorMessagesOccuredArgs>(LogNotifierErrorMessagesOccuredHandler);
+            //LogMessages.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(LogMessagesCollectionChanged);
             Model.Plugin.OnGuiLogNotificationOccured += new GuiLogNotificationEventHandler(OnGuiLogNotificationOccuredHandler);
             WindowWidth = Model.GetWidth();
             WindowHeight = Model.GetHeight();
@@ -485,6 +506,31 @@ namespace WorkspaceManager.View.BinVisual
                 Util.CreateIsDraggingBinding(new Thumb[] { ContentThumb, TitleThumb, ScaleThumb, HackThumb }));
             setWindowColors(ColorHelper.GetColor(Model.PluginType), ColorHelper.GetColorLight(Model.PluginType));
         }
+
+        void LogNotifierErrorMessagesOccuredHandler(object sender, ErrorMessagesOccuredArgs e)
+        {
+            if (e.HasErrors)
+                IsErrorDisplayVisible = true;
+            else
+                IsErrorDisplayVisible = false;
+        }
+
+        //void LogMessagesCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        //{
+        //    if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
+        //    {
+        //        Log log = (Log)e.NewItems[0];
+        //        if (log.Level == NotificationLevel.Error)
+        //        {
+        //            IsErrorDisplayVisible = true;
+        //        }
+        //    }
+
+        //    if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Reset)
+        //    {
+        //        IsErrorDisplayVisible = false;
+        //    }
+        //}
 
         private void OnGuiLogNotificationOccuredHandler(IPlugin sender, GuiLogEventArgs args)
         {
@@ -644,6 +690,8 @@ namespace WorkspaceManager.View.BinVisual
             if(bin.StateChanged != null)
                 bin.StateChanged.Invoke(bin,new VisualStateChangedArgs(){State = bin.State});
             bin.Model.ViewState = (PluginViewState)Enum.Parse(typeof(PluginViewState), e.NewValue.ToString());
+            if (bin.State == BinComponentState.Log)
+                bin.IsErrorDisplayVisible = false;
         }
 
         private static void OnIsFullscreenChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

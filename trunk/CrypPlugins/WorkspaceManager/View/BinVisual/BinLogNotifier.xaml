@@ -59,6 +59,7 @@
 
         <local:IsNullConverter x:Key="IsNullConverter"></local:IsNullConverter>
         <local:IsNotConverter x:Key="IsNotConverter"></local:IsNotConverter>
+        <local:IsGreaterConverter x:Key="IsGreaterConverter"></local:IsGreaterConverter>
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -71,7 +72,7 @@
                                     <Condition Binding="{Binding Path=CurrentLog, Converter={StaticResource ResourceKey=IsNullConverter}, UpdateSourceTrigger=PropertyChanged}" Value="False"></Condition>
                                     <Condition Binding="{Binding Path=CurrentLog.Level, UpdateSourceTrigger=PropertyChanged}">
                                         <Condition.Value>
-                                            <ctbase:NotificationLevel>Info</ctbase:NotificationLevel>
+                                            <ctbase:NotificationLevel>Error</ctbase:NotificationLevel>
                                         </Condition.Value>
                                     </Condition>
                                     <Condition Binding="{Binding Path=Parent.State, Converter={StaticResource ResourceKey=IsNotConverter}}" Value="True"></Condition>
@@ -96,7 +97,7 @@
                                 </MultiDataTrigger.ExitActions>-->
                                 <Setter Property="Width" Value="*"></Setter>
                             </MultiDataTrigger>
-                            <DataTrigger Binding="{Binding Path=InfoCount, UpdateSourceTrigger=PropertyChanged}" Value="0">
+                            <DataTrigger Binding="{Binding Path=ErrorCount, UpdateSourceTrigger=PropertyChanged}" Value="0">
                                 <Setter Property="MaxWidth" Value="0"></Setter>
                             </DataTrigger>
                         </Style.Triggers>
@@ -137,14 +138,14 @@
                                     <Condition Binding="{Binding Path=CurrentLog, Converter={StaticResource ResourceKey=IsNullConverter}, UpdateSourceTrigger=PropertyChanged}" Value="False"></Condition>
                                     <Condition Binding="{Binding Path=CurrentLog.Level, UpdateSourceTrigger=PropertyChanged}">
                                         <Condition.Value>
-                                            <ctbase:NotificationLevel>Error</ctbase:NotificationLevel>
+                                            <ctbase:NotificationLevel>Info</ctbase:NotificationLevel>
                                         </Condition.Value>
                                     </Condition>
                                     <Condition Binding="{Binding Path=Parent.State, Converter={StaticResource ResourceKey=IsNotConverter}}" Value="True"></Condition>
                                 </MultiDataTrigger.Conditions>
                                 <Setter Property="Width" Value="*"></Setter>
                             </MultiDataTrigger>
-                            <DataTrigger Binding="{Binding Path=ErrorCount, UpdateSourceTrigger=PropertyChanged}" Value="0">
+                            <DataTrigger Binding="{Binding Path=InfoCount, UpdateSourceTrigger=PropertyChanged}" Value="0">
                                 <Setter Property="MaxWidth" Value="0"></Setter>
                             </DataTrigger>
                         </Style.Triggers>
@@ -162,7 +163,7 @@
             </ItemsControl.ItemsPanel>
         </ItemsControl>-->
 
-        <local:LogBorder NotificationLevel="Info" Height="16" Background="{StaticResource ResourceKey=BackgroundBlue}" MouseLeftButtonDown="MouseLeftButtonDownHandler" CornerRadius="5" Grid.Column="0">
+        <local:LogBorder NotificationLevel="Info" Height="16" Background="{StaticResource ResourceKey=BackgroundBlue}" MouseLeftButtonDown="MouseLeftButtonDownHandler" CornerRadius="5" Grid.Column="2">
             <local:LogBorder.Style>
                 <Style TargetType="local:LogBorder">
                     <Style.Triggers>
@@ -246,17 +247,23 @@
                 </TextBlock>
             </Grid>
         </local:LogBorder>
-        <local:LogBorder NotificationLevel="Error" Height="16" Background="{StaticResource ResourceKey=BackgroundRed}" MouseLeftButtonDown="MouseLeftButtonDownHandler" CornerRadius="5" Grid.Column="2">
+        <local:LogBorder NotificationLevel="Error" Height="16" Background="{StaticResource ResourceKey=BackgroundRed}" MouseLeftButtonDown="MouseLeftButtonDownHandler" CornerRadius="5" Grid.Column="0">
+            <local:LogBorder.RenderTransform>
+                <ScaleTransform></ScaleTransform>
+            </local:LogBorder.RenderTransform>
             <local:LogBorder.Style>
                 <Style TargetType="local:LogBorder" >
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding Path=ErrorCount, UpdateSourceTrigger=PropertyChanged}" Value="0">
+                        <DataTrigger Binding="{Binding Path=ErrorCount, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ResourceKey=IsGreaterConverter}}" Value="false">
                             <Setter Property="Visibility" Value="Collapsed"></Setter>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Path=ErrorCount, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ResourceKey=IsGreaterConverter}}" Value="true">
+                            <Setter Property="Visibility" Value="Visible"></Setter>
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
             </local:LogBorder.Style>
-            <Grid>
+            <Grid x:Name="Error3">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="16"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>
@@ -288,6 +295,52 @@
                 </TextBlock>
             </Grid>
         </local:LogBorder>
+        <!--<Border BorderBrush="Red" CornerRadius="5" RenderTransformOrigin="0.5, 0.5" Grid.Column="0" Panel.ZIndex="-1">
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Path=ErrorCount, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ResourceKey=IsGreaterConverter}}" Value="false">
+                            <Setter Property="Visibility" Value="Collapsed"></Setter>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Path=ErrorCount, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ResourceKey=IsGreaterConverter}}" Value="true">
+                            <Setter Property="Visibility" Value="Visible"></Setter>
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard Name="JumpAnimation">
+                                    <Storyboard AutoReverse="True" RepeatBehavior="Forever">
+                                        <DoubleAnimation Timeline.DesiredFrameRate="15"
+                                                 Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
+                                                 To="2" Duration="0:0:1">
+                                            <DoubleAnimation.EasingFunction>
+                                                <ElasticEase></ElasticEase>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                        <DoubleAnimation Timeline.DesiredFrameRate="15"
+                                                 Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
+                                                 To="2" Duration="0:0:1">
+                                            <DoubleAnimation.EasingFunction>
+                                                <ElasticEase></ElasticEase>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.EnterActions>
+                            <DataTrigger.ExitActions>
+                                <StopStoryboard BeginStoryboardName="JumpAnimation"></StopStoryboard>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Timeline.DesiredFrameRate="15"
+                                                 Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)"
+                                                 To="0" Duration="0:0:1">
+
+                                        </DoubleAnimation>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.ExitActions>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+        </Border>-->
         <Grid x:Name="ProgressRoot" Width="auto" Grid.Column="3">
             <ProgressBar x:Name="ProgressBar" Style="{StaticResource ResourceKey=ProgressBarStyle}" Value="{Binding Path=Parent.Progress}" 
                                      Maximum="1" Foreground="ForestGreen" Opacity="0.6" Margin="1"></ProgressBar>
