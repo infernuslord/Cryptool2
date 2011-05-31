@@ -174,20 +174,24 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
         }
 
         private static readonly Dictionary<string, string> _languagePresentationString = new Dictionary<string, string>() {{"en", "English"}, {"de-DE", "Deutsch"}};
+        private static readonly Dictionary<string, string> _languagePresentationIcon = new Dictionary<string, string>() { { "en", "en.png" }, { "de-DE", "de.png" } };
+
         private static string GenerateLanguageSelectionCode(Type type, IEnumerable<string> availableLanguages, string lang)
         {
             var codeBuilder = new StringBuilder();
 
             foreach (var availableLanguage in availableLanguages)
             {
+                var iconPath = (type.GetInterface("IEditor") != null) ? _languagePresentationIcon[availableLanguage] : Path.Combine("..", _languagePresentationIcon[availableLanguage]);
                 if (availableLanguage == lang)
                 {
-                    codeBuilder.AppendLine(_languagePresentationString[lang]);
+                    codeBuilder.AppendLine(string.Format("<img src=\"{1}\" border=\"0\"/>&nbsp;{0}", _languagePresentationString[lang], iconPath));
                 }
                 else
                 {
                     var filename = Path.GetFileName(OnlineHelp.GetDocFilename(type, availableLanguage));
-                    codeBuilder.AppendLine(string.Format("<a href=\"{0}\">{1}</a>", filename, _languagePresentationString[availableLanguage]));
+
+                    codeBuilder.AppendLine(string.Format("<a href=\"{0}\"><img src=\"{2}\" border=\"0\"/>&nbsp;{1}</a>", filename, _languagePresentationString[availableLanguage], iconPath));
                 }
                 codeBuilder.AppendLine("|");
             }
@@ -203,11 +207,11 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
             {
                 if (availableLanguage == lang)
                 {
-                    codeBuilder.AppendLine(_languagePresentationString[lang]);
+                    codeBuilder.AppendLine(string.Format("<img src=\"{1}\" border=\"0\"/>&nbsp;{0}", _languagePresentationString[lang], _languagePresentationIcon[availableLanguage]));
                 }
                 else
                 {
-                    codeBuilder.AppendLine(string.Format("<a href=\"{0}\">{1}</a>", OnlineHelp.GetIndexFilename(availableLanguage), _languagePresentationString[availableLanguage]));
+                    codeBuilder.AppendLine(string.Format("<a href=\"{0}\"><img src=\"{2}\" border=\"0\"/>&nbsp;{1}</a>", OnlineHelp.GetIndexFilename(availableLanguage), _languagePresentationString[availableLanguage], _languagePresentationIcon[availableLanguage]));
                 }
                 codeBuilder.AppendLine("|");
             }

@@ -107,6 +107,8 @@
     <Resource Include="Generators\HtmlGenerator\index.png" />
     <Resource Include="Generators\HtmlGenerator\external_link.png" />
     <Resource Include="Generators\HtmlGenerator\filterTable.js" />
+    <Resource Include="Generators\HtmlGenerator\de.png" />
+    <Resource Include="Generators\HtmlGenerator\en.png" />
     <Content Include="Generators\HtmlGenerator\TemplateEditorDocumentationPage.html" />
     <Content Include="Generators\HtmlGenerator\TemplateIndex.html" />
     <Content Include="Generators\HtmlGenerator\TemplateComponentDocumentationPage.html" />
