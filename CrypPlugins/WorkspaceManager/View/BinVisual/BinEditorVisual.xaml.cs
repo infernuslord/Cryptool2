@@ -844,13 +844,15 @@ namespace WorkspaceManager.View.BinVisual
                     if (e.Source is BinComponentVisual)
                     {
                         BinComponentVisual c = (BinComponentVisual)e.Source;
-                        if (c.IsICPopUpOpen)
+                        if (c.IsICPopUpOpen || Util.TryFindParent<TextBox>(e.OriginalSource as UIElement) != null)
+                        {
+                            startedSelection = true;
                             break;
-                        if (Util.TryFindParent<TextBox>(e.OriginalSource as UIElement) != null)
-                            return;
+                        }
                         IsFullscreenOpen = true;
                         ((BinFullscreenVisual)FullScreen.Content).ActiveComponent = c;
                         e.Handled = true;
+                        startedSelection = true;
                     }
                     break;
             }
