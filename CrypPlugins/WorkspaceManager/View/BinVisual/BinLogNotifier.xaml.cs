@@ -27,7 +27,7 @@ namespace WorkspaceManager.View.BinVisual
     public partial class BinLogNotifier : UserControl, INotifyPropertyChanged
     {
         #region Events
-        public EventHandler<RequestLogDisplayArgs> RequestLogDisplay;
+        public event EventHandler<ErrorMessagesOccuredArgs> ErrorMessagesOccured;
         public event PropertyChangedEventHandler PropertyChanged;
         #endregion
 
@@ -65,19 +65,20 @@ namespace WorkspaceManager.View.BinVisual
         public int InfoCount
         {
             get { return logsTillReset.Count(a => a.Level == NotificationLevel.Info); }
-        } 
+        }
         #endregion
 
         #region Constructor
         public BinLogNotifier(ObservableCollection<Log> Logs, BinComponentVisual Parent)
         {
             this.Parent = Parent;
+            new ObservableCollection<Log>();
             this.CurrentState = Parent.State;
             this.logsTillReset.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(CollectionChangedHandler);
             this.Parent.StateChanged += new EventHandler<VisualStateChangedArgs>(StateChangedHandler);
-            InitializeComponent();
-            timer.Tick += new EventHandler(TickHandler);
-            timer.Start();
+            this.InitializeComponent();
+            this.timer.Tick += new EventHandler(TickHandler);
+            this.timer.Start();
             Logs.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(LogCollectionChangedHandler);
         }
 
@@ -150,14 +151,19 @@ namespace WorkspaceManager.View.BinVisual
 
                 if (!timer.IsEnabled)
                 {
+                    CurrentLog = logStack.Dequeue();
                     timer.Start();
                 }
+
+                if (log.Level == NotificationLevel.Error && ErrorMessagesOccured != null)
+                    ErrorMessagesOccured.Invoke(this, new ErrorMessagesOccuredArgs() { HasErrors = true });
             }
 
             #warning if something gets deleted this means all messages has been deleted
-            if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Remove)
+            if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Reset)
             {
                 logStack.Clear();
+                logsTillReset.Clear();
             }
         }
         #endregion
@@ -358,6 +364,27 @@ namespace WorkspaceManager.View.BinVisual
         }
     }
 
+    public class IsGreaterConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            double x;
+            if (double.TryParse(value.ToString(), out x))
+            {
+                if (x > 0)
+                    return true;
+                else
+                    return false;
+            }
+            return false;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
     public class IsNullConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -374,9 +401,9 @@ namespace WorkspaceManager.View.BinVisual
 
     #region EventArgs
 
-    public class RequestLogDisplayArgs : EventArgs
+    public class ErrorMessagesOccuredArgs : EventArgs
     {
-        public Log Messages { get; set; }
+        public bool HasErrors { get; set; }
     }
 
     #endregion

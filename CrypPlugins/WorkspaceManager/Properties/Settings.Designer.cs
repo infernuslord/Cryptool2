@@ -139,5 +139,41 @@ namespace WorkspaceManager.Properties {
                 this["MinScale"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("30")]
+        public double SortPadding {
+            get {
+                return ((double)(this["SortPadding"]));
+            }
+            set {
+                this["SortPadding"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1200")]
+        public double SortWidth {
+            get {
+                return ((double)(this["SortWidth"]));
+            }
+            set {
+                this["SortWidth"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1600")]
+        public double SortHeight {
+            get {
+                return ((double)(this["SortHeight"]));
+            }
+            set {
+                this["SortHeight"] = value;
+            }
+        }
     }
 }

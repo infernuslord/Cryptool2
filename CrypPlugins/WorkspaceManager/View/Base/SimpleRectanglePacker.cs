@@ -24,10 +24,8 @@ using System.Windows.Shapes;
 
 namespace WorkspaceManager.Base.Sort
 {
-
     public abstract class RectanglePacker
     {
-
         /// <summary>Initializes a new rectangle packer</summary>
         /// <param name="packingAreaWidth">Width of the packing area</param>
         /// <param name="packingAreaHeight">Height of the packing area</param>
