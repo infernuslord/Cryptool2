@@ -86,6 +86,7 @@ namespace WorkspaceManager.Execution
                 {
                     guiUpdateThread = new Thread(CheckGui);
                     guiUpdateThread.Name = "WorkspaceManager_GUIUpdateThread";
+                    guiUpdateThread.IsBackground = true;
                     guiUpdateThread.Start();
                 }
 
@@ -99,6 +100,7 @@ namespace WorkspaceManager.Execution
                 {
                     var thread = new Thread(new ParameterizedThreadStart(pluginModel.Execute))
                                      {Name = "WorkspaceManager_Thread-" + i};
+                    thread.IsBackground = true;
                     i++;
                     thread.Start(this);
                 }
