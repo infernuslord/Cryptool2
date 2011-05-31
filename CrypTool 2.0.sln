@@ -25,7 +25,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MD5", "CrypPlugins\MD5\MD5.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StreamToStringConverter", "CrypPlugins\StreamToStringConverter\StreamToStringConverter.csproj", "{443FE8F7-03CC-4D37-BC7C-8E212C68A89E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StringToStreamConverter", "CrypPlugins\StringToStreamConvertor\StringToStreamConverter.csproj", "{4019990F-8D4E-4981-937C-6780D4395241}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StringToStreamConverter", "CrypPlugins\StringToStreamConverter\StringToStreamConverter.csproj", "{4019990F-8D4E-4981-937C-6780D4395241}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RIPEMD160", "CrypPlugins\RIPEMD160\RIPEMD160.csproj", "{77EE0460-29E8-4227-A874-DECA9985BC64}"
 EndProject
