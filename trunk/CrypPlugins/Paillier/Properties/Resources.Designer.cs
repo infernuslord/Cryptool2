@@ -79,7 +79,7 @@ namespace Paillier.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die public key G ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Public Key G ähnelt.
         /// </summary>
         internal static string GCaption {
             get {
@@ -88,7 +88,7 @@ namespace Paillier.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die public key G ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Public Key G ähnelt.
         /// </summary>
         internal static string GTooltip {
             get {
@@ -97,7 +97,7 @@ namespace Paillier.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die public key G ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Public Key G ähnelt.
         /// </summary>
         internal static string InputGCaption {
             get {
@@ -115,7 +115,7 @@ namespace Paillier.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die private key Lambda ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Private Key Lambda ähnelt.
         /// </summary>
         internal static string InputLambdaCaption {
             get {
@@ -124,7 +124,7 @@ namespace Paillier.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Private key Lambda ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Private Key Lambda ähnelt.
         /// </summary>
         internal static string InputLambdaTooltip {
             get {
@@ -133,7 +133,7 @@ namespace Paillier.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die input message M ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Input Message M ähnelt.
         /// </summary>
         internal static string InputMCaption {
             get {
@@ -151,7 +151,7 @@ namespace Paillier.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die public key N ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Public Key N ähnelt.
         /// </summary>
         internal static string InputNCaption {
             get {
@@ -169,7 +169,7 @@ namespace Paillier.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die multiply/add this operand to the encrypted message ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Multiply/add this operand to the encrypted message ähnelt.
         /// </summary>
         internal static string InputOperandCaption {
             get {
@@ -178,7 +178,7 @@ namespace Paillier.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die multiply/add this operand to the encrypted message ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Multiply/add this operand to the encrypted message ähnelt.
         /// </summary>
         internal static string InputOperandTooltip {
             get {
@@ -205,7 +205,7 @@ namespace Paillier.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die private key lambda ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Private Key Lambda ähnelt.
         /// </summary>
         internal static string LambdaCaption {
             get {
@@ -214,7 +214,7 @@ namespace Paillier.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die private key lambda ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Private Key Lambda ähnelt.
         /// </summary>
         internal static string LambdaTooltip {
             get {
@@ -223,7 +223,7 @@ namespace Paillier.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die public key N ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Public Key N ähnelt.
         /// </summary>
         internal static string NCaption {
             get {
@@ -232,7 +232,7 @@ namespace Paillier.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die public key N ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Public Key N ähnelt.
         /// </summary>
         internal static string NTooltip {
             get {
@@ -241,7 +241,7 @@ namespace Paillier.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die output encrypted/modified message as BigInteger ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Output encrypted/modified message as BigInteger ähnelt.
         /// </summary>
         internal static string OutputC1Caption {
             get {
@@ -250,7 +250,7 @@ namespace Paillier.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die output encrypted/modified message  as BigInteger ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Output encrypted/modified message  as BigInteger ähnelt.
         /// </summary>
         internal static string OutputC1Tooltip {
             get {
@@ -259,7 +259,7 @@ namespace Paillier.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die output encrypted/modified message as byte[] ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Output encrypted/modified message as byte[] ähnelt.
         /// </summary>
         internal static string OutputC2Caption {
             get {
@@ -268,7 +268,7 @@ namespace Paillier.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die output encrypted/modified message as byte[] ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Output encrypted/modified message as byte[] ähnelt.
         /// </summary>
         internal static string OutputC2Tooltip {
             get {
@@ -277,7 +277,7 @@ namespace Paillier.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die prime number P ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Prime Number P ähnelt.
         /// </summary>
         internal static string PCaption {
             get {
@@ -340,7 +340,7 @@ namespace Paillier.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die prime number P ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Prime Number P ähnelt.
         /// </summary>
         internal static string PTooltip {
             get {
@@ -349,7 +349,7 @@ namespace Paillier.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die prime number Q ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Prime Number Q ähnelt.
         /// </summary>
         internal static string QCaption {
             get {
@@ -358,7 +358,7 @@ namespace Paillier.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die prime number Q ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Prime Number Q ähnelt.
         /// </summary>
         internal static string QTooltip {
             get {

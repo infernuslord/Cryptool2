@@ -135,12 +135,6 @@
   <data name="InputGTooltip" xml:space="preserve">
     <value>Public Key G</value>
   </data>
-  <data name="InputLambdaCaption" xml:space="preserve">
-    <value>private key Lambda</value>
-  </data>
-  <data name="InputLambdaTooltip" xml:space="preserve">
-    <value>Private key Lambda</value>
-  </data>
   <data name="InputMCaption" xml:space="preserve">
     <value>input message M</value>
   </data>
@@ -153,35 +147,17 @@
   <data name="InputNTooltip" xml:space="preserve">
     <value>Public Key N</value>
   </data>
-  <data name="InputOperandCaption" xml:space="preserve">
-    <value>multiply/add this operand to the encrypted message</value>
-  </data>
-  <data name="InputOperandTooltip" xml:space="preserve">
-    <value>multiply/add this operand to the encrypted message</value>
-  </data>
-  <data name="KeyBitLengthCaption" xml:space="preserve">
-    <value>Bitlength of the randomly created key</value>
-  </data>
-  <data name="KeyBitLengthTooltip" xml:space="preserve">
-    <value>Bitlength of the randomly created key</value>
-  </data>
-  <data name="LambdaCaption" xml:space="preserve">
-    <value>private key lambda</value>
-  </data>
-  <data name="LambdaTooltip" xml:space="preserve">
-    <value>private key lambda</value>
-  </data>
   <data name="NCaption" xml:space="preserve">
     <value>public key N</value>
   </data>
   <data name="NTooltip" xml:space="preserve">
     <value>public key N</value>
   </data>
-  <data name="OutputCCaption" xml:space="preserve">
-    <value>output encrypted/modified message</value>
+  <data name="OutputC1Caption" xml:space="preserve">
+    <value>output de-/encrypted message as BigInteger</value>
   </data>
-  <data name="OutputCTooltip" xml:space="preserve">
-    <value>output encrypted/modified message</value>
+  <data name="OutputC1Tooltip" xml:space="preserve">
+    <value>output de-/encrypted message as BigInteger</value>
   </data>
   <data name="PCaption" xml:space="preserve">
     <value>secret key P</value>
@@ -193,7 +169,7 @@
     <value />
   </data>
   <data name="PluginKeyCaption" xml:space="preserve">
-    <value>DGKKeyGenerator</value>
+    <value>DGK Key Generator</value>
   </data>
   <data name="PluginKeyDescriptionURL" xml:space="preserve">
     <value />
@@ -232,15 +208,45 @@
     <value>Bitlength l of input alphabet</value>
   </data>
   <data name="VPCaption" xml:space="preserve">
-    <value>private key VP</value>
+    <value>secret key VP</value>
   </data>
   <data name="VPTooltip" xml:space="preserve">
-    <value>private key VP</value>
+    <value>secret key VP</value>
   </data>
   <data name="VQCaption" xml:space="preserve">
-    <value>private key VQ</value>
+    <value>secret key VQ</value>
   </data>
   <data name="VQTooltip" xml:space="preserve">
-    <value>private key VQ</value>
+    <value>secret key VQ</value>
+  </data>
+  <data name="HCaption" xml:space="preserve">
+    <value>public key H</value>
+  </data>
+  <data name="HTooltip" xml:space="preserve">
+    <value>public key H</value>
+  </data>
+  <data name="InputHCaption" xml:space="preserve">
+    <value>public key H</value>
+  </data>
+  <data name="InputHTooltip" xml:space="preserve">
+    <value>Public Key H</value>
+  </data>
+  <data name="InputUCaption" xml:space="preserve">
+    <value>public key U</value>
+  </data>
+  <data name="InputUTooltip" xml:space="preserve">
+    <value>Public Key U</value>
+  </data>
+  <data name="OutputC2Caption" xml:space="preserve">
+    <value>output encrypted/modified message as byte[]</value>
+  </data>
+  <data name="OutputC2Tooltip" xml:space="preserve">
+    <value>output encrypted/modified message as byte[]</value>
+  </data>
+  <data name="UCaption" xml:space="preserve">
+    <value>public key U</value>
+  </data>
+  <data name="UTooltip" xml:space="preserve">
+    <value>public key U</value>
   </data>
 </root>

@@ -25,6 +25,7 @@ using Cryptool.PluginBase.Cryptography;
 using System.Windows.Controls;
 using System.Numerics;
 using System.Security.Cryptography;
+using System.Collections;
 
 namespace Cryptool.Plugins.DGK
 {
@@ -59,6 +60,7 @@ namespace Cryptool.Plugins.DGK
         private BigInteger n_square;
 
         private BigInteger[] decrypttable;
+        private Hashtable dechash;
         private bool decrypttableIsValid = false;
 
         // Variables for CRT
@@ -156,8 +158,15 @@ namespace Cryptool.Plugins.DGK
 
             if (decrypttableIsValid)
             {
-                for (int m = 0; m < (int)u; m++)
-                    if (message == decrypttable[m]) return m;
+                //for (int m = 0; m < (int)u; m++)
+                //    if (message == decrypttable[m]) return m;
+                message = message % (((BigInteger)1)<<48);
+                if (dechash.ContainsKey(message))
+                {
+                    Object x = dechash[message];
+                    BigInteger res = (int)x;
+                    return res;
+                }
                 //int i = (int)( message % (((BigInteger)1)<<48) );
                 //return decrypttable[i];
             }
@@ -642,8 +651,11 @@ namespace Cryptool.Plugins.DGK
                     decrypttable = new BigInteger[(int)u];
 
                     BigInteger gv = BigInteger.ModPow(g,vp,p);
-                    for (int i = 0; i < (int)u; i++) decrypttable[i] = BigInteger.ModPow(gv,i,p);
+                    //for (int i = 0; i < (int)u; i++) decrypttable[i] = BigInteger.ModPow(gv,i,p);
                     decrypttableIsValid = true;
+
+                    dechash = new Hashtable();
+                    for (int i = 0; i < (int)u; i++) dechash[ BigInteger.ModPow(gv, i, p) % (((BigInteger)1)<<48) ] = i;
                 }
 
                 if (InputM is BigInteger) OutputC1 = decrypt((BigInteger)InputM);

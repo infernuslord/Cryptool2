@@ -163,7 +163,7 @@
     <value>Resultat</value>
   </data>
   <data name="OutputTooltip" xml:space="preserve">
-    <value>Reslutat der mathematischen Operation</value>
+    <value>Resultat der mathematischen Operation</value>
   </data>
   <data name="NumberCaption" xml:space="preserve">
     <value>BigNumber Ausgabe</value>

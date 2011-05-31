@@ -59,7 +59,7 @@ namespace Cryptool.Plugins.Paillier
             get { return this.source; }
             set
             {
-                if (((int)value) != source) hasChanges = true;
+                if (((int)value) != source) HasChanges = true;
                 this.source = (int)value;
 
                 UpdateTaskPaneVisibility();

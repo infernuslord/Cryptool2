@@ -121,7 +121,7 @@
     <value>Komparator</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Einfache Vergleichsoperationen (=,!=, &lt;, &gt;, &lt;=, &gt;=). Siehe detailierte Beschreibung.</value>
+    <value>Einfache Vergleichsoperationen (=,!=, &lt;, &gt;, &lt;=, &gt;=). Siehe detaillierte Beschreibung.</value>
   </data>
   <data name="PluginDescriptionURL" xml:space="preserve">
     <value>Comparators/DetailedDescription/Description.xaml</value>
@@ -142,7 +142,7 @@
     <value>Ausagabe</value>
   </data>
   <data name="OutputTooltip" xml:space="preserve">
-    <value>Ausagabe</value>
+    <value>Ausgabe</value>
   </data>
   <data name="ComparatorCaption" xml:space="preserve">
     <value>Komparator</value>

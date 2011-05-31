@@ -154,7 +154,7 @@
     <value>Number of hits to find.</value>
   </data>
   <data name="HitsTooltip" xml:space="preserve">
-    <value>Search-method needs to find n-hits to return true.</value>
+    <value>Search method needs to find n hits to return true.</value>
   </data>
   <data name="ResultCaption" xml:space="preserve">
     <value>Search result</value>

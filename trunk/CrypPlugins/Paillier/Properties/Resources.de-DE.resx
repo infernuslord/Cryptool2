@@ -124,22 +124,22 @@
     <value>Wählen Sie die Betriebsart des Plugins</value>
   </data>
   <data name="GCaption" xml:space="preserve">
-    <value>öffentlicher Schlüssel G</value>
+    <value>Öffentlicher Schlüssel G</value>
   </data>
   <data name="GTooltip" xml:space="preserve">
-    <value>öffentlicher Schlüssel G</value>
+    <value>Öffentlicher Schlüssel G</value>
   </data>
   <data name="InputGCaption" xml:space="preserve">
-    <value>öffentlicher Schlüssel G</value>
+    <value>Öffentlicher Schlüssel G</value>
   </data>
   <data name="InputGTooltip" xml:space="preserve">
-    <value>öffentlicher Schlüssel G</value>
+    <value>Öffentlicher Schlüssel G</value>
   </data>
   <data name="InputLambdaCaption" xml:space="preserve">
-    <value>privater Schlüssel Lambda</value>
+    <value>Privater Schlüssel Lambda</value>
   </data>
   <data name="InputLambdaTooltip" xml:space="preserve">
-    <value>privater Schlüssel Lambda</value>
+    <value>Privater Schlüssel Lambda</value>
   </data>
   <data name="InputMCaption" xml:space="preserve">
     <value>Eingabe der Nachricht M</value>
@@ -148,16 +148,16 @@
     <value>Eingabe der zu verschlüsselnden Nachricht bzw. des zu modifizierenden Geheimtextes</value>
   </data>
   <data name="InputNCaption" xml:space="preserve">
-    <value>öffentlicher Schlüssel N</value>
+    <value>Öffentlicher Schlüssel N</value>
   </data>
   <data name="InputNTooltip" xml:space="preserve">
-    <value>öffentlicher Schlüssel N</value>
+    <value>Öffentlicher Schlüssel N</value>
   </data>
   <data name="InputOperandCaption" xml:space="preserve">
-    <value>multipliziere/addiere diesen Operanden zur verschlüsselten Nachricht</value>
+    <value>Multipliziere/addiere diesen Operanden zur verschlüsselten Nachricht</value>
   </data>
   <data name="InputOperandTooltip" xml:space="preserve">
-    <value>multipliziere/addiere diesen Operanden zur verschlüsselten Nachricht</value>
+    <value>Multipliziere/addiere diesen Operanden zur verschlüsselten Nachricht</value>
   </data>
   <data name="KeyBitLengthCaption" xml:space="preserve">
     <value>Bitlänge des zufällig erzeugten Schlüssels</value>
@@ -166,16 +166,16 @@
     <value>Bitlänge des zufällig erzeugten Schlüssels</value>
   </data>
   <data name="LambdaCaption" xml:space="preserve">
-    <value>privater Schlüssel lambda</value>
+    <value>Privater Schlüssel lambda</value>
   </data>
   <data name="LambdaTooltip" xml:space="preserve">
-    <value>privater Schlüssel lambda</value>
+    <value>Privater Schlüssel lambda</value>
   </data>
   <data name="NCaption" xml:space="preserve">
-    <value>öffentlicher Schlüssel N</value>
+    <value>Öffentlicher Schlüssel N</value>
   </data>
   <data name="NTooltip" xml:space="preserve">
-    <value>öffentlicher Schlüssel N</value>
+    <value>Öffentlicher Schlüssel N</value>
   </data>
   <data name="OutputC1Caption" xml:space="preserve">
     <value>Ausgabe der verschlüsselten/modifizierten Nachricht als BigInteger</value>
@@ -193,13 +193,13 @@
     <value />
   </data>
   <data name="PluginKeyCaption" xml:space="preserve">
-    <value>Paillier Schlüsselgenerator</value>
+    <value>Paillier-Schlüsselgenerator</value>
   </data>
   <data name="PluginKeyDescriptionURL" xml:space="preserve">
     <value />
   </data>
   <data name="PluginKeyTooltip" xml:space="preserve">
-    <value>Paillier Schlüsselgenerator</value>
+    <value>Paillier-Schlüsselgenerator</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
     <value>Paillier</value>

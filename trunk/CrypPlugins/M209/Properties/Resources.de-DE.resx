@@ -286,7 +286,7 @@
     <value>Positionen der Schieber, z.B. 24</value>
   </data>
   <data name="OutputStringCaption" xml:space="preserve">
-    <value>Text Ausgabe</value>
+    <value>Textausgabe</value>
   </data>
   <data name="OutputStringTooltip" xml:space="preserve">
     <value>Der mit der M209-Chiffre verschlüsselte Text</value>

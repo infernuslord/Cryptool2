@@ -151,6 +151,24 @@ namespace DGK.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die public key H ähnelt.
+        /// </summary>
+        internal static string HCaption {
+            get {
+                return ResourceManager.GetString("HCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die public key H ähnelt.
+        /// </summary>
+        internal static string HTooltip {
+            get {
+                return ResourceManager.GetString("HTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die public key G ähnelt.
         /// </summary>
         internal static string InputGCaption {
@@ -169,20 +187,20 @@ namespace DGK.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die private key Lambda ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die public key H ähnelt.
         /// </summary>
-        internal static string InputLambdaCaption {
+        internal static string InputHCaption {
             get {
-                return ResourceManager.GetString("InputLambdaCaption", resourceCulture);
+                return ResourceManager.GetString("InputHCaption", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Private key Lambda ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Public Key H ähnelt.
         /// </summary>
-        internal static string InputLambdaTooltip {
+        internal static string InputHTooltip {
             get {
-                return ResourceManager.GetString("InputLambdaTooltip", resourceCulture);
+                return ResourceManager.GetString("InputHTooltip", resourceCulture);
             }
         }
         
@@ -223,56 +241,20 @@ namespace DGK.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die multiply/add this operand to the encrypted message ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die public key U ähnelt.
         /// </summary>
-        internal static string InputOperandCaption {
+        internal static string InputUCaption {
             get {
-                return ResourceManager.GetString("InputOperandCaption", resourceCulture);
+                return ResourceManager.GetString("InputUCaption", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die multiply/add this operand to the encrypted message ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Public Key U ähnelt.
         /// </summary>
-        internal static string InputOperandTooltip {
+        internal static string InputUTooltip {
             get {
-                return ResourceManager.GetString("InputOperandTooltip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Bitlength of the randomly created key ähnelt.
-        /// </summary>
-        internal static string KeyBitLengthCaption {
-            get {
-                return ResourceManager.GetString("KeyBitLengthCaption", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Bitlength of the randomly created key ähnelt.
-        /// </summary>
-        internal static string KeyBitLengthTooltip {
-            get {
-                return ResourceManager.GetString("KeyBitLengthTooltip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die private key lambda ähnelt.
-        /// </summary>
-        internal static string LambdaCaption {
-            get {
-                return ResourceManager.GetString("LambdaCaption", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die private key lambda ähnelt.
-        /// </summary>
-        internal static string LambdaTooltip {
-            get {
-                return ResourceManager.GetString("LambdaTooltip", resourceCulture);
+                return ResourceManager.GetString("InputUTooltip", resourceCulture);
             }
         }
         
@@ -295,20 +277,38 @@ namespace DGK.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die output encrypted/modified message ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die output de-/encrypted message as BigInteger ähnelt.
         /// </summary>
-        internal static string OutputCCaption {
+        internal static string OutputC1Caption {
             get {
-                return ResourceManager.GetString("OutputCCaption", resourceCulture);
+                return ResourceManager.GetString("OutputC1Caption", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die output encrypted/modified message ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die output de-/encrypted message as BigInteger ähnelt.
         /// </summary>
-        internal static string OutputCTooltip {
+        internal static string OutputC1Tooltip {
             get {
-                return ResourceManager.GetString("OutputCTooltip", resourceCulture);
+                return ResourceManager.GetString("OutputC1Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die output encrypted/modified message as byte[] ähnelt.
+        /// </summary>
+        internal static string OutputC2Caption {
+            get {
+                return ResourceManager.GetString("OutputC2Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die output encrypted/modified message as byte[] ähnelt.
+        /// </summary>
+        internal static string OutputC2Tooltip {
+            get {
+                return ResourceManager.GetString("OutputC2Tooltip", resourceCulture);
             }
         }
         
@@ -340,7 +340,7 @@ namespace DGK.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die DGKKeyGenerator ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die DGK Key Generator ähnelt.
         /// </summary>
         internal static string PluginKeyCaption {
             get {
@@ -403,7 +403,25 @@ namespace DGK.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die private key VP ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die public key U ähnelt.
+        /// </summary>
+        internal static string UCaption {
+            get {
+                return ResourceManager.GetString("UCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die public key U ähnelt.
+        /// </summary>
+        internal static string UTooltip {
+            get {
+                return ResourceManager.GetString("UTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die secret key VP ähnelt.
         /// </summary>
         internal static string VPCaption {
             get {
@@ -412,7 +430,7 @@ namespace DGK.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die private key VP ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die secret key VP ähnelt.
         /// </summary>
         internal static string VPTooltip {
             get {
@@ -421,7 +439,7 @@ namespace DGK.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die private key VQ ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die secret key VQ ähnelt.
         /// </summary>
         internal static string VQCaption {
             get {
@@ -430,7 +448,7 @@ namespace DGK.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die private key VQ ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die secret key VQ ähnelt.
         /// </summary>
         internal static string VQTooltip {
             get {

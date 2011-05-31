@@ -121,7 +121,7 @@ namespace Cryptool.ADFGVX
                     }
                     else if (value.Length < settings.SubstitutionMatrix.Length)
                     {
-                        ADFGVX_LogMessage("Input alphabet too short! The alphabet must have " + settings.SubstitutionMatrix.Length.ToString() + " characters!", NotificationLevel.Info);
+                        ADFGVX_LogMessage("Input alphabet too short! The alphabet must have at least " + settings.SubstitutionMatrix.Length.ToString() + " characters!", NotificationLevel.Info);
                         ((ADFGVXSettings)this.settings).SubstitutionMatrix = value;
                     }
                     else

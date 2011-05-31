@@ -124,40 +124,40 @@
     <value>Select the Algorithm action</value>
   </data>
   <data name="GCaption" xml:space="preserve">
-    <value>public key G</value>
+    <value>Public Key G</value>
   </data>
   <data name="GTooltip" xml:space="preserve">
-    <value>public key G</value>
+    <value>Public Key G</value>
   </data>
   <data name="InputGCaption" xml:space="preserve">
-    <value>public key G</value>
+    <value>Public Key G</value>
   </data>
   <data name="InputGTooltip" xml:space="preserve">
-    <value>public Key G</value>
+    <value>Public Key G</value>
   </data>
   <data name="InputLambdaCaption" xml:space="preserve">
-    <value>private key Lambda</value>
+    <value>Private Key Lambda</value>
   </data>
   <data name="InputLambdaTooltip" xml:space="preserve">
-    <value>private key Lambda</value>
+    <value>Private Key Lambda</value>
   </data>
   <data name="InputMCaption" xml:space="preserve">
-    <value>input message M</value>
+    <value>Input Message M</value>
   </data>
   <data name="InputMTooltip" xml:space="preserve">
     <value>Input of message to encrypt or to modify</value>
   </data>
   <data name="InputNCaption" xml:space="preserve">
-    <value>public key N</value>
+    <value>Public Key N</value>
   </data>
   <data name="InputNTooltip" xml:space="preserve">
     <value>Public Key N</value>
   </data>
   <data name="InputOperandCaption" xml:space="preserve">
-    <value>multiply/add this operand to the encrypted message</value>
+    <value>Multiply/add this operand to the encrypted message</value>
   </data>
   <data name="InputOperandTooltip" xml:space="preserve">
-    <value>multiply/add this operand to the encrypted message</value>
+    <value>Multiply/add this operand to the encrypted message</value>
   </data>
   <data name="KeyBitLengthCaption" xml:space="preserve">
     <value>Bitlength of the randomly created key</value>
@@ -166,25 +166,25 @@
     <value>Bitlength of the randomly created key</value>
   </data>
   <data name="LambdaCaption" xml:space="preserve">
-    <value>private key lambda</value>
+    <value>Private Key Lambda</value>
   </data>
   <data name="LambdaTooltip" xml:space="preserve">
-    <value>private key lambda</value>
+    <value>Private Key Lambda</value>
   </data>
   <data name="NCaption" xml:space="preserve">
-    <value>public key N</value>
+    <value>Public Key N</value>
   </data>
   <data name="NTooltip" xml:space="preserve">
-    <value>public key N</value>
+    <value>Public Key N</value>
   </data>
   <data name="OutputC1Caption" xml:space="preserve">
-    <value>output encrypted/modified message as BigInteger</value>
+    <value>Output encrypted/modified message as BigInteger</value>
   </data>
   <data name="OutputC1Tooltip" xml:space="preserve">
-    <value>output encrypted/modified message  as BigInteger</value>
+    <value>Output encrypted/modified message  as BigInteger</value>
   </data>
   <data name="PCaption" xml:space="preserve">
-    <value>prime number P</value>
+    <value>Prime Number P</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
     <value>Paillier</value>
@@ -205,13 +205,13 @@
     <value>Paillier</value>
   </data>
   <data name="PTooltip" xml:space="preserve">
-    <value>prime number P</value>
+    <value>Prime Number P</value>
   </data>
   <data name="QCaption" xml:space="preserve">
-    <value>prime number Q</value>
+    <value>Prime Number Q</value>
   </data>
   <data name="QTooltip" xml:space="preserve">
-    <value>prime number Q</value>
+    <value>Prime Number Q</value>
   </data>
   <data name="SourceCaption" xml:space="preserve">
     <value>Source of the primes</value>
@@ -220,9 +220,9 @@
     <value>Where do the primes upon which the key generation bases come from?</value>
   </data>
   <data name="OutputC2Caption" xml:space="preserve">
-    <value>output encrypted/modified message as byte[]</value>
+    <value>Output encrypted/modified message as byte[]</value>
   </data>
   <data name="OutputC2Tooltip" xml:space="preserve">
-    <value>output encrypted/modified message as byte[]</value>
+    <value>Output encrypted/modified message as byte[]</value>
   </data>
 </root>

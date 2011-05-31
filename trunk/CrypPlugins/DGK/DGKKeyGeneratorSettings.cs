@@ -33,9 +33,9 @@ namespace Cryptool.Plugins.DGK
 
         #region private members
 
-        private int bitSizeK = 200;
-        private int bitSizeT = 80;
-        private int limitL = 40;
+        private int bitSizeK = 512;
+        private int bitSizeT = 160;
+        private int limitL = 10;
         private bool hasChanges = false;
         
         #endregion

@@ -134,10 +134,10 @@
     <value>Wählen Sie die Blockgröße (gilt nur für Rijndael)</value>
   </data>
   <data name="ControlSlaveCaption" xml:space="preserve">
-    <value>AES Sklave</value>
+    <value>AES-Sklave</value>
   </data>
   <data name="ControlSlaveTooltip" xml:space="preserve">
-    <value>AES Sklave</value>
+    <value>AES-Sklave</value>
   </data>
   <data name="CryptoAlgorithmCaption" xml:space="preserve">
     <value>Kryptographischer Algorithmus</value>
@@ -167,7 +167,7 @@
     <value>Schlüsselgröße</value>
   </data>
   <data name="KeysizeTooltip" xml:space="preserve">
-    <value>Wählen Sie die Schlüsselgröße. Zu lange Schlüssel werden entsprechend beschnitten, zu kurze werden mit Nullbytes auf die eingestellte Schlüsselgröße erweitert.</value>
+    <value>Wählen Sie die Schlüsselgröße. Zu lange Schlüssel werden abgeschnitten, zu kurze Schlüssel werden mit Nullbytes auf die eingestellte Schlüssellänge aufgefüllt.</value>
   </data>
   <data name="ModeCaption" xml:space="preserve">
     <value>Blockverkettungsmodus</value>
