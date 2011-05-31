@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Windows;
 using System.Xml.Linq;
 using Cryptool.Core;
 using Cryptool.PluginBase;
@@ -109,6 +110,7 @@ namespace OnlineDocumentationGenerator
             catch (Exception ex)
             {
                 GuiLogMessage(string.Format("Error trying to generate documentation: {0}", ex.Message), NotificationLevel.Error);
+                MessageBox.Show("Error trying to open documentation! Please read the log for details.");
             }
         }
 
