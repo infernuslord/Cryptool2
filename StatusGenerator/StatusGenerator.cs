@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using Cryptool.Core;
+using Cryptool.PluginBase;
 
 namespace StatusGenerator
 {
@@ -11,18 +13,26 @@ namespace StatusGenerator
     {
         public const string CrypPlugins = "CrypPlugins";
 
-        private IDictionary<string, string> publicSolution;
-        private IDictionary<string, string> coreSolution;
+        private IDictionary<string, Type> pluginAssemblies;
 
         private StreamWriter streamWriter;
 
-        public void Generate(string programRoot, string outputFile)
-        {
-            streamWriter = new StreamWriter(outputFile);
-            streamWriter.WriteLine("<html><body><table>");
-            streamWriter.WriteLine("<tr><th>Plugin</th><th>Developer Solution</th><th>Nightly Build</th></tr>");
+        private string pluginPath;
 
-            string pluginPath = Path.Combine(programRoot, CrypPlugins);
+        private IDictionary<string, string> publicSolution;
+        private IDictionary<string, string> coreSolution;
+
+        public StatusGenerator(string programRoot, string outputFile)
+        {
+
+            pluginAssemblies = LoadPlugins();
+
+            streamWriter = new StreamWriter(outputFile);
+            streamWriter.WriteLine("<html><head><style type=\"text/css\">td { border:1px solid; }</style></head>");
+            streamWriter.WriteLine("<body><table>");
+            streamWriter.WriteLine("<tr><th>Plugin Directory</th><th>Developer Solution</th><th>Nightly Build</th><th>Namespace</th><th>IPlugin</th><th>Documentation</th></tr>");
+
+            pluginPath = Path.Combine(programRoot, CrypPlugins);
 
             publicSolution = ReadSolution("../../CrypTool 2.0.sln");
             coreSolution = ReadSolution("../../CoreDeveloper/CrypTool 2.0.sln");
@@ -32,27 +42,67 @@ namespace StatusGenerator
                 if (dir.Name.StartsWith("."))
                     continue;
 
-                ProcessDirectory(dir);
+                ProcessDirectory(dir.Name);
             }
 
             streamWriter.WriteLine("</table></body></html>");
             streamWriter.Close();
         }
 
-        private void ProcessDirectory(DirectoryInfo dir)
+        private void ProcessDirectory(string pluginName)
         {
-            string dirShortName = dir.Name;
+            bool isInDeveloperSolution = publicSolution.ContainsKey(pluginName);
+            bool isInNightlyBuild = coreSolution.ContainsKey(pluginName);
 
-            bool isInDeveloperSolution = publicSolution.ContainsKey(dirShortName);
-            bool isInNightlyBuild = coreSolution.ContainsKey(dirShortName);
+            streamWriter.Write(string.Format("<tr><td>{0}</td>", pluginName));
+            streamWriter.Write("<td style=\"text-align:center\">");
+            streamWriter.Write(isInDeveloperSolution ? "true" : "<span style=\"color:red\">false</span>");
+            streamWriter.Write("</td><td style=\"text-align:center\">");
+            streamWriter.Write(isInNightlyBuild ? "true" : "<span style=\"color:red\">false</span>");
+            streamWriter.Write("</td>");
 
-            streamWriter.Write(string.Format("<tr><td>{0}</td>", dirShortName));
-            streamWriter.Write(isInDeveloperSolution ? "<td>true</td>" : "<td><font color=\"red\">false</td>");
-            streamWriter.Write(isInNightlyBuild ? "<td>true</td>" : "<td><font color=\"red\">false</td>");
+            var pluginTypes = from type in pluginAssemblies.Values
+                              where type.Assembly.GetName().Name == pluginName
+                              select type;
+
+            if (pluginTypes.Count() == 0)
+            {
+                streamWriter.Write("<td colspan=\"3\"><span style=\"color:red\">IPlugin not found</span> (not in CrypBuild, assembly name != directory name or not an IPlugin)</td>");
+            }
+            else
+            {
+                streamWriter.Write("<td>");
+                foreach(var type in pluginTypes)
+                    streamWriter.Write(type.Namespace + "<br>");
+
+                streamWriter.Write("</td><td>");
+                foreach (var type in pluginTypes)
+                    streamWriter.Write(type.Name + "<br>");
+
+                streamWriter.Write("</td><td>");
+
+                foreach (var type in pluginTypes)
+                {
+                    string descFile = type.GetPluginInfoAttribute().DescriptionUrl;
+                    if (string.IsNullOrWhiteSpace(descFile))
+                        streamWriter.Write("<span style=\"color:red\">None</span>");
+                    else if (descFile.EndsWith(".xaml"))
+                        streamWriter.Write("<span style=\"color:red\">XAML: </span>" + descFile);
+                    else if (!File.Exists(Path.Combine(pluginPath, descFile)))
+                        streamWriter.Write("<span style=\"color:red\">File not found: </span>" + descFile);
+                    else
+                        streamWriter.Write("yes, XML");
+
+                    streamWriter.Write("<br>");
+                }
+                streamWriter.Write("</td>");
+            }
+
             streamWriter.WriteLine("</tr>");
         }
 
-        private Regex slnRegex = new Regex("Project\\(\"{([A-Z0-9-]+)}\"\\) = \"(\\S+)\", \"(\\S+)\", \"{(\\w+)-(\\w+)-(\\w+)-(\\w+)-(\\w+)}\"");
+        //example: Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextInput", "CrypPlugins\TextInput\TextInput.csproj", "{475E8850-4D82-4C5E-AD19-5FDA82BC7576}"
+        private readonly Regex slnRegex = new Regex("Project\\(\"{([A-Z0-9-]+)}\"\\) = \"(\\S+)\", \"(\\S+)\", \"{([A-Z0-9-]+)}\"");
 
         private IDictionary<string, string> ReadSolution(string slnPath)
         {
@@ -76,7 +126,14 @@ namespace StatusGenerator
                 }
             }
 
+            streamReader.Close();
+
             return dict;
+        }
+
+        private IDictionary<string, Type> LoadPlugins()
+        {
+            return new PluginManager(null).LoadTypes(AssemblySigningRequirement.LoadAllAssemblies);
         }
     }
 }
