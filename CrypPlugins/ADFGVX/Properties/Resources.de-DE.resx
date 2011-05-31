@@ -136,10 +136,10 @@
     <value>bereinigtes Transpositions-Kennwort, bei dem ungültige und doppelte Zeichen entfernt wurden</value>
   </data>
   <data name="InputAlphabetCaption" xml:space="preserve">
-    <value>Eingabealphabet</value>
+    <value>Eingabe-Alphabet</value>
   </data>
   <data name="InputAlphabetTooltip" xml:space="preserve">
-    <value>Geben Sie die Zeichen an, aus denen das Eingabealphabet für ADFGVX bestehen soll. Wenn hier nichts angegeben wird, dann wird das interne Alphabet verwendet (a-z,0-9).</value>
+    <value>Geben Sie die Zeichen an, aus denen das Eingabe-Alphabet für ADFGVX bestehen soll. Wenn hier nichts angegeben wird, dann wird das interne Alphabet verwendet (a-z,0-9).</value>
   </data>
   <data name="InputStringCaption" xml:space="preserve">
     <value>Eingabetext</value>
@@ -208,6 +208,6 @@
     <value>Behandlung ungültiger Zeichen</value>
   </data>
   <data name="UnknownSymbolHandlingTooltip" xml:space="preserve">
-    <value>Wie soll auf Zeichen in der Eingabe reagiert werden, die nicht Bestandteil des Eingabealphabets sind?</value>
+    <value>Wie soll auf Zeichen in der Eingabe reagiert werden, die nicht Bestandteil des Eingabe-Alphabet sind?</value>
   </data>
 </root>

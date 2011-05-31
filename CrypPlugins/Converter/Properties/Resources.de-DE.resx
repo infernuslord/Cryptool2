@@ -151,10 +151,10 @@
     <value>Wählen Sie die erwartete Kodierung des Byte-Array und des Datenstroms.</value>
   </data>
   <data name="FormatAmerCaption" xml:space="preserve">
-    <value>Fliesskomma-Format</value>
+    <value>Fließkomma-Format</value>
   </data>
   <data name="FormatAmerTooltip" xml:space="preserve">
-    <value>Sollen Fliesskommazahlen nach deutscher (1.234.567,89) oder amerikanischer (1,234,567.89)Schreibweise interpretiert werden?</value>
+    <value>Sollen Fließkommazahlen nach deutscher (1.234.567,89) oder amerikanischer (1,234,567.89)Schreibweise interpretiert werden?</value>
   </data>
   <data name="NumericCaption" xml:space="preserve">
     <value>Numerisch</value>

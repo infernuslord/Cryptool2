@@ -199,13 +199,13 @@
     <value>Wählen Sie die Suchmethode.</value>
   </data>
   <data name="ToLowerCaption" xml:space="preserve">
-    <value>alle Wörter in Kleinschreibung</value>
+    <value>Alle Wörter in Kleinschreibung</value>
   </data>
   <data name="ToLowerTooltip" xml:space="preserve">
     <value>ja / nein</value>
   </data>
   <data name="ToLowerTPCaption" xml:space="preserve">
-    <value>alle Wörter in Kleinschreibung</value>
+    <value>Alle Wörter in Kleinschreibung</value>
   </data>
   <data name="ToLowerTPTooltip" xml:space="preserve">
     <value>ja / nein</value>

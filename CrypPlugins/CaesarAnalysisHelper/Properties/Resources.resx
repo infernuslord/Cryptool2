@@ -121,7 +121,7 @@
     <value>CaesarAnalysisHelper</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>This plugin is designed in order to make a cryptanalysis of a caesar cipher based on the frequency test.</value>
+    <value>This plugin performs the cryptanalysis of a Caesar cipher using the frequency of unigrams and bigrams in the encrpyted text.</value>
   </data>
   <data name="PluginDescriptionURL" xml:space="preserve">
     <value />

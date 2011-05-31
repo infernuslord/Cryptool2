@@ -121,7 +121,7 @@
     <value>CaesarAnalysisHelper</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Dieses Plugin führt die Kryptanalyse der Caesar-Chiffre basierend auf der Häufigkeitsanalyse des Eingabetextes durch.</value>
+    <value>Dieses Plugin führt die Kryptoanalyse des Caesar-Verfahrens durch mit Hilfe der Häufigkeit von Einbuchstaben und Bi-Grammen des Eingabetextes.</value>
   </data>
   <data name="PluginDescriptionURL" xml:space="preserve">
     <value />
@@ -130,7 +130,7 @@
     <value>verschlüsselter Text</value>
   </data>
   <data name="EncryptedTextTooltip" xml:space="preserve">
-    <value>Der mit der Caesar-Chiffre verschlüsselte Text</value>
+    <value>Der mit der Caesar-Verfahren verschlüsselte Text</value>
   </data>
   <data name="FrequencyListCaption" xml:space="preserve">
     <value>Häufigkeitsliste</value>
@@ -148,12 +148,12 @@
     <value>Sprache</value>
   </data>
   <data name="TextLanguageTooltip" xml:space="preserve">
-    <value>Die Sprache des zugrundeliegenden Textes.</value>
+    <value>Die Sprache des zugrunde liegenden Textes.</value>
   </data>
   <data name="TextLanguageTPCaption" xml:space="preserve">
     <value>Sprache</value>
   </data>
   <data name="TextLanguageTPTooltip" xml:space="preserve">
-    <value>Die Sprache des zugrundeliegenden Textes.</value>
+    <value>Die Sprache des zugrunde liegenden Textes.</value>
   </data>
 </root>

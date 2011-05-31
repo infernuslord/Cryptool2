@@ -121,7 +121,7 @@
     <value>ArrayIndexer</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Wählt den Inhalt des Eingabearrays am angegebenen Index aus</value>
+    <value>Wählt den Inhalt des Eingabe-Arrays am angegebenen Index aus</value>
   </data>
   <data name="PluginDescriptionURL" xml:space="preserve">
     <value />
@@ -133,15 +133,15 @@
     <value>Das Eingabe-Objekt muss vom Typ 'Array' sein</value>
   </data>
   <data name="ArrayIndexCaption" xml:space="preserve">
-    <value>Arrayindex</value>
+    <value>Array-Index</value>
   </data>
   <data name="ArrayIndexTooltip" xml:space="preserve">
     <value>Die Nummerierung eines Array beginnt bei 0. Beispiel: Für ein Array mit 8 Elementen läuft der Index von 0 bis 7.</value>
   </data>
   <data name="ObjOutputCaption" xml:space="preserve">
-    <value>Arrayinhalt am gewählten Index</value>
+    <value>Array-Inhalt am gewählten Index</value>
   </data>
   <data name="ObjOutputTooltip" xml:space="preserve">
-    <value>Ausgabe ist der Inhalt des Eingabe-Arrays am angegebenen Index</value>
+    <value>Ausgegeben wird der Array-spezifische Datentyp.</value>
   </data>
 </root>
