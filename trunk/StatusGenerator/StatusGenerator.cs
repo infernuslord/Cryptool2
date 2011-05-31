@@ -108,6 +108,9 @@ namespace StatusGenerator
         {
             Dictionary<string, string> dict = new Dictionary<string, string>();
 
+            if (!File.Exists(slnPath))
+                return dict; // silently ignore, probably CoreDeveloper sln missing
+
             StreamReader streamReader = new StreamReader(slnPath);
             while(!streamReader.EndOfStream)
             {
