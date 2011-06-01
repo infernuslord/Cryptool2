@@ -124,6 +124,7 @@
     <Resource Include="PKCS5.png" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="DetailedDescription\doc.xml" />
     <Content Include="license.txt" />
   </ItemGroup>
   <ItemGroup>

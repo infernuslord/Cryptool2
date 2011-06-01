@@ -109,6 +109,7 @@
     <Resource Include="whirlpool.png" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="DetailedDescription\doc.xml" />
     <Content Include="license.txt" />
     <Resource Include="whirlpool1.png" />
   </ItemGroup>
