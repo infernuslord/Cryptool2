@@ -78,6 +78,7 @@
     <Compile Include="TwofishEncryption.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="DetailedDescription\doc.xml" />
     <Content Include="license.txt" />
   </ItemGroup>
   <ItemGroup>

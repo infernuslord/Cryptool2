@@ -731,6 +731,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="DetailedDescription\doc.xml" />
     <Content Include="OnlineHelp\HelpFiles\de\Generation_SieveOfAtkin.htm" />
     <Content Include="OnlineHelp\HelpFiles\de\Distribution_Distribution.htm" />
     <Content Include="OnlineHelp\HelpFiles\de\Distribution_EulerPhi.htm" />

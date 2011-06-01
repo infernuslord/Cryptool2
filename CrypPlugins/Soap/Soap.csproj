@@ -142,6 +142,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="DetailedDescription\doc.xml" />
     <Content Include="Key.bmp" />
     <None Include="Resources\EditIcon.PNG" />
     <Resource Include="SOAPImage.PNG" />
