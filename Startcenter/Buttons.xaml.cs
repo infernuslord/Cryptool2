@@ -35,7 +35,7 @@ namespace Startcenter
 
         private void HelpButton_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Soon...");
+            OnlineHelp.InvokeShowPluginDocPage(null);
         }
 
         private void WorkspaceButton_Click(object sender, RoutedEventArgs e)
