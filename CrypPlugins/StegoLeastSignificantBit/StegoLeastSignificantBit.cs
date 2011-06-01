@@ -13,6 +13,11 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
+
+// Define this variable and allow unsafe code for this project
+// to improve the performance of hide/extract.
+// #define Use_Unsafe_Pointers
+
 using System;
 using System.IO;
 using System.Collections.Generic;
@@ -28,6 +33,7 @@ using Cryptool.PluginBase.Miscellaneous;
 using System.Windows.Controls;
 using Cryptool.PluginBase.Cryptography;
 using System.Collections.ObjectModel;
+using System.Runtime.InteropServices;
 
 namespace Cryptool.Plugins.StegoLeastSignificantBit
 {
@@ -57,6 +63,7 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
         private int noisePercent = 0;
         private int currentColorComponent = 0;
         private ImageInfo imageInfo;
+        private const int PixelSize = 3;
 
         #endregion
 
@@ -300,6 +307,7 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
             OutputCarrier = new CStreamWriter(outputStream.GetBuffer());
         }
 
+#if Use_Unsafe_Pointers
         /// <summary>Hide an Int32 value in pPixel an the following pixels</summary>
         /// <param name="secretValue">The value to hide</param>
         /// <param name="pPixel">The first pixel to use</param>
@@ -357,20 +365,6 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
             }
         }
 
-        /// <summary>Copy one or more bits from the message into a color value</summary>
-        /// <param name="bitsPerUnit">Count of bits to copy</param>
-        /// <param name="messageByte">Source byte</param>
-        /// <param name="messageBitIndex">Index of the first copied bit</param>
-        /// <param name="colorComponent">Destination byte</param>
-        private void CopyBitsToColor(int bitsPerUnit, byte messageByte, ref int messageBitIndex, ref byte colorComponent)
-        {
-            for (int carrierBitIndex = 0; carrierBitIndex < bitsPerUnit; carrierBitIndex++)
-            {
-                colorComponent = SetBit(messageBitIndex, messageByte, carrierBitIndex, colorComponent);
-                messageBitIndex++;
-            }
-        }
-
         /// <summary>Changes one component of a color</summary>
         /// <param name="pPixel">Pointer to the pixel</param>
         /// <param name="colorComponent">The component to change (0-R, 1-G, 2-B)</param>
@@ -391,10 +385,128 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
             }
         }
 
+#else
+        /// <summary>Hide an Int32 value in pPixel an the following pixels</summary>
+        /// <param name="secretValue">The value to hide</param>
+        /// <param name="pPixel">The first pixel to use</param>
+        private void HideInt32(Int32 secretValue, ref IntPtr pixelPosition)
+        {
+            byte secretByte;
+
+            for (int byteIndex = 0; byteIndex < 4; byteIndex++)
+            {
+                secretByte = (byte)(secretValue >> (8 * byteIndex));
+                HideByte(secretByte, ref pixelPosition);
+            }
+        }
+
+        /// <summary>Return one component of a color</summary>
+        /// <param name="pPixel">Pointer to the pixel</param>
+        /// <param name="colorComponent">The component to return (0-R, 1-G, 2-B)</param>
+        /// <returns>The requested component</returns>
+        private byte GetColorComponent(PixelData pPixel, int colorComponent)
+        {
+            byte returnValue = 0;
+            switch (colorComponent)
+            {
+                case 0:
+                    returnValue = pPixel.Red;
+                    break;
+                case 1:
+                    returnValue = pPixel.Green;
+                    break;
+                case 2:
+                    returnValue = pPixel.Blue;
+                    break;
+            }
+            return returnValue;
+        }
+
+        /// <summary>Hide a byte in pPixel an the following pixels</summary>
+        /// <param name="secretByte">The value to hide</param>
+        /// <param name="pPixel">The first pixel to use</param>
+        private void HideByte(byte secretByte, ref IntPtr pixelPosition)
+        {
+            byte colorComponent;
+            PixelData pPixel;
+
+            for (int bitIndex = 0; bitIndex < 8; )
+            {
+                pixelPosition += PixelSize;
+                ReadPixel(pixelPosition, out pPixel);
+
+                //rotate color components
+                currentColorComponent = (currentColorComponent == 2) ? 0 : (currentColorComponent + 1);
+                //get value of Red, Green or Blue
+                colorComponent = GetColorComponent(pPixel, currentColorComponent);
+
+                CopyBitsToColor(1, secretByte, ref bitIndex, ref colorComponent);
+                SetColorComponent(ref pPixel, currentColorComponent, colorComponent);
+
+                WritePixel(pixelPosition, pPixel);
+            }
+        }
+
+        /// <summary>Changes one component of a color</summary>
+        /// <param name="pPixel">Pointer to the pixel</param>
+        /// <param name="colorComponent">The component to change (0-R, 1-G, 2-B)</param>
+        /// <param name="newValue">New value of the component</param>
+        private void SetColorComponent(ref PixelData pPixel, int colorComponent, byte newValue)
+        {
+            switch (colorComponent)
+            {
+                case 0:
+                    pPixel.Red = newValue;
+                    break;
+                case 1:
+                    pPixel.Green = newValue;
+                    break;
+                case 2:
+                    pPixel.Blue = newValue;
+                    break;
+            }
+        }
+#endif
+
+        /// <summary>Copy one or more bits from the message into a color value</summary>
+        /// <param name="bitsPerUnit">Count of bits to copy</param>
+        /// <param name="messageByte">Source byte</param>
+        /// <param name="messageBitIndex">Index of the first copied bit</param>
+        /// <param name="colorComponent">Destination byte</param>
+        private void CopyBitsToColor(int bitsPerUnit, byte messageByte, ref int messageBitIndex, ref byte colorComponent)
+        {
+            for (int carrierBitIndex = 0; carrierBitIndex < bitsPerUnit; carrierBitIndex++)
+            {
+                colorComponent = SetBit(messageBitIndex, messageByte, carrierBitIndex, colorComponent);
+                messageBitIndex++;
+            }
+        }
+
+        private void ReadPixel(IntPtr from, out PixelData to)
+        {
+            byte[] colorValues = new byte[3];
+            Marshal.Copy(from, colorValues, 0, PixelSize);
+
+            to.Blue = colorValues[0];
+            to.Green = colorValues[1];
+            to.Red = colorValues[2];
+        }
+
+        private void WritePixel(IntPtr to, PixelData from)
+        {
+            Marshal.WriteByte(to, from.Blue);
+            Marshal.WriteByte(to + 1, from.Green);
+            Marshal.WriteByte(to + 2, from.Red);
+        }
+
         /// <summary>Hides the given message stream in the image.</summary>
         /// <param name="message">Message.</param>
         /// <param name="key">A stream with varying seed values for a random number generator.</param>
-        public unsafe void Hide(Bitmap bitmap, CStreamReader message, CStreamReader key)
+        public
+        #if Use_Unsafe_Pointers
+            unsafe
+        #endif
+        void Hide(Bitmap bitmap, CStreamReader message, CStreamReader key)
         {
             //make sure that the image is in RGB format
             Bitmap image = PaletteToRGB(bitmap);
@@ -410,8 +522,15 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
                 ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
 
             //go to the first pixel
+
+#if Use_Unsafe_Pointers
             PixelData* pPixel = (PixelData*)bitmapData.Scan0.ToPointer();
             PixelData* pFirstPixel;
+#else
+            PixelData pPixel;
+            IntPtr pFirstPixel;
+            IntPtr pixelPosition = bitmapData.Scan0;
+#endif
 
             //get the first pixel that belongs to a region
             //and serialise the regions to a map stream
@@ -436,6 +555,8 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
             regionDataWriter.Flush();
             regionData.Seek(0, SeekOrigin.Begin);
 
+            
+#if Use_Unsafe_Pointers
             //hide firstPixelInRegions
             HideInt32(firstPixelInRegions, ref pPixel);
 
@@ -445,6 +566,17 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
             //hide regions
 
             pFirstPixel = pPixel; //don't overwrite already written header
+#else
+            //hide firstPixelInRegions
+            HideInt32(firstPixelInRegions, ref pixelPosition);
+
+            //hide length of map stream
+            HideInt32((Int32)regionData.Length, ref pixelPosition);
+
+            //hide regions
+
+            pFirstPixel = pixelPosition;
+#endif
 
             int regionByte;
             while ((regionByte = regionData.ReadByte()) >= 0)
@@ -459,7 +591,13 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
                     int lengthBlock = countRemainingPixels / (lengthRemainingStream * 8);
 
                     pixelOffset += random.Next(1, lengthBlock);
+
+#if Use_Unsafe_Pointers
                     pPixel = pFirstPixel + pixelOffset;
+#else
+                    pixelPosition = pFirstPixel + (PixelSize * pixelOffset);
+                    ReadPixel(pixelPosition, out pPixel);
+#endif
 
                     //place [regionBit] in one bit of the colour component
 
@@ -470,20 +608,34 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
 
                     //put the bits into the color component and write it back into the bitmap
                     CopyBitsToColor(1, (byte)regionByte, ref regionBitIndex, ref colorComponent);
+
+#if Use_Unsafe_Pointers
                     SetColorComponent(pPixel, currentColorComponent, colorComponent);
+#else
+                    SetColorComponent(ref pPixel, currentColorComponent, colorComponent);
+                    WritePixel(pixelPosition, pPixel);
+#endif
                 }
             }
 
             // ----------------------------------------- Hide the Message
 
             //begin with the first pixel of the image
+#if Use_Unsafe_Pointers
             pFirstPixel = (PixelData*)bitmapData.Scan0.ToPointer();
+#else
+            pFirstPixel = bitmapData.Scan0;
+#endif
 
             foreach (RegionInfo regionInfo in this.imageInfo.RegionInfo)
             {
                 //go to the first pixel of this region
+#if Use_Unsafe_Pointers
                 pPixel = (PixelData*)bitmapData.Scan0.ToPointer();
                 pPixel += (int)regionInfo.PixelIndices[0];
+#else
+                pixelPosition = bitmapData.Scan0 + (PixelSize * (int)regionInfo.PixelIndices[0]);
+#endif
                 pixelOffset = 0;
 
                 for (int n = 0; n < regionInfo.Capacity; n++)
@@ -505,7 +657,12 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
                         maxOffset = (int)Math.Floor(lengthBlock);
                         pixelOffset += random.Next(1, (maxOffset > 0) ? maxOffset : 1);
 
+#if Use_Unsafe_Pointers
                         pPixel = pFirstPixel + (int)regionInfo.PixelIndices[pixelOffset];
+#else
+                        pixelPosition = pFirstPixel + (PixelSize * (int)regionInfo.PixelIndices[pixelOffset]);
+                        ReadPixel(pixelPosition, out pPixel);
+#endif
 
                         //place [messageBit] in one bit of the colour component
 
@@ -516,7 +673,13 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
 
                         //put the bits into the color component and write it back into the bitmap
                         CopyBitsToColor(regionInfo.CountUsedBitsPerPixel, messageByte, ref messageBitIndex, ref colorComponent);
+
+#if Use_Unsafe_Pointers
                         SetColorComponent(pPixel, currentColorComponent, colorComponent);
+#else
+                        SetColorComponent(ref pPixel, currentColorComponent, colorComponent);
+                        WritePixel(pixelPosition, pPixel);
+#endif
                     }
                 }
             }
@@ -562,6 +725,7 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
             return result;
         }
 
+#if Use_Unsafe_Pointers
         /// <summary>Extract an Int32 value from pPixel and the following pixels</summary>
         /// <param name="pPixel">The first pixel to use</param>
         /// <returns>The extracted value</returns>
@@ -599,6 +763,48 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
 
             return readByte;
         }
+#else
+        /// <summary>Extract an Int32 value from pPixel and the following pixels</summary>
+        /// <param name="pPixel">The first pixel to use</param>
+        /// <returns>The extracted value</returns>
+        private Int32 ExtractInt32(ref IntPtr pixelPosition)
+        {
+            int returnValue = 0;
+            byte readByte;
+
+            for (int byteIndex = 0; byteIndex < 4; byteIndex++)
+            {
+                readByte = ExtractByte(ref pixelPosition);
+                returnValue += readByte << (byteIndex * 8);
+            }
+
+            return returnValue;
+        }
+
+        /// <summary>Extract a byte value from pPixel and the following pixels</summary>
+        /// <param name="pPixel">The first pixel to use</param>
+        /// <returns>The extracted value</returns>
+        private byte ExtractByte(ref IntPtr pixelPosition)
+        {
+            PixelData pPixel;
+            byte colorComponent;
+            byte readByte = 0;
+
+            for (int bitIndex = 0; bitIndex < 8; bitIndex++)
+            {
+                pixelPosition += PixelSize;
+                ReadPixel(pixelPosition, out pPixel);
+
+                //rotate color components
+                currentColorComponent = (currentColorComponent == 2) ? 0 : (currentColorComponent + 1);
+                //get value of Red, Green or Blue
+                colorComponent = GetColorComponent(pPixel, currentColorComponent);
+                AddBit(bitIndex, ref readByte, 0, colorComponent);
+            }
+
+            return readByte;
+        }
+#endif
 
         /// <summary>Copy the lowest bit from [carrierByte] into a specific bit of [messageByte]</summary>
         /// <param name="messageBitIndex">Position of the bit in [messageByte]</param>
@@ -634,17 +840,23 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
         /// <remarks>The header contains information about the regions which carry the message</remarks>
         /// <param name="key">Key stream</param>
         /// <returns>The extracted regions with all meta data that is needed to extract the message</returns>
-        public unsafe Collection<RegionInfo> ExtractRegionData(Bitmap bitmap, CStreamReader key)
+        public 
+        #if Use_Unsafe_Pointers
+            unsafe
+        #endif    
+        Collection<RegionInfo> ExtractRegionData(Bitmap bitmap, CStreamReader key)
         {
             byte keyByte, colorComponent;
-            PixelData* pPixel;
-            PixelData* pFirstPixel;
             Random random;
             int pixelOffset = 0;
 
             BitmapData bitmapData = bitmap.LockBits(
                 new Rectangle(0, 0, bitmap.Width, bitmap.Height),
                 ImageLockMode.ReadOnly, PixelFormat.Format24bppRgb);
+
+#if Use_Unsafe_Pointers
+            PixelData* pPixel;
+            PixelData* pFirstPixel;
 
             //go to the first pixel
             pPixel = (PixelData*)bitmapData.Scan0.ToPointer();
@@ -654,10 +866,18 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
 
             //get length of region information
             int regionDataLength = ExtractInt32(ref pPixel);
+            
+            pFirstPixel = pPixel;
+#else
+            PixelData pPixel;
+            IntPtr pFirstPixel;
+            IntPtr pixelPosition = bitmapData.Scan0;
+            int firstPixelInRegions = ExtractInt32(ref pixelPosition);
+            int regionDataLength = ExtractInt32(ref pixelPosition);
+            pFirstPixel = pixelPosition;
+#endif
 
             //get region information
-
-            pFirstPixel = pPixel;
 
             MemoryStream regionData = new MemoryStream();
 
@@ -675,15 +895,22 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
                     int countRemainingPixels = firstPixelInRegions - 1 - pixelOffset;
                     int lengthRemainingStream = (int)(regionDataLength - regionData.Length);
                     int lengthBlock = countRemainingPixels / (lengthRemainingStream * 8);
-
                     pixelOffset += random.Next(1, lengthBlock);
-                    pPixel = pFirstPixel + pixelOffset;
 
+#if Use_Unsafe_Pointers
+                    pPixel = pFirstPixel + pixelOffset;
                     //rotate color components
                     currentColorComponent = (currentColorComponent == 2) ? 0 : (currentColorComponent + 1);
                     //get value of Red, Green or Blue
                     colorComponent = GetColorComponent(pPixel, currentColorComponent);
-
+#else
+                    pixelPosition = pFirstPixel + (PixelSize * pixelOffset);
+                    ReadPixel(pixelPosition, out pPixel);
+                    //rotate color components
+                    currentColorComponent = (currentColorComponent == 2) ? 0 : (currentColorComponent + 1);
+                    //get value of Red, Green or Blue
+                    colorComponent = GetColorComponent(pPixel, currentColorComponent);
+#endif
                     //extract one bit and add it to [regionByte]
                     AddBit(regionBitIndex, ref regionByte, 0, colorComponent);
                 }
@@ -734,7 +961,11 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
         /// <summary>Extracts a stream from the HTML document.</summary>
         /// <param name="key">A stream with varying seed values for a random number generator.</param>
         /// <returns>The extracted stream.</returns>
-        public unsafe Stream Extract(Bitmap bitmap, CStreamReader key)
+        public
+        #if Use_Unsafe_Pointers
+            unsafe
+        #endif
+        Stream Extract(Bitmap bitmap, CStreamReader key)
         {
             //Bitmap image = bitmap;
 
@@ -748,8 +979,15 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
             MemoryStream messageStream = new MemoryStream();
             byte keyByte;
             byte messageByte, colorComponent;
+
+#if Use_Unsafe_Pointers
             PixelData* pPixel;
             PixelData* pFirstPixel = (PixelData*)bitmapData.Scan0.ToPointer();
+#else
+            PixelData pPixel;
+            IntPtr pixelPosition;
+            IntPtr pFirstPixel = bitmapData.Scan0;
+#endif
 
             Random random;
             int maxOffset, pixelOffset = 0;
@@ -757,13 +995,17 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
             foreach (RegionInfo regionInfo in this.imageInfo.RegionInfo)
             {
                 //go to first pixel of this region
+#if Use_Unsafe_Pointers
                 pFirstPixel = (PixelData*)bitmapData.Scan0.ToPointer();
                 pPixel = pFirstPixel + (int)regionInfo.PixelIndices[0];
+#else
+                pFirstPixel = bitmapData.Scan0;
+                pixelPosition = pFirstPixel + (PixelSize * (int)regionInfo.PixelIndices[0]);
+#endif
                 pixelOffset = 0;
 
                 for (int n = 0; n < regionInfo.Capacity; n++)
                 {
-
                     messageByte = 0;
                     keyByte = GetKeyValue(key);
                     random = new Random(keyByte);
@@ -780,7 +1022,12 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
                         maxOffset = (int)Math.Floor(lengthBlock);
                         pixelOffset += random.Next(1, maxOffset);
 
+#if Use_Unsafe_Pointers
                         pPixel = pFirstPixel + (int)regionInfo.PixelIndices[pixelOffset];
+#else
+                        pixelPosition = pFirstPixel + (PixelSize * (int)regionInfo.PixelIndices[pixelOffset]);
+                        ReadPixel(pixelPosition, out pPixel);
+#endif
 
                         //rotate color components
                         currentColorComponent = (currentColorComponent == 2) ? 0 : (currentColorComponent + 1);
