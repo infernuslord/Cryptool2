@@ -136,7 +136,7 @@
     <value>Ausgabe des mit der Skytale-Chiffre verschlüsselten Textes</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
-    <value>Skytale</value>
+    <value>Scytale</value>
   </data>
   <data name="PluginDescriptionURL" xml:space="preserve">
     <value>Scytale/DetailedDescription/Description.xaml</value>
