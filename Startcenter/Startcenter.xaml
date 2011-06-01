@@ -15,7 +15,7 @@
         <Image Source="/Startcenter;component/header_logo.png" />
         <Label Grid.Row="1" MinHeight="40" VerticalContentAlignment="Center">
             <Label.Content>
-                <TextBlock TextAlignment="Center">
+                <TextBlock>
                     Welcome to <Bold>CrypTool 2.0</Bold>.
                     Try our templates which demonstrate the functionality of CrypTool 2.0 or click the Wizard button on the right to get step-by-step guidance.
                 </TextBlock>
