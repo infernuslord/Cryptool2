@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<sample>
+	<title lang="en">Primes</title>
+	<title lang="de">Primzahlen</title>
+	
+	<description lang="en">
+		The world of primes.
+	</description>
+	<description lang="de">
+		Die Welt der Primzahlen.
+	</description>
+	
+	<icon file="Primes.png"/>	
+</sample>

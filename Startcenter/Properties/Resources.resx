@@ -156,4 +156,10 @@
 	<data name="This_is_a_WorkspaceManager_file_">
 		<value xml:space="preserve">This is a WorkspaceManager file.</value>
 	</data>
+	<data name="This_is_a_standalone_component_">
+		<value xml:space="preserve">This is a standalone component.</value>
+	</data>
+	<data name="This_is_a_template">
+		<value xml:space="preserve">This is a template.</value>
+	</data>
 </root>

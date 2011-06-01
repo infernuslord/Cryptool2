@@ -151,6 +151,24 @@ namespace Startcenter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This is a standalone component..
+        /// </summary>
+        internal static string This_is_a_standalone_component_ {
+            get {
+                return ResourceManager.GetString("This_is_a_standalone_component_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This is a template..
+        /// </summary>
+        internal static string This_is_a_template {
+            get {
+                return ResourceManager.GetString("This_is_a_template", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This is a WorkspaceManager file..
         /// </summary>
         internal static string This_is_a_WorkspaceManager_file_ {
