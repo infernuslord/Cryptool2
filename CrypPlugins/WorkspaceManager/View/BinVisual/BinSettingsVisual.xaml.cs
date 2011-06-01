@@ -336,6 +336,8 @@ namespace WorkspaceManager.View.BinVisual
                   // dataBinding.IsAsync = true;                                     
                   textbox.SetBinding(TextBox.TextProperty, dataBinding);
                   inputControl = textbox;
+                        
+
                   break;
                 # endregion TextBox
                 # region NumericUpDown
@@ -610,6 +612,8 @@ namespace WorkspaceManager.View.BinVisual
                   stackPanelInputControl.Children.Add(inputControl);
                 }
                 inputControl = stackPanelInputControl;
+                blupp.Children.Add(stackPanelInputControl);
+
               }
 
               //if (bInfo.SettingFormat != null)
