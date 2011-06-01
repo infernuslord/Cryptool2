@@ -63,7 +63,7 @@ namespace OnlineDocumentationGenerator.DocInformations
         private void ReadInformationsFromXML()
         {
             Introduction = FindLocalizedChildElement(_xml, "introduction");
-            Manual = FindLocalizedChildElement(_xml, "manual");
+            Manual = FindLocalizedChildElement(_xml, "usage");
             Presentation = FindLocalizedChildElement(_xml, "presentation");
         }
     }

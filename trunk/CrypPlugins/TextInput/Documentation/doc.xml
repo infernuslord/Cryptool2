@@ -49,9 +49,9 @@
     </section>
   </introduction>
 
-  <manual lang="en">
+  <usage lang="en">
     This section should describe, how to use the component.
-  </manual>
+  </usage>
 
   <presentation lang="en">
     This section should describe the presentation of textinput if necessary.
