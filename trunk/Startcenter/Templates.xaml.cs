@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -78,13 +79,16 @@ namespace Startcenter
         {
             SolidColorBrush bg = Brushes.Transparent;
 
-            foreach (var file in info.GetFiles().Where(x => ((x.Extension.ToLower() == ".cte") || (x.Extension.ToLower() == ".cwm"))))
+            foreach (var file in info.GetFiles().Where(x => ((x.Extension.ToLower() == ".cte") 
+                || (x.Extension.ToLower() == ".cwm") 
+                || (x.Extension.ToLower() == ".component"))))
             {
+                bool component = (file.Extension.ToLower() == ".component");
                 bool cte = (file.Extension.ToLower() == ".cte");
                 string title = null;
                 Inline description1 = null;
                 Inline description2 = null;
-                string xmlFile = Path.Combine(file.Directory.FullName, file.Name.Substring(0, file.Name.Length - 4) + ".xml");
+                string xmlFile = Path.Combine(file.Directory.FullName, Path.GetFileNameWithoutExtension(file.Name) + ".xml");
                 string iconFile = null;
                 if (File.Exists(xmlFile))
                 {
@@ -112,28 +116,39 @@ namespace Startcenter
                 }
                 if (title == null)
                 {
-                    title = file.Name.Remove(file.Name.Length - 4).Replace("-", " ").Replace("_", " ");
                     string desc = null;
-                    if (cte)
-                        desc = Properties.Resources.This_is_an_AnotherEditor_file_;
+                    if (component)
+                    {
+                        title = file.Name;
+                        desc = Properties.Resources.This_is_a_standalone_component_;
+                    }
                     else
-                        desc = Properties.Resources.This_is_a_WorkspaceManager_file_;
-                    
+                    {
+                        title = Path.GetFileNameWithoutExtension(file.Name).Replace("-", " ").Replace("_", " ");
+                        if (cte)
+                            desc = Properties.Resources.This_is_an_AnotherEditor_file_;
+                        else
+                            desc = Properties.Resources.This_is_a_WorkspaceManager_file_;
+                    }
+
                     description1 = new Run(desc);
                     description2 = new Run(desc);
                 }
 
                 if (iconFile == null || !File.Exists(iconFile))
-                    iconFile = Path.Combine(file.Directory.FullName, file.Name.Substring(0, file.Name.Length - 4) + ".png");
-                ImageSource image;
+                    iconFile = Path.Combine(file.Directory.FullName, Path.GetFileNameWithoutExtension(file.Name) + ".png");
+                ImageSource image = null;
                 if (File.Exists(iconFile))
                 {
                     image = new BitmapImage(new Uri(iconFile));
                 }
                 else
                 {
-                    Type editorType = ComponentInformations.EditorExtension[file.Extension.Remove(0, 1)];
-                    image = editorType.GetImage(0).Source;
+                    if (!component)
+                    {
+                        Type editorType = ComponentInformations.EditorExtension[file.Extension.Remove(0, 1)];
+                        image = editorType.GetImage(0).Source;
+                    }
                 }
 
                 ListBoxItem searchItem = CreateTemplateListBoxItem(file, title, description1, image);
@@ -182,12 +197,23 @@ namespace Startcenter
             if (infos.Key != null && Path.GetExtension(infos.Key) != null)
             {
                 var fileExt = Path.GetExtension(infos.Key).ToLower().Substring(1);
-                if (ComponentInformations.EditorExtension != null && ComponentInformations.EditorExtension.ContainsKey(fileExt))
+                if (fileExt == "component")     //standalone component
+                {
+                    var pluginName = Path.GetFileNameWithoutExtension(infos.Key);
+                    if (ComponentInformations.AllLoadedPlugins.ContainsKey(pluginName))
+                    {
+                        var type = ComponentInformations.AllLoadedPlugins[pluginName];
+                        var content = type.CreateObject();
+                        OnOpenTab(content, type.GetPluginInfoAttribute().Caption, null);
+                        content.Presentation.ToolTip = type.GetPluginInfoAttribute().ToolTip;
+                    }
+                }
+                else if (ComponentInformations.EditorExtension != null && ComponentInformations.EditorExtension.ContainsKey(fileExt))
                 {
                     Type editorType = ComponentInformations.EditorExtension[fileExt];
                     string title = infos.Value;
                     var editor = OnOpenEditor(editorType, title);
-                    editor.Presentation.ToolTip = "This is a template";
+                    editor.Presentation.ToolTip = Properties.Resources.This_is_a_template;
                     if (sender is CTTreeViewItem)
                     {
                         CTTreeViewItem templateItem = (CTTreeViewItem)sender;

@@ -58,7 +58,7 @@ namespace Startcenter
                 {
                     bool cte = (fileExt == "cte");
                     Type editorType = ComponentInformations.EditorExtension[fileExt];
-                    string xmlFile = Path.Combine(file.Directory.FullName, file.Name.Substring(0, file.Name.Length - 4) + ".xml");
+                    string xmlFile = Path.Combine(file.Directory.FullName, Path.GetFileNameWithoutExtension(file.Name) + ".xml");
                     string iconFile = null;
                     Inline description = null;
                     string title = null;
@@ -89,7 +89,7 @@ namespace Startcenter
 
                     if (title == null)
                     {
-                        title = file.Name.Remove(file.Name.Length - 4).Replace("-", " ").Replace("_", " ");
+                        title = Path.GetFileNameWithoutExtension(file.Name).Replace("-", " ").Replace("_", " ");
                     }
                     if (description == null)
                     {
@@ -102,7 +102,7 @@ namespace Startcenter
                     }
 
                     if (iconFile == null || !File.Exists(iconFile))
-                        iconFile = Path.Combine(file.Directory.FullName, file.Name.Substring(0, file.Name.Length - 4) + ".png");
+                        iconFile = Path.Combine(file.Directory.FullName, Path.GetFileNameWithoutExtension(file.Name) + ".png");
                     var image = File.Exists(iconFile) ? new BitmapImage(new Uri(iconFile)) : editorType.GetImage(0).Source;
                     
                     _recentFileInfos.Add(new RecentFileInfo()

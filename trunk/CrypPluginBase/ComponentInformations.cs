@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using Cryptool.PluginBase.Control;
 using System.Linq;
+using Cryptool.PluginBase;
 
 namespace Cryptool.PluginBase
 {
@@ -19,12 +20,19 @@ namespace Cryptool.PluginBase
         public static readonly Dictionary<Type, List<Type>> PluginsWithSpecificController = new Dictionary<Type, List<Type>>();
 
         /// <summary>
+        /// This dictionary maps names of all loaded plugins to their types.
+        /// </summary>
+        public static readonly Dictionary<string, Type> AllLoadedPlugins = new Dictionary<string, Type>();
+
+        /// <summary>
         /// This dictionary maps editor extensions to the corresponding editor type.
         /// </summary>
         public static Dictionary<string, Type> EditorExtension;
 
         public static void AddPlugin(Type pluginType)
         {
+            AllLoadedPlugins.Add(pluginType.GetPluginInfoAttribute().Caption, pluginType);
+
             try
             {
                 foreach (PropertyInfo pInfo in pluginType.GetProperties())
