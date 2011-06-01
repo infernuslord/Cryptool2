@@ -28,14 +28,16 @@ namespace StatusGenerator
             pluginAssemblies = LoadPlugins();
 
             streamWriter = new StreamWriter(outputFile);
-            streamWriter.WriteLine("<html><head><style type=\"text/css\">td { border:1px solid; }</style></head>");
+            streamWriter.WriteLine("<html><head>");
+            streamWriter.WriteLine("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />");
+            streamWriter.WriteLine("<style type=\"text/css\">td { border:1px solid; }</style></head>");
             streamWriter.WriteLine("<body><table>");
-            streamWriter.WriteLine("<tr><th>Plugin Directory</th><th>Developer Solution</th><th>Nightly Build</th><th>Namespace</th><th>IPlugin</th><th>Documentation</th></tr>");
+            streamWriter.WriteLine("<tr><th>Plugin Directory</th><th>Developer Solution</th><th>Nightly Build</th><th>Namespace</th><th>IPlugin</th><th>Documentation</th><th>Author</th></tr>");
 
             pluginPath = Path.Combine(programRoot, CrypPlugins);
 
-            publicSolution = ReadSolution("../../CrypTool 2.0.sln");
-            coreSolution = ReadSolution("../../CoreDeveloper/CrypTool 2.0.sln");
+            publicSolution = ReadSolution(Path.Combine("..", "..", "CrypTool 2.0.sln"));
+            coreSolution = ReadSolution(Path.Combine("..", "..", "CoreDeveloper", "CrypTool 2.0.sln"));
 
             foreach (DirectoryInfo dir in new DirectoryInfo(pluginPath).GetDirectories())
             {
@@ -67,7 +69,7 @@ namespace StatusGenerator
 
             if (pluginTypes.Count() == 0)
             {
-                streamWriter.Write("<td colspan=\"3\"><span style=\"color:red\">IPlugin not found</span> (not in CrypBuild, assembly name != directory name or not an IPlugin)</td>");
+                streamWriter.Write("<td colspan=\"4\"><span style=\"color:red\">IPlugin not found</span> (not in CrypBuild, assembly name != directory name or not an IPlugin)</td>");
             }
             else
             {
@@ -95,6 +97,20 @@ namespace StatusGenerator
 
                     streamWriter.Write("<br>");
                 }
+                streamWriter.Write("</td><td>");
+
+                foreach (var type in pluginTypes)
+                {
+                    AuthorAttribute attr = type.GetPluginAuthorAttribute();
+
+                    if (attr == null)
+                        streamWriter.Write("<span style=\"color:red\">null</span>");
+                    else
+                        streamWriter.Write(attr.Author);
+
+                    streamWriter.Write("<br>");
+                }
+
                 streamWriter.Write("</td>");
             }
 
