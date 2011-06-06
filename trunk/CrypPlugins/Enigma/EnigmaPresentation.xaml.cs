@@ -166,7 +166,7 @@ namespace Cryptool.Enigma
             }
             if ( this.checkReady())
             {
-                if (e.PropertyName == "Key" && justme)
+                if (e.PropertyName == "Key" && justme && !playbool)
                 {
                     Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
@@ -954,16 +954,12 @@ namespace Cryptool.Enigma
             input = "";
 
             dispo = new DispatcherTimer();
-            dispo.Interval = new TimeSpan(0, 0, 0, 0, 20); // Intervall festlegen, hier 100 ms
+            dispo.Interval = new TimeSpan(0, 0, 0, 0, 200); // Intervall festlegen, hier 100 ms
             dispo.Tick += delegate(System.Object o, System.EventArgs e)
             { dispo.Stop(); t1_Tick(); }; // Eventhandler ezeugen der beim Timerablauf aufgerufen wird
             
 
             bList[0].Focus();
-
-
-
-
 
 
         }
@@ -1076,10 +1072,12 @@ namespace Cryptool.Enigma
                             //playClick(null, EventArgs.Empty);
                             Debug.Text = "WHAAAAAAAAATSUUUUUUUUUUUP";
                         }
+                        
                     }
                     else
                     {
                         stopclick(null, EventArgs.Empty);
+                        setinput(newinput);
                     }
                 }
 
@@ -1116,16 +1114,17 @@ namespace Cryptool.Enigma
                         inputPanel.Children.RemoveAt(pos);
                         inputtebo.RemoveAt(pos);
 
-
                         if (inputtebo.Count == 1)
                         {
                             //playClick(null, EventArgs.Empty);
                             Debug.Text = "WHAAAAAAAAATSUUUUUUUUUUUP";
                         }
+
                     }
                     else
                     {
                         stopclick(null, EventArgs.Empty);
+                        setinput(newinput);
                     }
                 }
 
@@ -2096,6 +2095,23 @@ namespace Cryptool.Enigma
 
         #region buttonevents
 
+        public void resetkey() 
+        {
+            if (91 > settings.Key[2] && settings.Key[2] > 64)
+                rotorarray[2].changeoffset(settings.Key[2] - 65, settings.Ring1);
+            else if (128 > settings.Key[2] && settings.Key[2] > 96)
+                rotorarray[2].changeoffset(settings.Key[2] - 97, settings.Ring1);
+            if (91 > settings.Key[1] && settings.Key[1] > 64)
+                rotorarray[1].changeoffset(settings.Key[1] - 65, settings.Ring2);
+            else if (128 > settings.Key[1] && settings.Key[1] > 96)
+                rotorarray[1].changeoffset(settings.Key[1] - 97, settings.Ring1);
+            if (91 > settings.Key[0] && settings.Key[0] > 64)
+                rotorarray[0].changeoffset(settings.Key[0] - 65, settings.Ring3);
+            else if (128 > settings.Key[0] && settings.Key[0] > 96)
+                rotorarray[0].changeoffset(settings.Key[0] - 97, settings.Ring1);
+        
+        }
+
         public void stopclick(object sender, EventArgs e)
         {
             Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
@@ -2104,6 +2120,7 @@ namespace Cryptool.Enigma
                 storyboard.Stop();
                 dispo.Stop();
                 mainmainmain.Children.Remove(dummycanvas);
+                resetkey();
                 //rotorarray[0].stop = true;
                 //rotorarray[1].stop = true;
                 //rotorarray[2].stop = true;
@@ -2364,6 +2381,7 @@ namespace Cryptool.Enigma
                         Storyboard.SetTargetProperty(animax, new PropertyPath("(Y2)"));
                         Storyboard.SetTargetProperty(animax2, new PropertyPath("(Y1)"));
 
+                        
                         storyboard.Begin();
                         storyboard.SetSpeedRatio(speed);
                         //l.BeginAnimation(OpacityProperty, nop);
