@@ -4,22 +4,34 @@
   <language culture="en"/>
   <language culture="de-DE"/>
 
-  <introduction lang="en">    
+  <introduction lang="en">
+    Caesar is a classic encryption algorithm, it was used as far back as the Romans.
+    It is a symmetric encryption algorithm that uses an alphabet character as key.
+    The characters of the cleartext are shifted cyclically acoording to the position of this character within the alphabet.
+    If the alphabet consists of the 26 characters "A", "B", "C", ..., "Z" (which is the classic case), the encryption corresponds to a shift by one character for "A", a shift by two characters for "B", a shift by three characters for "C", and so forth. Upon decryption the encrypted text is simply shifted in the opposing direction.
   </introduction>
 
-  <introduction lang="de-DE">    
+  <introduction lang="de-DE">
+    Caesar ist ein klassisches Verschlüsselungsverfahren, das bereits von den Römern eingesetzt wurde.
+    Es ist ein symmetrisches Verfahren, bei dem ein Zeichen aus dem Alphabet als Schlüssel verwendet wird.
+    Je nach Position des Buchstabens im Alphabet werden die Buchstaben des Klartextes zyklisch verschoben.
+    Besteht das Alphabet beispielsweise aus den 26 Zeichen "A", "B", "C", ..., "Z" (das ist der klassische Fall), dann entspricht die Verschlüsselung einer Verschiebung um ein Zeichen für "A", einer Verschiebung um zwei Zeichen für "B", einer Verschiebung um drei Zeichen für "C" und so weiter. Bei der Entschlüsselung wird der verschlüsselte Text einfach in die entgegengesetzte Richtung verschoben.
   </introduction>
 
   <usage lang="en">
+    TODO
   </usage>
 
   <usage lang="de-DE">
+    TODO
   </usage>
   
   <presentation lang="en">
+    TODO
   </presentation>
   
   <presentation lang="de-DE">
+    TODO
   </presentation>
   
   <references>
