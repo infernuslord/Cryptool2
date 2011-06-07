@@ -8,6 +8,7 @@ using System.Xml.Linq;
 using Cryptool.PluginBase;
 using OnlineDocumentationGenerator.DocInformations;
 using OnlineDocumentationGenerator.Properties;
+using WorkspaceManager.Model;
 
 namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
 {
@@ -128,12 +129,13 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
                                                      Resources.HtmlGenerator_GenerateConnectorListCode_Description,
                                                      Resources.HtmlGenerator_GenerateConnectorListCode_Direction,
                                                      Resources.HtmlGenerator_GenerateConnectorListCode_Type));
-
+                
                 foreach (var connector in connectors)
                 {
                     var type = connector.PropertyInfo.PropertyType.Name;
+                    var color = ColorHelper.GetLineColor(connector.PropertyInfo.PropertyType);
                     codeBuilder.AppendLine(
-                        string.Format("<tr> <td>{0}</td> <td>{1}</td> <td>{2}</td> <td>{3}</td> </tr>",
+                        string.Format("<tr> <td><font color=\"#{0}{1}{2}\">{3}</font></td> <td><font color=\"#{0}{1}{2}\">{4}</font></td> <td><font color=\"#{0}{1}{2}\">{5}</font></td> <td><font color=\"#{0}{1}{2}\">{6}</font></td> </tr>", color.R.ToString("x"), color.G.ToString("x"), color.B.ToString("x"),
                                       connector.Caption,
                                       connector.ToolTip,
                                       GetDirectionString(connector.Direction),
@@ -147,17 +149,17 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
         }
 
         private string GetDirectionString(Direction direction)
-        {
+        {            
             switch (direction)
             {
                 case Direction.InputData:
-                    return Resources.Input_data;
+                    return string.Format("◄ {0}", Resources.Input_data);
                 case Direction.OutputData:
-                    return Resources.Output_data;
+                    return string.Format("► {0}", Resources.Output_data);
                 case Direction.ControlSlave:
-                    return Resources.Control_slave;
+                    return string.Format("▲ {0}", Resources.Control_slave);
                 case Direction.ControlMaster:
-                    return Resources.Control_master;
+                    return string.Format("▼ {0}", Resources.Control_master);
                 default:
                     throw new ArgumentOutOfRangeException("direction");
             }
