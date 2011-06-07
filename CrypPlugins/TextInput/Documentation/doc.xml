@@ -32,6 +32,8 @@
       Internal links are possible: <docRef item="TextInput"/>
       <newline />
       Also to not yet existing plugins: <docRef item="KeySearcher"/>
+      <newline />
+      You can also reference one of the references below, like <ref id="LordOfTheRings"/>.
     </section>
   </introduction>
   <introduction lang="de-DE">
@@ -65,7 +67,7 @@
       <caption lang="de-DE">Text Anzeige</caption>
     </linkReference>
 
-    <bookReference>
+    <bookReference id="LordOfTheRings">
       <author>John Ronald Reuel Tolkien</author>
       <publisher lang="en">Harpercollins UK</publisher>
       <publisher lang="de-DE">Klett-Cotta</publisher>

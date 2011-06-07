@@ -245,6 +245,17 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
                             var nodeRep = ConvertXElement((XElement)node, entityDocumentationPage);
                             result.Append(string.Format("<{0}>{1}</{0}>", nodeName, nodeRep));
                             break;
+                        case "ref":
+                            var idAtt = ((XElement)node).Attribute("id");
+                            if (idAtt != null)
+                            {
+                                var htmlLinkToRef = entityDocumentationPage.References.GetHTMLinkToRef(idAtt.Value);
+                                if (htmlLinkToRef != null)
+                                {
+                                    result.Append(htmlLinkToRef);
+                                }
+                            }
+                            break;
                         case "img":
                             var srcAtt = ((XElement) node).Attribute("src");
                             if (srcAtt != null)

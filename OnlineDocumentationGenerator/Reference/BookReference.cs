@@ -33,7 +33,7 @@ namespace OnlineDocumentationGenerator.Reference
             }
         }
 
-        public BookReference(XElement linkReferenceElement)
+        public BookReference(XElement linkReferenceElement) : base(linkReferenceElement)
         {
             foreach (var e in linkReferenceElement.Elements())
             {

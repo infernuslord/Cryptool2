@@ -3,12 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Xml.Linq;
 
 namespace OnlineDocumentationGenerator.Reference
 {
     public abstract class Reference
     {
         private Dictionary<string, Dictionary<string, string>> _localizedPropertyStore = new Dictionary<string, Dictionary<string, string>>();
+        public string ID { get; private set; }
+
+        protected Reference(XElement linkReferenceElement)
+        {
+            var idAtt = linkReferenceElement.Attribute("id");
+            if (idAtt != null)
+            {
+                ID = idAtt.Value;
+            }
+        }
 
         protected string GetLocalizedProperty(string property, string language)
         {
