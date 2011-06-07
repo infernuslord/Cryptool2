@@ -83,6 +83,10 @@ namespace Startcenter
                 || (x.Extension.ToLower() == ".cwm") 
                 || (x.Extension.ToLower() == ".component"))))
             {
+                if (file.Name.StartsWith("."))
+                {
+                    continue;
+                }
                 bool component = (file.Extension.ToLower() == ".component");
                 bool cte = (file.Extension.ToLower() == ".cte");
                 string title = null;

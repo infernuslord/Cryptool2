@@ -80,4 +80,22 @@
     </outputBox>
   </sampleViewer>
 
+  <!-- World of primes -->
+  <sampleViewer image="Primes" file="Mathematics\.PrimesDummy.cwm" showCreateButton="false">
+    <name lang="en" >World of Primes</name>
+    <name lang="de" >Die Welt der Primzahlen</name>
+    <description lang="en" >Select this to expirement with several prime operations.</description>
+    <description lang="de" >Wählen Sie dies, um mit verschiedenen Primzahl-Operationen zu experimentieren.</description>
+
+    <headline lang="en">World of Primes</headline>
+    <headline lang="de">Die Welt der Primzahlen</headline>
+    <task lang="en">Please choose a category!</task>
+    <task lang="de">Bitte wählen Sie eine Kategorie!</task>
+
+    <presentation plugin="PrimesPlugin" alignment="Stretch">
+      <description lang="en">World of Primes:</description>
+      <description lang="de">Die Welt der Primzahlen:</description>
+    </presentation>
+  </sampleViewer>
+
 </category>
