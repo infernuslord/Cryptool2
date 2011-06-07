@@ -15,6 +15,7 @@
 */
 
 using System;
+using System.Globalization;
 
 namespace Cryptool.PluginBase
 {
@@ -32,6 +33,19 @@ namespace Cryptool.PluginBase
             else
               return caption; 
           }
+        }
+
+        public string EnglishCaption
+        {
+            get
+            {
+                if (MultiLanguage && caption != null)
+                {
+                    return PluginType.GetPluginStringResource(caption, new CultureInfo("en"));
+                }
+                else
+                    return caption;
+            }
         }
 
         public readonly string toolTip;

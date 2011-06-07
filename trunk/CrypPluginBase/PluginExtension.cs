@@ -395,16 +395,28 @@ namespace Cryptool.PluginBase
 
         public static string GetPluginStringResource(this Type type, string keyword)
         {
+            return GetPluginStringResource(type, keyword, null);
+        }
+
+        public static string GetPluginStringResource(this Type type, string keyword, CultureInfo culture)
+        {
           try
           {
             // Get resource file from plugin assembly -> <Namespace>.<ResourceFileName> without "resx" file extension
             ResourceManager resman = new ResourceManager(type.GetPluginInfoAttribute().ResourceFile, type.Assembly);
 
             string[] resources = type.Assembly.GetManifestResourceNames();
-            // string test = resman.GetString("toolTip", new CultureInfo("de-DE"));
 
             // Load the translation for the keyword
-            string translation = resman.GetString(keyword);
+            string translation;
+            if (culture == null)
+            {
+                translation = resman.GetString(keyword);
+            }
+            else
+            {
+                translation = resman.GetString(keyword, culture);
+            }
             if (translation != null)
               return translation;
             else
