@@ -15,6 +15,20 @@ namespace OnlineDocumentationGenerator.Reference
             _references.Add(reference);
         }
 
+        public string GetHTMLinkToRef(string refID)
+        {
+            int c = 1;
+            foreach (var reference in _references)
+            {
+                if (reference.ID == refID)
+                {
+                    return string.Format("<a href=\"#{0}\">[{1}]</a>", refID, c);
+                }
+                c++;
+            }
+            return null;
+        }
+
         public string ToHTML(string lang)
         {
             if (_references.Count == 0)
@@ -24,16 +38,23 @@ namespace OnlineDocumentationGenerator.Reference
 
             var builder = new StringBuilder();
             builder.AppendLine(string.Format("<p>{0}</p>", Resources.References_description));
-            builder.AppendLine("<p><ul>");
+            builder.AppendLine("<p><ol>");
 
             foreach (var reference in _references)
             {
-                builder.AppendLine("<li>");
+                if (reference.ID != null)
+                {
+                    builder.AppendLine(string.Format("<li id=\"{0}\">", reference.ID));
+                }
+                else
+                {
+                    builder.AppendLine("<li>");
+                }
                 builder.AppendLine(reference.ToHTML(lang));
                 builder.AppendLine("</li>");
             }
 
-            builder.AppendLine("</ul></p>");
+            builder.AppendLine("</ol></p>");
             return builder.ToString();
         }
     }

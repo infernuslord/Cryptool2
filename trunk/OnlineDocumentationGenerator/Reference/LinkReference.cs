@@ -25,7 +25,7 @@ namespace OnlineDocumentationGenerator.Reference
             }
         }
 
-        public LinkReference(XElement linkReferenceElement)
+        public LinkReference(XElement linkReferenceElement) : base(linkReferenceElement)
         {
             foreach (var e in linkReferenceElement.Elements())
             {
