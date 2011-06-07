@@ -20,7 +20,8 @@
     cryptographic design. Its design and its security proofs are based on the
     theory of the 
     <i>inhomogeneous simultaneous diophantine
-    approximation problem</i> (ISAP): <newline/>
+    approximation problem</i> (ISAP):
+    <newline/><newline/>
     Find <i>p_i (i=1,...,n)</i> and <i>q</i> satisfying
     <newline/>
     <i>| alpha_i - p_i/q - eta_i | &lt; epsilon</i>
