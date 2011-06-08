@@ -94,6 +94,7 @@ namespace Startcenter
                 Inline description2 = null;
                 string xmlFile = Path.Combine(file.Directory.FullName, Path.GetFileNameWithoutExtension(file.Name) + ".xml");
                 string iconFile = null;
+                Dictionary<string, List<string>> internationalizedKeywords = new Dictionary<string, List<string>>();
                 if (File.Exists(xmlFile))
                 {
                     try
@@ -111,7 +112,31 @@ namespace Startcenter
                         }
 
                         if (xml.Element("icon") != null && xml.Element("icon").Attribute("file") != null)
+                        {
                             iconFile = Path.Combine(file.Directory.FullName, xml.Element("icon").Attribute("file").Value);
+                        }
+
+                        foreach (var keywordTag in xml.Elements("keywords"))
+                        {
+                            var langAtt = keywordTag.Attribute("lang");
+                            string lang = "en";
+                            if (langAtt != null)
+                            {
+                                lang = langAtt.Value;
+                            }
+                            var keywords = keywordTag.Value;
+                            if (keywords != null || keywords != "")
+                            {
+                                foreach (var keyword in keywords.Split(','))
+                                {
+                                    if (!internationalizedKeywords.ContainsKey(lang))
+                                    {
+                                        internationalizedKeywords.Add(lang, new List<string>());
+                                    }
+                                    internationalizedKeywords[lang].Add(keyword.Trim());
+                                }
+                            }
+                        }
                     }
                     catch(Exception)
                     {
@@ -156,6 +181,10 @@ namespace Startcenter
                 }
 
                 ListBoxItem searchItem = CreateTemplateListBoxItem(file, title, description1, image);
+                if (internationalizedKeywords.Count > 0)
+                {
+                    ((StackPanel)searchItem.Content).Tag = internationalizedKeywords;
+                }
                 TemplatesListBox.Items.Add(searchItem);
 
                 CTTreeViewItem item = new CTTreeViewItem(file, title, description2, image) { Background = bg };
@@ -176,6 +205,7 @@ namespace Startcenter
             textBlock.FontWeight = FontWeights.DemiBold;
             textBlock.VerticalAlignment = VerticalAlignment.Center;
             textBlock.Text = title;
+            textBlock.Tag = title;
             StackPanel stackPanel = new StackPanel();
             stackPanel.Margin = new Thickness(0, 2, 0, 2);
             stackPanel.VerticalAlignment = VerticalAlignment.Center;
@@ -248,31 +278,136 @@ namespace Startcenter
                 TemplatesListBox.Visibility = Visibility.Visible;
                 TemplatesTreeView.Visibility = Visibility.Collapsed;
 
-                foreach (ListBoxItem items in TemplatesListBox.Items)
+                foreach (ListBoxItem item in TemplatesListBox.Items)
                 {
-                    var panel = (Panel)items.Content;
+                    var panel = (Panel)item.Content;
                     TextBlock textBlock = (TextBlock)panel.Children[1];
-                    string text = textBlock.Text;
+                    string text = (string)textBlock.Tag;
 
-                    bool hit = text.ToLower().Contains(SearchTextBox.Text.ToLower());
+                    var searchWordsArray = SearchTextBox.Text.ToLower().Split(new char[] {',', ' '});
+                    var searchWords = new List<string>(searchWordsArray);
+                    bool hit = true;
+                    for (int i = searchWords.Count() - 1; i >= 0; i--)
+                    {
+                        var sw = searchWords[i].ToLower().Trim();
+                        if ((sw != "") && (!text.ToLower().Contains(sw)))
+                        {
+                            hit = false;
+                        }
+                        else
+                        {
+                            searchWords.RemoveAt(i);
+                        }
+                    }
+                    if (!hit)
+                    {
+                        text = AppendTextWithHitKeywords(item, searchWords, text, ref hit);
+                    }
+
                     Visibility visibility = hit ? Visibility.Visible : Visibility.Collapsed;
-                    items.Visibility = visibility;
+                    item.Visibility = visibility;
 
                     if (hit)
                     {
                         textBlock.Inlines.Clear();
                         int begin = 0;
-                        int end = text.IndexOf(SearchTextBox.Text, begin, StringComparison.OrdinalIgnoreCase);
+                        int length;
+                        int end = IndexOfFirstHit(text, searchWordsArray, begin, out length);
                         while (end != -1)
                         {
                             textBlock.Inlines.Add(text.Substring(begin, end - begin));
-                            textBlock.Inlines.Add(new Bold(new Italic(new Run(text.Substring(end, SearchTextBox.Text.Length)))));
-                            begin = end + SearchTextBox.Text.Length;
-                            end = text.IndexOf(SearchTextBox.Text, begin, StringComparison.OrdinalIgnoreCase);
+                            textBlock.Inlines.Add(new Bold(new Italic(new Run(text.Substring(end, length)))));
+                            begin = end + length;
+                            end = IndexOfFirstHit(text, searchWordsArray, begin, out length);
                         }
                         textBlock.Inlines.Add(text.Substring(begin, text.Length - begin));
                     }
                 }
+            }
+        }
+
+        private int IndexOfFirstHit(string text, string[] searchWords, int begin, out int length)
+        {
+            length = 0;
+            int res = -1;
+            foreach (var searchWord in searchWords)
+            {
+                int e = text.IndexOf(searchWord, begin, StringComparison.OrdinalIgnoreCase);
+                if ((e > -1) && (e < res))
+                {
+                    res = e;
+                    length = searchWord.Length;
+                }
+            }
+            return res;
+        }
+
+        private string AppendTextWithHitKeywords(ListBoxItem item, List<string> searchWords, string text, ref bool hit)
+        {
+            var tag = ((StackPanel) item.Content).Tag;
+            if (tag != null)
+            {
+                List<string> hitKeywords = new List<string>();
+                var internationalizedKeywords = (Dictionary<string, List<string>>) tag;
+                string lang = null;
+                if (internationalizedKeywords.ContainsKey(CultureInfo.CurrentCulture.TextInfo.CultureName))
+                {
+                    lang = CultureInfo.CurrentCulture.TextInfo.CultureName;
+                }
+                else if (internationalizedKeywords.ContainsKey(CultureInfo.CurrentCulture.TwoLetterISOLanguageName))
+                {
+                    lang = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
+                }
+
+                SearchForHitKeywords(searchWords, internationalizedKeywords, lang, hitKeywords);
+                if (lang != "en")
+                {
+                    SearchForHitKeywords(searchWords, internationalizedKeywords, "en", hitKeywords);
+                }
+
+                if (hitKeywords.Count > 0)
+                {
+                    var sb = new StringBuilder();
+                    sb.Append(text);
+                    sb.Append(" (");
+                    foreach (var keyword in hitKeywords)
+                    {
+                        sb.Append(keyword);
+                        sb.Append(", ");
+                    }
+                    sb.Remove(sb.Length - 2, 2);
+                    sb.Append(")");
+                    text = sb.ToString();
+                    hit = true;
+                }
+                return text;
+            }
+            return text;
+        }
+
+        private void SearchForHitKeywords(List<string> searchWords, Dictionary<string, List<string>> internationalizedKeywords, string lang, List<string> hitKeywords)
+        {
+            List<string> searchWordsLeft = new List<string>(searchWords);
+            if (lang != null)
+            {
+                foreach (var keyword in internationalizedKeywords[lang])
+                {
+                    for (int i = searchWordsLeft.Count - 1; i >= 0; i--)
+                    {
+                        var sw = searchWordsLeft[i].ToLower().Trim();
+                        if ((sw != "") && (keyword.ToLower().Contains(sw)))
+                        {
+                            hitKeywords.Add(keyword);
+                            searchWordsLeft.RemoveAt(i);
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if (searchWordsLeft.Count > 0)
+            {
+                hitKeywords.Clear();
             }
         }
 

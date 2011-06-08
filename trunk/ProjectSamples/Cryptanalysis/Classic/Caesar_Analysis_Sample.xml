@@ -35,4 +35,7 @@
 		<plugin name="Caesar"/>
 		<plugin name="CaesarAnalysisHelper"/>
 	</relevantPlugins>
+	
+	<keywords>Caesar, Julius, Analysis</keywords>
+	<keywords lang="de">Analyse</keywords>
 </sample>
