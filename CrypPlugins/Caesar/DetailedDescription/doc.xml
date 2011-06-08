@@ -6,6 +6,7 @@
 
   <introduction lang="en">
     Caesar is a classic encryption algorithm, it was used as far back as the Romans.
+    <newline/>
     It is a symmetric encryption algorithm using an alphabet character as key.
     The characters of the cleartext are shifted cyclically acoording to the position of the key within the alphabet.
     If the alphabet consists of the 26 characters "A", "B", "C", ..., "Z" (which is the classic case), the encryption corresponds to a shift by one character for "A", a shift by two characters for "B", a shift by three characters for "C", and so forth. Upon decryption the encrypted text is simply shifted in the opposing direction.
@@ -13,6 +14,7 @@
 
   <introduction lang="de-DE">
     Caesar ist ein klassisches Verschlüsselungsverfahren, das bereits von den Römern eingesetzt wurde.
+    <newline/>
     Es ist ein symmetrisches Verfahren, bei dem ein Zeichen aus dem Alphabet als Schlüssel verwendet wird.
     Je nach Position des Buchstabens im Alphabet werden die Buchstaben des Klartextes zyklisch verschoben.
     Besteht das Alphabet beispielsweise aus den 26 Zeichen "A", "B", "C", ..., "Z" (das ist der klassische Fall), dann entspricht die Verschlüsselung einer Verschiebung um ein Zeichen für "A", einer Verschiebung um zwei Zeichen für "B", einer Verschiebung um drei Zeichen für "C" und so weiter. Bei der Entschlüsselung wird der verschlüsselte Text einfach in die entgegengesetzte Richtung verschoben.
@@ -21,17 +23,17 @@
   <usage lang="en">
     After dragging the Caesar component onto the workspace, you need to specify a data source that represents the text to be encrypted or decrypted. This input is mandatory!
     <newline/>
-    Optionally you can supply an alphabet and/or a key through the corresponding inputs. If supplied, these settings override the default component settings.
-    <newline/>
     In the component settings you can decide whether you want to encrypt or decrypt, and you can define default values for the key and the alphabet. You can also specify whether the component should work case-sensitive or not, and how unknown symbols (characters which are not part of the alphabet) are treated.
+    <newline/>
+    Optionally you can supply an alphabet and/or a key through the corresponding inputs. If supplied, these settings override the default component settings.
   </usage>
 
   <usage lang="de-DE">
     Nachdem Sie die Caesar-Komponente auf den Arbeitsbereich gezogen haben, müssen Sie eine Datenquelle definieren, die den zu verschlüsselnden oder entschlüsselnden Text repräsentiert. Diese Datenquelle ist zwingend notwendig!
     <newline/>
-    Optional können Sie ein Alphabet und/oder einen Schlüssel durch die entsprechenden Eingänge angeben. Sind diese Eingänge angegeben, dann haben Sie Vorrang vor den Standardeinstellungen der Komponente.
+    In den Einstellungen für die Komponente können Sie entscheiden, ob Sie verschlüsseln oder entschlüsseln wollen, und Sie können Standardwerte für den Schlüssel und das Alphabet festlegen. Außerdem können Sie einstellen, wie die Komponente mit Groß- und Kleinschreibung umgeht und wie unbekannte Zeichen (solche, die nicht im Alphabet enthalten sind) behandelt werden.
     <newline/>
-    In den Einstellungen für die Komponente können Sie entscheiden, ob Sie verschlüsseln oder entschlüsseln wollen, und Sie können Standardwerte für den Schlüssel und das Alphabet festlegen. Außerdem können Sie einstellen, wie die Komponente mit Groß- und Kleinschreibung umgeht und wie unbekannte Zeichen (solche, die nicht im Alphabet enthalten sind) behandelt werden. 
+    Optional können Sie ein Alphabet und/oder einen Schlüssel durch die entsprechenden Eingänge angeben. Sind diese Eingänge angegeben, dann haben Sie Vorrang vor den Standardeinstellungen der Komponente.
   </usage>
   
   <presentation lang="en">

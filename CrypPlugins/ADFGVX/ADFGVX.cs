@@ -30,8 +30,7 @@ namespace Cryptool.ADFGVX
 {
     [Author("Sebastian Przybylski","sebastian@przybylski.org","Uni-Siegen","http://www.uni-siegen.de")]
     [PluginInfo("Cryptool.ADFGVX.Properties.Resources", false,
-        "PluginCaption", "PluginTooltip", "PluginDescriptionURL",
-        "ADFGVX/Images/icon.png", "ADFGVX/Images/encrypt.png", "ADFGVX/Images/decrypt.png")]
+        "PluginCaption", "PluginTooltip", "ADFGVX/DetailedDescription/doc.xml", "ADFGVX/Images/icon.png", "ADFGVX/Images/encrypt.png", "ADFGVX/Images/decrypt.png")]
     [EncryptionType(EncryptionType.Classic)]
     public class ADFGVX : IEncryption
     {
