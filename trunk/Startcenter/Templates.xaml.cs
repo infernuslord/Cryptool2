@@ -332,11 +332,14 @@ namespace Startcenter
             int res = -1;
             foreach (var searchWord in searchWords)
             {
-                int e = text.IndexOf(searchWord, begin, StringComparison.OrdinalIgnoreCase);
-                if ((e > -1) && (e < res))
+                if (searchWord != "")
                 {
-                    res = e;
-                    length = searchWord.Length;
+                    int e = text.IndexOf(searchWord, begin, StringComparison.OrdinalIgnoreCase);
+                    if ((e > -1) && ((e < res) || (res < 0)))
+                    {
+                        res = e;
+                        length = searchWord.Length;
+                    }
                 }
             }
             return res;
