@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using Microsoft.Win32;
 
 namespace Cryptool.Core
@@ -36,6 +37,9 @@ namespace Cryptool.Core
 
         public void AddRecentFile(string recentFile)
         {
+            if (Path.GetFileName(recentFile).StartsWith("."))
+                return;
+
             recentFiles.Remove(recentFile);
             recentFiles.Add(recentFile);
             if (recentFiles.Count > ListLength)

@@ -33,19 +33,19 @@
         </Button>
         <Label Grid.Column="1" Content="Use the wizard to easily try some CrypTool 2.0 features." VerticalAlignment="Center" />
 
-        <Button Grid.Column="0" Grid.Row="1" Click="HelpButton_Click">
-            <Button.Content>
-                <Image Source="/Startcenter;component/help32.png" />
-            </Button.Content>
-        </Button>
-        <Label Grid.Column="1" Grid.Row="1" Content="Read the online documentation." VerticalAlignment="Center" />
-
-        <Button Grid.Column="0" Grid.Row="2" Click="WorkspaceButton_Click">
+        <Button Grid.Column="0" Grid.Row="1" Click="WorkspaceButton_Click">
             <Button.Content>
                 <Image Source="/Startcenter;component/WorkspaceManagerIcon.ico" Stretch="Uniform" />
             </Button.Content>
         </Button>
-        <Label Grid.Column="1" Grid.Row="2" Content="Create a new workspace with the graphical editor." VerticalAlignment="Center" />
+        <Label Grid.Column="1" Grid.Row="1" Content="Create a new workspace with the graphical editor." VerticalAlignment="Center" />
+        
+        <Button Grid.Column="0" Grid.Row="2" Click="HelpButton_Click">
+            <Button.Content>
+                <Image Source="/Startcenter;component/help32.png" />
+            </Button.Content>
+        </Button>
+        <Label Grid.Column="1" Grid.Row="2" Content="Read the online documentation." VerticalAlignment="Center" />        
 
         <Button Grid.Column="0" Grid.Row="3" Click="ConnectButton_Click">
             <Button.Content>

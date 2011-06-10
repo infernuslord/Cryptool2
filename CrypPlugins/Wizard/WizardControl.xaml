@@ -5,6 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="600" ClipToBounds="True">
+    <UserControl.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.Copy" Executed="CommandBinding_Executed" CanExecute="CommandBinding_CanExecute" />
+    </UserControl.CommandBindings>
     <UserControl.Resources>
         <BitmapImage x:Key="Analyse" UriSource="Images/Analyse.png"/>
         <BitmapImage x:Key="Classic" UriSource="Images/Classic.png"/>
@@ -128,7 +131,7 @@
                 </ScrollViewer>
                 <Border BorderBrush="LightSeaGreen" BorderThickness="1" Grid.Column="1" CornerRadius="5" Background="#FFC8DCF5" MinHeight="{Binding ElementName=radioButtonScroll, Path=ActualHeight+10}">
                     <ScrollViewer Name="descScroll" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalScrollBarVisibility="Auto" >
-                        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >                            
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
@@ -137,7 +140,11 @@
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
                             <Label HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" Content="{Loc Description}" />
-                            <TextBlock Name="description" TextWrapping="Wrap" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Left" Grid.Row="1" Margin="5" />
+                            <TextBlock Name="description" TextWrapping="Wrap" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Left" Grid.Row="1" Margin="5">
+                                <TextBlock.ContextMenu>
+                                    <ContextMenu><MenuItem Command="ApplicationCommands.Copy" /></ContextMenu>
+                                </TextBlock.ContextMenu>
+                            </TextBlock>
                         </Grid>
                     </ScrollViewer>
                 </Border>

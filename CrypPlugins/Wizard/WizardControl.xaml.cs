@@ -688,12 +688,34 @@ namespace Wizard
 
                     var cc = new ContentControl();
 
-                    double d;
-                    if (input.Attribute("height") != null && Double.TryParse(input.Attribute("height").Value, out d))
-                        cc.Height = d;
+                    //Set height:
+                    if (input.Attribute("height") != null)
+                    {
+                        string height = input.Attribute("height").Value.Trim();
+                        if (height.EndsWith("%"))
+                        {
+                            double percentage;
+                            if (Double.TryParse(height.Substring(0, height.Length - 1), out percentage))
+                            {
+                                percentage /= 100;
+                                Binding binding = new Binding("ActualHeight");
+                                binding.Source = inputStack;
+                                binding.Converter = widthConverter;
+                                binding.ConverterParameter = percentage;
+                                cc.SetBinding(FrameworkElement.HeightProperty, binding);
+                            }
+                        }
+                        else
+                        {
+                            double heightValue;
+                            if (Double.TryParse(height, out heightValue))
+                            {
+                                cc.Height = heightValue;
+                            }
+                        }
+                    }
 
                     cc.Style = inputFieldStyle;
-
                     cc.Tag = input;
 
                     currentPresentations.Add(cc);
@@ -1487,6 +1509,17 @@ namespace Wizard
             SaveControlContent(inputStack);
             var element = (XElement)CreateProjectButton.Tag;
             LoadSample(element.Attribute("file").Value, Properties.Resources.LoadedSampleTitle, true, element);
+        }
+
+        private void CommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (description.Text != null)
+                Clipboard.SetText(description.Text);
+        }
+
+        private void CommandBinding_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
         }
     }
 

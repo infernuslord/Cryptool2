@@ -351,10 +351,13 @@ namespace WorkspaceManager.Model
                 imageIndex = args.ImageIndex;
                 if (WorkspaceModel.ExecutionEngine == null || !WorkspaceModel.ExecutionEngine.IsRunning())
                 {
-                    WorkspaceModel.MyEditor.Presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    if (WorkspaceModel.MyEditor != null)
                     {
-                        UpdateableView.update();
-                    }, null);
+                        WorkspaceModel.MyEditor.Presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                        {
+                            UpdateableView.update();
+                        }, null);
+                    }
                 }
             }
         }        
