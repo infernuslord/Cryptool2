@@ -6,8 +6,20 @@
 <category image="Primes">
   <name lang="en" >Prime Number Operations</name>
   <name lang="de" >Primzahl-Operationen</name>  
-  <description lang="en" >Selecting this allows you to use several operations related to prime numbers. You can choose between generation of prime numbers, testing whether a number is prime and factorize a number into its primes.</description>  
-  <description lang="de-DE" >Indem Sie dies auswählen, können Sie verschiedene Operationen, die mit Primzahlen zusammenhängen, ausführen. Sie können Primzahlen erzeugen, oder testen, ob eine Zahl eine Primzahl ist, oder eine Zahl in ihre Primfaktoren zerlegen.</description>
+  <description lang="en" >
+  Here you can run several operations corresponding to prime numbers, i.e.:
+- generate primes,
+- test if a given number is a prime,
+- factorize a number into its prime factors, or
+- visualize these operations and much more about primes in the tutorial "the world of primes".
+  </description>  
+  <description lang="de-DE" >
+  Hier können Sie verschiedene Operationen, die mit Primzahlen zusammenhängen, ausführen, z.B.:
+- Primzahlen erzeugen,
+- testen, ob eine gegebene Zahl eine Primzahl ist,
+- eine Zahl in ihre Primfaktoren zerlegen (faktorisieren), oder
+- in dem Tutorial "Die Welt der Primzahlen" dies und vieles mehr zu Primzahlen auch visualisiert bekommen.
+  </description>
 
   <!-- This is the step's headline. It should be short, but precise. -->
   <headline lang="en" >Prime Number Operation Selection</headline>
@@ -23,12 +35,12 @@
   <!-- Generation input -->
   <input image="Primes" >
     <name lang="en" >Prime Number Generation</name>
-    <name lang="de" >Primzahl Erzeugung</name>
+    <name lang="de" >Primzahl-Erzeugung</name>
     <description lang="en" >Select this to generate prime numbers.</description>
     <description lang="de" >Wählen Sie dies, um Primzahlen zu erzeugen.</description>
 
     <headline lang="en">Prime Number Generation</headline>
-    <headline lang="de" >Zufallszahl-Erzeugung</headline>
+    <headline lang="de" >Primzahl-Erzeugung</headline>
     <task lang="en">Input the parameters for prime number generation.</task>
     <task lang="de">Geben Sie die Parameter zur Erzeugung einer Primzahl ein.</task>
 
@@ -40,12 +52,12 @@
 
     <sampleViewer image="Primes" file="Mathematics\PrimesGenerator.cwm">
       <name lang="en" >Prime Number Generation</name>
-      <name lang="de" >Primzahl Erzeugung</name>
+      <name lang="de" >Primzahl-Erzeugung</name>
       <description lang="en" >Prime Number Generation Output</description>
       <description lang="de" >Primzahlerzeugung: Ausgabe</description>
 
       <headline lang="en">Prime Number Generation Output</headline>
-      <headline lang="de">Primzahlerzeugung: Ausgabe</headline>
+      <headline lang="de">Primzahl-Erzeugung: Ausgabe</headline>
       <task lang="en">The generated prime number.</task>
       <task lang="de">Die erzeugte Primzahl.</task>
       
@@ -59,12 +71,12 @@
   <!-- Test input -->
   <sampleViewer image="Primes" file="Mathematics\PrimesTest.cwm">
     <name lang="en" >Prime Number Test</name>
-    <name lang="de" >Primzahl Test</name>
+    <name lang="de" >Primzahl-Test</name>
     <description lang="en" >Select this to test if a number is a prime.</description>
     <description lang="de" >Wählen Sie dies, um zu testen, ob eine Zahl eine Primzahl ist.</description>
 
     <headline lang="en">Prime Number Test</headline>
-    <headline lang="de">Primzahl Test</headline>
+    <headline lang="de">Primzahl-Test</headline>
     <task lang="en">Input the number you want to test.</task>
     <task lang="de">Geben Sie die Zahl ein, die Sie testen wollen.</task>
 
@@ -92,7 +104,7 @@
     <task lang="en">Please choose a category!</task>
     <task lang="de">Bitte wählen Sie eine Kategorie!</task>
 
-    <presentation plugin="PrimesPlugin" alignment="Stretch">
+    <presentation plugin="PrimesPlugin" alignment="Stretch" height="90%">
       <description lang="en">World of Primes:</description>
       <description lang="de">Die Welt der Primzahlen:</description>
     </presentation>
