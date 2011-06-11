@@ -1,0 +1,40 @@
+<FlowDocument PagePadding="5,0,5,0" AllowDrop="True" NumberSubstitution.CultureSource="User" 
+			  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+			  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			  xmlns:misc="clr-namespace:Cryptool.PluginBase.Miscellaneous;assembly=CrypPluginBase"
+			  Background="White">
+  
+  <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16">
+    <Span FontFamily="Georgia" FontWeight="Bold" FontSize="18.6666666666667" Foreground="#FF15428B" xml:lang="en-us">
+      <Span.TextDecorations>
+        <TextDecoration Location="Underline" />
+      </Span.TextDecorations> Content Insertion Steganography on MIDI Files
+    </Span>
+  </Paragraph>
+  
+  <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16" />
+
+  <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16">
+    <misc:DescriptionHyperlink NavigateUri="http://en.wikipedia.org/wiki/Substitution_cipher">http://en.wikipedia.org/wiki/Steganography</misc:DescriptionHyperlink>
+  </Paragraph>
+  
+  <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16" />
+
+  <Paragraph Margin="0,6.67,0,6.67" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16">
+    <Span xml:lang="en-gb">This steganography method hides a short bit stream inside a MIDI file by inserting inaudible events with the secret half-bytes as event parameters.</Span>
+  </Paragraph>
+  <Paragraph Margin="0,6.67,0,6.67" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16">
+        <Span xml:lang="en-gb">Existing MIDI ProgramChange messages are duplicated, the duplicates carry the hidden message. In a MIDI editor you would see the changes, but they are not played by MIDI instruments.</Span>
+  </Paragraph>
+  <Paragraph Margin="0,6.67,0,6.67" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16">
+    <Span FontWeight="Bold" xml:lang="en-gb">No Encryption</Span>
+    <Span xml:lang="en-gb">Classical computer steganography makes data invisible by merging it into carrier data like pictures, sound or formatted text.</Span>
+    <Span xml:lang="en-gb">There is no mathematical encryption, only smart storage.</Span>
+    <Span FontFamily="Times New Roman" FontSize="16" xml:lang="en-gb">
+      <LineBreak />
+    </Span>
+    <Span FontFamily="Times New Roman" FontSize="16" xml:lang="en-gb">
+      <LineBreak />
+    </Span>
+  </Paragraph>
+</FlowDocument>
