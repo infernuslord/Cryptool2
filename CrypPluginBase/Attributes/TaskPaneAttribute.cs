@@ -67,9 +67,32 @@ namespace Cryptool.PluginBase
         # endregion multi language properties
 
         public readonly int Order;
-        public readonly ControlType ControlType;        
-        public readonly string[] ControlValues;
+        public readonly ControlType ControlType;
         
+        public readonly string[] controlValues;
+        private string[] translatedControlValues;
+        public string[] ControlValues
+        {
+            get
+            {
+                if (!MultiLanguage)
+                    return controlValues;
+
+                if (translatedControlValues != null)
+                    return translatedControlValues;
+
+                translatedControlValues = new string[controlValues.Length];
+                for (int i = 0; i < controlValues.Length; i++)
+                {
+                    translatedControlValues[i] = (controlValues[i] != null)
+                        ? PluginType.GetPluginStringResource(controlValues[i])
+                        : null;
+                }
+
+                return this.translatedControlValues;
+            }
+        }
+
         private string fileExtension;
         public string FileExtension
         {
@@ -158,7 +181,7 @@ namespace Cryptool.PluginBase
             this.groupName = groupName;
             this.Order = order;              
             this.ControlType = controlType;            
-            this.ControlValues = controlValues;
+            this.controlValues = controlValues;
             this.ChangeableWhileExecuting = changeableWhileExecuting;
         }
 
