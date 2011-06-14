@@ -138,4 +138,13 @@
   <data name="FormatTooltip" xml:space="preserve">
     <value>Datenformat der Zwischenablage</value>
   </data>
+  <data name="FormatList1" xml:space="preserve">
+    <value>Text</value>
+  </data>
+  <data name="FormatList2" xml:space="preserve">
+    <value>Hex</value>
+  </data>
+  <data name="FormatList3" xml:space="preserve">
+    <value>Base64</value>
+  </data>
 </root>

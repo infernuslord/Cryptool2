@@ -59,8 +59,8 @@ namespace Concatenate
       }
     }
 
-    [ContextMenu( "DataTypeCaption", "DataTypeTooltip", 0, ContextMenuControlType.ComboBox, null, new string[] { "CryptoolStream", "string", "byte[]", "boolean", "int" })]
-    [TaskPane( "DataTypeCaption", "DataTypeTooltip", "", 0, false, ControlType.ComboBox, new string[] { "CryptoolStream", "string", "byte[]", "boolean", "int" })]
+    [ContextMenu("DataTypeCaption", "DataTypeTooltip", 0, ContextMenuControlType.ComboBox, null, new string[] { "DataTypeList1", "DataTypeList2", "DataTypeList3", "DataTypeList4", "DataTypeList5" })]
+    [TaskPane("DataTypeCaption", "DataTypeTooltip", "", 0, false, ControlType.ComboBox, new string[] { "DataTypeList1", "DataTypeList2", "DataTypeList3", "DataTypeList4", "DataTypeList5" })]
     public int DataType
     {
       get { return (int)CurrentDataType; }

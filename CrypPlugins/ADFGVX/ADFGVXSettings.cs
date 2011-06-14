@@ -130,8 +130,8 @@ namespace Cryptool.ADFGVX
 
         #region Algorithm settings properties (visible in the Settings pane)
 
-        [ContextMenu("ActionCaption", "ActionTooltip", 1, ContextMenuControlType.ComboBox, new int[] { 1, 2 }, "Encrypt", "Decrypt")]
-        [TaskPane("ActionCaption", "ActionTooltip", null, 1, false, ControlType.ComboBox, new string[] { "Encrypt", "Decrypt" })]
+        [ContextMenu("ActionCaption", "ActionTooltip", 1, ContextMenuControlType.ComboBox, new int[] { 1, 2 }, "ActionList1", "ActionList2")]
+        [TaskPane("ActionCaption", "ActionTooltip", null, 1, false, ControlType.ComboBox, new string[] { "ActionList1", "ActionList2" })]
         public int Action
         {
             get
@@ -231,8 +231,8 @@ namespace Cryptool.ADFGVX
             }
         }
 
-        [ContextMenu("UnknownSymbolHandlingCaption", "UnknownSymbolHandlingTooltip", 8, ContextMenuControlType.ComboBox, null, new string[] { "Remove (remove non alphabet characters)", "Replace (e.g. Ü=UE)" })]
-        [TaskPane("UnknownSymbolHandlingCaption", "UnknownSymbolHandlingTooltip", null, 8, false, ControlType.ComboBox, new string[] { "Remove (remove non alphabet characters)", "Replace (e.g. Ü=UE)" })]
+        [ContextMenu("UnknownSymbolHandlingCaption", "UnknownSymbolHandlingTooltip", 8, ContextMenuControlType.ComboBox, null, new string[] { "UnknownSymbolHandlingList1", "UnknownSymbolHandlingList2" })]
+        [TaskPane("UnknownSymbolHandlingCaption", "UnknownSymbolHandlingTooltip", null, 8, false, ControlType.ComboBox, new string[] { "UnknownSymbolHandlingList1", "UnknownSymbolHandlingList2" })]
         public int UnknownSymbolHandling
         {
             get { return (int)this.unknownSymbolHandling; }
@@ -244,8 +244,8 @@ namespace Cryptool.ADFGVX
             }
         }
 
-        [ContextMenu("AlphabetCaseCaption", "AlphabetCaseTooltip", 9, ContextMenuControlType.ComboBox, null, new string[] { "Upper case", "Lower case" })]
-        [TaskPane("AlphabetCaseCaption", "AlphabetCaseTooltip", null, 9, false, ControlType.ComboBox, new string[] { "Upper case", "Lower case" })]
+        [ContextMenu("AlphabetCaseCaption", "AlphabetCaseTooltip", 9, ContextMenuControlType.ComboBox, null, new string[] { "AlphabetCaseList1", "AlphabetCaseList2" })]
+        [TaskPane("AlphabetCaseCaption", "AlphabetCaseTooltip", null, 9, false, ControlType.ComboBox, new string[] { "AlphabetCaseList1", "AlphabetCaseList2" })]
         public int AlphabetCase
         {
             get { return this.caseSensitiveAlphabet; }

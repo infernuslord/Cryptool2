@@ -120,6 +120,12 @@
   <data name="ActionCaption" xml:space="preserve">
     <value>Action</value>
   </data>
+  <data name="ActionList1" xml:space="preserve">
+    <value>Encrypt</value>
+  </data>
+  <data name="ActionList2" xml:space="preserve">
+    <value>Decrypt</value>
+  </data>
   <data name="ActionTooltip" xml:space="preserve">
     <value>Select the Algorithm action</value>
   </data>
@@ -285,6 +291,9 @@
   <data name="Bar9Tooltip" xml:space="preserve">
     <value>Please activate Slider, e.g. 24</value>
   </data>
+  <data name="BarGroup" xml:space="preserve">
+    <value>Bar options</value>
+  </data>
   <data name="OutputStringCaption" xml:space="preserve">
     <value>Text output</value>
   </data>
@@ -344,5 +353,8 @@
   </data>
   <data name="TextTooltip" xml:space="preserve">
     <value>Input Text</value>
+  </data>
+  <data name="WheelGroup" xml:space="preserve">
+    <value>Wheel options</value>
   </data>
 </root>

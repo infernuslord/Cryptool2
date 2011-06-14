@@ -132,4 +132,19 @@
   <data name="DataTypeTooltip" xml:space="preserve">
     <value>Wählen Sie den Datentyp des Plugins.</value>
   </data>
+  <data name="DataTypeList1" xml:space="preserve">
+    <value>CryptoolStream</value>
+  </data>
+  <data name="DataTypeList2" xml:space="preserve">
+    <value>string</value>
+  </data>
+  <data name="DataTypeList3" xml:space="preserve">
+    <value>byte[]</value>
+  </data>
+  <data name="DataTypeList4" xml:space="preserve">
+    <value>boolean</value>
+  </data>
+  <data name="DataTypeList5" xml:space="preserve">
+    <value>int</value>
+  </data>
 </root>

@@ -38,8 +38,8 @@ namespace Contains
     }
 
 
-    [ContextMenu( "SearchSettingCaption", "SearchSettingTooltip", 1, ContextMenuControlType.ComboBox, null, new string[] { "Hashtable" })]
-    [TaskPane( "SearchSettingCaption", "SearchSettingTooltip", "", 1, false, ControlType.ComboBox, new string[] { "Hashtable" })]
+    [ContextMenu("SearchSettingCaption", "SearchSettingTooltip", 1, ContextMenuControlType.ComboBox, null, new string[] { "SearchSettingList1" })]
+    [TaskPane("SearchSettingCaption", "SearchSettingTooltip", "", 1, false, ControlType.ComboBox, new string[] { "SearchSettingList1" })]
     public int SearchSetting
     {
       get { return (int)search; }
@@ -103,7 +103,7 @@ namespace Contains
     }
 
     private bool toLower;
-    [ContextMenu( "ToLowerCaption", "ToLowerTooltip", 5, ContextMenuControlType.CheckBox, null, "All words to lower")]
+    [ContextMenu("ToLowerCaption", "ToLowerTooltip", 5, ContextMenuControlType.CheckBox, null, "ToLowerList1")]
     [TaskPaneAttribute( "ToLowerCaption", "ToLowerTooltip", "", 5, false, ControlType.CheckBox, null)]
     public bool ToLower
     {
@@ -120,7 +120,7 @@ namespace Contains
     }
 
     private bool hitPercentFromInputString = false;
-    [ContextMenu( "HitPercentFromInputStringCaption", "HitPercentFromInputStringTooltip", 6, ContextMenuControlType.CheckBox, null, "Hits as percent value")]
+    [ContextMenu("HitPercentFromInputStringCaption", "HitPercentFromInputStringTooltip", 6, ContextMenuControlType.CheckBox, null, "HitPercentFromInputStringList1")]
     [TaskPaneAttribute( "HitPercentFromInputStringCaption", "HitPercentFromInputStringTooltip", "", 6, false, ControlType.CheckBox, null)]
     public bool HitPercentFromInputString
     {
@@ -137,7 +137,7 @@ namespace Contains
     }
 
     private bool countWordsOnlyOnce = true;
-    [ContextMenu( "CountWordsOnlyOnceCaption", "CountWordsOnlyOnceTooltip", 7, ContextMenuControlType.CheckBox, null, "Count each word only once.")]
+    [ContextMenu("CountWordsOnlyOnceCaption", "CountWordsOnlyOnceTooltip", 7, ContextMenuControlType.CheckBox, null, "CountWordsOnlyOnceList1")]
     [TaskPaneAttribute( "CountWordsOnlyOnceCaption", "CountWordsOnlyOnceTooltip", "", 7, false, ControlType.CheckBox, null)]
     public bool CountWordsOnlyOnce
     {

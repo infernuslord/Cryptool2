@@ -189,8 +189,8 @@ namespace Cryptool.Caesar
         #region Algorithm settings properties (visible in the Settings pane)
 
         [PropertySaveOrder(4)]
-        [ContextMenu("ActionCaption", "ActionTooltip", 1, ContextMenuControlType.ComboBox, new int[] { 1, 2 }, "Encrypt", "Decrypt")]
-        [TaskPane("ActionTPCaption", "ActionTPTooltip", null, 1, true, ControlType.ComboBox, new string[] { "Encrypt", "Decrypt" })]
+        [ContextMenu("ActionCaption", "ActionTooltip", 1, ContextMenuControlType.ComboBox, new int[] { 1, 2 }, "ActionList1", "ActionList2")]
+        [TaskPane("ActionTPCaption", "ActionTPTooltip", null, 1, true, ControlType.ComboBox, new string[] { "ActionList1", "ActionList2" })]
         public int Action
         {
             get
@@ -221,7 +221,7 @@ namespace Cryptool.Caesar
 
 
         [PropertySaveOrder(6)]
-        [TaskPaneAttribute("ShiftCharCaption", "ShiftCharTooltip", null, 3, true, ControlType.TextBox, ValidationType.RegEx, "^([A-Z]|[a-z]){1,1}$")]
+        [TaskPaneAttribute("ShiftCharCaption", "ShiftCharTooltip", null, 3, true, ControlType.TextBox, ValidationType.RegEx, "^[A-Za-z]$")]
         public string ShiftChar
         {
             get { return this.shiftChar.ToString(); }
@@ -233,8 +233,8 @@ namespace Cryptool.Caesar
         }
 
         [PropertySaveOrder(7)]
-        [ContextMenu("UnknownSymbolHandlingCaption", "UnknownSymbolHandlingTooltip", 4, ContextMenuControlType.ComboBox, null, new string[] { "Ignore (leave unmodified)", "Remove", "Replace with \'?\'" })]
-        [TaskPane("UnknownSymbolHandlingCaption", "UnknownSymbolHandlingTooltip", null, 4, true, ControlType.ComboBox, new string[] { "Ignore (leave unmodified)", "Remove", "Replace with \'?\'" })]
+        [ContextMenu("UnknownSymbolHandlingCaption", "UnknownSymbolHandlingTooltip", 4, ContextMenuControlType.ComboBox, null, new string[] { "UnknownSymbolHandlingList1", "UnknownSymbolHandlingList2", "UnknownSymbolHandlingList3" })]
+        [TaskPane("UnknownSymbolHandlingCaption", "UnknownSymbolHandlingTooltip", null, 4, true, ControlType.ComboBox, new string[] { "UnknownSymbolHandlingList1", "UnknownSymbolHandlingList2", "UnknownSymbolHandlingList3" })]
         public int UnknownSymbolHandling
         {
             get { return (int)this.unknownSymbolHandling; }
@@ -279,8 +279,8 @@ namespace Cryptool.Caesar
         /// </summary>   
         //[SettingsFormat(1, "Normal")]
         [PropertySaveOrder(8)]
-        [ContextMenu("ActionCaption", "ActionTooltip", 7, ContextMenuControlType.ComboBox, null, new string[] { "Case insensitive", "Case sensitive" })]
-        [TaskPane("ActionCaption", "ActionTooltip", null, 7, true, ControlType.ComboBox, new string[] { "Case insensitive", "Case sensitive" })]
+        [ContextMenu("AlphabetCaseCaption", "AlphabetCaseTooltip", 7, ContextMenuControlType.ComboBox, null, new string[] { "AlphabetCaseList1", "AlphabetCaseList2" })]
+        [TaskPane("AlphabetCaseCaption", "AlphabetCaseTooltip", null, 7, true, ControlType.ComboBox, new string[] { "AlphabetCaseList1", "AlphabetCaseList2" })]
         public int AlphabetCase
         {
             get { return this.caseSensitiveAlphabet; }

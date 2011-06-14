@@ -177,4 +177,22 @@
   <data name="OperatTooltip" xml:space="preserve">
     <value>Wählen Sie die mathematische Operation.</value>
   </data>
+  <data name="OperatList1" xml:space="preserve">
+    <value>x+y</value>
+  </data>
+  <data name="OperatList2" xml:space="preserve">
+    <value>x-y</value>
+  </data>
+  <data name="OperatList3" xml:space="preserve">
+    <value>x*y</value>
+  </data>
+  <data name="OperatList4" xml:space="preserve">
+    <value>x/y</value>
+  </data>
+  <data name="OperatList5" xml:space="preserve">
+    <value>x^y</value>
+  </data>
+  <data name="OperatList6" xml:space="preserve">
+    <value>ggT</value>
+  </data>
 </root>

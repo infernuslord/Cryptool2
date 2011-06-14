@@ -120,11 +120,23 @@
   <data name="ActionCaption" xml:space="preserve">
     <value>Aktion</value>
   </data>
+  <data name="ActionList1" xml:space="preserve">
+    <value>Verschlüsselung</value>
+  </data>
+  <data name="ActionList2" xml:space="preserve">
+    <value>Entschlüsselung</value>
+  </data>
   <data name="ActionTooltip" xml:space="preserve">
     <value>Wählen Sie die Betriebsart des Plugins</value>
   </data>
   <data name="AlphabetCaseCaption" xml:space="preserve">
     <value>Groß-/Kleinschreibung</value>
+  </data>
+  <data name="AlphabetCaseList1" xml:space="preserve">
+    <value>Großschreibung</value>
+  </data>
+  <data name="AlphabetCaseList2" xml:space="preserve">
+    <value>Kleinschreibung</value>
   </data>
   <data name="AlphabetCaseTooltip" xml:space="preserve">
     <value>Transformiere das Alphabet und die Eingabedaten in Groß- bzw. Kleinschreibung</value>
@@ -207,7 +219,13 @@
   <data name="UnknownSymbolHandlingCaption" xml:space="preserve">
     <value>Behandlung ungültiger Zeichen</value>
   </data>
+  <data name="UnknownSymbolHandlingList1" xml:space="preserve">
+    <value>Zeichen entfernen</value>
+  </data>
+  <data name="UnknownSymbolHandlingList2" xml:space="preserve">
+    <value>Zeichen ersetzen (z.B. Ü=UE)</value>
+  </data>
   <data name="UnknownSymbolHandlingTooltip" xml:space="preserve">
-    <value>Wie soll auf Zeichen in der Eingabe reagiert werden, die nicht Bestandteil des Eingabe-Alphabet sind?</value>
+    <value>Wie soll auf Zeichen in der Eingabe reagiert werden, die nicht Bestandteil des Eingabe-Alphabets sind?</value>
   </data>
 </root>

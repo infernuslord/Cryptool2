@@ -168,4 +168,46 @@
   <data name="PresentationFormatSettingTooltip" xml:space="preserve">
     <value>Wählen Sie das Format, das für die Datenausgabe verwendet werden soll.</value>
   </data>
+  <data name="EncodingSettingList1" xml:space="preserve">
+    <value>Standardkodierung</value>
+  </data>
+  <data name="EncodingSettingList2" xml:space="preserve">
+    <value>Unicode</value>
+  </data>
+  <data name="EncodingSettingList3" xml:space="preserve">
+    <value>UTF-7</value>
+  </data>
+  <data name="EncodingSettingList4" xml:space="preserve">
+    <value>UTF-8</value>
+  </data>
+  <data name="EncodingSettingList5" xml:space="preserve">
+    <value>UTF-32</value>
+  </data>
+  <data name="EncodingSettingList6" xml:space="preserve">
+    <value>ASCII</value>
+  </data>
+  <data name="EncodingSettingList7" xml:space="preserve">
+    <value>Big-Endian Unicode</value>
+  </data>
+  <data name="FormatAmerList1" xml:space="preserve">
+    <value>deutsch</value>
+  </data>
+  <data name="FormatAmerList2" xml:space="preserve">
+    <value>amerikanisch</value>
+  </data>
+  <data name="NumericList1" xml:space="preserve">
+    <value>nein</value>
+  </data>
+  <data name="NumericList2" xml:space="preserve">
+    <value>ja</value>
+  </data>
+  <data name="PresentationFormatSettingList1" xml:space="preserve">
+    <value>Text</value>
+  </data>
+  <data name="PresentationFormatSettingList2" xml:space="preserve">
+    <value>Hex</value>
+  </data>
+  <data name="PresentationFormatSettingList3" xml:space="preserve">
+    <value>Base64</value>
+  </data>
 </root>
