@@ -39,8 +39,8 @@ namespace Cryptool.HIGHT
         private int action = 0; //0=encrypt, 1=decrypt
         private int padding = 0; //0="Zeros"=default, 1="None", 2="PKCS7"
 
-        [ContextMenu( "ActionCaption", "ActionTooltip", 1, ContextMenuControlType.ComboBox, new int[] { 1, 2}, "Encrypt","Decrypt")]
-        [TaskPane( "ActionCaption", "ActionTooltip", null, 1, false, ControlType.ComboBox, new string[] { "Encrypt", "Decrypt" })]
+        [ContextMenu("ActionCaption", "ActionTooltip", 1, ContextMenuControlType.ComboBox, new int[] { 1, 2 }, "ActionList1", "ActionList2")]
+        [TaskPane("ActionCaption", "ActionTooltip", null, 1, false, ControlType.ComboBox, new string[] { "ActionList1", "ActionList2" })]
         public int Action
         {
             get { return this.action; }
@@ -51,8 +51,8 @@ namespace Cryptool.HIGHT
             }
         }
 
-        [ContextMenu( "PaddingCaption", "PaddingTooltip", 2, ContextMenuControlType.ComboBox, null, "Zeros", "None", "PKCS7")]
-        [TaskPane( "PaddingTPCaption", "PaddingTPTooltip", null, 2, false, ControlType.ComboBox, new String[] { "Zeros", "None", "PKCS7" })]
+        [ContextMenu("PaddingCaption", "PaddingTooltip", 2, ContextMenuControlType.ComboBox, null, "PaddingList1", "PaddingList2", "PaddingList3")]
+        [TaskPane("PaddingTPCaption", "PaddingTPTooltip", null, 2, false, ControlType.ComboBox, new String[] { "PaddingList1", "PaddingList2", "PaddingList3" })]
         public int Padding
         {
             get { return this.padding; }

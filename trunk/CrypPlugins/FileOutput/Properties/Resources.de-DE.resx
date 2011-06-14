@@ -112,40 +112,40 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\logo.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-    <data name="PluginCaption" xml:space="preserve">
+  <data name="PluginCaption" xml:space="preserve">
     <value>FileOutput</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>File based output</value>
+    <value>Datei-basierte Ausgabe</value>
   </data>
   <data name="PluginDescriptionURL" xml:space="preserve">
-    <value></value>
+    <value />
   </data>
-    <data name="StreamInputCaption" xml:space="preserve">
-    <value>Stream Input</value>
+  <data name="StreamInputCaption" xml:space="preserve">
+    <value>Eingabedatenstrom</value>
   </data>
   <data name="StreamInputTooltip" xml:space="preserve">
-    <value>Display the input file in HexEditor.</value>
+    <value>Darstellung der Datei im HexEditor.</value>
   </data>
-    <data name="ClearFileNameCaption" xml:space="preserve">
-    <value>Clear file name</value>
+  <data name="ClearFileNameCaption" xml:space="preserve">
+    <value>Dateiname zurücksetzen</value>
   </data>
   <data name="ClearFileNameTooltip" xml:space="preserve">
-    <value>Forget the output file name</value>
+    <value>Dateiname zurücksetzen</value>
   </data>
   <data name="TargetFilenameCaption" xml:space="preserve">
-    <value>Target FileName</value>
+    <value>Dateiname</value>
   </data>
   <data name="TargetFilenameTooltip" xml:space="preserve">
-    <value>File to write data into.</value>
+    <value>Datei, in die geschrieben werden soll</value>
   </data>
 </root>

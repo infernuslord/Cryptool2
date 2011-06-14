@@ -42,8 +42,8 @@ namespace IncDec
       get { return currentMode; }     
     }
 
-    [ContextMenu( "ModeSelectCaption", "ModeSelectTooltip", 0, ContextMenuControlType.ComboBox, null, new string[] { "Increment", "Decrement"})]
-    [TaskPane( "ModeSelectCaption", "ModeSelectTooltip", "", 0, false, ControlType.ComboBox, new string[] { "Increment", "Decrement" })]
+    [ContextMenu("ModeSelectCaption", "ModeSelectTooltip", 0, ContextMenuControlType.ComboBox, null, new string[] { "ModeSelectList1", "ModeSelectList2" })]
+    [TaskPane("ModeSelectCaption", "ModeSelectTooltip", "", 0, false, ControlType.ComboBox, new string[] { "ModeSelectList1", "ModeSelectList2" })]
     public int ModeSelect
     {
       get { return (int)this.currentMode; }

@@ -53,7 +53,7 @@ namespace Cryptool.Plugins.Paillier
         /// <summary>
         /// Getter/Setter for the source of the Key Data
         /// </summary>
-        [TaskPane( "SourceCaption", "SourceTooltip", null, 1, false, ControlType.ComboBox, new string[] { "Manually enter primes", "Generate random primes" })]
+        [TaskPane( "SourceCaption", "SourceTooltip", null, 1, false, ControlType.ComboBox, new string[] { "SourceList1", "SourceList2" })]
         public int Source
         {
             get { return this.source; }

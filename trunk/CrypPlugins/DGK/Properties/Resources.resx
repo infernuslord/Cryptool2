@@ -249,4 +249,10 @@
   <data name="UTooltip" xml:space="preserve">
     <value>public key U</value>
   </data>
+  <data name="ActionList1" xml:space="preserve">
+    <value>Encryption</value>
+  </data>
+  <data name="ActionList2" xml:space="preserve">
+    <value>Decryption</value>
+  </data>
 </root>

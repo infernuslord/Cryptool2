@@ -52,7 +52,7 @@ namespace Cryptool.Playfair
         #region Private variables
 
         private bool hasChanges;
-        private bool seperatePairs = true;
+        private bool separatePairs = true;
         private int selectedAction = 0;
         private bool preFormatText = true;
         private bool ignoreDuplicates = true;
@@ -70,8 +70,8 @@ namespace Cryptool.Playfair
         #region Algorithm settings properties (visible in the Settings pane)
 
         [PropertySaveOrder(2)]
-        [ContextMenu( "ActionCaption", "ActionTooltip",1,ContextMenuControlType.ComboBox, new int[] {1,2}, "Encrypt","Decrypt")]
-        [TaskPane( "ActionCaption", "ActionTooltip",null,1,false,ControlType.ComboBox, new string[] {"Encrypt","Decrypt"})]
+        [ContextMenu("ActionCaption", "ActionTooltip", 1, ContextMenuControlType.ComboBox, new int[] { 1, 2 }, "ActionList1", "ActionList2")]
+        [TaskPane("ActionCaption", "ActionTooltip", null, 1, false, ControlType.ComboBox, new string[] { "ActionList1", "ActionList2" })]
         public int Action
         {
             get { return this.selectedAction; }
@@ -121,7 +121,7 @@ namespace Cryptool.Playfair
         }
 
         [PropertySaveOrder(5)]
-        [ContextMenu( "PreFormatTextCaption", "PreFormatTextTooltip",4,ContextMenuControlType.CheckBox,null,"Pre-format text")]
+        [ContextMenu("PreFormatTextCaption", "PreFormatTextTooltip", 4, ContextMenuControlType.CheckBox, null, "PreFormatTextList1")]
         [TaskPane( "PreFormatTextCaption", "PreFormatTextTooltip",null,4,false,ControlType.CheckBox,"")]
         public bool PreFormatText
         {
@@ -135,7 +135,7 @@ namespace Cryptool.Playfair
         }
 
         [PropertySaveOrder(6)]
-        [ContextMenu( "IgnoreDuplicatesCaption", "IgnoreDuplicatesTooltip",5,ContextMenuControlType.CheckBox,null,"Ignore duplicates within the key phrase")]
+        [ContextMenu("IgnoreDuplicatesCaption", "IgnoreDuplicatesTooltip", 5, ContextMenuControlType.CheckBox, null, "IgnoreDuplicatesList1")]
         [TaskPane( "IgnoreDuplicatesCaption", "IgnoreDuplicatesTooltip",null,5,false,ControlType.CheckBox,"")]
         public bool IgnoreDuplicates
         {
@@ -165,16 +165,16 @@ namespace Cryptool.Playfair
         }
 
         [PropertySaveOrder(8)]
-        [ContextMenu( "SeperatePairsCaption", "SeperatePairsTooltip", 7, ContextMenuControlType.CheckBox, null, "Separate pairs of identical letters")]
-        [TaskPane( "SeperatePairsTPCaption", "SeperatePairsTPTooltip", null, 7, false, ControlType.CheckBox, "")]
-        public bool SeperatePairs
+        [ContextMenu("SeparatePairsCaption", "SeparatePairsTooltip", 7, ContextMenuControlType.CheckBox, null, "SeparatePairsList1")]
+        [TaskPane( "SeparatePairsTPCaption", "SeparatePairsTPTooltip", null, 7, false, ControlType.CheckBox, "")]
+        public bool SeparatePairs
         {
-            get { return this.seperatePairs; }
+            get { return this.separatePairs; }
             set
             {
-                if (value != this.seperatePairs) HasChanges = true;
-                this.seperatePairs = value;
-                OnPropertyChanged("SeperatePairs");
+                if (value != this.separatePairs) HasChanges = true;
+                this.separatePairs = value;
+                OnPropertyChanged("SeparatePairs");
             }
         }
 

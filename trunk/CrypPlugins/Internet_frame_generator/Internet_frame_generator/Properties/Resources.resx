@@ -150,7 +150,10 @@
   <data name="NumberOfPacketsToBeCreatedTooltip" xml:space="preserve">
     <value>How many packets do you want to create?\nPlease type in a number beteen 1 and 100,000.</value>
   </data>
-  <data name="String1" xml:space="preserve">
-    <value>Internet Frame Generator (IPv4 und ARP Request Pakete werden unterstützt)</value>
+  <data name="ActionList1" xml:space="preserve">
+    <value>IPv4 packets</value>
+  </data>
+  <data name="ActionList2" xml:space="preserve">
+    <value>ARP request packets</value>
   </data>
 </root>

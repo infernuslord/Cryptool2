@@ -45,7 +45,7 @@ namespace Factorizer
     }
     private long m_BruteForceLimit;
 
-    [TaskPane( "BruteForceLimitCaption", "BruteForceLimitTooltip", "Brute-Force Factorization", 0, false, ControlType.TextBox, ValidationType.RangeInteger, 100, 1000000)]
+    [TaskPane("BruteForceLimitCaption", "BruteForceLimitTooltip", "BruteForceLimitGroup", 0, false, ControlType.TextBox, ValidationType.RangeInteger, 100, 1000000)]
     public long BruteForceLimit
     {
       get { return m_BruteForceLimit; }

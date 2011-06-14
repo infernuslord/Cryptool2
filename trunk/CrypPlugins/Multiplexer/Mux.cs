@@ -260,7 +260,7 @@ namespace Multiplexer
 
       // Set InputSwitch with default value => dicSwitchBuffer[default] will be increased, so 
       // the first input on default input will be forwared directly without waiting for a first
-      // boolean input swtich.
+      // boolean input switch.
       inputSwitch = false;
 
       if (settings.DefaultValue == 0)

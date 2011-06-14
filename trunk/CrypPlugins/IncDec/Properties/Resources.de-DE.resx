@@ -46,7 +46,7 @@
     
     mimetype: application/x-microsoft.net.object.binary.base64
     value   : The object must be serialized with 
-            : System.Serialization.Formatters.Binary.BinaryFormatter
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
     
     mimetype: application/x-microsoft.net.object.soap.base64
@@ -60,6 +60,7 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
@@ -68,9 +69,10 @@
               <xsd:sequence>
                 <xsd:element name="value" type="xsd:string" minOccurs="0" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="name" use="required" type="xsd:string" />
               <xsd:attribute name="type" type="xsd:string" />
               <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
@@ -85,9 +87,10 @@
                 <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
                 <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
               <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
               <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
@@ -109,42 +112,48 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-    <data name="PluginCaption" xml:space="preserve">
+  <data name="PluginCaption" xml:space="preserve">
     <value>IncDec</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Increment/decrement operation</value>
+    <value>Erhöhung/Verminderung der Eingabe</value>
   </data>
   <data name="PluginDescriptionURL" xml:space="preserve">
-    <value></value>
+    <value />
   </data>
-    <data name="InputCaption" xml:space="preserve">
-    <value>Input.</value>
+  <data name="InputCaption" xml:space="preserve">
+    <value>Eingabe</value>
   </data>
   <data name="InputTooltip" xml:space="preserve">
-    <value>Input to increment or decrement.</value>
+    <value>Eingabe des zu erhöhenden/vermindernden Wertes</value>
   </data>
   <data name="OutputCaption" xml:space="preserve">
-    <value>Output.</value>
+    <value>Ausgabe</value>
   </data>
   <data name="OutputTooltip" xml:space="preserve">
-    <value>Output.</value>
+    <value>Ausgabe</value>
   </data>
-    <data name="ModeSelectCaption" xml:space="preserve">
-    <value>Mode</value>
+  <data name="ModeSelectCaption" xml:space="preserve">
+    <value>Modus</value>
   </data>
   <data name="ModeSelectTooltip" xml:space="preserve">
-    <value>Please select increment or decrement operator.</value>
+    <value>Wählen Sie, ob der Wert erhöht oder vermindert werden soll.</value>
   </data>
   <data name="ValueCaption" xml:space="preserve">
-    <value>Inc/Dec value</value>
+    <value>Delta</value>
   </data>
   <data name="ValueTooltip" xml:space="preserve">
-    <value>Value to add or subtract.</value>
+    <value>Zu addierender/subtrahierender Wert</value>
+  </data>
+  <data name="ModeSelectList1" xml:space="preserve">
+    <value>Erhöhen</value>
+  </data>
+  <data name="ModeSelectList2" xml:space="preserve">
+    <value>Vermindern</value>
   </data>
 </root>

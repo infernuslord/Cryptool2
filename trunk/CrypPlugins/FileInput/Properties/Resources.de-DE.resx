@@ -112,46 +112,46 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\logo.JPG;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-    <data name="PluginCaption" xml:space="preserve">
+  <data name="PluginCaption" xml:space="preserve">
     <value>FileInput</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>File based input</value>
+    <value>Datei-basierte Eingabe</value>
   </data>
   <data name="PluginDescriptionURL" xml:space="preserve">
-    <value></value>
+    <value />
   </data>
-    <data name="StreamOutputCaption" xml:space="preserve">
-    <value>Stream Output</value>
+  <data name="StreamOutputCaption" xml:space="preserve">
+    <value>Ausgabedatenstrom</value>
   </data>
   <data name="StreamOutputTooltip" xml:space="preserve">
-    <value>Selected file as stream.</value>
+    <value>Ausgabe der gewählten Datei als Datenstrom</value>
   </data>
   <data name="FileSizeCaption" xml:space="preserve">
-    <value>File Size</value>
+    <value>Dateigröße</value>
   </data>
   <data name="FileSizeTooltip" xml:space="preserve">
-    <value>Size of the selected file</value>
+    <value>Die Größe der ausgewählten Datei</value>
   </data>
-    <data name="CloseFileCaption" xml:space="preserve">
-    <value>Close file</value>
+  <data name="CloseFileCaption" xml:space="preserve">
+    <value>Datei schließen</value>
   </data>
   <data name="CloseFileTooltip" xml:space="preserve">
-    <value>Close file</value>
+    <value>Datei schließen</value>
   </data>
   <data name="OpenFilenameCaption" xml:space="preserve">
-    <value>Filename</value>
+    <value>Dateiname</value>
   </data>
   <data name="OpenFilenameTooltip" xml:space="preserve">
-    <value>Select the file you want to open.</value>
+    <value>Wählen Sie die zu öffnende Datei.</value>
   </data>
 </root>

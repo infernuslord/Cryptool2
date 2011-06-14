@@ -112,45 +112,45 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="dic_file_not_found" xml:space="preserve">
-    <value>Dictionary file: "{0} " not found.</value>
+    <value>Wörterbuch-Datei "{0} " nicht gefunden.</value>
   </data>
   <data name="finished_loading_dic" xml:space="preserve">
-    <value>...finished loading dictionary in: "{0}" milliseconds.</value>
+    <value>...Wörterbuch geladen in {0} Millisekunden.</value>
   </data>
   <data name="loading_dic_now" xml:space="preserve">
-    <value>Loading dictionary "{0}" now...</value>
+    <value>Das Wörterbuch "{0}" wird geladen...</value>
   </data>
-    <data name="PluginCaption" xml:space="preserve">
+  <data name="PluginCaption" xml:space="preserve">
     <value>Dictionary</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Reads values from a Dictionary and returns all entries concatenated with given delimiter in one string.</value>
+    <value>Dieses Plugin liest die Einträge einer Wörterbuch-Datei und gibt sie als eine Wortliste oder als eine einzelne Zeichenfolge zurück, die aus den Wörtern mittels eines Trennzeichens zusammengefügt wird.</value>
   </data>
   <data name="PluginDescriptionURL" xml:space="preserve">
-    <value></value>
+    <value />
   </data>
-    <data name="OutputStringCaption" xml:space="preserve">
-    <value>Dictionary output (deprecated)</value>
+  <data name="OutputStringCaption" xml:space="preserve">
+    <value>Wörterbuch-Ausgabe (veraltet)</value>
   </data>
   <data name="OutputStringTooltip" xml:space="preserve">
-    <value>Values from dictionary as single string (deprecated)</value>
+    <value>Ausgabe des Wörterbuchs als einzelne Zeichenfolge (veraltet)</value>
   </data>
   <data name="OutputListCaption" xml:space="preserve">
-    <value>Dictionary Output</value>
+    <value>Wörterbuch-Ausgabe</value>
   </data>
   <data name="OutputListTooltip" xml:space="preserve">
-    <value>Values from dictionary as array of strings</value>
+    <value>Ausgabe des Wörterbuchs als Wortliste</value>
   </data>
-    <data name="DictionaryCaption" xml:space="preserve">
-    <value>Dictionary</value>
+  <data name="DictionaryCaption" xml:space="preserve">
+    <value>Wörterbuch</value>
   </data>
   <data name="DictionaryTooltip" xml:space="preserve">
-    <value>Select dictionary with keywords.</value>
+    <value>Wählen Sie das Wörterbuch mit den Schlüsselwörtern.</value>
   </data>
 </root>

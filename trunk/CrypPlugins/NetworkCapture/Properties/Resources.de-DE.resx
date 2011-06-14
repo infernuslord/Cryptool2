@@ -124,24 +124,24 @@
     <value />
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Capture data from a network device (requires WinPcap library)</value>
+    <value>Dieses Plugin erfasst Daten von einem Netzwerkgerät (benötigt die WinPcap-Library).</value>
   </data>
-    <data name="DataStreamCaption" xml:space="preserve">
-    <value>Captured stream</value>
+  <data name="DataStreamCaption" xml:space="preserve">
+    <value>Erfasster Datenstrom</value>
   </data>
   <data name="DataStreamTooltip" xml:space="preserve">
-    <value>Data stream that has been captured from selected network device</value>
+    <value>Datenstrom, der vom ausgewählten Netzwerkgerät gelesen wird.</value>
   </data>
   <data name="DataPacketCaption" xml:space="preserve">
-    <value>Captured packets</value>
+    <value>Erfasste Datenpakete</value>
   </data>
   <data name="DataPacketTooltip" xml:space="preserve">
-    <value>Data packets that have been captured from selected network device</value>
+    <value>Datenpakete, die vom ausgewählten Netzwerkgerät gelesen werden.</value>
   </data>
-    <data name="DeviceCaption" xml:space="preserve">
-    <value>Device</value>
+  <data name="DeviceCaption" xml:space="preserve">
+    <value>Netzwerkgerät</value>
   </data>
   <data name="DeviceTooltip" xml:space="preserve">
-    <value>Select network device to capture data from</value>
+    <value>Wählen Sie das Netzwerkgerät, von dem die Daten gelesen werden sollen.</value>
   </data>
 </root>
