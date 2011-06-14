@@ -210,4 +210,16 @@
   <data name="ToLowerTPTooltip" xml:space="preserve">
     <value>yes / no.</value>
   </data>
+  <data name="CountWordsOnlyOnceList1" xml:space="preserve">
+    <value>Count each word only once</value>
+  </data>
+  <data name="HitPercentFromInputStringList1" xml:space="preserve">
+    <value>Hits as percent value</value>
+  </data>
+  <data name="SearchSettingList1" xml:space="preserve">
+    <value>Hashtable</value>
+  </data>
+  <data name="ToLowerList1" xml:space="preserve">
+    <value>All words to lower</value>
+  </data>
 </root>

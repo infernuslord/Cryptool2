@@ -53,8 +53,8 @@ namespace Cryptool.Plugins.BooleanOperators
             }
         }
 
-        [ContextMenu( "BBO_OperatorTypeCaption", "BBO_OperatorTypeTooltip", 0, ContextMenuControlType.ComboBox, null, new string[] { "AND", "OR", "NAND", "NOR", "XOR" })]
-        [TaskPane( "BBO_OperatorTypeCaption", "BBO_OperatorTypeTooltip", null, 2, false, ControlType.ComboBox, new string[] { "AND", "OR", "NAND", "NOR", "XOR" })]
+        [ContextMenu("BBO_OperatorTypeCaption", "BBO_OperatorTypeTooltip", 0, ContextMenuControlType.ComboBox, null, new string[] { "BBO_OperatorTypeList1", "BBO_OperatorTypeList2", "BBO_OperatorTypeList3", "BBO_OperatorTypeList4", "BBO_OperatorTypeList5" })]
+        [TaskPane("BBO_OperatorTypeCaption", "BBO_OperatorTypeTooltip", null, 2, false, ControlType.ComboBox, new string[] { "BBO_OperatorTypeList1", "BBO_OperatorTypeList2", "BBO_OperatorTypeList3", "BBO_OperatorTypeList4", "BBO_OperatorTypeList5" })]
         public int OperatorType
         {
             get { return this.operatorType; }

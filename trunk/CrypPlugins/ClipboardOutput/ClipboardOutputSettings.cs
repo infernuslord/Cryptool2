@@ -29,8 +29,8 @@ namespace ClipboardOutput
   {
     private int format = 0; //0="Text", 1="Hex", 2="Base64"
 
-    [ContextMenu( "FormatCaption", "FormatTooltip", 1, ContextMenuControlType.ComboBox, null, new string[] { "text", "hex", "base64" })]
-    [TaskPane( "FormatCaption", "FormatTooltip", "", 1, false, ControlType.ComboBox, new string[] { "text", "hex", "base64" })]
+    [ContextMenu("FormatCaption", "FormatTooltip", 1, ContextMenuControlType.ComboBox, null, new string[] { "FormatList1", "FormatList2", "FormatList3" })]
+    [TaskPane("FormatCaption", "FormatTooltip", "", 1, false, ControlType.ComboBox, new string[] { "FormatList1", "FormatList2", "FormatList3" })]
     public int Format
     {
       get { return this.format; }

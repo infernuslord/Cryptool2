@@ -121,7 +121,7 @@
     <value>Caesar</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Caesar – Klassische Substitutionsverschlüsselung durch Alphabet-Shift</value>
+    <value>Caesar – Klassische Substitutionsverschlüsselung durch Alphabet-Verschiebung</value>
   </data>
   <data name="PluginDescriptionURL" xml:space="preserve">
     <value>Caesar/DetailedDescription/Description.xaml</value>
@@ -197,5 +197,26 @@
   </data>
   <data name="UnknownSymbolHandlingTooltip" xml:space="preserve">
     <value>Wie soll auf Zeichen in der Eingabe reagiert werden, die nicht Bestandteil des Eingabe-Alphabet sind?</value>
+  </data>
+  <data name="ActionList1" xml:space="preserve">
+    <value>Verschlüsselung</value>
+  </data>
+  <data name="ActionList2" xml:space="preserve">
+    <value>Entschlüsselung</value>
+  </data>
+  <data name="AlphabetCaseList1" xml:space="preserve">
+    <value>Groß-/Kleinschreibung nicht beachten</value>
+  </data>
+  <data name="AlphabetCaseList2" xml:space="preserve">
+    <value>Groß-/Kleinschreibung beachten</value>
+  </data>
+  <data name="UnknownSymbolHandlingList1" xml:space="preserve">
+    <value>Ignorieren (nicht ändern)</value>
+  </data>
+  <data name="UnknownSymbolHandlingList2" xml:space="preserve">
+    <value>Entfernen</value>
+  </data>
+  <data name="UnknownSymbolHandlingList3" xml:space="preserve">
+    <value>Ersetzen durch '?'</value>
   </data>
 </root>

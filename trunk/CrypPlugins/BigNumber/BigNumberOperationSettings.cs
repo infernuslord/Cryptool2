@@ -37,7 +37,7 @@ namespace Cryptool.Plugins.BigNumber
         /// 
         /// Based on the option chosen, the icon for this plug-in will also change.
         /// </summary>
-        [TaskPane("OperatCaption", "OperatTooltip", null, 1, false, ControlType.ComboBox, new string[] { "x+y","x-y","x*y","x/y","x^y","GCD"})]
+        [TaskPane("OperatCaption", "OperatTooltip", null, 1, false, ControlType.ComboBox, new string[] { "OperatList1", "OperatList2", "OperatList3", "OperatList4", "OperatList5", "OperatList6" })]
         public int Operat
         {
             get { return this.operat; }

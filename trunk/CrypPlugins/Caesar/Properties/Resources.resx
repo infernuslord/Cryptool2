@@ -198,4 +198,25 @@
   <data name="UnknownSymbolHandlingTooltip" xml:space="preserve">
     <value>What should be done with encountered characters at the input which are not in the alphabet?</value>
   </data>
+  <data name="ActionList1" xml:space="preserve">
+    <value>Encrypt</value>
+  </data>
+  <data name="ActionList2" xml:space="preserve">
+    <value>Decrypt</value>
+  </data>
+  <data name="AlphabetCaseList1" xml:space="preserve">
+    <value>Case insensitive</value>
+  </data>
+  <data name="AlphabetCaseList2" xml:space="preserve">
+    <value>Case sensitive</value>
+  </data>
+  <data name="UnknownSymbolHandlingList1" xml:space="preserve">
+    <value>Ignore (leave unmodified)</value>
+  </data>
+  <data name="UnknownSymbolHandlingList2" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="UnknownSymbolHandlingList3" xml:space="preserve">
+    <value>Replace with '?'</value>
+  </data>
 </root>

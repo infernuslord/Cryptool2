@@ -51,9 +51,9 @@ namespace Cryptool.Plugins.Converter
         #endregion
 
         #region taskpane
-     
-        [ContextMenu( "EncodingSettingCaption", "EncodingSettingTooltip", 1, ContextMenuControlType.ComboBox, null, new string[] { "Default system encoding", "Unicode", "UTF-7", "UTF-8", "UTF-32", "ASCII", "Big endian unicode" })]
-        [TaskPane( "EncodingSettingCaption", "EncodingSettingTooltip", "", 1, false, ControlType.RadioButton, new string[] { "Default system encoding", "Unicode", "UTF-7", "UTF-8", "UTF-32", "ASCII", "Big endian unicode" })]
+
+        [ContextMenu("EncodingSettingCaption", "EncodingSettingTooltip", 1, ContextMenuControlType.ComboBox, null, new string[] { "EncodingSettingList1", "EncodingSettingList2", "EncodingSettingList3", "EncodingSettingList4", "EncodingSettingList5", "EncodingSettingList6", "EncodingSettingList7" })]
+        [TaskPane("EncodingSettingCaption", "EncodingSettingTooltip", "", 1, false, ControlType.RadioButton, new string[] { "EncodingSettingList1", "EncodingSettingList2", "EncodingSettingList3", "EncodingSettingList4", "EncodingSettingList5", "EncodingSettingList6", "EncodingSettingList7" })]
         public int EncodingSetting
         {
             get
@@ -72,7 +72,7 @@ namespace Cryptool.Plugins.Converter
             }
         }
 
-        [TaskPane( "ConverterCaption", "ConverterTooltip", null, 1, false, ControlType.ComboBox, new string[] { "string", "int", "short", "byte", "double", "BigInteger", "int[]", "byte[]","Cryptoolstream" })]
+        [TaskPane( "ConverterCaption", "ConverterTooltip", null, 1, false, ControlType.ComboBox, new string[] { "string", "int", "short", "byte", "double", "BigInteger", "int[]", "byte[]", "Cryptoolstream" })]
         public int Converter
         {
             get { return this.converter; }
@@ -183,7 +183,7 @@ namespace Cryptool.Plugins.Converter
             }
         }
 
-        [TaskPane( "NumericCaption", "NumericTooltip", null, 1, false, ControlType.ComboBox, new string[] { "no", "yes" })]
+        [TaskPane("NumericCaption", "NumericTooltip", null, 1, false, ControlType.ComboBox, new string[] { "NumericList1", "NumericList2" })]
         public bool Numeric
         {
             get { return this.numeric; }
@@ -198,7 +198,7 @@ namespace Cryptool.Plugins.Converter
             }
         }
 
-        [TaskPane( "FormatAmerCaption", "FormatAmerTooltip", null, 1, false, ControlType.ComboBox, new string[] { "german", "american" })]
+        [TaskPane("FormatAmerCaption", "FormatAmerTooltip", null, 1, false, ControlType.ComboBox, new string[] { "FormatAmerList1", "FormatAmerList2" })]
         public bool FormatAmer
         {
             get { return this.formatAmer; }
@@ -213,7 +213,7 @@ namespace Cryptool.Plugins.Converter
             }
         }
 
-        [TaskPane( "PresentationFormatSettingCaption", "PresentationFormatSettingTooltip", null, 1, false, ControlType.RadioButton, new string[] { "Text", "Hex", "Base64" })]
+        [TaskPane("PresentationFormatSettingCaption", "PresentationFormatSettingTooltip", null, 1, false, ControlType.RadioButton, new string[] { "PresentationFormatSettingList1", "PresentationFormatSettingList2", "PresentationFormatSettingList3" })]
         public int PresentationFormatSetting
         {
             get

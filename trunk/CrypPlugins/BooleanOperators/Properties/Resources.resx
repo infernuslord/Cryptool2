@@ -240,4 +240,25 @@
   <data name="BI_ValueTooltip" xml:space="preserve">
     <value>Set the boolean value</value>
   </data>
+  <data name="BBO_OperatorTypeList1" xml:space="preserve">
+    <value>AND</value>
+  </data>
+  <data name="BBO_OperatorTypeList2" xml:space="preserve">
+    <value>OR</value>
+  </data>
+  <data name="BBO_OperatorTypeList3" xml:space="preserve">
+    <value>NAND</value>
+  </data>
+  <data name="BBO_OperatorTypeList4" xml:space="preserve">
+    <value>NOR</value>
+  </data>
+  <data name="BBO_OperatorTypeList5" xml:space="preserve">
+    <value>XOR</value>
+  </data>
+  <data name="BI_ValueList1" xml:space="preserve">
+    <value>False</value>
+  </data>
+  <data name="BI_ValueList2" xml:space="preserve">
+    <value>True</value>
+  </data>
 </root>

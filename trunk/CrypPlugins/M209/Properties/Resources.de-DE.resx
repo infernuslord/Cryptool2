@@ -120,6 +120,12 @@
   <data name="ActionCaption" xml:space="preserve">
     <value>Aktion</value>
   </data>
+  <data name="ActionList1" xml:space="preserve">
+    <value>Verschlüsselung</value>
+  </data>
+  <data name="ActionList2" xml:space="preserve">
+    <value>Entschlüsselung</value>
+  </data>
   <data name="ActionTooltip" xml:space="preserve">
     <value>Wählen Sie die Betriebsart des Plugins</value>
   </data>
@@ -285,6 +291,9 @@
   <data name="Bar9Tooltip" xml:space="preserve">
     <value>Positionen der Schieber, z.B. 24</value>
   </data>
+  <data name="BarGroup" xml:space="preserve">
+    <value>Stangen-Optionen</value>
+  </data>
   <data name="OutputStringCaption" xml:space="preserve">
     <value>Textausgabe</value>
   </data>
@@ -344,5 +353,8 @@
   </data>
   <data name="TextTooltip" xml:space="preserve">
     <value>Input Text</value>
+  </data>
+  <data name="WheelGroup" xml:space="preserve">
+    <value>Rotor-Optionen</value>
   </data>
 </root>

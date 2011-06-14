@@ -156,4 +156,16 @@
   <data name="TextLanguageTPTooltip" xml:space="preserve">
     <value>Die Sprache des zugrunde liegenden Textes.</value>
   </data>
+  <data name="TextLanguageList1" xml:space="preserve">
+    <value>Deutsch</value>
+  </data>
+  <data name="TextLanguageList2" xml:space="preserve">
+    <value>Englisch</value>
+  </data>
+  <data name="TextLanguageList3" xml:space="preserve">
+    <value>Französisch</value>
+  </data>
+  <data name="TextLanguageList4" xml:space="preserve">
+    <value>Spanisch</value>
+  </data>
 </root>

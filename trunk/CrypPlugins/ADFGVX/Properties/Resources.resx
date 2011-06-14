@@ -120,11 +120,23 @@
   <data name="ActionCaption" xml:space="preserve">
     <value>Action</value>
   </data>
+  <data name="ActionList1" xml:space="preserve">
+    <value>Encrypt</value>
+  </data>
+  <data name="ActionList2" xml:space="preserve">
+    <value>Decrypt</value>
+  </data>
   <data name="ActionTooltip" xml:space="preserve">
     <value>Select the Algorithm action</value>
   </data>
   <data name="AlphabetCaseCaption" xml:space="preserve">
     <value>Alphabet case</value>
+  </data>
+  <data name="AlphabetCaseList1" xml:space="preserve">
+    <value>Upper case</value>
+  </data>
+  <data name="AlphabetCaseList2" xml:space="preserve">
+    <value>Lower case</value>
   </data>
   <data name="AlphabetCaseTooltip" xml:space="preserve">
     <value>Transform the alphabet and input data to upper or lower case</value>
@@ -206,6 +218,12 @@
   </data>
   <data name="UnknownSymbolHandlingCaption" xml:space="preserve">
     <value>Unknown symbol handling</value>
+  </data>
+  <data name="UnknownSymbolHandlingList1" xml:space="preserve">
+    <value>Remove (remove non alphabet characters)</value>
+  </data>
+  <data name="UnknownSymbolHandlingList2" xml:space="preserve">
+    <value>Replace (e.g. Ü=UE)</value>
   </data>
   <data name="UnknownSymbolHandlingTooltip" xml:space="preserve">
     <value>What should be done with encountered characters at the input which are not in the alphabet?</value>
