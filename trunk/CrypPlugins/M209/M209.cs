@@ -56,11 +56,11 @@ namespace Cryptool.Plugins.M209
 
         private string[] rotoren =  new String[6] {
             "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
-            "ABCDEFGHIJKLMNOPQRSTUVXYZ",
-            "ABCDEFGHIJKLMNOPQRSTUVX",
-            "ABCDEFGHIJKLMNOPQRSTU",
-            "ABCDEFGHIJKLMNOPQRS",
-            "ABCDEFGHIJKLMNOPQ"
+            "ABCDEFGHIJKLMNOPQRSTUVXYZ",    // no W
+            "ABCDEFGHIJKLMNOPQRSTUVX",      // no WYZ
+            "ABCDEFGHIJKLMNOPQRSTU",        // no V-Z
+            "ABCDEFGHIJKLMNOPQRS",          // no T-Z
+            "ABCDEFGHIJKLMNOPQ"             // no R-Z
         };
 
         private bool[,] pins = new Boolean[6, 27];
@@ -116,8 +116,8 @@ namespace Cryptool.Plugins.M209
                 aktiveArme[r] = pins[r,i];
             }
 
-            int verschiebung = ((c - 'A') - countStangen(aktiveArme) + 260) % 26;
-            return (char)('Z' - verschiebung);
+            int verschiebung = (countStangen(aktiveArme) + ('Z' - c)) % 26;
+            return (char)( 'A' + verschiebung );
         }
         
         //Zähle die Verschiebung (wo aktive Arme und Schieber)
@@ -163,7 +163,7 @@ namespace Cryptool.Plugins.M209
      
             clearPins();
             
-            if (settings.Rotor1!=null)
+            if (settings.Rotor1 != null)
             {
                 for (int i = 0; i < settings.Rotor1.Length; i++)
                 {
