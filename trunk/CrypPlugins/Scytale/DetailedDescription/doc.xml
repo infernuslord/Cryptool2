@@ -4,16 +4,34 @@
   <language culture="en"/>
   <language culture="de-DE"/>
 
-  <introduction lang="en">    
+  <introduction lang="en">
+    The Scytale is a classic transposition cipher. It was the first military encryption algorithm, and it was used by the Spartans as early as the fifth century.
+    <newline/>
+    The Scytale is a wooden stick wrapped by a strip of leather or parchment. The sender writes his message along the wooden stick and then unwraps the strip. After that the strip seems to contain only a pointless series of letters. In order to recover the message, the receiver simply wraps the strip around a Scytale of the same diameter as the Scytale of the sender.
+    Therefore, the key is a Scytale with the correct diameter or the correct number of edges, respectively.
   </introduction>
 
-  <introduction lang="de-DE">    
+  <introduction lang="de-DE">
+    Die Skytale ist eine klassische Transpositions-Verschlüsselung. Sie war das erste militärische Kryptographie-Verfahren. Es wurde von den Spartanern schon im 5. Jahrhundert gebraucht.
+    <newline/>
+    Die Skytale ist ein Holzstab, um den ein Streifen Leder oder Pergament gewickelt wird. Der Sender schreibt die Nachricht der Länge des Stabes nach auf den Streifen und wickelt ihn dann ab. Danach scheint er nur eine sinnlose Aneinanderreihung von Buchstaben zu enthalten. Um die Nachricht wiederherzustellen, wickelt der Empfänger den Lederstreifen einfach um eine Skytale mit demselben Durchmesser, den der Sender benutzt hatte.
+    Der Schlüssel ist also eine Skytale mit dem richtigen Durchmesser bzw. der richtigen Anzahl von Kanten.
   </introduction>
 
   <usage lang="en">
+    Drag the Scytale component onto the workspace and specify a data source that represents the text to be encrypted or decrypted. This input is mandatory!
+    <newline/>
+    In the component settings you can decide whether you want to encrypt or decrypt, and you can enter the key (the number of edges).
+    <newline/>
+    If you set the optional key input, the key in the default component settings will be overridden.
   </usage>
 
   <usage lang="de-DE">
+    Ziehen Sie die Skytale-Komponente auf den Arbeitsbereich und geben Sie eine Datenquelle an, die die zu verschlüsselnden oder entschlüsselnden Daten repräsentiert. Die Angabe dieser Datenquelle ist zwingend erforderlich!
+    <newline/>
+    In den Einstellungen für die Komponente stellen Sie ein, ob verschlüsselt oder entschlüsselt werden soll, und Sie können den Schlüssel angeben (die Kantenanzahl).
+    <newline/>
+    Falls Sie den optionalen Schlüssel-Eingang setzen, wird der Schlüssel in den Standardeinstellungen der Komponente ignoriert.
   </usage>
   
   <presentation lang="en">

@@ -29,8 +29,7 @@ using System.ComponentModel;
 namespace Cryptool.ADFGVX
 {
     [Author("Sebastian Przybylski","sebastian@przybylski.org","Uni-Siegen","http://www.uni-siegen.de")]
-    [PluginInfo("Cryptool.ADFGVX.Properties.Resources", false,
-        "PluginCaption", "PluginTooltip", "ADFGVX/DetailedDescription/doc.xml", "ADFGVX/Images/icon.png", "ADFGVX/Images/encrypt.png", "ADFGVX/Images/decrypt.png")]
+    [PluginInfo("Cryptool.ADFGVX.Properties.Resources", false, "PluginCaption", "PluginTooltip", "ADFGVX/DetailedDescription/doc.xml", "ADFGVX/Images/icon.png", "ADFGVX/Images/encrypt.png", "ADFGVX/Images/decrypt.png")]
     [EncryptionType(EncryptionType.Classic)]
     public class ADFGVX : IEncryption
     {
