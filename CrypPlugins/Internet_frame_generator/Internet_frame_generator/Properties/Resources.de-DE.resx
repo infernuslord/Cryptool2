@@ -124,30 +124,36 @@
     <value>Internet_frame_generator/DetailedDescription/Description.xaml</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Internet Frame Generator (IPv4 und ARP Request Pakete werden unterstützt)</value>
+    <value>Internet-Frame-Generator (unterstützt werden IPv4- und ARP-Request-Pakete)</value>
   </data>
   <data name="InputIntCaption" xml:space="preserve">
-    <value>Counter</value>
+    <value>Zähler</value>
   </data>
   <data name="InputIntTooltip" xml:space="preserve">
-    <value>Counter</value>
+    <value>Zähler</value>
   </data>
   <data name="OutputStreamCaption" xml:space="preserve">
-    <value>Output stream</value>
+    <value>Ausgabedatenstrom</value>
   </data>
   <data name="OutputStreamTooltip" xml:space="preserve">
-    <value>Internet Frames</value>
+    <value>Internet-Frames</value>
   </data>
   <data name="ActionCaption" xml:space="preserve">
-    <value>Kind of packet</value>
+    <value>Art der Pakete</value>
   </data>
   <data name="ActionTooltip" xml:space="preserve">
-    <value>Kind of packets to be generated</value>
+    <value>Art der zu erzeugenden Pakete</value>
   </data>
   <data name="NumberOfPacketsToBeCreatedCaption" xml:space="preserve">
-    <value>Number of packets</value>
+    <value>Anzahl der Pakete</value>
   </data>
   <data name="NumberOfPacketsToBeCreatedTooltip" xml:space="preserve">
-    <value>How many packets do you want to create?\nPlease type in a number beteen 1 and 100,000.</value>
+    <value>Wie viele Pakete sollen erzeugt werden? Bitte geben Sie eine Zahl zwischen 1 and 100.000 ein.</value>
+  </data>
+  <data name="ActionList1" xml:space="preserve">
+    <value>IPv4-Pakete</value>
+  </data>
+  <data name="ActionList2" xml:space="preserve">
+    <value>ARP-Request-Pakete</value>
   </data>
 </root>

@@ -54,8 +54,8 @@ namespace Multiplexer
     }
 
     private int defaultValue;
-    [ContextMenu( "DefaultValueCaption", "DefaultValueTooltip", 0, ContextMenuControlType.ComboBox, null, "True", "False")]
-    [TaskPane( "DefaultValueCaption", "DefaultValueTooltip", null, 0, false, ControlType.ComboBox, new string[] { "True", "False" })]
+    [ContextMenu("DefaultValueCaption", "DefaultValueTooltip", 0, ContextMenuControlType.ComboBox, null, "DefaultValueList1", "DefaultValueList2")]
+    [TaskPane("DefaultValueCaption", "DefaultValueTooltip", null, 0, false, ControlType.ComboBox, new string[] { "DefaultValueList1", "DefaultValueList2" })]
     public int DefaultValue
     {
       get { return this.defaultValue; }

@@ -36,8 +36,8 @@ namespace Cryptool.Plugins.Paillier
         /// <summary>
         /// Getter/Setter for the action (encryption or decryption)
         /// </summary>
-        [ContextMenu("ActionCaption", "ActionTooltip", 1, ContextMenuControlType.ComboBox, null, "Encryption", "Decryption", "Addition", "Multiplication")]
-        [TaskPane("ActionCaption", "ActionTooltip", null, 1, false, ControlType.ComboBox, new string[] { "Encryption", "Decryption", "Addition", "Multiplication" })]
+        [ContextMenu("ActionCaption", "ActionTooltip", 1, ContextMenuControlType.ComboBox, null, "ActionList1", "ActionList2", "ActionList3", "ActionList4")]
+        [TaskPane("ActionCaption", "ActionTooltip", null, 1, false, ControlType.ComboBox, new string[] { "ActionList1", "ActionList2", "ActionList3", "ActionList4" })]
         public int Action
         {
             get { return this.action; }

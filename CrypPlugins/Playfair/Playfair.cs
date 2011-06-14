@@ -379,7 +379,7 @@ namespace Cryptool.Playfair
             }
 
             //if separate char is enabled begin with separating
-            if (settings.SeperatePairs)
+            if (settings.SeparatePairs)
             {
                 for (int i = 0; i <= sb.Length-2; i+=2)
                 {

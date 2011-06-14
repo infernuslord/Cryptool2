@@ -28,13 +28,13 @@ namespace Cryptool.Internet_frame_generator
             1,
             ContextMenuControlType.ComboBox,
             null,
-            new String[] { "IPv4 packets", "ARP request packets" })]
+            new String[] { "ActionList1", "ActionList2" })]
         [TaskPane( "ActionCaption", "ActionTooltip",
             "",
             1,
             true,
             ControlType.ComboBox,
-            new String[] { "IPv4 packets", "ARP request packets" })]
+            new String[] { "ActionList1", "ActionList2" })]
         public int Action
         {
             get { return this.action; }
@@ -58,7 +58,7 @@ namespace Cryptool.Internet_frame_generator
             false,
             ControlType.TextBox,
             ValidationType.RegEx,
-            "^((1)(0){0,5})$|^((1)([0-9]){0,4})$|^(([2-9])([0-9]){0,4})$")]
+            "^10{5}$|^[1-9][0-9]{0,4}$")]
         public int NumberOfPacketsToBeCreated
         {
             get { return this.numberOfPacketsToBeCreated; }

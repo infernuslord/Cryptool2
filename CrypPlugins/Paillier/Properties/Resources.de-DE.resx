@@ -225,4 +225,22 @@
   <data name="OutputC2Tooltip" xml:space="preserve">
     <value>Ausgabe der verschlüsselten/modifizierten Nachricht als byte[]</value>
   </data>
+  <data name="ActionList1" xml:space="preserve">
+    <value>Verschlüsselung</value>
+  </data>
+  <data name="ActionList2" xml:space="preserve">
+    <value>Entschlüsselung</value>
+  </data>
+  <data name="ActionList3" xml:space="preserve">
+    <value>Addition</value>
+  </data>
+  <data name="ActionList4" xml:space="preserve">
+    <value>Multiplikation</value>
+  </data>
+  <data name="SourceList1" xml:space="preserve">
+    <value>manuelle Eingabe</value>
+  </data>
+  <data name="SourceList2" xml:space="preserve">
+    <value>zufällig erzeugen</value>
+  </data>
 </root>

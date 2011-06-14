@@ -225,4 +225,22 @@
   <data name="OutputC2Tooltip" xml:space="preserve">
     <value>Output encrypted/modified message as byte[]</value>
   </data>
+  <data name="ActionList1" xml:space="preserve">
+    <value>Encryption</value>
+  </data>
+  <data name="ActionList2" xml:space="preserve">
+    <value>Decryption</value>
+  </data>
+  <data name="ActionList3" xml:space="preserve">
+    <value>Addition</value>
+  </data>
+  <data name="ActionList4" xml:space="preserve">
+    <value>Multiplication</value>
+  </data>
+  <data name="SourceList1" xml:space="preserve">
+    <value>Manually enter primes</value>
+  </data>
+  <data name="SourceList2" xml:space="preserve">
+    <value>Generate random primes</value>
+  </data>
 </root>
