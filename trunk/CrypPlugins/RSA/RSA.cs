@@ -31,7 +31,7 @@ using RSA.Properties;
 namespace Cryptool.Plugins.RSA
 {
     [Author("Dennis Nolte, Raoul Falk, Sven Rech, Nils Kopal", null, "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo("RSA.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "RSA/iconrsa.png", "RSA/Images/encrypt.png", "RSA/Images/decrypt.png")]
+    [PluginInfo("RSA.Properties.Resources", false, "PluginCaption", "PluginTooltip", "RSA/DetailedDescription/doc.xml", "RSA/iconrsa.png", "RSA/Images/encrypt.png", "RSA/Images/decrypt.png")]
     [EncryptionType(EncryptionType.Asymmetric)]
      //<summary>
      //This plugin does a RSA encryption/decryption on a Message M / Ciphertext C

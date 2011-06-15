@@ -4,24 +4,50 @@
   <language culture="en"/>
   <language culture="de-DE"/>
 
-  <introduction lang="en">    
+  <introduction lang="en">
+    RSA is an asymmetric algorithm devoled 1977 by Ronald L. Rivest, Adi Shamir und Leonard Adleman at the Massachusetts Institute of 
+    Technology. It is known as the first publicated asymmetric algorithm. The security of RSA is based on the factorization 
+    problem and the assumption that there is no suitable algorithm to factorize a big number in suitable time 
+    ( this means that a factorization is finished not in centuries but in realistic time like hours or days).
   </introduction>
 
-  <introduction lang="de-DE">    
+  <introduction lang="de-DE"> 
+    RSA ist ein asymmetrischer Algorithmus der 1977 von Ronald L. Rives, Adi Shamir und Leonard Adleman am Massachusetts Institute
+    of Technology entwickelt wurde. Er ist als der erste asymmetrische Algorithmus bekannt. Die Sicherheit von RSA basiert auf dem
+    Faktorisierungs-Problem und der Annahme, das es keinen "schnellen" Algorithmus gibt, um große Zahlen in annehmbarer Zeit zu
+    faktorisieren ( "Annehmbare Zeit" meint hier, dass die Faktorisierung nicht in Jahren/Jahrhunderten sondern in einer 
+    "realistischen" Zeit wie etwa Tagen oder Stunden durchgeführt wird ).
   </introduction>
 
   <usage lang="en">
+    The RSA plugin has two ways to be used (both at the same time): The user is able to use RSA to encrypt and decrypt just 
+    Big Integers on the one hand and he is able to encrypt and decrypt texts using the RSA algorithm on the other hand.
+    To encrypt/decrypt numbers the user has to add a Big Number Input m/c representing our message m or our ciphertext c 
+    and an output Big Integer representing the output message m or the output ciphertext c. He has also to add a Big Number 
+    Input N representing the N of the RSA algorithm. And the last input he has to add is a Big Number Input E / D which 
+    represents the public or the private key depending on en- or decryption. To encrypt/decrypt texts the user has to add 
+    an input byte array and an output byte array. Also the direction (en- or decrypt) has to be set in the plugins options. 
+    He has also to add a Big Number Input N representing our the N of the RSA algorithm. And the last input he has to add is 
+    a Big Number Input E / D which represents the public or the private key depending on en- or decryption.
   </usage>
 
   <usage lang="de-DE">
+    Das RSA Plugin beinhaltet zwei Nutzungsarten (welche auch parallel genutzt werden können): Der Benutzer kann zum einen
+    große Zahlen ver- und entschlüsseln als auch ganze Texte ver- und entschlüsseln. Um große Zahlen zu ver- und entschlüsseln
+    muss der Benutzer den Zahleneingang m oder c, der die Nachricht m oder den verschlüsselten Text c repräsentiert. Desweiteren
+    muss der Benutzer den m oder c Zahlenausgang verbinden, aus dem die ver- oder entschlüsselte Nachricht herauskommt. Für die
+    Berechnung müssen außerdem der Eingang N und die Schlüsseleingänge E oder D verbunden werden. E ist der öffentliche Schlüssel
+    und D entsprechend der private Schlüssel. Um ganze Text zu ver- oder entschlüsseln, kann der Benutzer alternativ einen Texteingang
+    sowie einen Textausgang anschließen. In den Eintstellungen des Plugins muss zu guter Letzt, zumindest für die Textver- und 
+    Textentschlüsselung eingestellt werden ob Ver- oder Entschlüsselt werden soll.
   </usage>
   
-  <presentation lang="en">
-  </presentation>
-  
-  <presentation lang="de-DE">
-  </presentation>
-  
   <references>
+    <linkReference>
+      <link lang="en" url="http://en.wikipedia.org/wiki/RSA"/>
+      <caption lang="en">RSA in the english wikipedia</caption>
+      <link lang="de-DE" url="http://de.wikipedia.org/wiki/RSA-Kryptosystem"/>
+      <caption lang="de-DE">RSA-Kryptosystem in der deutschen Wikipedia</caption>
+    </linkReference>
   </references>
 </documentation>
