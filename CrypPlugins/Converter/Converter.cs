@@ -25,6 +25,7 @@ using Cryptool.PluginBase.Miscellaneous;
 using System.Runtime.CompilerServices;
 using Cryptool.Plugins.Converter;
 using System.Numerics;
+using System.Text.RegularExpressions;
 
 namespace Cryptool.Plugins.Converter
 {
@@ -149,9 +150,35 @@ namespace Cryptool.Plugins.Converter
             if (InputOne != null)
                 GuiLogMessage("Laufe! " + InputOne.ToString(), NotificationLevel.Debug);
 
+
+
             if (!(InputOne is int[] || InputOne is ICryptoolStream))
             {
-                if (inputOne is bool)
+                if (inputOne is byte[])
+                {
+                    switch (this.settings.Converter)
+                    {
+                        case 5: // byte[] to BigInteger
+                            {
+                                byte[] b = new byte[ ((byte[])inputOne).Length ];
+                                ((byte[])inputOne).CopyTo(b, 0);
+                                Array.Reverse(b);
+                                
+                                Output = new BigInteger(b);
+                                
+                                ProgressChanged(100, 100);
+                                break;
+                            }
+                        default:
+                            {
+                                GuiLogMessage("Could not convert from byte[] to chosen type: ", NotificationLevel.Error);
+                                break;
+                            }
+                    }
+
+                    return;
+                }
+                else if (inputOne is bool)
                 {
                     switch (this.settings.Converter)
                     {
@@ -186,7 +213,6 @@ namespace Cryptool.Plugins.Converter
                             {
                                 GuiLogMessage("Could not convert from bool to chosen type: ", NotificationLevel.Error);
                                 break;
-
                             }
                     }
 
@@ -277,10 +303,13 @@ namespace Cryptool.Plugins.Converter
                         {
                             try // can be read as biginteger?
                             {
+                                Match match = Regex.Match(inpString, "^\\s*0[xX]([a-fA-F0-9]+)");
 
-                                BigInteger temp = BigIntegerHelper.ParseExpression(inpString);
+                                if (match.Success)  // is in hex-format?
+                                    Output = BigInteger.Parse(match.Groups[1].Value, System.Globalization.NumberStyles.AllowHexSpecifier);
+                                else
+                                    Output = BigIntegerHelper.ParseExpression(inpString);
 
-                                Output = temp;
                                 ProgressChanged(100, 100);
                             }
                             catch (Exception e)
