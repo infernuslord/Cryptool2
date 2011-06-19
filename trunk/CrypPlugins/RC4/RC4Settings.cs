@@ -28,21 +28,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
     public class RC4Settings : ISettings
     {
         private bool hasChanges = false;
-        private int action = 0; //0=encrypt, 1=decrypt
-
-        [ContextMenu("ActionCaption", "ActionTooltip", 1, ContextMenuControlType.ComboBox, new int[] { 1, 2 }, "Encrypt", "Decrypt")]
-        [TaskPane("ActionCaption", "ActionTooltip", "", 1, false, ControlType.ComboBox, new string[] { "Encrypt", "Decrypt" })]
-        public int Action
-        {
-            get { return this.action; }
-            set
-            {
-                if (((int)value) != action) hasChanges = true;
-                this.action = (int)value;
-                OnPropertyChanged("Action");
-            }
-        }
-        
+                
         public bool HasChanges
         {
             get { return hasChanges; }
