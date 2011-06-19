@@ -123,17 +123,26 @@
   <data name="ActionTooltip" xml:space="preserve">
     <value>Wollen Sie die Eingangsdaten verschlüsseln oder entschlüsseln?</value>
   </data>
+  <data name="ErrorInputDataNotProvided" xml:space="preserve">
+    <value>Keine gültigen Eingangsdaten angegeben.</value>
+  </data>
+  <data name="ErrorInputKeyInvalidLength" xml:space="preserve">
+    <value>Die Schüssellänge ist ungültig (muss zwischen 5 und 256 Bytes lang sein).</value>
+  </data>
+  <data name="ErrorInputKeyNotProvided" xml:space="preserve">
+    <value>Kein gültiger Schlüssel angegeben.</value>
+  </data>
+  <data name="InputDataCaption" xml:space="preserve">
+    <value>Daten</value>
+  </data>
+  <data name="InputDataTooltip" xml:space="preserve">
+    <value>Die Daten, die verschlüsselt oder entschlüsselt werden sollen</value>
+  </data>
   <data name="InputKeyCaption" xml:space="preserve">
     <value>Schlüssel</value>
   </data>
   <data name="InputKeyTooltip" xml:space="preserve">
     <value>Der Schlüssel muss zwischen 5 und 256 Byte lang sein.</value>
-  </data>
-  <data name="InputStreamCaption" xml:space="preserve">
-    <value>Eingabe</value>
-  </data>
-  <data name="InputStreamTooltip" xml:space="preserve">
-    <value>Daten, die verschlüsselt oder entschlüsselt werden sollen</value>
   </data>
   <data name="OutputStreamCaption" xml:space="preserve">
     <value>Ausgabe</value>

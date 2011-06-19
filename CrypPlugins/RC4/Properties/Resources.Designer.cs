@@ -79,6 +79,51 @@ namespace CrypTool.RC4.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No valid input data provided..
+        /// </summary>
+        internal static string ErrorInputDataNotProvided {
+            get {
+                return ResourceManager.GetString("ErrorInputDataNotProvided", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The key length is invalid (must be between 5 and 256 bytes)..
+        /// </summary>
+        internal static string ErrorInputKeyInvalidLength {
+            get {
+                return ResourceManager.GetString("ErrorInputKeyInvalidLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No valid input key provided..
+        /// </summary>
+        internal static string ErrorInputKeyNotProvided {
+            get {
+                return ResourceManager.GetString("ErrorInputKeyNotProvided", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Data.
+        /// </summary>
+        internal static string InputDataCaption {
+            get {
+                return ResourceManager.GetString("InputDataCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The data to be encrypted or decrypted.
+        /// </summary>
+        internal static string InputDataTooltip {
+            get {
+                return ResourceManager.GetString("InputDataTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Key.
         /// </summary>
         internal static string InputKeyCaption {
@@ -93,24 +138,6 @@ namespace CrypTool.RC4.Properties {
         internal static string InputKeyTooltip {
             get {
                 return ResourceManager.GetString("InputKeyTooltip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Input.
-        /// </summary>
-        internal static string InputStreamCaption {
-            get {
-                return ResourceManager.GetString("InputStreamCaption", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Data to be encrypted or decrypted.
-        /// </summary>
-        internal static string InputStreamTooltip {
-            get {
-                return ResourceManager.GetString("InputStreamTooltip", resourceCulture);
             }
         }
         

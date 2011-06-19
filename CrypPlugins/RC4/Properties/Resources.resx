@@ -123,17 +123,26 @@
   <data name="ActionTooltip" xml:space="preserve">
     <value>Do you want the input data to be encrypted or decrypted?</value>
   </data>
+  <data name="ErrorInputDataNotProvided" xml:space="preserve">
+    <value>No valid input data provided.</value>
+  </data>
+  <data name="ErrorInputKeyInvalidLength" xml:space="preserve">
+    <value>The key length is invalid (must be between 5 and 256 bytes).</value>
+  </data>
+  <data name="ErrorInputKeyNotProvided" xml:space="preserve">
+    <value>No valid input key provided.</value>
+  </data>
+  <data name="InputDataCaption" xml:space="preserve">
+    <value>Data</value>
+  </data>
+  <data name="InputDataTooltip" xml:space="preserve">
+    <value>The data to be encrypted or decrypted</value>
+  </data>
   <data name="InputKeyCaption" xml:space="preserve">
     <value>Key</value>
   </data>
   <data name="InputKeyTooltip" xml:space="preserve">
     <value>The key must be between 5 and 256 bytes long.</value>
-  </data>
-  <data name="InputStreamCaption" xml:space="preserve">
-    <value>Input</value>
-  </data>
-  <data name="InputStreamTooltip" xml:space="preserve">
-    <value>Data to be encrypted or decrypted</value>
   </data>
   <data name="OutputStreamCaption" xml:space="preserve">
     <value>Output stream</value>

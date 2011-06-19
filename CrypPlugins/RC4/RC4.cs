@@ -25,6 +25,8 @@ using System.ComponentModel;
 using Cryptool.PluginBase.Cryptography;
 using Cryptool.PluginBase.IO;
 using System.Windows.Controls;
+using System.Resources;
+using System.Reflection;
 
 namespace Cryptool.Plugins.Cryptography.Encryption
 {
@@ -35,12 +37,12 @@ namespace Cryptool.Plugins.Cryptography.Encryption
     public class RC4 : IEncryption
     {
         #region Private variables
-        // RC4 settings (this boils down to "encrypt" or "decrypt"-- although that doesn't make much sense with RC4)
+        // RC4 settings
         private RC4Settings settings;
         // the input data provided by the user
         private ICryptoolStream inputData;
         // the input key provided by the user
-        private byte[] inputKey;
+        private ICryptoolStream inputKey;
         // the output stream
         private CStreamWriter outputStreamWriter;
         // indicates if we need to stop the algorithm
@@ -64,8 +66,8 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             set { this.settings = (RC4Settings)value; }
         }
 
-        [PropertyInfo(Direction.InputData, "InputStreamCaption", "InputStreamTooltip", "", true, false, QuickWatchFormat.Hex, null)]
-        public ICryptoolStream InputStream
+        [PropertyInfo(Direction.InputData, "InputDataCaption", "InputDataTooltip", "", true, false, QuickWatchFormat.Hex, null)]
+        public ICryptoolStream InputData
         {
             get
             {
@@ -78,13 +80,12 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         }
 
         [PropertyInfo(Direction.InputData, "InputKeyCaption", "InputKeyTooltip", "", true, false, QuickWatchFormat.Hex, null)]
-        public byte[] InputKey
+        public ICryptoolStream InputKey
         {
             get { return this.inputKey; }
             set
             {
                 this.inputKey = value;
-                OnPropertyChanged("InputKey");
             }
         }
 
@@ -103,37 +104,30 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
         public void Execute()
         {
-            process(settings.Action);
-        }
-
-        private void process(int action)
-        {
             try
             {
-                // make sure we have valid input data
+                // this is for localization (TODO: maybe this here is not the right place...)
+                ResourceManager resourceManager = new ResourceManager("Cryptool.RC4.Properties.Resources", GetType().Assembly);
+                
+                // make sure we have a valid data input
                 if (inputData == null)
                 {
-                    GuiLogMessage("ERROR! No input data provided. Aborting.", NotificationLevel.Error);
-                    return;
-                }
-                // make sure we have a valid input key
-                if (inputKey == null)
-                {
-                    GuiLogMessage("ERROR! No input key provided. Aborting.", NotificationLevel.Error);
+                    GuiLogMessage(resourceManager.GetString("ErrorInputDataNotProvided"), NotificationLevel.Error);
                     return;
                 }
 
-                // make sure the input data is long enough
-                if (inputData.Length == 0)
+                // make sure we have a valid key input
+                if (inputKey == null)
                 {
-                    GuiLogMessage("ERROR! No input data provided. Aborting.", NotificationLevel.Error);
+                    GuiLogMessage(resourceManager.GetString("ErrorInputKeyNotProvided"), NotificationLevel.Error);
                     return;
                 }
+                
                 // make sure the input key is within the desired range
-                if (inputKey.Length < 5 || inputKey.Length > 256)
+                if ((inputKey.Length < 5 || inputKey.Length > 256)) 
                 {
-                    GuiLogMessage("ERROR! The key length is invalid (valid key lengths range from 5 to 256). Aborting.", NotificationLevel.Error);
-                    return;
+                    GuiLogMessage(resourceManager.GetString("ErrorInputKeyInvalidLength"), NotificationLevel.Error);
+                   return;
                 }
 
                 // now execute the actual encryption
@@ -154,18 +148,18 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                     }
                     // re-align the sbox (and incorporate the key)
                     j = 0;
-                    int keyLength = inputKey.Length;
+                    string key = inputKey.ToString();
+                    int keyLength = key.Length;
                     for (i = 0; i < 256; i++)
                     {
-                        j = (j + sbox[i] + inputKey[i % keyLength]) % 256;
+                        j = (j + sbox[i] + key[i % keyLength]) % 256;
                         byte sboxOld = sbox[i];
                         sbox[i] = sbox[j];
                         sbox[j] = sboxOld;
                     }
-                    
+
                     // process the input data using the modified sbox
                     int position = 0;
-                    GuiLogMessage("Starting encryption", NotificationLevel.Info);
                     DateTime startTime = DateTime.Now;
 
                     // some inits
@@ -191,7 +185,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                             outputStreamWriter.WriteByte(cipherByte);
                         }
 
-                        if((int)(reader.Position * 100 / reader.Length) > position)
+                        if ((int)(reader.Position * 100 / reader.Length) > position)
                         {
                             position = (int)(reader.Position * 100 / reader.Length);
                             ProgressChanged(reader.Position, reader.Length);
@@ -201,7 +195,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
                     // dump status information
                     DateTime stopTime = DateTime.Now;
-                    TimeSpan duration = stopTime - startTime;           
+                    TimeSpan duration = stopTime - startTime;
                     if (!stop)
                     {
                         GuiLogMessage("Encryption complete! (in: " + reader.Length.ToString() + " bytes, out: " + outputStreamWriter.Length.ToString() + " bytes)", NotificationLevel.Info);
@@ -226,18 +220,6 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             {
                 ProgressChanged(1, 1);
             }
-        }
-
-        public void Encrypt()
-        {
-            // encrypt the stream
-            process(0);
-        }
-
-        public void Decrypt()
-        {
-            // decrypt the stream
-            process(1);
         }
 
         #region IPlugin Member
