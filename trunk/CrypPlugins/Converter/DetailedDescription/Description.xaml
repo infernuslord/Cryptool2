@@ -33,12 +33,19 @@
     </Paragraph>
     <Paragraph TextAlignment="Justify">
         <Run FontSize="16" xml:lang="en-us">
-           This plugin provides conversion between datatypes.  If the input is about to be converted to a numeric type, it is first converted to a String and then to the desired type.
+           This plugin provides conversion between data types.
+
+It has exactly one input and one output. It accepts any data type as input and converts it to the data type specified in the 'Converting to' field of the settings tab of the plugin.
+        </Run>
+    </Paragraph>
+    <Paragraph TextAlignment="Justify">
+        <Run FontSize="16" xml:lang="en-us">
+If the input is to be converted to a numeric type, it is first converted to a String and then to the desired type.
            </Run>
     </Paragraph>
         <Paragraph TextAlignment="Justify">
     <Run>
-           If the input is of type boolean, only conversion to type Int or String is possible.
+           If the input is of type boolean, conversion is only possible to type Int or String.
         </Run>
     </Paragraph>
 
@@ -55,8 +62,7 @@
        <Paragraph TextAlignment="Justify">
        
     <Run>
-           When converting to a double, it can be chosen to use either European format or American format. E.g. when European format is selected, "123.324,34" will be converted to "123324,34" and on American format "123,324.34" will 
-           be converted to the same double. Please be aware taht conversion to Double is not safe. Digits may be cut off.
+            When converting to a double, it can be chosen to use either German format or American format. When German format is selected, e.g. "123.324,34" will be converted to "123324,34" and on American format "123,324.34" will be converted to the same double. Please be aware that conversion to Double is not safe. Digits may be cut off.
         </Run>
     </Paragraph>
     <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16">

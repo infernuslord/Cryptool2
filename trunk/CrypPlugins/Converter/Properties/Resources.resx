@@ -139,7 +139,7 @@
     <value>Output.</value>
   </data>
   <data name="ConverterCaption" xml:space="preserve">
-    <value>Converter</value>
+    <value>Converting to</value>
   </data>
   <data name="ConverterTooltip" xml:space="preserve">
     <value>Choose the output type</value>

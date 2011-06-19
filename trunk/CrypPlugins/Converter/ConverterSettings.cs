@@ -107,77 +107,76 @@ namespace Cryptool.Plugins.Converter
 
             switch (Converter)
             {
-                case 0:
-                    {
-
-                        settingChanged("Numeric", Visibility.Collapsed);
-                        settingChanged("EncodingSetting", Visibility.Collapsed);
-                        settingChanged("PresentationFormatSetting", Visibility.Collapsed);
-                        //settingChanged("Format", Visibility.Collapsed)));
-                        break;
-                    }
-                case 1:
+                case 0: // 0 = String
                     {
                         settingChanged("Numeric", Visibility.Collapsed);
                         settingChanged("EncodingSetting", Visibility.Collapsed);
-                        settingChanged("Format", Visibility.Collapsed);
                         settingChanged("PresentationFormatSetting", Visibility.Collapsed);
+                        settingChanged("FormatAmer", Visibility.Collapsed);
                         break;
                     }
-                case 2:
+                case 1: // 1 = int
                     {
-                        settingChanged("PresentationFormatSetting", Visibility.Collapsed);
-                        settingChanged("EncodingSetting", Visibility.Collapsed);
                         settingChanged("Numeric", Visibility.Collapsed);
-                        settingChanged("Format", Visibility.Collapsed);
-                        break;
-                    }
-                case 3:
-                    {
-                        settingChanged("PresentationFormatSetting", Visibility.Collapsed);
                         settingChanged("EncodingSetting", Visibility.Collapsed);
-                        settingChanged("Numeric", Visibility.Collapsed);
-                        settingChanged("Format", Visibility.Collapsed);
-                        break;
-                    }
-                case 4:
-                    {
                         settingChanged("PresentationFormatSetting", Visibility.Collapsed);
-                        settingChanged("EncodingSetting", Visibility.Collapsed);
-                        settingChanged("Numeric", Visibility.Collapsed);
-                        settingChanged("Format", Visibility.Collapsed);
+                        settingChanged("FormatAmer", Visibility.Collapsed);
                         break;
                     }
-                case 5:
+                case 2: // 2 = short
                     {
+                        settingChanged("Numeric", Visibility.Collapsed);
+                        settingChanged("EncodingSetting", Visibility.Collapsed);
                         settingChanged("PresentationFormatSetting", Visibility.Collapsed);
-                        settingChanged("EncodingSetting", Visibility.Collapsed);
-                        settingChanged("Numeric", Visibility.Collapsed);
-                        settingChanged("Format", Visibility.Collapsed);
+                        settingChanged("FormatAmer", Visibility.Collapsed);
                         break;
                     }
-                case 6:
+                case 3: // 3 = byte
                     {
+                        settingChanged("Numeric", Visibility.Collapsed);
+                        settingChanged("EncodingSetting", Visibility.Collapsed);
                         settingChanged("PresentationFormatSetting", Visibility.Collapsed);
-                        settingChanged("EncodingSetting", Visibility.Collapsed);
-                        settingChanged("Numeric", Visibility.Collapsed);
-                        //settingChanged("Format", Visibility.Collapsed);
+                        settingChanged("FormatAmer", Visibility.Collapsed);
                         break;
                     }
-                case 7:
+                case 4: // 4 = double
                     {
-                        settingChanged("PresentationFormatSetting", Visibility.Visible);
+                        settingChanged("Numeric", Visibility.Collapsed);
+                        settingChanged("EncodingSetting", Visibility.Collapsed);
+                        settingChanged("PresentationFormatSetting", Visibility.Collapsed);
+                        settingChanged("FormatAmer", Visibility.Visible);
+                        break;
+                    }
+                case 5: // 5 = BigInteger
+                    {
+                        settingChanged("Numeric", Visibility.Collapsed);
+                        settingChanged("EncodingSetting", Visibility.Collapsed);
+                        settingChanged("PresentationFormatSetting", Visibility.Collapsed);
+                        settingChanged("FormatAmer", Visibility.Collapsed);
+                        break;
+                    }
+                case 6: // 6= Int[]
+                    {
+                        settingChanged("Numeric", Visibility.Collapsed);
+                        settingChanged("EncodingSetting", Visibility.Collapsed);
+                        settingChanged("PresentationFormatSetting", Visibility.Collapsed);
+                        settingChanged("FormatAmer", Visibility.Collapsed);
+                        break;
+                    }
+                case 7: // 7=Byte[]
+                    {
                         settingChanged("Numeric", Visibility.Visible);
                         settingChanged("EncodingSetting", Visibility.Visible);
-                        //settingChanged("Format", Visibility.Collapsed);
+                        settingChanged("PresentationFormatSetting", Visibility.Visible);
+                        settingChanged("FormatAmer", Visibility.Collapsed);
                         break;
                     }
-                case 8:
+                case 8: // 8=CryptoolStream
                     {
-                        settingChanged("PresentationFormatSetting", Visibility.Collapsed);
-                        settingChanged("EncodingSetting", Visibility.Collapsed);
                         settingChanged("Numeric", Visibility.Collapsed);
-                        //settingChanged("Format", Visibility.Collapsed);
+                        settingChanged("EncodingSetting", Visibility.Collapsed);
+                        settingChanged("PresentationFormatSetting", Visibility.Collapsed);
+                        settingChanged("FormatAmer", Visibility.Collapsed);
                         break;
                     }
             }
@@ -207,7 +206,7 @@ namespace Cryptool.Plugins.Converter
                 if (value != this.formatAmer)
                 {
                     this.formatAmer = value;
-                    OnPropertyChanged("Format");
+                    OnPropertyChanged("FormatAmer");
                     HasChanges = true;
                 }
             }
