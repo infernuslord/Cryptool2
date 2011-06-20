@@ -117,29 +117,23 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="InputStringCaption" xml:space="preserve">
-    <value>Eingabetext</value>
+  <data name="InputDataCaption" xml:space="preserve">
+    <value>Eingabedaten</value>
   </data>
-  <data name="InputStringTooltip" xml:space="preserve">
-    <value>Eingabe des mit der XOR-Chiffre zu ververschlüsselnden Klartextes.</value>
+  <data name="InputDataTooltip" xml:space="preserve">
+    <value>Binäre Eingabedaten für den XOR-Chiffre.</value>
   </data>
   <data name="KeyCaption" xml:space="preserve">
-    <value>Schlüsseleingabe</value>
+    <value>XOR Schlüsseleingabe</value>
   </data>
   <data name="KeyTooltip" xml:space="preserve">
-    <value>Eingabe des Schlüsseltextes</value>
+    <value>Binärschlüssel mit derselben Länge wie die Eingabedaten.</value>
   </data>
   <data name="OutputDataCaption" xml:space="preserve">
-    <value>Ausgabedatenstrom</value>
+    <value>Ausgabedaten</value>
   </data>
   <data name="OutputDataTooltip" xml:space="preserve">
-    <value>Der mit der XOR-Chiffre verarbeitete Text als Datenstrom. Es wird die Default-Encoding verwendet.</value>
-  </data>
-  <data name="OutputStringCaption" xml:space="preserve">
-    <value>Ausgabetext</value>
-  </data>
-  <data name="OutputStringTooltip" xml:space="preserve">
-    <value>Ausgabe des mit der XOR-Chiffre verschlüsselten Geheimtextes.</value>
+    <value>Binäre Ausgabedaten nach Durchführung der XOR-Chiffre.</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
     <value>XOR</value>
@@ -148,6 +142,6 @@
     <value>XOR/DetailedDescription/Description.xaml</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>XOR -- Verschlüsselung durch XOR-Verknüpfung des Klartextes mit einem Schlüsseltext</value>
+    <value>XOR -- Verschlüsselung durch XOR-Verknüpfung der binären Eingabedaten mit einem Binärschlüssel.</value>
   </data>
 </root>
