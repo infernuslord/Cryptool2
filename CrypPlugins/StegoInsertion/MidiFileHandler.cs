@@ -25,14 +25,14 @@ namespace Cryptool.Plugins.StegoInsertion
         private byte countBytesToHide;
 
         //Has [halfBytesPerMidiMessage] already been written to/read from the file?
-        private bool isHalfBytesPerMidiMessageFinshed = false;
+        private bool isHalfBytesPerMidiMessageFinished = false;
 
         //Has [countBytesToHide] already been written to/read from the file?
-        private bool isCountBytesToHideFinshed = false;
+        private bool isCountBytesToHideFinished = false;
 
         /// <summary>Read a MIDI file and hide or extract a message</summary>
         /// <param name="srcFile">Clean MIDI file</param>
-        /// <param name="secretMessage">The message to hide, ot empty stream to retrieve the extracted message</param>
+        /// <param name="secretMessage">The message to hide, or empty stream to retrieve the extracted message</param>
         /// <param name="key">A key pattern which specifies the count of ProgChg events to ignore before hiding the next half-byte</param>
         /// <param name="extract">true: Extract a message from [srcFileName]; false: Hide a message in [srcFileName]</param>
         public void HideOrExtract(Stream srcFile, Stream secretMessage, Stream key, Stream outputStream, byte localHalfBytesPerMidiMessage, bool extract)
@@ -64,9 +64,9 @@ namespace Cryptool.Plugins.StegoInsertion
                 }
 
                 //These values are Int16, stored in reverse byte order
-                header.FileType = (Int16)(CopyByte() * 16 + CopyByte());
-                header.CountTracks = (Int16)(CopyByte() * 16 + CopyByte());
-                header.Division = (Int16)(CopyByte() * 16 + CopyByte());
+                header.FileType = CopyInt16();
+                header.CountTracks = CopyInt16();
+                header.Division = CopyInt16();
 
                 //-------------------------------- Read Tracks
 
@@ -174,8 +174,8 @@ namespace Cryptool.Plugins.StegoInsertion
                                 case 0xA0: //After Touch - Note and Pressure following
                                 case 0xB0: //Control Change - Control and Value following
                                 case 0xD0: //Channel Pressure - Value following
-                                case 0xE0:
-                                    { //Pitch Wheel - 14-bit value following
+                                case 0xE0: //Pitch Wheel - 14-bit value following
+                                    { 
                                         CopyBytes(2);
                                         break;
                                     }
@@ -185,7 +185,7 @@ namespace Cryptool.Plugins.StegoInsertion
                                         //Get program number
                                         midiMessage.MessageData = srcReader.ReadBytes(1);
 
-                                        if (!isHalfBytesPerMidiMessageFinshed)
+                                        if (!isHalfBytesPerMidiMessageFinished)
                                         {
                                             if (extract)
                                             {
@@ -205,10 +205,10 @@ namespace Cryptool.Plugins.StegoInsertion
                                                 WriteMidiMessage(msg);
                                                 countBytesAdded += midiMessage.Time.Length + 2;
                                             }
-                                            isHalfBytesPerMidiMessageFinshed = true;
+                                            isHalfBytesPerMidiMessageFinished = true;
                                         }
 
-                                        if (!isCountBytesToHideFinshed)
+                                        if (!isCountBytesToHideFinished)
                                         {
                                             if (extract)
                                             {
@@ -228,7 +228,7 @@ namespace Cryptool.Plugins.StegoInsertion
                                                 WriteMidiMessage(msg);
                                                 countBytesAdded += midiMessage.Time.Length + 2;
                                             }
-                                            isCountBytesToHideFinshed = true;
+                                            isCountBytesToHideFinished = true;
                                         }
 
                                         ProcessMidiMessage(midiMessage, secretMessage, key, extract,
@@ -247,6 +247,8 @@ namespace Cryptool.Plugins.StegoInsertion
                                         }
                                         break;
                                     }
+                                default:
+                                    break;
                             }
 
                         } //else - MIDI message
@@ -302,9 +304,9 @@ namespace Cryptool.Plugins.StegoInsertion
             return bytes;
         }
 
-        /// <summary>Splits an Int32 into eight bytes.</summary>
+        /// <summary>Splits an Int64 into eight bytes.</summary>
         /// <param name="val">An Int64 value.</param>
-        /// <returns>Eight bytes: Lowest byte first, hightest byte last.</returns>
+        /// <returns>Eight bytes: Lowest byte first, highest byte last.</returns>
         public static byte[] IntToArray(Int64 val)
         {
             byte[] bytes = new byte[8];
@@ -315,7 +317,7 @@ namespace Cryptool.Plugins.StegoInsertion
             return bytes;
         }
 
-        /// <summary>Concatenates eight byte to an Int64 value.</summary>
+        /// <summary>Concatenates eight bytes to an Int64 value.</summary>
         /// <param name="bytes">Eight bytes.</param>
         /// <returns>The Int64.</returns>
         public Int64 ArrayToInt(byte[] bytes)
@@ -594,6 +596,12 @@ namespace Cryptool.Plugins.StegoInsertion
             byte b = srcReader.ReadByte();
             if (dstWriter != null) { dstWriter.Write(b); }
             return b;
+        }
+
+        private Int16 CopyInt16()
+        {
+            byte b = CopyByte();
+            return (Int16)((b << 8) + CopyByte());
         }
 
         private long CopyVariableLengthValue()

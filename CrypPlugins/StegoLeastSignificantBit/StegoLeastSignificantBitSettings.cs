@@ -37,8 +37,8 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
 
         #region TaskPane Settings
 
-        [ContextMenu("ActionCaption", "ActionTooltip", 1, ContextMenuControlType.ComboBox, null, "Encrypt", "Decrypt")]
-        [TaskPane("ActionTPCaption", "ActionTPTooltip", null, 1, true, ControlType.ComboBox, new string[] { "Encrypt", "Decrypt" })]
+        [ContextMenu("ActionCaption", "ActionTooltip", 1, ContextMenuControlType.ComboBox, null, "ActionList1", "ActionList2")]
+        [TaskPane("ActionCaption", "ActionTooltip", null, 1, true, ControlType.ComboBox, new string[] { "ActionList1", "ActionList2" })]
         public int Action
         {
             get
@@ -53,7 +53,7 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
             }
         }
 
-        [TaskPane("BitCount", "Count of bits per pixel/sample that are treated as least significant", null, 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, Int32.MaxValue)]
+        [TaskPane("BitCountSettingsCaption", "BitCountSettingsTooltip", null, 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, Int32.MaxValue)]
         public int BitCount
         {
             get
@@ -89,7 +89,7 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
             }
         }*/
 
-        [TaskPane("CustomizeRegions", "Opens a dialog that lets the user define where in the picture the data will be hidden", null, 1, false, ControlType.CheckBox)]
+        [TaskPane("CustomizeRegionsCaption", "CustomizeRegionsTooltip", null, 1, false, ControlType.CheckBox)]
         public bool CustomizeRegions
         {
             get
@@ -106,8 +106,8 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
             }
         }
 
-        [ContextMenu("OutputFileFormat", "Only for Encryption: The file format of the output image.", 1, ContextMenuControlType.ComboBox, null, ".bmp", ".png", ".tif")]
-        [TaskPane("OutputFileFormat", "Only for Encryption: The file format of the output image.", null, 1, true, ControlType.ComboBox, new string[] { ".bmp", ".png", ".tif" })]
+        [ContextMenu("OutputFileFormatCaption", "OutputFileFormatTooltip", 1, ContextMenuControlType.ComboBox, null, ".bmp", ".png", ".tif")]
+        [TaskPane("OutputFileFormatCaption", "OutputFileFormatTooltip", null, 1, true, ControlType.ComboBox, new string[] { ".bmp", ".png", ".tif" })]
         public int OutputFileFormat
         {
             get

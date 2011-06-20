@@ -38,7 +38,7 @@ using System.Runtime.InteropServices;
 namespace Cryptool.Plugins.StegoLeastSignificantBit
 {
     [Author("Corinna John", "coco@steganografie.eu", "", "http://www.steganografie.eu")]
-    [PluginInfo(false, "Least Significant Bit", "Fill the Least Significant Bits of Pictures or Sounds", "StegoLeastSignificantBit/DetailedDescription/Description.xaml", "CrypWin/images/default.png")]
+    [PluginInfo("Cryptool.Plugins.StegoLeastSignificantBit.Properties.Resources", false, "PluginCaption", "PluginTooltip", "StegoLeastSignificantBit/DetailedDescription/Description.xaml", "CrypWin/images/default.png")]
     [EncryptionType(EncryptionType.Classic)]
     public class StegoLeastSignificantBit : IIOMisc
     {
@@ -69,42 +69,42 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
 
         #region Data Properties
 
-        [PropertyInfo(Direction.InputData, "Text input as a stream", "Raw decryption result", null)]
+        [PropertyInfo(Direction.InputData, "InputDataCaption", "InputDataTooltip", null)]
         public ICryptoolStream InputData
         {
             get;
             set;
         }
 
-        [PropertyInfo(Direction.InputData, "Text input as a stream", "Raw decryption result", null)]
+        [PropertyInfo(Direction.InputData, "InputCarrierCaption", "InputCarrierTooltip", null)]
         public ICryptoolStream InputCarrier
         {
             get;
             set;
         }
-        
-        [PropertyInfo(Direction.OutputData, "CryptoolStream output", "Raw decryption result", null)]
+
+        [PropertyInfo(Direction.OutputData, "OutputDataCaption", "OutputDataTooltip", null)]
         public ICryptoolStream OutputData
         {
             get;
             set;
         }
 
-        [PropertyInfo(Direction.OutputData, "Carrier output", "Encryption result", null)]
+        [PropertyInfo(Direction.OutputData, "OutputCarrierCaption", "OutputCarrierTooltip", null)]
         public ICryptoolStream OutputCarrier
         {
             get;
             set;
         }
 
-        [PropertyInfo(Direction.InputData, "Password as a stream", "Raw decryption result", null)]
+        [PropertyInfo(Direction.InputData, "PasswordStreamCaption", "PasswordStreamTooltip", null)]
         public ICryptoolStream PasswordStream
         {
             get;
             set;
         }
 
-        [PropertyInfo(Direction.InputData, "BitCount", "Count of bits per pixel/sample that are treated as least significant. This is the same setting as the shift value from the settings pane but as dynamic input.", null)]
+        [PropertyInfo(Direction.InputData, "BitCountCaption", "BitCountTooltip", null)]
         public byte BitCount
         {
             get;
