@@ -150,7 +150,7 @@
 
             <TabItem Header="{Loc _Information_}">
                 <Grid>
-                <Controls:JokersGrid>
+                <Controls:GuttenbergGrid>
                     
                         <StackPanel MinWidth="407" ScrollViewer.HorizontalScrollBarVisibility="Auto">
                             <Border BorderBrush="Silver" BorderThickness="2,2,2,2">
@@ -243,7 +243,7 @@
                             </Border>
                        </StackPanel>
                     
-                </Controls:JokersGrid>
+                </Controls:GuttenbergGrid>
                 </Grid>
 
             </TabItem>
