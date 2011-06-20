@@ -45,7 +45,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
         private static string GenerateComponentListCode(IEnumerable<EntityDocumentationPage> componentDocumentationPages, string lang)
         {
             var stringBuilder = new StringBuilder();            
-            stringBuilder.AppendLine("<table border=\"0\" cellspacing=\"3\" cellpadding=\"3\" class=\"filterable\">");
+            stringBuilder.AppendLine("<table width=\"100%\" border=\"0\" cellspacing=\"3\" cellpadding=\"3\" class=\"filterable\">");
 
             var anchorBuilder = new StringBuilder();
             anchorBuilder.Append("<p>");
@@ -80,7 +80,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
         private static string GenerateEditorListCode(IEnumerable<EntityDocumentationPage> editorDocumentationPages, string lang)
         {
             var stringBuilderListCode = new StringBuilder();
-            stringBuilderListCode.AppendLine("<table border=\"0\" cellspacing=\"3\" cellpadding=\"3\">");
+            stringBuilderListCode.AppendLine("<table width=\"100%\"  border=\"0\" cellspacing=\"3\" cellpadding=\"3\">");
 
             var query = from pages in editorDocumentationPages
                         orderby pages.Localizations[pages.Localizations.ContainsKey(lang) ? lang : "en"].Name
