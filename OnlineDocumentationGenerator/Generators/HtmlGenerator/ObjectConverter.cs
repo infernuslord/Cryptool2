@@ -66,7 +66,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
             if ((settings != null) && (settings.Length > 0))
             {
                 var codeBuilder = new StringBuilder();
-                codeBuilder.AppendLine("<table border=\"1\">");
+                codeBuilder.AppendLine("<table width=\"100%\"  border=\"1\">");
                 codeBuilder.AppendLine(string.Format("<tr> <th>{0}</th> <th>{1}</th> <th>{2}</th> </tr>",
                                                      Resources.HtmlGenerator_GenerateConnectorListCode_Name,
                                                      Resources.HtmlGenerator_GenerateConnectorListCode_Description,
@@ -123,7 +123,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
             if ((connectors != null) && (connectors.Length > 0))
             {
                 var codeBuilder = new StringBuilder();
-                codeBuilder.AppendLine("<table border=\"1\">");
+                codeBuilder.AppendLine("<table width=\"100%\"  border=\"1\">");
                 codeBuilder.AppendLine(string.Format("<tr> <th>{0}</th> <th>{1}</th> <th>{2}</th> <th>{3}</th> </tr>",
                                                      Resources.HtmlGenerator_GenerateConnectorListCode_Name,
                                                      Resources.HtmlGenerator_GenerateConnectorListCode_Description,
@@ -135,7 +135,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
                     var type = connector.PropertyInfo.PropertyType.Name;
                     var color = ColorHelper.GetLineColor(connector.PropertyInfo.PropertyType);
                     codeBuilder.AppendLine(
-                        string.Format("<tr> <td><font color=\"#{0}{1}{2}\">{3}</font></td> <td><font color=\"#{0}{1}{2}\">{4}</font></td> <td><font color=\"#{0}{1}{2}\">{5}</font></td> <td><font color=\"#{0}{1}{2}\">{6}</font></td> </tr>", color.R.ToString("x"), color.G.ToString("x"), color.B.ToString("x"),
+                        string.Format("<tr> <td bgcolor=\"#{0}{1}{2}\">{3}</td> <td bgcolor=\"#{0}{1}{2}\">{4}</td> <td bgcolor=\"#{0}{1}{2}\" nowrap>{5}</td> <td bgcolor=\"#{0}{1}{2}\">{6}</td> </tr>", color.R.ToString("x"), color.G.ToString("x"), color.B.ToString("x"),
                                       connector.Caption,
                                       connector.ToolTip,
                                       GetDirectionString(connector.Direction),
@@ -172,7 +172,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
 
             var codeBuilder = new StringBuilder();
             codeBuilder.AppendLine(string.Format("<p>{0}</p>", Resources.Templates_description));
-            codeBuilder.AppendLine("<table border=\"1\">");
+            codeBuilder.AppendLine("<table width=\"100%\"  border=\"1\">");
             codeBuilder.AppendLine(string.Format("<tr> <th>{0}</th> <th>{1}</th> </tr>",
                 Resources.File, Resources.Description));
 
