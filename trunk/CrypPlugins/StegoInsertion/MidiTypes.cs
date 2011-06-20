@@ -39,7 +39,7 @@ namespace Cryptool.Plugins.StegoInsertion
 		/// <summary>
 		/// Format of the file
 		/// 0 (one track)
-		/// 1 (multiple simultaneous
+		/// 1 (multiple simultaneous)
 		/// 2 (multiple independent tracks)</summary>
 		public Int16 FileType;
 		/// <summary>Number of tracks.</summary>

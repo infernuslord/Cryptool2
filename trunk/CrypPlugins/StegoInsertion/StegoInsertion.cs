@@ -30,7 +30,7 @@ using System.IO;
 namespace Cryptool.Plugins.StegoInsertion
 {
     [Author("Corinna John", "coco@steganografie.eu", "", "http://www.steganografie.eu")]
-    [PluginInfo(false, "Content Insertion", "Insert content 'between the lines' of a carrier file", null, "CrypWin/images/default.png")]
+    [PluginInfo("StegoInsertion.Properties.Resources", false, "PluginCaption", "PluginTooltip", null, "CrypWin/images/default.png")]
     [EncryptionType(EncryptionType.Classic)]
     public class StegoInsertion : IIOMisc
     {
@@ -43,28 +43,28 @@ namespace Cryptool.Plugins.StegoInsertion
 
         #region Data Properties
 
-        [PropertyInfo(Direction.InputData, "Text input as a stream", "Raw decryption result", null)]
+        [PropertyInfo(Direction.InputData, "InputDataCaption", "InputDataTooltip", null)]
         public ICryptoolStream InputData
         {
             get;
             set;
         }
 
-        [PropertyInfo(Direction.InputData, "Carrier file input as a stream", "Raw decryption result", null)]
+        [PropertyInfo(Direction.InputData, "InputCarrierCaption", "InputCarrierTooltip", null)]
         public ICryptoolStream InputCarrier
         {
             get;
             set;
         }
 
-        [PropertyInfo(Direction.OutputData, "CryptoolStream output", "Text decryption result", null)]
+        [PropertyInfo(Direction.OutputData, "OutputTextCaption", "OutputTextTooltip", null)]
         public String OutputText
         {
             get;
             set;
         }
 
-        [PropertyInfo(Direction.OutputData, "Carrier output", "Encryption result", null)]
+        [PropertyInfo(Direction.OutputData, "OutputCarrierCaption", "OutputCarrierTooltip", null)]
         public ICryptoolStream OutputCarrier
         {
             get;
@@ -118,26 +118,27 @@ namespace Cryptool.Plugins.StegoInsertion
                     
                     switch (settings.Action)
                     {
-                        case 0:
+                        case 0: // Encryption
                             using (CStreamReader messageReader = InputData.CreateReader())
                             {
                                 secretStream = new MemoryStream(messageReader.ReadFully());
                                 midiHandler.HideOrExtract(midiReader, secretStream, new MemoryStream(), outputStream, (byte)(settings.MaxMessageBytesPerCarrierUnit*2), false);
                             }
-                            OutputCarrier = new CStreamWriter(outputStream.GetBuffer());
+                            OutputCarrier = new CStreamWriter(outputStream.ToArray());
                             OnPropertyChanged("OutputCarrier");
                             break;
-                        case 1: secretStream = new MemoryStream();
-                                midiHandler.HideOrExtract(midiReader, secretStream, new MemoryStream(), outputStream, 1, true);
-                                //OutputData = new CStreamWriter(secretStream.GetBuffer());
+                        case 1: // Decryption
+                            secretStream = new MemoryStream();
+                            midiHandler.HideOrExtract(midiReader, secretStream, new MemoryStream(), outputStream, 1, true);
+                            //OutputData = new CStreamWriter(secretStream.GetBuffer());
                                 
-                                secretStream.Position = 0;
-                                using (StreamReader secretReader = new StreamReader(secretStream))
-                                {
-                                    OutputText = secretReader.ReadToEnd();
-                                    OnPropertyChanged("OutputText");
-                                }
-                                break;
+                            secretStream.Position = 0;
+                            using (StreamReader secretReader = new StreamReader(secretStream))
+                            {
+                                OutputText = secretReader.ReadToEnd();
+                                OnPropertyChanged("OutputText");
+                            }
+                            break;
                     }
             }
 
@@ -166,6 +167,7 @@ namespace Cryptool.Plugins.StegoInsertion
 
         public void Initialize()
         {
+            settings.UpdateTaskPaneVisibility();
         }
 
         public void Dispose()
