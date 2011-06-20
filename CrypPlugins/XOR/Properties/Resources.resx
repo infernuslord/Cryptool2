@@ -117,29 +117,23 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="InputStringCaption" xml:space="preserve">
-    <value>Text input</value>
+  <data name="InputDataCaption" xml:space="preserve">
+    <value>Data input</value>
   </data>
-  <data name="InputStringTooltip" xml:space="preserve">
-    <value>Input a string to be processed by the Xor cipher</value>
+  <data name="InputDataTooltip" xml:space="preserve">
+    <value>Binary input data to be processed by the XOR cipher.</value>
   </data>
   <data name="KeyCaption" xml:space="preserve">
-    <value>Key input</value>
+    <value>XOR key input</value>
   </data>
   <data name="KeyTooltip" xml:space="preserve">
-    <value>Input a key string</value>
+    <value>Binary key with same length as input data.</value>
   </data>
   <data name="OutputDataCaption" xml:space="preserve">
-    <value>Stream output</value>
+    <value>Data output</value>
   </data>
   <data name="OutputDataTooltip" xml:space="preserve">
-    <value>The string after processing with the Xor cipher is converted to a stream. Default encoding is used.</value>
-  </data>
-  <data name="OutputStringCaption" xml:space="preserve">
-    <value>Text output</value>
-  </data>
-  <data name="OutputStringTooltip" xml:space="preserve">
-    <value>The string after processing with the Xor cipher</value>
+    <value>Binary output data after processing with the XOR cipher.</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
     <value>XOR</value>
@@ -148,6 +142,6 @@
     <value>XOR/DetailedDescription/Description.xaml</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>XOR -- substitution cipher which is build by simple exclusive disjunction (XOR) operations</value>
+    <value>XOR -- substitution cipher which is build by binary exclusive disjunction (XOR) operations.</value>
   </data>
 </root>

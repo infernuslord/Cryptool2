@@ -1,5 +1,5 @@
 /*
-   Copyright 2008 Sebastian Przybylski, University of Siegen
+   Copyright 2011 Matthäus Wander, University of Duisburg-Essen
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -26,53 +26,13 @@ namespace Cryptool.XOR
 {
     public class XORSettings : ISettings
     {
-        #region Public Xor specific interface
-
-        /// <summary>
-        /// We use this delegate to send log messages from the settings class to the Xor plugin
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="msg"></param>
-        /// <param name="logLevel"></param>
-        public delegate void XorLogMessage(string msg, NotificationLevel logLevel);
-
-        /// <summary>
-        /// Fire if a new message has to be shown in the status bar
-        /// </summary>
-        public event XorLogMessage LogMessage;
         
-        /// <summary>
-        /// Returns true if some settigns have been changed. This value should be set
-        /// externally to false e.g. when a project was saved.
-        /// </summary>
-        [PropertySaveOrder(0)]
         public bool HasChanges
         {
-            get { return hasChanges; }
-            set { hasChanges = value; }
+            get { return false; }
+            set { }
         }
-
-        #endregion
-
-        #region Private variables
-
-        private bool hasChanges;
-        private int selectedAction = 0;
-
-        #endregion
-
-        #region INotifyPropertyChanged Members
 
         public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void OnPropertyChanged(string name)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(name));
-            }
-        }
-
-        #endregion
     }
 }

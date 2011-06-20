@@ -1,5 +1,5 @@
 /*
-   Copyright 2008 Sebastian Przybylski, University of Siegen
+   Copyright 2011 Matthäus Wander, University of Duisburg-Essen
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -28,23 +28,17 @@ using System.Windows.Controls;
 
 namespace Cryptool.XOR
 {
-    [Author("Sebastian Przybylski", "sebastian@przybylski.org", "Uni-Siegen", "http://www.uni-siegen.de")]
+    [Author("Matthäus Wander", "wander@cryptool.org", "University of Duisburg-Essen", "http://www.vs.uni-due.de")]
     [PluginInfo("Cryptool.XOR.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL",
       "XOR/Images/icon.png", "XOR/Images/encrypt.png", "XOR/Images/decrypt.png")]
     [EncryptionType(EncryptionType.Classic)]
     public class Xor : IEncryption
     {
 
-        #region Private variables
-
-        private XORSettings settings;
-        private string inputString;
-        private string outputString;
-        private string key;
-
-        #endregion
-        
-        #region Public interface
+        private ISettings settings;
+        private byte[] inputData;
+        private byte[] outputData;
+        private byte[] key;
 
         /// <summary>
         /// Constructor
@@ -52,7 +46,6 @@ namespace Cryptool.XOR
         public Xor()
         {
             this.settings = new XORSettings();
-            ((XORSettings)(this.settings)).LogMessage += Xor_LogMessage;
         }
 
         /// <summary>
@@ -60,66 +53,44 @@ namespace Cryptool.XOR
         /// </summary>
         public ISettings Settings
         {
-            get { return (ISettings)this.settings; }
-            set { this.settings = (XORSettings)value; }
-        }
-
-        [PropertyInfo(Direction.OutputData, "OutputDataCaption", "OutputDataTooltip", "", false, false, QuickWatchFormat.Text, null)]
-        public ICryptoolStream OutputData
-        {
-            get
-            {
-                if (outputString == null)
-                {
-                    return null;
-                }
-
-                return new CStreamWriter(Encoding.Default.GetBytes(outputString));
-            }
-            set { }
+            get { return this.settings; }
+            set { this.settings = value; }
         }
 
         [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", "", true, false, QuickWatchFormat.Text, null)]
-        public string InputString
+        public byte[] InputData
         {
-            get { return this.inputString; }
+            get { return this.inputData; }
             set
             {
-                if (value != inputString)
+                if (value != inputData)
                 {
-                    this.inputString = value;
-                    OnPropertyChanged("InputString");
+                    this.inputData = value;
+                    OnPropertyChanged("InputData");
                 }
             }
         }
 
         [PropertyInfo(Direction.InputData, "KeyCaption", "KeyTooltip", "", false, false, QuickWatchFormat.Text, null)]
-        public string Key
+        public byte[] Key
         {
             get { return this.key; }
             set
             {
-                if (value != this.key)
+                if (value != key)
                 {
                     this.key = value;
+                    OnPropertyChanged("Key");
                 }
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", "", false, false, QuickWatchFormat.Text, null)]
-        public string OutputString
+        [PropertyInfo(Direction.OutputData, "OutputDataCaption", "OutputDataTooltip", "", false, false, QuickWatchFormat.Text, null)]
+        public byte[] OutputData
         {
-            get { return this.outputString; }
-            set
-            {
-                outputString = value;
-                OnPropertyChanged("OutputString");
-            }
+            get { return outputData; }
+            set { this.outputData = value; }
         }
-
-        #endregion
-
-        #region IPlugin members
 
         public void Initialize()
         {
@@ -127,12 +98,6 @@ namespace Cryptool.XOR
 
         public void Dispose()
         {
-        }
-
-        public bool HasChanges
-        {
-            get { return settings.HasChanges; }
-            set { settings.HasChanges = value; }
         }
 
         /// <summary>
@@ -161,17 +126,56 @@ namespace Cryptool.XOR
 
         public void PostExecution()
         {
-            Dispose();
         }
 
         public void PreExecution()
         {
-            Dispose();
         }
 
-        #endregion
+#pragma warning disable 67
+        public event StatusChangedEventHandler OnPluginStatusChanged;
+#pragma warning restore
 
-        #region INotifyPropertyChanged Members
+        public void Execute()
+        {
+            // Don't process if input is empty
+            if (inputData == null || inputData.Length == 0 || key == null || key.Length == 0)
+                return;
+
+            byte[] longKey = key;
+            if (key.Length < inputData.Length) // repeat key if necessary
+            {
+                GuiLogMessage("Key is too short. Will be expanded to match input length", NotificationLevel.Warning);
+                longKey = new byte[inputData.Length];
+
+                int offset = 0;
+                while(offset < longKey.Length)
+                {
+                    int readBytes = Math.Min(longKey.Length - offset, key.Length);
+
+                    Array.Copy(key, 0, longKey, offset, readBytes);
+                    offset += readBytes;
+                }
+            }
+
+            outputData = new byte[inputData.Length]; // XOR now
+            for (int i = 0; i < inputData.Length; i++)
+            {
+                outputData[i] = (byte)(inputData[i] ^ longKey[i]);
+
+                //show the progress
+                if (OnPluginProgressChanged != null)
+                {
+                    OnPluginProgressChanged(this, new PluginProgressEventArgs(i, inputData.Length - 1));
+                }
+            }
+
+            OnPropertyChanged("OutputData");
+        }
+
+        public void Pause()
+        {
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -183,77 +187,12 @@ namespace Cryptool.XOR
             }
         }
 
-        #endregion
-
-        #region Private methods
-
-        /// <summary>
-        /// Does the actual Xor processing
-        /// </summary>
-        private void ProcessXor()
-        {
-            if (inputString != null)
-            {
-                StringBuilder output = new StringBuilder(string.Empty);
-
-                string longKey = key;
-                //resize key string to same length as input
-                if (inputString.Length > key.Length)
-                {
-                    int keyPos = 0;
-                    for (int i = key.Length; i < inputString.Length; i++)
-                    {
-                        longKey += key[keyPos];
-                        keyPos++;
-                        if (keyPos == key.Length)
-                            keyPos = 0;
-                    }
-                }
-
-                char cpos = '\0';
-                for (int i = 0; i < inputString.Length; i++)
-                {
-                    cpos = (char)(inputString[i] ^ longKey[i]);
-                    output.Append(Convert.ToString(cpos));
-
-                    //show the progress
-                    if (OnPluginProgressChanged != null)
-                    {
-                        OnPluginProgressChanged(this, new PluginProgressEventArgs(i, inputString.Length - 1));
-                    }
-                }
-
-                outputString = output.ToString();
-                OnPropertyChanged("OutputString");
-                OnPropertyChanged("OutputData");
-            }
-        }
-
-        private void Xor_LogMessage(string msg, NotificationLevel logLevel)
+        private void GuiLogMessage(string msg, NotificationLevel logLevel)
         {
             if (OnGuiLogNotificationOccured != null)
             {
                 OnGuiLogNotificationOccured(this, new GuiLogEventArgs(msg, this, logLevel));
             }
         }
-
-        #endregion
-
-        #region IPlugin Members
-
-#pragma warning disable 67
-				public event StatusChangedEventHandler OnPluginStatusChanged;
-#pragma warning restore
-
-        public void Execute()
-        {
-            ProcessXor();
-        }
-
-        public void Pause()
-        {
-        }
-
-        #endregion
     }
 }
