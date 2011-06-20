@@ -24,7 +24,7 @@ namespace KeySearcherPresentation.Controls
     /// <summary>
     /// This grid performs uniform resizing on a vertical stretch an uses normal behaviour on a horizontal stretch
     /// </summary>
-    internal class JokersGrid : Grid
+    internal class GuttenbergGrid : Grid
     {
         private double scale;
 
