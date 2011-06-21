@@ -79,7 +79,7 @@ namespace SHA
                 case SHASettings.ShaFunction.SHA1:
                     return new SHA1Managed();
                 case SHASettings.ShaFunction.SHA256:
-                    return new SHA1Managed();
+                    return new SHA256Managed();
                 case SHASettings.ShaFunction.SHA384:
                     return new SHA384Managed();
                 case SHASettings.ShaFunction.SHA512:
