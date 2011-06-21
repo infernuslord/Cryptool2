@@ -219,6 +219,16 @@ namespace Cryptool.PluginBase.IO
         #region Public methods
 
         /// <summary>
+        /// Call this function to assure the underlying file lock is properly released. Simply calling the 
+        /// Close() function (see below) might eventually lead to errors due to unreleased file locks.
+        /// </summary>
+        public void CloseAndUnlockFile()
+        {
+            _writeStream.Close();
+            Close();
+        }
+
+        /// <summary>
         /// You MUST call Close() when you're done writing or the readers will be stuck in an infinite loop.
         /// 
         /// Please note: Contrary to the API description of Stream.Close() this method DOES NOT release all

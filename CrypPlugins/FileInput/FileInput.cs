@@ -201,6 +201,15 @@ namespace FileInput
                 return;
             }
 
+            // flomar, 06/20/2011: this change refers to ticket #283; the method "CloseAndUnlockFile()" makes sure that the file lock 
+            // is released before trying to create a new stream writer object; the downside is that this might slow down things a little,
+            // but I think we're good until someone comes up with a more intelligent solution
+            if (cstreamWriter != null)
+            {
+                cstreamWriter.CloseAndUnlockFile();
+                cstreamWriter = null;
+            }
+            
             cstreamWriter = new CStreamWriter(settings.OpenFilename);
             NotifyPropertyChange();
         }
