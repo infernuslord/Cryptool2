@@ -299,14 +299,19 @@ namespace Cryptool.Plugins.Converter
                             break;
 
                         }
-                    case 5: //bigint
+                    case 5: // BigInteger
                         {
-                            try // can be read as biginteger?
+                            try // can be read as BigInteger?
                             {
                                 Match match = Regex.Match(inpString, "^\\s*0[xX]([a-fA-F0-9]+)");
 
                                 if (match.Success)  // is in hex-format?
+                                {
+                                    string result = Regex.Replace(inpString, "0[xX]", "");
+                                    result = Regex.Replace(result, "[^a-fA-F0-9]", "");
+                                    match = Regex.Match(result, "^([a-fA-F0-9]+)");
                                     Output = BigInteger.Parse(match.Groups[1].Value, System.Globalization.NumberStyles.AllowHexSpecifier);
+                                } 
                                 else
                                     Output = BigIntegerHelper.ParseExpression(inpString);
 
