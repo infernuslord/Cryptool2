@@ -61,7 +61,7 @@ namespace Converter.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Converter ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Converting to ähnelt.
         /// </summary>
         internal static string ConverterCaption {
             get {
@@ -88,6 +88,69 @@ namespace Converter.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Default system encoding ähnelt.
+        /// </summary>
+        internal static string EncodingSettingList1 {
+            get {
+                return ResourceManager.GetString("EncodingSettingList1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Unicode ähnelt.
+        /// </summary>
+        internal static string EncodingSettingList2 {
+            get {
+                return ResourceManager.GetString("EncodingSettingList2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die UTF-7 ähnelt.
+        /// </summary>
+        internal static string EncodingSettingList3 {
+            get {
+                return ResourceManager.GetString("EncodingSettingList3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die UTF-8 ähnelt.
+        /// </summary>
+        internal static string EncodingSettingList4 {
+            get {
+                return ResourceManager.GetString("EncodingSettingList4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die UTF-32 ähnelt.
+        /// </summary>
+        internal static string EncodingSettingList5 {
+            get {
+                return ResourceManager.GetString("EncodingSettingList5", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die ASCII ähnelt.
+        /// </summary>
+        internal static string EncodingSettingList6 {
+            get {
+                return ResourceManager.GetString("EncodingSettingList6", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Big endian unicode ähnelt.
+        /// </summary>
+        internal static string EncodingSettingList7 {
+            get {
+                return ResourceManager.GetString("EncodingSettingList7", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Choose the expected encoding of the byte array and stream. ähnelt.
         /// </summary>
         internal static string EncodingSettingTooltip {
@@ -102,6 +165,24 @@ namespace Converter.Properties {
         internal static string FormatAmerCaption {
             get {
                 return ResourceManager.GetString("FormatAmerCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die german ähnelt.
+        /// </summary>
+        internal static string FormatAmerList1 {
+            get {
+                return ResourceManager.GetString("FormatAmerList1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die american ähnelt.
+        /// </summary>
+        internal static string FormatAmerList2 {
+            get {
+                return ResourceManager.GetString("FormatAmerList2", resourceCulture);
             }
         }
         
@@ -138,6 +219,24 @@ namespace Converter.Properties {
         internal static string NumericCaption {
             get {
                 return ResourceManager.GetString("NumericCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die no ähnelt.
+        /// </summary>
+        internal static string NumericList1 {
+            get {
+                return ResourceManager.GetString("NumericList1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die yes ähnelt.
+        /// </summary>
+        internal static string NumericList2 {
+            get {
+                return ResourceManager.GetString("NumericList2", resourceCulture);
             }
         }
         
@@ -201,6 +300,33 @@ namespace Converter.Properties {
         internal static string PresentationFormatSettingCaption {
             get {
                 return ResourceManager.GetString("PresentationFormatSettingCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Text ähnelt.
+        /// </summary>
+        internal static string PresentationFormatSettingList1 {
+            get {
+                return ResourceManager.GetString("PresentationFormatSettingList1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Hex ähnelt.
+        /// </summary>
+        internal static string PresentationFormatSettingList2 {
+            get {
+                return ResourceManager.GetString("PresentationFormatSettingList2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Base64 ähnelt.
+        /// </summary>
+        internal static string PresentationFormatSettingList3 {
+            get {
+                return ResourceManager.GetString("PresentationFormatSettingList3", resourceCulture);
             }
         }
         
