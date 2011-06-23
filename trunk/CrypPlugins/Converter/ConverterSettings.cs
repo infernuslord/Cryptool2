@@ -29,10 +29,13 @@ namespace Cryptool.Plugins.Converter
     public class ConverterSettings : ISettings
     {
         #region private variables
-        private int converter = 0; // 0 = String, 1 = int, 2 = short, 3 = byte, 4 = double, 5 = bigInteger, 6= Int[] , 7=Byte[], 8=CryptoolStream
+
+        private OutputTypes converter = OutputTypes.StringType;
+
         private bool hasChanges;
         private bool numeric = false;
         private bool formatAmer = false;
+
         public enum EncodingTypes { Default = 0, Unicode = 1, UTF7 = 2, UTF8 = 3, UTF32 = 4, ASCII = 5, BigEndianUnicode = 6 };
         public enum PresentationFormat { Text, Hex, Base64 }
         private EncodingTypes encoding = EncodingTypes.Default;
@@ -73,7 +76,7 @@ namespace Cryptool.Plugins.Converter
         }
 
         [TaskPane( "ConverterCaption", "ConverterTooltip", null, 1, false, ControlType.ComboBox, new string[] { "string", "int", "short", "byte", "double", "BigInteger", "int[]", "byte[]", "Cryptoolstream" })]
-        public int Converter
+        public OutputTypes Converter
         {
             get { return this.converter; }
             set
@@ -97,7 +100,7 @@ namespace Cryptool.Plugins.Converter
 
         internal void UpdateIcon()
         {
-            ChangePluginIcon(converter + 1);
+            ChangePluginIcon((int)converter + 1);
         }
 
         internal void UpdateTaskPaneVisibility()
@@ -107,7 +110,7 @@ namespace Cryptool.Plugins.Converter
 
             switch (Converter)
             {
-                case 0: // 0 = String
+                case OutputTypes.StringType:
                     {
                         settingChanged("Numeric", Visibility.Collapsed);
                         settingChanged("EncodingSetting", Visibility.Collapsed);
@@ -115,7 +118,7 @@ namespace Cryptool.Plugins.Converter
                         settingChanged("FormatAmer", Visibility.Collapsed);
                         break;
                     }
-                case 1: // 1 = int
+                case OutputTypes.IntType:
                     {
                         settingChanged("Numeric", Visibility.Collapsed);
                         settingChanged("EncodingSetting", Visibility.Collapsed);
@@ -123,7 +126,7 @@ namespace Cryptool.Plugins.Converter
                         settingChanged("FormatAmer", Visibility.Collapsed);
                         break;
                     }
-                case 2: // 2 = short
+                case OutputTypes.ShortType:
                     {
                         settingChanged("Numeric", Visibility.Collapsed);
                         settingChanged("EncodingSetting", Visibility.Collapsed);
@@ -131,7 +134,7 @@ namespace Cryptool.Plugins.Converter
                         settingChanged("FormatAmer", Visibility.Collapsed);
                         break;
                     }
-                case 3: // 3 = byte
+                case OutputTypes.ByteType:
                     {
                         settingChanged("Numeric", Visibility.Collapsed);
                         settingChanged("EncodingSetting", Visibility.Collapsed);
@@ -139,7 +142,7 @@ namespace Cryptool.Plugins.Converter
                         settingChanged("FormatAmer", Visibility.Collapsed);
                         break;
                     }
-                case 4: // 4 = double
+                case OutputTypes.DoubleType:
                     {
                         settingChanged("Numeric", Visibility.Collapsed);
                         settingChanged("EncodingSetting", Visibility.Collapsed);
@@ -147,7 +150,7 @@ namespace Cryptool.Plugins.Converter
                         settingChanged("FormatAmer", Visibility.Visible);
                         break;
                     }
-                case 5: // 5 = BigInteger
+                case OutputTypes.BigIntegerType:
                     {
                         settingChanged("Numeric", Visibility.Collapsed);
                         settingChanged("EncodingSetting", Visibility.Collapsed);
@@ -155,7 +158,7 @@ namespace Cryptool.Plugins.Converter
                         settingChanged("FormatAmer", Visibility.Collapsed);
                         break;
                     }
-                case 6: // 6= Int[]
+                case OutputTypes.IntArrayType:
                     {
                         settingChanged("Numeric", Visibility.Collapsed);
                         settingChanged("EncodingSetting", Visibility.Collapsed);
@@ -163,7 +166,7 @@ namespace Cryptool.Plugins.Converter
                         settingChanged("FormatAmer", Visibility.Collapsed);
                         break;
                     }
-                case 7: // 7=Byte[]
+                case OutputTypes.ByteArrayType:
                     {
                         settingChanged("Numeric", Visibility.Visible);
                         settingChanged("EncodingSetting", Visibility.Visible);
@@ -171,7 +174,7 @@ namespace Cryptool.Plugins.Converter
                         settingChanged("FormatAmer", Visibility.Collapsed);
                         break;
                     }
-                case 8: // 8=CryptoolStream
+                case OutputTypes.CryptoolStreamType:
                     {
                         settingChanged("Numeric", Visibility.Collapsed);
                         settingChanged("EncodingSetting", Visibility.Collapsed);
