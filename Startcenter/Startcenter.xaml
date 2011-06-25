@@ -23,7 +23,7 @@
             </Label.Content>
         </Label>
 
-        <Grid Grid.Row="2" Margin="8,0,0,0">
+        <Grid Grid.Row="2">
             <Grid.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="5"/>
@@ -34,6 +34,7 @@
                 </Style>
                 
                 <Style TargetType="Expander">
+                    <Setter Property="Margin" Value="8,0,0,0"/>
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="{x:Type Expander}">
