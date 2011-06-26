@@ -5,29 +5,30 @@
   <language culture="de-DE"/>
 
   <introduction lang="en">
-    RSA is an asymmetric algorithm devoled 1977 by Ronald L. Rivest, Adi Shamir und Leonard Adleman at the Massachusetts Institute of 
-    Technology. It is known as the first publicated asymmetric algorithm. The security of RSA is based on the factorization 
-    problem and the assumption that there is no suitable algorithm to factorize a big number in suitable time 
+    RSA is an asymmetric algorithm devoloped 1977 by Ronald L. Rivest, Adi Shamir und Leonard Adleman at the Massachusetts Institute of
+    Technology. It is known as the first published asymmetric algorithm. The security of RSA is based on the factorization
+    problem and the assumption that there is no suitable algorithm to factorize a big number in suitable time
     ( this means that a factorization is finished not in centuries but in realistic time like hours or days).
   </introduction>
 
   <introduction lang="de-DE"> 
-    RSA ist ein asymmetrischer Algorithmus der 1977 von Ronald L. Rives, Adi Shamir und Leonard Adleman am Massachusetts Institute
+    RSA ist ein asymmetrischer Algorithmus, der 1977 von Ronald L. Rivest, Adi Shamir und Leonard Adleman am Massachusetts Institute
     of Technology entwickelt wurde. Er ist als der erste asymmetrische Algorithmus bekannt. Die Sicherheit von RSA basiert auf dem
-    Faktorisierungs-Problem und der Annahme, das es keinen "schnellen" Algorithmus gibt, um große Zahlen in annehmbarer Zeit zu
+    Faktorisierungs-Problem und der Annahme, dass es keinen "schnellen" Algorithmus gibt, um große Zahlen in annehmbarer Zeit zu
     faktorisieren ( "Annehmbare Zeit" meint hier, dass die Faktorisierung nicht in Jahren/Jahrhunderten sondern in einer 
     "realistischen" Zeit wie etwa Tagen oder Stunden durchgeführt wird ).
   </introduction>
 
   <usage lang="en">
-    The RSA plugin has two ways to be used (both at the same time): The user is able to use RSA to encrypt and decrypt just 
-    Big Integers on the one hand and he is able to encrypt and decrypt texts using the RSA algorithm on the other hand.
-    To encrypt/decrypt numbers the user has to add a Big Number Input m/c representing our message m or our ciphertext c 
-    and an output Big Integer representing the output message m or the output ciphertext c. He has also to add a Big Number 
-    Input N representing the N of the RSA algorithm. And the last input he has to add is a Big Number Input E / D which 
-    represents the public or the private key depending on en- or decryption. To encrypt/decrypt texts the user has to add 
-    an input byte array and an output byte array. Also the direction (en- or decrypt) has to be set in the plugins options. 
-    He has also to add a Big Number Input N representing our the N of the RSA algorithm. And the last input he has to add is 
+    The RSA plugin has two ways to be used (you can use only one or both simultaneouly): The user is able to use RSA to encrypt 
+    and decrypt just big integers on the one hand and he is able to encrypt and decrypt texts using the RSA algorithm on the 
+    other hand.
+    To encrypt/decrypt numbers the user has to add a Big Number Input m/c representing our message m or our ciphertext c
+    and an output big integer representing the output message m or the output ciphertext c. He has also to add a Big Number
+    Input N representing the N of the RSA algorithm. And the last input he has to add is a Big Number Input E / D which
+    represents the public or the private key depending on en- or decryption. To encrypt/decrypt texts the user has to add
+    an input byte array and an output byte array. Also the direction (en- or decrypt) has to be set in the plugins options.
+    He has also to add a Big Number Input N representing our the N of the RSA algorithm. And the last input he has to add is
     a Big Number Input E / D which represents the public or the private key depending on en- or decryption.
   </usage>
 
