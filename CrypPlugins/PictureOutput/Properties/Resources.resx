@@ -127,6 +127,6 @@
     <value>PictureOutput</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Operations for modifying Strings</value>
+    <value>Displays a given picture (bmp, jpg, png, ...)</value>
   </data>
 </root>
