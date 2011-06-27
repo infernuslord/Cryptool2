@@ -160,13 +160,13 @@
     <value>Aktion</value>
   </data>
   <data name="ActionTooltip" xml:space="preserve">
-    <value>Wählen Sie die Betriebsart des Plugins</value>
+    <value>Wählen Sie die Betriebsart des Plugins.</value>
   </data>
   <data name="ActionTPCaption" xml:space="preserve">
     <value>Aktion</value>
   </data>
   <data name="ActionTPTooltip" xml:space="preserve">
-    <value>Wählen Sie die Betriebsart des Plugins</value>
+    <value>Wählen Sie die Betriebsart des Plugins.</value>
   </data>
   <data name="AlphabetCaseCaption" xml:space="preserve">
     <value>Groß-/Kleinschreibung</value>
@@ -196,7 +196,7 @@
     <value>Behandlung ungültiger Zeichen</value>
   </data>
   <data name="UnknownSymbolHandlingTooltip" xml:space="preserve">
-    <value>Wie soll auf Zeichen in der Eingabe reagiert werden, die nicht Bestandteil des Eingabe-Alphabet sind?</value>
+    <value>Wie soll auf Zeichen in der Eingabe reagiert werden, die nicht Bestandteil des Eingabe-Alphabets sind?</value>
   </data>
   <data name="ActionList1" xml:space="preserve">
     <value>Verschlüsselung</value>

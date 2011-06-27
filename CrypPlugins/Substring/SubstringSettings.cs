@@ -29,30 +29,11 @@ namespace Cryptool.Plugins.Substring
 
         #region taskPane
 
-        private int integerLengthValue;
-        /// <summary>
-        /// Taskpane-input for the length value
-        /// </summary>
-        [TaskPane( "IntegerLengthValueCaption", "IntegerLengthValueTooltip", null, 0, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
-        public int IntegerLengthValue
-        {
-            get { return this.integerLengthValue; }
-            set
-            {
-                if (value != this.integerLengthValue)
-                {
-                    this.integerLengthValue = value;
-                    OnPropertyChanged("IntegerLengthValue");
-                    HasChanges = true;
-                }
-            }
-        }
-
         private int integerStartValue;
         /// <summary>
         /// Taskpane-input for the startposition
         /// </summary>
-        [TaskPane( "IntegerStartValueCaption", "IntegerStartValueTooltip", null, 0, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
+        [TaskPane("IntegerStartValueCaption", "IntegerStartValueTooltip", null, 0, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
         public int IntegerStartValue
         {
             get { return this.integerStartValue; }
@@ -67,6 +48,24 @@ namespace Cryptool.Plugins.Substring
             }
         }
 
+        private int integerLengthValue;
+        /// <summary>
+        /// Taskpane-input for the length value
+        /// </summary>
+        [TaskPane( "IntegerLengthValueCaption", "IntegerLengthValueTooltip", null, 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
+        public int IntegerLengthValue
+        {
+            get { return this.integerLengthValue; }
+            set
+            {
+                if (value != this.integerLengthValue)
+                {
+                    this.integerLengthValue = value;
+                    OnPropertyChanged("IntegerLengthValue");
+                    HasChanges = true;
+                }
+            }
+        }
 
         #endregion taskPane
 

@@ -121,7 +121,7 @@
   <data name="DESOpenCL" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\opencl\desopencl.cl;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-    <data name="PluginCaption" xml:space="preserve">
+  <data name="PluginCaption" xml:space="preserve">
     <value>DES</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
@@ -130,70 +130,100 @@
   <data name="PluginDescriptionURL" xml:space="preserve">
     <value>DES/DetailedDescription/Description.xaml</value>
   </data>
-    <data name="ControlSlaveCaption" xml:space="preserve">
-    <value>DES Slave for Cryptanalysis</value>
+  <data name="ControlSlaveCaption" xml:space="preserve">
+    <value>DES-Sklave für die Kryptoanalyse</value>
   </data>
   <data name="ControlSlaveTooltip" xml:space="preserve">
-    <value>Direct access to the DES component for cryptanalysis.</value>
+    <value>Direkter Zugriff auf die DES-Komponente für die Kryptoanalyse.</value>
   </data>
   <data name="DESSlaveCaption" xml:space="preserve">
-    <value>DES Slave for cube attack</value>
+    <value>DES-Sklave für den Cube-Angriff</value>
   </data>
   <data name="DESSlaveTooltip" xml:space="preserve">
-    <value>Direct access to the DES component for usage with the cube attack plugin.</value>
+    <value>Direkter Zugriff auf die DES-Komponente zur Verwendung mit dem Plugin für den Cube-Angriff.</value>
   </data>
   <data name="InputStreamCaption" xml:space="preserve">
-    <value>Input</value>
+    <value>Eingabedatenstrom</value>
   </data>
   <data name="InputStreamTooltip" xml:space="preserve">
-    <value>Data to be encrypted or decrypted</value>
+    <value>zu ver-/entschlüsselnde Daten</value>
   </data>
   <data name="InputKeyCaption" xml:space="preserve">
-    <value>Key</value>
+    <value>Schlüssel</value>
   </data>
   <data name="InputKeyTooltip" xml:space="preserve">
-    <value>The key for encryption7decryption. It must be exactly 8 bytes (64 Bits).</value>
+    <value>Der Schlüssel muss 8 Bytes (64 Bits) lang sein.</value>
   </data>
   <data name="InputIVCaption" xml:space="preserve">
-    <value>IV</value>
+    <value>Initialisierungsvektor</value>
   </data>
   <data name="InputIVTooltip" xml:space="preserve">
-    <value>IV to be used in chaining modes, must be the same as the Blocksize in bytes (8 bytes).</value>
+    <value>Der Initialisierungsvektor (IV) für die Blockverschlüsselungs-Modi (CBC,CFB). Er muss gleich groß wie die Blockgröße sein (8 Bytes).</value>
   </data>
   <data name="OutputStreamCaption" xml:space="preserve">
-    <value>Output stream</value>
+    <value>Ausgabedatenstrom</value>
   </data>
   <data name="OutputStreamTooltip" xml:space="preserve">
-    <value>Encrypted or decrypted output data</value>
+    <value>Ver- bzw. entschlüsselter Ausgabedatenstrom</value>
   </data>
-    <data name="ActionCaption" xml:space="preserve">
-    <value>Action</value>
+  <data name="ActionCaption" xml:space="preserve">
+    <value>Aktion</value>
   </data>
   <data name="ActionTooltip" xml:space="preserve">
-    <value>Do you want the input data to be encrypted or decrypted?</value>
+    <value>Sollen die Eingabedaten ver- oder entschlüsselt werden?</value>
   </data>
   <data name="ModeCaption" xml:space="preserve">
-    <value>Chaining mode</value>
+    <value>Blockverkettungsmodus</value>
   </data>
   <data name="ModeTooltip" xml:space="preserve">
-    <value>Select the block cipher mode of operation.</value>
+    <value>Wählen Sie die Art der Blockverkettung.</value>
   </data>
   <data name="ModeTPCaption" xml:space="preserve">
-    <value>Chaining Mode</value>
+    <value>Blockverkettungsmodus</value>
   </data>
   <data name="ModeTPTooltip" xml:space="preserve">
-    <value>Select the block cipher mode of operation.</value>
+    <value>Wählen Sie die Art der Blockverkettung.</value>
   </data>
   <data name="PaddingCaption" xml:space="preserve">
-    <value>Padding mode</value>
+    <value>Auffüll-Methode (Padding)</value>
   </data>
   <data name="PaddingTooltip" xml:space="preserve">
-    <value>Select a mode to fill partial data blocks.</value>
+    <value>Wählen Sie die Methode, wie zu kurze Blöcke zur Blockgröße aufgefüllt werden.</value>
   </data>
   <data name="PaddingTPCaption" xml:space="preserve">
-    <value>Padding Mode</value>
+    <value>Auffüll-Methode (Padding)</value>
   </data>
   <data name="PaddingTPTooltip" xml:space="preserve">
-    <value>Select a mode to fill partial data blocks.</value>
+    <value>Wählen Sie die Methode, wie zu kurze Blöcke zur Blockgröße aufgefüllt werden.</value>
+  </data>
+  <data name="ActionList1" xml:space="preserve">
+    <value>Verschlüsselung</value>
+  </data>
+  <data name="ActionList2" xml:space="preserve">
+    <value>Entschlüsselung</value>
+  </data>
+  <data name="ModeList1" xml:space="preserve">
+    <value>Electronic Code Book (ECB)</value>
+  </data>
+  <data name="ModeList12" xml:space="preserve">
+    <value>Cipher Block Chaining (CBC)</value>
+  </data>
+  <data name="ModeList13" xml:space="preserve">
+    <value>Cipher Feedback (CFB)</value>
+  </data>
+  <data name="PaddingList1" xml:space="preserve">
+    <value>Nullen</value>
+  </data>
+  <data name="PaddingList2" xml:space="preserve">
+    <value>Keine</value>
+  </data>
+  <data name="PaddingList3" xml:space="preserve">
+    <value>PKCS7</value>
+  </data>
+  <data name="PaddingList4" xml:space="preserve">
+    <value>ANSIX923</value>
+  </data>
+  <data name="PaddingList5" xml:space="preserve">
+    <value>ISO10126</value>
   </data>
 </root>

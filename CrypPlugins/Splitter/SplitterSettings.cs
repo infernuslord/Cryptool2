@@ -28,8 +28,8 @@ namespace Splitter
   {
 
     private int fireOnValue;
-    [ContextMenu( "FireOnValueCaption", "FireOnValueTooltip", 0, ContextMenuControlType.ComboBox, null, "True", "False")]
-    [TaskPane( "FireOnValueCaption", "FireOnValueTooltip", null, 0, false, ControlType.ComboBox, new string[] { "True", "False" })]
+    [ContextMenu( "FireOnValueCaption", "FireOnValueTooltip", 0, ContextMenuControlType.ComboBox, null, "FireOnValueList1", "FireOnValueList2")]
+    [TaskPane( "FireOnValueCaption", "FireOnValueTooltip", null, 0, false, ControlType.ComboBox, new string[] { "FireOnValueList1", "FireOnValueList2" })]
     public int FireOnValue
     {
       get { return this.fireOnValue; }
@@ -45,7 +45,7 @@ namespace Splitter
     }
 
     private string delimiterDictionary = " ";
-    [TaskPaneAttribute( "DelimiterDictionaryCaption", "DelimiterDictionaryTooltip", null, 1, false, ControlType.TextBox, ValidationType.RegEx, "^(.){0,1}$")]
+    [TaskPaneAttribute( "DelimiterDictionaryCaption", "DelimiterDictionaryTooltip", null, 1, false, ControlType.TextBox, ValidationType.RegEx, "^.?$")]
     public string DelimiterDictionary
     {
       get { return this.delimiterDictionary; }

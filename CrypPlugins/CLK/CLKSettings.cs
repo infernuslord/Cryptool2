@@ -43,8 +43,8 @@ namespace Cryptool.CLK
       set { hasChanges = value; }
     }
 
-    [ContextMenu( "SetClockToTrueCaption", "SetClockToTrueTooltip", 0, ContextMenuControlType.ComboBox, null, new string[] { "false", "true"})]
-    [TaskPaneAttribute( "SetClockToTrueCaption", "SetClockToTrueTooltip", "", 0, true, ControlType.RadioButton, new string[] { "False", "True" })]
+    [ContextMenu( "SetClockToTrueCaption", "SetClockToTrueTooltip", 0, ContextMenuControlType.ComboBox, null, new string[] { "SetClockToTrueList1", "SetClockToTrueList2"})]
+    [TaskPaneAttribute( "SetClockToTrueCaption", "SetClockToTrueTooltip", "", 0, true, ControlType.RadioButton, new string[] { "SetClockToTrueList1", "SetClockToTrueList2" })]
     public int SetClockToTrue
     {
         get
@@ -88,7 +88,7 @@ namespace Cryptool.CLK
 
     }
 
-    [ContextMenu( "UseEventCaption", "UseEventTooltip", 0, ContextMenuControlType.CheckBox, null, "Use input event instead of clock")]
+    [ContextMenu("UseEventCaption", "UseEventTooltip", 0, ContextMenuControlType.CheckBox, null, "UseEventList1")]
     [TaskPaneAttribute( "UseEventCaption", "UseEventTooltip", "", 0, true, ControlType.CheckBox, null)]
     public bool UseEvent
     {

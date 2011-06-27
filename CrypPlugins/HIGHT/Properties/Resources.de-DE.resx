@@ -139,7 +139,7 @@
     <value>Der Schlüssel muss  16 Bytes (128 Bits) lang sein.</value>
   </data>
   <data name="OutputStreamCaption" xml:space="preserve">
-    <value>Ausgabe-Datenstrom</value>
+    <value>Ausgabedatenstrom</value>
   </data>
   <data name="OutputStreamTooltip" xml:space="preserve">
     <value>Ver- bzw. entschlüsselter Ausgabedatenstrom</value>

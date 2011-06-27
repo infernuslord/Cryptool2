@@ -41,16 +41,16 @@ namespace Cryptool.TEA
         private int version = 0; //0="TEA"=default, 1="XTEA, 2=XXTEA"
         private int rounds = 64;
 
-        [ContextMenu( "ActionCaption", "ActionTooltip",1, ContextMenuControlType.ComboBox, new int[] { 1, 2}, "Encrypt","Decrypt")]
-        [TaskPane( "ActionCaption", "ActionTooltip", null, 1, false, ControlType.ComboBox, new string[] { "Encrypt", "Decrypt" })]
+        [ContextMenu( "ActionCaption", "ActionTooltip",1, ContextMenuControlType.ComboBox, new int[] { 1, 2}, "ActionList1", "ActionList2")]
+        [TaskPane( "ActionCaption", "ActionTooltip", null, 1, false, ControlType.ComboBox, new string[] { "ActionList1", "ActionList2" })]
         public int Action
         {
             get { return this.action; }
             set { this.action = (int)value; }
         }
 
-        [ContextMenu( "PaddingCaption", "PaddingTooltip", 3, ContextMenuControlType.ComboBox, null, "Zeros", "None", "PKCS7")]
-        [TaskPane( "PaddingTPCaption", "PaddingTPTooltip", "", 3, false, ControlType.ComboBox, new String[] { "Zeros", "None", "PKCS7" })]
+        [ContextMenu("PaddingCaption", "PaddingTooltip", 3, ContextMenuControlType.ComboBox, null, "PaddingList1", "PaddingList2", "PaddingList3")]
+        [TaskPane("PaddingTPCaption", "PaddingTPTooltip", "", 3, false, ControlType.ComboBox, new String[] { "PaddingList1", "PaddingList2", "PaddingList3" })]
         public int Padding
         {
             get { return this.padding; }
@@ -62,8 +62,8 @@ namespace Cryptool.TEA
             }
         }
 
-        [ContextMenu( "VersionCaption", "VersionTooltip", 4, ContextMenuControlType.ComboBox, null, "TEA", "XTEA", "XXTEA")]
-        [TaskPane( "VersionCaption", "VersionTooltip", "", 4, false, ControlType.ComboBox, new String[] { "TEA (1994)", "XTEA (1997)", "XXTEA (1998)" })]
+        [ContextMenu("VersionCaption", "VersionTooltip", 4, ContextMenuControlType.ComboBox, null, "VersionList1", "VersionList3", "VersionList3")]
+        [TaskPane("VersionCaption", "VersionTooltip", "", 4, false, ControlType.ComboBox, new String[] { "VersionTPList1", "VersionTPList2", "VersionTPList3" })]
         public int Version
         {
             get { return this.version; }
@@ -75,7 +75,7 @@ namespace Cryptool.TEA
             }
         }
 
-        [TaskPane( "RoundsCaption", "RoundsTooltip", "Rounds", 5, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
+        [TaskPane("RoundsCaption", "RoundsTooltip", "RoundsGroup", 5, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
         public int Rounds
         {
             get { return this.rounds; }

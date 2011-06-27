@@ -42,7 +42,7 @@ namespace Cryptool.Substitution
         public enum UnknownSymbolHandlingMode { Ignore = 0, Remove = 1, Replace = 2 };
 
         /// <summary>
-        /// An enumaration fot the different key variante modes of refilling the cipher alphabet
+        /// An enumaration fot the different key variant modes of refilling the cipher alphabet
         /// </summary>
         public enum KeyVariantMode { RestCharAscending = 0, RestCharDescending = 1, FixKeyAtbash = 2 };
         
@@ -132,49 +132,28 @@ namespace Cryptool.Substitution
             try
             {
                 string a = null;
-                bool found;
+
                 switch (keyVariant)
                 {
                     case KeyVariantMode.RestCharAscending:
                         a = value;
                         for (int i = 0; i < alphabet.Length; i++)
-                        {
-                            found = false;
-                            for (int j = 0; j < a.Length; j++)
-                            {
-                                if (alphabet[i] == a[j])
-                                {
-                                    found = true;
-                                    break;
-                                }
-                            }
-                            if (!found)
-                                a += alphabet[i];
-                        }
+                            if (a.IndexOf(alphabet[i]) < 0) a += alphabet[i];
                         break;
+
                     case KeyVariantMode.RestCharDescending:
                         a = value;
                         for (int i = alphabet.Length - 1; i >= 0; i--)
-                        {
-                            found = false;
-                            for (int j = 0; j < a.Length; j++)
-                            {
-                                if (alphabet[i] == a[j])
-                                {
-                                    found = true;
-                                    break;
-                                }
-                            }
-                            if (!found)
-                                a += alphabet[i];
-                        }
+                            if (a.IndexOf(alphabet[i]) < 0) a += alphabet[i];
                         break;
+
                     case KeyVariantMode.FixKeyAtbash:
                         a = string.Empty;
                         for (int i = alphabet.Length - 1; i >= 0; i--)
                             a += alphabet[i];
                         break;
                 }
+
                 CipherAlphabet = removeEqualChars(a);
                 OnPropertyChanged("CipherAlphabet");
             }
@@ -190,8 +169,8 @@ namespace Cryptool.Substitution
         #region Algorithm settings properties (visible in the Settings pane)
 
         [PropertySaveOrder(2)]
-        [ContextMenu( "ActionCaption", "ActionTooltip", 1, ContextMenuControlType.ComboBox, new int[] {1,2}, "Encrypt","Decrypt")]
-        [TaskPane( "ActionCaption", "ActionTooltip", null, 1, false, ControlType.ComboBox, new string[] {"Encrypt","Decrypt"})]
+        [ContextMenu( "ActionCaption", "ActionTooltip", 1, ContextMenuControlType.ComboBox, new int[] {1,2}, "ActionList1", "ActionList2")]
+        [TaskPane( "ActionCaption", "ActionTooltip", null, 1, false, ControlType.ComboBox, new string[] {"ActionList1", "ActionList2"})]
         public int Action
         {
             get { return this.selectedAction; }
@@ -219,8 +198,8 @@ namespace Cryptool.Substitution
         }
 
         [PropertySaveOrder(4)]
-        [ContextMenu( "UnknownSymbolHandlingCaption", "UnknownSymbolHandlingTooltip",3,ContextMenuControlType.ComboBox, null, new string[] {"Ignore (leave unmodified)", "Remove","Replace with \'?\'"})]
-        [TaskPane( "UnknownSymbolHandlingCaption", "UnknownSymbolHandlingTooltip", null, 3, false, ControlType.ComboBox, new string[] {"Ignore (leave unmodified)", "Remove","Replace with \'?\'"})]
+        [ContextMenu( "UnknownSymbolHandlingCaption", "UnknownSymbolHandlingTooltip",3,ContextMenuControlType.ComboBox, null, new string[] {"UnknownSymbolHandlingList1", "UnknownSymbolHandlingList2", "UnknownSymbolHandlingList3"})]
+        [TaskPane( "UnknownSymbolHandlingCaption", "UnknownSymbolHandlingTooltip", null, 3, false, ControlType.ComboBox, new string[] {"UnknownSymbolHandlingList1", "UnknownSymbolHandlingList2", "UnknownSymbolHandlingList3"})]
         public int UnknownSymbolHandling
         {
             get { return (int)this.unknowSymbolHandling; }
@@ -233,8 +212,8 @@ namespace Cryptool.Substitution
         }
 
         [PropertySaveOrder(5)]
-        [ContextMenu( "AlphabetCaseCaption", "AlphabetCaseTooltip",4, ContextMenuControlType.ComboBox,null, new string[] {"Case insensitive","Case sensitive"})]
-        [TaskPane( "AlphabetCaseCaption", "AlphabetCaseTooltip", null, 4, false, ControlType.ComboBox, new string[] {"Case insensitive","Case sensitive"})]
+        [ContextMenu( "AlphabetCaseCaption", "AlphabetCaseTooltip",4, ContextMenuControlType.ComboBox,null, new string[] {"AlphabetCaseList1", "AlphabetCaseList2"})]
+        [TaskPane( "AlphabetCaseCaption", "AlphabetCaseTooltip", null, 4, false, ControlType.ComboBox, new string[] {"AlphabetCaseList1", "AlphabetCaseList2"})]
         public int AlphabetCase
         {
             get { return this.caseSensitiveAlphabet; }
@@ -277,8 +256,8 @@ namespace Cryptool.Substitution
         }
 
         [PropertySaveOrder(6)]
-        [ContextMenu( "KeyVariantCaption", "KeyVariantTooltip",5,ContextMenuControlType.ComboBox,null,new string[] {"Remaining characters are filled in ascending order","Remaining characters are filld in descending order","Atbash (the encryption is using a fixed key)"})]
-        [TaskPane( "KeyVariantCaption", "KeyVariantTooltip", null, 5, false, ControlType.ComboBox,new string[] {"Remaining characters are filled in ascending order","Remaining characters are in descending order","Atbash (the encryption is using a fixed key)"})]
+        [ContextMenu( "KeyVariantCaption", "KeyVariantTooltip",5,ContextMenuControlType.ComboBox,null,new string[] {"KeyVariantList1", "KeyVariantList2", "KeyVariantList3"})]
+        [TaskPane( "KeyVariantCaption", "KeyVariantTooltip", null, 5, false, ControlType.ComboBox,new string[] {"KeyVariantList1", "KeyVariantList2", "KeyVariantList3"})]
         public int KeyVariant
         {
             get { return (int)this.keyVariant; }

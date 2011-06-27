@@ -120,13 +120,13 @@
   <data name="Encryption" xml:space="preserve">
     <value>Encryption</value>
   </data>
-    <data name="PluginCaption" xml:space="preserve">
+  <data name="PluginCaption" xml:space="preserve">
     <value>SDES</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
     <value>Simplified Data Encryption Standard</value>
   </data>
-    <data name="InputStreamCaption" xml:space="preserve">
+  <data name="InputStreamCaption" xml:space="preserve">
     <value>Input</value>
   </data>
   <data name="InputStreamTooltip" xml:space="preserve">
@@ -156,7 +156,7 @@
   <data name="ControlSlaveTooltip" xml:space="preserve">
     <value>Direct access to SDES.</value>
   </data>
-    <data name="ActionCaption" xml:space="preserve">
+  <data name="ActionCaption" xml:space="preserve">
     <value>Action</value>
   </data>
   <data name="ActionTooltip" xml:space="preserve">
@@ -167,5 +167,17 @@
   </data>
   <data name="ModeTooltip" xml:space="preserve">
     <value>Select the block cipher mode of operation.</value>
+  </data>
+  <data name="ActionList1" xml:space="preserve">
+    <value>Encrypt</value>
+  </data>
+  <data name="ActionList2" xml:space="preserve">
+    <value>Decrypt</value>
+  </data>
+  <data name="ModeList1" xml:space="preserve">
+    <value>Electronic Code Book (ECB)</value>
+  </data>
+  <data name="ModeList2" xml:space="preserve">
+    <value>Cipher Block Chaining (CBC)</value>
   </data>
 </root>

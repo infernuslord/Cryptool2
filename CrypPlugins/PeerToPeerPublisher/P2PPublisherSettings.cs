@@ -60,7 +60,7 @@ namespace Cryptool.Plugins.PeerToPeer
         }
 
         /* FOR TESTING ISSUES */
-        [TaskPane( "BtnUnregisterCaption", "BtnUnregisterTooltip", "Control region", 0, true, ControlType.Button)]
+        [TaskPane("BtnUnregisterCaption", "BtnUnregisterTooltip", "ControlRegionGroup", 0, true, ControlType.Button)]
         public void BtnUnregister()
         {
             TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("BtnSolutionFound", Visibility.Collapsed)));
@@ -68,7 +68,7 @@ namespace Cryptool.Plugins.PeerToPeer
             TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("BtnRegister", Visibility.Visible)));
             OnPropertyChanged("BtnUnregister");
         }
-        [TaskPane( "BtnRegisterCaption", "BtnRegisterTooltip", "Control region", 1, true, ControlType.Button)]
+        [TaskPane( "BtnRegisterCaption", "BtnRegisterTooltip", "ControlRegionGroup", 1, true, ControlType.Button)]
         public void BtnRegister()
         {
             TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("BtnSolutionFound", Visibility.Visible)));
@@ -76,7 +76,7 @@ namespace Cryptool.Plugins.PeerToPeer
             TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("BtnUnregister", Visibility.Visible)));
             OnPropertyChanged("BtnRegister");
         }
-        [TaskPane( "BtnSolutionFoundCaption", "BtnSolutionFoundTooltip", "Control region", 2, true, ControlType.Button)]
+        [TaskPane( "BtnSolutionFoundCaption", "BtnSolutionFoundTooltip", "ControlRegionGroup", 2, true, ControlType.Button)]
         public void BtnSolutionFound()
         {
             TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("BtnSolutionFound", Visibility.Collapsed)));
@@ -85,7 +85,7 @@ namespace Cryptool.Plugins.PeerToPeer
             OnPropertyChanged("BtnSolutionFound");
         }
 
-        [TaskPane( "BtnSerDeserCaption", "BtnSerDeserTooltip", "Serialization Test", 0, true, ControlType.Button)]
+        [TaskPane("BtnSerDeserCaption", "BtnSerDeserTooltip", "SerializationTestGroup", 0, true, ControlType.Button)]
         public void BtnSerDeser()
         {
             OnPropertyChanged("BtnSerDeser");
@@ -93,7 +93,7 @@ namespace Cryptool.Plugins.PeerToPeer
         /* FOR TESTING ISSUES */
 
         private int sendAliveMessageInterval = 60;
-        [TaskPane( "SendAliveMessageIntervalCaption", "SendAliveMessageIntervalTooltip", "Subscriber Properties", 0, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 10, 3600)]
+        [TaskPane("SendAliveMessageIntervalCaption", "SendAliveMessageIntervalTooltip", "SubscriberPropertiesGroup", 0, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 10, 3600)]
         public int SendAliveMessageInterval 
         {
             get 

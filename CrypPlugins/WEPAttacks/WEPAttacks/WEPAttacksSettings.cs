@@ -30,14 +30,14 @@ namespace Cryptool.WEPAttacks
             1,
             ContextMenuControlType.ComboBox,
             null,
-            new string[] { "\"FMS\"", "\"KoreK\"", "\"PTW\"" })]
+            new string[] { "ActionList1", "ActionList2", "ActionList3" })]
         [TaskPane("ActionCaption",
             "ActionTooltip",
             "",
             1,
             false,
             ControlType.ComboBox,
-            new string[] { "\"FMS\"", "\"KoreK\"", "\"PTW\"" })]
+            new string[] { "ActionList1", "ActionList2", "ActionList3" })]
         public int Action
         {
             get { return this.action; }
@@ -61,7 +61,7 @@ namespace Cryptool.WEPAttacks
             2,
             false,
             ControlType.CheckBox,
-            new string[] { "Data comes from file" })]
+            new string[] { "FileOrNotList1" })]
         public bool FileOrNot
         {
             get

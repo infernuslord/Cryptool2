@@ -124,60 +124,105 @@
     <value />
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Simple text output</value>
+    <value>Textdarstellung</value>
   </data>
   <data name="AppendCaption" xml:space="preserve">
-    <value>Append text input</value>
+    <value>Eingabetext anfügen</value>
   </data>
   <data name="AppendTooltip" xml:space="preserve">
-    <value>With this checkbox enabled, incoming text will be appended to the current text.</value>
+    <value>Wenn dieses Kontrollkästchen aktiviert ist, wird die Texteingabe an den aktuellen Text angehängt.</value>
   </data>
   <data name="AppendBreaksCaption" xml:space="preserve">
-    <value>Append n-breaks</value>
+    <value>Zeilenumbrüche anfügen</value>
   </data>
   <data name="AppendBreaksTooltip" xml:space="preserve">
-    <value>Defines how much new lines are added after new input. (Applies only if "Append text input" is active.)</value>
+    <value>Wie viele Zeilenumbrüche sollen bei neuem Eingabetext angefügt werden (gilt nur, wenn "Eingabetext anfügen" aktiviert ist).</value>
   </data>
   <data name="BooleanAsNumericCaption" xml:space="preserve">
-    <value>Display boolean as numeric value</value>
+    <value>Booleschen Wert numerisch darstellen</value>
   </data>
   <data name="BooleanAsNumericTooltip" xml:space="preserve">
-    <value>With this checkbox enabled, incoming boolean values will be displayed as numeric values (1/0 instead of True/False).</value>
+    <value>Wenn dieses Kontrollkästchen aktiviert ist, werden boolesche Werte numerisch dargestellt (1/0 statt Wahr/Falsch).</value>
   </data>
   <data name="DataTypeCaption" xml:space="preserve">
-    <value>Type</value>
+    <value>Datentyp</value>
   </data>
   <data name="DataTypeTooltip" xml:space="preserve">
     <value>Select DataType of plugin.</value>
   </data>
   <data name="EncodingSettingCaption" xml:space="preserve">
-    <value>Input encoding</value>
+    <value>Zeichenkodierung der Eingabe</value>
   </data>
   <data name="EncodingSettingTooltip" xml:space="preserve">
-    <value>Choose the expected encoding of the input.</value>
+    <value>Wählen Sie die erwartete Zeichenkodierung der Eingabe.</value>
   </data>
   <data name="EncodingSettingTPCaption" xml:space="preserve">
-    <value>Input encoding</value>
+    <value>Zeichenkodierung der Eingabe</value>
   </data>
   <data name="EncodingSettingTPTooltip" xml:space="preserve">
-    <value>Choose the expected encoding of the input. (The input will be interpreted as set here, no matter what the bytes really mean)</value>
+    <value>Wählen Sie die erwartete Zeichenkodierung der Eingabe.</value>
   </data>
   <data name="FlushOnPreExecutionCaption" xml:space="preserve">
-    <value>Flush text on PreExec</value>
+    <value>Lösche Text bei PreExec</value>
   </data>
   <data name="FlushOnPreExecutionTooltip" xml:space="preserve">
-    <value>Flush all text boxes on PreExecution call.</value>
+    <value>Lösche alle Textfelder im PreExecution-Aufruf.</value>
   </data>
   <data name="MaxLengthCaption" xml:space="preserve">
-    <value>Maximum length</value>
+    <value>Maximale Länge</value>
   </data>
   <data name="MaxLengthTooltip" xml:space="preserve">
-    <value>Provide the maximum number of bytes to convert.</value>
+    <value>Wie viele Bytes sollen maximal eingelesen werden?</value>
   </data>
   <data name="PresentationFormatSettingCaption" xml:space="preserve">
-    <value>Presentation format</value>
+    <value>Darstellungsformat</value>
   </data>
   <data name="PresentationFormatSettingTooltip" xml:space="preserve">
-    <value>Choose the format that will be used to present the input data.</value>
+    <value>Wählen Sie das Format, in dem die Eingabedaten dargestellt werden sollen.</value>
+  </data>
+  <data name="AppendList1" xml:space="preserve">
+    <value>Eingabetext anfügen</value>
+  </data>
+  <data name="BooleanAsNumericList1" xml:space="preserve">
+    <value>Booleschen Wert numerisch darstellen</value>
+  </data>
+  <data name="EncodingSettingList1" xml:space="preserve">
+    <value>Standardkodierung</value>
+  </data>
+  <data name="EncodingSettingList2" xml:space="preserve">
+    <value>Unicode</value>
+  </data>
+  <data name="EncodingSettingList3" xml:space="preserve">
+    <value>UTF-7</value>
+  </data>
+  <data name="EncodingSettingList4" xml:space="preserve">
+    <value>UTF-8</value>
+  </data>
+  <data name="EncodingSettingList5" xml:space="preserve">
+    <value>UTF-32</value>
+  </data>
+  <data name="EncodingSettingList6" xml:space="preserve">
+    <value>ASCII</value>
+  </data>
+  <data name="EncodingSettingList7" xml:space="preserve">
+    <value>Big Endian-Unicode</value>
+  </data>
+  <data name="FlushOnPreExecutionList1" xml:space="preserve">
+    <value>Lösche Text bei PreExec</value>
+  </data>
+  <data name="PresentationFormatSettingList1" xml:space="preserve">
+    <value>Text</value>
+  </data>
+  <data name="PresentationFormatSettingList2" xml:space="preserve">
+    <value>Hex</value>
+  </data>
+  <data name="PresentationFormatSettingList3" xml:space="preserve">
+    <value>Base64</value>
+  </data>
+  <data name="PresentationFormatSettingList4" xml:space="preserve">
+    <value>Dezimal</value>
+  </data>
+  <data name="AppendGroup" xml:space="preserve">
+    <value>Anfügen</value>
   </data>
 </root>

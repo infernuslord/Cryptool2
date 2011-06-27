@@ -32,8 +32,8 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         private int mode = 0; //0="ECB", 1="CBC", 2="CFB", 3="OFB"
         private int padding = 0; //="Zeros"=default, 1="None", 2="PKCS7", 3="ANSIX923", 4="ISO10126"
 
-        [ContextMenu( "ActionCaption", "ActionTooltip",1,ContextMenuControlType.ComboBox,new int[] {1,2},"Encrypt","Decrypt")]
-        [TaskPane( "ActionCaption", "ActionTooltip", "", 1, false,ControlType.ComboBox, new string[] {"Encrypt","Decrypt"})]
+        [ContextMenu( "ActionCaption", "ActionTooltip",1,ContextMenuControlType.ComboBox,new int[] {1,2}, "ActionList1", "ActionList2" )]
+        [TaskPane( "ActionCaption", "ActionTooltip", "", 1, false,ControlType.ComboBox, new string[] {"ActionList1", "ActionList2"})]
         public int Action
         {
             get { return this.action; }
@@ -45,8 +45,8 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             }
         }
 
-        [ContextMenu( "ModeCaption", "ModeTooltip",2, ContextMenuControlType.ComboBox, null, new string[] {"Electronic Code Book (ECB)","Cipher Block Chaining (CBC)","Cipher Feedback (CFB)"})]
-        [TaskPane( "ModeCaption", "ModeTooltip", "", 2, false, ControlType.ComboBox,new String[] {"Electronic Code Book (ECB)","Cipher Block Chaining (CBC)","Cipher Feedback (CFB)"})]
+        [ContextMenu("ModeCaption", "ModeTooltip", 2, ContextMenuControlType.ComboBox, null, new string[] { "ModeList1", "ModeList2", "ModeList3" })]
+        [TaskPane("ModeCaption", "ModeTooltip", "", 2, false, ControlType.ComboBox, new String[] { "ModeList1", "ModeList2", "ModeList3" })]
         public int Mode
         {
             get { return this.mode; }
@@ -58,8 +58,8 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             }
         }
 
-        [ContextMenu( "PaddingCaption", "PaddingTooltip",3, ContextMenuControlType.ComboBox, null, "Zeros","None","PKCS7","ANSIX923","ISO10126")]
-        [TaskPane( "PaddingCaption", "PaddingTooltip", "", 3, false, ControlType.ComboBox, new String[]{"Zeros","None","PKCS7","ANSIX923","ISO10126"})]
+        [ContextMenu("PaddingCaption", "PaddingTooltip", 3, ContextMenuControlType.ComboBox, null, "PaddingList1", "PaddingList2", "PaddingList3", "PaddingList4", "PaddingList5")]
+        [TaskPane("PaddingCaption", "PaddingTooltip", "", 3, false, ControlType.ComboBox, new String[] { "PaddingList1", "PaddingList2", "PaddingList3", "PaddingList4", "PaddingList5" })]
         public int Padding
         {
             get { return this.padding; }

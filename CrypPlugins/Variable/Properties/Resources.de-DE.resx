@@ -124,19 +124,19 @@
     <value>Variable/DetailedDescription/Description.xaml</value>
   </data>
   <data name="VariableLoadObjectCaption" xml:space="preserve">
-    <value>Variable Load Object</value>
+    <value>Lade Variable</value>
   </data>
   <data name="VariableLoadObjectTooltip" xml:space="preserve">
-    <value>Object to be loaded from the corresponding variable</value>
+    <value>Lädt das Datenobjekt, das unter dem zugehörigen Namen gespeichert wurde.</value>
   </data>
   <data name="VariableLoadTooltip" xml:space="preserve">
-    <value>Variable Load</value>
+    <value>Lade von Variable</value>
   </data>
   <data name="VariableNameCaption" xml:space="preserve">
-    <value>Variable Name</value>
+    <value>Variablenname</value>
   </data>
   <data name="VariableNameTooltip" xml:space="preserve">
-    <value>The variable this component is linked with.</value>
+    <value>Name der Variablen, mit dem diese Komponente verbunden ist.</value>
   </data>
   <data name="VariableStoreCaption" xml:space="preserve">
     <value>VariableStore</value>
@@ -145,12 +145,12 @@
     <value>Variable/DetailedDescription/Description.xaml</value>
   </data>
   <data name="VariableStoreObjectCaption" xml:space="preserve">
-    <value>Variable Store Object</value>
+    <value>Speichere in Variable</value>
   </data>
   <data name="VariableStoreObjectTooltip" xml:space="preserve">
-    <value>Object to be stored to the corresponding variable</value>
+    <value>Datenobjekt, das in der Variablen mit dem eingestellten Namen gespeichert werden soll.</value>
   </data>
   <data name="VariableStoreTooltip" xml:space="preserve">
-    <value>Variable Store</value>
+    <value>Speichere in Variable</value>
   </data>
 </root>

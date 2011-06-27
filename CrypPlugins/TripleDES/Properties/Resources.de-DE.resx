@@ -124,16 +124,16 @@
     <value>Sollen die Daten ver- oder entschlüsselt werden?</value>
   </data>
   <data name="ChainingModeCaption" xml:space="preserve">
-    <value>Chaining-Modus</value>
+    <value>Blockverkettungsmodus</value>
   </data>
   <data name="ChainingModeTooltip" xml:space="preserve">
-    <value>Wählen Sie den Operationsmodus der Blockchiffre.</value>
+    <value>Wählen Sie die Art der Blockverkettung.</value>
   </data>
   <data name="InputIVCaption" xml:space="preserve">
-    <value>IV</value>
+    <value>Initialisierungsvektor</value>
   </data>
   <data name="InputIVTooltip" xml:space="preserve">
-    <value>Initialisierungsvektor, der für den Chaining-Modus benutzt wird. Muss gleich groß wie die Blockgröße sein (8 Bytes).</value>
+    <value>Der Initialisierungsvektor (IV) für die Blockverschlüsselungs-Modi (CBC,CFB). Er muss gleich groß wie die Blockgröße sein (8 Bytes).</value>
   </data>
   <data name="InputKeyCaption" xml:space="preserve">
     <value>Schlüssel</value>
@@ -142,22 +142,22 @@
     <value>Muss 16 oder 24 Bytes lang sein.</value>
   </data>
   <data name="InputStreamCaption" xml:space="preserve">
-    <value>Eingabe</value>
+    <value>Eingabedatenstrom</value>
   </data>
   <data name="InputStreamTooltip" xml:space="preserve">
-    <value>Zu ver-/entschlüsselnde Daten</value>
+    <value>zu ver-/entschlüsselnde Daten</value>
   </data>
   <data name="OutputStreamCaption" xml:space="preserve">
     <value>Ausgabedatenstrom</value>
   </data>
   <data name="OutputStreamTooltip" xml:space="preserve">
-    <value>Ver- oder entschlüsselte Ausgabedaten</value>
+    <value>Ver- bzw. entschlüsselter Ausgabedatenstrom</value>
   </data>
   <data name="PaddingModeCaption" xml:space="preserve">
-    <value>Padding-Modus</value>
+    <value>Auffüll-Methode (Padding)</value>
   </data>
   <data name="PaddingModeTooltip" xml:space="preserve">
-    <value>Wählen Sie eine Methode, Teildatenblöcke aufzufüllen.</value>
+    <value>Wählen Sie die Methode, wie zu kurze Blöcke zur Blockgröße aufgefüllt werden.</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
     <value>Triple DES</value>
@@ -167,5 +167,35 @@
   </data>
   <data name="PluginTooltip" xml:space="preserve">
     <value>Triple Data Encryption Standard</value>
+  </data>
+  <data name="ActionList1" xml:space="preserve">
+    <value>Verschlüsselung</value>
+  </data>
+  <data name="ActionList2" xml:space="preserve">
+    <value>Entschlüsselung</value>
+  </data>
+  <data name="ModeList1" xml:space="preserve">
+    <value>Electronic Code Book (ECB)</value>
+  </data>
+  <data name="ModeList2" xml:space="preserve">
+    <value>Cipher Block Chaining (CBC)</value>
+  </data>
+  <data name="ModeList3" xml:space="preserve">
+    <value>Cipher Feedback (CFB)</value>
+  </data>
+  <data name="PaddingList1" xml:space="preserve">
+    <value>Nullen</value>
+  </data>
+  <data name="PaddingList2" xml:space="preserve">
+    <value>Keine</value>
+  </data>
+  <data name="PaddingList3" xml:space="preserve">
+    <value>PKCS7</value>
+  </data>
+  <data name="PaddingList4" xml:space="preserve">
+    <value>ANSIX923</value>
+  </data>
+  <data name="PaddingList5" xml:space="preserve">
+    <value>ISO10126</value>
   </data>
 </root>

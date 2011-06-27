@@ -42,8 +42,8 @@ namespace RandomInput
       }
     }
 
-    [ContextMenu( "KeepRNDCaption", "KeepRNDTooltip", 2, ContextMenuControlType.ComboBox, null, new String[] { "no", "yes" })]
-    [TaskPane( "KeepRNDCaption", "KeepRNDTooltip", null, 2, false, ControlType.ComboBox, new String[] { "no", "yes" })]
+    [ContextMenu( "KeepRNDCaption", "KeepRNDTooltip", 2, ContextMenuControlType.ComboBox, null, new String[] { "KeepRNDList1", "KeepRNDList2" })]
+    [TaskPane( "KeepRNDCaption", "KeepRNDTooltip", null, 2, false, ControlType.ComboBox, new String[] { "KeepRNDList1", "KeepRNDList2" })]
     public int KeepRND
     {
       get { return this.keepRND; }

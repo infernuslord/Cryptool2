@@ -186,4 +186,25 @@
   <data name="PluginTooltip" xml:space="preserve">
     <value>Twofish -- cipher</value>
   </data>
+  <data name="ActionList1" xml:space="preserve">
+    <value>Encrypt</value>
+  </data>
+  <data name="ActionList2" xml:space="preserve">
+    <value>Decrypt</value>
+  </data>
+  <data name="KeySizeList1" xml:space="preserve">
+    <value>128 Bits</value>
+  </data>
+  <data name="KeySizeList2" xml:space="preserve">
+    <value>192 Bits</value>
+  </data>
+  <data name="KeySizeList3" xml:space="preserve">
+    <value>256 Bits</value>
+  </data>
+  <data name="ModeList1" xml:space="preserve">
+    <value>Electronic Code Book (ECB)</value>
+  </data>
+  <data name="ModeList2" xml:space="preserve">
+    <value>Cipher Block Chaining (CBC)</value>
+  </data>
 </root>

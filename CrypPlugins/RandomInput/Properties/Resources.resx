@@ -131,4 +131,10 @@
   <data name="KeepRNDTooltip" xml:space="preserve">
     <value>Generate and keep random bytes only once</value>
   </data>
+  <data name="KeepRNDList1" xml:space="preserve">
+    <value>no</value>
+  </data>
+  <data name="KeepRNDList2" xml:space="preserve">
+    <value>yes</value>
+  </data>
 </root>

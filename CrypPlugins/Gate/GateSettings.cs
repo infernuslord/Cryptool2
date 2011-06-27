@@ -33,7 +33,7 @@ namespace Gate
         private Trigger trigger = 0;
 
         [TaskPane( "TriggerCaption", "TriggerTooltip", null, 1, true, ControlType.RadioButton,
-            new string[] { "no trigger (always open)", "no trigger (always closed)", "true value", "false value", "edge (value swap)", "positive edge (false->true)", "negative edge (true->false)" })]
+            new string[] { "TriggerList1", "TriggerList2", "TriggerList3", "TriggerList4", "TriggerList5", "TriggerList6", "TriggerList7" })]
         public Trigger Trigger
         {
             get

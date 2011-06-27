@@ -68,8 +68,8 @@ namespace Cryptool.VigenereAnalyser
                 OnPropertyChanged("InternalKeyLengthAnalysis");
             }
         }
-        [ContextMenu( "ColumnAnalysisCaption", "ColumnAnalysisTooltip", 2, ContextMenuControlType.ComboBox, null, new String[] { "Use most frequent letter", "Use sum of squares" })]
-        [TaskPane( "ColumnAnalysisCaption", "ColumnAnalysisTooltip", null, 2, false, ControlType.ComboBox, new String[] { "Use most frequent letter", "Use sum of squares" })]
+        [ContextMenu( "ColumnAnalysisCaption", "ColumnAnalysisTooltip", 2, ContextMenuControlType.ComboBox, null, new String[] { "ColumnAnalysisList1", "ColumnAnalysisList2" })]
+        [TaskPane( "ColumnAnalysisCaption", "ColumnAnalysisTooltip", null, 2, false, ControlType.ComboBox, new String[] { "ColumnAnalysisList1", "ColumnAnalysisList2" })]
         public int ColumnAnalysis
         {
             get { return this.columnAnalysis; }

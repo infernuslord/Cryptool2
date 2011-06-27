@@ -121,43 +121,61 @@
     <value>Alphabet</value>
   </data>
   <data name="AlphabetSymbolsTooltip" xml:space="preserve">
-    <value>This is the used alphabet.</value>
+    <value>Verwendetes Eingabe-Alphabet</value>
   </data>
   <data name="InputCipherCaption" xml:space="preserve">
-    <value>Cipher Input</value>
+    <value>Geheimtext</value>
   </data>
   <data name="InputCipherTooltip" xml:space="preserve">
-    <value>Enter your cipher here</value>
+    <value>Geben Sie hier den zu untersuchenden Geheimtext ein.</value>
   </data>
   <data name="InputKeylengthCaption" xml:space="preserve">
-    <value>Keylength Input</value>
+    <value>Eingabe der Schlüssellänge</value>
   </data>
   <data name="InputKeylengthTooltip" xml:space="preserve">
-    <value>Enter the assumed keylength from the autokorrelationfunction here</value>
+    <value>Geben Sie hier die vermutete Schlüssellänge ein (z.B. vom Autokorrelations-Plugin).</value>
   </data>
   <data name="InputKorpusCaption" xml:space="preserve">
-    <value>Textkorpus Input</value>
+    <value>Eingabe des Textkorpus</value>
   </data>
   <data name="InputKorpusTooltip" xml:space="preserve">
-    <value>Enter your sample text here or choose a language from the task-pane</value>
+    <value>Geben Sie hier einen Beispieltext ein oder wählen Sie die vermutete Sprache des Geheimtextes in den Plugin-Einstellungen.</value>
   </data>
   <data name="LanguageCaption" xml:space="preserve">
-    <value>Expected Language</value>
+    <value>Vermutete Sprache</value>
+  </data>
+  <data name="LanguageList1" xml:space="preserve">
+    <value>Englisch</value>
+  </data>
+  <data name="LanguageList2" xml:space="preserve">
+    <value>Deutsch</value>
+  </data>
+  <data name="LanguageList3" xml:space="preserve">
+    <value>Französisch</value>
+  </data>
+  <data name="LanguageList4" xml:space="preserve">
+    <value>Spanisch</value>
   </data>
   <data name="LanguageTooltip" xml:space="preserve">
-    <value>Select the language you expect the plaintext to be</value>
+    <value>Wählen Sie die vermutete Sprache des Geheimtextes.</value>
   </data>
   <data name="ModusCaption" xml:space="preserve">
     <value>Modus</value>
   </data>
+  <data name="ModusList1" xml:space="preserve">
+    <value>Selbstschlüssel-Verfahren (Autokey)</value>
+  </data>
+  <data name="ModusList2" xml:space="preserve">
+    <value>Vigenère</value>
+  </data>
   <data name="ModusTooltip" xml:space="preserve">
-    <value>Select the modus you want to work with</value>
+    <value>Wählen Sie die Betriebsart des Plugins.</value>
   </data>
   <data name="OutputKeyCaption" xml:space="preserve">
-    <value>Key Output</value>
+    <value>Ausgabe des Schlüssels</value>
   </data>
   <data name="OutputKeyTooltip" xml:space="preserve">
-    <value>The most probable autokey for the analysed ciphertext</value>
+    <value>Der wahrscheinlichste Selbstschlüssel für den analysierten Geheimtext</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
     <value>VigenereAutokeyAnalyser</value>
@@ -166,6 +184,6 @@
     <value>VigenereAutokeyAnalyser/DetailedDescription/Description.xaml</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Ciphertext-only attack on VigenereAutoKey encryption</value>
+    <value>Ciphertext-Only-Angriff auf das Vigenère-Selbstschlüssel-Verfahren (Autokey)</value>
   </data>
 </root>

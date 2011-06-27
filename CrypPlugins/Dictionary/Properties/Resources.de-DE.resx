@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="dic_file_not_found" xml:space="preserve">
-    <value>Wörterbuch-Datei "{0} " nicht gefunden.</value>
+    <value>Wörterbuch-Datei "{0}" nicht gefunden.</value>
   </data>
   <data name="finished_loading_dic" xml:space="preserve">
     <value>...Wörterbuch geladen in {0} Millisekunden.</value>

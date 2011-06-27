@@ -91,7 +91,7 @@ namespace Cryptool.Plugins.Paillier
         /// <summary>
         /// Getter/Setter for prime P
         /// </summary>
-        [TaskPane( "PCaption", "PTooltip", null, 2, false, ControlType.TextBox)]
+        [TaskPane("PCaption", "PTooltip", null, 2, false, ControlType.TextBox, ValidationType.RegEx, "^[0-9]+$")]
         public String P
         {
             get { return p; }
@@ -105,7 +105,7 @@ namespace Cryptool.Plugins.Paillier
         /// <summary>
         /// Getter/Setter for the prime Q
         /// </summary>
-        [TaskPane( "QCaption", "QTooltip", null, 3, false, ControlType.TextBox)]
+        [TaskPane("QCaption", "QTooltip", null, 3, false, ControlType.TextBox, ValidationType.RegEx, "^[0-9]+$")]
         public String Q
         {
             get { return q; }
@@ -119,7 +119,7 @@ namespace Cryptool.Plugins.Paillier
         /// <summary>
         /// Getter/Setter for the bitlength of the randomly generated primes
         /// </summary>
-        [TaskPane("KeyBitLengthCaption", "KeyBitLengthTooltip", null, 2, false, ControlType.TextBox, ValidationType.RegEx, "[0-9][0-9]*")]
+        [TaskPane("KeyBitLengthCaption", "KeyBitLengthTooltip", null, 2, false, ControlType.TextBox, ValidationType.RegEx, "^[0-9]+$")]
         public String KeyBitLength
         {
             get { return this.keyBitLength; }

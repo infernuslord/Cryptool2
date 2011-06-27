@@ -136,10 +136,10 @@
     <value>zu verarbeitender Eingabedatenstrom</value>
   </data>
   <data name="IVCaption" xml:space="preserve">
-    <value>IV</value>
+    <value>Initialisierungsvektor</value>
   </data>
   <data name="IVTooltip" xml:space="preserve">
-    <value>Initialisierungsvektor</value>
+    <value>Der Initialisierungsvektor (IV) für die Blockverschlüsselungs-Modi. Er muss gleich groß wie die Blockgröße sein (8 Bytes).</value>
   </data>
   <data name="KeyDataCaption" xml:space="preserve">
     <value>Schlüsseldaten</value>
@@ -160,10 +160,10 @@
     <value>Schlüsseleingabe</value>
   </data>
   <data name="ModeCaption" xml:space="preserve">
-    <value>Chaining Modus </value>
+    <value>Blockverkettungsmodus</value>
   </data>
   <data name="ModeTooltip" xml:space="preserve">
-    <value>Wählen Sie den Operationsmodus der Blockchiffre.</value>
+    <value>Wählen Sie die Art der Blockverkettung.</value>
   </data>
   <data name="OutputDataCaption" xml:space="preserve">
     <value>Ausgabedaten</value>
@@ -185,5 +185,26 @@
   </data>
   <data name="PluginTooltip" xml:space="preserve">
     <value>Twofish - Chiffre</value>
+  </data>
+  <data name="ActionList1" xml:space="preserve">
+    <value>Verschlüsselung</value>
+  </data>
+  <data name="ActionList2" xml:space="preserve">
+    <value>Entschlüsselung</value>
+  </data>
+  <data name="KeySizeList1" xml:space="preserve">
+    <value>128 Bits</value>
+  </data>
+  <data name="KeySizeList2" xml:space="preserve">
+    <value>192 Bits</value>
+  </data>
+  <data name="KeySizeList3" xml:space="preserve">
+    <value>256 Bits</value>
+  </data>
+  <data name="ModeList1" xml:space="preserve">
+    <value>Electronic Code Book (ECB)</value>
+  </data>
+  <data name="ModeList2" xml:space="preserve">
+    <value>Cipher Block Chaining (CBC)</value>
   </data>
 </root>

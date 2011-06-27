@@ -197,4 +197,13 @@
   <data name="publishKeyTooltip" xml:space="preserve">
     <value>Erstellt ein RSA-Schlüsselpaar</value>
   </data>
+  <data name="IntegerList1" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="IntegerList2" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="IntegerList3" xml:space="preserve">
+    <value>2</value>
+  </data>
 </root>

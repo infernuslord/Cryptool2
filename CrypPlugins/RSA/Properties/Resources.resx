@@ -117,9 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Finished_RSA_on_texts_in__0__seconds_" xml:space="preserve">
-    <value>Finished RSA on texts in {0} seconds!</value>
-  </data>
   <data name="PluginCaption" xml:space="preserve">
     <value>RSA</value>
   </data>
@@ -139,10 +136,10 @@
     <value>RSA/DetailedDescription/Description.xaml</value>
   </data>
   <data name="InputNCaption" xml:space="preserve">
-    <value>Public key / private Key N input</value>
+    <value>Public key N input</value>
   </data>
   <data name="InputNTooltip" xml:space="preserve">
-    <value>Enter your public key / private key N here</value>
+    <value>Enter your public key N here</value>
   </data>
   <data name="InputMCCaption" xml:space="preserve">
     <value>Message M / ciphertext C input</value>
@@ -175,22 +172,22 @@
     <value>Your text will be send here</value>
   </data>
   <data name="NCaption" xml:space="preserve">
-    <value>N</value>
+    <value>Public key N</value>
   </data>
   <data name="NTooltip" xml:space="preserve">
-    <value>N</value>
+    <value>Public key N</value>
   </data>
   <data name="ECaption" xml:space="preserve">
-    <value>e</value>
+    <value>Public key e</value>
   </data>
   <data name="ETooltip" xml:space="preserve">
-    <value>e</value>
+    <value>Public key e</value>
   </data>
   <data name="DCaption" xml:space="preserve">
-    <value>d</value>
+    <value>Private key d</value>
   </data>
   <data name="DTooltip" xml:space="preserve">
-    <value>d</value>
+    <value>Private key d</value>
   </data>
   <data name="CertificateFileCaption" xml:space="preserve">
     <value>Open X.509 Certificate</value>
@@ -205,10 +202,10 @@
     <value>Close file</value>
   </data>
   <data name="PCaption" xml:space="preserve">
-    <value>P</value>
+    <value>Prime number P</value>
   </data>
   <data name="PTooltip" xml:space="preserve">
-    <value>P</value>
+    <value>Prime number P</value>
   </data>
   <data name="PasswordCaption" xml:space="preserve">
     <value>Password</value>
@@ -217,10 +214,10 @@
     <value>Password</value>
   </data>
   <data name="QCaption" xml:space="preserve">
-    <value>Q</value>
+    <value>Prime number Q</value>
   </data>
   <data name="QTooltip" xml:space="preserve">
-    <value>Q</value>
+    <value>Prime number Q</value>
   </data>
   <data name="SourceCaption" xml:space="preserve">
     <value>Source</value>
@@ -239,5 +236,23 @@
   </data>
   <data name="CoresUsedTooltip" xml:space="preserve">
     <value>Choose how many cores should be used</value>
+  </data>
+  <data name="ActionList1" xml:space="preserve">
+    <value>Encryption</value>
+  </data>
+  <data name="ActionList2" xml:space="preserve">
+    <value>Decryption</value>
+  </data>
+  <data name="SourceList1" xml:space="preserve">
+    <value>Manual enter primes</value>
+  </data>
+  <data name="SourceList2" xml:space="preserve">
+    <value>Manual enter keys</value>
+  </data>
+  <data name="SourceList3" xml:space="preserve">
+    <value>Random generated</value>
+  </data>
+  <data name="SourceList4" xml:space="preserve">
+    <value>X.509 Certificate</value>
   </data>
 </root>

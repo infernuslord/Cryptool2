@@ -156,10 +156,10 @@
   <data name="StickSizeTPTooltip" xml:space="preserve">
     <value>Durchmesser des verwendeten Stabes</value>
   </data>
-  <data name="ActionItem1" xml:space="preserve">
-    <value>verschlüsseln</value>
+  <data name="ActionList1" xml:space="preserve">
+    <value>Verschlüsselung</value>
   </data>
-  <data name="ActionItem2" xml:space="preserve">
-    <value>entschlüsseln</value>
+  <data name="ActionList2" xml:space="preserve">
+    <value>Entschlüsselung</value>
   </data>
 </root>

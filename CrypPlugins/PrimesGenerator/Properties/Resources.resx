@@ -125,4 +125,10 @@
   <data name="ModeTooltip" xml:space="preserve">
     <value>Select </value>
   </data>
+  <data name="ModeList1" xml:space="preserve">
+    <value>A Primenumber with n bits</value>
+  </data>
+  <data name="ModeList2" xml:space="preserve">
+    <value>A Primenumber less or equal than n</value>
+  </data>
 </root>

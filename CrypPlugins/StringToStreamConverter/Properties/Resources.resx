@@ -131,4 +131,34 @@
   <data name="EncodingSettingTooltip" xml:space="preserve">
     <value>Choose the encoding of the output stream. (Byte encoding)</value>
   </data>
+  <data name="EncodingSettingList1" xml:space="preserve">
+    <value>Default</value>
+  </data>
+  <data name="EncodingSettingList2" xml:space="preserve">
+    <value>Binary data (convert from base64)</value>
+  </data>
+  <data name="EncodingSettingList3" xml:space="preserve">
+    <value>Binary data (convert from hex-string)</value>
+  </data>
+  <data name="EncodingSettingList4" xml:space="preserve">
+    <value>Binary data (convert from octal-string)</value>
+  </data>
+  <data name="EncodingSettingList5" xml:space="preserve">
+    <value>Unicode</value>
+  </data>
+  <data name="EncodingSettingList6" xml:space="preserve">
+    <value>UTF-7</value>
+  </data>
+  <data name="EncodingSettingList7" xml:space="preserve">
+    <value>UTF-8</value>
+  </data>
+  <data name="EncodingSettingList8" xml:space="preserve">
+    <value>UTF-32</value>
+  </data>
+  <data name="EncodingSettingList9" xml:space="preserve">
+    <value>ASCII</value>
+  </data>
+  <data name="EncodingSettingList10" xml:space="preserve">
+    <value>Big endian unicode</value>
+  </data>
 </root>

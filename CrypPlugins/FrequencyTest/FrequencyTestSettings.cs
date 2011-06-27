@@ -85,8 +85,8 @@ namespace Cryptool.FrequencyTest
         /// Visible setting how to deal with alphabet case. 0 = case insentive, 1 = case sensitive
         /// </summary>
         [PropertySaveOrder(1)]
-        [ContextMenu( "CaseSensitivityCaption", "CaseSensitivityTooltip", 7, ContextMenuControlType.ComboBox, null, new string[] { "Case insensitive", "Case sensitive" })]
-        [TaskPane( "CaseSensitivityCaption", "CaseSensitivityTooltip", "", 7,false, ControlType.ComboBox, new string[] { "Case insensitive", "Case sensitive" })]
+        [ContextMenu( "CaseSensitivityCaption", "CaseSensitivityTooltip", 7, ContextMenuControlType.ComboBox, null, new string[] { "CaseSensitivityList1", "CaseSensitivityList2" })]
+        [TaskPane( "CaseSensitivityCaption", "CaseSensitivityTooltip", "", 7,false, ControlType.ComboBox, new string[] { "CaseSensitivityList1", "CaseSensitivityList2" })]
         public int CaseSensitivity
         {
             get { return this.caseSensitivity; }
@@ -103,7 +103,7 @@ namespace Cryptool.FrequencyTest
         }
 
         [PropertySaveOrder(2)]
-        [TaskPane( "GrammLengthCaption", "GrammLengthTooltip", "", 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, 100)]
+        [TaskPane( "GrammLengthCaption", "GrammLengthTooltip", "", 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 100)]
         public int GrammLength
         {
             get { return this.grammLength; }
@@ -118,8 +118,8 @@ namespace Cryptool.FrequencyTest
         }
 
         [PropertySaveOrder(3)]
-        [ContextMenu( "ProcessUnknownSymbolsCaption", "ProcessUnknownSymbolsTooltip", 4, ContextMenuControlType.ComboBox, null, new string[] { "Don't count", "Count" })]
-        [TaskPane( "ProcessUnknownSymbolsCaption", "ProcessUnknownSymbolsTooltip", null, 4, false, ControlType.ComboBox, new string[] { "Don't count", "Count" })]
+        [ContextMenu( "ProcessUnknownSymbolsCaption", "ProcessUnknownSymbolsTooltip", 4, ContextMenuControlType.ComboBox, null, new string[] { "ProcessUnknownSymbolsList1", "ProcessUnknownSymbolsList2" })]
+        [TaskPane( "ProcessUnknownSymbolsCaption", "ProcessUnknownSymbolsTooltip", null, 4, false, ControlType.ComboBox, new string[] { "ProcessUnknownSymbolsList1", "ProcessUnknownSymbolsList2" })]
         public int ProcessUnknownSymbols
         {
             get { return this.unknownSymbolHandling; }
@@ -150,7 +150,7 @@ namespace Cryptool.FrequencyTest
         /// The underline char represents a whitespace.
         /// </summary>
         [PropertySaveOrder(4)]
-        [TaskPane( "BoundaryFragmentsCaption", "BoundaryFragmentsTooltip", "", 10, false, ControlType.ComboBox, new string[] { "No fragments at boundary", "Include fragments" })]
+        [TaskPane("BoundaryFragmentsCaption", "BoundaryFragmentsTooltip", "", 10, false, ControlType.ComboBox, new string[] { "BoundaryFragmentsList1", "BoundaryFragmentsList2" })]
         public int BoundaryFragments
         {
             get { return this.boundaryFragments; }
@@ -167,7 +167,7 @@ namespace Cryptool.FrequencyTest
         }
 
         [PropertySaveOrder(5)]
-        [TaskPane( "AutozoomCaption", "AutozoomTooltip", "Presentation", 20, true, ControlType.CheckBox)]
+        [TaskPane("AutozoomCaption", "AutozoomTooltip", "PresentationGroup", 20, true, ControlType.CheckBox)]
         public bool Autozoom
         {
             get { return this.autozoom; }
@@ -191,7 +191,7 @@ namespace Cryptool.FrequencyTest
 
 
         [PropertySaveOrder(6)]
-        [TaskPane( "ChartHeightCaption", "ChartHeightTooltip", "Presentation", 21, true, ControlType.NumericUpDown, ValidationType.RangeInteger, 10, 1000)]
+        [TaskPane("ChartHeightCaption", "ChartHeightTooltip", "PresentationGroup", 21, true, ControlType.NumericUpDown, ValidationType.RangeInteger, 10, 1000)]
         public int ChartHeight
         {
             get { return this.chartHeight; }
@@ -209,7 +209,7 @@ namespace Cryptool.FrequencyTest
 
 
         [PropertySaveOrder(7)]
-        [TaskPane( "ScaleCaption", "ScaleTooltip", "Presentation", 22, true, ControlType.Slider, 5, 20000)]
+        [TaskPane("ScaleCaption", "ScaleTooltip", "PresentationGroup", 22, true, ControlType.Slider, 5, 20000)]
         public int Scale
         {
             get { return scale; }

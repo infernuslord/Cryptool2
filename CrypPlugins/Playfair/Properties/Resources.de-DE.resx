@@ -154,7 +154,7 @@
     <value>Aktion</value>
   </data>
   <data name="ActionTooltip" xml:space="preserve">
-    <value>Wählen Sie die Betriebsart des Plugins</value>
+    <value>Wählen Sie die Betriebsart des Plugins.</value>
   </data>
   <data name="AlphabetMatrixCaption" xml:space="preserve">
     <value>Alphabet</value>
@@ -224,5 +224,11 @@
   </data>
   <data name="SeparatePairsList1" xml:space="preserve">
     <value>Trenne Doppelbuchstaben durch das Trennzeichen</value>
+  </data>
+  <data name="MatrixSizeList1" xml:space="preserve">
+    <value>5 x 5</value>
+  </data>
+  <data name="MatrixSizeList2" xml:space="preserve">
+    <value>6 x 6</value>
   </data>
 </root>

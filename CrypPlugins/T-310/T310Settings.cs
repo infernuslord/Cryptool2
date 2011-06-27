@@ -40,7 +40,7 @@ namespace Cryptool.Plugins.T310
 
         #region TaskPane Settings
 
-        [TaskPane( "ModeCaption", "ModeTooltip", null, 1, false, ControlType.ComboBox, new string[] { "Encrypt", "Decrypt" })]
+        [TaskPane("ModeCaption", "ModeTooltip", null, 1, false, ControlType.ComboBox, new string[] { "ModeList1", "ModeList2" })]
         public ModeEnum Mode
         {
             get

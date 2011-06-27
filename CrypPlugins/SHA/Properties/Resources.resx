@@ -131,4 +131,16 @@
   <data name="SHAFunctionTooltip" xml:space="preserve">
     <value>Select the SHA hash function (SHA1 or one out of the SHA2 family)</value>
   </data>
+  <data name="SHAFunctionList1" xml:space="preserve">
+    <value>SHA1</value>
+  </data>
+  <data name="SHAFunctionList2" xml:space="preserve">
+    <value>SHA256</value>
+  </data>
+  <data name="SHAFunctionList3" xml:space="preserve">
+    <value>SHA384</value>
+  </data>
+  <data name="SHAFunctionList4" xml:space="preserve">
+    <value>SHA512</value>
+  </data>
 </root>

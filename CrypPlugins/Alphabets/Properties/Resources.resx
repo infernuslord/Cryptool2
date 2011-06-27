@@ -149,4 +149,31 @@
   <data name="UpperLowerCaseLettersTooltip" xml:space="preserve">
     <value>Use uppercase, lowercase letters</value>
   </data>
+  <data name="NumeralsList1" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="NumeralsList2" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="PunctuationList1" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="PunctuationList2" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="SpaceSensitivityList1" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="SpaceSensitivityList2" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="UpperLowerCaseLettersList1" xml:space="preserve">
+    <value>Uppercase</value>
+  </data>
+  <data name="UpperLowerCaseLettersList2" xml:space="preserve">
+    <value>Lowercase</value>
+  </data>
+  <data name="UpperLowerCaseLettersList3" xml:space="preserve">
+    <value>Both</value>
+  </data>
 </root>

@@ -192,4 +192,10 @@
   <data name="PluginDescriptionURL" xml:space="preserve">
     <value>Trivium/DetailedDescription/Description.xaml</value>
   </data>
+  <data name="HexOutputList1" xml:space="preserve">
+    <value>With this checkbox enabled, output bytes will be displayed in hex.</value>
+  </data>
+  <data name="UseByteSwappingList1" xml:space="preserve">
+    <value>With this checkbox enabled, output bytes will be swapped.</value>
+  </data>
 </root>

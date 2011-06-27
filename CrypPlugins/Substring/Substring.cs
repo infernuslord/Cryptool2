@@ -66,11 +66,13 @@ namespace Cryptool.Plugins.Substring
 
         public void PreExecution()
         {
-            
+
         }
 
         public void Execute()
         {
+            ProgressChanged(0.0, 1.0);
+
             //checking if input is set
             if (inputString != null)
             {
@@ -94,6 +96,12 @@ namespace Cryptool.Plugins.Substring
                 {
                     GuiLogMessage("Your Startposition and/or Length for Substring are invalid", NotificationLevel.Error);
                 }
+            }
+            else
+            {
+                OutputString = null;
+                ProgressChanged(1.0, 1.0);
+                return;
             }
         }
 
