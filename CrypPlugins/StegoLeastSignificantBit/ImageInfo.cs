@@ -27,6 +27,8 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
     /// <summary>Describes a carrier image that is being used by a SteganoDotNet.Action.BitmapFileUtility></summary>
     public class ImageInfo
     {
+        public const int EffectiveSize = 41;
+
         private string destinationFileName = string.Empty;
         private string textMessage = string.Empty;
         private Collection<RegionInfo> regionInfo;

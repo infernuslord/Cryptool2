@@ -246,7 +246,10 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
         /// <param name="bitmap">Carrier image.</param>
         private void CreateDefaultImageInfo(Bitmap bitmap)
         {
-            Point[] points = new Point[4] { new Point(0, 2), new Point(bitmap.Width, 2), new Point(bitmap.Width, bitmap.Height), new Point(0, bitmap.Height) };
+            // how many lines do we need to hide the region info
+            int countLines = (int)Math.Ceiling((double)ImageInfo.EffectiveSize*8 / bitmap.Width);
+            // construct a maxium sized region
+            Point[] points = new Point[4] { new Point(0, countLines), new Point(bitmap.Width, countLines), new Point(bitmap.Width, bitmap.Height), new Point(0, bitmap.Height) };
             GraphicsPath path = new GraphicsPath();
             path.AddPolygon(points);
             Collection<RegionInfo> regions = new Collection<RegionInfo>();
