@@ -60,7 +60,7 @@ namespace Cryptool.Plugins.PeerToPeer
         }
 
         /* FOR TESTING ISSUES */
-        [TaskPane("BtnUnregisterCaption", "BtnUnregisterTooltip", "Control region", 0, true, ControlType.Button)]
+        [TaskPane("BtnUnregisterCaption", "BtnUnregisterTooltip", "ControlRegionGroup", 0, true, ControlType.Button)]
         public void BtnUnregister()
         {
             TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("BtnSolutionFound", Visibility.Collapsed)));
@@ -68,7 +68,7 @@ namespace Cryptool.Plugins.PeerToPeer
             TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("BtnRegister", Visibility.Visible)));
             OnPropertyChanged("BtnUnregister");
         }
-        [TaskPane("BtnRegisterCaption", "BtnRegisterTooltip", "Control region", 1, true, ControlType.Button)]
+        [TaskPane("BtnRegisterCaption", "BtnRegisterTooltip", "ControlRegionGroup", 1, true, ControlType.Button)]
         public void BtnRegister()
         {
             TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("BtnSolutionFound", Visibility.Visible)));
@@ -77,7 +77,7 @@ namespace Cryptool.Plugins.PeerToPeer
             OnPropertyChanged("BtnRegister");
         }
 
-        [TaskPane("BtnSolutionFoundCaption", "BtnSolutionFoundTooltip", "Control region", 2, true, ControlType.Button)]
+        [TaskPane("BtnSolutionFoundCaption", "BtnSolutionFoundTooltip", "ControlRegionGroup", 2, true, ControlType.Button)]
         public void BtnSolutionFound()
         {
             TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("BtnSolutionFound", Visibility.Collapsed)));
@@ -88,7 +88,7 @@ namespace Cryptool.Plugins.PeerToPeer
         /* FOR TESTING ISSUES */
 
         private int checkPublishersAvailability = 240;
-        [TaskPane("CheckPublishersAvailabilityCaption", "CheckPublishersAvailabilityTooltip", "Intervals", 0, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 20, int.MaxValue)]
+        [TaskPane("CheckPublishersAvailabilityCaption", "CheckPublishersAvailabilityTooltip", "IntervalsGroup", 0, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 20, int.MaxValue)]
         public int CheckPublishersAvailability 
         {
             get
@@ -107,7 +107,7 @@ namespace Cryptool.Plugins.PeerToPeer
         }
 
         private int publishersReplyTimespan = 10;
-        [TaskPane("PublishersReplyTimespanCaption", "PublishersReplyTimespanTooltip", "Intervals", 0, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 2, 120)]
+        [TaskPane("PublishersReplyTimespanCaption", "PublishersReplyTimespanTooltip", "IntervalsGroup", 0, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 2, 120)]
         public int PublishersReplyTimespan
         {
             get

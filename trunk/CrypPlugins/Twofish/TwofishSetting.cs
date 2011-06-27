@@ -31,7 +31,7 @@ namespace Twofish
 
     private bool hasChanges = false;
 
-    static int[] keyTab = { 128, 192, 256};
+    static int[] keyTab = { 128, 192, 256 };
 
     #region ISettings Member
 
@@ -56,10 +56,8 @@ namespace Twofish
     #endregion
 
     int action = 1;
-    [ContextMenu("ActionCaption", "ActionTooltip", 2, ContextMenuControlType.ComboBox, 
-        new int[] { 1, 2 }, "Encrypt", "Decrypt")]
-    [TaskPane("ActionCaption", "ActionTooltip", "", 0, false, ControlType.ComboBox,
-        new string[] { "Encrypt", "Decrypt" })]
+    [ContextMenu("ActionCaption", "ActionTooltip", 2, ContextMenuControlType.ComboBox, new int[] { 1, 2 }, "ActionList1", "ActionList2")]
+    [TaskPane("ActionCaption", "ActionTooltip", "", 0, false, ControlType.ComboBox, new string[] { "ActionList1", "ActionList2" })]
     public int Action
     {
       get
@@ -77,10 +75,8 @@ namespace Twofish
 
 
     int mode = 0;
-    [ContextMenu("ModeCaption", "ModeTooltip", 2, ContextMenuControlType.ComboBox, null,
-        new string[] { "Electronic Code Book (ECB)", "Cipher Block Chaining (CBC)" })]
-    [TaskPane("ModeCaption", "ModeTooltip", "", 5, false, ControlType.ComboBox,
-        new string[] {"Electronic Code Book (ECB)", "Cipher Block Chaining (CBC)"} ) ]
+    [ContextMenu("ModeCaption", "ModeTooltip", 2, ContextMenuControlType.ComboBox, null, new string[] { "ModeList1", "ModeList2" })]
+    [TaskPane("ModeCaption", "ModeTooltip", "", 5, false, ControlType.ComboBox, new string[] { "ModeList1", "ModeList2" })]
     public int Mode
     {
       get
@@ -99,10 +95,8 @@ namespace Twofish
 
 
     int keySize = 0;
-    [ContextMenu("KeySizeCaption", "KeySizeTooltip", 3, 
-        ContextMenuControlType.ComboBox, null, "128 Bits", "192 Bits", "256 Bits")]
-    [TaskPane("KeySizeCaption", "KeySizeTooltip", "", 3, false, 
-        ControlType.ComboBox, new String[] { "128 Bits", "192 Bits", "256 Bits" })]
+    [ContextMenu("KeySizeCaption", "KeySizeTooltip", 3, ContextMenuControlType.ComboBox, null, "KeySizeList1", "KeySizeList2", "KeySizeList3")]
+    [TaskPane("KeySizeCaption", "KeySizeTooltip", "", 3, false, ControlType.ComboBox, new String[] { "KeySizeList1", "KeySizeList2", "KeySizeList3" })]
     public int KeySize
     {
       get

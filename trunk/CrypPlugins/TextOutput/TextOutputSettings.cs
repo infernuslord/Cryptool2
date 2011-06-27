@@ -78,8 +78,8 @@ namespace TextOutput
     /// <summary>
     /// Encoding property used in the Settings pane. 
     /// </summary>
-    [ContextMenu( "EncodingSettingCaption", "EncodingSettingTooltip", 1, ContextMenuControlType.ComboBox, null, new string[] { "Default system encoding", "Unicode", "UTF-7", "UTF-8", "UTF-32", "ASCII", "Big endian unicode" })]
-    [TaskPane( "EncodingSettingTPCaption", "EncodingSettingTPTooltip", null, 1, false, ControlType.RadioButton, new string[] { "Default system encoding", "Unicode", "UTF-7", "UTF-8", "UTF-32", "ASCII", "Big endian unicode" })]
+    [ContextMenu( "EncodingSettingCaption", "EncodingSettingTooltip", 1, ContextMenuControlType.ComboBox, null, new string[] { "EncodingSettingList1", "EncodingSettingList2", "EncodingSettingList3", "EncodingSettingList4", "EncodingSettingList5", "EncodingSettingList6", "EncodingSettingList7" })]
+    [TaskPane( "EncodingSettingTPCaption", "EncodingSettingTPTooltip", null, 1, false, ControlType.RadioButton, new string[] { "EncodingSettingList1", "EncodingSettingList2", "EncodingSettingList3", "EncodingSettingList4", "EncodingSettingList5", "EncodingSettingList6", "EncodingSettingList7" })]
     public int EncodingSetting
     {
       get
@@ -99,8 +99,8 @@ namespace TextOutput
     /// Gets or sets the presentation format setting.
     /// </summary>
     /// <value>The presentation format setting.</value>
-    [ContextMenu( "PresentationFormatSettingCaption", "PresentationFormatSettingTooltip", 2, ContextMenuControlType.ComboBox, null, new string[] { "Text", "Hex", "Base64", "Decimal" })]
-    [TaskPane( "PresentationFormatSettingCaption", "PresentationFormatSettingTooltip", null, 2, false, ControlType.RadioButton, new string[] { "Text", "Hex", "Base64", "Decimal" })]
+    [ContextMenu( "PresentationFormatSettingCaption", "PresentationFormatSettingTooltip", 2, ContextMenuControlType.ComboBox, null, new string[] { "PresentationFormatSettingList1", "PresentationFormatSettingList2", "PresentationFormatSettingList3", "PresentationFormatSettingList4" })]
+    [TaskPane( "PresentationFormatSettingCaption", "PresentationFormatSettingTooltip", null, 2, false, ControlType.RadioButton, new string[] { "PresentationFormatSettingList1", "PresentationFormatSettingList2", "PresentationFormatSettingList3", "PresentationFormatSettingList4" })]
     public int PresentationFormatSetting
     {
       get
@@ -135,8 +135,8 @@ namespace TextOutput
     }
 
     private bool append = false;
-    [ContextMenu( "AppendCaption", "AppendTooltip", 0, ContextMenuControlType.CheckBox, null, new string[] { "Append text input" })]
-    [TaskPane( "AppendCaption", "AppendTooltip", "Append", 0, false, ControlType.CheckBox, "", null)]
+    [ContextMenu( "AppendCaption", "AppendTooltip", 0, ContextMenuControlType.CheckBox, null, new string[] { "AppendList1" })]
+    [TaskPane("AppendCaption", "AppendTooltip", "AppendGroup", 0, false, ControlType.CheckBox, "", null)]
     public bool Append
     {
       get { return append; }
@@ -152,7 +152,7 @@ namespace TextOutput
     }
 
     private int appendBreaks = 1;
-    [TaskPane( "AppendBreaksCaption", "AppendBreaksTooltip", "Append", 0, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
+    [TaskPane("AppendBreaksCaption", "AppendBreaksTooltip", "AppendGroup", 0, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
     public int AppendBreaks
     {
       get { return this.appendBreaks; }
@@ -208,7 +208,7 @@ namespace TextOutput
     }
 
     private bool booleanAsNumeric = false;
-    [ContextMenu( "BooleanAsNumericCaption", "BooleanAsNumericTooltip", 5, ContextMenuControlType.CheckBox, null, new string[] { "Display boolean as numeric value" })]
+    [ContextMenu( "BooleanAsNumericCaption", "BooleanAsNumericTooltip", 5, ContextMenuControlType.CheckBox, null, new string[] { "BooleanAsNumericList1" })]
     [TaskPane( "BooleanAsNumericCaption", "BooleanAsNumericTooltip", null, 5, false, ControlType.CheckBox, "", null)]
     public bool BooleanAsNumeric
     {
@@ -225,7 +225,7 @@ namespace TextOutput
     }
 
     private bool flushOnPreExecution = true;
-    [ContextMenu( "FlushOnPreExecutionCaption", "FlushOnPreExecutionTooltip", 6, ContextMenuControlType.CheckBox, null, new string[] {"Flush text on PreExec"})]
+    [ContextMenu( "FlushOnPreExecutionCaption", "FlushOnPreExecutionTooltip", 6, ContextMenuControlType.CheckBox, null, new string[] {"FlushOnPreExecutionList1"})]
     [TaskPane( "FlushOnPreExecutionCaption", "FlushOnPreExecutionTooltip", null, 6, false, ControlType.CheckBox, null)]
     public bool FlushOnPreExecution
     {

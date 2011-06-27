@@ -150,8 +150,8 @@ namespace Cryptool.Playfair
         }
 
         [PropertySaveOrder(7)]
-        [ContextMenu( "MatrixSizeCaption", "MatrixSizeTooltip",6,ContextMenuControlType.ComboBox,null,new string[]{"5 x 5","6 x 6"})]
-        [TaskPane( "MatrixSizeCaption", "MatrixSizeTooltip", null, 6,false, ControlType.ComboBox, "5 x 5","6 x 6")]
+        [ContextMenu( "MatrixSizeCaption", "MatrixSizeTooltip",6,ContextMenuControlType.ComboBox,null,new string[]{"MatrixSizeList1", "MatrixSizeList2"})]
+        [TaskPane( "MatrixSizeCaption", "MatrixSizeTooltip", null, 6,false, ControlType.ComboBox, "MatrixSizeList1", "MatrixSizeList2")]
         public int MatrixSize
         {
             get { return this.matrixSize; }

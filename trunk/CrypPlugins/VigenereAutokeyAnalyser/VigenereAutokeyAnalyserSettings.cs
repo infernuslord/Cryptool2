@@ -38,8 +38,8 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
         /// <summary>
         /// Choose the modus to work with
         /// </summary>
-        [ContextMenu("ModusCaption", "ModusTooltip", 2, ContextMenuControlType.ComboBox, null, new String[] { "Autokey", "Vigenere" })]
-        [TaskPane("ModusCaption", "ModusTooltip", null, 2, false, ControlType.ComboBox, new String[] { "Autokey", "Vigenere" })]
+        [ContextMenu("ModusCaption", "ModusTooltip", 2, ContextMenuControlType.ComboBox, null, new String[] { "ModusList1", "ModusList2" })]
+        [TaskPane("ModusCaption", "ModusTooltip", null, 2, false, ControlType.ComboBox, new String[] { "ModusList1", "ModusList2" })]
         public int Modus // Autokey or Repeatedkey
         {
             get { return this.modus; }
@@ -54,8 +54,8 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
         /// <summary>
         /// Choose the language frequency to work with
         /// </summary>
-        [ContextMenu("LanguageCaption", "LanguageTooltip", 2, ContextMenuControlType.ComboBox, null, new String[] { "English", "German", "French", "Spanish" })]
-        [TaskPane("LanguageCaption", "LanguageTooltip", null, 2, false, ControlType.ComboBox, new String[] { "English", "German", "French", "Spanish" })]
+        [ContextMenu("LanguageCaption", "LanguageTooltip", 2, ContextMenuControlType.ComboBox, null, new String[] { "LanguageList1", "LanguageList2", "LanguageList3", "LanguageList4" })]
+        [TaskPane("LanguageCaption", "LanguageTooltip", null, 2, false, ControlType.ComboBox, new String[] { "LanguageList1", "LanguageList2", "LanguageList3", "LanguageList4" })]
         public int Language // Expected letter frequencies
         {
             get { return this.language; }
@@ -120,21 +120,10 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
         /// </summary>
         private string removeEqualChars(string value)
         {
-            int length = value.Length;
-
-            for (int i = 0; i < length; i++)
-            {
-                for (int j = i + 1; j < length; j++)
-                {
-                    if ((value[i]) == (value[j]))
-                    {                        
-                        value = value.Remove(j, 1);
-                        j--;
-                        length--;
-                    }
-                }
-            }
-            return value;
+            string res = "";
+            foreach (char c in value)
+                if (res.IndexOf(c) < 0) res += c;
+            return res;
         }
 
         #endregion

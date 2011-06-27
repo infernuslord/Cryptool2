@@ -120,23 +120,23 @@
   <data name="Encryption" xml:space="preserve">
     <value>Verschlüsselung</value>
   </data>
-    <data name="PluginCaption" xml:space="preserve">
+  <data name="PluginCaption" xml:space="preserve">
     <value>SDES</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
     <value>Simplified Data Encryption Standard</value>
   </data>
-    <data name="InputStreamCaption" xml:space="preserve">
-    <value>Eingabe</value>
+  <data name="InputStreamCaption" xml:space="preserve">
+    <value>Eingabedatenstrom</value>
   </data>
   <data name="InputStreamTooltip" xml:space="preserve">
-    <value>Daten zum Ver- oder Entschlüsseln</value>
+    <value>zu ver-/entschlüsselnde Daten</value>
   </data>
   <data name="OutputStreamCaption" xml:space="preserve">
-    <value>Ausgabestrom</value>
+    <value>Ausgabedatenstrom</value>
   </data>
   <data name="OutputStreamTooltip" xml:space="preserve">
-    <value>Ver- oder entschlüsselte Ausgabedaten</value>
+    <value>Ver- bzw. entschlüsselter Ausgabedatenstrom</value>
   </data>
   <data name="InputKeyCaption" xml:space="preserve">
     <value>Schlüssel</value>
@@ -156,16 +156,28 @@
   <data name="ControlSlaveTooltip" xml:space="preserve">
     <value>Direkter Zugriff auf SDES.</value>
   </data>
-    <data name="ActionCaption" xml:space="preserve">
+  <data name="ActionCaption" xml:space="preserve">
     <value>Aktion</value>
   </data>
   <data name="ActionTooltip" xml:space="preserve">
-    <value>Wahl zwischen Ver- oder Entschlüsselung von Eingabedaten.</value>
+    <value>Wählen Sie die Betriebsart des Plugins.</value>
   </data>
   <data name="ModeCaption" xml:space="preserve">
-    <value>Verkettungsmodus</value>
+    <value>Blockverkettungsmodus</value>
   </data>
   <data name="ModeTooltip" xml:space="preserve">
-    <value>Wählen Sie den Verkettungsmodus für die Block-Chiffre.</value>
+    <value>Wählen Sie die Art der Blockverkettung.</value>
+  </data>
+  <data name="ActionList1" xml:space="preserve">
+    <value>Verschlüsselung</value>
+  </data>
+  <data name="ActionList2" xml:space="preserve">
+    <value>Entschlüsselung</value>
+  </data>
+  <data name="ModeList1" xml:space="preserve">
+    <value>Electronic Code Book (ECB)</value>
+  </data>
+  <data name="ModeList2" xml:space="preserve">
+    <value>Cipher Block Chaining (CBC)</value>
   </data>
 </root>

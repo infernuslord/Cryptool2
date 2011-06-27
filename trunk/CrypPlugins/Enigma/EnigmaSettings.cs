@@ -254,10 +254,10 @@ namespace Cryptool.Enigma
 
         [ContextMenu( "ModelCaption", "ModelTooltip",
             0, ContextMenuControlType.ComboBox, null,
-            new string[] { "Commercial Enigma A/B - since 1924", "Commercial Enigma D", "Reichsbahn (Rocket) - since 1941", "Enigma I / M3", "M4 (Shark)", "K-Model", "G (Defense model)" })]
+            new string[] { "ModelList1", "ModelList2", "ModelList3", "ModelList4", "ModelList5", "ModelList6", "ModelList7" })]
         [TaskPane( "ModelTPCaption", "ModelTPTooltip",
             null, 0, false, ControlType.ComboBox,
-            new string[] { "Enigma A/B - since 1924", "Enigma D", "Reichsbahn (Rocket) - since 1941", "Enigma I / M3", "M4 (Shark)", "K-Model", "G (Defense model)" })]
+            new string[] { "ModelList1", "ModelList2", "ModelList3", "ModelList4", "ModelList5", "ModelList6", "ModelList7" })]
         [PropertySaveOrder(1)]
         public int Model
         {
@@ -349,7 +349,7 @@ namespace Cryptool.Enigma
 
 
         [TaskPane( "KeyCaption", "KeyTooltip",
-            null, 1, false, ControlType.TextBox, ValidationType.RegEx, "^([A-Z]|[a-z]){3,4}$")]
+            null, 1, false, ControlType.TextBox, ValidationType.RegEx, "^[A-Za-z]{3,4}$")]
         public string Key
         {
             get { return this.key; }
@@ -397,10 +397,10 @@ namespace Cryptool.Enigma
 
         [ContextMenu( "UnknownSymbolHandlingCaption", "UnknownSymbolHandlingTooltip",
             3, ContextMenuControlType.ComboBox, null,
-            new string[] { "Ignore (leave unmodified)", "Remove", "Replace with \'X\'" })]
+            new string[] { "UnknownSymbolHandlingList1", "UnknownSymbolHandlingList2", "UnknownSymbolHandlingList3" })]
         [TaskPane( "UnknownSymbolHandlingCaption", "UnknownSymbolHandlingTooltip",
-            "Text options", 3, false, ControlType.ComboBox,
-            new string[] { "Ignore (leave unmodified)", "Remove", "Replace with \'X\'" })]
+            "TextOptionsGroup", 3, false, ControlType.ComboBox,
+            new string[] { "UnknownSymbolHandlingList1", "UnknownSymbolHandlingList2", "UnknownSymbolHandlingList3" })]
         public int UnknownSymbolHandling
         {
             get { return this.unknownSymbolHandling; }
@@ -414,10 +414,10 @@ namespace Cryptool.Enigma
 
         [ContextMenu( "CaseHandlingCaption", "CaseHandlingTooltip",
             4, ContextMenuControlType.ComboBox, null,
-            new string[] { "Preserve case", "Convert to upper", "Convert to lower" })]
+            new string[] { "CaseHandlingList1", "CaseHandlingList2", "CaseHandlingList3" })]
         [TaskPane( "CaseHandlingCaption", "CaseHandlingTooltip",
-            "Text options", 4, false, ControlType.ComboBox,
-            new string[] { "Preserve case", "Convert to upper", "Convert to lower" })]
+            "TextOptionsGroup", 4, false, ControlType.ComboBox,
+            new string[] { "CaseHandlingList1", "CaseHandlingList2", "CaseHandlingList3" })]
         public int CaseHandling
         {
             get { return this.caseHandling; }
@@ -434,7 +434,7 @@ namespace Cryptool.Enigma
         #region Analysis options
 
         [TaskPane( "AnalyzeKeyCaption", "AnalyzeKeyTooltip",
-            "Analysis options", 6, false, ControlType.CheckBox, "", null)]
+            "AnalysisOptionsGroup", 6, false, ControlType.CheckBox, "", null)]
         public bool AnalyzeKey
         {
             get { return analyzeKey; }
@@ -450,7 +450,7 @@ namespace Cryptool.Enigma
         }
 
         [TaskPane( "AnalyzeRotorsCaption", "AnalyzeRotorsTooltip",
-            "Analysis options", 7, false, ControlType.CheckBox, "", null)]
+            "AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool AnalyzeRotors
         {
             get { return analyzeRotors; }
@@ -467,7 +467,7 @@ namespace Cryptool.Enigma
 
         [SettingsFormat(1, "Normal", "Normal")]
         [TaskPane( "AnalysisUseRotorICaption", "AnalysisUseRotorITooltip",
-            "Analysis options", 7, false, ControlType.CheckBox, "", null)]
+            "AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool AnalysisUseRotorI
         {
             get { return analysisUseRotorI; }
@@ -484,7 +484,7 @@ namespace Cryptool.Enigma
 
         [SettingsFormat(1, "Normal", "Normal")]
         [TaskPane( "AnalysisUseRotorIICaption", "AnalysisUseRotorIITooltip",
-            "Analysis options", 7, false, ControlType.CheckBox, "", null)]
+            "AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool AnalysisUseRotorII
         {
             get { return analysisUseRotorII; }
@@ -501,7 +501,7 @@ namespace Cryptool.Enigma
 
         [SettingsFormat(1, "Normal", "Normal")]
         [TaskPane( "AnalysisUseRotorIIICaption", "AnalysisUseRotorIIITooltip",
-            "Analysis options", 7, false, ControlType.CheckBox, "", null)]
+            "AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool AnalysisUseRotorIII
         {
             get { return analysisUseRotorIII; }
@@ -518,7 +518,7 @@ namespace Cryptool.Enigma
 
         [SettingsFormat(1, "Normal", "Normal")]
         [TaskPane( "AnalysisUseRotorIVCaption", "AnalysisUseRotorIVTooltip",
-            "Analysis options", 7, false, ControlType.CheckBox, "", null)]
+            "AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool AnalysisUseRotorIV
         {
             get { return analysisUseRotorIV; }
@@ -536,7 +536,7 @@ namespace Cryptool.Enigma
 
         [SettingsFormat(1, "Normal", "Normal")]
         [TaskPane( "AnalysisUseRotorVCaption", "AnalysisUseRotorVTooltip",
-            "Analysis options", 7, false, ControlType.CheckBox, "", null)]
+            "AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool AnalysisUseRotorV
         {
             get { return analysisUseRotorV; }
@@ -553,7 +553,7 @@ namespace Cryptool.Enigma
 
         [SettingsFormat(1, "Normal", "Normal")]
         [TaskPane( "AnalysisUseRotorVICaption", "AnalysisUseRotorVITooltip",
-            "Analysis options", 7, false, ControlType.CheckBox, "", null)]
+            "AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool AnalysisUseRotorVI
         {
             get { return analysisUseRotorVI; }
@@ -571,7 +571,7 @@ namespace Cryptool.Enigma
 
         [SettingsFormat(1, "Normal", "Normal")]
         [TaskPane( "AnalysisUseRotorVIICaption", "AnalysisUseRotorVIITooltip",
-            "Analysis options", 7, false, ControlType.CheckBox, "", null)]
+            "AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool AnalysisUseRotorVII
         {
             get { return analysisUseRotorVII; }
@@ -589,7 +589,7 @@ namespace Cryptool.Enigma
 
         [SettingsFormat(1, "Normal", "Normal")]
         [TaskPane( "AnalysisUseRotorVIIICaption", "AnalysisUseRotorVIIITooltip",
-            "Analysis options", 7, false, ControlType.CheckBox, "", null)]
+            "AnalysisOptionsGroup", 7, false, ControlType.CheckBox, "", null)]
         public bool AnalysisUseRotorVIII
         {
             get { return analysisUseRotorVIII; }
@@ -606,7 +606,7 @@ namespace Cryptool.Enigma
 
 
         [TaskPane( "AnalyzeRingsCaption", "AnalyzeRingsTooltip",
-            "Analysis options", 8, false, ControlType.CheckBox, "", null)]
+            "AnalysisOptionsGroup", 8, false, ControlType.CheckBox, "", null)]
         public bool AnalyzeRings
         {
             get { return analyzeRings; }
@@ -621,7 +621,7 @@ namespace Cryptool.Enigma
             }
         }
 
-        [TaskPane( "KeySearchMethodCaption", "KeySearchMethodTooltip", "Analysis options", 8, false, ControlType.ComboBox, new string[] { "Index of coincidence", "log2-bigram", "log2-trigram", "Sinkov unigram", "Sinkov bigram", "Unigram entropy" })]
+        [TaskPane("KeySearchMethodCaption", "KeySearchMethodTooltip", "AnalysisOptionsGroup", 8, false, ControlType.ComboBox, new string[] { "KeySearchMethodList1", "KeySearchMethodList2", "KeySearchMethodList3", "KeySearchMethodList4", "KeySearchMethodList5", "KeySearchMethodList6" })]
         public int KeySearchMethod
         {
             get { return this.keySearchMethod; }
@@ -637,7 +637,7 @@ namespace Cryptool.Enigma
         }
 
         [TaskPane( "AnalyzePlugsCaption", "AnalyzePlugsTooltip",
-            "Analysis options", 9, false, ControlType.CheckBox, "", null)]
+            "AnalysisOptionsGroup", 9, false, ControlType.CheckBox, "", null)]
         public bool AnalyzePlugs
         {
             get { return analyzePlugs; }
@@ -653,7 +653,7 @@ namespace Cryptool.Enigma
         }
 
         [TaskPane( "MaxSearchedPlugsCaption", "MaxSearchedPlugsTooltip",
-            "Analysis options", 9, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 26)]
+            "AnalysisOptionsGroup", 9, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 26)]
         public int MaxSearchedPlugs
         {
             get { return this.maxSearchedPlugs; }
@@ -668,7 +668,7 @@ namespace Cryptool.Enigma
             }
         }
 
-        [TaskPane( "PlugSearchMethodCaption", "PlugSearchMethodTooltip", "Analysis options", 9, false, ControlType.ComboBox, new string[] { "Index of coincidence", "log2-bigram", "log2-trigram", "Sinkov unigram", "Sinkov bigram", "Unigram entropy" })]
+        [TaskPane("PlugSearchMethodCaption", "PlugSearchMethodTooltip", "AnalysisOptionsGroup", 9, false, ControlType.ComboBox, new string[] { "KeySearchMethodList1", "KeySearchMethodList2", "KeySearchMethodList3", "KeySearchMethodList4", "KeySearchMethodList5", "KeySearchMethodList6" })]
         public int PlugSearchMethod
         {
             get { return this.plugSearchMethod; }
@@ -688,7 +688,7 @@ namespace Cryptool.Enigma
         #region Used rotor settings
 
         [TaskPane( "Rotor1Caption", "Rotor1Tooltip",
-            "Used rotors", 10, false, ControlType.DynamicComboBox, new string[] { "RotorAStrings" })]
+            "UsedRotorsGroup", 10, false, ControlType.DynamicComboBox, new string[] { "RotorAStrings" })]
         public int Rotor1
         {
             get { return this.rotor1; }
@@ -702,7 +702,7 @@ namespace Cryptool.Enigma
         }
 
         [TaskPane( "Rotor2Caption", "Rotor2Tooltip",
-            "Used rotors", 11, false, ControlType.DynamicComboBox, new string[] { "RotorAStrings" })]
+            "UsedRotorsGroup", 11, false, ControlType.DynamicComboBox, new string[] { "RotorAStrings" })]
         public int Rotor2
         {
             get { return this.rotor2; }
@@ -716,7 +716,7 @@ namespace Cryptool.Enigma
         }
 
         [TaskPane( "Rotor3Caption", "Rotor3Tooltip",
-            "Used rotors", 12, false, ControlType.DynamicComboBox, new string[] { "RotorAStrings" })]
+            "UsedRotorsGroup", 12, false, ControlType.DynamicComboBox, new string[] { "RotorAStrings" })]
         public int Rotor3
         {
             get { return this.rotor3; }
@@ -730,7 +730,7 @@ namespace Cryptool.Enigma
         }
 
         [TaskPane( "Rotor4Caption", "Rotor4Tooltip",
-            "Used rotors", 13, false, ControlType.DynamicComboBox, new string[] { "RotorBStrings" })]
+            "UsedRotorsGroup", 13, false, ControlType.DynamicComboBox, new string[] { "RotorBStrings" })]
         public int Rotor4
         {
             get { return this.rotor4; }
@@ -744,7 +744,7 @@ namespace Cryptool.Enigma
 
 
         [TaskPane( "ReflectorCaption", "ReflectorTooltip",
-            "Used rotors", 14, false, ControlType.DynamicComboBox, new string[] { "ReflectorStrings" })]
+            "UsedRotorsGroup", 14, false, ControlType.DynamicComboBox, new string[] { "ReflectorStrings" })]
         public int Reflector
         {
             get { return this.reflector; }
@@ -808,7 +808,7 @@ namespace Cryptool.Enigma
 
         #region Used ring settings
 
-        [TaskPane( "Ring1Caption", "Ring1Tooltip", "Ring settings", 20, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 26)]
+        [TaskPane( "Ring1Caption", "Ring1Tooltip", "RingSettingsGroup", 20, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 26)]
         public int Ring1
         {
             get { return ring1; }
@@ -848,7 +848,7 @@ namespace Cryptool.Enigma
             }
         }
 
-        [TaskPane( "Ring2Caption", "Ring2Tooltip", "Ring settings", 21, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 26)]
+        [TaskPane( "Ring2Caption", "Ring2Tooltip", "RingSettingsGroup", 21, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 26)]
         public int Ring2
         {
             get { return ring2; }
@@ -890,7 +890,7 @@ namespace Cryptool.Enigma
             }
         }
 
-        [TaskPane( "Ring3Caption", "Ring3Tooltip", "Ring settings", 22, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 26)]
+        [TaskPane( "Ring3Caption", "Ring3Tooltip", "RingSettingsGroup", 22, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 26)]
         public int Ring3
         {
             get { return ring3; }
@@ -930,7 +930,7 @@ namespace Cryptool.Enigma
             }
         }
 
-        [TaskPane( "Ring4Caption", "Ring4Tooltip", "Ring settings", 23, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 26)]
+        [TaskPane( "Ring4Caption", "Ring4Tooltip", "RingSettingsGroup", 23, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 26)]
         public int Ring4
         {
             get { return ring4; }
@@ -955,14 +955,14 @@ namespace Cryptool.Enigma
 
         #region Plugboard settings
 
-        [TaskPane( "PlugBoardCaption", "PlugBoardTooltip", "Plugboard", 30, false, ControlType.TextBoxReadOnly)]
+        [TaskPane( "PlugBoardCaption", "PlugBoardTooltip", "PlugboardGroup", 30, false, ControlType.TextBoxReadOnly)]
         public string PlugBoard
         {
             get { return plugBoard.ToString(); }
             set { }
         }
 
-        [TaskPane( "InvolutoricCaption", "InvolutoricTooltip", "Plugboard", 31, false, ControlType.CheckBox, "", null)]
+        [TaskPane( "InvolutoricCaption", "InvolutoricTooltip", "PlugboardGroup", 31, false, ControlType.CheckBox, "", null)]
         public bool Involutoric
         {
             get { return involutoricPlugBoard; }
@@ -978,7 +978,7 @@ namespace Cryptool.Enigma
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Eins")]
-        [TaskPane( "PlugBoardACaption", "PlugBoardATooltip", "Plugboard", 40, false, ControlType.ComboBox,
+        [TaskPane( "PlugBoardACaption", "PlugBoardATooltip", "PlugboardGroup", 40, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardA
         {
@@ -987,7 +987,7 @@ namespace Cryptool.Enigma
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Eins")]
-        [TaskPane( "PlugBoardBCaption", "PlugBoardBTooltip", "Plugboard", 41, false, ControlType.ComboBox,
+        [TaskPane( "PlugBoardBCaption", "PlugBoardBTooltip", "PlugboardGroup", 41, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardB
         {
@@ -996,7 +996,7 @@ namespace Cryptool.Enigma
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Eins")]
-        [TaskPane( "PlugBoardCCaption", "PlugBoardCTooltip", "Plugboard", 42, false, ControlType.ComboBox,
+        [TaskPane( "PlugBoardCCaption", "PlugBoardCTooltip", "PlugboardGroup", 42, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardC
         {
@@ -1005,7 +1005,7 @@ namespace Cryptool.Enigma
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Zwei")]
-        [TaskPane( "PlugBoardDCaption", "PlugBoardDTooltip", "Plugboard", 43, false, ControlType.ComboBox,
+        [TaskPane( "PlugBoardDCaption", "PlugBoardDTooltip", "PlugboardGroup", 43, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardD
         {
@@ -1014,7 +1014,7 @@ namespace Cryptool.Enigma
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Zwei")]
-        [TaskPane( "PlugBoardECaption", "PlugBoardETooltip", "Plugboard", 44, false, ControlType.ComboBox,
+        [TaskPane( "PlugBoardECaption", "PlugBoardETooltip", "PlugboardGroup", 44, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardE
         {
@@ -1023,7 +1023,7 @@ namespace Cryptool.Enigma
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Zwei")]
-        [TaskPane( "PlugBoardFCaption", "PlugBoardFTooltip", "Plugboard", 45, false, ControlType.ComboBox,
+        [TaskPane( "PlugBoardFCaption", "PlugBoardFTooltip", "PlugboardGroup", 45, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardF
         {
@@ -1032,7 +1032,7 @@ namespace Cryptool.Enigma
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Drei")]
-        [TaskPane( "PlugBoardGCaption", "PlugBoardGTooltip", "Plugboard", 46, false, ControlType.ComboBox,
+        [TaskPane( "PlugBoardGCaption", "PlugBoardGTooltip", "PlugboardGroup", 46, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardG
         {
@@ -1041,7 +1041,7 @@ namespace Cryptool.Enigma
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Drei")]
-        [TaskPane( "PlugBoardHCaption", "PlugBoardHTooltip", "Plugboard", 47, false, ControlType.ComboBox,
+        [TaskPane( "PlugBoardHCaption", "PlugBoardHTooltip", "PlugboardGroup", 47, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardH
         {
@@ -1050,7 +1050,7 @@ namespace Cryptool.Enigma
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Drei")]
-        [TaskPane( "PlugBoardICaption", "PlugBoardITooltip", "Plugboard", 48, false, ControlType.ComboBox,
+        [TaskPane( "PlugBoardICaption", "PlugBoardITooltip", "PlugboardGroup", 48, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardI
         {
@@ -1059,7 +1059,7 @@ namespace Cryptool.Enigma
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Vier")]
-        [TaskPane( "PlugBoardJCaption", "PlugBoardJTooltip", "Plugboard", 49, false, ControlType.ComboBox,
+        [TaskPane( "PlugBoardJCaption", "PlugBoardJTooltip", "PlugboardGroup", 49, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardJ
         {
@@ -1068,7 +1068,7 @@ namespace Cryptool.Enigma
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Vier")]
-        [TaskPane( "PlugBoardKCaption", "PlugBoardKTooltip", "Plugboard", 50, false, ControlType.ComboBox,
+        [TaskPane( "PlugBoardKCaption", "PlugBoardKTooltip", "PlugboardGroup", 50, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardK
         {
@@ -1077,7 +1077,7 @@ namespace Cryptool.Enigma
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Vier")]
-        [TaskPane( "PlugBoardLCaption", "PlugBoardLTooltip", "Plugboard", 51, false, ControlType.ComboBox,
+        [TaskPane( "PlugBoardLCaption", "PlugBoardLTooltip", "PlugboardGroup", 51, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardL
         {
@@ -1086,7 +1086,7 @@ namespace Cryptool.Enigma
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Fuenf")]
-        [TaskPane( "PlugBoardMCaption", "PlugBoardMTooltip", "Plugboard", 52, false, ControlType.ComboBox,
+        [TaskPane( "PlugBoardMCaption", "PlugBoardMTooltip", "PlugboardGroup", 52, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardM
         {
@@ -1095,7 +1095,7 @@ namespace Cryptool.Enigma
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Fuenf")]
-        [TaskPane( "PlugBoardNCaption", "PlugBoardNTooltip", "Plugboard", 53, false, ControlType.ComboBox,
+        [TaskPane( "PlugBoardNCaption", "PlugBoardNTooltip", "PlugboardGroup", 53, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardN
         {
@@ -1104,7 +1104,7 @@ namespace Cryptool.Enigma
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Fuenf")]
-        [TaskPane( "PlugBoardOCaption", "PlugBoardOTooltip", "Plugboard", 54, false, ControlType.ComboBox,
+        [TaskPane( "PlugBoardOCaption", "PlugBoardOTooltip", "PlugboardGroup", 54, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardO
         {
@@ -1113,7 +1113,7 @@ namespace Cryptool.Enigma
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Sechs")]
-        [TaskPane( "PlugBoardPCaption", "PlugBoardPTooltip", "Plugboard", 55, false, ControlType.ComboBox,
+        [TaskPane( "PlugBoardPCaption", "PlugBoardPTooltip", "PlugboardGroup", 55, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardP
         {
@@ -1122,7 +1122,7 @@ namespace Cryptool.Enigma
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Sechs")]
-        [TaskPane( "PlugBoardQCaption", "PlugBoardQTooltip", "Plugboard", 56, false, ControlType.ComboBox,
+        [TaskPane( "PlugBoardQCaption", "PlugBoardQTooltip", "PlugboardGroup", 56, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardQ
         {
@@ -1131,7 +1131,7 @@ namespace Cryptool.Enigma
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Sechs")]
-        [TaskPane( "PlugBoardRCaption", "PlugBoardRTooltip", "Plugboard", 57, false, ControlType.ComboBox,
+        [TaskPane( "PlugBoardRCaption", "PlugBoardRTooltip", "PlugboardGroup", 57, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardR
         {
@@ -1140,7 +1140,7 @@ namespace Cryptool.Enigma
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Sieben")]
-        [TaskPane( "PlugBoardSCaption", "PlugBoardSTooltip", "Plugboard", 58, false, ControlType.ComboBox,
+        [TaskPane( "PlugBoardSCaption", "PlugBoardSTooltip", "PlugboardGroup", 58, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardS
         {
@@ -1149,7 +1149,7 @@ namespace Cryptool.Enigma
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Sieben")]
-        [TaskPane( "PlugBoardTCaption", "PlugBoardTTooltip", "Plugboard", 59, false, ControlType.ComboBox,
+        [TaskPane( "PlugBoardTCaption", "PlugBoardTTooltip", "PlugboardGroup", 59, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardT
         {
@@ -1158,7 +1158,7 @@ namespace Cryptool.Enigma
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Sieben")]
-        [TaskPane( "PlugBoardUCaption", "PlugBoardUTooltip", "Plugboard", 60, false, ControlType.ComboBox,
+        [TaskPane( "PlugBoardUCaption", "PlugBoardUTooltip", "PlugboardGroup", 60, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardU
         {
@@ -1167,7 +1167,7 @@ namespace Cryptool.Enigma
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Acht")]
-        [TaskPane( "PlugBoardVCaption", "PlugBoardVTooltip", "Plugboard", 61, false, ControlType.ComboBox,
+        [TaskPane( "PlugBoardVCaption", "PlugBoardVTooltip", "PlugboardGroup", 61, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardV
         {
@@ -1176,7 +1176,7 @@ namespace Cryptool.Enigma
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Acht")]
-        [TaskPane( "PlugBoardWCaption", "PlugBoardWTooltip", "Plugboard", 62, false, ControlType.ComboBox,
+        [TaskPane( "PlugBoardWCaption", "PlugBoardWTooltip", "PlugboardGroup", 62, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardW
         {
@@ -1185,7 +1185,7 @@ namespace Cryptool.Enigma
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Acht")]
-        [TaskPane( "PlugBoardXCaption", "PlugBoardXTooltip", "Plugboard", 63, false, ControlType.ComboBox,
+        [TaskPane( "PlugBoardXCaption", "PlugBoardXTooltip", "PlugboardGroup", 63, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardX
         {
@@ -1194,7 +1194,7 @@ namespace Cryptool.Enigma
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Neun")]
-        [TaskPane( "PlugBoardYCaption", "PlugBoardYTooltip", "Plugboard", 64, false, ControlType.ComboBox,
+        [TaskPane( "PlugBoardYCaption", "PlugBoardYTooltip", "PlugboardGroup", 64, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardY
         {
@@ -1203,7 +1203,7 @@ namespace Cryptool.Enigma
         }
 
         [SettingsFormat(1, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Neun")]
-        [TaskPane( "PlugBoardZCaption", "PlugBoardZTooltip", "Plugboard", 65, false, ControlType.ComboBox,
+        [TaskPane( "PlugBoardZCaption", "PlugBoardZTooltip", "PlugboardGroup", 65, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
         public int PlugBoardZ
         {
@@ -1212,7 +1212,7 @@ namespace Cryptool.Enigma
         }
 
 
-        [TaskPane( "ResetPlugboardCaption", "ResetPlugboardTooltip", "Plugboard", 70, false, ControlType.Button)]
+        [TaskPane( "ResetPlugboardCaption", "ResetPlugboardTooltip", "PlugboardGroup", 70, false, ControlType.Button)]
         public void ResetPlugboard()
         {
             plugBoard = new StringBuilder("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
@@ -1226,7 +1226,7 @@ namespace Cryptool.Enigma
 
         #endregion
 
-        [TaskPane( "PresentationSpeedCaption", "PresentationSpeedTooltip", "Presentation", 71, true, ControlType.Slider, 2, 25)]
+        [TaskPane( "PresentationSpeedCaption", "PresentationSpeedTooltip", "PresentationGroup", 71, true, ControlType.Slider, 2, 25)]
         public int PresentationSpeed
         {
             get { return (int)Presentation_Speed; }

@@ -225,4 +225,10 @@
   <data name="SeparatePairsList1" xml:space="preserve">
     <value>Separate pairs of identical letters</value>
   </data>
+  <data name="MatrixSizeList1" xml:space="preserve">
+    <value>5 x 5</value>
+  </data>
+  <data name="MatrixSizeList2" xml:space="preserve">
+    <value>6 x 6</value>
+  </data>
 </root>

@@ -56,7 +56,7 @@ namespace Cryptool.Plugins.RSA
         /// <summary>
         /// Getter/Setter for the source of the Key Data
         /// </summary>
-        [TaskPane( "SourceCaption", "SourceTooltip", null, 1, false, ControlType.ComboBox, new string[] { "Manual enter primes", "Manual enter keys", "Random generated", "X.509 Certificate" })]
+        [TaskPane("SourceCaption", "SourceTooltip", null, 1, false, ControlType.ComboBox, new string[] { "SourceList1", "SourceList2", "SourceList3", "SourceList4" })]
         public int Source
         {
             get { return this.source; }

@@ -144,11 +144,29 @@
   <data name="LanguageCaption" xml:space="preserve">
     <value>Expected Language</value>
   </data>
+  <data name="LanguageList1" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="LanguageList2" xml:space="preserve">
+    <value>German</value>
+  </data>
+  <data name="LanguageList3" xml:space="preserve">
+    <value>French</value>
+  </data>
+  <data name="LanguageList4" xml:space="preserve">
+    <value>Spanish</value>
+  </data>
   <data name="LanguageTooltip" xml:space="preserve">
     <value>Select the language you expect the plaintext to be</value>
   </data>
   <data name="ModusCaption" xml:space="preserve">
     <value>Modus</value>
+  </data>
+  <data name="ModusList1" xml:space="preserve">
+    <value>Autokey</value>
+  </data>
+  <data name="ModusList2" xml:space="preserve">
+    <value>Vigenère</value>
   </data>
   <data name="ModusTooltip" xml:space="preserve">
     <value>Select the modus you want to work with</value>
@@ -166,6 +184,6 @@
     <value>VigenereAutokeyAnalyser/DetailedDescription/Description.xaml</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Ciphertext-only attack on VigenereAutoKey encryption</value>
+    <value>Ciphertext-only attack on VigenèreAutoKey encryption</value>
   </data>
 </root>

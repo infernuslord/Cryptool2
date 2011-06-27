@@ -100,7 +100,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             get 
             {
                 return outputStreamWriter;
-                  }
+            }
             set 
             {
                 // empty

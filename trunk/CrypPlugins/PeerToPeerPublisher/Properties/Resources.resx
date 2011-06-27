@@ -174,4 +174,13 @@
   <data name="TopicNameTooltip" xml:space="preserve">
     <value>Choose a topic name with which all subscribers can register.</value>
   </data>
+  <data name="ControlRegionGroup" xml:space="preserve">
+    <value>Control region</value>
+  </data>
+  <data name="SerializationTestGroup" xml:space="preserve">
+    <value>Serialization Test</value>
+  </data>
+  <data name="SubscriberPropertiesGroup" xml:space="preserve">
+    <value>Subscriber Properties</value>
+  </data>
 </root>

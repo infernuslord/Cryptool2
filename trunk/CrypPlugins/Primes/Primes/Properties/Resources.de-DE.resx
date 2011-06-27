@@ -188,7 +188,7 @@
     <value>..\onlinehelp\resources\tau.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="title_soa" xml:space="preserve">
-    <value>DAs Sieb des Atkin</value>
+    <value>Das Sieb des Atkin</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
     <value>Primes</value>

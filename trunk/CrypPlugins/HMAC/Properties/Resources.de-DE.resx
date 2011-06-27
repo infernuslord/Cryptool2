@@ -156,4 +156,22 @@
   <data name="SelectedHashFunctionTooltip" xml:space="preserve">
     <value>Wählen Sie den Algorithmus zur Erzeugung des Hashwertes</value>
   </data>
+  <data name="SelectedHashFunctionList1" xml:space="preserve">
+    <value>MD5</value>
+  </data>
+  <data name="SelectedHashFunctionList2" xml:space="preserve">
+    <value>RIPEMD160</value>
+  </data>
+  <data name="SelectedHashFunctionList3" xml:space="preserve">
+    <value>SHA1</value>
+  </data>
+  <data name="SelectedHashFunctionList4" xml:space="preserve">
+    <value>SHA256</value>
+  </data>
+  <data name="SelectedHashFunctionList5" xml:space="preserve">
+    <value>SHA384</value>
+  </data>
+  <data name="SelectedHashFunctionList6" xml:space="preserve">
+    <value>SHA512</value>
+  </data>
 </root>

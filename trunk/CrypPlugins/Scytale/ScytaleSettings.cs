@@ -30,8 +30,8 @@ namespace Cryptool.Scytale
         }
 
         private Actions action = Actions.Encrypt;
-        [ContextMenu( "ActionCaption", "ActionTooltip",0,ContextMenuControlType.ComboBox,null, new [] { "Encrypt", "Decrypt" })]
-        [TaskPane( "ActionCaption", "ActionTooltip", null, 0, false, ControlType.ComboBox, new [] { "Encrypt", "Decrypt" })]
+        [ContextMenu( "ActionCaption", "ActionTooltip",0,ContextMenuControlType.ComboBox,null, new [] { "ActionList1", "ActionList2" })]
+        [TaskPane( "ActionCaption", "ActionTooltip", null, 0, false, ControlType.ComboBox, new [] { "ActionList1", "ActionList2" })]
         public int Action
         {
             get { return (int)action; }

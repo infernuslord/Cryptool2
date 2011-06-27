@@ -198,4 +198,31 @@
   <data name="PluginTooltip" xml:space="preserve">
     <value>Vigenère -- classic or autokey polyalphabetic substitution cipher</value>
   </data>
+  <data name="ActionList1" xml:space="preserve">
+    <value>Encrypt</value>
+  </data>
+  <data name="ActionList2" xml:space="preserve">
+    <value>Decrypt</value>
+  </data>
+  <data name="AlphabetCaseList1" xml:space="preserve">
+    <value>Case insensitive</value>
+  </data>
+  <data name="AlphabetCaseList2" xml:space="preserve">
+    <value>Case sensitive</value>
+  </data>
+  <data name="ModusList1" xml:space="preserve">
+    <value>Autokey</value>
+  </data>
+  <data name="ModusList2" xml:space="preserve">
+    <value>Classic</value>
+  </data>
+  <data name="UnknownSymbolHandlingList1" xml:space="preserve">
+    <value>Ignore (leave unmodified)</value>
+  </data>
+  <data name="UnknownSymbolHandlingList2" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="UnknownSymbolHandlingList3" xml:space="preserve">
+    <value>Replace with \'?\'</value>
+  </data>
 </root>

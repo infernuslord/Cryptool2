@@ -121,7 +121,7 @@
     <value>Hexadezimal darstellen?</value>
   </data>
   <data name="HexOutputTooltip" xml:space="preserve">
-    <value>Wenn diese Checkbox gesetzt ist, wird die Ausgabe hexadezimal ausgegeben.</value>
+    <value>Wenn dieses Kontrollkästchen gesetzt ist, wird die Ausgabe hexadezimal ausgegeben.</value>
   </data>
   <data name="HexOutputCaption" xml:space="preserve">
     <value>Erzeuge hexadezimale Ausgabe</value>
@@ -136,7 +136,7 @@
     <value>Muss 10 Bytes (80 bit) lang sein (in Hex).</value>
   </data>
   <data name="InputIVCaption" xml:space="preserve">
-    <value>IV</value>
+    <value>Initialisierungsvektor</value>
   </data>
   <data name="InputKeySettingsTooltip" xml:space="preserve">
     <value>Muss 10 Bytes (80 bit) lang sein (in Hex).</value>
@@ -175,7 +175,7 @@
     <value>Direkter Zugriff auf Trivium.</value>
   </data>
   <data name="TriviumSlaveCaption" xml:space="preserve">
-    <value>Trivium Slave</value>
+    <value>Trivium-Sklave</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
     <value>Trivium</value>
@@ -184,12 +184,18 @@
     <value>Byte-swapping benutzen?</value>
   </data>
   <data name="UseByteSwappingTooltip" xml:space="preserve">
-    <value>Wenn diese Checkbox gesetzt ist, werden die Ausgabebytes vertauscht.</value>
+    <value>Wenn dieses Kontrollkästchen gesetzt ist, werden die Ausgabebytes vertauscht.</value>
   </data>
   <data name="UseByteSwappingCaption" xml:space="preserve">
     <value>Byte-swapping benutzen</value>
   </data>
   <data name="PluginDescriptionURL" xml:space="preserve">
     <value>Trivium/DetailedDescription/Description.de-DE.xaml</value>
+  </data>
+  <data name="HexOutputList1" xml:space="preserve">
+    <value>Wenn dieses Kontrollkästchen gesetzt ist, wird die Ausgabe hexadezimal ausgegeben.</value>
+  </data>
+  <data name="UseByteSwappingList1" xml:space="preserve">
+    <value>Wenn dieses Kontrollkästchen gesetzt ist, werden die Ausgabebytes vertauscht.</value>
   </data>
 </root>

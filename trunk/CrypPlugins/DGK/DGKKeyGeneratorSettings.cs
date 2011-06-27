@@ -52,7 +52,7 @@ namespace Cryptool.Plugins.DGK
         /// <summary>
         /// Getter/Setter for the parameter k
         /// </summary>
-        [TaskPane("BitSizeKCaption", "BitSizeKTooltip", null, 1, false, ControlType.TextBox, ValidationType.RegEx, "[0-9]+")]
+        [TaskPane("BitSizeKCaption", "BitSizeKTooltip", null, 1, false, ControlType.TextBox, ValidationType.RegEx, "^[0-9]+$")]
         public int BitSizeK
         {
             get { return this.bitSizeK; }
@@ -70,7 +70,7 @@ namespace Cryptool.Plugins.DGK
         /// <summary>
         /// Getter/Setter for the parameter t
         /// </summary>
-        [TaskPane("BitSizeTCaption", "BitSizeTTooltip", null, 1, false, ControlType.TextBox, ValidationType.RegEx, "[0-9]+")]
+        [TaskPane("BitSizeTCaption", "BitSizeTTooltip", null, 1, false, ControlType.TextBox, ValidationType.RegEx, "^[0-9]+$")]
         public int BitSizeT
         {
             get { return this.bitSizeT; }
@@ -88,7 +88,7 @@ namespace Cryptool.Plugins.DGK
         /// <summary>
         /// Getter/Setter for the parameter l
         /// </summary>
-        [TaskPane("BitSizeLCaption", "BitSizeLTooltip", null, 1, false, ControlType.TextBox, ValidationType.RegEx, "[0-9]+")]
+        [TaskPane("BitSizeLCaption", "BitSizeLTooltip", null, 1, false, ControlType.TextBox, ValidationType.RegEx, "^[0-9]+$")]
         public int LimitL
         {
             get { return this.limitL; }

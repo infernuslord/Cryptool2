@@ -150,4 +150,10 @@
   <data name="PluginTooltip" xml:space="preserve">
     <value>WEP protocol</value>
   </data>
+  <data name="ActionList1" xml:space="preserve">
+    <value>Encrypt</value>
+  </data>
+  <data name="ActionList2" xml:space="preserve">
+    <value>Decrypt</value>
+  </data>
 </root>

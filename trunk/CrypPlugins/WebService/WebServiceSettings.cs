@@ -66,7 +66,7 @@ namespace WebService
         }
         private int integer;
       //  [ContextMenu( "IntegerCaption", "IntegerTooltip", 0, ContextMenuControlType.ComboBox, null, "True", "False")]
-       [TaskPane( "IntegerTPCaption", "IntegerTPTooltip", "Konfigurieren", 2, true, ControlType.ComboBox, new string[] { "0", "1", "2" })]
+       [TaskPane( "IntegerTPCaption", "IntegerTPTooltip", "Konfigurieren", 2, true, ControlType.ComboBox, new string[] { "IntegerList1", "IntegerList2", "IntegerList3" })]
         public int Integer
         {
             get

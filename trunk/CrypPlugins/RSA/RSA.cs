@@ -211,8 +211,9 @@ namespace Cryptool.Plugins.RSA
                 DateTime stopTime = DateTime.Now;
                 TimeSpan duration = stopTime - startTime;
 
-                GuiLogMessage(string.Format(Resources.Finished_RSA_on_texts_in__0__seconds_, duration.TotalSeconds), NotificationLevel.Info);
-
+                GuiLogMessage(string.Format("Finished RSA on texts in {0} seconds!", duration.TotalSeconds), NotificationLevel.Info);
+                //GuiLogMessage(string.Format(Resources.Finished_RSA_on_texts_in__0__seconds_, duration.TotalSeconds), NotificationLevel.Info);
+            
             }//end if           
             ProgressChanged(1.0, 1.0);
         }//end Execute
@@ -399,7 +400,7 @@ namespace Cryptool.Plugins.RSA
                     bint = new BigInteger(help);
 
                     //Check if the text could be encrypted/decrypted
-                    //this is only possible if the m < N
+                    //this is only possible if m < N
                     if (bint > this.InputN)
                     {
                         //Go out with an error because encryption/decryption is not possible

@@ -217,8 +217,8 @@ namespace Cryptool.Vigenere
         #region Algorithm settings properties (visible in the Settings pane)
 
         [PropertySaveOrder(3)]
-        [ContextMenu("ModusCaption", "ModusTooltip", 1, ContextMenuControlType.ComboBox, new int[] { 1, 2 }, "Autokey", "Classic")]
-        [TaskPane("ModusCaption", "ModusTooltip", null, 1, false, ControlType.ComboBox, new string[] { "Autokey", "Classic" })]
+        [ContextMenu("ModusCaption", "ModusTooltip", 1, ContextMenuControlType.ComboBox, new int[] { 1, 2 }, "ModusList1", "ModusList2")]
+        [TaskPane("ModusCaption", "ModusTooltip", null, 1, false, ControlType.ComboBox, new string[] { "ModusList1", "ModusList2" })]
         public int Modus
         {
             get { return this.selectedModus; }
@@ -232,8 +232,8 @@ namespace Cryptool.Vigenere
 
 
         [PropertySaveOrder(4)]
-        [ContextMenu("ActionCaption", "ActionTooltip", 2, ContextMenuControlType.ComboBox, new int[] { 1, 2 }, "Encrypt", "Decrypt")]
-        [TaskPane("ActionCaption", "ActionTooltip", null, 2, false, ControlType.ComboBox, new string[] { "Encrypt", "Decrypt" })]
+        [ContextMenu("ActionCaption", "ActionTooltip", 2, ContextMenuControlType.ComboBox, new int[] { 1, 2 }, "ActionList1", "ActionList2")]
+        [TaskPane("ActionCaption", "ActionTooltip", null, 2, false, ControlType.ComboBox, new string[] { "ActionList1", "ActionList2" })]
         public int Action
         {
             get { return this.selectedAction; }
@@ -272,8 +272,8 @@ namespace Cryptool.Vigenere
         }
 
         [PropertySaveOrder(7)]
-        [ContextMenu("UnknownSymbolHandlingCaption", "UnknownSymbolHandlingTooltip", 5, ContextMenuControlType.ComboBox, null, "Ignore (leave unmodified)", "Remove", "Replace with \'?\'")]
-        [TaskPane("UnknownSymbolHandlingCaption", "UnknownSymbolHandlingTooltip", null, 5, false, ControlType.ComboBox, new string[] { "Ignore (leave unmodified)", "Remove", "Replace with \'?\'" })]
+        [ContextMenu("UnknownSymbolHandlingCaption", "UnknownSymbolHandlingTooltip", 5, ContextMenuControlType.ComboBox, null, "UnknownSymbolHandlingList1", "UnknownSymbolHandlingList2", "UnknownSymbolHandlingList3")]
+        [TaskPane("UnknownSymbolHandlingCaption", "UnknownSymbolHandlingTooltip", null, 5, false, ControlType.ComboBox, new string[] { "UnknownSymbolHandlingList1", "UnknownSymbolHandlingList2", "UnknownSymbolHandlingList3" })]
         public int UnknownSymbolHandling
         {
             get { return (int)this.unknowSymbolHandling; }
@@ -286,8 +286,8 @@ namespace Cryptool.Vigenere
         }
 
         [PropertySaveOrder(8)]
-        [ContextMenu("AlphabetCaseCaption", "AlphabetCaseTooltip", 8, ContextMenuControlType.ComboBox, null, "Case insensitive", "Case sensitive")]
-        [TaskPane("AlphabetCaseCaption", "AlphabetCaseTooltip", null, 8, false, ControlType.ComboBox, new string[] { "Case insensitive", "Case sensitive" })]
+        [ContextMenu("AlphabetCaseCaption", "AlphabetCaseTooltip", 8, ContextMenuControlType.ComboBox, null, "AlphabetCaseList1", "AlphabetCaseList2")]
+        [TaskPane("AlphabetCaseCaption", "AlphabetCaseTooltip", null, 8, false, ControlType.ComboBox, new string[] { "AlphabetCaseList1", "AlphabetCaseList2" })]
         public int AlphabetCase
         {
             get { return this.caseSensitiveAlphabet; }

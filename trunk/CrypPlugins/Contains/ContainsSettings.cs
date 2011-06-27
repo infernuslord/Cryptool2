@@ -71,7 +71,7 @@ namespace Contains
     }
 
     private string delimiter = " ";
-    [TaskPaneAttribute( "DelimiterInputStringCaption", "DelimiterInputStringTooltip", null, 3, false, ControlType.TextBox, ValidationType.RegEx, "^(.){0,1}$")] // [a-zA-Z]|[0-9]|\\s
+    [TaskPaneAttribute( "DelimiterInputStringCaption", "DelimiterInputStringTooltip", null, 3, false, ControlType.TextBox, ValidationType.RegEx, "^.?$")] // [a-zA-Z]|[0-9]|\\s
     public string DelimiterInputString
     {
       get { return this.delimiterDictionary; }
@@ -87,7 +87,7 @@ namespace Contains
     }
 
     private string delimiterDictionary = " ";
-    [TaskPaneAttribute( "DelimiterDictionaryCaption", "DelimiterDictionaryTooltip", null, 4, false, ControlType.TextBox, ValidationType.RegEx, "^(.){0,1}$")] // [a-zA-Z]|[0-9]|\\s
+    [TaskPaneAttribute( "DelimiterDictionaryCaption", "DelimiterDictionaryTooltip", null, 4, false, ControlType.TextBox, ValidationType.RegEx, "^.?$")] // [a-zA-Z]|[0-9]|\\s
     public string DelimiterDictionary
     {
       get { return this.delimiterDictionary; }

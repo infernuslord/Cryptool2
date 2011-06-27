@@ -37,10 +37,13 @@ namespace Cryptool.Plugins.ToString
     {
       get 
       {
-        if (input != null)
-          return input.ToString();
-        else
-          return null;
+        if (input == null) 
+            return null;
+
+        if( input is byte[] )
+            return Encoding.Default.GetString((byte[])input);
+
+        return input.ToString();
       }
       set { } 
     }

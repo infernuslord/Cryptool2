@@ -141,6 +141,12 @@
   <data name="CheckPublishersAvailabilityTooltip" xml:space="preserve">
     <value>To check liveness or possibly changed publishing peer in intervals</value>
   </data>
+  <data name="ControlRegionGroup" xml:space="preserve">
+    <value>Control region</value>
+  </data>
+  <data name="IntervalsGroup" xml:space="preserve">
+    <value>Intervals</value>
+  </data>
   <data name="OutputvalueCaption" xml:space="preserve">
     <value>Data from subscribed Publisher</value>
   </data>

@@ -64,7 +64,7 @@ namespace Cryptool.Plugins.SZ42
 
         #region General Settings
 
-        [TaskPane( "ActionCaption", "ActionTooltip", "General Settings", 0, false, ControlType.ComboBox, new string[] { "Encrypt", "Decrypt" })]
+        [TaskPane("ActionCaption", "ActionTooltip", "GeneralSettingsGroup", 0, false, ControlType.ComboBox, new string[] { "ActionList1", "ActionList2" })]
         public int Action
         {
             get
@@ -81,7 +81,7 @@ namespace Cryptool.Plugins.SZ42
             }
         }
 
-        [TaskPane( "LimitationCaption", "LimitationTooltip", "General Settings", 1, false, ControlType.ComboBox, new string[] { "Chi2 One Back", "None" })]
+        [TaskPane("LimitationCaption", "LimitationTooltip", "GeneralSettingsGroup", 1, false, ControlType.ComboBox, new string[] { "LimitationList1", "LimitationList2" })]
         public int Limitation
         {
             get
@@ -102,7 +102,7 @@ namespace Cryptool.Plugins.SZ42
 
         #region Wheels Patterns
 
-        [TaskPane( "Patternχ1Caption", "Patternχ1Tooltip", "Wheels Patterns", 2, false, ControlType.TextBox, "")]
+        [TaskPane("Patternχ1Caption", "Patternχ1Tooltip", "PatternGroup", 2, false, ControlType.TextBox, "")]
         public string Patternχ1
         {
             get
@@ -119,7 +119,7 @@ namespace Cryptool.Plugins.SZ42
             }
         }
 
-        [TaskPane( "Patternχ2Caption", "Patternχ2Tooltip", "Wheels Patterns", 3, false, ControlType.TextBox, "")]
+        [TaskPane("Patternχ2Caption", "Patternχ2Tooltip", "PatternGroup", 3, false, ControlType.TextBox, "")]
         public string Patternχ2
         {
             get
@@ -136,7 +136,7 @@ namespace Cryptool.Plugins.SZ42
             }
         }
 
-        [TaskPane( "Patternχ3Caption", "Patternχ3Tooltip", "Wheels Patterns", 4, false, ControlType.TextBox, "")]
+        [TaskPane("Patternχ3Caption", "Patternχ3Tooltip", "PatternGroup", 4, false, ControlType.TextBox, "")]
         public string Patternχ3
         {
             get
@@ -153,7 +153,7 @@ namespace Cryptool.Plugins.SZ42
             }
         }
 
-        [TaskPane( "Patternχ4Caption", "Patternχ4Tooltip", "Wheels Patterns", 5, false, ControlType.TextBox, "")]
+        [TaskPane( "Patternχ4Caption", "Patternχ4Tooltip", "PatternGroup", 5, false, ControlType.TextBox, "")]
         public string Patternχ4
         {
             get
@@ -170,7 +170,7 @@ namespace Cryptool.Plugins.SZ42
             }
         }
 
-        [TaskPane( "Patternχ5Caption", "Patternχ5Tooltip", "Wheels Patterns", 6, false, ControlType.TextBox, "")]
+        [TaskPane( "Patternχ5Caption", "Patternχ5Tooltip", "PatternGroup", 6, false, ControlType.TextBox, "")]
         public string Patternχ5
         {
             get
@@ -187,7 +187,7 @@ namespace Cryptool.Plugins.SZ42
             }
         }
 
-        [TaskPane( "PatternΨ1 Caption", "PatternΨ1 Tooltip", "Wheels Patterns", 7, false, ControlType.TextBox, "")]
+        [TaskPane( "PatternΨ1 Caption", "PatternΨ1 Tooltip", "PatternGroup", 7, false, ControlType.TextBox, "")]
         public string PatternΨ1 
         {
             get
@@ -204,7 +204,7 @@ namespace Cryptool.Plugins.SZ42
             }
         }
 
-        [TaskPane( "PatternΨ2Caption", "PatternΨ2Tooltip", "Wheels Patterns", 8, false, ControlType.TextBox, "")]
+        [TaskPane( "PatternΨ2Caption", "PatternΨ2Tooltip", "PatternGroup", 8, false, ControlType.TextBox, "")]
         public string PatternΨ2
         {
             get
@@ -221,7 +221,7 @@ namespace Cryptool.Plugins.SZ42
             }
         }
 
-        [TaskPane( "PatternΨ3Caption", "PatternΨ3Tooltip", "Wheels Patterns", 9, false, ControlType.TextBox, "")]
+        [TaskPane( "PatternΨ3Caption", "PatternΨ3Tooltip", "PatternGroup", 9, false, ControlType.TextBox, "")]
         public string PatternΨ3
         {
             get
@@ -238,7 +238,7 @@ namespace Cryptool.Plugins.SZ42
             }
         }
 
-        [TaskPane( "PatternΨ4Caption", "PatternΨ4Tooltip", "Wheels Patterns", 10, false, ControlType.TextBox, "")]
+        [TaskPane( "PatternΨ4Caption", "PatternΨ4Tooltip", "PatternGroup", 10, false, ControlType.TextBox, "")]
         public string PatternΨ4
         {
             get
@@ -255,7 +255,7 @@ namespace Cryptool.Plugins.SZ42
             }
         }
 
-        [TaskPane( "PatternΨ5Caption", "PatternΨ5Tooltip", "Wheels Patterns", 11, false, ControlType.TextBox, "")]
+        [TaskPane( "PatternΨ5Caption", "PatternΨ5Tooltip", "PatternGroup", 11, false, ControlType.TextBox, "")]
         public string PatternΨ5
         {
             get
@@ -272,7 +272,7 @@ namespace Cryptool.Plugins.SZ42
             }
         }
 
-        [TaskPane( "Patternμ61Caption", "Patternμ61Tooltip", "Wheels Patterns", 12, false, ControlType.TextBox, "")]
+        [TaskPane( "Patternμ61Caption", "Patternμ61Tooltip", "PatternGroup", 12, false, ControlType.TextBox, "")]
         public string Patternμ61
         {
             get
@@ -289,7 +289,7 @@ namespace Cryptool.Plugins.SZ42
             }
         }
 
-        [TaskPane( "Patternμ37Caption", "Patternμ37Tooltip", "Wheels Patterns", 13, false, ControlType.TextBox, "")]
+        [TaskPane( "Patternμ37Caption", "Patternμ37Tooltip", "PatternGroup", 13, false, ControlType.TextBox, "")]
         public string Patternμ37
         {
             get
@@ -310,7 +310,7 @@ namespace Cryptool.Plugins.SZ42
 
         #region Wheels Positions
 
-        [TaskPane( "Positionχ1Caption", "Positionχ1Tooltip", "Wheels Positions", 14, false, ControlType.TextBox, "")]
+        [TaskPane( "Positionχ1Caption", "Positionχ1Tooltip", "PositionGroup", 14, false, ControlType.TextBox, "")]
         public string Positionχ1
         {
             get
@@ -327,7 +327,7 @@ namespace Cryptool.Plugins.SZ42
             }
         }
 
-        [TaskPane( "Positionχ2Caption", "Positionχ2Tooltip", "Wheels Positions", 15, false, ControlType.TextBox, "")]
+        [TaskPane( "Positionχ2Caption", "Positionχ2Tooltip", "PositionGroup", 15, false, ControlType.TextBox, "")]
         public string Positionχ2
         {
             get
@@ -344,7 +344,7 @@ namespace Cryptool.Plugins.SZ42
             }
         }
 
-        [TaskPane( "Positionχ3Caption", "Positionχ3Tooltip", "Wheels Positions", 16, false, ControlType.TextBox, "")]
+        [TaskPane( "Positionχ3Caption", "Positionχ3Tooltip", "PositionGroup", 16, false, ControlType.TextBox, "")]
         public string Positionχ3
         {
             get
@@ -361,7 +361,7 @@ namespace Cryptool.Plugins.SZ42
             }
         }
 
-        [TaskPane( "Positionχ4Caption", "Positionχ4Tooltip", "Wheels Positions", 17, false, ControlType.TextBox, "")]
+        [TaskPane( "Positionχ4Caption", "Positionχ4Tooltip", "PositionGroup", 17, false, ControlType.TextBox, "")]
         public string Positionχ4
         {
             get
@@ -378,7 +378,7 @@ namespace Cryptool.Plugins.SZ42
             }
         }
 
-        [TaskPane( "Positionχ5Caption", "Positionχ5Tooltip", "Wheels Positions", 18, false, ControlType.TextBox, "")]
+        [TaskPane( "Positionχ5Caption", "Positionχ5Tooltip", "PositionGroup", 18, false, ControlType.TextBox, "")]
         public string Positionχ5
         {
             get
@@ -395,7 +395,7 @@ namespace Cryptool.Plugins.SZ42
             }
         }
 
-        [TaskPane( "PositionΨ1Caption", "PositionΨ1Tooltip", "Wheels Positions", 19, false, ControlType.TextBox, "")]
+        [TaskPane( "PositionΨ1Caption", "PositionΨ1Tooltip", "PositionGroup", 19, false, ControlType.TextBox, "")]
         public string PositionΨ1
         {
             get
@@ -412,7 +412,7 @@ namespace Cryptool.Plugins.SZ42
             }
         }
 
-        [TaskPane( "PositionΨ2Caption", "PositionΨ2Tooltip", "Wheels Positions", 20, false, ControlType.TextBox, "")]
+        [TaskPane( "PositionΨ2Caption", "PositionΨ2Tooltip", "PositionGroup", 20, false, ControlType.TextBox, "")]
         public string PositionΨ2
         {
             get
@@ -429,7 +429,7 @@ namespace Cryptool.Plugins.SZ42
             }
         }
 
-        [TaskPane( "PositionΨ3Caption", "PositionΨ3Tooltip", "Wheels Positions", 21, false, ControlType.TextBox, "")]
+        [TaskPane( "PositionΨ3Caption", "PositionΨ3Tooltip", "PositionGroup", 21, false, ControlType.TextBox, "")]
         public string PositionΨ3
         {
             get
@@ -446,7 +446,7 @@ namespace Cryptool.Plugins.SZ42
             }
         }
 
-        [TaskPane( "PositionΨ4Caption", "PositionΨ4Tooltip", "Wheels Positions", 22, false, ControlType.TextBox, "")]
+        [TaskPane( "PositionΨ4Caption", "PositionΨ4Tooltip", "PositionGroup", 22, false, ControlType.TextBox, "")]
         public string PositionΨ4
         {
             get
@@ -463,7 +463,7 @@ namespace Cryptool.Plugins.SZ42
             }
         }
 
-        [TaskPane( "PositionΨ5Caption", "PositionΨ5Tooltip", "Wheels Positions", 23, false, ControlType.TextBox, "")]
+        [TaskPane( "PositionΨ5Caption", "PositionΨ5Tooltip", "PositionGroup", 23, false, ControlType.TextBox, "")]
         public string PositionΨ5
         {
             get
@@ -480,7 +480,7 @@ namespace Cryptool.Plugins.SZ42
             }
         }
 
-        [TaskPane( "Positionμ61Caption", "Positionμ61Tooltip", "Wheels Positions", 24, false, ControlType.TextBox, "")]
+        [TaskPane( "Positionμ61Caption", "Positionμ61Tooltip", "PositionGroup", 24, false, ControlType.TextBox, "")]
         public string Positionμ61
         {
             get
@@ -497,7 +497,7 @@ namespace Cryptool.Plugins.SZ42
             }
         }
 
-        [TaskPane( "Positionμ37Caption", "Positionμ37Tooltip", "Wheels Positions", 25, false, ControlType.TextBox, "")]
+        [TaskPane( "Positionμ37Caption", "Positionμ37Tooltip", "PositionGroup", 25, false, ControlType.TextBox, "")]
         public string Positionμ37
         {
             get
@@ -518,7 +518,7 @@ namespace Cryptool.Plugins.SZ42
 
         #region Format Settings
 
-        [TaskPane( "InputParsedCaption", "InputParsedTooltip", "Format Settings", 26, false, ControlType.CheckBox, "")]
+        [TaskPane( "InputParsedCaption", "InputParsedTooltip", "FormatGroup", 26, false, ControlType.CheckBox, "")]
         public bool InputParsed
         {
             get
@@ -535,7 +535,7 @@ namespace Cryptool.Plugins.SZ42
             }
         }
 
-        [TaskPane( "OutputParsedCaption", "OutputParsedTooltip", "Format Settings", 27, false, ControlType.CheckBox, "")]
+        [TaskPane( "OutputParsedCaption", "OutputParsedTooltip", "FormatGroup", 27, false, ControlType.CheckBox, "")]
         public bool OutputParsed
         {
             get

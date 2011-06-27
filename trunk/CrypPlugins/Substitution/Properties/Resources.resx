@@ -179,4 +179,34 @@
   <data name="UnknownSymbolHandlingTooltip" xml:space="preserve">
     <value>What should be done with ecountered characters at the input which are not in the alphabet?</value>
   </data>
+  <data name="ActionList1" xml:space="preserve">
+    <value>Encrypt</value>
+  </data>
+  <data name="ActionList2" xml:space="preserve">
+    <value>Decrypt</value>
+  </data>
+  <data name="AlphabetCaseList1" xml:space="preserve">
+    <value>Case insensitive</value>
+  </data>
+  <data name="AlphabetCaseList2" xml:space="preserve">
+    <value>Case sensitive</value>
+  </data>
+  <data name="KeyVariantList1" xml:space="preserve">
+    <value>Remaining characters are filled in ascending order</value>
+  </data>
+  <data name="KeyVariantList2" xml:space="preserve">
+    <value>Remaining characters are filld in descending order</value>
+  </data>
+  <data name="KeyVariantList3" xml:space="preserve">
+    <value>Atbash (the encryption is using a fixed key)</value>
+  </data>
+  <data name="UnknownSymbolHandlingList1" xml:space="preserve">
+    <value>Ignore (leave unmodified)</value>
+  </data>
+  <data name="UnknownSymbolHandlingList2" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="UnknownSymbolHandlingList3" xml:space="preserve">
+    <value>Replace with \'?\'</value>
+  </data>
 </root>

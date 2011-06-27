@@ -51,8 +51,8 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         /// 1 = Encrypt
         /// 2 = Decrypt
         /// </summary>
-        [ContextMenu( "ActionCaption", "ActionTooltip",1, ContextMenuControlType.ComboBox, new int[] { 1, 2}, "Encrypt","Decrypt")]
-        [TaskPane( "ActionCaption", "ActionTooltip", null, 1, false, ControlType.ComboBox, new string[] { "Encrypt", "Decrypt" })]
+        [ContextMenu( "ActionCaption", "ActionTooltip",1, ContextMenuControlType.ComboBox, new int[] { 1, 2}, "ActionList1", "ActionList2")]
+        [TaskPane( "ActionCaption", "ActionTooltip", null, 1, false, ControlType.ComboBox, new string[] { "ActionList1", "ActionList2" })]
         public int Action
         {
             get { return this.action; }
@@ -69,8 +69,8 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         /// 1 = ECB
         /// 2 = CBC
         /// </summary>
-        [ContextMenu( "ModeCaption", "ModeTooltip",2,ContextMenuControlType.ComboBox,null, new String[] {"Electronic Code Book (ECB)","Cipher Block Chaining (CBC)" })]
-        [TaskPane("ModeCaption", "ModeTooltip", null, 2, false, ControlType.ComboBox, new String[] { "Electronic Bode Book (ECB)", "Cipher Block Chaining (CBC)", })]
+        [ContextMenu("ModeCaption", "ModeTooltip", 2, ContextMenuControlType.ComboBox, null, new String[] { "ModeList1", "ModeList2" })]
+        [TaskPane("ModeCaption", "ModeTooltip", null, 2, false, ControlType.ComboBox, new String[] { "ModeList1", "ModeList2", })]
         public int Mode
         {
             get { return this.mode; }

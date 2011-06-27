@@ -180,4 +180,49 @@
   <data name="PresentationFormatSettingTooltip" xml:space="preserve">
     <value>Choose the format that will be used to present the input data.</value>
   </data>
+  <data name="AppendList1" xml:space="preserve">
+    <value>Append text input</value>
+  </data>
+  <data name="BooleanAsNumericList1" xml:space="preserve">
+    <value>Display boolean as numeric value</value>
+  </data>
+  <data name="EncodingSettingList1" xml:space="preserve">
+    <value>Default system encoding</value>
+  </data>
+  <data name="EncodingSettingList2" xml:space="preserve">
+    <value>Unicode</value>
+  </data>
+  <data name="EncodingSettingList3" xml:space="preserve">
+    <value>UTF-7</value>
+  </data>
+  <data name="EncodingSettingList4" xml:space="preserve">
+    <value>UTF-8</value>
+  </data>
+  <data name="EncodingSettingList5" xml:space="preserve">
+    <value>UTF-32</value>
+  </data>
+  <data name="EncodingSettingList6" xml:space="preserve">
+    <value>ASCII</value>
+  </data>
+  <data name="EncodingSettingList7" xml:space="preserve">
+    <value>Big endian unicode</value>
+  </data>
+  <data name="FlushOnPreExecutionList1" xml:space="preserve">
+    <value>Flush text on PreExec</value>
+  </data>
+  <data name="PresentationFormatSettingList1" xml:space="preserve">
+    <value>Text</value>
+  </data>
+  <data name="PresentationFormatSettingList2" xml:space="preserve">
+    <value>Hex</value>
+  </data>
+  <data name="PresentationFormatSettingList3" xml:space="preserve">
+    <value>Base64</value>
+  </data>
+  <data name="PresentationFormatSettingList4" xml:space="preserve">
+    <value>Decimal</value>
+  </data>
+  <data name="AppendGroup" xml:space="preserve">
+    <value>Append</value>
+  </data>
 </root>

@@ -156,4 +156,16 @@
   <data name="SuccessTooltip" xml:space="preserve">
     <value>Indicates if attack was successful or not</value>
   </data>
+  <data name="ActionList1" xml:space="preserve">
+    <value>FMS</value>
+  </data>
+  <data name="ActionList2" xml:space="preserve">
+    <value>KoreK</value>
+  </data>
+  <data name="ActionList3" xml:space="preserve">
+    <value>PTW</value>
+  </data>
+  <data name="FileOrNotList1" xml:space="preserve">
+    <value>Data comes from file</value>
+  </data>
 </root>

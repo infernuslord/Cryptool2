@@ -73,10 +73,10 @@ namespace PKCS5
 
     [ContextMenu( "SHAFunctionCaption", "SHAFunctionTooltip", 0,
       ContextMenuControlType.ComboBox, null,
-      new string[] { "MD5", "SHA1", "SHA256", "SHA384", "SHA512", "TIGER", "WHIRLPOOL" })]
+      new string[] { "SHAFunctionList1", "SHAFunctionList2", "SHAFunctionList3", "SHAFunctionList4", "SHAFunctionList5", "SHAFunctionList6", "SHAFunctionList7" })]
     [TaskPane( "SHAFunctionTPCaption", "SHAFunctionTPTooltip", "", 0, true,
       ControlType.ComboBox,
-      new string[] { "MD5", "SHA1", "SHA256", "SHA384", "SHA512", "TIGER", "WHIRLPOOL" })]
+      new string[] { "SHAFunctionList1", "SHAFunctionList2", "SHAFunctionList3", "SHAFunctionList4", "SHAFunctionList5", "SHAFunctionList6", "SHAFunctionList7" })]
     public int SHAFunction
     {
       get
@@ -148,10 +148,10 @@ namespace PKCS5
     /// Encoding property used in the Settings pane. 
     /// </summary>
     [ContextMenu( "EncodingSettingCaption", "EncodingSettingTooltip", 1, ContextMenuControlType.ComboBox, null, 
-      new string[] { "Default system encoding", "Unicode", "UTF-7", "UTF-8", "UTF-32", "ASCII", "Big endian unicode" })]
+      new string[] { "EncodingSettingList1", "EncodingSettingList2", "EncodingSettingList3", "EncodingSettingList4", "EncodingSettingList5", "EncodingSettingList6", "EncodingSettingList7" })]
     [TaskPane( "EncodingSettingCaption", "EncodingSettingTooltip", 
       null, 1, false, ControlType.RadioButton, 
-      new string[] { "Default system encoding", "Unicode", "UTF-7", "UTF-8", "UTF-32", "ASCII", "Big endian unicode" })]
+      new string[] { "EncodingSettingList1", "EncodingSettingList2", "EncodingSettingList3", "EncodingSettingList4", "EncodingSettingList5", "EncodingSettingList6", "EncodingSettingList7" })]
     public int EncodingSetting
     {
       get

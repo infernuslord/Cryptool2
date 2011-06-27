@@ -137,4 +137,10 @@
   <data name="AlgorithmTooltip" xml:space="preserve">
     <value>Which algorithm do you want to use?</value>
   </data>
+  <data name="AlgorithmList1" xml:space="preserve">
+    <value>Enumeration</value>
+  </data>
+  <data name="AlgorithmList2" xml:space="preserve">
+    <value>Index-Calculus</value>
+  </data>
 </root>

@@ -56,8 +56,8 @@ namespace Cryptool.Alphabets
             }
         }
 
-        [ContextMenu("UpperLowerCaseLettersCaption", "UpperLowerCaseLettersTooltip", 0, ContextMenuControlType.ComboBox, null, new string[] { "Uppercase", "Lowercase", "Both" })]
-        [TaskPane("UpperLowerCaseLettersCaption", "UpperLowerCaseLettersTooltip", null, 2, false, ControlType.ComboBox, new string[] { "Uppercase", "Lowercase", "Both" })]
+        [ContextMenu("UpperLowerCaseLettersCaption", "UpperLowerCaseLettersTooltip", 0, ContextMenuControlType.ComboBox, null, new string[] { "UpperLowerCaseLettersList1", "UpperLowerCaseLettersList2", "UpperLowerCaseLettersList3" })]
+        [TaskPane("UpperLowerCaseLettersCaption", "UpperLowerCaseLettersTooltip", null, 2, false, ControlType.ComboBox, new string[] { "UpperLowerCaseLettersList1", "UpperLowerCaseLettersList2", "UpperLowerCaseLettersList3" })]
         public int UpperLowerCaseLetters
         {
             get { return (int)this.upperLowerCaseLetter; }
@@ -69,8 +69,8 @@ namespace Cryptool.Alphabets
             }
         }
 
-        [ContextMenu("SpaceSensitivityCaption", "SpaceSensitivityTooltip", 1, ContextMenuControlType.ComboBox, null, new string[] { "Yes", "No" })]
-        [TaskPane("SpaceSensitivityCaption", "SpaceSensitivityTooltip", null, 3, false, ControlType.ComboBox, new string[] { "Yes", "No" })]
+        [ContextMenu("SpaceSensitivityCaption", "SpaceSensitivityTooltip", 1, ContextMenuControlType.ComboBox, null, new string[] { "SpaceSensitivityList1", "SpaceSensitivityList2" })]
+        [TaskPane("SpaceSensitivityCaption", "SpaceSensitivityTooltip", null, 3, false, ControlType.ComboBox, new string[] { "SpaceSensitivityList1", "SpaceSensitivityList2" })]
         public int SpaceSensitivity
         {
             get { return (int)this.spaceSensitivity; }
@@ -82,8 +82,8 @@ namespace Cryptool.Alphabets
             }
         }
 
-        [ContextMenu("NumeralsCaption", "NumeralsTooltip", 2, ContextMenuControlType.ComboBox, null, new string[] { "Yes", "No" })]
-        [TaskPane("NumeralsCaption", "NumeralsTooltip", null, 4, false, ControlType.ComboBox, new string[] { "Yes", "No" })]
+        [ContextMenu("NumeralsCaption", "NumeralsTooltip", 2, ContextMenuControlType.ComboBox, null, new string[] { "NumeralsList1", "NumeralsList2" })]
+        [TaskPane("NumeralsCaption", "NumeralsTooltip", null, 4, false, ControlType.ComboBox, new string[] { "NumeralsList1", "NumeralsList2" })]
         public int Numerals
         {
             get { return (int)this.numerals; }
@@ -95,8 +95,8 @@ namespace Cryptool.Alphabets
             }
         }
 
-        [ContextMenu("PunctuationCaption", "PunctuationTooltip", 3, ContextMenuControlType.ComboBox, null, new string[] { "Yes", "No" })]
-        [TaskPane("PunctuationCaption", "PunctuationTooltip", null, 5, false, ControlType.ComboBox, new string[] { "Yes", "No" })]
+        [ContextMenu("PunctuationCaption", "PunctuationTooltip", 3, ContextMenuControlType.ComboBox, null, new string[] { "PunctuationList1", "PunctuationList2" })]
+        [TaskPane("PunctuationCaption", "PunctuationTooltip", null, 5, false, ControlType.ComboBox, new string[] { "PunctuationList1", "PunctuationList2" })]
         public int Punctuation
         {
             get { return (int)this.punctuation; }

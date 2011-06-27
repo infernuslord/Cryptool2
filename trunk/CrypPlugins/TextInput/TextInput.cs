@@ -280,7 +280,7 @@ namespace Cryptool.TextInput
       set { } // readonly
     }
 
-    [PropertyInfo(Direction.OutputData, "ByteArrayCaption", "ByteArrayTooltip", "", true, false, QuickWatchFormat.None, null)]
+    [PropertyInfo(Direction.OutputData, "ByteArrayOutputCaption", "ByteArrayOutputTooltip", "", true, false, QuickWatchFormat.None, null)]
     public byte[] ByteArrayOutput
     {
       get

@@ -117,14 +117,11 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Finished_RSA_on_texts_in__0__seconds_" xml:space="preserve">
-    <value>Finished RSA on texts in {0} seconds!</value>
-  </data>
   <data name="PluginCaption" xml:space="preserve">
     <value>RSA</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>RSA En/Decryption</value>
+    <value>RSA Ver-/Entschlüsselung</value>
   </data>
   <data name="PluginDescriptionURL" xml:space="preserve">
     <value>RSA/DetailedDescription/Description.xaml</value>
@@ -133,111 +130,129 @@
     <value>RSAKeyGenerator</value>
   </data>
   <data name="PluginKeyTooltip" xml:space="preserve">
-    <value>RSA Key Generator</value>
+    <value>RSA-Schlüsselgenerator</value>
   </data>
   <data name="PluginKeyDescriptionURL" xml:space="preserve">
     <value>RSA/DetailedDescription/Description.xaml</value>
   </data>
   <data name="InputNCaption" xml:space="preserve">
-    <value>Public key / private Key N input</value>
+    <value>Öffentlicher Schlüssel N</value>
   </data>
   <data name="InputNTooltip" xml:space="preserve">
-    <value>Enter your public key / private key N here</value>
+    <value>Geben Sie hier den öffentlichen Schlüssel N ein.</value>
   </data>
   <data name="InputMCCaption" xml:space="preserve">
-    <value>Message M / ciphertext C input</value>
+    <value>Nachricht M / Geheimtext C (als Zahl)</value>
   </data>
   <data name="InputMCTooltip" xml:space="preserve">
-    <value>Enter your message M / ciphertext C here</value>
+    <value>Geben Sie hier die zu ver-/entschlüsselnde Zahl ein.</value>
   </data>
   <data name="InputEDCaption" xml:space="preserve">
-    <value>Public key E / private key D input</value>
+    <value>Öffentlicher Schlüssel E / Privater Schlüssel D</value>
   </data>
   <data name="InputEDTooltip" xml:space="preserve">
-    <value>Enter your public key E / private key D here</value>
+    <value>Geben Sie hier den öffentlichen Schlüssel E / privaten Schlüssel D ein.</value>
   </data>
   <data name="OutputMCCaption" xml:space="preserve">
-    <value>Cipher C output / message M output</value>
+    <value>Ausgabe Geheimtext C / Klartext M</value>
   </data>
   <data name="OutputMCTooltip" xml:space="preserve">
-    <value>Your cipher C / message M will be send here</value>
+    <value>Ausgabe der ver-/entschlüsselten Nachricht (als Zahl)</value>
   </data>
   <data name="InputTextCaption" xml:space="preserve">
-    <value>Text input</value>
+    <value>Nachricht M / Geheimtext C</value>
   </data>
   <data name="InputTextTooltip" xml:space="preserve">
-    <value>Enter your text here</value>
+    <value>Geben Sie hier den zu ver-/entschlüsselnden Text ein.</value>
   </data>
   <data name="OutputTextCaption" xml:space="preserve">
-    <value>Text output</value>
+    <value>Ausgabe Geheimtext C / Klartext M</value>
   </data>
   <data name="OutputTextTooltip" xml:space="preserve">
-    <value>Your text will be send here</value>
+    <value>Ausgabe des ver-/entschlüsselten Textes</value>
   </data>
   <data name="NCaption" xml:space="preserve">
-    <value>N</value>
+    <value>Öffentlicher Schlüssel N</value>
   </data>
   <data name="NTooltip" xml:space="preserve">
-    <value>N</value>
+    <value>Öffentlicher Schlüssel N</value>
   </data>
   <data name="ECaption" xml:space="preserve">
-    <value>e</value>
+    <value>Öffentlicher Schlüssel e</value>
   </data>
   <data name="ETooltip" xml:space="preserve">
-    <value>e</value>
+    <value>Öffentlicher Schlüssel e</value>
   </data>
   <data name="DCaption" xml:space="preserve">
-    <value>d</value>
+    <value>Privater Schlüssel d</value>
   </data>
   <data name="DTooltip" xml:space="preserve">
-    <value>d</value>
+    <value>Privater Schlüssel d</value>
   </data>
   <data name="CertificateFileCaption" xml:space="preserve">
-    <value>Open X.509 Certificate</value>
+    <value>Open X.509-Zertifikat</value>
   </data>
   <data name="CertificateFileTooltip" xml:space="preserve">
-    <value>Select the X.509 certificate you want to open.</value>
+    <value>Wählen Sie das zu öffnende X.509-Zertifikat.</value>
   </data>
   <data name="CloseFileCaption" xml:space="preserve">
-    <value>Close file</value>
+    <value>Datei schließen</value>
   </data>
   <data name="CloseFileTooltip" xml:space="preserve">
-    <value>Close file</value>
+    <value>Datei schließen</value>
   </data>
   <data name="PCaption" xml:space="preserve">
-    <value>P</value>
+    <value>Primzahl P</value>
   </data>
   <data name="PTooltip" xml:space="preserve">
-    <value>P</value>
+    <value>Primzahl P</value>
   </data>
   <data name="PasswordCaption" xml:space="preserve">
-    <value>Password</value>
+    <value>Passwort</value>
   </data>
   <data name="PasswordTooltip" xml:space="preserve">
-    <value>Password</value>
+    <value>Passwort</value>
   </data>
   <data name="QCaption" xml:space="preserve">
-    <value>Q</value>
+    <value>Primzahl Q</value>
   </data>
   <data name="QTooltip" xml:space="preserve">
-    <value>Q</value>
+    <value>Primzahl Q</value>
   </data>
   <data name="SourceCaption" xml:space="preserve">
-    <value>Source</value>
+    <value>Herkunft des Schlüssels</value>
   </data>
   <data name="SourceTooltip" xml:space="preserve">
-    <value>Select the source of the key data</value>
+    <value>Herkunft des Schlüssels</value>
   </data>
   <data name="ActionCaption" xml:space="preserve">
-    <value>Action</value>
+    <value>Aktion</value>
   </data>
   <data name="ActionTooltip" xml:space="preserve">
-    <value>Do you want the input data to be encrypted or decrypted?</value>
+    <value>Wählen Sie die Betriebsart des Plugins.</value>
   </data>
   <data name="CoresUsedCaption" xml:space="preserve">
-    <value>CoresUsed</value>
+    <value>verwendete CPU-Kerne</value>
   </data>
   <data name="CoresUsedTooltip" xml:space="preserve">
-    <value>Choose how many cores should be used</value>
+    <value>Wie viele CPU-Kerne sollen verwendet werden?</value>
+  </data>
+  <data name="ActionList1" xml:space="preserve">
+    <value>Verschlüsselung</value>
+  </data>
+  <data name="ActionList2" xml:space="preserve">
+    <value>Entschlüsselung</value>
+  </data>
+  <data name="SourceList1" xml:space="preserve">
+    <value>manuelle Eingabe der Primzahlen</value>
+  </data>
+  <data name="SourceList2" xml:space="preserve">
+    <value>manuelle Eingabe des Schlüssels</value>
+  </data>
+  <data name="SourceList3" xml:space="preserve">
+    <value>zufällig erzeugen</value>
+  </data>
+  <data name="SourceList4" xml:space="preserve">
+    <value>X.509-Zertifikat</value>
   </data>
 </root>

@@ -64,7 +64,7 @@ namespace Cryptool.Trivium
         }
 
         private bool useByteSwapping = false;
-        [ContextMenu("UseByteSwappingCaption", "UseByteSwappingTooltip", 1, ContextMenuControlType.CheckBox, null, new string[] { "useByteSwappingContextDescription" })]
+        [ContextMenu("UseByteSwappingCaption", "UseByteSwappingTooltip", 1, ContextMenuControlType.CheckBox, null, new string[] { "UseByteSwappingList1" })]
         [TaskPane("UseByteSwappingCaption", "UseByteSwappingTooltip", null, 2, false, ControlType.CheckBox, "", null)]
         public bool UseByteSwapping
         {
@@ -78,7 +78,7 @@ namespace Cryptool.Trivium
         }
 
         private bool hexOutput = false;
-        [ContextMenu("HexOutputCaption", "HexOutputTooltip", 2, ContextMenuControlType.CheckBox, null, new string[] { "hexOutputContextDescription" })]
+        [ContextMenu("HexOutputCaption", "HexOutputTooltip", 2, ContextMenuControlType.CheckBox, null, new string[] { "HexOutputList1" })]
         [TaskPane("HexOutputCaption", "HexOutputTooltip", null, 3, false, ControlType.CheckBox, "", null)]
         public bool HexOutput
         {

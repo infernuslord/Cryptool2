@@ -121,7 +121,7 @@
     <value>Aktion</value>
   </data>
   <data name="ActionTooltip" xml:space="preserve">
-    <value>Wählen Sie die Betriebsart des Plugins</value>
+    <value>Wählen Sie die Betriebsart des Plugins.</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="AESOpenCL" type="System.Resources.ResXFileRef, System.Windows.Forms">

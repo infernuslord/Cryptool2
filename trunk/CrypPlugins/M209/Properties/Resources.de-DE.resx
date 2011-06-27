@@ -127,7 +127,7 @@
     <value>Entschlüsselung</value>
   </data>
   <data name="ActionTooltip" xml:space="preserve">
-    <value>Wählen Sie die Betriebsart des Plugins</value>
+    <value>Wählen Sie die Betriebsart des Plugins.</value>
   </data>
   <data name="Bar10Caption" xml:space="preserve">
     <value>Stange 10</value>

@@ -121,7 +121,7 @@
   <data name="DESOpenCL" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\opencl\desopencl.cl;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-    <data name="PluginCaption" xml:space="preserve">
+  <data name="PluginCaption" xml:space="preserve">
     <value>DES</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
@@ -130,7 +130,7 @@
   <data name="PluginDescriptionURL" xml:space="preserve">
     <value>DES/DetailedDescription/Description.xaml</value>
   </data>
-    <data name="ControlSlaveCaption" xml:space="preserve">
+  <data name="ControlSlaveCaption" xml:space="preserve">
     <value>DES Slave for Cryptanalysis</value>
   </data>
   <data name="ControlSlaveTooltip" xml:space="preserve">
@@ -152,7 +152,7 @@
     <value>Key</value>
   </data>
   <data name="InputKeyTooltip" xml:space="preserve">
-    <value>The key for encryption7decryption. It must be exactly 8 bytes (64 Bits).</value>
+    <value>The key for encryption/decryption. It must be exactly 8 bytes (64 Bits).</value>
   </data>
   <data name="InputIVCaption" xml:space="preserve">
     <value>IV</value>
@@ -166,7 +166,7 @@
   <data name="OutputStreamTooltip" xml:space="preserve">
     <value>Encrypted or decrypted output data</value>
   </data>
-    <data name="ActionCaption" xml:space="preserve">
+  <data name="ActionCaption" xml:space="preserve">
     <value>Action</value>
   </data>
   <data name="ActionTooltip" xml:space="preserve">
@@ -195,5 +195,35 @@
   </data>
   <data name="PaddingTPTooltip" xml:space="preserve">
     <value>Select a mode to fill partial data blocks.</value>
+  </data>
+  <data name="ActionList1" xml:space="preserve">
+    <value>Encrypt</value>
+  </data>
+  <data name="ActionList2" xml:space="preserve">
+    <value>Decrypt</value>
+  </data>
+  <data name="ModeList1" xml:space="preserve">
+    <value>Electronic Code Book (ECB)</value>
+  </data>
+  <data name="ModeList2" xml:space="preserve">
+    <value>Cipher Block Chaining (CBC)</value>
+  </data>
+  <data name="ModeList3" xml:space="preserve">
+    <value>Cipher Feedback (CFB)</value>
+  </data>
+  <data name="PaddingList1" xml:space="preserve">
+    <value>Zeros</value>
+  </data>
+  <data name="PaddingList2" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="PaddingList3" xml:space="preserve">
+    <value>PKCS7</value>
+  </data>
+  <data name="PaddingList4" xml:space="preserve">
+    <value>ANSIX923</value>
+  </data>
+  <data name="PaddingList5" xml:space="preserve">
+    <value>ISO10126</value>
   </data>
 </root>
