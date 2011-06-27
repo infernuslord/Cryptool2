@@ -109,7 +109,7 @@ namespace StringOperations
                         OnPropertyChanged("OutputValue");
                         break;
                 }
-                
+                ProgressChanged(1, 1);
             }
             catch(Exception ex)
             {
@@ -199,6 +199,14 @@ namespace StringOperations
             if (OnGuiLogNotificationOccured != null)
             {
                 OnGuiLogNotificationOccured(this, new GuiLogEventArgs(message, this, logLevel));
+            }
+        }
+
+        public void ProgressChanged(double value, double max)
+        {
+            if (OnPluginProgressChanged != null)
+            {
+                OnPluginProgressChanged(this, new PluginProgressEventArgs(value, max));
             }
         }
     }
