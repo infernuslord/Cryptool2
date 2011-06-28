@@ -157,7 +157,7 @@
     <value>Spanish</value>
   </data>
   <data name="LanguageTooltip" xml:space="preserve">
-    <value>Select the language you expect the plaintext to be</value>
+    <value>Select the language you expect the plaintext to be.</value>
   </data>
   <data name="ModusCaption" xml:space="preserve">
     <value>Modus</value>

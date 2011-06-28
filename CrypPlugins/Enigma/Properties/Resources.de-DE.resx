@@ -238,7 +238,7 @@
     <value>Schlüssel (initiale Rotorpositionen)</value>
   </data>
   <data name="KeyTooltip" xml:space="preserve">
-    <value>Geben Sie die Startposition für jeden Rotor an, z.B. ABCD. Der langsamste Rotor ist links, der schnellste rechts. Nur die Enigma M4 "Shark" verwendet 4 Rotoren.</value>
+    <value>Geben Sie die Startposition für jeden Rotor an, z.B. ABCD. Der langsamste Rotor ist links, der schnellste rechts. Nur die Enigma M4 ("Shark") verwendet 4 Rotoren.</value>
   </data>
   <data name="KeySearchMethodCaption" xml:space="preserve">
     <value>Rotor-/Ring-/Schlüssel-Suchmethode</value>

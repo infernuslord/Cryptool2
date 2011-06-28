@@ -190,7 +190,7 @@
     <value>Privater Schlüssel d</value>
   </data>
   <data name="CertificateFileCaption" xml:space="preserve">
-    <value>Open X.509-Zertifikat</value>
+    <value>Öffne X.509-Zertifikat</value>
   </data>
   <data name="CertificateFileTooltip" xml:space="preserve">
     <value>Wählen Sie das zu öffnende X.509-Zertifikat.</value>

@@ -238,7 +238,7 @@
     <value>Key (Initial rotor setting)</value>
   </data>
   <data name="KeyTooltip" xml:space="preserve">
-    <value>Please provide the initial rotor setting for each rotor, e.g. ABCD. Note that the slowest rotor is on the left and the fastest rotor is on the right. Only the Enigma M4 "Shark" uses four rotors.</value>
+    <value>Please provide the initial rotor setting for each rotor, e.g. ABCD. Note that the slowest rotor is on the left and the fastest rotor is on the right. Only the Enigma M4 ("Shark") uses four rotors.</value>
   </data>
   <data name="KeySearchMethodCaption" xml:space="preserve">
     <value>Rotor/Ring/Key search method</value>

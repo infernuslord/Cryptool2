@@ -157,7 +157,7 @@
     <value>Spanisch</value>
   </data>
   <data name="LanguageTooltip" xml:space="preserve">
-    <value>Wählen Sie die vermutete Sprache des Geheimtextes.</value>
+    <value>Wählen Sie die vermutete Sprache des Klartextes.</value>
   </data>
   <data name="ModusCaption" xml:space="preserve">
     <value>Modus</value>
