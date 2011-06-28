@@ -142,7 +142,7 @@
     <value>IV</value>
   </data>
   <data name="InputIVTooltip" xml:space="preserve">
-    <value>IV to be used in chaining modes, must be 8 bytes.</value>
+    <value>IV to be used in chaining modes (CBC,CFB). It must be the same size as the block length (8 bytes).</value>
   </data>
   <data name="OutputStreamCaption" xml:space="preserve">
     <value>Output stream</value>

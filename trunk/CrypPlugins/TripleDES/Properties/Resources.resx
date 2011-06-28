@@ -133,7 +133,7 @@
     <value>IV</value>
   </data>
   <data name="InputIVTooltip" xml:space="preserve">
-    <value>IV to be used in chaining modes, must be the same as the Blocksize in bytes (8 bytes).</value>
+    <value>IV to be used in chaining modes (CBC,CFB). It must be the same size as the block length (8 bytes).</value>
   </data>
   <data name="InputKeyCaption" xml:space="preserve">
     <value>Key</value>

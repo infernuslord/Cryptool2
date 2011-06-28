@@ -152,13 +152,13 @@
     <value>Key</value>
   </data>
   <data name="InputKeyTooltip" xml:space="preserve">
-    <value>The key for encryption/decryption. It must be exactly 8 bytes (64 Bits).</value>
+    <value>The key must be exactly 8 bytes (64 bit) long.</value>
   </data>
   <data name="InputIVCaption" xml:space="preserve">
     <value>IV</value>
   </data>
   <data name="InputIVTooltip" xml:space="preserve">
-    <value>IV to be used in chaining modes, must be the same as the Blocksize in bytes (8 bytes).</value>
+    <value>IV to be used in chaining modes (CBC,CFB). It must be the same size as the block length (8 bytes).</value>
   </data>
   <data name="OutputStreamCaption" xml:space="preserve">
     <value>Output stream</value>
