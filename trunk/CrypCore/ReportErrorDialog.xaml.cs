@@ -68,9 +68,9 @@ namespace Cryptool.Core
 
             var sb = new StringBuilder();
             sb.AppendLine(string.Format("Operating System: {0}", System.Environment.OSVersion.ToString()));
-            sb.AppendLine(string.Format("Plattform: {0}", Environment.OSVersion.Platform));
+            //sb.AppendLine(string.Format("Plattform: {0}", Environment.OSVersion.Platform)); // always Win32NT
             sb.AppendLine(string.Format("Processors: {0}", System.Environment.ProcessorCount));
-            sb.AppendLine(string.Format("Process Info: {0}", (System.Environment.Is64BitProcess ? "64 Bit" : "32 Bit")));
+            //sb.AppendLine(string.Format("Process Info: {0}", (System.Environment.Is64BitProcess ? "64 Bit" : "32 Bit"))); // always 32 Bit
             sb.AppendLine(string.Format("Administrative Rights: {0}", hasAdministrativeRight));
             sb.AppendLine(string.Format("Current culture: {0}", CultureInfo.CurrentCulture.Name));
             sb.AppendLine(string.Format("CrypTool version: {0}", _version));
