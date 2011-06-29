@@ -28,768 +28,582 @@ namespace WorkspaceManager.View.BinVisual
 {
     public partial class BinSettingsVisual : UserControl
     {
-        private const int CONTROL_OFFSET = 10;
-        private const int SETTINGS_FORMAT_INDENT_OFFSET = 15;
-        private const int EXPANDER_GROUP_LEFT_RIGHT_OFFSET = 5;
-        private readonly Thickness CONTROL_DEFAULT_MARGIN = new Thickness(4, 0, 0, 0);
-        private Dictionary<IPlugin, List<UIElement>> dicPluginSettings = new Dictionary<IPlugin, List<UIElement>>();
-        private Dictionary<IPlugin, Dictionary<UIElement, Expander>> dicPluginSettingsElementsToExpanderMap = new Dictionary<IPlugin, Dictionary<UIElement, Expander>>();
-        private Dictionary<IPlugin, Dictionary<Expander, List<UIElement>>> dicPluginSettingsExpanderToElementsMap = new Dictionary<IPlugin, Dictionary<Expander, List<UIElement>>>();
-        private Dictionary<IPlugin, List<UIElement>> dicPluginSettingsToDisable = new Dictionary<IPlugin, List<UIElement>>();
-        private Dictionary<ISettings, Dictionary<string, TaskPaneSettingsForPlugins>> dicAllPluginSettings = new Dictionary<ISettings, Dictionary<string, TaskPaneSettingsForPlugins>>();
-        // private List<TaskPaneSettingsForPlugins> listAllPluginSettings = new List<TaskPaneSettingsForPlugins>();
-        private List<IPlugin> listAlwaysDisabled = new List<IPlugin>();
-        private IPlugin activePlugin;
-        private Dictionary<ISettings, Dictionary<string, List<RadioButton>>> dicRadioButtons = new Dictionary<ISettings, Dictionary<string, List<RadioButton>>>();
-        private Dictionary<UIElement, Expander> elementsToExpanderMap = new Dictionary<UIElement, Expander>();
-        private Dictionary<Expander, List<UIElement>> expanderToElementsMap = new Dictionary<Expander, List<UIElement>>();
-
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
-        public IPlugin Plugin { get; set; }
+        private readonly Thickness CONTROL_DEFAULT_MARGIN = new Thickness(4, 0, 0, 0);
+        private Dictionary<ISettings, Dictionary<string, List<RadioButton>>> dicRadioButtons = new Dictionary<ISettings, Dictionary<string, List<RadioButton>>>();
+        private IPlugin plugin;
+
 
         public BinSettingsVisual(IPlugin plugin)
         {
             InitializeComponent();
-            this.Height = double.NaN;
-            this.Width = double.NaN;
-            this.Plugin = plugin;
-            DisplayPluginSettings(plugin, Plugin.GetPluginInfoAttribute().Caption, DisplayPluginMode.Normal);
+            this.plugin = plugin;
+            this.SizeChanged += sizeChanged;
+            drawList(createContentSettings(plugin));
+
+            //this.IsVisibleChanged += isVisibleChanged;
         }
 
-        public void ClearCache()
+        private void sizeChanged(Object sender, EventArgs eventArgs)
         {
-          dicPluginSettings.Clear();
-          dicPluginSettingsToDisable.Clear();
-          dicPluginSettingsElementsToExpanderMap.Clear();
-          dicPluginSettingsExpanderToElementsMap.Clear();
-
-          // mwander 20100224
-          dicAllPluginSettings.Clear();
-          listAlwaysDisabled.Clear();
-          dicRadioButtons.Clear();
-          ClearCurrentChildren();
+            //mycanvas.Width = this.ActualWidth;
+            //mycanvas.Height = this.ActualHeight;
+            //this.blupp.RenderTransform = new ScaleTransform(this.ActualWidth / this.blupp.ActualWidth,
+              //                                              this.ActualHeight / this.blupp.ActualHeight);
+          //textBoxTooltip.Text = ""+this.ActualHeight;
         }
 
-        private void ClearCurrentChildren()
-        {          
-          stackPanelContent.Children.Clear();
-          expanderToElementsMap = null;
-          elementsToExpanderMap = null;
-        }
+        List<String> groups = new List<String>();
 
-        public void DisplayPluginSettings(IPlugin plugin, string title, DisplayPluginMode mode)
+        private void isVisibleChanged(Object sender, DependencyPropertyChangedEventArgs eventArgs)
         {
-          try
-          {            
-            ClearCurrentChildren();
-            activePlugin = plugin;
+            
+        }
 
-            if (plugin != null)
-            {
-              if (title == null) title = string.Empty;
-              //navPaneItemCurrentPlugin.Title = title;
-              //navPaneItemCurrentPlugin.Header = title;
-
-              ISettings settings = plugin.Settings;
-              if (settings != null && !dicPluginSettings.ContainsKey(plugin))
-              {
-                if (mode == DisplayPluginMode.Disabled && !listAlwaysDisabled.Contains(plugin))
-                  listAlwaysDisabled.Add(plugin);
-
-                List<BindingInfo> bindingList = new List<BindingInfo>();
-                foreach (TaskPaneAttribute tpa in settings.GetSettingsProperties(plugin))
+        private void test_ContextMenuOpening(Object sender, EventArgs e)
+        {
+            double x = 0;
+            try
+            { 
+                Expander temp = sender as Expander;
+                if (temp.Content != null)
                 {
-                  BindingInfo bInfo = null;
-                  bInfo = new BindingInfo(tpa);
-                  bindingList.Add(bInfo);
-                  bInfo.Settings = settings;                    
-                  if (bInfo != null && settings.GetSettingsFormat(bInfo.TaskPaneSettingsAttribute.PropertyName) != null)
-                    bInfo.SettingFormat = settings.GetSettingsFormat(bInfo.TaskPaneSettingsAttribute.PropertyName);
+                    StackPanel sp = temp.Content as StackPanel;
+                    foreach (WrapPanel wp in sp.Children)
+                    {
+                        foreach (UIElement el in wp.Children)
+                        {
+                            if (el is TextBlock)
+                            {
+                                
+                                if (x < el.RenderSize.Width)
+                                    x = el.RenderSize.Width;
+                            }
+                        }
+                    }
                 }
-                bindingList.Sort(new BindingInfoComparer());
-                AddOutputControls(bindingList, settings, plugin, title);
+            }
 
-                // save elements to list, on next display request they won't be recreated and the old group-expand-state still exists              
-                List<UIElement> list = new List<UIElement>();
-                foreach (UIElement uIElement in stackPanelContent.Children)
+            catch (Exception exo){ }
+
+            try
+            {
+
+                Expander temp = sender as Expander;
+                if (temp.Content != null)
                 {
-                  list.Add(uIElement);
+                    StackPanel sp = temp.Content as StackPanel;
+                    foreach (WrapPanel wp in sp.Children)
+                    {
+                        foreach (UIElement el in wp.Children)
+                        {
+                            if (el is TextBlock)
+                            {
+                                TextBlock test = el as TextBlock;
+                                test.Width = x;
+                            }
+                        }
+                    }
                 }
-                dicPluginSettings.Add(plugin, list);
-              }
-              else if (dicPluginSettings.ContainsKey(plugin))
-              {
-                ClearCurrentChildren();
-                foreach (UIElement ui in dicPluginSettings[plugin])
-                {                  
-                  stackPanelContent.Children.Add(ui);                  
-                }
-                elementsToExpanderMap = dicPluginSettingsElementsToExpanderMap[plugin];
-                expanderToElementsMap = dicPluginSettingsExpanderToElementsMap[plugin];
-              }
-            }            
-          }
-          catch (Exception exception)
-          {
-            GuiLogMessage(exception.Message, NotificationLevel.Error);
-          }
+            }
+            catch (Exception exo) { }
         }
 
-        /// <summary>
-        /// All the GUI elements used to display the options are created here.
-        /// </summary>
-        /// <param name="bindingList">The binding list.</param>
-        /// <param name="settings">The settings.</param>
-        /// <param name="plugin">The plugin.</param>
-        /// <param name="title">The title.</param>
-        private void AddOutputControls(List<BindingInfo> bindingList, ISettings settings, IPlugin plugin, string title)
+        private void drawList(EntryGroup entgrou) 
         {
-          try
-          {
-            ClearCurrentChildren();
-            //# region Info
-            //StackPanel infoStackPanel = new StackPanel();
-
-            //Expander expanderInfo = new Expander();
-            //expanderInfo.SetResourceReference(Expander.StyleProperty, new ComponentResourceKey(typeof(NavigationPane), "Expander"));
+            List<StackPanel> gridList = new List<StackPanel>();
             
-            //// Info Header
-            //StackPanel headerStackPanel = new StackPanel();
-            //headerStackPanel.Orientation = Orientation.Horizontal;
+           
 
-            //Image imagePluginInfo = Application.Current.Resources["ImagePluginInfo"] as Image;
-            //headerStackPanel.Children.Add(imagePluginInfo);
+                foreach (List<ControlEntry> cel in entgrou.entryList)
+                {
+                    Expander test = new Expander();
+                   
+                    test.IsExpanded = true;
 
-            //TextBlock infoTextBlock = new TextBlock();            
-            //infoTextBlock.Background = Brushes.Transparent;
-            //infoTextBlock.TextWrapping = TextWrapping.Wrap;
-            //infoTextBlock.Margin = new Thickness(0);
-            //infoTextBlock.FontSize = 10;
-            //infoTextBlock.FontWeight = FontWeights.Bold;
-            //infoTextBlock.Text = "  " + plugin.GetPluginInfoAttribute().ToolTip;
-            //infoTextBlock.ToolTip = plugin.GetPluginInfoAttribute().ToolTip;
-            //ContextMenu contextMenuInfoTextBlock = new ContextMenu();
-            //contextMenuInfoTextBlock.Tag = infoTextBlock;
-            //MenuItem item = new MenuItem();
-            ////item.Header = Resource.copy_to_clipboard;
-            //item.Header = "Copy to Clipboard";
-            //item.Click += new RoutedEventHandler(infoMenuItem_Click);
-            //contextMenuInfoTextBlock.Items.Add(item);
-            //infoTextBlock.ContextMenu = contextMenuInfoTextBlock;
 
-            //headerStackPanel.Children.Add(infoTextBlock);
-            //expanderInfo.Header = headerStackPanel;
+                    test.Expanded += test_ContextMenuOpening;
 
-            ////#region AuthorInfo
-            ////AuthorAttribute aa = plugin.GetPluginAuthorAttribute();
-            ////if (aa != null && aa.Author != null && aa.Author != string.Empty)
-            ////{
-            ////  TextBlock authorTextBlock = new TextBlock();              
-            ////  authorTextBlock.TextWrapping = TextWrapping.Wrap;
-            ////  authorTextBlock.Foreground = Brushes.Black;
-            ////  authorTextBlock.Margin = new Thickness(3, 0, 0, 5);              
+                    test.Margin = new Thickness(10);
+                    test.VerticalAlignment = VerticalAlignment.Stretch;
+                    
+                    Binding dataBinding = new Binding("window");
+                    dataBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+                    dataBinding.Mode = BindingMode.OneWay;
+                    dataBinding.Source = this;
 
-            ////  Run runAuthor = new Run(aa.Author);
-            ////  authorTextBlock.Inlines.Add(Resource.Author + ": ");              
 
-            ////  if (aa.Email != null && aa.Email != string.Empty && aa.Email.IsValidEmailAddress())
-            ////  {
-            ////    Hyperlink hyperlinkAuthor = new Hyperlink(runAuthor);
-            ////    hyperlinkAuthor.RequestNavigate += hyperlink_RequestNavigate;
-            ////    hyperlinkAuthor.NavigateUri = new System.Uri("mailto:" + aa.Email + "?subject=" + Resource.email_subject + " " + plugin.GetPluginInfoAttribute().Caption);
-            ////    hyperlinkAuthor.ToolTip = Resource.write_email_to_author;
-            ////    authorTextBlock.Inlines.Add(hyperlinkAuthor);
+                    if (cel[0].tpa.groupName != null)
+                    {
+                        test.Header = cel[0].tpa.groupName;
+                    }
+                    else
+                        test.Header = "Main";
 
-            ////    // Add email as TextBlock, too. Just for user convenience.
-            ////    TextBox emailTextBox = new TextBox();
-            ////    emailTextBox.TextWrapping = TextWrapping.NoWrap;
-            ////    emailTextBox.IsReadOnly = true;
-            ////    emailTextBox.BorderThickness = new Thickness(0);
-            ////    emailTextBox.Margin = new Thickness(0);
-            ////    emailTextBox.Text = aa.Email;
-            ////    authorTextBlock.Inlines.Add(emailTextBox);
-            ////  }
-            ////  else
-            ////  {
-            ////    authorTextBlock.Inlines.Add(runAuthor);
-            ////  }              
-            ////  authorTextBlock.Inlines.Add("\n");
+                    test.Style = (Style)FindResource("GroupBoxExpander");
+                    
+                    //test.Background = brushlist[entgrou.entryList.IndexOf(cel)];
+                    
+                    
 
-              
-            ////  if (aa.Institute != null && aa.Institute != string.Empty)
-            ////  {
-            ////    authorTextBlock.Inlines.Add(Resource.Affiliation + ": ");
-            ////    Run runInstitute = new Run(aa.Institute);
-            ////    Hyperlink hyperlinkInstitute = new Hyperlink(runInstitute);
-            ////    if (aa.URL != null && aa.URL != string.Empty && aa.URL.IsValidURL())
-            ////    {
-            ////      hyperlinkInstitute.RequestNavigate += hyperlink_RequestNavigate;
-            ////      hyperlinkInstitute.NavigateUri = new System.Uri(aa.URL);                  
-            ////      hyperlinkInstitute.ToolTip = Resource.go_to + aa.Institute;
-            ////      authorTextBlock.Inlines.Add(hyperlinkInstitute);
+                    //test.Background = brushlist[entgrou.entryList.IndexOf(cel)];
+                    StackPanel contentPanel = new StackPanel();
+                    List<String> grouplist = new List<String>();
+                    List<Grid> gridlist = new List<Grid>();
+                    List<TextBlock> tebo = new List<TextBlock>();
 
-            ////      TextBox urlTextBox = new TextBox();
-            ////      urlTextBox.TextWrapping = TextWrapping.NoWrap;
-            ////      urlTextBox.IsReadOnly = true;
-            ////      urlTextBox.BorderThickness = new Thickness(0);
-            ////      urlTextBox.Margin = new Thickness(0);
-            ////      urlTextBox.Text = aa.URL;
-            ////      authorTextBlock.Inlines.Add(urlTextBox);
-            ////    }
-            ////    else
-            ////    {
-            ////      authorTextBlock.Inlines.Add(runInstitute);
-            ////    }
-            ////  }
-            ////  infoStackPanel.Children.Add(authorTextBlock);
-            ////}
-            ////#endregion AuthorInfo
+                    double maxlength = 0;
+                    
+                    //test.Width = 400;      
+                    
 
-            //TextBox textBox = new TextBox();
-            //textBox.TextWrapping = TextWrapping.Wrap;
-            //textBox.IsReadOnly = true;
-            //textBox.BorderThickness = new Thickness(0);
-            //textBox.Background = Brushes.Transparent;
 
-            //textBox.Text = Properties.Resources.Plugin_type__ + plugin.GetPluginInfoAttribute().Caption + "\n" + Resource.title + ": " + title;
+                    foreach (ControlEntry ce in cel) 
+                    {
+                        if (ce.sfa == null)
+                        {
+                            WrapPanel controlGrid = new WrapPanel();
+                            controlGrid.Orientation = Orientation.Horizontal;
+                            controlGrid.Margin = new Thickness(5);
+                            TextBlock title = new TextBlock();
+                            title.Text = ce.tpa.Caption;
+                            title.TextWrapping = TextWrapping.Wrap;
 
-            //Assembly asm = plugin.GetType().Assembly;
-            //textBox.Text += "\n" + Resource.plugin_version + AssemblyHelper.GetVersion(asm);
+                            //controlGrid.SetBinding(WidthProperty,dataBinding);
 
-            //textBox.Height += textBox.Height * 2;
+//                            ColumnDefinition coldef = new ColumnDefinition();
+  //                          ColumnDefinition coldef2 = new ColumnDefinition();
 
-            //infoStackPanel.Children.Add(textBox);
+                            //controlGrid.ColumnDefinitions.Add(coldef);
+                            //controlGrid.ColumnDefinitions.Add(coldef2);
 
-            //infoStackPanel.Margin = new Thickness(EXPANDER_GROUP_LEFT_RIGHT_OFFSET, 0, EXPANDER_GROUP_LEFT_RIGHT_OFFSET, 0);
-            //expanderInfo.Content = infoStackPanel;
-            //expanderInfo.Margin = new Thickness(0, 0, 0, CONTROL_OFFSET);
-            //stackPanelContent.Children.Add(expanderInfo);
 
-            //ButtonDropDown descriptionButton = new ButtonDropDown();
-            //descriptionButton.Header = Resource.show_plugin_description;
+                            Grid.SetColumn(title, 0);
+
+                            controlGrid.Children.Add(title);
+                            Grid.SetColumn(ce.element, 1);
+
+                            Label space = new Label();
+                            space.Width = 5;
+
+                            controlGrid.Children.Add(space);
+                            controlGrid.Children.Add(ce.element);
+
+                            contentPanel.Children.Add(controlGrid);
+
+                           
+
+                            tebo.Add(title);
+
+                            if (maxlength < title.Text.Length) ;
+                            {
+                                maxlength = title.Text.Length;
+                            }
+                        }
+                        else 
+                        {
+                            if (ce.sfa.VerticalGroup != null)
+                            {
+                                if (grouplist.Contains(ce.sfa.VerticalGroup))
+                                {
+
+                                    Grid controlGrid = gridlist[grouplist.IndexOf(ce.sfa.VerticalGroup)];
+                                    //controlGrid.Margin = new Thickness(10);
+
+                                    controlGrid.ColumnDefinitions.Add(new ColumnDefinition());
+                                    controlGrid.ColumnDefinitions.Add(new ColumnDefinition());
+                                    controlGrid.ColumnDefinitions.Add(new ColumnDefinition());
+
+                                    TextBlock title = new TextBlock();
+                                    title.Text = ce.tpa.Caption;
+
+                                    Label space = new Label();
+                                    space.Width = 5;
+                                    Grid.SetColumn(title, controlGrid.ColumnDefinitions.Count - 2);
+
+                                    controlGrid.Children.Add(space);
+
+                                    Grid.SetColumn(space, controlGrid.ColumnDefinitions.Count - 3);
+
+                                    controlGrid.Children.Add(title);
+                                    Grid.SetColumn(ce.element, controlGrid.ColumnDefinitions.Count - 1);
+
+                                    
+
+                                    controlGrid.Children.Add(ce.element);
+
+                                }
+                                else
+                                {
+                                    grouplist.Add(ce.sfa.VerticalGroup);
+
+                                    Grid controlGrid = new Grid();
+                                    //controlGrid.Margin = new Thickness(10);
+
+
+                                    controlGrid.ColumnDefinitions.Add(new ColumnDefinition());
+                                    controlGrid.ColumnDefinitions.Add(new ColumnDefinition());
+
+                                    TextBlock title = new TextBlock();
+                                    title.Text = ce.tpa.Caption;
+
+                                    Grid.SetColumn(title, 0);
+
+                                    controlGrid.Children.Add(title);
+                                    Grid.SetColumn(ce.element, 1);
+                                    controlGrid.Children.Add(ce.element);
+
+                                    contentPanel.Children.Add(controlGrid);
+
+                                    gridlist.Add(controlGrid);
+                                }
+                            }
+                            else 
+                            {
+                                WrapPanel controlGrid = new WrapPanel();
+                                controlGrid.Orientation = Orientation.Horizontal;
+                                controlGrid.Margin = new Thickness(5);
+                                TextBlock title = new TextBlock();
+                                title.Text = ce.tpa.Caption;
+                                title.TextWrapping = TextWrapping.Wrap;
+
+
+
+                                //controlGrid.SetBinding(WidthProperty,dataBinding);
+
+                                ColumnDefinition coldef = new ColumnDefinition();
+                                ColumnDefinition coldef2 = new ColumnDefinition();
+
+
+
+                                //controlGrid.ColumnDefinitions.Add(coldef);
+                                //controlGrid.ColumnDefinitions.Add(coldef2);
+
+
+                                Grid.SetColumn(title, 0);
+
+                                controlGrid.Children.Add(title);
+                                Grid.SetColumn(ce.element, 1);
+
+                                controlGrid.Children.Add(ce.element);
+
+                                contentPanel.Children.Add(controlGrid);
+                                
+                                tebo.Add(title);
+
+                                if (maxlength < title.Text.Length) ;
+                                {
+                                    maxlength = title.Text.Length;
+                                }
+                                
+                            }
+                        }
+                    }
+                   /* foreach (TextBlock te in tebo) 
+                    {
+                        te.Width = maxlength * 5;
+                    }*/
+                    test.Content = contentPanel;
+
+                    
+                    blupp.Children.Add(test);
+
+                }
             
-            //descriptionButton.Click += buttonShowDescription_Click;            
-            //descriptionButton.Margin = new Thickness(0, 0, 0, CONTROL_OFFSET);
-            //descriptionButton.Padding = new Thickness(0);
-            //Image img = Application.Current.Resources["ImageHelp"] as Image;
-            //img.Margin = new Thickness(6, 0, 5, 0);
-            //descriptionButton.Image = img;
+        }
 
-            //if (activePlugin.GetDescriptionDocument() == null)
-            //{              
-            //  descriptionButton.ToolTip = Resource.plugin_has_no_description;
-            //}
-            //stackPanelContent.Children.Add(descriptionButton);
+        private EntryGroup createContentSettings(IPlugin plugin)
+        {
+
+            EntryGroup entgrou = new EntryGroup();
+
             
 
-            //StackPanel stackPanelSettingsDefault = new StackPanel();                        
-            //stackPanelContent.Children.Add(stackPanelSettingsDefault);
-
-            //if (bindingList.Count == 0)
-            //{
-            //  TextBox textBoxNoSettings = new TextBox();
-            //  textBoxNoSettings.BorderThickness = new Thickness(0);
-            //  textBoxNoSettings.IsReadOnly = true;
-            //  textBoxNoSettings.Background = Brushes.Transparent;
-            //  textBoxNoSettings.TextWrapping = TextWrapping.Wrap;
-            //  textBoxNoSettings.Text += Resource.plugin_no_algo_settings;
-            //  if (plugin.Presentation != null) textBoxNoSettings.Text += "\n\n" + Resource.presentation_doubleclick_hint;
-            //  stackPanelSettingsDefault.Children.Add(textBoxNoSettings);
-            //}
-            //# endregion Info
-
-            string emptyGroup = Guid.NewGuid().ToString();
-            Dictionary<string, List<UIElement>> dicGroupedElements = new Dictionary<string, List<UIElement>>();
-            dicGroupedElements.Add(emptyGroup, new List<UIElement>());
-            Dictionary<string, List<KeyValuePair<BindingInfo, UIElement>>> dicVerticalSubGroups = new Dictionary<string, List<KeyValuePair<BindingInfo, UIElement>>>();
-            bool taskPaneAttributesCanChange = plugin.Settings.GetTaskPaneAttributeChanged() != null;
-            foreach (BindingInfo bInfo in bindingList)
+            foreach (TaskPaneAttribute tpa in plugin.Settings.GetSettingsProperties(plugin))
+            //for (int i = 0; i < plugin.Settings.GetSettingsProperties(plugin).Length;i++ )
             {
-                Binding dataBinding = new Binding(bInfo.TaskPaneSettingsAttribute.PropertyName);
+                //TaskPaneAttribute tpa = plugin.Settings.GetSettingsProperties(plugin)[i];
+                SettingsFormatAttribute sfa = plugin.Settings.GetSettingsFormat(tpa.PropertyName);
+                if(sfa!=null)
+                if (!groups.Contains(sfa.VerticalGroup))
+                {
+                    groups.Add(sfa.VerticalGroup);
+                }
+
+                
+
+                Binding dataBinding = new Binding(tpa.PropertyName);
                 dataBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
                 dataBinding.Mode = BindingMode.TwoWay;
-                dataBinding.Source = settings;
+                dataBinding.Source = plugin.Settings;
 
-                UIElement inputControl = null;
-
-                switch (bInfo.TaskPaneSettingsAttribute.ControlType)
+                try
                 {
-                # region TextBox
-                case ControlType.TextBox:
-                  TextBox textbox = new TextBox();
-                  textbox.Tag = bInfo.TaskPaneSettingsAttribute.ToolTip;
-                  textbox.MouseEnter += Control_MouseEnter;
-                  if (
-                      bInfo.TaskPaneSettingsAttribute.RegularExpression != null &&
-                      bInfo.TaskPaneSettingsAttribute.RegularExpression != string.Empty)
-                  {
-                    ControlTemplate validationTemplate = Application.Current.Resources["validationTemplate"] as ControlTemplate;
-                    RegExRule regExRule = new RegExRule();
-                    regExRule.RegExValue = bInfo.TaskPaneSettingsAttribute.RegularExpression;
-                    Validation.SetErrorTemplate(textbox, validationTemplate);
-                    dataBinding.ValidationRules.Add(regExRule);
-                    dataBinding.NotifyOnValidationError = true;
-                  }
-                  // this flag is set to true here, because only then the OnPropertyChanged events in 
-                  // the property setter will result in an GUI update of this textBox. 
-                  // TODO: add IMultiValueConverter option to TaskPane settings. 
-                  // dataBinding.IsAsync = true;                                     
-                  textbox.SetBinding(TextBox.TextProperty, dataBinding);
-                  inputControl = textbox;
+                    switch (tpa.ControlType)
+                    {
+                        #region TextBox
+                        case ControlType.TextBox:
+
+                            TextBox textbox = new TextBox();
+                            textbox.MinWidth = 20;
+                            textbox.Tag = tpa.ToolTip;
+                            textbox.MouseEnter += Control_MouseEnter;
+
+                            if (
+                                    tpa.RegularExpression != null && tpa.RegularExpression != string.Empty)
+                            {
+                                ControlTemplate validationTemplate = Application.Current.Resources["validationTemplate"] as ControlTemplate;
+                                RegExRule regExRule = new RegExRule();
+                                regExRule.RegExValue = tpa.RegularExpression;
+                                Validation.SetErrorTemplate(textbox, validationTemplate);
+                                dataBinding.ValidationRules.Add(regExRule);
+                                dataBinding.NotifyOnValidationError = true;
+                            }
+
+                            textbox.SetBinding(TextBox.TextProperty, dataBinding);
+                            textbox.TextWrapping = TextWrapping.Wrap;
+                            //controlList.Add(new ControlEntry(textbox,tpa,sfa));
+                            entgrou.AddNewEntry(tpa.GroupName, new ControlEntry(textbox, tpa, sfa));
+                            break;
+
+                        #endregion TextBox
+
+                        # region NumericUpDown
+                        case ControlType.NumericUpDown:
+                            if (tpa.ValidationType == ValidationType.RangeInteger)
+                            {
+                                NumericUpDown intInput = new NumericUpDown();
+                                intInput.ValueType = typeof(int);
+                                intInput.SelectAllOnGotFocus = true;
+                                intInput.Tag = tpa.ToolTip;
+                                intInput.MouseEnter += Control_MouseEnter;
+                                intInput.Maximum = tpa.IntegerMaxValue;
+                                intInput.Minimum = tpa.IntegerMinValue;
+                                intInput.SetBinding(NumericUpDown.ValueProperty, dataBinding);
+                                entgrou.AddNewEntry(tpa.GroupName, new ControlEntry(intInput, tpa, sfa));
+                                
+                            }
+                            else if (tpa.ValidationType == ValidationType.RangeDouble)
+                            {
+                                NumericUpDown doubleInput = new NumericUpDown();
+                                doubleInput.ValueType = typeof(double);
+                                doubleInput.SelectAllOnGotFocus = true;
+                                doubleInput.Tag = tpa.ToolTip;
+                                doubleInput.MouseEnter += Control_MouseEnter;
+                                doubleInput.Maximum = tpa.DoubleMaxValue;
+                                doubleInput.Minimum = tpa.DoubleMaxValue;
+                                doubleInput.SetBinding(NumericUpDown.ValueProperty, dataBinding);
+                                entgrou.AddNewEntry(tpa.GroupName, new ControlEntry(doubleInput, tpa, sfa));
+                                
+                            }
+                            break;
+                        # endregion NumericUpDown
+
+                        # region ComboBox
+                        case ControlType.ComboBox:
+                            ComboBox comboBox = new ComboBox();
+
+                            comboBox.Tag = tpa.ToolTip;
+                            comboBox.MouseEnter += Control_MouseEnter;
+
+                            //object value = bInfo.Settings.GetType().GetProperty(bInfo.TaskPaneSettingsAttribute.PropertyName).GetValue(bInfo.Settings, null);
+                            //bool isEnum = value is Enum;
+
+                            //if (isEnum) // use generic enum<->int converter
+                            //dataBinding.Converter = EnumToIntConverter.GetInstance();
+
+                            if (tpa.ControlValues != null) // show manually passed entries in ComboBox
+                                comboBox.ItemsSource = tpa.ControlValues;
+                            // else if (isEnum) // show automatically derived enum entries in ComboBox
+                            //   comboBox.ItemsSource = Enum.GetValues(value.GetType());
+                            else // nothing to show
+                                GuiLogMessage("No ComboBox entries given", NotificationLevel.Error);
+
+                            comboBox.SetBinding(ComboBox.SelectedIndexProperty, dataBinding);
+                            //controlList.Add(new ControlEntry(comboBox, tpa, sfa));
+                            entgrou.AddNewEntry(tpa.GroupName,new ControlEntry(comboBox, tpa, sfa));
+                            break;
+
+                        # endregion ComboBox
+
+                        # region RadioButton
                         
+                        case ControlType.RadioButton:
+                            try
+                            {
+                                dataBinding = new Binding("IsChecked");
+                                //bInfo.Settings.PropertyChanged += RadioButton_PropertyChanged;
+                                if (!dicRadioButtons.ContainsKey(plugin.Settings))
+                                {
+                                    dicRadioButtons.Add(plugin.Settings, new Dictionary<string, List<RadioButton>>());
+                                }
+                                List<RadioButton> list = new List<RadioButton>();
+                                StackPanel panelRadioButtons = new StackPanel();
+                                panelRadioButtons.ToolTip = tpa.ToolTip;
+                                panelRadioButtons.MouseEnter += Control_MouseEnter;
+                                panelRadioButtons.Margin = CONTROL_DEFAULT_MARGIN;
 
-                  break;
-                # endregion TextBox
-                # region NumericUpDown
-                case ControlType.NumericUpDown:
-                  if (bInfo.TaskPaneSettingsAttribute.ValidationType == ValidationType.RangeInteger)
-                  {
-                    NumericUpDown intInput = new NumericUpDown();
-                    intInput.ValueType = typeof(int);
-                    intInput.SelectAllOnGotFocus = true;
-                    intInput.Tag = bInfo.TaskPaneSettingsAttribute.ToolTip;
-                    intInput.MouseEnter += Control_MouseEnter;
-                    intInput.Maximum = bInfo.TaskPaneSettingsAttribute.IntegerMaxValue;
-                    intInput.Minimum = bInfo.TaskPaneSettingsAttribute.IntegerMinValue;
-                    intInput.SetBinding(NumericUpDown.ValueProperty, dataBinding);
-                    inputControl = intInput;
-                    bInfo.CaptionGUIElement = intInput;
-                  }
-                  else if (bInfo.TaskPaneSettingsAttribute.ValidationType == ValidationType.RangeDouble)
-                  {
-                    NumericUpDown doubleInput = new NumericUpDown();
-                    doubleInput.ValueType = typeof(double);
-                    doubleInput.SelectAllOnGotFocus = true;
-                    doubleInput.Tag = bInfo.TaskPaneSettingsAttribute.ToolTip;
-                    doubleInput.MouseEnter += Control_MouseEnter;
-                    doubleInput.Maximum = bInfo.TaskPaneSettingsAttribute.DoubleMaxValue;
-                    doubleInput.Minimum = bInfo.TaskPaneSettingsAttribute.DoubleMaxValue;
-                    doubleInput.SetBinding(NumericUpDown.ValueProperty, dataBinding);
-                    inputControl = doubleInput;
-                    bInfo.CaptionGUIElement = doubleInput;
-                  }
-                  break;
-                # endregion NumericUpDown
-                # region ComboBox
-                case ControlType.ComboBox:
-                  ComboBox comboBox = new ComboBox();
-                    
-                  comboBox.Margin = new Thickness(0);
-                  comboBox.Tag = bInfo.TaskPaneSettingsAttribute.ToolTip;
-                  comboBox.MouseEnter += Control_MouseEnter;
+                                int selectedRadioButton = (int)plugin.Settings.GetType().GetProperty(tpa.PropertyName).GetValue(plugin.Settings, null);
+                                string groupNameExtension = Guid.NewGuid().ToString();
+                                foreach (string stringValue in tpa.ControlValues)
+                                {
+                                    RadioButton radio = new RadioButton();
+                                    radio.GroupName = tpa.PropertyName + groupNameExtension;
+                                    radio.Content = stringValue;
+                                    if (panelRadioButtons.Children.Count == selectedRadioButton)
+                                    {
+                                        radio.IsChecked = true;
+                                    }
 
-                  object value = bInfo.Settings.GetType().GetProperty(bInfo.TaskPaneSettingsAttribute.PropertyName).GetValue(bInfo.Settings, null);
-                  bool isEnum = value is Enum;
-
-                  if (isEnum) // use generic enum<->int converter
-                      dataBinding.Converter = EnumToIntConverter.GetInstance();
-
-                  if (bInfo.TaskPaneSettingsAttribute.ControlValues != null) // show manually passed entries in ComboBox
-                      comboBox.ItemsSource = bInfo.TaskPaneSettingsAttribute.ControlValues;
-                  else if (isEnum) // show automatically derived enum entries in ComboBox
-                      comboBox.ItemsSource = Enum.GetValues(value.GetType());
-                  else // nothing to show
-                      GuiLogMessage("No ComboBox entries given", NotificationLevel.Error);
-
-                  comboBox.SetBinding(ComboBox.SelectedIndexProperty, dataBinding);
-                  inputControl = comboBox;
-                  bInfo.CaptionGUIElement = comboBox;
-                  break;
-                # endregion ComboBox
-                # region RadioButton
-                case ControlType.RadioButton:
-                  try
-                  {
-                    bInfo.Settings.PropertyChanged += RadioButton_PropertyChanged;
-                    if (!dicRadioButtons.ContainsKey(bInfo.Settings))
-                    {
-                      dicRadioButtons.Add(bInfo.Settings, new Dictionary<string, List<RadioButton>>());
-                    }
-                    List<RadioButton> list = new List<RadioButton>();
-                    StackPanel panelRadioButtons = new StackPanel();                  
-                    panelRadioButtons.ToolTip = bInfo.TaskPaneSettingsAttribute.ToolTip;
-                    panelRadioButtons.MouseEnter += Control_MouseEnter;
-                    panelRadioButtons.Margin = CONTROL_DEFAULT_MARGIN;
-
-                    int selectedRadioButton = (int)bInfo.Settings.GetType().GetProperty(bInfo.TaskPaneSettingsAttribute.PropertyName).GetValue(bInfo.Settings, null);
-                    string groupNameExtension = Guid.NewGuid().ToString();
-                    foreach (string stringValue in bInfo.TaskPaneSettingsAttribute.ControlValues)
-                      {
-                      RadioButton radio = new RadioButton();
-                      radio.GroupName = bInfo.TaskPaneSettingsAttribute.PropertyName + groupNameExtension;
-                      radio.Content = stringValue;
-                      if (panelRadioButtons.Children.Count == selectedRadioButton)
-                      {
-                        radio.IsChecked = true;
-                      }
-                      radio.Tag = new RadioButtonListAndBindingInfo(list, bInfo);
-                      radio.Checked += RadioButton_Checked;
-                      panelRadioButtons.Children.Add(radio);
-                      list.Add(radio);
-                      }
-                    dicRadioButtons[bInfo.Settings].Add(bInfo.TaskPaneSettingsAttribute.PropertyName, list);
-                    inputControl = panelRadioButtons;
-                    bInfo.CaptionGUIElement = panelRadioButtons;
-                  }
-                  catch (Exception ex)
-                  {
-                    GuiLogMessage(ex.Message, NotificationLevel.Error);
-                  }
-                  break;
-                #endregion RadioButton
-                # region DynamicComboBox
-                case ControlType.DynamicComboBox:
-                  PropertyInfo pInfo = settings.GetType().GetProperty(bInfo.TaskPaneSettingsAttribute.ControlValues[0]);
-                  ObservableCollection<string> coll = pInfo.GetValue(settings, null) as ObservableCollection<string>;
-                  if (coll != null)
-                  {
-                    ComboBox comboBoxDyn = new ComboBox();
-                    comboBoxDyn.Tag = bInfo.TaskPaneSettingsAttribute.ToolTip;
-                    comboBoxDyn.MouseEnter += Control_MouseEnter;
-                    comboBoxDyn.ItemsSource = coll;
-                    comboBoxDyn.SetBinding(ComboBox.SelectedIndexProperty, dataBinding);
-                    inputControl = comboBoxDyn;
-                    bInfo.CaptionGUIElement = comboBoxDyn;
-                  }
-                  break;
-                # endregion DynamicComboBox
-                # region CheckBox
-                case ControlType.CheckBox:
-                  CheckBox checkBox = new CheckBox();
-                  checkBox.Margin = CONTROL_DEFAULT_MARGIN;
-                  checkBox.Content = bInfo.TaskPaneSettingsAttribute.Caption;
-                  checkBox.Tag = bInfo.TaskPaneSettingsAttribute.ToolTip;
-                  checkBox.MouseEnter += Control_MouseEnter;
-                  checkBox.SetBinding(CheckBox.IsCheckedProperty, dataBinding);
-                  inputControl = checkBox;
-                  bInfo.CaptionGUIElement = checkBox;
-                  break;
-                # endregion CheckBox
-                # region FileDialog
-                case ControlType.SaveFileDialog:
-                case ControlType.OpenFileDialog:
-                  StackPanel sp = new StackPanel();
-                  sp.Orientation = Orientation.Vertical;
-
-                  TextBox fileTextBox = new TextBox();
-                  fileTextBox.Background = Brushes.LightGray;
-                  fileTextBox.IsReadOnly = true;
-                  fileTextBox.Margin = new Thickness(0, 0, 0, 5);
-                  fileTextBox.TextChanged += fileDialogTextBox_TextChanged;
-                  fileTextBox.SetBinding(TextBox.TextProperty, dataBinding);
-                  fileTextBox.SetBinding(TextBox.ToolTipProperty, dataBinding);
-                  
-                  fileTextBox.Tag = bInfo.TaskPaneSettingsAttribute;
-                  fileTextBox.MouseEnter += fileTextBox_MouseEnter;
-                  sp.Children.Add(fileTextBox);
-
-                  Button btn = new Button();
-                  btn.Tag = fileTextBox;
-                  if (bInfo.TaskPaneSettingsAttribute.ControlType == ControlType.SaveFileDialog) 
-                      //btn.Content = Properties.Resources.Save_file;
-                      btn.Content = "Save File";
-                  else 
-                      btn.Content = "Open File";
-                  btn.Click += FileDialogClick;
-                  sp.Children.Add(btn);
-                  inputControl = sp;
-                  bInfo.CaptionGUIElement = fileTextBox;
-                  break;
-                # endregion FileDialog
-                # region Button
-                case ControlType.Button:
-                  Button taskPaneButton = new Button();
-                  taskPaneButton.Margin = new Thickness(0);
-                  taskPaneButton.Tag = bInfo;
-                  taskPaneButton.MouseEnter += TaskPaneButton_MouseEnter;
-                  taskPaneButton.Content = bInfo.TaskPaneSettingsAttribute.Caption;
-                  taskPaneButton.Click += TaskPaneButton_Click;
-                  inputControl = taskPaneButton;
-                  bInfo.CaptionGUIElement = taskPaneButton;
-                  break;
-                # endregion Button
-                # region Slider
-                case ControlType.Slider:
-                  Slider slider = new Slider();
-                  slider.Margin = CONTROL_DEFAULT_MARGIN;
-                  slider.Orientation = Orientation.Horizontal;
-                  slider.Minimum = bInfo.TaskPaneSettingsAttribute.DoubleMinValue;
-                  slider.Maximum = bInfo.TaskPaneSettingsAttribute.DoubleMaxValue;
-                  slider.Tag = bInfo.TaskPaneSettingsAttribute.ToolTip;
-                  slider.MouseEnter += Control_MouseEnter;
-                  slider.SetBinding(Slider.ValueProperty, dataBinding);
-                  inputControl = slider;
-                  bInfo.CaptionGUIElement = slider;
-                  break;
-                # endregion Slider
-                # region TextBoxReadOnly
-                case ControlType.TextBoxReadOnly:
-                  TextBox textBoxReadOnly = new TextBox();
-                  textBoxReadOnly.IsReadOnly = true;
-                  textBoxReadOnly.BorderThickness = new Thickness(0);
-                  textBoxReadOnly.Background = Brushes.Transparent;
-                  textBoxReadOnly.Tag = bInfo.TaskPaneSettingsAttribute.ToolTip;
-                  textBoxReadOnly.MouseEnter += Control_MouseEnter;
-                  textBoxReadOnly.SetBinding(TextBox.TextProperty, dataBinding);
-                  inputControl = textBoxReadOnly;
-                  bInfo.CaptionGUIElement = textBoxReadOnly;
-                  break;
-                # endregion TextBoxReadOnly
-                #region TextBoxHidden
-                case ControlType.TextBoxHidden:
-                  PasswordBox passwordBox = new PasswordBox();
-                  passwordBox.Tag = bInfo;
-                  passwordBox.MouseEnter += Control_MouseEnter;
-                  passwordBox.Password = bInfo.Settings.GetType().GetProperty(bInfo.TaskPaneSettingsAttribute.PropertyName).GetValue(bInfo.Settings, null) as string;
-                  passwordBox.PasswordChanged += TextBoxHidden_Changed;
-                  inputControl = passwordBox;
-                  break;
-                #endregion TextBoxHidden
-              }
-              inputControl.MouseLeave += Control_MouseLeave;                    
-
-              // elements in this list will be disabled while chain is running or if "disabled" state is requested
-              //if (!bInfo.TaskPaneSettingsAttribute.ChangeableWhileExecuting && bInfo.TaskPaneSettingsAttribute.ControlType != ControlType.TextBoxReadOnly)
-              //{
-              //  if (!dicPluginSettingsToDisable.ContainsKey(plugin)) 
-              //    dicPluginSettingsToDisable.Add(plugin, new List<UIElement>());
-              //  dicPluginSettingsToDisable[plugin].Add(inputControl);
-              //}
-
-              // only some elemetns need a "headline". If true element and headline have to be grouped in a stackpanel
-              StackPanel stackPanelInputControl = null;
-              if (bInfo.TaskPaneSettingsAttribute.ControlType != ControlType.Button && bInfo.TaskPaneSettingsAttribute.ControlType != ControlType.OpenFileDialog &&
-                  bInfo.TaskPaneSettingsAttribute.ControlType != ControlType.SaveFileDialog && bInfo.TaskPaneSettingsAttribute.ControlType != ControlType.TextBoxReadOnly &&
-                  bInfo.TaskPaneSettingsAttribute.ControlType != ControlType.CheckBox && bInfo.TaskPaneSettingsAttribute.Caption != "")
-              {
-                TextBox textBlock = new TextBox();
-                textBlock.Background = Brushes.Transparent;
-                textBlock.IsReadOnly = true;
-                textBlock.BorderThickness = new Thickness(0);
-                textBlock.Background = Brushes.Transparent;
-                textBlock.Text = bInfo.TaskPaneSettingsAttribute.Caption;
-                textBlock.ToolTip = plugin.GetPluginInfoAttribute().ToolTip;
-                textBlock.Height += textBlock.Height * 1.5;
-                stackPanelInputControl = new StackPanel();
-                stackPanelInputControl.Margin = new Thickness(0);
-
-                // this textBox maybe accessed later on TaskPaneSettingChanged event to set a new caption
-                bInfo.CaptionGUIElement = textBlock;
-
-                if (bInfo.SettingFormat != null)
-                {
-                  textBlock.FontWeight = bInfo.SettingFormat.FontWeight;
-                  textBlock.FontStyle = bInfo.SettingFormat.FontStyle;
-                  textBlock.Foreground = bInfo.SettingFormat.ForeGround;
-                  textBlock.Background = bInfo.SettingFormat.BackGround;
-                  stackPanelInputControl.Background = bInfo.SettingFormat.BackGround;
-                }
+                                    radio.Tag = new RadioButtonListAndBindingInfo(list, plugin,tpa);
+                                    radio.Checked += RadioButton_Checked;
+                                  // radio.SetBinding(RadioButton.IsCheckedProperty, dataBinding);
+                                    panelRadioButtons.Children.Add(radio);
+                                    list.Add(radio);
+                                }
+                                dicRadioButtons[plugin.Settings].Add(tpa.PropertyName, list);
+                                entgrou.AddNewEntry(tpa.GroupName,new ControlEntry(panelRadioButtons, tpa, sfa));
+                             //   bInfo.CaptionGUIElement = panelRadioButtons;
+                            }
+                            catch (Exception ex)
+                            {
+                                GuiLogMessage(ex.Message, NotificationLevel.Error);
+                            }
+                            break;
                             
-                // create a grid for vertical layout with definded column width
-                if (bInfo.SettingFormat != null && bInfo.SettingFormat.Orientation == Orientation.Horizontal)
-                {
-                  Grid grid = new Grid();
-                  grid.RowDefinitions.Add(new RowDefinition());
-                  ColumnDefinition colDef1 = new ColumnDefinition();
-                  grid.ColumnDefinitions.Add(colDef1);
-                  ColumnDefinition colDef2 = new ColumnDefinition();
-                  grid.ColumnDefinitions.Add(colDef2);
-                  colDef1.Width = bInfo.SettingFormat.WidthCol1;                    
-                  colDef2.Width = bInfo.SettingFormat.WidthCol2;
-                  grid.Children.Add(textBlock);
-                  grid.Children.Add(inputControl);
-                  Grid.SetRow(textBlock, 0);
-                  Grid.SetRow(inputControl, 0);
-                  Grid.SetColumn(textBlock, 0);
-                  Grid.SetColumn(inputControl, 1);
-                  
-                  stackPanelInputControl.Children.Add(grid);
-                }
-                else
-                {
-                  // Just put headline and item into vertical stack panel
-                  stackPanelInputControl.Children.Add(textBlock);
-                  stackPanelInputControl.Children.Add(inputControl);
-                }
-                inputControl = stackPanelInputControl;
-                blupp.Children.Add(stackPanelInputControl);
+                        #endregion RadioButton
 
-              }
+                        # region CheckBox
+                        case ControlType.CheckBox:
+                            CheckBox checkBox = new CheckBox();
+                            checkBox.Margin = CONTROL_DEFAULT_MARGIN;
+                            checkBox.Content = tpa.Caption;
+                            checkBox.Tag = tpa.ToolTip;
+                            checkBox.MouseEnter += Control_MouseEnter;
+                            checkBox.SetBinding(CheckBox.IsCheckedProperty, dataBinding);
+                            entgrou.AddNewEntry(tpa.GroupName, new ControlEntry(checkBox, tpa, sfa));
+                            
+                            break;
+                        # endregion CheckBox
+                            
+                        # region DynamicComboBox
+                        case ControlType.DynamicComboBox:
+                            PropertyInfo pInfo = plugin.Settings.GetType().GetProperty(tpa.ControlValues[0]);
+                                                    
+                            ObservableCollection<string> coll = pInfo.GetValue(plugin.Settings, null) as ObservableCollection<string>;
+                                
+                            if (coll != null)
+                            {
+                                ComboBox comboBoxDyn = new ComboBox();
+                                comboBoxDyn.Tag = tpa.ToolTip;
+                                comboBoxDyn.MouseEnter += Control_MouseEnter;
+                                comboBoxDyn.ItemsSource = coll;
+                                comboBoxDyn.SetBinding(ComboBox.SelectedIndexProperty, dataBinding);
+                                //inputControl = comboBoxDyn;
+                                //bInfo.CaptionGUIElement = comboBoxDyn;
 
-              //if (bInfo.SettingFormat != null)
-              //{
-              //  if (bInfo.SettingFormat.Ident > 0)
-              //  {
-              //    StackPanel stackPanel = new StackPanel();
-              //    stackPanel.Margin = new Thickness(bInfo.SettingFormat.Ident * SETTINGS_FORMAT_INDENT_OFFSET, 0, 0, 0);
-              //    stackPanel.Children.Add(inputControl);
-              //    inputControl = stackPanel;
-              //  }
-              //  // check for vertical groups
-              //  if (bInfo.SettingFormat.HasVerticalGroup)
-              //  {
-              //    dicVerticalSubGroups.GetOrCreate(bInfo.SettingFormat.VerticalGroup).Add(new KeyValuePair<BindingInfo, UIElement>(bInfo, inputControl));
-              //  }
-              //}
+                                //controlList.Add(new ControlEntry(comboBoxDyn, tpa, sfa));
+                                entgrou.AddNewEntry(tpa.GroupName, new ControlEntry(comboBoxDyn, tpa, sfa));
+                            }
+                            break;
+                            # endregion DynamicComboBox
 
-              //// check for groups
-              //if (bInfo.TaskPaneSettingsAttribute.GroupName != null && bInfo.TaskPaneSettingsAttribute.GroupName != "")
-              //{
-              //  if (!dicGroupedElements.ContainsKey(bInfo.TaskPaneSettingsAttribute.GroupName))
-              //    dicGroupedElements.Add(bInfo.TaskPaneSettingsAttribute.GroupName, new List<UIElement>());
-                
-              //  dicGroupedElements[bInfo.TaskPaneSettingsAttribute.GroupName].Add(inputControl);
-              //}
-              //else 
-              //{
-              //  dicGroupedElements[emptyGroup].Add(inputControl);
-              //}
+                        # region FileDialog
+                        case ControlType.SaveFileDialog:
+                        case ControlType.OpenFileDialog:
+                            StackPanel sp = new StackPanel();
+                            sp.Orientation = Orientation.Vertical;
 
-              //bInfo.GUIElement = inputControl;
+                            TextBox fileTextBox = new TextBox();
+                            fileTextBox.Background = Brushes.LightGray;
+                            fileTextBox.IsReadOnly = true;
+                            fileTextBox.Margin = new Thickness(0, 0, 0, 5);
+                            fileTextBox.TextChanged += fileDialogTextBox_TextChanged;
+                            fileTextBox.SetBinding(TextBox.TextProperty, dataBinding);
+                            fileTextBox.SetBinding(TextBox.ToolTipProperty, dataBinding);
 
-              //string key = bInfo.TaskPaneSettingsAttribute.PropertyName != null ? bInfo.TaskPaneSettingsAttribute.PropertyName : bInfo.TaskPaneSettingsAttribute.PropertyName;
+                            fileTextBox.Tag = tpa;
+                            fileTextBox.MouseEnter += fileTextBox_MouseEnter;
+                            sp.Children.Add(fileTextBox);
 
-              //dicAllPluginSettings.GetOrCreate(plugin.Settings).Add(
-              //  bInfo.TaskPaneSettingsAttribute.PropertyName,
-              //  new TaskPaneSettingsForPlugins(bInfo.TaskPaneSettingsAttribute.PropertyName, bInfo, Visibility.Visible));
-            }
+                            Button btn = new Button();
+                            btn.Tag = fileTextBox;
+                            if (tpa.ControlType == ControlType.SaveFileDialog)
+                                //btn.Content = Properties.Resources.Save_file;
+                                btn.Content = "Save File";
+                            else
+                                btn.Content = "Open File";
+                            btn.Click += FileDialogClick;
+                            sp.Children.Add(btn);
+                            entgrou.AddNewEntry(tpa.GroupName, new ControlEntry(sp, tpa, sfa));
+                           
+                            break;
+                        # endregion FileDialog
 
-            #region main_groups
-            // add all elements without groups. TODO: order is lost here            
-            //stackPanelSettingsDefault.Margin = new Thickness(EXPANDER_GROUP_LEFT_RIGHT_OFFSET, 0, EXPANDER_GROUP_LEFT_RIGHT_OFFSET, 0);
-            foreach (UIElement ui in dicGroupedElements[emptyGroup])
-            {
-                stackPanelContent.Children.Add(ui);
-            }
-            dicGroupedElements.Remove(emptyGroup);
+                        # region Button
+                        case ControlType.Button:
+                            Button taskPaneButton = new Button();
+                            taskPaneButton.Margin = new Thickness(0);
+                            taskPaneButton.Tag = tpa;
+                            taskPaneButton.MouseEnter += TaskPaneButton_MouseEnter;
+                            taskPaneButton.Content = tpa.Caption;
+                            taskPaneButton.Click += TaskPaneButton_Click;
+                            entgrou.AddNewEntry(tpa.GroupName, new ControlEntry(taskPaneButton, tpa, sfa));
+                            break;
+                        # endregion Button
+                          
+                        # region Slider
+                        case ControlType.Slider:
+                            Slider slider = new Slider();
+                            slider.Margin = CONTROL_DEFAULT_MARGIN;
+                            slider.Orientation = Orientation.Horizontal;
+                            slider.Minimum = tpa.DoubleMinValue;
+                            slider.Maximum = tpa.DoubleMaxValue;
+                            slider.Tag = tpa.ToolTip;
+                            slider.MouseEnter += Control_MouseEnter;
+                            slider.SetBinding(Slider.ValueProperty, dataBinding);
 
-            expanderToElementsMap = new Dictionary<Expander,List<UIElement>>();
-            elementsToExpanderMap = new Dictionary<UIElement,Expander>();
-            dicPluginSettingsElementsToExpanderMap.Add(plugin, elementsToExpanderMap);
-            dicPluginSettingsExpanderToElementsMap.Add(plugin, expanderToElementsMap);
+                            slider.Width = 100;
 
-            // now add groups with elements
-            foreach (KeyValuePair<string, List<UIElement>> kvp in dicGroupedElements)
-            {
-              Expander exp = new Expander();
-              exp.Header = kvp.Key;
-              StackPanel stackPanel = new StackPanel();
-              // some offset for the settings elements just for optical reasons
-              stackPanel.Margin = new Thickness(EXPANDER_GROUP_LEFT_RIGHT_OFFSET, 0, EXPANDER_GROUP_LEFT_RIGHT_OFFSET, 0);
-              exp.Content = stackPanel;
-              foreach (UIElement ui in kvp.Value)
-              {
-                stackPanel.Children.Add(ui);
-                elementsToExpanderMap.Add(ui, exp);
-                if (!expanderToElementsMap.ContainsKey(exp))
-                    expanderToElementsMap.Add(exp, new List<UIElement>());
-                expanderToElementsMap[exp].Add(ui);
-              }
-              stackPanelContent.Children.Add(exp);
-            }
-            #endregion main_groups
+                            entgrou.AddNewEntry(tpa.GroupName, new ControlEntry(slider, tpa, sfa));
+                            break;
+                        # endregion Slider
 
-            if (plugin.Settings.GetTaskPaneAttributeChanged() != null)
-            {
-              plugin.Settings.GetTaskPaneAttributeChanged().AddEventHandler(plugin.Settings, new TaskPaneAttributeChangedHandler(TaskPaneAttributeChanged));
-            }
-          }
-          catch (Exception exception)
-          {
-            GuiLogMessage(exception.Message, NotificationLevel.Error);
-          }
-        }
+                        # region TextBoxReadOnly
+                        case ControlType.TextBoxReadOnly:
+                            TextBox textBoxReadOnly = new TextBox();
+                            textBoxReadOnly.IsReadOnly = true;
+                            textBoxReadOnly.BorderThickness = new Thickness(0);
+                            textBoxReadOnly.Background = Brushes.Transparent;
+                            textBoxReadOnly.Tag = tpa.ToolTip;
+                            textBoxReadOnly.MouseEnter += Control_MouseEnter;
+                            textBoxReadOnly.SetBinding(TextBox.TextProperty, dataBinding);
+                            entgrou.AddNewEntry(tpa.GroupName, new ControlEntry(textBoxReadOnly, tpa, sfa));
+                            break;
+                        # endregion TextBoxReadOnly
 
-        void comboBoxDyn_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            ComboBox c = (ComboBox)sender;
-
-             c.IsDropDownOpen = true;
-        }
-
-
-        #region event_handler_methods
-        private void TaskPaneAttributeChanged(ISettings settings, TaskPaneAttributeChangedEventArgs args)
-        {
-          try
-          {
-            // plugin was display already
-            if (dicAllPluginSettings.ContainsKey(settings))
-            {
-              foreach (TaskPaneAttribteContainer tpac in args.ListTaskPaneAttributeContainer)
-              {
-                if (dicAllPluginSettings[settings].ContainsKey(tpac.Property) && dicAllPluginSettings[settings][tpac.Property].BindingInfo != null)
-                {
-                  dicAllPluginSettings[settings][tpac.Property].BindingInfo.GUIElement.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-                  {
-                    dicAllPluginSettings[settings][tpac.Property].BindingInfo.GUIElement.Visibility = tpac.Visibility;
-
-                    if (tpac.TaskPaneAttribute != null)
-                    {
-                      setCaptionAndTooltip(dicAllPluginSettings[settings][tpac.Property].BindingInfo, tpac);
                     }
-                  }, null);
-                  dicAllPluginSettings[settings][tpac.Property].Visibility = tpac.Visibility;
 
-                  try
-                  {
-                      bool everythingInvisible = true;
-                      foreach (UIElement children in expanderToElementsMap[elementsToExpanderMap[dicAllPluginSettings[settings][tpac.Property].BindingInfo.GUIElement]])
-                      {
-                          if (children.Visibility == System.Windows.Visibility.Visible)
-                          {
-                              elementsToExpanderMap[children].Visibility = System.Windows.Visibility.Visible;
-                              everythingInvisible = false;
-                          }
-                      }
-                      if (everythingInvisible)
-                          elementsToExpanderMap[dicAllPluginSettings[settings][tpac.Property].BindingInfo.GUIElement].Visibility = System.Windows.Visibility.Hidden;
-                  }
-                  catch (Exception)
-                  {
-                  }
+                     
                 }
-              }
+
+                catch (Exception e) { }
             }
-          }
-          catch (Exception ex)
-          {
-            GuiLogMessage(ex.Message, NotificationLevel.Error);
-          }
+            return entgrou;
+
         }
 
         private void RadioButton_Checked(object sender, RoutedEventArgs e)
         {
-          try
-          {
-            if (sender is RadioButton)
-            {
-              RadioButton radio = sender as RadioButton;
-              if (radio.Tag is RadioButtonListAndBindingInfo)
-              {
-                RadioButtonListAndBindingInfo rbl = radio.Tag as RadioButtonListAndBindingInfo;
-                rbl.BInfo.Settings.GetType().GetProperty(rbl.BInfo.TaskPaneSettingsAttribute.PropertyName).SetValue(rbl.BInfo.Settings, rbl.List.IndexOf(radio), null);
-              }
-            }
-          }
-          catch (Exception ex)
-          {
-            GuiLogMessage(ex.Message, NotificationLevel.Error);
-          }
-        }
-
-        // propagate changes of TextBoxHidden to ISettings instance
-        private void TextBoxHidden_Changed(object sender, RoutedEventArgs e)
-        {
             try
             {
-                PasswordBox pwBox = sender as PasswordBox;
-                if (pwBox != null)
+                if (sender is RadioButton)
                 {
-                    BindingInfo bInfo = pwBox.Tag as BindingInfo;
-                    if (bInfo != null)
+                    RadioButton radio = sender as RadioButton;
+                    if (radio.Tag is RadioButtonListAndBindingInfo)
                     {
-                        bInfo.Settings.GetType().GetProperty(bInfo.TaskPaneSettingsAttribute.PropertyName).SetValue(bInfo.Settings, pwBox.Password, null);
+                        RadioButtonListAndBindingInfo rbl = radio.Tag as RadioButtonListAndBindingInfo;
+                        rbl.plugin.Settings.GetType().GetProperty(rbl.tpa.PropertyName).SetValue(rbl.plugin.Settings, rbl.List.IndexOf(radio), null);
                     }
                 }
             }
@@ -799,459 +613,176 @@ namespace WorkspaceManager.View.BinVisual
             }
         }
 
-        private void RadioButton_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-          try
-          {
-            if (sender is ISettings)
-            {
-              ISettings settings = sender as ISettings;
-              PropertyInfo pInfo = settings.GetType().GetProperty(e.PropertyName);
-              if (pInfo == null)
-              {
-                GuiLogMessage("The property \"" + e.PropertyName + "\" does not exist in your plugin settings.", NotificationLevel.Error);
-                return;
-              }
-              TaskPaneAttribute[] attributes = (TaskPaneAttribute[])pInfo.GetCustomAttributes(typeof(TaskPaneAttribute), false);
-              if (attributes.Length == 1 && attributes[0].ControlType == ControlType.RadioButton)
-              {
-                this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-                {
-                  int value = (int)settings.GetType().GetProperty(e.PropertyName).GetValue(settings, null);
-
-                  // Avoid event loops: if plugin develop does not check that if value is != current value and fires
-                  // an event allways we have a loop. So we break this loop at this central position by reassigning
-                  // the value only if not set already.
-                  if (dicRadioButtons[settings][e.PropertyName][value].IsChecked == false || dicRadioButtons[settings][e.PropertyName][value].IsChecked == null)
-                  {
-                    foreach (RadioButton radio in dicRadioButtons[settings][e.PropertyName])
-                    {
-                      radio.IsChecked = false;
-                    }
-                    dicRadioButtons[settings][e.PropertyName][value].IsChecked = true;
-                  }
-                }, null);
-              }
-            }
-          }
-          catch (Exception ex)
-          {
-            GuiLogMessage(ex.Message, NotificationLevel.Error);
-          }
-        }
-
-        private void infoMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-          try
-          {
-            Clipboard.SetText(((TextBlock)((ContextMenu)((MenuItem)sender).Parent).Tag).Text.Trim());
-          }
-          catch (Exception ex)
-          {
-            GuiLogMessage(ex.Message, NotificationLevel.Error);
-          }
-        }
-
         private void fileDialogTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-          try
-          {
-            ((TextBox)sender).ScrollToHorizontalOffset(int.MaxValue);
-          }
-          catch (Exception exception)
-          {
-            GuiLogMessage(exception.Message, NotificationLevel.Error);
-          }
-        }
-
-        private void hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
-        {
-          try
-          {
-            string navigateUri = ((Hyperlink)sender).NavigateUri.ToString();
-            Process.Start(navigateUri);
-            e.Handled = true;
-          }
-          catch (Exception exception)
-          {
-            GuiLogMessage(exception.Message, NotificationLevel.Error);
-          }          
-        }
-
-        private void TaskPaneButton_Click(object sender, RoutedEventArgs e)
-        {
-          BindingInfo bInfo = (sender as Button).Tag as BindingInfo;
-          if (bInfo != null && bInfo.Settings != null && bInfo.TaskPaneSettingsAttribute.Method != null)
-          {
-            bInfo.TaskPaneSettingsAttribute.Method.Invoke(bInfo.Settings, null);
-          }
-        }
-
-        private void Control_MouseEnter(object sender, MouseEventArgs e)
-        {
-          try
-          {
-              if (sender is NumericUpDown) SetHelpText((sender as NumericUpDown).Tag as string);
-              if (sender is NumericUpDown) SetHelpText((sender as NumericUpDown).Tag as string);
-            if (sender is TextBox) SetHelpText((sender as TextBox).Tag as string);
-            if (sender is PasswordBox) SetHelpText(((BindingInfo)(sender as PasswordBox).Tag).TaskPaneSettingsAttribute.ToolTip as string);
-            if (sender is CheckBox) SetHelpText((sender as CheckBox).Tag as string);
-            if (sender is ComboBox) SetHelpText((sender as ComboBox).Tag as string);
-            if (sender is Slider) SetHelpText((sender as Slider).Tag as string);
-            if (sender is Button) SetHelpText((sender as Button).Tag as string);
-          }
-          catch (Exception exception) 
-          {
-            GuiLogMessage(exception.Message, NotificationLevel.Error);
-          }
-        }
-
-        private void Control_MouseLeave(object sender, MouseEventArgs e)
-        {
-          textBoxTooltip.Foreground = Brushes.Transparent;
-        }
-
-        private void SetHelpText(string text)
-        {
-          try
-          {
-            textBoxTooltip.Text = text;
-            textBoxTooltip.Foreground = Brushes.Black;
-          }
-          catch (Exception exception)
-          {
-            GuiLogMessage(exception.Message, NotificationLevel.Error);
-          }
+            try
+            {
+                ((TextBox)sender).ScrollToHorizontalOffset(int.MaxValue);
+            }
+            catch (Exception exception)
+            {
+                GuiLogMessage(exception.Message, NotificationLevel.Error);
+            }
         }
 
         private void fileTextBox_MouseEnter(object sender, MouseEventArgs e)
         {
-          try
-          {
-            if (sender is TextBox) SetHelpText(((sender as TextBox).Tag as TaskPaneAttribute).ToolTip);
-          }
-          catch (Exception exception)
-          {
-            GuiLogMessage(exception.Message, NotificationLevel.Error);
-          }
-        }
-
-        private void TaskPaneButton_MouseEnter(object sender, MouseEventArgs e)
-        {
-          try
-          {
-            SetHelpText(((sender as Button).Tag as BindingInfo).TaskPaneSettingsAttribute.ToolTip);
-          }
-          catch (Exception exception)
-          {
-            GuiLogMessage(exception.Message, NotificationLevel.Error);
-          }
+            try
+            {
+                if (sender is TextBox) SetHelpText(((sender as TextBox).Tag as TaskPaneAttribute).ToolTip);
+            }
+            catch (Exception exception)
+            {
+                GuiLogMessage(exception.Message, NotificationLevel.Error);
+            }
         }
 
         private void FileDialogClick(object sender, RoutedEventArgs e)
         {
-          try
-          {
-            Button btn = sender as Button;
-            TextBox tb = btn.Tag as TextBox;
-            TaskPaneAttribute tpAtt = tb.Tag as TaskPaneAttribute;
+            try
+            {
+                Button btn = sender as Button;
+                TextBox tb = btn.Tag as TextBox;
+                TaskPaneAttribute tpAtt = tb.Tag as TaskPaneAttribute;
 
-            if (tpAtt.ControlType == ControlType.OpenFileDialog)
-            {
-              OpenFileDialog ofd = new OpenFileDialog();
-              ofd.Filter = tpAtt.FileExtension;
-              ofd.Multiselect = false;
-              bool? test = ofd.ShowDialog();
-              if (test.HasValue && test.Value) tb.Text = ofd.FileName;
+                if (tpAtt.ControlType == ControlType.OpenFileDialog)
+                {
+                    OpenFileDialog ofd = new OpenFileDialog();
+                    ofd.Filter = tpAtt.FileExtension;
+                    ofd.Multiselect = false;
+                    bool? test = ofd.ShowDialog();
+                    if (test.HasValue && test.Value) tb.Text = ofd.FileName;
+                }
+                else if (tpAtt.ControlType == ControlType.SaveFileDialog)
+                {
+                    SaveFileDialog saveFileDialog = new SaveFileDialog();
+                    saveFileDialog.Filter = tpAtt.FileExtension;
+                    bool? test = saveFileDialog.ShowDialog();
+                    if (test.HasValue && test.Value) tb.Text = saveFileDialog.FileName;
+                }
             }
-            else if (tpAtt.ControlType == ControlType.SaveFileDialog)
+            catch (Exception exception)
             {
-              SaveFileDialog saveFileDialog = new SaveFileDialog();
-              saveFileDialog.Filter = tpAtt.FileExtension;              
-              bool? test = saveFileDialog.ShowDialog(); 
-              if (test.HasValue && test.Value) tb.Text = saveFileDialog.FileName;
+                GuiLogMessage(exception.Message, NotificationLevel.Error);
             }
-          }
-          catch (Exception exception)
-          {
-            GuiLogMessage(exception.Message, NotificationLevel.Error);
-          }
         }
 
+        private void Control_MouseEnter(object sender, MouseEventArgs e)
+        {
+            try
+            {
+                if (sender is NumericUpDown) SetHelpText((sender as NumericUpDown).Tag as string);
+                if (sender is NumericUpDown) SetHelpText((sender as NumericUpDown).Tag as string);
+                if (sender is TextBox) SetHelpText((sender as TextBox).Tag as string);
+                //if (sender is PasswordBox) SetHelpText(((BindingInfo)(sender as PasswordBox).Tag).TaskPaneSettingsAttribute.ToolTip as string);
+                if (sender is CheckBox) SetHelpText((sender as CheckBox).Tag as string);
+                if (sender is ComboBox) SetHelpText((sender as ComboBox).Tag as string);
+                if (sender is Slider) SetHelpText((sender as Slider).Tag as string);
+                if (sender is Button) SetHelpText((sender as Button).Tag as string);
+            }
+            catch (Exception exception)
+            {
+                // GuiLogMessage(exception.Message, NotificationLevel.Error);
+            }
+        }
+
+        private void SetHelpText(string text)
+        {
+            try
+            {
+                textBoxTooltip.Text = text;
+                textBoxTooltip.Foreground = Brushes.Black;
+            }
+            catch (Exception exception)
+            {
+                //GuiLogMessage(exception.Message, NotificationLevel.Error);
+            }
+        }
         private void GuiLogMessage(string message, NotificationLevel logLevel)
         {
-          EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, null, new GuiLogEventArgs(message, null, logLevel));
+            EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, null, new GuiLogEventArgs(message, null, logLevel));
         }
 
-        #endregion event_handler_methods
-
-        #region privateMethods
-        private void setCaptionAndTooltip(BindingInfo bInfo, TaskPaneAttribteContainer tpac)
+        private void TaskPaneButton_MouseEnter(object sender, MouseEventArgs e)
         {
-          try
-          {            
-
-            ((FrameworkElement)bInfo.GUIElement).ToolTip = tpac.TaskPaneAttribute.ToolTip;
-            switch (tpac.TaskPaneAttribute.ControlType)
+            try
             {
-              // all these elements have a TextBlock "headline", that shows the caption
-              case ControlType.TextBox:
-              case ControlType.TextBoxHidden:
-              case ControlType.NumericUpDown:
-              case ControlType.ComboBox:
-              case ControlType.RadioButton:
-              case ControlType.DynamicComboBox:
-              case ControlType.Slider:
-                ((TextBlock)bInfo.CaptionGUIElement).Text = tpac.TaskPaneAttribute.Caption;
-                break;
-              case ControlType.CheckBox:
-                ((CheckBox)bInfo.CaptionGUIElement).Content = tpac.TaskPaneAttribute.Caption;
-                break;
-              // no handling of these two necessary, because of hard coded name
-              // case ControlType.SaveFileDialog:
-              // case ControlType.OpenFileDialog:
-              case ControlType.Button:
-                ((Button)bInfo.CaptionGUIElement).Content = tpac.TaskPaneAttribute.Caption;
-                break;
-              // no change for TextBoxReadOnly needed because the property itself contains the text - makes no sense to set the value by using the attribute
-              // case ControlType.TextBoxReadOnly:
-              default:
-                break;
+                SetHelpText(((sender as Button).Tag as TaskPaneAttribute).ToolTip);
             }
-          }
-          catch (Exception ex)
-          {
-            GuiLogMessage(ex.Message, NotificationLevel.Error);
-          }
+            catch (Exception exception)
+            {
+                GuiLogMessage(exception.Message, NotificationLevel.Error);
+            }
         }
-        #endregion privateMethods
 
-
-    }
-
-    #region Converter
-     //<summary>
-     //Used for enums in comboboxes
-     //</summary>
-    public class EnumToIntConverter : IValueConverter
-    {
-        private static EnumToIntConverter instance;
-
-        private EnumToIntConverter() { }
-
-         //singleton
-        public static EnumToIntConverter GetInstance()
+        private void TaskPaneButton_Click(object sender, RoutedEventArgs e)
         {
-            if (instance == null)
-                instance = new EnumToIntConverter();
-
-            return instance;
+            TaskPaneAttribute tpa = (sender as Button).Tag as TaskPaneAttribute;
+            if (tpa != null && plugin.Settings != null && tpa.Method != null)
+            {
+                tpa.Method.Invoke(plugin.Settings, null);
+            }
         }
-
-         //enum -> int
-        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            return (int)value;
-        }
-
-         //int -> enum
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            return Enum.ToObject(targetType, value);
-        }
-    } 
-    #endregion
-
-    # region helper_classes
-    public class TaskPaneSettingsForPlugins
-    {
-      public string PropertyName;
-      public BindingInfo BindingInfo;
-      public Visibility Visibility = Visibility.Visible;
-      public TaskPaneSettingsForPlugins(string propertyName, BindingInfo bindingInfo, Visibility visibility)
-      {
-        if (propertyName == null || propertyName == string.Empty) throw new ArgumentException("propertyName has to be set");
-        this.PropertyName = propertyName;
-        this.BindingInfo = bindingInfo;
-      }
-    }
-
-    public class BindingInfo
-    {
-        public readonly TaskPaneAttribute TaskPaneSettingsAttribute;                                
-
-        public ISettings Settings;
         
-        public SettingsFormatAttribute SettingFormat;
-
-        public UIElement GUIElement;
-
-        public UIElement CaptionGUIElement;
-          
-        public BindingInfo(TaskPaneAttribute taskPaneSettingsAttribute)
-        {
-            this.TaskPaneSettingsAttribute = taskPaneSettingsAttribute;            
-        }
-
-        public BindingInfo(TaskPaneAttribute taskPaneSettingsAttribute, ISettings settings)
-        {
-          this.TaskPaneSettingsAttribute = taskPaneSettingsAttribute;          
-          this.Settings = settings;
-        }
-
     }
 
-    public class BindingInfoRibbon
+    public class EntryGroup 
     {
-      public RibbonBarAttribute RibbonBarAttribute;
-      public ISettings Settings;
-      public string PropertyPath;
+        
+        public List<String> listAdmin = new List<String>();
+        public List<List<ControlEntry>> entryList = new List<List<ControlEntry>>();
 
-      public BindingInfoRibbon(RibbonBarAttribute ribbonBarAttribute, string propertyPath, ISettings settings)
-      {
-        this.RibbonBarAttribute = ribbonBarAttribute;
-        this.PropertyPath = propertyPath;
-        this.Settings = settings;
-      }
-    }
 
-    public class BindingInfoComparer : IComparer<BindingInfo>
-    {
-        public int Compare(BindingInfo x, BindingInfo y)
+
+        public void AddNewEntry(String groupname , ControlEntry entry)
         {
-            if (x.TaskPaneSettingsAttribute.Order != y.TaskPaneSettingsAttribute.Order)
-                return x.TaskPaneSettingsAttribute.Order.CompareTo(y.TaskPaneSettingsAttribute.Order);
-            else
-                return x.TaskPaneSettingsAttribute.Caption.CompareTo(y.TaskPaneSettingsAttribute.Caption);
-        }
-    }
+            if (listAdmin.Contains(groupname))
+            {
+                listAdmin.IndexOf(groupname);
+                entryList[listAdmin.IndexOf(groupname)].Add(entry);
+            }
+            else 
+            {
+                List<ControlEntry> dummyList = new List<ControlEntry>();
+                dummyList.Add(entry);
+                listAdmin.Add(groupname);
+                entryList.Add(dummyList);
+            }
 
-    public class BindingInfoRibbonComparer : IComparer<BindingInfoRibbon>
-    {
-      public int Compare(BindingInfoRibbon x, BindingInfoRibbon y)
-      {
-        if (x.RibbonBarAttribute.Order != y.RibbonBarAttribute.Order)
-          return x.RibbonBarAttribute.Order.CompareTo(y.RibbonBarAttribute.Order);
-        else
-          return x.RibbonBarAttribute.Caption.CompareTo(y.RibbonBarAttribute.Caption);
-      }
+        }
+
     }
 
     public class RadioButtonListAndBindingInfo
     {
-      public readonly List<RadioButton> List = null;
-      public readonly BindingInfo BInfo = null;
+        public readonly List<RadioButton> List = null;
+        public readonly IPlugin plugin = null;
+        public readonly TaskPaneAttribute tpa = null;
 
-      public RadioButtonListAndBindingInfo(List<RadioButton> list, BindingInfo bInfo)
-      {
-        if (list == null) throw new ArgumentException("list");
-        if (bInfo == null) throw new ArgumentException("bInfo");
-        this.List = list;
-        this.BInfo = bInfo;
-      }
+        public RadioButtonListAndBindingInfo(List<RadioButton> list, IPlugin plugin, TaskPaneAttribute tpa)
+        {
+            if (list == null) throw new ArgumentException("list");
+            if (plugin == null) throw new ArgumentException("bInfo");
+            if (tpa == null) throw new ArgumentException("tpa");
+            this.tpa = tpa;
+            this.List = list;
+            this.plugin = plugin;
+        }
     }
 
-    public static class PasswordBoxAssistant
+    public class ControlEntry
     {
-        public static readonly DependencyProperty BoundPassword =
-            DependencyProperty.RegisterAttached("BoundPassword", typeof(string), typeof(PasswordBoxAssistant), new FrameworkPropertyMetadata(string.Empty, OnBoundPasswordChanged));
+        public UIElement element;
+        public TaskPaneAttribute tpa;
+        public SettingsFormatAttribute sfa;
 
-        public static readonly DependencyProperty BindPassword = DependencyProperty.RegisterAttached(
-            "BindPassword", typeof(bool), typeof(PasswordBoxAssistant), new PropertyMetadata(false, OnBindPasswordChanged));
 
-        private static readonly DependencyProperty UpdatingPassword =
-            DependencyProperty.RegisterAttached("UpdatingPassword", typeof(bool), typeof(PasswordBoxAssistant));
-
-        private static void OnBoundPasswordChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+       public ControlEntry (UIElement element, TaskPaneAttribute tpa, SettingsFormatAttribute sfa)
         {
-            PasswordBox box = d as PasswordBox;
-
-             //only handle this event when the property is attached to a PasswordBox  
-             //and when the BindPassword attached property has been set to true  
-            if (d == null || !GetBindPassword(d))
-            {
-                return;
-            }
-
-             //avoid recursive updating by ignoring the box's changed event  
-            box.PasswordChanged -= HandlePasswordChanged;
-
-            string newPassword = (string)e.NewValue;
-
-            if (!GetUpdatingPassword(box))
-            {
-                box.Password = newPassword;
-            }
-
-            box.PasswordChanged += HandlePasswordChanged;
+            this.element = element;
+            this.sfa = sfa;
+            this.tpa = tpa;
         }
+    }
+}
 
-        private static void OnBindPasswordChanged(DependencyObject dp, DependencyPropertyChangedEventArgs e)
-        {
-             //when the BindPassword attached property is set on a PasswordBox,  
-             //start listening to its PasswordChanged event  
-
-            PasswordBox box = dp as PasswordBox;
-
-            if (box == null)
-            {
-                return;
-            }
-
-            bool wasBound = (bool)(e.OldValue);
-            bool needToBind = (bool)(e.NewValue);
-
-            if (wasBound)
-            {
-                box.PasswordChanged -= HandlePasswordChanged;
-            }
-
-            if (needToBind)
-            {
-                box.PasswordChanged += HandlePasswordChanged;
-            }
-        }
-
-        private static void HandlePasswordChanged(object sender, RoutedEventArgs e)
-        {
-            PasswordBox box = sender as PasswordBox;
-
-             //set a flag to indicate that we're updating the password  
-            SetUpdatingPassword(box, true);
-             //push the new password into the BoundPassword property  
-            SetBoundPassword(box, box.Password);
-            SetUpdatingPassword(box, false);
-        }
-
-        public static void SetBindPassword(DependencyObject dp, bool value)
-        {
-            dp.SetValue(BindPassword, value);
-        }
-
-        public static bool GetBindPassword(DependencyObject dp)
-        {
-            return (bool)dp.GetValue(BindPassword);
-        }
-
-        public static string GetBoundPassword(DependencyObject dp)
-        {
-            return (string)dp.GetValue(BoundPassword);
-        }
-
-        public static void SetBoundPassword(DependencyObject dp, string value)
-        {
-            dp.SetValue(BoundPassword, value);
-        }
-
-        private static bool GetUpdatingPassword(DependencyObject dp)
-        {
-            return (bool)dp.GetValue(UpdatingPassword);
-        }
-
-        private static void SetUpdatingPassword(DependencyObject dp, bool value)
-        {
-            dp.SetValue(UpdatingPassword, value);
-        }
-    }  
-    #endregion helper_classes
-  }
