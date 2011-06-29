@@ -31,10 +31,10 @@ namespace Cryptool.PluginBase
 
         public static void AddPlugin(Type pluginType)
         {
-            AllLoadedPlugins.Add(pluginType.GetPluginInfoAttribute().Caption, pluginType);
-
             try
             {
+                AllLoadedPlugins.Add(pluginType.GetPluginInfoAttribute().Caption, pluginType);
+
                 foreach (PropertyInfo pInfo in pluginType.GetProperties())
                 {
                     var propertyType = pInfo.PropertyType;
