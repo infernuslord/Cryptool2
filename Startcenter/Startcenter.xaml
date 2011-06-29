@@ -65,18 +65,12 @@
                 </Style>
             </Grid.Resources>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition Width="5"/>
                 <ColumnDefinition Width="500" />
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition />                
             </Grid.ColumnDefinitions>
 
-            <Grid Name="panels" Grid.Column="0">
-                <Startcenter:Panels/>
-            </Grid>
-
-            <GridSplitter Grid.Column="1" Width="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#FFAEBBD4" HorizontalContentAlignment="Center" />
-
-            <Expander IsExpanded="true" Grid.Column="2" Header="{Loc MainFunctions}">
+            <Expander IsExpanded="true" Grid.Column="0" Header="{Loc MainFunctions}">
                 <Expander.Tag>
                     <BitmapImage UriSource="/Startcenter;component/main.png"/>
                 </Expander.Tag>
@@ -86,6 +80,12 @@
                     </ScrollViewer>
                 </Border>
             </Expander>
+
+            <GridSplitter Grid.Column="1" Width="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#FFAEBBD4" HorizontalContentAlignment="Center" />
+
+            <Grid Name="panels" Grid.Column="2">
+                <Startcenter:Panels/>
+            </Grid>
         </Grid>
 
         <CheckBox Name="StartupCheckbox"  Content="Show this welcome screen at CrypTool 2.0 startup." Margin="5" VerticalAlignment="Center" Grid.Row="3" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" />        
