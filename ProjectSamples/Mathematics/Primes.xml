@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <sample>
-	<title lang="en">Primes</title>
-	<title lang="de">Primzahlen</title>
+	<title lang="en">World of Primes</title>
+	<title lang="de">Welt der Primzahlen</title>
 	
 	<description lang="en">
-		The world of primes.
+		Overview of properties and methods of prime numbers.
 	</description>
 	<description lang="de">
-		Die Welt der Primzahlen.
+		Überblick über die Eigenschaften und Methoden der Primzahlen.
 	</description>
 	
 	<icon file="Primes.png"/>	
