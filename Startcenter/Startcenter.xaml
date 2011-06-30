@@ -65,7 +65,7 @@
                 </Style>
             </Grid.Resources>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="500" />
+                <ColumnDefinition Width="450" />
                 <ColumnDefinition Width="5"/>
                 <ColumnDefinition />                
             </Grid.ColumnDefinitions>

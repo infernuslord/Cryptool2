@@ -12,9 +12,9 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition />
+            <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="5" />
-            <ColumnDefinition Width="400" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
         <Expander IsExpanded="True" Header="{Loc Templates}" Grid.Column="0" Grid.Row="0">
