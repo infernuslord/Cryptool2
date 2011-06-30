@@ -681,16 +681,19 @@
   <data name="UpdateTimeTooltip" xml:space="preserve">
     <value>Setze das Minuten-Intervall, in dem die KeySearcher-Statistik erneuert werden soll.</value>
   </data>
-	<data name="HideDeadUser_" xml:space="preserve">
+  <data name="HideDeadUser_" xml:space="preserve">
     <value>Inaktive User ausblenden</value>
   </data>
-	<data name="HideDeadMachines_" xml:space="preserve">
+  <data name="HideDeadMachines_" xml:space="preserve">
     <value>Inaktive Maschinen ausblenden</value>
   </data>
-	<data name="S_t_a_t_i_s_t_i_c_s" xml:space="preserve">
+  <data name="S_t_a_t_i_s_t_i_c_s" xml:space="preserve">
     <value>S t a t i s t i k e n</value>
   </data>
   <data name="Bytes_offset_not_valid__" xml:space="preserve">
     <value>Bytes Offset nicht valide: </value>
+  </data>
+  <data name="Finished_Chunks_Tooltip" xml:space="preserve">
+    <value>Alle lokal berechneten Blöcke (lokal berechnete Blöcke während dieser Sitzung)</value>
   </data>
 </root>

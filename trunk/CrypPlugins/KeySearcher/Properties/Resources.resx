@@ -708,4 +708,7 @@
   <data name="Bytes_offset_not_valid__" xml:space="preserve">
     <value>Bytes offset not valid: </value>
   </data>
+  <data name="Finished_Chunks_Tooltip" xml:space="preserve">
+    <value>Total locally finished chunks (locally finished chunks in this session)</value>
+  </data>
 </root>
