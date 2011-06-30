@@ -222,7 +222,7 @@ namespace KeySearcher.P2P
                             }
                             status.CurrentOperation = Resources.Processing_results_of_calculation;
 
-                            String hostname = Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetHostName();
+                            String hostname = MachineName.MachineNameToUse;
                             Int64 hostid = Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetID();
                             if (settings.UseExternalClient)
                             {
