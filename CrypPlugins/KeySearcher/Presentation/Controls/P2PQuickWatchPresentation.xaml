@@ -49,7 +49,7 @@
                         </Grid.RowDefinitions>
 						<Grid.ColumnDefinitions>
                             <ColumnDefinition Width="26" />
-                            <ColumnDefinition Width="180" />
+                            <ColumnDefinition Width="*" />
 							<ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
 						</Grid.ColumnDefinitions>
@@ -71,7 +71,7 @@
                     <Grid Height="52" Background="#AFAAE1E8">
 						<Grid.ColumnDefinitions>
                             <ColumnDefinition Width="26" />
-							<ColumnDefinition Width="180" />
+							<ColumnDefinition Width="*" />
 							<ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
 						</Grid.ColumnDefinitions>
@@ -100,7 +100,7 @@
                     <Grid Height="78" Background="#AFFFD4C1">
 						<Grid.ColumnDefinitions>
                             <ColumnDefinition Width="26" />
-                            <ColumnDefinition Width="180" />
+                            <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
 						</Grid.ColumnDefinitions>
@@ -114,7 +114,7 @@
                         </Border>
 
                         <Label Content="{Loc Finished_Chunks_}" Grid.Column="1" Grid.Row="0" />
-                        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Right">                           
+                        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Right" ToolTip="{Loc Finished_Chunks_Tooltip}">
                             <Label Content="{Binding LocalFinishedChunks}" Grid.Column="1" Grid.Row="0" HorizontalContentAlignment="Right" Padding="5,5,5,5" />
                             <Label Content="{Binding LocalFinishedChunksSession, FallbackValue=-}" Grid.Column="1" Grid.Row="0" HorizontalContentAlignment="Right" Padding="0,5,20,5" />
                         </StackPanel>
@@ -137,7 +137,7 @@
                     <Grid Height="78" Background="#AFF9C7FF">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="26" />
-                            <ColumnDefinition Width="180" />
+                            <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
@@ -169,7 +169,7 @@
 					<Grid Height="52" Background="#AFE2E2E2">
 						<Grid.ColumnDefinitions>
                             <ColumnDefinition Width="26" />
-                            <ColumnDefinition Width="180" />
+                            <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
 						</Grid.ColumnDefinitions>
