@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Cryptool.PluginBase.Attributes;
+using KeySearcher.Helper;
 
 namespace KeySearcher
 {
@@ -22,8 +23,27 @@ namespace KeySearcher
     [SettingsTab("KeysearcherSettings", "/PluginSettings/")]
     public partial class KeysearcherSettingsTab : UserControl
     {
+        private string _realMachName = Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetHostName();
+
+        public static readonly DependencyProperty MachNameToUseProperty =
+            DependencyProperty.Register("MachNameToUse",
+                                        typeof(string),
+                                        typeof(KeysearcherSettingsTab), null);
+        public string MachNameToUse
+        {
+            get
+            { 
+                return (string)GetValue(MachNameToUseProperty); 
+            }
+            set
+            { 
+                SetValue(MachNameToUseProperty, value);
+            }
+        }
+
         public KeysearcherSettingsTab(Style settingsStyle)
         {
+            MachNameToUse = MachineName.MachineNameToUse;
             Resources.Add("settingsStyle", settingsStyle);
             InitializeComponent();
 
@@ -31,6 +51,16 @@ namespace KeySearcher
                                                                {
                                                                    Properties.Settings.Default.Save();
                                                                };
+
+            for (int i = 0; i <= _realMachName.Length; i++)
+            {
+                NumberOfChars.Items.Add(String.Format("{0} characters", i));
+            }
+
+            MachineName.OnMachineNameToUseChanged += delegate(string newMachineNameToUse)
+                                                        {
+                                                            MachNameToUse = newMachineNameToUse;
+                                                        };
         }
     }
 }

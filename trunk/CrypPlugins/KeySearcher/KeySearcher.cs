@@ -1193,7 +1193,7 @@ namespace KeySearcher
             }
 
             Int64 id = Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetID(clientName);
-            String hostname = Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetHostName() + "/" + clientName;
+            String hostname = MachineName.MachineNameToUse + "/" + clientName;
 
             ExternalClientHostname = hostname;
             ExternaClientId = id;
@@ -1769,7 +1769,6 @@ namespace KeySearcher
         private static DateTime defaultstart = DateTime.MinValue;
         private static string username = P2PSettings.Default.PeerName;
         private static long maschineid = Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetID();
-        private static string maschinename = Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetHostName();
         private bool statisticInitialized = false;
 
         /// <summary>
@@ -1786,7 +1785,7 @@ namespace KeySearcher
                 vk.user = username;
                 vk.time = chunkstart;
                 vk.maschid = maschineid;
-                vk.maschname = maschinename;
+                vk.maschname = MachineName.MachineNameToUse;
             }
             else
             {
