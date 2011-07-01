@@ -81,7 +81,6 @@ namespace Startcenter
                                        URL = x.Descendants("link").Single().Value
                                    };
             return items.ToList();
-
         }
 
         private void RSSItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
