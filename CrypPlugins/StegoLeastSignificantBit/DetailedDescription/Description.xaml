@@ -15,7 +15,7 @@
   <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16" />
 
   <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16">
-    <misc:DescriptionHyperlink NavigateUri="http://en.wikipedia.org/wiki/Substitution_cipher">http://en.wikipedia.org/wiki/Steganography</misc:DescriptionHyperlink>
+        <misc:DescriptionHyperlink NavigateUri="http://en.wikipedia.org/wiki/Steganography">http://en.wikipedia.org/wiki/Steganography</misc:DescriptionHyperlink>
   </Paragraph>
   
   <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16" />
@@ -27,8 +27,7 @@
     <Span xml:lang="en-gb">The human eye cannot see a color change of one bit in an RGB photo. Pseudo-random changes to more signifcant bits may be visible as camera noise.</Span>
   </Paragraph>
   <Paragraph Margin="0,6.67,0,6.67" TextAlignment="Left" FontFamily="Times New Roman" FontSize="16">
-    <Span FontWeight="Bold" xml:lang="en-gb">No Encryption</Span>
-    <Span xml:lang="en-gb">Classical computer steganography makes data invisible by merging it into carrier data like pictures, sound or formatted text.</Span>
+    <Span xml:lang="en-gb">Steganography makes data invisible by merging it into pictures, sound, formatted text or other carrier media.</Span>
     <Span xml:lang="en-gb">There is no mathematical encryption, only smart storage.</Span>
     <Span FontFamily="Times New Roman" FontSize="16" xml:lang="en-gb">
       <LineBreak />
@@ -46,6 +45,6 @@
         <Span xml:lang="en-gb">In noisy areas of the picture any changes are less obvious than in smooth areas.
             The option </Span>
         <Span FontWeight="Bold" xml:lang="en-gb">Customize Regions</Span>
-        <Span xml:lang="en-gb" xml:space="preserve">lets you draw the outlines of areas that should be used. In decryption mode, this option displays those regions (in case the outlines are the actual secret message).</Span>
+        <Span xml:lang="en-gb" xml:space="preserve">lets you draw the outlines of areas in which the message should be hidden. In decryption mode, this option makes a dialog open which displays the regions again. The outlines are hidden in the first few pixel of the carrier image like a header. The actual message is hidden inside those regions. When extracting a message, the outlines are extracted first, then the message is extracted from the regions.</Span>
     </Paragraph>
 </FlowDocument>
