@@ -13,12 +13,11 @@
         </Grid.RowDefinitions>
         
         <Image Source="/Startcenter;component/header_logo.png" />
-        <Label Grid.Row="1" MinHeight="40" VerticalContentAlignment="Center">
+        <Label Grid.Row="1" MinHeight="40" VerticalContentAlignment="Center" Margin="21,0,0,0">
             <Label.Content>
                 <TextBlock TextWrapping="Wrap">
                     Welcome to <Bold>CrypTool 2.0</Bold>.
-                    Try our templates which demonstrate the functionality of CrypTool 2.0 or click the Wizard button on the right to get step-by-step guidance.
-                    You can also load a predefined template which demonstrates a well-known cryptographic scenario.
+                    A good way to start is either to click on the wizard button (to get a guided tour) or to load one of the pre-defined templates (which demonstrate the functionality of CrypTool 2 in well-defined cryptographic scenarios).
                 </TextBlock>
             </Label.Content>
         </Label>
