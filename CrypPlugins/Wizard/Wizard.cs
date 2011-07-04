@@ -30,7 +30,7 @@ namespace Wizard
 
         public Wizard()
         {
-            wizardControl.OnOpenEditor += (editor, title) => OnOpenEditor(editor, title);
+            wizardControl.OnOpenEditor += (editor, title, filename) => OnOpenEditor(editor, title, filename);
             wizardControl.OnOpenTab += (content, title, parent) => OnOpenTab(content, title, parent);
             wizardControl.OnGuiLogNotificationOccured += (sender, args) => OnGuiLogNotificationOccured(this, new GuiLogEventArgs(args.Message, this, args.NotificationLevel));
         }

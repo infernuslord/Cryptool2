@@ -893,7 +893,7 @@ namespace Wizard
                 {
                     currentManager =
                         (WorkspaceManager.WorkspaceManager)
-                        OnOpenEditor(typeof (WorkspaceManager.WorkspaceManager), null);
+                        OnOpenEditor(typeof (WorkspaceManager.WorkspaceManager), null, null);
                     currentManager.Open(model);
                     if (Settings.Default.RunTemplate)
                     {

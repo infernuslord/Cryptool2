@@ -124,7 +124,7 @@
     <value>RSA Ver-/Entschlüsselung</value>
   </data>
   <data name="PluginDescriptionURL" xml:space="preserve">
-    <value>RSA/DetailedDescription/Description.xaml</value>
+    <value>RSA/DetailedDescription/doc.xml</value>
   </data>
   <data name="PluginKeyCaption" xml:space="preserve">
     <value>RSAKeyGenerator</value>
@@ -133,7 +133,7 @@
     <value>RSA-Schlüsselgenerator</value>
   </data>
   <data name="PluginKeyDescriptionURL" xml:space="preserve">
-    <value>RSA/DetailedDescription/Description.xaml</value>
+    <value>RSA/DetailedDescription/doc.xml</value>
   </data>
   <data name="InputNCaption" xml:space="preserve">
     <value>Öffentlicher Schlüssel N</value>

@@ -218,16 +218,25 @@ namespace Cryptool.PluginBase
 
         public static TaskPaneAttribute[] GetSettingsProperties(this ISettings settings, IPlugin plugin)
         {
+          if (settings == null || plugin == null)
+            return new TaskPaneAttribute[0];
+
           return GetSettingsProperties(settings.GetType(), plugin);
         }
 
         public static TaskPaneAttribute[] GetSettingsProperties(this Type type, IPlugin plugin)
         {
-            return type.GetSettingsProperties(plugin.GetType());
+          if (type == null || plugin == null)
+                return new TaskPaneAttribute[0];
+
+          return type.GetSettingsProperties(plugin.GetType());
         }
 
         public static TaskPaneAttribute[] GetSettingsProperties(this Type type, Type pluginType)
         {
+          if (type == null || pluginType == null)
+            return new TaskPaneAttribute[0];
+
           try
           {
             List<TaskPaneAttribute> taskPaneAttributes = new List<TaskPaneAttribute>();
