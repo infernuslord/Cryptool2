@@ -121,7 +121,7 @@ namespace Startcenter
         private void Label_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             var selectedItem = (RecentFileInfo)RecentFileListBox.SelectedItem;
-            IEditor editor = OnOpenEditor(selectedItem.EditorType, null);
+            IEditor editor = OnOpenEditor(selectedItem.EditorType, null, null);
             editor.Open(selectedItem.File);
             _recentFileList.AddRecentFile(selectedItem.File);
         }

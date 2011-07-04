@@ -72,7 +72,7 @@ namespace Cryptool.PluginBase
   /// <summary>
   /// Used to signal crypwin that an editor wants to open an editor.
   /// </summary>  
-  public delegate IEditor OpenEditorHandler(Type editorType, string title);
+  public delegate IEditor OpenEditorHandler(Type editorType, string title, string filename);
   # endregion editor delegates
 
   #region optional delegates

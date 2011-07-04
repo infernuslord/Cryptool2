@@ -38,8 +38,8 @@ namespace Startcenter
         public Startcenter()
         {
             InitializeComponent();
-            ((Buttons)buttons.Content).OnOpenEditor += (content, title) => OnOpenEditor(content, title);
-            ((Panels)panels.Children[0]).OnOpenEditor += (content, title) => OnOpenEditor(content, title);
+            ((Buttons)buttons.Content).OnOpenEditor += (content, title, filename) => OnOpenEditor(content, title, filename);
+            ((Panels)panels.Children[0]).OnOpenEditor += (content, title, filename) => OnOpenEditor(content, title, filename);
             ((Panels)panels.Children[0]).OnOpenTab += (content, title, parent) => OnOpenTab(content, title, parent);
         }
 

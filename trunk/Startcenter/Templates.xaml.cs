@@ -245,8 +245,9 @@ namespace Startcenter
                 else if (ComponentInformations.EditorExtension != null && ComponentInformations.EditorExtension.ContainsKey(fileExt))
                 {
                     Type editorType = ComponentInformations.EditorExtension[fileExt];
+                    string filename = infos.Key;
                     string title = infos.Value;
-                    var editor = OnOpenEditor(editorType, title);
+                    var editor = OnOpenEditor(editorType, title, filename);
                     editor.Presentation.ToolTip = Properties.Resources.This_is_a_template;
                     if (sender is CTTreeViewItem)
                     {

@@ -35,8 +35,8 @@ namespace Startcenter
         public Panels()
         {
             InitializeComponent();
-            ((LastOpenedFilesList)lastOpenedFilesList.Child).OnOpenEditor += (content, title) => OnOpenEditor(content, title);
-            ((Templates)templates.Child).OnOpenEditor += (content, title) => OnOpenEditor(content, title);
+            ((LastOpenedFilesList)lastOpenedFilesList.Child).OnOpenEditor += (content, title, filename) => OnOpenEditor(content, title, filename);
+            ((Templates)templates.Child).OnOpenEditor += (content, title, filename) => OnOpenEditor(content, title, filename);
             ((Templates)templates.Child).OnOpenTab += (content, title, parent) => OnOpenTab(content, title, parent);
         }
     }
