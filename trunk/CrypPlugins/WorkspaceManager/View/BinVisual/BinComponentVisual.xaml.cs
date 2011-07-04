@@ -798,7 +798,7 @@ namespace WorkspaceManager.View.BinVisual
     {
         public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            if (values == null)
+            if (values == null || !(values[0] is BinComponentState) || !(values[1] is bool))
                 return double.Epsilon;
 
             BinComponentState state = (BinComponentState)values[0];

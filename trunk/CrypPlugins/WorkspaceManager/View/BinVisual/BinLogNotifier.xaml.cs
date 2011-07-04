@@ -164,6 +164,7 @@ namespace WorkspaceManager.View.BinVisual
             {
                 logStack.Clear();
                 logsTillReset.Clear();
+                ErrorMessagesOccured.Invoke(this, new ErrorMessagesOccuredArgs() { HasErrors = false });
             }
         }
         #endregion

@@ -34,7 +34,7 @@ namespace WorkspaceManager.View.VisualComponents
 
         void BottomBox_Loaded(object sender, RoutedEventArgs e)
         {
-
+            Console.Out.WriteLine(this.DataContext.ToString());
         }
 
         private void Button_Click_Full_inc(object sender, RoutedEventArgs e)

@@ -13,6 +13,7 @@ namespace WorkspaceManager.View.VisualComponents
     {
         protected override Size MeasureOverride(Size constraint)
         {
+            base.MeasureOverride(constraint);
             Size availableSize = new Size(double.PositiveInfinity, double.PositiveInfinity);
             double maxHeight = 0;
             double maxWidth = 0;
@@ -46,6 +47,7 @@ namespace WorkspaceManager.View.VisualComponents
                         maxWidth = maxWidth < left ? left : maxWidth;
                         maxHeight = maxHeight < top ? top : maxHeight;
                     }
+                    element.InvalidateArrange();
                 }
             }
             return new Size { Height = maxHeight, Width = maxWidth };

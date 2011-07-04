@@ -612,6 +612,7 @@ namespace WorkspaceManager
                 this.WorkspaceSpaceEditorView.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
                     this.WorkspaceSpaceEditorView.ResetConnections();
+                    this.WorkspaceSpaceEditorView.ResetPlugins(1);
                     this.WorkspaceSpaceEditorView.State = BinEditorState.BUSY;                   
                 }
                 , null);
@@ -711,7 +712,7 @@ namespace WorkspaceManager
             this.WorkspaceSpaceEditorView.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
                 this.WorkspaceSpaceEditorView.ResetConnections();
-                this.WorkspaceSpaceEditorView.ResetPlugins();
+                this.WorkspaceSpaceEditorView.ResetPlugins(0);
                 this.WorkspaceSpaceEditorView.State = BinEditorState.READY;
             }
             , null);
