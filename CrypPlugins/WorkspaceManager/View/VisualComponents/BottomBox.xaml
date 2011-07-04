@@ -343,12 +343,22 @@
         <Border DockPanel.Dock="Top" Background="Black" Height="1"></Border>
         <Border Name="Main" Height="35"  DockPanel.Dock="Bottom" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" ClipToBounds="True" Background="{StaticResource ResourceKey=BlueRadientBrush}">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <StackPanel.Style>
+                    <Style TargetType="Panel">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=IsFullscreenOpen}" Value="true">
+                                <Setter Property="IsEnabled" Value="False"></Setter>
+                                <Setter Property="Opacity" Value="0.5"></Setter>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Path=IsFullscreenOpen}" Value="false">
+                                <Setter Property="IsEnabled" Value="true"></Setter>
+                                <Setter Property="Opacity" Value="1"></Setter>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </StackPanel.Style>
                 <Button Style="{StaticResource ResourceKey=BottomBoxBtnStyle}" ToolTip="Sort" Name="SORT" Click="Button_Click" Foreground="WhiteSmoke" Margin="0,0,10,0">
                     <TextBlock Text="Sort" VerticalAlignment="Center"></TextBlock>
-                </Button>
-
-                <Button Style="{StaticResource ResourceKey=BottomBoxBtnStyle}" ToolTip="Overview" Name="OV" Click="Button_Click" Foreground="WhiteSmoke">
-                    <TextBlock Text="Overview" VerticalAlignment="Center"></TextBlock>
                 </Button>
 
                 <Button Style="{StaticResource ResourceKey=BottomBoxBtnStyle}" ToolTip="Fit to Screen" Name="F2S" Click="Button_Click" Foreground="WhiteSmoke">

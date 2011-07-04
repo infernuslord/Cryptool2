@@ -222,13 +222,19 @@ namespace WorkspaceManager.View.BinVisual
             }
         }
 
-        public void ResetPlugins()
+        public void ResetPlugins(int value)
         {
-	        foreach (BinComponentVisual b in ComponentCollection)
-	        {
-                b.Progress = 0;
-                //TODO: Error State Reset
-	        }
+            if (value == 0)
+            {
+                foreach (BinComponentVisual b in ComponentCollection)
+                    b.Progress = 0;
+            }
+
+            if (value == 1)
+            {
+                foreach (BinComponentVisual b in ComponentCollection)
+                    b.LogMessages.Clear();
+            }
         }
 
         public void AddText()
@@ -869,14 +875,20 @@ namespace WorkspaceManager.View.BinVisual
                     BinConnectorVisual b = (BinConnectorVisual)element;
                     if (isLinkStarted && SelectedConnector != null)
                     {
-                        if (WorkspaceModel.compatibleConnectors(SelectedConnector.Model, b.Model))
+                        if (SelectedConnector.Model != null || b.Model != null)
                         {
-                            ConnectionModel connectionModel = (ConnectionModel)Model.ModifyModel(new NewConnectionModelOperation(
-                                SelectedConnector.Model,
-                                b.Model,
-                                SelectedConnector.Model.ConnectorType));
-                            addConnection(SelectedConnector, b, connectionModel);
-                            e.Handled = true;
+                            if (SelectedConnector.Model.ConnectorType != null || b.Model.ConnectorType != null)
+                            {
+                                if (WorkspaceModel.compatibleConnectors(SelectedConnector.Model, b.Model))
+                                {
+                                    ConnectionModel connectionModel = (ConnectionModel)Model.ModifyModel(new NewConnectionModelOperation(
+                                        SelectedConnector.Model,
+                                        b.Model,
+                                        SelectedConnector.Model.ConnectorType));
+                                    addConnection(SelectedConnector, b, connectionModel);
+                                    e.Handled = true;
+                                }
+                            }
                         }
                     }
                 }
