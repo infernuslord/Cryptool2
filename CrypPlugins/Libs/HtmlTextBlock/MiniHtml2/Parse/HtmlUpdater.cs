@@ -55,6 +55,7 @@ namespace QuickZip.MiniHtml2
                 try
                 {
                     link.NavigateUri = new Uri(currentState.HyperLink);
+                    link.RequestNavigate += new System.Windows.Navigation.RequestNavigateEventHandler(link_RequestNavigate);
                 }
                 catch
                 {
@@ -64,7 +65,18 @@ namespace QuickZip.MiniHtml2
             }
 			
 			return retVal;
-		}		
+		}
+
+        void link_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
+        {
+            if (e.Uri != null)
+            {
+                if (!e.Uri.IsAbsoluteUri)
+                    throw new InvalidOperationException("An absolute URI is required.");
+
+                System.Diagnostics.Process.Start(e.Uri.ToString());
+            }
+        }		
 		
 		public HtmlUpdater(TextBlock aBlock)
 		{
