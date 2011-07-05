@@ -24,6 +24,7 @@ using System.Reflection;
 using WorkspaceManager.Execution;
 using System.Threading;
 using System.Collections.ObjectModel;
+using System.Text;
 
 namespace WorkspaceManager.Model
 {
@@ -305,6 +306,18 @@ namespace WorkspaceManager.Model
                            (ConnectorType.FullName == "System.Int32" || ConnectorType.FullName == "System.Int64"))
                         {                            
                                 connectionModel.To.Data = new BigInteger((int)data);                                                            
+                        }
+                        //Cast from System.Byte[] -> System.String (UTF8)
+                        else if (connectionModel.To.ConnectorType.FullName == "System.String" && ConnectorType.FullName == "System.Byte[]")
+                        {
+                            var encoding = new UTF8Encoding();
+                            connectionModel.To.Data = encoding.GetString((byte[])data);
+                        }
+                        //Cast from System.String (UTF8) -> System.Byte[]
+                        else if (connectionModel.To.ConnectorType.FullName == "System.Byte[]" && ConnectorType.FullName == "System.String")
+                        {
+                            var encoding = new UTF8Encoding();
+                            connectionModel.To.Data = encoding.GetBytes((string)data);
                         }
                         else
                         {
