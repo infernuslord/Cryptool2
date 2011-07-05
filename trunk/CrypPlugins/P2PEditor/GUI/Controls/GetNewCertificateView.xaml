@@ -33,7 +33,7 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <Image Name="Erroricon" Width="25" Grid.Row="1" Source="..\..\images\error.png" Visibility="Hidden" HorizontalAlignment="Left"/>
-                    <TextBlock Name="MessageLabel" Foreground="Red" Margin="25,0,0,0" Grid.Row="1" Grid.ColumnSpan="2" TextWrapping="Wrap"/>
+                    <TextBlock Name="MessageLabel" Foreground="Red" Margin="35,0,0,0" Grid.Row="1" Grid.ColumnSpan="2" TextWrapping="Wrap"/>
                     </Grid>
             </Border>
             <Label Content="{Loc Username_}" Target="{Binding ElementName=UsernameField}" Grid.Row="2" Grid.Column="0" />
