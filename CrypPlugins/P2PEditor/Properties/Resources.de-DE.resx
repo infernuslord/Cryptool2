@@ -190,8 +190,7 @@
     <value>Passwort vergessen</value>
   </data>
   <data name="GetNewCertificate_RetrieveCertificate_" xml:space="preserve">
-    <value>Registration erfolgreich. Um ihren Account zu aktivieren schauen sie bitte
-nach der Aktivierungsemail in ihrem Postfach.</value>
+    <value>Um ihre Benutzerkonto zu aktivieren, öffnen Sie bitte die an Sie gesandte Aktivierungs-E-Mail.</value>
   </data>
   <data name="HttpTunnel_successfully_established_" xml:space="preserve">
     <value>HttpTunnel erfolgreich aufgebaut</value>
@@ -206,7 +205,7 @@ nach der Aktivierungsemail in ihrem Postfach.</value>
     <value>Neue Protokollversion. Bitte updaten sie CrypTool 2.0</value>
   </data>
   <data name="No_account_data_found_for_Try_to_download_from_server_" xml:space="preserve">
-    <value>Benutzerkonto '{0}' nicht gefunden.Versuche es vom Server zu laden...</value>
+    <value>Benutzerkonto '{0}' nicht gefunden. Versuche es vom Server zu laden...</value>
   </data>
   <data name="No_proxy_server_configured_Please_check_your_configuration_" xml:space="preserve">
     <value>Kein Proxy-Server eingegeben. Bitte überprüfen sie die Einstellungen.</value>
@@ -233,9 +232,8 @@ nach der Aktivierungsemail in ihrem Postfach.</value>
     <value>Bitte geben sie den Aktivierungscode ein, den wir ihnen per Email zugeschickt haben.</value>
   </data>
   <data name="Please_enter_the_data_below_" xml:space="preserve">
-    <value>Bitte füllen Sie die folgenden Felder aus um einen persönlichen
-CrypTool 2.0 Account zu erstellen. Dieser ist notwendig um
-am Verteilten Netzwerk teilnehmen zu können.</value>
+    <value>Bitte füllen Sie die folgenden Felder aus, um ihr CrypTool 2.0 Benutzerkonto zu erstellen. Das Benutzerkonto ist notwendig, um
+am Verteilten Berechnungsplattform teilzunehmen.</value>
   </data>
   <data name="ProxyErrorOccured_Proxy_Error___1__occured_" xml:space="preserve">
     <value>Proxy Error ({0}) occured:</value>
@@ -348,7 +346,7 @@ Emailadresse senden können.</value>
     <value>Teilnehmen</value>
   </data>
   <data name="Participating_" xml:space="preserve">
-    <value>Teilnehmen...</value>
+    <value>Bitte warten...</value>
   </data>
   <data name="Please_fill_all_fields_" xml:space="preserve">
     <value>Bitte alle Felder ausfüllen.</value>
