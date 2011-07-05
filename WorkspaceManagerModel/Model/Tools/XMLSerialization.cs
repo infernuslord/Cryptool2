@@ -529,8 +529,14 @@ namespace XMLSerialization
 
                                 double x = 0;
                                 double y = 0;
-                                double.TryParse(values[0], out x);
-                                double.TryParse(values[1], out y);
+                                System.Double.TryParse(RevertXMLSymbols(values[0].Replace(',', '.')),
+                                                                        NumberStyles.Number,
+                                                                        CultureInfo.CreateSpecificCulture("en-GB"),
+                                                                        out x);
+                                System.Double.TryParse(RevertXMLSymbols(values[1].Replace(',', '.')),
+                                                                        NumberStyles.Number,
+                                                                        CultureInfo.CreateSpecificCulture("en-GB"),
+                                                                        out y);
 
                                 System.Windows.Point result = new System.Windows.Point(x, y);
                                 newObject.GetType().GetField(RevertXMLSymbols(membername.InnerText),
