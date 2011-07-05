@@ -4,10 +4,12 @@
   <language culture="en"/>
   <language culture="de-DE"/>
 
-  <introduction lang="en">    
+  <introduction lang="en">
+    Least Significant Bit Steganography hides a bitstream by replacing bits in certain pixels of an image by bits of the message.
   </introduction>
 
-  <introduction lang="de-DE">    
+  <introduction lang="de-DE">
+    Least Significant Bit Steganografie versteckt einen Bitstrom, indem Bits bestimmter Pixel eines Bildes durch Bits der Nachricht ersetzt werden.
   </introduction>
 
   <usage lang="en">
