@@ -220,6 +220,16 @@ namespace Wizard
             get { return false; }
         }
 
+        public bool CanOpen
+        {
+            get { return false; }
+        }
+
+        public bool CanSave
+        {
+            get { return false; }
+        }
+
         public string CurrentFile
         {
             get { return null; }
