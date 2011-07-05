@@ -134,7 +134,7 @@ namespace WorkspaceManager
         /// 
         /// </summary>
         public event EditorSpecificPluginsChanged OnEditorSpecificPluginsChanged;
-
+        
         /// <summary>
         /// Current filename
         /// </summary>
@@ -512,6 +512,16 @@ namespace WorkspaceManager
         }
 
         public bool CanPrint
+        {
+            get { return true; }
+        }
+
+        public bool CanSave
+        {
+            get { return true; }
+        }
+
+        public bool CanOpen
         {
             get { return true; }
         }
