@@ -184,7 +184,7 @@ namespace XMLSerialization
                     if (value is System.Byte[])
                     {
                         byte[] bytes = (byte[])value;
-                        writer.WriteLine("<value><![CDATA[" + ReplaceXMLSymbols(Convert.ToBase64String(bytes)) + "]]></value>");
+                        writer.WriteLine("<value><![CDATA[" + Convert.ToBase64String(bytes) + "]]></value>");
                     }                   
                     else if (value is System.Collections.IList)
                     {
@@ -215,7 +215,7 @@ namespace XMLSerialization
                                     }
                                     else
                                     {
-                                        writer.WriteLine("<value><![CDATA[" + o+ "]]></value>");
+                                        writer.WriteLine("<value><![CDATA[" + o + "]]></value>");
                                     }
                                 }
                                 else

@@ -72,7 +72,7 @@ namespace WorkspaceManager.Model
         {
             get
             {
-                if (this.ConnectionTypeName != null)
+                if (ConnectionTypeName != null && !ConnectionTypeName.Equals(""))
                 {
                     if (ConnectionTypeName.Equals("System.Numerics.BigInteger"))
                     {
@@ -84,12 +84,19 @@ namespace WorkspaceManager.Model
                     }
                     Assembly assembly = Assembly.Load(ConnectionTypeAssemblyName);
                     Type t = assembly.GetType(ConnectionTypeName);
-                    return t;
+                    if (t != null)
+                    {
+                        return t;
+                    }
                 }
-                else
-                {
-                    return null;
-                }
+
+                //we do not know the type. Maybe the developer changed it, so we try to get 
+                //it from the on of the connectors
+                var type = From.ConnectorType;
+                ConnectionTypeName = type.FullName;
+                ConnectionTypeAssemblyName = type.Assembly.GetName().Name;
+                return type;
+                
             }
             internal set
             {

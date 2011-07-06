@@ -88,7 +88,7 @@ namespace WorkspaceManager.Model
         {
             get
             {
-                if (this.ConnectorTypeName != null)
+                if (ConnectorTypeName != null && !ConnectorTypeName.Equals(""))
                 {
                     if (ConnectorTypeName.Equals("System.Numerics.BigInteger"))
                     {
@@ -98,15 +98,31 @@ namespace WorkspaceManager.Model
                     {
                         return typeof(System.Numerics.BigInteger[]);
                     }
-                    Assembly assembly = Assembly.Load(ConnectorTypeAssemblyName);
+
+                    Assembly assembly = Assembly.Load(ConnectorTypeAssemblyName);                    
                     Type t = assembly.GetType(ConnectorTypeName);
-                    return t;
-                                        
+                    if (t != null)
+                    {
+                        return t;
+                    }                                        
                 }
-                else
+                
+                //we do not know the type. Maybe the developer changed it, so we try to get 
+                //it from the plugin
+                foreach (var property in this.PluginModel.Plugin.GetProperties())
                 {
-                    return null;
+                    if (property.PropertyName.Equals(Name))
+                    {
+                        var type = property.PropertyInfo.PropertyType;
+                        ConnectorTypeName = type.FullName;
+                        ConnectorTypeAssemblyName = type.Assembly.GetName().Name;
+                        return type;
+                    }
                 }
+
+                //we didnt get the type of this connector model so we return null
+                return null;
+                
             }
             internal set
             {
@@ -286,7 +302,7 @@ namespace WorkspaceManager.Model
 
                     List<ConnectionModel> outputConnections = this.OutputConnections;
                     foreach (ConnectionModel connectionModel in outputConnections)
-                    {
+                    {                       
                         //Cast from BigInteger -> Integer
                         if ((connectionModel.To.ConnectorType.FullName == "System.Int32" || connectionModel.To.ConnectorType.FullName == "System.Int64") &&
                            ConnectorType.FullName == "System.Numerics.BigInteger")
