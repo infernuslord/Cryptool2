@@ -52,10 +52,10 @@ namespace WorkspaceManager.View.BinVisual
                 if (Model == null)
                     return "No Data";
 
-                if (Model.Data == null)
+                if (Model.LastData == null)
                     return "No Data";
 
-                if (Model.Data is Byte[])
+                if (Model.LastData is Byte[])
                 {
                     StringBuilder builder = new StringBuilder();
                     Byte[] b = (Byte[])Model.Data;
@@ -64,7 +64,7 @@ namespace WorkspaceManager.View.BinVisual
                     return builder.ToString();
                 }
 
-                return Model.Data.ToString();
+                return Model.LastData.ToString();
             }
         }
         #endregion
