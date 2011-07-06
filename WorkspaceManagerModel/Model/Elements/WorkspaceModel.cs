@@ -666,6 +666,12 @@ namespace WorkspaceManager.Model
                     return false;
                 }
             }
+
+            // wander 2011-07-06: workaround for #280. May be removed safely in future.
+            if (connectorModelA.ConnectorType == null)
+                connectorModelA.ConnectorType = typeof(System.Object);
+            if (connectorModelB.ConnectorType == null)
+                connectorModelB.ConnectorType = typeof(System.Object);
                
             if (connectorModelA.ConnectorType.Equals(connectorModelB.ConnectorType)
                 || connectorModelA.ConnectorType.FullName == "System.Object"
