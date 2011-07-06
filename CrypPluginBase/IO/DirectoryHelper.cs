@@ -27,7 +27,7 @@ namespace Cryptool.PluginBase.IO
         private const string crypTool2 = "CrypTool2";
         private const string crypPlugins = "CrypPlugins";
         private const string tempFiles = "Temp";
-        private const string samples = "ProjectSamples";
+        private const string samples = "Templates";
 
         public static string DirectoryCrypPlugins
         {

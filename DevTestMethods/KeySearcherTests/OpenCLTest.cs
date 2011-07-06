@@ -54,7 +54,7 @@ namespace Tests.KeySearcherTests
 
         private WorkspaceModel LoadAndInitKeySearcher(ref KeySearcher.KeySearcher keysearcher)
         {
-            var file = "..\\..\\..\\ProjectSamples\\WorkspaceManagerSamples\\AES_Analyzer_Entropy.cwm";
+            var file = "..\\..\\..\\Templates\\Cryptanalysis\\Modern\\Symmetric\\AES_Analyzer_Entropy.cwm";
             file = Path.Combine(Directory.GetCurrentDirectory(), file);
             
             var model = ModelPersistance.loadModel(file);
