@@ -52,6 +52,7 @@ namespace Cryptool.PluginBase
                 typeof(Cryptool.PluginBase.IO.IIOMisc).FullName,
                 typeof(Cryptool.PluginBase.IO.IOutput).FullName,
                 typeof(Cryptool.PluginBase.IO.IThroughput).FullName,
+                typeof(Cryptool.PluginBase.Steganography.ISteganography).FullName,
                 typeof(Cryptool.PluginBase.Tool.ITool).FullName };
 
         public static event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;

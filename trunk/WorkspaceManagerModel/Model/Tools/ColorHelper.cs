@@ -21,6 +21,7 @@ using Cryptool.PluginBase.Cryptography;
 using Cryptool.PluginBase.Analysis;
 using Cryptool.PluginBase.Generator;
 using System.IO;
+using Cryptool.PluginBase.Steganography;
 
 namespace WorkspaceManager.Model
 {
@@ -246,6 +247,19 @@ namespace WorkspaceManager.Model
             }
         }
 
+        public static Color SteganographyColor
+        {
+            get
+            {
+                return DrawingToMedia(WorkspaceManagerModel.Properties.Settings.Default.SteganographyColor);
+            }
+            set
+            {
+                WorkspaceManagerModel.Properties.Settings.Default.SteganographyColor = MediaToDrawing(value);
+                WorkspaceManagerModel.Properties.Settings.Default.Save();
+            }
+        }
+
         public static Color DefaultColor
         {
             get
@@ -333,6 +347,11 @@ namespace WorkspaceManager.Model
                 if (type.GetInterface(typeof(IAnalysisMisc).Name) != null)
                 {
                     return AnalysisMiscColor;
+                }
+
+                if (type.GetInterface(typeof(ISteganography).Name) != null)
+                {
+                    return SteganographyColor;
                 }
 
                 return DefaultColor;
