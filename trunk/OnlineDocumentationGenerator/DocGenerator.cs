@@ -17,7 +17,7 @@ namespace OnlineDocumentationGenerator
 {
     public class DocGenerator
     {
-        public static string TemplateDirectory = "ProjectSamples";
+        public static string TemplateDirectory = "Templates";
         public static Dictionary<string, List<string>> RelevantComponentToTemplatesMap = new Dictionary<string, List<string>>();
         
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;

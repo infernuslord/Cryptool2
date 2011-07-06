@@ -170,7 +170,7 @@
   <PropertyGroup>
     <PreBuildEvent>xcopy  /Y "..\..\AppReferences" "$(TargetDir)AppReferences\"
 xcopy  /S /Y "..\..\AppSpecialReferences" "$(TargetDir)"
-xcopy  /E /Y "..\..\ProjectSamples" "$(TargetDir)ProjectSamples\"
+xcopy  /E /Y "..\..\Templates" "$(TargetDir)Templates\"
 </PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
