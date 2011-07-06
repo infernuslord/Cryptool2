@@ -240,6 +240,12 @@ namespace WorkspaceManager.Model
         public object Data = null;
 
         /// <summary>
+        /// LastData of this Connector
+        /// </summary>
+        [NonSerialized]
+        public object LastData = null;
+
+        /// <summary>
         /// Name of the represented Property of the IPlugin of this ConnectorModel
         /// </summary>
         public string PropertyName { get; internal set; }
@@ -291,6 +297,7 @@ namespace WorkspaceManager.Model
                             property = sender.GetType().GetProperty(propertyChangedEventArgs.PropertyName);
                         }
                         data = property.GetValue(sender, null);
+                        
                     }
 
                     if (data == null)
@@ -298,7 +305,8 @@ namespace WorkspaceManager.Model
                         return;
                     }
 
-                    this.Data = data;
+                    Data = data;
+                    LastData = data;
 
                     List<ConnectionModel> outputConnections = this.OutputConnections;
                     foreach (ConnectionModel connectionModel in outputConnections)
@@ -310,6 +318,7 @@ namespace WorkspaceManager.Model
                             try
                             {
                                 connectionModel.To.Data = (int)((BigInteger)data);
+                                connectionModel.To.LastData = (int)((BigInteger)data);
                             }
                             catch (OverflowException)
                             {
@@ -321,23 +330,28 @@ namespace WorkspaceManager.Model
                         else if (connectionModel.To.ConnectorType.FullName == "System.Numerics.BigInteger" &&
                            (ConnectorType.FullName == "System.Int32" || ConnectorType.FullName == "System.Int64"))
                         {                            
-                                connectionModel.To.Data = new BigInteger((int)data);                                                            
+                                connectionModel.To.Data = new BigInteger((int)data);
+                                connectionModel.To.LastData = new BigInteger((int)data);
+                                                        
                         }
                         //Cast from System.Byte[] -> System.String (UTF8)
                         else if (connectionModel.To.ConnectorType.FullName == "System.String" && ConnectorType.FullName == "System.Byte[]")
                         {
                             var encoding = new UTF8Encoding();
                             connectionModel.To.Data = encoding.GetString((byte[])data);
+                            connectionModel.To.LastData = encoding.GetString((byte[])data);
                         }
                         //Cast from System.String (UTF8) -> System.Byte[]
                         else if (connectionModel.To.ConnectorType.FullName == "System.Byte[]" && ConnectorType.FullName == "System.String")
                         {
                             var encoding = new UTF8Encoding();
                             connectionModel.To.Data = encoding.GetBytes((string)data);
+                            connectionModel.To.LastData = encoding.GetBytes((string)data);
                         }
                         else
                         {
                             connectionModel.To.Data = data;
+                            connectionModel.To.LastData = data;
                         }
                         connectionModel.To.HasData = true;
                         connectionModel.Active = true;

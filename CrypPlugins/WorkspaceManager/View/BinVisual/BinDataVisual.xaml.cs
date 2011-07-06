@@ -137,16 +137,16 @@ namespace WorkspaceManager.View.BinVisual
                 if(model.Data == null) 
                     return "No Data";
 
-                if (model.Data is Byte[])
+                if (model.LastData is Byte[])
                 {
                     StringBuilder builder = new StringBuilder();
-                    Byte[] b = (Byte[])model.Data;
+                    Byte[] b = (Byte[])model.LastData;
                     foreach (var e in b)
                         builder.Append(e);
                     return builder.ToString();
                 }
 
-                return model.Data.ToString();
+                return model.LastData.ToString();
             } 
         }
         public string ConnectorName { get; private set; }

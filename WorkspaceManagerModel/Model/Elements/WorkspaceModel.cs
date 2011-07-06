@@ -484,6 +484,7 @@ namespace WorkspaceManager.Model
             {
                 connector.HasData = false;
                 connector.Data = null;
+                connector.LastData = null;
             }
         }
 
