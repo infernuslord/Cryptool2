@@ -56,5 +56,8 @@
     <Setting Name="BigIntegerColor" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)">Aqua</Value>
     </Setting>
+    <Setting Name="SteganographyColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">YellowGreen</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -157,6 +157,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resource.resx</DependentUpon>
     </Compile>
+    <Compile Include="Steganography\ISteganography.cs" />
     <Compile Include="Tool\ITool.cs" />
     <Compile Include="IO\IInput.cs" />
     <Compile Include="IO\IIOMisc.cs" />
@@ -211,6 +212,7 @@
   <ItemGroup>
     <None Include="CT2_Key.snk" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
