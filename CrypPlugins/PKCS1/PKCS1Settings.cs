@@ -10,8 +10,6 @@ namespace PKCS1
     {
         private bool hasChanges = false;
 
-        #region ISettings Member
-
         bool ISettings.HasChanges
         {
             get
@@ -24,16 +22,6 @@ namespace PKCS1
             }
         }
 
-        #endregion
-
-        #region INotifyPropertyChanged Member
-
-        event System.ComponentModel.PropertyChangedEventHandler System.ComponentModel.INotifyPropertyChanged.PropertyChanged
-        {
-            add { throw new NotImplementedException(); }
-            remove { throw new NotImplementedException(); }
-        }
-
-        #endregion
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
     }
 }
