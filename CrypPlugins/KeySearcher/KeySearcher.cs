@@ -71,6 +71,11 @@ namespace KeySearcher
 
         public bool IsKeySearcherRunning;
         private KeyQualityHelper keyQualityHelper;
+
+        private DateTime defaultstart = DateTime.MinValue;
+        private string username;
+        private long maschineid;
+        private bool statisticInitialized = false;
         
         // GUI
         private readonly P2PQuickWatchPresentation p2PQuickWatchPresentation;
@@ -292,33 +297,43 @@ namespace KeySearcher
 
         public KeySearcher()
         {
-            IsKeySearcherRunning = false;
-            
-            if (OpenCL.NumberOfPlatforms > 0)
+            try
             {
-                oclManager = new OpenCLManager();
-                oclManager.AttemptUseBinaries = false;
-                oclManager.AttemptUseSource = true;
-                oclManager.RequireImageSupport = false;
-                var directoryName = Path.Combine(DirectoryHelper.DirectoryLocalTemp, "KeySearcher");
-                oclManager.BinaryPath = Path.Combine(directoryName, "openclbin");
-                oclManager.BuildOptions = "-cl-opt-disable";
-                oclManager.CreateDefaultContext(0, DeviceType.ALL);
+                IsKeySearcherRunning = false;
+
+                username = P2PSettings.Default.PeerName;
+                maschineid = Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetID();
+
+                if (OpenCL.NumberOfPlatforms > 0)
+                {
+                    oclManager = new OpenCLManager();
+                    oclManager.AttemptUseBinaries = false;
+                    oclManager.AttemptUseSource = true;
+                    oclManager.RequireImageSupport = false;
+                    var directoryName = Path.Combine(DirectoryHelper.DirectoryLocalTemp, "KeySearcher");
+                    oclManager.BinaryPath = Path.Combine(directoryName, "openclbin");
+                    oclManager.BuildOptions = "-cl-opt-disable";
+                    oclManager.CreateDefaultContext(0, DeviceType.ALL);
+                }
+
+                settings = new KeySearcherSettings(this, oclManager);
+
+                QuickWatchPresentation = new QuickWatch();
+                localQuickWatchPresentation = ((QuickWatch)QuickWatchPresentation).LocalQuickWatchPresentation;
+                p2PQuickWatchPresentation = ((QuickWatch)QuickWatchPresentation).P2PQuickWatchPresentation;
+                p2PQuickWatchPresentation.UpdateSettings(this, settings);
+
+                keyPoolTreePresentation = ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.KeyPoolTreePresentation;
+
+                settings.PropertyChanged += SettingsPropertyChanged;
+                ((QuickWatch)QuickWatchPresentation).IsOpenCLEnabled = (settings.DeviceSettings.Count(x => x.UseDevice) > 0);
+
+                localBruteForceStopwatch = new Stopwatch();
             }
-
-            settings = new KeySearcherSettings(this, oclManager);
-            
-            QuickWatchPresentation = new QuickWatch();
-            localQuickWatchPresentation = ((QuickWatch) QuickWatchPresentation).LocalQuickWatchPresentation;
-            p2PQuickWatchPresentation = ((QuickWatch)QuickWatchPresentation).P2PQuickWatchPresentation;
-            p2PQuickWatchPresentation.UpdateSettings(this, settings);
-
-            keyPoolTreePresentation = ((QuickWatch) QuickWatchPresentation).StatisticsPresentation.KeyPoolTreePresentation;
-
-            settings.PropertyChanged += SettingsPropertyChanged;
-            ((QuickWatch)QuickWatchPresentation).IsOpenCLEnabled = (settings.DeviceSettings.Count(x => x.UseDevice) > 0);
-
-            localBruteForceStopwatch = new Stopwatch();
+            catch (Exception ex)
+            {
+                GuiLogMessage(string.Format("Error trying to initialize KeySearcher component: {0}", ex.Message), NotificationLevel.Error);
+            }
         }
 
         void SettingsPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -1192,9 +1207,20 @@ namespace KeySearcher
                 currentExternalJobGuid = Guid.NewGuid();
             }
 
-            Int64 id = Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetID(clientName);
-            String hostname = MachineName.MachineNameToUse + "/" + clientName;
+            Int64 id = -1;
+            try
+            {
+                id = Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetID(clientName);
+                
+            }
+            catch (Exception ex)
+            {
+                GuiLogMessage(string.Format("Error trying to calculate an unique ID: {0}", ex.Message), NotificationLevel.Error);
+                this.Stop();
+                return;
+            }
 
+            String hostname = MachineName.MachineNameToUse + "/" + clientName;
             ExternalClientHostname = hostname;
             ExternaClientId = id;
 
@@ -1765,16 +1791,11 @@ namespace KeySearcher
         {
             return machineHierarchy.Keys.Aggregate<long, BigInteger>(0, (current, mid) => current + machineHierarchy[mid].Sum);
         }
-
-        private static DateTime defaultstart = DateTime.MinValue;
-        private static string username = P2PSettings.Default.PeerName;
-        private static long maschineid = Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetID();
-        private bool statisticInitialized = false;
-
+        
         /// <summary>
         /// Enhancing the user information to the found key/value pairs in this calculation
         /// </summary>
-        private static void EnhanceUserName(ref ValueKey vk)
+        private void EnhanceUserName(ref ValueKey vk)
         {
             DateTime chunkstart = DateTime.UtcNow;
             username = P2PSettings.Default.PeerName;

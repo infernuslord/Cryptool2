@@ -97,25 +97,32 @@ namespace Cryptool.Plugins.QuadraticSieve
         /// </summary>
         public QuadraticSieve()
         {
-            Settings = new QuadraticSieveSettings(this);
-
-            directoryName = Path.Combine(DirectoryHelper.DirectoryLocalTemp, "msieve");
-            if (!Directory.Exists(directoryName)) Directory.CreateDirectory(directoryName);
-
-            QuickWatchPresentation = new QuadraticSievePresentation();
-
-            peerToPeer = new PeerToPeer(quadraticSieveQuickWatchPresentation, newRelationPackageEvent);
-            peerToPeerStatusUpdater = new PeerToPeerStatusUpdater(peerToPeer);
-            peerToPeer.P2PWarning += new PeerToPeer.P2PWarningHandler(peerToPeer_P2PWarning);
-            
-            quadraticSieveQuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            try
             {
-                quadraticSieveQuickWatchPresentation.peer2peer.Visibility = settings.UsePeer2Peer ? Visibility.Visible : Visibility.Collapsed;                
-                quadraticSieveQuickWatchPresentation.timeLeft.Content = "-";
-                quadraticSieveQuickWatchPresentation.endTime.Content = "-";
-                quadraticSieveQuickWatchPresentation.coresUsed.Content = "-";
+                Settings = new QuadraticSieveSettings(this);
+
+                directoryName = Path.Combine(DirectoryHelper.DirectoryLocalTemp, "msieve");
+                if (!Directory.Exists(directoryName)) Directory.CreateDirectory(directoryName);
+
+                QuickWatchPresentation = new QuadraticSievePresentation();
+
+                peerToPeer = new PeerToPeer(quadraticSieveQuickWatchPresentation, newRelationPackageEvent);
+                peerToPeerStatusUpdater = new PeerToPeerStatusUpdater(peerToPeer);
+                peerToPeer.P2PWarning += new PeerToPeer.P2PWarningHandler(peerToPeer_P2PWarning);
+
+                quadraticSieveQuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    quadraticSieveQuickWatchPresentation.peer2peer.Visibility = settings.UsePeer2Peer ? Visibility.Visible : Visibility.Collapsed;
+                    quadraticSieveQuickWatchPresentation.timeLeft.Content = "-";
+                    quadraticSieveQuickWatchPresentation.endTime.Content = "-";
+                    quadraticSieveQuickWatchPresentation.coresUsed.Content = "-";
+                }
+                , null);
             }
-            , null);
+            catch (Exception ex)
+            {
+                GuiLogMessage(string.Format("Error trying to setup quadratic sieve component: {0}", ex.Message), NotificationLevel.Error);
+            }
         }
 
         /// <summary>
