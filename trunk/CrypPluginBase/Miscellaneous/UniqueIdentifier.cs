@@ -15,31 +15,25 @@ namespace Cryptool.PluginBase.Miscellaneous
         /// <summary>
         /// Returns a globally unique identifier for a user on a computer.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Unique ID</returns>
+        /// <exception cref="Exception">This method can throw any kind of exception.</exception>
         public static Int64 GetID()
         {
             if (id.HasValue)
                 return id.Value;
 
             string username = WindowsIdentity.GetCurrent().Name;
-            string cpuids = "";
 
-            try
+            ManagementClass man = new ManagementClass("win32_processor");
+            ManagementObjectCollection moc = man.GetInstances();
+            string cpuids = "";
+            foreach (ManagementObject mob in moc)
             {
-                ManagementClass man = new ManagementClass("win32_processor");
-                ManagementObjectCollection moc = man.GetInstances();
-                foreach (ManagementObject mob in moc)
+                var cpuid = mob.Properties["processorID"].Value;
+                if (cpuid != null)
                 {
-                    var cpuid = mob.Properties["processorID"].Value;
-                    if (cpuid != null)
-                    {
-                        cpuids += cpuid.ToString();
-                    }
+                    cpuids += cpuid.ToString();
                 }
-            }
-            catch (Exception ex)
-            {
-                //Do nothing
             }
 
 
@@ -58,7 +52,8 @@ namespace Cryptool.PluginBase.Miscellaneous
         /// to this computer.
         /// </summary>
         /// <param name="externalClient"></param>
-        /// <returns></returns>
+        /// <returns>Unique ID</returns>
+        /// <exception cref="Exception">This method can throw any kind of exception.</exception>
         public static Int64 GetID(String externalClient)
         {
             Int64 localId = GetID();
@@ -73,30 +68,17 @@ namespace Cryptool.PluginBase.Miscellaneous
 
         /// <summary>
         /// Returns an identifier that depends on the MAC addresses of this system
-        /// </summary>        
+        /// </summary>
+        /// <exception cref="Exception">This method can throw any kind of exception.</exception>
         private static string GetMacIdentifier()
         {
             string MacID = "";
-            try
-            {
-                ManagementClass MC = new ManagementClass("Win32_NetworkAdapter");
-                ManagementObjectCollection MOCol = MC.GetInstances();
-                foreach (ManagementObject MO in MOCol)
-                {
-                    if (MO != null)
-                    {
-                        if (MO["MacAddress"] != null)
-                        {
-                            MacID += MO["MACAddress"].ToString();
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                //Do nothing
-            }
-
+            ManagementClass MC = new ManagementClass("Win32_NetworkAdapter");
+            ManagementObjectCollection MOCol = MC.GetInstances();
+            foreach (ManagementObject MO in MOCol)
+                if (MO != null)
+                    if (MO["MacAddress"] != null)
+                        MacID += MO["MACAddress"].ToString();
             return MacID;
         }
 
