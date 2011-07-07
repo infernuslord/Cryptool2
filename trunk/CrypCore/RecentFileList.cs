@@ -80,7 +80,13 @@ namespace Cryptool.Core
             if (k.GetValue(valueKey) != null && k.GetValueKind(valueKey) == RegistryValueKind.MultiString)
             {
                 string[] list = (string[])(k.GetValue(valueKey));
-                recentFiles = new List<string>(list);
+                foreach (string file in list)
+                {
+                    if (File.Exists(file))
+                    {
+                        recentFiles.Add(file);
+                    }
+                }
             }
         }
     }

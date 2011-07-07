@@ -51,13 +51,16 @@ namespace Startcenter
 
         private void FillTemplatesNavigationPane(DirectoryInfo templateDir, TreeView treeView)
         {
-
             CTTreeViewItem item = new CTTreeViewItem(templateDir.Name, true);
             treeView.Items.Add(item);
-            foreach (var subDirectory in templateDir.GetDirectories())
-                handleTemplateDirectories(subDirectory, item);
+            if (templateDir.Exists)
+            {
+                foreach (var subDirectory in templateDir.GetDirectories())
+                    handleTemplateDirectories(subDirectory, item);
 
-            MakeTemplateInformation(templateDir, item);
+                MakeTemplateInformation(templateDir, item);
+            }
+
             item.IsExpanded = true;
         }
 
