@@ -191,12 +191,12 @@
     <value>Das Sieb des Atkin</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
-    <value>Primes</value>
+    <value>Die Welt der Primzahlen</value>
   </data>
   <data name="PluginDescriptionURL" xml:space="preserve">
     <value />
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Primes</value>
+    <value>Properties and methods of prime numbers.</value>
   </data>
 </root>

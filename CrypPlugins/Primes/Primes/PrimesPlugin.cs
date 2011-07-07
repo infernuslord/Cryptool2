@@ -36,7 +36,7 @@ namespace Primes
 
     public System.Windows.Controls.UserControl QuickWatchPresentation
     {
-      get { throw new NotImplementedException(); }
+        get { return null; }
     }
 
     public void PreExecution()
