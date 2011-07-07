@@ -17,7 +17,7 @@
             <Label.Content>
                 <TextBlock TextWrapping="Wrap">
                     Welcome to <Bold>CrypTool 2.0</Bold>.
-                    A good way to start is either to click on the wizard button (to get a guided tour) or to load one of the pre-defined templates (which demonstrate the functionality of CrypTool 2 in well-defined cryptographic scenarios).
+                    A good way to start is either to click on the wizard button in the section “Main Functions” (to get a guided tour) or to load one of the pre-defined templates (which demonstrate the functionality of CrypTool 2 in well-defined cryptographic scenarios).
                 </TextBlock>
             </Label.Content>
         </Label>
