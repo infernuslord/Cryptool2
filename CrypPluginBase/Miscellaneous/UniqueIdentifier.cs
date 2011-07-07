@@ -22,17 +22,24 @@ namespace Cryptool.PluginBase.Miscellaneous
                 return id.Value;
 
             string username = WindowsIdentity.GetCurrent().Name;
-
-            ManagementClass man = new ManagementClass("win32_processor");
-            ManagementObjectCollection moc = man.GetInstances();
             string cpuids = "";
-            foreach (ManagementObject mob in moc)
+
+            try
             {
-                var cpuid = mob.Properties["processorID"].Value;
-                if (cpuid != null)
+                ManagementClass man = new ManagementClass("win32_processor");
+                ManagementObjectCollection moc = man.GetInstances();
+                foreach (ManagementObject mob in moc)
                 {
-                    cpuids += cpuid.ToString();
+                    var cpuid = mob.Properties["processorID"].Value;
+                    if (cpuid != null)
+                    {
+                        cpuids += cpuid.ToString();
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                //Do nothing
             }
 
 
@@ -70,12 +77,26 @@ namespace Cryptool.PluginBase.Miscellaneous
         private static string GetMacIdentifier()
         {
             string MacID = "";
-            ManagementClass MC = new ManagementClass("Win32_NetworkAdapter");
-            ManagementObjectCollection MOCol = MC.GetInstances();
-            foreach (ManagementObject MO in MOCol)
-                if (MO != null)
-                    if (MO["MacAddress"] != null)
-                        MacID += MO["MACAddress"].ToString();
+            try
+            {
+                ManagementClass MC = new ManagementClass("Win32_NetworkAdapter");
+                ManagementObjectCollection MOCol = MC.GetInstances();
+                foreach (ManagementObject MO in MOCol)
+                {
+                    if (MO != null)
+                    {
+                        if (MO["MacAddress"] != null)
+                        {
+                            MacID += MO["MACAddress"].ToString();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                //Do nothing
+            }
+
             return MacID;
         }
 
