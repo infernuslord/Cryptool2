@@ -75,7 +75,7 @@ namespace Cryptool.PluginBase
         {
             get
             {
-                if (!MultiLanguage)
+                if (controlValues == null || !MultiLanguage)
                     return controlValues;
 
                 if (translatedControlValues != null)
