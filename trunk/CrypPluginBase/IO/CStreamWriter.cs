@@ -98,10 +98,9 @@ namespace Cryptool.PluginBase.IO
 
         /// <summary>
         /// Init CStreamWriter with an existing file.
-        /// Though the file is not modified we acquire a write lock to ensure it does not change while
-        /// readers are accessing it.
+        /// We acquire a read lock to ensure the file is not modified while we're accessing it.
         /// Will throw exception if IO goes wrong.
-        /// Stream is auto-closed after initialization (can't write any more data).
+        /// Stream is auto-closed after initialization (can't write any data).
         /// </summary>
         /// <param name="filePath">Path to existing file, already filled with data</param>
         public CStreamWriter(string filePath)
@@ -112,9 +111,10 @@ namespace Cryptool.PluginBase.IO
                 throw new FileNotFoundException();
             }
 
-            // attempt to get exclusive write lock
+            // attempt to get shared read lock
+            // (this was a write lock previously but was changed due to #283)
             _filePath = filePath;
-            _writeStream = new FileStream(_filePath, FileMode.Open, FileAccess.ReadWrite, FileShare.Read);
+            _writeStream = new FileStream(_filePath, FileMode.Open, FileAccess.Read, FileShare.Read);
             _writeStream.Seek(_writeStream.Length, SeekOrigin.Begin);
             Close();
 
@@ -217,16 +217,6 @@ namespace Cryptool.PluginBase.IO
         #endregion
 
         #region Public methods
-
-        /// <summary>
-        /// Call this function to assure the underlying file lock is properly released. Simply calling the 
-        /// Close() function (see below) might eventually lead to errors due to unreleased file locks.
-        /// </summary>
-        public void CloseAndUnlockFile()
-        {
-            _writeStream.Close();
-            Close();
-        }
 
         /// <summary>
         /// You MUST call Close() when you're done writing or the readers will be stuck in an infinite loop.
