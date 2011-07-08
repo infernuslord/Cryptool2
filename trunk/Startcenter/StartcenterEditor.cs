@@ -239,7 +239,7 @@ namespace StartCenter
 
         public bool CanOpen
         {
-            get { return false; }
+            get { return true; }
         }
 
         public bool CanSave
