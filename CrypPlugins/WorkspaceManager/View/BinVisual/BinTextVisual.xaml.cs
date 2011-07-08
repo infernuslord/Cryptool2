@@ -138,6 +138,7 @@ namespace WorkspaceManager.View.BinVisual
             Position = model.GetPosition();
             Model = model;
             Model.loadRTB(mainRTB);
+            Model.UpdateableView = this;
         } 
         #endregion
 
