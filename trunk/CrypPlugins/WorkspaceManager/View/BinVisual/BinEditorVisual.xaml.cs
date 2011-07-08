@@ -472,24 +472,25 @@ namespace WorkspaceManager.View.BinVisual
                         VisualCollection.Add(plugin);
                 }
             }
-            //else if (args.EffectedModelElement is ImageModel)
-            //{
-            //    if (((ImageModel)args.EffectedModelElement).UpdateableView != null)
-            //    {
-            //        ImageWrapper imgWrapper = (ImageWrapper)((ImageModel)args.EffectedModelElement).UpdateableView;
-            //        //if (!VisualCollection.Contains(plugin))
-            //            //VisualCollection.Add(plugin);
-            //    }
-            //}
-            //else if (args.EffectedModelElement is TextModel)
-            //{
-            //    if (((TextModel)args.EffectedModelElement).UpdateableView != null)
-            //    {
-            //        TextInputWrapper txtInputWrapper = (TextInputWrapper)((TextModel)args.EffectedModelElement).UpdateableView;
-            //        //if (!VisualCollection.Contains(plugin))
-            //            //VisualCollection.Add(plugin);
-            //    }
-            //}
+            else if (args.EffectedModelElement is ImageModel)
+            {
+                if (((ImageModel)args.EffectedModelElement).UpdateableView != null)
+                {
+
+                    BinImageVisual img = (BinImageVisual)((ImageModel)args.EffectedModelElement).UpdateableView;
+                    if (!VisualCollection.Contains(img))
+                        VisualCollection.Add(img);
+                }
+            }
+            else if (args.EffectedModelElement is TextModel)
+            {
+                if (((TextModel)args.EffectedModelElement).UpdateableView != null)
+                {
+                    BinTextVisual txt = (BinTextVisual)((TextModel)args.EffectedModelElement).UpdateableView;
+                    if (!VisualCollection.Contains(txt))
+                        VisualCollection.Add(txt);
+                }
+            }
         }
 
         /// <summary>
@@ -527,24 +528,22 @@ namespace WorkspaceManager.View.BinVisual
                     }
                 }
             }
-            //else if (args.EffectedModelElement is ImageModel)
-            //{
-            //    if (((ImageModel)args.EffectedModelElement).UpdateableView != null)
-            //    {
-            //        ImageWrapper imgWrapper = (ImageWrapper)((ImageModel)args.EffectedModelElement).UpdateableView;
-            //        imgWrapper.Position = args.NewPosition;
-            //        imgWrapper.RenderTransform = new TranslateTransform(imgWrapper.Position.X, imgWrapper.Position.Y);
-            //    }
-            //}
-            //else if (args.EffectedModelElement is TextModel)
-            //{
-            //    if (((TextModel)args.EffectedModelElement).UpdateableView != null)
-            //    {
-            //        TextInputWrapper txtWrapper = (TextInputWrapper)((TextModel)args.EffectedModelElement).UpdateableView;
-            //        txtWrapper.Position = args.NewPosition;
-            //        txtWrapper.RenderTransform = new TranslateTransform(txtWrapper.Position.X, txtWrapper.Position.Y);
-            //    }
-            //}
+            else if (args.EffectedModelElement is ImageModel)
+            {
+                if (((ImageModel)args.EffectedModelElement).UpdateableView != null)
+                {
+                    BinImageVisual img = (BinImageVisual)((ImageModel)args.EffectedModelElement).UpdateableView;
+                    img.Position = args.NewPosition;
+                }
+            }
+            else if (args.EffectedModelElement is TextModel)
+            {
+                if (((TextModel)args.EffectedModelElement).UpdateableView != null)
+                {
+                    BinTextVisual txt = (BinTextVisual)((TextModel)args.EffectedModelElement).UpdateableView;
+                    txt.Position = args.NewPosition;
+                }
+            }
         }
 
         /// <summary>
@@ -568,24 +567,24 @@ namespace WorkspaceManager.View.BinVisual
                     pluginContainerView.WindowHeight = args.NewHeight;
                 }
             }
-            //else if (args.EffectedModelElement is ImageModel)
-            //{
-            //    if (((ImageModel)args.EffectedModelElement).UpdateableView != null)
-            //    {
-            //        ImageWrapper imgWrapper = (ImageWrapper)((ImageModel)args.EffectedModelElement).UpdateableView;
-            //        imgWrapper.Width = args.NewWidth;
-            //        imgWrapper.Height = args.NewHeight;
-            //    }
-            //}
-            //else if (args.EffectedModelElement is TextModel)
-            //{
-            //    if (((TextModel)args.EffectedModelElement).UpdateableView != null)
-            //    {
-            //        TextInputWrapper txtWrapper = (TextInputWrapper)((TextModel)args.EffectedModelElement).UpdateableView;
-            //        txtWrapper.Width = args.NewWidth;
-            //        txtWrapper.Height = args.NewHeight;
-            //    }
-            //}
+            else if (args.EffectedModelElement is ImageModel)
+            {
+                if (((ImageModel)args.EffectedModelElement).UpdateableView != null)
+                {
+                    BinImageVisual imgWrapper = (BinImageVisual)((ImageModel)args.EffectedModelElement).UpdateableView;
+                    imgWrapper.WindowWidth = args.NewWidth;
+                    imgWrapper.WindowHeight = args.NewHeight;
+                }
+            }
+            else if (args.EffectedModelElement is TextModel)
+            {
+                if (((TextModel)args.EffectedModelElement).UpdateableView != null)
+                {
+                    BinTextVisual txtWrapper = (BinTextVisual)((TextModel)args.EffectedModelElement).UpdateableView;
+                    txtWrapper.WindowWidth = args.NewWidth;
+                    txtWrapper.WindowHeight = args.NewHeight;
+                }
+            }
         }
 
         /// <summary>

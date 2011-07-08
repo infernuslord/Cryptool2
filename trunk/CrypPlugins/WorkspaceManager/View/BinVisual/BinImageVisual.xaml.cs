@@ -154,6 +154,7 @@ namespace WorkspaceManager.View.BinVisual
             WindowWidth = Model.GetWidth();
             WindowHeight = Model.GetHeight();
             Position = Model.GetPosition();
+            Model.UpdateableView = this;
             InitializeComponent();
         } 
         #endregion
