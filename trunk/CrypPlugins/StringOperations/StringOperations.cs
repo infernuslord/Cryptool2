@@ -152,25 +152,29 @@ namespace StringOperations
 
         [PropertyInfo(Direction.InputData, "String1Caption", "String1Tooltip", "", false, false, QuickWatchFormat.Text, null)]
         public string String1
-        {           
+        {
+            get { return _string1; }
             set { _string1 = value; }
         }
 
         [PropertyInfo(Direction.InputData, "String2Caption", "String2Tooltip", null, false, false, QuickWatchFormat.Text, null)]
         public string String2
         {
+            get { return _string2; }
             set { _string2 = value; }
         }
 
         [PropertyInfo(Direction.InputData, "Value1Caption", "Value1Tooltip", null, false, false, QuickWatchFormat.None, null)]
         public int Value1
         {
+            get { return _value1; }
             set { _value1 = value; }
         }
 
         [PropertyInfo(Direction.InputData, "Value2Caption", "Value2Tooltip", null, false, false, QuickWatchFormat.None, null)]
         public int Value2
         {
+            get { return _value2; }
             set { _value2 = value; }
         }      
 
