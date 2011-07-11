@@ -8,8 +8,8 @@
     <ProjectGuid>{D4C2D26C-BC84-4D4C-8ADA-5FAD99DAA7CA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>StegoOrder</RootNamespace>
-    <AssemblyName>StegoOrder</AssemblyName>
+    <RootNamespace>StegoPermutation</RootNamespace>
+    <AssemblyName>StegoPermutation</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>
