@@ -32,6 +32,7 @@ namespace BitCommitmentScheme
         {
             set
             {
+                ProgressChanged(0.0, 100.0);
                 try
                 {
                     var result = _ISAPalgorithmWrapper.Run(value, _dimension, _s);
@@ -42,6 +43,8 @@ namespace BitCommitmentScheme
                     A = result.a;
                     B = result.b;
                     Eta = result.eta;
+
+                    ProgressChanged(100.0, 100.0);
                 }
                 catch (Exception ex)
                 {
@@ -236,6 +239,11 @@ namespace BitCommitmentScheme
         public void OnPropertyChanged(string name)
         {
             EventsHelper.PropertyChanged(PropertyChanged, this, new PropertyChangedEventArgs(name));
+        }
+
+        private void ProgressChanged(double value, double max)
+        {
+            EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
         }
     }
 }
