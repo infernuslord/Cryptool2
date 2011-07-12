@@ -20,13 +20,13 @@ using System.Linq;
 using System.Windows.Controls;
 using Cryptool.PluginBase;
 using System.Collections.Generic;
-using Cryptool.PluginBase.Analysis;
 
 namespace Cryptool.CaesarAnalysisHelper
 {
     [Author("Fabian Enkler", "enkler@cryptool.org", "", "")]
     [PluginInfo("CaesarAnalysisHelper.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "CaesarAnalysisHelper/icon.png")]
-    public class CaesarAnalysisHelper : ISpecific
+    [ComponentCategory(ComponentCategory.CryptanalysisSpecific)]
+    public class CaesarAnalysisHelper : ICrypComponent
     {
         private readonly CaesarAnalysisHelperSettings settings;
 

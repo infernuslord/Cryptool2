@@ -23,7 +23,6 @@ using System.Net;
 using System.Text;
 using Cryptool.P2P;
 using Cryptool.P2P.Internal;
-using Cryptool.PluginBase.Analysis;
 using Cryptool.PluginBase;
 using System.Windows.Controls;
 using System.ComponentModel;
@@ -50,7 +49,8 @@ namespace KeySearcher
 {
     [Author("Sven Rech, Nils Kopal, Raoul Falk, Dennis Nolte", "rech@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
     [PluginInfo("KeySearcher.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "KeySearcher/Images/icon.png")]
-    public class KeySearcher : IAnalysisMisc
+    [ComponentCategory(ComponentCategory.CryptanalysisSpecific)]
+    public class KeySearcher : ICrypComponent
     {
         /// <summary>
         /// used for creating the UserStatistics

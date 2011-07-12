@@ -20,7 +20,6 @@ using System.Linq;
 using System.Text;
 using Cryptool.PluginBase;
 using System.ComponentModel;
-using Cryptool.PluginBase.Analysis;
 
 namespace Cryptool.StreamComparator
 {

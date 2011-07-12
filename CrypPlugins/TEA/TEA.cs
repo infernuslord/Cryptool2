@@ -32,8 +32,8 @@ namespace Cryptool.TEA
 {
     [Author("Soeren Rinne", "soeren.rinne@cryptool.de", "Ruhr-Universitaet Bochum, Chair for Embedded Security (EmSec)", "http://www.crypto.ruhr-uni-bochum.de/")]
     [PluginInfo("TEA.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "TEA/Images/tea.png", "TEA/Images/encrypt.png", "TEA/Images/decrypt.png", "TEA/Images/encryptX.png", "TEA/Images/decryptX.png")]
-    [EncryptionType(EncryptionType.SymmetricBlock)]
-    public class TEA : IEncryption
+    [ComponentCategory(ComponentCategory.CiphersModernSymmetric)]
+    public class TEA : ICrypComponent
     {
         #region IPlugin Members
 

@@ -46,13 +46,13 @@ namespace WorkspaceManager
 
             AsymmetricColor.Fill = new SolidColorBrush(ColorHelper.AsymmetricColor);
             ClassicColor.Fill = new SolidColorBrush(ColorHelper.ClassicColor);
-            SymmetricBlockColor.Fill = new SolidColorBrush(ColorHelper.SymmetricBlockColor);
-            SymmetricStreamColor.Fill = new SolidColorBrush(ColorHelper.SymmetricStreamColor);
-            HybridColor.Fill = new SolidColorBrush(ColorHelper.HybridColor);
-            GeneratorColor.Fill = new SolidColorBrush(ColorHelper.GeneratorColor);
+            SymmetricColor.Fill = new SolidColorBrush(ColorHelper.SymmetricColor);
+            ToolsColor.Fill = new SolidColorBrush(ColorHelper.ToolsColor);
+            SteganographyColor.Fill = new SolidColorBrush(ColorHelper.SteganographyColor);
             HashColor.Fill = new SolidColorBrush(ColorHelper.HashColor);
-            StatisticColor.Fill = new SolidColorBrush(ColorHelper.StatisticColor);
-            AnalysisMiscColor.Fill = new SolidColorBrush(ColorHelper.AnalysisMiscColor);
+            AnalysisGenericColor.Fill = new SolidColorBrush(ColorHelper.AnalysisGenericColor);
+            AnalysisSpecificColor.Fill = new SolidColorBrush(ColorHelper.AnalysisSpecificColor);
+            ProtocolColor.Fill = new SolidColorBrush(ColorHelper.ProtocolColor);
         }
         
         private void Rectangle_MouseDown(object sender, MouseButtonEventArgs eventArgs)
@@ -119,33 +119,33 @@ namespace WorkspaceManager
             {
                 ColorHelper.ClassicColor = ((SolidColorBrush)ClassicColor.Fill).Color;
             }
-            else if (sender == SymmetricBlockColor)
+            else if (sender == SymmetricColor)
             {
-                ColorHelper.SymmetricBlockColor = ((SolidColorBrush)SymmetricBlockColor.Fill).Color;
+                ColorHelper.SymmetricColor = ((SolidColorBrush)SymmetricColor.Fill).Color;
             }
-            else if (sender == SymmetricStreamColor)
+            else if (sender == SteganographyColor)
             {
-                ColorHelper.SymmetricStreamColor = ((SolidColorBrush)SymmetricStreamColor.Fill).Color;
+                ColorHelper.SteganographyColor = ((SolidColorBrush)SteganographyColor.Fill).Color;
             }
-            else if (sender == HybridColor)
+            else if (sender == ProtocolColor)
             {
-                ColorHelper.HybridColor = ((SolidColorBrush)HybridColor.Fill).Color;
+                ColorHelper.ProtocolColor = ((SolidColorBrush)ProtocolColor.Fill).Color;
             }
-            else if (sender == GeneratorColor)
+            else if (sender == ToolsColor)
             {
-                ColorHelper.GeneratorColor = ((SolidColorBrush)GeneratorColor.Fill).Color;
+                ColorHelper.ToolsColor = ((SolidColorBrush)ToolsColor.Fill).Color;
             }
             else if (sender == HashColor)
             {
                 ColorHelper.HashColor = ((SolidColorBrush)HashColor.Fill).Color;
             }
-            else if (sender == StatisticColor)
+            else if (sender == AnalysisGenericColor)
             {
-                ColorHelper.StatisticColor = ((SolidColorBrush)StatisticColor.Fill).Color;
+                ColorHelper.AnalysisGenericColor = ((SolidColorBrush)AnalysisGenericColor.Fill).Color;
             }
-            else if (sender == StatisticColor)
+            else if (sender == AnalysisSpecificColor)
             {
-                ColorHelper.AnalysisMiscColor = ((SolidColorBrush)AnalysisMiscColor.Fill).Color;
+                ColorHelper.AnalysisSpecificColor = ((SolidColorBrush)AnalysisSpecificColor.Fill).Color;
             }
         }
 

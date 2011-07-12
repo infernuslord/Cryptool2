@@ -36,7 +36,8 @@ namespace Cryptool.Plugins.BooleanOperators
         "BooleanOperators/icons/nor.png",
         "BooleanOperators/icons/xor.png"
         )]
-    public class BooleanBinaryOperators : IThroughput
+    [ComponentCategory(ComponentCategory.ToolsBoolean)]
+    public class BooleanBinaryOperators : ICrypComponent
     {
         private Boolean FlagA = false;
         private Boolean FlagB = false;

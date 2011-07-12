@@ -29,7 +29,8 @@ namespace Cryptool.Plugins.BigNumber
 {
     [Author("Sven Rech", "sven.rech@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
     [PluginInfo("BigNumber.Properties.Resources", true, "PluginInputCaption", "PluginInputTooltip", "PluginInputDescriptionURL", "BigNumber/icons/inputIcon.png")]
-    class BigNumberInput : IInput
+    [ComponentCategory(ComponentCategory.ToolsDataInputOutput)]
+    class BigNumberInput : ICrypComponent
     {
 
         public BigNumberInput()

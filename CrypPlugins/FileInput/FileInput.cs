@@ -31,7 +31,8 @@ namespace FileInput
 {
     [Author("Thomas Schmid", "thomas.schmid@cryptool.org", "Uni Siegen", "http://www.uni-siegen.de")]
     [PluginInfo("FileInput.Properties.Resources", true, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "FileInput/Images/FileInput.png")]
-    public class FileInputClass : IInput
+    [ComponentCategory(ComponentCategory.ToolsDataInputOutput)]
+    public class FileInputClass : ICrypComponent
     {
         #region Private variables
         private const int MAX_BYTE_ARRAY_SIZE = 10485760; // 20MB

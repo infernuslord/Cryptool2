@@ -30,8 +30,8 @@ namespace Cryptool.WEP
         "PluginTooltip",
         "PluginDescriptionURL",
         "WEP/icon.jpg", "WEP/Images/encrypt.png", "WEP/Images/decrypt.png")]
-    [EncryptionType(EncryptionType.SymmetricStream)]
-    public class WEP : IEncryption
+    [ComponentCategory(ComponentCategory.CiphersModernSymmetric)]
+    public class WEP : ICrypComponent
     {
         #region Private variables
         /* Input / output variables */

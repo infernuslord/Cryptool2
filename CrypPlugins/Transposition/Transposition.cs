@@ -10,7 +10,6 @@ using System.Runtime.InteropServices;
 using Cryptool;
 using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase;
-using Cryptool.PluginBase.Cryptography;
 using Cryptool.PluginBase.Miscellaneous;
 using Cryptool.PluginBase.Control;
 
@@ -18,8 +17,8 @@ namespace Transposition
 {
     [Author("Daniel Kohnen, Julian Weyers, Simon Malischewski, Armin Wiefels", "kohnen@cryptool.org, weyers@cryptool.org, malischewski@cryptool.org, wiefels@cryptool.org", "Universität Duisburg-Essen", "http://www.uni-due.de")]
     [PluginInfo("Transposition.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "Transposition/Images/icon.png", "Transposition/Images/encrypt.png", "Transposition/Images/decrypt.png")]
-    [EncryptionType(EncryptionType.Classic)]
-    public class Transposition : IEncryption
+    [ComponentCategory(ComponentCategory.CiphersClassic)]
+    public class Transposition : ICrypComponent
     {
         # region Private variables
 

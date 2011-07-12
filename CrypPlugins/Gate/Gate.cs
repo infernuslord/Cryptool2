@@ -33,7 +33,8 @@ namespace Gate
     [Author("Matthäus Wander", "wander@cryptool.org", "Universität Duisburg-Essen, Fachgebiet Verteilte Systeme", "http://www.vs.uni-due.de")]
     [PluginInfo("Gate.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "Gate/gate_closed_32.png", "Gate/gate_open_32.png")]
     [Synchronization]
-    public class Gate : IThroughput
+    [ComponentCategory(ComponentCategory.ToolsDataflow)]
+    public class Gate : ICrypComponent
     {
         private GateSettings settings = new GateSettings();
         private object input;

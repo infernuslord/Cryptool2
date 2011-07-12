@@ -33,8 +33,8 @@ namespace Cryptool.Plugins.DGK
     [PluginInfo("DGK.Properties.Resources", false,
         "PluginCaption", "PluginTooltip", "DGK/Documentation/doc.xml",
         "DGK/Image/DGKEnc.png", "DGK/Image/DGKDec.png", "DGK/Image/DGKAdd.png", "DGK/Image/DGKMul.png")]
-    [EncryptionType(EncryptionType.Asymmetric)]
-    public class DGK : IEncryption
+    [ComponentCategory(ComponentCategory.CiphersModernAsymmetric)]
+    public class DGK : ICrypComponent
     {
         #region Private Variables
 

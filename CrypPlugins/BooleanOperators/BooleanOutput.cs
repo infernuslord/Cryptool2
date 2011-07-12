@@ -30,7 +30,8 @@ namespace Cryptool.Plugins.BooleanOperators
 {
     [Author("Nils Kopal", "nils.kopal@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-duisburg-essen.de")]
     [PluginInfo("BooleanOperators.Properties.Resources", false, "PluginBO_Caption", "PluginBO_Tooltip", "PluginDescriptionURL", "BooleanOperators/icons/false.png", "BooleanOperators/icons/true.png")]
-    public class BooleanOutput : IOutput
+    [ComponentCategory(ComponentCategory.ToolsBoolean)]
+    public class BooleanOutput : ICrypComponent
     {
         private BooleanOutputSettings settings;
         private Boolean input = false;

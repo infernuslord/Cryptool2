@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
-using Cryptool.PluginBase.Analysis;
 using Cryptool.PluginBase;
 using System.Windows.Controls;
 using System.ComponentModel;
@@ -19,7 +18,8 @@ namespace TranspositionAnalyser
 
     [Author("Daniel Kohnen, Julian Weyers, Simon Malischewski, Armin Wiefels", "kohnen@cryptool.org, weyers@cryptool.org, malischewski@cryptool.org, wiefels@cryptool.org", "Universität Duisburg-Essen", "http://www.uni-due.de")]
     [PluginInfo("TranspositionAnalyser.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "TranspositionAnalyser/Images/icon.png")]
-    public class TranspositionAnalyser : IAnalysisMisc
+    [ComponentCategory(ComponentCategory.CryptanalysisSpecific)]
+    public class TranspositionAnalyser : ICrypComponent
     {
         private enum ReadInMode { byRow = 0, byColumn = 1 };
         private enum PermutationMode { byRow = 0, byColumn = 1 };

@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Cryptool.PluginBase;
-using Cryptool.PluginBase.Analysis;
 using Cryptool.PluginBase.IO;
 using System.ComponentModel;
 using System.Windows.Documents;
@@ -19,8 +18,8 @@ namespace Cryptool.VigenereAnalyser
     [PluginInfo("Cryptool.VigenereAnalyser.Properties.Resources", false,
     "PluginCaption", "PluginTooltip", "PluginDescriptionURL",
     "VigenereAnalyser/icon.png")]
-
-    public class VigenereAnalyser:IStatistic
+    [ComponentCategory(ComponentCategory.CryptanalysisSpecific)]
+    public class VigenereAnalyser : ICrypComponent
     {
         public string cipherText;
         public double sequenceIC;

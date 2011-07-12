@@ -36,8 +36,8 @@ namespace Cryptool.Trivium
 {
     [Author("Soeren Rinne, David Oruba & Daehyun Strobel", "soeren.rinne@cryptool.org", "Ruhr-Universitaet Bochum, Chair for Embedded Security (EmSec)", "http://www.trust.ruhr-uni-bochum.de/")]
     [PluginInfo("Trivium.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "Trivium/icon.png", "Trivium/Images/encrypt.png", "Trivium/Images/decrypt.png")]
-    [EncryptionType(EncryptionType.SymmetricBlock)]
-    public class Trivium : IEncryption
+    [ComponentCategory(ComponentCategory.CiphersModernSymmetric)]
+    public class Trivium : ICrypComponent
     {
         #region IPlugin Members
 

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Cryptool.PluginBase;
-using Cryptool.PluginBase.Analysis;
 using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase.Miscellaneous;
 using System.ComponentModel;
@@ -23,7 +22,8 @@ namespace WordPatterns
      */
     [Author("Matthäus Wander", "wander@cryptool.org", "Fachgebiet Verteilte Systeme, Universität Duisburg-Essen", "http://www.vs.uni-due.de")]
     [PluginInfo("WordPatterns.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "CrypWin/images/default.png")]
-    public class WordPatterns : IAnalysisMisc
+    [ComponentCategory(ComponentCategory.CryptanalysisGeneric)]
+    public class WordPatterns : ICrypComponent
     {
         #region Private stuff
 

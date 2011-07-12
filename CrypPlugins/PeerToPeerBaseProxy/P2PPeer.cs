@@ -34,7 +34,8 @@ namespace Cryptool.Plugins.PeerToPeerProxy
         "PluginCaption", "PluginTooltip", "PluginDescriptionURL",
         "PeerToPeerBaseProxy/icons/peer_inactive.png", "PeerToPeerBaseProxy/icons/peer_connecting.png",
         "PeerToPeerBaseProxy/icons/peer_online.png", "PeerToPeerBaseProxy/icons/peer_error.png")]
-    public class P2PPeer : IIOMisc
+    [ComponentCategory(ComponentCategory.ToolsP2P)]
+    public class P2PPeer : ICrypComponent
     {
         #region IIOMisc Members
 

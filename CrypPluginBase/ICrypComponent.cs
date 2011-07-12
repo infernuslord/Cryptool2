@@ -1,5 +1,5 @@
 ﻿/*
-   Copyright 2008 Martin Saternus, University of Duisburg-Essen
+   Copyright 2011 Matthäus Wander, University of Duisburg-Essen
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -15,10 +15,13 @@
 */
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
-namespace Cryptool.PluginBase.Generator
+namespace Cryptool.PluginBase
 {
-    public interface IKeyGenerator : IGenerator 
+    public interface ICrypComponent : IPlugin
     {
     }
 }

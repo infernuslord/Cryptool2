@@ -37,8 +37,8 @@ namespace Cryptool.Plugins.BooleanOperators
 {
     [Author("Julian Weyers", "julian.weyers@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-duisburg-essen.de")]
     [PluginInfo("BooleanOperators.Properties.Resources", true, "PluginBI_Caption", "PluginBI_Tooltip", "PluginDescriptionURL", "BooleanOperators/icons/false.png", "BooleanOperators/icons/true.png")]
-
-    public class BooleanInput : IInput
+    [ComponentCategory(ComponentCategory.ToolsBoolean)]
+    public class BooleanInput : ICrypComponent
     {
 
         private Boolean output = true;

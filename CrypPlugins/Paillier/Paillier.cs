@@ -32,8 +32,8 @@ namespace Cryptool.Plugins.Paillier
     [PluginInfo("Paillier.Properties.Resources", false,
         "PluginCaption", "PluginTooltip", "Paillier/Documentation/doc.xml", 
         "Paillier/Image/PaillierEnc.png", "Paillier/Image/PaillierDec.png", "Paillier/Image/PaillierAdd.png", "Paillier/Image/PaillierMul.png")]
-    [EncryptionType(EncryptionType.Asymmetric)]
-    public class Paillier : IEncryption
+    [ComponentCategory(ComponentCategory.CiphersModernAsymmetric)]
+    public class Paillier : ICrypComponent
     {
         #region Private Variables
 

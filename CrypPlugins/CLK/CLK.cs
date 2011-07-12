@@ -18,7 +18,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Cryptool.PluginBase.Generator;
 using Cryptool.PluginBase;
 using System.Windows.Controls;
 using System.ComponentModel;
@@ -44,7 +43,8 @@ namespace Cryptool.CLK
 {
     [Author("Soeren Rinne", "soeren.rinne@cryptool.de", "Ruhr-Universitaet Bochum, Chair for System Security", "http://www.trust.rub.de/")]
     [PluginInfo("Cryptool.Plugins.CLK.Properties.Resources", true, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "CLK/icon.png", "CLK/Images/true.png", "CLK/Images/false.png")]
-  public class CLK : DependencyObject, IInput
+    [ComponentCategory(ComponentCategory.ToolsDataflow)]
+  public class CLK : DependencyObject, ICrypComponent
   {
     # region private variables
     private CLKPresentation cLKPresentation;

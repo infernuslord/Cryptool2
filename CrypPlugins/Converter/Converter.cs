@@ -33,8 +33,8 @@ namespace Cryptool.Plugins.Converter
 
     [Author("Raoul Falk, Dennis Nolte", "falk@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
     [PluginInfo("Converter.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "Converter/icons/icon.png", "Converter/icons/tostring.png", "Converter/icons/toint.png", "Converter/icons/toshort.png", "Converter/icons/tobyte.png", "Converter/icons/todouble.png", "Converter/icons/tobig.png", "Converter/icons/tointarray.png", "Converter/icons/tobytearray.png", "Converter/icons/tocryptoolstream.png")]
-
-    class Converter : IThroughput
+    [ComponentCategory(ComponentCategory.ToolsMisc)]
+    class Converter : ICrypComponent
     {
         #region private variables
 

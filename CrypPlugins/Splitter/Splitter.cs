@@ -28,7 +28,8 @@ namespace Splitter
 {
   [Author("Thomas Schmid", "thomas.schmid@cryptool.org", "Uni Siegen", "http://www.uni-siegen.de")]
   [PluginInfo("Splitter.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "Splitter/icon.png")]
-  public class Splitter : IThroughput
+  [ComponentCategory(ComponentCategory.ToolsDataflow)]
+  public class Splitter : ICrypComponent
   {
     # region private variables
     private SplitterSettings settings = new SplitterSettings();

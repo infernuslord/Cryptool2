@@ -30,9 +30,8 @@ namespace Cryptool.Plugins.SZ42
 {
     [Author("Wilmer Daza", "mr.wadg@gmail.com", "University of Magdalena", "http://www.unimagdalena.edu.co")]
     [PluginInfo("SZ42.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "SZ42/Images/sz42.png")]
-    [EncryptionType(EncryptionType.Classic)]
-    
-    public class Lorenz : IEncryption
+    [ComponentCategory(ComponentCategory.CiphersClassic)]
+    public class Lorenz : ICrypComponent
     {
         #region Private Variables
 

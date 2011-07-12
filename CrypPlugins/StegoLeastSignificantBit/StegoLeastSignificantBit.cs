@@ -28,10 +28,8 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using Cryptool.PluginBase;
 using System.ComponentModel;
-using Cryptool.PluginBase.Cryptography;
 using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase.Miscellaneous;
-using Cryptool.PluginBase.Steganography;
 using System.Windows.Controls;
 using System.Collections.ObjectModel;
 using System.Runtime.InteropServices;
@@ -40,8 +38,8 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
 {
     [Author("Corinna John", "coco@steganografie.eu", "", "http://www.steganografie.eu")]
     [PluginInfo("Cryptool.Plugins.StegoLeastSignificantBit.Properties.Resources", false, "PluginCaption", "PluginTooltip", "StegoLeastSignificantBit/DetailedDescription/Description.xaml", "StegoLeastSignificantBit/Images/StegoLeastSignificantBit.png")]
-    [EncryptionType(EncryptionType.Classic)]
-    public class StegoLeastSignificantBit : ISteganography
+    [ComponentCategory(ComponentCategory.Steganography)]
+    public class StegoLeastSignificantBit : ICrypComponent
     {
         #region Local Types
 

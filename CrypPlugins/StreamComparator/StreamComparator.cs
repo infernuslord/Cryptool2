@@ -8,7 +8,6 @@ using System.Text;
 using System.Web;
 using System.Xml;
 using System.Windows.Markup;
-using Cryptool.PluginBase.Analysis;
 using Cryptool.PluginBase.IO;
 using System.Collections.Generic;
 using System.Runtime.Remoting.Contexts;
@@ -18,7 +17,8 @@ namespace Cryptool.StreamComparator
 {
   [Author("Thomas Schmid", "thomas.schmid@cryptool.org", "Uni Siegen", "http://www.uni-siegen.de")]
   [PluginInfo("Cryptool.StreamComparator.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "StreamComparator/icon.png", "StreamComparator/Images/equal.png", "StreamComparator/Images/unequal.png", "StreamComparator/Images/contextmenu.png")]
-  public class StreamComparator : IDifferential
+  [ComponentCategory(ComponentCategory.ToolsMisc)]
+  public class StreamComparator : ICrypComponent
   {
     #region Private variables
     private bool isBinary;

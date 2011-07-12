@@ -1,5 +1,5 @@
-﻿/* HOWTO: Change year, author name and organization.
-   Copyright 2010 Your Name, University of Duckburg
+﻿/*
+   Copyright 2010 CrypTool 2 Team
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -31,8 +31,8 @@ namespace Solitaire
 {
     [Author("Coen Ramaekers", "c.f.w.ramaekers@student.tue.nl", "Technische Universiteit Eindhoven", "http://www.win.tue.nl")]
     [PluginInfo("Solitaire.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "Solitaire/sol.jpg")]
-    [EncryptionType(EncryptionType.Classic)]
-    public class Solitaire : IEncryption
+    [ComponentCategory(ComponentCategory.CiphersClassic)]
+    public class Solitaire : ICrypComponent
     {
         #region Private Variables
 

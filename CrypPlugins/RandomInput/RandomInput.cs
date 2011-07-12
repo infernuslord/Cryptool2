@@ -32,13 +32,13 @@ using Cryptool.PluginBase.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.Remoting.Contexts;
 using Cryptool.PluginBase.Miscellaneous;
-using Cryptool.PluginBase.Generator;
 
 namespace RandomInput
 {
   [Author("Timm Korte", "cryptool@easycrypt.de", "Uni Bochum", "http://www.ruhr-uni-bochum.de")]
   [PluginInfo("RandomInput.Properties.Resources", true, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "RandomInput/icon.png")]
-  public class RandomInput : ContextBoundObject, IRandomNumberGenerator
+  [ComponentCategory(ComponentCategory.ToolsDataInputOutput)]
+  public class RandomInput : ContextBoundObject, ICrypComponent
   {
     private int maxByteArraySize = 10496000;
     private byte[] rndArray;

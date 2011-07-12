@@ -18,7 +18,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Cryptool.PluginBase.Generator;
 using Cryptool.PluginBase;
 using System.Windows.Controls;
 using System.ComponentModel;
@@ -33,7 +32,8 @@ namespace Cryptool.BerlekampMassey
 {
     [Author("Soeren Rinne", "soeren.rinne@cryptool.org", "Ruhr-Universitaet Bochum, Chair for System Security", "http://www.trust.rub.de/")]
     [PluginInfo("Cryptool.BerlekampMassey.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "BerlekampMassey/Images/icon2.png", "BerlekampMassey/Images/icon2.png", "BerlekampMassey/Images/icon2.png")]
-    public class BerlekampMassey : IThroughput
+    [ComponentCategory(ComponentCategory.CryptanalysisGeneric)]
+    public class BerlekampMassey : ICrypComponent
     {
 
         #region Private variables

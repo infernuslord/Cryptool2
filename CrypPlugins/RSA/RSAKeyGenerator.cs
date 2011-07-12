@@ -31,7 +31,7 @@ namespace Cryptool.Plugins.RSA
 {
     [Author("Dennis Nolte, Raoul Falk, Sven Rech, Nils Kopal", "", "Uni Duisburg-Essen", "http://www.uni-due.de")]
     [PluginInfo("RSA.Properties.Resources", true, "PluginKeyCaption", "PluginKeyTooltip", "PluginKeyDescriptionURL", "RSA/iconkey.png")]
-    [EncryptionType(EncryptionType.Asymmetric)]
+    [ComponentCategory(ComponentCategory.CiphersModernAsymmetric)]
     /**
     <summary>
      This plugin is a generator plugin which helps the user to generate pairs of private/public keys
@@ -49,7 +49,7 @@ namespace Cryptool.Plugins.RSA
          in this mode a x509 certificate will be loaded (the user can give a password for loading)
     </summary>    
      **/
-    class RSAKeyGenerator : IEncryption
+    class RSAKeyGenerator : ICrypComponent
     {
         #region private members
 

@@ -22,7 +22,6 @@ using System.ComponentModel;
 using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase.Miscellaneous;
 using System.Windows.Controls;
-using Cryptool.PluginBase.Analysis;
 using System.Windows.Media;
 using Cryptool.PluginBase.Utils.Graphics.Diagrams.Histogram;
 
@@ -30,8 +29,8 @@ namespace Cryptool.Plugins.AutokorrelationFunction
 {
     [Author("Dennis Nolte", "nolte@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
     [PluginInfo("AutokorrelationFunction.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "AutokorrelationFunction/icon.png")]
-
-    public class AutokorrelationFunction : IStatistic
+    [ComponentCategory(ComponentCategory.CryptanalysisGeneric)]
+    public class AutokorrelationFunction : ICrypComponent
     {
         #region Private Variables
 

@@ -32,8 +32,8 @@ namespace Cryptool.HMAC
 {
     [Author("Holger Pretzsch", "mail@holger-pretzsch.de", "Uni Duisburg-Essen", "http://www.uni-due.de")]
     [PluginInfo("Cryptool.HMAC.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "HMAC/HMAC.png")]
-    [EncryptionType(EncryptionType.Classic)]
-    public class HMAC : ICryptographicHash
+    [ComponentCategory(ComponentCategory.Protocols)]
+    public class HMAC : ICrypComponent
     {
         #region Private variables
 

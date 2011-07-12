@@ -28,8 +28,8 @@ namespace Cryptool.Caesar
 {
     [Author("Dr. Arno Wacker", "arno.wacker@cryptool.org", "Uni Duisburg-Essen", "http://www.vs.uni-duisburg-essen.de")]
     [PluginInfo("Cryptool.Caesar.Properties.Resources", false, "PluginCaption", "PluginTooltip", "Caesar/DetailedDescription/doc.xml", "Caesar/Images/Caesar.png", "Caesar/Images/encrypt.png", "Caesar/Images/decrypt.png")]
-    [EncryptionType(EncryptionType.Classic)]
-    public class Caesar : IEncryption
+    [ComponentCategory(ComponentCategory.CiphersClassic)]
+    public class Caesar : ICrypComponent
     {
         #region Private elements
 

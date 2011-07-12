@@ -37,7 +37,8 @@ namespace Cryptool.Plugins.PeerToPeer
     /// </summary>
     [Author("Christian Arnold", "arnold@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
     [PluginInfo("Cryptool.Plugins.PeerToPeer.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "PeerToPeer_DHTremove/ct2_dht_remove_icon_medium.png")]
-    public class P2P_DHTremove : IInput
+    [ComponentCategory(ComponentCategory.ToolsP2P)]
+    public class P2P_DHTremove : ICrypComponent
     {
         private P2PDHTremoveSettings settings;
 

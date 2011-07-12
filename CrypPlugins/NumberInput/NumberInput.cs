@@ -18,7 +18,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Cryptool.PluginBase.Generator;
 using Cryptool.PluginBase;
 using System.Windows.Controls;
 using System.ComponentModel;
@@ -30,7 +29,8 @@ namespace NumberInput
 {
   [Author("Thomas Schmid", "thomas.schmid@cryptool.org", "Uni Siegen", "http://www.uni-siegen.de")]
   [PluginInfo("NumberInput.Properties.Resources", true, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "NumberInput/icon.png")]
-  public class NumberInput : IInput
+  [ComponentCategory(ComponentCategory.ToolsDataInputOutput)]
+  public class NumberInput : ICrypComponent
   {
     
     public NumberInput()

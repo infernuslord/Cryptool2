@@ -36,7 +36,8 @@ namespace TextOutput
 {
   [Author("Thomas Schmid", "thomas.schmid@cryptool.org", "Uni Siegen", "http://www.uni-siegen.de")]
   [PluginInfo("TextOutput.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "TextOutput/icon.png")]
-  public class TextOutput : DependencyObject, IOutput
+  [ComponentCategory(ComponentCategory.ToolsDataInputOutput)]
+  public class TextOutput : DependencyObject, ICrypComponent
   {
     private readonly string inputOne = "InputOne";
 

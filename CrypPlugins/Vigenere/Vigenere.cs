@@ -29,8 +29,8 @@ namespace Cryptool.Vigenere
     [Author("Sebastian Przybylski", "sebastian@przybylski.org", "Uni-Siegen", "http://www.uni-siegen.de")]
     [PluginInfo("Cryptool.Vigenere.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL",
       "Vigenere/Images/icon.png", "Vigenere/Images/encrypt.png", "Vigenere/Images/decrypt.png")]
-    [EncryptionType(EncryptionType.Classic)]
-    public class Vigenere : IEncryption
+    [ComponentCategory(ComponentCategory.CiphersClassic)]
+    public class Vigenere : ICrypComponent
     {
         #region Private variables
 

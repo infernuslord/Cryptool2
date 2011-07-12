@@ -32,8 +32,8 @@ namespace Cryptool.Playfair
     [Author("Sebastian Przybylski","sebastian@przybylski.org","Uni Siegen","http://www.uni-siegen.de")]
     [PluginInfo("Playfair.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", 
       "Playfair/Images/icon.png", "Playfair/Images/encrypt.png", "Playfair/Images/decrypt.png")]
-    [EncryptionType(EncryptionType.Classic)]
-    public class Playfair : IEncryption
+    [ComponentCategory(ComponentCategory.CiphersClassic)]
+    public class Playfair : ICrypComponent
     {
         #region Private variables
 

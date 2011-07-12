@@ -32,8 +32,8 @@ namespace Cryptool.HIGHT
 {
     [Author("Soeren Rinne", "soeren.rinne@cryptool.de", "Ruhr-Universitaet Bochum, Chair for Embedded Security (EmSec)", "http://www.crypto.ruhr-uni-bochum.de/")]
     [PluginInfo("HIGHT.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "HIGHT/Images/HIGHT.png", "HIGHT/Images/encrypt.png", "HIGHT/Images/decrypt.png")]
-    [EncryptionType(EncryptionType.SymmetricBlock)]
-    public class HIGHT : IEncryption
+    [ComponentCategory(ComponentCategory.CiphersModernSymmetric)]
+    public class HIGHT : ICrypComponent
     {
         #region IPlugin Members
 

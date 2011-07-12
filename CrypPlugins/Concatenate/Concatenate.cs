@@ -29,7 +29,8 @@ namespace Concatenate
 {
   [Author("Thomas Schmid", "thomas.schmid@cryptool.org", "Uni Siegen", "http://www.uni-siegen.de")]
   [PluginInfo("Concatenate.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "Concatenate/icon.png")]
-  public class Concatenate : IThroughput
+  [ComponentCategory(ComponentCategory.ToolsMisc)]
+  public class Concatenate : ICrypComponent
   {
     # region Fields
     private List<IDisposable> listCryptoolStreamsOut = new List<IDisposable>();

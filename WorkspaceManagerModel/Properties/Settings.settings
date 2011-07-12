@@ -8,25 +8,19 @@
     <Setting Name="ClassicColor" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)">184, 200, 129</Value>
     </Setting>
-    <Setting Name="SymmetricBlockColor" Type="System.Drawing.Color" Scope="User">
+    <Setting Name="SymmetricColor" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)">212, 144, 144</Value>
     </Setting>
-    <Setting Name="SymmetricStreamColor" Type="System.Drawing.Color" Scope="User">
-      <Value Profile="(Default)">148, 188, 138</Value>
-    </Setting>
-    <Setting Name="HybridColor" Type="System.Drawing.Color" Scope="User">
-      <Value Profile="(Default)">212, 144, 144</Value>
-    </Setting>
-    <Setting Name="GeneratorColor" Type="System.Drawing.Color" Scope="User">
+    <Setting Name="ToolsColor" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)">138, 188, 148</Value>
     </Setting>
     <Setting Name="HashColor" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)">138, 187, 188</Value>
     </Setting>
-    <Setting Name="StatisticColor" Type="System.Drawing.Color" Scope="User">
+    <Setting Name="AnalysisGenericColor" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)">140, 138, 188</Value>
     </Setting>
-    <Setting Name="AnalysisMiscColor" Type="System.Drawing.Color" Scope="User">
+    <Setting Name="AnalysisSpecificColor" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)">188, 138, 172</Value>
     </Setting>
     <Setting Name="IntegerColor" Type="System.Drawing.Color" Scope="User">
@@ -58,6 +52,9 @@
     </Setting>
     <Setting Name="SteganographyColor" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)">YellowGreen</Value>
+    </Setting>
+    <Setting Name="ProtocolColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">130, 100, 200</Value>
     </Setting>
   </Settings>
 </SettingsFile>

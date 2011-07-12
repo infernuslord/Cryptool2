@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Cryptool.PluginBase.Generator;
 using System.Reflection;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.IO;
@@ -15,7 +14,8 @@ namespace Cryptool.PrimesGenerator
 {
 
   [PluginInfo("PrimesGenerator.Properties.Resources", true, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "PrimesGenerator/icon.png")]
-  public class PrimesGenerator : IRandomNumberGenerator
+  [ComponentCategory(ComponentCategory.ToolsDataInputOutput)]
+  public class PrimesGenerator : ICrypComponent
   {
       private BigInteger m_max = 10000000000;
 

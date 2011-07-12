@@ -26,7 +26,8 @@ namespace Soap
 {
     [Author("Tim Podeszwa", "tim.podeszwa@student.uni-siegen.de", "Uni Siegen", "http://www.uni-siegen.de")]
     [PluginInfo("Soap.Properties.Resources", true, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "Soap/soap.png")]
-    public class Soap : IThroughput
+    [ComponentCategory(ComponentCategory.Protocols)]
+    public class Soap : ICrypComponent
     {
 
         #region Fields
@@ -358,7 +359,7 @@ namespace Soap
             }
             if (this._secHeaderSigned)
             {
-                if (this.GetIsSigned(this._securedSOAP.GetElementsByTagName("wsse:Security")[0])) ;
+                if (this.GetIsSigned(this._securedSOAP.GetElementsByTagName("wsse:Security")[0]))
                 {
                     list.Add(this._securedSOAP.GetElementsByTagName("wsse:Security")[0]);
                 }

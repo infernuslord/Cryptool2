@@ -36,8 +36,8 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 {
     [Author("Dr. Arno Wacker", "arno.wacker@cryptool.org", "Uni Duisburg", "http://www.uni-duisburg-essen.de")]
     [PluginInfo("Cryptool.Plugins.Cryptography.Encryption.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "AES/Images/AES.png", "AES/Images/encrypt.png", "AES/Images/decrypt.png", "AES/Images/Rijndael.png")]
-    [EncryptionType(EncryptionType.SymmetricBlock)]
-    public class AES : ContextBoundObject, IEncryption
+    [ComponentCategory(ComponentCategory.CiphersClassic)]
+    public class AES : ContextBoundObject, ICrypComponent
     {
         #region Private variables
         private AESSettings settings;

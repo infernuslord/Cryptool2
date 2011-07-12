@@ -29,7 +29,8 @@ namespace Cryptool.Plugins.Variable
 {
     [Author("Sven Rech", "sven.rech@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
     [PluginInfo("Variable.Properties.Resources", true, "VariableLoadCaption", "VariableLoadTooltip", "VariableLoadDescriptionURL", "Variable/loadIcon.png")]
-    class VariableLoad : IInput
+    [ComponentCategory(ComponentCategory.ToolsDataflow)]
+    class VariableLoad : ICrypComponent
     {
         #region Private variables
 

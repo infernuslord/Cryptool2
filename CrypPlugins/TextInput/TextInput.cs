@@ -36,7 +36,8 @@ namespace Cryptool.TextInput
 {
   [Author("Thomas Schmid", "thomas.schmid@cryptool.org", "Uni Siegen", "http://www.uni-siegen.de")]
   [PluginInfo("Cryptool.TextInput.Properties.Resources", true, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "TextInput/icon.png")]
-  public class TextInput : DependencyObject, IInput
+  [ComponentCategory(ComponentCategory.ToolsDataInputOutput)]
+  public class TextInput : DependencyObject, ICrypComponent
   {
     private TextInputPresentation textInputPresentation;
 

@@ -39,8 +39,8 @@ namespace Cryptool.MD5
 {
     [Author("Sebastian Przybylski", "sebastian@przybylski.org", "Uni-Siegen", "http://www.uni-siegen.de")]
     [PluginInfo("Cryptool.Plugins.MD5.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "MD5/MD5.png")]
-    [EncryptionType(EncryptionType.Classic)]
-    public class MD5 : ICryptographicHash
+    [ComponentCategory(ComponentCategory.HashFunctions)]
+    public class MD5 : ICrypComponent
     {
         #region Private variables
 

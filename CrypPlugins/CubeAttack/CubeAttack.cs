@@ -6,8 +6,6 @@ using System.IO;
 using System.ComponentModel;
 using System.Windows.Controls;
 using Cryptool.PluginBase;
-using Cryptool.PluginBase.Analysis;
-using Cryptool.PluginBase.Cryptography;
 using Cryptool.PluginBase.Miscellaneous;
 using Cryptool.PluginBase.IO;
 // Reference to the CubeAttackController interface (own dll)
@@ -24,7 +22,8 @@ namespace Cryptool.CubeAttack
 		  "PluginTooltip",
 		  "PluginDescriptionURL",
         "CubeAttack/Images/ca_color.png")]
-    public class CubeAttack : IAnalysisMisc
+    [ComponentCategory(ComponentCategory.CryptanalysisSpecific)]
+    public class CubeAttack : ICrypComponent
     {
         #region Private variables
 

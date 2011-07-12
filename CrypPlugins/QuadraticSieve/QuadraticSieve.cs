@@ -44,7 +44,8 @@ namespace Cryptool.Plugins.QuadraticSieve
     /// </summary>
     [Author("Sven Rech", "rech@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
     [PluginInfo("QuadraticSieve.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "QuadraticSieve/iconqs.png")]
-    class QuadraticSieve : DependencyObject, IThroughput
+    [ComponentCategory(ComponentCategory.CryptanalysisGeneric)]
+    class QuadraticSieve : DependencyObject, ICrypComponent
     {
         #region private variables
 

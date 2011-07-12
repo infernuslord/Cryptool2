@@ -43,8 +43,8 @@ namespace Cryptool.NLFSR
 {
     [Author("Soeren Rinne", "soeren.rinne@cryptool.de", "Ruhr-Universitaet Bochum, Chair for System Security", "http://www.trust.rub.de/")]
     [PluginInfo("NLFSR.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "NLFSR/Images/NLFSR.png", "NLFSR/Images/encrypt.png", "NLFSR/Images/decrypt.png")]
-    [EncryptionType(EncryptionType.SymmetricBlock)]
-    public class NLFSR : IThroughput
+    [ComponentCategory(ComponentCategory.Protocols)]
+    public class NLFSR : ICrypComponent
     {
         #region IPlugin Members
 

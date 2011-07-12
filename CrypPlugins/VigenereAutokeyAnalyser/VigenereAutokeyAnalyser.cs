@@ -22,7 +22,6 @@ using System.ComponentModel;
 using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase.Miscellaneous;
 using System.Windows.Controls;
-using Cryptool.PluginBase.Analysis;
 using VigenereAutokeyAnalyser;
 using System.Windows.Threading;
 using System.Threading;
@@ -32,8 +31,8 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
 {
     [Author("Dennis Nolte", "nolte@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
     [PluginInfo("VigenereAutokeyAnalyser.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "VigenereAutokeyAnalyser/icon.png")]
-
-    public class VigenereAutokeyAnalyser : IStatistic
+    [ComponentCategory(ComponentCategory.CryptanalysisSpecific)]
+    public class VigenereAutokeyAnalyser : ICrypComponent
     {
         #region Private Variables
 

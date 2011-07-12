@@ -35,7 +35,8 @@ namespace ClipboardOutput {
   [Author("Timm Korte", "cryptool@easycrypt.de", "Uni Bochum", "http://www.ruhr-uni-bochum.de")]
   [PluginInfo("ClipboardOutput.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "ClipboardOutput/icon.png")]
   [Synchronization(SynchronizationAttribute.REQUIRES_NEW)]
-	public class ClipboardOutput : IOutput 
+  [ComponentCategory(ComponentCategory.ToolsDataInputOutput)]
+  public class ClipboardOutput : ICrypComponent
   {
 
 		#region Private Variables
