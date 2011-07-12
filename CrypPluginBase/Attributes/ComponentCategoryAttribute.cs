@@ -31,7 +31,6 @@ namespace Cryptool.PluginBase
         CryptanalysisSpecific,
         CryptanalysisGeneric,
         Protocols,
-        ToolsStandalone,
         ToolsBoolean,
         ToolsDataflow,
         ToolsDataInputOutput,
@@ -39,6 +38,9 @@ namespace Cryptool.PluginBase
         ToolsP2P,
     }
 
+    /// <summary>
+    /// This mandatory attribute is used to group CT2 components into categories.
+    /// </summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
     public class ComponentCategoryAttribute : Attribute
     {
