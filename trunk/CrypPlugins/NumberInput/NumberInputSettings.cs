@@ -21,9 +21,9 @@ using System.Text;
 using Cryptool.PluginBase;
 using System.ComponentModel;
 
-namespace NumberGenerator
+namespace NumberInput
 {
-  public class GeneratorSettings : ISettings
+  public class NumberInputSettings : ISettings
   {
 
     #region taskPane

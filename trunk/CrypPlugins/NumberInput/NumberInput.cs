@@ -26,16 +26,16 @@ using Cryptool.PluginBase.IO;
 using System.Runtime.Remoting.Contexts;
 using Cryptool.PluginBase.Miscellaneous;
 
-namespace NumberGenerator
+namespace NumberInput
 {
   [Author("Thomas Schmid", "thomas.schmid@cryptool.org", "Uni Siegen", "http://www.uni-siegen.de")]
-  [PluginInfo("NumberGenerator.Properties.Resources", true, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "NumberGenerator/icon.png")]
-  public class Generator : IInput
+  [PluginInfo("NumberInput.Properties.Resources", true, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "NumberInput/icon.png")]
+  public class NumberInput : IInput
   {
     
-    public Generator()
+    public NumberInput()
     {
-      settings = new GeneratorSettings();
+      settings = new NumberInputSettings();
       settings.PropertyChanged += settings_PropertyChanged;
     }
 
@@ -70,7 +70,7 @@ namespace NumberGenerator
     public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
     public event PluginProgressChangedEventHandler OnPluginProgressChanged;
 
-    private GeneratorSettings settings;
+    private NumberInputSettings settings;
     public ISettings Settings
     {
       get { return settings; }
