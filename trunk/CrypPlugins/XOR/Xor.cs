@@ -31,10 +31,9 @@ namespace Cryptool.XOR
     [Author("Matthäus Wander", "wander@cryptool.org", "University of Duisburg-Essen", "http://www.vs.uni-due.de")]
     [PluginInfo("Cryptool.XOR.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL",
       "XOR/Images/icon.png", "XOR/Images/encrypt.png", "XOR/Images/decrypt.png")]
-    [EncryptionType(EncryptionType.Classic)]
-    public class Xor : IEncryption
+    [ComponentCategory(ComponentCategory.CiphersClassic)]
+    public class Xor : ICrypComponent
     {
-
         private ISettings settings;
         private byte[] inputData;
         private byte[] outputData;

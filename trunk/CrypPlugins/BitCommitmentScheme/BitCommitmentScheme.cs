@@ -6,8 +6,6 @@ using System.Numerics;
 using System.Text;
 using System.Windows.Controls;
 using Cryptool.PluginBase;
-using Cryptool.PluginBase.Analysis;
-using Cryptool.PluginBase.Cryptography;
 using Cryptool.PluginBase.Miscellaneous;
 using ISAPCommitmentSchemeWrapper;
 
@@ -15,8 +13,8 @@ namespace BitCommitmentScheme
 {
     [Author("Sven Rech and Martin Schmidt", "rech@cryptool.org", "Uni Duisburg-Essen", "http://www.vs.uni-duisburg-essen.de")]
     [PluginInfo("BitCommitmentScheme.Properties.Resources", false, "PluginCaption", "PluginTooltip", "BitCommitmentScheme/Documentation/doc.xml", "BitCommitmentScheme/Images/icon.png")]
-    [EncryptionType(EncryptionType.Classic)]
-    public class BitCommitmentScheme : IAnalysisMisc
+    [ComponentCategory(ComponentCategory.Protocols)]
+    public class BitCommitmentScheme : ICrypComponent
     {
         private readonly BitCommitmentSchemeSettings _settings = new BitCommitmentSchemeSettings();
         private string _logMessage;

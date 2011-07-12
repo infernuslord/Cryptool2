@@ -42,7 +42,8 @@ namespace WebService
 {
     [Author("Tim Podeszwa", "tim.podeszwa@student.uni-siegen.de", "Uni Siegen", "http://www.uni-siegen.de")]
     [PluginInfo("WebService.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "WebService/webservice.png")]
-    public class WebService : IThroughput
+    [ComponentCategory(ComponentCategory.Protocols)]
+    public class WebService : ICrypComponent
     {
         #region Fields
 

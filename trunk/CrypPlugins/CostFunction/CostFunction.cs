@@ -19,10 +19,8 @@ using System.Collections.Generic;
 using System.Collections;
 using System.Linq;
 using System.Text;
-using Cryptool.PluginBase.Cryptography;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Miscellaneous;
-using Cryptool.PluginBase.Analysis;
 using System.ComponentModel;
 using Cryptool.PluginBase.Control;
 using System.IO;
@@ -34,7 +32,8 @@ namespace Cryptool.Plugins.CostFunction
 {
     [Author("Nils Kopal, Simon Malischewski", "Nils.Kopal@cryptool.org , malischewski@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
     [PluginInfo("CostFunction.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "CostFunction/icon.png")]
-    public class CostFunction : IAnalysisMisc
+    [ComponentCategory(ComponentCategory.CryptanalysisGeneric)]
+    public class CostFunction : ICrypComponent
     {
         #region private variables
         private CostFunctionSettings settings = new CostFunctionSettings();

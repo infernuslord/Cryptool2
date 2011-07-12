@@ -12,7 +12,8 @@ namespace Cryptool.Plugins.ToString
 {
   [Author("Thomas Schmid", "thomas.schmid@cryptool.org", "Uni Siegen", "http://www.uni-siegen.de")]
   [PluginInfo("Cryptool.Plugins.ToString.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "ToString/icon.png")]
-  public class ToString : IThroughput
+  [ComponentCategory(ComponentCategory.ToolsMisc)]
+  public class ToString : ICrypComponent
   {
     # region private variables
       private object input;

@@ -30,7 +30,8 @@ namespace Multiplexer
 {
   [Author("Thomas Schmid", "thomas.schmid@cryptool.org", "Uni Siegen", "http://www.uni-siegen.de")]
   [PluginInfo("Multiplexer.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "Multiplexer/icon.png")]
-  public class Mux : IThroughput
+  [ComponentCategory(ComponentCategory.ToolsDataflow)]
+  public class Mux : ICrypComponent
   {
     #region Private variables
     private readonly string inputOne = "InputOne";

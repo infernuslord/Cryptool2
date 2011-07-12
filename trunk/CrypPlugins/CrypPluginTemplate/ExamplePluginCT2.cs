@@ -1,4 +1,4 @@
-﻿/* HOWTO: Set year, author name and organization.
+﻿/*
    Copyright 2011 CrypTool 2 Team
 
    Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,7 +21,6 @@ using Cryptool.PluginBase;
 using System.ComponentModel;
 using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase.Miscellaneous;
-using System.ComponentModel;
 using System.Windows.Controls;
 
 namespace Cryptool.Plugins.ExamplePluginCT2
@@ -30,8 +29,9 @@ namespace Cryptool.Plugins.ExamplePluginCT2
     [Author("Matthäus Wander", "wander@cryptool.org", "University of Duisburg-Essen", "http://www.vs.uni-due.de")]
     // HOWTO: Change plugin caption (title to appear in CT2) and tooltip. You can (and should) provide a description XAML and an own icon as well.
     [PluginInfo(false, "Example Plugin", "Subtract one number from another", null, "CrypWin/images/default.png")]
-    // HOWTO: Change interface to one that fits to your plugin (see CrypPluginBase).
-    public class ExamplePluginCT2 : IIOMisc
+    // HOWTO: Change category to one that fits to your plugin. Multiple categories are allowed.
+    [ComponentCategory(ComponentCategory.ToolsMisc)]
+    public class ExamplePluginCT2 : ICrypComponent
     {
         #region Private Variables
 

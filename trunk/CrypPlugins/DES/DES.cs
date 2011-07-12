@@ -19,8 +19,8 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 {
     [Author("Dr. Arno Wacker", "arno.wacker@cryptool.org", "Uni Duisburg", "http://www.uni-duisburg-essen.de")]
     [PluginInfo("Cryptool.Plugins.Cryptography.Encryption.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "DES/icon.png", "DES/Images/encrypt.png", "DES/Images/decrypt.png")]
-    [EncryptionType(EncryptionType.SymmetricBlock)]
-    public class DES : IEncryption
+    [ComponentCategory(ComponentCategory.CiphersModernSymmetric)]
+    public class DES : ICrypComponent
     {
         #region Private variables
         private DESSettings settings;

@@ -32,7 +32,8 @@ namespace Cryptool.Plugins.PeerToPeer
     /// </summary>
     [Author("Christian Arnold", "arnold@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
     [PluginInfo("Cryptool.Plugins.PeerToPeer.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "PeerToPeerPublisher/ct2_p2p_pub_medium.png")]
-    public class P2PPublisher : IInput
+    [ComponentCategory(ComponentCategory.ToolsP2P)]
+    public class P2PPublisher : ICrypComponent
     {
         private P2PPublisherSettings settings;
         private IP2PControl p2pControl;

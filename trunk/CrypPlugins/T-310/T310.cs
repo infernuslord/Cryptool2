@@ -25,7 +25,6 @@ using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase.Miscellaneous;
 using System.ComponentModel;
 using System.Windows.Controls;
-using Cryptool.PluginBase.Cryptography;
 using System.IO;
 
 namespace Cryptool.Plugins.T310
@@ -33,8 +32,8 @@ namespace Cryptool.Plugins.T310
     // TODO: shall use CryptoolStream respectively new CStream instead of byte[]
     [Author("Jörg Drobick, Matthäus Wander", "wander@cryptool.org", "", "")]
     [PluginInfo("T_310.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "CrypWin/images/default.png")]
-    [EncryptionType(EncryptionType.Classic)]
-    public class T310 : IEncryption
+    [ComponentCategory(ComponentCategory.CiphersClassic)]
+    public class T310 : ICrypComponent
     {
         #region Private Variables
 

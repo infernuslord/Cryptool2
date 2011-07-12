@@ -31,7 +31,8 @@ namespace Cryptool.Plugins.Variable
     
     [Author("Sven Rech", "sven.rech@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
     [PluginInfo("Variable.Properties.Resources", false, "VariableStoreCaption", "VariableStoreTooltip", "VariableStoreDescriptionURL", "Variable/storeIcon.png")]
-    class VariableStore : IOutput
+    [ComponentCategory(ComponentCategory.ToolsDataflow)]
+    class VariableStore : ICrypComponent
     {
         static public event StoreVariable OnVariableStore;
 

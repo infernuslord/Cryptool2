@@ -1,5 +1,5 @@
-﻿/* HOWTO: Change year, author name and organization.
-   Copyright 2010 Your Name, University of Duckburg
+﻿/*
+   Copyright 2010 CrypTool 2 Team
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -18,7 +18,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Cryptool.PluginBase;
-using Cryptool.PluginBase.Analysis;
 using Cryptool.PluginBase.Cryptography;
 using System.ComponentModel;
 using Cryptool.PluginBase.IO;
@@ -29,8 +28,8 @@ namespace Cryptool.Plugins.PlayfairAnalysisStatistic
 {    
     [Author("Christoph Hartmann", "chris-ha@freenet.de", "Johannes Gutenberg-Universität Mainz", "http://www.uni-mainz.de")]
     [PluginInfo("PlayfairAnalysisStatistic.Properties.Resources", true, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "CrypWin/images/default.png")]
-    [EncryptionType(EncryptionType.Classic)]
-    public class PlayfairAnalysisStatistic : ISpecific
+    [ComponentCategory(ComponentCategory.CryptanalysisSpecific)]
+    public class PlayfairAnalysisStatistic : ICrypComponent
     {
         #region Private Variables
                 

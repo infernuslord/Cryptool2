@@ -31,7 +31,8 @@ namespace Cryptool.Plugins.Convertor
 {
     [Author("Dr. Arno Wacker", "arno.wacker@cryptool.org", "Uni Duisburg", "http://www.uni-duisburg-essen.de")]
     [PluginInfo("Cryptool.Plugins.Convertor.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "StreamToStringConverter/s2t-icon.png")]
-    public class StreamToStringConverter : IThroughput
+    [ComponentCategory(ComponentCategory.ToolsMisc)]
+    public class StreamToStringConverter : ICrypComponent
     {
         #region Public interface
 

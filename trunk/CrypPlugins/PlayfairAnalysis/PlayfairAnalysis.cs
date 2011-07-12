@@ -20,7 +20,6 @@ using System.Linq;
 using System.Text;
 using System.Windows.Controls;
 using Cryptool.PluginBase;
-using Cryptool.PluginBase.Analysis;
 using Cryptool.PluginBase.Cryptography;
 using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase.Miscellaneous;
@@ -33,8 +32,8 @@ namespace Cryptool.Plugins.PlayfairAnalysis
 {   
     [Author("Christoph Hartmann", "chris-ha@freenet.de", "Johannes Gutenberg-Universität Mainz", "http://www.uni-mainz.de")]
     [PluginInfo("PlayfairAnalysis.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "PlayfairAnalysis/Images/icon.png")]
-    [EncryptionType(EncryptionType.Classic)]
-    public class PlayfairAnalysis : ISpecific
+    [ComponentCategory(ComponentCategory.CryptanalysisSpecific)]
+    public class PlayfairAnalysis : ICrypComponent
     {
         #region Private Variables
                 

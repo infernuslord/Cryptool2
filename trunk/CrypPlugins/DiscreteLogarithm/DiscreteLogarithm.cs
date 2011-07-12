@@ -32,11 +32,12 @@ namespace Cryptool.Plugins.DiscreteLogarithm
 {
     [Author("Sven Rech", null, "Uni Duisburg-Essen", "http://www.uni-due.de")]
     [PluginInfo("DiscreteLogarithm.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "DiscreteLogarithm/icon.png")]
+    [ComponentCategory(ComponentCategory.CryptanalysisGeneric)]
     /// <summary>
     /// This plugin calculates the discrete logarithm of the input.
     /// The input contains of a the BigInteger value and base and the modulo value to determine the residue class
     /// </summary>
-    class DiscreteLogarithm : IThroughput
+    class DiscreteLogarithm : ICrypComponent
     {
         #region private members
 

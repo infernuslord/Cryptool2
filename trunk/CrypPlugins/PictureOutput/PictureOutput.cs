@@ -26,7 +26,8 @@ namespace PictureOutput
 {
     [Author("Nils Kopal", "nils.kopal@cryptool.org", "Uni Duisburg", "http://www.uni-duisburg-essen.de")]
     [PluginInfo("PictureOutput.Properties.Resources", false, "PluginCaption", "PluginTooltip", null, "PictureOutput/icon.png")]
-    public class PictureOutput : IOutput
+    [ComponentCategory(ComponentCategory.ToolsDataInputOutput)]
+    public class PictureOutput : ICrypComponent
     {
         private PictureOutputSettings _settings = null;
         private PictureOutputPresentation _presentation = null;

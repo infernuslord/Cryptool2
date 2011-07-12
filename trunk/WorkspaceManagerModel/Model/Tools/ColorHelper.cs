@@ -17,11 +17,8 @@
 using System;
 using System.Numerics;
 using System.Windows.Media;
-using Cryptool.PluginBase.Cryptography;
-using Cryptool.PluginBase.Analysis;
-using Cryptool.PluginBase.Generator;
 using System.IO;
-using Cryptool.PluginBase.Steganography;
+using Cryptool.PluginBase;
 
 namespace WorkspaceManager.Model
 {
@@ -52,54 +49,28 @@ namespace WorkspaceManager.Model
             }
         }
 
-        public static Color SymmetricBlockColor
+        public static Color SymmetricColor
         {
             get
             {
-                return DrawingToMedia(WorkspaceManagerModel.Properties.Settings.Default.SymmetricBlockColor);
+                return DrawingToMedia(WorkspaceManagerModel.Properties.Settings.Default.SymmetricColor);
             }
             set
             {
-                WorkspaceManagerModel.Properties.Settings.Default.SymmetricBlockColor = MediaToDrawing(value);
+                WorkspaceManagerModel.Properties.Settings.Default.SymmetricColor = MediaToDrawing(value);
                 WorkspaceManagerModel.Properties.Settings.Default.Save();
             }
         }
 
-        public static Color SymmetricStreamColor
+        public static Color ToolsColor
         {
             get
             {
-                return DrawingToMedia(WorkspaceManagerModel.Properties.Settings.Default.SymmetricStreamColor);
+                return DrawingToMedia(WorkspaceManagerModel.Properties.Settings.Default.ToolsColor);
             }
             set
             {
-                WorkspaceManagerModel.Properties.Settings.Default.SymmetricStreamColor = MediaToDrawing(value);
-                WorkspaceManagerModel.Properties.Settings.Default.Save();
-            }
-        }
-
-        public static Color HybridColor
-        {
-            get
-            {
-                return DrawingToMedia(WorkspaceManagerModel.Properties.Settings.Default.HybridColor);
-            }
-            set
-            {
-                WorkspaceManagerModel.Properties.Settings.Default.HybridColor = MediaToDrawing(value);
-                WorkspaceManagerModel.Properties.Settings.Default.Save();
-            }
-        }
-
-        public static Color GeneratorColor
-        {
-            get
-            {
-                return DrawingToMedia(WorkspaceManagerModel.Properties.Settings.Default.GeneratorColor);
-            }
-            set
-            {
-                WorkspaceManagerModel.Properties.Settings.Default.GeneratorColor = MediaToDrawing(value);
+                WorkspaceManagerModel.Properties.Settings.Default.ToolsColor = MediaToDrawing(value);
                 WorkspaceManagerModel.Properties.Settings.Default.Save();
             }
         }
@@ -117,28 +88,28 @@ namespace WorkspaceManager.Model
             }
         }
 
-        public static Color StatisticColor
+        public static Color AnalysisGenericColor
         {
             get
             {
-                return DrawingToMedia(WorkspaceManagerModel.Properties.Settings.Default.StatisticColor);
+                return DrawingToMedia(WorkspaceManagerModel.Properties.Settings.Default.AnalysisGenericColor);
             }
             set
             {
-                WorkspaceManagerModel.Properties.Settings.Default.StatisticColor = MediaToDrawing(value);
+                WorkspaceManagerModel.Properties.Settings.Default.AnalysisGenericColor = MediaToDrawing(value);
                 WorkspaceManagerModel.Properties.Settings.Default.Save();
             }
         }
 
-        public static Color AnalysisMiscColor
+        public static Color AnalysisSpecificColor
         {
             get
             {
-                return DrawingToMedia(WorkspaceManagerModel.Properties.Settings.Default.AnalysisMiscColor);
+                return DrawingToMedia(WorkspaceManagerModel.Properties.Settings.Default.AnalysisSpecificColor);
             }
             set
             {
-                WorkspaceManagerModel.Properties.Settings.Default.AnalysisMiscColor = MediaToDrawing(value);
+                WorkspaceManagerModel.Properties.Settings.Default.AnalysisSpecificColor = MediaToDrawing(value);
                 WorkspaceManagerModel.Properties.Settings.Default.Save();
             }
         }
@@ -260,6 +231,19 @@ namespace WorkspaceManager.Model
             }
         }
 
+        public static Color ProtocolColor
+        {
+            get
+            {
+                return DrawingToMedia(WorkspaceManagerModel.Properties.Settings.Default.ProtocolColor);
+            }
+            set
+            {
+                WorkspaceManagerModel.Properties.Settings.Default.ProtocolColor = MediaToDrawing(value);
+                WorkspaceManagerModel.Properties.Settings.Default.Save();
+            }
+        }
+
         public static Color DefaultColor
         {
             get
@@ -307,54 +291,39 @@ namespace WorkspaceManager.Model
                 {
                     return DefaultColor;
                 }
-                if (type.GetInterface(typeof(IEncryption).Name) != null)
+
+                ComponentCategoryAttribute[] attr = type.GetComponentCategoryAttributes();
+                if (attr == null || attr.Length == 0)
+                    return DefaultColor;
+
+                switch (attr[0].Category) // consider first attribute found, ignore remaining ones
                 {
-                    EncryptionTypeAttribute eta = type.GetEncryptionTypeAttribute();
-                    switch (eta.EncryptionType)
-                    {
-                        case EncryptionType.Asymmetric:
-                            return AsymmetricColor;
-
-                        case EncryptionType.Classic:
-                            return ClassicColor;
-
-                        case EncryptionType.SymmetricBlock:
-                            return SymmetricBlockColor;
-
-                        case EncryptionType.SymmetricStream:
-                            return SymmetricStreamColor;
-
-                        case EncryptionType.Hybrid:
-                            return HybridColor;
-                    }
+                    case ComponentCategory.CiphersClassic:
+                        return ClassicColor;
+                    case ComponentCategory.CiphersModernSymmetric:
+                        return SymmetricColor;
+                    case ComponentCategory.CiphersModernAsymmetric:
+                        return AsymmetricColor;
+                    case ComponentCategory.Steganography:
+                        return SteganographyColor;
+                    case ComponentCategory.HashFunctions:
+                        return HashColor;
+                    case ComponentCategory.CryptanalysisSpecific:
+                        return AnalysisSpecificColor;
+                    case ComponentCategory.CryptanalysisGeneric:
+                        return AnalysisGenericColor;
+                    case ComponentCategory.Protocols:
+                        return ProtocolColor;
+                    case ComponentCategory.ToolsStandalone:
+                    case ComponentCategory.ToolsBoolean:
+                    case ComponentCategory.ToolsDataflow:
+                    case ComponentCategory.ToolsDataInputOutput:
+                    case ComponentCategory.ToolsMisc:
+                    case ComponentCategory.ToolsP2P:
+                        return ToolsColor;
+                    default:
+                        return DefaultColor;
                 }
-
-                if (type.GetInterface(typeof(IGenerator).Name) != null)
-                {
-                    return GeneratorColor;
-                }
-
-                if (type.GetInterface(typeof(IHash).Name) != null)
-                {
-                    return HashColor;
-                }
-
-                if (type.GetInterface(typeof(IStatistic).Name) != null)
-                {
-                    return StatisticColor;
-                }
-
-                if (type.GetInterface(typeof(IAnalysisMisc).Name) != null)
-                {
-                    return AnalysisMiscColor;
-                }
-
-                if (type.GetInterface(typeof(ISteganography).Name) != null)
-                {
-                    return SteganographyColor;
-                }
-
-                return DefaultColor;
             }
             catch (Exception)
             {

@@ -32,7 +32,8 @@ namespace Cryptool.Plugins.Convertor
     // Converts a given string into a stream by using different encodings.
     [Author("Dr. Arno Wacker", "arno.wacker@cryptool.org", "Uni Duisburg", "http://www.uni-duisburg-essen.de")]
     [PluginInfo("Cryptool.Plugins.Convertor.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "StringToStreamConverter/t2s-icon.png")]
-    public class StringToStreamConverter : IThroughput
+    [ComponentCategory(ComponentCategory.ToolsMisc)]
+    public class StringToStreamConverter : ICrypComponent
     {
         #region Public interface
 

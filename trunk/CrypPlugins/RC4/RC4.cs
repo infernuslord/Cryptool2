@@ -32,9 +32,8 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 {
     [Author("Florian Marchal", "florian@marchal.de", "", "")]
     [PluginInfo("Cryptool.RC4.Properties.Resources", false, "PluginCaption", "PluginTooltip", "RC4/DetailedDescription/doc.xml", "RC4/icon.png", "RC4/Images/encrypt.png", "RC4/Images/decrypt.png")]
-    [EncryptionType(EncryptionType.SymmetricBlock)]
-
-    public class RC4 : IEncryption
+    [ComponentCategory(ComponentCategory.CiphersModernSymmetric)]
+    public class RC4 : ICrypComponent
     {
         #region Private variables
         // RC4 settings

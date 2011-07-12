@@ -24,8 +24,8 @@ namespace Cryptool.Scytale
 {
     [Author("Fabian Enkler, A. Wacker", "enkler@cryptool.org, wacker@cryptool.org", "Uni Duisburg-Essen", "http://www.vs.uni-duisburg-essen.de")]
     [PluginInfo("Cryptool.Scytale.Properties.Resources", false, "PluginCaption", "PluginTooltip", "Scytale/DetailedDescription/doc.xml", "Scytale/icon.png")]
-    [EncryptionType(EncryptionType.Classic)]
-    public class Scytale : IEncryption
+    [ComponentCategory(ComponentCategory.CiphersClassic)]
+    public class Scytale : ICrypComponent
     {
         private readonly ScytaleSettings settings;
         private int CharsPerRow;

@@ -29,8 +29,9 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace Cryptool.Plugins.BooleanOperators
 {
     [Author("Nils Kopal", "nils.kopal@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-duisburg-essen.de")]
-    [PluginInfo("BooleanOperators.Properties.Resources", false, "PluginBN_Caption", "PluginBN_Tooltip", "PluginDescriptionURL", "BooleanOperators/icons/not.png")]  
-    public class BooleanNot : IThroughput
+    [PluginInfo("BooleanOperators.Properties.Resources", false, "PluginBN_Caption", "PluginBN_Tooltip", "PluginDescriptionURL", "BooleanOperators/icons/not.png")]
+    [ComponentCategory(ComponentCategory.ToolsBoolean)]
+    public class BooleanNot : ICrypComponent
     {
 
         private Boolean input = false;

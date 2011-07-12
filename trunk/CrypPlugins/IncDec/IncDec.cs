@@ -28,7 +28,8 @@ namespace IncDec
 {
   [Author("Thomas Schmid", "thomas.schmid@cryptool.org", "Uni Siegen", "http://www.uni-siegen.de")]
   [PluginInfo("IncDec.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "IncDec/increment.png", "IncDec/decrement.png")]
-  public class IncDec : IThroughput
+  [ComponentCategory(ComponentCategory.ToolsMisc)]
+  public class IncDec : ICrypComponent
   {
     private IncDecSettings settings = new IncDecSettings();
     private int input;

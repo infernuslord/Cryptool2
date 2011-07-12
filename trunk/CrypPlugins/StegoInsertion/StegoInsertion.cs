@@ -26,14 +26,13 @@ using System.ComponentModel;
 using System.Windows.Controls;
 using Cryptool.PluginBase.Cryptography;
 using System.IO;
-using Cryptool.PluginBase.Steganography;
 
 namespace Cryptool.Plugins.StegoInsertion
 {
     [Author("Corinna John", "coco@steganografie.eu", "", "http://www.steganografie.eu")]
     [PluginInfo("StegoInsertion.Properties.Resources", false, "PluginCaption", "PluginTooltip", null, "CrypWin/images/default.png")]
-    [EncryptionType(EncryptionType.Classic)]
-    public class StegoInsertion : ISteganography
+    [ComponentCategory(ComponentCategory.Steganography)]
+    public class StegoInsertion : ICrypComponent
     {
         #region Private Variables
 

@@ -33,7 +33,8 @@ namespace Dictionary
 {
     [Author("Thomas Schmid, Matthäus Wander", "thomas.schmid@cryptool.org", "Uni Siegen", "http://www.uni-siegen.de")]
     [PluginInfo("Dictionary.Properties.Resources", true, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "Dictionary/icon.png")]
-    public class CryptoolDictionary : IInput
+    [ComponentCategory(ComponentCategory.ToolsDataInputOutput)]
+    public class CryptoolDictionary : ICrypComponent
     {
         # region private_variables
 

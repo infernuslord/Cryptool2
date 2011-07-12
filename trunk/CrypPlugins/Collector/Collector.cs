@@ -29,7 +29,8 @@ namespace Cryptool.Plugins.Collector
     [Author("Sven Rech", "sven.rech@cryptool.com", "Uni Duisburg-Essen", "http://www.uni-due.de")]
     [PluginInfo("Collector.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "Collector/icon.png")]
     [Synchronization]
-    class Collector : IThroughput
+    [ComponentCategory(ComponentCategory.ToolsDataflow)]
+    class Collector : ICrypComponent
     {
         #region Private Variables
         private CollectorSettings settings = new CollectorSettings();

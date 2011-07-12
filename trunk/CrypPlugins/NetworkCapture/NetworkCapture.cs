@@ -15,7 +15,6 @@
 */
 using Cryptool.PluginBase;
 using System.ComponentModel;
-using Cryptool.PluginBase.Generator;
 using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase.Miscellaneous;
 using System.Windows.Controls;
@@ -27,7 +26,8 @@ namespace Cryptool.Plugins.NetworkCapture
 {
     [Author("Matthäus Wander", "wander@cryptool.org", "University of Duisburg-Essen", "http://www.vs.uni-due.de")]
     [PluginInfo("NetworkCapture.Properties.Resources", true, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "CrypWin/images/default.png")]
-    public class NetworkCapture : IGeneratorMisc
+    [ComponentCategory(ComponentCategory.ToolsDataInputOutput)]
+    public class NetworkCapture : ICrypComponent
     {
         #region Private Variables
 

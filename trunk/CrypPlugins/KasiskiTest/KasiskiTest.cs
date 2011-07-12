@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Cryptool.PluginBase;
-using Cryptool.PluginBase.Analysis;
 using System.ComponentModel;
 using Cryptool.KasiskiTest;
 
@@ -14,11 +13,9 @@ namespace Cryptool.KasiskiTest
 {
     [Author("Georgi Angelov & Danail Vazov", "vazov@cryptool.org", "Uni Duisburg", "http://www.uni-duisburg-essen.de")]
     [PluginInfo("KasiskiTest.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "KasiskiTest/icon.png")]
-    public class KasiskiTest : IStatistic
+    [ComponentCategory(ComponentCategory.CryptanalysisGeneric)]
+    public class KasiskiTest : ICrypComponent
     {
-        
-        
-
         #region Private Variables
         private int [] integerArray;
         private string stringOutput;

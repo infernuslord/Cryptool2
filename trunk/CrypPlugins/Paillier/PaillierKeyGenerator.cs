@@ -30,7 +30,7 @@ namespace Cryptool.Plugins.Paillier
 {
     [Author("Armin Krauss, Martin Franz", "", "", "http://www.uni-due.de")]
     [PluginInfo("Paillier.Properties.Resources", true, "PluginKeyCaption", "PluginKeyTooltip", "PluginKeyDescriptionURL", "Paillier/Image/PaillierKey.png")]
-    [EncryptionType(EncryptionType.Asymmetric)]
+    [ComponentCategory(ComponentCategory.CiphersModernAsymmetric)]
     /**
     <summary>
      This plugin is a generator plugin which helps the user to generate pairs of private/public keys
@@ -46,7 +46,7 @@ namespace Cryptool.Plugins.Paillier
 
     </summary>    
      **/
-    class PaillierKeyGenerator : IEncryption
+    class PaillierKeyGenerator : ICrypComponent
     {
         #region private members
 

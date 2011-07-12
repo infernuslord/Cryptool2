@@ -30,7 +30,8 @@ namespace ClipboardInput
   // Retrieves data from clipboard and passes it on as a stream
   [Author("Timm Korte", "cryptool@easycrypt.de", "Uni Bochum", "http://www.ruhr-uni-bochum.de")]
   [PluginInfo("ClipboardInput.Properties.Resources", true, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "ClipboardInput/icon.png")]
-  public class ClipboardInput : IInput
+  [ComponentCategory(ComponentCategory.ToolsDataInputOutput)]
+  public class ClipboardInput : ICrypComponent
   {
 
     #region Private Variables

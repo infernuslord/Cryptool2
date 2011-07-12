@@ -29,7 +29,8 @@ namespace Cryptool.Plugins.LengthOf
 {
     [Author("Christian Arnold", "christian.arnold@stud.uni-due.de", "Uni Duisburg-Essen", "http://www.uni-due.de")]
     [PluginInfo("LengthOf.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "LengthOf/LenOf.png")]
-    public class LengthOf : IThroughput
+    [ComponentCategory(ComponentCategory.ToolsMisc)]
+    public class LengthOf : ICrypComponent
     {
         private LengthOfSettings settings = new LengthOfSettings();
 

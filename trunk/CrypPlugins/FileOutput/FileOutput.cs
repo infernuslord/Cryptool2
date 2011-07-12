@@ -32,7 +32,8 @@ namespace FileOutput
 {
   [Author("Thomas Schmid", "thomas.schmid@cryptool.org", "Uni Siegen", "http://www.uni-siegen.de")]
   [PluginInfo("FileOutput.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "FileOutput/icon.png")]
-  public class FileOutputClass : IOutput
+  [ComponentCategory(ComponentCategory.ToolsDataInputOutput)]
+  public class FileOutputClass : ICrypComponent
   {
     #region Private variables    
     public FileOutputSettings settings = null;

@@ -27,7 +27,8 @@ namespace Factorizer
 {
   [Author("Timo Eckhardt", "T-Eckhardt@gmx.de", "Uni Siegen", "http://www.uni-siegen.de")]
   [PluginInfo("Factorizer.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "Factorizer/icon.png")]
-  public class Factorizer : IThroughput
+  [ComponentCategory(ComponentCategory.CryptanalysisGeneric)]
+    public class Factorizer : ICrypComponent
   {
     public Factorizer()
     {

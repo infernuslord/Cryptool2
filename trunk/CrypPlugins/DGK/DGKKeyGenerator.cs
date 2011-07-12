@@ -30,7 +30,7 @@ namespace Cryptool.Plugins.DGK
 {
     [Author("Armin Krauss, Martin Franz", "", "", "http://www.uni-due.de")]
     [PluginInfo("DGK.Properties.Resources", true, "PluginKeyCaption", "PluginKeyTooltip", "PluginKeyDescriptionURL", "DGK/Image/DGKKey.png")]
-    [EncryptionType(EncryptionType.Asymmetric)]
+    [ComponentCategory(ComponentCategory.CiphersModernAsymmetric)]
     /**
     <summary>
      This plugin is a generator plugin which helps the user to generate pairs of private/public keys
@@ -46,7 +46,7 @@ namespace Cryptool.Plugins.DGK
 
     </summary>    
      **/
-    class DGKKeyGenerator : IEncryption
+    class DGKKeyGenerator : ICrypComponent
     {
         #region private members
 

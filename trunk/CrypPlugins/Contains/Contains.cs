@@ -23,7 +23,6 @@ using System.Windows.Controls;
 using System.ComponentModel;
 using System.IO;
 using Contains.Aho_Corasick;
-using Cryptool.PluginBase.Analysis;
 using System.Collections;
 using Cryptool.PluginBase.Miscellaneous;
 using System.Threading;
@@ -34,7 +33,8 @@ namespace Contains
 {
   [Author("Thomas Schmid", "thomas.schmid@cryptool.org", "Uni Siegen", "http://www.uni-siegen.de")]
   [PluginInfo("Contains.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "Contains/icon.png", "Contains/subset.png", "Contains/no_subset.png")]
-  public class Contains : IAnalysisMisc
+  [ComponentCategory(ComponentCategory.CryptanalysisGeneric)]
+  public class Contains : ICrypComponent
   {    
     private ContainsSettings settings;
     private StringSearch stringSearch;

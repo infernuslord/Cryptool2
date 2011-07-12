@@ -30,8 +30,8 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 {
     [Author("Sebastian Przybylski", "sebastian@przybylski.org", "Uni-Siegen", "http://www.uni-siegen.de")]
     [PluginInfo("Cryptool.RC2.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "RC2/icon.png", "RC2/Images/encrypt.png", "RC2/Images/decrypt.png")]
-    [EncryptionType(EncryptionType.SymmetricBlock)]
-    public class RC2 : IEncryption
+    [ComponentCategory(ComponentCategory.CiphersModernSymmetric)]
+    public class RC2 : ICrypComponent
     {
         #region Private variables
         private RC2Settings settings;

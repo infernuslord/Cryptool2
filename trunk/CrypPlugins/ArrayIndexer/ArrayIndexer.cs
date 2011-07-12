@@ -27,8 +27,8 @@ namespace Cryptool.Plugins.ArrayIndexer
 {
     [Author("Christian Arnold", "christian.arnold@stud.uni-due.de", "Uni Duisburg-Essen", "")]
     [PluginInfo("ArrayIndexer.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "ArrayIndexer/arrayindexer.png")]
-
-    public class ArrayIndexer : IThroughput
+    [ComponentCategory(ComponentCategory.ToolsDataflow)]
+    public class ArrayIndexer : ICrypComponent
     {
         #region IPlugin Members
 

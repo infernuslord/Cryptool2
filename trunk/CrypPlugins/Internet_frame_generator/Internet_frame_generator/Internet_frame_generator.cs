@@ -8,7 +8,6 @@ using System.Windows.Controls;
 using System.ComponentModel;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.IO;
-using Cryptool.PluginBase.Generator;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Globalization;
 
@@ -28,7 +27,8 @@ namespace Cryptool.Internet_frame_generator
         "PluginTooltip",
         "PluginDescriptionURL",
         "Internet_frame_generator/icon.jpg")]
-    public class Internet_frame_generator : IRandomNumberGenerator
+    [ComponentCategory(ComponentCategory.ToolsDataInputOutput)]
+    public class Internet_frame_generator : ICrypComponent
     {
         #region private variables
 

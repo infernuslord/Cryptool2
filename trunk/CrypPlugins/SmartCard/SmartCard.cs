@@ -13,7 +13,8 @@ namespace SmartCard
 {
   [Author("Malte Gronau", null, "", "")]
   [PluginInfo("SmartCard.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "SmartCard/Images/SmartCard.png")]
-  public class SmartCard : IThroughput
+  [ComponentCategory(ComponentCategory.Protocols)]
+  public class SmartCard : ICrypComponent
   {
     # region private variables
     private SmartCardSettings settings = new SmartCardSettings();

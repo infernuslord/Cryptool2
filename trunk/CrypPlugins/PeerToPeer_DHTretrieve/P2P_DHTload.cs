@@ -34,7 +34,8 @@ namespace Cryptool.Plugins.PeerToPeer
     /// </summary>
     [Author("Christian Arnold", "arnold@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
     [PluginInfo("Cryptool.Plugins.PeerToPeer.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "PeerToPeer_DHTretrieve/ct2_dht_load_icon_medium.png")]
-    public class P2P_DHTload : IThroughput
+    [ComponentCategory(ComponentCategory.ToolsP2P)]
+    public class P2P_DHTload : ICrypComponent
     {
         private P2PDHTloadSettings settings;
 

@@ -29,8 +29,8 @@ namespace Nihilist
 {
     [Author("Fabian Enkler", "enkler@cryptool.org", "", "")]
     [PluginInfo("Nihilist.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "Nihilist/icon.png")]
-    [EncryptionType(EncryptionType.Classic)]
-    public class Nihilist : IEncryption
+    [ComponentCategory(ComponentCategory.CiphersClassic)]
+    public class Nihilist : ICrypComponent
     {
         public const string ALPHABET = "abcdefghiklmnopqrstuvwxyz";
 

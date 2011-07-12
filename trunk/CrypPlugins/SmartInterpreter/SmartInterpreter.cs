@@ -13,7 +13,8 @@ namespace SmartInterpreter
 {
   [Author("Malte Gronau", "malte.gronau@web.de", "", "")]
   [PluginInfo("SmartInterpreter.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "SmartInterpreter/Images/SmartInterpreter.png")]
-  public class SmartInterpreter : IThroughput
+  [ComponentCategory(ComponentCategory.Protocols)]
+  public class SmartInterpreter : ICrypComponent
   {
     # region private variables
     private SmartInterpreterSettings settings = new SmartInterpreterSettings();

@@ -24,13 +24,13 @@ using Cryptool.PluginBase.Miscellaneous;
 using System.Windows.Controls;
 using System.Collections.ObjectModel;
 using System.IO;
-using Cryptool.PluginBase.Steganography;
 
 namespace Cryptool.Plugins.StegoPermutation
 {
     [Author("Corinna John", "coco@steganografie.eu", "", "http://www.steganografie.eu")]
     [PluginInfo(false, "Permutation Steganography", "Encodes a message in the permutation of a list", null, "CrypWin/images/default.png")]
-    public class StegoPermutation : ISteganography
+    [ComponentCategory(ComponentCategory.Steganography)]
+    public class StegoPermutation : ICrypComponent
     {
         #region Private Variables
 

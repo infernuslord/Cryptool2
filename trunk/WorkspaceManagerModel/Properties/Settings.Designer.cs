@@ -50,48 +50,24 @@ namespace WorkspaceManagerModel.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("212, 144, 144")]
-        public global::System.Drawing.Color SymmetricBlockColor {
+        public global::System.Drawing.Color SymmetricColor {
             get {
-                return ((global::System.Drawing.Color)(this["SymmetricBlockColor"]));
+                return ((global::System.Drawing.Color)(this["SymmetricColor"]));
             }
             set {
-                this["SymmetricBlockColor"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("148, 188, 138")]
-        public global::System.Drawing.Color SymmetricStreamColor {
-            get {
-                return ((global::System.Drawing.Color)(this["SymmetricStreamColor"]));
-            }
-            set {
-                this["SymmetricStreamColor"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("212, 144, 144")]
-        public global::System.Drawing.Color HybridColor {
-            get {
-                return ((global::System.Drawing.Color)(this["HybridColor"]));
-            }
-            set {
-                this["HybridColor"] = value;
+                this["SymmetricColor"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("138, 188, 148")]
-        public global::System.Drawing.Color GeneratorColor {
+        public global::System.Drawing.Color ToolsColor {
             get {
-                return ((global::System.Drawing.Color)(this["GeneratorColor"]));
+                return ((global::System.Drawing.Color)(this["ToolsColor"]));
             }
             set {
-                this["GeneratorColor"] = value;
+                this["ToolsColor"] = value;
             }
         }
         
@@ -110,24 +86,24 @@ namespace WorkspaceManagerModel.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("140, 138, 188")]
-        public global::System.Drawing.Color StatisticColor {
+        public global::System.Drawing.Color AnalysisGenericColor {
             get {
-                return ((global::System.Drawing.Color)(this["StatisticColor"]));
+                return ((global::System.Drawing.Color)(this["AnalysisGenericColor"]));
             }
             set {
-                this["StatisticColor"] = value;
+                this["AnalysisGenericColor"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("188, 138, 172")]
-        public global::System.Drawing.Color AnalysisMiscColor {
+        public global::System.Drawing.Color AnalysisSpecificColor {
             get {
-                return ((global::System.Drawing.Color)(this["AnalysisMiscColor"]));
+                return ((global::System.Drawing.Color)(this["AnalysisSpecificColor"]));
             }
             set {
-                this["AnalysisMiscColor"] = value;
+                this["AnalysisSpecificColor"] = value;
             }
         }
         
@@ -248,6 +224,18 @@ namespace WorkspaceManagerModel.Properties {
             }
             set {
                 this["SteganographyColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("130, 100, 200")]
+        public global::System.Drawing.Color ProtocolColor {
+            get {
+                return ((global::System.Drawing.Color)(this["ProtocolColor"]));
+            }
+            set {
+                this["ProtocolColor"] = value;
             }
         }
     }

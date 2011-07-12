@@ -47,7 +47,8 @@ namespace Cryptool.BooleanFunctionParser
 {
     [Author("Soeren Rinne", "soeren.rinne@cryptool.de", "Ruhr-Universitaet Bochum, Chair for System Security", "http://www.trust.rub.de/")]
     [PluginInfo("Cryptool.BooleanFunctionParser.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "BooleanFunctionParser/Images/icon2.png")]
-    public class BooleanFunctionParser : IThroughput, Cryptool.PluginBase.IPlugin
+    [ComponentCategory(ComponentCategory.ToolsBoolean)]
+    public class BooleanFunctionParser : ICrypComponent
     {
         #region Private variables
 

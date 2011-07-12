@@ -1,5 +1,5 @@
-﻿/* HOWTO: Change year, author name and organization.
-   Copyright 2010 Your Name, University of Duckburg
+﻿/*
+   Copyright 2010 CrypTool 2 Team
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -22,7 +22,6 @@ using System.Text.RegularExpressions;
 using Cryptool.PluginBase;
 using System.ComponentModel;
 using Cryptool.PluginBase.Control;
-using Cryptool.PluginBase.Analysis;
 using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase.Miscellaneous;
 using System.Windows.Controls;
@@ -33,7 +32,8 @@ namespace SolitaireAnalyser
 {
     [Author("Coen Ramaekers", "c.f.w.ramaekers@student.tue.nl", "Technische Universiteit Eindhoven", "http://www.win.tue.nl")]
     [PluginInfo("SolitaireAnalyser.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "SolitaireAnalyser/solbreak.jpg")]
-    public class SolitaireAnalyser : IAnalysisMisc
+    [ComponentCategory(ComponentCategory.CryptanalysisSpecific)]
+    public class SolitaireAnalyser : ICrypComponent
 
     {
         #region Private Variables

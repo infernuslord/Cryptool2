@@ -41,9 +41,9 @@ namespace Cryptool.PRESENT
 {
     [Author("Timm Korte", "cryptool@easycrypt.de", "Uni Bochum", "http://www.ruhr-uni-bochum.de")]
     [PluginInfo("Cryptool.PRESENT.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "PRESENT/icon.png", "PRESENT/Images/encrypt.png", "PRESENT/Images/decrypt.png")]
-    [EncryptionType(EncryptionType.SymmetricBlock)]
+    [ComponentCategory(ComponentCategory.CiphersModernSymmetric)]
     [Synchronization(SynchronizationAttribute.REQUIRES_NEW)]
-    public class PRESENT : ContextBoundObject, IEncryption
+    public class PRESENT : ContextBoundObject, ICrypComponent
     {
         #region Private variables
         private PRESENTSettings settings;

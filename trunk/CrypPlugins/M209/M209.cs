@@ -23,8 +23,6 @@ using System.Windows.Controls;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase.Miscellaneous;
-using Cryptool.PluginBase.Cryptography;
-
 
 namespace Cryptool.Plugins.M209
 {
@@ -34,8 +32,8 @@ namespace Cryptool.Plugins.M209
       "M209/Images/M-209.jpg", "M209/Images/encrypt.png", "M209/Images/decrypt.png")]
     
     // HOWTO: Change interface to one that fits to your plugin (see CrypPluginBase).
-    [EncryptionType(EncryptionType.Classic)]
-    public class M209 : IEncryption
+    [ComponentCategory(ComponentCategory.CiphersClassic)]
+    public class M209 : ICrypComponent
     {
         #region Private Variables
 

@@ -10,9 +10,9 @@ using System.Numerics;
 
 namespace PrimeTest
 {
-  [PluginInfo("PrimeTest.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "PrimeTest/icon.png")] 
- 
-  public class PrimeTest:IThroughput
+  [PluginInfo("PrimeTest.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "PrimeTest/icon.png")]
+  [ComponentCategory(ComponentCategory.CryptanalysisGeneric)]
+  public class PrimeTest : ICrypComponent
   {
     #region IPlugin Members
 

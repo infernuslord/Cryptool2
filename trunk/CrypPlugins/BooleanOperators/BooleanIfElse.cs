@@ -30,7 +30,8 @@ namespace Cryptool.Plugins.BooleanOperators
 {
     [Author("Nils Kopal", "nils.kopal@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-duisburg-essen.de")]
     [PluginInfo("BooleanOperators.Properties.Resources", false, "PluginBIE_Caption", "PluginBIE_Tooltip", "PluginDescriptionURL", "BooleanOperators/icons/ifelse.png")]
-    public class BooleanIfElse : IThroughput
+    [ComponentCategory(ComponentCategory.ToolsBoolean)]
+    public class BooleanIfElse : ICrypComponent
     {
 
         private Boolean input = false;

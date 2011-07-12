@@ -34,8 +34,6 @@ using System.Resources;
 //Cryptool 2.0 specific includes
 using Cryptool;
 using Cryptool.PluginBase;
-using Cryptool.PluginBase.Analysis;
-using Cryptool.PluginBase.Cryptography;
 using Cryptool.PluginBase.Miscellaneous;
 using Cryptool.PluginBase.IO;
 
@@ -45,8 +43,9 @@ namespace Cryptool.Enigma
     [Author("Dr. Arno Wacker, Matthäus Wander", "arno.wacker@cryptool.org", "Uni Duisburg-Essen, Fachgebiet Verteilte Systeme", "http://www.vs.uni-due.de")]
     [PluginInfo("Cryptool.Enigma.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL",
       "Enigma/Images/Enigma.png", "Enigma/Images/encrypt.png", "Enigma/Images/decrypt.png")]
-    [EncryptionType(EncryptionType.Classic)]
-    public class Enigma: IEncryption, ISpecific
+    [ComponentCategory(ComponentCategory.CiphersClassic)]
+    [ComponentCategory(ComponentCategory.CryptanalysisSpecific)]
+    public class Enigma : ICrypComponent
     {
         #region Constants
 

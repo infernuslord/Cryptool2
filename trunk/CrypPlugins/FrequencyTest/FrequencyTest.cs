@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Windows.Controls;
 using Cryptool.PluginBase;
-using Cryptool.PluginBase.Analysis;
 using Cryptool.PluginBase.Miscellaneous;
 using System.Windows.Media;
 
@@ -13,7 +12,8 @@ namespace Cryptool.FrequencyTest
 {
     [Author("Georgi Angelov & Danail Vazov & Matthäus Wander", "angelov@cryptool.org", "Uni Duisburg", "http://www.uni-duisburg-essen.de")]
     [PluginInfo("Cryptool.FrequencyTest.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "FrequencyTest/icon.png")]
-    public class FrequencyTest : IStatistic
+    [ComponentCategory(ComponentCategory.CryptanalysisGeneric)]
+    public class FrequencyTest : ICrypComponent
     {
         #region Const and variable definition
 

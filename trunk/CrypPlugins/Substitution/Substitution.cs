@@ -31,8 +31,8 @@ namespace Cryptool.Substitution
     [Author("Sebastian Przybylski", "sebastian@przybylski.org", "Uni-Siegen", "http://www.uni-siegen.de")]
     [PluginInfo("Substitution.Properties.Resources", false,"PluginCaption", "PluginTooltip", "PluginDescriptionURL", 
       "Substitution/Images/icon.png", "Substitution/Images/encrypt.png", "Substitution/Images/decrypt.png")]
-    [EncryptionType(EncryptionType.Classic)]
-    public class Substitution : IEncryption
+    [ComponentCategory(ComponentCategory.CiphersClassic)]
+    public class Substitution : ICrypComponent
     {
         #region Private variables
 
