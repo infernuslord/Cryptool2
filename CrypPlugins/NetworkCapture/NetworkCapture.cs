@@ -155,7 +155,7 @@ namespace Cryptool.Plugins.NetworkCapture
                     this.settings.Collection.Add(dev.Description);
                 }
             }
-            catch (PcapException e)
+            catch (PcapException)
             {
                 GuiLogMessage("No device available. Is WinPcap installed?", NotificationLevel.Error);
             }

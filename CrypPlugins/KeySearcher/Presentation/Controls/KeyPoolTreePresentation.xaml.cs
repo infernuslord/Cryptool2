@@ -73,7 +73,7 @@ namespace KeySearcher.Presentation.Controls
                     _rootNode.UpdateAll();      //Updates everything that is not null in DHT
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 _rootNode = null;
             }

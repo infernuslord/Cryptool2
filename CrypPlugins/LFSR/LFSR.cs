@@ -100,7 +100,7 @@ namespace Cryptool.LFSR
                 try
                 {
                     preprocessLFSR(true);
-                } catch (Exception ex) {}
+                } catch (Exception) {}
             if (e.PropertyName == "SaveCurrentState")
             {
                 if (settings.SaveCurrentState)
@@ -119,7 +119,7 @@ namespace Cryptool.LFSR
                         settings.Period = "Period of LFSR: " + myPeriod.ToString();
                     //GuiLogMessage("Period: " + myPeriod, NotificationLevel.Info, true);
                 }
-                catch (Exception ex) { }
+                catch (Exception) { }
             }
         }
 
@@ -420,7 +420,7 @@ namespace Cryptool.LFSR
             {
                 preprocessLFSR(false);
             }
-            catch (Exception ex) { }
+            catch (Exception) { }
 
             if (lFSRPresentation.ReturnBackgroundColour() == Brushes.White)
             {
@@ -467,7 +467,7 @@ namespace Cryptool.LFSR
                         if (seedbuffer == compareToSeedbuffer)
                             return i;
                     }
-                } catch (Exception ex) {
+                } catch (Exception) {
 
                 }
             }
@@ -662,7 +662,7 @@ namespace Cryptool.LFSR
                             settings.Period = "Period of LFSR: " + myPeriod.ToString() + " (max.)";
                         else
                             settings.Period = "Period of LFSR: " + myPeriod.ToString();
-                    } catch (Exception ex) { }
+                    } catch (Exception) { }
                 }
                 
                 // Here we go!

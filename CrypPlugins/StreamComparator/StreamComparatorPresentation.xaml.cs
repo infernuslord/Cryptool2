@@ -63,7 +63,7 @@ namespace Cryptool.StreamComparator
           documentReader.Document = flowDocumentNew;
         }
         }
-        catch (Exception ex)
+        catch (Exception)
         {
           documentReader.Document = null;
         }

@@ -410,7 +410,7 @@ namespace Cryptool.Plugins.Converter
                                 ProgressChanged(100, 100);
                                 break;
                             }
-                            catch (Exception e)
+                            catch (Exception)
                             {
                             }
 
@@ -422,7 +422,7 @@ namespace Cryptool.Plugins.Converter
                                 ProgressChanged(100, 100);
                                 break;
                             }
-                            catch (Exception e)
+                            catch (Exception)
                             {
                             }
 
@@ -439,7 +439,7 @@ namespace Cryptool.Plugins.Converter
                                 ProgressChanged(100, 100);
                                 break;
                             }
-                            catch (Exception e)
+                            catch (Exception)
                             {
                             }
 

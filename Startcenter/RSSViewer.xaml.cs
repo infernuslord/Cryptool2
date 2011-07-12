@@ -58,13 +58,13 @@ namespace Startcenter
                                             IsUpdating = false;
                                             rssListBox.DataContext = _rssItems;
                                         }
-                                        catch (Exception ex)
+                                        catch (Exception)
                                         {
                                             //Uncritical failure: Do nothing
                                         }
                                     }, null);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //Uncritical failure: Do nothing
             }

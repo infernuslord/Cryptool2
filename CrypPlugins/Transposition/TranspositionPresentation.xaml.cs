@@ -1612,7 +1612,7 @@ namespace Transposition
                 else if (Convert.ToDouble(mainStory3.GetCurrentProgress().ToString()) != 1)
                     myupdateprogress(Convert.ToInt32(Convert.ToDouble(mainStory3.GetCurrentProgress().ToString()) * 1000) + 2000);
             }
-            catch (Exception exe) 
+            catch (Exception) 
             { 
             
             }

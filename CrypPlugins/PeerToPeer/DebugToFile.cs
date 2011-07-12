@@ -73,7 +73,7 @@ namespace Cryptool.Plugins.PeerToPeer.Internal
                 {
                     sw.Flush();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                 }
                 sw.Close();

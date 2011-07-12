@@ -33,7 +33,6 @@ namespace Cryptool.Enigma
         public TextBlock iAm = new TextBlock();
         public Boolean stop = false;
         private double timecounter = 0.0;
-        private int counter = 0;
         Boolean wrong;
         public int[] umkehrlist;
         #endregion
@@ -322,7 +321,6 @@ namespace Cryptool.Enigma
 
 
             double x = 29.39;
-            double y = 30.0;
             int ix = 0;
             double distance = 15;
             StackPanel stack = new StackPanel();

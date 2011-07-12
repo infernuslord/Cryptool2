@@ -54,7 +54,7 @@ namespace Cryptool.PluginBase.Miscellaneous
                 else
                     return Key;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return Key;
             }

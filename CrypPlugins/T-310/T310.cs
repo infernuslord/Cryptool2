@@ -446,7 +446,7 @@ namespace Cryptool.Plugins.T310
                 bool[] bo_U_Vektor = UVektorInit();                                      // U-Vektor auf Anfang setzen!
                 // hier jetzt Klartext holen und Chiffrieren
                 int int_zaehler = 0;
-                byte b_temp, b_temp0;
+                byte b_temp;
                 //Thread.Sleep(200);
                 while (int_zaehler < (by_array_eingabe.Length - 1))
                 {

@@ -32,7 +32,6 @@ namespace Transposition
         private byte[,] permuted_matrix;
         private int[] key;
         private AutoResetEvent ars;
-        private Boolean b;
 
         # endregion
 
@@ -48,7 +47,6 @@ namespace Transposition
             myPresentation.feuerEnde += new EventHandler(presentation_finished);
             myPresentation.updateProgress += new EventHandler(update_progress);
             this.settings.PropertyChanged += settings_OnPropertyChange;
-            b = true;
         }
 
         private void update_progress(object sender, EventArgs e) 

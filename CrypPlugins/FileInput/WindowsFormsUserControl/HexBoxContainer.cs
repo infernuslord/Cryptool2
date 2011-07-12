@@ -382,7 +382,7 @@ namespace FileInput.WindowsFormsUserControl
                     return DialogResult.OK;
                 }
             }
-            catch (Exception exception)
+            catch (Exception)
             {
                 return DialogResult.Cancel;
             }

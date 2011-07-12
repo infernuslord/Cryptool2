@@ -95,7 +95,7 @@ namespace Cryptool.PluginBase.Miscellaneous
                     {
                         metaInfo.TextEncoding = Encoding.GetEncoding(keyValues["textencoding"]);
                     }
-                    catch (ArgumentException e)
+                    catch (ArgumentException)
                     {
                         // Encoding error, defaulting to null
                         metaInfo.TextEncoding = null;

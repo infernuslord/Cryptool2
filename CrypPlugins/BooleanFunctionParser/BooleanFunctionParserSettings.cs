@@ -35,7 +35,6 @@ namespace Cryptool.BooleanFunctionParser
 
         private bool hasChanges = false;
         private bool useBFPforCube = false;
-        private int saveInputsCount = 1;
 
         #endregion
 

@@ -50,7 +50,7 @@ namespace KeySearcher.KeyTranslators
                     string substr = representation.Substring(i * 3, 2);
                     bkey[i] = Convert.ToByte(substr, 16);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     return null;
                 }
