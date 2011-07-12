@@ -29,7 +29,6 @@ using System.Security.Cryptography;
 using System.Text;
 
 using Cryptool.PluginBase;
-using Cryptool.PluginBase.Cryptography;
 using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase.Miscellaneous;
 
@@ -39,7 +38,8 @@ namespace Tiger
 
   [Author("Gerhard Junker", null, "private project member", null)]
   [PluginInfo("Tiger.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "Tiger/Tiger1.png")]
-  public class Tiger : ICryptographicHash
+  [ComponentCategory(ComponentCategory.HashFunctions)]
+  public class Tiger : ICrypComponent
   {
 
     /// <summary>

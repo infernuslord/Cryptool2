@@ -22,7 +22,6 @@ using System.Security.Cryptography;
 using System.Text;
 
 using Cryptool.PluginBase;
-using Cryptool.PluginBase.Cryptography;
 using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase.Miscellaneous;
 
@@ -31,7 +30,8 @@ namespace PKCS5
   [Author("Gerhard Junker", null, "private project member", null)]
   //"http://tools.ietf.org/html/rfc2898"
   [PluginInfo("PKCS5.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "PKCS5/PKCS5.png")]
-  public class PKCS5 : ICryptographicHash
+  [ComponentCategory(ComponentCategory.HashFunctions)]
+  public class PKCS5 : ICrypComponent
   {
     private enum argType
     {

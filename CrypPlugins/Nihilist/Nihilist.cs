@@ -20,7 +20,6 @@ using System.ComponentModel;
 using System.Text;
 using System.Windows.Controls;
 using Cryptool.PluginBase;
-using Cryptool.PluginBase.Cryptography;
 using System.Windows;
 using System.Diagnostics;
 using Cryptool.PluginBase.Miscellaneous;

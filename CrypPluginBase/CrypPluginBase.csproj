@@ -135,7 +135,6 @@
     <Compile Include="Delegates.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="EventArgs.cs" />
-    <Compile Include="Hash\IHash.cs" />
     <Compile Include="Editor\IEditor.cs" />
     <Compile Include="IPlugin.cs" />
     <Compile Include="ISettings.cs" />

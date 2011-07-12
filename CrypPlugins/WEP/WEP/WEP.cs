@@ -5,7 +5,6 @@ using System.Text;
 using System.IO;
 using System.Security.Cryptography;
 using Cryptool.PluginBase;
-using Cryptool.PluginBase.Cryptography;
 using Cryptool.PluginBase.IO;
 using System.ComponentModel;
 using System.Windows.Controls;
@@ -30,7 +29,7 @@ namespace Cryptool.WEP
         "PluginTooltip",
         "PluginDescriptionURL",
         "WEP/icon.jpg", "WEP/Images/encrypt.png", "WEP/Images/decrypt.png")]
-    [ComponentCategory(ComponentCategory.CiphersModernSymmetric)]
+    [ComponentCategory(ComponentCategory.Protocols)]
     public class WEP : ICrypComponent
     {
         #region Private variables

@@ -26,7 +26,6 @@ using System.ComponentModel;
 using System.Windows.Documents;
 using System.Windows.Markup;
 using System.Windows;
-using Cryptool.PluginBase.Cryptography;
 using Cryptool.PluginBase.IO;
 using System.Runtime.CompilerServices;
 using Cryptool.PluginBase.Miscellaneous;

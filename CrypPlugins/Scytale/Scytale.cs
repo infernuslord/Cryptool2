@@ -17,7 +17,6 @@
 using System.ComponentModel;
 using System.Windows.Controls;
 using Cryptool.PluginBase;
-using Cryptool.PluginBase.Cryptography;
 using Cryptool.PluginBase.Miscellaneous;
 
 namespace Cryptool.Scytale

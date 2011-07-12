@@ -5,7 +5,6 @@ using System.Text;
 using Cryptool.PluginBase;
 using System.IO;
 using System.ComponentModel;
-using Cryptool.PluginBase.Cryptography;
 
 namespace Cryptool.Plugins.Cryptography.Encryption
 {

@@ -7,7 +7,6 @@ using Cryptool.PluginBase;
 using System.ComponentModel;
 using Cryptool.PluginBase.Miscellaneous;
 using System.Windows.Controls;
-using Cryptool.PluginBase.Cryptography;
 
 namespace SmartInterpreter
 {
