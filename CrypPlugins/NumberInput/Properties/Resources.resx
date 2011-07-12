@@ -121,7 +121,7 @@
     <value>Number Input</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Simple number generator</value>
+    <value>Simple number input</value>
   </data>
   <data name="PluginDescriptionURL" xml:space="preserve">
     <value />
