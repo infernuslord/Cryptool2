@@ -38,7 +38,7 @@ namespace Startcenter
                                                        RecentFileListBox.DataContext = null;
                                                        RecentFileListBox.DataContext = _recentFileInfos;
                                                    }
-                                                   catch (Exception ex)
+                                                   catch (Exception)
                                                    {
                                                        //Not critical.. Do nothing
                                                    }

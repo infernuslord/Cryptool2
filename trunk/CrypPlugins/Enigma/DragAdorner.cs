@@ -13,7 +13,6 @@ namespace Cryptool.Enigma
     class DragAdorner : Adorner
     {
         protected UIElement _child;
-        protected VisualBrush _brush;
         protected UIElement _owner;
         protected double XCenter;
         protected double YCenter;

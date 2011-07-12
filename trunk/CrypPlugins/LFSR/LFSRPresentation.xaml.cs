@@ -291,14 +291,14 @@ namespace Cryptool.LFSR
                         outPutLabel.Name = "outputLabel";
                         myGrid.Children.Add(outPutLabel);
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
 
                     }
 
                 }, null);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
@@ -338,7 +338,7 @@ namespace Cryptool.LFSR
                     // update polynome
                     childVisual = (Visual)VisualTreeHelper.GetChild(polynomialGrid, 0);
                     childVisual.SetValue(Label.ContentProperty, polynomial);                        
-                } catch (Exception ex) { }
+                } catch (Exception) { }
             }, null);
         }
 

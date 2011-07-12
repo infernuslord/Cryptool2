@@ -251,7 +251,7 @@ namespace Cryptool.TextInput
                       }
                       catch (FormatException e)
                       {
-                          GuiLogMessage("Invalid Base64 format", NotificationLevel.Warning);
+                          GuiLogMessage(string.Format("Invalid Base64 format: {0}", e), NotificationLevel.Warning);
                           return string.Empty;
                       }
                   }
@@ -297,7 +297,7 @@ namespace Cryptool.TextInput
                       return Convert.FromBase64String(inputString);
                   } catch(FormatException e)
                   {
-                      GuiLogMessage("Invalid Base64 format", NotificationLevel.Warning);
+                      GuiLogMessage(string.Format("Invalid Base64 format: {0}", e), NotificationLevel.Warning);
                       return new byte[0];
                   }
               default: // includes InputFormat.Text
@@ -330,7 +330,7 @@ namespace Cryptool.TextInput
                         }
                         catch (FormatException e)
                         {
-                            GuiLogMessage("Invalid Base64 format", NotificationLevel.Warning);
+                            GuiLogMessage(string.Format("Invalid Base64 format: {0}", e), NotificationLevel.Warning);
                             return new bool[0];
                         }
                     }

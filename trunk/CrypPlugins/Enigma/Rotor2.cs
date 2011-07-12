@@ -92,11 +92,6 @@ namespace Cryptool.Enigma
         #region mapping
         public int mapto(int x)
         {
-
-
-            int help = 0;
-
-
             lineToAnimat = lines[maparray[x, 0]];
             textBlockToAnimat[0] = tebo[maparray[x, 0]];
             textBlockToAnimat[1] = tebo2[maparray[x, 1]];

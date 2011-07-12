@@ -84,7 +84,7 @@ namespace WorkspaceManager.View.BinVisual
                 }
             }
 
-            catch (Exception exo){ }
+            catch (Exception){ }
 
             try
             {
@@ -106,7 +106,7 @@ namespace WorkspaceManager.View.BinVisual
                     }
                 }
             }
-            catch (Exception exo) { }
+            catch (Exception) { }
         }
 
         private void drawList(EntryGroup entgrou) 
@@ -195,7 +195,7 @@ namespace WorkspaceManager.View.BinVisual
 
                             tebo.Add(title);
 
-                            if (maxlength < title.Text.Length) ;
+                            if (maxlength < title.Text.Length)
                             {
                                 maxlength = title.Text.Length;
                             }
@@ -587,7 +587,7 @@ namespace WorkspaceManager.View.BinVisual
                      
                 }
 
-                catch (Exception e) { }
+                catch (Exception) { }
             }
             return entgrou;
 
@@ -680,7 +680,7 @@ namespace WorkspaceManager.View.BinVisual
                 if (sender is Slider) SetHelpText((sender as Slider).Tag as string);
                 if (sender is Button) SetHelpText((sender as Button).Tag as string);
             }
-            catch (Exception exception)
+            catch (Exception)
             {
                 // GuiLogMessage(exception.Message, NotificationLevel.Error);
             }
@@ -693,7 +693,7 @@ namespace WorkspaceManager.View.BinVisual
                 textBoxTooltip.Text = text;
                 textBoxTooltip.Foreground = Brushes.Black;
             }
-            catch (Exception exception)
+            catch (Exception)
             {
                 //GuiLogMessage(exception.Message, NotificationLevel.Error);
             }

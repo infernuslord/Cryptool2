@@ -39,7 +39,6 @@ namespace Multiplexer
 
     private int inputs;
     private int outputs;
-    private bool gotSwitchValue;
     private bool canSendPropertiesChangedEvent = true;
     #endregion Private variables
 

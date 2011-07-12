@@ -303,7 +303,7 @@ namespace Cryptool.NLFSR
                     functionTextBox.Foreground = Brushes.Black;
 
                     myGrid.Children.Add(functionTextBox);
-                } catch (Exception ex) {
+                } catch (Exception) {
                 }
 
             }, null);

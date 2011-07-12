@@ -753,7 +753,7 @@ namespace Cryptool.Plugins.CostFunction
             }
             declaration = declaration.Substring(0, declaration.Length - 2);
             declaration += " }; \n";
-            float a = 4f;
+            
             code = code.Replace("$$COSTFUNCTIONDECLARATIONS$$", declaration);
 
             //initialization code:

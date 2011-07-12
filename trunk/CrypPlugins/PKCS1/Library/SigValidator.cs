@@ -41,7 +41,7 @@ namespace PKCS1.Library
                     return this.verifySig(verifier, message, signature);
                 }
             }
-            catch(Exception e)
+            catch(Exception)
             {
                 return false;
             }

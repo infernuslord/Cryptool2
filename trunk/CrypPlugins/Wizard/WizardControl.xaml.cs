@@ -955,7 +955,7 @@ namespace Wizard
                                 plugin.Plugin.Initialize();
                             }
                         }
-                        catch (Exception ex)
+                        catch (Exception)
                         {
                             GuiLogMessage(string.Format("Failed settings plugin property {0}.{1} to \"{2}\"!", ppv.PluginName, ppv.PropertyName, ppv.Value), NotificationLevel.Error);
                         }

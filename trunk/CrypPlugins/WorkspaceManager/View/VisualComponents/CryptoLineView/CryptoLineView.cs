@@ -818,11 +818,11 @@ namespace WorkspaceManager.View.VisualComponents
         public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             return null;
-            bool a = (bool)values[0], b = (bool)values[1];
+            /*bool a = (bool)values[0], b = (bool)values[1];
             if (a == true || b == true)
                 return true;
             else
-                return false;
+                return false;*/
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture)
