@@ -314,7 +314,6 @@ namespace WorkspaceManager.Model
                         return AnalysisGenericColor;
                     case ComponentCategory.Protocols:
                         return ProtocolColor;
-                    case ComponentCategory.ToolsStandalone:
                     case ComponentCategory.ToolsBoolean:
                     case ComponentCategory.ToolsDataflow:
                     case ComponentCategory.ToolsDataInputOutput:
