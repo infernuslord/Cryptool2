@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="PluginCaption" xml:space="preserve">
-    <value>AutokorrelationFunction</value>
+    <value>Autokorrelation</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Berechnet die Autokorrelation eines Textes</value>
+    <value>Berechnet die Autokorrelation eines Geheimtexts</value>
   </data>
   <data name="PluginDescriptionURL" xml:space="preserve">
     <value>AutokorrelationFunction/DetailedDescription/Description.xaml</value>
