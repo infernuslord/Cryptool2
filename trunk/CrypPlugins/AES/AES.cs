@@ -22,7 +22,6 @@ using System.IO;
 using System.Security.Cryptography;
 using Cryptool.PluginBase;
 using System.ComponentModel;
-using Cryptool.PluginBase.Cryptography;
 using Cryptool.PluginBase.IO;
 using System.Windows.Controls;
 using System.Runtime.CompilerServices;
@@ -36,7 +35,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 {
     [Author("Dr. Arno Wacker", "arno.wacker@cryptool.org", "Uni Duisburg", "http://www.uni-duisburg-essen.de")]
     [PluginInfo("Cryptool.Plugins.Cryptography.Encryption.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "AES/Images/AES.png", "AES/Images/encrypt.png", "AES/Images/decrypt.png", "AES/Images/Rijndael.png")]
-    [ComponentCategory(ComponentCategory.CiphersClassic)]
+    [ComponentCategory(ComponentCategory.CiphersModernSymmetric)]
     public class AES : ContextBoundObject, ICrypComponent
     {
         #region Private variables

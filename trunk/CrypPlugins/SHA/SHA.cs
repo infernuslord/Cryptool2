@@ -23,7 +23,6 @@ using Cryptool.PluginBase;
 using System.IO;
 using System.ComponentModel;
 using System.Windows.Documents;
-using Cryptool.PluginBase.Cryptography;
 using Cryptool.PluginBase.IO;
 using System.Windows.Controls;
 using System.Runtime.Remoting.Contexts;
@@ -32,8 +31,9 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace SHA
 {
   [Author("Sebastian Przybylski", "sebastian@przybylski.org", "Uni-Siegen", "http://www.uni-siegen.de")]
-  [PluginInfo("SHA.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "SHA/SHA.png")]    
-    public class SHA : ICryptographicHash
+  [PluginInfo("SHA.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "SHA/SHA.png")]
+  [ComponentCategory(ComponentCategory.HashFunctions)]
+    public class SHA : ICrypComponent
     {
         private SHASettings settings;
         private ICryptoolStream inputData;

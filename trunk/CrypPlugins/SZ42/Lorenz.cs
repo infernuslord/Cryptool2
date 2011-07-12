@@ -22,7 +22,6 @@ using System.ComponentModel;
 using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase.Miscellaneous;
 using System.Windows.Controls;
-using Cryptool.PluginBase.Cryptography;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 

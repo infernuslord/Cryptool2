@@ -21,7 +21,6 @@ using Cryptool.PluginBase;
 using System.ComponentModel;
 using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase.Miscellaneous;
-using Cryptool.PluginBase.Cryptography;
 using System.Windows.Controls;
 using System.Numerics;
 using System.Security.Cryptography;

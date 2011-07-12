@@ -21,7 +21,6 @@ using System.Text;
 using Cryptool.PluginBase;
 using System.IO;
 using System.ComponentModel;
-using Cryptool.PluginBase.Cryptography;
 using Cryptool.PluginBase.IO;
 
 namespace Cryptool.Vigenere

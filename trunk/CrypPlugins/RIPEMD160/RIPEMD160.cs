@@ -24,7 +24,6 @@ using Cryptool.PluginBase;
 using System.Windows.Controls;
 using System.ComponentModel;
 using System.Windows.Documents;
-using Cryptool.PluginBase.Cryptography;
 using Cryptool.PluginBase.IO;
 using System.Runtime.Remoting.Contexts;
 using Cryptool.PluginBase.Miscellaneous;
@@ -32,8 +31,9 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace RIPEMD160
 {
     [Author("Sebastian Przybylski", "sebastian@przybylski.org", "Uni-Siegen", "http://www.uni-siegen.de")]
-    [PluginInfo("RIPEMD160.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "RIPEMD160/RMD160.png")]    
-    public class RIPEMD160 : ICryptographicHash
+    [PluginInfo("RIPEMD160.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "RIPEMD160/RMD160.png")]
+    [ComponentCategory(ComponentCategory.HashFunctions)]
+    public class RIPEMD160 : ICrypComponent
     {
         #region Private variables
         private RIPEMD160Settings settings;

@@ -24,7 +24,6 @@ using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase.Miscellaneous;
 using System.ComponentModel;
 using System.Windows.Controls;
-using Cryptool.PluginBase.Cryptography;
 using System.IO;
 
 namespace Cryptool.Plugins.StegoInsertion

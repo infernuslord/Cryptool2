@@ -19,7 +19,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Cryptool.PluginBase;
-using Cryptool.PluginBase.Cryptography;
 using Cryptool.PluginBase.IO;
 using System.Collections;
 using System.IO;

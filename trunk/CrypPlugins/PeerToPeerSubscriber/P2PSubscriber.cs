@@ -32,7 +32,7 @@ namespace Cryptool.Plugins.PeerToPeer
     /// </summary>
     [Author("Christian Arnold", "arnold@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
     [PluginInfo("Cryptool.Plugins.PeerToPeer.Properties.Resources", true, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "PeerToPeerSubscriber/ct2_p2p_sub_medium.png")]
-    [ComponentCategory(ComponentCategory.CiphersClassic)]
+    [ComponentCategory(ComponentCategory.ToolsP2P)]
     public class P2PSubscriber : ICrypComponent
     {
         private P2PSubscriberSettings settings;

@@ -32,7 +32,6 @@ using System.Security.Cryptography;
 using System.Text;
 
 using Cryptool.PluginBase;
-using Cryptool.PluginBase.Cryptography;
 using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase.Miscellaneous;
 
@@ -40,7 +39,8 @@ namespace Whirlpool
 {
   [Author("Gerhard Junker", null, "private project member", null)]
   [PluginInfo("Whirlpool.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "Whirlpool/Whirlpool1.png")]
-  public class WPHash : ICryptographicHash
+  [ComponentCategory(ComponentCategory.HashFunctions)]
+  public class WPHash : ICrypComponent
   {
 
     /// <summary>

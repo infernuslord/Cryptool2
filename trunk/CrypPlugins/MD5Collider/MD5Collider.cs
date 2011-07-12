@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Cryptool.PluginBase.Cryptography;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase.Miscellaneous;
@@ -15,7 +14,8 @@ namespace Cryptool.Plugins.MD5Collider
 {
     [Author("Holger Pretzsch", "mail@holger-pretzsch.de", "Uni Duisburg-Essen", "http://www.uni-due.de")]
     [PluginInfo("Cryptool.Plugins.MD5Collider.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "MD5Collider/MD5Collider.png")]
-    class MD5Collider : ICryptographicHash
+    [ComponentCategory(ComponentCategory.HashFunctions)]
+    class MD5Collider : ICrypComponent
     {
         private MD5ColliderSettings settings = new MD5ColliderSettings();
         private QuickWatchPresentationContainer quickWatchPresentation = new QuickWatchPresentationContainer();

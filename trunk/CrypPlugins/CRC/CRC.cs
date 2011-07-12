@@ -21,7 +21,6 @@ using System.Text;
 using System.ComponentModel;
 
 using Cryptool.PluginBase;
-using Cryptool.PluginBase.Cryptography;
 using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase.Miscellaneous;
 
@@ -58,7 +57,8 @@ namespace Cryptool.CRC
 {
     [Author("Matthäus Wander", "wander@cryptool.org", "Fachgebiet Verteilte Systeme, Universität Duisburg-Essen", "http://www.vs.uni-due.de")]
     [PluginInfo("CRC.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "CRC/icon.png")]
-    public class CRC : ICheckSumHash
+    [ComponentCategory(ComponentCategory.HashFunctions)]
+    public class CRC : ICrypComponent
     {
         #region Constants and private variables
 

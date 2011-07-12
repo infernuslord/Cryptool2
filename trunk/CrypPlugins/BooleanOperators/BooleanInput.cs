@@ -26,7 +26,6 @@ using System.Windows.Media;
 
 using Cryptool;
 using Cryptool.PluginBase;
-using Cryptool.PluginBase.Cryptography;
 using Cryptool.PluginBase.Miscellaneous;
 using Cryptool.Plugins.BooleanOperators;
 using Cryptool.PluginBase.IO;
