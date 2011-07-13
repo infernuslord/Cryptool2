@@ -20,7 +20,7 @@ namespace Cryptool.PluginBase
         public static readonly Dictionary<Type, List<Type>> PluginsWithSpecificController = new Dictionary<Type, List<Type>>();
 
         /// <summary>
-        /// This dictionary maps names of all loaded plugins to their types.
+        /// This dictionary maps types names of all loaded plugins to their types.
         /// </summary>
         public static readonly Dictionary<string, Type> AllLoadedPlugins = new Dictionary<string, Type>();
 
@@ -33,7 +33,7 @@ namespace Cryptool.PluginBase
         {
             try
             {
-                AllLoadedPlugins.Add(pluginType.GetPluginInfoAttribute().Caption, pluginType);
+                AllLoadedPlugins.Add(pluginType.Name, pluginType);
 
                 foreach (PropertyInfo pInfo in pluginType.GetProperties())
                 {
