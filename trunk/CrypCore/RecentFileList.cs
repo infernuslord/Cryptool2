@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using Microsoft.Win32;
 
@@ -11,7 +12,7 @@ namespace Cryptool.Core
         private string RegistryKey = "Software\\CrypTool2.0";
         private string valueKey = "recentFileList";
 
-        public int ListLength { get; set; }
+        public int ListLength { get; private set; }
 
         public delegate void ListChangedEventHandler(List<string> recentFiles);
         public event ListChangedEventHandler ListChanged;
@@ -20,13 +21,26 @@ namespace Cryptool.Core
         {
             if (_recentFileList == null)
             {
-                _recentFileList = new RecentFileList();
+                _recentFileList = new RecentFileList(Properties.Settings.Default.RecentFileListSize);
             }
             return _recentFileList;
         }
 
         private RecentFileList() : this(10)
         {            
+        }
+
+        public void ChangeListLength(int listLength)
+        {
+            Properties.Settings.Default.RecentFileListSize = listLength;
+            Properties.Settings.Default.Save();
+            ListLength = listLength;
+            if (ListLength < recentFiles.Count)
+            {
+                recentFiles.RemoveRange(ListLength, recentFiles.Count - ListLength);
+            }
+            Store();
+            ListChanged(recentFiles);
         }
 
         private RecentFileList(int listLength)
@@ -80,11 +94,11 @@ namespace Cryptool.Core
             if (k.GetValue(valueKey) != null && k.GetValueKind(valueKey) == RegistryValueKind.MultiString)
             {
                 string[] list = (string[])(k.GetValue(valueKey));
-                foreach (string file in list)
+                for (int i = list.Length-ListLength; i < list.Length; i++)
                 {
-                    if (File.Exists(file))
+                    if ((i >= 0) && File.Exists(list[i]))
                     {
-                        recentFiles.Add(file);
+                        recentFiles.Add(list[i]);
                     }
                 }
             }
