@@ -99,6 +99,9 @@
     <Compile Include="View\BinVisual\BinLogNotifier.xaml.cs">
       <DependentUpon>BinLogNotifier.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\BinVisual\BinTextEditor.xaml.cs">
+      <DependentUpon>BinTextEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\BinVisual\BinTextVisual.xaml.cs">
       <DependentUpon>BinTextVisual.xaml</DependentUpon>
     </Compile>
@@ -205,6 +208,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\BinVisual\BinLogNotifier.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\BinVisual\BinTextEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

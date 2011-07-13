@@ -1,0 +1,114 @@
+﻿<UserControl x:Class="WorkspaceManager.View.BinVisual.BinTextEditor"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:convertor="clr-namespace:WorkspaceManager.View.BinVisual"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <Style TargetType="{x:Type Button}" x:Key="formatTextStyle">
+            <Setter Property="FontFamily" Value="Palatino Linotype"></Setter>
+            <Setter Property="Width" Value="30"></Setter>
+            <Setter Property="FontSize" Value ="14"></Setter>
+            <Setter Property="CommandTarget" Value="{Binding Path=SelectedText.mainRTB}"></Setter>
+        </Style>
+
+        <Style TargetType="{x:Type Button}" x:Key="formatImageStyle">
+            <Setter Property="Width" Value="30"></Setter>
+            <Setter Property="CommandTarget" Value="{Binding Path=SelectedText.mainRTB}"></Setter>
+        </Style>
+
+        <convertor:RectConvertor x:Key="RectConvertor"></convertor:RectConvertor>
+        <convertor:RectConvertorSec x:Key="RectConvertorSec"></convertor:RectConvertorSec>
+    </UserControl.Resources>
+    <DockPanel LastChildFill="True">
+        <ToolBar Foreground="Black" Name="mainToolBar" Background="WhiteSmoke" Height="30" DockPanel.Dock="Top">
+
+            <Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Cut" ToolTip="Cut">
+                <Image Source="/WorkspaceManager;component/View/Image/EditCut.png"></Image>
+            </Button>
+            <Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Copy" ToolTip="Copy">
+                <Image Source="/WorkspaceManager;component/View/Image/EditCopy.png"></Image>
+            </Button>
+            <Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Paste" ToolTip="Paste">
+                <Image Source="/WorkspaceManager;component/View/Image/EditPaste.png"></Image>
+            </Button>
+            <Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Undo" ToolTip="Undo">
+                <Image Source="/WorkspaceManager;component/View/Image/EditUndo.png"></Image>
+            </Button>
+            <Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Redo" ToolTip="Redo">
+                <Image Source="/WorkspaceManager;component/View/Image/EditRedo.png"></Image>
+            </Button>
+
+            <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.ToggleBold" ToolTip="Bold">
+                <TextBlock FontWeight="Bold">B</TextBlock>
+            </Button>
+            <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.ToggleItalic" ToolTip="Italic">
+                <TextBlock FontStyle="Italic" FontWeight="Bold">I</TextBlock>
+            </Button>
+            <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.ToggleUnderline" ToolTip="Underline">
+                <TextBlock TextDecorations="Underline" FontWeight="Bold">U</TextBlock>
+            </Button>
+            <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.IncreaseFontSize" ToolTip="Grow Font">
+                <Image Source="/WorkspaceManager;component/View/Image/CharacterGrowFont.png"></Image>
+            </Button>
+            <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.DecreaseFontSize" ToolTip="Shrink Font">
+                <Image Source="/WorkspaceManager;component/View/Image/CharacterShrinkFont.png"></Image>
+            </Button>
+
+            <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.ToggleBullets" ToolTip="Bullets">
+                <Image Source="/WorkspaceManager;component/View/Image/ListBullets.png"></Image>
+            </Button>
+            <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.ToggleNumbering" ToolTip="Numbering">
+                <Image Source="/WorkspaceManager;component/View/Image/ListNumbering.png"></Image>
+            </Button>
+            <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.AlignLeft" ToolTip="Align Left">
+                <Image Source="/WorkspaceManager;component/View/Image/ParagraphLeftJustify.png"></Image>
+            </Button>
+            <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.AlignCenter" ToolTip="Align Center">
+                <Image Source="/WorkspaceManager;component/View/Image/ParagraphCenterJustify.png"></Image>
+            </Button>
+            <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.AlignRight" ToolTip="Align Right">
+                <Image Source="/WorkspaceManager;component/View/Image/ParagraphRightJustify.png"></Image>
+            </Button>
+            <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.AlignJustify" ToolTip="Align Justify">
+                <Image Source="/WorkspaceManager;component/View/Image/ParagraphFullJustify.png"></Image>
+            </Button>
+            <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.IncreaseIndentation" ToolTip="Increase Indent">
+                <Image Source="/WorkspaceManager;component/View/Image/ParagraphIncreaseIndentation.png"></Image>
+            </Button>
+            <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.DecreaseIndentation" ToolTip="Decrease Indent">
+                <Image Source="/WorkspaceManager;component/View/Image/ParagraphDecreaseIndentation.png"></Image>
+            </Button>
+        </ToolBar>
+        <Path Fill="#55000000">
+            <Path.Data>
+                <CombinedGeometry GeometryCombineMode="Exclude">
+                    <CombinedGeometry.Geometry1>
+                        <RectangleGeometry>
+                            <RectangleGeometry.Rect>
+                                <MultiBinding Converter="{StaticResource RectConvertor}">
+                                    <Binding Path="ActualWidth"/>
+                                    <Binding Path="ActualHeight"/>
+                                </MultiBinding>
+                            </RectangleGeometry.Rect>
+                        </RectangleGeometry>
+                    </CombinedGeometry.Geometry1>
+                    <CombinedGeometry.Geometry2>
+                        <RectangleGeometry>
+                            <RectangleGeometry.Rect>
+                                <MultiBinding Converter="{StaticResource RectConvertorSec}">
+                                    <Binding Path="SelectedText"/>
+                                    <Binding Path="SelectedText.ActualWidth"/>
+                                    <Binding Path="SelectedText.ActualHeight"/>
+                                    <Binding Path="SelectedText.Position"/>
+                                </MultiBinding>
+                            </RectangleGeometry.Rect>
+                        </RectangleGeometry>
+                    </CombinedGeometry.Geometry2>
+                </CombinedGeometry>
+            </Path.Data>
+        </Path>
+    </DockPanel>
+</UserControl>

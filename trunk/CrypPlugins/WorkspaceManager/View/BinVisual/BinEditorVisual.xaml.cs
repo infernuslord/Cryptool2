@@ -44,6 +44,7 @@ namespace WorkspaceManager.View.BinVisual
 
         #region Fields
         private bool isLinkStarted;
+        private ArevaloRectanglePacker packer;
         private BinConnectorVisual from, to;
         private RectangleGeometry selectRectGeometry = new RectangleGeometry();
         private bool startedSelection;
@@ -117,6 +118,21 @@ namespace WorkspaceManager.View.BinVisual
             }
         }
 
+        public static readonly DependencyProperty SelectedTextProperty = DependencyProperty.Register("SelectedText",
+            typeof(BinTextVisual), typeof(BinEditorVisual), new FrameworkPropertyMetadata(null, null));
+
+        public BinTextVisual SelectedText
+        {
+            get
+            {
+                return (BinTextVisual)base.GetValue(SelectedTextProperty);
+            }
+            set
+            {
+                base.SetValue(SelectedTextProperty, value);
+            }
+        }
+
         public static readonly DependencyProperty SelectedItemsProperty = DependencyProperty.Register("SelectedItems",
             typeof(UIElement[]), typeof(BinEditorVisual), new FrameworkPropertyMetadata(null, OnSelectedItemChanged));
 
@@ -178,6 +194,33 @@ namespace WorkspaceManager.View.BinVisual
         #endregion
 
         #region Public
+
+        public void AddBinComponentVisual(PluginModel pluginModel, int mode)
+        {
+            if (this.State != BinEditorState.READY)
+                return;
+
+            BinComponentVisual bin = new BinComponentVisual(pluginModel);
+            Binding bind = new Binding();
+            bind.Path = new PropertyPath(BinEditorVisual.SelectedItemsProperty);
+            bind.Source = this;
+            bind.ConverterParameter = bin;
+            bind.Converter = new SelectionChangedConverter();
+            bin.SetBinding(BinComponentVisual.IsSelectedProperty, bind);
+            VisualCollection.Add(bin);
+
+            if (mode == 0)
+                return;
+
+            if (mode == 1)
+            {
+                GeneralTransform g = new ScaleTransform(Properties.Settings.Default.EditScale, Properties.Settings.Default.EditScale, 0, 0);
+                Point p = g.Transform(new Point(randomNumber(0, (int)ActualWidth), randomNumber(0, (int)ActualHeight)));
+                bin.Position = p;
+                return;
+            }
+        }
+
         public void Load(WorkspaceModel model)
         {
             Model = model;
@@ -273,7 +316,7 @@ namespace WorkspaceManager.View.BinVisual
                 if (!skip)
                     Dispatcher.Invoke(DispatcherPriority.ContextIdle, (SendOrPostCallback)delegate
                     {
-                        addBinComponentVisual(pluginModel);
+                        AddBinComponentVisual(pluginModel,0);
                     }
                     , null);
             }
@@ -336,6 +379,12 @@ namespace WorkspaceManager.View.BinVisual
             , null);
         }
 
+        private int RandomNumber(int min, int max)
+        {
+            Random random = new Random();
+            return random.Next(min, max);
+        }
+
         private void addConnection(BinConnectorVisual source, BinConnectorVisual target, ConnectionModel model)
         {
             if (this.State != BinEditorState.READY || source == null || target == null)
@@ -349,21 +398,6 @@ namespace WorkspaceManager.View.BinVisual
             VisualCollection.Add(link);
         }
 
-        private void addBinComponentVisual(PluginModel pluginModel)
-        {
-            if (this.State != BinEditorState.READY)
-                return;
-
-            BinComponentVisual bin = new BinComponentVisual(pluginModel);
-            Binding bind = new Binding();
-            bind.Path = new PropertyPath(BinEditorVisual.SelectedItemsProperty);
-            bind.Source = this;
-            bind.ConverterParameter = bin;
-            bind.Converter = new SelectionChangedConverter();
-            bin.SetBinding(BinComponentVisual.IsSelectedProperty, bind);
-            VisualCollection.Add(bin);
-        }
-
         private void reset()
         {
             VisualCollection.Remove(draggedLink);
@@ -372,6 +406,12 @@ namespace WorkspaceManager.View.BinVisual
             selectionPath.Data = null;
             startDragPoint = null;
             Mouse.OverrideCursor = null;
+        }
+
+        private static Random random = new Random();
+        private double randomNumber(int min, int max)
+        {
+            return (double)random.Next(min, max);
         }
 
         #endregion
@@ -662,7 +702,7 @@ namespace WorkspaceManager.View.BinVisual
         {
             if (State == BinEditorState.READY)
             {
-                var packer = new ArevaloRectanglePacker(Properties.Settings.Default.SortWidth, Properties.Settings.Default.SortHeight);
+                packer = new ArevaloRectanglePacker(Properties.Settings.Default.SortWidth, Properties.Settings.Default.SortHeight);
                 foreach (var element in ComponentCollection)
                 {
                     Point point;
@@ -806,6 +846,7 @@ namespace WorkspaceManager.View.BinVisual
             if (!(e.Source is BinComponentVisual) && !(e.Source is BinImageVisual) && !(e.Source is BinTextVisual))
             {
                 startDragPoint = Mouse.GetPosition(sender as FrameworkElement);
+                SelectedText = null;
                 Mouse.OverrideCursor = Cursors.Arrow;
                 e.Handled = true;
             }
@@ -817,8 +858,14 @@ namespace WorkspaceManager.View.BinVisual
                     if (result != null)
                         return;
 
-                    if (e.Source is BinImageVisual || e.Source is BinTextVisual)
+                    if (e.Source is BinImageVisual)
+                        return;
+
+                    if (e.Source is BinTextVisual)
                     {
+                        BinTextVisual c = (BinTextVisual)e.Source;
+                        if (SelectedText != c)
+                            SelectedText = c;
                         return;
                     }
 
@@ -940,7 +987,7 @@ namespace WorkspaceManager.View.BinVisual
                 {
                     DragDropDataObject obj = e.Data.GetData("Cryptool.PluginBase.Editor.DragDropDataObject") as DragDropDataObject;
                     PluginModel pluginModel = (PluginModel)Model.ModifyModel(new NewPluginModelOperation(Util.MouseUtilities.CorrectGetPosition(sender as FrameworkElement), 0, 0, DragDropDataObjectToPluginConverter.CreatePluginInstance(obj.AssemblyFullName, obj.TypeFullName)));
-                    addBinComponentVisual(pluginModel);
+                    AddBinComponentVisual(pluginModel,0);
                     MyEditor.HasChanges = e.Handled = true;
                 }
                 catch (Exception ex)

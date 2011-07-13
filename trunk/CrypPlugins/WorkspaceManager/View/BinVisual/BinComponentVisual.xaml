@@ -142,13 +142,7 @@
 
         <Style TargetType="{x:Type Thumb}" x:Key="ScaleThumb">
             <Style.Triggers>
-                <DataTrigger Value="False">
-                    <DataTrigger.Binding>
-                        <MultiBinding Converter="{StaticResource ResourceKey=StateFullscreenConverter}">
-                            <Binding Path="State"></Binding>
-                            <Binding Path="IsFullscreen"></Binding>
-                        </MultiBinding>
-                    </DataTrigger.Binding>
+                <DataTrigger Binding="{Binding Path=IsSelected}" Value="False">
                     <Setter Property="Visibility" Value="Collapsed"></Setter>
                 </DataTrigger>
             </Style.Triggers>
@@ -329,6 +323,8 @@
                     </DataTrigger.Binding>
                     <Setter Property="Height" Value="80"></Setter>
                     <Setter Property="Width" Value="80"></Setter>
+                    <Setter Property="MinHeight" Value="80"></Setter>
+                    <Setter Property="MinWidth" Value="80"></Setter>
                 </DataTrigger>
                 <DataTrigger Value="True">
                     <DataTrigger.Binding>
@@ -536,6 +532,10 @@
             <Path Data="M 5,0 L 0,0 L 5,0 L 5,5 L 5,0" StrokeThickness="2" Stroke="Black" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="2"></Path>
         </Grid>
 
+
+        <Thumb x:Name="ScaleThumb" Style="{StaticResource ResourceKey=ScaleThumb}"  Margin="0,0,5,5" VerticalAlignment="Bottom" HorizontalAlignment="Right"
+                               Cursor="SizeNWSE" DragDelta="ScaleDragDeltaHandler"></Thumb>
+
         <Grid RenderTransformOrigin="0.5,0.5" Margin="0" IsHitTestVisible="False">
             <Rectangle Style="{StaticResource ResourceKey=ErrorEllStyle}">
                 <Rectangle.Effect>
@@ -665,9 +665,6 @@
                         
                         <Thumb x:Name="ContentThumb" Style="{StaticResource ResourceKey=InvisibleThumbStyle}" Grid.Column="0" Grid.Row="1"
                                DragDelta="PositionDragDeltaHandler"></Thumb>
-
-                        <Thumb x:Name="ScaleThumb" Style="{StaticResource ResourceKey=ScaleThumb}" Margin="2" Grid.Column="0" Grid.Row="1" Grid.RowSpan="2"
-                               Cursor="SizeNWSE" DragDelta="ScaleDragDeltaHandler"></Thumb>
                     </Grid>
                 </Border>
             </Border>
