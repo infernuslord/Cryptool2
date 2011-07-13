@@ -24,7 +24,6 @@ using System.Windows.Controls;
 using System.Windows.Threading;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Control;
-using Cryptool.PluginBase.Cryptography;
 using Cryptool.PluginBase.Miscellaneous;
 
 namespace Solitaire

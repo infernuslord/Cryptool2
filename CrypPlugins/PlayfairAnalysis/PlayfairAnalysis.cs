@@ -20,7 +20,6 @@ using System.Linq;
 using System.Text;
 using System.Windows.Controls;
 using Cryptool.PluginBase;
-using Cryptool.PluginBase.Cryptography;
 using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase.Miscellaneous;
 using Mischel.Collections;
