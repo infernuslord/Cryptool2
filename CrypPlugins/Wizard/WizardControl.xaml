@@ -45,6 +45,10 @@
         <BitmapImage x:Key="Asym" UriSource="Images/Asym.png"/>
         <BitmapImage x:Key="Wizard" UriSource="wizard.png"/>
 
+        <Storyboard x:Key="NextButtonAttentionAnimation">
+            <ColorAnimation Storyboard.TargetName="nextButton" Storyboard.TargetProperty="Background.Color" To="Goldenrod" Duration="0:0:0.3" AutoReverse="True"/>
+        </Storyboard>
+        
         <Style TargetType="RadioButton">
             <Style.Triggers>
                 <EventTrigger RoutedEvent="RadioButton.Checked">
@@ -55,6 +59,34 @@
                     </BeginStoryboard>
                 </EventTrigger>
             </Style.Triggers>
+            <EventSetter Event="Checked" Handler="EventSetter_OnHandler"/>
+        </Style>
+        
+        <Style TargetType="Button">
+            <Style.Setters>
+                <Setter Property="Foreground" Value="Black" />
+                <Setter Property="BorderBrush" Value="LightSeaGreen" />
+                <Setter Property="Background" Value="#FFC8DCF5" />
+                <Setter Property="BorderThickness" Value="3" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Grid>
+                                <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" CornerRadius="5"
+                                        BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}" />
+                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" 
+                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}" RecognizesAccessKey="True"/>                                
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsEnabled" Value="true" />
+                                <Trigger Property="IsEnabled" Value="false">
+                                    <Setter Property="Foreground" Value="WhiteSmoke" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style.Setters>
         </Style>
 
         <Style x:Key="InputFieldStyle" TargetType="FrameworkElement">

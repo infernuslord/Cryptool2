@@ -1521,6 +1521,19 @@ namespace Wizard
         {
             e.CanExecute = true;
         }
+
+        private void EventSetter_OnHandler(object sender, RoutedEventArgs e)
+        {
+            if (e.Source is RadioButton)
+            {
+                RadioButton rb = (RadioButton) e.Source;
+                if (rb.IsChecked.HasValue && rb.IsChecked.Value)
+                {
+                    Storyboard sb = (Storyboard) Resources["NextButtonAttentionAnimation"];
+                    sb.Begin();
+                }
+            }
+        }
     }
 
     internal class PluginPropertyValue
