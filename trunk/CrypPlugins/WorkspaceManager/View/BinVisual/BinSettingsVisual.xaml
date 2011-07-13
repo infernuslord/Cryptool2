@@ -6,7 +6,7 @@
              Height="Auto" Width="Auto">
     <UserControl.Resources>
 
-        
+        <!-- Data Island 
             <Style x:Key="GroupBoxExpanderToggleButtonStyle" TargetType="{x:Type ToggleButton}">
                 <Setter Property="Template">
                     <Setter.Value>
@@ -107,8 +107,47 @@
             </DockPanel>
         </ControlTemplate>
         
-        
-        
+        -->
+
+        <Style TargetType="Border">
+            <Setter Property="CornerRadius" Value="5"/>
+            <Setter Property="BorderBrush" Value="LightSeaGreen"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Background" Value="#FFC8DCF5"/>
+            <Setter Property="Margin" Value="15"/>
+        </Style>
+
+        <Style TargetType="Expander">
+            <Setter Property="Margin" Value="8,0,0,0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Expander}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+
+                            <Image Source="{TemplateBinding Tag}" Margin="0,0,0,-7" />
+                            <ContentPresenter ContentSource="Header" Grid.Column="1" Margin="2,2,2,-5" />
+                            <ContentPresenter ContentSource="Content" Grid.ColumnSpan="2" Grid.Row="1" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="HeaderTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" FontWeight="Bold" FontSize="14" />
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
     </UserControl.Resources>
 
     <Grid>
@@ -122,7 +161,7 @@
             </WrapPanel>
         </ScrollViewer>
 
-        <TextBox Grid.Row="1" Name="textBoxTooltip" IsReadOnly="True" FontWeight="Bold" BorderBrush="Transparent" TextWrapping="Wrap" Visibility="Visible"></TextBox>
+        <TextBox Grid.Row="1" Name="textBoxTooltip" IsReadOnly="True" FontWeight="Bold" BorderBrush="Transparent" TextWrapping="Wrap" Visibility="Collapsed"></TextBox>
     </Grid>
 </UserControl>
 
