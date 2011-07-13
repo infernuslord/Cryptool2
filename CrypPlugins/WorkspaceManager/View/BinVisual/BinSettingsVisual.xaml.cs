@@ -22,6 +22,8 @@ using System.ComponentModel;
 using System.Windows.Threading;
 using System.Threading;
 using Microsoft.Windows.Controls;
+using System.Windows.Media.Animation;
+
 
 
 namespace WorkspaceManager.View.BinVisual
@@ -38,21 +40,13 @@ namespace WorkspaceManager.View.BinVisual
         {
             InitializeComponent();
             this.plugin = plugin;
-            this.SizeChanged += sizeChanged;
+            
             drawList(createContentSettings(plugin));
 
-            //this.IsVisibleChanged += isVisibleChanged;
+            
         }
 
-        private void sizeChanged(Object sender, EventArgs eventArgs)
-        {
-            //mycanvas.Width = this.ActualWidth;
-            //mycanvas.Height = this.ActualHeight;
-            //this.blupp.RenderTransform = new ScaleTransform(this.ActualWidth / this.blupp.ActualWidth,
-              //                                              this.ActualHeight / this.blupp.ActualHeight);
-          //textBoxTooltip.Text = ""+this.ActualHeight;
-        }
-
+  
         List<String> groups = new List<String>();
 
         private void isVisibleChanged(Object sender, DependencyPropertyChangedEventArgs eventArgs)
@@ -60,54 +54,8 @@ namespace WorkspaceManager.View.BinVisual
             
         }
 
-        private void test_ContextMenuOpening(Object sender, EventArgs e)
-        {
-            double x = 0;
-            try
-            { 
-                Expander temp = sender as Expander;
-                if (temp.Content != null)
-                {
-                    StackPanel sp = temp.Content as StackPanel;
-                    foreach (WrapPanel wp in sp.Children)
-                    {
-                        foreach (UIElement el in wp.Children)
-                        {
-                            if (el is TextBlock)
-                            {
-                                
-                                if (x < el.RenderSize.Width)
-                                    x = el.RenderSize.Width;
-                            }
-                        }
-                    }
-                }
-            }
+      
 
-            catch (Exception){ }
-
-            try
-            {
-
-                Expander temp = sender as Expander;
-                if (temp.Content != null)
-                {
-                    StackPanel sp = temp.Content as StackPanel;
-                    foreach (WrapPanel wp in sp.Children)
-                    {
-                        foreach (UIElement el in wp.Children)
-                        {
-                            if (el is TextBlock)
-                            {
-                                TextBlock test = el as TextBlock;
-                                test.Width = x;
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception) { }
-        }
 
         private void drawList(EntryGroup entgrou) 
         {
@@ -117,36 +65,44 @@ namespace WorkspaceManager.View.BinVisual
 
                 foreach (List<ControlEntry> cel in entgrou.entryList)
                 {
-                    Expander test = new Expander();
-                   
-                    test.IsExpanded = true;
+                    Expander testexoander = new Expander();
+                    Border bodi = new Border();
+                    
+                    testexoander.IsExpanded = true;
+                    
+                    TestPanel test = new TestPanel();
+                    test.Name = "border1";
+                    //test.Background = Brushes.AliceBlue;
+
+                    //test.IsExpanded = true;
 
 
-                    test.Expanded += test_ContextMenuOpening;
+ //                   test.Expanded += test_ContextMenuOpening;
 
                     test.Margin = new Thickness(10);
-                    test.VerticalAlignment = VerticalAlignment.Stretch;
+                    //test.VerticalAlignment = VerticalAlignment.Stretch;
                     
-                    Binding dataBinding = new Binding("window");
+                    Binding dataBinding = new Binding("ActualWidth");
                     dataBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
                     dataBinding.Mode = BindingMode.OneWay;
-                    dataBinding.Source = this;
+                    dataBinding.Source = test;
+
+//                    bodi.SetBinding(Border.WidthProperty, dataBinding);
 
 
                     if (cel[0].tpa.groupName != null)
                     {
-                        test.Header = cel[0].tpa.groupName;
+                          testexoander.Header = cel[0].tpa.GroupName;
                     }
-                    else
-                        test.Header = "Main";
+                    else {  testexoander.Header = "Main"; }
+                          
 
-                    test.Style = (Style)FindResource("GroupBoxExpander");
-                    
-                    //test.Background = brushlist[entgrou.entryList.IndexOf(cel)];
-                    
                     
 
-                    //test.Background = brushlist[entgrou.entryList.IndexOf(cel)];
+                    //testexoander.Style = (Style)FindResource("Expander");
+                    
+
+                    
                     StackPanel contentPanel = new StackPanel();
                     List<String> grouplist = new List<String>();
                     List<Grid> gridlist = new List<Grid>();
@@ -162,43 +118,18 @@ namespace WorkspaceManager.View.BinVisual
                     {
                         if (ce.sfa == null)
                         {
-                            WrapPanel controlGrid = new WrapPanel();
-                            controlGrid.Orientation = Orientation.Horizontal;
-                            controlGrid.Margin = new Thickness(5);
                             TextBlock title = new TextBlock();
+                            
                             title.Text = ce.tpa.Caption;
                             title.TextWrapping = TextWrapping.Wrap;
 
-                            //controlGrid.SetBinding(WidthProperty,dataBinding);
-
-//                            ColumnDefinition coldef = new ColumnDefinition();
-  //                          ColumnDefinition coldef2 = new ColumnDefinition();
-
-                            //controlGrid.ColumnDefinitions.Add(coldef);
-                            //controlGrid.ColumnDefinitions.Add(coldef2);
+                            
 
 
-                            Grid.SetColumn(title, 0);
+                            test.Children.Add(title);
+                            test.Children.Add(ce.element);
+                         
 
-                            controlGrid.Children.Add(title);
-                            Grid.SetColumn(ce.element, 1);
-
-                            Label space = new Label();
-                            space.Width = 5;
-
-                            controlGrid.Children.Add(space);
-                            controlGrid.Children.Add(ce.element);
-
-                            contentPanel.Children.Add(controlGrid);
-
-                           
-
-                            tebo.Add(title);
-
-                            if (maxlength < title.Text.Length)
-                            {
-                                maxlength = title.Text.Length;
-                            }
                         }
                         else 
                         {
@@ -206,7 +137,7 @@ namespace WorkspaceManager.View.BinVisual
                             {
                                 if (grouplist.Contains(ce.sfa.VerticalGroup))
                                 {
-
+                                    
                                     Grid controlGrid = gridlist[grouplist.IndexOf(ce.sfa.VerticalGroup)];
                                     //controlGrid.Margin = new Thickness(10);
 
@@ -252,8 +183,13 @@ namespace WorkspaceManager.View.BinVisual
                                     controlGrid.Children.Add(title);
                                     Grid.SetColumn(ce.element, 1);
                                     controlGrid.Children.Add(ce.element);
+                                    controlGrid.HorizontalAlignment = HorizontalAlignment.Stretch;
 
-                                    contentPanel.Children.Add(controlGrid);
+                                    
+
+                                    test.Children.Add(controlGrid);
+
+                                    controlGrid.Width = test.Width;
 
                                     gridlist.Add(controlGrid);
                                 }
@@ -267,9 +203,6 @@ namespace WorkspaceManager.View.BinVisual
                                 title.Text = ce.tpa.Caption;
                                 title.TextWrapping = TextWrapping.Wrap;
 
-
-
-                                //controlGrid.SetBinding(WidthProperty,dataBinding);
 
                                 ColumnDefinition coldef = new ColumnDefinition();
                                 ColumnDefinition coldef2 = new ColumnDefinition();
@@ -299,15 +232,12 @@ namespace WorkspaceManager.View.BinVisual
                             }
                         }
                     }
-                   /* foreach (TextBlock te in tebo) 
-                    {
-                        te.Width = maxlength * 5;
-                    }*/
-                    test.Content = contentPanel;
-
+                   
+                    bodi.Child = test;
+                    testexoander.Content = bodi;
+                   
+                    blupp.Children.Add(testexoander);
                     
-                    blupp.Children.Add(test);
-
                 }
             
         }
@@ -362,6 +292,7 @@ namespace WorkspaceManager.View.BinVisual
 
                             textbox.SetBinding(TextBox.TextProperty, dataBinding);
                             textbox.TextWrapping = TextWrapping.Wrap;
+                            
                             //controlList.Add(new ControlEntry(textbox,tpa,sfa));
                             entgrou.AddNewEntry(tpa.GroupName, new ControlEntry(textbox, tpa, sfa));
                             break;
@@ -418,7 +349,7 @@ namespace WorkspaceManager.View.BinVisual
                             //   comboBox.ItemsSource = Enum.GetValues(value.GetType());
                             else // nothing to show
                                 GuiLogMessage("No ComboBox entries given", NotificationLevel.Error);
-
+                            comboBox.ToolTip = tpa.ToolTip;
                             comboBox.SetBinding(ComboBox.SelectedIndexProperty, dataBinding);
                             //controlList.Add(new ControlEntry(comboBox, tpa, sfa));
                             entgrou.AddNewEntry(tpa.GroupName,new ControlEntry(comboBox, tpa, sfa));
@@ -457,7 +388,7 @@ namespace WorkspaceManager.View.BinVisual
 
                                     radio.Tag = new RadioButtonListAndBindingInfo(list, plugin,tpa);
                                     radio.Checked += RadioButton_Checked;
-                                  // radio.SetBinding(RadioButton.IsCheckedProperty, dataBinding);
+                                  //radio.SetBinding(RadioButton.IsCheckedProperty, dataBinding);
                                     panelRadioButtons.Children.Add(radio);
                                     list.Add(radio);
                                 }
@@ -477,7 +408,7 @@ namespace WorkspaceManager.View.BinVisual
                         case ControlType.CheckBox:
                             CheckBox checkBox = new CheckBox();
                             checkBox.Margin = CONTROL_DEFAULT_MARGIN;
-                            checkBox.Content = tpa.Caption;
+                            //checkBox.Content = tpa.Caption;
                             checkBox.Tag = tpa.ToolTip;
                             checkBox.MouseEnter += Control_MouseEnter;
                             checkBox.SetBinding(CheckBox.IsCheckedProperty, dataBinding);
@@ -784,5 +715,162 @@ namespace WorkspaceManager.View.BinVisual
             this.tpa = tpa;
         }
     }
+
+    public class TestPanel : Panel
+    {
+        public TestPanel()
+        {
+            
+        }
+
+        private TimeSpan _AnimationLength = TimeSpan.FromMilliseconds(200);
+
+        protected override Size MeasureOverride(Size availableSize)
+        {
+            Size infiniteSize = new Size(double.PositiveInfinity, double.PositiveInfinity);
+            double curX = 0, curY = 0, curLineHeight = 0;
+
+            double maxSize = 0;
+            double maxSizeContent = 0;
+            double maxSizeCaption = 0;
+
+            foreach (UIElement child in Children)
+            {
+                if (Children.IndexOf(child) % 2 == 0)
+                    if (child.DesiredSize.Width > maxSizeCaption)
+                    {
+                        maxSizeCaption = child.DesiredSize.Width;
+                    }
+                if (Children.IndexOf(child) % 2 == 1)
+                    if (child.DesiredSize.Width > maxSizeContent)
+                    {
+                        maxSizeContent = child.DesiredSize.Width;
+                    }
+            }
+            maxSizeCaption += 5;
+            maxSize = maxSizeCaption + maxSizeContent;
+            this.MaxWidth = maxSize + 10;
+            /*
+            if (maxSizeCaption > maxSizeContent)
+                this.MinWidth = maxSizeCaption;
+            else
+                this.MinWidth = maxSizeContent;
+            */
+            Boolean b = true;
+
+            if (availableSize.Width > maxSize)
+                b = false;
+
+            foreach (UIElement child in Children)
+            {
+
+                child.Measure(infiniteSize);
+
+                if (curX + child.DesiredSize.Width > availableSize.Width || curX + child.DesiredSize.Width > maxSize || child is Grid || b)
+                { //Wrap to next line
+                    curY += curLineHeight + 10;
+                    curX = 0;
+                    curLineHeight = 0;
+                }
+
+                curX += maxSize;
+                if (child.DesiredSize.Height > curLineHeight)
+                    curLineHeight = child.DesiredSize.Height;
+            }
+
+
+
+            curY += curLineHeight;
+            curY += 30;
+
+            Size resultSize = new Size();
+            resultSize.Width = double.IsPositiveInfinity(availableSize.Width) ? curX : availableSize.Width;
+            resultSize.Height = double.IsPositiveInfinity(availableSize.Height) ? curY : availableSize.Height;
+            this.Height = resultSize.Height;
+
+            return resultSize;
+        }
+
+        protected override Size ArrangeOverride(Size finalSize)
+        {
+            double maxSize = 0;
+            double maxSizeContent = 0;
+            double maxSizeCaption = 0;
+
+            foreach (UIElement child in Children)
+            {
+                if (Children.IndexOf(child) % 2 == 0)
+                    if (child.DesiredSize.Width > maxSizeCaption)
+                    {
+                        maxSizeCaption = child.DesiredSize.Width;
+                    }
+                if (Children.IndexOf(child) % 2 == 1)
+                    if (child.DesiredSize.Width > maxSizeContent)
+                    {
+                        maxSizeContent = child.DesiredSize.Width;
+                    }
+            }
+            maxSizeCaption += 5;
+            maxSize = maxSizeCaption + maxSizeContent;
+
+            this.MaxWidth = maxSize + 10;
+
+            /*
+            if (maxSizeCaption > maxSizeContent)
+                this.MinWidth = maxSizeCaption;
+            else
+                this.MinWidth = maxSizeContent;
+            */
+            if (this.Children == null || this.Children.Count == 0)
+                return finalSize;
+
+            TranslateTransform trans = null;
+            double curX = 0, curY = 0, curLineHeight = 0;
+
+            Boolean b = true;
+
+            if (finalSize.Width > maxSize)
+                b = false;
+
+            foreach (UIElement child in Children)
+            {
+
+
+                trans = child.RenderTransform as TranslateTransform;
+                if (trans == null)
+                {
+                    child.RenderTransformOrigin = new Point(0, 0);
+                    trans = new TranslateTransform();
+                    child.RenderTransform = trans;
+                }
+
+                if (curX + child.DesiredSize.Width > finalSize.Width || curX + child.DesiredSize.Width > maxSize || b || Children.IndexOf(child) % 2 == 0 || child is Grid)
+                { //Wrap to next line
+                    curY += curLineHeight + 10;
+                    curX = 0;
+                    curLineHeight = 0;
+                }
+
+                child.Arrange(new Rect(0, 0, child.DesiredSize.Width, child.DesiredSize.Height));
+
+                //trans.BeginAnimation(TranslateTransform.XProperty, new DoubleAnimation(curX, _AnimationLength), HandoffBehavior.Compose);
+                //trans.BeginAnimation(TranslateTransform.YProperty, new DoubleAnimation(curY, _AnimationLength), HandoffBehavior.Compose);
+
+                trans.X = curX;
+                trans.Y = curY;
+
+                curX += maxSizeCaption;
+                if (child.DesiredSize.Height > curLineHeight)
+                    curLineHeight = child.DesiredSize.Height;
+            }
+
+            curY += 30;
+
+            this.Height = curY;
+
+            return finalSize;
+        }
+    }
+
 }
 
