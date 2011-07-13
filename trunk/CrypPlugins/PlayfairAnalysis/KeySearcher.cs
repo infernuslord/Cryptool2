@@ -24,7 +24,6 @@ using Cryptool.PluginBase.Miscellaneous;
 using Mischel.Collections;
 
 using System.Windows.Controls;
-using Cryptool.PluginBase.Cryptography;
 using Cryptool.PluginBase.IO;
 
 

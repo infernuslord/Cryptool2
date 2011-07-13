@@ -6,7 +6,7 @@ using System.IO;
 using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Cryptool.Plugins.CostFunction;
-using Cryptool.PluginBase.Cryptography;
+
 namespace Tests
 {
     [TestClass]
