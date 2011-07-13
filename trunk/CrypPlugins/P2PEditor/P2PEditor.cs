@@ -197,11 +197,6 @@ namespace Cryptool.P2PEditor
             get { return false; }
         }
 
-        public bool CanOpen
-        {
-            get { return false; }
-        }
-
         public bool CanSave
         {
             get { return false; }

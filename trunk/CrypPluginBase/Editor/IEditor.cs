@@ -75,8 +75,6 @@ namespace Cryptool.PluginBase.Editor
         bool CanStop { get; }
         bool HasChanges { get; }
         bool CanPrint { get; }
-
-        bool CanOpen { get; }
         bool CanSave { get; }
 
         string CurrentFile { get; }

@@ -237,11 +237,6 @@ namespace StartCenter
             get { return false; }
         }
 
-        public bool CanOpen
-        {
-            get { return true; }
-        }
-
         public bool CanSave
         {
             get { return false; }

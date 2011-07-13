@@ -521,12 +521,7 @@ namespace WorkspaceManager
         {
             get { return true; }
         }
-
-        public bool CanOpen
-        {
-            get { return true; }
-        }
-
+        
         public string SamplesDir
         {
             set {  }
