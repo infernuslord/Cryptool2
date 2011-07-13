@@ -45,6 +45,7 @@ using System.Collections.ObjectModel;
 using WorkspaceManager.View.BinVisual;
 using WorkspaceManager.View.Base;
 using WorkspaceManager.Base.Sort;
+using WorkspaceManagerModel.Model.Operations;
 
 //Disable warnings for unused or unassigned fields and events:
 #pragma warning disable 0169, 0414, 0067
@@ -237,12 +238,12 @@ namespace WorkspaceManager
         /// <param name="type"></param>
         public void Add(Type type)
         {
-            /*if (!executing)
+            if (!executing)
             {
-                PluginModel newPluginModel = WorkspaceModel.newPluginModel(new Point(10, 10), 100, 100, type);
-                GuiLogMessage("Added by double click: " + newPluginModel.Name, NotificationLevel.Info);
+                PluginModel pluginModel = (PluginModel)WorkspaceSpaceEditorView.Model.ModifyModel(new NewPluginModelOperation(new Point(0,0), 0, 0, type));
+                WorkspaceSpaceEditorView.AddBinComponentVisual(pluginModel, 1);
                 HasChanges = true;
-            }*/
+            }
         }
 
         /// <summary>

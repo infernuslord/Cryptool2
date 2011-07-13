@@ -122,8 +122,8 @@ namespace WorkspaceManager.View.BinVisual
             }
         }
 
-        private BinComponentState ?lastState;
-        public BinComponentState ?LastState
+        private BinComponentState lastState;
+        public BinComponentState LastState
         {
             set 
             {
@@ -674,8 +674,25 @@ namespace WorkspaceManager.View.BinVisual
 
         private void ScaleDragDeltaHandler(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
         {
-            WindowHeight += e.VerticalChange;
-            WindowWidth += e.HorizontalChange;
+
+            if (State == BinComponentState.Min)
+            {
+                if ((Window.ActualHeight + e.VerticalChange >= 200 + 10) && (Window.ActualWidth + e.HorizontalChange >= 300 + 10))
+                {
+                    State = LastState;
+                }
+                else
+                { return; }
+            }
+
+            if ((Window.ActualHeight + e.VerticalChange >= Window.MinHeight - 10) && (Window.ActualWidth + e.HorizontalChange >= Window.MinWidth - 10))
+            {
+                WindowHeight += e.VerticalChange;
+                WindowWidth += e.HorizontalChange;
+            }
+            else
+            { State = BinComponentState.Min; }
+
             Model.WorkspaceModel.ModifyModel(new ResizeModelElementOperation(Model, WindowWidth, WindowHeight));
             e.Handled = true;
         }
