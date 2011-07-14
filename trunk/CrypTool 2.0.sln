@@ -214,7 +214,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrypUpdater", "CrypUpdater\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libs", "Libs", "{1E472920-3A9C-413A-98B2-8372F0E283C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCLNet", "CrypPlugins\Libs\OpenCLNet\OpenCLNet.csproj", "{0946E1A6-5488-4711-AD10-D54D6A5D2F32}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCLNet", "Libs\OpenCLNet\OpenCLNet.csproj", "{0946E1A6-5488-4711-AD10-D54D6A5D2F32}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wizard", "CrypPlugins\Wizard\Wizard.csproj", "{FF247A82-21AD-4010-B2FB-D93EE2B02677}"
 EndProject
@@ -224,7 +224,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetworkCapture", "CrypPlugi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkspaceManagerModel", "WorkspaceManagerModel\WorkspaceManagerModel.csproj", "{C35A6E71-D6FE-478B-A12D-FAD54FC4EDC9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPFToolkit.Extended", "CrypPlugins\Libs\WPFToolkit.Extended\WPFToolkit.Extended.csproj", "{72E591D6-8F83-4D8C-8F67-9C325E623234}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPFToolkit.Extended", "Libs\WPFToolkit.Extended\WPFToolkit.Extended.csproj", "{72E591D6-8F83-4D8C-8F67-9C325E623234}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineDocumentationGenerator", "OnlineDocumentationGenerator\OnlineDocumentationGenerator.csproj", "{0698CD9D-DAD6-41AE-9E0A-FB00959FE8B1}"
 EndProject
@@ -234,7 +234,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Paillier", "CrypPlugins\Pai
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BitCommitmentScheme", "CrypPlugins\BitCommitmentScheme\BitCommitmentScheme.csproj", "{E86CE9A5-BBF2-48E3-80F1-80BD935670EF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HtmlTextBlock", "CrypPlugins\Libs\HtmlTextBlock\HtmlTextBlock.csproj", "{8E67C36F-4403-4724-96D4-AF6E05744688}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HtmlTextBlock", "Libs\HtmlTextBlock\HtmlTextBlock.csproj", "{8E67C36F-4403-4724-96D4-AF6E05744688}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StegoLeastSignificantBit", "CrypPlugins\StegoLeastSignificantBit\StegoLeastSignificantBit.csproj", "{0E103FFB-C981-4B2A-A0C6-8924163C8A73}"
 EndProject
