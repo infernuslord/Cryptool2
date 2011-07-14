@@ -11,47 +11,50 @@ namespace StatusGenerator
 {
     public class StatusGenerator
     {
-        public const string CrypPlugins = "CrypPlugins";
+        public readonly string[] CrypPlugins = { "CrypPlugins", "CrypPluginsExperimental" };
 
         private IDictionary<string, Type> pluginAssemblies;
 
         private StreamWriter streamWriter;
-
-        private string pluginPath;
 
         private IDictionary<string, string> publicSolution;
         private IDictionary<string, string> coreSolution;
 
         public StatusGenerator(string programRoot, string outputFile)
         {
-
             pluginAssemblies = LoadPlugins();
 
             streamWriter = new StreamWriter(outputFile);
             streamWriter.WriteLine("<html><head>");
             streamWriter.WriteLine("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />");
             streamWriter.WriteLine("<style type=\"text/css\">td { border:1px solid; }</style></head>");
-            streamWriter.WriteLine("<body><table>");
-            streamWriter.WriteLine("<tr><th>Plugin Directory</th><th>Developer Solution</th><th>Nightly Build</th><th>Namespace</th><th>IPlugin</th><th>Documentation</th><th>Author</th></tr>");
-
-            pluginPath = Path.Combine(programRoot, CrypPlugins);
+            streamWriter.WriteLine("<body>");
 
             publicSolution = ReadSolution(Path.Combine("..", "..", "CrypTool 2.0.sln"));
             coreSolution = ReadSolution(Path.Combine("..", "..", "CoreDeveloper", "CrypTool 2.0.sln"));
 
-            foreach (DirectoryInfo dir in new DirectoryInfo(pluginPath).GetDirectories())
+            foreach (string plugins in CrypPlugins)
             {
-                if (dir.Name.StartsWith("."))
-                    continue;
+                streamWriter.WriteLine(string.Format("<h1>{0}</h1>", plugins));
+                streamWriter.WriteLine("<table><tr><th>Plugin Directory</th><th>Developer Solution</th><th>Nightly Build</th><th>Namespace</th><th>IPlugin</th><th>Documentation</th><th>Author</th></tr>");
+                string pluginPath = Path.Combine(programRoot, plugins);
 
-                ProcessDirectory(dir.Name);
+                foreach (DirectoryInfo dir in new DirectoryInfo(pluginPath).GetDirectories())
+                {
+                    if (dir.Name.StartsWith("."))
+                        continue;
+
+                    ProcessDirectory(pluginPath, dir.Name);
+                }
+
+                streamWriter.WriteLine("</table>");
             }
 
-            streamWriter.WriteLine("</table></body></html>");
+            streamWriter.WriteLine("</body></html>");
             streamWriter.Close();
         }
 
-        private void ProcessDirectory(string pluginName)
+        private void ProcessDirectory(string pluginPath, string pluginName)
         {
             bool isInDeveloperSolution = publicSolution.ContainsKey(pluginName);
             bool isInNightlyBuild = coreSolution.ContainsKey(pluginName);
@@ -140,8 +143,11 @@ namespace StatusGenerator
                     while (projectPath.StartsWith("..\\"))
                         projectPath = projectPath.Replace("..\\", "");
 
-                    if (projectPath.StartsWith(CrypPlugins))
-                        dict[pluginName] = projectPath;
+                    foreach (string plugins in CrypPlugins)
+                    {
+                        if (projectPath.StartsWith(plugins))
+                            dict[pluginName] = projectPath;
+                    }
                 }
             }
 
