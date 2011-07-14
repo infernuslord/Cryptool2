@@ -167,7 +167,7 @@
       <Name>CrypPluginBase</Name>
       <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\CrypPlugins\Libs\HtmlTextBlock\HtmlTextBlock.csproj">
+    <ProjectReference Include="..\Libs\HtmlTextBlock\HtmlTextBlock.csproj">
       <Project>{8E67C36F-4403-4724-96D4-AF6E05744688}</Project>
       <Name>HtmlTextBlock</Name>
       <Private>False</Private>
