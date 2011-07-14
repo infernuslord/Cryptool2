@@ -108,6 +108,7 @@
     <ProjectReference Include="..\WorkspaceManager\WorkspaceManager.csproj">
       <Project>{949B4294-2894-43B4-BD73-E0B031F5434F}</Project>
       <Name>WorkspaceManager</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

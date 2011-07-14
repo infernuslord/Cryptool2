@@ -123,6 +123,7 @@
     <ProjectReference Include="..\P2PEditor\P2PEditor.csproj">
       <Project>{59DEB752-BEB6-4B2B-86A9-78B150537529}</Project>
       <Name>P2PEditor</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
