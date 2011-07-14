@@ -35,7 +35,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <PlatformTarget>x86</PlatformTarget>
-    <OutputPath>..\..\CrypBuild\Release\CrypPlugins</OutputPath>
+    <OutputPath>..\..\CrypBuild\Release\AppReferences\</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DebugType>pdbonly</DebugType>
@@ -44,7 +44,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <PlatformTarget>x86</PlatformTarget>
-    <OutputPath>..\..\CrypBuild\Debug\CrypPlugins</OutputPath>
+    <OutputPath>..\..\CrypBuild\Debug\AppReferences\</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DebugSymbols>true</DebugSymbols>
@@ -78,7 +78,6 @@
     <Compile Include="TwofishEncryption.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="DetailedDescription\doc.xml" />
     <Content Include="license.txt" />
   </ItemGroup>
   <ItemGroup>

@@ -98,9 +98,10 @@
       <Name>CrypPluginBase</Name>
       <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\SSCext\SSCext.csproj">
+    <ProjectReference Include="..\..\Libs\SSCext\SSCext.csproj">
       <Project>{E46A6AA6-56EE-4AE5-8725-DCD07DC95527}</Project>
       <Name>SSCext</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -115,10 +116,6 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="SubWorkspaces\pkcs5-aes128-cbc-decrypt.sws" />
-    <None Include="SubWorkspaces\pkcs5-aes128-cbc-encrypt.sws" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="PKCS5.png" />

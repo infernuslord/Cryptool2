@@ -44,6 +44,7 @@
   <ItemGroup>
     <Reference Include="BouncyCastle.CryptoExt">
       <HintPath>..\..\AppReferences\BouncyCastle.CryptoExt.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="PresentationCore">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
@@ -485,9 +486,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="PKCS1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="DetailedDescription\doc.xml" />

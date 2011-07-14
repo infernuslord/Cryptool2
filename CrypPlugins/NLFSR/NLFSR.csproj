@@ -119,6 +119,7 @@
     <ProjectReference Include="..\MathParser\MathParser.csproj">
       <Project>{0AE1DE18-FDAA-489A-B658-80F0837E3587}</Project>
       <Name>MathParser</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
