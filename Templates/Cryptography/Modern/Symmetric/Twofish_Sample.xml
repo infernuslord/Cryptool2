@@ -20,7 +20,7 @@
 		Quelle: <external ref="http://de.wikipedia.org/wiki/Twofish"/>
 	</description>
 	
-	<icon file="Twofisch_Sample.png"/>
+	<icon file="Twofish_Sample.png"/>
 	
 	<relevantPlugins>
 		<plugin name="Twofisch"/>

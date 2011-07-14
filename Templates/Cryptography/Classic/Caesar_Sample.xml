@@ -27,7 +27,7 @@
 		Quelle: <external ref="http://de.wikipedia.org/wiki/Caesar-Verschlüsselung"/>
 	</description>
 	
-	<icon file="Caesar-Sample.png"/>
+	<icon file="Caesar_Sample.png"/>
 	
 	<relevantPlugins>
 		<plugin name="Caesar"/>
