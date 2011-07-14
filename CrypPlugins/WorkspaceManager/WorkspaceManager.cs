@@ -130,11 +130,6 @@ namespace WorkspaceManager
         /// 
         /// </summary>
         public event OpenProjectFileHandler OnOpenProjectFile;
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public event EditorSpecificPluginsChanged OnEditorSpecificPluginsChanged;
         
         /// <summary>
         /// Current filename

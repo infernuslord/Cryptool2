@@ -95,7 +95,6 @@ namespace StartCenter
         public event SelectedPluginChangedHandler OnSelectedPluginChanged;
         public event ProjectTitleChangedHandler OnProjectTitleChanged;
         public event OpenProjectFileHandler OnOpenProjectFile;
-        public event EditorSpecificPluginsChanged OnEditorSpecificPluginsChanged;
         public event OpenTabHandler OnOpenTab;
         public event OpenEditorHandler OnOpenEditor;
         public event EventHandler<ZoomChanged> OnZoomChanged;
