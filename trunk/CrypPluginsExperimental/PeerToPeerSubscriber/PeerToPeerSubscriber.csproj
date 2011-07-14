@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{D726EBB6-0E54-477A-9C4C-F18848135055}</ProjectGuid>
+    <ProjectGuid>{612FEE87-F51F-4BE6-81D1-F91EA4A5DD43}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Cryptool.Plugins.PeerToPeer.Jobs</RootNamespace>
-    <AssemblyName>KeyPatternJob</AssemblyName>
+    <RootNamespace>Cryptool.Plugins.PeerToPeer</RootNamespace>
+    <AssemblyName>PeerToPeerSubscriber</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>
@@ -54,11 +54,19 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationCore">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="PresentationFramework">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System.Numerics" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -67,12 +75,25 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DistributableKeyPatternJob.cs" />
-    <Compile Include="KeyPatternJobPart.cs" />
-    <Compile Include="KeyPatternJobResult.cs" />
+    <Compile Include="P2PSubscriber.cs" />
+    <Compile Include="P2PSubscriberBase.cs" />
+    <Compile Include="P2PSubscriberSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.de-DE.Designer.cs">
+      <DependentUpon>Resources.de-DE.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CrypPluginBase\CrypPluginBase.csproj">
@@ -80,16 +101,14 @@
       <Name>CrypPluginBase</Name>
       <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\KeySearcher\KeySearcher.csproj">
-      <Project>{0579E099-66B2-43C3-B8A0-43CAE4895E68}</Project>
-      <Name>KeySearcher</Name>
+    <ProjectReference Include="..\..\CrypPlugins\PeerToPeer\PeerToPeer.csproj">
+      <Project>{12829116-8FAD-4D09-A0AA-D75D88F07626}</Project>
+      <Name>PeerToPeer</Name>
       <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\PeerToPeerJobs\PeerToPeerJobs.csproj">
-      <Project>{F1258427-AFDF-4DF7-ABF1-758A2325F505}</Project>
-      <Name>PeerToPeerJobs</Name>
-      <Private>False</Private>
-    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="ct2_p2p_sub_medium.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -107,6 +126,16 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.de-DE.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.de-DE.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

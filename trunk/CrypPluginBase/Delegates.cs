@@ -59,12 +59,6 @@ namespace Cryptool.PluginBase
   public delegate void OpenProjectFileHandler(IEditor editor, string fileName);
 
   /// <summary>
-  /// This delegate is used by editors to inform the gui of EditorSpecificPluginChange.
-  /// This occurs after a new SubWorkspace was created.
-  /// </summary>
-  public delegate void EditorSpecificPluginsChanged(IEditor editor);
-
-  /// <summary>
   /// Used to signal crypwin that an editor wants to open a tab.
   /// </summary>  
   public delegate TabItem OpenTabHandler(Object content, string title, IEditor parent);

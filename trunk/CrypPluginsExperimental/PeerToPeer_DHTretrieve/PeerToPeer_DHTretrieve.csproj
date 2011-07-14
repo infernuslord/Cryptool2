@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{A1E7F287-DFC1-44C2-A681-C62DF46B43C5}</ProjectGuid>
+    <ProjectGuid>{AA14E2EC-E9D7-4AC4-AE69-25007D555E9B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Cryptool.Plugins.PeerToPeer</RootNamespace>
-    <AssemblyName>PeerToPeerPublisher</AssemblyName>
+    <AssemblyName>PeerToPeer_DHTretrieve</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>
@@ -77,9 +77,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="P2PPublisher.cs" />
-    <Compile Include="P2PPublisherBase.cs" />
-    <Compile Include="P2PPublisherSettings.cs" />
+    <Compile Include="P2PDHTloadSettings.cs" />
+    <Compile Include="P2P_DHTload.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.de-DE.Designer.cs">
       <DependentUpon>Resources.de-DE.resx</DependentUpon>
@@ -91,7 +90,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="SubscribersManagement.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CrypPluginBase\CrypPluginBase.csproj">
@@ -99,14 +97,16 @@
       <Name>CrypPluginBase</Name>
       <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\PeerToPeer\PeerToPeer.csproj">
+    <ProjectReference Include="..\..\CrypPlugins\PeerToPeer\PeerToPeer.csproj">
       <Project>{12829116-8FAD-4D09-A0AA-D75D88F07626}</Project>
       <Name>PeerToPeer</Name>
       <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="ct2_p2p_pub_medium.png" />
+    <Resource Include="ct2_dht_load_icon_medium.png" />
+    <Content Include="ct2_dht_load_icon_small.png" />
+    <Content Include="ct2_dht_load_icon_tall.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

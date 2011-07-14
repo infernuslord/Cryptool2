@@ -56,8 +56,6 @@ namespace Cryptool.P2PEditor
 
         public event OpenProjectFileHandler OnOpenProjectFile;
 
-        public event EditorSpecificPluginsChanged OnEditorSpecificPluginsChanged;
-
         public void New()
         {
             if (OnSelectedPluginChanged != null)

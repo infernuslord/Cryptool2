@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{AA14E2EC-E9D7-4AC4-AE69-25007D555E9B}</ProjectGuid>
+    <ProjectGuid>{0FEE94EF-C54B-496D-AA98-7E4682B2280B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Cryptool.Plugins.PeerToPeer</RootNamespace>
-    <AssemblyName>PeerToPeer_DHTretrieve</AssemblyName>
+    <AssemblyName>PeerToPeer_DHTstore</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>
@@ -77,8 +77,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="P2PDHTloadSettings.cs" />
-    <Compile Include="P2P_DHTload.cs" />
+    <Compile Include="P2PDHTstore.cs" />
+    <Compile Include="P2PDHTstoreSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.de-DE.Designer.cs">
       <DependentUpon>Resources.de-DE.resx</DependentUpon>
@@ -97,16 +97,16 @@
       <Name>CrypPluginBase</Name>
       <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\PeerToPeer\PeerToPeer.csproj">
+    <ProjectReference Include="..\..\CrypPlugins\PeerToPeer\PeerToPeer.csproj">
       <Project>{12829116-8FAD-4D09-A0AA-D75D88F07626}</Project>
       <Name>PeerToPeer</Name>
       <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="ct2_dht_load_icon_medium.png" />
-    <Content Include="ct2_dht_load_icon_small.png" />
-    <Content Include="ct2_dht_load_icon_tall.png" />
+    <Resource Include="ct2_dht_store_icon_medium.png" />
+    <Resource Include="ct2_dht_store_icon_small.png" />
+    <Resource Include="ct2_dht_store_icon_tall.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

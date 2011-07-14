@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{0FEE94EF-C54B-496D-AA98-7E4682B2280B}</ProjectGuid>
+    <ProjectGuid>{A1E7F287-DFC1-44C2-A681-C62DF46B43C5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Cryptool.Plugins.PeerToPeer</RootNamespace>
-    <AssemblyName>PeerToPeer_DHTstore</AssemblyName>
+    <AssemblyName>PeerToPeerPublisher</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>
@@ -77,8 +77,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="P2PDHTstore.cs" />
-    <Compile Include="P2PDHTstoreSettings.cs" />
+    <Compile Include="P2PPublisher.cs" />
+    <Compile Include="P2PPublisherBase.cs" />
+    <Compile Include="P2PPublisherSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.de-DE.Designer.cs">
       <DependentUpon>Resources.de-DE.resx</DependentUpon>
@@ -90,6 +91,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="SubscribersManagement.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CrypPluginBase\CrypPluginBase.csproj">
@@ -97,16 +99,14 @@
       <Name>CrypPluginBase</Name>
       <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\PeerToPeer\PeerToPeer.csproj">
+    <ProjectReference Include="..\..\CrypPlugins\PeerToPeer\PeerToPeer.csproj">
       <Project>{12829116-8FAD-4D09-A0AA-D75D88F07626}</Project>
       <Name>PeerToPeer</Name>
       <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="ct2_dht_store_icon_medium.png" />
-    <Resource Include="ct2_dht_store_icon_small.png" />
-    <Resource Include="ct2_dht_store_icon_tall.png" />
+    <Resource Include="ct2_p2p_pub_medium.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
