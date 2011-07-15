@@ -80,7 +80,7 @@
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsEnabled" Value="true" />
                                 <Trigger Property="IsEnabled" Value="false">
-                                    <Setter Property="Foreground" Value="WhiteSmoke" />
+                                    <Setter Property="Foreground" Value="SlateGray" />
                                 </Trigger>
                             </ControlTemplate.Triggers>
                         </ControlTemplate>
