@@ -13,7 +13,7 @@ password:} (not required)\\
 \section{Creating a new project}
 \label{sec:CreatingANewProject}
 
-Open the CrypTool 2 solution, right click in the solution explorer on \textit{CrypPlugins} (or on the top solution item, if you're using Visual C\# Express) and select \textit{Add~$\rightarrow$ New Project}. In the dialog window, select \textit{Visual C\# $\rightarrow$ CrypTool 2.0 Plugin} as project template and enter a unique name for your new plugin project (such as \textit{Caesar} in our case). The \textbf{next step is crucial} to ensure that your plugin will compile and run correctly: select the subdirectory \texttt{CrypPlugins\textbackslash} as the location of your project (Figure~\ref{fig:vs_create_new_project}).
+Open the CrypTool 2 solution, right click in the solution explorer on \textit{CrypPlugins} (or on the top solution item, if you're using Visual C\# Express) and select \textit{Add~$\rightarrow$ New Project}. In the dialog window, select \textit{Visual C\# $\rightarrow$ CrypTool 2.0 Plugin} as project template and enter a unique name for your new plugin project (such as \textit{Caesar} in our case). The \textbf{next step is crucial} to ensure that your plugin will compile and run correctly: select the subdirectory \texttt{CrypPluginsExperimental\textbackslash} as the location of your project (Figure~\ref{fig:vs_create_new_project}).
 
 \begin{figure}[h!]
 	\centering
@@ -34,21 +34,7 @@ As the project basics are already correctly set up in the template, you should n
 \section{Adapting the plugin skeleton}
 \label{AdaptingThePluginSkeleton}
 
-If you look into the two C\# source files (Figure~\ref{fig:caesar_project}), you will notice a lot of comments marked with the keyword \texttt{HOWTO}. These are hints as to what you should change in order to adapt the plugin skeleton to your custom implementation. Most \texttt{HOWTO} hints are self-explanatory and thus we won't discuss them all in detail. For example, at the top of both source files, there is a hint to enter your name and affiliation in the license boilerplate:
-
-\begin{lstlisting}
-/* HOWTO: Change year, author name and organization.
-   Copyright 2010 Your Name, University of Duckburg
-
-\end{lstlisting}
-
-After you have done this, remove the \texttt{HOWTO} hint:
-
-\begin{lstlisting}
-/*
-   Copyright 2010 John Doe, University of Duisburg-Essen
-
-\end{lstlisting}
+If you look into the two C\# source files (Figure~\ref{fig:caesar_project}), you will notice a lot of comments marked with the keyword \texttt{HOWTO}. These are hints as to what you should change in order to adapt the plugin skeleton to your custom implementation. Most \texttt{HOWTO} hints are self-explanatory and thus we won't discuss them all.
 
 \section{Defining the attributes of the Caesar class}
 \label{sec:DefiningTheAttributesOfTheCaesarClass}
@@ -56,7 +42,6 @@ After you have done this, remove the \texttt{HOWTO} hint:
 The next thing we will do in our example \textit{Caesar.cs} is define the attributes of our class. These attributes are used to provide necessary information for the CrypTool 2 environment. If they are not properly defined, your plugin won't show up in the application user interface, even if everything else is implemented correctly.
 
 Attributes are used for declarative programming and provide metadata that can be added to the existing .NET metadata. CrypTool 2 provides a set of custom attributes that are used to mark the different parts of your plugin. These attributes should be defined right before the class declaration.
-\clearpage
 
 \subsection{The \protect\textit{[Author]} attribute}
 \label{sec:TheAuthorAttribute}
@@ -122,7 +107,6 @@ The \textit{DescriptionURL} element defines the location path of the description
 	\caption{The folder structure as seen in the Solution Explorer.}
 	\label{fig:attribute_plugininfo_icon_path}
 \end{figure}
-\clearpage
 
 Once a detailed description has been written in the XAML file, it can be accessed in the CrypTool~2 application by right-clicking on the plugin icon in the workspace and selecting \textit{Show description} \mbox{(Figure \ref{fig:xaml_description})}.
 
@@ -139,54 +123,29 @@ The first and most important icon is the plugin icon, which will be shown in Cry
 
 If your plugin will use additional icons, you should define the paths to each of them by adding the path strings to the \textit{[PluginInfo]} attribute parameter list, each separated by a comma. We have added two further icons for the context menu in the CrypTool 2 workspace. (If you choose to add more icons, don't forget to add the icons to your solution.)
 
-\subsection{Algorithm category and the \protect\textit{[EncryptionType]} attribute}
-\label{sec:AlgorithmCategoryAndTheEncryptionTypeAttribute}
+\subsection{Algorithm category}
+\label{sec:AlgorithmCategory}
 
-In the CrypTool 2 user interface plugins are grouped by their algorithm category, for example hash, encryption, and so on. To set the category, your plugin must inherit from a specific interface, like \textit{IHash} or \textit{IEncryption}. Some categories require the specification of a subcategory, which is entered as an attribute\footnote{The current category system is less than ideal and will be changed in future; see trac ticket \#50.}. In our example, Caesar inherits from \textit{IEncryption}.
+In the CrypTool 2 user interface plugins are grouped by their algorithm category, for example hash, encryption, and so on. To set the category, you must specifiy the attribute \textit{[ComponentCategory]}:
 
 \begin{lstlisting}
-    [EncryptionType(EncryptionType.Classic)]
-    public class Caesar : IEncryption
+    [ComponentCategory(ComponentCategory.CiphersClassic)]
+    public class ExamplePluginCT2 : ICrypComponent
 		{
 \end{lstlisting}
-\clearpage
-
-The possible values of the \textit{[EncryptionType]} attribute are as follows:
-
-\begin{itemize}
-	\item \textit{Asymmetric} --- for asymmetrical encryption algorithms, such as RSA.
-	\item \textit{SymmetricBlock} --- for block cipher algorithms, such as DES, AES and Twofish.
-	\item \textit{SymmetricStream} --- for stream cipher algorithms, such as RC4, Rabbit and SEAL.
-	\item \textit{Hybrid} --- for algorithms which are actually a combination of several algorithms, such as algorithms in which the data is encrypted symmetrically and the encryption key asymmetrically.
-	\item \textit{Classic} --- for classical encryption or hash algorithms, such as Caesar or MD5.
-\end{itemize}
 
 \subsection{Importing CrypPluginBase namespaces}
 \label{sec:ImportingCrypPluginBaseNamespaces}
 
-Depending on which algorithm category you choose, you will need to import the corresponding name\-space of \textit{CrypPluginBase}. To include the necessary namespaces in the class header, use the \texttt{using} statement followed by the name of the desired namespace. \textit{CrypPluginBase} provides the following namespaces:
+Depending on which algorithm category you choose, you will need to import the corresponding name\-space of \textit{CrypPluginBase}. To include the necessary namespaces in the class header, use the \texttt{using} statement followed by the name of the desired namespace. The most important namespaces provided by \textit{CrypPluginBase} are:
 
 \begin{itemize}
-	\item \textit{Cryptool.PluginBase} --- contains interfaces such as \textit{IPlugin}, \textit{IHash}, and \textit{ISettings}, as well as attributes, enumerations, delegates and extensions.
-	\item \textit{Cryptool.PluginBase.Analysis} --- contains interfaces for cryptanalysis plugins (such as \textit{Stream Comparator}).
+	\item \textit{Cryptool.PluginBase} --- contains interfaces such as \textit{ICrypComponent} and some attributes.
 	\item \textit{Cryptool.PluginBase.Control} --- contains global interfaces for the \textit{IControl} feature for defining custom controls.
-	\item \textit{Cryptool.PluginBase.Cryptography} --- contains interfaces for encryption and hash algorithms such as AES, DES and MD5.
-	\item \textit{Cryptool.PluginBase.Editor} --- contains interfaces for editors that can be implemented in CrypTool 2, such as the default editor.
-	\item \textit{Cryptool.PluginBase.Generator} --- contains interfaces for generators, including the random input generator.
 	\item \textit{Cryptool.PluginBase.IO} --- contains interfaces for input, output and the \textit{ICryptoolStream}.
 	\item \textit{Cryptool.PluginBase.Miscellaneous} --- contains assorted helper classes, including \textit{GuiLogMessage} and \textit{PropertyChanged}.
-	\item \textit{Cryptool.PluginBase.Resources} --- used only by CrypWin and the editor; not necessary for plugin development.
 	\item \textit{Cryptool.PluginBase.Tool} --- contains an interface for standalone tools in CrypTool~2 that are not run in a workspace editor.
 	\item \textit{Cryptool.PluginBase.Validation} --- contains interfaces for validation methods, including regular expressions.
-\end{itemize}
-
-\noindent In our example, the Caesar algorithm necessitates the inclusion of the following namespaces:
-
-\begin{itemize}
-	\item \textit{Cryptool.PluginBase} --- to implement \textit{ISettings} in the CaesarSettings class.
-	\item \textit{Cryptool.PluginBase.Cryptography} --- to implement \textit{IEncryption} in the Caesar class.
-	\item \textit{Cryptool.PluginBase.IO} --- to use ICryptoolStream for data input and output.
-	\item \textit{Cryptool.PluginBase.Miscellaneous} --- to use the CrypTool event handler.
 \end{itemize}
 
 \section{Defining the private variables of the settings in the Caesar class}
@@ -208,7 +167,6 @@ If your algorithm deals with potentially large data amounts, it is recommended t
 \label{sec:AddingControlsToTheCaesarSettingsClass}
 
 The settings class contains the necessary information about controls, captions, descriptions, and default parameters (for key settings, alphabets, key length, type of action, etc.) to build the settings \textbf{TaskPane} in the CrypTool application. The settings class is used to populate the TaskPane in the CrypTool 2 application so that the user can modify the plugin settings at will. Therefore, we must implement some controls, such as buttons and text boxes, to allow for the necessary interaction. If you will be implementing an algorithm that does not have any user-defined settings (such as a hash function), then this class can be left mostly empty. To see the full source code, you may take a look at the Caesar plugin the the Subversion repository.
-\clearpage
 
 \section{Adding an icon to the Caesar class}
 \label{sec:AddingAnIconToTheCaesarClass}
