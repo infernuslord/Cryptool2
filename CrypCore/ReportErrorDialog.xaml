@@ -1,13 +1,15 @@
 ﻿<Window x:Class="Cryptool.Core.ReportErrorDialog"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Report error" Height="400" Width="600" WindowStyle="ToolWindow" WindowStartupLocation="CenterScreen" Topmost="True" ResizeMode="NoResize" Icon="/CrypWin;component/images/contact.png">
+        Title="Report error" Height="450" Width="600" WindowStyle="ToolWindow" WindowStartupLocation="CenterScreen" Topmost="True" ResizeMode="NoResize" Icon="/CrypWin;component/images/contact.png">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="30" />
-            <RowDefinition Height="Auto" />            
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="30" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
@@ -18,10 +20,13 @@
         <Label Content="Your Message:" Grid.Row="2" FontWeight="Bold"/>
         <TextBox Name="UserMessage" Grid.Row="3" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Auto" TextChanged="UserMessage_TextChanged" TextWrapping="Wrap" AcceptsReturn="True" />
 
-        <Label Content="The following informations will be sent to the developers:" Grid.Row="4" FontWeight="Bold"/>
-        <TextBox Name="SendInformations" Grid.Row="5" IsReadOnly="True" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Auto" />
+        <Label Content="If you would like to track the state of your report, you may enter your email address (optional):" Grid.Row="4" FontWeight="Bold" Grid.RowSpan="2" />
+        <TextBox Name="EMail" Grid.Column="1" Grid.Row="5" />
 
-        <StackPanel Orientation="Horizontal" Grid.Row="6" HorizontalAlignment="Right">
+        <Label Content="The following informations will be sent to the developers:" Grid.Row="6" FontWeight="Bold"/>
+        <TextBox Name="SendInformations" Grid.Row="7" IsReadOnly="True" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Auto" />
+
+        <StackPanel Orientation="Horizontal" Grid.Row="8" HorizontalAlignment="Right">
             <Button Content="Send" Margin="5" IsDefault="True" Click="SendButtonClick" Width="60" />
             <Button Content="Cancel" Margin="5" Click="CancelButtonClick" Width="50" />
         </StackPanel>
