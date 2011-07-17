@@ -21,7 +21,13 @@ namespace TemplateEditor
         
         public string Title
         {
-            get { return LocalizedTemplateData["en"].Title; }
+            get
+            {
+                if (LocalizedTemplateData.ContainsKey("en"))
+                    return LocalizedTemplateData["en"].Title;
+                else
+                    return null;
+            }
         }
 
         public bool HasMetadata { get { return XMLPath != null; } }
@@ -31,6 +37,9 @@ namespace TemplateEditor
             get
             {
                 var res = "";
+                if (LocalizedTemplateData == null)
+                    return res;
+
                 foreach (var localizedTemplateData in LocalizedTemplateData)
                 {
                     if (localizedTemplateData.Value.Keywords != null)
@@ -57,6 +66,9 @@ namespace TemplateEditor
             get 
             { 
                 var res = "";
+                if (RelevantPlugins == null)
+                    return res;
+
                 foreach (var relevantPlugin in RelevantPlugins)
                 {
                     res += relevantPlugin + ", ";

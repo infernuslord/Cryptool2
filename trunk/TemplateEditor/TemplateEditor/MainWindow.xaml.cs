@@ -26,6 +26,18 @@ namespace TemplateEditor
         private ObservableCollection<TemplateInfo> _templates = new ObservableCollection<TemplateInfo>();
         private string _templateDir;
 
+        public static readonly DependencyProperty IsOverviewProperty = DependencyProperty.Register("IsOverview",
+                                                                                                   typeof (Boolean),
+                                                                                                   typeof (MainWindow),
+                                                                                                   new PropertyMetadata(
+                                                                                                       true));
+
+        public bool IsOverview
+        {
+            get { return (bool) GetValue(IsOverviewProperty); }
+            set { SetValue(IsOverviewProperty, value); }
+        }
+
         public MainWindow()
         {
             InitializeComponent();
@@ -38,6 +50,7 @@ namespace TemplateEditor
                 _templateDir = templateFolderDialog.SelectedPath;
                 LoadTemplates(".");
                 AllTemplatesList.DataContext = _templates;
+                AllTemplatesList2.DataContext = _templates;
             }
             else
             {
@@ -45,10 +58,40 @@ namespace TemplateEditor
             }
         }
 
+        private Dictionary<string, List<string>> GetAllKeywords()
+        {
+            var result = new Dictionary<string, List<string>>();
+            foreach (var template in _templates)
+            {
+                if (template.LocalizedTemplateData != null)
+                {
+                    foreach (var locTemp in template.LocalizedTemplateData)
+                    {
+                        if (locTemp.Value.Keywords != null)
+                        {
+                            if (!result.ContainsKey(locTemp.Key))
+                            {
+                                result.Add(locTemp.Key, new List<string>());
+                            }
+                            foreach (var keyword in locTemp.Value.Keywords)
+                            {
+                                result[locTemp.Key].Add(keyword);
+                            }
+                        }
+                    }
+                }
+            }
+            foreach (var res in result)
+            {
+                res.Value.Sort();
+            }
+            return result;
+        }
+
         private void LoadTemplates(string dir)
         {
             var dirPath = Path.Combine(_templateDir, dir);
-            
+
             foreach (var file in Directory.GetFiles(dirPath))
             {
                 if (file.ToLower().EndsWith("cwm"))
@@ -60,8 +103,19 @@ namespace TemplateEditor
             foreach (var subdir in Directory.GetDirectories(dirPath))
             {
                 var subd = new DirectoryInfo(subdir);
-                LoadTemplates(Path.Combine(dir,  subd.Name));
+                LoadTemplates(Path.Combine(dir, subd.Name));
             }
+        }
+
+        private void SwitchButton_Click(object sender, RoutedEventArgs e)
+        {
+            IsOverview = !IsOverview;
+        }
+
+        private void AllKeywordsButton_Click(object sender, RoutedEventArgs e)
+        {
+            var akw = new AllKeywordsWindow();
+            akw.ShowAllKeywords(GetAllKeywords());
         }
     }
 }
