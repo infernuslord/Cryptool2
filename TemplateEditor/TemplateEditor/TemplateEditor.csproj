@@ -56,8 +56,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AllKeywordsWindow.xaml.cs">
+      <DependentUpon>AllKeywordsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NegationConverter.cs" />
+    <Compile Include="FalseToVisibleConverter.cs" />
     <Compile Include="LocalizedTemplateData.cs" />
+    <Compile Include="MetadataToBackgroundColorConverter.cs" />
     <Compile Include="TemplateInfo.cs" />
+    <Compile Include="TrueToVisibleConverter.cs" />
+    <Page Include="AllKeywordsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -97,6 +108,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="icons\switch.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icons\keywords.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
