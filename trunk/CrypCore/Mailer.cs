@@ -20,9 +20,11 @@ namespace Cryptool.Core
         /// Server-side spam protection is not handled differently from other server errors.
         /// </summary>
         /// <exception cref="SpamException">Thrown when client-side spam protection triggers</exception>
+        /// <param name="action">Either DEVMAIL or TICKET</param>
         /// <param name="title">Subject (without any "CrypTool" prefixes, will be added at server-side)</param>
         /// <param name="text">Message body</param>
-        public static void SendMailToCoreDevs(string action, string title, string text)
+        /// <param name="sender">Mail from (optional)</param>
+        public static void SendMailToCoreDevs(string action, string title, string text, string sender = null)
         {
             // Client-side spam check. Will fail if client changes system time.
             TimeSpan diff = DateTime.Now - lastMailTime;
@@ -36,8 +38,12 @@ namespace Cryptool.Core
             client.Headers["User-Agent"] = "CrypTool";
             var stream = client.OpenWrite("http://www.cryptool.org/cgi/ct2devmail");
 
-            var postMessage = Encoding.ASCII.GetBytes(string.Format("action={0}&title={1}&text={2}", Uri.EscapeDataString(action), Uri.EscapeDataString(title), Uri.EscapeDataString(text)));
-            stream.Write(postMessage, 0, postMessage.Length);
+            string postMessage = string.Format("action={0}&title={1}&text={2}", Uri.EscapeDataString(action), Uri.EscapeDataString(title), Uri.EscapeDataString(text));
+            if (!string.IsNullOrWhiteSpace(sender))
+                postMessage += string.Format("&sender={0}", Uri.EscapeDataString(sender));
+
+            var postEncoded = Encoding.ASCII.GetBytes(postMessage);
+            stream.Write(postEncoded, 0, postEncoded.Length);
             stream.Close();
 
             lastMailTime = DateTime.Now;
