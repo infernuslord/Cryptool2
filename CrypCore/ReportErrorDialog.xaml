@@ -17,10 +17,10 @@
 
         <Label Content="Before reporting this error, you are able to describe under which circumstances it occured." Grid.Row="0" FontWeight="Bold" Grid.RowSpan="2" />
         
-        <Label Content="Your Message:" Grid.Row="2" FontWeight="Bold"/>
+        <Label Content="Your Message (optional):" Grid.Row="2" FontWeight="Bold"/>
         <TextBox Name="UserMessage" Grid.Row="3" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Auto" TextChanged="UserMessage_TextChanged" TextWrapping="Wrap" AcceptsReturn="True" />
 
-        <Label Content="If you would like to track the state of your report, you may enter your email address (optional):" Grid.Row="4" FontWeight="Bold" Grid.RowSpan="2" />
+        <Label Content="You may enter your email address to track the state of your report (optional):" Grid.Row="4" FontWeight="Bold" Grid.RowSpan="2" />
         <TextBox Name="EMail" Grid.Column="1" Grid.Row="5" />
 
         <Label Content="The following informations will be sent to the developers:" Grid.Row="6" FontWeight="Bold"/>
