@@ -41,25 +41,58 @@ namespace CrypUpdater
 
         private void Application_Startup(object sender, StartupEventArgs e)
         {
+            // flomar, 04/08/2011: we don't want users to use the auto updater as stand-alone 
+            // application; therefore we exit with an error message if the application was 
+            // started without any additional arguments (such as CT2 folder path...)
+            if (e.Args.Length <= 1)
+            {
+                MessageBox.Show("You shouldn't run this program.\n\nIt is part of CrypTool 2, and it is invoked automatically during updates.");
+                return;
+            }
+
             try
             {
-                // flomar, 04/08/2011: we don't want users to use the auto updater as stand-alone 
-                // application; therefore we exit with an error message if the application was 
-                // started without any additional arguments (such as CT2 folder path...)
-                if (e.Args.Length <= 1)
-                {
-                    MessageBox.Show("You shouldn't run this program.\n\nIt is part of CrypTool 2, and it is invoked automatically during updates.");
-                    return;
-                }
-
                 filePath = e.Args[0];
                 cryptoolFolderPath = e.Args[1];
                 cryptoolExePath = e.Args[2];
                 cryptoolProcessID = Convert.ToInt32(e.Args[3]);
-                mayRestart = Convert.ToBoolean(e.Args[4]);
-                p = Process.GetProcessById(cryptoolProcessID);
+                try
+                {
+                    p = Process.GetProcessById(cryptoolProcessID);
+                }
+                catch (Exception ex)
+                {
+                    p = null;
+                }
 
-                if (p.WaitForExit(1000 * 30))
+                if (e.Args[4].ToLower() == "-justrestart")
+                {
+                    if ((p == null) || p.WaitForExit(1000 * 30))
+                    {
+                        RestartCryptool();
+                    }
+                    else
+                    {
+                        p.Kill();
+                        p.WaitForExit();
+                        RestartCryptool();
+                    }
+                    return;
+                }
+                else
+                {
+                    mayRestart = Convert.ToBoolean(e.Args[4]);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(string.Format("Error: {0}", ex.Message));
+                return;
+            }
+
+            try
+            {
+                if ((p == null) || p.WaitForExit(1000 * 30))
                     StartUpdateProcess();
                 else
                 {
