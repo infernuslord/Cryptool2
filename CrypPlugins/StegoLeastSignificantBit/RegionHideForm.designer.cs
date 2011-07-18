@@ -122,7 +122,7 @@
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(252, 23);
             this.label3.TabIndex = 10;
-            this.label3.Text = "Only regions, just four your information:";
+            this.label3.Text = "Only regions, just for your information:";
             // 
             // contextmenuImage
             // 
