@@ -32,7 +32,7 @@ namespace Cryptool.Plugins.DiscreteLogarithm
         #region private members
 
         private bool hasChanges = false;
-        private int algorithm;
+        private int algorithm = 0;
 
         #endregion
 
@@ -52,10 +52,10 @@ namespace Cryptool.Plugins.DiscreteLogarithm
         }        
 
         /// <summary>
-        /// Getter/Setter for the algorithm
+        /// Getter/Setter for the algorithm. Currently disabled in UI as Index Calculus is not fully working.
         /// </summary>
-        [ContextMenu( "AlgorithmCaption", "AlgorithmTooltip", 1, ContextMenuControlType.ComboBox, new int[] { 1, 2 }, "AlgorithmList1", "AlgorithmList2")]
-        [TaskPane( "AlgorithmCaption", "AlgorithmTooltip", null, 1, false, ControlType.ComboBox, new string[] { "AlgorithmList1", "AlgorithmList2" })]
+        //[ContextMenu( "AlgorithmCaption", "AlgorithmTooltip", 1, ContextMenuControlType.ComboBox, new int[] { 1, 2 }, "AlgorithmList1", "AlgorithmList2")]
+        //[TaskPane( "AlgorithmCaption", "AlgorithmTooltip", null, 1, false, ControlType.ComboBox, new string[] { "AlgorithmList1", "AlgorithmList2" })]
         public int Algorithm
         {
             get { return this.algorithm; }
