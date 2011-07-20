@@ -169,7 +169,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>xcopy  /Y "..\..\AppReferences" "$(TargetDir)AppReferences\"
-xcopy  /S /Y "..\..\AppSpecialReferences\CrypPlugins" "$(TargetDir)CrypPlugins"
+xcopy  /S /Y "..\..\AppSpecialReferences\CrypPlugins" "$(TargetDir)CrypPlugins\"
 xcopy  /E /Y "..\..\Templates" "$(TargetDir)Templates\"
 </PreBuildEvent>
   </PropertyGroup>
