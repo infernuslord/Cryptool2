@@ -733,7 +733,7 @@ namespace WorkspaceManager
                 }
                 try
                 {
-                    GuiLogMessage("Executing stopped by User!", NotificationLevel.Info);
+                    GuiLogMessage("Stopping execution.", NotificationLevel.Info);
                     ExecutionEngine.Stop();
                 }
                 catch (Exception ex)
@@ -751,7 +751,7 @@ namespace WorkspaceManager
         /// </summary>
         public void Initialize()
         {
-            //to be implemented
+            //nothing
         }
 
         /// <summary>
