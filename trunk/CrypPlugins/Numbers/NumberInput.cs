@@ -24,19 +24,36 @@ using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase;
 using System.ComponentModel;
 using System.Numerics;
+using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Threading;
+using System.Threading;
 
-namespace Cryptool.Plugins.BigNumber
+namespace Cryptool.Plugins.Numbers
 {
-    [Author("Sven Rech", "sven.rech@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo("BigNumber.Properties.Resources", true, "PluginInputCaption", "PluginInputTooltip", "PluginInputDescriptionURL", "BigNumber/icons/inputIcon.png")]
+    [Author("Sven Rech, Nils Kopal", "sven.rech@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
+    [PluginInfo("Cryptool.Plugins.Numbers.Properties.Resources", true, "PluginInputCaption", "PluginInputTooltip", "PluginInputDescriptionURL", "Numbers/icons/inputIcon.png")]
     [ComponentCategory(ComponentCategory.ToolsDataInputOutput)]
-    class BigNumberInput : ICrypComponent
+    class NumberInput : ICrypComponent
     {
+        private NumberInputPresentation _presentation = new NumberInputPresentation();
+        private Boolean _running = false;
 
-        public BigNumberInput()
+        public NumberInput()
         {
-            settings = new BigNumberInputSettings();
+            settings = new NumberInputSettings();
+            _presentation.TextBox.TextChanged +=new TextChangedEventHandler(TextBox_TextChanged);
         }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs args)
+        {
+            ((NumberInputSettings)this.settings).Number = _presentation.TextBox.Text;
+            if (_running)
+            {
+                Execute();
+            }
+        }
+
 
         #region Properties
 
@@ -78,16 +95,16 @@ namespace Cryptool.Plugins.BigNumber
             EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
         }
 
-        private BigNumberInputSettings settings;
+        private NumberInputSettings settings;
         public ISettings Settings
         {
             get { return settings; }
-            set { settings = (BigNumberInputSettings)value; }
+            set { settings = (NumberInputSettings)value; }
         }
 
         public System.Windows.Controls.UserControl Presentation
         {
-            get { return null; }
+            get { return _presentation; }
         }
 
         public System.Windows.Controls.UserControl QuickWatchPresentation
@@ -97,7 +114,7 @@ namespace Cryptool.Plugins.BigNumber
 
         public void PreExecution()
         {
-            Dispose();
+            _running = true;
         }
 
         public void Execute()
@@ -129,16 +146,21 @@ namespace Cryptool.Plugins.BigNumber
 
         public void Stop()
         {
-            
+            _running = false;
         }
 
         public void Initialize()
         {
-            
+            _presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
+                this._presentation.TextBox.Text = ((NumberInputSettings)settings).Number;
+            }
+            , null);            
         }
 
         public void Dispose()
         {
+            _running = false;
         }
 
         #endregion

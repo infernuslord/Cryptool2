@@ -22,13 +22,13 @@ using Cryptool.PluginBase;
 using Cryptool.PluginBase.Miscellaneous;
 using System.ComponentModel;
 
-namespace Cryptool.Plugins.BigNumber
+namespace Cryptool.Plugins.Numbers
 {
-    class BigNumberInputSettings : ISettings
+    class NumberInputSettings : ISettings
     {
         #region Number
         private String number = "1";
-        [TaskPane("NumberCaption", "NumberTooltip", null, 1, false, ControlType.TextBox)]
+        //[TaskPane("NumberCaption", "NumberTooltip", null, 1, false, ControlType.TextBox)]
         public String Number
         {
             get 

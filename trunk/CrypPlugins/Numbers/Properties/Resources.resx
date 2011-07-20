@@ -118,22 +118,22 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="PluginInputCaption" xml:space="preserve">
-    <value>BigNumberInput</value>
+    <value>NumberInput</value>
   </data>
   <data name="PluginInputTooltip" xml:space="preserve">
-    <value>Big Number Input</value>
+    <value>Number Input</value>
   </data>
   <data name="PluginInputDescriptionURL" xml:space="preserve">
-    <value>BigNumber/DetailedDescription/DescriptionInput.xaml</value>
+    <value>Numbers/DetailedDescription/DescriptionInput.xaml</value>
   </data>
   <data name="PluginOperationCaption" xml:space="preserve">
-    <value>BigNumberOperation</value>
+    <value>NumberOperation</value>
   </data>
   <data name="PluginOperationTooltip" xml:space="preserve">
-    <value>Big Number Operation</value>
+    <value>Number Operation</value>
   </data>
   <data name="PluginOperationDescriptionURL" xml:space="preserve">
-    <value>BigNumber/DetailedDescription/DescriptionOperation.xaml</value>
+    <value>Numbers/DetailedDescription/DescriptionOperation.xaml</value>
   </data>
   <data name="NumberOutputCaption" xml:space="preserve">
     <value>Number Output</value>

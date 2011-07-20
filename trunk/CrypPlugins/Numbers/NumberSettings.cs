@@ -21,9 +21,9 @@ using System.Text;
 using Cryptool.PluginBase;
 using System.ComponentModel;
 
-namespace Cryptool.Plugins.BigNumber
+namespace Cryptool.Plugins.Numbers
 {
-    class BigNumberOperationSettings : ISettings
+    class NumberSettings : ISettings
     {
         #region private variables
 
