@@ -59,20 +59,20 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CrypWin">
-      <HintPath>..\appspecialreferences\crypwin.exe</HintPath>
-      <Private>False</Private>
+      <HintPath>..\AppSpecialReferences\CrypWin.exe</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="DevComponents.WpfDock">
       <HintPath>..\AppReferences\DevComponents.WpfDock.dll</HintPath>
-      <Private>False</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="DevComponents.WpfEditors">
       <HintPath>..\AppReferences\DevComponents.WpfEditors.dll</HintPath>
-      <Private>False</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="DevComponents.WpfRibbon">
       <HintPath>..\AppReferences\DevComponents.WpfRibbon.dll</HintPath>
-      <Private>False</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -169,7 +169,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>xcopy  /Y "..\..\AppReferences" "$(TargetDir)AppReferences\"
-xcopy  /S /Y "..\..\AppSpecialReferences" "$(TargetDir)"
+xcopy  /S /Y "..\..\AppSpecialReferences\CrypPlugins" "$(TargetDir)CrypPlugins"
 xcopy  /E /Y "..\..\Templates" "$(TargetDir)Templates\"
 </PreBuildEvent>
   </PropertyGroup>
