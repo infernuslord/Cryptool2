@@ -21,12 +21,12 @@ using Cryptool.PluginBase.Miscellaneous;
 using System.ComponentModel;
 using System.Numerics;
 
-namespace Cryptool.Plugins.BigNumber
+namespace Cryptool.Plugins.Numbers
 {
-    [Author("Sven Rech", "sven.rech@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo("BigNumber.Properties.Resources", false, "PluginOperationCaption", "PluginOperationTooltip", "PluginOperationDescriptionURL", "BigNumber/icons/plusIcon.png", "BigNumber/icons/minusIcon.png", "BigNumber/icons/timesIcon.png", "BigNumber/icons/divIcon.png", "BigNumber/icons/powIcon.png", "BigNumber/icons/gcdicon.png")]
+    [Author("Sven Rech, Nils Kopal", "sven.rech@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
+    [PluginInfo("Cryptool.Plugins.Numbers.Properties.Resources", false, "PluginOperationCaption", "PluginOperationTooltip", "PluginOperationDescriptionURL", "Numbers/icons/plusIcon.png", "Numbers/icons/minusIcon.png", "Numbers/icons/timesIcon.png", "Numbers/icons/divIcon.png", "Numbers/icons/powIcon.png", "Numbers/icons/gcdicon.png")]
     [ComponentCategory(ComponentCategory.ToolsMisc)]
-    class BigNumberOperation : ICrypComponent
+    class NumberOperations : ICrypComponent
     {
 
         #region private variable
@@ -35,7 +35,7 @@ namespace Cryptool.Plugins.BigNumber
         private BigInteger input2 = 0;
         private BigInteger mod = 0;
         private BigInteger output = 0;
-        private BigNumberOperationSettings settings = new BigNumberOperationSettings();
+        private NumberSettings settings = new NumberSettings();
 
         #endregion
 
@@ -53,7 +53,7 @@ namespace Cryptool.Plugins.BigNumber
 
         #region public
 
-        public BigNumberOperation()
+        public NumberOperations()
         {
             this.settings.OnPluginStatusChanged += settings_OnPluginStatusChanged;
         }
@@ -138,7 +138,7 @@ namespace Cryptool.Plugins.BigNumber
         public ISettings Settings
         {
             get { return settings; }
-            set { settings = (BigNumberOperationSettings)value; }
+            set { settings = (NumberSettings)value; }
         }
 
 
@@ -247,7 +247,7 @@ namespace Cryptool.Plugins.BigNumber
         public void Initialize()
         {            
             //change to the correct icon which belongs to actual selected arithmetic function 
-            ((BigNumberOperationSettings)this.settings).changeToCorrectIcon(((BigNumberOperationSettings)this.settings).Operat);
+            ((NumberSettings)this.settings).changeToCorrectIcon(((NumberSettings)this.settings).Operat);
         }
 
         public void Dispose()

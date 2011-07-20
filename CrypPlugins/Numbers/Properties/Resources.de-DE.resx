@@ -117,25 +117,82 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="PluginCaption" xml:space="preserve">
-    <value>Number Input</value>
+  <data name="PluginInputCaption" xml:space="preserve">
+    <value>NumberInput</value>
   </data>
-  <data name="PluginTooltip" xml:space="preserve">
-    <value>Einfache Zahleneingabe</value>
+  <data name="PluginInputTooltip" xml:space="preserve">
+    <value>Number Eingabe</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value />
+  <data name="PluginInputDescriptionURL" xml:space="preserve">
+    <value>Numbers/DetailedDescription/DescriptionInput.xaml</value>
   </data>
-  <data name="IntegerValueCaption" xml:space="preserve">
-    <value>Natürliche Zahl</value>
+  <data name="PluginOperationCaption" xml:space="preserve">
+    <value>NumberOperation</value>
   </data>
-  <data name="IntegerValueTooltip" xml:space="preserve">
-    <value>Die vom Plugin ausgegebene natürliche Zahl</value>
+  <data name="PluginOperationTooltip" xml:space="preserve">
+    <value>Number Operation</value>
   </data>
-  <data name="IntegerStartValueCaption" xml:space="preserve">
-    <value>Startwert</value>
+  <data name="PluginOperationDescriptionURL" xml:space="preserve">
+    <value>Numbers/DetailedDescription/DescriptionOperation.xaml</value>
   </data>
-  <data name="IntegerStartValueTooltip" xml:space="preserve">
-    <value>Startwert</value>
+  <data name="NumberOutputCaption" xml:space="preserve">
+    <value>Number Ausgabe</value>
+  </data>
+  <data name="NumberOutputTooltip" xml:space="preserve">
+    <value>Number Ausgabe</value>
+  </data>
+  <data name="Input1Caption" xml:space="preserve">
+    <value>Operand 1</value>
+  </data>
+  <data name="Input1Tooltip" xml:space="preserve">
+    <value>Eingabe Operand 1</value>
+  </data>
+  <data name="Input2Caption" xml:space="preserve">
+    <value>Operand 2</value>
+  </data>
+  <data name="Input2Tooltip" xml:space="preserve">
+    <value>Eingabe Operand 2</value>
+  </data>
+  <data name="ModCaption" xml:space="preserve">
+    <value>Modulus</value>
+  </data>
+  <data name="ModTooltip" xml:space="preserve">
+    <value>Eingabe Modulus</value>
+  </data>
+  <data name="OutputCaption" xml:space="preserve">
+    <value>Resultat</value>
+  </data>
+  <data name="OutputTooltip" xml:space="preserve">
+    <value>Resultat der mathematischen Operation</value>
+  </data>
+  <data name="NumberCaption" xml:space="preserve">
+    <value>Number Ausgabe</value>
+  </data>
+  <data name="NumberTooltip" xml:space="preserve">
+    <value>Die Zahl, die diese Komponente ausgeben soll.</value>
+  </data>
+  <data name="OperatCaption" xml:space="preserve">
+    <value>Operation</value>
+  </data>
+  <data name="OperatTooltip" xml:space="preserve">
+    <value>Wählen Sie die mathematische Operation.</value>
+  </data>
+  <data name="OperatList1" xml:space="preserve">
+    <value>x+y</value>
+  </data>
+  <data name="OperatList2" xml:space="preserve">
+    <value>x-y</value>
+  </data>
+  <data name="OperatList3" xml:space="preserve">
+    <value>x*y</value>
+  </data>
+  <data name="OperatList4" xml:space="preserve">
+    <value>x/y</value>
+  </data>
+  <data name="OperatList5" xml:space="preserve">
+    <value>x^y</value>
+  </data>
+  <data name="OperatList6" xml:space="preserve">
+    <value>ggT</value>
   </data>
 </root>
