@@ -32,6 +32,30 @@ namespace TemplateEditor
 
         public bool HasMetadata { get { return XMLPath != null; } }
 
+        public string AvailableTranslations
+        {
+            get
+            {
+                var res = "";
+                if (LocalizedTemplateData == null)
+                    return res;
+
+                foreach (var lang in LocalizedTemplateData.Keys)
+                {
+                    res += lang + ", ";
+                }
+
+                if (res.Length > 0)
+                {
+                    return res.Substring(0, res.Length - 2);
+                }
+                else
+                {
+                    return "";
+                }
+            }
+        }
+
         public string AllKeywords
         {
             get
