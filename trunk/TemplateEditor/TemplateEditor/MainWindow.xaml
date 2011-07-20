@@ -1,7 +1,7 @@
 ﻿<Window x:Class="TemplateEditor.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Template Editor" Height="450" Width="1025" WindowState="Maximized" xmlns:my="clr-namespace:TemplateEditor" >
+        Title="Template Editor" Height="650" Width="1040" WindowState="Maximized" xmlns:my="clr-namespace:TemplateEditor" >
     <Window.Resources>
         <my:TrueToVisibleConverter x:Key="TrueToVisibleConverter" />
         <my:FalseToVisibleConverter x:Key="FalseToVisibleConverter" />
@@ -26,7 +26,7 @@
         </ToolBarTray>
 
         <Grid Grid.Row="1">
-            <ListView Name="AllTemplatesList" ItemsSource="{Binding}" Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=my:MainWindow, AncestorLevel=1}, Path=IsOverview, Converter={StaticResource TrueToVisibleConverter}}">
+            <ListView Name="AllTemplatesList" ItemsSource="{Binding}" Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=my:MainWindow, AncestorLevel=1}, Path=IsOverview, Converter={StaticResource TrueToVisibleConverter}}" MouseDoubleClick="AllTemplatesList_MouseDoubleClick">                
                 <ListView.View>
                     <GridView AllowsColumnReorder="True">
                         <GridViewColumn Header="File" DisplayMemberBinding="{Binding Path=FilePath}" />
@@ -47,18 +47,19 @@
                         </GridViewColumn>
                         <GridViewColumn Header="All Keywords" DisplayMemberBinding="{Binding Path=AllKeywords}" />
                         <GridViewColumn Header="Relevant Plugin" DisplayMemberBinding="{Binding Path=AllRelevantPlugins}" />
+                        <GridViewColumn Header="Available Translations" DisplayMemberBinding="{Binding Path=AvailableTranslations}" />
                     </GridView>
                 </ListView.View>
             </ListView>
 
             <Grid Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=my:MainWindow, AncestorLevel=1}, Path=IsOverview, Converter={StaticResource FalseToVisibleConverter}}">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="300" />
+                    <ColumnDefinition Width="500" />
                     <ColumnDefinition Width="5" />
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 
-                <ListBox ItemsSource="{Binding}" Name="AllTemplatesList2" Grid.Column="0" HorizontalAlignment="Stretch">
+                <ListBox ItemsSource="{Binding}" Name="AllTemplatesList2" Grid.Column="0" HorizontalAlignment="Stretch" SelectionChanged="AllTemplatesList2_SelectionChanged">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding Path=FilePath}" Background="{Binding Converter={StaticResource MetadataToBackgroundConverter}}" HorizontalAlignment="Stretch" />
@@ -78,7 +79,13 @@
                             <GroupBox.Header>
                                 <StackPanel Orientation="Horizontal">
                                     <Label Content="Language: " VerticalAlignment="Center"/>
-                                    <ComboBox Width="200" Margin="5"/>
+                                    <ComboBox Width="200" Margin="5" Name="LanguageBox" SelectionChanged="LanguageBox_SelectionChanged" >
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <Label Content="{Binding Path=Key}" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
                                     <Button Content="Add Language" Margin="5"/>
                                     <Button Content="Delete Language" Margin="5"/>
                                 </StackPanel>
@@ -90,28 +97,38 @@
                                         <ColumnDefinition />
                                     </Grid.ColumnDefinitions>
                                     <Label Content="Title: "/>
-                                    <TextBox Grid.Column="1" />
+                                    <TextBox Grid.Column="1" Name="TitleTextBox"/>
                                 </Grid>
                                 <Label Content="Description: " />
-                                <TextBox TextWrapping="Wrap" AcceptsReturn="True" Height="200" Margin="40,0,0,0" />
+                                <TextBox Name="DescriptionTextBox" TextWrapping="Wrap" AcceptsReturn="True" Height="200" Margin="40,0,0,0" />
                                 <Label Content="Keywords: " />
                                 <Grid Margin="40,0,0,0">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition />
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
-                                    <ListBox/>
+                                    <ListBox Name="KeywordsListBox" />
                                     <StackPanel Orientation="Vertical" Grid.Column="1">
-                                        <Button Content="Add Known Keywords" Margin="5"/>
-                                        <Button Content="Add New Keyword" Margin="5"/>
-                                        <Button Content="Delete Selected Keywords" Margin="5"/>
+                                        <Button Content="Add Known Keywords" Margin="5" Click="AddKnownKeywordButton_Click" />
+                                        <Button Content="Add New Keyword" Margin="5" Click="AddNewKeywordButton_Click" />
+                                        <Button Content="Delete Selected Keywords" Margin="5" Click="DeleteKeywordButton_Click" />
                                     </StackPanel>
                                 </Grid>
                             </StackPanel>
                         </GroupBox>
                     
                         <GroupBox Grid.Row="1" Header="Relevant Plugins">
-                            <TextBox />
+                            <Grid Margin="40,0,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <ListBox Name="RelevantPluginsListBox"/>
+                                <StackPanel Orientation="Vertical" Grid.Column="1">
+                                    <Button Content="Add" Margin="5" Click="PluginAddButton_Click" />
+                                    <Button Content="Delete" Margin="5" Click="PluginDeleteButton_Click" />                                    
+                                </StackPanel>
+                            </Grid>
                         </GroupBox>
                     </Grid>
                 </ScrollViewer>
