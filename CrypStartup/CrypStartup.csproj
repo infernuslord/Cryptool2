@@ -63,15 +63,15 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="DevComponents.WpfDock">
-      <HintPath>..\AppReferences\DevComponents.WpfDock.dll</HintPath>
+      <HintPath>..\AppSpecialReferences\DevComponents.WpfDock.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="DevComponents.WpfEditors">
-      <HintPath>..\AppReferences\DevComponents.WpfEditors.dll</HintPath>
+      <HintPath>..\AppSpecialReferences\DevComponents.WpfEditors.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="DevComponents.WpfRibbon">
-      <HintPath>..\AppReferences\DevComponents.WpfRibbon.dll</HintPath>
+      <HintPath>..\AppSpecialReferences\DevComponents.WpfRibbon.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
