@@ -173,14 +173,14 @@ namespace TemplateEditor
                 return;
             }
 
-            var templateInfo = ((KeyValuePair<string, LocalizedTemplateData>) LanguageBox.SelectedItem).Value;
-            TitleTextBox.Text = templateInfo.Title;
-            DescriptionTextBox.Text = templateInfo.Description;
+            var localizedTemplateData = ((KeyValuePair<string, LocalizedTemplateData>) LanguageBox.SelectedItem).Value;
+            TitleTextBox.Text = localizedTemplateData.Title;
+            DescriptionTextBox.Text = localizedTemplateData.Description;
 
             KeywordsListBox.Items.Clear();
-            if (templateInfo.Keywords != null)
+            if (localizedTemplateData.Keywords != null)
             {
-                foreach (var keyword in templateInfo.Keywords)
+                foreach (var keyword in localizedTemplateData.Keywords)
                 {
                     KeywordsListBox.Items.Add(keyword);
                 }
@@ -242,6 +242,68 @@ namespace TemplateEditor
             if (KeywordsListBox.SelectedIndex >= 0)
             {
                 KeywordsListBox.Items.RemoveAt(KeywordsListBox.SelectedIndex);
+            }
+        }
+
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (AllTemplatesList2.SelectedItem != null)
+            {
+                var tempInfo = AllTemplatesList2.SelectedItem as TemplateInfo;
+                
+                //plugins:
+                tempInfo.RelevantPlugins = new List<string>();
+                foreach (var plugin in tempInfo.RelevantPlugins)
+                {
+                    tempInfo.RelevantPlugins.Add(plugin);
+                }
+
+                //localized data:
+                if (LanguageBox.SelectedItem != null)
+                {
+                    var localizedTemplateData = ((KeyValuePair<string, LocalizedTemplateData>) LanguageBox.SelectedItem);
+                    if (!tempInfo.LocalizedTemplateData.ContainsKey(localizedTemplateData.Key))
+                    {
+                        tempInfo.LocalizedTemplateData.Add(localizedTemplateData.Key, new LocalizedTemplateData());
+                    }
+                    var md = tempInfo.LocalizedTemplateData[localizedTemplateData.Key];
+                    md.Title = TitleTextBox.Text;
+                    md.Description = DescriptionTextBox.Text;
+                    md.Lang = localizedTemplateData.Key;
+                    if (KeywordsListBox.Items.Count > 0)
+                    {
+                        md.Keywords = new List<string>();
+                        foreach (var keyword in KeywordsListBox.Items)
+                        {
+                            md.Keywords.Add((string) keyword);
+                        }
+                    }
+                }
+
+                tempInfo.Save();
+            }
+        }
+
+        private void AddLanguageButton_Click(object sender, RoutedEventArgs e)
+        {
+            var id = new InputDialog();
+            var res = id.ShowDialog();
+            if (res.HasValue && res.Value)
+            {
+                if (!LanguageBox.Items.Contains(id.InputBox.Text))
+                {
+                    LanguageBox.Items.Add(id.InputBox.Text);
+                }
+                LanguageBox.SelectedItem = id.InputBox.Text;
+            }
+        }
+
+        private void DeleteLanguageButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (LanguageBox.SelectedIndex >= 0)
+            {
+                LanguageBox.Items.RemoveAt(LanguageBox.SelectedIndex);
+                LanguageBox.SelectedIndex = 0;
             }
         }
     }

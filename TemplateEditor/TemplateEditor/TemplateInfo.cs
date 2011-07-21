@@ -133,8 +133,10 @@ namespace TemplateEditor
                 {
                     var lang = "en";
                     if (element.Attribute("lang") != null)
+                    {
                         lang = element.Attribute("lang").Value;
-                    
+                    }
+
                     switch (element.Name.ToString())
                     {
                         case "title":
@@ -191,7 +193,13 @@ namespace TemplateEditor
             if (!LocalizedTemplateData.ContainsKey(lang))
             {
                 LocalizedTemplateData.Add(lang, new LocalizedTemplateData());
+                LocalizedTemplateData[lang].Lang = lang;
             }
+        }
+
+        public void Save()
+        {
+            throw new NotImplementedException();
         }
     }
 }

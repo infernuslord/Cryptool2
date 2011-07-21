@@ -74,6 +74,7 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
                         <GroupBox>
                             <GroupBox.Header>
@@ -86,8 +87,8 @@
                                             </DataTemplate>
                                         </ComboBox.ItemTemplate>
                                     </ComboBox>
-                                    <Button Content="Add Language" Margin="5"/>
-                                    <Button Content="Delete Language" Margin="5"/>
+                                    <Button Content="Add Language" Margin="5" Click="AddLanguageButton_Click" />
+                                    <Button Content="Delete Language" Margin="5" Click="DeleteLanguageButton_Click" />
                                 </StackPanel>
                             </GroupBox.Header>
                             <StackPanel Orientation="Vertical">
@@ -130,6 +131,8 @@
                                 </StackPanel>
                             </Grid>
                         </GroupBox>
+                        
+                        <Button HorizontalAlignment="Right" Content="Save changes for this template" Grid.Row="2" Margin="5" IsDefault="True" Padding="15,1" Click="SaveButton_Click" />
                     </Grid>
                 </ScrollViewer>
             </Grid>
