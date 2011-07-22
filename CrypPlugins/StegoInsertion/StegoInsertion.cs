@@ -22,14 +22,13 @@ using Cryptool.PluginBase;
 using System.ComponentModel;
 using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase.Miscellaneous;
-using System.ComponentModel;
 using System.Windows.Controls;
 using System.IO;
 
 namespace Cryptool.Plugins.StegoInsertion
 {
     [Author("Corinna John", "coco@steganografie.eu", "", "http://www.steganografie.eu")]
-    [PluginInfo("StegoInsertion.Properties.Resources", false, "PluginCaption", "PluginTooltip", null, "CrypWin/images/default.png")]
+    [PluginInfo("StegoInsertion.Properties.Resources", false, "Insertion Steganography", "Insertion Steganography", "StegoInsertion/DetailedDescription/Description.xaml", "StegoInsertion/Images/StegoInsertion.png")]
     [ComponentCategory(ComponentCategory.Steganography)]
     public class StegoInsertion : ICrypComponent
     {

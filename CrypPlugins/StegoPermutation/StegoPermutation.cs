@@ -28,7 +28,7 @@ using System.IO;
 namespace Cryptool.Plugins.StegoPermutation
 {
     [Author("Corinna John", "coco@steganografie.eu", "", "http://www.steganografie.eu")]
-    [PluginInfo(false, "Permutation Steganography", "Encodes a message in the permutation of a list", null, "CrypWin/images/default.png")]
+    [PluginInfo("StegoPermutation.Properties.Resources", false, "Permutation Steganography", "Encodes a message in the permutation of a list", "StegoPermutation/DetailedDescription/Description.xaml", "StegoPermutation/Images/StegoPermutation.png")]
     [ComponentCategory(ComponentCategory.Steganography)]
     public class StegoPermutation : ICrypComponent
     {
