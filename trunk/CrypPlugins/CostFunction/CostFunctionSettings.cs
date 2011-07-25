@@ -44,7 +44,7 @@ namespace Cryptool.Plugins.CostFunction
             UpdateTaskPaneVisibility();
         }
 
-        [TaskPane( "FunctionTypeCaption", "FunctionTypeTooltip", null, 1, false, ControlType.ComboBox, new string[] { "Index of coincidence", "Entropy", "Bigrams: log 2", "Bigrams: Sinkov", "Bigrams: Percentaged", "Regular Expression", "Weighted Bigrams/Trigrams"})]
+        [TaskPane("FunctionTypeCaption", "FunctionTypeTooltip", null, 1, false, ControlType.ComboBox, new string[] { "FunctionTypeList1", "FunctionTypeList2", "FunctionTypeList3", "FunctionTypeList4", "FunctionTypeList5", "FunctionTypeList6", "FunctionTypeList7" })]
         public int FunctionType
         {
             get { return this.functionType; }
@@ -82,7 +82,7 @@ namespace Cryptool.Plugins.CostFunction
             get { return bytesToUseInteger; }
         }
 
-        [TaskPane("Bytes offset", "Which amount of bytes should be skipped before applying regex?", null, 5, false, ControlType.TextBox)]
+        [TaskPane("BytesOffsetCaption", "BytesOffsetTooltip", null, 5, false, ControlType.TextBox)]
         public String BytesOffset
         {
             get
@@ -108,7 +108,7 @@ namespace Cryptool.Plugins.CostFunction
 
         public string customFilePath;
         public int statisticscorpus = 0;
-        [TaskPane( "StatisticsCorpusCaption", "StatisticsCorpusTooltip", null, 7, false, ControlType.ComboBox, new string[] { "Text corpus (DE)", "Text corpus (EN)", "Custom (...)" })]
+        [TaskPane("StatisticsCorpusCaption", "StatisticsCorpusTooltip", null, 7, false, ControlType.ComboBox, new string[] { "StatisticsCorpusList1", "StatisticsCorpusList2", "StatisticsCorpusList3" })]
         public int StatisticsCorpus
         {
             get
@@ -141,7 +141,7 @@ namespace Cryptool.Plugins.CostFunction
             }
         }
         public int entropyselect;
-        [TaskPane( "entropyCaption", "entropyTooltip", null, 9, false, ControlType.ComboBox, new string[] { "External (NativeCryptography, default)", "Internal" })]
+        [TaskPane("entropyCaption", "entropyTooltip", null, 9, false, ControlType.ComboBox, new string[] { "entropyList1", "entropyList2" })]
         public int entropy
         {
             get
@@ -158,7 +158,7 @@ namespace Cryptool.Plugins.CostFunction
 
         public string customfwtpath;
         public int fwt = 0; //fwt = fitness weight table
-        [TaskPane( "weighttableCaption", "weighttableTooltip", null, 8, false, ControlType.ComboBox, new string[] { "Matthews", "Toemeh-Arumugam", "Custom Weight table (*.csv)" })]
+        [TaskPane("weighttableCaption", "weighttableTooltip", null, 8, false, ControlType.ComboBox, new string[] { "weighttableList1", "weighttableList2", "weighttableList3" })]
         public int weighttable
         {
             get

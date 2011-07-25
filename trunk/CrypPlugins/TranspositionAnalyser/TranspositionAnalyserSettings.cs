@@ -57,7 +57,7 @@ namespace TranspositionAnalyser
             }
         }
         //[PropertySaveOrder(1)]
-        [TaskPane( "Analysis_methodCaption", "Analysis_methodTooltip", null, 1, false, ControlType.ComboBox, new string[] { "Bruteforce Analysis", "Analysis with Crib", "Genetic algorithm" })]
+        [TaskPane("Analysis_methodCaption", "Analysis_methodTooltip", null, 1, false, ControlType.ComboBox, new string[] { "Analysis_methodList1", "Analysis_methodList2", "Analysis_methodList3" })]
         public int Analysis_method
         {
             get

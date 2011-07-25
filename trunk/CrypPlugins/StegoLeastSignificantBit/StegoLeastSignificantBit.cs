@@ -37,7 +37,7 @@ using System.Runtime.InteropServices;
 namespace Cryptool.Plugins.StegoLeastSignificantBit
 {
     [Author("Corinna John", "coco@steganografie.eu", "", "http://www.steganografie.eu")]
-    [PluginInfo("Cryptool.Plugins.StegoLeastSignificantBit.Properties.Resources", false, "StegoLeastSignificantBit", "LSB bitmap Steganography", "StegoLeastSignificantBit/DetailedDescription/Description.xaml", "StegoLeastSignificantBit/Images/StegoLeastSignificantBit.png")]
+    [PluginInfo("Cryptool.Plugins.StegoLeastSignificantBit.Properties.Resources", false, "PluginCaption", "PluginTooltip", "StegoLeastSignificantBit/DetailedDescription/Description.xaml", "StegoLeastSignificantBit/Images/StegoLeastSignificantBit.png")]
     [ComponentCategory(ComponentCategory.Steganography)]
     public class StegoLeastSignificantBit : ICrypComponent
     {

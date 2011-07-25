@@ -198,4 +198,55 @@
   <data name="PluginTooltip" xml:space="preserve">
     <value>CostFunction</value>
   </data>
+  <data name="BytesOffsetCaption" xml:space="preserve">
+    <value>Bytes offset</value>
+  </data>
+  <data name="BytesOffsetTooltip" xml:space="preserve">
+    <value>Which amount of bytes should be skipped before applying regex?</value>
+  </data>
+  <data name="FunctionTypeList1" xml:space="preserve">
+    <value>Index of coincidence</value>
+  </data>
+  <data name="FunctionTypeList2" xml:space="preserve">
+    <value>Entropy</value>
+  </data>
+  <data name="FunctionTypeList3" xml:space="preserve">
+    <value>Bigrams: log 2</value>
+  </data>
+  <data name="FunctionTypeList4" xml:space="preserve">
+    <value>Bigrams: Sinkov</value>
+  </data>
+  <data name="FunctionTypeList5" xml:space="preserve">
+    <value>Bigrams: Percentaged</value>
+  </data>
+  <data name="FunctionTypeList6" xml:space="preserve">
+    <value>Regular Expression</value>
+  </data>
+  <data name="FunctionTypeList7" xml:space="preserve">
+    <value>Weighted Bigrams/Trigrams</value>
+  </data>
+  <data name="StatisticsCorpusList1" xml:space="preserve">
+    <value>Text corpus (DE)</value>
+  </data>
+  <data name="StatisticsCorpusList2" xml:space="preserve">
+    <value>Text corpus (EN)</value>
+  </data>
+  <data name="StatisticsCorpusList3" xml:space="preserve">
+    <value>Custom (...)</value>
+  </data>
+  <data name="entropyList1" xml:space="preserve">
+    <value>External (NativeCryptography, default)</value>
+  </data>
+  <data name="entropyList2" xml:space="preserve">
+    <value>Internal</value>
+  </data>
+  <data name="weighttableList1" xml:space="preserve">
+    <value>Matthews</value>
+  </data>
+  <data name="weighttableList2" xml:space="preserve">
+    <value>Toemeh-Arumugam</value>
+  </data>
+  <data name="weighttableList3" xml:space="preserve">
+    <value>Custom Weight table (*.csv)</value>
+  </data>
 </root>
