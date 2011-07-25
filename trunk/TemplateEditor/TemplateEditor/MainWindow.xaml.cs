@@ -253,9 +253,9 @@ namespace TemplateEditor
                 
                 //plugins:
                 tempInfo.RelevantPlugins = new List<string>();
-                foreach (var plugin in tempInfo.RelevantPlugins)
+                foreach (var plugin in RelevantPluginsListBox.Items)
                 {
-                    tempInfo.RelevantPlugins.Add(plugin);
+                    tempInfo.RelevantPlugins.Add(plugin.ToString());
                 }
 
                 //localized data:
@@ -292,7 +292,9 @@ namespace TemplateEditor
             {
                 if (!LanguageBox.Items.Contains(id.InputBox.Text))
                 {
-                    LanguageBox.Items.Add(id.InputBox.Text);
+                    var newEntry = new KeyValuePair<string, LocalizedTemplateData>(id.InputBox.Text, new LocalizedTemplateData());
+                    newEntry.Value.Lang = id.InputBox.Text;
+                    LanguageBox.Items.Add(newEntry);
                 }
                 LanguageBox.SelectedItem = id.InputBox.Text;
             }
