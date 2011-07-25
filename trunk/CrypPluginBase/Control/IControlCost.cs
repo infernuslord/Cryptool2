@@ -27,7 +27,7 @@ namespace Cryptool.PluginBase.Control
   /// </summary>
   public enum RelationOperator
   {
-      LessThen, LargerThen
+      LessThan, LargerThan
   }
 
   public interface IControlCost : IControl
