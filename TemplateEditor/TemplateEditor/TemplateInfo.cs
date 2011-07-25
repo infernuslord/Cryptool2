@@ -141,11 +141,14 @@ namespace TemplateEditor
                     {
                         case "title":
                             CreateTemplateDataEntryForLang(lang);
-                            LocalizedTemplateData[lang].Title = element.Value.ToString();
+                            LocalizedTemplateData[lang].Title = element.Value;
                             break;
                         case "description":
                             CreateTemplateDataEntryForLang(lang);
-                            LocalizedTemplateData[lang].Description = element.Value.ToString();
+                            var desc = element.ToString(SaveOptions.None);
+                            desc = desc.Substring(desc.IndexOf('>')+1);
+                            desc = desc.Substring(0, desc.LastIndexOf('<'));
+                            LocalizedTemplateData[lang].Description = desc;
                             break;
                         case "icon":
                             if (element.Attribute("file") != null)
@@ -199,7 +202,54 @@ namespace TemplateEditor
 
         public void Save()
         {
-            throw new NotImplementedException();
+            XElement xml = new XElement("sample");
+            foreach (var data in LocalizedTemplateData.Values)
+            {
+                if (data.Lang != null)
+                {
+                    var title = new XElement("title");
+                    title.SetAttributeValue("lang", data.Lang);
+                    title.SetValue(data.Title);
+                    xml.Add(title);
+                }
+
+                if (data.Description != null)
+                {
+                    xml.Add(XElement.Parse(string.Format("<description lang=\"{0}\">{1}</description>", data.Lang, data.Description)));
+                }
+
+                if ((data.Keywords != null) && (data.Keywords.Count() > 0))
+                {
+                    var keywords = new XElement("keywords");
+                    if (data.Lang != "en")
+                    {
+                        keywords.SetAttributeValue("lang", data.Lang);
+                    }
+                    keywords.SetValue(data.AllKeywords);
+                    xml.Add(keywords);
+                }
+            }
+
+            if (IconFile != null)
+            {
+                var icon = new XElement("icon");
+                icon.SetAttributeValue("file", IconFile);
+                xml.Add(icon);
+            }
+
+            if ((RelevantPlugins != null) && (RelevantPlugins.Count > 0))
+            {
+                var relevantPlugins = new XElement("relevantPlugins");
+                foreach (var relevantPlugin in RelevantPlugins)
+                {
+                    var plugin = new XElement("plugin");
+                    plugin.SetAttributeValue("name", relevantPlugin);
+                    relevantPlugins.Add(plugin);
+                }
+                xml.Add(relevantPlugins);
+            }
+
+            xml.Save(XMLPath);
         }
     }
 }
