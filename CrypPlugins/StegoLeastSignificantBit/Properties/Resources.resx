@@ -184,7 +184,7 @@
     <value>Raw decryption result</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
-    <value>StegoLeastSignificantBit</value>
+    <value>LSB Steganography</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
     <value>Hide a message in the Least Significant Bits of a picture.</value>

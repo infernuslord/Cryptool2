@@ -160,7 +160,7 @@
     <value>Ausgabe der dekodierten Nachricht</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
-    <value>Permutation Steganography</value>
+    <value>Permutations-Steganographie</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
     <value>Kodiert eine Nachricht durch die Permutation einer Liste</value>

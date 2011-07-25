@@ -193,7 +193,7 @@
     <value />
   </data>
   <data name="PluginKeyCaption" xml:space="preserve">
-    <value>PaillierKeyGenerator</value>
+    <value>Paillier-Schlüsselgenerator</value>
   </data>
   <data name="PluginKeyDescriptionURL" xml:space="preserve">
     <value />

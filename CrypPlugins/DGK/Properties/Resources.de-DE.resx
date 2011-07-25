@@ -169,13 +169,13 @@
     <value />
   </data>
   <data name="PluginKeyCaption" xml:space="preserve">
-    <value>DGK Key Generator</value>
+    <value>DGK-Schlüsselgenerator</value>
   </data>
   <data name="PluginKeyDescriptionURL" xml:space="preserve">
     <value />
   </data>
   <data name="PluginKeyTooltip" xml:space="preserve">
-    <value>DGK Schlüsselgenerator</value>
+    <value>DGK-Schlüsselgenerator</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
     <value>DGK</value>

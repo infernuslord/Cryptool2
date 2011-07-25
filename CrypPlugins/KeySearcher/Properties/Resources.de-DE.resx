@@ -298,7 +298,7 @@
     <value>BITTE AKTUALISIEREN</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
-    <value>KeySearcher</value>
+    <value>Schlüsselsucher</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
     <value>Führt eine erschöpfende Schlüsselsuche auf einem Geheimtext durch.</value>

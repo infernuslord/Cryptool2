@@ -160,7 +160,7 @@
     <value>Die in der Trägerdatei versteckten Daten.</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
-    <value>Insertion Steganography</value>
+    <value>Einfüge-Steganographie</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
     <value>Verstecke Daten in einer Trägerdatei.</value>

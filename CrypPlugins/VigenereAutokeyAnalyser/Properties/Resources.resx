@@ -178,7 +178,7 @@
     <value>The most probable autokey for the analysed ciphertext</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
-    <value>VigenereAutokeyAnalyser</value>
+    <value>Vigenere Autokey Analyser</value>
   </data>
   <data name="PluginDescriptionURL" xml:space="preserve">
     <value>VigenereAutokeyAnalyser/DetailedDescription/Description.xaml</value>

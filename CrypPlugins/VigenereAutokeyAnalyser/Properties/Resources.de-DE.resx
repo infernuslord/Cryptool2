@@ -178,7 +178,7 @@
     <value>Der wahrscheinlichste Selbstschlüssel für den analysierten Geheimtext</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
-    <value>VigenereAutokeyAnalyser</value>
+    <value>Vigenere-Autokey-Analyse</value>
   </data>
   <data name="PluginDescriptionURL" xml:space="preserve">
     <value>VigenereAutokeyAnalyser/DetailedDescription/Description.xaml</value>

@@ -118,19 +118,19 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="VariableLoadCaption" xml:space="preserve">
-    <value>VariableLoad</value>
+    <value>Variable lesen</value>
   </data>
   <data name="VariableLoadDescriptionURL" xml:space="preserve">
     <value>Variable/DetailedDescription/Description.xaml</value>
   </data>
   <data name="VariableLoadObjectCaption" xml:space="preserve">
-    <value>Lade Variable</value>
+    <value>Lade von Variable</value>
   </data>
   <data name="VariableLoadObjectTooltip" xml:space="preserve">
     <value>Lädt das Datenobjekt, das unter dem zugehörigen Namen gespeichert wurde.</value>
   </data>
   <data name="VariableLoadTooltip" xml:space="preserve">
-    <value>Lade von Variable</value>
+    <value>Lade Wert von Variable</value>
   </data>
   <data name="VariableNameCaption" xml:space="preserve">
     <value>Variablenname</value>
@@ -139,7 +139,7 @@
     <value>Name der Variablen, mit dem diese Komponente verbunden ist.</value>
   </data>
   <data name="VariableStoreCaption" xml:space="preserve">
-    <value>VariableStore</value>
+    <value>Variable speichern</value>
   </data>
   <data name="VariableStoreDescriptionURL" xml:space="preserve">
     <value>Variable/DetailedDescription/Description.xaml</value>
@@ -151,6 +151,6 @@
     <value>Datenobjekt, das in der Variablen mit dem eingestellten Namen gespeichert werden soll.</value>
   </data>
   <data name="VariableStoreTooltip" xml:space="preserve">
-    <value>Speichere in Variable</value>
+    <value>Speichere Wert in Variable</value>
   </data>
 </root>

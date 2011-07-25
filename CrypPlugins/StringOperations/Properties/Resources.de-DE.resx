@@ -136,7 +136,7 @@
     <value>Der Ausgabewert der gewählten Funktion</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
-    <value>StringOperations</value>
+    <value>Zeichenketten-Operationen</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
     <value>Funktionen für die Modifikation von Zeichenketten</value>

@@ -118,28 +118,28 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="PluginInputCaption" xml:space="preserve">
-    <value>NumberInput</value>
+    <value>Zahleneingabe</value>
   </data>
   <data name="PluginInputTooltip" xml:space="preserve">
-    <value>Number Eingabe</value>
+    <value>Zahleneingabe</value>
   </data>
   <data name="PluginInputDescriptionURL" xml:space="preserve">
     <value>Numbers/DetailedDescription/DescriptionInput.xaml</value>
   </data>
   <data name="PluginOperationCaption" xml:space="preserve">
-    <value>NumberOperation</value>
+    <value>Rechenoperationen</value>
   </data>
   <data name="PluginOperationTooltip" xml:space="preserve">
-    <value>Number Operation</value>
+    <value>Dieses Plugin implementiert verschiedene Rechenoperationen für ganze Zahlen beliebiger Größe.</value>
   </data>
   <data name="PluginOperationDescriptionURL" xml:space="preserve">
     <value>Numbers/DetailedDescription/DescriptionOperation.xaml</value>
   </data>
   <data name="NumberOutputCaption" xml:space="preserve">
-    <value>Number Ausgabe</value>
+    <value>Zahlenausgabe</value>
   </data>
   <data name="NumberOutputTooltip" xml:space="preserve">
-    <value>Number Ausgabe</value>
+    <value>Zahlenausgabe</value>
   </data>
   <data name="Input1Caption" xml:space="preserve">
     <value>Operand 1</value>
@@ -166,7 +166,7 @@
     <value>Resultat der mathematischen Operation</value>
   </data>
   <data name="NumberCaption" xml:space="preserve">
-    <value>Number Ausgabe</value>
+    <value>Zahlenausgabe</value>
   </data>
   <data name="NumberTooltip" xml:space="preserve">
     <value>Die Zahl, die diese Komponente ausgeben soll.</value>

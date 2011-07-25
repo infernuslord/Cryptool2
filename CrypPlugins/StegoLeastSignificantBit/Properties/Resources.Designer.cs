@@ -259,7 +259,7 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die StegoLeastSignificantBit ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die LSB Steganography ähnelt.
         /// </summary>
         internal static string PluginCaption {
             get {

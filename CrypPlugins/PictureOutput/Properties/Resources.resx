@@ -124,7 +124,7 @@
     <value>The picture to be shown</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
-    <value>PictureOutput</value>
+    <value>Picture Output</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
     <value>Displays a given picture (bmp, jpg, png, ...)</value>

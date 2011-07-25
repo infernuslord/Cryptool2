@@ -136,7 +136,7 @@
     <value>The output value of this operation</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
-    <value>StringOperations</value>
+    <value>String Operations</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
     <value>Operations for modifying Strings</value>
