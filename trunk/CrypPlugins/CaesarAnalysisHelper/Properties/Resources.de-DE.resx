@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="PluginCaption" xml:space="preserve">
-    <value>CaesarAnalysisHelper</value>
+    <value>Caesar-Analyse</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
     <value>Dieses Plugin führt die Kryptoanalyse des Caesar-Verfahrens durch mit Hilfe der Häufigkeit von Einzelbuchstaben und Bi-Grammen des Eingabetextes.</value>

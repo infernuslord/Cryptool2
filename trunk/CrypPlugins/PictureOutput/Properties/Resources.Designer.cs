@@ -79,7 +79,7 @@ namespace PictureOutput.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die PictureOutput ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Picture Output ähnelt.
         /// </summary>
         internal static string PluginCaption {
             get {

@@ -115,7 +115,7 @@ namespace StringOperations.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die StringOperations ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die String Operations ähnelt.
         /// </summary>
         internal static string PluginCaption {
             get {

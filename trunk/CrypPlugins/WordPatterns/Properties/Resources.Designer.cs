@@ -151,7 +151,7 @@ namespace WordPatterns.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die WordPatterns ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Word Patterns ähnelt.
         /// </summary>
         internal static string PluginCaption {
             get {

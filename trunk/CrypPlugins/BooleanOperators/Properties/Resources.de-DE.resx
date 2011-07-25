@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="PluginBBO_Caption" xml:space="preserve">
-    <value>Boolean Binary Operator</value>
+    <value>Binärer boolscher Operator</value>
   </data>
   <data name="PluginBBO_Tooltip" xml:space="preserve">
     <value>Binärer boolscher Operator</value>
@@ -127,25 +127,25 @@
     <value>BooleanOperators/DetailedDescription/Description.xaml</value>
   </data>
   <data name="PluginBIE_Caption" xml:space="preserve">
-    <value>Boolean IfElse Operator</value>
+    <value>Boolscher Wenn-Dann-Operator</value>
   </data>
   <data name="PluginBIE_Tooltip" xml:space="preserve">
     <value>Boolscher Wenn-Dann-Operator</value>
   </data>
   <data name="PluginBI_Caption" xml:space="preserve">
-    <value>Boolean Input</value>
+    <value>Boolesche Eingabe</value>
   </data>
   <data name="PluginBI_Tooltip" xml:space="preserve">
     <value>Boolsche Eingabe</value>
   </data>
   <data name="PluginBN_Caption" xml:space="preserve">
-    <value>Boolean Not Operator</value>
+    <value>Boolscher Nicht-Operator</value>
   </data>
   <data name="PluginBN_Tooltip" xml:space="preserve">
     <value>Boolscher Nicht-Operator</value>
   </data>
   <data name="PluginBO_Caption" xml:space="preserve">
-    <value>Boolean Output</value>
+    <value>Boolsche Ausgabe</value>
   </data>
   <data name="PluginBO_Tooltip" xml:space="preserve">
     <value>Boolsche Ausgabe</value>

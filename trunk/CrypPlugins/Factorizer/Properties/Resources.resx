@@ -121,7 +121,7 @@
     <value>Factorizer</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Factorizer</value>
+    <value>This plugin searches for a prime factor of the given number.</value>
   </data>
   <data name="PluginDescriptionURL" xml:space="preserve">
     <value />

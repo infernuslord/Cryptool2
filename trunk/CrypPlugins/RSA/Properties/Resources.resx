@@ -127,7 +127,7 @@
     <value>RSA/DetailedDescription/doc.xml</value>
   </data>
   <data name="PluginKeyCaption" xml:space="preserve">
-    <value>RSAKeyGenerator</value>
+    <value>RSA Key Generator</value>
   </data>
   <data name="PluginKeyTooltip" xml:space="preserve">
     <value>RSA Key Generator</value>

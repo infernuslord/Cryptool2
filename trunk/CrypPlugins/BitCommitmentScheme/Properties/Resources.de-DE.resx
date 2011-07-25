@@ -163,10 +163,10 @@
     <value>P</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
-    <value>BitCommitmentScheme</value>
+    <value>Bit-Commitment-Protokoll</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>BitCommitmentScheme-Plugin</value>
+    <value>Dieses Plugin implementiert das Bit-Commitment-Protokoll.</value>
   </data>
   <data name="PTooltip" xml:space="preserve">
     <value>Liste von Werten für P</value>

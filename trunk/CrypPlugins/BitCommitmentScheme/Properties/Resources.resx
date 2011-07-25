@@ -163,10 +163,10 @@
     <value>P</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
-    <value>BitCommitmentScheme</value>
+    <value>Bit Commitment Scheme</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>The BitCommitmentScheme plugin</value>
+    <value>This plugin implements the Bit Commitment Scheme.</value>
   </data>
   <data name="PTooltip" xml:space="preserve">
     <value>Array of P values</value>

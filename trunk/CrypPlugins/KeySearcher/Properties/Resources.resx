@@ -442,7 +442,7 @@
     <value>PLEASE UPDATE</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
-    <value>KeySearcher</value>
+    <value>Key Searcher</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
     <value>Performs a brute force attack on a ciphertext.</value>

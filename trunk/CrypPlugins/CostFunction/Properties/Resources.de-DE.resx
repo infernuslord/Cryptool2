@@ -190,7 +190,7 @@
     <value>Wählen Sie die zu verwendende Gewichtungstabelle.</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
-    <value>CostFunction</value>
+    <value>Kostenfunktion</value>
   </data>
   <data name="PluginDescriptionURL" xml:space="preserve">
     <value>CostFunction/DetailedDescription/Description.xaml</value>

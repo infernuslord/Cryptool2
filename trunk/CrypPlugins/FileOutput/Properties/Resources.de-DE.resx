@@ -122,7 +122,7 @@
     <value>..\resources\logo.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
-    <value>FileOutput</value>
+    <value>Dateiausgabe</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
     <value>Datei-basierte Ausgabe</value>

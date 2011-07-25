@@ -127,7 +127,7 @@
     <value>Das Wörterbuch "{0}" wird geladen...</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
-    <value>Dictionary</value>
+    <value>Wörterbuch</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
     <value>Dieses Plugin liest die Einträge einer Wörterbuch-Datei und gibt sie als eine Wortliste oder als eine einzelne Zeichenfolge zurück, die aus den Wörtern mittels eines Trennzeichens zusammengefügt wird.</value>

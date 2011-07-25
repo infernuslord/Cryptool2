@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="PluginInputCaption" xml:space="preserve">
-    <value>NumberInput</value>
+    <value>Number Input</value>
   </data>
   <data name="PluginInputTooltip" xml:space="preserve">
     <value>Number Input</value>
@@ -127,10 +127,10 @@
     <value>Numbers/DetailedDescription/DescriptionInput.xaml</value>
   </data>
   <data name="PluginOperationCaption" xml:space="preserve">
-    <value>NumberOperation</value>
+    <value>Number Operation</value>
   </data>
   <data name="PluginOperationTooltip" xml:space="preserve">
-    <value>Number Operation</value>
+    <value>This plugin implements different operations for integers of arbitrary size.</value>
   </data>
   <data name="PluginOperationDescriptionURL" xml:space="preserve">
     <value>Numbers/DetailedDescription/DescriptionOperation.xaml</value>
@@ -145,25 +145,25 @@
     <value>x Input</value>
   </data>
   <data name="Input1Tooltip" xml:space="preserve">
-    <value>Number input 1</value>
+    <value>Number Input 1</value>
   </data>
   <data name="Input2Caption" xml:space="preserve">
     <value>y Input</value>
   </data>
   <data name="Input2Tooltip" xml:space="preserve">
-    <value>Number input 2</value>
+    <value>Number Input 2</value>
   </data>
   <data name="ModCaption" xml:space="preserve">
     <value>Modulo</value>
   </data>
   <data name="ModTooltip" xml:space="preserve">
-    <value>Modulo input</value>
+    <value>Modulo Input</value>
   </data>
   <data name="OutputCaption" xml:space="preserve">
     <value>Output</value>
   </data>
   <data name="OutputTooltip" xml:space="preserve">
-    <value>Number output</value>
+    <value>Number Output</value>
   </data>
   <data name="NumberCaption" xml:space="preserve">
     <value>Number</value>

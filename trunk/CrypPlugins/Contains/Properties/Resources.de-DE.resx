@@ -121,7 +121,7 @@
     <value>Die Such-Struktur wird erzeugt. Dies kann einige Sekunden dauern...</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
-    <value>Contains</value>
+    <value>Wörterbuch-Suche</value>
   </data>
   <data name="PluginDescriptionURL" xml:space="preserve">
     <value />

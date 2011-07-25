@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="VariableLoadCaption" xml:space="preserve">
-    <value>VariableLoad</value>
+    <value>Variable Load</value>
   </data>
   <data name="VariableLoadDescriptionURL" xml:space="preserve">
     <value>Variable/DetailedDescription/Description.xaml</value>
@@ -139,7 +139,7 @@
     <value>The variable this component is linked with.</value>
   </data>
   <data name="VariableStoreCaption" xml:space="preserve">
-    <value>VariableStore</value>
+    <value>Variable Store</value>
   </data>
   <data name="VariableStoreDescriptionURL" xml:space="preserve">
     <value>Variable/DetailedDescription/Description.xaml</value>

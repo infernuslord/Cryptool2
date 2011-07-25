@@ -184,7 +184,7 @@
     <value>Passwort als Datenstrom</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
-    <value>StegoLeastSignificantBit</value>
+    <value>LSB-Steganographie</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
     <value>Verstecke Daten in den niederwertigen Bits einer Bilddatei.</value>

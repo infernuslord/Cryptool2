@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="PluginCaption" xml:space="preserve">
-    <value>CaesarAnalysisHelper</value>
+    <value>Caesar Analyser</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
     <value>This plugin performs the cryptanalysis of a Caesar cipher using the frequency of unigrams and bigrams in the encrpyted text.</value>

@@ -127,10 +127,10 @@
     <value>BooleanOperators/DetailedDescription/Description.xaml</value>
   </data>
   <data name="PluginBIE_Caption" xml:space="preserve">
-    <value>Boolean IfElse Operator</value>
+    <value>Boolean If-Else Operator</value>
   </data>
   <data name="PluginBIE_Tooltip" xml:space="preserve">
-    <value>Boolean IfElse Operator</value>
+    <value>Boolean If-Else Operator</value>
   </data>
   <data name="PluginBI_Caption" xml:space="preserve">
     <value>Boolean Input</value>

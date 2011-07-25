@@ -190,13 +190,13 @@
     <value>Select a fitness weight table</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
-    <value>CostFunction</value>
+    <value>Cost Function</value>
   </data>
   <data name="PluginDescriptionURL" xml:space="preserve">
     <value>CostFunction/DetailedDescription/Description.xaml</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>CostFunction</value>
+    <value>Cost Function</value>
   </data>
   <data name="BytesOffsetCaption" xml:space="preserve">
     <value>Bytes offset</value>

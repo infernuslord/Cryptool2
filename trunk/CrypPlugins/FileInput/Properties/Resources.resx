@@ -112,25 +112,25 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\logo.JPG;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-    <data name="PluginCaption" xml:space="preserve">
-    <value>FileInput</value>
+  <data name="PluginCaption" xml:space="preserve">
+    <value>File Input</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
     <value>File based input</value>
   </data>
   <data name="PluginDescriptionURL" xml:space="preserve">
-    <value></value>
+    <value />
   </data>
-    <data name="StreamOutputCaption" xml:space="preserve">
+  <data name="StreamOutputCaption" xml:space="preserve">
     <value>Stream Output</value>
   </data>
   <data name="StreamOutputTooltip" xml:space="preserve">
@@ -142,7 +142,7 @@
   <data name="FileSizeTooltip" xml:space="preserve">
     <value>Size of the selected file</value>
   </data>
-    <data name="CloseFileCaption" xml:space="preserve">
+  <data name="CloseFileCaption" xml:space="preserve">
     <value>Close file</value>
   </data>
   <data name="CloseFileTooltip" xml:space="preserve">
