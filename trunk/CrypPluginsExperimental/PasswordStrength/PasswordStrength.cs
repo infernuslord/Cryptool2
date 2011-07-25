@@ -78,11 +78,12 @@ namespace Cryptool.Plugins.PasswordStrength
 
         public int MeasureStrength(string pass)
         {
-            int iLengthMultiplier = 1, iTypeMultiplier = 1, iPoint = 0;
+            int iTypeMultiplier = 0, iPoint = 0;
             int iNumberAmount = 0, iLowerCharAmount = 0, iUpperCharAmount = 0, iSpecialAmount = 0;
 
             char[] chPassArray = pass.ToCharArray();
 
+            //Character ranges.
             for (int i = 0; i < chPassArray.Length; i++)
             {
                 if ((chPassArray[i] >= 0x41) && (chPassArray[i] <= 0x5A))
@@ -93,7 +94,7 @@ namespace Cryptool.Plugins.PasswordStrength
 
                 if ((chPassArray[i] >= 0x30) && (chPassArray[i] <= 0x39))
                     iNumberAmount++;
-
+                 //Special Character range
                 if ((chPassArray[i] >= 0x20) && (chPassArray[i] <= 0x2F))
                     iSpecialAmount++;
 
@@ -112,47 +113,19 @@ namespace Cryptool.Plugins.PasswordStrength
             }
 
 
-            if ((iLowerCharAmount != 0) && (iUpperCharAmount != 0))
-            {
+            if (iLowerCharAmount != 0)
                 iTypeMultiplier++;
-            }
 
-            if ((iLowerCharAmount != 0) && (iUpperCharAmount != 0) && (iNumberAmount != 0))
-            {
-                iTypeMultiplier += 2;
-            }
+            if (iUpperCharAmount != 0)
+                iTypeMultiplier++;
+
+            if (iNumberAmount != 0)
+                iTypeMultiplier++;
 
             if (iSpecialAmount != 0)
-            {
-                iTypeMultiplier += 2;
-            }
-
-            if (iSpecialAmount >= (chPassArray.Length / 2))
-            {
                 iTypeMultiplier++;
-            }
 
-            if (chPassArray.Length > 5)
-            {
-                iLengthMultiplier++;
-            }
-
-            if (chPassArray.Length > 10)
-            {
-                iLengthMultiplier++;
-            }
-
-            if (chPassArray.Length > 15)
-            {
-                iLengthMultiplier++;
-            }
-
-            if (iSpecialAmount >= (iLowerCharAmount + iUpperCharAmount + iNumberAmount))
-            {
-                iTypeMultiplier++;
-            }
-
-            iPoint = (iLengthMultiplier * 5) + (iTypeMultiplier * 10);
+            iPoint = ((iTypeMultiplier * 3) + chPassArray.Length) * 3;
 
             return iPoint;
         }
