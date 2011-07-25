@@ -130,63 +130,63 @@
     <value>Wählen Sie die Betriebsart des Plugins.</value>
   </data>
   <data name="BitCountCaption" xml:space="preserve">
-    <value>BitCount</value>
+    <value>Bitanzahl</value>
   </data>
   <data name="BitCountSettingsCaption" xml:space="preserve">
-    <value>BitCount</value>
+    <value>Bitanzahl</value>
   </data>
   <data name="BitCountSettingsTooltip" xml:space="preserve">
-    <value>Count of bits per pixel/sample that are treated as least significant</value>
+    <value>Anzahl der Bits, die pro Pixel/Sample in den deren niederwertigen Bits versteckt werden sollen.</value>
   </data>
   <data name="BitCountTooltip" xml:space="preserve">
-    <value>Count of bits per pixel/sample that are treated as least significant. This is the same setting as the shift value from the settings pane but as dynamic input.</value>
+    <value>Anzahl der Bits, die pro Pixel/Sample in den deren niederwertigen Bits versteckt werden sollen.</value>
   </data>
   <data name="CustomizeRegionsCaption" xml:space="preserve">
-    <value>CustomizeRegions</value>
+    <value>Regionen definieren</value>
   </data>
   <data name="CustomizeRegionsTooltip" xml:space="preserve">
-    <value>Opens a dialog that lets the user define where in the picture the data will be hidden</value>
+    <value>Öffnet ein Dialogfenster, in dem man die Regionen des Bildes definieren kann, in denen die Daten versteckt werden sollen.</value>
   </data>
   <data name="InputCarrierCaption" xml:space="preserve">
-    <value>Text input as a stream</value>
+    <value>Eingabe der Trägerdatei</value>
   </data>
   <data name="InputCarrierTooltip" xml:space="preserve">
-    <value>Raw decryption result</value>
+    <value>Eingabe des Trägers (bei Verschlüsselung) bzw. des Trägers mit den versteckten Daten (bei Entschlüsselung)</value>
   </data>
   <data name="InputDataCaption" xml:space="preserve">
-    <value>Text input as a stream</value>
+    <value>Klartext</value>
   </data>
   <data name="InputDataTooltip" xml:space="preserve">
-    <value>Raw decryption result</value>
+    <value>Die in der Trägerdatei zu versteckenden Daten.</value>
   </data>
   <data name="OutputCarrierCaption" xml:space="preserve">
-    <value>Carrier output</value>
+    <value>Ausgabe der Trägerdatei</value>
   </data>
   <data name="OutputCarrierTooltip" xml:space="preserve">
-    <value>Encryption result</value>
+    <value>Trägerdatei, in der die Eingabedaten versteckt wurden, bzw. die von den versteckten Daten bereinigt wurde.</value>
   </data>
   <data name="OutputDataCaption" xml:space="preserve">
-    <value>CryptoolStream output</value>
+    <value>Datenausgabe</value>
   </data>
   <data name="OutputDataTooltip" xml:space="preserve">
-    <value>Raw decryption result</value>
+    <value>Ausgabe der extrahierten Nutzdaten</value>
   </data>
   <data name="OutputFileFormatCaption" xml:space="preserve">
-    <value>OutputFileFormat</value>
+    <value>Format der Ausgabedatei</value>
   </data>
   <data name="OutputFileFormatTooltip" xml:space="preserve">
-    <value>Only for Encryption: The file format of the output image.</value>
+    <value>Nur für die Verschlüsselung: Das Dateiformat der auszugebenden Bilddatei.</value>
   </data>
   <data name="PasswordStreamCaption" xml:space="preserve">
-    <value>Password as a stream</value>
+    <value>Passwort als Datenstrom</value>
   </data>
   <data name="PasswordStreamTooltip" xml:space="preserve">
-    <value>Raw decryption result</value>
+    <value>Passwort als Datenstrom</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
-    <value>Least Significant Bit</value>
+    <value>StegoLeastSignificantBit</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Fill the Least Significant Bits of Pictures or Sounds</value>
+    <value>Verstecke Daten in den niederwertigen Bits einer Bilddatei.</value>
   </data>
 </root>

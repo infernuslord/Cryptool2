@@ -26,8 +26,8 @@ namespace Cryptool.StreamComparator
   public class StreamComparatorSettings : ISettings
   {
     private bool diff;
-        
-    [ContextMenu( "DiffCaption", "DiffTooltip", 1, ContextMenuControlType.CheckBox, new int[] { 3 }, "Create diff")]
+
+    [ContextMenu("DiffCaption", "DiffTooltip", 1, ContextMenuControlType.CheckBox, new int[] { 3 }, "DiffList1")]
     [TaskPaneAttribute( "DiffTPCaption", "DiffTPTooltip", "", 1, false, ControlType.CheckBox, "", null)]
     public bool Diff
     {

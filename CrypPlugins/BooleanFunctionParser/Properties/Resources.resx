@@ -126,7 +126,7 @@
   <data name="PluginTooltip" xml:space="preserve">
     <value>Boolean Function Parser (BFP). Computes the result of a boolean function f(i).</value>
   </data>
-    <data name="InputFunctionCaption" xml:space="preserve">
+  <data name="InputFunctionCaption" xml:space="preserve">
     <value>Boolean Function f(i)</value>
   </data>
   <data name="InputFunctionTooltip" xml:space="preserve">
@@ -142,7 +142,7 @@
     <value>Function output</value>
   </data>
   <data name="OutputTooltip" xml:space="preserve">
-    <value>Output after procesing the given function.</value>
+    <value>Output after processing the given function.</value>
   </data>
   <data name="BFPSlaveCaption" xml:space="preserve">
     <value>BFP Slave</value>

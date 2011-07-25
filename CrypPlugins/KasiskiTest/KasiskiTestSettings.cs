@@ -47,8 +47,8 @@ namespace Cryptool.KasiskiTest
             }
         }
         [PropertySaveOrder(2)]
-        [ContextMenu( "RemoveUnknownSymbolsCaption", "RemoveUnknownSymbolsTooltip", 4, ContextMenuControlType.ComboBox, null, new string[] { "Ignore (leave unmodified)", "Remove" })]
-        [TaskPane( "RemoveUnknownSymbolsCaption", "RemoveUnknownSymbolsTooltip", null, 4, false, ControlType.ComboBox, new string[] { "Ignore (leave unmodified)", "Remove" })]
+        [ContextMenu("RemoveUnknownSymbolsCaption", "RemoveUnknownSymbolsTooltip", 4, ContextMenuControlType.ComboBox, null, new string[] { "RemoveUnknownSymbolsList1", "RemoveUnknownSymbolsList2" })]
+        [TaskPane("RemoveUnknownSymbolsCaption", "RemoveUnknownSymbolsTooltip", null, 4, false, ControlType.ComboBox, new string[] { "RemoveUnknownSymbolsList1", "RemoveUnknownSymbolsList2" })]
         public int RemoveUnknownSymbols
         {
             get { return this.unknownSymbolHandling; }
@@ -80,8 +80,8 @@ namespace Cryptool.KasiskiTest
 
 
         [PropertySaveOrder(4)]
-        [ContextMenu( "CaseSensitivityCaption", "CaseSensitivityTooltip", 4, ContextMenuControlType.ComboBox, null, new string[] { "Yes 'a' should equal 'A'", "No 'a' should not equal 'A'" })]
-        [TaskPane( "CaseSensitivityCaption", "CaseSensitivityTooltip", null, 4, false, ControlType.ComboBox, new string[] { "Yes 'a' should equal 'A'", "No 'a' should not equal 'A'" })]
+        [ContextMenu("CaseSensitivityCaption", "CaseSensitivityTooltip", 4, ContextMenuControlType.ComboBox, null, new string[] { "CaseSensitivityList1", "CaseSensitivityList2" })]
+        [TaskPane("CaseSensitivityCaption", "CaseSensitivityTooltip", null, 4, false, ControlType.ComboBox, new string[] { "CaseSensitivityList1", "CaseSensitivityList2" })]
         public int CaseSensitivity
         {
             get { return this.caseSensitivity; }

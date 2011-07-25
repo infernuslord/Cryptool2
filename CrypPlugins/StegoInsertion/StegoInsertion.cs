@@ -28,7 +28,7 @@ using System.IO;
 namespace Cryptool.Plugins.StegoInsertion
 {
     [Author("Corinna John", "coco@steganografie.eu", "", "http://www.steganografie.eu")]
-    [PluginInfo("StegoInsertion.Properties.Resources", false, "Insertion Steganography", "Insertion Steganography", "StegoInsertion/DetailedDescription/Description.xaml", "StegoInsertion/Images/StegoInsertion.png")]
+    [PluginInfo("StegoInsertion.Properties.Resources", false, "PluginCaption", "PluginTooltip", "StegoInsertion/DetailedDescription/Description.xaml", "StegoInsertion/Images/StegoInsertion.png")]
     [ComponentCategory(ComponentCategory.Steganography)]
     public class StegoInsertion : ICrypComponent
     {

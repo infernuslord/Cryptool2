@@ -117,136 +117,70 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="InputTextCaption" xml:space="preserve">
-    <value>Eingabetext</value>
+  <data name="ACaption" xml:space="preserve">
+    <value>A</value>
   </data>
-  <data name="InputTextTooltip" xml:space="preserve">
-    <value>Eingabetext</value>
+  <data name="AlphaCaption" xml:space="preserve">
+    <value>Alpha</value>
   </data>
-  <data name="OutputTextCaption" xml:space="preserve">
-    <value>Ausgabetext</value>
+  <data name="AlphaTooltip" xml:space="preserve">
+    <value>Wert von Alpha</value>
   </data>
-  <data name="OutputTextTooltip" xml:space="preserve">
-    <value>Ausgabetext</value>
+  <data name="ATooltip" xml:space="preserve">
+    <value>Liste von Werten für A</value>
   </data>
-  <data name="ValueCaption" xml:space="preserve">
-    <value>Funktionswert</value>
+  <data name="BCaption" xml:space="preserve">
+    <value>B</value>
   </data>
-  <data name="ValueTooltip" xml:space="preserve">
-    <value>Ausgabe des Wertes der Kostenfunktion</value>
+  <data name="BTooltip" xml:space="preserve">
+    <value>Liste von Werten für B</value>
   </data>
-  <data name="ControlSlaveCaption" xml:space="preserve">
-    <value>SDES-Sklave</value>
+  <data name="DimensionCaption" xml:space="preserve">
+    <value>Dimension</value>
   </data>
-  <data name="ControlSlaveTooltip" xml:space="preserve">
-    <value>Direkter Zugriff auf das SDES-Plugin</value>
+  <data name="DimensionTooltip" xml:space="preserve">
+    <value>Wert von Dimension</value>
   </data>
-  <data name="BytesToUseCaption" xml:space="preserve">
-    <value>verwendete Bytes</value>
+  <data name="EtaCaption" xml:space="preserve">
+    <value>Eta</value>
   </data>
-  <data name="BytesToUseTooltip" xml:space="preserve">
-    <value>Wie viele Bytes sollen für die Berechnung verwendet werden?</value>
+  <data name="EtaTooltip" xml:space="preserve">
+    <value>Wert von Eta</value>
   </data>
-  <data name="CaseInsensitivCaption" xml:space="preserve">
-    <value>Groß-/Kleinschreibung</value>
+  <data name="InputBitCaption" xml:space="preserve">
+    <value>Eingabe-Bit</value>
   </data>
-  <data name="CaseInsensitivTooltip" xml:space="preserve">
-    <value>Wenn dieses Kontrollkästchen gesetzt ist, ignorieren die regulären Ausdrücke die Groß-/Kleinschreibung.</value>
+  <data name="InputBitTooltip" xml:space="preserve">
+    <value>Das Eingabe-Bit als boolescher Wert</value>
   </data>
-  <data name="FunctionTypeCaption" xml:space="preserve">
-    <value>Funktionstyp</value>
+  <data name="LogMessageCaption" xml:space="preserve">
+    <value>Ereignisprotokoll</value>
   </data>
-  <data name="FunctionTypeTooltip" xml:space="preserve">
-    <value>Wählen Sie den Funktionstyp.</value>
+  <data name="LogMessageTooltip" xml:space="preserve">
+    <value>Das Ereignisprotokoll des Algorithmus</value>
   </data>
-  <data name="RegExCaption" xml:space="preserve">
-    <value>Regulärer Ausdruck</value>
-  </data>
-  <data name="RegExTooltip" xml:space="preserve">
-    <value>Treffer der regulären Ausdrücke als Zeichenfolge</value>
-  </data>
-  <data name="RegExHexCaption" xml:space="preserve">
-    <value>Regulärer Ausdruck (Hexadezimal)</value>
-  </data>
-  <data name="RegExHexTooltip" xml:space="preserve">
-    <value>Treffer der regulären Ausdrücke in hexadezimaler Form</value>
-  </data>
-  <data name="StatisticsCorpusCaption" xml:space="preserve">
-    <value>Textkörper</value>
-  </data>
-  <data name="StatisticsCorpusTooltip" xml:space="preserve">
-    <value>Wählen Sie den zu verwendenden Textkörper (Voreinstellung ist DE)</value>
-  </data>
-  <data name="entropyCaption" xml:space="preserve">
-    <value>Entropie-Funktion</value>
-  </data>
-  <data name="entropyTooltip" xml:space="preserve">
-    <value>Wählen Sie eine Entropie-Funktion</value>
-  </data>
-  <data name="weighttableCaption" xml:space="preserve">
-    <value>Gewichtungstabelle</value>
-  </data>
-  <data name="weighttableTooltip" xml:space="preserve">
-    <value>Wählen Sie die zu verwendende Gewichtungstabelle.</value>
+  <data name="PCaption" xml:space="preserve">
+    <value>P</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
-    <value>CostFunction</value>
-  </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value>CostFunction/DetailedDescription/Description.xaml</value>
+    <value>BitCommitmentScheme</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Kostenfunktion</value>
+    <value>BitCommitmentScheme-Plugin</value>
   </data>
-  <data name="BytesOffsetCaption" xml:space="preserve">
-    <value>ignorierte Bytes</value>
+  <data name="PTooltip" xml:space="preserve">
+    <value>Liste von Werten für P</value>
   </data>
-  <data name="BytesOffsetTooltip" xml:space="preserve">
-    <value>Wie viele Bytes sollen vor Anwendung der regulären Ausdrücke übersprungen werden?</value>
+  <data name="QCaption" xml:space="preserve">
+    <value>Q</value>
   </data>
-  <data name="FunctionTypeList1" xml:space="preserve">
-    <value>Koinzidenzindex</value>
+  <data name="QTooltip" xml:space="preserve">
+    <value>Wert von Q</value>
   </data>
-  <data name="FunctionTypeList2" xml:space="preserve">
-    <value>Entropie</value>
+  <data name="SCaption" xml:space="preserve">
+    <value>S</value>
   </data>
-  <data name="FunctionTypeList3" xml:space="preserve">
-    <value>Bigramme: log 2</value>
-  </data>
-  <data name="FunctionTypeList4" xml:space="preserve">
-    <value>Bigramme: Sinkov</value>
-  </data>
-  <data name="FunctionTypeList5" xml:space="preserve">
-    <value>Bigramme: Prozentual</value>
-  </data>
-  <data name="FunctionTypeList6" xml:space="preserve">
-    <value>Reguläre Ausdrücke</value>
-  </data>
-  <data name="FunctionTypeList7" xml:space="preserve">
-    <value>Gewichtete Bigramme/Trigramme</value>
-  </data>
-  <data name="StatisticsCorpusList1" xml:space="preserve">
-    <value>Textkörper (DE)</value>
-  </data>
-  <data name="StatisticsCorpusList2" xml:space="preserve">
-    <value>Textkörper (EN)</value>
-  </data>
-  <data name="StatisticsCorpusList3" xml:space="preserve">
-    <value>benutzerdefiniert (...)</value>
-  </data>
-  <data name="entropyList1" xml:space="preserve">
-    <value>Extern (NativeCryptography, default)</value>
-  </data>
-  <data name="entropyList2" xml:space="preserve">
-    <value>Intern</value>
-  </data>
-  <data name="weighttableList1" xml:space="preserve">
-    <value>Matthews</value>
-  </data>
-  <data name="weighttableList2" xml:space="preserve">
-    <value>Toemeh-Arumugam</value>
-  </data>
-  <data name="weighttableList3" xml:space="preserve">
-    <value>benutzerdefinierte Gewichtung (*.csv)</value>
+  <data name="STooltip" xml:space="preserve">
+    <value>Wert von S</value>
   </data>
 </root>

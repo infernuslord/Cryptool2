@@ -124,42 +124,42 @@
     <value>BooleanFunctionParser/DetailedDescription/Description.xaml</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Boolean Function Parser (BFP). Computes the result of a boolean function f(i).</value>
+    <value>Parser für boolesche Funktionen (BFP). Berechnet das Resultat einer booleschen Funktion f(i).</value>
   </data>
-    <data name="InputFunctionCaption" xml:space="preserve">
-    <value>Boolean Function f(i)</value>
+  <data name="InputFunctionCaption" xml:space="preserve">
+    <value>Boolesche Funktion f(i)</value>
   </data>
   <data name="InputFunctionTooltip" xml:space="preserve">
-    <value>Boolean function f(i) to compute.</value>
+    <value>Die zu berechnende boolesche Funktion f(i).</value>
   </data>
   <data name="InputOneCaption" xml:space="preserve">
-    <value>Function Variable One (i_1.j)</value>
+    <value>Funktionsvariable Eins (i_1.j)</value>
   </data>
   <data name="InputOneTooltip" xml:space="preserve">
-    <value>Input a boolean value to be processed by the function</value>
+    <value>Eingabe des zu verarbeitenden booleschen Wertes</value>
   </data>
   <data name="OutputCaption" xml:space="preserve">
-    <value>Function output</value>
+    <value>Funktionsausgabe</value>
   </data>
   <data name="OutputTooltip" xml:space="preserve">
-    <value>Output after procesing the given function.</value>
+    <value>Ausgabe nach Auswertung der gegebenen Funktion</value>
   </data>
   <data name="BFPSlaveCaption" xml:space="preserve">
-    <value>BFP Slave</value>
+    <value>BFP Sklave</value>
   </data>
   <data name="BFPSlaveTooltip" xml:space="preserve">
-    <value>Direct access to BFP.</value>
+    <value>Direkter Zugriff auf das BFP-Plugin</value>
   </data>
   <data name="CountOfInputsCaption" xml:space="preserve">
-    <value>Number of inputs</value>
+    <value>Anzahl der Eingaben</value>
   </data>
   <data name="CountOfInputsTooltip" xml:space="preserve">
-    <value>How many inputs do you need?</value>
+    <value>Wie viele Eingaben werden benötigt?</value>
   </data>
   <data name="UseBFPforCubeCaption" xml:space="preserve">
-    <value>CubeAttack mode</value>
+    <value>Cube Attack-Modus</value>
   </data>
   <data name="UseBFPforCubeTooltip" xml:space="preserve">
-    <value>Extend the BFP for use as a slave for Cube Attack.</value>
+    <value>Erweiterung des BFP für die Verwendung als Sklave für das Cube Attack-Plugin.</value>
   </data>
 </root>

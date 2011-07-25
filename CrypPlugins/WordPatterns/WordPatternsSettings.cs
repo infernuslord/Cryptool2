@@ -20,7 +20,7 @@ namespace WordPatterns
 
         private Case caseSelection = Case.Insensitive;
 
-        [TaskPane( "CaseSelectionCaption", "CaseSelectionTooltip", "", 1, false, ControlType.ComboBox)]
+        [TaskPane("CaseSelectionCaption", "CaseSelectionTooltip", "", 1, false, ControlType.ComboBox, new string[] { "CaseSelectionList1", "CaseSelectionList2" })]
         public Case CaseSelection
         {
             get { return caseSelection; }

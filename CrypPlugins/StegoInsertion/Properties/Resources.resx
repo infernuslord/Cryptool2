@@ -160,7 +160,7 @@
     <value>Text decryption result</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
-    <value>StegoInsertion</value>
+    <value>Insertion Steganography</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
     <value>Insert content 'between the lines' of a carrier file</value>

@@ -148,7 +148,7 @@
     <value>Max. Anzahl von Halbbytes, die in einer Komponente der Trägerdatei versteckt werden.</value>
   </data>
   <data name="OutputCarrierCaption" xml:space="preserve">
-    <value>Trägerdatei-Ausgabe</value>
+    <value>Ausgabe der Trägerdatei</value>
   </data>
   <data name="OutputCarrierTooltip" xml:space="preserve">
     <value>Trägerdatei, in der die Eingabedaten versteckt wurden, bzw. die von den versteckten Daten bereinigt wurde.</value>
@@ -160,7 +160,7 @@
     <value>Die in der Trägerdatei versteckten Daten.</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
-    <value>StegoInsertion</value>
+    <value>Insertion Steganography</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
     <value>Verstecke Daten in einer Trägerdatei.</value>
