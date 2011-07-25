@@ -28,7 +28,7 @@ using System.IO;
 namespace Cryptool.Plugins.StegoPermutation
 {
     [Author("Corinna John", "coco@steganografie.eu", "", "http://www.steganografie.eu")]
-    [PluginInfo("StegoPermutation.Properties.Resources", false, "Permutation Steganography", "Encodes a message in the permutation of a list", "StegoPermutation/DetailedDescription/Description.xaml", "StegoPermutation/Images/StegoPermutation.png")]
+    [PluginInfo("StegoPermutation.Properties.Resources", false, "PluginCaption", "PluginTooltip", "StegoPermutation/DetailedDescription/Description.xaml", "StegoPermutation/Images/StegoPermutation.png")]
     [ComponentCategory(ComponentCategory.Steganography)]
     public class StegoPermutation : ICrypComponent
     {
@@ -43,7 +43,7 @@ namespace Cryptool.Plugins.StegoPermutation
         /// <summary>
         /// Message to be encoded.
         /// </summary>
-        [PropertyInfo(Direction.InputData, "Message", "Input message", null)]
+        [PropertyInfo(Direction.InputData, "InputMessageCaption", "InputMessageTooltip", null)]
         public string InputMessage
         {
             get;
@@ -53,7 +53,7 @@ namespace Cryptool.Plugins.StegoPermutation
         /// <summary>
         /// List of words to be sorted.
         /// </summary>
-        [PropertyInfo(Direction.InputData, "Carrier list", "Input list", null)]
+        [PropertyInfo(Direction.InputData, "InputListCaption", "InputListTooltip", null)]
         public string InputList
         {
             get;
@@ -63,7 +63,7 @@ namespace Cryptool.Plugins.StegoPermutation
         /// <summary>
         /// Sorted output list.
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "Carrier List", "Result", null)]
+        [PropertyInfo(Direction.OutputData, "OutputListCaption", "OutputListTooltip", null)]
         public string OutputList
         {
             get;
@@ -73,7 +73,7 @@ namespace Cryptool.Plugins.StegoPermutation
         /// <summary>
         /// Decoded message.
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "Message", "Result message", null)]
+        [PropertyInfo(Direction.OutputData, "OutputMessageCaption", "OutputMessageTooltip", null)]
         public string OutputMessage
         {
             get;

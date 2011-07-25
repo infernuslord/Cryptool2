@@ -18,6 +18,8 @@
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Text;
+using System.Numerics;
+using Cryptool.PluginBase.Miscellaneous;
 
 namespace Cryptool.Plugins.StegoPermutation
 {
@@ -29,29 +31,16 @@ namespace Cryptool.Plugins.StegoPermutation
         {
 			get
 			{
-        	    BigInteger capacity = new BigInteger(source.Count);
-            	capacity = Factorial(capacity);
-          		int byteCapacity = (capacity.bitCount() / 8) - 1;
+                BigInteger capacity = BigIntegerHelper.Factorial(source.Count);
+                int byteCapacity = (BigIntegerHelper.BitCount(capacity) / 8) - 1;
             	return byteCapacity;
 			}
         }
 			
-		public Sorter(Collection<T> source){
+		public Sorter(Collection<T> source)
+        {
 			this.source = source;
 		}
-
-        private static BigInteger Factorial(BigInteger value)
-        {
-            BigInteger result = new BigInteger(value);
-            BigInteger counter = new BigInteger(value-1);
-
-            while(counter > 0)
-            {
-                result *= counter;
-                counter--;
-            }
-            return result;
-        }
 
         public Collection<T> Encode(Stream messageStream, string alphabet)
         {
@@ -59,9 +48,9 @@ namespace Cryptool.Plugins.StegoPermutation
 			T[] sortedItems = new T[source.Count];
             source.CopyTo(sortedItems, 0);
             
-			if(alphabet == null || alphabet.Length == 0){
+			if(alphabet == null || alphabet.Length == 0) {
 				Array.Sort(sortedItems);
-			}else{
+			} else {
 				StringComparer comparer = new StringComparer(alphabet);
 				Array.Sort(sortedItems, comparer);
 			}
@@ -84,7 +73,7 @@ namespace Cryptool.Plugins.StegoPermutation
             int skip = 0;
             for (int indexSource = 0; indexSource < source.Count; indexSource++)
             {
-                skip = (message % freeIndexes.Count).IntValue();
+                skip = (int)(message % freeIndexes.Count);
                 message = message / freeIndexes.Count;
                 int resultIndex = freeIndexes[skip];
                 result[resultIndex] = sortedItems[indexSource];
@@ -100,9 +89,9 @@ namespace Cryptool.Plugins.StegoPermutation
             source.CopyTo(sortedItems, 0);
 
 			StringComparer comparer = null;
-			if(alphabet == null || alphabet.Length == 0){
+			if(alphabet == null || alphabet.Length == 0) {
 				Array.Sort(sortedItems);
-			}else{
+			} else {
 				comparer = new StringComparer(alphabet);
 				Array.Sort(sortedItems, comparer);
 			}
@@ -144,7 +133,7 @@ namespace Cryptool.Plugins.StegoPermutation
                 message += value;
             }
 
-            byte[] messageBytes = message.getBytes();
+            byte[] messageBytes = message.ToByteArray();
             messageStream.Write(messageBytes, 0, messageBytes.Length);
             messageStream.Position = 0;
         }
