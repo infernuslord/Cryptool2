@@ -34,8 +34,8 @@ namespace Cryptool.Plugins.StegoPermutation
 
         #region TaskPane Settings
 
-        [ContextMenu("ActionCaption", "ActionTooltip", 1, ContextMenuControlType.ComboBox, null, "Encrypt", "Decrypt")]
-        [TaskPane("ActionTPCaption", "ActionTPTooltip", null, 1, true, ControlType.ComboBox, new string[] { "Encrypt", "Decrypt" })]
+        [ContextMenu("ActionCaption", "ActionTooltip", 1, ContextMenuControlType.ComboBox, null, "ActionList1", "ActionList2")]
+        [TaskPane("ActionCaption", "ActionTooltip", null, 1, true, ControlType.ComboBox, new string[] { "ActionList1", "ActionList2" })]
         public int Action
         {
             get
@@ -54,7 +54,7 @@ namespace Cryptool.Plugins.StegoPermutation
         /// Comma separated list to replace the "a, b, c, d, ..." order of characters.
         /// This is also the key you need to reconstruct the message.
         /// </summary>
-        [TaskPane("Alphabet", "Default order of characters", null, 1, false, ControlType.TextBox)]
+        [TaskPane("AlphabetCaption", "AlphabetTooltip", null, 1, false, ControlType.TextBox)]
         public string Alphabet
         {
             get
