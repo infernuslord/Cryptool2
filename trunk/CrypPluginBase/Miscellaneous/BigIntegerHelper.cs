@@ -514,5 +514,46 @@ namespace Cryptool.PluginBase.Miscellaneous
                 b[i] = p[p.Length-i-1];
             return new BigInteger(b);
         }
+
+        /// <summary>
+        /// Returns the number of bits that are needed to represent the integer argument.
+        /// </summary>
+        public static int BitCount(BigInteger b)
+        {
+            if (b < 0) b = -b;
+
+            byte[] buffer = b.ToByteArray();
+
+            // ignore leading zero bytes
+            int i = buffer.Length - 1;
+            while( i > 0 && buffer[i] == 0 ) i--;
+            
+            // ignore leading zero bits
+            byte mask = 0x80;
+            int j = 8;
+            while( j>0 && (buffer[i] & mask) == 0 )
+            {
+                j--;
+                mask >>= 1;
+            }
+
+            return 8 * i + j;
+        }
+
+        public static BigInteger Factorial(BigInteger n)
+        {
+            if (n < 0) throw new ArithmeticException("The factorial of a negative number is not defined");
+
+            BigInteger result = 1;
+            BigInteger counter = n;
+
+            while (counter > 1)
+            {
+                result *= counter;
+                counter--;
+            }
+
+            return result;
+        }
     }
 }
