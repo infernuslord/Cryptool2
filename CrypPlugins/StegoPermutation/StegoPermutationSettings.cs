@@ -28,7 +28,7 @@ namespace Cryptool.Plugins.StegoPermutation
 
         private bool hasChanges = false;
         private int selectedAction = 0;
-        private string alphabet = "!§$%&/()=/{}<>|_-7001234526789abcdefghijklmnopqrstuvwxzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        private string alphabet = "!§$%&/()=/{}<>|_-01234526789abcdefghijklmnopqrstuvwxzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
         #endregion
 

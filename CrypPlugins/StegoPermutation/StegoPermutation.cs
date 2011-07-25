@@ -35,6 +35,8 @@ namespace Cryptool.Plugins.StegoPermutation
         #region Private Variables
 
         private readonly StegoPermutationSettings settings = new StegoPermutationSettings();
+        private Collection<string> inputList;
+        private Sorter<string> sorter;
 
         #endregion
 
@@ -56,8 +58,30 @@ namespace Cryptool.Plugins.StegoPermutation
         [PropertyInfo(Direction.InputData, "InputListCaption", "InputListTooltip", null)]
         public string InputList
         {
-            get;
-            set;
+            get
+            {
+                return string.Join(",", this.inputList);
+            }
+            set
+            {
+                string[] valueParts = value.Split(',');
+                this.inputList = new Collection<string>();
+                foreach (string s in valueParts)
+                {
+                    if (this.inputList.IndexOf(s) < 0)
+                    {
+                        this.inputList.Add(s);
+                    }
+                    else
+                    {
+                        // duplicate item found
+                        GuiLogMessage("Duplicate item removed from the list: "+s, NotificationLevel.Warning);
+                    }
+                }
+
+                this.sorter = new Sorter<string>(this.inputList);
+                GuiLogMessage("Maximum length of message text: " + this.sorter.Capacity.ToString(), NotificationLevel.Info);
+            }
         }
 
         /// <summary>
@@ -118,14 +142,15 @@ namespace Cryptool.Plugins.StegoPermutation
         {
             ProgressChanged(0, 1);
 
-            Collection<string> inputCarrierList = new Collection<string>(InputList.Split(','));
-            Sorter<string> sorter = new Sorter<string>(inputCarrierList);
-
-            if (settings.Action == 0)
+            if (sorter == null)
+            {
+                GuiLogMessage("Input list required.", NotificationLevel.Error);
+            }
+            else if (settings.Action == 0)
             {
                 if (sorter.Capacity < Encoding.Default.GetByteCount(InputMessage))
                 {
-                    GuiLogMessage("List too short for message. Only the beginning will be encoded, the tail will get lost.", NotificationLevel.Debug);
+                    GuiLogMessage("List too short for message. Only the beginning will be encoded, the tail will get lost.", NotificationLevel.Warning);
                     InputMessage = InputMessage.Substring(0, sorter.Capacity);
                 }
 
