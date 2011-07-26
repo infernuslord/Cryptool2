@@ -88,21 +88,33 @@
                 <Rectangle Name="dropBoxWalze" Width="300"  Height="100" Stroke="Green" StrokeThickness="5" Fill="LawnGreen" Opacity="0.0">
                 </Rectangle>
             </Canvas>
-            <WrapPanel  Canvas.Bottom="40" Name="inputPanel" Canvas.Left="50" Width="950" Height="200">
-                <WrapPanel.RenderTransform>
+            <ScrollViewer
+                    VerticalScrollBarVisibility="Auto"
+                    HorizontalScrollBarVisibility="Hidden"  Canvas.Left="50" Width="950" Height="200" Canvas.Bottom="40">
+                <ScrollViewer.RenderTransform>
                     <RotateTransform x:Name="TransRotate" 
                            CenterX="25" CenterY="25" Angle="1.9" />
-                </WrapPanel.RenderTransform>
+                </ScrollViewer.RenderTransform>
+                <WrapPanel   Name="inputPanel" Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ScrollViewer}}, Path=ActualWidth}">
+                    
 
-            </WrapPanel>
-            <WrapPanel Canvas.Bottom="10" Name="outputPanel" Canvas.Right="67" Width="983" Height="200">
-                <WrapPanel.RenderTransform>
+                </WrapPanel>
+            </ScrollViewer>
+
+            <ScrollViewer
+                    VerticalScrollBarVisibility="Auto"
+                    HorizontalScrollBarVisibility="Hidden"  Canvas.Bottom="10"  Canvas.Right="67" Width="983" Height="200">
+                <ScrollViewer.RenderTransform>
                     <RotateTransform x:Name="TransRotate2" 
                            CenterX="25" CenterY="25" Angle="-2.5" />
-                </WrapPanel.RenderTransform>
+                </ScrollViewer.RenderTransform>
+                <WrapPanel   Name="outputPanel" Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ScrollViewer}}, Path=ActualWidth}">
 
 
-            </WrapPanel>
+                </WrapPanel>
+            </ScrollViewer>
+
+            
         </Canvas>
 
     </Canvas>
