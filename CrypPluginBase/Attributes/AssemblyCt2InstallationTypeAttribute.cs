@@ -19,21 +19,21 @@ using System;
 namespace Cryptool.PluginBase.Attributes
 {
     [AttributeUsage(AttributeTargets.Assembly)]
-    public class AssemblyCt2BuildTypeAttribute : Attribute
+    public class AssemblyCt2InstallationTypeAttribute : Attribute
     {
-        public BuildType BuildType
+        public InstallationType InstallationType
         {
             get; set;
         }
 
-        public AssemblyCt2BuildTypeAttribute(BuildType type)
+        public AssemblyCt2InstallationTypeAttribute(InstallationType type)
         {
-            this.BuildType = type;
+            this.InstallationType = type;
         }
 
-        public AssemblyCt2BuildTypeAttribute(int type)
+        public AssemblyCt2InstallationTypeAttribute(int type)
         {
-            this.BuildType = (BuildType) type;
+            this.InstallationType = (InstallationType) type;
         }
     }
 }

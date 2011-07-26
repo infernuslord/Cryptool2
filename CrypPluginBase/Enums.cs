@@ -18,6 +18,21 @@ using System;
 
 namespace Cryptool.PluginBase
 {
+    public enum InstallationType
+    {
+        Developer = 0,
+        ZIP = 1,
+        MSI = 2,
+        NSIS = 3
+    };
+
+    public enum BuildType
+    {
+        Developer = 0,
+        Nightly = 1,
+        Beta = 2,
+        Stable = 3,
+    }
 
     public enum Direction
     {
