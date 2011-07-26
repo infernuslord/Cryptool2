@@ -27,7 +27,7 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace Nihilist
 {
     [Author("Fabian Enkler", "enkler@cryptool.org", "", "")]
-    [PluginInfo("Nihilist.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "Nihilist/icon.png")]
+    [PluginInfo("Nihilist.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "Nihilist/Images/icon3.png")]
     [ComponentCategory(ComponentCategory.CiphersClassic)]
     public class Nihilist : ICrypComponent
     {
