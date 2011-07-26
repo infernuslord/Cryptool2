@@ -21,7 +21,7 @@ namespace WordPatterns
      * - support wildcard (*)
      */
     [Author("Matthäus Wander", "wander@cryptool.org", "Fachgebiet Verteilte Systeme, Universität Duisburg-Essen", "http://www.vs.uni-due.de")]
-    [PluginInfo("WordPatterns.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "CrypWin/images/default.png")]
+    [PluginInfo("WordPatterns.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "WordPatterns/Images/icon.png")]
     [ComponentCategory(ComponentCategory.CryptanalysisGeneric)]
     public class WordPatterns : ICrypComponent
     {
