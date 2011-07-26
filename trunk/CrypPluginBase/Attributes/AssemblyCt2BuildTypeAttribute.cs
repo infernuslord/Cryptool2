@@ -1,39 +1,48 @@
-﻿/*
-   Copyright 2011 Matthäus Wander, University of Duisburg-Essen
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
-*/
-
-using System;
+﻿using System;
 
 namespace Cryptool.PluginBase.Attributes
 {
+    public enum Ct2BuildType
+    {
+        Developer = 0,
+        Nightly = 1,
+        Beta = 2,
+        Stable = 3
+    }
+
     [AttributeUsage(AttributeTargets.Assembly)]
     public class AssemblyCt2BuildTypeAttribute : Attribute
     {
-        public BuildType BuildType
+        public Ct2BuildType BuildType
         {
             get; set;
         }
 
-        public AssemblyCt2BuildTypeAttribute(BuildType type)
+        public AssemblyCt2BuildTypeAttribute(Ct2BuildType type)
         {
             this.BuildType = type;
         }
 
         public AssemblyCt2BuildTypeAttribute(int type)
         {
-            this.BuildType = (BuildType) type;
+            this.BuildType = (Ct2BuildType) type;
+        }
+
+        public static string ToString(Ct2BuildType buildType)
+        {
+            switch (buildType)
+            {
+                case Ct2BuildType.Developer:
+                    return "Developer build";
+                case Ct2BuildType.Nightly:
+                    return "Nightly build";
+                case Ct2BuildType.Beta:
+                    return "Beta build";
+                case Ct2BuildType.Stable:
+                    return "Stable build";
+                default:
+                    return "Mysterious build";
+            }
         }
     }
 }

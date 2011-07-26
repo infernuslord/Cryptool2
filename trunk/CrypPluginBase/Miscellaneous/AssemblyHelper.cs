@@ -30,7 +30,7 @@ namespace Cryptool.PluginBase.Miscellaneous
      */
     public class AssemblyHelper
     {
-        public static BuildType BuildType
+        public static Ct2BuildType BuildType
         {
             get; private set;
         }
@@ -45,15 +45,18 @@ namespace Cryptool.PluginBase.Miscellaneous
             get; private set;
         }
 
-        public static InstallationType InstallationType
+        public static Ct2InstallationType InstallationType
         {
             get; private set;
         }
 
+        public enum Ct2InstallationType { Developer, ZIP, MSI, NSIS };
+
         static AssemblyHelper()
         {
             { // BuildType
-                object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof (AssemblyCt2BuildTypeAttribute), false);
+                object[] attributes =
+                    Assembly.GetExecutingAssembly().GetCustomAttributes(typeof (AssemblyCt2BuildTypeAttribute), false);
                 if (attributes != null && attributes.Length >= 1)
                 {
                     AssemblyCt2BuildTypeAttribute attr = (AssemblyCt2BuildTypeAttribute) attributes[0];
@@ -61,12 +64,13 @@ namespace Cryptool.PluginBase.Miscellaneous
                 }
                 else
                 {
-                    AssemblyHelper.BuildType = BuildType.Developer;
+                    AssemblyHelper.BuildType = Ct2BuildType.Developer;
                 }
             }
 
             { // ProductName
-                object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyProductAttribute), false);
+                object[] attributes =
+                    Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyProductAttribute), false);
                 if (attributes != null && attributes.Length >= 1)
                 {
                     AssemblyProductAttribute attr = (AssemblyProductAttribute) attributes[0];
@@ -79,15 +83,40 @@ namespace Cryptool.PluginBase.Miscellaneous
             }
 
             { // InstallationType
-                object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyCt2InstallationTypeAttribute), false);
-                if (attributes != null && attributes.Length >= 1)
+                // flomar, 04/01/2011: very soon we will add a "DONTREMOVEME.txt" to all installation types
+                // wander, 2011-04-08: added directory path to file
+                string fileInstallationType = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "DONTREMOVEME.txt");
+
+                if (AssemblyHelper.BuildType == Ct2BuildType.Developer)
                 {
-                    AssemblyCt2InstallationTypeAttribute attr = (AssemblyCt2InstallationTypeAttribute)attributes[0];
-                    AssemblyHelper.InstallationType = attr.InstallationType;
+                    InstallationType = Ct2InstallationType.Developer;
+                }
+                else if (!File.Exists(fileInstallationType))
+                {
+                    InstallationType = Ct2InstallationType.MSI;
                 }
                 else
                 {
-                    AssemblyHelper.InstallationType = InstallationType.Developer;
+                    String[] lines = File.ReadAllLines(fileInstallationType);
+                    if (lines.Length > 0)
+                    {
+                        switch (lines[0])
+                        {
+                            case "ZIP":
+                                InstallationType = Ct2InstallationType.ZIP;
+                                break;
+                            case "MSI":
+                                InstallationType = Ct2InstallationType.MSI;
+                                break;
+                            case "NSIS":
+                                InstallationType = Ct2InstallationType.NSIS;
+                                break;
+                            default:
+                                InstallationType = Ct2InstallationType.ZIP;
+                                break;
+                        };
+                    }
+                    else InstallationType = Ct2InstallationType.ZIP;
                 }
             }
         }
