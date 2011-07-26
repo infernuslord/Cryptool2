@@ -130,10 +130,10 @@
     <value>Select the Algorithm action</value>
   </data>
   <data name="BitCountCaption" xml:space="preserve">
-    <value>BitCount</value>
+    <value>Bit count</value>
   </data>
   <data name="BitCountSettingsCaption" xml:space="preserve">
-    <value>BitCount</value>
+    <value>Bit count</value>
   </data>
   <data name="BitCountSettingsTooltip" xml:space="preserve">
     <value>Count of bits per pixel/sample that are treated as least significant</value>
@@ -142,7 +142,7 @@
     <value>Count of bits per pixel/sample that are treated as least significant. This is the same setting as the shift value from the settings pane but as dynamic input.</value>
   </data>
   <data name="CustomizeRegionsCaption" xml:space="preserve">
-    <value>CustomizeRegions</value>
+    <value>Customize regions</value>
   </data>
   <data name="CustomizeRegionsTooltip" xml:space="preserve">
     <value>Opens a dialog that lets the user define where in the picture the data will be hidden</value>
@@ -172,7 +172,7 @@
     <value>Raw decryption result</value>
   </data>
   <data name="OutputFileFormatCaption" xml:space="preserve">
-    <value>OutputFileFormat</value>
+    <value>Output File Format</value>
   </data>
   <data name="OutputFileFormatTooltip" xml:space="preserve">
     <value>Only for Encryption: The file format of the output image.</value>
@@ -187,6 +187,6 @@
     <value>LSB Steganography</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Hide a message in the Least Significant Bits of a picture.</value>
+    <value>Hide a message in the least significant bits of a picture.</value>
   </data>
 </root>

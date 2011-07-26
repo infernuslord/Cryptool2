@@ -121,7 +121,7 @@
     <value>Kasiski's Test</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Calculates possible key lenghts of a polyalphabetic substitution cipher.</value>
+    <value>Calculates possible key lengths of a polyalphabetic substitution cipher.</value>
   </data>
   <data name="PluginDescriptionURL" xml:space="preserve">
     <value>KasiskiTest/DetailedDescription/Description.xaml</value>
@@ -130,7 +130,7 @@
     <value>The string to be analyzed</value>
   </data>
   <data name="StringInputTooltip" xml:space="preserve">
-    <value>The input string should be a cipher text encrypted using the Vigenere cipher.</value>
+    <value>The input string should be a cipher text encrypted with the Vigenère cipher.</value>
   </data>
   <data name="IntegerArrayCaption" xml:space="preserve">
     <value>Integer Array</value>
@@ -163,7 +163,7 @@
     <value>Enter maximum gram length to be examined. Minimum/default = 3</value>
   </data>
   <data name="RemoveUnknownSymbolsCaption" xml:space="preserve">
-    <value>Handling of Unknown Characters</value>
+    <value>Handling of unknown characters</value>
   </data>
   <data name="RemoveUnknownSymbolsTooltip" xml:space="preserve">
     <value>What should be done with encountered characters at the input which are not in the alphabet?</value>

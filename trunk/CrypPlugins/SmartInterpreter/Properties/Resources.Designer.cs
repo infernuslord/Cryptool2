@@ -97,7 +97,7 @@ namespace SmartInterpreter.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die SmartCard Interpreter ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Smartcard Interpreter ähnelt.
         /// </summary>
         internal static string PluginCaption {
             get {
@@ -115,7 +115,7 @@ namespace SmartInterpreter.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die SmartCard Script Interpreter. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Smartcard Script Interpreter ähnelt.
         /// </summary>
         internal static string PluginTooltip {
             get {

@@ -118,37 +118,37 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="PluginBBO_Caption" xml:space="preserve">
-    <value>Binärer boolscher Operator</value>
+    <value>Binärer boolescher Operator</value>
   </data>
   <data name="PluginBBO_Tooltip" xml:space="preserve">
-    <value>Binärer boolscher Operator</value>
+    <value>Binärer boolescher Operator</value>
   </data>
   <data name="PluginDescriptionURL" xml:space="preserve">
     <value>BooleanOperators/DetailedDescription/Description.xaml</value>
   </data>
   <data name="PluginBIE_Caption" xml:space="preserve">
-    <value>Boolscher Wenn-Dann-Operator</value>
+    <value>Boolescher Wenn-Dann-Operator</value>
   </data>
   <data name="PluginBIE_Tooltip" xml:space="preserve">
-    <value>Boolscher Wenn-Dann-Operator</value>
+    <value>Boolescher Wenn-Dann-Operator</value>
   </data>
   <data name="PluginBI_Caption" xml:space="preserve">
     <value>Boolesche Eingabe</value>
   </data>
   <data name="PluginBI_Tooltip" xml:space="preserve">
-    <value>Boolsche Eingabe</value>
+    <value>Boolesche Eingabe</value>
   </data>
   <data name="PluginBN_Caption" xml:space="preserve">
-    <value>Boolscher Nicht-Operator</value>
+    <value>Boolescher Nicht-Operator</value>
   </data>
   <data name="PluginBN_Tooltip" xml:space="preserve">
-    <value>Boolscher Nicht-Operator</value>
+    <value>Boolescher Nicht-Operator</value>
   </data>
   <data name="PluginBO_Caption" xml:space="preserve">
-    <value>Boolsche Ausgabe</value>
+    <value>Boolesche Ausgabe</value>
   </data>
   <data name="PluginBO_Tooltip" xml:space="preserve">
-    <value>Boolsche Ausgabe</value>
+    <value>Boolesche Ausgabe</value>
   </data>
   <data name="BBO_InputACaption" xml:space="preserve">
     <value>Eingabe A</value>
@@ -223,10 +223,10 @@
     <value>Wenn dieses Kontrollkästchen gesetzt ist, wird der Eingang B beim Start des Plugins als aktualisiert betrachtet.</value>
   </data>
   <data name="BBO_OperatorTypeCaption" xml:space="preserve">
-    <value>Boolsche Operation</value>
+    <value>Boolesche Operation</value>
   </data>
   <data name="BBO_OperatorTypeTooltip" xml:space="preserve">
-    <value>Boolsche Operation</value>
+    <value>Boolesche Operation</value>
   </data>
   <data name="BBO_UpdateOnlyAtBothInputsChangedCaption" xml:space="preserve">
     <value>Update braucht beide Eingaben</value>
@@ -238,7 +238,7 @@
     <value>Wert</value>
   </data>
   <data name="BI_ValueTooltip" xml:space="preserve">
-    <value>Setze den boolschen Wert der Ausgabe</value>
+    <value>Setze den booleschen Wert der Ausgabe</value>
   </data>
   <data name="BBO_OperatorTypeList1" xml:space="preserve">
     <value>AND</value>

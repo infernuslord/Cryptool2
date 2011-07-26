@@ -118,13 +118,13 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="PluginCaption" xml:space="preserve">
-    <value>PKCS #1 / Bleichenbacher Angriff</value>
+    <value>PKCS#1 / Bleichenbacher Angriff</value>
   </data>
   <data name="PluginDescriptionURL" xml:space="preserve">
     <value>PKCS1/DetailedDescription/Description.xaml</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>PKCS1/Bleichenbacher Angriff</value>
+    <value>PKCS#1 / Bleichenbacher Angriff</value>
   </data>
   <data name="template" xml:space="preserve">
     <value>&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"&gt;

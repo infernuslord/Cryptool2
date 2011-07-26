@@ -154,7 +154,7 @@
     <value>Output</value>
   </data>
   <data name="OutputTooltip" xml:space="preserve">
-    <value>output</value>
+    <value>Output</value>
   </data>
   <data name="Analysis_methodCaption" xml:space="preserve">
     <value>Analysis Method</value>
@@ -178,13 +178,13 @@
     <value>Maximum keylength for crib analysis</value>
   </data>
   <data name="CribSearchKeylengthTooltip" xml:space="preserve">
-    <value>Enter the maximum keylength for the crib based analysis.</value>
+    <value>Enter the maximum keylength for the crib-based analysis.</value>
   </data>
   <data name="IterationsCaption" xml:space="preserve">
-    <value>Numbers of iterations for genetic analysis.</value>
+    <value>Number of iterations for genetic analysis.</value>
   </data>
   <data name="IterationsTooltip" xml:space="preserve">
-    <value>Enter the maximum number of iterations for genetic analysis.</value>
+    <value>Enter the maximum number of iterations for the genetic analysis.</value>
   </data>
   <data name="KeySizeCaption" xml:space="preserve">
     <value>Keysize for genetic analysis.</value>
@@ -199,10 +199,10 @@
     <value>Enter the max length to be bruteforced (max: 20)</value>
   </data>
   <data name="RepeatingsCaption" xml:space="preserve">
-    <value>Numbers of repeatings for genetic analysis.</value>
+    <value>Number of repetitions for genetic analysis.</value>
   </data>
   <data name="RepeatingsTooltip" xml:space="preserve">
-    <value>Enter the maximum number of repetitions of iterations for genetic analysis.</value>
+    <value>Enter the maximum number of repetitions of iterations for the genetic analysis.</value>
   </data>
   <data name="RowColumnColumnCaption" xml:space="preserve">
     <value>R-C-C</value>

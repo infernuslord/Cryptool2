@@ -178,7 +178,7 @@ namespace Cryptool.StreamComparator.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Compares two inputs Streams and decides if they are equal. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Compares two input streams and decides if they are equal. ähnelt.
         /// </summary>
         internal static string PluginTooltip {
             get {

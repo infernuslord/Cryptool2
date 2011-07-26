@@ -121,19 +121,19 @@
     <value>Text Input</value>
   </data>
   <data name="InputTextTooltip" xml:space="preserve">
-    <value>Input your Text here</value>
+    <value>Enter your text here.</value>
   </data>
   <data name="OutputTextCaption" xml:space="preserve">
     <value>Text Output</value>
   </data>
   <data name="OutputTextTooltip" xml:space="preserve">
-    <value>Your Text will be send here</value>
+    <value>Your text will be sent here.</value>
   </data>
   <data name="ValueCaption" xml:space="preserve">
     <value>Value</value>
   </data>
   <data name="ValueTooltip" xml:space="preserve">
-    <value>The value of the function will be send here</value>
+    <value>The value of the function will be sent here</value>
   </data>
   <data name="ControlSlaveCaption" xml:space="preserve">
     <value>SDES Slave</value>
@@ -148,10 +148,10 @@
     <value>Which amount of bytes should be used for calculating?</value>
   </data>
   <data name="CaseInsensitivCaption" xml:space="preserve">
-    <value>Case Insensitiv</value>
+    <value>Case insensitive</value>
   </data>
   <data name="CaseInsensitivTooltip" xml:space="preserve">
-    <value>If checked, the regular expression will be used in a case insensitiv manner.</value>
+    <value>If checked, the regular expression will be used in a case-insensitive manner.</value>
   </data>
   <data name="FunctionTypeCaption" xml:space="preserve">
     <value>FunctionType</value>
@@ -178,10 +178,10 @@
     <value>Select a text corpus file (Default is (DE))</value>
   </data>
   <data name="entropyCaption" xml:space="preserve">
-    <value>Select Entropy function</value>
+    <value>Select an entropy function</value>
   </data>
   <data name="entropyTooltip" xml:space="preserve">
-    <value>Select an Entropy function</value>
+    <value>Select an entropy function</value>
   </data>
   <data name="weighttableCaption" xml:space="preserve">
     <value>Fitness Weight Table to use</value>

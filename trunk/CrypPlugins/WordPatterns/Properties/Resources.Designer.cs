@@ -88,7 +88,7 @@ namespace WordPatterns.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Choose whether uppercase/lowercase should be treated as different (case sensitive) or equal (case insensitive) ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Choose whether uppercase/lowercase should be treated differently (case-sensitive) or equal (case-insensitive) ähnelt.
         /// </summary>
         internal static string CaseSelectionTooltip {
             get {

@@ -121,7 +121,7 @@
     <value>Friedman Test</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Calculates the probable key lenght of a polyalphabetic substitution cipher.</value>
+    <value>Calculates the probable key length of a polyalphabetic substitution cipher.</value>
   </data>
   <data name="PluginDescriptionURL" xml:space="preserve">
     <value>FriedmanTest/DetailedDescription/Description.xaml</value>
@@ -130,7 +130,7 @@
     <value>Results</value>
   </data>
   <data name="StringOutputTooltip" xml:space="preserve">
-    <value>This ouput provides the results of the Friedman test \nas key/value pairs, one per each line.</value>
+    <value>This ouput provides the results of the Friedman test as key/value pairs, one per line.</value>
   </data>
   <data name="KeyLengthCaption" xml:space="preserve">
     <value>Probable key length value.</value>
