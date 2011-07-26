@@ -83,7 +83,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\AssemblyCt2BuildTypeAttribute.cs" />
-    <Compile Include="Attributes\AssemblyCt2InstallationTypeAttribute.cs" />
     <Compile Include="Attributes\ComponentCategoryAttribute.cs" />
     <Compile Include="Attributes\DontSaveAttribute.cs" />
     <Compile Include="Attributes\EditingInfoAttribute.cs" />
