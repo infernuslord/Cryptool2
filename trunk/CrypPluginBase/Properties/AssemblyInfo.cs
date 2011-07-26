@@ -15,8 +15,8 @@
 */
 
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using Cryptool.PluginBase;
 using Cryptool.PluginBase.Attributes;
 
 [assembly: AssemblyTitle("CrypTool Plugin Base")]
@@ -26,4 +26,5 @@ using Cryptool.PluginBase.Attributes;
 [assembly: ComVisible(false)]
 [assembly: AssemblyVersion("2.0.0.0")]
 
-[assembly: AssemblyCt2BuildType(Ct2BuildType.Developer)]
+[assembly: AssemblyCt2BuildType(BuildType.Developer)]
+[assembly: AssemblyCt2InstallationType(InstallationType.Developer)]
