@@ -116,7 +116,7 @@ namespace Cryptool.Enigma
         DoubleAnimation fadeIn = new DoubleAnimation();
         DoubleAnimation fadeOut = new DoubleAnimation();
         DoubleAnimation nop = new DoubleAnimation();
-        
+
 
         DoubleAnimation mydouble;
         Double timecounter = 0;
@@ -144,7 +144,26 @@ namespace Cryptool.Enigma
         public void settings_OnPropertyChange(object sender, PropertyChangedEventArgs e)
         {
             EnigmaSettings settings = sender as EnigmaSettings;
-            if (e.PropertyName == "Presentation_Speed" )
+
+            if (e.PropertyName == "Model")
+            {
+                if (settings.Model != 3)
+                {
+                    Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        mainCanvas.Visibility = Visibility.Hidden;
+                    }, null);
+                }
+                else
+                {
+                    Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    {
+                        mainCanvas.Visibility = Visibility.Visible;
+                    }, null);
+                }
+            }
+
+            if (e.PropertyName == "Presentation_Speed")
             {
 
                 Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
@@ -153,18 +172,19 @@ namespace Cryptool.Enigma
                     speed = settings.PresentationSpeed;
                     storyboard1.Pause();
                     storyboard.Pause();
-                    
+
                     storyboard1.SetSpeedRatio(speed);
                     storyboard.SetSpeedRatio(speed);
 
                     storyboard1.Resume();
                     storyboard.Resume();
-                    
-                    
+
+
                 }, null);
 
             }
-            if ( this.checkReady())
+
+            if (settings.Model == 3)
             {
                 if (e.PropertyName == "Key" && justme && !playbool)
                 {
@@ -376,7 +396,7 @@ namespace Cryptool.Enigma
                     }, null);
                 }
 
-                if (e.PropertyName == "Rotor2" && justme)
+                if (e.PropertyName == "Rotor2")
                 {
                     Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
@@ -493,7 +513,7 @@ namespace Cryptool.Enigma
 
                     }, null);
                 }
-                else if (e.PropertyName == "Rotor3" || e.PropertyName == "Rotor2" || e.PropertyName == "Rotor1" || e.PropertyName == "Reflector" || e.PropertyName == "Key" || e.PropertyName == "Ring3" || e.PropertyName == "Rotor1" ) 
+                else if (e.PropertyName == "Rotor3" || e.PropertyName == "Rotor2" || e.PropertyName == "Rotor1" || e.PropertyName == "Reflector" || e.PropertyName == "Key" || e.PropertyName == "Ring3" || e.PropertyName == "Rotor1")
                 {
                     justme = true;
                 }
@@ -957,7 +977,7 @@ namespace Cryptool.Enigma
             dispo.Interval = new TimeSpan(0, 0, 0, 0, 200); // Intervall festlegen, hier 100 ms
             dispo.Tick += delegate(System.Object o, System.EventArgs e)
             { dispo.Stop(); t1_Tick(); }; // Eventhandler ezeugen der beim Timerablauf aufgerufen wird
-            
+
 
             bList[0].Focus();
 
@@ -1072,7 +1092,7 @@ namespace Cryptool.Enigma
                             //playClick(null, EventArgs.Empty);
                             Debug.Text = "WHAAAAAAAAATSUUUUUUUUUUUP";
                         }
-                        
+
                     }
                     else
                     {
@@ -2095,7 +2115,7 @@ namespace Cryptool.Enigma
 
         #region buttonevents
 
-        public void resetkey() 
+        public void resetkey()
         {
             if (91 > settings.Key[2] && settings.Key[2] > 64)
                 rotorarray[2].changeoffset(settings.Key[2] - 65, settings.Ring1);
@@ -2109,7 +2129,7 @@ namespace Cryptool.Enigma
                 rotorarray[0].changeoffset(settings.Key[0] - 65, settings.Ring3);
             else if (128 > settings.Key[0] && settings.Key[0] > 96)
                 rotorarray[0].changeoffset(settings.Key[0] - 97, settings.Ring1);
-        
+
         }
 
         public void stopclick(object sender, EventArgs e)
@@ -2180,7 +2200,7 @@ namespace Cryptool.Enigma
             string s = k.ToString();
             int x = (int)s[0] - 65;
             Debug.Text = s;
-            if (!playbool && s.Length <2 && k!= Key.Space)
+            if (!playbool && s.Length < 2 && k != Key.Space)
                 tasteClick(bList[x], EventArgs.Empty);
             Debug.Text = s;
         }
@@ -2194,7 +2214,7 @@ namespace Cryptool.Enigma
                     timecounter = 0.0;
 
                     dummycanvas = new Canvas();
-                    dummycanvas.Height = 1250;
+                    dummycanvas.Height = 1000;
                     dummycanvas.Width = 2200;
                     dummycanvas.Opacity = 1.0;
                     dummycanvas.Cursor = Cursors.No;
@@ -2381,7 +2401,7 @@ namespace Cryptool.Enigma
                         Storyboard.SetTargetProperty(animax, new PropertyPath("(Y2)"));
                         Storyboard.SetTargetProperty(animax2, new PropertyPath("(Y1)"));
 
-                        
+
                         storyboard.Begin();
                         storyboard.SetSpeedRatio(speed);
                         //l.BeginAnimation(OpacityProperty, nop);
@@ -2749,7 +2769,7 @@ namespace Cryptool.Enigma
                 np.BeginTime = TimeSpan.FromMilliseconds(timecounter);
                 storyboard1.Children.Add(np);
             }
-            
+
             storyboard1.Begin();
             storyboard1.SetSpeedRatio(speed);
 
@@ -3168,13 +3188,13 @@ namespace Cryptool.Enigma
                 fadeOut2.To = 0.5;
                 fadeOut2.Duration = new Duration(TimeSpan.FromMilliseconds(1000));
                 fadeOut2.BeginTime = TimeSpan.FromMilliseconds(timecounterint);
-                
+
                 timecounterint += 1000;
                 //inputtebo[inputcounter - 1].BeginAnimation(OpacityProperty, fadeOut2);
 
                 Storyboard.SetTarget(fadeOut2, inputtebo[inputcounter - 1]);
                 Storyboard.SetTargetProperty(fadeOut2, new PropertyPath("(Opacity)"));
-                
+
                 sbret.Children.Add(fadeOut2);
                 if (inputtebo.Count > inputcounter && !stop)
                 {
@@ -3712,7 +3732,7 @@ namespace Cryptool.Enigma
                 DataObject data = new DataObject("myFormat", rotor.Uid);
                 DragDropEffects de = DragDrop.DoDragDrop(mainmainmain, data, DragDropEffects.Move);
 
-                
+
                 if (!suc)
                 {
                     dropBoxCanvasWalze.Children.Add(rotor);
@@ -3813,36 +3833,36 @@ namespace Cryptool.Enigma
                 //if (!button.Uid.Equals(button.Content.ToString()))
                 //  switchbuttons(Int32.Parse(button.Content.ToString()), Int32.Parse(button.Uid));
 
-                
-                    DataObject data = new DataObject("myFormat", rotor.Uid);
-                    justme = false;
-                    DragDropEffects de = DragDrop.DoDragDrop(mainmainmain, data, DragDropEffects.Move);
+
+                DataObject data = new DataObject("myFormat", rotor.Uid);
+                justme = false;
+                DragDropEffects de = DragDrop.DoDragDrop(mainmainmain, data, DragDropEffects.Move);
 
 
 
-                    if (!suc)
-                    {
-                        dropBoxCanvas.Children.Add(rotor);
-                        rotorarea.AllowDrop = false;
-                        dropBoxCanvas.AllowDrop = false;
-                    }
+                if (!suc)
+                {
+                    dropBoxCanvas.Children.Add(rotor);
+                    rotorarea.AllowDrop = false;
+                    dropBoxCanvas.AllowDrop = false;
+                }
 
-                    // Clean up our mess :) 
-                    DragScope.AllowDrop = previousDrop;
-                    if (_adorner != null)
-                        AdornerLayer.GetAdornerLayer(DragScope).Remove(_adorner);
+                // Clean up our mess :) 
+                DragScope.AllowDrop = previousDrop;
+                if (_adorner != null)
+                    AdornerLayer.GetAdornerLayer(DragScope).Remove(_adorner);
 
-                    _adorner = null;
+                _adorner = null;
 
-                    //           DragSource.GiveFeedback -= feedbackhandler;
-                    //         DragScope.DragLeave -= dragleavehandler;
-                    //       DragScope.QueryContinueDrag -= queryhandler;
-                    DragScope.PreviewDragOver -= draghandler;
+                //           DragSource.GiveFeedback -= feedbackhandler;
+                //         DragScope.DragLeave -= dragleavehandler;
+                //       DragScope.QueryContinueDrag -= queryhandler;
+                DragScope.PreviewDragOver -= draghandler;
 
-                    justme = true;
-                    //IsDragging = false;
+                justme = true;
+                //IsDragging = false;
 
-                
+
                 // Initialize the drag & drop operation
                 //DataObject dragData = new DataObject("myFormat", button.Uid);
 
@@ -3954,9 +3974,9 @@ namespace Cryptool.Enigma
 
         private void List_Drop21(object sender, DragEventArgs e)
         {
-            
+
             suc = true;
-            
+
             String uID = e.Data.GetData("myFormat") as String;
             Debug.Text = "hello" + uID;
 
@@ -4214,16 +4234,16 @@ namespace Cryptool.Enigma
                 }
             }
 
-            
 
-             // workaround for race-condition should be fixed soon
+
+            // workaround for race-condition should be fixed soon
             DispatcherTimer t = new DispatcherTimer();
-            t.Interval = new TimeSpan(0, 0, 0, 0, 20); ;                
+            t.Interval = new TimeSpan(0, 0, 0, 0, 20); ;
             t.Tick += delegate(System.Object o, System.EventArgs e)
             { t.Stop(); justme = true; };
 
-            t.Start();   
-           }
+            t.Start();
+        }
 
         private void thelp(object sender, EventArgs e)
         {
@@ -4234,7 +4254,7 @@ namespace Cryptool.Enigma
         {
             justme = false;
             Button dummy = sender as Button;
-            
+
             if (dummy == rotorarray[0].up || dummy == rotorarray[1].up || dummy == rotorarray[2].up)
             {
                 settings.Key = rotorarray[0].custom.Text + rotorarray[1].custom.Text + rotorarray[2].custom.Text;
