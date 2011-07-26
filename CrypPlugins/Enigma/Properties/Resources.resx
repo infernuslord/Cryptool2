@@ -436,7 +436,7 @@
     <value>Presentation Speed</value>
   </data>
   <data name="PresentationSpeedTooltip" xml:space="preserve">
-    <value>Change the pace of the Presentation</value>
+    <value>Change the pace of the presentation</value>
   </data>
   <data name="ReflectorCaption" xml:space="preserve">
     <value>Reflector</value>

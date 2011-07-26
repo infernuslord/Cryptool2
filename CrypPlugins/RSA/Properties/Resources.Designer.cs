@@ -133,7 +133,7 @@ namespace RSA.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die CoresUsed ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Cores Used ähnelt.
         /// </summary>
         internal static string CoresUsedCaption {
             get {
@@ -142,7 +142,7 @@ namespace RSA.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Choose how many cores should be used ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Choose how many cores should be used. ähnelt.
         /// </summary>
         internal static string CoresUsedTooltip {
             get {
@@ -196,7 +196,7 @@ namespace RSA.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Enter your public key E / private key D here ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Enter your public key E / private key D here. ähnelt.
         /// </summary>
         internal static string InputEDTooltip {
             get {
@@ -214,7 +214,7 @@ namespace RSA.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Enter your message M / ciphertext C here ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Enter your message M / ciphertext C here. ähnelt.
         /// </summary>
         internal static string InputMCTooltip {
             get {
@@ -232,7 +232,7 @@ namespace RSA.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Enter your public key N here ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Enter your public key N here. ähnelt.
         /// </summary>
         internal static string InputNTooltip {
             get {
@@ -250,7 +250,7 @@ namespace RSA.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Enter your text here ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Enter your text here. ähnelt.
         /// </summary>
         internal static string InputTextTooltip {
             get {
@@ -286,7 +286,7 @@ namespace RSA.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Your cipher C / message M will be send here ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Your cipher C / message M will be sent here. ähnelt.
         /// </summary>
         internal static string OutputMCTooltip {
             get {
@@ -304,7 +304,7 @@ namespace RSA.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Your text will be send here ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Your text will be sent here. ähnelt.
         /// </summary>
         internal static string OutputTextTooltip {
             get {
@@ -466,7 +466,7 @@ namespace RSA.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Select the source of the key data ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Select the source of the key data. ähnelt.
         /// </summary>
         internal static string SourceTooltip {
             get {

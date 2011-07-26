@@ -136,10 +136,10 @@
     <value>Bitanzahl</value>
   </data>
   <data name="BitCountSettingsTooltip" xml:space="preserve">
-    <value>Anzahl der Bits, die pro Pixel/Sample in den deren niederwertigen Bits versteckt werden sollen.</value>
+    <value>Anzahl der Bits, die in den niederwertigen Bits eines Pixels versteckt werden sollen.</value>
   </data>
   <data name="BitCountTooltip" xml:space="preserve">
-    <value>Anzahl der Bits, die pro Pixel/Sample in den deren niederwertigen Bits versteckt werden sollen.</value>
+    <value>Anzahl der Bits, die in den niederwertigen Bits eines Pixels versteckt werden sollen.</value>
   </data>
   <data name="CustomizeRegionsCaption" xml:space="preserve">
     <value>Regionen definieren</value>

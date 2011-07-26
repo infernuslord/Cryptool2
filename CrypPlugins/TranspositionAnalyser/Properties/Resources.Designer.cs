@@ -196,7 +196,7 @@ namespace TranspositionAnalyser.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Enter the maximum keylength for the crib based analysis. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Enter the maximum keylength for the crib-based analysis. ähnelt.
         /// </summary>
         internal static string CribSearchKeylengthTooltip {
             get {
@@ -232,7 +232,7 @@ namespace TranspositionAnalyser.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Numbers of iterations for genetic analysis. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Number of iterations for genetic analysis. ähnelt.
         /// </summary>
         internal static string IterationsCaption {
             get {
@@ -241,7 +241,7 @@ namespace TranspositionAnalyser.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Enter the maximum number of iterations for genetic analysis. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Enter the maximum number of iterations for the genetic analysis. ähnelt.
         /// </summary>
         internal static string IterationsTooltip {
             get {
@@ -295,7 +295,7 @@ namespace TranspositionAnalyser.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die output ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Output ähnelt.
         /// </summary>
         internal static string OutputTooltip {
             get {
@@ -331,7 +331,7 @@ namespace TranspositionAnalyser.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Numbers of repeatings for genetic analysis. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Number of repetitions for genetic analysis. ähnelt.
         /// </summary>
         internal static string RepeatingsCaption {
             get {
@@ -340,7 +340,7 @@ namespace TranspositionAnalyser.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Enter the maximum number of repetitions of iterations for genetic analysis. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Enter the maximum number of repetitions of iterations for the genetic analysis. ähnelt.
         /// </summary>
         internal static string RepeatingsTooltip {
             get {

@@ -169,7 +169,7 @@ namespace KasiskiTest.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Calculates possible key lenghts of a polyalphabetic substitution cipher. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Calculates possible key lengths of a polyalphabetic substitution cipher. ähnelt.
         /// </summary>
         internal static string PluginTooltip {
             get {
@@ -178,7 +178,7 @@ namespace KasiskiTest.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Handling of Unknown Characters ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Handling of unknown characters ähnelt.
         /// </summary>
         internal static string RemoveUnknownSymbolsCaption {
             get {
@@ -223,7 +223,7 @@ namespace KasiskiTest.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die The input string should be a cipher text encrypted using the Vigenere cipher. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die The input string should be a cipher text encrypted with the Vigenère cipher. ähnelt.
         /// </summary>
         internal static string StringInputTooltip {
             get {

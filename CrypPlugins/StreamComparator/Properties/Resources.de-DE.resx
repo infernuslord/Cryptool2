@@ -127,13 +127,13 @@
     <value />
   </data>
   <data name="InputOneCaption" xml:space="preserve">
-    <value>erster Datenstrom</value>
+    <value>Erster Datenstrom</value>
   </data>
   <data name="InputOneTooltip" xml:space="preserve">
     <value>Der erste der zu vergleichenden Datenströme.</value>
   </data>
   <data name="InputTwoCaption" xml:space="preserve">
-    <value>erster Datenstrom</value>
+    <value>Zweiter Datenstrom</value>
   </data>
   <data name="InputTwoTooltip" xml:space="preserve">
     <value>Der zweite der zu vergleichenden Datenströme.</value>

@@ -127,10 +127,10 @@
     <value />
   </data>
   <data name="InputValueCaption" xml:space="preserve">
-    <value>Eingabe Wert</value>
+    <value>Eingabe Funktionsargument</value>
   </data>
   <data name="InputValueTooltip" xml:space="preserve">
-    <value>Geben Sie das Funktionsargument (Numerus) hier ein.</value>
+    <value>Geben Sie das Funktionsargument hier ein.</value>
   </data>
   <data name="InputBaseCaption" xml:space="preserve">
     <value>Eingabe Basis/Generator</value>

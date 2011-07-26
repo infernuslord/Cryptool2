@@ -61,7 +61,7 @@ namespace PKCS1.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die PKCS #1 / Bleichenbacher Attack ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die PKCS#1 / Bleichenbacher Attack ähnelt.
         /// </summary>
         internal static string PluginCaption {
             get {
@@ -79,7 +79,7 @@ namespace PKCS1.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die PKCS1/Bleichenbacher Attack ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die PKCS#1 / Bleichenbacher Attack ähnelt.
         /// </summary>
         internal static string PluginTooltip {
             get {

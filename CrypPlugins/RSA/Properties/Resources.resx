@@ -139,37 +139,37 @@
     <value>Public key N input</value>
   </data>
   <data name="InputNTooltip" xml:space="preserve">
-    <value>Enter your public key N here</value>
+    <value>Enter your public key N here.</value>
   </data>
   <data name="InputMCCaption" xml:space="preserve">
     <value>Message M / ciphertext C input</value>
   </data>
   <data name="InputMCTooltip" xml:space="preserve">
-    <value>Enter your message M / ciphertext C here</value>
+    <value>Enter your message M / ciphertext C here.</value>
   </data>
   <data name="InputEDCaption" xml:space="preserve">
     <value>Public key E / private key D input</value>
   </data>
   <data name="InputEDTooltip" xml:space="preserve">
-    <value>Enter your public key E / private key D here</value>
+    <value>Enter your public key E / private key D here.</value>
   </data>
   <data name="OutputMCCaption" xml:space="preserve">
     <value>Cipher C output / message M output</value>
   </data>
   <data name="OutputMCTooltip" xml:space="preserve">
-    <value>Your cipher C / message M will be send here</value>
+    <value>Your cipher C / message M will be sent here.</value>
   </data>
   <data name="InputTextCaption" xml:space="preserve">
     <value>Text input</value>
   </data>
   <data name="InputTextTooltip" xml:space="preserve">
-    <value>Enter your text here</value>
+    <value>Enter your text here.</value>
   </data>
   <data name="OutputTextCaption" xml:space="preserve">
     <value>Text output</value>
   </data>
   <data name="OutputTextTooltip" xml:space="preserve">
-    <value>Your text will be send here</value>
+    <value>Your text will be sent here.</value>
   </data>
   <data name="NCaption" xml:space="preserve">
     <value>Public key N</value>
@@ -223,7 +223,7 @@
     <value>Source</value>
   </data>
   <data name="SourceTooltip" xml:space="preserve">
-    <value>Select the source of the key data</value>
+    <value>Select the source of the key data.</value>
   </data>
   <data name="ActionCaption" xml:space="preserve">
     <value>Action</value>
@@ -232,10 +232,10 @@
     <value>Do you want the input data to be encrypted or decrypted?</value>
   </data>
   <data name="CoresUsedCaption" xml:space="preserve">
-    <value>CoresUsed</value>
+    <value>Cores Used</value>
   </data>
   <data name="CoresUsedTooltip" xml:space="preserve">
-    <value>Choose how many cores should be used</value>
+    <value>Choose how many cores should be used.</value>
   </data>
   <data name="ActionList1" xml:space="preserve">
     <value>Encryption</value>

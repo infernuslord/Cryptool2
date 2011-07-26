@@ -97,7 +97,7 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die BitCount ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Bit count ähnelt.
         /// </summary>
         internal static string BitCountCaption {
             get {
@@ -106,7 +106,7 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die BitCount ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Bit count ähnelt.
         /// </summary>
         internal static string BitCountSettingsCaption {
             get {
@@ -133,7 +133,7 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die CustomizeRegions ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Customize regions ähnelt.
         /// </summary>
         internal static string CustomizeRegionsCaption {
             get {
@@ -223,7 +223,7 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die OutputFileFormat ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Output File Format ähnelt.
         /// </summary>
         internal static string OutputFileFormatCaption {
             get {
@@ -268,7 +268,7 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Hide a message in the Least Significant Bits of a picture. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Hide a message in the least significant bits of a picture. ähnelt.
         /// </summary>
         internal static string PluginTooltip {
             get {

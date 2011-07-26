@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="PluginCaption" xml:space="preserve">
-    <value>Boolesche Funktion-Parser</value>
+    <value>Parser für Boolesche Funktion</value>
   </data>
   <data name="PluginDescriptionURL" xml:space="preserve">
     <value>BooleanFunctionParser/DetailedDescription/Description.xaml</value>
@@ -145,7 +145,7 @@
     <value>Ausgabe nach Auswertung der gegebenen Funktion</value>
   </data>
   <data name="BFPSlaveCaption" xml:space="preserve">
-    <value>BFP Sklave</value>
+    <value>BFP-Sklave</value>
   </data>
   <data name="BFPSlaveTooltip" xml:space="preserve">
     <value>Direkter Zugriff auf das BFP-Plugin</value>

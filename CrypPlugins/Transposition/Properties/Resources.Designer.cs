@@ -151,7 +151,7 @@ namespace Transposition.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Number Representation Mode ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Number Representation mode ähnelt.
         /// </summary>
         internal static string NumberCaption {
             get {
@@ -178,7 +178,7 @@ namespace Transposition.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Select a mode of Representation ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Select a mode of representation ähnelt.
         /// </summary>
         internal static string NumberTooltip {
             get {
@@ -196,7 +196,7 @@ namespace Transposition.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die output ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Output ähnelt.
         /// </summary>
         internal static string OutputTooltip {
             get {
@@ -286,7 +286,7 @@ namespace Transposition.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Change the pace of the Presentation ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Change the pace of the presentation ähnelt.
         /// </summary>
         internal static string PresentationSpeedTooltip {
             get {

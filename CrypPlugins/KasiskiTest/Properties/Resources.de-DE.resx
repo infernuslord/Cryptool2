@@ -130,7 +130,7 @@
     <value>Eingabe des Geheimtextes</value>
   </data>
   <data name="StringInputTooltip" xml:space="preserve">
-    <value>Eingabe des zu analysierenden Vigenère-Geheimtext.</value>
+    <value>Eingabe des zu analysierenden Vigenère-Geheimtextes</value>
   </data>
   <data name="IntegerArrayCaption" xml:space="preserve">
     <value>Schlüssellängen</value>
@@ -148,7 +148,7 @@
     <value>Groß-/Kleinschreibung</value>
   </data>
   <data name="CaseSensitivityTooltip" xml:space="preserve">
-    <value>Sollen Groß- und Kleinbuchstaben gleich behandelt werden?</value>
+    <value>Sollen Groß- und Kleinbuchstaben gleich behandelt werden? Bitte das benutzte Alphabet beachten.</value>
   </data>
   <data name="FactorSizeCaption" xml:space="preserve">
     <value>Maximale Schlüssellänge</value>
@@ -157,7 +157,7 @@
     <value>Geben Sie eine obere Schranke für die Schlüssellänge an (Default: 20).</value>
   </data>
   <data name="GrammLengthCaption" xml:space="preserve">
-    <value>Max. N-Gramm-Länge</value>
+    <value>Maximale N-Gramm-Länge</value>
   </data>
   <data name="GrammLengthTooltip" xml:space="preserve">
     <value>Geben Sie die maximale Länge der N-Gramme an, nach denen der Geheimtext untersucht wird (Minimum und Default: 3).</value>

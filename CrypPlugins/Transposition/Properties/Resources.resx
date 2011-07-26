@@ -142,7 +142,7 @@
     <value>Output</value>
   </data>
   <data name="OutputTooltip" xml:space="preserve">
-    <value>output</value>
+    <value>Output</value>
   </data>
   <data name="ControlSlaveCaption" xml:space="preserve">
     <value>Transposition Slave</value>
@@ -157,10 +157,10 @@
     <value>Select the Algorithm action</value>
   </data>
   <data name="NumberCaption" xml:space="preserve">
-    <value>Number Representation Mode</value>
+    <value>Number Representation mode</value>
   </data>
   <data name="NumberTooltip" xml:space="preserve">
-    <value>Select a mode of Representation</value>
+    <value>Select a mode of representation</value>
   </data>
   <data name="PermutationCaption" xml:space="preserve">
     <value>Permutation</value>
@@ -172,7 +172,7 @@
     <value>Presentation Speed</value>
   </data>
   <data name="PresentationSpeedTooltip" xml:space="preserve">
-    <value>Change the pace of the Presentation</value>
+    <value>Change the pace of the presentation</value>
   </data>
   <data name="ReadInCaption" xml:space="preserve">
     <value>Read in</value>

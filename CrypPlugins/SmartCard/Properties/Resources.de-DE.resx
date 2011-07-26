@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="PluginCaption" xml:space="preserve">
-    <value>SmartCard</value>
+    <value>Smartcard</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>SmartCard-Operationen</value>
+    <value>Smartcard-Operationen</value>
   </data>
   <data name="PluginDescriptionURL" xml:space="preserve">
     <value>SmartCard/DetailedDescription/Description.xaml</value>
@@ -145,7 +145,7 @@
     <value>Die Antwort des Chipkartenlesers</value>
   </data>
   <data name="CardReaderCaption" xml:space="preserve">
-    <value>SmartCard-Leser</value>
+    <value>Smartcard-Leser</value>
   </data>
   <data name="CardReaderTooltip" xml:space="preserve">
     <value>Wählen Sie den Chipkartenleser.</value>

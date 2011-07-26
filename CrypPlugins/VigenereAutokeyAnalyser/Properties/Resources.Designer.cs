@@ -241,7 +241,7 @@ namespace VigenereAutokeyAnalyser.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Vigenere Autokey Analyser ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Vigenère Autokey Analyser ähnelt.
         /// </summary>
         internal static string PluginCaption {
             get {

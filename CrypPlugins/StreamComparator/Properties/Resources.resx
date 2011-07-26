@@ -121,7 +121,7 @@
     <value>Stream Comparator</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Compares two inputs Streams and decides if they are equal.</value>
+    <value>Compares two input streams and decides if they are equal.</value>
   </data>
   <data name="PluginDescriptionURL" xml:space="preserve">
     <value />
