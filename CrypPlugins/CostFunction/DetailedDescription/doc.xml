@@ -1,27 +1,68 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
 <documentation>
-  <language culture="en"/>
+  <language culture="en"/>  
   <language culture="de-DE"/>
 
-  <introduction lang="en">    
+  <introduction lang="en">
+    The cost function assigns numeric values to given texts. The type of cost function (coincidence, entropy,
+    bigramme (log2), bigram (sinkov), bigram (percentual), regular expression, weighted bigrams/trigrams)
+    may be set by the user through a setting. By using the numeric values one can detect if a given text contains
+    natural language. Cost functions are used in the cryptanalysis to compare the results of the deciphering of
+    texts to find the original text out of millions of deciphered texts.
   </introduction>
 
-  <introduction lang="de-DE">    
+  <introduction lang="de-DE">
+    Die Kostenfunktion weisst gegebenen Textkörpern numerische Werte zu. Die Art der Kostenfunktion
+    (Koinzidenzindex, Entropie, Bigramm (log2), Bigramm (Sinkov), Bigramm (Prozentual), Reguläre Ausdrücke,
+    Gewichtete Bigramme/Trigramme) kann durch den Benutzer mittels Einstellung verändert werden. Mit Hilfe
+    des zugewiesenen numerischen Wert kann z.B. festgestellt werden, ob ein gegebener Textkörper natürliche
+    Sprache beinhaltet. So werden Kostenfunktionen bei der Kryptanalyse genutzt, um die Ergebnisse der
+    Entschlüsselungen miteinander zu vergleichen um so den ursprünglichen Klartext in millionen von entschlüsselten
+    Texten herauszufinden.
   </introduction>
 
   <usage lang="en">
+    The cost function may be used as a standalone or as an extension of the <docRef item="Key Searcher"/>. The user has to set 
+    the type of the cost function using a setting. Depending on the type of the cost function additional settings 
+    and parameters may be set by the suer. The length of the part of the text which should be used for calculating 
+    the result of the cost function may also be set. The cost function returns a numeric value (depending on 
+    the type of the cost funtion an integer value or a fraction one) as output.
   </usage>
 
   <usage lang="de-DE">
+    Die Kostenfunktion kann entweder für sich oder als Erweiterung des <docRef item="Key Searcher"/> genutzt werden.
+    Der Benutzer muss einstellen, um welche Art der Kostenfunktion es sich handelt.
+    In den Einstellungen können auch weitere Parameter, je nach Art der Kostenfunktion, vorgenommen werden.
+    Außerdem kann die Länge des Textausschnitts eingestellt werden, die genutzt werden soll, um die Berechnung
+    der Kostenfunktion durchzuführen. Die Kostenfunktion liefert einen numerischen Wert (je nach Art und Weise
+    der Funktion eine Ganzzahl oder einen Kommazahl) als Ausgabe.
   </usage>
-  
-  <presentation lang="en">
-  </presentation>
-  
-  <presentation lang="de-DE">
-  </presentation>
-  
+
   <references>
+    <linkReference>
+      <link lang="en" url="http://en.wikipedia.org/wiki/Index_of_coincidence"/>
+      <caption lang="en">Index of coincidence</caption>
+      <link lang="de-DE" url="http://de.wikipedia.org/wiki/Koinzidenzindex"/>
+      <caption lang="de-DE">Koinzidenzindex</caption>
+    </linkReference>
+    <linkReference>
+      <link lang="en" url="http://en.wikipedia.org/wiki/Entropy_%28information_theory%29"/>
+      <caption lang="en">Entropy (information theory)</caption>
+      <link lang="de-DE" url="http://de.wikipedia.org/wiki/Entropie_%28Informationstheorie%29"/>
+      <caption lang="de-DE">Entropie (Informationstheorie)</caption>
+    </linkReference>
+    <linkReference>
+      <link lang="en" url="http://en.wikipedia.org/wiki/Regular_expression"/>
+      <caption lang="en">Regular expression</caption>
+      <link lang="de-DE" url="http://de.wikipedia.org/wiki/Regul%C3%A4rer_Ausdruck"/>
+      <caption lang="de-DE">Regulärer Ausdruck</caption>
+    </linkReference>
+    <linkReference>
+      <link lang="en" url="http://en.wikipedia.org/wiki/N-gram"/>
+      <caption lang="en">n-gram</caption>
+      <link lang="de-DE" url="http://de.wikipedia.org/wiki/N-Gramm"/>
+      <caption lang="de-DE">N-Gramm</caption>
+    </linkReference>
   </references>
 </documentation>
