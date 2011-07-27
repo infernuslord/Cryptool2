@@ -157,7 +157,7 @@
     <value>Select the Algorithm action</value>
   </data>
   <data name="NumberCaption" xml:space="preserve">
-    <value>Number Representation mode</value>
+    <value>Number representation mode</value>
   </data>
   <data name="NumberTooltip" xml:space="preserve">
     <value>Select a mode of representation</value>
