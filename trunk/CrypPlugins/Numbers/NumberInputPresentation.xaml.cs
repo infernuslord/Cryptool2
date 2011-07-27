@@ -43,5 +43,12 @@ namespace Cryptool.Plugins.Numbers
       Width = double.NaN;
     }
 
+    private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+    {
+        if (!"01234567890+-*/^ ()".Contains(e.Text))
+        {
+            e.Handled = true;
+        }
+    }   
   }
 }

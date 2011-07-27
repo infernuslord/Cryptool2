@@ -27,7 +27,7 @@ namespace Cryptool.Plugins.Numbers
     class NumberInputSettings : ISettings
     {
         #region Number
-        private String number = "1";
+        private String number = "";
         //[TaskPane("NumberCaption", "NumberTooltip", null, 1, false, ControlType.TextBox)]
         public String Number
         {

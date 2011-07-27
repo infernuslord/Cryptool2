@@ -10,7 +10,8 @@
                  Grid.Row="1" 
                  AcceptsTab="True"
                  TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" 
-                AcceptsReturn="True">           
+                 AcceptsReturn="True"
+                 PreviewTextInput="TextBox_PreviewTextInput"> 
         </TextBox>
     </Grid>
 </UserControl>

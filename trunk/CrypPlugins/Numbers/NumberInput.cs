@@ -121,16 +121,23 @@ namespace Cryptool.Plugins.Numbers
         {
             BigInteger bi;
             //The input from the taskpane is convertet to a BigNumber and is send to the output.
-            try
+            if (settings.Number == null || settings.Number.Equals(""))
             {
-                bi = BigIntegerHelper.ParseExpression(settings.Number);                
+                NumberOutput = BigInteger.Zero;
             }
-            catch (Exception ex)
+            else
             {
-                GuiLogMessage("Invalid Big Number input: " + ex.Message, NotificationLevel.Error);
-                return;
+                try
+                {
+                    bi = BigIntegerHelper.ParseExpression(settings.Number);
+                }
+                catch (Exception ex)
+                {
+                    GuiLogMessage("Invalid Big Number input: " + ex.Message, NotificationLevel.Error);
+                    return;
+                }
+                NumberOutput = bi;
             }
-            NumberOutput = bi;
             ProgressChanged(1.0, 1.0);
         }
 
