@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:WorkspaceManager.View.BinVisual"
+             xmlns:base="clr-namespace:WorkspaceManager.View.Base"
              mc:Ignorable="d" IsEnabled="True" Background="#00100000" ClipToBounds="False"
              DataContext="{Binding RelativeSource={x:Static RelativeSource.Self}}">
     <UserControl.Resources>
@@ -188,11 +189,18 @@
                                 </BeginStoryboard>
                             </DataTrigger.ExitActions>
                         </DataTrigger>
-                        <DataTrigger Binding="{Binding Path=IsMandatory}" Value="true">
+                        <DataTrigger Binding="{Binding Path=CVLevel}">
+                            <DataTrigger.Value>
+                                <base:ConversionLevel>Green</base:ConversionLevel>
+                            </DataTrigger.Value>
                             <Setter Property="Stroke" Value="Green"></Setter>
                         </DataTrigger>
-                        <DataTrigger Binding="{Binding Path=IsMandatory}" Value="false">
-                            <Setter Property="Stroke" Value="Red"></Setter>
+                        
+                        <DataTrigger Binding="{Binding Path=CVLevel}">
+                            <DataTrigger.Value>
+                                <base:ConversionLevel>Yellow</base:ConversionLevel>
+                            </DataTrigger.Value>
+                            <Setter Property="Stroke" Value="Yellow"></Setter>
                         </DataTrigger>
                     </Style.Triggers>
                     <Setter Property="Opacity" Value="0"></Setter>
@@ -201,7 +209,7 @@
                             <ScaleTransform></ScaleTransform>
                         </Setter.Value>
                     </Setter>
-                    <Setter Property="Stroke" Value="#373e43"></Setter>
+                    <Setter Property="Stroke" Value="Yellow"></Setter>
                     <Setter Property="Height" Value="15"></Setter>
                     <Setter Property="Width" Value="10"></Setter>
                     <Setter Property="Stretch" Value="Fill"></Setter>

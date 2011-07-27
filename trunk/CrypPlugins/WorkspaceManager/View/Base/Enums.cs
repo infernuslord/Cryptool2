@@ -19,6 +19,13 @@ namespace WorkspaceManager.View.Base
         South,
     };
 
+    public enum ConversionLevel
+    {
+        Red,
+        Yellow,
+        Green
+    };
+
     public enum BinEditorState
     {
         READY,
