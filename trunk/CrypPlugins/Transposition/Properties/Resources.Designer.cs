@@ -151,7 +151,7 @@ namespace Transposition.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Number Representation mode ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Number representation mode ähnelt.
         /// </summary>
         internal static string NumberCaption {
             get {
