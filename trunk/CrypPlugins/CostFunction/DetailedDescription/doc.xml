@@ -25,9 +25,9 @@
   <usage lang="en">
     The cost function may be used as a standalone or as an extension of the <docRef item="Key Searcher"/>. The user has to set 
     the type of the cost function using a setting. Depending on the type of the cost function additional settings 
-    and parameters may be set by the suer. The length of the part of the text which should be used for calculating 
+    and parameters may be set by the user. The length of the part of the text which should be used for calculating 
     the result of the cost function may also be set. The cost function returns a numeric value (depending on 
-    the type of the cost funtion an integer value or a fraction one) as output.
+    the type of the cost function an integer value or a fraction one) as output.
   </usage>
 
   <usage lang="de-DE">
