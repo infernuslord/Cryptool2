@@ -262,9 +262,20 @@ namespace WorkspaceManager.View.BinVisual
             throw new NotImplementedException();
         }
 
-        private void ToolTipOpeningHandler(object sender, ToolTipEventArgs e)
+        private void MouseEnterHandler(object sender, MouseEventArgs e)
         {
+            if (!(sender is FrameworkElement))
+                return;
             OnPropertyChanged("Data");
+            ToolTip.IsOpen = true;
+        }
+
+        private void MouseLeaveHandler(object sender, MouseEventArgs e)
+        {
+            if (!(sender is FrameworkElement))
+                return;
+
+            ToolTip.IsOpen = false;
         }
     }
 

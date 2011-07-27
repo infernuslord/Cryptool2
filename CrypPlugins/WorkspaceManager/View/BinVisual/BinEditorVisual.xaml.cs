@@ -43,7 +43,6 @@ namespace WorkspaceManager.View.BinVisual
         #endregion
 
         #region Fields
-        private bool isLinkStarted;
         private ArevaloRectanglePacker packer;
         private BinConnectorVisual from, to;
         private RectangleGeometry selectRectGeometry = new RectangleGeometry();
@@ -88,6 +87,22 @@ namespace WorkspaceManager.View.BinVisual
         #endregion
 
         #region DependencyProperties
+
+        public static readonly DependencyProperty IsLinkingProperty = DependencyProperty.Register("IsLinking",
+            typeof(bool), typeof(BinEditorVisual), new FrameworkPropertyMetadata(false, null));
+
+        public bool IsLinking
+        {
+            get
+            {
+                return (bool)base.GetValue(IsLinkingProperty);
+            }
+            set
+            {
+                base.SetValue(IsLinkingProperty, value);
+            }
+        }
+
         public static readonly DependencyProperty StateProperty = DependencyProperty.Register("State",
             typeof(BinEditorState), typeof(BinEditorVisual), new FrameworkPropertyMetadata(BinEditorState.READY, null));
 
@@ -402,7 +417,7 @@ namespace WorkspaceManager.View.BinVisual
         {
             VisualCollection.Remove(draggedLink);
             SelectedConnector = null;
-            isLinkStarted = false;
+            IsLinking = false;
             selectionPath.Data = null;
             startDragPoint = null;
             Mouse.OverrideCursor = null;
@@ -772,7 +787,7 @@ namespace WorkspaceManager.View.BinVisual
 
         private void MouseMoveHandler(object sender, MouseEventArgs e)
         {
-            if (isLinkStarted)
+            if (IsLinking)
             {
                 draggedLink.EndPoint = e.GetPosition(sender as FrameworkElement);
                 e.Handled = true;
@@ -873,7 +888,7 @@ namespace WorkspaceManager.View.BinVisual
                     {
                         BinComponentVisual c = (BinComponentVisual)e.Source;
                         FrameworkElement f = (FrameworkElement)e.OriginalSource, element = (FrameworkElement)Util.TryFindParent<BinConnectorVisual>(f);
-                        if ((element is BinConnectorVisual && !isLinkStarted && State == BinEditorState.READY))
+                        if ((element is BinConnectorVisual && !IsLinking && State == BinEditorState.READY))
                         {
                             BinConnectorVisual b = element as BinConnectorVisual;
                             SelectedConnector = b;
@@ -881,7 +896,7 @@ namespace WorkspaceManager.View.BinVisual
                             draggedLink.EndPoint = e.GetPosition(sender as FrameworkElement);
                             VisualCollection.Add(draggedLink);
                             Mouse.OverrideCursor = Cursors.Cross;
-                            e.Handled = isLinkStarted = true;
+                            e.Handled = IsLinking = true;
                         }
                         PluginChangedEventArgs componentArgs = new PluginChangedEventArgs(c.Model.Plugin, c.FunctionName, DisplayPluginMode.Normal);
                         MyEditor.onSelectedPluginChanged(componentArgs);
@@ -919,7 +934,7 @@ namespace WorkspaceManager.View.BinVisual
                 if (element is BinConnectorVisual)
                 {
                     BinConnectorVisual b = (BinConnectorVisual)element;
-                    if (isLinkStarted && SelectedConnector != null)
+                    if (IsLinking && SelectedConnector != null)
                     {
                         if (SelectedConnector.Model != null || b.Model != null)
                         {
@@ -995,6 +1010,22 @@ namespace WorkspaceManager.View.BinVisual
                     MyEditor.GuiLogMessage(string.Format("Could not add Plugin to Workspace: {0}", ex.Message), NotificationLevel.Error);
                     MyEditor.GuiLogMessage(ex.StackTrace, NotificationLevel.Error);
                 }
+                return;
+            }
+
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                string[] filePaths = (string[])(e.Data.GetData(DataFormats.FileDrop));
+                foreach (string fileLoc in filePaths)
+                {
+                    // Code to read the contents of the text file
+                    if (System.IO.File.Exists(fileLoc))
+                    {
+                        MyEditor.Open(fileLoc);
+                        break;
+                    }
+                }
+                return;
             }
         }
         #endregion

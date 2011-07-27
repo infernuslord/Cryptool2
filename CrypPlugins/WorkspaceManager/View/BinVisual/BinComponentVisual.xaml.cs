@@ -669,6 +669,14 @@ namespace WorkspaceManager.View.BinVisual
                 return;
             }
 
+            if (b.Content is string)
+            {
+                string s = (string)b.Content;
+
+                if (s == "Info")
+                    OnlineHelp.InvokeShowPluginDocPage(model.PluginType);
+            }
+
             e.Handled = true;
         }
 

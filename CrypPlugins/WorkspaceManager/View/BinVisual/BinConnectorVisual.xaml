@@ -69,71 +69,69 @@
             </Setter>
         </Style>
 
-        <ToolTip x:Key="ToolTip">
-            <ToolTip.Template>
-                <ControlTemplate TargetType="{x:Type ToolTip}">
-                    <Border BorderBrush="White" BorderThickness="1.5" CornerRadius="3" Margin="2" Background="#edf5ff">
-                        <Border.Effect>
-                            <DropShadowEffect BlurRadius="5" Opacity="0.5" ShadowDepth="0"></DropShadowEffect>
-                        </Border.Effect>
-                        <Grid x:Name="Background" Background="{StaticResource ResourceKey=BackgroundNormal}" Margin="2">
-                            <Grid HorizontalAlignment="Left">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="32"></RowDefinition>
-                                    <RowDefinition Height="*"></RowDefinition>
-                                </Grid.RowDefinitions>
-                                <Grid HorizontalAlignment="Center">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition>
-                                            <ColumnDefinition.Style>
-                                                <Style TargetType="ColumnDefinition">
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding Path=IsOutgoing}" Value="True">
-                                                            <Setter Property="Width" Value="auto"></Setter>
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                    <Setter Property="Width" Value="50"></Setter>
-                                                </Style>
-                                            </ColumnDefinition.Style>
-                                        </ColumnDefinition>
-                                        <ColumnDefinition>
-                                            <ColumnDefinition.Style>
-                                                <Style TargetType="ColumnDefinition">
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding Path=IsOutgoing}" Value="True">
-                                                            <Setter Property="Width" Value="50"></Setter>
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                    <Setter Property="Width" Value="auto"></Setter>
-                                                </Style>
-                                            </ColumnDefinition.Style>
-                                        </ColumnDefinition>
-                                    </Grid.ColumnDefinitions>
-                                    <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                        <StackPanel.Style>
-                                            <Style TargetType="StackPanel">
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Path=IsOutgoing}" Value="True">
-                                                        <Setter Property="Grid.Column" Value="0"></Setter>
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                                <Setter Property="Grid.Column" Value="1"></Setter>
-                                            </Style>
-                                        </StackPanel.Style>
-                                        <TextBlock FontWeight="Bold" FontSize="13" Foreground="#555" Text="{Binding Path=ConnectorName}" TextTrimming="CharacterEllipsis"></TextBlock>
-                                        <TextBlock FontSize="11" Foreground="{Binding Path=FunctionColor}" Text="{Binding Path=TypeName}" TextTrimming="CharacterEllipsis"></TextBlock>
-                                    </StackPanel>
-                                    <Thumb Style="{StaticResource ResourceKey=ConnectorStyle}"></Thumb>
-                                </Grid>
-                                <TextBlock Height="100" Width="200" Background="#CCFFFFFF" Text="{Binding Path=Data}" TextTrimming="CharacterEllipsis" TextWrapping="Wrap" Grid.Row="1">
+        <Border x:Key="NormalTooltipTemplate" BorderBrush="White" BorderThickness="1.5" CornerRadius="3" Margin="2" Background="#edf5ff">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="5" Opacity="0.5" ShadowDepth="0"></DropShadowEffect>
+            </Border.Effect>
+            <Grid x:Name="Background" Background="{StaticResource ResourceKey=BackgroundNormal}" Margin="2">
+                <Grid HorizontalAlignment="Left">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="32"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid HorizontalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition>
+                                <ColumnDefinition.Style>
+                                    <Style TargetType="ColumnDefinition">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Path=IsOutgoing}" Value="True">
+                                                <Setter Property="Width" Value="auto"></Setter>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                        <Setter Property="Width" Value="50"></Setter>
+                                    </Style>
+                                </ColumnDefinition.Style>
+                            </ColumnDefinition>
+                            <ColumnDefinition>
+                                <ColumnDefinition.Style>
+                                    <Style TargetType="ColumnDefinition">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Path=IsOutgoing}" Value="True">
+                                                <Setter Property="Width" Value="50"></Setter>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                        <Setter Property="Width" Value="auto"></Setter>
+                                    </Style>
+                                </ColumnDefinition.Style>
+                            </ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <StackPanel.Style>
+                                <Style TargetType="StackPanel">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Path=IsOutgoing}" Value="True">
+                                            <Setter Property="Grid.Column" Value="0"></Setter>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                    <Setter Property="Grid.Column" Value="1"></Setter>
+                                </Style>
+                            </StackPanel.Style>
+                            <TextBlock FontWeight="Bold" FontSize="13" Foreground="#555" Text="{Binding Path=ConnectorName}" TextTrimming="CharacterEllipsis"></TextBlock>
+                            <TextBlock FontSize="11" Foreground="{Binding Path=FunctionColor}" Text="{Binding Path=TypeName}" TextTrimming="CharacterEllipsis"></TextBlock>
+                        </StackPanel>
+                        <Thumb Style="{StaticResource ResourceKey=ConnectorStyle}"></Thumb>
+                    </Grid>
+                    <TextBlock Height="100" Width="200" Background="#CCFFFFFF" Text="{Binding Path=Data}" TextTrimming="CharacterEllipsis" TextWrapping="Wrap" Grid.Row="1">
 
-                                </TextBlock>
-                            </Grid>
-                        </Grid>
-                    </Border>
-                </ControlTemplate>
-            </ToolTip.Template>
-        </ToolTip>
+                    </TextBlock>
+                </Grid>
+            </Grid>
+        </Border>
+
+        <Border x:Key="LinkingTooltipTemplate" BorderBrush="White" BorderThickness="1.5" Width="200" Height="200" CornerRadius="3" Margin="2" Background="#edf5ff">
+            <Rectangle Fill="Black"></Rectangle>
+        </Border>
 
         <StackPanel x:Key="Out" Orientation="Horizontal" HorizontalAlignment="Center">
             <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
@@ -219,7 +217,7 @@
             </Path.Style>
         </Path>
         <Border x:Name="Root" Style="{StaticResource ResourceKey=BorderStyle}">
-            <Path Name="ConnectorGeo" Fill="{Binding Path=FunctionColor}" ToolTip="{StaticResource ResourceKey=ToolTip}" ToolTipOpening="ToolTipOpeningHandler"
+            <Path Name="ConnectorGeo" Fill="{Binding Path=FunctionColor}" MouseEnter="MouseEnterHandler" MouseLeave="MouseLeaveHandler"
                 Data="M18,154.45381 L29.999666,187.66699 40.791059,154.54395 16.89,154.54395 L29.999666,187.66699">
                 <Path.Style>
                     <Style TargetType="{x:Type Path}">
@@ -249,5 +247,17 @@
                 </Path.Style>
             </Path>
         </Border>
+        <Popup x:Name="ToolTip" Placement="Mouse" PopupAnimation="Fade" AllowsTransparency="True">
+            <Popup.Style>
+                <Style TargetType="Popup">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Path=WindowParent.EditorVisual.IsLinking}" Value="True">
+                            <Setter Property="Child" Value="{StaticResource ResourceKey= LinkingTooltipTemplate}"></Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                    <Setter Property="Child" Value="{StaticResource ResourceKey= NormalTooltipTemplate}"></Setter>
+                </Style>
+            </Popup.Style>
+        </Popup>
     </Grid>
 </UserControl>
