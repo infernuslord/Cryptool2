@@ -388,6 +388,7 @@
         </Style>
 
         <x:Array Type="{x:Type Button}" x:Key="Actions">
+
             <Button ToolTip="Settings" Style="{StaticResource ResourceKey=ActionBasicStyle}" Click="ActionHandler">
                 <Button.Tag>
                     <Image Source="/WorkspaceManager;component/View/Image/setting.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"></Image>
@@ -408,12 +409,19 @@
                 </Button.Tag>
                 <model:BinComponentState>Data</model:BinComponentState>
             </Button>
-
+            
             <Button ToolTip="Presentation" Style="{StaticResource ResourceKey=PresentationBtnStyle}" Click="ActionHandler">
                 <Button.Tag>
                     <Image Source="/WorkspaceManager;component/View/Image/presentation.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"></Image>
                 </Button.Tag>
                 <model:BinComponentState>Presentation</model:BinComponentState>
+            </Button>
+            
+            <Button ToolTip="Information" Style="{StaticResource ResourceKey=ActionBasicStyle}" Click="ActionHandler">
+                <Button.Tag>
+                    <Image Source="/WorkspaceManager;component/View/Image/info.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"></Image>
+                </Button.Tag>
+                <sys:String>Info</sys:String>
             </Button>
         </x:Array>
 
