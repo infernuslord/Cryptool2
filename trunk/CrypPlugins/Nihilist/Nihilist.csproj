@@ -102,9 +102,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\icon.png" />
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
       <Visible>False</Visible>
       <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
@@ -133,9 +130,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="DetailedDescription\doc.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\icon2.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\icon3.png" />
