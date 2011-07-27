@@ -12,6 +12,7 @@ using System.Windows.Controls.Primitives;
 using Cryptool.PluginBase.Control;
 using Cryptool.PluginBase;
 using System.Reflection;
+using System.Numerics;
 
 namespace WorkspaceManager.View.Base
 {
@@ -150,6 +151,23 @@ namespace WorkspaceManager.View.Base
 
 
             return binding;
+        }
+
+        public static ConversionLevel ConversionCheck(Type A, Type B)
+        {
+            if (A == null || B == null)
+                return ConversionLevel.Red;
+
+            if (A == B)
+                return ConversionLevel.Green;
+
+            if (A == typeof(byte) && B == typeof(string) || A == typeof(string) && B == typeof(byte))
+                return ConversionLevel.Yellow;
+
+            if (A == typeof(BigInteger) && B == typeof(int) || A == typeof(int) && B == typeof(BigInteger))
+                return ConversionLevel.Yellow;
+
+            return ConversionLevel.Red;
         }
 
         public static class MouseUtilities

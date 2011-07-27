@@ -16,6 +16,7 @@ using WorkspaceManager.Model;
 using System.Windows.Controls.Primitives;
 using WorkspaceManagerModel.Model.Interfaces;
 using System.Globalization;
+using WorkspaceManager.View.Base;
 
 namespace WorkspaceManager.View.BinVisual
 {
@@ -179,7 +180,7 @@ namespace WorkspaceManager.View.BinVisual
         }
 
         public static readonly DependencyProperty MarkedProperty = DependencyProperty.Register("Marked",
-            typeof(bool), typeof(BinConnectorVisual), new FrameworkPropertyMetadata(false));
+            typeof(bool), typeof(BinConnectorVisual), new FrameworkPropertyMetadata(false, new PropertyChangedCallback(OnMarkedValueChanged)));
 
         public bool Marked
         {
@@ -192,6 +193,21 @@ namespace WorkspaceManager.View.BinVisual
                 base.SetValue(MarkedProperty, value);
             }
         }
+
+        public static readonly DependencyProperty CVLevelProperty = DependencyProperty.Register("CVLevel",
+            typeof(ConversionLevel), typeof(BinConnectorVisual), new FrameworkPropertyMetadata(null));
+
+        public ConversionLevel CVLevel
+        {
+            get
+            {
+                return (ConversionLevel)base.GetValue(CVLevelProperty);
+            }
+            set
+            {
+                base.SetValue(CVLevelProperty, value);
+            }
+        }
         #endregion
 
         public BinConnectorVisual(ConnectorModel model, BinComponentVisual component)
@@ -200,6 +216,17 @@ namespace WorkspaceManager.View.BinVisual
             this.Model = model;
             this.WindowParent = component;
             InitializeComponent();
+        }
+
+        private static void OnMarkedValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            BinConnectorVisual bin = (BinConnectorVisual)d;
+            BinConnectorVisual selected = bin.WindowParent.EditorVisual.SelectedConnector;
+
+            if (selected == null)
+                return;
+
+            bin.CVLevel = Util.ConversionCheck(bin.Model.ConnectorType, bin.WindowParent.EditorVisual.SelectedConnector.Model.ConnectorType);
         }
 
         private static void OnMyValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
