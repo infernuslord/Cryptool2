@@ -12,10 +12,28 @@ namespace TemplateEditor
     {
         public string FilePath { get; set; }
         public string XMLPath { get; set; }
-        public string IconFile { get; set; }
+        public string IconFile
+        {
+            get { return _iconFile; }
+            set
+            {
+                _iconFile = value;
+                var iconFullPath = Path.Combine(Path.GetDirectoryName(XMLPath), IconFile);
+                if (File.Exists(iconFullPath))
+                {
+                    Icon = new BitmapImage(new Uri(iconFullPath));
+                }
+                else
+                {
+                    Icon = null;
+                }
+            }
+        }
         public BitmapImage Icon { get; set; }
         public List<string> RelevantPlugins { get; set; }
         public Dictionary<string, LocalizedTemplateData> LocalizedTemplateData = new Dictionary<string, LocalizedTemplateData>();
+
+        private string _iconFile;
 
         //Helper properties for the overview:
         
@@ -30,7 +48,7 @@ namespace TemplateEditor
             }
         }
 
-        public bool HasMetadata { get { return XMLPath != null; } }
+        public bool HasMetadata { get; private set; }
 
         public string AvailableTranslations
         {
@@ -124,9 +142,11 @@ namespace TemplateEditor
             }
 
             var xmlFile = cwmFile.Substring(0, cwmFile.Length - 3) + "xml";
+            XMLPath = xmlFile;
+            HasMetadata = false;
             if (File.Exists(xmlFile))
             {
-                XMLPath = xmlFile;
+                HasMetadata = true;
                 XElement xml = XElement.Load(xmlFile);
 
                 foreach (var element in xml.Elements())
@@ -154,11 +174,6 @@ namespace TemplateEditor
                             if (element.Attribute("file") != null)
                             {
                                 IconFile = element.Attribute("file").Value;
-                                var iconFullPath = Path.Combine(Path.GetDirectoryName(cwmFile), IconFile);
-                                if (File.Exists(iconFullPath))
-                                {
-                                    Icon = new BitmapImage(new Uri(iconFullPath));
-                                }
                             }
                             break;
                         case "relevantPlugins":
@@ -250,6 +265,7 @@ namespace TemplateEditor
             }
 
             xml.Save(XMLPath);
+            HasMetadata = true;
         }
     }
 }

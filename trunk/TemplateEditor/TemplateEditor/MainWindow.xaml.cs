@@ -38,6 +38,17 @@ namespace TemplateEditor
             set { SetValue(IsOverviewProperty, value); }
         }
 
+        public static readonly DependencyProperty IsDirtyProperty = DependencyProperty.Register("IsDirty",
+                                                                                                   typeof(Boolean),
+                                                                                                   typeof(MainWindow),
+                                                                                                   new PropertyMetadata(
+                                                                                                       false));
+        private bool IsDirty
+        {
+            get { return (bool)GetValue(IsDirtyProperty); }
+            set { SetValue(IsDirtyProperty, value); }
+        }
+
         public MainWindow()
         {
             InitializeComponent();
@@ -126,23 +137,31 @@ namespace TemplateEditor
 
         private void AllTemplatesList2_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (AllTemplatesList2.SelectedItem != null)
+            try
             {
-                var tempInfo = AllTemplatesList2.SelectedItem as TemplateInfo;
-                ShowTemplateDetails(tempInfo);
-
-                RelevantPluginsListBox.Items.Clear();
-                if (tempInfo.RelevantPlugins != null)
+                if (AllTemplatesList2.SelectedItem != null)
                 {
-                    foreach (var plugin in tempInfo.RelevantPlugins)
+                    var tempInfo = AllTemplatesList2.SelectedItem as TemplateInfo;
+                    ShowTemplateDetails(tempInfo);
+
+                    RelevantPluginsListBox.Items.Clear();
+                    if (tempInfo.RelevantPlugins != null)
                     {
-                        RelevantPluginsListBox.Items.Add(plugin);
+                        foreach (var plugin in tempInfo.RelevantPlugins)
+                        {
+                            RelevantPluginsListBox.Items.Add(plugin);
+                        }
                     }
+                    IconTextBox.Text = tempInfo.IconFile;
+                }
+                else
+                {
+                    ClearBoxes();
                 }
             }
-            else
+            finally
             {
-                ClearBoxes();
+                IsDirty = false;
             }
         }
 
@@ -151,6 +170,7 @@ namespace TemplateEditor
             KeywordsListBox.Items.Clear();
             TitleTextBox.Text = "";
             DescriptionTextBox.Text = "";
+            IconTextBox.Text = "";
             RelevantPluginsListBox.Items.Clear();
         }
 
@@ -167,23 +187,30 @@ namespace TemplateEditor
 
         private void LanguageBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (LanguageBox.SelectedItem == null)
+            try
             {
-                ClearBoxes();
-                return;
-            }
-
-            var localizedTemplateData = ((KeyValuePair<string, LocalizedTemplateData>) LanguageBox.SelectedItem).Value;
-            TitleTextBox.Text = localizedTemplateData.Title;
-            DescriptionTextBox.Text = localizedTemplateData.Description;
-
-            KeywordsListBox.Items.Clear();
-            if (localizedTemplateData.Keywords != null)
-            {
-                foreach (var keyword in localizedTemplateData.Keywords)
+                if (LanguageBox.SelectedItem == null)
                 {
-                    KeywordsListBox.Items.Add(keyword);
+                    ClearBoxes();
+                    return;
                 }
+
+                var localizedTemplateData = ((KeyValuePair<string, LocalizedTemplateData>)LanguageBox.SelectedItem).Value;
+                TitleTextBox.Text = localizedTemplateData.Title;
+                DescriptionTextBox.Text = localizedTemplateData.Description;
+
+                KeywordsListBox.Items.Clear();
+                if (localizedTemplateData.Keywords != null)
+                {
+                    foreach (var keyword in localizedTemplateData.Keywords)
+                    {
+                        KeywordsListBox.Items.Add(keyword);
+                    }
+                }
+            }
+            finally
+            {
+                IsDirty = false;
             }
         }
 
@@ -194,6 +221,7 @@ namespace TemplateEditor
             if (res.HasValue && res.Value)
             {
                 RelevantPluginsListBox.Items.Add(id.InputBox.Text);
+                IsDirty = true;
             }
         }
 
@@ -202,6 +230,7 @@ namespace TemplateEditor
             if (RelevantPluginsListBox.SelectedIndex >= 0)
             {
                 RelevantPluginsListBox.Items.RemoveAt(RelevantPluginsListBox.SelectedIndex);
+                IsDirty = true;
             }
         }
 
@@ -224,6 +253,7 @@ namespace TemplateEditor
                         KeywordsListBox.Items.Add(keyword);
                     }
                 }
+                IsDirty = true;
             }
         }
 
@@ -234,6 +264,7 @@ namespace TemplateEditor
             if (res.HasValue && res.Value)
             {
                 KeywordsListBox.Items.Add(id.InputBox.Text);
+                IsDirty = true;
             }
         }
 
@@ -242,6 +273,7 @@ namespace TemplateEditor
             if (KeywordsListBox.SelectedIndex >= 0)
             {
                 KeywordsListBox.Items.RemoveAt(KeywordsListBox.SelectedIndex);
+                IsDirty = true;
             }
         }
 
@@ -257,6 +289,9 @@ namespace TemplateEditor
                 {
                     tempInfo.RelevantPlugins.Add(plugin.ToString());
                 }
+
+                //icon:
+                tempInfo.IconFile = IconTextBox.Text;
 
                 //localized data:
                 if (LanguageBox.SelectedItem != null)
@@ -281,7 +316,24 @@ namespace TemplateEditor
                 }
 
                 tempInfo.Save();
+                UpdateTemplatesList();
             }
+            IsDirty = false;
+        }
+
+        private void UpdateTemplatesList()
+        {
+            var index = AllTemplatesList2.SelectedIndex;
+            var tmp = AllTemplatesList2.DataContext;
+            AllTemplatesList2.DataContext = null;
+            AllTemplatesList2.DataContext = tmp;
+            AllTemplatesList2.SelectedIndex = index;
+
+            index = AllTemplatesList2.SelectedIndex;
+            tmp = AllTemplatesList.DataContext;
+            AllTemplatesList.DataContext = null;
+            AllTemplatesList.DataContext = tmp;
+            AllTemplatesList.SelectedIndex = index;
         }
 
         private void AddLanguageButton_Click(object sender, RoutedEventArgs e)
@@ -304,9 +356,34 @@ namespace TemplateEditor
         {
             if (LanguageBox.SelectedIndex >= 0)
             {
-                LanguageBox.Items.RemoveAt(LanguageBox.SelectedIndex);
-                LanguageBox.SelectedIndex = 0;
+                var res = System.Windows.MessageBox.Show(this, "Are you sure you want to delete this language in this sample? This change will be saved immediately",
+                                                        "Delete Language", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                if (res == MessageBoxResult.Yes)
+                {
+                    if (AllTemplatesList2.SelectedItem != null)
+                    {
+                        var tempInfo = AllTemplatesList2.SelectedItem as TemplateInfo;
+                        var lang =  ((KeyValuePair<string, LocalizedTemplateData>)(LanguageBox.SelectedItem)).Key;
+                        tempInfo.LocalizedTemplateData.Remove(lang);
+                        tempInfo.Save();
+                        UpdateTemplatesList();
+                    }
+
+                    LanguageBox.Items.RemoveAt(LanguageBox.SelectedIndex);
+                    LanguageBox.SelectedIndex = 0;
+                }
             }
+        }
+
+        private void TextChanged(object sender, TextChangedEventArgs e)
+        {
+            IsDirty = true;
+        }
+
+        private void RevertButton_Click(object sender, RoutedEventArgs e)
+        {
+            LanguageBox_SelectionChanged(null, null);
+            IsDirty = false;
         }
     }
 }
