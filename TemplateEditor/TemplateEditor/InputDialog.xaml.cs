@@ -21,6 +21,7 @@ namespace TemplateEditor
         public InputDialog()
         {
             InitializeComponent();
+            InputBox.Focus();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

@@ -6,6 +6,7 @@
         <my:TrueToVisibleConverter x:Key="TrueToVisibleConverter" />
         <my:FalseToVisibleConverter x:Key="FalseToVisibleConverter" />
         <my:MetadataToBackgroundConverter x:Key="MetadataToBackgroundConverter" />
+        <my:NegationConverter x:Key="NegationConverter" />
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -14,7 +15,7 @@
         </Grid.RowDefinitions>
         
         <ToolBarTray>
-            <ToolBar>
+            <ToolBar IsEnabled="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=my:MainWindow, AncestorLevel=1}, Path=IsDirty, Converter={StaticResource NegationConverter}}">
                 <Button ToolTip="Switch View" Click="SwitchButton_Click">
                     <Image Source="/TemplateEditor;component/icons/switch.png" />
                 </Button>
@@ -58,8 +59,8 @@
                     <ColumnDefinition Width="5" />
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                
-                <ListBox ItemsSource="{Binding}" Name="AllTemplatesList2" Grid.Column="0" HorizontalAlignment="Stretch" SelectionChanged="AllTemplatesList2_SelectionChanged">
+
+                <ListBox ItemsSource="{Binding}" Name="AllTemplatesList2" Grid.Column="0" HorizontalAlignment="Stretch" SelectionChanged="AllTemplatesList2_SelectionChanged" IsEnabled="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=my:MainWindow, AncestorLevel=1}, Path=IsDirty, Converter={StaticResource NegationConverter}}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding Path=FilePath}" Background="{Binding Converter={StaticResource MetadataToBackgroundConverter}}" HorizontalAlignment="Stretch" />
@@ -75,20 +76,21 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
                         <GroupBox>
                             <GroupBox.Header>
                                 <StackPanel Orientation="Horizontal">
                                     <Label Content="Language: " VerticalAlignment="Center"/>
-                                    <ComboBox Width="200" Margin="5" Name="LanguageBox" SelectionChanged="LanguageBox_SelectionChanged" >
+                                    <ComboBox Width="200" Margin="5" Name="LanguageBox" SelectionChanged="LanguageBox_SelectionChanged" IsEnabled="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=my:MainWindow, AncestorLevel=1}, Path=IsDirty, Converter={StaticResource NegationConverter}}">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
                                                 <Label Content="{Binding Path=Key}" />
                                             </DataTemplate>
                                         </ComboBox.ItemTemplate>
                                     </ComboBox>
-                                    <Button Content="Add Language" Margin="5" Click="AddLanguageButton_Click" />
-                                    <Button Content="Delete Language" Margin="5" Click="DeleteLanguageButton_Click" />
+                                    <Button Content="Add Language" Margin="5" Click="AddLanguageButton_Click" IsEnabled="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=my:MainWindow, AncestorLevel=1}, Path=IsDirty, Converter={StaticResource NegationConverter}}"/>
+                                    <Button Content="Delete Language" Margin="5" Click="DeleteLanguageButton_Click" IsEnabled="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=my:MainWindow, AncestorLevel=1}, Path=IsDirty, Converter={StaticResource NegationConverter}}"/>
                                 </StackPanel>
                             </GroupBox.Header>
                             <StackPanel Orientation="Vertical">
@@ -98,10 +100,10 @@
                                         <ColumnDefinition />
                                     </Grid.ColumnDefinitions>
                                     <Label Content="Title: "/>
-                                    <TextBox Grid.Column="1" Name="TitleTextBox"/>
+                                    <TextBox Grid.Column="1" Name="TitleTextBox" TextChanged="TextChanged" />
                                 </Grid>
                                 <Label Content="Description: " />
-                                <TextBox Name="DescriptionTextBox" TextWrapping="Wrap" AcceptsReturn="True" Height="200" Margin="40,0,0,0" />
+                                <TextBox Name="DescriptionTextBox" TextWrapping="Wrap" AcceptsReturn="True" Height="200" Margin="40,0,0,0" TextChanged="TextChanged" />
                                 <Label Content="Keywords: " />
                                 <Grid Margin="40,0,0,0">
                                     <Grid.ColumnDefinitions>
@@ -131,8 +133,21 @@
                                 </StackPanel>
                             </Grid>
                         </GroupBox>
+
+                        <GroupBox Grid.Row="2" Header="Icon File">
+                            <Grid Margin="40,0,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <TextBox Name="IconTextBox" TextChanged="TextChanged" />
+                            </Grid>
+                        </GroupBox>
+
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="3">
+                            <Button Content="Revert changes" Name="RevertButton" IsEnabled="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=my:MainWindow, AncestorLevel=1}, Path=IsDirty}" Margin="5" IsCancel="True" Padding="15,1" Click="RevertButton_Click" />
+                            <Button Content="Save changes for this template" Margin="5" IsDefault="True" Padding="15,1" Click="SaveButton_Click" />
+                        </StackPanel>
                         
-                        <Button HorizontalAlignment="Right" Content="Save changes for this template" Grid.Row="2" Margin="5" IsDefault="True" Padding="15,1" Click="SaveButton_Click" />
                     </Grid>
                 </ScrollViewer>
             </Grid>
