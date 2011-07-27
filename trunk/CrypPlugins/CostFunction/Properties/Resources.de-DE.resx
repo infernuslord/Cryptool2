@@ -193,7 +193,7 @@
     <value>Kostenfunktion</value>
   </data>
   <data name="PluginDescriptionURL" xml:space="preserve">
-    <value>CostFunction/DetailedDescription/Description.xaml</value>
+    <value>CostFunction/DetailedDescription/doc.xml</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
     <value>Kostenfunktion</value>
