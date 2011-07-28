@@ -48,7 +48,7 @@
       <Value Profile="(Default)">163, 208, 144</Value>
     </Setting>
     <Setting Name="BigIntegerColor" Type="System.Drawing.Color" Scope="User">
-      <Value Profile="(Default)">Aqua</Value>
+      <Value Profile="(Default)">DarkTurquoise</Value>
     </Setting>
     <Setting Name="SteganographyColor" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)">YellowGreen</Value>
