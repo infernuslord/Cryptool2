@@ -422,5 +422,38 @@ namespace WorkspaceManagerModel.Model.Operations
         #endregion
     }
 
+    /// <summary>
+    /// Wrapper around n Operations which will operate as one single operation
+    /// </summary>
+    public class MultiOperation : Operation
+    {
+        private List<Operation> _operations = null;
 
+        public MultiOperation(List<Operation> operations) :
+            base(null)
+        {
+            if (operations == null)
+            {
+                throw new ArgumentNullException("operations");
+            }
+            this._operations = operations;            
+        }
+
+        internal override object Execute(WorkspaceModel workspaceModel)
+        {
+            foreach (Operation op in _operations)
+            {
+                op.Execute(workspaceModel);
+            }
+            return true;
+        }
+
+        internal override void Undo(WorkspaceModel workspaceModel)
+        {
+            foreach (Operation op in _operations)
+            {
+                op.Undo(workspaceModel);
+            }
+        }
+    }
 }
