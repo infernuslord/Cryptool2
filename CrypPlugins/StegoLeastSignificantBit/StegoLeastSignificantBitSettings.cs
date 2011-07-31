@@ -19,6 +19,7 @@ using System.Linq;
 using System.Text;
 using Cryptool.PluginBase;
 using System.ComponentModel;
+using System.Windows;
 
 namespace Cryptool.Plugins.StegoLeastSignificantBit
 {
@@ -49,6 +50,7 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
             {
                 if (value != selectedAction) HasChanges = true;
                 this.selectedAction = value;
+                UpdateTaskPaneVisibility();
                 OnPropertyChanged("Action");
             }
         }
@@ -118,8 +120,31 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
             {
                 if (value != outputFileFormat) HasChanges = true;
                 this.outputFileFormat = value;
-                OnPropertyChanged("Action");
+                OnPropertyChanged("OutputFileFormat");
             }
+        }
+
+        internal void UpdateTaskPaneVisibility()
+        {
+            if (TaskPaneAttributeChanged == null)
+                return;
+
+            switch (Action)
+            {
+                case 0: // Encryption
+                    settingChanged("OutputFileFormat", Visibility.Visible);
+                    settingChanged("BitCount", Visibility.Visible);
+                    break;
+                case 1: // Decryption
+                    settingChanged("OutputFileFormat", Visibility.Collapsed);
+                    settingChanged("BitCount", Visibility.Collapsed);
+                    break;
+            }
+        }
+
+        private void settingChanged(string setting, Visibility vis)
+        {
+            TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer(setting, vis)));
         }
 
         #endregion
@@ -145,6 +170,8 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
         #endregion
 
         #region INotifyPropertyChanged Members
+
+        public event TaskPaneAttributeChangedHandler TaskPaneAttributeChanged;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
