@@ -28,7 +28,7 @@ using System.Security.Cryptography;
 
 namespace Cryptool.PluginBase.Miscellaneous
 {
-    public class BigIntegerHelper
+    public static class BigIntegerHelper
     {
         #region internal stuff of expression parser
 
@@ -407,7 +407,7 @@ namespace Cryptool.PluginBase.Miscellaneous
 
         #endregion
 
-        public static BigInteger NextProbablePrime( BigInteger n )
+        public static BigInteger NextProbablePrime( this BigInteger n )
         {
             if (n < 0) throw new ArithmeticException("NextProbablePrime cannot be called on value < 0");
             if (n <= 2) return 2;
@@ -432,7 +432,7 @@ namespace Cryptool.PluginBase.Miscellaneous
         /*
          * This code is heavily inspired by the code from the BigInteger class written by Chew Keong TAN
          */
-        public static bool IsProbablePrime(BigInteger thisVal)
+        public static bool IsProbablePrime(this BigInteger thisVal)
         {
             thisVal = BigInteger.Abs(thisVal);
 
@@ -518,7 +518,7 @@ namespace Cryptool.PluginBase.Miscellaneous
         /// <summary>
         /// Returns the number of bits that are needed to represent the integer argument.
         /// </summary>
-        public static int BitCount(BigInteger b)
+        public static int BitCount(this BigInteger b)
         {
             if (b < 0) b = -b;
 
@@ -540,7 +540,7 @@ namespace Cryptool.PluginBase.Miscellaneous
             return 8 * i + j;
         }
 
-        public static BigInteger Factorial(BigInteger n)
+        public static BigInteger Factorial(this BigInteger n)
         {
             if (n < 0) throw new ArithmeticException("The factorial of a negative number is not defined");
 
@@ -551,6 +551,49 @@ namespace Cryptool.PluginBase.Miscellaneous
             {
                 result *= counter;
                 counter--;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Calculates the number of unordered subsets with r objects of a set with n objects.
+        /// </summary>
+        public static BigInteger nCr(this BigInteger n, BigInteger r)
+        {
+            if ( n < r || r < 0 ) return 0;
+
+            BigInteger result = 1;
+            BigInteger ri = 1;
+            BigInteger ni = n;
+
+            while (ri <= r)
+            {
+                result *= ni;
+                result /= ri;
+                ni--;
+                ri++;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Calculates the number of ordered subsets with r objects of a set with n objects.
+        /// </summary>
+        public static BigInteger nPr(this BigInteger n, BigInteger r)
+        {
+            if (n < r || r < 0) return 0;
+
+            BigInteger result = 1;
+            BigInteger ri = 1;
+            BigInteger ni = n;
+
+            while (ri <= r)
+            {
+                result *= ni;
+                ni--;
+                ri++;
             }
 
             return result;
