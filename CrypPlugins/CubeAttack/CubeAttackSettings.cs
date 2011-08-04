@@ -71,16 +71,14 @@ namespace Cryptool.CubeAttack
         [ContextMenu( "ActionCaption", "ActionTooltip", 
             1, 
             ContextMenuControlType.ComboBox, 
-            null, 
-            "Preprocessing",
-            "Online",
-            "Manual Public Bit Input")]
+            null,
+            "ActionList1", "ActionList2", "ActionList3" )]
         [TaskPane( "ActionCaption", "ActionTooltip", 
             "", 
             1, 
             false, 
             ControlType.ComboBox,
-            new string[] { "Preprocessing", "Online", "Manual Public Bit Input" })]
+            new string[] { "ActionList1", "ActionList2", "ActionList3" })]
         public int Action
         {
             get { return this.selectedAction; }
@@ -241,8 +239,8 @@ namespace Cryptool.CubeAttack
             9,
             ContextMenuControlType.CheckBox,
             null,
-            new string[] { "Read Superpolys From File" })]
-        [TaskPane( "ReadSuperpolysFromFileTPCaption", "ReadSuperpolysFromFileTPTooltip", 
+            new string[] { "ReadSuperpolysFromFileList1" })]
+        [TaskPane( "ReadSuperpolysFromFileCaption", "ReadSuperpolysFromFileTooltip", 
             null,
             9,
             false,
@@ -286,8 +284,8 @@ namespace Cryptool.CubeAttack
             11, 
             ContextMenuControlType.CheckBox, 
             null,
-            new string[] { "Enable log messages?" })]
-        [TaskPane( "EnableLogMessagesTPCaption", "EnableLogMessagesTPTooltip",
+            new string[] { "EnableLogMessagesList1" })]
+        [TaskPane( "EnableLogMessagesCaption", "EnableLogMessagesTooltip",
             null, 
             11, 
             false, 

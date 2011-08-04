@@ -39,7 +39,7 @@
                         <Label Name="keysPerSecond" Style="{StaticResource ValueRow}" Grid.Column="2" Grid.Row="2" />
                     </Grid>
                 </Border>
-                <Controls:OpenCLPresentation x:Name="OpenCLPresentation" Visibility="{Binding IsOpenCLEnabled, ElementName=LocalQuickWatch, Converter={StaticResource TrueToVisibleOrCollapsedConverter}}"/>
+                <Controls:OpenCLPresentation x:Name="OpenCLPresentation" Visibility="{Binding IsOpenCLEnabled, ElementName=LocalQuickWatch, Converter={StaticResource TrueToVisibleOrCollapsedConverter}}" Loaded="OpenCLPresentation_Loaded" />
                 <Border BorderBrush="Silver" BorderThickness="2,0,2,2">
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -59,21 +59,21 @@
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
-                                    <GridViewColumn Header="Value" DisplayMemberBinding="{Binding Path=Value}">
+                                    <GridViewColumn Header="{Loc Value}" DisplayMemberBinding="{Binding Path=Value}">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <Label/>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
-                                    <GridViewColumn Header="Text" DisplayMemberBinding="{Binding Path=Text}">
+                                    <GridViewColumn Header="{Loc Text}" DisplayMemberBinding="{Binding Path=Text}">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <Label/>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
-                                    <GridViewColumn Header="Key" DisplayMemberBinding="{Binding Path=Key}">
+                                    <GridViewColumn Header="{Loc Key}" DisplayMemberBinding="{Binding Path=Key}">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <Label/>

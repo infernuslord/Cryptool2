@@ -10,8 +10,8 @@
 		</Style>
 	</UserControl.Resources>
     <Grid>
-            
-    	<TextBlock Margin="8,118,8,0" Style="{StaticResource textBlockStyle}" VerticalAlignment="Top" Height="30.373"><Run Text="We"/><Run Text=" have finished all 16 steps of this round."/></TextBlock>
+
+        <TextBlock Margin="8,118,8,0" Style="{StaticResource textBlockStyle}" VerticalAlignment="Top" Height="30.373"><Run Text="{Loc We_have_finished_all_16_steps_of_this_round_}"/></TextBlock>
     	<Cryptool_MD5_Presentation_Displays:CompressionVariableDisplay DataContext="{Binding CurrentState}" Margin="8,168.373,8,150.627" />
     	<Cryptool_MD5_Presentation_Displays:RoundAndStepDisplay VerticalAlignment="Top" HorizontalAlignment="Left" DataContext="{Binding CurrentState}" Margin="8,8,0,0"/>
             

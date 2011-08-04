@@ -35,6 +35,7 @@ namespace Cryptool.BerlekampMassey
   /// <summary>
     /// Interaction logic for BerlekampMasseyPresentation.xaml
   /// </summary>
+  [Cryptool.PluginBase.Attributes.Localization("Cryptool.BerlekampMassey.Properties.Resources")]
   public partial class BerlekampMasseyPresentation : UserControl
   {
       public BerlekampMasseyPresentation()

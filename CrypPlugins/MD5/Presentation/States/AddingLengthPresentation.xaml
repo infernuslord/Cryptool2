@@ -10,9 +10,8 @@
 		</ResourceDictionary>
 	</UserControl.Resources>
     <Grid>
-        <TextBlock Margin="8,84,8,0" Name="textBlock1" Text="We now calculate the length of our data (without the padding bytes from the previous step) in bits:
-                   " TextWrapping="Wrap" Height="74" VerticalAlignment="Top" Style="{DynamicResource textBlockStyle}" />
-        <TextBlock Height="108" Margin="8,0,8,8" Name="textBlock2" Text="In the next step, we write the little-endian representation of this value into the next 8 bytes of our data buffer." TextWrapping="Wrap" VerticalAlignment="Bottom" Style="{DynamicResource textBlockStyle}" />
+        <TextBlock Margin="8,84,8,0" Name="textBlock1" Text="{Loc We_now_calculate_the_length_of_our_data}" TextWrapping="Wrap" Height="74" VerticalAlignment="Top" Style="{DynamicResource textBlockStyle}" />
+        <TextBlock Height="108" Margin="8,0,8,8" Name="textBlock2" Text="{Loc In_the_next_step}" TextWrapping="Wrap" VerticalAlignment="Bottom" Style="{DynamicResource textBlockStyle}" />
         <Label Margin="8,162,8,198" Name="label1" Content="{Binding CurrentState.LengthInBit}" FontSize="18" Style="{DynamicResource labelStyle}" />
     </Grid>
 </UserControl>

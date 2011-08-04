@@ -219,4 +219,25 @@
   <data name="PresentationGroup" xml:space="preserve">
     <value>Darstellung</value>
   </data>
+  <data name="accomplished" xml:space="preserve">
+    <value>beendet</value>
+  </data>
+  <data name="permuting_by_column" xml:space="preserve">
+    <value>spaltenweise Permutation</value>
+  </data>
+  <data name="permuting_by_row" xml:space="preserve">
+    <value>zeilenweise Permutation</value>
+  </data>
+  <data name="reading_in_by_column" xml:space="preserve">
+    <value>spaltenweise Einlesen</value>
+  </data>
+  <data name="reading_in_by_row" xml:space="preserve">
+    <value>zeilenweise Einlesen</value>
+  </data>
+  <data name="reading_out_by_column" xml:space="preserve">
+    <value>spaltenweise Auslesen</value>
+  </data>
+  <data name="reading_out_by_row" xml:space="preserve">
+    <value>zeilenweise Auslesen</value>
+  </data>
 </root>

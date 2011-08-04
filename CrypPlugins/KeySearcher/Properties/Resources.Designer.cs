@@ -160,6 +160,15 @@ namespace KeySearcher.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Anonymize machine name ähnelt.
+        /// </summary>
+        internal static string Anonymize_machine_name {
+            get {
+                return ResourceManager.GetString("Anonymize_machine_name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Assigning new job with Guid {0} to client! ähnelt.
         /// </summary>
         internal static string Assigning_new_job_with_Guid__0__to_client_ {
@@ -327,6 +336,15 @@ namespace KeySearcher.Properties {
         internal static string Client_tried_to_connect__but_only_one_client_allowed_ {
             get {
                 return ResourceManager.GetString("Client_tried_to_connect__but_only_one_client_allowed_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die {0} character(s) ähnelt.
+        /// </summary>
+        internal static string Combo_characters {
+            get {
+                return ResourceManager.GetString("Combo_characters", resourceCulture);
             }
         }
         
@@ -561,6 +579,15 @@ namespace KeySearcher.Properties {
         internal static string Elapsed_ {
             get {
                 return ResourceManager.GetString("Elapsed_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Enable using OpenCL with high load (not recommended) ähnelt.
+        /// </summary>
+        internal static string Enable_using_OpenCL_with_high_load__not_recommended_ {
+            get {
+                return ResourceManager.GetString("Enable_using_OpenCL_with_high_load__not_recommended_", resourceCulture);
             }
         }
         
@@ -846,6 +873,15 @@ namespace KeySearcher.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Key ähnelt.
         /// </summary>
+        internal static string Key {
+            get {
+                return ResourceManager.GetString("Key", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Key ähnelt.
+        /// </summary>
         internal static string KeyCaption {
             get {
                 return ResourceManager.GetString("KeyCaption", resourceCulture);
@@ -961,6 +997,24 @@ namespace KeySearcher.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Machine name: ähnelt.
+        /// </summary>
+        internal static string Machine_name_ {
+            get {
+                return ResourceManager.GetString("Machine_name_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Network: ähnelt.
+        /// </summary>
+        internal static string Network_ {
+            get {
+                return ResourceManager.GetString("Network_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die No OpenCL Device available ähnelt.
         /// </summary>
         internal static string No_OpenCL_Device_available_ {
@@ -1002,6 +1056,15 @@ namespace KeySearcher.Properties {
         internal static string NoOpenCLTooltip {
             get {
                 return ResourceManager.GetString("NoOpenCLTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Number of machine name characters to show: ähnelt.
+        /// </summary>
+        internal static string Number_of_machine_name_characters_to_show_ {
+            get {
+                return ResourceManager.GetString("Number_of_machine_name_characters_to_show_", resourceCulture);
             }
         }
         
@@ -1494,6 +1557,15 @@ namespace KeySearcher.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Text ähnelt.
+        /// </summary>
+        internal static string Text {
+            get {
+                return ResourceManager.GetString("Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Data inconsistency error, we seem to have calculated more keys than expected... ähnelt.
         /// </summary>
         internal static string There_must_be_an_error__because_we_bruteforced_too_much_keys___ {
@@ -1728,6 +1800,24 @@ namespace KeySearcher.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Use OpenCL in KeySearcher ähnelt.
+        /// </summary>
+        internal static string Use_OpenCL_in_KeySearcher {
+            get {
+                return ResourceManager.GetString("Use_OpenCL_in_KeySearcher", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Check this to enable the KeySearcher to make use of OpenCL for bruteforcing. ähnelt.
+        /// </summary>
+        internal static string Use_OpenCL_in_KeySearcher_Tooltip {
+            get {
+                return ResourceManager.GetString("Use_OpenCL_in_KeySearcher_Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Use external client ähnelt.
         /// </summary>
         internal static string UseExternalClientCaption {
@@ -1778,6 +1868,15 @@ namespace KeySearcher.Properties {
         internal static string UsePeerToPeerTooltip {
             get {
                 return ResourceManager.GetString("UsePeerToPeerTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Value ähnelt.
+        /// </summary>
+        internal static string Value {
+            get {
+                return ResourceManager.GetString("Value", resourceCulture);
             }
         }
         

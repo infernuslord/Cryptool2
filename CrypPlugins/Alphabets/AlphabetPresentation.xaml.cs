@@ -38,6 +38,7 @@ namespace Cryptool.Alphabets
     /// <summary>
     /// Interaction logic for AlphabetPresentation.xaml
     /// </summary>
+    [Cryptool.PluginBase.Attributes.Localization("Cryptool.Alphabets.Properties.Resources")]
     public partial class AlphabetPresentation : UserControl
     {
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;

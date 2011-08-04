@@ -11,7 +11,7 @@
 		</ResourceDictionary>
 	</UserControl.Resources>
     <Grid>
-        <TextBlock Margin="8,104,8,0" x:Name="textBlock1" TextWrapping="Wrap" Height="53" VerticalAlignment="Top" Style="{DynamicResource textBlockStyle}" ><Run Text="We have added the length at the end of our data buffer"/><Run Text=":"/></TextBlock>
+        <TextBlock Margin="8,104,8,0" x:Name="textBlock1" TextWrapping="Wrap" Height="53" VerticalAlignment="Top" Style="{DynamicResource textBlockStyle}" ><Run Text="{Loc We_have_added_the_length_at_the_end_of_our_data_buffer}"/><Run Text=":"/></TextBlock>
         <displays:DataBlockDisplay Data="{Binding CurrentState.CurrentDataBlock}" Height="52" VerticalAlignment="Top" Margin="8,161,8,0" />
     </Grid>
 </UserControl>

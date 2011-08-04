@@ -12,10 +12,10 @@
 		</ResourceDictionary>
 	</UserControl.Resources>
     <Grid>
-        <TextBlock Height="29.037" Margin="8,56.444,8,0" x:Name="label1" VerticalAlignment="Top" Style="{DynamicResource textBlockStyle}" HorizontalAlignment="Center"><Run Text="We have read a total of"/></TextBlock>
+        <TextBlock Height="29.037" Margin="8,56.444,8,0" x:Name="label1" VerticalAlignment="Top" Style="{DynamicResource textBlockStyle}" HorizontalAlignment="Center"><Run Text="{Loc We_have_read_a_total_of}"/></TextBlock>
         <Label Height="41.482" Margin="8,89.481,8,0" x:Name="label2" VerticalAlignment="Top" Content="{Binding CurrentState.DataLength}" FontSize="18" HorizontalContentAlignment="Center" />
-        <TextBlock Margin="8,134.963,8,0" x:Name="label3" Style="{DynamicResource textBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Top" Height="29.037"><Run Text="bytes of data."/></TextBlock>
-        <TextBlock Margin="8,0,8,166" x:Name="label4" Height="28" VerticalAlignment="Bottom" HorizontalAlignment="Center" Style="{DynamicResource textBlockStyle}"><Run Text="The data block we have read looks like this:"/></TextBlock>
+        <TextBlock Margin="8,134.963,8,0" x:Name="label3" Style="{DynamicResource textBlockStyle}" HorizontalAlignment="Center" VerticalAlignment="Top" Height="29.037"><Run Text="{Loc bytes_of_data}"/></TextBlock>
+        <TextBlock Margin="8,0,8,166" x:Name="label4" Height="28" VerticalAlignment="Bottom" HorizontalAlignment="Center" Style="{DynamicResource textBlockStyle}"><Run Text="{Loc The_data_block_we_have_read_looks_like_this}"/></TextBlock>
         <displays:DataBlockDisplay Data="{Binding CurrentState.CurrentDataBlock}" Margin="8,238,8,0" Height="108" VerticalAlignment="Top" />
     </Grid>
 </UserControl>

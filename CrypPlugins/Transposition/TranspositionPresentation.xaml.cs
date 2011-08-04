@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using System.Threading;
+using Cryptool.PluginBase;
 
 namespace Transposition
 {
@@ -265,8 +266,8 @@ namespace Transposition
                 mywrap1.Children.Clear();
                 mywrap2.Children.Clear();
                 //statusbar at the left bottom
-                if (rein == 0) { textBox2.Text = "reading in by row"; }
-                else { textBox2.Text = "reading in by column"; }
+                if (rein == 0) { textBox2.Text = typeof(Transposition).GetPluginStringResource("reading_in_by_row"); }
+                else { textBox2.Text = typeof(Transposition).GetPluginStringResource("reading_in_by_column"); }
 
                 teba = new TextBlock[read_in_matrix.GetLength(0) + rowper, read_in_matrix.GetLength(1) + colper];
 
@@ -728,8 +729,8 @@ namespace Transposition
             changes = new int[teba.GetLength(0), 2];
             mainStory2.Children.Clear();
             //statusbar update
-            if (per == 0) { textBox2.Text = "permuting by row"; }
-            else { textBox2.Text = "permuting by column"; }
+            if (per == 0) { textBox2.Text = typeof(Transposition).GetPluginStringResource("permuting_by_row"); }
+            else { textBox2.Text = typeof(Transposition).GetPluginStringResource("permuting_by_column"); }
             
             
             if (per == 1)
@@ -951,8 +952,8 @@ namespace Transposition
         {   //declarating coloranimations and brushes
             
             //statusbar update
-            if (reout == 0) { textBox2.Text = "reading out by row"; }
-            else { textBox2.Text = "reading out by column"; }
+            if (reout == 0) { textBox2.Text = typeof(Transposition).GetPluginStringResource("reading_out_by_row"); }
+            else { textBox2.Text = typeof(Transposition).GetPluginStringResource("reading_out_by_column"); }
             //declarating fading animations
             mainStory3.Children.Clear();
 
@@ -1099,7 +1100,7 @@ namespace Transposition
 
         private void the_End(object sender, EventArgs e)
         {
-            textBox2.Text = "accomplished"; //finish
+            textBox2.Text = typeof(Transposition).GetPluginStringResource("accomplished"); //finish
             feuerEnde(this, EventArgs.Empty);
         
             /*
@@ -1181,7 +1182,7 @@ namespace Transposition
         private void my_Help13(object sender, EventArgs e)
         {
             sizeChanged(this, EventArgs.Empty);
-            textBox2.Text = "accomplished"; //finish
+            textBox2.Text = typeof(Transposition).GetPluginStringResource("accomplished"); //finish
             feuerEnde(this, EventArgs.Empty);
         }
 

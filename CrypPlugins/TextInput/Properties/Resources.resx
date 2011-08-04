@@ -192,4 +192,7 @@
   <data name="InputFormatSettingList3" xml:space="preserve">
     <value>Base64</value>
   </data>
+  <data name="Text__1_character___8_Bit_" xml:space="preserve">
+    <value>Text (1 character = 8 Bit)</value>
+  </data>
 </root>

@@ -162,4 +162,19 @@
   <data name="UseBFPforCubeTooltip" xml:space="preserve">
     <value>Extend the BFP for use as a slave for Cube Attack.</value>
   </data>
+  <data name="LabelBooleanFunction" xml:space="preserve">
+    <value>Boolean function:</value>
+  </data>
+  <data name="LabelBooleanFunctionCubeAttack" xml:space="preserve">
+    <value>Boolean function for cube attack:</value>
+  </data>
+  <data name="LabelData" xml:space="preserve">
+    <value>Data:</value>
+  </data>
+  <data name="LabelMemoryBit" xml:space="preserve">
+    <value>Memory Bit: 0</value>
+  </data>
+  <data name="LabelSecretKey" xml:space="preserve">
+    <value>Secret key:</value>
+  </data>
 </root>

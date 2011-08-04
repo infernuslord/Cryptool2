@@ -8,9 +8,7 @@
             <RowDefinition Height="1*" />
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Label Name="labelInputText" Grid.Row="0" VerticalAlignment="Top" Background="DarkGray" Margin="0" Padding="0">
-            Text (1 character = 8 Bit)
-        </Label>
+        <Label Name="labelInputText" Grid.Row="0" VerticalAlignment="Top" Background="DarkGray" Margin="0" Padding="0" Content="{Loc Text__1_character___8_Bit_}"/>
         <TextBox Name="textBoxInputText" Grid.Row="1" AcceptsTab="True"
                TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" 
                AcceptsReturn="True" />

@@ -34,6 +34,7 @@ namespace Cryptool.TextInput
   /// <summary>
   /// Interaction logic for TextInputPresentation.xaml
   /// </summary>
+  [Cryptool.PluginBase.Attributes.Localization("Cryptool.TextInput.Properties.Resources")]
   [TabColor("red")]
   public partial class TextInputPresentation : UserControl
   {

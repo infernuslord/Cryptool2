@@ -222,4 +222,16 @@
   <data name="ToLowerList1" xml:space="preserve">
     <value>Alle Wörter in Kleinschreibung</value>
   </data>
+  <data name="LabelHits" xml:space="preserve">
+    <value>Treffer: 0</value>
+  </data>
+  <data name="LabelWordIndex" xml:space="preserve">
+    <value>[Wort], [Index]</value>
+  </data>
+  <data name="LabelHits1" xml:space="preserve">
+    <value>Treffer: </value>
+  </data>
+  <data name="LabelTarget" xml:space="preserve">
+    <value>Ziel:</value>
+  </data>
 </root>

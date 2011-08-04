@@ -11,7 +11,7 @@
 	</UserControl.Resources>
 		<Grid>
 			<displays:HashAccumulatorDisplay Margin="8,144,8,0" DataContext="{Binding CurrentState}" VerticalAlignment="Top" Height="86"/>
-			<TextBlock Margin="8,0,8,8" Text="The first thing we do is initialize our accumulators to their starting values, which are the fixed constants that you can see above." Height="80" VerticalAlignment="Bottom" Style="{DynamicResource textBlockStyle}"/>
-			<TextBlock Height="98" Margin="8,8,8,0" VerticalAlignment="Top" Text="The variables H1 - H4 are our accumulator variables. While we perform the hash, we will change them after each execution of the compression function. When we are done, they contain the final MD5 hash value." Style="{DynamicResource textBlockStyle}"/>
+        <TextBlock Margin="8,0,8,8" Text="{Loc The_first_thing_we_do_is_initialize_our_accumulators}" Height="80" VerticalAlignment="Bottom" Style="{DynamicResource textBlockStyle}"/>
+        <TextBlock Height="130" Margin="8,8,8,0" VerticalAlignment="Top" Text="{Loc The_variables_H1_H4_are_our_accumulator_variables}" Style="{DynamicResource textBlockStyle}"/>
 		</Grid>
 </UserControl>

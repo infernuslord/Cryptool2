@@ -195,4 +195,25 @@
   <data name="UpperLowerCaseLettersList3" xml:space="preserve">
     <value>Beides</value>
   </data>
+  <data name="Add" xml:space="preserve">
+    <value>Hinzufügen</value>
+  </data>
+  <data name="Alphabet" xml:space="preserve">
+    <value>Alphabet</value>
+  </data>
+  <data name="Available_Alphabets" xml:space="preserve">
+    <value>Verfügbare Alphabete</value>
+  </data>
+  <data name="Current_Selected_Alphabet" xml:space="preserve">
+    <value>Momentan gewähltes Alphabet</value>
+  </data>
+  <data name="Default" xml:space="preserve">
+    <value>Default</value>
+  </data>
+  <data name="Manage_Alphabet" xml:space="preserve">
+    <value>Alphabete verwalten</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
 </root>

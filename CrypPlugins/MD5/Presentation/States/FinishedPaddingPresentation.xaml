@@ -11,10 +11,10 @@
 		</ResourceDictionary>
 	</UserControl.Resources>
     <Grid>
-        <TextBlock Height="43" Margin="8,8,8,0" x:Name="textBlock1" VerticalAlignment="Top" Text="We have finished padding and have" TextWrapping="Wrap" Style="{DynamicResource textBlockStyle}" TextAlignment="Center" />
-        <TextBlock Margin="8,99,12,0" x:Name="textBlock2" TextWrapping="Wrap" Style="{DynamicResource textBlockStyle}" VerticalAlignment="Top" Height="37" TextAlignment="Center" ><Run Text="bytes of data left in our buffer"/><Run Text=":"/></TextBlock>
+        <TextBlock Height="43" Margin="8,8,8,0" x:Name="textBlock1" VerticalAlignment="Top" Text="{Loc We_have_finished_padding_and_have}" TextWrapping="Wrap" Style="{DynamicResource textBlockStyle}" TextAlignment="Center" />
+        <TextBlock Margin="8,99,12,0" x:Name="textBlock2" TextWrapping="Wrap" Style="{DynamicResource textBlockStyle}" VerticalAlignment="Top" Height="37" TextAlignment="Center" ><Run Text="{Loc bytes_of_data_left_in_our_buffer}"/><Run Text=":"/></TextBlock>
         <Label Margin="8,55,16,0" x:Name="label1" Height="40" VerticalAlignment="Top" Content="{Binding CurrentState.DataLength}" FontSize="18" HorizontalContentAlignment="Center" />
-    	<TextBlock HorizontalAlignment="Left" Margin="8,0,0,123.626" Style="{StaticResource textBlockStyle}" VerticalAlignment="Bottom" Width="784" Text="We continue by calling the compression function for this input."/>
+        <TextBlock HorizontalAlignment="Left" Margin="8,0,0,123.626" Style="{StaticResource textBlockStyle}" VerticalAlignment="Bottom" Width="784" Text="{Loc We_continue_by_calling_the_compression_function_for_this_input}"/>
     	<Cryptool_MD5_Presentation_Displays:DataBlockDisplay Data="{Binding CurrentState.CurrentDataBlock}" Margin="8,140,8,0" Height="88" VerticalAlignment="Top" />
     </Grid>
 </UserControl>

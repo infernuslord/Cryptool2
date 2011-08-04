@@ -180,4 +180,22 @@
   <data name="ModeList2" xml:space="preserve">
     <value>Cipher Block Chaining (CBC)</value>
   </data>
+  <data name="Ciphertext" xml:space="preserve">
+    <value>Geheimtext</value>
+  </data>
+  <data name="Decryption" xml:space="preserve">
+    <value>Entschlüsselung</value>
+  </data>
+  <data name="IP_inverse" xml:space="preserve">
+    <value>inverse IP</value>
+  </data>
+  <data name="Key" xml:space="preserve">
+    <value>Schlüssel</value>
+  </data>
+  <data name="Key_Generation" xml:space="preserve">
+    <value>Schlüsselerzeugung</value>
+  </data>
+  <data name="Plaintext" xml:space="preserve">
+    <value>Klartext</value>
+  </data>
 </root>

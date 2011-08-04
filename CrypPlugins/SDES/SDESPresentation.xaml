@@ -23,7 +23,7 @@
 
             <Rectangle Canvas.Left="124.59" Canvas.Top="79.689" Height="20.01" Stroke="Black" StrokeThickness="1" Width="94.587"/>
             <TextBlock Canvas.Left="124.59" Canvas.Top="79.689" FontSize="15" Height="20.01" x:Name="encrypt_txt_ip_input" Width="94.587"><Run Text="0 0 0 0 0 0 0 0"/></TextBlock>
-            <Label Canvas.Left="67.684" Canvas.Top="33.237" Height="54.978" x:Name="label1" Width="54.599" FontSize="12" FlowDirection="LeftToRight" HorizontalContentAlignment="Right" Content="Plain&#xd;&#xa;text"/>
+            <Label Canvas.Left="67.684" Canvas.Top="33.237" Height="54.978" x:Name="label1" Width="54.599" FontSize="12" FlowDirection="LeftToRight" HorizontalContentAlignment="Right" Content="{Loc Plaintext}"/>
             <Label Canvas.Left="67.684" Canvas.Top="75.02" FontSize="12" Height="46.023" x:Name="label2" Width="54.599" HorizontalContentAlignment="Right" Content="IP"/>
             <Line x:Name="ip_in_1" X1="62" Y1="20" X2="62" Y2="45" Stroke="Black" StrokeThickness="1" Canvas.Left="67.684" Width="155.338" Canvas.Top="35" />
             <Line x:Name="ip_in_2" X1="74" Y1="20" X2="74" Y2="45" Stroke="Black" StrokeThickness="1" Canvas.Left="67.684" Width="155.338" Canvas.Top="35" />
@@ -60,7 +60,7 @@
     	<Line x:Name="key_b8" Canvas.Left="309.919" Canvas.Top="35.667" Height="44.689" Stroke="Black" StrokeThickness="1" Width="146.879" X1="146" X2="146" Y1="20" Y2="45" />
     	<Line x:Name="key_b9" Canvas.Left="309.919" Canvas.Top="35.667" Height="44.689" Stroke="Black" StrokeThickness="1" Width="159.183" X1="158" X2="158" Y1="20" Y2="45" />
     	<Line x:Name="key_b10" Canvas.Left="309.919" Canvas.Top="35.667" Height="44.689" Stroke="Black" StrokeThickness="1" Width="170.718" X1="170" X2="170" Y1="20" Y2="45" />
-    	<Label Canvas.Left="307.338" Canvas.Top="35.667" FontSize="12" Height="44.689" x:Name="label4" Width="56.906" HorizontalContentAlignment="Right" Content="Key"/>
+    	<Label Canvas.Left="307.338" Canvas.Top="35.667" FontSize="12" Height="44.689" x:Name="label4" Width="56.906" HorizontalContentAlignment="Right" Content="{Loc Key}"/>
     	<TextBlock x:Name="key_txt_ls1_input_1" Canvas.Left="365.287" Canvas.Top="125.045" FontSize="15" Height="20.01" Text="0 0 0 0 0 0 0 0 0 0" Width="119.195" />
     	<Rectangle Canvas.Left="365.287" Canvas.Top="125.045" Height="20.01" Stroke="Black" StrokeThickness="1" Width="125.347" />
     	<Label Canvas.Left="325.025" Canvas.Top="125" FontSize="12" Height="44.8" x:Name="label5" Width="38.45" HorizontalContentAlignment="Right" Content="LS-1"/>
@@ -1047,8 +1047,8 @@
     	<Label Canvas.Left="310.071" Canvas.Top="697.594" FontSize="12" Height="44.982" HorizontalContentAlignment="Right" x:Name="label8_Copy" Width="56.906" Content="K2"/>
     	<Rectangle Canvas.Left="125.922" Width="94.587" Height="20.01" Stroke="Black" StrokeThickness="1" Canvas.Top="1309.737"/>
     	<TextBlock x:Name="encrypt_txt_ip_invers_output" Canvas.Left="125.922" Canvas.Top="1309.737" FontSize="15" Width="94.587" Height="20.01"><Run Text="0 0 0 0 0 0 0 0"/></TextBlock>
-    	<Label Canvas.Left="69.252" Canvas.Top="1263.384" FontSize="12" Height="46.023" x:Name="label2_Copy2" Width="54.599" HorizontalContentAlignment="Right" Content="IP &#xa;inverse"/>
-    	<Label Canvas.Left="69.252" Canvas.Top="1306.072" FontSize="12" Height="46.023" x:Name="label2_Copy3" Width="54.599" HorizontalContentAlignment="Right" Content="Cipher&#xa;text"/>
+            <Label Canvas.Left="17" Canvas.Top="1263.384" FontSize="12" Height="37" x:Name="label2_Copy2" Width="107" HorizontalContentAlignment="Right" Content="{Loc IP_inverse}" HorizontalAlignment="Right" />
+    	<Label Canvas.Left="38" Canvas.Top="1306.072" FontSize="12" Height="33" x:Name="label2_Copy3" Width="86" HorizontalContentAlignment="Right" Content="{Loc Ciphertext}"/>
     	<Line x:Name="ip_in_1_Copy1" X1="99" Y1="20" X2="62" Y2="45" Stroke="Black" StrokeThickness="1" Canvas.Left="69.018" Width="155.338" Canvas.Top="1264.737" />
     	<Line x:Name="ip_in_2_Copy1" X1="62" Y1="20" X2="74" Y2="45" Stroke="Black" StrokeThickness="1" Canvas.Left="69.018" Width="155.338" Canvas.Top="1264.737" />
     	<Line x:Name="ip_in_3_Copy1" X1="86" Y1="20" X2="86" Y2="45" Stroke="Black" StrokeThickness="1" Canvas.Left="69.018" Width="156.107" Canvas.Top="1264.737" />
@@ -1056,7 +1056,7 @@
     	<Line x:Name="ip_in_5_Copy1" X1="135" Y1="20" X2="110" Y2="45" Stroke="Black" StrokeThickness="1" Canvas.Left="69.018" Width="156.107" Canvas.Top="1264.737" />
     	<Line x:Name="ip_in_6_Copy1" X1="72" Y1="20" X2="122" Y2="45" Stroke="Black" StrokeThickness="1" Canvas.Left="69.018" Width="155.338" Canvas.Top="1264.737" />
     	<Line x:Name="ip_in_7_Copy1" X1="146" Y1="20" X2="134" Y2="45" Stroke="Black" StrokeThickness="1" Canvas.Left="69.018" Width="155.338" Canvas.Top="1264.737" />
-    	<Line x:Name="ip_in_8_Copy1" X1="121" Y1="20" X2="146" Y2="45" Stroke="Black" StrokeThickness="1" Canvas.Left="69.018" Width="156.107" Canvas.Top="1264.737" />
+    	<Line x:Name="ip_in_8_Copy1" X1="121" Y1="20" X2="146" Y2="45" Stroke="Black" StrokeThickness="1" Canvas.Left="17" Width="104" Canvas.Top="1264.737" Height="35" HorizontalAlignment="Right" />
         	<Ellipse Fill="Black" Stroke="Black" StrokeThickness="1" Width="4.637" Height="5.2" Canvas.Left="369.674" Canvas.Top="395.643"/>
         	<Ellipse Fill="Black" Stroke="Black" StrokeThickness="1" Width="4.637" Height="5.2" Canvas.Left="381.628" Canvas.Top="410.809"/>
         	<Ellipse Fill="Black" Stroke="Black" StrokeThickness="1" Width="4.637" Height="5.2" Canvas.Left="393.554" Canvas.Top="425.809"/>
@@ -1127,7 +1127,7 @@
         				<TranslateTransform X="76.167482554724756" Y="1257.9762256938504"/>
         			</TransformGroup>
         		</TextBlock.RenderTransform><Run Text="0 0 0 0 0 0 0 0"/></TextBlock>
-        	<Label Height="25.986" x:Name="label1_Copy" Width="68.102" FontSize="12" FlowDirection="LeftToRight" HorizontalContentAlignment="Right" Content="Ciphertext" RenderTransformOrigin="0.5,0.5" Canvas.Left="472.583" Canvas.Top="113.776">
+        	<Label Height="25.986" x:Name="label1_Copy" Width="95" FontSize="12" FlowDirection="LeftToRight" HorizontalContentAlignment="Left" Content="{Loc Ciphertext}" RenderTransformOrigin="0.5,0.5" Canvas.Left="480" Canvas.Top="115">
         		<Label.RenderTransform>
         			<TransformGroup>
         				<ScaleTransform/>
@@ -3327,7 +3327,7 @@
         				<TranslateTransform X="71.056090624521488" Y="-1202.1146892992151"/>
         			</TransformGroup>
         		</TextBlock.RenderTransform><Run Text="0 0 0 0 0 0 0 0"/></TextBlock>
-        	<Label FontSize="12" Height="46.023" x:Name="label2_Copy7" Width="54.599" HorizontalContentAlignment="Right" Content="IP &#xa;inverse" RenderTransformOrigin="0.5,0.5" Canvas.Left="474.752" Canvas.Top="1325.884">
+            <Label FontSize="12" Height="29" x:Name="label2_Copy7" Width="92" HorizontalContentAlignment="Left" Content="{Loc IP_inverse}" RenderTransformOrigin="0.5,0.5" Canvas.Left="481" Canvas.Top="1335">
         		<Label.RenderTransform>
         			<TransformGroup>
         				<ScaleTransform/>
@@ -3337,7 +3337,7 @@
         			</TransformGroup>
         		</Label.RenderTransform>
         	</Label>
-        	<Label FontSize="12" Height="46.023" x:Name="label2_Copy8" Width="38.618" HorizontalContentAlignment="Right" Content="Plain&#xa;Text" RenderTransformOrigin="0.5,0.5" Canvas.Left="476.733" Canvas.Top="1364.643">
+        	<Label FontSize="12" Height="34" x:Name="label2_Copy8" Width="79" HorizontalContentAlignment="Left" Content="{Loc Plaintext}" RenderTransformOrigin="0.5,0.5" Canvas.Left="476.733" Canvas.Top="1376">
         		<Label.RenderTransform>
         			<TransformGroup>
         				<ScaleTransform/>
@@ -3707,9 +3707,9 @@
         			</TransformGroup>
         		</Line.RenderTransform>
         	</Line>
-        	<TextBlock Width="117.812" Height="29.237" Canvas.Left="112.482" Text="{Loc Encryption}" TextWrapping="Wrap" FontSize="24"/>
-        	<TextBlock Width="117.812" Height="29.237" Canvas.Left="604.483" FontSize="24" TextWrapping="Wrap" Canvas.Top="1446.763"><Run Text="De"/><Run Text="cryption"/></TextBlock>
-        	<TextBlock Width="167.145" Height="29.237" Canvas.Left="339.785" FontSize="24" Text="Key Generation" TextWrapping="Wrap"/>
+        	<TextBlock Width="208" Height="38" Canvas.Left="67" Text="{Loc Encryption}" TextWrapping="Wrap" FontSize="24" TextAlignment="Center" />
+            <TextBlock Width="198" Height="33" Canvas.Left="561" Text="{Loc Decryption}" FontSize="24" TextWrapping="Wrap" Canvas.Top="1448" TextAlignment="Center" />
+        	<TextBlock Width="227" Height="38" Canvas.Left="311" FontSize="24" Text="{Loc Key_Generation}" TextWrapping="Wrap" TextAlignment="Center" />
     </Canvas>
     </ScrollViewer>
 </UserControl>

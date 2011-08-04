@@ -13,11 +13,11 @@
     <Grid>
             
     	<Cryptool_MD5_Presentation_Displays:RoundAndStepDisplay VerticalAlignment="Top" HorizontalAlignment="Right" Height="46.373" DataContext="{Binding CurrentState}"/>
-    	<TextBlock Margin="8,62,0,0" Style="{StaticResource textBlockStyle}" VerticalAlignment="Top" Text="We are now starting round" HorizontalAlignment="Left" Width="262" Height="38.373"/>
-    	<TextBlock Margin="274,62,0,0" Style="{StaticResource textBlockStyle}" VerticalAlignment="Top" Text="{Binding CurrentState.Round}" Height="38.373" HorizontalAlignment="Left" Width="36"/>
-    	<TextBlock Margin="314,62,302,0" Style="{StaticResource textBlockStyle}" VerticalAlignment="Top" Text="of 4."/>
-    	<TextBlock Margin="8,104.373,8,0" Style="{StaticResource textBlockStyle}" VerticalAlignment="Top" Height="30.373"><Run Text="Each round has 16 steps which change "/><Run Text="our "/><Run Text="temporary variables "/><Run Text="A - D"/><Run Text="."/></TextBlock>
-    	<TextBlock Margin="8,168.746,8,144.881" Style="{StaticResource textBlockStyle}"><Run Text="There are 4 non-linear inner round functions"/><Run Text=" called"/><Run Text=" F, G, H and I."/><Run Text=" They "/><Run Text="are a central part of the calculations performed in each round step. In this round, we use the function"/></TextBlock>
+    	<TextBlock Margin="8,62,0,0" Style="{StaticResource textBlockStyle}" VerticalAlignment="Top" Text="{Loc We_are_now_starting_round}" HorizontalAlignment="Left" Width="279" Height="38.373"/>
+    	<TextBlock Margin="285,62,0,0" Style="{StaticResource textBlockStyle}" VerticalAlignment="Top" Text="{Binding CurrentState.Round}" Height="38.373" HorizontalAlignment="Left" Width="36"/>
+    	<TextBlock Margin="325,62,291,0" Style="{StaticResource textBlockStyle}" VerticalAlignment="Top" Text="{Loc of_4}"/>
+    	<TextBlock Margin="8,104.373,8,0" Style="{StaticResource textBlockStyle}" VerticalAlignment="Top" Height="30.373"><Run Text="{Loc Each_round_has_16_steps}"/></TextBlock>
+    	<TextBlock Margin="8,168.746,8,144.881" Style="{StaticResource textBlockStyle}"><Run Text="{Loc There_are_4_non_linear_inner_round_functions}"/></TextBlock>
     	<Cryptool_MD5_Presentation_Displays:FunctionNameDisplay Margin="314,0,320,104.881" VerticalAlignment="Bottom" Height="36" FunctionName="{Binding CurrentState.RoundFunctionName}"/>
             
     </Grid>

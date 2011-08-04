@@ -133,6 +133,51 @@ namespace Cryptool.BooleanFunctionParser.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Boolean function: ähnelt.
+        /// </summary>
+        internal static string LabelBooleanFunction {
+            get {
+                return ResourceManager.GetString("LabelBooleanFunction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Boolean function for cube attack: ähnelt.
+        /// </summary>
+        internal static string LabelBooleanFunctionCubeAttack {
+            get {
+                return ResourceManager.GetString("LabelBooleanFunctionCubeAttack", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Data: ähnelt.
+        /// </summary>
+        internal static string LabelData {
+            get {
+                return ResourceManager.GetString("LabelData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Memory Bit: 0 ähnelt.
+        /// </summary>
+        internal static string LabelMemoryBit {
+            get {
+                return ResourceManager.GetString("LabelMemoryBit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Secret key: ähnelt.
+        /// </summary>
+        internal static string LabelSecretKey {
+            get {
+                return ResourceManager.GetString("LabelSecretKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Function output ähnelt.
         /// </summary>
         internal static string OutputCaption {

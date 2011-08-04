@@ -19,6 +19,7 @@ namespace Cryptool.MD5.Presentation
     /// <summary>
     /// Interaktionslogik für PresentationContainer.xaml
     /// </summary>
+    [Cryptool.PluginBase.Attributes.Localization("Cryptool.Plugins.MD5.Properties.Resources")]
     public partial class PresentationContainer : UserControl
     {
         private PresentableMD5 md5;

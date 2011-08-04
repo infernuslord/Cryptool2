@@ -12,13 +12,13 @@
 		</ResourceDictionary>
 	</UserControl.Resources>
     <Grid>
-        <TextBlock Height="33" Margin="8,8,8,0" x:Name="textBlock1" VerticalAlignment="Top" Text="We now start the compression function for our next data block," Style="{DynamicResource textBlockStyle}" />
-        <displays:DataBlockDisplay Data="{Binding CurrentState.CurrentDataBlock}" Height="30" Margin="8,45,8,0" VerticalAlignment="Top" />
-        <TextBlock Margin="8,79,8,0" x:Name="textBlock2" TextWrapping="Wrap" Style="{DynamicResource textBlockStyle}" VerticalAlignment="Top" Height="85" ><Run Text="The compression function operates on 32 bit integers. There are 4 temporary variables A, B, C and D, which are "/><Run Text="used "/><Run Text="during the compression. "/><Run Text="We initialize them "/><Run Text="with the values from H1 - H4"/><Run Text=":"/></TextBlock>
-        <displays:HashAccumulatorDisplay DataContext="{Binding CurrentState}" Margin="8,180,0,175" HorizontalAlignment="Left" Width="350" />
-        <displays:CompressionVariableDisplay DataContext="{Binding NextState}" Margin="0,180,8,175" HorizontalAlignment="Right" Width="350" />
-        <Label Margin="364,180,356,175" x:Name="label1" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Style="{DynamicResource labelStyle}" Content="&gt;&gt;&gt;"/>
-    	<TextBlock Margin="8,0,8,98.7" x:Name="textBlock2_Copy" TextWrapping="Wrap" Style="{DynamicResource textBlockStyle}" VerticalAlignment="Bottom" Height="35" ><Run Text="We also split our "/><Run Text="512 bit "/><Run Text="data block into 16 "/><Run Text="little-endian "/><Run Text="integers"/><Run Text=", each "/><Run Text="32 bit:"/></TextBlock>
+        <TextBlock Height="58" Margin="8,8,8,0" x:Name="textBlock1" VerticalAlignment="Top" Text="{Loc We_now_start_the_compression_function_for_our_next_data_block_}" Style="{DynamicResource textBlockStyle}" />
+        <displays:DataBlockDisplay Data="{Binding CurrentState.CurrentDataBlock}" Height="30" Margin="8,64,8,0" VerticalAlignment="Top" />
+        <TextBlock Margin="8,98,8,0" x:Name="textBlock2" TextWrapping="Wrap" Style="{DynamicResource textBlockStyle}" VerticalAlignment="Top" Height="85" ><Run Text="{Loc The_compression_function_operates_on_32_bit_integers_}"/></TextBlock>
+        <displays:HashAccumulatorDisplay DataContext="{Binding CurrentState}" Margin="8,199,0,156" HorizontalAlignment="Left" Width="350" />
+        <displays:CompressionVariableDisplay DataContext="{Binding NextState}" Margin="0,199,8,156" HorizontalAlignment="Right" Width="350" />
+        <Label Margin="364,199,356,156" x:Name="label1" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Style="{DynamicResource labelStyle}" Content="&gt;&gt;&gt;"/>
+        <TextBlock Margin="8,0,8,98.7" x:Name="textBlock2_Copy" TextWrapping="Wrap" Style="{DynamicResource textBlockStyle}" VerticalAlignment="Bottom" Height="35" ><Run Text="{Loc We_also_split_our_512_bit_data_block_into_16_}"/></TextBlock>
     	<displays:DataIntegerDisplay Margin="8,0,8,8" VerticalAlignment="Bottom" Height="86.7" DisplayedValues="{Binding NextState.DataAsIntegers}"/>
     </Grid>
 </UserControl>

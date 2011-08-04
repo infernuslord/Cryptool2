@@ -180,4 +180,13 @@
   <data name="RemoveUnknownSymbolsList2" xml:space="preserve">
     <value>entfernen</value>
   </data>
+  <data name="Label1Desc" xml:space="preserve">
+    <value>Häufigkeit der Faktoren, aus denen sich die Distanzen</value>
+  </data>
+  <data name="Label2Desc" xml:space="preserve">
+    <value>identischer Zeichenfolgen im Geheimtext zusammensetzen</value>
+  </data>
+  <data name="TooltipDesc" xml:space="preserve">
+    <value>Hinweis: Die Schlüssellänge ist wahrscheinlich einer der am häufigsten auftretenden Faktoren oder ein Vielfaches davon.</value>
+  </data>
 </root>
