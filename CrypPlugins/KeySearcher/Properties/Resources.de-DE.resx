@@ -157,7 +157,7 @@
     <value>Client {0} verbunden!</value>
   </data>
   <data name="Connection_lost__Waiting_for_reconnection_to_store_the_results_" xml:space="preserve">
-    <value>Verbindung verloren! Warte auf Neuverbindung um Resultate zu speichern!</value>
+    <value>Verbindung verloren! Warte auf Neuverbindung, um Resultate zu speichern!</value>
   </data>
   <data name="ControlMasterTooltip" xml:space="preserve">
     <value>Benutzt für erschöpfende Suche</value>

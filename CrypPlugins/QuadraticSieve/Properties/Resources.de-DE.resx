@@ -166,6 +166,6 @@
     <value>Verwende Peer2Peer</value>
   </data>
   <data name="UsePeer2PeerTooltip" xml:space="preserve">
-    <value>Wenn dieses Kontrollkästchen gesetzt ist, verbindet sich das Plugin mit dem Peer2Peer-Netzwerk um die Faktorisierung auf mehrere Rechner zu verteilen.</value>
+    <value>Wenn dieses Kontrollkästchen gesetzt ist, verbindet sich das Plugin mit dem Peer2Peer-Netzwerk, um die Faktorisierung auf mehrere Rechner zu verteilen.</value>
   </data>
 </root>
