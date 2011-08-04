@@ -352,7 +352,7 @@ Emailadresse senden können.</value>
     <value>Bitte alle Felder ausfüllen.</value>
   </data>
   <data name="Preparing_to_participate_in_job__0____1___" xml:space="preserve">
-    <value>Vorbereitung um an job teilzunehmen {0} ({1}).</value>
+    <value>Vorbereitung, um an job teilzunehmen {0} ({1}).</value>
   </data>
   <data name="Received_new_job_list___" xml:space="preserve">
     <value>Empfange neue Jobliste...</value>

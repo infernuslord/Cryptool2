@@ -120,10 +120,10 @@
   <data name="P2PSettings" xml:space="preserve">
     <value>Peer-to-Peer</value>
   </data>
-	<data name="Use_Timeout" xml:space="preserve">
+  <data name="Use_Timeout" xml:space="preserve">
     <value>Benutze Timeout</value>
   </data>
-	<data name="Use_Timeout_Tooltip" xml:space="preserve">
-    <value>Markieren Sie dies um einen Timout bei synchronen P2P Operationen zu benutzen.</value>
+  <data name="Use_Timeout_Tooltip" xml:space="preserve">
+    <value>Markieren Sie dies, um einen Timout bei synchronen P2P Operationen zu benutzen.</value>
   </data>
 </root>
