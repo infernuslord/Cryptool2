@@ -18,6 +18,7 @@ namespace Cryptool.MD5.Presentation.States
     /// <summary>
     /// Interaktionslogik für StartingRoundStepPresentation.xaml
     /// </summary>
+    [Cryptool.PluginBase.Attributes.Localization("Cryptool.Plugins.MD5.Properties.Resources")]
     public partial class RoundStepPresentation : UserControl
     {
         public RoundStepPresentation()

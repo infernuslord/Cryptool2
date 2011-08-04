@@ -11,7 +11,7 @@
 		</ResourceDictionary>
 	</UserControl.Resources>
     <Grid>
-        <TextBlock Margin="8,102,8,0" Name="label1" Height="28" VerticalAlignment="Top" Text="We have added the padding bytes and our data now looks like this:" Style="{DynamicResource textBlockStyle}"></TextBlock>
+        <TextBlock Margin="8,102,8,0" Name="label1" Height="28" VerticalAlignment="Top" Text="{Loc We_have_added_the_padding_bytes_and_our_data_now_looks_like_this}" Style="{DynamicResource textBlockStyle}"></TextBlock>
         <displays:DataBlockDisplay Data="{Binding CurrentState.CurrentDataBlock}" Margin="8,134,8,0" Height="88" VerticalAlignment="Top" />
     </Grid>
 </UserControl>

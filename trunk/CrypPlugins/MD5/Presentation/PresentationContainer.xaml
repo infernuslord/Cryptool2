@@ -11,10 +11,10 @@
     <Viewbox>
         <Grid Height="560" Width="816">
             <displays:StateDescriptionDisplay Height="41" Margin="8,12,8,0" VerticalAlignment="Top" />
-            <Button Height="23" Margin="0,0,480,66" Name="previousStepButton" VerticalAlignment="Bottom" Click="previousStepButton_Click" HorizontalAlignment="Right" Width="150">&lt;&lt; Previous</Button>
-            <Button Height="23" Margin="0,0,324,66" Name="nextStepButton" VerticalAlignment="Bottom" Click="nextStepButton_Click" HorizontalAlignment="Right" Width="150">Next &gt;&gt;</Button>
-            <Button Height="23" Margin="0,0,168,66" Name="endOfRoundButton" VerticalAlignment="Bottom" Click="endOfRoundButton_Click" Width="150" HorizontalAlignment="Right">End of Round &gt;&gt;&gt;</Button>
-            <Button Height="23" HorizontalAlignment="Right" Margin="0,0,12,66" x:Name="endOfCompressionButton" VerticalAlignment="Bottom" Width="150" Click="endOfCompressionButton_Click" Content="End of Block &gt;&gt;&gt;&gt;"/>
+            <Button Height="23" Margin="0,0,480,66" Name="previousStepButton" VerticalAlignment="Bottom" Click="previousStepButton_Click" HorizontalAlignment="Right" Width="150" Content="{Loc __Previous}" />
+            <Button Height="23" Margin="0,0,324,66" Name="nextStepButton" VerticalAlignment="Bottom" Click="nextStepButton_Click" HorizontalAlignment="Right" Width="150" Content="{Loc Next__}" />
+            <Button Height="23" Margin="0,0,168,66" Name="endOfRoundButton" VerticalAlignment="Bottom" Click="endOfRoundButton_Click" Width="150" HorizontalAlignment="Right" Content="{Loc End_of_Round__}" />
+            <Button Height="23" HorizontalAlignment="Right" Margin="0,0,12,66" x:Name="endOfCompressionButton" VerticalAlignment="Bottom" Width="150" Click="endOfCompressionButton_Click" Content="{Loc End_of_Block__}"/>
             <UserControl Margin="8,60,8,100" Name="statePresentationContainer"  Content="{Binding CurrentState,Converter={StaticResource md5StateToUserControlConverter}}"/>
             <displays:HashAccumulatorDisplay Height="36" Margin="0,0,12,24" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="306" DataContext="{Binding CurrentState}" />
         </Grid>

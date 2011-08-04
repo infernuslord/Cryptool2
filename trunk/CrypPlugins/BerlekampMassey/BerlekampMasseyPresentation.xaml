@@ -16,9 +16,9 @@
         </Grid.ColumnDefinitions>
         
         <StackPanel Grid.Row="1" Grid.Column="1">
-            <Label Name="cdLabel">Feedback Polynomial C(D):</Label>
+            <Label Name="cdLabel" Content="{Loc LabelFeedbackPolynomial}" />
             <TextBlock Name="cdText" />
-            <Label Name="lLabel">Minimal Length L:</Label>
+            <Label Name="lLabel" Content="{Loc LabelMinimalLength}" />
             <TextBlock Name="lText" />
         </StackPanel>
         

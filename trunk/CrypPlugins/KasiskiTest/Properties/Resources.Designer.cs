@@ -151,6 +151,24 @@ namespace KasiskiTest.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Frequency of factors composing the distances ähnelt.
+        /// </summary>
+        internal static string Label1Desc {
+            get {
+                return ResourceManager.GetString("Label1Desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die between identical strings in the ciphertext ähnelt.
+        /// </summary>
+        internal static string Label2Desc {
+            get {
+                return ResourceManager.GetString("Label2Desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Kasiski&apos;s Test ähnelt.
         /// </summary>
         internal static string PluginCaption {
@@ -246,6 +264,15 @@ namespace KasiskiTest.Properties {
         internal static string StringOutputTooltip {
             get {
                 return ResourceManager.GetString("StringOutputTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Tip: The keylength could be one of the most frequent factors or a multiple ähnelt.
+        /// </summary>
+        internal static string TooltipDesc {
+            get {
+                return ResourceManager.GetString("TooltipDesc", resourceCulture);
             }
         }
     }

@@ -241,7 +241,7 @@
     <value>Schlüssel pro Block:</value>
   </data>
   <data name="Keys_Sec_" xml:space="preserve">
-    <value>Schlüssel / Sek:</value>
+    <value>Schlüssel / Sek.:</value>
   </data>
   <data name="Keys_sec_CPU_" xml:space="preserve">
     <value>Schlüssel/Sek (CPU):</value>
@@ -457,7 +457,7 @@
     <value>Automatisch verbinden</value>
   </data>
   <data name="AutoconnectPeerToPeerTooltip" xml:space="preserve">
-    <value>Soll automatisch eine Verbindung zum verteilten Rechennetzwerk aufgebaut werden?</value>
+    <value>Soll automatisch eine Verbindung zur verteilten Berechnungsplattform aufgebaut werden?</value>
   </data>
   <data name="ChunkSizeCaption" xml:space="preserve">
     <value>Blockgröße</value>
@@ -631,7 +631,7 @@
     <value>Geprüfte Schlüssel</value>
   </data>
   <data name="Total__Machines_" xml:space="preserve">
-    <value>Anzahl Machinen</value>
+    <value>Anzahl Maschinen</value>
   </data>
   <data name="Working__Days_" xml:space="preserve">
     <value>Tage in Arbeit</value>
@@ -695,5 +695,38 @@
   </data>
   <data name="Finished_Chunks_Tooltip" xml:space="preserve">
     <value>Alle lokal berechneten Blöcke (lokal berechnete Blöcke während dieser Sitzung)</value>
+  </data>
+  <data name="Anonymize_machine_name" xml:space="preserve">
+    <value>Maschinenname anonymisieren</value>
+  </data>
+  <data name="Enable_using_OpenCL_with_high_load__not_recommended_" xml:space="preserve">
+    <value>OpenCL mit hoher Auslastung verwenden (nicht empfohlen)</value>
+  </data>
+  <data name="Key" xml:space="preserve">
+    <value>Schlüssel</value>
+  </data>
+  <data name="Machine_name_" xml:space="preserve">
+    <value>Maschinenname:</value>
+  </data>
+  <data name="Network_" xml:space="preserve">
+    <value>Netzwerk:</value>
+  </data>
+  <data name="Number_of_machine_name_characters_to_show_" xml:space="preserve">
+    <value>Anzahl darzustellender Zeichen des Maschinennamens:</value>
+  </data>
+  <data name="Text" xml:space="preserve">
+    <value>Text</value>
+  </data>
+  <data name="Use_OpenCL_in_KeySearcher" xml:space="preserve">
+    <value>Verwende OpenCL im KeySearcher</value>
+  </data>
+  <data name="Value" xml:space="preserve">
+    <value>Wert</value>
+  </data>
+  <data name="Combo_characters" xml:space="preserve">
+    <value>{0} Zeichen</value>
+  </data>
+  <data name="Use_OpenCL_in_KeySearcher_Tooltip" xml:space="preserve">
+    <value>Markieren, damit der KeySearcher OpenCL für den Brute-Force-Angriff benutzt.</value>
   </data>
 </root>

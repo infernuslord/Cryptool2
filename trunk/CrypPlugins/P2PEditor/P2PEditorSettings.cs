@@ -34,10 +34,10 @@ namespace Cryptool.P2PEditor
         private readonly P2PEditor p2PEditor;
         private readonly P2PSettings settings;
 
-        private const string GroupExperienced = "experienced_settings";
-        private const string GroupExpert = "expert_settings";
-        private const string GroupServer = "server_settings";
-        private const string ProxySettings = "proxy_settings";
+        private const string GroupExperienced = "ExperiencedSettingsGroup";
+        private const string GroupExpert = "ExpertSettingsGroup";
+        private const string GroupServer = "ServerSettingsGroup";
+        private const string ProxySettings = "ProxySettingsGroup";
 
         public P2PEditorSettings(P2PEditor p2PEditor)
         {

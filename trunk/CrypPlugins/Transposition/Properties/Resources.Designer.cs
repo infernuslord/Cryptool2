@@ -61,6 +61,15 @@ namespace Transposition.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die accomplished ähnelt.
+        /// </summary>
+        internal static string accomplished {
+            get {
+                return ResourceManager.GetString("accomplished", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Action ähnelt.
         /// </summary>
         internal static string ActionCaption {
@@ -241,6 +250,24 @@ namespace Transposition.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die permuting by column ähnelt.
+        /// </summary>
+        internal static string permuting_by_column {
+            get {
+                return ResourceManager.GetString("permuting_by_column", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die permuting by row ähnelt.
+        /// </summary>
+        internal static string permuting_by_row {
+            get {
+                return ResourceManager.GetString("permuting_by_row", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Transposition ähnelt.
         /// </summary>
         internal static string PluginCaption {
@@ -300,6 +327,42 @@ namespace Transposition.Properties {
         internal static string ReadInCaption {
             get {
                 return ResourceManager.GetString("ReadInCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die reading in by column ähnelt.
+        /// </summary>
+        internal static string reading_in_by_column {
+            get {
+                return ResourceManager.GetString("reading_in_by_column", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die reading in by row ähnelt.
+        /// </summary>
+        internal static string reading_in_by_row {
+            get {
+                return ResourceManager.GetString("reading_in_by_row", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die reading out by column ähnelt.
+        /// </summary>
+        internal static string reading_out_by_column {
+            get {
+                return ResourceManager.GetString("reading_out_by_column", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die reading out by row ähnelt.
+        /// </summary>
+        internal static string reading_out_by_row {
+            get {
+                return ResourceManager.GetString("reading_out_by_row", resourceCulture);
             }
         }
         

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Data;
 using Cryptool.MD5.Algorithm;
+using Cryptool.PluginBase;
 
 namespace Cryptool.MD5.Presentation.Converters
 {
@@ -11,47 +12,50 @@ namespace Cryptool.MD5.Presentation.Converters
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
+            //typeof(MD5).GetPluginStringResource("PluginCaption");
+            //PluginInfoAttribute[] attributes = (PluginInfoAttribute[])type.GetCustomAttributes(typeof(PluginInfoAttribute), false);
+
             MD5StateDescription state = (MD5StateDescription)value;
             switch (state)
             {
                 case MD5StateDescription.UNINITIALIZED:
-                    return "Algorithm uninitialized";
+                    return typeof(MD5).GetPluginStringResource("MD5State_Algorithm_uninitialized");
                 case MD5StateDescription.INITIALIZED:
-                    return "Initialization";
+                    return typeof(MD5).GetPluginStringResource("MD5State_Initialization");
                 case MD5StateDescription.READING_DATA:
-                    return "Reading data";
+                    return typeof(MD5).GetPluginStringResource("MD5State_Reading_data");
                 case MD5StateDescription.READ_DATA:
-                    return "Read data";
+                    return typeof(MD5).GetPluginStringResource("MD5State_Read_data");
                 case MD5StateDescription.STARTING_PADDING:
-                    return "Beginning padding process";
+                    return typeof(MD5).GetPluginStringResource("MD5State_Beginning_padding_process");
                 case MD5StateDescription.ADDING_PADDING_BYTES:
-                    return "Adding the padding bytes";
+                    return typeof(MD5).GetPluginStringResource("MD5State_Adding_the_padding_bytes");
                 case MD5StateDescription.ADDED_PADDING_BYTES:
-                    return "Added the padding bytes";
+                    return typeof(MD5).GetPluginStringResource("MD5State_Added_the_padding_bytes");
                 case MD5StateDescription.ADDING_LENGTH:
-                    return "Adding the data length";
+                    return typeof(MD5).GetPluginStringResource("MD5State_Adding_the_data_length");
                 case MD5StateDescription.ADDED_LENGTH:
-                    return "Added the data length";
+                    return typeof(MD5).GetPluginStringResource("MD5State_Added_the_data_length");
                 case MD5StateDescription.FINISHED_PADDING:
-                    return "Finished padding";
+                    return typeof(MD5).GetPluginStringResource("MD5State_Finished_padding");
                 case MD5StateDescription.STARTING_COMPRESSION:
-                    return "Starting the compression";
+                    return typeof(MD5).GetPluginStringResource("MD5State_Starting_the_compression");
                 case MD5StateDescription.STARTING_ROUND:
-                    return "Starting a compression round";
+                    return typeof(MD5).GetPluginStringResource("MD5State_Starting_a_compression_round");
                 case MD5StateDescription.STARTING_ROUND_STEP:
-                    return "Before compression step";
+                    return typeof(MD5).GetPluginStringResource("MD5State_Before_compression_step");
                 case MD5StateDescription.FINISHED_ROUND_STEP:
-                    return "Performing compression step";
+                    return typeof(MD5).GetPluginStringResource("MD5State_Performing_compression_step");
                 case MD5StateDescription.FINISHED_ROUND:
-                    return "Finished compression round";
+                    return typeof(MD5).GetPluginStringResource("MD5State_Finished_compression_round");
                 case MD5StateDescription.FINISHING_COMPRESSION:
-                    return "Finalizing compression";
+                    return typeof(MD5).GetPluginStringResource("MD5State_Finalizing_compression");
                 case MD5StateDescription.FINISHED_COMPRESSION:
-                    return "Finished compression";
+                    return typeof(MD5).GetPluginStringResource("MD5State_Finished_compression");
                 case MD5StateDescription.FINISHED:
-                    return "Finished";
+                    return typeof(MD5).GetPluginStringResource("MD5State_Finished");
                 default:
-                    return "Unknown state";
+                    return typeof(MD5).GetPluginStringResource("MD5State_Unknown_state");
             }
         }
 

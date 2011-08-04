@@ -711,4 +711,37 @@
   <data name="Finished_Chunks_Tooltip" xml:space="preserve">
     <value>Total locally finished chunks (locally finished chunks in this session)</value>
   </data>
+  <data name="Anonymize_machine_name" xml:space="preserve">
+    <value>Anonymize machine name</value>
+  </data>
+  <data name="Enable_using_OpenCL_with_high_load__not_recommended_" xml:space="preserve">
+    <value>Enable using OpenCL with high load (not recommended)</value>
+  </data>
+  <data name="Key" xml:space="preserve">
+    <value>Key</value>
+  </data>
+  <data name="Machine_name_" xml:space="preserve">
+    <value>Machine name:</value>
+  </data>
+  <data name="Network_" xml:space="preserve">
+    <value>Network:</value>
+  </data>
+  <data name="Number_of_machine_name_characters_to_show_" xml:space="preserve">
+    <value>Number of machine name characters to show:</value>
+  </data>
+  <data name="Text" xml:space="preserve">
+    <value>Text</value>
+  </data>
+  <data name="Use_OpenCL_in_KeySearcher" xml:space="preserve">
+    <value>Use OpenCL in KeySearcher</value>
+  </data>
+  <data name="Value" xml:space="preserve">
+    <value>Value</value>
+  </data>
+  <data name="Combo_characters" xml:space="preserve">
+    <value>{0} character(s)</value>
+  </data>
+  <data name="Use_OpenCL_in_KeySearcher_Tooltip" xml:space="preserve">
+    <value>Check this to enable the KeySearcher to make use of OpenCL for bruteforcing.</value>
+  </data>
 </root>

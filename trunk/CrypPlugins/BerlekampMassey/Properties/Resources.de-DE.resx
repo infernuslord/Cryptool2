@@ -144,4 +144,10 @@
   <data name="PolynomialOutputTooltip" xml:space="preserve">
     <value />
   </data>
+  <data name="LabelFeedbackPolynomial" xml:space="preserve">
+    <value>Feedback-Polynom C(D):</value>
+  </data>
+  <data name="LabelMinimalLength" xml:space="preserve">
+    <value>Minimale Länge L:</value>
+  </data>
 </root>

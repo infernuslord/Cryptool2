@@ -9,6 +9,6 @@
 		</ResourceDictionary>
 	</UserControl.Resources>
     <Grid>
-        <TextBlock x:Name="label1" TextWrapping="Wrap" Margin="8,146,8,160" Style="{DynamicResource textBlockStyle}" Text="The algorithm is not yet initialized. Please connect an input stream and start the workspace's process flow. Make sure that the presentation is visible when the MD5 plugin is activated." TextAlignment="Center"/>
+        <TextBlock x:Name="label1" TextWrapping="Wrap" Margin="8,146,8,160" Style="{DynamicResource textBlockStyle}" Text="{Loc The_algorithm_is_not_yet_initialized}" TextAlignment="Center"/>
     </Grid>
 </UserControl>

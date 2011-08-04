@@ -10,9 +10,9 @@
 		</ResourceDictionary>
 	</UserControl.Resources>
     <Grid>
-        <TextBlock Height="28" Margin="8,8,8,0" x:Name="label1" VerticalAlignment="Top" Style="{DynamicResource textBlockStyle}" Text="Since we read only" TextAlignment="Center"/>
+        <TextBlock Height="28" Margin="8,8,8,0" x:Name="label1" VerticalAlignment="Top" Style="{DynamicResource textBlockStyle}" Text="{Loc Since_we_read_only}" TextAlignment="Center"/>
         <Label Height="40" Margin="8,40,8,0" Name="label2" VerticalAlignment="Top" Content="{Binding CurrentState.DataLength}" FontSize="18" Style="{DynamicResource labelStyle}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
-        <TextBlock Height="28" Margin="8,84,8,0" Name="label3" VerticalAlignment="Top" TextWrapping="Wrap" Text="bytes in the previous step, we conclude that we reached the end of our data." Style="{DynamicResource textBlockStyle}" TextAlignment="Center"></TextBlock>
-        <TextBlock Margin="8,175,8,8" TextWrapping="Wrap" Style="{DynamicResource textBlockStyle}"><Run Text="We can now begin the padding process"/><Run Text=", which ha"/><Run Text="s two uses:"/><LineBreak/><Run Text=""/><LineBreak/><Run Text="• "/><Run Text="I"/><Run Text="t gives us the opportunity to increase the length of our data until we again have blocks with length of a multiple of 64 bytes."/><LineBreak/><Run Text=""/><LineBreak/><Run Text="• "/><Run Text="I"/><Run Text="t allows us to work the "/><Run Text="total "/><Run Text="length of the data into the final hash value."/></TextBlock>
+        <TextBlock Height="72" Margin="8,84,8,0" Name="label3" VerticalAlignment="Top" TextWrapping="Wrap" Text="{Loc bytes_in_the_previous_step_}" Style="{DynamicResource textBlockStyle}" TextAlignment="Center"></TextBlock>
+        <TextBlock Margin="8,175,8,8" TextWrapping="Wrap" Style="{DynamicResource textBlockStyle}"><Run Text="{Loc We_can_now_begin_the_padding_process_}"/></TextBlock>
     </Grid>
 </UserControl>

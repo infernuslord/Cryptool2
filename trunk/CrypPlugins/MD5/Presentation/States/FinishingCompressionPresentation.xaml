@@ -16,7 +16,7 @@
 		</ResourceDictionary>
 	</UserControl.Resources>
     <Grid>
-        <TextBlock Margin="8,8,8,0" x:Name="textBlock1" Text="We have finished with the last round of the compression. Now it's time to update our accumulators. We do this by simply adding the variables A - D to them." TextWrapping="Wrap" Height="65" VerticalAlignment="Top" Style="{DynamicResource textBlockStyle}" />
+        <TextBlock Margin="8,8,8,0" x:Name="textBlock1" Text="{Loc We_have_finished_with_the_last_round_of_the_compression_}" TextWrapping="Wrap" Height="65" VerticalAlignment="Top" Style="{DynamicResource textBlockStyle}" />
     	<displays:HashAccumulatorDisplay DataContext="{Binding LastState}" Height="70" Margin="8,87,8,0" VerticalAlignment="Top" />
     	<displays:CompressionVariableDisplay DataContext="{Binding LastState}" Margin="8,189,8,0" VerticalAlignment="Top" Height="70" />
     	<displays:HashAccumulatorDisplay DataContext="{Binding CurrentState}" Height="70" Margin="8,295,8,0" VerticalAlignment="Top">

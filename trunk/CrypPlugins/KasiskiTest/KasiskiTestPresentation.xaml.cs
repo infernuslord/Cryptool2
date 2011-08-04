@@ -20,11 +20,9 @@ using System.Windows.Threading;
 
 namespace Cryptool.KasiskiTest
 {
-    
+    [Cryptool.PluginBase.Attributes.Localization("KasiskiTest.Properties.Resources")]
     public partial class KasiskiTestPresentation: UserControl
     {
-
-
 
         //private KasiskiTest kTest;
         public KasiskiTestPresentation(KasiskiTest KasiskiTest)

@@ -75,13 +75,13 @@
 
 
                 <StackPanel>
-                    <TextBlock TextAlignment="Center" IsHyphenationEnabled="True" FontSize="18" Foreground="Black"  FontFamily="Academy" OpacityMask="Turquoise" Text="Frequency of factors composing the distances "
-                ToolTip="Tip:The keylength could be one of the most frequent factors or a multiple "  >
+                    <TextBlock TextAlignment="Center" IsHyphenationEnabled="True" FontSize="18" Foreground="Black"  FontFamily="Academy" OpacityMask="Turquoise" Text="{Loc Label1Desc}"
+                ToolTip="{Loc TooltipDesc}"  >
                 
             </TextBlock>
 
-                    <TextBlock TextAlignment="Center" IsHyphenationEnabled="True" FontSize="18" Foreground="Black"  FontFamily="Academy" OpacityMask="Turquoise" Text="between identical strings in the cyphertext"
-                 ToolTip="Tip:The keylength could be one of the most frequent factors or a multiple "      >
+                    <TextBlock TextAlignment="Center" IsHyphenationEnabled="True" FontSize="18" Foreground="Black"  FontFamily="Academy" OpacityMask="Turquoise" Text="{Loc Label2Desc}"
+                 ToolTip="{Loc TooltipDesc}"      >
                 
             </TextBlock>
 

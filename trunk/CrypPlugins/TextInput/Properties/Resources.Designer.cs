@@ -268,6 +268,15 @@ namespace Cryptool.TextInput.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Text (1 character = 8 Bit) ähnelt.
+        /// </summary>
+        internal static string Text__1_character___8_Bit_ {
+            get {
+                return ResourceManager.GetString("Text__1_character___8_Bit_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Text ähnelt.
         /// </summary>
         internal static string TextOutputCaption {

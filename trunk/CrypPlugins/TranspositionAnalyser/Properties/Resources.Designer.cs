@@ -214,6 +214,24 @@ namespace TranspositionAnalyser.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Elapsed: ähnelt.
+        /// </summary>
+        internal static string ElapsedLabel {
+            get {
+                return ResourceManager.GetString("ElapsedLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die End: ähnelt.
+        /// </summary>
+        internal static string EndLabel {
+            get {
+                return ResourceManager.GetString("EndLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Input ähnelt.
         /// </summary>
         internal static string InputCaption {
@@ -250,6 +268,24 @@ namespace TranspositionAnalyser.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Key ähnelt.
+        /// </summary>
+        internal static string KeyHeader {
+            get {
+                return ResourceManager.GetString("KeyHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Keys / sec.: ähnelt.
+        /// </summary>
+        internal static string Keys_secLabel {
+            get {
+                return ResourceManager.GetString("Keys_secLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Keysize for genetic analysis. ähnelt.
         /// </summary>
         internal static string KeySizeCaption {
@@ -264,6 +300,15 @@ namespace TranspositionAnalyser.Properties {
         internal static string KeySizeTooltip {
             get {
                 return ResourceManager.GetString("KeySizeTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Local ähnelt.
+        /// </summary>
+        internal static string LocalLabel {
+            get {
+                return ResourceManager.GetString("LocalLabel", resourceCulture);
             }
         }
         
@@ -331,6 +376,15 @@ namespace TranspositionAnalyser.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Remaining: ähnelt.
+        /// </summary>
+        internal static string RemainingLabel {
+            get {
+                return ResourceManager.GetString("RemainingLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Number of repetitions for genetic analysis. ähnelt.
         /// </summary>
         internal static string RepeatingsCaption {
@@ -381,6 +435,42 @@ namespace TranspositionAnalyser.Properties {
         internal static string RowColumnRowTooltip {
             get {
                 return ResourceManager.GetString("RowColumnRowTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Start: ähnelt.
+        /// </summary>
+        internal static string StartLabel {
+            get {
+                return ResourceManager.GetString("StartLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Text ähnelt.
+        /// </summary>
+        internal static string TextHeader {
+            get {
+                return ResourceManager.GetString("TextHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Top Ten ähnelt.
+        /// </summary>
+        internal static string TopTenLabel {
+            get {
+                return ResourceManager.GetString("TopTenLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Value ähnelt.
+        /// </summary>
+        internal static string ValueHeader {
+            get {
+                return ResourceManager.GetString("ValueHeader", resourceCulture);
             }
         }
     }

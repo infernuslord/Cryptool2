@@ -10,8 +10,8 @@
     </Grid.RowDefinitions>
 
     <StackPanel Grid.Row="0" Background="WhiteSmoke">
-      <Label Name="hits">Hits: 0</Label>
-      <Label>[word], [index]</Label>
+            <Label Name="hits" Content="{Loc LabelHits}" />
+            <Label Content="{Loc LabelWordIndex}" />
     </StackPanel>
     <TextBox Name="textBox" Grid.Row="1" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Auto">
     </TextBox>

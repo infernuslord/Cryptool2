@@ -35,6 +35,7 @@ namespace Cryptool.BooleanFunctionParser
   /// <summary>
     /// Interaction logic for BooleanFunctionParserPresentation.xaml
   /// </summary>
+  [Cryptool.PluginBase.Attributes.Localization("Cryptool.BooleanFunctionParser.Properties.Resources")]
   public partial class BooleanFunctionParserPresentation : UserControl
   {
     public BooleanFunctionParserPresentation()

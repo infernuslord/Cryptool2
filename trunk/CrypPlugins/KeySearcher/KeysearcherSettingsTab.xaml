@@ -15,17 +15,17 @@
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <StackPanel Orientation="Vertical">
                 <Label Content="OpenCL:" FontWeight="Bold" />
-                <CheckBox Name="UseOpenCL" Content="Use OpenCL in KeySearcher" IsChecked="{Binding Source={x:Static Properties:Settings.Default}, Path=UseOpenCL, Mode=TwoWay}" ToolTip="Check this to enable the KeySearcher to make use of OpenCL for bruteforcing." Style="{StaticResource ResourceKey=settingsStyle}" />
-                <CheckBox Content="Enable using OpenCL with high load (not recommended)" IsChecked="{Binding Source={x:Static Properties:Settings.Default}, Path=EnableHighLoad, Mode=TwoWay}" IsEnabled="{Binding ElementName=UseOpenCL, Path=IsChecked}" Style="{StaticResource ResourceKey=settingsStyle}" Margin="40,5,0,0" />                
+                <CheckBox Name="UseOpenCL" Content="{Loc Use_OpenCL_in_KeySearcher}" IsChecked="{Binding Source={x:Static Properties:Settings.Default}, Path=UseOpenCL, Mode=TwoWay}" ToolTip="{Loc Use_OpenCL_in_KeySearcher_Tooltip}" Style="{StaticResource ResourceKey=settingsStyle}" />
+                <CheckBox Content="{Loc Enable_using_OpenCL_with_high_load__not_recommended_}" IsChecked="{Binding Source={x:Static Properties:Settings.Default}, Path=EnableHighLoad, Mode=TwoWay}" IsEnabled="{Binding ElementName=UseOpenCL, Path=IsChecked}" Style="{StaticResource ResourceKey=settingsStyle}" Margin="40,5,0,0" />                
 
-                <Label Content="Network:" FontWeight="Bold" />
+                <Label Content="{Loc Network_}" FontWeight="Bold" />
                 <StackPanel Orientation="Horizontal" Style="{StaticResource ResourceKey=settingsStyle}">
-                    <Label Content="Machine name:"/>
+                    <Label Content="{Loc Machine_name_}"/>
                     <TextBox Name="machineNameBox" IsReadOnly="True" IsEnabled="False" Width="200" Text="{Binding Path=MachNameToUse, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:KeysearcherSettingsTab}}}" />
                 </StackPanel>
-                <CheckBox Name="AnonymizeCheckBox" Content="Anonymize machine name" Style="{StaticResource ResourceKey=settingsStyle}" IsChecked="{Binding Source={x:Static Properties:Settings.Default}, Path=Anonymize, Mode=TwoWay}"/>
+                <CheckBox Name="AnonymizeCheckBox" Content="{Loc Anonymize_machine_name}" Style="{StaticResource ResourceKey=settingsStyle}" IsChecked="{Binding Source={x:Static Properties:Settings.Default}, Path=Anonymize, Mode=TwoWay}"/>
                 <StackPanel Orientation="Horizontal" Style="{StaticResource ResourceKey=settingsStyle}" Margin="40,5,0,0" Visibility="{Binding ElementName=AnonymizeCheckBox, Path=IsChecked, Converter={StaticResource TrueToVisibleConverter}}">
-                    <Label Content="Number of machine name characters to show: "/>
+                    <Label Content="{Loc Number_of_machine_name_characters_to_show_}"/>
                     <ComboBox Name="NumberOfChars" Width="100" SelectedIndex="{Binding Source={x:Static Properties:Settings.Default}, Path=MachNameChars, Mode=TwoWay}" />
                 </StackPanel>
             </StackPanel>

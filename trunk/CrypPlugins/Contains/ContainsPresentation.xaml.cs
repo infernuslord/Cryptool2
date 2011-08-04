@@ -31,12 +31,14 @@ using Contains.Aho_Corasick;
 using System.Threading;
 using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
+using Cryptool.PluginBase;
 
 namespace Contains
 {
   /// <summary>
   /// Interaction logic for ContainsPresentation.xaml
   /// </summary>
+  [Cryptool.PluginBase.Attributes.Localization("Contains.Properties.Resources")]
   public partial class ContainsPresentation : UserControl
   {
     // private ObservableCollection<StringSearchResult> collection = new ObservableCollection<StringSearchResult>();
@@ -54,7 +56,8 @@ namespace Contains
     {
       Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, (SendOrPostCallback)delegate
       {
-        hits.Content = "Hits: " + value;
+          hits.Content = typeof(Contains).GetPluginStringResource("LabelHits1") + value;
+        //hits.Content = "Hits: " + value;
         //if (canResetListView)
         //{
         //  listView.ItemsSource = null;
@@ -78,7 +81,8 @@ namespace Contains
           //  collection.Add(item);
           //}
 
-          hits.Content = "Hits: " + arr.Length + " (target: "+ TargetHits.ToString() + ")";
+          //hits.Content = "Hits: " + arr.Length + " (target: "+ TargetHits.ToString() + ")";
+            hits.Content = typeof(Contains).GetPluginStringResource("LabelHits1") + arr.Length + " (" + typeof(Contains).GetPluginStringResource("LabelTarget") + " " + TargetHits.ToString() + ")";
           StringBuilder sb = new StringBuilder();
           foreach (StringSearchResult item in arr)
 	        {
@@ -94,7 +98,7 @@ namespace Contains
           //}
         }
         else
-          hits.Content = "Hits: 0";
+            hits.Content = typeof(Contains).GetPluginStringResource("LabelHits");
       }, arr);
     }
   }

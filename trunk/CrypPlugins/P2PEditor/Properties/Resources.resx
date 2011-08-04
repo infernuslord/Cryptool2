@@ -451,7 +451,7 @@ email address. Use this code to change your accounts password settings.</value>
     <value>Your request was denied on serverside.
 Reason: Username or email adresse are revoked.</value>
   </data>
-    <data name="PluginCaption" xml:space="preserve">
+  <data name="PluginCaption" xml:space="preserve">
     <value>P2P Interface</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
@@ -459,5 +459,17 @@ Reason: Username or email adresse are revoked.</value>
   </data>
   <data name="PluginDescriptionURL" xml:space="preserve">
     <value>P2PEditor/DetailedDescription/Description.xaml</value>
+  </data>
+  <data name="ExperiencedSettingsGroup" xml:space="preserve">
+    <value>Experienced Settings</value>
+  </data>
+  <data name="ExpertSettingsGroup" xml:space="preserve">
+    <value>Expert Settings</value>
+  </data>
+  <data name="ProxySettingsGroup" xml:space="preserve">
+    <value>Proxy Settings</value>
+  </data>
+  <data name="ServerSettingsGroup" xml:space="preserve">
+    <value>Server Settings</value>
   </data>
 </root>

@@ -13,6 +13,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Cryptool.PluginBase.Attributes;
 using KeySearcher.Helper;
+using Cryptool.PluginBase;
 
 namespace KeySearcher
 {
@@ -54,7 +55,7 @@ namespace KeySearcher
 
             for (int i = 0; i <= _realMachName.Length; i++)
             {
-                NumberOfChars.Items.Add(String.Format("{0} characters", i));
+                NumberOfChars.Items.Add(String.Format(typeof(KeySearcher).GetPluginStringResource("Combo_characters"), i));
             }
 
             MachineName.OnMachineNameToUseChanged += delegate(string newMachineNameToUse)

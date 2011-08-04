@@ -180,4 +180,13 @@
   <data name="RemoveUnknownSymbolsList2" xml:space="preserve">
     <value>Remove</value>
   </data>
+  <data name="Label1Desc" xml:space="preserve">
+    <value>Frequency of factors composing the distances</value>
+  </data>
+  <data name="Label2Desc" xml:space="preserve">
+    <value>between identical strings in the ciphertext</value>
+  </data>
+  <data name="TooltipDesc" xml:space="preserve">
+    <value>Tip: The keylength could be one of the most frequent factors or a multiple</value>
+  </data>
 </root>

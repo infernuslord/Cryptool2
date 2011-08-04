@@ -394,4 +394,16 @@ Emailadresse senden können.</value>
     <value>Ihre Anfrage wurde serverseitig abgelehnt.
 Grund: Benutzername oder Emailadresse wurden abgelehnt.</value>
   </data>
+  <data name="ExperiencedSettingsGroup" xml:space="preserve">
+    <value>Experienced-Einstellungen</value>
+  </data>
+  <data name="ExpertSettingsGroup" xml:space="preserve">
+    <value>Experten-Einstellungen</value>
+  </data>
+  <data name="ProxySettingsGroup" xml:space="preserve">
+    <value>Proxy-Einstellungen</value>
+  </data>
+  <data name="ServerSettingsGroup" xml:space="preserve">
+    <value>Server-Einstellungen</value>
+  </data>
 </root>

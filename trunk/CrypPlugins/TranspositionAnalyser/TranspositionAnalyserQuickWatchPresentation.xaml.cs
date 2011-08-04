@@ -18,6 +18,7 @@ namespace TranspositionAnalyser
     /// <summary>
     /// Interaktionslogik für TranspositionAnalyserQuickWatchPresentation.xaml
     /// </summary>
+    [Cryptool.PluginBase.Attributes.Localization("TranspositionAnalyser.Properties.Resources")]
     public partial class TranspositionAnalyserQuickWatchPresentation : UserControl
     {
         public ObservableCollection<ResultEntry> entries = new ObservableCollection<ResultEntry>();

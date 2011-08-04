@@ -18,9 +18,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         
-        <Label Name="labelInputFunction" Grid.Column="0" Grid.Row="0" VerticalAlignment="Top" Margin="4" Padding="0">
-            Boolean function:
-        </Label>
+        <Label Name="labelInputFunction" Grid.Column="0" Grid.Row="0" VerticalAlignment="Top" Margin="4" Padding="0" Content="{Loc LabelBooleanFunction}" />
         <!-- <Button Name="myButton" Grid.Column="0" Grid.Row="0" Width="20" Height="20" HorizontalAlignment="Left" Background="White" Foreground="White" BorderBrush="White" >
             <Image Source="Images\copy.png" />
         </Button>-->
@@ -31,9 +29,7 @@
             </TextBox.Background>
         </TextBox>
         </Grid>
-        <Label Name="labelInputData" Grid.Column="0" Grid.Row="2" VerticalAlignment="Top" Margin="4" Padding="0" >
-            Data:
-        </Label>
+        <Label Name="labelInputData" Grid.Column="0" Grid.Row="2" VerticalAlignment="Top" Margin="4" Padding="0" Content="{Loc LabelData}" />
         <Grid Background="White" Grid.Column="0" Grid.Row="3">
         <TextBox Name="textBoxInputData" AcceptsTab="True"
                TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" 
@@ -43,13 +39,8 @@
             </TextBox.Background>
         </TextBox>
         </Grid>
-        <Label Name="labelMemoryBit" Grid.Column="0" Grid.Row="4" VerticalAlignment="Top" Margin="4" Padding="0" >
-            Memory Bit: 0
-        </Label>
-        
-        <Label Name="labelInputFunction2" Grid.Column="2" Grid.Row="0" VerticalAlignment="Top" Margin="4" Padding="0">
-            Boolean function for cube attack:
-        </Label>
+        <Label Name="labelMemoryBit" Grid.Column="0" Grid.Row="4" VerticalAlignment="Top" Margin="4" Padding="0" Content="{Loc LabelMemoryBit}" />
+        <Label Name="labelInputFunction2" Grid.Column="2" Grid.Row="0" VerticalAlignment="Top" Margin="4" Padding="0" Content="{Loc LabelBooleanFunctionCubeAttack}" />
         <Grid Background="White" Grid.Column="2" Grid.Row="1">
         <TextBox Name="textBoxInputFunction2" AcceptsTab="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" AcceptsReturn="True">
             <TextBox.Background>
@@ -57,9 +48,7 @@
             </TextBox.Background>
         </TextBox>
         </Grid>
-        <Label Name="labelInputData2" Grid.Column="2" Grid.Row="2" VerticalAlignment="Top" Margin="4" Padding="0" >
-            Secret key:
-        </Label>
+        <Label Name="labelInputData2" Grid.Column="2" Grid.Row="2" VerticalAlignment="Top" Margin="4" Padding="0" Content="{Loc LabelSecretKey}" />
         <Grid Background="White" Grid.Column="2" Grid.Row="3">
         <TextBox Name="textBoxInputData2" AcceptsTab="True"
                TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" 

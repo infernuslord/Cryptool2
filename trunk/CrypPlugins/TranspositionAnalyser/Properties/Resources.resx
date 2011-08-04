@@ -225,4 +225,34 @@
   <data name="Analysis_methodList3" xml:space="preserve">
     <value>Genetic algorithm</value>
   </data>
+  <data name="ElapsedLabel" xml:space="preserve">
+    <value>Elapsed:</value>
+  </data>
+  <data name="EndLabel" xml:space="preserve">
+    <value>End:</value>
+  </data>
+  <data name="KeyHeader" xml:space="preserve">
+    <value>Key</value>
+  </data>
+  <data name="Keys_secLabel" xml:space="preserve">
+    <value>Keys / sec.:</value>
+  </data>
+  <data name="LocalLabel" xml:space="preserve">
+    <value>Local</value>
+  </data>
+  <data name="RemainingLabel" xml:space="preserve">
+    <value>Remaining:</value>
+  </data>
+  <data name="StartLabel" xml:space="preserve">
+    <value>Start:</value>
+  </data>
+  <data name="TextHeader" xml:space="preserve">
+    <value>Text</value>
+  </data>
+  <data name="TopTenLabel" xml:space="preserve">
+    <value>Top Ten</value>
+  </data>
+  <data name="ValueHeader" xml:space="preserve">
+    <value>Value</value>
+  </data>
 </root>

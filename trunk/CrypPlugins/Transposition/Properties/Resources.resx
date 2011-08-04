@@ -219,4 +219,25 @@
   <data name="Presentation" xml:space="preserve">
     <value>Presentation</value>
   </data>
+  <data name="accomplished" xml:space="preserve">
+    <value>accomplished</value>
+  </data>
+  <data name="permuting_by_column" xml:space="preserve">
+    <value>permuting by column</value>
+  </data>
+  <data name="permuting_by_row" xml:space="preserve">
+    <value>permuting by row</value>
+  </data>
+  <data name="reading_in_by_column" xml:space="preserve">
+    <value>reading in by column</value>
+  </data>
+  <data name="reading_in_by_row" xml:space="preserve">
+    <value>reading in by row</value>
+  </data>
+  <data name="reading_out_by_column" xml:space="preserve">
+    <value>reading out by column</value>
+  </data>
+  <data name="reading_out_by_row" xml:space="preserve">
+    <value>reading out by row</value>
+  </data>
 </root>

@@ -162,4 +162,19 @@
   <data name="UseBFPforCubeTooltip" xml:space="preserve">
     <value>Erweiterung des BFP für die Verwendung als Sklave für das Cube Attack-Plugin.</value>
   </data>
+  <data name="LabelBooleanFunction" xml:space="preserve">
+    <value>Boolesche Funktion:</value>
+  </data>
+  <data name="LabelBooleanFunctionCubeAttack" xml:space="preserve">
+    <value>Boolesche Funktion für den Cube-Angriff:</value>
+  </data>
+  <data name="LabelData" xml:space="preserve">
+    <value>Daten:</value>
+  </data>
+  <data name="LabelMemoryBit" xml:space="preserve">
+    <value> Speicher-Bit: 0</value>
+  </data>
+  <data name="LabelSecretKey" xml:space="preserve">
+    <value>Geheimer Schlüssel:</value>
+  </data>
 </root>

@@ -28,5 +28,10 @@ namespace KeySearcherPresentation.Controls
             InitializeComponent();
             this.DataContext = entries;
         }
+
+        private void OpenCLPresentation_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
