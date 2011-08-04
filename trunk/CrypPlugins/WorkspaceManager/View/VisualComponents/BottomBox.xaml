@@ -357,19 +357,19 @@
                         </Style.Triggers>
                     </Style>
                 </StackPanel.Style>
-                <Button Style="{StaticResource ResourceKey=BottomBoxBtnStyle}" ToolTip="Sort" Name="SORT" Click="Button_Click" Foreground="WhiteSmoke" Margin="0,0,10,0">
-                    <TextBlock Text="Sort" VerticalAlignment="Center"></TextBlock>
+                <Button Style="{StaticResource ResourceKey=BottomBoxBtnStyle}" ToolTip="{Loc BBox_Sort_Tooltip}" Name="SORT" Click="Button_Click" Foreground="WhiteSmoke" Margin="0,0,10,0">
+                    <TextBlock Text="{Loc BBox_Sort_Caption}" VerticalAlignment="Center"></TextBlock>
                 </Button>
 
-                <Button Style="{StaticResource ResourceKey=BottomBoxBtnStyle}" ToolTip="Fit to Screen" Name="F2S" Click="Button_Click" Foreground="WhiteSmoke">
+                <Button Style="{StaticResource ResourceKey=BottomBoxBtnStyle}" ToolTip="{Loc BBox_Fit_to_Screen_Tooltip}" Name="F2S" Click="Button_Click" Foreground="WhiteSmoke">
                     <Image VerticalAlignment="Center" Source="/WorkspaceManager;component/View/Image/f2s-small.png" Width="30" Height="30"></Image>
                 </Button>
 
-                <Button Style="{StaticResource ResourceKey=BottomBoxBtnStyle}" ToolTip="Add Image to Workspace" Name="ADDIMG" Click="Button_Click" Foreground="WhiteSmoke">
+                <Button Style="{StaticResource ResourceKey=BottomBoxBtnStyle}" ToolTip="{Loc BBox_Add_Image_to_Workspace_Tooltip}" Name="ADDIMG" Click="Button_Click" Foreground="WhiteSmoke">
                     <Image VerticalAlignment="Center" Source="/WorkspaceManager;component/View/Image/addimg-small.png" Width="30" Height="30"></Image>
                 </Button>
 
-                <Button Margin="5,0,0,0" Style="{StaticResource ResourceKey=BottomBoxBtnStyle}" ToolTip="Add Text to Workspace" Name="ADDTXT" Click="Button_Click" Foreground="WhiteSmoke">
+                <Button Margin="5,0,0,0" Style="{StaticResource ResourceKey=BottomBoxBtnStyle}" ToolTip="{Loc BBox_Add_Text_to_Workspace_Tooltip}" Name="ADDTXT" Click="Button_Click" Foreground="WhiteSmoke">
                     <Image VerticalAlignment="Center" Source="/WorkspaceManager;component/View/Image/addtxt-small.png" Width="30" Height="30"></Image>
                 </Button>
 

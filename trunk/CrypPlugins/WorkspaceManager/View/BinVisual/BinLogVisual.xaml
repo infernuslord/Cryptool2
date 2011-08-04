@@ -208,46 +208,46 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <ToolBar Name="toolBarListViewFilter" BorderBrush="#999" BorderThickness="1" Grid.Row="0" Height="45" VerticalAlignment="Top">
-            <local:CustomToggleButton Style="{StaticResource ResourceKey=ToggleBasicStyle}" CheckedFalseToolTip="Show Error" CheckedTrueToolTip="Hide Error"
-                                      IsChecked="True" Text="Error" ClickMode="Press" Count="{Binding Path=ErrorCount}" Click="FilteringHandler">
+            <local:CustomToggleButton Style="{StaticResource ResourceKey=ToggleBasicStyle}" CheckedFalseToolTip="{Loc ErrorCheckedFalseTooltip}" CheckedTrueToolTip="{Loc ErrorCheckedTrueTooltip}"
+                                      IsChecked="True" Text="{Loc Error}" ClickMode="Press" Count="{Binding Path=ErrorCount}" Click="FilteringHandler">
                 <local:CustomToggleButton.Tag>
                     <Image Source="/WorkspaceManager;component/View/Image/error2.png"/>
                 </local:CustomToggleButton.Tag>
                 <pluginbase:NotificationLevel>Error</pluginbase:NotificationLevel>
             </local:CustomToggleButton>
             <Separator/>
-            <local:CustomToggleButton Style="{StaticResource ResourceKey=ToggleBasicStyle}" CheckedFalseToolTip="Show Warning" CheckedTrueToolTip="Hide Warning"
-                                      IsChecked="True" Text="Warning" ClickMode="Press" Count="{Binding Path=WarningCount}" Click="FilteringHandler">
+            <local:CustomToggleButton Style="{StaticResource ResourceKey=ToggleBasicStyle}" CheckedFalseToolTip="{Loc WarningCheckedFalseTooltip}" CheckedTrueToolTip="{Loc WarningCheckedTrueTooltip}"
+                                      IsChecked="True" Text="{Loc Warning}" ClickMode="Press" Count="{Binding Path=WarningCount}" Click="FilteringHandler">
                 <local:CustomToggleButton.Tag>
                     <Image Source="/WorkspaceManager;component/View/Image/warn.png"/>
                 </local:CustomToggleButton.Tag>
                 <pluginbase:NotificationLevel>Warning</pluginbase:NotificationLevel>
             </local:CustomToggleButton>
             <Separator/>
-            <local:CustomToggleButton Style="{StaticResource ResourceKey=ToggleBasicStyle}" CheckedFalseToolTip="Show Information" CheckedTrueToolTip="Hide Information"
-                                      IsChecked="True" Text="Info" ClickMode="Press" Count="{Binding Path=InfoCount}" Click="FilteringHandler">
+            <local:CustomToggleButton Style="{StaticResource ResourceKey=ToggleBasicStyle}" CheckedFalseToolTip="{Loc InfoCheckedFalseTooltip}" CheckedTrueToolTip="{Loc InfoCheckedTrueTooltip}"
+                                      IsChecked="True" Text="{Loc Info}" ClickMode="Press" Count="{Binding Path=InfoCount}" Click="FilteringHandler">
                 <local:CustomToggleButton.Tag>
                     <Image Source="/WorkspaceManager;component/View/Image/Info.png"/>
                 </local:CustomToggleButton.Tag>
                 <pluginbase:NotificationLevel>Info</pluginbase:NotificationLevel>
             </local:CustomToggleButton>
             <Separator/>
-            <local:CustomToggleButton Style="{StaticResource ResourceKey=ToggleBasicStyle}" CheckedFalseToolTip="Show Debugs" CheckedTrueToolTip="Hide Debugs"
-                                      IsChecked="True" Text="Debug" ClickMode="Press" Count="{Binding Path=DebugCount}" Click="FilteringHandler">
+            <local:CustomToggleButton Style="{StaticResource ResourceKey=ToggleBasicStyle}" CheckedFalseToolTip="{Loc DebugCheckedFalseTooltip}" CheckedTrueToolTip="{Loc DebugCheckedTrueTooltip}"
+                                      IsChecked="True" Text="{Loc Debug}" ClickMode="Press" Count="{Binding Path=DebugCount}" Click="FilteringHandler">
                 <local:CustomToggleButton.Tag>
                     <Image Source="/WorkspaceManager;component/View/Image/debug.png"/>
                 </local:CustomToggleButton.Tag>
                 <pluginbase:NotificationLevel>Debug</pluginbase:NotificationLevel>
             </local:CustomToggleButton>
             <Separator/>
-            <Button Height="30" Click="ButtonDeleteMessages_Click" ToolTip="Clear LogWindow">
+            <Button Height="30" Click="ButtonDeleteMessages_Click" ToolTip="{Loc Delete_all_messagesTooltip}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="30" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <Image Grid.Column="0" Source="/WorkspaceManager;component/View/Image/delete.png" Height="21" HorizontalAlignment="Center" SnapsToDevicePixels="True" Margin="1,1,1,1"/>
-                    <TextBlock Grid.Column="2" VerticalAlignment="Center" Margin="5,0,5,0">Delete all messages</TextBlock>
+                    <TextBlock Grid.Column="2" VerticalAlignment="Center" Margin="5,0,5,0" Text="{Loc Delete_all_messages}" />
                 </Grid>
             </Button>
             <Separator/>

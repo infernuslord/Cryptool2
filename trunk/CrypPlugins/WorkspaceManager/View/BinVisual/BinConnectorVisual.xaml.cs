@@ -34,7 +34,7 @@ namespace WorkspaceManager.View.BinVisual
         { 
             get 
             {
-                return Model != null ? Model.GetName() : "Error";
+                return Model != null ? Model.GetName() : Properties.Resources.Error;
             } 
         }
 
@@ -42,7 +42,7 @@ namespace WorkspaceManager.View.BinVisual
         {
             get
             {
-                return Model.ConnectorType != null ? Model.ConnectorType.Name : "Class Not Found";
+                return Model.ConnectorType != null ? Model.ConnectorType.Name : Properties.Resources.Class_Not_Found;
             }
         }
 
@@ -51,10 +51,10 @@ namespace WorkspaceManager.View.BinVisual
             get
             {
                 if (Model == null)
-                    return "No Data";
+                    return Properties.Resources.No_data;
 
                 if (Model.LastData == null)
-                    return "No Data";
+                    return Properties.Resources.No_data;
 
                 if (Model.LastData is Byte[])
                 {

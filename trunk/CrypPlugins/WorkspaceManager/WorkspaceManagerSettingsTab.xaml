@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:Properties="clr-namespace:WorkspaceManager.Properties"
-             mc:Ignorable="d" d:DesignHeight="490" d:DesignWidth="500" DataContext="{Binding}">
+             mc:Ignorable="d" d:DesignHeight="490" d:DesignWidth="632" DataContext="{Binding}">
     <Grid>
         <Image Source="/WorkspaceManager;component/View/Image/WorkspaceManagerIcon_orig.png" Opacity="0.2" />
         <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalAlignment="Top" Margin="20">
@@ -35,16 +35,16 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Label Grid.Row="0" Grid.Column="0" Style="{StaticResource ResourceKey=settingsStyle}" ToolTip="Set the update interval for updating GUI-Elements during execution" Height="25">GUI-Updateinterval:</Label>
-                <TextBox Grid.Row="0" Grid.Column="2" Style="{StaticResource ResourceKey=settingsStyle}" ToolTip="Set the update interval for updating GUI-Elements during execution" Height="25" Width="100" HorizontalAlignment="Left" Name="GuiUpdateInterval" Text="{Binding Source={x:Static Properties:Settings.Default}, Path=GuiUpdateInterval, Mode=TwoWay}" IsEnabled="False" />
-                <Slider Width="200" Grid.Row="0" Grid.Column="1" ToolTip="Set the update interval for updating GUI-Elements during execution" Value="{Binding Source={x:Static Properties:Settings.Default}, Path=GuiUpdateInterval, Mode=TwoWay}" Minimum="1" Maximum="500" IsSnapToTickEnabled="True" />
-                <Label Grid.Row="1" Grid.Column="0" Style="{StaticResource ResourceKey=settingsStyle}" ToolTip="Set the sleeping-time between execution of functions (in miliseconds)" Height="25" >Sleep-Time:</Label>
-                <TextBox Grid.Row="1" Grid.Column="2" Style="{StaticResource ResourceKey=settingsStyle}" ToolTip="Set the sleeping-time between execution of functions (in miliseconds)" Height="25" Width="100" HorizontalAlignment="Left" Name="SleepTime"  Text="{Binding Source={x:Static Properties:Settings.Default}, Path=SleepTime, Mode=TwoWay}" IsEnabled="False" />
-                <Slider Width="200" Grid.Row="1" Grid.Column="1" ToolTip="Set the update interval for updating GUI-Elements during execution" Value="{Binding Source={x:Static Properties:Settings.Default}, Path=SleepTime, Mode=TwoWay}" Minimum="0" Maximum="5000" IsSnapToTickEnabled="True" />
-                <CheckBox Grid.Row="4" Grid.ColumnSpan="2" Style="{StaticResource ResourceKey=settingsStyle}" Content="Synchronous Events" Name="SynchronousEvents" ToolTip="Set the behaviour of event handling of the execution engine" Height="21" IsChecked="{Binding Source={x:Static Properties:Settings.Default}, Path=SynchronousEvents, Mode=TwoWay}" />
-                <CheckBox Grid.Row="5" Grid.ColumnSpan="2" Style="{StaticResource ResourceKey=settingsStyle}" Content="Benchmark" Height="21" Name="BenchmarkPlugins" ToolTip="Should the ExecutionEngine benchmark the executed functions per second?" IsChecked="{Binding Source={x:Static Properties:Settings.Default}, Path=BenchmarkPlugins, Mode=TwoWay}"/>
+                <Label Grid.Row="0" Grid.Column="0" Style="{StaticResource ResourceKey=settingsStyle}" ToolTip="{Loc GUIUpdateinterval_Tooltip}" Height="25" Content="{Loc GUIUpdateinterval_Label}"/>
+                <TextBox Grid.Row="0" Grid.Column="2" Style="{StaticResource ResourceKey=settingsStyle}" ToolTip="{Loc GUIUpdateinterval_Tooltip}" Height="25" Width="100" HorizontalAlignment="Left" Name="GuiUpdateInterval" Text="{Binding Source={x:Static Properties:Settings.Default}, Path=GuiUpdateInterval, Mode=TwoWay}" IsEnabled="False" />
+                <Slider Width="200" Grid.Row="0" Grid.Column="1" ToolTip="{Loc GUIUpdateinterval_Tooltip}" Value="{Binding Source={x:Static Properties:Settings.Default}, Path=GuiUpdateInterval, Mode=TwoWay}" Minimum="1" Maximum="500" IsSnapToTickEnabled="True" />
+                <Label Grid.Row="1" Grid.Column="0" Style="{StaticResource ResourceKey=settingsStyle}" ToolTip="{Loc SleepTime_Tooltip}" Height="25" Content="{Loc SleepTime_Label}"/>
+                <TextBox Grid.Row="1" Grid.Column="2" Style="{StaticResource ResourceKey=settingsStyle}" ToolTip="{Loc SleepTime_Tooltip}" Height="25" Width="100" HorizontalAlignment="Left" Name="SleepTime"  Text="{Binding Source={x:Static Properties:Settings.Default}, Path=SleepTime, Mode=TwoWay}" IsEnabled="False" />
+                <Slider Width="200" Grid.Row="1" Grid.Column="1" ToolTip="{Loc SleepTime_Tooltip}" Value="{Binding Source={x:Static Properties:Settings.Default}, Path=SleepTime, Mode=TwoWay}" Minimum="0" Maximum="5000" IsSnapToTickEnabled="True" />
+                <CheckBox Grid.Row="4" Grid.ColumnSpan="2" Style="{StaticResource ResourceKey=settingsStyle}" Content="{Loc SynchronousEvents_Label}" Name="SynchronousEvents" ToolTip="{Loc SynchronousEvents_Tooltip}" Height="21" IsChecked="{Binding Source={x:Static Properties:Settings.Default}, Path=SynchronousEvents, Mode=TwoWay}" />
+                <CheckBox Grid.Row="5" Grid.ColumnSpan="2" Style="{StaticResource ResourceKey=settingsStyle}" Content="{Loc Benchmark_Label}" Height="21" Name="BenchmarkPlugins" ToolTip="{Loc Benchmark_Tooltip}" IsChecked="{Binding Source={x:Static Properties:Settings.Default}, Path=BenchmarkPlugins, Mode=TwoWay}"/>
 
-                <Label Style="{StaticResource ResourceKey=settingsStyle}" Content="Data type colors:" Grid.Row="6" Grid.Column="0" HorizontalAlignment="Left"/>
+                <Label Style="{StaticResource ResourceKey=settingsStyle}" Content="{Loc Datatypecolors_Label}" Grid.Row="6" Grid.Column="0" HorizontalAlignment="Left"/>
 
                 <Label Style="{StaticResource ResourceKey=settingsStyle}" Content="Integer:" Grid.Row="7" Grid.Column="0" Height="26"  HorizontalAlignment="Left"/>
                 <Border Style="{StaticResource ResourceKey=settingsStyle}" Margin="0,0,0,2" BorderThickness="1" BorderBrush="Gray" Width="26" Height="26" Grid.Row="7" Grid.Column="1" HorizontalAlignment="Left">
@@ -83,46 +83,46 @@
                     <Rectangle Name="DefaultColor" Width="25" Height="25" MouseLeftButtonDown="Rectangle_MouseDown"/>
                 </Border>
 
-                <Label Style="{StaticResource ResourceKey=settingsStyle}" Content="Function colors:" Grid.Row="6" Grid.Column="3" HorizontalAlignment="Left"/>
+                <Label Style="{StaticResource ResourceKey=settingsStyle}" Content="{Loc Functioncolors_Label}" Grid.Row="6" Grid.Column="3" HorizontalAlignment="Left"/>
 
-                <Label Style="{StaticResource ResourceKey=settingsStyle}" Content="Asymmetric:" Grid.Row="7" Grid.Column="3" Height="26"  HorizontalAlignment="Left"/>
+                <Label Style="{StaticResource ResourceKey=settingsStyle}" Content="{Loc Asymmetric_Label}" Grid.Row="7" Grid.Column="3" Height="26"  HorizontalAlignment="Left"/>
                 <Border Style="{StaticResource ResourceKey=settingsStyle}" Margin="0,0,0,2" BorderThickness="1" BorderBrush="Gray" Width="26" Height="26" Grid.Row="7" Grid.Column="4" HorizontalAlignment="Left">
                     <Rectangle Name="AsymmetricColor" Width="25" Height="25" MouseLeftButtonDown="Rectangle_MouseDown"/>
                 </Border>
-                <Label Style="{StaticResource ResourceKey=settingsStyle}" Content="Classic:" Grid.Row="8" Grid.Column="3" Height="26"  HorizontalAlignment="Left"/>
+                <Label Style="{StaticResource ResourceKey=settingsStyle}" Content="{Loc Classic_Label}" Grid.Row="8" Grid.Column="3" Height="26"  HorizontalAlignment="Left"/>
                 <Border Style="{StaticResource ResourceKey=settingsStyle}" Margin="0,0,0,2" BorderThickness="1" BorderBrush="Gray" Width="26" Height="26" Grid.Row="8" Grid.Column="4" HorizontalAlignment="Left">
                     <Rectangle Name="ClassicColor" Width="25" Height="25" MouseLeftButtonDown="Rectangle_MouseDown"/>
                 </Border>
-                <Label Style="{StaticResource ResourceKey=settingsStyle}" Content="Symmetric block:" Grid.Row="9" Grid.Column="3" Height="26"  HorizontalAlignment="Left"/>
+                <Label Style="{StaticResource ResourceKey=settingsStyle}" Content="{Loc Symmetricblock_Label}" Grid.Row="9" Grid.Column="3" Height="26"  HorizontalAlignment="Left"/>
                 <Border Style="{StaticResource ResourceKey=settingsStyle}" Margin="0,0,0,2" BorderThickness="1" BorderBrush="Gray" Width="26" Height="26" Grid.Row="9" Grid.Column="4" HorizontalAlignment="Left">
                     <Rectangle Name="SymmetricColor" Width="25" Height="25" MouseLeftButtonDown="Rectangle_MouseDown"/>
                 </Border>
-                <Label Style="{StaticResource ResourceKey=settingsStyle}" Content="Tools:" Grid.Row="12" Grid.Column="3" Height="26"  HorizontalAlignment="Left"/>
-                <Border Style="{StaticResource ResourceKey=settingsStyle}" Margin="0,0,0,2" BorderThickness="1" BorderBrush="Gray" Width="26" Height="26" Grid.Row="12" Grid.Column="4" HorizontalAlignment="Left">
+                <Label Style="{StaticResource ResourceKey=settingsStyle}" Content="{Loc Tools_Label}" Grid.Row="10" Grid.Column="3" Height="26"  HorizontalAlignment="Left"/>
+                <Border Style="{StaticResource ResourceKey=settingsStyle}" Margin="0,0,0,2" BorderThickness="1" BorderBrush="Gray" Width="26" Height="26" Grid.Row="10" Grid.Column="4" HorizontalAlignment="Left">
                     <Rectangle Name="ToolsColor" Width="25" Height="25" MouseLeftButtonDown="Rectangle_MouseDown"/>
                 </Border>
-                <Label Style="{StaticResource ResourceKey=settingsStyle}" Content="Hash:" Grid.Row="13" Grid.Column="3" Height="26"  HorizontalAlignment="Left"/>
-                <Border Style="{StaticResource ResourceKey=settingsStyle}" Margin="0,0,0,2" BorderThickness="1" BorderBrush="Gray" Width="26" Height="26" Grid.Row="13" Grid.Column="4" HorizontalAlignment="Left">
+                <Label Style="{StaticResource ResourceKey=settingsStyle}" Content="{Loc Hash_Label}" Grid.Row="11" Grid.Column="3" Height="26"  HorizontalAlignment="Left"/>
+                <Border Style="{StaticResource ResourceKey=settingsStyle}" Margin="0,0,0,2" BorderThickness="1" BorderBrush="Gray" Width="26" Height="26" Grid.Row="11" Grid.Column="4" HorizontalAlignment="Left">
                     <Rectangle Name="HashColor" Width="25" Height="25" MouseLeftButtonDown="Rectangle_MouseDown"/>
                 </Border>
-                <Label Style="{StaticResource ResourceKey=settingsStyle}" Content="Analysis/Generic:" Grid.Row="14" Grid.Column="3" Height="26"  HorizontalAlignment="Left"/>
-                <Border Style="{StaticResource ResourceKey=settingsStyle}" Margin="0,0,0,2" BorderThickness="1" BorderBrush="Gray" Width="26" Height="26" Grid.Row="14" Grid.Column="4" HorizontalAlignment="Left">
+                <Label Style="{StaticResource ResourceKey=settingsStyle}" Content="{Loc AnalysisGeneric_Label}" Grid.Row="12" Grid.Column="3" Height="26"  HorizontalAlignment="Left"/>
+                <Border Style="{StaticResource ResourceKey=settingsStyle}" Margin="0,0,0,2" BorderThickness="1" BorderBrush="Gray" Width="26" Height="26" Grid.Row="12" Grid.Column="4" HorizontalAlignment="Left">
                     <Rectangle Name="AnalysisGenericColor" Width="25" Height="25" MouseLeftButtonDown="Rectangle_MouseDown"/>
                 </Border>
-                <Label Style="{StaticResource ResourceKey=settingsStyle}" Content="Analysis/Specific:" Grid.Row="15" Grid.Column="3" Height="26"  HorizontalAlignment="Left"/>
-                <Border Style="{StaticResource ResourceKey=settingsStyle}" Margin="0,0,0,2" BorderThickness="1" BorderBrush="Gray" Width="26" Height="26" Grid.Row="15" Grid.Column="4" HorizontalAlignment="Left">
+                <Label Style="{StaticResource ResourceKey=settingsStyle}" Content="{Loc AnalysisSpecific_Label}" Grid.Row="13" Grid.Column="3" Height="26"  HorizontalAlignment="Left"/>
+                <Border Style="{StaticResource ResourceKey=settingsStyle}" Margin="0,0,0,2" BorderThickness="1" BorderBrush="Gray" Width="26" Height="26" Grid.Row="13" Grid.Column="4" HorizontalAlignment="Left">
                     <Rectangle Name="AnalysisSpecificColor" Width="25" Height="25" MouseLeftButtonDown="Rectangle_MouseDown"/>
                 </Border>
-                <Label Style="{StaticResource ResourceKey=settingsStyle}" Content="Steganography:" Grid.Row="15" Grid.Column="3" Height="26"  HorizontalAlignment="Left"/>
-                <Border Style="{StaticResource ResourceKey=settingsStyle}" Margin="0,0,0,2" BorderThickness="1" BorderBrush="Gray" Width="26" Height="26" Grid.Row="15" Grid.Column="4" HorizontalAlignment="Left">
+                <Label Style="{StaticResource ResourceKey=settingsStyle}" Content="{Loc Steganography_Label}" Grid.Row="14" Grid.Column="3" Height="26"  HorizontalAlignment="Left"/>
+                <Border Style="{StaticResource ResourceKey=settingsStyle}" Margin="0,0,0,2" BorderThickness="1" BorderBrush="Gray" Width="26" Height="26" Grid.Row="14" Grid.Column="4" HorizontalAlignment="Left">
                   <Rectangle Name="SteganographyColor" Width="25" Height="25" MouseLeftButtonDown="Rectangle_MouseDown"/>
                 </Border>
-                <Label Style="{StaticResource ResourceKey=settingsStyle}" Content="Protocols:" Grid.Row="15" Grid.Column="3" Height="26"  HorizontalAlignment="Left"/>
+                <Label Style="{StaticResource ResourceKey=settingsStyle}" Content="{Loc Protocols_Label}" Grid.Row="15" Grid.Column="3" Height="26"  HorizontalAlignment="Left"/>
                 <Border Style="{StaticResource ResourceKey=settingsStyle}" Margin="0,0,0,2" BorderThickness="1" BorderBrush="Gray" Width="26" Height="26" Grid.Row="15" Grid.Column="4" HorizontalAlignment="Left">
                   <Rectangle Name="ProtocolColor" Width="25" Height="25" MouseLeftButtonDown="Rectangle_MouseDown"/>
                 </Border>
 
-              <Button Click="ResetColorButton_Click" Width="100" Height="25" Margin="2,2,2,2" Grid.Column="0" Grid.Row="16" Style="{StaticResource ResourceKey=settingsStyle}" Content="Reset Colors" ToolTip="Reset all colors to their default values."/>
+                <Button Click="ResetColorButton_Click" Width="133" Height="25" Margin="2,2,198,2" Grid.Row="16" Style="{StaticResource ResourceKey=settingsStyle}" Content="{Loc ResetColors_Label}" ToolTip="{Loc ResetColors_Tooltip}" Grid.ColumnSpan="2" />
             </Grid>
         </ScrollViewer>
     </Grid>

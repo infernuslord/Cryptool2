@@ -15,10 +15,7 @@
         <Image Source="/Startcenter;component/header_logo.png" />
         <Label Grid.Row="1" MinHeight="40" VerticalContentAlignment="Center" Margin="21,0,0,0">
             <Label.Content>
-                <TextBlock TextWrapping="Wrap">
-                    Welcome to <Bold>CrypTool 2.0</Bold>.
-                    A good way to start is either to click on the wizard button in the section “Main Functions” (to get a guided tour) or to load one of the pre-defined templates (which demonstrate the functionality of CrypTool 2 in well-defined cryptographic scenarios).
-                </TextBlock>
+                <TextBlock TextWrapping="Wrap" Text="{Loc Welcome_to_CrypTool_2_0}" />
             </Label.Content>
         </Label>
 
@@ -87,6 +84,6 @@
             </Grid>
         </Grid>
 
-        <CheckBox Name="StartupCheckbox"  Content="Show this welcome screen at CrypTool 2.0 startup." Margin="5" VerticalAlignment="Center" Grid.Row="3" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" />        
+        <CheckBox Name="StartupCheckbox"  Content="{Loc Show_this_welcome_screen_at_CrypTool_2_0_startup_}" Margin="5" VerticalAlignment="Center" Grid.Row="3" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" />        
     </Grid>
 </UserControl>
