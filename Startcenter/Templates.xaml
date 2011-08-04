@@ -10,7 +10,7 @@
             <VisualBrush x:Key="HelpBrush" TileMode="None" Stretch="None" AlignmentX="Left" AutoLayoutContent="True">
                 <VisualBrush.Visual>
                     <Grid Background="White">
-                        <TextBlock FontStyle="Italic" Opacity="0.4"  Text="      Search" Margin="5,0,0,0"></TextBlock>
+                        <TextBlock FontStyle="Italic" Opacity="0.4"  Text="{Loc _Search}" Margin="5,0,0,0"></TextBlock>
                     </Grid>
                 </VisualBrush.Visual>
             </VisualBrush>
@@ -21,7 +21,7 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         <TextBox Name="SearchTextBox" TextChanged="TemplateSearchInputChanged" 
-                             KeyDown="TemplateSearchBoxKeyDown" VerticalAlignment="Top" HorizontalAlignment="Stretch" ToolTip="Search" Focusable="True">
+                             KeyDown="TemplateSearchBoxKeyDown" VerticalAlignment="Top" HorizontalAlignment="Stretch" ToolTip="{Loc Search}" Focusable="True">
             <TextBox.Style>
                 <Style TargetType="TextBox">
                     <Style.Triggers>

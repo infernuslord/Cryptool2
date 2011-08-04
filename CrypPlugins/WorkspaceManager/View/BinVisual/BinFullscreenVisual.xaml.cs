@@ -21,6 +21,7 @@ namespace WorkspaceManager.View.BinVisual
     /// <summary>
     /// Interaction logic for BinFullscreenVisual.xaml
     /// </summary>
+    [Cryptool.PluginBase.Attributes.Localization("WorkspaceManager.Properties.Resources")]
     public partial class BinFullscreenVisual : UserControl, INotifyPropertyChanged
     {
         #region Events

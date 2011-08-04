@@ -126,40 +126,67 @@
   <data name="PluginTooltip" xml:space="preserve">
     <value>Das CrypTool 2.0 Startcenter</value>
   </data>
-	<data name="Date" xml:space="preserve">
+  <data name="Date" xml:space="preserve">
     <value>Datum:</value>
   </data>
-	<data name="MainFunctions" xml:space="preserve">
+  <data name="MainFunctions" xml:space="preserve">
     <value>Hauptfunktionen</value>
   </data>
-	<data name="News" xml:space="preserve">
+  <data name="News" xml:space="preserve">
     <value>Neues</value>
   </data>
-	<data name="RecentFiles" xml:space="preserve">
+  <data name="RecentFiles" xml:space="preserve">
     <value>Zuletzt geöffnete Dateien</value>
   </data>
-	<data name="Templates" xml:space="preserve">
+  <data name="Templates" xml:space="preserve">
     <value>Vorlagen</value>
   </data>
-	<data name="Title" xml:space="preserve">
+  <data name="Title" xml:space="preserve">
     <value>Titel:</value>
   </data>
-	<data name="LoadingRSSFeed" xml:space="preserve">
+  <data name="LoadingRSSFeed" xml:space="preserve">
     <value>Lade RSS Feed</value>
   </data>
-	<data name="PleaseWait" xml:space="preserve">
+  <data name="PleaseWait" xml:space="preserve">
     <value>Bitte warten...</value>
   </data>
-	<data name="This_is_an_AnotherEditor_file_">
-		<value xml:space="preserve">Dies ist eine AnotherEditor Datei.</value>
-	</data>
-	<data name="This_is_a_WorkspaceManager_file_">
-		<value xml:space="preserve">Dies ist eine WorkspaceManager Datei.</value>
-	</data>
-	<data name="This_is_a_standalone_component_">
-		<value xml:space="preserve">Dies ist eine alleinstehende Komponente.</value>
-	</data>
-	<data name="This_is_a_template">
-		<value xml:space="preserve">Dies ist eine Vorlage.</value>
-	</data>
+  <data name="This_is_an_AnotherEditor_file_" xml:space="preserve">
+    <value>Dies ist eine AnotherEditor Datei.</value>
+  </data>
+  <data name="This_is_a_WorkspaceManager_file_" xml:space="preserve">
+    <value>Dies ist eine WorkspaceManager Datei.</value>
+  </data>
+  <data name="This_is_a_standalone_component_" xml:space="preserve">
+    <value>Dies ist eine alleinstehende Komponente.</value>
+  </data>
+  <data name="This_is_a_template" xml:space="preserve">
+    <value>Dies ist eine Vorlage.</value>
+  </data>
+  <data name="Connect_to_the_distributed_computing_platform_" xml:space="preserve">
+    <value>Verbinden Sie sich mit der verteilten Berechnungsplattform.</value>
+  </data>
+  <data name="Create_a_new_workspace_with_the_graphical_editor_" xml:space="preserve">
+    <value>Erstellen Sie einen neuen Workspace mit dem grafischen Editor.</value>
+  </data>
+  <data name="Read_the_online_documentation_" xml:space="preserve">
+    <value>Lesen Sie die Online-Dokumentation.</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Suche</value>
+  </data>
+  <data name="Show_this_welcome_screen_at_CrypTool_2_0_startup_" xml:space="preserve">
+    <value>Diese Begrüßungsseite beim Start von CrypTool 2.0 anzeigen.</value>
+  </data>
+  <data name="Use_the_wizard_to_easily_try_some_CrypTool_2_0_features_" xml:space="preserve">
+    <value>Verwenden Sie den Wizard, um die Fähigkeiten von CrypTool 2.0 einfach zu erkunden.</value>
+  </data>
+  <data name="Visit_the_official_CrypTool_2_0_website_" xml:space="preserve">
+    <value>Besuchen Sie die offizielle CrypTool 2.0-Webpräsenz.</value>
+  </data>
+  <data name="Welcome_to_CrypTool_2_0" xml:space="preserve">
+    <value>Willkommen bei CrypTool 2.0. Ein guter Ausgangspunkt für die Erkundung des Programmes ist entweder der Wizard in der Sektion “Hauptfunktionen” (für eine geführte Tour) oder Sie laden eine der bereitgestellten Vorlagen, welche die Funktionalität von CrypTool 2.0 in einem wohldefinierten kryptographischen Szenario demonstrieren.</value>
+  </data>
+  <data name="_Search" xml:space="preserve">
+    <value>      Suche</value>
+  </data>
 </root>

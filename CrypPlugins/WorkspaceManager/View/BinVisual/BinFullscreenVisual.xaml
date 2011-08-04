@@ -272,28 +272,28 @@
         </Style>
 
         <x:Array Type="{x:Type Button}" x:Key="Actions">
-            <Button ToolTip="Settings" Style="{StaticResource ResourceKey=ActionBasicStyle}" Click="ActionHandler">
+            <Button ToolTip="{Loc SettingsTooltip}" Style="{StaticResource ResourceKey=ActionBasicStyle}" Click="ActionHandler">
                 <Button.Tag>
                     <Image Source="/WorkspaceManager;component/View/Image/setting.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"></Image>
                 </Button.Tag>
                 <model:BinComponentState>Setting</model:BinComponentState>
             </Button>
 
-            <Button ToolTip="Log" Style="{StaticResource ResourceKey=ActionBasicStyle}" Click="ActionHandler">
+            <Button ToolTip="{Loc LogTooltip}" Style="{StaticResource ResourceKey=ActionBasicStyle}" Click="ActionHandler">
                 <Button.Tag>
                     <Image Source="/WorkspaceManager;component/View/Image/log.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"></Image>
                 </Button.Tag>
                 <model:BinComponentState>Log</model:BinComponentState>
             </Button>
 
-            <Button ToolTip="Data" Style="{StaticResource ResourceKey=ActionBasicStyle}" Click="ActionHandler" >
+            <Button ToolTip="{Loc DataTooltip}" Style="{StaticResource ResourceKey=ActionBasicStyle}" Click="ActionHandler" >
                 <Button.Tag>
                     <Image Source="/WorkspaceManager;component/View/Image/data.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"></Image>
                 </Button.Tag>
                 <model:BinComponentState>Data</model:BinComponentState>
             </Button>
 
-            <Button ToolTip="Presentation" Style="{StaticResource ResourceKey=PresentationBtnStyle}" Click="ActionHandler">
+            <Button ToolTip="{Loc PresentationTooltip}" Style="{StaticResource ResourceKey=PresentationBtnStyle}" Click="ActionHandler">
                 <Button.Tag>
                     <Image Source="/WorkspaceManager;component/View/Image/presentation.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"></Image>
                 </Button.Tag>
@@ -318,7 +318,7 @@
                         <ColumnDefinition Width="*"></ColumnDefinition>
                         <ColumnDefinition Width="25"/>
                     </Grid.ColumnDefinitions>
-                    <Button ToolTip="Settings" Style="{StaticResource ResourceKey=OpenCloseBtnStyle}" Click="ActionHandler"
+                    <Button ToolTip="{Loc SettingsTooltip}" Style="{StaticResource ResourceKey=OpenCloseBtnStyle}" Click="ActionHandler"
                             HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Column="1">
                     </Button>
                     <ItemsControl x:Name="ActionsItemsControl" ItemsSource="{StaticResource ResourceKey=Actions}"

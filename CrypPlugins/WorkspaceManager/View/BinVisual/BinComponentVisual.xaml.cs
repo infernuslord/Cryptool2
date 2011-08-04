@@ -30,6 +30,7 @@ namespace WorkspaceManager.View.BinVisual
     /// <summary>
     /// Interaction logic for BinFunctionVisual.xaml
     /// </summary>
+    [Cryptool.PluginBase.Attributes.Localization("WorkspaceManager.Properties.Resources")]
     public partial class BinComponentVisual : UserControl, IRouting, INotifyPropertyChanged, IUpdateableView
     {
 

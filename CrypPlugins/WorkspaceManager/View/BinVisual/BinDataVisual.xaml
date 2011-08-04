@@ -189,7 +189,7 @@
             <RowDefinition Height="34"/>
         </Grid.RowDefinitions>
         <Border BorderBrush="{StaticResource ResourceKey=BackgroundTitle}" BorderThickness="1" Grid.Row="0">
-            <TextBlock FontWeight="Bold" FontSize="15" Foreground="#555" Text="Data"
+            <TextBlock FontWeight="Bold" FontSize="15" Foreground="#555" Text="{Loc DataTooltip}"
                        HorizontalAlignment="Stretch" VerticalAlignment="Center" TextAlignment="Center"></TextBlock>
         </Border>
         <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Grid.Row="1">

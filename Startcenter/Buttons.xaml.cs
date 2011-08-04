@@ -19,6 +19,7 @@ namespace Startcenter
     /// <summary>
     /// Interaction logic for Buttons.xaml
     /// </summary>
+    [Cryptool.PluginBase.Attributes.Localization("Startcenter.Properties.Resources")]
     public partial class Buttons : UserControl
     {
         public event OpenEditorHandler OnOpenEditor;

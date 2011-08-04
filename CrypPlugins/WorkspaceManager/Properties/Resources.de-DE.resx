@@ -117,7 +117,172 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AnalysisGeneric_Label" xml:space="preserve">
+    <value>Analyse/Generisch:</value>
+  </data>
+  <data name="AnalysisSpecific_Label" xml:space="preserve">
+    <value>Analyse/Spezifisch:</value>
+  </data>
+  <data name="Asymmetric_Label" xml:space="preserve">
+    <value>Asymmetrisch:</value>
+  </data>
+  <data name="BBox_Add_Image_to_Workspace_Tooltip" xml:space="preserve">
+    <value>Bild dem Arbeitsbereich hinzufügen</value>
+  </data>
+  <data name="BBox_Add_Text_to_Workspace_Tooltip" xml:space="preserve">
+    <value>Text dem Arbeitsbereich hinzufügen</value>
+  </data>
+  <data name="BBox_Fit_to_Screen_Tooltip" xml:space="preserve">
+    <value>an Bildschirmgröße anpassen</value>
+  </data>
+  <data name="BBox_Sort_Caption" xml:space="preserve">
+    <value>Sortieren</value>
+  </data>
+  <data name="BBox_Sort_Tooltip" xml:space="preserve">
+    <value>Sortieren</value>
+  </data>
+  <data name="Benchmark_Label" xml:space="preserve">
+    <value>Benchmark</value>
+  </data>
+  <data name="Benchmark_Tooltip" xml:space="preserve">
+    <value>Soll die Execution-Engine die aufgerufenen Funktionen auf Sekunden-Basis evaluieren?</value>
+  </data>
+  <data name="Classic_Label" xml:space="preserve">
+    <value>Klassisch:</value>
+  </data>
+  <data name="Class_Not_Found" xml:space="preserve">
+    <value>Klasse nicht gefunden</value>
+  </data>
+  <data name="DataTooltip" xml:space="preserve">
+    <value>Daten</value>
+  </data>
+  <data name="Datatypecolors_Label" xml:space="preserve">
+    <value>Datentyp-Farben:</value>
+  </data>
+  <data name="Debug" xml:space="preserve">
+    <value>Debug</value>
+  </data>
+  <data name="DebugCheckedFalseTooltip" xml:space="preserve">
+    <value>Debugmeldungen anzeigen</value>
+  </data>
+  <data name="DebugCheckedTrueTooltip" xml:space="preserve">
+    <value>Debugmeldungen ausblenden</value>
+  </data>
+  <data name="Delete_all_messages" xml:space="preserve">
+    <value>Alle Nachrichten löschen</value>
+  </data>
+  <data name="Delete_all_messagesTooltip" xml:space="preserve">
+    <value>Protokollfenster löschen</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Fehler</value>
+  </data>
+  <data name="ErrorCheckedFalseTooltip" xml:space="preserve">
+    <value>Fehler anzeigen</value>
+  </data>
+  <data name="ErrorCheckedTrueTooltip" xml:space="preserve">
+    <value>Fehler ausblenden</value>
+  </data>
+  <data name="Functioncolors_Label" xml:space="preserve">
+    <value>Funktionen-Farben:</value>
+  </data>
+  <data name="GUIUpdateinterval_Label" xml:space="preserve">
+    <value>GUI-Updateintervall:</value>
+  </data>
+  <data name="GUIUpdateinterval_Tooltip" xml:space="preserve">
+    <value>Setze das Intervall für die Aktualisierung der GUI-Elemente während der Ausführung</value>
+  </data>
+  <data name="Hash_Label" xml:space="preserve">
+    <value>Hash:</value>
+  </data>
+  <data name="Info" xml:space="preserve">
+    <value>Informationen</value>
+  </data>
+  <data name="InfoCheckedFalseTooltip" xml:space="preserve">
+    <value>Informationen anzeigen</value>
+  </data>
+  <data name="InfoCheckedTrueTooltip" xml:space="preserve">
+    <value>Informationen ausblenden</value>
+  </data>
+  <data name="LogTooltip" xml:space="preserve">
+    <value>Protokoll</value>
+  </data>
+  <data name="Main_Settings" xml:space="preserve">
+    <value>Haupt-Einstellungen</value>
+  </data>
+  <data name="MaximizeTooltip" xml:space="preserve">
+    <value>Maximieren</value>
+  </data>
+  <data name="MinimizeTooltip" xml:space="preserve">
+    <value>Minimieren</value>
+  </data>
+  <data name="No_data" xml:space="preserve">
+    <value>Keine Daten</value>
+  </data>
+  <data name="PluginCaption" xml:space="preserve">
+    <value>Workspace Manager</value>
+  </data>
+  <data name="PluginTooltip" xml:space="preserve">
+    <value>Graphischer Plugin-Editor für die CrypTool-Arbeitsfläche</value>
+  </data>
+  <data name="PresentationTooltip" xml:space="preserve">
+    <value>Präsentation</value>
+  </data>
+  <data name="Protocols_Label" xml:space="preserve">
+    <value>Protokolle:</value>
+  </data>
+  <data name="RepeatTooltip" xml:space="preserve">
+    <value>Wiederholen</value>
+  </data>
+  <data name="ResetColors_Label" xml:space="preserve">
+    <value>Farben rücksetzen</value>
+  </data>
+  <data name="ResetColors_Tooltip" xml:space="preserve">
+    <value>Setze alle Farben auf die Voreinstellungen zurück.</value>
+  </data>
+  <data name="SettingsTooltip" xml:space="preserve">
+    <value>Einstellungen</value>
+  </data>
+  <data name="Show_IControlsTooltip" xml:space="preserve">
+    <value>Zeige IControls</value>
+  </data>
+  <data name="SleepTime_Label" xml:space="preserve">
+    <value>Wartezeit:</value>
+  </data>
+  <data name="SleepTime_Tooltip" xml:space="preserve">
+    <value>Setze die Wartezeit zwischen der Ausführung von Funktionen (in Millisekunden)</value>
+  </data>
+  <data name="Steganography_Label" xml:space="preserve">
+    <value>Steganographie:</value>
+  </data>
+  <data name="Symmetricblock_Label" xml:space="preserve">
+    <value>Symmetrisch (Block):</value>
+  </data>
+  <data name="SynchronousEvents_Label" xml:space="preserve">
+    <value>Synchrone Ereignisse</value>
+  </data>
+  <data name="SynchronousEvents_Tooltip" xml:space="preserve">
+    <value>Wähle die Art der Ereignisbehandlung der Execution-Engine</value>
+  </data>
+  <data name="Tools_Label" xml:space="preserve">
+    <value>Werkzeuge:</value>
+  </data>
+  <data name="unnamed_project" xml:space="preserve">
+    <value>unbenanntes Projekt</value>
+  </data>
+  <data name="Warning" xml:space="preserve">
+    <value>Warnungen</value>
+  </data>
+  <data name="WarningCheckedFalseTooltip" xml:space="preserve">
+    <value>Warnungen anzeigen</value>
+  </data>
+  <data name="WarningCheckedTrueTooltip" xml:space="preserve">
+    <value>Warnungen ausblenden</value>
+  </data>
   <data name="WorkspaceManagerSettings" xml:space="preserve">
     <value>Arbeitsbereich</value>
+  </data>
+  <data name="InformationTooltip" xml:space="preserve">
+    <value>Information</value>
   </data>
 </root>

@@ -21,6 +21,7 @@ namespace WorkspaceManager.View.BinVisual
     /// <summary>
     /// Interaction logic for LogPresentation.xaml
     /// </summary>
+    [Cryptool.PluginBase.Attributes.Localization("WorkspaceManager.Properties.Resources")]
     public partial class BinLogVisual : UserControl, INotifyPropertyChanged
     {
         #region events

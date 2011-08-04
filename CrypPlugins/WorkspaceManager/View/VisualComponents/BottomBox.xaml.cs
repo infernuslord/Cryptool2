@@ -18,6 +18,7 @@ namespace WorkspaceManager.View.VisualComponents
     /// <summary>
     /// Interaktionslogik für Settings.xaml
     /// </summary>
+    [Cryptool.PluginBase.Attributes.Localization("WorkspaceManager.Properties.Resources")]
     public partial class BottomBox : UserControl
     {
         public event EventHandler<ImageSelectedEventArgs> AddImage;

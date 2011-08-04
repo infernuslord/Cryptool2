@@ -94,7 +94,7 @@ namespace WorkspaceManager.View.BinVisual
                     {
                           testexoander.Header = cel[0].tpa.GroupName;
                     }
-                    else {  testexoander.Header = "Main"; }
+                    else {  testexoander.Header = Properties.Resources.Main_Settings; }
                           
 
                     

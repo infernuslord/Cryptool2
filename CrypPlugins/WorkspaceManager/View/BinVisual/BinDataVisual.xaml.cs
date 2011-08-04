@@ -22,6 +22,7 @@ namespace WorkspaceManager.View.BinVisual
     /// <summary>
     /// Interaction logic for BinDataVisual.xaml
     /// </summary>
+    [Cryptool.PluginBase.Attributes.Localization("WorkspaceManager.Properties.Resources")]
     public partial class BinDataVisual : UserControl, INotifyPropertyChanged
     {
         #region events
@@ -133,9 +134,9 @@ namespace WorkspaceManager.View.BinVisual
         public string Data 
         { 
             get 
-            { 
-                if(model.Data == null) 
-                    return "No Data";
+            {
+                if (model.Data == null)
+                    return Properties.Resources.No_data;
 
                 if (model.LastData is Byte[])
                 {
@@ -164,7 +165,7 @@ namespace WorkspaceManager.View.BinVisual
             ConnectorName = model.GetName();
             IsOutgoing = model.Outgoing;
             IsMandatory = model.IsMandatory;
-            TypeName = model.ConnectorType != null ? model.ConnectorType.Name : "Class Not Found";
+            TypeName = model.ConnectorType != null ? model.ConnectorType.Name : Properties.Resources.Class_Not_Found;
         } 
         #endregion
 
