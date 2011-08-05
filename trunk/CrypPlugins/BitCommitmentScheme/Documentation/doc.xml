@@ -65,13 +65,13 @@
     </linkReference>
 
     <linkReference>
-      <link lang="en" url="http://eprint.iacr.org/2010/302"/>
+      <link lang="en" url="http://www.springerlink.com/content/w630617804364681"/>
       <caption lang="en">
-        Preprint of "Using the Inhomogeneous Simultaneous Approximation Problem for Cryptographic Design" 
+        "Using the Inhomogeneous Simultaneous Approximation Problem for Cryptographic Design" 
         by F. Armknecht, C. Elsner and M. Schmidt
       </caption>
     </linkReference>
-
+    
     <linkReference>
       <link lang="en" url="http://ls.fmi.uni-mannheim.de/de/ths/arbeitsgruppe/mitarbeiter/prof-dr-frederik-armknecht/"/>
       <caption lang="en">Prof. Dr. Frederik Armknecht (Universität Mannheim)</caption>
@@ -85,7 +85,7 @@
     <linkReference>
       <link lang="en" url="http://www.ifam.uni-hannover.de/~mschmidt/"/>
       <caption lang="en">Dipl.-Math. Martin Schmidt (Leibniz Universität Hannover)</caption>
-    </linkReference>
+    </linkReference>    
   </references>
 
 </documentation>
