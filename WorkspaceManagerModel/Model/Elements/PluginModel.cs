@@ -26,6 +26,8 @@ using WorkspaceManager.Execution;
 using System.Reflection;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
+using System.Numerics;
+using System.Text;
 
 namespace WorkspaceManager.Model
 {
@@ -501,29 +503,68 @@ namespace WorkspaceManager.Model
                     {
                         try
                         {
-                            if (connectorModel.HasData && connectorModel.Data != null)
+                            object data = connectorModel.Data;
+                            if (data == null)
                             {
-                                if (connectorModel.IsDynamic)
-                                {
+                                continue;
+                            }
+                            //Implicit conversions:
 
-                                    if (connectorModel.method == null)
-                                    {
-                                        connectorModel.method =
-                                            Plugin.GetType().GetMethod(connectorModel.DynamicSetterName);
-                                    }
-                                    connectorModel.method.Invoke(Plugin,
-                                                                 new object[] { connectorModel.PropertyName, connectorModel.Data });
-                                }
-                                else
+                            //Cast from BigInteger -> Integer
+                            if ((connectorModel.ConnectorType.FullName == "System.Int32" ||
+                                 connectorModel.ConnectorType.FullName == "System.Int64") &&
+                                data.GetType().FullName == "System.Numerics.BigInteger")
+                            {
+                                try
                                 {
-                                    if (connectorModel.property == null)
-                                    {
-                                        connectorModel.property =
-                                            Plugin.GetType().GetProperty(connectorModel.PropertyName);
-                                    }
-                                    connectorModel.property.SetValue(Plugin, connectorModel.Data, null);
+                                    data = (int)((BigInteger)data);                                    
+                                }
+                                catch (OverflowException)
+                                {
+                                    State = PluginModelState.Error;
+                                    WorkspaceModel.ExecutionEngine.GuiLogMessage(String.Format("Number of {0} too big for {1}: {2}", connectorModel.Name, Name, data), NotificationLevel.Error);
                                 }
                             }
+                            //Cast from Integer -> BigInteger
+                            else if (connectorModel.ConnectorType.FullName == "System.Numerics.BigInteger" &&
+                               (data.GetType().FullName == "System.Int32" || data.GetType().FullName == "System.Int64"))
+                            {
+                                data = new BigInteger((int)data);
+                            }
+                            //Cast from System.Byte[] -> System.String (UTF8)
+                            else if (connectorModel.ConnectorType.FullName == "System.String" && data.GetType().FullName == "System.Byte[]")
+                            {
+                                var encoding = new UTF8Encoding();
+                                data = encoding.GetString((byte[])data);
+                            }
+                            //Cast from System.String (UTF8) -> System.Byte[]
+                            else if (connectorModel.ConnectorType.FullName == "System.Byte[]" && data.GetType().FullName == "System.String")
+                            {
+                                var encoding = new UTF8Encoding();
+                                data = encoding.GetBytes((string)data);
+                            }
+                            
+                            //now set the data
+                            if (connectorModel.IsDynamic)
+                            {
+
+                                if (connectorModel.method == null)
+                                {
+                                    connectorModel.method =
+                                        Plugin.GetType().GetMethod(connectorModel.DynamicSetterName);
+                                }
+                                connectorModel.method.Invoke(Plugin,
+                                                                new object[] { connectorModel.PropertyName, data });
+                            }
+                            else
+                            {
+                                if (connectorModel.property == null)
+                                {
+                                    connectorModel.property =
+                                        Plugin.GetType().GetProperty(connectorModel.PropertyName);
+                                }
+                                connectorModel.property.SetValue(Plugin, data, null);
+                            }                            
                         }
                         catch (Exception ex)
                         {

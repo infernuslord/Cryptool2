@@ -23,6 +23,7 @@ using Cryptool.PluginBase.IO;
 using System.ComponentModel;
 using Cryptool.PluginBase.Miscellaneous;
 using System.Runtime.CompilerServices;
+using System.Numerics;
 
 namespace Cryptool.Plugins.Comparators
 {
@@ -131,6 +132,20 @@ namespace Cryptool.Plugins.Comparators
         {
             if (InputOne != null && InputTwo != null)
             {
+                //int and BigInt may be compared, but first the int has to be converted to big int:
+                if ((InputOne.GetType().FullName == "System.Int32" ||
+                     InputOne.GetType().FullName == "System.Int64") &&
+                     InputTwo.GetType().FullName == "System.Numerics.BigInteger")
+                {
+                    this.InputOne = new BigInteger((int)InputOne);
+                }
+                if ((InputTwo.GetType().FullName == "System.Int32" ||
+                     InputTwo.GetType().FullName == "System.Int64") &&
+                     InputOne.GetType().FullName == "System.Numerics.BigInteger")
+                {
+                    this.InputTwo = new BigInteger((int)InputTwo);
+                }                
+
                 try
                 {
                     switch (this.settings.Comparator)
