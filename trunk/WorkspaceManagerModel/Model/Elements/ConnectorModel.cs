@@ -311,48 +311,8 @@ namespace WorkspaceManager.Model
                     List<ConnectionModel> outputConnections = this.OutputConnections;
                     foreach (ConnectionModel connectionModel in outputConnections)
                     {                       
-                        //Cast from BigInteger -> Integer
-                        if ((connectionModel.To.ConnectorType.FullName == "System.Int32" || connectionModel.To.ConnectorType.FullName == "System.Int64") &&
-                           ConnectorType.FullName == "System.Numerics.BigInteger")
-                        {
-                            try
-                            {
-                                connectionModel.To.Data = (int)((BigInteger)data);
-                                connectionModel.To.LastData = (int)((BigInteger)data);
-                            }
-                            catch (OverflowException)
-                            {
-                                connectionModel.To.PluginModel.State = PluginModelState.Error;
-                                WorkspaceModel.ExecutionEngine.GuiLogMessage(String.Format("Number of {0} too big for {1}: {2}", Name, connectionModel.To.PluginModel.Name, data), NotificationLevel.Error);
-                            }
-                        }
-                        //Cast from Integer -> BigInteger
-                        else if (connectionModel.To.ConnectorType.FullName == "System.Numerics.BigInteger" &&
-                           (ConnectorType.FullName == "System.Int32" || ConnectorType.FullName == "System.Int64"))
-                        {                            
-                                connectionModel.To.Data = new BigInteger((int)data);
-                                connectionModel.To.LastData = new BigInteger((int)data);
-                                                        
-                        }
-                        //Cast from System.Byte[] -> System.String (UTF8)
-                        else if (connectionModel.To.ConnectorType.FullName == "System.String" && ConnectorType.FullName == "System.Byte[]")
-                        {
-                            var encoding = new UTF8Encoding();
-                            connectionModel.To.Data = encoding.GetString((byte[])data);
-                            connectionModel.To.LastData = encoding.GetString((byte[])data);
-                        }
-                        //Cast from System.String (UTF8) -> System.Byte[]
-                        else if (connectionModel.To.ConnectorType.FullName == "System.Byte[]" && ConnectorType.FullName == "System.String")
-                        {
-                            var encoding = new UTF8Encoding();
-                            connectionModel.To.Data = encoding.GetBytes((string)data);
-                            connectionModel.To.LastData = encoding.GetBytes((string)data);
-                        }
-                        else
-                        {
-                            connectionModel.To.Data = data;
-                            connectionModel.To.LastData = data;
-                        }
+                        connectionModel.To.Data = data;
+                        connectionModel.To.LastData = data;
                         connectionModel.To.HasData = true;
                         connectionModel.Active = true;
                         connectionModel.GuiNeedsUpdate = true;
