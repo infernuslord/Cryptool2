@@ -35,7 +35,7 @@ namespace Dictionary
     [PluginInfo("Dictionary.Properties.Resources", true, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "Dictionary/icon.png")]
     [ComponentCategory(ComponentCategory.ToolsDataInputOutput)]
     public class CryptoolDictionary : ICrypComponent
-    {
+    {        
         # region private_variables
 
         private const string DATATYPE = "wordlists";
@@ -57,6 +57,11 @@ namespace Dictionary
 
         # endregion private_variables
 
+        public CryptoolDictionary()
+        {
+            LoadFileList();
+        }
+
         public DataFileMetaInfo CurrentDicSelection
         {
             get
@@ -66,10 +71,6 @@ namespace Dictionary
                 else
                     return null;
             }
-        }
-
-        public CryptoolDictionary()
-        {
         }
 
         [Obsolete("Use string[] output instead")]
@@ -227,9 +228,7 @@ namespace Dictionary
         }
 
         public void Initialize()
-        {
-            LoadFileList();
-
+        {            
             settings.PropertyChanged += SettingsPropertyChanged; // catch settings changes
         }
 
