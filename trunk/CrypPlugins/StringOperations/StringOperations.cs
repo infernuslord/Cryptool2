@@ -21,7 +21,7 @@ using Cryptool.PluginBase.IO;
 namespace StringOperations
 {
     [Author("Nils Kopal", "nils.kopal@cryptool.org", "Uni Duisburg", "http://www.uni-duisburg-essen.de")]
-    [PluginInfo("StringOperations.Properties.Resources", false, "PluginCaption", "PluginTooltip", null, "StringOperations/icon.png")]
+    [PluginInfo("StringOperations.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "StringOperations/icon.png")]
     [ComponentCategory(ComponentCategory.ToolsMisc)]
     public class StringOperations : ICrypComponent
     {
