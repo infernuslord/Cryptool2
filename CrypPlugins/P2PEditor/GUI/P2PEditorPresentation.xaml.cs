@@ -132,56 +132,105 @@ namespace Cryptool.P2PEditor.GUI
 
         internal void hideAllViews()
         {
-            this.JobCreation.Visibility = Visibility.Hidden;
-            this.JobDisplay.Visibility = Visibility.Hidden;
-            this.Connect.Visibility = Visibility.Hidden;
-            this.GetNewCertificate.Visibility = Visibility.Hidden;
-            this.ActivateEmailView.Visibility = Visibility.Hidden;
-            this.ForgotPasswordView.Visibility = Visibility.Hidden;
-            this.VerifyPasswordResetView.Visibility = Visibility.Hidden;
+            if (JobCreation != null)
+            {
+                JobCreation.Visibility = Visibility.Hidden;
+            }
+            if (JobDisplay != null)
+            {
+                JobDisplay.Visibility = Visibility.Hidden;
+            }
+            if (Connect != null)
+            {
+                Connect.Visibility = Visibility.Hidden;
+            }
+            if (GetNewCertificate != null)
+            {
+                GetNewCertificate.Visibility = Visibility.Hidden;
+            }
+            if (ActivateEmailView != null)
+            {
+                ActivateEmailView.Visibility = Visibility.Hidden;
+            }
+            if (ForgotPasswordView != null)
+            {
+                ForgotPasswordView.Visibility = Visibility.Hidden;
+            }
+            if (VerifyPasswordResetView != null)
+            {
+                VerifyPasswordResetView.Visibility = Visibility.Hidden;
+            }
         }
 
         internal void ShowGetNewCertificateView()
         {
+            if (GetNewCertificate == null)
+            {
+                return;
+            }
             hideAllViews();
-            this.GetNewCertificate.Visibility = Visibility.Visible;            
+            GetNewCertificate.Visibility = Visibility.Visible;            
         }
 
         internal void ShowActivateEmailView()
         {
+            if (ActivateEmailView == null)
+            {
+                return;
+            }
             hideAllViews();
-            this.ActivateEmailView.Visibility = Visibility.Visible;
+            ActivateEmailView.Visibility = Visibility.Visible;
         }
 
         internal void ShowJobCreationView()
         {
+            if (JobCreation == null)
+            {
+                return;
+            }
             hideAllViews();
-            this.JobCreation.Visibility = Visibility.Visible;
+            JobCreation.Visibility = Visibility.Visible;
         }
 
         internal void ShowActiveJobsView()
         {
+            if (JobDisplay == null)
+            {
+                return;
+            }
             hideAllViews();
-            this.JobDisplay.Visibility = Visibility.Visible;
+            JobDisplay.Visibility = Visibility.Visible;
             UpdateDisplay();
         }
 
         internal void ShowConnectView()
         {
+            if (Connect == null)
+            {
+                return;
+            }
             hideAllViews();
-            this.Connect.Visibility = Visibility.Visible;         
+            Connect.Visibility = Visibility.Visible;         
         }
 
         internal void ShowForgotPasswordView()
         {
+            if (ForgotPasswordView == null)
+            {
+                return;
+            }
             hideAllViews();
-            this.ForgotPasswordView.Visibility = Visibility.Visible;
+            ForgotPasswordView.Visibility = Visibility.Visible;
         }
 
         internal void ShowVerifyPasswordResetView()
         {
+            if (VerifyPasswordResetView == null)
+            {
+                return;
+            }
             hideAllViews();
-            this.VerifyPasswordResetView.Visibility = Visibility.Visible;
+            VerifyPasswordResetView.Visibility = Visibility.Visible;
         }
 
         internal void ShowHelp()

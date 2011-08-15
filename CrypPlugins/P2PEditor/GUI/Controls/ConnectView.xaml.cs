@@ -38,17 +38,34 @@ namespace Cryptool.P2PEditor.GUI.Controls
 
         public void RaiseP2PConnectingEvent(bool b)
         {
-            if (b)
+            try
             {
-                RoutedEventArgs newEventArgs = new RoutedEventArgs(ConnectTab.P2PConnectingTrueEvent);
-                RaiseEvent(newEventArgs);                
+                if (P2PEditor == null)
+                {
+                    return;
+                }
+                if (b)
+                {
+                    RoutedEventArgs newEventArgs = new RoutedEventArgs(ConnectTab.P2PConnectingTrueEvent);
+                    RaiseEvent(newEventArgs);
+                }
+                else
+                {
+                    RoutedEventArgs newEventArgs = new RoutedEventArgs(ConnectTab.P2PConnectingFalseEvent);
+                    RaiseEvent(newEventArgs);
+                }
+                if (P2PEditor.Presentation != null)
+                {
+                    ((P2PEditorPresentation)P2PEditor.Presentation).UpdateConnectionState();
+                }
             }
-            else 
+            catch (Exception ex)
             {
-                RoutedEventArgs newEventArgs = new RoutedEventArgs(ConnectTab.P2PConnectingFalseEvent);
-                RaiseEvent(newEventArgs);
+                if(P2PEditor != null)
+                {
+                    P2PEditor.GuiLogMessage(string.Format("Exception during RaiseP2PConnectingEvent: {0}", ex.Message), NotificationLevel.Error);
+                }
             }
-            ((P2PEditorPresentation)P2PEditor.Presentation).UpdateConnectionState();
         }
 
         public static readonly DependencyProperty IsP2PConnectingProperty =
