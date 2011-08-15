@@ -472,4 +472,130 @@ Reason: Username or email adresse are revoked.</value>
   <data name="ServerSettingsGroup" xml:space="preserve">
     <value>Server Settings</value>
   </data>
+  <data name="architecture_caption" xml:space="preserve">
+    <value>Architecture</value>
+  </data>
+  <data name="architecture_tooltip" xml:space="preserve">
+    <value>Architecture</value>
+  </data>
+  <data name="bootstrapper_caption" xml:space="preserve">
+    <value>Bootstrapper</value>
+  </data>
+  <data name="bootstrapper_tooltip" xml:space="preserve">
+    <value>Bootstrapper</value>
+  </data>
+  <data name="connectOnStartup_caption" xml:space="preserve">
+    <value>Connect on startup</value>
+  </data>
+  <data name="connectOnStartup_tooltip" xml:space="preserve">
+    <value>Connect on startup</value>
+  </data>
+  <data name="distributedJobListRefreshInterval_caption" xml:space="preserve">
+    <value>Distributed joblist refresh interval</value>
+  </data>
+  <data name="distributedJobListRefreshInterval_tooltip" xml:space="preserve">
+    <value>Distributed joblist refresh interval</value>
+  </data>
+  <data name="linkmanager_caption" xml:space="preserve">
+    <value>Linkmanager</value>
+  </data>
+  <data name="linkmanager_tooltip" xml:space="preserve">
+    <value>Linkmanager</value>
+  </data>
+  <data name="localPort_caption" xml:space="preserve">
+    <value>Local Port</value>
+  </data>
+  <data name="localPort_tooltip" xml:space="preserve">
+    <value>Local Port</value>
+  </data>
+  <data name="log2monitor_caption" xml:space="preserve">
+    <value>Log2Monitor</value>
+  </data>
+  <data name="log2monitor_tooltip" xml:space="preserve">
+    <value>Log2Monitor</value>
+  </data>
+  <data name="networksize_caption" xml:space="preserve">
+    <value>Networksize</value>
+  </data>
+  <data name="networksize_tooltip" xml:space="preserve">
+    <value>Networksize</value>
+  </data>
+  <data name="proxypassword_caption" xml:space="preserve">
+    <value>Proxy password</value>
+  </data>
+  <data name="proxypassword_tooltip" xml:space="preserve">
+    <value>Proxy password</value>
+  </data>
+  <data name="proxyport_caption" xml:space="preserve">
+    <value>Proxy port</value>
+  </data>
+  <data name="proxyport_tooltip" xml:space="preserve">
+    <value>Proxy port</value>
+  </data>
+  <data name="proxyserver_caption" xml:space="preserve">
+    <value>Proxy server</value>
+  </data>
+  <data name="proxyserver_tooltip" xml:space="preserve">
+    <value>Proxy server</value>
+  </data>
+  <data name="proxysettingssystem_caption" xml:space="preserve">
+    <value>Use system proxy settings</value>
+  </data>
+  <data name="proxysettingssystem_tooltip" xml:space="preserve">
+    <value>Use system proxy settings</value>
+  </data>
+  <data name="proxysettings_caption" xml:space="preserve">
+    <value>Use proxy</value>
+  </data>
+  <data name="proxysettings_tooltip" xml:space="preserve">
+    <value>Use proxy</value>
+  </data>
+  <data name="proxyuser_caption" xml:space="preserve">
+    <value>Proxy user</value>
+  </data>
+  <data name="proxyuser_tooltip" xml:space="preserve">
+    <value>Proxy user</value>
+  </data>
+  <data name="serverHost_caption" xml:space="preserve">
+    <value>Server host</value>
+  </data>
+  <data name="serverHost_tooltip" xml:space="preserve">
+    <value>Server host</value>
+  </data>
+  <data name="serverPort_caption" xml:space="preserve">
+    <value>Server port</value>
+  </data>
+  <data name="serverPort_tooltip" xml:space="preserve">
+    <value>Server port</value>
+  </data>
+  <data name="start_caption" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="start_tooltip" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="stop_caption" xml:space="preserve">
+    <value>Stop</value>
+  </data>
+  <data name="stop_tooltip" xml:space="preserve">
+    <value>Stop</value>
+  </data>
+  <data name="useLocalAddressDetection_caption" xml:space="preserve">
+    <value>Use local addresse detection</value>
+  </data>
+  <data name="useLocalAddressDetection_tooltip" xml:space="preserve">
+    <value>Use local addresse detection</value>
+  </data>
+  <data name="workspacePath_caption" xml:space="preserve">
+    <value>Workspace path</value>
+  </data>
+  <data name="workspacePath_tooltip" xml:space="preserve">
+    <value>Workspace path</value>
+  </data>
+  <data name="worldname_caption" xml:space="preserve">
+    <value>Worldname</value>
+  </data>
+  <data name="worldname_tooltip" xml:space="preserve">
+    <value>Worldname</value>
+  </data>
 </root>
