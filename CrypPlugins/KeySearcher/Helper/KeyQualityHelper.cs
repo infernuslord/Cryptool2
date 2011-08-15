@@ -15,7 +15,7 @@ namespace KeySearcher.Helper
 
         public double WorstValue()
         {
-            if (costFunction.GetRelationOperator() == RelationOperator.LargerThan)
+            if (costFunction.GetRelationOperator() == RelationOperator.LargerThen)
             {
                 return double.MinValue;
             }
@@ -40,7 +40,7 @@ namespace KeySearcher.Helper
 
         public bool IsBetter(double value, double value2)
         {
-            if (costFunction.GetRelationOperator() == RelationOperator.LargerThan)
+            if (costFunction.GetRelationOperator() == RelationOperator.LargerThen)
             {
                 if (value > value2)
                 {

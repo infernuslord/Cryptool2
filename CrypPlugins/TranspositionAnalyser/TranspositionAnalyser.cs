@@ -255,7 +255,7 @@ namespace TranspositionAnalyser
             while (valuequeue.Count != 0)
             {
                 ValueKey vk = (ValueKey)valuequeue.Dequeue();
-                if (this.costMaster.GetRelationOperator() == RelationOperator.LargerThan)
+                if (this.costMaster.GetRelationOperator() == RelationOperator.LargerThen)
                 {
                     if (vk.value > costList.Last().value)
                     {
@@ -478,7 +478,7 @@ namespace TranspositionAnalyser
                 GuiLogMessage("start", NotificationLevel.Info);
                 double best = Double.MinValue;
 
-                if (costMaster.GetRelationOperator() == RelationOperator.LessThan)
+                if (costMaster.GetRelationOperator() == RelationOperator.LessThen)
                 {
                     best = Double.MaxValue;
                 }
@@ -553,7 +553,7 @@ namespace TranspositionAnalyser
                                     {
                                         return new byte[0];
                                     }
-                                    if (costMaster.GetRelationOperator() == RelationOperator.LessThan)
+                                    if (costMaster.GetRelationOperator() == RelationOperator.LessThen)
                                     {
                                         if (val <= best)
                                         {
@@ -778,7 +778,7 @@ namespace TranspositionAnalyser
 
             Double best = Double.MinValue;
 
-            if (costMaster.GetRelationOperator() == RelationOperator.LessThan)
+            if (costMaster.GetRelationOperator() == RelationOperator.LessThen)
             {
                 best = Double.MaxValue;
             }
@@ -1426,7 +1426,7 @@ namespace TranspositionAnalyser
                                 bestpos = b;
                             }
 
-                            if (costMaster.GetRelationOperator() == RelationOperator.LessThan)
+                            if (costMaster.GetRelationOperator() == RelationOperator.LessThen)
                             {
                                 if (v.value < best)
                                 {
@@ -1595,7 +1595,7 @@ namespace TranspositionAnalyser
                     {
                         best = Double.MinValue;
 
-                        if (costMaster.GetRelationOperator() == RelationOperator.LessThan)
+                        if (costMaster.GetRelationOperator() == RelationOperator.LessThen)
                         {
                             best = Double.MaxValue;
                         }
@@ -1642,7 +1642,7 @@ namespace TranspositionAnalyser
             ArrayList ret = new ArrayList();
 
             // Schlechtesten x Keys löschen
-            if (costMaster.GetRelationOperator() == RelationOperator.LessThan)
+            if (costMaster.GetRelationOperator() == RelationOperator.LessThen)
             {
                 for (int a = 0; a < rest; a++)
                 {

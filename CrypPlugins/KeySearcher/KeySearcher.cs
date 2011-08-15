@@ -628,8 +628,8 @@ namespace KeySearcher
             for (int i = 0; i < costArray.Length; i++)
             {
                 float cost = costArray[i];
-                if (((op == RelationOperator.LargerThan) && (cost > value_threshold))
-                    || (op == RelationOperator.LessThan) && (cost < value_threshold))
+                if (((op == RelationOperator.LargerThen) && (cost > value_threshold))
+                    || (op == RelationOperator.LessThen) && (cost < value_threshold))
                 {
                     ValueKey valueKey = new ValueKey { value = cost, key = keyTranslator.GetKeyRepresentation(i + add) };
                     valueKey.keya = keyTranslator.GetKeyFromRepresentation(valueKey.key);
@@ -741,7 +741,7 @@ namespace KeySearcher
                 return false;
             }
 
-            if (this.costMaster.GetRelationOperator() == RelationOperator.LargerThan)
+            if (this.costMaster.GetRelationOperator() == RelationOperator.LargerThen)
             {
                 if (valueKey.value > value_threshold)
                 {
@@ -1183,7 +1183,7 @@ namespace KeySearcher
             j.Src = src;
             var key = externalKeyTranslator.GetKey();
             j.Key = key;
-            j.LargerThen = (costMaster.GetRelationOperator() == RelationOperator.LargerThan);
+            j.LargerThen = (costMaster.GetRelationOperator() == RelationOperator.LargerThen);
             j.Size = externalKeyTranslator.GetOpenCLBatchSize();
             j.ResultSize = 10;
             GuiLogMessage(string.Format(Resources.Assigning_new_job_with_Guid__0__to_client_, j.Guid), NotificationLevel.Info);
@@ -1229,8 +1229,8 @@ namespace KeySearcher
             foreach (var res in jr.ResultList)
             {
                 float cost = res.Key;
-                if (((op == RelationOperator.LargerThan) && (cost > value_threshold))
-                    || (op == RelationOperator.LessThan) && (cost < value_threshold))
+                if (((op == RelationOperator.LargerThen) && (cost > value_threshold))
+                    || (op == RelationOperator.LessThen) && (cost < value_threshold))
                 {
                     ValueKey valueKey = new ValueKey { value = cost, key = externalKeyTranslator.GetKeyRepresentation(res.Value) };
                     valueKey.keya = externalKeyTranslator.GetKeyFromRepresentation(valueKey.key);
@@ -1406,7 +1406,7 @@ namespace KeySearcher
         private void FillListWithDummies(int maxInList, LinkedList<ValueKey> costList)
         {
             ValueKey valueKey = new ValueKey();
-            if (this.costMaster.GetRelationOperator() == RelationOperator.LessThan)
+            if (this.costMaster.GetRelationOperator() == RelationOperator.LessThen)
                 valueKey.value = double.MaxValue;
             else
                 valueKey.value = double.MinValue;
@@ -1834,7 +1834,7 @@ namespace KeySearcher
                     continue;
                 }
 
-                if (this.costMaster.GetRelationOperator() == RelationOperator.LargerThan)
+                if (this.costMaster.GetRelationOperator() == RelationOperator.LargerThen)
                 {
                     if (vk.value > costList.Last().value)
                     {
