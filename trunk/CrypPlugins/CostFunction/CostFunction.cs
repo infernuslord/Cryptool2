@@ -848,19 +848,19 @@ namespace Cryptool.Plugins.CostFunction
             switch (settings.FunctionType)
             {
                 case 0: //Index of coincidence 
-                    return RelationOperator.LargerThan;
+                    return RelationOperator.LargerThen;
                 case 1: //Entropy
-                    return RelationOperator.LessThan;
+                    return RelationOperator.LessThen;
                 case 2: // Bigrams: log 2
-                    return RelationOperator.LessThan;
+                    return RelationOperator.LessThen;
                 case 3: // Sinkov
-                    return RelationOperator.LargerThan;
+                    return RelationOperator.LargerThen;
                 case 4: // percentage
-                    return RelationOperator.LargerThan;
+                    return RelationOperator.LargerThen;
                 case 5: // Regular Expression
-                    return RelationOperator.LargerThan;
+                    return RelationOperator.LargerThen;
                 case 6: // Weighted Bigrams/Trigrams
-                    return RelationOperator.LargerThan;
+                    return RelationOperator.LargerThen;
 
                 default:
                     throw new NotImplementedException("The value " + settings.FunctionType + " is not implemented.");
