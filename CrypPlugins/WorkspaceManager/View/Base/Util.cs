@@ -13,6 +13,7 @@ using Cryptool.PluginBase.Control;
 using Cryptool.PluginBase;
 using System.Reflection;
 using System.Numerics;
+using WorkspaceManager.Model;
 
 namespace WorkspaceManager.View.Base
 {
@@ -153,21 +154,22 @@ namespace WorkspaceManager.View.Base
             return binding;
         }
 
-        public static ConversionLevel ConversionCheck(Type A, Type B)
+        public static ConversionLevelInformation ConversionCheck(ConnectorModel A, ConnectorModel B)
         {
-            if (A == null || B == null)
-                return ConversionLevel.Red;
+            ConversionLevelInformation CV = new ConversionLevelInformation() {SourceType = A.ConnectorType, TargetType = B.ConnectorType };
+            
+            CV.Level = ConversionLevel.Red;
 
-            if (A == B)
-                return ConversionLevel.Green;
+            if (WorkspaceModel.compatibleConnectors(A, B))
+                CV.Level = ConversionLevel.Green;
 
-            if (A == typeof(byte) && B == typeof(string) || A == typeof(string) && B == typeof(byte))
-                return ConversionLevel.Yellow;
+            if (A.ConnectorType == typeof(byte) && B.ConnectorType == typeof(string) || A.ConnectorType == typeof(string) && B.ConnectorType == typeof(byte))
+                CV.Level = ConversionLevel.Yellow;
 
-            if (A == typeof(BigInteger) && B == typeof(int) || A == typeof(int) && B == typeof(BigInteger))
-                return ConversionLevel.Yellow;
+            if (A.ConnectorType == typeof(BigInteger) && B.ConnectorType == typeof(int) || A.ConnectorType == typeof(int) && B.ConnectorType == typeof(BigInteger))
+                CV.Level = ConversionLevel.Yellow;
 
-            return ConversionLevel.Red;
+            return CV;
         }
 
         public static class MouseUtilities

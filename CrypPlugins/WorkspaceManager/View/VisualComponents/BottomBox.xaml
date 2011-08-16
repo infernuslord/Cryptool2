@@ -397,7 +397,6 @@
                     </Border>
                 </StackPanel>
             </StackPanel>
-            
         </Border>
     </DockPanel>
 </UserControl>

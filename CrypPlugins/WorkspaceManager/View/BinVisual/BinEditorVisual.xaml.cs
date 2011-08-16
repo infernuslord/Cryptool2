@@ -134,7 +134,7 @@ namespace WorkspaceManager.View.BinVisual
         }
 
         public static readonly DependencyProperty SelectedTextProperty = DependencyProperty.Register("SelectedText",
-            typeof(BinTextVisual), typeof(BinEditorVisual), new FrameworkPropertyMetadata(null, null));
+            typeof(BinTextVisual), typeof(BinEditorVisual), new FrameworkPropertyMetadata(null, OnSelectedTextChanged));
 
         public BinTextVisual SelectedText
         {
@@ -145,6 +145,21 @@ namespace WorkspaceManager.View.BinVisual
             set
             {
                 base.SetValue(SelectedTextProperty, value);
+            }
+        }
+
+        public static readonly DependencyProperty SelectedImageProperty = DependencyProperty.Register("SelectedImage",
+            typeof(BinImageVisual), typeof(BinEditorVisual), new FrameworkPropertyMetadata(null, OnSelectedImageChanged));
+
+        public BinImageVisual SelectedImage
+        {
+            get
+            {
+                return (BinImageVisual)base.GetValue(SelectedImageProperty);
+            }
+            set
+            {
+                base.SetValue(SelectedImageProperty, value);
             }
         }
 
@@ -671,7 +686,7 @@ namespace WorkspaceManager.View.BinVisual
             UIElement[] oldItem = e.OldValue as UIElement[];
             if (newItem != null)
             {
-                foreach(var element in newItem)
+                foreach (var element in newItem)
                     Canvas.SetZIndex(element, int.MaxValue);
             }
 
@@ -680,6 +695,30 @@ namespace WorkspaceManager.View.BinVisual
                 foreach (var element in oldItem)
                     Canvas.SetZIndex(element, int.MaxValue);
             }
+        }
+
+        private static void OnSelectedImageChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            BinEditorVisual b = (BinEditorVisual)d;
+            BinImageVisual newItem = e.NewValue as BinImageVisual;
+            BinImageVisual oldItem = e.OldValue as BinImageVisual;
+
+            if (newItem != null)
+                newItem.IsSelected = true;
+            if (oldItem != null)
+                oldItem.IsSelected = false;
+        }
+
+        private static void OnSelectedTextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            BinEditorVisual b = (BinEditorVisual)d;
+            BinTextVisual newItem = e.NewValue as BinTextVisual;
+            BinTextVisual oldItem = e.OldValue as BinTextVisual;
+
+            if(newItem != null)
+                newItem.IsSelected = true;
+            if (oldItem != null)
+                oldItem.IsSelected = false;
         }
 
         public void update()
@@ -750,8 +789,12 @@ namespace WorkspaceManager.View.BinVisual
                     if (e.OldItems[0] is BinComponentVisual)
                         ComponentCollection.Remove(e.OldItems[0] as BinComponentVisual);
 
+                    if (e.OldItems[0] is BinTextVisual)
+                        this.SelectedText = null;
+
                     if (e.OldItems[0] is CryptoLineView)
                         PathCollection.Remove(e.OldItems[0] as CryptoLineView);
+
                     break;
             }
         }
@@ -861,7 +904,6 @@ namespace WorkspaceManager.View.BinVisual
             if (!(e.Source is BinComponentVisual) && !(e.Source is BinImageVisual) && !(e.Source is BinTextVisual))
             {
                 startDragPoint = Mouse.GetPosition(sender as FrameworkElement);
-                SelectedText = null;
                 Mouse.OverrideCursor = Cursors.Arrow;
                 e.Handled = true;
             }
@@ -873,16 +915,30 @@ namespace WorkspaceManager.View.BinVisual
                     if (result != null)
                         return;
 
-                    if (e.Source is BinImageVisual)
-                        return;
-
-                    if (e.Source is BinTextVisual)
+                    if (e.Source is BinImageVisual || e.Source is BinTextVisual)
                     {
-                        BinTextVisual c = (BinTextVisual)e.Source;
-                        if (SelectedText != c)
-                            SelectedText = c;
+                        if (e.Source is BinImageVisual)
+                        {
+                            BinImageVisual c = (BinImageVisual)e.Source;
+                            if (SelectedImage != c)
+                                SelectedImage = c;
+                        }
+                        else
+                            SelectedImage = null;
+
+                        if (e.Source is BinTextVisual)
+                        {
+                            BinTextVisual c = (BinTextVisual)e.Source;
+                            if (SelectedText != c)
+                                SelectedText = c;
+                        }
+                        else
+                            SelectedText = null;
+
                         return;
                     }
+                    else
+                    { SelectedText = null; SelectedImage = null; }
 
                     if (e.Source is BinComponentVisual && e.OriginalSource is FrameworkElement)
                     {
@@ -911,7 +967,7 @@ namespace WorkspaceManager.View.BinVisual
                     if (e.Source is BinComponentVisual)
                     {
                         BinComponentVisual c = (BinComponentVisual)e.Source;
-                        if (c.IsICPopUpOpen || Util.TryFindParent<TextBox>(e.OriginalSource as UIElement) != null)
+                        if (c.IsICPopUpOpen || Util.TryFindParent<TextBox>(e.OriginalSource as UIElement) != null || c.State == BinComponentState.Setting)
                         {
                             startedSelection = true;
                             break;
