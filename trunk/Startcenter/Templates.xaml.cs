@@ -177,9 +177,10 @@ namespace Startcenter
                 }
                 else
                 {
-                    if (!component)
+                    var ext = file.Extension.Remove(0, 1);
+                    if (!component && ComponentInformations.EditorExtension.ContainsKey(ext))
                     {
-                        Type editorType = ComponentInformations.EditorExtension[file.Extension.Remove(0, 1)];
+                        Type editorType = ComponentInformations.EditorExtension[ext];
                         image = editorType.GetImage(0).Source;
                     }
                 }
