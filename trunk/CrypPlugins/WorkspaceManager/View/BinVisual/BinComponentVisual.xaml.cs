@@ -487,6 +487,9 @@ namespace WorkspaceManager.View.BinVisual
                     continue;
                 }
 
+                if (m.IControl)
+                    continue;
+
                 addConnectorView(m);
             }
 
