@@ -579,4 +579,10 @@
   <data name="KeySearchMethodList6" xml:space="preserve">
     <value>Unigram entropy</value>
   </data>
+  <data name="Ringstellung_" xml:space="preserve">
+    <value>Ring settings:</value>
+  </data>
+  <data name="Rotorlage_" xml:space="preserve">
+    <value>Rotor position:</value>
+  </data>
 </root>

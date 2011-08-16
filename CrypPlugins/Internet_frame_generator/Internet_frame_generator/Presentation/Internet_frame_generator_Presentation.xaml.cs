@@ -22,6 +22,7 @@ namespace Cryptool.Internet_frame_generator
     /// <summary>
     /// Interaktionslogik für Internet_frame_generator_Presentation.xaml
     /// </summary>
+    [Cryptool.PluginBase.Attributes.Localization("Internet_frame_generator.Properties.Resources")]
     public partial class Internet_frame_generator_Presentation : UserControl
     {
         #region Private variables

@@ -61,6 +61,24 @@ namespace FileOutput.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die About ähnelt.
+        /// </summary>
+        internal static string About {
+            get {
+                return ResourceManager.GetString("About", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Cancel ähnelt.
+        /// </summary>
+        internal static string Cancel {
+            get {
+                return ResourceManager.GetString("Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Clear file name ähnelt.
         /// </summary>
         internal static string ClearFileNameCaption {
@@ -78,10 +96,109 @@ namespace FileOutput.Properties {
             }
         }
         
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Close ähnelt.
+        /// </summary>
+        internal static string Close {
+            get {
+                return ResourceManager.GetString("Close", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Copy ähnelt.
+        /// </summary>
+        internal static string Copy {
+            get {
+                return ResourceManager.GetString("Copy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Cut ähnelt.
+        /// </summary>
+        internal static string Cut {
+            get {
+                return ResourceManager.GetString("Cut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Edit ähnelt.
+        /// </summary>
+        internal static string Edit {
+            get {
+                return ResourceManager.GetString("Edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die File ähnelt.
+        /// </summary>
+        internal static string File {
+            get {
+                return ResourceManager.GetString("File", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Find ähnelt.
+        /// </summary>
+        internal static string Find {
+            get {
+                return ResourceManager.GetString("Find", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Find: ähnelt.
+        /// </summary>
+        internal static string Find_ {
+            get {
+                return ResourceManager.GetString("Find_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Find next ähnelt.
+        /// </summary>
+        internal static string Find_next {
+            get {
+                return ResourceManager.GetString("Find_next", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Help ähnelt.
+        /// </summary>
+        internal static string Help {
+            get {
+                return ResourceManager.GetString("Help", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die If you want to copy the input stream to a specific file, please select a target. If you do not select a target the input stream will just be displayed. (To open a file please use FileInput Plugin.) ähnelt.
+        /// </summary>
+        internal static string If_you_want_to_copy {
+            get {
+                return ResourceManager.GetString("If_you_want_to_copy", resourceCulture);
+            }
+        }
+        
         internal static System.Drawing.Bitmap logo {
             get {
                 object obj = ResourceManager.GetObject("logo", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Paste ähnelt.
+        /// </summary>
+        internal static string Paste {
+            get {
+                return ResourceManager.GetString("Paste", resourceCulture);
             }
         }
         
@@ -113,6 +230,33 @@ namespace FileOutput.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Save ähnelt.
+        /// </summary>
+        internal static string Save {
+            get {
+                return ResourceManager.GetString("Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Search ähnelt.
+        /// </summary>
+        internal static string Search {
+            get {
+                return ResourceManager.GetString("Search", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Search Progress ähnelt.
+        /// </summary>
+        internal static string Search_Progress {
+            get {
+                return ResourceManager.GetString("Search_Progress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Stream Input ähnelt.
         /// </summary>
         internal static string StreamInputCaption {
@@ -127,6 +271,15 @@ namespace FileOutput.Properties {
         internal static string StreamInputTooltip {
             get {
                 return ResourceManager.GetString("StreamInputTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Target filename:  ähnelt.
+        /// </summary>
+        internal static string Target_filename_ {
+            get {
+                return ResourceManager.GetString("Target_filename_", resourceCulture);
             }
         }
         

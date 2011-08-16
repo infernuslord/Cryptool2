@@ -13,12 +13,14 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using System.Threading;
+using Cryptool.PluginBase;
 
 namespace BooleanOperators
 {
     /// <summary>
     /// Interaktionslogik für Button.xaml
     /// </summary>
+    [Cryptool.PluginBase.Attributes.Localization("BooleanOperators.Properties.Resources")]
     public partial class ButtonInputPresentation : UserControl
     {
 
@@ -40,28 +42,32 @@ namespace BooleanOperators
             Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
                 this.myButton.Content = Value;
+
                 if (Value)
-                { this.myButton.Background = Brushes.LawnGreen; }
+                { 
+                    this.myButton.Background = Brushes.LawnGreen;
+                    this.myButton.Content = typeof(Cryptool.Plugins.BooleanOperators.BooleanOutput).GetPluginStringResource("True");
+                }
                 else
-                { this.myButton.Background = Brushes.Tomato; }
+                {
+                    this.myButton.Background = Brushes.Tomato;
+                    this.myButton.Content = typeof(Cryptool.Plugins.BooleanOperators.BooleanOutput).GetPluginStringResource("False");
+                }
             }, null);
         }
+
         public void ExecuteThisMethodWhenButtonIsClicked(object sender, EventArgs e)
         {
-
             if (Value)
             {
-
                 this.myButton.Background = Brushes.Tomato;
-                this.myButton.Content = Value;
+                this.myButton.Content = typeof(Cryptool.Plugins.BooleanOperators.BooleanOutput).GetPluginStringResource("False");
                 Value = false;
-
             }
-
             else
             {
                 this.myButton.Background = Brushes.LawnGreen;
-                this.myButton.Content = Value;
+                this.myButton.Content = typeof(Cryptool.Plugins.BooleanOperators.BooleanOutput).GetPluginStringResource("True");
                 Value = true;
             }
 

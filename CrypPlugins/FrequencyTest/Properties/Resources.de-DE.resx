@@ -213,4 +213,7 @@
   <data name="BoundaryFragmentsList2" xml:space="preserve">
     <value>Fragmente berücksichtigen</value>
   </data>
+  <data name="No_data_available_yet" xml:space="preserve">
+    <value>Noch keine Daten vorhanden!</value>
+  </data>
 </root>

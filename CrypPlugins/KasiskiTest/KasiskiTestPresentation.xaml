@@ -21,7 +21,7 @@
                 <Rectangle Width="5"/>
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
 
-                    <TextBlock HorizontalAlignment="Center" Foreground="Black" ToolTip="Number of hits for the coresponding factor"  Text="{Binding Path=Amount}">
+                    <TextBlock HorizontalAlignment="Center" Foreground="Black" ToolTip="{Loc Number_of_hits_for_the_corresponding_factor}"  Text="{Binding Path=Amount}">
                     </TextBlock>
 
                     <Rectangle Height="3"/>

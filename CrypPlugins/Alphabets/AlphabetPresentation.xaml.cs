@@ -67,7 +67,7 @@ namespace Cryptool.Alphabets
 
             contextMenu = new ContextMenu();
             MenuItem item = new MenuItem();
-            item.Header = "Delete";
+            item.Header = Properties.Resources.Delete;
             item.Click += new RoutedEventHandler(item_Click);
             contextMenu.Items.Add(item);
 

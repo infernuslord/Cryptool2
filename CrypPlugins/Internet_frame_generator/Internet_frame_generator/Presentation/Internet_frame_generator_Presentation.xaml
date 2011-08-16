@@ -4,7 +4,7 @@
     Height="Auto" Width="Auto" MinWidth="640" MinHeight="480">
     <Grid>
         <TabControl Name="tabControl">
-            <TabItem x:Name="tabIP" Header="IP packet">
+            <TabItem x:Name="tabIP" Header="{Loc IP_packet}">
                 <Grid Name="gridIPPacket">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Name="columnIP1" Width="40"/>
@@ -30,9 +30,7 @@
                         <RowDefinition Name="rowIP10" Height="40"/>
                         <RowDefinition Name="rowIP11" Height="40"/>
                     </Grid.RowDefinitions>
-                    <Label Grid.Row="0" Grid.ColumnSpan="9"  FontWeight="Bold" FontSize="16" VerticalAlignment="Top">
-                        IP packet
-                    </Label>
+                    <Label Grid.Row="0" Grid.ColumnSpan="9"  FontWeight="Bold" FontSize="16" VerticalAlignment="Top" Content="{Loc IP_packet}" />
                     <Label Grid.Row="1" Grid.Column="8" Grid.RowSpan="13" Width="Auto" Height="Auto">
                         <TextBlock Name="textBlockIP" Background="White"/>
                     </Label>
@@ -119,7 +117,7 @@
                 </Grid>
             </TabItem>
 
-            <TabItem x:Name="tabARP" Header="ARP packet">
+            <TabItem x:Name="tabARP" Header="{Loc ARP_packet}">
                 <Grid Name="gridARPPacket">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Name="columnARP1" Width="40"/>
@@ -145,9 +143,7 @@
                         <RowDefinition Name="rowARP10" Height="40"/>
                         <RowDefinition Name="rowARP11" Height="40"/>
                     </Grid.RowDefinitions>
-                    <Label Grid.Row="0" Grid.ColumnSpan="9"  FontWeight="Bold" FontSize="16" VerticalAlignment="Top">
-                        ARP packet
-                    </Label>
+                    <Label Grid.Row="0" Grid.ColumnSpan="9"  FontWeight="Bold" FontSize="16" VerticalAlignment="Top" Content="{Loc ARP_packet}" />
                     <Label Grid.Row="1" Grid.Column="8" Grid.RowSpan="13" Width="Auto" Height="Auto">
                         <TextBlock Name="textBlockARP" Background="White"/>
                     </Label>

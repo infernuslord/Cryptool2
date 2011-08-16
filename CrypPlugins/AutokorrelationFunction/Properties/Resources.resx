@@ -138,4 +138,13 @@
   <data name="OutputLengthTooltip" xml:space="preserve">
     <value>The most probable keylength for the analysed ciphertext</value>
   </data>
+  <data name="Autocorrelation_matches" xml:space="preserve">
+    <value>Autocorrelation matches</value>
+  </data>
+  <data name="Highest_match_count_with_shift" xml:space="preserve">
+    <value>Highest match count {0} with shift {1}</value>
+  </data>
+  <data name="Shift_values" xml:space="preserve">
+    <value>Shift values</value>
+  </data>
 </root>

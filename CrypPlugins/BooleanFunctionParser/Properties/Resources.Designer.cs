@@ -178,6 +178,15 @@ namespace Cryptool.BooleanFunctionParser.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Memory Bit ähnelt.
+        /// </summary>
+        internal static string Memory_Bit {
+            get {
+                return ResourceManager.GetString("Memory_Bit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Function output ähnelt.
         /// </summary>
         internal static string OutputCaption {

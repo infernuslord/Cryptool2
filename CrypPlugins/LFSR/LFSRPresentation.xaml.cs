@@ -31,13 +31,14 @@ using System.Threading;
 using System.Windows.Automation.Peers;
 using System.Windows.Threading;
 using Cryptool.PluginBase;
+using Cryptool.PluginBase.Attributes;
 
 namespace Cryptool.LFSR
 {
     /// <summary>
     /// Interaction logic for LFSRPresentation.xaml
     /// </summary>
-
+    [Localization("LFSR.Properties.Resources")]
     public partial class LFSRPresentation : UserControl
     {
         public LFSRPresentation()

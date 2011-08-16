@@ -261,4 +261,10 @@
   <data name="BI_ValueList2" xml:space="preserve">
     <value>Wahr</value>
   </data>
+  <data name="False" xml:space="preserve">
+    <value>Falsch</value>
+  </data>
+  <data name="True" xml:space="preserve">
+    <value>Wahr</value>
+  </data>
 </root>

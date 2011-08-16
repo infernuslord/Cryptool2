@@ -14,12 +14,14 @@ using System.Windows.Shapes;
 using System.Collections.ObjectModel;
 using System.Threading;
 using System.Globalization;
+using Cryptool.PluginBase;
 
 namespace Cryptool.WEPAttacks
 {
     /// <summary>
     /// Interaktionslogik für WEPAttacksPresentation.xaml
     /// </summary>
+    [Cryptool.PluginBase.Attributes.Localization("WEPAttacks.Properties.Resources")]
     public partial class WEPAttacksPresentation : UserControl
     {
         public WEPAttacksPresentation()
@@ -42,35 +44,35 @@ namespace Cryptool.WEPAttacks
                     Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal,
                         (SendOrPostCallback)delegate
                         {
-                            labelAttack.Content = "No attack running.";
+                            labelAttack.Content = typeof(WEPAttacks).GetPluginStringResource("Attack_None");
                         }, attackNumber);
                     break;
                 case 1:
                     Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal,
                         (SendOrPostCallback)delegate
                     {
-                        labelAttack.Content = "FMS attack running...";
+                        labelAttack.Content = typeof(WEPAttacks).GetPluginStringResource("Attack_FMS");
                     }, attackNumber);
                     break;
                 case 2:
                     Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal,
                         (SendOrPostCallback)delegate
                     {
-                        labelAttack.Content = "KoreK attack running...";
+                        labelAttack.Content = typeof(WEPAttacks).GetPluginStringResource("Attack_KoreK");
                     }, attackNumber);
                     break;
                 case 3:
                     Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal,
                         (SendOrPostCallback)delegate
                     {
-                        labelAttack.Content = "PTW attack running...";
+                        labelAttack.Content = typeof(WEPAttacks).GetPluginStringResource("Attack_PTW");
                     }, attackNumber);
                     break;
                 default:
                     Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal,
                         (SendOrPostCallback)delegate
                     {
-                        labelAttack.Content = "No attack running.";
+                        labelAttack.Content = typeof(WEPAttacks).GetPluginStringResource("Attack_None");
                     }, attackNumber);
                     break;
             }
@@ -85,7 +87,7 @@ namespace Cryptool.WEPAttacks
             Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal,
                 (SendOrPostCallback)delegate
                 {
-                    labelCollectedPackets.Content = "Sniffed packets: " + counter.ToString("#,#", CultureInfo.InstalledUICulture);
+                    labelCollectedPackets.Content = typeof(WEPAttacks).GetPluginStringResource("Sniffed_packets") + counter.ToString("#,#", CultureInfo.InstalledUICulture);
                 }, counter);
         }
 
@@ -100,7 +102,7 @@ namespace Cryptool.WEPAttacks
                 Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal,
                     (SendOrPostCallback)delegate
                     {
-                        labelUsedIVs.Content = "Used packets: ";
+                        labelUsedIVs.Content = typeof(WEPAttacks).GetPluginStringResource("Used_packets");
                     }, usedIVs);
             }
             else
@@ -108,7 +110,7 @@ namespace Cryptool.WEPAttacks
                 Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal,
                     (SendOrPostCallback)delegate
                     {
-                        labelUsedIVs.Content = "Used packets: " + usedIVs.ToString("#,#", CultureInfo.InstalledUICulture);
+                        labelUsedIVs.Content = typeof(WEPAttacks).GetPluginStringResource("Used_packets") + usedIVs.ToString("#,#", CultureInfo.InstalledUICulture);
                     }, usedIVs);
             }
         }
@@ -317,7 +319,7 @@ namespace Cryptool.WEPAttacks
 
                         + "\n\n"
 
-                        + "Possible key found after using " + counter.ToString("#,#", CultureInfo.InstalledUICulture) + " packets!\n["
+                        + String.Format(typeof(WEPAttacks).GetPluginStringResource("Possible_key_found_after_using_0_packets"), counter.ToString("#,#", CultureInfo.InstalledUICulture)) + "\n["
                         + String.Format("{0:X2}", firstKeyByteMaxVoted) + ":"
                         + String.Format("{0:X2}", secondKeyByteMaxVoted) + ":"
                         + String.Format("{0:X2}", thirdKeyByteMaxVoted) + ":"
@@ -333,7 +335,7 @@ namespace Cryptool.WEPAttacks
                         + ")\n\n"
 
 
-                        + "Time used [h:min:sec]: " + duration + "."
+                        + typeof(WEPAttacks).GetPluginStringResource("Time_used") + duration + "."
                         ;
                 }, votes);
             }
@@ -400,7 +402,7 @@ namespace Cryptool.WEPAttacks
 
                         + "\n\n"
 
-                        + "Possible key found after using " + counter.ToString("#,#", CultureInfo.InstalledUICulture) + " packets!\n["
+                        + String.Format(typeof(WEPAttacks).GetPluginStringResource("Possible_key_found_after_using_0_packets"), counter.ToString("#,#", CultureInfo.InstalledUICulture)) + "\n["
                         + String.Format("{0:X2}", firstKeyByteMaxVoted) + ":"
                         + String.Format("{0:X2}", secondKeyByteMaxVoted) + ":"
                         + String.Format("{0:X2}", thirdKeyByteMaxVoted) + ":"
@@ -430,7 +432,7 @@ namespace Cryptool.WEPAttacks
                         + (char)thirteenthKeyByteMaxVoted
                         + ")\n\n"
 
-                        + "Time used [h:min:sec]: " + duration + "."
+                        + typeof(WEPAttacks).GetPluginStringResource("Time_used") + duration + "."
                         ;
                 }, votes);
             }
@@ -494,10 +496,10 @@ namespace Cryptool.WEPAttacks
                         + String.Format("{0:X2}", thirteenthKeyByteSecondMostVoted) + "(" + String.Format("{0:D4}", thirteenthKeyByteSecondMostVotedVotes) + ") "
                         + String.Format("{0:X2}", thirteenthKeyByteThirdMostVoted) + "(" + String.Format("{0:D4}", thirteenthKeyByteThirdMostVotedVotes) + ")\n"
 
-
                         + "\n\n"
 
-                        + "Aborted after [h:min:sec]" + duration + ".";
+                        + typeof(WEPAttacks).GetPluginStringResource("Aborted_after") + duration + "."
+                        ;
                 }, votes);
             }
 
@@ -560,26 +562,23 @@ namespace Cryptool.WEPAttacks
                         + String.Format("{0:X2}", thirteenthKeyByteSecondMostVoted) + "(" + String.Format("{0:D4}", thirteenthKeyByteSecondMostVotedVotes) + ") "
                         + String.Format("{0:X2}", thirteenthKeyByteThirdMostVoted) + "(" + String.Format("{0:D4}", thirteenthKeyByteThirdMostVotedVotes) + ")\n"
 
-
                         + "\n\n"
 
-                        + "Could not recover key.\n"
-                        + "May be you need more packets for a\n"
-                        + "successful attack.\n";
+                        + typeof(WEPAttacks).GetPluginStringResource("Could_not_recover_key")
+                        + "\n"
+                        + typeof(WEPAttacks).GetPluginStringResource("Maybe_you_need_more_packets");
 
                         if (kindOfAttack.Equals("FMS"))
                         {
-                            textBox.AppendText("For a 104 bit key and a FMS attack\n"
-                            + "you need usually 3 - 4 mio. encrypted packets.");
+                            textBox.AppendText(typeof(WEPAttacks).GetPluginStringResource("FMS_more_packets"));
                         }
                         if (kindOfAttack.Equals("KoreK"))
                         {
-                            textBox.AppendText("For a KoreK attack\n"
-                            + "you need usually 500.000 - 1 mio. encrypted packets.");
+                            textBox.AppendText(typeof(WEPAttacks).GetPluginStringResource("KoreK_more_packets"));
                         }
 
                     textBox.AppendText("\n\n"
-                        + "Time used [h:min:sec]: " + duration + ".");
+                        + typeof(WEPAttacks).GetPluginStringResource("Time_used") + duration + ".");
                 }, votes);
             }
         }
@@ -612,7 +611,7 @@ namespace Cryptool.WEPAttacks
                 (SendOrPostCallback)delegate
                 {
                     textBox.Text =
-                        "Possible key:\n"
+                        typeof(WEPAttacks).GetPluginStringResource("Possible_key") + ":\n"
                         + String.Format("{0:X2}", firstKeyByteMaxVoted) + ":"
                         + String.Format("{0:X2}", secondKeyByteMaxVoted) + ":"
                         + String.Format("{0:X2}", thirdKeyByteMaxVoted) + ":"
@@ -633,7 +632,7 @@ namespace Cryptool.WEPAttacks
                 (SendOrPostCallback)delegate
                 {
                     textBox.Text =
-                        "Possible key found after using " + counter.ToString("#,#", CultureInfo.InstalledUICulture) + " packets!\n["
+                        String.Format(typeof(WEPAttacks).GetPluginStringResource("Possible_key_found_after_using_0_packets"), counter.ToString("#,#", CultureInfo.InstalledUICulture)) + "\n["
                         + String.Format("{0:X2}", firstKeyByteMaxVoted) + ":"
                         + String.Format("{0:X2}", secondKeyByteMaxVoted) + ":"
                         + String.Format("{0:X2}", thirdKeyByteMaxVoted) + ":"
@@ -649,7 +648,7 @@ namespace Cryptool.WEPAttacks
                         + (char)fifthKeyByteMaxVoted
                         + ")\n\n"
 
-                        + "Time used [h:min:sec]: " + duration + "."
+                        + typeof(WEPAttacks).GetPluginStringResource("Time_used") + duration + "."
                         ;
                 }, votes);
             }
@@ -660,7 +659,7 @@ namespace Cryptool.WEPAttacks
                 (SendOrPostCallback)delegate
                 {
                     textBox.Text =
-                        "Possible key found after using " + counter.ToString("#,#", CultureInfo.InstalledUICulture) + " packets!\n["
+                        String.Format(typeof(WEPAttacks).GetPluginStringResource("Possible_key_found_after_using_0_packets"), counter.ToString("#,#", CultureInfo.InstalledUICulture)) + "\n["
                         + String.Format("{0:X2}", firstKeyByteMaxVoted) + ":"
                         + String.Format("{0:X2}", secondKeyByteMaxVoted) + ":"
                         + String.Format("{0:X2}", thirdKeyByteMaxVoted) + ":"
@@ -692,8 +691,7 @@ namespace Cryptool.WEPAttacks
                         + (char)thirteenthKeyByteMaxVoted
                         + ")\n\n"
 
-                        + "Time used [h:min:sec]: " + duration + "."
-
+                        + typeof(WEPAttacks).GetPluginStringResource("Time_used") + duration + "."
                         ;
                 }, votes);
             }
@@ -704,7 +702,7 @@ namespace Cryptool.WEPAttacks
                 (SendOrPostCallback)delegate
                 {
                     textBox.Text =
-                        "Possible key:\n"
+                        typeof(WEPAttacks).GetPluginStringResource("Possible_key") + ":\n"
                         + String.Format("{0:X2}", firstKeyByteMaxVoted) + ":"
                         + String.Format("{0:X2}", secondKeyByteMaxVoted) + ":"
                         + String.Format("{0:X2}", thirdKeyByteMaxVoted) + ":"
@@ -720,11 +718,13 @@ namespace Cryptool.WEPAttacks
 
                         + "\n\n"
 
-                        + "Could not recover key.\nPropably it is a strong key."
+                        + typeof(WEPAttacks).GetPluginStringResource("Could_not_recover_key")
+                        + "\n"
+                        + typeof(WEPAttacks).GetPluginStringResource("Probably_it_is_a_strong_key")
 
                         + "\n\n"
 
-                        + "Time used [h:min:sec]: " + duration + ".";
+                        + typeof(WEPAttacks).GetPluginStringResource("Time_used") + duration + ".";
                 }, votes);
             }
 
@@ -734,7 +734,7 @@ namespace Cryptool.WEPAttacks
                 (SendOrPostCallback)delegate
                 {
                     textBox.Text =
-                        "Possible key:\n"
+                        typeof(WEPAttacks).GetPluginStringResource("Possible_key") + ":\n"
                         + String.Format("{0:X2}", firstKeyByteMaxVoted) + ":"
                         + String.Format("{0:X2}", secondKeyByteMaxVoted) + ":"
                         + String.Format("{0:X2}", thirdKeyByteMaxVoted) + ":"
@@ -750,15 +750,13 @@ namespace Cryptool.WEPAttacks
 
                         + "\n\n"
 
-                        + "Could not recover key.\n"
-                        + "May be you need more packets.\n"
-                        + "For a 104 bit key you usually\n"
-                        + "need 100.000 ARP packets or\n"
-                        + "a few more IP packets."
+                        + typeof(WEPAttacks).GetPluginStringResource("Could_not_recover_key")
+                        + "\n"
+                        + typeof(WEPAttacks).GetPluginStringResource("Maybe_you_need_more_packets_104")
 
                         + "\n\n"
 
-                        + "Time used [h:min:sec]: " + duration + ".";
+                        + typeof(WEPAttacks).GetPluginStringResource("Time_used") + duration + ".";
                 }, votes);
             }
         }

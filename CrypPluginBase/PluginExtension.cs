@@ -24,7 +24,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Documents;
 using System.Windows.Markup;
 using Cryptool.PluginBase.Miscellaneous;
-using Cryptool.PluginBase.Resources;
+using Cryptool.PluginBase.Properties;
 using System.Resources;
 using System.Threading;
 using System.Globalization;
@@ -360,7 +360,7 @@ namespace Cryptool.PluginBase
           catch (Exception exception)
           {
             if (type != null)
-              GuiLogMessage(string.Format(Resource.plugin_extension_error_get_image, new object[] { type.Name, exception.Message }), NotificationLevel.Error);
+              GuiLogMessage(string.Format(Resources.plugin_extension_error_get_image, new object[] { type.Name, exception.Message }), NotificationLevel.Error);
             else
               GuiLogMessage(exception.Message, NotificationLevel.Error);
             return null;
@@ -452,7 +452,7 @@ namespace Cryptool.PluginBase
           catch (Exception exception)
           {
             if (plugin != null)
-              GuiLogMessage(string.Format(Resource.plugin_extension_error_get_description, new object[] { plugin.GetType().Name, exception.Message }), NotificationLevel.Error);
+              GuiLogMessage(string.Format(Resources.plugin_extension_error_get_description, new object[] { plugin.GetType().Name, exception.Message }), NotificationLevel.Error);
             else
               GuiLogMessage(exception.Message, NotificationLevel.Error);
             return null; 
@@ -470,7 +470,7 @@ namespace Cryptool.PluginBase
             catch (Exception exception)
             {
               if (type != null)
-                GuiLogMessage(string.Format(Resource.plugin_extension_error_get_description, new object[] { type.Name, exception.Message }), NotificationLevel.Error);
+                GuiLogMessage(string.Format(Resources.plugin_extension_error_get_description, new object[] { type.Name, exception.Message }), NotificationLevel.Error);
               else
                 GuiLogMessage(exception.Message, NotificationLevel.Error);
               return null;

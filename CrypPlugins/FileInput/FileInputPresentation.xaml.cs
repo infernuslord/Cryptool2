@@ -40,6 +40,7 @@ namespace FileInput
   /// <summary>
   /// Interaction logic for UserControl1.xaml
   /// </summary>
+  [Cryptool.PluginBase.Attributes.Localization("FileInput.Properties.Resources")]
   public partial class FileInputPresentation : UserControl
   {
     private bool ignoreNextFileOpenEvent = false;

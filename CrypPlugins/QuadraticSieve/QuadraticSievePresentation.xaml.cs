@@ -17,6 +17,7 @@ namespace Cryptool.Plugins.QuadraticSieve
     /// <summary>
     /// Interaction logic for QuadraticSievePresentation.xaml
     /// </summary>
+    [Cryptool.PluginBase.Attributes.Localization("QuadraticSieve.Properties.Resources")]
     public partial class QuadraticSievePresentation : UserControl
     {
         private ProgressRelationPackages progressRelationPackages;

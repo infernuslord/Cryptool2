@@ -8,6 +8,6 @@
             <Label Name="polynomialText" />
         </Grid>
         <Grid Height="Auto" Width="Auto" Margin="0,40,0,0" Name="myGrid" HorizontalAlignment="Center" VerticalAlignment="Center" />
-        <Label Content="No Quickwatch data right now." Name="infoText" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        <Label Content="{Loc No_Quickwatch_data_right_now_}" Name="infoText" HorizontalAlignment="Center" VerticalAlignment="Center" />
     </Grid>
 </UserControl>

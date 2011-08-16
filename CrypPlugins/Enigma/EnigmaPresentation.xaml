@@ -2,7 +2,8 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:properties="clr-namespace:Cryptool.Enigma.Properties"
              mc:Ignorable="d" 
              d:DesignHeight="1250" d:DesignWidth="2200" KeyDown="tastedruecken">
     <Canvas Name="mainCanvas">
@@ -24,12 +25,12 @@
 
             </Rectangle>
 
-            <TextBlock Text="Rotorlage:" FontSize="35" Canvas.Left="30" ></TextBlock>
-            <TextBlock Text="Ringstellung:" FontSize="35" Canvas.Left="30" Canvas.Bottom="370" ></TextBlock>
+            <TextBlock Text="{x:Static properties:Resources.Rotorlage_}" FontSize="35" Canvas.Left="6" Width="254" TextAlignment="Left"></TextBlock>
+            <TextBlock Text="{x:Static properties:Resources.Ringstellung_}" FontSize="35" Canvas.Left="0" Canvas.Bottom="370" Width="260"></TextBlock>
             <Canvas Name ="walzenarea" Height="1000" Width="260"></Canvas>
             <Canvas Name ="rotorarea" Height="1000" Width="1000" Canvas.Left="260">
 
-                <TextBox Name="Debug" Height="50" Width="400" FontSize="30" Canvas.Left="-260" Opacity="0.0"></TextBox>
+                <TextBox Name="Debug" Height="50" Width="400" FontSize="30" Canvas.Left="-260" Opacity="0.0" HorizontalContentAlignment="Left"></TextBox>
                 <Slider Canvas.Left="0" Canvas.Top="950" Height="23" Name="slider1" Width="500" Opacity="0.0"/>
                 <Button Canvas.Left="0" Canvas.Top="900" Content="Stop" Height="23" Name="Stop" Width="75" Opacity="0.0"/>
                 <Button Canvas.Left="100" Canvas.Top="900" Content="deStop" Height="23" Name="destop" Width="75" Opacity="0.0"/>

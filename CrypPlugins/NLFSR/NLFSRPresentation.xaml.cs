@@ -30,6 +30,8 @@ using System.Windows.Shapes;
 using System.Threading;
 using System.Windows.Automation.Peers;
 using System.Windows.Threading;
+using Cryptool.PluginBase;
+using Cryptool.PluginBase.Attributes;
 
 namespace Cryptool.NLFSR
 {
@@ -37,6 +39,7 @@ namespace Cryptool.NLFSR
     /// Interaction logic for NLFSRPresentation.xaml
     /// </summary>
 
+    [Localization("NLFSR.Properties.Resources")]
     public partial class NLFSRPresentation : UserControl
     {
         public NLFSRPresentation()

@@ -9,9 +9,9 @@
         </Grid.RowDefinitions>
         
         <StackPanel Grid.Row="0" Background="WhiteSmoke">
-            <Label Name="labelAttack">No attack running.</Label>
-            <Label Name="labelCollectedPackets">Sniffed packets: 0</Label>
-            <Label Name="labelUsedIVs">Used packets: </Label>
+            <Label Name="labelAttack" Content="{Loc Attack_None}" />
+            <Label Name="labelCollectedPackets" Content="{Loc Sniffed_packets}" />
+            <Label Name="labelUsedIVs" Content="{Loc Used_packets}" />
         </StackPanel>
         
         <TextBox Name="textBox" Grid.Row="1" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Auto">

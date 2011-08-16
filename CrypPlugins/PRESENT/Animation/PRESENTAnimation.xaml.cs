@@ -34,6 +34,7 @@ namespace Cryptool.PRESENT {
     /// <summary>
     /// Interaktionslogik für Window1.xaml
     /// </summary>
+    [Cryptool.PluginBase.Attributes.Localization("Cryptool.PRESENT.Properties.Resources")]
     public partial class PRESENTAnimation : UserControl {
         private KS_Animation ks_animation;
         private EC_Animation ec_animation;

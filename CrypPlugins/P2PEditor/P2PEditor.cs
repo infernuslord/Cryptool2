@@ -59,7 +59,7 @@ namespace Cryptool.P2PEditor
         public void New()
         {
             if (OnSelectedPluginChanged != null)
-                OnSelectedPluginChanged(this, new PluginChangedEventArgs(this, "P2P Configuration", DisplayPluginMode.Normal));
+                OnSelectedPluginChanged(this, new PluginChangedEventArgs(this, Properties.Resources.P2P_Configuration, DisplayPluginMode.Normal));
             
             if (!P2PManager.IsConnected)
             {

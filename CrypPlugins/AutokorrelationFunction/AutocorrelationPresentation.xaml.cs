@@ -19,6 +19,7 @@ namespace Cryptool.Plugins.AutokorrelationFunction
     /// <summary>
     /// Interaction logic for AutocorrelationPresentation.xaml
     /// </summary>
+    [Cryptool.PluginBase.Attributes.Localization("AutokorrelationFunction.Properties.Resources")]
     public partial class AutocorrelationPresentation : UserControl
     {
         public AutocorrelationPresentation()

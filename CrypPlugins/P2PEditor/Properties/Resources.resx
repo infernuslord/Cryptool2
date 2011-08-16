@@ -319,7 +319,7 @@ email address. Use this code to change your accounts password settings.</value>
     <value>Your certificate was not authorized, so a reset is not possible at this moment</value>
   </data>
   <data name="Your_certificate_was_revoked_You_can_not_reset_it" xml:space="preserve">
-    <value>Your certificate was revoked You can not reset it</value>
+    <value>Your certificate was revoked. You can not reset it.</value>
   </data>
   <data name="Deserialization_of_communication_packet_on_the_server_side_failed__Please_try_again_" xml:space="preserve">
     <value>Deserialization of communication packet on the server side failed. Please try again.</value>
@@ -597,5 +597,32 @@ Reason: Username or email adresse are revoked.</value>
   </data>
   <data name="worldname_tooltip" xml:space="preserve">
     <value>Worldname</value>
+  </data>
+  <data name="Password_reset_verification" xml:space="preserve">
+    <value>Password reset verification</value>
+  </data>
+  <data name="Password_successfully_resetted" xml:space="preserve">
+    <value>Password successfully resetted</value>
+  </data>
+  <data name="Please_enter_the_password_reset_verification_code" xml:space="preserve">
+    <value>Please enter the password reset verification code which you should have received by email.
+Also choose a new password and confirm it. By clicking the reset button you will receive your new
+account data immediately.</value>
+  </data>
+  <data name="Reset_password_" xml:space="preserve">
+    <value>Reset password...</value>
+  </data>
+  <data name="Verification_Code_" xml:space="preserve">
+    <value>_Verification Code:</value>
+  </data>
+  <data name="Your_password_was_successfully_resetted" xml:space="preserve">
+    <value>Your password was successfully resetted.
+Press the OK button to proceed.</value>
+  </data>
+  <data name="_Verify" xml:space="preserve">
+    <value>_Verify</value>
+  </data>
+  <data name="P2P_Configuration" xml:space="preserve">
+    <value>P2P Configuration</value>
   </data>
 </root>

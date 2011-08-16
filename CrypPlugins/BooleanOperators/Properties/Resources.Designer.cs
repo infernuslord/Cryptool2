@@ -394,6 +394,15 @@ namespace BooleanOperators.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die False ähnelt.
+        /// </summary>
+        internal static string False {
+            get {
+                return ResourceManager.GetString("False", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Boolean Binary Operator ähnelt.
         /// </summary>
         internal static string PluginBBO_Caption {
@@ -489,6 +498,15 @@ namespace BooleanOperators.Properties {
         internal static string PluginDescriptionURL {
             get {
                 return ResourceManager.GetString("PluginDescriptionURL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die True ähnelt.
+        /// </summary>
+        internal static string True {
+            get {
+                return ResourceManager.GetString("True", resourceCulture);
             }
         }
     }

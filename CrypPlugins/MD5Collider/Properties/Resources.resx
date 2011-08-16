@@ -162,4 +162,13 @@
   <data name="PrefixTooltip" xml:space="preserve">
     <value>Common prefix for colliding blocks</value>
   </data>
+  <data name="Match_" xml:space="preserve">
+    <value>Match:</value>
+  </data>
+  <data name="Time_" xml:space="preserve">
+    <value>Time:</value>
+  </data>
+  <data name="Tries_" xml:space="preserve">
+    <value>Tries:</value>
+  </data>
 </root>

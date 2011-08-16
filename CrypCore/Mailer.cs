@@ -31,7 +31,7 @@ namespace Cryptool.Core
             if (diff < TimeSpan.FromSeconds(MINIMUM_DIFF))
             {
                 // +1 to avoid confusing "0 seconds" text message
-                throw new SpamException(string.Format("Please wait {0} seconds before trying again", Math.Round(MINIMUM_DIFF - diff.TotalSeconds + 1)));
+                throw new SpamException(string.Format(Properties.Resources.Please_wait_seconds_before_trying_again, Math.Round(MINIMUM_DIFF - diff.TotalSeconds + 1)));
             }
 
             var client = new WebClient();

@@ -5,12 +5,12 @@
     Height="Auto" Width="Auto" MinWidth="640" MinHeight="480">
     <Grid>
         <TabControl Name="tabControl">
-            <TabItem x:Name="tabAbout" Header="About">
+            <TabItem x:Name="tabAbout" Header="{Loc About}">
                 <Grid>
                     <Image Source="/PRESENT;component/Animation/resources/info.png" />
                 </Grid>
             </TabItem>
-            <TabItem x:Name="tabSettings" Header="Settings">
+            <TabItem x:Name="tabSettings" Header="{Loc Settings}">
                 <Grid>
                     <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5">
                         <Grid.RowDefinitions>
@@ -22,23 +22,23 @@
                             <ColumnDefinition/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
-                        <Label Grid.Row="0" Grid.Column="0" Height="26" Width="50" HorizontalContentAlignment="Right">Key:</Label>
+                        <Label Grid.Row="0" Grid.Column="0" Height="26" Width="70" HorizontalContentAlignment="Right" Content="{Loc Key_}" />
                         <ec:TextBoxHexOnly x:Name="txt_Key" Grid.Row="0" Grid.Column="1" Height="26" Width="180" HorizontalContentAlignment="Left" MaxLength="20">00000000000000000000</ec:TextBoxHexOnly>
-                        <Label Grid.Row="1" Grid.Column="0" Height="26" Width="50" HorizontalContentAlignment="Right">Data:</Label>
+                        <Label Grid.Row="1" Grid.Column="0" Height="26" Width="70" HorizontalContentAlignment="Right" Content="{Loc Data_}" />
                         <ec:TextBoxHexOnly x:Name="txt_Data" Grid.Row="1" Grid.Column="1" Height="26" Width="180" HorizontalContentAlignment="Left" MaxLength="16">0000000000000000</ec:TextBoxHexOnly>
-                        <Button Grid.Row="2" Grid.Column="1" Name="btn_Assign" Click="Assign_Click">Assign</Button>
+                        <Button Grid.Row="2" Grid.Column="1" Name="btn_Assign" Click="Assign_Click" Content="{Loc Assign}" />
                     </Grid>
                 </Grid>
             </TabItem>
-            <TabItem x:Name="tabOverview" Header="Overview">
+            <TabItem x:Name="tabOverview" Header="{Loc Overview}">
                 <Grid>
                     <FlowDocumentScrollViewer x:Name="docOverview">
                         <FlowDocument PagePadding="5,0,5,0" AllowDrop="True" NumberSubstitution.CultureSource="User" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
                             <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="CMR10" FontSize="13.3333333333333">
-                                <Run FontFamily="CMCSC10" xml:lang="de-de" xml:space="preserve">The PRESENT cipher is an example of an SP-network and consists of 31 rounds. The block length is 64 bits and two key lengths of 80 and 128 bits are supported - but only the recommended 80-bit key version is implemented here.</Run>
+                                <Run FontFamily="CMCSC10" xml:lang="de-de" xml:space="preserve" Text="{Loc The_PRESENT_cipher_is_an_example}" />
                             </Paragraph>
                             <Paragraph Margin="20,Auto,Auto,Auto">
-                                <Run xml:lang="de-de">A top-level algorithmic description of PRESENT:</Run>
+                                <Run xml:lang="de-de" Text="{Loc A_top_level_algorithmic_description_of_PRESENT}" />
                             </Paragraph>
                             <Paragraph Margin="20,Auto,Auto,Auto">
                                 <Run FontFamily="Courier New" xml:lang="de-de">generateRoundKeys()</Run>
@@ -59,7 +59,7 @@
                     </FlowDocumentScrollViewer>
                 </Grid>
             </TabItem>
-            <TabItem x:Name="tabKeySchedule" Header="Key Schedule" FontFamily="Courier-New">
+            <TabItem x:Name="tabKeySchedule" Header="{Loc Key_Schedule}">
                 <Grid>
                     <Label FontWeight="Bold" FontSize="16" Name="lbl_KS_Text" VerticalAlignment="Top">Step Description</Label>
                     <Viewbox>
@@ -84,36 +84,36 @@
                     </Viewport3D>
                     </Viewbox>
                     <StackPanel HorizontalAlignment="Left" VerticalAlignment="Bottom" Orientation="Horizontal" Width="Auto">
-                        <Label FontWeight="Bold" FontSize="16">Key Schedule</Label>
+                        <Label FontWeight="Bold" FontSize="16" Content="{Loc Key_Schedule}" />
                         <Image Height="25" Source="/PRESENT;component/Animation/resources/trenn.png"></Image>
-                        <Label FontWeight="Bold" FontSize="16">Round:</Label>
+                        <Label FontWeight="Bold" FontSize="16" Content="{Loc Round_}" />
                         <Label FontWeight="Bold" FontSize="16" Name="lbl_KS_Round">00</Label>
                         <Image Height="25" Source="/PRESENT;component/Animation/resources/trenn.png"></Image>
-                        <Label FontWeight="Bold" FontSize="16">Step:</Label>
-                        <Label FontWeight="Bold" FontSize="16" Name="lbl_KS_Step">Key XOR</Label>
+                        <Label FontWeight="Bold" FontSize="16" Content="{Loc Step_}" />
+                        <Label FontWeight="Bold" FontSize="16" Name="lbl_KS_Step" Content="{Loc Key_XOR}" />
                     </StackPanel>
                                         
                     <StackPanel HorizontalAlignment="Right" VerticalAlignment="Bottom" Orientation="Horizontal">
-                        <Slider Name="sld_KS_Speed" Height="25" Width="100" Margin="0,0,10,0" Value="1" Minimum="0.5" Maximum="50" SmallChange="0.5" ToolTip="animation speed" />
-                        <Button Name="btn_KS_PrevRound" Height="25" Width="50" Background="Transparent" Click="KS_Nav_Click" ToolTip="previous round">
+                        <Slider Name="sld_KS_Speed" Height="25" Width="100" Margin="0,0,10,0" Value="1" Minimum="0.5" Maximum="50" SmallChange="0.5" ToolTip="{Loc animation_speed}" />
+                        <Button Name="btn_KS_PrevRound" Height="25" Width="50" Background="Transparent" Click="KS_Nav_Click" ToolTip="{Loc previous_round}">
                             <Image Source="/PRESENT;component/Animation/resources/go-first.png"></Image>
                         </Button>
-                        <Button Name="btn_KS_PrevStep" Height="25" Width="50" Background="Transparent" Click="KS_Nav_Click" ToolTip="previous step">
+                        <Button Name="btn_KS_PrevStep" Height="25" Width="50" Background="Transparent" Click="KS_Nav_Click" ToolTip="{Loc previous_step}">
                             <Image Source="/PRESENT;component/Animation/resources/go-previous.png"></Image>
                         </Button>
-                        <Button Name="btn_KS_Pause" Height="25" Width="50" Background="Transparent" Click="KS_Nav_Click" ToolTip="pause/resume animation">
+                        <Button Name="btn_KS_Pause" Height="25" Width="50" Background="Transparent" Click="KS_Nav_Click" ToolTip="{Loc pause_resume}">
                             <Image Source="/PRESENT;component/Animation/resources/go-pause.png"></Image>
                         </Button>
-                        <Button Name="btn_KS_NextStep" Height="25" Width="50" Background="Transparent" Click="KS_Nav_Click" ToolTip="next step">
+                        <Button Name="btn_KS_NextStep" Height="25" Width="50" Background="Transparent" Click="KS_Nav_Click" ToolTip="{Loc next_step}">
                             <Image Source="/PRESENT;component/Animation/resources/go-next.png"></Image>
                         </Button>
-                        <Button Name="btn_KS_NextRound" Height="25" Width="50" Background="Transparent" Click="KS_Nav_Click" ToolTip="next round">
+                        <Button Name="btn_KS_NextRound" Height="25" Width="50" Background="Transparent" Click="KS_Nav_Click" ToolTip="{Loc next_round}">
                             <Image Source="/PRESENT;component/Animation/resources/go-last.png"></Image>
                         </Button>
                     </StackPanel>
                 </Grid>
             </TabItem>
-            <TabItem x:Name="tabEncryption" Header="Encryption">
+            <TabItem x:Name="tabEncryption" Header="{Loc Encryption}">
                 <Grid>
                     <Label FontWeight="Bold" FontSize="16" Name="lbl_EC_Text" VerticalAlignment="Top">Text00</Label>
                     <Viewbox>
@@ -139,36 +139,36 @@
                     </Viewbox>
                     
                     <StackPanel HorizontalAlignment="Left" VerticalAlignment="Bottom" Orientation="Horizontal" Width="Auto">
-                        <Label FontWeight="Bold" FontSize="16">Encryption</Label>
+                        <Label FontWeight="Bold" FontSize="16" Content="{Loc Encryption}" />
                         <Image Height="25" Source="/PRESENT;component/Animation/resources/trenn.png"></Image>
-                        <Label FontWeight="Bold" FontSize="16">Round:</Label>
+                        <Label FontWeight="Bold" FontSize="16" Content="{Loc Round_}" />
                         <Label FontWeight="Bold" FontSize="16" Name="lbl_EC_Round">00</Label>
                         <Image Height="25" Source="/PRESENT;component/Animation/resources/trenn.png"></Image>
-                        <Label FontWeight="Bold" FontSize="16">Step:</Label>
-                        <Label FontWeight="Bold" FontSize="16" Name="lbl_EC_Step">Key XOR</Label>
+                        <Label FontWeight="Bold" FontSize="16" Content="{Loc Step_}" />
+                        <Label FontWeight="Bold" FontSize="16" Name="lbl_EC_Step" Content="{Loc Key_XOR}" />
                     </StackPanel>
                     <StackPanel HorizontalAlignment="Right" VerticalAlignment="Bottom" Orientation="Horizontal">
-                        <Slider Name="sld_EC_Speed" Height="25" Width="100" Margin="0,0,10,0" Value="1" Minimum="0.5" Maximum="50" SmallChange="0.5" ToolTip="animation speed" />
-                        <Button Name="btn_EC_PrevRound" Height="25" Width="50" Background="Transparent" Click="EC_Nav_Click" ToolTip="previous round">
+                        <Slider Name="sld_EC_Speed" Height="25" Width="100" Margin="0,0,10,0" Value="1" Minimum="0.5" Maximum="50" SmallChange="0.5" ToolTip="{Loc animation_speed}" />
+                        <Button Name="btn_EC_PrevRound" Height="25" Width="50" Background="Transparent" Click="EC_Nav_Click" ToolTip="{Loc previous_round}">
                             <Image Source="/PRESENT;component/Animation/resources/go-first.png"></Image>
                         </Button>
-                        <Button Name="btn_EC_PrevStep" Height="25" Width="50" Background="Transparent" Click="EC_Nav_Click" ToolTip="previous step">
+                        <Button Name="btn_EC_PrevStep" Height="25" Width="50" Background="Transparent" Click="EC_Nav_Click" ToolTip="{Loc previous_step}">
                             <Image Source="/PRESENT;component/Animation/resources/go-previous.png"></Image>
                         </Button>
-                        <Button Name="btn_EC_Pause" Height="25" Width="50" Background="Transparent" Click="EC_Nav_Click" ToolTip="pause/resume animation">
+                        <Button Name="btn_EC_Pause" Height="25" Width="50" Background="Transparent" Click="EC_Nav_Click" ToolTip="{Loc pause_resume}">
                             <Image Source="/PRESENT;component/Animation/resources/go-pause.png"></Image>
                         </Button>
-                        <Button Name="btn_EC_NextStep" Height="25" Width="50" Background="Transparent" Click="EC_Nav_Click" ToolTip="next step">
+                        <Button Name="btn_EC_NextStep" Height="25" Width="50" Background="Transparent" Click="EC_Nav_Click" ToolTip="{Loc next_step}">
                             <Image Source="/PRESENT;component/Animation/resources/go-next.png"></Image>
                         </Button>
-                        <Button Name="btn_EC_NextRound" Height="25" Width="50" Background="Transparent" Click="EC_Nav_Click" ToolTip="next round">
+                        <Button Name="btn_EC_NextRound" Height="25" Width="50" Background="Transparent" Click="EC_Nav_Click" ToolTip="{Loc next_round}">
                             <Image Source="/PRESENT;component/Animation/resources/go-last.png"></Image>
                         </Button>
                     </StackPanel>
                     
                 </Grid>
             </TabItem>
-            <TabItem x:Name="tabTrace" Header="Trace">
+            <TabItem x:Name="tabTrace" Header="{Loc Trace}">
                 <Grid>
                     <TextBox Name="txtTrace" FontFamily="Courier New" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" />
                 </Grid>

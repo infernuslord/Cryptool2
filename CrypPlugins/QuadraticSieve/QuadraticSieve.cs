@@ -210,7 +210,7 @@ namespace Cryptool.Plugins.QuadraticSieve
                         return;
                     }
 
-                    String info_message = "Starting quadratic sieve, please wait!";
+                    String info_message = typeof(QuadraticSieve).GetPluginStringResource("Starting_quadratic_sieve");
 
                     start_time = DateTime.Now;
 
@@ -224,7 +224,7 @@ namespace Cryptool.Plugins.QuadraticSieve
                         quadraticSieveQuickWatchPresentation.elapsedTime.Content = "-";
                         quadraticSieveQuickWatchPresentation.startTime.Content = ""+start_time;
                         quadraticSieveQuickWatchPresentation.factorList.Items.Clear();
-                        quadraticSieveQuickWatchPresentation.factorInfo.Content = "Searching trivial factors!";
+                        quadraticSieveQuickWatchPresentation.factorInfo.Content = typeof(QuadraticSieve).GetPluginStringResource("Searching_trivial_factors");
                         if (usePeer2Peer)
                             quadraticSieveQuickWatchPresentation.localSieving.Visibility = Visibility.Hidden;
                         else
@@ -255,13 +255,13 @@ namespace Cryptool.Plugins.QuadraticSieve
 
                     if (!userStopped)
                     {
-                        String timeLeft_message = "0 seconds left";
+                        String timeLeft_message = "0 " + typeof(QuadraticSieve).GetPluginStringResource("seconds_left");
                         String endtime_message = "" + (DateTime.Now);
 
                         GuiLogMessage(info_message, NotificationLevel.Info);
                         quadraticSieveQuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                         {
-                            quadraticSieveQuickWatchPresentation.information.Content = "Sieving finished!";
+                            quadraticSieveQuickWatchPresentation.information.Content = typeof(QuadraticSieve).GetPluginStringResource("Sieving_finished");
                             quadraticSieveQuickWatchPresentation.endTime.Content = endtime_message;
                             quadraticSieveQuickWatchPresentation.timeLeft.Content = timeLeft_message;
                             quadraticSieveQuickWatchPresentation.factorInfo.Content = "";
@@ -280,7 +280,7 @@ namespace Cryptool.Plugins.QuadraticSieve
                         GuiLogMessage(info_message, NotificationLevel.Info);
                         quadraticSieveQuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                         {
-                            quadraticSieveQuickWatchPresentation.information.Content = info_message;
+                            quadraticSieveQuickWatchPresentation.information.Content = typeof(QuadraticSieve).GetPluginStringResource("Stopped_by_user");
                             quadraticSieveQuickWatchPresentation.endTime.Content = "-";
                             quadraticSieveQuickWatchPresentation.timeLeft.Content = "-";
                             quadraticSieveQuickWatchPresentation.startTime.Content = "-";
@@ -456,13 +456,13 @@ namespace Cryptool.Plugins.QuadraticSieve
         {
             String res = "";
             if (ts.Days != 0)
-                res = ts.Days + " days ";
+                res = ts.Days + " " + typeof(QuadraticSieve).GetPluginStringResource("days") + " ";
             if (ts.Hours != 0 || res.Length != 0)
-                res += ts.Hours + " hours ";
+                res += ts.Hours + " " + typeof(QuadraticSieve).GetPluginStringResource("hours") + " ";
             if (ts.Minutes != 0)
-                res += ts.Minutes + " minutes";
+                res += ts.Minutes + " " + typeof(QuadraticSieve).GetPluginStringResource("minutes") + " ";
             if (res.Length == 0)
-                res += ts.Seconds + " seconds";
+                res += ts.Seconds + " " + typeof(QuadraticSieve).GetPluginStringResource("seconds");
             return res;
         }
 
@@ -485,7 +485,7 @@ namespace Cryptool.Plugins.QuadraticSieve
                 relationPackageQueue = Queue.Synchronized(new Queue());
                 conf_list = new ArrayList();
 
-                String message = "Sieving now!";
+                String message = typeof(QuadraticSieve).GetPluginStringResource("Sieving_now");
                 GuiLogMessage(message, NotificationLevel.Info);
                 quadraticSieveQuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
@@ -522,7 +522,7 @@ namespace Cryptool.Plugins.QuadraticSieve
                 {
                     quadraticSieveQuickWatchPresentation.timeLeft.Content = "-";
                     quadraticSieveQuickWatchPresentation.endTime.Content = "-";
-                    quadraticSieveQuickWatchPresentation.factorInfo.Content = "Found enough relations! Please wait...";
+                    quadraticSieveQuickWatchPresentation.factorInfo.Content = typeof(QuadraticSieve).GetPluginStringResource("Found_enough_relations");
                 }, null);
 
                 if (relationPackageQueue != null)
@@ -536,7 +536,7 @@ namespace Cryptool.Plugins.QuadraticSieve
                 {
                     quadraticSieveQuickWatchPresentation.timeLeft.Content = "-";
                     quadraticSieveQuickWatchPresentation.endTime.Content = "-";
-                    quadraticSieveQuickWatchPresentation.factorInfo.Content = "Other peer finished sieving!";
+                    quadraticSieveQuickWatchPresentation.factorInfo.Content = typeof(QuadraticSieve).GetPluginStringResource("Other_peer_finished_sieving");
                 }, null);
                 otherPeerFinished = true;
                 return false;
@@ -631,13 +631,13 @@ namespace Cryptool.Plugins.QuadraticSieve
                 msleft = estimatedTotalTime - estimatedElapsedTime;
             }            
             
-            String timeLeft_message = "very soon";
-            String endtime_message = "very soon";
+            String timeLeft_message = typeof(QuadraticSieve).GetPluginStringResource("very_soon");
+            String endtime_message = typeof(QuadraticSieve).GetPluginStringResource("very_soon");
             DateTime now = DateTime.Now;
             if (msleft > 0 && !double.IsInfinity(msleft))
             {
                 TimeSpan ts = new TimeSpan((long)(msleft * TimeSpan.TicksPerMillisecond));
-                timeLeft_message = timeSpanString(ts) + " left";
+                timeLeft_message = timeSpanString(ts) + " " + typeof(QuadraticSieve).GetPluginStringResource("left");
                 endtime_message = "" + now.AddMilliseconds((long)msleft);
             }
 
@@ -738,7 +738,7 @@ namespace Cryptool.Plugins.QuadraticSieve
                     compRep = compositeFactor.ToString();
                 else
                     compRep = compositeFactor.ToString().Substring(0, 48) + "...";
-                quadraticSieveQuickWatchPresentation.factorInfo.Content = "Now sieving first composite factor! (" + compRep + ")";
+                quadraticSieveQuickWatchPresentation.factorInfo.Content = typeof(QuadraticSieve).GetPluginStringResource("Now_sieving_first_composite_factor") + " (" + compRep + ")";
             }, null);
         }
 
@@ -854,10 +854,10 @@ namespace Cryptool.Plugins.QuadraticSieve
                 quadraticSieveQuickWatchPresentation.factorList.Items.Clear();
 
                 foreach (BigInteger pf in primeFactors)         
-                    quadraticSieveQuickWatchPresentation.factorList.Items.Add("Prime Factor: " + pf.ToString());            
+                    quadraticSieveQuickWatchPresentation.factorList.Items.Add( typeof(QuadraticSieve).GetPluginStringResource("Prime_Factor") + ": " + pf.ToString());            
 
                 foreach (BigInteger cf in compositeFactors)
-                    quadraticSieveQuickWatchPresentation.factorList.Items.Add("Composite Factor: " + cf.ToString());
+                    quadraticSieveQuickWatchPresentation.factorList.Items.Add( typeof(QuadraticSieve).GetPluginStringResource("Composite_Factor") + ": " + cf.ToString());
                 quadraticSieveQuickWatchPresentation.SelectFirstComposite();
             }, null);
         }

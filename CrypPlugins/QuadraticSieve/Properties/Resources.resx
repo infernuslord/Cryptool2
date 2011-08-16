@@ -168,4 +168,121 @@
   <data name="UsePeer2PeerTooltip" xml:space="preserve">
     <value>If checked, this plugin will connect to Peer2Peer network to sieve together with other clients</value>
   </data>
+  <data name="Relpack_loaded" xml:space="preserve">
+    <value>This relation package was sieved by {0} but we loaded it.</value>
+  </data>
+  <data name="Relpack_lost" xml:space="preserve">
+    <value>This relation package got lost.</value>
+  </data>
+  <data name="Relpack_other" xml:space="preserve">
+    <value>other user</value>
+  </data>
+  <data name="Relpack_unknown" xml:space="preserve">
+    <value>This relation package was sieved by an unknown user and we didn't load it yet.</value>
+  </data>
+  <data name="Relpack_us" xml:space="preserve">
+    <value>This relation package was sieved by us.</value>
+  </data>
+  <data name="Active_Peers_" xml:space="preserve">
+    <value>Active Peers:</value>
+  </data>
+  <data name="Composite_Factor" xml:space="preserve">
+    <value>Composite Factor</value>
+  </data>
+  <data name="Cores_used_" xml:space="preserve">
+    <value>Cores used:</value>
+  </data>
+  <data name="days" xml:space="preserve">
+    <value>days</value>
+  </data>
+  <data name="Downloaded_" xml:space="preserve">
+    <value>Downloaded:</value>
+  </data>
+  <data name="Elapsed_" xml:space="preserve">
+    <value>Elapsed:</value>
+  </data>
+  <data name="End_" xml:space="preserve">
+    <value>End:</value>
+  </data>
+  <data name="Factorlist" xml:space="preserve">
+    <value>Factorlist</value>
+  </data>
+  <data name="Found_enough_relations" xml:space="preserve">
+    <value>Found enough relations! Please wait...</value>
+  </data>
+  <data name="Found_Relations_" xml:space="preserve">
+    <value>Found Relations:</value>
+  </data>
+  <data name="hours" xml:space="preserve">
+    <value>hours</value>
+  </data>
+  <data name="Information_" xml:space="preserve">
+    <value>Information:</value>
+  </data>
+  <data name="left" xml:space="preserve">
+    <value>left</value>
+  </data>
+  <data name="Local_Sieving_" xml:space="preserve">
+    <value>Local Sieving (Not Connected)</value>
+  </data>
+  <data name="minutes" xml:space="preserve">
+    <value>minutes</value>
+  </data>
+  <data name="Needed_Relations_" xml:space="preserve">
+    <value>Needed Relations:</value>
+  </data>
+  <data name="Now_sieving_first_composite_factor" xml:space="preserve">
+    <value>Now sieving first composite factor!</value>
+  </data>
+  <data name="Other_peer_finished_sieving" xml:space="preserve">
+    <value>Other peer finished sieving!</value>
+  </data>
+  <data name="Peer2Peer" xml:space="preserve">
+    <value>Peer2Peer</value>
+  </data>
+  <data name="Prime_Factor" xml:space="preserve">
+    <value>Prime Factor</value>
+  </data>
+  <data name="Progress" xml:space="preserve">
+    <value>Progress</value>
+  </data>
+  <data name="Queue_" xml:space="preserve">
+    <value>Queue:</value>
+  </data>
+  <data name="Remaining_" xml:space="preserve">
+    <value>Remaining:</value>
+  </data>
+  <data name="Searching_trivial_factors" xml:space="preserve">
+    <value>Searching trivial factors!</value>
+  </data>
+  <data name="seconds" xml:space="preserve">
+    <value>seconds</value>
+  </data>
+  <data name="seconds_left" xml:space="preserve">
+    <value>seconds left</value>
+  </data>
+  <data name="Sieving_finished" xml:space="preserve">
+    <value>Sieving finished!</value>
+  </data>
+  <data name="Sieving_now" xml:space="preserve">
+    <value>Sieving now!</value>
+  </data>
+  <data name="Starting_quadratic_sieve" xml:space="preserve">
+    <value>Starting quadratic sieve, please wait!</value>
+  </data>
+  <data name="Start_" xml:space="preserve">
+    <value>Start:</value>
+  </data>
+  <data name="Stopped_by_user" xml:space="preserve">
+    <value>Stopped by user!</value>
+  </data>
+  <data name="Time" xml:space="preserve">
+    <value>Time</value>
+  </data>
+  <data name="Uploaded_" xml:space="preserve">
+    <value>Uploaded:</value>
+  </data>
+  <data name="very_soon" xml:space="preserve">
+    <value>very soon</value>
+  </data>
 </root>

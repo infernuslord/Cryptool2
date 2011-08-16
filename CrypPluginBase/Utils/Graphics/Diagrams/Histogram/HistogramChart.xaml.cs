@@ -2,6 +2,7 @@
 using System.Windows.Media;
 using System.Threading;
 using System.Windows.Threading;
+using Cryptool.PluginBase.Attributes;
 
 
 namespace Cryptool.PluginBase.Utils.Graphics.Diagrams.Histogram
@@ -9,6 +10,7 @@ namespace Cryptool.PluginBase.Utils.Graphics.Diagrams.Histogram
     /// <summary>
     /// Interaction logic for FrequencyTestPresentation.xaml
     /// </summary>
+    [Cryptool.PluginBase.Attributes.Localization("Cryptool.PluginBase.Properties.Resources")]
     public partial class HistogramChart : UserControl
     {
 

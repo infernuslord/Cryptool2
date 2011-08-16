@@ -123,6 +123,12 @@
   <data name="AlphabetSymbolsTooltip" xml:space="preserve">
     <value>This is the used alphabet.</value>
   </data>
+  <data name="Analysed_Key" xml:space="preserve">
+    <value>Analysed Key</value>
+  </data>
+  <data name="Found_IC" xml:space="preserve">
+    <value>Found IC</value>
+  </data>
   <data name="InputCipherCaption" xml:space="preserve">
     <value>Cipher Input</value>
   </data>

@@ -216,4 +216,7 @@
   <data name="Name" xml:space="preserve">
     <value>Name</value>
   </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
 </root>

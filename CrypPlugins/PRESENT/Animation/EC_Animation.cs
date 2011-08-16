@@ -29,6 +29,7 @@ using System.Windows.Shapes;
 using System.Windows.Media.Media3D;
 using System.Windows.Media.Animation;
 using System.Reflection;
+using Cryptool.PluginBase;
 
 namespace Cryptool.PRESENT {
     class EC_Animation {
@@ -66,7 +67,7 @@ namespace Cryptool.PRESENT {
         private string resumeName = "";
         private bool pause = true;
 
-        private string[] steps = new string[3] { "Add Roundkey", "S-Box", "Permutation" };
+        private string[] steps = new string[3] { "Add_Roundkey", "S_Box", "Permutation" };
 
         private SolidColorBrush tb = new SolidColorBrush();
         private DoubleAnimation ta;
@@ -109,7 +110,7 @@ namespace Cryptool.PRESENT {
                 mdl3D_roundkey[r].Transform = new TranslateTransform3D(pos.X, pos.Y, pos.Z);
             }
             parent.lbl_EC_Round.Content = String.Format("{0:d2}", c_round);
-            parent.lbl_EC_Step.Content = steps[c_step];
+            parent.lbl_EC_Step.Content = typeof(PRESENT).GetPluginStringResource( steps[c_step] );
             resumeName = String.Format("Start_{0:d1}", c_step);
         }
 
@@ -117,8 +118,8 @@ namespace Cryptool.PRESENT {
             c_round = 0; c_group = 0; c_step = 0;
             resumeName = "Start_0";
             PositionInit();
-            parent.lbl_EC_Text.Content = String.Format("Encryption : Data = 0x{0:x16}", parent.cipher.States[0,0]);
-            parent.lbl_EC_Step.Content = steps[c_step];
+            parent.lbl_EC_Text.Content = String.Format( Properties.Resources.Encryption_Data, parent.cipher.States[0,0] );
+            parent.lbl_EC_Step.Content = typeof(PRESENT).GetPluginStringResource(steps[c_step]);
             pause = true;
         }
 
@@ -316,8 +317,8 @@ namespace Cryptool.PRESENT {
                         } else {
                             Color_Sbox(0);
                             Color_State(c_round, 1, 0);
-                            parent.lbl_EC_Text.Content = String.Format("Encrypted 0x{0:x16} to 0x{1:x16}", parent.cipher.States[0, 0], parent.cipher.States[31, 1]);
-                            parent.lbl_EC_Step.Content = "Done";
+                            parent.lbl_EC_Text.Content = String.Format( Properties.Resources.Encrypted_to, parent.cipher.States[0, 0], parent.cipher.States[31, 1]);
+                            parent.lbl_EC_Step.Content = Properties.Resources.Done;
                             resumeName = "Done";
                             Zoom();
                         }
@@ -364,8 +365,8 @@ namespace Cryptool.PRESENT {
         private void StateKeyGet() {
             double speedratio = parent.sld_EC_Speed.Value;
             c_step = 0;
-            parent.lbl_EC_Text.Content = String.Format("Key XOR (0x{1:x16} -> 0x{2:x16})", c_round, parent.cipher.States[c_round, 0], parent.cipher.States[c_round, 1]);
-            parent.lbl_EC_Step.Content = steps[0];
+            parent.lbl_EC_Text.Content = String.Format(Properties.Resources.Key_XOR_, c_round, parent.cipher.States[c_round, 0], parent.cipher.States[c_round, 1]);
+            parent.lbl_EC_Step.Content = typeof(PRESENT).GetPluginStringResource(steps[0]);
 
             Point3D pos = GetRoundKeyPosition(c_round);
             Point3D des = new Point3D(-6, 0, 0);
@@ -390,7 +391,7 @@ namespace Cryptool.PRESENT {
             a = (int)(parent.cipher.RoundKeys[c_round] >> p) & 0x0f;
             b = (int)(parent.cipher.States[c_round, 0] >> p) & 0x0f;
             c = (int)(parent.cipher.States[c_round, 1] >> p) & 0x0f;
-            parent.lbl_EC_Text.Content = String.Format("bit group {0} (bits {1:d2},{2:d2},{3:d2},{4:d2}) key xor : {5} XOR {6} = {7}", c_group + 1, p + 3, p + 2, p + 1, p, Int2BinaryString(a, 4), Int2BinaryString(b, 4), Int2BinaryString(c, 4));
+            parent.lbl_EC_Text.Content = String.Format(Properties.Resources.bit_group_xor, c_group + 1, p + 3, p + 2, p + 1, p, Int2BinaryString(a, 4), Int2BinaryString(b, 4), Int2BinaryString(c, 4));
             
             for (int i = Math.Max(0, p - 4); i < p; i++) {
                 z = (int)(parent.cipher.States[c_round, 1] >> i) & 1;
@@ -492,7 +493,7 @@ namespace Cryptool.PRESENT {
             double speedratio = parent.sld_EC_Speed.Value;
             c_step = 1;
             //parent.lbl_EC_Text.Content = String.Format("S-Box (0x{1:x16} -> 0x{2:x16})", c_round, parent.cipher.States[c_round, 1], parent.cipher.States[c_round, 2]);
-            parent.lbl_EC_Step.Content = steps[c_step];
+            parent.lbl_EC_Step.Content = typeof(PRESENT).GetPluginStringResource(steps[c_step]);
 
             int p, x, r, s;
             TranslateTransform3D tt = new TranslateTransform3D();
@@ -500,7 +501,7 @@ namespace Cryptool.PRESENT {
             p = c_group * 4;
             r = (int)(parent.cipher.States[c_round, 1] >> p) & 0x0f;
             s = parent.cipher.Sbox4[r];
-            parent.lbl_EC_Text.Content = String.Format("bit group {0} (bits {1:d2},{2:d2},{3:d2},{4:d2}) sbox : {5} -> {6}", c_group + 1, p + 3, p + 2, p + 1, p, Int2BinaryString(r, 4), Int2BinaryString(s, 4));
+            parent.lbl_EC_Text.Content = String.Format( Properties.Resources.bit_group_sbox, c_group + 1, p + 3, p + 2, p + 1, p, Int2BinaryString(r, 4), Int2BinaryString(s, 4));
 
             for (int i = 0; i < 8; i++) {
                 if (i < 4) x = (r >> (3 - i)) & 1; else x = (s >> (7 - i)) & 1;
@@ -586,7 +587,7 @@ namespace Cryptool.PRESENT {
             double speedratio = parent.sld_EC_Speed.Value;
 
             c_step = 2;
-            parent.lbl_EC_Step.Content = steps[c_step];
+            parent.lbl_EC_Step.Content = typeof(PRESENT).GetPluginStringResource(steps[c_step]);
             parent.lbl_EC_Text.Content = String.Format("pLayer (0x{0:x16} -> {1:x16})", parent.cipher.States[c_round, 2], parent.cipher.States[c_round, 3]);
             DoubleAnimationUsingKeyFrames da = new DoubleAnimationUsingKeyFrames() { Duration = new Duration(TimeSpan.FromSeconds(3)), SpeedRatio = speedratio };
             da.KeyFrames.Add(new LinearDoubleKeyFrame() { Value = opacity_high, KeyTime = KeyTime.FromPercent(0.25) });

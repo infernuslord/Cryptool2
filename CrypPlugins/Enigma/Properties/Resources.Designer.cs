@@ -22,7 +22,7 @@ namespace Cryptool.Enigma.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    public class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace Cryptool.Enigma.Properties {
         ///   Gibt die zwischengespeicherte ResourceManager-Instanz zurück, die von dieser Klasse verwendet wird.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Cryptool.Enigma.Properties.Resources", typeof(Resources).Assembly);
@@ -51,7 +51,7 @@ namespace Cryptool.Enigma.Properties {
         ///   Ressourcenzuordnungen, die diese stark typisierte Ressourcenklasse verwenden.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Operation mode ähnelt.
         /// </summary>
-        internal static string ActionCaption {
+        public static string ActionCaption {
             get {
                 return ResourceManager.GetString("ActionCaption", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Select the mode of operation for this Enigma simulator. Note that all Enigmas since Enigma D are working with a reflector and therefore there is not difference between encrypting an decrypting. ähnelt.
         /// </summary>
-        internal static string ActionTooltip {
+        public static string ActionTooltip {
             get {
                 return ResourceManager.GetString("ActionTooltip", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Analysis options ähnelt.
         /// </summary>
-        internal static string AnalysisOptionsGroup {
+        public static string AnalysisOptionsGroup {
             get {
                 return ResourceManager.GetString("AnalysisOptionsGroup", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Include rotor I ähnelt.
         /// </summary>
-        internal static string AnalysisUseRotorICaption {
+        public static string AnalysisUseRotorICaption {
             get {
                 return ResourceManager.GetString("AnalysisUseRotorICaption", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Include rotor II ähnelt.
         /// </summary>
-        internal static string AnalysisUseRotorIICaption {
+        public static string AnalysisUseRotorIICaption {
             get {
                 return ResourceManager.GetString("AnalysisUseRotorIICaption", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Include rotor III ähnelt.
         /// </summary>
-        internal static string AnalysisUseRotorIIICaption {
+        public static string AnalysisUseRotorIIICaption {
             get {
                 return ResourceManager.GetString("AnalysisUseRotorIIICaption", resourceCulture);
             }
@@ -117,7 +117,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Check if rotor III should be included when analyzing rotors. ähnelt.
         /// </summary>
-        internal static string AnalysisUseRotorIIITooltip {
+        public static string AnalysisUseRotorIIITooltip {
             get {
                 return ResourceManager.GetString("AnalysisUseRotorIIITooltip", resourceCulture);
             }
@@ -126,7 +126,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Check if rotor II should be included when analyzing rotors. ähnelt.
         /// </summary>
-        internal static string AnalysisUseRotorIITooltip {
+        public static string AnalysisUseRotorIITooltip {
             get {
                 return ResourceManager.GetString("AnalysisUseRotorIITooltip", resourceCulture);
             }
@@ -135,7 +135,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Check if rotor I should be included when analyzing rotors. ähnelt.
         /// </summary>
-        internal static string AnalysisUseRotorITooltip {
+        public static string AnalysisUseRotorITooltip {
             get {
                 return ResourceManager.GetString("AnalysisUseRotorITooltip", resourceCulture);
             }
@@ -144,7 +144,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Include rotor IV ähnelt.
         /// </summary>
-        internal static string AnalysisUseRotorIVCaption {
+        public static string AnalysisUseRotorIVCaption {
             get {
                 return ResourceManager.GetString("AnalysisUseRotorIVCaption", resourceCulture);
             }
@@ -153,7 +153,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Check if rotor IV should be included when analyzing rotors. ähnelt.
         /// </summary>
-        internal static string AnalysisUseRotorIVTooltip {
+        public static string AnalysisUseRotorIVTooltip {
             get {
                 return ResourceManager.GetString("AnalysisUseRotorIVTooltip", resourceCulture);
             }
@@ -162,7 +162,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Include rotor V ähnelt.
         /// </summary>
-        internal static string AnalysisUseRotorVCaption {
+        public static string AnalysisUseRotorVCaption {
             get {
                 return ResourceManager.GetString("AnalysisUseRotorVCaption", resourceCulture);
             }
@@ -171,7 +171,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Include rotor VI ähnelt.
         /// </summary>
-        internal static string AnalysisUseRotorVICaption {
+        public static string AnalysisUseRotorVICaption {
             get {
                 return ResourceManager.GetString("AnalysisUseRotorVICaption", resourceCulture);
             }
@@ -180,7 +180,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Include rotor VII ähnelt.
         /// </summary>
-        internal static string AnalysisUseRotorVIICaption {
+        public static string AnalysisUseRotorVIICaption {
             get {
                 return ResourceManager.GetString("AnalysisUseRotorVIICaption", resourceCulture);
             }
@@ -189,7 +189,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Include rotor VIII ähnelt.
         /// </summary>
-        internal static string AnalysisUseRotorVIIICaption {
+        public static string AnalysisUseRotorVIIICaption {
             get {
                 return ResourceManager.GetString("AnalysisUseRotorVIIICaption", resourceCulture);
             }
@@ -198,7 +198,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Check if rotor VIII should be included when analyzing rotors. ähnelt.
         /// </summary>
-        internal static string AnalysisUseRotorVIIITooltip {
+        public static string AnalysisUseRotorVIIITooltip {
             get {
                 return ResourceManager.GetString("AnalysisUseRotorVIIITooltip", resourceCulture);
             }
@@ -207,7 +207,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Check if rotor VII should be included when analyzing rotors. ähnelt.
         /// </summary>
-        internal static string AnalysisUseRotorVIITooltip {
+        public static string AnalysisUseRotorVIITooltip {
             get {
                 return ResourceManager.GetString("AnalysisUseRotorVIITooltip", resourceCulture);
             }
@@ -216,7 +216,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Check if rotor VI should be included when analyzing rotors. ähnelt.
         /// </summary>
-        internal static string AnalysisUseRotorVITooltip {
+        public static string AnalysisUseRotorVITooltip {
             get {
                 return ResourceManager.GetString("AnalysisUseRotorVITooltip", resourceCulture);
             }
@@ -225,7 +225,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Check if rotor V should be included when analyzing rotors. ähnelt.
         /// </summary>
-        internal static string AnalysisUseRotorVTooltip {
+        public static string AnalysisUseRotorVTooltip {
             get {
                 return ResourceManager.GetString("AnalysisUseRotorVTooltip", resourceCulture);
             }
@@ -234,7 +234,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Analyze key (initial rotor pos.) ähnelt.
         /// </summary>
-        internal static string AnalyzeKeyCaption {
+        public static string AnalyzeKeyCaption {
             get {
                 return ResourceManager.GetString("AnalyzeKeyCaption", resourceCulture);
             }
@@ -243,7 +243,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die If checked, the analysis tries to detect the correct key. If unchecked, the value from &quot;Key&quot; is used. ähnelt.
         /// </summary>
-        internal static string AnalyzeKeyTooltip {
+        public static string AnalyzeKeyTooltip {
             get {
                 return ResourceManager.GetString("AnalyzeKeyTooltip", resourceCulture);
             }
@@ -252,7 +252,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Analyze plugs ähnelt.
         /// </summary>
-        internal static string AnalyzePlugsCaption {
+        public static string AnalyzePlugsCaption {
             get {
                 return ResourceManager.GetString("AnalyzePlugsCaption", resourceCulture);
             }
@@ -261,7 +261,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die If checked, the analysis tries to detect the correct plug settings. If unchecked, the values from the plugboard are used. ähnelt.
         /// </summary>
-        internal static string AnalyzePlugsTooltip {
+        public static string AnalyzePlugsTooltip {
             get {
                 return ResourceManager.GetString("AnalyzePlugsTooltip", resourceCulture);
             }
@@ -270,7 +270,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Analyze rings settings ähnelt.
         /// </summary>
-        internal static string AnalyzeRingsCaption {
+        public static string AnalyzeRingsCaption {
             get {
                 return ResourceManager.GetString("AnalyzeRingsCaption", resourceCulture);
             }
@@ -279,7 +279,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die If checked, the analysis tries to detect the correct rings settings. If unchecked, the values from the ring settings are used. ähnelt.
         /// </summary>
-        internal static string AnalyzeRingsTooltip {
+        public static string AnalyzeRingsTooltip {
             get {
                 return ResourceManager.GetString("AnalyzeRingsTooltip", resourceCulture);
             }
@@ -288,7 +288,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Analyze used rotors ähnelt.
         /// </summary>
-        internal static string AnalyzeRotorsCaption {
+        public static string AnalyzeRotorsCaption {
             get {
                 return ResourceManager.GetString("AnalyzeRotorsCaption", resourceCulture);
             }
@@ -297,7 +297,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die If checked, the analysis tries to detect the correct rotors and their positions. If unchecked, the values from the rotor settings are used. ähnelt.
         /// </summary>
-        internal static string AnalyzeRotorsTooltip {
+        public static string AnalyzeRotorsTooltip {
             get {
                 return ResourceManager.GetString("AnalyzeRotorsTooltip", resourceCulture);
             }
@@ -306,7 +306,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Case handling ähnelt.
         /// </summary>
-        internal static string CaseHandlingCaption {
+        public static string CaseHandlingCaption {
             get {
                 return ResourceManager.GetString("CaseHandlingCaption", resourceCulture);
             }
@@ -315,7 +315,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Preserve case ähnelt.
         /// </summary>
-        internal static string CaseHandlingList1 {
+        public static string CaseHandlingList1 {
             get {
                 return ResourceManager.GetString("CaseHandlingList1", resourceCulture);
             }
@@ -324,7 +324,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Convert to upper ähnelt.
         /// </summary>
-        internal static string CaseHandlingList2 {
+        public static string CaseHandlingList2 {
             get {
                 return ResourceManager.GetString("CaseHandlingList2", resourceCulture);
             }
@@ -333,7 +333,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Convert to lower ähnelt.
         /// </summary>
-        internal static string CaseHandlingList3 {
+        public static string CaseHandlingList3 {
             get {
                 return ResourceManager.GetString("CaseHandlingList3", resourceCulture);
             }
@@ -342,7 +342,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die What should be done with upper and lower case letters? ähnelt.
         /// </summary>
-        internal static string CaseHandlingTooltip {
+        public static string CaseHandlingTooltip {
             get {
                 return ResourceManager.GetString("CaseHandlingTooltip", resourceCulture);
             }
@@ -351,7 +351,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die n-gram dictionary ähnelt.
         /// </summary>
-        internal static string InputGramsCaption {
+        public static string InputGramsCaption {
             get {
                 return ResourceManager.GetString("InputGramsCaption", resourceCulture);
             }
@@ -360,7 +360,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Dictionary with gram counts (string -&gt; [absolute, percentaged, log2]) ähnelt.
         /// </summary>
-        internal static string InputGramsTooltip {
+        public static string InputGramsTooltip {
             get {
                 return ResourceManager.GetString("InputGramsTooltip", resourceCulture);
             }
@@ -369,7 +369,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Text input ähnelt.
         /// </summary>
-        internal static string InputStringCaption {
+        public static string InputStringCaption {
             get {
                 return ResourceManager.GetString("InputStringCaption", resourceCulture);
             }
@@ -378,7 +378,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Input a string to be processed by the Enigma machine ähnelt.
         /// </summary>
-        internal static string InputStringTooltip {
+        public static string InputStringTooltip {
             get {
                 return ResourceManager.GetString("InputStringTooltip", resourceCulture);
             }
@@ -387,7 +387,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Involutoric ähnelt.
         /// </summary>
-        internal static string InvolutoricCaption {
+        public static string InvolutoricCaption {
             get {
                 return ResourceManager.GetString("InvolutoricCaption", resourceCulture);
             }
@@ -396,7 +396,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die The mapping and the inverse mapping are the same, i.e. if A maps to X, the X maps to A. ähnelt.
         /// </summary>
-        internal static string InvolutoricTooltip {
+        public static string InvolutoricTooltip {
             get {
                 return ResourceManager.GetString("InvolutoricTooltip", resourceCulture);
             }
@@ -405,7 +405,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Key (Initial rotor setting) ähnelt.
         /// </summary>
-        internal static string KeyCaption {
+        public static string KeyCaption {
             get {
                 return ResourceManager.GetString("KeyCaption", resourceCulture);
             }
@@ -414,7 +414,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Rotor/Ring/Key search method ähnelt.
         /// </summary>
-        internal static string KeySearchMethodCaption {
+        public static string KeySearchMethodCaption {
             get {
                 return ResourceManager.GetString("KeySearchMethodCaption", resourceCulture);
             }
@@ -423,7 +423,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Index of coincidence ähnelt.
         /// </summary>
-        internal static string KeySearchMethodList1 {
+        public static string KeySearchMethodList1 {
             get {
                 return ResourceManager.GetString("KeySearchMethodList1", resourceCulture);
             }
@@ -432,7 +432,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die log2-bigram ähnelt.
         /// </summary>
-        internal static string KeySearchMethodList2 {
+        public static string KeySearchMethodList2 {
             get {
                 return ResourceManager.GetString("KeySearchMethodList2", resourceCulture);
             }
@@ -441,7 +441,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die log2-trigram ähnelt.
         /// </summary>
-        internal static string KeySearchMethodList3 {
+        public static string KeySearchMethodList3 {
             get {
                 return ResourceManager.GetString("KeySearchMethodList3", resourceCulture);
             }
@@ -450,7 +450,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Sinkov unigram ähnelt.
         /// </summary>
-        internal static string KeySearchMethodList4 {
+        public static string KeySearchMethodList4 {
             get {
                 return ResourceManager.GetString("KeySearchMethodList4", resourceCulture);
             }
@@ -459,7 +459,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Sinkov bigram ähnelt.
         /// </summary>
-        internal static string KeySearchMethodList5 {
+        public static string KeySearchMethodList5 {
             get {
                 return ResourceManager.GetString("KeySearchMethodList5", resourceCulture);
             }
@@ -468,7 +468,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Unigram entropy ähnelt.
         /// </summary>
-        internal static string KeySearchMethodList6 {
+        public static string KeySearchMethodList6 {
             get {
                 return ResourceManager.GetString("KeySearchMethodList6", resourceCulture);
             }
@@ -477,7 +477,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Which method should be used to assess the best rotor configuration? ähnelt.
         /// </summary>
-        internal static string KeySearchMethodTooltip {
+        public static string KeySearchMethodTooltip {
             get {
                 return ResourceManager.GetString("KeySearchMethodTooltip", resourceCulture);
             }
@@ -486,7 +486,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Please provide the initial rotor setting for each rotor, e.g. ABCD. Note that the slowest rotor is on the left and the fastest rotor is on the right. Only the Enigma M4 (&quot;Shark&quot;) uses four rotors. ähnelt.
         /// </summary>
-        internal static string KeyTooltip {
+        public static string KeyTooltip {
             get {
                 return ResourceManager.GetString("KeyTooltip", resourceCulture);
             }
@@ -495,7 +495,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Max. plugs searched ähnelt.
         /// </summary>
-        internal static string MaxSearchedPlugsCaption {
+        public static string MaxSearchedPlugsCaption {
             get {
                 return ResourceManager.GetString("MaxSearchedPlugsCaption", resourceCulture);
             }
@@ -504,7 +504,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Select how many plugs should be searched at most. Note that the search algorithm might return less plugs - this number is just an upper limit ähnelt.
         /// </summary>
-        internal static string MaxSearchedPlugsTooltip {
+        public static string MaxSearchedPlugsTooltip {
             get {
                 return ResourceManager.GetString("MaxSearchedPlugsTooltip", resourceCulture);
             }
@@ -513,7 +513,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Enigma model ähnelt.
         /// </summary>
-        internal static string ModelCaption {
+        public static string ModelCaption {
             get {
                 return ResourceManager.GetString("ModelCaption", resourceCulture);
             }
@@ -522,7 +522,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Commercial Enigma A/B - since 1924 ähnelt.
         /// </summary>
-        internal static string ModelList1 {
+        public static string ModelList1 {
             get {
                 return ResourceManager.GetString("ModelList1", resourceCulture);
             }
@@ -531,7 +531,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Commercial Enigma D ähnelt.
         /// </summary>
-        internal static string ModelList2 {
+        public static string ModelList2 {
             get {
                 return ResourceManager.GetString("ModelList2", resourceCulture);
             }
@@ -540,7 +540,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Reichsbahn (Rocket) - since 1941 ähnelt.
         /// </summary>
-        internal static string ModelList3 {
+        public static string ModelList3 {
             get {
                 return ResourceManager.GetString("ModelList3", resourceCulture);
             }
@@ -549,7 +549,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Enigma I / M3 ähnelt.
         /// </summary>
-        internal static string ModelList4 {
+        public static string ModelList4 {
             get {
                 return ResourceManager.GetString("ModelList4", resourceCulture);
             }
@@ -558,7 +558,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die M4 (Shark) ähnelt.
         /// </summary>
-        internal static string ModelList5 {
+        public static string ModelList5 {
             get {
                 return ResourceManager.GetString("ModelList5", resourceCulture);
             }
@@ -567,7 +567,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die K-Model ähnelt.
         /// </summary>
-        internal static string ModelList6 {
+        public static string ModelList6 {
             get {
                 return ResourceManager.GetString("ModelList6", resourceCulture);
             }
@@ -576,7 +576,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die G (Defense model) ähnelt.
         /// </summary>
-        internal static string ModelList7 {
+        public static string ModelList7 {
             get {
                 return ResourceManager.GetString("ModelList7", resourceCulture);
             }
@@ -585,7 +585,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Please select which Enigma model you want to use. This settings influences available rotors and their inner cabling. ähnelt.
         /// </summary>
-        internal static string ModelTooltip {
+        public static string ModelTooltip {
             get {
                 return ResourceManager.GetString("ModelTooltip", resourceCulture);
             }
@@ -594,7 +594,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Enigma model ähnelt.
         /// </summary>
-        internal static string ModelTPCaption {
+        public static string ModelTPCaption {
             get {
                 return ResourceManager.GetString("ModelTPCaption", resourceCulture);
             }
@@ -603,7 +603,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Please select which Enigma model you want to use. This settings influences the available rotors and their inner cabling. ähnelt.
         /// </summary>
-        internal static string ModelTPTooltip {
+        public static string ModelTPTooltip {
             get {
                 return ResourceManager.GetString("ModelTPTooltip", resourceCulture);
             }
@@ -612,7 +612,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Text output ähnelt.
         /// </summary>
-        internal static string OutputStringCaption {
+        public static string OutputStringCaption {
             get {
                 return ResourceManager.GetString("OutputStringCaption", resourceCulture);
             }
@@ -621,7 +621,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die The string after processing with the Enigma machine ähnelt.
         /// </summary>
-        internal static string OutputStringTooltip {
+        public static string OutputStringTooltip {
             get {
                 return ResourceManager.GetString("OutputStringTooltip", resourceCulture);
             }
@@ -630,7 +630,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die A= ähnelt.
         /// </summary>
-        internal static string PlugBoardACaption {
+        public static string PlugBoardACaption {
             get {
                 return ResourceManager.GetString("PlugBoardACaption", resourceCulture);
             }
@@ -639,7 +639,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Select the letter for connecting this plug. ähnelt.
         /// </summary>
-        internal static string PlugBoardATooltip {
+        public static string PlugBoardATooltip {
             get {
                 return ResourceManager.GetString("PlugBoardATooltip", resourceCulture);
             }
@@ -648,7 +648,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die B= ähnelt.
         /// </summary>
-        internal static string PlugBoardBCaption {
+        public static string PlugBoardBCaption {
             get {
                 return ResourceManager.GetString("PlugBoardBCaption", resourceCulture);
             }
@@ -657,7 +657,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Select the letter for connecting this plug. ähnelt.
         /// </summary>
-        internal static string PlugBoardBTooltip {
+        public static string PlugBoardBTooltip {
             get {
                 return ResourceManager.GetString("PlugBoardBTooltip", resourceCulture);
             }
@@ -666,7 +666,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Plugboard substitution ähnelt.
         /// </summary>
-        internal static string PlugBoardCaption {
+        public static string PlugBoardCaption {
             get {
                 return ResourceManager.GetString("PlugBoardCaption", resourceCulture);
             }
@@ -675,7 +675,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die C= ähnelt.
         /// </summary>
-        internal static string PlugBoardCCaption {
+        public static string PlugBoardCCaption {
             get {
                 return ResourceManager.GetString("PlugBoardCCaption", resourceCulture);
             }
@@ -684,7 +684,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Select the letter for connecting this plug. ähnelt.
         /// </summary>
-        internal static string PlugBoardCTooltip {
+        public static string PlugBoardCTooltip {
             get {
                 return ResourceManager.GetString("PlugBoardCTooltip", resourceCulture);
             }
@@ -693,7 +693,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die D= ähnelt.
         /// </summary>
-        internal static string PlugBoardDCaption {
+        public static string PlugBoardDCaption {
             get {
                 return ResourceManager.GetString("PlugBoardDCaption", resourceCulture);
             }
@@ -702,7 +702,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Select the letter for connecting this plug. ähnelt.
         /// </summary>
-        internal static string PlugBoardDTooltip {
+        public static string PlugBoardDTooltip {
             get {
                 return ResourceManager.GetString("PlugBoardDTooltip", resourceCulture);
             }
@@ -711,7 +711,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die E= ähnelt.
         /// </summary>
-        internal static string PlugBoardECaption {
+        public static string PlugBoardECaption {
             get {
                 return ResourceManager.GetString("PlugBoardECaption", resourceCulture);
             }
@@ -720,7 +720,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Select the letter for connecting this plug. ähnelt.
         /// </summary>
-        internal static string PlugBoardETooltip {
+        public static string PlugBoardETooltip {
             get {
                 return ResourceManager.GetString("PlugBoardETooltip", resourceCulture);
             }
@@ -729,7 +729,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die F= ähnelt.
         /// </summary>
-        internal static string PlugBoardFCaption {
+        public static string PlugBoardFCaption {
             get {
                 return ResourceManager.GetString("PlugBoardFCaption", resourceCulture);
             }
@@ -738,7 +738,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Select the letter for connecting this plug. ähnelt.
         /// </summary>
-        internal static string PlugBoardFTooltip {
+        public static string PlugBoardFTooltip {
             get {
                 return ResourceManager.GetString("PlugBoardFTooltip", resourceCulture);
             }
@@ -747,7 +747,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die G= ähnelt.
         /// </summary>
-        internal static string PlugBoardGCaption {
+        public static string PlugBoardGCaption {
             get {
                 return ResourceManager.GetString("PlugBoardGCaption", resourceCulture);
             }
@@ -756,7 +756,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Plugboard ähnelt.
         /// </summary>
-        internal static string PlugboardGroup {
+        public static string PlugboardGroup {
             get {
                 return ResourceManager.GetString("PlugboardGroup", resourceCulture);
             }
@@ -765,7 +765,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Select the letter for connecting this plug. ähnelt.
         /// </summary>
-        internal static string PlugBoardGTooltip {
+        public static string PlugBoardGTooltip {
             get {
                 return ResourceManager.GetString("PlugBoardGTooltip", resourceCulture);
             }
@@ -774,7 +774,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die H= ähnelt.
         /// </summary>
-        internal static string PlugBoardHCaption {
+        public static string PlugBoardHCaption {
             get {
                 return ResourceManager.GetString("PlugBoardHCaption", resourceCulture);
             }
@@ -783,7 +783,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Select the letter for connecting this plug. ähnelt.
         /// </summary>
-        internal static string PlugBoardHTooltip {
+        public static string PlugBoardHTooltip {
             get {
                 return ResourceManager.GetString("PlugBoardHTooltip", resourceCulture);
             }
@@ -792,7 +792,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die I= ähnelt.
         /// </summary>
-        internal static string PlugBoardICaption {
+        public static string PlugBoardICaption {
             get {
                 return ResourceManager.GetString("PlugBoardICaption", resourceCulture);
             }
@@ -801,7 +801,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Select the letter for connecting this plug. ähnelt.
         /// </summary>
-        internal static string PlugBoardITooltip {
+        public static string PlugBoardITooltip {
             get {
                 return ResourceManager.GetString("PlugBoardITooltip", resourceCulture);
             }
@@ -810,7 +810,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die J= ähnelt.
         /// </summary>
-        internal static string PlugBoardJCaption {
+        public static string PlugBoardJCaption {
             get {
                 return ResourceManager.GetString("PlugBoardJCaption", resourceCulture);
             }
@@ -819,7 +819,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Select the letter for connecting this plug. ähnelt.
         /// </summary>
-        internal static string PlugBoardJTooltip {
+        public static string PlugBoardJTooltip {
             get {
                 return ResourceManager.GetString("PlugBoardJTooltip", resourceCulture);
             }
@@ -828,7 +828,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die K= ähnelt.
         /// </summary>
-        internal static string PlugBoardKCaption {
+        public static string PlugBoardKCaption {
             get {
                 return ResourceManager.GetString("PlugBoardKCaption", resourceCulture);
             }
@@ -837,7 +837,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Select the letter for connecting this plug. ähnelt.
         /// </summary>
-        internal static string PlugBoardKTooltip {
+        public static string PlugBoardKTooltip {
             get {
                 return ResourceManager.GetString("PlugBoardKTooltip", resourceCulture);
             }
@@ -846,7 +846,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die L= ähnelt.
         /// </summary>
-        internal static string PlugBoardLCaption {
+        public static string PlugBoardLCaption {
             get {
                 return ResourceManager.GetString("PlugBoardLCaption", resourceCulture);
             }
@@ -855,7 +855,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Select the letter for connecting this plug. ähnelt.
         /// </summary>
-        internal static string PlugBoardLTooltip {
+        public static string PlugBoardLTooltip {
             get {
                 return ResourceManager.GetString("PlugBoardLTooltip", resourceCulture);
             }
@@ -864,7 +864,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die M= ähnelt.
         /// </summary>
-        internal static string PlugBoardMCaption {
+        public static string PlugBoardMCaption {
             get {
                 return ResourceManager.GetString("PlugBoardMCaption", resourceCulture);
             }
@@ -873,7 +873,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Select the letter for connecting this plug. ähnelt.
         /// </summary>
-        internal static string PlugBoardMTooltip {
+        public static string PlugBoardMTooltip {
             get {
                 return ResourceManager.GetString("PlugBoardMTooltip", resourceCulture);
             }
@@ -882,7 +882,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die N= ähnelt.
         /// </summary>
-        internal static string PlugBoardNCaption {
+        public static string PlugBoardNCaption {
             get {
                 return ResourceManager.GetString("PlugBoardNCaption", resourceCulture);
             }
@@ -891,7 +891,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Select the letter for connecting this plug. ähnelt.
         /// </summary>
-        internal static string PlugBoardNTooltip {
+        public static string PlugBoardNTooltip {
             get {
                 return ResourceManager.GetString("PlugBoardNTooltip", resourceCulture);
             }
@@ -900,7 +900,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die O= ähnelt.
         /// </summary>
-        internal static string PlugBoardOCaption {
+        public static string PlugBoardOCaption {
             get {
                 return ResourceManager.GetString("PlugBoardOCaption", resourceCulture);
             }
@@ -909,7 +909,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Select the letter for connecting this plug. ähnelt.
         /// </summary>
-        internal static string PlugBoardOTooltip {
+        public static string PlugBoardOTooltip {
             get {
                 return ResourceManager.GetString("PlugBoardOTooltip", resourceCulture);
             }
@@ -918,7 +918,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die P= ähnelt.
         /// </summary>
-        internal static string PlugBoardPCaption {
+        public static string PlugBoardPCaption {
             get {
                 return ResourceManager.GetString("PlugBoardPCaption", resourceCulture);
             }
@@ -927,7 +927,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Select the letter for connecting this plug. ähnelt.
         /// </summary>
-        internal static string PlugBoardPTooltip {
+        public static string PlugBoardPTooltip {
             get {
                 return ResourceManager.GetString("PlugBoardPTooltip", resourceCulture);
             }
@@ -936,7 +936,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Q= ähnelt.
         /// </summary>
-        internal static string PlugBoardQCaption {
+        public static string PlugBoardQCaption {
             get {
                 return ResourceManager.GetString("PlugBoardQCaption", resourceCulture);
             }
@@ -945,7 +945,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Select the letter for connecting this plug. ähnelt.
         /// </summary>
-        internal static string PlugBoardQTooltip {
+        public static string PlugBoardQTooltip {
             get {
                 return ResourceManager.GetString("PlugBoardQTooltip", resourceCulture);
             }
@@ -954,7 +954,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die R= ähnelt.
         /// </summary>
-        internal static string PlugBoardRCaption {
+        public static string PlugBoardRCaption {
             get {
                 return ResourceManager.GetString("PlugBoardRCaption", resourceCulture);
             }
@@ -963,7 +963,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Select the letter for connecting this plug. ähnelt.
         /// </summary>
-        internal static string PlugBoardRTooltip {
+        public static string PlugBoardRTooltip {
             get {
                 return ResourceManager.GetString("PlugBoardRTooltip", resourceCulture);
             }
@@ -972,7 +972,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die S= ähnelt.
         /// </summary>
-        internal static string PlugBoardSCaption {
+        public static string PlugBoardSCaption {
             get {
                 return ResourceManager.GetString("PlugBoardSCaption", resourceCulture);
             }
@@ -981,7 +981,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Select the letter for connecting this plug. ähnelt.
         /// </summary>
-        internal static string PlugBoardSTooltip {
+        public static string PlugBoardSTooltip {
             get {
                 return ResourceManager.GetString("PlugBoardSTooltip", resourceCulture);
             }
@@ -990,7 +990,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die T= ähnelt.
         /// </summary>
-        internal static string PlugBoardTCaption {
+        public static string PlugBoardTCaption {
             get {
                 return ResourceManager.GetString("PlugBoardTCaption", resourceCulture);
             }
@@ -999,7 +999,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Displays the current substitution ähnelt.
         /// </summary>
-        internal static string PlugBoardTooltip {
+        public static string PlugBoardTooltip {
             get {
                 return ResourceManager.GetString("PlugBoardTooltip", resourceCulture);
             }
@@ -1008,7 +1008,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Select the letter for connecting this plug. ähnelt.
         /// </summary>
-        internal static string PlugBoardTTooltip {
+        public static string PlugBoardTTooltip {
             get {
                 return ResourceManager.GetString("PlugBoardTTooltip", resourceCulture);
             }
@@ -1017,7 +1017,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die U= ähnelt.
         /// </summary>
-        internal static string PlugBoardUCaption {
+        public static string PlugBoardUCaption {
             get {
                 return ResourceManager.GetString("PlugBoardUCaption", resourceCulture);
             }
@@ -1026,7 +1026,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Select the letter for connecting this plug. ähnelt.
         /// </summary>
-        internal static string PlugBoardUTooltip {
+        public static string PlugBoardUTooltip {
             get {
                 return ResourceManager.GetString("PlugBoardUTooltip", resourceCulture);
             }
@@ -1035,7 +1035,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die V= ähnelt.
         /// </summary>
-        internal static string PlugBoardVCaption {
+        public static string PlugBoardVCaption {
             get {
                 return ResourceManager.GetString("PlugBoardVCaption", resourceCulture);
             }
@@ -1044,7 +1044,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Select the letter for connecting this plug. ähnelt.
         /// </summary>
-        internal static string PlugBoardVTooltip {
+        public static string PlugBoardVTooltip {
             get {
                 return ResourceManager.GetString("PlugBoardVTooltip", resourceCulture);
             }
@@ -1053,7 +1053,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die W= ähnelt.
         /// </summary>
-        internal static string PlugBoardWCaption {
+        public static string PlugBoardWCaption {
             get {
                 return ResourceManager.GetString("PlugBoardWCaption", resourceCulture);
             }
@@ -1062,7 +1062,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Select the letter for connecting this plug. ähnelt.
         /// </summary>
-        internal static string PlugBoardWTooltip {
+        public static string PlugBoardWTooltip {
             get {
                 return ResourceManager.GetString("PlugBoardWTooltip", resourceCulture);
             }
@@ -1071,7 +1071,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die X= ähnelt.
         /// </summary>
-        internal static string PlugBoardXCaption {
+        public static string PlugBoardXCaption {
             get {
                 return ResourceManager.GetString("PlugBoardXCaption", resourceCulture);
             }
@@ -1080,7 +1080,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Select the letter for connecting this plug. ähnelt.
         /// </summary>
-        internal static string PlugBoardXTooltip {
+        public static string PlugBoardXTooltip {
             get {
                 return ResourceManager.GetString("PlugBoardXTooltip", resourceCulture);
             }
@@ -1089,7 +1089,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Y= ähnelt.
         /// </summary>
-        internal static string PlugBoardYCaption {
+        public static string PlugBoardYCaption {
             get {
                 return ResourceManager.GetString("PlugBoardYCaption", resourceCulture);
             }
@@ -1098,7 +1098,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Select the letter for connecting this plug. ähnelt.
         /// </summary>
-        internal static string PlugBoardYTooltip {
+        public static string PlugBoardYTooltip {
             get {
                 return ResourceManager.GetString("PlugBoardYTooltip", resourceCulture);
             }
@@ -1107,7 +1107,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Z= ähnelt.
         /// </summary>
-        internal static string PlugBoardZCaption {
+        public static string PlugBoardZCaption {
             get {
                 return ResourceManager.GetString("PlugBoardZCaption", resourceCulture);
             }
@@ -1116,7 +1116,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Select the letter for connecting this plug. ähnelt.
         /// </summary>
-        internal static string PlugBoardZTooltip {
+        public static string PlugBoardZTooltip {
             get {
                 return ResourceManager.GetString("PlugBoardZTooltip", resourceCulture);
             }
@@ -1125,7 +1125,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Enigma ähnelt.
         /// </summary>
-        internal static string PluginCaption {
+        public static string PluginCaption {
             get {
                 return ResourceManager.GetString("PluginCaption", resourceCulture);
             }
@@ -1134,7 +1134,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
         /// </summary>
-        internal static string PluginDescriptionURL {
+        public static string PluginDescriptionURL {
             get {
                 return ResourceManager.GetString("PluginDescriptionURL", resourceCulture);
             }
@@ -1143,7 +1143,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Polyalphabetic rotor-cipher machine ähnelt.
         /// </summary>
-        internal static string PluginTooltip {
+        public static string PluginTooltip {
             get {
                 return ResourceManager.GetString("PluginTooltip", resourceCulture);
             }
@@ -1152,7 +1152,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Plug search method ähnelt.
         /// </summary>
-        internal static string PlugSearchMethodCaption {
+        public static string PlugSearchMethodCaption {
             get {
                 return ResourceManager.GetString("PlugSearchMethodCaption", resourceCulture);
             }
@@ -1161,7 +1161,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Which method should be used to assess the best plugboard configuration? ähnelt.
         /// </summary>
-        internal static string PlugSearchMethodTooltip {
+        public static string PlugSearchMethodTooltip {
             get {
                 return ResourceManager.GetString("PlugSearchMethodTooltip", resourceCulture);
             }
@@ -1170,7 +1170,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Presentation ähnelt.
         /// </summary>
-        internal static string PresentationGroup {
+        public static string PresentationGroup {
             get {
                 return ResourceManager.GetString("PresentationGroup", resourceCulture);
             }
@@ -1179,7 +1179,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Presentation Speed ähnelt.
         /// </summary>
-        internal static string PresentationSpeedCaption {
+        public static string PresentationSpeedCaption {
             get {
                 return ResourceManager.GetString("PresentationSpeedCaption", resourceCulture);
             }
@@ -1188,7 +1188,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Change the pace of the presentation ähnelt.
         /// </summary>
-        internal static string PresentationSpeedTooltip {
+        public static string PresentationSpeedTooltip {
             get {
                 return ResourceManager.GetString("PresentationSpeedTooltip", resourceCulture);
             }
@@ -1197,7 +1197,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Reflector ähnelt.
         /// </summary>
-        internal static string ReflectorCaption {
+        public static string ReflectorCaption {
             get {
                 return ResourceManager.GetString("ReflectorCaption", resourceCulture);
             }
@@ -1206,7 +1206,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Select the used reflector. If you don&apos;t want to use a reflector, select none here. ähnelt.
         /// </summary>
-        internal static string ReflectorTooltip {
+        public static string ReflectorTooltip {
             get {
                 return ResourceManager.GetString("ReflectorTooltip", resourceCulture);
             }
@@ -1215,7 +1215,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Remove all plugs ähnelt.
         /// </summary>
-        internal static string ResetPlugboardCaption {
+        public static string ResetPlugboardCaption {
             get {
                 return ResourceManager.GetString("ResetPlugboardCaption", resourceCulture);
             }
@@ -1224,7 +1224,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die By pressing this button the plugboard is reset to its empty state, i.e. all plugs are removed ähnelt.
         /// </summary>
-        internal static string ResetPlugboardTooltip {
+        public static string ResetPlugboardTooltip {
             get {
                 return ResourceManager.GetString("ResetPlugboardTooltip", resourceCulture);
             }
@@ -1233,7 +1233,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Ring 1 (right) ähnelt.
         /// </summary>
-        internal static string Ring1Caption {
+        public static string Ring1Caption {
             get {
                 return ResourceManager.GetString("Ring1Caption", resourceCulture);
             }
@@ -1242,7 +1242,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Select the the offset for ring 1 ähnelt.
         /// </summary>
-        internal static string Ring1Tooltip {
+        public static string Ring1Tooltip {
             get {
                 return ResourceManager.GetString("Ring1Tooltip", resourceCulture);
             }
@@ -1251,7 +1251,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Ring 2 ähnelt.
         /// </summary>
-        internal static string Ring2Caption {
+        public static string Ring2Caption {
             get {
                 return ResourceManager.GetString("Ring2Caption", resourceCulture);
             }
@@ -1260,7 +1260,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Select the the offset for ring 2 ähnelt.
         /// </summary>
-        internal static string Ring2Tooltip {
+        public static string Ring2Tooltip {
             get {
                 return ResourceManager.GetString("Ring2Tooltip", resourceCulture);
             }
@@ -1269,7 +1269,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Ring 3 ähnelt.
         /// </summary>
-        internal static string Ring3Caption {
+        public static string Ring3Caption {
             get {
                 return ResourceManager.GetString("Ring3Caption", resourceCulture);
             }
@@ -1278,7 +1278,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Select the the offset for ring 3 ähnelt.
         /// </summary>
-        internal static string Ring3Tooltip {
+        public static string Ring3Tooltip {
             get {
                 return ResourceManager.GetString("Ring3Tooltip", resourceCulture);
             }
@@ -1287,7 +1287,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Ring 4 (left) ähnelt.
         /// </summary>
-        internal static string Ring4Caption {
+        public static string Ring4Caption {
             get {
                 return ResourceManager.GetString("Ring4Caption", resourceCulture);
             }
@@ -1296,7 +1296,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Select the the offset for ring 4 ähnelt.
         /// </summary>
-        internal static string Ring4Tooltip {
+        public static string Ring4Tooltip {
             get {
                 return ResourceManager.GetString("Ring4Tooltip", resourceCulture);
             }
@@ -1305,16 +1305,25 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Ring settings ähnelt.
         /// </summary>
-        internal static string RingSettingsGroup {
+        public static string RingSettingsGroup {
             get {
                 return ResourceManager.GetString("RingSettingsGroup", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Ring settings: ähnelt.
+        /// </summary>
+        public static string Ringstellung_ {
+            get {
+                return ResourceManager.GetString("Ringstellung_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Rotor 1 (fastest/right) ähnelt.
         /// </summary>
-        internal static string Rotor1Caption {
+        public static string Rotor1Caption {
             get {
                 return ResourceManager.GetString("Rotor1Caption", resourceCulture);
             }
@@ -1323,7 +1332,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Select the used rotor on the right (fastest) position. ähnelt.
         /// </summary>
-        internal static string Rotor1Tooltip {
+        public static string Rotor1Tooltip {
             get {
                 return ResourceManager.GetString("Rotor1Tooltip", resourceCulture);
             }
@@ -1332,7 +1341,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Rotor 2 ähnelt.
         /// </summary>
-        internal static string Rotor2Caption {
+        public static string Rotor2Caption {
             get {
                 return ResourceManager.GetString("Rotor2Caption", resourceCulture);
             }
@@ -1341,7 +1350,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Select the used rotor on the second position. ähnelt.
         /// </summary>
-        internal static string Rotor2Tooltip {
+        public static string Rotor2Tooltip {
             get {
                 return ResourceManager.GetString("Rotor2Tooltip", resourceCulture);
             }
@@ -1350,7 +1359,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Rotor 3 ähnelt.
         /// </summary>
-        internal static string Rotor3Caption {
+        public static string Rotor3Caption {
             get {
                 return ResourceManager.GetString("Rotor3Caption", resourceCulture);
             }
@@ -1359,7 +1368,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Select the used rotor on the third position. ähnelt.
         /// </summary>
-        internal static string Rotor3Tooltip {
+        public static string Rotor3Tooltip {
             get {
                 return ResourceManager.GetString("Rotor3Tooltip", resourceCulture);
             }
@@ -1368,7 +1377,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Rotor 4 (slowest/left) ähnelt.
         /// </summary>
-        internal static string Rotor4Caption {
+        public static string Rotor4Caption {
             get {
                 return ResourceManager.GetString("Rotor4Caption", resourceCulture);
             }
@@ -1377,16 +1386,25 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Select the used rotor on the forth position. If you want to use only three rotors, select none here. ähnelt.
         /// </summary>
-        internal static string Rotor4Tooltip {
+        public static string Rotor4Tooltip {
             get {
                 return ResourceManager.GetString("Rotor4Tooltip", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Rotor position: ähnelt.
+        /// </summary>
+        public static string Rotorlage_ {
+            get {
+                return ResourceManager.GetString("Rotorlage_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Text options ähnelt.
         /// </summary>
-        internal static string TextOptionsGroup {
+        public static string TextOptionsGroup {
             get {
                 return ResourceManager.GetString("TextOptionsGroup", resourceCulture);
             }
@@ -1395,7 +1413,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Unknown symbol handling ähnelt.
         /// </summary>
-        internal static string UnknownSymbolHandlingCaption {
+        public static string UnknownSymbolHandlingCaption {
             get {
                 return ResourceManager.GetString("UnknownSymbolHandlingCaption", resourceCulture);
             }
@@ -1404,7 +1422,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Ignore (leave unmodified) ähnelt.
         /// </summary>
-        internal static string UnknownSymbolHandlingList1 {
+        public static string UnknownSymbolHandlingList1 {
             get {
                 return ResourceManager.GetString("UnknownSymbolHandlingList1", resourceCulture);
             }
@@ -1413,7 +1431,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Remove ähnelt.
         /// </summary>
-        internal static string UnknownSymbolHandlingList2 {
+        public static string UnknownSymbolHandlingList2 {
             get {
                 return ResourceManager.GetString("UnknownSymbolHandlingList2", resourceCulture);
             }
@@ -1422,7 +1440,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Replace with \&apos;X\&apos; ähnelt.
         /// </summary>
-        internal static string UnknownSymbolHandlingList3 {
+        public static string UnknownSymbolHandlingList3 {
             get {
                 return ResourceManager.GetString("UnknownSymbolHandlingList3", resourceCulture);
             }
@@ -1431,7 +1449,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die What should be done with encountered characters at the input which are not in the alphabet? ähnelt.
         /// </summary>
-        internal static string UnknownSymbolHandlingTooltip {
+        public static string UnknownSymbolHandlingTooltip {
             get {
                 return ResourceManager.GetString("UnknownSymbolHandlingTooltip", resourceCulture);
             }
@@ -1440,7 +1458,7 @@ namespace Cryptool.Enigma.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Used rotors ähnelt.
         /// </summary>
-        internal static string UsedRotorsGroup {
+        public static string UsedRotorsGroup {
             get {
                 return ResourceManager.GetString("UsedRotorsGroup", resourceCulture);
             }

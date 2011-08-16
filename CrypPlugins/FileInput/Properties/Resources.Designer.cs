@@ -61,6 +61,33 @@ namespace FileInput.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die About ähnelt.
+        /// </summary>
+        internal static string About {
+            get {
+                return ResourceManager.GetString("About", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Cancel ähnelt.
+        /// </summary>
+        internal static string Cancel {
+            get {
+                return ResourceManager.GetString("Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Close ähnelt.
+        /// </summary>
+        internal static string Close {
+            get {
+                return ResourceManager.GetString("Close", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Close file ähnelt.
         /// </summary>
         internal static string CloseFileCaption {
@@ -75,6 +102,51 @@ namespace FileInput.Properties {
         internal static string CloseFileTooltip {
             get {
                 return ResourceManager.GetString("CloseFileTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Copy ähnelt.
+        /// </summary>
+        internal static string Copy {
+            get {
+                return ResourceManager.GetString("Copy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Cut ähnelt.
+        /// </summary>
+        internal static string Cut {
+            get {
+                return ResourceManager.GetString("Cut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Edit ähnelt.
+        /// </summary>
+        internal static string Edit {
+            get {
+                return ResourceManager.GetString("Edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die File ähnelt.
+        /// </summary>
+        internal static string File {
+            get {
+                return ResourceManager.GetString("File", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die File is closed while executing. ähnelt.
+        /// </summary>
+        internal static string File_is_closed_while_executing {
+            get {
+                return ResourceManager.GetString("File_is_closed_while_executing", resourceCulture);
             }
         }
         
@@ -96,10 +168,55 @@ namespace FileInput.Properties {
             }
         }
         
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Find ähnelt.
+        /// </summary>
+        internal static string Find {
+            get {
+                return ResourceManager.GetString("Find", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Find: ähnelt.
+        /// </summary>
+        internal static string Find_ {
+            get {
+                return ResourceManager.GetString("Find_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Find next ähnelt.
+        /// </summary>
+        internal static string Find_next {
+            get {
+                return ResourceManager.GetString("Find_next", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Help ähnelt.
+        /// </summary>
+        internal static string Help {
+            get {
+                return ResourceManager.GetString("Help", resourceCulture);
+            }
+        }
+        
         internal static System.Drawing.Bitmap logo {
             get {
                 object obj = ResourceManager.GetObject("logo", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Open ähnelt.
+        /// </summary>
+        internal static string Open {
+            get {
+                return ResourceManager.GetString("Open", resourceCulture);
             }
         }
         
@@ -118,6 +235,15 @@ namespace FileInput.Properties {
         internal static string OpenFilenameTooltip {
             get {
                 return ResourceManager.GetString("OpenFilenameTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Paste ähnelt.
+        /// </summary>
+        internal static string Paste {
+            get {
+                return ResourceManager.GetString("Paste", resourceCulture);
             }
         }
         
@@ -145,6 +271,33 @@ namespace FileInput.Properties {
         internal static string PluginTooltip {
             get {
                 return ResourceManager.GetString("PluginTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Save ähnelt.
+        /// </summary>
+        internal static string Save {
+            get {
+                return ResourceManager.GetString("Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Search ähnelt.
+        /// </summary>
+        internal static string Search {
+            get {
+                return ResourceManager.GetString("Search", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Search Progress ähnelt.
+        /// </summary>
+        internal static string Search_Progress {
+            get {
+                return ResourceManager.GetString("Search_Progress", resourceCulture);
             }
         }
         

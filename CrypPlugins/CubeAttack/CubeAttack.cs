@@ -1055,7 +1055,7 @@ namespace Cryptool.CubeAttack
                     }
                 }
                 if (fault)
-                    CubeAttack_LogMessage("The input public bits does not consists only of characters : \'0\',\'1\',\'*\' !", NotificationLevel.Error);
+                    CubeAttack_LogMessage("The input public bits do not consist only of characters : \'0\',\'1\',\'*\' !", NotificationLevel.Error);
                 else
                 {
                     if (maxterm.Count > 0)

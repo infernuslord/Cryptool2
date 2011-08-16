@@ -168,4 +168,61 @@
   <data name="FileOrNotList1" xml:space="preserve">
     <value>Data comes from file</value>
   </data>
+  <data name="Aborted_after" xml:space="preserve">
+    <value>Aborted after  [h:min:sec]: </value>
+  </data>
+  <data name="Attack_FMS" xml:space="preserve">
+    <value>FMS attack running...</value>
+  </data>
+  <data name="Attack_KoreK" xml:space="preserve">
+    <value>KoreK attack running...</value>
+  </data>
+  <data name="Attack_None" xml:space="preserve">
+    <value>No attack running.</value>
+  </data>
+  <data name="Attack_PTW" xml:space="preserve">
+    <value>PTW attack running...</value>
+  </data>
+  <data name="Could_not_recover_key" xml:space="preserve">
+    <value>Could not recover key.
+Maybe you need more packets for a
+successful attack.
+</value>
+  </data>
+  <data name="FMS_more_packets" xml:space="preserve">
+    <value>For a 104 bit key and a FMS attack
+you need usually 3 - 4 mio. encrypted packets.</value>
+  </data>
+  <data name="KoreK_more_packets" xml:space="preserve">
+    <value>For a KoreK attack
+you need usually 500.000 - 1 mio. encrypted packets.</value>
+  </data>
+  <data name="Maybe_you_need_more_packets" xml:space="preserve">
+    <value>Maybe you need more packets for a
+successful attack.</value>
+  </data>
+  <data name="Maybe_you_need_more_packets_104" xml:space="preserve">
+    <value>Maybe you need more packets.
+For a 104 bit key you usually
+need 100.000 ARP packets or
+a few more IP packets.</value>
+  </data>
+  <data name="Possible_key" xml:space="preserve">
+    <value>Possible key</value>
+  </data>
+  <data name="Possible_key_found_after_using_0_packets" xml:space="preserve">
+    <value>Possible key found after using {0} packets!</value>
+  </data>
+  <data name="Probably_it_is_a_strong_key" xml:space="preserve">
+    <value>Probably it is a strong key.</value>
+  </data>
+  <data name="Sniffed_packets" xml:space="preserve">
+    <value>Sniffed packets:</value>
+  </data>
+  <data name="Time_used" xml:space="preserve">
+    <value>Time used  [h:min:sec]: </value>
+  </data>
+  <data name="Used_packets" xml:space="preserve">
+    <value>Used packets: </value>
+  </data>
 </root>

@@ -168,4 +168,60 @@
   <data name="FileOrNotList1" xml:space="preserve">
     <value>Daten kommen aus einer Datei</value>
   </data>
+  <data name="Aborted_after" xml:space="preserve">
+    <value>Abgebrochen nach [h:min:sec]: </value>
+  </data>
+  <data name="Attack_FMS" xml:space="preserve">
+    <value>FMS-Angriff läuft...</value>
+  </data>
+  <data name="Attack_KoreK" xml:space="preserve">
+    <value>KoreK-Angriff läuft...</value>
+  </data>
+  <data name="Attack_None" xml:space="preserve">
+    <value>Kein Angriff läuft.</value>
+  </data>
+  <data name="Attack_PTW" xml:space="preserve">
+    <value>PTW-Angriff läuft...</value>
+  </data>
+  <data name="Could_not_recover_key" xml:space="preserve">
+    <value>Schlüssel nicht gefunden.
+
+</value>
+  </data>
+  <data name="FMS_more_packets" xml:space="preserve">
+    <value>Für einen 104-Bit-Schlüssel und einen FMS-Angriff brauchen
+Sie normalerweise 3 - 4 Mio. verschlüsselte Pakete.</value>
+  </data>
+  <data name="KoreK_more_packets" xml:space="preserve">
+    <value>Für einen KoreK-Angriff brauchen
+Sie normalerweise  500.000 - 1 Mio. verschlüsselte Pakete.</value>
+  </data>
+  <data name="Maybe_you_need_more_packets" xml:space="preserve">
+    <value>Vielleicht brauchen Sie mehr Pakete
+für einen erfolgreichen Angriff.</value>
+  </data>
+  <data name="Maybe_you_need_more_packets_104" xml:space="preserve">
+    <value>Vielleicht brauchen Sie mehr Pakete.
+Für einen 104-Bit-Schlüssel brauchen Sie
+normalerweise 100.000 ARP- oder etwas
+mehr IP-Pakete.</value>
+  </data>
+  <data name="Possible_key" xml:space="preserve">
+    <value>Möglicher Schlüssel</value>
+  </data>
+  <data name="Possible_key_found_after_using_0_packets" xml:space="preserve">
+    <value>Möglicher Schlüssel gefunden nach {0} Paketen!</value>
+  </data>
+  <data name="Probably_it_is_a_strong_key" xml:space="preserve">
+    <value>Vermutlich ist es ein starker Schlüssel.</value>
+  </data>
+  <data name="Sniffed_packets" xml:space="preserve">
+    <value>Gelesene Pakete: </value>
+  </data>
+  <data name="Time_used" xml:space="preserve">
+    <value>Benötigte Zeit [h:min:sec]: </value>
+  </data>
+  <data name="Used_packets" xml:space="preserve">
+    <value>Verwendete Pakete: </value>
+  </data>
 </root>

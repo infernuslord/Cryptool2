@@ -178,7 +178,9 @@
     <value>Filename</value>
   </data>
   <data name="OpenFilenameTooltip" xml:space="preserve">
-    <value>Select the file you want to open.\nFile structure: superpoly cube-indexes output-bit\nExample: 1+x0+x5 2,6 1</value>
+    <value>Select the file you want to open.
+File structure: superpoly cube-indexes output-bit
+Example: 1+x0+x5 2,6 1</value>
   </data>
   <data name="OutputBitCaption" xml:space="preserve">
     <value>Output Bit</value>

@@ -22,7 +22,7 @@ namespace Cryptool.Plugins.MD5Collider.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    public class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace Cryptool.Plugins.MD5Collider.Properties {
         ///   Gibt die zwischengespeicherte ResourceManager-Instanz zurück, die von dieser Klasse verwendet wird.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Cryptool.Plugins.MD5Collider.Properties.Resources", typeof(Resources).Assembly);
@@ -51,7 +51,7 @@ namespace Cryptool.Plugins.MD5Collider.Properties {
         ///   Ressourcenzuordnungen, die diese stark typisierte Ressourcenklasse verwenden.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -61,9 +61,18 @@ namespace Cryptool.Plugins.MD5Collider.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Match: ähnelt.
+        /// </summary>
+        public static string Match_ {
+            get {
+                return ResourceManager.GetString("Match_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die First colliding data block ähnelt.
         /// </summary>
-        internal static string OutputData1Caption {
+        public static string OutputData1Caption {
             get {
                 return ResourceManager.GetString("OutputData1Caption", resourceCulture);
             }
@@ -72,7 +81,7 @@ namespace Cryptool.Plugins.MD5Collider.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die First colliding data block as byte array ähnelt.
         /// </summary>
-        internal static string OutputData1Tooltip {
+        public static string OutputData1Tooltip {
             get {
                 return ResourceManager.GetString("OutputData1Tooltip", resourceCulture);
             }
@@ -81,7 +90,7 @@ namespace Cryptool.Plugins.MD5Collider.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Second colliding data block ähnelt.
         /// </summary>
-        internal static string OutputData2Caption {
+        public static string OutputData2Caption {
             get {
                 return ResourceManager.GetString("OutputData2Caption", resourceCulture);
             }
@@ -90,7 +99,7 @@ namespace Cryptool.Plugins.MD5Collider.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Second colliding data block as byte array ähnelt.
         /// </summary>
-        internal static string OutputData2Tooltip {
+        public static string OutputData2Tooltip {
             get {
                 return ResourceManager.GetString("OutputData2Tooltip", resourceCulture);
             }
@@ -99,7 +108,7 @@ namespace Cryptool.Plugins.MD5Collider.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die First colliding data block ähnelt.
         /// </summary>
-        internal static string OutputDataStream1Caption {
+        public static string OutputDataStream1Caption {
             get {
                 return ResourceManager.GetString("OutputDataStream1Caption", resourceCulture);
             }
@@ -108,7 +117,7 @@ namespace Cryptool.Plugins.MD5Collider.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die First colliding data block as Stream ähnelt.
         /// </summary>
-        internal static string OutputDataStream1Tooltip {
+        public static string OutputDataStream1Tooltip {
             get {
                 return ResourceManager.GetString("OutputDataStream1Tooltip", resourceCulture);
             }
@@ -117,7 +126,7 @@ namespace Cryptool.Plugins.MD5Collider.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Second colliding data block ähnelt.
         /// </summary>
-        internal static string OutputDataStream2Caption {
+        public static string OutputDataStream2Caption {
             get {
                 return ResourceManager.GetString("OutputDataStream2Caption", resourceCulture);
             }
@@ -126,7 +135,7 @@ namespace Cryptool.Plugins.MD5Collider.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Second colliding data block as Stream ähnelt.
         /// </summary>
-        internal static string OutputDataStream2Tooltip {
+        public static string OutputDataStream2Tooltip {
             get {
                 return ResourceManager.GetString("OutputDataStream2Tooltip", resourceCulture);
             }
@@ -135,7 +144,7 @@ namespace Cryptool.Plugins.MD5Collider.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die MD5 Collider ähnelt.
         /// </summary>
-        internal static string PluginCaption {
+        public static string PluginCaption {
             get {
                 return ResourceManager.GetString("PluginCaption", resourceCulture);
             }
@@ -144,7 +153,7 @@ namespace Cryptool.Plugins.MD5Collider.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die MD5Collider/DetailedDescription/Description.xaml ähnelt.
         /// </summary>
-        internal static string PluginDescriptionURL {
+        public static string PluginDescriptionURL {
             get {
                 return ResourceManager.GetString("PluginDescriptionURL", resourceCulture);
             }
@@ -153,7 +162,7 @@ namespace Cryptool.Plugins.MD5Collider.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die MD5 hash collider ähnelt.
         /// </summary>
-        internal static string PluginTooltip {
+        public static string PluginTooltip {
             get {
                 return ResourceManager.GetString("PluginTooltip", resourceCulture);
             }
@@ -162,7 +171,7 @@ namespace Cryptool.Plugins.MD5Collider.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Prefix ähnelt.
         /// </summary>
-        internal static string PrefixCaption {
+        public static string PrefixCaption {
             get {
                 return ResourceManager.GetString("PrefixCaption", resourceCulture);
             }
@@ -171,7 +180,7 @@ namespace Cryptool.Plugins.MD5Collider.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Common prefix for colliding blocks ähnelt.
         /// </summary>
-        internal static string PrefixTooltip {
+        public static string PrefixTooltip {
             get {
                 return ResourceManager.GetString("PrefixTooltip", resourceCulture);
             }
@@ -180,7 +189,7 @@ namespace Cryptool.Plugins.MD5Collider.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Random seed ähnelt.
         /// </summary>
-        internal static string RandomSeedCaption {
+        public static string RandomSeedCaption {
             get {
                 return ResourceManager.GetString("RandomSeedCaption", resourceCulture);
             }
@@ -189,9 +198,27 @@ namespace Cryptool.Plugins.MD5Collider.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Data used for initialization of RNG ähnelt.
         /// </summary>
-        internal static string RandomSeedTooltip {
+        public static string RandomSeedTooltip {
             get {
                 return ResourceManager.GetString("RandomSeedTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Time: ähnelt.
+        /// </summary>
+        public static string Time_ {
+            get {
+                return ResourceManager.GetString("Time_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Tries: ähnelt.
+        /// </summary>
+        public static string Tries_ {
+            get {
+                return ResourceManager.GetString("Tries_", resourceCulture);
             }
         }
     }
