@@ -127,22 +127,22 @@
     <value>CubeAttack/DetailedDescription/Description.xaml</value>
   </data>
   <data name="OutputSuperpolyCaption" xml:space="preserve">
-    <value>Output of superpolys</value>
+    <value>Ausgabe der Superpolynome</value>
   </data>
   <data name="OutputSuperpolyTooltip" xml:space="preserve">
-    <value>Output of located linearly independent superpolys, cube indexes and its corresponding output bits.</value>
+    <value>Ausgabe der lokalisierten linear unabhängigen Superpolynome, Cube-Indices und ihrer zugehörigen Ausgabebits.</value>
   </data>
   <data name="OutputKeyBitsCaption" xml:space="preserve">
-    <value>Key bits</value>
+    <value>Schlüsselbits</value>
   </data>
   <data name="OutputKeyBitsTooltip" xml:space="preserve">
-    <value>This output provides the result of the secret key bits</value>
+    <value>Ausgabe der geheimen Schlüsselbits</value>
   </data>
   <data name="CubeattackBlackboxCaption" xml:space="preserve">
-    <value>Master for CubeAttack</value>
+    <value>Master für CubeAttack</value>
   </data>
   <data name="CubeattackBlackboxTooltip" xml:space="preserve">
-    <value>Master for CubeAttack</value>
+    <value>Master für CubeAttack</value>
   </data>
   <data name="ActionCaption" xml:space="preserve">
     <value>Aktion</value>
@@ -151,64 +151,66 @@
     <value>Wählen Sie die Art des Angriffes.</value>
   </data>
   <data name="ConstTestCaption" xml:space="preserve">
-    <value>Constant Test</value>
+    <value>Konstantentest</value>
   </data>
   <data name="ConstTestTooltip" xml:space="preserve">
-    <value>Number of tests to check if the superpoly is a constant value or not.</value>
+    <value>Anzahl der Tests, um zu prüfen, ob das Superpolynom konstant ist.</value>
   </data>
   <data name="EnableLogMessagesCaption" xml:space="preserve">
-    <value>Enable Log Messages</value>
+    <value>Protokollnachrichten aktivieren</value>
   </data>
   <data name="EnableLogMessagesTooltip" xml:space="preserve">
-    <value>With this checkbox enabled, a lot of log messages will be shown during preprocessing.</value>
+    <value>Wenn dieses Kontrollkästchen aktiviert ist, werden bei der Vorverarbeitung viele Protokollnachrichten generiert.</value>
   </data>
   <data name="LinTestCaption" xml:space="preserve">
-    <value>Linearity Test</value>
+    <value>Linearitätstests</value>
   </data>
   <data name="LinTestTooltip" xml:space="preserve">
-    <value>Number of linearity tests to check if the superpoly is linear or not.</value>
+    <value>Anzahl der Tests, um zu prüfen, ob das Superpolynom linear ist.</value>
   </data>
   <data name="MaxCubeCaption" xml:space="preserve">
-    <value>Max Cube Size</value>
+    <value>Maximale Würfelgröße</value>
   </data>
   <data name="MaxCubeTooltip" xml:space="preserve">
-    <value>Maxmium size of the summation cube.</value>
+    <value>Maximale Größe des Summationswürfels</value>
   </data>
   <data name="OpenFilenameCaption" xml:space="preserve">
-    <value>Filename</value>
+    <value>Dateiname</value>
   </data>
   <data name="OpenFilenameTooltip" xml:space="preserve">
-    <value>Select the file you want to open.\nFile structure: superpoly cube-indexes output-bit\nExample: 1+x0+x5 2,6 1</value>
+    <value>Wählen Sie die zu öffnende Datei.
+Dateistruktur: Superpolynom Cube-Indices Ausgabebit
+Beispiel: 1+x0+x5 2,6 1</value>
   </data>
   <data name="OutputBitCaption" xml:space="preserve">
-    <value>Output Bit</value>
+    <value>Ausgabebit</value>
   </data>
   <data name="OutputBitTooltip" xml:space="preserve">
-    <value>Chooses the output bit of the black box, which should be evaluated.</value>
+    <value>Wählt das Ausgabebit der Black Box, das ausgewertet werden soll.</value>
   </data>
   <data name="PublicVarCaption" xml:space="preserve">
-    <value>Public Bit Size</value>
+    <value>Größe der öffentlichen Eingabebits</value>
   </data>
   <data name="PublicVarTooltip" xml:space="preserve">
-    <value>Public input bits (IV or plaintext) of the attacked cryptosystem.</value>
+    <value>Öffentliche Eingabebits (IV oder Klartext) des attackierten Kryptosystems.</value>
   </data>
   <data name="ReadSuperpolysFromFileCaption" xml:space="preserve">
-    <value>Read Superpolys From File</value>
+    <value>Lese Superpolynome aus Datei</value>
   </data>
   <data name="ReadSuperpolysFromFileTooltip" xml:space="preserve">
-    <value>With this checkbox enabled, superpolys will be loaded from the selected File and can be evaluated in the online phase.</value>
+    <value>Wenn dieses Kontrollkästchen aktiviert ist, werden die Superpolynome aus einer Datei gelesen und können in der Online-Phase ausgewertet werden.</value>
   </data>
   <data name="SecretVarCaption" xml:space="preserve">
-    <value>Secret Bit Size</value>
+    <value>Wähle Bitgröße</value>
   </data>
   <data name="SecretVarTooltip" xml:space="preserve">
-    <value>Key size or key length of the attacked cryptosystem.</value>
+    <value>Schlüsselgröße des attackierten Kryptosystems.</value>
   </data>
   <data name="SetPublicBitsCaption" xml:space="preserve">
-    <value>Manual Public Bit Input</value>
+    <value>Manuelle Eingabe der öffentlichen Bits</value>
   </data>
   <data name="SetPublicBitsTooltip" xml:space="preserve">
-    <value>Possible inputs '0' (set bit to value 0), '1' (set bit to value 1) and '*' (sum the 0/1 value of the bit).</value>
+    <value>Mögliche Eingaben '0' (setzt Bit auf Wert 0), '1' (setzt Bit auf Wert 1) und '*' (summiere die 0/1-Werte der Bits).</value>
   </data>
   <data name="ActionList1" xml:space="preserve">
     <value>Vorverarbeitung</value>
@@ -217,12 +219,12 @@
     <value>Online</value>
   </data>
   <data name="ActionList3" xml:space="preserve">
-    <value>Manuelle Eingabe der öffentlichen Manual Public Bit Input</value>
+    <value>Manuelle Eingabe der öffentlichen Bits</value>
   </data>
   <data name="EnableLogMessagesList1" xml:space="preserve">
-    <value>Enable log messages?</value>
+    <value>Protokollnachrichten aktivieren?</value>
   </data>
   <data name="ReadSuperpolysFromFileList1" xml:space="preserve">
-    <value>Read Superpolys From File</value>
+    <value>Lese Superpolynome aus Datei</value>
   </data>
 </root>

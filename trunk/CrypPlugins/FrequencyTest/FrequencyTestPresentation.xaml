@@ -74,7 +74,7 @@
                 <ScaleTransform ScaleX="1" ScaleY="1"/>
             </Grid.LayoutTransform>
          
-           <TextBlock x:Name="chartHeadline" TextAlignment="Center" Grid.Row="0" Grid.Column="0" FontSize="20" Foreground="DarkBlue"  FontFamily="Academy" OpacityMask="Turquoise" Text="No data available yet!" ></TextBlock>
+           <TextBlock x:Name="chartHeadline" TextAlignment="Center" Grid.Row="0" Grid.Column="0" FontSize="20" Foreground="DarkBlue"  FontFamily="Academy" OpacityMask="Turquoise" Text="{Loc No_data_available_yet}" ></TextBlock>
 
            <ItemsControl x:Name="chartBars" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"            
              ItemsSource="{Binding Source={StaticResource source},Path=ValueCollection}"

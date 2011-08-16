@@ -16,7 +16,7 @@
                 <ColumnDefinition Width="0*" />
             </Grid.ColumnDefinitions>
 
-        <TextBlock TextAlignment="Center" FontSize="20" Foreground="DarkBlue"  FontFamily="Academy" OpacityMask="Turquoise" Text="Shift values" Height="20" VerticalAlignment="Bottom"></TextBlock>
+        <TextBlock TextAlignment="Center" FontSize="20" Foreground="DarkBlue"  FontFamily="Academy" OpacityMask="Turquoise" Text="{Loc Shift_values}" Height="20" VerticalAlignment="Bottom"></TextBlock>
 
         <custom:HistogramChart Name="histogram" Margin="0,0,0,19">                
 

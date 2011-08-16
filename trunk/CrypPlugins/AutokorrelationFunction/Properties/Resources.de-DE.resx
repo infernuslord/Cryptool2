@@ -138,4 +138,13 @@
   <data name="OutputLengthTooltip" xml:space="preserve">
     <value>Die wahrscheinlichste Schlüssellänge für den untersuchten Text</value>
   </data>
+  <data name="Autocorrelation_matches" xml:space="preserve">
+    <value>Autokorrelationstreffer</value>
+  </data>
+  <data name="Highest_match_count_with_shift" xml:space="preserve">
+    <value>Höchste Trefferzahl {0} bei Verschiebung um {1}</value>
+  </data>
+  <data name="Shift_values" xml:space="preserve">
+    <value>Verschiebungswerte</value>
+  </data>
 </root>

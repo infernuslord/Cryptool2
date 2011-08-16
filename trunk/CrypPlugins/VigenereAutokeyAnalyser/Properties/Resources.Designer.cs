@@ -79,6 +79,24 @@ namespace VigenereAutokeyAnalyser.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Analysed Key ähnelt.
+        /// </summary>
+        internal static string Analysed_Key {
+            get {
+                return ResourceManager.GetString("Analysed_Key", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Found IC ähnelt.
+        /// </summary>
+        internal static string Found_IC {
+            get {
+                return ResourceManager.GetString("Found_IC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Cipher Input ähnelt.
         /// </summary>
         internal static string InputCipherCaption {

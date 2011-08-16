@@ -19,24 +19,24 @@
                 <Grid Background="#AFFFD4C1">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="26" />
-                        <ColumnDefinition Width="200*" />
-                        <ColumnDefinition Width="200*" />
+                        <ColumnDefinition Width="265*" />
+                        <ColumnDefinition Width="351*" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="26" />
                         <RowDefinition Height="26" />
                     </Grid.RowDefinitions>
                     <Border BorderThickness="1" BorderBrush="Black" LayoutTransform="{StaticResource HeaderRotate}" Background="#FFE56B00" Grid.Column="0" Grid.RowSpan="2">
-                        <Label Content="Time" FontSize="11" HorizontalAlignment="Center" Foreground="White" />
+                        <Label Content="{Loc Time}" FontSize="11" HorizontalAlignment="Center" Foreground="White" Width="45" HorizontalContentAlignment="Center" />
                     </Border>
-                    <Label Content="Start:" Grid.Column="1" />
-                    <Label Name="startTime" Style="{StaticResource ValueRow1}" Grid.Column="1" Content="-" />
-                    <Label Content="End:" HorizontalAlignment="Left" Grid.Column="2" />
-                    <Label Name="endTime" Style="{StaticResource ValueRow2}" Grid.Column="2" Content="-" />
-                    <Label Content="Elapsed:" Grid.Column="1" Grid.Row="1" />
-                    <Label Name="elapsedTime" Style="{StaticResource ValueRow1}" Grid.Column="1" Grid.Row="1" Content="-" />
-                    <Label Content="Remaining:" Grid.Column="2" Grid.Row="1" />
-                    <Label Name="timeLeft" Style="{StaticResource ValueRow2}" Grid.Column="2" Grid.Row="1" Content="-" />
+                    <Label Content="{Loc Start_}" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,0,308,0" />
+                    <Label Name="startTime" Style="{StaticResource ValueRow1}" Grid.Column="1" Content="-" Grid.ColumnSpan="2" Margin="80,0,308,0" />
+                    <Label Content="{Loc End_}" HorizontalAlignment="Left" Grid.Column="2" Margin="1,-2,0,2" />
+                    <Label Name="endTime" Style="{StaticResource ValueRow2}" Grid.Column="2" Content="-" Margin="123,0,0,0" />
+                    <Label Content="{Loc Elapsed_}" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,0,308,0" />
+                    <Label Name="elapsedTime" Style="{StaticResource ValueRow1}" Grid.Column="1" Grid.Row="1" Content="-" Grid.ColumnSpan="2" Margin="80,0,308,0" />
+                    <Label Content="{Loc Remaining_}" Grid.Column="2" Margin="0,25,43,1" Grid.RowSpan="2" />
+                    <Label Name="timeLeft" Style="{StaticResource ValueRow2}" Grid.Column="2" Grid.Row="1" Content="-" Margin="123,0,0,0" />
                 </Grid>
             </Border>
 
@@ -47,7 +47,7 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <Border BorderThickness="1" BorderBrush="Black" LayoutTransform="{StaticResource HeaderRotate}" Background="#FF479308" Grid.Column="0">
-                        <Label Content="Factorlist" FontSize="11" HorizontalAlignment="Center" Foreground="White" Width="55" />
+                        <Label Content="{Loc Factorlist}" FontSize="11" HorizontalAlignment="Center" Foreground="White" Width="115" HorizontalContentAlignment="Center" />
                     </Border>
                     <Grid Grid.Column="1">
                         <Grid.RowDefinitions>
@@ -67,25 +67,25 @@
                 <Grid Background="#AFE2E2E2">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="26" />
-                        <ColumnDefinition Width="200*" />
-                        <ColumnDefinition Width="200*" />
+                        <ColumnDefinition Width="269*" />
+                        <ColumnDefinition Width="347*" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="26" />
                         <RowDefinition Height="26" />
                     </Grid.RowDefinitions>
                     <Border BorderThickness="1" BorderBrush="Black" LayoutTransform="{StaticResource HeaderRotate}" Background="#FF525252" Grid.Column="0" Grid.RowSpan="2">
-                        <Label Content="Progress" FontSize="11" HorizontalAlignment="Center" Foreground="White" Width="55" />
+                        <Label Content="{Loc Progress}" FontSize="11" HorizontalAlignment="Center" Foreground="White" Width="65" HorizontalContentAlignment="Center" />
                     </Border>
 
-                    <Label Content="Found Relations:" Grid.Column="1" />
-                    <Label Name="foundRelations" Grid.Column="1" Content="-" Margin="100,0,0,0" />
-                    <Label Content="Needed Relations:" HorizontalAlignment="Left" Grid.Column="2" />
-                    <Label Name="maxRelations" Grid.Column="2" Content="-" Margin="105,0,0,0" />
-                    <Label Content="Cores used:" HorizontalAlignment="Left" Grid.Column="1" Grid.Row="1" />
-                    <Label Name="coresUsed" Margin="100,0,0,0" Grid.Column="1" Content="-" Grid.Row="1" />
-                    <Label Content="Information:" HorizontalAlignment="Left" Grid.Column="2" Grid.Row="1"/>
-                    <Label Name="information" Grid.Column="2" Content="-" Margin="105,0,0,0" Grid.Row="1"/>
+                    <Label Content="{Loc Found_Relations_}" Grid.Column="1" Margin="0,0,165,0" />
+                    <Label Name="foundRelations" Grid.Column="1" Content="-" Margin="140,0,4,0" />
+                    <Label Content="{Loc Needed_Relations_}" HorizontalAlignment="Left" Grid.Column="2" Margin="0,-3,0,3" />
+                    <Label Name="maxRelations" Grid.Column="2" Content="-" Margin="144,0,0,0" />
+                    <Label Content="{Loc Cores_used_}" HorizontalAlignment="Left" Grid.Column="1" Grid.Row="1" />
+                    <Label Name="coresUsed" Margin="140,0,3,0" Grid.Column="1" Content="-" Grid.Row="1" />
+                    <Label Content="{Loc Information_}" HorizontalAlignment="Left" Grid.Column="1" Grid.Row="1" Margin="268,0,0,0" Grid.ColumnSpan="2" />
+                    <Label Name="information" Grid.Column="2" Content="-" Margin="144,0,0,0" Grid.Row="1"/>
                 </Grid>
             </Border>
 
@@ -93,8 +93,8 @@
                 <Grid Background="#AFAAE1E8">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="26" />
-                        <ColumnDefinition Width="200*" />
-                        <ColumnDefinition Width="200*" />
+                        <ColumnDefinition Width="269*" />
+                        <ColumnDefinition Width="347*" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="130" />
@@ -102,21 +102,21 @@
                         <RowDefinition Height="26" />
                     </Grid.RowDefinitions>
                     <Border BorderThickness="1" BorderBrush="Black" LayoutTransform="{StaticResource HeaderRotate}" Background="#FF099BA7" Grid.Column="0" Grid.RowSpan="3">
-                        <Label Content="Peer2Peer" FontSize="11" HorizontalAlignment="Center" Foreground="White" />
+                        <Label Content="{Loc Peer2Peer}" FontSize="11" HorizontalAlignment="Center" Foreground="White" Width="143" HorizontalContentAlignment="Center" />
                     </Border>
                     
                     <ScrollViewer Name="peer2peerScrollViewer" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" HorizontalScrollBarVisibility="Auto" CanContentScroll="True">
                     </ScrollViewer>
-                    <Label Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Content="Local Sieving (Not Connected)" Name="localSieving" ClipToBounds="True" FontSize="40" FontStyle="Normal" FontWeight="Bold" FontFamily="Arial" Foreground="Red" VerticalContentAlignment="Center" HorizontalContentAlignment="Stretch" Visibility="Hidden" />
-                    
-                    <Label Content="Downloaded:" Grid.Column="1" Grid.Row="1" />
-                    <Label Name="downloaded" Style="{StaticResource ValueRow1}" Grid.Column="1" Grid.Row="1" Content="-" />
-                    <Label Content="Uploaded:" HorizontalAlignment="Left" Grid.Column="2" Grid.Row="1" />
-                    <Label Name="uploaded" Style="{StaticResource ValueRow2}" Grid.Column="2" Grid.Row="1" Content="-" />
-                    <Label Content="Active Peers:" Grid.Column="1" Grid.Row="2" />
-                    <Label Name="activePeers" Style="{StaticResource ValueRow1}" Grid.Column="1" Grid.Row="2" Content="-" />
-                    <Label Content="Queue:" Grid.Column="2" Grid.Row="2" />
-                    <Label Name="queueInformation" Style="{StaticResource ValueRow2}" Grid.Column="2" Grid.Row="2" Content="-" />
+                    <Label Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Content="{Loc Local_Sieving_}" Name="localSieving" ClipToBounds="True" FontSize="40" FontStyle="Normal" FontWeight="Bold" FontFamily="Arial" Foreground="Red" VerticalContentAlignment="Center" HorizontalContentAlignment="Stretch" Visibility="Hidden" />
+
+                    <Label Content="{Loc Downloaded_}" Grid.Column="1" Grid.Row="1" />
+                    <Label Name="downloaded" Style="{StaticResource ValueRow1}" Grid.Column="1" Grid.Row="1" Content="-" Margin="110,0,0,0" />
+                    <Label Content="{Loc Uploaded_}" HorizontalAlignment="Left" Grid.Column="2" Grid.Row="1" />
+                    <Label Name="uploaded" Style="{StaticResource ValueRow2}" Grid.Column="2" Grid.Row="1" Content="-" Margin="132,0,0,0" />
+                    <Label Content="{Loc Active_Peers_}" Grid.Column="1" Grid.Row="2" />
+                    <Label Name="activePeers" Style="{StaticResource ValueRow1}" Grid.Column="1" Grid.Row="2" Content="-" Margin="110,0,0,0" />
+                    <Label Content="{Loc Queue_}" Grid.Column="2" Grid.Row="2" />
+                    <Label Name="queueInformation" Style="{StaticResource ValueRow2}" Grid.Column="2" Grid.Row="2" Content="-" Margin="132,0,0,0" />
                 </Grid>
             </Border>
             

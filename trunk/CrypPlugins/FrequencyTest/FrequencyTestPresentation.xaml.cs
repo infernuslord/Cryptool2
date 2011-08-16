@@ -21,6 +21,7 @@ namespace Cryptool.FrequencyTest
     /// <summary>
     /// Interaction logic for FrequencyTestPresentation.xaml
     /// </summary>
+    [Cryptool.PluginBase.Attributes.Localization("Cryptool.FrequencyTest.Properties.Resources")]
     public partial class FrequencyTestPresentation : UserControl
     {
 

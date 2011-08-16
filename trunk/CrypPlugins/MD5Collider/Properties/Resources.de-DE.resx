@@ -162,4 +162,13 @@
   <data name="PrefixTooltip" xml:space="preserve">
     <value>Gemeinsamer Präfix für kollidierende Blöcke</value>
   </data>
+  <data name="Match_" xml:space="preserve">
+    <value>Treffer:</value>
+  </data>
+  <data name="Time_" xml:space="preserve">
+    <value>Zeit:</value>
+  </data>
+  <data name="Tries_" xml:space="preserve">
+    <value>Versuche:</value>
+  </data>
 </root>

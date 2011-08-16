@@ -31,8 +31,8 @@ namespace Cryptool.Plugins.StegoPermutation
         {
 			get
 			{
-                BigInteger capacity = BigIntegerHelper.Factorial(source.Count);
-                int byteCapacity = (BigIntegerHelper.BitCount(capacity) / 8) - 1;
+                BigInteger capacity = ((BigInteger)source.Count).Factorial();
+                int byteCapacity = (capacity.BitCount() / 8) - 1;
             	return byteCapacity;
 			}
         }

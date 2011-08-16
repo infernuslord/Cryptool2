@@ -580,4 +580,10 @@ Wählen Sie das Enigma-Modell. Verschiedene Modelle verwenden unterschiedliche R
   <data name="KeySearchMethodList16" xml:space="preserve">
     <value>Unigram entropy</value>
   </data>
+  <data name="Ringstellung_" xml:space="preserve">
+    <value>Ringstellung:</value>
+  </data>
+  <data name="Rotorlage_" xml:space="preserve">
+    <value>Rotorlage:</value>
+  </data>
 </root>

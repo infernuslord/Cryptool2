@@ -11,19 +11,21 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Cryptool.PluginBase;
 
 namespace Cryptool.Plugins.QuadraticSieve
 {
     /// <summary>
     /// Interaction logic for ProgressRelationPackages.xaml
     /// </summary>
+    [Cryptool.PluginBase.Attributes.Localization("QuadraticSieve.Properties.Resources")]
     public partial class ProgressRelationPackages : UserControl
     {
         private long ourID;
         private ScrollViewer scrollViewer;
 
         public void Set(int i, long id, string name)
-        {
+        { 
             if (root.Children.Count <= i)   //if no shape exists for this relation package yet
             {
                 //Create some shapes to fill the gap:
@@ -62,12 +64,13 @@ namespace Cryptool.Plugins.QuadraticSieve
                     root.Children.Insert(index, shape);
                 }
                 shape.Fill = GetColor(uploaderID);
-                tooltip.Content = "This relation package was sieved by us";
+
+                tooltip.Content = typeof(QuadraticSieve).GetPluginStringResource("Relpack_us");
             }
             else if (uploaderID == 0)
             {
                 shape.Fill = Brushes.Black;
-                tooltip.Content = "This relation package was sieved by an unknown user and we didn't load it yet";
+                tooltip.Content = typeof(QuadraticSieve).GetPluginStringResource("Relpack_unknown");
             }
             else if (uploaderID == -1)
             {
@@ -78,14 +81,14 @@ namespace Cryptool.Plugins.QuadraticSieve
                     root.Children.Insert(index, shape);
                 }
                 shape.Fill = Brushes.Black;
-                tooltip.Content = "This relation package got lost";
+                tooltip.Content = typeof(QuadraticSieve).GetPluginStringResource("Relpack_lost");
             }
             else
             {
                 shape.Fill = GetColor(uploaderID);
                 if (uploaderName == null)
-                    uploaderName = "other user";
-                tooltip.Content = "This relation package was sieved by " + uploaderName + " but we loaded it";
+                    uploaderName = typeof(QuadraticSieve).GetPluginStringResource("Relpack_other");
+                tooltip.Content = String.Format( typeof(QuadraticSieve).GetPluginStringResource("Relpack_loaded"), uploaderName );
             }            
             shape.ToolTip = tooltip;
         }

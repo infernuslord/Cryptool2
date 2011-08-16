@@ -189,4 +189,7 @@
   <data name="TooltipDesc" xml:space="preserve">
     <value>Tip: The keylength could be one of the most frequent factors or a multiple</value>
   </data>
+  <data name="Number_of_hits_for_the_corresponding_factor" xml:space="preserve">
+    <value>Number of hits for the corresponding factor</value>
+  </data>
 </root>

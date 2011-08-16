@@ -131,7 +131,7 @@ namespace Cryptool.Plugins.AutokorrelationFunction
                 ak = new double[cipher.Length];                     //initialise ak[]...there are n possible shifts where n is cipher.length
 
                 presentation.histogram.SetBackground(Brushes.Beige);              //sets the background colour for the quickwatch
-                presentation.histogram.SetHeadline("Autocorrelation matches");    //sets its title
+                presentation.histogram.SetHeadline( typeof(AutokorrelationFunction).GetPluginStringResource("Autocorrelation_matches") );    //sets its title
 
                 //-----------------------------------------------------------------------------------------------------------------
                 //Analyse----------------------------------------------------------------------------------------------------------
@@ -189,7 +189,8 @@ namespace Cryptool.Plugins.AutokorrelationFunction
                     }
                 }
 
-                presentation.histogram.SetHeadline("Highest match count " + probablekorr + " with shift: " + probablelength);
+                
+                presentation.histogram.SetHeadline( String.Format( typeof(AutokorrelationFunction).GetPluginStringResource("Highest_match_count_with_shift"), probablekorr, probablelength ));
 
                 if (data != null)
                 {

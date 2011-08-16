@@ -214,7 +214,9 @@ namespace Cryptool.CubeAttack.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Select the file you want to open.\nFile structure: superpoly cube-indexes output-bit\nExample: 1+x0+x5 2,6 1 ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Select the file you want to open.
+        ///File structure: superpoly cube-indexes output-bit
+        ///Example: 1+x0+x5 2,6 1 ähnelt.
         /// </summary>
         internal static string OpenFilenameTooltip {
             get {

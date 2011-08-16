@@ -113,9 +113,9 @@ namespace Cryptool.LFSR
                 {
                     int myPeriod = computePeriod();
                     if (myPeriod == ((int)Math.Pow(2.0, (double)seedbuffer.Length) - 1))
-                        settings.Period = "Period of LFSR: " + myPeriod.ToString() + " (max.)";
+                        settings.Period = typeof(LFSR).GetPluginStringResource("Period_of_LFSR") + ": " + myPeriod.ToString() + " (max.)";
                     else
-                        settings.Period = "Period of LFSR: " + myPeriod.ToString();
+                        settings.Period = typeof(LFSR).GetPluginStringResource("Period_of_LFSR") + ": " + myPeriod.ToString();
                     //GuiLogMessage("Period: " + myPeriod, NotificationLevel.Info, true);
                 }
                 catch (Exception) { }
@@ -390,7 +390,7 @@ namespace Cryptool.LFSR
 
         private string BuildPolynomialFromBinary(char [] tapSequence)
         {
-            string polynomial = "Feedback polynomial: \n";
+            string polynomial = typeof(LFSR).GetPluginStringResource("Feedback_polynomial") + ": \n";
             char[] tempTapSequence = ReverseOrder(tapSequence);
             int power;
 
@@ -658,9 +658,9 @@ namespace Cryptool.LFSR
                         preprocessLFSR(true);
                         int myPeriod = computePeriod();
                         if (myPeriod == ((int)Math.Pow(2.0, (double)seedbuffer.Length) - 1))
-                            settings.Period = "Period of LFSR: " + myPeriod.ToString() + " (max.)";
+                            settings.Period = typeof(LFSR).GetPluginStringResource("Period_of_LFSR") + ": " + myPeriod.ToString() + " (max.)";
                         else
-                            settings.Period = "Period of LFSR: " + myPeriod.ToString();
+                            settings.Period = typeof(LFSR).GetPluginStringResource("Period_of_LFSR") + ": " + myPeriod.ToString();
                     } catch (Exception) { }
                 }
                 

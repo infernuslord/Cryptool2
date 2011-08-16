@@ -53,7 +53,7 @@ namespace Cryptool.BooleanFunctionParser
       {
           Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
           {
-              labelMemoryBit.Content = "Memory Bit: " + value;
+              labelMemoryBit.Content = Properties.Resources.Memory_Bit + ": " + value;
           }, null);
       }
 

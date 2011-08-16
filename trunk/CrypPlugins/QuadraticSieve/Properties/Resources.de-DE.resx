@@ -168,4 +168,121 @@
   <data name="UsePeer2PeerTooltip" xml:space="preserve">
     <value>Wenn dieses Kontrollkästchen gesetzt ist, verbindet sich das Plugin mit dem Peer2Peer-Netzwerk, um die Faktorisierung auf mehrere Rechner zu verteilen.</value>
   </data>
+  <data name="Relpack_loaded" xml:space="preserve">
+    <value>Dieses Relationenpaket wurde von {0} gesiebt und wir haben es geladen.</value>
+  </data>
+  <data name="Relpack_lost" xml:space="preserve">
+    <value>Dieses Relationenpaket ist verloren gegangen.</value>
+  </data>
+  <data name="Relpack_other" xml:space="preserve">
+    <value>einem anderen Benutzer</value>
+  </data>
+  <data name="Relpack_unknown" xml:space="preserve">
+    <value>Dieses Relationenpaket wurde von einem unbekannten Benutzer gesiebt und wir haben es noch nicht geladen.</value>
+  </data>
+  <data name="Relpack_us" xml:space="preserve">
+    <value>Dieses Relationenpaket wurde von uns gesiebt.</value>
+  </data>
+  <data name="Active_Peers_" xml:space="preserve">
+    <value>Aktive Peers:</value>
+  </data>
+  <data name="Composite_Factor" xml:space="preserve">
+    <value>zusammengesetzter Faktor</value>
+  </data>
+  <data name="Cores_used_" xml:space="preserve">
+    <value>Verwendete CPUs:</value>
+  </data>
+  <data name="days" xml:space="preserve">
+    <value>Tage</value>
+  </data>
+  <data name="Downloaded_" xml:space="preserve">
+    <value>Heruntergeladen:</value>
+  </data>
+  <data name="Elapsed_" xml:space="preserve">
+    <value>Vergangen:</value>
+  </data>
+  <data name="End_" xml:space="preserve">
+    <value>Ende:</value>
+  </data>
+  <data name="Factorlist" xml:space="preserve">
+    <value>Faktorenliste</value>
+  </data>
+  <data name="Found_enough_relations" xml:space="preserve">
+    <value>Genügens Relationen gefunden! Bitte warten...</value>
+  </data>
+  <data name="Found_Relations_" xml:space="preserve">
+    <value>Gefundene Relationen:</value>
+  </data>
+  <data name="hours" xml:space="preserve">
+    <value>Stunden</value>
+  </data>
+  <data name="Information_" xml:space="preserve">
+    <value>Information:</value>
+  </data>
+  <data name="left" xml:space="preserve">
+    <value>verbleiben</value>
+  </data>
+  <data name="Local_Sieving_" xml:space="preserve">
+    <value>Lokales Sieben (nicht verbunden)</value>
+  </data>
+  <data name="minutes" xml:space="preserve">
+    <value>Minutes</value>
+  </data>
+  <data name="Needed_Relations_" xml:space="preserve">
+    <value>Benötigte Relationen:</value>
+  </data>
+  <data name="Now_sieving_first_composite_factor" xml:space="preserve">
+    <value>Sieben des ersten zusammengesetzten Faktors!</value>
+  </data>
+  <data name="Other_peer_finished_sieving" xml:space="preserve">
+    <value>Ein Peer hat das Sieben beendet!</value>
+  </data>
+  <data name="Peer2Peer" xml:space="preserve">
+    <value>Peer2Peer</value>
+  </data>
+  <data name="Prime_Factor" xml:space="preserve">
+    <value>Primfaktor</value>
+  </data>
+  <data name="Progress" xml:space="preserve">
+    <value>Fortschritt</value>
+  </data>
+  <data name="Queue_" xml:space="preserve">
+    <value>Warteschlange:</value>
+  </data>
+  <data name="Remaining_" xml:space="preserve">
+    <value>Verbleibend:</value>
+  </data>
+  <data name="Searching_trivial_factors" xml:space="preserve">
+    <value>Suche triviale Faktoren!</value>
+  </data>
+  <data name="seconds" xml:space="preserve">
+    <value>Sekunden</value>
+  </data>
+  <data name="seconds_left" xml:space="preserve">
+    <value>Sekunden verbleiben</value>
+  </data>
+  <data name="Sieving_finished" xml:space="preserve">
+    <value>Sieben beendet!</value>
+  </data>
+  <data name="Sieving_now" xml:space="preserve">
+    <value>Jetzt wird gesiebt!</value>
+  </data>
+  <data name="Starting_quadratic_sieve" xml:space="preserve">
+    <value>Quadratisches Sieb wird gestartet, bitte warten!</value>
+  </data>
+  <data name="Start_" xml:space="preserve">
+    <value>Beginn:</value>
+  </data>
+  <data name="Stopped_by_user" xml:space="preserve">
+    <value>Vom Benutzer gestoppt!</value>
+  </data>
+  <data name="Time" xml:space="preserve">
+    <value>Zeit</value>
+  </data>
+  <data name="Uploaded_" xml:space="preserve">
+    <value>Hochgeladen:</value>
+  </data>
+  <data name="very_soon" xml:space="preserve">
+    <value>sehr bald</value>
+  </data>
 </root>

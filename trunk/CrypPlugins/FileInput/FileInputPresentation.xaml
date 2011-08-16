@@ -25,21 +25,21 @@
     </Grid.RowDefinitions>
     <StackPanel Name="stackPanel1" Grid.Row="0" MinHeight="55" Background="Transparent">
       <Menu Height="22" Name="menu">
-        <MenuItem Header="File">
-          <MenuItem Header="Open" Click="Open_Click" />
-          <MenuItem Name="menuItemSave" Header="Save" Command="Save" />
-          <MenuItem Name="menuItemClose" Header="Close" Click="Close_Click" />
+        <MenuItem Header="{Loc File}">
+        <MenuItem Header="{Loc Open}" Click="Open_Click" />
+        <MenuItem Name="menuItemSave" Header="{Loc Save}" Command="Save" />
+        <MenuItem Name="menuItemClose" Header="{Loc Close}" Click="Close_Click" />
         </MenuItem>
-        <MenuItem Header="Edit">
-          <MenuItem Header="Cut" Command="fi:Commands.CutCommand" />
-          <MenuItem Header="Copy" Command="fi:Commands.CopyCommand" />
-          <MenuItem Header="Paste" Command="Paste" />
+        <MenuItem Header="{Loc Edit}">
+          <MenuItem Header="{Loc Cut}" Command="fi:Commands.CutCommand" />
+          <MenuItem Header="{Loc Copy}" Command="fi:Commands.CopyCommand" />
+          <MenuItem Header="{Loc Paste}" Command="Paste" />
           <Separator />
-          <MenuItem Header="Find" Command="Find"/>
-          <MenuItem Header="Find next" InputGestureText="F3" Command="fi:Commands.FindNextCommand" />          
+          <MenuItem Header="{Loc Find}" Command="Find"/>
+          <MenuItem Header="{Loc Find_next}" InputGestureText="F3" Command="fi:Commands.FindNextCommand" />          
         </MenuItem>
-        <MenuItem Header="Help">
-          <MenuItem Header="About" Click="About_Click"/>
+                <MenuItem Header="{Loc Help}">
+                    <MenuItem Header="{Loc About}" Click="About_Click"/>
         </MenuItem>
       </Menu>
 
@@ -81,28 +81,28 @@
                  StrokeLineJoin="Bevel"
                  Points="9.5,1.5 9.5,4.5 12.5,4.5" />
             </Canvas>
-          </Button>          
-          <Button Name="buttonSave" Command="Save">Save</Button>
+          </Button>
+          <Button Name="buttonSave" Command="Save" Content="{Loc Save}" />
           <Separator />
-          <Button Name="buttonCut" Command="fi:Commands.CutCommand">Cut</Button>
-          <Button Name="buttonCopy" Command="fi:Commands.CopyCommand">Copy</Button>
-          <Button Name="buttonPaste" Command="Paste">Paste</Button>
+                    <Button Name="buttonCut" Command="fi:Commands.CutCommand" Content="{Loc Cut}" />
+                    <Button Name="buttonCopy" Command="fi:Commands.CopyCommand" Content="{Loc Copy}" />
+                    <Button Name="buttonPaste" Command="Paste" Content="{Loc Paste}" />
           <!--<Button Name="buttonClose" Click="Close_Click">Close</Button>-->
         </ToolBar>
         <ToolBar>
-          <Label>Find:</Label>
+          <Label Content="{Loc Find_}"/>
           <TextBox Name="textBoxSearch" Width="100" Background="WhiteSmoke" BorderThickness="1" BorderBrush="Black" AllowDrop="True"></TextBox>
-          <Button Name="buttonFind" Command="Find">Search</Button>
-          <Button Name="buttonAbort" Command="fi:Commands.AbortCommand">Cancel</Button>
+                    <Button Name="buttonFind" Command="Find" Content="{Loc Search}" />
+                    <Button Name="buttonAbort" Command="fi:Commands.AbortCommand" Content="{Loc Cancel}" />
         </ToolBar>
         <ToolBar>
-          <ProgressBar Name="progressBar" ToolTip="Seach Progress" MinWidth="100"/>
+                    <ProgressBar Name="progressBar" ToolTip="{Loc Search_Progress}" MinWidth="100"/>
         </ToolBar>
       </ToolBarTray>
     </StackPanel>
 
     <DockPanel LastChildFill="True" Background="AliceBlue" Grid.Row="1">
-      <TextBlock Name="tbFileClosedWhileRunning" Text="File is closed while executing." Visibility="Collapsed"/>
+            <TextBlock Name="tbFileClosedWhileRunning" Text="{Loc File_is_closed_while_executing}" Visibility="Collapsed"/>
       <wi:WindowsFormsHost Name="windowsFormsHost">
         <wfuc:HexBoxContainer x:Name="uscHexBox" />
       </wi:WindowsFormsHost>

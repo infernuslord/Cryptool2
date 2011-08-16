@@ -27,43 +27,43 @@
     </Grid.RowDefinitions>
     <StackPanel Name="stackPanel1" Grid.Row="0" MinHeight="55" Background="Transparent">
       <Menu Height="22" Name="menu">
-        <MenuItem Header="File">          
-          <MenuItem Name="menuItemClose" Header="Close" Click="Close_Click" />
+        <MenuItem Header="{Loc File}">
+                    <MenuItem Name="menuItemClose" Header="{Loc Close}" Click="Close_Click" />
         </MenuItem>
-        <MenuItem Header="Edit">
-          <MenuItem Header="Cut" Command="fi:Commands.CutCommand" />
-          <MenuItem Header="Copy" Command="fi:Commands.CopyCommand" />
-          <MenuItem Header="Paste" Command="Paste" />
+                <MenuItem Header="{Loc Edit}">
+                    <MenuItem Header="{Loc Cut}" Command="fi:Commands.CutCommand" />
+                    <MenuItem Header="{Loc Copy}" Command="fi:Commands.CopyCommand" />
+                    <MenuItem Header="{Loc Paste}" Command="Paste" />
           <Separator />
-          <MenuItem Header="Find" Command="Find"/>
-          <MenuItem Header="Find next" InputGestureText="F3" Command="fi:Commands.FindNextCommand" />          
-        </MenuItem>        
-        <MenuItem Header="Help">
-          <MenuItem Header="About" Click="About_Click"/>
+                    <MenuItem Header="{Loc Find}" Command="Find"/>
+                    <MenuItem Header="{Loc Find_next}" InputGestureText="F3" Command="fi:Commands.FindNextCommand" />          
+        </MenuItem>
+                <MenuItem Header="{Loc Help}">
+                    <MenuItem Header="{Loc About}" Click="About_Click"/>
         </MenuItem>
       </Menu>
 
       <ToolBarTray Background="Transparent" Margin="0">
         <ToolBar>          
-          <Button Name="buttonSave" Command="Save">Save</Button>
+          <Button Name="buttonSave" Command="Save" Content="{Loc Save}" />
           <Separator />
-          <Button Name="buttonCut" Command="fi:Commands.CutCommand">Cut</Button>
-          <Button Name="buttonCopy" Command="fi:Commands.CopyCommand">Copy</Button>
-          <Button Name="buttonPaste" Command="Paste">Paste</Button>
+                    <Button Name="buttonCut" Command="fi:Commands.CutCommand" Content="{Loc Cut}" />
+                    <Button Name="buttonCopy" Command="fi:Commands.CopyCommand" Content="{Loc Copy}" />
+                    <Button Name="buttonPaste" Command="Paste" Content="{Loc Paste}" />
           <!--<Button Name="buttonClose" Click="Close_Click">Close</Button>-->
         </ToolBar>
         <ToolBar>
-          <Label>Find:</Label>
+          <Label Content="{Loc Find_}"/>
           <TextBox Name="textBoxSearch" Width="100" Background="WhiteSmoke" BorderThickness="1" BorderBrush="Black" AllowDrop="True"></TextBox>
-          <Button Name="buttonFind" Command="Find">Search</Button>
-          <Button Name="buttonAbort" Command="fi:Commands.AbortCommand">Cancel</Button>
+                    <Button Name="buttonFind" Command="Find" Content="{Loc Search}" />
+                    <Button Name="buttonAbort" Command="fi:Commands.AbortCommand" Content="{Loc Cancel}" />
         </ToolBar>
         <ToolBar>
-          <ProgressBar Name="progressBar" ToolTip="Search Progress" MinWidth="100"/>
+          <ProgressBar Name="progressBar" ToolTip="{Loc Search_Progress}" MinWidth="100"/>
         </ToolBar>
       </ToolBarTray>
       <StackPanel Orientation="Horizontal" Background="LightGray">
-        <TextBlock Text="Target filename: " VerticalAlignment="Center" Margin="0"/>
+        <TextBlock Text="{Loc Target_filename_}" VerticalAlignment="Center" Margin="0"/>
         <TextBlock Name="targetFile" VerticalAlignment="Center" Width="Auto" />                
       </StackPanel>
     </StackPanel>
@@ -74,9 +74,6 @@
       </wi:WindowsFormsHost>
     </DockPanel>
 
-    <TextBox Grid.Row="1" Name="textBoxNoFileMessage" IsReadOnly="True" TextWrapping="Wrap">
-      If you want to copy the input stream to a specific file, please select a target. 
-      If you do not select a target the input stream will just be displayed. (To open a file please use FileInput Plugin.)
-    </TextBox>
+        <TextBox Grid.Row="1" Name="textBoxNoFileMessage" IsReadOnly="True" TextWrapping="Wrap" Text="{Loc If_you_want_to_copy}" />
   </Grid>
 </UserControl>

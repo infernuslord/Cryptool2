@@ -124,6 +124,15 @@ namespace Cryptool.Alphabets.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Delete ähnelt.
+        /// </summary>
+        internal static string Delete {
+            get {
+                return ResourceManager.GetString("Delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Manage Alphabet ähnelt.
         /// </summary>
         internal static string Manage_Alphabet {

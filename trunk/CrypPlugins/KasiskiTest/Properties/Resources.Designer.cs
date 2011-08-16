@@ -169,6 +169,15 @@ namespace KasiskiTest.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Number of hits for the corresponding factor ähnelt.
+        /// </summary>
+        internal static string Number_of_hits_for_the_corresponding_factor {
+            get {
+                return ResourceManager.GetString("Number_of_hits_for_the_corresponding_factor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Kasiski&apos;s Test ähnelt.
         /// </summary>
         internal static string PluginCaption {

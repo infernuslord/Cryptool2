@@ -20,6 +20,7 @@ namespace VigenereAutokeyAnalyser
     /// <summary>
     /// Interaction logic for AutokeyPresentation.xaml
     /// </summary>
+    [Cryptool.PluginBase.Attributes.Localization("VigenereAutokeyAnalyser.Properties.Resources")]
     public partial class AutokeyPresentation : UserControl
     {
         public ObservableCollection<ResultEntry> entries = new ObservableCollection<ResultEntry>();

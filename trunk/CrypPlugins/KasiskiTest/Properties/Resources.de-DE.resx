@@ -189,4 +189,7 @@
   <data name="TooltipDesc" xml:space="preserve">
     <value>Hinweis: Die Schlüssellänge ist wahrscheinlich einer der am häufigsten auftretenden Faktoren oder ein Vielfaches davon.</value>
   </data>
+  <data name="Number_of_hits_for_the_corresponding_factor" xml:space="preserve">
+    <value>Anzahl der Treffer für den zugehörigen Faktor</value>
+  </data>
 </root>

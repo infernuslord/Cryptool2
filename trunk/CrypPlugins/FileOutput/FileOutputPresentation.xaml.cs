@@ -41,6 +41,7 @@ namespace FileOutput
   /// <summary>
   /// Interaction logic for UserControl1.xaml
   /// </summary>
+  [Cryptool.PluginBase.Attributes.Localization("FileOutput.Properties.Resources")]
   public partial class FileOutputPresentation : UserControl
   {
     // public string SelectedFile { get; set; }

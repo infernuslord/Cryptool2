@@ -99,7 +99,7 @@ namespace Cryptool.NLFSR
         }
 
         private bool noQuickwatch = false;
-        [ContextMenu( "NoQuickwatchCaption", "NoQuickwatchTooltip", 0, ContextMenuControlType.CheckBox, null, new string[] { "Display Quickwatch?" })]
+        [ContextMenu("NoQuickwatchCaption", "NoQuickwatchTooltip", 0, ContextMenuControlType.CheckBox, null, new string[] { "NoQuickwatchList1" })]
         [TaskPane( "NoQuickwatchCaption", "NoQuickwatchTooltip", null, 3, true, ControlType.CheckBox, "", null)]
         public bool NoQuickwatch
         {
@@ -113,7 +113,7 @@ namespace Cryptool.NLFSR
         }
 
         private bool saveCurrentState = false;
-        [ContextMenu( "SaveCurrentStateCaption", "SaveCurrentStateTooltip", 0, ContextMenuControlType.CheckBox, null, new string[] { "Save current state?" })]
+        [ContextMenu("SaveCurrentStateCaption", "SaveCurrentStateTooltip", 0, ContextMenuControlType.CheckBox, null, new string[] { "SaveCurrentStateList1" })]
         [TaskPane( "SaveCurrentStateCaption", "SaveCurrentStateTooltip", null, 3, true, ControlType.CheckBox, "", null)]
         public bool SaveCurrentState
         {
@@ -127,8 +127,8 @@ namespace Cryptool.NLFSR
         }
 
         private bool useClockingBit = false;
-        [ContextMenu( "UseClockingBitCaption", "UseClockingBitTooltip", 0, ContextMenuControlType.CheckBox, null, new string[] { "Generate additional output bit?" })]
-        [TaskPane( "UseClockingBitCaption", "UseClockingBitTooltip", "Additional Output Bit", 0, false, ControlType.CheckBox, "", null)]
+        [ContextMenu("UseClockingBitCaption", "UseClockingBitTooltip", 0, ContextMenuControlType.CheckBox, null, new string[] { "UseClockingBitList1" })]
+        [TaskPane("UseClockingBitCaption", "UseClockingBitTooltip", "ClockingBitGroup", 0, false, ControlType.CheckBox, "", null)]
         public bool UseClockingBit
         {
             get { return this.useClockingBit; }
@@ -145,7 +145,7 @@ namespace Cryptool.NLFSR
         }
         
         private int clockingBit = 0;
-        [TaskPane( "ClockingBitCaption", "ClockingBitTooltip", "Additional Output Bit", 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
+        [TaskPane("ClockingBitCaption", "ClockingBitTooltip", "ClockingBitGroup", 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
         public int ClockingBit
         {
             get { return this.clockingBit; }
@@ -158,8 +158,8 @@ namespace Cryptool.NLFSR
         }
 
         private bool useBoolClock = false;
-        [ContextMenu( "UseBoolClockCaption", "UseBoolClockTooltip", 0, ContextMenuControlType.CheckBox, null, new string[] { "Use Boolean clock?" })]
-        [TaskPane( "UseBoolClockCaption", "UseBoolClockTooltip", "Clock Properties", 0, false, ControlType.CheckBox, "", null)]
+        [ContextMenu("UseBoolClockCaption", "UseBoolClockTooltip", 0, ContextMenuControlType.CheckBox, null, new string[] { "UseBoolClockList1" })]
+        [TaskPane("UseBoolClockCaption", "UseBoolClockTooltip", "ClockGroup", 0, false, ControlType.CheckBox, "", null)]
         public bool UseBoolClock
         {
             get { return this.useBoolClock; }
@@ -176,8 +176,8 @@ namespace Cryptool.NLFSR
         }
 
         private bool alwaysCreateOutput = false;
-        [ContextMenu( "AlwaysCreateOutputCaption", "AlwaysCreateOutputTooltip", 1, ContextMenuControlType.CheckBox, null, new string[] { "Always generate output?" })]
-        [TaskPane( "AlwaysCreateOutputCaption", "AlwaysCreateOutputTooltip", "Clock Properties", 1, false, ControlType.CheckBox, "", null)]
+        [ContextMenu("AlwaysCreateOutputCaption", "AlwaysCreateOutputTooltip", 1, ContextMenuControlType.CheckBox, null, new string[] { "AlwaysCreateOutputList1" })]
+        [TaskPane("AlwaysCreateOutputCaption", "AlwaysCreateOutputTooltip", "ClockGroup", 1, false, ControlType.CheckBox, "", null)]
         public bool AlwaysCreateOutput
         {
             get { return this.alwaysCreateOutput; }

@@ -30,6 +30,7 @@ using System.Windows.Media.Media3D;
 using System.Windows.Media.Animation;
 using System.Reflection;
 using System.ComponentModel;
+using Cryptool.PluginBase;
 
 namespace Cryptool.PRESENT {
     class KS_Animation {
@@ -68,7 +69,7 @@ namespace Cryptool.PRESENT {
 
         private string resumeName = "";
         private bool pause = true;
-        private string[] steps = new string[4] { "Key Shift", "S-Box", "Roundcounter XOR", "Key Extraction" };
+        private string[] steps = new string[4] { "Key_Shift", "S_Box", "Roundcounter_XOR", "Key_Extraction" };
 
         private SolidColorBrush tb = new SolidColorBrush();
         private DoubleAnimation ta;
@@ -119,7 +120,7 @@ namespace Cryptool.PRESENT {
                 mdl3D_roundkey[r].Transform = new TranslateTransform3D(pos.X, pos.Y, pos.Z);
             }
             parent.lbl_KS_Round.Content = String.Format("{0:d2}", c_round);
-            parent.lbl_KS_Step.Content = steps[c_step];
+            parent.lbl_KS_Step.Content = typeof(PRESENT).GetPluginStringResource(steps[c_step]);
             resumeName = String.Format("Start_{0:d1}", c_step);
         }
 
@@ -127,8 +128,8 @@ namespace Cryptool.PRESENT {
             c_round = 0; c_group = 0; c_step = 3;
             resumeName = "Start_3";
             PositionInit();
-            parent.lbl_KS_Text.Content = String.Format("Key Schedule : Key = 0x{0:x16}{1:x4}", parent.cipher.KeyRegs[0, 1, 2], parent.cipher.KeyRegs[0, 0, 2]);
-            parent.lbl_KS_Step.Content = steps[c_step];
+            parent.lbl_KS_Text.Content = String.Format( Properties.Resources.Key_Schedule_, parent.cipher.KeyRegs[0, 1, 2], parent.cipher.KeyRegs[0, 0, 2]);
+            parent.lbl_KS_Step.Content = typeof(PRESENT).GetPluginStringResource( steps[c_step] );
             pause = true;
         }
 
@@ -397,9 +398,9 @@ namespace Cryptool.PRESENT {
         #region Key Shift
 
         private void KeyShift() {
-            c_step = 0; 
-            parent.lbl_KS_Text.Content = String.Format("rotate key register 61 positions to the left (0x{0:x16} {1:x4} -> 0x{2:x16} {3:x4})", parent.cipher.KeyRegs[c_round, 1, 0], parent.cipher.KeyRegs[c_round, 0, 0], parent.cipher.KeyRegs[c_round, 1, 1], parent.cipher.KeyRegs[c_round, 0, 1]);
-            parent.lbl_KS_Step.Content = steps[c_step];
+            c_step = 0;
+            parent.lbl_KS_Text.Content = String.Format( Properties.Resources.rotate_key_register_61, parent.cipher.KeyRegs[c_round, 1, 0], parent.cipher.KeyRegs[c_round, 0, 0], parent.cipher.KeyRegs[c_round, 1, 1], parent.cipher.KeyRegs[c_round, 0, 1]);
+            parent.lbl_KS_Step.Content = typeof(PRESENT).GetPluginStringResource(steps[c_step]);
 
             double a, b, r = 6, h = -1.5;
             RoundCosDoubleAnimation rax = null;
@@ -435,8 +436,8 @@ namespace Cryptool.PRESENT {
             c_step = 1;
             int x = (int)(parent.cipher.KeyRegs[c_round, 1, 1] >> 60) & 0x0f;
             int r = (int)(parent.cipher.KeyRegs[c_round, 1, 2] >> 60) & 0x0f;
-            parent.lbl_KS_Text.Content = String.Format("passing leftmost 4 bits through S-box ({0} -> {1})", Int2BinaryString(x, 4), Int2BinaryString(r, 4));
-            parent.lbl_KS_Step.Content = steps[c_step];
+            parent.lbl_KS_Text.Content = String.Format(Properties.Resources.passing_leftmost_4_bits, Int2BinaryString(x, 4), Int2BinaryString(r, 4));
+            parent.lbl_KS_Step.Content = typeof(PRESENT).GetPluginStringResource(steps[c_step]);
             KeySboxExtract();
         }
 
@@ -497,12 +498,12 @@ namespace Cryptool.PRESENT {
         #region Add RoundCounter
         private void KeyCounterAdd() {
             c_step = 2;
-            parent.lbl_KS_Step.Content = steps[c_step];
+            parent.lbl_KS_Step.Content = typeof(PRESENT).GetPluginStringResource(steps[c_step]);
             int a, b, r, x;
             a = (int)(parent.cipher.KeyRegs[c_round, 1, 3] & 0xf) << 1;
             b = (int)(parent.cipher.KeyRegs[c_round, 0, 3] >> 15) & 1;
             r = a ^ b;
-            parent.lbl_KS_Text.Content = String.Format("xor round counter with key register : {0} XOR {1} = {2}", Int2BinaryString(a, 5), Int2BinaryString(b, 5), Int2BinaryString(r, 5));
+            parent.lbl_KS_Text.Content = String.Format(Properties.Resources.xor_round_counter, Int2BinaryString(a, 5), Int2BinaryString(b, 5), Int2BinaryString(r, 5));
             TranslateTransform3D tt = new TranslateTransform3D();
             for (int i = 0; i < 5; i++) {
                 x = (r >> i) & 1;
@@ -537,8 +538,8 @@ namespace Cryptool.PRESENT {
 
         void KeyGetRoundKeyPrepare() {
             c_step = 3;
-            parent.lbl_KS_Text.Content = String.Format("picking the 64 left-most bits as roundkey {0} (0x{1:x16})", c_round, parent.cipher.RoundKeys[c_round]);
-            parent.lbl_KS_Step.Content = steps[3];
+            parent.lbl_KS_Text.Content = String.Format(Properties.Resources.picking_the_64_left_most_bits, c_round, parent.cipher.RoundKeys[c_round]);
+            parent.lbl_KS_Step.Content = typeof(PRESENT).GetPluginStringResource(steps[3]);
             Color_Ring(c_round, 3, 0); //Set Ring to Color Index 0
             DoubleAnimation oa = new DoubleAnimation() { Duration = new Duration(TimeSpan.FromSeconds(0.5)), To = opacity_low, SpeedRatio = parent.sld_KS_Speed.Value };
             DoubleAnimation ob = new DoubleAnimation() { Duration = new Duration(TimeSpan.FromSeconds(0.5)), To = opacity_low, SpeedRatio = parent.sld_KS_Speed.Value };
@@ -622,8 +623,8 @@ namespace Cryptool.PRESENT {
             parent.KS_Cam.BeginAnimation(PerspectiveCamera.LookDirectionProperty, va);
             brush[0, 0].BeginAnimation(Brush.OpacityProperty, da);
             brush[1, 0].BeginAnimation(Brush.OpacityProperty, da);
-            parent.lbl_KS_Text.Content = "Finished generating 32 roundkeys";
-            parent.lbl_KS_Step.Content = "Finished";
+            parent.lbl_KS_Text.Content = Properties.Resources.Finished_generating_32_roundkeys;
+            parent.lbl_KS_Step.Content = Properties.Resources.Finished;
         }
 
         private Point3D GetRoundKeyPosition(int r) {

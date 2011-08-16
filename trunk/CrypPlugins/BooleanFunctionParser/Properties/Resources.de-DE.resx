@@ -177,4 +177,7 @@
   <data name="LabelSecretKey" xml:space="preserve">
     <value>Geheimer Schlüssel:</value>
   </data>
+  <data name="Memory_Bit" xml:space="preserve">
+    <value>Speicherbit</value>
+  </data>
 </root>

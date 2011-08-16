@@ -156,4 +156,10 @@
   <data name="ActionList2" xml:space="preserve">
     <value>ARP-Request-Pakete</value>
   </data>
+  <data name="ARP_packet" xml:space="preserve">
+    <value>ARP-Paket</value>
+  </data>
+  <data name="IP_packet" xml:space="preserve">
+    <value>IP-Paket</value>
+  </data>
 </root>
