@@ -195,13 +195,13 @@ namespace WorkspaceManager.View.BinVisual
         }
 
         public static readonly DependencyProperty CVLevelProperty = DependencyProperty.Register("CVLevel",
-            typeof(ConversionLevel), typeof(BinConnectorVisual), new FrameworkPropertyMetadata(null));
+            typeof(ConversionLevelInformation), typeof(BinConnectorVisual), new FrameworkPropertyMetadata(null));
 
-        public ConversionLevel CVLevel
+        public ConversionLevelInformation CVLevel
         {
             get
             {
-                return (ConversionLevel)base.GetValue(CVLevelProperty);
+                return (ConversionLevelInformation)base.GetValue(CVLevelProperty);
             }
             set
             {
@@ -226,7 +226,10 @@ namespace WorkspaceManager.View.BinVisual
             if (selected == null)
                 return;
 
-            bin.CVLevel = Util.ConversionCheck(bin.Model.ConnectorType, bin.WindowParent.EditorVisual.SelectedConnector.Model.ConnectorType);
+            if (selected.Equals(bin))
+                bin.CVLevel = null;
+            else
+                bin.CVLevel = Util.ConversionCheck(bin.Model, bin.WindowParent.EditorVisual.SelectedConnector.Model);
         }
 
         private static void OnMyValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -303,6 +306,35 @@ namespace WorkspaceManager.View.BinVisual
                 return;
 
             ToolTip.IsOpen = false;
+        }
+    }
+
+    public class ConversionLevelInformation
+    {
+        public ConversionLevel Level { get; set; }
+        public Type SourceType { get; set; }
+        public Type TargetType { get; set; }
+
+        public string SourceTypeString
+        { 
+            get
+            {
+                if(SourceType == null)
+                    return string.Empty;
+
+                return SourceType.Name;
+            }
+        }
+
+        public string TargetTypeName
+        {
+            get
+            {
+                if (TargetType == null)
+                    return string.Empty;
+
+                return TargetType.Name;
+            }
         }
     }
 

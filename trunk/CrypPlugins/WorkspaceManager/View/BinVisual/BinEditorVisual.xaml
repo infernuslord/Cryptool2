@@ -95,6 +95,8 @@
         <!--##########Bottom Operations##########-->
         <visuals:BottomBox AddText="AddTextHandler" AddImage="AddImageHandler" FitToScreen="FitToScreenHandler" Overview="OverviewHandler" Sort="SortHandler"
                            Grid.Row="1" Grid.Column="0"></visuals:BottomBox>
+
+        <visuals:TextEditPanel Grid.RowSpan="3"  Grid.Column="0"></visuals:TextEditPanel>
         <!--##########/Bottom Operations##########-->
     </Grid>
 </UserControl>

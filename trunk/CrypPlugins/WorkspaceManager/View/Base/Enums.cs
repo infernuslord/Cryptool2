@@ -23,7 +23,8 @@ namespace WorkspaceManager.View.Base
     {
         Red,
         Yellow,
-        Green
+        Green,
+        NA
     };
 
     public enum BinEditorState

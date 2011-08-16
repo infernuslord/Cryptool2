@@ -18,6 +18,33 @@
             </GradientBrush.GradientStops>
         </LinearGradientBrush>
 
+        <LinearGradientBrush x:Key="BackgroundWarning" StartPoint="0,0" EndPoint="0,1">
+            <GradientBrush.GradientStops>
+                <GradientStopCollection>
+                    <GradientStop Color="#55f9d506" Offset="0.0"/>
+                    <GradientStop Color="#55d2a02d" Offset="1.0"/>
+                </GradientStopCollection>
+            </GradientBrush.GradientStops>
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="BackgroundOK" StartPoint="0,0" EndPoint="0,1">
+            <GradientBrush.GradientStops>
+                <GradientStopCollection>
+                    <GradientStop Color="#557de409" Offset="0.0"/>
+                    <GradientStop Color="#55506c30" Offset="1.0"/>
+                </GradientStopCollection>
+            </GradientBrush.GradientStops>
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="BackgroundError" StartPoint="0,0" EndPoint="0,1">
+            <GradientBrush.GradientStops>
+                <GradientStopCollection>
+                    <GradientStop Color="#55e50909" Offset="0.0"/>
+                    <GradientStop Color="#556c3030" Offset="1.0"/>
+                </GradientStopCollection>
+            </GradientBrush.GradientStops>
+        </LinearGradientBrush>
+
         <Style TargetType="{x:Type Border}" x:Key="BorderStyle">
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="true">
@@ -130,8 +157,57 @@
             </Grid>
         </Border>
 
+        <Style x:Key="LinkingGridBG" TargetType="Grid">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=CVLevel.Level}">
+                    <DataTrigger.Value>
+                        <base:ConversionLevel>Yellow</base:ConversionLevel>
+                    </DataTrigger.Value>
+                    <Setter Property="Background" Value="{StaticResource ResourceKey=BackgroundWarning}"></Setter>
+                    <Setter Property="Tag" Value="/WorkspaceManager;component/View/Image/warn01.png"></Setter>
+                </DataTrigger>
+
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding Path=WindowParent.EditorVisual.IsLinking}" Value="True"></Condition>
+                        <Condition Binding="{Binding Path=Marked}" Value="False"></Condition>
+                    </MultiDataTrigger.Conditions>
+                    <Setter Property="Background" Value="{StaticResource ResourceKey=BackgroundError}"></Setter>
+                    <Setter Property="Tag" Value="/WorkspaceManager;component/View/Image/error01.png"></Setter>
+                </MultiDataTrigger>
+
+                <DataTrigger Binding="{Binding Path=CVLevel.Level}">
+                    <DataTrigger.Value>
+                        <base:ConversionLevel>Green</base:ConversionLevel>
+                    </DataTrigger.Value>
+                    <Setter Property="Background" Value="{StaticResource ResourceKey=BackgroundOK}"></Setter>
+                    <Setter Property="Tag" Value="/WorkspaceManager;component/View/Image/ok01.png"></Setter>
+                </DataTrigger>
+            </Style.Triggers>
+            
+        </Style>
+        
         <Border x:Key="LinkingTooltipTemplate" BorderBrush="White" BorderThickness="1.5" Width="200" Height="200" CornerRadius="3" Margin="2" Background="#edf5ff">
-            <Rectangle Fill="Black"></Rectangle>
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="5" Opacity="0.5" ShadowDepth="0"></DropShadowEffect>
+            </Border.Effect>
+            <Grid x:Name="BGRoot" Style="{StaticResource ResourceKey=LinkingGridBG}" Margin="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="54"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                    
+                <StackPanel HorizontalAlignment="Left">
+                    <Image Height="50" Width="50" Margin="2" Source="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid}, Path=Tag}">
+                        <Image.Effect>
+                            <DropShadowEffect ShadowDepth="0" BlurRadius="2" Opacity="0.5"></DropShadowEffect>
+                        </Image.Effect>
+                    </Image>
+                    <TextBlock Text="Place Holder" FontSize="18" FontFamily="DejaVu Serif" FontWeight="Bold"></TextBlock>
+                </StackPanel>
+
+                <TextBlock Grid.Row="1" TextWrapping="Wrap" Text="Warning OK Error Warning OK Error Warning OK Error Warning OK Error"></TextBlock>
+            </Grid>
         </Border>
 
         <StackPanel x:Key="Out" Orientation="Horizontal" HorizontalAlignment="Center">
@@ -189,14 +265,14 @@
                                 </BeginStoryboard>
                             </DataTrigger.ExitActions>
                         </DataTrigger>
-                        <DataTrigger Binding="{Binding Path=CVLevel}">
+                        <DataTrigger Binding="{Binding Path=CVLevel.Level}">
                             <DataTrigger.Value>
                                 <base:ConversionLevel>Green</base:ConversionLevel>
                             </DataTrigger.Value>
                             <Setter Property="Stroke" Value="Green"></Setter>
                         </DataTrigger>
-                        
-                        <DataTrigger Binding="{Binding Path=CVLevel}">
+
+                        <DataTrigger Binding="{Binding Path=CVLevel.Level}">
                             <DataTrigger.Value>
                                 <base:ConversionLevel>Yellow</base:ConversionLevel>
                             </DataTrigger.Value>
@@ -259,11 +335,39 @@
             <Popup.Style>
                 <Style TargetType="Popup">
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding Path=WindowParent.EditorVisual.IsLinking}" Value="True">
+
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding Path=WindowParent.EditorVisual.IsLinking}" Value="True"></Condition>
+                                <Condition Binding="{Binding Path=CVLevel}" Value="{x:Null}"></Condition>
+                                <Condition Binding="{Binding Path=Marked}" Value="True"></Condition>
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="Child" Value="{StaticResource ResourceKey= NormalTooltipTemplate}"></Setter>
+                        </MultiDataTrigger>
+
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding Path=WindowParent.EditorVisual.IsLinking}" Value="True"></Condition>
+                                <Condition Binding="{Binding Path=Marked}" Value="True"></Condition>
+                            </MultiDataTrigger.Conditions>
                             <Setter Property="Child" Value="{StaticResource ResourceKey= LinkingTooltipTemplate}"></Setter>
-                        </DataTrigger>
+                        </MultiDataTrigger>
+
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding Path=WindowParent.EditorVisual.IsLinking}" Value="False"></Condition>
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="Child" Value="{StaticResource ResourceKey= NormalTooltipTemplate}"></Setter>
+                        </MultiDataTrigger>
+
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding Path=WindowParent.EditorVisual.IsLinking}" Value="True"></Condition>
+                                <Condition Binding="{Binding Path=Marked}" Value="False"></Condition>
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="Child" Value="{StaticResource ResourceKey= NormalTooltipTemplate}"></Setter>
+                        </MultiDataTrigger>
                     </Style.Triggers>
-                    <Setter Property="Child" Value="{StaticResource ResourceKey= NormalTooltipTemplate}"></Setter>
                 </Style>
             </Popup.Style>
         </Popup>

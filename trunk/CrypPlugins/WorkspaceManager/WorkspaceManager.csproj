@@ -99,9 +99,6 @@
     <Compile Include="View\BinVisual\BinLogNotifier.xaml.cs">
       <DependentUpon>BinLogNotifier.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\BinVisual\BinTextEditor.xaml.cs">
-      <DependentUpon>BinTextEditor.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\BinVisual\BinTextVisual.xaml.cs">
       <DependentUpon>BinTextVisual.xaml</DependentUpon>
     </Compile>
@@ -119,6 +116,9 @@
     </Compile>
     <Compile Include="View\BinVisual\IControlVisual\Slot.xaml.cs">
       <DependentUpon>Slot.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\VisualComponents\TextEditPanel.xaml.cs">
+      <DependentUpon>TextEditPanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\VisualComponents\ColorPickPopUp.xaml.cs">
       <SubType>Code</SubType>
@@ -211,10 +211,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\BinVisual\BinTextEditor.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="View\BinVisual\BinTextVisual.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -236,6 +232,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\BinVisual\IControlVisual\Slot.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\VisualComponents\TextEditPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -387,6 +387,11 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="View\Image\thunder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="View\Image\error01.png" />
+    <Resource Include="View\Image\ok01.png" />
+    <Resource Include="View\Image\warn01.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

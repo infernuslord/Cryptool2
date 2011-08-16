@@ -686,21 +686,24 @@ namespace WorkspaceManager.View.BinVisual
 
             if (State == BinComponentState.Min)
             {
-                if ((Window.ActualHeight + e.VerticalChange >= 200 + 10) && (Window.ActualWidth + e.HorizontalChange >= 300 + 10))
+                if ((Window.ActualHeight + e.VerticalChange >= Window.MinHeight + 15) && (Window.ActualWidth + e.HorizontalChange >= Window.MinHeight + 15))
                 {
+                    Model.WorkspaceModel.ModifyModel(new ResizeModelElementOperation(Model, 300, 200));
                     State = LastState;
                 }
                 else
                 { return; }
             }
 
-            if ((Window.ActualHeight + e.VerticalChange >= Window.MinHeight - 10) && (Window.ActualWidth + e.HorizontalChange >= Window.MinWidth - 10))
+            if ((Window.ActualHeight + e.VerticalChange <= 80 - 15) && (Window.ActualWidth + e.HorizontalChange <= 80 - 15))
+            {
+                State = BinComponentState.Min;
+            }
+            else
             {
                 WindowHeight += e.VerticalChange;
                 WindowWidth += e.HorizontalChange;
             }
-            else
-            { State = BinComponentState.Min; }
 
             Model.WorkspaceModel.ModifyModel(new ResizeModelElementOperation(Model, WindowWidth, WindowHeight));
             e.Handled = true;
