@@ -533,6 +533,10 @@ namespace KeySearcher
                     WaitForNewPattern(patterns, threadid, threadStack);
                 }
             }
+            catch (Exception ex)
+            {
+                GuiLogMessage(string.Format("Error while trying to bruteforce: {0}", ex.Message), NotificationLevel.Error);
+            }
             finally
             {
                 sender.Dispose();
