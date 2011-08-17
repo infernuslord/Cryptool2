@@ -47,10 +47,10 @@ namespace KeySearcher
             MachNameToUse = MachineName.MachineNameToUse;
             Resources.Add("settingsStyle", settingsStyle);
             InitializeComponent();
-
-            Properties.Settings.Default.PropertyChanged += delegate
+            
+            Cryptool.PluginBase.Properties.Settings.Default.PropertyChanged += delegate
                                                                {
-                                                                   Properties.Settings.Default.Save();
+                                                                   Cryptool.PluginBase.Properties.Settings.Default.Save();
                                                                };
 
             for (int i = 0; i <= _realMachName.Length; i++)
