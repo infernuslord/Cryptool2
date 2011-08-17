@@ -4,24 +4,105 @@
   <language culture="en"/>
   <language culture="de-DE"/>
 
-  <introduction lang="en">    
+  <introduction lang="en">
+    In logic, a logical connective (also called a logical operator) is a symbol or word used to connect two or more sentences
+    (of either a formal or a natural language) in a grammatically valid way, such that the compound sentence produced has a truth
+    value dependent on the respective truth values of the original sentences. (Source: <external ref="http://en.wikipedia.org/wiki/Logical_connective"/>)
   </introduction>
 
-  <introduction lang="de-DE">    
+  <introduction lang="de-DE">
+    Ein Boolescher Operator (englisch Boolean operator, benannt nach George Boole) ist ein logischer Operator, der auf
+    einer Verknüpfung aus der Booleschen Algebra beruht. Boolesche Operatoren sind damit Verknüpfungen beziehungsweise
+    Ausdrücke wie UND (Konjunktion), ODER (Disjunktion), NICHT (Negation) und XOR (ausschließendes ODER). Wichtige Operatoren
+    in der Digitaltechnik sind auch NAND und NOR. (Quelle: <external ref="http://de.wikipedia.org/wiki/Boolescher_Operator"/>)
   </introduction>
 
   <usage lang="en">
+    Cryptool contains a lot of functions which enable the user to work with boolean algebra. The easiest way to enter a boolean
+    value ("true"/"false") is the boolean input. Using a setting the user may select if the input outputs "true" or "false". To
+    connect boolean values in cryptool there exists a boolean binary operator who gets two boolean inputs and returns one boolean
+    output based on these. The operator may act as one of the following operations: AND, OR, NAND, NOR, XOR.
+    The operators work as followed:
+    <list>
+      <item>
+        <b>UND:</b>
+        Operator returns "true" if both inputs are "true"
+      </item>
+      <item>
+        <b>ODER:</b>
+        Operator returns "true" if at least one input is "true"
+      </item>
+      <item>
+        <b>NAND:</b>
+        Operator returns "true" if both inputs are "false"
+      </item>
+      <item>
+        <b>NOR:</b>
+        Operator returns "false" if at least one input is "false"
+      </item>
+      <item>
+        <b>XOR:</b>
+        Operator returns "true" if exactly only one input is "true"
+      </item>
+    </list>
+    To display a boolean value cryptool has the "Boolean Output".
+    Boolean values can be inverted using the "Boolean Not Operator" ("true" becomes "false" - "false" becomes "true").    
+    The "Boolean If-Else Operator" returns at one output "true" and the other "false" if its input is "true".
   </usage>
 
   <usage lang="de-DE">
+    Cryptool verfügt über eine Reihe von Funktionen, die die Arbeit mit booleschen Operatoren bzw boolscher Algebra ermöglichen. Als
+    einfache Eingabemöglichkeit eines Wahrheitswertes ("Wahr"/"Falsch") gibt es die "Boolesche Eingabe". Mittels Einstellung kann der
+    Benutzer wählen, ob "Wahr" oder "Falsch" ausgegeben werden soll. Um Wahrheitswerte miteinander zu verknüpfen gibt es denn
+    "Booleschen Binären Operator", der als Eingabe zwei Boolsche Werte entegennimmt und aus diesen seinen Ausgabewert bestimmt.
+    Der Operator kann als einer der folgenden Booleschen Operatoren fungieren: UND, ODER, NAND, NOR, XOR.
+    Die Operatoren verhalten sich wie folgt:
+    <list>
+      <item>
+        <b>UND:</b> 
+        Operator gibt "Wahr" aus, wenn beide Eingaben "Wahr" sind
+      </item>
+      <item>
+        <b>ODER:</b> 
+        Operator gibt "Wahr" aus, wenn mindestens einer der beiden Eingaben "Wahr" ist
+      </item>
+      <item>
+        <b>NAND:</b> 
+        Operator gibt "Wahr" aus, wenn beide Eingaben "Falsch" sind
+      </item>
+      <item>
+        <b>NOR:</b> 
+        Operator gibt "Falsch" aus, wenn mindestens einer der beiden Eingaben "Falsch" ist
+      </item>
+      <item>
+        <b>XOR:</b> 
+        Operator gibt "Wahr" aus, wenn genau einer der beiden Eingaben "Wahr" ist
+      </item>
+    </list>
+    Um einen Ausgabewahrheitswert darzustellen verfügt Cryptool über die "Boolsche Ausgabe".
+    Wahrheitswerte können mittels "Booleschem Nicht Operator" invertiert werden (aus "Wahr" wird "Flasch" - aus "Falsch" wird "Wahr").
+    Der "Wenn-Dann Operator" gibt beim einen Ausgang "Wahr" und beim zweiten Ausgang "Falsch" aus, wenn sein Eingang "Wahr" ist. Ansonsten genau andersrum.
   </usage>
-  
+
   <presentation lang="en">
+    The "Boolean Input" and the "Boolean Output" show their values using a lamp (green="true", red="false"). The "Boolean Input" has 
+    a visualization. A button can be pressed to switch the boolean value between "true" and "false". The "Boolean Binary Operator" shows 
+    the selected operator using symbols.
   </presentation>
-  
+
   <presentation lang="de-DE">
+    Sowohl die "Boolesche Eingabe" als auch die "Boolesche Ausgabe" zeigen ihren aktuellen Wahrheitswert mittels einer Glühlampe an
+    (Grün="Wahr", Rot="Falsch"). Die "Boolesche Eingabe" verfügt außerdem über eine Visualisierung. Mittels eines Buttons kann der
+    Wahrheitswert zur Laufzeit umgeschaltet werden. Der "Binäre Boolesche Operator" zeigt seine aktuell eingestellte Operation mittels
+    Symbolen an.
   </presentation>
   
   <references>
+    <linkReference>
+      <link lang="en" url="http://en.wikipedia.org/wiki/Boolean_algebra_%28structure%29"/>
+      <caption lang="en">Boolean Algebra</caption>
+      <link lang="de-DE" url="http://de.wikipedia.org/wiki/Boolesche_Algebra"/>
+      <caption lang="de-DE">Boolsche Algebra</caption>
+    </linkReference>
   </references>
 </documentation>

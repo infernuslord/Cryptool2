@@ -124,7 +124,7 @@
     <value>Binärer boolescher Operator</value>
   </data>
   <data name="PluginDescriptionURL" xml:space="preserve">
-    <value>BooleanOperators/DetailedDescription/Description.xaml</value>
+    <value>BooleanOperators/DetailedDescription/doc.xml</value>
   </data>
   <data name="PluginBIE_Caption" xml:space="preserve">
     <value>Boolescher Wenn-Dann-Operator</value>
