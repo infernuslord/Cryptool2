@@ -38,7 +38,7 @@
     <Border BorderBrush="#999999" BorderThickness="1.5" Background="{StaticResource NormalBrush}">
         <StackPanel Name="root" Orientation="Vertical">
             <StackPanel Orientation="Horizontal">
-                <Label Foreground="WhiteSmoke" Padding="6" Content="Colors" DockPanel.Dock="Left" FontSize="14" FontWeight="Bold"/>
+                <Label Foreground="WhiteSmoke" Padding="6" Content="{Loc Colors}" DockPanel.Dock="Left" FontSize="14" FontWeight="Bold"/>
             </StackPanel>
         </StackPanel>
     </Border>

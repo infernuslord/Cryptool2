@@ -99,7 +99,7 @@
                                 <RowDefinition Height="30"/>
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
-                            <TextBlock Text="Component Overview" FontSize="14" FontWeight="Bold" 
+                            <TextBlock Text="{Loc Component_Overview}" FontSize="14" FontWeight="Bold" 
                                        Foreground="#444" Margin="5" Grid.Row="0"></TextBlock>
                             <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" HorizontalContentAlignment="Stretch" Grid.Row="1">
                                 <ItemsPresenter/>

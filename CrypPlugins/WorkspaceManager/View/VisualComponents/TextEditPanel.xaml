@@ -38,60 +38,60 @@
     <DockPanel LastChildFill="True">
         <ToolBar Foreground="Black" Name="mainToolBar" Background="{StaticResource ResourceKey=BlueRadientBrush}" BorderBrush="#666" BorderThickness="1" Height="37" DockPanel.Dock="Top">
 
-            <Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Cut" ToolTip="Cut">
+            <Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Cut" ToolTip="{Loc Cut}">
                 <Image Source="/WorkspaceManager;component/View/Image/EditCut.png"></Image>
             </Button>
-            <Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Copy" ToolTip="Copy">
+            <Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Copy" ToolTip="{Loc Copy}">
                 <Image Source="/WorkspaceManager;component/View/Image/EditCopy.png"></Image>
             </Button>
-            <Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Paste" ToolTip="Paste">
+            <Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Paste" ToolTip="{Loc Paste}">
                 <Image Source="/WorkspaceManager;component/View/Image/EditPaste.png"></Image>
             </Button>
-            <Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Undo" ToolTip="Undo">
+            <Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Undo" ToolTip="{Loc Undo}">
                 <Image Source="/WorkspaceManager;component/View/Image/EditUndo.png"></Image>
             </Button>
-            <Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Redo" ToolTip="Redo">
+            <Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Redo" ToolTip="{Loc Redo}">
                 <Image Source="/WorkspaceManager;component/View/Image/EditRedo.png"></Image>
             </Button>
 
-            <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.ToggleBold" ToolTip="Bold">
+            <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.ToggleBold" ToolTip="{Loc Bold}">
                 <TextBlock FontWeight="Bold">B</TextBlock>
             </Button>
-            <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.ToggleItalic" ToolTip="Italic">
+            <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.ToggleItalic" ToolTip="{Loc Italic}">
                 <TextBlock FontStyle="Italic" FontWeight="Bold">I</TextBlock>
             </Button>
-            <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.ToggleUnderline" ToolTip="Underline">
+            <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.ToggleUnderline" ToolTip="{Loc Underline}">
                 <TextBlock TextDecorations="Underline" FontWeight="Bold">U</TextBlock>
             </Button>
-            <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.IncreaseFontSize" ToolTip="Grow Font">
+            <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.IncreaseFontSize" ToolTip="{Loc Grow_Font}">
                 <Image Source="/WorkspaceManager;component/View/Image/CharacterGrowFont.png"></Image>
             </Button>
-            <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.DecreaseFontSize" ToolTip="Shrink Font">
+            <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.DecreaseFontSize" ToolTip="{Loc Shrink_Font}">
                 <Image Source="/WorkspaceManager;component/View/Image/CharacterShrinkFont.png"></Image>
             </Button>
 
-            <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.ToggleBullets" ToolTip="Bullets">
+            <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.ToggleBullets" ToolTip="{Loc Bullets}">
                 <Image Source="/WorkspaceManager;component/View/Image/ListBullets.png"></Image>
             </Button>
-            <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.ToggleNumbering" ToolTip="Numbering">
+            <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.ToggleNumbering" ToolTip="{Loc Numbering}">
                 <Image Source="/WorkspaceManager;component/View/Image/ListNumbering.png"></Image>
             </Button>
-            <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.AlignLeft" ToolTip="Align Left">
+            <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.AlignLeft" ToolTip="{Loc Align_Left}">
                 <Image Source="/WorkspaceManager;component/View/Image/ParagraphLeftJustify.png"></Image>
             </Button>
-            <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.AlignCenter" ToolTip="Align Center">
+            <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.AlignCenter" ToolTip="{Loc Align_Center}">
                 <Image Source="/WorkspaceManager;component/View/Image/ParagraphCenterJustify.png"></Image>
             </Button>
-            <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.AlignRight" ToolTip="Align Right">
+            <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.AlignRight" ToolTip="{Loc Align_Right}">
                 <Image Source="/WorkspaceManager;component/View/Image/ParagraphRightJustify.png"></Image>
             </Button>
-            <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.AlignJustify" ToolTip="Align Justify">
+            <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.AlignJustify" ToolTip="{Loc Align_Justify}">
                 <Image Source="/WorkspaceManager;component/View/Image/ParagraphFullJustify.png"></Image>
             </Button>
-            <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.IncreaseIndentation" ToolTip="Increase Indent">
+            <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.IncreaseIndentation" ToolTip="{Loc Increase_Indent}">
                 <Image Source="/WorkspaceManager;component/View/Image/ParagraphIncreaseIndentation.png"></Image>
             </Button>
-            <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.DecreaseIndentation" ToolTip="Decrease Indent">
+            <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.DecreaseIndentation" ToolTip="{Loc Decrease_Indent}">
                 <Image Source="/WorkspaceManager;component/View/Image/ParagraphDecreaseIndentation.png"></Image>
             </Button>
         </ToolBar>

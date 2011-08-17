@@ -61,6 +61,42 @@ namespace WorkspaceManager.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Align Center ähnelt.
+        /// </summary>
+        internal static string Align_Center {
+            get {
+                return ResourceManager.GetString("Align_Center", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Align Justify ähnelt.
+        /// </summary>
+        internal static string Align_Justify {
+            get {
+                return ResourceManager.GetString("Align_Justify", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Align Left ähnelt.
+        /// </summary>
+        internal static string Align_Left {
+            get {
+                return ResourceManager.GetString("Align_Left", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Align Right ähnelt.
+        /// </summary>
+        internal static string Align_Right {
+            get {
+                return ResourceManager.GetString("Align_Right", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Analysis/Generic: ähnelt.
         /// </summary>
         internal static string AnalysisGeneric_Label {
@@ -151,6 +187,24 @@ namespace WorkspaceManager.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Bold ähnelt.
+        /// </summary>
+        internal static string Bold {
+            get {
+                return ResourceManager.GetString("Bold", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Bullets ähnelt.
+        /// </summary>
+        internal static string Bullets {
+            get {
+                return ResourceManager.GetString("Bullets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Class not found ähnelt.
         /// </summary>
         internal static string Class_Not_Found {
@@ -165,6 +219,42 @@ namespace WorkspaceManager.Properties {
         internal static string Classic_Label {
             get {
                 return ResourceManager.GetString("Classic_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Colors ähnelt.
+        /// </summary>
+        internal static string Colors {
+            get {
+                return ResourceManager.GetString("Colors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Component Overview ähnelt.
+        /// </summary>
+        internal static string Component_Overview {
+            get {
+                return ResourceManager.GetString("Component_Overview", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Copy ähnelt.
+        /// </summary>
+        internal static string Copy {
+            get {
+                return ResourceManager.GetString("Copy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Cut ähnelt.
+        /// </summary>
+        internal static string Cut {
+            get {
+                return ResourceManager.GetString("Cut", resourceCulture);
             }
         }
         
@@ -214,6 +304,15 @@ namespace WorkspaceManager.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Decrease Indent ähnelt.
+        /// </summary>
+        internal static string Decrease_Indent {
+            get {
+                return ResourceManager.GetString("Decrease_Indent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Delete all messages ähnelt.
         /// </summary>
         internal static string Delete_all_messages {
@@ -228,6 +327,24 @@ namespace WorkspaceManager.Properties {
         internal static string Delete_all_messagesTooltip {
             get {
                 return ResourceManager.GetString("Delete_all_messagesTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Drag ähnelt.
+        /// </summary>
+        internal static string Drag {
+            get {
+                return ResourceManager.GetString("Drag", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Enter Name ähnelt.
+        /// </summary>
+        internal static string Enter_Name {
+            get {
+                return ResourceManager.GetString("Enter_Name", resourceCulture);
             }
         }
         
@@ -268,6 +385,15 @@ namespace WorkspaceManager.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Grow Font ähnelt.
+        /// </summary>
+        internal static string Grow_Font {
+            get {
+                return ResourceManager.GetString("Grow_Font", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die GUI-Updateinterval: ähnelt.
         /// </summary>
         internal static string GUIUpdateinterval_Label {
@@ -291,6 +417,15 @@ namespace WorkspaceManager.Properties {
         internal static string Hash_Label {
             get {
                 return ResourceManager.GetString("Hash_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Increase Indent ähnelt.
+        /// </summary>
+        internal static string Increase_Indent {
+            get {
+                return ResourceManager.GetString("Increase_Indent", resourceCulture);
             }
         }
         
@@ -327,6 +462,33 @@ namespace WorkspaceManager.Properties {
         internal static string InformationTooltip {
             get {
                 return ResourceManager.GetString("InformationTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Italic ähnelt.
+        /// </summary>
+        internal static string Italic {
+            get {
+                return ResourceManager.GetString("Italic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Loading... ähnelt.
+        /// </summary>
+        internal static string Loading_ {
+            get {
+                return ResourceManager.GetString("Loading_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Lock ähnelt.
+        /// </summary>
+        internal static string Lock {
+            get {
+                return ResourceManager.GetString("Lock", resourceCulture);
             }
         }
         
@@ -376,6 +538,24 @@ namespace WorkspaceManager.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Numbering ähnelt.
+        /// </summary>
+        internal static string Numbering {
+            get {
+                return ResourceManager.GetString("Numbering", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Paste ähnelt.
+        /// </summary>
+        internal static string Paste {
+            get {
+                return ResourceManager.GetString("Paste", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Workspace Manager ähnelt.
         /// </summary>
         internal static string PluginCaption {
@@ -408,6 +588,15 @@ namespace WorkspaceManager.Properties {
         internal static string Protocols_Label {
             get {
                 return ResourceManager.GetString("Protocols_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Redo ähnelt.
+        /// </summary>
+        internal static string Redo {
+            get {
+                return ResourceManager.GetString("Redo", resourceCulture);
             }
         }
         
@@ -453,6 +642,15 @@ namespace WorkspaceManager.Properties {
         internal static string Show_IControlsTooltip {
             get {
                 return ResourceManager.GetString("Show_IControlsTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Shrink Font ähnelt.
+        /// </summary>
+        internal static string Shrink_Font {
+            get {
+                return ResourceManager.GetString("Shrink_Font", resourceCulture);
             }
         }
         
@@ -516,6 +714,33 @@ namespace WorkspaceManager.Properties {
         internal static string Tools_Label {
             get {
                 return ResourceManager.GetString("Tools_Label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Underline ähnelt.
+        /// </summary>
+        internal static string Underline {
+            get {
+                return ResourceManager.GetString("Underline", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Undo ähnelt.
+        /// </summary>
+        internal static string Undo {
+            get {
+                return ResourceManager.GetString("Undo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Unlock ähnelt.
+        /// </summary>
+        internal static string Unlock {
+            get {
+                return ResourceManager.GetString("Unlock", resourceCulture);
             }
         }
         

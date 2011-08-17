@@ -17,6 +17,7 @@ namespace WorkspaceManager.View.VisualComponents
     /// <summary>
     /// Interaction logic for TextEditPanel.xaml
     /// </summary>
+    [Cryptool.PluginBase.Attributes.Localization("WorkspaceManager.Properties.Resources")]
     public partial class TextEditPanel : UserControl
     {
         public TextEditPanel()

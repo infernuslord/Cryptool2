@@ -285,4 +285,79 @@
   <data name="InformationTooltip" xml:space="preserve">
     <value>Information</value>
   </data>
+  <data name="Align_Center" xml:space="preserve">
+    <value>Align Center</value>
+  </data>
+  <data name="Align_Justify" xml:space="preserve">
+    <value>Align Justify</value>
+  </data>
+  <data name="Align_Left" xml:space="preserve">
+    <value>Align Left</value>
+  </data>
+  <data name="Align_Right" xml:space="preserve">
+    <value>Align Right</value>
+  </data>
+  <data name="Bold" xml:space="preserve">
+    <value>Bold</value>
+  </data>
+  <data name="Bullets" xml:space="preserve">
+    <value>Bullets</value>
+  </data>
+  <data name="Copy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="Cut" xml:space="preserve">
+    <value>Cut</value>
+  </data>
+  <data name="Decrease_Indent" xml:space="preserve">
+    <value>Decrease Indent</value>
+  </data>
+  <data name="Enter_Name" xml:space="preserve">
+    <value>Enter Name</value>
+  </data>
+  <data name="Grow_Font" xml:space="preserve">
+    <value>Grow Font</value>
+  </data>
+  <data name="Increase_Indent" xml:space="preserve">
+    <value>Increase Indent</value>
+  </data>
+  <data name="Italic" xml:space="preserve">
+    <value>Italic</value>
+  </data>
+  <data name="Lock" xml:space="preserve">
+    <value>Lock</value>
+  </data>
+  <data name="Numbering" xml:space="preserve">
+    <value>Numbering</value>
+  </data>
+  <data name="Paste" xml:space="preserve">
+    <value>Paste</value>
+  </data>
+  <data name="Redo" xml:space="preserve">
+    <value>Redo</value>
+  </data>
+  <data name="Shrink_Font" xml:space="preserve">
+    <value>Shrink Font</value>
+  </data>
+  <data name="Underline" xml:space="preserve">
+    <value>Underline</value>
+  </data>
+  <data name="Undo" xml:space="preserve">
+    <value>Undo</value>
+  </data>
+  <data name="Unlock" xml:space="preserve">
+    <value>Unlock</value>
+  </data>
+  <data name="Colors" xml:space="preserve">
+    <value>Colors</value>
+  </data>
+  <data name="Component_Overview" xml:space="preserve">
+    <value>Component Overview</value>
+  </data>
+  <data name="Drag" xml:space="preserve">
+    <value>Drag</value>
+  </data>
+  <data name="Loading_" xml:space="preserve">
+    <value>Loading...</value>
+  </data>
 </root>
