@@ -77,7 +77,7 @@
 
         <!--##########Loading##########-->
         <Grid x:Name="LoadingGrid" Style="{StaticResource ResourceKey=LoadingScreenStyle}" Grid.Row="0" Grid.Column="0">
-            <TextBlock Text="Loading..." FontFamily="DejaVu Sans" FontSize="50" FontWeight="Heavy" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+            <TextBlock Text="{Loc Loading_}" FontFamily="DejaVu Sans" FontSize="50" FontWeight="Heavy" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
         </Grid>
         <!--##########/Loading##########-->
 

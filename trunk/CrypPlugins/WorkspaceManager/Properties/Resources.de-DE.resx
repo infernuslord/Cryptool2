@@ -285,4 +285,79 @@
   <data name="InformationTooltip" xml:space="preserve">
     <value>Information</value>
   </data>
+  <data name="Align_Center" xml:space="preserve">
+    <value>Zentriert</value>
+  </data>
+  <data name="Align_Justify" xml:space="preserve">
+    <value>Blocksatz</value>
+  </data>
+  <data name="Align_Left" xml:space="preserve">
+    <value>Linksbündig</value>
+  </data>
+  <data name="Align_Right" xml:space="preserve">
+    <value>Rechtsbündig</value>
+  </data>
+  <data name="Bold" xml:space="preserve">
+    <value>Fett</value>
+  </data>
+  <data name="Bullets" xml:space="preserve">
+    <value>Aufzählungszeichen</value>
+  </data>
+  <data name="Copy" xml:space="preserve">
+    <value>Kopieren</value>
+  </data>
+  <data name="Cut" xml:space="preserve">
+    <value>Ausschneiden</value>
+  </data>
+  <data name="Decrease_Indent" xml:space="preserve">
+    <value>Einzug verkleinern</value>
+  </data>
+  <data name="Enter_Name" xml:space="preserve">
+    <value>Namen eingeben</value>
+  </data>
+  <data name="Grow_Font" xml:space="preserve">
+    <value>Schriftgrad vergrößern</value>
+  </data>
+  <data name="Increase_Indent" xml:space="preserve">
+    <value>Einzug vergrößern</value>
+  </data>
+  <data name="Italic" xml:space="preserve">
+    <value>Kursiv</value>
+  </data>
+  <data name="Lock" xml:space="preserve">
+    <value>Sperren</value>
+  </data>
+  <data name="Numbering" xml:space="preserve">
+    <value>Nummerierung</value>
+  </data>
+  <data name="Paste" xml:space="preserve">
+    <value>Einfügen</value>
+  </data>
+  <data name="Redo" xml:space="preserve">
+    <value>Wiederholen</value>
+  </data>
+  <data name="Shrink_Font" xml:space="preserve">
+    <value>Schriftgrad verkleinern</value>
+  </data>
+  <data name="Underline" xml:space="preserve">
+    <value>Unterstreichen</value>
+  </data>
+  <data name="Undo" xml:space="preserve">
+    <value>Rückgängig</value>
+  </data>
+  <data name="Unlock" xml:space="preserve">
+    <value>Entsperren</value>
+  </data>
+  <data name="Colors" xml:space="preserve">
+    <value>Farben</value>
+  </data>
+  <data name="Component_Overview" xml:space="preserve">
+    <value>Komponentenübersicht</value>
+  </data>
+  <data name="Drag" xml:space="preserve">
+    <value>Ziehen</value>
+  </data>
+  <data name="Loading_" xml:space="preserve">
+    <value>Laden...</value>
+  </data>
 </root>

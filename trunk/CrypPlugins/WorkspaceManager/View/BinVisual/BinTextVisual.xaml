@@ -118,7 +118,7 @@
         <Style TargetType="{x:Type Button}" x:Key="OperationLockStyle">
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Path=IsLocked, Mode=OneWay}" Value="True">
-                    <Setter Property="ToolTip" Value="Lock"></Setter>
+                    <Setter Property="ToolTip" Value="{Loc Lock}"></Setter>
                     <Setter Property="Tag">
                         <Setter.Value>
                             <Image Source="/WorkspaceManager;component/View/Image/lock.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"></Image>
@@ -131,7 +131,7 @@
                     <Image Source="/WorkspaceManager;component/View/Image/unlock.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"></Image>
                 </Setter.Value>
             </Setter>
-            <Setter Property="ToolTip" Value="Unlock"></Setter>
+            <Setter Property="ToolTip" Value="{Loc Unlock}"></Setter>
             <Setter Property="Height" Value="12"></Setter>
             <Setter Property="Width" Value="12"></Setter>
             <Setter Property="VerticalAlignment" Value="Center"></Setter>

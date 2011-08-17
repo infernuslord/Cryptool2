@@ -20,6 +20,7 @@ namespace WorkspaceManager.View.BinVisual
     /// <summary>
     /// Interaction logic for BinTextVisual.xaml
     /// </summary>
+    [Cryptool.PluginBase.Attributes.Localization("WorkspaceManager.Properties.Resources")]
     public partial class BinTextVisual : UserControl, IUpdateableView
     {
         #region Properties
@@ -108,7 +109,7 @@ namespace WorkspaceManager.View.BinVisual
         }
 
         public static readonly DependencyProperty WindowNameProperty = DependencyProperty.Register("WindowName",
-            typeof(string), typeof(BinTextVisual), new FrameworkPropertyMetadata("Enter Name", null));
+            typeof(string), typeof(BinTextVisual), new FrameworkPropertyMetadata( Properties.Resources.Enter_Name, null));
 
         public string WindowName
         {

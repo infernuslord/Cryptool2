@@ -177,7 +177,7 @@
         </Style>
 
         <DataTemplate x:Key="templateDrag">
-            <TextBlock Text="Drag"></TextBlock>
+            <TextBlock Text="{Loc Drag}"></TextBlock>
         </DataTemplate>
 
         <ControlTemplate x:Key="CtrlTemplate" TargetType="{x:Type ButtonBase}">
