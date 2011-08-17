@@ -521,6 +521,24 @@
 
         <bin:WidthConverter x:Key="WidthConverter"></bin:WidthConverter>
         
+        <Style x:Key="IconPresentationStyle" TargetType="Image">
+            <Style.Triggers>
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding Path=State, Mode=OneWay}">
+                            <Condition.Value>
+                                <model:BinComponentState>Min</model:BinComponentState>
+                            </Condition.Value>
+                        </Condition>
+
+                        <Condition Binding="{Binding Path=HasComponentPresentation, Mode=OneWay}" Value="True"></Condition>
+                    </MultiDataTrigger.Conditions>
+                    <Setter Property="Visibility" Value="Visible"></Setter>
+                </MultiDataTrigger>
+            </Style.Triggers>
+            <Setter Property="Visibility" Value="Collapsed"></Setter>
+        </Style>
+        
     </UserControl.Resources>
     
     <Grid x:Name="Root">
@@ -663,9 +681,13 @@
                         <!--##########/Window Titlebar##########-->
 
                         <!--##########Content##########-->
+                        
                         <ContentPresenter Style="{StaticResource ResourceKey=ContentPresenterStyle}" Grid.Column="0" Grid.Row="1">
                     
                         </ContentPresenter>
+
+                        <Image Style="{StaticResource ResourceKey=IconPresentationStyle}" Height="30" Width="30" Grid.Column="0" Grid.Row="1"
+                               VerticalAlignment="Top" HorizontalAlignment="Right" Source="/WorkspaceManager;component/View/Image/presIcon.png"></Image>
                         <!--##########/Content##########-->
 
                         <ContentPresenter x:Name="Notifier" Content="{Binding Path=LogNotifier}" Grid.Column="0" Grid.Row="2"></ContentPresenter>
