@@ -2,9 +2,10 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:Properties="clr-namespace:KeySearcher.Properties" mc:Ignorable="d" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:Properties="clr-namespace:Cryptool.PluginBase.Properties;assembly=CrypPluginBase" mc:Ignorable="d" 
              xmlns:Converter="clr-namespace:KeySearcherConverter"
              xmlns:local="clr-namespace:KeySearcher"
+             
              d:DesignHeight="300" d:DesignWidth="600">
     <UserControl.Resources>
         <Converter:TrueToVisibleConverter x:Key="TrueToVisibleConverter" />
@@ -15,18 +16,18 @@
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <StackPanel Orientation="Vertical">
                 <Label Content="OpenCL:" FontWeight="Bold" />
-                <CheckBox Name="UseOpenCL" Content="{Loc Use_OpenCL_in_KeySearcher}" IsChecked="{Binding Source={x:Static Properties:Settings.Default}, Path=UseOpenCL, Mode=TwoWay}" ToolTip="{Loc Use_OpenCL_in_KeySearcher_Tooltip}" Style="{StaticResource ResourceKey=settingsStyle}" />
-                <CheckBox Content="{Loc Enable_using_OpenCL_with_high_load__not_recommended_}" IsChecked="{Binding Source={x:Static Properties:Settings.Default}, Path=EnableHighLoad, Mode=TwoWay}" IsEnabled="{Binding ElementName=UseOpenCL, Path=IsChecked}" Style="{StaticResource ResourceKey=settingsStyle}" Margin="40,5,0,0" />                
+                <CheckBox Name="UseOpenCL" Content="{Loc Use_OpenCL_in_KeySearcher}" IsChecked="{Binding Source={x:Static Properties:Settings.Default}, Path=KeySearcher_UseOpenCL, Mode=TwoWay}" ToolTip="{Loc Use_OpenCL_in_KeySearcher_Tooltip}" Style="{StaticResource ResourceKey=settingsStyle}" />
+                <CheckBox Content="{Loc Enable_using_OpenCL_with_high_load__not_recommended_}" IsChecked="{Binding Source={x:Static Properties:Settings.Default}, Path=KeySearcher_EnableHighLoad, Mode=TwoWay}" IsEnabled="{Binding ElementName=KeySearcher_UseOpenCL, Path=IsChecked}" Style="{StaticResource ResourceKey=settingsStyle}" Margin="40,5,0,0" />                
 
                 <Label Content="{Loc Network_}" FontWeight="Bold" />
                 <StackPanel Orientation="Horizontal" Style="{StaticResource ResourceKey=settingsStyle}">
                     <Label Content="{Loc Machine_name_}"/>
-                    <TextBox Name="machineNameBox" IsReadOnly="True" IsEnabled="False" Width="200" Text="{Binding Path=MachNameToUse, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:KeysearcherSettingsTab}}}" />
+                    <TextBox Name="machineNameBox" IsReadOnly="True" IsEnabled="False" Width="200" Text="{Binding Path=KeySearcher_MachNameToUse, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:KeysearcherSettingsTab}}}" />
                 </StackPanel>
-                <CheckBox Name="AnonymizeCheckBox" Content="{Loc Anonymize_machine_name}" Style="{StaticResource ResourceKey=settingsStyle}" IsChecked="{Binding Source={x:Static Properties:Settings.Default}, Path=Anonymize, Mode=TwoWay}"/>
+                <CheckBox Name="AnonymizeCheckBox" Content="{Loc Anonymize_machine_name}" Style="{StaticResource ResourceKey=settingsStyle}" IsChecked="{Binding Source={x:Static Properties:Settings.Default}, Path=KeySearcher_Anonymize, Mode=TwoWay}"/>
                 <StackPanel Orientation="Horizontal" Style="{StaticResource ResourceKey=settingsStyle}" Margin="40,5,0,0" Visibility="{Binding ElementName=AnonymizeCheckBox, Path=IsChecked, Converter={StaticResource TrueToVisibleConverter}}">
                     <Label Content="{Loc Number_of_machine_name_characters_to_show_}"/>
-                    <ComboBox Name="NumberOfChars" Width="100" SelectedIndex="{Binding Source={x:Static Properties:Settings.Default}, Path=MachNameChars, Mode=TwoWay}" />
+                    <ComboBox Name="NumberOfChars" Width="100" SelectedIndex="{Binding Source={x:Static Properties:Settings.Default}, Path=KeySearcher_MachNameChars, Mode=TwoWay}" />
                 </StackPanel>
             </StackPanel>
         </ScrollViewer>

@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d" 
-             xmlns:p="clr-namespace:KeySearcher.Properties" xmlns:Controls="clr-namespace:KeySearcher.Presentation.Controls" d:DesignHeight="500" d:DesignWidth="600">
+             xmlns:p="clr-namespace:Cryptool.PluginBase.Properties;assembly=CrypPluginBase" xmlns:Controls="clr-namespace:KeySearcher.Presentation.Controls" d:DesignHeight="500" d:DesignWidth="600">
     <UserControl.Resources>
         <Controls:NodeBaseToStringConverter x:Key="NodeBaseToStringConverter"/>
     </UserControl.Resources>
@@ -48,7 +48,7 @@
                     <ItemsPanelTemplate>
                         <Grid HorizontalAlignment="Center" IsItemsHost="True">
                             <Grid.LayoutTransform>
-                                <ScaleTransform ScaleX="{Binding Source={x:Static p:Settings.Default}, Path=KeyPoolTreeZoom, Mode=OneWay}" ScaleY="{Binding Source={x:Static p:Settings.Default}, Path=KeyPoolTreeZoom, Mode=OneWay}">
+                                <ScaleTransform ScaleX="{Binding Source={x:Static p:Settings.Default}, Path=KeySearcher_KeyPoolTreeZoom, Mode=OneWay}" ScaleY="{Binding Source={x:Static p:Settings.Default}, Path=KeySearcher_KeyPoolTreeZoom, Mode=OneWay}">
                                 </ScaleTransform>
                             </Grid.LayoutTransform>
                         </Grid>
@@ -56,7 +56,7 @@
                 </TreeView.ItemsPanel>
             </TreeView>
             
-            <Slider Width="100" HorizontalAlignment="Right" Grid.Row="2" Value="{Binding Source={x:Static p:Settings.Default}, Path=KeyPoolTreeZoom, Mode=TwoWay}" Maximum="1" Minimum="0.1"/>
+            <Slider Width="100" HorizontalAlignment="Right" Grid.Row="2" Value="{Binding Source={x:Static p:Settings.Default}, Path=KeySearcher_KeyPoolTreeZoom, Mode=TwoWay}" Maximum="1" Minimum="0.1"/>
         </Grid>        
 
         <GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
