@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:visuals="clr-namespace:WorkspaceManager.View.VisualComponents"
-             xmlns:properties="clr-namespace:WorkspaceManager.Properties"
+             xmlns:properties="clr-namespace:Cryptool.PluginBase.Properties;assembly=CrypPluginBase"
              xmlns:local="clr-namespace:WorkspaceManager.View.BinVisual"
              xmlns:model="clr-namespace:WorkspaceManager.Model;assembly=WorkspaceManagerModel"
              mc:Ignorable="d" 
@@ -65,8 +65,8 @@
                             PreviewDragEnter="PreviewDragEnterHandler" PreviewDragLeave="PreviewDragLeaveHandler" PreviewDrop="PreviewDropHandler"
                             MouseWheel="MouseWheelHandler" PreviewMouseUp="MouseUpButtonUpHandler">
                             <visuals:ModifiedCanvas.LayoutTransform>
-                                <ScaleTransform ScaleX="{Binding Source={x:Static properties:Settings.Default}, Path=EditScale, Mode=OneWay}" 
-                                    ScaleY="{Binding Source={x:Static properties:Settings.Default}, Path=EditScale, Mode=OneWay}"/>
+                                <ScaleTransform ScaleX="{Binding Source={x:Static properties:Settings.Default}, Path=WorkspaceManager_EditScale, Mode=OneWay}" 
+                                    ScaleY="{Binding Source={x:Static properties:Settings.Default}, Path=WorkspaceManager_EditScale, Mode=OneWay}"/>
                             </visuals:ModifiedCanvas.LayoutTransform>
                         </visuals:ModifiedCanvas>
                     </ItemsPanelTemplate>

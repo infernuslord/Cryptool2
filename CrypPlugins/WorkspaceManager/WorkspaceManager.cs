@@ -70,7 +70,7 @@ namespace WorkspaceManager
         public WorkspaceManager()
         {
             this.SelectedPluginsList = new ObservableCollection<BinComponentVisual>();            
-            Properties.Settings.Default.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(Default_PropertyChanged);
+             Cryptool.PluginBase.Properties.Settings.Default.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(Default_PropertyChanged);
             Settings = new WorkspaceManagerSettings(this);            
             WorkspaceModel = new WorkspaceModel();
             WorkspaceModel.OnGuiLogNotificationOccured += this.GuiLogNotificationOccured;
@@ -91,7 +91,7 @@ namespace WorkspaceManager
             if(e.PropertyName == "EditScale")
             {
                 if (OnZoomChanged != null)
-                    OnZoomChanged.Invoke(this, new ZoomChanged() { Value = Properties.Settings.Default.EditScale });
+                    OnZoomChanged.Invoke(this, new ZoomChanged() { Value =  Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_EditScale });
             }
         }
 
@@ -921,12 +921,12 @@ namespace WorkspaceManager
 
         public double GetZoom()
         {
-            return Properties.Settings.Default.EditScale;
+            return Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_EditScale;
         }
 
         public void Zoom(double value)
         {
-            Properties.Settings.Default.EditScale = value;
+            Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_EditScale = value;
         }
 
         public void FitToScreen()

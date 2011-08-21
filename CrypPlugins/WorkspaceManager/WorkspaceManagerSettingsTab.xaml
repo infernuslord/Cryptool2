@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:Properties="clr-namespace:WorkspaceManager.Properties"
+             xmlns:Properties="clr-namespace:Cryptool.PluginBase.Properties;assembly=CrypPluginBase"
              mc:Ignorable="d" d:DesignHeight="490" d:DesignWidth="632" DataContext="{Binding}">
     <Grid>
         <Image Source="/WorkspaceManager;component/View/Image/WorkspaceManagerIcon_orig.png" Opacity="0.2" />
@@ -36,13 +36,13 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Label Grid.Row="0" Grid.Column="0" Style="{StaticResource ResourceKey=settingsStyle}" ToolTip="{Loc GUIUpdateinterval_Tooltip}" Height="25" Content="{Loc GUIUpdateinterval_Label}"/>
-                <TextBox Grid.Row="0" Grid.Column="2" Style="{StaticResource ResourceKey=settingsStyle}" ToolTip="{Loc GUIUpdateinterval_Tooltip}" Height="25" Width="100" HorizontalAlignment="Left" Name="GuiUpdateInterval" Text="{Binding Source={x:Static Properties:Settings.Default}, Path=GuiUpdateInterval, Mode=TwoWay}" IsEnabled="False" />
-                <Slider Width="200" Grid.Row="0" Grid.Column="1" ToolTip="{Loc GUIUpdateinterval_Tooltip}" Value="{Binding Source={x:Static Properties:Settings.Default}, Path=GuiUpdateInterval, Mode=TwoWay}" Minimum="1" Maximum="500" IsSnapToTickEnabled="True" />
+                <TextBox Grid.Row="0" Grid.Column="2" Style="{StaticResource ResourceKey=settingsStyle}" ToolTip="{Loc GUIUpdateinterval_Tooltip}" Height="25" Width="100" HorizontalAlignment="Left" Name="GuiUpdateInterval" Text="{Binding Source={x:Static Properties:Settings.Default}, Path=WorkspaceManager_GuiUpdateInterval, Mode=TwoWay}" IsEnabled="False" />
+                <Slider Width="200" Grid.Row="0" Grid.Column="1" ToolTip="{Loc GUIUpdateinterval_Tooltip}" Value="{Binding Source={x:Static Properties:Settings.Default}, Path=WorkspaceManager_GuiUpdateInterval, Mode=TwoWay}" Minimum="1" Maximum="500" IsSnapToTickEnabled="True" />
                 <Label Grid.Row="1" Grid.Column="0" Style="{StaticResource ResourceKey=settingsStyle}" ToolTip="{Loc SleepTime_Tooltip}" Height="25" Content="{Loc SleepTime_Label}"/>
-                <TextBox Grid.Row="1" Grid.Column="2" Style="{StaticResource ResourceKey=settingsStyle}" ToolTip="{Loc SleepTime_Tooltip}" Height="25" Width="100" HorizontalAlignment="Left" Name="SleepTime"  Text="{Binding Source={x:Static Properties:Settings.Default}, Path=SleepTime, Mode=TwoWay}" IsEnabled="False" />
-                <Slider Width="200" Grid.Row="1" Grid.Column="1" ToolTip="{Loc SleepTime_Tooltip}" Value="{Binding Source={x:Static Properties:Settings.Default}, Path=SleepTime, Mode=TwoWay}" Minimum="0" Maximum="5000" IsSnapToTickEnabled="True" />
-                <CheckBox Grid.Row="4" Grid.ColumnSpan="2" Style="{StaticResource ResourceKey=settingsStyle}" Content="{Loc SynchronousEvents_Label}" Name="SynchronousEvents" ToolTip="{Loc SynchronousEvents_Tooltip}" Height="21" IsChecked="{Binding Source={x:Static Properties:Settings.Default}, Path=SynchronousEvents, Mode=TwoWay}" />
-                <CheckBox Grid.Row="5" Grid.ColumnSpan="2" Style="{StaticResource ResourceKey=settingsStyle}" Content="{Loc Benchmark_Label}" Height="21" Name="BenchmarkPlugins" ToolTip="{Loc Benchmark_Tooltip}" IsChecked="{Binding Source={x:Static Properties:Settings.Default}, Path=BenchmarkPlugins, Mode=TwoWay}"/>
+                <TextBox Grid.Row="1" Grid.Column="2" Style="{StaticResource ResourceKey=settingsStyle}" ToolTip="{Loc SleepTime_Tooltip}" Height="25" Width="100" HorizontalAlignment="Left" Name="SleepTime"  Text="{Binding Source={x:Static Properties:Settings.Default}, Path=WorkspaceManager_SleepTime, Mode=TwoWay}" IsEnabled="False" />
+                <Slider Width="200" Grid.Row="1" Grid.Column="1" ToolTip="{Loc SleepTime_Tooltip}" Value="{Binding Source={x:Static Properties:Settings.Default}, Path=WorkspaceManager_SleepTime, Mode=TwoWay}" Minimum="0" Maximum="5000" IsSnapToTickEnabled="True" />
+                <CheckBox Grid.Row="4" Grid.ColumnSpan="2" Style="{StaticResource ResourceKey=settingsStyle}" Content="{Loc SynchronousEvents_Label}" Name="SynchronousEvents" ToolTip="{Loc SynchronousEvents_Tooltip}" Height="21" IsChecked="{Binding Source={x:Static Properties:Settings.Default}, Path=WorkspaceManager_SynchronousEvents, Mode=TwoWay}" />
+                <CheckBox Grid.Row="5" Grid.ColumnSpan="2" Style="{StaticResource ResourceKey=settingsStyle}" Content="{Loc Benchmark_Label}" Height="21" Name="BenchmarkPlugins" ToolTip="{Loc Benchmark_Tooltip}" IsChecked="{Binding Source={x:Static Properties:Settings.Default}, Path=WorkspaceManager_BenchmarkPlugins, Mode=TwoWay}"/>
 
                 <Label Style="{StaticResource ResourceKey=settingsStyle}" Content="{Loc Datatypecolors_Label}" Grid.Row="6" Grid.Column="0" HorizontalAlignment="Left"/>
 

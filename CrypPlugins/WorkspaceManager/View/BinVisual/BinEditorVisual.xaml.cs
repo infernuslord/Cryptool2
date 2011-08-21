@@ -244,7 +244,7 @@ namespace WorkspaceManager.View.BinVisual
 
             if (mode == 1)
             {
-                GeneralTransform g = new ScaleTransform(Properties.Settings.Default.EditScale, Properties.Settings.Default.EditScale, 0, 0);
+                GeneralTransform g = new ScaleTransform(Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_EditScale, Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_EditScale, 0, 0);
                 Point p = g.Transform(new Point(randomNumber(0, (int)ActualWidth), randomNumber(0, (int)ActualHeight)));
                 bin.Position = p;
                 return;
@@ -270,28 +270,28 @@ namespace WorkspaceManager.View.BinVisual
         {
             if (ScrollViewer.ScrollableWidth > 0 || ScrollViewer.ScrollableHeight > 0)
             {
-                while (Properties.Settings.Default.EditScale 
-                    > Properties.Settings.Default.MinScale 
+                while (Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_EditScale 
+                    >  Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_MinScale 
                     && (ScrollViewer.ScrollableHeight > 0 
                     || ScrollViewer.ScrollableWidth > 0))
                 {
-                    Properties.Settings.Default.EditScale -= 0.02;
+                     Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_EditScale -= 0.02;
                     ScrollViewer.UpdateLayout();
                 }
             }
             else
             {
-                while (Properties.Settings.Default.EditScale
-                    < Properties.Settings.Default.MaxScale 
+                while ( Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_EditScale
+                    <  Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_MaxScale 
                     && ScrollViewer.ScrollableHeight == 0 
                     && ScrollViewer.ScrollableWidth == 0)
                 {
-                    Properties.Settings.Default.EditScale += 0.02;
+                     Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_EditScale += 0.02;
                     ScrollViewer.UpdateLayout();
                 }
                 if (ScrollViewer.ScrollableHeight > 0 
                     || ScrollViewer.ScrollableWidth > 0)
-                    Properties.Settings.Default.EditScale -= 0.02;
+                     Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_EditScale -= 0.02;
             }
         }
 
@@ -756,14 +756,14 @@ namespace WorkspaceManager.View.BinVisual
         {
             if (State == BinEditorState.READY)
             {
-                packer = new ArevaloRectanglePacker(Properties.Settings.Default.SortWidth, Properties.Settings.Default.SortHeight);
+                packer = new ArevaloRectanglePacker( Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_SortWidth,  Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_SortHeight);
                 foreach (var element in ComponentCollection)
                 {
                     Point point;
-                    if (packer.TryPack(element.ActualWidth + Properties.Settings.Default.SortPadding, element.ActualHeight + Properties.Settings.Default.SortPadding, out point))
+                    if (packer.TryPack(element.ActualWidth +  Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_SortPadding, element.ActualHeight +  Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_SortPadding, out point))
                     {
-                        point.X += Properties.Settings.Default.SortPadding;
-                        point.Y += Properties.Settings.Default.SortPadding;
+                        point.X +=  Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_SortPadding;
+                        point.Y +=  Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_SortPadding;
                         element.Position = point;
                     }
                 }
@@ -816,13 +816,13 @@ namespace WorkspaceManager.View.BinVisual
         {
             if (Keyboard.Modifiers == ModifierKeys.Control)
             {
-                if (Properties.Settings.Default.EditScale + 0.05 < Properties.Settings.Default.MaxScale &&
+                if ( Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_EditScale + 0.05 <  Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_MaxScale &&
                     e.Delta >= 0)
-                    Properties.Settings.Default.EditScale += 0.05;
+                     Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_EditScale += 0.05;
 
-                if (Properties.Settings.Default.EditScale - 0.05 > Properties.Settings.Default.MinScale &&
+                if ( Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_EditScale - 0.05 >  Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_MinScale &&
                     e.Delta <= 0)
-                    Properties.Settings.Default.EditScale += -0.05;
+                     Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_EditScale += -0.05;
 
                 e.Handled = true;
             }
