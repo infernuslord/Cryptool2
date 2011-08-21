@@ -82,5 +82,158 @@ namespace Cryptool.PluginBase.Properties {
                 this["KeySearcher_UseOpenCL"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public double WorkspaceManager_EditScale {
+            get {
+                return ((double)(this["WorkspaceManager_EditScale"]));
+            }
+            set {
+                this["WorkspaceManager_EditScale"] = value;
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("6")]
+        public double WorkspaceManager_GridScale {
+            get {
+                return ((double)(this["WorkspaceManager_GridScale"]));
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public double WorkspaceManager_FullscreenScale {
+            get {
+                return ((double)(this["WorkspaceManager_FullscreenScale"]));
+            }
+            set {
+                this["WorkspaceManager_FullscreenScale"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
+        public string WorkspaceManager_GuiUpdateInterval {
+            get {
+                return ((string)(this["WorkspaceManager_GuiUpdateInterval"]));
+            }
+            set {
+                this["WorkspaceManager_GuiUpdateInterval"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public string WorkspaceManager_SleepTime {
+            get {
+                return ((string)(this["WorkspaceManager_SleepTime"]));
+            }
+            set {
+                this["WorkspaceManager_SleepTime"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool WorkspaceManager_BenchmarkPlugins {
+            get {
+                return ((bool)(this["WorkspaceManager_BenchmarkPlugins"]));
+            }
+            set {
+                this["WorkspaceManager_BenchmarkPlugins"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool WorkspaceManager_SynchronousEvents {
+            get {
+                return ((bool)(this["WorkspaceManager_SynchronousEvents"]));
+            }
+            set {
+                this["WorkspaceManager_SynchronousEvents"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int WorkspaceManager_LogLevel {
+            get {
+                return ((int)(this["WorkspaceManager_LogLevel"]));
+            }
+            set {
+                this["WorkspaceManager_LogLevel"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("3")]
+        public double WorkspaceManager_MaxScale {
+            get {
+                return ((double)(this["WorkspaceManager_MaxScale"]));
+            }
+            set {
+                this["WorkspaceManager_MaxScale"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0.3")]
+        public double WorkspaceManager_MinScale {
+            get {
+                return ((double)(this["WorkspaceManager_MinScale"]));
+            }
+            set {
+                this["WorkspaceManager_MinScale"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("30")]
+        public double WorkspaceManager_SortPadding {
+            get {
+                return ((double)(this["WorkspaceManager_SortPadding"]));
+            }
+            set {
+                this["WorkspaceManager_SortPadding"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1200")]
+        public double WorkspaceManager_SortWidth {
+            get {
+                return ((double)(this["WorkspaceManager_SortWidth"]));
+            }
+            set {
+                this["WorkspaceManager_SortWidth"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1600")]
+        public double WorkspaceManager_SortHeight {
+            get {
+                return ((double)(this["WorkspaceManager_SortHeight"]));
+            }
+            set {
+                this["WorkspaceManager_SortHeight"] = value;
+            }
+        }
     }
 }

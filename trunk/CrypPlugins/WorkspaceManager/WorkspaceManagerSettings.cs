@@ -41,12 +41,12 @@ namespace WorkspaceManager
         {
             get
             {
-                return Settings.Default.GuiUpdateInterval;
+                return Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_GuiUpdateInterval;
             }
             set
             {
-                Settings.Default.GuiUpdateInterval = value;
-                Settings.Default.Save();
+                Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_GuiUpdateInterval = value;
+                Cryptool.PluginBase.Properties.Settings.Default.Save();
                 OnPropertyChanged("GuiUpdateInterval");
             }
         }
@@ -55,12 +55,12 @@ namespace WorkspaceManager
         {
             get
             {
-                return Settings.Default.SleepTime;
+                return Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_SleepTime;
             }
             set
             {
-                Settings.Default.SleepTime = value;
-                Settings.Default.Save();
+                Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_SleepTime = value;
+                Cryptool.PluginBase.Properties.Settings.Default.Save();
                 OnPropertyChanged("SleepTime");
             }
         }        
@@ -69,12 +69,12 @@ namespace WorkspaceManager
         {
             get
             {
-                return Settings.Default.BenchmarkPlugins;
+                return Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_BenchmarkPlugins;
             }
             set
             {
-                Settings.Default.BenchmarkPlugins = value;
-                Settings.Default.Save();
+                Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_BenchmarkPlugins = value;
+                Cryptool.PluginBase.Properties.Settings.Default.Save();
                 OnPropertyChanged("BenchmarkPlugins");
             }
         }
@@ -83,12 +83,12 @@ namespace WorkspaceManager
         {
             get
             {
-                return Settings.Default.SynchronousEvents;
+                return Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_SynchronousEvents;
             }
             set
             {
-                Settings.Default.SynchronousEvents = value;
-                Settings.Default.Save();
+                Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_SynchronousEvents = value;
+                Cryptool.PluginBase.Properties.Settings.Default.Save();
                 OnPropertyChanged("SynchronousEvents");
             }
         }
@@ -97,12 +97,12 @@ namespace WorkspaceManager
         {
             get
             {
-                return Settings.Default.LogLevel;
+                return Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_LogLevel;
             }
             set
             {
-                Settings.Default.LogLevel = value;
-                Settings.Default.Save();
+                Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_LogLevel = value;
+                Cryptool.PluginBase.Properties.Settings.Default.Save();
                 OnPropertyChanged("LogLevel");
             }
         }
