@@ -235,5 +235,41 @@ namespace Cryptool.PluginBase.Properties {
                 this["WorkspaceManager_SortHeight"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool Wizard_ShowOnStartup {
+            get {
+                return ((bool)(this["Wizard_ShowOnStartup"]));
+            }
+            set {
+                this["Wizard_ShowOnStartup"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool Wizard_RunTemplate {
+            get {
+                return ((bool)(this["Wizard_RunTemplate"]));
+            }
+            set {
+                this["Wizard_RunTemplate"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool Wizard_ShowAnimations {
+            get {
+                return ((bool)(this["Wizard_ShowAnimations"]));
+            }
+            set {
+                this["Wizard_ShowAnimations"] = value;
+            }
+        }        
     }
 }

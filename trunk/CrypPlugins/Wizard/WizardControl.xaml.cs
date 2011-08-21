@@ -895,7 +895,7 @@ namespace Wizard
                         (WorkspaceManager.WorkspaceManager)
                         OnOpenEditor(typeof (WorkspaceManager.WorkspaceManager), null, null);
                     currentManager.Open(model);
-                    if (Settings.Default.RunTemplate)
+                    if (Cryptool.PluginBase.Properties.Settings.Default.Wizard_RunTemplate)
                     {
                         currentManager.SampleLoaded += NewEditorSampleLoaded;
                     }
@@ -918,7 +918,7 @@ namespace Wizard
 
         private void NewEditorSampleLoaded(object sender, EventArgs e)
         {
-            if (Settings.Default.RunTemplate && currentManager.CanExecute)
+            if (Cryptool.PluginBase.Properties.Settings.Default.Wizard_RunTemplate && currentManager.CanExecute)
                 currentManager.Execute();
             currentManager.SampleLoaded -= NewEditorSampleLoaded;
             OnOpenTab(currentManager, _title, null);
@@ -1144,7 +1144,7 @@ namespace Wizard
 
         private void nextButton_Click(object sender, RoutedEventArgs e)
         {
-            if (Settings.Default.ShowAnimations)
+            if (Cryptool.PluginBase.Properties.Settings.Default.Wizard_ShowAnimations)
             {
                 Storyboard mainGridStoryboardLeft = (Storyboard) FindResource("MainGridStoryboardNext1");
                 mainGridStoryboardLeft.Begin();
@@ -1158,7 +1158,7 @@ namespace Wizard
         private void backButton_Click(object sender, RoutedEventArgs e)
         {
             canStopOrExecute = false;
-            if (Settings.Default.ShowAnimations)
+            if (Cryptool.PluginBase.Properties.Settings.Default.Wizard_ShowAnimations)
             {
                 Storyboard mainGridStoryboardLeft = (Storyboard) FindResource("MainGridStoryboardBack1");
                 mainGridStoryboardLeft.Begin();
@@ -1257,7 +1257,7 @@ namespace Wizard
                 SetupPage(nextElement);
             }
 
-            if (Settings.Default.ShowAnimations)
+            if (Cryptool.PluginBase.Properties.Settings.Default.Wizard_ShowAnimations)
             {
                 Storyboard mainGridStoryboardLeft = (Storyboard) FindResource("MainGridStoryboardNext2");
                 mainGridStoryboardLeft.Begin();
@@ -1418,7 +1418,7 @@ namespace Wizard
                 SetupPage(grandParent);
             }
 
-            if (Settings.Default.ShowAnimations)
+            if (Cryptool.PluginBase.Properties.Settings.Default.Wizard_ShowAnimations)
             {
                 Storyboard mainGridStoryboardLeft = (Storyboard) FindResource("MainGridStoryboardBack2");
                 mainGridStoryboardLeft.Begin();
