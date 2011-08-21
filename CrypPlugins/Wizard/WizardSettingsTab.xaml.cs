@@ -28,7 +28,7 @@ namespace Wizard
             Resources.Add("settingsStyle", settingsStyle);
             InitializeComponent();
 
-            Settings.Default.PropertyChanged += delegate { Settings.Default.Save(); };
+            Cryptool.PluginBase.Properties.Settings.Default.PropertyChanged += delegate { Cryptool.PluginBase.Properties.Settings.Default.Save(); };
         }
     }
 }

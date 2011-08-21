@@ -13,7 +13,7 @@ namespace Wizard
     {
         public WizardSettings()
         {
-            Settings.Default.SettingChanging += new System.Configuration.SettingChangingEventHandler(Default_SettingChanging);
+            Cryptool.PluginBase.Properties.Settings.Default.SettingChanging += new System.Configuration.SettingChangingEventHandler(Default_SettingChanging);
         }
 
         private void Default_SettingChanging(object sender, SettingChangingEventArgs e)
@@ -32,12 +32,12 @@ namespace Wizard
         {
             get
             {
-                return Settings.Default.ShowOnStartup;
+                return Cryptool.PluginBase.Properties.Settings.Default.Wizard_ShowOnStartup;
             }
             set
             {
-                Settings.Default.ShowOnStartup = value;
-                Settings.Default.Save();
+                Cryptool.PluginBase.Properties.Settings.Default.Wizard_ShowOnStartup = value;
+                Cryptool.PluginBase.Properties.Settings.Default.Save();
                 HasChanges = true;
                 OnPropertyChanged("ShowOnStartup");
             }
