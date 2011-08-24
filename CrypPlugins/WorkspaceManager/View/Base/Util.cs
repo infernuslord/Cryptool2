@@ -154,24 +154,6 @@ namespace WorkspaceManager.View.Base
             return binding;
         }
 
-        public static ConversionLevelInformation ConversionCheck(ConnectorModel A, ConnectorModel B)
-        {
-            ConversionLevelInformation CV = new ConversionLevelInformation() {SourceType = A.ConnectorType, TargetType = B.ConnectorType };
-            
-            CV.Level = ConversionLevel.Red;
-
-            if (WorkspaceModel.compatibleConnectors(A, B))
-                CV.Level = ConversionLevel.Green;
-
-            if (A.ConnectorType == typeof(byte) && B.ConnectorType == typeof(string) || A.ConnectorType == typeof(string) && B.ConnectorType == typeof(byte))
-                CV.Level = ConversionLevel.Yellow;
-
-            if (A.ConnectorType == typeof(BigInteger) && B.ConnectorType == typeof(int) || A.ConnectorType == typeof(int) && B.ConnectorType == typeof(BigInteger))
-                CV.Level = ConversionLevel.Yellow;
-
-            return CV;
-        }
-
         public static class MouseUtilities
         {
             public static Point CorrectGetPosition(Visual relativeTo)

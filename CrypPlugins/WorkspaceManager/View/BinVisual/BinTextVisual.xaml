@@ -157,8 +157,8 @@
             </Style.Triggers>
             <Setter Property="Height" Value="{Binding Path=WindowHeight}"></Setter>
             <Setter Property="Width" Value="{Binding Path=WindowWidth}"></Setter>
-            <Setter Property="MinHeight" Value="250"></Setter>
-            <Setter Property="MinWidth" Value="250"></Setter>
+            <Setter Property="MinHeight" Value="100"></Setter>
+            <Setter Property="MinWidth" Value="150"></Setter>
             <Setter Property="BorderThickness" Value="1.7"></Setter>
             <Setter Property="CornerRadius" Value="5,5,0,0"></Setter>
             <Setter Property="Padding" Value="3.5"></Setter>

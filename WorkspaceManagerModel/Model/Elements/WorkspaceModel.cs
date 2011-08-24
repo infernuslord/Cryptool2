@@ -31,6 +31,14 @@ using WorkspaceManagerModel.Model.Operations;
 
 namespace WorkspaceManager.Model
 {
+    public enum ConversionLevel
+    {
+        Red,
+        Yellow,
+        Green,
+        NA
+    };
+
     /// <summary>
     /// Class to represent our Workspace
     /// </summary>
@@ -642,29 +650,34 @@ namespace WorkspaceManager.Model
         /// <param name="connectorModelA"></param>
         /// <param name="connectorModelB"></param>
         /// <returns></returns>
-        public static bool compatibleConnectors(ConnectorModel connectorModelA, ConnectorModel connectorModelB)
+        public static ConversionLevel compatibleConnectors(ConnectorModel connectorModelA, ConnectorModel connectorModelB)
         {
             if (connectorModelA == null)
             {
-                throw new ArgumentNullException("connectorModelA may not be null");
+                return ConversionLevel.Red;
             }
             else if (connectorModelB == null)
             {
-                throw new ArgumentNullException("connectorModelB may not be null");
+                return ConversionLevel.Red;
             }
 
 
-            if (!connectorModelA.Outgoing || connectorModelB.Outgoing || connectorModelA.PluginModel == connectorModelB.PluginModel)
-            {
-                return false;
-            }
+            if (connectorModelA.PluginModel == connectorModelB.PluginModel)
+                return ConversionLevel.NA;
+
+            if (connectorModelA.Outgoing && connectorModelB.Outgoing)
+                return ConversionLevel.Red;
+
+            if (!connectorModelA.Outgoing && !connectorModelB.Outgoing)
+                return ConversionLevel.Red;
+
 
             foreach(ConnectionModel connectionModel in connectorModelA.WorkspaceModel.AllConnectionModels)
             {
                 if ((connectionModel.From == connectorModelA && connectionModel.To == connectorModelB) ||
                    (connectionModel.From == connectorModelB && connectionModel.To == connectorModelA))
                 {
-                    return false;
+                    return ConversionLevel.Red;
                 }
             }
 
@@ -678,15 +691,19 @@ namespace WorkspaceManager.Model
                 || connectorModelA.ConnectorType.FullName == "System.Object"
                 || connectorModelB.ConnectorType.FullName == "System.Object"
                 || connectorModelA.ConnectorType.IsSubclassOf(connectorModelB.ConnectorType)
-                || connectorModelA.ConnectorType.GetInterfaces().Contains(connectorModelB.ConnectorType)
-                || ((connectorModelA.ConnectorType.FullName == "System.Int32" || connectorModelA.ConnectorType.FullName == "System.Int64") && connectorModelB.ConnectorType.FullName == "System.Numerics.BigInteger")
+                || connectorModelA.ConnectorType.GetInterfaces().Contains(connectorModelB.ConnectorType))
+            {                
+                return ConversionLevel.Green;
+            }
+
+            if(((connectorModelA.ConnectorType.FullName == "System.Int32" || connectorModelA.ConnectorType.FullName == "System.Int64") &&         connectorModelB.ConnectorType.FullName == "System.Numerics.BigInteger")
                 || ((connectorModelB.ConnectorType.FullName == "System.Int32" || connectorModelB.ConnectorType.FullName == "System.Int64") && connectorModelA.ConnectorType.FullName == "System.Numerics.BigInteger")
                 || (connectorModelB.ConnectorType.FullName == "System.String" && connectorModelA.ConnectorType.FullName == "System.Byte[]")
                 || (connectorModelB.ConnectorType.FullName == "System.Byte[]" && connectorModelA.ConnectorType.FullName == "System.String"))
-            {                
-                return true;
+            {
+                return ConversionLevel.Yellow;
             }
-            return false;
+            return ConversionLevel.Red;
 
         }
     }

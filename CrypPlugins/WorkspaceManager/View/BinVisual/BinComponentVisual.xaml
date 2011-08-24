@@ -685,7 +685,6 @@
                         <ContentPresenter Style="{StaticResource ResourceKey=ContentPresenterStyle}" Grid.Column="0" Grid.Row="1">
                     
                         </ContentPresenter>
-
                         <Image Style="{StaticResource ResourceKey=IconPresentationStyle}" Height="30" Width="30" Grid.Column="0" Grid.Row="1"
                                VerticalAlignment="Top" HorizontalAlignment="Right" Source="/WorkspaceManager;component/View/Image/presIcon.png"></Image>
                         <!--##########/Content##########-->

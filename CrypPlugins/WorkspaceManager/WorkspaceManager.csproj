@@ -385,7 +385,7 @@
     <Resource Include="View\Image\warn01.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="View\Image\presIcon.png" />
+    <Resource Include="View\Image\presIcon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

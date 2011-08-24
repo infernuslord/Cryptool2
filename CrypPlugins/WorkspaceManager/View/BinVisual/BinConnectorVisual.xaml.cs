@@ -208,6 +208,21 @@ namespace WorkspaceManager.View.BinVisual
                 base.SetValue(CVLevelProperty, value);
             }
         }
+
+        public static readonly DependencyProperty IsLinkingProperty = DependencyProperty.Register("IsLinking",
+            typeof(bool), typeof(BinConnectorVisual), new FrameworkPropertyMetadata(false, new PropertyChangedCallback(OnIsLinkingValueChanged)));
+
+        public bool IsLinking
+        {
+            get
+            {
+                return (bool)base.GetValue(IsLinkingProperty);
+            }
+            set
+            {
+                base.SetValue(IsLinkingProperty, value);
+            }
+        }
         #endregion
 
         public BinConnectorVisual(ConnectorModel model, BinComponentVisual component)
@@ -223,13 +238,31 @@ namespace WorkspaceManager.View.BinVisual
             BinConnectorVisual bin = (BinConnectorVisual)d;
             BinConnectorVisual selected = bin.WindowParent.EditorVisual.SelectedConnector;
 
-            if (selected == null)
-                return;
+            //if (selected == null)
+            //    return;
 
-            if (selected.Equals(bin))
-                bin.CVLevel = null;
-            else
-                bin.CVLevel = Util.ConversionCheck(bin.Model, bin.WindowParent.EditorVisual.SelectedConnector.Model);
+            //if (selected.Equals(bin))
+            //    bin.CVLevel = null;
+            //else
+            //    bin.CVLevel = Util.ConversionCheck(bin.Model, bin.WindowParent.EditorVisual.SelectedConnector.Model);
+        }
+
+        private static void OnIsLinkingValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            BinConnectorVisual bin = (BinConnectorVisual)d;
+
+            if (bin.IsLinking == false)
+            {
+                bin.Marked = false;
+                return;
+            }
+
+            BinConnectorVisual selected = bin.WindowParent.EditorVisual.SelectedConnector;
+            ConversionLevel lvl = WorkspaceModel.compatibleConnectors(bin.Model, selected.Model);
+            bin.CVLevel = new ConversionLevelInformation() { Level = lvl };
+
+            if (lvl != ConversionLevel.Red && lvl != ConversionLevel.NA)
+                bin.Marked = true;
         }
 
         private static void OnMyValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
