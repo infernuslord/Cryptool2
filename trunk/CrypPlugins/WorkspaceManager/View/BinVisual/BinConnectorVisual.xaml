@@ -5,6 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:WorkspaceManager.View.BinVisual"
              xmlns:base="clr-namespace:WorkspaceManager.View.Base"
+             xmlns:model="clr-namespace:WorkspaceManager.Model;assembly=WorkspaceManagerModel"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" IsEnabled="True" Background="#00100000" ClipToBounds="False"
              DataContext="{Binding RelativeSource={x:Static RelativeSource.Self}}">
     <UserControl.Resources>
@@ -97,6 +99,88 @@
             </Setter>
         </Style>
 
+        <Style x:Key="ConversionText" TargetType="TextBlock">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=CVLevel.Level}">
+                    <DataTrigger.Value>
+                        <model:ConversionLevel>Yellow</model:ConversionLevel>
+                    </DataTrigger.Value>
+                    <Setter Property="Foreground" Value="Goldenrod"></Setter>
+                    <Setter Property="Text" Value="WARNING!"></Setter>
+                </DataTrigger>
+
+                <DataTrigger Binding="{Binding Path=CVLevel.Level}">
+                    <DataTrigger.Value>
+                        <model:ConversionLevel>Red</model:ConversionLevel>
+                    </DataTrigger.Value>
+                    <Setter Property="Foreground" Value="Red"></Setter>
+                    <Setter Property="Text" Value="STOP!"></Setter>
+                </DataTrigger>
+
+                <DataTrigger Binding="{Binding Path=CVLevel.Level}">
+                    <DataTrigger.Value>
+                        <model:ConversionLevel>NA</model:ConversionLevel>
+                    </DataTrigger.Value>
+                    <Setter Property="Foreground" Value="Red"></Setter>
+                    <Setter Property="Text" Value="STOP!"></Setter>
+                </DataTrigger>
+
+                <DataTrigger Binding="{Binding Path=CVLevel.Level}">
+                    <DataTrigger.Value>
+                        <model:ConversionLevel>Green</model:ConversionLevel>
+                    </DataTrigger.Value>
+                    <Setter Property="Foreground" Value="ForestGreen"></Setter>
+                    <Setter Property="Text" Value="OK!"></Setter>
+                </DataTrigger>
+            </Style.Triggers>
+
+            <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+            <Setter Property="Foreground" Value="#555"></Setter>
+            <Setter Property="FontSize" Value="21"></Setter>
+            <Setter Property="FontFamily" Value="DejaVu Serif"></Setter>
+            <Setter Property="FontWeight" Value="Bold"></Setter>
+        </Style>
+
+        <Style x:Key="ConversionTextSec" TargetType="TextBlock">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=CVLevel.Level}">
+                    <DataTrigger.Value>
+                        <model:ConversionLevel>Yellow</model:ConversionLevel>
+                    </DataTrigger.Value>
+                    <Setter Property="Text" Value="Conversion to different Type, ambiguity may occur."></Setter>
+                </DataTrigger>
+
+                <DataTrigger Binding="{Binding Path=CVLevel.Level}">
+                    <DataTrigger.Value>
+                        <model:ConversionLevel>Red</model:ConversionLevel>
+                    </DataTrigger.Value>
+                    <Setter Property="Text" Value="No connection establishment possible."></Setter>
+                </DataTrigger>
+
+                <DataTrigger Binding="{Binding Path=CVLevel.Level}">
+                    <DataTrigger.Value>
+                        <model:ConversionLevel>NA</model:ConversionLevel>
+                    </DataTrigger.Value>
+                    <Setter Property="Text" Value="No connection establishment possible."></Setter>
+                </DataTrigger>
+
+                <DataTrigger Binding="{Binding Path=CVLevel.Level}">
+                    <DataTrigger.Value>
+                        <model:ConversionLevel>Green</model:ConversionLevel>
+                    </DataTrigger.Value>
+                    <Setter Property="Text" Value="Conversion to same Type."></Setter>
+                </DataTrigger>
+            </Style.Triggers>
+
+            <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+            <Setter Property="Foreground" Value="#333"></Setter>
+            <Setter Property="FontSize" Value="11"></Setter>
+            <Setter Property="FontFamily" Value="DejaVu Serif"></Setter>
+            <Setter Property="TextAlignment" Value="Center"></Setter>
+        </Style>
+
         <Border x:Key="NormalTooltipTemplate" BorderBrush="White" BorderThickness="1.5" CornerRadius="3" Margin="2" Background="#edf5ff">
             <Border.Effect>
                 <DropShadowEffect BlurRadius="5" Opacity="0.5" ShadowDepth="0"></DropShadowEffect>
@@ -161,24 +245,31 @@
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Path=CVLevel.Level}">
                     <DataTrigger.Value>
-                        <base:ConversionLevel>Yellow</base:ConversionLevel>
+                        <model:ConversionLevel>Yellow</model:ConversionLevel>
                     </DataTrigger.Value>
                     <Setter Property="Background" Value="{StaticResource ResourceKey=BackgroundWarning}"></Setter>
                     <Setter Property="Tag" Value="/WorkspaceManager;component/View/Image/warn01.png"></Setter>
                 </DataTrigger>
 
-                <MultiDataTrigger>
-                    <MultiDataTrigger.Conditions>
-                        <Condition Binding="{Binding Path=WindowParent.EditorVisual.IsLinking}" Value="True"></Condition>
-                        <Condition Binding="{Binding Path=Marked}" Value="False"></Condition>
-                    </MultiDataTrigger.Conditions>
+                <DataTrigger Binding="{Binding Path=CVLevel.Level}">
+                    <DataTrigger.Value>
+                        <model:ConversionLevel>Red</model:ConversionLevel>
+                    </DataTrigger.Value>
                     <Setter Property="Background" Value="{StaticResource ResourceKey=BackgroundError}"></Setter>
                     <Setter Property="Tag" Value="/WorkspaceManager;component/View/Image/error01.png"></Setter>
-                </MultiDataTrigger>
+                </DataTrigger>
 
                 <DataTrigger Binding="{Binding Path=CVLevel.Level}">
                     <DataTrigger.Value>
-                        <base:ConversionLevel>Green</base:ConversionLevel>
+                        <model:ConversionLevel>NA</model:ConversionLevel>
+                    </DataTrigger.Value>
+                    <Setter Property="Background" Value="{StaticResource ResourceKey=BackgroundError}"></Setter>
+                    <Setter Property="Tag" Value="/WorkspaceManager;component/View/Image/error01.png"></Setter>
+                </DataTrigger>
+
+                <DataTrigger Binding="{Binding Path=CVLevel.Level}">
+                    <DataTrigger.Value>
+                        <model:ConversionLevel>Green</model:ConversionLevel>
                     </DataTrigger.Value>
                     <Setter Property="Background" Value="{StaticResource ResourceKey=BackgroundOK}"></Setter>
                     <Setter Property="Tag" Value="/WorkspaceManager;component/View/Image/ok01.png"></Setter>
@@ -187,26 +278,30 @@
             
         </Style>
         
-        <Border x:Key="LinkingTooltipTemplate" BorderBrush="White" BorderThickness="1.5" Width="200" Height="200" CornerRadius="3" Margin="2" Background="#edf5ff">
+        <Border x:Key="LinkingTooltipTemplate" BorderBrush="White" BorderThickness="1.5" Width="200" Height="120" CornerRadius="3" Margin="2" Background="#edf5ff">
             <Border.Effect>
                 <DropShadowEffect BlurRadius="5" Opacity="0.5" ShadowDepth="0"></DropShadowEffect>
             </Border.Effect>
             <Grid x:Name="BGRoot" Style="{StaticResource ResourceKey=LinkingGridBG}" Margin="2">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="54"></RowDefinition>
+                    <RowDefinition Height="60"></RowDefinition>
                     <RowDefinition Height="*"></RowDefinition>
                 </Grid.RowDefinitions>
                     
-                <StackPanel HorizontalAlignment="Left">
-                    <Image Height="50" Width="50" Margin="2" Source="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid}, Path=Tag}">
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="60"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Image Grid.Column="0" Height="50" Width="50" Margin="5" Source="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid, AncestorLevel=2}, Path=Tag}">
                         <Image.Effect>
                             <DropShadowEffect ShadowDepth="0" BlurRadius="2" Opacity="0.5"></DropShadowEffect>
                         </Image.Effect>
                     </Image>
-                    <TextBlock Text="Place Holder" FontSize="18" FontFamily="DejaVu Serif" FontWeight="Bold"></TextBlock>
-                </StackPanel>
+                    <TextBlock Grid.Column="1" Style="{StaticResource ResourceKey=ConversionText}"></TextBlock>
+                </Grid>
 
-                <TextBlock Grid.Row="1" TextWrapping="Wrap" Text="Warning OK Error Warning OK Error Warning OK Error Warning OK Error"></TextBlock>
+                <TextBlock Grid.Row="1" TextWrapping="Wrap" Style="{StaticResource ResourceKey=ConversionTextSec}"></TextBlock>
             </Grid>
         </Border>
 
@@ -267,14 +362,14 @@
                         </DataTrigger>
                         <DataTrigger Binding="{Binding Path=CVLevel.Level}">
                             <DataTrigger.Value>
-                                <base:ConversionLevel>Green</base:ConversionLevel>
+                                <model:ConversionLevel>Green</model:ConversionLevel>
                             </DataTrigger.Value>
                             <Setter Property="Stroke" Value="Green"></Setter>
                         </DataTrigger>
 
                         <DataTrigger Binding="{Binding Path=CVLevel.Level}">
                             <DataTrigger.Value>
-                                <base:ConversionLevel>Yellow</base:ConversionLevel>
+                                <model:ConversionLevel>Yellow</model:ConversionLevel>
                             </DataTrigger.Value>
                             <Setter Property="Stroke" Value="Yellow"></Setter>
                         </DataTrigger>
@@ -307,10 +402,10 @@
                     <Style TargetType="{x:Type Path}">
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding Path=IsMandatory}" Value="true">
-                                <Setter Property="Stroke" Value="Green"></Setter>
+                                <Setter Property="Stroke" Value="Black"></Setter>
                             </DataTrigger>
                             <DataTrigger Binding="{Binding Path=IsMandatory}" Value="false">
-                                <Setter Property="Stroke" Value="Red"></Setter>
+                                <Setter Property="Stroke" Value="#AAA"></Setter>
                             </DataTrigger>
                         </Style.Triggers>
                         <Setter Property="Cursor" Value="Arrow"></Setter>
@@ -338,32 +433,14 @@
 
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
-                                <Condition Binding="{Binding Path=WindowParent.EditorVisual.IsLinking}" Value="True"></Condition>
-                                <Condition Binding="{Binding Path=CVLevel}" Value="{x:Null}"></Condition>
-                                <Condition Binding="{Binding Path=Marked}" Value="True"></Condition>
-                            </MultiDataTrigger.Conditions>
-                            <Setter Property="Child" Value="{StaticResource ResourceKey= NormalTooltipTemplate}"></Setter>
-                        </MultiDataTrigger>
-
-                        <MultiDataTrigger>
-                            <MultiDataTrigger.Conditions>
-                                <Condition Binding="{Binding Path=WindowParent.EditorVisual.IsLinking}" Value="True"></Condition>
-                                <Condition Binding="{Binding Path=Marked}" Value="True"></Condition>
+                                <Condition Binding="{Binding Path=IsLinking}" Value="True"></Condition>
                             </MultiDataTrigger.Conditions>
                             <Setter Property="Child" Value="{StaticResource ResourceKey= LinkingTooltipTemplate}"></Setter>
                         </MultiDataTrigger>
 
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
-                                <Condition Binding="{Binding Path=WindowParent.EditorVisual.IsLinking}" Value="False"></Condition>
-                            </MultiDataTrigger.Conditions>
-                            <Setter Property="Child" Value="{StaticResource ResourceKey= NormalTooltipTemplate}"></Setter>
-                        </MultiDataTrigger>
-
-                        <MultiDataTrigger>
-                            <MultiDataTrigger.Conditions>
-                                <Condition Binding="{Binding Path=WindowParent.EditorVisual.IsLinking}" Value="True"></Condition>
-                                <Condition Binding="{Binding Path=Marked}" Value="False"></Condition>
+                                <Condition Binding="{Binding Path=IsLinking}" Value="False"></Condition>
                             </MultiDataTrigger.Conditions>
                             <Setter Property="Child" Value="{StaticResource ResourceKey= NormalTooltipTemplate}"></Setter>
                         </MultiDataTrigger>

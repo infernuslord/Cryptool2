@@ -996,7 +996,8 @@ namespace WorkspaceManager.View.BinVisual
                         {
                             if (SelectedConnector.Model.ConnectorType != null || b.Model.ConnectorType != null)
                             {
-                                if (WorkspaceModel.compatibleConnectors(SelectedConnector.Model, b.Model))
+                                ConversionLevel lvl = WorkspaceModel.compatibleConnectors(SelectedConnector.Model, b.Model);
+                                if (lvl != ConversionLevel.Red && lvl != ConversionLevel.NA)
                                 {
                                     ConnectionModel connectionModel = (ConnectionModel)Model.ModifyModel(new NewConnectionModelOperation(
                                         SelectedConnector.Model,

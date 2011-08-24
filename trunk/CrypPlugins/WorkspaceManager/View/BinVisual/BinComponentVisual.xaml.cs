@@ -562,15 +562,10 @@ namespace WorkspaceManager.View.BinVisual
         {
             BinConnectorVisual bin = new BinConnectorVisual(model, this);
 
-            if (!model.Outgoing)
-            {
-                Binding bind = new Binding();
-                bind.Path = new PropertyPath(BinEditorVisual.SelectedConnectorProperty);
-                bind.Source = EditorVisual;
-                bind.ConverterParameter = bin;
-                bind.Converter = new ConnectorChangedConverter();
-                bin.SetBinding(BinConnectorVisual.MarkedProperty, bind);
-            }
+            Binding bind = new Binding();
+            bind.Path = new PropertyPath(BinEditorVisual.IsLinkingProperty);
+            bind.Source = EditorVisual;
+            bin.SetBinding(BinConnectorVisual.IsLinkingProperty, bind);
 
             switch (model.Orientation)
             {
@@ -783,28 +778,6 @@ namespace WorkspaceManager.View.BinVisual
     #endregion
 
     #region Converter
-
-    class ConnectorChangedConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            if (value == null)
-                return false;
-
-            BinConnectorVisual element = (BinConnectorVisual)value, baseValue = (BinConnectorVisual)parameter;
-            if (baseValue.Model.ConnectorType == null || element.Model.ConnectorType == null)
-                return false;
-            if (element.Model.ConnectorType.IsAssignableFrom(baseValue.Model.ConnectorType) || baseValue.Model.ConnectorType.IsAssignableFrom(element.Model.ConnectorType))
-                return true;
-            else
-                return false;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
 
     public class StateConverter : IValueConverter
     {
