@@ -75,7 +75,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
                 foreach (var setting in settings)
                 {
                     codeBuilder.AppendLine(string.Format("<tr> <td>{0}</td> <td>{1}</td> <td>{2}</td> </tr>",
-                                                         setting.Caption, setting.ToolTip,
+                                                         System.Security.SecurityElement.Escape(setting.Caption), System.Security.SecurityElement.Escape(setting.ToolTip),
                                                          GetControlTypeString(setting.ControlType)));
                 }
 
@@ -136,8 +136,8 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
                     var color = ColorHelper.GetLineColor(connector.PropertyInfo.PropertyType);
                     codeBuilder.AppendLine(
                         string.Format("<tr> <td bgcolor=\"#{0}{1}{2}\">{3}</td> <td bgcolor=\"#{0}{1}{2}\">{4}</td> <td bgcolor=\"#{0}{1}{2}\" nowrap>{5}</td> <td bgcolor=\"#{0}{1}{2}\">{6}</td> </tr>", color.R.ToString("x"), color.G.ToString("x"), color.B.ToString("x"),
-                                      connector.Caption,
-                                      connector.ToolTip,
+                                      System.Security.SecurityElement.Escape(connector.Caption),
+                                      System.Security.SecurityElement.Escape(connector.ToolTip),
                                       GetDirectionString(connector.Direction),
                                       type));
                 }
@@ -181,7 +181,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
                 var link = Path.Combine(Path.Combine("..\\..", DocGenerator.TemplateDirectory), template.Path);
                 var file = Path.GetFileName(template.Path);
                 codeBuilder.AppendLine(string.Format("<tr> <td><a href=\"{0}\">{1}</a></td> <td>{2}</td> </tr>",
-                    link, file, ConvertXElement(template.Description, entityDocumentationPage)));
+                    link, file, System.Security.SecurityElement.Escape(ConvertXElement(template.Description, entityDocumentationPage))));
             }
 
             codeBuilder.AppendLine("</table>");
