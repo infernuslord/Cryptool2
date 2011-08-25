@@ -28,7 +28,7 @@ namespace Cryptool.PluginBase.Miscellaneous
     /*
      * Access assembly information of executing assembly (which is CrypPluginBase).
      */
-    public class AssemblyHelper
+    public static class AssemblyHelper
     {
         public static Ct2BuildType BuildType
         {
