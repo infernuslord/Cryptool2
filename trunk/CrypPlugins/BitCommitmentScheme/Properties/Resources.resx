@@ -139,7 +139,7 @@
     <value>Dimension</value>
   </data>
   <data name="DimensionTooltip" xml:space="preserve">
-    <value>Dimension value</value>
+    <value>The dimension of the inhomogeneous diophantine equation system (i.e. the amount of inequations). Default is dimension = 7.</value>
   </data>
   <data name="EtaCaption" xml:space="preserve">
     <value>Eta</value>
@@ -151,13 +151,13 @@
     <value>Input bit</value>
   </data>
   <data name="InputBitTooltip" xml:space="preserve">
-    <value>The input bit as a boolean</value>
+    <value>The input bit as a boolean.</value>
   </data>
   <data name="LogMessageCaption" xml:space="preserve">
-    <value>Log message</value>
+    <value>Log message.</value>
   </data>
   <data name="LogMessageTooltip" xml:space="preserve">
-    <value>The log message of the algorithm</value>
+    <value>The log message of the algorithm.</value>
   </data>
   <data name="PCaption" xml:space="preserve">
     <value>P</value>
@@ -181,6 +181,6 @@
     <value>S</value>
   </data>
   <data name="STooltip" xml:space="preserve">
-    <value>S value</value>
+    <value>A security parameter which is chosen so that 0&lt;q&lt;2^s holds. Because the parameter q is a secret, the failing of brute-force attacks can be achieved. The default is s=128. Furthermore, s influences the approximation accuracy, i.e. epsilon becomes smaller if s becomes bigger.</value>
   </data>
 </root>
