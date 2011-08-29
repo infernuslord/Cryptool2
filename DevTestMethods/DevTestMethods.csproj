@@ -86,7 +86,6 @@
   <ItemGroup>
     <Compile Include="CostFunctionTest.cs" />
     <Compile Include="CrypPluginBase\CStream.cs" />
-    <Compile Include="KeySearcherTests\OpenCLTest.cs" />
     <Compile Include="MD5\Algorithm\PresentableMD5Test.cs" />
     <Compile Include="MD5\Presentation\Helpers\PresentationControlFactoryTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -94,9 +93,6 @@
     <Compile Include="TigerTest.cs" />
     <Compile Include="TranspositionTest.cs" />
     <Compile Include="TwofishTest.cs" />
-    <Compile Include="KeySearcherTests\RandomP2PWrapper.cs" />
-    <Compile Include="KeySearcherTests\StorageKeyGeneratorDummy.cs" />
-    <Compile Include="KeySearcherTests\TreeTest.cs" />
     <Compile Include="WhirlpoolTest.cs" />
   </ItemGroup>
   <ItemGroup>
