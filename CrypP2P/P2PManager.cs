@@ -17,6 +17,7 @@
 using System;
 using System.Reflection;
 using Cryptool.P2P.Interfaces;
+using Cryptool.P2P.Types;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.IO;
 using System.IO;
