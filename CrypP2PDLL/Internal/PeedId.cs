@@ -1,6 +1,6 @@
 ﻿using PeersAtPlay.P2POverlay;
 
-namespace Cryptool.Plugins.PeerToPeer.Internal
+namespace Cryptool.P2PDLL.Internal
 {
     public class PeerId
     {

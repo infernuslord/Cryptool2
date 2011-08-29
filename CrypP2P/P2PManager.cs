@@ -15,14 +15,10 @@
 */
 
 using System;
-using Cryptool.P2P.Helper;
-using Cryptool.P2P.Internal;
-using Cryptool.Plugins.PeerToPeer.Internal;
+using System.Reflection;
+using Cryptool.P2P.Interfaces;
 using Cryptool.PluginBase;
-using Cryptool.PluginBase.Miscellaneous;
-using PeersAtPlay.P2PStorage.DHT;
-using PeersAtPlay.Util.Threading;
-using Timer = System.Timers.Timer;
+using Cryptool.PluginBase.IO;
 using System.IO;
 
 namespace Cryptool.P2P
@@ -31,13 +27,78 @@ namespace Cryptool.P2P
     {
         #region Variables
 
-        public static ConnectionManager ConnectionManager { get; private set; }
-        public static P2PBase P2PBase { get; private set; }
-        public static bool IsAutoconnectConsoleOptionSet { get; set; }
-        public static UInt64 NetSize { get; private set; }
+        public static IConnectionManager ConnectionManager { 
+            get
+            {
+                if (!IsP2PSupported)
+                {
+                    throw new P2PNotSupportedException();
+                }
+                return (IConnectionManager) DLLP2PManagerType.GetProperty("ConnectionManager").GetValue(DLLP2PManagerType, null);
+            }
+        }
+        public static IP2PBase P2PBase
+        {
+            get
+            {
+                if (!IsP2PSupported)
+                {
+                    throw new P2PNotSupportedException();
+                }
+                return (IP2PBase)DLLP2PManagerType.GetProperty("P2PBase").GetValue(DLLP2PManagerType, null);
+            }
+        }
+        public static bool IsAutoconnectConsoleOptionSet
+        {
+            get
+            {
+                if (!IsP2PSupported)
+                {
+                    throw new P2PNotSupportedException();
+                }
+                return (bool)DLLP2PManagerType.GetProperty("IsAutoconnectConsoleOptionSet").GetValue(DLLP2PManagerType, null);
+            }
+            set
+            {
+                if (!IsP2PSupported)
+                {
+                    throw new P2PNotSupportedException();
+                }
+                DLLP2PManagerType.GetProperty("IsAutoconnectConsoleOptionSet").SetValue(null, value, null);
+            }
+        }
+        public static UInt64 NetSize
+        {
+            get
+            {
+                if (!IsP2PSupported)
+                {
+                    throw new P2PNotSupportedException();
+                }
+                return (UInt64)DLLP2PManagerType.GetProperty("NetSize").GetValue(DLLP2PManagerType, null);
+            }
+        }
 
-        private static UInt64 NetSize_timestamp;
-        private static Timer SENSTimer;
+        public static string Password { 
+            get
+            {
+                if (!IsP2PSupported)
+                {
+                    throw new P2PNotSupportedException();
+                }
+                return (string) DLLP2PBaseType.GetProperty("Password").GetValue(null, null);
+            }
+            set
+            {
+                if (!IsP2PSupported)
+                {
+                    throw new P2PNotSupportedException();
+                }
+                DLLP2PBaseType.GetProperty("Password").SetValue(null, value, null);
+            }
+        }
+
+        public static bool IsP2PSupported { get; private set; }
 
         #endregion
 
@@ -50,202 +111,60 @@ namespace Cryptool.P2P
 
         #region Singleton
 
-        public static readonly P2PManager Instance = new P2PManager();
+        //public static readonly P2PManager Instance = new P2PManager();
+        private static Type DLLP2PManagerType;
+        private static Type DLLP2PBaseType;
 
-        private P2PManager()
+        static P2PManager()
         {
-            P2PBase = new P2PBase();
-            P2PBase.OnP2PMessageReceived += P2PBase_OnP2PMessageReceived;
-            NetSize = 0;
-            NetSize_timestamp = 0;
-            P2PSettings.Default.NetSize = "-- offline --";
+            IsP2PSupported = true;
 
-            Random rnd = new Random();
-            SENSTimer = new Timer(rnd.Next(60,120)*1000); //initially 1-2 minutes
-            SENSTimer.AutoReset = true;
-            SENSTimer.Elapsed += SENSTimerElapsed;
-
-            ConnectionManager = new ConnectionManager(P2PBase);
-            ConnectionManager.OnP2PConnectionStateChangeOccurred += ConnectionManager_OnP2PConnectionStateChangeOccurred;
-
-            SettingsHelper.ValidateSettings();
+            try
+            {
+                var assembly = Assembly.LoadFrom(Path.Combine(DirectoryHelper.BaseDirectory, "CrypP2PDLL.dll"));
+                DLLP2PManagerType = assembly.GetType("Cryptool.P2PDLL.P2PManager");
+                DLLP2PBaseType = assembly.GetType("Cryptool.P2PDLL.Internal.P2PBase");
+                DLLP2PManagerType.GetEvent("OnGuiLogNotificationOccured").AddEventHandler(null, OnGuiLogNotificationOccured);
+            }
+            catch (Exception)
+            {
+                IsP2PSupported = false;
+            }
         }
 
         #endregion
 
-        #region Peer counting methods
-
-
-        private static void ConnectionManager_OnP2PConnectionStateChangeOccurred(object sender, bool newState)
-        {
-            if (newState)
-            {
-                if (P2PSettings.Default.Architecture == P2PArchitecture.FullMesh)
-                {
-                    SENSTimer.Start();
-                    P2PSettings.Default.NetSize = "Estimating online peers..";    
-                }
-                else
-                {
-                    // SENS currently works only with FullMesh... 
-                    P2PSettings.Default.NetSize = "-- online --"; 
-                }
-                
-            }
-            else
-            {
-                SENSTimer.Stop();
-                P2PSettings.Default.NetSize = "-- offline --";
-            }
-        }
-
-        private static void SENSTimerElapsed(object sender, System.Timers.ElapsedEventArgs e)
-        {
-            InitiateSENS();
-        }
-
-        private static void InitiateSENS()
-        {
-            string username;
-            PeerId pid = P2PBase.GetPeerId(out username);
-
-            GuiLogMessage(String.Format("Initiating SENS Protocol ... (MyID={0})",pid), NotificationLevel.Info);
-
-            byte[] dst = incrementAdr(pid.ToByteArray());
-
-            var memoryStream = new MemoryStream();
-            var binaryWriter = new BinaryWriter(memoryStream);
-
-            binaryWriter.Write(new byte[2] { 0xAF, 0xFE }); // write some header to distinguish from other packets - should be extended by a checksum
-            binaryWriter.Write(pid.ToByteArray());          // write initiator (unchanged)
-            binaryWriter.Write(NetSize);                    // Write 8 Byte netSize
-            binaryWriter.Write((ulong)1);                   // Write 8 Byte counter
-            binaryWriter.Write(NetSize_timestamp);          // Write the 8-Byte logical timestamp from last collect of Netsize
-
-            P2PBase.SendToPeer(memoryStream.ToArray(), dst);
-        }
-
-
-        private static void P2PBase_OnP2PMessageReceived(PeerId sourceAddr, byte[] data)
-        {
-            GuiLogMessage("P2P Message received from " + sourceAddr, NotificationLevel.Debug);
-
-            if (data.Length > 2 && data[0] == 0xAF && data[1] == 0xFE)
-            {
-                // Correct header - so hopefully it is a counting message (this should be checked with an additional hash
-                // Header: 2B, Initiator: 20Byte, NetSize (ulong): 8 Byte, NodeCounter (ulong) 8 Byte, Timestamp (ulong) 8 Byte
-                var binaryReader = new BinaryReader(new MemoryStream(data));
-                binaryReader.ReadBytes(2); //skip the header
-                PeerId initiator = P2PBase.GetPeerId(binaryReader.ReadBytes(20));
-                var netSize = binaryReader.ReadUInt64();
-                var nodeCounter = binaryReader.ReadUInt64();
-                var timestamp = binaryReader.ReadUInt64();
-
-                //check if the message is from us
-                string username;
-                PeerId myPeerID = P2PBase.GetPeerId(out username);
-
-                Random rnd = new Random();
-
-                if (myPeerID.ToString() == initiator.ToString())
-                {
-                    GuiLogMessage("Received SENS message from ourselves: NetSize=" + netSize + "; NodeCounter=" + nodeCounter + "; Timestamp=" + timestamp, NotificationLevel.Debug);
-                    SENSTimer.Interval = rnd.Next(300, 600)*1000; // timer reset
-                    NetSize = nodeCounter;
-                    NetSize_timestamp = timestamp + 1;
-                    P2PSettings.Default.NetSize = NetSize + " peers online";
-                    GuiLogMessage("SENS finished with a new estimation of " + NetSize + " peer(s) online.", NotificationLevel.Info);
-                }
-                else
-                {
-                    GuiLogMessage("Received SENS message from " + initiator + ": NetSize=" + netSize + "; NodeCounter=" + nodeCounter + "; Timestamp=" + timestamp, NotificationLevel.Debug);
-                    if ((netSize > 0) && (timestamp > NetSize_timestamp))
-                    {
-                        SENSTimer.Interval = rnd.Next(300, 600) * 1000; // timer reset
-                        NetSize = netSize;
-                        NetSize_timestamp = timestamp;
-                        P2PSettings.Default.NetSize = NetSize + " peers online";
-                        GuiLogMessage("Found updated estimation of " + NetSize + " peer(s) online.",NotificationLevel.Info);
-                    }
-                    else
-                    {
-                        netSize = NetSize;
-                        timestamp = NetSize_timestamp;
-                    }
-                    nodeCounter++;
-
-                    // finally send to next node..
-                    byte[] dst = incrementAdr(myPeerID.ToByteArray());
-
-                    var memoryStream = new MemoryStream();
-                    var binaryWriter = new BinaryWriter(memoryStream);
-
-                    binaryWriter.Write(new byte[2]{0xAF, 0xFE}); // write header
-                    binaryWriter.Write(initiator.ToByteArray()); // wirte initiator (unchanged)
-                    binaryWriter.Write(netSize);                 // Write 8 Byte netSize
-                    binaryWriter.Write(nodeCounter);             // Write 8 Byte counter
-                    binaryWriter.Write(timestamp);               // Write 8 Byte time information
-
-                    P2PBase.SendToPeer(memoryStream.ToArray(), dst);
-
-                }
-            }
-
-        }
-
-        /// <summary>
-        /// This is one reason, why the entire SENSE protocol should be integrated in the overlay
-        /// incrementing the address is probably overlay-address specific.. 
-        /// </summary>
-        /// <param name="adr"></param>
-        /// <returns></returns>
-        private static byte[] incrementAdr(byte[] adr)
-        {
-            byte[] result = (byte[])adr.Clone();
-
-            for (int i = (result.Length-1); i >= 0; i--)
-            {
-                result[i]++;
-                if (result[i] != 0)
-                    return result;
-            }
-
-            return result;
-        }
-
-
-        #endregion
-
-
+        
         #region CrypWin helper methods
 
         public static void HandleConnectOnStartup()
         {
-            var isAutoconnectConfiguredOrRequested = P2PSettings.Default.ConnectOnStartup || IsAutoconnectConsoleOptionSet;
-            var isReadyToConnect = ConnectionManager.IsReadyToConnect();
-
-            if (isAutoconnectConfiguredOrRequested && isReadyToConnect)
+            if (!IsP2PSupported)
             {
-                GuiLogMessage("Connect on startup enabled. Establishing connection...", NotificationLevel.Info);
-                ConnectionManager.Connect();
+                throw new P2PNotSupportedException();
             }
+            DLLP2PManagerType.GetMethod("HandleConnectOnStartup").Invoke(null, null);
         }
 
         public static void HandleDisconnectOnShutdown()
         {
-            Disconnect();
+            if (!IsP2PSupported)
+            {
+                throw new P2PNotSupportedException();
+            }
+            DLLP2PManagerType.GetMethod("HandleDisconnectOnShutdown").Invoke(null, null);
+        }
+
+        public static IRequestResult GetSuccessfullRequestResult()
+        {
+            if (!IsP2PSupported)
+            {
+                throw new P2PNotSupportedException();
+            }
+            return (IRequestResult) DLLP2PManagerType.GetMethod("GetSuccessfullRequestResult").Invoke(null, null);
         }
 
         #endregion
-
-        #region Framework methods
-
-        public static void GuiLogMessage(string message, NotificationLevel logLevel)
-        {
-            EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, null, new GuiLogEventArgs(message, null, logLevel));
-        }
-
-        #endregion Framework methods
 
         #region DHT operations (blocking)
 
@@ -258,12 +177,13 @@ namespace Cryptool.P2P
         /// <param name="data">data to write</param>
         /// <exception cref="NotConnectedException">Will be thrown if the P2P system is not connected</exception>
         /// <returns>true if the store attempt was successful, false otherwise</returns>
-        public static RequestResult Store(string key, byte[] data)
+        public static IRequestResult Store(string key, byte[] data)
         {
-            if (!IsConnected)
-                throw new NotConnectedException();
-
-            return P2PBase.SynchStore(key, data);
+            if (!IsP2PSupported)
+            {
+                throw new P2PNotSupportedException();
+            }
+            return (IRequestResult) DLLP2PManagerType.GetMethod("Store", new Type[] {typeof(string), typeof(byte[])}).Invoke(null, new object[] {key, data});
         }
 
         /// <summary>
@@ -275,12 +195,13 @@ namespace Cryptool.P2P
         /// <param name="data">data to write</param>
         /// <exception cref="NotConnectedException">Will be thrown if the P2P system is not connected</exception>
         /// <returns>true if the store attempt was successful, false otherwise</returns>
-        public static RequestResult Store(string key, string data)
+        public static IRequestResult Store(string key, string data)
         {
-            if (!IsConnected)
-                throw new NotConnectedException();
-           
-            return P2PBase.SynchStore(key, data);
+            if (!IsP2PSupported)
+            {
+                throw new P2PNotSupportedException();
+            }
+            return (IRequestResult)DLLP2PManagerType.GetMethod("Store", new Type[] { typeof(string), typeof(string) }).Invoke(null, new object[] { key, data });
         }
 
         /// <summary>
@@ -289,12 +210,13 @@ namespace Cryptool.P2P
         /// <param name="key">key to retrieve</param>
         /// <exception cref="NotConnectedException">Will be thrown if the P2P system is not connected</exception>
         /// <returns>byte array containing the data</returns>
-        public static RequestResult Retrieve(string key)
+        public static IRequestResult Retrieve(string key)
         {
-            if (!IsConnected)
-                throw new NotConnectedException();
-            
-            return P2PBase.SynchRetrieve(key);
+            if (!IsP2PSupported)
+            {
+                throw new P2PNotSupportedException();
+            }
+            return (IRequestResult)DLLP2PManagerType.GetMethod("Retrieve", new Type[] { typeof(string) }).Invoke(null, new object[] { key });
         }
 
         /// <summary>
@@ -305,72 +227,16 @@ namespace Cryptool.P2P
         /// <param name="key">key to remove</param>
         /// <exception cref="NotConnectedException">Will be thrown if the P2P system is not connected</exception>
         /// <returns>bool determining wether the attempt was successful</returns>
-        public static RequestResult Remove(string key)
+        public static IRequestResult Remove(string key)
         {
-            if (!IsConnected)
-                throw new NotConnectedException();
-
-            return P2PBase.SynchRemove(key);
+            if (!IsP2PSupported)
+            {
+                throw new P2PNotSupportedException();
+            }
+            return (IRequestResult)DLLP2PManagerType.GetMethod("Remove", new Type[] { typeof(string) }).Invoke(null, new object[] { key });
         }
 
-        #endregion DHT operations (blocking)
-
-        #region DHT operations (non-blocking)
-
-        /// <summary>
-        /// Stores the given data in the DHT.
-        /// 
-        /// The underlying DHT is versionend. Store attempts will fail, if the latest version has not been retrieved before.
-        /// </summary>
-        /// <param name="callback">Callback for asynchronous call</param>
-        /// <param name="key">key to write</param>
-        /// <param name="data">data to write</param>
-        /// <param name="asyncState">Arbitrary data, which will be included in the callback parameter</param>
-        /// <exception cref="NotConnectedException">Will be thrown if the P2P system is not connected</exception>
-        /// <returns>Guid identifying the request</returns>
-        public static Guid Store(AsyncCallback<StoreResult> callback, string key, byte[] data, object asyncState)
-        {
-            if (!IsConnected)
-                throw new NotConnectedException();
-
-            return P2PBase.VersionedDht.Store(callback, key, data, asyncState);
-        }
-
-        /// <summary>
-        /// Retrieves the latest version of a given in key from the DHT.
-        /// </summary>
-        /// <param name="callback">Callback for asynchronous call</param>
-        /// <param name="key">key to retrieve</param>
-        /// <param name="asyncState">Arbitrary data, which will be included in the callback parameter</param>
-        /// <exception cref="NotConnectedException">Will be thrown if the P2P system is not connected</exception>
-        /// <returns>Guid identifying the request</returns>
-        public static Guid Retrieve(AsyncCallback<RetrieveResult> callback, string key, object asyncState)
-        {
-            if (!IsConnected)
-                throw new NotConnectedException();
-
-            return P2PBase.Dht.Retrieve(callback, key, asyncState);
-        }
-
-        /// <summary>
-        /// Removes a key and its data from the DHT.
-        /// 
-        /// The underlying DHT is versionend. Remove attempts will fail, if the latest version has not been retrieved before.
-        /// </summary>
-        /// <param name="callback">Callback for asynchronous call</param>
-        /// <param name="key">key to remove</param>
-        /// <param name="asyncState">Arbitrary data, which will be included in the callback parameter</param>
-        /// <exception cref="NotConnectedException">Will be thrown if the P2P system is not connected</exception>
-        /// <returns>Guid identifying the request</returns>
-        public static Guid Remove(AsyncCallback<RemoveResult> callback, string key, object asyncState)
-        {
-            if (!IsConnected)
-                throw new NotConnectedException();
-
-            return P2PBase.VersionedDht.Remove(callback, key, asyncState);
-        }
-
-        #endregion DHT operations (non-blocking)
+        #endregion
 
         #region Connection methods
 
@@ -380,7 +246,11 @@ namespace Cryptool.P2P
         /// </summary>
         public static void Connect()
         {
-            ConnectionManager.Connect();
+            if (!IsP2PSupported)
+            {
+                throw new P2PNotSupportedException();
+            }
+            DLLP2PManagerType.GetMethod("Connect").Invoke(null, null);
         }
 
         /// <summary>
@@ -389,7 +259,11 @@ namespace Cryptool.P2P
         /// </summary>
         public static void Disconnect()
         {
-            ConnectionManager.Disconnect();
+            if (!IsP2PSupported)
+            {
+                throw new P2PNotSupportedException();
+            }
+            DLLP2PManagerType.GetMethod("Disconnect").Invoke(null, null);
         }
 
         /// <summary>
@@ -397,7 +271,14 @@ namespace Cryptool.P2P
         /// </summary>
         public static bool IsConnected
         {
-            get { return P2PBase.IsConnected && !IsConnecting; }
+            get
+            {
+                if (!IsP2PSupported)
+                {
+                    throw new P2PNotSupportedException();
+                }
+                return (bool)DLLP2PManagerType.GetProperty("IsConnected").GetValue(DLLP2PManagerType, null);
+            }
         }
 
         /// <summary>
@@ -405,7 +286,14 @@ namespace Cryptool.P2P
         /// </summary>
         public static bool IsConnecting
         {
-            get { return ConnectionManager.IsConnecting; }
+            get
+            {
+                if (!IsP2PSupported)
+                {
+                    throw new P2PNotSupportedException();
+                }
+                return (bool)DLLP2PManagerType.GetProperty("IsConnected").GetValue(DLLP2PManagerType, null);
+            }
         }
 
         #endregion

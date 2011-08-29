@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{7D3E4C88-7EA8-45EA-AC1E-FC8ED8EDDB7A}</ProjectGuid>
+    <ProjectGuid>{CC36FB66-E2AE-4D75-A4F6-907DD10F83D8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Cryptool.P2P</RootNamespace>
-    <AssemblyName>CrypP2P</AssemblyName>
+    <RootNamespace>Cryptool.P2PDLL</RootNamespace>
+    <AssemblyName>CrypP2PDLL</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>
@@ -54,51 +54,73 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
-    <Reference Include="System.Windows.Forms" />
+    <Reference Include="Bootstrapper">
+      <HintPath>..\appreferences\bootstrapper.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="CertificateLibrary">
+      <HintPath>..\appreferences\certificatelibrary.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Chordi">
+      <HintPath>..\AppReferences\Chordi.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="FullMeshDHT">
+      <HintPath>..\appreferences\fullmeshdht.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="FullMeshOverlay">
+      <HintPath>..\appreferences\fullmeshoverlay.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Gears4Net">
+      <HintPath>..\appreferences\gears4net.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="LinkManager">
+      <HintPath>..\appreferences\linkmanager.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\appreferences\log4net.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="PeersAtPlayBase">
+      <HintPath>..\appreferences\peersatplaybase.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="RUDP">
+      <HintPath>..\appreferences\rudp.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
     <Reference Include="Util">
       <HintPath>..\appreferences\util.dll</HintPath>
       <Private>false</Private>
     </Reference>
+    <Reference Include="PapsClient">
+      <HintPath>..\AppReferences\PapsClient.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="WebDHT">
+      <HintPath>..\AppReferences\WebDHT.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Security" />
     <Reference Include="System.Xaml" />
-    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="P2PSettings.cs" />
-    <Compile Include="P2PSettings.Designer.cs">
-      <DependentUpon>P2PSettings.settings</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
-    <Compile Include="P2PSettingsTab.xaml.cs">
-      <DependentUpon>P2PSettingsTab.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\Resources.de-DE1.Designer.cs">
-      <DependentUpon>Resources.de-DE.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <DependentUpon>Resources.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Types\Delegates.cs" />
-    <Compile Include="Interfaces\IConnectionManager.cs" />
-    <Compile Include="Interfaces\IP2PBase.cs" />
-    <Compile Include="Interfaces\IRequestResult.cs" />
+    <Compile Include="Helper\SettingsHelper.cs" />
+    <Compile Include="Internal\ConnectionManager.cs" />
+    <Compile Include="Internal\PeedId.cs" />
+    <Compile Include="Internal\RequestResult.cs" />
+    <Compile Include="Worker\ConnectionWorker.cs" />
+    <Compile Include="Worker\WorkerBase.cs" />
     <Compile Include="P2PManager.cs" />
-    <Compile Include="P2PNotSupportedException.cs" />
+    <Compile Include="Helper\PAPCertificate.cs" />
+    <Compile Include="Internal\P2PBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Types\Enums.cs" />
-    <Compile Include="Types\NotConnectedException.cs" />
-    <Compile Include="Types\P2POperationFailedException.cs" />
-    <Compile Include="Types\RequestResultType.cs" />
-    <Compile Include="Types\RequestType.cs" />
-    <Compile Include="Types\StringHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -118,38 +140,15 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CrypP2P\CrypP2P.csproj">
+      <Project>{7D3E4C88-7EA8-45EA-AC1E-FC8ED8EDDB7A}</Project>
+      <Name>CrypP2P</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CrypPluginBase\CrypPluginBase.csproj">
       <Project>{25DB2B47-A457-4EC2-960B-395CE07AE093}</Project>
       <Name>CrypPluginBase</Name>
+      <Private>False</Private>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="P2PSettingsTab.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-    <None Include="P2PSettings.settings">
-      <Generator>PublicSettingsSingleFileGenerator</Generator>
-      <LastGenOutput>P2PSettings.Designer.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="images\earth.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.de-DE.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.de-DE1.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

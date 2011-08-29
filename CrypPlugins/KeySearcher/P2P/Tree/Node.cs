@@ -177,7 +177,7 @@ namespace KeySearcher.P2P.Tree
                     if (leftChild == null)
                     {
                         var reqRes = KSP2PManager.Retrieve(StorageHelper.KeyInDht(DistributedJobIdentifier, From, middle));
-                        if (reqRes != null && reqRes.Data != null)
+                        if (reqRes != null && reqRes.GetData() != null)
                         {
                             leftChild = NodeFactory.CreateNode(StorageHelper, KeyQualityHelper, this, From, middle,
                                                                DistributedJobIdentifier);
@@ -196,7 +196,7 @@ namespace KeySearcher.P2P.Tree
                     if (rightChild == null)
                     {
                         var reqRes = KSP2PManager.Retrieve(StorageHelper.KeyInDht(DistributedJobIdentifier, middle + 1, To));
-                        if (reqRes != null && reqRes.Data != null)
+                        if (reqRes != null && reqRes.GetData() != null)
                         {
                             rightChild = NodeFactory.CreateNode(StorageHelper, KeyQualityHelper, this, middle + 1, To,
                                                              DistributedJobIdentifier);

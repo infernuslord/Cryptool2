@@ -4,7 +4,7 @@ using System.Windows;
 using Cryptool.P2P;
 using System.Windows.Threading;
 using System.Threading;
-using Cryptool.P2P.Internal;
+using Cryptool.P2P.Types;
 using Cryptool.PluginBase.Miscellaneous;
 using PeersAtPlay.CertificateLibrary.Certificates;
 using Cryptool.PluginBase;
@@ -89,13 +89,13 @@ namespace Cryptool.P2PEditor.GUI.Controls
         {
             InitializeComponent();
 
-            P2PManager.ConnectionManager.OnP2PTryConnectingStateChangeOccurred += new ConnectionManager.P2PTryConnectingStateChangeEventHandler(delegate(object sender, bool newState)
+            P2PManager.ConnectionManager.OnP2PTryConnectingStateChangeOccurred += delegate(object sender, bool newState)
             {
                 this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
                     RaiseP2PConnectingEvent(newState);
                 }, null);
-            });
+            };
 
             //Create Cert directory if it does not exist
             try
@@ -163,11 +163,11 @@ namespace Cryptool.P2PEditor.GUI.Controls
             string password = null;
             if (P2PSettings.Default.RememberPassword)
             {
-                password = P2PBase.DecryptString(P2PSettings.Default.Password);
+                password = StringHelper.DecryptString(P2PSettings.Default.Password);
             }
             else
             {
-                password = P2PBase.DecryptString(P2PBase.Password);
+                password = StringHelper.DecryptString(P2PManager.Password);
             }
 
             try
@@ -209,7 +209,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
                         certificateClient.ProxyAddress = P2PSettings.Default.ProxyServer;
                         certificateClient.ProxyPort = P2PSettings.Default.ProxyPort;
                         certificateClient.ProxyAuthName = P2PSettings.Default.ProxyUser;
-                        certificateClient.ProxyAuthPassword = P2PBase.DecryptString(P2PSettings.Default.ProxyPassword);
+                        certificateClient.ProxyAuthPassword = StringHelper.DecryptString(P2PSettings.Default.ProxyPassword);
                         certificateClient.UseProxy = true;
                         certificateClient.UseSystemWideProxy = P2PSettings.Default.UseSystemWideProxy;
                         certificateClient.SslCertificateRefused += new EventHandler<EventArgs>(delegate

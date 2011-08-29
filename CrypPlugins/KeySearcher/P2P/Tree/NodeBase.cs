@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Numerics;
 using Cryptool.P2P;
-using Cryptool.P2P.Internal;
+using Cryptool.P2P.Types;
 using KeySearcher.Helper;
 using KeySearcher.P2P.Exceptions;
 using KeySearcher.P2P.Storage;
@@ -63,7 +63,7 @@ namespace KeySearcher.P2P.Tree
             var result = StorageHelper.UpdateFromDht(ParentNode, true);
             if (result != null && !result.IsSuccessful())
             {
-                throw new UpdateFailedException("Parent node could not be updated: " + result.Status);
+                throw new UpdateFailedException("Parent node could not be updated: " + result.GetStatus());
             }
 
             if (this is Leaf)
@@ -75,7 +75,7 @@ namespace KeySearcher.P2P.Tree
 
             // TODO add check, if we retrieved our lock (e.g. by comparing the lock date or the future client identifier)
             var data = StorageHelper.RetrieveWithReplicationAndHashAndStatistic(StorageHelper.KeyInDht(this), DistributedJobIdentifier, 3);
-            if (data != null && data.Status == RequestResultType.KeyNotFound)
+            if (data != null && data.GetStatus() == RequestResultType.KeyNotFound)
             {
                 throw new ReservationRemovedException("Before updating parent node, this leaf's reservation was deleted.");
             }
@@ -83,7 +83,7 @@ namespace KeySearcher.P2P.Tree
             var updateResult = StorageHelper.UpdateInDht(ParentNode);
             if (updateResult == null || !updateResult.IsSuccessful())
             {
-                throw new UpdateFailedException("Parent node could not be updated: " + updateResult.Status);
+                throw new UpdateFailedException("Parent node could not be updated: " + updateResult.GetStatus());
             }
 
             StorageHelper.RemoveWithReplicationAndStatistic(StorageHelper.KeyInDht(this), 3);
