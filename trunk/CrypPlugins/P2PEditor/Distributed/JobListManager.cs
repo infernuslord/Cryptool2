@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using Cryptool.P2P;
-using Cryptool.P2P.Internal;
+using Cryptool.P2P.Types;
 using Cryptool.PluginBase;
 
 namespace Cryptool.P2PEditor.Distributed
@@ -28,7 +28,7 @@ namespace Cryptool.P2PEditor.Distributed
                 return new List<DistributedJob>();
             }
 
-            var serialisedJobList = P2PManager.Retrieve(JoblistKey).Data;
+            var serialisedJobList = P2PManager.Retrieve(JoblistKey).GetData();
             if (serialisedJobList == null)
             {
                 // no job list in DHT, create empty list
@@ -89,7 +89,7 @@ namespace Cryptool.P2PEditor.Distributed
 
         public void CompleteDistributedJob(DistributedJob distributedJob)
         {
-            distributedJob.ConvertRawWorkspaceToLocalFile(P2PManager.Retrieve(GenerateWorkspaceKey(distributedJob)).Data);
+            distributedJob.ConvertRawWorkspaceToLocalFile(P2PManager.Retrieve(GenerateWorkspaceKey(distributedJob)).GetData());
         }
 
         public void RetrieveDownloadCount(DistributedJob distributedJob)
@@ -98,15 +98,15 @@ namespace Cryptool.P2PEditor.Distributed
             {
                 var result = P2PManager.Retrieve(GenerateDownloadCounterKey(distributedJob));
 
-                if (result.Status == RequestResultType.KeyNotFound)
+                if (result.GetStatus() == RequestResultType.KeyNotFound)
                 {
                     distributedJob.Downloads = 0;
                     return;
                 }
 
-                if (result.Data != null)
+                if (result.GetData() != null)
                 {
-                    var binaryReader = new BinaryReader(new MemoryStream(result.Data));
+                    var binaryReader = new BinaryReader(new MemoryStream(result.GetData()));
                     distributedJob.Downloads = binaryReader.ReadInt32();
                     distributedJob.LastDownload = DateTime.FromBinary(binaryReader.ReadInt64());
                 }
@@ -121,9 +121,9 @@ namespace Cryptool.P2PEditor.Distributed
             if (string.IsNullOrEmpty(distributedJob.StatusKey)) return;
 
             var result = P2PManager.Retrieve(distributedJob.StatusKey);
-            if (result.Status != RequestResultType.Success) return;
+            if (result.GetStatus() != RequestResultType.Success) return;
 
-            var status = DistributedJobSerializer.StatusFromReader(new BinaryReader(new MemoryStream(result.Data)));
+            var status = DistributedJobSerializer.StatusFromReader(new BinaryReader(new MemoryStream(result.GetData())));
             distributedJob.Status = status;
         }
 

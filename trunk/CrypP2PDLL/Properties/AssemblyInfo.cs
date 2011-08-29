@@ -17,10 +17,10 @@
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("CrypTool CrypP2P")]
+[assembly: AssemblyTitle("CrypTool CrypP2P DLL")]
 [assembly: AssemblyCompany("Lehrstuhl Verteilte Systeme - Universität Duisburg-Essen")]
 [assembly: AssemblyProduct("CrypTool CrypP2P")]
-[assembly: AssemblyCopyright("Copyright © Sven Rech 2011")]
+[assembly: AssemblyCopyright("Copyright © Paul Lelgemann 2010")]
 [assembly: ComVisible(false)]
 [assembly: AssemblyVersion("2.0.0.0")]
 [assembly: Guid("4207e092-bf1f-4795-9473-6acf9805ff34")]

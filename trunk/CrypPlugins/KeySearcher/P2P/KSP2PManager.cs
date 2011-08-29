@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Cryptool.P2P;
-using Cryptool.P2P.Internal;
+using Cryptool.P2P.Interfaces;
 
 namespace KeySearcher.P2P
 {
@@ -15,17 +15,17 @@ namespace KeySearcher.P2P
     {
         public static P2PManagerWrapper wrapper = new P2PManagerWrapper();
 
-        public static RequestResult Retrieve(string key)
+        public static IRequestResult Retrieve(string key)
         {
             return wrapper.Retrieve(key);
         }
 
-        public static RequestResult Store(string key, byte[] data)
+        public static IRequestResult Store(string key, byte[] data)
         {
             return wrapper.Store(key, data);
         }
 
-        public static RequestResult Remove(string key)
+        public static IRequestResult Remove(string key)
         {
             return wrapper.Remove(key);
         }
@@ -33,17 +33,17 @@ namespace KeySearcher.P2P
 
     class P2PManagerWrapper
     {
-        public virtual RequestResult Retrieve(string key)
+        public virtual IRequestResult Retrieve(string key)
         {
             return P2PManager.Retrieve(key);
         }
 
-        public virtual RequestResult Store(string key, byte[] data)
+        public virtual IRequestResult Store(string key, byte[] data)
         {
             return P2PManager.Store(key, data);
         }
 
-        public virtual RequestResult Remove(string key)
+        public virtual IRequestResult Remove(string key)
         {
             return P2PManager.Remove(key);
         }

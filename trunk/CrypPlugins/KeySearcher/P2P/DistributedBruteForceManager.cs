@@ -5,7 +5,7 @@ using System.Numerics;
 using System.Threading;
 using System.Windows.Threading;
 using Cryptool.P2P;
-using Cryptool.P2P.Internal;
+using Cryptool.P2P.Types;
 using Cryptool.PluginBase;
 using KeySearcher.Helper;
 using KeySearcher.KeyPattern;
@@ -164,7 +164,7 @@ namespace KeySearcher.P2P
                                                                                         if (!currentLeaf.ReserveLeaf())
                                                                                             keySearcher.GuiLogMessage(Resources.Rereserving_pattern_failed_, NotificationLevel.Warning);
                                                                                     }
-                                                                                    catch (Cryptool.P2P.Internal.NotConnectedException)
+                                                                                    catch (NotConnectedException)
                                                                                     {
                                                                                         keySearcher.GuiLogMessage(Resources.Rereserving_pattern_failed__because_there_is_no_connection_,
                                                                                                 NotificationLevel.Warning);

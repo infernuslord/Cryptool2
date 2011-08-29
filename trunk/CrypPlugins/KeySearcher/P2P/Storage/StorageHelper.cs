@@ -5,7 +5,8 @@ using System.Numerics;
 using System.Security.Cryptography;
 using System.Threading;
 using Cryptool.P2P;
-using Cryptool.P2P.Internal;
+using Cryptool.P2P.Interfaces;
+using Cryptool.P2P.Types;
 using Cryptool.PluginBase;
 using KeySearcher.P2P.Exceptions;
 using KeySearcher.P2P.Presentation;
@@ -33,7 +34,7 @@ namespace KeySearcher.P2P.Storage
         //-------------------------------------------------------------------------------------------
         //AFTER CHANGING THE FOLLOWING METHODS INCREASE THE VERSION-NUMBER AT THE TOP OF THIS CLASS!
         //-------------------------------------------------------------------------------------------
-        internal RequestResult UpdateInDht(NodeBase nodeToUpdate)
+        internal IRequestResult UpdateInDht(NodeBase nodeToUpdate)
         {
             var memoryStream = new MemoryStream();
             var binaryWriter = new BinaryWriter(memoryStream);
@@ -97,7 +98,7 @@ namespace KeySearcher.P2P.Storage
             return StoreWithReplicationAndHashAndStatistic(nodeToUpdate.DistributedJobIdentifier, KeyInDht(nodeToUpdate), memoryStream.ToArray(), 3);
         }
 
-        private RequestResult StoreWithHashAndStatistic(string jobid, string keyInDht, byte[] data)
+        private IRequestResult StoreWithHashAndStatistic(string jobid, string keyInDht, byte[] data)
         {
             SHA256 shaM = new SHA256Managed();
             List<byte> b = new List<byte>();
@@ -111,7 +112,7 @@ namespace KeySearcher.P2P.Storage
             return StoreWithStatistic(keyInDht, result.ToArray());
         }
 
-        private RequestResult StoreWithReplicationAndHashAndStatistic(string jobid, string keyInDht, byte[] data, int replications)
+        private IRequestResult StoreWithReplicationAndHashAndStatistic(string jobid, string keyInDht, byte[] data, int replications)
         {
             try
             {
@@ -124,7 +125,7 @@ namespace KeySearcher.P2P.Storage
                     var rkey = keyInDht + "_" + c;
                     var req = StoreWithHashAndStatistic(jobid, rkey, data);
 
-                    if (req.Status == RequestResultType.VersionMismatch)
+                    if (req.GetStatus() == RequestResultType.VersionMismatch)
                     {
                         //Version mismatch, so try again... if it still fails, ignore it...
                         KSP2PManager.Retrieve(rkey);
@@ -186,14 +187,14 @@ namespace KeySearcher.P2P.Storage
             binaryWriter.Write(nodeToUpdate.getClientIdentifier());
         }
 
-        internal RequestResult UpdateFromDht(NodeBase nodeToUpdate, bool forceUpdate = false)
+        internal IRequestResult UpdateFromDht(NodeBase nodeToUpdate, bool forceUpdate = false)
         {
-            RequestResult requestResult = null;
+            IRequestResult requestResult = null;
             try
             {
                 if (!forceUpdate && nodeToUpdate.LastUpdate > DateTime.Now.Subtract(new TimeSpan(0, 0, 5)))
                 {
-                    return new RequestResult { Status = RequestResultType.Success };
+                    return P2PManager.GetSuccessfullRequestResult();
                 }
 
                 nodeToUpdate.LastUpdate = DateTime.Now;
@@ -202,7 +203,7 @@ namespace KeySearcher.P2P.Storage
                 if (requestResult == null)
                     return null;
 
-                var nodeBytes = requestResult.Data;
+                var nodeBytes = requestResult.GetData();
                 if (nodeBytes == null)
                 {
                     return requestResult;
@@ -374,9 +375,9 @@ namespace KeySearcher.P2P.Storage
             {
                 var requestResult = RetrieveWithReplicationAndHashAndStatistic(key, ofJobIdentifier, 3);
 
-                if (requestResult != null && requestResult.IsSuccessful() && requestResult.Data != null && requestResult.Data.Length >= 8)
+                if (requestResult != null && requestResult.IsSuccessful() && requestResult.GetData() != null && requestResult.GetData().Length >= 8)
                 {
-                    var startTimeUtc = DateTime.SpecifyKind(DateTime.FromBinary(BitConverter.ToInt64(requestResult.Data, 0)), DateTimeKind.Utc);
+                    var startTimeUtc = DateTime.SpecifyKind(DateTime.FromBinary(BitConverter.ToInt64(requestResult.GetData(), 0)), DateTimeKind.Utc);
                     return startTimeUtc.ToLocalTime();
                 }
             }
@@ -397,9 +398,9 @@ namespace KeySearcher.P2P.Storage
             {
                 var requestResult = RetrieveWithReplicationAndHashAndStatistic(key, ofJobIdentifier, 3);
 
-                if (requestResult != null && requestResult.IsSuccessful() && requestResult.Data != null && requestResult.Data.Length >= 8)
+                if (requestResult != null && requestResult.IsSuccessful() && requestResult.GetData() != null && requestResult.GetData().Length >= 8)
                 {
-                    var submitterid = BitConverter.ToInt64(requestResult.Data, 0);
+                    var submitterid = BitConverter.ToInt64(requestResult.GetData(), 0);
                     return submitterid;
                 }
             }
@@ -412,37 +413,37 @@ namespace KeySearcher.P2P.Storage
             return Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetID();
         }
 
-        public RequestResult RetrieveWithStatistic(string key)
+        public IRequestResult RetrieveWithStatistic(string key)
         {
             statusContainer.RetrieveRequests++;
             statusContainer.TotalDhtRequests++;
             var requestResult = KSP2PManager.Retrieve(key);
 
-            if (requestResult != null && requestResult.Data != null)
+            if (requestResult != null && requestResult.GetData() != null)
             {
-                statusContainer.RetrievedBytes += requestResult.Data.Length;
-                statusContainer.TotalBytes += requestResult.Data.Length;
+                statusContainer.RetrievedBytes += requestResult.GetData().Length;
+                statusContainer.TotalBytes += requestResult.GetData().Length;
             }
 
             return requestResult;
         }
 
-        public RequestResult RetrieveWithHashAndStatistic(string key, string distributedJobIdentifier)
+        public IRequestResult RetrieveWithHashAndStatistic(string key, string distributedJobIdentifier)
         {
             var result = RetrieveWithStatistic(key);
 
-            if (result == null || result.Data == null)
+            if (result == null || result.GetData() == null)
             {
                 return null;
             }
-            if (InvalidHash(distributedJobIdentifier, result.Data))
+            if (InvalidHash(distributedJobIdentifier, result.GetData()))
             {
                 throw new InvalidDataException("Invalid Hash");
             }
             return result;
         }
 
-        public RequestResult RetrieveWithReplicationAndHashAndStatistic(string key, string distributedJobIdentifier, int replications)
+        public IRequestResult RetrieveWithReplicationAndHashAndStatistic(string key, string distributedJobIdentifier, int replications)
         {
             bool invalid = false;
 
@@ -462,7 +463,7 @@ namespace KeySearcher.P2P.Storage
                             if (c > 0)
                             {
                                 //The primary replication seems to be broken, so refresh it:
-                                StoreWithReplicationAndHashAndStatistic(distributedJobIdentifier, key, req.Data,
+                                StoreWithReplicationAndHashAndStatistic(distributedJobIdentifier, key, req.GetData(),
                                                                         replications);
                             }
                             return req;
@@ -483,7 +484,7 @@ namespace KeySearcher.P2P.Storage
             return null;
         }
 
-        public RequestResult RemoveWithReplicationAndStatistic(string key, int replications)
+        public IRequestResult RemoveWithReplicationAndStatistic(string key, int replications)
         {
             //delete primary copy:
             var result = RemoveWithStatistic(key);
@@ -505,23 +506,23 @@ namespace KeySearcher.P2P.Storage
             return result;
         }
 
-        public RequestResult RemoveWithStatistic(string key)
+        public IRequestResult RemoveWithStatistic(string key)
         {
             statusContainer.RemoveRequests++;
             statusContainer.TotalDhtRequests++;
             return KSP2PManager.Remove(key);
         }
 
-        public RequestResult StoreWithStatistic(string key, byte[] data)
+        public IRequestResult StoreWithStatistic(string key, byte[] data)
         {
             statusContainer.StoreRequests++;
             statusContainer.TotalDhtRequests++;
             var requestResult = KSP2PManager.Store(key, data);
 
-            if (requestResult.Data != null)
+            if (requestResult.GetData() != null)
             {
-                statusContainer.StoredBytes += requestResult.Data.Length;
-                statusContainer.TotalBytes += requestResult.Data.Length;
+                statusContainer.StoredBytes += requestResult.GetData().Length;
+                statusContainer.TotalBytes += requestResult.GetData().Length;
             }
 
             return requestResult;

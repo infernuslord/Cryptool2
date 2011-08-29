@@ -30,7 +30,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Management;
 using System.Security.Principal;
 using System.Security.Cryptography;
-using Cryptool.P2P.Internal;
+using Cryptool.P2P.Types;
 
 namespace Cryptool.Plugins.QuadraticSieve
 {
@@ -109,7 +109,7 @@ namespace Cryptool.Plugins.QuadraticSieve
         private byte[] ReadRelationPackage(int index, out int ownerID)
         {
             ownerID = 0;
-            byte[] relationPackage = P2PManager.Retrieve(RelationPackageIdentifier(index)).Data;
+            byte[] relationPackage = P2PManager.Retrieve(RelationPackageIdentifier(index)).GetData();
             if (relationPackage == null)
                 return null;
             downloaded += (uint)relationPackage.Length;
@@ -154,7 +154,7 @@ namespace Cryptool.Plugins.QuadraticSieve
                     //Progress relation package:
                     if (!nameCache.ContainsKey(ownerID))
                     {
-                        byte[] n = P2PManager.Retrieve(NameIdentifier(ownerID)).Data;
+                        byte[] n = P2PManager.Retrieve(NameIdentifier(ownerID)).GetData();
                         if (n != null)
                             nameCache.Add(ownerID, System.Text.ASCIIEncoding.ASCII.GetString(n));
                     }
@@ -164,7 +164,7 @@ namespace Cryptool.Plugins.QuadraticSieve
                     if (checkAlive && !activePeers.Contains(ownerID))
                     {
                         //check performance and alive informations:
-                        byte[] performancebytes = P2PManager.Retrieve(PerformanceIdentifier(ownerID)).Data;
+                        byte[] performancebytes = P2PManager.Retrieve(PerformanceIdentifier(ownerID)).GetData();
                         if (performancebytes != null)
                         {
                             double performance = BitConverter.ToDouble(performancebytes, 0);
@@ -242,7 +242,7 @@ namespace Cryptool.Plugins.QuadraticSieve
                         {
                             var e = peerPerformances.Dequeue();
 
-                            byte[] performancebytes = P2PManager.Retrieve(PerformanceIdentifier(e.peerID)).Data;
+                            byte[] performancebytes = P2PManager.Retrieve(PerformanceIdentifier(e.peerID)).GetData();
                             if (performancebytes != null)
                             {
                                 double performance = BitConverter.ToDouble(performancebytes, 0);
@@ -378,7 +378,7 @@ namespace Cryptool.Plugins.QuadraticSieve
         /// </summary>
         private void SynchronizeHead()
         {
-            byte[] h = P2PManager.Retrieve(HeadIdentifier()).Data;
+            byte[] h = P2PManager.Retrieve(HeadIdentifier()).GetData();
             if (h != null)
             {
                 int dhthead = int.Parse(System.Text.ASCIIEncoding.ASCII.GetString(h));
@@ -572,7 +572,7 @@ namespace Cryptool.Plugins.QuadraticSieve
             {
                 FactorManager dhtFactorManager = null;
                 //load DHT Factor Manager:
-                byte[] dhtFactorManagerBytes = P2PManager.Retrieve(FactorListIdentifier()).Data;
+                byte[] dhtFactorManagerBytes = P2PManager.Retrieve(FactorListIdentifier()).GetData();
                 if (dhtFactorManagerBytes != null)
                 {
                     MemoryStream memstream = new MemoryStream();

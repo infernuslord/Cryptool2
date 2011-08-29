@@ -22,7 +22,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using Cryptool.P2P;
-using Cryptool.P2P.Internal;
+using Cryptool.P2P.Types;
 using Cryptool.PluginBase;
 using System.Windows.Controls;
 using System.ComponentModel;

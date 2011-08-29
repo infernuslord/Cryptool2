@@ -2,6 +2,7 @@
 using System.IO;
 using System.Reflection;
 using System.Windows;
+using Cryptool.P2P.Types;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Miscellaneous;
 using PeersAtPlay.CertificateLibrary.Network;
@@ -11,7 +12,6 @@ using System.Windows.Threading;
 using System.Windows.Media.Animation;
 using PeersAtPlay.CertificateLibrary.Certificates;
 using Cryptool.P2P;
-using Cryptool.P2P.Internal;
 using Cryptool.PluginBase.Attributes;
 using System.Windows.Media;
 
@@ -73,7 +73,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
                     certificateClient.ProxyAddress = P2PSettings.Default.ProxyServer;
                     certificateClient.ProxyPort = P2PSettings.Default.ProxyPort;
                     certificateClient.ProxyAuthName = P2PSettings.Default.ProxyUser;
-                    certificateClient.ProxyAuthPassword = P2PBase.DecryptString(P2PSettings.Default.ProxyPassword);
+                    certificateClient.ProxyAuthPassword = StringHelper.DecryptString(P2PSettings.Default.ProxyPassword);
                     certificateClient.UseProxy = true;
                     certificateClient.UseSystemWideProxy = P2PSettings.Default.UseSystemWideProxy;
                     certificateClient.SslCertificateRefused += new EventHandler<EventArgs>(delegate

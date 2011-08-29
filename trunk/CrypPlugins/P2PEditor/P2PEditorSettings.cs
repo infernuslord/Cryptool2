@@ -17,13 +17,10 @@
 using System.ComponentModel;
 using System.Windows;
 using Cryptool.P2P;
+using Cryptool.P2P.Types;
 using Cryptool.P2PEditor.GUI;
 using Cryptool.PluginBase;
-using Cryptool.Plugins.PeerToPeer.Internal;
-using System.Text;
-using System.Security.Cryptography;
 using System;
-using Cryptool.P2P.Internal;
 using System.Windows.Threading;
 using System.Threading;
 
@@ -122,29 +119,29 @@ namespace Cryptool.P2PEditor
             get {
                 if (RememberPassword)
                 {
-                    return P2PBase.DecryptString(settings.Password); 
+                    return StringHelper.DecryptString(settings.Password); 
                 }
                 else
                 {
-                    return P2PBase.DecryptString(P2PBase.Password); 
+                    return StringHelper.DecryptString(P2PManager.Password); 
                 }
                 }
             set
             {
                 if (RememberPassword)
                 {
-                    if (P2PBase.EncryptString(value) != settings.Password)
+                    if (StringHelper.EncryptString(value) != settings.Password)
                     {
-                        settings.Password = P2PBase.EncryptString(value);
+                        settings.Password = StringHelper.EncryptString(value);
                         OnPropertyChanged("Password");
                         HasChanges = true;
                     }
                 }
                 else
                 {
-                    if (P2PBase.EncryptString(value) != P2PBase.Password)
+                    if (StringHelper.EncryptString(value) != P2PManager.Password)
                     {
-                        P2PBase.Password = P2PBase.EncryptString(value);
+                        P2PManager.Password = StringHelper.EncryptString(value);
                         OnPropertyChanged("Password");
                         HasChanges = true;
                     }                    
@@ -165,12 +162,12 @@ namespace Cryptool.P2PEditor
                     settings.RememberPassword = value;
                     if (value)
                     {
-                        settings.Password = P2PBase.Password;
-                        P2PBase.Password = "";
+                        settings.Password = P2PManager.Password;
+                        P2PManager.Password = "";
                     }
                     else
                     {
-                        P2PBase.Password = settings.Password;
+                        P2PManager.Password = settings.Password;
                         settings.Password = "";
                     }
                     HasChanges = true;
@@ -511,12 +508,12 @@ namespace Cryptool.P2PEditor
         [TaskPane("proxypassword_caption", "proxypassword_tooltip", ProxySettings, 16, false, ControlType.TextBoxHidden)]
         public string ProxyPassword
         {
-            get { return P2PBase.DecryptString(settings.ProxyPassword); }
+            get { return StringHelper.DecryptString(settings.ProxyPassword); }
             set
             {
-                if (P2PBase.EncryptString(value) != settings.ProxyPassword)
+                if (StringHelper.EncryptString(value) != settings.ProxyPassword)
                 {
-                    settings.ProxyPassword = P2PBase.EncryptString(value);
+                    settings.ProxyPassword = StringHelper.EncryptString(value);
                     OnPropertyChanged("ProxyPassword");
                     HasChanges = true;
                 }
