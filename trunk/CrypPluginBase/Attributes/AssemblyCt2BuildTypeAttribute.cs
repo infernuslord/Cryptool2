@@ -2,6 +2,7 @@
 
 namespace Cryptool.PluginBase.Attributes
 {
+    /************************ Ct2BuildType ************************/
     public enum Ct2BuildType
     {
         Developer = 0,
@@ -26,6 +27,33 @@ namespace Cryptool.PluginBase.Attributes
         public AssemblyCt2BuildTypeAttribute(int type)
         {
             this.BuildType = (Ct2BuildType) type;
+        }
+    }
+
+    /********************** Ct2InstallationType ********************/
+    public enum Ct2InstallationType
+    {
+        NSIS = 0,
+        ZIP = 1
+    }
+
+    [AttributeUsage(AttributeTargets.Assembly)]
+    public class AssemblyCt2InstallationTypeAttribute : Attribute
+    {
+        public Ct2InstallationType InstallationType
+        {
+            get;
+            set;
+        }
+
+        public AssemblyCt2InstallationTypeAttribute(Ct2InstallationType type)
+        {
+            this.InstallationType = type;
+        }
+
+        public AssemblyCt2InstallationTypeAttribute(int type)
+        {
+            this.InstallationType = (Ct2InstallationType)type;
         }
     }
 }
