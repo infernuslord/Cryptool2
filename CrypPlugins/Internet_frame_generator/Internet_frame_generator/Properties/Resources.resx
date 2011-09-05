@@ -148,7 +148,7 @@
     <value>Number of packets</value>
   </data>
   <data name="NumberOfPacketsToBeCreatedTooltip" xml:space="preserve">
-    <value>How many packets do you want to create?\nPlease type in a number beteen 1 and 100,000.</value>
+    <value>How many packets do you want to create? Please type in a number beteen 1 and 100,000.</value>
   </data>
   <data name="ActionList1" xml:space="preserve">
     <value>IPv4 packets</value>

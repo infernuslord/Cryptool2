@@ -196,7 +196,7 @@
     <value>Separator replacement</value>
   </data>
   <data name="SeparatorReplacementTooltip" xml:space="preserve">
-    <value>Enter the character to separate double separators.\nE.g. a double XX will be separate by insertion of Y</value>
+    <value>Enter the character to separate double separators. E.g. a double XX will be separate by insertion of Y</value>
   </data>
   <data name="SeparatePairsCaption" xml:space="preserve">
     <value>Separate pairs</value>

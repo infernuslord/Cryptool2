@@ -142,7 +142,7 @@ namespace Internet_frame_generator.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die How many packets do you want to create?\nPlease type in a number beteen 1 and 100,000. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die How many packets do you want to create? Please type in a number beteen 1 and 100,000. ähnelt.
         /// </summary>
         internal static string NumberOfPacketsToBeCreatedTooltip {
             get {

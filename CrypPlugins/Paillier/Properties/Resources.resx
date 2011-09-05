@@ -181,7 +181,7 @@
     <value>Output encrypted/modified message as BigInteger</value>
   </data>
   <data name="OutputC1Tooltip" xml:space="preserve">
-    <value>Output encrypted/modified message  as BigInteger</value>
+    <value>Output encrypted/modified message as BigInteger</value>
   </data>
   <data name="PCaption" xml:space="preserve">
     <value>Prime Number P</value>

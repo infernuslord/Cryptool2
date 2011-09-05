@@ -136,7 +136,7 @@
     <value>Integer Array</value>
   </data>
   <data name="IntegerArrayTooltip" xml:space="preserve">
-    <value>An array containing proposed keylengths as integers. Used by the VigenereAnalyser.</value>
+    <value>An array containing proposed keylengths as integers. Used by the VigenèreAnalyser.</value>
   </data>
   <data name="StringOutputCaption" xml:space="preserve">
     <value>Multiples of the keylength and the amount of times they are encountered.</value>

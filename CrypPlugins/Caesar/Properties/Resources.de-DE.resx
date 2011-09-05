@@ -154,7 +154,7 @@
     <value>Verschiebung (Zahl)</value>
   </data>
   <data name="ShiftKeyTooltip" xml:space="preserve">
-    <value>Geben Sie die Anzahl der Positionen ein, um die jedes  Zeichen des Eingabetextes verschoben werden soll. Z.B. bedeutet ein Wert von 1 für den Schlüssel, dass das Klartextzeichen B durch das Geheimzeichen C ersetzt wird, usw.</value>
+    <value>Geben Sie die Anzahl der Positionen ein, um die jedes Zeichen des Eingabetextes verschoben werden soll. Z.B. bedeutet ein Wert von 1 für den Schlüssel, dass das Klartextzeichen B durch das Geheimzeichen C ersetzt wird, usw.</value>
   </data>
   <data name="ActionCaption" xml:space="preserve">
     <value>Aktion</value>
@@ -190,7 +190,7 @@
     <value>Schlüssel als Zahl</value>
   </data>
   <data name="ShiftValueTooltip" xml:space="preserve">
-    <value>Geben Sie die Anzahl der Positionen ein, um die jedes  Zeichen des Eingabetextes verschoben werden soll. Z.B. bedeutet ein Wert von 1 für den Schlüssel, dass das Klartextzeichen B durch das Geheimzeichen C ersetzt wird, usw.</value>
+    <value>Geben Sie die Anzahl der Positionen ein, um die jedes Zeichen des Eingabetextes verschoben werden soll. Z.B. bedeutet ein Wert von 1 für den Schlüssel, dass das Klartextzeichen B durch das Geheimzeichen C ersetzt wird, usw.</value>
   </data>
   <data name="UnknownSymbolHandlingCaption" xml:space="preserve">
     <value>Behandlung ungültiger Zeichen</value>

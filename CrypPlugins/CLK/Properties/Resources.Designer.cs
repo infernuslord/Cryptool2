@@ -142,15 +142,6 @@ namespace Cryptool.Plugins.CLK.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die null ähnelt.
-        /// </summary>
-        internal static string PluginDescriptionURL {
-            get {
-                return ResourceManager.GetString("PluginDescriptionURL", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Simple clock for clock-based plugins. ähnelt.
         /// </summary>
         internal static string PluginTooltip {

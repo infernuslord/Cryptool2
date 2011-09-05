@@ -160,7 +160,7 @@
     <value>Key - Input key data</value>
   </data>
   <data name="ModeCaption" xml:space="preserve">
-    <value>Chaining mode   </value>
+    <value>Chaining mode</value>
   </data>
   <data name="ModeTooltip" xml:space="preserve">
     <value>Select the block cipher mode of operation.</value>

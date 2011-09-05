@@ -178,7 +178,7 @@
     <value>zusätzliches Ausgabebit #</value>
   </data>
   <data name="ClockingBitTooltip" xml:space="preserve">
-    <value>Welches Bit soll als zusätzlich ausgegeben werden (z.B. zur Verwendung als  Taktsignal)?</value>
+    <value>Welches Bit soll als zusätzlich ausgegeben werden (z.B. zur Verwendung als Taktsignal)?</value>
   </data>
   <data name="NoQuickwatchCaption" xml:space="preserve">
     <value>Quickwatch nicht anzeigen</value>

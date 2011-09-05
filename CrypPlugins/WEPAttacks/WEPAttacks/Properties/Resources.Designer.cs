@@ -61,7 +61,7 @@ namespace WEPAttacks.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Aborted after  [h:min:sec]:  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Aborted after [h:min:sec]:  ähnelt.
         /// </summary>
         internal static string Aborted_after {
             get {
@@ -349,7 +349,7 @@ namespace WEPAttacks.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Time used  [h:min:sec]:  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Time used [h:min:sec]:  ähnelt.
         /// </summary>
         internal static string Time_used {
             get {

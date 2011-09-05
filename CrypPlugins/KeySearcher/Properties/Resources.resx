@@ -175,7 +175,7 @@
     <value>Could not store results: </value>
   </data>
   <data name="CSEncryptedDataTooltip" xml:space="preserve">
-    <value>Encrypted data out of an Encryption PlugIn</value>
+    <value>Encrypted data out of an Encryption Plugin</value>
   </data>
   <data name="CSEncryptedDataCaption" xml:space="preserve">
     <value>CS Encrypted Data</value>

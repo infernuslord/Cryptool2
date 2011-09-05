@@ -234,7 +234,7 @@ Press the OK button to proceed.</value>
   </data>
   <data name="GetNewCertificate_RetrieveCertificate_" xml:space="preserve">
     <value>Registration successful. To activate your account, you need to validate your email address.
- A verification code was sent per email.</value>
+A verification code was sent per email.</value>
   </data>
   <data name="Server_error_occurred__Please_try_again_later" xml:space="preserve">
     <value>Server error occurred. Please try again later</value>

@@ -148,7 +148,7 @@
     <value>Datentyp</value>
   </data>
   <data name="DataTypeTooltip" xml:space="preserve">
-    <value>Select DataType of plugin.</value>
+    <value>Wählen Sie den Datentyp des Plugins.</value>
   </data>
   <data name="EncodingSettingCaption" xml:space="preserve">
     <value>Zeichenkodierung der Eingabe</value>

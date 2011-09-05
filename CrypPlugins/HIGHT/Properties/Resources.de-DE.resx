@@ -136,7 +136,7 @@
     <value>Schlüssel</value>
   </data>
   <data name="InputKeyTooltip" xml:space="preserve">
-    <value>Der Schlüssel muss  16 Bytes (128 Bits) lang sein.</value>
+    <value>Der Schlüssel muss 16 Bytes (128 Bits) lang sein.</value>
   </data>
   <data name="OutputStreamCaption" xml:space="preserve">
     <value>Ausgabedatenstrom</value>

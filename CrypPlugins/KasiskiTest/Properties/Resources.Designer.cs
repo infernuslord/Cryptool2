@@ -142,7 +142,7 @@ namespace KasiskiTest.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die An array containing proposed keylengths as integers. Used by the VigenereAnalyser. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die An array containing proposed keylengths as integers. Used by the VigenèreAnalyser. ähnelt.
         /// </summary>
         internal static string IntegerArrayTooltip {
             get {

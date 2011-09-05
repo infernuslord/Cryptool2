@@ -175,7 +175,7 @@
     <value>String</value>
   </data>
   <data name="ShiftValueTooltip" xml:space="preserve">
-    <value>Keyword as derived by the VigenereAnalyser</value>
+    <value>Keyword as derived by the VigenèreAnalyser</value>
   </data>
   <data name="ShiftValueTPCaption" xml:space="preserve">
     <value>Shift value (integer)</value>
@@ -223,6 +223,6 @@
     <value>Remove</value>
   </data>
   <data name="UnknownSymbolHandlingList3" xml:space="preserve">
-    <value>Replace with \'?\'</value>
+    <value>Replace with '?'</value>
   </data>
 </root>

@@ -250,7 +250,7 @@
     <value>Max. Stecker suchen</value>
   </data>
   <data name="MaxSearchedPlugsTooltip" xml:space="preserve">
-    <value>Wieviele Steckerverbindungen sollen maximal gesucht werden?  Der Suchalgorithmus kann weniger als die angegebene Zahl zurückgeben, da dies nur eine obere Schranke ist.</value>
+    <value>Wieviele Steckerverbindungen sollen maximal gesucht werden? Der Suchalgorithmus kann weniger als die angegebene Zahl zurückgeben, da dies nur eine obere Schranke ist.</value>
   </data>
   <data name="ModelCaption" xml:space="preserve">
     <value>Enigma-Modell</value>
@@ -565,19 +565,19 @@ Wählen Sie das Enigma-Modell. Verschiedene Modelle verwenden unterschiedliche R
   <data name="KeySearchMethodList1" xml:space="preserve">
     <value>Index of coincidence</value>
   </data>
-  <data name="KeySearchMethodList12" xml:space="preserve">
+  <data name="KeySearchMethodList2" xml:space="preserve">
     <value>log2-bigram</value>
   </data>
-  <data name="KeySearchMethodList13" xml:space="preserve">
+  <data name="KeySearchMethodList3" xml:space="preserve">
     <value>log2-trigram</value>
   </data>
-  <data name="KeySearchMethodList14" xml:space="preserve">
+  <data name="KeySearchMethodList4" xml:space="preserve">
     <value>Sinkov unigram</value>
   </data>
-  <data name="KeySearchMethodList15" xml:space="preserve">
+  <data name="KeySearchMethodList5" xml:space="preserve">
     <value>Sinkov bigram</value>
   </data>
-  <data name="KeySearchMethodList16" xml:space="preserve">
+  <data name="KeySearchMethodList6" xml:space="preserve">
     <value>Unigram entropy</value>
   </data>
   <data name="Ringstellung_" xml:space="preserve">

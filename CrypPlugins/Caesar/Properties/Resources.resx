@@ -148,7 +148,7 @@
     <value>External alphabet input</value>
   </data>
   <data name="InputAlphabetTooltip" xml:space="preserve">
-    <value>Input a string containing the alphabet which should be used by Caesar.\nIf no alphabet is provided on this input, the internal alphabet will be used.</value>
+    <value>Input a string containing the alphabet which should be used by Caesar. If no alphabet is provided on this input, the internal alphabet will be used.</value>
   </data>
   <data name="ShiftKeyCaption" xml:space="preserve">
     <value>Shift value (integer)</value>
