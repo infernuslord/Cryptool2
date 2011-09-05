@@ -86,7 +86,8 @@ namespace TemplateEditor
                             }
                             foreach (var keyword in locTemp.Value.Keywords)
                             {
-                                result[locTemp.Key].Add(keyword);
+                                if( !result[locTemp.Key].Contains(keyword) )
+                                    result[locTemp.Key].Add(keyword);
                             }
                         }
                     }
@@ -105,7 +106,7 @@ namespace TemplateEditor
 
             foreach (var file in Directory.GetFiles(dirPath))
             {
-                if (file.ToLower().EndsWith("cwm"))
+                if (file.ToLower().EndsWith("cwm") || file.ToLower().EndsWith("component"))
                 {
                     _templates.Add(new TemplateInfo(_templateDir, Path.Combine(dir, Path.GetFileName(file))));
                 }
@@ -305,9 +306,9 @@ namespace TemplateEditor
                     md.Title = TitleTextBox.Text;
                     md.Description = DescriptionTextBox.Text;
                     md.Lang = localizedTemplateData.Key;
+                    md.Keywords = new List<string>();
                     if (KeywordsListBox.Items.Count > 0)
                     {
-                        md.Keywords = new List<string>();
                         foreach (var keyword in KeywordsListBox.Items)
                         {
                             md.Keywords.Add((string) keyword);

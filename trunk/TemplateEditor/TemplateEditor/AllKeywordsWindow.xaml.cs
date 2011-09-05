@@ -29,7 +29,7 @@ namespace TemplateEditor
         {
             CancelButton.Visibility = Visibility.Visible;
             _allKeywords = allKeywords;
-            LangBox.DataContext = allKeywords.Keys;
+            LangBox.ItemsSource = allKeywords.Keys;
 
             if ((lang == null) || (!LangBox.Items.Contains(lang)))
             {
