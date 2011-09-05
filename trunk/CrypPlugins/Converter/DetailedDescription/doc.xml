@@ -4,24 +4,118 @@
   <language culture="en"/>
   <language culture="de-DE"/>
 
-  <introduction lang="en">    
+  <introduction lang="en">
+    This plugin provides conversion between the different data types used in CrypTool.
+    <newline/>
+    <newline/>
+    It has exactly one input and one output. It accepts any data type as input and converts it to the data type specified in
+    the 'Converting to' field of the settings tab of the plugin. Depending on the output data type, different controls are 
+    displayed in the settings tab that allow you to specify more parameters for the chosen conversion.
   </introduction>
 
-  <introduction lang="de-DE">    
+  <introduction lang="de-DE">
+    Dieses Plugin stellt Konvertierungen zwischen den verschiedenen Datentypen von CrypTool zur Verfügung.
+    <newline/>
+    <newline/>
+    Es hat einen Eingang, der alle Datentypen als Eingabe akzeptiert, und konvertiert diesen in den Datentyp, der in den
+    Einstellungen des Plugins unter "Konvertieren in" als Ziel-Datentyp angegeben ist. Abhängig vom Ziel-Datentyp werden in den
+    Einstellungen noch weitere Parameter angezeigt, mit denen die Konvertierung beeinflusst werden kann.
   </introduction>
 
   <usage lang="en">
+    <b>Converting to a number</b>
+    <newline/>
+    <newline/>
+    If you want to convert a Byte[] to a number type (BigInteger, Integer, Short or Byte), you can specify whether the
+    given byte array is to be interpreted in big endian format or in little endian format.
+    Please make sure that the input provides enough bytes for the chosen output data type, i.e. at least 4 bytes for Integer, 2 bytes for
+    Short, 1 byte for Byte, any number of bytes for BigInteger.
+    <newline/>
+    <newline/>
+    If the input is of type String, the plugin tries to interpret it as a decimal number. If this fails, it tries to
+    read it as a sequence of arithmetic operations, whose result will be the output number, f.e. the input string "2^10-15*17"
+    will produce the number 769 as output. If this also fails, the plugin tries to interpret the input as a hexadecimal number. This
+    can also be enforced by prefixing the string with "0x". So if you want the input string "100" to be interpreted as a hexadecimal
+    number instead of decimal, you should enter "0x100".
+    If we still get no result, the plugin removes any non-hexadecimal characters from the input and interpretes the remainder
+    as a hexadecimal number. This enables the input of numbers in other formats: the input string "{ 0x01, 0x00, 0x02 }", which
+    represents an array definition in the programming language C, will be interpreted as the BigInteger 0x10002 (or 65538 in decimal).
+    <newline/>
+    <newline/>
+
+    <b>Converting to Double</b>
+    <newline/>
+    <newline/>
+    When converting to a Double, you can chose whether the input is provided in either American or German format.
+    When American format is selected, e.g. "123,324.34" will be converted to the floating point number 123324.34.
+    The German format of this number would be "123.324,34".
+    <newline/>
+    <newline/>
+    Please be aware that conversion to Double is not safe. Digits may be cut off during the conversion to the internal
+    binary representation of the Double type.
+    <newline/>
+    <newline/>
+
+    <b>Converting to Byte[] or CryptoolStream</b>
+    <newline/>
+    <newline/>
+    If Byte[] or CryptoolStream is selected as output type, you can choose in the settings tab whether the bytes are to 
+    be reversed in order before output. This way, you can f.e. easily convert between the big endian and little endian representations
+    of numbers.
+    <newline/>
+    When converting a String to Byte[], you can also decide whether the input string is to be interpreted numerically first (as
+    in the conversion of a string to a number, see "Converting to a number" for the possible formats).
+    <newline/>
+    If the String is not to be interpreted numerically, you can choose the encoding which should be used for the conversion of
+    the String to its byte representation.
   </usage>
 
   <usage lang="de-DE">
+    <b>Konvertierung in eine Ganzzahl</b>
+    <newline/>
+    <newline/>
+    Wenn ein Byte-Array in einen Ganzzahlentyp (BigInteger, Integer, Short oder Byte) konvertiert wird, so kann in den 
+    Einstellungen angegeben werden, ob das eingegebene Byte-Array im Big-Endian- oder im Little-Endian-Format vorliegt.
+    Es muss darauf geachtet werden, dass genügend Bytes für die gewählte Konvertierung vorliegen (4 Bytes bei Integer,
+    2 Bytes bei Short, 1 Byte bei Byte, beliebig viele Bytes bei BigInteger).
+    <newline/><newline/>
+    Liegt die Eingabe als Zeichenkette vor, so wird diese als Zahl im Dezimalsystem interpretiert. Gelingt dies nicht, so wird
+    versucht, die Eingabe als Folge von Rechenoperationen zu interpretieren, z.B. "2^10-15*17" als Eingabe ergibt als Ausgabe die Zahl 769.
+    Führt auch dies nicht zum Erfolg, wird versucht, die Eingabe als hexadezimale Zahl zu interpretieren. Dies kann auch durch das Voranstellen
+    des Präfixes "0x" an die Zeichenkette erzwungen werden (z.B. wenn die Zeichenkette "100" als 256 interpretiert werden soll,
+    geben Sie "0x100" als Eingabe an).
+    Kann die Zeichenfolge auch nicht als Hexadezimalzahl gelesen werden, so werden alle
+    Nicht-Hexadezimalzeichen der Eingabe gelöscht und die verbleibende Zeichenfolge wird als Hexadezimalzahl interpretiert.
+    Dies ermöglicht die flexible Eingabe von Zahlen in anderen Formaten, z.B. wird die Zeichenfolge "{ 0x01, 0x00, 0x02 }", die ein
+    Array in der Programmiersprache C darstellt, als BigInteger-Zahl 0x10002 (bzw. dezimal 65538) interpretiert.
+    <newline/>
+    <newline/>
+    
+    <b>Konvertierung in Double</b>
+    <newline/>
+    <newline/>
+    Bei der Konvertierung einer Zeichenfolge in das Double-Format kann man zwischen der deutschen und der amerikanischen
+    Formatierung wählen. Bei der deutschen Formatierung wird z.B. die Zeichenfolge "123.324,34" in die Fliesskommazahl
+    "123324,34" umgewandelt. Die amerikanische Formatierung für dieselbe Zahl ist "123,324.34".
+    <newline/>
+    Beachten Sie, dass die Konvertierung in das Double-Format im Allgemeinen nicht ganz exakt ist, da es bei der Umwandlung in
+    die interne binäre Darstellung des Double-Typs zu unvermeidbaren Rundungsfehlern kommen kann.
+    <newline/>
+    <newline/>
+    
+    <b>Konvertierung in Byte-Array oder CryptoolStream</b>
+    <newline/>
+    <newline/>
+    Wird als Ausgabe der Typ Byte-Array oder CryptoolStream gewählt, so kann man in den Einstellungen wählen, ob die Bytes in 
+    normaler oder in umgekehrter Reihenfolge ausgegeben werden sollen. Dies ermöglicht z.B. die Konvertierung von Zahlen im Big-Endian-Format
+    in das Little-Endian-Format.
+    <newline/>
+    Bei der Konvertierung in den Typ Byte-Array kann ausserdem angegeben werden, ob bei der Eingabe einer Zeichenfolge diese numerisch
+    interpretiert und die resultierende Zahl in ihrer Byte-Darstellung ausgegeben werden soll. Für das Format der Eingabe gilt hierbei dasselbe
+    wie im Punkt 'Konvertierung in eine Ganzzahl'.
+    <newline/>
+    Wird die Zeichenfolge nicht numerisch interpretiert, so kann man die Kodierung wählen, welche für die Konvertierung
+    der Eingabe in ein Byte-Array verwendet werden soll.
   </usage>
   
-  <presentation lang="en">
-  </presentation>
-  
-  <presentation lang="de-DE">
-  </presentation>
-  
-  <references>
-  </references>
 </documentation>
