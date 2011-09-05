@@ -123,14 +123,11 @@
   <data name="PluginTooltip" xml:space="preserve">
     <value>Konvertiert die Eingabe in einen anderen Typ</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value>Converter/DetailedDescription/Description.xaml</value>
-  </data>
   <data name="InputOneCaption" xml:space="preserve">
-    <value>Eingabe 1</value>
+    <value>Eingabe</value>
   </data>
   <data name="InputOneTooltip" xml:space="preserve">
-    <value>Eingabe 1</value>
+    <value>Eingabe</value>
   </data>
   <data name="OutputCaption" xml:space="preserve">
     <value>Ausgabe</value>
@@ -154,7 +151,7 @@
     <value>Fließkomma-Format</value>
   </data>
   <data name="FormatAmerTooltip" xml:space="preserve">
-    <value>Sollen Fließkommazahlen nach deutscher (1.234.567,89) oder amerikanischer (1,234,567.89)Schreibweise interpretiert werden?</value>
+    <value>Sollen Fließkommazahlen nach deutscher (1.234.567,89) oder amerikanischer (1,234,567.89) Schreibweise interpretiert werden?</value>
   </data>
   <data name="NumericCaption" xml:space="preserve">
     <value>Numerisch</value>
@@ -209,5 +206,23 @@
   </data>
   <data name="PresentationFormatSettingList3" xml:space="preserve">
     <value>Base64</value>
+  </data>
+  <data name="ReverseOrderCaption" xml:space="preserve">
+    <value>Bytefolge umdrehen</value>
+  </data>
+  <data name="ReverseOrderTooltip" xml:space="preserve">
+    <value>Soll die Reihenfolge der Bytes vor der Ausgabe umgedreht werden?</value>
+  </data>
+  <data name="EndiannessCaption" xml:space="preserve">
+    <value>Byte-Wertigkeit</value>
+  </data>
+  <data name="EndiannessList1" xml:space="preserve">
+    <value>Big-Endian</value>
+  </data>
+  <data name="EndiannessList2" xml:space="preserve">
+    <value>Little-Endian</value>
+  </data>
+  <data name="EndiannessTooltip" xml:space="preserve">
+    <value>Geben Sie die Wertigkeit der Eingabe-Bytes an, wenn die Eingabe ein Byte-Array ist.</value>
   </data>
 </root>

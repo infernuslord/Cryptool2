@@ -123,14 +123,11 @@
   <data name="PluginTooltip" xml:space="preserve">
     <value>Converts input to another type</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value>Converter/DetailedDescription/Description.xaml</value>
-  </data>
   <data name="InputOneCaption" xml:space="preserve">
-    <value>Input one</value>
+    <value>Input</value>
   </data>
   <data name="InputOneTooltip" xml:space="preserve">
-    <value>Input one.</value>
+    <value>Input.</value>
   </data>
   <data name="OutputCaption" xml:space="preserve">
     <value>Output</value>
@@ -209,5 +206,23 @@
   </data>
   <data name="PresentationFormatSettingList3" xml:space="preserve">
     <value>Base64</value>
+  </data>
+  <data name="ReverseOrderCaption" xml:space="preserve">
+    <value>Reverse byte order</value>
+  </data>
+  <data name="ReverseOrderTooltip" xml:space="preserve">
+    <value>Reverse the order of the bytes before giving it to the output.</value>
+  </data>
+  <data name="EndiannessCaption" xml:space="preserve">
+    <value>Endianness</value>
+  </data>
+  <data name="EndiannessList1" xml:space="preserve">
+    <value>Big Endian</value>
+  </data>
+  <data name="EndiannessList2" xml:space="preserve">
+    <value>Little Endian</value>
+  </data>
+  <data name="EndiannessTooltip" xml:space="preserve">
+    <value>Specify the endianness of the input bytes when the input is a byte array.</value>
   </data>
 </root>
