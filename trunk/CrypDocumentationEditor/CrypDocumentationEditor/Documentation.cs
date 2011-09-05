@@ -211,8 +211,102 @@ namespace CrypDocumentationEditor
             documentationNode.AppendChild(presentationNode);
             presentationNode.Attributes.Append(presentationlangAttribute);            
         }
+
+        public List<Reference> GetReferences()
+        {
+            List<Reference> references = new List<Reference>();
+            XmlNodeList linkReferenceNodes = xml.SelectNodes("/documentation/references/linkReference");
+            foreach (XmlNode node in linkReferenceNodes)
+            {
+                references.Add(new LinkReference() { Link = node["link"].InnerText, Caption = node["caption"].InnerText });                
+            }
+            XmlNodeList bookReferenceNodes = xml.SelectNodes("/documentation/references/bookReference ");
+            foreach (XmlNode node in bookReferenceNodes)
+            {
+                references.Add(new BookReference() { Author = node["author"].InnerText, Publisher = node["publisher"].InnerText, Name = node["name"].InnerText });
+            }
+            return references;
+        }
+
+        public void AddReferences(List<Reference> references)
+        {
+            XmlNode referencesNode = xml.SelectSingleNode("/documentation/references");
+            if (referencesNode == null)
+            {
+                referencesNode = xml.CreateNode(XmlNodeType.Element, "references", null);
+                XmlNode documentationNode = xml.SelectSingleNode("/documentation");
+                documentationNode.AppendChild(referencesNode);
+            }
+            else
+            {
+                referencesNode.RemoveAll();
+            }
+
+            foreach (Reference reference in references)
+            {
+                if (reference is LinkReference)
+                {
+                    LinkReference linkReference = (LinkReference)reference;
+                    XmlNode linkReferenceNode = xml.CreateNode(XmlNodeType.Element, "linkReference", null);
+                    XmlNode linkNode = xml.CreateNode(XmlNodeType.Element, "link", null);
+                    XmlAttribute linkNodeAttribute = xml.CreateAttribute("lang");
+                    XmlNode captionNode = xml.CreateNode(XmlNodeType.Element, "caption", null);
+                    XmlAttribute captionNodeAttribute = xml.CreateAttribute("lang");
+                    linkNode.InnerText = linkReference.Link;
+                    linkNodeAttribute.Value = "en";
+                    linkNode.Attributes.Append(linkNodeAttribute);
+                    captionNode.InnerText = linkReference.Caption;
+                    captionNodeAttribute.Value = "en";
+                    captionNode.Attributes.Append(captionNodeAttribute);
+                    linkReferenceNode.AppendChild(linkNode);
+                    linkReferenceNode.AppendChild(captionNode);
+                    referencesNode.AppendChild(linkReferenceNode);
+                }
+                else if (reference is BookReference)
+                {
+                    BookReference bookReference = (BookReference)reference;
+                    XmlNode bookReferenceNode = xml.CreateNode(XmlNodeType.Element, "bookReference", null);
+                    XmlNode authorNode = xml.CreateNode(XmlNodeType.Element, "author", null);
+                    XmlAttribute authorNodeAttribute = xml.CreateAttribute("lang");
+                    XmlNode publisherNode = xml.CreateNode(XmlNodeType.Element, "publisher", null);
+                    XmlAttribute publisherNodeAttribute = xml.CreateAttribute("lang");
+                    XmlNode nameNode = xml.CreateNode(XmlNodeType.Element, "name", null);
+                    XmlAttribute nameNodeAttribute = xml.CreateAttribute("lang");
+                    authorNode.InnerText = bookReference.Author;
+                    authorNodeAttribute.Value = "en";
+                    authorNode.Attributes.Append(authorNodeAttribute);
+                    publisherNode.InnerText = bookReference.Publisher;
+                    publisherNodeAttribute.Value = "en";
+                    publisherNode.Attributes.Append(publisherNodeAttribute);
+                    nameNode.InnerText = bookReference.Name;
+                    nameNodeAttribute.Value = "en";
+                    nameNode.Attributes.Append(nameNodeAttribute);
+                    bookReferenceNode.AppendChild(authorNode);
+                    bookReferenceNode.AppendChild(publisherNode);
+                    bookReferenceNode.AppendChild(nameNode);
+                    referencesNode.AppendChild(bookReferenceNode);
+                }
+
+            }
+
+        }
     }
 
+    public class Reference
+    {
+        
+    }
 
+    public class BookReference : Reference
+    {
+        public string Author { get; set; }
+        public string Publisher { get; set; }
+        public string Name { get; set; }
+    }
 
+    public class LinkReference : Reference
+    {
+        public string Link { get; set; }
+        public string Caption { get; set; }
+    }
 }
