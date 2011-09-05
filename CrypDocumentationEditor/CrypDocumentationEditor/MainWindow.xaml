@@ -40,6 +40,9 @@
             <Button x:Name="AddLanguage" Click="AddLanguage_Click" ToolTip="Add language">
                 <Image Source="Images\addlanguage.png" Stretch="Uniform" Width="48" Height="48"/>
             </Button>
+            <Button x:Name="AddReferenceButton" Click="AddReferenceButton_Click"  ToolTip="Add Reference">
+                <Image Source="Images\references.png" Stretch="Uniform" Width="48" Height="48"/>
+            </Button>
         </ToolBar>
         <Label DockPanel.Dock="Top" Height="30">Introduction:</Label>
         <RichTextBox DockPanel.Dock="Top" ScrollViewer.VerticalScrollBarVisibility="Visible" Name="Introduction" HorizontalAlignment="Left" VerticalAlignment="Top" MinHeight="100" Height="170" AcceptsReturn="True" TextChanged="Introduction_TextChanged" FontSize="14">
@@ -65,5 +68,17 @@
                 </Style>
             </RichTextBox.Resources>
         </RichTextBox>
+        <Label DockPanel.Dock="Top" Height="30">References:</Label>
+        <ListView Name="References" MinHeight="100" Height="170" KeyDown="References_KeyDown">
+            <ListView.View>
+                <GridView ColumnHeaderToolTip="References">
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Author}"    Header="Author" Width="100"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Publisher}" Header="Publisher" Width="100"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Name}"      Header="Name" Width="100"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Link}"      Header="Link" Width="100"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Caption}"   Header="Caption" Width="100"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
     </DockPanel>
 </Window>

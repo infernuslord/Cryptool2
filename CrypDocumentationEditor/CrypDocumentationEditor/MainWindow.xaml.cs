@@ -38,6 +38,7 @@ namespace CrypDocumentationEditor
         private bool hasChanges = false;
         private Documentation docu;
         private string[] languages;
+        private List<Reference> _references = new List<Reference>();
 
         public bool HasChanges { 
             get{
@@ -60,7 +61,7 @@ namespace CrypDocumentationEditor
         public MainWindow()
         {            
             InitializeComponent();            
-            NewButton_Click(null, null);            
+            NewButton_Click(null, null);
         }
 
         private void GenerateLanguageSelector()
@@ -132,7 +133,7 @@ namespace CrypDocumentationEditor
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            double height = (e.NewSize.Height - 190) / 3;
+            double height = (e.NewSize.Height - 190) / 4;
             Introduction.Height = height;
             Usage.Height = height;
             Presentation.Height = height;
@@ -262,11 +263,12 @@ namespace CrypDocumentationEditor
                 Introduction.Document = docu.Introduction;
                 Usage.Document = docu.Usage;
                 Presentation.Document = docu.Presentation;
-                
+                _references = docu.GetReferences();
+                References.ItemsSource = _references;
             }
 
             GenerateLanguageSelector();
-
+            
             HasChanges = false;
         }
 
@@ -447,6 +449,60 @@ namespace CrypDocumentationEditor
             if (Presentation.IsFocused)
             {
                 Presentation.Selection.Start.InsertTextInRun("<newline />");
+            }
+        }
+
+        private void AddReferenceButton_Click(object sender, RoutedEventArgs e)
+        {
+            string link = Interaction.InputBox("Link", "Enter link", "", 100, 100);
+            if (link != "")
+            {
+                string caption = Interaction.InputBox("Caption", "Enter caption", "", 100, 100);
+                if (caption == "")
+                {
+                    return;
+                }
+                _references.Add(new LinkReference() { Caption = caption, Link = link });
+            }
+            else
+            {
+                string author = Interaction.InputBox("Author", "Enter author", "", 100, 100);
+                if (author == "")
+                {
+                    return;
+                }
+                string publisher = Interaction.InputBox("Publisher", "Enter publisher", "", 100, 100);
+                if (publisher == "")
+                {
+                    return;
+                }
+                string name = Interaction.InputBox("Name", "Enter name", "", 100, 100);
+                if (name == "")
+                {
+                    return;
+                }
+                _references.Add(new BookReference() { Author = author, Name = name, Publisher = publisher });
+            }
+
+            docu.AddReferences(_references);      
+            References.ItemsSource = new List<Reference>(_references);
+        }
+
+        private void References_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Delete)
+            {
+                string messageBoxText = string.Format("Do you really want to delete the reference '{0}'?",References.SelectedItem is LinkReference ? ((LinkReference)References.SelectedItem).Caption : ((BookReference)References.SelectedItem).Name);
+                string caption = "Delete Reference?";
+                
+                MessageBoxResult result = MessageBox.Show(messageBoxText, caption, MessageBoxButton.YesNo,  MessageBoxImage.Warning);
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    _references.Remove((Reference)References.SelectedItem);
+                    References.ItemsSource = _references;
+                    docu.AddReferences(_references);
+                }
             }
         }
     }
