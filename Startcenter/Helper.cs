@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Documents;
 using System.Xml.Linq;
+using System.Text.RegularExpressions;
 
 namespace Startcenter
 {
@@ -47,8 +48,7 @@ namespace Startcenter
             {
                 if (node is XText)
                 {
-                    var lines = ((XText) node).Value.Split('\n');
-                    var line = lines.Aggregate((a, b) => a + b.Trim());
+                    var line = new Regex("\\s*\\n").Replace(((XText) node).Value, " ");
                     span.Inlines.Add(new Run(line));
                 }
                 else if (node is XElement)
