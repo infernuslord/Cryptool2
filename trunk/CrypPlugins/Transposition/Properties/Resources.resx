@@ -240,4 +240,7 @@
   <data name="reading_out_by_row" xml:space="preserve">
     <value>reading out by row</value>
   </data>
+  <data name="PresentationGroup" xml:space="preserve">
+    <value>Presentation</value>
+  </data>
 </root>

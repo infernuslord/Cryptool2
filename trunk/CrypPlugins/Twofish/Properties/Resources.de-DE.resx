@@ -151,7 +151,7 @@
     <value>Schlüsselgröße</value>
   </data>
   <data name="KeySizeTooltip" xml:space="preserve">
-    <value>Wählen Sie die Schlüsselgröße. Beachten Sie, daß bei einem zu langen Schlüssel die überzähligen Bytes abgeschnitten werden und  ein zu kurzer Schlüssel mit Nullbytes aufgefüllt wird.</value>
+    <value>Wählen Sie die Schlüsselgröße. Beachten Sie, daß bei einem zu langen Schlüssel die überzähligen Bytes abgeschnitten werden und ein zu kurzer Schlüssel mit Nullbytes aufgefüllt wird.</value>
   </data>
   <data name="KeyStreamCaption" xml:space="preserve">
     <value>Schlüsselstrom</value>

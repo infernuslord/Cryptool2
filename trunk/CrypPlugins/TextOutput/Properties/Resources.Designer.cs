@@ -151,7 +151,7 @@ namespace TextOutput.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Select DataType of plugin. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Select data type of plugin. ähnelt.
         /// </summary>
         internal static string DataTypeTooltip {
             get {

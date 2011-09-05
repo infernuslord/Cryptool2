@@ -123,9 +123,6 @@
   <data name="PluginTooltip" xml:space="preserve">
     <value>Simple clock for clock-based plugins.</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value>null</value>
-  </data>
   <data name="OutputCaption" xml:space="preserve">
     <value>Output</value>
   </data>

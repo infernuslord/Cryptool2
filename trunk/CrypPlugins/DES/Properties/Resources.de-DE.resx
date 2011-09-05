@@ -205,10 +205,10 @@
   <data name="ModeList1" xml:space="preserve">
     <value>Electronic Code Book (ECB)</value>
   </data>
-  <data name="ModeList12" xml:space="preserve">
+  <data name="ModeList2" xml:space="preserve">
     <value>Cipher Block Chaining (CBC)</value>
   </data>
-  <data name="ModeList13" xml:space="preserve">
+  <data name="ModeList3" xml:space="preserve">
     <value>Cipher Feedback (CFB)</value>
   </data>
   <data name="PaddingList1" xml:space="preserve">

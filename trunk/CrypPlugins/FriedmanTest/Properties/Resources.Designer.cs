@@ -70,7 +70,7 @@ namespace FriedmanTest.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die This input accepts a list (array) with the absolute number of letter \noccurences in an encrypted text. This list can be generated e.g. with the frequency test. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die This input accepts a list (array) with the absolute number of letter occurences in an encrypted text. This list can be generated e.g. with the frequency test. ähnelt.
         /// </summary>
         internal static string ArrayInputTooltip {
             get {
@@ -97,7 +97,7 @@ namespace FriedmanTest.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die This output provides the calculated index of coincidence of the provided \noccurences of letters (frequency analysis). ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die This output provides the calculated index of coincidence of the provided occurences of letters (frequency analysis). ähnelt.
         /// </summary>
         internal static string KappaCiphertextTooltip {
             get {

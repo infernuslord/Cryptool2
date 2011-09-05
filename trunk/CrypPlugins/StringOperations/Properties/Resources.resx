@@ -138,9 +138,6 @@
   <data name="PluginCaption" xml:space="preserve">
     <value>String Operations</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value>StringOperations/DetailedDescription/doc.xml</value>
-  </data>
   <data name="PluginTooltip" xml:space="preserve">
     <value>Operations for modifying Strings</value>
   </data>

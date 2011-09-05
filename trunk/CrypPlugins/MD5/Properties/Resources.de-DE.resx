@@ -286,7 +286,7 @@
     <value>Datenlänge wurde angefügt</value>
   </data>
   <data name="The_compression_function_of_MD5_processes_data_in_blocks_of_64_bytes_" xml:space="preserve">
-    <value>Die Kompressions-Funktion von MD5 verarbeitet Daten in Blöcken von 64 Bytes. Wir wollen genügend Daten einlesen, um die Kompressions-Funktion aufrufen zu können und lesen daher Daten ein bis wir 64 Bytes erhalten haben.</value>
+    <value>Die Kompressions-Funktion von MD5 verarbeitet Daten in Blöcken von 64 Bytes. Wir wollen genügend Daten einlesen, um die Kompressions-Funktion aufrufen zu können und lesen daher Daten ein, bis wir 64 Bytes erhalten haben.</value>
   </data>
   <data name="The_compression_function_operates_on_32_bit_integers_" xml:space="preserve">
     <value>Die Kompressions-Funktion arbeitet mit 32-Bit-Integerzahlen. Sie verwendet 4 temporäre Variablen A, B, C und D, die wir mit den Werten von H1 - H4 initialisieren:</value>

@@ -115,7 +115,7 @@ namespace NLFSR.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Which bit shall be generated as an additional output? For example as an clocking bit. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Which bit shall be generated as an additional output? For example as a clocking bit. ähnelt.
         /// </summary>
         internal static string ClockingBitTooltip {
             get {

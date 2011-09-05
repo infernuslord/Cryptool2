@@ -70,7 +70,7 @@ namespace Cryptool.Enigma.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Select the mode of operation for this Enigma simulator. Note that all Enigmas since Enigma D are working with a reflector and therefore there is not difference between encrypting an decrypting. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Select the mode of operation for this Enigma simulator. Note that all Enigmas since Enigma D are working with a reflector and therefore there is not difference between encrypting and decrypting. ähnelt.
         /// </summary>
         public static string ActionTooltip {
             get {
@@ -1438,7 +1438,7 @@ namespace Cryptool.Enigma.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Replace with \&apos;X\&apos; ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Replace with &apos;X&apos; ähnelt.
         /// </summary>
         public static string UnknownSymbolHandlingList3 {
             get {

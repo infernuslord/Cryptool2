@@ -35,6 +35,7 @@ namespace WorkspaceManager.View.BinVisual
     /// <summary>
     /// Interaction logic for BinEditorVisual.xaml
     /// </summary>
+    [Cryptool.PluginBase.Attributes.Localization("WorkspaceManager.Properties.Resources")]
     public partial class BinEditorVisual : UserControl, IUpdateableView, INotifyPropertyChanged
     {
         #region Events

@@ -178,7 +178,7 @@
     <value>Additional output bit #</value>
   </data>
   <data name="ClockingBitTooltip" xml:space="preserve">
-    <value>Which bit shall be generated as an additional output? For example as an clocking bit.</value>
+    <value>Which bit shall be generated as an additional output? For example as a clocking bit.</value>
   </data>
   <data name="NoQuickwatchCaption" xml:space="preserve">
     <value>Do not display Quickwatch</value>

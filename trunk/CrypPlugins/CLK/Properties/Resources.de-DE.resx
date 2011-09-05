@@ -123,9 +123,6 @@
   <data name="PluginTooltip" xml:space="preserve">
     <value>Einfacher Taktgenerator für taktbasierte Plugins</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value />
-  </data>
   <data name="OutputCaption" xml:space="preserve">
     <value>Ausgabe</value>
   </data>

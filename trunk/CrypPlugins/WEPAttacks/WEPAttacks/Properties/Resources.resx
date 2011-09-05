@@ -169,7 +169,7 @@
     <value>Data comes from file</value>
   </data>
   <data name="Aborted_after" xml:space="preserve">
-    <value>Aborted after  [h:min:sec]: </value>
+    <value>Aborted after [h:min:sec]: </value>
   </data>
   <data name="Attack_FMS" xml:space="preserve">
     <value>FMS attack running...</value>
@@ -220,7 +220,7 @@ a few more IP packets.</value>
     <value>Sniffed packets:</value>
   </data>
   <data name="Time_used" xml:space="preserve">
-    <value>Time used  [h:min:sec]: </value>
+    <value>Time used [h:min:sec]: </value>
   </data>
   <data name="Used_packets" xml:space="preserve">
     <value>Used packets: </value>

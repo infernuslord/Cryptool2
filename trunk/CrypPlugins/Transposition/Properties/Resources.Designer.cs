@@ -304,6 +304,15 @@ namespace Transposition.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Presentation ähnelt.
+        /// </summary>
+        internal static string PresentationGroup {
+            get {
+                return ResourceManager.GetString("PresentationGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Presentation Speed ähnelt.
         /// </summary>
         internal static string PresentationSpeedCaption {

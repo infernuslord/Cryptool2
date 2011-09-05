@@ -286,7 +286,7 @@ namespace Paillier.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Output encrypted/modified message  as BigInteger ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Output encrypted/modified message as BigInteger ähnelt.
         /// </summary>
         internal static string OutputC1Tooltip {
             get {

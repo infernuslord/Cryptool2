@@ -495,7 +495,7 @@ namespace Cryptool.P2PEditor.Properties {
         
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Registration successful. To activate your account, you need to validate your email address.
-        /// A verification code was sent per email. ähnelt.
+        ///A verification code was sent per email. ähnelt.
         /// </summary>
         public static string GetNewCertificate_RetrieveCertificate_ {
             get {

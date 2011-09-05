@@ -439,7 +439,7 @@ namespace KeySearcher.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Encrypted data out of an Encryption PlugIn ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Encrypted data out of an Encryption Plugin ähnelt.
         /// </summary>
         internal static string CSEncryptedDataTooltip {
             get {

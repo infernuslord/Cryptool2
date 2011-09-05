@@ -31,7 +31,7 @@ using System.Reflection;
 namespace Cryptool.Plugins.CostFunction
 {
     [Author("Nils Kopal, Simon Malischewski", "Nils.Kopal@cryptool.org , malischewski@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo("CostFunction.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "CostFunction/icon.png")]
+    [PluginInfo("CostFunction.Properties.Resources", false, "PluginCaption", "PluginTooltip", "CostFunction/DetailedDescription/doc.xml", "CostFunction/icon.png")]
     [ComponentCategory(ComponentCategory.CryptanalysisGeneric)]
     public class CostFunction : ICrypComponent
     {
