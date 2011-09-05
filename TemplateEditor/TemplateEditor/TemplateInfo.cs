@@ -132,7 +132,7 @@ namespace TemplateEditor
         {
             FilePath = templateFilePath;
             var cwmFile = Path.Combine(templateDir, templateFilePath);
-            if (Path.GetExtension(cwmFile).ToLower() != ".cwm")
+            if ((Path.GetExtension(cwmFile).ToLower() != ".cwm") && (Path.GetExtension(cwmFile).ToLower() != ".component"))
             {
                 throw new Exception(string.Format("{0} not a valid template!", templateFilePath));
             }
@@ -141,7 +141,8 @@ namespace TemplateEditor
                 throw new Exception(string.Format("Template {0} does not exist!", cwmFile));
             }
 
-            var xmlFile = cwmFile.Substring(0, cwmFile.Length - 3) + "xml";
+            //var xmlFile = cwmFile.Substring(0, cwmFile.Length - 3) + "xml";
+            var xmlFile = Path.Combine(Path.GetDirectoryName(cwmFile), Path.GetFileNameWithoutExtension(cwmFile)) + ".xml";
             XMLPath = xmlFile;
             HasMetadata = false;
             if (File.Exists(xmlFile))
@@ -220,7 +221,7 @@ namespace TemplateEditor
             XElement xml = new XElement("sample");
             foreach (var data in LocalizedTemplateData.Values)
             {
-                if (data.Lang != null)
+                if (data.Lang != null && data.Title != null)
                 {
                     var title = new XElement("title");
                     title.SetAttributeValue("lang", data.Lang);
