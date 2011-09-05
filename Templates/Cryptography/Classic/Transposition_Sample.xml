@@ -1,30 +1,16 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
-	<title lang="en">Transposition-Cipher</title>
-	<title lang="de">Transposition-Chiffre</title>
-	
-	<description lang="en">
-		This template shows how to use the <i> Transposition-Cipher </i>.<newline/>
-		<newline/>
-		In cryptography, a transposition cipher is a method of encryption by which the positions held by units of plaintext (which are commonly characters or groups of characters) 
-		are shifted according to a regular system, so that the ciphertext constitutes a permutation of the plaintext. That is, the order of the units is changed. Mathematically a bijective 
-		function is used on the characters' positions to encrypt and an inverse function to decrypt.<newline/>
-		<newline/>
-		Source: <external ref="http://en.wikipedia.org/wiki/Transposition_cipher"/>
-	</description>
-	<description lang="de">
-		Diese Vorlage zeigt die Verwendung der <i> Transposition-Ver-/Entschlüsselung </i>.<newline/>
-		<newline/>
-		In der Kryptographie ist die Transposition eine der beiden grundlegenden Verschlüsselungsklassen. Dabei werden die Zeichen einer Botschaft (des Klartextes) umsortiert. 
-		Jedes Zeichen bleibt zwar unverändert erhalten, jedoch wird die Stelle, an der es steht, geändert. Dies steht im Gegensatz zu der Klasse der (monoalphabetischen oder 
-		polyalphabetischen) Substitution, bei der jedes Zeichen des Klartextes zwar seinen Platz behält, jedoch durch ein anderes Zeichen ersetzt („substituiert“) wird.<newline/>
-		<newline/>
-		Quelle: <external ref="http://de.wikipedia.org/wiki/Transposition_(Kryptographie)"/>
-	</description>
-	
-	<icon file="Transposition_Sample.png"/>
-	
-	<relevantPlugins>
-		<plugin name="Transposition"/>
-	</relevantPlugins>
+  <title lang="en">Transposition-Cipher</title>
+  <description lang="en">This template shows how to use the <i>Transposition-Cipher</i>.<newline /><newline />
+In cryptography, a transposition cipher is a method of encryption by which the positions held by units of plaintext (which are commonly characters or groups of characters) are shifted according to a regular system, so that the ciphertext constitutes a permutation of the plaintext. That is, the order of the units is changed. Mathematically a bijective function is used on the characters' positions to encrypt and an inverse function to decrypt.<newline /><newline />
+Source: <external ref="http://en.wikipedia.org/wiki/Transposition_cipher" /></description>
+  <keywords>Transposition</keywords>
+  <title lang="de">Transposition-Chiffre</title>
+  <description lang="de">Diese Vorlage zeigt die Verwendung der <i>Transposition-Ver-/Entschlüsselung</i>.<newline /><newline />
+In der Kryptographie ist die Transposition eine der beiden grundlegenden Verschlüsselungsklassen. Dabei werden die Zeichen einer Botschaft (des Klartextes) umsortiert. Jedes Zeichen bleibt zwar unverändert erhalten, jedoch wird die Stelle, an der es steht, geändert. Dies steht im Gegensatz zu der Klasse der (monoalphabetischen oder polyalphabetischen) Substitution, bei der jedes Zeichen des Klartextes zwar seinen Platz behält, jedoch durch ein anderes Zeichen ersetzt („substituiert“) wird.<newline /><newline />
+Quelle: <external ref="http://de.wikipedia.org/wiki/Transposition_(Kryptographie)" /></description>
+  <icon file="Transposition_Sample.png" />
+  <relevantPlugins>
+    <plugin name="Transposition" />
+  </relevantPlugins>
 </sample>

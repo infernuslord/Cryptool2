@@ -1,19 +1,13 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
-	<title lang="en">KeySearcher SDES_Sample</title>
-	<title lang="de">KeySearcher SDES_Sample</title>
-	
-	<description lang="en">
-		This template shows how to use the <i> Keysearcher </i> with <i> SDES </i>.		
-	</description>
-	<description lang="de">
-		Diese Vorlage zeigt die Verwendung des <i> Keysearcher </i> mit <i> SDES </i>.
-	</description>
-	
-	<icon file="KeySearcher.png"/>
-	
-	<relevantPlugins>
-		<plugin name="KeySearcher"/>
-		<plugin name="SDES"/>
-	</relevantPlugins>
+  <title lang="en">KeySearcher SDES_Sample</title>
+  <description lang="en">This template shows how to use the <i>Keysearcher</i> with <i>SDES</i>.</description>
+  <keywords>SRTP, SDP, Session</keywords>
+  <title lang="de">KeySearcher SDES_Sample</title>
+  <description lang="de">Diese Vorlage zeigt die Verwendung des <i>Keysearcher</i> mit <i>SDES</i>.</description>
+  <icon file="KeySearcher.png" />
+  <relevantPlugins>
+    <plugin name="KeySearcher" />
+    <plugin name="SDES" />
+  </relevantPlugins>
 </sample>

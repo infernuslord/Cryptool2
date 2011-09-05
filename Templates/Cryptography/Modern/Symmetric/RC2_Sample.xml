@@ -1,26 +1,17 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
-	<title lang="en">RC2-Cipher</title>
-	<title lang="de">RC2-Chiffre</title>
-	
-	<description lang="en">
-		This template shows how to use the <i> RC2-Cipher </i>.<newline/>
-		In cryptography, RC2 is a block cipher designed by Ron Rivest in 1987. "RC" stands for "Ron's Code" or "Rivest Cipher"; other ciphers designed by Rivest include RC4, RC5 and RC6.<newline/>
-		<newline/>
-		Source: <external ref="http://en.wikipedia.org/wiki/RC2"/>
-	</description>
-	<description lang="de">
-		Diese Vorlage zeigt die Verwendung der <i> RC2-Ver-/Entschlüsselung </i>.<newline/>
-		<newline/>
-		RC2 ist eine 64 Bit Blockchiffre mit variabler Schlüssellänge, die von Ronald Rivest als möglicher Ersatz für DES im Jahr 1987 entwickelt wurde. RC steht für Rivest 
-		Cipher oder Ron’s Code, weitere Blockchiffren die von Ronald Rivest entwickelt worden sind: RC4, RC5, und RC6.<newline/>
-		<newline/>
-		Quelle: <external ref="http://de.wikipedia.org/wiki/RC2_%28Verschl%C3%BCsselungsverfahren%29"/>
-	</description>
-	
-	<icon file="RC2_Sample.png"/>
-	
-	<relevantPlugins>
-		<plugin name="RC2"/>
-	</relevantPlugins>
+  <title lang="en">RC2-Cipher</title>
+  <description lang="en">This template shows how to use the <i>RC2-Cipher</i>.<newline />
+In cryptography, RC2 is a block cipher designed by Ron Rivest in 1987. "RC" stands for "Ron's Code" or "Rivest Cipher"; other ciphers designed by Rivest include RC4, RC5 and RC6.<newline /><newline />
+Source: <external ref="http://en.wikipedia.org/wiki/RC2" /></description>
+  <keywords>Rivest, Ron, block, symmetric</keywords>
+  <title lang="de">RC2-Chiffre</title>
+  <description lang="de">Diese Vorlage zeigt die Verwendung der <i>RC2-Ver-/Entschlüsselung</i>.<newline /><newline />
+RC2 ist eine 64 Bit Blockchiffre mit variabler Schlüssellänge, die von Ronald Rivest als möglicher Ersatz für DES im Jahr 1987 entwickelt wurde. RC steht für Rivest Cipher oder Ron’s Code, weitere Blockchiffren die von Ronald Rivest entwickelt worden sind: RC4, RC5, und RC6.<newline /><newline />
+Quelle: <external ref="http://de.wikipedia.org/wiki/RC2_%28Verschl%C3%BCsselungsverfahren%29" /></description>
+  <keywords lang="de">Blockchiffre, symmetrisch</keywords>
+  <icon file="RC2_Sample.png" />
+  <relevantPlugins>
+    <plugin name="RC2" />
+  </relevantPlugins>
 </sample>

@@ -1,19 +1,14 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
-	<title lang="en">SDES Analyzing using entropy</title>
-	<title lang="de">SDES Analyse mittels Entropie</title>
-	
-	<description lang="en">
-		This template shows how to use the <i> Keysearcher </i> with <i> SDES </i> and the <i> Costfuntion </i> Entropy.	
-	</description>
-	<description lang="de">
-		Diese Vorlage zeigt die Verwendung des <i> Keysearcher </i> mit <i> SDES </i> und der <i> Kostenfunktion </i> Entropie.
-	</description>
-	
-	<icon file="SDES_Sample.png"/>
-	
-	<relevantPlugins>
-		<plugin name="KeySearcher"/>
-		<plugin name="SDES"/>
-	</relevantPlugins>
+  <title lang="en">SDES Analyzing using entropy</title>
+  <description lang="en">This template shows how to use the <i>Keysearcher</i> with <i>SDES</i> and the <i>Costfuntion</i> Entropy.</description>
+  <keywords>SRTP, SDP, symmetric, Entropy, Analysis</keywords>
+  <title lang="de">SDES Analyse mittels Entropie</title>
+  <description lang="de">Diese Vorlage zeigt die Verwendung des <i>Keysearcher</i> mit <i>SDES</i> und der <i>Kostenfunktion</i> Entropie.</description>
+  <keywords lang="de">Entropie, Analyse</keywords>
+  <icon file="SDES_Sample.png" />
+  <relevantPlugins>
+    <plugin name="KeySearcher" />
+    <plugin name="SDES" />
+  </relevantPlugins>
 </sample>

@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sample>
+  <title lang="en">Paillier Key Generator</title>
+  <description lang="en">-</description>
+  <keywords>homomorphic, Damgard, Eurocrypt, Jurik, Paillier, asymmetric</keywords>
+  <title lang="de">Paillier Schlüsselgenerator</title>
+  <description lang="de">-</description>
+  <keywords lang="de">homomorph, asymmetrisch</keywords>
+  <icon file="" />
+</sample>
