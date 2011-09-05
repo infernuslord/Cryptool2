@@ -1,35 +1,17 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
-	<title lang="en">Caesar Cipher</title>
-	<title lang="de">Caesar-Chiffre</title>
-	
-	<description lang="en">
-		This template shows how to use the <i> Caesar-cipher </i>.<newline/>
-		<newline/>	
-		In cryptography, a Caesar cipher, also known as a Caesar's cipher, the shift cipher, Caesar's code or Caesar shift, is one of the simplest and most 
-		widely known encryption techniques. It is a type of substitution cipher in which each letter in the plaintext is replaced by a letter some fixed number of 
-		positions down the alphabet. For example, with a shift of 3, A would be replaced by D, B would become E, and so on. The method is named after Julius 
-		Caesar, who used it to communicate with his generals. The encryption step performed by a Caesar cipher is often incorporated as part of more complex 
-		schemes, such as the Vigenère cipher, and still has modern application in the ROT13 system. As with all single alphabet substitution ciphers, the Caesar 
-		cipher is easily broken and in practice offers essentially no communication security.<newline/>	
-		<newline/>	
-		Source: <external ref="http://en.wikipedia.org/wiki/Caesar_cipher"/>
-	</description>
-	<description lang="de">
-		Diese Vorlage zeigt die Verwendung der <i> Caesar-Ver-/Entschlüsselung </i>.<newline/>
-		<newline/>
-		Die Caesar-Verschlüsselung (auch als Caesar-Verschiebung, Verschiebechiffre oder als Einfacher Caesar bezeichnet) ist ein einfaches Verschlüsselungsverfahren, 
-		das auf der monographischen und monoalphabetischen Substitution basiert. Als eines der einfachsten und unsichersten Verfahren dient es heute hauptsächlich dazu, um 
-		Grundprinzipien der Kryptologie anschaulich darzustellen.Bei der Verschlüsselung wird jeder Buchstabe des Klartexts auf einen Geheimtextbuchstaben abgebildet.
-		Diese Abbildung ergibt sich, indem man die Zeichen eines geordneten Alphabets um eine bestimmte Anzahl zyklisch nach rechts verschiebt (rotiert). Die Anzahl der 
-		verschobenen Zeichen bildet den Schlüssel, der für die gesamte Verschlüsselung unverändert bleibt.<newline/>
-		<newline/>
-		Quelle: <external ref="http://de.wikipedia.org/wiki/Caesar-Verschlüsselung"/>
-	</description>
-	
-	<icon file="Caesar_Sample.png"/>
-	
-	<relevantPlugins>
-		<plugin name="Caesar"/>
-	</relevantPlugins>
+  <title lang="en">Caesar Cipher</title>
+  <description lang="en">This template shows how to use the <i>Caesar-cipher</i>.<newline /><newline />	
+In cryptography, a Caesar cipher, also known as a Caesar's cipher, the shift cipher, Caesar's code or Caesar shift, is one of the simplest and most widely known encryption techniques. It is a type of substitution cipher in which each letter in the plaintext is replaced by a letter some fixed number of positions down the alphabet. For example, with a shift of 3, A would be replaced by D, B would become E, and so on. The method is named after Julius Caesar, who used it to communicate with his generals. The encryption step performed by a Caesar cipher is often incorporated as part of more complex schemes, such as the Vigenère cipher, and still has modern application in the ROT13 system. As with all single alphabet substitution ciphers, the Caesar cipher is easily broken and in practice offers essentially no communication security.<newline /><newline />	
+Source: <external ref="http://en.wikipedia.org/wiki/Caesar_cipher" /></description>
+  <keywords>Caesar, Julius, monoalphabetic, Substitution</keywords>
+  <title lang="de">Caesar-Chiffre</title>
+  <description lang="de">Diese Vorlage zeigt die Verwendung der <i>Caesar-Ver-/Entschlüsselung</i>.<newline /><newline />
+Die Caesar-Verschlüsselung (auch als Caesar-Verschiebung, Verschiebechiffre oder als Einfacher Caesar bezeichnet) ist ein einfaches Verschlüsselungsverfahren, das auf der monographischen und monoalphabetischen Substitution basiert. Als eines der einfachsten und unsichersten Verfahren dient es heute hauptsächlich dazu, um Grundprinzipien der Kryptologie anschaulich darzustellen.Bei der Verschlüsselung wird jeder Buchstabe des Klartexts auf einen Geheimtextbuchstaben abgebildet. Diese Abbildung ergibt sich, indem man die Zeichen eines geordneten Alphabets um eine bestimmte Anzahl zyklisch nach rechts verschiebt (rotiert). Die Anzahl der verschobenen Zeichen bildet den Schlüssel, der für die gesamte Verschlüsselung unverändert bleibt.<newline /><newline />
+Quelle: <external ref="http://de.wikipedia.org/wiki/Caesar-Verschlüsselung" /></description>
+  <keywords lang="de">Cäsar, monoalphabetisch</keywords>
+  <icon file="Caesar_Sample.png" />
+  <relevantPlugins>
+    <plugin name="Caesar" />
+  </relevantPlugins>
 </sample>

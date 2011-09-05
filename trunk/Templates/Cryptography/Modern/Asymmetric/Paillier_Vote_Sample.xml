@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sample>
+  <title lang="en">Paillier Voting</title>
+  <description lang="en">-</description>
+  <keywords>homomorphic, voting, E-Voting, Damgard, Eurocrypt, Jurik, asymmetric</keywords>
+  <title lang="de">Paillier Voting</title>
+  <description lang="de">-</description>
+  <keywords lang="de">homomorph, Wahl, wählen, asymmetrisch</keywords>
+  <icon file="" />
+</sample>

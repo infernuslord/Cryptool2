@@ -1,19 +1,13 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
-	<title lang="en">MTC3-WorldRecordChallenge-KeySearcher_AES-65Bit</title>
-	<title lang="de">MTC3-WorldRecordChallenge-KeySearcher_AES-65Bit</title>
-	
-	<description lang="en">
-		This template contains the <b>MTC3-WorldRecordChallenge-KeySearcher_AES-65Bit</b>.
-	</description>
-	<description lang="de">
-		Diese Vorlage zeigt die <b>MTC3-WorldRecordChallenge-KeySearcher_AES-65Bit</b>.
-	</description>
-	
-	<icon file="KeySearcher.png"/>
-	
-	<relevantPlugins>
-		<plugin name="KeySearcher"/>
-		<plugin name="AES"/>
-	</relevantPlugins>
+  <title lang="en">MTC3-WorldRecordChallenge-KeySearcher_AES-65Bit</title>
+  <description lang="en">This template contains the <b>MTC3-WorldRecordChallenge-KeySearcher_AES-65Bit</b>.</description>
+  <keywords>advanced, standard, Rijndael, Rijmen, Daemen, nist, challenge</keywords>
+  <title lang="de">MTC3-WorldRecordChallenge-KeySearcher_AES-65Bit</title>
+  <description lang="de">Diese Vorlage zeigt die <b>MTC3-WorldRecordChallenge-KeySearcher_AES-65Bit</b>.</description>
+  <icon file="KeySearcher.png" />
+  <relevantPlugins>
+    <plugin name="KeySearcher" />
+    <plugin name="AES" />
+  </relevantPlugins>
 </sample>
