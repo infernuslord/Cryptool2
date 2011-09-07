@@ -293,11 +293,8 @@ namespace Cryptool.Enigma
         {
             char ch = entrySubst;
 
-            //check notches and update the rotor position
-            foreach (char n in rotor1notches)
-            {
-                if (settings.AlphabetIndexOf(n) == iCfg.Rotor1pos) iCfg.Rotor2pos = (iCfg.Rotor2pos + 1) % alen;
-            }
+            //check notches and update the rotor position. notches of rotor2 were checked first to avoid double-stepping (mechanical impossible)
+           
 
             foreach (char n in rotor2notches)
             {
@@ -306,7 +303,7 @@ namespace Cryptool.Enigma
                 if (settings.AlphabetIndexOf(n) == currentRotor2pos)
                 {
                     iCfg.Rotor3pos = (iCfg.Rotor3pos + 1) % alen;
-                    iCfg.Rotor2pos = (iCfg.Rotor2pos + 1) % alen; // double-stepping, step of rotor 3 takes rotor 2 with it (and 1, but 1 steps anyway)
+                    iCfg.Rotor2pos = (iCfg.Rotor2pos + 1) % alen; // step of rotor 3 takes rotor 2 with it 
                 }
             }
 
@@ -315,6 +312,11 @@ namespace Cryptool.Enigma
                 if (settings.AlphabetIndexOf(n) == iCfg.Rotor3pos) iCfg.Rotor4pos = (iCfg.Rotor4pos + 1) % alen;
             }
 
+
+            foreach (char n in rotor1notches)
+            {
+                if (settings.AlphabetIndexOf(n) == iCfg.Rotor1pos) iCfg.Rotor2pos = (iCfg.Rotor2pos + 1) % alen;
+            }
             // Rotor 1 always steps
             iCfg.Rotor1pos = (iCfg.Rotor1pos + 1) % alen;
             
