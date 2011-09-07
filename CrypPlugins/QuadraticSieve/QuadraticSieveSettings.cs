@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Cryptool.P2P;
 using Cryptool.PluginBase;
 using System.ComponentModel;
 using Cryptool.PluginBase.Miscellaneous;
@@ -122,7 +123,15 @@ namespace Cryptool.Plugins.QuadraticSieve
         [TaskPane( "UsePeer2PeerCaption", "UsePeer2PeerTooltip", null, 3, false, ControlType.CheckBox, "", null)]
         public bool UsePeer2Peer
         {
-            get { return usePeer2Peer; }
+            get
+            {
+                if (!P2PManager.IsP2PSupported)
+                {
+                    UsePeer2Peer = false;
+                    return false;
+                }
+                return usePeer2Peer;
+            }
             set
             {
                 if (value != usePeer2Peer)
@@ -140,7 +149,12 @@ namespace Cryptool.Plugins.QuadraticSieve
             if (TaskPaneAttributeChanged == null)
                 return;
 
-            if (usePeer2Peer)
+            if (!P2PManager.IsP2PSupported)
+            {
+                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("UsePeer2Peer", Visibility.Collapsed)));
+            }
+
+            if (UsePeer2Peer)
             {
                 TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Channel", Visibility.Visible)));
             }
