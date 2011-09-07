@@ -2,6 +2,7 @@
 using System.Windows.Controls;
 using Cryptool.PluginBase.Attributes;
 using Cryptool.PluginBase.Properties;
+using Cryptool.P2P.Types;
 
 namespace Cryptool.P2P
 {
@@ -9,7 +10,7 @@ namespace Cryptool.P2P
     /// Interaction logic for P2PSettingsTab.xaml
     /// </summary>
     [Localization("Cryptool.P2P.Properties.Resources")]
-    [SettingsTab("P2PSettings", "/MainSettings/", 0.8)]
+    [SettingsTab("NetworkSettings", "/MainSettings/", 0.8)]
     public partial class P2PSettingsTab : UserControl
     {
         public P2PSettingsTab(Style settingsStyle)
@@ -22,6 +23,12 @@ namespace Cryptool.P2P
                                                        {
                                                            P2P.P2PSettings.Default.Save();
                                                        };
+            ProxyPasswordBox.Password = StringHelper.DecryptString(P2P.P2PSettings.Default.ProxyPassword);
+        }
+
+        private void ProxyPasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            P2P.P2PSettings.Default.ProxyPassword = StringHelper.EncryptString(ProxyPasswordBox.Password);
         }
     }
 }

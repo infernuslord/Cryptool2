@@ -176,7 +176,7 @@ namespace Cryptool.P2PEditor
             }
         }
 
-        [TaskPane("worldname_caption", "worldname_tooltip", null, 2, false, ControlType.TextBox)]
+        //[TaskPane("worldname_caption", "worldname_tooltip", null, 2, false, ControlType.TextBox)]
         public string WorldName
         {
             get { return settings.WorldName; }
@@ -191,8 +191,8 @@ namespace Cryptool.P2PEditor
             }
         }
 
-       
-        [TaskPane("start_caption", "start_tooltip", null, 3, true, ControlType.Button)]
+
+        //[TaskPane("start_caption", "start_tooltip", null, 3, true, ControlType.Button)]
         public void ButtonStart()
         {
             if (!P2PManager.IsConnected)
@@ -207,7 +207,7 @@ namespace Cryptool.P2PEditor
             }
         }
 
-        [TaskPane("stop_caption", "stop_tooltip", null, 4, true, ControlType.Button)]
+        //[TaskPane("stop_caption", "stop_tooltip", null, 4, true, ControlType.Button)]
         public void ButtonStop()
         {
             if (P2PManager.IsConnected)
@@ -235,7 +235,7 @@ namespace Cryptool.P2PEditor
 
 
 
-        [TaskPane("networksize_caption", "networksize_tooltip", null, 6, false, ControlType.TextBoxReadOnly)]
+        //[TaskPane("networksize_caption", "networksize_tooltip", null, 6, false, ControlType.TextBoxReadOnly)]
         public string NetSize
         {
             get { return settings.NetSize; }
@@ -251,7 +251,7 @@ namespace Cryptool.P2PEditor
 
 
         // TODO New ControlType needed to choose dialogs? OpenFileDialog not fitting.
-        [TaskPane("workspacePath_caption", "workspacePath_tooltip", GroupExperienced, 0, true, ControlType.TextBox)]
+        //[TaskPane("workspacePath_caption", "workspacePath_tooltip", GroupExperienced, 0, true, ControlType.TextBox)]
         public string WorkspacePath
         {
             get { return settings.WorkspacePath; }
@@ -267,8 +267,8 @@ namespace Cryptool.P2PEditor
         }
 
 
-        [TaskPane("distributedJobListRefreshInterval_caption", "distributedJobListRefreshInterval_tooltip", GroupExperienced, 1, false,
-            ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
+        //[TaskPane("distributedJobListRefreshInterval_caption", "distributedJobListRefreshInterval_tooltip", GroupExperienced, 1, false,
+        //    ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
         public int DistributedJobListRefreshInterval
         {
             get { return settings.DistributedJobListRefreshInterval; }
@@ -283,8 +283,8 @@ namespace Cryptool.P2PEditor
             }
         }
 
-        [TaskPane("connectOnStartup_caption", "connectOnStartup_tooltip", GroupExperienced, 2, true,
-            ControlType.CheckBox)]
+        //[TaskPane("connectOnStartup_caption", "connectOnStartup_tooltip", GroupExperienced, 2, true,
+        //    ControlType.CheckBox)]
         public bool ConnectOnStartup
         {
             get { return settings.ConnectOnStartup; }
@@ -299,8 +299,8 @@ namespace Cryptool.P2PEditor
             }
         }
 
-        [TaskPane("linkmanager_caption", "linkmanager_tooltip", GroupExpert, 3, false,
-            ControlType.ComboBox, new[] {"Snal"})]
+        //[TaskPane("linkmanager_caption", "linkmanager_tooltip", GroupExpert, 3, false,
+        //    ControlType.ComboBox, new[] {"Snal"})]
         public int LinkManager
         {
             get { return (int) settings.LinkManager; }
@@ -315,8 +315,8 @@ namespace Cryptool.P2PEditor
             }
         }
 
-        [TaskPane("bootstrapper_caption", "bootstrapper_tooltip", GroupExpert, 4, false
-            , ControlType.ComboBox, new[] {"LocalMachineBootstrapper", "IrcBootstrapper", "DnsBootstrapper"})]
+        //[TaskPane("bootstrapper_caption", "bootstrapper_tooltip", GroupExpert, 4, false
+        //    , ControlType.ComboBox, new[] {"LocalMachineBootstrapper", "IrcBootstrapper", "DnsBootstrapper"})]
         public int Bootstrapper
         {
             get { return (int) settings.Bootstrapper; }
@@ -331,8 +331,8 @@ namespace Cryptool.P2PEditor
             }
         }
 
-        [TaskPane("architecture_caption", "architecture_tooltip", GroupExpert, 5, false,
-            ControlType.ComboBox, new[] { "FullMesh", "Chord", "Server" , "WebDHT" })]
+        //[TaskPane("architecture_caption", "architecture_tooltip", GroupExpert, 5, false,
+        //    ControlType.ComboBox, new[] { "FullMesh", "Chord", "Server" , "WebDHT" })]
         public int Architecture
         {
             get { return (int)settings.Architecture; }
@@ -348,8 +348,8 @@ namespace Cryptool.P2PEditor
             }
         }
 
-        [TaskPane("localPort_caption", "localPort_tooltip", GroupExpert, 6, false,
-            ControlType.NumericUpDown, ValidationType.RangeInteger, 0, 65535)]
+        //[TaskPane("localPort_caption", "localPort_tooltip", GroupExpert, 6, false,
+        //    ControlType.NumericUpDown, ValidationType.RangeInteger, 0, 65535)]
         public int LocalPort
         {
             get { return settings.LocalReceivingPort; }
@@ -364,8 +364,8 @@ namespace Cryptool.P2PEditor
             }
         }
 
-        [TaskPane("useLocalAddressDetection_caption", "useLocalAddressDetection_tooltip", GroupExpert, 7, false,
-            ControlType.CheckBox)]
+        //[TaskPane("useLocalAddressDetection_caption", "useLocalAddressDetection_tooltip", GroupExpert, 7, false,
+        //    ControlType.CheckBox)]
         public bool UseLocalAddressDetection
         {
             get { return settings.UseLocalAddressDetection; }
@@ -380,8 +380,8 @@ namespace Cryptool.P2PEditor
             }
         }
 
-        [TaskPane("log2monitor_caption", "log2monitor_tooltip", GroupExpert, 8, false,
-            ControlType.CheckBox)]
+        //[TaskPane("log2monitor_caption", "log2monitor_tooltip", GroupExpert, 8, false,
+        //    ControlType.CheckBox)]
         public bool Log2Monitor
         {
             get { return settings.Log2Monitor; }
@@ -396,7 +396,7 @@ namespace Cryptool.P2PEditor
             }
         }
 
-        [TaskPane("serverHost_caption", "serverHost_tooltip", GroupServer, 9, false, ControlType.TextBox)]
+        //[TaskPane("serverHost_caption", "serverHost_tooltip", GroupServer, 9, false, ControlType.TextBox)]
         public string ServerHost
         {
             get { return settings.ServerHost; }
@@ -411,8 +411,8 @@ namespace Cryptool.P2PEditor
             }
         }
 
-        [TaskPane("serverPort_caption", "serverPort_tooltip", GroupServer, 10, false,
-            ControlType.TextBox, ValidationType.RangeInteger, 0, 65535)]
+        //[TaskPane("serverPort_caption", "serverPort_tooltip", GroupServer, 10, false,
+        //    ControlType.TextBox, ValidationType.RangeInteger, 0, 65535)]
         public int ServerPort
         {
             get { return settings.ServerPort; }
@@ -427,8 +427,8 @@ namespace Cryptool.P2PEditor
             }
         }
 
-        [TaskPane("proxysettings_caption", "proxysettings_tooltip", ProxySettings, 11, false,
-            ControlType.CheckBox)]
+        //[TaskPane("proxysettings_caption", "proxysettings_tooltip", ProxySettings, 11, false,
+        //   ControlType.CheckBox)]
         public bool UseProxy
         {
             get { return settings.UseProxy; }
@@ -443,8 +443,8 @@ namespace Cryptool.P2PEditor
             }
         }
 
-        [TaskPane("proxysettingssystem_caption", "proxysettingssystem_tooltip", ProxySettings, 12, false,
-            ControlType.CheckBox)]
+        //[TaskPane("proxysettingssystem_caption", "proxysettingssystem_tooltip", ProxySettings, 12, false,
+        //    ControlType.CheckBox)]
         public bool UseSystemWideProxy
         {
             get { return settings.UseSystemWideProxy; }
@@ -459,7 +459,7 @@ namespace Cryptool.P2PEditor
             }
         }
 
-        [TaskPane("proxyserver_caption", "proxyserver_tooltip", ProxySettings, 13, false, ControlType.TextBox)]
+        //[TaskPane("proxyserver_caption", "proxyserver_tooltip", ProxySettings, 13, false, ControlType.TextBox)]
         public string ProxyServer
         {
             get { return settings.ProxyServer; }
@@ -474,8 +474,8 @@ namespace Cryptool.P2PEditor
             }
         }       
 
-        [TaskPane("proxyport_caption", "proxyport_tooltip", ProxySettings, 14, false,
-           ControlType.TextBox, ValidationType.RangeInteger, 0, 65535)]
+        //[TaskPane("proxyport_caption", "proxyport_tooltip", ProxySettings, 14, false,
+        //   ControlType.TextBox, ValidationType.RangeInteger, 0, 65535)]
         public int ProxyPort
         {
             get { return settings.ProxyPort; }
@@ -490,7 +490,7 @@ namespace Cryptool.P2PEditor
             }
         }
 
-        [TaskPane("proxyuser_caption", "proxyuser_tooltip", ProxySettings, 15, false, ControlType.TextBox)]
+        //[TaskPane("proxyuser_caption", "proxyuser_tooltip", ProxySettings, 15, false, ControlType.TextBox)]
         public string ProxyUser
         {
             get { return settings.ProxyUser; }
@@ -505,7 +505,7 @@ namespace Cryptool.P2PEditor
             }
         }
 
-        [TaskPane("proxypassword_caption", "proxypassword_tooltip", ProxySettings, 16, false, ControlType.TextBoxHidden)]
+        //[TaskPane("proxypassword_caption", "proxypassword_tooltip", ProxySettings, 16, false, ControlType.TextBoxHidden)]
         public string ProxyPassword
         {
             get { return StringHelper.DecryptString(settings.ProxyPassword); }
