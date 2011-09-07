@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Windows;
+using Cryptool.P2P;
 using Cryptool.PluginBase;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
@@ -94,6 +95,15 @@ namespace KeySearcher
                                                     {
                                                         OpenCLGroupVisiblity();
                                                     };
+
+            if (!P2PManager.IsP2PSupported && TaskPaneAttributeChanged != null)
+            {
+                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("UsePeerToPeer", Visibility.Collapsed)));
+                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("AutoconnectPeerToPeer", Visibility.Collapsed)));
+                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("VerbosePeerToPeerDisplay", Visibility.Collapsed)));
+                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("ChunkSize", Visibility.Collapsed)));
+                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("StatusKeyButton", Visibility.Collapsed)));
+            }
         }
 
         private string key;
@@ -139,7 +149,15 @@ namespace KeySearcher
         [TaskPane( "UsePeerToPeerCaption", "UsePeerToPeerTooltip", "GroupPeerToPeer", 0, false, ControlType.CheckBox)]
         public bool UsePeerToPeer
         {
-            get { return usePeerToPeer; }
+            get
+            {
+                if (!P2PManager.IsP2PSupported)
+                {
+                    UsePeerToPeer = false;
+                    return false;
+                }
+                return usePeerToPeer;
+            }
             set
             {
                 if (value != usePeerToPeer)
