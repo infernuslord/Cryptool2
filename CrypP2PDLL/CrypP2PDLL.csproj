@@ -90,6 +90,8 @@
       <HintPath>..\appreferences\peersatplaybase.dll</HintPath>
       <Private>false</Private>
     </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="RUDP">
       <HintPath>..\appreferences\rudp.dll</HintPath>
       <Private>false</Private>
@@ -109,12 +111,26 @@
     <Reference Include="System" />
     <Reference Include="System.Security" />
     <Reference Include="System.Xaml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helper\SettingsHelper.cs" />
     <Compile Include="Internal\ConnectionManager.cs" />
     <Compile Include="Internal\PeedId.cs" />
     <Compile Include="Internal\RequestResult.cs" />
+    <Compile Include="P2PSettingsTab.xaml.cs">
+      <DependentUpon>P2PSettingsTab.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Resources.de-DE1.Designer.cs">
+      <DependentUpon>Resources.de-DE.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <DependentUpon>Resources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Worker\ConnectionWorker.cs" />
     <Compile Include="Worker\WorkerBase.cs" />
     <Compile Include="P2PManager.cs" />
@@ -149,6 +165,24 @@
       <Name>CrypPluginBase</Name>
       <Private>False</Private>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="P2PSettingsTab.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.de-DE.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.de-DE1.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

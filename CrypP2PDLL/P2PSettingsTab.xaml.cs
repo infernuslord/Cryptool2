@@ -1,15 +1,14 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using Cryptool.PluginBase.Attributes;
-using Cryptool.PluginBase.Properties;
 using Cryptool.P2P.Types;
 
-namespace Cryptool.P2P
+namespace Cryptool.P2PDLL
 {
     /// <summary>
     /// Interaction logic for P2PSettingsTab.xaml
     /// </summary>
-    [Localization("Cryptool.P2P.Properties.Resources")]
+    [Localization("Cryptool.P2PDLL.Properties.Resources")]
     [SettingsTab("NetworkSettings", "/MainSettings/", 0.8)]
     public partial class P2PSettingsTab : UserControl
     {
