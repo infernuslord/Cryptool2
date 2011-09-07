@@ -15,7 +15,6 @@
 */
 
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Cryptool.PluginBase.Attributes;
 
@@ -27,4 +26,4 @@ using Cryptool.PluginBase.Attributes;
 [assembly: AssemblyVersion("2.0.0.0")]
 
 [assembly: AssemblyCt2BuildType(Ct2BuildType.Developer)]
-[assembly: AssemblyCt2InstallationType(Ct2InstallationType.NSIS)]
+[assembly: AssemblyCt2InstallationType(Ct2InstallationType.Developer)]

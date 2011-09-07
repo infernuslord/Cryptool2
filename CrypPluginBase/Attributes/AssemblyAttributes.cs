@@ -33,8 +33,10 @@ namespace Cryptool.PluginBase.Attributes
     /********************** Ct2InstallationType ********************/
     public enum Ct2InstallationType
     {
-        NSIS = 0,
-        ZIP = 1
+        Developer = 0,
+        ZIP = 1,
+        MSI = 2,
+        NSIS = 3
     }
 
     [AttributeUsage(AttributeTargets.Assembly)]
