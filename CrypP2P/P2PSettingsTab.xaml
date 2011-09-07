@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300"
+             d:DesignHeight="500" d:DesignWidth="300"
              xmlns:p="clr-namespace:Cryptool.P2P">
     <UserControl.Triggers>
         <EventTrigger RoutedEvent="Canvas.Loaded">
@@ -21,8 +21,28 @@
         </Grid.RowDefinitions>
         
         <ScrollViewer VerticalScrollBarVisibility="Auto">
-            <StackPanel Orientation="Vertical">
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
+                <Label Content="{Loc WorldName}"/>
+                <TextBox Width="200" Text="{Binding Source={x:Static p:P2PSettings.Default}, Path=WorldName, Mode=TwoWay}"></TextBox>
+                <Label Content="{Loc WorkspacePath}"/>                
+                <TextBox Width="200" Text="{Binding Source={x:Static p:P2PSettings.Default}, Path=WorkspacePath, Mode=TwoWay}"></TextBox>
+                <Label Content="{Loc RefreshInterval}"/>
+                <TextBox Width="200" Text="{Binding Source={x:Static p:P2PSettings.Default}, Path=DistributedJobListRefreshInterval, Mode=TwoWay}"></TextBox>
+                <CheckBox Content="{Loc ConnectOnStartup}" ToolTip="{Loc ConnectOnStartup_Tooltip}" IsChecked="{Binding Source={x:Static p:P2PSettings.Default}, Path=ConnectOnStartup, Mode=TwoWay}" Style="{StaticResource ResourceKey=settingsStyle}"/>
                 <CheckBox Content="{Loc Use_Timeout}" ToolTip="{Loc Use_Timeout_Tooltip}" IsChecked="{Binding Source={x:Static p:P2PSettings.Default}, Path=UseTimeout, Mode=TwoWay}" Style="{StaticResource ResourceKey=settingsStyle}"/>
+                <Line Fill="Black" Stroke="Black" X2="200"/>
+                <Label Content="Proxy_Settings"/>
+                <Line Fill="Black" Stroke="Black" X2="200"/>
+                <CheckBox Name="UseProxyCheckbox" Content="{Loc Use_Proxy}" ToolTip="{Loc Use_Proxy_Tooltip}" IsChecked="{Binding Source={x:Static p:P2PSettings.Default}, Path=UseProxy, Mode=TwoWay}" Style="{StaticResource ResourceKey=settingsStyle}"/>
+                <CheckBox IsEnabled="{Binding ElementName=UseProxyCheckbox, Path=IsChecked}" Content="{Loc Use_SystemWideProxy}" ToolTip="{Loc UseSystemWideProxy_Tooltip}" IsChecked="{Binding Source={x:Static p:P2PSettings.Default}, Path=UseSystemWideProxy, Mode=TwoWay}" Style="{StaticResource ResourceKey=settingsStyle}"/>
+                <Label Content="{Loc ProxyServer}"/>
+                <TextBox IsEnabled="{Binding ElementName=UseProxyCheckbox, Path=IsChecked}" Width="200" Text="{Binding Source={x:Static p:P2PSettings.Default}, Path=ProxyServer, Mode=TwoWay}"></TextBox>
+                <Label Content="{Loc ProxyPort}"/>
+                <TextBox IsEnabled="{Binding ElementName=UseProxyCheckbox, Path=IsChecked}" Width="200" Text="{Binding Source={x:Static p:P2PSettings.Default}, Path=ProxyPort, Mode=TwoWay}"></TextBox>
+                <Label Content="{Loc ProxyUser}"/>
+                <TextBox IsEnabled="{Binding ElementName=UseProxyCheckbox, Path=IsChecked}" Width="200" Text="{Binding Source={x:Static p:P2PSettings.Default}, Path=ProxyUser, Mode=TwoWay}"></TextBox>
+                <Label Content="{Loc ProxyPassword}"/>
+                <PasswordBox IsEnabled="{Binding ElementName=UseProxyCheckbox, Path=IsChecked}" Name="ProxyPasswordBox" Width="200" PasswordChanged="ProxyPasswordBox_PasswordChanged"></PasswordBox>
             </StackPanel>
         </ScrollViewer>
 
