@@ -86,16 +86,19 @@ namespace WorkspaceManager.View.BinVisual.IControlVisual
             this.element = element;
             Types = new ObservableCollection<SlaveType>();
             MyEditor = (WorkspaceManager)element.ConnectorModel.WorkspaceModel.MyEditor;
-            var list = ComponentInformations.PluginsWithSpecificController[element.ConnectorModel.ConnectorType];
-
-            foreach (var e in list)
-                Types.Add(new SlaveType(e));
-
-            var collection = element.ConnectorModel.GetOutputConnections();
-            if (collection.Count != 0)
+            if (ComponentInformations.PluginsWithSpecificController.ContainsKey(element.ConnectorModel.ConnectorType))
             {
-                ActiveModel = element.ConnectorModel.GetOutputConnections()[0].To.PluginModel;
-                SelectedType = Types.Single(a => a.Type.IsAssignableFrom(ActiveModel.PluginType));
+                var list = ComponentInformations.PluginsWithSpecificController[element.ConnectorModel.ConnectorType];
+
+                foreach (var e in list)
+                    Types.Add(new SlaveType(e));
+
+                var collection = element.ConnectorModel.GetOutputConnections();
+                if (collection.Count != 0)
+                {
+                    ActiveModel = element.ConnectorModel.GetOutputConnections()[0].To.PluginModel;
+                    SelectedType = Types.Single(a => a.Type.IsAssignableFrom(ActiveModel.PluginType));
+                }
             }
             loading = false;
         }
