@@ -816,7 +816,7 @@ namespace Cryptool.Enigma
             {
                 if (value < ring1)
                 {
-                    if (value + 1 == ring1)
+                    if (value + 1 == ring1 && false)
                     {
                         hasChanges = true;
                         ring1 = value;
@@ -831,7 +831,7 @@ namespace Cryptool.Enigma
                 }
                 if (value > ring1)
                 {
-                    if (value == ring1 + 1)
+                    if (value == ring1 + 1 && false)
                     {
                         hasChanges = true;
                         ring1 = value;
@@ -856,7 +856,7 @@ namespace Cryptool.Enigma
             {
                 if (value < ring2)
                 {
-                    if (value + 1 == ring2)
+                    if (value + 1 == ring2 && false)
                     {
                         hasChanges = true;
                         ring2 = value;
@@ -873,7 +873,7 @@ namespace Cryptool.Enigma
                 }
                 if (value > ring2)
                 {
-                    if (value == ring2 + 1)
+                    if (value == ring2 + 1 && false)
                     {
                         hasChanges = true;
                         ring2 = value;
@@ -898,7 +898,7 @@ namespace Cryptool.Enigma
             {
                 if (value < ring3)
                 {
-                    if (value + 1 == ring3)
+                    if (value + 1 == ring3 && false)
                     {
                         hasChanges = true;
                         ring3 = value;
@@ -913,7 +913,7 @@ namespace Cryptool.Enigma
                 }
                 if (value > ring3)
                 {
-                    if (value == ring3 + 1)
+                    if (value == ring3 + 1 && false)
                     {
                         hasChanges = true;
                         ring3 = value;
