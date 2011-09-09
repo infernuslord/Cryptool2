@@ -190,92 +190,105 @@ namespace Cryptool.Enigma
                 {
                     Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
-                        if (91 > settings.Key[2] && settings.Key[2] > 64)
-                            rotorarray[2].changeoffset(settings.Key[2] - 65, settings.Ring1);
-                        else if (128 > settings.Key[2] && settings.Key[2] > 96)
-                            rotorarray[2].changeoffset(settings.Key[2] - 97, settings.Ring1);
-                        if (91 > settings.Key[1] && settings.Key[1] > 64)
-                            rotorarray[1].changeoffset(settings.Key[1] - 65, settings.Ring2);
-                        else if (128 > settings.Key[1] && settings.Key[1] > 96)
-                            rotorarray[1].changeoffset(settings.Key[1] - 97, settings.Ring1);
-                        if (91 > settings.Key[0] && settings.Key[0] > 64)
-                            rotorarray[0].changeoffset(settings.Key[0] - 65, settings.Ring3);
-                        else if (128 > settings.Key[0] && settings.Key[0] > 96)
-                            rotorarray[0].changeoffset(settings.Key[0] - 97, settings.Ring1);
-                    }, null);
-                }
-                if (e.PropertyName == "Ring1down" && justme)
-                {
-                    Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-                    {
-                        rotorarray[2].upperclick1(null, EventArgs.Empty);
-                    }, null);
-                }
+                        if (rotorarray[2] != null)
+                        {
+                            
+                            rotorarray[2].changeoffset(settings.Key.ToUpper()[2] - 65, settings.Ring1);
+                            
+                        }
 
-                if (e.PropertyName == "Ring1up" && justme)
-                {
-                    Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-                    {
-                        rotorarray[2].downerclick1(null, EventArgs.Empty);
+                        if (rotorarray[1] != null)
+                        {
+                            
+                            rotorarray[1].changeoffset(settings.Key.ToUpper()[1] - 65, settings.Ring2);
+                            
+                        }
+                        if (rotorarray[0] != null)
+                        {
+                            
+                            rotorarray[0].changeoffset(settings.Key.ToUpper()[0] - 65, settings.Ring3);
+                            
+                        }
                     }, null);
                 }
-
-                if (e.PropertyName == "Ring1NewValue" && justme)
+                if (rotorarray[2] != null)
                 {
-                    Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    if (e.PropertyName == "Ring1down" && justme)
                     {
-                        rotorarray[2].changeoffset(settings.Key[0] - 65, settings.Ring1);
-                    }, null);
-                }
+                        Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                        {
+                            rotorarray[2].upperclick1(null, EventArgs.Empty);
+                        }, null);
+                    }
 
-                if (e.PropertyName == "Ring2down" && justme)
+                    if (e.PropertyName == "Ring1up" && justme)
+                    {
+                        Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                        {
+                            rotorarray[2].downerclick1(null, EventArgs.Empty);
+                        }, null);
+                    }
+
+                    if (e.PropertyName == "Ring1NewValue" && justme)
+                    {
+                        Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                        {
+                            rotorarray[2].changeoffset(settings.Key.ToUpper()[0] - 65, settings.Ring1);
+                        }, null);
+                    }
+                }
+                if (rotorarray[1] != null)
                 {
-                    Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    if (e.PropertyName == "Ring2down" && justme)
                     {
-                        rotorarray[1].upperclick1(null, EventArgs.Empty);
-                    }, null);
-                }
+                        Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                        {
+                            rotorarray[1].upperclick1(null, EventArgs.Empty);
+                        }, null);
+                    }
 
-                if (e.PropertyName == "Ring2up" && justme)
+                    if (e.PropertyName == "Ring2up" && justme)
+                    {
+                        Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                        {
+                            rotorarray[1].downerclick1(null, EventArgs.Empty);
+                        }, null);
+                    }
+
+                    if (e.PropertyName == "Ring2NewValue" && justme)
+                    {
+                        Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                        {
+                            rotorarray[1].changeoffset(settings.Key.ToUpper()[1] - 65, settings.Ring2);
+                        }, null);
+                    }
+                }
+                if (rotorarray[0] != null)
                 {
-                    Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    if (e.PropertyName == "Ring3down" && justme)
                     {
-                        rotorarray[1].downerclick1(null, EventArgs.Empty);
-                    }, null);
-                }
+                        Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                        {
+                            rotorarray[0].upperclick1(null, EventArgs.Empty);
+                        }, null);
+                    }
 
-                if (e.PropertyName == "Ring2NewValue" && justme)
-                {
-                    Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    if (e.PropertyName == "Ring3up" && justme)
                     {
-                        rotorarray[1].changeoffset(settings.Key[1] - 65, settings.Ring2);
-                    }, null);
-                }
+                        Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                        {
+                            rotorarray[0].downerclick1(null, EventArgs.Empty);
+                        }, null);
+                    }
 
-                if (e.PropertyName == "Ring3down" && justme)
-                {
-                    Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    if (e.PropertyName == "Ring3NewValue" && justme)
                     {
-                        rotorarray[0].upperclick1(null, EventArgs.Empty);
-                    }, null);
+                        Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                        {
+                            rotorarray[0].changeoffset(settings.Key.ToUpper()[2] - 65, settings.Ring3);
+                        }, null);
+                    }
                 }
-
-                if (e.PropertyName == "Ring3up" && justme)
-                {
-                    Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-                    {
-                        rotorarray[0].downerclick1(null, EventArgs.Empty);
-                    }, null);
-                }
-
-                if (e.PropertyName == "Ring3NewValue" && justme)
-                {
-                    Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-                    {
-                        rotorarray[0].changeoffset(settings.Key[2] - 65, settings.Ring3);
-                    }, null);
-                }
-
                 if (e.PropertyName[0] == 'F' && e.PropertyName[1] == 'o' && e.PropertyName != "PlugBoardDisplay" && justme)
                 {
                     Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
@@ -344,7 +357,7 @@ namespace Cryptool.Enigma
                     }, null);
                 }
 
-                if (e.PropertyName == "Rotor1" && justme)
+                if (e.PropertyName == "Rotor1" && justme )
                 {
                     Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
@@ -374,7 +387,8 @@ namespace Cryptool.Enigma
 
                             rotorarea.Children.Remove(rotorarray[2]);
                         }
-                        Rotor2 rotor = new Rotor2(settings.Rotor1 + 1, this.Width, this.Height, settings.Key[2] - 65, settings.Ring1);
+
+                        Rotor2 rotor = new Rotor2(settings.Rotor1 + 1, this.Width, this.Height, settings.Key.ToUpper()[2] - 65, settings.Ring1);
 
                         rotor.updone += changeSettings;
                         rotor.downdone += changeSettings;
@@ -424,7 +438,7 @@ namespace Cryptool.Enigma
 
                             rotorarea.Children.Remove(rotorarray[1]);
                         }
-                        Rotor2 rotor = new Rotor2(settings.Rotor2 + 1, this.Width, this.Height, settings.Key[1] - 65, settings.Ring2);
+                        Rotor2 rotor = new Rotor2(settings.Rotor2 + 1, this.Width, this.Height, settings.Key.ToUpper()[1] - 65, settings.Ring2);
 
 
                         rotor.updone += changeSettings;
@@ -478,7 +492,7 @@ namespace Cryptool.Enigma
 
                         }
 
-                        Rotor2 rotor = new Rotor2(settings.Rotor3 + 1, this.Width, this.Height, settings.Key[0] - 65, settings.Ring3);
+                        Rotor2 rotor = new Rotor2(settings.Rotor3 + 1, this.Width, this.Height, settings.Key.ToUpper()[0] - 65, settings.Ring3);
 
 
                         rotor.updone += changeSettings;
@@ -782,7 +796,7 @@ namespace Cryptool.Enigma
 
 
 
-            Rotor2 rotor = new Rotor2(settings.Rotor3 + 1, this.Width, this.Height, settings.Key[0] - 65, settings.Ring1);
+            Rotor2 rotor = new Rotor2(settings.Rotor3 + 1, this.Width, this.Height, settings.Key.ToUpper()[0] - 65, settings.Ring1);
             rotor.updone += changeSettings;
             rotor.downdone += changeSettings;
             rotor.up1done += changeSettings;
@@ -811,7 +825,7 @@ namespace Cryptool.Enigma
             walze.Cursor = Cursors.Hand;
             this.walze = walze;
 
-            Rotor2 rotor1 = new Rotor2(settings.Rotor2 + 1, this.Width, this.Height, settings.Key[1] - 65, settings.Ring1);
+            Rotor2 rotor1 = new Rotor2(settings.Rotor2 + 1, this.Width, this.Height, settings.Key.ToUpper()[1] - 65, settings.Ring1);
             rotor1.updone += changeSettings;
             rotor1.downdone += changeSettings;
             rotor1.up1done += changeSettings;
@@ -825,7 +839,7 @@ namespace Cryptool.Enigma
 
             rotorarray[1] = rotor1;
 
-            Rotor2 rotor2 = new Rotor2(settings.Rotor1 + 1, this.Width, this.Height, settings.Key[2] - 65, settings.Ring1);
+            Rotor2 rotor2 = new Rotor2(settings.Rotor1 + 1, this.Width, this.Height, settings.Key.ToUpper()[2] - 65, settings.Ring1);
             rotor2.updone += changeSettings;
             rotor2.downdone += changeSettings;
             rotor2.up1done += changeSettings;
@@ -1032,9 +1046,9 @@ namespace Cryptool.Enigma
                     }
                     Debug.Text = "Schiiiiiiiiibiiiiiiiiiiiiiiiiiiiiii";
 
-                    rotorarray[2].changeoffset(settings.Key[2] - 65, settings.Ring1);
-                    rotorarray[1].changeoffset(settings.Key[1] - 65, settings.Ring2);
-                    rotorarray[0].changeoffset(settings.Key[0] - 65, settings.Ring3);
+                    rotorarray[2].changeoffset(settings.Key.ToUpper()[2] - 65, settings.Ring1);
+                    rotorarray[1].changeoffset(settings.Key.ToUpper()[1] - 65, settings.Ring2);
+                    rotorarray[0].changeoffset(settings.Key.ToUpper()[0] - 65, settings.Ring3);
                     playClick(null, EventArgs.Empty);
                 }
 
@@ -2117,19 +2131,24 @@ namespace Cryptool.Enigma
 
         public void resetkey()
         {
-            if (91 > settings.Key[2] && settings.Key[2] > 64)
-                rotorarray[2].changeoffset(settings.Key[2] - 65, settings.Ring1);
-            else if (128 > settings.Key[2] && settings.Key[2] > 96)
-                rotorarray[2].changeoffset(settings.Key[2] - 97, settings.Ring1);
-            if (91 > settings.Key[1] && settings.Key[1] > 64)
-                rotorarray[1].changeoffset(settings.Key[1] - 65, settings.Ring2);
-            else if (128 > settings.Key[1] && settings.Key[1] > 96)
-                rotorarray[1].changeoffset(settings.Key[1] - 97, settings.Ring1);
-            if (91 > settings.Key[0] && settings.Key[0] > 64)
-                rotorarray[0].changeoffset(settings.Key[0] - 65, settings.Ring3);
-            else if (128 > settings.Key[0] && settings.Key[0] > 96)
-                rotorarray[0].changeoffset(settings.Key[0] - 97, settings.Ring1);
-
+            if (rotorarray[2] != null)
+            {
+                
+                rotorarray[2].changeoffset(settings.Key.ToUpper()[2] - 65, settings.Ring1);
+                
+            }
+            if (rotorarray[1] != null)
+            {
+             
+               rotorarray[1].changeoffset(settings.Key.ToUpper()[1] - 65, settings.Ring2);
+             
+            }
+            if (rotorarray[0] != null)
+            {
+             
+               rotorarray[0].changeoffset(settings.Key.ToUpper()[0] - 65, settings.Ring3);
+             
+            }
         }
 
         public void stopclick(object sender, EventArgs e)
@@ -4026,7 +4045,7 @@ namespace Cryptool.Enigma
             Debug.Text = "hello" + uID;
 
             int urint = Int32.Parse(uID);
-            Rotor2 rotor2 = new Rotor2(urint, this.ActualWidth, this.ActualHeight, settings.Key[1] - 65, settings.Ring2);
+            Rotor2 rotor2 = new Rotor2(urint, this.ActualWidth, this.ActualHeight, settings.Key.ToUpper()[1] - 65, settings.Ring2);
             Canvas.SetLeft(rotor2, 230);
             rotorarea.Children.Add(rotor2);
             rotor2.PreviewMouseMove += new MouseEventHandler(Rotor_MouseMove);
@@ -4052,7 +4071,7 @@ namespace Cryptool.Enigma
             Debug.Text = "hello" + uID;
 
             int urint = Int32.Parse(uID);
-            Rotor2 rotor2 = new Rotor2(urint, this.ActualWidth, this.ActualHeight, settings.Key[2] - 65, settings.Ring1);
+            Rotor2 rotor2 = new Rotor2(urint, this.ActualWidth, this.ActualHeight, settings.Key.ToUpper()[2] - 65, settings.Ring1);
             Canvas.SetLeft(rotor2, 460);
             rotorarea.Children.Add(rotor2);
             rotor2.PreviewMouseMove += new MouseEventHandler(Rotor_MouseMove);
@@ -4103,7 +4122,7 @@ namespace Cryptool.Enigma
             Debug.Text = "hello" + uID;
 
             int urint = Int32.Parse(uID);
-            Rotor2 rotor2 = new Rotor2(urint, this.ActualWidth, this.ActualHeight, settings.Key[0] - 65, settings.Ring3);
+            Rotor2 rotor2 = new Rotor2(urint, this.ActualWidth, this.ActualHeight, settings.Key.ToUpper()[0] - 65, settings.Ring3);
             Canvas.SetLeft(rotor2, 0);
             rotorarea.Children.Add(rotor2);
             rotor2.PreviewMouseMove += new MouseEventHandler(Rotor_MouseMove);
