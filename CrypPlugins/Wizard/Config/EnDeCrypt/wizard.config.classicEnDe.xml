@@ -556,8 +556,9 @@ Die erste Enigma wurde von dem deutschen Ingenieur Arthur Scherbius am Ende des 
   <!-- Scytale input -->
   <input image="Scytale">
     <name lang="en" >Scytale</name>
+    <name lang="de" >Skytale</name>
     <description lang="en" >A scytale is a tool used to perform a transposition cipher, consisting of a cylinder with a strip of parchment wound around it on which is written a message. The ancient Greeks, and the Spartans in particular, are said to have used this cipher to communicate during military campaigns.</description>
-    <description lang="de" >Eine Scytale ist ein Werzeug um eine Transpositions-Chiffrierung auszuführen. Sie besteht aus einem Zylinder mit einem Band Pergament umwunden, auf der eine Nachricht geschrieben steht. Den alten Griechen, und besonders den Spartaner, wird nachgesagt, dass sie diese Chiffrierung zur Kommunikation während militärischer Einsätze benutzt haben.</description>
+    <description lang="de" >Eine Skytale ist ein Werzeug um eine Transpositions-Chiffrierung auszuführen. Sie besteht aus einem Zylinder mit einem Band Pergament umwunden, auf der eine Nachricht geschrieben steht. Den alten Griechen, und besonders den Spartaner, wird nachgesagt, dass sie diese Chiffrierung zur Kommunikation während militärischer Einsätze benutzt haben.</description>
 
     <headline lang="en" >Message Input</headline>
     <headline lang="de" >Nachrichteneingabe</headline>
@@ -587,12 +588,12 @@ Die erste Enigma wurde von dem deutschen Ingenieur Arthur Scherbius am Ende des 
     
     <sampleViewer image="Scytale" file="Cryptography\Classic\Scytale_Sample.cwm" >
       <name lang="en" >Scytale Output</name>
-      <name lang="de" >Scytale-Ausgabe</name>
+      <name lang="de" >Skytale-Ausgabe</name>
       <description lang="en" >A scytale is a tool used to perform a transposition cipher, consisting of a cylinder with a strip of parchment wound around it on which is written a message. The ancient Greeks, and the Spartans in particular, are said to have used this cipher to communicate during military campaigns.</description>
-      <description lang="de" >Eine Scytale ist ein Werzeug um eine Transpositions-Chiffrierung auszuführen. Sie besteht aus einem Zylinder mit einem Band Pergament umwunden, auf der eine Nachricht geschrieben steht. Den alten Griechen, und besonders den Spartaner, wird nachgesagt, dass sie diese Chiffrierung zur Kommunikation während militärischer Einsätze benutzt haben.</description>
+      <description lang="de" >Eine Skytale ist ein Werzeug um eine Transpositions-Chiffrierung auszuführen. Sie besteht aus einem Zylinder mit einem Band Pergament umwunden, auf der eine Nachricht geschrieben steht. Den alten Griechen, und besonders den Spartaner, wird nachgesagt, dass sie diese Chiffrierung zur Kommunikation während militärischer Einsätze benutzt haben.</description>
 
       <headline lang="en" >Scytale Output</headline>
-      <headline lang="de" >Scytale-Ausgabe</headline>
+      <headline lang="de" >Skytale-Ausgabe</headline>
       <task lang="en">Here, you can change the parameters and view the results.</task>
       <task lang="de">Hier können Sie Parameter verändern und die Ergebnisse sehen.</task>
 
@@ -605,7 +606,7 @@ Die erste Enigma wurde von dem deutschen Ingenieur Arthur Scherbius am Ende des 
 
       <outputBox plugin="Result" property="CurrentValue" alignment="Stretch" visibleLines="5">
         <description lang="en">Scytale Output:</description>
-        <description lang="de">Scytale-Ausgabe:</description>
+        <description lang="de">Skytale-Ausgabe:</description>
       </outputBox>
     
     </sampleViewer>
