@@ -156,12 +156,12 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <ScrollViewer x:Name="MyScrollViewer" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-            <WrapPanel Name="blupp" Orientation="Horizontal" VerticalAlignment="Top" Width="{Binding ElementName=MyScrollViewer, Path=ViewportWidth}">
+            <WrapPanel Name="myWrap" Orientation="Horizontal" VerticalAlignment="Top" Width="{Binding ElementName=MyScrollViewer, Path=ViewportWidth}">
 
             </WrapPanel>
         </ScrollViewer>
 
-        <TextBox Grid.Row="1" Name="textBoxTooltip" IsReadOnly="True" FontWeight="Bold" BorderBrush="Transparent" TextWrapping="Wrap" Visibility="Collapsed"></TextBox>
+        <TextBox Grid.Row="1" Name="textBoxTooltip" IsReadOnly="True" FontWeight="Bold" BorderBrush="Transparent" TextWrapping="Wrap" Visibility="Hidden"></TextBox>
     </Grid>
 </UserControl>
 
