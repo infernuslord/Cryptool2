@@ -31,7 +31,7 @@ using System.Runtime.Remoting.Contexts;
 namespace Gate
 {
     [Author("Matthäus Wander", "wander@cryptool.org", "Universität Duisburg-Essen, Fachgebiet Verteilte Systeme", "http://www.vs.uni-due.de")]
-    [PluginInfo("Gate.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "Gate/gate_closed_32.png", "Gate/gate_open_32.png")]
+    [PluginInfo("Gate.Properties.Resources", false, "PluginCaption", "PluginTooltip", "Gate/DetailedDescription/doc.xml", "Gate/gate_closed_32.png", "Gate/gate_open_32.png")]
     [Synchronization]
     [ComponentCategory(ComponentCategory.ToolsDataflow)]
     public class Gate : ICrypComponent
