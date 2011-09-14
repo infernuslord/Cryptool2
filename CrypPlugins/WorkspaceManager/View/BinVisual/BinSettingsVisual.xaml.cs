@@ -34,19 +34,49 @@ namespace WorkspaceManager.View.BinVisual
         private readonly Thickness CONTROL_DEFAULT_MARGIN = new Thickness(4, 0, 0, 0);
         private Dictionary<ISettings, Dictionary<string, List<RadioButton>>> dicRadioButtons = new Dictionary<ISettings, Dictionary<string, List<RadioButton>>>();
         private IPlugin plugin;
+        private EntryGroup entgrou;
+        private BinComponentVisual bcv;
 
-
-        public BinSettingsVisual(IPlugin plugin)
+        public BinSettingsVisual(IPlugin plugin, BinComponentVisual bcv)
         {
             InitializeComponent();
             this.plugin = plugin;
-            
-            drawList(createContentSettings(plugin));
+            this.entgrou = createContentSettings(plugin);
+            drawList(this.entgrou);
+            this.bcv = bcv;
+            ((WorkspaceManager)bcv.Model.WorkspaceModel.MyEditor).executeEvent += new EventHandler( OnGuiLogNotificationOccured2);
+         
+        }
 
+
+        private void OnGuiLogNotificationOccured2(Object sender, EventArgs args)
+        {
+            Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
+
+                textBoxTooltip.Text = "deine mutter";
+                foreach (List<ControlEntry> cel in entgrou.entryList)
+                {
+                    foreach (ControlEntry ce in cel)
+                    {
+                        if (((WorkspaceManager)bcv.Model.WorkspaceModel.MyEditor).isExecuting())
+                        {
+                            if (!ce.tpa.ChangeableWhileExecuting)
+                                ce.element.IsEnabled = false;
+                        }
+                        else 
+                        {
+                            if (!ce.tpa.ChangeableWhileExecuting)
+                                ce.element.IsEnabled = true;
+                        }
+                    }
+                }
+
+            }, null);
             
         }
 
-  
+
         List<String> groups = new List<String>();
 
         private void isVisibleChanged(Object sender, DependencyPropertyChangedEventArgs eventArgs)
@@ -66,11 +96,23 @@ namespace WorkspaceManager.View.BinVisual
                 foreach (List<ControlEntry> cel in entgrou.entryList)
                 {
                     Expander testexoander = new Expander();
+
+                    Expander noverticalgroupexpander = new Expander();
+                    
+                    TestPanel noVerticalGroup = new TestPanel();
+
+                    Border noVerticalGroupBodi = new Border();
+
+                    noVerticalGroupBodi.Child = noVerticalGroup;
+
+                    noverticalgroupexpander.Content = noVerticalGroupBodi;
+
                     Border bodi = new Border();
                     
                     testexoander.IsExpanded = true;
                     
                     TestPanel test = new TestPanel();
+                    
                     test.Name = "border1";
                     //test.Background = Brushes.AliceBlue;
 
@@ -122,14 +164,21 @@ namespace WorkspaceManager.View.BinVisual
                             
                             title.Text = ce.tpa.Caption;
                             title.TextWrapping = TextWrapping.Wrap;
-
+                            
                             
 
+                            if (ce.element is CheckBox|| ce.element is Button)
+                            {
+                                Label l = new Label();
+                                test.Children.Add(ce.element);
+                                test.Children.Add(l);
+                            }
 
-                            test.Children.Add(title);
-                            test.Children.Add(ce.element);
-                         
-
+                            else
+                            {
+                                test.Children.Add(title);
+                                test.Children.Add(ce.element);
+                            }
                         }
                         else 
                         {
@@ -143,22 +192,23 @@ namespace WorkspaceManager.View.BinVisual
 
                                     controlGrid.ColumnDefinitions.Add(new ColumnDefinition());
                                     controlGrid.ColumnDefinitions.Add(new ColumnDefinition());
-                                    controlGrid.ColumnDefinitions.Add(new ColumnDefinition());
+                                    //controlGrid.ColumnDefinitions.Add(new ColumnDefinition());
 
                                     TextBlock title = new TextBlock();
                                     title.Text = ce.tpa.Caption;
+                                    title.HorizontalAlignment = HorizontalAlignment.Center;
 
                                     Label space = new Label();
-                                    space.Width = 5;
+                                    space.Width = 0;
                                     Grid.SetColumn(title, controlGrid.ColumnDefinitions.Count - 2);
 
-                                    controlGrid.Children.Add(space);
+                                    //controlGrid.Children.Add(space);
 
-                                    Grid.SetColumn(space, controlGrid.ColumnDefinitions.Count - 3);
+//                                    Grid.SetColumn(space, controlGrid.ColumnDefinitions.Count - 3);
 
                                     controlGrid.Children.Add(title);
                                     Grid.SetColumn(ce.element, controlGrid.ColumnDefinitions.Count - 1);
-
+                                   
                                     
 
                                     controlGrid.Children.Add(ce.element);
@@ -177,6 +227,7 @@ namespace WorkspaceManager.View.BinVisual
 
                                     TextBlock title = new TextBlock();
                                     title.Text = ce.tpa.Caption;
+                                    title.HorizontalAlignment = HorizontalAlignment.Center;
 
                                     Grid.SetColumn(title, 0);
 
@@ -185,9 +236,10 @@ namespace WorkspaceManager.View.BinVisual
                                     controlGrid.Children.Add(ce.element);
                                     controlGrid.HorizontalAlignment = HorizontalAlignment.Stretch;
 
-                                    
+                                    Label dummy = new Label();
 
                                     test.Children.Add(controlGrid);
+                                    test.Children.Add(dummy);
 
                                     controlGrid.Width = test.Width;
 
@@ -196,9 +248,16 @@ namespace WorkspaceManager.View.BinVisual
                             }
                             else 
                             {
-                                WrapPanel controlGrid = new WrapPanel();
+                                if (!test.IsAncestorOf(noverticalgroupexpander))
+                                {
+                                    Label l = new Label();
+                                    l.Width = 1;
+                                    test.Children.Add(l);
+                                    test.Children.Add(noverticalgroupexpander);
+                                }
+                               /* WrapPanel controlGrid = new WrapPanel();
                                 controlGrid.Orientation = Orientation.Horizontal;
-                                controlGrid.Margin = new Thickness(5);
+                                //controlGrid.Margin = new Thickness(0);
                                 TextBlock title = new TextBlock();
                                 title.Text = ce.tpa.Caption;
                                 title.TextWrapping = TextWrapping.Wrap;
@@ -228,7 +287,26 @@ namespace WorkspaceManager.View.BinVisual
                                 {
                                     maxlength = title.Text.Length;
                                 }
-                                
+                                */
+
+                                TextBlock title = new TextBlock();
+                                title.Text = ce.tpa.Caption;
+                                title.TextWrapping = TextWrapping.Wrap;
+
+                                if (ce.element is CheckBox)
+                                {
+                                    Label l = new Label();
+                                    l.Width = 1;
+                                    //test.Children.Add(l);
+                                    noVerticalGroup.Children.Add(ce.element);
+                                   
+                                }
+
+                                else
+                                {
+                                    test.Children.Add(title);
+                                    test.Children.Add(ce.element);
+                                }
                             }
                         }
                     }
@@ -236,10 +314,12 @@ namespace WorkspaceManager.View.BinVisual
                     bodi.Child = test;
                     testexoander.Content = bodi;
                    
-                    blupp.Children.Add(testexoander);
+                    myWrap.Children.Add(testexoander);
                     
                 }
             
+
+
         }
 
         private EntryGroup createContentSettings(IPlugin plugin)
@@ -248,7 +328,7 @@ namespace WorkspaceManager.View.BinVisual
             EntryGroup entgrou = new EntryGroup();
 
             
-
+            
             foreach (TaskPaneAttribute tpa in plugin.Settings.GetSettingsProperties(plugin))
             //for (int i = 0; i < plugin.Settings.GetSettingsProperties(plugin).Length;i++ )
             {
@@ -312,7 +392,7 @@ namespace WorkspaceManager.View.BinVisual
                                 intInput.Minimum = tpa.IntegerMinValue;
                                 intInput.SetBinding(NumericUpDown.ValueProperty, dataBinding);
                                 entgrou.AddNewEntry(tpa.GroupName, new ControlEntry(intInput, tpa, sfa));
-                                
+                                intInput.IsEnabled = false;
                             }
                             else if (tpa.ValidationType == ValidationType.RangeDouble)
                             {
@@ -408,7 +488,7 @@ namespace WorkspaceManager.View.BinVisual
                         case ControlType.CheckBox:
                             CheckBox checkBox = new CheckBox();
                             checkBox.Margin = CONTROL_DEFAULT_MARGIN;
-                            //checkBox.Content = tpa.Caption;
+                            checkBox.Content = tpa.Caption;
                             checkBox.Tag = tpa.ToolTip;
                             checkBox.MouseEnter += Control_MouseEnter;
                             checkBox.SetBinding(CheckBox.IsCheckedProperty, dataBinding);
@@ -736,16 +816,23 @@ namespace WorkspaceManager.View.BinVisual
 
             foreach (UIElement child in Children)
             {
-                if (Children.IndexOf(child) % 2 == 0)
-                    if (child.DesiredSize.Width > maxSizeCaption)
+                if (!(child is Grid))
+                {
+                    if (child is TextBlock || child is CheckBox || child is Expander)
                     {
-                        maxSizeCaption = child.DesiredSize.Width;
+                        if (child.DesiredSize.Width > maxSizeCaption)
+                        {
+                            maxSizeCaption = child.DesiredSize.Width;
+                        }
                     }
-                if (Children.IndexOf(child) % 2 == 1)
-                    if (child.DesiredSize.Width > maxSizeContent)
+                    else
                     {
-                        maxSizeContent = child.DesiredSize.Width;
+                        if (child.DesiredSize.Width > maxSizeContent)
+                        {
+                            maxSizeContent = child.DesiredSize.Width;
+                        }
                     }
+                }
             }
             maxSizeCaption += 5;
             maxSize = maxSizeCaption + maxSizeContent;
@@ -766,8 +853,18 @@ namespace WorkspaceManager.View.BinVisual
 
                 child.Measure(infiniteSize);
 
-                if (curX + child.DesiredSize.Width > availableSize.Width || curX + child.DesiredSize.Width > maxSize || child is Grid || b)
+                if (child is Grid)
+                {
+                    Grid dummy = child as Grid;
+                    if (this.ActualWidth != 0)
+                        dummy.Width = this.ActualWidth;
+                    else
+                    { dummy.Width = this.DesiredSize.Width; }
+                }
+
+                if (Children.IndexOf(child) % 2 == 0 || curX + child.DesiredSize.Width > availableSize.Width || curX + child.DesiredSize.Width > maxSize || child is Grid || b)
                 { //Wrap to next line
+                    if(!(child is Label))
                     curY += curLineHeight + 10;
                     curX = 0;
                     curLineHeight = 0;
@@ -788,6 +885,7 @@ namespace WorkspaceManager.View.BinVisual
             resultSize.Height = double.IsPositiveInfinity(availableSize.Height) ? curY : availableSize.Height;
             this.Height = resultSize.Height;
 
+           
             return resultSize;
         }
 
@@ -799,16 +897,23 @@ namespace WorkspaceManager.View.BinVisual
 
             foreach (UIElement child in Children)
             {
-                if (Children.IndexOf(child) % 2 == 0)
-                    if (child.DesiredSize.Width > maxSizeCaption)
+                if (!(child is Grid))
+                {
+                    if (child is TextBlock || child is CheckBox || child is Expander)
                     {
-                        maxSizeCaption = child.DesiredSize.Width;
+                        if (child.DesiredSize.Width > maxSizeCaption)
+                        {
+                            maxSizeCaption = child.DesiredSize.Width;
+                        }
                     }
-                if (Children.IndexOf(child) % 2 == 1)
-                    if (child.DesiredSize.Width > maxSizeContent)
+                    else
                     {
-                        maxSizeContent = child.DesiredSize.Width;
+                        if (child.DesiredSize.Width > maxSizeContent)
+                        {
+                            maxSizeContent = child.DesiredSize.Width;
+                        }
                     }
+                }
             }
             maxSizeCaption += 5;
             maxSize = maxSizeCaption + maxSizeContent;
@@ -844,8 +949,19 @@ namespace WorkspaceManager.View.BinVisual
                     child.RenderTransform = trans;
                 }
 
-                if (curX + child.DesiredSize.Width > finalSize.Width || curX + child.DesiredSize.Width > maxSize || b || Children.IndexOf(child) % 2 == 0 || child is Grid)
+                if (child is Grid)
+                {
+                    Grid dummy = child as Grid;
+                    if (this.ActualWidth != 0)
+                        dummy.Width = this.ActualWidth;
+                    else
+                    { dummy.Width = maxSizeCaption; }
+
+                }
+
+                if (Children.IndexOf(child) % 2 == 0 || curX + child.DesiredSize.Width > finalSize.Width || curX + child.DesiredSize.Width > maxSize || b || Children.IndexOf(child) % 2 == 0 || child is Grid )
                 { //Wrap to next line
+                    if (!(child is Label))
                     curY += curLineHeight + 10;
                     curX = 0;
                     curLineHeight = 0;
@@ -868,7 +984,9 @@ namespace WorkspaceManager.View.BinVisual
 
             this.Height = curY;
 
+            
             return finalSize;
+            
         }
     }
 

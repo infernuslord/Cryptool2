@@ -102,7 +102,7 @@ namespace WorkspaceManager
 
         private WorkspaceModel WorkspaceModel = null;
         private BinEditorVisual WorkspaceSpaceEditorView = null;
-        private ExecutionEngine ExecutionEngine = null;
+        public ExecutionEngine ExecutionEngine = null;
         private volatile bool executing = false;
 
         #endregion
@@ -113,6 +113,10 @@ namespace WorkspaceManager
         public bool isExecuting(){
             return executing;
         }
+
+        public event EventHandler executeEvent;     //Event for BinSettingsVisual to notice when executing, to disable settings that may not be changed during execution       
+        
+
 
         #region IEditor Members
 
@@ -537,6 +541,7 @@ namespace WorkspaceManager
 
         #region IPlugin Members
 
+
         /// <summary>
         /// 
         /// </summary>
@@ -597,11 +602,15 @@ namespace WorkspaceManager
                 return;
             }
             EventsHelper.AsynchronousPropertyChanged = false;
+            
             try
             {
                 GuiLogMessage("Execute Model now!", NotificationLevel.Info);
                 executing = true;
-
+                executeEvent(this, EventArgs.Empty);
+                
+                
+                
                 if (((WorkspaceManagerSettings)this.Settings).SynchronousEvents)
                 {
                     EventsHelper.AsynchronousProgressChanged = false;
@@ -663,6 +672,7 @@ namespace WorkspaceManager
             {
                 GuiLogMessage("Exception during the execution: " + ex.Message, NotificationLevel.Error);
                 executing = false;
+                executeEvent(this, EventArgs.Empty);
                 if (((WorkspaceManagerSettings)this.Settings).SynchronousEvents)
                 {
                     EventsHelper.AsynchronousProgressChanged = true;
@@ -742,7 +752,8 @@ namespace WorkspaceManager
                 }
                 this.ExecutionEngine = null;
                 GC.Collect();
-                executing = false;               
+                executing = false;
+                executeEvent(this, EventArgs.Empty);
             }
         }
 
