@@ -37,37 +37,80 @@
                 <Label DockPanel.Dock="Top">Language:</Label>
                 <ComboBox DockPanel.Dock="Top" Name="DocuLanguage" ItemsSource="{Binding}" SelectionChanged="DocuLanguage_SelectionChanged"/>
             </DockPanel>
+            <DockPanel>
+                <Label DockPanel.Dock="Top">Language2:</Label>
+                <ComboBox DockPanel.Dock="Top" Name="DocuLanguage2" ItemsSource="{Binding}" SelectionChanged="DocuLanguage2_SelectionChanged"/>
+            </DockPanel>
             <Button x:Name="AddLanguage" Click="AddLanguage_Click" ToolTip="Add language">
                 <Image Source="Images\addlanguage.png" Stretch="Uniform" Width="48" Height="48"/>
             </Button>
             <Button x:Name="AddReferenceButton" Click="AddReferenceButton_Click"  ToolTip="Add Reference">
                 <Image Source="Images\references.png" Stretch="Uniform" Width="48" Height="48"/>
             </Button>
-        </ToolBar>
+        </ToolBar>        
         <Label DockPanel.Dock="Top" Height="30">Introduction:</Label>
-        <RichTextBox DockPanel.Dock="Top" ScrollViewer.VerticalScrollBarVisibility="Visible" Name="Introduction" HorizontalAlignment="Left" VerticalAlignment="Top" MinHeight="100" Height="170" AcceptsReturn="True" TextChanged="Introduction_TextChanged" FontSize="14">
-            <RichTextBox.Resources>
-                <Style TargetType="{x:Type Paragraph}">
-                    <Setter Property="Margin" Value="2"/>
-                </Style>
-            </RichTextBox.Resources>
-        </RichTextBox>
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <RichTextBox Grid.Column="0" ScrollViewer.VerticalScrollBarVisibility="Visible" Name="Introduction" HorizontalAlignment="Left" VerticalAlignment="Top" MinHeight="100" Height="170" AcceptsReturn="True" TextChanged="Introduction_TextChanged" FontSize="14">
+                <RichTextBox.Resources>
+                    <Style TargetType="{x:Type Paragraph}">
+                        <Setter Property="Margin" Value="2"/>
+                    </Style>
+                </RichTextBox.Resources>
+            </RichTextBox>
+            <RichTextBox Grid.Column="1" ScrollViewer.VerticalScrollBarVisibility="Visible" Name="Introduction2" HorizontalAlignment="Left" VerticalAlignment="Top" MinHeight="100" Height="170" AcceptsReturn="True" TextChanged="Introduction_TextChanged" FontSize="14">
+                <RichTextBox.Resources>
+                    <Style TargetType="{x:Type Paragraph}">
+                        <Setter Property="Margin" Value="2"/>
+                    </Style>
+                </RichTextBox.Resources>
+            </RichTextBox>
+        </Grid>
         <Label DockPanel.Dock="Top" Height="30">Usage:</Label>
-        <RichTextBox DockPanel.Dock="Top" ScrollViewer.VerticalScrollBarVisibility="Visible" Name="Usage" HorizontalAlignment="Left" VerticalAlignment="Top" MinHeight="100" Height="170" AcceptsReturn="True" TextChanged="Usage_TextChanged" FontSize="14">
-            <RichTextBox.Resources>
-                <Style TargetType="{x:Type Paragraph}">
-                    <Setter Property="Margin" Value="2"/>
-                </Style>
-            </RichTextBox.Resources>
-        </RichTextBox>
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <RichTextBox Grid.Column="0" ScrollViewer.VerticalScrollBarVisibility="Visible" Name="Usage" HorizontalAlignment="Left" VerticalAlignment="Top" MinHeight="100" Height="170" AcceptsReturn="True" TextChanged="Usage_TextChanged" FontSize="14">
+                <RichTextBox.Resources>
+                    <Style TargetType="{x:Type Paragraph}">
+                        <Setter Property="Margin" Value="2"/>
+                    </Style>
+                </RichTextBox.Resources>
+            </RichTextBox>
+            <RichTextBox Grid.Column="1" ScrollViewer.VerticalScrollBarVisibility="Visible" Name="Usage2" HorizontalAlignment="Left" VerticalAlignment="Top" MinHeight="100" Height="170" AcceptsReturn="True" TextChanged="Usage_TextChanged" FontSize="14">
+                <RichTextBox.Resources>
+                    <Style TargetType="{x:Type Paragraph}">
+                        <Setter Property="Margin" Value="2"/>
+                    </Style>
+                </RichTextBox.Resources>
+            </RichTextBox>
+        </Grid>
         <Label DockPanel.Dock="Top" Height="30">Presentation:</Label>
-        <RichTextBox DockPanel.Dock="Top" ScrollViewer.VerticalScrollBarVisibility="Visible" Name="Presentation" HorizontalAlignment="Left" VerticalAlignment="Top" MinHeight="100" Height="170" AcceptsReturn="True" TextChanged="Presentation_TextChanged" FontSize="14">
-            <RichTextBox.Resources>
-                <Style TargetType="{x:Type Paragraph}">
-                    <Setter Property="Margin" Value="2"/>
-                </Style>
-            </RichTextBox.Resources>
-        </RichTextBox>
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <RichTextBox Grid.Column="0" ScrollViewer.VerticalScrollBarVisibility="Visible" Name="Presentation" HorizontalAlignment="Left" VerticalAlignment="Top" MinHeight="100" Height="170" AcceptsReturn="True" TextChanged="Presentation_TextChanged" FontSize="14">
+                <RichTextBox.Resources>
+                    <Style TargetType="{x:Type Paragraph}">
+                        <Setter Property="Margin" Value="2"/>
+                    </Style>
+                </RichTextBox.Resources>
+            </RichTextBox>
+            <RichTextBox Grid.Column="1" ScrollViewer.VerticalScrollBarVisibility="Visible" Name="Presentation2" HorizontalAlignment="Left" VerticalAlignment="Top" MinHeight="100" Height="170" AcceptsReturn="True" TextChanged="Presentation_TextChanged" FontSize="14">
+                <RichTextBox.Resources>
+                    <Style TargetType="{x:Type Paragraph}">
+                        <Setter Property="Margin" Value="2"/>
+                    </Style>
+                </RichTextBox.Resources>
+            </RichTextBox>
+        </Grid>
         <Label DockPanel.Dock="Top" Height="30">References:</Label>
         <ListView Name="References" MinHeight="100" Height="170" KeyDown="References_KeyDown">
             <ListView.View>

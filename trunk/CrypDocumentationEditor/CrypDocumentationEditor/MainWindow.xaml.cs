@@ -40,6 +40,9 @@ namespace CrypDocumentationEditor
         private string[] languages;
         private List<Reference> _references = new List<Reference>();
 
+        private string language1 = Documentation.DEFAULT_LANGUAGE;
+        private string language2 = Documentation.DEFAULT_LANGUAGE;
+
         public bool HasChanges { 
             get{
                 return hasChanges;
@@ -69,6 +72,8 @@ namespace CrypDocumentationEditor
             languages = docu.GetLanguages();            
             this.DocuLanguage.ItemsSource = languages;
             this.DocuLanguage.SelectedIndex = 0;
+            this.DocuLanguage2.ItemsSource = languages;
+            this.DocuLanguage2.SelectedIndex = 0;
         }
 
         private void BoldButton_Click(object sender, RoutedEventArgs e)
@@ -76,8 +81,7 @@ namespace CrypDocumentationEditor
             if (Introduction.IsFocused)
             {
                 Introduction.Selection.Start.InsertTextInRun("<b>");
-                Introduction.Selection.End.InsertTextInRun("</b>");
-                
+                Introduction.Selection.End.InsertTextInRun("</b>");                
             }
             if (Usage.IsFocused)
             {
@@ -89,6 +93,21 @@ namespace CrypDocumentationEditor
                 Presentation.Selection.Start.InsertTextInRun("<b>");
                 Presentation.Selection.End.InsertTextInRun("</b>");
             }
+            if (Introduction2.IsFocused)
+            {
+                Introduction2.Selection.Start.InsertTextInRun("<b>");
+                Introduction2.Selection.End.InsertTextInRun("</b>");
+            }
+            if (Usage2.IsFocused)
+            {
+                Usage2.Selection.Start.InsertTextInRun("<b>");
+                Usage2.Selection.End.InsertTextInRun("</b>");
+            }
+            if (Presentation2.IsFocused)
+            {
+                Presentation2.Selection.Start.InsertTextInRun("<b>");
+                Presentation2.Selection.End.InsertTextInRun("</b>");
+            }
         }
 
         private void ItalicButton_Click(object sender, RoutedEventArgs e)
@@ -97,7 +116,6 @@ namespace CrypDocumentationEditor
             {
                 Introduction.Selection.Start.InsertTextInRun("<i>");
                 Introduction.Selection.End.InsertTextInRun("</i>");
-
             }
             if (Usage.IsFocused)
             {
@@ -109,6 +127,21 @@ namespace CrypDocumentationEditor
                 Presentation.Selection.Start.InsertTextInRun("<i>");
                 Presentation.Selection.End.InsertTextInRun("</i>");
             }
+            if (Introduction2.IsFocused)
+            {
+                Introduction2.Selection.Start.InsertTextInRun("<i>");
+                Introduction2.Selection.End.InsertTextInRun("</i>");
+            }
+            if (Usage2.IsFocused)
+            {
+                Usage2.Selection.Start.InsertTextInRun("<i>");
+                Usage2.Selection.End.InsertTextInRun("</i>");
+            }
+            if (Presentation2.IsFocused)
+            {
+                Presentation2.Selection.Start.InsertTextInRun("<i>");
+                Presentation2.Selection.End.InsertTextInRun("</i>");
+            }
         }
 
         private void UnderlineButton_Click(object sender, RoutedEventArgs e)
@@ -117,7 +150,6 @@ namespace CrypDocumentationEditor
             {
                 Introduction.Selection.Start.InsertTextInRun("<u>");
                 Introduction.Selection.End.InsertTextInRun("</u>");
-
             }
             if (Usage.IsFocused)
             {
@@ -129,14 +161,42 @@ namespace CrypDocumentationEditor
                 Presentation.Selection.Start.InsertTextInRun("<u>");
                 Presentation.Selection.End.InsertTextInRun("</u>");
             }
+            if (Introduction2.IsFocused)
+            {
+                Introduction2.Selection.Start.InsertTextInRun("<u>");
+                Introduction2.Selection.End.InsertTextInRun("</u>");
+            }
+            if (Usage2.IsFocused)
+            {
+                Usage2.Selection.Start.InsertTextInRun("<u>");
+                Usage2.Selection.End.InsertTextInRun("</u>");
+            }
+            if (Presentation2.IsFocused)
+            {
+                Presentation2.Selection.Start.InsertTextInRun("<u>");
+                Presentation2.Selection.End.InsertTextInRun("</u>");
+            }
         }
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             double height = (e.NewSize.Height - 190) / 4;
+            double width = (e.NewSize.Width - 20) / 2;
+           
             Introduction.Height = height;
+            Introduction2.Height = height;
+            Introduction.Width = width;
+            Introduction2.Width = width;
+
             Usage.Height = height;
+            Usage2.Height = height;
+            Usage.Width = width;
+            Usage2.Width = width;
+
             Presentation.Height = height;
+            Presentation2.Height = height;
+            Presentation.Width = width;
+            Presentation2.Width = width;
         }
 
         private void NewButton_Click(object sender, RoutedEventArgs e)
@@ -199,6 +259,24 @@ namespace CrypDocumentationEditor
             para.Inlines.Add(new Run(""));
             document.Blocks.Add(para);
             Presentation.Document = document;
+
+            document = new FlowDocument();
+            para = new Paragraph();
+            para.Inlines.Add(new Run(""));
+            document.Blocks.Add(para);
+            Introduction2.Document = document;
+
+            document = new FlowDocument();
+            para = new Paragraph();
+            para.Inlines.Add(new Run(""));
+            document.Blocks.Add(para);
+            Usage2.Document = document;
+
+            document = new FlowDocument();
+            para = new Paragraph();
+            para.Inlines.Add(new Run(""));
+            document.Blocks.Add(para);
+            Presentation2.Document = document;
 
             GenerateLanguageSelector();
 
@@ -263,6 +341,9 @@ namespace CrypDocumentationEditor
                 Introduction.Document = docu.Introduction;
                 Usage.Document = docu.Usage;
                 Presentation.Document = docu.Presentation;
+                Introduction2.Document = docu.Introduction;
+                Usage2.Document = docu.Usage;
+                Presentation2.Document = docu.Presentation;
                 _references = docu.GetReferences();
                 References.ItemsSource = _references;
             }
@@ -284,9 +365,17 @@ namespace CrypDocumentationEditor
             if (result == true)
             {               
                 string filename = dlg.FileName;
+                docu.Language = language1;
                 docu.Introduction = Introduction.Document;
                 docu.Usage = Usage.Document;
                 docu.Presentation = Presentation.Document;
+                if (language2 != null && !language1.Equals(language2))
+                {
+                    docu.Language = language2;
+                    docu.Introduction = Introduction2.Document;
+                    docu.Usage = Usage2.Document;
+                    docu.Presentation = Presentation2.Document;
+                }
                 docu.Save(filename);
                 HasChanges = false;
             }
@@ -363,6 +452,9 @@ namespace CrypDocumentationEditor
             newlanguages[newlanguages.Length - 1] = value;
             languages = newlanguages;
             this.DocuLanguage.ItemsSource = languages;
+            this.DocuLanguage2.ItemsSource = languages;
+            this.DocuLanguage2.SelectedValue = value;
+            language2 = value;
             this.HasChanges = true;
         }
 
@@ -386,6 +478,18 @@ namespace CrypDocumentationEditor
             {
                 Presentation.Selection.Start.InsertTextInRun("<img src=\"" + uri + "\"/>");
             }
+            if (Introduction2.IsFocused)
+            {
+                Introduction2.Selection.Start.InsertTextInRun("<img src=\"" + uri + "\"/>");
+            }
+            if (Usage2.IsFocused)
+            {
+                Usage2.Selection.Start.InsertTextInRun("<img src=\"" + uri + "\"/>");
+            }
+            if (Presentation2.IsFocused)
+            {
+                Presentation2.Selection.Start.InsertTextInRun("<img src=\"" + uri + "\"/>");
+            }
         }
 
         private void AddSectionButton_Click(object sender, RoutedEventArgs e)
@@ -408,6 +512,18 @@ namespace CrypDocumentationEditor
             {
                 Presentation.Selection.Start.InsertTextInRun("<section headline=\"" + sectionname + "\"/>");
             }
+            if (Introduction2.IsFocused)
+            {
+                Introduction2.Selection.Start.InsertTextInRun("<section headline=\"" + sectionname + "\"/>");
+            }
+            if (Usage2.IsFocused)
+            {
+                Usage2.Selection.Start.InsertTextInRun("<section headline=\"" + sectionname + "\"/>");
+            }
+            if (Presentation2.IsFocused)
+            {
+                Presentation2.Selection.Start.InsertTextInRun("<section headline=\"" + sectionname + "\"/>");
+            }
         }
 
         private void DocuLanguage_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -415,9 +531,11 @@ namespace CrypDocumentationEditor
             if (DocuLanguage.SelectedValue == null)
             {
                 return;
-            }
+            }            
+
             //Save old has changes state
             bool hasChanges = HasChanges;
+            docu.Language = language1;
 
             //save old language entries to xml
             docu.Introduction = Introduction.Document;
@@ -425,12 +543,45 @@ namespace CrypDocumentationEditor
             docu.Presentation = Presentation.Document;
             
             //change to new selected language
-            docu.Language = (string)DocuLanguage.SelectedValue;       
-     
+            docu.Language = (string)DocuLanguage.SelectedValue;
+            language1 = (string)DocuLanguage.SelectedValue;
+
             //put new selected language entries from xml to view
             Introduction.Document = docu.Introduction;
             Usage.Document = docu.Usage;
             Presentation.Document = docu.Presentation;
+
+            //restore old HasChanges state
+            HasChanges = hasChanges;
+        }
+
+        private void DocuLanguage2_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (DocuLanguage2.SelectedValue == null)
+            {
+                return;
+            }
+
+            //Save old has changes state
+            bool hasChanges = HasChanges;            
+
+            if (language2 != null)
+            {
+                docu.Language = language2;
+
+                //save old language entries to xml
+                docu.Introduction = Introduction2.Document;
+                docu.Usage = Usage2.Document;
+                docu.Presentation = Presentation2.Document;
+            }
+            //change to new selected language
+            docu.Language = (string)DocuLanguage2.SelectedValue;
+            language2 = (string)DocuLanguage2.SelectedValue;
+
+            //put new selected language entries from xml to view
+            Introduction2.Document = docu.Introduction;
+            Usage2.Document = docu.Usage;
+            Presentation2.Document = docu.Presentation;
 
             //restore old HasChanges state
             HasChanges = hasChanges;
@@ -449,6 +600,18 @@ namespace CrypDocumentationEditor
             if (Presentation.IsFocused)
             {
                 Presentation.Selection.Start.InsertTextInRun("<newline />");
+            }
+            if (Introduction2.IsFocused)
+            {
+                Introduction2.Selection.Start.InsertTextInRun("<newline />");
+            }
+            if (Usage2.IsFocused)
+            {
+                Usage2.Selection.Start.InsertTextInRun("<newline />");
+            }
+            if (Presentation2.IsFocused)
+            {
+                Presentation2.Selection.Start.InsertTextInRun("<newline />");
             }
         }
 
@@ -504,6 +667,6 @@ namespace CrypDocumentationEditor
                     docu.AddReferences(_references);
                 }
             }
-        }
+        }     
     }
 }
