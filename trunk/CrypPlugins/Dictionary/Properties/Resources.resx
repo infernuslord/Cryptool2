@@ -132,9 +132,6 @@
   <data name="PluginTooltip" xml:space="preserve">
     <value>Reads values from a Dictionary and returns all entries concatenated with given delimiter in one string.</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value />
-  </data>
   <data name="OutputStringCaption" xml:space="preserve">
     <value>Dictionary output (deprecated)</value>
   </data>

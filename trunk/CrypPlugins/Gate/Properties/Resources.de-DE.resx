@@ -123,9 +123,6 @@
   <data name="PluginTooltip" xml:space="preserve">
     <value>Kontrollelement, gibt den Eingang bedingt auf den Ausgang weiter</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value />
-  </data>
   <data name="InputObjectCaption" xml:space="preserve">
     <value>Eingabeobjekt</value>
   </data>

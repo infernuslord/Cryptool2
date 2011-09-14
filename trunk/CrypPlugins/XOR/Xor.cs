@@ -28,7 +28,7 @@ using System.Windows.Controls;
 namespace Cryptool.XOR
 {
     [Author("Matthäus Wander", "wander@cryptool.org", "University of Duisburg-Essen", "http://www.vs.uni-due.de")]
-    [PluginInfo("Cryptool.XOR.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL",
+    [PluginInfo("Cryptool.XOR.Properties.Resources", false, "PluginCaption", "PluginTooltip", "XOR/DetailedDescription/doc.xml",
       "XOR/Images/icon.png", "XOR/Images/encrypt.png", "XOR/Images/decrypt.png")]
     [ComponentCategory(ComponentCategory.CiphersClassic)]
     public class Xor : ICrypComponent
@@ -55,7 +55,7 @@ namespace Cryptool.XOR
             set { this.settings = value; }
         }
 
-        [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", "", true, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputDataCaption", "InputDataTooltip", "", true, false, QuickWatchFormat.Text, null)]
         public byte[] InputData
         {
             get { return this.inputData; }

@@ -138,9 +138,6 @@
   <data name="PluginCaption" xml:space="preserve">
     <value>XOR</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value>XOR/DetailedDescription/Description.xaml</value>
-  </data>
   <data name="PluginTooltip" xml:space="preserve">
     <value>XOR -- Verschlüsselung durch XOR-Verknüpfung der binären Eingabedaten mit einem Binärschlüssel.</value>
   </data>

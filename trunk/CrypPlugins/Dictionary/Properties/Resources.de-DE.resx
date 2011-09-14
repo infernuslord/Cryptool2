@@ -132,9 +132,6 @@
   <data name="PluginTooltip" xml:space="preserve">
     <value>Dieses Plugin liest die Einträge einer Wörterbuch-Datei und gibt sie als eine Wortliste oder als eine einzelne Zeichenfolge zurück, die aus den Wörtern mittels eines Trennzeichens zusammengefügt wird.</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value />
-  </data>
   <data name="OutputStringCaption" xml:space="preserve">
     <value>Wörterbuch-Ausgabe (veraltet)</value>
   </data>
