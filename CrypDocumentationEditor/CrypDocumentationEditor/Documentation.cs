@@ -91,6 +91,15 @@ namespace CrypDocumentationEditor
             get
             {
                 XmlNode introduction = xml.SelectSingleNode("/documentation/introduction[@lang='"+ Language +"']");
+                if (introduction == null)
+                {
+                    XmlNode documentationNode = xml.SelectSingleNode("/documentation");
+                    introduction = xml.CreateNode(XmlNodeType.Element, "introduction", null);
+                    XmlAttribute introductionlangAttribute = xml.CreateAttribute("lang");
+                    introductionlangAttribute.Value = Language;
+                    introduction.Attributes.Append(introductionlangAttribute);
+                    documentationNode.AppendChild(introduction);
+                }
                 string text = introduction.InnerXml.Trim();
                 FlowDocument document = new FlowDocument();
                 Paragraph para = new Paragraph();
@@ -118,6 +127,15 @@ namespace CrypDocumentationEditor
             get
             {
                 XmlNode usage = xml.SelectSingleNode("/documentation/usage[@lang='" + Language + "']");
+                if (usage == null)
+                {
+                    XmlNode documentationNode = xml.SelectSingleNode("/documentation");
+                    usage = xml.CreateNode(XmlNodeType.Element, "usage", null);
+                    XmlAttribute usagelangAttribute = xml.CreateAttribute("lang");
+                    usagelangAttribute.Value = Language;
+                    usage.Attributes.Append(usagelangAttribute);
+                    documentationNode.AppendChild(usage);
+                }
                 string text = usage.InnerXml.Trim();
                 FlowDocument document = new FlowDocument();
                 Paragraph para = new Paragraph();
@@ -145,6 +163,15 @@ namespace CrypDocumentationEditor
             get
             {
                 XmlNode presentation = xml.SelectSingleNode("/documentation/presentation[@lang='" + Language + "']");
+                if (presentation == null)
+                {
+                    XmlNode documentationNode = xml.SelectSingleNode("/documentation");
+                    presentation = xml.CreateNode(XmlNodeType.Element, "presentation", null);
+                    XmlAttribute presentationlangAttribute = xml.CreateAttribute("lang");
+                    presentationlangAttribute.Value = Language;
+                    presentation.Attributes.Append(presentationlangAttribute);
+                    documentationNode.AppendChild(presentation);
+                }
                 string text = presentation.InnerXml.Trim();
                 FlowDocument document = new FlowDocument();
                 Paragraph para = new Paragraph();
