@@ -245,9 +245,9 @@ namespace CrypDocumentationEditor
             XmlNodeList linkReferenceNodes = xml.SelectNodes("/documentation/references/linkReference");
             foreach (XmlNode node in linkReferenceNodes)
             {
-                references.Add(new LinkReference() { Link = node["link"].InnerText, Caption = node["caption"].InnerText });                
+                references.Add(new LinkReference() { Link = node["link"].Attributes["url"].Value, Caption = node["caption"].InnerText });                
             }
-            XmlNodeList bookReferenceNodes = xml.SelectNodes("/documentation/references/bookReference ");
+            XmlNodeList bookReferenceNodes = xml.SelectNodes("/documentation/references/bookReference");
             foreach (XmlNode node in bookReferenceNodes)
             {
                 references.Add(new BookReference() { Author = node["author"].InnerText, Publisher = node["publisher"].InnerText, Name = node["name"].InnerText });
@@ -276,10 +276,12 @@ namespace CrypDocumentationEditor
                     LinkReference linkReference = (LinkReference)reference;
                     XmlNode linkReferenceNode = xml.CreateNode(XmlNodeType.Element, "linkReference", null);
                     XmlNode linkNode = xml.CreateNode(XmlNodeType.Element, "link", null);
+                    XmlAttribute urlAttribute = xml.CreateAttribute("url", null);
                     XmlAttribute linkNodeAttribute = xml.CreateAttribute("lang");
                     XmlNode captionNode = xml.CreateNode(XmlNodeType.Element, "caption", null);
                     XmlAttribute captionNodeAttribute = xml.CreateAttribute("lang");
-                    linkNode.InnerText = linkReference.Link;
+                    urlAttribute.Value = ((LinkReference)reference).Link;
+                    linkNode.Attributes.Append(urlAttribute);
                     linkNodeAttribute.Value = "en";
                     linkNode.Attributes.Append(linkNodeAttribute);
                     captionNode.InnerText = linkReference.Caption;
@@ -316,6 +318,34 @@ namespace CrypDocumentationEditor
 
             }
 
+        }
+
+        public void RemoveReference(Reference reference)
+        {
+            if (reference is BookReference)
+            {
+                BookReference bookReference = (BookReference)reference;
+                XmlNode referencesNode = xml.SelectSingleNode("/documentation/references");
+                foreach (XmlNode node in referencesNode.ChildNodes)
+                {
+                    if (node.Name.Equals("bookReference") && node["name"].InnerText.Equals(bookReference.Name))
+                    {
+                        referencesNode.RemoveChild(node);
+                    }
+                }
+            }
+            else if (reference is LinkReference)
+            {
+                LinkReference linkReference = (LinkReference)reference;
+                XmlNode referencesNode = xml.SelectSingleNode("/documentation/references");
+                foreach (XmlNode node in referencesNode.ChildNodes)
+                {
+                    if (node.Name.Equals("linkReference") && node["caption"].InnerText.Equals(linkReference.Caption))
+                    {
+                        referencesNode.RemoveChild(node);
+                    }
+                }
+            }
         }
     }
 
