@@ -56,7 +56,7 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace Cryptool.CRC
 {
     [Author("Matthäus Wander", "wander@cryptool.org", "Fachgebiet Verteilte Systeme, Universität Duisburg-Essen", "http://www.vs.uni-due.de")]
-    [PluginInfo("CRC.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "CRC/icon.png")]
+    [PluginInfo("CRC.Properties.Resources", false, "PluginCaption", "PluginTooltip", "CRC/DetailedDescription/doc.xml", "CrypWin/images/default.png")]
     [ComponentCategory(ComponentCategory.HashFunctions)]
     public class CRC : ICrypComponent
     {
@@ -72,10 +72,6 @@ namespace Cryptool.CRC
         #endregion
 
         #region Public interface
-
-        public CRC()
-        {
-        }
 
         public ISettings Settings
         {
@@ -114,7 +110,7 @@ namespace Cryptool.CRC
                 outputStreamWriter.Dispose();
                 outputStreamWriter = null;
             }
-            }
+        }
 
         public void Execute()
         {

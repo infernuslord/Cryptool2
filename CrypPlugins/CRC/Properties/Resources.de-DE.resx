@@ -123,9 +123,6 @@
   <data name="PluginTooltip" xml:space="preserve">
     <value>Cyclic Redundancy Check 32-Bit</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value />
-  </data>
   <data name="InputStreamCaption" xml:space="preserve">
     <value>Eingabedatenstrom</value>
   </data>
