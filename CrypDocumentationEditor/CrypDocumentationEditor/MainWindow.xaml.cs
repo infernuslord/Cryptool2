@@ -338,13 +338,14 @@ namespace CrypDocumentationEditor
                 docu = new Documentation();                                       
                 docu.Load(filename);
 
+                _references = docu.GetReferences();
+
                 Introduction.Document = docu.Introduction;
                 Usage.Document = docu.Usage;
                 Presentation.Document = docu.Presentation;
                 Introduction2.Document = docu.Introduction;
                 Usage2.Document = docu.Usage;
-                Presentation2.Document = docu.Presentation;
-                _references = docu.GetReferences();
+                Presentation2.Document = docu.Presentation;                
                 References.ItemsSource = _references;
             }
 
@@ -662,9 +663,9 @@ namespace CrypDocumentationEditor
 
                 if (result == MessageBoxResult.Yes)
                 {
+                    docu.RemoveReference((Reference)References.SelectedItem);
                     _references.Remove((Reference)References.SelectedItem);
-                    References.ItemsSource = _references;
-                    docu.AddReferences(_references);
+                    References.ItemsSource = new List<Reference>(_references);
                 }
             }
         }     
