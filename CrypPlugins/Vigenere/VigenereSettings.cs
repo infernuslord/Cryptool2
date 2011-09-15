@@ -86,7 +86,7 @@ namespace Cryptool.Vigenere
         #region Private variables
         private bool hasChanges;
         private int selectedAction = 0;
-        private int selectedModus = 0;
+        private int selectedModus = 1;
         private string upperAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         private string lowerAlphabet = "abcdefghijklmnopqrstuvwxyz";
         private string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
