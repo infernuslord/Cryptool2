@@ -6,7 +6,7 @@
 
 If the key is as long as the input data and truly random, this comprises a one-time pad (OTP) and is proven to be secure. When using a shorter key, the key is applied periodically which leaks patterns in the ciphertext. Similar to this, reusing the same key for different data also severely impacts security and can often be broken easily.
 </introduction>
-  <introduction lang="de-DE">Der XOR-Chiffre (auch Vernam-Chiffre) verwendet die ausschließende Disjunktion über beliebigen Binärdaten und einem Schlüsselstrom. Die XOR-Operation ist involutorisch, d.h. die zweifache Anwendung resultiert im Ausgangswert. Daher sind die Verschlüsselung und Entschlüsselung bei dem XOR-Chiffre identisch.
+  <introduction lang="de-DE">Das XOR-Verschlüsselungsverfahren (auch Vernam-Chiffre) verwendet die ausschließende Disjunktion über beliebigen Binärdaten und einem Schlüsselstrom. Die XOR-Operation ist involutorisch, d.h. die zweifache Anwendung resultiert im Ausgangswert. Daher sind die Verschlüsselung und Entschlüsselung bei dem XOR-Verfahren identisch.
 
 Ist der Schlüsselstrom so lang wie der Eingabedatenstrom und zudem echt zufällig, so stellt dies ein One-Time-Pad (OTP) dar, welches bewiesenermaßen sicher ist. Wird ein kürzerer Schlüssel verwendet, so wird der Schlüssel periodisch angewandt, was im Geheimtext zu identifizierbaren Mustern führt. Auch die Wiederverwendung desselben Schlüssels für unterschiedliche Daten beeinträchtigt die Sicherheit und kann häufig sehr einfach gebrochen werden.
 </introduction>
