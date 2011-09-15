@@ -891,9 +891,7 @@ namespace Wizard
                 //load sample:
                 if (openTab)
                 {
-                    currentManager =
-                        (WorkspaceManager.WorkspaceManager)
-                        OnOpenEditor(typeof (WorkspaceManager.WorkspaceManager), null, null);
+                    currentManager = (WorkspaceManager.WorkspaceManager) OnOpenEditor(typeof (WorkspaceManager.WorkspaceManager), null, null);
                     currentManager.Open(model);
                     if (Cryptool.PluginBase.Properties.Settings.Default.Wizard_RunTemplate)
                     {
@@ -905,7 +903,7 @@ namespace Wizard
                     currentManager = new WorkspaceManager.WorkspaceManager();
                     currentManager.Open(model);
                     canStopOrExecute = true;
-                    currentManager.Execute();
+                    currentManager.SampleLoaded += SampleLoaded;
                 }
 
                 _recentFileList.AddRecentFile(file);
@@ -922,6 +920,12 @@ namespace Wizard
                 currentManager.Execute();
             currentManager.SampleLoaded -= NewEditorSampleLoaded;
             OnOpenTab(currentManager, _title, null);
+        }
+
+        private void SampleLoaded(object sender, EventArgs e)
+        {
+            currentManager.Execute();
+            currentManager.SampleLoaded -= SampleLoaded;
         }
 
         private void FillDataToModel(WorkspaceModel model, XElement element)
