@@ -226,4 +226,10 @@
   <data name="PaddingList5" xml:space="preserve">
     <value>ISO10126</value>
   </data>
+  <data name="TripleDESCaption" xml:space="preserve">
+    <value>Use TripleDES</value>
+  </data>
+  <data name="TripleDESTooltip" xml:space="preserve">
+    <value>Use TripleDES</value>
+  </data>
 </root>

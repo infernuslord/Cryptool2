@@ -14,7 +14,8 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         private int action = 0; //0=encrypt, 1=decrypt
         private int mode = 0; //0="ECB", 1="CBC", 2="CFB", 3="OFB"
         private int padding = 0; //0="Zeros"=default, 1="None", 2="PKCS7", 3="ANSIX923", 4="ISO10126"
-        
+        private bool tripleDES = false;
+
         [ContextMenu( "ActionCaption", "ActionTooltip",1, ContextMenuControlType.ComboBox, new int[] { 1, 2}, "ActionList1", "ActionList2")]
         [TaskPane( "ActionCaption", "ActionTooltip", null, 1, false, ControlType.ComboBox, new string[] { "ActionList1", "ActionList2" })]
         public int Action
@@ -51,6 +52,19 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                 if (((int)value) != padding) hasChanges = true;
                 this.padding = (int)value;
                 OnPropertyChanged("Padding");
+            }
+        }
+
+        [ContextMenu("TripleDESCaption", "TripleDESTooltip", 3, ContextMenuControlType.CheckBox, null)]
+        [TaskPane("TripleDESCaption", "TripleDESTooltip", "", 3, false, ControlType.CheckBox, null)]
+        public bool TripleDES
+        {
+            get { return this.tripleDES; }
+            set
+            {
+                if (((bool)value) != tripleDES) hasChanges = true;
+                this.tripleDES = (bool)value;
+                OnPropertyChanged("TripleDES");
             }
         }
 
