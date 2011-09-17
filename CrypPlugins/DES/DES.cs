@@ -285,8 +285,17 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                     GuiLogMessage("No input given. Not using dummy data in decrypt mode. Aborting now.", NotificationLevel.Error);
                     return;
                 }
-
-                SymmetricAlgorithm p_alg = new DESCryptoServiceProvider();
+                
+                SymmetricAlgorithm p_alg = null;
+                if (((DESSettings)settings).TripleDES)
+                {
+                    p_alg = new TripleDESCryptoServiceProvider(); 
+                }
+                else
+                {
+                    p_alg = new DESCryptoServiceProvider();
+                }
+               
 
                 ConfigureAlg(p_alg);
 
@@ -305,37 +314,37 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                 using (CStreamReader reader = InputStream.CreateReader())
                 {
                     p_crypto_stream = new CryptoStream((Stream)reader, p_encryptor, CryptoStreamMode.Read);
-                byte[] buffer = new byte[p_alg.BlockSize / 8];
-                int bytesRead;
-                int position = 0;
-                GuiLogMessage("Starting encryption [Keysize=" + p_alg.KeySize.ToString() + " Bits, Blocksize=" + p_alg.BlockSize.ToString() + " Bits]", NotificationLevel.Info);
-                DateTime startTime = DateTime.Now;
-                while ((bytesRead = p_crypto_stream.Read(buffer, 0, buffer.Length)) > 0 && !stop)
-                {
-                        writer.Write(buffer, 0, bytesRead);
-
-                        if ((int)(reader.Position * 100 / reader.Length) > position)
+                    byte[] buffer = new byte[p_alg.BlockSize / 8];
+                    int bytesRead;
+                    int position = 0;
+                    GuiLogMessage("Starting encryption [Keysize=" + p_alg.KeySize.ToString() + " Bits, Blocksize=" + p_alg.BlockSize.ToString() + " Bits]", NotificationLevel.Info);
+                    DateTime startTime = DateTime.Now;
+                    while ((bytesRead = p_crypto_stream.Read(buffer, 0, buffer.Length)) > 0 && !stop)
                     {
-                            position = (int)(reader.Position * 100 / reader.Length);
-                            ProgressChanged(reader.Position, reader.Length);
-                    }
-                }
+                            writer.Write(buffer, 0, bytesRead);
 
-                p_crypto_stream.Flush();
-                DateTime stopTime = DateTime.Now;
-                TimeSpan duration = stopTime - startTime;
-                if (!stop)
-                {
-                        GuiLogMessage("Encryption complete! (in: " + reader.Length.ToString() + " bytes, out: " + writer.Length.ToString() + " bytes)", NotificationLevel.Info);
-                    GuiLogMessage("Time used: " + duration.ToString(), NotificationLevel.Debug);
-                        writer.Close();
-                    OnPropertyChanged("OutputStream");
-                }
-                if (stop)
-                {
-                        writer.Close();
-                    GuiLogMessage("Aborted!", NotificationLevel.Info);
-                }
+                            if ((int)(reader.Position * 100 / reader.Length) > position)
+                        {
+                                position = (int)(reader.Position * 100 / reader.Length);
+                                ProgressChanged(reader.Position, reader.Length);
+                        }
+                    }
+
+                    p_crypto_stream.Flush();
+                    DateTime stopTime = DateTime.Now;
+                    TimeSpan duration = stopTime - startTime;
+                    if (!stop)
+                    {
+                            GuiLogMessage("Encryption complete! (in: " + reader.Length.ToString() + " bytes, out: " + writer.Length.ToString() + " bytes)", NotificationLevel.Info);
+                        GuiLogMessage("Time used: " + duration.ToString(), NotificationLevel.Debug);
+                            writer.Close();
+                        OnPropertyChanged("OutputStream");
+                    }
+                    if (stop)
+                    {
+                            writer.Close();
+                        GuiLogMessage("Aborted!", NotificationLevel.Info);
+                    }
                 }
                 ProgressChanged(1, 1);
 
@@ -499,6 +508,19 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
             // Change the padding mode to zeroes, since we want to do bruteforcing..
             ((DESSettings)plugin.Settings).Padding = 0;
+
+            ((DESSettings)plugin.Settings).PropertyChanged += new PropertyChangedEventHandler(DESControl_PropertyChanged);
+        }
+
+        void DESControl_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName.Equals("TripleDES"))
+            {
+                if (keyPatternChanged != null)
+                {
+                    keyPatternChanged();
+                }
+            }
         }       
 
         public byte[] Encrypt(byte[] key, int blocksize)
@@ -516,8 +538,14 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         public byte[] Decrypt(byte[] ciphertext, byte[] key, byte[] IV, int bytesToUse)
         {
             int size = bytesToUse > ciphertext.Length ? ciphertext.Length : bytesToUse;
-
-            return NativeCryptography.Crypto.decryptDES(ciphertext, key, IV, size, ((DESSettings)plugin.Settings).Mode);
+            if (((DESSettings)plugin.Settings).TripleDES)
+            {
+                return NativeCryptography.Crypto.decryptTripleDES(ciphertext, key, IV, size, ((DESSettings)plugin.Settings).Mode);
+            }
+            else
+            {
+                return NativeCryptography.Crypto.decryptDES(ciphertext, key, IV, size, ((DESSettings)plugin.Settings).Mode);
+            }
         }
 
         public int GetBlockSize()
@@ -527,8 +555,20 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
         public string GetKeyPattern()
         {
-            return "[0-9A-F][0-9A-F]-[0-9A-F][0-9A-F]-[0-9A-F][0-9A-F]-[0-9A-F][0-9A-F]-"
-                +"[0-9A-F][0-9A-F]-[0-9A-F][0-9A-F]-[0-9A-F][0-9A-F]-[0-9A-F][0-9A-F]";
+            if (((DESSettings)plugin.Settings).TripleDES)
+            {
+                return "[0-9A-F][0-9A-F]-[0-9A-F][0-9A-F]-[0-9A-F][0-9A-F]-[0-9A-F][0-9A-F]-"
+               + "[0-9A-F][0-9A-F]-[0-9A-F][0-9A-F]-[0-9A-F][0-9A-F]-[0-9A-F][0-9A-F]-"
+               + "[0-9A-F][0-9A-F]-[0-9A-F][0-9A-F]-[0-9A-F][0-9A-F]-[0-9A-F][0-9A-F]-" 
+               + "[0-9A-F][0-9A-F]-[0-9A-F][0-9A-F]-[0-9A-F][0-9A-F]-[0-9A-F][0-9A-F]-" 
+               + "[0-9A-F][0-9A-F]-[0-9A-F][0-9A-F]-[0-9A-F][0-9A-F]-[0-9A-F][0-9A-F]-" 
+               + "[0-9A-F][0-9A-F]-[0-9A-F][0-9A-F]-[0-9A-F][0-9A-F]-[0-9A-F][0-9A-F]";
+            }
+            else
+            {
+                return "[0-9A-F][0-9A-F]-[0-9A-F][0-9A-F]-[0-9A-F][0-9A-F]-[0-9A-F][0-9A-F]-"
+                + "[0-9A-F][0-9A-F]-[0-9A-F][0-9A-F]-[0-9A-F][0-9A-F]-[0-9A-F][0-9A-F]";
+            }            
         }
 
         public IControlEncryption clone()
@@ -545,6 +585,12 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
         public string GetOpenCLCode(int decryptionLength, byte[] iv)
         {
+
+            if (((DESSettings)plugin.Settings).TripleDES)
+            {
+                throw new NotImplementedException("Triple DES is not implemented in OpenCL yet");
+            }
+
             string opencl = Properties.Resources.DESOpenCL;
 
             //if there is a relevant IV:
