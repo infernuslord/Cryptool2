@@ -241,6 +241,7 @@ xcopy /Y /F "$(TargetDir)$(TargetFileName)" "..\..\AppReferences\x64\"</Command>
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsManaged>
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</CompileAsManaged>
     </ClCompile>
+    <ClCompile Include="rc2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="aes_core.h" />
@@ -248,6 +249,7 @@ xcopy /Y /F "$(TargetDir)$(TargetFileName)" "..\..\AppReferences\x64\"</Command>
     <ClInclude Include="DES\des_locl.h" />
     <ClInclude Include="NativeCryptography.h" />
     <ClInclude Include="DES\spr.h" />
+    <ClInclude Include="rc2.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
