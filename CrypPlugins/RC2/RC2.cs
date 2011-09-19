@@ -17,13 +17,16 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.IO;
 using System.Security.Cryptography;
 using Cryptool.PluginBase;
 using System.ComponentModel;
+using Cryptool.PluginBase.Control;
 using Cryptool.PluginBase.IO;
 using System.Windows.Controls;
+using Cryptool.RC2;
 
 namespace Cryptool.Plugins.Cryptography.Encryption
 {
@@ -40,6 +43,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         private byte[] inputIV;
         private CryptoStream p_crypto_stream;
         private bool stop = false;
+        private IControlEncryption controlSlave;
         #endregion
 
         public RC2()
@@ -110,6 +114,17 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                 //OnPropertyChanged("OutputStream");
             }
         }
+        
+        [PropertyInfo(Direction.ControlSlave, "ControlSlaveCaption", "ControlSlaveTooltip", "")]
+        public IControlEncryption ControlSlave
+        {
+            get
+            {
+                if (controlSlave == null)
+                    controlSlave = new RC2Control(this);
+                return controlSlave;
+            }
+        }     
 
         private void ConfigureAlg(SymmetricAlgorithm alg)
         {
@@ -121,8 +136,18 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                 // write a warning to the ouside word
                 GuiLogMessage("WARNING - No key provided. Using 0x000..00!", NotificationLevel.Warning);
             }
-            alg.Key = this.inputKey;
 
+            try
+            {
+                alg.Key = this.inputKey;
+            }
+            catch(Exception)
+            {
+                //if alg.Key is set to an "unsecure" key, crappy ms class throws an exception :/
+                //so we have to hack in that key value
+                var keyValue = alg.GetType().GetField("KeyValue",BindingFlags.NonPublic | BindingFlags.Instance);
+                keyValue.SetValue(alg,inputKey);
+            }
             //check for a valid IV
             if (this.inputIV == null)
             {
@@ -337,7 +362,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         public event StatusChangedEventHandler OnPluginStatusChanged;
 
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
-        private void GuiLogMessage(string message, NotificationLevel logLevel)
+        public void GuiLogMessage(string message, NotificationLevel logLevel)
         {
             if (OnGuiLogNotificationOccured != null)
             {
@@ -360,4 +385,90 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
         #endregion
     }
+
+
+    public class RC2Control : IControlEncryption
+    {
+        private readonly RC2 _plugin;
+
+        public RC2Control(RC2 rc2)
+        {
+            _plugin = rc2;
+        }
+
+        #region IControlEncryption Members
+
+        public byte[] Encrypt(byte[] key, int blocksize)
+        {
+           throw new NotImplementedException();
+        }
+
+        public byte[] Decrypt(byte[] ciphertext, byte[] key, byte[] IV)
+        {
+            return Decrypt(ciphertext, key, IV, ciphertext.Length);
+        }
+
+        public byte[] Decrypt(byte[] ciphertext, byte[] key, byte[] IV, int bytesToUse)
+        {                       
+            if(IV == null || IV.Length!=8)
+            {
+                IV = new byte[]{0,0,0,0,0,0,0,0};
+            }
+            return NativeCryptography.Crypto.decryptRC2(ciphertext, key, IV, bytesToUse,((RC2Settings)_plugin.Settings).Mode);
+        }
+
+        public int GetBlockSize()
+        {
+            return 64;
+        }
+
+        public string GetKeyPattern()
+        {
+            string pattern = "";
+            for (int i = 1; i < 16; i++)
+            {
+                pattern += "[0-9A-F][0-9A-F]-";
+            }
+            pattern += "[0-9A-F][0-9A-F]";
+            return pattern;
+        }
+
+        public IKeyTranslator GetKeyTranslator()
+        {
+            return new KeySearcher.KeyTranslators.ByteArrayKeyTranslator();
+        }
+
+        public string GetOpenCLCode(int decryptionLength, byte[] iv)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void changeSettings(string setting, object value)
+        {            
+        }
+
+        public IControlEncryption clone()
+        {
+            var control = new RC2Control(_plugin);
+            return control;
+        }
+
+        public event KeyPatternChanged keyPatternChanged;
+
+        #endregion
+
+        #region IControl Members
+
+        public event IControlStatusChangedEventHandler OnStatusChanged;
+
+        #endregion
+
+        #region IDisposable Members
+
+        public void Dispose()
+        {            
+        }
+
+        #endregion
+    } 
 }

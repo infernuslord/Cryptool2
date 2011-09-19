@@ -2,6 +2,7 @@
 #include "aes_core.h"
 #include "DES/des.h"
 #include <string.h>
+#include "rc2.h"
 
 using namespace System::Threading;
 using namespace System;
@@ -92,6 +93,48 @@ namespace NativeCryptography {
 			array<unsigned char>^ cipher2 = decryptAESorDES(cipher1, Key2, IV, 0, length, mode, blockSize, cryptMethod::methodDES);
 			array<unsigned char>^ cipher3 = encryptAESorDES(cipher2, Key3, IV, 0, length, mode, blockSize, cryptMethod::methodDES);
 			return cipher3;
+		}
+
+		static array<unsigned char>^ decryptRC2(array<unsigned char>^ Input, array<unsigned char>^ Key, array<unsigned char>^ IV, const int length, const int mode)
+		{
+			if (mode == 2)	//CFB
+			{			
+				throw gcnew System::Exception("Encrypting CFB not supported (yet?)");
+			}
+
+			array<unsigned char>^ output = gcnew array<unsigned char>(length);
+			unsigned short xkey[64];
+			
+			cli::pin_ptr<unsigned char> p_key = &Key[0];
+			cli::pin_ptr<unsigned char> p_iv = &IV[0];
+
+			rc2_keyschedule( xkey, p_key, Key.Length, Key.Length * 8);					
+
+			//put IV into saving-block
+			unsigned char block[8] = {0,0,0,0,0,0,0,0};
+			xorBlockDES((int*)block,(int*)p_iv);
+
+			for(int i=0;i<length;i+=8)
+			{	
+				if (mode == 0) //ECB
+				{
+					cli::pin_ptr<unsigned char> p_input = &Input[i];
+					cli::pin_ptr<unsigned char> p_output = &output[i];
+					rc2_decrypt( xkey,p_output,p_input);
+				}		
+				if(mode == 1) //CBC
+				{						
+					cli::pin_ptr<unsigned char> p_input = &Input[i];
+					cli::pin_ptr<unsigned char> p_output = &output[i];
+					
+					rc2_decrypt( xkey,p_output,p_input);
+					xorBlockDES((int*)p_output,(int*)block);
+
+					xorBlockDES((int*)block,(int*)block);
+					xorBlockDES((int*)block,(int*)p_input);
+				}
+			}
+			return output;
 		}
 	};
 }
