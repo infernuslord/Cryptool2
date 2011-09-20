@@ -200,7 +200,11 @@ namespace Cryptool.Core
 
         private static Version GetVersion(Assembly asm)
         {
-            return new Version(FileVersionInfo.GetVersionInfo(asm.Location).FileVersion);
+            var fileVersion = FileVersionInfo.GetVersionInfo(asm.Location).FileVersion;
+            if (fileVersion == null)
+                return asm.GetName().Version;
+
+            return new Version(fileVersion);
         }
 
         /// <summary>

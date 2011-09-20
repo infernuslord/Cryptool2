@@ -58,6 +58,7 @@
   <ItemGroup>
     <Reference Include="NativeCryptography">
       <HintPath>..\..\AppReferences\NativeCryptography.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="PresentationCore">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
