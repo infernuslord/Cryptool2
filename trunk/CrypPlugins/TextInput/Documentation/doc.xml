@@ -5,75 +5,23 @@
   <language culture="de-DE"/>
 
   <introduction lang="en">
-    TextInput is a <b>very</b> useful component... <newline/>
-    <img src="TextInput/Documentation/Demonstration.png"/>
-    <section headline="New Section">
-      This demonstrates the capability to create sections.
-      <newline/>
-      <enum>
-        <item>This</item>
-        <item>demonstrates</item>
-        <item>the enumeration</item>
-        <item>capability!</item>
-      </enum>
-      <list>
-        <item>This</item>
-        <item>demonstrates</item>
-        <item>the (unordered) listing</item>
-        <item>capability! <b>Formating</b> is also possible! </item>
-      </list>
-    </section>
-
-    <section headline="And another section">
-      External links are possible: <external ref="http://en.wikipedia.org/wiki/Main_Page"/>
-      <newline />
-      External links with a link text are possible, too: <external ref="http://en.wikipedia.org/wiki/Main_Page">Click here!</external>
-      <newline />
-      Internal links are possible: <docRef item="TextInput"/>
-      <newline />
-      Also to not yet existing plugins: <docRef item="KeySearcher"/>
-      <newline />
-      You can also reference one of the references below, like <ref id="LordOfTheRings"/>.
-    </section>
   </introduction>
-  <introduction lang="de-DE">
-    TextInput ist eine <b>sehr</b> nützliche Komponente... <newline/>
-    <img src="TextInput/Documentation/Demonstration.png"/>
 
-    <section headline="Und eine andere Sektion">
-      Externe Links sind möglich: <external ref="http://en.wikipedia.org/wiki/Main_Page"/>
-      <newline />
-      Bla bla externe Links: <external ref="http://en.wikipedia.org/wiki/Main_Page">Click here!</external>
-      <newline />
-      Interne Links sind möglich: <docRef item="TextInput"/>
-      <newline />
-      Auch zu noch nicht existierenden Plugins: <docRef item="KeySearcher"/>
-    </section>
+  <introduction lang="de-DE">
   </introduction>
 
   <usage lang="en">
-    This section should describe, how to use the component.
+  </usage>
+
+  <usage lang="de-DE">
   </usage>
 
   <presentation lang="en">
-    This section should describe the presentation of textinput if necessary.
+  </presentation>
+
+  <presentation lang="de-DE">
   </presentation>
 
   <references>
-    <linkReference>
-      <link lang="en" url="http://en.wikipedia.org/wiki/Text_display"/>
-      <caption lang="en">Text Display</caption>
-      <link lang="de-DE" url="http://de.wikipedia.org/wiki/Text"/>
-      <caption lang="de-DE">Text Anzeige</caption>
-    </linkReference>
-
-    <bookReference id="LordOfTheRings">
-      <author>John Ronald Reuel Tolkien</author>
-      <publisher lang="en">Harpercollins UK</publisher>
-      <publisher lang="de-DE">Klett-Cotta</publisher>
-      <name lang="en">The Lord of the Rings</name>
-      <name lang="de-DE">Der Herr der Ringe</name>
-    </bookReference>
   </references>
-  
 </documentation>
