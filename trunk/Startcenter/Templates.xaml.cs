@@ -147,7 +147,7 @@ namespace Startcenter
                         //we do nothing if the loading of an description xml fails => this is not a hard error
                     }
                 }
-                if (title == null)
+                if ((title == null) || (title.Trim() == ""))
                 {
                     string desc = null;
                     if (component)

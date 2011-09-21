@@ -70,6 +70,15 @@ namespace Startcenter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Clear recently opened file list..
+        /// </summary>
+        internal static string ClearList {
+            get {
+                return ResourceManager.GetString("ClearList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Connect to the distributed computing platform..
         /// </summary>
         internal static string Connect_to_the_distributed_computing_platform_ {

@@ -189,4 +189,7 @@
   <data name="_Search" xml:space="preserve">
     <value>      Suche</value>
   </data>
+  <data name="ClearList" xml:space="preserve">
+    <value>Leere Liste der zuletzt geöffneten Dateien.</value>
+  </data>
 </root>

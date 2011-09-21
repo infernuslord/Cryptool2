@@ -75,6 +75,12 @@ namespace Cryptool.Core
             return recentFiles;
         }
 
+        public void Clear()
+        {
+            recentFiles.Clear();
+            ListChanged(recentFiles);
+        }
+
         private void Store()
         {            
             RegistryKey k = Registry.CurrentUser.OpenSubKey(RegistryKey);

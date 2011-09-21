@@ -514,7 +514,7 @@ namespace Cryptool.Enigma
 
                 if (justme)
                 {
-                    Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                     Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
 
                         dropBoxCanvasWalze.Children.Remove(walzeimgs[settings.Reflector]);
