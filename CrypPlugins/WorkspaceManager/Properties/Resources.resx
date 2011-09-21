@@ -360,4 +360,7 @@
   <data name="Loading_" xml:space="preserve">
     <value>Loading...</value>
   </data>
+  <data name="NewWorkspaceTooltip" xml:space="preserve">
+    <value>This is a new workspace.</value>
+  </data>
 </root>

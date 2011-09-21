@@ -9,7 +9,7 @@
              xmlns:model="clr-namespace:WorkspaceManager.Model;assembly=WorkspaceManagerModel"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
-             DataContext="{Binding RelativeSource={x:Static RelativeSource.Self}}">
+             DataContext="{Binding RelativeSource={x:Static RelativeSource.Self}}" ToolTip="{Loc NewWorkspaceTooltip}">
     <UserControl.Resources>
         <SolidColorBrush x:Key="SolidColorBackground" Color="#add3f5"></SolidColorBrush>
         <local:testconverter x:Key="testconverter"></local:testconverter>

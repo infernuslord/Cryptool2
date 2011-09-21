@@ -529,6 +529,15 @@ namespace WorkspaceManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This is a new workspace..
+        /// </summary>
+        internal static string NewWorkspaceTooltip {
+            get {
+                return ResourceManager.GetString("NewWorkspaceTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No data.
         /// </summary>
         internal static string No_data {

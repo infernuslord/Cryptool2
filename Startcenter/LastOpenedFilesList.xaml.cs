@@ -21,6 +21,7 @@ namespace Startcenter
     public partial class LastOpenedFilesList : UserControl
     {
         public event OpenEditorHandler OnOpenEditor;
+        public event OpenTabHandler OnOpenTab;
         private readonly List<RecentFileInfo> _recentFileInfos = new List<RecentFileInfo>();
         private readonly RecentFileList _recentFileList = RecentFileList.GetSingleton();
 
@@ -122,7 +123,21 @@ namespace Startcenter
         {
             var selectedItem = (RecentFileInfo)RecentFileListBox.SelectedItem;
             IEditor editor = OnOpenEditor(selectedItem.EditorType, null, null);
+
+            if (selectedItem.File != null)
+            {
+                editor.Presentation.ToolTip = selectedItem.File;
+            }
+            if (selectedItem.Icon != null)
+            {
+                editor.Presentation.Tag = selectedItem.Icon;
+            }
+            
             editor.Open(selectedItem.File);
+            if (selectedItem.Title != null)
+            {
+                OnOpenTab(editor, selectedItem.Title, null); //rename tab header
+            }
             _recentFileList.AddRecentFile(selectedItem.File);
         }
 

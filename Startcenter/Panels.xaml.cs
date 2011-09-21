@@ -36,6 +36,7 @@ namespace Startcenter
         {
             InitializeComponent();
             ((LastOpenedFilesList)lastOpenedFilesList.Child).OnOpenEditor += (content, title, filename) => OnOpenEditor(content, title, filename);
+            ((LastOpenedFilesList)lastOpenedFilesList.Child).OnOpenTab += (content, title, parent) => OnOpenTab(content, title, parent);
             ((Templates)templates.Child).OnOpenEditor += (content, title, filename) => OnOpenEditor(content, title, filename);
             ((Templates)templates.Child).OnOpenTab += (content, title, parent) => OnOpenTab(content, title, parent);
         }
