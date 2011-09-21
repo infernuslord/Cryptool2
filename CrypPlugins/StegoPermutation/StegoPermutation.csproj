@@ -93,6 +93,9 @@
     <Compile Include="StegoPermutationSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringComparer.cs" />
+    <Compile Include="StegoPermutationPresentation.xaml.cs">
+      <DependentUpon>StegoPermutationPresentation.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CrypPluginBase\CrypPluginBase.csproj">
@@ -136,6 +139,13 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="StegoPermutationPresentation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CustomToolNamespace>Cryptool.Plugins.StegoPermutation</CustomToolNamespace>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

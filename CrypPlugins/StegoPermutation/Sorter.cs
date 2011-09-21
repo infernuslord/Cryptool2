@@ -20,6 +20,8 @@ using System.IO;
 using System.Text;
 using System.Numerics;
 using Cryptool.PluginBase.Miscellaneous;
+using System.Threading;
+using System.Windows.Threading;
 
 namespace Cryptool.Plugins.StegoPermutation
 {
@@ -42,7 +44,7 @@ namespace Cryptool.Plugins.StegoPermutation
 			this.source = source;
 		}
 
-        public Collection<T> Encode(Stream messageStream, string alphabet)
+        public Collection<T> Encode(Stream messageStream, string alphabet, StegoPermutationPresentation presentation)
         {
             Collection<T> result = new Collection<T>();
 			T[] sortedItems = new T[source.Count];
@@ -70,6 +72,16 @@ namespace Cryptool.Plugins.StegoPermutation
                 result.Add(null);
 			}
 
+            // update presentation control
+            SendOrPostCallback updatePresentationResultListDelegate = (SendOrPostCallback)delegate
+            {
+                presentation.UpdateResultList(result);
+            };
+            if (presentation.IsVisible)
+            {
+                presentation.Dispatcher.Invoke(DispatcherPriority.Normal, updatePresentationResultListDelegate, null);
+            }
+
             int skip = 0;
             for (int indexSource = 0; indexSource < source.Count; indexSource++)
             {
@@ -78,12 +90,18 @@ namespace Cryptool.Plugins.StegoPermutation
                 int resultIndex = freeIndexes[skip];
                 result[resultIndex] = sortedItems[indexSource];
                 freeIndexes.RemoveAt(skip);
+
+                if (presentation.IsVisible)
+                {
+                    presentation.Dispatcher.Invoke(DispatcherPriority.Normal, updatePresentationResultListDelegate, null);
+                    Thread.Sleep(500);
+                }
             }
 			
 			return result;
         }
 
-        public void Decode(Stream messageStream, string alphabet)
+        public void Decode(Stream messageStream, string alphabet, StegoPermutationPresentation presentation)
         {
             T[] sortedItems = new T[source.Count];
             source.CopyTo(sortedItems, 0);
@@ -95,13 +113,19 @@ namespace Cryptool.Plugins.StegoPermutation
 				comparer = new StringComparer(alphabet);
 				Array.Sort(sortedItems, comparer);
 			}
-			
-			/* // TEST
-			foreach(T s in sortedItems){
-				Console.WriteLine(s.ToString());
-			}*/
-			
+
             BigInteger message = new BigInteger(0);
+            BigIntegerClass messageWrapper = new BigIntegerClass(message);
+
+            // update presentation control
+            SendOrPostCallback updatePresentationResultNumberDelegate = (SendOrPostCallback)delegate
+            {
+                presentation.UpdateResultNumber(messageWrapper);
+            };
+            if (presentation.IsVisible)
+            {
+                presentation.Dispatcher.Invoke(DispatcherPriority.Normal, updatePresentationResultNumberDelegate, null);
+            }
 
             for (int carrierIndex = 0; carrierIndex < source.Count; carrierIndex++)
             {
@@ -131,6 +155,13 @@ namespace Cryptool.Plugins.StegoPermutation
                     value *= (source.Count - countIndex + 1);
                 }
                 message += value;
+
+                if (presentation.IsVisible)
+                {
+                    messageWrapper.BigIntegerStruct = message;
+                    presentation.Dispatcher.Invoke(DispatcherPriority.Normal, updatePresentationResultNumberDelegate, null);
+                    Thread.Sleep(500);
+                }
             }
 
             byte[] messageBytes = message.ToByteArray();
