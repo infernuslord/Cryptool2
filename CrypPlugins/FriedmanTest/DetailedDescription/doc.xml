@@ -2,15 +2,28 @@
 
 <documentation>
   <language culture="en"/>
-  <language culture="de-DE"/>
+  <!--<language culture="de-DE"/>-->
 
-  <introduction lang="en">    
+  <introduction lang="en">
+  The Friedman Test allows you to calculate a probable key length of a polyalphabetic substitution cipher.
+  William F. Friedman was a cryptologist who developed a method of calculating the key-length of the Vigenere cipher. He used the index of coincidence, which measures the unevenness of the cipher letter frequencies. By knowing the probability κp that any two randomly chosen source-language letters are the same (around 0.067 for monocase English) and the probability of a coincidence for a uniform random selection from the alphabet κr (1/26 = 0.0385 for English), the key length can be estimated as:<newline/>
+  <newline/>
+  <img src="FriedmanTest/DetailedDescription/Images/formula1.png" /><newline/>
+  <newline/>
+  where k – key-length; n – size of the text; IC – observed index of coincidence; kr and kp as mentioned above. The Index of Coincidence is calculated as:<newline/>
+  <newline/>
+  <img src="FriedmanTest/DetailedDescription/Images/formula2.png" /><newline/>
+  <newline/>
+  where N is the length of the text and n1 through nc are the frequencies (as integers) of the "c" letters of the alphabet.
   </introduction>
 
   <introduction lang="de-DE">    
   </introduction>
 
   <usage lang="en">
+  The frequencies are supplied by the <docRef item="FrequencyTest"/> component. A typical usage scenario looks like this:<newline/>
+  <newline/>
+  <img src="FriedmanTest/DetailedDescription/Images/usage.png" />
   </usage>
 
   <usage lang="de-DE">

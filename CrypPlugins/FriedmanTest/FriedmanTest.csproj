@@ -111,21 +111,7 @@
     <Resource Include="icon.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="DetailedDescription\Description.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Resource>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="DetailedDescription\Images\friedman1.jpg" />
-    <Resource Include="DetailedDescription\Images\friedman_sett1.jpg" />
     <Resource Include="friedman.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="DetailedDescription\Images\formula1.JPG" />
-    <Resource Include="DetailedDescription\Images\formula2.JPG" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -156,6 +142,11 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="DetailedDescription\doc.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="DetailedDescription\Images\formula1.png" />
+    <Resource Include="DetailedDescription\Images\formula2.png" />
+    <Resource Include="DetailedDescription\Images\usage.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
