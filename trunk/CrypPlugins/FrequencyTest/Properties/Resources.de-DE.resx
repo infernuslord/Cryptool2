@@ -123,9 +123,6 @@
   <data name="PluginTooltip" xml:space="preserve">
     <value>Ermittelt die Häufigkeiten von Zeichen oder Zeichengruppen im Eingabetext.</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value>FrequencyTest/DetailedDescription/Description.xaml</value>
-  </data>
   <data name="StringInputCaption" xml:space="preserve">
     <value>Der zu analysierende Text</value>
   </data>

@@ -10,8 +10,8 @@ using System.Windows.Media;
 
 namespace Cryptool.FrequencyTest
 {
-    [Author("Georgi Angelov & Danail Vazov & Matthäus Wander", "angelov@cryptool.org", "Uni Duisburg", "http://www.uni-duisburg-essen.de")]
-    [PluginInfo("Cryptool.FrequencyTest.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "FrequencyTest/icon.png")]
+    [Author("Georgi Angelov, Danail Vazov, Matthäus Wander", "angelov@cryptool.org", "Uni Duisburg", "http://www.uni-duisburg-essen.de")]
+    [PluginInfo("Cryptool.FrequencyTest.Properties.Resources", false, "PluginCaption", "PluginTooltip", "FrequencyTest/DetailedDescription/doc.xml", "FrequencyTest/icon.png")]
     [ComponentCategory(ComponentCategory.CryptanalysisGeneric)]
     public class FrequencyTest : ICrypComponent
     {

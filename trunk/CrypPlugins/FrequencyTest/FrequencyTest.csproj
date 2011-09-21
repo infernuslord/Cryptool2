@@ -113,34 +113,12 @@
     <Resource Include="icon.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="DetailedDescription\Description.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Resource>
     <Page Include="FrequencyTestPresentation.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="DetailedDescription\Images\pic11.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="DetailedDescription\Images\pic3.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="DetailedDescription\Images\pic4.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="DetailedDescription\Images\pic6.jpg" />
-    <Resource Include="DetailedDescription\Images\pic7.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="DetailedDescription\Images\pic5.jpg" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -172,6 +150,11 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="DetailedDescription\doc.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="DetailedDescription\Images\frequencies.png" />
+    <Resource Include="DetailedDescription\Images\presentation.png" />
+    <Resource Include="DetailedDescription\Images\usage.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
