@@ -9,8 +9,8 @@ using Cryptool.PluginBase.Miscellaneous;
 
 namespace FriedmanTest
 {
-    [Author("Georgi Angelov & Danail Vazov", "vazov@cryptool.org", "Uni Duisburg", "http://www.uni-duisburg-essen.de")]
-    [PluginInfo("FriedmanTest.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "FriedmanTest/friedman.png")]
+    [Author("Georgi Angelov, Danail Vazov", "vazov@cryptool.org", "Uni Duisburg", "http://www.uni-duisburg-essen.de")]
+    [PluginInfo("FriedmanTest.Properties.Resources", false, "PluginCaption", "PluginTooltip", "FriedmanTest/DetailedDescription/doc.xml", "FriedmanTest/friedman.png")]
     [ComponentCategory(ComponentCategory.CryptanalysisGeneric)]
     public class FriedmanTest : ICrypComponent
     {
