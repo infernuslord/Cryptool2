@@ -79,7 +79,6 @@ namespace Cryptool.Enigma
 
         private int Presentation_Speed = 1;
 
-        private bool involutoricPlugBoard = true;
         private StringBuilder plugBoard = new StringBuilder("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 
         #endregion
@@ -104,7 +103,6 @@ namespace Cryptool.Enigma
                     break;
             }
         }
-
 
         private void setPlugBoard(int letterPos, int newIndex)
         {
@@ -131,9 +129,6 @@ namespace Cryptool.Enigma
                 OnPropertyChanged("ForPresentation" + alphabet[letterPos] + alphabet[newIndex] + "else");
 
 
-                //if (this.involutoricPlugBoard)
-                //{
-
                 this.plugBoard[newIndex] = alphabet[letterPos];
                 OnPropertyChanged("PlugBoard" + alphabet[newIndex]);
 
@@ -147,23 +142,153 @@ namespace Cryptool.Enigma
                 }
 
 
-
-
-                /*if (newChar == this.alphabet[letterPos])
-                {
-                    // we removed a plug
-                    this.plugBoard[currentIndex] = alphabet[currentIndex];
-                    OnPropertyChanged("PlugBoard" + alphabet[currentIndex]);
-                }*/
-
-                //}
-
                 this.plugBoard[letterPos] = newChar;
                 OnPropertyChanged("PlugBoard" + alphabet[letterPos]);
                 OnPropertyChanged("PlugBoardDisplay");
                 
             }
         }
+
+        private void setSettingsVisibility()
+        {
+            switch (this.model)
+            {
+                case 3: // Enigma M3 - curently analysis is supported only for this model
+                    switch (this.action)
+                    {
+                        case 0: // Encrypt/Decrypt
+                            // hide all options related to analysis
+                            hideSettingsElement("AnalyzeKey");
+                            hideSettingsElement("AnalyzeRotors");
+                            hideSettingsElement("AnalysisUseRotorI");
+                            hideSettingsElement("AnalysisUseRotorII");
+                            hideSettingsElement("AnalysisUseRotorIII");
+                            hideSettingsElement("AnalysisUseRotorIV");
+                            hideSettingsElement("AnalysisUseRotorV");
+                            hideSettingsElement("AnalysisUseRotorVI");
+                            hideSettingsElement("AnalysisUseRotorVII");
+                            hideSettingsElement("AnalysisUseRotorVIII");
+                            hideSettingsElement("AnalyzeRings");
+                            hideSettingsElement("KeySearchMethod");
+                            hideSettingsElement("AnalyzePlugs");
+                            hideSettingsElement("MaxSearchedPlugs");
+                            hideSettingsElement("PlugSearchMethod");
+
+                            // make sure, that everything is visible
+                            showSettingsElement("Key");
+                            showSettingsElement("Rotor1");
+                            showSettingsElement("Rotor2");
+                            showSettingsElement("Rotor3");
+                            showSettingsElement("Ring1");
+                            showSettingsElement("Ring2");
+                            showSettingsElement("Ring3");
+                            showPlugBoard();
+                            break;
+                        case 1: // Analyze
+                            showSettingsElement("AnalyzeKey");
+                            showSettingsElement("AnalyzeRotors");
+                            showSettingsElement("AnalysisUseRotorI");
+                            showSettingsElement("AnalysisUseRotorII");
+                            showSettingsElement("AnalysisUseRotorIII");
+                            showSettingsElement("AnalysisUseRotorIV");
+                            showSettingsElement("AnalysisUseRotorV");
+                            showSettingsElement("AnalysisUseRotorVI");
+                            showSettingsElement("AnalysisUseRotorVII");
+                            showSettingsElement("AnalysisUseRotorVIII");
+                            showSettingsElement("AnalyzeRings");
+                            showSettingsElement("KeySearchMethod");
+                            showSettingsElement("AnalyzePlugs");
+                            showSettingsElement("MaxSearchedPlugs");
+                            showSettingsElement("PlugSearchMethod");
+
+                            // now check which analysis options are active and hide those settings which are automatically determined
+                            if (this.analyzeKey)
+                            {
+                                hideSettingsElement("Key");
+                            }
+                            else
+                            {
+                                showSettingsElement("Key");
+                            }
+
+                            if (this.analyzeRotors)
+                            {
+                                hideSettingsElement("Rotor1");
+                                hideSettingsElement("Rotor2");
+                                hideSettingsElement("Rotor3");
+                            }
+                            else
+                            {
+                                showSettingsElement("Rotor1");
+                                showSettingsElement("Rotor2");
+                                showSettingsElement("Rotor3");
+                            }
+
+                            if (this.analyzeRings)
+                            {
+                                hideSettingsElement("Ring1");
+                                hideSettingsElement("Ring2");
+                                hideSettingsElement("Ring3");
+                            }
+                            else
+                            {
+                                showSettingsElement("Ring1");
+                                showSettingsElement("Ring2");
+                                showSettingsElement("Ring3");
+                            }
+
+                            if (this.analyzePlugs)
+                            {
+                                hidePlugBoard();
+                            }
+                            else
+                            {
+                                showPlugBoard();
+                            }
+                            break;
+                    }
+                    break;
+                default:
+                    // hide all options related to analysis
+                    hideSettingsElement("AnalyzeKey");
+                    hideSettingsElement("AnalyzeRotors");
+                    hideSettingsElement("AnalysisUseRotorI");
+                    hideSettingsElement("AnalysisUseRotorII");
+                    hideSettingsElement("AnalysisUseRotorIII");
+                    hideSettingsElement("AnalysisUseRotorIV");
+                    hideSettingsElement("AnalysisUseRotorV");
+                    hideSettingsElement("AnalysisUseRotorVI");
+                    hideSettingsElement("AnalysisUseRotorVII");
+                    hideSettingsElement("AnalysisUseRotorVIII");
+                    hideSettingsElement("AnalyzeRings");
+                    hideSettingsElement("KeySearchMethod");
+                    hideSettingsElement("AnalyzePlugs");
+                    hideSettingsElement("MaxSearchedPlugs");
+                    hideSettingsElement("PlugSearchMethod");
+                    break;
+            }
+        }
+
+        private void hidePlugBoard()
+        {
+            foreach (char c in this.alphabet)
+            {
+                hideSettingsElement("PlugBoard" + c);
+            }
+            hideSettingsElement("PlugBoard");
+            hideSettingsElement("ResetPlugboard");
+        }
+
+        private void showPlugBoard()
+        {
+            foreach (char c in this.alphabet)
+            {
+                showSettingsElement("PlugBoard" + c);
+            }
+            showSettingsElement("PlugBoard");
+            showSettingsElement("ResetPlugboard");
+        }
+
         private void showSettingsElement(string element)
         {
             if (TaskPaneAttributeChanged != null)
@@ -236,6 +361,7 @@ namespace Cryptool.Enigma
         public void Initialize()
         {
             hideSettingsElement("Rotor4"); hideSettingsElement("Ring4");
+            setSettingsVisibility();
         }
 
         #endregion
@@ -373,6 +499,7 @@ namespace Cryptool.Enigma
                 if (((int)value) != action) hasChanges = true;
                 this.action = (int)value;
                 OnPropertyChanged("Action");
+                setSettingsVisibility();
             }
         }
 
@@ -445,6 +572,7 @@ namespace Cryptool.Enigma
                     analyzeKey = value;
                     hasChanges = true;
                     OnPropertyChanged("AnalyzeKey");
+                    setSettingsVisibility();
                 }
             }
         }
@@ -461,6 +589,7 @@ namespace Cryptool.Enigma
                     analyzeRotors = value;
                     hasChanges = true;
                     OnPropertyChanged("AnalyzeRotors");
+                    setSettingsVisibility();
                 }
             }
         }
@@ -617,6 +746,7 @@ namespace Cryptool.Enigma
                     analyzeRings = value;
                     hasChanges = true;
                     OnPropertyChanged("AnalyzeRings");
+                    setSettingsVisibility();
                 }
             }
         }
@@ -648,6 +778,7 @@ namespace Cryptool.Enigma
                     analyzePlugs = value;
                     hasChanges = true;
                     OnPropertyChanged("AnalyzePlugs");
+                    setSettingsVisibility();
                 }
             }
         }
@@ -962,21 +1093,6 @@ namespace Cryptool.Enigma
             set { }
         }
 
-        [TaskPane( "InvolutoricCaption", "InvolutoricTooltip", "PlugboardGroup", 31, false, ControlType.CheckBox, "", null)]
-        public bool Involutoric
-        {
-            get { return involutoricPlugBoard; }
-            set
-            {
-                if (value != involutoricPlugBoard)
-                {
-                    involutoricPlugBoard = value;
-                    hasChanges = true;
-                    OnPropertyChanged("Involutoric");
-                }
-            }
-        }
-
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Eins")]
         [TaskPane( "PlugBoardACaption", "PlugBoardATooltip", "PlugboardGroup", 40, false, ControlType.ComboBox,
             new String[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" })]
@@ -1215,12 +1331,14 @@ namespace Cryptool.Enigma
         [TaskPane( "ResetPlugboardCaption", "ResetPlugboardTooltip", "PlugboardGroup", 70, false, ControlType.Button)]
         public void ResetPlugboard()
         {
-            plugBoard = new StringBuilder("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
-            OnPropertyChanged("PlugBoardDisplay");
-            for (int i = 0; i < alphabet.Length; i++)
+            plugBoard = new StringBuilder("ABCDEFGHIJKLMNOPQRSTUVWXYZ");            
+            foreach (char c in this.alphabet)
             {
-                OnPropertyChanged("PlugBoard" + alphabet[i]);
+                OnPropertyChanged("PlugBoard" + c);
             }
+
+            // Are the following needed? For the presentation?
+            OnPropertyChanged("PlugBoardDisplay");
             OnPropertyChanged("Remove all Plugs");
         }
 
