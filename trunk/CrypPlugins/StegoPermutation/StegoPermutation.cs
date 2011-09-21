@@ -24,6 +24,8 @@ using Cryptool.PluginBase.Miscellaneous;
 using System.Windows.Controls;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Windows.Threading;
+using System.Threading;
 
 namespace Cryptool.Plugins.StegoPermutation
 {
@@ -37,7 +39,8 @@ namespace Cryptool.Plugins.StegoPermutation
         private readonly StegoPermutationSettings settings = new StegoPermutationSettings();
         private Collection<string> inputList;
         private Sorter<string> sorter;
-
+        private StegoPermutationPresentation presentation = new StegoPermutationPresentation();
+        
         #endregion
 
         #region Data Properties
@@ -119,7 +122,7 @@ namespace Cryptool.Plugins.StegoPermutation
         /// </summary>
         public UserControl Presentation
         {
-            get { return null; }
+            get { return presentation; }
         }
 
         /// <summary>
@@ -140,6 +143,16 @@ namespace Cryptool.Plugins.StegoPermutation
         /// </summary>
         public void Execute()
         {
+            SendOrPostCallback updatePresentationInputListDelegate = (SendOrPostCallback)delegate
+            {
+                presentation.UpdateInputList(this.inputList);
+            };
+
+            if (presentation.IsVisible)
+            {
+                presentation.Dispatcher.Invoke(DispatcherPriority.Normal, updatePresentationInputListDelegate, null);
+            }
+
             ProgressChanged(0, 1);
 
             if (sorter == null)
@@ -156,7 +169,7 @@ namespace Cryptool.Plugins.StegoPermutation
 
                 using (MemoryStream messageStream = new MemoryStream(Encoding.Default.GetBytes(InputMessage)))
                 {
-                    Collection<string> result = sorter.Encode(messageStream, settings.Alphabet);
+                    Collection<string> result = sorter.Encode(messageStream, settings.Alphabet, presentation);
                     OutputList = string.Join<string>(",", result);
                     OnPropertyChanged("OutputList");
                 }
@@ -165,7 +178,7 @@ namespace Cryptool.Plugins.StegoPermutation
             {
                 using (MemoryStream messageStream = new MemoryStream())
                 {
-                    sorter.Decode(messageStream, settings.Alphabet);
+                    sorter.Decode(messageStream, settings.Alphabet, presentation);
                     messageStream.Position = 0;
                     using (StreamReader reader = new StreamReader(messageStream))
                     {
