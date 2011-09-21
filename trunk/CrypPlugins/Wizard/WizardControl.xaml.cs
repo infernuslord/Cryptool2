@@ -897,6 +897,17 @@ namespace Wizard
                     {
                         currentManager.SampleLoaded += NewEditorSampleLoaded;
                     }
+                    
+                    string image = element.Attribute("image").Value;
+                    if (image != null)
+                    {
+                        ImageSource ims = (ImageSource)TryFindResource(image);
+                        if (ims != null)
+                        {
+                            currentManager.Presentation.Tag = ims;
+                        }
+                    }
+                    currentManager.Presentation.ToolTip = _title;
                 }
                 else
                 {
