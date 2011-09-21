@@ -48,7 +48,7 @@ using OpenCLNet;
 namespace KeySearcher
 {
     [Author("Sven Rech, Nils Kopal, Raoul Falk, Dennis Nolte", "rech@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo("KeySearcher.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "KeySearcher/Images/icon.png")]
+    [PluginInfo("KeySearcher.Properties.Resources", false, "PluginCaption", "PluginTooltip", "KeySearcher/DetailedDescription/doc.xml", "KeySearcher/Images/icon.png")]
     [ComponentCategory(ComponentCategory.CryptanalysisSpecific)]
     public class KeySearcher : ICrypComponent
     {

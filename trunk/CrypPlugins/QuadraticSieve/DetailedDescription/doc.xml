@@ -2,26 +2,52 @@
 
 <documentation>
   <language culture="en"/>
-  <language culture="de-DE"/>
 
-  <introduction lang="en">    
+  <introduction lang="en">
+    The quadratic sieve is a modern integer factorization algorithm. Factorization is the breaking down of a number into its divisors. The quadratic sieve algorithm is currently the 2nd fastest algorithm after the general number field sieve. Today it is still the fastest algorithm for big integers under 100 decimal digits.
+    
+    <section headline="Complexity">
+      The running time of the quadratic sieve algorithm to factor an integer of size n is (using O-notation): 
+      <newline/>
+      <i>O(exp(log(n) * log(n) * log(n))</i>
+    </section>
+
+    <section headline="About this component">
+      This component is a wrapper for the quadratic sieve C-implementation Msieve written by Jason Stratos Papadopoulos. The C-code is integrated into a 32bit dll and a 64bit dll. Depending on the users system, the correct dll is loaded during the startup of the CrypTool 2. The dlls also extend the functionality of the Msieve algorithm with multi threading. The original Msieve itself is a console application. If you want to get further information about the Msieve please have a look at the authors website on sourceforge at <ref id="msieve"/>.
+    </section>
   </introduction>
 
-  <introduction lang="de-DE">    
-  </introduction>
 
   <usage lang="en">
+    This component has a BigNumber input. Here the user has to enter a BigNumber. He can use a <docRef item="BigNumberInput"/> component and enter a number or an arithmetic expression like <i>2^12+17+2^32</i>.
+    The component has only one output. The component puts an array of BigIntegers (the prime factors) to this output. In the configuration bar the user can set the amount of used CPUs which the quadratic sieve should use for working (It is only possible to select as much CPUs as the users system offers). 
+    The quadratic sieve caches found relations of the number. 
+    The user can choose if this cache should be deleted at a new startup or not by using the check box in the configuration bar.
   </usage>
 
-  <usage lang="de-DE">
-  </usage>
   
   <presentation lang="en">
+    The quadratic sieve component offers a QuickWatchRepresentation. 
+    This represenation can be found by clicking the components icon. 
+    Here the user can see the estimated end time and the current state of the sieving process. 
+    Also a key figure (relations) is visible. Relations are collected by the Msieve algorithm for factorization. 
+    The user sees the needed number of relations and the actual found number: example "121 of 1021 relations found". 
+    As soon as the quadratic sieve has found enough relations the sieving is finished.
   </presentation>
-  
-  <presentation lang="de-DE">
-  </presentation>
-  
+
+
   <references>
+    <linkReference id ="msieve">
+      <link url="http://sourceforge.net/projects/msieve/" lang="en" />
+      <caption lang="en">Msieve sourceforge page</caption>
+    </linkReference>
+    <linkReference>
+      <link url="http://en.wikipedia.org/wiki/Quadratic_sieve" lang="en" />
+      <caption lang="en">Quadratic sieve in wikipedia</caption>
+    </linkReference>
+    <linkReference>
+      <link url="http://en.wikipedia.org/wiki/Integer_factorization" lang="en" />
+      <caption lang="en">Integer factorization in wikipedia</caption>
+    </linkReference>
   </references>
 </documentation>
