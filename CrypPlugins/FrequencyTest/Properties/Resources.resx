@@ -123,9 +123,6 @@
   <data name="PluginTooltip" xml:space="preserve">
     <value>Calculates the frequency of letters or groups of letters in a string.</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value>FrequencyTest/DetailedDescription/Description.xaml</value>
-  </data>
   <data name="StringInputCaption" xml:space="preserve">
     <value>The string to be analyzed</value>
   </data>
