@@ -87,7 +87,7 @@ namespace Startcenter
                         }
                     }
 
-                    if (title == null)
+                    if ((title == null) || (title.Trim() == ""))
                     {
                         title = Path.GetFileNameWithoutExtension(file.Name).Replace("-", " ").Replace("_", " ");
                     }
@@ -124,6 +124,11 @@ namespace Startcenter
             IEditor editor = OnOpenEditor(selectedItem.EditorType, null, null);
             editor.Open(selectedItem.File);
             _recentFileList.AddRecentFile(selectedItem.File);
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            _recentFileList.Clear();
         }
     }
 

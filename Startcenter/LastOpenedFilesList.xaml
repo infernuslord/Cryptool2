@@ -6,6 +6,10 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="48" />
+        </Grid.ColumnDefinitions>
         <ListBox Name="RecentFileListBox" ItemsSource="{Binding}" Background="#00000000">
             <ListBox.ItemTemplate>
                 <DataTemplate>
@@ -16,5 +20,8 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
+        <Button Grid.Column="1" ToolTip="{Loc ClearList}" Click="Button_Click">
+            <Image Source="/Startcenter;component/trash.png" />
+        </Button>
     </Grid>
 </UserControl>
