@@ -43,7 +43,7 @@ namespace Cryptool.Plugins.QuadraticSieve
     /// For further information on quadratic sieve or msieve please have a look at the above mentioned URL
     /// </summary>
     [Author("Sven Rech", "rech@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo("QuadraticSieve.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "QuadraticSieve/iconqs.png")]
+    [PluginInfo("QuadraticSieve.Properties.Resources", false, "PluginCaption", "PluginTooltip", "QuadraticSieve/DetailedDescription/doc.xml", "QuadraticSieve/iconqs.png")]
     [ComponentCategory(ComponentCategory.CryptanalysisGeneric)]
     class QuadraticSieve : DependencyObject, ICrypComponent
     {

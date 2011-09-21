@@ -35,7 +35,7 @@ using System.Runtime.Remoting.Contexts;
 namespace Cryptool.TextInput
 {
   [Author("Thomas Schmid", "thomas.schmid@cryptool.org", "Uni Siegen", "http://www.uni-siegen.de")]
-  [PluginInfo("Cryptool.TextInput.Properties.Resources", true, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "TextInput/icon.png")]
+  [PluginInfo("Cryptool.TextInput.Properties.Resources", true, "PluginCaption", "PluginTooltip", "TextInput/Documentation/doc.xml", "TextInput/icon.png")]
   [ComponentCategory(ComponentCategory.ToolsDataInputOutput)]
   public class TextInput : DependencyObject, ICrypComponent
   {
