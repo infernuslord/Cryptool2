@@ -5,27 +5,27 @@
   <language culture="de-DE"/>
 
   <introduction lang="en">
-    TODO flomar en
+    RC4 is the most widely used software stream cipher and is used in popular protocols such as SSL and WEP. It was designed by Ron Rivest of RSA Security in 1987.
   </introduction>
 
   <introduction lang="de-DE">
-    TODO flomar de
+    RC4 ist eine weit verbreitete Stromchiffre, die in bekannten Prokollen wie SSL und WEP eingesetzt wird. Das Verfahren wurde 1987 von Ron Rivest (RSA Security) entwickelt.
   </introduction>
 
   <usage lang="en">
-    TODO flomar en
+    After dragging the RC4 component onto the workspace, you need to specify two data sources: one that represents the text to be encrypted or decrypted, and one that represents the key. Both sources are mandatory!
   </usage>
 
   <usage lang="de-DE">
-    TODO flomar de
+    Nachdem Sie die RC4-Komponente auf den Arbeitsbereich gezogen haben, müssen Sie zwei Datenquellen definieren: Eine repräsentiert die zu verschlüsselnden oder entschlüsselnden Daten, eine repräsentiert den Schlüssel. Beide Datenquellen sind zwingend notwendig!
   </usage>
   
-  <presentation lang="en">
-  </presentation>
-  
-  <presentation lang="de-DE">
-  </presentation>
-  
   <references>
+    <linkReference>
+      <link url="http://en.wikipedia.org/wiki/RC4" lang="en" />
+      <caption lang="en">RC4 in wikipedia</caption>
+      <link url="http://de.wikipedia.org/wiki/RC4" lang="de-DE" />
+      <caption lang="de-DE">RC4 in Wikipedia</caption>
+    </linkReference>
   </references>
 </documentation>

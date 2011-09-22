@@ -119,7 +119,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="DetailedDescription\doc.xml" />
+    <Resource Include="DetailedDescription\doc.xml">
+      <SubType>Designer</SubType>
+    </Resource>
     <Resource Include="icon.png" />
     <Resource Include="Images\decrypt.png" />
     <Resource Include="Images\encrypt.png" />
