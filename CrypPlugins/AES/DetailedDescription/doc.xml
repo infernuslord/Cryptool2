@@ -1,27 +1,56 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-
+﻿<?xml version="1.0" encoding="utf-8"?>
 <documentation>
-  <language culture="en"/>
-  <language culture="de-DE"/>
+  <language culture="en" />
+  <language culture="de-DE" />
 
-  <introduction lang="en">    
+  <introduction lang="en">
+    In cryptography, the Advanced Encryption Standard (AES), also known as Rijndael, is a block cipher adopted as an encryption standard by the U.S. government.
+    It has been analyzed extensively and is now used worldwide, as was the case with its predecessor, the Data Encryption Standard <docRef item="DES">(DES)</docRef>. 
+    AES was announced by National Institute of Standards and Technology (NIST) as U.S. FIPS PUB 197 (FIPS 197) on November 26, 2001 after a 5-year standardization process. 
+    It became effective as a standard May 26, 2002. As of 2006, AES is one of the most popular algorithms used in symmetric key cryptography.
+    <newline />
+    Strictly speaking, AES is not precisely Rijndael (although in practice they are used interchangeably) as Rijndael supports a larger range of block and key sizes; 
+    AES has a fixed block size of 128 bits and a key size of 128, 192, or 256 bits, whereas Rijndael can be specified with key and block sizes in any multiple of 32 bits, 
+    with a minimum of 128 bits and a maximum of 256 bits.
+    <newline />
+    Further information can be found  <ref id="wikipedia">here</ref>.
+
+
+  </introduction>
+  <introduction lang="de-DE">
+    Der Advanced Encryption Standard (AES) ist ein symmetrisches Kryptosystem, das als Nachfolger für <docRef item="DES">DES</docRef> und 3DES im Oktober 2000 vom National Institute of Standards and Technology (NIST)
+    als Standard bekanntgegeben wurde. Nach seinen Entwicklern Joan Daemen und Vincent Rijmen wird er auch <i>Rijndael</i>-Algorithmus genannt (gesprochen wie dt. <i>räindahl</i>).
+    <newline />
+    Der Rijndael-Algorithmus besitzt eine variable Blockgröße von 128, 192 oder 256 Bits und eine variable Schlüssellänge von 128, 192 oder 256 Bits.
+    Rijndael bietet ein sehr hohes Maß an Sicherheit; erst mehr als 10 Jahre nach seiner Standardisierung wurde der erste, theoretisch interessante, praktisch aber nicht relevante,
+    Angriff gefunden. Streng genommen ist AES nicht Rijndael da bei AES die Blocklänge auf 128 Bit eingeschränkt wurde, während die Wahl der Schlüssellänge von 128, 192 oder 256 Bits unverändert übernommen worden ist. 
+    Die Bezeichnungen der drei AES-Varianten AES-128, AES-192 und AES-256 beziehen sich jeweils auf die gewählte Schlüssellänge.
+    <newline />
+    Der Algorithmus ist frei verfügbar und darf ohne Lizenzgebühren eingesetzt sowie in Soft- und Hardware implementiert werden. AES ist in den USA für staatliche Dokumente mit höchster Geheimhaltungsstufe zugelassen.
+    <newline />
+    Weitereführende Informationen können <ref id="wikipedia">here</ref> nachgelesen werden.
+
   </introduction>
 
-  <introduction lang="de-DE">    
-  </introduction>
 
   <usage lang="en">
   </usage>
-
   <usage lang="de-DE">
   </usage>
-  
+
+
   <presentation lang="en">
   </presentation>
-  
   <presentation lang="de-DE">
   </presentation>
-  
+
+
   <references>
+    <linkReference id="wikipedia">
+      <link url="http://en.wikipedia.org/wiki/Advanced_Encryption_Standard" lang="en" />
+      <caption lang="en">AES (Wikipedia)</caption>
+	  <link url="http://de.wikipedia.org/wiki/Advanced_Encryption_Standard" lang="de-DE" />
+      <caption lang="de-DE">AES (Wikipedia)</caption>
+    </linkReference>
   </references>
 </documentation>
