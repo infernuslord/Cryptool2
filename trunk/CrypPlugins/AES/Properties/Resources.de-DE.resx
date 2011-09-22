@@ -190,9 +190,6 @@
   <data name="PluginCaption" xml:space="preserve">
     <value>AES</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value>AES/DetailedDescription/Description.xaml</value>
-  </data>
   <data name="PluginTooltip" xml:space="preserve">
     <value>Advanced Encryption Standard (Rijndael)</value>
   </data>
