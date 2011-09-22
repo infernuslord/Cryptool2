@@ -6,51 +6,65 @@
   <introduction lang="en">
     In cryptography, the Advanced Encryption Standard (AES), also known as Rijndael, is a block cipher adopted as an encryption standard by the U.S. government.
     It has been analyzed extensively and is now used worldwide, as was the case with its predecessor, the Data Encryption Standard <docRef item="DES">(DES)</docRef>. 
-    AES was announced by National Institute of Standards and Technology (NIST) as U.S. FIPS PUB 197 (FIPS 197) on November 26, 2001 after a 5-year standardization process. 
+    AES was announced by National Institute of Standards and Technology (NIST) as U.S. FIPS PUB 197 (FIPS 197) <ref id="fips197" /> on November 26, 2001 after a 5-year standardization process. 
     It became effective as a standard May 26, 2002. As of 2006, AES is one of the most popular algorithms used in symmetric key cryptography.
     <newline />
+    Rijdael is considered secure; only after 10 years after its standardisation the first - theoretical interesting, but with no practical relevance - attack has been discovered <ref id="RelatedKeyCrypt" />.
     Strictly speaking, AES is not precisely Rijndael (although in practice they are used interchangeably) as Rijndael supports a larger range of block and key sizes; 
     AES has a fixed block size of 128 bits and a key size of 128, 192, or 256 bits, whereas Rijndael can be specified with key and block sizes in any multiple of 32 bits, 
     with a minimum of 128 bits and a maximum of 256 bits.
-    <newline />
-    Further information can be found  <ref id="wikipedia">here</ref>.
+    <newline /><newline />
+    <i>
+      Source: <ref id="wikipedia" />
+    </i>
 
 
   </introduction>
   <introduction lang="de-DE">
     Der Advanced Encryption Standard (AES) ist ein symmetrisches Kryptosystem, das als Nachfolger für <docRef item="DES">DES</docRef> und 3DES im Oktober 2000 vom National Institute of Standards and Technology (NIST)
-    als Standard bekanntgegeben wurde. Nach seinen Entwicklern Joan Daemen und Vincent Rijmen wird er auch <i>Rijndael</i>-Algorithmus genannt (gesprochen wie dt. <i>räindahl</i>).
+    als Standard (FIPS 197) <ref id="fips197" /> bekanntgegeben wurde. Nach seinen Entwicklern Joan Daemen und Vincent Rijmen wird er auch <i>Rijndael</i>-Algorithmus genannt (gesprochen wie dt. <i>räindahl</i>).
     <newline />
     Der Rijndael-Algorithmus besitzt eine variable Blockgröße von 128, 192 oder 256 Bits und eine variable Schlüssellänge von 128, 192 oder 256 Bits.
     Rijndael bietet ein sehr hohes Maß an Sicherheit; erst mehr als 10 Jahre nach seiner Standardisierung wurde der erste, theoretisch interessante, praktisch aber nicht relevante,
-    Angriff gefunden. Streng genommen ist AES nicht Rijndael da bei AES die Blocklänge auf 128 Bit eingeschränkt wurde, während die Wahl der Schlüssellänge von 128, 192 oder 256 Bits unverändert übernommen worden ist. 
+    Angriff gefunden <ref id="RelatedKeyCrypt" />. Streng genommen ist AES nicht Rijndael da bei AES die Blocklänge auf 128 Bit eingeschränkt wurde, während die Wahl der Schlüssellänge von 128, 192 oder 256 Bits unverändert übernommen worden ist. 
     Die Bezeichnungen der drei AES-Varianten AES-128, AES-192 und AES-256 beziehen sich jeweils auf die gewählte Schlüssellänge.
     <newline />
     Der Algorithmus ist frei verfügbar und darf ohne Lizenzgebühren eingesetzt sowie in Soft- und Hardware implementiert werden. AES ist in den USA für staatliche Dokumente mit höchster Geheimhaltungsstufe zugelassen.
-    <newline />
-    Weitereführende Informationen können <ref id="wikipedia">here</ref> nachgelesen werden.
+    <newline /><newline />
+    <i>
+      Quelle: <ref id="wikipedia" />
+    </i>
 
   </introduction>
 
 
   <usage lang="en">
+    Coming soon. Stay tuned ;)
   </usage>
   <usage lang="de-DE">
+    Bald erscheint hier eine Anleitung zur Benutzung der AES Komponente in CT2.
   </usage>
 
 
-  <presentation lang="en">
-  </presentation>
-  <presentation lang="de-DE">
-  </presentation>
-
+ 
 
   <references>
     <linkReference id="wikipedia">
       <link url="http://en.wikipedia.org/wiki/Advanced_Encryption_Standard" lang="en" />
       <caption lang="en">AES (Wikipedia)</caption>
-	  <link url="http://de.wikipedia.org/wiki/Advanced_Encryption_Standard" lang="de-DE" />
+	    <link url="http://de.wikipedia.org/wiki/Advanced_Encryption_Standard" lang="de-DE" />
       <caption lang="de-DE">AES (Wikipedia)</caption>
     </linkReference>
+    <linkReference id="fips197">
+      <link url="http://csrc.nist.gov/publications/fips/fips197/fips-197.pdf" lang="en" />
+      <caption lang="en">FIPS PUB 197: the official AES standard</caption>
+      <link url="http://csrc.nist.gov/publications/fips/fips197/fips-197.pdf" lang="de-DE" />
+      <caption lang="de-DE">Offizielle Spezifikation des AES vom NIST</caption>
+    </linkReference>
+    <linkReference id="RelatedKeyCrypt">
+      <link url="http://cryptolux.uni.lu/mediawiki/uploads/1/1a/Aes-192-256.pdf" lang="en" />
+      <caption lang="en">Related-key Cryptanalysis of the Full AES-192 and AES-256 (PDF)</caption>
+    </linkReference>
+    
   </references>
 </documentation>
