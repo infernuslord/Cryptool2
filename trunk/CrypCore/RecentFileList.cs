@@ -78,6 +78,7 @@ namespace Cryptool.Core
         public void Clear()
         {
             recentFiles.Clear();
+            Store();
             ListChanged(recentFiles);
         }
 
