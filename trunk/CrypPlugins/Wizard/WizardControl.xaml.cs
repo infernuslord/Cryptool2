@@ -955,17 +955,27 @@ namespace Wizard
                             {
                                 var settings = plugin.Plugin.Settings;
 
-                                var property = plugin.Plugin.GetType().GetProperty(ppv.PropertyName) ??
-                                               settings.GetType().GetProperty(ppv.PropertyName);
+                                object propertyObject = null;
+                                PropertyInfo property;
+                                if (plugin.Plugin.GetType().GetProperty(ppv.PropertyName) != null)
+                                {
+                                    property = plugin.Plugin.GetType().GetProperty(ppv.PropertyName);
+                                    propertyObject = plugin.Plugin;
+                                }
+                                else
+                                {
+                                    property = settings.GetType().GetProperty(ppv.PropertyName);
+                                    propertyObject = settings;
+                                }
 
                                 if (property != null)
                                 {
                                     if (ppv.Value is string)
-                                        property.SetValue(settings, (string)ppv.Value, null);
+                                        SetPropertyToString(ppv, propertyObject, property);
                                     else if (ppv.Value is int)
-                                        property.SetValue(settings, (int)ppv.Value, null);
+                                        property.SetValue(propertyObject, (int)ppv.Value, null);
                                     else if (ppv.Value is bool)
-                                        property.SetValue(settings, (bool)ppv.Value, null);
+                                        property.SetValue(propertyObject, (bool)ppv.Value, null);
                                 }
                                 plugin.Plugin.Initialize();
                             }
@@ -976,6 +986,22 @@ namespace Wizard
                         }
                     }
                 }
+            }
+        }
+
+        private static void SetPropertyToString(PluginPropertyValue ppv, object settings, PropertyInfo property)
+        {
+            if (property.PropertyType == typeof(string))
+            {
+                property.SetValue(settings, (string) ppv.Value, null);
+            }
+            else if (property.PropertyType == typeof(int))
+            {
+                property.SetValue(settings, Int32.Parse((string)ppv.Value), null);
+            }
+            else if (property.PropertyType == typeof(double))
+            {
+                property.SetValue(settings, Double.Parse((string)ppv.Value), null);
             }
         }
 
