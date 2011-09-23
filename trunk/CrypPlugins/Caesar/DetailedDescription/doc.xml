@@ -21,7 +21,7 @@
   </introduction>
 
   <usage lang="en">
-    After dragging the Caesar component onto the workspace, you need to specify a data source that represents the text to be encrypted or decrypted. This input is mandatory!
+    After dragging the Caesar component onto the workspace, you need to specify a data source that represents the text to be encrypted or decrypted. This input is mandatory.
     <newline/>
     In the component settings you can decide whether you want to encrypt or decrypt, and you can define default values for the key and the alphabet. You can also specify whether the component should work case-sensitive or not, and how unknown symbols (characters which are not part of the alphabet) are treated.
     <newline/>
@@ -29,7 +29,7 @@
   </usage>
 
   <usage lang="de-DE">
-    Nachdem Sie die Caesar-Komponente auf den Arbeitsbereich gezogen haben, müssen Sie eine Datenquelle definieren, die den zu verschlüsselnden oder entschlüsselnden Text repräsentiert. Diese Datenquelle ist zwingend notwendig!
+    Nachdem Sie die Caesar-Komponente auf den Arbeitsbereich gezogen haben, müssen Sie eine Datenquelle definieren, die den zu verschlüsselnden oder entschlüsselnden Text repräsentiert. Diese Datenquelle ist notwendig.
     <newline/>
     In den Einstellungen für die Komponente können Sie entscheiden, ob Sie verschlüsseln oder entschlüsseln wollen, und Sie können Standardwerte für den Schlüssel und das Alphabet festlegen. Außerdem können Sie einstellen, wie die Komponente mit Groß- und Kleinschreibung umgeht und wie unbekannte Zeichen (solche, die nicht im Alphabet enthalten sind) behandelt werden.
     <newline/>

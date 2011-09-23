@@ -13,13 +13,13 @@
   </introduction>
 
   <usage lang="en">
-    After dragging the Nihilist component onto the workspace, you need to specify a data source that represents the text to be encrypted or decrypted. This data source is mandatory!
+    After dragging the Nihilist component onto the workspace, you need to specify a data source that represents the text to be encrypted or decrypted. This data source is mandatory.
     <newline/>
     In the component settings you can decide whether you want to encrypt or decrypt, and you can define the two mandatory keywords.
   </usage>
 
   <usage lang="de-DE">
-    Nachdem Sie die Nihilist-Komponente auf den Arbeitsbereich gezogen haben, müssen Sie eine Datenquelle definieren, die die zu verschlüsselnden oder entschlüsselnden Daten repräsentiert. Diese Datenquelle ist notwendig!
+    Nachdem Sie die Nihilist-Komponente auf den Arbeitsbereich gezogen haben, müssen Sie eine Datenquelle definieren, die die zu verschlüsselnden oder entschlüsselnden Daten repräsentiert. Diese Datenquelle ist notwendig.
     <newline/>
     In den Einstellungen für die Komponente können Sie entscheiden, ob Sie verschlüsseln oder entschlüsseln wollen, und Sie können die notwendigen Schlüsselworte definieren.
   </usage>
