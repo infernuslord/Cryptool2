@@ -26,7 +26,7 @@ using Cryptool.PluginBase.IO;
 namespace Cryptool.Vigenere
 {
     [Author("Sebastian Przybylski", "sebastian@przybylski.org", "Uni-Siegen", "http://www.uni-siegen.de")]
-    [PluginInfo("Cryptool.Vigenere.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL",
+    [PluginInfo("Cryptool.Vigenere.Properties.Resources", false, "PluginCaption", "PluginTooltip", "Vigenere/DetailedDescription/doc.xml",
       "Vigenere/Images/icon.png", "Vigenere/Images/encrypt.png", "Vigenere/Images/decrypt.png")]
     [ComponentCategory(ComponentCategory.CiphersClassic)]
     public class Vigenere : ICrypComponent

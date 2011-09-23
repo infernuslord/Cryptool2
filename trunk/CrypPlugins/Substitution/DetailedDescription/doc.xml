@@ -4,24 +4,29 @@
   <language culture="en"/>
   <language culture="de-DE"/>
 
-  <introduction lang="en">    
+  <introduction lang="en">   
+    TODO
   </introduction>
 
   <introduction lang="de-DE">    
+    TODO
   </introduction>
 
   <usage lang="en">
+    TODO
   </usage>
 
   <usage lang="de-DE">
+    TODO
   </usage>
   
-  <presentation lang="en">
-  </presentation>
-  
-  <presentation lang="de-DE">
-  </presentation>
-  
   <references>
+    <linkReference>
+      <link url="http://en.wikipedia.org/wiki/Substitution_cipher" lang="en" />
+      <caption lang="en">Substitution in Wikipedia</caption>
+      <link url="http://de.wikipedia.org/wiki/Monoalphabetische_Substitution" lang="de-DE" />
+      <caption lang="de-DE">Substitution in Wikipedia</caption>
+    </linkReference>
   </references>
+  
 </documentation>

@@ -28,7 +28,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 namespace Cryptool.Plugins.SZ42
 {
     [Author("Wilmer Daza", "mr.wadg@gmail.com", "University of Magdalena", "http://www.unimagdalena.edu.co")]
-    [PluginInfo("SZ42.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "SZ42/Images/sz42.png")]
+    [PluginInfo("SZ42.Properties.Resources", false, "PluginCaption", "PluginTooltip", "SZ42/DetailedDescription/doc.xml", "SZ42/Images/sz42.png")]
     [ComponentCategory(ComponentCategory.CiphersClassic)]
     public class Lorenz : ICrypComponent
     {
