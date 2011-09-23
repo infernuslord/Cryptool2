@@ -4,24 +4,37 @@
   <language culture="en"/>
   <language culture="de-DE"/>
 
-  <introduction lang="en">    
+  <introduction lang="en">
+    Playfair is a symmetric encryption algorithm invented by Charles Wheatstone in 1854. It is named after Lord Playfair who promoted the use of the cipher.
   </introduction>
 
-  <introduction lang="de-DE">    
+  <introduction lang="de-DE">
+    Playfair ist ein symmetrisches Verschlüsselungsverfahren, das 1854 von Charles Wheatstone erfunden wurde. Der Name geht auf Lord Playfair zurück, der den Einsatz des Verfahrens vorantrieb.
   </introduction>
 
   <usage lang="en">
+    After dragging the Playfair component onto the workspace, you need to specify a data source that represents the text to be encrypted or decrypted.
+    <newline/>
+    In the component settings you can decide whether you want to encrypt or decrypt, and you can define the keyword to be used.
+    <newline/>
+    Furthermore you can change the used alphabet and some more internal parameters.
   </usage>
 
   <usage lang="de-DE">
+    Nachdem Sie die Playfair-Komponente auf den Arbeitsbereich gezogen haben, müssen Sie eine Datenquelle definieren, die die zu verschlüsselnden oder entschlüsselnden Daten repräsentiert.
+    <newline/>
+    In den Einstellungen für die Komponente können Sie entscheiden, ob Sie verschlüsseln oder entschlüsseln wollen. Außerdem können Sie das Schlüsselwort definieren.
+    <newline/>
+    Darüber hinaus können Sie dort das zu benutzende Alphabet und einige andere Parameter einstellen.
   </usage>
-  
-  <presentation lang="en">
-  </presentation>
-  
-  <presentation lang="de-DE">
-  </presentation>
-  
+
   <references>
+    <linkReference>
+      <link url="http://en.wikipedia.org/wiki/Playfair_cipher" lang="en" />
+      <caption lang="en">Playfair in Wikipedia</caption>
+      <link url="http://de.wikipedia.org/wiki/Playfair" lang="de-DE" />
+      <caption lang="de-DE">Playfair in Wikipedia</caption>
+    </linkReference>
   </references>
+  
 </documentation>
