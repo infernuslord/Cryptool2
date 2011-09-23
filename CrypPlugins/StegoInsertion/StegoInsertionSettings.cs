@@ -67,10 +67,15 @@ namespace Cryptool.Plugins.StegoInsertion
             }
             set
             {
+                if (value < 1)
+                {
+                    value = 1;
+                }
                 if (maxMessageBytesPerCarrierUnit != value)
                 {
                     maxMessageBytesPerCarrierUnit = value;
                     hasChanges = true;
+                    OnPropertyChanged("MaxMessageBytesPerCarrierUnit");
                 }
             }
         }
