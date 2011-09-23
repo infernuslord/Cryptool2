@@ -181,7 +181,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
                 var link = Path.Combine(Path.Combine("..\\..", DocGenerator.TemplateDirectory), template.Path);
                 var file = Path.GetFileName(template.Path);
                 codeBuilder.AppendLine(string.Format("<tr> <td><a href=\"{0}\">{1}</a></td> <td>{2}</td> </tr>",
-                    link, file, System.Security.SecurityElement.Escape(ConvertXElement(template.Description, entityDocumentationPage))));
+                    link, file, ConvertXElement(template.Description, entityDocumentationPage)));
             }
 
             codeBuilder.AppendLine("</table>");
