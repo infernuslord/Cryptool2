@@ -5,19 +5,23 @@
   <language culture="de-DE"/>
 
   <introduction lang="en">
-    TODO
+    The M-209 is a portable, mechanical cipher machine used by the US military primarily in World War II.
   </introduction>
 
   <introduction lang="de-DE">
-    TODO
+    Die M-209 ist eine tragbare mechanische Rotor-Chiffriermaschine, die hauptsächlich während des Zweiten Weltkriegs vom US-Militär eingesetzt wurde.
   </introduction>
 
   <usage lang="en">
-    TODO
+    After dragging the M-209 component onto the workspace, you need to specify a data source that represents the text to be encrypted or decrypted. This data source is mandatory!
+    <newline/>
+    In the component settings you can decide whether you want to encrypt or decrypt, and you can define the initial rotor setting (the actual key). Furthermore you can adjust the machine's settings for wheels and bars.
   </usage>
 
   <usage lang="de-DE">
-    TODO
+    Nachdem Sie die M-209-Komponente auf den Arbeitsbereich gezogen haben, müssen Sie eine Datenquelle definieren, die die zu verschlüsselnden oder entschlüsselnden Daten repräsentiert. Diese Datenquelle ist notwendig!
+    <newline/>
+    In den Einstellungen für die Komponente können Sie entscheiden, ob Sie verschlüsseln oder entschlüsseln wollen, und Sie können die initiale Rotorstellung definieren (den eigentlichen Schlüssel). Außerdem können Sie die Optionen für Rotoren und Stangen verändern.
   </usage>
 
   <references>
