@@ -29,7 +29,7 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace Cryptool.Playfair
 {
     [Author("Sebastian Przybylski","sebastian@przybylski.org","Uni Siegen","http://www.uni-siegen.de")]
-    [PluginInfo("Playfair.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", 
+    [PluginInfo("Playfair.Properties.Resources", false, "PluginCaption", "PluginTooltip", "Playfair/DetailedDescription/doc.xml", 
       "Playfair/Images/icon.png", "Playfair/Images/encrypt.png", "Playfair/Images/decrypt.png")]
     [ComponentCategory(ComponentCategory.CiphersClassic)]
     public class Playfair : ICrypComponent

@@ -23,17 +23,11 @@
     <newline/>
     In den Einstellungen für die Komponente können Sie entscheiden, ob Sie verschlüsseln oder entschlüsseln wollen, und Sie können die notwendigen Schlüsselworte definieren.
   </usage>
-  
-  <presentation lang="en">
-  </presentation>
-  
-  <presentation lang="de-DE">
-  </presentation>
 
   <references>
     <linkReference>
       <link url="http://en.wikipedia.org/wiki/Nihilist_cipher" lang="en" />
-      <caption lang="en">Nihilist in wikipedia</caption>
+      <caption lang="en">Nihilist in Wikipedia</caption>
       <link url="http://en.wikipedia.org/wiki/Nihilist_cipher" lang="de-DE" />
       <caption lang="de-DE">Nihilist in Wikipedia (englisch)</caption>
     </linkReference>
