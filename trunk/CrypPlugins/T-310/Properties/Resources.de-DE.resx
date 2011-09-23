@@ -123,9 +123,6 @@
   <data name="PluginTooltip" xml:space="preserve">
     <value>Ostdeutsche Chiffriermaschine</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value />
-  </data>
   <data name="InputDataCaption" xml:space="preserve">
     <value>Eingabedaten</value>
   </data>
