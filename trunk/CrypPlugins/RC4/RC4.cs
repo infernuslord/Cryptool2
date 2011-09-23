@@ -104,7 +104,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         {
             try
             {
-                // this is for localization (TODO: maybe this here is not the right place...)
+                // this is for localization
                 ResourceManager resourceManager = new ResourceManager("Cryptool.RC4.Properties.Resources", GetType().Assembly);
                 
                 // make sure we have a valid data input

@@ -9,7 +9,7 @@
   </introduction>
 
   <introduction lang="de-DE">
-    RC4 ist eine weit verbreitete Stromchiffre, die in bekannten Prokollen wie SSL und WEP eingesetzt wird. Das Verfahren wurde 1987 von Ron Rivest (RSA Security) entwickelt.
+    RC4 ist die am weitesten verbreitete Stromchiffre, die in bekannten Prokollen wie SSL und WEP eingesetzt wird. Das Verfahren wurde 1987 von Ron Rivest (RSA Security) entwickelt.
   </introduction>
 
   <usage lang="en">
@@ -17,7 +17,7 @@
   </usage>
 
   <usage lang="de-DE">
-    Nachdem Sie die RC4-Komponente auf den Arbeitsbereich gezogen haben, müssen Sie zwei Datenquellen definieren: Eine repräsentiert die zu verschlüsselnden oder entschlüsselnden Daten, eine repräsentiert den Schlüssel. Beide Datenquellen sind zwingend notwendig!
+    Nachdem Sie die RC4-Komponente auf den Arbeitsbereich gezogen haben, müssen Sie zwei Datenquellen definieren: Eine repräsentiert die zu verschlüsselnden oder entschlüsselnden Daten, die andere repräsentiert den Schlüssel. Beide Datenquellen sind notwendig!
   </usage>
   
   <references>

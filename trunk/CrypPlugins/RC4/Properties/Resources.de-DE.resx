@@ -132,6 +132,9 @@
   <data name="ErrorInputKeyNotProvided" xml:space="preserve">
     <value>Kein gültiger Schlüssel angegeben.</value>
   </data>
+  <data name="ErrorInputKeywordsNotProvided" xml:space="preserve">
+    <value>Beide Schlüsselworte müssen definiert sein, mindestens eines ist undefiniert.</value>
+  </data>
   <data name="InputDataCaption" xml:space="preserve">
     <value>Daten</value>
   </data>

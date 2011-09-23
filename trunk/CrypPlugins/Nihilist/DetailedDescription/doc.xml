@@ -4,16 +4,24 @@
   <language culture="en"/>
   <language culture="de-DE"/>
 
-  <introduction lang="en">    
+  <introduction lang="en">
+    The Nihilist cipher is a manually operated symmetric encryption cipher originally used by Russian Nihilists in the 1880s.
   </introduction>
 
-  <introduction lang="de-DE">    
+  <introduction lang="de-DE">
+    Die Nihilist-Verschlüsselung ist ein symmetrisches Verschlüsselungsverfahren, das ursprünglich von den Russischen Nihilisten im späten 19. Jahrhundert verwendet wurde.
   </introduction>
 
   <usage lang="en">
+    After dragging the Nihilist component onto the workspace, you need to specify a data source that represents the text to be encrypted or decrypted. This data source is mandatory!
+    <newline/>
+    In the component settings you can decide whether you want to encrypt or decrypt, and you can define the two mandatory keywords.
   </usage>
 
   <usage lang="de-DE">
+    Nachdem Sie die Nihilist-Komponente auf den Arbeitsbereich gezogen haben, müssen Sie eine Datenquelle definieren, die die zu verschlüsselnden oder entschlüsselnden Daten repräsentiert. Diese Datenquelle ist notwendig!
+    <newline/>
+    In den Einstellungen für die Komponente können Sie entscheiden, ob Sie verschlüsseln oder entschlüsseln wollen, und Sie können die notwendigen Schlüsselworte definieren.
   </usage>
   
   <presentation lang="en">
@@ -21,7 +29,13 @@
   
   <presentation lang="de-DE">
   </presentation>
-  
+
   <references>
+    <linkReference>
+      <link url="http://en.wikipedia.org/wiki/Nihilist_cipher" lang="en" />
+      <caption lang="en">Nihilist in wikipedia</caption>
+      <link url="http://en.wikipedia.org/wiki/Nihilist_cipher" lang="de-DE" />
+      <caption lang="de-DE">Nihilist in Wikipedia (englisch)</caption>
+    </linkReference>
   </references>
 </documentation>
