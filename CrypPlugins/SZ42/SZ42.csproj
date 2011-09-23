@@ -121,12 +121,6 @@
     <Resource Include="Images\sz42.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="DetailedDescription\Description.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Resource>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.de-DE.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.de-DE.Designer.cs</LastGenOutput>
