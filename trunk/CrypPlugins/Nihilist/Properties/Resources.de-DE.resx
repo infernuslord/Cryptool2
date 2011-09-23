@@ -162,4 +162,7 @@
   <data name="ActionList2" xml:space="preserve">
     <value>Entschlüsselung</value>
   </data>
+  <data name="ErrorInputKeywordsNotProvided" xml:space="preserve">
+    <value>Beide Schlüsselworte müssen definiert sein, mindestens eines ist undefiniert.</value>
+  </data>
 </root>
