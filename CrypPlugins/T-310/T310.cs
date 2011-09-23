@@ -31,7 +31,7 @@ namespace Cryptool.Plugins.T310
 {
     // TODO: shall use CryptoolStream respectively new CStream instead of byte[]
     [Author("Jörg Drobick, Matthäus Wander", "wander@cryptool.org", "", "")]
-    [PluginInfo("T_310.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "T-310/Images/t310.png")]
+    [PluginInfo("T_310.Properties.Resources", false, "PluginCaption", "PluginTooltip", "T-310/DetailedDescription/doc.xml", "T-310/Images/t310.png")]
     [ComponentCategory(ComponentCategory.CiphersClassic)]
     public class T310 : ICrypComponent
     {

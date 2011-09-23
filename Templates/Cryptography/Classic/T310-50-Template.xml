@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sample>
+  <title lang="de">T310/50-Chiffre</title>
+  <description lang="de">Ver-/Entschlüsselung mit der T310/50 Chiffriermaschine.</description>
+  <keywords lang="de">Maschine, DDR</keywords>
+  <title lang="en">T310/50-Cipher</title>
+  <description lang="en">En-/Decryption of T310/50 cipher machine</description>
+  <keywords>Machine, DDR, GDR</keywords>
+  <icon file="T310-50-Template.png" />
+  <relevantPlugins>
+    <plugin name="T310" />
+  </relevantPlugins>
+</sample>

@@ -1,27 +1,36 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-
+﻿<?xml version="1.0" encoding="utf-8"?>
 <documentation>
-  <language culture="en"/>
-  <language culture="de-DE"/>
-
-  <introduction lang="en">    
-  </introduction>
-
-  <introduction lang="de-DE">    
-  </introduction>
-
-  <usage lang="en">
-  </usage>
-
-  <usage lang="de-DE">
-  </usage>
-  
+  <language culture="en" />
+  <language culture="de-DE" />
+  <introduction lang="en">The T
+-
+310/50 
+is a historic cipher machine that has been used by German Democratic Republic (Deutsche Demokratische Republik). It uses a 
+240 bit key (30 
+byte
+) grouped into 10 times 24 bit. Each group must have an odd parity
+, i.e. 
+the sum of the 24 bit modulo 2 must be equal to 1
+.
+ 
+T
+hus the key has an entropy (effective value) of 10 times 23 = 230 bit.
+ Unlike electro-mechanical machines like Enigma, the encryption function of T-310/50 is realized in electronics.
+</introduction>
+  <introduction lang="de-DE">Die T-310/50 ist eine historische Chiffriermaschine, die in der Deutschen Demokratischen Republik (DDR) eingesetzt wurde. Die Maschine verwendet einen 240 Bit langen Schlüssel (30 Byte), der in 10 Teilschlüssel á 24 Bit unterteilt ist. Jeder Teilschlüssel muss eine ungerade Parität haben, d.h. die Summe der 24 Bit modulo 2 muss gleich 1 sein. Daher hat der Gesamtschlüssel eine Entropie (Informationsgehalt) von 10 mal 23 = 230 Bit. Anders als elektromechanische Maschinen wie die Enigma, ist die Verschlüsselungsfunktion der T-310/50 durch rein elektronische Bauteile realisiert.
+</introduction>
+  <usage lang="en">While the original T-310/50 operates on 5 bit plaintext words, this implementation reads 5 byte of plaintext, i.e. 8 words of 5 bit, or any multiple of 5 byte.<newline />
+<newline />
+To generate a new key, do not connect the key input connector. Instead wire the key output connection. This will generate a valid pseudo-random key.
+</usage>
+  <usage lang="de-DE">Während die originale T-310/50-Maschine Klartext jeweils als 5-Bit-Wörter einliest, liest diese Simulation 5 Byte Klartext, d.h. acht 5-Bit-Wörter auf einmal, oder ein beliebiges Vielfache von 5 Byte.<newline />
+<newline />
+Um einen neuen Schlüssel zu generieren, lassen Sie den Schlüsseleingang unverbunden. Verbinden Sie stattdessen den Schlüsselausgang, an dem ein gültiger pseudozufälliger Schlüssel ausgegeben wird.
+</usage>
   <presentation lang="en">
-  </presentation>
-  
+</presentation>
   <presentation lang="de-DE">
-  </presentation>
-  
+</presentation>
   <references>
   </references>
 </documentation>
