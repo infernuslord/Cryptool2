@@ -23,11 +23,12 @@ using Cryptool.PluginBase;
 using System.Windows;
 using System.Diagnostics;
 using Cryptool.PluginBase.Miscellaneous;
+using System.Resources;
 
 namespace Nihilist
 {
     [Author("Fabian Enkler", "enkler@cryptool.org", "", "")]
-    [PluginInfo("Nihilist.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "Nihilist/Images/icon3.png")]
+    [PluginInfo("Nihilist.Properties.Resources", false, "PluginCaption", "PluginTooltip", "Nihilist/DetailedDescription/doc.xml", "Nihilist/Images/icon3.png")]
     [ComponentCategory(ComponentCategory.CiphersClassic)]
     public class Nihilist : ICrypComponent
     {
@@ -122,6 +123,17 @@ namespace Nihilist
 
         public void Execute()
         {
+            // this is for localization
+            ResourceManager resourceManager = new ResourceManager("Nihilist.Properties.Resources", GetType().Assembly);
+            
+            // flomar, 09/23/2011: make sure we have two valid keywords (plugin would crash without two valid keywords)
+            if (settings.KeyWord.Length == 0 || settings.SecondKeyWord.Length == 0)
+            {
+                GuiLogMessage(resourceManager.GetString("ErrorInputKeywordsNotProvided"), NotificationLevel.Error);
+                return;
+            }
+
+            // flomar, 09/23/2011: proceed with the old code as usual...
             char[,] KeyArray;
             Dictionary<char, byte[]> CryptMatrix = CreateCryptMatrix(out KeyArray);
 

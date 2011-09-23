@@ -162,4 +162,7 @@
   <data name="ActionList2" xml:space="preserve">
     <value>Decrypt</value>
   </data>
+  <data name="ErrorInputKeywordsNotProvided" xml:space="preserve">
+    <value>Both keywords need to be defined, at least one of them is undefined.</value>
+  </data>
 </root>
