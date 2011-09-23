@@ -19,7 +19,7 @@
   </introduction>
 
   <usage lang="en">
-    Drag the Scytale component onto the workspace and specify a data source that represents the text to be encrypted or decrypted. This input is mandatory!
+    Drag the Scytale component onto the workspace and specify a data source that represents the text to be encrypted or decrypted. This input is mandatory.
     <newline/>
     In the component settings you can decide whether you want to encrypt or decrypt, and you can enter the key (the number of edges).
     <newline/>
@@ -27,7 +27,7 @@
   </usage>
 
   <usage lang="de-DE">
-    Ziehen Sie die Skytale-Komponente auf den Arbeitsbereich und geben Sie eine Datenquelle an, die die zu verschlüsselnden oder entschlüsselnden Daten repräsentiert. Die Angabe dieser Datenquelle ist zwingend erforderlich!
+    Ziehen Sie die Skytale-Komponente auf den Arbeitsbereich und geben Sie eine Datenquelle an, die die zu verschlüsselnden oder entschlüsselnden Daten repräsentiert. Die Angabe dieser Datenquelle ist erforderlich.
     <newline/>
     In den Einstellungen für die Komponente stellen Sie ein, ob verschlüsselt oder entschlüsselt werden soll, und Sie können den Schlüssel angeben (die Kantenanzahl).
     <newline/>

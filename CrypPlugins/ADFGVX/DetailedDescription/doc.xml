@@ -26,7 +26,7 @@
   </introduction>
 
   <usage lang="en">
-    Drag the ADFGVX component onto the workspace and specify a data source that represents the text to be encrypted or decrypted. This input is mandatory!
+    Drag the ADFGVX component onto the workspace and specify a data source that represents the text to be encrypted or decrypted. This input is mandatory.
     <newline/>
     In the component settings you can decide whether you want to encrypt or decrypt, and you can enter the substitution and transposition passwords. Furthermore you can decide how to deal with unknown symbols and how the alphabet is interpreted.
     <newline/>
@@ -34,7 +34,7 @@
   </usage>
 
   <usage lang="de-DE">
-    Ziehen Sie die ADFGVX-Komponente auf den Arbeitsbereich und geben Sie eine Datenquelle an, die die zu verschlüsselnden oder entschlüsselnden Daten repräsentiert. Die Angabe dieser Datenquelle ist zwingend erforderlich!
+    Ziehen Sie die ADFGVX-Komponente auf den Arbeitsbereich und geben Sie eine Datenquelle an, die die zu verschlüsselnden oder entschlüsselnden Daten repräsentiert. Die Angabe dieser Datenquelle ist erforderlich.
     <newline/>
     In den Einstellungen für die Komponente stellen Sie ein, ob verschlüsselt oder entschlüsselt werden soll, und Sie können Substitutions- sowie Transpositionspasswort angeben. Außerdem können Sie festlegen, wie unbekannte Symbole behandelt werden und wie das Alphabet interpretiert wird.
     <newline/>
