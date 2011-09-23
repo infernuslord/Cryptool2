@@ -255,6 +255,7 @@ namespace WorkspaceManager.Model
         /// </summary>
         public string ToolTip { get; internal set; }
 
+        /// <summary>
         /// Plugin informs the Connector that a PropertyChanged
         /// </summary>
         /// <param name="sender"></param>
@@ -268,7 +269,7 @@ namespace WorkspaceManager.Model
                     return;
                 }
 
-                if (!(sender == this.PluginModel.Plugin) ||
+                if (sender != this.PluginModel.Plugin ||
                     !propertyChangedEventArgs.PropertyName.Equals(PropertyName))
                 {
                     return;
@@ -276,7 +277,7 @@ namespace WorkspaceManager.Model
 
                 if (Outgoing)
                 {
-                    if (this.OutputConnections.Count == 0)
+                    if (OutputConnections.Count == 0)
                     {
                         return;
                     }

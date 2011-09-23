@@ -15,6 +15,7 @@
 */
 
 using System;
+using System.Collections.Generic;
 using WorkspaceManager.Model;
 using System.Threading;
 using Cryptool.PluginBase;
@@ -40,6 +41,9 @@ namespace WorkspaceManager.Execution
         public int GuiUpdateInterval = 0;
         public int SleepTime = 0;
         public int ThreadPriority = 0;
+        public int MaxStopWaitingTime = 1000;
+
+        public List<Thread> threads;
 
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
 
@@ -50,6 +54,7 @@ namespace WorkspaceManager.Execution
         public ExecutionEngine(IEditor editor)
         {
             Editor = editor;
+            threads = new List<Thread>();
         }
 
         /// <summary>
@@ -85,6 +90,7 @@ namespace WorkspaceManager.Execution
                 if (updateGuiElements)
                 {
                     guiUpdateThread = new Thread(CheckGui);
+                    threads.Add(guiUpdateThread);
                     guiUpdateThread.Name = "WorkspaceManager_GUIUpdateThread";
                     guiUpdateThread.IsBackground = true;
                     guiUpdateThread.Start();
@@ -100,6 +106,7 @@ namespace WorkspaceManager.Execution
                 {
                     var thread = new Thread(new ParameterizedThreadStart(pluginModel.Execute))
                                      {Name = "WorkspaceManager_Thread-" + i};
+                    threads.Add(thread);
                     thread.IsBackground = true;
                     i++;
                     thread.Start(this);
@@ -206,16 +213,39 @@ namespace WorkspaceManager.Execution
         {
             try
             {
+                GuiLogMessage("Start stopping ExecutionEngine", NotificationLevel.Info);
                 Stopped = true;
                 foreach (var pluginModel in workspaceModel.AllPluginModels)
                 {
                     pluginModel.Stop = true;
-                    pluginModel.resetEvent.Set();
                     pluginModel.Plugin.Stop();
+                    pluginModel.resetEvent.Set();
                 }
                 benchmarkTimer.Enabled = false;
                 workspaceModel.IsBeingExecuted = false;
+
+                GuiLogMessage("Waiting for all threads to stop", NotificationLevel.Debug);
+                foreach(var t in threads)
+                {
+                    try
+                    {
+                        t.Join(MaxStopWaitingTime);
+                    }
+                    catch(Exception ex)
+                    {
+                        GuiLogMessage(string.Format("Exception during waiting for thread '{0}' to stop: {1}",t.Name,ex.Message),NotificationLevel.Error);
+                        GuiLogMessage(string.Format("Aborting '{0}' now", t.Name), NotificationLevel.Debug);
+                        t.Abort();
+                    }
+                }
+                                
+                GuiLogMessage("All threads stopped", NotificationLevel.Debug);
+
                 workspaceModel.resetStates();
+
+                GuiLogMessage("WorkspaceModel states resetted",NotificationLevel.Debug);
+
+                GuiLogMessage("ExecutionEngine successfully stopped", NotificationLevel.Info);
             }
             catch(Exception ex)
             {
