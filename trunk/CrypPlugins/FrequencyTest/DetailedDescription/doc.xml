@@ -11,16 +11,16 @@
   <newline/>
   <img src="FrequencyTest/DetailedDescription/Images/frequencies.png" />
   <newline/>
-  From the picture it is easy to see that the patterns are the same although the texts are different which could be expected for each English or any other writing. Moreover we could say that the pattern of the ciphertext (in this case) is shifted exactly three positions to the right. Replacing each character in the cipher text with the one tree positions to the left, considering the order of the alphabet, could easily decipher the text.<newline/>
+  From the picture it is easy to see that the patterns are the same although the texts are different which could be expected for any writing (in English or any other language). Moreover we could say that the pattern of the ciphertext (in this case) is shifted exactly three positions to the right. Replacing each character in the ciphertext with the character three positions to the left, considering the order of the alphabet, one could easily decipher the text.<newline/>
   <newline/>
-  Such an exploration gives us very little information for polyalphabeticaly enciphered message. Polyalphabetic ciphers disguise the frequencies of the characters which makes the cipher immune to frequency analysis alone and therefore other methods should be also used.
+  Such an exploration gives us very little information for polyalphabetically enciphered message. Polyalphabetic ciphers disguise the frequencies of the characters which makes the cipher immune to frequency analysis alone and therefore other methods should be also used.
   </introduction>
 
   <introduction lang="de-DE">
   </introduction>
 
   <usage lang="en">
-  In cryptanalysis, frequency analysis is the study of the frequency of letters or groups of letters in a ciphertext. The method is used as an aid to breaking classical ciphers. The method of frequency analysis is implemented in the component described below. The component takes a single input from string type and yields string and integer array outputs. This means that any other component with string output can be used as input source for Fre- quency Test. The string output of Frequency Test is shows statistical information about each character counted, number of occurrences and percentage from the entire text. The integer array output (black triangle) gives information only about the character counts and is used exclusively from Friedman Test component for key length proposition of Vigenère cipher text.<newline/>
+  In cryptanalysis, frequency analysis is the study of the frequency of letters or groups of letters in a ciphertext. The method is used as an aid to breaking classical ciphers. The method of frequency analysis is implemented in the component described below. The component takes a single input from string type and yields string and integer array outputs. This means that any other component with string output can be used as input source for Frequency Test. The string output of Frequency Test shows statistical information about each character counted, number of occurrences and percentage from the entire text. The integer array output (black triangle) gives information only about the character counts and is used exclusively from Friedman Test component for key length proposition of Vigenère ciphertext.<newline/>
   <newline/>
   As depicted below we use Text Input and Text Output in connection with Frequency Test:<newline/>
   <newline/>
