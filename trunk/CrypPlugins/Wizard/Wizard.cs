@@ -32,7 +32,7 @@ namespace Wizard
             wizardControl.OnOpenEditor += (editor, title, filename) => OnOpenEditor(editor, title, filename);
             wizardControl.OnOpenTab += (content, title, parent) => OnOpenTab(content, title, parent);
             wizardControl.OnGuiLogNotificationOccured += (sender, args) => OnGuiLogNotificationOccured(this, new GuiLogEventArgs(args.Message, this, args.NotificationLevel));
-            Presentation.ToolTip = "Wizard";
+            Presentation.ToolTip = Properties.Resources.PluginTooltip;
         }
 
         private WizardSettings wizardSettings = new WizardSettings();

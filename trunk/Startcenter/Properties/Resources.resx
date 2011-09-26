@@ -139,7 +139,7 @@
     <value />
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>The CrypTool 2.0 startcenter</value>
+    <value>Access the main functions in the Startcenter</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
     <value>Recently Opened Files</value>
@@ -151,16 +151,16 @@
     <value>Title:</value>
   </data>
   <data name="This_is_an_AnotherEditor_file_" xml:space="preserve">
-    <value>This is an AnotherEditor file.</value>
+    <value>This is a project file of the deprecated AnotherEditor.</value>
   </data>
   <data name="This_is_a_WorkspaceManager_file_" xml:space="preserve">
-    <value>This is a WorkspaceManager file.</value>
+    <value>This is a workspace editor file.</value>
   </data>
   <data name="This_is_a_standalone_component_" xml:space="preserve">
     <value>This is a standalone component.</value>
   </data>
   <data name="This_is_a_template" xml:space="preserve">
-    <value>This is a template.</value>
+    <value>This is a project template.</value>
   </data>
   <data name="Connect_to_the_distributed_computing_platform_" xml:space="preserve">
     <value>Connect to the distributed computing platform.</value>
