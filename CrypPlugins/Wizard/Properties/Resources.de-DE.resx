@@ -145,7 +145,7 @@
     <value>Wizard/DetailedDescription/Description.xaml</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>CrypTool 2.0-Wizard</value>
+    <value>Schritt-für-Schritt-Assistent</value>
   </data>
   <data name="ShowOnStartupCaption" xml:space="preserve">
     <value>Beim Start anzeigen</value>

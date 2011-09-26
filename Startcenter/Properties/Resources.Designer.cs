@@ -160,7 +160,7 @@ namespace Startcenter.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The CrypTool 2.0 startcenter.
+        ///   Looks up a localized string similar to Access the main functions in the Startcenter.
         /// </summary>
         internal static string PluginTooltip {
             get {
@@ -223,7 +223,7 @@ namespace Startcenter.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This is a template..
+        ///   Looks up a localized string similar to This is a project template..
         /// </summary>
         internal static string This_is_a_template {
             get {
@@ -232,7 +232,7 @@ namespace Startcenter.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This is a WorkspaceManager file..
+        ///   Looks up a localized string similar to This is a workspace editor file..
         /// </summary>
         internal static string This_is_a_WorkspaceManager_file_ {
             get {
@@ -241,7 +241,7 @@ namespace Startcenter.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This is an AnotherEditor file..
+        ///   Looks up a localized string similar to This is a project file of the deprecated AnotherEditor..
         /// </summary>
         internal static string This_is_an_AnotherEditor_file_ {
             get {

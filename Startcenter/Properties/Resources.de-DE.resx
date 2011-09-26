@@ -124,7 +124,7 @@
     <value />
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Das CrypTool 2.0 Startcenter</value>
+    <value>Die wichtigsten Funktionen im Startcenter</value>
   </data>
   <data name="Date" xml:space="preserve">
     <value>Datum:</value>
@@ -151,16 +151,16 @@
     <value>Bitte warten...</value>
   </data>
   <data name="This_is_an_AnotherEditor_file_" xml:space="preserve">
-    <value>Dies ist eine AnotherEditor Datei.</value>
+    <value>Dies ist eine Datei des veralteten AnotherEditor.</value>
   </data>
   <data name="This_is_a_WorkspaceManager_file_" xml:space="preserve">
-    <value>Dies ist eine WorkspaceManager Datei.</value>
+    <value>Dies ist eine Datei des Workspace-Editors.</value>
   </data>
   <data name="This_is_a_standalone_component_" xml:space="preserve">
     <value>Dies ist eine alleinstehende Komponente.</value>
   </data>
   <data name="This_is_a_template" xml:space="preserve">
-    <value>Dies ist eine Vorlage.</value>
+    <value>Dies ist eine Projektvorlage.</value>
   </data>
   <data name="Connect_to_the_distributed_computing_platform_" xml:space="preserve">
     <value>Verbinden Sie sich mit der verteilten Berechnungsplattform.</value>

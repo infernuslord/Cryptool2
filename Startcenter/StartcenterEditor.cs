@@ -82,7 +82,7 @@ namespace StartCenter
             _startcenter.TemplatesDir = _samplesDir;
 
             OnProjectTitleChanged(this, "Startcenter");
-            Presentation.ToolTip = "Startcenter";
+            Presentation.ToolTip = Startcenter.Properties.Resources.PluginTooltip;
         }
 
         public void Dispose()
