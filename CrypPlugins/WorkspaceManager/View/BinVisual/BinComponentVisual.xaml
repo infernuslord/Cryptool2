@@ -335,8 +335,8 @@
                     </DataTrigger.Binding>
                     <Setter Property="Height" Value="{Binding Path=WindowHeight}"></Setter>
                     <Setter Property="Width" Value="{Binding Path=WindowWidth}"></Setter>
-                    <Setter Property="MinHeight" Value="200"></Setter>
-                    <Setter Property="MinWidth" Value="300"></Setter>
+                    <Setter Property="MinHeight" Value="150"></Setter>
+                    <Setter Property="MinWidth" Value="200"></Setter>
                 </DataTrigger>
             </Style.Triggers>
         </Style>
