@@ -293,7 +293,7 @@ namespace Cryptool.P2P
                 {
                     throw new P2PNotSupportedException();
                 }
-                return (bool)DLLP2PManagerType.GetProperty("IsConnected").GetValue(DLLP2PManagerType, null);
+                return (bool)DLLP2PManagerType.GetProperty("IsConnecting").GetValue(DLLP2PManagerType, null);
             }
         }
 
