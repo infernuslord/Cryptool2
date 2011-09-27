@@ -35,17 +35,17 @@ namespace CrypDocumentationEditor
     /// </summary>
     public partial class MainWindow : Window
     {
-        private bool hasChanges = false;
-        private Documentation docu;
-        private string[] languages;
+        private bool _hasChanges = false;
+        private Documentation _docu;
+        private string[] _languages;
         private List<Reference> _references = new List<Reference>();
 
-        private string language1 = Documentation.DEFAULT_LANGUAGE;
+        private string _language1 = Documentation.DEFAULT_LANGUAGE;
         private string language2 = Documentation.DEFAULT_LANGUAGE;
 
         public bool HasChanges { 
             get{
-                return hasChanges;
+                return _hasChanges;
             }
             set
             {
@@ -57,7 +57,7 @@ namespace CrypDocumentationEditor
                 {
                     this.Title = "CrypDocumentationEditor";
                 }
-                hasChanges = value;
+                _hasChanges = value;
             }
         }
 
@@ -65,14 +65,37 @@ namespace CrypDocumentationEditor
         {            
             InitializeComponent();            
             NewButton_Click(null, null);
+            DataObject.AddPastingHandler(Introduction, new DataObjectPastingEventHandler(OnPaste));
+            DataObject.AddPastingHandler(Introduction2, new DataObjectPastingEventHandler(OnPaste));
+            DataObject.AddPastingHandler(Usage, new DataObjectPastingEventHandler(OnPaste));
+            DataObject.AddPastingHandler(Usage2, new DataObjectPastingEventHandler(OnPaste));
+            DataObject.AddPastingHandler(Presentation, new DataObjectPastingEventHandler(OnPaste));
+            DataObject.AddPastingHandler(Presentation2, new DataObjectPastingEventHandler(OnPaste));            
+        }
+
+        private static void OnPaste(object sender, DataObjectPastingEventArgs e)
+        {
+            var rtb = (RichTextBox) sender;
+            var isText = e.SourceDataObject.GetDataPresent(System.Windows.DataFormats.Text, true);
+            if(!isText)
+            {
+                return;
+            }
+            var text = e.SourceDataObject.GetData(DataFormats.Text) as string;
+            if (text != null)
+            {
+                rtb.Selection.Text = "";
+                rtb.Selection.Start.InsertTextInRun(text);                
+            }
+            e.CancelCommand();
         }
 
         private void GenerateLanguageSelector()
         {
-            languages = docu.GetLanguages();            
-            this.DocuLanguage.ItemsSource = languages;
+            _languages = _docu.GetLanguages();            
+            this.DocuLanguage.ItemsSource = _languages;
             this.DocuLanguage.SelectedIndex = 0;
-            this.DocuLanguage2.ItemsSource = languages;
+            this.DocuLanguage2.ItemsSource = _languages;
             this.DocuLanguage2.SelectedIndex = 0;
         }
 
@@ -220,10 +243,10 @@ namespace CrypDocumentationEditor
                         if (result2 == true)
                         {
                             string filename = dlg2.FileName;
-                            docu.Introduction = Introduction.Document;
-                            docu.Usage = Usage.Document;
-                            docu.Presentation = Presentation.Document;
-                            docu.Save(filename);
+                            _docu.Introduction = Introduction.Document;
+                            _docu.Usage = Usage.Document;
+                            _docu.Presentation = Presentation.Document;
+                            _docu.Save(filename);
                             HasChanges = false;
                         }
                         else
@@ -240,7 +263,7 @@ namespace CrypDocumentationEditor
                 }                                
             }
             
-            docu = new Documentation();            
+            _docu = new Documentation();            
 
             FlowDocument document = new FlowDocument();
             Paragraph para = new Paragraph();
@@ -305,10 +328,10 @@ namespace CrypDocumentationEditor
                         if (result2 == true)
                         {
                             string filename = dlg2.FileName;
-                            docu.Introduction = Introduction.Document;
-                            docu.Usage = Usage.Document;
-                            docu.Presentation = Presentation.Document;
-                            docu.Save(filename);
+                            _docu.Introduction = Introduction.Document;
+                            _docu.Usage = Usage.Document;
+                            _docu.Presentation = Presentation.Document;
+                            _docu.Save(filename);
                             HasChanges = false;
                         }
                         else
@@ -335,17 +358,17 @@ namespace CrypDocumentationEditor
             if (result3 == true)
             {                                
                 string filename = dlg3.FileName;
-                docu = new Documentation();                                       
-                docu.Load(filename);
+                _docu = new Documentation();                                       
+                _docu.Load(filename);
 
-                _references = docu.GetReferences();
+                _references = _docu.GetReferences();
 
-                Introduction.Document = docu.Introduction;
-                Usage.Document = docu.Usage;
-                Presentation.Document = docu.Presentation;
-                Introduction2.Document = docu.Introduction;
-                Usage2.Document = docu.Usage;
-                Presentation2.Document = docu.Presentation;                
+                Introduction.Document = _docu.Introduction;
+                Usage.Document = _docu.Usage;
+                Presentation.Document = _docu.Presentation;
+                Introduction2.Document = _docu.Introduction;
+                Usage2.Document = _docu.Usage;
+                Presentation2.Document = _docu.Presentation;                
                 References.ItemsSource = _references;
             }
 
@@ -366,18 +389,18 @@ namespace CrypDocumentationEditor
             if (result == true)
             {               
                 string filename = dlg.FileName;
-                docu.Language = language1;
-                docu.Introduction = Introduction.Document;
-                docu.Usage = Usage.Document;
-                docu.Presentation = Presentation.Document;
-                if (language2 != null && !language1.Equals(language2))
+                _docu.Language = _language1;
+                _docu.Introduction = Introduction.Document;
+                _docu.Usage = Usage.Document;
+                _docu.Presentation = Presentation.Document;
+                if (language2 != null && !_language1.Equals(language2))
                 {
-                    docu.Language = language2;
-                    docu.Introduction = Introduction2.Document;
-                    docu.Usage = Usage2.Document;
-                    docu.Presentation = Presentation2.Document;
+                    _docu.Language = language2;
+                    _docu.Introduction = Introduction2.Document;
+                    _docu.Usage = Usage2.Document;
+                    _docu.Presentation = Presentation2.Document;
                 }
-                docu.Save(filename);
+                _docu.Save(filename);
                 HasChanges = false;
             }
         }
@@ -418,10 +441,10 @@ namespace CrypDocumentationEditor
                         if (result2 == true)
                         {
                             string filename = dlg.FileName;
-                            docu.Introduction = Introduction.Document;
-                            docu.Usage = Usage.Document;
-                            docu.Presentation = Presentation.Document;
-                            docu.Save(filename);
+                            _docu.Introduction = Introduction.Document;
+                            _docu.Usage = Usage.Document;
+                            _docu.Presentation = Presentation.Document;
+                            _docu.Save(filename);
                             HasChanges = false;
                         }
                         else
@@ -443,17 +466,17 @@ namespace CrypDocumentationEditor
         private void AddLanguage_Click(object sender, RoutedEventArgs e)
         {
             string value = Interaction.InputBox("Please enter new language", "Enter new language", "", 100, 100);
-            if (value == "" || languages.Contains(value))
+            if (value == "" || _languages.Contains(value))
             {
                 return;
             }
-            this.docu.AddLanguage(value);
-            string[] newlanguages = new string[languages.Length + 1];
-            Array.Copy(languages, newlanguages, languages.Length);
+            this._docu.AddLanguage(value);
+            string[] newlanguages = new string[_languages.Length + 1];
+            Array.Copy(_languages, newlanguages, _languages.Length);
             newlanguages[newlanguages.Length - 1] = value;
-            languages = newlanguages;
-            this.DocuLanguage.ItemsSource = languages;
-            this.DocuLanguage2.ItemsSource = languages;
+            _languages = newlanguages;
+            this.DocuLanguage.ItemsSource = _languages;
+            this.DocuLanguage2.ItemsSource = _languages;
             this.DocuLanguage2.SelectedValue = value;
             language2 = value;
             this.HasChanges = true;
@@ -536,21 +559,21 @@ namespace CrypDocumentationEditor
 
             //Save old has changes state
             bool hasChanges = HasChanges;
-            docu.Language = language1;
+            _docu.Language = _language1;
 
             //save old language entries to xml
-            docu.Introduction = Introduction.Document;
-            docu.Usage = Usage.Document;
-            docu.Presentation = Presentation.Document;
+            _docu.Introduction = Introduction.Document;
+            _docu.Usage = Usage.Document;
+            _docu.Presentation = Presentation.Document;
             
             //change to new selected language
-            docu.Language = (string)DocuLanguage.SelectedValue;
-            language1 = (string)DocuLanguage.SelectedValue;
+            _docu.Language = (string)DocuLanguage.SelectedValue;
+            _language1 = (string)DocuLanguage.SelectedValue;
 
             //put new selected language entries from xml to view
-            Introduction.Document = docu.Introduction;
-            Usage.Document = docu.Usage;
-            Presentation.Document = docu.Presentation;
+            Introduction.Document = _docu.Introduction;
+            Usage.Document = _docu.Usage;
+            Presentation.Document = _docu.Presentation;
 
             //restore old HasChanges state
             HasChanges = hasChanges;
@@ -568,21 +591,21 @@ namespace CrypDocumentationEditor
 
             if (language2 != null)
             {
-                docu.Language = language2;
+                _docu.Language = language2;
 
                 //save old language entries to xml
-                docu.Introduction = Introduction2.Document;
-                docu.Usage = Usage2.Document;
-                docu.Presentation = Presentation2.Document;
+                _docu.Introduction = Introduction2.Document;
+                _docu.Usage = Usage2.Document;
+                _docu.Presentation = Presentation2.Document;
             }
             //change to new selected language
-            docu.Language = (string)DocuLanguage2.SelectedValue;
+            _docu.Language = (string)DocuLanguage2.SelectedValue;
             language2 = (string)DocuLanguage2.SelectedValue;
 
             //put new selected language entries from xml to view
-            Introduction2.Document = docu.Introduction;
-            Usage2.Document = docu.Usage;
-            Presentation2.Document = docu.Presentation;
+            Introduction2.Document = _docu.Introduction;
+            Usage2.Document = _docu.Usage;
+            Presentation2.Document = _docu.Presentation;
 
             //restore old HasChanges state
             HasChanges = hasChanges;
@@ -648,7 +671,7 @@ namespace CrypDocumentationEditor
                 _references.Add(new BookReference() { Author = author, Name = name, Publisher = publisher });
             }
 
-            docu.AddReferences(_references);      
+            _docu.AddReferences(_references);      
             References.ItemsSource = new List<Reference>(_references);
         }
 
@@ -663,11 +686,17 @@ namespace CrypDocumentationEditor
 
                 if (result == MessageBoxResult.Yes)
                 {
-                    docu.RemoveReference((Reference)References.SelectedItem);
+                    _docu.RemoveReference((Reference)References.SelectedItem);
                     _references.Remove((Reference)References.SelectedItem);
                     References.ItemsSource = new List<Reference>(_references);
                 }
             }
-        }     
+        }
+
+        private void BlockTheCommand(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = false;
+            e.Handled = true;
+        }    
     }
 }
