@@ -11,10 +11,10 @@
     <Setting Name="Log2Monitor" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="LinkManager" Type="Cryptool.Plugins.PeerToPeer.Internal.P2PLinkManagerType" Scope="User">
+    <Setting Name="LinkManager" Type="Cryptool.P2P.Types.P2PLinkManagerType" Scope="User">
       <Value Profile="(Default)">Snal</Value>
     </Setting>
-    <Setting Name="Bootstrapper" Type="Cryptool.Plugins.PeerToPeer.Internal.P2PBootstrapperType" Scope="User">
+    <Setting Name="Bootstrapper" Type="Cryptool.P2P.Types.P2PBootstrapperType" Scope="User">
       <Value Profile="(Default)">IrcBootstrapper</Value>
     </Setting>
     <Setting Name="ConnectOnStartup" Type="System.Boolean" Scope="User">
@@ -30,9 +30,9 @@
       <Value Profile="(Default)">60</Value>
     </Setting>
     <Setting Name="UseLocalAddressDetection" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
+      <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="Architecture" Type="Cryptool.Plugins.PeerToPeer.Internal.P2PArchitecture" Scope="User">
+    <Setting Name="Architecture" Type="Cryptool.P2P.Types.P2PArchitecture" Scope="User">
       <Value Profile="(Default)">WebDHT</Value>
     </Setting>
     <Setting Name="ServerPort" Type="System.Int32" Scope="User">
