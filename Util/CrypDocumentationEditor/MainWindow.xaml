@@ -60,6 +60,15 @@
                         <Setter Property="Margin" Value="2"/>
                     </Style>
                 </RichTextBox.Resources>
+                <RichTextBox.CommandBindings>
+                    <CommandBinding Command="EditingCommands.ToggleBold" CanExecute="BlockTheCommand"/>
+                    <CommandBinding Command="EditingCommands.ToggleUnderline" CanExecute="BlockTheCommand"/>
+                    <CommandBinding Command="EditingCommands.ToggleItalic" CanExecute="BlockTheCommand"/>
+                    <CommandBinding Command="EditingCommands.AlignLeft" CanExecute="BlockTheCommand"/>
+                    <CommandBinding Command="EditingCommands.AlignRight" CanExecute="BlockTheCommand"/>
+                    <CommandBinding Command="EditingCommands.AlignCenter" CanExecute="BlockTheCommand"/>
+                    <CommandBinding Command="EditingCommands.AlignJustify" CanExecute="BlockTheCommand"/>
+                </RichTextBox.CommandBindings>
             </RichTextBox>
             <RichTextBox Grid.Column="1" ScrollViewer.VerticalScrollBarVisibility="Visible" Name="Introduction2" HorizontalAlignment="Left" VerticalAlignment="Top" MinHeight="100" Height="170" AcceptsReturn="True" TextChanged="Introduction_TextChanged" FontSize="14">
                 <RichTextBox.Resources>
@@ -67,6 +76,15 @@
                         <Setter Property="Margin" Value="2"/>
                     </Style>
                 </RichTextBox.Resources>
+                <RichTextBox.CommandBindings>
+                    <CommandBinding Command="EditingCommands.ToggleBold" CanExecute="BlockTheCommand"/>
+                    <CommandBinding Command="EditingCommands.ToggleUnderline" CanExecute="BlockTheCommand"/>
+                    <CommandBinding Command="EditingCommands.ToggleItalic" CanExecute="BlockTheCommand"/>
+                    <CommandBinding Command="EditingCommands.AlignLeft" CanExecute="BlockTheCommand"/>
+                    <CommandBinding Command="EditingCommands.AlignRight" CanExecute="BlockTheCommand"/>
+                    <CommandBinding Command="EditingCommands.AlignCenter" CanExecute="BlockTheCommand"/>
+                    <CommandBinding Command="EditingCommands.AlignJustify" CanExecute="BlockTheCommand"/>
+                </RichTextBox.CommandBindings>
             </RichTextBox>
         </Grid>
         <Label DockPanel.Dock="Top" Height="30">Usage:</Label>
@@ -81,6 +99,15 @@
                         <Setter Property="Margin" Value="2"/>
                     </Style>
                 </RichTextBox.Resources>
+                <RichTextBox.CommandBindings>
+                    <CommandBinding Command="EditingCommands.ToggleBold" CanExecute="BlockTheCommand"/>
+                    <CommandBinding Command="EditingCommands.ToggleUnderline" CanExecute="BlockTheCommand"/>
+                    <CommandBinding Command="EditingCommands.ToggleItalic" CanExecute="BlockTheCommand"/>
+                    <CommandBinding Command="EditingCommands.AlignLeft" CanExecute="BlockTheCommand"/>
+                    <CommandBinding Command="EditingCommands.AlignRight" CanExecute="BlockTheCommand"/>
+                    <CommandBinding Command="EditingCommands.AlignCenter" CanExecute="BlockTheCommand"/>
+                    <CommandBinding Command="EditingCommands.AlignJustify" CanExecute="BlockTheCommand"/>
+                </RichTextBox.CommandBindings>
             </RichTextBox>
             <RichTextBox Grid.Column="1" ScrollViewer.VerticalScrollBarVisibility="Visible" Name="Usage2" HorizontalAlignment="Left" VerticalAlignment="Top" MinHeight="100" Height="170" AcceptsReturn="True" TextChanged="Usage_TextChanged" FontSize="14">
                 <RichTextBox.Resources>
@@ -88,6 +115,15 @@
                         <Setter Property="Margin" Value="2"/>
                     </Style>
                 </RichTextBox.Resources>
+                <RichTextBox.CommandBindings>
+                    <CommandBinding Command="EditingCommands.ToggleBold" CanExecute="BlockTheCommand"/>
+                    <CommandBinding Command="EditingCommands.ToggleUnderline" CanExecute="BlockTheCommand"/>
+                    <CommandBinding Command="EditingCommands.ToggleItalic" CanExecute="BlockTheCommand"/>
+                    <CommandBinding Command="EditingCommands.AlignLeft" CanExecute="BlockTheCommand"/>
+                    <CommandBinding Command="EditingCommands.AlignRight" CanExecute="BlockTheCommand"/>
+                    <CommandBinding Command="EditingCommands.AlignCenter" CanExecute="BlockTheCommand"/>
+                    <CommandBinding Command="EditingCommands.AlignJustify" CanExecute="BlockTheCommand"/>
+                </RichTextBox.CommandBindings>
             </RichTextBox>
         </Grid>
         <Label DockPanel.Dock="Top" Height="30">Presentation:</Label>
@@ -102,6 +138,15 @@
                         <Setter Property="Margin" Value="2"/>
                     </Style>
                 </RichTextBox.Resources>
+                <RichTextBox.CommandBindings>
+                    <CommandBinding Command="EditingCommands.ToggleBold" CanExecute="BlockTheCommand"/>
+                    <CommandBinding Command="EditingCommands.ToggleUnderline" CanExecute="BlockTheCommand"/>
+                    <CommandBinding Command="EditingCommands.ToggleItalic" CanExecute="BlockTheCommand"/>
+                    <CommandBinding Command="EditingCommands.AlignLeft" CanExecute="BlockTheCommand"/>
+                    <CommandBinding Command="EditingCommands.AlignRight" CanExecute="BlockTheCommand"/>
+                    <CommandBinding Command="EditingCommands.AlignCenter" CanExecute="BlockTheCommand"/>
+                    <CommandBinding Command="EditingCommands.AlignJustify" CanExecute="BlockTheCommand"/>
+                </RichTextBox.CommandBindings>
             </RichTextBox>
             <RichTextBox Grid.Column="1" ScrollViewer.VerticalScrollBarVisibility="Visible" Name="Presentation2" HorizontalAlignment="Left" VerticalAlignment="Top" MinHeight="100" Height="170" AcceptsReturn="True" TextChanged="Presentation_TextChanged" FontSize="14">
                 <RichTextBox.Resources>
@@ -109,6 +154,15 @@
                         <Setter Property="Margin" Value="2"/>
                     </Style>
                 </RichTextBox.Resources>
+                <RichTextBox.CommandBindings>
+                    <CommandBinding Command="EditingCommands.ToggleBold" CanExecute="BlockTheCommand"/>
+                    <CommandBinding Command="EditingCommands.ToggleUnderline" CanExecute="BlockTheCommand"/>
+                    <CommandBinding Command="EditingCommands.ToggleItalic" CanExecute="BlockTheCommand"/>
+                    <CommandBinding Command="EditingCommands.AlignLeft" CanExecute="BlockTheCommand"/>
+                    <CommandBinding Command="EditingCommands.AlignRight" CanExecute="BlockTheCommand"/>
+                    <CommandBinding Command="EditingCommands.AlignCenter" CanExecute="BlockTheCommand"/>
+                    <CommandBinding Command="EditingCommands.AlignJustify" CanExecute="BlockTheCommand"/>
+                </RichTextBox.CommandBindings>
             </RichTextBox>
         </Grid>
         <Label DockPanel.Dock="Top" Height="30">References:</Label>
