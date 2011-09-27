@@ -36,26 +36,39 @@ namespace WorkspaceManager.View.VisualComponents
         {
             InitializeComponent();
             this.invoker = invoker;
+
             Type t = typeof(Brushes);
             PropertyInfo[] colors = t.GetProperties();
+            var brushes = new List<Brush>();
 
-            WrapPanel colorWrap = new WrapPanel();
-            colorWrap.Width = 450;
-            colorWrap.Height = 300;
             foreach (PropertyInfo color in colors)
             {
                 BrushConverter convertor = new BrushConverter();
                 Brush brush = convertor.ConvertFromString(color.Name) as Brush;
-                string hex = string.Format("#{0}", brush.ToString().Substring(3));
 
+                if (brush != null)
+                    brushes.Add(brush);
+            }
+
+            WrapPanel colorWrap = new WrapPanel();
+            colorWrap.Width = 450;
+            colorWrap.Height = 300;
+
+            foreach (Brush brush in brushes.OrderBy(b => b.ToString()))
+            {
                 Rectangle rectangle = new Rectangle();
 
-                if (color.Name == "Transparent")
+                if (brush.ToString() == "#00FFFFFF") // transparent
+                {
                     rectangle.Fill = this.Resources["transparent"] as VisualBrush;
+                    rectangle.ToolTip = "transparent";
+                }
                 else
+                {
                     rectangle.Fill = brush;
-
-                rectangle.ToolTip = hex;
+                    rectangle.ToolTip = string.Format("#{0}", brush.ToString().Substring(3)); // short format #RRGGBB
+                }
+                
                 rectangle.Height = 20;
                 rectangle.Width = 20;
                 rectangle.Margin = new Thickness(5, 5, 5, 5);
