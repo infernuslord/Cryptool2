@@ -230,41 +230,63 @@ Indem Sie dies wählen, können Sie einen mit dem Skytale-Algorithmus verschlüs
 
     <headline lang="en">Scytale Analysis</headline>
     <headline lang="de">Skytale-Analyse</headline>
-    <task lang="en">Please input the ciphertext and choose the dictionary to use.</task>
-    <task lang="de">Bitte geben Sie den chiffrierten Text ein und wählen das zu benutzende Wörterbuch aus.</task>
+    <task lang="en">Here you can perform a brute-force ciphertext-only attack on the Scytale cipher. The basic principle is that for each sticksize from one to the below given "maximum sticksize" a trial decryption is done, and all the decryptions are shown on the next screen. 
+    
+In order to also automatically detect the correct decryption, a dictionary of a natural language is used to check if a certain number of words can be found within this dictionary. Hence, to sucessfully detect the correct decryption you also need to set below the correct (assumed) language. Additionally you can also fine tune the detection algorithm by giving the amount of words which need to be found in the dictionary. Note that, giving a value which is to high will result in not detecting the text at all, and giving a to small value might lead to false positives, i.e. that some text is detected as a "correct" decryptions even though it is not correct.
+    </task>
+    <task lang="de">Hier können Sie einen Bruteforce Ciphertext-only Angriff der Skytale Chiffre durchführen. Das grundlegende Prinzip ist dass für jeden Stabdurchmesser von Eins bis zu der unten angegebenen "maximalen Stabicke" eine Probeentschlüsselung durchgeführt wird und alle Ergebnisse davon auf der nächsten Seite angezeigt werden. 
+    
+Um zusätzlich automatisch den korrekten entschlüsselten Text zu erkennen wird ein Wörterbuch einer natürlichen Sprache verwendet. Dabei wird für jede Probeentschlüsselung überprüft ob eine bestimmte Anzahl von Worten in dem angegebenen Wörterbuch gefunden werden können. Daher müssen Sie für eine erfolgreichen Erkennung des Textes unten die verwendete (angenommene) Sprache angeben. Des Weiteren kann die Erkennung noch weiter verbessert werden, wenn sie die Anzahl der Wörter angeben, welche in dem Wörterbuch gefunden werden müssen. Bedenken Sie, dass die Angabe eines zu großen Wertes zu keiner Erkennung führt und die Angabe eines zu kleinen Wertes die Wahrscheinlichkeit für sogenannte "false-positives" (d.h. Texte die als "korrekt" erkannt werden, aber es nicht wirklich sind) erhöht.
+    </task>
 
-    <inputBox plugin="Ciphertext" property="Text" visibleLines="10">
+    <inputBox plugin="Ciphertext" property="Text" visibleLines="12">
       <description lang="en">Ciphertext:</description>
-      <description lang="de">Chiffrierter Text:</description>
+      <description lang="de">Verschlüsselter Text:</description>
       <defaultvalue lang="en">Dtte tthceen ia_lbeaehlr. eldte e luf   eaekmrVuna  S ssaiieegh  ki tnlsrssr  ysaenicssve  </defaultvalue>
     </inputBox>
 
-    <comboBox plugin="CryptoolDictionary" property="Dictionary" defaultValue="1" width="20%" alignment="Left">
-      <description lang="en">Dictionary:</description>
-      <description lang="de">Wörterbuch:</description>
+
+    <inputBox plugin="to i = Max sticksize" property="Number" visibleLines="1" width="32,75%" group="parameters">
+      <description lang="en">Maximum sticksize:</description>
+      <description lang="de">Maximale Stabdicke:</description>
+      <defaultvalue lang="en">20</defaultvalue>
+    </inputBox>
+    
+    <comboBox plugin="CryptoolDictionary" property="Dictionary" defaultValue="1" width="32,75%" group="parameters">
+      <description lang="en">Assumed language:</description>
+      <description lang="de">Angenommene Sprache:</description>
       <item content="English Dictionary" lang="en"/>
       <item content="German Dictionary" lang="en"/>
     </comboBox>
 
-    <sampleViewer image="Scytale" file="Cryptanalysis\Classic\Scytale_ExhaustiveKeySearch.cwm">
-      <name lang="en" >Scytale Analysis</name>
-      <name lang="de" >Skytale-Analyse</name>
-      <description lang="en" >Scytale Analysis Output</description>
-      <description lang="de" >Skytale-Analyse: Ausgabe</description>
+    <inputBox plugin="Contains" property="Hits" visibleLines="1" width="32,75%" group="parameters">
+      <description lang="en">Number of words in dictionary:</description>
+      <description lang="de">Anzahl Wörter in Wörterbuch:</description>
+      <defaultvalue lang="en">3</defaultvalue>
+    </inputBox>
 
-      <headline lang="en">Scytale Analysis Output</headline>
-      <headline lang="de" >Skytale-Analyse: Ausgabe</headline>
-      <task lang="en">Here you can see the analysis of your ciphertext.</task>
-      <task lang="de">Hier können Sie die Analyse Ihres chiffrierten Textes sehen.</task>
+    
+    <sampleViewer image="Scytale" file="Cryptanalysis\Classic\Scytale_ExhaustiveKeySearch.cwm">
+      <name lang="en" >Results</name>
+      <name lang="de" >Ergebnisse</name>
+      <description lang="en" >Results from the Scytale Analysis</description>
+      <description lang="de" >Ergebnisse der Skytale-Analyse</description>
+
+      <headline lang="en">Results from the Scytale Analysis</headline>
+      <headline lang="de">Ergebnisse der Skytale-Analyse</headline>
+      <task lang="en">On this page you can see the results of the Scytale cryptanalysis. In the upper textblock the probable plaintext is displayed and in the textblock below you can see all possible results from all trial decryptions with the different sticksizes used. In case that the correct decryption was not detected go back to the previous page and try to adjust the used language and the number of words needed in order to obtain a better result. If no correct decryption can be found within all decrypted texts, you should try to increase the maximum sticksize.
+      </task>
+      <task lang="de">Auf dieser Seite sehen Sie das Ergebnis der Skytale-Kryptoanalyse. Im oberen Feld wird der erkannte Text angezeigt und im darunterliegenden Feld alle möglichen Ergebnisse der Probeentschlüsselung mit den verschiedenen Stabdicken. Sollte der korrekte Text nicht erkannt werden, dann gehen Sie zurück auf die vorherige Seite und versuchen durch Veränderung der Sprache bzw. der Anzahl der gesuchten Wörter ein besseres Ergebnis zu erhalten. Inofern auch in dem Feld aller möglichen Entschlüsselungen kein korrekter Text erkannt werden kann, sollten Sie probieren die maximale Stabdicke hochzusetzen.
+      </task>
 
       <outputBox plugin="Plaintext" property="CurrentValue" visibleLines="5">
-        <description lang="en">Plaintext:</description>
-        <description lang="de">Klartext:</description>
+        <description lang="en">Probable Plaintext:</description>
+        <description lang="de">Wahrscheinlicher Klartext:</description>
       </outputBox>
       
       <presentation plugin="All possible plaintexts">
-        <description lang="en">All possible plaintexts:</description>
-        <description lang="de">Alle möglichen Klartexte:</description>
+        <description lang="en">All possible decryptions:</description>
+        <description lang="de">Alle möglichen Entschlüsselungen:</description>
       </presentation>
     </sampleViewer>
   </input>
