@@ -1004,7 +1004,7 @@ namespace WorkspaceManager.View.BinVisual
                         {
                             BinConnectorVisual b = element as BinConnectorVisual;
                             SelectedConnector = b;
-                            draggedLink.SetBinding(CryptoLineView.IsLinkingProperty, new Binding() { Source = this, Path = new PropertyPath(BinEditorVisual.IsLinkingProperty) });
+                            //draggedLink.SetBinding(CryptoLineView.IsLinkingProperty, new Binding() { Source = this, Path = new PropertyPath(BinEditorVisual.IsLinkingProperty) });
                             draggedLink.SetBinding(CryptoLineView.StartPointProperty, Util.CreateConnectorBinding(b, draggedLink));
                             draggedLink.EndPoint = e.GetPosition(sender as FrameworkElement);
                             VisualCollection.Add(draggedLink);
