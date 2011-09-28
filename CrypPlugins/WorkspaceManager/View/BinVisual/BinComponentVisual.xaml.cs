@@ -794,6 +794,10 @@ namespace WorkspaceManager.View.BinVisual
                 case "setting":
                     State = BinComponentState.Setting;
                     break;
+
+                case "info":
+                    OnlineHelp.InvokeShowPluginDocPage(model.PluginType);
+                    break;
             }
             editor.IsFullscreenOpen = true;
             editor.FullscreenVisual.ActiveComponent = this;
