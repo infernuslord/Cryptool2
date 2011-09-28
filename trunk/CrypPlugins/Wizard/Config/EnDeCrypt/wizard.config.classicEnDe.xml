@@ -580,7 +580,7 @@ Die erste Enigma wurde von dem deutschen Ingenieur Arthur Scherbius am Ende des 
       <defaultvalue lang="en">A secret message</defaultvalue>
     </inputBox>
 
-    <inputBox plugin="Key" property="Text" alignment="Stretch" width="49%" visibleLines="5" group="InputGroup" regex="[0-9]+">
+    <inputBox plugin="Key" property="Number" alignment="Stretch" width="49%" visibleLines="5" group="InputGroup" regex="[0-9]+">
       <description lang="en">Key:</description>
       <description lang="de">Schlüssel:</description>
       <defaultvalue>11</defaultvalue>

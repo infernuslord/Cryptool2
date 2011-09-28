@@ -246,7 +246,7 @@ Um zusätzlich automatisch den korrekten entschlüsselten Text zu erkennen wird 
     </inputBox>
 
 
-    <inputBox plugin="to i = Max sticksize" property="Number" visibleLines="1" width="32,75%" group="parameters">
+    <inputBox plugin="to i = Max sticksize" property="Number" visibleLines="1" width="32,75%" group="parameters" regex="[0-9]+">
       <description lang="en">Maximum sticksize:</description>
       <description lang="de">Maximale Stabdicke:</description>
       <defaultvalue lang="en">20</defaultvalue>
@@ -259,7 +259,7 @@ Um zusätzlich automatisch den korrekten entschlüsselten Text zu erkennen wird 
       <item content="German Dictionary" lang="en"/>
     </comboBox>
 
-    <inputBox plugin="Contains" property="Hits" visibleLines="1" width="32,75%" group="parameters">
+    <inputBox plugin="Contains" property="Hits" visibleLines="1" width="32,75%" group="parameters" regex="[0-9]+">
       <description lang="en">Number of words in dictionary:</description>
       <description lang="de">Anzahl Wörter in Wörterbuch:</description>
       <defaultvalue lang="en">3</defaultvalue>
