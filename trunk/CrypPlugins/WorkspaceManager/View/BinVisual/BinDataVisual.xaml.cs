@@ -106,6 +106,7 @@ namespace WorkspaceManager.View.BinVisual
             IPluginInformation newInfo = (IPluginInformation)e.NewValue;
             IPluginInformation oldInfo = (IPluginInformation)e.OldValue;
             b.lastActiveConnector = oldInfo;
+
             if (newInfo == null)
             {
                 b.timer.Stop();
@@ -150,7 +151,7 @@ namespace WorkspaceManager.View.BinVisual
                 return model.LastData.ToString();
             } 
         }
-        public string ConnectorName { get; private set; }
+        public string Caption { get; private set; }
         public string TypeName { get; private set; }
         public bool IsOutgoing { get; private set; }
         public bool IsMandatory { get; private set; }
@@ -162,7 +163,7 @@ namespace WorkspaceManager.View.BinVisual
         {
             this.model = model;
             Color = new SolidColorBrush(ColorHelper.GetLineColor(model.ConnectorType));
-            ConnectorName = model.GetName();
+            Caption = model.Caption;
             IsOutgoing = model.Outgoing;
             IsMandatory = model.IsMandatory;
             TypeName = model.ConnectorType != null ? model.ConnectorType.Name : Properties.Resources.Class_Not_Found;

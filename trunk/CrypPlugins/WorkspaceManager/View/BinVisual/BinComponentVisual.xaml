@@ -12,6 +12,34 @@
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
              DataContext="{Binding RelativeSource={x:Static RelativeSource.Self}}">
+    <UserControl.ContextMenu>
+        <ContextMenu>
+            <MenuItem Click="ContextMenuClick" Header="Presentation" Tag="presentation" IsEnabled="{Binding Path=HasComponentPresentation, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+                <MenuItem.Icon>
+                    <Image Width="18" Height="18" Source="/WorkspaceManager;component/View/Image/presentation.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"></Image>
+                </MenuItem.Icon>
+            </MenuItem>
+
+            <MenuItem Click="ContextMenuClick" Header="Setting" Tag="setting">
+                <MenuItem.Icon>
+                    <Image Width="18" Height="18" Source="/WorkspaceManager;component/View/Image/setting.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"></Image>
+                </MenuItem.Icon>
+            </MenuItem>
+
+            <MenuItem Click="ContextMenuClick" Header="Message Log" Tag="log">
+                <MenuItem.Icon>
+                    <Image Width="18" Height="18" Source="/WorkspaceManager;component/View/Image/log.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"></Image>
+                </MenuItem.Icon>
+            </MenuItem>
+
+            <MenuItem Click="ContextMenuClick" Header="Data" Tag="data">
+                <MenuItem.Icon>
+                    <Image Width="18" Height="18" Source="/WorkspaceManager;component/View/Image/data.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"></Image>
+                </MenuItem.Icon>
+            </MenuItem>
+            <Separator></Separator>
+        </ContextMenu>
+    </UserControl.ContextMenu>
     <UserControl.RenderTransform>
         <TranslateTransform X="{Binding Path=Position.X}" Y="{Binding Path=Position.Y}"></TranslateTransform>
     </UserControl.RenderTransform>
@@ -388,6 +416,13 @@
         </Style>
 
         <x:Array Type="{x:Type Button}" x:Key="Actions">
+            <Button ToolTip="{Loc PresentationTooltip}" Style="{StaticResource ResourceKey=PresentationBtnStyle}" Click="ActionHandler">
+                <Button.Tag>
+                    <Image Source="/WorkspaceManager;component/View/Image/presentation.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"></Image>
+                </Button.Tag>
+                <model:BinComponentState>Presentation</model:BinComponentState>
+            </Button>
+
             <Button ToolTip="{Loc SettingsTooltip}" Style="{StaticResource ResourceKey=ActionBasicStyle}" Click="ActionHandler">
                 <Button.Tag>
                     <Image Source="/WorkspaceManager;component/View/Image/setting.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"></Image>
@@ -407,13 +442,6 @@
                     <Image Source="/WorkspaceManager;component/View/Image/data.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"></Image>
                 </Button.Tag>
                 <model:BinComponentState>Data</model:BinComponentState>
-            </Button>
-            
-            <Button ToolTip="{Loc PresentationTooltip}" Style="{StaticResource ResourceKey=PresentationBtnStyle}" Click="ActionHandler">
-                <Button.Tag>
-                    <Image Source="/WorkspaceManager;component/View/Image/presentation.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"></Image>
-                </Button.Tag>
-                <model:BinComponentState>Presentation</model:BinComponentState>
             </Button>
             
             <Button ToolTip="{Loc InformationTooltip}" Style="{StaticResource ResourceKey=ActionBasicStyle}" Click="ActionHandler">
@@ -560,6 +588,27 @@
 
         <Thumb x:Name="ScaleThumb" Style="{StaticResource ResourceKey=ScaleThumb}"  Margin="0,0,5,5" VerticalAlignment="Bottom" HorizontalAlignment="Right"
                                Cursor="SizeNWSE" DragDelta="ScaleDragDeltaHandler"></Thumb>
+        
+        <!--<Thumb x:Name="ScaleThumb2" Style="{StaticResource ResourceKey=ScaleThumb}"  Margin="0,5,5,0" VerticalAlignment="Top" HorizontalAlignment="Right"
+                               Cursor="SizeNWSE" DragDelta="ScaleDragDeltaHandler">
+            <Thumb.LayoutTransform>
+                <RotateTransform Angle="-90"></RotateTransform>
+            </Thumb.LayoutTransform>
+        </Thumb>
+        
+        <Thumb x:Name="ScaleThumb3" Style="{StaticResource ResourceKey=ScaleThumb}"  Margin="5,0,0,5" VerticalAlignment="Bottom" HorizontalAlignment="Left"
+                               Cursor="SizeNWSE" DragDelta="ScaleDragDeltaHandler">
+            <Thumb.LayoutTransform>
+                <RotateTransform Angle="-270"></RotateTransform>
+            </Thumb.LayoutTransform>
+        </Thumb>
+
+        <Thumb x:Name="ScaleThumb4" Style="{StaticResource ResourceKey=ScaleThumb}"  Margin="5,5,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"
+                               Cursor="SizeNWSE" DragDelta="ScaleDragDeltaHandler">
+            <Thumb.LayoutTransform>
+                <RotateTransform Angle="-180"></RotateTransform>
+            </Thumb.LayoutTransform>
+        </Thumb>
 
         <Grid RenderTransformOrigin="0.5,0.5" Margin="0" IsHitTestVisible="False">
             <Rectangle Style="{StaticResource ResourceKey=ErrorEllStyle}">
@@ -567,7 +616,7 @@
                     <BlurEffect Radius="30"></BlurEffect>
                 </Rectangle.Effect>
             </Rectangle>
-        </Grid>
+        </Grid>-->
 
         <Grid Grid.Row="0">
             <!--##########Definitions##########-->
@@ -685,8 +734,6 @@
                         <ContentPresenter Style="{StaticResource ResourceKey=ContentPresenterStyle}" Grid.Column="0" Grid.Row="1">
                     
                         </ContentPresenter>
-                        <Image Style="{StaticResource ResourceKey=IconPresentationStyle}" Height="30" Width="30" Grid.Column="0" Grid.Row="1"
-                               VerticalAlignment="Top" HorizontalAlignment="Right" Source="/WorkspaceManager;component/View/Image/presIcon.png"></Image>
                         <!--##########/Content##########-->
 
                         <ContentPresenter x:Name="Notifier" Content="{Binding Path=LogNotifier}" Grid.Column="0" Grid.Row="2"></ContentPresenter>
@@ -698,7 +745,10 @@
             </Border>
             <!--##########/Window##########-->
         </Grid>
-        
+
+        <Image Style="{StaticResource ResourceKey=IconPresentationStyle}" Height="25" Width="25" Margin="0,37,25,0"
+                               VerticalAlignment="Top" HorizontalAlignment="Right" Source="/WorkspaceManager;component/View/Image/presIcon.png"></Image>
+
         <!--##########Name##########-->
         <local:CustomTextBox Style="{StaticResource ResourceKey=TextBoxStyle}" ToolTip="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Text}"
                              Text="{Binding Path=CustomName, Mode=TwoWay}" Width="{Binding ElementName=Window, Path=ActualWidth}" IsSelected="{Binding Path=IsSelected}"

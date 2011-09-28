@@ -71,10 +71,10 @@
                                 <Style TargetType="{x:Type Path}">
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding Path=IsMandatory}" Value="true">
-                                            <Setter Property="Stroke" Value="Green"></Setter>
+                                            <Setter Property="Stroke" Value="Black"></Setter>
                                         </DataTrigger>
                                         <DataTrigger Binding="{Binding Path=IsMandatory}" Value="false">
-                                            <Setter Property="Stroke" Value="Red"></Setter>
+                                            <Setter Property="Stroke" Value="#AAA"></Setter>
                                         </DataTrigger>
                                             <DataTrigger Binding="{Binding Path=IsOutgoing}" Value="true">
                                                 <Setter Property="LayoutTransform">
@@ -156,7 +156,7 @@
                                     </Grid.ColumnDefinitions>
                                     <Thumb Style="{StaticResource ResourceKey=ConnectorStyle}" Grid.Column="0" Grid.Row="0"></Thumb>
                                     <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="1" Grid.Row="0">
-                                        <TextBlock FontWeight="Bold" FontSize="13" Foreground="#555" Text="{Binding Path=ConnectorName}" TextTrimming="CharacterEllipsis"></TextBlock>
+                                        <TextBlock FontWeight="Bold" FontSize="13" Foreground="#555" Text="{Binding Path=Caption}" TextTrimming="CharacterEllipsis"></TextBlock>
                                         <TextBlock FontSize="11" Foreground="{Binding Path=Color}" Text="{Binding Path=TypeName}" TextTrimming="CharacterEllipsis"></TextBlock>
                                     </StackPanel>
                                 </Grid>
@@ -198,7 +198,7 @@
         </ScrollViewer>
 
         <StackPanel Orientation="Vertical" Grid.Row="2" Margin="3">
-            <TextBlock FontWeight="Bold" FontSize="12" Foreground="#555" Text="{Binding Path=ActiveConnector.ConnectorName}" TextWrapping="Wrap"></TextBlock>
+            <TextBlock FontWeight="Bold" FontSize="12" Foreground="#555" Text="{Binding Path=ActiveConnector.Caption}" TextWrapping="Wrap"></TextBlock>
             <TextBlock FontSize="10" Foreground="{Binding Path=ActiveConnector.Color}" Text="{Binding Path=ActiveConnector.TypeName}" TextWrapping="Wrap"></TextBlock>
         </StackPanel>
         

@@ -56,13 +56,14 @@ namespace WorkspaceManager
     /// Workspace Manager - PluginEditor based on MVC Pattern
     /// </summary>
     [EditingInfoAttribute(true)]
-    [TabColor("Lime")]
+    [TabColor("SlateGray")]
     [EditorInfo("cwm")]
     [Author("Viktor Matkovic,Nils Kopal", "nils.kopal@cryptool.org", "Universität Duisburg-Essen", "http://www.uni-due.de")]
     [PluginInfo("WorkspaceManager.Properties.Resources", false, "PluginCaption", "PluginTooltip", "WorkspaceManager/Documentation/doc.xml", "WorkspaceManager/View/Image/WorkspaceManagerIcon.ico")]
     public class WorkspaceManager : IEditor
     {
         public event EventHandler SampleLoaded;
+        public event EventHandler<LoadingErrorEventArgs> LoadingErrorOccurred;
 
         /// <summary>
         /// Create a new Instance of the Editor
@@ -205,7 +206,10 @@ namespace WorkspaceManager
             }
             catch (Exception ex)
             {
-                GuiLogMessage("Could not load Model:" + ex.ToString(), NotificationLevel.Error);
+                string s = ex.ToString();
+                GuiLogMessage( "Could not load Model:" +s, NotificationLevel.Error);
+                if(LoadingErrorOccurred != null)
+                    LoadingErrorOccurred.Invoke(this, new LoadingErrorEventArgs() { Message = s });
             }
         }
 
@@ -985,6 +989,11 @@ namespace WorkspaceManager
                 ((BinEditorVisual)Presentation).AddImage(uriLocal);
             }
         }
+    }
+
+    public class LoadingErrorEventArgs : EventArgs
+    {
+        public string Message { get; set; }
     }
 }
 

@@ -256,6 +256,12 @@ namespace WorkspaceManager.Model
         public string ToolTip { get; internal set; }
 
         /// <summary>
+        /// ToolTip of this Connector
+        /// </summary>
+        [NonSerialized]
+        public string Caption = string.Empty;
+
+        /// <summary>
         /// Plugin informs the Connector that a PropertyChanged
         /// </summary>
         /// <param name="sender"></param>

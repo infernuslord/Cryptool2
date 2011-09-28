@@ -223,13 +223,16 @@
             <Border ClipToBounds="True" Grid.Column="0" Grid.Row="1">
                 <!--##########Content##########-->
                 <Grid>
-                    <RichTextBox x:Name="mainRTB" Foreground="Black" AcceptsTab="True" OverridesDefaultStyle="True" TextChanged="TextChangedHandler"
-                             BorderBrush="#888" BorderThickness="1" ></RichTextBox>
+                    <ScrollViewer>
+                        <RichTextBox x:Name="mainRTB" Foreground="Black" AcceptsTab="True" OverridesDefaultStyle="True" TextChanged="TextChangedHandler"
+                             BorderBrush="#888" BorderThickness="1" Focusable="{Binding Path=IsSelected}" VerticalScrollBarVisibility="Auto"></RichTextBox>
+                    </ScrollViewer>
+
                     
                     <!--<Thumb x:Name="ContentThumb" Style="{StaticResource ResourceKey=InvisibleThumbStyle}"
                         DragDelta="PositionDragDeltaHandler"></Thumb>-->
 
-                    <Thumb x:Name="ScaleThumb" Style="{StaticResource ResourceKey=ScaleThumb}" Margin="2" VerticalAlignment="Bottom" HorizontalAlignment="Right"
+                    <Thumb x:Name="ScaleThumb" Style="{StaticResource ResourceKey=ScaleThumb}" Margin="0,0,20,5" VerticalAlignment="Bottom" HorizontalAlignment="Right"
                         Cursor="SizeNWSE" DragDelta="ScaleDragDeltaHandler"></Thumb>
 
 

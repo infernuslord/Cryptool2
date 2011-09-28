@@ -7,13 +7,48 @@
              xmlns:properties="clr-namespace:Cryptool.PluginBase.Properties;assembly=CrypPluginBase"
              xmlns:local="clr-namespace:WorkspaceManager.View.BinVisual"
              xmlns:model="clr-namespace:WorkspaceManager.Model;assembly=WorkspaceManagerModel"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
              DataContext="{Binding RelativeSource={x:Static RelativeSource.Self}}" ToolTip="{Loc NewWorkspaceTooltip}">
     <UserControl.Resources>
         <SolidColorBrush x:Key="SolidColorBackground" Color="#add3f5"></SolidColorBrush>
         <local:testconverter x:Key="testconverter"></local:testconverter>
-        
+
+        <LinearGradientBrush x:Key="ErrorBG" StartPoint="0,0" EndPoint="0,1">
+            <GradientStop Color="#a51327" Offset="0" />
+            <GradientStop Color="#5c0000" Offset="1" />
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="ButtonBG" StartPoint="0,0" EndPoint="0,1">
+            <GradientStop Color="#81c05e" Offset="0" />
+            <GradientStop Color="#559e2d" Offset="1" />
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="ButtonBGMouseOver" StartPoint="0,0" EndPoint="0,1">
+            <GradientStop Color="#71dbe5" Offset="0" />
+            <GradientStop Color="#37a1bf" Offset="1" />
+        </LinearGradientBrush>
+
+        <ControlTemplate x:Key="CtrlTemplate" TargetType="{x:Type ButtonBase}">
+            <Border x:Name="Border" Background="{StaticResource ResourceKey=ButtonBG}" CornerRadius="4"
+                    Height="{TemplateBinding Height}" Width="{TemplateBinding Width}" BorderBrush="#44692f" BorderThickness="1">
+                <TextBlock Text="{TemplateBinding Content}" FontWeight="Bold" Foreground="White" TextAlignment="Center" VerticalAlignment="Center"></TextBlock>
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsMouseOver" Value="true">
+                    <Setter Property="Background" Value="{StaticResource ResourceKey=ButtonBGMouseOver}" TargetName="Border" />
+                </Trigger>
+                <Trigger Property="IsPressed" Value="true">
+                    <Setter Property="BorderBrush" Value="#94ab87" TargetName="Border" />
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+
+        <Style TargetType="{x:Type Button}" x:Key="ActionBasicStyle">
+            <Setter Property="Template" Value="{StaticResource ResourceKey=CtrlTemplate}"></Setter>
+        </Style>
+
         <Style x:Key="LoadingScrollViewerStyle" TargetType="{x:Type ScrollViewer}">
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Path=IsLoading}" Value="True">
@@ -30,6 +65,15 @@
                     <Setter Property="Visibility" Value="Collapsed"/>
                 </DataTrigger>
             </Style.Triggers>
+        </Style>
+
+        <Style x:Key="ErrorScreenStyle" TargetType="{x:Type Grid}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=HasLoadingError}" Value="False">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                </DataTrigger>
+            </Style.Triggers>
+            <Setter Property="Background" Value="{StaticResource ResourceKey=ErrorBG}"></Setter>
         </Style>
 
         <Style x:Key="ContentPresenterStyle" TargetType="{x:Type ContentPresenter}">
@@ -75,12 +119,6 @@
         </ScrollViewer>
         <!--##########/Content Space##########-->
 
-        <!--##########Loading##########-->
-        <Grid x:Name="LoadingGrid" Style="{StaticResource ResourceKey=LoadingScreenStyle}" Grid.Row="0" Grid.Column="0">
-            <TextBlock Text="{Loc Loading_}" FontFamily="DejaVu Sans" FontSize="50" FontWeight="Heavy" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
-        </Grid>
-        <!--##########/Loading##########-->
-
         <!--##########Fullscreen##########-->
         <ContentPresenter x:Name="FullScreen" Style="{StaticResource ResourceKey=ContentPresenterStyle}" Grid.Row="0" Grid.Column="0">
             <ContentPresenter.Content>
@@ -98,5 +136,43 @@
 
         <visuals:TextEditPanel Grid.RowSpan="3"  Grid.Column="0"></visuals:TextEditPanel>
         <!--##########/Bottom Operations##########-->
+
+
+        <!--##########Loading##########-->
+        <Grid x:Name="LoadingGrid" Style="{StaticResource ResourceKey=LoadingScreenStyle}" Grid.Row="0" Grid.Column="0">
+            <TextBlock Text="{Loc Loading_}" FontFamily="DejaVu Sans" FontSize="50" FontWeight="Heavy" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+        </Grid>
+        <!--##########/Loading##########-->
+
+        <!--##########Error##########-->
+        <Grid x:Name="ErrorGrid" Style="{StaticResource ResourceKey=ErrorScreenStyle}" Grid.Row="0" Grid.Column="0">
+            <Border Background="White" Margin="90,20,90,50" CornerRadius="10">
+                <Border.Effect>
+                    <DropShadowEffect></DropShadowEffect>
+                </Border.Effect>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="70"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Image VerticalAlignment="Top" Source="/WorkspaceManager;component/View/Image/error01.png" Width="50" Height="50" Grid.Column="0"></Image>
+                    <Grid Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition Height="50"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="Error: File loading failed" FontSize="22" FontWeight="Bold" Foreground="#770000" VerticalAlignment="Center"></TextBlock>
+                        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                            <TextBlock Text="{Binding Path=LoadingErrorText}" LineHeight="18" FontSize="14"></TextBlock>
+                        </ScrollViewer>
+                        <Button Style="{StaticResource ResourceKey=ActionBasicStyle}" Grid.Row="2" Height="25" Width="125" HorizontalAlignment="Left" Click="CopyToClipboardClick">
+                            <sys:String>Copy To Clipboard</sys:String>
+                        </Button>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Grid>
+        <!--##########/Error##########-->
     </Grid>
 </UserControl>

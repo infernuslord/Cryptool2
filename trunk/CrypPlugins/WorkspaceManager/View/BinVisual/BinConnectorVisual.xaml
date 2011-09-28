@@ -29,6 +29,13 @@
             </GradientBrush.GradientStops>
         </LinearGradientBrush>
 
+        <LinearGradientBrush x:Key="DescriptionBG" StartPoint="0,0" EndPoint="0,1">
+            <GradientStop Color="#71dbe5" Offset="0" />
+            <GradientStop Color="#37a1bf" Offset="1" />
+            <!--<GradientStop Color="#81c05e" Offset="0" />
+            <GradientStop Color="#559e2d" Offset="1" />-->
+        </LinearGradientBrush>
+
         <LinearGradientBrush x:Key="BackgroundOK" StartPoint="0,0" EndPoint="0,1">
             <GradientBrush.GradientStops>
                 <GradientStopCollection>
@@ -72,10 +79,10 @@
                                 <Style TargetType="{x:Type Path}">
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding Path=IsMandatory}" Value="true">
-                                            <Setter Property="Stroke" Value="Green"></Setter>
+                                            <Setter Property="Stroke" Value="Black"></Setter>
                                         </DataTrigger>
                                         <DataTrigger Binding="{Binding Path=IsMandatory}" Value="false">
-                                            <Setter Property="Stroke" Value="Red"></Setter>
+                                            <Setter Property="Stroke" Value="#AAA"></Setter>
                                         </DataTrigger>
                                     </Style.Triggers>
                                     <Setter Property="Stroke" Value="#373e43"></Setter>
@@ -181,7 +188,8 @@
             <Setter Property="TextAlignment" Value="Center"></Setter>
         </Style>
 
-        <Border x:Key="NormalTooltipTemplate" BorderBrush="White" BorderThickness="1.5" CornerRadius="3" Margin="2" Background="#edf5ff">
+        <Border x:Key="NormalTooltipTemplate" BorderBrush="White" BorderThickness="1.5" Width="200" 
+                CornerRadius="3" Margin="2" Background="#edf5ff">
             <Border.Effect>
                 <DropShadowEffect BlurRadius="5" Opacity="0.5" ShadowDepth="0"></DropShadowEffect>
             </Border.Effect>
@@ -189,6 +197,7 @@
                 <Grid HorizontalAlignment="Left">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="32"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
                         <RowDefinition Height="*"></RowDefinition>
                     </Grid.RowDefinitions>
                     <Grid HorizontalAlignment="Center">
@@ -229,14 +238,19 @@
                                     <Setter Property="Grid.Column" Value="1"></Setter>
                                 </Style>
                             </StackPanel.Style>
-                            <TextBlock FontWeight="Bold" FontSize="13" Foreground="#555" Text="{Binding Path=ConnectorName}" TextTrimming="CharacterEllipsis"></TextBlock>
+                            <TextBlock FontWeight="Bold" FontSize="12" Foreground="#555" Text="{Binding Path=Caption}" TextTrimming="CharacterEllipsis"></TextBlock>
                             <TextBlock FontSize="11" Foreground="{Binding Path=FunctionColor}" Text="{Binding Path=TypeName}" TextTrimming="CharacterEllipsis"></TextBlock>
                         </StackPanel>
                         <Thumb Style="{StaticResource ResourceKey=ConnectorStyle}"></Thumb>
                     </Grid>
-                    <TextBlock Height="100" Width="200" Background="#CCFFFFFF" Text="{Binding Path=Data}" TextTrimming="CharacterEllipsis" TextWrapping="Wrap" Grid.Row="1">
+                    <TextBlock Height="100" Width="200" Background="#CCFFFFFF" Text="{Binding Path=Data}" 
+                               TextTrimming="CharacterEllipsis" TextWrapping="Wrap" Grid.Row="1">
 
                     </TextBlock>
+                    <Border Background="{StaticResource ResourceKey=DescriptionBG}" Grid.Row="2">
+                        <TextBlock Text="{Binding Path=Description}" Foreground="White" FontSize="10" LineHeight="11" 
+                                   TextAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap"></TextBlock>
+                    </Border>
                 </Grid>
             </Grid>
         </Border>
@@ -307,7 +321,7 @@
 
         <StackPanel x:Key="Out" Orientation="Horizontal" HorizontalAlignment="Center">
             <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <TextBlock FontWeight="Bold" FontSize="13" Foreground="#555" Text="{Binding Path=ConnectorName}" TextTrimming="CharacterEllipsis"></TextBlock>
+                <TextBlock FontWeight="Bold" FontSize="12" Foreground="#555" Text="{Binding Path=Caption}" TextTrimming="CharacterEllipsis"></TextBlock>
                 <TextBlock FontSize="11" Foreground="{Binding Path=FunctionColor}" Text="{Binding Path=TypeName}" TextTrimming="CharacterEllipsis"></TextBlock>
             </StackPanel>
             <Thumb Style="{StaticResource ResourceKey=ConnectorStyle}"></Thumb>
@@ -315,7 +329,7 @@
 
         <StackPanel x:Key="In" Orientation="Horizontal" HorizontalAlignment="Center">
             <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <TextBlock FontWeight="Bold" FontSize="13" Foreground="#555" Text="{Binding Path=ConnectorName}" TextTrimming="CharacterEllipsis"></TextBlock>
+                <TextBlock FontWeight="Bold" FontSize="12" Foreground="#555" Text="{Binding Path=Caption}" TextTrimming="CharacterEllipsis"></TextBlock>
                 <TextBlock FontSize="11" Foreground="{Binding Path=FunctionColor}" Text="{Binding Path=TypeName}" TextTrimming="CharacterEllipsis"></TextBlock>
             </StackPanel>
             <Thumb Style="{StaticResource ResourceKey=ConnectorStyle}"></Thumb>
