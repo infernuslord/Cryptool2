@@ -37,6 +37,7 @@ namespace WorkspaceManager.View.BinVisual
         private IPlugin plugin;
         private EntryGroup entgrou;
         private BinComponentVisual bcv;
+        
 
         public BinSettingsVisual(IPlugin plugin, BinComponentVisual bcv)
         {
@@ -46,31 +47,68 @@ namespace WorkspaceManager.View.BinVisual
             drawList(this.entgrou);
             this.bcv = bcv;
             ((WorkspaceManager)bcv.Model.WorkspaceModel.MyEditor).executeEvent += new EventHandler(excuteEventHandler);
-            plugin.Settings.PropertyChanged += myTaskPaneAttributeChangedHandler;
+            //plugin.Settings.PropertyChanged += myTaskPaneAttributeChangedHandler;
             
             
         }
 
 
-        private void myTaskPaneAttributeChangedHandler(Object sender, EventArgs args) 
+        private void myTaskPaneAttributeChangedHandler(Object sender, TaskPaneAttributeChangedEventArgs args) 
         {
             plugin.Settings.GetTaskPaneAttributeChanged();
+
             Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
-                
-                //textBoxTooltip.Text = plugin.Settings.GetTaskPaneAttributeChanged().Name.ToString();
-                
-                // under construction!!!
+                foreach (List<ControlEntry> cel in entgrou.entryList)
+                {
+                    entgrou.gorupPanel[entgrou.entryList.IndexOf(cel)].Visibility = System.Windows.Visibility.Visible;
+                    Boolean allinvisble = true;
+                    
+                    foreach (ControlEntry ce in cel)
+                    {
+                        
+                        foreach (TaskPaneAttribteContainer tpac in args.ListTaskPaneAttributeContainer)
+                        {
+                            if (ce.tpa.PropertyName == tpac.Property)
+                            {
+                                if (tpac.Visibility == System.Windows.Visibility.Collapsed)
+                                    {
+                                        ce.element.Visibility = System.Windows.Visibility.Hidden;
+                                        ce.caption.Visibility = System.Windows.Visibility.Hidden;
+                                        
+                                    }
+                                else
+                                    {
+                                        ce.element.Visibility = tpac.Visibility;
+                                        ce.caption.Visibility = tpac.Visibility;
+                                        
+                                    }
+                            }
+                            if (ce.element.Visibility == System.Windows.Visibility.Visible)
+                            {
+                                allinvisble = false;
+                            }
+                        }
+                        
+
+                    }
+                    if (allinvisble)
+                    {
+                        entgrou.gorupPanel[entgrou.entryList.IndexOf(cel)].Visibility = System.Windows.Visibility.Collapsed;
+
+                    }
+                }
             }, null);
 
         }
 
         private void excuteEventHandler(Object sender, EventArgs args)
         {
+            
             Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
 
-            
+                
                 foreach (List<ControlEntry> cel in entgrou.entryList)
                 {
                     foreach (ControlEntry ce in cel)
@@ -121,10 +159,6 @@ namespace WorkspaceManager.View.BinVisual
 
         private void drawList(EntryGroup entgrou) 
         {
-            List<StackPanel> gridList = new List<StackPanel>();
-            
-           
-
                 foreach (List<ControlEntry> cel in entgrou.entryList)
                 {
                     Expander testexoander = new Expander();
@@ -144,8 +178,11 @@ namespace WorkspaceManager.View.BinVisual
                     testexoander.IsExpanded = true;
                     
                     TestPanel test = new TestPanel();
-                    
+
+                    entgrou.gorupPanel.Add(testexoander);
+
                     test.Name = "border1";
+
                     //test.Background = Brushes.AliceBlue;
 
                     //test.IsExpanded = true;
@@ -191,14 +228,18 @@ namespace WorkspaceManager.View.BinVisual
 
                     foreach (ControlEntry ce in cel) 
                     {
+                        
+                        TextBlock title = new TextBlock();
+                        ce.caption = title;
+
                         if (ce.sfa == null)
                         {
-                            TextBlock title = new TextBlock();
                             
+                           
                             title.Text = ce.tpa.Caption;
                             title.TextWrapping = TextWrapping.Wrap;
                             
-                            if (ce.element is CheckBox|| ce.element is Button)
+                            if (ce.element is CheckBox || ce.element is Button)
                             {
                                 Label l = new Label();
                                 l.Height = 0;
@@ -235,8 +276,9 @@ namespace WorkspaceManager.View.BinVisual
                                     controlGrid.ColumnDefinitions.Add(new ColumnDefinition());
                                     //controlGrid.ColumnDefinitions.Add(new ColumnDefinition());
 
-                                    TextBlock title = new TextBlock();
+                                    //TextBlock title = new TextBlock();
                                     title.Text = ce.tpa.Caption;
+                                    ce.caption = title;
                                     title.HorizontalAlignment = HorizontalAlignment.Center;
 
                                     Label space = new Label();
@@ -249,10 +291,17 @@ namespace WorkspaceManager.View.BinVisual
 
                                     controlGrid.Children.Add(title);
                                     Grid.SetColumn(ce.element, controlGrid.ColumnDefinitions.Count - 1);
-                                   
-                                    
 
-                                    controlGrid.Children.Add(ce.element);
+                                    if (ce.element is ComboBox)
+                                    {
+                                        ComboBox cb = ce.element as ComboBox;
+                                        cb.Width = getComboBoxMaxSize(cb);
+                                        controlGrid.Children.Add(cb);
+                                    }
+                                    else
+                                    {
+                                        controlGrid.Children.Add(ce.element);
+                                    }
 
                                 }
                                 else
@@ -266,8 +315,9 @@ namespace WorkspaceManager.View.BinVisual
                                     controlGrid.ColumnDefinitions.Add(new ColumnDefinition());
                                     controlGrid.ColumnDefinitions.Add(new ColumnDefinition());
 
-                                    TextBlock title = new TextBlock();
+                                    //TextBlock title = new TextBlock();
                                     title.Text = ce.tpa.Caption;
+                                    ce.caption = title;
                                     title.HorizontalAlignment = HorizontalAlignment.Center;
 
                                     Grid.SetColumn(title, 0);
@@ -298,6 +348,7 @@ namespace WorkspaceManager.View.BinVisual
                                     test.Children.Add(noverticalgroupexpander);
                                     test.Children.Add(l);
                                 }
+
                                /* WrapPanel controlGrid = new WrapPanel();
                                 controlGrid.Orientation = Orientation.Horizontal;
                                 //controlGrid.Margin = new Thickness(0);
@@ -332,11 +383,12 @@ namespace WorkspaceManager.View.BinVisual
                                 }
                                 */
 
-                                TextBlock title = new TextBlock();
+                                //TextBlock title = new TextBlock();
                                 title.Text = ce.tpa.Caption;
+                                ce.caption = title;
                                 title.TextWrapping = TextWrapping.Wrap;
 
-                                if (ce.element is CheckBox)
+                                if (ce.element is CheckBox || ce.element is Button)
                                 {
                                     Label l = new Label();
                                     l.Width = 1;
@@ -345,7 +397,12 @@ namespace WorkspaceManager.View.BinVisual
                                     test.Children.Add(l);
                                    
                                 }
-
+                                else if (ce.element is ComboBox )
+                                {
+                                    ComboBox cb = ce.element as ComboBox;
+                                    cb.Width = getComboBoxMaxSize(cb);
+                                    test.Children.Add(cb);
+                                }
                                 else
                                 {
                                     test.Children.Add(title);
@@ -360,13 +417,14 @@ namespace WorkspaceManager.View.BinVisual
                     testexoander.Content = bodi;
                    
                     myWrap.Children.Add(testexoander);
-                   
-                    
-                    
 
                 }
-            
-
+                try
+                {
+                    plugin.Settings.GetTaskPaneAttributeChanged().AddEventHandler(plugin.Settings, new TaskPaneAttributeChangedHandler(myTaskPaneAttributeChangedHandler)); // throws nullpointerexception for unknown reason
+                }
+                catch (Exception e) { } 
+                
 
         }
 
@@ -635,7 +693,7 @@ namespace WorkspaceManager.View.BinVisual
                             slider.MouseEnter += Control_MouseEnter;
                             slider.SetBinding(Slider.ValueProperty, dataBinding);
 
-                            slider.Width = 100;
+                            slider.MinWidth = 100;
 
                             entgrou.AddNewEntry(tpa.GroupName, new ControlEntry(slider, tpa, sfa));
                             break;
@@ -803,9 +861,9 @@ namespace WorkspaceManager.View.BinVisual
         
         public List<String> listAdmin = new List<String>();
         public List<List<ControlEntry>> entryList = new List<List<ControlEntry>>();
-
-
-
+        public List<Expander> gorupPanel = new List<Expander>();
+        
+        
         public void AddNewEntry(String groupname , ControlEntry entry)
         {
             if (listAdmin.Contains(groupname))
@@ -848,6 +906,13 @@ namespace WorkspaceManager.View.BinVisual
         public TaskPaneAttribute tpa;
         public SettingsFormatAttribute sfa;
 
+        public UIElement caption
+        {
+            get;
+            set;
+        }
+
+       
 
        public ControlEntry (UIElement element, TaskPaneAttribute tpa, SettingsFormatAttribute sfa)
         {
@@ -855,6 +920,7 @@ namespace WorkspaceManager.View.BinVisual
             this.sfa = sfa;
             this.tpa = tpa;
         }
+
     }
 
     public class TestPanel : Panel
@@ -1027,7 +1093,7 @@ namespace WorkspaceManager.View.BinVisual
                     if (this.ActualWidth != 0)
                         dummy.Width = this.ActualWidth;
                     else
-                    { dummy.Width = maxSizeCaption; }
+                    { dummy.Width = dummy.DesiredSize.Width; }
                     
                 }
 
