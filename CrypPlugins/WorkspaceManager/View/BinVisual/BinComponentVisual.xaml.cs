@@ -752,11 +752,16 @@ namespace WorkspaceManager.View.BinVisual
 
         private void CloseClick(object sender, RoutedEventArgs e)
         {
-            if (Close != null)
-                Close.Invoke(this, new EventArgs());
+            // process only if workspace is not running
+            if (Model != null && !((WorkspaceManager)Model.WorkspaceModel.MyEditor).isExecuting())
+            {
 
-            this.State = BinComponentState.Min;
-            Model.WorkspaceModel.ModifyModel(new DeletePluginModelOperation(Model));
+                if (Close != null)
+                    Close.Invoke(this, new EventArgs());
+
+                this.State = BinComponentState.Min;
+                Model.WorkspaceModel.ModifyModel(new DeletePluginModelOperation(Model));
+            }
         }
 
         private void RepeatHandler(object sender, RoutedEventArgs e)
