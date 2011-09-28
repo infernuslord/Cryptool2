@@ -37,6 +37,12 @@
                     <Image Width="18" Height="18" Source="/WorkspaceManager;component/View/Image/data.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"></Image>
                 </MenuItem.Icon>
             </MenuItem>
+
+            <MenuItem Click="ContextMenuClick" Header="Help" Tag="help">
+                <MenuItem.Icon>
+                    <Image Width="18" Height="18" Source="/WorkspaceManager;component/View/Image/info.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"></Image>
+                </MenuItem.Icon>
+            </MenuItem>
             <Separator></Separator>
         </ContextMenu>
     </UserControl.ContextMenu>
