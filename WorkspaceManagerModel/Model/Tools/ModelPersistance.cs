@@ -128,9 +128,21 @@ namespace WorkspaceManager.Model
                 }
             }
                 
-            //connect all listeners for connectors
+            
             foreach (ConnectorModel connectorModel in workspacemodel.AllConnectorModels)
             {
+                //refresh language stuff
+                foreach (var property in connectorModel.PluginModel.Plugin.GetProperties())
+                {
+                    if (property.PropertyName.Equals(connectorModel.PropertyName))
+                    {
+                        connectorModel.ToolTip = property.ToolTip;
+                        connectorModel.Caption = property.Caption;
+                        break;
+                    }
+                }
+
+                //connect all listeners for connectors
                 if (connectorModel.IsDynamic == true)
                 {
                     DynamicPropertyInfoAttribute dynamicPropertyInfoAttribute = connectorModel.PluginModel.Plugin.GetDynamicPropertyInfo();
