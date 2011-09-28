@@ -42,6 +42,7 @@ namespace WorkspaceManager.Model
         {
             this.InputConnectors = new List<ConnectorModel>();
             this.OutputConnectors = new List<ConnectorModel>();
+
         }
 
         #region private members
@@ -190,6 +191,8 @@ namespace WorkspaceManager.Model
                     if (propertyInfoAttribute.Direction.Equals(Direction.InputData))
                     {
                         ConnectorModel connectorModel = new ConnectorModel();
+
+                        connectorModel.Caption = propertyInfoAttribute.Caption;
                         connectorModel.ConnectorType = propertyInfoAttribute.PropertyInfo.PropertyType;
                         connectorModel.WorkspaceModel = WorkspaceModel;
                         connectorModel.PluginModel = this;
@@ -205,6 +208,7 @@ namespace WorkspaceManager.Model
                     else if (propertyInfoAttribute.Direction.Equals(Direction.ControlSlave))
                     {
                         ConnectorModel connectorModel = new ConnectorModel();
+                        connectorModel.Caption = propertyInfoAttribute.Caption;
                         connectorModel.ConnectorType = propertyInfoAttribute.PropertyInfo.PropertyType;
                         connectorModel.WorkspaceModel = WorkspaceModel;
                         connectorModel.PluginModel = this;
@@ -220,6 +224,7 @@ namespace WorkspaceManager.Model
                     else if (propertyInfoAttribute.Direction.Equals(Direction.OutputData))
                     {
                         ConnectorModel connectorModel = new ConnectorModel();
+                        connectorModel.Caption = propertyInfoAttribute.Caption;
                         connectorModel.ConnectorType = propertyInfoAttribute.PropertyInfo.PropertyType;
                         connectorModel.WorkspaceModel = WorkspaceModel;
                         connectorModel.PluginModel = this;
@@ -236,6 +241,7 @@ namespace WorkspaceManager.Model
                     else if (propertyInfoAttribute.Direction.Equals(Direction.ControlMaster))
                     {
                         ConnectorModel connectorModel = new ConnectorModel();
+                        connectorModel.Caption = propertyInfoAttribute.Caption;
                         connectorModel.ConnectorType = propertyInfoAttribute.PropertyInfo.PropertyType;
                         connectorModel.WorkspaceModel = WorkspaceModel;
                         connectorModel.PluginModel = this;
@@ -261,6 +267,7 @@ namespace WorkspaceManager.Model
                         if (dynamicProperty.PInfo.Direction.Equals(Direction.InputData))
                         {
                             ConnectorModel connectorModel = new ConnectorModel();
+                            connectorModel.Caption = dynamicProperty.Name;
                             connectorModel.ConnectorType = dynamicProperty.Type;
                             connectorModel.WorkspaceModel = WorkspaceModel;
                             connectorModel.PluginModel = this;

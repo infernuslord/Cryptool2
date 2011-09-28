@@ -17,6 +17,7 @@ using System.Windows.Controls.Primitives;
 using WorkspaceManagerModel.Model.Interfaces;
 using System.Globalization;
 using WorkspaceManager.View.Base;
+using Cryptool.PluginBase;
 
 namespace WorkspaceManager.View.BinVisual
 {
@@ -30,12 +31,12 @@ namespace WorkspaceManager.View.BinVisual
         #endregion
 
         #region Properties
-        public string ConnectorName 
-        { 
-            get 
+        public string ConnectorName
+        {
+            get
             {
                 return Model != null ? Model.GetName() : Properties.Resources.Error;
-            } 
+            }
         }
 
         public string TypeName
@@ -71,6 +72,36 @@ namespace WorkspaceManager.View.BinVisual
         #endregion
 
         #region Dependency Properties
+
+        public static readonly DependencyProperty DescriptionProperty = DependencyProperty.Register("Description",
+            typeof(string), typeof(BinConnectorVisual), new FrameworkPropertyMetadata(string.Empty));
+
+        public string Description
+        {
+            get
+            {
+                return (string)base.GetValue(DescriptionProperty);
+            }
+            set
+            {
+                base.SetValue(DescriptionProperty, value);
+            }
+        }
+
+        public static readonly DependencyProperty CaptionProperty = DependencyProperty.Register("Caption",
+            typeof(string), typeof(BinConnectorVisual), new FrameworkPropertyMetadata(string.Empty));
+
+        public string Caption
+        {
+            get
+            {
+                return (string)base.GetValue(CaptionProperty);
+            }
+            set
+            {
+                base.SetValue(CaptionProperty, value);
+            }
+        }
 
         public static readonly DependencyProperty ModelProperty = DependencyProperty.Register("Model",
             typeof(ConnectorModel), typeof(BinConnectorVisual), new FrameworkPropertyMetadata(null, new PropertyChangedCallback(OnMyValueChanged)));
@@ -271,6 +302,8 @@ namespace WorkspaceManager.View.BinVisual
             bin.FunctionColor = new SolidColorBrush(ColorHelper.GetLineColor(bin.Model.ConnectorType));
             bin.IsMandatory = bin.Model.IsMandatory;
             bin.IsOutgoing = bin.Model.Outgoing;
+            bin.Description = bin.Model.ToolTip;
+            bin.Caption = bin.Model.Caption;
             //bin.Model.Orientation = bin.Orientation;
         }
 

@@ -77,6 +77,8 @@ namespace WorkspaceManager.View.BinVisual
 
         public WorkspaceManager MyEditor { get; private set; }
 
+        public BinFullscreenVisual FullscreenVisual { get { return (BinFullscreenVisual)FullScreen.Content; } }
+
         private ObservableCollection<UIElement> visualCollection = new ObservableCollection<UIElement>();
         public ObservableCollection<UIElement> VisualCollection { get { return visualCollection; } private set { visualCollection = value; } }
 
@@ -180,7 +182,7 @@ namespace WorkspaceManager.View.BinVisual
         }
 
         public static readonly DependencyProperty IsLoadingProperty = DependencyProperty.Register("IsLoading",
-            typeof(bool), typeof(BinEditorVisual), new FrameworkPropertyMetadata(false, null));
+            typeof(bool), typeof(BinEditorVisual), new FrameworkPropertyMetadata(false, OnIsLoadingChanged));
 
         public bool IsLoading
         {
@@ -210,6 +212,36 @@ namespace WorkspaceManager.View.BinVisual
             }
         }
 
+        public static readonly DependencyProperty HasLoadingErrorProperty = DependencyProperty.Register("HasLoadingError",
+    typeof(bool), typeof(BinEditorVisual), new FrameworkPropertyMetadata(false, null));
+
+        public bool HasLoadingError
+        {
+            get
+            {
+                return (bool)base.GetValue(HasLoadingErrorProperty);
+            }
+            set
+            {
+                base.SetValue(HasLoadingErrorProperty, value);
+            }
+        }
+
+        public static readonly DependencyProperty LoadingErrorTextProperty = DependencyProperty.Register("LoadingErrorText",
+    typeof(string), typeof(BinEditorVisual), new FrameworkPropertyMetadata(string.Empty, null));
+
+        public string LoadingErrorText
+        {
+            get
+            {
+                return (string)base.GetValue(LoadingErrorTextProperty);
+            }
+            set
+            {
+                base.SetValue(LoadingErrorTextProperty, value);
+            }
+        }
+
         #endregion
 
         #region Constructors
@@ -219,6 +251,7 @@ namespace WorkspaceManager.View.BinVisual
             MyEditor = (WorkspaceManager)Model.MyEditor;
             VisualCollection.CollectionChanged += new NotifyCollectionChangedEventHandler(CollectionChangedHandler);
             VisualCollection.Add(selectionPath);
+            MyEditor.LoadingErrorOccurred += new EventHandler<LoadingErrorEventArgs>(LoadingErrorOccurred);
             InitializeComponent();
         }
 
@@ -329,6 +362,7 @@ namespace WorkspaceManager.View.BinVisual
             Dispatcher.Invoke(DispatcherPriority.Background, (SendOrPostCallback)delegate
             {
                 IsLoading = true;
+                Mouse.OverrideCursor = Cursors.Wait;
             }
             , null);
 
@@ -404,6 +438,7 @@ namespace WorkspaceManager.View.BinVisual
             Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
                 IsLoading = false;
+                Mouse.OverrideCursor = Cursors.Arrow;
                 if (SampleLoaded != null)
                     SampleLoaded.Invoke(this, null);
             }
@@ -680,6 +715,11 @@ namespace WorkspaceManager.View.BinVisual
 
         #region Event Handler
 
+        private void CopyToClipboardClick(object sender, RoutedEventArgs e)
+        {
+            Clipboard.SetData(DataFormats.Text, LoadingErrorText);
+        }
+
         private static void OnSelectedItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             BinEditorVisual b = (BinEditorVisual)d;
@@ -696,6 +736,13 @@ namespace WorkspaceManager.View.BinVisual
                 foreach (var element in oldItem)
                     Canvas.SetZIndex(element, int.MaxValue);
             }
+        }
+
+        private static void OnIsLoadingChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            BinEditorVisual b = (BinEditorVisual)d;
+            bool newItem = (bool)e.NewValue;
+            bool oldItem = (bool)e.OldValue;  
         }
 
         private static void OnSelectedImageChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -808,8 +855,16 @@ namespace WorkspaceManager.View.BinVisual
         private void MouseUpButtonUpHandler(object sender, MouseButtonEventArgs e)
         {
             reset();
+
+            //if (e.Source is BinComponentVisual)
+            //{
+            //    BinComponentVisual c = (BinComponentVisual)e.Source;
+            //    return;
+            //}
+
             if (!startedSelection)
                 SelectedItems = null;
+
             startedSelection = false;
         }
 
@@ -949,6 +1004,7 @@ namespace WorkspaceManager.View.BinVisual
                         {
                             BinConnectorVisual b = element as BinConnectorVisual;
                             SelectedConnector = b;
+                            draggedLink.SetBinding(CryptoLineView.IsLinkingProperty, new Binding() { Source = this, Path = new PropertyPath(BinEditorVisual.IsLinkingProperty) });
                             draggedLink.SetBinding(CryptoLineView.StartPointProperty, Util.CreateConnectorBinding(b, draggedLink));
                             draggedLink.EndPoint = e.GetPosition(sender as FrameworkElement);
                             VisualCollection.Add(draggedLink);
@@ -974,7 +1030,7 @@ namespace WorkspaceManager.View.BinVisual
                             break;
                         }
                         IsFullscreenOpen = true;
-                        ((BinFullscreenVisual)FullScreen.Content).ActiveComponent = c;
+                        FullscreenVisual.ActiveComponent = c;
                         e.Handled = true;
                         startedSelection = true;
                     }
@@ -1013,6 +1069,12 @@ namespace WorkspaceManager.View.BinVisual
                 }
             }
             reset();
+        }
+
+        private void LoadingErrorOccurred(object sender, LoadingErrorEventArgs e)
+        {
+            HasLoadingError = true;
+            LoadingErrorText = e.Message;
         }
 
         #region DragDropHandler
@@ -1088,7 +1150,14 @@ namespace WorkspaceManager.View.BinVisual
         }
         #endregion
 
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
         #endregion
+
+
     }
 
     #region HelperClass

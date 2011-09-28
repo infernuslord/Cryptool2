@@ -91,6 +91,7 @@ namespace WorkspaceManager.View.BinVisual
         #endregion
 
         #region Fields
+        private BinEditorVisual editor;
         #endregion
 
         #region Properties
@@ -431,6 +432,7 @@ namespace WorkspaceManager.View.BinVisual
         {
             Model = model;
             Model.UpdateableView = this;
+            editor = (BinEditorVisual)((WorkspaceManager)Model.WorkspaceModel.MyEditor).Presentation;
             ErrorsTillReset = new Queue<Log>();
             EditorVisual = (BinEditorVisual)((WorkspaceManager)Model.WorkspaceModel.MyEditor).Presentation;
             Presentations.Add(BinComponentState.Presentation, model.PluginPresentation);
@@ -681,7 +683,6 @@ namespace WorkspaceManager.View.BinVisual
 
         private void ScaleDragDeltaHandler(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
         {
-
             if (State == BinComponentState.Min)
             {
                 if ((Window.ActualHeight + e.VerticalChange >= Window.MinHeight + 15) && (Window.ActualWidth + e.HorizontalChange >= Window.MinHeight + 15))
@@ -767,6 +768,31 @@ namespace WorkspaceManager.View.BinVisual
             Repeat = (bool)b.Content;
         }
         #endregion
+
+        private void ContextMenuClick(object sender, RoutedEventArgs e)
+        {
+            MenuItem item = (MenuItem)sender;
+            switch ((string)item.Tag)
+            {
+                case "presentation":
+                    State = BinComponentState.Presentation;
+                    break;
+
+                case "data":
+                    State = BinComponentState.Data;
+                    break;
+
+                case "log":
+                    State = BinComponentState.Log;
+                    break;
+
+                case "setting":
+                    State = BinComponentState.Setting;
+                    break;
+            }
+            editor.IsFullscreenOpen = true;
+            editor.FullscreenVisual.ActiveComponent = this;
+        }
 
     }
 
