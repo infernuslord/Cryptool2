@@ -127,7 +127,7 @@ namespace WorkspaceManager.View.BinVisual
         private BinComponentState lastState;
         public BinComponentState LastState
         {
-            set 
+            set
             {
                 lastState = value;
             }
@@ -135,6 +135,20 @@ namespace WorkspaceManager.View.BinVisual
             get
             {
                 return lastState;
+            }
+        }
+
+        private BinComponentState lastStateBeforeFullscreen;
+        public BinComponentState LastStateBeforeFullscreen
+        {
+            set
+            {
+                lastStateBeforeFullscreen = value;
+            }
+
+            get
+            {
+                return lastStateBeforeFullscreen;
             }
         }
 
@@ -732,6 +746,7 @@ namespace WorkspaceManager.View.BinVisual
         private static void OnIsFullscreenChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             BinComponentVisual bin = (BinComponentVisual)d;
+            bin.lastStateBeforeFullscreen = bin.State;
             bin.OnPropertyChanged("ActivePresentation");
         }
 
@@ -795,9 +810,9 @@ namespace WorkspaceManager.View.BinVisual
                     State = BinComponentState.Setting;
                     break;
 
-                case "info":
+                case "help":
                     OnlineHelp.InvokeShowPluginDocPage(model.PluginType);
-                    break;
+                    return;
             }
             editor.IsFullscreenOpen = true;
             editor.FullscreenVisual.ActiveComponent = this;
