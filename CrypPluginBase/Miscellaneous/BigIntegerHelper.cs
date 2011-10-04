@@ -598,5 +598,64 @@ namespace Cryptool.PluginBase.Miscellaneous
 
             return result;
         }
+
+        /// <summary>
+        /// Returns the minimum of a set of BigIntegers
+        /// </summary>
+        public static BigInteger Min(BigInteger n, params BigInteger[] values)
+        {
+            BigInteger min = n;
+
+            for (int i = 0; i < values.Length; i++)
+                if (min > values[i]) min = values[i];
+
+            return min;
+        }
+
+        /// <summary>
+        /// Returns the maximum of a set of BigIntegers
+        /// </summary>
+        public static BigInteger Max(BigInteger n, params BigInteger[] values)
+        {
+            BigInteger max = n;
+
+            for (int i = 0; i < values.Length; i++)
+                if (max < values[i]) max = values[i];
+
+            return max;
+        }
+
+        /// <summary>
+        /// Calculates the square root of a BigInteger.
+        /// If the argument is not a perfect square, this function returns the floor of the square root,
+        /// i.e. the biggest number that is smaller than the actual square root of the argument.
+        /// </summary>
+        
+        // Compute the square root of n using Heron's method (which is Newton's method applied to x^2-n)
+
+        public static BigInteger Sqrt(this BigInteger n)
+        {
+            if( n<0 )
+                throw (new ArithmeticException("Square root of negative number does not exist!"));
+
+            BigInteger x = n >> (n.BitCount() / 2);     // select starting value
+            BigInteger lastx;
+
+            while (true)
+            {
+                lastx = x;
+                x = (n / x + x) >> 1;
+                int i = x.CompareTo(lastx);
+                if (i == 0) return x;
+                if (i < 0)
+                {
+                    if (lastx - x == 1 && (x * x < n) && (lastx * lastx) > n) return x;
+                }
+                else
+                {
+                    if (x - lastx == 1 && (lastx * lastx) < n && (x * x) > n) return lastx;
+                }
+            }
+        }
     }
 }
