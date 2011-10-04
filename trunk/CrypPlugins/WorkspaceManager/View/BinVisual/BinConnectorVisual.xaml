@@ -113,7 +113,7 @@
                         <model:ConversionLevel>Yellow</model:ConversionLevel>
                     </DataTrigger.Value>
                     <Setter Property="Foreground" Value="Goldenrod"></Setter>
-                    <Setter Property="Text" Value="WARNING!"></Setter>
+                    <Setter Property="Text" Value="{Loc ConversionWarning}"></Setter>
                 </DataTrigger>
 
                 <DataTrigger Binding="{Binding Path=CVLevel.Level}">
@@ -121,7 +121,7 @@
                         <model:ConversionLevel>Red</model:ConversionLevel>
                     </DataTrigger.Value>
                     <Setter Property="Foreground" Value="Red"></Setter>
-                    <Setter Property="Text" Value="STOP!"></Setter>
+                    <Setter Property="Text" Value="{Loc ConversionStop}"></Setter>
                 </DataTrigger>
 
                 <DataTrigger Binding="{Binding Path=CVLevel.Level}">
@@ -129,7 +129,7 @@
                         <model:ConversionLevel>NA</model:ConversionLevel>
                     </DataTrigger.Value>
                     <Setter Property="Foreground" Value="Red"></Setter>
-                    <Setter Property="Text" Value="STOP!"></Setter>
+                    <Setter Property="Text" Value="{Loc ConversionStop}"></Setter>
                 </DataTrigger>
 
                 <DataTrigger Binding="{Binding Path=CVLevel.Level}">
@@ -137,7 +137,7 @@
                         <model:ConversionLevel>Green</model:ConversionLevel>
                     </DataTrigger.Value>
                     <Setter Property="Foreground" Value="ForestGreen"></Setter>
-                    <Setter Property="Text" Value="OK!"></Setter>
+                    <Setter Property="Text" Value="{Loc ConversionOK}"></Setter>
                 </DataTrigger>
             </Style.Triggers>
 
@@ -155,28 +155,28 @@
                     <DataTrigger.Value>
                         <model:ConversionLevel>Yellow</model:ConversionLevel>
                     </DataTrigger.Value>
-                    <Setter Property="Text" Value="Conversion to different data type, ambiguity may occur."></Setter>
+                    <Setter Property="Text" Value="{Loc ConversionAmbig}"></Setter>
                 </DataTrigger>
 
                 <DataTrigger Binding="{Binding Path=CVLevel.Level}">
                     <DataTrigger.Value>
                         <model:ConversionLevel>Red</model:ConversionLevel>
                     </DataTrigger.Value>
-                    <Setter Property="Text" Value="Invalid connection."></Setter>
+                    <Setter Property="Text" Value="{Loc ConversionNone}"></Setter>
                 </DataTrigger>
 
                 <DataTrigger Binding="{Binding Path=CVLevel.Level}">
                     <DataTrigger.Value>
                         <model:ConversionLevel>NA</model:ConversionLevel>
                     </DataTrigger.Value>
-                    <Setter Property="Text" Value="Can't connect to itself."></Setter>
+                    <Setter Property="Text" Value="{Loc ConversionSelf}"></Setter>
                 </DataTrigger>
 
                 <DataTrigger Binding="{Binding Path=CVLevel.Level}">
                     <DataTrigger.Value>
                         <model:ConversionLevel>Green</model:ConversionLevel>
                     </DataTrigger.Value>
-                    <Setter Property="Text" Value="Data types match."></Setter>
+                    <Setter Property="Text" Value="{Loc ConversionSame}"></Setter>
                 </DataTrigger>
             </Style.Triggers>
 

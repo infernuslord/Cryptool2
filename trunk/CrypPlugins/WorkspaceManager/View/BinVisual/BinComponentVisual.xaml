@@ -14,31 +14,31 @@
              DataContext="{Binding RelativeSource={x:Static RelativeSource.Self}}">
     <UserControl.ContextMenu>
         <ContextMenu>
-            <MenuItem Click="ContextMenuClick" Header="Presentation" Tag="presentation" IsEnabled="{Binding Path=HasComponentPresentation, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+            <MenuItem Click="ContextMenuClick" Header="{Loc PresentationTooltip}" Tag="presentation" IsEnabled="{Binding Path=HasComponentPresentation, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
                 <MenuItem.Icon>
                     <Image Width="18" Height="18" Source="/WorkspaceManager;component/View/Image/presentation.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"></Image>
                 </MenuItem.Icon>
             </MenuItem>
 
-            <MenuItem Click="ContextMenuClick" Header="Setting" Tag="setting">
+            <MenuItem Click="ContextMenuClick" Header="{Loc SettingsTooltip}" Tag="setting">
                 <MenuItem.Icon>
                     <Image Width="18" Height="18" Source="/WorkspaceManager;component/View/Image/setting.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"></Image>
                 </MenuItem.Icon>
             </MenuItem>
 
-            <MenuItem Click="ContextMenuClick" Header="Message Log" Tag="log">
+            <MenuItem Click="ContextMenuClick" Header="{Loc LogTooltip}" Tag="log">
                 <MenuItem.Icon>
                     <Image Width="18" Height="18" Source="/WorkspaceManager;component/View/Image/log.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"></Image>
                 </MenuItem.Icon>
             </MenuItem>
 
-            <MenuItem Click="ContextMenuClick" Header="Data" Tag="data">
+            <MenuItem Click="ContextMenuClick" Header="{Loc DataTooltip}" Tag="data">
                 <MenuItem.Icon>
                     <Image Width="18" Height="18" Source="/WorkspaceManager;component/View/Image/data.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"></Image>
                 </MenuItem.Icon>
             </MenuItem>
 
-            <MenuItem Click="ContextMenuClick" Header="Help" Tag="help">
+            <MenuItem Click="ContextMenuClick" Header="{Loc InformationTooltip}" Tag="help">
                 <MenuItem.Icon>
                     <Image Width="18" Height="18" Source="/WorkspaceManager;component/View/Image/info.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"></Image>
                 </MenuItem.Icon>

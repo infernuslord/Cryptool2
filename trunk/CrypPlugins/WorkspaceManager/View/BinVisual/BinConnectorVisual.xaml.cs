@@ -24,6 +24,7 @@ namespace WorkspaceManager.View.BinVisual
     /// <summary>
     /// Interaction logic for ConnectorView.xaml
     /// </summary>
+    [Cryptool.PluginBase.Attributes.Localization("WorkspaceManager.Properties.Resources")]
     public partial class BinConnectorVisual : UserControl, IUpdateableView, INotifyPropertyChanged
     {
         #region Events

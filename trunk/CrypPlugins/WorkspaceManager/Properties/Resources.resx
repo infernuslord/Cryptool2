@@ -363,4 +363,25 @@
   <data name="NewWorkspaceTooltip" xml:space="preserve">
     <value>This is a new workspace.</value>
   </data>
+  <data name="ConversionAmbig" xml:space="preserve">
+    <value>Conversion to different data type, ambiguity may occur.</value>
+  </data>
+  <data name="ConversionNone" xml:space="preserve">
+    <value>Invalid connection.</value>
+  </data>
+  <data name="ConversionOK" xml:space="preserve">
+    <value>OK!</value>
+  </data>
+  <data name="ConversionSame" xml:space="preserve">
+    <value>Data types match.</value>
+  </data>
+  <data name="ConversionStop" xml:space="preserve">
+    <value>STOP!</value>
+  </data>
+  <data name="ConversionWarning" xml:space="preserve">
+    <value>WARNING!</value>
+  </data>
+  <data name="ConversionSelf" xml:space="preserve">
+    <value>Can't connect to itself.</value>
+  </data>
 </root>

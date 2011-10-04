@@ -360,4 +360,25 @@
   <data name="Loading_" xml:space="preserve">
     <value>Laden...</value>
   </data>
+  <data name="ConversionAmbig" xml:space="preserve">
+    <value>Konvertierung in anderen Datentyp, Mehrdeutigkeit möglich.</value>
+  </data>
+  <data name="ConversionNone" xml:space="preserve">
+    <value>Verbindung nicht möglich.</value>
+  </data>
+  <data name="ConversionOK" xml:space="preserve">
+    <value>OK!</value>
+  </data>
+  <data name="ConversionSame" xml:space="preserve">
+    <value>Konvertierung in denselben Datentyp.</value>
+  </data>
+  <data name="ConversionStop" xml:space="preserve">
+    <value>STOP!</value>
+  </data>
+  <data name="ConversionWarning" xml:space="preserve">
+    <value>WARNUNG!</value>
+  </data>
+  <data name="ConversionSelf" xml:space="preserve">
+    <value>Verbindung mit sich selbst nicht möglich.</value>
+  </data>
 </root>
