@@ -282,11 +282,7 @@ namespace WorkspaceManager.Model
                 }
 
                 if (Outgoing)
-                {
-                    if (OutputConnections.Count == 0)
-                    {
-                        return;
-                    }
+                {                    
                     object data = null;
                     if (IsDynamic)
                     {
