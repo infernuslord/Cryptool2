@@ -142,15 +142,9 @@
     <value>Eingabe des taktgebenden Ereignisses</value>
   </data>
   <data name="CLKTimeoutCaption" xml:space="preserve">
-    <value>Setze den Taktpegel auf 'wahr'</value>
-  </data>
-  <data name="CLKTimeoutTooltip" xml:space="preserve">
-    <value>ja / nein</value>
-  </data>
-  <data name="CLKTimeoutTPCaption" xml:space="preserve">
     <value>Taktdauer in Millisekunden</value>
   </data>
-  <data name="CLKTimeoutTPTooltip" xml:space="preserve">
+  <data name="CLKTimeoutTooltip" xml:space="preserve">
     <value>Wie viele Millisekunden sollen bis zum nächsten Taktereignis vergehen?</value>
   </data>
   <data name="RoundsCaption" xml:space="preserve">

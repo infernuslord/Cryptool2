@@ -142,15 +142,9 @@
     <value>EventInput</value>
   </data>
   <data name="CLKTimeoutCaption" xml:space="preserve">
-    <value>Set clock to true</value>
-  </data>
-  <data name="CLKTimeoutTooltip" xml:space="preserve">
-    <value> yes / no </value>
-  </data>
-  <data name="CLKTimeoutTPCaption" xml:space="preserve">
     <value>Set CLK timeout in milliseconds</value>
   </data>
-  <data name="CLKTimeoutTPTooltip" xml:space="preserve">
+  <data name="CLKTimeoutTooltip" xml:space="preserve">
     <value>How long should it last until next CLK event?</value>
   </data>
   <data name="RoundsCaption" xml:space="preserve">
