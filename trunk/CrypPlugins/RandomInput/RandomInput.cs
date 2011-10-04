@@ -36,7 +36,7 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace RandomInput
 {
   [Author("Timm Korte", "cryptool@easycrypt.de", "Uni Bochum", "http://www.ruhr-uni-bochum.de")]
-  [PluginInfo("RandomInput.Properties.Resources", true, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "RandomInput/icon.png")]
+  [PluginInfo("RandomInput.Properties.Resources", true, "PluginCaption", "PluginTooltip", "RandomInput/DetailedDescription/doc.xml", "RandomInput/icon.png")]
   [ComponentCategory(ComponentCategory.ToolsDataInputOutput)]
   public class RandomInput : ContextBoundObject, ICrypComponent
   {

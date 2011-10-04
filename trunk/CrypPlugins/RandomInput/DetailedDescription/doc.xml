@@ -4,24 +4,40 @@
   <language culture="en"/>
   <language culture="de-DE"/>
 
-  <introduction lang="en">    
+  <introduction lang="en">
+    This plugin produces a sequence of random bytes.
   </introduction>
 
-  <introduction lang="de-DE">    
+  <introduction lang="de-DE">
+    Dieses Plugin erzeugt eine Folge beliebiger Länge von zufälligen Bytes.
   </introduction>
 
   <usage lang="en">
+    This plugin generates a variable number of random bytes.
+    The number of bytes to produce can be determined in the settings tab of the plugin.
+    <newline/><newline/>
+    The plugin has a dynamic and a static operating mode. When the dynamic mode is selected, the plugin
+    creates a new sequence of random bytes every time it is started. When the static mode is selected, the
+    random numbers are only created once and reused in subsequent starts of the plugin. The operating mode
+    can be selected in the settings tab of the plugin.
+    <newline/><newline/>
+    The random values that were produced are presented at the two outputs of the plugin. 
+    Depending on the output used, they can be read out as an array of bytes or as a datastream.
   </usage>
 
   <usage lang="de-DE">
+    Das Plugin erzeugt eine variable Anzahl von Zufallsbytes.
+    Die Anzahl der zu erzeugenden Zufallsbytes kann in den Einstellungen des Plugins festgelegt werden.
+    <newline/><newline/>
+    Das Plugin hat eine statische und eine dynamische Betriebsart. In der dynamischen Betriebsart werden
+    die Zufallszahlen bei jedem Start des Plugins neu generiert und das Plugin liefert daher jedes Mal neue
+    Zufallszahlen. In der statischen Betriebsart werden die einmal erzeugten Werte beibehalten und bei jedem
+    Start des Plugins erneut ausgegeben. Die Betriebsart kann in den Plugin-Einstellungen gewählt werden.
+    <newline/><newline/>
+    Die erzeugten Zufallswerte werden an den beiden Ausgängen des Plugins zur Verfügung gestellt. Sie werden,
+    abhängig vom verwendeten Ausgang, entweder als Array von Bytes oder als Datenstrom ausgegeben.
   </usage>
-  
-  <presentation lang="en">
-  </presentation>
-  
-  <presentation lang="de-DE">
-  </presentation>
-  
+    
   <references>
   </references>
 </documentation>
