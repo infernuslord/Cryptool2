@@ -13,12 +13,10 @@ using System.Security.Cryptography;
 namespace Cryptool.PrimesGenerator
 {
 
-  [PluginInfo("PrimesGenerator.Properties.Resources", true, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "PrimesGenerator/icon.png")]
+  [PluginInfo("PrimesGenerator.Properties.Resources", true, "PluginCaption", "PluginTooltip", "PrimesGenerator/DetailedDescription/doc.xml", "PrimesGenerator/icon.png")]
   [ComponentCategory(ComponentCategory.ToolsDataInputOutput)]
   public class PrimesGenerator : ICrypComponent
   {
-      private BigInteger m_max = 10000000000;
-
     public PrimesGenerator()
     {
       m_Settings = new PrimesGeneratorSettings();
@@ -38,10 +36,12 @@ namespace Cryptool.PrimesGenerator
     }
 
     public event Cryptool.PluginBase.GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
+
     private void FireOnGuiLogNotificationOccuredEvent(string message, NotificationLevel lvl)
     {
       if (OnGuiLogNotificationOccured != null) OnGuiLogNotificationOccured(this, new GuiLogEventArgs(message, this, lvl));
     }
+
     private void FireOnGuiLogNotificationOccuredEventError(string message)
     {
       FireOnGuiLogNotificationOccuredEvent(message, NotificationLevel.Error);
@@ -52,6 +52,7 @@ namespace Cryptool.PrimesGenerator
     {
       if (OnPluginProgressChanged != null) OnPluginProgressChanged(this, new PluginProgressEventArgs(0, 0));
     }
+
     private void ProgressChanged(double value, double max)
     {
         EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
@@ -93,14 +94,14 @@ namespace Cryptool.PrimesGenerator
             switch (m_Mode)
             {
               case 0:
-                if ( !(m_Input > 1 && m_Input <= 400) )
+                if ( !(m_Input > 1 && m_Input <= 1024) )
                 {
-                    FireOnGuiLogNotificationOccuredEventError("Value for n has to be greater than 1 and less or equal than 400.");
+                    FireOnGuiLogNotificationOccuredEventError("Value for n has to be greater than 1 and less than or equal to 1024.");
                     hasErrors = true;
                 } 
                 break;
               case 1:
-                if (!(m_Input > 1 && m_Input <= m_max))
+                if (m_Input <= 1)
                 {
                     FireOnGuiLogNotificationOccuredEventError("Value for n has to be greater than 1");
                     hasErrors = true;

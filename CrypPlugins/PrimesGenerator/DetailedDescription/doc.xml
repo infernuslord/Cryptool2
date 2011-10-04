@@ -4,23 +4,37 @@
   <language culture="en"/>
   <language culture="de-DE"/>
 
-  <introduction lang="en">    
+  <introduction lang="en">
+    This plugin generates a random prime number of an assignable magnitude.
   </introduction>
 
-  <introduction lang="de-DE">    
+  <introduction lang="de-DE">
+    Dieses Plugin erzeugt eine zufällige Primzahl einer vorgebbaren Größenordnung und gibt diese am Ausgang aus.
   </introduction>
 
   <usage lang="en">
+    The magnitude of the prime number that is to be generated can be chosen in two different ways in the settings tab of the plugin.
+    <newline/><newline/>
+    When you choose 'prime number with n bits', the parameter n is interpreted as the maximum bitsize of the generated prime, i.e.
+    the maximum number of bits that the binary representation of the generated prime requires.
+    The result is then a random prime in the interval [ 2, 2^n [.
+    The bitsize must lie between 1 and 1024.
+    <newline/><newline/>
+    When you choose 'prime number less than or equal to n', the parameter n is an upper limit for the generated prime.
+    The result is then a random prime in the interval [ 2, n ].
   </usage>
 
   <usage lang="de-DE">
+    Die Größenordnung der zu erzeugenden Primzahl kann in den Plugin-Einstellungen auf zwei Arten gewählt werden.
+    <newline/><newline/>
+    Wählt man die Methode 'Primzahl mit n Bits', so kann man als Parameter die maximale Bitgröße der zu erzeugenden Zahl angeben
+    (d.h. die Anzahl der Bits, die für die Binärdarstellung der Primzahl höchstens benötigt werden). Die erzeugte Primzahl ist dann
+    eine zufällige Primzahl im Intervall [ 2, 2^n [.
+    Die Bitgröße muss zwischen 1 Bit und 1024 Bit liegen.
+    <newline/><newline/>
+    Wählt man die Methode 'Primzahl kleiner oder gleich n', so stellt der Parameter n eine obere Schranke für die zu erzeugende
+    Primzahl dar. Die resultierende Primzahl ist dann eine zufällige Primzahl im Intervall [ 2, n ].
   </usage>
-  
-  <presentation lang="en">
-  </presentation>
-  
-  <presentation lang="de-DE">
-  </presentation>
   
   <references>
   </references>
