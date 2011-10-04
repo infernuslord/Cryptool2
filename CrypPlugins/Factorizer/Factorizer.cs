@@ -21,12 +21,13 @@ using System.Text;
 using Cryptool.PluginBase.Tool;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.IO;
-using Primes.Bignum;
+using Cryptool.PluginBase.Miscellaneous;
+using System.Numerics;
 
 namespace Factorizer
 {
   [Author("Timo Eckhardt", "T-Eckhardt@gmx.de", "Uni Siegen", "http://www.uni-siegen.de")]
-  [PluginInfo("Factorizer.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "Factorizer/icon.png")]
+  [PluginInfo("Factorizer.Properties.Resources", false, "PluginCaption", "PluginTooltip", "Factorizer/DetailedDescription/doc.xml", "Factorizer/icon.png")]
   [ComponentCategory(ComponentCategory.CryptanalysisGeneric)]
     public class Factorizer : ICrypComponent
   {
@@ -45,17 +46,22 @@ namespace Factorizer
     public event Cryptool.PluginBase.GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
     private void FireOnGuiLogNotificationOccuredEvent(string message, NotificationLevel lvl)
     {
-      if (OnGuiLogNotificationOccured != null) OnGuiLogNotificationOccured(this, new GuiLogEventArgs(message, this, lvl));
+        if (OnGuiLogNotificationOccured != null) OnGuiLogNotificationOccured(this, new GuiLogEventArgs(message, this, lvl));
     }
     private void FireOnGuiLogNotificationOccuredEventError(string message)
     {
-      FireOnGuiLogNotificationOccuredEvent(message, NotificationLevel.Error);
+        FireOnGuiLogNotificationOccuredEvent(message, NotificationLevel.Error);
     }
 
     public event Cryptool.PluginBase.PluginProgressChangedEventHandler OnPluginProgressChanged;
     private void FireOnPluginProgressChangedEvent(string message, NotificationLevel lvl)
     {
-      if (OnPluginProgressChanged != null) OnPluginProgressChanged(this, new PluginProgressEventArgs(0, 0));
+        if (OnPluginProgressChanged != null) OnPluginProgressChanged(this, new PluginProgressEventArgs(0, 0));
+    }
+
+    private void ProgressChanged(double value, double max)
+    {
+        EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
     }
 
     private FactorizerSettings m_Settings;
@@ -80,42 +86,53 @@ namespace Factorizer
 
     public void Execute()
     {
-      if (m_Settings.HasErrors)
-      {
-        foreach (string message in m_Settings.Errors)
+        ProgressChanged(0, 100);
+
+        if (m_Settings.HasErrors)
         {
-          FireOnGuiLogNotificationOccuredEventError(message);
+            foreach (string message in m_Settings.Errors)
+                FireOnGuiLogNotificationOccuredEventError(message);
+
+            return;
         }
-      }
-      else
-      {
-        if (m_Input != null)
+     
+        if (m_Input == null)
         {
-          if (m_Input.IsProbablePrime(10))
-          {
-            Factor = m_Input.ToString();
-            Remainder = PrimesBigInteger.One.ToString();
-          }
-          else
-          {
-            PrimesBigInteger i = PrimesBigInteger.Two;
-            while (i.Multiply(i).CompareTo(m_Input) <= 0)
+            FireOnGuiLogNotificationOccuredEventError("No input given");
+            return;
+        }
+
+        BigInteger factor = 1;
+
+        if ( !m_Input.IsProbablePrime() )
+        {
+            BigInteger limit = BigIntegerHelper.Min( m_Settings.BruteForceLimit, m_Input.Sqrt() );
+            int progressdisplay = 0;
+
+            for (BigInteger i = 2; i <= limit; i = (i + 1).NextProbablePrime()) 
             {
-              if (m_Input.Mod(i).CompareTo(PrimesBigInteger.Zero) == 0)
-              {
-                Factor = i.ToString();
-                Remainder = m_Input.Divide(i).ToString();
-                return;
-              }
-              i = i.NextProbablePrime();
+                if (i >= m_Settings.BruteForceLimit)
+                {
+                    FireOnGuiLogNotificationOccuredEvent("Brute force limit reached, no factors were found", NotificationLevel.Warning);
+                    break;
+                }
+                if (++progressdisplay == 100)
+                {
+                    progressdisplay = 0;
+                    ProgressChanged((int)((i*100) / limit), 100);
+                }
+                if (m_Input % i == 0)
+                {
+                    factor = i;
+                    break;
+                }
             }
-          }
         }
-        else
-        {
-          FireOnGuiLogNotificationOccuredEventError("No input given");
-        }
-      }
+
+        Factor = factor.ToString();
+        Remainder = (m_Input / factor).ToString();
+
+        ProgressChanged(100, 100);
     }
 
     public void PostExecution()
@@ -151,7 +168,7 @@ namespace Factorizer
     #endregion
 
     #region Properties
-    private PrimesBigInteger m_Input = null;
+    private BigInteger m_Input;
     private string m_InputString;
     [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", "", true, false, QuickWatchFormat.Text, null)]
     public string InputString
@@ -163,10 +180,10 @@ namespace Factorizer
           m_InputString = value;
           try
           {
-            m_Input = new PrimesBigInteger(m_InputString);
-            if (m_Input.CompareTo(PrimesBigInteger.Zero) <= 0)
+            m_Input = BigIntegerHelper.ParseExpression(m_InputString);
+            if (m_Input <= 0 )
             {
-              m_Input = null;
+              m_Input = 0;
               throw new Exception();
             }
 
@@ -180,7 +197,7 @@ namespace Factorizer
         else
         {
           FireOnGuiLogNotificationOccuredEventError("Input has to be a natural number.");
-          m_Input = null;
+          m_Input = 0;
         }
       }
     }
