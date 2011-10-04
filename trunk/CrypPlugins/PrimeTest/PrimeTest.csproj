@@ -101,7 +101,6 @@
     <ProjectReference Include="..\Primes\Primes\Primes.csproj">
       <Project>{2830F337-A7A3-4A68-87AC-64F3AA79C70B}</Project>
       <Name>Primes</Name>
-      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -135,7 +134,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="DetailedDescription\doc.xml" />
+    <Resource Include="DetailedDescription\doc.xml">
+      <SubType>Designer</SubType>
+    </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

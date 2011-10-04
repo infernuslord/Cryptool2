@@ -4,24 +4,34 @@
   <language culture="en"/>
   <language culture="de-DE"/>
 
-  <introduction lang="en">    
+  <introduction lang="en"> 
+    This plugin checks whether the given number is a prime number.
   </introduction>
 
-  <introduction lang="de-DE">    
+  <introduction lang="de-DE">
+    Dieses Plugin testet, ob die eingegebene Zahl eine Primzahl ist.
   </introduction>
 
   <usage lang="en">
+    The input to the plugin is the number whose primality is to check. It uses the probabilistic Miller-Rabin primality test, that
+    can determine whether a given number is a prime number with a very high probability. The result of the test is presented
+    as a boolean value at the output of the plugin. When the result is 'false', the number is definitely composite.
+    When the result is 'true', the number is a prime number with a very high probability.
   </usage>
 
   <usage lang="de-DE">
+    Das Plugin erwartet als einzige Eingabe die zu testende Zahl. Es verwendet den probabilistischen Miller-Rabin-Test, der
+    mit hoher Wahrscheinlichkeit feststellen kann, ob eine Zahl eine Primzahl ist oder nicht. Das Ergebnis des Tests wird am
+    Ausgang des Plugins als boolescher Wert ausgegeben. Wird 'falsch' ausgegeben, so ist die Zahl auf jeden Fall zusammengesetzt.
+    Wird 'wahr' ausgegeben, so ist die Zahl mit sehr hoher Wahrscheinlichkeit eine Primzahl.
   </usage>
   
-  <presentation lang="en">
-  </presentation>
-  
-  <presentation lang="de-DE">
-  </presentation>
-  
   <references>
+    <linkReference>
+      <link lang="en" url="http://en.wikipedia.org/wiki/Miller–Rabin_primality_test"/>
+      <caption lang="en">Miller–Rabin primality test</caption>
+      <link lang="de-DE" url="http://de.wikipedia.org/wiki/Miller-Rabin-Test"/>
+      <caption lang="de-DE">Miller-Rabin-Test</caption>
+    </linkReference>
   </references>
 </documentation>

@@ -5,12 +5,13 @@ using System.Text;
 using Cryptool.PluginBase.Tool;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.IO;
+using Cryptool.PluginBase.Miscellaneous;
 using Primes.Bignum;
 using System.Numerics;
 
 namespace PrimeTest
 {
-  [PluginInfo("PrimeTest.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "PrimeTest/icon.png")]
+  [PluginInfo("PrimeTest.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PrimeTest/DetailedDescription/doc.xml", "PrimeTest/icon.png")]
   [ComponentCategory(ComponentCategory.CryptanalysisGeneric)]
   public class PrimeTest : ICrypComponent
   {
@@ -38,6 +39,10 @@ namespace PrimeTest
       if (OnPluginProgressChanged != null) OnPluginProgressChanged(this, new PluginProgressEventArgs(0, 0));
     }
 
+    private void ProgressChanged(double value, double max)
+    {
+        EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
+    }
 
     public Cryptool.PluginBase.ISettings Settings
     {
@@ -60,10 +65,14 @@ namespace PrimeTest
 
     public void Execute()
     {
-      if (m_Value != null)
-        Output = m_Value.IsProbablePrime(10);
-      else
-        Output = false;
+        ProgressChanged(0, 100);
+
+        if (m_Value != null)
+            Output = m_Value.IsProbablePrime(10);
+        else
+            Output = false;
+
+        ProgressChanged(100, 100);
     }
 
     public void PostExecution()
