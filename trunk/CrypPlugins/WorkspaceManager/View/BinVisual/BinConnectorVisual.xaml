@@ -155,28 +155,28 @@
                     <DataTrigger.Value>
                         <model:ConversionLevel>Yellow</model:ConversionLevel>
                     </DataTrigger.Value>
-                    <Setter Property="Text" Value="Conversion to different Type, ambiguity may occur."></Setter>
+                    <Setter Property="Text" Value="Conversion to different data type, ambiguity may occur."></Setter>
                 </DataTrigger>
 
                 <DataTrigger Binding="{Binding Path=CVLevel.Level}">
                     <DataTrigger.Value>
                         <model:ConversionLevel>Red</model:ConversionLevel>
                     </DataTrigger.Value>
-                    <Setter Property="Text" Value="No connection establishment possible."></Setter>
+                    <Setter Property="Text" Value="Invalid connection."></Setter>
                 </DataTrigger>
 
                 <DataTrigger Binding="{Binding Path=CVLevel.Level}">
                     <DataTrigger.Value>
                         <model:ConversionLevel>NA</model:ConversionLevel>
                     </DataTrigger.Value>
-                    <Setter Property="Text" Value="No connection establishment possible."></Setter>
+                    <Setter Property="Text" Value="Can't connect to itself."></Setter>
                 </DataTrigger>
 
                 <DataTrigger Binding="{Binding Path=CVLevel.Level}">
                     <DataTrigger.Value>
                         <model:ConversionLevel>Green</model:ConversionLevel>
                     </DataTrigger.Value>
-                    <Setter Property="Text" Value="Conversion to same Type."></Setter>
+                    <Setter Property="Text" Value="Data types match."></Setter>
                 </DataTrigger>
             </Style.Triggers>
 
