@@ -123,9 +123,6 @@
   <data name="PluginTooltip" xml:space="preserve">
     <value>Linear rückgekoppeltes Schieberegister</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value>LFSR/DetailedDescription/Description.xaml</value>
-  </data>
   <data name="InputTapSequenceCaption" xml:space="preserve">
     <value>Tap-Sequenz</value>
   </data>

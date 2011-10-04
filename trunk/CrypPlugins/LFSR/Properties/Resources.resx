@@ -123,50 +123,47 @@
   <data name="PluginTooltip" xml:space="preserve">
     <value>Linear Feedback Shift Register</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value>LFSR/DetailedDescription/Description.xaml</value>
-  </data>
   <data name="InputTapSequenceCaption" xml:space="preserve">
     <value>TapSequence</value>
   </data>
   <data name="InputTapSequenceTooltip" xml:space="preserve">
-    <value>TapSequence function in binary presentation.</value>
+    <value>A string containing the taps as a sequence of the c_i or as a polynomial (e.g.: 1011, which is equal to the string x^4 + x^2 + x + 1. Note, that the last 1, which is x^0, is implicitly set to 1 inside the plugin).</value>
   </data>
   <data name="InputSeedCaption" xml:space="preserve">
     <value>Seed</value>
   </data>
   <data name="InputSeedTooltip" xml:space="preserve">
-    <value>Seed of the LFSR in binary presentation.</value>
+    <value>The initial binary value of all states (E.g.: 1001).</value>
   </data>
   <data name="InputClockBoolCaption" xml:space="preserve">
     <value>Clock</value>
   </data>
   <data name="InputClockBoolTooltip" xml:space="preserve">
-    <value>Optional clock input. LFSR only advances if clock is true.</value>
+    <value>Optional external clock signal (through CLK plugin).</value>
   </data>
   <data name="OutputStringCaption" xml:space="preserve">
     <value>String Output</value>
   </data>
   <data name="OutputStringTooltip" xml:space="preserve">
-    <value>Produces the output bits as a string with length==rounds. Use this output without a clock input.</value>
+    <value>The string containing the output stream with a length of the rounds (e.g.: 1001001, assuming that seven rounds have been performed).</value>
   </data>
   <data name="OutputBoolCaption" xml:space="preserve">
     <value>Boolean Output</value>
   </data>
   <data name="OutputBoolTooltip" xml:space="preserve">
-    <value>LFSR Boolean Output. Use this output together with a clock input.</value>
+    <value>Contains the current output bit as a boolean value.</value>
   </data>
   <data name="OutputClockingBitCaption" xml:space="preserve">
     <value>Additional Output Bit</value>
   </data>
   <data name="OutputClockingBitTooltip" xml:space="preserve">
-    <value>Additional Output Bit.</value>
+    <value>Outputs a specific stage of the LFSR as a boolean value.</value>
   </data>
   <data name="OutputBoolArrayCaption" xml:space="preserve">
     <value>Boolean Array Output of Stages</value>
   </data>
   <data name="OutputBoolArrayTooltip" xml:space="preserve">
-    <value>LFSR Boolean Array Output of all Stages.</value>
+    <value>Outputs all stages of the LFSR. This can be used for example to build a nonlinear filter generator together with the BooleanFunctionParser plugin.</value>
   </data>
   <data name="AlwaysCreateOutputCaption" xml:space="preserve">
     <value>Always create output</value>
@@ -196,7 +193,7 @@
     <value>Period</value>
   </data>
   <data name="PeriodTooltip" xml:space="preserve">
-    <value>The computed period of the LFSR</value>
+    <value>Indicates the period depending on feedback polynomial and seed.</value>
   </data>
   <data name="PolynomialCaption" xml:space="preserve">
     <value>Feedback polynomial</value>
@@ -214,13 +211,13 @@
     <value>Save the state of the LFSR</value>
   </data>
   <data name="SaveCurrentStateTooltip" xml:space="preserve">
-    <value>With this checkbox enabled, the current state will be restored after opening a .cte.</value>
+    <value>Saves the current state when stopping and restarting the plugin or saving the workspace.</value>
   </data>
   <data name="SeedCaption" xml:space="preserve">
     <value>Seed</value>
   </data>
   <data name="SeedTooltip" xml:space="preserve">
-    <value>Define the seed (initial state) of the LFSR. For example 11100</value>
+    <value>Define the seed (initial state) of the LFSR. For example 11100.</value>
   </data>
   <data name="UseAdditionalOutputBitCaption" xml:space="preserve">
     <value>Generate add. output bit</value>
@@ -244,7 +241,7 @@
     <value>Draw LFSR</value>
   </data>
   <data name="initLFSRTooltip" xml:space="preserve">
-    <value>Initializes LFSR and draws the presentation. This is used to view the LFSR before pressing play.</value>
+    <value>Draws the QuickwatchPresentation of the LFSR, if the polynomial fits to the seed.</value>
   </data>
   <data name="No_Quickwatch_data_right_now_" xml:space="preserve">
     <value>No Quickwatch data right now.</value>
