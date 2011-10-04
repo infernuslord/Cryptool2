@@ -41,7 +41,7 @@ using System.Windows.Media;
 namespace Cryptool.LFSR
 {
     [Author("Soeren Rinne", "soeren.rinne@cryptool.de", "Ruhr-Universitaet Bochum, Chair for System Security", "http://www.trust.rub.de/")]
-    [PluginInfo("LFSR.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "LFSR/Images/LFSR.png", "LFSR/Images/encrypt.png", "LFSR/Images/decrypt.png")]
+    [PluginInfo("LFSR.Properties.Resources", false, "PluginCaption", "PluginTooltip", "LFSR/DetailedDescription/doc.xml", "LFSR/Images/LFSR.png", "LFSR/Images/encrypt.png", "LFSR/Images/decrypt.png")]
     [ComponentCategory(ComponentCategory.Protocols)]
     public class LFSR : ICrypComponent
     {

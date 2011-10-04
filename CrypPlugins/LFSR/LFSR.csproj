@@ -98,9 +98,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="LFSRClassDiagram.cd" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\decrypt.png" />
   </ItemGroup>
   <ItemGroup>
@@ -119,14 +116,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="DetailedDescription\Images\LFSR.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="DetailedDescription\Description.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Resource>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\lfsr.xaml">
