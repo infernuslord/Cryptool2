@@ -4,24 +4,56 @@
   <language culture="en"/>
   <language culture="de-DE"/>
 
-  <introduction lang="en">    
+  <introduction lang="en">
+    This plugins searches for a prime factor of the given number.
   </introduction>
 
-  <introduction lang="de-DE">    
+  <introduction lang="de-DE">
+    Dieses Plugin sucht einen Primfaktor der eingegebenen Zahl.
   </introduction>
 
   <usage lang="en">
+    This plugin expects a positive integer as input and tries to find a prime factor of this number.
+    When it succeeds, it sends the found prime factor to the ouput labeled 'Prime factor'. It then divides
+    the input number by the prime factor and sends the result to the output labeled 'Remainder'.
+    Observe that 'Remainder' is generally not a prime number, but a composite number.
+    <newline/><newline/>
+    If the input number is a prime number, the plugin sends 1 to the 'Prime factor' output and the number itself to
+    the 'Remainder' output.
+    <newline/><newline/>
+    The plugin uses trial division for finding a prime factor, i.e. it divides the input number by every prime number, beginning
+    with 2. When it finds a prime number for which the remainder is zero, it has found a prime factor of the number and the
+    algorithm stops. With this method, only prime numbers up to the square root of the input number have to be checked.
+    For big numbers, the search for a prime factor can take a long time. Therefore you can provide an upper limit in the settings
+    of the plugin for the magnitude of the primes that have to be checked by the algorithm. If no prime factor smaller than the 
+    upper limit is found, the algorithm stops and sends 1 to the 'Prime factor' output and the number itself to the 'Remainder'
+    output.
   </usage>
 
   <usage lang="de-DE">
+    Das Plugin erwartet als Eingabe eine positive ganze Zahl. Es versucht, einen Primfaktor der Zahl zu
+    finden und gibt diesen im Erfolgsfall am Ausgang 'Faktor' aus. Die Zahl wird dann durch diesen Primfaktor
+    geteilt und das Ergebnis der Division wird am Ausgang 'Rest' ausgegeben. Beachten Sie, dass 'Rest' im Allgemeinen
+    noch eine zusammengesetzte Zahl, also keine Primzahl ist.
+    <newline/><newline/>
+    Ist die zu untersuchende Zahl eine Primzahl, so wird am Ausgang 'Faktor' die Zahl 1 ausgegeben und am Ausgang 'Rest'
+    die Zahl selbst.
+    <newline/><newline/>
+    Das Plugin verwendet das Verfahren der Probedivision, um einen Primfaktor zu finden. Hierbei wird die zu untersuchende
+    Zahl durch alle Primzahlen, beginnend mit der 2, geteilt. Bleibt bei der Division kein Rest übrig, so ist die getestete Primzahl
+    ein Teiler der zu untersuchenden Zahl und der Algorithmus bricht die weitere Suche ab. Bei diesem Verfahren müssen Primzahlen
+    bis höchstens zur Quadratwurzel der Zahl getestet werden. Da die Suche nach einem Primfaktor für grosse Zahlen sehr lange
+    dauern kann, kann man in den Einstellungen des Plugins eine obere Schranke für die zu testenden Primfaktoren angeben. Hat die
+    Zahl keinen Primfaktor, der kleiner als die angegebene Schranke ist, so wird die Suche beendet und am Ausgang 'Faktor' wird
+    1 ausgegeben, am Ausgang 'Rest' die Zahl selbst.
   </usage>
-  
-  <presentation lang="en">
-  </presentation>
-  
-  <presentation lang="de-DE">
-  </presentation>
-  
+
   <references>
+    <linkReference>
+      <link lang="en" url="http://en.wikipedia.org/wiki/Integer_factorization"/>
+      <caption lang="en">Integer factorization</caption>
+      <link lang="de-DE" url="http://de.wikipedia.org/wiki/Faktorisierungsverfahren"/>
+      <caption lang="de-DE">Faktorisierungsverfahren</caption>
+    </linkReference>
   </references>
 </documentation>
