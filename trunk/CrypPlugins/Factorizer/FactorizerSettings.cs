@@ -24,9 +24,11 @@ namespace Factorizer
 {
   public class FactorizerSettings:ISettings
   {
+
     private const int BRUTEFORCEMIN = 100;
-    private const int BRUTEFORCEMAX = 100000;
+    private const int BRUTEFORCEMAX = 10000000;
     private const string ERROR_BFL = "ERROR_BFL";
+
     public FactorizerSettings()
     {
       m_Errors = new Dictionary<string, string>();
@@ -58,7 +60,7 @@ namespace Factorizer
         }
         else
         {
-          AddError(ERROR_BFL, "BruteForceLimit has to be greater or equal than 100 and less or equal than 1.000.000.");
+          AddError(ERROR_BFL, "BruteForceLimit has to be greater or equal than "+BRUTEFORCEMIN+" and less or equal than "+BRUTEFORCEMAX+".");
           m_BruteForceLimit = -1;
         }
         //HasChanges = true;
