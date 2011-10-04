@@ -36,7 +36,7 @@ namespace XMLSerialization
     /// </summary>
     public static class XMLSerialization
     {
-        private static System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
+        private static System.Text.UTF8Encoding enc = new System.Text.UTF8Encoding();
 
         /// <summary>
         /// Serializes the given object and all of its members to the given file using UTF-8 encoding
