@@ -123,9 +123,6 @@
   <data name="PluginCaption" xml:space="preserve">
     <value>Wörterbuch-Suche</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value />
-  </data>
   <data name="PluginTooltip" xml:space="preserve">
     <value>Suche Wörter in einem Wörterbuch</value>
   </data>
@@ -142,7 +139,7 @@
     <value>Eingabetext</value>
   </data>
   <data name="InputStringTooltip" xml:space="preserve">
-    <value>Text, der im gegebenen Wörterbuch gesucht werden soll (durch Angabe eines Trennzeichens können mehrere Suchworte spezifiziert werden).</value>
+    <value>Wort, das im gegebenen Wörterbuch gesucht werden soll (durch Angabe eines Trennzeichens können mehrere Suchworte spezifiziert werden).</value>
   </data>
   <data name="DictionaryInputStringCaption" xml:space="preserve">
     <value>Wörterbuch</value>
@@ -154,7 +151,7 @@
     <value>Anzahl der zu findenden Treffer</value>
   </data>
   <data name="HitsTooltip" xml:space="preserve">
-    <value>Anzahl der Treffer, die die Suche finden muss, damit das Plugin 'wahr' zurückgibt.</value>
+    <value>Anzahl der Treffer, die die Suche mindestens finden muss, damit das Plugin 'wahr' zurückgibt.</value>
   </data>
   <data name="ResultCaption" xml:space="preserve">
     <value>Suchergebnis</value>
@@ -233,5 +230,8 @@
   </data>
   <data name="LabelTarget" xml:space="preserve">
     <value>Ziel:</value>
+  </data>
+  <data name="SearchSettingList2" xml:space="preserve">
+    <value>Aho-Corasick</value>
   </data>
 </root>

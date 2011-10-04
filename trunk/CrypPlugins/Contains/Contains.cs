@@ -32,7 +32,7 @@ using System.Diagnostics;
 namespace Contains
 {
   [Author("Thomas Schmid", "thomas.schmid@cryptool.org", "Uni Siegen", "http://www.uni-siegen.de")]
-  [PluginInfo("Contains.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "Contains/icon.png", "Contains/subset.png", "Contains/no_subset.png")]
+  [PluginInfo("Contains.Properties.Resources", false, "PluginCaption", "PluginTooltip", "Contains/DetailedDescription/doc.xml", "Contains/icon.png", "Contains/subset.png", "Contains/no_subset.png")]
   [ComponentCategory(ComponentCategory.CryptanalysisGeneric)]
   public class Contains : ICrypComponent
   {    
@@ -55,7 +55,9 @@ namespace Contains
       get { return this.inputString; }
       set
       {
-        if (value != inputString)
+        // It's not enough to check inputString only.
+        // Value must also be evaluated if delimiter character is changed or 'ignore case' is toggled.
+        //if (value != inputString)
         {          
           if (value != null && settings.ToLower) this.inputString = value.ToLower();
           else this.inputString = value;
@@ -70,7 +72,9 @@ namespace Contains
       get { return this.dictionaryInputString; }
       set
       {
-        if (value != dictionaryInputString)
+        // It's not enough to check dictionaryInputString only.
+        // Value must also be evaluated if delimiter character is changed or 'ignore case' is toggled.
+        //if (value != dictionaryInputString)
         {
           if (value != null && settings.ToLower) this.dictionaryInputString = value.ToLower();
           else this.dictionaryInputString = value;
@@ -140,7 +144,7 @@ namespace Contains
             hashTable = new Hashtable();
             string[] theWords = null;
             if (settings.DelimiterDictionary.Length == 1)
-              theWords = dictionaryInputString.Split(settings.DelimiterInputString[0]);
+                theWords = dictionaryInputString.Split(settings.DelimiterDictionary[0]);
             else
             {
               theWords = new string[1];
@@ -177,11 +181,9 @@ namespace Contains
     }
 
 
-
 //Angelov:
     private int hitCount = 0;
 
-    
     [PropertyInfo(Direction.OutputData, "HitCountCaption", "HitCountTooltip", "", false, false, QuickWatchFormat.Text, null)]
     public int HitCount
     {
@@ -190,11 +192,9 @@ namespace Contains
         {
             hitCount = value;
             OnPropertyChanged("HitCount");
-            
         }
     } 
 //End Angelov
-
 
 
     #region IPlugin Members
@@ -277,42 +277,18 @@ namespace Contains
               if (hashTable.ContainsKey(InputString)) listReturn.Add(new StringSearchResult(0, InputString));
             }
           }
-            
-           
 
-
-          // set target-hits bases on current setting
-          int currentTargetHits = int.MinValue;
-          if (settings.HitPercentFromInputString && arrSearch != null)
-          {
-            currentTargetHits = (int)((double)arrSearch.Length / 100.0 * settings.Hits);
-          }
-          else
-          {
-            currentTargetHits = settings.Hits;
-          }
-          presentation.TargetHits = currentTargetHits;
-
-          if (listReturn.Count < currentTargetHits)
-          {
-            // presentation.SetHits(list.Count);
-            EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(Math.Min((double)listReturn.Count / (double)settings.Hits * 100.0, 100.0), 100));
-            Result = false;
-          }
-          else
-          {
-            // presentation.SetData(list.ToArray());
-            Result = true;
-            EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(100, 100));
-          }
-          presentation.SetData(listReturn.ToArray());
-
-         //Angelov: 
 
           HitCount = listReturn.Count;
+          Result = (HitCount >= settings.Hits);
 
-         //End Angelov
+          double percentage = HitCount * 100.0 / settings.Hits;
 
+          // set target-hits bases on current setting
+          presentation.TargetHits = (settings.HitPercentFromInputString && arrSearch != null) ? (int)percentage : settings.Hits;
+          presentation.SetData(listReturn.ToArray());
+
+          EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(Math.Min(percentage, 100.0), 100));
         }
         else
         {

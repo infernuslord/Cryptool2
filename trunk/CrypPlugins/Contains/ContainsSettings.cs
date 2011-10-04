@@ -38,8 +38,8 @@ namespace Contains
     }
 
 
-    [ContextMenu("SearchSettingCaption", "SearchSettingTooltip", 1, ContextMenuControlType.ComboBox, null, new string[] { "SearchSettingList1" })]
-    [TaskPane("SearchSettingCaption", "SearchSettingTooltip", "", 1, false, ControlType.ComboBox, new string[] { "SearchSettingList1" })]
+    [ContextMenu("SearchSettingCaption", "SearchSettingTooltip", 1, ContextMenuControlType.ComboBox, null, new string[] { "SearchSettingList1", "SearchSettingList2" })]
+    [TaskPane("SearchSettingCaption", "SearchSettingTooltip", "", 1, false, ControlType.ComboBox, new string[] { "SearchSettingList1", "SearchSettingList2" })]
     public int SearchSetting
     {
       get { return (int)search; }
@@ -74,12 +74,12 @@ namespace Contains
     [TaskPaneAttribute( "DelimiterInputStringCaption", "DelimiterInputStringTooltip", null, 3, false, ControlType.TextBox, ValidationType.RegEx, "^.?$")] // [a-zA-Z]|[0-9]|\\s
     public string DelimiterInputString
     {
-      get { return this.delimiterDictionary; }
+      get { return this.delimiter; }
       set 
       {
-        if (value != delimiterDictionary)
+        if (value != delimiter)
         {
-          delimiterDictionary = value;
+          delimiter = value;
           HasChanges = true;
         }
         OnPropertyChanged("DelimiterInputString");
@@ -93,7 +93,7 @@ namespace Contains
       get { return this.delimiterDictionary; }
       set
       {
-        if (value != delimiterDictionary)
+       if (value != delimiterDictionary)
         {
           delimiterDictionary = value;
           HasChanges = true;
