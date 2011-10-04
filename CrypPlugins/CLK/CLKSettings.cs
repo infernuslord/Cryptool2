@@ -74,7 +74,6 @@ namespace Cryptool.CLK
         }
     }*/
 
-    //[ContextMenu("Set clock to true", " yes / no ", 0, ContextMenuControlType.CheckBox, null, "Set clock to true")]
     [TaskPaneAttribute( "CLKTimeoutCaption", "CLKTimeoutTooltip", "", 1, false, ControlType.TextBox, null)]
     public int CLKTimeout
     {
