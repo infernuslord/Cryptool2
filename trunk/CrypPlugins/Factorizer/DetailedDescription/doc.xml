@@ -24,10 +24,14 @@
     The plugin uses trial division for finding a prime factor, i.e. it divides the input number by every prime number, beginning
     with 2. When it finds a prime number for which the remainder is zero, it has found a prime factor of the number and the
     algorithm stops. With this method, only prime numbers up to the square root of the input number have to be checked.
-    For big numbers, the search for a prime factor can take a long time. Therefore you can provide an upper limit in the settings
-    of the plugin for the magnitude of the primes that have to be checked by the algorithm. If no prime factor smaller than the 
+    For big numbers, the search for a prime factor can take a very long time. Therefore you can provide an upper limit in the settings
+    of the plugin for the magnitude of the primes that have to be checked by the algorithm. If no prime factor smaller than the
     upper limit is found, the algorithm stops and sends 1 to the 'Prime factor' output and the number itself to the 'Remainder'
     output.
+    <newline/><newline/>
+    The factorization algorithm that is implemented in this plugin should only be applied to relatively small numbers (up to
+    about 10^12). For the factorization of bigger numbers there exist algorithms that are much more efficient,
+    f.e. the quadratic sieve algorithm, which is implemented in the plugin <docRef item="Quadratic Sieve"/>.
   </usage>
 
   <usage lang="de-DE">
@@ -42,10 +46,14 @@
     Das Plugin verwendet das Verfahren der Probedivision, um einen Primfaktor zu finden. Hierbei wird die zu untersuchende
     Zahl durch alle Primzahlen, beginnend mit der 2, geteilt. Bleibt bei der Division kein Rest übrig, so ist die getestete Primzahl
     ein Teiler der zu untersuchenden Zahl und der Algorithmus bricht die weitere Suche ab. Bei diesem Verfahren müssen Primzahlen
-    bis höchstens zur Quadratwurzel der Zahl getestet werden. Da die Suche nach einem Primfaktor für grosse Zahlen sehr lange
+    bis höchstens zur Quadratwurzel der Zahl getestet werden. Da die Suche nach einem Primfaktor für große Zahlen sehr lange
     dauern kann, kann man in den Einstellungen des Plugins eine obere Schranke für die zu testenden Primfaktoren angeben. Hat die
     Zahl keinen Primfaktor, der kleiner als die angegebene Schranke ist, so wird die Suche beendet und am Ausgang 'Faktor' wird
     1 ausgegeben, am Ausgang 'Rest' die Zahl selbst.
+    <newline/><newline/>
+    Der in diesem Plugin implementierte Faktorisierungsalgorithmus sollte nur auf kleine Zahlen angewendet werden (etwa bis 10^12). 
+    Für die Faktorisierung größerer Zahlen existieren sehr viel effizientere Methoden, wie z.B. das quadratische Sieb, welches
+    im Plugin <docRef item="Quadratic Sieve"/> realisiert ist und für größere Zahlen diesem Plugin vorgezogen werden sollte.
   </usage>
 
   <references>
