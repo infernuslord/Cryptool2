@@ -290,10 +290,15 @@ namespace WorkspaceManager.View.BinVisual
             }
 
             BinConnectorVisual selected = bin.WindowParent.EditorVisual.SelectedConnector;
-            ConversionLevel lvl = WorkspaceModel.compatibleConnectors(bin.Model, selected.Model);
-            bin.CVLevel = new ConversionLevelInformation() { Level = lvl };
+            if (bin == selected)
+                bin.CVLevel = new ConversionLevelInformation() { Level = ConversionLevel.NA };
+            else
+            {
+                ConversionLevel lvl = WorkspaceModel.compatibleConnectors(bin.Model, selected.Model);
+                bin.CVLevel = new ConversionLevelInformation() { Level = lvl };
+            }
 
-            if (lvl != ConversionLevel.Red && lvl != ConversionLevel.NA)
+            if (bin.CVLevel.Level != ConversionLevel.Red && bin.CVLevel.Level != ConversionLevel.NA)
                 bin.Marked = true;
         }
 
