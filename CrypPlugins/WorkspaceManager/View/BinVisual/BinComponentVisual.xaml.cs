@@ -138,17 +138,17 @@ namespace WorkspaceManager.View.BinVisual
             }
         }
 
-        private BinComponentState lastStateBeforeFullscreen;
-        public BinComponentState LastStateBeforeFullscreen
+        private BinComponentState fullScreenState;
+        public BinComponentState FullScreenState
         {
             set
             {
-                lastStateBeforeFullscreen = value;
+                fullScreenState = value;
             }
 
             get
             {
-                return lastStateBeforeFullscreen;
+                return fullScreenState;
             }
         }
 
@@ -746,7 +746,12 @@ namespace WorkspaceManager.View.BinVisual
         private static void OnIsFullscreenChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             BinComponentVisual bin = (BinComponentVisual)d;
-            bin.lastStateBeforeFullscreen = bin.State;
+
+            if (bin.IsFullscreen)
+                bin.FullScreenState = bin.State;
+            else
+                bin.State = bin.FullScreenState;
+
             bin.OnPropertyChanged("ActivePresentation");
         }
 
@@ -792,22 +797,23 @@ namespace WorkspaceManager.View.BinVisual
         private void ContextMenuClick(object sender, RoutedEventArgs e)
         {
             MenuItem item = (MenuItem)sender;
+            BinComponentState localState = BinComponentState.Log;
             switch ((string)item.Tag)
             {
                 case "presentation":
-                    State = BinComponentState.Presentation;
+                    localState = BinComponentState.Presentation;
                     break;
 
                 case "data":
-                    State = BinComponentState.Data;
+                    localState = BinComponentState.Data;
                     break;
 
                 case "log":
-                    State = BinComponentState.Log;
+                    localState = BinComponentState.Log;
                     break;
 
                 case "setting":
-                    State = BinComponentState.Setting;
+                    localState = BinComponentState.Setting;
                     break;
 
                 case "help":
@@ -816,6 +822,7 @@ namespace WorkspaceManager.View.BinVisual
             }
             editor.IsFullscreenOpen = true;
             editor.FullscreenVisual.ActiveComponent = this;
+            State = localState;
         }
 
     }

@@ -291,8 +291,19 @@
             </Style.Triggers>
             
         </Style>
-        
-        <Border x:Key="LinkingTooltipTemplate" BorderBrush="White" BorderThickness="1.5" Width="200" Height="120" CornerRadius="3" Margin="2" Background="#edf5ff">
+
+        <Style x:Key="LinkingPopupVisibility" TargetType="Border">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=CVLevel.Level}">
+                    <DataTrigger.Value>
+                        <model:ConversionLevel>NA</model:ConversionLevel>
+                    </DataTrigger.Value>
+                    <Setter Property="Visibility" Value="Collapsed"></Setter>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Border x:Key="LinkingTooltipTemplate" Style="{StaticResource ResourceKey=LinkingPopupVisibility}" BorderBrush="White" BorderThickness="1.5" Width="200" Height="120" CornerRadius="3" Margin="2" Background="#edf5ff">
             <Border.Effect>
                 <DropShadowEffect BlurRadius="5" Opacity="0.5" ShadowDepth="0"></DropShadowEffect>
             </Border.Effect>
