@@ -13,7 +13,7 @@
     </section>
 
     <section headline="About this component">
-      This component is a wrapper for the quadratic sieve C-implementation Msieve written by Jason Stratos Papadopoulos. The C-code is integrated into a 32bit dll and a 64bit dll. Depending on the users system, the correct dll is loaded during the startup of the CrypTool 2. The dlls also extend the functionality of the Msieve algorithm with multi threading. The original Msieve itself is a console application. If you want to get further information about the Msieve please have a look at the authors website on sourceforge at <ref id="msieve"/>.
+      This component is a wrapper for the quadratic sieve C-implementation Msieve written by Jason Stratos Papadopoulos. The C-code is integrated into a 32bit dll and a 64bit dll. Depending on the users system, the correct dll is loaded during the startup of CrypTool 2. The dlls also extend the functionality of the Msieve algorithm with multi threading. The original Msieve itself is a console application. If you want to get further information about Msieve please have a look at the author's website on sourceforge at <ref id="msieve"/>.
     </section>
   </introduction>
 
