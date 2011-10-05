@@ -212,31 +212,37 @@ Die erste Enigma wurde von dem deutschen Ingenieur Arthur Scherbius am Ende des 
       <defaultvalue lang="de">Wir wurden entdeckt, sofortiger Rückzug!</defaultvalue>
     </inputBox>
 
+    <inputBox plugin="Enigma" property="Key" alignment="Stretch" width="10%" visibleLines="1" group="settings">
+      <description lang="en">Key:</description>
+      <description lang="de">Schlüssel:</description>
+      <defaultvalue lang="en">AAA</defaultvalue>
+    </inputBox>
+
     <sampleViewer file="Cryptography\Classic\Enigma_Sample.cwm" image="Enigma">
-      <name lang="en">Transposition Output</name>
-      <name lang="de">Transpositions-Ausgabe</name>
+      <name lang="en">Enigma Output</name>
+      <name lang="de">Enigma-Ausgabe</name>
       <description lang="en" >A transposition cipher is a method of encryption by which the positions held by units of plaintext (which are commonly characters or groups of characters) are shifted according to a regular system, so that the ciphertext constitutes a permutation of the plaintext.</description>
       <description lang="de" >Eine Transpositions-Chiffrierung is eine Verschlüsselungsmethode bei der die Positionen, die von den Einheiten des Klartext (meistens einzelne Buchstaben oder Gruppen von Buchstaben) eingenommen werden, basierend auf einem regulären System verschoben werden, so dass der chiffrierte Text eine Permutation des Klartext darstellt.</description>
 
-      <headline lang="en">Transposition Output</headline>
-      <headline lang="de">Transpositions-Ausgabe</headline>
+      <headline lang="en">Enigma Output</headline>
+      <headline lang="de">Enigma-Ausgabe</headline>
       <task lang="en">Here, you can change the parameters and view the results.</task>
       <task lang="de">Hier können Sie Parameter verändern und die Ergebnisse sehen.</task>
 
-      <inputBox plugin="Message" property="Text" alignment="right" visibleLines="5" group="0">
+      <inputBox plugin="Message" property="Text" alignment="stretch" visibleLines="5">
         <description lang="en">Message to encrypt/decrypt:</description>
         <description lang="de">Nachricht zum Verschlüsseln/Entschlüsseln:</description>
         <defaultvalue lang="en">Wir wurden entdeckt, flieh wenn du kannst!</defaultvalue>
       </inputBox>
 
-      <presentation plugin="Enigma" height="800" width="1000" group="0">
+      <presentation plugin="Enigma" height="70%" width="100%" >
         <description lang="en">Plugin Presentation:</description>
         <description lang="de">Plugin-Präsentation:</description>
       </presentation>
 
-      <outputBox plugin="Result" property="CurrentValue" alignment="left" visibleLines="2" group="0">
-        <description lang="en">Transposition Output:</description>
-        <description lang="de">Transpositions-Ausgabe:</description>
+      <outputBox plugin="Result" property="CurrentValue" alignment="stretch" visibleLines="2" >
+        <description lang="en">Enigma Output:</description>
+        <description lang="de">Enigma-Ausgabe:</description>
       </outputBox>
 
     </sampleViewer>
