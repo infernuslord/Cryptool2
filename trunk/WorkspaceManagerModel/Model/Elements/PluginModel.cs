@@ -455,20 +455,21 @@ namespace WorkspaceManager.Model
                         continue;
                     }
 
-                    if (Startable && !RepeatStart && InputConnectors.Count == 0)
+                    /*if (Startable && !RepeatStart && InputConnectors.Count == 0)
                     {
                         continue;
-                    }
+                    }*/
 
                     var breakit = false;
+                    var oneChanged = false;
 
                     // ################
                     // 1. Check if we may execute
                     // ################
-
+                    
                     //Check if all necessary inputs are set                
                     foreach (ConnectorModel connectorModel in InputConnectors)
-                    {
+                    {                        
                         if (!connectorModel.IControl &&
                             (connectorModel.IsMandatory || connectorModel.InputConnections.Count > 0) &&
                             !connectorModel.HasData)
@@ -476,8 +477,27 @@ namespace WorkspaceManager.Model
                             breakit = true;
                             continue;
                         }
+                        if(connectorModel.NewData)
+                        {
+                            oneChanged = true;
+                        }
                     }
-                    if (breakit)
+                    
+                    //Gate is a special case. A Gate may only fire if all inputs are new if all inputs are connected:
+                    if(this.PluginTypeName.Equals("Gate.Gate"))
+                    {
+                        foreach (ConnectorModel connectorModel in InputConnectors)
+                        {
+                            if (connectorModel.InputConnections.Count > 0 &&
+                                !connectorModel.NewData)
+                            {
+                                breakit = true;
+                                continue;
+                            }                           
+                        }
+                    }
+
+                    if (breakit || !oneChanged)
                     {
                         continue;
                     }
@@ -490,7 +510,7 @@ namespace WorkspaceManager.Model
                             List<ConnectionModel> outputConnections = connectorModel.OutputConnections;
                             foreach (ConnectionModel connectionModel in outputConnections)
                             {
-                                if (connectionModel.To.HasData)
+                                if (connectionModel.To.NewData)
                                 {
                                     breakit = true;
                                     continue;
@@ -614,8 +634,13 @@ namespace WorkspaceManager.Model
                         {
                             if (connectorModel.HasData && connectorModel.Data != null)
                             {
-                                connectorModel.HasData = false;
-                                connectorModel.Data = null;
+                                connectorModel.NewData = false;
+                                //Gates really consume data
+                                if (this.PluginTypeName.Equals("Gate.Gate"))
+                                {
+                                    connectorModel.Data = null;
+                                    connectorModel.HasData = false;
+                                }
                                 foreach (ConnectionModel connectionModel in connectorModel.InputConnections)
                                 {
                                     connectionModel.Active = false;

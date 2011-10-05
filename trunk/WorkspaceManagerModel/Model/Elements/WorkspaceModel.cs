@@ -491,6 +491,7 @@ namespace WorkspaceManager.Model
             foreach (ConnectorModel connector in this.AllConnectorModels)
             {
                 connector.HasData = false;
+                connector.NewData = false;
                 connector.Data = null;
                 connector.LastData = null;
             }
