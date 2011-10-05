@@ -36,18 +36,39 @@ namespace WorkspaceManager.View.BinVisual
         private Dictionary<ISettings, Dictionary<string, List<RadioButton>>> dicRadioButtons = new Dictionary<ISettings, Dictionary<string, List<RadioButton>>>();
         private IPlugin plugin;
         private EntryGroup entgrou;
-        private BinComponentVisual bcv;
+        public BinComponentVisual bcv;
         
 
         public BinSettingsVisual(IPlugin plugin, BinComponentVisual bcv)
         {
-            InitializeComponent();
-            this.plugin = plugin;
-            this.entgrou = createContentSettings(plugin);
-            drawList(this.entgrou);
+
             this.bcv = bcv;
+            this.plugin = plugin;
+            entgrou = new EntryGroup();
+            this.entgrou = createContentSettings(plugin);
+
             ((WorkspaceManager)bcv.Model.WorkspaceModel.MyEditor).executeEvent += new EventHandler(excuteEventHandler);
+
             //plugin.Settings.PropertyChanged += myTaskPaneAttributeChangedHandler;
+            if (plugin.Settings.GetTaskPaneAttributeChanged() != null)
+            {
+                plugin.Settings.GetTaskPaneAttributeChanged().AddEventHandler(plugin.Settings, new TaskPaneAttributeChangedHandler(myTaskPaneAttributeChangedHandler));  // throws nullpointerexception for unknown reason
+            }
+
+
+            InitializeComponent();
+            drawList(this.entgrou);
+            
+            /*
+            for(int i = 0 ; i< bcv.IControlCollection.Count ; i++)
+            {
+                this.entgrou.Add(createContentSettings(bcv.IControlCollection[i].PluginModel.Plugin));
+                drawList(this.entgrou[i+1]);
+                Console.WriteLine("Hallo" + i);
+            }
+            Console.WriteLine("Hallo" );*/
+            
+            
             
             
         }
@@ -55,11 +76,12 @@ namespace WorkspaceManager.View.BinVisual
 
         private void myTaskPaneAttributeChangedHandler(Object sender, TaskPaneAttributeChangedEventArgs args) 
         {
+           
             plugin.Settings.GetTaskPaneAttributeChanged();
 
             Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
-                foreach (List<ControlEntry> cel in entgrou.entryList)
+               foreach (List<ControlEntry> cel in entgrou.entryList)
                 {
                     entgrou.gorupPanel[entgrou.entryList.IndexOf(cel)].Visibility = System.Windows.Visibility.Visible;
                     Boolean allinvisble = true;
@@ -107,7 +129,7 @@ namespace WorkspaceManager.View.BinVisual
             
             Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
-
+                
                 
                 foreach (List<ControlEntry> cel in entgrou.entryList)
                 {
@@ -125,7 +147,7 @@ namespace WorkspaceManager.View.BinVisual
                         }
                     }
                 }
-
+                
             }, null);
             
         }
@@ -133,10 +155,7 @@ namespace WorkspaceManager.View.BinVisual
 
         List<String> groups = new List<String>();
 
-        private void isVisibleChanged(Object sender, DependencyPropertyChangedEventArgs eventArgs)
-        {
-            
-        }
+       
 
         private double getComboBoxMaxSize(ComboBox child) 
         {
@@ -201,7 +220,7 @@ namespace WorkspaceManager.View.BinVisual
 //                    bodi.SetBinding(Border.WidthProperty, dataBinding);
 
 
-                    if (cel[0].tpa.groupName != null)
+                    if ( !string.IsNullOrEmpty(cel[0].tpa.groupName) )
                     {
                           testexoander.Header = cel[0].tpa.GroupName;
                     }
@@ -255,6 +274,7 @@ namespace WorkspaceManager.View.BinVisual
                                     ComboBox cb = ce.element as ComboBox;
                                     cb.Width = getComboBoxMaxSize(cb);
                                     test.Children.Add(cb);
+
                                 }
                                 else
                                 {
@@ -297,11 +317,15 @@ namespace WorkspaceManager.View.BinVisual
                                         ComboBox cb = ce.element as ComboBox;
                                         cb.Width = getComboBoxMaxSize(cb);
                                         controlGrid.Children.Add(cb);
+                                        controlGrid.MaxWidth += cb.Width;
+                                        controlGrid.MaxWidth += title.DesiredSize.Width; ;
                                     }
                                     else
                                     {
                                         controlGrid.Children.Add(ce.element);
+                                        
                                     }
+
 
                                 }
                                 else
@@ -324,7 +348,18 @@ namespace WorkspaceManager.View.BinVisual
 
                                     controlGrid.Children.Add(title);
                                     Grid.SetColumn(ce.element, 1);
-                                    controlGrid.Children.Add(ce.element);
+                                    if (ce.element is ComboBox)
+                                    {
+                                        ComboBox cb = ce.element as ComboBox;
+                                        cb.Width = getComboBoxMaxSize(cb);
+                                        controlGrid.Children.Add(cb);
+                                        controlGrid.MaxWidth += cb.Width;
+                                        controlGrid.MaxWidth += title.DesiredSize.Width;
+                                    }
+                                    else
+                                    {
+                                        controlGrid.Children.Add(ce.element);
+                                    }
                                     controlGrid.HorizontalAlignment = HorizontalAlignment.Stretch;
 
                                     Label dummy = new Label();
@@ -400,7 +435,7 @@ namespace WorkspaceManager.View.BinVisual
                                 else if (ce.element is ComboBox )
                                 {
                                     ComboBox cb = ce.element as ComboBox;
-                                    cb.Width = getComboBoxMaxSize(cb);
+                                    //cb.Width = getComboBoxMaxSize(cb);
                                     test.Children.Add(cb);
                                 }
                                 else
@@ -419,11 +454,7 @@ namespace WorkspaceManager.View.BinVisual
                     myWrap.Children.Add(testexoander);
 
                 }
-                try
-                {
-                    plugin.Settings.GetTaskPaneAttributeChanged().AddEventHandler(plugin.Settings, new TaskPaneAttributeChangedHandler(myTaskPaneAttributeChangedHandler)); // throws nullpointerexception for unknown reason
-                }
-                catch (Exception e) { } 
+                
                 
 
         }
@@ -866,6 +897,9 @@ namespace WorkspaceManager.View.BinVisual
         
         public void AddNewEntry(String groupname , ControlEntry entry)
         {
+            if (string.IsNullOrEmpty(groupname))
+            { groupname = null; }
+
             if (listAdmin.Contains(groupname))
             {
                 listAdmin.IndexOf(groupname);
@@ -941,16 +975,29 @@ namespace WorkspaceManager.View.BinVisual
             double maxSizeContent = 0;
             double maxSizeCaption = 0;
 
+            Grid maxGrid = new Grid();
+
+            
+
             foreach (UIElement child in Children)
             {
-                if (!(child is Grid))
+                if (true)
                 {
-                    if (child is TextBlock || child is CheckBox || child is Expander)
+                    if (child is TextBlock || child is CheckBox || child is Expander )
                     {
                         if (child.DesiredSize.Width > maxSizeCaption)
                         {
                             maxSizeCaption = child.DesiredSize.Width;
                         }
+                    }
+                    else if (child is Grid) 
+                    {
+                        if (maxGrid.Width < (child as Grid).Width)
+                        {
+                            maxGrid = child as Grid;
+                            
+                        }
+                        
                     }
                     else
                     {
@@ -961,15 +1008,25 @@ namespace WorkspaceManager.View.BinVisual
                     }
                 }
             }
+
+           
+
             maxSizeCaption += 5;
             maxSize = maxSizeCaption + maxSizeContent;
-            this.MaxWidth = maxSize + 10;
             
+
             if (maxSizeCaption > maxSizeContent)
                 this.MinWidth = maxSizeCaption;
             else
                 this.MinWidth = maxSizeContent;
             
+            if (maxSize < maxGrid.Width)
+            {
+                maxSize = maxGrid.Width;
+                this.MinWidth = maxGrid.Width;
+            }
+
+            this.MaxWidth = maxSize + 10;
 
 
             Boolean b = true;
@@ -981,15 +1038,25 @@ namespace WorkspaceManager.View.BinVisual
             {
 
                 child.Measure(infiniteSize);
-
+                /*
                 if (child is Grid)
                 {
                     Grid dummy = child as Grid;
                     if (this.ActualWidth != 0)
-                    { dummy.Width = this.ActualWidth; }
+                    {
+                        if(0>this.ActualWidth -10)
+                            dummy.Width = this.ActualWidth; 
+                        else
+                            dummy.Width = this.ActualWidth - 10; 
+                    }
                     else
-                    { dummy.Width = this.DesiredSize.Width; }
-                }
+                    {
+                        if (0 > dummy.DesiredSize.Width - 10)
+                            dummy.Width = dummy.DesiredSize.Width;
+                        else
+                            dummy.Width = dummy.DesiredSize.Width - 10;
+                    }
+                }*/
 
                 if (Children.IndexOf(child) % 2 == 0 || curX + child.DesiredSize.Width > availableSize.Width || curX + child.DesiredSize.Width > maxSize || b)
                 { //Wrap to next line
@@ -1024,9 +1091,14 @@ namespace WorkspaceManager.View.BinVisual
             double maxSizeContent = 0;
             double maxSizeCaption = 0;
 
+            
+            Grid maxGrid = new Grid();
+
+
+
             foreach (UIElement child in Children)
             {
-                if (!(child is Grid))
+                if (true)
                 {
                     if (child is TextBlock || child is CheckBox || child is Expander )
                     {
@@ -1034,6 +1106,15 @@ namespace WorkspaceManager.View.BinVisual
                         {
                             maxSizeCaption = child.DesiredSize.Width;
                         }
+                    }
+                    else if (child is Grid)
+                    {
+                        if (maxGrid.Width < (child as Grid).Width)
+                        {
+                            maxGrid = child as Grid;
+                            
+                        }
+                       
                     }
                     else
                     {
@@ -1047,8 +1128,6 @@ namespace WorkspaceManager.View.BinVisual
             maxSizeCaption += 5;
             maxSize = maxSizeCaption + maxSizeContent;
 
-            this.MaxWidth = maxSize + 10;
-
             if (maxSizeContent > maxSizeCaption)
             {
                 this.MinWidth = maxSizeContent;
@@ -1058,7 +1137,13 @@ namespace WorkspaceManager.View.BinVisual
                 this.MinWidth = maxSizeCaption;
             }
 
-            
+            if (maxSize < maxGrid.Width)
+            {
+                maxSize = maxGrid.Width;
+                this.MinWidth = maxGrid.Width;
+            }
+
+            this.MaxWidth = maxSize + 10;
 
             /*
             if (maxSizeCaption > maxSizeContent)
@@ -1086,17 +1171,27 @@ namespace WorkspaceManager.View.BinVisual
                     trans = new TranslateTransform();
                     child.RenderTransform = trans;
                 }
-
+                /*
                 if (child is Grid)
                 {
                     Grid dummy = child as Grid;
                     if (this.ActualWidth != 0)
-                        dummy.Width = this.ActualWidth;
+                    {
+                        if (0 > this.ActualWidth - 10)
+                            dummy.Width = this.ActualWidth;
+                        else
+                            dummy.Width = this.ActualWidth - 10;
+                    }
                     else
-                    { dummy.Width = dummy.DesiredSize.Width; }
+                    { 
+                        if(0 > dummy.DesiredSize.Width -10 )
+                            dummy.Width = dummy.DesiredSize.Width; 
+                        else
+                            dummy.Width = dummy.DesiredSize.Width-10; 
+                    }
                     
                 }
-
+                */
                 if (child is TextBox)
                 {
                     TextBox dummyTextBox = child as TextBox;
