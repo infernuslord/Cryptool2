@@ -48,7 +48,13 @@ namespace WorkspaceManager.Model
         /// </summary>
         [NonSerialized]
         private volatile bool hasData = false;
-       
+
+        /// <summary>
+        /// Does this Connector Model has actually new data?
+        /// </summary>
+        [NonSerialized]
+        private volatile bool newData = false;
+
         /// <summary>
         /// Name of the Connector type
         /// </summary>
@@ -234,6 +240,24 @@ namespace WorkspaceManager.Model
         }
 
         /// <summary>
+        /// Does this Connector has new data
+        /// </summary>
+        /// <returns></returns>
+        public bool NewData
+        {
+            get
+            {
+                return newData;
+            }
+
+            internal set
+            {
+                newData = value;
+            }
+        }
+
+
+        /// <summary>
         /// Data of this Connector
         /// </summary>
         [NonSerialized]
@@ -313,13 +337,21 @@ namespace WorkspaceManager.Model
 
                     List<ConnectionModel> outputConnections = this.OutputConnections;
                     foreach (ConnectionModel connectionModel in outputConnections)
-                    {                       
-                        connectionModel.To.Data = data;
-                        connectionModel.To.LastData = data;
-                        connectionModel.To.HasData = true;
-                        connectionModel.Active = true;
-                        connectionModel.GuiNeedsUpdate = true;
-                        connectionModel.To.PluginModel.resetEvent.Set();
+                    {
+                        if (connectionModel.To.Data != null && connectionModel.To.Data.Equals(data))
+                        {
+                            connectionModel.To.newData = false;
+                        }
+                        else
+                        {
+                            connectionModel.To.Data = data;
+                            connectionModel.To.LastData = data;
+                            connectionModel.To.HasData = true;
+                            connectionModel.To.NewData = true;
+                            connectionModel.Active = true;
+                            connectionModel.GuiNeedsUpdate = true;
+                            connectionModel.To.PluginModel.resetEvent.Set();
+                        }
                     }
                 }
             }
