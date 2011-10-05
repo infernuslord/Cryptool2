@@ -13,7 +13,7 @@
   </introduction>
 
   <usage lang="en">
-    The magnitude of the prime number that is to be generated can be chosen in two different ways in the settings tab of the plugin.
+    The magnitude of the prime number to be generated can be chosen in two different ways in the settings tab of the plugin.
     <newline/><newline/>
     When you choose 'prime number with n bits', the parameter n is interpreted as the maximum bitsize of the generated prime, i.e.
     the maximum number of bits that the binary representation of the generated prime requires.
