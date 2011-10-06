@@ -102,6 +102,7 @@
     <Compile Include="IO\CStreamWriter.cs" />
     <Compile Include="IO\DirectoryHelper.cs" />
     <Compile Include="IO\ICryptoolStream.cs" />
+    <Compile Include="Miscellaneous\ApplicationSettingsHelper.cs" />
     <Compile Include="Miscellaneous\BigIntegerHelper.cs" />
     <Compile Include="Miscellaneous\AssemblyHelper.cs" />
     <Compile Include="Miscellaneous\DataManager.cs" />

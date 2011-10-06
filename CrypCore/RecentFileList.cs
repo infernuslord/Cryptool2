@@ -33,7 +33,22 @@ namespace Cryptool.Core
         public void ChangeListLength(int listLength)
         {
             Properties.Settings.Default.RecentFileListSize = listLength;
-            Properties.Settings.Default.Save();
+            try
+            {
+                Properties.Settings.Default.Save();
+            }
+            catch (Exception e1)
+            {
+                //if saving failed try one more time
+                try
+                {
+                    Properties.Settings.Default.Save();
+                }
+                catch (Exception e2)
+                {
+                    //if saving failed again we do not try it again
+                }
+            }
             ListLength = listLength;
             if (ListLength < recentFiles.Count)
             {

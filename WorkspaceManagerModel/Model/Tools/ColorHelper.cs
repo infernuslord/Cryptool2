@@ -24,6 +24,31 @@ namespace WorkspaceManager.Model
 {
     public static class ColorHelper
     {
+        /// <summary>
+        /// Saves the Application settings. If save fails it tries to save again. If
+        /// 2. try fails too app settings wont be saved
+        /// </summary>
+        private static void SaveApplicationsSettings()
+        {
+            try
+            {
+                WorkspaceManagerModel.Properties.Settings.Default.Save();
+            }
+            catch (Exception e1)
+            {
+                //if saving failed try one more time
+                try
+                {
+                    WorkspaceManagerModel.Properties.Settings.Default.Save();
+                }
+                catch (Exception e2)
+                {
+                    //if saving failed again we do not try it again
+                }
+            }
+        }
+
+
         public static Color AsymmetricColor { 
             get
             { 
@@ -31,8 +56,8 @@ namespace WorkspaceManager.Model
             }
             set 
             { 
-                WorkspaceManagerModel.Properties.Settings.Default.AsymmetricColor = MediaToDrawing(value);             
-                WorkspaceManagerModel.Properties.Settings.Default.Save();
+                WorkspaceManagerModel.Properties.Settings.Default.AsymmetricColor = MediaToDrawing(value);
+                SaveApplicationsSettings();
             }
         }
 
@@ -45,7 +70,7 @@ namespace WorkspaceManager.Model
             set
             {
                 WorkspaceManagerModel.Properties.Settings.Default.ClassicColor = MediaToDrawing(value);
-                WorkspaceManagerModel.Properties.Settings.Default.Save();
+                SaveApplicationsSettings();
             }
         }
 
@@ -58,7 +83,7 @@ namespace WorkspaceManager.Model
             set
             {
                 WorkspaceManagerModel.Properties.Settings.Default.SymmetricColor = MediaToDrawing(value);
-                WorkspaceManagerModel.Properties.Settings.Default.Save();
+                SaveApplicationsSettings();
             }
         }
 
@@ -71,7 +96,7 @@ namespace WorkspaceManager.Model
             set
             {
                 WorkspaceManagerModel.Properties.Settings.Default.ToolsColor = MediaToDrawing(value);
-                WorkspaceManagerModel.Properties.Settings.Default.Save();
+                SaveApplicationsSettings();
             }
         }
 
@@ -84,7 +109,7 @@ namespace WorkspaceManager.Model
             set
             {
                 WorkspaceManagerModel.Properties.Settings.Default.HashColor = MediaToDrawing(value);
-                WorkspaceManagerModel.Properties.Settings.Default.Save();
+                SaveApplicationsSettings();
             }
         }
 
@@ -97,7 +122,7 @@ namespace WorkspaceManager.Model
             set
             {
                 WorkspaceManagerModel.Properties.Settings.Default.AnalysisGenericColor = MediaToDrawing(value);
-                WorkspaceManagerModel.Properties.Settings.Default.Save();
+                SaveApplicationsSettings();
             }
         }
 
@@ -110,7 +135,7 @@ namespace WorkspaceManager.Model
             set
             {
                 WorkspaceManagerModel.Properties.Settings.Default.AnalysisSpecificColor = MediaToDrawing(value);
-                WorkspaceManagerModel.Properties.Settings.Default.Save();
+                SaveApplicationsSettings();
             }
         }
 
@@ -123,7 +148,7 @@ namespace WorkspaceManager.Model
             set
             {
                 WorkspaceManagerModel.Properties.Settings.Default.IntegerColor = MediaToDrawing(value);
-                WorkspaceManagerModel.Properties.Settings.Default.Save();
+                SaveApplicationsSettings();
             }
         }
  
@@ -136,7 +161,7 @@ namespace WorkspaceManager.Model
             set
             {
                 WorkspaceManagerModel.Properties.Settings.Default.ByteColor = MediaToDrawing(value);
-                WorkspaceManagerModel.Properties.Settings.Default.Save();
+                SaveApplicationsSettings();
             }
         }
 
@@ -149,7 +174,7 @@ namespace WorkspaceManager.Model
             set
             {
                 WorkspaceManagerModel.Properties.Settings.Default.DoubleColor = MediaToDrawing(value);
-                WorkspaceManagerModel.Properties.Settings.Default.Save();
+                SaveApplicationsSettings();
             }
         }
 
@@ -162,7 +187,7 @@ namespace WorkspaceManager.Model
             set
             {
                 WorkspaceManagerModel.Properties.Settings.Default.BoolColor = MediaToDrawing(value);
-                WorkspaceManagerModel.Properties.Settings.Default.Save();
+                SaveApplicationsSettings();
             }
         }
 
@@ -175,7 +200,7 @@ namespace WorkspaceManager.Model
             set
             {
                 WorkspaceManagerModel.Properties.Settings.Default.StreamColor = MediaToDrawing(value);
-                WorkspaceManagerModel.Properties.Settings.Default.Save();
+                SaveApplicationsSettings();
             }
         }
 
@@ -188,7 +213,7 @@ namespace WorkspaceManager.Model
             set
             {
                 WorkspaceManagerModel.Properties.Settings.Default.StringColor = MediaToDrawing(value);
-                WorkspaceManagerModel.Properties.Settings.Default.Save();
+                SaveApplicationsSettings();
             }
         }
 
@@ -201,7 +226,7 @@ namespace WorkspaceManager.Model
             set
             {
                 WorkspaceManagerModel.Properties.Settings.Default.ObjectColor = MediaToDrawing(value);
-                WorkspaceManagerModel.Properties.Settings.Default.Save();
+                SaveApplicationsSettings();
             }
         }
 
@@ -214,7 +239,7 @@ namespace WorkspaceManager.Model
             set
             {
                 WorkspaceManagerModel.Properties.Settings.Default.BigIntegerColor = MediaToDrawing(value);
-                WorkspaceManagerModel.Properties.Settings.Default.Save();
+                SaveApplicationsSettings();
             }
         }
 
@@ -227,7 +252,7 @@ namespace WorkspaceManager.Model
             set
             {
                 WorkspaceManagerModel.Properties.Settings.Default.SteganographyColor = MediaToDrawing(value);
-                WorkspaceManagerModel.Properties.Settings.Default.Save();
+                SaveApplicationsSettings();
             }
         }
 
@@ -240,7 +265,7 @@ namespace WorkspaceManager.Model
             set
             {
                 WorkspaceManagerModel.Properties.Settings.Default.ProtocolColor = MediaToDrawing(value);
-                WorkspaceManagerModel.Properties.Settings.Default.Save();
+                SaveApplicationsSettings();
             }
         }
 
@@ -253,7 +278,7 @@ namespace WorkspaceManager.Model
             set
             {
                 WorkspaceManagerModel.Properties.Settings.Default.DefaultColor = MediaToDrawing(value);
-                WorkspaceManagerModel.Properties.Settings.Default.Save();
+                SaveApplicationsSettings();
             }
         }
         
