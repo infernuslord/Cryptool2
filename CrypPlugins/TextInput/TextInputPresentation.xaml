@@ -11,7 +11,8 @@
         <Label Name="labelInputText" Grid.Row="0" VerticalAlignment="Top" Background="DarkGray" Margin="0" Padding="0" Content="{Loc Text__1_character___8_Bit_}"/>
         <TextBox Name="textBoxInputText" Grid.Row="1" AcceptsTab="True"
                TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" 
-               AcceptsReturn="True" />
+               AcceptsReturn="True" 
+               IsUndoEnabled="false"/>
         <Label Name="labelBytesCount" Grid.Row="2" VerticalAlignment="Top" Background="DarkGray" Margin="0" Padding="0">
             0 Bytes
         </Label>
