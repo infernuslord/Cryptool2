@@ -50,7 +50,7 @@ namespace KeySearcher
             
             Cryptool.PluginBase.Properties.Settings.Default.PropertyChanged += delegate
                                                                {
-                                                                   Cryptool.PluginBase.Properties.Settings.Default.Save();
+                                                                   Cryptool.PluginBase.Miscellaneous.ApplicationSettingsHelper.SaveApplicationsSettings();
                                                                };
 
             for (int i = 0; i <= _realMachName.Length; i++)

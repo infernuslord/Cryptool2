@@ -30,6 +30,7 @@ namespace WorkspaceManager
             Resources.Add("settingsStyle", settingsStyle);
             InitializeComponent();
             InitializeColors();
+            Cryptool.PluginBase.Properties.Settings.Default.PropertyChanged += delegate { Cryptool.PluginBase.Miscellaneous.ApplicationSettingsHelper.SaveApplicationsSettings(); };
         }
 
         private void InitializeColors()
