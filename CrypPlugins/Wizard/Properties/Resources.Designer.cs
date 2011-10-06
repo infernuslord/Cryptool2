@@ -106,6 +106,15 @@ namespace Wizard.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Error trying to load template!.
+        /// </summary>
+        public static string Error {
+            get {
+                return ResourceManager.GetString("Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Created from Wizard.
         /// </summary>
         public static string LoadedSampleTitle {

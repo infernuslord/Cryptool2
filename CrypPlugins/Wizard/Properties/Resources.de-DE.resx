@@ -153,4 +153,7 @@
   <data name="ShowOnStartupTooltip" xml:space="preserve">
     <value>Wizard beim Start anzeigen.</value>
   </data>
+  <data name="Error" xml:space="preserve">
+    <value>Fehler beim Versuch die Vorlage zu laden!</value>
+  </data>
 </root>
