@@ -12,7 +12,7 @@
         <TextBox Name="textBoxInputText" Grid.Row="1" AcceptsTab="True"
                TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" 
                AcceptsReturn="True" 
-               IsUndoEnabled="false"/>
+               IsUndoEnabled="True"/>
         <Label Name="labelBytesCount" Grid.Row="2" VerticalAlignment="Top" Background="DarkGray" Margin="0" Padding="0">
             0 Bytes
         </Label>

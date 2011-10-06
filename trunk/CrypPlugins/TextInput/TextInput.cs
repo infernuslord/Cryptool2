@@ -52,7 +52,7 @@ namespace Cryptool.TextInput
     }
 
     void textBoxInputText_TextChanged(object sender, TextChangedEventArgs e)
-    {
+   {
       this.NotifyUpdate();
 
       int bytes = 0;
@@ -125,10 +125,17 @@ namespace Cryptool.TextInput
 
     private string GetInputString()
     {
-        return (string)this.textInputPresentation.textBoxInputText.Dispatcher.Invoke(DispatcherPriority.Normal, (DispatcherOperationCallback)delegate
+        if (textInputPresentation.textBoxInputText.Dispatcher.CheckAccess())
         {
             return textInputPresentation.textBoxInputText.Text;
-        }, textInputPresentation);
+        }
+        else
+        {
+            return (string) this.textInputPresentation.textBoxInputText.Dispatcher.Invoke(DispatcherPriority.Normal, (DispatcherOperationCallback) delegate
+            {
+                return textInputPresentation.textBoxInputText.Text;
+            }, textInputPresentation);
+        }
     }
 
       private byte[] ConvertHexStringToByteArray(string input)
