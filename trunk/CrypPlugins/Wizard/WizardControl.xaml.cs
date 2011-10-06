@@ -220,6 +220,7 @@ namespace Wizard
             StopCurrentWorkspaceManager();
             nextButton.IsEnabled = true;
             CreateProjectButton.Visibility = Visibility.Hidden;
+            HideErrorLabel();
 
             currentOutputBoxes.Clear();
             currentInputBoxes.Clear();
@@ -229,7 +230,10 @@ namespace Wizard
 
             if ((element.Name == "loadSample") && (element.Attribute("file") != null) && (element.Attribute("title") != null))
             {
-                LoadSample(element.Attribute("file").Value, element.Attribute("title").Value, true, element);
+                if (!LoadSample(element.Attribute("file").Value, element.Attribute("title").Value, true, element))
+                {
+                    ErrorLabel.Visibility = Visibility.Visible;
+                }
                 abortButton_Click(null, null);
                 return;
             }
@@ -297,7 +301,10 @@ namespace Wizard
                         CreateProjectButton.Visibility = Visibility.Visible;
                     }
                     
-                    LoadSample(element.Attribute("file").Value, null, false, element);
+                    if (!LoadSample(element.Attribute("file").Value, null, false, element))
+                    {
+                        ErrorLabel.Visibility = Visibility.Visible;
+                    }
                 }
 
                 string id = GetElementID((XElement)inputPanel.Tag);
@@ -393,6 +400,19 @@ namespace Wizard
                     }
 
                 }
+            }
+        }
+
+        private void HideErrorLabel()
+        {
+            if ((ErrorLabel.Tag != null) && ((bool)(ErrorLabel.Tag) == true))
+            {
+                ErrorLabel.Visibility = Visibility.Collapsed;
+                ErrorLabel.Tag = false;
+            }
+            else
+            {
+                ErrorLabel.Tag = true;
             }
         }
 
@@ -862,7 +882,7 @@ namespace Wizard
                 return "";
         }
 
-        private void LoadSample(string file, string title, bool openTab, XElement element)
+        private bool LoadSample(string file, string title, bool openTab, XElement element)
         {
             try
             {
@@ -922,7 +942,9 @@ namespace Wizard
             catch(Exception ex)
             {
                 GuiLogMessage(string.Format("Error loading sample {0}: {1}", file,ex.Message),NotificationLevel.Error);
+                return false;
             }
+            return true;
         }
 
         private void NewEditorSampleLoaded(object sender, EventArgs e)
@@ -1549,7 +1571,10 @@ namespace Wizard
         {
             SaveControlContent(inputStack);
             var element = (XElement)CreateProjectButton.Tag;
-            LoadSample(element.Attribute("file").Value, Properties.Resources.LoadedSampleTitle, true, element);
+            if ((element == null) || !LoadSample(element.Attribute("file").Value, Properties.Resources.LoadedSampleTitle, true, element))
+            {
+                ErrorLabel.Visibility = Visibility.Visible;
+            }
         }
 
         private void CommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)

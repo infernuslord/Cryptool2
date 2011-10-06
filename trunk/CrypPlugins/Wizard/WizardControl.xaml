@@ -105,8 +105,11 @@
             <Grid.RenderTransform>
                 <TranslateTransform x:Name="MainGridTransform"/>
             </Grid.RenderTransform>
-
-            <Label HorizontalAlignment="Center" Name="taskHeader" FontSize="18" />
+            
+            <StackPanel Orientation="Vertical">
+                <Label Name="ErrorLabel" Content="{Loc Error}" FontSize="20" Foreground="#FFF56161" Visibility="Collapsed" />
+                <Label HorizontalAlignment="Center" Name="taskHeader" FontSize="18" />
+            </StackPanel>
 
             <Grid Grid.Row="1" HorizontalAlignment="Stretch">
                 <Grid.ColumnDefinitions>
