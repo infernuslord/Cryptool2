@@ -38,6 +38,7 @@ namespace WorkspaceManager.View.BinVisual
         public event PropertyChangedEventHandler PropertyChanged;
         public event EventHandler Close;
         public event EventHandler<VisualStateChangedArgs> StateChanged;
+        public event EventHandler<PositionDeltaChangedArgs> PositionDeltaChanged;
         #endregion
 
         #region IRouting
@@ -91,7 +92,7 @@ namespace WorkspaceManager.View.BinVisual
         #endregion
 
         #region Fields
-        private BinEditorVisual editor;
+
         #endregion
 
         #region Properties
@@ -100,6 +101,7 @@ namespace WorkspaceManager.View.BinVisual
         public BinEditorVisual EditorVisual { private set; get; }
 
         public Vector Delta { private set; get; }
+        public BinEditorVisual Editor { private set; get; }
 
         public bool HasComponentPresentation
         {
@@ -446,7 +448,7 @@ namespace WorkspaceManager.View.BinVisual
         {
             Model = model;
             Model.UpdateableView = this;
-            editor = (BinEditorVisual)((WorkspaceManager)Model.WorkspaceModel.MyEditor).Presentation;
+            Editor = (BinEditorVisual)((WorkspaceManager)Model.WorkspaceModel.MyEditor).Presentation;
             ErrorsTillReset = new Queue<Log>();
             EditorVisual = (BinEditorVisual)((WorkspaceManager)Model.WorkspaceModel.MyEditor).Presentation;
             Presentations.Add(BinComponentState.Presentation, model.PluginPresentation);
@@ -516,7 +518,7 @@ namespace WorkspaceManager.View.BinVisual
             Model.Plugin.OnGuiLogNotificationOccured += new GuiLogNotificationEventHandler(OnGuiLogNotificationOccuredHandler);
             WindowWidth = Model.GetWidth();
             WindowHeight = Model.GetHeight();
-            IsRepeatable = Model.Startable;
+            //IsRepeatable = Model.Startable;
             Repeat = Model.RepeatStart;
             Position = model.GetPosition();
             FunctionName = Model.Plugin.GetPluginInfoAttribute().Caption;
@@ -668,6 +670,37 @@ namespace WorkspaceManager.View.BinVisual
         }
         #endregion
 
+        private void ContextMenuClick(object sender, RoutedEventArgs e)
+        {
+            MenuItem item = (MenuItem)sender;
+            BinComponentState localState = BinComponentState.Log;
+            switch ((string)item.Tag)
+            {
+                case "presentation":
+                    localState = BinComponentState.Presentation;
+                    break;
+
+                case "data":
+                    localState = BinComponentState.Data;
+                    break;
+
+                case "log":
+                    localState = BinComponentState.Log;
+                    break;
+
+                case "setting":
+                    localState = BinComponentState.Setting;
+                    break;
+
+                case "help":
+                    OnlineHelp.InvokeShowPluginDocPage(model.PluginType);
+                    return;
+            }
+            Editor.IsFullscreenOpen = true;
+            Editor.FullscreenVisual.ActiveComponent = this;
+            State = localState;
+        }
+
         private void ActionHandler(object sender, RoutedEventArgs e)
         {
             Button b = (Button)sender;
@@ -726,7 +759,9 @@ namespace WorkspaceManager.View.BinVisual
         {
             Point point = new Point(Position.X + e.HorizontalChange, Position.Y + e.VerticalChange);
             Delta = new Vector(e.HorizontalChange, e.VerticalChange);
-            Model.WorkspaceModel.ModifyModel(new MoveModelElementOperation(Model, point));
+            if (PositionDeltaChanged != null)
+                PositionDeltaChanged.Invoke(this, new PositionDeltaChangedArgs() { PosDelta = Delta });
+            //Model.WorkspaceModel.ModifyModel(new MoveModelElementOperation(Model, point));
         }
 
         private static void OnStateValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -794,43 +829,17 @@ namespace WorkspaceManager.View.BinVisual
         }
         #endregion
 
-        private void ContextMenuClick(object sender, RoutedEventArgs e)
-        {
-            MenuItem item = (MenuItem)sender;
-            BinComponentState localState = BinComponentState.Log;
-            switch ((string)item.Tag)
-            {
-                case "presentation":
-                    localState = BinComponentState.Presentation;
-                    break;
-
-                case "data":
-                    localState = BinComponentState.Data;
-                    break;
-
-                case "log":
-                    localState = BinComponentState.Log;
-                    break;
-
-                case "setting":
-                    localState = BinComponentState.Setting;
-                    break;
-
-                case "help":
-                    OnlineHelp.InvokeShowPluginDocPage(model.PluginType);
-                    return;
-            }
-            editor.IsFullscreenOpen = true;
-            editor.FullscreenVisual.ActiveComponent = this;
-            State = localState;
-        }
-
     }
 
     #region Events
     public class VisualStateChangedArgs : EventArgs
     {
         public BinComponentState State { get; set; }
+    }
+
+    public class PositionDeltaChangedArgs : EventArgs
+    {
+        public Vector PosDelta { get; set; }
     }
     #endregion
 

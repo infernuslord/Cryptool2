@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 using WorkspaceManagerModel.Model.Operations;
 using WorkspaceManager.Model;
 using WorkspaceManagerModel.Model.Interfaces;
+using WorkspaceManager.View.Base.Interfaces;
 
 namespace WorkspaceManager.View.BinVisual
 {
@@ -21,7 +22,7 @@ namespace WorkspaceManager.View.BinVisual
     /// Interaction logic for BinTextVisual.xaml
     /// </summary>
     [Cryptool.PluginBase.Attributes.Localization("WorkspaceManager.Properties.Resources")]
-    public partial class BinTextVisual : UserControl, IUpdateableView
+    public partial class BinTextVisual : UserControl, IUpdateableView, IRouting
     {
         #region Properties
         private TextModel model;
@@ -180,5 +181,15 @@ namespace WorkspaceManager.View.BinVisual
             Model.saveRTB((RichTextBox)sender);
         }
         #endregion
+
+        public ObjectSize ObjectSize
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public Point[] RoutingPoints
+        {
+            get { throw new NotImplementedException(); }
+        }
     }
 }

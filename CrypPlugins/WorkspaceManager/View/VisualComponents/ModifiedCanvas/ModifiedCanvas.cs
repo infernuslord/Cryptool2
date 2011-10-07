@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows;
 using System.Windows.Media;
 using WorkspaceManager.View.BinVisual;
+using WorkspaceManager.View.Base.Interfaces;
 
 namespace WorkspaceManager.View.VisualComponents
 {
@@ -25,9 +26,10 @@ namespace WorkspaceManager.View.VisualComponents
                 if (element != null)
                 {
                     element.Measure(availableSize);
-                    if (element is BinComponentVisual)
+                    if (element is IRouting)
                     {
-                        BinComponentVisual b = (BinComponentVisual)element;
+                        IRouting b = (IRouting)element;
+
                         left = b.Position.X;
                         top = b.Position.Y;
                         left += element.DesiredSize.Width;
@@ -35,13 +37,12 @@ namespace WorkspaceManager.View.VisualComponents
 
                         maxWidth = maxWidth < left ? left : maxWidth;
                         maxHeight = maxHeight < top ? top : maxHeight;
+
                     }
                     else
                     {
                         if (element is CryptoLineView)
                             Canvas.SetZIndex(element, -1);
-                        if (element is BinImageVisual)
-                            Canvas.SetZIndex(element, -2);
                         left = element.DesiredSize.Width;
                         top = element.DesiredSize.Height;
                         maxWidth = maxWidth < left ? left : maxWidth;
