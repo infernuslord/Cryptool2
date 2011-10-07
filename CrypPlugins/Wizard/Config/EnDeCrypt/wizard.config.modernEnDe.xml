@@ -87,7 +87,7 @@ RSA ist in kommerziellen Protokollen weit verbreitet und gilt bei genügend lang
           <defaultvalue>100</defaultvalue>
         </inputBox>
 
-        <sampleViewer image="RSA" file="Cryptography\Modern\Asymmetric\RSA_Encryption_Sample.cwm">
+        <sampleViewer image="RSA" file="Cryptography\Modern\Asymmetric\RSA_Encryption.cwm">
           <name lang="en" >RSA Encryption Output</name>
           <name lang="de" >RSA-Verschlüsselung: Ausgabe</name>
           <description lang="en">RSA Encryption Output</description>
@@ -144,7 +144,7 @@ RSA ist in kommerziellen Protokollen weit verbreitet und gilt bei genügend lang
           <defaultvalue>146</defaultvalue>
         </inputBox>
 
-        <sampleViewer image="RSA" file="Cryptography\Modern\Asymmetric\RSA_Decryption_Sample.cwm">
+        <sampleViewer image="RSA" file="Cryptography\Modern\Asymmetric\RSA_Decryption.cwm">
           <name lang="en" >RSA Decryption Output</name>
           <name lang="de" >RSA-Entschlüsselung: Ausgabe</name>
           <description lang="en">RSA Decryption Output</description>
@@ -167,7 +167,7 @@ RSA ist in kommerziellen Protokollen weit verbreitet und gilt bei genügend lang
         </sampleViewer>
       </input>
 
-      <sampleViewer image="RSA" file="Cryptography\Modern\Asymmetric\RSA_KeyGenerator_Sample.cwm">
+      <sampleViewer image="RSA" file="Cryptography\Modern\Asymmetric\RSA_KeyGenerator.cwm">
         <name lang="en">RSA Key Generation</name>
         <name lang="en">RSA Schlüsselgenerator</name>
         <description lang="en">Select this, to generate a random key for use with the RSA algorithm.</description>

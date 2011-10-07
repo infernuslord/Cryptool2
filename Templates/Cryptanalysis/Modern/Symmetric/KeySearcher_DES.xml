@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sample>
+  <title lang="en">KeySearcher DES</title>
+  <description lang="en">This template shows how to use the <i>Keysearcher</i> with <i>DES</i>.</description>
+  <keywords>Data Encryption Standard, 56, standard, NSA, symmetric</keywords>
+  <title lang="de">KeySearcher DES</title>
+  <description lang="de">Diese Vorlage zeigt die Verwendung des <i>Keysearcher</i> mit <i>DES</i>.</description>
+  <icon file="KeySearcher.png" />
+  <relevantPlugins>
+    <plugin name="KeySearcher" />
+    <plugin name="DES" />
+  </relevantPlugins>
+</sample>

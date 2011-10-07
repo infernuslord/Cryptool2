@@ -52,7 +52,7 @@ Hfjxfwx Sfrj bzwij ezr Gjxyfsiyjnq ijx Ynyjqx fqqjw sfhmktqljsijs Mjwwxhmjw ijx 
       <item content="Spanish" lang="en"/>
     </comboBox>
 
-    <sampleViewer image="Caesar" file="Cryptanalysis\Classic\Caesar_Analysis_Sample.cwm">
+    <sampleViewer image="Caesar" file="Cryptanalysis\Classic\Caesar_Analysis.cwm">
       <name lang="en">Caesar Analysis Output</name>
       <name lang="de">Caesar-Analyse: Ausgabe</name>
       <description lang="en">Caesar Analysis Output</description>
@@ -128,7 +128,7 @@ Zij Vgpyüywafoscw swe „IBHC“, lrx Xarl „kpkeaivzv“. Zqrx Gwykec-Vutobzw
       <item content="Classic" lang="en"/>
     </comboBox>
     
-    <sampleViewer image="Vigenere" file="Cryptanalysis\Classic\Vigenere_Analyser_Sample.cwm">
+    <sampleViewer image="Vigenere" file="Cryptanalysis\Classic\Vigenere_Analyser.cwm">
       <name lang="en">Vigenère Analysis Output</name>
       <name lang="de">Vigenère-Analyse: Ausgabe</name>
       <description lang="en">Vigenère Analysis Output</description>

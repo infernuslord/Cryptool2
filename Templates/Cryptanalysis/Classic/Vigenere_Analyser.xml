@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sample>
+  <title lang="en">Vigenere analysis</title>
+  <description lang="en">This template shows the analysis of the <i>Vigenere-cipher</i>.</description>
+  <keywords>Caesar, polyalphabetic, Substitution</keywords>
+  <title lang="de">Vigenere Analyse</title>
+  <description lang="de">Diese Vorlage zeigt die Kryptanalyse der <i>Vigenere-Ver-/Entschlüsselung</i>.</description>
+  <keywords lang="de">polyalphabetisch</keywords>
+  <icon file="Vigenere_Analyser.png" />
+  <relevantPlugins>
+    <plugin name="Vigenere" />
+    <plugin name="VigenereAutokeyAnalyser" />
+  </relevantPlugins>
+</sample>
