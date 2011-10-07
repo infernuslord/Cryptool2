@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sample>
+  <title lang="en">SDES-Cipher</title>
+  <description lang="en">This template shows how to use the <i>SDES-Cipher</i>.</description>
+  <keywords>SRTP, SDP, symmetric</keywords>
+  <title lang="de">SDES-Chiffre</title>
+  <description lang="de">Diese Vorlage zeigt die Verwendung der <i>SDES-Ver-/Entschlüsselung</i>.</description>
+  <keywords lang="de">symmetrisch</keywords>
+  <icon file="SDES.png" />
+  <relevantPlugins>
+    <plugin name="SDES" />
+  </relevantPlugins>
+</sample>

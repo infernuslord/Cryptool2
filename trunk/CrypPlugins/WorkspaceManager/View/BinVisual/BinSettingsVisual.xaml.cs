@@ -50,7 +50,7 @@ namespace WorkspaceManager.View.BinVisual
             ((WorkspaceManager)bcv.Model.WorkspaceModel.MyEditor).executeEvent += new EventHandler(excuteEventHandler);
 
             //plugin.Settings.PropertyChanged += myTaskPaneAttributeChangedHandler;
-            if (plugin.Settings.GetTaskPaneAttributeChanged() != null)
+            if (plugin.Settings != null && plugin.Settings.GetTaskPaneAttributeChanged() != null)
             {
                 plugin.Settings.GetTaskPaneAttributeChanged().AddEventHandler(plugin.Settings, new TaskPaneAttributeChangedHandler(myTaskPaneAttributeChangedHandler));  // throws nullpointerexception for unknown reason
             }

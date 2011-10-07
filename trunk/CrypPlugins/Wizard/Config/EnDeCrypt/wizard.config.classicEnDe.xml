@@ -50,7 +50,7 @@
       <defaultvalue>F</defaultvalue>
     </inputBox>
     
-    <sampleViewer image="Caesar" file="Cryptography\Classic\Caesar_Sample.cwm" showCreateButton="true">
+    <sampleViewer image="Caesar" file="Cryptography\Classic\Caesar.cwm" showCreateButton="true">
       <name lang="en" >Caesar Output</name>
       <name lang="de" >Caesar-Ausgabe</name>
       <description lang="en" >This encryption algorithm, already used by the Roman general and dictator Caesar, substitutes single letters: The substitution rule is that the letters of the cleartext alphabet are shifted by a special value (key).</description>
@@ -109,7 +109,7 @@
       <defaultvalue lang="en">TURING</defaultvalue>
     </inputBox>
     
-    <sampleViewer image="Vigenere" file="Cryptography\Classic\Vigenere_Sample.cwm">
+    <sampleViewer image="Vigenere" file="Cryptography\Classic\Vigenere.cwm">
       <name lang="en" >Vigenère Output</name>
       <name lang="de" >Vigenère-Ausgabe</name>
       <description lang="en" >The Vigenère cipher is a method of encrypting alphabetic text by using a series of different Caesar ciphers based on the letters of a keyword. It is a simple form of polyalphabetic substitution.</description>
@@ -166,7 +166,7 @@
       <defaultvalue lang="en">CRYPTO</defaultvalue>
     </inputBox>
     
-    <sampleViewer image="Substitution" file="Cryptography\Classic\Substitution_Sample.cwm">
+    <sampleViewer image="Substitution" file="Cryptography\Classic\Substitution.cwm">
       <name lang="en" >Substitution Output</name>
       <name lang="de" >Substitution-Ausgabe</name>
       <description lang="en" >A substitution cipher is a method of encryption by which units of plaintext are replaced with ciphertext according to a regular system; the "units" may be single letters (the most common), pairs of letters, triplets of letters, mixtures of the above, and so forth. The receiver deciphers the text by performing an inverse substitution.</description>
@@ -218,7 +218,7 @@ Die erste Enigma wurde von dem deutschen Ingenieur Arthur Scherbius am Ende des 
       <defaultvalue lang="en">AAA</defaultvalue>
     </inputBox>
 
-    <sampleViewer file="Cryptography\Classic\Enigma_Sample.cwm" image="Enigma">
+    <sampleViewer file="Cryptography\Classic\Enigma.cwm" image="Enigma">
       <name lang="en">Enigma Output</name>
       <name lang="de">Enigma-Ausgabe</name>
       <description lang="en" >A transposition cipher is a method of encryption by which the positions held by units of plaintext (which are commonly characters or groups of characters) are shifted according to a regular system, so that the ciphertext constitutes a permutation of the plaintext.</description>
@@ -280,7 +280,7 @@ Die erste Enigma wurde von dem deutschen Ingenieur Arthur Scherbius am Ende des 
       <defaultvalue>BCD</defaultvalue>
     </inputBox>
 
-    <sampleViewer image="Playfair" file="Cryptography\Classic\Playfair_Sample.cwm">
+    <sampleViewer image="Playfair" file="Cryptography\Classic\Playfair.cwm">
       <name lang="en" >Playfair Output</name>
       <name lang="de" >Playfair-Ausgabe</name>
       
@@ -340,7 +340,7 @@ Die erste Enigma wurde von dem deutschen Ingenieur Arthur Scherbius am Ende des 
       <defaultvalue>TranspositionPassword</defaultvalue>
     </inputBox>
 
-    <sampleViewer image="ADFGVX" file="Cryptography\Classic\XOR_Sample.cwm">
+    <sampleViewer image="ADFGVX" file="Cryptography\Classic\XOR.cwm">
       <name lang="en" >ADFGVX Output</name>
       <name lang="de" >ADFGVX-Ausgabe</name>
       <description lang="en" >The ADFGVX cipher was a field cipher used by the German Army during World War I. It was a fractionating transposition cipher which combined a modified Polybius square with a single columnar transposition. The cipher is named after the six possible letters used in the ciphertext: A, D, F, G, V and X.</description>
@@ -387,7 +387,7 @@ Die erste Enigma wurde von dem deutschen Ingenieur Arthur Scherbius am Ende des 
       <defaultvalue>d</defaultvalue>
     </inputBox>
     
-    <sampleViewer image="XOR" file="Cryptography\Classic\XOR_Sample.cwm">
+    <sampleViewer image="XOR" file="Cryptography\Classic\XOR.cwm">
       <name lang="en" >XOR Output</name>
       <name lang="de" >XOR-Ausgabe</name>
       <description lang="en">XOR is a boolean operator which can be used to encrypt plaintext. Every character of the plaintext will be linked with a character of the given key by the XOR operator. If the key is as long as the plaintext, this becomes a "One-Time-Pad".</description>
@@ -444,7 +444,7 @@ Die erste Enigma wurde von dem deutschen Ingenieur Arthur Scherbius am Ende des 
       <defaultvalue>ab</defaultvalue>
     </inputBox>
     
-    <sampleViewer image="Vernam" file="Cryptography\Classic\Vernam_Sample.cwm">
+    <sampleViewer image="Vernam" file="Cryptography\Classic\Vernam.cwm">
       <name lang="en" >Vernam Output</name>
       <name lang="de" >Vernam-Ausgabe</name>
       <description lang="en" >A Vernam cipher is a symmetrical stream cipher in which the plaintext is XORed with a random or pseudorandom stream of data (the "keystream") of the same length to generate the ciphertext.</description>
@@ -528,7 +528,7 @@ Die erste Enigma wurde von dem deutschen Ingenieur Arthur Scherbius am Ende des 
       <item content="Spaltenweise" lang="de"/>
     </comboBox>
     
-    <sampleViewer file="Cryptography\Classic\Transposition_Sample.cwm" image="Transposition">
+    <sampleViewer file="Cryptography\Classic\Transposition.cwm" image="Transposition">
       <name lang="en">Transposition Output</name>
       <name lang="de">Transpositions-Ausgabe</name>
       <description lang="en" >A transposition cipher is a method of encryption by which the positions held by units of plaintext (which are commonly characters or groups of characters) are shifted according to a regular system, so that the ciphertext constitutes a permutation of the plaintext.</description>
@@ -592,7 +592,7 @@ Die erste Enigma wurde von dem deutschen Ingenieur Arthur Scherbius am Ende des 
       <defaultvalue>11</defaultvalue>
     </inputBox>
     
-    <sampleViewer image="Scytale" file="Cryptography\Classic\Scytale_Sample.cwm" >
+    <sampleViewer image="Scytale" file="Cryptography\Classic\Scytale.cwm" >
       <name lang="en" >Scytale Output</name>
       <name lang="de" >Skytale-Ausgabe</name>
       <description lang="en" >A scytale is a tool used to perform a transposition cipher, consisting of a cylinder with a strip of parchment wound around it on which is written a message. The ancient Greeks, and the Spartans in particular, are said to have used this cipher to communicate during military campaigns.</description>

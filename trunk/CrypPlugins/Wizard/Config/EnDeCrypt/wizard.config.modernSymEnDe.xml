@@ -65,7 +65,7 @@
       <item content="256 Bits"/>
     </comboBox>
 
-    <sampleViewer image="AES" file="Cryptography\Modern\Symmetric\AES_Sample.cwm">
+    <sampleViewer image="AES" file="Cryptography\Modern\Symmetric\AES.cwm">
       <name lang="en" >AES Output</name>
       <name lang="de" >AES-Ausgabe</name>
       <description lang="en" >The Advanced Encryption Standard (AES) is a symmetric encryption standard adopted by the U.S. government. The standard comprises three block ciphers, AES-128, AES-192 and AES-256, adopted from a larger collection originally published as Rijndael.</description>
@@ -128,7 +128,7 @@
       <item content="Cipher Feedback (CFB)" lang="en"/>
     </comboBox>
 
-    <sampleViewer image="DES" file="Cryptography\Modern\Symmetric\DES_Sample.cwm">
+    <sampleViewer image="DES" file="Cryptography\Modern\Symmetric\DES.cwm">
       <name lang="en" >DES Output</name>
       <name lang="de" >DES-Ausgabe</name>
       <description lang="en" >The Data Encryption Standard (DES) is a symmetric block cipher algorithm. It was selected by the National Bureau of Standards as an official Federal Information Processing Standard (FIPS) for the United States in 1976 and which has subsequently enjoyed widespread use internationally. It is based on a symmetric algorithm that uses a 56-bit key.</description>
@@ -190,7 +190,7 @@
       <item content="Cipher Block Chaining (CBC)" lang="en"/>
     </comboBox>
 
-    <sampleViewer image="SDES" file="Cryptography\Modern\Symmetric\SDES_Sample.cwm">
+    <sampleViewer image="SDES" file="Cryptography\Modern\Symmetric\SDES.cwm">
       <name lang="en" >SDES Output</name>
       <name lang="de" >SDES-Ausgabe</name>
       <description lang="en" >SDES or Simple DES is a simpler form of DES (Data Encryption Standard) and is mainly used for teaching purposes.</description>
@@ -266,7 +266,7 @@
       <item content="Cipher Block Chaining (CBC)"/>
     </comboBox>
 
-    <sampleViewer image="Twofish" file="Cryptography\Modern\Symmetric\Twofish_Sample.cwm">
+    <sampleViewer image="Twofish" file="Cryptography\Modern\Symmetric\Twofish.cwm">
       <name lang="en" >Twofish Output</name>
       <name lang="de" >Twofish-Ausgabe</name>
       <description lang="en" >Twofish is a symmetric key block cipher with a block size of 128 bits and key sizes up to 256 bits.</description>
@@ -336,7 +336,7 @@
       <item content="XXTEA (1998)"/>
     </comboBox>
 
-    <sampleViewer image="Twofish" file="Cryptography\Modern\Symmetric\TEA_Sample.cwm">
+    <sampleViewer image="Twofish" file="Cryptography\Modern\Symmetric\TEA.cwm">
       <name lang="en" >Twofish Output</name>
       <name lang="de" >Twofish-Ausgabe</name>
       <description lang="en" >The Tiny Encryption Algorithm (TEA) is a block cipher notable for its simplicity of description and implementation, typically a few lines of code.</description>
@@ -400,7 +400,7 @@
       <item content="Cipher Feedback (CFB)"/>
     </comboBox>
 
-    <sampleViewer image="RC2" file="Cryptography\Modern\Symmetric\RC2_Sample.cwm">
+    <sampleViewer image="RC2" file="Cryptography\Modern\Symmetric\RC2.cwm">
       <name lang="en" >RC2 Output</name>
       <name lang="de" >RC2-Ausgabe</name>
       <description lang="en" >RC2 is a block cipher designed by Ron Rivest in 1987. "RC" stands for "Ron's Code" or "Rivest Cipher".</description>

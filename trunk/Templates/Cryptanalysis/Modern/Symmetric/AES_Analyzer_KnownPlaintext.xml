@@ -6,7 +6,7 @@
   <title lang="de">AES Analyse "known plaintext"</title>
   <description lang="de">Diese Vorlage zeigt die Verwendung des <i>Keysearcher</i> mit <i>AES</i> und der <i>Kostenfunktion</i> RegEx.</description>
   <keywords lang="de">symmetrisch</keywords>
-  <icon file="AES_Sample.png" />
+  <icon file="AES.png" />
   <relevantPlugins>
     <plugin name="KeySearcher" />
     <plugin name="AES" />

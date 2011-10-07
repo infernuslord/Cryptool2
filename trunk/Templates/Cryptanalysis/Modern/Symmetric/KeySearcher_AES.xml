@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sample>
+  <title lang="en">KeySearcher AES</title>
+  <description lang="en">This template shows how to use the <i>Keysearcher</i> with <i>AES</i>.</description>
+  <keywords>advanced, Daemen, symmetric, nist, Rijmen, Rijndael</keywords>
+  <title lang="de">KeySearcher AES</title>
+  <description lang="de">Diese Vorlage zeigt die Verwendung des <i>Keysearcher</i> mit <i>AES</i>.</description>
+  <keywords lang="de">asymmetrisch</keywords>
+  <icon file="KeySearcher.png" />
+  <relevantPlugins>
+    <plugin name="KeySearcher" />
+    <plugin name="AES" />
+  </relevantPlugins>
+</sample>

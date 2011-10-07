@@ -6,7 +6,7 @@
   <title lang="de">DES Analyse mittels Entropie</title>
   <description lang="de">Diese Vorlage zeigt die Verwendung des <i>Keysearcher</i> mit <i>DES</i> und der <i>Kostenfunktion</i> Entropie.</description>
   <keywords lang="de">symmetrisch</keywords>
-  <icon file="DES_Sample.png" />
+  <icon file="DES.png" />
   <relevantPlugins>
     <plugin name="KeySearcher" />
     <plugin name="DES" />

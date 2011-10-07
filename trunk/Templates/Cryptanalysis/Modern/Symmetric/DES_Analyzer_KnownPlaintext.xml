@@ -5,7 +5,7 @@
   <keywords>Data Encryption Standard, symmetric, 56, NSA, standard</keywords>
   <title lang="de">DES Analyse "known plaintext"</title>
   <description lang="de">Diese Vorlage zeigt die Verwendung des <i>Keysearcher</i> mit <i>DES</i> und der <i>Kostenfunktion</i> RegEx.</description>
-  <icon file="DES_Sample.png" />
+  <icon file="DES.png" />
   <relevantPlugins>
     <plugin name="KeySearcher" />
     <plugin name="DES" />
