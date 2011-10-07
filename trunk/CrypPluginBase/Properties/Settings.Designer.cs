@@ -154,7 +154,7 @@ namespace Cryptool.PluginBase.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool WorkspaceManager_SynchronousEvents {
             get {
                 return ((bool)(this["WorkspaceManager_SynchronousEvents"]));
@@ -270,6 +270,6 @@ namespace Cryptool.PluginBase.Properties {
             set {
                 this["Wizard_ShowAnimations"] = value;
             }
-        }        
+        }
     }
 }
