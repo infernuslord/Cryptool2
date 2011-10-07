@@ -212,6 +212,22 @@ namespace WorkspaceManager.View.BinVisual
             }
         }
 
+        public static readonly DependencyProperty IsExecutingProperty = DependencyProperty.Register("IsExecuting",
+            typeof(bool), typeof(BinEditorVisual), new FrameworkPropertyMetadata(false, null));
+
+
+        public bool IsExecuting
+        {
+            get
+            {
+                return (bool)base.GetValue(IsExecutingProperty);
+            }
+            set
+            {
+                base.SetValue(IsExecutingProperty, value);
+            }
+        }
+
         public static readonly DependencyProperty HasLoadingErrorProperty = DependencyProperty.Register("HasLoadingError",
     typeof(bool), typeof(BinEditorVisual), new FrameworkPropertyMetadata(false, null));
 
@@ -249,6 +265,7 @@ namespace WorkspaceManager.View.BinVisual
         {
             Model = model;
             MyEditor = (WorkspaceManager)Model.MyEditor;
+            MyEditor.executeEvent += new EventHandler(ExecuteEvent);
             VisualCollection.CollectionChanged += new NotifyCollectionChangedEventHandler(CollectionChangedHandler);
             VisualCollection.Add(selectionPath);
             MyEditor.LoadingErrorOccurred += new EventHandler<LoadingErrorEventArgs>(LoadingErrorOccurred);
@@ -271,6 +288,7 @@ namespace WorkspaceManager.View.BinVisual
             bind.ConverterParameter = bin;
             bind.Converter = new SelectionChangedConverter();
             bin.SetBinding(BinComponentVisual.IsSelectedProperty, bind);
+            bin.PositionDeltaChanged += new EventHandler<PositionDeltaChangedArgs>(ComponentPositionDeltaChanged);
             VisualCollection.Add(bin);
 
             if (mode == 0)
@@ -614,24 +632,8 @@ namespace WorkspaceManager.View.BinVisual
             {
                 if (((PluginModel)args.EffectedModelElement).UpdateableView != null)
                 {
-                    BinComponentVisual pluginContainerView = (BinComponentVisual)((PluginModel)args.EffectedModelElement).UpdateableView;
-                    pluginContainerView.Position = args.NewPosition;
-                    if (SelectedItems != null)
-                    {
-
-                        foreach (var element in SelectedItems)
-                        {
-                            if (element == pluginContainerView)
-                                continue;
-                            BinComponentVisual bin = (BinComponentVisual)element;
-                            //bin.SetBinding(BinComponentVisual.IsDraggingProperty,
-                            //    Util.CreateIsDraggingBinding(new Thumb[] { bin.ContentThumb, bin.TitleThumb, bin.ScaleThumb, bin.HackThumb }));
-                            bin.Position = new Point(bin.Position.X + pluginContainerView.Delta.X, bin.Position.Y + pluginContainerView.Delta.Y);
-                        }
-
-                        //foreach (var element in SelectedItems)
-                        //    ((BinComponentVisual)element).HackThumb.HackDrag = false;
-                    }
+                    BinComponentVisual bin = (BinComponentVisual)((PluginModel)args.EffectedModelElement).UpdateableView;
+                    bin.Position = args.NewPosition;
                 }
             }
             else if (args.EffectedModelElement is ImageModel)
@@ -714,6 +716,27 @@ namespace WorkspaceManager.View.BinVisual
         #endregion
 
         #region Event Handler
+
+        private void ComponentPositionDeltaChanged(object sender, PositionDeltaChangedArgs e)
+        {
+            BinComponentVisual b = (BinComponentVisual)sender;
+            if (SelectedItems != null)
+            {
+                foreach (var element in SelectedItems)
+                {
+                    BinComponentVisual bin = (BinComponentVisual)element;
+                    bin.Model.WorkspaceModel.ModifyModel(new MoveModelElementOperation(bin.Model, bin.Position + e.PosDelta));
+                }
+            }
+        }
+
+        private void ExecuteEvent(object sender, EventArgs e)
+        {
+            Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
+                IsExecuting = MyEditor.isExecuting();
+            }, null);
+        }
 
         private void CopyToClipboardClick(object sender, RoutedEventArgs e)
         {
@@ -1024,11 +1047,13 @@ namespace WorkspaceManager.View.BinVisual
                     if (e.Source is BinComponentVisual)
                     {
                         BinComponentVisual c = (BinComponentVisual)e.Source;
-                        if (c.IsICPopUpOpen || Util.TryFindParent<TextBox>(e.OriginalSource as UIElement) != null || c.State == BinComponentState.Setting)
+                        if (c.IsICPopUpOpen || Util.TryFindParent<TextBox>(e.OriginalSource as UIElement) != null || 
+                            Util.TryFindParent<BinSettingsVisual>(e.OriginalSource as UIElement) != null)
                         {
                             startedSelection = true;
                             break;
                         }
+
                         IsFullscreenOpen = true;
                         FullscreenVisual.ActiveComponent = c;
                         e.Handled = true;
@@ -1156,7 +1181,6 @@ namespace WorkspaceManager.View.BinVisual
         }
 
         #endregion
-
 
     }
 

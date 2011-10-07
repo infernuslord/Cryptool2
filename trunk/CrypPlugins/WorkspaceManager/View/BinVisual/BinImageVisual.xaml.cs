@@ -15,6 +15,7 @@ using WorkspaceManagerModel.Model;
 using WorkspaceManager.Model;
 using WorkspaceManagerModel.Model.Operations;
 using WorkspaceManagerModel.Model.Interfaces;
+using WorkspaceManager.View.Base.Interfaces;
 
 namespace WorkspaceManager.View.BinVisual
 {
@@ -22,7 +23,7 @@ namespace WorkspaceManager.View.BinVisual
     /// Interaction logic for BinWindowVisual.xaml
     /// </summary>
     [Cryptool.PluginBase.Attributes.Localization("WorkspaceManager.Properties.Resources")]
-    public partial class BinImageVisual : UserControl, IUpdateableView
+    public partial class BinImageVisual : UserControl, IUpdateableView, IRouting
     {
         #region Properties
         private ImageModel model;
@@ -191,6 +192,16 @@ namespace WorkspaceManager.View.BinVisual
         public void update()
         {
             throw new NotImplementedException();
+        }
+
+        public ObjectSize ObjectSize
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public Point[] RoutingPoints
+        {
+            get { throw new NotImplementedException(); }
         }
     }
 }
