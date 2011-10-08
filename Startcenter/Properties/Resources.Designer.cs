@@ -277,7 +277,7 @@ namespace Startcenter.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Welcome to CrypTool 2. A good way to start is either to click on the wizard button in the section “Main Functions” (to get a guided tour) or to load one of the pre-defined templates (which demonstrate the functionality of CrypTool 2 in well-defined cryptographic scenarios)..
+        ///   Looks up a localized string similar to Welcome to CrypTool 2. Click on the wizard button in the section “Main Functions” to get a guided tour or load one of the pre-defined templates which demonstrate the functionality of CrypTool 2 in well-defined cryptographic scenarios..
         /// </summary>
         internal static string Welcome_to_CrypTool_2_0 {
             get {
