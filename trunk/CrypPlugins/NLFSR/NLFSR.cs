@@ -499,7 +499,7 @@ namespace Cryptool.NLFSR
             if (checkForInputSeed() == 1) return;
 
             // read tapSequence
-            if (settings.Polynomial == null || (settings.Polynomial != null && settings.Polynomial.Length == 0))
+            if (settings.Polynomial == null || settings.Polynomial.Length == 0)
                 tapSequencebuffer = inputTapSequence;
             else
                 tapSequencebuffer = settings.Polynomial;
@@ -507,7 +507,7 @@ namespace Cryptool.NLFSR
             //read seed
             if (settings.SaveCurrentState && settings.CurrentState != null && settings.CurrentState.Length != 0 && settings.CurrentState != "0")
                 seedbuffer = settings.CurrentState;
-            else if (settings.Seed == null || (settings.Seed != null && settings.Seed.Length == 0))
+            else if (settings.Seed == null || settings.Seed.Length == 0)
                 seedbuffer = inputSeed;
             else
                 seedbuffer = settings.Seed;
