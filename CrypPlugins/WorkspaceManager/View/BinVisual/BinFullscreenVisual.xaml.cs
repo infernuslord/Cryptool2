@@ -219,7 +219,8 @@ namespace WorkspaceManager.View.BinVisual
             if (oldBin != null)
             {
                 f.LastActiveComponent = oldBin;
-                oldBin.IsFullscreen = false;
+                if(oldBin != newBin)
+                    oldBin.IsFullscreen = false;
             }
 
             f.OnPropertyChanged("HasComponentPresentation");
@@ -230,9 +231,17 @@ namespace WorkspaceManager.View.BinVisual
         {
             BinFullscreenVisual f = (BinFullscreenVisual)d;
             if ((bool)e.NewValue)
-                f.ActiveComponent = f.LastActiveComponent;
+            {
+                if(f.LastActiveComponent != null)
+                    f.LastActiveComponent.IsFullscreen = true;
+            }
             else
+            {
+                if (f.LastActiveComponent != null)
+                    f.LastActiveComponent.IsFullscreen = false;
                 f.ActiveComponent = null;
+            }
+            f.OnPropertyChanged("ActivePresentation");
         }
         #endregion
 

@@ -696,9 +696,7 @@ namespace WorkspaceManager.View.BinVisual
                     OnlineHelp.InvokeShowPluginDocPage(model.PluginType);
                     return;
             }
-            Editor.IsFullscreenOpen = true;
-            Editor.FullscreenVisual.ActiveComponent = this;
-            State = localState;
+            Editor.SetFullscreen(this, localState);
         }
 
         private void ActionHandler(object sender, RoutedEventArgs e)
