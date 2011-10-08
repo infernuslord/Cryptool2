@@ -1182,6 +1182,12 @@ namespace WorkspaceManager.View.BinVisual
 
         #endregion
 
+        internal void SetFullscreen(BinComponentVisual bin, BinComponentState state)
+        {
+            FullscreenVisual.ActiveComponent = bin;
+            bin.State = state;
+            IsFullscreenOpen = true;
+        }
     }
 
     #region HelperClass
