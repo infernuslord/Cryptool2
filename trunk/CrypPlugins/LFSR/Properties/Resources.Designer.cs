@@ -142,7 +142,7 @@ namespace LFSR.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Draws the QuickwatchPresentation of the LFSR, if the polynomial fits to the seed..
+        ///   Looks up a localized string similar to Draws the presentation of the LFSR, if the polynomial fits to the seed..
         /// </summary>
         internal static string initLFSRTooltip {
             get {
@@ -205,7 +205,7 @@ namespace LFSR.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No Quickwatch data right now..
+        ///   Looks up a localized string similar to No data to present right now..
         /// </summary>
         internal static string No_Quickwatch_data_right_now_ {
             get {
@@ -214,7 +214,7 @@ namespace LFSR.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Do not display Quickwatch.
+        ///   Looks up a localized string similar to Do not display presentation.
         /// </summary>
         internal static string NoQuickwatchCaption {
             get {
@@ -223,7 +223,7 @@ namespace LFSR.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Display Quickwatch?.
+        ///   Looks up a localized string similar to Display presentation?.
         /// </summary>
         internal static string NoQuickwatchList1 {
             get {
@@ -232,7 +232,7 @@ namespace LFSR.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to With this checkbox enabled, no quickwatch will be generated for a better performance..
+        ///   Looks up a localized string similar to With this checkbox enabled, no presentation will be shown and performance will be better..
         /// </summary>
         internal static string NoQuickwatchTooltip {
             get {

@@ -96,10 +96,6 @@ namespace Cryptool.ComputeAnnihilators
         {
             get { return null; }
         }
-        public UserControl QuickWatchPresentation
-        {
-            get { return null; }
-        }
         public void Stop()
         {
             if (start && !settings.ComputeEnded && settings.ActionSetting == 0) stop = true;

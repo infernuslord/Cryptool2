@@ -17,9 +17,8 @@ namespace Cryptool.Plugins.RegularExpressions
 {
     [Author("Daniel Kohnen", "kohnen@cryptool.org", "Universität Duisburg Essen", "http://www.uni-due.de")]
     [PluginInfo(false, "Regular Expression Match", "Matching Regular Expression", "RegularExpressions/Description/RegexMatchDescript.xaml", "RegularExpressions/icons/regmatchicon.png")]
-
-
-    public class RegExMatch : IThroughput
+    [ComponentCategory(ComponentCategory.ToolsDataflow)]
+    public class RegExMatch : ICrypComponent
     {
         #region Private variables
 
@@ -180,11 +179,6 @@ namespace Cryptool.Plugins.RegularExpressions
         }
 
         public System.Windows.Controls.UserControl Presentation
-        {
-            get { return null; }
-        }
-
-        public System.Windows.Controls.UserControl QuickWatchPresentation
         {
             get { return null; }
         }
