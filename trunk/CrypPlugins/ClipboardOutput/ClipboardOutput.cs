@@ -82,7 +82,7 @@ namespace ClipboardOutput {
       {
         if (Data != null && Data != string.Empty)
         {
-            return new CStreamWriter(Encoding.Default.GetBytes(Data));
+            return new CStreamWriter(Encoding.UTF8.GetBytes(Data));
         }
         return null;
       }

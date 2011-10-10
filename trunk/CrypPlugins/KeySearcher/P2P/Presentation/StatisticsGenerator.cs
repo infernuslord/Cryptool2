@@ -219,7 +219,7 @@ namespace KeySearcher.P2P.Presentation
             quickWatch.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
 
-                var enc = Encoding.Default;
+                var enc = Encoding.UTF8;
                 LinkedListNode<KeySearcher.ValueKey> linkedListNode;
                 status.TopList.Clear();
                 linkedListNode = bestResultList.First;

@@ -41,7 +41,7 @@ namespace Cryptool.Plugins.Converter
         private bool reverseOrder = false;
         private bool BigEndian = false;
 
-        private EncodingTypes encoding = EncodingTypes.Default;
+        private EncodingTypes encoding = EncodingTypes.UTF8;
         private PresentationFormat presentation = PresentationFormat.Text;
 
         public PresentationFormat Presentation

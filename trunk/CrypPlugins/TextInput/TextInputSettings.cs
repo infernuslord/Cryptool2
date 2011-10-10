@@ -26,7 +26,7 @@ namespace Cryptool.TextInput
   public class TextInputSettings : ISettings
   {
     #region Private variables
-    private EncodingTypes encoding = EncodingTypes.Default;
+    private EncodingTypes encoding = EncodingTypes.UTF8;
     private InputFormat inputFormat = InputFormat.Text;
     private bool hasChanges = false;
     #endregion

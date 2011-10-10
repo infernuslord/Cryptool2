@@ -71,7 +71,7 @@ namespace Cryptool.Playfair
             {
                 if (outputString != null)
                 {
-                    return new CStreamWriter(Encoding.Default.GetBytes(outputString));
+                    return new CStreamWriter(Encoding.UTF8.GetBytes(outputString));
                 }
                 else
                 {

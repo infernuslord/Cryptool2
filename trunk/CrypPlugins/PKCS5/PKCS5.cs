@@ -103,9 +103,6 @@ namespace PKCS5
         // here conversion happens
         switch (settings.Encoding)
         {
-          case PKCS5Settings.EncodingTypes.Default:
-            returnValue = Encoding.Default.GetString(arrByte, 0, arrByte.Length);
-            break;
           case PKCS5Settings.EncodingTypes.Unicode:
             returnValue = Encoding.Unicode.GetString(arrByte, 0, arrByte.Length);
             break;
@@ -124,6 +121,7 @@ namespace PKCS5
           case PKCS5Settings.EncodingTypes.BigEndianUnicode:
             returnValue = Encoding.BigEndianUnicode.GetString(arrByte, 0, arrByte.Length);
             break;
+          case PKCS5Settings.EncodingTypes.Default:
           default:
             returnValue = Encoding.Default.GetString(arrByte, 0, arrByte.Length);
             break;
@@ -138,14 +136,11 @@ namespace PKCS5
     {
       byte[] byteArrayOutput = null;
 
-      if ((data != null) && (data.Length != 0))
+      if (!string.IsNullOrEmpty(data))
       {
         // here conversion happens        
         switch (settings.Encoding)
         {
-          case PKCS5Settings.EncodingTypes.Default:
-            byteArrayOutput = Encoding.Default.GetBytes(data.ToCharArray());
-            break;
           case PKCS5Settings.EncodingTypes.Unicode:
             byteArrayOutput = Encoding.Unicode.GetBytes(data.ToCharArray());
             break;
@@ -164,6 +159,7 @@ namespace PKCS5
           case PKCS5Settings.EncodingTypes.BigEndianUnicode:
             byteArrayOutput = Encoding.BigEndianUnicode.GetBytes(data.ToCharArray());
             break;
+          case PKCS5Settings.EncodingTypes.Default:
           default:
             byteArrayOutput = Encoding.Default.GetBytes(data.ToCharArray());
             break;

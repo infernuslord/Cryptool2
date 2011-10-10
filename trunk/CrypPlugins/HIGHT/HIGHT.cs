@@ -109,7 +109,7 @@ namespace Cryptool.HIGHT
             {
                 //create some input
                 String dummystring = "12345678";
-                this.inputStream = new CStreamWriter(Encoding.Default.GetBytes(dummystring));
+                this.inputStream = new CStreamWriter(Encoding.UTF8.GetBytes(dummystring));
                 // write a warning to the outside world
                 GuiLogMessage("WARNING - No input provided. Using dummy data. (" + dummystring + ")", NotificationLevel.Warning);
             }

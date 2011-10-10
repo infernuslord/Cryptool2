@@ -309,7 +309,7 @@ namespace TextOutput
       int bytes = 0;
       if (fillValue != null)
       {
-        bytes = Encoding.Default.GetBytes(fillValue.ToCharArray()).Length;
+        bytes = Encoding.UTF8.GetBytes(fillValue.ToCharArray()).Length;
 
         // Presentation format conversion
         switch (settings.Presentation)
@@ -318,14 +318,14 @@ namespace TextOutput
             // nothin to do here)
             break;
           case TextOutputSettings.PresentationFormat.Hex:
-            byte[] byteValues = Encoding.Default.GetBytes(fillValue.ToCharArray());
+            byte[] byteValues = Encoding.UTF8.GetBytes(fillValue.ToCharArray());
             fillValue = BitConverter.ToString(byteValues, 0, byteValues.Length).Replace("-", "");
             break;
           case TextOutputSettings.PresentationFormat.Base64:
-            fillValue = Convert.ToBase64String(Encoding.Default.GetBytes(fillValue.ToCharArray()));
+            fillValue = Convert.ToBase64String(Encoding.UTF8.GetBytes(fillValue.ToCharArray()));
             break;
           case TextOutputSettings.PresentationFormat.Decimal:
-            byte[] decValues = Encoding.Default.GetBytes(fillValue.ToCharArray());
+            byte[] decValues = Encoding.UTF8.GetBytes(fillValue.ToCharArray());
             StringBuilder sb = new StringBuilder();
             if (decValues.Length > 0)
             {
@@ -363,7 +363,7 @@ namespace TextOutput
               {
                 if (settings.Presentation == TextOutputSettings.PresentationFormat.Text)
                 {
-                    int newlineSize = Encoding.Default.GetBytes("\n".ToCharArray()).Length;
+                    int newlineSize = Encoding.UTF8.GetBytes("\n".ToCharArray()).Length;
                     textOutputPresentation.textBox.Tag = (int)textOutputPresentation.textBox.Tag + newlineSize;
                     textOutputQuickWatchPresentation.textBox.Tag = (int)textOutputQuickWatchPresentation.textBox.Tag + newlineSize;
                 }
@@ -388,8 +388,8 @@ namespace TextOutput
           }
           if (settings.BooleanAsNumeric)
           {
-              textOutputPresentation.labelBytes.Content = string.Format("{0:0,0}", Encoding.Default.GetBytes(textOutputPresentation.textBox.Text.ToCharArray()).Length) + " Bits";
-              textOutputQuickWatchPresentation.labelBytes.Content = string.Format("{0:0,0}", Encoding.Default.GetBytes(textOutputPresentation.textBox.Text.ToCharArray()).Length) + " Bits";
+              textOutputPresentation.labelBytes.Content = string.Format("{0:0,0}", Encoding.UTF8.GetBytes(textOutputPresentation.textBox.Text.ToCharArray()).Length) + " Bits";
+              textOutputQuickWatchPresentation.labelBytes.Content = string.Format("{0:0,0}", Encoding.UTF8.GetBytes(textOutputPresentation.textBox.Text.ToCharArray()).Length) + " Bits";
           }
           else
           {
@@ -421,9 +421,6 @@ namespace TextOutput
         // here conversion happens
         switch (settings.Encoding)
         {
-          case TextOutputSettings.EncodingTypes.Default:
-            returnValue = Encoding.Default.GetString(arrByte, 0, arrByte.Length);
-            break;
           case TextOutputSettings.EncodingTypes.Unicode:
             returnValue = Encoding.Unicode.GetString(arrByte, 0, arrByte.Length);
             break;
@@ -442,6 +439,7 @@ namespace TextOutput
           case TextOutputSettings.EncodingTypes.BigEndianUnicode:
             returnValue = Encoding.BigEndianUnicode.GetString(arrByte, 0, arrByte.Length);
             break;
+          case TextOutputSettings.EncodingTypes.Default:
           default:
             returnValue = Encoding.Default.GetString(arrByte, 0, arrByte.Length);
             break;
