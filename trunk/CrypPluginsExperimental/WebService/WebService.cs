@@ -49,7 +49,6 @@ namespace WebService
 
         private ISettings _settings = new WebServiceSettings();
         public WebServicePresentation presentation;
-        private WebServiceQuickWatchPresentation quickWatch;
         private XmlDocument _inputDocument;
         private XmlDocument _outputDocument;
         private XmlDocument _modifiedInputDocument;
@@ -898,11 +897,6 @@ namespace WebService
         public System.Windows.Controls.UserControl Presentation
         {
             get { return this.presentation; }
-        }
-
-        public System.Windows.Controls.UserControl QuickWatchPresentation
-        {
-            get { return this.quickWatch; }
         }
 
         public ISettings Settings

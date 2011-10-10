@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Cryptool.PluginBase;
-using Cryptool.PluginBase.Analysis;
-using Cryptool.PluginBase.Cryptography;
 using Cryptool.PluginBase.Miscellaneous;
 using System.Text.RegularExpressions;
 using System.IO;
@@ -18,7 +16,8 @@ namespace Cryptool.SystemOfEquations
     [Author("Abdeljalil Bourbahh", "bourbahh@yahoo.de", "Ruhr-Universitaet Bochum, Chair for System Security", "http://www.trust.rub.de/")]
     [PluginInfo(false, "Alg. attack: System of equations", "generate a System of equation for algebric attack against Combiner of streamcipher", "SystemOfEquations/DetailedDescription/Description.xaml",
  "SystemOfEquations/Images/soe.png")]
-    public class SystemOfEquations : IAnalysisMisc
+    [ComponentCategory(ComponentCategory.CryptanalysisSpecific)]
+    public class SystemOfEquations : ICrypComponent
     {
         #region Private variables
         private SystemOfEquationsSettings settings;

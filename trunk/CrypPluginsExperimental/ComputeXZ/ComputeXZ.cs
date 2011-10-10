@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Cryptool.PluginBase;
-using Cryptool.PluginBase.Analysis;
-using Cryptool.PluginBase.Cryptography;
 using Cryptool.PluginBase.Miscellaneous;
 using System.Text.RegularExpressions;
 using System.IO;
@@ -17,7 +15,8 @@ namespace Cryptool.ComputeXZ
 {
     [Author("Abdeljalil Bourbahh", "bourbahh@yahoo.de", "Ruhr-Universitaet Bochum, Chair for System Security", "http://www.trust.rub.de/")]
     [PluginInfo(false, "Alg. attack: Compute XZ", "compute the sets XZ for a Combiner of streamcipher", "ComputeXZ/DetailedDescription/Description.xaml", "ComputeXZ/Images/xzz.png")]
-    public class ComputeXZ : IAnalysisMisc
+    [ComponentCategory(ComponentCategory.CryptanalysisSpecific)]
+    public class ComputeXZ : ICrypComponent
     {
         #region Private variables
         private Hashtable outputXZ;

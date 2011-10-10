@@ -67,11 +67,6 @@ namespace Cryptool.Plugins.PasswordStrength
             get { return null; }
         }
 
-        public UserControl QuickWatchPresentation
-        {
-            get { return null; }
-        }
-
         public void PreExecution()
         {
         }

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using Cryptool.PluginBase;
-using Cryptool.PluginBase.Analysis;
 using System.ComponentModel;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -30,10 +29,8 @@ namespace Cryptool.MonoalphabeticAnalysis
     "Proposes Alphabet for the substitution cipher.",
     "",
     "MonoalphabeticAnalysis/icon.png")]
-
-
-
-    public partial class MonoalphabeticAnalysis : IStatistic
+    [ComponentCategory(ComponentCategory.CryptanalysisSpecific)]
+    public partial class MonoalphabeticAnalysis : ICrypComponent
     {
         private string stringOutput = "";
         private string textStatisticInput_Monograms = ""; //Generated from FrequencyTest. Contains monogram/letter frequencies of  arbitrary text. Used for initial mapping and proposal of alphabet.

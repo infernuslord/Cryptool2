@@ -379,10 +379,6 @@ namespace Cryptool.VigenereAnalyser
         }
         public UserControl Presentation { get; private set; }
 
-        public UserControl QuickWatchPresentation
-        {
-            get { return Presentation; }
-        }
         public VigenereAnalyser() 
         {
             settings = new VigenereAnalyserSettings();

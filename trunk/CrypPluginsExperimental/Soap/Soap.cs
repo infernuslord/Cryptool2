@@ -1558,11 +1558,6 @@ namespace Soap
             get { return this.presentation; }
         }
 
-        public System.Windows.Controls.UserControl QuickWatchPresentation
-        {
-            get { return null; }
-        }
-
         public ISettings Settings
         {
             get { return (SoapSettings)this._settings; }

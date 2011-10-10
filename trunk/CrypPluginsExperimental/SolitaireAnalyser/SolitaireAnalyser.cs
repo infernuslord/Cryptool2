@@ -57,7 +57,7 @@ namespace SolitaireAnalyser
         public SolitaireAnalyser()
         {
             myPresentation = new SolitaireAnalyserQuickWatchPresentation();
-            QuickWatchPresentation = myPresentation;
+            Presentation = myPresentation;
         }
 
         /// <summary>
@@ -143,11 +143,6 @@ namespace SolitaireAnalyser
         }
 
         public UserControl Presentation
-        {
-            get { return null; }
-        }
-
-       public UserControl QuickWatchPresentation
         {
             get;
             private set;
@@ -300,38 +295,38 @@ namespace SolitaireAnalyser
             scoreList[pos] = Convert.ToString(score);
             passList[pos] = pass;
             textList[pos] = dec;
-            ((SolitaireAnalyserQuickWatchPresentation)QuickWatchPresentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            ((SolitaireAnalyserQuickWatchPresentation)Presentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
-                ((SolitaireAnalyserQuickWatchPresentation)QuickWatchPresentation).score1.Content = "" + scoreList[0];
-                ((SolitaireAnalyserQuickWatchPresentation)QuickWatchPresentation).score2.Content = "" + scoreList[1];
-                ((SolitaireAnalyserQuickWatchPresentation)QuickWatchPresentation).score3.Content = "" + scoreList[2];
-                ((SolitaireAnalyserQuickWatchPresentation)QuickWatchPresentation).score4.Content = "" + scoreList[3];
-                ((SolitaireAnalyserQuickWatchPresentation)QuickWatchPresentation).score5.Content = "" + scoreList[4];
-                ((SolitaireAnalyserQuickWatchPresentation)QuickWatchPresentation).score6.Content = "" + scoreList[5];
-                ((SolitaireAnalyserQuickWatchPresentation)QuickWatchPresentation).score7.Content = "" + scoreList[6];
-                ((SolitaireAnalyserQuickWatchPresentation)QuickWatchPresentation).score8.Content = "" + scoreList[7];
-                ((SolitaireAnalyserQuickWatchPresentation)QuickWatchPresentation).score9.Content = "" + scoreList[8];
-                ((SolitaireAnalyserQuickWatchPresentation)QuickWatchPresentation).score10.Content = "" + scoreList[9];
-                ((SolitaireAnalyserQuickWatchPresentation)QuickWatchPresentation).pass1.Content = "" + passList[0];
-                ((SolitaireAnalyserQuickWatchPresentation)QuickWatchPresentation).pass2.Content = "" + passList[1];
-                ((SolitaireAnalyserQuickWatchPresentation)QuickWatchPresentation).pass3.Content = "" + passList[2];
-                ((SolitaireAnalyserQuickWatchPresentation)QuickWatchPresentation).pass4.Content = "" + passList[3];
-                ((SolitaireAnalyserQuickWatchPresentation)QuickWatchPresentation).pass5.Content = "" + passList[4];
-                ((SolitaireAnalyserQuickWatchPresentation)QuickWatchPresentation).pass6.Content = "" + passList[5];
-                ((SolitaireAnalyserQuickWatchPresentation)QuickWatchPresentation).pass7.Content = "" + passList[6];
-                ((SolitaireAnalyserQuickWatchPresentation)QuickWatchPresentation).pass8.Content = "" + passList[7];
-                ((SolitaireAnalyserQuickWatchPresentation)QuickWatchPresentation).pass9.Content = "" + passList[8];
-                ((SolitaireAnalyserQuickWatchPresentation)QuickWatchPresentation).pass10.Content = "" + passList[9];
-                ((SolitaireAnalyserQuickWatchPresentation)QuickWatchPresentation).text1.Content = "" + textList[0];
-                ((SolitaireAnalyserQuickWatchPresentation)QuickWatchPresentation).text2.Content = "" + textList[1];
-                ((SolitaireAnalyserQuickWatchPresentation)QuickWatchPresentation).text3.Content = "" + textList[2];
-                ((SolitaireAnalyserQuickWatchPresentation)QuickWatchPresentation).text4.Content = "" + textList[3];
-                ((SolitaireAnalyserQuickWatchPresentation)QuickWatchPresentation).text5.Content = "" + textList[4];
-                ((SolitaireAnalyserQuickWatchPresentation)QuickWatchPresentation).text6.Content = "" + textList[5];
-                ((SolitaireAnalyserQuickWatchPresentation)QuickWatchPresentation).text7.Content = "" + textList[6];
-                ((SolitaireAnalyserQuickWatchPresentation)QuickWatchPresentation).text8.Content = "" + textList[7];
-                ((SolitaireAnalyserQuickWatchPresentation)QuickWatchPresentation).text9.Content = "" + textList[8];
-                ((SolitaireAnalyserQuickWatchPresentation)QuickWatchPresentation).text10.Content = "" + textList[9];
+                ((SolitaireAnalyserQuickWatchPresentation)Presentation).score1.Content = "" + scoreList[0];
+                ((SolitaireAnalyserQuickWatchPresentation)Presentation).score2.Content = "" + scoreList[1];
+                ((SolitaireAnalyserQuickWatchPresentation)Presentation).score3.Content = "" + scoreList[2];
+                ((SolitaireAnalyserQuickWatchPresentation)Presentation).score4.Content = "" + scoreList[3];
+                ((SolitaireAnalyserQuickWatchPresentation)Presentation).score5.Content = "" + scoreList[4];
+                ((SolitaireAnalyserQuickWatchPresentation)Presentation).score6.Content = "" + scoreList[5];
+                ((SolitaireAnalyserQuickWatchPresentation)Presentation).score7.Content = "" + scoreList[6];
+                ((SolitaireAnalyserQuickWatchPresentation)Presentation).score8.Content = "" + scoreList[7];
+                ((SolitaireAnalyserQuickWatchPresentation)Presentation).score9.Content = "" + scoreList[8];
+                ((SolitaireAnalyserQuickWatchPresentation)Presentation).score10.Content = "" + scoreList[9];
+                ((SolitaireAnalyserQuickWatchPresentation)Presentation).pass1.Content = "" + passList[0];
+                ((SolitaireAnalyserQuickWatchPresentation)Presentation).pass2.Content = "" + passList[1];
+                ((SolitaireAnalyserQuickWatchPresentation)Presentation).pass3.Content = "" + passList[2];
+                ((SolitaireAnalyserQuickWatchPresentation)Presentation).pass4.Content = "" + passList[3];
+                ((SolitaireAnalyserQuickWatchPresentation)Presentation).pass5.Content = "" + passList[4];
+                ((SolitaireAnalyserQuickWatchPresentation)Presentation).pass6.Content = "" + passList[5];
+                ((SolitaireAnalyserQuickWatchPresentation)Presentation).pass7.Content = "" + passList[6];
+                ((SolitaireAnalyserQuickWatchPresentation)Presentation).pass8.Content = "" + passList[7];
+                ((SolitaireAnalyserQuickWatchPresentation)Presentation).pass9.Content = "" + passList[8];
+                ((SolitaireAnalyserQuickWatchPresentation)Presentation).pass10.Content = "" + passList[9];
+                ((SolitaireAnalyserQuickWatchPresentation)Presentation).text1.Content = "" + textList[0];
+                ((SolitaireAnalyserQuickWatchPresentation)Presentation).text2.Content = "" + textList[1];
+                ((SolitaireAnalyserQuickWatchPresentation)Presentation).text3.Content = "" + textList[2];
+                ((SolitaireAnalyserQuickWatchPresentation)Presentation).text4.Content = "" + textList[3];
+                ((SolitaireAnalyserQuickWatchPresentation)Presentation).text5.Content = "" + textList[4];
+                ((SolitaireAnalyserQuickWatchPresentation)Presentation).text6.Content = "" + textList[5];
+                ((SolitaireAnalyserQuickWatchPresentation)Presentation).text7.Content = "" + textList[6];
+                ((SolitaireAnalyserQuickWatchPresentation)Presentation).text8.Content = "" + textList[7];
+                ((SolitaireAnalyserQuickWatchPresentation)Presentation).text9.Content = "" + textList[8];
+                ((SolitaireAnalyserQuickWatchPresentation)Presentation).text10.Content = "" + textList[9];
 
             }
             , null);
@@ -339,36 +334,36 @@ namespace SolitaireAnalyser
 
         public void updateDicSize(int size)
         {
-            ((SolitaireAnalyserQuickWatchPresentation)QuickWatchPresentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            ((SolitaireAnalyserQuickWatchPresentation)Presentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
-                ((SolitaireAnalyserQuickWatchPresentation)QuickWatchPresentation).dicSize.Content = "" + Convert.ToString(size);
+                ((SolitaireAnalyserQuickWatchPresentation)Presentation).dicSize.Content = "" + Convert.ToString(size);
             }
             , null);
         }
 
         public void updateRemTime(string time)
         {
-            ((SolitaireAnalyserQuickWatchPresentation)QuickWatchPresentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            ((SolitaireAnalyserQuickWatchPresentation)Presentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
-                ((SolitaireAnalyserQuickWatchPresentation)QuickWatchPresentation).remTime.Content = "" + time;
+                ((SolitaireAnalyserQuickWatchPresentation)Presentation).remTime.Content = "" + time;
             }
             , null);
         }
 
         public void updateDicPos(int pos)
         {
-            ((SolitaireAnalyserQuickWatchPresentation)QuickWatchPresentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            ((SolitaireAnalyserQuickWatchPresentation)Presentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
-                ((SolitaireAnalyserQuickWatchPresentation)QuickWatchPresentation).dicPos.Content = "" + Convert.ToString(pos);
+                ((SolitaireAnalyserQuickWatchPresentation)Presentation).dicPos.Content = "" + Convert.ToString(pos);
             }
             , null);
         }
 
         public void updatePassSec(int passSec)
         {
-            ((SolitaireAnalyserQuickWatchPresentation)QuickWatchPresentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            ((SolitaireAnalyserQuickWatchPresentation)Presentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
-                ((SolitaireAnalyserQuickWatchPresentation)QuickWatchPresentation).passSec.Content = "" + Convert.ToString(passSec);
+                ((SolitaireAnalyserQuickWatchPresentation)Presentation).passSec.Content = "" + Convert.ToString(passSec);
             }
             , null);
         }
@@ -377,40 +372,40 @@ namespace SolitaireAnalyser
 
         public void clearScreen()
         {
-            ((SolitaireAnalyserQuickWatchPresentation)QuickWatchPresentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            ((SolitaireAnalyserQuickWatchPresentation)Presentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
-                ((SolitaireAnalyserQuickWatchPresentation)QuickWatchPresentation).score1.Content = "";
-                ((SolitaireAnalyserQuickWatchPresentation)QuickWatchPresentation).score2.Content = "";
-                ((SolitaireAnalyserQuickWatchPresentation)QuickWatchPresentation).score3.Content = "";
-                ((SolitaireAnalyserQuickWatchPresentation)QuickWatchPresentation).score4.Content = "";
-                ((SolitaireAnalyserQuickWatchPresentation)QuickWatchPresentation).score5.Content = "";
-                ((SolitaireAnalyserQuickWatchPresentation)QuickWatchPresentation).score6.Content = "";
-                ((SolitaireAnalyserQuickWatchPresentation)QuickWatchPresentation).score7.Content = "";
-                ((SolitaireAnalyserQuickWatchPresentation)QuickWatchPresentation).score8.Content = "";
-                ((SolitaireAnalyserQuickWatchPresentation)QuickWatchPresentation).score9.Content = "";
-                ((SolitaireAnalyserQuickWatchPresentation)QuickWatchPresentation).score10.Content = "";
-                ((SolitaireAnalyserQuickWatchPresentation)QuickWatchPresentation).pass1.Content = "";
-                ((SolitaireAnalyserQuickWatchPresentation)QuickWatchPresentation).pass2.Content = "";
-                ((SolitaireAnalyserQuickWatchPresentation)QuickWatchPresentation).pass3.Content = "";
-                ((SolitaireAnalyserQuickWatchPresentation)QuickWatchPresentation).pass4.Content = "";
-                ((SolitaireAnalyserQuickWatchPresentation)QuickWatchPresentation).pass5.Content = "";
-                ((SolitaireAnalyserQuickWatchPresentation)QuickWatchPresentation).pass6.Content = "";
-                ((SolitaireAnalyserQuickWatchPresentation)QuickWatchPresentation).pass7.Content = "";
-                ((SolitaireAnalyserQuickWatchPresentation)QuickWatchPresentation).pass8.Content = "";
-                ((SolitaireAnalyserQuickWatchPresentation)QuickWatchPresentation).pass9.Content = "";
-                ((SolitaireAnalyserQuickWatchPresentation)QuickWatchPresentation).pass10.Content = "";
-                ((SolitaireAnalyserQuickWatchPresentation)QuickWatchPresentation).text1.Content = "";
-                ((SolitaireAnalyserQuickWatchPresentation)QuickWatchPresentation).text2.Content = "";
-                ((SolitaireAnalyserQuickWatchPresentation)QuickWatchPresentation).text3.Content = "";
-                ((SolitaireAnalyserQuickWatchPresentation)QuickWatchPresentation).text4.Content = "";
-                ((SolitaireAnalyserQuickWatchPresentation)QuickWatchPresentation).text5.Content = "";
-                ((SolitaireAnalyserQuickWatchPresentation)QuickWatchPresentation).text6.Content = "";
-                ((SolitaireAnalyserQuickWatchPresentation)QuickWatchPresentation).text7.Content = "";
-                ((SolitaireAnalyserQuickWatchPresentation)QuickWatchPresentation).text8.Content = "";
-                ((SolitaireAnalyserQuickWatchPresentation)QuickWatchPresentation).text9.Content = "";
-                ((SolitaireAnalyserQuickWatchPresentation)QuickWatchPresentation).text10.Content = "";
-                ((SolitaireAnalyserQuickWatchPresentation)QuickWatchPresentation).dicSize.Content = "";
-                ((SolitaireAnalyserQuickWatchPresentation)QuickWatchPresentation).remTime.Content = "";
+                ((SolitaireAnalyserQuickWatchPresentation)Presentation).score1.Content = "";
+                ((SolitaireAnalyserQuickWatchPresentation)Presentation).score2.Content = "";
+                ((SolitaireAnalyserQuickWatchPresentation)Presentation).score3.Content = "";
+                ((SolitaireAnalyserQuickWatchPresentation)Presentation).score4.Content = "";
+                ((SolitaireAnalyserQuickWatchPresentation)Presentation).score5.Content = "";
+                ((SolitaireAnalyserQuickWatchPresentation)Presentation).score6.Content = "";
+                ((SolitaireAnalyserQuickWatchPresentation)Presentation).score7.Content = "";
+                ((SolitaireAnalyserQuickWatchPresentation)Presentation).score8.Content = "";
+                ((SolitaireAnalyserQuickWatchPresentation)Presentation).score9.Content = "";
+                ((SolitaireAnalyserQuickWatchPresentation)Presentation).score10.Content = "";
+                ((SolitaireAnalyserQuickWatchPresentation)Presentation).pass1.Content = "";
+                ((SolitaireAnalyserQuickWatchPresentation)Presentation).pass2.Content = "";
+                ((SolitaireAnalyserQuickWatchPresentation)Presentation).pass3.Content = "";
+                ((SolitaireAnalyserQuickWatchPresentation)Presentation).pass4.Content = "";
+                ((SolitaireAnalyserQuickWatchPresentation)Presentation).pass5.Content = "";
+                ((SolitaireAnalyserQuickWatchPresentation)Presentation).pass6.Content = "";
+                ((SolitaireAnalyserQuickWatchPresentation)Presentation).pass7.Content = "";
+                ((SolitaireAnalyserQuickWatchPresentation)Presentation).pass8.Content = "";
+                ((SolitaireAnalyserQuickWatchPresentation)Presentation).pass9.Content = "";
+                ((SolitaireAnalyserQuickWatchPresentation)Presentation).pass10.Content = "";
+                ((SolitaireAnalyserQuickWatchPresentation)Presentation).text1.Content = "";
+                ((SolitaireAnalyserQuickWatchPresentation)Presentation).text2.Content = "";
+                ((SolitaireAnalyserQuickWatchPresentation)Presentation).text3.Content = "";
+                ((SolitaireAnalyserQuickWatchPresentation)Presentation).text4.Content = "";
+                ((SolitaireAnalyserQuickWatchPresentation)Presentation).text5.Content = "";
+                ((SolitaireAnalyserQuickWatchPresentation)Presentation).text6.Content = "";
+                ((SolitaireAnalyserQuickWatchPresentation)Presentation).text7.Content = "";
+                ((SolitaireAnalyserQuickWatchPresentation)Presentation).text8.Content = "";
+                ((SolitaireAnalyserQuickWatchPresentation)Presentation).text9.Content = "";
+                ((SolitaireAnalyserQuickWatchPresentation)Presentation).text10.Content = "";
+                ((SolitaireAnalyserQuickWatchPresentation)Presentation).dicSize.Content = "";
+                ((SolitaireAnalyserQuickWatchPresentation)Presentation).remTime.Content = "";
             }
             , null);
         }

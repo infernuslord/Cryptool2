@@ -24,8 +24,8 @@ namespace ManInTheMiddle
 {
     [Author("Jan Bernhardt", "jan_bernhardt@gmx.de", "Uni Siegen", "http://www.uni-siegen.de")]
     [PluginInfo(false, "ManInTheMiddle", "Represents a Man in the middle", "", "ManInTheMiddle/ManInTheMiddleIcon.png")]
-  
-    public class ManInTHeMiddle:IThroughput
+    [ComponentCategory(ComponentCategory.Protocols)]
+    public class ManInTHeMiddle : ICrypComponent
     {
 
       private ISettings settings = new ManInTheMiddleSettings();

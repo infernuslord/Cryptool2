@@ -461,8 +461,6 @@ namespace TextOutput
 
     public UserControl Presentation { get; private set; }
 
-    public UserControl QuickWatchPresentation { get; private set; }
-
     public void Initialize()
     {
 
