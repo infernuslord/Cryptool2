@@ -1461,11 +1461,6 @@ namespace Cryptool.WEPAttacks
             get { return presentation; }
         }
 
-        public UserControl QuickWatchPresentation
-        {
-            get { return presentation; }
-        }
-
         public ISettings Settings
         {
             get { return this.settings; }

@@ -40,16 +40,6 @@ namespace Cryptool.PluginBase
         UserControl Presentation { get; }
 
         /// <summary>
-        /// Gets the quick watch presentation - will be displayed inside of the plugin presentation-element. You
-        /// can return the existing Presentation if it makes sense to display it inside a small area. But be aware that
-        /// if Presentation is displayed in QuickWatchPresentation you can't open Presentation it in a tab before you
-        /// you close QuickWatchPresentation;
-        /// Return null if your plugin has no QuickWatchPresentation. 
-        /// </summary>
-        /// <value>The quick watch presentation.</value>
-        UserControl QuickWatchPresentation { get; }
-
-        /// <summary>
         /// Will be called from editor before right before chain-run starts
         /// </summary>
         void PreExecution();

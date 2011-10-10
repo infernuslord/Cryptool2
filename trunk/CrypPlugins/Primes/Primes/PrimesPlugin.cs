@@ -34,12 +34,7 @@ namespace Primes
       }
     }
 
-    public System.Windows.Controls.UserControl QuickWatchPresentation
-    {
-        get { return null; }
-    }
-
-    public void PreExecution()
+      public void PreExecution()
     {
     }
 

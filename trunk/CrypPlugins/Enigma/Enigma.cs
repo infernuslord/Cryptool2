@@ -361,11 +361,6 @@ namespace Cryptool.Enigma
             private set;
         }
 
-        public UserControl QuickWatchPresentation
-        {
-            get { return Presentation; }
-        }
-
         #endregion
 
         #region Connector properties

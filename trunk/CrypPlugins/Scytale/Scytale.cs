@@ -186,11 +186,6 @@ namespace Cryptool.Scytale
             get { return null; }
         }
 
-        public UserControl QuickWatchPresentation
-        {
-            get { return null; }
-        }
-
         private void OnPropertyChanged(string name)
         {
             if (PropertyChanged != null)

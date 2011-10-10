@@ -1,4 +1,4 @@
-/*
+﻿/*
    Copyright 2008 Dr. Arno Wacker, University of Duisburg-Essen
 
    Licensed under the Apache License, Version 2.0 (the "License");
@@ -124,11 +124,6 @@ namespace Cryptool.Plugins.Convertor
         public UserControl Presentation
         {
             get { return null; }
-        }
-
-        public UserControl QuickWatchPresentation
-        {
-          get { return null; }
         }
 
         public void Initialize() { }

@@ -227,11 +227,6 @@ namespace Cryptool.P2PEditor
 
         public UserControl Presentation { get; private set; }
 
-        public UserControl QuickWatchPresentation
-        {
-            get { throw new NotImplementedException(); }
-        }
-
         public void PreExecution()
         {
         }

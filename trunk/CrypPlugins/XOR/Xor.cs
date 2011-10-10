@@ -113,11 +113,6 @@ namespace Cryptool.XOR
             get { return null; }
         }
 
-        public UserControl QuickWatchPresentation
-        {
-            get { return null; }
-        }
-
         public void Stop()
         {
         }

@@ -97,11 +97,6 @@ namespace Wizard
         public PluginManager PluginManager
         { get; set; }
 
-        public UserControl QuickWatchPresentation
-        {
-            get { return null; }
-        }
-
         public void PreExecution()
         {
             

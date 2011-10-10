@@ -175,11 +175,6 @@ namespace Cryptool.CubeAttack
             get { return null; }
         }
 
-        public UserControl QuickWatchPresentation
-        {
-            get { return null; }
-        }
-
         public void Stop()
         {
             this.stop = true;

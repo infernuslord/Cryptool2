@@ -164,12 +164,7 @@ namespace RandomInput
       get { return null; }
     }
 
-    public UserControl QuickWatchPresentation
-    {
-      get { return null; }
-    }
-
-    public void Execute()
+      public void Execute()
     {
       getRand();
       Progress(1.0, 1.0);

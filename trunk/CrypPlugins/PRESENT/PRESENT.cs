@@ -27,7 +27,6 @@ using System.Security.Cryptography;
 using Cryptool.PluginBase;
 using System.ComponentModel;
 using Cryptool.PluginBase.IO;
-using System.Windows.Controls;
 using System.Runtime.CompilerServices;
 using Cryptool.PluginBase.Miscellaneous;
 using System.Runtime.Remoting.Contexts;
@@ -385,11 +384,6 @@ namespace Cryptool.PRESENT
 
 
         public System.Windows.Controls.UserControl Presentation
-        {
-            get { return presentation; }
-        }
-
-        public UserControl QuickWatchPresentation
         {
             get { return presentation; }
         }

@@ -360,12 +360,7 @@ namespace Cryptool.TextInput
 
     public UserControl Presentation { get; private set; }
 
-    public UserControl QuickWatchPresentation
-    {
-      get { return Presentation; }
-    }
-
-    public void Initialize()
+      public void Initialize()
     {
       if (textInputPresentation.textBoxInputText != null)
       {

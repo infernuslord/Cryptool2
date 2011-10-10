@@ -818,11 +818,6 @@ namespace Cryptool.WEP
             get { return null; }
         }
 
-        public UserControl QuickWatchPresentation
-        {
-            get { return null; }
-        }
-
         public ISettings Settings
         {
             get { return this.settings; }

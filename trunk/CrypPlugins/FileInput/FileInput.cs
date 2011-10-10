@@ -114,11 +114,6 @@ namespace FileInput
 
         public UserControl Presentation { get; private set; }
 
-        public UserControl QuickWatchPresentation
-        {
-            get { return null; }
-        }
-
         public void Initialize()
         {
             fileInputPresentation.CloseFile();

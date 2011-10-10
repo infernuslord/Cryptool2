@@ -188,11 +188,6 @@ namespace Cryptool.Vigenere
             get { return null; }
         }
 
-        public System.Windows.Controls.UserControl QuickWatchPresentation
-        {
-            get { return null; }
-        }
-
         public void Stop()
         {
         }

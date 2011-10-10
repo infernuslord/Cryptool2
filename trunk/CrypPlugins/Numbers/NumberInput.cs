@@ -107,11 +107,6 @@ namespace Cryptool.Plugins.Numbers
             get { return _presentation; }
         }
 
-        public System.Windows.Controls.UserControl QuickWatchPresentation
-        {
-            get { return null; }
-        }
-
         public void PreExecution()
         {
             _running = true;

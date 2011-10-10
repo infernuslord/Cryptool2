@@ -118,7 +118,6 @@ namespace Cryptool.FrequencyTest
             settings = new FrequencyTestSettings();
             presentation = new FrequencyTestPresentation();
             Presentation = presentation;
-            QuickWatchPresentation = presentation;
 
             presentation.SizeChanged += new System.Windows.SizeChangedEventHandler(presentation_SizeChanged);
 
@@ -129,8 +128,6 @@ namespace Cryptool.FrequencyTest
 
         
         public UserControl Presentation { get; private set; }
-
-        public UserControl QuickWatchPresentation { get; private set; }
 
         public void PreExecution()
         {

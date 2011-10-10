@@ -214,14 +214,6 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         }
 
         /// <summary>
-        /// Get the QuickWatchPresentation of this plugin
-        /// </summary>
-        public UserControl QuickWatchPresentation
-        {
-            get { return null; }
-        }
-
-        /// <summary>
         /// Called by the environment to do initialization
         /// </summary>
         public void Initialize()

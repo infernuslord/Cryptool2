@@ -145,11 +145,6 @@ namespace Cryptool.Plugins.CostFunction
             get { return null; }
         }
 
-        public System.Windows.Controls.UserControl QuickWatchPresentation
-        {
-            get { return null; }
-        }
-
         public void PreExecution()
         {
             this.stopped = false;

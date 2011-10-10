@@ -86,11 +86,6 @@ namespace Cryptool.Plugins.Variable
             get { return null; }
         }
 
-        public System.Windows.Controls.UserControl QuickWatchPresentation
-        {
-            get { return null; }
-        }
-
         public void PreExecution()
         {
             Dispose();

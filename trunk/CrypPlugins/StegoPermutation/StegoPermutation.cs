@@ -125,15 +125,6 @@ namespace Cryptool.Plugins.StegoPermutation
             get { return presentation; }
         }
 
-        /// <summary>
-        /// HOWTO: You can provide custom (quickwatch) presentation to visualize your algorithm.
-        /// Return null if you don't provide one.
-        /// </summary>
-        public UserControl QuickWatchPresentation
-        {
-            get { return null; }
-        }
-
         public void PreExecution()
         {
         }

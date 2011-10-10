@@ -53,11 +53,6 @@ namespace Nihilist
             get { return null; }
         }
 
-        public UserControl QuickWatchPresentation
-        {
-            get { return null; }
-        }
-
         private byte[] input = new byte[] { };
         [PropertyInfo(Direction.InputData, "InputCaption", "InputTooltip", "", true, false, QuickWatchFormat.Text, null)]
         public byte[] Input

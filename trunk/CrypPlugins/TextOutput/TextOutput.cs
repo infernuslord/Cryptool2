@@ -81,7 +81,6 @@ namespace TextOutput
     public TextOutput()
     {
       Presentation = new TextOutputPresentation();
-      QuickWatchPresentation = new TextOutputPresentation();
       settings = new TextOutputSettings(this);
       settings.OnGuiLogNotificationOccured += settings_OnGuiLogNotificationOccured;
       settings.PropertyChanged += settings_PropertyChanged;
@@ -352,8 +351,6 @@ namespace TextOutput
               GuiLogMessage("Text exceeds size limit. Deleting text...", NotificationLevel.Debug);
               textOutputPresentation.textBox.Text = string.Empty;
               textOutputPresentation.textBox.Tag = 0;
-              textOutputQuickWatchPresentation.textBox.Text = string.Empty;
-              textOutputQuickWatchPresentation.textBox.Tag = 0;
             }
 
             // append line breaks only if not first line
@@ -365,36 +362,27 @@ namespace TextOutput
                 {
                     int newlineSize = Encoding.UTF8.GetBytes("\n".ToCharArray()).Length;
                     textOutputPresentation.textBox.Tag = (int)textOutputPresentation.textBox.Tag + newlineSize;
-                    textOutputQuickWatchPresentation.textBox.Tag = (int)textOutputQuickWatchPresentation.textBox.Tag + newlineSize;
                 }
                 textOutputPresentation.textBox.AppendText("\n");
-                textOutputQuickWatchPresentation.textBox.AppendText("\n");
               }
             }
             textOutputPresentation.textBox.AppendText(fillValue);
             textOutputPresentation.textBox.Tag = (int)textOutputPresentation.textBox.Tag + bytes;
-            textOutputQuickWatchPresentation.textBox.AppendText(fillValue);
-            textOutputQuickWatchPresentation.textBox.Tag = (int)textOutputQuickWatchPresentation.textBox.Tag + bytes;
 
             textOutputPresentation.textBox.ScrollToEnd();
-            textOutputQuickWatchPresentation.textBox.ScrollToEnd();
           }
           else
           {
             textOutputPresentation.textBox.Text = fillValue;
             textOutputPresentation.textBox.Tag = bytes;
-            textOutputQuickWatchPresentation.textBox.Text = fillValue;
-            textOutputQuickWatchPresentation.textBox.Tag = bytes;
           }
           if (settings.BooleanAsNumeric)
           {
               textOutputPresentation.labelBytes.Content = string.Format("{0:0,0}", Encoding.UTF8.GetBytes(textOutputPresentation.textBox.Text.ToCharArray()).Length) + " Bits";
-              textOutputQuickWatchPresentation.labelBytes.Content = string.Format("{0:0,0}", Encoding.UTF8.GetBytes(textOutputPresentation.textBox.Text.ToCharArray()).Length) + " Bits";
           }
           else
           {
-              textOutputPresentation.labelBytes.Content = string.Format("{0:0,0}", (int)textOutputQuickWatchPresentation.textBox.Tag) + " Bytes";
-              textOutputQuickWatchPresentation.labelBytes.Content = string.Format("{0:0,0}", (int)textOutputQuickWatchPresentation.textBox.Tag) + " Bytes";
+              textOutputPresentation.labelBytes.Content = string.Format("{0:0,0}", (int)textOutputPresentation.textBox.Tag) + " Bytes";
           }
         }, fillValue);
       }
@@ -471,11 +459,6 @@ namespace TextOutput
       get { return Presentation as TextOutputPresentation; }
     }
 
-    private TextOutputPresentation textOutputQuickWatchPresentation
-    {
-      get { return QuickWatchPresentation as TextOutputPresentation; }
-    }
-
     public UserControl Presentation { get; private set; }
 
     public UserControl QuickWatchPresentation { get; private set; }
@@ -502,8 +485,6 @@ namespace TextOutput
         {
           textOutputPresentation.textBox.Tag = 0;
           textOutputPresentation.textBox.Text = null;
-          textOutputQuickWatchPresentation.textBox.Tag = 0;
-          textOutputQuickWatchPresentation.textBox.Text = null;
         }, null);
       }
         }

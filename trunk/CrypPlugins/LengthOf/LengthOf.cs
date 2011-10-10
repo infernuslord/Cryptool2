@@ -114,11 +114,6 @@ namespace Cryptool.Plugins.LengthOf
             get { return null; }
         }
 
-        public System.Windows.Controls.UserControl QuickWatchPresentation
-        {
-            get { return null; }
-        }
-
         public Cryptool.PluginBase.ISettings Settings
         {
             get { return this.settings; }

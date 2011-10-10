@@ -91,12 +91,9 @@ namespace Cryptool.KasiskiTest
             settings = new KasiskiTestSettings();
             presentation = new KasiskiTestPresentation(this);
             Presentation = presentation;
-            QuickWatchPresentation = presentation;
         }
        public UserControl Presentation { get; private set; }
 
-
-       public UserControl QuickWatchPresentation { get; private set; }
 
         public void PreExecution()
         {

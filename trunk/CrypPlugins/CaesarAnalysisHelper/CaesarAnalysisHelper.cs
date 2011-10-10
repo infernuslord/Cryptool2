@@ -243,11 +243,6 @@ namespace Cryptool.CaesarAnalysisHelper
             get { return null; }
         }
 
-        public UserControl QuickWatchPresentation
-        {
-            get { return null; }
-        }
-
         public void PreExecution()
         {
             encryptedText = string.Empty;

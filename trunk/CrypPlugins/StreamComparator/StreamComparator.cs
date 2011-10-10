@@ -391,12 +391,7 @@ namespace Cryptool.StreamComparator
       set { }
     }
 
-    public UserControl QuickWatchPresentation
-    {
-      get { return null; }
-    }    
-
-    public void Initialize()
+      public void Initialize()
     {
     }
 

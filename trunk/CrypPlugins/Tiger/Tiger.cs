@@ -261,19 +261,7 @@ namespace Tiger
       }
     }
 
-    /// <summary>
-    /// Gets the quick watch presentation 
-    /// </summary>
-    /// <value>The quick watch presentation.</value>
-    public System.Windows.Controls.UserControl QuickWatchPresentation
-    {
-      get
-      {
-        return null;
-      }
-    }
-
-    /// <summary>
+      /// <summary>
     /// Will be called from editor before right before chain-run starts
     /// </summary>
     public void PreExecution()
