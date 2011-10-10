@@ -178,10 +178,10 @@
     <value>Welches Bit soll als zusätzlich ausgegeben werden (z.B. zur Verwendung als Taktsignal)?</value>
   </data>
   <data name="NoQuickwatchCaption" xml:space="preserve">
-    <value>Quickwatch nicht anzeigen</value>
+    <value>Präsentation nicht anzeigen</value>
   </data>
   <data name="NoQuickwatchTooltip" xml:space="preserve">
-    <value>Wenn dieses Kontrollkästchen aktiviert ist, wird für eine schnellere Ausführung keine Quickwatch-Darstellung angezeigt.</value>
+    <value>Wenn dieses Kontrollkästchen aktiviert ist, wird keine Präsentation angezeigt und die Performance wird besser.</value>
   </data>
   <data name="OutputStagesCaption" xml:space="preserve">
     <value>Ausgabe des Zustandes</value>
@@ -244,7 +244,7 @@
     <value>Initialisiert LFSR und zeichnet die Präsentation. Wird benötigt, um die Präsentation von LFSR vor Beginn der Ausführung darzustellen.</value>
   </data>
   <data name="No_Quickwatch_data_right_now_" xml:space="preserve">
-    <value>Momentan keine Quickwatch-Daten vorhanden.</value>
+    <value>Momentan keine Daten zur Präsentation vorhanden.</value>
   </data>
   <data name="AlwaysCreateOutputList1" xml:space="preserve">
     <value>Ausgabe immer erzeugen?</value>
@@ -259,7 +259,7 @@
     <value>Generatorpolynom</value>
   </data>
   <data name="NoQuickwatchList1" xml:space="preserve">
-    <value>Quickwatch anzeigen?</value>
+    <value>Präsentation anzeigen?</value>
   </data>
   <data name="Period_of_LFSR" xml:space="preserve">
     <value>Periode des LFSR</value>

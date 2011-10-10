@@ -178,10 +178,10 @@
     <value>Which bit shall be generated as an additional output? For example as a clocking bit.</value>
   </data>
   <data name="NoQuickwatchCaption" xml:space="preserve">
-    <value>Do not display Quickwatch</value>
+    <value>Do not display presentation</value>
   </data>
   <data name="NoQuickwatchTooltip" xml:space="preserve">
-    <value>With this checkbox enabled, no quickwatch will be generated for a better performance.</value>
+    <value>With this checkbox enabled, no presentation will be shown and performance will be better.</value>
   </data>
   <data name="OutputStagesCaption" xml:space="preserve">
     <value>Output stages</value>
@@ -241,10 +241,10 @@
     <value>Draw LFSR</value>
   </data>
   <data name="initLFSRTooltip" xml:space="preserve">
-    <value>Draws the QuickwatchPresentation of the LFSR, if the polynomial fits to the seed.</value>
+    <value>Draws the presentation of the LFSR, if the polynomial fits to the seed.</value>
   </data>
   <data name="No_Quickwatch_data_right_now_" xml:space="preserve">
-    <value>No Quickwatch data right now.</value>
+    <value>No data to present right now.</value>
   </data>
   <data name="AlwaysCreateOutputList1" xml:space="preserve">
     <value>Always generate output?</value>
@@ -259,7 +259,7 @@
     <value>Feedback polynomial</value>
   </data>
   <data name="NoQuickwatchList1" xml:space="preserve">
-    <value>Display Quickwatch?</value>
+    <value>Display presentation?</value>
   </data>
   <data name="Period_of_LFSR" xml:space="preserve">
     <value>Period of LFSR</value>

@@ -28,8 +28,8 @@ namespace RegularExpressions
 {
     [Author("Armin Wiefels", "wiefels@cryptool.org", "Uni Due", "http://www.uni-due.de")]
     [PluginInfo(false, "Regular Expression Replace", "", "RegularExpressions/Description/RegexReplaceDescript.xaml", "RegularExpressions/icons/regreplaceicon.png")]
-
-    public class RegularExpressionReplace : IThroughput
+    [ComponentCategory(ComponentCategory.ToolsDataflow)]
+    public class RegularExpressionReplace : ICrypComponent
     {
                 
         private RegularExpressionReplaceSettings settings;
@@ -57,11 +57,6 @@ namespace RegularExpressions
         }
 
         public System.Windows.Controls.UserControl Presentation
-        {
-            get { return null; }
-        }
-
-        public System.Windows.Controls.UserControl QuickWatchPresentation
         {
             get { return null; }
         }

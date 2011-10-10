@@ -165,9 +165,6 @@ namespace Cryptool.MonoalphabeticAnalysis
         }
         public UserControl Presentation { get; private set; }
 
-
-        public UserControl QuickWatchPresentation { get; private set; }
-
         public void PreExecution()
         {
             //throw new NotImplementedException();

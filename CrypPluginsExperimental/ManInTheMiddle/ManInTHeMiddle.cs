@@ -426,11 +426,6 @@ namespace ManInTheMiddle
             get { return this.presentation; }
         }
 
-        public System.Windows.Controls.UserControl QuickWatchPresentation
-        {
-            get { return null; }
-        }
-
         public ISettings Settings
         {
             get { return this.settings; }

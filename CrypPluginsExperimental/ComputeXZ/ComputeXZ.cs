@@ -110,10 +110,6 @@ namespace Cryptool.ComputeXZ
         {
             get { return null; }
         }
-        public UserControl QuickWatchPresentation
-        {
-            get { return null; }
-        }
         public void Stop()
         {
             try

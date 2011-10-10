@@ -465,11 +465,6 @@ namespace Primes.WpfVisualization
       }
     }
 
-    public UserControl QuickWatchPresentation
-    {
-      get { return null; }
-    }
-
     #endregion
 
     #region IPlugin Members
