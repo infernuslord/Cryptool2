@@ -36,7 +36,6 @@ namespace WorkspaceManager.View.BinVisual
 
         #region events
         public event PropertyChangedEventHandler PropertyChanged;
-        public event EventHandler Close;
         public event EventHandler<VisualStateChangedArgs> StateChanged;
         public event EventHandler<PositionDeltaChangedArgs> PositionDeltaChanged;
         #endregion
@@ -808,10 +807,6 @@ namespace WorkspaceManager.View.BinVisual
             // process only if workspace is not running
             if (Model != null && !((WorkspaceManager)Model.WorkspaceModel.MyEditor).isExecuting())
             {
-
-                if (Close != null)
-                    Close.Invoke(this, new EventArgs());
-
                 this.State = BinComponentState.Min;
                 Model.WorkspaceModel.ModifyModel(new DeletePluginModelOperation(Model));
             }
