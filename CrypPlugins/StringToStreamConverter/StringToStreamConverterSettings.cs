@@ -80,7 +80,7 @@ namespace Cryptool.Plugins.Convertor
         #endregion
 
         #region Private variables
-        private EncodingTypes encoding = EncodingTypes.Default;
+        private EncodingTypes encoding = EncodingTypes.UTF8;
         private bool hasChanges = false;
         #endregion
 

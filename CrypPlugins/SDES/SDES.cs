@@ -358,7 +358,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             {
                 //create some input
                 String dummystring = "Dummy string - no input provided - \"Hello SDES World\" - dummy string - no input provided!";
-                this.inputStream = new CStreamWriter(Encoding.Default.GetBytes(dummystring));
+                this.inputStream = new CStreamWriter(Encoding.UTF8.GetBytes(dummystring));
                 // write a warning to the ouside word
                 GuiLogMessage("WARNING - No input provided. Using dummy data. (" + dummystring + ")", NotificationLevel.Warning);
             }

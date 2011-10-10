@@ -437,7 +437,7 @@ namespace Cryptool.Plugins.DGK
                 else if (value is byte[])
                     this.inputm = value as byte[];
                 else if (value is String)
-                    this.inputm = (byte[])Encoding.Default.GetBytes((String)value);
+                    this.inputm = (byte[])Encoding.UTF8.GetBytes((String)value);
                 else if (value is CStreamWriter)
                 {
                     CStreamReader reader = ((ICryptoolStream)value).CreateReader();

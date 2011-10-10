@@ -26,7 +26,7 @@ namespace Cryptool.Plugins.Convertor
     public class StreamToStringConverterSettings : ISettings
     {
         #region Private variables
-        private EncodingTypes encoding = EncodingTypes.Default;
+        private EncodingTypes encoding = EncodingTypes.UTF8;
         private int maxLength = 65536; //64kB
         private bool hasChanges = false;
         #endregion

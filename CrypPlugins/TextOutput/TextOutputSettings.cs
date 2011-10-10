@@ -27,7 +27,7 @@ namespace TextOutput
   public class TextOutputSettings : ISettings
   {
     #region Private variables
-    private EncodingTypes encoding = EncodingTypes.Default;
+    private EncodingTypes encoding = EncodingTypes.UTF8;
     private PresentationFormat presentation = PresentationFormat.Text;
     private int maxLength = 65536; //64kB
     private bool hasChanges = false;

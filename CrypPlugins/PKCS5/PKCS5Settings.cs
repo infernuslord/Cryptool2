@@ -45,7 +45,7 @@ namespace PKCS5
       ASCII = 5,
       BigEndianUnicode = 6
     };
-    private EncodingTypes encoding = EncodingTypes.Default;
+    private EncodingTypes encoding = EncodingTypes.UTF8;
     /// <summary>
     /// Retrieves the current used encoding, or sets it.
     /// </summary>

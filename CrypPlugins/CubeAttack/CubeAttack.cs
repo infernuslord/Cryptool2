@@ -65,7 +65,7 @@ namespace Cryptool.CubeAttack
             {
                 if (outputSuperpoly != null)
                 {
-                    return new CStreamWriter(Encoding.Default.GetBytes(outputSuperpoly));
+                    return new CStreamWriter(Encoding.UTF8.GetBytes(outputSuperpoly));
                 }
                 else
                 {
@@ -88,7 +88,7 @@ namespace Cryptool.CubeAttack
             {
                 if (outputKeyBits != null)
                 {
-                    return new CStreamWriter(Encoding.Default.GetBytes(outputKeyBits));
+                    return new CStreamWriter(Encoding.UTF8.GetBytes(outputKeyBits));
                 }
                 else
                 {

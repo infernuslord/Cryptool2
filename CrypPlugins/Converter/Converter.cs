@@ -118,7 +118,7 @@ namespace Cryptool.Plugins.Converter
                     else if (inputOne is Boolean)
                         streamData = new byte[] { (byte)(((bool)InputOne) ? 1 : 0) };
                     else if (inputOne is String)
-                        streamData = Encoding.Default.GetBytes((String)inputOne);
+                        streamData = Encoding.UTF8.GetBytes((String)inputOne);
                     else if (inputOne is BigInteger)
                     {
                         streamData = ((BigInteger)inputOne).ToByteArray();
@@ -231,7 +231,7 @@ namespace Cryptool.Plugins.Converter
                     case OutputTypes.StringType:
                         {
                             byte[] buffer = ICryptoolStreamToByteArray((ICryptoolStream)InputOne);
-                            Output = Encoding.Default.GetString(buffer);
+                            Output = Encoding.UTF8.GetString(buffer);
                             break;
                         }
 
@@ -327,7 +327,7 @@ namespace Cryptool.Plugins.Converter
                         }
                     case OutputTypes.StringType: // byte[] to String
                         {
-                            Output = Encoding.Default.GetString((byte[])InputOne);
+                            Output = Encoding.UTF8.GetString((byte[])InputOne);
                             ProgressChanged(100, 100);
                             return;
                         }
@@ -668,9 +668,6 @@ namespace Cryptool.Plugins.Converter
                         {
                             switch (settings.Encoding) //apply user settings concerning encoding
                             {
-                                case ConverterSettings.EncodingTypes.Default:
-                                    Output = Encoding.Default.GetBytes(inpString.ToCharArray());
-                                    break;
                                 case ConverterSettings.EncodingTypes.Unicode:
                                     Output = Encoding.Unicode.GetBytes(inpString.ToCharArray());
                                     break;
@@ -689,6 +686,7 @@ namespace Cryptool.Plugins.Converter
                                 case ConverterSettings.EncodingTypes.BigEndianUnicode:
                                     Output = Encoding.BigEndianUnicode.GetBytes(inpString.ToCharArray());
                                     break;
+                                case ConverterSettings.EncodingTypes.Default:
                                 default:
                                     Output = Encoding.Default.GetBytes(inpString.ToCharArray());
                                     break;
@@ -738,11 +736,11 @@ namespace Cryptool.Plugins.Converter
                         // nothin to do here
                         break;
                     case ConverterSettings.PresentationFormat.Hex:
-                        byte[] byteValues = Encoding.Default.GetBytes(temp.ToCharArray());
+                        byte[] byteValues = Encoding.UTF8.GetBytes(temp.ToCharArray());
                         temp = BitConverter.ToString(byteValues, 0, byteValues.Length).Replace("-", "");
                         break;
                     case ConverterSettings.PresentationFormat.Base64:
-                        temp = Convert.ToBase64String(Encoding.Default.GetBytes(temp.ToCharArray()));
+                        temp = Convert.ToBase64String(Encoding.UTF8.GetBytes(temp.ToCharArray()));
                         break;
                     default:
                         break;

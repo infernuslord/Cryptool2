@@ -122,7 +122,7 @@ namespace ClipboardInput
 
     private ICryptoolStream Text2Stream(string data)
     {
-        return new CStreamWriter(Encoding.Default.GetBytes(data));
+        return new CStreamWriter(Encoding.UTF8.GetBytes(data));
     }
 
     private ICryptoolStream Base642Stream(string data)

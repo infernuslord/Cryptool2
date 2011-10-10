@@ -343,7 +343,7 @@ namespace Cryptool.PluginBase.IO
         }
 
         /// <summary>
-        /// Attempts to read 4096 bytes from CStream, interpreted as string using default encoding.
+        /// Attempts to read 4096 bytes from CStream, interpreted as UTF-8 string.
         /// May return less if CStream doesn't contain that many bytes.
         /// </summary>
         public override string ToString()
@@ -353,7 +353,7 @@ namespace Cryptool.PluginBase.IO
                 byte[] buf = new byte[4096];
                 int read = reader.Read(buf);
 
-                return Encoding.Default.GetString(buf, 0, read);
+                return Encoding.UTF8.GetString(buf, 0, read);
             }
         }
 

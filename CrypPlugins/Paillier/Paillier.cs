@@ -336,7 +336,7 @@ namespace Cryptool.Plugins.Paillier
                 else if (value is byte[])
                     inputm = value as byte[];
                 else if (value is String)
-                    inputm = (byte[])Encoding.Default.GetBytes((String)value);
+                    inputm = Encoding.UTF8.GetBytes((String)value);
                 else if (value is CStreamWriter)
                 {
                     CStreamReader reader = ((ICryptoolStream)value).CreateReader();

@@ -188,12 +188,12 @@ namespace Nihilist
 
         private static string ByteArrayToString(byte[] arr)
         {
-            return Encoding.Default.GetString(arr);
+            return Encoding.UTF8.GetString(arr);
         }
 
         private static byte[] CharArrayToByteArray(char[] arr)
         {
-            return Encoding.Default.GetBytes(arr);
+            return Encoding.UTF8.GetBytes(arr);
         }
 
         private Dictionary<char, byte[]> CreateCryptMatrix(out char[,] KeyArr)

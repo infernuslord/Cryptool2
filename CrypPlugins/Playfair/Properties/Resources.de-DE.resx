@@ -130,7 +130,7 @@
     <value>Ausgabedatenstrom</value>
   </data>
   <data name="OutputDataTooltip" xml:space="preserve">
-    <value>Der mit dem Playfair-Verfahren ver-/entschlüsselte Text als Ausgabedatenstrom. Es wird die Default-Encoding benutzt.</value>
+    <value>Der mit dem Playfair-Verfahren ver-/entschlüsselte Text als Ausgabedatenstrom.</value>
   </data>
   <data name="InputStringCaption" xml:space="preserve">
     <value>Texteingabe</value>

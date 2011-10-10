@@ -157,7 +157,7 @@
     <value>Stream output</value>
   </data>
   <data name="OutputDataTooltip" xml:space="preserve">
-    <value>The string after processing with the Vigenère cipher is converted to a stream.Default encoding is used.</value>
+    <value>The string after processing with the Vigenère cipher is converted to a stream.</value>
   </data>
   <data name="OutputStringCaption" xml:space="preserve">
     <value>Text output</value>

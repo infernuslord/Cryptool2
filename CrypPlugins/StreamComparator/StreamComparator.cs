@@ -286,7 +286,7 @@ namespace Cryptool.StreamComparator
           } // while
           result.AppendLine("</TableRowGroup></Table></FlowDocument>");
           StatusBarProgressbarValueChanged(1, 2);
-                CStreamWriter cs = new CStreamWriter(Encoding.Default.GetBytes(result.ToString()));
+          CStreamWriter cs = new CStreamWriter(Encoding.UTF8.GetBytes(result.ToString()));
           cs.Close();
                 streamComparatorPresentation.SetContent(cs);
           StatusBarProgressbarValueChanged(1, 1);

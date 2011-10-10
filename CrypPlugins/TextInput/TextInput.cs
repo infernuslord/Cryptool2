@@ -60,7 +60,7 @@ namespace Cryptool.TextInput
       switch (settings.InputFormatSetting)
       {
           case TextInputSettings.InputFormat.Text:
-              bytes = Encoding.Default.GetBytes(textInputPresentation.textBoxInputText.Text.ToCharArray()).Length;
+              bytes = Encoding.UTF8.GetBytes(textInputPresentation.textBoxInputText.Text.ToCharArray()).Length;
               break;
           case TextInputSettings.InputFormat.Hex:
               bytes = ConvertHexStringToByteArray(textInputPresentation.textBoxInputText.Text).Length;
@@ -188,6 +188,7 @@ namespace Cryptool.TextInput
               case TextInputSettings.EncodingTypes.BigEndianUnicode:
                   return Encoding.BigEndianUnicode.GetString(data);
                   break;
+              case TextInputSettings.EncodingTypes.Default:
               default:
                   return Encoding.Default.GetString(data);
           }
@@ -203,8 +204,6 @@ namespace Cryptool.TextInput
           // here conversion happens        
           switch (settings.Encoding)
           {
-              case TextInputSettings.EncodingTypes.Default:
-                  return Encoding.Default.GetBytes(inputString);
               case TextInputSettings.EncodingTypes.Unicode:
                   return Encoding.Unicode.GetBytes(inputString);
               case TextInputSettings.EncodingTypes.UTF7:
@@ -217,6 +216,7 @@ namespace Cryptool.TextInput
                   return Encoding.ASCII.GetBytes(inputString);
               case TextInputSettings.EncodingTypes.BigEndianUnicode:
                   return Encoding.BigEndianUnicode.GetBytes(inputString);
+              case TextInputSettings.EncodingTypes.Default:
               default:
                   return Encoding.Default.GetBytes(inputString);
           }

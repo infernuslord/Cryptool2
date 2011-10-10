@@ -66,8 +66,8 @@ namespace Cryptool.Caesar
             get
             {
                 if (OutputString != null)
-                {                    
-                    return new CStreamWriter(Encoding.Default.GetBytes(OutputString));
+                {
+                    return new CStreamWriter(Encoding.UTF8.GetBytes(OutputString));
                 }
 
                 return null;

@@ -161,13 +161,13 @@ namespace Cryptool.Plugins.StegoPermutation
             }
             else if (settings.Action == 0)
             {
-                if (sorter.Capacity < Encoding.Default.GetByteCount(InputMessage))
+                if (sorter.Capacity < Encoding.UTF8.GetByteCount(InputMessage))
                 {
                     GuiLogMessage("List too short for message. Only the beginning will be encoded, the tail will get lost.", NotificationLevel.Warning);
                     InputMessage = InputMessage.Substring(0, sorter.Capacity);
                 }
 
-                using (MemoryStream messageStream = new MemoryStream(Encoding.Default.GetBytes(InputMessage)))
+                using (MemoryStream messageStream = new MemoryStream(Encoding.UTF8.GetBytes(InputMessage)))
                 {
                     Collection<string> result = sorter.Encode(messageStream, settings.Alphabet, presentation);
                     OutputList = string.Join<string>(",", result);
