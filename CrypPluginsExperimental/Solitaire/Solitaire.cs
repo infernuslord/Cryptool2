@@ -62,7 +62,7 @@ namespace Solitaire
             sb = new StringBuilder(152);
             settings = new SolitaireSettings();
             myPresentation = new SolitaireQuickWatchPresentation(this);
-            QuickWatchPresentation = myPresentation;
+            Presentation = myPresentation;
         }
 
         /// <summary>
@@ -185,11 +185,6 @@ namespace Solitaire
         }
 
         public UserControl Presentation
-        {
-            get { return null; }
-        }
-
-        public UserControl QuickWatchPresentation
         {
             get;
             private set;

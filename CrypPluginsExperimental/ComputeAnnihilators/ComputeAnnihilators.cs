@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Cryptool.PluginBase;
-using Cryptool.PluginBase.Analysis;
-using Cryptool.PluginBase.Cryptography;
 using Cryptool.PluginBase.Miscellaneous;
 using System.Text.RegularExpressions;
 using System.IO;
@@ -18,7 +16,8 @@ namespace Cryptool.ComputeAnnihilators
     [Author("Abdeljalil Bourbahh", "bourbahh@yahoo.de", "Ruhr-Universitaet Bochum, Chair for System Security", "http://www.trust.rub.de/")]
     [PluginInfo(false, "Alg.Attack: Compute annihilators", "compute annihilators of Function, Set of bitsquence or a set XZ (Z-functions)", "ComputeAnnihilators/DetailedDescription/Description.xaml",
  "ComputeAnnihilators/Images/ann.png")]
-    public class ComputeAnnihilators : IAnalysisMisc
+    [ComponentCategory(ComponentCategory.CryptanalysisSpecific)]
+    public class ComputeAnnihilators : ICrypComponent
     {
         #region Private variables
         private ComputeAnnihilatorsSettings settings;

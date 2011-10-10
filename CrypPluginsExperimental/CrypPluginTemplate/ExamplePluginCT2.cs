@@ -26,7 +26,7 @@ using System.Windows.Controls;
 namespace Cryptool.Plugins.ExamplePluginCT2
 {
     // HOWTO: Change author name, email address, organization and URL.
-    [Author("Matthäus Wander", "wander@cryptool.org", "University of Duisburg-Essen", "http://www.vs.uni-due.de")]
+    [Author("Anonymous", "coredevs@cryptool.org", "CrypTool 2 Team", "http://cryptool2.vs.uni-due.de")]
     // HOWTO: Change plugin caption (title to appear in CT2) and tooltip. You can (and should) provide a description XAML and an own icon as well.
     [PluginInfo(false, "Example Plugin", "Subtract one number from another", null, "CrypWin/images/default.png")]
     // HOWTO: Change category to one that fits to your plugin. Multiple categories are allowed.
@@ -78,15 +78,6 @@ namespace Cryptool.Plugins.ExamplePluginCT2
         /// Return null if you don't provide one.
         /// </summary>
         public UserControl Presentation
-        {
-            get { return null; }
-        }
-
-        /// <summary>
-        /// HOWTO: You can provide custom (quickwatch) presentation to visualize your algorithm.
-        /// Return null if you don't provide one.
-        /// </summary>
-        public UserControl QuickWatchPresentation
         {
             get { return null; }
         }
