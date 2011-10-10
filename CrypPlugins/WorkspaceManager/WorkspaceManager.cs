@@ -509,10 +509,7 @@ namespace WorkspaceManager
                 }
                 return false;
             }
-            set
-            {
-
-            }
+            set { this.WorkspaceModel.HasChanges = value; }
         }
 
         public bool CanPrint
