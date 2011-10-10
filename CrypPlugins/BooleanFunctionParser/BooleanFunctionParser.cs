@@ -822,11 +822,6 @@ namespace Cryptool.BooleanFunctionParser
             }
         }
 
-        public System.Windows.Controls.UserControl QuickWatchPresentation
-        {
-            get { return Presentation; }
-        }
-
         public UserControl Presentation { get; private set; }
 
         public ISettings Settings

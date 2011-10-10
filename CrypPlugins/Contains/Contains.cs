@@ -215,12 +215,7 @@ namespace Contains
       get { return presentation; }
     }
 
-    public UserControl QuickWatchPresentation
-    {
-      get { return presentation; }
-    }
-
-    public void PreExecution()
+      public void PreExecution()
     {
       EventsHelper.StatusChanged(OnPluginStatusChanged, this, new StatusEventArgs(StatusChangedMode.ImageUpdate, 0));
       // set hits to zero

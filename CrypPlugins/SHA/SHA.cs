@@ -24,7 +24,6 @@ using System.IO;
 using System.ComponentModel;
 using System.Windows.Documents;
 using Cryptool.PluginBase.IO;
-using System.Windows.Controls;
 using System.Runtime.Remoting.Contexts;
 using Cryptool.PluginBase.Miscellaneous;
 
@@ -165,12 +164,7 @@ namespace SHA
           get { return null; }
         }
 
-        public UserControl QuickWatchPresentation
-        {
-          get { return null; }
-        }
-
-        public void Stop()
+      public void Stop()
         {
         }
 

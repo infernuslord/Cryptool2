@@ -76,7 +76,7 @@ namespace TranspositionAnalyser
         {
             settings = new TranspositionAnalyserSettings();
             myPresentation = new TranspositionAnalyserQuickWatchPresentation();
-            QuickWatchPresentation = myPresentation;
+            Presentation = myPresentation;
             myPresentation.doppelClick += new EventHandler(this.doppelClick);
             ars = new AutoResetEvent(false);
         }
@@ -150,11 +150,6 @@ namespace TranspositionAnalyser
         }
 
         public UserControl Presentation
-        {
-            get { return QuickWatchPresentation; }
-        }
-
-        public UserControl QuickWatchPresentation
         {
             get;
             private set;
@@ -319,7 +314,7 @@ namespace TranspositionAnalyser
         private void showProgress(DateTime startTime, long size, long sum)
         {
             LinkedListNode<ValueKey> linkedListNode;
-            if (QuickWatchPresentation.IsVisible && !stop)
+            if (Presentation.IsVisible && !stop)
             {
                 DateTime currentTime = DateTime.Now;
 
@@ -362,29 +357,29 @@ namespace TranspositionAnalyser
                 }
 
 
-                ((TranspositionAnalyserQuickWatchPresentation)QuickWatchPresentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                ((TranspositionAnalyserQuickWatchPresentation)Presentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
 
-                    ((TranspositionAnalyserQuickWatchPresentation)QuickWatchPresentation).startTime.Content = "" + startTime;
-                    ((TranspositionAnalyserQuickWatchPresentation)QuickWatchPresentation).keysPerSecond.Content = "" + keysPerSec;
+                    ((TranspositionAnalyserQuickWatchPresentation)Presentation).startTime.Content = "" + startTime;
+                    ((TranspositionAnalyserQuickWatchPresentation)Presentation).keysPerSecond.Content = "" + keysPerSec;
 
 
                     if (endTime != (new DateTime(1970, 1, 1)))
                     {
-                        ((TranspositionAnalyserQuickWatchPresentation)QuickWatchPresentation).timeLeft.Content = "" + endTime.Subtract(DateTime.Now);
-                        ((TranspositionAnalyserQuickWatchPresentation)QuickWatchPresentation).elapsedTime.Content = "" + elapsedspan;
-                        ((TranspositionAnalyserQuickWatchPresentation)QuickWatchPresentation).endTime.Content = "" + endTime;
+                        ((TranspositionAnalyserQuickWatchPresentation)Presentation).timeLeft.Content = "" + endTime.Subtract(DateTime.Now);
+                        ((TranspositionAnalyserQuickWatchPresentation)Presentation).elapsedTime.Content = "" + elapsedspan;
+                        ((TranspositionAnalyserQuickWatchPresentation)Presentation).endTime.Content = "" + endTime;
                     }
                     else
                     {
-                        ((TranspositionAnalyserQuickWatchPresentation)QuickWatchPresentation).timeLeft.Content = "incalculable";
+                        ((TranspositionAnalyserQuickWatchPresentation)Presentation).timeLeft.Content = "incalculable";
 
-                        ((TranspositionAnalyserQuickWatchPresentation)QuickWatchPresentation).endTime.Content = "in a galaxy far, far away...";
+                        ((TranspositionAnalyserQuickWatchPresentation)Presentation).endTime.Content = "in a galaxy far, far away...";
                     }
                     if (list1 != null)
                     {
                         linkedListNode = list1.First;
-                        ((TranspositionAnalyserQuickWatchPresentation)QuickWatchPresentation).entries.Clear();
+                        ((TranspositionAnalyserQuickWatchPresentation)Presentation).entries.Clear();
                         int i = 0;
                         while (linkedListNode != null)
                         {
@@ -403,7 +398,7 @@ namespace TranspositionAnalyser
                             entry.Value = Math.Round(linkedListNode.Value.value, 2) + "";
 
 
-                            ((TranspositionAnalyserQuickWatchPresentation)QuickWatchPresentation).entries.Add(entry);
+                            ((TranspositionAnalyserQuickWatchPresentation)Presentation).entries.Add(entry);
 
                             linkedListNode = linkedListNode.Next;
                         }
@@ -1229,7 +1224,7 @@ namespace TranspositionAnalyser
         private void showProgressCribAnalysis(DateTime startTime, long size, long sum, long keysPerSec)
         {
             LinkedListNode<ValueKey> linkedListNode;
-            if (QuickWatchPresentation.IsVisible && !stop)
+            if (Presentation.IsVisible && !stop)
             {
                 DateTime currentTime = DateTime.Now;
 
@@ -1263,29 +1258,29 @@ namespace TranspositionAnalyser
                 }
 
 
-                ((TranspositionAnalyserQuickWatchPresentation)QuickWatchPresentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                ((TranspositionAnalyserQuickWatchPresentation)Presentation).Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
 
-                    ((TranspositionAnalyserQuickWatchPresentation)QuickWatchPresentation).startTime.Content = "" + startTime;
-                    ((TranspositionAnalyserQuickWatchPresentation)QuickWatchPresentation).keysPerSecond.Content = "" + keysPerSec;
+                    ((TranspositionAnalyserQuickWatchPresentation)Presentation).startTime.Content = "" + startTime;
+                    ((TranspositionAnalyserQuickWatchPresentation)Presentation).keysPerSecond.Content = "" + keysPerSec;
 
 
                     if (endTime != (new DateTime(1970, 1, 1)))
                     {
-                        ((TranspositionAnalyserQuickWatchPresentation)QuickWatchPresentation).timeLeft.Content = "" + endTime.Subtract(DateTime.Now);
-                        ((TranspositionAnalyserQuickWatchPresentation)QuickWatchPresentation).elapsedTime.Content = "" + elapsedspan;
-                        ((TranspositionAnalyserQuickWatchPresentation)QuickWatchPresentation).endTime.Content = "" + endTime;
+                        ((TranspositionAnalyserQuickWatchPresentation)Presentation).timeLeft.Content = "" + endTime.Subtract(DateTime.Now);
+                        ((TranspositionAnalyserQuickWatchPresentation)Presentation).elapsedTime.Content = "" + elapsedspan;
+                        ((TranspositionAnalyserQuickWatchPresentation)Presentation).endTime.Content = "" + endTime;
                     }
                     else
                     {
-                        ((TranspositionAnalyserQuickWatchPresentation)QuickWatchPresentation).timeLeft.Content = "incalculable";
+                        ((TranspositionAnalyserQuickWatchPresentation)Presentation).timeLeft.Content = "incalculable";
 
-                        ((TranspositionAnalyserQuickWatchPresentation)QuickWatchPresentation).endTime.Content = "in a galaxy far, far away...";
+                        ((TranspositionAnalyserQuickWatchPresentation)Presentation).endTime.Content = "in a galaxy far, far away...";
                     }
                     if (list1 != null)
                     {
                         linkedListNode = list1.First;
-                        ((TranspositionAnalyserQuickWatchPresentation)QuickWatchPresentation).entries.Clear();
+                        ((TranspositionAnalyserQuickWatchPresentation)Presentation).entries.Clear();
                         int i = 0;
                         while (linkedListNode != null)
                         {
@@ -1304,7 +1299,7 @@ namespace TranspositionAnalyser
                             entry.Value = Math.Round(linkedListNode.Value.value, 2) + "";
 
 
-                            ((TranspositionAnalyserQuickWatchPresentation)QuickWatchPresentation).entries.Add(entry);
+                            ((TranspositionAnalyserQuickWatchPresentation)Presentation).entries.Add(entry);
 
                             linkedListNode = linkedListNode.Next;
                         }

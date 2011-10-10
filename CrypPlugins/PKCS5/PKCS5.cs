@@ -416,23 +416,7 @@ namespace PKCS5
       }
     }
 
-    /// <summary>
-    /// Gets the quick watch presentation - will be displayed inside of the plugin presentation-element. You
-    /// can return the existing Presentation if it makes sense to display it inside a small area. But be aware that
-    /// if Presentation is displayed in QuickWatchPresentation you can't open Presentation it in a tab before you
-    /// you close QuickWatchPresentation;
-    /// Return null if your plugin has no QuickWatchPresentation.
-    /// </summary>
-    /// <value>The quick watch presentation.</value>
-    public System.Windows.Controls.UserControl QuickWatchPresentation
-    {
-      get
-      {
-        return null;
-      }
-    }
-
-    /// <summary>
+      /// <summary>
     /// Will be called from editor after restoring settings and before adding to workspace.
     /// </summary>
     public void Initialize()

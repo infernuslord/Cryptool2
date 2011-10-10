@@ -234,12 +234,7 @@ namespace Multiplexer
       get { return null; }
     }
 
-    public UserControl QuickWatchPresentation
-    {
-      get { return null; }
-    }
-    
-    public void PreExecution()
+      public void PreExecution()
     {            
       // clear Switch Buffer
       dicSwitchBuffer.Clear();

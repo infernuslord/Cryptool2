@@ -577,15 +577,6 @@ namespace WorkspaceManager
         }
 
         /// <summary>
-        /// The QuickWatchPresentation of this editor
-        /// </summary>
-        public System.Windows.Controls.UserControl QuickWatchPresentation
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
         /// Called before execution
         /// </summary>
         public void PreExecution()

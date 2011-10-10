@@ -18,13 +18,13 @@ namespace Cryptool.Plugins.MD5Collider
     class MD5Collider : ICrypComponent
     {
         private MD5ColliderSettings settings = new MD5ColliderSettings();
-        private QuickWatchPresentationContainer quickWatchPresentation = new QuickWatchPresentationContainer();
+        private QuickWatchPresentationContainer presentation = new QuickWatchPresentationContainer();
 
         private IMD5ColliderAlgorithm _collider;
         private IMD5ColliderAlgorithm Collider
         {
             get { return _collider; }
-            set { _collider = value; quickWatchPresentation.Collider = value; }
+            set { _collider = value; presentation.Collider = value; }
         }
 
         public event Cryptool.PluginBase.StatusChangedEventHandler OnPluginStatusChanged;
@@ -33,8 +33,7 @@ namespace Cryptool.Plugins.MD5Collider
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
 
         public Cryptool.PluginBase.ISettings Settings { get { return settings; } }
-        public System.Windows.Controls.UserControl Presentation { get { return null; } }
-        public System.Windows.Controls.UserControl QuickWatchPresentation { get { return quickWatchPresentation; } }
+        public System.Windows.Controls.UserControl Presentation { get { return presentation; } }
 
         public void PreExecution() { Dispose(); }
         public void PostExecution() { Dispose(); }

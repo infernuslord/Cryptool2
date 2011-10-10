@@ -111,12 +111,7 @@ namespace Splitter
       get { return null; }
     }
 
-    public UserControl QuickWatchPresentation
-    {
-      get { return null; }
-    }
-
-    public void PreExecution()
+      public void PreExecution()
     {
     }
 

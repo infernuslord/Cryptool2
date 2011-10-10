@@ -105,7 +105,7 @@ namespace Cryptool.Plugins.QuadraticSieve
                 directoryName = Path.Combine(DirectoryHelper.DirectoryLocalTemp, "msieve");
                 if (!Directory.Exists(directoryName)) Directory.CreateDirectory(directoryName);
 
-                QuickWatchPresentation = new QuadraticSievePresentation();
+                Presentation = new QuadraticSievePresentation();
 
                 peerToPeer = new PeerToPeer(quadraticSieveQuickWatchPresentation, newRelationPackageEvent);
                 peerToPeerStatusUpdater = new PeerToPeerStatusUpdater(peerToPeer);
@@ -424,14 +424,9 @@ namespace Cryptool.Plugins.QuadraticSieve
         }
 
         /// <summary>
-        /// Getter / Setter for the presentation of this plugin
+        /// Getter / Setter for the Presentation of this plugin
         /// </summary>
-        public UserControl Presentation { get { return QuickWatchPresentation; } }
-
-        /// <summary>
-        /// Getter / Setter for the QuickWatchPresentation of this plugin
-        /// </summary>
-        public UserControl QuickWatchPresentation
+        public UserControl Presentation
         {
             get;
             private set;
@@ -863,11 +858,11 @@ namespace Cryptool.Plugins.QuadraticSieve
         }
 
         /// <summary>
-        /// Getter / Setter for the QuickWatchPresentation
+        /// Getter / Setter for the Presentation
         /// </summary>
         private QuadraticSievePresentation quadraticSieveQuickWatchPresentation
         {
-            get { return QuickWatchPresentation as QuadraticSievePresentation; }
+            get { return Presentation as QuadraticSievePresentation; }
         }
 
         /// <summary>

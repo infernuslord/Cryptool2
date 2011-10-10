@@ -88,12 +88,7 @@ namespace FileOutput
 
     public UserControl Presentation { get; private set; }
 
-    public UserControl QuickWatchPresentation
-    {
-      get { return null; }
-    }
-
-    public void Initialize()
+      public void Initialize()
     {
       if (settings.SaveAndRestoreState != string.Empty && File.Exists(settings.SaveAndRestoreState))
       {

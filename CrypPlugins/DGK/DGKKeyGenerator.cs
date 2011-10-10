@@ -198,14 +198,6 @@ namespace Cryptool.Plugins.DGK
         }
 
         /// <summary>
-        /// Get the quickwatchpresentation of this plugin
-        /// </summary>
-        public System.Windows.Controls.UserControl QuickWatchPresentation
-        {
-            get { return null; }
-        }
-
-        /// <summary>
         /// This method is called by the environment before execution
         /// </summary>
         public void PreExecution()

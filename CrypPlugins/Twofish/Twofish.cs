@@ -81,14 +81,6 @@ namespace Twofish
             }
         }
 
-        public System.Windows.Controls.UserControl QuickWatchPresentation
-        {
-            get
-            {
-                return null;
-            }
-        }
-
         public void PreExecution()
         {
         }

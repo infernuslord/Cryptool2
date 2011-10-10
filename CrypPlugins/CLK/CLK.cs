@@ -163,12 +163,7 @@ namespace Cryptool.CLK
 
     public UserControl Presentation { get; private set; }
 
-    public System.Windows.Controls.UserControl QuickWatchPresentation
-    {
-        get { return Presentation; }
-    }
-
-    public void PreExecution()
+        public void PreExecution()
     {
         if (Convert.ToBoolean(settings.SetClockToTrue))
         {

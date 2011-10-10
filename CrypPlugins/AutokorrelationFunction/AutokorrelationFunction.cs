@@ -106,11 +106,6 @@ namespace Cryptool.Plugins.AutokorrelationFunction
             get { return presentation; }
         }
 
-        public UserControl QuickWatchPresentation
-        {
-            get { return presentation; }
-        }
-
         public void PreExecution()
         {
         }

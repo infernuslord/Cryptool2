@@ -865,11 +865,6 @@ namespace Cryptool.NLFSR
 
         public UserControl Presentation { get; private set; }
 
-        public UserControl QuickWatchPresentation
-        {
-            get { return Presentation; }
-        }
-
         #endregion
 
         #region INotifyPropertyChanged Members

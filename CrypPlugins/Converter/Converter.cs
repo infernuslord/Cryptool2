@@ -68,11 +68,6 @@ namespace Cryptool.Plugins.Converter
             get { return null; }
         }
 
-        public System.Windows.Controls.UserControl QuickWatchPresentation
-        {
-            get { return null; }
-        }
-
         [PropertyInfo(Direction.InputData, "InputOneCaption", "InputOneTooltip", "", true, false, QuickWatchFormat.Text, null)]
         public object InputOne
         {

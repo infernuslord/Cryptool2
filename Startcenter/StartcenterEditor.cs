@@ -43,11 +43,6 @@ namespace StartCenter
         {
             get { return _startcenter; }
         }
-        
-        public UserControl QuickWatchPresentation
-        {
-            get { return _startcenter; }
-        }
 
         public void PreExecution()
         {

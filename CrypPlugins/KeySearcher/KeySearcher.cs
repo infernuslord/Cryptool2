@@ -318,15 +318,15 @@ namespace KeySearcher
 
                 settings = new KeySearcherSettings(this, oclManager);
 
-                QuickWatchPresentation = new QuickWatch();
-                localQuickWatchPresentation = ((QuickWatch)QuickWatchPresentation).LocalQuickWatchPresentation;
-                p2PQuickWatchPresentation = ((QuickWatch)QuickWatchPresentation).P2PQuickWatchPresentation;
+                Presentation = new QuickWatch();
+                localQuickWatchPresentation = ((QuickWatch)Presentation).LocalQuickWatchPresentation;
+                p2PQuickWatchPresentation = ((QuickWatch)Presentation).P2PQuickWatchPresentation;
                 p2PQuickWatchPresentation.UpdateSettings(this, settings);
 
-                keyPoolTreePresentation = ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.KeyPoolTreePresentation;
+                keyPoolTreePresentation = ((QuickWatch)Presentation).StatisticsPresentation.KeyPoolTreePresentation;
 
                 settings.PropertyChanged += SettingsPropertyChanged;
-                ((QuickWatch)QuickWatchPresentation).IsOpenCLEnabled = (settings.DeviceSettings.Count(x => x.UseDevice) > 0);
+                ((QuickWatch)Presentation).IsOpenCLEnabled = (settings.DeviceSettings.Count(x => x.UseDevice) > 0);
 
                 localBruteForceStopwatch = new Stopwatch();
             }
@@ -344,8 +344,8 @@ namespace KeySearcher
 
         void UpdateQuickwatchSettings()
         {
-            ((QuickWatch)QuickWatchPresentation).IsP2PEnabled = settings.UsePeerToPeer;
-            ((QuickWatch)QuickWatchPresentation).IsOpenCLEnabled = (settings.DeviceSettings.Count(x => x.UseDevice) > 0);
+            ((QuickWatch)Presentation).IsP2PEnabled = settings.UsePeerToPeer;
+            ((QuickWatch)Presentation).IsOpenCLEnabled = (settings.DeviceSettings.Count(x => x.UseDevice) > 0);
             p2PQuickWatchPresentation.UpdateSettings(this, settings);
         }
 
@@ -355,11 +355,6 @@ namespace KeySearcher
         }
 
         public UserControl Presentation
-        {
-            get { return QuickWatchPresentation; }
-        }
-
-        public UserControl QuickWatchPresentation
         {
             get;
             private set;
@@ -462,10 +457,10 @@ namespace KeySearcher
                 keySearcherOpenCLSubbatchOptimizer = new KeySearcherOpenCLSubbatchOptimizer(openCLDeviceSettings.mode, 
                         oclManager.CQ[openCLDeviceSettings.index].Device.MaxWorkItemSizes.Aggregate(1, (x, y) => (x * (int)y)) / 8);
 
-                ((QuickWatch)QuickWatchPresentation).Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                ((QuickWatch)Presentation).Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
                     openCLPresentationMutex.WaitOne();
-                    ((QuickWatch)QuickWatchPresentation).OpenCLPresentation.AmountOfDevices++;
+                    ((QuickWatch)Presentation).OpenCLPresentation.AmountOfDevices++;
                     openCLPresentationMutex.ReleaseMutex();
                 }, null);
                 Thread.CurrentThread.Priority = ThreadPriority.AboveNormal;
@@ -503,12 +498,12 @@ namespace KeySearcher
                             {
                                 //If an exception was thrown using OpenCL, deactivate the OpenCL device. This leads to using CPU in this thread instead.
                                 openCLDeviceSettings.UseDevice = false;
-                                ((QuickWatch)QuickWatchPresentation).Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                                ((QuickWatch)Presentation).Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                                 {
                                     GuiLogMessage(string.Format("Using OpenCL failed: {0}", ex.Message), NotificationLevel.Error);
                                     UpdateQuickwatchSettings();
                                     openCLPresentationMutex.WaitOne();
-                                    ((QuickWatch)QuickWatchPresentation).OpenCLPresentation.AmountOfDevices--;
+                                    ((QuickWatch)Presentation).OpenCLPresentation.AmountOfDevices--;
                                     openCLPresentationMutex.ReleaseMutex();
                                 }, null);
                                 continue;
@@ -568,9 +563,9 @@ namespace KeySearcher
 
                 int subbatches = keySearcherOpenCLSubbatchOptimizer.GetAmountOfSubbatches(keyTranslator);
                 int subbatchSize = keyTranslator.GetOpenCLBatchSize() / subbatches;
-                ((QuickWatch) QuickWatchPresentation).Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback) delegate
+                ((QuickWatch) Presentation).Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback) delegate
                                                                     {
-                                                                        ((QuickWatch)QuickWatchPresentation).OpenCLPresentation.workItems.Content = subbatchSize;
+                                                                        ((QuickWatch)Presentation).OpenCLPresentation.workItems.Content = subbatchSize;
                                                                     }, null);
                 //GuiLogMessage(string.Format("Now using {0} subbatches", subbatches), NotificationLevel.Info);
                 
@@ -974,10 +969,10 @@ namespace KeySearcher
 
         internal LinkedList<ValueKey> BruteForceWithLocalSystem(KeyPattern.KeyPattern pattern, bool redirectResultsToStatisticsGenerator = false)
         {
-            ((QuickWatch)QuickWatchPresentation).Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            ((QuickWatch)Presentation).Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
                 openCLPresentationMutex.WaitOne();
-                ((QuickWatch)QuickWatchPresentation).OpenCLPresentation.AmountOfDevices = 0;
+                ((QuickWatch)Presentation).OpenCLPresentation.AmountOfDevices = 0;
                 openCLPresentationMutex.ReleaseMutex();
             }, null);
 
@@ -1092,11 +1087,11 @@ namespace KeySearcher
 
                     //show OpenCL keys/sec:
                     var ratio = (double)openCLdoneKeys / (double)doneKeys;
-                    ((QuickWatch)QuickWatchPresentation).Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    ((QuickWatch)Presentation).Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
-                        ((QuickWatch)QuickWatchPresentation).OpenCLPresentation.keysPerSecondOpenCL.Content = String.Format("{0:N}", openCLKeysPerSecond);
-                        ((QuickWatch)QuickWatchPresentation).OpenCLPresentation.keysPerSecondCPU.Content = String.Format("{0:N}", (keysPerSecond - openCLKeysPerSecond));
-                        ((QuickWatch)QuickWatchPresentation).OpenCLPresentation.ratio.Content = String.Format("{0:P}", ratio);
+                        ((QuickWatch)Presentation).OpenCLPresentation.keysPerSecondOpenCL.Content = String.Format("{0:N}", openCLKeysPerSecond);
+                        ((QuickWatch)Presentation).OpenCLPresentation.keysPerSecondCPU.Content = String.Format("{0:N}", (keysPerSecond - openCLKeysPerSecond));
+                        ((QuickWatch)Presentation).OpenCLPresentation.ratio.Content = String.Format("{0:P}", ratio);
                     }, null);
 
 
@@ -1257,9 +1252,9 @@ namespace KeySearcher
             externalKeysProcessed += progress;
             int keysPerSec = (int)(progress / (DateTime.Now - assignTime).TotalSeconds);
 
-            QuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            Presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                                                                                     {
-                                                                                        if (!((QuickWatch)QuickWatchPresentation).IsP2PEnabled)
+                                                                                        if (!((QuickWatch)Presentation).IsP2PEnabled)
                                                                                             showProgress(costList, keysInThisChunk, externalKeysProcessed, keysPerSec);
                                                                                         else
                                                                                             distributedBruteForceManager.StatisticsGenerator.ShowProgress(costList,
@@ -1489,24 +1484,24 @@ namespace KeySearcher
             var keyPatternPool = new KeyPatternPool(keyPattern, new BigInteger(keysPerChunk));
 
             //---Aggregate----
-            ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.TotalBlocks = keyPatternPool.Length;
-            ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.TotalKeys = new BigInteger(keysPerChunk) * keyPatternPool.Length;    
-            ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.Days = now.ToLocalTime().Subtract(startDate).Days.ToString();
+            ((QuickWatch)Presentation).StatisticsPresentation.TotalBlocks = keyPatternPool.Length;
+            ((QuickWatch)Presentation).StatisticsPresentation.TotalKeys = new BigInteger(keysPerChunk) * keyPatternPool.Length;    
+            ((QuickWatch)Presentation).StatisticsPresentation.Days = now.ToLocalTime().Subtract(startDate).Days.ToString();
             //-----------------
             //---Current Section----
             if (!settings.DisableUpdate)
             {
-                var cc = ((QuickWatch) QuickWatchPresentation).CurrentCulture;
-                ((QuickWatch) QuickWatchPresentation).StatisticsPresentation.UpdateTime = now;
-                ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.NextUpdateTime = now.ToLocalTime().AddMinutes(interval).ToString("g", cc);
+                var cc = ((QuickWatch) Presentation).CurrentCulture;
+                ((QuickWatch) Presentation).StatisticsPresentation.UpdateTime = now;
+                ((QuickWatch)Presentation).StatisticsPresentation.NextUpdateTime = now.ToLocalTime().AddMinutes(interval).ToString("g", cc);
             }
             else
             {
-                ((QuickWatch) QuickWatchPresentation).StatisticsPresentation.UpdateTime = now;
-                ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.NextUpdateTime = "-";
+                ((QuickWatch) Presentation).StatisticsPresentation.UpdateTime = now;
+                ((QuickWatch)Presentation).StatisticsPresentation.NextUpdateTime = "-";
             }
-            ((QuickWatch) QuickWatchPresentation).StatisticsPresentation.CurrentUsers = cUsers;
-            ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.CurrentMachines = cMachines;
+            ((QuickWatch) Presentation).StatisticsPresentation.CurrentUsers = cUsers;
+            ((QuickWatch)Presentation).StatisticsPresentation.CurrentMachines = cMachines;
 
             //if we have two time values to compare
             if(memory)
@@ -1519,7 +1514,7 @@ namespace KeySearcher
 
                 if ((difftime > 0) && (diffkeys > 0))
                 {
-                   ((QuickWatch) QuickWatchPresentation).StatisticsPresentation.SetCurrentRate = diffkeys / difftime;
+                   ((QuickWatch) Presentation).StatisticsPresentation.SetCurrentRate = diffkeys / difftime;
                 }
                 memKeys = keysnow;
                 memTime = timenow;
@@ -1665,22 +1660,22 @@ namespace KeySearcher
                 var diffFromStart = DateTime.UtcNow.ToLocalTime().Subtract(startDate);
                 var calcChunks = calculatedChunks();
                 var calcKeys = calcChunks*(BigInteger) Math.Pow(2, settings.ChunkSize);
-                ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.Statistics = statistic;
-                ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.MachineHierarchy = machineHierarchy;
-                ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.Days = diffFromStart.Days.ToString();
-                ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.CalculatedBlocks = calcChunks;
-                ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.CalculatedKeys = calcKeys;
-                ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.Percent = (double)calcChunks;
-                ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.Users = statistic.Keys.Count;
-                ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.Machines = machineHierarchy.Keys.Count;
+                ((QuickWatch)Presentation).StatisticsPresentation.Statistics = statistic;
+                ((QuickWatch)Presentation).StatisticsPresentation.MachineHierarchy = machineHierarchy;
+                ((QuickWatch)Presentation).StatisticsPresentation.Days = diffFromStart.Days.ToString();
+                ((QuickWatch)Presentation).StatisticsPresentation.CalculatedBlocks = calcChunks;
+                ((QuickWatch)Presentation).StatisticsPresentation.CalculatedKeys = calcKeys;
+                ((QuickWatch)Presentation).StatisticsPresentation.Percent = (double)calcChunks;
+                ((QuickWatch)Presentation).StatisticsPresentation.Users = statistic.Keys.Count;
+                ((QuickWatch)Presentation).StatisticsPresentation.Machines = machineHierarchy.Keys.Count;
                 if ((BigInteger)diffFromStart.TotalSeconds > 0)
                 {
-                    ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.SetRate = calcKeys / (BigInteger)diffFromStart.TotalSeconds;
+                    ((QuickWatch)Presentation).StatisticsPresentation.SetRate = calcKeys / (BigInteger)diffFromStart.TotalSeconds;
                 }
                 if (statistic.Count > 0)
                 {
-                    ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.BeeUsers = statistic.Keys.First();
-                    ((QuickWatch)QuickWatchPresentation).StatisticsPresentation.BeeMachines = machineHierarchy[machineHierarchy.Keys.First()].Hostname;
+                    ((QuickWatch)Presentation).StatisticsPresentation.BeeUsers = statistic.Keys.First();
+                    ((QuickWatch)Presentation).StatisticsPresentation.BeeMachines = machineHierarchy[machineHierarchy.Keys.First()].Hostname;
                 }
             }
             catch (Exception ex)

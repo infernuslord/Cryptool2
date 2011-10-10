@@ -148,12 +148,6 @@ namespace Cryptool.Plugins.BooleanOperators
             private set;
         }
 
-        public System.Windows.Controls.UserControl QuickWatchPresentation
-        {
-
-            get { return Presentation; }
-        }
-
         public ISettings Settings
         {
             get { return this.settings; }

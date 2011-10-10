@@ -1,4 +1,4 @@
-/*
+﻿/*
    Copyright 2008 Sebastian Przybylski, University of Siegen
 
    Licensed under the Apache License, Version 2.0 (the "License");
@@ -554,11 +554,6 @@ namespace Cryptool.ADFGVX
         }
 
         public System.Windows.Controls.UserControl Presentation
-        {
-            get { return null; }
-        }
-
-        public System.Windows.Controls.UserControl QuickWatchPresentation
         {
             get { return null; }
         }

@@ -175,12 +175,7 @@ namespace ClipboardInput
       get { return null; }
     }
 
-    public System.Windows.Controls.UserControl QuickWatchPresentation
-    {
-      get { return null; }
-    }
-
-    public void Initialize()
+      public void Initialize()
     {
     }
 

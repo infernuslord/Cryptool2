@@ -240,11 +240,6 @@ namespace Transposition
             private set;
         }
 
-        public System.Windows.Controls.UserControl QuickWatchPresentation
-        {
-            get { return Presentation; }
-        }
-
         public void Stop()
         {
             ars.Set();

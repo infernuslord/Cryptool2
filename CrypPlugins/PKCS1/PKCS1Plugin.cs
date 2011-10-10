@@ -93,11 +93,6 @@ namespace PKCS1
             }
         }
 
-        public System.Windows.Controls.UserControl QuickWatchPresentation
-        {
-            get { return null; }
-        }
-
         public ISettings Settings
         {
             get { return this.settings; }

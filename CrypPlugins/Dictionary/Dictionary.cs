@@ -1,4 +1,4 @@
-/*
+﻿/*
    Copyright 2008 Thomas Schmid, University of Siegen
 
    Licensed under the Apache License, Version 2.0 (the "License");
@@ -130,11 +130,6 @@ namespace Dictionary
         }
 
         public UserControl Presentation
-        {
-            get { return null; }
-        }
-
-        public UserControl QuickWatchPresentation
         {
             get { return null; }
         }

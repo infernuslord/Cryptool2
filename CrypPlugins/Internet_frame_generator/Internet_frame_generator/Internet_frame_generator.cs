@@ -673,11 +673,6 @@ namespace Cryptool.Internet_frame_generator
             get { return /*presentation;*/null; }
         }
 
-        public UserControl QuickWatchPresentation
-        {
-            get { return null; }
-        }
-
         public ISettings Settings
         {
             get { return (Internet_frame_generatorSettings)settings; }

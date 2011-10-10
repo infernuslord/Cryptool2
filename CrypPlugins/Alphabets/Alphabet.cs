@@ -118,12 +118,7 @@ namespace Cryptool.Alphabets
         }
       }
 
-      public UserControl QuickWatchPresentation
-      {
-        get { return null; }
-      }
-
-      public void Execute()
+        public void Execute()
       {
           OnPropertyChanged("AlphabetOutput");
           ShowProgress(100, 100);

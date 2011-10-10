@@ -147,11 +147,6 @@ namespace Cryptool.Plugins.Numbers
             get { return null; }
         }
 
-        public System.Windows.Controls.UserControl QuickWatchPresentation
-        {
-            get { return null; }
-        }
-
         public void PreExecution()
         {
             input1 = 0;

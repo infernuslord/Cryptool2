@@ -86,11 +86,6 @@ namespace Cryptool.Plugins.T310
             get { return null; }
         }
 
-        public UserControl QuickWatchPresentation
-        {
-            get { return null; }
-        }
-
         public void PreExecution()
         {
         }

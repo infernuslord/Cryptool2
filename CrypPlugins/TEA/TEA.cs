@@ -563,11 +563,6 @@ namespace Cryptool.TEA
             get { return null; }
         }
 
-        public UserControl QuickWatchPresentation
-        {
-            get { return null; }
-        }
-
         public void Stop()
         {
             this.stop = true;

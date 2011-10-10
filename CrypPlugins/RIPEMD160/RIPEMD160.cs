@@ -150,11 +150,6 @@ namespace RIPEMD160
           get { return null; }
         }
 
-        public UserControl QuickWatchPresentation
-        {
-          get { return null; }
-        }
-
         public void Stop()
         {
 

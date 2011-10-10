@@ -75,11 +75,6 @@ namespace Cryptool.Plugins.NetworkCapture
             get { return null; }
         }
 
-        public UserControl QuickWatchPresentation
-        {
-            get { return null; }
-        }
-
         public void PreExecution()
         {
         }

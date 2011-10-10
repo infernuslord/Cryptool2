@@ -173,12 +173,6 @@ namespace Cryptool.MD5
           get { return presentationContainer; }
         }
 
-        public UserControl QuickWatchPresentation
-        {
-          
-          get { return null; }
-        }
-        
         public void Stop()
         {
 

@@ -324,14 +324,7 @@ namespace WorkspaceManager.Model
         {
             get
             {
-                if (this.Plugin.Presentation != null)
-                {
-                    return this.Plugin.Presentation;
-                }
-                else
-                {
-                    return this.Plugin.QuickWatchPresentation;
-                }
+                return this.Plugin.Presentation;
             }
         }
 

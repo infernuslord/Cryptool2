@@ -88,14 +88,6 @@ namespace Cryptool.Plugins.DiscreteLogarithm
         }
 
         /// <summary>
-        /// Get the QuickWatchRepresentation of this plugin
-        /// </summary>
-        public System.Windows.Controls.UserControl QuickWatchPresentation
-        {
-            get { return null; }
-        }
-
-        /// <summary>
         /// Called by the environment before execution
         /// </summary>
         public void PreExecution()

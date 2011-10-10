@@ -720,11 +720,6 @@ namespace Cryptool.HIGHT
             get { return null; }
         }
 
-        public UserControl QuickWatchPresentation
-        {
-            get { return null; }
-        }
-
         public void Stop()
         {
             this.stop = true;
