@@ -57,7 +57,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="NativeCryptography">
-      <HintPath>..\..\AppReferences\NativeCryptography.dll</HintPath>
+      <HintPath>..\..\Lib\NativeCryptography.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="PresentationCore">

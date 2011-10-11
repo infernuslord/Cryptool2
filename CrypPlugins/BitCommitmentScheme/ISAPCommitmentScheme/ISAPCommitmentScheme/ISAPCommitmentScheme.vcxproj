@@ -67,7 +67,7 @@
     </Link>
     <PostBuildEvent>
       <Command>cd "$(ProjectDir)"
-cd ..\..\..\..\AppReferences
+cd ..\..\..\..\Lib
 
 copy "$(TargetDir)ISAPCommitmentScheme.dll" "."</Command>
     </PostBuildEvent>
@@ -90,7 +90,7 @@ copy "$(TargetDir)ISAPCommitmentScheme.dll" "."</Command>
     </Link>
     <PostBuildEvent>
       <Command>cd "$(ProjectDir)"
-cd ..\..\..\..\AppReferences
+cd ..\..\..\..\Lib
 
 copy "$(TargetDir)ISAPCommitmentScheme.dll" "."</Command>
     </PostBuildEvent>

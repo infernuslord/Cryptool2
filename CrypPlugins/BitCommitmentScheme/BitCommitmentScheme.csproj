@@ -47,7 +47,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ISAPCommitmentScheme">
-      <HintPath>..\..\AppReferences\ISAPCommitmentScheme.dll</HintPath>
+      <HintPath>..\..\Lib\ISAPCommitmentScheme.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="PresentationCore" />

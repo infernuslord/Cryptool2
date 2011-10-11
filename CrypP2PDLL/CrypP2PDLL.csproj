@@ -55,57 +55,57 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Bootstrapper">
-      <HintPath>..\appreferences\bootstrapper.dll</HintPath>
+      <HintPath>..\LibP2P\bootstrapper.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="CertificateLibrary">
-      <HintPath>..\appreferences\certificatelibrary.dll</HintPath>
+      <HintPath>..\LibP2P\certificatelibrary.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="Chordi">
-      <HintPath>..\AppReferences\Chordi.dll</HintPath>
+      <HintPath>..\LibP2P\Chordi.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="FullMeshDHT">
-      <HintPath>..\appreferences\fullmeshdht.dll</HintPath>
+      <HintPath>..\LibP2P\fullmeshdht.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="FullMeshOverlay">
-      <HintPath>..\appreferences\fullmeshoverlay.dll</HintPath>
+      <HintPath>..\LibP2P\fullmeshoverlay.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="Gears4Net">
-      <HintPath>..\appreferences\gears4net.dll</HintPath>
+      <HintPath>..\LibP2P\gears4net.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="LinkManager">
-      <HintPath>..\appreferences\linkmanager.dll</HintPath>
+      <HintPath>..\LibP2P\linkmanager.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="log4net">
-      <HintPath>..\appreferences\log4net.dll</HintPath>
+      <HintPath>..\LibP2P\log4net.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="PeersAtPlayBase">
-      <HintPath>..\appreferences\peersatplaybase.dll</HintPath>
+      <HintPath>..\LibP2P\peersatplaybase.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="RUDP">
-      <HintPath>..\appreferences\rudp.dll</HintPath>
+      <HintPath>..\LibP2P\rudp.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="Util">
-      <HintPath>..\appreferences\util.dll</HintPath>
+      <HintPath>..\LibP2P\util.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="PapsClient">
-      <HintPath>..\AppReferences\PapsClient.dll</HintPath>
+      <HintPath>..\LibP2P\PapsClient.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="WebDHT">
-      <HintPath>..\AppReferences\WebDHT.dll</HintPath>
+      <HintPath>..\LibP2P\WebDHT.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
