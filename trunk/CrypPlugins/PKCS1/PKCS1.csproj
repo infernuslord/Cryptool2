@@ -43,7 +43,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="BouncyCastle.CryptoExt">
-      <HintPath>..\..\AppReferences\BouncyCastle.CryptoExt.dll</HintPath>
+      <HintPath>..\..\Lib\BouncyCastle.CryptoExt.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="PresentationCore">

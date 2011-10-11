@@ -59,19 +59,19 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CrypWin">
-      <HintPath>..\AppSpecialReferences\CrypWin.exe</HintPath>
+      <HintPath>..\LibDev\CrypWin.exe</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="DevComponents.WpfDock">
-      <HintPath>..\AppSpecialReferences\DevComponents.WpfDock.dll</HintPath>
+      <HintPath>..\LibDev\DevComponents.WpfDock.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="DevComponents.WpfEditors">
-      <HintPath>..\AppSpecialReferences\DevComponents.WpfEditors.dll</HintPath>
+      <HintPath>..\LibDev\DevComponents.WpfEditors.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="DevComponents.WpfRibbon">
-      <HintPath>..\AppSpecialReferences\DevComponents.WpfRibbon.dll</HintPath>
+      <HintPath>..\LibDev\DevComponents.WpfRibbon.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -168,7 +168,7 @@
     <PostBuildEvent>copy CrypStartup.exe.config CrypWin.exe.config</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PreBuildEvent>xcopy  /Y "..\..\AppReferences" "$(TargetDir)AppReferences\"
+    <PreBuildEvent>xcopy  /Y "..\..\Lib" "$(TargetDir)Lib\"
 xcopy  /E /Y "..\..\Templates" "$(TargetDir)Templates\"
 </PreBuildEvent>
   </PropertyGroup>

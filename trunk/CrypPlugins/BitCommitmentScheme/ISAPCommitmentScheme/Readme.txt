@@ -31,4 +31,4 @@ Now compile. Don't worry if it throws some errors. Just make sure that the mpirx
 
 Now open lib_mpfr.sln and change the project runtime library setting to "Multithreaded-XX-DLL", too. Compile and make sure, that mpfr.lib was generated inside mpfr\build.vc10\lib\Win32\Debug or Release.
 
-Now you can finally compile ISAPCommitmentScheme. It generates a DLL that will be copied into the AppReferences directory.
+Now you can finally compile ISAPCommitmentScheme. It generates a DLL that will be copied into the Lib directory.

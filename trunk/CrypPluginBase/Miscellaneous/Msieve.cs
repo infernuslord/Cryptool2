@@ -55,7 +55,7 @@ namespace Cryptool.PluginBase.Miscellaneous
                 else
                     dllname = "msieve64.dll";
 
-                msieveDLL = Assembly.LoadFile(DirectoryHelper.BaseDirectory + "\\AppReferences\\" + dllname);
+                msieveDLL = Assembly.LoadFile(DirectoryHelper.BaseDirectory + "\\Lib\\" + dllname);
             }
 
             msieveMutex.ReleaseMutex();

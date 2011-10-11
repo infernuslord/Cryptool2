@@ -55,7 +55,7 @@
   <ItemGroup>
     <Reference Include="PacketDotNet, Version=0.8.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\AppReferences\PacketDotNet.dll</HintPath>
+      <HintPath>..\..\Lib\PacketDotNet.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="PresentationCore">
@@ -65,7 +65,7 @@
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
     <Reference Include="SharpPcap">
-      <HintPath>..\..\AppReferences\SharpPcap.dll</HintPath>
+      <HintPath>..\..\Lib\SharpPcap.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
