@@ -175,7 +175,7 @@
       <Name>WorkspaceManagerModel</Name>
       <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\Libs\WPFToolkit.Extended\WPFToolkit.Extended.csproj">
+    <ProjectReference Include="..\..\LibSource\WPFToolkit.Extended\WPFToolkit.Extended.csproj">
       <Project>{72E591D6-8F83-4D8C-8F67-9C325E623234}</Project>
       <Name>WPFToolkit.Extended</Name>
       <Private>False</Private>
