@@ -98,7 +98,7 @@
       <EmbedInteropTypes>False</EmbedInteropTypes>
       <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\Libs\SSCext\SSCext.csproj">
+    <ProjectReference Include="..\..\LibSource\SSCext\SSCext.csproj">
       <Project>{E46A6AA6-56EE-4AE5-8725-DCD07DC95527}</Project>
       <Name>SSCext</Name>
       <Private>False</Private>

@@ -180,7 +180,7 @@
       <Name>CostFunction</Name>
       <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\Libs\OpenCLNet\OpenCLNet.csproj">
+    <ProjectReference Include="..\..\LibSource\OpenCLNet\OpenCLNet.csproj">
       <Project>{0946E1A6-5488-4711-AD10-D54D6A5D2F32}</Project>
       <Name>OpenCLNet</Name>
       <Private>False</Private>

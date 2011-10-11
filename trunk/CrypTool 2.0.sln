@@ -198,9 +198,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SZ42", "CrypPlugins\SZ42\SZ
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrypUpdater", "CrypUpdater\CrypUpdater.csproj", "{D7C63148-5AEB-41B2-B39D-E21902EF7121}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libs", "Libs", "{1E472920-3A9C-413A-98B2-8372F0E283C5}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LibSource", "LibSource", "{1E472920-3A9C-413A-98B2-8372F0E283C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCLNet", "Libs\OpenCLNet\OpenCLNet.csproj", "{0946E1A6-5488-4711-AD10-D54D6A5D2F32}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCLNet", "LibSource\OpenCLNet\OpenCLNet.csproj", "{0946E1A6-5488-4711-AD10-D54D6A5D2F32}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wizard", "CrypPlugins\Wizard\Wizard.csproj", "{FF247A82-21AD-4010-B2FB-D93EE2B02677}"
 EndProject
@@ -210,7 +210,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetworkCapture", "CrypPlugi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkspaceManagerModel", "WorkspaceManagerModel\WorkspaceManagerModel.csproj", "{C35A6E71-D6FE-478B-A12D-FAD54FC4EDC9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPFToolkit.Extended", "Libs\WPFToolkit.Extended\WPFToolkit.Extended.csproj", "{72E591D6-8F83-4D8C-8F67-9C325E623234}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPFToolkit.Extended", "LibSource\WPFToolkit.Extended\WPFToolkit.Extended.csproj", "{72E591D6-8F83-4D8C-8F67-9C325E623234}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineDocumentationGenerator", "OnlineDocumentationGenerator\OnlineDocumentationGenerator.csproj", "{0698CD9D-DAD6-41AE-9E0A-FB00959FE8B1}"
 EndProject
@@ -220,7 +220,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Paillier", "CrypPlugins\Pai
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BitCommitmentScheme", "CrypPlugins\BitCommitmentScheme\BitCommitmentScheme.csproj", "{E86CE9A5-BBF2-48E3-80F1-80BD935670EF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HtmlTextBlock", "Libs\HtmlTextBlock\HtmlTextBlock.csproj", "{8E67C36F-4403-4724-96D4-AF6E05744688}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HtmlTextBlock", "LibSource\HtmlTextBlock\HtmlTextBlock.csproj", "{8E67C36F-4403-4724-96D4-AF6E05744688}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StegoLeastSignificantBit", "CrypPlugins\StegoLeastSignificantBit\StegoLeastSignificantBit.csproj", "{0E103FFB-C981-4B2A-A0C6-8924163C8A73}"
 EndProject
@@ -248,7 +248,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Solitaire", "CrypPluginsExp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SolitaireAnalyser", "CrypPluginsExperimental\SolitaireAnalyser\SolitaireAnalyser.csproj", "{AEB6BEFA-DC4B-4774-A36F-52A9DFBFE3AA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SSCext", "Libs\SSCext\SSCext.csproj", "{E46A6AA6-56EE-4AE5-8725-DCD07DC95527}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SSCext", "LibSource\SSCext\SSCext.csproj", "{E46A6AA6-56EE-4AE5-8725-DCD07DC95527}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PasswordStrength", "CrypPluginsExperimental\PasswordStrength\PasswordStrength.csproj", "{C16E5BC3-2561-4F28-A749-AE4B24607B7B}"
 EndProject
