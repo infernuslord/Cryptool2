@@ -169,6 +169,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>xcopy  /Y "..\..\Lib" "$(TargetDir)Lib\"
+xcopy  /Y "..\..\LibP2P" "$(TargetDir)LibP2P\"
 xcopy  /E /Y "..\..\Templates" "$(TargetDir)Templates\"
 </PreBuildEvent>
   </PropertyGroup>
