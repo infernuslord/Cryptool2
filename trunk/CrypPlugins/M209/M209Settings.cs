@@ -19,6 +19,7 @@ using System.Linq;
 using System.Text;
 using Cryptool.PluginBase;
 using System.ComponentModel;
+using System.Collections.ObjectModel;
 
 namespace Cryptool.Plugins.M209
 {
@@ -31,7 +32,11 @@ namespace Cryptool.Plugins.M209
         #endregion
 
         #region Private Variables
-
+        private ObservableCollection<string> actionStrings = new ObservableCollection<string>();
+        private ObservableCollection<string> rotorAStrings = new ObservableCollection<string>();
+        private ObservableCollection<string> rotorBStrings = new ObservableCollection<string>();
+        private ObservableCollection<string> reflectorStrings = new ObservableCollection<string>();
+        private int model = 0;
         private bool hasChanges = false;
 
         private int selectedAction = 0;
@@ -51,11 +56,39 @@ namespace Cryptool.Plugins.M209
             "20","20","20","20","20","20","20","20","20",
             "20","25","25","05","05","05","05","05","05"
         };
-
+        private int unknownSymbolHandling = 0; // 0=ignore, leave unmodified
+        private int caseHandling = 0; // 0=preserve, 1, convert all to upper, 2= convert all to lower
         #endregion
 
         #region TaskPane Settings
 
+        [ContextMenu("ModelCaption", "ModelTooltip",
+            0, ContextMenuControlType.ComboBox, null,
+            new string[] { "ModelList1", "ModelList2"})]
+        [TaskPane("ModelTPCaption", "ModelTPTooltip",
+            null, 0, false, ControlType.ComboBox,
+            new string[] { "ModelList1", "ModelList2"})]
+        [PropertySaveOrder(1)]
+        public int Model
+        {
+            get { return this.model; }
+            set
+            {
+                if (value != model) hasChanges = true;
+                this.model = value;
+                OnPropertyChanged("Model");
+                switch (this.model)
+                {
+                    case 0: // Enigma A/B
+              
+                        break;
+                    case 1: // Enigma D
+                        
+                        break;
+                 
+                }
+            }
+        }
         /// <summary>
         /// HOWTO: This is an example for a setting entity shown in the settings pane on the right of the CT2 main window.
         /// This example setting uses a number field input, but there are many more input types available, see ControlType enumeration.
@@ -695,9 +728,47 @@ namespace Cryptool.Plugins.M209
         // Bar Setting
         #endregion
 
-        //Taskpane ende
+        #region Text options
+
+        [ContextMenu("UnknownSymbolHandlingCaption", "UnknownSymbolHandlingTooltip",
+            3, ContextMenuControlType.ComboBox, null,
+            new string[] { "UnknownSymbolHandlingList1", "UnknownSymbolHandlingList2", "UnknownSymbolHandlingList3" })]
+        [TaskPane("UnknownSymbolHandlingCaption", "UnknownSymbolHandlingTooltip",
+            "TextOptionsGroup", 3, false, ControlType.ComboBox,
+            new string[] { "UnknownSymbolHandlingList1", "UnknownSymbolHandlingList2", "UnknownSymbolHandlingList3" })]
+        public int UnknownSymbolHandling
+        {
+            get { return this.unknownSymbolHandling; }
+            set
+            {
+                if ((int)value != unknownSymbolHandling) HasChanges = true;
+                this.unknownSymbolHandling = (int)value;
+                OnPropertyChanged("UnknownSymbolHandling");
+            }
+        }
+
+        [ContextMenu("CaseHandlingCaption", "CaseHandlingTooltip",
+            4, ContextMenuControlType.ComboBox, null,
+            new string[] { "CaseHandlingList1", "CaseHandlingList2", "CaseHandlingList3" })]
+        [TaskPane("CaseHandlingCaption", "CaseHandlingTooltip",
+            "TextOptionsGroup", 4, false, ControlType.ComboBox,
+            new string[] { "CaseHandlingList1", "CaseHandlingList2", "CaseHandlingList3" })]
+        public int CaseHandling
+        {
+            get { return this.caseHandling; }
+            set
+            {
+                if ((int)value != caseHandling) HasChanges = true;
+                this.caseHandling = (int)value;
+                OnPropertyChanged("CaseHandling");
+            }
+        }
+
         #endregion
 
+        //Taskpane ende
+        #endregion
+        
 
         #region ISettings Members
 

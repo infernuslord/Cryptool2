@@ -28,7 +28,7 @@ namespace Cryptool.Plugins.M209
 {
     // HOWTO: Change author name, email address, organization and URL.
     [Author("Martin Jedrychowski, Martin Switek", "jedry@gmx.de, Martin_Switek@gmx.de", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo("Cryptool.M209.Properties.Resources", false, "PluginCaption", "PluginTooltip", "M209/DetailedDescription/doc.xml",
+    [PluginInfo("Cryptool.M209.Properties.Resources", false, "PluginCaption", "PluginTooltip", "M209/DetailedDescription/Description.xaml",
       "M209/Images/M-209.jpg", "M209/Images/encrypt.png", "M209/Images/decrypt.png")]
     
     // HOWTO: Change interface to one that fits to your plugin (see CrypPluginBase).
@@ -105,9 +105,11 @@ namespace Cryptool.Plugins.M209
         public char calculateOffset(string extKey, char c)
         {
             bool[] aktiveArme = new bool[6];
-
+            int Rotoren = 6;
+            if (settings.Model == 1)
+                Rotoren = 5;
             // Durch alle Rotoren
-            for (int r = 0; r < 6; r++)
+            for (int r = 0; r < Rotoren; r++)
             {
                 int i = getRotorPostion(extKey[r], r);
                 i = (i + rotorofs[r]) % rotoren[r].Length;   // position of 'active' pin
@@ -122,9 +124,16 @@ namespace Cryptool.Plugins.M209
         public int countStangen(bool[] active)
         {
             int count = 0;
+            int Stangen = 27;
+            int Rotoren = 6;
+            if (settings.Model == 1)
+            {
+                Stangen = 25;
+                Rotoren = 5;
+            }
 
-            for (int i = 0; i < 27; i++)
-                for (int c = 0; c < 6; c++)
+            for (int i = 0; i < Stangen; i++)
+                for (int c = 0; c < Rotoren; c++)
                 {
                     if (active[c])
                         if ( (StangeSchieber[i, 0] == (c+1)) || (StangeSchieber[i, 1] == (c+1)) ) {
@@ -140,8 +149,13 @@ namespace Cryptool.Plugins.M209
         public void setBars()
         {
             clearBars();
+            int Stangen = 27;
+            if (settings.Model == 1)
+            {
+                Stangen = 25;
+            }
             
-            for (int i = 0; i < 27; i++)
+            for (int i = 0; i < Stangen; i++)
             {
                 string temp = settings.bar[i];
 
@@ -196,11 +210,15 @@ namespace Cryptool.Plugins.M209
                     pins[4, getRotorPostion(settings.Rotor5[i], 4)] = true;
                 }
             }
-            if (settings.Rotor6 != null)
+            if (settings.Model == 0)
             {
-                for (int i = 0; i < settings.Rotor6.Length; i++)
+
+                if (settings.Rotor6 != null)
                 {
-                    pins[5, getRotorPostion(settings.Rotor6[i], 5)] = true;
+                    for (int i = 0; i < settings.Rotor6.Length; i++)
+                    {
+                        pins[5, getRotorPostion(settings.Rotor6[i], 5)] = true;
+                    }
                 }
             }
         }
@@ -243,7 +261,7 @@ namespace Cryptool.Plugins.M209
             string tempOutput="";
 
             Text = Text.Replace(" ", "");
-
+          
             if (!cipher) //Dechiffrieren
                 Text = Text.Replace(Environment.NewLine, "");
 
@@ -253,12 +271,58 @@ namespace Cryptool.Plugins.M209
 
             for (int i = 0; i < Text.Length; i++)
             {
-                if (objNotNaturalPattern.IsMatch(Text[i].ToString()))
+                // Text Options UnknownSymbolHandling:
+                // 0 Ignore
+                // 1 Remove
+                // 2 Replace with X
+                if (settings.UnknownSymbolHandling == 0)
                 {
-                    tempOutput += calculateOffset(aktuellerWert, Text[i]);
-                    aktuellerWert = rotateWheel(aktuellerWert);
+                    if (objNotNaturalPattern.IsMatch(Text[i].ToString()))
+                    {
+                        tempOutput += calculateOffset(aktuellerWert, Text[i]);
+                        aktuellerWert = rotateWheel(aktuellerWert);
+                    }
+                    else
+                    {
+                        tempOutput += Text[i];
+                    }
                 }
+                if (settings.UnknownSymbolHandling == 1)
+                {
+                    if (objNotNaturalPattern.IsMatch(Text[i].ToString()))
+                    {
+                        tempOutput += calculateOffset(aktuellerWert, Text[i]);
+                        aktuellerWert = rotateWheel(aktuellerWert);
+                    }
+                }
+                if (settings.UnknownSymbolHandling == 2)
+                {
+                    if (objNotNaturalPattern.IsMatch(Text[i].ToString()))
+                    {
+                        tempOutput += calculateOffset(aktuellerWert, Text[i]);
+                        aktuellerWert = rotateWheel(aktuellerWert);
+                    }
+                    else
+                    {
+                        tempOutput += 'X';
+                    }
+                }
+               
             }
+            
+            //CaseHandling
+
+            if (settings.CaseHandling == 0)
+            {
+
+
+            }
+            if (settings.CaseHandling == 2)
+            {
+               tempOutput = tempOutput.ToLower();   
+            }
+
+
 
             OutputString = tempOutput;
 
@@ -284,15 +348,116 @@ namespace Cryptool.Plugins.M209
         {
             char[] neuePos = new char[6];
 
+            int Rotoren = 6;
+            if (settings.Model == 1)
+                Rotoren = 5;
             //Durch alle Rotoren
-            for (int r = 0; r < 6; r++)
+            for (int r = 0; r < Rotoren; r++)
             {
                 neuePos[r] = rotoren[r][ ( getRotorPostion(pos[r],r) + 1 ) % rotoren[r].Length ];
             }
 
             return new String(neuePos);
         }
+        /*
 
+        internal class UnknownToken
+        {
+            internal string text;
+            internal int position;
+
+            internal UnknownToken(char c, int position)
+            {
+                this.text = char.ToString(c);
+                this.position = position;
+            }
+
+            public override string ToString()
+            {
+                return "[" + text + "," + position + "]";
+            }
+        }
+
+        IList<UnknownToken> unknownList = new List<UnknownToken>();
+
+        /// <summary>
+        /// Format the string to contain only alphabet characters in upper case
+        /// </summary>
+        /// <param name="text">The string to be prepared</param>
+        /// <returns>The properly formated string to be processed direct by the encryption function</returns>
+        private string preFormatInput(string text)
+        {
+            StringBuilder result = new StringBuilder();
+            bool newToken = true;
+            unknownList.Clear();
+
+            for (int i = 0; i < text.Length; i++)
+            {
+                if (settings.Alphabet.Contains(char.ToUpper(text[i])))
+                {
+                    newToken = true;
+                    result.Append(char.ToUpper(text[i])); // FIXME: shall save positions of lowercase letters
+                }
+                else if (settings.UnknownSymbolHandling != 1) // 1 := remove
+                {
+                    // 0 := preserve, 2 := replace by X
+                    char symbol = settings.UnknownSymbolHandling == 0 ? text[i] : 'X';
+
+                    if (newToken)
+                    {
+                         unknownList.Add(new UnknownToken(symbol, i));
+                        newToken = false;
+                    }
+                    else
+                    {
+                        unknownList.Last().text += symbol;
+                    }
+                }
+            }
+
+            return result.ToString().ToUpper();
+
+        }
+
+        //// legacy code
+        //switch (settings.UnknownSymbolHandling)
+        //{
+        //    case 0: // ignore
+        //        result.Append(c);
+        //        break;
+        //    case 1: // remove
+        //        continue;
+        //    case 2: // replace by X
+        //        result.Append('X');
+        //        break;
+        //}
+
+        /// <summary>
+        /// Formats the string processed by the encryption for presentation according
+        /// to the settings given
+        /// </summary>
+        /// <param name="text">The encrypted text</param>
+        /// <returns>The formatted text for output</returns>
+        private string postFormatOutput(string text)
+        {
+            StringBuilder workstring = new StringBuilder(text);
+            foreach (UnknownToken token in unknownList)
+            {
+                workstring.Insert(token.position, token.text);
+            }
+
+            switch (settings.CaseHandling)
+            {
+                default:
+                case 0: // preserve
+                    // FIXME: shall restore lowercase letters
+                    return workstring.ToString();
+                case 1: // upper
+                    return workstring.ToString().ToUpper();
+                case 2: // lower
+                    return workstring.ToString().ToLower();
+            }
+        }*/
     
         #endregion
 
@@ -308,6 +473,15 @@ namespace Cryptool.Plugins.M209
         /// Return null if you don't provide one.
         /// </summary>
         public UserControl Presentation
+        {
+            get { return null; }
+        }
+
+        /// <summary>
+        /// HOWTO: You can provide custom (quickwatch) presentation to visualize your algorithm.
+        /// Return null if you don't provide one.
+        /// </summary>
+        public UserControl QuickWatchPresentation
         {
             get { return null; }
         }
@@ -394,7 +568,7 @@ namespace Cryptool.Plugins.M209
 
         private void ProgressChanged(double value, double max)
         {
-            EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
+           // EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
         }
 
         #endregion
