@@ -1,6 +1,5 @@
 ﻿/*
-   Copyright 1995 - 2010 Jörg Drobick
-   Copyright 2010 Matthäus Wander, University of Duisburg-Essen
+   Copyright 1995 - 2011 Jörg Drobick
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -29,8 +28,7 @@ using System.IO;
 
 namespace Cryptool.Plugins.T310
 {
-    // TODO: shall use CryptoolStream respectively new CStream instead of byte[]
-    [Author("Jörg Drobick, Matthäus Wander", "wander@cryptool.org", "", "")]
+    [Author("Jörg Drobick, Matthäus Wander", "ct2contact@cryptool.org", "", "")]
     [PluginInfo("T_310.Properties.Resources", false, "PluginCaption", "PluginTooltip", "T-310/DetailedDescription/doc.xml", "T-310/Images/t310.png")]
     [ComponentCategory(ComponentCategory.CiphersClassic)]
     public class T310 : ICrypComponent
@@ -412,36 +410,32 @@ namespace Cryptool.Plugins.T310
                 {
                     streamAusgabe.WriteByte(0x19);    // 4*b
                 }
-                /* Speicher erste Zufallsfolge der Synchronfolge */
-                ulong ul_temp = Zufall();                  // Speicher Random-folge
+                ulong ul_temp = Zufall(); //Speicher erste Zufallsfolge der Synchronfolge, Speicher Random-folge
                 ulong ul_lese = ul_temp;
-                for (byte temp = 0; temp < 8; ++temp)
+                for (byte temp = 0; temp < 13; ++temp)
                 {
-
                     byte b_lese;
-                    b_lese = (byte)(ul_lese & 0xff);                   // nur das erste Byte lesen
-                    streamAusgabe.WriteByte(b_lese);                   // speichern
-                    ul_lese = ul_lese >> 8;                            // nächsten 8 bit holen
+                    b_lese = (byte)(ul_lese & 0x1f); // nur das erste Byte lesen
+                    streamAusgabe.WriteByte(b_lese); // speichern
+                    ul_lese = ul_lese >> 5;          // nächsten 5 bit holen
                 }
-                /* Speicher Synchronfolge*/
-                ulong ul_syncronfolge = Syncronfolge(ul_temp);
+                ulong ul_syncronfolge = Syncronfolge(ul_temp); // Speicher Synchronfolge
                 ul_lese = ul_syncronfolge;                             // hole Synchronfolge
-                for (byte temp = 0; temp < 8; ++temp)
+                for (byte temp = 0; temp < 13; ++temp)
                 {
                     byte b_lese;
-                    b_lese = (byte)(ul_lese & 0xff);                   // nur das erste Byte lesen
-                    streamAusgabe.WriteByte(b_lese);                   // speichern
-                    ul_lese = ul_lese >> 8;                            // nächsten 8 bit holen
+                    b_lese = (byte)(ul_lese & 0x1f); // nur das erste Byte lesen
+                    streamAusgabe.WriteByte(b_lese); // speichern
+                    ul_lese = ul_lese >> 5;          // nächsten 5 bit holen
                 }
                 for (byte temp = 0; temp < 4; ++temp)
                 {
                     streamAusgabe.WriteByte(0x0f);   // 4*k
                 }
-                bool[] bo_U_Vektor = UVektorInit();                                      // U-Vektor auf Anfang setzen!
-                // hier jetzt Klartext holen und Chiffrieren
-                int int_zaehler = 0;
+                bool[] bo_U_Vektor = UVektorInit(); // U-Vektor auf Anfang setzen!
+
+                int int_zaehler = 0; // hier jetzt Klartext holen und Chiffrieren
                 byte b_temp;
-                //Thread.Sleep(200);
                 while (int_zaehler < (by_array_eingabe.Length - 1))
                 {
                     System.Threading.Thread.Sleep(10);
@@ -482,7 +476,7 @@ namespace Cryptool.Plugins.T310
                     streamAusgabe.WriteByte(verschluesseln(Wurm(ref bo_U_Vektor, ref ul_syncronfolge, ref s1_bit, ref s2_bit), b_temp));
                     ++int_zaehler;                                              // byte 6 erhöhe für schleif
                     // Warten auf Anzeigenaktualisierung
-                    //                Application.DoEvents();
+                    // Application.DoEvents();
                     // Progressbar anzeigen
                     ProgressChanged(int_zaehler, by_array_eingabe.Length);
                 }
@@ -499,8 +493,10 @@ namespace Cryptool.Plugins.T310
                 ulong ul_startfolge = 0ul;
                 ulong ul_syncronfolge = 0ul;
 
-                if (by_array_eingabe.Length < 24 ||
-                !((by_array_eingabe[0] == 0x19) & (by_array_eingabe[1] == 0x19) & (by_array_eingabe[2] == 0x19) & (by_array_eingabe[3] == 0x19) & (by_array_eingabe[20] == 0x0f) & (by_array_eingabe[21] == 0x0f) & (by_array_eingabe[22] == 0x0f) & (by_array_eingabe[23] == 0x0f)))
+                if (! (by_array_eingabe.Length > 0x21 ) &&
+                !((by_array_eingabe[0] == 0x19) & (by_array_eingabe[1] == 0x19) & (by_array_eingabe[2] == 0x19) &
+                (by_array_eingabe[3] == 0x19) & (by_array_eingabe[0x1e] == 0x0f) & (by_array_eingabe[0x1f] == 0x0f) &
+                (by_array_eingabe[0x20] == 0x0f) & (by_array_eingabe[0x21] == 0x0f)))
                 {
                     GuiLogMessage("Can't decrypt, invalid input sequence", NotificationLevel.Error);
 
@@ -513,14 +509,14 @@ namespace Cryptool.Plugins.T310
                     return;
                 }
 
-                for (byte temp = 11; temp > 3; --temp)
+                for (byte temp = 16; temp > 3; --temp)
                 {
-                    ul_startfolge <<= 8;
+                    ul_startfolge <<= 5; // 8;
                     ul_startfolge |= by_array_eingabe[temp];
                 }
-                for (byte temp = 19; temp > 11; --temp)
+                for (byte temp = 29; temp > 16; --temp)
                 {
-                    ul_syncronfolge <<= 8;
+                    ul_syncronfolge <<= 5;
                     ul_syncronfolge |= by_array_eingabe[temp];
                 }
                 if (ul_syncronfolge != Syncronfolge(ul_startfolge))
@@ -536,12 +532,11 @@ namespace Cryptool.Plugins.T310
                     return;
                 }
 
-                //                    pB_c.Visible = true;
+                // pB_c.Visible = true;
 
-                bool[] bo_U_Vektor = UVektorInit();                                      // U-Vektor auf Anfang setzen!
+                bool[] bo_U_Vektor = UVektorInit(); // U-Vektor auf Anfang setzen!
 
-                // hier jetzt Bytes holen und dechiffrieren
-                int int_ent = 24;
+                int int_ent = 0x22; // hier jetzt Bytes holen und dechiffrieren
                 byte b_temp0, b_temp1, b_temp2, b_temp3, b_temp4, b_temp5, b_temp6, b_temp7;
                 while (int_ent < by_array_eingabe.Length - 1)
                 {
@@ -603,34 +598,10 @@ namespace Cryptool.Plugins.T310
                 ul_kg = (ulong)rand.Next();           // die ersten 32 bit
                 ul_kg *= 0x100000000ul;                        // Schift Left 32, "<<" nicht bei ULONG
                 ul_kg2 = (ulong)rand.Next();          // die nächsten 32 bit
-                // wegen Compiler Warnung so Programmiert, einfacher wäre: ul_kg |= (ulong)rand_myZufall.Next(); 
                 ul_kg |= ul_kg2;                               // die letzten 32 bit
                 ul_kg &= 0x1fffffffffffffff;                   // Maskieren auf 61 Bit
-            }                                                  // While Prüfen auf Ungleich NULL
-            return ul_kg;
-        }
-
-        private ulong Syncronfolge(ulong ul_Parameter)
-        {
-            bool bo_m2;                                                     // ergebnis des XOR bit 0,1,2,5
-
-            ulong ul_Output = (ul_Parameter & 0x1fffffffffffffff) >> 60;           // ul_Output vorbereiten für die nächsten 13 FsZeichen
-            // das 61 Bit holen es ist das erste bit des 13.Fs Zeichens
-            for (int int_i = 1; int_i < 65; ++int_i)
-            {
-                // Umformung durch Bit 0 xor 1 xor 2 xor 5
-
-                bo_m2 = ((ul_Parameter & 0x1ul) == 0ul ? false : true)
-                ^ ((ul_Parameter & 0x2ul) == 0ul ? false : true)
-                ^ ((ul_Parameter & 0x4ul) == 0ul ? false : true)
-                ^ ((ul_Parameter & 0x20ul) == 0ul ? false : true);
-
-                ul_Parameter >>= 1;                                              // Shift rechts 1, von 60 nach 0
-                ul_Output |= bo_m2 == true ? (0x1ul << int_i) : 0x0ul;               // entspricht Set/Reset Bit i, in der Position i
-                ul_Parameter |= bo_m2 == true ? 0x1000000000000000ul : 0x0ul;    // entspricht Set/Reset Bit 0
-                ul_Parameter &= 0x1fffffffffffffff;
             }
-            return ul_Parameter;
+            return ul_kg;
         }
 
         /* U-Vektor initialisieren, immer beim Starten des Chiffrierens und Dechiffrierens */
@@ -642,50 +613,22 @@ namespace Cryptool.Plugins.T310
             true, true,true,false,false, true,false,false,
             false, false,true,false,true, true,false,true,
             false, false,false,true,true };     // U-Vektor x0110 1001 1100 0111 1100 1000 0101 1010 0011, Startbedinung, u[0] wird nicht verwendet
-        }
-
-        /* Entschlüsselungroutine der T310, sie is kürzer als die Verschlüsselungsroutine
-         * Übergabe Wurm-,Additionsreihe gebildet aus der Synchronisationseinheit
-         * Übergabe Cryptogramm, Geheimtexteinheit
-         * Rückgabe Klartext
-         *************************************************************************************/
-        static byte entschluesseln(uint ui_key, byte b_crypt)
-        {
-            byte b_SRV2, b_SRV3;
-
-            b_SRV3 = b_crypt;
-            b_SRV2 = (byte)(ui_key & 0x1f);
-            while ((b_SRV2 != 0x1f) & (b_SRV2 != 0))  // Rekursion der Additionsreihe in SRV2 und des GTX in SRV3
-            {
-                b_SRV2 = Rekursion(b_SRV2);
-                b_SRV3 = Rekursion(b_SRV3);             // Z gebildet
-            }
-            b_SRV3 ^= (byte)((ui_key & 0x07c0) >> 6);   // (0x0f80)> 6; XOR Additionsreihe 7 ... 11 mit dem Zwischentext Z
-            return b_SRV3;
-        }     
-
+        } 
 
         /* Verschlüsselungsroutine der T310
          * Übergabe Wurmreihe (Additionsreihe)
          * Übergabe Klartext
-         * Rückgramme Cryptogram, Geheimtexteinheit
+         * Rückgramme Chiffrat, Geheimtexteinheit
          *******************************************/
         static byte verschluesseln(uint ui_key, byte b_klartext)
         {
-            byte b_SRV2, b_SRV3;
-
-            // Schritt 1 ... 5
-            //schieberegister aufbauen  
+            byte b_SRV2, b_SRV3; // Schritt 1 ... 5, Schieberegister aufbauen
             b_SRV2 = 0;
             b_SRV3 = 0x01f;
-            int i_tempKey = (int)ui_key & 0x01f;  // bit 0 ... bit 4 == 1-5 des keys
-            b_SRV2 = (byte)i_tempKey;
-            // Schritt 1 ... 5 
-
-            // Schritt 6
-            // symetriewert bilden, rekursion
-            while ((b_SRV2 != 0x1f) & (b_SRV2 != 0)) // wenn 11111 ( 0x1f oder 31 ) ODER 0 abbrechen
-            {                                          // Achtung das ODER ist hier über UNGLEICH UND realisiert 
+            int i_tempKey = (int)ui_key & 0x01f;  // bit 0 ... bit 4 == 1-5 des Schlüssels
+            b_SRV2 = (byte)i_tempKey; // Schritt 1 ... 5, Schritt 6, Symetriewert bilden, rekursion
+            while ((b_SRV2 != 0x1f) & (b_SRV2 != 0)) // wenn 11111, 0x1f ODER 0 abbrechen
+            {
                 b_SRV2 = Rekursion(b_SRV2);
                 b_SRV3 = Rekursion(b_SRV3);
             }
@@ -710,6 +653,60 @@ namespace Cryptool.Plugins.T310
 
             // Schritt 14; neues Zeichen holen und neue Schlüssel und beginn bei Schritt 1
             return b_SRV3;   // Ausgabe Chiffriertext 
+        }
+
+        /* Entschlüsselungroutine der T310, sie is kürzer als die Verschlüsselungsroutine
+         * Übergabe Wurm-,Additionsreihe gebildet aus der Synchronisationseinheit
+         * Übergabe Chiffrat, Geheimtexteinheit
+         * Rückgabe Klartext
+         *************************************************************************************/
+        static byte entschluesseln(uint ui_key, byte b_crypt)
+        {
+            byte b_SRV2, b_SRV3;
+
+            b_SRV3 = b_crypt;
+            b_SRV2 = (byte)(ui_key & 0x1f);
+            while ((b_SRV2 != 0x1f) & (b_SRV2 != 0))  // Rekursion der Additionsreihe in SRV2 und des GTX in SRV3
+            {
+                b_SRV2 = Rekursion(b_SRV2);
+                b_SRV3 = Rekursion(b_SRV3);             // Z gebildet
+            }
+            b_SRV3 ^= (byte)((ui_key & 0x07c0) >> 6);   // (0x0f80)> 6; XOR Additionsreihe 7 ... 11 mit dem Zwischentext Z
+            return b_SRV3;
+        }
+
+        /* Erzeuge Synchronfolge */
+        private ulong Syncronfolge(ulong ul_Parameter)
+        {
+            bool bo_m2;                                                     // ergebnis des XOR bit 0,1,2,5
+
+            for (int int_i = 1; int_i < 65; ++int_i) // Umformung durch Bit 0 xor 1 xor 2 xor 5
+            {
+                bo_m2 = ((ul_Parameter & 0x1ul) == 0ul ? false : true)
+                ^ ((ul_Parameter & 0x2ul) == 0ul ? false : true)
+                ^ ((ul_Parameter & 0x4ul) == 0ul ? false : true)
+                ^ ((ul_Parameter & 0x20ul) == 0ul ? false : true);
+
+                ul_Parameter >>= 1;                                              // Shift rechts 1, von 60 nach 0
+                ul_Parameter |= bo_m2 == true ? 0x1000000000000000ul : 0x0ul;    // entspricht Set/Reset Bit
+            }
+            return ul_Parameter;
+        }
+
+        /* rotiere f-Folge */
+        private void rot_Ffolge(ref ulong ul_syncronfolge)
+        {
+            bool bo_m2;                                                     // ergebnis des XOR bit 0,1,2,5
+
+            // Umformung durch Bit 0 xor 1 xor 2 xor 5
+
+            bo_m2 = ((ul_syncronfolge & 0x1ul) == 0ul ? false : true)
+            ^ ((ul_syncronfolge & 0x2ul) == 0ul ? false : true)
+            ^ ((ul_syncronfolge & 0x4ul) == 0ul ? false : true)
+            ^ ((ul_syncronfolge & 0x20ul) == 0ul ? false : true);
+
+            ul_syncronfolge >>= 1;                                              // Shift rechts 1, von 60 nach 0
+            ul_syncronfolge |= bo_m2 == true ? 0x1000000000000000ul : 0x0ul;    // entspricht Set/Reset Bit
         }
 
         /* Rekursionsregister 5 bit realisiert
@@ -746,7 +743,6 @@ namespace Cryptool.Plugins.T310
             {   // 5 bit sammeln aus 127ten runde * bit des Fs Zeichen, 127 - 254 - 381 - 508 - 635 -neues FsZeichen 762 ...
                 for (byte b_runde = 0; b_runde < 127; ++b_runde)
                 {
-                    // knobel knobel
                     // S1 und S2 Schieben
                     bool bo_tempS1 = s1_bit[b_zeiger];
                     bool bo_tempS2 = s2_bit[b_zeiger];
@@ -807,8 +803,7 @@ namespace Cryptool.Plugins.T310
                     bo_U_Vektor[4] = bo_U_Vektor[3];
                     bo_U_Vektor[3] = bo_U_Vektor[2];
                     bo_U_Vektor[2] = bo_U_Vektor[1];
-                    bo_U_Vektor[1] = bo_T[8] ^ bo_tempS1; // UD1 D = 0;
-                    // jetzt Kommutatorkarte abbilden 29 Eingänge > 58 Ausgänge
+                    bo_U_Vektor[1] = bo_T[8] ^ bo_tempS1; // UD1 D = 0, jetzt Kommutatorkarte abbilden 29 Eingänge > 58 Ausgänge
 
                     // Zeiger auf nächstes Bit
                     ++b_zeiger;
@@ -821,27 +816,8 @@ namespace Cryptool.Plugins.T310
                 ui_wurmBit |= ui_wurm;      // Maskiere und setze gebildetes bit
                 ++b_fsBit;                    // nächstes bit
             }
-            /* Abfrage später Löschen! */
-            if (ui_wurmBit > 0x1fff) MessageBox.Show("Fehler Komplizierungseinheit");
             ui_wurmBit &= 0x1fff;         // Maskieren
             return ui_wurmBit; // Rückgabe 13 bit Wurm
-        }
-
-        /* rotiere f-Folge */
-        private void rot_Ffolge(ref ulong ul_syncronfolge)
-        {
-            bool bo_m2;                                                     // ergebnis des XOR bit 0,1,2,5
-
-            // Umformung durch Bit 0 xor 1 xor 2 xor 5
-
-            bo_m2 = ((ul_syncronfolge & 0x1ul) == 0ul ? false : true)
-            ^ ((ul_syncronfolge & 0x2ul) == 0ul ? false : true)
-            ^ ((ul_syncronfolge & 0x4ul) == 0ul ? false : true)
-            ^ ((ul_syncronfolge & 0x20ul) == 0ul ? false : true);
-
-            ul_syncronfolge >>= 1;                                              // Shift rechts 1, von 60 nach 0
-            ul_syncronfolge |= bo_m2 == true ? 0x1000000000000000ul : 0x0ul;    // entspricht Set/Reset Bit 0
-            ul_syncronfolge &= 0x1fffffffffffffff;
         }
 
         /* Z-Funktion */
