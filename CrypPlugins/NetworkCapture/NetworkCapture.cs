@@ -18,7 +18,6 @@ using System.ComponentModel;
 using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase.Miscellaneous;
 using System.Windows.Controls;
-using PacketDotNet;
 using SharpPcap;
 using SharpPcap.WinPcap;
 
