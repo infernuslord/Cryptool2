@@ -47,12 +47,12 @@
         </Button>
         <Label Grid.Column="1" Grid.Row="2" Content="{Loc Read_the_online_documentation_}" VerticalAlignment="Center" />        
 
-        <Button Grid.Column="0" Grid.Row="3" Click="ConnectButton_Click">
+        <Button Grid.Column="0" Grid.Row="3" Click="ConnectButton_Click" Name="DistCompButton">
             <Button.Content>
                 <Image Stretch="Fill" Source="/Startcenter;component/peer2peer-disconnect.png" />
             </Button.Content>
         </Button>
-        <Label Grid.Column="1" Grid.Row="3" Content="{Loc Connect_to_the_distributed_computing_platform_}" VerticalAlignment="Center" />
+        <Label Grid.Column="1" Grid.Row="3" Content="{Loc Connect_to_the_distributed_computing_platform_}" VerticalAlignment="Center" Name="DistCompLabel" />
 
         <Button Grid.Column="0" Grid.Row="4" Click="WebpageButton_Click">
             <Button.Content>

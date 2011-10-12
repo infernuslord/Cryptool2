@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Cryptool.P2P;
 using Cryptool.P2PEditor;
 using Cryptool.PluginBase;
 
@@ -27,6 +28,12 @@ namespace Startcenter
         public Buttons()
         {
             InitializeComponent();
+
+            if (!P2PManager.IsP2PSupported)
+            {
+                DistCompButton.Visibility = Visibility.Collapsed;
+                DistCompLabel.Visibility = Visibility.Collapsed;
+            }
         }
 
         private void WizardButton_Click(object sender, RoutedEventArgs e)
