@@ -45,7 +45,7 @@ namespace WorkspaceManager.View.BinVisual.IControlVisual
         }
 
         public static readonly DependencyProperty ActiveModelProperty = DependencyProperty.Register("ActiveModel",
-         typeof(PluginModel), typeof(Slot), new FrameworkPropertyMetadata(null));
+         typeof(PluginModel), typeof(Slot), new FrameworkPropertyMetadata(null, OnActiveModelChanged));
 
         public PluginModel ActiveModel
         {
@@ -101,6 +101,12 @@ namespace WorkspaceManager.View.BinVisual.IControlVisual
                 }
             }
             loading = false;
+        }
+
+        private static void OnActiveModelChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            Slot slot = (Slot)d;
+            slot.element.PluginModel = slot.ActiveModel;
         }
 
         private static void OnSelectedTypeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

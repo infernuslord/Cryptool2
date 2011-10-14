@@ -150,11 +150,12 @@
 
     </UserControl.Resources>
 
-    <Grid>
+    <Grid Name="myGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
+        
         <ScrollViewer x:Name="MyScrollViewer" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
             <WrapPanel Name="myWrap" Orientation="Horizontal" VerticalAlignment="Top" Width="{Binding ElementName=MyScrollViewer, Path=ViewportWidth}">
 
