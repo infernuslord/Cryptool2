@@ -78,27 +78,30 @@ namespace TranspositionAnalyser
         // FIX: REGEX 
         private int bruteforce_length = 12;
         [PropertySaveOrder(2)]
-        [TaskPaneAttribute( "MaxLengthCaption", "MaxLengthTooltip", null, 2, true, ControlType.TextBox, ValidationType.RegEx, "[0-9]{1,2}")]
+        [TaskPaneAttribute( "MaxLengthCaption", "MaxLengthTooltip", null, 2, false, ControlType.TextBox, ValidationType.RegEx, "[0-9]{1,2}")]
         public int MaxLength
         {
             get { return bruteforce_length; }
             set
             {
+                if (value != this.bruteforce_length) HasChanges = true;
                 bruteforce_length = value;
-                
+                OnPropertyChanged("MaxLength");
             }
+        
         }
 
         private int keysize = 8;
         [PropertySaveOrder(3)]
-        [TaskPaneAttribute( "KeySizeCaption", "KeySizeTooltip", null, 2, true, ControlType.TextBox, ValidationType.RegEx, "[0-9]{1,2}")]
+        [TaskPaneAttribute( "KeySizeCaption", "KeySizeTooltip", null, 2, false, ControlType.TextBox, ValidationType.RegEx, "[0-9]{1,2}")]
         public int KeySize
         {
             get { return keysize; }
             set
             {
+                if (value != this.keysize) HasChanges = true;
                 keysize = value;
-
+                OnPropertyChanged("KeySize");
             }
         }
 
