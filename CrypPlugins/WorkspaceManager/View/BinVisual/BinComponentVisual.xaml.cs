@@ -454,7 +454,7 @@ namespace WorkspaceManager.View.BinVisual
             Presentations.Add(BinComponentState.Min, Model.getImage());
             Presentations.Add(BinComponentState.Data, new BinDataVisual(ConnectorCollection));
             Presentations.Add(BinComponentState.Log, new BinLogVisual(this));
-            Presentations.Add(BinComponentState.Setting, new BinSettingsVisual(Model.Plugin, this));
+            Presentations.Add(BinComponentState.Setting, new BinSettingsVisual(Model.Plugin, this,true));
             LastState = HasComponentPresentation ? BinComponentState.Presentation : BinComponentState.Log;
             InitializeComponent();
         }
@@ -1100,7 +1100,22 @@ namespace WorkspaceManager.View.BinVisual
 
     public class IControlMasterElement
     {
-        public PluginModel PluginModel { get; private set; }
+        public event EventHandler PluginModelChanged;
+
+        private PluginModel pluginModel;
+        public PluginModel PluginModel 
+        { 
+            get 
+            {
+                return pluginModel;
+            } 
+            set 
+            {
+                pluginModel = value;
+                if (PluginModelChanged != null)
+                    PluginModelChanged.Invoke(this, null);
+            } 
+        }
         public ConnectorModel ConnectorModel { get; private set; }
 
         public IControlMasterElement(ConnectorModel connectorModel, PluginModel pluginModel)

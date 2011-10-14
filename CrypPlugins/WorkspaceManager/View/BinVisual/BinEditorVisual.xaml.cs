@@ -1047,7 +1047,7 @@ namespace WorkspaceManager.View.BinVisual
                     if (e.Source is BinComponentVisual)
                     {
                         BinComponentVisual c = (BinComponentVisual)e.Source;
-                        if (c.IsICPopUpOpen || Util.TryFindParent<TextBox>(e.OriginalSource as UIElement) != null || 
+                        if (c.IsICPopUpOpen || Util.TryFindParent<TextBox>(e.OriginalSource as UIElement) != null ||
                             Util.TryFindParent<BinSettingsVisual>(e.OriginalSource as UIElement) != null)
                         {
                             startedSelection = true;

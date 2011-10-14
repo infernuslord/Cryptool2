@@ -24,6 +24,7 @@ using System.Threading;
 using Microsoft.Windows.Controls;
 using System.Windows.Media.Animation;
 using System.Globalization;
+using System.Collections.Specialized;
 
 
 
@@ -36,10 +37,10 @@ namespace WorkspaceManager.View.BinVisual
         private Dictionary<ISettings, Dictionary<string, List<RadioButton>>> dicRadioButtons = new Dictionary<ISettings, Dictionary<string, List<RadioButton>>>();
         private IPlugin plugin;
         private EntryGroup entgrou;
-        public BinComponentVisual bcv;
-        
+        private BinComponentVisual bcv;
+        private TabControl tbC;
 
-        public BinSettingsVisual(IPlugin plugin, BinComponentVisual bcv)
+        public BinSettingsVisual(IPlugin plugin, BinComponentVisual bcv, Boolean isMaster)
         {
 
             this.bcv = bcv;
@@ -56,7 +57,23 @@ namespace WorkspaceManager.View.BinVisual
             }
 
 
+                
+
             InitializeComponent();
+
+            if (isMaster)
+            {
+                bcv.IControlCollection.CollectionChanged += new NotifyCollectionChangedEventHandler(CollectionChangedHandler);
+
+                tbC = new TabControl();
+                myGrid.Children.Remove(MyScrollViewer);
+                myGrid.Children.Add(tbC);
+                TabItem tbI = new TabItem();
+                tbI.Header = "Main";
+                tbI.Content = MyScrollViewer;
+                tbC.Items.Add(tbI);
+            }
+
             drawList(this.entgrou);
             
             /*
@@ -73,11 +90,60 @@ namespace WorkspaceManager.View.BinVisual
             
         }
 
+        private void CollectionChangedHandler(Object sender, NotifyCollectionChangedEventArgs args)
+        {
+            //Console.WriteLine(args.Action);
+            for (int i = 0; i < args.NewItems.Count;i++ )
+            {
+                IControlMasterElement icm = args.NewItems[i] as IControlMasterElement;
+                icm.PluginModelChanged += new EventHandler(icm_PluginModelChanged);    
+            }
+            
+            
+        }
+
+        
+
+        void icm_PluginModelChanged(object sender, EventArgs e)
+        {
+            IControlMasterElement master = (IControlMasterElement)sender;
+            if (master.PluginModel != null)
+            {
+              //  Console.WriteLine(master.PluginModel.GetName());
+                Boolean b = true;
+                foreach (TabItem vtbI in tbC.Items)
+                {
+                    Console.WriteLine(master.ConnectorModel.PropertyName);
+                    string headerString = vtbI.Header.ToString();
+
+                    char[] commaSeparator = new char[] { ',' };
+
+                    string[] authors = headerString.Split(commaSeparator, StringSplitOptions.None);
+                    if (authors[0] == master.ConnectorModel.PropertyName) 
+                    {
+                        vtbI.Content = new BinSettingsVisual(master.PluginModel.Plugin, bcv, false);
+                        vtbI.Header = master.ConnectorModel.PropertyName + "," + master.PluginModel.GetName();
+                        b = false;
+                    }
+                }
+
+                if (b)
+                {
+                    TabItem tbI = new TabItem();
+
+                    tbI.Content = new BinSettingsVisual(master.PluginModel.Plugin, bcv, false);
+                    tbI.Header = master.ConnectorModel.PropertyName + "," + master.PluginModel.GetName();
+                    tbC.Items.Add(tbI);
+                }
+            }
+        }
 
         private void myTaskPaneAttributeChangedHandler(Object sender, TaskPaneAttributeChangedEventArgs args) 
         {
            
             plugin.Settings.GetTaskPaneAttributeChanged();
+
+          
 
             Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
@@ -127,6 +193,7 @@ namespace WorkspaceManager.View.BinVisual
         private void excuteEventHandler(Object sender, EventArgs args)
         {
             
+
             Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
                 
