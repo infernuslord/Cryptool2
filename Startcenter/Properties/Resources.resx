@@ -184,7 +184,7 @@
     <value>Visit the official CrypTool 2.0 website.</value>
   </data>
   <data name="Welcome_to_CrypTool_2_0" xml:space="preserve">
-    <value>Welcome to CrypTool 2. There are two ways for a quick start: Click on the wizard button in the section “Main Functions” to get a guided tour, or load one of the pre-defined workflows in the section “Templates” which demonstrate the program functionality in well-defined cryptographic scenarios.</value>
+    <value>Welcome to CrypTool 2.  There are two ways for a quick start: Click on the wizard button in the section “Main Functions” to get a guided tour, or load one of the pre-defined workflows in the section “Templates” which demonstrate the program functionality in cryptographic scenarios.</value>
   </data>
   <data name="_Search" xml:space="preserve">
     <value>      Search</value>
