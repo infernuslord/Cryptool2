@@ -134,8 +134,12 @@ namespace WorkspaceManager.View.BinVisual.IControlVisual
                     return;
             }
 
-            if (e.NewValue == null)
+            if (e.NewValue == null) 
+            {
+                slot.ActiveModel = null;
                 return;
+            }
+            
 
             type = e.NewValue as SlaveType;
             var v = (PluginModel)model.WorkspaceModel.ModifyModel(new NewPluginModelOperation(new Point(0, 0), (double)0, (double)0, type.Type));

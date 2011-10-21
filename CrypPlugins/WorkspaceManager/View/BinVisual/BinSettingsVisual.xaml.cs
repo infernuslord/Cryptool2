@@ -39,6 +39,7 @@ namespace WorkspaceManager.View.BinVisual
         private EntryGroup entgrou;
         private BinComponentVisual bcv;
         private TabControl tbC;
+        public String myConnectorName;
 
         public BinSettingsVisual(IPlugin plugin, BinComponentVisual bcv, Boolean isMaster)
         {
@@ -56,9 +57,6 @@ namespace WorkspaceManager.View.BinVisual
                 plugin.Settings.GetTaskPaneAttributeChanged().AddEventHandler(plugin.Settings, new TaskPaneAttributeChangedHandler(myTaskPaneAttributeChangedHandler));  // throws nullpointerexception for unknown reason
             }
 
-
-                
-
             InitializeComponent();
 
             if (isMaster)
@@ -66,12 +64,46 @@ namespace WorkspaceManager.View.BinVisual
                 bcv.IControlCollection.CollectionChanged += new NotifyCollectionChangedEventHandler(CollectionChangedHandler);
 
                 tbC = new TabControl();
+                tbC.Name = "TabControl";
+                
+
+
+                DataTrigger dt = new DataTrigger();
+                dt.Value = 1;
+
+                Binding dataBinding = new Binding("Items.Count");
+                dataBinding.RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor, typeof(TabControl), 1);
+                dt.Binding = dataBinding;
+
+                Setter sett = new Setter();
+                sett.Property = VisibilityProperty;
+                sett.Value = Visibility.Collapsed;
+                dt.Setters.Add(sett);
+
+                Style stu = new Style();
+                stu.TargetType = typeof(TabItem);
+                stu.Triggers.Add(dt);
+
+                tbC.ItemContainerStyle = stu;
+
+
                 myGrid.Children.Remove(MyScrollViewer);
+
                 myGrid.Children.Add(tbC);
                 TabItem tbI = new TabItem();
-                tbI.Header = "Main";
+                tbI.Header = bcv.Model.PluginType.Name;
                 tbI.Content = MyScrollViewer;
+
                 tbC.Items.Add(tbI);
+
+                myConnectorName = "None, I'm the master!"; 
+
+            }
+
+            else 
+            {
+                MyScrollViewer.Margin = new Thickness(-5, -5, -5, -5);
+                
             }
 
             drawList(this.entgrou);
@@ -93,36 +125,29 @@ namespace WorkspaceManager.View.BinVisual
         private void CollectionChangedHandler(Object sender, NotifyCollectionChangedEventArgs args)
         {
             //Console.WriteLine(args.Action);
+            
             for (int i = 0; i < args.NewItems.Count;i++ )
             {
                 IControlMasterElement icm = args.NewItems[i] as IControlMasterElement;
-                icm.PluginModelChanged += new EventHandler(icm_PluginModelChanged);    
-            }
-            
-            
+                icm.PluginModelChanged += new EventHandler(icm_PluginModelChanged);
+                
+            }    
         }
-
-        
 
         void icm_PluginModelChanged(object sender, EventArgs e)
         {
             IControlMasterElement master = (IControlMasterElement)sender;
             if (master.PluginModel != null)
             {
-              //  Console.WriteLine(master.PluginModel.GetName());
+                //  Console.WriteLine(master.PluginModel.GetName());
                 Boolean b = true;
                 foreach (TabItem vtbI in tbC.Items)
                 {
-                    Console.WriteLine(master.ConnectorModel.PropertyName);
-                    string headerString = vtbI.Header.ToString();
-
-                    char[] commaSeparator = new char[] { ',' };
-
-                    string[] authors = headerString.Split(commaSeparator, StringSplitOptions.None);
-                    if (authors[0] == master.ConnectorModel.PropertyName) 
+                    if (vtbI.Uid == master.ConnectorModel.PropertyName)
                     {
+
                         vtbI.Content = new BinSettingsVisual(master.PluginModel.Plugin, bcv, false);
-                        vtbI.Header = master.ConnectorModel.PropertyName + "," + master.PluginModel.GetName();
+                        vtbI.Header = master.PluginModel.GetName();
                         b = false;
                     }
                 }
@@ -130,11 +155,24 @@ namespace WorkspaceManager.View.BinVisual
                 if (b)
                 {
                     TabItem tbI = new TabItem();
-
+                    tbI.Uid = master.ConnectorModel.PropertyName;
                     tbI.Content = new BinSettingsVisual(master.PluginModel.Plugin, bcv, false);
-                    tbI.Header = master.ConnectorModel.PropertyName + "," + master.PluginModel.GetName();
+                    tbI.Header = master.PluginModel.GetName();
                     tbC.Items.Add(tbI);
                 }
+            }
+            else 
+            {
+                TabItem tbI = null;
+                foreach (TabItem vtbI in tbC.Items)
+                {
+                    if (vtbI.Uid == master.ConnectorModel.PropertyName)
+                    {
+                        tbI = vtbI;
+                    }
+                }
+                if(tbI!=null)
+                tbC.Items.Remove(tbI);
             }
         }
 
@@ -549,15 +587,15 @@ namespace WorkspaceManager.View.BinVisual
                 dataBinding.Mode = BindingMode.TwoWay;
                 dataBinding.Source = plugin.Settings;
                 
-                try
-                {
+               // try
+                //{
                     switch (tpa.ControlType)
                     {
                         #region TextBox
                         case ControlType.TextBox:
 
                             TextBox textbox = new TextBox();
-                            textbox.MinWidth = 20;
+                            textbox.MinWidth = 180;
                             textbox.Tag = tpa.ToolTip;
                             textbox.MouseEnter += Control_MouseEnter;
 
@@ -657,46 +695,44 @@ namespace WorkspaceManager.View.BinVisual
                         # region RadioButton
                         
                         case ControlType.RadioButton:
-                            try
+                     
+                            if (!dicRadioButtons.ContainsKey(plugin.Settings))
                             {
-                                dataBinding = new Binding("IsChecked");
-                                //bInfo.Settings.PropertyChanged += RadioButton_PropertyChanged;
-                                if (!dicRadioButtons.ContainsKey(plugin.Settings))
-                                {
-                                    dicRadioButtons.Add(plugin.Settings, new Dictionary<string, List<RadioButton>>());
-                                }
-                                List<RadioButton> list = new List<RadioButton>();
-                                StackPanel panelRadioButtons = new StackPanel();
-                                panelRadioButtons.ToolTip = tpa.ToolTip;
-                                panelRadioButtons.MouseEnter += Control_MouseEnter;
-                                panelRadioButtons.Margin = CONTROL_DEFAULT_MARGIN;
+                                dicRadioButtons.Add(plugin.Settings, new Dictionary<string, List<RadioButton>>());
+                            }
+                            List<RadioButton> list = new List<RadioButton>();
+                            StackPanel panelRadioButtons = new StackPanel();
+                            panelRadioButtons.ToolTip = tpa.ToolTip;
+                            panelRadioButtons.MouseEnter += Control_MouseEnter;
+                            panelRadioButtons.Margin = CONTROL_DEFAULT_MARGIN;
 
-                                int selectedRadioButton = (int)plugin.Settings.GetType().GetProperty(tpa.PropertyName).GetValue(plugin.Settings, null);
-                                string groupNameExtension = Guid.NewGuid().ToString();
-                                foreach (string stringValue in tpa.ControlValues)
+                            string groupNameExtension = Guid.NewGuid().ToString();
+                            
+                            for (int i = 0; i < tpa.ControlValues.Length; i++)
                                 {
                                     RadioButton radio = new RadioButton();
+                                    radio.IsChecked = false;
+                                    
+                                    string stringValue = tpa.ControlValues[i];
+
+                                    Binding dataBinding1 = new Binding(plugin.Settings.GetType().GetProperty(tpa.PropertyName).Name);
+                                    dataBinding1.Converter = new RadioBoolToIntConverter();
+                                    dataBinding1.Mode = BindingMode.TwoWay;
+                                    dataBinding1.Source = plugin.Settings;
+                                    dataBinding1.ConverterParameter = (int)i;
+
                                     radio.GroupName = tpa.PropertyName + groupNameExtension;
                                     radio.Content = stringValue;
-                                    if (panelRadioButtons.Children.Count == selectedRadioButton)
-                                    {
-                                        radio.IsChecked = true;
-                                    }
-
-                                    radio.Tag = new RadioButtonListAndBindingInfo(list, plugin,tpa);
-                                    radio.Checked += RadioButton_Checked;
-                                  //radio.SetBinding(RadioButton.IsCheckedProperty, dataBinding);
+                                    
+                                    radio.Tag = new RadioButtonListAndBindingInfo(list, plugin, tpa);
+                                    
+                                    radio.SetBinding(RadioButton.IsCheckedProperty, dataBinding1);
                                     panelRadioButtons.Children.Add(radio);
                                     list.Add(radio);
                                 }
                                 dicRadioButtons[plugin.Settings].Add(tpa.PropertyName, list);
-                                entgrou.AddNewEntry(tpa.GroupName,new ControlEntry(panelRadioButtons, tpa, sfa));
-                             //   bInfo.CaptionGUIElement = panelRadioButtons;
-                            }
-                            catch (Exception ex)
-                            {
-                                GuiLogMessage(ex.Message, NotificationLevel.Error);
-                            }
+                                entgrou.AddNewEntry(tpa.GroupName, new ControlEntry(panelRadioButtons, tpa, sfa));
+                           
                             break;
                             
                         #endregion RadioButton
@@ -749,12 +785,15 @@ namespace WorkspaceManager.View.BinVisual
                             fileTextBox.TextChanged += fileDialogTextBox_TextChanged;
                             fileTextBox.SetBinding(TextBox.TextProperty, dataBinding);
                             fileTextBox.SetBinding(TextBox.ToolTipProperty, dataBinding);
-
+                            fileTextBox.MinWidth = 180;
+                            fileTextBox.MaxWidth = 200;
                             fileTextBox.Tag = tpa;
                             fileTextBox.MouseEnter += fileTextBox_MouseEnter;
                             sp.Children.Add(fileTextBox);
 
                             Button btn = new Button();
+                            btn.MinWidth = 180;
+                            btn.MaxWidth = 200;
                             btn.Tag = fileTextBox;
                             if (tpa.ControlType == ControlType.SaveFileDialog)
                                 //btn.Content = Properties.Resources.Save_file;
@@ -800,6 +839,7 @@ namespace WorkspaceManager.View.BinVisual
                         # region TextBoxReadOnly
                         case ControlType.TextBoxReadOnly:
                             TextBox textBoxReadOnly = new TextBox();
+                            textBoxReadOnly.MinWidth = 180;
                             textBoxReadOnly.IsReadOnly = true;
                             textBoxReadOnly.BorderThickness = new Thickness(0);
                             textBoxReadOnly.Background = Brushes.Transparent;
@@ -809,29 +849,44 @@ namespace WorkspaceManager.View.BinVisual
                             entgrou.AddNewEntry(tpa.GroupName, new ControlEntry(textBoxReadOnly, tpa, sfa));
                             break;
                         # endregion TextBoxReadOnly
+                
+                        #region TextBoxHidden
+                            case ControlType.TextBoxHidden:
+                            PasswordBox passwordBox = new PasswordBox();
 
+                            passwordBox.MinWidth = 180; 
+                            passwordBox.Tag = tpa;
+                            passwordBox.MouseEnter += Control_MouseEnter;
+                            passwordBox.Password = plugin.Settings.GetType().GetProperty(tpa.PropertyName).GetValue(plugin.Settings, null) as string;
+                            //textBoxReadOnly.SetBinding(PasswordBox.property , dataBinding);
+                            passwordBox.PasswordChanged += TextBoxHidden_Changed;
+                            entgrou.AddNewEntry(tpa.GroupName, new ControlEntry(passwordBox, tpa, sfa));
+                        break;
+                        #endregion TextBoxHidden
+              
                     }
 
                      
-                }
+             //   }
 
-                catch (Exception) { }
+           //     catch (Exception) { }
             }
+            entgrou.sort();
             return entgrou;
 
         }
 
-        private void RadioButton_Checked(object sender, RoutedEventArgs e)
+         private void TextBoxHidden_Changed(object sender, RoutedEventArgs e)
         {
             try
             {
-                if (sender is RadioButton)
+                PasswordBox pwBox = sender as PasswordBox;
+                if (pwBox != null)
                 {
-                    RadioButton radio = sender as RadioButton;
-                    if (radio.Tag is RadioButtonListAndBindingInfo)
+                    TaskPaneAttribute tpa = pwBox.Tag as TaskPaneAttribute;
+                    if (tpa != null)
                     {
-                        RadioButtonListAndBindingInfo rbl = radio.Tag as RadioButtonListAndBindingInfo;
-                        rbl.plugin.Settings.GetType().GetProperty(rbl.tpa.PropertyName).SetValue(rbl.plugin.Settings, rbl.List.IndexOf(radio), null);
+                        plugin.Settings.GetType().GetProperty(tpa.PropertyName).SetValue(plugin.Settings, pwBox.Password, null);
                     }
                 }
             }
@@ -960,10 +1015,11 @@ namespace WorkspaceManager.View.BinVisual
         public List<String> listAdmin = new List<String>();
         public List<List<ControlEntry>> entryList = new List<List<ControlEntry>>();
         public List<Expander> gorupPanel = new List<Expander>();
-        
-        
-        public void AddNewEntry(String groupname , ControlEntry entry)
+
+
+        public void AddNewEntry(String groupname, ControlEntry entry)
         {
+
             if (string.IsNullOrEmpty(groupname))
             { groupname = null; }
 
@@ -971,16 +1027,26 @@ namespace WorkspaceManager.View.BinVisual
             {
                 listAdmin.IndexOf(groupname);
                 entryList[listAdmin.IndexOf(groupname)].Add(entry);
+
             }
-            else 
+            else
             {
                 List<ControlEntry> dummyList = new List<ControlEntry>();
                 dummyList.Add(entry);
                 listAdmin.Add(groupname);
                 entryList.Add(dummyList);
             }
-
         }
+       public void sort()
+        {
+            foreach(List<ControlEntry> dummyList in entryList)
+            dummyList.Sort(new BindingInfoComparer());
+        }
+
+
+        
+        
+
 
     }
 
@@ -1319,6 +1385,86 @@ namespace WorkspaceManager.View.BinVisual
             
         }
     }
+
+
+
+    public class BindingInfoComparer : IComparer<ControlEntry>
+    {
+        public int Compare(ControlEntry x, ControlEntry y)
+        {
+            if (x.tpa.Order != y.tpa.Order)
+                return x.tpa.Order.CompareTo(y.tpa.Order);
+            else
+                return x.tpa.Caption.CompareTo(y.tpa.Caption);
+        }
+    }
+
+
+    public class RadioBoolToIntConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            
+            int integer = (int)value;
+            if (integer == int.Parse(parameter.ToString()))
+                return true;
+           else
+                return false;
+            
+           
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            Boolean checkedBool = (Boolean)value;
+            if (checkedBool)
+            {
+                if(targetType.Name != "Int32")
+                {
+                    String[] targetlist = targetType.GetEnumNames();
+                    return Enum.Parse(targetType, targetlist[(int)parameter]);
+                }
+                else
+                {
+                    return parameter;
+                }
+                
+            }
+            else 
+            {
+                return null;
+            }
+        }
+    }
+
+    public class EnumBooleanConverter : IValueConverter
+    {
+        #region IValueConverter Members
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            string parameterString = parameter as string;
+            if (parameterString == null)
+                return DependencyProperty.UnsetValue;
+
+            if (Enum.IsDefined(value.GetType(), value) == false)
+                return DependencyProperty.UnsetValue;
+
+            object parameterValue = Enum.Parse(value.GetType(), parameterString);
+
+            return parameterValue.Equals(value);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            string parameterString = parameter as string;
+            if (parameterString == null)
+                return DependencyProperty.UnsetValue;
+
+            return Enum.Parse(targetType, parameterString);
+        }
+        #endregion
+    }
+
 
 }
 
