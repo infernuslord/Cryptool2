@@ -150,7 +150,7 @@
 
     </UserControl.Resources>
 
-    <Grid Name="myGrid">
+    <Grid Name="myGrid" Margin="0" >
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
