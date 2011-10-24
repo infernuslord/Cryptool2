@@ -49,6 +49,7 @@
   <ItemGroup>
     <Reference Include="log4net">
       <HintPath>..\..\LibDev\log4net.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
