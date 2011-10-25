@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="500" d:DesignWidth="300"
-             xmlns:p="clr-namespace:Cryptool.P2P;assembly=CrypP2P">
+             xmlns:p="clr-namespace:Cryptool.P2P;assembly=CrypNetwork">
     <UserControl.Triggers>
         <EventTrigger RoutedEvent="Canvas.Loaded">
             <BeginStoryboard>
@@ -53,7 +53,7 @@
                 <MaterialGroup x:Key="shinyred">
                     <DiffuseMaterial>
                         <DiffuseMaterial.Brush>
-                            <ImageBrush ImageSource="/CrypP2P;component/images/earth.jpg" />
+                            <ImageBrush ImageSource="/CrypNetwork;component/images/earth.jpg" />
                         </DiffuseMaterial.Brush>
                     </DiffuseMaterial>
                     <SpecularMaterial Brush="white" SpecularPower="4" />

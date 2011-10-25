@@ -17,7 +17,7 @@
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("CrypTool CrypP2P")]
+[assembly: AssemblyTitle("CrypTool CrypNetwork")]
 [assembly: AssemblyCompany("Lehrstuhl Verteilte Systeme - Universität Duisburg-Essen")]
 [assembly: AssemblyProduct("CrypTool CrypP2P")]
 [assembly: AssemblyCopyright("Copyright © Sven Rech 2011")]

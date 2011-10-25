@@ -17,7 +17,7 @@
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("CrypTool CrypP2P DLL")]
+[assembly: AssemblyTitle("CrypTool CrypNetworkImplementation")]
 [assembly: AssemblyCompany("Lehrstuhl Verteilte Systeme - Universität Duisburg-Essen")]
 [assembly: AssemblyProduct("CrypTool CrypP2P")]
 [assembly: AssemblyCopyright("Copyright © Paul Lelgemann 2010")]
