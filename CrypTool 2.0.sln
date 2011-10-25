@@ -162,8 +162,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CubeAttackController", "Cry
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MD5Collider", "CrypPlugins\MD5Collider\MD5Collider.csproj", "{F5DDFE63-0904-4523-AA30-11FF5E91C362}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrypP2P", "CrypP2P\CrypP2P.csproj", "{7D3E4C88-7EA8-45EA-AC1E-FC8ED8EDDB7A}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CrypPlugins", "CrypPlugins", "{88B851F6-9E3D-484F-A317-ECED5B98C618}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VigenereAnalyser", "CrypPlugins\VigenereAnalyser\VigenereAnalyser.csproj", "{1696C227-2A99-4A14-AE81-6A8438D42D06}"
@@ -254,8 +252,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PasswordStrength", "CrypPlu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Numbers", "CrypPlugins\Numbers\Numbers.csproj", "{40252D29-01C9-4F1A-9735-072B349AD165}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrypP2PDLL", "CrypP2PDLL\CrypP2PDLL.csproj", "{CC36FB66-E2AE-4D75-A4F6-907DD10F83D8}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CrypPluginsExperimental", "CrypPluginsExperimental", "{97840ABA-BC56-482F-8EAA-11B7A6744EC1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComputeAnnihilators", "CrypPluginsExperimental\ComputeAnnihilators\ComputeAnnihilators.csproj", "{1B3B9C31-AC2D-4721-9A0E-8687A43D244F}"
@@ -279,6 +275,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpPcap", "LibSource\SharpPcap\SharpPcap.csproj", "{24262E52-1304-4A25-8F73-A3B06E40592E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PacketDotNet", "LibSource\PacketDotNet\PacketDotNet.csproj", "{55ABBA4C-AAF9-4726-A592-0C92436CEC92}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrypNetwork", "CrypNetwork\CrypNetwork.csproj", "{7D3E4C88-7EA8-45EA-AC1E-FC8ED8EDDB7A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrypNetworkImplementation", "CrypNetworkImplementation\CrypNetworkImplementation.csproj", "{CC36FB66-E2AE-4D75-A4F6-907DD10F83D8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -598,10 +598,6 @@ Global
 		{F5DDFE63-0904-4523-AA30-11FF5E91C362}.Debug|x86.Build.0 = Debug|x86
 		{F5DDFE63-0904-4523-AA30-11FF5E91C362}.Release|x86.ActiveCfg = Release|x86
 		{F5DDFE63-0904-4523-AA30-11FF5E91C362}.Release|x86.Build.0 = Release|x86
-		{7D3E4C88-7EA8-45EA-AC1E-FC8ED8EDDB7A}.Debug|x86.ActiveCfg = Debug|x86
-		{7D3E4C88-7EA8-45EA-AC1E-FC8ED8EDDB7A}.Debug|x86.Build.0 = Debug|x86
-		{7D3E4C88-7EA8-45EA-AC1E-FC8ED8EDDB7A}.Release|x86.ActiveCfg = Release|x86
-		{7D3E4C88-7EA8-45EA-AC1E-FC8ED8EDDB7A}.Release|x86.Build.0 = Release|x86
 		{1696C227-2A99-4A14-AE81-6A8438D42D06}.Debug|x86.ActiveCfg = Debug|x86
 		{1696C227-2A99-4A14-AE81-6A8438D42D06}.Debug|x86.Build.0 = Debug|x86
 		{1696C227-2A99-4A14-AE81-6A8438D42D06}.Release|x86.ActiveCfg = Release|x86
@@ -774,10 +770,6 @@ Global
 		{40252D29-01C9-4F1A-9735-072B349AD165}.Debug|x86.Build.0 = Debug|x86
 		{40252D29-01C9-4F1A-9735-072B349AD165}.Release|x86.ActiveCfg = Release|x86
 		{40252D29-01C9-4F1A-9735-072B349AD165}.Release|x86.Build.0 = Release|x86
-		{CC36FB66-E2AE-4D75-A4F6-907DD10F83D8}.Debug|x86.ActiveCfg = Debug|x86
-		{CC36FB66-E2AE-4D75-A4F6-907DD10F83D8}.Debug|x86.Build.0 = Debug|x86
-		{CC36FB66-E2AE-4D75-A4F6-907DD10F83D8}.Release|x86.ActiveCfg = Release|x86
-		{CC36FB66-E2AE-4D75-A4F6-907DD10F83D8}.Release|x86.Build.0 = Release|x86
 		{1B3B9C31-AC2D-4721-9A0E-8687A43D244F}.Debug|x86.ActiveCfg = Debug|x86
 		{1B3B9C31-AC2D-4721-9A0E-8687A43D244F}.Debug|x86.Build.0 = Debug|x86
 		{1B3B9C31-AC2D-4721-9A0E-8687A43D244F}.Release|x86.ActiveCfg = Release|x86
@@ -822,6 +814,14 @@ Global
 		{55ABBA4C-AAF9-4726-A592-0C92436CEC92}.Debug|x86.Build.0 = Debug|x86
 		{55ABBA4C-AAF9-4726-A592-0C92436CEC92}.Release|x86.ActiveCfg = Release|x86
 		{55ABBA4C-AAF9-4726-A592-0C92436CEC92}.Release|x86.Build.0 = Release|x86
+		{7D3E4C88-7EA8-45EA-AC1E-FC8ED8EDDB7A}.Debug|x86.ActiveCfg = Debug|x86
+		{7D3E4C88-7EA8-45EA-AC1E-FC8ED8EDDB7A}.Debug|x86.Build.0 = Debug|x86
+		{7D3E4C88-7EA8-45EA-AC1E-FC8ED8EDDB7A}.Release|x86.ActiveCfg = Release|x86
+		{7D3E4C88-7EA8-45EA-AC1E-FC8ED8EDDB7A}.Release|x86.Build.0 = Release|x86
+		{CC36FB66-E2AE-4D75-A4F6-907DD10F83D8}.Debug|x86.ActiveCfg = Debug|x86
+		{CC36FB66-E2AE-4D75-A4F6-907DD10F83D8}.Debug|x86.Build.0 = Debug|x86
+		{CC36FB66-E2AE-4D75-A4F6-907DD10F83D8}.Release|x86.ActiveCfg = Release|x86
+		{CC36FB66-E2AE-4D75-A4F6-907DD10F83D8}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

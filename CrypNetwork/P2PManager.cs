@@ -122,12 +122,12 @@ namespace Cryptool.P2P
 
             try
             {
-                var assembly = Assembly.LoadFrom(Path.Combine(DirectoryHelper.BaseDirectory, "CrypP2PDLL.dll"));
+                var assembly = Assembly.LoadFrom(Path.Combine(DirectoryHelper.BaseDirectory, "CrypNetworkImplementation.dll"));
                 DLLP2PManagerType = assembly.GetType("Cryptool.P2PDLL.P2PManager");
                 DLLP2PBaseType = assembly.GetType("Cryptool.P2PDLL.Internal.P2PBase");
                 DLLP2PManagerType.GetEvent("OnGuiLogNotificationOccured").AddEventHandler(null, OnGuiLogNotificationOccured);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 IsP2PSupported = false;
             }

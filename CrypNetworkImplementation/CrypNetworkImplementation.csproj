@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Cryptool.P2PDLL</RootNamespace>
-    <AssemblyName>CrypP2PDLL</AssemblyName>
+    <AssemblyName>CrypNetworkImplementation</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>
@@ -84,7 +84,7 @@
     </Reference>
     <Reference Include="log4net">
       <HintPath>..\LibP2P\log4net.dll</HintPath>
-      <Private>false</Private>
+      <Private>False</Private>
     </Reference>
     <Reference Include="PeersAtPlayBase">
       <HintPath>..\LibP2P\peersatplaybase.dll</HintPath>
@@ -156,9 +156,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CrypP2P\CrypP2P.csproj">
+    <ProjectReference Include="..\CrypNetwork\CrypNetwork.csproj">
       <Project>{7D3E4C88-7EA8-45EA-AC1E-FC8ED8EDDB7A}</Project>
-      <Name>CrypP2P</Name>
+      <Name>CrypNetwork</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\CrypPluginBase\CrypPluginBase.csproj">
       <Project>{25DB2B47-A457-4EC2-960B-395CE07AE093}</Project>
