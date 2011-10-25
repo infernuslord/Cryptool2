@@ -35,7 +35,12 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
 
             if (theObject is XElement)
             {
-                return ConvertXElement((XElement)theObject, componentDocumentationPage);
+                var elementString = ConvertXElement((XElement)theObject, componentDocumentationPage);
+                if (string.IsNullOrWhiteSpace(elementString))
+                {
+                    return Convert(null, componentDocumentationPage);
+                }
+                return elementString;
             }
             if (theObject is BitmapFrame)
             {
