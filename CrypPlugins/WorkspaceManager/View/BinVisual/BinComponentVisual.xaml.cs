@@ -455,7 +455,7 @@ namespace WorkspaceManager.View.BinVisual
             Presentations.Add(BinComponentState.Data, new BinDataVisual(ConnectorCollection));
             Presentations.Add(BinComponentState.Log, new BinLogVisual(this));
             Presentations.Add(BinComponentState.Setting, new BinSettingsVisual(Model.Plugin, this,true));
-            LastState = HasComponentPresentation ? BinComponentState.Presentation : BinComponentState.Log;
+            LastState = HasComponentPresentation ? BinComponentState.Presentation : BinComponentState.Setting;
             InitializeComponent();
         }
         #endregion
