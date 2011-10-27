@@ -408,6 +408,21 @@ namespace CrypUpdater
                 {
                     m.Show();
 
+                    // flomar, 10/27/2011: check whether we have a "ZIPSETUPINSTALLEDFILES.TXT"
+                    // in our CrypToolFolderPath-- if so, read in all listed files and delete them
+                    string fileInstalledFiles = CryptoolFolderPath + "\\" + "ZIPSETUPINSTALLEDFILES.TXT";
+                    if (File.Exists(fileInstalledFiles))
+                    {
+                        StreamReader reader = File.OpenText(fileInstalledFiles);
+                        string file = null;
+                        while ((file = reader.ReadLine()) != null)
+                        {
+                            File.Delete(CryptoolFolderPath + "\\" + file);
+                        }
+                        reader.Close();
+                    }
+                    
+                    // flomar, 10/27/2011: now extract the archive as usual
                     foreach (ZipEntry e in zip)
                     {
                         e.Extract(CryptoolFolderPath, ExtractExistingFileAction.OverwriteSilently);
