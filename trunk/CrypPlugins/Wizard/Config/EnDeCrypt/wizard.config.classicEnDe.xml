@@ -314,7 +314,7 @@ Die erste Enigma wurde von dem deutschen Ingenieur Arthur Scherbius am Ende des 
     <task lang="en">Here, you can input the message and the key to use.</task>
     <task lang="de">Hier können Sie die Nachricht und den zu benutzenden Schlüssel eingeben.</task>
 
-    <comboBox plugin="ADFGVX" property="Action" alignment="Left" width="20%">
+    <comboBox plugin="ADFGVX Encrypt" property="Action" alignment="Left" width="20%">
       <description lang="en">Encrypt or Decrypt:</description>
       <description lang="de">Verschlüsseln oder Entschlüsseln:</description>
       <item lang="en" content="Encrypt"/>
@@ -326,21 +326,22 @@ Die erste Enigma wurde von dem deutschen Ingenieur Arthur Scherbius am Ende des 
     <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5">
       <description lang="en">Message to encrypt/decrypt:</description>
       <description lang="de">Nachricht zum Verschlüsseln/Entschlüsseln:</description>
-      <defaultvalue>ABCDCVX</defaultvalue>
+      <defaultvalue>SPIEL</defaultvalue>
     </inputBox>
 
-    <inputBox plugin="Alphabet" property="Text" alignment="Stretch" visibleLines="1">
-      <description lang="en">Alphabet:</description>
-      <defaultvalue>abcdefghijklmnopqrstuvwxyz0123456789</defaultvalue>
+    <inputBox plugin="ADFGVX Encrypt" property="SubstitutionPass" alignment="Stretch" visibleLines="1" group="settings">
+      <description lang="en">Substitution Password:</description>
+	  <description lang="de">Substitutionskennwort:</description>
+      <defaultvalue>BAUM</defaultvalue>
     </inputBox>
 
-    <inputBox plugin="TranspositionPassword" property="Text" alignment="Stretch" visibleLines="1">
+    <inputBox plugin="ADFGVX Encrypt" property="TranspositionPass" alignment="Stretch" visibleLines="1" group="settings">
       <description lang="en">Transposition Password:</description>
-      <description lang="de">Transpositionspasswort:</description>
-      <defaultvalue>TranspositionPassword</defaultvalue>
+      <description lang="de">Transpositionskennwort:</description>
+      <defaultvalue>HAUS</defaultvalue>
     </inputBox>
 
-    <sampleViewer image="ADFGVX" file="Cryptography\Classic\XOR.cwm">
+    <sampleViewer image="ADFGVX" file="Cryptography\Classic\ADFGVX.cwm">
       <name lang="en" >ADFGVX Output</name>
       <name lang="de" >ADFGVX-Ausgabe</name>
       <description lang="en" >The ADFGVX cipher was a field cipher used by the German Army during World War I. It was a fractionating transposition cipher which combined a modified Polybius square with a single columnar transposition. The cipher is named after the six possible letters used in the ciphertext: A, D, F, G, V and X.</description>
@@ -356,7 +357,7 @@ Die erste Enigma wurde von dem deutschen Ingenieur Arthur Scherbius am Ende des 
         <description lang="de">Nachricht zum Verschlüsseln/Entschlüsseln:</description>
       </inputBox>
 
-      <outputBox plugin="Result" property="CurrentValue" alignment="Stretch" visibleLines="5">
+      <outputBox plugin="Ciphertext" property="CurrentValue" alignment="Stretch" visibleLines="5">
         <description lang="en">ADFGVX Output:</description>
         <description lang="de">ADFGVX-Ausgabe:</description>
       </outputBox>

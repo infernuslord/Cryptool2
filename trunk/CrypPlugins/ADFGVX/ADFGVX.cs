@@ -1,5 +1,5 @@
 ﻿/*
-   Copyright 2008 Sebastian Przybylski, University of Siegen
+   Copyright 2011 CrypTool 2 Team <ct2contact@cryptool.org>
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using Cryptool.PluginBase;
@@ -27,20 +28,16 @@ using System.ComponentModel;
 
 namespace Cryptool.ADFGVX
 {
-    [Author("Sebastian Przybylski","sebastian@przybylski.org","Uni-Siegen","http://www.uni-siegen.de")]
+    [Author("Matthäus Wander","wander@cryptool.org","Uni Duisburg-Essen","http://www.vs.uni-due.de")]
     [PluginInfo("Cryptool.ADFGVX.Properties.Resources", false, "PluginCaption", "PluginTooltip", "ADFGVX/DetailedDescription/doc.xml", "ADFGVX/Images/icon.png", "ADFGVX/Images/encrypt.png", "ADFGVX/Images/decrypt.png")]
     [ComponentCategory(ComponentCategory.CiphersClassic)]
     public class ADFGVX : ICrypComponent
     {
-        #region Private variables
+        #region Variables, properties and constructor
 
         private ADFGVXSettings settings;
-        private string inputString;
-        private string outputString;
-        
-        #endregion
-
-        #region Public interface
+        private Dictionary<char, string> plainCharToCipherBigram; // 'X' -> "FV"
+        private Dictionary<string, char> cipherBigramToPlainChar; // "FV" -> 'X'
 
         /// <summary>
         /// Constructor
@@ -48,7 +45,6 @@ namespace Cryptool.ADFGVX
         public ADFGVX()
         {
             this.settings = new ADFGVXSettings();
-            ((ADFGVXSettings)(this.settings)).LogMessage += ADFGVX_LogMessage;
         }
 
         /// <summary>
@@ -56,455 +52,144 @@ namespace Cryptool.ADFGVX
         /// </summary>
         public ISettings Settings
         {
-            get { return (ISettings)this.settings; }
+            get { return this.settings; }
             set { this.settings = (ADFGVXSettings)value; }
         }
 
-        [PropertyInfo(Direction.OutputData, "OutputDataCaption", "OutputDataTooltip", "", false, false, QuickWatchFormat.Text, null)]
-        public ICryptoolStream OutputData
-        {
-            get
-            {
-                if (outputString != null)
-                {
-                    return new CStreamWriter(Encoding.UTF8.GetBytes(outputString));
-                }
-                else
-                {
-                    return null;
-                }
-            }
-            set { }
-        }
-
-        [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", "", true, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputAlphabetCaption", "InputStringTooltip", "", true, false, QuickWatchFormat.Text, null)]
         public string InputString
         {
-            get { return this.inputString; }
-            set
-            {
-                if (value != inputString)
-                {
-                    this.inputString = value;
-                    OnPropertyChanged("InputString");
-                }
-            }
+            get;
+            set;
         }
 
         [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", "", false, false, QuickWatchFormat.Text, null)]
         public string OutputString
         {
-            get { return this.outputString; }
-            set
-            {
-                outputString = value;
-                OnPropertyChanged("OutputString");
-            }
-        }
-
-        [PropertyInfo(Direction.InputData, "InputAlphabetCaption", "InputAlphabetTooltip", "", false, false, QuickWatchFormat.Text, null)]
-        public string InputAlphabet
-        {
-            get { return ((ADFGVXSettings)this.settings).SubstitutionMatrix; }
-            set
-            {
-                if (value != null && value != settings.SubstitutionMatrix)
-                {
-                    if (value.Length > settings.SubstitutionMatrix.Length)
-                    {
-                        value = value.Remove(settings.SubstitutionMatrix.Length);
-                        ADFGVX_LogMessage("Input alphabet too long! Reduce alphabet to " + settings.SubstitutionMatrix.Length.ToString() + " characters!", NotificationLevel.Info);
-                        ((ADFGVXSettings)this.settings).SubstitutionMatrix = value;
-                    }
-                    else if (value.Length < settings.SubstitutionMatrix.Length)
-                    {
-                        ADFGVX_LogMessage("Input alphabet too short! The alphabet must have at least " + settings.SubstitutionMatrix.Length.ToString() + " characters!", NotificationLevel.Info);
-                        ((ADFGVXSettings)this.settings).SubstitutionMatrix = value;
-                    }
-                    else
-                    {
-                        ((ADFGVXSettings)this.settings).SubstitutionMatrix = value;
-                    }
-                    OnPropertyChanged("InputAlphabet");
-                }
-            }
-        }
-
-        [PropertyInfo(Direction.InputData, "TranspositionPasswordCaption", "TranspositionPasswordTooltip", "", false, false, QuickWatchFormat.Text, null)]
-        public string TranspositionPassword
-        {
-            get { return settings.TranspositionPass; }
-            set
-            {
-                if (value != settings.TranspositionPass)
-                {
-                    settings.TranspositionPass = value;
-                }
-            }
+            get;
+            set;
         }
 
         #endregion
 
-        /// <summary>
-        /// ADFGVX encryptor
-        /// Attribute for action needed!
-        /// </summary>
-        public void Encrypt()
+        #region Implementation
+
+        private void encrypt()
         {
-            if (inputString != null)
+            if (string.IsNullOrEmpty(InputString))
+                return;
+
+            // create empty builder with enough capacity
+            StringBuilder substitute = new StringBuilder(InputString.Length*2);
+
+            // Step 1: Substititon
+            foreach(char c in InputString)
             {
-                string strInput;
-
-                //Change input string to upper or lower case
-                if (!settings.CaseSensitiveAlphabet)
-                    strInput = InputString.ToUpper();
-                else
-                    strInput = InputString.ToLower();
-
-
-                //remove or replace non alphabet char
-                switch ((ADFGVXSettings.UnknownSymbolHandlingMode)settings.UnknownSymbolHandling)
+                char upChar = char.ToUpperInvariant(c);
+                if (plainCharToCipherBigram.ContainsKey(upChar))
                 {
-                    case ADFGVXSettings.UnknownSymbolHandlingMode.Remove:
-                        strInput = removeNonAlphChar(strInput);
-                        break;
-                    case ADFGVXSettings.UnknownSymbolHandlingMode.Replace:
-                        strInput = replaceNonAlphChar(strInput);
-                        break;
-                    default:
-                        break;
+                    substitute.Append(plainCharToCipherBigram[upChar]);
                 }
-
-
-
-                string alphCipher = settings.SubstitutionMatrix;
-                StringBuilder strOutput = new StringBuilder(string.Empty);
-
-                //1. Step - Substitution
-                for (int i = 0; i < strInput.Length; i++)
-                {
-                    for (int j = 0; j < alphCipher.Length; j++)
-                    {
-                        if (alphCipher[j] == strInput[i])
-                        {
-                            int line = j / 6;
-                            int column = j % 6;
-                            String pair = string.Empty;
-                            switch (line)
-                            {
-                                case 0:
-                                    pair = "A";
-                                    break;
-                                case 1:
-                                    pair = "D";
-                                    break;
-                                case 2:
-                                    pair = "F";
-                                    break;
-                                case 3:
-                                    pair = "G";
-                                    break;
-                                case 4:
-                                    pair = "V";
-                                    break;
-                                case 5:
-                                    pair = "X";
-                                    break;
-                                default:
-                                    break;
-                            }
-                            switch (column)
-                            {
-                                case 0:
-                                    pair += "A";
-                                    break;
-                                case 1:
-                                    pair += "D";
-                                    break;
-                                case 2:
-                                    pair += "F";
-                                    break;
-                                case 3:
-                                    pair += "G";
-                                    break;
-                                case 4:
-                                    pair += "V";
-                                    break;
-                                case 5:
-                                    pair += "X";
-                                    break;
-                                default:
-                                    break;
-                            }
-                            strOutput.Append(pair[0]);
-                            strOutput.Append(pair[1]);
-                        }
-                    }
-                    //show the progress
-                    if (OnPluginProgressChanged != null)
-                    {
-                        OnPluginProgressChanged(this, new PluginProgressEventArgs(i, strInput.Length - 1));
-                    }
-                }
-                //2. Step - Transposition
-
-                int[] newOrder = getOrder(settings.CleanTranspositionPass);
-                StringBuilder strOutputData = new StringBuilder(string.Empty);
-
-                for (int i = 0; i < newOrder.Length; i++)
-                {
-                    int tempOrder = newOrder[i];
-                    for (int j = tempOrder; j < strOutput.Length; j=j+newOrder.Length)
-                    {
-                        strOutputData.Append(strOutput[j]);
-                    }
-
-                }
-                OutputString = strOutputData.ToString();
-                OnPropertyChanged("OutputString");
-                OnPropertyChanged("OutputData");
             }
+
+            ProgressChanged(50, 100);
+
+            // Step 2: Transposition
+            int[] columnOrder = settings.KeyColumnOrder;
+            StringBuilder transpOut = new StringBuilder(substitute.Length/2);
+
+            foreach(int order in columnOrder)
+            {
+                for (int j = order; j < substitute.Length; j += columnOrder.Length)
+                {
+                    transpOut.Append(substitute[j]);
+                }
+
+            }
+
+            ProgressChanged(100, 100);
+            OutputString = transpOut.ToString();
+            OnPropertyChanged("OutputString");
         }
 
-        /// <summary>
-        /// ADFGVX decryptor
-        /// Attribute for action needed!
-        /// </summary>
-        public void Decrypt()
+        private void decrypt()
         {
-            if (inputString != null)
+            if (string.IsNullOrEmpty(InputString))
+                return;
+
+            string cipherAlphabet = settings.CipherAlphabet;
+
+            // Remove whitespaces, check for invalid characters
+            StringBuilder ciphertext = new StringBuilder(InputString.Length);
+            foreach(char c in InputString)
             {
-                string strInput;
+                // ignore whitespaces silently
+                if (char.IsWhiteSpace(c))
+                    continue;
 
-                //Change input string to upper or lower case
-                if (!settings.CaseSensitiveAlphabet)
-                    strInput = inputString.ToUpper();
-                else
-                    strInput = inputString.ToLower();
-
-                //check if input string consists only cipher chars
-                if (!checkForRightCipherChar(strInput))
+                // abort if unknown character encountered
+                char upChar = char.ToUpperInvariant(c);
+                if (!cipherAlphabet.Contains(upChar))
                 {
-                    ADFGVX_LogMessage("The cipher text does not consists only of cipher characters : \'A\',\'D\',\'F\',\'G\',\'V\',\'X\' !", NotificationLevel.Error);
+                    ADFGVX_LogMessage(string.Format("Cipher text contains invalid character: {0}", c), NotificationLevel.Error);
                     return;
                 }
 
-                string alphCipher = settings.SubstitutionMatrix;
-                StringBuilder strOutput = new StringBuilder(string.Empty);
-
-                //1. Step Transposition
-                int[] order = getOrder(settings.CleanTranspositionPass);
-                char[] strOutputData = new char[strInput.Length];
-
-                int count = 0;
-                for (int i = 0; i < order.Length; i++)
-                {
-                    int tempOrder = order[i];
-                    for (int j = tempOrder; j < strInput.Length;j=j+order.Length)
-                    {
-                        strOutputData[j] = strInput[count];
-                        count++;
-                    }
-                }
-
-                for (int i = 0; i < strOutputData.Length; i++)
-                {
-                    char[] pair = new char[2];
-                    int line = 0;
-                    int column = 0;
-                    pair[0] = strOutputData[i];
-                    i++;
-                    pair[1] = strOutputData[i];
-
-                    switch (pair[0])
-                    {
-                        case 'A':
-                            line = 0;
-                            break;
-                        case 'D':
-                            line = 1;
-                            break;
-                        case 'F':
-                            line = 2;
-                            break;
-                        case 'G':
-                            line = 3;
-                            break;
-                        case 'V':
-                            line = 4;
-                            break;
-                        case 'X':
-                            line = 5;
-                            break;
-                        default:
-                            break;
-                    }
-                    switch (pair[1])
-                    {
-                        case 'A':
-                            column = 0;
-                            break;
-                        case 'D':
-                            column = 1;
-                            break;
-                        case 'F':
-                            column = 2;
-                            break;
-                        case  'G':
-                            column = 3;
-                            break;
-                        case 'V':
-                            column = 4;
-                            break;
-                        case 'X':
-                            column = 5;
-                            break;
-                        default:
-                            break;
-                    }
-                    int ch = line * 6 + column;
-                    strOutput.Append(alphCipher[ch]);
-
-                    //show the progress
-                    if (OnPluginProgressChanged != null)
-                    {
-                        OnPluginProgressChanged(this, new PluginProgressEventArgs(i, strOutputData.Length - 1));
-                    }
-                }
-                OutputString = strOutput.ToString();
-                OnPropertyChanged("OutputString");
-                OnPropertyChanged("OutputData");
+                ciphertext.Append(upChar);
             }
+
+            if (ciphertext.Length % 2 != 0)
+                ADFGVX_LogMessage("Ciphertext length is not multiple of 2", NotificationLevel.Warning);
+
+            // Step 1: Transposition
+            int[] columnOrder = settings.KeyColumnOrder;
+            char[] transpOut = new char[ciphertext.Length];
+
+            int textPointer = 0;
+            foreach (int order in columnOrder)
+            {
+                for (int j = order; j < transpOut.Length; j += columnOrder.Length)
+                {
+                    if (textPointer > ciphertext.Length)
+                    {
+                        ADFGVX_LogMessage("Incorrect decryption of transposition stage: ciphertext too short", NotificationLevel.Error);
+                        return; // abort
+                    }
+                    transpOut[j] = ciphertext[textPointer++];
+                }
+            }
+
+            ProgressChanged(50, 100);
+
+            if (textPointer < ciphertext.Length)
+                ADFGVX_LogMessage("Incorrect decryption of transposition stage: ciphertext too long", NotificationLevel.Warning);
+
+            // Step 2: Substitution
+            StringBuilder plaintext = new StringBuilder(ciphertext.Length/2);
+            for(int i = 0; (i+1) < ciphertext.Length; i += 2)
+            {
+                string cipherBigram = "" + transpOut[i] + transpOut[i+1];
+                if (!cipherBigramToPlainChar.ContainsKey(cipherBigram))
+                {
+                    ADFGVX_LogMessage(string.Format("Ciphertext bigram not found in lookup table: {0}", cipherBigram), NotificationLevel.Error);
+                    return;
+                }
+
+                plaintext.Append(cipherBigramToPlainChar[cipherBigram]);
+            }
+
+            ProgressChanged(100, 100);
+            OutputString = plaintext.ToString();
+            OnPropertyChanged("OutputString");
         }
 
-        /// <summary>
-        /// Remove all ADFGVX char and check if any non cipher char exists,
-        /// if so, do not decrypt
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        private bool checkForRightCipherChar(string value)
-        {
-            char[] trimChars = {'A','D','F','G','V','X'};
-            value = value.Trim(trimChars);
-
-            if (value.Length > 0) return false;
-            else return true;
-        }
-
-        /// <summary>
-        /// Replace all non alphabet characters
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        private string replaceNonAlphChar(string value)
-        {
-            int length = value.Length;
-            StringBuilder sb = new StringBuilder(string.Empty);
-
-            for (int i = 0; i < length; i++)
-            {
-                string curChar = value[i].ToString();
-
-                if (settings.SubstitutionMatrix.Contains(curChar))
-                {
-                    sb.Append(curChar);
-                }
-                else
-                {
-                    if (!settings.CaseSensitiveAlphabet)
-                    {
-                        if (value[i] == 'Ä')
-                            sb.Append("AE");
-                        else if (value[i] == 'Ö')
-                            sb.Append("OE");
-                        else if (value[i] == 'Ü')
-                            sb.Append("UE");
-                        else if (value[i] == 'ß')
-                            sb.Append("SS");
-                    }
-                    else
-                    {
-                        if (value[i] == 'ä')
-                            sb.Append("ae");
-                        else if (value[i] == 'ö')
-                            sb.Append("oe");
-                        else if (value[i] == 'ü')
-                            sb.Append("ue");
-                        else if (value[i] == 'ß')
-                            sb.Append("ss");
-                    }
-                }
-            }
-            return sb.ToString();
-        }
-
-        /// <summary>
-        /// Remove all non alphabet characters
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        private string removeNonAlphChar(string value)
-        {
-            int length = value.Length;
-            for (int i = 0; i < length; i++)
-            {
-                if (!settings.SubstitutionMatrix.Contains(value[i]))
-                {
-                    value = value.Remove(i, 1);
-                    i--;
-                    length--;
-                }
-            }
-            return value;
-        }
-
-        /// <summary>
-        /// Get position of the transposiotion password characters
-        /// </summary>
-        /// <param name="transPass"></param>
-        /// <returns></returns>
-        private int[] getOrder(string transPass)
-        {
-            int[] key = new int[transPass.Length];
-            for (int i = 0; i < transPass.Length; i++)
-            {
-                key[i] = settings.SubstitutionMatrix.IndexOf(transPass[i]);
-            }
-
-            int[] m_P = new int[key.Length];
-            int[] m_IP = new int[key.Length];
-
-            for (int idx1 = 0; idx1 < key.Length; idx1++)
-            {
-                m_P[idx1] = 0;
-                for (int idx2 = 0; idx2 < key.Length; idx2++)
-                {
-                    if (idx1 != idx2)
-                    {
-                        if (key[idx1] > key[idx2])
-                        {
-                            m_P[idx1]++;
-                        }
-                        else if ((key[idx1] == key[idx2]) & (idx2 < idx1))
-                        {
-                            m_P[idx1]++;
-                        }
-                    }
-                }
-            }
-            for (int idx = 0; idx < key.Length; idx++)
-            {
-                m_IP[m_P[idx]] = idx;
-            }
-            return m_IP;
-        }
+        #endregion
 
         #region IPlugin Members
 
         public void Dispose()
         {
-            }
+        }
 
         public bool HasChanges
         {
@@ -516,11 +201,11 @@ namespace Cryptool.ADFGVX
         {
             switch (settings.Action)
             {
-                case 0:
-                    Encrypt();
+                case ADFGVXSettings.ActionEnum.Encrypt:
+                    encrypt();
                     break;
-                case 1:
-                    Decrypt();
+                case ADFGVXSettings.ActionEnum.Decrypt:
+                    decrypt();
                     break;
                 default:
                     break;
@@ -529,28 +214,35 @@ namespace Cryptool.ADFGVX
 
         public void Initialize()
         {
-            
         }
-
-#pragma warning disable 67
-				public event StatusChangedEventHandler OnPluginStatusChanged;
-				public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
-				public event PluginProgressChangedEventHandler OnPluginProgressChanged;
-#pragma warning restore
 
         public void Pause()
         {
-            
         }
 
         public void PostExecution()
         {
-            Dispose();
         }
 
         public void PreExecution()
         {
-            Dispose();
+            string substMatrix = settings.SubstitutionMatrix;
+            string cipherAlphabet = settings.CipherAlphabet;
+
+            // build lookup tables for encryption/decryption depending on variant choice (ADFGX/ADFGVX)
+            plainCharToCipherBigram = new Dictionary<char, string>();
+            cipherBigramToPlainChar = new Dictionary<string, char>();
+            for (int i = 0; i < substMatrix.Length; i++)
+            {
+                char plain = substMatrix[i];
+
+                int row = i / cipherAlphabet.Length;
+                int column = i % cipherAlphabet.Length;
+
+                string cipher = "" + cipherAlphabet[row] + cipherAlphabet[column];
+                plainCharToCipherBigram[plain] = cipher;
+                cipherBigramToPlainChar[cipher] = plain;
+            }
         }
 
         public System.Windows.Controls.UserControl Presentation
@@ -560,26 +252,33 @@ namespace Cryptool.ADFGVX
 
         public void Stop()
         {
-            
         }
 
         #endregion
 
-        #region INotifyPropertyChanged Members
+        #region Event handling
 
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-
-        public void OnPropertyChanged(string name)
-        {
-            EventsHelper.PropertyChanged(PropertyChanged, this, new PropertyChangedEventArgs(name));
-        }
-
-        #endregion
+        public event StatusChangedEventHandler OnPluginStatusChanged;
+        public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
+        public event PluginProgressChangedEventHandler OnPluginProgressChanged;
+        public event PropertyChangedEventHandler PropertyChanged;
 
         private void ADFGVX_LogMessage(string msg, NotificationLevel loglevel)
         {
             EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(msg, this, loglevel));
         }
+
+        private void OnPropertyChanged(string name)
+        {
+            EventsHelper.PropertyChanged(PropertyChanged, this, new PropertyChangedEventArgs(name));
+        }
+
+        private void ProgressChanged(int curr, int max)
+        {
+            EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(curr, max));
+        }
+
+        #endregion
     }
 
    

@@ -1,5 +1,5 @@
 /*
-   Copyright 2008 Sebastian Przybylski, University of Siegen
+   Copyright 2011 CrypTool 2 Team <ct2contact@cryptool.org>
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using Cryptool.PluginBase;
@@ -30,100 +31,159 @@ namespace Cryptool.ADFGVX
     {
         #region Public ADFGVX specific interface
 
-        /// <summary>
-        /// We us this delegate to send messages from the settings class to the ADFGVX plugin
-        /// </summary>
-        /// <param name="msg"></param>
-        /// <param name="logLevel"></param>
-        public delegate void AdfgvxLogMessage(string msg, NotificationLevel logLevel);
+        private const string ALPHABET25 = "ABCDEFGHIKLMNOPQRSTUVWXYZ";
+        private const string ALPHABET36 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
-        /// <summary>
-        /// An enumaration for the different modes of dealing with unknown characters
-        /// </summary>
-        public enum UnknownSymbolHandlingMode { Remove = 0, Replace = 1 };
+        private const string CIPHER_ALPHABET5 = "ADFGX";
+        private const string CIPHER_ALPHABET6 = "ADFGVX";
 
-        /// <summary>
-        /// Fire if a new message has to be shown in the status bar
-        /// </summary>
-        public event AdfgvxLogMessage LogMessage;
-
-        public bool CaseSensitiveAlphabet
+        public string Alphabet
         {
-            get
-            {
-                if (caseSensitiveAlphabet == 0)
-                    return false;
-                else
-                    return true;
-            }
-            set { }
+            get; set;
         }
 
-        public string DefaultAlphabet
+        public string CipherAlphabet
         {
-            get { return this.lowerAlphabet; }
-            set { }
-                
+            get; set;
         }
 
         public bool HasChanges
         {
-            get { return hasChanges; }
-            set { hasChanges = value; }
+            get;
+            set;
+        }
+
+        public ADFGVXSettings()
+        {
+            updateAlphabet();
+        }
+
+        public enum ActionEnum
+        {
+            Encrypt, Decrypt
+        }
+
+        public enum CipherTypeEnum
+        {
+            ADFGX, ADFGVX
         }
 
         #endregion
 
         #region Private variables
 
-        private bool hasChanges;
-        private int selectedAction = 0;
-        private string upperAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        private string lowerAlphabet = "abcdefghijklmnopqrstuvwxyz0123456789";
-        private string substitutionMatrix = "abcdefghijklmnopqrstuvwxyz0123456789";
-        private string transPass = string.Empty;
-        private string cleanTransPass = string.Empty;
+        private ActionEnum selectedAction = ActionEnum.Encrypt;
+        private CipherTypeEnum cipherType = CipherTypeEnum.ADFGVX;
         private string substitutionPass = string.Empty;
-        private UnknownSymbolHandlingMode unknownSymbolHandling = UnknownSymbolHandlingMode.Replace;
-        private int caseSensitiveAlphabet = 1; //0=upper, 1=lower
+
+        private string transpositionPass = string.Empty;
+        private Random random = new Random();
         
         #endregion
 
         #region private methods
 
-        private string removeEqualChars(string value)
+        // with given alphabet
+        private string createRandomPassword()
         {
-            int length = value.Length;
+            StringBuilder newPassword = new StringBuilder();
+            StringBuilder remainingChars = new StringBuilder(Alphabet);
 
-            for (int i = 0; i < length; i++)
+            while(remainingChars.Length > 0)
             {
-                for (int j = i + 1; j < length; j++)
-                {
-                    if ((value[i] == value[j]) || (!CaseSensitiveAlphabet & (char.ToUpper(value[i]) == char.ToUpper(value[j]))))
-                    {
-                        value = value.Remove(j, 1);
-                        j--;
-                        length--;
-                    }
-                }
+                int pos = random.Next(remainingChars.Length);
+                newPassword.Append(remainingChars[pos]);
+                remainingChars.Remove(pos, 1);
             }
 
-            return value;
+            return newPassword.ToString();
         }
 
-        private string removeNonAlphabetChar(string value)
+        private void rebuildSubstitutionMatrix()
         {
-            int length = value.Length;
-            for (int i = 0; i < length; i++)
+            string value = this.substitutionPass.ToUpperInvariant();
+
+            StringBuilder sb = new StringBuilder();
+            HashSet<char> seen = new HashSet<char>();
+
+            foreach(char c in value)
             {
-                if (!SubstitutionMatrix.Contains(value[i]))
+                // add character to matrix if unique and part of alphabet
+                if (!seen.Contains(c) && Alphabet.Contains(c))
                 {
-                    value = value.Remove(i, 1);
-                    i--;
-                    length--;
+                    sb.Append(c);
+                    seen.Add(c);
                 }
             }
-            return value;
+
+            // fill matrix with remaining characters
+            foreach(char c in Alphabet)
+            {
+                if (!seen.Contains(c))
+                    sb.Append(c);
+            }
+
+            this.SubstitutionMatrix = sb.ToString();
+            Debug.Assert(sb.Length == Alphabet.Length, "Matrix length != Alphabet length");
+            OnPropertyChanged("SubstitutionMatrix");
+        }
+
+        private void rebuildTranspositionCleanPassword()
+        {
+            string value = this.transpositionPass.ToUpperInvariant();
+
+            // remove characters not part of alphabet
+            List<char> cleanPassword = new List<char>();
+            foreach(char c in value)
+            {
+                if (Alphabet.Contains(c))
+                    cleanPassword.Add(c);
+            }
+
+            // copy and sort characters
+            char[] keyChars = cleanPassword.ToArray();
+            Array.Sort(keyChars);
+
+            // determine column order
+            int[] newColumnOrder = new int[keyChars.Length];
+            for (int i = 0; i < keyChars.Length; i++)
+            {
+                int column = Array.IndexOf(keyChars, cleanPassword[i]);
+                newColumnOrder[i] = column;
+                keyChars[column] = (char)0; // make sure the same character won't be found again
+            }
+            this.KeyColumnOrder = newColumnOrder;
+
+            // build nice looking string for output (note: column numbers start with 0 in array, but 1 in string)
+            StringBuilder keyWord = new StringBuilder();
+            if (newColumnOrder.Length >= 1)
+            {
+                keyWord.Append((newColumnOrder[0]+1));
+                for(int i = 1; i < newColumnOrder.Length; i++)
+                {
+                    keyWord.Append("-" + (newColumnOrder[i]+1));
+                }
+            }
+            this.CleanTranspositionPass = keyWord.ToString();
+            OnPropertyChanged("CleanTranspositionPass");
+        }
+
+        private void updateAlphabet()
+        {
+            switch (cipherType)
+            {
+                case CipherTypeEnum.ADFGX:
+                    this.Alphabet = ALPHABET25;
+                    this.CipherAlphabet = CIPHER_ALPHABET5;
+                    break;
+                case CipherTypeEnum.ADFGVX:
+                default:
+                    this.Alphabet = ALPHABET36;
+                    this.CipherAlphabet = CIPHER_ALPHABET6;
+                    break;
+            }
+
+            rebuildSubstitutionMatrix();
         }
 
         #endregion
@@ -132,7 +192,7 @@ namespace Cryptool.ADFGVX
 
         [ContextMenu("ActionCaption", "ActionTooltip", 1, ContextMenuControlType.ComboBox, new int[] { 1, 2 }, "ActionList1", "ActionList2")]
         [TaskPane("ActionCaption", "ActionTooltip", null, 1, false, ControlType.ComboBox, new string[] { "ActionList1", "ActionList2" })]
-        public int Action
+        public ActionEnum Action
         {
             get
             {
@@ -140,133 +200,98 @@ namespace Cryptool.ADFGVX
             }
             set
             {
-                if (value != selectedAction) HasChanges = true;
-                this.selectedAction = value;
-                OnPropertyChanged("Action");
+                if (value != selectedAction)
+                {
+                    HasChanges = true;
+                    this.selectedAction = value;
+                }
             }
         }
 
-        [TaskPane("SubstitutionMatrixCaption", "SubstitutionMatrixTooltip", null, 2, false, ControlType.TextBox, "")]
-        public string SubstitutionMatrix
+        [TaskPane("CipherVariant", "CipherVariantTooltip", null, 2, false, ControlType.ComboBox, new string[] { "ADFGX", "ADFGVX" })]
+        public CipherTypeEnum CipherType
         {
-            get{return this.substitutionMatrix;}
+            get { return this.cipherType; }
             set
             {
-                if (value != substitutionMatrix) HasChanges = true;
-                substitutionMatrix = value;
-                LogMessage("Changing alphabet to: \"" + SubstitutionMatrix + "\" (" + SubstitutionMatrix.Length.ToString() + " Symbols)", NotificationLevel.Info);
-                OnPropertyChanged("SubstitutionMatrix");
+                if (value != cipherType)
+                {
+                    HasChanges = true;
+                    this.cipherType = value;
+
+                    updateAlphabet();
+                }
             }
         }
 
-        [TaskPane("StandardMatrixCaption", "StandardMatrixTooltip", null, 3, false, ControlType.Button, "")]
-        public void StandardMatrix()
-        {
-            if (SubstitutionMatrix != lowerAlphabet)
-            {
-                SubstitutionMatrix = lowerAlphabet;
-                TranspositionPass = string.Empty;
-                substitutionPass = string.Empty;
-                OnPropertyChanged("SubstitutionPass");
-            }
-        }
-
-        [TaskPane("RandomMatrixCaption", "RandomMatrixTooltip", null, 4, false, ControlType.Button, "")]
-        public void RandomMatrix()
-        {
-            Random rand = new Random();
-            StringBuilder sb = new StringBuilder(string.Empty);
-            string defaultAlph;
-
-            if (!CaseSensitiveAlphabet)
-                defaultAlph = upperAlphabet;
-            else
-                defaultAlph = lowerAlphabet;   
-
-            while (defaultAlph.Length != 0)
-            {
-                int pos = rand.Next(defaultAlph.Length);
-                sb.Append(defaultAlph[pos].ToString());
-                defaultAlph = defaultAlph.Remove(pos, 1);
-            }
-            SubstitutionMatrix = sb.ToString();
-            TranspositionPass = string.Empty;
-            substitutionPass = string.Empty;
-        }
-
-        [TaskPane("SubstitutionPassCaption", "SubstitutionPassTooltip", null, 5, false, ControlType.TextBox, "")]
+        [TaskPane("SubstitutionPassCaption", "SubstitutionPassTooltip", null, 3, false, ControlType.TextBox)]
         public string SubstitutionPass
         {
             get { return this.substitutionPass; }
             set
             {
-                if (value != substitutionPass) HasChanges = true;
-                substitutionPass = removeNonAlphabetChar(removeEqualChars(value));
-                SubstitutionMatrix = removeEqualChars(substitutionPass + SubstitutionMatrix);
-                OnPropertyChanged("SubstitutionPass");
+                if (value != substitutionPass)
+                {
+                    HasChanges = true;
+                    this.substitutionPass = value;
+                    rebuildSubstitutionMatrix();
+                }
             }
         }
 
-        [TaskPane("TranspositionPassCaption", "TranspositionPassTooltip", null, 6, false, ControlType.TextBox, "")]
+        [TaskPane("SubstitutionMatrixCaption", "SubstitutionMatrixTooltip", null, 4, false, ControlType.TextBoxReadOnly)]
+        public string SubstitutionMatrix
+        {
+            get;
+            set;
+        }
+
+        [TaskPane("StandardMatrixCaption", "StandardMatrixTooltip", null, 5, false, ControlType.Button)]
+        public void ResetKeyButton()
+        {
+            TranspositionPass = string.Empty;
+            SubstitutionPass = string.Empty;
+
+            OnPropertyChanged("SubstitutionPass");
+            OnPropertyChanged("TranspositionPass");
+        }
+
+        [TaskPane("RandomMatrixCaption", "RandomMatrixTooltip", null, 6, false, ControlType.Button)]
+        public void RandomKeyButton()
+        {
+            SubstitutionPass = createRandomPassword();
+            TranspositionPass = createRandomPassword();
+
+            OnPropertyChanged("SubstitutionPass");
+            OnPropertyChanged("TranspositionPass");
+        }
+
+        [TaskPane("TranspositionPassCaption", "TranspositionPassTooltip", null, 7, false, ControlType.TextBox)]
         public string TranspositionPass
         {
-            get { return this.transPass; }
+            get { return this.transpositionPass; }
             set
             {
-                if (value != transPass) HasChanges = true;
-                transPass = value;
-                CleanTranspositionPass = removeNonAlphabetChar(removeEqualChars(value));
-                OnPropertyChanged("TranspositionPass");
+                if (value != transpositionPass)
+                {
+                    HasChanges = true;
+                    this.transpositionPass = value;
+                    rebuildTranspositionCleanPassword();
+                }
             }
         }
 
-        [TaskPane("CleanTranspositionPassCaption", "CleanTranspositionPassTooltip", null, 7, false, ControlType.TextBoxReadOnly, "")]
+        // Not a user setting, but used by ADFGVX processing
+        public int[] KeyColumnOrder
+        {
+            get; set;
+        }
+
+        [TaskPane("CleanTranspositionPassCaption", "CleanTranspositionPassTooltip", null, 8, false, ControlType.TextBoxReadOnly)]
         public string CleanTranspositionPass
         {
-            get { return this.cleanTransPass; }
-            set
-            {
-                this.cleanTransPass = value;
-                OnPropertyChanged("CleanTranspositionPass");
-            }
-        }
-
-        [ContextMenu("UnknownSymbolHandlingCaption", "UnknownSymbolHandlingTooltip", 8, ContextMenuControlType.ComboBox, null, new string[] { "UnknownSymbolHandlingList1", "UnknownSymbolHandlingList2" })]
-        [TaskPane("UnknownSymbolHandlingCaption", "UnknownSymbolHandlingTooltip", null, 8, false, ControlType.ComboBox, new string[] { "UnknownSymbolHandlingList1", "UnknownSymbolHandlingList2" })]
-        public int UnknownSymbolHandling
-        {
-            get { return (int)this.unknownSymbolHandling; }
-            set
-            {
-                if ((UnknownSymbolHandlingMode)value != unknownSymbolHandling) HasChanges = true;
-                this.unknownSymbolHandling = (UnknownSymbolHandlingMode)value;
-                OnPropertyChanged("UnknownSymbolHandling");
-            }
-        }
-
-        [ContextMenu("AlphabetCaseCaption", "AlphabetCaseTooltip", 9, ContextMenuControlType.ComboBox, null, new string[] { "AlphabetCaseList1", "AlphabetCaseList2" })]
-        [TaskPane("AlphabetCaseCaption", "AlphabetCaseTooltip", null, 9, false, ControlType.ComboBox, new string[] { "AlphabetCaseList1", "AlphabetCaseList2" })]
-        public int AlphabetCase
-        {
-            get { return this.caseSensitiveAlphabet; }
-            set
-            {
-                if (value != caseSensitiveAlphabet) HasChanges = true;
-                if (value == 0)
-                {
-                    string subPass = SubstitutionPass.ToUpper();
-                    SubstitutionMatrix = upperAlphabet;
-                    SubstitutionPass = subPass;
-                }
-                else
-                {
-                    string subPass = SubstitutionPass.ToLower();
-                    SubstitutionMatrix = lowerAlphabet;
-                    SubstitutionPass = subPass;
-                }
-                this.caseSensitiveAlphabet = value;
-                OnPropertyChanged("AlphabetCase");
-            }
+            get;
+            set;
         }
 
         #endregion
@@ -275,7 +300,7 @@ namespace Cryptool.ADFGVX
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected void OnPropertyChanged(string name)
+        private void OnPropertyChanged(string name)
         {
             if (PropertyChanged != null)
             {
