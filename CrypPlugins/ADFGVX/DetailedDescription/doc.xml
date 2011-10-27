@@ -1,52 +1,41 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-
+﻿<?xml version="1.0" encoding="utf-8"?>
 <documentation>
-  <language culture="en"/>
-  <language culture="de-DE"/>
-
-  <introduction lang="en">
-    The ADFGVX encryption algorithm was developed by Fritz Nebel, and it was first employed in spring 1918 by the German army. It is an effective cascading cipher, consisting of a substitution followed by a column transposition.
-    <newline/>
+  <language culture="en" />
+  <language culture="de-DE" />
+  <introduction lang="en">The ADFGVX encryption algorithm was developed by Fritz Nebel, and it was first employed in spring 1918 by the German army. It is an effective cascading cipher, consisting of a substitution followed by a column transposition.
+    <newline />
     ADFGVX uses a key consisting of two parts: the substitution password and the transposition password.
     Based on these passwords, a substitution matrix and a transposition matrix is created.
-    <newline/>
+    <newline />
     The first encryption stage (substitution) determines the position of each plaintext letter within the matrix and replaces it by its row and column indicator, so each plaintext letter is replaced by two ciphertext letters.
     During the second encryption stage (transposition) the ciphertext generated in the first stage is further encoded by means of a column transposition.
     The security of this cipher is based on the fact that the two ciphertext letters substituting every plaintext letter are separated by the transposition, making a frequency analysis of the bigrams useless.
-  </introduction>
-
+</introduction>
   <introduction lang="de-DE">
     Das ADFGVX-Verschlüsselungsverfahren wurde von Fritz Nebel entwickelt und ab Frühjahr 1918 von der Deutschen Reichswehr eingesetzt. Das Verfahren ist eine effektive zweistufige Kaskade aus einer Substitution gefolgt von einer Spaltentransposition.
-    <newline/>
+    <newline />
     Ein ADFGVX-Schlüssel besteht aus zwei Teilen: einem Substitutionspasswort und einem Transpositionspasswort.
     Basierend auf diesen Passwörtern werden eine Substitutionsmatrix und eine Transpositionsmatrix erzeugt.
-    <newline/>
+    <newline />
     In der ersten Verschlüsselungsstufe (Substitution) wird für jeden Klartextbuchstaben seine Position in der Matrix bestimmt und durch den Zeilen- und Spaltenidentifikator ersetzt. Ein Buchstabe des Klartextes wird also durch zwei Buchstaben Ciphertext ersetzt.
     Die Sicherheit dieses Systems beruht darauf, dass jeder Buchstabe des Klartextes durch jeweils zwei Buchstaben substituiert wird, die bei der Transposition voneinander getrennt werden. Eine Bigramm-Frequenzanalyse vor Analyse der Transposition ist also sinnlos.
   </introduction>
+  <usage lang="en">Drag the ADFGVX component onto the workspace and specify a data source that represents the text to be encrypted or decrypted. This input is mandatory.
+    <newline />
+    In the component settings you can decide whether you want to encrypt or decrypt, and you can enter the substitution and transposition passwords. 
+Instead of ADFGVX you can decide to use the predecessor variant ADFGX which is the same algorithm but with a 25 letter plaintext alphabet and a 5 letter ciphertext alphabet.
 
-  <usage lang="en">
-    Drag the ADFGVX component onto the workspace and specify a data source that represents the text to be encrypted or decrypted. This input is mandatory.
-    <newline/>
-    In the component settings you can decide whether you want to encrypt or decrypt, and you can enter the substitution and transposition passwords. Furthermore you can decide how to deal with unknown symbols and how the alphabet is interpreted.
-    <newline/>
-    If you set any of the optional inputs (alphabet and/or transposition password), these settings override the default component settings.
-  </usage>
 
+</usage>
   <usage lang="de-DE">
     Ziehen Sie die ADFGVX-Komponente auf den Arbeitsbereich und geben Sie eine Datenquelle an, die die zu verschlüsselnden oder entschlüsselnden Daten repräsentiert. Die Angabe dieser Datenquelle ist erforderlich.
-    <newline/>
-    In den Einstellungen für die Komponente stellen Sie ein, ob verschlüsselt oder entschlüsselt werden soll, und Sie können Substitutions- sowie Transpositionspasswort angeben. Außerdem können Sie festlegen, wie unbekannte Symbole behandelt werden und wie das Alphabet interpretiert wird.
-    <newline/>
-    Falls Sie die optionalen Eingänge setzen (ein Alphabet und/oder ein Transpositionspasswort), dann werden die entsprechenden Standardeinstellungen der Komponente ignoriert.
+    <newline />
+    In den Einstellungen für die Komponente stellen Sie ein, ob verschlüsselt oder entschlüsselt werden soll, und Sie können Substitutions- sowie Transpositionspasswort angeben. Anstatt ADFGVX kann auch die Vorgängervariante ADFGX eingestellt werden, die denselben Algorithmus verwendet, allerdings basierend auf einem Klartextalphabet aus 25 Buchstaben (statt 36) und einem Geheimtextalphabet aus 5 Buchstaben (statt 6).
   </usage>
-  
   <presentation lang="en">
-  </presentation>
-  
+</presentation>
   <presentation lang="de-DE">
   </presentation>
-  
   <references>
   </references>
 </documentation>

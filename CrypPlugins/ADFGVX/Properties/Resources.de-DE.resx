@@ -129,68 +129,47 @@
   <data name="ActionTooltip" xml:space="preserve">
     <value>Wählen Sie die Betriebsart des Plugins.</value>
   </data>
-  <data name="AlphabetCaseCaption" xml:space="preserve">
-    <value>Groß-/Kleinschreibung</value>
+  <data name="ChipherVariantTooltip" xml:space="preserve">
+    <value>ADFGX uses a 25 letter plaintext alphabet (A-Z without J) while ADFGVX uses a 36 letter alphabet (A-Z and 0-9).</value>
   </data>
-  <data name="AlphabetCaseList1" xml:space="preserve">
-    <value>Großschreibung</value>
-  </data>
-  <data name="AlphabetCaseList2" xml:space="preserve">
-    <value>Kleinschreibung</value>
-  </data>
-  <data name="AlphabetCaseTooltip" xml:space="preserve">
-    <value>Transformiere das Alphabet und die Eingabedaten in Groß- bzw. Kleinschreibung</value>
+  <data name="CipherVariant" xml:space="preserve">
+    <value>Chiffre-Variante</value>
   </data>
   <data name="CleanTranspositionPassCaption" xml:space="preserve">
-    <value>bereinigtes Transpositions-Kennwort</value>
+    <value>Transposition Spaltenreihenfolge</value>
   </data>
   <data name="CleanTranspositionPassTooltip" xml:space="preserve">
-    <value>bereinigtes Transpositions-Kennwort, bei dem ungültige und doppelte Zeichen entfernt wurden</value>
-  </data>
-  <data name="InputAlphabetCaption" xml:space="preserve">
-    <value>Eingabe-Alphabet</value>
-  </data>
-  <data name="InputAlphabetTooltip" xml:space="preserve">
-    <value>Geben Sie die Zeichen an, aus denen das Eingabe-Alphabet für ADFGVX bestehen soll. Wenn hier nichts angegeben wird, dann wird das interne Alphabet verwendet (a-z,0-9).</value>
+    <value>Reihenfolge der Spalten in der Transpositionsstufe</value>
   </data>
   <data name="InputStringCaption" xml:space="preserve">
     <value>Eingabetext</value>
   </data>
   <data name="InputStringTooltip" xml:space="preserve">
-    <value>Geben Sie einen Text ein, der mit der ADFGVX-Chiffre ver- bzw. entschlüsselt werden soll.</value>
-  </data>
-  <data name="OutputDataCaption" xml:space="preserve">
-    <value>Ausgabedatenstrom</value>
-  </data>
-  <data name="OutputDataTooltip" xml:space="preserve">
-    <value>Der mit der ADFGVX-Chiffre ver-/entschlüsselte Text, konvertiert in einen Datenstrom</value>
+    <value>Eingabetext, der ver- bzw. entschlüsselt werden soll</value>
   </data>
   <data name="OutputStringCaption" xml:space="preserve">
     <value>Ausgabetext</value>
   </data>
   <data name="OutputStringTooltip" xml:space="preserve">
-    <value>Der mit der ADFGVX-Chiffre verschlüsselte Text</value>
+    <value>Ausgabetext nach Ver- bzw. Entschlüsselung</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
     <value>ADFGVX</value>
-  </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value>ADFGVX/DetailedDescription/Description.xaml</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
     <value>ADFGVX -- Chiffre, die im 1. Weltkrieg zum Einsatz kam, Kombination aus Substitution und Transposition</value>
   </data>
   <data name="RandomMatrixCaption" xml:space="preserve">
-    <value>Zufallsmatrix</value>
+    <value>Zufallsschlüssel</value>
   </data>
   <data name="RandomMatrixTooltip" xml:space="preserve">
-    <value>Erzeuge Zufallsmatrix</value>
+    <value>Erzeuge zufällige Substitutionsmatrix und Transpositionsschlüssel</value>
   </data>
   <data name="StandardMatrixCaption" xml:space="preserve">
-    <value>Standardmatrix</value>
+    <value>Schlüssel zurücksetzen</value>
   </data>
   <data name="StandardMatrixTooltip" xml:space="preserve">
-    <value>Erzeuge Standardmatrix</value>
+    <value>Setze Substitionsmatrix und Transpositionsschlüssel zurück</value>
   </data>
   <data name="SubstitutionMatrixCaption" xml:space="preserve">
     <value>Substitutionsmatrix</value>
@@ -208,24 +187,6 @@
     <value>Transpositons-Kennwort</value>
   </data>
   <data name="TranspositionPassTooltip" xml:space="preserve">
-    <value>Das Transpositions-Kennwort kann beliebige Zeichen enthalten. Ungültige und mehrfach auftretende Zeichen werden vor der Ver-/Entschlüsselung automatisch entfernt.</value>
-  </data>
-  <data name="TranspositionPasswordCaption" xml:space="preserve">
-    <value>Transpositons-Kennwort</value>
-  </data>
-  <data name="TranspositionPasswordTooltip" xml:space="preserve">
-    <value>Das Transpositions-Kennwort kann beliebige Zeichen enthalten. Ungültige und mehrfach auftretende Zeichen werden vor der Ver-/Entschlüsselung automatisch entfernt.</value>
-  </data>
-  <data name="UnknownSymbolHandlingCaption" xml:space="preserve">
-    <value>Behandlung ungültiger Zeichen</value>
-  </data>
-  <data name="UnknownSymbolHandlingList1" xml:space="preserve">
-    <value>Zeichen entfernen</value>
-  </data>
-  <data name="UnknownSymbolHandlingList2" xml:space="preserve">
-    <value>Zeichen ersetzen (z.B. Ü=UE)</value>
-  </data>
-  <data name="UnknownSymbolHandlingTooltip" xml:space="preserve">
-    <value>Wie soll auf Zeichen in der Eingabe reagiert werden, die nicht Bestandteil des Eingabe-Alphabets sind?</value>
+    <value>Kennwort, das für die Spaltenreihenfolge in der Transposition verwendet wird. Verwendet dasselbe Alphabet wie die Substitutionsmatrix, d.h. das Klartextalphabet.</value>
   </data>
 </root>
