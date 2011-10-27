@@ -184,7 +184,7 @@
     <value>Geben Sie das Kennwort für die Substitution ein</value>
   </data>
   <data name="TranspositionPassCaption" xml:space="preserve">
-    <value>Transpositons-Kennwort</value>
+    <value>Transpositions-Kennwort</value>
   </data>
   <data name="TranspositionPassTooltip" xml:space="preserve">
     <value>Kennwort, das für die Spaltenreihenfolge in der Transposition verwendet wird. Verwendet dasselbe Alphabet wie die Substitutionsmatrix, d.h. das Klartextalphabet.</value>
