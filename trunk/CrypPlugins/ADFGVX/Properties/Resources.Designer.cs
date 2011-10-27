@@ -259,7 +259,7 @@ namespace Cryptool.ADFGVX.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Transpositon password.
+        ///   Looks up a localized string similar to Transposition password.
         /// </summary>
         internal static string TranspositionPassCaption {
             get {

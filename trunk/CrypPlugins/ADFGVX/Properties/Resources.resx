@@ -184,7 +184,7 @@
     <value>Enter the string of the substitution matrix</value>
   </data>
   <data name="TranspositionPassCaption" xml:space="preserve">
-    <value>Transpositon password</value>
+    <value>Transposition password</value>
   </data>
   <data name="TranspositionPassTooltip" xml:space="preserve">
     <value>Password being used to generate column order sequence for transposition. Uses same alphabet as substitution matrix, i.e. plaintext alphabet.</value>
