@@ -29,7 +29,7 @@ namespace Cryptool.PluginBase
         {          
           get
           {
-            if (MultiLanguage && caption != null)
+            if (IsMultiLanguage && caption != null)
               return PluginType.GetPluginStringResource(caption);
             else
               return caption;
@@ -41,7 +41,7 @@ namespace Cryptool.PluginBase
         {
           get
           {
-            if (MultiLanguage && toolTip != null)
+            if (IsMultiLanguage && toolTip != null)
               return PluginType.GetPluginStringResource(toolTip);
             else
               return toolTip;
@@ -53,7 +53,7 @@ namespace Cryptool.PluginBase
         {
           get
           {
-            if (MultiLanguage && groupName != null)
+            if (IsMultiLanguage && groupName != null)
               return PluginType.GetPluginStringResource(groupName);
             else
               return groupName;
@@ -62,7 +62,7 @@ namespace Cryptool.PluginBase
 
         public bool HasGroupName
         {
-          get { return groupName != null && groupName != string.Empty; }
+          get { return !string.IsNullOrEmpty(groupName); }
         }
         # endregion multi language properties
 
@@ -75,7 +75,7 @@ namespace Cryptool.PluginBase
         {
             get
             {
-                if (controlValues == null || !MultiLanguage)
+                if (controlValues == null || !IsMultiLanguage)
                     return controlValues;
 
                 if (translatedControlValues != null)
@@ -113,8 +113,6 @@ namespace Cryptool.PluginBase
         public readonly double DoubleMinValue;
         public readonly double DoubleMaxValue;
 
-        // TODO: can this attribute be deleted?
-        public readonly string SourcePropertyName;
         public bool ChangeableWhileExecuting;
 
         private MethodInfo method;
@@ -146,20 +144,15 @@ namespace Cryptool.PluginBase
         }
 
         # region translation helpers
-        private Type pluginType;
 
         /// <summary>
         /// Gets or sets the type of the plugin. This value is set by extension method if ResourceFile exists. 
         /// It is used to access the plugins resources to translate the text elements.
         /// </summary>
         /// <value>The type of the plugin.</value>
-        public Type PluginType
-        {
-          get { return pluginType; }
-          set { pluginType = value; }
-        }
+        public Type PluginType { get; set; }
 
-        private bool MultiLanguage
+        private bool IsMultiLanguage
         {
           get { return PluginType != null; }
         }
@@ -262,6 +255,11 @@ namespace Cryptool.PluginBase
           this.Order = order;
           this.ControlType = controlType;
           this.ChangeableWhileExecuting = changeableWhileExecuting;
+        }
+
+        public override string ToString()
+        {
+            return string.Format("TaskPaneAttribute[caption={0}]", caption);
         }
     }
 }
