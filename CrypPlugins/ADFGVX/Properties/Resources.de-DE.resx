@@ -129,11 +129,11 @@
   <data name="ActionTooltip" xml:space="preserve">
     <value>Wählen Sie die Betriebsart des Plugins.</value>
   </data>
-  <data name="ChipherVariantTooltip" xml:space="preserve">
-    <value>ADFGX uses a 25 letter plaintext alphabet (A-Z without J) while ADFGVX uses a 36 letter alphabet (A-Z and 0-9).</value>
-  </data>
   <data name="CipherVariant" xml:space="preserve">
     <value>Chiffre-Variante</value>
+  </data>
+  <data name="CipherVariantTooltip" xml:space="preserve">
+    <value>ADFGX uses a 25 letter plaintext alphabet (A-Z without J) while ADFGVX uses a 36 letter alphabet (A-Z and 0-9).</value>
   </data>
   <data name="CleanTranspositionPassCaption" xml:space="preserve">
     <value>Transposition Spaltenreihenfolge</value>

@@ -97,20 +97,20 @@ namespace Cryptool.ADFGVX.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ADFGX uses a 25 letter plaintext alphabet (A-Z without J) while ADFGVX uses a 36 letter alphabet (A-Z and 0-9)..
-        /// </summary>
-        internal static string ChipherVariantTooltip {
-            get {
-                return ResourceManager.GetString("ChipherVariantTooltip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Cipher variant.
         /// </summary>
         internal static string CipherVariant {
             get {
                 return ResourceManager.GetString("CipherVariant", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ADFGX uses a 25 letter plaintext alphabet (A-Z without J) while ADFGVX uses a 36 letter alphabet (A-Z and 0-9)..
+        /// </summary>
+        internal static string CipherVariantTooltip {
+            get {
+                return ResourceManager.GetString("CipherVariantTooltip", resourceCulture);
             }
         }
         
