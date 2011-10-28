@@ -282,8 +282,8 @@
   <data name="WorkspaceManagerSettings" xml:space="preserve">
     <value>Workspace</value>
   </data>
-  <data name="InformationTooltip" xml:space="preserve">
-    <value>Information</value>
+  <data name="HelpTooltip" xml:space="preserve">
+    <value>Help</value>
   </data>
   <data name="Align_Center" xml:space="preserve">
     <value>Align Center</value>
