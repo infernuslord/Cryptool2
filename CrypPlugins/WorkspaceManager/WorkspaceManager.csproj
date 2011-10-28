@@ -387,6 +387,9 @@
   <ItemGroup>
     <Resource Include="View\Image\presIcon.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="View\Image\help32.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>

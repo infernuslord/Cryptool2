@@ -38,9 +38,9 @@
                 </MenuItem.Icon>
             </MenuItem>
 
-            <MenuItem Click="ContextMenuClick" Header="{Loc InformationTooltip}" Tag="help">
+            <MenuItem Click="ContextMenuClick" Header="{Loc HelpTooltip}" Tag="help">
                 <MenuItem.Icon>
-                    <Image Width="18" Height="18" Source="/WorkspaceManager;component/View/Image/info.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"></Image>
+                    <Image Width="18" Height="18" Source="/WorkspaceManager;component/View/Image/help32.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"></Image>
                 </MenuItem.Icon>
             </MenuItem>
             <Separator></Separator>
@@ -465,9 +465,9 @@
                 <model:BinComponentState>Data</model:BinComponentState>
             </Button>
             
-            <Button ToolTip="{Loc InformationTooltip}" Style="{StaticResource ResourceKey=ActionBasicStyle}" Click="ActionHandler">
+            <Button ToolTip="{Loc HelpTooltip}" Style="{StaticResource ResourceKey=ActionBasicStyle}" Click="ActionHandler">
                 <Button.Tag>
-                    <Image Source="/WorkspaceManager;component/View/Image/info.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"></Image>
+                    <Image Source="/WorkspaceManager;component/View/Image/help32.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"></Image>
                 </Button.Tag>
                 <sys:String>Info</sys:String>
             </Button>
