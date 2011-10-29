@@ -56,7 +56,7 @@ namespace Cryptool.ADFGVX
             set { this.settings = (ADFGVXSettings)value; }
         }
 
-        [PropertyInfo(Direction.InputData, "InputAlphabetCaption", "InputStringTooltip", "", true, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", "", true, false, QuickWatchFormat.Text, null)]
         public string InputString
         {
             get;
@@ -96,9 +96,11 @@ namespace Cryptool.ADFGVX
 
             // Step 2: Transposition
             int[] columnOrder = settings.KeyColumnOrder;
-            StringBuilder transpOut = new StringBuilder(substitute.Length/2);
+            int[] columnOrderInv = new int[columnOrder.Length];
+            for (int i = 0; i < columnOrder.Length; i++) columnOrderInv[columnOrder[i]] = i;
+            StringBuilder transpOut = new StringBuilder(substitute.Length);
 
-            foreach(int order in columnOrder)
+            foreach(int order in columnOrderInv)
             {
                 for (int j = order; j < substitute.Length; j += columnOrder.Length)
                 {
@@ -143,12 +145,14 @@ namespace Cryptool.ADFGVX
 
             // Step 1: Transposition
             int[] columnOrder = settings.KeyColumnOrder;
+            int[] columnOrderInv = new int[columnOrder.Length];
+            for (int i = 0; i < columnOrder.Length; i++) columnOrderInv[columnOrder[i]] = i;
             char[] transpOut = new char[ciphertext.Length];
 
             int textPointer = 0;
-            foreach (int order in columnOrder)
+            foreach (int order in columnOrderInv)
             {
-                for (int j = order; j < transpOut.Length; j += columnOrder.Length)
+                for (int j = order; j < transpOut.Length; j += columnOrderInv.Length)
                 {
                     if (textPointer > ciphertext.Length)
                     {

@@ -208,7 +208,7 @@ namespace Cryptool.ADFGVX
             }
         }
 
-        [TaskPane("CipherVariant", "CipherVariantTooltip", null, 2, false, ControlType.ComboBox, new string[] { "ADFGX", "ADFGVX" })]
+        [TaskPane("CipherVariantCaption", "CipherVariantTooltip", null, 2, false, ControlType.ComboBox, new string[] { "ADFGX", "ADFGVX" })]
         public CipherTypeEnum CipherType
         {
             get { return this.cipherType; }
