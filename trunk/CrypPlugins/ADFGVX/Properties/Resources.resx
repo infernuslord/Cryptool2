@@ -129,7 +129,7 @@
   <data name="ActionTooltip" xml:space="preserve">
     <value>Select the algorithm action</value>
   </data>
-  <data name="CipherVariant" xml:space="preserve">
+  <data name="CipherVariantCaption" xml:space="preserve">
     <value>Cipher variant</value>
   </data>
   <data name="CipherVariantTooltip" xml:space="preserve">
