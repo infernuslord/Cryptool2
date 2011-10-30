@@ -480,6 +480,15 @@ namespace CrypDocumentationEditor
             {
                 return;
             }
+
+            //save changes
+            _docu.Language = language2;
+
+            //save old language entries to xml
+            _docu.Introduction = Introduction2.Document;
+            _docu.Usage = Usage2.Document;
+            _docu.Presentation = Presentation2.Document;
+
             _docu.AddLanguage(value);
             string[] newlanguages = new string[_languages.Length + 1];
             Array.Copy(_languages, newlanguages, _languages.Length);
