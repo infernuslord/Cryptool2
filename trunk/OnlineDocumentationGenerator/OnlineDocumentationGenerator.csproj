@@ -117,12 +117,12 @@
     <Content Include="Generators\HtmlGenerator\TemplateIndex.html" />
     <Content Include="Generators\HtmlGenerator\TemplateComponentDocumentationPage.html" />
     <EmbeddedResource Include="Properties\Resources.de-DE.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.de-DE.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>

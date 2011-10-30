@@ -161,16 +161,16 @@
 		<value xml:space="preserve">Auswahlkasten</value>
 	</data>
 	<data name="Open_file_dialog">
-		<value xml:space="preserve">Dateiöffnungsdialog</value>
+		<value xml:space="preserve">Datei-Öffnen-Dialog</value>
 	</data>
 	<data name="Save_file_dialog">
-		<value xml:space="preserve">Dateispeicherungsdialog</value>
+		<value xml:space="preserve">Datei-Speichern-Dialog</value>
 	</data>
 	<data name="Numeric_up_down">
 		<value xml:space="preserve">Numerisch hoch/runter</value>
 	</data>
 	<data name="Button">
-		<value xml:space="preserve">Knopf</value>
+		<value xml:space="preserve">Taste</value>
 	</data>
 	<data name="Slider">
 		<value xml:space="preserve">Gleiter</value>
