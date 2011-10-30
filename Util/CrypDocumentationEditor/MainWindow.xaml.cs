@@ -374,6 +374,16 @@ namespace CrypDocumentationEditor
 
             GenerateLanguageSelector();
             
+            if(_languages.Length>=2)
+            {
+                DocuLanguage.SelectedItem = _languages[0];
+                DocuLanguage2.SelectedItem = _languages[1];
+            }else
+            {
+                DocuLanguage.SelectedItem = _languages[0];
+                DocuLanguage2.SelectedValue = null;
+            }
+
             HasChanges = false;
         }
 
@@ -470,16 +480,19 @@ namespace CrypDocumentationEditor
             {
                 return;
             }
-            this._docu.AddLanguage(value);
+            _docu.AddLanguage(value);
             string[] newlanguages = new string[_languages.Length + 1];
             Array.Copy(_languages, newlanguages, _languages.Length);
             newlanguages[newlanguages.Length - 1] = value;
             _languages = newlanguages;
-            this.DocuLanguage.ItemsSource = _languages;
-            this.DocuLanguage2.ItemsSource = _languages;
-            this.DocuLanguage2.SelectedValue = value;
+            DocuLanguage.ItemsSource = _languages;
+            DocuLanguage2.ItemsSource = _languages;
             language2 = value;
-            this.HasChanges = true;
+            DocuLanguage2.SelectedValue = value;            
+            HasChanges = true;
+            Introduction2.Document = new FlowDocument();
+            Usage2.Document = new FlowDocument();
+            Presentation2.Document = new FlowDocument();
         }
 
         private void AddPictureButton_Click(object sender, RoutedEventArgs e)
@@ -557,6 +570,12 @@ namespace CrypDocumentationEditor
                 return;
             }            
 
+            if(((string)DocuLanguage.SelectedValue).Equals((string)DocuLanguage2.SelectedValue))
+            {
+                DocuLanguage.SelectedValue = _language1;
+                return;
+            }
+
             //Save old has changes state
             bool hasChanges = HasChanges;
             _docu.Language = _language1;
@@ -583,6 +602,13 @@ namespace CrypDocumentationEditor
         {
             if (DocuLanguage2.SelectedValue == null)
             {
+                e.Handled = true;
+                return;
+            }
+
+            if (((string)DocuLanguage2.SelectedValue).Equals((string)DocuLanguage.SelectedValue))
+            {
+                DocuLanguage2.SelectedValue = language2;
                 return;
             }
 
