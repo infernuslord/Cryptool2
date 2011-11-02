@@ -79,6 +79,9 @@ namespace WorkspaceManager.View.BinVisual
 
         public BinFullscreenVisual FullscreenVisual { get { return (BinFullscreenVisual)FullScreen.Content; } }
 
+        private ObservableCollection<UIElement> selectedItemsObservable = new ObservableCollection<UIElement>();
+        public ObservableCollection<UIElement> SelectedItemsObservable { get { return selectedItemsObservable; } private set { selectedItemsObservable = value; } }
+
         private ObservableCollection<UIElement> visualCollection = new ObservableCollection<UIElement>();
         public ObservableCollection<UIElement> VisualCollection { get { return visualCollection; } private set { visualCollection = value; } }
 
@@ -750,14 +753,11 @@ namespace WorkspaceManager.View.BinVisual
             UIElement[] oldItem = e.OldValue as UIElement[];
             if (newItem != null)
             {
-                foreach (var element in newItem)
-                    Canvas.SetZIndex(element, int.MaxValue);
+                b.SelectedItemsObservable.Concat(newItem);
             }
-
-            if (oldItem != null)
+            else
             {
-                foreach (var element in oldItem)
-                    Canvas.SetZIndex(element, int.MaxValue);
+                b.SelectedItemsObservable.Clear();
             }
         }
 

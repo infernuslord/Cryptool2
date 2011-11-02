@@ -91,6 +91,7 @@
         <!--##########Definitions##########-->
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="auto"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
@@ -130,9 +131,13 @@
         </ContentPresenter>
         <!--##########/Fullscreen##########-->
 
+        <!--##########Fullscreen##########-->
+        <local:BinSideBarVisual Grid.Column="1"></local:BinSideBarVisual>
+        <!--##########/Fullscreen##########-->
+
         <!--##########Bottom Operations##########-->
         <visuals:BottomBox AddText="AddTextHandler" AddImage="AddImageHandler" FitToScreen="FitToScreenHandler" Overview="OverviewHandler" Sort="SortHandler"
-                           Grid.Row="1" Grid.Column="0"></visuals:BottomBox>
+                           Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"></visuals:BottomBox>
 
         <visuals:TextEditPanel Grid.RowSpan="3"  Grid.Column="0"></visuals:TextEditPanel>
         <!--##########/Bottom Operations##########-->
