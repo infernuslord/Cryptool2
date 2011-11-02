@@ -408,21 +408,38 @@ namespace CrypUpdater
                 {
                     m.Show();
 
-                    // flomar, 10/27/2011: check whether we have a "ZIPSETUPINSTALLEDFILES.TXT"
-                    // in our CrypToolFolderPath-- if so, read in all listed files and delete them
-                    string fileInstalledFiles = CryptoolFolderPath + "\\" + "ZIPSETUPINSTALLEDFILES.TXT";
+                    // flomar, 10/27/2011: check whether we have a "ZipInstall.log" file in our
+                    // CrypToolFolderPath-- if so, read in all listed files and delete them
+                    string fileInstalledFiles = Path.Combine(CryptoolFolderPath, "ZipInstall.log");
                     if (File.Exists(fileInstalledFiles))
                     {
+                        // this list stores all files that we couldn't delete during uninstall (for whatever reason),
+                        // and we're going to use this list to notify the user after the update process (if necessary)
+                        List<string> listUndeletedFiles = new List<string>();
+                        
                         StreamReader reader = File.OpenText(fileInstalledFiles);
-                        string file = null;
-                        while ((file = reader.ReadLine()) != null)
+                        string filename = null;
+                        while ((filename = reader.ReadLine()) != null)
                         {
-                            File.Delete(CryptoolFolderPath + "\\" + file);
+                            try
+                            {
+                                File.Delete(Path.Combine(CryptoolFolderPath, filename));
+                            }
+                            catch (Exception exception)
+                            {
+                                listUndeletedFiles.Add(filename);
+                            }
                         }
                         reader.Close();
+
+                        // now, if any errors occured, inform the user
+                        if (listUndeletedFiles.Count > 0)
+                        {
+                            MessageBox.Show("One or more previously installed files could not be deleted.", "Error", MessageBoxButton.OK);
+                        }
                     }
                     
-                    // flomar, 10/27/2011: now extract the archive as usual
+                    // flomar, 10/27/2011: now extract the archive as usual, regardless of errors during uninstall
                     foreach (ZipEntry e in zip)
                     {
                         e.Extract(CryptoolFolderPath, ExtractExistingFileAction.OverwriteSilently);
