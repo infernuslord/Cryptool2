@@ -99,7 +99,7 @@ namespace CrypUpdater
                     MessageBoxButton b = MessageBoxButton.OKCancel;
                     string caption = "Timeout error";
                     MessageBoxResult result;
-                    result = MessageBox.Show("CrypTool 2.0 failed to shut down. Kill the process to proceed?", caption, b);
+                    result = MessageBox.Show("CrypTool 2 failed to shut down. Kill the process to proceed?", caption, b);
                     if (result == MessageBoxResult.OK)
                     {
                         try
@@ -114,14 +114,14 @@ namespace CrypUpdater
                         }
                     }
                     else
-                        MessageBox.Show("Update failed. CrypTool 2.0 will be restarted.");
+                        MessageBox.Show("Update failed. CrypTool 2 will be restarted.");
                 }
 
             }
             catch (IndexOutOfRangeException) // parameter not set
             {
                 if (cryptoolExePath != null)
-                    MessageBox.Show("Update failed. CrypTool 2.0 will be restarted.", "Error");
+                    MessageBox.Show("Update failed. CrypTool 2 will be restarted.", "Error");
                 else
                     UpdateFailure();
             }
@@ -181,7 +181,7 @@ namespace CrypUpdater
                 p.Start();
                 p.WaitForExit();
                 if (p.ExitCode != 0)
-                    MessageBox.Show("The exit code is not equal to zero. See log file for more information. CrypTool 2.0 will be restarted.", "Error");
+                    MessageBox.Show("The exit code is not equal to zero. See log file for more information. CrypTool 2 will be restarted.", "Error");
             }
             catch (UnauthorizedAccessException)
             {
@@ -197,14 +197,14 @@ namespace CrypUpdater
                     p.Start();
                     p.WaitForExit();
                     if (p.ExitCode != 0)
-                        MessageBox.Show("The exit code is not equal to zero. See log file for more information. CrypTool 2.0 will be restarted.", "Error");
+                        MessageBox.Show("The exit code is not equal to zero. See log file for more information. CrypTool 2 will be restarted.", "Error");
                 }
                 else
-                    MessageBox.Show("MSI update failed: CrypTool 2.0 will be restarted.", "Error");
+                    MessageBox.Show("MSI update failed: CrypTool 2 will be restarted.", "Error");
             }
             catch (Exception e)
             {
-                MessageBox.Show("MSI update failed: " + e.Message + ". CrypTool 2.0 will be restarted.", "Error");
+                MessageBox.Show("MSI update failed: " + e.Message + "\n" + "CrypTool 2 will be restarted.", "Error");
             }
         }
 
@@ -289,7 +289,7 @@ namespace CrypUpdater
                     p.Start();
                     p.WaitForExit();
                     if (p.ExitCode != 0)
-                        MessageBox.Show("The exit code is not equal to zero. See log file for more information. CrypTool 2.0 will be restarted.", "Error");
+                        MessageBox.Show("The exit code is not equal to zero. See log file for more information. CrypTool 2 will be restarted.", "Error");
                 }
             }
             catch (UnauthorizedAccessException)
@@ -306,14 +306,14 @@ namespace CrypUpdater
                     p.Start();
                     p.WaitForExit();
                     if (p.ExitCode != 0)
-                        MessageBox.Show("The exit code is not equal to zero. See log file for more information. CrypTool 2.0 will be restarted.", "Error");
+                        MessageBox.Show("The exit code is not equal to zero. See log file for more information. CrypTool 2 will be restarted.", "Error");
                 }
                 else
-                    MessageBox.Show("NSIS update failed: CrypTool 2.0 will be restarted.", "Error");
+                    MessageBox.Show("NSIS update failed: CrypTool 2 will be restarted.", "Error");
             }
             catch (Exception e)
             {
-                MessageBox.Show("NSIS update failed: " + e.Message + ". CrypTool 2.0 will be restarted.", "Error");
+                MessageBox.Show("NSIS update failed: " + e.Message + "\n" + "CrypTool 2 will be restarted.", "Error");
             }
         }
 
@@ -337,7 +337,7 @@ namespace CrypUpdater
                 messagePart3 = "this process";
             }
             MessageBoxResult result;
-            result = MessageBox.Show(messagePart1 + " of CrypTool 2.0 using the same resources " + messagePart2 + " still running. Kill " + messagePart3 + " to proceed?", caption, mbb);
+            result = MessageBox.Show(messagePart1 + " of CrypTool 2 using the same resources " + messagePart2 + " still running. Kill " + messagePart3 + " to proceed?", caption, mbb);
             if (result == MessageBoxResult.Yes)
             {
                 KillOtherProcesses();
@@ -345,7 +345,7 @@ namespace CrypUpdater
             }
             else
             {
-                MessageBox.Show("Update failed. CrypTool 2.0 will be restarted.");
+                MessageBox.Show("Update failed. CrypTool 2 will be restarted.");
             }
         }
 
@@ -364,7 +364,7 @@ namespace CrypUpdater
             }
             catch (Exception)
             {
-                MessageBox.Show("Update failed. Not able to remove remaining CrypTool 2.0 instances.", "Error");
+                MessageBox.Show("Update failed. Not able to remove remaining CrypTool 2 instances.", "Error");
             }
         }
 
@@ -390,7 +390,7 @@ namespace CrypUpdater
             {
                 MessageBoxButton bu = MessageBoxButton.OK;
                 string caption2 = "Error";
-                MessageBoxResult res = MessageBox.Show("CrypTool 2.0 could not be restarted! Try again later.", caption2, bu);
+                MessageBoxResult res = MessageBox.Show("CrypTool 2 could not be restarted! Try again later.", caption2, bu);
                 if (res == MessageBoxResult.OK)
                     Application.Current.Shutdown();
             }
@@ -444,11 +444,11 @@ namespace CrypUpdater
                     cu.WaitForExit();
                 }
                 else
-                    MessageBox.Show("Extraction failed: CrypTool 2.0 will be restarted.", "Error");
+                    MessageBox.Show("Extraction failed: CrypTool 2 will be restarted.", "Error");
             }
             catch (Exception e)
             {
-                MessageBox.Show("Extraction failed: "+e.Message+". CrypTool 2.0 will be restarted.", "Error");
+                MessageBox.Show("Extraction failed: " +e.Message+ "\n" + "CrypTool 2 will be restarted.", "Error");
             }
 
         }
