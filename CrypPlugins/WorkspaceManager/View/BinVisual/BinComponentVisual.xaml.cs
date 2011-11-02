@@ -440,6 +440,51 @@ namespace WorkspaceManager.View.BinVisual
                 base.SetValue(FunctionNameProperty, value);
             }
         }
+
+        public static readonly DependencyProperty BackgroundBrushColorProperty = DependencyProperty.Register("BackgroundBrushColor",
+typeof(SolidColorBrush), typeof(BinComponentVisual), new FrameworkPropertyMetadata(null));
+
+        public SolidColorBrush BackgroundBrushColor
+        {
+            get
+            {
+                return (SolidColorBrush)base.GetValue(BackgroundBrushColorProperty);
+            }
+            set
+            {
+                base.SetValue(BackgroundBrushColorProperty, value);
+            }
+        }
+
+        public static readonly DependencyProperty BorderBrushColorProperty = DependencyProperty.Register("BorderBrushColor",
+    typeof(SolidColorBrush), typeof(BinComponentVisual), new FrameworkPropertyMetadata(null));
+
+        public SolidColorBrush BorderBrushColor
+        {
+            get
+            {
+                return (SolidColorBrush)base.GetValue(BorderBrushColorProperty);
+            }
+            set
+            {
+                base.SetValue(BorderBrushColorProperty, value);
+            }
+        }
+
+        public static readonly DependencyProperty SideBarSettingProperty = DependencyProperty.Register("SideBarSetting",
+typeof(BinSettingsVisual), typeof(BinComponentVisual), new FrameworkPropertyMetadata(null));
+
+        public BinSettingsVisual SideBarSetting
+        {
+            get
+            {
+                return (BinSettingsVisual)base.GetValue(SideBarSettingProperty);
+            }
+            set
+            {
+                base.SetValue(SideBarSettingProperty, value);
+            }
+        }
         #endregion
 
         #region Constructors
@@ -449,6 +494,7 @@ namespace WorkspaceManager.View.BinVisual
             Model.UpdateableView = this;
             Editor = (BinEditorVisual)((WorkspaceManager)Model.WorkspaceModel.MyEditor).Presentation;
             ErrorsTillReset = new Queue<Log>();
+            SideBarSetting = new BinSettingsVisual(Model.Plugin, this, true);
             EditorVisual = (BinEditorVisual)((WorkspaceManager)Model.WorkspaceModel.MyEditor).Presentation;
             Presentations.Add(BinComponentState.Presentation, model.PluginPresentation);
             Presentations.Add(BinComponentState.Min, Model.getImage());
@@ -571,8 +617,8 @@ namespace WorkspaceManager.View.BinVisual
 
         private void setWindowColors(Color Border, Color Background)
         {
-            Window.BorderBrush = new SolidColorBrush(Border);
-            Window.Background = new SolidColorBrush(Background);
+            BorderBrushColor = new SolidColorBrush(Border);
+            BackgroundBrushColor = new SolidColorBrush(Background);
         }
 
         private void addConnectorView(ConnectorModel model)

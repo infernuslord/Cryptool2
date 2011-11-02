@@ -388,6 +388,8 @@
                     <Setter Property="MinWidth" Value="200"></Setter>
                 </DataTrigger>
             </Style.Triggers>
+            <Setter Property="Background" Value="{Binding Path=BackgroundBrushColor}"></Setter>
+            <Setter Property="BorderBrush" Value="{Binding Path=BorderBrushColor}"></Setter>
         </Style>
 
         <Style x:Key="ActionBorderStyle" TargetType="{x:Type Border}">
@@ -703,7 +705,8 @@
 
             <!--##########Window##########-->
             <Border CornerRadius="5" BorderThickness="2" BorderBrush="#444" Grid.Row="1" Grid.Column="1">
-                <Border x:Name="Window" Style="{StaticResource ResourceKey=WindowStyle}" CornerRadius="2" BorderThickness="3">
+                <Border x:Name="Window" Style="{StaticResource ResourceKey=WindowStyle}" 
+                        CornerRadius="2" BorderThickness="3">
                     <Grid>
                         <!--##########Definitions##########-->
                         <Grid.ColumnDefinitions>
