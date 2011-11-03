@@ -129,4 +129,10 @@
   <data name="plugin_extension_error_get_image" xml:space="preserve">
     <value>Error getting image from plugin: {0}. Exception is: {1}</value>
   </data>
+  <data name="Can_t_find_localization_key">
+    <value xml:space="preserve">Can't find localization key {0} in class {1}!</value>
+  </data>
+  <data name="Error_trying_to_lookup_localization_key">
+    <value xml:space="preserve">Error trying to lookup localization key {0}! Message: {1}</value>
+  </data>
 </root>
