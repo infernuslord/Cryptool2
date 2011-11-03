@@ -61,7 +61,7 @@ namespace WorkspaceManager.View.BinVisual
                 if (Model.LastData is Byte[])
                 {
                     StringBuilder builder = new StringBuilder();
-                    Byte[] b = (Byte[])Model.Data;
+                    Byte[] b = (Byte[])Model.LastData;
                     foreach (var e in b)
                         builder.Append(e);
                     return builder.ToString();
