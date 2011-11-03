@@ -21,9 +21,11 @@ namespace CrypUpdater
     /// </summary>
     public partial class App : Application
     {
+        public const string ZipInstallLogHeader = "CrypTool 2 Zip Installation";
+
         private MainWindow m = new CrypUpdater.MainWindow();
         private bool mayRestart = false;
-        internal static string cryptoolExePath;
+        private static string cryptoolExePath;
         private string filePath;
         private string cryptoolFolderPath;
 
@@ -399,7 +401,6 @@ namespace CrypUpdater
 
         private void UnpackZip(string ZipFilePath, string CryptoolFolderPath)
         {
-
             try
             {
                 DirectorySecurity ds = Directory.GetAccessControl(CryptoolFolderPath);
@@ -413,35 +414,42 @@ namespace CrypUpdater
                     string fileInstalledFiles = Path.Combine(CryptoolFolderPath, "ZipInstall.log");
                     if (File.Exists(fileInstalledFiles))
                     {
-                        // this list stores all files that we couldn't delete during uninstall (for whatever reason),
-                        // and we're going to use this list to notify the user after the update process (if necessary)
-                        List<string> listUndeletedFiles = new List<string>();
                         
                         StreamReader reader = File.OpenText(fileInstalledFiles);
-                        string filename = null;
-                        while ((filename = reader.ReadLine()) != null)
-                        {
-                            // ignore empty or relative entries
-                            if (string.IsNullOrWhiteSpace(filename) || filename.Contains(".."))
-                                continue;
 
-                            try
-                            {
-                                // delete files only, not directories (on purpose)
-                                File.Delete(Path.Combine(CryptoolFolderPath, filename));
-                            }
-                            catch (Exception)
-                            {
-                                listUndeletedFiles.Add(filename);
-                            }
-                        }
-                        reader.Close();
-
-                        // now, if any errors occured, inform the user
-                        if (listUndeletedFiles.Count > 0)
+                        string header = reader.ReadLine(); // read first line
+                        // attempt deletion only if file header matches
+                        if (header == ZipInstallLogHeader)
                         {
-                            MessageBox.Show("One or more previously installed files could not be deleted.\n" + 
-                            "Proceeding with unpack anyway.", "Error", MessageBoxButton.OK);
+                            // this list stores all files that we couldn't delete during uninstall (for whatever reason),
+                            // and we're going to use this list to notify the user after the update process (if necessary)
+                            List<string> listUndeletedFiles = new List<string>();
+
+                            string filename = null;
+                            while ((filename = reader.ReadLine()) != null)
+                            {
+                                // ignore empty or relative entries
+                                if (string.IsNullOrWhiteSpace(filename) || filename.Contains(".."))
+                                    continue;
+
+                                try
+                                {
+                                    // delete files only, not directories (on purpose)
+                                    File.Delete(Path.Combine(CryptoolFolderPath, filename));
+                                }
+                                catch (Exception)
+                                {
+                                    listUndeletedFiles.Add(filename);
+                                }
+                            }
+                            reader.Close();
+
+                            // now, if any errors occured, inform the user
+                            if (listUndeletedFiles.Count > 0)
+                            {
+                                MessageBox.Show("One or more previously installed files could not be deleted.\n" +
+                                "Proceeding with unpack anyway.", "Error", MessageBoxButton.OK);
+                            }
                         }
                     }
                     
