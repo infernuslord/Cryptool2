@@ -58,15 +58,19 @@ namespace WorkspaceManager.View.BinVisual
                 if (Model.LastData == null)
                     return Properties.Resources.No_data;
 
-                if (Model.LastData is Byte[])
+                if (Model.LastData is byte[])
                 {
-                    StringBuilder builder = new StringBuilder();
-                    Byte[] b = (Byte[])Model.LastData;
-                    foreach (var e in b)
-                        builder.Append(e);
-                    return builder.ToString();
-                }
-
+                    switch (Model.GetQuickWatchFormat())
+                    {
+                        case QuickWatchFormat.Text:
+                            var enc = new UTF8Encoding();
+                            return enc.GetString((byte[]) Model.LastData);
+                        case QuickWatchFormat.Base64:
+                            return Convert.ToBase64String((byte[])Model.LastData);                        
+                        default: //and hex
+                            return BitConverter.ToString((byte[])Model.LastData);
+                    }
+                }                
                 return Model.LastData.ToString();
             }
         }

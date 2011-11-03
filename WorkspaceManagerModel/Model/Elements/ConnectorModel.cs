@@ -17,10 +17,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using Cryptool.PluginBase;
 using System.Reflection;
-using System.Collections.ObjectModel;
 
 namespace WorkspaceManager.Model
 {
@@ -119,6 +119,22 @@ namespace WorkspaceManager.Model
             }
         }
 
+        /// <summary>
+        /// Returns the format which shall be used for displaying data of this ConnectorModel
+        /// </summary>
+        /// <returns></returns>
+        public QuickWatchFormat GetQuickWatchFormat()
+        {
+            foreach (PropertyInfoAttribute propertyInfoAttribute in PluginModel.Plugin.GetProperties())
+            {
+                if(propertyInfoAttribute.PropertyName.Equals(PropertyName))
+                {
+                    return propertyInfoAttribute.QuickWatchFormat;
+                }
+            }
+            return QuickWatchFormat.None;
+        }
+       
         /// <summary>
         /// Is this Connector Outgoing?
         /// </summary>

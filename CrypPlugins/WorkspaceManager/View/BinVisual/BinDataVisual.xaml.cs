@@ -15,6 +15,7 @@ using System.Windows.Threading;
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using Cryptool.PluginBase;
 using WorkspaceManager.Model;
 
 namespace WorkspaceManager.View.BinVisual
@@ -136,18 +137,25 @@ namespace WorkspaceManager.View.BinVisual
         { 
             get 
             {
+                if (model == null)
+                    return Properties.Resources.No_data;
+
                 if (model.LastData == null)
                     return Properties.Resources.No_data;
 
-                if (model.LastData is Byte[])
+                if (model.LastData is byte[])
                 {
-                    StringBuilder builder = new StringBuilder();
-                    Byte[] b = (Byte[])model.LastData;
-                    foreach (var e in b)
-                        builder.Append(e);
-                    return builder.ToString();
+                    switch (model.GetQuickWatchFormat())
+                    {
+                        case QuickWatchFormat.Text:
+                            var enc = new UTF8Encoding();
+                            return enc.GetString((byte[])model.LastData);
+                        case QuickWatchFormat.Base64:
+                            return Convert.ToBase64String((byte[])model.LastData);
+                        default: //and hex
+                            return BitConverter.ToString((byte[])model.LastData);
+                    }
                 }
-
                 return model.LastData.ToString();
             } 
         }
