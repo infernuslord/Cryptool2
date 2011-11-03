@@ -421,11 +421,16 @@ namespace CrypUpdater
                         string filename = null;
                         while ((filename = reader.ReadLine()) != null)
                         {
+                            // ignore empty or relative entries
+                            if (string.IsNullOrWhiteSpace(filename) || filename.Contains(".."))
+                                continue;
+
                             try
                             {
+                                // delete files only, not directories (on purpose)
                                 File.Delete(Path.Combine(CryptoolFolderPath, filename));
                             }
-                            catch (Exception exception)
+                            catch (Exception)
                             {
                                 listUndeletedFiles.Add(filename);
                             }
@@ -435,7 +440,8 @@ namespace CrypUpdater
                         // now, if any errors occured, inform the user
                         if (listUndeletedFiles.Count > 0)
                         {
-                            MessageBox.Show("One or more previously installed files could not be deleted.", "Error", MessageBoxButton.OK);
+                            MessageBox.Show("One or more previously installed files could not be deleted.\n" + 
+                            "Proceeding with unpack anyway.", "Error", MessageBoxButton.OK);
                         }
                     }
                     
