@@ -15,45 +15,27 @@
 */
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Numerics;
-using System.Windows.Media;
 using Cryptool.PluginBase;
 using System.Reflection;
-using WorkspaceManager.Execution;
-using System.Threading;
 using System.Collections.ObjectModel;
-using System.Text;
 
 namespace WorkspaceManager.Model
 {
-    
     /// <summary>
     /// Class to represent the Connection between two Connector Models
     /// </summary>
     [Serializable]
     public class ConnectorModel : VisualElementModel
     {
-
         internal ConnectorModel(){
             this.InputConnections = new List<ConnectionModel>();
             this.OutputConnections = new List<ConnectionModel>();   
         }
 
         #region private members
-
-        /// <summary>
-        /// Does this Connector Model has actually data?
-        /// </summary>
-        [NonSerialized]
-        private volatile bool hasData = false;
-
-        /// <summary>
-        /// Does this Connector Model has actually new data?
-        /// </summary>
-        [NonSerialized]
-        private volatile bool newData = false;
 
         /// <summary>
         /// Name of the Connector type
@@ -223,52 +205,17 @@ namespace WorkspaceManager.Model
         }
 
         /// <summary>
-        /// Does this Connector currently provides Data?
-        /// </summary>
-        /// <returns></returns>
-        public bool HasData
-        {           
-            get
-            {
-                return hasData;
-            }
-
-            internal set
-            {
-                hasData = value;
-            }
-        }
-
-        /// <summary>
-        /// Does this Connector has new data
-        /// </summary>
-        /// <returns></returns>
-        public bool NewData
-        {
-            get
-            {
-                return newData;
-            }
-
-            internal set
-            {
-                newData = value;
-            }
-        }
-
-
-        /// <summary>
         /// Data of this Connector
         /// </summary>
         [NonSerialized]
-        public object Data = null;
+        public Queue DataQueue = Queue.Synchronized(new Queue());
 
         /// <summary>
         /// LastData of this Connector
         /// </summary>
-        [NonSerialized]
-        public object LastData = null;
-
+        [NonSerialized] 
+        public object LastData;
+        
         /// <summary>
         /// Name of the represented Property of the IPlugin of this ConnectorModel
         /// </summary>
@@ -289,8 +236,8 @@ namespace WorkspaceManager.Model
         /// Plugin informs the Connector that a PropertyChanged
         /// </summary>
         /// <param name="sender"></param>
-        /// <param name="propertyChangedEventArgs"></param>
-        public void PropertyChangedOnPlugin(Object sender, PropertyChangedEventArgs propertyChangedEventArgs)
+        /// <param name="args"></param>
+        public void PropertyChangedOnPlugin(Object sender, PropertyChangedEventArgs args)
         {
             try
             {
@@ -299,8 +246,8 @@ namespace WorkspaceManager.Model
                     return;
                 }
 
-                if (sender != this.PluginModel.Plugin ||
-                    !propertyChangedEventArgs.PropertyName.Equals(PropertyName))
+                if (sender != PluginModel.Plugin ||
+                    !args.PropertyName.Equals(PropertyName))
                 {
                     return;
                 }
@@ -314,44 +261,30 @@ namespace WorkspaceManager.Model
                         {
                             method = sender.GetType().GetMethod(DynamicGetterName);
                         }
-                        data = method.Invoke(sender, new object[] {this.PropertyName});
+                        data = method.Invoke(sender, new object[] {PropertyName});
 
                     }
                     else
                     {
                         if (property == null)
                         {
-                            property = sender.GetType().GetProperty(propertyChangedEventArgs.PropertyName);
+                            property = sender.GetType().GetProperty(args.PropertyName);
                         }
                         data = property.GetValue(sender, null);
                         
                     }
 
-                    if (data == null)
-                    {
-                        return;
-                    }
-
-                    Data = data;
+                    DataQueue.Enqueue(data);
                     LastData = data;
 
-                    List<ConnectionModel> outputConnections = this.OutputConnections;
+                    List<ConnectionModel> outputConnections = OutputConnections;
                     foreach (ConnectionModel connectionModel in outputConnections)
-                    {
-                        if (connectionModel.To.Data != null && connectionModel.To.Data.Equals(data))
-                        {
-                            connectionModel.To.newData = false;
-                        }
-                        else
-                        {
-                            connectionModel.To.Data = data;
-                            connectionModel.To.LastData = data;
-                            connectionModel.To.HasData = true;
-                            connectionModel.To.NewData = true;
-                            connectionModel.Active = true;
-                            connectionModel.GuiNeedsUpdate = true;
-                            connectionModel.To.PluginModel.resetEvent.Set();
-                        }
+                    {   
+                        connectionModel.To.DataQueue.Enqueue(data);
+                        connectionModel.To.LastData = data;      
+                        connectionModel.Active = true;
+                        connectionModel.GuiNeedsUpdate = true;
+                        connectionModel.To.PluginModel.resetEvent.Set();
                     }
                 }
             }
@@ -364,7 +297,6 @@ namespace WorkspaceManager.Model
                 }            
             }
         }
-
 
         /// <summary>
         /// The data type of the wrapped property changes

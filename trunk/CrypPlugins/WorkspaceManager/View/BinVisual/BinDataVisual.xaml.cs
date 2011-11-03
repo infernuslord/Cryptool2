@@ -136,7 +136,7 @@ namespace WorkspaceManager.View.BinVisual
         { 
             get 
             {
-                if (model.Data == null)
+                if (model.LastData == null)
                     return Properties.Resources.No_data;
 
                 if (model.LastData is Byte[])

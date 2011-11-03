@@ -416,7 +416,7 @@ namespace WorkspaceManager.Model
 
                 while (true)
                 {
-                    resetEvent.WaitOne(1000);
+                    resetEvent.WaitOne(10);
                     resetEvent.Reset();
 
                     //Check if we want to stop
@@ -448,13 +448,8 @@ namespace WorkspaceManager.Model
                         continue;
                     }
 
-                    /*if (Startable && !RepeatStart && InputConnectors.Count == 0)
-                    {
-                        continue;
-                    }*/
-
                     var breakit = false;
-                    var oneChanged = false;
+                    var atLeastOneNew = false;
 
                     // ################
                     // 1. Check if we may execute
@@ -464,57 +459,51 @@ namespace WorkspaceManager.Model
                     foreach (ConnectorModel connectorModel in InputConnectors)
                     {                        
                         if (!connectorModel.IControl &&
-                            (connectorModel.IsMandatory || connectorModel.InputConnections.Count > 0) &&
-                            !connectorModel.HasData)
+                            (connectorModel.IsMandatory || connectorModel.InputConnections.Count > 0))
                         {
-                            breakit = true;
-                            continue;
-                        }
-                        if(connectorModel.NewData)
-                        {
-                            oneChanged = true;
-                        }
-                    }
-                    
-                    //Gate is a special case. A Gate may only fire if all inputs are new if all inputs are connected:
-                    if(this.PluginTypeName.Equals("Gate.Gate"))
-                    {
-                        foreach (ConnectorModel connectorModel in InputConnectors)
-                        {
-                            if (connectorModel.InputConnections.Count > 0 &&
-                                !connectorModel.NewData)
+                            if(connectorModel.DataQueue.Count == 0 && connectorModel.LastData == null)
                             {
                                 breakit = true;
                                 continue;
-                            }                           
-                        }
+                            }
+                            if(connectorModel.DataQueue.Count > 0)
+                            {
+                                atLeastOneNew = true;
+                            }
+                        }                        
                     }
 
-                    if (breakit || !oneChanged)
-                    {
-                        continue;
-                    }
-
-                    //Check if all outputs are free
+                    //Check if all outputs are free         
                     foreach (ConnectorModel connectorModel in OutputConnectors)
                     {
                         if (!connectorModel.IControl)
                         {
-                            List<ConnectionModel> outputConnections = connectorModel.OutputConnections;
-                            foreach (ConnectionModel connectionModel in outputConnections)
+                            foreach(ConnectionModel connectionModel in connectorModel.OutputConnections)
                             {
-                                if (connectionModel.To.NewData)
+                                if(connectionModel.To.DataQueue.Count>0)
                                 {
                                     breakit = true;
-                                    continue;
                                 }
                             }
                         }
                     }
-                    if (breakit)
+
+                    //Gate is a special case: here we need all new data
+                    if (PluginType.FullName.Equals("Gate.Gate"))
+                    {
+                        foreach (ConnectorModel connectorModel in InputConnectors)
+                        {
+                            if (connectorModel.InputConnections.Count > 0 && connectorModel.DataQueue.Count == 0)
+                            {
+                                breakit = true;
+                            }
+                        }
+                    }
+
+                    if (breakit || !atLeastOneNew)
                     {
                         continue;
-                    }
+                    }                                     
 
                     // ################
                     //2. Fill all Inputs of the plugin, if this fails break the loop run
@@ -523,7 +512,22 @@ namespace WorkspaceManager.Model
                     {
                         try
                         {
-                            object data = connectorModel.Data;
+                            if(connectorModel.DataQueue.Count == 0 && connectorModel.LastData == null)
+                            {
+                                continue;
+                            }
+
+                            object data = null;
+
+                            if (connectorModel.DataQueue.Count > 0)
+                            {
+                                data = connectorModel.DataQueue.Dequeue();
+                            }
+                            else
+                            {
+                                data = connectorModel.LastData;
+                            }
+
                             if (data == null)
                             {
                                 continue;
@@ -615,40 +619,7 @@ namespace WorkspaceManager.Model
                             "An error occured while executing  \"" + Name + "\": " + ex.Message, NotificationLevel.Error);
                         State = PluginModelState.Error;
                         GuiNeedsUpdate = true;
-                    }
-
-
-                    // ################
-                    //4. "Consume" all inputs
-                    // ################
-                    foreach (ConnectorModel connectorModel in InputConnectors)
-                    {
-                        try
-                        {
-                            if (connectorModel.HasData && connectorModel.Data != null)
-                            {
-                                connectorModel.NewData = false;
-                                //Gates really consume data
-                                if (this.PluginTypeName.Equals("Gate.Gate"))
-                                {
-                                    connectorModel.Data = null;
-                                    connectorModel.HasData = false;
-                                }
-                                foreach (ConnectionModel connectionModel in connectorModel.InputConnections)
-                                {
-                                    connectionModel.Active = false;
-                                }
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            executionEngine.GuiLogMessage(
-                                "An error occured while 'consuming' value of connector \"" + connectorModel.Name +
-                                "\" of \"" + Name + "\": " + ex.Message, NotificationLevel.Error);
-                            State = PluginModelState.Error;
-                            GuiNeedsUpdate = true;
-                        }
-                    }
+                    }                    
 
                     // ################
                     //4. let all plugins before this check if it may execute
