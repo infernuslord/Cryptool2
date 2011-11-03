@@ -36,6 +36,8 @@ namespace Cryptool.PluginBase
 {
     public static class PluginExtension
     {
+        public static bool IsTestMode { get; set; }
+
         public static event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
 
         private static void GuiLogMessage(string message, NotificationLevel logLevel)
@@ -414,14 +416,23 @@ namespace Cryptool.PluginBase
                 translation = resman.GetString(keyword, culture);
             }
             if (translation != null)
-              return translation;
+                return translation;
             else
-              return keyword;
+            {
+                if (IsTestMode)
+                {
+                    GuiLogMessage(string.Format(Resources.Can_t_find_localization_key, keyword, type), NotificationLevel.Error);
+                }
+                return keyword;
+            }
           }
-          catch (Exception exception)
+          catch (Exception ex)
           {
-            GuiLogMessage(exception.Message, NotificationLevel.Error);
-            return keyword;
+              if (IsTestMode)
+              {
+                  GuiLogMessage(string.Format(Resources.Error_trying_to_lookup_localization_key, keyword, ex.Message), NotificationLevel.Error);
+              }
+              return keyword;
           }
         }
 

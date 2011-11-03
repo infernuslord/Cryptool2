@@ -22,6 +22,7 @@ using System.Text;
 using System.Windows.Markup;
 using System.Xaml;
 using Cryptool.PluginBase.Attributes;
+using Cryptool.PluginBase.Properties;
 
 // Register the extention in the Microsoft's default namespaces
 [assembly: System.Windows.Markup.XmlnsDefinition("http://schemas.microsoft.com/winfx/2006/xaml/presentation", "Cryptool.PluginBase.Miscellaneous")]
@@ -34,6 +35,15 @@ namespace Cryptool.PluginBase.Miscellaneous
     [ContentProperty("Key")]
     public class LocExtension : MarkupExtension
     {
+        public delegate void GuiLogMessageHandler(string message, NotificationLevel logLevel);
+        public static event GuiLogMessageHandler OnGuiLogMessageOccured;
+
+        public static void OnOnGuiLogMessageOccured(string message, NotificationLevel loglevel)
+        {
+            if (OnGuiLogMessageOccured != null)
+                OnGuiLogMessageOccured(message, loglevel);
+        }
+
         public string Key { get; set; }
 
         public LocExtension(String key)
@@ -48,14 +58,18 @@ namespace Cryptool.PluginBase.Miscellaneous
                 IRootObjectProvider service = serviceProvider.GetService(typeof(IRootObjectProvider)) as IRootObjectProvider;
                 var locAttribute = (LocalizationAttribute)Attribute.GetCustomAttribute(service.RootObject.GetType(), typeof(LocalizationAttribute));
                 ResourceManager resman = new ResourceManager(locAttribute.ResourceFile, service.RootObject.GetType().Assembly);
-                
+
                 if (resman.GetString(Key) != null)
                     return resman.GetString(Key);
                 else
+                {
+                    OnOnGuiLogMessageOccured(string.Format(Resources.Can_t_find_localization_key, Key, service.RootObject.GetType()), NotificationLevel.Error);
                     return Key;
+                }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                OnOnGuiLogMessageOccured(string.Format(Resources.Error_trying_to_lookup_localization_key, Key, ex.Message), NotificationLevel.Error);
                 return Key;
             }
         }
