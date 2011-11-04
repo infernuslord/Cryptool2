@@ -173,7 +173,14 @@ namespace Startcenter
                 ImageSource image = null;
                 if (File.Exists(iconFile))
                 {
-                    image = new BitmapImage(new Uri(iconFile));
+                    try
+                    {
+                        image = new BitmapImage(new Uri(iconFile));
+                    }
+                    catch (Exception)
+                    {
+                        image = null;
+                    }
                 }
                 else
                 {
