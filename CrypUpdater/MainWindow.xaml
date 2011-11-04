@@ -4,7 +4,7 @@
         Title="CrypUpdater" xmlns:my="clr-namespace:System;assembly=mscorlib" ResizeMode="NoResize" mc:Ignorable="d" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" d:DesignHeight="114" d:DesignWidth="425" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen" WindowStyle="SingleBorderWindow" DataContext="{Binding}" IsEnabled="True" Closing="Window_Closing">
     <Grid>
         <StackPanel Name="stackPanel1" Height="75" VerticalAlignment="Top">
-            <TextBlock Height="16" Name="textBlock1" Text="Updating, CrypTool 2.0 will restart soon..." Width="384" Margin="8" />
+            <TextBlock Height="16" Name="textBlock1" Text="Updating, CrypTool 2 will restart soon..." Width="384" Margin="8" />
             <ProgressBar Height="27" Name="progressBar1" Width="386" HorizontalContentAlignment="Center" Margin="8" IsIndeterminate="True" />
         </StackPanel>
     </Grid>
