@@ -8,6 +8,7 @@ using System.Xml.Linq;
 using Cryptool.Core;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Editor;
+using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase.Miscellaneous;
 using OnlineDocumentationGenerator.DocInformations;
 using OnlineDocumentationGenerator.Generators;
@@ -22,10 +23,10 @@ namespace OnlineDocumentationGenerator
         
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
 
-        public void Generate(string outputDir = ".")
+        public void Generate(string baseDirectory)
         {
-            ReadTemplates(".");
-            GenerateHTML(outputDir);
+            ReadTemplates(baseDirectory);
+            GenerateHTML(baseDirectory);
         }
 
         public static EntityDocumentationPage CreateDocumentationPage(Type type)
