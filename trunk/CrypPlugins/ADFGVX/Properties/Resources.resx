@@ -157,7 +157,7 @@
     <value>ADFGVX</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>ADFGVX -- cipher used in WW1, combining substitution and transposition</value>
+    <value>Cipher used in WW1, combining substitution and transposition</value>
   </data>
   <data name="RandomMatrixCaption" xml:space="preserve">
     <value>Random keys</value>

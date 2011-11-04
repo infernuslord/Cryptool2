@@ -157,7 +157,7 @@
     <value>ADFGVX</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>ADFGVX -- Chiffre, die im 1. Weltkrieg zum Einsatz kam, Kombination aus Substitution und Transposition</value>
+    <value>Chiffre, die im 1. Weltkrieg zum Einsatz kam, Kombination aus Substitution und Transposition</value>
   </data>
   <data name="RandomMatrixCaption" xml:space="preserve">
     <value>Zufallsschlüssel</value>
