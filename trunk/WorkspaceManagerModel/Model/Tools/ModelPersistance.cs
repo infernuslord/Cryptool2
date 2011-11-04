@@ -107,7 +107,48 @@ namespace WorkspaceManager.Model
                 }
             }
 
-            //connect all listener for plugins/plugin models
+            //check if all properties belonging to its ConnectorModels really exist and if each property has a ConnectorModel
+            //if not generate new connector models
+            foreach (PluginModel pluginModel in workspacemodel.AllPluginModels)
+            {
+                bool refreshConnectorModels = false;
+                IEnumerable<ConnectorModel> connectorModels = (new List<ConnectorModel>(pluginModel.OutputConnectors)).Concat(pluginModel.InputConnectors);
+                foreach (ConnectorModel connectorModel in connectorModels)
+                {
+                    if (!connectorModel.IsDynamic && connectorModel.PluginModel.Plugin.GetType().GetProperty(connectorModel.PropertyName) == null)
+                    {
+                        //A connector does not exist, so we reset all connectors of this pluginmodel
+                        refreshConnectorModels = true;
+                        break;
+                    }
+                }
+                foreach(PropertyInfoAttribute propertyInfoAttribute in pluginModel.Plugin.GetProperties())
+                {
+                    var query = from c in connectorModels
+                                where c.PropertyName.Equals(propertyInfoAttribute.PropertyName)
+                                select c;
+                    if(query.Count()==0)
+                    {
+                        refreshConnectorModels = true;
+                        break;
+                    }
+                }
+                if(refreshConnectorModels)
+                {                    
+                    foreach (ConnectorModel connectorModel in connectorModels)
+                    {                        
+                        workspacemodel.deleteConnectorModel(connectorModel);
+                    }
+                    pluginModel.generateConnectors();
+                }                
+            }
+
+            if(workspacemodel.UndoRedoManager.CanUndo())
+            {
+                workspacemodel.UndoRedoManager.ClearStacks();
+            }
+
+            //connect all listener for plugins/plugin models            
             foreach (PluginModel pluginModel in workspacemodel.AllPluginModels)
             {
                 try
@@ -126,8 +167,7 @@ namespace WorkspaceManager.Model
                 {
                     pluginModel.Plugin.Settings.PropertyChanged += pluginModel.SettingsPropertyChanged;
                 }
-            }
-                
+            }                
             
             foreach (ConnectorModel connectorModel in workspacemodel.AllConnectorModels)
             {
