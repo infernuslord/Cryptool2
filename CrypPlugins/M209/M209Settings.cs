@@ -62,12 +62,8 @@ namespace Cryptool.Plugins.M209
 
         #region TaskPane Settings
 
-        [ContextMenu("ModelCaption", "ModelTooltip",
-            0, ContextMenuControlType.ComboBox, null,
-            new string[] { "ModelList1", "ModelList2"})]
-        [TaskPane("ModelTPCaption", "ModelTPTooltip",
-            null, 0, false, ControlType.ComboBox,
-            new string[] { "ModelList1", "ModelList2"})]
+        [ContextMenu("ModelCaption", "ModelTooltip", 0, ContextMenuControlType.ComboBox, null, new string[] { "ModelList1", "ModelList2"})]
+        [TaskPane("ModelCaption", "ModelTooltip", null, 0, false, ControlType.ComboBox, new string[] { "ModelList1", "ModelList2"})]
         [PropertySaveOrder(1)]
         public int Model
         {
@@ -730,12 +726,8 @@ namespace Cryptool.Plugins.M209
 
         #region Text options
 
-        [ContextMenu("UnknownSymbolHandlingCaption", "UnknownSymbolHandlingTooltip",
-            3, ContextMenuControlType.ComboBox, null,
-            new string[] { "UnknownSymbolHandlingList1", "UnknownSymbolHandlingList2", "UnknownSymbolHandlingList3" })]
-        [TaskPane("UnknownSymbolHandlingCaption", "UnknownSymbolHandlingTooltip",
-            "TextOptionsGroup", 3, false, ControlType.ComboBox,
-            new string[] { "UnknownSymbolHandlingList1", "UnknownSymbolHandlingList2", "UnknownSymbolHandlingList3" })]
+        [ContextMenu("UnknownSymbolHandlingCaption", "UnknownSymbolHandlingTooltip", 3, ContextMenuControlType.ComboBox, null, new string[] { "UnknownSymbolHandlingList1", "UnknownSymbolHandlingList2", "UnknownSymbolHandlingList3" })]
+        [TaskPane("UnknownSymbolHandlingCaption", "UnknownSymbolHandlingTooltip", "TextOptionsGroup", 3, false, ControlType.ComboBox, new string[] { "UnknownSymbolHandlingList1", "UnknownSymbolHandlingList2", "UnknownSymbolHandlingList3" })]
         public int UnknownSymbolHandling
         {
             get { return this.unknownSymbolHandling; }
@@ -747,12 +739,8 @@ namespace Cryptool.Plugins.M209
             }
         }
 
-        [ContextMenu("CaseHandlingCaption", "CaseHandlingTooltip",
-            4, ContextMenuControlType.ComboBox, null,
-            new string[] { "CaseHandlingList1", "CaseHandlingList2", "CaseHandlingList3" })]
-        [TaskPane("CaseHandlingCaption", "CaseHandlingTooltip",
-            "TextOptionsGroup", 4, false, ControlType.ComboBox,
-            new string[] { "CaseHandlingList1", "CaseHandlingList2", "CaseHandlingList3" })]
+        [ContextMenu("CaseHandlingCaption", "CaseHandlingTooltip", 4, ContextMenuControlType.ComboBox, null, new string[] { "CaseHandlingList1", "CaseHandlingList2", "CaseHandlingList3" })]
+        [TaskPane("CaseHandlingCaption", "CaseHandlingTooltip", "TextOptionsGroup", 4, false, ControlType.ComboBox, new string[] { "CaseHandlingList1", "CaseHandlingList2", "CaseHandlingList3" })]
         public int CaseHandling
         {
             get { return this.caseHandling; }

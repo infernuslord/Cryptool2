@@ -65,7 +65,10 @@ namespace Cryptool.Plugins.M209
         private int[,] StangeSchieber = new int[27, 2];
 
         int[,] rotorpos = new int[6, 26];
-        int[] rotorofs = new int[6] {15,14,13,12,11,10};  // position of 'active' pin wrt upper pin 
+        int[] rotorofs = new int[6] {15,14,13,12,11,10};  // position of 'active' pin wrt upper pin
+
+        int Stangen;
+        int Rotoren;
 
         public M209()
         {
@@ -105,9 +108,7 @@ namespace Cryptool.Plugins.M209
         public char calculateOffset(string extKey, char c)
         {
             bool[] aktiveArme = new bool[6];
-            int Rotoren = 6;
-            if (settings.Model == 1)
-                Rotoren = 5;
+
             // Durch alle Rotoren
             for (int r = 0; r < Rotoren; r++)
             {
@@ -124,13 +125,6 @@ namespace Cryptool.Plugins.M209
         public int countStangen(bool[] active)
         {
             int count = 0;
-            int Stangen = 27;
-            int Rotoren = 6;
-            if (settings.Model == 1)
-            {
-                Stangen = 25;
-                Rotoren = 5;
-            }
 
             for (int i = 0; i < Stangen; i++)
                 for (int c = 0; c < Rotoren; c++)
@@ -149,11 +143,6 @@ namespace Cryptool.Plugins.M209
         public void setBars()
         {
             clearBars();
-            int Stangen = 27;
-            if (settings.Model == 1)
-            {
-                Stangen = 25;
-            }
             
             for (int i = 0; i < Stangen; i++)
             {
@@ -212,7 +201,6 @@ namespace Cryptool.Plugins.M209
             }
             if (settings.Model == 0)
             {
-
                 if (settings.Rotor6 != null)
                 {
                     for (int i = 0; i < settings.Rotor6.Length; i++)
@@ -254,7 +242,7 @@ namespace Cryptool.Plugins.M209
             return rotorpos[rotor, c - 'A'];
         }
 
-        // Sammelt die verschlüsselten Buchstaben zu einem String und passt den Strin an (cipher /decipher)
+        // Sammelt die verschlüsselten Buchstaben zu einem String und passt den String an (cipher / decipher)
         public void cipherText()
         {
             string aktuellerWert = settings.Startwert;
@@ -311,18 +299,17 @@ namespace Cryptool.Plugins.M209
             }
             
             //CaseHandling
-
-            if (settings.CaseHandling == 0)
-            {
-
-
+            switch(settings.CaseHandling) {
+                case 1:
+                    tempOutput = tempOutput.ToUpper();
+                    break;
+                case 2:
+                    tempOutput = tempOutput.ToLower();
+                    break;
+                default:
+                    // do nothing
+                    break;
             }
-            if (settings.CaseHandling == 2)
-            {
-               tempOutput = tempOutput.ToLower();   
-            }
-
-
 
             OutputString = tempOutput;
 
@@ -348,9 +335,6 @@ namespace Cryptool.Plugins.M209
         {
             char[] neuePos = new char[6];
 
-            int Rotoren = 6;
-            if (settings.Model == 1)
-                Rotoren = 5;
             //Durch alle Rotoren
             for (int r = 0; r < Rotoren; r++)
             {
@@ -488,6 +472,19 @@ namespace Cryptool.Plugins.M209
 
         public void PreExecution()
         {
+            switch (settings.Model)
+            {
+                case 1:
+                    Stangen = 25;
+                    Rotoren = 5;
+                    break;
+
+                case 0:
+                default:
+                    Stangen = 27;
+                    Rotoren = 6;
+                    break;
+            }
         }
 
         /// <summary>
@@ -505,18 +502,6 @@ namespace Cryptool.Plugins.M209
 
             setPins();
             setBars();
-
-            switch (settings.Action)
-            {
-                case 0:
-                    cipher=true;
-                    break;
-                case 1:
-                    cipher=false;
-                    break;
-                default:
-                    break;
-            }
 
             cipherText();
 
