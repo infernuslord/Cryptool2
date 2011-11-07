@@ -294,6 +294,33 @@
   <data name="BarGroup" xml:space="preserve">
     <value>Stangen-Optionen</value>
   </data>
+  <data name="CaseHandlingCaption" xml:space="preserve">
+    <value>Groß-/Kleinschreibung</value>
+  </data>
+  <data name="CaseHandlingList1" xml:space="preserve">
+    <value>keine Änderung</value>
+  </data>
+  <data name="CaseHandlingList2" xml:space="preserve">
+    <value>in Großbuchstaben konvertieren</value>
+  </data>
+  <data name="CaseHandlingList3" xml:space="preserve">
+    <value>in Kleinbuchstaben konvertieren</value>
+  </data>
+  <data name="CaseHandlingTooltip" xml:space="preserve">
+    <value>Wie sollen Groß- und Kleinbuchstaben behandelt werden?</value>
+  </data>
+  <data name="ModelCaption" xml:space="preserve">
+    <value>Modell</value>
+  </data>
+  <data name="ModelList1" xml:space="preserve">
+    <value>6 Rotoren</value>
+  </data>
+  <data name="ModelList2" xml:space="preserve">
+    <value>5 Rotoren</value>
+  </data>
+  <data name="ModelTooltip" xml:space="preserve">
+    <value>Modell</value>
+  </data>
   <data name="OutputStringCaption" xml:space="preserve">
     <value>Textausgabe</value>
   </data>
@@ -351,8 +378,26 @@
   <data name="TextCaption" xml:space="preserve">
     <value>Texteingabe</value>
   </data>
+  <data name="TextOptionsGroup" xml:space="preserve">
+    <value>Text-Optionen</value>
+  </data>
   <data name="TextTooltip" xml:space="preserve">
     <value>Input Text</value>
+  </data>
+  <data name="UnknownSymbolHandlingCaption" xml:space="preserve">
+    <value>Behandlung ungültiger Zeichen</value>
+  </data>
+  <data name="UnknownSymbolHandlingList1" xml:space="preserve">
+    <value>Ignorieren (unverändert lassen)</value>
+  </data>
+  <data name="UnknownSymbolHandlingList2" xml:space="preserve">
+    <value>Entfernen</value>
+  </data>
+  <data name="UnknownSymbolHandlingList3" xml:space="preserve">
+    <value>Ersetzen durch 'X'</value>
+  </data>
+  <data name="UnknownSymbolHandlingTooltip" xml:space="preserve">
+    <value>Wie soll auf Zeichen in der Eingabe reagiert werden, die nicht Bestandteil des Eingabe-Alphabets sind?</value>
   </data>
   <data name="WheelGroup" xml:space="preserve">
     <value>Rotor-Optionen</value>

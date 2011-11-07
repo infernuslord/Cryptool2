@@ -294,6 +294,33 @@
   <data name="BarGroup" xml:space="preserve">
     <value>Bar options</value>
   </data>
+  <data name="CaseHandlingCaption" xml:space="preserve">
+    <value>Case handling</value>
+  </data>
+  <data name="CaseHandlingList1" xml:space="preserve">
+    <value>Preserve case</value>
+  </data>
+  <data name="CaseHandlingList2" xml:space="preserve">
+    <value>Convert to upper</value>
+  </data>
+  <data name="CaseHandlingList3" xml:space="preserve">
+    <value>Convert to lower</value>
+  </data>
+  <data name="CaseHandlingTooltip" xml:space="preserve">
+    <value>What should be done with upper and lower case letters?</value>
+  </data>
+  <data name="ModelCaption" xml:space="preserve">
+    <value>Model</value>
+  </data>
+  <data name="ModelList1" xml:space="preserve">
+    <value>6 Rotors</value>
+  </data>
+  <data name="ModelList2" xml:space="preserve">
+    <value>5 Rotors</value>
+  </data>
+  <data name="ModelTooltip" xml:space="preserve">
+    <value>Choose the machine model.</value>
+  </data>
   <data name="OutputStringCaption" xml:space="preserve">
     <value>Text output</value>
   </data>
@@ -349,10 +376,28 @@
     <value>Please provide the initial rotor setting for each rotor, e.g. ABCDEF</value>
   </data>
   <data name="TextCaption" xml:space="preserve">
-    <value>Texteingabe</value>
+    <value>Text Input</value>
+  </data>
+  <data name="TextOptionsGroup" xml:space="preserve">
+    <value>Text options</value>
   </data>
   <data name="TextTooltip" xml:space="preserve">
     <value>Input Text</value>
+  </data>
+  <data name="UnknownSymbolHandlingCaption" xml:space="preserve">
+    <value>Unknown symbol handling</value>
+  </data>
+  <data name="UnknownSymbolHandlingList1" xml:space="preserve">
+    <value>Ignore (leave unmodified)</value>
+  </data>
+  <data name="UnknownSymbolHandlingList2" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="UnknownSymbolHandlingList3" xml:space="preserve">
+    <value>Replace with 'X'</value>
+  </data>
+  <data name="UnknownSymbolHandlingTooltip" xml:space="preserve">
+    <value>What should be done with encountered characters at the input which are not in the alphabet?</value>
   </data>
   <data name="WheelGroup" xml:space="preserve">
     <value>Wheel options</value>
