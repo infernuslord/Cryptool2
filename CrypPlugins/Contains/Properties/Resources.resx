@@ -136,16 +136,16 @@
     <value>No input string.</value>
   </data>
   <data name="InputStringCaption" xml:space="preserve">
-    <value>Text input</value>
+    <value>Input</value>
   </data>
   <data name="InputStringTooltip" xml:space="preserve">
-    <value>Input a string to search for in selected Dictionary.</value>
+    <value>Word list or text in which to search for the search words.</value>
   </data>
   <data name="DictionaryInputStringCaption" xml:space="preserve">
-    <value>Dictionary</value>
+    <value>Search word</value>
   </data>
   <data name="DictionaryInputStringTooltip" xml:space="preserve">
-    <value>The search for known words is based on this dictionary.</value>
+    <value>Word or list of words for which to search in the input.</value>
   </data>
   <data name="HitsCaption" xml:space="preserve">
     <value>Number of hits to find.</value>
@@ -172,13 +172,13 @@
     <value>Count each word only once (even if the same word appears several times)</value>
   </data>
   <data name="DelimiterDictionaryCaption" xml:space="preserve">
-    <value>Delimiter Dictionary</value>
+    <value>Delimiter Search words</value>
   </data>
   <data name="DelimiterDictionaryTooltip" xml:space="preserve">
-    <value>The delimiter for the dictionary to split up the words.</value>
+    <value>The delimiter for the 'Search word' input to split up the words.</value>
   </data>
   <data name="DelimiterInputStringCaption" xml:space="preserve">
-    <value>Delimiter Input String</value>
+    <value>Delimiter Input</value>
   </data>
   <data name="DelimiterInputStringTooltip" xml:space="preserve">
     <value>The delimiter for the input text to split up the words.</value>
@@ -196,28 +196,13 @@
     <value>Select search method.</value>
   </data>
   <data name="ToLowerCaption" xml:space="preserve">
-    <value>All words to lower</value>
+    <value>Ignore case</value>
   </data>
   <data name="ToLowerTooltip" xml:space="preserve">
-    <value>yes / no</value>
-  </data>
-  <data name="ToLowerTPCaption" xml:space="preserve">
-    <value>All words to lower</value>
-  </data>
-  <data name="ToLowerTPTooltip" xml:space="preserve">
-    <value>yes / no.</value>
-  </data>
-  <data name="CountWordsOnlyOnceList1" xml:space="preserve">
-    <value>Count each word only once</value>
-  </data>
-  <data name="HitPercentFromInputStringList1" xml:space="preserve">
-    <value>Hits as percent value</value>
+    <value>Ignore case</value>
   </data>
   <data name="SearchSettingList1" xml:space="preserve">
     <value>Hashtable</value>
-  </data>
-  <data name="ToLowerList1" xml:space="preserve">
-    <value>All words to lower</value>
   </data>
   <data name="LabelHits" xml:space="preserve">
     <value>Hits: 0</value>
@@ -233,5 +218,11 @@
   </data>
   <data name="SearchSettingList2" xml:space="preserve">
     <value>Aho-Corasick</value>
+  </data>
+  <data name="IgnoreDiacriticsCaption" xml:space="preserve">
+    <value>Ignore Diacritics</value>
+  </data>
+  <data name="IgnoreDiacriticsTooltip" xml:space="preserve">
+    <value>Ignore Diacritics</value>
   </data>
 </root>

@@ -103,25 +103,42 @@ namespace Contains
     }
 
     private bool toLower;
-    [ContextMenu("ToLowerCaption", "ToLowerTooltip", 5, ContextMenuControlType.CheckBox, null, "ToLowerList1")]
-    [TaskPaneAttribute( "ToLowerCaption", "ToLowerTooltip", "", 5, false, ControlType.CheckBox, null)]
+    [ContextMenu("ToLowerCaption", "ToLowerTooltip", 5, ContextMenuControlType.CheckBox, null)]
+    [TaskPaneAttribute("ToLowerCaption", "ToLowerTooltip", "", 5, false, ControlType.CheckBox)]
     public bool ToLower
     {
-      get { return toLower; }
-      set
-      {
-        if (toLower != value)
+        get { return toLower; }
+        set
         {
-          HasChanges = true;
-          toLower = value;
-          OnPropertyChanged("ToLower");
+            if (toLower != value)
+            {
+                HasChanges = true;
+                toLower = value;
+                OnPropertyChanged("ToLower");
+            }
         }
-      }
+    }   
+      
+    private bool ignoreDiacritics;
+    [ContextMenu("IgnoreDiacriticsCaption", "IgnoreDiacriticsTooltip", 6, ContextMenuControlType.CheckBox, null)]
+    [TaskPaneAttribute("IgnoreDiacriticsCaption", "IgnoreDiacriticsTooltip", "", 6, false, ControlType.CheckBox)]
+    public bool IgnoreDiacritics
+    {
+        get { return ignoreDiacritics; }
+        set
+        {
+            if (ignoreDiacritics != value)
+            {
+                HasChanges = true;
+                ignoreDiacritics = value;
+                OnPropertyChanged("IgnoreDiacritics");
+            }
+        }
     }
 
     private bool hitPercentFromInputString = false;
-    [ContextMenu("HitPercentFromInputStringCaption", "HitPercentFromInputStringTooltip", 6, ContextMenuControlType.CheckBox, null, "HitPercentFromInputStringList1")]
-    [TaskPaneAttribute( "HitPercentFromInputStringCaption", "HitPercentFromInputStringTooltip", "", 6, false, ControlType.CheckBox, null)]
+    [ContextMenu("HitPercentFromInputStringCaption", "HitPercentFromInputStringTooltip", 7, ContextMenuControlType.CheckBox, null)]
+    [TaskPaneAttribute( "HitPercentFromInputStringCaption", "HitPercentFromInputStringTooltip", "", 7, false, ControlType.CheckBox)]
     public bool HitPercentFromInputString
     {
       get { return hitPercentFromInputString; }
@@ -137,8 +154,8 @@ namespace Contains
     }
 
     private bool countWordsOnlyOnce = true;
-    [ContextMenu("CountWordsOnlyOnceCaption", "CountWordsOnlyOnceTooltip", 7, ContextMenuControlType.CheckBox, null, "CountWordsOnlyOnceList1")]
-    [TaskPaneAttribute( "CountWordsOnlyOnceCaption", "CountWordsOnlyOnceTooltip", "", 7, false, ControlType.CheckBox, null)]
+    [ContextMenu("CountWordsOnlyOnceCaption", "CountWordsOnlyOnceTooltip", 8, ContextMenuControlType.CheckBox, null)]
+    [TaskPaneAttribute( "CountWordsOnlyOnceCaption", "CountWordsOnlyOnceTooltip", "", 8, false, ControlType.CheckBox)]
     public bool CountWordsOnlyOnce
     {
       get { return countWordsOnlyOnce; }
