@@ -105,7 +105,7 @@ namespace RIPEMD160
         public void Execute()
         {
           Progress(0.5, 1.0);
-          if (inputData != null && inputData.Length > 0)
+          if (inputData != null && inputData.Length >= 0)
           {
             System.Security.Cryptography.RIPEMD160 ripeMd160Hash = System.Security.Cryptography.RIPEMD160.Create();
             using (CStreamReader reader = inputData.CreateReader())
@@ -121,7 +121,7 @@ namespace RIPEMD160
             if (inputData == null)
               GuiLogMessage("Received null value for CryptoolStream.", NotificationLevel.Warning);
             else
-              GuiLogMessage("Stream length is 0.", NotificationLevel.Warning);
+              GuiLogMessage("No input stream.", NotificationLevel.Warning);
           }
           Progress(1.0, 1.0);
         }
