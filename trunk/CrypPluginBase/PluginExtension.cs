@@ -94,14 +94,6 @@ namespace Cryptool.PluginBase
           return list.ToArray();
         }
 
-        public static EditorSpecificPluginAttribute GetEditorSpecificPluginAttribute(this Type type)
-        {
-          EditorSpecificPluginAttribute[] attributes = (EditorSpecificPluginAttribute[])type.GetCustomAttributes(typeof(EditorSpecificPluginAttribute), false);
-          if (attributes.Length == 1)
-            return attributes[0];
-          return null;
-        }
-
         public static DynamicPropertyInfoAttribute GetDynamicPropertyInfo(this IPlugin plugin)
         {
           foreach (PropertyInfo pInfo in plugin.GetType().GetProperties())

@@ -250,24 +250,6 @@ namespace WorkspaceManager
         }
 
         /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="espi"></param>
-        public void AddEditorSpecific(EditorSpecificPluginInfo espi)
-        {
-            //to be implemented
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="espi"></param>
-        public void DeleteEditorSpecific(EditorSpecificPluginInfo espi)
-        {
-            //to be implemented    
-        }
-
-        /// <summary>
         /// Undo changes
         /// </summary>
         public void Undo()
@@ -525,15 +507,6 @@ namespace WorkspaceManager
         public string SamplesDir
         {
             set {  }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public List<EditorSpecificPluginInfo> EditorSpecificPlugins
-        {
-            get;
-            set;
         }
 
         public bool ReadOnly { get; set; }

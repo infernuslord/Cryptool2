@@ -35,8 +35,6 @@ namespace Cryptool.PluginBase.Editor
         void Save(string fileName);
 
         void Add(Type type);
-        void AddEditorSpecific(EditorSpecificPluginInfo espi);
-        void DeleteEditorSpecific(EditorSpecificPluginInfo espi);
         void Undo();
         void Redo();
         void Cut();
@@ -79,13 +77,6 @@ namespace Cryptool.PluginBase.Editor
         string CurrentFile { get; }
 
         string SamplesDir { set; }
-
-        /// <summary>
-        /// Gets the editor specific plugins, e.g. connector plugins to build subworkspace and the
-        /// currently available subworkspaces.
-        /// </summary>
-        /// <value>The editor specific plugins.</value>        
-        List<EditorSpecificPluginInfo> EditorSpecificPlugins { get; }
 
         /// <summary>
         /// Gets or sets the readOnly propability of an editor i.e. if something on the workspace can be changed.

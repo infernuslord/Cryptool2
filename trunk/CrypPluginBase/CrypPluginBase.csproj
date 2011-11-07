@@ -108,7 +108,6 @@
     <Compile Include="Miscellaneous\DataManager.cs" />
     <Compile Include="IApplication.cs" />
     <Compile Include="Attributes\RibbonBarAttribute.cs" />
-    <Compile Include="Attributes\EditorSpecificPluginAttribute.cs" />
     <Compile Include="DynamicProperty.cs" />
     <Compile Include="Control\IControl.cs" />
     <Compile Include="Miscellaneous\DescriptionHyperlink.cs" />

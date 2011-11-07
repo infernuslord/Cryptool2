@@ -127,16 +127,6 @@ namespace Wizard
             
         }
 
-        public void AddEditorSpecific(EditorSpecificPluginInfo espi)
-        {
-            
-        }
-
-        public void DeleteEditorSpecific(EditorSpecificPluginInfo espi)
-        {
-            
-        }
-
         public void Undo()
         {
             
@@ -229,8 +219,6 @@ namespace Wizard
         {
             set { wizardControl.SamplesDir = value; }
         }
-
-        public List<EditorSpecificPluginInfo> EditorSpecificPlugins { get; set; }
 
         public bool ReadOnly
         {

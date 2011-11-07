@@ -89,16 +89,6 @@ namespace Cryptool.P2PEditor
             GuiLogMessage("P2PEditor: Add(" + type + ")", NotificationLevel.Debug);
         }
 
-        public void AddEditorSpecific(EditorSpecificPluginInfo espi)
-        {
-            GuiLogMessage("P2PEditor: AddEditorSpecific()", NotificationLevel.Debug);
-        }
-
-        public void DeleteEditorSpecific(EditorSpecificPluginInfo espi)
-        {
-            GuiLogMessage("P2PEditor: DeleteEditorSpecific()", NotificationLevel.Debug);
-        }
-
         public void Undo()
         {
             GuiLogMessage("P2PEditor: Undo()", NotificationLevel.Debug);
@@ -208,11 +198,6 @@ namespace Cryptool.P2PEditor
         public string SamplesDir
         {
             set {  }
-        }
-
-        public List<EditorSpecificPluginInfo> EditorSpecificPlugins
-        {
-            get { return new List<EditorSpecificPluginInfo>(); }
         }
 
         public bool ReadOnly { get; set; }
