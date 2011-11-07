@@ -525,7 +525,7 @@ namespace WorkspaceManager.Model
                             }
                             else
                             {
-                                data = connectorModel.LastData;
+                                continue;
                             }
 
                             if (data == null)
