@@ -317,14 +317,17 @@ namespace TextOutput
             // nothin to do here)
             break;
           case TextOutputSettings.PresentationFormat.Hex:
-            byte[] byteValues = Encoding.UTF8.GetBytes(fillValue.ToCharArray());
+            //byte[] byteValues = Encoding.UTF8.GetBytes(fillValue.ToCharArray());
+            byte[] byteValues = Encoding.Default.GetBytes(fillValue.ToCharArray());
             fillValue = BitConverter.ToString(byteValues, 0, byteValues.Length).Replace("-", "");
             break;
           case TextOutputSettings.PresentationFormat.Base64:
-            fillValue = Convert.ToBase64String(Encoding.UTF8.GetBytes(fillValue.ToCharArray()));
+            //fillValue = Convert.ToBase64String(Encoding.UTF8.GetBytes(fillValue.ToCharArray()));
+            fillValue = Convert.ToBase64String(Encoding.Default.GetBytes(fillValue.ToCharArray()));
             break;
           case TextOutputSettings.PresentationFormat.Decimal:
-            byte[] decValues = Encoding.UTF8.GetBytes(fillValue.ToCharArray());
+            //byte[] decValues = Encoding.UTF8.GetBytes(fillValue.ToCharArray());
+            byte[] decValues = Encoding.Default.GetBytes(fillValue.ToCharArray());
             StringBuilder sb = new StringBuilder();
             if (decValues.Length > 0)
             {
