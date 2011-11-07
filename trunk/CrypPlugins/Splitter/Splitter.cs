@@ -91,8 +91,13 @@ namespace Splitter
 
 #pragma warning disable 67
 		public event StatusChangedEventHandler OnPluginStatusChanged;
-		public event PluginProgressChangedEventHandler OnPluginProgressChanged;
 #pragma warning restore
+
+    public event PluginProgressChangedEventHandler OnPluginProgressChanged;
+    private void Progress(double value, double max)
+    {
+        EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
+    }
     
     public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
     private void GuiLogMessage(string message, NotificationLevel logLevel)
@@ -117,8 +122,12 @@ namespace Splitter
 
     public void Execute()
     {
-      if (DictionaryInputString == null)
-        GuiLogMessage("Got null value for dictionary.", NotificationLevel.Warning); 
+        Progress(0.0,1.0);
+
+        if (DictionaryInputString == null)
+            GuiLogMessage("Got null value for dictionary.", NotificationLevel.Warning);
+
+        Progress(1.0, 1.0);
     }
 
     public void PostExecution()

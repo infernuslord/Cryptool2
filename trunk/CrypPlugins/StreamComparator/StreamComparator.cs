@@ -115,7 +115,7 @@ namespace Cryptool.StreamComparator
           {
           GuiTextChanged("Inputs are not equal, because the filesize is different.", NotificationLevel.Info);
           InputsAreEqual = false;
-          if (OnPluginProgressChanged != null) OnPluginProgressChanged(this, new PluginProgressEventArgs(1, 1));
+          Progress(1, 1);
           if (settings.Diff) CreateDiffView();
         }
         else
@@ -129,17 +129,19 @@ namespace Cryptool.StreamComparator
           do
           {
             // Read one byte from each file.
-                  streamOneByte = readerOne.ReadByte();
-                  streamTwoByte = readerTwo.ReadByte();
+            streamOneByte = readerOne.ReadByte();
+            streamTwoByte = readerTwo.ReadByte();
 
             if (streamOneByte == 0) isBinary = true;
 
-                  if (OnPluginProgressChanged != null && readerOne.Length > 0 &&
-                      (int)(readerOne.Position * 100 / readerOne.Length) > position)
+            if ( readerOne.Length > 0 ) // advance progress bar only if integer part of percentage increases
             {
-                      position = (int)(readerOne.Position * 100 / readerOne.Length);
-              OnPluginProgressChanged(this,
-                        new PluginProgressEventArgs(readerOne.Position, readerOne.Length));
+                int newpos = (int)((readerOne.Position * 100) / readerOne.Length);
+                if (newpos > position)
+                {
+                    position = newpos;
+                    Progress(readerOne.Position, readerOne.Length);
+                }
             }
           } while ((streamOneByte == streamTwoByte) && (streamOneByte != -1));
 
@@ -154,8 +156,8 @@ namespace Cryptool.StreamComparator
           if (!InputsAreEqual)
                   GuiTextChanged("First position a different byte: " + readerOne.Position, NotificationLevel.Info);
 
-          if (OnPluginProgressChanged != null) OnPluginProgressChanged(this, new PluginProgressEventArgs(1, 1));
-            GuiTextChanged("Duration: " + duration, NotificationLevel.Info);
+          Progress(1, 1);
+          GuiTextChanged("Duration: " + duration, NotificationLevel.Info);
 
           if (settings.Diff) CreateDiffView();
         }
@@ -256,7 +258,7 @@ namespace Cryptool.StreamComparator
             // write unchanged lines
             while ((n < aItem.StartB) && (n < bLines.Length))
             {
-              StatusBarProgressbarValueChanged(n, bLines.Length);
+              Progress(n, bLines.Length);
               WriteLine(n, DiffMode.NoChange, bLines[n]);
               n++;
             } // while
@@ -264,14 +266,14 @@ namespace Cryptool.StreamComparator
             // write deleted lines
             for (int m = 0; m < aItem.deletedA; m++)
             {
-              StatusBarProgressbarValueChanged(n, bLines.Length);
+              Progress(n, bLines.Length);
               WriteLine(-1, DiffMode.Remove, aLines[aItem.StartA + m]);
             } // for
 
             // write inserted lines
             while (n < aItem.StartB + aItem.insertedB)
             {
-              StatusBarProgressbarValueChanged(n, bLines.Length);
+              Progress(n, bLines.Length);
               WriteLine(n, DiffMode.Add, bLines[n]);
               n++;
             } // while
@@ -280,16 +282,16 @@ namespace Cryptool.StreamComparator
           // write rest of unchanged lines
           while (n < bLines.Length && !stop)
           {
-            StatusBarProgressbarValueChanged(n, bLines.Length);
+            Progress(n, bLines.Length);
             WriteLine(n, DiffMode.NoChange, bLines[n]);
             n++;
           } // while
           result.AppendLine("</TableRowGroup></Table></FlowDocument>");
-          StatusBarProgressbarValueChanged(1, 2);
+          Progress(1, 2);
           CStreamWriter cs = new CStreamWriter(Encoding.UTF8.GetBytes(result.ToString()));
           cs.Close();
-                streamComparatorPresentation.SetContent(cs);
-          StatusBarProgressbarValueChanged(1, 1);
+            streamComparatorPresentation.SetContent(cs);
+            Progress(1, 1);
         }
         }
         catch (Exception exception)
@@ -423,9 +425,9 @@ namespace Cryptool.StreamComparator
       EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(message, this, logLevel));
     }
 
-    private void StatusBarProgressbarValueChanged(double value, double maxValue)
+    private void Progress(double value, double max)
     {
-      EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, maxValue));
+      EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
     }
 
     private void StatusChanged(int imageIndex)

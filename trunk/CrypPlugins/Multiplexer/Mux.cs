@@ -223,6 +223,11 @@ namespace Multiplexer
 		public event PluginProgressChangedEventHandler OnPluginProgressChanged;
 #pragma warning restore
 
+    private void Progress(double value, double max)
+    {
+        EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
+    }
+
     private MuxSettings settings;
     public ISettings Settings
     {
@@ -268,6 +273,8 @@ namespace Multiplexer
     [MethodImpl(MethodImplOptions.Synchronized)]
     public void Execute()
     {
+      Progress(0.0, 1.0);
+
       if (InputSwitch && dicSwitchBuffer[true] > 0 && dicInputBuffer[inputOne] > 0)
       {        
         dicSwitchBuffer[true]--;
@@ -280,6 +287,8 @@ namespace Multiplexer
         dicInputBuffer[inputTwo]--;
         OnPropertyChanged(outputOne);
       }
+
+      Progress(1.0, 1.0);
     }
 
     public void PostExecution()

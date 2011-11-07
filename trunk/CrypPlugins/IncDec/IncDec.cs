@@ -64,7 +64,7 @@ namespace IncDec
       get { return input; }
       set
       {
-        EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(50, 100));
+        Progress(50, 100);
         input = value;
         int returnValue = 0;
         switch (settings.CurrentMode)
@@ -82,7 +82,7 @@ namespace IncDec
 
         OnPropertyChanged("Input");
         OnPropertyChanged("Output");
-        EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(100, 100));
+        Progress(100, 100);
       }
     }
 
@@ -102,6 +102,11 @@ namespace IncDec
 		public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
 		public event PluginProgressChangedEventHandler OnPluginProgressChanged;
 #pragma warning restore
+
+    private void Progress(double value, double max)
+    {
+        EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
+    }
 
     public Cryptool.PluginBase.ISettings Settings
     {

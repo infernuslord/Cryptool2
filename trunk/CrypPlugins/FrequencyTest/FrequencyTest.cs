@@ -136,6 +136,8 @@ namespace Cryptool.FrequencyTest
 
         public void Execute()
         {
+            Progress(0.0, 0.0);
+
             if (stringInput == null)
             {
                 return;
@@ -192,14 +194,12 @@ namespace Cryptool.FrequencyTest
                 updatePresentation();
             }
 
-            // Show progress finished.
-            EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(1.0, 1.0));
-
             OnPropertyChanged("StringOutput");
             OnPropertyChanged("ArrayOutput");
             OnPropertyChanged("DictionaryOutput");
-            
-            
+
+            // Show progress finished.
+            Progress(1.0, 1.0);
         }
 
         private void ProcessWord(string workstring)
@@ -372,6 +372,11 @@ namespace Cryptool.FrequencyTest
         public event StatusChangedEventHandler OnPluginStatusChanged;
 
         public event PluginProgressChangedEventHandler OnPluginProgressChanged;
+
+        private void Progress(double value, double max)
+        {
+            EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
+        }
 
         #endregion
 

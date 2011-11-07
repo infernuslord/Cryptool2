@@ -36,6 +36,11 @@ namespace Cryptool.Scytale
         public event StatusChangedEventHandler OnPluginStatusChanged;
 #pragma warning restore
 
+        private void Progress(double value, double max)
+        {
+            EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
+        }
+
         public Scytale()
         {
             this.settings = new ScytaleSettings();
@@ -129,7 +134,7 @@ namespace Cryptool.Scytale
                     Position -= inputString.Length - 1;
 
                 //show the progress
-                EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(i, inputString.Length - 2));
+                Progress(i, inputString.Length - 2);
             }
             outputString = outputString.Replace('_', ' ').Trim();
         }
@@ -152,7 +157,7 @@ namespace Cryptool.Scytale
                     Position -= settings.StickSize * CharsPerRow - 1;
 
                 //show the progress
-                EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(i, totalChars - 1));
+                Progress(i, totalChars - 1);
             }
         }
 

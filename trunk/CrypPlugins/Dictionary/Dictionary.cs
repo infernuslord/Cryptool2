@@ -117,11 +117,16 @@ namespace Dictionary
 
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
 
-        public event PluginProgressChangedEventHandler OnPluginProgressChanged;
-
         private void GuiLogMessage(string message, NotificationLevel logLevel)
         {
             EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(message, this, logLevel));
+        }
+
+        public event PluginProgressChangedEventHandler OnPluginProgressChanged;
+
+        private void Progress(double value, double max)
+        {
+            EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
         }
 
         public ISettings Settings
@@ -146,10 +151,10 @@ namespace Dictionary
                 return;
             }
 
-            EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(50, 100));
+            Progress(50, 100);
             EventsHelper.PropertyChanged(PropertyChanged, this, new PropertyChangedEventArgs("OutputList"));
             EventsHelper.PropertyChanged(PropertyChanged, this, new PropertyChangedEventArgs("OutputString"));
-            EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(100, 100));
+            Progress(100, 100);
 
             // enable re-execution after the first run
             allowReexecution = true;
@@ -184,7 +189,7 @@ namespace Dictionary
             {
                 if (file.DataFile.Exists)
                 {
-                    EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(string.Format(Properties.Resources.loading_dic_now, new object[] { file.Name }), this, NotificationLevel.Info));
+                    GuiLogMessage(string.Format(Properties.Resources.loading_dic_now, new object[] { file.Name }), NotificationLevel.Info);
                     Stopwatch stopWatch = new Stopwatch();
                     stopWatch.Start();
 
@@ -205,18 +210,18 @@ namespace Dictionary
                     stopWatch.Stop();
                     // This log msg is shown on init after first using this plugin, even if event subscription
                     // should not have been done yet. Results from using static LoadContent method.
-                    EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(string.Format(Properties.Resources.finished_loading_dic, new object[] { stopWatch.Elapsed.Milliseconds }), this, NotificationLevel.Info));
+                    GuiLogMessage(string.Format(Properties.Resources.finished_loading_dic, new object[] { stopWatch.Elapsed.Milliseconds }), NotificationLevel.Info);
 
                     return true;
                 }
                 else
                 {
-                    EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(string.Format(Properties.Resources.dic_file_not_found, new object[] { file.ToString() }), this, NotificationLevel.Error));
+                    GuiLogMessage(string.Format(Properties.Resources.dic_file_not_found, new object[] { file.ToString() }), NotificationLevel.Error);
                 }
             }
             catch (Exception exception)
             {
-                EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(exception.Message, this, NotificationLevel.Error));
+                GuiLogMessage(exception.Message, NotificationLevel.Error);
             }
 
             return false;

@@ -114,6 +114,8 @@ namespace Cryptool.Plugins.SZ42
 
         public void Execute()
         {
+            Progress(0.0, 1.0);
+
             if (first)
             {
                 ConfigMachine(reset);
@@ -139,6 +141,8 @@ namespace Cryptool.Plugins.SZ42
 
                 OnPropertyChanged("OutputString");
             }
+
+            Progress(1.0, 1.0);
         }
 
         private void Encrypt() 
@@ -277,7 +281,7 @@ namespace Cryptool.Plugins.SZ42
             EventsHelper.PropertyChanged(PropertyChanged, this, new PropertyChangedEventArgs(name));
         }
 
-        private void ProgressChanged(double value, double max)
+        private void Progress(double value, double max)
         {
             EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
         }
