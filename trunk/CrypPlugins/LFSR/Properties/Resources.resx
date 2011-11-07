@@ -235,7 +235,7 @@
     <value>Use external clock</value>
   </data>
   <data name="UseBoolClockTPTooltip" xml:space="preserve">
-    <value>With this checkbox enabled, an external clock will be used (f.e. the CLK-Plugin).</value>
+    <value>With this checkbox enabled, an external clock will be used (e.g. the CLK-Plugin).</value>
   </data>
   <data name="initLFSRCaption" xml:space="preserve">
     <value>Draw LFSR</value>

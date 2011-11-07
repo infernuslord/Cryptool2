@@ -223,11 +223,11 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         private void ConfigureAlg(SymmetricAlgorithm alg)
         {
             //check for a valid key
-            if (this.inputKey == null)
+           if (this.inputKey == null)
             {
                 //create a trivial key 
                 inputKey = new byte[8];
-                // write a warning to the ouside word
+                // write a warning to the ouside world
                 GuiLogMessage("ERROR: No key provided. Using 0x000..00!", NotificationLevel.Error);
             }
             alg.Key = this.inputKey;

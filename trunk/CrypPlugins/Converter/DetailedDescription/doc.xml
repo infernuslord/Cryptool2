@@ -33,7 +33,7 @@
     <newline/>
     <newline/>
     If the input is of type String, the plugin tries to interpret it as a decimal number. If this fails, it tries to
-    read it as a sequence of arithmetic operations, whose result will be the output number, f.e. the input string "2^10-15*17"
+    read it as a sequence of arithmetic operations, whose result will be the output number, e.g. the input string "2^10-15*17"
     will produce the number 769 as output. If this also fails, the plugin tries to interpret the input as a hexadecimal number. This
     can also be enforced by prefixing the string with "0x". So if you want the input string "100" to be interpreted as a hexadecimal
     number instead of decimal, you should enter "0x100".
@@ -60,7 +60,7 @@
     <newline/>
     <newline/>
     If Byte[] or CryptoolStream is selected as output type, you can choose in the settings tab whether the bytes are to 
-    be reversed in order before output. This way, you can f.e. easily convert between the big endian and little endian representations
+    be reversed in order before output. This way, you can e.g. easily convert between the big endian and little endian representations
     of numbers.
     <newline/>
     When converting a String to Byte[], you can also decide whether the input string is to be interpreted numerically first (as

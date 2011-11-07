@@ -148,7 +148,7 @@
     <value>Keyword</value>
   </data>
   <data name="KeyWordTooltip" xml:space="preserve">
-    <value>This is the key used to en/decrypt.</value>
+    <value>This is the key for encryption or decryption.</value>
   </data>
   <data name="SecondKeyWordCaption" xml:space="preserve">
     <value>Second Keyword</value>
