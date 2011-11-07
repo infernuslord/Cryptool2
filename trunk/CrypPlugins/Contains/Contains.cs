@@ -28,6 +28,7 @@ using Cryptool.PluginBase.Miscellaneous;
 using System.Threading;
 using System.Runtime.CompilerServices;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 namespace Contains
 {
@@ -58,10 +59,16 @@ namespace Contains
         // It's not enough to check inputString only.
         // Value must also be evaluated if delimiter character is changed or 'ignore case' is toggled.
         //if (value != inputString)
-        {          
-          if (value != null && settings.ToLower) this.inputString = value.ToLower();
-          else this.inputString = value;
-          OnPropertyChanged("InputString");
+        {
+            inputString = value;
+
+            if (inputString != null)
+            {
+                if (settings.ToLower) inputString = inputString.ToLower();
+                if (settings.IgnoreDiacritics) inputString = RemoveDiacritics(inputString);
+            }
+
+            OnPropertyChanged("InputString");
         }
       }
     }
@@ -76,16 +83,22 @@ namespace Contains
         // Value must also be evaluated if delimiter character is changed or 'ignore case' is toggled.
         //if (value != dictionaryInputString)
         {
-          if (value != null && settings.ToLower) this.dictionaryInputString = value.ToLower();
-          else this.dictionaryInputString = value;
+            dictionaryInputString = value;
 
-          Stopwatch stopWatch = new Stopwatch();
-          EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(Properties.Resources.building_search_structure, this, NotificationLevel.Info));
-          stopWatch.Start();
-          SetSearchStructure();
-          stopWatch.Stop();
-          EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(string.Format(Properties.Resources.finished_building_search_structure, new object[] { stopWatch.Elapsed.Seconds.ToString()}) , this, NotificationLevel.Info));
-          OnPropertyChanged("DictionaryInputString");          
+            if (dictionaryInputString != null)
+            {
+                if (settings.ToLower) dictionaryInputString = dictionaryInputString.ToLower();
+                if (settings.IgnoreDiacritics) dictionaryInputString = RemoveDiacritics(dictionaryInputString);
+            }
+
+            Stopwatch stopWatch = new Stopwatch();
+            EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(Properties.Resources.building_search_structure, this, NotificationLevel.Info));
+            stopWatch.Start();
+            SetSearchStructure();
+            stopWatch.Stop();
+            EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(string.Format(Properties.Resources.finished_building_search_structure, new object[] { stopWatch.Elapsed.Seconds.ToString()}) , this, NotificationLevel.Info));
+          
+            OnPropertyChanged("DictionaryInputString");          
         }
       }
     }
@@ -105,6 +118,17 @@ namespace Contains
         if (value < 1 && !dicWarningsAndErros.ContainsKey(msg))
           dicWarningsAndErros.Add(msg, NotificationLevel.Error);
       }
+    }
+
+    private readonly static Regex nonSpacingMarkRegex = new Regex(@"\p{Mn}", RegexOptions.Compiled);
+
+    public static string RemoveDiacritics(string text)
+    {
+        if (text == null) return string.Empty;
+
+        var normalizedText = text.Normalize(NormalizationForm.FormD);
+
+        return nonSpacingMarkRegex.Replace(normalizedText, string.Empty);
     }
 
     /// <summary>
@@ -150,10 +174,14 @@ namespace Contains
               theWords = new string[1];
               theWords[0] = dictionaryInputString;
             }
-            
+
             foreach (string item in theWords)
-              if (!hashTable.ContainsKey(item))
-                hashTable.Add(item, null);            
+            {
+                string tmp = item;
+                //if( settings.IgnoreDiacritics ) tmp = RemoveDiacritics(item);
+                if (!hashTable.ContainsKey(tmp))
+                    hashTable.Add(tmp, null);
+            }
           }
         }
       }
@@ -250,6 +278,9 @@ namespace Contains
             {
               for (int i = 0; i < arrSearch.Length; i++)
               {
+                string s = arrSearch[i];
+                if (settings.IgnoreDiacritics) s = RemoveDiacritics(s);
+
                 if (hashTable.ContainsKey(arrSearch[i])) 
                 {                  
                   if (settings.CountWordsOnlyOnce)
@@ -283,7 +314,8 @@ namespace Contains
           presentation.TargetHits = (settings.HitPercentFromInputString && arrSearch != null) ? (int)percentage : settings.Hits;
           presentation.SetData(listReturn.ToArray());
 
-          EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(Math.Min(percentage, 100.0), 100));
+          //ProgressChanged(Math.Min(percentage, 100.0), 100);
+          ProgressChanged(100,100);
         }
         else
         {
@@ -341,6 +373,11 @@ namespace Contains
     protected void OnPropertyChanged(string name)
     {
       EventsHelper.PropertyChanged(PropertyChanged, this, new PropertyChangedEventArgs(name));
+    }
+
+    private void ProgressChanged(double value, double max)
+    {
+        EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
     }
 
     #endregion
