@@ -403,6 +403,11 @@ namespace PKCS5
     public event PluginProgressChangedEventHandler OnPluginProgressChanged;
 #pragma warning restore
 
+    private void Progress(double value, double max)
+    {
+        EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
+    }
+
     /// <summary>
     /// Provide all presentation stuff in this user control, it will be opened in an tab.
     /// Return null if your plugin has no presentation.
@@ -438,8 +443,12 @@ namespace PKCS5
     /// </summary>
     public void Execute()
     {
+      Progress(0.0, 1.0);
+
       GuiLogMessage("Execute.", NotificationLevel.Debug);
       Hash();
+
+      Progress(1.0, 1.0);
     }
 
     /// <summary>

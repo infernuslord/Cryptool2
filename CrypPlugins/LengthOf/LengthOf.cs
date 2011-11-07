@@ -41,6 +41,8 @@ namespace Cryptool.Plugins.LengthOf
 
         public void Execute()
         {
+            Progress(0.0, 1.0);
+
             if (ObjInput != null)
             {
                 if (ObjInput is Array)
@@ -54,6 +56,8 @@ namespace Cryptool.Plugins.LengthOf
                     GuiLogMessage("Object isn't an array. Length: " + OutputLen, NotificationLevel.Debug);
                 }
             }
+
+            Progress(1.0, 1.0);
         }
 
         [PropertyInfo(Direction.InputData, "ObjInputCaption", "ObjInputTooltip", "", true, false, QuickWatchFormat.Text, null)]
@@ -94,8 +98,14 @@ namespace Cryptool.Plugins.LengthOf
 
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
 
-        public event PluginProgressChangedEventHandler OnPluginProgressChanged;
         public event StatusChangedEventHandler OnPluginStatusChanged;
+
+        public event PluginProgressChangedEventHandler OnPluginProgressChanged;
+
+        private void Progress(double value, double max)
+        {
+            EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
+        }
 
         public void Pause()
         {

@@ -244,8 +244,14 @@ namespace Tiger
 #pragma warning disable 67
     public event StatusChangedEventHandler OnPluginStatusChanged;
     public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
-    public event PluginProgressChangedEventHandler OnPluginProgressChanged;
 #pragma warning restore
+
+    public event PluginProgressChangedEventHandler OnPluginProgressChanged;
+
+    private void Progress(double value, double max)
+    {
+        EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
+    }
 
 
     /// <summary>
@@ -274,7 +280,9 @@ namespace Tiger
     /// </summary>
     public void Execute()
     {
-      Hash();
+        Progress(0.0, 1.0);
+        Hash();
+        Progress(1.0, 1.0);
     }
 
     /// <summary>

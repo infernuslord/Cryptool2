@@ -264,7 +264,7 @@ namespace Cryptool.PRESENT
                             if ((int)(reader.Position * 100 / inputStream.Length) > position)
                             {
                                 position = (int)(reader.Position * 100 / inputStream.Length);
-                                ProgressChanged(reader.Position, inputStream.Length);
+                                Progress(reader.Position, inputStream.Length);
                             }
                         }
                         p_crypto_stream_enc.Flush();
@@ -303,7 +303,7 @@ namespace Cryptool.PRESENT
                 }
                 finally
                 {
-                    ProgressChanged(1, 1);
+                    Progress(1, 1);
                 }
             }
         }
@@ -332,7 +332,7 @@ namespace Cryptool.PRESENT
                             if ((int)(reader.Position * 100 / inputStream.Length) > position)
                             {
                                 position = (int)(reader.Position * 100 / inputStream.Length);
-                                ProgressChanged(reader.Position, inputStream.Length);
+                                Progress(reader.Position, inputStream.Length);
                             }
                         }
                         p_crypto_stream_dec.Flush();
@@ -369,7 +369,7 @@ namespace Cryptool.PRESENT
                 }
                 finally
                 {
-                    ProgressChanged(1, 1);
+                    Progress(1, 1);
                 }
             }
         }
@@ -466,13 +466,9 @@ namespace Cryptool.PRESENT
             //}
         }
 
-        private void ProgressChanged(double value, double max)
+        private void Progress(double value, double max)
         {
             EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
-            //if (OnPluginProgressChanged != null)
-            //{
-            //  OnPluginProgressChanged(this, new PluginProgressEventArgs(value, max));
-            //}
         }
 
         #endregion

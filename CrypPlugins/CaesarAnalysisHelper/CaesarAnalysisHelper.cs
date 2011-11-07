@@ -20,6 +20,7 @@ using System.Linq;
 using System.Windows.Controls;
 using Cryptool.PluginBase;
 using System.Collections.Generic;
+using Cryptool.PluginBase.Miscellaneous;
 
 namespace Cryptool.CaesarAnalysisHelper
 {
@@ -31,11 +32,18 @@ namespace Cryptool.CaesarAnalysisHelper
         private readonly CaesarAnalysisHelperSettings settings;
 
         public event PropertyChangedEventHandler PropertyChanged;
+
 #pragma warning disable 67
         public event StatusChangedEventHandler OnPluginStatusChanged;
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
-        public event PluginProgressChangedEventHandler OnPluginProgressChanged;
 #pragma warning restore
+
+        public event PluginProgressChangedEventHandler OnPluginProgressChanged;
+
+        private void Progress(double value, double max)
+        {
+            EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
+        }
 
         public CaesarAnalysisHelper()
         {
@@ -252,7 +260,9 @@ namespace Cryptool.CaesarAnalysisHelper
 
         public void Execute()
         {
+            Progress(0, 1);
             CryptoAnalysis();
+            Progress(1, 1);
         }
 
         public void PostExecution()

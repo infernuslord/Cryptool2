@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Cryptool.PluginBase;
+using Cryptool.PluginBase.Miscellaneous;
 using System.ComponentModel;
 using Cryptool.KasiskiTest;
-
 using System.Windows.Controls;
 
 namespace Cryptool.KasiskiTest
@@ -76,6 +76,11 @@ namespace Cryptool.KasiskiTest
 
         public event PluginProgressChangedEventHandler OnPluginProgressChanged;
 
+        private void Progress(double value, double max)
+        {
+            EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
+        }
+
         private KasiskiTestSettings settings;
         public ISettings Settings
         {
@@ -102,6 +107,8 @@ namespace Cryptool.KasiskiTest
 
         public void Execute()
         {
+            Progress(0.0, 1.0);
+
             if (stringInput != null)
             {
                 
@@ -241,8 +248,9 @@ break;
                 
                 presentation.OpenPresentationFile();
                
-            } 
+            }
 
+            Progress(1.0, 1.0);
         }
 
          //P.S. The arrays used in the solution are:

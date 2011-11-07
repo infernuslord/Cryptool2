@@ -22,6 +22,7 @@ using Cryptool.PluginBase;
 using System.IO;
 using System.ComponentModel;
 using Cryptool.PluginBase.IO;
+using Cryptool.PluginBase.Miscellaneous;
 
 namespace Cryptool.Vigenere
 {
@@ -177,6 +178,11 @@ namespace Cryptool.Vigenere
         /// Fire if progress bar status was changed
         /// </summary>
         public event PluginProgressChangedEventHandler OnPluginProgressChanged;
+
+        private void Progress(double value, double max)
+        {
+            EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
+        }
 
         /// <summary>
         /// Fire if a new message has to be shown in the status bar
@@ -379,10 +385,7 @@ namespace Cryptool.Vigenere
                     }
 
                     //show the progress
-                    if (OnPluginProgressChanged != null)
-                    {
-                        OnPluginProgressChanged(this, new PluginProgressEventArgs(i, inputString.Length - 1));
-                    }
+                    Progress(i, inputString.Length - 1);
                 }
                 outputString = output.ToString();
                 OnPropertyChanged("OutputString");

@@ -24,6 +24,7 @@ using System.Collections;
 using System.IO;
 using System.ComponentModel;
 using System.Windows.Controls;
+using Cryptool.PluginBase.Miscellaneous;
 
 namespace Cryptool.Substitution
 {
@@ -204,10 +205,7 @@ namespace Cryptool.Substitution
                     }
 
                     //show the progress
-                    if (OnPluginProgressChanged != null)
-                    {
-                        OnPluginProgressChanged(this, new PluginProgressEventArgs(i, inputString.Length - 1));
-                    }
+                    Progress(i, inputString.Length - 1);
                 }
                 outputString = output.ToString();
                 OnPropertyChanged("OutputString");
@@ -292,11 +290,9 @@ namespace Cryptool.Substitution
                     }
 
                     //show the progress
-                    if (OnPluginProgressChanged != null)
-                    {
-                        OnPluginProgressChanged(this, new PluginProgressEventArgs(i, inputString.Length - 1));
-                    }
+                    Progress(i, inputString.Length - 1);
                 }
+
                 outputString = output.ToString();
                 OnPropertyChanged("OutputString");
                 OnPropertyChanged("OutputData");
@@ -331,6 +327,11 @@ namespace Cryptool.Substitution
         /// Fire if progress bar status was changed
         /// </summary>
         public event PluginProgressChangedEventHandler OnPluginProgressChanged;
+
+        private void Progress(double value, double max)
+        {
+            EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
+        }
 
         /// <summary>
         /// Fire if a new message has to be shown in the status bar

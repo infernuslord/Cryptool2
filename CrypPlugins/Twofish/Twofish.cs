@@ -49,6 +49,10 @@ namespace Twofish
         public event PluginProgressChangedEventHandler OnPluginProgressChanged;
 #pragma warning restore
 
+        private void Progress(double value, double max)
+        {
+            EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
+        }
 
         TwofishSettings settings;
         /// <summary>
@@ -87,7 +91,11 @@ namespace Twofish
 
         public void Execute()
         {
+            Progress(0.0, 1.0);
+
             Crypt();
+
+            Progress(1.0, 1.0);
         }
 
         public void PostExecution()

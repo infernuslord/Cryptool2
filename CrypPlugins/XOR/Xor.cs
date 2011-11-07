@@ -18,12 +18,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Cryptool.PluginBase;
-
 using System.IO;
 using System.ComponentModel;
-using Cryptool.PluginBase.IO;
 using System.Windows.Controls;
+using Cryptool.PluginBase;
+using Cryptool.PluginBase.IO;
+using Cryptool.PluginBase.Miscellaneous;
 
 namespace Cryptool.XOR
 {
@@ -103,6 +103,11 @@ namespace Cryptool.XOR
         /// </summary>
         public event PluginProgressChangedEventHandler OnPluginProgressChanged;
 
+        private void Progress(double value, double max)
+        {
+            EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
+        }
+
         /// <summary>
         /// Fire, if new message has to be shown in the status bar
         /// </summary>
@@ -157,10 +162,7 @@ namespace Cryptool.XOR
                 outputData[i] = (byte)(inputData[i] ^ longKey[i]);
 
                 //show the progress
-                if (OnPluginProgressChanged != null)
-                {
-                    OnPluginProgressChanged(this, new PluginProgressEventArgs(i, inputData.Length - 1));
-                }
+                Progress(i, inputData.Length - 1);
             }
 
             OnPropertyChanged("OutputData");
