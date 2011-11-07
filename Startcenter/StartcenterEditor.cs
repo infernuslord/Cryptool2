@@ -113,16 +113,6 @@ namespace StartCenter
             
         }
 
-        public void AddEditorSpecific(EditorSpecificPluginInfo espi)
-        {
-            
-        }
-
-        public void DeleteEditorSpecific(EditorSpecificPluginInfo espi)
-        {
-            
-        }
-
         public void Undo()
         {
             
@@ -244,11 +234,6 @@ namespace StartCenter
         public string SamplesDir
         {
             set { _samplesDir = value; }
-        }
-
-        public List<EditorSpecificPluginInfo> EditorSpecificPlugins
-        {
-            get { return null; }
         }
 
         public bool ReadOnly { get; set; }
