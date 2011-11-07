@@ -31,7 +31,7 @@
     <newline/><newline/>
     The factorization algorithm that is implemented in this plugin should only be applied to relatively small numbers (up to
     about 10^12). For the factorization of bigger numbers there exist algorithms that are much more efficient,
-    f.e. the quadratic sieve algorithm, which is implemented in the plugin <docRef item="Quadratic Sieve"/>.
+    e.g. the quadratic sieve algorithm, which is implemented in the plugin <docRef item="Quadratic Sieve"/>.
   </usage>
 
   <usage lang="de-DE">
