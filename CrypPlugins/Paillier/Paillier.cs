@@ -575,10 +575,6 @@ namespace Cryptool.Plugins.Paillier
 
         }
 
-        public void Pause()
-        {
-        }
-
         public void Stop()
         {
 

@@ -207,10 +207,6 @@ namespace Cryptool.Plugins.AutokorrelationFunction
         {
         }
 
-        public void Pause()
-        {
-        }
-
         public void Stop()
         {
             presentation.histogram.SetBackground(Brushes.LightGray);

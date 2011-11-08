@@ -141,10 +141,6 @@ namespace Cryptool.Plugins.PasswordStrength
         {
         }
 
-        public void Pause()
-        {
-        }
-
         public void Stop()
         {
         }

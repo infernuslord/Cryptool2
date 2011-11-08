@@ -183,10 +183,6 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
         {
         }
 
-        public void Pause()
-        {
-        }
-
         public void Stop()
         {
         }

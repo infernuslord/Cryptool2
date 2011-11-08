@@ -334,11 +334,6 @@ namespace Cryptool.FrequencyTest
             //throw new NotImplementedException();
         }
 
-        public void Pause()
-        {
-            //throw new NotImplementedException();
-        }
-
         public void Stop()
         {
             presentation.SetBackground(Brushes.LightGray);

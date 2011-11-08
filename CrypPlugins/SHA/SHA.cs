@@ -210,11 +210,6 @@ namespace SHA
 
         #region IPlugin Members
 
-        public void Pause()
-        {
-          
-        }
-
-        #endregion
+      #endregion
     }
 }

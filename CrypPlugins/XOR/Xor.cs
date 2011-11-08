@@ -168,10 +168,6 @@ namespace Cryptool.XOR
             OnPropertyChanged("OutputData");
         }
 
-        public void Pause()
-        {
-        }
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         public void OnPropertyChanged(string name)

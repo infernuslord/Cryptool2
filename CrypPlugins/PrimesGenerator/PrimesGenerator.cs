@@ -154,12 +154,7 @@ namespace Cryptool.PrimesGenerator
       
     }
 
-    public void Pause()
-    {
-      
-    }
-
-    public void Stop()
+      public void Stop()
     {
       
     }

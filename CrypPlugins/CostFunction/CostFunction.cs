@@ -235,11 +235,6 @@ namespace Cryptool.Plugins.CostFunction
             this.stopped = true;
         }
 
-        public void Pause()
-        {
-
-        }
-
         public void Stop()
         {
             this.stopped = false;

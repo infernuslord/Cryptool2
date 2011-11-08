@@ -455,12 +455,7 @@ namespace Cryptool.StreamComparator
 
     #region IPlugin Members
 
-    public void Pause()
-    {
-      
-    }
-
-    #endregion
+      #endregion
   }
 
   enum StreamComparatorImage

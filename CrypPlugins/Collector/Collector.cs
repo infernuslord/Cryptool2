@@ -144,11 +144,6 @@ namespace Cryptool.Plugins.Collector
             Dispose();
         }
 
-        public void Pause()
-        {
-            
-        }
-
         public void Stop()
         {
             

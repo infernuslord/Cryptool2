@@ -13,21 +13,17 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Cryptool.PluginBase;
 using System.ComponentModel;
-using Cryptool.PluginBase.IO;
-using Cryptool.PluginBase.Miscellaneous;
 using System.Windows.Controls;
+using Cryptool.PluginBase;
+using Cryptool.PluginBase.Miscellaneous;
 
 namespace Cryptool.Plugins.ExamplePluginCT2
 {
     // HOWTO: Change author name, email address, organization and URL.
     [Author("Anonymous", "coredevs@cryptool.org", "CrypTool 2 Team", "http://cryptool2.vs.uni-due.de")]
-    // HOWTO: Change plugin caption (title to appear in CT2) and tooltip. You can (and should) provide a description XAML and an own icon as well.
+    // HOWTO: Change plugin caption (title to appear in CT2) and tooltip.
+    // You can (and should) provide a user documentation as XML file and an own icon.
     [PluginInfo(false, "Example Plugin", "Subtract one number from another", "ExamplePluginCT2/userdoc.xml", "CrypWin/images/default.png")]
     // HOWTO: Change category to one that fits to your plugin. Multiple categories are allowed.
     [ComponentCategory(ComponentCategory.ToolsMisc)]
@@ -46,8 +42,8 @@ namespace Cryptool.Plugins.ExamplePluginCT2
         /// HOWTO: Input interface to read the input data. 
         /// You can add more input properties of other type if needed.
         /// </summary>
-        [PropertyInfo(Direction.InputData, "Minuend", "Input number", null)]
-        public int Minuend
+        [PropertyInfo(Direction.InputData, "Input name", "Input tooltip description", null)]
+        public int SomeInput
         {
             get;
             set;
@@ -57,8 +53,8 @@ namespace Cryptool.Plugins.ExamplePluginCT2
         /// HOWTO: Output interface to write the output data.
         /// You can add more output properties ot other type if needed.
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "Difference", "Result", null)]
-        public int Difference
+        [PropertyInfo(Direction.OutputData, "Output name", "Output tooltip description", null)]
+        public int SomeOutput
         {
             get;
             set;
@@ -74,7 +70,7 @@ namespace Cryptool.Plugins.ExamplePluginCT2
         }
 
         /// <summary>
-        /// HOWTO: You can provide a custom (tabbed) presentation to visualize your algorithm.
+        /// HOWTO: You can provide a custom presentation to visualize your algorithm.
         /// Return null if you don't provide one.
         /// </summary>
         public UserControl Presentation
@@ -95,22 +91,18 @@ namespace Cryptool.Plugins.ExamplePluginCT2
             ProgressChanged(0, 1);
 
             // HOWTO: After you have changed an output property, make sure you announce the name of the changed property to the CT2 core.
-            Difference = Minuend - settings.Subtrahend;
-            OnPropertyChanged("Difference");
+            SomeOutput = SomeInput - settings.SomeParameter;
+            OnPropertyChanged("SomeOutput");
 
             // HOWTO: You can pass error, warning, info or debug messages to the CT2 main window.
-            if (settings.Subtrahend < 0)
-                GuiLogMessage("Subtrahend is negative", NotificationLevel.Debug);
+            if (settings.SomeParameter < 0)
+                GuiLogMessage("SomeParameter is negative", NotificationLevel.Debug);
 
             // HOWTO: Make sure the progress bar is at maximum when your Execute() finished successfully.
             ProgressChanged(1, 1);
         }
 
         public void PostExecution()
-        {
-        }
-
-        public void Pause()
         {
         }
 

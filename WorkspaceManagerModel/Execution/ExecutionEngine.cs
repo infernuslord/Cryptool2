@@ -254,14 +254,6 @@ namespace WorkspaceManager.Execution
         }
 
         /// <summary>
-        /// Pause the execution
-        /// </summary>
-        public void Pause()
-        {
-            //not implemented yet
-        }
-
-        /// <summary>
         /// Loggs a gui message
         /// Sender will be the editor
         /// </summary>

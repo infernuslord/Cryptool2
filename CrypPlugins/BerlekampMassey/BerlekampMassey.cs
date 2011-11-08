@@ -305,10 +305,6 @@ namespace Cryptool.BerlekampMassey
             }
         }
 
-        public void Pause()
-        {
-        }
-
         public event PluginProgressChangedEventHandler OnPluginProgressChanged;
         private void ProgressChanged(double value, double max)
         {

@@ -37,7 +37,6 @@ namespace Cryptool.Plugins.MD5Collider
 
         public void PreExecution() { Dispose(); }
         public void PostExecution() { Dispose(); }
-        public void Pause() { }
         public void Stop() { Collider.Stop(); }
         public void Initialize() { }
 

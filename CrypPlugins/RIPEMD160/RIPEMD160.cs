@@ -196,11 +196,6 @@ namespace RIPEMD160
 
         public event StatusChangedEventHandler OnPluginStatusChanged;
 
-        public void Pause()
-        {
-          
-        }
-
         #endregion
     }
 }

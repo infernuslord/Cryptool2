@@ -243,10 +243,6 @@ namespace Cryptool.Plugins.SZ42
             Dispose();
         }
 
-        public void Pause()
-        {
-        }
-
         public void Stop()
         {
         }

@@ -104,9 +104,7 @@ namespace Cryptool.ComputeAnnihilators
         {
             Dispose();
         }
-        public void Pause()
-        {
-        }
+
         public void PreExecution()
         {
             Dispose();

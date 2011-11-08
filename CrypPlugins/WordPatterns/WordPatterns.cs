@@ -297,10 +297,6 @@ namespace WordPatterns
             dictPatterns = null;
         }
 
-        public void Pause()
-        {
-        }
-
         public void Stop()
         {
             stop = true;

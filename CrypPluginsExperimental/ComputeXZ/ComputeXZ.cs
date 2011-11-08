@@ -124,9 +124,7 @@ namespace Cryptool.ComputeXZ
         public void PostExecution()
         {
         }
-        public void Pause()
-        {
-        }
+
         public void PreExecution()
         {
         }

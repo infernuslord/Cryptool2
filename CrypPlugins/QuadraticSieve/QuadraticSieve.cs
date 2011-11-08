@@ -344,13 +344,6 @@ namespace Cryptool.Plugins.QuadraticSieve
         }
 
         /// <summary>
-        /// Called by the environment to pause execution
-        /// </summary>
-        public void Pause()
-        {
-        }
-
-        /// <summary>
         /// Called by the environment to stop execution
         /// </summary>
         public void Stop()

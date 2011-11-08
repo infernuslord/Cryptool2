@@ -303,10 +303,6 @@ namespace Cryptool.Plugins.PlayfairAnalysis
         {
         }
 
-        public void Pause()
-        {
-        }
-
         public void Stop()
         {
             if (playFairAttackThread != null)

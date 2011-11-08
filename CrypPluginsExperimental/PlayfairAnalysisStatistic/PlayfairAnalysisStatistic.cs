@@ -245,10 +245,6 @@ namespace Cryptool.Plugins.PlayfairAnalysisStatistic
         {
         }
 
-        public void Pause()
-        {
-        }
-
         public void Stop()
         {
         }

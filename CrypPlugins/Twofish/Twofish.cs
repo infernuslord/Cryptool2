@@ -102,10 +102,6 @@ namespace Twofish
         {
         }
 
-        public void Pause()
-        {
-        }
-
         public void Stop()
         {
         }

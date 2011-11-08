@@ -215,10 +215,6 @@ namespace Solitaire
             isPlayMode = false;
         }
 
-        public void Pause()
-        {
-        }
-
         public void Stop()
         {
             myPresentation.button1.IsEnabled = true;

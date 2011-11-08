@@ -185,10 +185,6 @@ namespace Gate
         {
         }
 
-        public void Pause()
-        {
-        }
-
         public void Stop()
         {
         }

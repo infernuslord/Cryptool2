@@ -107,11 +107,6 @@ namespace Wizard
             
         }
 
-        public void Pause()
-        {
-            
-        }
-
         public void Open(string fileName)
         {
             

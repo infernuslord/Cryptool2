@@ -127,10 +127,6 @@ namespace Cryptool.Plugins.ArrayIndexer
         {
         }
 
-        public void Pause()
-        {
-        }
-
         public void Stop()
         {
         }

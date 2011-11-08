@@ -348,11 +348,6 @@ namespace Cryptool.Caesar
             }
         }
 
-        public void Pause()
-        {
-            
-        }
-
         #endregion
 
     }

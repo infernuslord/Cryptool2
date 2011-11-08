@@ -693,11 +693,6 @@ namespace Cryptool.VigenereAnalyser
 
         public event StatusChangedEventHandler OnPluginStatusChanged;
 
-        public void Pause()
-        {
-            //throw new NotImplementedException();
-        }
-
         public void PostExecution()
         {   
             frequencyStats = null;

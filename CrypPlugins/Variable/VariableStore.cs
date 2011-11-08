@@ -108,11 +108,6 @@ namespace Cryptool.Plugins.Variable
         {
         }
 
-        public void Pause()
-        {
-           
-        }
-
         public void Stop()
         {
           

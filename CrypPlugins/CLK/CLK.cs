@@ -266,11 +266,7 @@ namespace Cryptool.CLK
     {
     }
 
-    public void Pause()
-    {
-    }
-
-    public void Stop()
+        public void Stop()
     {
         // disable timer
         aTimer.Enabled = false;

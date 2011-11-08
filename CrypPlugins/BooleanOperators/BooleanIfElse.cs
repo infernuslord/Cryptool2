@@ -111,10 +111,6 @@ namespace Cryptool.Plugins.BooleanOperators
         public void Initialize()
         {
         }
-      
-        public void Pause()
-        {
-        }
 
         public void PostExecution()
         {

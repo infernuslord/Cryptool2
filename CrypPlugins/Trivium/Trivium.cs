@@ -583,10 +583,6 @@ namespace Cryptool.Trivium
             EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
         }
 
-        public void Pause()
-        {
-        }
-
         public void PostExecution()
         {
             Dispose();

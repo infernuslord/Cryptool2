@@ -57,7 +57,6 @@ namespace Primes.WpfVisualization
     private IPrimeMethodDivision m_NumberTheoryControl = null;
     private IPrimeMethodDivision m_SieveOfAtkinControl = null;
     private bool m_Standalone = false;
-    private PrimesSettings settings = null;
 
     public bool Standalone
     {
@@ -86,8 +85,6 @@ namespace Primes.WpfVisualization
     {
       InitializeComponent();
       Initialize();
-      settings = new PrimesSettings();
-       
     }
 
 
@@ -312,11 +309,6 @@ namespace Primes.WpfVisualization
       OnlineHelp.OnlineHelpAccess.HelpWindowClosed();
     }
 
-    public void ShowHelp()
-    {
-      
-    }
-
     private void ImageHelpClick(object sender, MouseButtonEventArgs e)
     {
       Primes.OnlineHelp.OnlineHelpActions action = Primes.OnlineHelp.OnlineHelpActions.Graph_PrimesCount; 
@@ -403,12 +395,6 @@ namespace Primes.WpfVisualization
       //}
       //m_Collapsed = !m_Collapsed;
     }
-
-    private void pnlLeft_SizeChanged(object sender, SizeChangedEventArgs e)
-    {
-      
-    }
-
 
 
     #region IPlugin Members
@@ -498,64 +484,5 @@ namespace Primes.WpfVisualization
       
     }
 
-    #region IPlugin Members
-
-
-    public bool HasChanges
-    {
-      get
-      {
-        return true;
-      }
-      set
-      {
-      }
-    }
-
-    public void PostExecution()
-    {
-    }
-
-    public void PreExecution()
-    {
-    }
-
-    #endregion
-
-    #region INotifyPropertyChanged Members
-
-    public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-    private void FirePropertyChangedEvent()
-    {
-      if (PropertyChanged != null) PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs("Primes"));
-    }
-
-    #endregion
-
-    #region IPlugin Members
-
-    public event StatusChangedEventHandler OnPluginStatusChanged;
-
-    private void FirePluginStatusChangedEvent()
-    {
-      //if (OnPluginStatusChanged != null) OnPluginStatusChanged(this, new StatusEventArgs(0));
-    }
-
-    public ISettings Settings
-    {
-      get { return settings; }
-    }
-
-    public void Execute()
-    {
-      
-    }
-
-    public void Pause()
-    {
-      
-    }
-
-    #endregion
   }
 }

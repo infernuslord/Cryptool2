@@ -1087,10 +1087,6 @@ namespace Cryptool.CubeAttack
             }
         }
 
-        public void Pause()
-        {
-        }
-
         #endregion
 
 

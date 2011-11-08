@@ -124,12 +124,7 @@ namespace Cryptool.Alphabets
           ShowProgress(100, 100);
       }
 
-      public void Pause()
-      {
-        
-      }
-
-      #endregion
+        #endregion
 
       #region Private
       private void ShowProgress(double value, double max)

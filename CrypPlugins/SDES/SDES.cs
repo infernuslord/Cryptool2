@@ -315,14 +315,6 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         }
 
         /// <summary>
-        /// Called by the environment of this plugin if it is set to pause
-        /// </summary>
-        public void Pause()
-        {
-
-        }
-
-        /// <summary>
         /// Sets/Gets the ControlSlave of this plugin
         /// </summary>
         [PropertyInfo(Direction.ControlSlave, "ControlSlaveCaption", "ControlSlaveTooltip", "")]

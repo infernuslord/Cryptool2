@@ -166,10 +166,6 @@ namespace Dictionary
             allowReexecution = false;
         }
 
-        public void Pause()
-        {
-        }
-
         public void Stop()
         {
         }

@@ -236,11 +236,6 @@ namespace ClipboardInput
       OnPropertyChanged("StreamOutput");
     }
 
-    public void Pause()
-    {
-
-    }
-
-    #endregion
+      #endregion
   }
 }

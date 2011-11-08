@@ -64,11 +64,6 @@ namespace PKCS1
             //throw new NotImplementedException();
         }
 
-        public void Pause()
-        {
-            //throw new NotImplementedException();
-        }
-
         public void PostExecution()
         {
             //throw new NotImplementedException();

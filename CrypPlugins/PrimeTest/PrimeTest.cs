@@ -74,11 +74,7 @@ namespace PrimeTest
     {
     }
 
-    public void Pause()
-    {
-    }
-
-    public void Stop()
+      public void Stop()
     {
     }
 

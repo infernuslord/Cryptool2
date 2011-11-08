@@ -46,10 +46,6 @@ namespace Primes
     {
     }
 
-    public void Pause()
-    {
-    }
-
     public void Stop()
     {
     }
@@ -58,10 +54,11 @@ namespace Primes
     {
     }
 
+    // Dispose on ITool is never called
     public void Dispose()
     {
-      if (m_PrimesPlugin == null) m_PrimesPlugin.Dispose();
-
+        if (m_PrimesPlugin != null)
+            m_PrimesPlugin.Dispose();
     }
 
     #endregion

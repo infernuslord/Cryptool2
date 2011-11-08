@@ -141,11 +141,6 @@ namespace Cryptool.Plugins.Numbers
             Dispose();
         }
 
-        public void Pause()
-        {
-            
-        }
-
         public void Stop()
         {
             _running = false;

@@ -491,12 +491,6 @@ namespace Cryptool.PRESENT
             }
         }
 
-
-        public void Pause()
-        {
-
-        }
-
         #endregion
     }
 }

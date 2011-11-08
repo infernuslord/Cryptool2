@@ -146,10 +146,6 @@ namespace Cryptool.Plugins.StegoInsertion
         {
         }
 
-        public void Pause()
-        {
-        }
-
         public void Stop()
         {
         }

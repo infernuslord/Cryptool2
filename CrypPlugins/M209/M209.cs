@@ -513,10 +513,6 @@ namespace Cryptool.Plugins.M209
 
         }
 
-        public void Pause()
-        {
-        }
-
         public void Stop()
         {
         }

@@ -395,10 +395,6 @@ namespace KeySearcher
         {
         }
 
-        public void Pause()
-        {
-        }
-
         public void Stop()
         {
             IsKeySearcherRunning = false;

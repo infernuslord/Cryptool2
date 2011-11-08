@@ -318,11 +318,7 @@ namespace Concatenate
         DicDynamicProperties[outputOne].Value = null;
     }
 
-    public void Pause()
-    {
-    }
-
-    public void Stop()
+      public void Stop()
     {
     }
 

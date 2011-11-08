@@ -365,14 +365,6 @@ namespace Cryptool.Plugins.DGK
         }
 
         /// <summary>
-        /// This method is called by the environment to pause this plugin
-        /// </summary>
-        public void Pause()
-        {
-
-        }
-
-        /// <summary>
         /// This method is called by the environment to stop execution
         /// </summary>
         public void Stop()

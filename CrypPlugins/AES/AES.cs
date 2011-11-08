@@ -402,11 +402,6 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         {
           EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
         }
-        
-        public void Pause()
-        {
-          
-        }
 
         #endregion
 

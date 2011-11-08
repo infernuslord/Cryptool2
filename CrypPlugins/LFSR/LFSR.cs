@@ -896,10 +896,6 @@ namespace Cryptool.LFSR
             EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
         }
 
-        public void Pause()
-        {
-        }
-
         public void PostExecution()
         {
             if (settings.SaveCurrentState)

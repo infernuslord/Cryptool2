@@ -656,14 +656,6 @@ namespace WorkspaceManager
         }
 
         /// <summary>
-        /// Pause the execution
-        /// </summary>
-        public void Pause()
-        {   
-            //to be implemented
-        }
-
-        /// <summary>
         /// Stop the ExecutionEngine
         /// </summary>
         public void Stop()

@@ -493,11 +493,6 @@ namespace Cryptool.Enigma
             
         }
 
-        public void Pause()
-        {
-            LogMessage("The \"Pause\"-Feature is not implemented!", NotificationLevel.Warning);
-        }
-
         public void Stop()
         {
             LogMessage("Enigma stopped", NotificationLevel.Info);

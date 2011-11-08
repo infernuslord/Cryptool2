@@ -332,10 +332,6 @@ namespace Cryptool.Plugins.Purple
             OutputString = "";
         }
 
-        public void Pause()
-        {
-        }
-
         public void Stop()
         {
         }

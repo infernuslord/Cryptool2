@@ -181,11 +181,6 @@ namespace TranspositionAnalyser
 
         }
 
-        public void Pause()
-        {
-
-        }
-
         private Boolean stop;
         public void Stop()
         {

@@ -201,10 +201,6 @@ namespace FileInput
             NotifyPropertyChange();
         }
 
-        public void Pause()
-        {
-        }
-
         #endregion
     }
 }
