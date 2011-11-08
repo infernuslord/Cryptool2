@@ -413,10 +413,6 @@ namespace Cryptool.Substitution
             }
         }
 
-        public void Pause()
-        {
-        }
-
         #endregion
         ///// <summary>
         ///// Substitution encryption

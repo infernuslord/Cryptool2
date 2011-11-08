@@ -215,11 +215,6 @@ namespace FileOutput
             }
         }
 
-    public void Pause()
-    {
-      
-    }
-
-    #endregion
+      #endregion
   }
 }

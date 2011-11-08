@@ -649,14 +649,6 @@ namespace Cryptool.Internet_frame_generator
 
         public event StatusChangedEventHandler OnPluginStatusChanged;
 
-        
-
-        
-
-        public void Pause()
-        {
-            
-        }
 
         public void PostExecution()
         {

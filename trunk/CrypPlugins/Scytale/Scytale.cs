@@ -165,10 +165,6 @@ namespace Cryptool.Scytale
         {
         }
 
-        public void Pause()
-        {
-        }
-
         public void Stop()
         {
         }

@@ -170,12 +170,7 @@ namespace RandomInput
       Progress(1.0, 1.0);
     }
 
-    public void Pause()
-    {
-
-    }
-
-    #endregion
+      #endregion
 
 
     #region INotifyPropertyChanged Members

@@ -103,11 +103,6 @@ namespace Cryptool.Plugins.Variable
             Dispose();
         }
 
-        public void Pause()
-        {
-           
-        }
-
         public void Stop()
         {
           

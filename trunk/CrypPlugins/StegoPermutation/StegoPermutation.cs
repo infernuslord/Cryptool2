@@ -185,10 +185,6 @@ namespace Cryptool.Plugins.StegoPermutation
         {
         }
 
-        public void Pause()
-        {
-        }
-
         public void Stop()
         {
         }

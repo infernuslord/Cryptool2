@@ -229,11 +229,6 @@ namespace Nihilist
 
         }
 
-        public void Pause()
-        {
-
-        }
-
         public void Stop()
         {
 

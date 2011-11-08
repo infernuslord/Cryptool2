@@ -837,10 +837,6 @@ namespace Cryptool.Plugins.T310
         {
         }
 
-        public void Pause()
-        {
-        }
-
         public void Stop()
         {
         }

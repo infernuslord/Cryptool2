@@ -454,11 +454,6 @@ namespace Cryptool.Vigenere
         
         }
 
-        public void Pause()
-        {
-
-        }
-
         #endregion
 
     }

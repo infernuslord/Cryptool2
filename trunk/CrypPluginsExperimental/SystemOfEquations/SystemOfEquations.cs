@@ -85,9 +85,7 @@ namespace Cryptool.SystemOfEquations
         public void Stop()
         {
         }
-        public void Pause()
-        {
-        }
+
         public void PostExecution()
         {
             Dispose();

@@ -228,11 +228,6 @@ namespace ClipboardOutput {
       
     }
 
-    public void Pause()
-    {
-      
-    }
-
-    #endregion
+      #endregion
   }
 }

@@ -99,10 +99,6 @@ namespace RegularExpressions
         {
         }
 
-        public void Pause()
-        {
-        }
-
         public void Stop()
         {
         

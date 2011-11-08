@@ -837,11 +837,6 @@ namespace Cryptool.NLFSR
             EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
         }
 
-        public void Pause()
-        {
-            //throw new NotImplementedException();
-        }
-
         public void PostExecution()
         {
             if (settings.SaveCurrentState)

@@ -218,10 +218,6 @@ namespace Cryptool.MD5
         {
           EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
         }
-        
-        public void Pause()
-        {          
-        }
 
         #endregion
     }

@@ -229,10 +229,6 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
         {
         }
 
-        public void Pause()
-        {
-        }
-
         public void Stop()
         {
         }

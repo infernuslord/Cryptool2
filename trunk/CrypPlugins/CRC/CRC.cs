@@ -185,10 +185,6 @@ namespace Cryptool.CRC
             }
         }
 
-        public void Pause()
-        {
-        }
-
         public void PostExecution()
         {
         }

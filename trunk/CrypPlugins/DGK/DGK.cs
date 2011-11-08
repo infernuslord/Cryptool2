@@ -661,10 +661,6 @@ namespace Cryptool.Plugins.DGK
 
         }
 
-        public void Pause()
-        {
-        }
-
         public void Stop()
         {
 

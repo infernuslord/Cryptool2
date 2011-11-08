@@ -511,12 +511,7 @@ namespace TextOutput
       dicWarningsAndErros.Clear();
     }
 
-    public void Pause()
-    {
-
-    }
-
-    private void AddMessage(string message, NotificationLevel level)
+      private void AddMessage(string message, NotificationLevel level)
     {
       if (!dicWarningsAndErros.ContainsKey(message))
         dicWarningsAndErros.Add(message, level);

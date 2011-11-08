@@ -107,11 +107,6 @@ namespace PictureOutput
             
         }
 
-        public void Pause()
-        {
-            
-        }
-
         public void Stop()
         {
             

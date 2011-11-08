@@ -59,11 +59,6 @@ namespace StartCenter
             
         }
 
-        public void Pause()
-        {
-            
-        }
-
         public void Stop()
         {
             

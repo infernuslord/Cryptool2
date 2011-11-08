@@ -236,11 +236,7 @@ namespace SmartInterpreter
     {
     }
 
-    public void Pause()
-    {
-    }
-
-    public void Stop()
+      public void Stop()
     {
         // resetting command counter
         this.CommandCounter = 0;

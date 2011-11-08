@@ -107,10 +107,6 @@ namespace Cryptool.Plugins.LengthOf
             EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
         }
 
-        public void Pause()
-        {
-        }
-
         public void PostExecution()
         {
         }

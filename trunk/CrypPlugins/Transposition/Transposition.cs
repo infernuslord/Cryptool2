@@ -219,11 +219,6 @@ namespace Transposition
 
         public event StatusChangedEventHandler OnPluginStatusChanged;
 
-        public void Pause()
-        {
-
-        }
-
         public void PostExecution()
         {
             

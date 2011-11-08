@@ -224,10 +224,6 @@ namespace Cryptool.P2PEditor
         {
         }
 
-        public void Pause()
-        {
-        }
-
         public void Stop()
         {
         }

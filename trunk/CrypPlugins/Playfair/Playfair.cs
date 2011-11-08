@@ -434,10 +434,6 @@ namespace Cryptool.Playfair
             ProgressChanged(1, 1);
         }
 
-        public void Pause()
-        {
-        }
-
         #endregion
 
         #region Event Handling

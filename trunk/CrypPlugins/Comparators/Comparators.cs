@@ -206,11 +206,6 @@ namespace Cryptool.Plugins.Comparators
             settings.ChangePluginIcon(settings.Comparator);
         }
 
-        public void Pause()
-        {
-
-        }
-
         public void PostExecution()
         {
 

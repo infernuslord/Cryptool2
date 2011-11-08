@@ -270,11 +270,6 @@ namespace Cryptool.CaesarAnalysisHelper
 
         }
 
-        public void Pause()
-        {
-
-        }
-
         public void Stop()
         {
 

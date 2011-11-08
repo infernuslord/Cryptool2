@@ -139,11 +139,6 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         }
 
 
-        public void Pause()
-        {
-
-        }
-
         public void Stop()
         {
             this.stop = true;

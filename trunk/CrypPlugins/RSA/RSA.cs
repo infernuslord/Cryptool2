@@ -218,13 +218,6 @@ namespace Cryptool.Plugins.RSA
         }
 
         /// <summary>
-        /// Called by the environment to pause this plugin
-        /// </summary>
-        public void Pause()
-        {
-        }
-
-        /// <summary>
         /// Called by the environment to stop this plugin
         /// </summary>
         public void Stop()

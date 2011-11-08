@@ -439,11 +439,7 @@ namespace Cryptool.TextInput
       }
     }
 
-    public void Pause()
-    {
-
-    }
-    #endregion
+      #endregion
 
     #region INotifyPropertyChanged Members
     public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;

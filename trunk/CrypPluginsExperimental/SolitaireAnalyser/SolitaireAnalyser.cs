@@ -175,10 +175,6 @@ namespace SolitaireAnalyser
         {
         }
 
-        public void Pause()
-        {
-        }
-
         public void Stop()
         {
             stop = true;

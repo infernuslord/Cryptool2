@@ -117,10 +117,6 @@ namespace Cryptool.Plugins.NetworkCapture
         {
         }
 
-        public void Pause()
-        {
-        }
-
         public void Stop()
         {
             if (devices.Count > 0)

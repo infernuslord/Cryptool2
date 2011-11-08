@@ -163,10 +163,6 @@ namespace Cryptool.Plugins.BooleanOperators
         {
         }
 
-        public void Pause()
-        {
-        }
-
         public void PostExecution()
         {
         }

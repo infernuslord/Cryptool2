@@ -295,11 +295,6 @@ namespace Cryptool.BooleanFunctionParser
             EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(args.Message, this, args.NotificationLevel));
         }
 
-        public void Pause()
-        {
-            
-        }
-
         public void PostExecution()
         {
             //string temp = string.Format("{0:000}", overallDuration.Milliseconds);

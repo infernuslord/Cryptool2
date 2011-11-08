@@ -231,10 +231,6 @@ namespace Cryptool.Plugins.Numbers
         {
         }
 
-        public void Pause()
-        {
-        }
-
         public void Stop()
         {
         }

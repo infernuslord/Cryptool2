@@ -288,14 +288,7 @@ namespace Whirlpool
     {
     }
 
-    /// <summary>
-    /// Not defined yet.
-    /// </summary>
-    public void Pause()
-    {
-    }
-
-    /// <summary>
+      /// <summary>
     /// Will be called from editor while chain-run is active. Plugin hast to stop work immediately.
     /// </summary>
     public void Stop()

@@ -351,9 +351,6 @@ namespace Cryptool.Plugins.Convertor
             }
         }
 
-        public void Pause()
-        {
-        }
         #endregion
     }
 }

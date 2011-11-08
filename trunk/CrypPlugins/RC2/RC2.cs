@@ -373,10 +373,6 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             }
         }
 
-        public void Pause()
-        {
-        }
-
         #endregion
     }
 

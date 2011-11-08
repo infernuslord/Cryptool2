@@ -779,11 +779,6 @@ namespace Cryptool.Plugins.Converter
             settings.UpdateIcon();
         }
 
-        public void Pause()
-        {
-
-        }
-
         public void PostExecution()
         {
 

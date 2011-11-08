@@ -799,10 +799,6 @@ namespace Cryptool.WEP
         
         public event StatusChangedEventHandler OnPluginStatusChanged;
 
-        public void Pause()
-        {
-        }
-
         public void PostExecution()
         {
             Dispose();
