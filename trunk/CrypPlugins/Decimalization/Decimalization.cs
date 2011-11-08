@@ -27,7 +27,7 @@ using System.Numerics;
 namespace Cryptool.Plugins.Decimalization
 {
     [Author("Andreas Grüner", "agruener@informatik.hu-berlin.de", "Humboldt University Berlin", "http://www.hu-berlin.de")]
-    [PluginInfo("Decimalization.Properties.Resources", false, "PluginCaption", "PluginToolTip", "PluginDescriptionURL", "Decimalization/Decimalization.png")]
+    [PluginInfo("Decimalization.Properties.Resources", false, "PluginCaption", "PluginToolTip", "Decimalization/DetailedDescription/doc.xml", "Decimalization/Decimalization.png")]
     [ComponentCategory(ComponentCategory.ToolsMisc)]
     public class Decimalization : ICrypComponent
     {
