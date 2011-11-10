@@ -1,5 +1,5 @@
 /*
-   Copyright 2008 Thomas Schmid, University of Siegen
+   Copyright 2011 CrypTool 2 Team <ct2contact@cryptool.org>
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -27,320 +27,91 @@ using System.Runtime.CompilerServices;
 
 namespace Concatenate
 {
-  [Author("Thomas Schmid", "thomas.schmid@cryptool.org", "Uni Siegen", "http://www.uni-siegen.de")]
-  [PluginInfo("Concatenate.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "Concatenate/icon.png")]
-  [ComponentCategory(ComponentCategory.ToolsMisc)]
-  public class Concatenate : ICrypComponent
-  {
-    # region Fields
-    private List<IDisposable> listCryptoolStreamsOut = new List<IDisposable>();
-    private readonly string inputOne = "InputOne";
-    private readonly string inputTwo = "InputTwo";
-    private readonly string outputOne = "OutputOne";
-    private ConcatenateSettings settings;
-    # endregion Fields
-
-    public event DynamicPropertiesChanged OnDynamicPropertiesChanged;
-
-    public Concatenate()
+    [Author("Matthäus Wander", "wander@cryptool.org", "Uni Duisburg-Essen", "http://www.vs.uni-due.de")]
+    [PluginInfo("Concatenate.Properties.Resources", false, "PluginCaption", "PluginTooltip", "Concatenate/DetailedDescription/doc.xml", "Concatenate/icon.png")]
+    [ComponentCategory(ComponentCategory.ToolsMisc)]
+    public class Concatenate : ICrypComponent
     {
-      settings = new ConcatenateSettings(this);
-      settings.OnGuiLogNotificationOccured += settings_OnGuiLogNotificationOccured;
-      CanChangeDynamicProperty = true;
-      CreateInputOutput(false);
-    }
+        public event PropertyChangedEventHandler PropertyChanged;
+        public event StatusChangedEventHandler OnPluginStatusChanged;
+        public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
+        public event PluginProgressChangedEventHandler OnPluginProgressChanged;
 
-    public void CreateInputOutput(bool announcePropertyChange)
-    {
-      DicDynamicProperties.Clear();
-      AddInput(inputOne, "Input one");
-      AddInput(inputTwo, "Input two");
-      AddOutput(outputOne);
-      if (announcePropertyChange) DynamicPropertiesChanged();
-    }
+        private CStreamWriter outputStreamWriter;
 
-    private void DynamicPropertiesChanged()
-    {
-      if (OnDynamicPropertiesChanged != null) OnDynamicPropertiesChanged(this);
-    }
+        [PropertyInfo(Direction.InputData, "InputStreamCaption", "InputStreamTooltip", true, QuickWatchFormat.Hex, null)]
+        public ICryptoolStream InputStreamOne { get; set; }
 
-    void settings_OnGuiLogNotificationOccured(IPlugin sender, GuiLogEventArgs args)
-    {
-      EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(args.Message, this, args.NotificationLevel));
-    }
+        [PropertyInfo(Direction.InputData, "InputStreamCaption", "InputStreamTooltip", true, QuickWatchFormat.Hex, null)]
+        public ICryptoolStream InputStreamTwo { get; set; }
 
-    # region DynamicProperties
-
-    public Dictionary<string, DynamicProperty> dicDynamicProperties = new Dictionary<string, DynamicProperty>();
-
-    [DynamicPropertyInfo("methodGetValue", "methodSetValue", "CanChangeDynamicProperty", "OnDynamicPropertiesChanged", "CanSendPropertiesChangedEvent")]
-    public Dictionary<string, DynamicProperty> DicDynamicProperties
-    {
-      get { return dicDynamicProperties; }
-      set { dicDynamicProperties = value; }
-    }
-
-    private bool canSendPropertiesChangedEvent = true;
-    public bool CanSendPropertiesChangedEvent
-    {
-      get { return canSendPropertiesChangedEvent; }
-      set { canSendPropertiesChangedEvent = value; }
-    }
-
-    public bool CanChangeDynamicProperty
-    {
-      get { return settings.CanChangeProperty; }
-      set { settings.CanChangeProperty = value; }
-    }
-
-    private Type getCurrentType()
-    {
-      switch (settings.CurrentDataType)
-      {
-        case ConcatenateSettings.DataTypes.CryptoolStream:
-          return typeof(ICryptoolStream);
-        case ConcatenateSettings.DataTypes.String:
-          return typeof(string);
-        case ConcatenateSettings.DataTypes.ByteArray:
-          return typeof(byte[]);
-        case ConcatenateSettings.DataTypes.Boolean:
-          return typeof(bool);
-        case ConcatenateSettings.DataTypes.Integer:
-          return typeof(int);
-        default:
-          return null;
-      }
-    }
-
-    private QuickWatchFormat getQuickWatchFormat()
-    {
-      Type type = getCurrentType();
-      if (type == typeof(ICryptoolStream))
-        return QuickWatchFormat.Hex;
-      else if (type == typeof(string))
-        return QuickWatchFormat.Text;
-      else if (type == typeof(byte[]))
-        return QuickWatchFormat.Hex;
-      else if (type == typeof(bool))
-        return QuickWatchFormat.Text;
-      else if (type == typeof(int))
-        return QuickWatchFormat.Text;
-      else
-        return QuickWatchFormat.None;
-    }
-
-    private void AddInput(string name, string toolTip)
-    {
-      DicDynamicProperties.Add(name,
-        new DynamicProperty(name, getCurrentType(),
-          new PropertyInfoAttribute(Direction.InputData, name, toolTip, "", false, true, getQuickWatchFormat(), null)));
-    }
-
-    private void AddOutput(string name)
-    {
-      DicDynamicProperties.Add(name,
-        new DynamicProperty(name, getCurrentType(),
-          new PropertyInfoAttribute(Direction.OutputData, name, "", "", false, false, getQuickWatchFormat(), null)));
-    }
-
-    [MethodImpl(MethodImplOptions.Synchronized)]
-    public void methodSetValue(string propertyKey, object value)
-    {
-      try
-      {
-        if (DicDynamicProperties.ContainsKey(propertyKey))
+        [PropertyInfo(Direction.OutputData, "OutputStreamCaption", "OutputStreamTooltip", true, QuickWatchFormat.Hex, null)]
+        public ICryptoolStream OutputStream
         {
-          DicDynamicProperties[propertyKey].Value = value;
-          OnPropertyChanged(propertyKey);
+            get { return outputStreamWriter; }
         }
-        // Fire output on value Pair. 
-        if (DicDynamicProperties[inputOne].Value != null && DicDynamicProperties[inputTwo].Value != null)
-        {
-          object val1 = DicDynamicProperties[inputOne].Value;
-          //DicDynamicProperties[inputOne].Value = null;
-          object val2 = DicDynamicProperties[inputTwo].Value;
-          //DicDynamicProperties[inputTwo].Value = null;
 
-          switch (settings.CurrentDataType)
-          {
-            #region CryptoolStream
-            case ConcatenateSettings.DataTypes.CryptoolStream:
-              CStreamReader stream1 = (val1 as ICryptoolStream).CreateReader();
-              CStreamReader stream2 = (val2 as ICryptoolStream).CreateReader();
-              CStreamWriter returnStream = new CStreamWriter();
-              byte[] byteValues = new byte[1024];
-              int byteRead;
-              int position = 0;
-              long total = stream1.Length + stream2.Length;
-              // first stream 
-              while ((byteRead = stream1.Read(byteValues, 0, byteValues.Length)) != 0)
-              {
-                returnStream.Write(byteValues, 0, byteRead);
-                if (OnPluginProgressChanged != null && stream1.Length > 0 &&
-                    (int)(stream1.Position * 100 / total) > position)
+        public ISettings Settings
+        {
+            get { return null; }
+        }
+
+        public UserControl Presentation
+        {
+            get { return null; }
+        }
+
+        public void PreExecution()
+        {
+        }
+
+        public void Execute()
+        {
+            if (InputStreamOne == null || InputStreamTwo == null)
+                return;
+
+            using (CStreamReader reader1 = InputStreamOne.CreateReader(), reader2 = InputStreamTwo.CreateReader())
+            {
+                outputStreamWriter = new CStreamWriter();
+                EventsHelper.PropertyChanged(PropertyChanged, this, "OutputStream");
+
+                int bytesRead;
+                byte[] buffer = new byte[1024];
+
+                // Input One
+                while ((bytesRead = reader1.Read(buffer)) > 0)
                 {
-                  position = (int)(stream1.Position * 100 / total);
-                  Progress(stream1.Position, total);
+                    outputStreamWriter.Write(buffer, 0, bytesRead);
                 }
-              }
-              // second stream
-              while ((byteRead = stream2.Read(byteValues, 0, byteValues.Length)) != 0)
-              {
-                returnStream.Write(byteValues, 0, byteRead);
-                if (OnPluginProgressChanged != null && stream2.Length > 0 &&
-                    (int)((stream2.Position + stream1.Length) * 100 / total) > position)
+                // Input Two
+                while((bytesRead = reader2.Read(buffer)) > 0)
                 {
-                  position = (int)((stream2.Position + stream1.Length) * 100 / total);
-                  Progress((stream2.Position + stream1.Length), total);
+                    outputStreamWriter.Write(buffer, 0, bytesRead);
                 }
-              }
-              returnStream.Close();
-              stream1.Position = 0;
-              stream2.Position = 0;
-              setOutputInternal(outputOne, returnStream);
-              break;
-            #endregion
-            #region String
-            case ConcatenateSettings.DataTypes.String:
-              setOutputInternal(outputOne, (val1 as string) + (val2 as string));
-              break;
-            #endregion
-            #region ByteArray
-            case ConcatenateSettings.DataTypes.ByteArray:
-              byte[] arrReturn = new byte[(val1 as byte[]).Length + (val2 as byte[]).Length];
-              System.Buffer.BlockCopy((val1 as byte[]), 0, arrReturn, 0, (val1 as byte[]).Length);
-              System.Buffer.BlockCopy((val2 as byte[]), 0, arrReturn, (val1 as byte[]).Length, (val2 as byte[]).Length);
-              setOutputInternal(outputOne, arrReturn);
-              break;
-            #endregion
-            #region Boolean
-            case ConcatenateSettings.DataTypes.Boolean:
-              Nullable<bool> boolValue = ((bool)val1) && ((bool)val2);
-              setOutputInternal(outputOne, boolValue);
-              break;
-            #endregion
-            #region Integer
-            case ConcatenateSettings.DataTypes.Integer:
-              int? intValue = ((int)val1) + ((int)val2);
-              setOutputInternal(outputOne, intValue);
-              break;
-            #endregion
-            default:
-              break;
-          }
-          Progress(100, 100);
-        }
-      }
-      catch (Exception exception)
-      {
-        GuiLogMessage(exception.Message, NotificationLevel.Error);
-      }
-    }
 
-    /// <summary>
-    /// Used to avoid loop in methodSetValue (setting values to null there destroys quickWatch updates)
-    /// </summary>
-    /// <param name="propertyKey">The property key.</param>
-    /// <param name="value">The value.</param>
-    private void setOutputInternal(string propertyKey, object value)
-    {
-      try
-      {
-        if (DicDynamicProperties.ContainsKey(propertyKey))
+                outputStreamWriter.Close();
+            }
+        }
+
+        public void PostExecution()
         {
-          DicDynamicProperties[propertyKey].Value = value;
-          OnPropertyChanged(propertyKey);
         }
-      }
-      catch (Exception exception)
-      {
-        GuiLogMessage(exception.Message, NotificationLevel.Error);
-      }
-    }
 
-    [MethodImpl(MethodImplOptions.Synchronized)]
-    public object methodGetValue(string propertyKey)
-    {
-      try
-      {
-        if (DicDynamicProperties.ContainsKey(propertyKey))
+        public void Stop()
         {
-          return DicDynamicProperties[propertyKey].Value;
         }
-      }
-      catch (Exception exception)
-      {
-        GuiLogMessage(exception.Message, NotificationLevel.Error);
-      }
-      return null;
+
+        public void Initialize()
+        {
+        }
+
+        public void Dispose()
+        {
+            if (outputStreamWriter != null)
+            {
+                outputStreamWriter.Dispose();
+                outputStreamWriter = null;
+            }
+        }
     }
-
-    # endregion DynamicProperties
-
-    #region IPlugin Members
-
-    public event StatusChangedEventHandler OnPluginStatusChanged;
-
-    public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
-    private void GuiLogMessage(string message, NotificationLevel logLevel)
-    {
-      EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(message, this, logLevel));
-    }
-
-    public event PluginProgressChangedEventHandler OnPluginProgressChanged;
-    private void Progress(double value, double max)
-    {
-      EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
-    }
-
-    public ISettings Settings
-    {
-      get { return settings; }
-    }
-
-    public UserControl Presentation
-    {
-      get { return null; }
-    }
-
-      public void PreExecution()
-    {
-    }
-
-    public void Execute()
-    {
-    }
-
-    public void PostExecution()
-    {
-        DicDynamicProperties[inputOne].Value = null;
-        DicDynamicProperties[inputTwo].Value = null;
-        DicDynamicProperties[outputOne].Value = null;
-    }
-
-      public void Stop()
-    {
-    }
-
-    public void Initialize()
-    {
-    }
-
-    public void Dispose()
-    {
-      }
-
-    #endregion
-
-    #region INotifyPropertyChanged Members
-
-    public event PropertyChangedEventHandler PropertyChanged;
-
-    protected void OnPropertyChanged(string name)
-    {
-      EventsHelper.PropertyChanged(PropertyChanged, this, new PropertyChangedEventArgs(name));
-    }
-
-    #endregion
-  }
 }
