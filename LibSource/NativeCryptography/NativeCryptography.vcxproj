@@ -222,6 +222,7 @@ xcopy /Y /F "$(TargetDir)$(TargetFileName)" "..\..\Lib\x64\"</Command>
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</CompileAsManaged>
     </ClCompile>
     <ClCompile Include="AssemblyInfo.cpp" />
+    <ClCompile Include="MD5\md5.cpp" />
     <ClCompile Include="NativeCryptography.cpp" />
     <ClCompile Include="DES\des_enc.c">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
@@ -247,6 +248,7 @@ xcopy /Y /F "$(TargetDir)$(TargetFileName)" "..\..\Lib\x64\"</Command>
     <ClInclude Include="aes_core.h" />
     <ClCompile Include="DES\des.h" />
     <ClInclude Include="DES\des_locl.h" />
+    <ClInclude Include="MD5\md5.h" />
     <ClInclude Include="NativeCryptography.h" />
     <ClInclude Include="DES\spr.h" />
     <ClInclude Include="rc2.h" />

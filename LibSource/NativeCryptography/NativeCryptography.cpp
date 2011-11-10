@@ -1,6 +1,7 @@
 // This is the main DLL file.
 
 #include "NativeCryptography.h"
+#include "MD5/md5.h"
 #include <stdlib.h>
 #include <string.h>
 
@@ -274,4 +275,19 @@ namespace NativeCryptography {
         return entropy / (double)bytesToUse;
 	}
 
+	array<unsigned char>^ Crypto::md5(array<unsigned char>^ Input)
+	{
+		pin_ptr<unsigned char> input = &Input[0];
+		int inputLength = Input->Length;
+		md5_state_t state;
+		array<unsigned char>^ digest = gcnew array<unsigned char>(16);
+		pin_ptr<unsigned char> digestPtr = &digest[0];
+		//md5_byte_t digest[16];
+
+		md5_init(&state);
+		md5_append(&state, (const md5_byte_t *)input, inputLength);
+		md5_finish(&state, digestPtr);
+		
+		return digest;
+	}
 }

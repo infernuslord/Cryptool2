@@ -136,5 +136,7 @@ namespace NativeCryptography {
 			}
 			return output;
 		}
+
+		static array<unsigned char>^ md5(array<unsigned char>^ Input);
 	};
 }
