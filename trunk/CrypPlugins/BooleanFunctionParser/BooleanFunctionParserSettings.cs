@@ -87,30 +87,6 @@ namespace Cryptool.BooleanFunctionParser
 
         #region ISettings Members
 
-        public int countOfInputsOld; 
-        private int countOfInputs = 1;
-        [TaskPane( "CountOfInputsCaption", "CountOfInputsTooltip", null, 0, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
-        public int CountOfInputs
-        {
-            get { return this.countOfInputs; }
-            set
-            {
-                // this handling has to be implemented; doesn't work as expected right now
-                /*if (CanChangeProperty)
-                {*/
-                    this.countOfInputs = value;
-                    OnPropertyChanged("CountOfInputs");
-                    //saveInputsCount = value;
-                    HasChanges = true;
-                /*}
-                else
-                {
-                    EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, null, new GuiLogEventArgs("Can't change number of boolean inputs while plugin is connected.", null, NotificationLevel.Warning));
-                    this.countOfInputs = saveInputsCount;
-                }*/
-            }
-        }
-
         [ContextMenu( "UseBFPforCubeCaption", "UseBFPforCubeTooltip",
             1,
             ContextMenuControlType.CheckBox,
@@ -150,8 +126,6 @@ namespace Cryptool.BooleanFunctionParser
                 }
             }
         }
-
-        public bool CanChangeProperty { get; set; }
 
         #endregion
 
