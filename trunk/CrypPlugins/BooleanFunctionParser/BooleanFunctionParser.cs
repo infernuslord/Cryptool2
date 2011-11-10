@@ -894,16 +894,6 @@ namespace Cryptool.BooleanFunctionParser
 
         #endregion
 
-        internal BooleanFunctionParserSettings BooleanFunctionParserSettings
-        {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-            set
-            {
-            }
-        }
     }
 
     #region CubeAttackControl : IControlCubeAttack
@@ -913,47 +903,41 @@ namespace Cryptool.BooleanFunctionParser
         public event IControlStatusChangedEventHandler OnStatusChanged;
         private BooleanFunctionParser plugin;
 
-        public CubeAttackControl(BooleanFunctionParser Plugin)
+        public CubeAttackControl(BooleanFunctionParser plugin)
         {
-            this.plugin = Plugin;
+            this.plugin = plugin;
         }
 
         #region IControlEncryption Members
 
         // here comes the slave side implementation of SolveFunction
-        public int GenerateBlackboxOutputBit(object dataOne, object dataTwo, object ignoreMe)
+        public int GenerateBlackboxOutputBit(int[] dataOne, int[] dataTwo, int ignoreMe)
         {
-            int resultInt;
-
             bool[] myDataOneBool = null;
             bool[] myDataTwoBool = null;
 
             // parse objects and convert to boolean arrays
             if (dataOne != null)
             {
-                int[] myDataOneInt = dataOne as int[];
-                myDataOneBool = new bool[myDataOneInt.Length];
-                for (int i = 0; i < myDataOneInt.Length; i++)
+                myDataOneBool = new bool[dataOne.Length];
+                for (int i = 0; i < dataOne.Length; i++)
                 {
-                    myDataOneBool[i] = Convert.ToBoolean(myDataOneInt[i]);
+                    myDataOneBool[i] = Convert.ToBoolean(dataOne[i]);
                 }
             }
 
             if (dataTwo != null)
             {
-                int[] myDataTwoInt = dataTwo as int[];
-                myDataTwoBool = new bool[myDataTwoInt.Length];
-                for (int i = 0; i < myDataTwoInt.Length; i++)
+                myDataTwoBool = new bool[dataTwo.Length];
+                for (int i = 0; i < dataTwo.Length; i++)
                 {
-                    myDataTwoBool[i] = Convert.ToBoolean(myDataTwoInt[i]);
+                    myDataTwoBool[i] = Convert.ToBoolean(dataTwo[i]);
                 }
             }
 
             // the result is computed by calling the ParseBooleanFunction (step into it with F11)
             // returns -1 on error (e.g. not a valid function)
-            resultInt = plugin.ParseBooleanFunction(myDataOneBool, myDataTwoBool);
-
-            return resultInt;
+            return plugin.ParseBooleanFunction(myDataOneBool, myDataTwoBool);
         }
 
         #endregion

@@ -654,13 +654,13 @@ namespace Cryptool.Trivium
 
         #region IControlEncryption Members
 
-        public int GenerateBlackboxOutputBit(object IV, object key, object length)
+        public int GenerateBlackboxOutputBit(int[] IV, int[] key, int length)
         {
             if (key == null) // Online phase
-                plugin.initTrivium(IV as int[], plugin.hextobin(((TriviumSettings)plugin.Settings).InputKey.ToCharArray()));
+                plugin.initTrivium(IV, plugin.hextobin(((TriviumSettings)plugin.Settings).InputKey.ToCharArray()));
             else // Preprocessing phase
-                plugin.initTrivium(IV as int[], key as int[]);
-            return Int32.Parse(plugin.keystreamTrivium((int)length).Substring(plugin.keystreamTrivium((int)length).Length - 1, 1));
+                plugin.initTrivium(IV, key);
+            return Int32.Parse(plugin.keystreamTrivium(length).Substring(plugin.keystreamTrivium(length).Length - 1, 1));
         }
 
         #endregion
