@@ -45,9 +45,6 @@ namespace Gate
         private bool freshInput = false;
         private bool freshControl = false;
 
-        private Object inputMonitor = new Object();
-        private Object controlMonitor = new Object();
-
         [PropertyInfo(Direction.InputData, "InputObjectCaption", "InputObjectTooltip", null, true, false, QuickWatchFormat.Text, null)]
         public object InputObject
         {

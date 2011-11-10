@@ -1,5 +1,5 @@
 ﻿/*
-   Copyright 2008 Martin Saternus, University of Duisburg-Essen
+   Copyright 2008-2011 CrypTool 2 Team <ct2contact@cryptool.org>
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -16,18 +16,12 @@
 
 using System;
 using System.Reflection;
-using Cryptool.PluginBase.Control;
-using System.Collections.Generic;
 
 namespace Cryptool.PluginBase
 {
     [AttributeUsage(AttributeTargets.Property)]
     public class PropertyInfoAttribute : Attribute
     {
-        #region messages
-        protected const string EMPTY_GUID = "Empty or null GUID is not allowed.";
-        #endregion
-
         # region multi language properties
         public readonly string caption;
         public string Caption
@@ -55,29 +49,22 @@ namespace Cryptool.PluginBase
         # endregion multi language properties
 
         # region normal properties
-        public readonly string DescriptionUrl;
         public readonly Direction Direction;
         public readonly bool Mandatory;
         public QuickWatchFormat QuickWatchFormat;
         public string PropertyName; // will be set in extension-method
         public PropertyInfo PropertyInfo { get; set; } // will be set in extension-method
         public readonly string QuickWatchConversionMethod;
-        public readonly bool HasDefaultValue;        
         #endregion normal properties
 
         # region translation helpers
-        private Type pluginType;
 
         /// <summary>
         /// Gets or sets the type of the plugin. This value is set by extension method if ResourceFile exists. 
         /// It is used to access the plugins resources to translate the text elements.
         /// </summary>
         /// <value>The type of the plugin.</value>
-        public Type PluginType // will be set in extension-method
-        {
-          get { return pluginType; }
-          set { pluginType = value; }
-        }
+        public Type PluginType { get; set; }
 
         private bool MultiLanguage
         {
@@ -92,24 +79,33 @@ namespace Cryptool.PluginBase
         /// <param name="direction">The direction.</param>
         /// <param name="caption">The caption.</param>
         /// <param name="toolTip">The tool tip.</param>
-        /// <param name="descriptionUrl">The description URL.</param>
         /// <param name="mandatory">if set to <c>true</c> [mandatory].</param>
         /// <param name="quickWatchFormat">The quick watch format.</param>
-        /// <param name="quickWatchConversion">Methodname of converstion method.</param>
-        public PropertyInfoAttribute(Direction direction, string caption, string toolTip, string descriptionUrl, bool mandatory, bool hasDefaultValue, QuickWatchFormat quickWatchFormat, string quickWatchConversionMethod)
+        /// <param name="quickWatchConversionMethod">Methodname of converstion method.</param>
+        public PropertyInfoAttribute(Direction direction, string caption, string toolTip, bool mandatory, QuickWatchFormat quickWatchFormat, string quickWatchConversionMethod)
         {
-            this.caption = caption == null ? "" : caption;
-            this.toolTip = toolTip == null ? "" : toolTip;
-            this.DescriptionUrl = descriptionUrl == null ? "" : descriptionUrl;
+            this.caption = caption ?? "";
+            this.toolTip = toolTip ?? "";
             this.Direction = direction;
             this.Mandatory = mandatory;
             this.QuickWatchFormat = quickWatchFormat;
             this.QuickWatchConversionMethod = quickWatchConversionMethod;
-            this.HasDefaultValue = hasDefaultValue;
         }
 
+        [Obsolete("descriptionUrl and hasDefaultValue are never used")]
+        public PropertyInfoAttribute(Direction direction, string caption, string toolTip, string descriptionUrl, bool mandatory, bool hasDefaultValue, QuickWatchFormat quickWatchFormat, string quickWatchConversionMethod)
+            : this(direction, caption, toolTip, mandatory, quickWatchFormat, quickWatchConversionMethod)
+        {
+        }
+
+        public PropertyInfoAttribute(Direction direction, string caption, string toolTip)
+            : this(direction, caption, toolTip, false, QuickWatchFormat.None, null)
+        {
+        }
+
+        [Obsolete("descriptionUrl is never used")]
         public PropertyInfoAttribute(Direction direction, string caption, string toolTip, string descriptionUrl)
-            : this(direction, caption, toolTip, descriptionUrl, false, false, QuickWatchFormat.None, null)
+            : this(direction, caption, toolTip, false, QuickWatchFormat.None, null)
         {
         }
 
