@@ -16,29 +16,22 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Cryptool.PluginBase;
-using System.IO;
 using System.ComponentModel;
-using System.Windows.Controls;
-using Cryptool.PluginBase.IO;
-using Cryptool.PluginBase.Miscellaneous;
-using System.Security.Cryptography;
 // for [MethodImpl(MethodImplOptions.Synchronized)]
 using System.Runtime.CompilerServices;
+using System.Text;
 // for RegEx
 using System.Text.RegularExpressions;
-// for IControl
-using Cryptool.PluginBase.Control;
-// reference to the CubeAttackController interface (own dll)
-using Cryptool.CubeAttackController;
+using System.Threading;
+using System.Windows.Controls;
 // for QuickwatchPresentaton
 using System.Windows.Threading;
-using System.Threading;
+// for IControl
+// reference to the CubeAttackController interface (own dll)
+using Cryptool.CubeAttackController;
+using Cryptool.PluginBase;
+using Cryptool.PluginBase.Miscellaneous;
 // MathParser
-using Cryptool.MathParser;
 // RPNExpression
 using Cryptool.RPNExpression;
 
@@ -54,15 +47,12 @@ namespace Cryptool.BooleanFunctionParser
         private BooleanFunctionParserPresentation booleanFunctionParserPresentation;
         private BooleanFunctionParserSettings settings;
         private string inputFunction;
+        private bool[] inputVariableOne;
+
         private bool output;
         private bool lastInputWasFunction = false;
         private int inputs = 1;
-        private bool canSendPropertiesChangedEvent = true;
 
-        #endregion
-
-        #region Events
-        public event DynamicPropertiesChanged OnDynamicPropertiesChanged;
         #endregion
 
         #region Public variables
@@ -90,13 +80,9 @@ namespace Cryptool.BooleanFunctionParser
             booleanFunctionParserPresentation = new BooleanFunctionParserPresentation();
             Presentation = booleanFunctionParserPresentation;
 
-            CanChangeDynamicProperty = true;
-            // Thomas says:
-            // No dynProp event in constructor - editor will read the property initial without the event.
-            // event can cause problems when using save files and is processed after 
-            // connections have been restored. 
-            CreateInputOutput(false);
-            settings.countOfInputsOld = settings.CountOfInputs;
+            // wander: As dynamic properties have been removed, this has now length of 1.
+            // It may be extended in future however.
+            additionalInputsFlag = new int[1];
         }
 
         void textBoxInput_TextChanged(object sender, TextChangedEventArgs e)
@@ -122,9 +108,7 @@ namespace Cryptool.BooleanFunctionParser
         [PropertyInfo(Direction.InputData, "InputFunctionCaption", "InputFunctionTooltip", "", false, false, QuickWatchFormat.Text, null)]
         public String InputFunction
         {
-            [MethodImpl(MethodImplOptions.Synchronized)]
             get { return inputFunction; }
-            [MethodImpl(MethodImplOptions.Synchronized)]
             set
             {
                 inputFunction = value;
@@ -133,7 +117,7 @@ namespace Cryptool.BooleanFunctionParser
             }
         }
 
-        /*[PropertyInfo(Direction.InputData, "InputOneCaption", "InputOneTooltip", "", false, true, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputOneCaption", "InputOneTooltip", "", false, true, QuickWatchFormat.Text, null)]
         public bool[] InputOne
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
@@ -145,14 +129,14 @@ namespace Cryptool.BooleanFunctionParser
             [MethodImpl(MethodImplOptions.Synchronized)]
             set
             {
-                this.inputVariableOne = value;
+                inputVariableOne = value;
                 lastInputWasFunction = false;
                 OnPropertyChanged("InputOne");
-                // clean inputOne
-                inputOneFlag = 1;
+
+                // set flag of input
+                additionalInputsFlag[0] = 1;
             }
         }
-         */
 
 
         [PropertyInfo(Direction.OutputData, "OutputCaption", "OutputTooltip", "", false, false, QuickWatchFormat.Text, null)]
@@ -180,7 +164,7 @@ namespace Cryptool.BooleanFunctionParser
             booleanFunctionParserPresentation.textBoxInputData2.TextChanged -= textBoxInput_TextChanged;
         }
 
-        public void     Execute()
+        public void Execute()
         {
             try
             {
@@ -193,7 +177,7 @@ namespace Cryptool.BooleanFunctionParser
                 }
                 //GuiLogMessage("sumOfFlags: " + sumOfFlags + ", addIFl: " + allFlags, NotificationLevel.Info);
 
-                if (sumOfFlags == additionalInputsFlag.Length || (lastInputWasFunction == true && sumOfFlags == 0))
+                if (sumOfFlags == additionalInputsFlag.Length || (lastInputWasFunction && sumOfFlags == 0))
                 //if (sumOfFlags == additionalInputsFlag.Length)
                 {
                     // set all flags to zero
@@ -274,11 +258,6 @@ namespace Cryptool.BooleanFunctionParser
         // catches PropertyChanged event from settings
         void settings_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            // if the count of inputs has been changed, renew all inputs
-            if (e.PropertyName == "CountOfInputs")
-            {
-                CreateInputOutput(true);
-            }
             if (e.PropertyName == "UseBFPforCube")
             {
                 booleanFunctionParserPresentation.SwitchCubeView(settings.UseBFPforCube);
@@ -311,29 +290,6 @@ namespace Cryptool.BooleanFunctionParser
             overallDuration = TimeSpan.Parse("00.00:00:00");
         }
 
-        public void CreateInputOutput(bool announcePropertyChange)
-        {
-            try
-            {
-                DicDynamicProperties.Clear();
-                inputs = 0;
-                additionalInputsFlag = new int[settings.CountOfInputs];
-                for (int i = 0; i < settings.CountOfInputs; i++)
-                {
-                    AddInput("Input " + i, "Boolean[] Input " + i);
-                    additionalInputsFlag[i] = 0;
-                }
-                // Event should be fired even if no additional inputs are set, because when 
-                // setting back to zero editor needs the event to remove the input.
-                if (announcePropertyChange) DynamicPropertiesChanged();
-            }
-            catch (Exception exception)
-            {
-                GuiLogMessage(exception.Message, NotificationLevel.Error);
-                GuiLogMessage("Foo", NotificationLevel.Error);
-            }
-        }
-
         /* *******************************************************************************
          * Main function to be used in the M/S mode and in general
          * inputs:
@@ -358,11 +314,11 @@ namespace Cryptool.BooleanFunctionParser
                 return booleanFunctionParserPresentation.textBoxInputFunction2.Text;
             }, booleanFunctionParserPresentation);
 
-            if (inputFunction != null && inputFunction != string.Empty)
+            if (!string.IsNullOrEmpty(inputFunction))
                 function = inputFunction;
-            else if (quickwatchFunction != null && quickwatchFunction != string.Empty)
+            else if (!string.IsNullOrEmpty(quickwatchFunction))
                 function = quickwatchFunction;
-            else if (quickwatchFunctionCube != null && quickwatchFunctionCube != string.Empty && settings.UseBFPforCube == true)
+            else if (!string.IsNullOrEmpty(quickwatchFunctionCube) && settings.UseBFPforCube)
                 function = quickwatchFunctionCube;
             else
                 return -1;
@@ -506,11 +462,16 @@ namespace Cryptool.BooleanFunctionParser
             
             // replace additional inputs data (if there are any)
             TokenList tokens = new TokenList();
+
+            // wander: no more dynamic properties, one static input property
+            if (inputs != 1)
+                GuiLogMessage("Internal inconsistency, inputs was expected to be == 1", NotificationLevel.Warning);
+
             for (int i = 0; i < inputs; i++)
             {
-                if (getCurrentValue("Input " + i) != null)
+                if (InputOne != null)
                 {
-                    bool[] additionalTempValueBool = (bool[])methodGetValue("Input " + i);
+                    bool[] additionalTempValueBool = InputOne;
                     //char[] strInputVariableAditionalTemp = new char[additionalTempValueBool.Length];
                     for (int j = additionalTempValueBool.Length - 1; j >= 0; j--)
                     {
@@ -545,7 +506,7 @@ namespace Cryptool.BooleanFunctionParser
                 {
                     return booleanFunctionParserPresentation.textBoxInputData.Text;
                 }, booleanFunctionParserPresentation);
-                if (quickwatchData != null && quickwatchData != string.Empty)
+                if (!string.IsNullOrEmpty(quickwatchData))
                 {
                     //char[] strInputVariableQuickwatch = new char[quickwatchData.Length];
                     char [] strInputVariableQuickwatch = quickwatchData.ToCharArray();
@@ -639,7 +600,7 @@ namespace Cryptool.BooleanFunctionParser
         }
 
         // solves string with variables replaced by values
-        private bool EvaluateString(string function)
+        /*private bool EvaluateString(string function)
         {
             string temp;
             StringBuilder functionBuilder = new StringBuilder(function);
@@ -763,59 +724,9 @@ namespace Cryptool.BooleanFunctionParser
             bool result = Convert.ToBoolean(Int32.Parse(function));
 
             return result;
-        }
-
-        private object getCurrentValue(string name)
-        {
-            if (DicDynamicProperties.ContainsKey(name))
-            {
-                return DicDynamicProperties[name].Value;
-            }
-            return null;
-        }
-        
-        private void AddInput(string name, string toolTip)
-        {
-            inputs++;
-            if (name == null || name == string.Empty) name = "Input " + inputs;
-            DicDynamicProperties.Add(name,
-              new DynamicProperty(name, typeof(bool[]),
-                new PropertyInfoAttribute(Direction.InputData, name, toolTip, "", false, true, QuickWatchFormat.None, null))
-            );
-        }
+        }*/
 
         #endregion
-
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        public object methodGetValue(string propertyKey)
-        {
-            // set flag of input <-- is now set in Execute()
-            //int numberInPropertyKey = Int32.Parse(propertyKey.Substring(propertyKey.Length - 1));
-            //additionalInputsFlag[numberInPropertyKey] = 0;
-
-            return getCurrentValue(propertyKey); // QuickWatchDataCall to Input values
-        }
-
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        public void methodSetValue(string propertyKey, object value)
-        {
-            try
-            {
-                if (DicDynamicProperties.ContainsKey(propertyKey))
-                {
-                    DicDynamicProperties[propertyKey].Value = value;
-                    // set flag of input
-                    int numberInPropertyKey = Int32.Parse(propertyKey.Substring(6));
-                    additionalInputsFlag[numberInPropertyKey] = 1;
-                }
-
-                OnPropertyChanged(propertyKey);
-            }
-            catch (Exception ex)
-            {
-                GuiLogMessage(ex.Message, NotificationLevel.Error);
-            }
-        }
 
         public UserControl Presentation { get; private set; }
 
@@ -823,7 +734,7 @@ namespace Cryptool.BooleanFunctionParser
         {
             get
             {
-                return (ISettings)this.settings;
+                return this.settings;
             }
             set
             {
@@ -834,32 +745,6 @@ namespace Cryptool.BooleanFunctionParser
         public void Stop()
         {
             
-        }
-
-        public Dictionary<string, DynamicProperty> dicDynamicProperties = new Dictionary<string, DynamicProperty>();
-
-        [DynamicPropertyInfo("methodGetValue", "methodSetValue", "CanChangeDynamicProperty", "OnDynamicPropertiesChanged", "CanSendPropertiesChangedEvent")]
-        public Dictionary<string, DynamicProperty> DicDynamicProperties
-        {
-            get { return dicDynamicProperties; }
-            set { dicDynamicProperties = value; }
-        }
-
-        public bool CanChangeDynamicProperty
-        {
-            get { return settings.CanChangeProperty; }
-            set { settings.CanChangeProperty = value; }
-        }
-
-        public bool CanSendPropertiesChangedEvent
-        {
-            get { return canSendPropertiesChangedEvent; }
-            set { canSendPropertiesChangedEvent = value; }
-        }
-
-        private void DynamicPropertiesChanged()
-        {
-            if (OnDynamicPropertiesChanged != null) OnDynamicPropertiesChanged(this);
         }
 
         #endregion
