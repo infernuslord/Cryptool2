@@ -182,6 +182,9 @@ namespace WorkspaceManager.Model
                     }
                 }
 
+                // TODO: dynamic properties are being removed, see #402
+                connectorModel.IsDynamic = false;
+
                 //connect all listeners for connectors
                 if (connectorModel.IsDynamic == true)
                 {

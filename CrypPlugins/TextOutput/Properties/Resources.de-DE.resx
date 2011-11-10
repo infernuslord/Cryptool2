@@ -120,9 +120,6 @@
   <data name="PluginCaption" xml:space="preserve">
     <value>Textausgabe</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value />
-  </data>
   <data name="PluginTooltip" xml:space="preserve">
     <value>Textdarstellung</value>
   </data>
@@ -144,12 +141,6 @@
   <data name="BooleanAsNumericTooltip" xml:space="preserve">
     <value>Wenn dieses Kontrollkästchen aktiviert ist, werden boolesche Werte numerisch dargestellt (1/0 statt Wahr/Falsch).</value>
   </data>
-  <data name="DataTypeCaption" xml:space="preserve">
-    <value>Datentyp</value>
-  </data>
-  <data name="DataTypeTooltip" xml:space="preserve">
-    <value>Wählen Sie den Datentyp des Plugins.</value>
-  </data>
   <data name="EncodingSettingCaption" xml:space="preserve">
     <value>Zeichenkodierung der Eingabe</value>
   </data>
@@ -161,12 +152,6 @@
   </data>
   <data name="EncodingSettingTPTooltip" xml:space="preserve">
     <value>Wählen Sie die erwartete Zeichenkodierung der Eingabe.</value>
-  </data>
-  <data name="FlushOnPreExecutionCaption" xml:space="preserve">
-    <value>Lösche Text bei PreExec</value>
-  </data>
-  <data name="FlushOnPreExecutionTooltip" xml:space="preserve">
-    <value>Lösche alle Textfelder im PreExecution-Aufruf.</value>
   </data>
   <data name="MaxLengthCaption" xml:space="preserve">
     <value>Maximale Länge</value>
@@ -207,22 +192,16 @@
   <data name="EncodingSettingList7" xml:space="preserve">
     <value>Big Endian-Unicode</value>
   </data>
-  <data name="FlushOnPreExecutionList1" xml:space="preserve">
-    <value>Lösche Text bei PreExec</value>
-  </data>
-  <data name="PresentationFormatSettingList1" xml:space="preserve">
-    <value>Text</value>
-  </data>
-  <data name="PresentationFormatSettingList2" xml:space="preserve">
-    <value>Hex</value>
-  </data>
-  <data name="PresentationFormatSettingList3" xml:space="preserve">
-    <value>Base64</value>
-  </data>
   <data name="PresentationFormatSettingList4" xml:space="preserve">
     <value>Dezimal</value>
   </data>
   <data name="AppendGroup" xml:space="preserve">
     <value>Anfügen</value>
+  </data>
+	<data name="InputDataCaption" xml:space="preserve">
+    <value>Eingabedaten</value>
+  </data>
+	<data name="InputDataTooltip" xml:space="preserve">
+    <value>Eingabedaten als beliebiger Datentyp</value>
   </data>
 </root>
