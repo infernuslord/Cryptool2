@@ -37,10 +37,7 @@ namespace TextOutput
     public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
 
     public enum EncodingTypes { Default = 0, Unicode = 1, UTF7 = 2, UTF8 = 3, UTF32 = 4, ASCII = 5, BigEndianUnicode = 6 };
-    public enum DynamicDataTypes { CStream, String, ByteArray, Boolean, Integer , Double, Object};
     public enum PresentationFormat { Text, Hex, Base64, Decimal }
-
-    public bool CanChangeProperty { get; set; }
 
     public TextOutputSettings(TextOutput textOutput)
     {
@@ -167,46 +164,6 @@ namespace TextOutput
       }
     }
 
-    private DynamicDataTypes currentDataType = DynamicDataTypes.Object;
-    public DynamicDataTypes CurrentDataType
-    {
-      get { return currentDataType; }
-      set
-      {
-        if (currentDataType != value)
-        {
-          currentDataType = value;
-
-          // Changes must be applied synchronously, because onLoad of save file 
-          // the Properties have to be set correctly BEFORE init of restore connections starts.
-          //
-          // The flag CanSendPropertiesChangedEvent will be set to false while loading a save file 
-          // right after creating plugin instance. Next this Property will be set by the editor-loading-method. 
-          // Here we set the new type without sending an event, because the event could be processed after
-          // the connections have been restored. That would result in an unuseable workspace or throw an exception
-          // while executing the init method.
-          myTextOutput.CreateInputOutput(myTextOutput.CanSendPropertiesChangedEvent);
-          // OnPropertyChanged("CurrentDataType");
-        }
-      }
-    }
-
-    [TaskPane( "DataTypeCaption", "DataTypeTooltip", "", 4, false, ControlType.ComboBox, new string[] { "CStream", "string", "byte[]", "boolean", "int", "double", "object" })]
-    public int DataType
-    {
-      get { return (int)CurrentDataType; }
-      set
-      {
-        if (CanChangeProperty)
-        {
-          if (value != (int)CurrentDataType) HasChanges = true;
-          CurrentDataType = (DynamicDataTypes)value;
-        }
-        else EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, null, new GuiLogEventArgs("Can't change type while plugin is connected.", null, NotificationLevel.Warning));
-        OnPropertyChanged("DataType");
-      }
-    }
-
     private bool booleanAsNumeric = false;
     [ContextMenu( "BooleanAsNumericCaption", "BooleanAsNumericTooltip", 5, ContextMenuControlType.CheckBox, null, new string[] { "BooleanAsNumericList1" })]
     [TaskPane( "BooleanAsNumericCaption", "BooleanAsNumericTooltip", null, 5, false, ControlType.CheckBox, "", null)]
@@ -224,22 +181,6 @@ namespace TextOutput
         }
     }
 
-    private bool flushOnPreExecution = true;
-    [ContextMenu( "FlushOnPreExecutionCaption", "FlushOnPreExecutionTooltip", 6, ContextMenuControlType.CheckBox, null, new string[] {"FlushOnPreExecutionList1"})]
-    [TaskPane( "FlushOnPreExecutionCaption", "FlushOnPreExecutionTooltip", null, 6, false, ControlType.CheckBox, null)]
-    public bool FlushOnPreExecution
-    {
-      get { return flushOnPreExecution; }
-      set
-      {
-        if (value != flushOnPreExecution)
-        {
-          flushOnPreExecution = value;
-          hasChanges = true;
-          OnPropertyChanged("FlushOnPreExecution");
-        }
-      }
-    }
     # endregion settings
 
     #region INotifyPropertyChanged Members

@@ -120,9 +120,6 @@
   <data name="PluginCaption" xml:space="preserve">
     <value>Text Output</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value />
-  </data>
   <data name="PluginTooltip" xml:space="preserve">
     <value>Simple text output</value>
   </data>
@@ -144,12 +141,6 @@
   <data name="BooleanAsNumericTooltip" xml:space="preserve">
     <value>With this checkbox enabled, incoming boolean values will be displayed as numeric values (1/0 instead of True/False).</value>
   </data>
-  <data name="DataTypeCaption" xml:space="preserve">
-    <value>Type</value>
-  </data>
-  <data name="DataTypeTooltip" xml:space="preserve">
-    <value>Select data type of plugin.</value>
-  </data>
   <data name="EncodingSettingCaption" xml:space="preserve">
     <value>Input encoding</value>
   </data>
@@ -161,12 +152,6 @@
   </data>
   <data name="EncodingSettingTPTooltip" xml:space="preserve">
     <value>Choose the expected encoding of the input. (The input will be interpreted as set here, no matter what the bytes really mean)</value>
-  </data>
-  <data name="FlushOnPreExecutionCaption" xml:space="preserve">
-    <value>Flush text on PreExec</value>
-  </data>
-  <data name="FlushOnPreExecutionTooltip" xml:space="preserve">
-    <value>Flush all text boxes on PreExecution call.</value>
   </data>
   <data name="MaxLengthCaption" xml:space="preserve">
     <value>Maximum length</value>
@@ -207,9 +192,6 @@
   <data name="EncodingSettingList7" xml:space="preserve">
     <value>Big endian unicode</value>
   </data>
-  <data name="FlushOnPreExecutionList1" xml:space="preserve">
-    <value>Flush text on PreExec</value>
-  </data>
   <data name="PresentationFormatSettingList1" xml:space="preserve">
     <value>Text</value>
   </data>
@@ -224,5 +206,11 @@
   </data>
   <data name="AppendGroup" xml:space="preserve">
     <value>Append</value>
+  </data>
+  <data name="InputDataCaption" xml:space="preserve">
+    <value>Input data</value>
+  </data>
+  <data name="InputDataTooltip" xml:space="preserve">
+    <value>Input data of any type</value>
   </data>
 </root>
