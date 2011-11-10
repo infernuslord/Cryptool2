@@ -390,7 +390,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
         #region IControlEncryption Members
 
-        public int GenerateBlackboxOutputBit(object IV, object key, object length)
+        public int GenerateBlackboxOutputBit(int[] IV, int[] key, int length)
         {
             // public bits := plaintext
             // secret bits := key 
@@ -399,12 +399,10 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             string publicBits = string.Empty;
 
             // save public and secret bits as string
-            int[] temp = key as int[];
-            for (int i = 0; i < temp.Length; i++)
-                secretBits += temp[i];
-            temp = IV as int[];
-            for (int i = 0; i < temp.Length; i++)
-                publicBits += temp[i];
+            for (int i = 0; i < key.Length; i++)
+                secretBits += key[i];
+            for (int i = 0; i < IV.Length; i++)
+                publicBits += IV[i];
 
             // convert secret bits to byte array
             int[] arrInt = new int[8];
@@ -475,7 +473,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             p_crypto_stream.Flush();
 
             // return single output bit
-            return Int32.Parse(strBytes.Substring((int)length-1, 1));
+            return Int32.Parse(strBytes.Substring(length-1, 1));
         }
         #endregion
     }

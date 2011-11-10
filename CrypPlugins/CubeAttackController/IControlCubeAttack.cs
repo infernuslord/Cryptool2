@@ -9,6 +9,6 @@ namespace Cryptool.CubeAttackController
 {
     public interface IControlCubeAttack : IControl
     {
-        int GenerateBlackboxOutputBit(object v, object x, object outputBit);
+        int GenerateBlackboxOutputBit(int[] v, int[] x, int outputBit);
     }
 }
