@@ -120,31 +120,19 @@
   <data name="PluginCaption" xml:space="preserve">
     <value>Konkatenation</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value />
-  </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Konkateniert die beiden Eingabewerte. Die Ausgabe wird aktiviert, sobald der zweite Eingabewert ankommt (der andere Wert kann sich inzwischen geändert haben).</value>
+    <value>Konkateniert die beiden Eingabewerte.</value>
   </data>
-  <data name="DataTypeCaption" xml:space="preserve">
-    <value>Datentyp</value>
+	<data name="InputStreamCaption" xml:space="preserve">
+    <value>Eingabedaten</value>
   </data>
-  <data name="DataTypeTooltip" xml:space="preserve">
-    <value>Wählen Sie den Datentyp des Plugins.</value>
+	<data name="InputStreamTooltip" xml:space="preserve">
+    <value>Eingabedaten als Datenstrom</value>
   </data>
-  <data name="DataTypeList1" xml:space="preserve">
-    <value>CryptoolStream</value>
+	<data name="OutputStreamCaption" xml:space="preserve">
+    <value>Ausgabedaten</value>
   </data>
-  <data name="DataTypeList2" xml:space="preserve">
-    <value>string</value>
-  </data>
-  <data name="DataTypeList3" xml:space="preserve">
-    <value>byte[]</value>
-  </data>
-  <data name="DataTypeList4" xml:space="preserve">
-    <value>boolean</value>
-  </data>
-  <data name="DataTypeList5" xml:space="preserve">
-    <value>int</value>
+	<data name="OutputStreamTooltip" xml:space="preserve">
+    <value>Konkatenation der beiden Eingabedatenströme</value>
   </data>
 </root>

@@ -120,31 +120,19 @@
   <data name="PluginCaption" xml:space="preserve">
     <value>Concatenate</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value />
-  </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Concatenates two input values. Fires output if second value arrives (The other value can be overwritten in the meantime).</value>
+    <value>Concatenates two input values.</value>
   </data>
-  <data name="DataTypeCaption" xml:space="preserve">
-    <value>Type</value>
+  <data name="InputStreamCaption" xml:space="preserve">
+    <value>Input data</value>
   </data>
-  <data name="DataTypeTooltip" xml:space="preserve">
-    <value>Select DataType of plugin.</value>
+  <data name="InputStreamTooltip" xml:space="preserve">
+    <value>Input data as stream</value>
   </data>
-  <data name="DataTypeList1" xml:space="preserve">
-    <value>CryptoolStream</value>
+  <data name="OutputStreamCaption" xml:space="preserve">
+    <value>Output data</value>
   </data>
-  <data name="DataTypeList2" xml:space="preserve">
-    <value>string</value>
-  </data>
-  <data name="DataTypeList3" xml:space="preserve">
-    <value>byte[]</value>
-  </data>
-  <data name="DataTypeList4" xml:space="preserve">
-    <value>boolean</value>
-  </data>
-  <data name="DataTypeList5" xml:space="preserve">
-    <value>int</value>
+  <data name="OutputStreamTooltip" xml:space="preserve">
+    <value>Concatenation of the two input streams</value>
   </data>
 </root>
