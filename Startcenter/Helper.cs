@@ -13,7 +13,7 @@ namespace Startcenter
     {
         public static XElement GetGlobalizedElementFromXML(XElement xml, string element)
         {
-            CultureInfo currentLang = System.Globalization.CultureInfo.CurrentCulture;
+            CultureInfo currentLang = CultureInfo.CurrentUICulture;
 
             var allElements = xml.Elements(element);
             IEnumerable<XElement> foundElements = null;
