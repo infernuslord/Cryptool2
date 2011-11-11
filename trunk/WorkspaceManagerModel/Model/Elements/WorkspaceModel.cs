@@ -674,6 +674,17 @@ namespace WorkspaceManager.Model
             return ConversionLevel.Red;
 
         }
+
+        /// <summary>
+        /// Call Dispose on all PluginModels.Plugin
+        /// </summary>
+        public void Dispose()
+        {
+            foreach (PluginModel pluginModel in AllPluginModels)
+            {
+                pluginModel.Plugin.Dispose();
+            }
+        }
     }
 
     /// <summary>

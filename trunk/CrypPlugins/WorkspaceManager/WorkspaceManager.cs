@@ -746,9 +746,29 @@ namespace WorkspaceManager
         {
             if (ExecutionEngine != null && ExecutionEngine.IsRunning())
             {
-                ExecutionEngine.Stop();
+                try
+                {
+                    ExecutionEngine.Stop();
+                }
+                catch (Exception ex)
+                {
+                    GuiLogMessage(string.Format("Exception during stopping of the ExecutionEngine: {0}", ex), NotificationLevel.Error);
+                }
             }
+
             EventsHelper.AsynchronousPropertyChanged = true;
+
+            try
+            {
+                if (WorkspaceModel != null)
+                {
+                    WorkspaceModel.Dispose();
+                }
+            }
+            catch(Exception ex)
+            {
+                GuiLogMessage(string.Format("Exception during disposing of the Model: {0}",ex),NotificationLevel.Error);
+            }
         }
 
         #endregion
