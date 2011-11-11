@@ -269,26 +269,12 @@ namespace WorkspaceManager.Model
                 }
 
                 if (Outgoing)
-                {                    
-                    object data = null;
-                    if (IsDynamic)
+                {                                       
+                    if (property == null)
                     {
-                        if (method == null)
-                        {
-                            method = sender.GetType().GetMethod(DynamicGetterName);
-                        }
-                        data = method.Invoke(sender, new object[] {PropertyName});
-
+                        property = sender.GetType().GetProperty(args.PropertyName);
                     }
-                    else
-                    {
-                        if (property == null)
-                        {
-                            property = sender.GetType().GetProperty(args.PropertyName);
-                        }
-                        data = property.GetValue(sender, null);
-                        
-                    }
+                    object data = property.GetValue(sender, null);
 
                     DataQueue.Enqueue(data);
                     LastData = data;
@@ -313,31 +299,7 @@ namespace WorkspaceManager.Model
                 }            
             }
         }
-
-        /// <summary>
-        /// The data type of the wrapped property changes
-        /// </summary>        
-        public void PropertyTypeChangedOnPlugin(IPlugin plugin)
-        {
-            Dictionary<string, DynamicProperty> dictionary = plugin.GetDynamicPropertyList();
-            DynamicPropertyInfoAttribute dynamicPropertyInfoAttribute = plugin.GetDynamicPropertyInfo();
-            foreach (DynamicProperty dynamicProperty in dictionary.Values)
-            {
-
-                if (this.PropertyName == dynamicProperty.Name)
-                {
-                    foreach (ConnectionModel connectionModel in new List<ConnectionModel>(InputConnections))
-                    {
-                        this.WorkspaceModel.deleteConnectionModel(connectionModel);
-                    }
-                    foreach (ConnectionModel connectionModel in new List<ConnectionModel>(this.OutputConnections))
-                    {
-                        this.WorkspaceModel.deleteConnectionModel(connectionModel);
-                    }
-                    this.ConnectorType = dynamicProperty.Type;                   
-                }
-            }
-        }
+        
 
         #endregion                
     }
