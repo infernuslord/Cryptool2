@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Windows;
 using System.Xml.Linq;
 using Cryptool.Core;
@@ -25,19 +26,42 @@ namespace OnlineDocumentationGenerator
 
         public void Generate(string baseDirectory)
         {
-            ReadTemplates(baseDirectory);
-            GenerateHTML(baseDirectory);
+            var currentCulture = Thread.CurrentThread.CurrentCulture;
+            var currentUICulture = Thread.CurrentThread.CurrentUICulture;
+
+            try
+            {
+                ReadTemplates(baseDirectory);
+                GenerateHTML(baseDirectory);
+            }
+            finally
+            {
+                Thread.CurrentThread.CurrentCulture = currentCulture;
+                Thread.CurrentThread.CurrentUICulture = currentUICulture;
+            }
         }
 
         public static EntityDocumentationPage CreateDocumentationPage(Type type)
         {
-            if (type.GetInterfaces().Contains(typeof(IEditor)))
+            var currentCulture = Thread.CurrentThread.CurrentCulture;
+            var currentUICulture = Thread.CurrentThread.CurrentUICulture;
+
+            try
             {
-                return new EditorDocumentationPage(type);
+
+                if (type.GetInterfaces().Contains(typeof(IEditor)))
+                {
+                    return new EditorDocumentationPage(type);
+                }
+                else
+                {
+                    return new ComponentDocumentationPage(type);
+                }
             }
-            else
+            finally
             {
-                return new ComponentDocumentationPage(type);
+                Thread.CurrentThread.CurrentCulture = currentCulture;
+                Thread.CurrentThread.CurrentUICulture = currentUICulture;
             }
         }
 
