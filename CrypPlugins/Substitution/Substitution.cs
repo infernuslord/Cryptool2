@@ -29,7 +29,7 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace Cryptool.Substitution
 {
     [Author("Sebastian Przybylski", "sebastian@przybylski.org", "Uni-Siegen", "http://www.uni-siegen.de")]
-    [PluginInfo("Substitution.Properties.Resources", false,"PluginCaption", "PluginTooltip", "Substitution/DetailedDescription/doc.xml", 
+    [PluginInfo("Substitution.Properties.Resources", "PluginCaption", "PluginTooltip", "Substitution/DetailedDescription/doc.xml", 
       "Substitution/Images/icon.png", "Substitution/Images/encrypt.png", "Substitution/Images/decrypt.png")]
     [ComponentCategory(ComponentCategory.CiphersClassic)]
     public class Substitution : ICrypComponent
@@ -62,7 +62,7 @@ namespace Cryptool.Substitution
             set { this.settings = (SubstitutionSettings)value; }
         }
 
-        [PropertyInfo(Direction.OutputData, "OutputDataCaption", "OutputDataTooltip", null, true, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputDataCaption", "OutputDataTooltip", true, QuickWatchFormat.Text, null)]
         public ICryptoolStream OutputData
         {
             get
@@ -77,7 +77,7 @@ namespace Cryptool.Substitution
             set { }
         }
 
-        [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", null, true, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", true, QuickWatchFormat.Text, null)]
         public string InputString
         {
             get { return this.inputString; }
@@ -91,7 +91,7 @@ namespace Cryptool.Substitution
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", null, true, false,QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", true, QuickWatchFormat.Text, null)]
         public string OutputString
         {
             get { return this.outputString; }
@@ -102,7 +102,7 @@ namespace Cryptool.Substitution
             }
         }
 
-        [PropertyInfo(Direction.InputData, "InputAlphabetCaption", "InputAlphabetTooltip",  null, false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputAlphabetCaption", "InputAlphabetTooltip", false, QuickWatchFormat.Text, null)]
         public string InputAlphabet
         {
             get { return ((SubstitutionSettings)this.settings).AlphabetSymbols; }
@@ -116,7 +116,7 @@ namespace Cryptool.Substitution
             }
         }
 
-        [PropertyInfo(Direction.InputData, "KeyValueCaption", "KeyValueTooltip", null, false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "KeyValueCaption", "KeyValueTooltip", false, QuickWatchFormat.Text, null)]
         public string KeyValue
         {
             get { return settings.KeyValue; }

@@ -37,7 +37,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
     /// used by the KeySearcher to do bruteforcing
     /// </summary>
     [Author("Nils Kopal", "nils.kopal@cryptool.de", "Uni Duisburg", "http://www.uni-duisburg-essen.de")]
-    [PluginInfo("Cryptool.Plugins.Cryptography.Encryption.Properties.Resources", false, "PluginCaption", "PluginTooltip", "SDES/DetailedDescription/doc.xml", "SDES/icon.png", "SDES/Images/encrypt.png", "SDES/Images/decrypt.png")]
+    [PluginInfo("Cryptool.Plugins.Cryptography.Encryption.Properties.Resources", "PluginCaption", "PluginTooltip", "SDES/DetailedDescription/doc.xml", "SDES/icon.png", "SDES/Images/encrypt.png", "SDES/Images/decrypt.png")]
     [ComponentCategory(ComponentCategory.CiphersModernSymmetric)]
     public class SDES : ICrypComponent
     {
@@ -120,7 +120,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         /// <summary>
         /// Gets/Sets the input of the SDES plugin (the text which should be encrypted/decrypted)
         /// </summary>
-        [PropertyInfo(Direction.InputData, "InputStreamCaption", "InputStreamTooltip", null, true, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "InputStreamCaption", "InputStreamTooltip", true, QuickWatchFormat.Hex, null)]
         public ICryptoolStream InputStream
         {
             get
@@ -137,7 +137,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         /// <summary>
         /// Gets/Sets the output of the SDES plugin (the text which is encrypted/decrypted)
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "OutputStreamCaption", "OutputStreamTooltip", null, true, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "OutputStreamCaption", "OutputStreamTooltip", true, QuickWatchFormat.Hex, null)]
         public ICryptoolStream OutputStream
         {
             get
@@ -152,7 +152,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         /// <summary>
         /// Gets/Sets the key which should be used.Must be 10 bytes  (only 1 or 0 allowed).
         /// </summary>
-        [PropertyInfo(Direction.InputData, "InputKeyCaption", "InputKeyTooltip", null, true, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "InputKeyCaption", "InputKeyTooltip", true, QuickWatchFormat.Hex, null)]
         public byte[] InputKey
         {
             get { return this.inputKey; }
@@ -167,7 +167,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         /// <summary>
         /// Gets/Sets the Initialization Vector which should be used.Must be 8 bytes  (only 1 or 0 allowed).
         /// </summary>
-        [PropertyInfo(Direction.InputData, "InputIVCaption", "InputIVTooltip", null, false, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "InputIVCaption", "InputIVTooltip", false, QuickWatchFormat.Hex, null)]
         public byte[] InputIV
         {
             get { return this.inputIV; }
@@ -317,7 +317,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         /// <summary>
         /// Sets/Gets the ControlSlave of this plugin
         /// </summary>
-        [PropertyInfo(Direction.ControlSlave, "ControlSlaveCaption", "ControlSlaveTooltip", "")]
+        [PropertyInfo(Direction.ControlSlave, "ControlSlaveCaption", "ControlSlaveTooltip")]
         public IControlEncryption ControlSlave
         {
             get

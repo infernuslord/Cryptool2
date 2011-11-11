@@ -37,13 +37,12 @@ using System.Windows.Threading;
 namespace Cryptool.MD5
 {
     [Author("Sebastian Przybylski", "sebastian@przybylski.org", "Uni-Siegen", "http://www.uni-siegen.de")]
-    [PluginInfo("Cryptool.Plugins.MD5.Properties.Resources", false, "PluginCaption", "PluginTooltip", "MD5/DetailedDescription/doc.xml", "MD5/MD5.png")]
+    [PluginInfo("Cryptool.Plugins.MD5.Properties.Resources", "PluginCaption", "PluginTooltip", "MD5/DetailedDescription/doc.xml", "MD5/MD5.png")]
     [ComponentCategory(ComponentCategory.HashFunctions)]
     public class MD5 : ICrypComponent
     {
         #region Private variables
 
-        private MD5Settings settings;
         private ICryptoolStream inputData;
         private byte[] outputData;
         private PresentableMD5 md5;
@@ -54,8 +53,6 @@ namespace Cryptool.MD5
         #region Public interface
         public MD5()
         {
-            settings = new MD5Settings();
-
             md5 = new PresentableMD5();
             md5.AddSkippedState(MD5StateDescription.STARTING_ROUND_STEP);
             md5.AddSkippedState(MD5StateDescription.FINISHING_COMPRESSION);
@@ -67,13 +64,10 @@ namespace Cryptool.MD5
 
         public ISettings Settings
         {
-          
-            get { return this.settings; }
-          
-            set { this.settings = (MD5Settings)value; }
+            get { return null; }
         }
 
-        [PropertyInfo(Direction.InputData, "InputDataCaption", "InputDataTooltip", "", true, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "InputDataCaption", "InputDataTooltip", true, QuickWatchFormat.Hex, null)]
         public ICryptoolStream InputData
         {
             get 
@@ -88,7 +82,7 @@ namespace Cryptool.MD5
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "OutputDataStreamCaption", "OutputDataStreamTooltip", "", false, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "OutputDataStreamCaption", "OutputDataStreamTooltip", false, QuickWatchFormat.Hex, null)]
         public ICryptoolStream OutputDataStream
         {
           get 
@@ -102,7 +96,7 @@ namespace Cryptool.MD5
           }
         }
 
-        [PropertyInfo(Direction.OutputData, "OutputDataCaption", "OutputDataTooltip", "", false, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "OutputDataCaption", "OutputDataTooltip", false, QuickWatchFormat.Hex, null)]
         public byte[] OutputData 
         {
           
@@ -162,7 +156,6 @@ namespace Cryptool.MD5
         
         public void Dispose()
         {
-            inputData = null;
         }
         #endregion
 
@@ -180,12 +173,12 @@ namespace Cryptool.MD5
         
         public void PostExecution()
         {
-            Dispose();
+            inputData = null;
         }
         
         public void PreExecution()
         {
-            Dispose();
+            inputData = null;
         }
 
         #endregion

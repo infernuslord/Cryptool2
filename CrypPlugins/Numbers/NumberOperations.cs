@@ -24,7 +24,7 @@ using System.Numerics;
 namespace Cryptool.Plugins.Numbers
 {
     [Author("Sven Rech, Nils Kopal", "sven.rech@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo("Cryptool.Plugins.Numbers.Properties.Resources", false, "PluginOperationCaption", "PluginOperationTooltip", "PluginOperationDescriptionURL", "Numbers/icons/plusIcon.png", "Numbers/icons/minusIcon.png", "Numbers/icons/timesIcon.png", "Numbers/icons/divIcon.png", "Numbers/icons/powIcon.png", "Numbers/icons/gcdicon.png")]
+    [PluginInfo("Cryptool.Plugins.Numbers.Properties.Resources", "PluginOperationCaption", "PluginOperationTooltip", "PluginOperationDescriptionURL", "Numbers/icons/plusIcon.png", "Numbers/icons/minusIcon.png", "Numbers/icons/timesIcon.png", "Numbers/icons/divIcon.png", "Numbers/icons/powIcon.png", "Numbers/icons/gcdicon.png")]
     [ComponentCategory(ComponentCategory.ToolsMisc)]
     class NumberOperations : ICrypComponent
     {
@@ -62,7 +62,7 @@ namespace Cryptool.Plugins.Numbers
         /// The inputs are defined.
         /// Only BigInteger are accepted.
         /// </summary>
-        [PropertyInfo(Direction.InputData, "Input1Caption", "Input1Tooltip", "", true, false, QuickWatchFormat.None, null)]
+        [PropertyInfo(Direction.InputData, "Input1Caption", "Input1Tooltip", true, QuickWatchFormat.None, null)]
         public BigInteger Input1
         {
             get
@@ -77,7 +77,7 @@ namespace Cryptool.Plugins.Numbers
         }
 
         
-        [PropertyInfo(Direction.InputData, "Input2Caption", "Input2Tooltip", "", true, false, QuickWatchFormat.None, null)]
+        [PropertyInfo(Direction.InputData, "Input2Caption", "Input2Tooltip", true, QuickWatchFormat.None, null)]
         public BigInteger Input2
         {
             get
@@ -92,7 +92,7 @@ namespace Cryptool.Plugins.Numbers
         }
 
         
-        [PropertyInfo(Direction.InputData, "ModCaption", "ModTooltip", "")]
+        [PropertyInfo(Direction.InputData, "ModCaption", "ModTooltip")]
         public BigInteger Mod
         {
             get
@@ -109,7 +109,7 @@ namespace Cryptool.Plugins.Numbers
         /// <summary>
         /// The output is defined.
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "OutputCaption", "OutputTooltip", "")]
+        [PropertyInfo(Direction.OutputData, "OutputCaption", "OutputTooltip")]
         public BigInteger Output
         {
             get

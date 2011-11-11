@@ -21,7 +21,7 @@ namespace WordPatterns
      * - support wildcard (*)
      */
     [Author("Matthäus Wander", "wander@cryptool.org", "Fachgebiet Verteilte Systeme, Universität Duisburg-Essen", "http://www.vs.uni-due.de")]
-    [PluginInfo("WordPatterns.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "WordPatterns/Images/icon.png")]
+    [PluginInfo("WordPatterns.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "WordPatterns/Images/icon.png")]
     [ComponentCategory(ComponentCategory.CryptanalysisGeneric)]
     public class WordPatterns : ICrypComponent
     {
@@ -41,7 +41,7 @@ namespace WordPatterns
 
         #region Properties
 
-        [PropertyInfo(Direction.InputData, "InputTextCaption", "InputTextTooltip", "", true, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputTextCaption", "InputTextTooltip", true, QuickWatchFormat.Text, null)]
         public string InputText
         {
             get
@@ -55,7 +55,7 @@ namespace WordPatterns
             }
         }
 
-        [PropertyInfo(Direction.InputData, "InputDictCaption", "InputDictTooltip", "", true, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputDictCaption", "InputDictTooltip", true, QuickWatchFormat.Text, null)]
         public string[] InputDict
         {
             get
@@ -70,7 +70,7 @@ namespace WordPatterns
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "OutputTextCaption", "OutputTextTooltip", "", false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputTextCaption", "OutputTextTooltip", false, QuickWatchFormat.Text, null)]
         public string OutputText
         {
             get { return outputText; }

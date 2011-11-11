@@ -20,7 +20,7 @@ namespace Cryptool.WEPAttacks
         "stef.schroeder@gmx.de",
         "Uni Siegen",
         "http://www.uni-siegen.de")]
-    [PluginInfo("WEPAttacks.Properties.Resources", true,
+    [PluginInfo("WEPAttacks.Properties.Resources",
         "PluginCaption",
         "PluginTooltip",
         "PluginDescriptionURL",
@@ -64,8 +64,6 @@ namespace Cryptool.WEPAttacks
         [PropertyInfo(Direction.InputData,
             "InputStreamCaption",
             "InputStreamTooltip",
-            "",
-            false,
             false,
             QuickWatchFormat.Hex,
             null)]
@@ -86,8 +84,6 @@ namespace Cryptool.WEPAttacks
         [PropertyInfo(Direction.OutputData,
             "SuccessCaption",
             "SuccessTooltip",
-            "",
-            false,
             false,
             QuickWatchFormat.Text,
             null)]
@@ -104,8 +100,6 @@ namespace Cryptool.WEPAttacks
         [PropertyInfo(Direction.OutputData,
             "OutputStreamCaption",
             "OutputStreamTooltip",
-            "",
-            false,
             false,
             QuickWatchFormat.Hex,
             null)]

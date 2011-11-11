@@ -29,7 +29,7 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace Cryptool.Playfair
 {
     [Author("Sebastian Przybylski","sebastian@przybylski.org","Uni Siegen","http://www.uni-siegen.de")]
-    [PluginInfo("Playfair.Properties.Resources", false, "PluginCaption", "PluginTooltip", "Playfair/DetailedDescription/doc.xml", 
+    [PluginInfo("Playfair.Properties.Resources", "PluginCaption", "PluginTooltip", "Playfair/DetailedDescription/doc.xml", 
       "Playfair/Images/icon.png", "Playfair/Images/encrypt.png", "Playfair/Images/decrypt.png")]
     [ComponentCategory(ComponentCategory.CiphersClassic)]
     public class Playfair : ICrypComponent
@@ -52,7 +52,6 @@ namespace Cryptool.Playfair
         public Playfair()
         {
             this.settings = new PlayfairSettings();
-            ((PlayfairSettings)(this.settings)).LogMessage += Playfair_LogMessage;
         }
 
         /// <summary>
@@ -64,7 +63,7 @@ namespace Cryptool.Playfair
             set { this.settings = (PlayfairSettings)value; }
         }
 
-        [PropertyInfo(Direction.OutputData, "OutputDataCaption", "OutputDataTooltip", "",false,false,QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputDataCaption", "OutputDataTooltip", false,QuickWatchFormat.Text, null)]
         public ICryptoolStream OutputData
         {
             get
@@ -81,7 +80,7 @@ namespace Cryptool.Playfair
             set { }
         }
 
-        [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", "",true,false,QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", true,QuickWatchFormat.Text, null)]
         public string InputString
         {
             get { return this.inputString; }
@@ -95,7 +94,7 @@ namespace Cryptool.Playfair
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "PreFormatedInputStringCaption", "PreFormatedInputStringTooltip", null,false,false,QuickWatchFormat.Text,null)]
+        [PropertyInfo(Direction.OutputData, "PreFormatedInputStringCaption", "PreFormatedInputStringTooltip", false,QuickWatchFormat.Text,null)]
         public string PreFormatedInputString
         {
             get { return this.preFormatedInputString; }
@@ -106,7 +105,7 @@ namespace Cryptool.Playfair
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", "",false,false,QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", false,QuickWatchFormat.Text, null)]
         public string OutputString
         {
             get { return this.outputString; }

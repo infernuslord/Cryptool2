@@ -31,7 +31,7 @@ using System.Runtime.CompilerServices;
 namespace Cryptool.BerlekampMassey
 {
     [Author("Soeren Rinne", "soeren.rinne@cryptool.org", "Ruhr-Universitaet Bochum, Chair for System Security", "http://www.trust.rub.de/")]
-    [PluginInfo("Cryptool.BerlekampMassey.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "BerlekampMassey/Images/icon2.png", "BerlekampMassey/Images/icon2.png", "BerlekampMassey/Images/icon2.png")]
+    [PluginInfo("Cryptool.BerlekampMassey.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "BerlekampMassey/Images/icon2.png", "BerlekampMassey/Images/icon2.png", "BerlekampMassey/Images/icon2.png")]
     [ComponentCategory(ComponentCategory.CryptanalysisGeneric)]
     public class BerlekampMassey : ICrypComponent
     {
@@ -71,7 +71,7 @@ namespace Cryptool.BerlekampMassey
             }
         }
 
-        [PropertyInfo(Direction.InputData, "InputCaption", "InputTooltip", "", true, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputCaption", "InputTooltip", true, QuickWatchFormat.Text, null)]
         public String Input
         {
             get { return this.input; }
@@ -82,7 +82,7 @@ namespace Cryptool.BerlekampMassey
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "OutputCaption", "OutputTooltip", "", false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputCaption", "OutputTooltip", false, QuickWatchFormat.Text, null)]
         public int Output
         {
             get
@@ -94,7 +94,7 @@ namespace Cryptool.BerlekampMassey
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "PolynomialOutputCaption", "PolynomialOutputTooltip", "", false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "PolynomialOutputCaption", "PolynomialOutputTooltip", false, QuickWatchFormat.Text, null)]
         public String PolynomialOutput
         {
             [MethodImpl(MethodImplOptions.Synchronized)]

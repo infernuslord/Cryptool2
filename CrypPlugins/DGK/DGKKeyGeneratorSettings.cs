@@ -42,7 +42,6 @@ namespace Cryptool.Plugins.DGK
 
         #region events
         
-        public event TaskPaneAttributeChangedHandler TaskPaneAttributeChanged;
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
 
         #endregion

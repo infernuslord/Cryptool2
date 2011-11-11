@@ -22,7 +22,7 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace Cryptool.Scytale
 {
     [Author("Fabian Enkler, A. Wacker", "enkler@cryptool.org, wacker@cryptool.org", "Uni Duisburg-Essen", "http://www.vs.uni-duisburg-essen.de")]
-    [PluginInfo("Cryptool.Scytale.Properties.Resources", false, "PluginCaption", "PluginTooltip", "Scytale/DetailedDescription/doc.xml", "Scytale/icon.png")]
+    [PluginInfo("Cryptool.Scytale.Properties.Resources", "PluginCaption", "PluginTooltip", "Scytale/DetailedDescription/doc.xml", "Scytale/icon.png")]
     [ComponentCategory(ComponentCategory.CiphersClassic)]
     public class Scytale : ICrypComponent
     {
@@ -47,7 +47,7 @@ namespace Cryptool.Scytale
         }
 
         private string inputString = string.Empty;
-        [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", "", true, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", true, QuickWatchFormat.Text, null)]
         public string InputString
         {
             get { return this.inputString; }
@@ -62,7 +62,7 @@ namespace Cryptool.Scytale
         }
 
         private string outputString = string.Empty;
-        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", "", false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", false, QuickWatchFormat.Text, null)]
         public string OutputString
         {
             get { return this.outputString; }
@@ -75,7 +75,7 @@ namespace Cryptool.Scytale
 
 
 
-        [PropertyInfo(Direction.InputData, "StickSizeCaption", "StickSizeTooltip", "", false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "StickSizeCaption", "StickSizeTooltip", false, QuickWatchFormat.Text, null)]
         public int StickSize
         {
             get { return settings.StickSize; }

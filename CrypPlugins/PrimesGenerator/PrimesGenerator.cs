@@ -13,7 +13,7 @@ using System.Security.Cryptography;
 namespace Cryptool.PrimesGenerator
 {
 
-  [PluginInfo("PrimesGenerator.Properties.Resources", true, "PluginCaption", "PluginTooltip", "PrimesGenerator/DetailedDescription/doc.xml", "PrimesGenerator/icon.png")]
+  [PluginInfo("PrimesGenerator.Properties.Resources", "PluginCaption", "PluginTooltip", "PrimesGenerator/DetailedDescription/doc.xml", "PrimesGenerator/icon.png")]
   [ComponentCategory(ComponentCategory.ToolsDataInputOutput)]
   public class PrimesGenerator : ICrypComponent
   {
@@ -60,7 +60,7 @@ namespace Cryptool.PrimesGenerator
 
 
     private BigInteger m_OutputString;
-    [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", "", true, false, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", true, QuickWatchFormat.Text, null)]
     public BigInteger OutputString
     {
       get { return this.m_OutputString; }

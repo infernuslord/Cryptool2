@@ -42,7 +42,6 @@ namespace Contains
   public partial class ContainsPresentation : UserControl
   {
     // private ObservableCollection<StringSearchResult> collection = new ObservableCollection<StringSearchResult>();
-    private bool canResetListView = false;
 
     public ContainsPresentation()
     {

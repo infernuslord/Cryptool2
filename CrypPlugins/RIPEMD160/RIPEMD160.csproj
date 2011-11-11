@@ -92,7 +92,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="RIPEMD160.cs" />
-    <Compile Include="RIPEMD160Settings.cs" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="icon.png" />

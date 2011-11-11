@@ -28,7 +28,7 @@ using System.Security.Cryptography;
 namespace Cryptool.Plugins.Paillier
 {
     [Author("Armin Krauss, Martin Franz", "", "", "http://www.uni-due.de")]
-    [PluginInfo("Paillier.Properties.Resources", true, "PluginKeyCaption", "PluginKeyTooltip", "PluginKeyDescriptionURL", "Paillier/Image/PaillierKey.png")]
+    [PluginInfo("Paillier.Properties.Resources", "PluginKeyCaption", "PluginKeyTooltip", "PluginKeyDescriptionURL", "Paillier/Image/PaillierKey.png")]
     [ComponentCategory(ComponentCategory.CiphersModernAsymmetric)]
     /**
     <summary>
@@ -78,7 +78,7 @@ namespace Cryptool.Plugins.Paillier
         /// <summary>
         /// Sets the modulus N (public key)
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "NCaption", "NTooltip", "")]
+        [PropertyInfo(Direction.OutputData, "NCaption", "NTooltip")]
         public BigInteger N
         {
             get { return n; }
@@ -92,7 +92,7 @@ namespace Cryptool.Plugins.Paillier
         /// <summary>
         /// Sets the G of the public key
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "GCaption", "GTooltip", "")]
+        [PropertyInfo(Direction.OutputData, "GCaption", "GTooltip")]
         public BigInteger G
         {
             get { return g; }
@@ -106,7 +106,7 @@ namespace Cryptool.Plugins.Paillier
         /// <summary>
         /// Sets the Lambda of the private key
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "LambdaCaption", "LambdaTooltip", "")]
+        [PropertyInfo(Direction.OutputData, "LambdaCaption", "LambdaTooltip")]
         public BigInteger Lambda
         {
             get { return lambda; }

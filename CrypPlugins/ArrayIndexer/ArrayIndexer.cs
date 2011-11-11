@@ -26,7 +26,7 @@ using System.ComponentModel;
 namespace Cryptool.Plugins.ArrayIndexer
 {
     [Author("Christian Arnold", "christian.arnold@stud.uni-due.de", "Uni Duisburg-Essen", "")]
-    [PluginInfo("ArrayIndexer.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "ArrayIndexer/arrayindexer.png")]
+    [PluginInfo("ArrayIndexer.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "ArrayIndexer/arrayindexer.png")]
     [ComponentCategory(ComponentCategory.ToolsDataflow)]
     public class ArrayIndexer : ICrypComponent
     {
@@ -40,7 +40,7 @@ namespace Cryptool.Plugins.ArrayIndexer
 
         #region In and Out properties
 
-        [PropertyInfo(Direction.InputData, "ObjInputCaption", "ObjInputTooltip", "", true, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "ObjInputCaption", "ObjInputTooltip", true, QuickWatchFormat.Text, null)]
         public Array ObjInput
         {
             get
@@ -54,7 +54,7 @@ namespace Cryptool.Plugins.ArrayIndexer
             }
         }
 
-        [PropertyInfo(Direction.InputData, "ArrayIndexCaption", "ArrayIndexTooltip", "")]
+        [PropertyInfo(Direction.InputData, "ArrayIndexCaption", "ArrayIndexTooltip")]
         public int ArrayIndex
         {
             get
@@ -69,7 +69,7 @@ namespace Cryptool.Plugins.ArrayIndexer
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "ObjOutputCaption", "ObjOutputTooltip", "")]
+        [PropertyInfo(Direction.OutputData, "ObjOutputCaption", "ObjOutputTooltip")]
         public object ObjOutput
         {
             get

@@ -21,31 +21,31 @@ using System.Text;
 
 namespace Cryptool.PluginBase
 {
-  /// <summary>
-  /// This optional attribute can be used to display author information in the 
-  /// settings pane. 
-  /// </summary>
-  [AttributeUsage(AttributeTargets.Class)]
-  public class AuthorAttribute : Attribute
-  {
-    public readonly string Author;
-    public readonly string Email;
-    public readonly string Institute;
-    public readonly string URL;
-
     /// <summary>
-    /// Initializes a new instance of the <see cref="AuthorAttribute"/> class.
+    /// This optional attribute can be used to display author information in the 
+    /// settings pane. 
     /// </summary>
-    /// <param name="author">The author.</param>
-    /// <param name="email">The email - optional, validated with regex.</param>
-    /// <param name="institute">The institute - optional.</param>
-    /// <param name="url">The URL - optional, validated with regex.</param>
-    public AuthorAttribute(string author, string email, string institute, string url)
+    [AttributeUsage(AttributeTargets.Class)]
+    public class AuthorAttribute : Attribute
     {
-      this.Author = author;
-      this.Email = email;
-      this.Institute = institute;
-      this.URL = url;
+        public readonly string Author;
+        public readonly string Email;
+        public readonly string Institute;
+        public readonly string URL;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AuthorAttribute"/> class.
+        /// </summary>
+        /// <param name="author">The author.</param>
+        /// <param name="email">The email - optional, validated with regex.</param>
+        /// <param name="institute">The institute - optional.</param>
+        /// <param name="url">The URL - optional, validated with regex.</param>
+        public AuthorAttribute(string author, string email, string institute, string url)
+        {
+            this.Author = author ?? string.Empty;
+            this.Email = email ?? string.Empty;
+            this.Institute = institute ?? string.Empty;
+            this.URL = url ?? string.Empty;
+        }
     }
-  }
 }

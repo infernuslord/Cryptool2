@@ -36,25 +36,19 @@ namespace RIPEMD160
     public class RIPEMD160 : ICrypComponent
     {
         #region Private variables
-        private RIPEMD160Settings settings;
         private ICryptoolStream inputData;
         private byte[] outputData;
         #endregion
 
         #region Public interface
-        public RIPEMD160()
-        {
-            this.settings = new RIPEMD160Settings();
-        }
 
         public ISettings Settings
         {
-            get { return this.settings; }
-            set { this.settings = (RIPEMD160Settings)value; }
+            get { return null; }
         }
 
         // [QuickWatch(QuickWatchFormat.Hex, null)]
-        [PropertyInfo(Direction.InputData, "InputDataCaption", "InputDataTooltip", "", true, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "InputDataCaption", "InputDataTooltip", true, QuickWatchFormat.Hex, null)]
         public ICryptoolStream InputData
         {
             get 
@@ -72,7 +66,7 @@ namespace RIPEMD160
         }
 
         // [QuickWatch(QuickWatchFormat.Hex, null)]
-        [PropertyInfo(Direction.OutputData, "OutputDataStreamCaption", "OutputDataStreamTooltip", "", true, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "OutputDataStreamCaption", "OutputDataStreamTooltip", true, QuickWatchFormat.Hex, null)]
         public ICryptoolStream OutputDataStream
         {
           get
@@ -87,7 +81,7 @@ namespace RIPEMD160
         }
 
         // [QuickWatch(QuickWatchFormat.Hex, null)]
-        [PropertyInfo(Direction.OutputData, "OutputDataCaption", "OutputDataTooltip", "", false, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "OutputDataCaption", "OutputDataTooltip", false, QuickWatchFormat.Hex, null)]
         public byte[] OutputData
         {
           get { return this.outputData; }

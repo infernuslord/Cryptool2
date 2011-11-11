@@ -25,7 +25,7 @@ using System.Threading;
 namespace PictureOutput
 {
     [Author("Nils Kopal", "nils.kopal@cryptool.org", "Uni Duisburg", "http://www.uni-duisburg-essen.de")]
-    [PluginInfo("PictureOutput.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PictureOutput/documentation.xml", "PictureOutput/icon.png")]
+    [PluginInfo("PictureOutput.Properties.Resources", "PluginCaption", "PluginTooltip", "PictureOutput/documentation.xml", "PictureOutput/icon.png")]
     [ComponentCategory(ComponentCategory.ToolsDataInputOutput)]
     public class PictureOutput : ICrypComponent
     {
@@ -130,13 +130,13 @@ namespace PictureOutput
 
         #endregion
 
-        [PropertyInfo(Direction.InputData, "pictureInputCaption", "pictureInputTooltip", "", false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "pictureInputCaption", "pictureInputTooltip", false, QuickWatchFormat.Text, null)]
         public byte[] PictureInput
         {           
             set { _data = value; }
         }
 
-        [PropertyInfo(Direction.InputData, "pictureInputCaption", "pictureInputTooltip", "", false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "pictureInputCaption", "pictureInputTooltip", false, QuickWatchFormat.Text, null)]
         public ICryptoolStream PictureStream
         {
             set { _stream = value; }

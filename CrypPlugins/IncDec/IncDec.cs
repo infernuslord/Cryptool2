@@ -27,7 +27,7 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace IncDec
 {
   [Author("Thomas Schmid", "thomas.schmid@cryptool.org", "Uni Siegen", "http://www.uni-siegen.de")]
-  [PluginInfo("IncDec.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "IncDec/increment.png", "IncDec/decrement.png")]
+  [PluginInfo("IncDec.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "IncDec/increment.png", "IncDec/decrement.png")]
   [ComponentCategory(ComponentCategory.ToolsMisc)]
   public class IncDec : ICrypComponent
   {
@@ -58,7 +58,7 @@ namespace IncDec
     }
 
 
-    [PropertyInfo(Direction.InputData, "InputCaption", "InputTooltip", null, false, false, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.InputData, "InputCaption", "InputTooltip", false, QuickWatchFormat.Text, null)]
     public int Input
     {
       get { return input; }
@@ -87,7 +87,7 @@ namespace IncDec
     }
 
     private int output;
-    [PropertyInfo(Direction.OutputData, "OutputCaption", "OutputTooltip", "", false, false, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.OutputData, "OutputCaption", "OutputTooltip", false, QuickWatchFormat.Text, null)]
     public int Output
     {
       get { return output; }

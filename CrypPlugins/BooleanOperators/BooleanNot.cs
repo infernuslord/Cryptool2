@@ -29,7 +29,7 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace Cryptool.Plugins.BooleanOperators
 {
     [Author("Nils Kopal", "nils.kopal@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-duisburg-essen.de")]
-    [PluginInfo("BooleanOperators.Properties.Resources", false, "PluginBN_Caption", "PluginBN_Tooltip", "PluginDescriptionURL", "BooleanOperators/icons/not.png")]
+    [PluginInfo("BooleanOperators.Properties.Resources", "PluginBN_Caption", "PluginBN_Tooltip", "PluginDescriptionURL", "BooleanOperators/icons/not.png")]
     [ComponentCategory(ComponentCategory.ToolsBoolean)]
     public class BooleanNot : ICrypComponent
     {
@@ -44,7 +44,7 @@ namespace Cryptool.Plugins.BooleanOperators
             this.settings = new BooleanNotSettings();
         }
 
-        [PropertyInfo(Direction.InputData, "BN_InputCaption", "BN_InputTooltip", "")]
+        [PropertyInfo(Direction.InputData, "BN_InputCaption", "BN_InputTooltip")]
         public Boolean Input
         {
             get
@@ -58,7 +58,7 @@ namespace Cryptool.Plugins.BooleanOperators
             }            
         }
 
-        [PropertyInfo(Direction.OutputData, "BN_OutputCaption", "BN_OutputTooltip", "")]
+        [PropertyInfo(Direction.OutputData, "BN_OutputCaption", "BN_OutputTooltip")]
         public Boolean Output
         {
             get

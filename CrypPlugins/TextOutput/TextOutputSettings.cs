@@ -34,8 +34,6 @@ namespace TextOutput
     private TextOutput myTextOutput;
     #endregion
 
-    public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
-
     public enum EncodingTypes { Default = 0, Unicode = 1, UTF7 = 2, UTF8 = 3, UTF32 = 4, ASCII = 5, BigEndianUnicode = 6 };
     public enum PresentationFormat { Text, Hex, Base64, Decimal }
 

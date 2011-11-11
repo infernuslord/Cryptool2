@@ -29,7 +29,7 @@ using System.Diagnostics;
 namespace Cryptool.Plugins.RSA
 {
     [Author("Dennis Nolte, Raoul Falk, Sven Rech, Nils Kopal", "", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo("RSA.Properties.Resources", true, "PluginKeyCaption", "PluginKeyTooltip", "PluginKeyDescriptionURL", "RSA/iconkey.png")]
+    [PluginInfo("RSA.Properties.Resources", "PluginKeyCaption", "PluginKeyTooltip", "PluginKeyDescriptionURL", "RSA/iconkey.png")]
     [ComponentCategory(ComponentCategory.CiphersModernAsymmetric)]
     /**
     <summary>
@@ -73,7 +73,7 @@ namespace Cryptool.Plugins.RSA
         /// <summary>
         /// Sets the N of the public/private key
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "NCaption", "NTooltip", "")]
+        [PropertyInfo(Direction.OutputData, "NCaption", "NTooltip")]
         public BigInteger N
         {
             get
@@ -90,7 +90,7 @@ namespace Cryptool.Plugins.RSA
         /// <summary>
         /// Sets the E of the public key
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "ECaption", "ETooltip", "")]
+        [PropertyInfo(Direction.OutputData, "ECaption", "ETooltip")]
         public BigInteger E
         {
             get
@@ -107,7 +107,7 @@ namespace Cryptool.Plugins.RSA
         /// <summary>
         /// Sets the D of the private key
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "DCaption", "DTooltip", "")]
+        [PropertyInfo(Direction.OutputData, "DCaption", "DTooltip")]
         public BigInteger D
         {
             get

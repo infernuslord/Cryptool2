@@ -35,11 +35,6 @@ namespace Cryptool.Playfair
         /// <param name="logLevel"></param>
         public delegate void PlayfairLogMessage(string msg, NotificationLevel logLevel);
 
-        /// <summary>
-        /// Fire, if a new message has to be shown in the status bar
-        /// </summary>
-        public event PlayfairLogMessage LogMessage;
-
         [PropertySaveOrder(1)]
         public bool HasChanges
         {

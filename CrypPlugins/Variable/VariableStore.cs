@@ -30,7 +30,7 @@ namespace Cryptool.Plugins.Variable
     delegate void StoreVariable(string variable, object input);
     
     [Author("Sven Rech", "sven.rech@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo("Variable.Properties.Resources", false, "VariableStoreCaption", "VariableStoreTooltip", "VariableStoreDescriptionURL", "Variable/storeIcon.png")]
+    [PluginInfo("Variable.Properties.Resources", "VariableStoreCaption", "VariableStoreTooltip", "VariableStoreDescriptionURL", "Variable/storeIcon.png")]
     [ComponentCategory(ComponentCategory.ToolsDataflow)]
     class VariableStore : ICrypComponent
     {
@@ -54,7 +54,7 @@ namespace Cryptool.Plugins.Variable
         #region Properties
         
         private Object storeObject = null;
-        [PropertyInfo(Direction.InputData, "VariableStoreObjectCaption", "VariableStoreObjectTooltip", "")]
+        [PropertyInfo(Direction.InputData, "VariableStoreObjectCaption", "VariableStoreObjectTooltip")]
         public Object VariableStoreObject
         {
             get

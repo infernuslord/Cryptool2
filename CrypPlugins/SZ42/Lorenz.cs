@@ -28,7 +28,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 namespace Cryptool.Plugins.SZ42
 {
     [Author("Wilmer Daza", "mr.wadg@gmail.com", "University of Magdalena", "http://www.unimagdalena.edu.co")]
-    [PluginInfo("SZ42.Properties.Resources", false, "PluginCaption", "PluginTooltip", "SZ42/DetailedDescription/doc.xml", "SZ42/Images/sz42.png")]
+    [PluginInfo("SZ42.Properties.Resources", "PluginCaption", "PluginTooltip", "SZ42/DetailedDescription/doc.xml", "SZ42/Images/sz42.png")]
     [ComponentCategory(ComponentCategory.CiphersClassic)]
     public class Lorenz : ICrypComponent
     {
@@ -56,7 +56,6 @@ namespace Cryptool.Plugins.SZ42
 
             //ConfigMachine(reset);
 
-            settings.LogMessage += Lorenz_LogMessage;
             settings.ReExecute += Lorenz_ReExecute;
         }
 
@@ -64,7 +63,7 @@ namespace Cryptool.Plugins.SZ42
 
         #region Data Properties
 
-        [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", null, false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", false, QuickWatchFormat.Text, null)]
         public string InputString
         {
             get { return this.inputString; }
@@ -78,7 +77,7 @@ namespace Cryptool.Plugins.SZ42
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", "", false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", false, QuickWatchFormat.Text, null)]
         public string OutputString
         {
             get { return this.outputString; }

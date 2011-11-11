@@ -343,9 +343,6 @@ namespace Cryptool.Enigma
 
         #region events
 
-        public event EventHandler helpNextAnimation;
-        public event EventHandler helpNextAnimation2;
-
         public event EventHandler updone;
         public event EventHandler downdone;
         public event EventHandler up1done;

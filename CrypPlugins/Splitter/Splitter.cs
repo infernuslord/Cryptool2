@@ -27,7 +27,7 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace Splitter
 {
   [Author("Thomas Schmid", "thomas.schmid@cryptool.org", "Uni Siegen", "http://www.uni-siegen.de")]
-  [PluginInfo("Splitter.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "Splitter/icon.png")]
+  [PluginInfo("Splitter.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "Splitter/icon.png")]
   [ComponentCategory(ComponentCategory.ToolsDataflow)]
   public class Splitter : ICrypComponent
   {
@@ -39,7 +39,7 @@ namespace Splitter
 
     # region public interfacde
 
-    [PropertyInfo(Direction.InputData, "DictionaryInputStringCaption", "DictionaryInputStringTooltip", "", true, false, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.InputData, "DictionaryInputStringCaption", "DictionaryInputStringTooltip", true, QuickWatchFormat.Text, null)]
     public string DictionaryInputString
     {
       get { return this.dictionaryInputString; }
@@ -55,7 +55,7 @@ namespace Splitter
     }
 
     private bool fireNext;
-    [PropertyInfo(Direction.InputData, "FireNextCaption", "FireNextTooltip", "", true, false, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.InputData, "FireNextCaption", "FireNextTooltip", true, QuickWatchFormat.Text, null)]
     public bool FireNext
     {
       get { return fireNext; }
@@ -73,7 +73,7 @@ namespace Splitter
 
 
     private string outputString;
-    [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", "", false, false, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", false, QuickWatchFormat.Text, null)]
     public string OutputString
     {
       get { return this.outputString; }

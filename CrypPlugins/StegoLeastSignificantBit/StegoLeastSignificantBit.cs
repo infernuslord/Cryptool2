@@ -37,7 +37,7 @@ using System.Runtime.InteropServices;
 namespace Cryptool.Plugins.StegoLeastSignificantBit
 {
     [Author("Corinna John", "coco@steganografie.eu", "", "http://www.steganografie.eu")]
-    [PluginInfo("Cryptool.Plugins.StegoLeastSignificantBit.Properties.Resources", false, "PluginCaption", "PluginTooltip", "StegoLeastSignificantBit/DetailedDescription/Description.xaml", "StegoLeastSignificantBit/Images/StegoLeastSignificantBit.png")]
+    [PluginInfo("Cryptool.Plugins.StegoLeastSignificantBit.Properties.Resources", "PluginCaption", "PluginTooltip", "StegoLeastSignificantBit/DetailedDescription/Description.xaml", "StegoLeastSignificantBit/Images/StegoLeastSignificantBit.png")]
     [ComponentCategory(ComponentCategory.Steganography)]
     public class StegoLeastSignificantBit : ICrypComponent
     {
@@ -68,42 +68,42 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
 
         #region Data Properties
 
-        [PropertyInfo(Direction.InputData, "InputDataCaption", "InputDataTooltip", null)]
+        [PropertyInfo(Direction.InputData, "InputDataCaption", "InputDataTooltip")]
         public ICryptoolStream InputData
         {
             get;
             set;
         }
 
-        [PropertyInfo(Direction.InputData, "InputCarrierCaption", "InputCarrierTooltip", null)]
+        [PropertyInfo(Direction.InputData, "InputCarrierCaption", "InputCarrierTooltip")]
         public ICryptoolStream InputCarrier
         {
             get;
             set;
         }
 
-        [PropertyInfo(Direction.OutputData, "OutputDataCaption", "OutputDataTooltip", null)]
+        [PropertyInfo(Direction.OutputData, "OutputDataCaption", "OutputDataTooltip")]
         public ICryptoolStream OutputData
         {
             get;
             set;
         }
 
-        [PropertyInfo(Direction.OutputData, "OutputCarrierCaption", "OutputCarrierTooltip", null)]
+        [PropertyInfo(Direction.OutputData, "OutputCarrierCaption", "OutputCarrierTooltip")]
         public ICryptoolStream OutputCarrier
         {
             get;
             set;
         }
 
-        [PropertyInfo(Direction.InputData, "PasswordStreamCaption", "PasswordStreamTooltip", null)]
+        [PropertyInfo(Direction.InputData, "PasswordStreamCaption", "PasswordStreamTooltip")]
         public ICryptoolStream PasswordStream
         {
             get;
             set;
         }
 
-        [PropertyInfo(Direction.InputData, "BitCountCaption", "BitCountTooltip", null)]
+        [PropertyInfo(Direction.InputData, "BitCountCaption", "BitCountTooltip")]
         public byte BitCount
         {
             get;

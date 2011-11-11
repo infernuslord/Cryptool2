@@ -17,7 +17,7 @@ using NativeCryptography;
 namespace Cryptool.Plugins.Cryptography.Encryption
 {
     [Author("Dr. Arno Wacker", "arno.wacker@cryptool.org", "Uni Duisburg", "http://www.uni-duisburg-essen.de")]
-    [PluginInfo("Cryptool.Plugins.Cryptography.Encryption.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "DES/icon.png", "DES/Images/encrypt.png", "DES/Images/decrypt.png")]
+    [PluginInfo("Cryptool.Plugins.Cryptography.Encryption.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "DES/icon.png", "DES/Images/encrypt.png", "DES/Images/decrypt.png")]
     [ComponentCategory(ComponentCategory.CiphersModernSymmetric)]
     public class DES : ICrypComponent
     {
@@ -46,7 +46,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
         #region External connection properties
 
-        [PropertyInfo(Direction.ControlSlave, "ControlSlaveCaption", "ControlSlaveTooltip", "")]
+        [PropertyInfo(Direction.ControlSlave, "ControlSlaveCaption", "ControlSlaveTooltip")]
         public IControlEncryption ControlSlave
         {
             get
@@ -58,7 +58,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         }
 
         private IControlCubeAttack desSlave;
-        [PropertyInfo(Direction.ControlSlave, "DESSlaveCaption", "DESSlaveTooltip", "")]
+        [PropertyInfo(Direction.ControlSlave, "DESSlaveCaption", "DESSlaveTooltip")]
         public IControlCubeAttack DESSlave
         {
             get
@@ -70,14 +70,14 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         }
 
 
-        [PropertyInfo(Direction.InputData, "InputStreamCaption", "InputStreamTooltip", null, true, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "InputStreamCaption", "InputStreamTooltip", true, QuickWatchFormat.Hex, null)]
         public ICryptoolStream InputStream
         {
             get;
             set;
                 }
 
-        [PropertyInfo(Direction.InputData, "InputKeyCaption", "InputKeyTooltip", null, true, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "InputKeyCaption", "InputKeyTooltip", true, QuickWatchFormat.Hex, null)]
         public byte[] InputKey
         {
             get { return this.inputKey; }
@@ -88,7 +88,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             }
         }
 
-        [PropertyInfo(Direction.InputData, "InputIVCaption", "InputIVTooltip", null, false, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "InputIVCaption", "InputIVTooltip", false, QuickWatchFormat.Hex, null)]
         public byte[] InputIV
         {
             get { return this.inputIV; }
@@ -99,7 +99,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             }
         }
         
-        [PropertyInfo(Direction.OutputData, "OutputStreamCaption", "OutputStreamTooltip", null, true, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "OutputStreamCaption", "OutputStreamTooltip", true, QuickWatchFormat.Hex, null)]
         public ICryptoolStream OutputStream
         {
             get

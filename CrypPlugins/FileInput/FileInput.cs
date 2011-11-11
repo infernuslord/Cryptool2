@@ -30,7 +30,7 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace FileInput
 {
     [Author("Thomas Schmid", "thomas.schmid@cryptool.org", "Uni Siegen", "http://www.uni-siegen.de")]
-    [PluginInfo("FileInput.Properties.Resources", true, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "FileInput/Images/FileInput.png")]
+    [PluginInfo("FileInput.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "FileInput/Images/FileInput.png")]
     [ComponentCategory(ComponentCategory.ToolsDataInputOutput)]
     public class FileInputClass : ICrypComponent
     {
@@ -82,7 +82,7 @@ namespace FileInput
             set { settings = (FileInputSettings)value; }
         }
 
-        [PropertyInfo(Direction.OutputData, "StreamOutputCaption", "StreamOutputTooltip", "", true, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "StreamOutputCaption", "StreamOutputTooltip", true, QuickWatchFormat.Hex, null)]
         public ICryptoolStream StreamOutput
         {
             get
@@ -92,7 +92,7 @@ namespace FileInput
             set { } // readonly
         }
 
-        [PropertyInfo(Direction.OutputData, "FileSizeCaption", "FileSizeTooltip", "")]
+        [PropertyInfo(Direction.OutputData, "FileSizeCaption", "FileSizeTooltip")]
         public int FileSize { get; private set; }
 
         #endregion

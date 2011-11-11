@@ -151,8 +151,9 @@ namespace WorkspaceManager.Model
         public bool RepeatStart;
 
         /// <summary>
-        /// Is the wrapped plugin startable
+        /// Not used at all anymore
         /// </summary>
+        [Obsolete("Startable flag is not used anymore")]
         public bool Startable;
 
         /// <summary>

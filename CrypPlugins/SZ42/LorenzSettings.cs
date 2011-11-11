@@ -42,7 +42,6 @@ namespace Cryptool.Plugins.SZ42
         /// We use this delegate to send log messages from the settings class to the Caesar plugin
         /// </summary>
         public delegate void LorenzLogMessage(string msg, NotificationLevel loglevel);
-        public event LorenzLogMessage LogMessage;
         public delegate void LorenzReExecute();
         public event LorenzReExecute ReExecute;
 

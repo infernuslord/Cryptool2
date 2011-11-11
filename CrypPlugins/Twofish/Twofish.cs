@@ -24,7 +24,7 @@ using System.Security.Cryptography;
 namespace Twofish
 {
     [Author("Gerhard Junker", null, "private project member", null)]
-    [PluginInfo("Twofish.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionUrl",
+    [PluginInfo("Twofish.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionUrl",
         "Twofish/Images/Twofish.png", "Twofish/Images/encrypt.png", "Twofish/Images/decrypt.png")]
     [ComponentCategory(ComponentCategory.CiphersModernSymmetric)]
     public class Twofish : ICrypComponent
@@ -139,8 +139,7 @@ namespace Twofish
         /// Gets or sets the input inputdata.
         /// </summary>
         /// <value>The input inputdata.</value>
-        [PropertyInfo(Direction.InputData, "InputStreamCaption", "InputStreamTooltip", null,
-            false, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "InputStreamCaption", "InputStreamTooltip", false, QuickWatchFormat.Hex, null)]
         public ICryptoolStream InputStream
         {
             get
@@ -172,8 +171,7 @@ namespace Twofish
         /// Gets the input data.
         /// </summary>
         /// <value>The input data.</value>
-        [PropertyInfo(Direction.InputData, "InputDataCaption", "InputDataTooltip", null,
-            false, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "InputDataCaption", "InputDataTooltip", false, QuickWatchFormat.Hex, null)]
         public byte[] InputData
         {
             get
@@ -216,8 +214,7 @@ namespace Twofish
         /// Gets or sets the key data.
         /// </summary>
         /// <value>The key data.</value>
-        [PropertyInfo(Direction.InputData, "KeyStreamCaption", "KeyStreamTooltip", null,
-            false, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "KeyStreamCaption", "KeyStreamTooltip", false, QuickWatchFormat.Hex, null)]
         public ICryptoolStream KeyStream
         {
             get
@@ -250,8 +247,7 @@ namespace Twofish
         /// Gets or sets the key data.
         /// </summary>
         /// <value>The key data.</value>
-        [PropertyInfo(Direction.InputData, "KeyDataCaption", "KeyDataTooltip", null,
-            false, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "KeyDataCaption", "KeyDataTooltip", false, QuickWatchFormat.Hex, null)]
         public byte[] KeyData
         {
             get
@@ -274,8 +270,7 @@ namespace Twofish
 
         #endregion
 
-        [PropertyInfo(Direction.InputData, "IVCaption", "IVTooltip", null,
-            false, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "IVCaption", "IVTooltip", false, QuickWatchFormat.Hex, null)]
         public byte[] IV
         {
             get
@@ -318,8 +313,7 @@ namespace Twofish
         /// Gets or sets the output inputdata stream.
         /// </summary>
         /// <value>The output inputdata stream.</value>
-        [PropertyInfo(Direction.OutputData, "OutputStreamCaption", "OutputStreamTooltip", null,
-            true, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "OutputStreamCaption", "OutputStreamTooltip", true, QuickWatchFormat.Hex, null)]
         public ICryptoolStream OutputStream
         {
             get
@@ -339,8 +333,7 @@ namespace Twofish
         /// Gets the output inputdata.
         /// </summary>
         /// <value>The output inputdata.</value>
-        [PropertyInfo(Direction.OutputData, "OutputDataCaption", "OutputDataTooltip", null,
-            true, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "OutputDataCaption", "OutputDataTooltip", true, QuickWatchFormat.Hex, null)]
         public byte[] OutputData
         {
             get

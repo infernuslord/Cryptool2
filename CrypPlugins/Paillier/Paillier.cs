@@ -28,7 +28,7 @@ using System.Security.Cryptography;
 namespace Cryptool.Plugins.Paillier
 {
     [Author("Armin Krauss, Martin Franz", "", "", "")]
-    [PluginInfo("Paillier.Properties.Resources", false,
+    [PluginInfo("Paillier.Properties.Resources",
         "PluginCaption", "PluginTooltip", "Paillier/Documentation/doc.xml", 
         "Paillier/Image/PaillierEnc.png", "Paillier/Image/PaillierDec.png", "Paillier/Image/PaillierAdd.png", "Paillier/Image/PaillierMul.png")]
     [ComponentCategory(ComponentCategory.CiphersModernAsymmetric)]
@@ -271,7 +271,7 @@ namespace Cryptool.Plugins.Paillier
         /// <summary>
         /// Gets/Sets public key n
         /// </summary>
-        [PropertyInfo(Direction.InputData, "InputNCaption", "InputNTooltip", "", true, false, QuickWatchFormat.None, null)]
+        [PropertyInfo(Direction.InputData, "InputNCaption", "InputNTooltip", true, QuickWatchFormat.None, null)]
         public BigInteger InputN
         {
             get
@@ -288,7 +288,7 @@ namespace Cryptool.Plugins.Paillier
         /// <summary>
         /// Gets/Sets public key g
         /// </summary>
-        [PropertyInfo(Direction.InputData, "InputGCaption", "InputGTooltip", "", true, false, QuickWatchFormat.None, null)]
+        [PropertyInfo(Direction.InputData, "InputGCaption", "InputGTooltip", true, QuickWatchFormat.None, null)]
         public BigInteger InputG
         {
             get
@@ -305,7 +305,7 @@ namespace Cryptool.Plugins.Paillier
         /// <summary>
         /// Gets/Sets private key lambda
         /// </summary>
-        [PropertyInfo(Direction.InputData, "InputLambdaCaption", "InputLambdaTooltip", "")]
+        [PropertyInfo(Direction.InputData, "InputLambdaCaption", "InputLambdaTooltip")]
         public BigInteger InputLambda
         {
             get
@@ -322,7 +322,7 @@ namespace Cryptool.Plugins.Paillier
         /// <summary>
         /// Gets/Sets a input message as BigInteger called M
         /// </summary>
-        [PropertyInfo(Direction.InputData, "InputMCaption", "InputMTooltip", "", true, false, QuickWatchFormat.None, null)]
+        [PropertyInfo(Direction.InputData, "InputMCaption", "InputMTooltip", true, QuickWatchFormat.None, null)]
         public Object InputM
         {
             get
@@ -360,7 +360,7 @@ namespace Cryptool.Plugins.Paillier
         /// <summary>
         /// Gets/Sets operand with which to change the encrypted input m
         /// </summary>
-        [PropertyInfo(Direction.InputData, "InputOperandCaption", "InputOperandTooltip", "")]
+        [PropertyInfo(Direction.InputData, "InputOperandCaption", "InputOperandTooltip")]
         public BigInteger InputOperand
         {
             get
@@ -377,7 +377,7 @@ namespace Cryptool.Plugins.Paillier
         /// <summary>
         /// Gets/Sets the result of the encryption as a BigInteger
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "OutputC1Caption", "OutputC1Tooltip", "")]
+        [PropertyInfo(Direction.OutputData, "OutputC1Caption", "OutputC1Tooltip")]
         public BigInteger OutputC1
         {
             get
@@ -397,7 +397,7 @@ namespace Cryptool.Plugins.Paillier
         /// <summary>
         /// Gets/Sets the result of the encryption as byte[]
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "OutputC2Caption", "OutputC2Tooltip", "")]
+        [PropertyInfo(Direction.OutputData, "OutputC2Caption", "OutputC2Tooltip")]
         public byte[] OutputC2
         {
             get

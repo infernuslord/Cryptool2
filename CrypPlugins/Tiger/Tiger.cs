@@ -36,8 +36,8 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace Tiger
 {
 
-  [Author("Gerhard Junker", null, "private project member", null)]
-  [PluginInfo("Tiger.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "Tiger/Tiger1.png")]
+  [Author("Gerhard Junker", null, null, null)]
+  [PluginInfo("Tiger.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "Tiger/Tiger1.png")]
   [ComponentCategory(ComponentCategory.HashFunctions)]
   public class Tiger : ICrypComponent
   {
@@ -132,7 +132,7 @@ namespace Tiger
     /// Gets or sets the input inputdata.
     /// </summary>
     /// <value>The input inputdata.</value>
-    [PropertyInfo(Direction.InputData, "InputStreamCaption", "InputStreamTooltip", "", false, false, QuickWatchFormat.Hex, null)]
+    [PropertyInfo(Direction.InputData, "InputStreamCaption", "InputStreamTooltip", false, QuickWatchFormat.Hex, null)]
     public ICryptoolStream InputStream
     {
       get
@@ -165,7 +165,7 @@ namespace Tiger
     /// Gets the input data.
     /// </summary>
     /// <value>The input data.</value>
-    [PropertyInfo(Direction.InputData, "InputDataCaption", "InputDataTooltip", "", false, false, QuickWatchFormat.Hex, null)]
+    [PropertyInfo(Direction.InputData, "InputDataCaption", "InputDataTooltip", false, QuickWatchFormat.Hex, null)]
     public byte[] InputData
     {
       get
@@ -203,7 +203,7 @@ namespace Tiger
     /// Gets or sets the output inputdata stream.
     /// </summary>
     /// <value>The output inputdata stream.</value>
-    [PropertyInfo(Direction.OutputData, "HashOutputStreamCaption", "HashOutputStreamTooltip", "", true, false, QuickWatchFormat.Hex, null)]
+    [PropertyInfo(Direction.OutputData, "HashOutputStreamCaption", "HashOutputStreamTooltip", true, QuickWatchFormat.Hex, null)]
     public ICryptoolStream HashOutputStream
     {
       get
@@ -219,7 +219,7 @@ namespace Tiger
     /// Gets the output inputdata.
     /// </summary>
     /// <value>The output inputdata.</value>
-    [PropertyInfo(Direction.OutputData, "HashOutputDataCaption", "HashOutputDataTooltip", "", true, false, QuickWatchFormat.Hex, null)]
+    [PropertyInfo(Direction.OutputData, "HashOutputDataCaption", "HashOutputDataTooltip", true, QuickWatchFormat.Hex, null)]
     public byte[] HashOutputData
     {
       get

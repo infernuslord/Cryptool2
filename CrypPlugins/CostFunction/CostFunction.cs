@@ -31,7 +31,7 @@ using System.Reflection;
 namespace Cryptool.Plugins.CostFunction
 {
     [Author("Nils Kopal, Simon Malischewski", "Nils.Kopal@cryptool.org , malischewski@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo("CostFunction.Properties.Resources", false, "PluginCaption", "PluginTooltip", "CostFunction/DetailedDescription/doc.xml", "CostFunction/icon.png")]
+    [PluginInfo("CostFunction.Properties.Resources", "PluginCaption", "PluginTooltip", "CostFunction/DetailedDescription/doc.xml", "CostFunction/icon.png")]
     [ComponentCategory(ComponentCategory.CryptanalysisGeneric)]
     public class CostFunction : ICrypComponent
     {
@@ -71,7 +71,7 @@ namespace Cryptool.Plugins.CostFunction
         #endregion
         #region CostFunctionInOut
 
-        [PropertyInfo(Direction.InputData, "InputTextCaption", "InputTextTooltip", "")]
+        [PropertyInfo(Direction.InputData, "InputTextCaption", "InputTextTooltip")]
         public byte[] InputText
         {
             get
@@ -101,7 +101,7 @@ namespace Cryptool.Plugins.CostFunction
         }
         #endregion
 
-        [PropertyInfo(Direction.OutputData, "ValueCaption", "ValueTooltip", "")]
+        [PropertyInfo(Direction.OutputData, "ValueCaption", "ValueTooltip")]
         public double Value
         {
             get
@@ -115,7 +115,7 @@ namespace Cryptool.Plugins.CostFunction
             }
         }
 
-        [PropertyInfo(Direction.ControlSlave, "ControlSlaveCaption", "ControlSlaveTooltip", "")]
+        [PropertyInfo(Direction.ControlSlave, "ControlSlaveCaption", "ControlSlaveTooltip")]
         public IControlCost ControlSlave
         {
             get

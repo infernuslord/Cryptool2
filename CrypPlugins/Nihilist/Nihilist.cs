@@ -28,7 +28,7 @@ using System.Resources;
 namespace Nihilist
 {
     [Author("Fabian Enkler", "enkler@cryptool.org", "", "")]
-    [PluginInfo("Nihilist.Properties.Resources", false, "PluginCaption", "PluginTooltip", "Nihilist/DetailedDescription/doc.xml", "Nihilist/Images/icon3.png")]
+    [PluginInfo("Nihilist.Properties.Resources", "PluginCaption", "PluginTooltip", "Nihilist/DetailedDescription/doc.xml", "Nihilist/Images/icon3.png")]
     [ComponentCategory(ComponentCategory.CiphersClassic)]
     public class Nihilist : ICrypComponent
     {
@@ -54,7 +54,7 @@ namespace Nihilist
         }
 
         private byte[] input = new byte[] { };
-        [PropertyInfo(Direction.InputData, "InputCaption", "InputTooltip", "", true, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputCaption", "InputTooltip", true, QuickWatchFormat.Text, null)]
         public byte[] Input
         {
             get { return input; }
@@ -66,7 +66,7 @@ namespace Nihilist
         }
 
         private byte[] output = new byte[] { };
-        [PropertyInfo(Direction.OutputData, "OutputCaption", "OutputTooltip", "", true, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputCaption", "OutputTooltip", true, QuickWatchFormat.Text, null)]
         public byte[] Output
         {
             get { return output; }

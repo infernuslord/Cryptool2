@@ -63,13 +63,13 @@ namespace Cryptool.PluginBase.Miscellaneous
                     return resman.GetString(Key);
                 else
                 {
-                    OnOnGuiLogMessageOccured(string.Format(Resources.Can_t_find_localization_key, Key, service.RootObject.GetType()), NotificationLevel.Error);
+                    OnOnGuiLogMessageOccured(string.Format(Resources.Can_t_find_localization_key, Key, service.RootObject.GetType()), NotificationLevel.Warning);
                     return Key;
                 }
             }
             catch (Exception ex)
             {
-                OnOnGuiLogMessageOccured(string.Format(Resources.Error_trying_to_lookup_localization_key, Key, ex.Message), NotificationLevel.Error);
+                OnOnGuiLogMessageOccured(string.Format(Resources.Error_trying_to_lookup_localization_key, Key, ex.Message), NotificationLevel.Warning);
                 return Key;
             }
         }

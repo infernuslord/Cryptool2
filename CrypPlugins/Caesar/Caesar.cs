@@ -26,7 +26,7 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace Cryptool.Caesar
 {
     [Author("Dr. Arno Wacker", "arno.wacker@cryptool.org", "Uni Duisburg-Essen", "http://www.vs.uni-duisburg-essen.de")]
-    [PluginInfo("Cryptool.Caesar.Properties.Resources", false, "PluginCaption", "PluginTooltip", "Caesar/DetailedDescription/doc.xml", "Caesar/Images/Caesar.png", "Caesar/Images/encrypt.png", "Caesar/Images/decrypt.png")]
+    [PluginInfo("Cryptool.Caesar.Properties.Resources", "PluginCaption", "PluginTooltip", "Caesar/DetailedDescription/doc.xml", "Caesar/Images/Caesar.png", "Caesar/Images/encrypt.png", "Caesar/Images/decrypt.png")]
     [ComponentCategory(ComponentCategory.CiphersClassic)]
     public class Caesar : ICrypComponent
     {
@@ -60,7 +60,7 @@ namespace Cryptool.Caesar
         }
 
 
-        [PropertyInfo(Direction.OutputData, "OutputDataCaption", "OutputDataTooltip", "", false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputDataCaption", "OutputDataTooltip", false, QuickWatchFormat.Text, null)]
         public ICryptoolStream OutputData
         {
             get
@@ -74,14 +74,14 @@ namespace Cryptool.Caesar
             }
         }
 
-        [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", "", true, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", true, QuickWatchFormat.Text, null)]
         public string InputString
         {
             get;
             set; 
         }
 
-        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", "", false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", false, QuickWatchFormat.Text, null)]
         public string OutputString
         {
             get;
@@ -89,7 +89,7 @@ namespace Cryptool.Caesar
         }
 
 
-        [PropertyInfo(Direction.InputData, "InputAlphabetCaption", "InputAlphabetTooltip", "", false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputAlphabetCaption", "InputAlphabetTooltip", false, QuickWatchFormat.Text, null)]
         public string InputAlphabet
         {
             get { return this.settings.AlphabetSymbols; }
@@ -103,7 +103,7 @@ namespace Cryptool.Caesar
             }
         }
 
-        [PropertyInfo(Direction.InputData, "ShiftKeyCaption", "ShiftKeyTooltip", "", false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "ShiftKeyCaption", "ShiftKeyTooltip", false, QuickWatchFormat.Text, null)]
         public int ShiftKey
         {
           get { return settings.ShiftKey; }

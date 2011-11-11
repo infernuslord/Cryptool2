@@ -22,14 +22,13 @@ using Cryptool.PluginBase;
 using System.ComponentModel;
 using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase.Miscellaneous;
-using System.ComponentModel;
 using System.Windows.Controls;
 using System.IO;
 
 namespace Cryptool.Plugins.T310
 {
     [Author("Jörg Drobick, Matthäus Wander", "ct2contact@cryptool.org", "", "")]
-    [PluginInfo("T_310.Properties.Resources", false, "PluginCaption", "PluginTooltip", "T-310/DetailedDescription/doc.xml", "T-310/Images/t310.png")]
+    [PluginInfo("T_310.Properties.Resources", "PluginCaption", "PluginTooltip", "T-310/DetailedDescription/doc.xml", "T-310/Images/t310.png")]
     [ComponentCategory(ComponentCategory.CiphersClassic)]
     public class T310 : ICrypComponent
     {
@@ -42,28 +41,28 @@ namespace Cryptool.Plugins.T310
 
         #region Data Properties
 
-        [PropertyInfo(Direction.InputData, "InputDataCaption", "InputDataTooltip", null)]
+        [PropertyInfo(Direction.InputData, "InputDataCaption", "InputDataTooltip")]
         public byte[] InputData
         {
             get;
             set;
         }
 
-        [PropertyInfo(Direction.InputData, "InputKeyCaption", "InputKeyTooltip", null, false, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "InputKeyCaption", "InputKeyTooltip", false, QuickWatchFormat.Hex, null)]
         public byte[] InputKey
         {
             get;
             set;
         }
 
-        [PropertyInfo(Direction.OutputData, "OutputDataCaption", "OutputDataTooltip", null)]
+        [PropertyInfo(Direction.OutputData, "OutputDataCaption", "OutputDataTooltip")]
         public byte[] OutputData
         {
             get;
             set;
         }
 
-        [PropertyInfo(Direction.OutputData, "OutputKeyCaption", "OutputKeyTooltip", null)]
+        [PropertyInfo(Direction.OutputData, "OutputKeyCaption", "OutputKeyTooltip")]
         public byte[] OutputKey
         {
             get;

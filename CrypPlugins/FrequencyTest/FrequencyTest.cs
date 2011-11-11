@@ -11,7 +11,7 @@ using System.Windows.Media;
 namespace Cryptool.FrequencyTest
 {
     [Author("Georgi Angelov, Danail Vazov, Matthäus Wander", "angelov@cryptool.org", "Uni Duisburg", "http://www.uni-duisburg-essen.de")]
-    [PluginInfo("Cryptool.FrequencyTest.Properties.Resources", false, "PluginCaption", "PluginTooltip", "FrequencyTest/DetailedDescription/doc.xml", "FrequencyTest/icon.png")]
+    [PluginInfo("Cryptool.FrequencyTest.Properties.Resources",  "PluginCaption", "PluginTooltip", "FrequencyTest/DetailedDescription/doc.xml", "FrequencyTest/icon.png")]
     [ComponentCategory(ComponentCategory.CryptanalysisGeneric)]
     public class FrequencyTest : ICrypComponent
     {
@@ -41,7 +41,7 @@ namespace Cryptool.FrequencyTest
 
         #region Properties (Inputs/Outputs)
 
-        [PropertyInfo(Direction.InputData, "StringInputCaption", "StringInputTooltip", "",true, true, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "StringInputCaption", "StringInputTooltip", true, QuickWatchFormat.Text, null)]
         public string StringInput 
         {
             get
@@ -55,13 +55,13 @@ namespace Cryptool.FrequencyTest
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "StringOutputCaption", "StringOutputTooltip", "", false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "StringOutputCaption", "StringOutputTooltip", false, QuickWatchFormat.Text, null)]
         public string StringOutput
         {
             get { return stringOutput; }
         }
 
-        [PropertyInfo(Direction.OutputData , "ArrayOutputCaption", "ArrayOutputTooltip", "", false, false, QuickWatchFormat.None, "QuickWatchArray")]
+        [PropertyInfo(Direction.OutputData , "ArrayOutputCaption", "ArrayOutputTooltip", false, QuickWatchFormat.None, "QuickWatchArray")]
         public int[] ArrayOutput
         {
             get { return arrayOutput; }
@@ -78,7 +78,7 @@ namespace Cryptool.FrequencyTest
             return sb.ToString();
         }
 
-        [PropertyInfo(Direction.OutputData, "DictionaryOutputCaption", "DictionaryOutputTooltip", "", false, false, QuickWatchFormat.None, "QuickWatchDictionary")]
+        [PropertyInfo(Direction.OutputData, "DictionaryOutputCaption", "DictionaryOutputTooltip", false, QuickWatchFormat.None, "QuickWatchDictionary")]
         public IDictionary<string, double[]> DictionaryOutput
         {
             get { return grams; }

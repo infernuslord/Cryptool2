@@ -56,7 +56,7 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace Cryptool.CRC
 {
     [Author("Matthäus Wander", "wander@cryptool.org", "Fachgebiet Verteilte Systeme, Universität Duisburg-Essen", "http://www.vs.uni-due.de")]
-    [PluginInfo("CRC.Properties.Resources", false, "PluginCaption", "PluginTooltip", "CRC/DetailedDescription/doc.xml", "CrypWin/images/default.png")]
+    [PluginInfo("CRC.Properties.Resources", "PluginCaption", "PluginTooltip", "CRC/DetailedDescription/doc.xml", "CrypWin/images/default.png")]
     [ComponentCategory(ComponentCategory.HashFunctions)]
     public class CRC : ICrypComponent
     {
@@ -79,14 +79,14 @@ namespace Cryptool.CRC
             set { settings = value; }
         }
 
-        [PropertyInfo(Direction.InputData, "InputStreamCaption", "InputStreamTooltip", "", true, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "InputStreamCaption", "InputStreamTooltip", true, QuickWatchFormat.Hex, null)]
         public ICryptoolStream InputStream
         {
             get;
             set;
             }
 
-        [PropertyInfo(Direction.OutputData, "OutputStreamCaption", "OutputStreamTooltip", "", false, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "OutputStreamCaption", "OutputStreamTooltip", false, QuickWatchFormat.Hex, null)]
         public ICryptoolStream OutputStream
         {
             get
