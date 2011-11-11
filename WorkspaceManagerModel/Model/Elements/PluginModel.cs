@@ -378,7 +378,9 @@ namespace WorkspaceManager.Model
                     // 0. If this is our first run and we are startable we start
                     // ################
 
-                    if (firstrun && Startable)
+                    //we are startable if we have NO input connectors
+                    //Startable flag is deprecated now
+                    if (firstrun && InputConnectors.Count == 0)
                     {
                         firstrun = false;
                         try
