@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -108,7 +109,8 @@ namespace OnlineDocumentationGenerator.DocInformations
 
         protected IEnumerable<string> GetAvailableLanguagesFromXML()
         {
-            return _xml.Elements("language").Select(langElement => langElement.Attribute("culture").Value);
+            var langs = _xml.Elements("language").Select(langElement => langElement.Attribute("culture").Value);
+            return langs.Select(lang => new CultureInfo(lang)).Select(cult => cult.TwoLetterISOLanguageName);
         }
 
         protected static XElement GetXML(Type type)
