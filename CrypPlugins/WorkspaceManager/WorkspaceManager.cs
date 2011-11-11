@@ -872,15 +872,6 @@ namespace WorkspaceManager
         #region IEditor Members
 
 
-        public void Active()
-        {
-        }
-
-        #endregion
-
-        #region IEditor Members
-
-
         public event OpenTabHandler OnOpenTab;
         public event OpenEditorHandler OnOpenEditor;
 

@@ -343,11 +343,6 @@ namespace Cryptool.P2PEditor.GUI.Controls
                         (ex.GetBaseException() != null && ex.GetBaseException().Message != null ? ex.GetBaseException().Message : ex.Message)));
             }
         }
-
-        private void HelpButtonClick(object sender, RoutedEventArgs e)
-        {
-            ((P2PEditorPresentation) P2PEditor.Presentation).ShowHelp();
-        }
         
         private void GetACertificateLabel_Click(object sender, RoutedEventArgs e)
         {

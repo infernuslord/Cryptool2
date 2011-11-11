@@ -48,19 +48,11 @@ namespace Cryptool.PluginBase.Editor
         double GetZoom(); 
         void Zoom(double value);
         void FitToScreen();
-        
-        /// <summary>
-        /// Temp. extension to show help page if the tutorial-pdf-file is not available and
-        /// the "?-Button" in CrypWin is pressed.
-        /// </summary>
-        void ShowHelp();
 
         /// <summary>
         /// Used to display a plugin specific description button in settings pane. 
         /// </summary>
         void ShowSelectedPluginDescription();
-
-        void Active();
 
         bool CanUndo { get; }
         bool CanRedo { get; }
