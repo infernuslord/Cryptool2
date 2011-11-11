@@ -124,15 +124,8 @@ namespace Cryptool.P2PEditor
             throw new NotImplementedException();
         }
 
-        public void ShowHelp()
-        {
-            //((P2PEditorPresentation) Presentation).ShowHelp();
-            OnOpenTab(this.GetDescriptionDocument(), "P2PEditor Description", this);
-        }
-
         public void ShowSelectedPluginDescription()
         {
-            ShowHelp();
         }
 
         public bool CanUndo
@@ -258,22 +251,8 @@ namespace Cryptool.P2PEditor
             if (OnOpenProjectFile != null) OnOpenProjectFile(this, filename);
         }
 
-        #region IEditor Members
-
-
-        public void Active()
-        {            
-        }
-
-        #endregion
-
-        #region IEditor Members
-
-
         public event OpenTabHandler OnOpenTab;
         public event OpenEditorHandler OnOpenEditor;
-
-        #endregion
 
 
         public double GetZoom()

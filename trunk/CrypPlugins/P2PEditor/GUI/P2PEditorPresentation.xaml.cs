@@ -232,11 +232,6 @@ namespace Cryptool.P2PEditor.GUI
             VerifyPasswordResetView.Visibility = Visibility.Visible;
         }
 
-        internal void ShowHelp()
-        {         
-            //to be implemented
-        }
-
         private void P2PEditorControl_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             if (this.IsP2PConnecting || !this.IsP2PConnected)

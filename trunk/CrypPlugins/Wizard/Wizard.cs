@@ -57,14 +57,8 @@ namespace Wizard
             wizardControl.StopCurrentWorkspaceManager();
         }
 
-        public void ShowHelp()
-        {
-            OnOpenTab(this.GetDescriptionDocument(), "Wizard Description", this);
-        }
-
         public void ShowSelectedPluginDescription()
         {
-            ShowHelp();
         }
 
         public void Execute()
@@ -153,11 +147,6 @@ namespace Wizard
         }
 
         public void Print()
-        {
-            
-        }
-        
-        public void Active()
         {
             
         }

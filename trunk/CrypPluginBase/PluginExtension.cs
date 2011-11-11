@@ -94,46 +94,6 @@ namespace Cryptool.PluginBase
           return list.ToArray();
         }
 
-        public static DynamicPropertyInfoAttribute GetDynamicPropertyInfo(this IPlugin plugin)
-        {
-          foreach (PropertyInfo pInfo in plugin.GetType().GetProperties())
-          {
-            DynamicPropertyInfoAttribute[] attributes = (DynamicPropertyInfoAttribute[])pInfo.GetCustomAttributes(typeof(DynamicPropertyInfoAttribute), false);
-            if (attributes.Length == 1) return attributes[0];
-          }
-          return null;
-        }
-
-        public static Dictionary<string, DynamicProperty> GetDynamicPropertyList(this IPlugin plugin)
-        {
-          foreach (PropertyInfo pInfo in plugin.GetType().GetProperties())
-          {
-            DynamicPropertyInfoAttribute[] attributes = (DynamicPropertyInfoAttribute[])pInfo.GetCustomAttributes(typeof(DynamicPropertyInfoAttribute), false);
-            if (attributes.Length == 1) return pInfo.GetValue(plugin, null) as Dictionary<string, DynamicProperty>;
-          }
-          return null;
-        }
-
-        public static string GetDynamicPropertyName(this IPlugin plugin)
-        {
-          foreach (PropertyInfo pInfo in plugin.GetType().GetProperties())
-          {
-            DynamicPropertyInfoAttribute[] attributes = (DynamicPropertyInfoAttribute[])pInfo.GetCustomAttributes(typeof(DynamicPropertyInfoAttribute), false);
-            if (attributes.Length == 1) return pInfo.Name;
-          }
-          return null;
-        }
-
-        public static EventInfo GetDynamicPropertyEventInfo(this IPlugin plugin)
-        {
-          DynamicPropertyInfoAttribute info = plugin.GetDynamicPropertyInfo();
-          if (info != null)
-          {
-            return plugin.GetType().GetEvent(info.UpdateDynamicPropertiesEvent);
-          }
-          return null;
-        }
-
         public static EventInfo GetTaskPaneAttributeChanged(this ISettings settings)
         {
           foreach (EventInfo eventInfo in settings.GetType().GetEvents())
@@ -315,14 +275,14 @@ namespace Cryptool.PluginBase
 
         public static SettingsFormatAttribute GetSettingsFormat(this ISettings settings, string propertyName)
         {
-          if (settings == null || propertyName == null || propertyName == string.Empty)
+          if (settings == null || string.IsNullOrEmpty(propertyName))
             return null;
           return GetSettingsFormat(settings.GetType(), propertyName);
         }
 
         public static SettingsFormatAttribute GetSettingsFormat(this Type type, string propertyName)
         {
-          if (type == null || propertyName == null || propertyName == string.Empty)
+          if (type == null || string.IsNullOrEmpty(propertyName))
             return null;
           try
           {
@@ -425,40 +385,6 @@ namespace Cryptool.PluginBase
                   GuiLogMessage(string.Format(Resources.Error_trying_to_lookup_localization_key, keyword, ex.Message), NotificationLevel.Error);
               }
               return keyword;
-          }
-        }
-
-        private static Dictionary<string, FlowDocument> descriptionDocumentCache = new Dictionary<string, FlowDocument>();
-
-        public static FlowDocument GetDescriptionDocument(this IPlugin plugin)
-        {
-          try
-          {
-            string description = plugin.GetPluginInfoAttribute().DescriptionUrl;
-            if (description == null || Path.GetExtension(description).ToLower() != ".xaml")
-                return null;
-
-            if (description != null && descriptionDocumentCache.ContainsKey(description))
-                return descriptionDocumentCache[description];
-
-            if (description != null && description != string.Empty && description != "")
-            {
-              int sIndex = description.IndexOf('/');
-              if (sIndex == -1) return null;
-              XamlReader xaml = new XamlReader();
-              var result = (FlowDocument)xaml.LoadAsync(Application.GetResourceStream(new Uri(string.Format("pack://application:,,,/{0};component/{1}", description.Substring(0, sIndex), description.Substring(sIndex + 1)))).Stream);
-              descriptionDocumentCache.Add(description, result);
-              return result;
-            }
-            return null;
-          }
-          catch (Exception exception)
-          {
-            if (plugin != null)
-              GuiLogMessage(string.Format(Resources.plugin_extension_error_get_description, new object[] { plugin.GetType().Name, exception.Message }), NotificationLevel.Error);
-            else
-              GuiLogMessage(exception.Message, NotificationLevel.Error);
-            return null; 
           }
         }
 

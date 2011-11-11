@@ -77,7 +77,7 @@ namespace Cryptool.Core
 
         public Dictionary<string, Type> LoadedTypes { get { return loadedTypes; } }
 
-        Dictionary<string, Assembly> foundAssemblies = new Dictionary<string, Assembly>();
+        private Dictionary<string, Assembly> foundAssemblies = new Dictionary<string, Assembly>();
         
         /// <summary>
         /// cTor
@@ -126,7 +126,7 @@ namespace Cryptool.Core
             return this.loadedTypes;
         }
 
-
+        // wander: this comment has been there for ages. How to replace?
         [Obsolete("will be removed soon")]
         private int AvailablePluginsApproximation(DirectoryInfo directory)
         {

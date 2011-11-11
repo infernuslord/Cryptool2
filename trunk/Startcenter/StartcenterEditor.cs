@@ -154,15 +154,7 @@ namespace StartCenter
         {
         }
 
-        public void ShowHelp()
-        {
-        }
-
         public void ShowSelectedPluginDescription()
-        {
-        }
-
-        public void Active()
         {
         }
 
