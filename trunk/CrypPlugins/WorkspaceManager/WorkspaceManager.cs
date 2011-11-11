@@ -177,10 +177,26 @@ namespace WorkspaceManager
                 WorkspaceModel.UpdateableView = this.WorkspaceSpaceEditorView;
                 WorkspaceModel.MyEditor = this;
                 WorkspaceModel.UndoRedoManager.ClearStacks();
+                CheckStartableFlag();
             }
             catch (Exception ex)
             {
                 GuiLogMessage("Could not open Model:" + ex.ToString(), NotificationLevel.Error);
+            }
+        }
+
+        /// <summary>
+        /// Check if a plugin is marked as startable but has inputs
+        /// </summary>
+        private void CheckStartableFlag()
+        {
+            foreach(PluginModel pluginModel in WorkspaceModel.GetAllPluginModels())
+            {
+                if(pluginModel.Startable && pluginModel.GetInputConnectors().Count > 0)
+                {
+                    GuiLogMessage(string.Format("The plugin {0} is marked as startable but it has {1} inputs",
+                        pluginModel.PluginType.FullName,pluginModel.GetInputConnectors().Count),NotificationLevel.Warning);
+                }
             }
         }
         
@@ -203,6 +219,7 @@ namespace WorkspaceManager
                 CurrentFile = fileName;
                 WorkspaceModel.MyEditor = this;
                 WorkspaceModel.UndoRedoManager.ClearStacks();
+                CheckStartableFlag();
             }
             catch (Exception ex)
             {
