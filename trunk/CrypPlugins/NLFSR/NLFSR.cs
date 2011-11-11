@@ -41,7 +41,7 @@ using Cryptool.MathParser;
 namespace Cryptool.NLFSR
 {
     [Author("Soeren Rinne", "soeren.rinne@cryptool.de", "Ruhr-Universitaet Bochum, Chair for System Security", "http://www.trust.rub.de/")]
-    [PluginInfo("NLFSR.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "NLFSR/Images/NLFSR.png", "NLFSR/Images/encrypt.png", "NLFSR/Images/decrypt.png")]
+    [PluginInfo("NLFSR.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "NLFSR/Images/NLFSR.png", "NLFSR/Images/encrypt.png", "NLFSR/Images/decrypt.png")]
     [ComponentCategory(ComponentCategory.Protocols)]
     public class NLFSR : ICrypComponent
     {
@@ -112,7 +112,7 @@ namespace Cryptool.NLFSR
             set { this.settings = (NLFSRSettings)value; }
         }
 
-        [PropertyInfo(Direction.InputData, "InputTapSequenceCaption", "InputTapSequenceTooltip", "", false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputTapSequenceCaption", "InputTapSequenceTooltip", false, QuickWatchFormat.Text, null)]
         public String InputTapSequence
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
@@ -126,7 +126,7 @@ namespace Cryptool.NLFSR
             }
         }
 
-        [PropertyInfo(Direction.InputData, "InputSeedCaption", "InputSeedTooltip", "", false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputSeedCaption", "InputSeedTooltip", false, QuickWatchFormat.Text, null)]
         public String InputSeed
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
@@ -140,7 +140,7 @@ namespace Cryptool.NLFSR
             }
         }
         
-        [PropertyInfo(Direction.InputData, "InputClockBoolCaption", "InputClockBoolTooltip", "", false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputClockBoolCaption", "InputClockBoolTooltip", false, QuickWatchFormat.Text, null)]
         public Boolean InputClockBool
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
@@ -154,7 +154,7 @@ namespace Cryptool.NLFSR
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", "", false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", false, QuickWatchFormat.Text, null)]
         public String OutputString
         {
             get { return outputString; }
@@ -165,7 +165,7 @@ namespace Cryptool.NLFSR
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "OutputBoolCaption", "OutputBoolTooltip", "", false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputBoolCaption", "OutputBoolTooltip", false, QuickWatchFormat.Text, null)]
         public bool OutputBool
         {
             get { return outputBool; }
@@ -177,7 +177,7 @@ namespace Cryptool.NLFSR
         }
 
         bool[] outputBoolArray = new bool[1];
-        [PropertyInfo(Direction.OutputData, "OutputBoolArrayCaption", "OutputBoolArrayTooltip", "", false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputBoolArrayCaption", "OutputBoolArrayTooltip", false, QuickWatchFormat.Text, null)]
         public bool[] OutputBoolArray
         {
             get { return outputBoolArray; }
@@ -188,7 +188,7 @@ namespace Cryptool.NLFSR
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "OutputClockingBitCaption", "OutputClockingBitTooltip", "", false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputClockingBitCaption", "OutputClockingBitTooltip", false, QuickWatchFormat.Text, null)]
         public bool OutputClockingBit
         {
             get { return outputClockingBit; }

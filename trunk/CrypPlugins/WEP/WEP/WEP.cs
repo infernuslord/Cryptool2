@@ -24,7 +24,7 @@ namespace Cryptool.WEP
         "stef.schroeder@gmx.de",
         "Uni Siegen",
         "http://www.uni-siegen.de")]
-    [PluginInfo("Cryptool.Properties.Resources", false,
+    [PluginInfo("Cryptool.Properties.Resources",
         "PluginCaption",
         "PluginTooltip",
         "PluginDescriptionURL",
@@ -62,8 +62,6 @@ namespace Cryptool.WEP
         [PropertyInfo(Direction.InputData,
             "InputStreamCaption",
             "InputStreamTooltip",
-            "",
-            false,
             false,
             QuickWatchFormat.Hex,
             null)]
@@ -85,9 +83,7 @@ namespace Cryptool.WEP
             Direction.InputData,
             "InputByteKeyCaption",
             "InputByteKeyTooltip",
-            "",
             true,
-            false,
             QuickWatchFormat.Hex,
             null)]
         public byte[] InputByteKey
@@ -103,8 +99,6 @@ namespace Cryptool.WEP
         [PropertyInfo(Direction.OutputData,
             "OutputStreamCaption",
             "OutputStreamTooltip",
-            "",
-            false,
             false,
             QuickWatchFormat.Hex,
             null)]

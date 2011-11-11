@@ -179,10 +179,9 @@ namespace WorkspaceManager.Model
         internal PluginModel newPluginModel(Point position, double width, double height, Type pluginType)
         {
             PluginModel pluginModel = new PluginModel();
-            pluginModel.WorkspaceModel = this;            
-            pluginModel.Startable = pluginType.GetPluginInfoAttribute().Startable;
+            pluginModel.WorkspaceModel = this;
             pluginModel.Position = position;
-            pluginModel.PluginType = pluginType;            
+            pluginModel.PluginType = pluginType;
             pluginModel.Name = pluginType.Name;
             pluginModel.RepeatStart = false;
             pluginModel.generateConnectors();

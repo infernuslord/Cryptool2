@@ -21,7 +21,7 @@ using Cryptool.PluginBase.IO;
 namespace StringOperations
 {
     [Author("Nils Kopal", "nils.kopal@cryptool.org", "Uni Duisburg", "http://www.uni-duisburg-essen.de")]
-    [PluginInfo("StringOperations.Properties.Resources", false, "PluginCaption", "PluginTooltip", "StringOperations/DetailedDescription/doc.xml", "StringOperations/icon.png")]
+    [PluginInfo("StringOperations.Properties.Resources", "PluginCaption", "PluginTooltip", "StringOperations/DetailedDescription/doc.xml", "StringOperations/icon.png")]
     [ComponentCategory(ComponentCategory.ToolsMisc)]
     public class StringOperations : ICrypComponent
     {
@@ -141,41 +141,41 @@ namespace StringOperations
 
         #endregion
 
-        [PropertyInfo(Direction.InputData, "String1Caption", "String1Tooltip", "", false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "String1Caption", "String1Tooltip", false, QuickWatchFormat.Text, null)]
         public string String1
         {
             get { return _string1; }
             set { _string1 = value; }
         }
 
-        [PropertyInfo(Direction.InputData, "String2Caption", "String2Tooltip", null, false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "String2Caption", "String2Tooltip", false, QuickWatchFormat.Text, null)]
         public string String2
         {
             get { return _string2; }
             set { _string2 = value; }
         }
 
-        [PropertyInfo(Direction.InputData, "Value1Caption", "Value1Tooltip", null, false, false, QuickWatchFormat.None, null)]
+        [PropertyInfo(Direction.InputData, "Value1Caption", "Value1Tooltip", false, QuickWatchFormat.None, null)]
         public int Value1
         {
             get { return _value1; }
             set { _value1 = value; }
         }
 
-        [PropertyInfo(Direction.InputData, "Value2Caption", "Value2Tooltip", null, false, false, QuickWatchFormat.None, null)]
+        [PropertyInfo(Direction.InputData, "Value2Caption", "Value2Tooltip", false, QuickWatchFormat.None, null)]
         public int Value2
         {
             get { return _value2; }
             set { _value2 = value; }
         }      
 
-        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", null, false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", false, QuickWatchFormat.Text, null)]
         public string OutputString
         {
             get { return _outputString; }
         }
 
-        [PropertyInfo(Direction.OutputData, "OutputValueCaption", "OutputValueTooltip", null, false, false, QuickWatchFormat.None, null)]
+        [PropertyInfo(Direction.OutputData, "OutputValueCaption", "OutputValueTooltip", false, QuickWatchFormat.None, null)]
         public int OutputValue
         {
             get { return _outputValue; }

@@ -29,7 +29,7 @@ namespace PKCS5
 {
   [Author("Gerhard Junker", null, "private project member", null)]
   //"http://tools.ietf.org/html/rfc2898"
-  [PluginInfo("PKCS5.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "PKCS5/PKCS5.png")]
+  [PluginInfo("PKCS5.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "PKCS5/PKCS5.png")]
   [ComponentCategory(ComponentCategory.HashFunctions)]
   public class PKCS5 : ICrypComponent
   {
@@ -181,7 +181,7 @@ namespace PKCS5
     /// Gets or sets the input data.
     /// </summary>
     /// <value>The input key.</value>
-    [PropertyInfo(Direction.InputData, "KeyCaption", "KeyTooltip", "", true, false, QuickWatchFormat.Hex, null)]
+    [PropertyInfo(Direction.InputData, "KeyCaption", "KeyTooltip", true, QuickWatchFormat.Hex, null)]
     public System.Object Key
     {
       get
@@ -262,7 +262,7 @@ namespace PKCS5
     /// Gets or sets the salt data.
     /// </summary>
     /// <value>The salt data.</value>
-    [PropertyInfo(Direction.InputData, "SaltCaption", "SaltTooltip", "", false, false, QuickWatchFormat.Hex, null)]
+    [PropertyInfo(Direction.InputData, "SaltCaption", "SaltTooltip", false, QuickWatchFormat.Hex, null)]
     public Object Salt
     {
       get
@@ -351,7 +351,7 @@ namespace PKCS5
     /// Gets or sets the output data stream.
     /// </summary>
     /// <value>The output data stream.</value>
-    [PropertyInfo(Direction.OutputData, "HashOutputStreamCaption", "HashOutputStreamTooltip", "", true, false, QuickWatchFormat.Hex, null)]
+    [PropertyInfo(Direction.OutputData, "HashOutputStreamCaption", "HashOutputStreamTooltip", true, QuickWatchFormat.Hex, null)]
     public ICryptoolStream HashOutputStream
     {
       get
@@ -367,7 +367,7 @@ namespace PKCS5
     /// Gets the output data.
     /// </summary>
     /// <value>The output data.</value>
-    [PropertyInfo(Direction.OutputData, "HashOutputDataCaption", "HashOutputDataTooltip", "", true, false, QuickWatchFormat.Hex, null)]
+    [PropertyInfo(Direction.OutputData, "HashOutputDataCaption", "HashOutputDataTooltip", true, QuickWatchFormat.Hex, null)]
     public byte[] HashOutputData
     {
       get

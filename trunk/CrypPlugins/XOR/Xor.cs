@@ -28,7 +28,7 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace Cryptool.XOR
 {
     [Author("Matthäus Wander", "wander@cryptool.org", "University of Duisburg-Essen", "http://www.vs.uni-due.de")]
-    [PluginInfo("Cryptool.XOR.Properties.Resources", false, "PluginCaption", "PluginTooltip", "XOR/DetailedDescription/doc.xml",
+    [PluginInfo("Cryptool.XOR.Properties.Resources", "PluginCaption", "PluginTooltip", "XOR/DetailedDescription/doc.xml",
       "XOR/Images/icon.png", "XOR/Images/encrypt.png", "XOR/Images/decrypt.png")]
     [ComponentCategory(ComponentCategory.CiphersClassic)]
     public class Xor : ICrypComponent
@@ -39,23 +39,14 @@ namespace Cryptool.XOR
         private byte[] key;
 
         /// <summary>
-        /// Constructor
-        /// </summary>
-        public Xor()
-        {
-            this.settings = new XORSettings();
-        }
-
-        /// <summary>
         /// Get or set all settings for this algorithm
         /// </summary>
         public ISettings Settings
         {
-            get { return this.settings; }
-            set { this.settings = value; }
+            get { return null; }
         }
 
-        [PropertyInfo(Direction.InputData, "InputDataCaption", "InputDataTooltip", "", true, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputDataCaption", "InputDataTooltip", true, QuickWatchFormat.Text, null)]
         public byte[] InputData
         {
             get { return this.inputData; }
@@ -69,7 +60,7 @@ namespace Cryptool.XOR
             }
         }
 
-        [PropertyInfo(Direction.InputData, "KeyCaption", "KeyTooltip", "", false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "KeyCaption", "KeyTooltip", false, QuickWatchFormat.Text, null)]
         public byte[] Key
         {
             get { return this.key; }
@@ -83,7 +74,7 @@ namespace Cryptool.XOR
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "OutputDataCaption", "OutputDataTooltip", "", false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputDataCaption", "OutputDataTooltip", false, QuickWatchFormat.Text, null)]
         public byte[] OutputData
         {
             get { return outputData; }

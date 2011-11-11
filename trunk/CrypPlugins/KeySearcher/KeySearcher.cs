@@ -48,7 +48,7 @@ using OpenCLNet;
 namespace KeySearcher
 {
     [Author("Sven Rech, Nils Kopal, Raoul Falk, Dennis Nolte", "rech@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo("KeySearcher.Properties.Resources", false, "PluginCaption", "PluginTooltip", "KeySearcher/DetailedDescription/doc.xml", "KeySearcher/Images/icon.png")]
+    [PluginInfo("KeySearcher.Properties.Resources", "PluginCaption", "PluginTooltip", "KeySearcher/DetailedDescription/doc.xml", "KeySearcher/Images/icon.png")]
     [ComponentCategory(ComponentCategory.CryptanalysisSpecific)]
     public class KeySearcher : ICrypComponent
     {
@@ -118,7 +118,7 @@ namespace KeySearcher
         #region IControlEncryption Members
 
         private IControlEncryption controlMaster;
-        [PropertyInfo(Direction.ControlMaster, "ControlMasterCaption", "ControlMasterTooltip", "")]
+        [PropertyInfo(Direction.ControlMaster, "ControlMasterCaption", "ControlMasterTooltip")]
         public IControlEncryption ControlMaster
         {
             get { return controlMaster; }
@@ -146,7 +146,7 @@ namespace KeySearcher
         #region IControlCost Members
 
         private IControlCost costMaster;
-        [PropertyInfo(Direction.ControlMaster, "CostMasterCaption", "CostMasterTooltip", "")]
+        [PropertyInfo(Direction.ControlMaster, "CostMasterCaption", "CostMasterTooltip")]
         public IControlCost CostMaster
         {
             get { return costMaster; }
@@ -161,7 +161,7 @@ namespace KeySearcher
 
         /* BEGIN: following lines are from Arnie - 2010.01.12 */
         private ICryptoolStream csEncryptedData;
-        [PropertyInfo(Direction.InputData, "CSEncryptedDataCaption", "CSEncryptedDataTooltip", "", false, false, QuickWatchFormat.Hex, "")]
+        [PropertyInfo(Direction.InputData, "CSEncryptedDataCaption", "CSEncryptedDataTooltip", false, QuickWatchFormat.Hex, "")]
         public virtual ICryptoolStream CSEncryptedData
         {
             get { return this.csEncryptedData; }
@@ -178,7 +178,7 @@ namespace KeySearcher
 
         private byte[] encryptedData;
         private byte[] encryptedDataOptimized;
-        [PropertyInfo(Direction.InputData, "EncryptedDataCaption", "EncryptedDataTooltip", "", false, false, QuickWatchFormat.Hex, "")]
+        [PropertyInfo(Direction.InputData, "EncryptedDataCaption", "EncryptedDataTooltip", false, QuickWatchFormat.Hex, "")]
         public virtual byte[] EncryptedData
         {
             get { return this.encryptedData; }
@@ -214,7 +214,7 @@ namespace KeySearcher
 
         private byte[] initVector;
         private byte[] initVectorOptimized;
-        [PropertyInfo(Direction.InputData, "InitVectorCaption", "InitVectorTooltip", "", false, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "InitVectorCaption", "InitVectorTooltip", false, QuickWatchFormat.Hex, null)]
         public virtual byte[] InitVector
         {
             get { return this.initVector; }
@@ -241,12 +241,12 @@ namespace KeySearcher
             get { return top1ValueKey; }
         }
 
-        [PropertyInfo(Direction.OutputData, "Top1MessageCaption", "Top1MessageTooltip", "")]
+        [PropertyInfo(Direction.OutputData, "Top1MessageCaption", "Top1MessageTooltip")]
         public virtual byte[] Top1Message
         {
             get { return top1FullPlaintext; }
         }
-        [PropertyInfo(Direction.OutputData, "Top1KeyCaption", "Top1KeyTooltip", "")]
+        [PropertyInfo(Direction.OutputData, "Top1KeyCaption", "Top1KeyTooltip")]
         public virtual byte[] Top1Key
         {
             get
@@ -1992,6 +1992,11 @@ namespace KeySearcher
         /// </summary>
         public struct ValueKey
         {
+            public override int GetHashCode()
+            {
+                return keya.GetHashCode();
+            }
+
             public override bool Equals(object obj)
             {
                 if (obj != null && obj is ValueKey && keya != null && ((ValueKey)obj).keya != null)

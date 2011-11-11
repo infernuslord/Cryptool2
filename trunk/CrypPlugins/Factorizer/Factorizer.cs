@@ -27,7 +27,7 @@ using System.Numerics;
 namespace Factorizer
 {
   [Author("Timo Eckhardt", "T-Eckhardt@gmx.de", "Uni Siegen", "http://www.uni-siegen.de")]
-  [PluginInfo("Factorizer.Properties.Resources", false, "PluginCaption", "PluginTooltip", "Factorizer/DetailedDescription/doc.xml", "Factorizer/icon.png")]
+  [PluginInfo("Factorizer.Properties.Resources", "PluginCaption", "PluginTooltip", "Factorizer/DetailedDescription/doc.xml", "Factorizer/icon.png")]
   [ComponentCategory(ComponentCategory.CryptanalysisGeneric)]
     public class Factorizer : ICrypComponent
   {
@@ -161,7 +161,7 @@ namespace Factorizer
     #region Properties
     private BigInteger m_Input;
     private string m_InputString;
-    [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", "", true, false, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", true, QuickWatchFormat.Text, null)]
     public string InputString
     {
       get { return m_InputString; }
@@ -194,7 +194,7 @@ namespace Factorizer
     }
     private string m_Factor;
 
-    [PropertyInfo(Direction.OutputData, "FactorCaption", "FactorTooltip", "", true, false, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.OutputData, "FactorCaption", "FactorTooltip", true, QuickWatchFormat.Text, null)]
     public string Factor
     {
       get { return m_Factor; }
@@ -208,7 +208,7 @@ namespace Factorizer
     }
     private string m_Remainder;
 
-    [PropertyInfo(Direction.OutputData, "RemainderCaption", "RemainderTooltip", "", true, false, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.OutputData, "RemainderCaption", "RemainderTooltip", true, QuickWatchFormat.Text, null)]
     public string Remainder
     {
       get { return m_Remainder; }

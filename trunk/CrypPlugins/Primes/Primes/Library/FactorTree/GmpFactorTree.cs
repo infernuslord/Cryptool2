@@ -21,7 +21,6 @@ using System.Text;
 using Primes.Library.FactorTree.Exceptions;
 using System.Threading;
 using Primes.Bignum;
-using Primes.Bignum;
 
 namespace Primes.Library.FactorTree
 {

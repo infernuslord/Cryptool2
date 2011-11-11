@@ -17,7 +17,7 @@ namespace Cryptool.CubeAttack
         "david.oruba@web.de", 
         "Uni-Bochum", 
         "http://www.ruhr-uni-bochum.de/")]
-    [PluginInfo("Cryptool.CubeAttack.Properties.Resources", true, 
+    [PluginInfo("Cryptool.CubeAttack.Properties.Resources", 
 		  "PluginCaption",
 		  "PluginTooltip",
 		  "PluginDescriptionURL",
@@ -54,8 +54,6 @@ namespace Cryptool.CubeAttack
         
         [PropertyInfo(Direction.OutputData, 
             "OutputSuperpolyCaption", "OutputSuperpolyTooltip",
-            "", 
-            false, 
             false, 
             QuickWatchFormat.Text, 
             null)]
@@ -77,8 +75,6 @@ namespace Cryptool.CubeAttack
 
         [PropertyInfo(Direction.OutputData, 
             "OutputKeyBitsCaption", "OutputKeyBitsTooltip", 
-            "", 
-            false, 
             false, 
             QuickWatchFormat.Text, 
             null)]
@@ -109,7 +105,6 @@ namespace Cryptool.CubeAttack
         public CubeAttack()
         {
             this.settings = new CubeAttackSettings();
-            ((CubeAttackSettings)(this.settings)).LogMessage += CubeAttack_LogMessage;
         }
 
         /// <summary>
@@ -1126,7 +1121,7 @@ namespace Cryptool.CubeAttack
         #region IControlEncryption Members 
 
         private IControlCubeAttack cubeattackBlackbox;
-        [PropertyInfo(Direction.ControlMaster, "CubeattackBlackboxCaption", "CubeattackBlackboxTooltip", "")]
+        [PropertyInfo(Direction.ControlMaster, "CubeattackBlackboxCaption", "CubeattackBlackboxTooltip")]
         public IControlCubeAttack CubeattackBlackbox
         {
             get { return cubeattackBlackbox; }

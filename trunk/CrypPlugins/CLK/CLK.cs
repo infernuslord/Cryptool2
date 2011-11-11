@@ -42,7 +42,7 @@ using System.Windows.Media.Imaging;
 namespace Cryptool.CLK
 {
     [Author("Soeren Rinne", "soeren.rinne@cryptool.de", "Ruhr-Universitaet Bochum, Chair for System Security", "http://www.trust.rub.de/")]
-    [PluginInfo("Cryptool.Plugins.CLK.Properties.Resources", true, "PluginCaption", "PluginTooltip", "", "CLK/icon.png", "CLK/Images/true.png", "CLK/Images/false.png")]
+    [PluginInfo("Cryptool.Plugins.CLK.Properties.Resources", "PluginCaption", "PluginTooltip", "", "CLK/icon.png", "CLK/Images/true.png", "CLK/Images/false.png")]
     [ComponentCategory(ComponentCategory.ToolsDataflow)]
   public class CLK : DependencyObject, ICrypComponent
   {
@@ -105,7 +105,7 @@ namespace Cryptool.CLK
 
     # region public interface
        
-    [PropertyInfo(Direction.OutputData, "OutputCaption", "OutputTooltip", "", false, false, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.OutputData, "OutputCaption", "OutputTooltip", false, QuickWatchFormat.Text, null)]
     public bool Output
     {
         get { return output; }
@@ -119,7 +119,7 @@ namespace Cryptool.CLK
         }
     }
 
-    [PropertyInfo(Direction.OutputData, "RoundOutputCaption", "RoundOutputTooltip", "", false, false, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.OutputData, "RoundOutputCaption", "RoundOutputTooltip", false, QuickWatchFormat.Text, null)]
     public int RoundOutput
     {
         get { return roundOutput; }
@@ -133,7 +133,7 @@ namespace Cryptool.CLK
         }
     }
 
-    [PropertyInfo(Direction.InputData, "EventInputCaption", "EventInputTooltip", "", false, false, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.InputData, "EventInputCaption", "EventInputTooltip", false, QuickWatchFormat.Text, null)]
     public object EventInput
     {
         get { return eventInput; }

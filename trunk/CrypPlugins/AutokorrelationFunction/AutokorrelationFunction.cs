@@ -28,7 +28,7 @@ using Cryptool.PluginBase.Utils.Graphics.Diagrams.Histogram;
 namespace Cryptool.Plugins.AutokorrelationFunction
 {
     [Author("Dennis Nolte", "nolte@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo("AutokorrelationFunction.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "AutokorrelationFunction/icon.png")]
+    [PluginInfo("AutokorrelationFunction.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "AutokorrelationFunction/icon.png")]
     [ComponentCategory(ComponentCategory.CryptanalysisGeneric)]
     public class AutokorrelationFunction : ICrypComponent
     {
@@ -53,7 +53,7 @@ namespace Cryptool.Plugins.AutokorrelationFunction
         /// <summary>
         /// The input for the ciphertext 
         /// </summary>
-        [PropertyInfo(Direction.InputData, "InputCipherCaption", "InputCipherTooltip", "", true, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputCipherCaption", "InputCipherTooltip", true, QuickWatchFormat.Text, null)]
         public String InputCipher
         {
             get
@@ -70,7 +70,7 @@ namespace Cryptool.Plugins.AutokorrelationFunction
         /// <summary>
         /// The output for the found shift value (most probable keylength) 
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "OutputLengthCaption", "OutputLengthTooltip", "")]
+        [PropertyInfo(Direction.OutputData, "OutputLengthCaption", "OutputLengthTooltip")]
         public int OutputLength
         {
             get

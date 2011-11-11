@@ -36,7 +36,7 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace RandomInput
 {
   [Author("Timm Korte", "cryptool@easycrypt.de", "Uni Bochum", "http://www.ruhr-uni-bochum.de")]
-  [PluginInfo("RandomInput.Properties.Resources", true, "PluginCaption", "PluginTooltip", "RandomInput/DetailedDescription/doc.xml", "RandomInput/icon.png")]
+  [PluginInfo("RandomInput.Properties.Resources", "PluginCaption", "PluginTooltip", "RandomInput/DetailedDescription/doc.xml", "RandomInput/icon.png")]
   [ComponentCategory(ComponentCategory.ToolsDataInputOutput)]
   public class RandomInput : ContextBoundObject, ICrypComponent
   {
@@ -82,7 +82,7 @@ namespace RandomInput
       }
     }
 
-    [PropertyInfo(Direction.OutputData, "StreamOutputCaption", "StreamOutputTooltip", "", false, false, QuickWatchFormat.Hex, null)]
+    [PropertyInfo(Direction.OutputData, "StreamOutputCaption", "StreamOutputTooltip", false, QuickWatchFormat.Hex, null)]
     public ICryptoolStream StreamOutput
     {
       get
@@ -104,7 +104,7 @@ namespace RandomInput
       set { } // readonly
     }
 
-    [PropertyInfo(Direction.OutputData, "ByteArrayOutputCaption", "ByteArrayOutputTooltip", "", false, false, QuickWatchFormat.Hex, null)]
+    [PropertyInfo(Direction.OutputData, "ByteArrayOutputCaption", "ByteArrayOutputTooltip", false, QuickWatchFormat.Hex, null)]
     public byte[] ByteArrayOutput
     {
       get

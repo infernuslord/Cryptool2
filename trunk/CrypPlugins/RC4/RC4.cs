@@ -29,7 +29,7 @@ using System.Reflection;
 namespace Cryptool.Plugins.Cryptography.Encryption
 {
     [Author("Florian Marchal", "florian@marchal.de", "", "")]
-    [PluginInfo("Cryptool.RC4.Properties.Resources", false, "PluginCaption", "PluginTooltip", "RC4/DetailedDescription/doc.xml", "RC4/icon.png", "RC4/Images/encrypt.png", "RC4/Images/decrypt.png")]
+    [PluginInfo("Cryptool.RC4.Properties.Resources", "PluginCaption", "PluginTooltip", "RC4/DetailedDescription/doc.xml", "RC4/icon.png", "RC4/Images/encrypt.png", "RC4/Images/decrypt.png")]
     [ComponentCategory(ComponentCategory.CiphersModernSymmetric)]
     public class RC4 : ICrypComponent
     {
@@ -63,7 +63,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             set { this.settings = (RC4Settings)value; }
         }
 
-        [PropertyInfo(Direction.InputData, "InputDataCaption", "InputDataTooltip", "", true, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "InputDataCaption", "InputDataTooltip", true, QuickWatchFormat.Hex, null)]
         public ICryptoolStream InputData
         {
             get
@@ -76,7 +76,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             }
         }
 
-        [PropertyInfo(Direction.InputData, "InputKeyCaption", "InputKeyTooltip", "", true, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "InputKeyCaption", "InputKeyTooltip", true, QuickWatchFormat.Hex, null)]
         public ICryptoolStream InputKey
         {
             get { return this.inputKey; }
@@ -86,7 +86,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "OutputStreamCaption", "OutputStreamTooltip", null, true, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "OutputStreamCaption", "OutputStreamTooltip", true, QuickWatchFormat.Hex, null)]
         public ICryptoolStream OutputStream
         {
             get

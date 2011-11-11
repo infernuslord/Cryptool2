@@ -31,7 +31,7 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace TextOutput
 {
     [Author("Thomas Schmid", "thomas.schmid@cryptool.org", "Uni Siegen", "http://www.uni-siegen.de")]
-    [PluginInfo("TextOutput.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "TextOutput/icon.png")]
+    [PluginInfo("TextOutput.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "TextOutput/icon.png")]
     [ComponentCategory(ComponentCategory.ToolsDataInputOutput)]
     public class TextOutput : DependencyObject, ICrypComponent
     {
@@ -135,7 +135,6 @@ namespace TextOutput
         {
             textOutputPresentation = new TextOutputPresentation();
             settings = new TextOutputSettings(this);
-            settings.OnGuiLogNotificationOccured += settings_OnGuiLogNotificationOccured;
             settings.PropertyChanged += settings_PropertyChanged;
         }
 

@@ -29,7 +29,7 @@ using System.ComponentModel;
 namespace Cryptool.ADFGVX
 {
     [Author("Matthäus Wander","wander@cryptool.org","Uni Duisburg-Essen","http://www.vs.uni-due.de")]
-    [PluginInfo("Cryptool.ADFGVX.Properties.Resources", false, "PluginCaption", "PluginTooltip", "ADFGVX/DetailedDescription/doc.xml", "ADFGVX/Images/icon.png", "ADFGVX/Images/encrypt.png", "ADFGVX/Images/decrypt.png")]
+    [PluginInfo("Cryptool.ADFGVX.Properties.Resources", "PluginCaption", "PluginTooltip", "ADFGVX/DetailedDescription/doc.xml", "ADFGVX/Images/icon.png", "ADFGVX/Images/encrypt.png", "ADFGVX/Images/decrypt.png")]
     [ComponentCategory(ComponentCategory.CiphersClassic)]
     public class ADFGVX : ICrypComponent
     {
@@ -56,14 +56,14 @@ namespace Cryptool.ADFGVX
             set { this.settings = (ADFGVXSettings)value; }
         }
 
-        [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", "", true, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", true, QuickWatchFormat.Text, null)]
         public string InputString
         {
             get;
             set;
         }
 
-        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", "", false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", false, QuickWatchFormat.Text, null)]
         public string OutputString
         {
             get;

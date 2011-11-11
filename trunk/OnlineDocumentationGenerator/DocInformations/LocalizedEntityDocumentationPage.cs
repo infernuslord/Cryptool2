@@ -55,8 +55,6 @@ namespace OnlineDocumentationGenerator.DocInformations
             private set;
         }
 
-        public bool Startable { get; private set; }
-
         protected LocalizedEntityDocumentationPage(EntityDocumentationPage editorDocumentationPage, Type entityType, XElement xml, string lang, BitmapFrame icon)
         {
             DocumentationPage = editorDocumentationPage;
@@ -69,7 +67,6 @@ namespace OnlineDocumentationGenerator.DocInformations
             Thread.CurrentThread.CurrentCulture = cultureInfo;
             Thread.CurrentThread.CurrentUICulture = cultureInfo;
 
-            Startable = entityType.GetPluginInfoAttribute().Startable;
             Name = entityType.GetPluginInfoAttribute().Caption;
             ToolTip = entityType.GetPluginInfoAttribute().ToolTip;
         }

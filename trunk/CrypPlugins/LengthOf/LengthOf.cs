@@ -28,7 +28,7 @@ using System.ComponentModel;
 namespace Cryptool.Plugins.LengthOf
 {
     [Author("Christian Arnold", "christian.arnold@stud.uni-due.de", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo("LengthOf.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "LengthOf/LenOf.png")]
+    [PluginInfo("LengthOf.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "LengthOf/LenOf.png")]
     [ComponentCategory(ComponentCategory.ToolsMisc)]
     public class LengthOf : ICrypComponent
     {
@@ -60,7 +60,7 @@ namespace Cryptool.Plugins.LengthOf
             Progress(1.0, 1.0);
         }
 
-        [PropertyInfo(Direction.InputData, "ObjInputCaption", "ObjInputTooltip", "", true, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "ObjInputCaption", "ObjInputTooltip", true, QuickWatchFormat.Text, null)]
         public object ObjInput
         {
             get
@@ -74,7 +74,7 @@ namespace Cryptool.Plugins.LengthOf
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "OutputLenCaption", "OutputLenTooltip", "")]
+        [PropertyInfo(Direction.OutputData, "OutputLenCaption", "OutputLenTooltip")]
         public int OutputLen
         {
             get

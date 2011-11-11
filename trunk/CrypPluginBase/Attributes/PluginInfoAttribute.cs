@@ -75,7 +75,6 @@ namespace Cryptool.PluginBase
         # endregion multi language properties
 
         # region no-translation
-        public readonly bool Startable;
         public readonly string[] Icons;
         # endregion
 
@@ -110,11 +109,10 @@ namespace Cryptool.PluginBase
             this.Icons = icons;
         }
 
-        [Obsolete("startable flag will be removed soon")]
+        [Obsolete("startable flag is not used anymore")]
         public PluginInfoAttribute(bool startable, string caption, string toolTip, string descriptionUrl, params string[] icons)
             : this(caption, toolTip, descriptionUrl, icons)
         {
-            this.Startable = startable;
         }
 
         /// <summary>
@@ -134,11 +132,10 @@ namespace Cryptool.PluginBase
             this.Icons = icons;
         }
 
-        [Obsolete("startable flag will be removed soon")]
+        [Obsolete("startable flag is not used anymore")]
         public PluginInfoAttribute(string resourceFile, bool startable, string caption, string toolTip, string descriptionUrl, params string[] icons)
             : this(resourceFile, caption, toolTip, descriptionUrl, icons)
         {
-            this.Startable = startable;
         }
     }
 }

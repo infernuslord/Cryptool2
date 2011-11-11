@@ -41,7 +41,7 @@ using Cryptool.PluginBase.IO;
 namespace Cryptool.Enigma
 {
     [Author("Dr. Arno Wacker, Matthäus Wander", "arno.wacker@cryptool.org", "Uni Duisburg-Essen, Fachgebiet Verteilte Systeme", "http://www.vs.uni-due.de")]
-    [PluginInfo("Cryptool.Enigma.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL",
+    [PluginInfo("Cryptool.Enigma.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL",
       "Enigma/Images/Enigma.png", "Enigma/Images/encrypt.png", "Enigma/Images/decrypt.png")]
     [ComponentCategory(ComponentCategory.CiphersClassic)]
     [ComponentCategory(ComponentCategory.CryptanalysisSpecific)]
@@ -365,7 +365,7 @@ namespace Cryptool.Enigma
 
         #region Connector properties
 
-        [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", "", true, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", true, QuickWatchFormat.Text, null)]
         public string InputString
         {
             get { return this.inputString; }
@@ -393,7 +393,7 @@ namespace Cryptool.Enigma
         //    }
         //}
 
-        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", "", false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", false, QuickWatchFormat.Text, null)]
         public string OutputString
         {
             get { return this.outputString; }

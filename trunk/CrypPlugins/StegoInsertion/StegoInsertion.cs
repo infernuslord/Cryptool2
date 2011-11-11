@@ -28,7 +28,7 @@ using System.IO;
 namespace Cryptool.Plugins.StegoInsertion
 {
     [Author("Corinna John", "coco@steganografie.eu", "", "http://www.steganografie.eu")]
-    [PluginInfo("StegoInsertion.Properties.Resources", false, "PluginCaption", "PluginTooltip", "StegoInsertion/DetailedDescription/Description.xaml", "StegoInsertion/Images/StegoInsertion.png")]
+    [PluginInfo("StegoInsertion.Properties.Resources", "PluginCaption", "PluginTooltip", "StegoInsertion/DetailedDescription/Description.xaml", "StegoInsertion/Images/StegoInsertion.png")]
     [ComponentCategory(ComponentCategory.Steganography)]
     public class StegoInsertion : ICrypComponent
     {
@@ -41,28 +41,28 @@ namespace Cryptool.Plugins.StegoInsertion
 
         #region Data Properties
 
-        [PropertyInfo(Direction.InputData, "InputDataCaption", "InputDataTooltip", null)]
+        [PropertyInfo(Direction.InputData, "InputDataCaption", "InputDataTooltip")]
         public ICryptoolStream InputData
         {
             get;
             set;
         }
 
-        [PropertyInfo(Direction.InputData, "InputCarrierCaption", "InputCarrierTooltip", null)]
+        [PropertyInfo(Direction.InputData, "InputCarrierCaption", "InputCarrierTooltip")]
         public ICryptoolStream InputCarrier
         {
             get;
             set;
         }
 
-        [PropertyInfo(Direction.OutputData, "OutputTextCaption", "OutputTextTooltip", null)]
+        [PropertyInfo(Direction.OutputData, "OutputTextCaption", "OutputTextTooltip")]
         public String OutputText
         {
             get;
             set;
         }
 
-        [PropertyInfo(Direction.OutputData, "OutputCarrierCaption", "OutputCarrierTooltip", null)]
+        [PropertyInfo(Direction.OutputData, "OutputCarrierCaption", "OutputCarrierTooltip")]
         public ICryptoolStream OutputCarrier
         {
             get;

@@ -11,7 +11,7 @@ using System.Windows.Controls;
 namespace SmartInterpreter
 {
   [Author("Malte Gronau", "malte.gronau@web.de", "", "")]
-  [PluginInfo("SmartInterpreter.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "SmartInterpreter/Images/SmartInterpreter.png")]
+  [PluginInfo("SmartInterpreter.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "SmartInterpreter/Images/SmartInterpreter.png")]
   [ComponentCategory(ComponentCategory.Protocols)]
   public class SmartInterpreter : ICrypComponent
   {
@@ -70,7 +70,7 @@ namespace SmartInterpreter
 
     #region IO
 
-    [PropertyInfo(Direction.InputData, "DataInputCaption", "DataInputTooltip", "", true, false, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.InputData, "DataInputCaption", "DataInputTooltip", true, QuickWatchFormat.Text, null)]
     public String DataInput
     {
         get
@@ -101,7 +101,7 @@ namespace SmartInterpreter
         }
     }
 
-    [PropertyInfo(Direction.InputData, "ResponseCaption", "ResponseTooltip", "", false, true, QuickWatchFormat.Hex, null)]
+    [PropertyInfo(Direction.InputData, "ResponseCaption", "ResponseTooltip", false, QuickWatchFormat.Hex, null)]
     public byte[] Response
     {
         get {
@@ -159,7 +159,7 @@ namespace SmartInterpreter
         }
     }
 
-    [PropertyInfo(Direction.OutputData, "APDUStringCaption", "APDUStringTooltip", "", true, false, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.OutputData, "APDUStringCaption", "APDUStringTooltip", true, QuickWatchFormat.Text, null)]
     public String APDUString
     {
         get

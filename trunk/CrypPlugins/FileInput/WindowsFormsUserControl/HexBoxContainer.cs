@@ -425,8 +425,6 @@ namespace FileInput.WindowsFormsUserControl
             }
         }
 
-        private BackgroundWorker bgWorker = null;
-
         /// <summary>
         /// Find next match
         /// </summary>

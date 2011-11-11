@@ -19,11 +19,6 @@ namespace Cryptool.CubeAttack
         /// <param name="msg"></param>
         /// <param name="logLevel"></param>
         public delegate void CubeAttackLogMessage(string msg, NotificationLevel logLevel);
-
-        /// <summary>
-        /// Fire if a new message has to be shown in the status bar
-        /// </summary>
-        public event CubeAttackLogMessage LogMessage;
         
         /// <summary>
         /// Returns true if some settigns have been changed. This value should be set

@@ -30,13 +30,13 @@ using DiscreteLogarithm;
 
 namespace Cryptool.Plugins.DiscreteLogarithm
 {
-    [Author("Sven Rech", null, "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo("DiscreteLogarithm.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "DiscreteLogarithm/icon.png")]
-    [ComponentCategory(ComponentCategory.CryptanalysisGeneric)]
     /// <summary>
     /// This plugin calculates the discrete logarithm of the input.
     /// The input contains of a the BigInteger value and base and the modulo value to determine the residue class
     /// </summary>
+    [Author("Sven Rech", null, "Uni Duisburg-Essen", "http://www.uni-due.de")]
+    [PluginInfo("DiscreteLogarithm.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "DiscreteLogarithm/icon.png")]
+    [ComponentCategory(ComponentCategory.CryptanalysisGeneric)]
     class DiscreteLogarithm : ICrypComponent
     {
         #region private members
@@ -199,7 +199,7 @@ namespace Cryptool.Plugins.DiscreteLogarithm
         /// <summary>
         /// Gets/Sets the value x in b^log_b(x) = x
         /// </summary>
-        [PropertyInfo(Direction.InputData, "InputValueCaption", "InputValueTooltip", "")]
+        [PropertyInfo(Direction.InputData, "InputValueCaption", "InputValueTooltip")]
         public BigInteger InputValue
         {
             get
@@ -216,7 +216,7 @@ namespace Cryptool.Plugins.DiscreteLogarithm
         /// <summary>
         /// Gets/Sets the base b in b^log_b(x) = x
         /// </summary>
-        [PropertyInfo(Direction.InputData, "InputBaseCaption", "InputBaseTooltip", "")]
+        [PropertyInfo(Direction.InputData, "InputBaseCaption", "InputBaseTooltip")]
         public BigInteger InputBase
         {
             get
@@ -233,7 +233,7 @@ namespace Cryptool.Plugins.DiscreteLogarithm
         /// <summary>
         /// Gets/Sets the modulo value for the used residue class
         /// </summary>
-        [PropertyInfo(Direction.InputData, "InputModCaption", "InputModTooltip", "")]
+        [PropertyInfo(Direction.InputData, "InputModCaption", "InputModTooltip")]
         public BigInteger InputMod
         {
             get
@@ -250,7 +250,7 @@ namespace Cryptool.Plugins.DiscreteLogarithm
         /// <summary>
         /// Gets/Sets the calculated discrete logarithm
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "OutputLogarithmCaption", "OutputLogarithmTooltip", "")]
+        [PropertyInfo(Direction.OutputData, "OutputLogarithmCaption", "OutputLogarithmTooltip")]
         public BigInteger OutputLogarithm
         {
             get

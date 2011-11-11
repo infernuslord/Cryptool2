@@ -28,7 +28,7 @@ using System.Runtime.CompilerServices;
 namespace Concatenate
 {
     [Author("Matthäus Wander", "wander@cryptool.org", "Uni Duisburg-Essen", "http://www.vs.uni-due.de")]
-    [PluginInfo("Concatenate.Properties.Resources", false, "PluginCaption", "PluginTooltip", "Concatenate/DetailedDescription/doc.xml", "Concatenate/icon.png")]
+    [PluginInfo("Concatenate.Properties.Resources", "PluginCaption", "PluginTooltip", "Concatenate/DetailedDescription/doc.xml", "Concatenate/icon.png")]
     [ComponentCategory(ComponentCategory.ToolsMisc)]
     public class Concatenate : ICrypComponent
     {

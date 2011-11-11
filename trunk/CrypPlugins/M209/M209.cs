@@ -28,7 +28,7 @@ namespace Cryptool.Plugins.M209
 {
     // HOWTO: Change author name, email address, organization and URL.
     [Author("Martin Jedrychowski, Martin Switek", "jedry@gmx.de, Martin_Switek@gmx.de", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo("Cryptool.M209.Properties.Resources", false, "PluginCaption", "PluginTooltip", "M209/DetailedDescription/Description.xaml",
+    [PluginInfo("Cryptool.M209.Properties.Resources", "PluginCaption", "PluginTooltip", "M209/DetailedDescription/Description.xaml",
       "M209/Images/M-209.jpg", "M209/Images/encrypt.png", "M209/Images/decrypt.png")]
     
     // HOWTO: Change interface to one that fits to your plugin (see CrypPluginBase).
@@ -79,7 +79,7 @@ namespace Cryptool.Plugins.M209
         }
 
         //  Pfeil in Programmiersprache Eingabe
-        [PropertyInfo(Direction.InputData, "TextCaption", "TextTooltip", null, true, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "TextCaption", "TextTooltip", true, QuickWatchFormat.Text, null)]
         public String Text
         {
             get;
@@ -87,7 +87,7 @@ namespace Cryptool.Plugins.M209
         }
 
         // Pfeil in Programmiersprache Ausgabe
-        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", "", false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", false, QuickWatchFormat.Text, null)]
         public String OutputString
         {
             get;

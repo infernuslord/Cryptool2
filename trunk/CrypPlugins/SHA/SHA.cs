@@ -30,7 +30,7 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace SHA
 {
   [Author("Sebastian Przybylski", "sebastian@przybylski.org", "Uni-Siegen", "http://www.uni-siegen.de")]
-  [PluginInfo("SHA.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "SHA/SHA.png")]
+  [PluginInfo("SHA.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "SHA/SHA.png")]
   [ComponentCategory(ComponentCategory.HashFunctions)]
     public class SHA : ICrypComponent
     {
@@ -96,7 +96,7 @@ namespace SHA
 
         #endregion
 
-        [PropertyInfo(Direction.InputData, "InputDataCaption", "InputDataTooltip", "", true, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "InputDataCaption", "InputDataTooltip", true, QuickWatchFormat.Hex, null)]
         public ICryptoolStream InputData
         {
             get 
@@ -112,7 +112,7 @@ namespace SHA
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "OutputDataStreamCaption", "OutputDataStreamTooltip", "", true, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "OutputDataStreamCaption", "OutputDataStreamTooltip", true, QuickWatchFormat.Hex, null)]
         public ICryptoolStream OutputDataStream
         {
             get
@@ -126,7 +126,7 @@ namespace SHA
             set { } //readonly
         }
 
-        [PropertyInfo(Direction.OutputData, "OutputDataCaption", "OutputDataTooltip", "", true, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "OutputDataCaption", "OutputDataTooltip", true, QuickWatchFormat.Hex, null)]
         public byte[] OutputData
         {
             get { return this.outputData; }

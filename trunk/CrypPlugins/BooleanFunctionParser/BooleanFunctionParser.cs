@@ -38,7 +38,7 @@ using Cryptool.RPNExpression;
 namespace Cryptool.BooleanFunctionParser
 {
     [Author("Soeren Rinne", "soeren.rinne@cryptool.de", "Ruhr-Universitaet Bochum, Chair for System Security", "http://www.trust.rub.de/")]
-    [PluginInfo("Cryptool.BooleanFunctionParser.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "BooleanFunctionParser/Images/icon2.png")]
+    [PluginInfo("Cryptool.BooleanFunctionParser.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "BooleanFunctionParser/Images/icon2.png")]
     [ComponentCategory(ComponentCategory.ToolsBoolean)]
     public class BooleanFunctionParser : ICrypComponent
     {
@@ -105,7 +105,7 @@ namespace Cryptool.BooleanFunctionParser
             }
         }
 
-        [PropertyInfo(Direction.InputData, "InputFunctionCaption", "InputFunctionTooltip", "", false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputFunctionCaption", "InputFunctionTooltip", false, QuickWatchFormat.Text, null)]
         public String InputFunction
         {
             get { return inputFunction; }
@@ -117,7 +117,7 @@ namespace Cryptool.BooleanFunctionParser
             }
         }
 
-        [PropertyInfo(Direction.InputData, "InputOneCaption", "InputOneTooltip", "", false, true, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputOneCaption", "InputOneTooltip", false, QuickWatchFormat.Text, null)]
         public bool[] InputOne
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
@@ -139,7 +139,7 @@ namespace Cryptool.BooleanFunctionParser
         }
 
 
-        [PropertyInfo(Direction.OutputData, "OutputCaption", "OutputTooltip", "", false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputCaption", "OutputTooltip", false, QuickWatchFormat.Text, null)]
         public bool Output
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
@@ -766,7 +766,7 @@ namespace Cryptool.BooleanFunctionParser
         #region IControl
 
         private IControlCubeAttack bfpSlave;
-        [PropertyInfo(Direction.ControlSlave, "BFPSlaveCaption", "BFPSlaveTooltip", "")]
+        [PropertyInfo(Direction.ControlSlave, "BFPSlaveCaption", "BFPSlaveTooltip")]
         public IControlCubeAttack BFPSlave
         {
             get

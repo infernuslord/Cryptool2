@@ -56,7 +56,7 @@ namespace Cryptool.CaesarAnalysisHelper
         }
 
         private string encryptedText;
-        [PropertyInfo(Direction.InputData, "EncryptedTextCaption", "EncryptedTextTooltip", null, false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "EncryptedTextCaption", "EncryptedTextTooltip", false, QuickWatchFormat.Text, null)]
         public string EncryptedText
         {
             get { return encryptedText; }
@@ -68,7 +68,7 @@ namespace Cryptool.CaesarAnalysisHelper
         }
 
         private string frequencyList = string.Empty;
-        [PropertyInfo(Direction.InputData, "FrequencyListCaption", "FrequencyListTooltip", "", true, false, QuickWatchFormat.Text,
+        [PropertyInfo(Direction.InputData, "FrequencyListCaption", "FrequencyListTooltip", true, QuickWatchFormat.Text,
             null)]
         public string FrequencyList
         {
@@ -81,7 +81,7 @@ namespace Cryptool.CaesarAnalysisHelper
         }
 
         private int key;
-        [PropertyInfo(Direction.OutputData, "KeyCaption", "KeyTooltip", "", true, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "KeyCaption", "KeyTooltip", true, QuickWatchFormat.Text, null)]
         public int Key
         {
             get

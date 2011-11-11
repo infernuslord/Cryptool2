@@ -43,7 +43,7 @@ namespace Cryptool.Plugins.QuadraticSieve
     /// For further information on quadratic sieve or msieve please have a look at the above mentioned URL
     /// </summary>
     [Author("Sven Rech", "rech@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo("QuadraticSieve.Properties.Resources", false, "PluginCaption", "PluginTooltip", "QuadraticSieve/DetailedDescription/doc.xml", "QuadraticSieve/iconqs.png")]
+    [PluginInfo("QuadraticSieve.Properties.Resources", "PluginCaption", "PluginTooltip", "QuadraticSieve/DetailedDescription/doc.xml", "QuadraticSieve/iconqs.png")]
     [ComponentCategory(ComponentCategory.CryptanalysisGeneric)]
     class QuadraticSieve : DependencyObject, ICrypComponent
     {
@@ -376,7 +376,7 @@ namespace Cryptool.Plugins.QuadraticSieve
         /// <summary>
         /// Getter / Setter for the input number which should be factorized
         /// </summary>
-        [PropertyInfo(Direction.InputData, "InputNumberCaption", "InputNumberTooltip", "")]
+        [PropertyInfo(Direction.InputData, "InputNumberCaption", "InputNumberTooltip")]
         public BigInteger InputNumber
         {
             get
@@ -393,7 +393,7 @@ namespace Cryptool.Plugins.QuadraticSieve
         /// <summary>
         /// Getter / Setter for the factors calculated by msieve
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "OutputFactorsCaption", "OutputFactorsTooltip", "")]
+        [PropertyInfo(Direction.OutputData, "OutputFactorsCaption", "OutputFactorsTooltip")]
         public BigInteger[] OutputFactors
         {
             get

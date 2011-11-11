@@ -29,7 +29,7 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace Cryptool.Plugins.BooleanOperators
 {
     [Author("Nils Kopal", "nils.kopal@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-duisburg-essen.de")]
-    [PluginInfo("BooleanOperators.Properties.Resources", false, "PluginBO_Caption", "PluginBO_Tooltip", "PluginDescriptionURL", "BooleanOperators/icons/false.png", "BooleanOperators/icons/true.png")]
+    [PluginInfo("BooleanOperators.Properties.Resources", "PluginBO_Caption", "PluginBO_Tooltip", "PluginDescriptionURL", "BooleanOperators/icons/false.png", "BooleanOperators/icons/true.png")]
     [ComponentCategory(ComponentCategory.ToolsBoolean)]
     public class BooleanOutput : ICrypComponent
     {
@@ -42,7 +42,7 @@ namespace Cryptool.Plugins.BooleanOperators
             this.settings.OnPluginStatusChanged += settings_OnPluginStatusChanged;
         }
 
-        [PropertyInfo(Direction.InputData, "BO_InputCaption", "BO_InputTooltip", "")]
+        [PropertyInfo(Direction.InputData, "BO_InputCaption", "BO_InputTooltip")]
         public Boolean Input
         {
             get

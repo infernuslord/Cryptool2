@@ -31,7 +31,7 @@ namespace Cryptool.P2PEditor
     [TabColor("orange")]
     [EditorInfo("p2p", false, true, false, false, true)]
     [Author("Paul Lelgemann", "lelgemann@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo("Cryptool.P2PEditor.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", 
+    [PluginInfo("Cryptool.P2PEditor.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL", 
         "P2PEditor/images/icon.png")]
     public class P2PEditor : IEditor
     {

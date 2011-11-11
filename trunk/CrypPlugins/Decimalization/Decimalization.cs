@@ -27,7 +27,7 @@ using System.Numerics;
 namespace Cryptool.Plugins.Decimalization
 {
     [Author("Andreas Grüner", "agruener@informatik.hu-berlin.de", "Humboldt University Berlin", "http://www.hu-berlin.de")]
-    [PluginInfo("Decimalization.Properties.Resources", false, "PluginCaption", "PluginToolTip", "Decimalization/DetailedDescription/doc.xml", "Decimalization/Decimalization.png")]
+    [PluginInfo("Decimalization.Properties.Resources", "PluginCaption", "PluginToolTip", "Decimalization/DetailedDescription/doc.xml", "Decimalization/Decimalization.png")]
     [ComponentCategory(ComponentCategory.ToolsMisc)]
     public class Decimalization : ICrypComponent
     {
@@ -61,21 +61,21 @@ namespace Cryptool.Plugins.Decimalization
 
         #region Data Properties
         
-        [PropertyInfo(Direction.InputData, "InputCaption", "InputCaptionToolTip", null)]
+        [PropertyInfo(Direction.InputData, "InputCaption", "InputCaptionToolTip")]
         public byte[] BinaryNumber
         {
             get;
             set;
         }
 
-        [PropertyInfo(Direction.OutputData, "Output1Caption", "Output1CaptionToolTip", null)]
+        [PropertyInfo(Direction.OutputData, "Output1Caption", "Output1CaptionToolTip")]
         public int[] DecimalNumberInt
         {
             get;
             set;
         }
 
-        [PropertyInfo(Direction.OutputData, "Output2Caption", "Output2CaptionToolTip", null)]
+        [PropertyInfo(Direction.OutputData, "Output2Caption", "Output2CaptionToolTip")]
         public String DecimalNumberStr
         {
             get;

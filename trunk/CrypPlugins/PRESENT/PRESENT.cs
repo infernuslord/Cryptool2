@@ -38,7 +38,7 @@ using System.Threading;
 namespace Cryptool.PRESENT
 {
     [Author("Timm Korte", "cryptool@easycrypt.de", "Uni Bochum", "http://www.ruhr-uni-bochum.de")]
-    [PluginInfo("Cryptool.PRESENT.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "PRESENT/icon.png", "PRESENT/Images/encrypt.png", "PRESENT/Images/decrypt.png")]
+    [PluginInfo("Cryptool.PRESENT.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "PRESENT/icon.png", "PRESENT/Images/encrypt.png", "PRESENT/Images/decrypt.png")]
     [ComponentCategory(ComponentCategory.CiphersModernSymmetric)]
     [Synchronization(SynchronizationAttribute.REQUIRES_NEW)]
     public class PRESENT : ContextBoundObject, ICrypComponent
@@ -70,7 +70,7 @@ namespace Cryptool.PRESENT
             set { this.settings = (PRESENTSettings)value; }
         }
 
-        [PropertyInfo(Direction.InputData, "InputStreamCaption", "InputStreamTooltip", "", true, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "InputStreamCaption", "InputStreamTooltip", true, QuickWatchFormat.Hex, null)]
         public ICryptoolStream InputStream
         {
 
@@ -89,7 +89,7 @@ namespace Cryptool.PRESENT
             }
         }
 
-        [PropertyInfo(Direction.InputData, "InputKeyCaption", "InputKeyTooltip", "", true, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "InputKeyCaption", "InputKeyTooltip", true, QuickWatchFormat.Hex, null)]
         public byte[] InputKey
         {
 
@@ -105,7 +105,7 @@ namespace Cryptool.PRESENT
             }
         }
 
-        [PropertyInfo(Direction.InputData, "InputIVCaption", "InputIVTooltip", "", false, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "InputIVCaption", "InputIVTooltip", false, QuickWatchFormat.Hex, null)]
         public byte[] InputIV
         {
 
@@ -121,7 +121,7 @@ namespace Cryptool.PRESENT
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "OutputStreamCaption", "OutputStreamTooltip", "", true, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "OutputStreamCaption", "OutputStreamTooltip", true, QuickWatchFormat.Hex, null)]
         public ICryptoolStream OutputStream
         {
 

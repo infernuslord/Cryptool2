@@ -33,7 +33,7 @@ using System.Text.RegularExpressions;
 namespace Contains
 {
   [Author("Thomas Schmid", "thomas.schmid@cryptool.org", "Uni Siegen", "http://www.uni-siegen.de")]
-  [PluginInfo("Contains.Properties.Resources", false, "PluginCaption", "PluginTooltip", "Contains/DetailedDescription/doc.xml", "Contains/icon.png", "Contains/subset.png", "Contains/no_subset.png")]
+  [PluginInfo("Contains.Properties.Resources", "PluginCaption", "PluginTooltip", "Contains/DetailedDescription/doc.xml", "Contains/icon.png", "Contains/subset.png", "Contains/no_subset.png")]
   [ComponentCategory(ComponentCategory.CryptanalysisGeneric)]
   public class Contains : ICrypComponent
   {    
@@ -50,7 +50,7 @@ namespace Contains
       settings = new ContainsSettings();
     }
 
-    [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", "", true, false, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", true, QuickWatchFormat.Text, null)]
     public string InputString
     {
       get { return this.inputString; }
@@ -73,7 +73,7 @@ namespace Contains
       }
     }
 
-    [PropertyInfo(Direction.InputData, "DictionaryInputStringCaption", "DictionaryInputStringTooltip", "", true, false, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.InputData, "DictionaryInputStringCaption", "DictionaryInputStringTooltip", true, QuickWatchFormat.Text, null)]
     public string DictionaryInputString
     {
       get { return this.dictionaryInputString; }
@@ -103,7 +103,7 @@ namespace Contains
       }
     }
     
-    [PropertyInfo(Direction.InputData, "HitsCaption", "HitsTooltip", "", false, false, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.InputData, "HitsCaption", "HitsTooltip", false, QuickWatchFormat.Text, null)]
     public int Hits
     {
       get { return settings.Hits; }
@@ -193,7 +193,7 @@ namespace Contains
     }
 
     private bool result;
-    [PropertyInfo(Direction.OutputData, "ResultCaption", "ResultTooltip", "", false, false, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.OutputData, "ResultCaption", "ResultTooltip", false, QuickWatchFormat.Text, null)]
     public bool Result
     {
       get { return result; }
@@ -212,7 +212,7 @@ namespace Contains
 //Angelov:
     private int hitCount = 0;
 
-    [PropertyInfo(Direction.OutputData, "HitCountCaption", "HitCountTooltip", "", false, false, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.OutputData, "HitCountCaption", "HitCountTooltip", false, QuickWatchFormat.Text, null)]
     public int HitCount
     {
         get { return hitCount; }

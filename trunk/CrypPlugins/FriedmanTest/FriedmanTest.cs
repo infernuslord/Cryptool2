@@ -10,7 +10,7 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace FriedmanTest
 {
     [Author("Georgi Angelov, Danail Vazov", "vazov@cryptool.org", "Uni Duisburg", "http://www.uni-duisburg-essen.de")]
-    [PluginInfo("FriedmanTest.Properties.Resources", false, "PluginCaption", "PluginTooltip", "FriedmanTest/DetailedDescription/doc.xml", "FriedmanTest/friedman.png")]
+    [PluginInfo("FriedmanTest.Properties.Resources", "PluginCaption", "PluginTooltip", "FriedmanTest/DetailedDescription/doc.xml", "FriedmanTest/friedman.png")]
     [ComponentCategory(ComponentCategory.CryptanalysisGeneric)]
     public class FriedmanTest : ICrypComponent
     {
@@ -45,28 +45,28 @@ namespace FriedmanTest
 
         #region Properties (Inputs/Outputs)
 
-        [PropertyInfo(Direction.OutputData, "StringOutputCaption", "StringOutputTooltip", "", false,false, QuickWatchFormat.Text,null)]
+        [PropertyInfo(Direction.OutputData, "StringOutputCaption", "StringOutputTooltip", false, QuickWatchFormat.Text,null)]
         public string StringOutput
         {
             get { return this.stringOutput; }
             set { }
         }
 
-        [PropertyInfo(Direction.OutputData, "KeyLengthCaption", "KeyLengthTooltip", "", false, false, QuickWatchFormat.Text, "KeyLengthQuickWatchConverter")]
+        [PropertyInfo(Direction.OutputData, "KeyLengthCaption", "KeyLengthTooltip", false, QuickWatchFormat.Text, "KeyLengthQuickWatchConverter")]
         public double KeyLength
         {
             get { return keyLength; }
             set { }
         }
 
-        [PropertyInfo(Direction.OutputData, "KappaCiphertextCaption", "KappaCiphertextTooltip", "", false, false, QuickWatchFormat.Text, "KappaCiphertextQuickWatchConverter")]
+        [PropertyInfo(Direction.OutputData, "KappaCiphertextCaption", "KappaCiphertextTooltip", false, QuickWatchFormat.Text, "KappaCiphertextQuickWatchConverter")]
         public double KappaCiphertext
         {
             get { return kappaCiphertext; }
             set { }
         }
 
-        [PropertyInfo(Direction.InputData, "ArrayInputCaption", "ArrayInputTooltip", "", true, false, QuickWatchFormat.None, null)]
+        [PropertyInfo(Direction.InputData, "ArrayInputCaption", "ArrayInputTooltip", true, QuickWatchFormat.None, null)]
         public int [] ArrayInput
         {
             get { return arrayInput; }

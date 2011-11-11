@@ -15,7 +15,7 @@ namespace StartCenter
     [TabColor("LightSeaGreen")]
     [EditorInfo("startcenter", false, false, false, false, true)]
     [Author("Sven Rech", "rech@cryptool.org", "Universität Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo("Startcenter.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "Startcenter/startcenter.png")]
+    [PluginInfo("Startcenter.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "Startcenter/startcenter.png")]
     public class StartcenterEditor : IEditor
     {
         private string _samplesDir;

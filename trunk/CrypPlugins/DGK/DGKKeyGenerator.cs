@@ -28,7 +28,7 @@ using System.Security.Cryptography;
 namespace Cryptool.Plugins.DGK
 {
     [Author("Armin Krauss, Martin Franz", "", "", "http://www.uni-due.de")]
-    [PluginInfo("DGK.Properties.Resources", true, "PluginKeyCaption", "PluginKeyTooltip", "PluginKeyDescriptionURL", "DGK/Image/DGKKey.png")]
+    [PluginInfo("DGK.Properties.Resources", "PluginKeyCaption", "PluginKeyTooltip", "PluginKeyDescriptionURL", "DGK/Image/DGKKey.png")]
     [ComponentCategory(ComponentCategory.CiphersModernAsymmetric)]
     /**
     <summary>
@@ -86,7 +86,7 @@ namespace Cryptool.Plugins.DGK
         /// <summary>
         /// Sets the modulus N (public key)
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "NCaption", "NTooltip", "")]
+        [PropertyInfo(Direction.OutputData, "NCaption", "NTooltip")]
         public BigInteger N
         {
             get { return n; }
@@ -100,7 +100,7 @@ namespace Cryptool.Plugins.DGK
         /// <summary>
         /// Sets the G of the public key
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "GCaption", "GTooltip", "")]
+        [PropertyInfo(Direction.OutputData, "GCaption", "GTooltip")]
         public BigInteger G
         {
             get { return g; }
@@ -114,7 +114,7 @@ namespace Cryptool.Plugins.DGK
         /// <summary>
         /// Sets the H of the public key
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "HCaption", "HTooltip", "")]
+        [PropertyInfo(Direction.OutputData, "HCaption", "HTooltip")]
         public BigInteger H
         {
             get { return h; }
@@ -128,7 +128,7 @@ namespace Cryptool.Plugins.DGK
         /// <summary>
         /// Sets the U of the public key
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "UCaption", "UTooltip", "")]
+        [PropertyInfo(Direction.OutputData, "UCaption", "UTooltip")]
         public BigInteger U
         {
             get { return u; }
@@ -142,7 +142,7 @@ namespace Cryptool.Plugins.DGK
         /// <summary>
         /// Sets the VP of the secret key
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "VPCaption", "VPTooltip", "")]
+        [PropertyInfo(Direction.OutputData, "VPCaption", "VPTooltip")]
         public BigInteger VP
         {
             get { return vp; }
@@ -155,7 +155,7 @@ namespace Cryptool.Plugins.DGK
         /// <summary>
         /// Sets the VQ of the secret key
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "VQCaption", "VQTooltip", "")]
+        [PropertyInfo(Direction.OutputData, "VQCaption", "VQTooltip")]
         public BigInteger VQ
         {
             get { return vq; }
@@ -169,7 +169,7 @@ namespace Cryptool.Plugins.DGK
         /// <summary>
         /// Sets the P of the secret key
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "PCaption", "PTooltip", "")]
+        [PropertyInfo(Direction.OutputData, "PCaption", "PTooltip")]
         public BigInteger P
         {
             get { return p; }

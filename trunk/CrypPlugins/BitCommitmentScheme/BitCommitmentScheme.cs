@@ -12,7 +12,7 @@ using ISAPCommitmentSchemeWrapper;
 namespace BitCommitmentScheme
 {
     [Author("Sven Rech and Martin Schmidt", "rech@cryptool.org", "Uni Duisburg-Essen", "http://www.vs.uni-duisburg-essen.de")]
-    [PluginInfo("BitCommitmentScheme.Properties.Resources", false, "PluginCaption", "PluginTooltip", "BitCommitmentScheme/Documentation/doc.xml", "BitCommitmentScheme/Images/icon.png")]
+    [PluginInfo("BitCommitmentScheme.Properties.Resources", "PluginCaption", "PluginTooltip", "BitCommitmentScheme/Documentation/doc.xml", "BitCommitmentScheme/Images/icon.png")]
     [ComponentCategory(ComponentCategory.Protocols)]
     public class BitCommitmentScheme : ICrypComponent
     {
@@ -25,7 +25,7 @@ namespace BitCommitmentScheme
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
         public event PluginProgressChangedEventHandler OnPluginProgressChanged;
         
-        [PropertyInfo(Direction.InputData, "InputBitCaption", "InputBitTooltip", "")]
+        [PropertyInfo(Direction.InputData, "InputBitCaption", "InputBitTooltip")]
         public bool InputBit
         {
             set
@@ -53,7 +53,7 @@ namespace BitCommitmentScheme
         }
 
         private int _dimension = 7;
-        [PropertyInfo(Direction.InputData, "DimensionCaption", "DimensionTooltip", "")]
+        [PropertyInfo(Direction.InputData, "DimensionCaption", "DimensionTooltip")]
         public int Dimension
         {
             get
@@ -68,7 +68,7 @@ namespace BitCommitmentScheme
         }
 
         private int _s = 128;
-        [PropertyInfo(Direction.InputData, "SCaption", "STooltip", "")]
+        [PropertyInfo(Direction.InputData, "SCaption", "STooltip")]
         public int S
         {
             get
@@ -83,7 +83,7 @@ namespace BitCommitmentScheme
         }
 
         private BigInteger[] _p;
-        [PropertyInfo(Direction.OutputData, "PCaption", "PTooltip", "")]
+        [PropertyInfo(Direction.OutputData, "PCaption", "PTooltip")]
         public BigInteger[] P
         {
             get
@@ -98,7 +98,7 @@ namespace BitCommitmentScheme
         }
 
         private BigInteger _q;
-        [PropertyInfo(Direction.OutputData, "QCaption", "QTooltip", "")]
+        [PropertyInfo(Direction.OutputData, "QCaption", "QTooltip")]
         public BigInteger Q
         {
             get
@@ -113,7 +113,7 @@ namespace BitCommitmentScheme
         }
 
         private double[] _alpha;
-        [PropertyInfo(Direction.OutputData, "AlphaCaption", "AlphaTooltip", "")]
+        [PropertyInfo(Direction.OutputData, "AlphaCaption", "AlphaTooltip")]
         public double[] Alpha
         {
             get
@@ -128,7 +128,7 @@ namespace BitCommitmentScheme
         }
 
         private BigInteger[] _a;
-        [PropertyInfo(Direction.OutputData, "ACaption", "ATooltip", "")]
+        [PropertyInfo(Direction.OutputData, "ACaption", "ATooltip")]
         public BigInteger[] A
         {
             get
@@ -143,7 +143,7 @@ namespace BitCommitmentScheme
         }
 
         private BigInteger[] _b;
-        [PropertyInfo(Direction.OutputData, "BCaption", "BTooltip", "")]
+        [PropertyInfo(Direction.OutputData, "BCaption", "BTooltip")]
         public BigInteger[] B
         {
             get
@@ -158,7 +158,7 @@ namespace BitCommitmentScheme
         }
 
         private double[] _eta;
-        [PropertyInfo(Direction.OutputData, "EtaCaption", "EtaTooltip", "")]
+        [PropertyInfo(Direction.OutputData, "EtaCaption", "EtaTooltip")]
         public double[] Eta
         {
             get
@@ -172,7 +172,7 @@ namespace BitCommitmentScheme
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "LogMessageCaption", "LogMessageTooltip", "")]
+        [PropertyInfo(Direction.OutputData, "LogMessageCaption", "LogMessageTooltip")]
         public String LogMessage
         {
             get

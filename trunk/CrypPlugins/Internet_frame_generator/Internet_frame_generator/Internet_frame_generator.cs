@@ -22,7 +22,7 @@ namespace Cryptool.Internet_frame_generator
         "stef.schroeder@gmx.de",
         "Uni Siegen",
         "http://www.uni-siegen.de")]
-    [PluginInfo("Internet_frame_generator.Properties.Resources", false,
+    [PluginInfo("Internet_frame_generator.Properties.Resources",
         "PluginCaption",
         "PluginTooltip",
         "PluginDescriptionURL",
@@ -36,7 +36,6 @@ namespace Cryptool.Internet_frame_generator
         private int inputInt;
         private CStreamWriter outputStream;
         private bool stop = false;
-        private Internet_frame_generator_Presentation presentation;
         private Random rnd;
         private int packetCounter;
 
@@ -47,8 +46,6 @@ namespace Cryptool.Internet_frame_generator
         [PropertyInfo(Direction.InputData,
             "InputIntCaption",
             "InputIntTooltip",
-            "",
-            false,
             false,
             QuickWatchFormat.Text,
             "InputIntQuickWatchConverter")]
@@ -65,8 +62,6 @@ namespace Cryptool.Internet_frame_generator
         [PropertyInfo(Direction.OutputData,
             "OutputStreamCaption",
             "OutputStreamTooltip",
-            "",
-            false,
             false,
             QuickWatchFormat.Hex,
             null)]
@@ -75,7 +70,7 @@ namespace Cryptool.Internet_frame_generator
             get
             {
                 return outputStream;
-                }
+            }
             set
             {
             }

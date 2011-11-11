@@ -11,7 +11,7 @@ using System.Windows.Controls;
 namespace SmartCard
 {
   [Author("Malte Gronau", null, "", "")]
-  [PluginInfo("SmartCard.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "SmartCard/Images/SmartCard.png")]
+  [PluginInfo("SmartCard.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "SmartCard/Images/SmartCard.png")]
   [ComponentCategory(ComponentCategory.Protocols)]
   public class SmartCard : ICrypComponent
   {
@@ -71,7 +71,7 @@ namespace SmartCard
 
     #region IO
 
-    [PropertyInfo(Direction.InputData, "DataInputCaption", "DataInputTooltip", "", true, false, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.InputData, "DataInputCaption", "DataInputTooltip", true, QuickWatchFormat.Text, null)]
     public String DataInput
     {
         get
@@ -91,7 +91,7 @@ namespace SmartCard
         }
     }
 
-    [PropertyInfo(Direction.OutputData, "LogStringCaption", "LogStringTooltip", "", true, false, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.OutputData, "LogStringCaption", "LogStringTooltip", true, QuickWatchFormat.Text, null)]
     public String LogString
     {
         get
@@ -105,7 +105,7 @@ namespace SmartCard
         }
     }
 
-    [PropertyInfo(Direction.OutputData, "ResponseCaption", "ResponseTooltip", "", true, false, QuickWatchFormat.Hex, null)]
+    [PropertyInfo(Direction.OutputData, "ResponseCaption", "ResponseTooltip", true, QuickWatchFormat.Hex, null)]
     public byte[] Response
     {
       get { return response; }

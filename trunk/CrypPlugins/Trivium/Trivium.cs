@@ -34,7 +34,7 @@ using Cryptool.CubeAttackController;
 namespace Cryptool.Trivium
 {
     [Author("Soeren Rinne, David Oruba & Daehyun Strobel", "soeren.rinne@cryptool.org", "Ruhr-Universitaet Bochum, Chair for Embedded Security (EmSec)", "http://www.trust.ruhr-uni-bochum.de/")]
-    [PluginInfo("Trivium.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "Trivium/icon.png", "Trivium/Images/encrypt.png", "Trivium/Images/decrypt.png")]
+    [PluginInfo("Trivium.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "Trivium/icon.png", "Trivium/Images/encrypt.png", "Trivium/Images/decrypt.png")]
     [ComponentCategory(ComponentCategory.CiphersModernSymmetric)]
     public class Trivium : ICrypComponent
     {
@@ -67,7 +67,7 @@ namespace Cryptool.Trivium
             set { this.settings = (TriviumSettings)value; }
         }
 
-        [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", "", true, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", true, QuickWatchFormat.Hex, null)]
         public string InputString
         {
             get { return this.inputString; }
@@ -78,7 +78,7 @@ namespace Cryptool.Trivium
             }
         }
 
-        [PropertyInfo(Direction.InputData, "InputKeyCaption", "InputKeyTooltip", "", true, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "InputKeyCaption", "InputKeyTooltip", true, QuickWatchFormat.Hex, null)]
         public string InputKey
         {
             get { return this.inputKey; }
@@ -89,7 +89,7 @@ namespace Cryptool.Trivium
             }
         }
 
-        [PropertyInfo(Direction.InputData, "InputIVCaption", "InputIVTooltip", "", true, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "InputIVCaption", "InputIVTooltip", true, QuickWatchFormat.Hex, null)]
         public string InputIV
         {
             get { return this.inputIV; }
@@ -100,7 +100,7 @@ namespace Cryptool.Trivium
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", "", true, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", true, QuickWatchFormat.Hex, null)]
         public string OutputString
         {
             get { return this.outputString; }
@@ -626,7 +626,7 @@ namespace Cryptool.Trivium
         #region IControl
 
         private IControlCubeAttack triviumSlave;
-        [PropertyInfo(Direction.ControlSlave, "TriviumSlaveCaption", "TriviumSlaveTooltip", "")]
+        [PropertyInfo(Direction.ControlSlave, "TriviumSlaveCaption", "TriviumSlaveTooltip")]
         public IControlCubeAttack TriviumSlave
         {
             get

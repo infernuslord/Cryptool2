@@ -9,7 +9,7 @@ using Primes.WpfVisualization;
 namespace Primes
 {
   [Author("Timo Eckhardt", "T-Eckhardt@gmx.de", "Uni Siegen", "http://www.uni-siegen.de")]
-  [PluginInfo("Primes.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "Primes/icon.png")] 
+  [PluginInfo("Primes.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "Primes/icon.png")] 
   public class PrimesPlugin:ITool
   {
     #region IPlugin Members

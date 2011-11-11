@@ -31,7 +31,7 @@ using System.Runtime.Remoting.Contexts;
 namespace Gate
 {
     [Author("Matthäus Wander", "wander@cryptool.org", "Universität Duisburg-Essen, Fachgebiet Verteilte Systeme", "http://www.vs.uni-due.de")]
-    [PluginInfo("Gate.Properties.Resources", false, "PluginCaption", "PluginTooltip", "Gate/DetailedDescription/doc.xml", "Gate/gate_closed_32.png", "Gate/gate_open_32.png")]
+    [PluginInfo("Gate.Properties.Resources", "PluginCaption", "PluginTooltip", "Gate/DetailedDescription/doc.xml", "Gate/gate_closed_32.png", "Gate/gate_open_32.png")]
     [Synchronization]
     [ComponentCategory(ComponentCategory.ToolsDataflow)]
     public class Gate : ICrypComponent
@@ -45,7 +45,7 @@ namespace Gate
         private bool freshInput = false;
         private bool freshControl = false;
 
-        [PropertyInfo(Direction.InputData, "InputObjectCaption", "InputObjectTooltip", null, true, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputObjectCaption", "InputObjectTooltip", true, QuickWatchFormat.Text, null)]
         public object InputObject
         {
             get
@@ -60,7 +60,7 @@ namespace Gate
             }
         }
 
-        [PropertyInfo(Direction.InputData, "ControlCaption", "ControlTooltip", null, false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "ControlCaption", "ControlTooltip", false, QuickWatchFormat.Text, null)]
         public bool Control
         {
             get
@@ -76,7 +76,7 @@ namespace Gate
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "OutputObjectCaption", "OutputObjectTooltip", null)]
+        [PropertyInfo(Direction.OutputData, "OutputObjectCaption", "OutputObjectTooltip")]
         public object OutputObject
         {
             get

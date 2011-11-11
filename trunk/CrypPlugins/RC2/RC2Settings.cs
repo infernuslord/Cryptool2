@@ -31,7 +31,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         private int action = 0; //0=encrypt, 1=decrypt
         private int mode = 0; //0="ECB", 1="CBC", 2="CFB", 3="OFB"
         private int padding = 0; //="Zeros"=default, 1="None", 2="PKCS7", 3="ANSIX923", 4="ISO10126"
-        private int keyLength = 128;
+        //private int keyLength = 128;
 
         [ContextMenu( "ActionCaption", "ActionTooltip",1,ContextMenuControlType.ComboBox,new int[] {1,2}, "ActionList1", "ActionList2" )]
         [TaskPane( "ActionCaption", "ActionTooltip", "", 1, false,ControlType.ComboBox, new string[] {"ActionList1", "ActionList2"})]

@@ -32,7 +32,7 @@ using System.Collections.ObjectModel;
 namespace Dictionary
 {
     [Author("Thomas Schmid, Matthäus Wander", "thomas.schmid@cryptool.org", "Uni Siegen", "http://www.uni-siegen.de")]
-    [PluginInfo("Dictionary.Properties.Resources", true, "PluginCaption", "PluginTooltip", "Dictionary/DetailedDescription/doc.xml", "Dictionary/icon.png")]
+    [PluginInfo("Dictionary.Properties.Resources", "PluginCaption", "PluginTooltip", "Dictionary/DetailedDescription/doc.xml", "Dictionary/icon.png")]
     [ComponentCategory(ComponentCategory.ToolsDataInputOutput)]
     public class CryptoolDictionary : ICrypComponent
     {        
@@ -74,7 +74,7 @@ namespace Dictionary
         }
 
         [Obsolete("Use string[] output instead")]
-        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", "", false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", false, QuickWatchFormat.Text, null)]
         public string OutputString
         {
             get
@@ -93,7 +93,7 @@ namespace Dictionary
             set { } // readonly
         }
 
-        [PropertyInfo(Direction.OutputData, "OutputListCaption", "OutputListTooltip", "", false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputListCaption", "OutputListTooltip", false, QuickWatchFormat.Text, null)]
         public string[] OutputList
         {
             get

@@ -16,7 +16,7 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace Cryptool.StreamComparator
 {
   [Author("Thomas Schmid", "thomas.schmid@cryptool.org", "Uni Siegen", "http://www.uni-siegen.de")]
-  [PluginInfo("Cryptool.StreamComparator.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "StreamComparator/icon.png", "StreamComparator/Images/equal.png", "StreamComparator/Images/unequal.png", "StreamComparator/Images/contextmenu.png")]
+  [PluginInfo("Cryptool.StreamComparator.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "StreamComparator/icon.png", "StreamComparator/Images/equal.png", "StreamComparator/Images/unequal.png", "StreamComparator/Images/contextmenu.png")]
   [ComponentCategory(ComponentCategory.ToolsMisc)]
   public class StreamComparator : ICrypComponent
   {
@@ -47,7 +47,7 @@ namespace Cryptool.StreamComparator
 
     #region Properties
 
-    [PropertyInfo(Direction.InputData, "InputOneCaption", "InputOneTooltip", "", true, false, QuickWatchFormat.None, null)]
+    [PropertyInfo(Direction.InputData, "InputOneCaption", "InputOneTooltip", true, QuickWatchFormat.None, null)]
     public ICryptoolStream InputOne
     {
       get 
@@ -57,7 +57,7 @@ namespace Cryptool.StreamComparator
       set { streamOne = value; }
     }
 
-    [PropertyInfo(Direction.InputData, "InputTwoCaption", "InputTwoTooltip", "", true, false, QuickWatchFormat.None, null)]
+    [PropertyInfo(Direction.InputData, "InputTwoCaption", "InputTwoTooltip", true, QuickWatchFormat.None, null)]
     public ICryptoolStream InputTwo
     {
       get 
@@ -68,7 +68,7 @@ namespace Cryptool.StreamComparator
     }
 
     private bool inputsAreEqual;
-    [PropertyInfo(Direction.OutputData, "InputsAreEqualCaption", "InputsAreEqualTooltip", "", false, false, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.OutputData, "InputsAreEqualCaption", "InputsAreEqualTooltip", false, QuickWatchFormat.Text, null)]
     public bool InputsAreEqual
     {
       get { return inputsAreEqual; }

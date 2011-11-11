@@ -35,7 +35,7 @@ using System.Runtime.Remoting.Contexts;
 namespace Cryptool.TextInput
 {
   [Author("Thomas Schmid", "thomas.schmid@cryptool.org", "Uni Siegen", "http://www.uni-siegen.de")]
-  [PluginInfo("Cryptool.TextInput.Properties.Resources", true, "PluginCaption", "PluginTooltip", "TextInput/Documentation/doc.xml", "TextInput/icon.png")]
+  [PluginInfo("Cryptool.TextInput.Properties.Resources", "PluginCaption", "PluginTooltip", "TextInput/Documentation/doc.xml", "TextInput/icon.png")]
   [ComponentCategory(ComponentCategory.ToolsDataInputOutput)]
   public class TextInput : DependencyObject, ICrypComponent
   {
@@ -236,7 +236,7 @@ namespace Cryptool.TextInput
 
     # region Properties
 
-    [PropertyInfo(Direction.OutputData, "TextOutputCaption", "TextOutputTooltip", "", true, false, QuickWatchFormat.None, null)]
+    [PropertyInfo(Direction.OutputData, "TextOutputCaption", "TextOutputTooltip", true, QuickWatchFormat.None, null)]
     public string TextOutput
     {
       get
@@ -271,7 +271,7 @@ namespace Cryptool.TextInput
       set { }
     }
 
-    [PropertyInfo(Direction.OutputData, "StreamOutputCaption", "StreamOutputTooltip", "", true, false, QuickWatchFormat.None, null)]
+    [PropertyInfo(Direction.OutputData, "StreamOutputCaption", "StreamOutputTooltip", true, QuickWatchFormat.None, null)]
     public ICryptoolStream StreamOutput
     {
       get
@@ -288,7 +288,7 @@ namespace Cryptool.TextInput
       set { } // readonly
     }
 
-    [PropertyInfo(Direction.OutputData, "ByteArrayOutputCaption", "ByteArrayOutputTooltip", "", true, false, QuickWatchFormat.None, null)]
+    [PropertyInfo(Direction.OutputData, "ByteArrayOutputCaption", "ByteArrayOutputTooltip", true, QuickWatchFormat.None, null)]
     public byte[] ByteArrayOutput
     {
       get
@@ -315,7 +315,7 @@ namespace Cryptool.TextInput
       set { } // readonly
     }
 
-    [PropertyInfo(Direction.OutputData, "BoolArrayOutputCaption", "BoolArrayOutputTooltip", "", true, false, QuickWatchFormat.None, null)]
+    [PropertyInfo(Direction.OutputData, "BoolArrayOutputCaption", "BoolArrayOutputTooltip", true, QuickWatchFormat.None, null)]
     public bool[] BoolArrayOutput
     {
         get

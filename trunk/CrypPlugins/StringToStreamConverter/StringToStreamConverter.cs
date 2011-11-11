@@ -31,7 +31,7 @@ namespace Cryptool.Plugins.Convertor
 {
     // Converts a given string into a stream by using different encodings.
     [Author("Dr. Arno Wacker", "arno.wacker@cryptool.org", "Uni Duisburg", "http://www.uni-duisburg-essen.de")]
-    [PluginInfo("Cryptool.Plugins.Convertor.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "StringToStreamConverter/t2s-icon.png")]
+    [PluginInfo("Cryptool.Plugins.Convertor.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "StringToStreamConverter/t2s-icon.png")]
     [ComponentCategory(ComponentCategory.ToolsMisc)]
     public class StringToStreamConverter : ICrypComponent
     {
@@ -60,7 +60,7 @@ namespace Cryptool.Plugins.Convertor
           return inputString;
         }
 
-        [PropertyInfo(Direction.OutputData, "OutputStreamCaption", "OutputStreamTooltip", "", true, false, QuickWatchFormat.Text, "OutputStreamQuickWatchConverter")]
+        [PropertyInfo(Direction.OutputData, "OutputStreamCaption", "OutputStreamTooltip", true, QuickWatchFormat.Text, "OutputStreamQuickWatchConverter")]
         public ICryptoolStream OutputStream
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
@@ -76,7 +76,7 @@ namespace Cryptool.Plugins.Convertor
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "OutputBytesCaption", "OutputBytesTooltip", "", true, false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "OutputBytesCaption", "OutputBytesTooltip", true, QuickWatchFormat.Hex, null)]
         public byte[] OutputBytes
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
@@ -92,7 +92,7 @@ namespace Cryptool.Plugins.Convertor
             }
         }
 
-        [PropertyInfo(Direction.InputData, "InputTextCaption", "InputTextTooltip", "", true, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputTextCaption", "InputTextTooltip", true, QuickWatchFormat.Text, null)]
         public string InputText
         {
             get { return this.inputString;  }

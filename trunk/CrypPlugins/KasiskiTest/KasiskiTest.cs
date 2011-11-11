@@ -12,7 +12,7 @@ using System.Windows.Controls;
 namespace Cryptool.KasiskiTest
 {
     [Author("Georgi Angelov & Danail Vazov", "vazov@cryptool.org", "Uni Duisburg", "http://www.uni-duisburg-essen.de")]
-    [PluginInfo("KasiskiTest.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "KasiskiTest/icon.png")]
+    [PluginInfo("KasiskiTest.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "KasiskiTest/icon.png")]
     [ComponentCategory(ComponentCategory.CryptanalysisGeneric)]
     public class KasiskiTest : ICrypComponent
     {
@@ -24,7 +24,7 @@ namespace Cryptool.KasiskiTest
         public static DataSource Data = new DataSource();
         #region Properties (Inputs/Outputs)
 
-        [PropertyInfo(Direction.InputData, "StringInputCaption", "StringInputTooltip", "", true, true, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "StringInputCaption", "StringInputTooltip", true, QuickWatchFormat.Text, null)]
         public string StringInput
         {
             get
@@ -34,7 +34,7 @@ namespace Cryptool.KasiskiTest
             set { stringInput = value; OnPropertyChanged("StringInput"); }
         }
        
-        [PropertyInfo(Direction.OutputData, "IntegerArrayCaption", "IntegerArrayTooltip", "",true , true, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "IntegerArrayCaption", "IntegerArrayTooltip", true, QuickWatchFormat.Text, null)]
         public int [] IntegerArray
         {
         get { return integerArray; }
@@ -49,7 +49,7 @@ namespace Cryptool.KasiskiTest
     }
      
     
-        [PropertyInfo(Direction.OutputData, "StringOutputCaption", "StringOutputTooltip", "", true, true, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "StringOutputCaption", "StringOutputTooltip", true, QuickWatchFormat.Text, null)]
         public string StringOutput
         {
             get

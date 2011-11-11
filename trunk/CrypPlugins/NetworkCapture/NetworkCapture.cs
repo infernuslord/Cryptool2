@@ -24,7 +24,7 @@ using SharpPcap.WinPcap;
 namespace Cryptool.Plugins.NetworkCapture
 {
     [Author("Matthäus Wander", "wander@cryptool.org", "University of Duisburg-Essen", "http://www.vs.uni-due.de")]
-    [PluginInfo("NetworkCapture.Properties.Resources", true, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "NetworkCapture/Images/nc.png")]
+    [PluginInfo("NetworkCapture.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "NetworkCapture/Images/nc.png")]
     [ComponentCategory(ComponentCategory.ToolsDataInputOutput)]
     public class NetworkCapture : ICrypComponent
     {
@@ -43,7 +43,7 @@ namespace Cryptool.Plugins.NetworkCapture
         /// Throws OnPropertyChanged one time and then continously delivers a stream of data.
         /// Stream will close when plugin is stopped.
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "DataStreamCaption", "DataStreamTooltip", null)]
+        [PropertyInfo(Direction.OutputData, "DataStreamCaption", "DataStreamTooltip")]
         public ICryptoolStream DataStream
         {
             get;
@@ -53,7 +53,7 @@ namespace Cryptool.Plugins.NetworkCapture
         /// <summary>
         /// Throws OnPropertyChanged every time a new packet arrives.
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "DataPacketCaption", "DataPacketTooltip", null)]
+        [PropertyInfo(Direction.OutputData, "DataPacketCaption", "DataPacketTooltip")]
         public byte[] DataPacket
         {
             get;

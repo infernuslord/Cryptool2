@@ -30,7 +30,7 @@ using System.Runtime.CompilerServices;
 namespace Cryptool.Plugins.Convertor
 {
     [Author("Dr. Arno Wacker", "arno.wacker@cryptool.org", "Uni Duisburg", "http://www.uni-duisburg-essen.de")]
-    [PluginInfo("Cryptool.Plugins.Convertor.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "StreamToStringConverter/s2t-icon.png")]
+    [PluginInfo("Cryptool.Plugins.Convertor.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "StreamToStringConverter/s2t-icon.png")]
     [ComponentCategory(ComponentCategory.ToolsMisc)]
     public class StreamToStringConverter : ICrypComponent
     {
@@ -54,7 +54,7 @@ namespace Cryptool.Plugins.Convertor
             set { this.settings = (StreamToStringConverterSettings)value; }
         }
 
-        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", "", true, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", true, QuickWatchFormat.Text, null)]
         public string OutputString
         {
             get { return this.outputString; }
@@ -70,7 +70,7 @@ namespace Cryptool.Plugins.Convertor
             return outputString;
         }
 
-        [PropertyInfo(Direction.InputData, "InputStreamCaption", "InputStreamTooltip", "", true, false, QuickWatchFormat.Text, "InputStreamQuickWatchConverter")]
+        [PropertyInfo(Direction.InputData, "InputStreamCaption", "InputStreamTooltip", true, QuickWatchFormat.Text, "InputStreamQuickWatchConverter")]
         public ICryptoolStream InputStream
         {
             get

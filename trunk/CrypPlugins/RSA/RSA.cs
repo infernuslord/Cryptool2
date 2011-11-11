@@ -30,7 +30,7 @@ using RSA.Properties;
 namespace Cryptool.Plugins.RSA
 {
     [Author("Dennis Nolte, Raoul Falk, Sven Rech, Nils Kopal", null, "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo("RSA.Properties.Resources", false, "PluginCaption", "PluginTooltip", "RSA/DetailedDescription/doc.xml", "RSA/iconrsa.png", "RSA/Images/encrypt.png", "RSA/Images/decrypt.png")]
+    [PluginInfo("RSA.Properties.Resources", "PluginCaption", "PluginTooltip", "RSA/DetailedDescription/doc.xml", "RSA/iconrsa.png", "RSA/Images/encrypt.png", "RSA/Images/decrypt.png")]
     [ComponentCategory(ComponentCategory.CiphersModernAsymmetric)]
      //<summary>
      //This plugin does a RSA encryption/decryption on a Message M / Ciphertext C
@@ -244,7 +244,7 @@ namespace Cryptool.Plugins.RSA
         /// <summary>
         /// Gets/Sets the one part of the public/private key called N
         /// </summary>
-        [PropertyInfo(Direction.InputData, "InputNCaption", "InputNTooltip", "")]
+        [PropertyInfo(Direction.InputData, "InputNCaption", "InputNTooltip")]
         public BigInteger InputN
         {
             get
@@ -261,7 +261,7 @@ namespace Cryptool.Plugins.RSA
         /// <summary>
         /// Gets/Sets a input message/ciphertext as BigInteger called M / C
         /// </summary>
-        [PropertyInfo(Direction.InputData, "InputMCCaption", "InputMCTooltip", "")]
+        [PropertyInfo(Direction.InputData, "InputMCCaption", "InputMCTooltip")]
         public BigInteger InputMC
         {
             get
@@ -278,7 +278,7 @@ namespace Cryptool.Plugins.RSA
         /// <summary>
         /// Gets/Sets the one part of the public/private key called E / D
         /// </summary>
-        [PropertyInfo(Direction.InputData, "InputEDCaption", "InputEDTooltip", "")]
+        [PropertyInfo(Direction.InputData, "InputEDCaption", "InputEDTooltip")]
         public BigInteger InputED
         {
             get
@@ -295,7 +295,7 @@ namespace Cryptool.Plugins.RSA
         /// <summary>
         /// Gets/Sets a output message/ciphertext as BigInteger called C / M
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "OutputMCCaption", "OutputMCTooltip", "")]
+        [PropertyInfo(Direction.OutputData, "OutputMCCaption", "OutputMCTooltip")]
         public BigInteger OutputMC
         {
             get
@@ -312,7 +312,7 @@ namespace Cryptool.Plugins.RSA
         /// <summary>
         /// Gets/Sets a text input for encryption/decryption
         /// </summary>
-        [PropertyInfo(Direction.InputData, "InputTextCaption", "InputTextTooltip", "")]
+        [PropertyInfo(Direction.InputData, "InputTextCaption", "InputTextTooltip")]
         public byte[] InputText
         {
             get
@@ -330,7 +330,7 @@ namespace Cryptool.Plugins.RSA
         /// <summary>
         /// Gets/Sets a text output for encrypted/decrypted data
         /// </summary>       
-        [PropertyInfo(Direction.OutputData, "OutputTextCaption", "OutputTextTooltip", "")]
+        [PropertyInfo(Direction.OutputData, "OutputTextCaption", "OutputTextTooltip")]
         public byte[] OutputText
         {
             get
