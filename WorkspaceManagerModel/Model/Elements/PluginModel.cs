@@ -17,7 +17,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Windows;
 using System.Windows.Threading;
 using Cryptool.PluginBase;
 using System.Threading;
@@ -255,57 +254,7 @@ namespace WorkspaceManager.Model
                         OutputConnectors.Add(connectorModel);
                         WorkspaceModel.AllConnectorModels.Add(connectorModel);
                     }
-                }
-
-                Dictionary<string, DynamicProperty> dictionary = Plugin.GetDynamicPropertyList();
-                if (dictionary != null)
-                {
-                    DynamicPropertyInfoAttribute dynamicPropertyInfoAttribute = Plugin.GetDynamicPropertyInfo();
-                    foreach (DynamicProperty dynamicProperty in dictionary.Values)
-                    {
-
-                        if (dynamicProperty.PInfo.Direction.Equals(Direction.InputData))
-                        {
-                            ConnectorModel connectorModel = new ConnectorModel();
-                            connectorModel.Caption = dynamicProperty.Name;
-                            connectorModel.ConnectorType = dynamicProperty.Type;
-                            connectorModel.WorkspaceModel = WorkspaceModel;
-                            connectorModel.PluginModel = this;
-                            connectorModel.IsMandatory = dynamicProperty.PInfo.Mandatory;
-                            connectorModel.PropertyName = dynamicProperty.Name;
-                            connectorModel.Name = dynamicProperty.Name;
-                            connectorModel.ToolTip = dynamicProperty.PInfo.ToolTip;
-                            EventInfo eventinfo = Plugin.GetType().GetEvent(dynamicPropertyInfoAttribute.UpdateDynamicPropertiesEvent);
-                            connectorModel.IsDynamic = true;
-                            connectorModel.DynamicGetterName = dynamicPropertyInfoAttribute.MethodGetValue;
-                            connectorModel.DynamicSetterName = dynamicPropertyInfoAttribute.MethodSetValue;
-                            connectorModel.PluginModel.Plugin.PropertyChanged += connectorModel.PropertyChangedOnPlugin;
-                            eventinfo.AddEventHandler(Plugin, new DynamicPropertiesChanged(connectorModel.PropertyTypeChangedOnPlugin));
-                            InputConnectors.Add(connectorModel);
-                            WorkspaceModel.AllConnectorModels.Add(connectorModel);
-                        }
-                        else if (dynamicProperty.PInfo.Direction.Equals(Direction.OutputData))
-                        {
-                            ConnectorModel connectorModel = new ConnectorModel();
-                            connectorModel.ConnectorType = dynamicProperty.Type;
-                            connectorModel.WorkspaceModel = WorkspaceModel;
-                            connectorModel.PluginModel = this;
-                            connectorModel.IsMandatory = dynamicProperty.PInfo.Mandatory;
-                            connectorModel.PropertyName = dynamicProperty.Name;
-                            connectorModel.Name = dynamicProperty.Name;
-                            connectorModel.ToolTip = dynamicProperty.PInfo.ToolTip;
-                            EventInfo eventinfo = Plugin.GetType().GetEvent(dynamicPropertyInfoAttribute.UpdateDynamicPropertiesEvent);
-                            eventinfo.AddEventHandler(Plugin, new DynamicPropertiesChanged(connectorModel.PropertyTypeChangedOnPlugin));
-                            connectorModel.IsDynamic = true;
-                            connectorModel.DynamicGetterName = dynamicPropertyInfoAttribute.MethodGetValue;
-                            connectorModel.DynamicSetterName = dynamicPropertyInfoAttribute.MethodSetValue;
-                            connectorModel.PluginModel.Plugin.PropertyChanged += connectorModel.PropertyChangedOnPlugin;
-                            connectorModel.Outgoing = true;
-                            OutputConnectors.Add(connectorModel);
-                            WorkspaceModel.AllConnectorModels.Add(connectorModel);
-                        }
-                    }
-                }
+                }                
             }
         }
         /// <summary>
@@ -568,27 +517,13 @@ namespace WorkspaceManager.Model
                                 data = encoding.GetBytes((string)data);
                             }
                             
-                            //now set the data
-                            if (connectorModel.IsDynamic)
+                            //now set the data                           
+                            if (connectorModel.property == null)
                             {
-
-                                if (connectorModel.method == null)
-                                {
-                                    connectorModel.method =
-                                        Plugin.GetType().GetMethod(connectorModel.DynamicSetterName);
-                                }
-                                connectorModel.method.Invoke(Plugin,
-                                                                new object[] { connectorModel.PropertyName, data });
+                                connectorModel.property =
+                                    Plugin.GetType().GetProperty(connectorModel.PropertyName);
                             }
-                            else
-                            {
-                                if (connectorModel.property == null)
-                                {
-                                    connectorModel.property =
-                                        Plugin.GetType().GetProperty(connectorModel.PropertyName);
-                                }
-                                connectorModel.property.SetValue(Plugin, data, null);
-                            }                            
+                            connectorModel.property.SetValue(Plugin, data, null);                                                     
                         }
                         catch (Exception ex)
                         {

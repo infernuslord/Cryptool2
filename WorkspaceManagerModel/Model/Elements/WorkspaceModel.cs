@@ -17,13 +17,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Windows;
 using Cryptool.PluginBase;
 using System.Reflection;
 using System.Collections.ObjectModel;
-using System.Windows.Threading;
-using System.Threading;
 using WorkspaceManager.Execution;
 using WorkspaceManager.Model.Tools;
 using Cryptool.PluginBase.Editor;
@@ -245,27 +242,13 @@ namespace WorkspaceManager.Model
             if (from.IControl && to.IControl)
             {
                 object data = null;
-                //Get IControl data from "to"
-                if (to.IsDynamic)
-                {
-                    data = to.PluginModel.Plugin.GetType().GetMethod(to.DynamicGetterName).Invoke(to.PluginModel.Plugin, new object[] { to.PropertyName });
-                }
-                else
-                {
-                    data = to.PluginModel.Plugin.GetType().GetProperty(to.PropertyName).GetValue(to.PluginModel.Plugin, null);
-                }
+                //Get IControl data from "to"                
+                data = to.PluginModel.Plugin.GetType().GetProperty(to.PropertyName).GetValue(to.PluginModel.Plugin, null);
 
-                //Set IControl data
-                if (from.IsDynamic)
-                {
-                    MethodInfo propertyInfo = from.PluginModel.Plugin.GetType().GetMethod(from.DynamicSetterName);
-                    propertyInfo.Invoke(from.PluginModel.Plugin, new object[] { from.PropertyName, data });
-                }
-                else
-                {
-                    PropertyInfo propertyInfo = from.PluginModel.Plugin.GetType().GetProperty(from.PropertyName);
-                    propertyInfo.SetValue(from.PluginModel.Plugin, data, null);
-                }
+                //Set IControl data                
+                PropertyInfo propertyInfo = from.PluginModel.Plugin.GetType().GetProperty(from.PropertyName);
+                propertyInfo.SetValue(from.PluginModel.Plugin, data, null);
+              
             }
 
             this.AllConnectionModels.Add(connectionModel);
@@ -292,26 +275,12 @@ namespace WorkspaceManager.Model
             {
                 object data = null;
                 //Get IControl data from "to"
-                if (to.IsDynamic)
-                {
-                    data = to.PluginModel.Plugin.GetType().GetMethod(to.DynamicGetterName).Invoke(to.PluginModel.Plugin, new object[] { to.PropertyName });
-                }
-                else
-                {
-                    data = to.PluginModel.Plugin.GetType().GetProperty(to.PropertyName).GetValue(to.PluginModel.Plugin, null);
-                }
-
+                data = to.PluginModel.Plugin.GetType().GetProperty(to.PropertyName).GetValue(to.PluginModel.Plugin, null);
+                
                 //Set IControl data
-                if (from.IsDynamic)
-                {
-                    MethodInfo propertyInfo = from.PluginModel.Plugin.GetType().GetMethod(from.DynamicSetterName);
-                    propertyInfo.Invoke(from.PluginModel.Plugin, new object[] { from.PropertyName, data });
-                }
-                else
-                {
-                    PropertyInfo propertyInfo = from.PluginModel.Plugin.GetType().GetProperty(from.PropertyName);
-                    propertyInfo.SetValue(from.PluginModel.Plugin, data, null);
-                }
+                PropertyInfo propertyInfo = from.PluginModel.Plugin.GetType().GetProperty(from.PropertyName);
+                propertyInfo.SetValue(from.PluginModel.Plugin, data, null);
+                
             }
 
             this.AllConnectionModels.Add(connectionModel);

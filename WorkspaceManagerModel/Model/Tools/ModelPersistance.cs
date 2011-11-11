@@ -17,14 +17,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.IO;
-using System.Xml.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Reflection;
 using Cryptool.PluginBase;
-using XMLSerialization;
-using Cryptool.PluginBase.Editor;
 
 namespace WorkspaceManager.Model
 {
@@ -115,7 +109,7 @@ namespace WorkspaceManager.Model
                 IEnumerable<ConnectorModel> connectorModels = (new List<ConnectorModel>(pluginModel.OutputConnectors)).Concat(pluginModel.InputConnectors);
                 foreach (ConnectorModel connectorModel in connectorModels)
                 {
-                    if (!connectorModel.IsDynamic && connectorModel.PluginModel.Plugin.GetType().GetProperty(connectorModel.PropertyName) == null)
+                    if (connectorModel.PluginModel.Plugin.GetType().GetProperty(connectorModel.PropertyName) == null)
                     {
                         //A connector does not exist, so we reset all connectors of this pluginmodel
                         refreshConnectorModels = true;
@@ -180,18 +174,7 @@ namespace WorkspaceManager.Model
                         connectorModel.Caption = property.Caption;
                         break;
                     }
-                }
-
-                // TODO: dynamic properties are being removed, see #402
-                connectorModel.IsDynamic = false;
-
-                //connect all listeners for connectors
-                if (connectorModel.IsDynamic == true)
-                {
-                    DynamicPropertyInfoAttribute dynamicPropertyInfoAttribute = connectorModel.PluginModel.Plugin.GetDynamicPropertyInfo();
-                    EventInfo eventinfo = connectorModel.PluginModel.PluginType.GetEvent(dynamicPropertyInfoAttribute.UpdateDynamicPropertiesEvent);
-                    eventinfo.AddEventHandler(connectorModel.PluginModel.Plugin, new DynamicPropertiesChanged(connectorModel.PropertyTypeChangedOnPlugin));
-                }
+                }           
                 connectorModel.PluginModel.Plugin.PropertyChanged += connectorModel.PropertyChangedOnPlugin;
             }
 
@@ -205,33 +188,14 @@ namespace WorkspaceManager.Model
                     if (from.IControl && to.IControl)
                     {
                         object data = null;
-                        //Get IControl data from "to"
-                        if (to.IsDynamic)
-                        {
-                            data =
-                                to.PluginModel.Plugin.GetType().GetMethod(to.DynamicGetterName).Invoke(
-                                    to.PluginModel.Plugin, new object[] {to.PropertyName});
-                        }
-                        else
-                        {
-                            data =
-                                to.PluginModel.Plugin.GetType().GetProperty(to.PropertyName).GetValue(
-                                    to.PluginModel.Plugin, null);
-                        }
+                        //Get IControl data from "to"                       
+                        data = to.PluginModel.Plugin.GetType().GetProperty(to.PropertyName).GetValue(to.PluginModel.Plugin, null);                                                
+                        PropertyInfo propertyInfo = from.PluginModel.Plugin.GetType().GetProperty(from.PropertyName);
+                        propertyInfo.SetValue(from.PluginModel.Plugin, data, null);
 
-                        //Set IControl data
-                        if (from.IsDynamic)
-                        {
-                            MethodInfo propertyInfo = from.PluginModel.Plugin.GetType().GetMethod(from.DynamicSetterName);
-                            propertyInfo.Invoke(from.PluginModel.Plugin, new object[] {from.PropertyName, data});
-                        }
-                        else
-                        {
-                            PropertyInfo propertyInfo = from.PluginModel.Plugin.GetType().GetProperty(from.PropertyName);
-                            propertyInfo.SetValue(from.PluginModel.Plugin, data, null);
-                        }
                     }
-                }catch(Exception ex)
+                }
+                catch(Exception ex)
                 {
                     throw new Exception("Error while restoring IControl Connection between \"" + from.PluginModel.Name + "\" to \"" + to.PluginModel.Name + "\". Workspace surely will not work well.",ex);
                 }
