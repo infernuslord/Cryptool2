@@ -18,11 +18,9 @@ namespace PKCS1
     public class PKCS1Plugin : ITool
     {
         private Pkcs1Control m_Pkcs1Plugin = null;
-        private PKCS1Settings settings;
 
         public PKCS1Plugin()
         {
-            this.settings = new PKCS1Settings();
             GuiLogMsgHandOff.getInstance().OnGuiLogMsgSend += GuiLogMessage; // bei weiterleitung registrieren
         }
 
@@ -49,9 +47,8 @@ namespace PKCS1
 
         public void Dispose()
         {
-            //throw new NotImplementedException();
-            //TODO: dispose von erstelltem UserControl aufrufen!?
-            if (m_Pkcs1Plugin == null) m_Pkcs1Plugin.Dispose();
+            if (m_Pkcs1Plugin != null)
+                m_Pkcs1Plugin.Dispose();
         }
 
         public void Execute()
@@ -90,8 +87,7 @@ namespace PKCS1
 
         public ISettings Settings
         {
-            get { return this.settings; }
-            set { this.settings = (PKCS1Settings)value; }
+            get { return null; }
         }
 
         #endregion
