@@ -114,7 +114,7 @@ namespace WorkspaceManager.Execution
 
                 foreach (var pluginModel in workspaceModel.AllPluginModels)
                 {
-                    if (pluginModel.Startable)
+                    if (pluginModel.InputConnectors.Count == 0)
                     {
                         pluginModel.resetEvent.Set();
                     }
