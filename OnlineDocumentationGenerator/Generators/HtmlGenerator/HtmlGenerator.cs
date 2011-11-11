@@ -173,8 +173,8 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
             }
         }
 
-        private static readonly Dictionary<string, string> _languagePresentationString = new Dictionary<string, string>() {{"en", "English"}, {"de-DE", "Deutsch"}};
-        private static readonly Dictionary<string, string> _languagePresentationIcon = new Dictionary<string, string>() { { "en", "en.png" }, { "de-DE", "de.png" } };
+        private static readonly Dictionary<string, string> _languagePresentationString = new Dictionary<string, string>() {{"en", "English"}, {"de", "Deutsch"}};
+        private static readonly Dictionary<string, string> _languagePresentationIcon = new Dictionary<string, string>() { { "en", "en.png" }, { "de", "de.png" } };
 
         private static string GenerateLanguageSelectionCode(Type type, IEnumerable<string> availableLanguages, string lang)
         {
