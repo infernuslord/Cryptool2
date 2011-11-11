@@ -52,13 +52,6 @@ namespace WorkspaceManager.Model
         #region public members
 
         /// <summary>
-        /// The method to get/set the value of the input/output represented by this connectorModel
-        /// This is needed, if we have a dynamic input/output
-        /// </summary>
-        [NonSerialized]
-        internal MethodInfo method = null;
-
-        /// <summary>
         /// The property of the plugin behind this connectorModel
         /// </summary>      
         [NonSerialized]
@@ -192,34 +185,7 @@ namespace WorkspaceManager.Model
             get;
             internal set;
         }
-
-        /// <summary>
-        /// Is this a dynamic connector?
-        /// </summary>
-        public bool IsDynamic
-        {
-            get;
-            internal set;
-        }
-
-        /// <summary>
-        /// DynamicGetterName
-        /// </summary>
-        public string DynamicGetterName
-        {
-            get;
-            internal set;
-        }
-
-        /// <summary>
-        /// DynamicSetterName
-        /// </summary>
-        public string DynamicSetterName
-        {
-            get;
-            internal set;
-        }
-
+       
         /// <summary>
         /// Data of this Connector
         /// </summary>
