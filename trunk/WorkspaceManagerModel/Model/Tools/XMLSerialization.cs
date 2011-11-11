@@ -430,7 +430,7 @@ namespace XMLSerialization
                 XmlNode type = objct.ChildNodes[0];
                 XmlNode id = objct.ChildNodes[1];
                 XmlNode members = objct.ChildNodes[2];
-                
+
                 object newObject = null;
                 try
                 {
@@ -452,7 +452,7 @@ namespace XMLSerialization
                     XmlNode membername = member.ChildNodes[0];
                     XmlNode membertype = member.ChildNodes[1];
                     XmlNode value = member.ChildNodes[2];
-
+                    
                     object newmember;
 
                     try
