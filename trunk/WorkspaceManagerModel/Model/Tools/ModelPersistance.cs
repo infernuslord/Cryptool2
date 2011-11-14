@@ -42,7 +42,6 @@ namespace WorkspaceManager.Model
             {
                 if (persistantPlugin.PluginModel.Plugin.Settings == null)
                     continue; // do not attempt deserialization if plugin type has no settings
-                    
 
                 foreach (PersistantSetting persistantSetting in persistantPlugin.PersistantSettingsList)
                 {

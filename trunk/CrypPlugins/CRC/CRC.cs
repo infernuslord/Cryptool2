@@ -64,7 +64,6 @@ namespace Cryptool.CRC
 
         const int BUFSIZE = 1024;
 
-        private ISettings settings = new CRCSettings();
         private CStreamWriter outputStreamWriter;
 
         private uint[] table;
@@ -75,8 +74,7 @@ namespace Cryptool.CRC
 
         public ISettings Settings
         {
-            get { return settings; }
-            set { settings = value; }
+            get { return null; }
         }
 
         [PropertyInfo(Direction.InputData, "InputStreamCaption", "InputStreamTooltip", true, QuickWatchFormat.Hex, null)]

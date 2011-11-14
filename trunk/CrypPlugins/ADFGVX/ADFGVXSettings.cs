@@ -70,18 +70,9 @@ namespace Cryptool.ADFGVX
 
         #endregion
 
-        #region Private variables
-
-        private ActionEnum selectedAction = ActionEnum.Encrypt;
-        private CipherTypeEnum cipherType = CipherTypeEnum.ADFGVX;
-        private string substitutionPass = string.Empty;
-
-        private string transpositionPass = string.Empty;
-        private Random random = new Random();
-        
-        #endregion
-
         #region private methods
+
+        private Random random = new Random();
 
         // with given alphabet
         private string createRandomPassword()
@@ -101,7 +92,7 @@ namespace Cryptool.ADFGVX
 
         private void rebuildSubstitutionMatrix()
         {
-            string value = this.substitutionPass.ToUpperInvariant();
+            string value = SubstitutionPass.ToUpperInvariant();
 
             StringBuilder sb = new StringBuilder();
             HashSet<char> seen = new HashSet<char>();
@@ -123,14 +114,13 @@ namespace Cryptool.ADFGVX
                     sb.Append(c);
             }
 
-            this.SubstitutionMatrix = sb.ToString();
+            SubstitutionMatrix = sb.ToString();
             Debug.Assert(sb.Length == Alphabet.Length, "Matrix length != Alphabet length");
-            OnPropertyChanged("SubstitutionMatrix");
         }
 
         private void rebuildTranspositionCleanPassword()
         {
-            string value = this.transpositionPass.ToUpperInvariant();
+            string value = TranspositionPass.ToUpperInvariant();
 
             // remove characters not part of alphabet
             List<char> cleanPassword = new List<char>();
@@ -165,7 +155,6 @@ namespace Cryptool.ADFGVX
                 }
             }
             this.CleanTranspositionPass = keyWord.ToString();
-            OnPropertyChanged("CleanTranspositionPass");
         }
 
         private void updateAlphabet()
@@ -190,6 +179,8 @@ namespace Cryptool.ADFGVX
 
         #region Algorithm settings properties (visible in the Settings pane)
 
+        private ActionEnum selectedAction = ActionEnum.Encrypt;
+
         [ContextMenu("ActionCaption", "ActionTooltip", 1, ContextMenuControlType.ComboBox, new int[] { 1, 2 }, "ActionList1", "ActionList2")]
         [TaskPane("ActionCaption", "ActionTooltip", null, 1, false, ControlType.ComboBox, new string[] { "ActionList1", "ActionList2" })]
         public ActionEnum Action
@@ -204,9 +195,12 @@ namespace Cryptool.ADFGVX
                 {
                     HasChanges = true;
                     this.selectedAction = value;
+                    OnPropertyChanged("Action");
                 }
             }
         }
+
+        private CipherTypeEnum cipherType = CipherTypeEnum.ADFGVX;
 
         [TaskPane("CipherVariantCaption", "CipherVariantTooltip", null, 2, false, ControlType.ComboBox, new string[] { "ADFGX", "ADFGVX" })]
         public CipherTypeEnum CipherType
@@ -218,11 +212,14 @@ namespace Cryptool.ADFGVX
                 {
                     HasChanges = true;
                     this.cipherType = value;
+                    OnPropertyChanged("CipherType");
 
                     updateAlphabet();
                 }
             }
         }
+
+        private string substitutionPass = string.Empty;
 
         [TaskPane("SubstitutionPassCaption", "SubstitutionPassTooltip", null, 3, false, ControlType.TextBox)]
         public string SubstitutionPass
@@ -234,26 +231,35 @@ namespace Cryptool.ADFGVX
                 {
                     HasChanges = true;
                     this.substitutionPass = value;
+                    OnPropertyChanged("SubstitutionPass");
+
                     rebuildSubstitutionMatrix();
                 }
             }
         }
 
+        private string substitutionMatrix = string.Empty;
+
         [TaskPane("SubstitutionMatrixCaption", "SubstitutionMatrixTooltip", null, 4, false, ControlType.TextBoxReadOnly)]
         public string SubstitutionMatrix
         {
-            get;
-            set;
+            get { return substitutionMatrix; }
+            set
+            {
+                if (value != substitutionMatrix)
+                {
+                    HasChanges = true;
+                    this.substitutionMatrix = value;
+                    OnPropertyChanged("SubstitutionMatrix");    
+                }
+            }
         }
 
         [TaskPane("StandardMatrixCaption", "StandardMatrixTooltip", null, 5, false, ControlType.Button)]
         public void ResetKeyButton()
         {
-            TranspositionPass = string.Empty;
             SubstitutionPass = string.Empty;
-
-            OnPropertyChanged("SubstitutionPass");
-            OnPropertyChanged("TranspositionPass");
+            TranspositionPass = string.Empty;
         }
 
         [TaskPane("RandomMatrixCaption", "RandomMatrixTooltip", null, 6, false, ControlType.Button)]
@@ -261,10 +267,9 @@ namespace Cryptool.ADFGVX
         {
             SubstitutionPass = createRandomPassword();
             TranspositionPass = createRandomPassword();
-
-            OnPropertyChanged("SubstitutionPass");
-            OnPropertyChanged("TranspositionPass");
         }
+
+        private string transpositionPass = string.Empty;
 
         [TaskPane("TranspositionPassCaption", "TranspositionPassTooltip", null, 7, false, ControlType.TextBox)]
         public string TranspositionPass
@@ -276,7 +281,26 @@ namespace Cryptool.ADFGVX
                 {
                     HasChanges = true;
                     this.transpositionPass = value;
+                    OnPropertyChanged("TranspositionPass");
+
                     rebuildTranspositionCleanPassword();
+                }
+            }
+        }
+
+        private string cleanTranspositionPass = string.Empty;
+
+        [TaskPane("CleanTranspositionPassCaption", "CleanTranspositionPassTooltip", null, 8, false, ControlType.TextBoxReadOnly)]
+        public string CleanTranspositionPass
+        {
+            get { return cleanTranspositionPass; }
+            set
+            {
+                if (value != cleanTranspositionPass)
+                {
+                    HasChanges = true;
+                    cleanTranspositionPass = value;
+                    OnPropertyChanged("CleanTranspositionPass");
                 }
             }
         }
@@ -284,19 +308,9 @@ namespace Cryptool.ADFGVX
         // Not a user setting, but used by ADFGVX processing
         public int[] KeyColumnOrder
         {
-            get; set;
-        }
-
-        [TaskPane("CleanTranspositionPassCaption", "CleanTranspositionPassTooltip", null, 8, false, ControlType.TextBoxReadOnly)]
-        public string CleanTranspositionPass
-        {
             get;
             set;
         }
-
-        #endregion
-
-        #region INotifyPropertyChanged Members
 
         public event PropertyChangedEventHandler PropertyChanged;
 
