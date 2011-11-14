@@ -195,12 +195,6 @@ namespace Cryptool.ADFGVX
         {
         }
 
-        public bool HasChanges
-        {
-            get { return settings.HasChanges; }
-            set { settings.HasChanges = value; }
-        }
-
         public void Execute()
         {
             switch (settings.Action)
