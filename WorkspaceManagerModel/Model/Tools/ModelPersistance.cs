@@ -40,6 +40,10 @@ namespace WorkspaceManager.Model
             //restore all settings of each plugin
             foreach (PersistantPlugin persistantPlugin in persistantModel.PersistantPluginList)
             {
+                if (persistantPlugin.PluginModel.Plugin.Settings == null)
+                    continue; // do not attempt deserialization if plugin type has no settings
+                    
+
                 foreach (PersistantSetting persistantSetting in persistantPlugin.PersistantSettingsList)
                 {
 
