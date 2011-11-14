@@ -53,6 +53,9 @@ namespace Startcenter
 
             foreach (var rfile in recentFiles)
             {
+                if (!File.Exists(rfile))
+                    continue; // ignore non-existing files
+
                 var file = new FileInfo(rfile);
                 var fileExt = file.Extension.ToLower().Substring(1);
                 if (ComponentInformations.EditorExtension != null && ComponentInformations.EditorExtension.ContainsKey(fileExt))
