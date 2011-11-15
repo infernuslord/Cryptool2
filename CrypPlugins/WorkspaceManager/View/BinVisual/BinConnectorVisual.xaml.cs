@@ -18,6 +18,7 @@ using WorkspaceManagerModel.Model.Interfaces;
 using System.Globalization;
 using WorkspaceManager.View.Base;
 using Cryptool.PluginBase;
+using WorkspaceManagerModel.Model.Tools;
 
 namespace WorkspaceManager.View.BinVisual
 {
@@ -52,26 +53,10 @@ namespace WorkspaceManager.View.BinVisual
         {
             get
             {
-                if (Model == null)
+                if (Model == null || Model.LastData == null)
                     return Properties.Resources.No_data;
 
-                if (Model.LastData == null)
-                    return Properties.Resources.No_data;
-
-                if (Model.LastData is byte[])
-                {
-                    switch (Model.GetQuickWatchFormat())
-                    {
-                        case QuickWatchFormat.Text:
-                            var enc = new UTF8Encoding();
-                            return enc.GetString((byte[]) Model.LastData);
-                        case QuickWatchFormat.Base64:
-                            return Convert.ToBase64String((byte[])Model.LastData);                        
-                        default: //and hex
-                            return BitConverter.ToString((byte[])Model.LastData);
-                    }
-                }                
-                return Model.LastData.ToString();
+                return ViewHelper.GetDataPresentationString(Model.LastData);
             }
         }
         #endregion
