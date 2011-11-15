@@ -7,7 +7,7 @@
   <name lang="en" >Hash Functions</name>
   <name lang="de" >Hash-Funktionen</name>
   <description lang="en" >Selecting this allows you to get the hash of some data. You can choose which hash algorithm you want to use.</description>
-  <description lang="de" >Indem Sie dies wählen, können Sie den Hashwert von beliebigen Daten erhalten. Sie können auswählen, welchen Hash-Algorithmus Sie verwenden wollen.</description>
+  <description lang="de" >Wählen Sie diesen Punkt, um den Hashwert von beliebigen Daten zu erhalten. Sie können auswählen, welchen Hash-Algorithmus Sie verwenden wollen.</description>
 
   <!-- This is the step's headline. It should be short, but precise. -->
   <headline lang="en" >Hash Function Selection</headline>
@@ -79,7 +79,7 @@
   <sampleViewer image="SHA" file="Hashfunctions\SHA1.cwm">
     <name lang="en" >SHA-1</name>
     <description lang="en" >The Secure Hash Algorithm is one of a number of cryptographic hash functions published by the National Institute of Standards and Technology as a U.S. Federal Information Processing Standard.</description>
-    <description lang="de" >Der "Secure Hash Algorithm" ist einer von vielen kryptographischen Hash-Funktionen die vom "National Institute of Standards and Technology" als "U.S. Federal Information Processing Standard" veröffentlicht wurden.</description>
+    <description lang="de" >Der "Secure Hash Algorithm" ist eine von vielen kryptographischen Hash-Funktionen, die vom "National Institute of Standards and Technology" als "U.S. Federal Information Processing Standard" veröffentlicht wurden.</description>
 
     <headline lang="en">SHA-1</headline>
     <task lang="en">Input your message and watch the SHA-1 output here.</task>
@@ -88,7 +88,7 @@
     <inputBox plugin="Input" property="Text" alignment="Stretch" visibleLines="5">
       <description lang="en">Input Message:</description>
       <description lang="de">Eingabenachricht:</description>
-      <defaultvalue lang="de">Der Begriff secure hash algorithm (engl. für sicherer Hash-Algorithmus), kurz SHA, bezeichnet eine Gruppe standardisierter kryptologischer Hash-Funktionen. Diese dienen zur Berechnung eines eindeutigen Prüfwerts für beliebige elektronische Daten. Meist handelt es sich dabei um Nachrichten. Es soll praktisch unmöglich sein, zwei verschiedene Nachrichten mit dem gleichen SHA-Wert zu finden. Dieses wird auch als Kollisionssicherheit bezeichnet. Ob SHA-1 dieser Anforderung genügt, kann nicht sicher gesagt werden, da im Sommer 2006 eine wesentliche Schwäche dieses Algorithmus entdeckt und publik gemacht wurde. Grundsätzlich sollte SHA-1 daher nicht mehr in neuen Entwicklungen als sicherer Hash-Algorithmus vorgesehen werden.</defaultvalue>
+      <defaultvalue lang="de">Der Begriff 'secure hash algorithm' (engl. für sicherer Hash-Algorithmus), kurz SHA, bezeichnet eine Gruppe standardisierter kryptologischer Hash-Funktionen. Diese dienen zur Berechnung eines eindeutigen Prüfwerts für beliebige elektronische Daten. Meist handelt es sich dabei um Nachrichten. Es soll praktisch unmöglich sein, zwei verschiedene Nachrichten mit dem gleichen SHA-Wert zu finden. Dieses wird auch als Kollisionssicherheit bezeichnet. Ob SHA-1 dieser Anforderung genügt, kann nicht sicher gesagt werden, da im Sommer 2006 eine wesentliche Schwäche dieses Algorithmus entdeckt und publik gemacht wurde. Grundsätzlich sollte SHA-1 daher nicht mehr in neuen Entwicklungen als sicherer Hash-Algorithmus vorgesehen werden.</defaultvalue>
     </inputBox>
 
     <presentation plugin="Hash" alignment="Stretch">
@@ -100,7 +100,7 @@
   <sampleViewer image="SHA" file="Hashfunctions\SHA256.cwm">
     <name lang="en" >SHA-256</name>
     <description lang="en" >The Secure Hash Algorithm is one of a number of cryptographic hash functions published by the National Institute of Standards and Technology as a U.S. Federal Information Processing Standard.</description>
-    <description lang="de" >Der "Secure Hash Algorithm" ist einer von vielen kryptographischen Hash-Funktionen die vom "National Institute of Standards and Technology" als "U.S. Federal Information Processing Standard" veröffentlicht wurden.</description>
+    <description lang="de" >Der "Secure Hash Algorithm" ist eine von vielen kryptographischen Hash-Funktionen, die vom "National Institute of Standards and Technology" als "U.S. Federal Information Processing Standard" veröffentlicht wurden.</description>
 
     <headline lang="en">SHA-256</headline>
     <task lang="en">Input your message and watch the SHA-256 output here.</task>
@@ -109,7 +109,7 @@
     <inputBox plugin="Input" property="Text" alignment="Stretch" visibleLines="5">
       <description lang="en">Input Message:</description>
       <description lang="de">Eingabenachricht:</description>
-      <defaultvalue lang="de">Der Begriff secure hash algorithm (engl. für sicherer Hash-Algorithmus), kurz SHA, bezeichnet eine Gruppe standardisierter kryptologischer Hash-Funktionen. Diese dienen zur Berechnung eines eindeutigen Prüfwerts für beliebige elektronische Daten. Meist handelt es sich dabei um Nachrichten. Es soll praktisch unmöglich sein, zwei verschiedene Nachrichten mit dem gleichen SHA-Wert zu finden. Dieses wird auch als Kollisionssicherheit bezeichnet. Ob SHA-1 dieser Anforderung genügt, kann nicht sicher gesagt werden, da im Sommer 2006 eine wesentliche Schwäche dieses Algorithmus entdeckt und publik gemacht wurde. Grundsätzlich sollte SHA-1 daher nicht mehr in neuen Entwicklungen als sicherer Hash-Algorithmus vorgesehen werden.</defaultvalue>
+      <defaultvalue lang="de">Der Begriff 'secure hash algorithm' (engl. für sicherer Hash-Algorithmus), kurz SHA, bezeichnet eine Gruppe standardisierter kryptologischer Hash-Funktionen. Diese dienen zur Berechnung eines eindeutigen Prüfwerts für beliebige elektronische Daten. Meist handelt es sich dabei um Nachrichten. Es soll praktisch unmöglich sein, zwei verschiedene Nachrichten mit dem gleichen SHA-Wert zu finden. Dieses wird auch als Kollisionssicherheit bezeichnet. Ob SHA-1 dieser Anforderung genügt, kann nicht sicher gesagt werden, da im Sommer 2006 eine wesentliche Schwäche dieses Algorithmus entdeckt und publik gemacht wurde. Grundsätzlich sollte SHA-1 daher nicht mehr in neuen Entwicklungen als sicherer Hash-Algorithmus vorgesehen werden.</defaultvalue>
     </inputBox>
 
     <presentation plugin="Hash" alignment="Stretch">
@@ -144,7 +144,7 @@ RIPEMD-160 wurde von Hans Dobbertin, Antoon Bosselaers und Bart Preneel in Europ
   <sampleViewer image="Tiger" file="Hashfunctions\Tiger.cwm">
     <name lang="en" >Tiger</name>
     <description lang="en" >Tiger is a cryptographic hash function designed by Ross Anderson and Eli Biham in 1995 for efficiency on 64-bit platforms. The size of a Tiger hash value is 192 bits.</description>
-    <description lang="de" >Tiger ist eine kryptographische Hash-Funktion die 1995 von Ross Anderson und Eli Biham für Effizienz auf 64-Bit Plattformen entworfen wurde. Die Größe eines Tiger Hashwertes ist 192 Bits.</description>
+    <description lang="de" >Tiger ist eine kryptographische Hash-Funktion, die 1995 von Ross Anderson und Eli Biham für Effizienz auf 64-Bit Plattformen entworfen wurde. Die Größe eines Tiger-Hashwertes ist 192 Bits.</description>
 
     <headline lang="en">Tiger</headline>
     <task lang="en">Input your message and watch the Tiger output here.</task>
@@ -164,8 +164,8 @@ RIPEMD-160 wurde von Hans Dobbertin, Antoon Bosselaers und Bart Preneel in Europ
   <!-- Whirlpool input -->
   <sampleViewer image="Whirlpool" file="Hashfunctions\Whirlpool.cwm">
     <name lang="en" >Whirlpool</name>
-    <description lang="en" >Whirlpool is a hash designed after the Square block cipher. Whirlpool is a Miyaguchi-Preneel construction based on a substantially modified Advanced Encryption Standard (AES). It takes a message of any length less than 2256 bits and returns a 512-bit message digest.</description>
-    <description lang="de" >Whirlpool ist ein Hash der nach dem "Square" Blockchiffre entworfen wurde. Whirlpool ist eine Miyaguchi-Preneel Konstruktion die auf einem substantiell veränderten "Advanced Encryption Standard" (AES) basiert. Es nimmt eine Nachricht einer Länge kleiner als 2256 Bits entgegen und gibt ein 512-Bit "message digest" zurück.</description>
+    <description lang="en" >Whirlpool is a hash designed after the Square block cipher. Whirlpool is a Miyaguchi-Preneel construction based on a substantially modified Advanced Encryption Standard (AES). It takes a message of any length less than 2^256 bits and returns a 512-bit message digest.</description>
+    <description lang="de" >Whirlpool ist ein Hash-Algorithmus, der auf dem "Square" Blockchiffre basiert. Whirlpool ist eine Miyaguchi-Preneel Konstruktion, die auf einem substantiell veränderten "Advanced Encryption Standard" (AES) basiert. Es nimmt eine Nachricht einer Länge kleiner als 2^256 Bits entgegen und gibt ein 512-Bit "message digest" zurück.</description>
 
     <headline lang="en">Whirlpool</headline>
     <task lang="en">Input your message and watch the Whirlpool output here.</task>
@@ -176,7 +176,7 @@ RIPEMD-160 wurde von Hans Dobbertin, Antoon Bosselaers und Bart Preneel in Europ
       <description lang="de">Eingabenachricht:</description>
       <defaultvalue lang="de">WHIRLPOOL ist eine kryptologische Hash-Funktion, die von Vincent Rijmen und Paulo S. L. M. Barreto entworfen wurde. Sie wurde nach der Whirlpool-Galaxie im Sternbild der Jagdhunde benannt.
 
-Whirlpool funktioniert mit Dateien bis zu 2256 Bit Größe und gibt einen Hash-Wert von 512 Bit aus. Bislang sind keine Schwächen des Algorithmus bekannt, was allerdings relativiert werden muss, da der Algorithmus noch sehr jung ist und bislang wenig untersucht wurde.
+Whirlpool funktioniert mit Dateien bis zu 2^256 Bit Größe und gibt einen Hash-Wert von 512 Bit aus. Bislang sind keine Schwächen des Algorithmus bekannt, was allerdings relativiert werden muss, da der Algorithmus noch sehr jung ist und bislang wenig untersucht wurde.
 
 Die Autoren haben erklärt, dass Whirlpool nicht patentiert ist und es nie sein wird. Whirlpool darf kostenlos zu jedem Zweck verwendet werden. Die Referenz-Implementierung ist gemeinfrei.
 

@@ -7,7 +7,7 @@
   <name lang="en" >Symmetric Encryption/Decryption</name>
   <name lang="de" >Symmetrische Verschlüsselung/Entschlüsselung</name>
   <description lang="en" >Selecting this allows you to encrypt a plaintext or decrypt a ciphertext with a symmetric algorithm. Symmetric algorithms are those, where the same key is used both for encryption and decryption. You can choose which symmetric algorithm you want to use for doing this.</description>
-  <description lang="de-DE" >Indem Sie dies auswählen, können Sie mit Hilfe eines symmetrischen Algorithmus einen Klartext verschlüsseln oder einen chiffrierten Text entschlüsseln. Symmetrische Algorithmen sind solche, bei denen der selbe Schlüssel für die Verschlüsselung und die Entschlüsselung benutzt wird. Der dafür verwendete symmetrische Algorithmus kann von Ihnen ausgewählt werden.</description>
+  <description lang="de-DE" >Wählen Sie diesen Punkt, um mit Hilfe eines symmetrischen Algorithmus einen Klartext zu verschlüsseln oder einen chiffrierten Text zu entschlüsseln. Bei der symmetrischen Verschlüsselung wird derselbe Schlüssel für die Verschlüsselung und die Entschlüsselung benutzt. Der dafür verwendete symmetrische Algorithmus kann von Ihnen ausgewählt werden.</description>
 
   <!-- This is the step's headline. It should be short, but precise. -->
   <headline lang="en" >Algorithm Selection</headline>
@@ -39,7 +39,7 @@
     
     <inputBox plugin="Message" property="Text" alignment="Right" width="78%" visibleLines="5" group="1">
       <description lang="en">Message to encrypt/decrypt:</description>
-      <description lang="de">Nachricht zum Verschlüsseln/Entschlüsseln:</description>
+      <description lang="de">Zu verschlüsselnde/entschlüsselnde Nachricht:</description>
       <defaultvalue>Hallo Welt! Hello, world. Hola mundo. Bonjour le monde. Witaj świecie! 1234</defaultvalue>
     </inputBox>
 
@@ -69,7 +69,7 @@
       <name lang="en" >AES Output</name>
       <name lang="de" >AES-Ausgabe</name>
       <description lang="en" >The Advanced Encryption Standard (AES) is a symmetric encryption standard adopted by the U.S. government. The standard comprises three block ciphers, AES-128, AES-192 and AES-256, adopted from a larger collection originally published as Rijndael.</description>
-      <description lang="de" >Der "Advanced Encryption Standard" (AES) ist ein symmetrischer Verschlüsselungsstandard welcher von der U.S. Regierung eingesetzt wird. Der Standard beinhaltet drei Blockchiffren, AES-128, AES-192 and AES-256, welche einer größeren Kollektion, die ursprünglich als Rijndael veröffentlicht wurde, entnommen sind.</description>
+      <description lang="de" >Der "Advanced Encryption Standard" (AES) ist ein symmetrischer Verschlüsselungsstandard, der von der U.S. Regierung eingesetzt wird. Der Standard beinhaltet drei Blockchiffren, AES-128, AES-192 and AES-256, welche einer größeren Kollektion, die ursprünglich als Rijndael veröffentlicht wurde, entnommen sind.</description>
 
       <headline lang="en" >AES Output</headline>
       <headline lang="de" >AES-Ausgabe</headline>
@@ -78,7 +78,7 @@
 
       <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5">
         <description lang="en">Message to encrypt/decrypt:</description>
-        <description lang="de">Nachricht zum Verschlüsseln/Entschlüsseln:</description>
+        <description lang="de">Zu verschlüsselnde/entschlüsselnde Nachricht:</description>
       </inputBox>
 
       <outputBox plugin="Result" property="CurrentValue" alignment="Stretch" visibleLines="5">
@@ -92,7 +92,7 @@
   <input image="DES" >
     <name lang="en" >DES</name>
     <description lang="en" >The Data Encryption Standard (DES) is a symmetric block cipher algorithm. It was selected by the National Bureau of Standards as an official Federal Information Processing Standard (FIPS) for the United States in 1976 and which has subsequently enjoyed widespread use internationally. It is based on a symmetric algorithm that uses a 56-bit key.</description>
-    <description lang="de" >Der "Data Encryption Standard" (DES) ist ein symmetrischer Blockchiffre Algorithmus. Er wurde 1976 vom "National Bureau of Standards" als offizieller "Federal Information Processing Standard" (FIPS) für die Vereinigten Staaten ausgewählt und hat daraufhin weitreichende internationale Verbreitung gefunden. Er basiert auf einem symmetrischen Algorithmus welcher 56-Bit Schlüssel benutzt.</description>
+    <description lang="de" >Der "Data Encryption Standard" (DES) ist eine symmetrische Blockchiffre. Er wurde 1976 vom "National Bureau of Standards" als offizieller "Federal Information Processing Standard" (FIPS) für die Vereinigten Staaten ausgewählt und hat daraufhin weitreichende internationale Verbreitung gefunden. Er basiert auf einem symmetrischen Algorithmus, welcher 56-Bit Schlüssel benutzt.</description>
 
     <headline lang="en" >Message Input</headline>
     <headline lang="de" >Nachrichteneingabe</headline>
@@ -110,7 +110,7 @@
     
     <inputBox plugin="Message" property="Text" alignment="Right" width="78%" visibleLines="5" group="1">
       <description lang="en">Message to encrypt/decrypt:</description>
-      <description lang="de">Nachricht zum Verschlüsseln/Entschlüsseln:</description>
+      <description lang="de">Zu verschlüsselnde/entschlüsselnde Nachricht:</description>
       <defaultvalue lang="en">Hallo Welt! Hello, world. Hola mundo. Bonjour le monde. Witaj świecie! 1234</defaultvalue>
     </inputBox>
 
@@ -132,7 +132,7 @@
       <name lang="en" >DES Output</name>
       <name lang="de" >DES-Ausgabe</name>
       <description lang="en" >The Data Encryption Standard (DES) is a symmetric block cipher algorithm. It was selected by the National Bureau of Standards as an official Federal Information Processing Standard (FIPS) for the United States in 1976 and which has subsequently enjoyed widespread use internationally. It is based on a symmetric algorithm that uses a 56-bit key.</description>
-      <description lang="de" >Der "Data Encryption Standard" (DES) ist ein symmetrischer Blockchiffre Algorithmus. Er wurde 1976 vom "National Bureau of Standards" als offizieller "Federal Information Processing Standard" (FIPS) für die Vereinigten Staaten ausgewählt und hat daraufhin weitreichende internationale Verbreitung gefunden. Er basiert auf einem symmetrischen Algorithmus welcher 56-Bit Schlüssel benutzt.</description>
+      <description lang="de" >Der "Data Encryption Standard" (DES) ist ein symmetrische Blockchiffre. Er wurde 1976 vom "National Bureau of Standards" als offizieller "Federal Information Processing Standard" (FIPS) für die Vereinigten Staaten ausgewählt und hat daraufhin weitreichende internationale Verbreitung gefunden. Er basiert auf einem symmetrischen Algorithmus, welcher 56-Bit Schlüssel benutzt.</description>
 
       <headline lang="en" >DES Output</headline>
       <headline lang="de" >DES-Ausgabe</headline>
@@ -141,7 +141,7 @@
 
       <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5">
         <description lang="en">Message to encrypt/decrypt:</description>
-        <description lang="de">Nachricht zum Verschlüsseln/Entschlüsseln:</description>
+        <description lang="de">Zu verschlüsselnde/entschlüsselnde Nachricht:</description>
       </inputBox>
 
       <outputBox plugin="Result" property="CurrentValue" alignment="Stretch" visibleLines="5">
@@ -173,7 +173,7 @@
     
     <inputBox plugin="Message" property="Text" alignment="Right" width="78%" visibleLines="5" group="1">
       <description lang="en">Message to encrypt/decrypt:</description>
-      <description lang="de">Nachricht zum Verschlüsseln/Entschlüsseln:</description>
+      <description lang="de">Zu verschlüsselnde/entschlüsselnde Nachricht:</description>
       <defaultvalue lang="en">Hallo Welt! Hello, world. Hola mundo. Bonjour le monde. Witaj świecie! 1234</defaultvalue>
     </inputBox>
 
@@ -203,7 +203,7 @@
 
       <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5">
         <description lang="en">Message to encrypt/decrypt:</description>
-        <description lang="de">Nachricht zum Verschlüsseln/Entschlüsseln:</description>
+        <description lang="de">Zu verschlüsselnde/entschlüsselnde Nachricht:</description>
       </inputBox>
 
       <presentation plugin="SDES" alignment="Stretch" height="400" >
@@ -222,7 +222,7 @@
   <input image="Twofish" >
     <name lang="en" >Twofish</name>
     <description lang="en" >Twofish is a symmetric key block cipher with a block size of 128 bits and key sizes up to 256 bits.</description>
-    <description lang="de" >Twofish ist ein symmetrischer Schlüssel Blockchiffre mit einer Blockgröße von 128 Bit und Schlüsselgrößen bis zu 256 Bit.</description>
+    <description lang="de" >Twofish ist eine symmetrische Blockchiffre mit einer Blockgröße von 128 Bit und Schlüsselgrößen bis zu 256 Bit.</description>
 
     <headline lang="en" >Message Input</headline>
     <headline lang="de" >Nachrichteneingabe</headline>
@@ -240,7 +240,7 @@
     
     <inputBox plugin="Message" property="Text" alignment="Right" width="78%" visibleLines="5" group="1">
       <description lang="en">Message to encrypt/decrypt (size must be multiple of 16):</description>
-      <description lang="de">Nachricht zum Verschlüsseln/Entschlüsseln (Größe muss Vielfaches von 16 sein):</description>
+      <description lang="de">Zu verschlüsselnde/entschlüsselnde Nachricht (Größe muss Vielfaches von 16 sein):</description>
       <defaultvalue lang="en">Hello World fill</defaultvalue>
       <defaultvalue lang="de">Hallo Welt, fill</defaultvalue>
     </inputBox>
@@ -270,7 +270,7 @@
       <name lang="en" >Twofish Output</name>
       <name lang="de" >Twofish-Ausgabe</name>
       <description lang="en" >Twofish is a symmetric key block cipher with a block size of 128 bits and key sizes up to 256 bits.</description>
-      <description lang="de" >Twofish ist ein symmetrischer Schlüssel Blockchiffre mit einer Blockgröße von 128 Bit und Schlüsselgrößen bis zu 256 Bit.</description>
+      <description lang="de" >Twofish ist eine symmetrische Blockchiffre mit einer Blockgröße von 128 Bit und Schlüsselgrößen bis zu 256 Bit.</description>
 
       <headline lang="en">Twofish Output</headline>
       <headline lang="de">Twofish-Ausgabe</headline>
@@ -279,7 +279,7 @@
 
       <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5">
         <description lang="en">Message to encrypt/decrypt (size must be multiple of 16):</description>
-        <description lang="de">Nachricht zum Verschlüsseln/Entschlüsseln (Größe muss Vielfaches von 16 sein):</description>
+        <description lang="de">Zu verschlüsselnde/entschlüsselnde Nachricht (Größe muss Vielfaches von 16 sein):</description>
       </inputBox>
 
       <outputBox plugin="Result" property="CurrentValue" alignment="Stretch" visibleLines="5">
@@ -301,7 +301,7 @@
   <input image="TEA" >
     <name lang="en" >TEA</name>
     <description lang="en" >The Tiny Encryption Algorithm (TEA) is a block cipher notable for its simplicity of description and implementation, typically a few lines of code.</description>
-    <description lang="de" >Der "Tiny Encryption Algorithmus" (TEA) ist ein Blockchiffre der durch Einfachheit der Beschreibung und Implementation, typischerweise einige wenige Codezeilen, auffällt.</description>
+    <description lang="de" >Der "Tiny Encryption Algorithmus" (TEA) ist eine Blockchiffre, die durch Einfachheit der Beschreibung und Implementierung, typischerweise einige wenige Codezeilen, auffällt.</description>
 
     <headline lang="en" >Message Input</headline>
     <headline lang="de" >Nachrichteneingabe</headline>
@@ -319,7 +319,7 @@
     
     <inputBox plugin="Message" property="Text" alignment="Right" width="78%" visibleLines="5" group="1">
       <description lang="en">Message to encrypt/decrypt:</description>
-      <description lang="de">Nachricht zum Verschlüsseln/Entschlüsseln:</description>
+      <description lang="de">Zu verschlüsselnde/entschlüsselnde Nachricht:</description>
       <defaultvalue lang="en">Hallo Welt! Hello, world. Hola mundo. Bonjour le monde. Witaj świecie! 1234</defaultvalue>
     </inputBox>
 
@@ -340,7 +340,7 @@
       <name lang="en" >Twofish Output</name>
       <name lang="de" >Twofish-Ausgabe</name>
       <description lang="en" >The Tiny Encryption Algorithm (TEA) is a block cipher notable for its simplicity of description and implementation, typically a few lines of code.</description>
-      <description lang="de" >Der "Tiny Encryption Algorithmus" (TEA) ist ein Blockchiffre der durch Einfachheit der Beschreibung und Implementation, typischerweise einige wenige Codezeilen, auffällt.</description>
+      <description lang="de" >Der "Tiny Encryption Algorithmus" (TEA) ist eine Blockchiffre, die durch Einfachheit der Beschreibung und Implementierung, typischerweise einige wenige Codezeilen, auffällt.</description>
 
       <headline lang="en" >Twofish Output</headline>
       <headline lang="de" >Twofish-Ausgabe</headline>
@@ -349,7 +349,7 @@
 
       <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5">
         <description lang="en">Message to encrypt/decrypt:</description>
-        <description lang="de">Nachricht zum Verschlüsseln/Entschlüsseln:</description>
+        <description lang="de">Zu verschlüsselnde/entschlüsselnde Nachricht:</description>
       </inputBox>
 
       <outputBox plugin="Result" property="CurrentValue" alignment="Stretch" visibleLines="5">
@@ -364,7 +364,7 @@
   <input image="RC2" >
     <name lang="en" >RC2</name>
     <description lang="en" >RC2 is a block cipher designed by Ron Rivest in 1987. "RC" stands for "Ron's Code" or "Rivest Cipher".</description>
-    <description lang="de" >RC2 ist ein Blockchiffre der 1987 von Ron Rivest entworfen wurde. "RC" steht für "Ron's Code" oder "Rivest Cipher".</description>
+    <description lang="de" >RC2 ist eine Blockchiffre, die 1987 von Ron Rivest entworfen wurde. "RC" steht für "Ron's Code" oder "Rivest Cipher".</description>
 
     <headline lang="en" >Message Input</headline>
     <headline lang="de" >Nachrichteneingabe</headline>
@@ -382,7 +382,7 @@
     
     <inputBox plugin="Message" property="Text" alignment="Right" width="78%" visibleLines="5" group="1">
       <description lang="en">Message to encrypt/decrypt:</description>
-      <description lang="de">Nachricht zum Verschlüsseln/Entschlüsseln:</description>
+      <description lang="de">Zu verschlüsselnde/entschlüsselnde Nachricht:</description>
       <defaultvalue lang="en">Hallo Welt, dies ist ein Test!</defaultvalue>
     </inputBox>
 
@@ -404,7 +404,7 @@
       <name lang="en" >RC2 Output</name>
       <name lang="de" >RC2-Ausgabe</name>
       <description lang="en" >RC2 is a block cipher designed by Ron Rivest in 1987. "RC" stands for "Ron's Code" or "Rivest Cipher".</description>
-      <description lang="de" >RC2 ist ein Blockchiffre der 1987 von Ron Rivest entworfen wurde. "RC" steht für "Ron's Code" oder "Rivest Cipher".</description>
+      <description lang="de" >RC2 ist eine Blockchiffre, die 1987 von Ron Rivest entworfen wurde. "RC" steht für "Ron's Code" oder "Rivest Cipher".</description>
 
       <headline lang="en">RC2 Output</headline>
       <headline lang="de">RC2-Ausgabe</headline>
@@ -413,7 +413,7 @@
 
       <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5">
         <description lang="en">Message to encrypt/decrypt:</description>
-        <description lang="de">Nachricht zum Verschlüsseln/Entschlüsseln:</description>
+        <description lang="de">Zu verschlüsselnde/entschlüsselnde Nachricht:</description>
       </inputBox>
 
       <outputBox plugin="Result" property="CurrentValue" alignment="Stretch" visibleLines="5">

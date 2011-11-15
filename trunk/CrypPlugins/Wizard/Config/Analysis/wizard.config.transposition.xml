@@ -9,13 +9,13 @@ By selecting this, you can analyze some ciphertext that was encrypted with the T
   </description>
   <description lang="de" >
     Transposition ist ein klassischer Algorithmus zum Verschlüsseln von Klartext oder Entschlüsseln von chiffrierten Text.
-Indem Sie dies wählen, können Sie einen mit dem Transpositions-Algorithmus verschlüsselten Text analysieren.
+    Wählen Sie diesen Punkt, um einen mit dem Transpositions-Algorithmus verschlüsselten Text zu analysieren.
   </description>
 
   <headline lang="en">Transposition Analysis</headline>
   <headline lang="de">Transposition-Analyse</headline>
   <task lang="en">Choose which method you want to use for analyzing the Transposition encrypted text.</task>
-  <task lang="de">Wählen Sie welche Methode Sie zum analysieren des mit Transposition verschlüsselten Text verwenden wollen.</task>
+  <task lang="de">Wählen Sie, welche Methode Sie für die Analyse des mit der Transposition verschlüsselten Textes verwenden wollen.</task>
 
   <input image="Transposition">
     <name lang="en">Brute-force</name>    
