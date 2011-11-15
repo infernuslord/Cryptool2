@@ -105,20 +105,24 @@ namespace WorkspaceManager.Model
             }
 
             //check if all properties belonging to its ConnectorModels really exist and if each property has a ConnectorModel
-            //if not generate new connector models
+            //if not generate new ConnectorModels
             foreach (PluginModel pluginModel in workspacemodel.AllPluginModels)
             {
-                bool refreshConnectorModels = false;
                 IEnumerable<ConnectorModel> connectorModels = (new List<ConnectorModel>(pluginModel.OutputConnectors)).Concat(pluginModel.InputConnectors);
+                //Check if a property of a ConnectorModel was deleted or its type changed => delete the ConnectorModel
                 foreach (ConnectorModel connectorModel in connectorModels)
                 {
-                    if (connectorModel.PluginModel.Plugin.GetType().GetProperty(connectorModel.PropertyName) == null)
+                    var propertyInfo = connectorModel.PluginModel.Plugin.GetType().GetProperty(connectorModel.PropertyName);
+                    if (propertyInfo == null ||
+                        !connectorModel.ConnectorType.Equals(propertyInfo.PropertyType))
                     {
-                        //A connector does not exist, so we reset all connectors of this pluginmodel
-                        refreshConnectorModels = true;
-                        break;
+                        //the property belonging to this ConnectorModel was not found
+                        //or the type of the saved property differs to the real one
+                        //so we delete the connector
+                        pluginModel.WorkspaceModel.deleteConnectorModel(connectorModel);
                     }
                 }
+                //Check if there are properties which have no own ConnectorModel
                 foreach(PropertyInfoAttribute propertyInfoAttribute in pluginModel.Plugin.GetProperties())
                 {
                     var query = from c in connectorModels
@@ -126,18 +130,10 @@ namespace WorkspaceManager.Model
                                 select c;
                     if(query.Count()==0)
                     {
-                        refreshConnectorModels = true;
-                        break;
+                        //we found a property which has no ConnectorModel, so we create a new one
+                        pluginModel.generateConnector(propertyInfoAttribute);
                     }
-                }
-                if(refreshConnectorModels)
-                {                    
-                    foreach (ConnectorModel connectorModel in connectorModels)
-                    {                        
-                        workspacemodel.deleteConnectorModel(connectorModel);
-                    }
-                    pluginModel.generateConnectors();
-                }                
+                }                        
             }
 
             if(workspacemodel.UndoRedoManager.CanUndo())

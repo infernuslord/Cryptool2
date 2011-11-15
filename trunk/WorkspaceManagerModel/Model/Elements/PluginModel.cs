@@ -188,76 +188,86 @@ namespace WorkspaceManager.Model
             {
                 foreach (PropertyInfoAttribute propertyInfoAttribute in Plugin.GetProperties())
                 {
-                    if (propertyInfoAttribute.Direction.Equals(Direction.InputData))
-                    {
-                        ConnectorModel connectorModel = new ConnectorModel();
-
-                        connectorModel.Caption = propertyInfoAttribute.Caption;
-                        connectorModel.ConnectorType = propertyInfoAttribute.PropertyInfo.PropertyType;
-                        connectorModel.WorkspaceModel = WorkspaceModel;
-                        connectorModel.PluginModel = this;
-                        connectorModel.IsMandatory = propertyInfoAttribute.Mandatory;
-                        connectorModel.PropertyName = propertyInfoAttribute.PropertyName;
-                        connectorModel.Name = propertyInfoAttribute.PropertyName;
-                        connectorModel.ToolTip = propertyInfoAttribute.ToolTip;
-                        connectorModel.IControl = false;
-                        connectorModel.PluginModel.Plugin.PropertyChanged += connectorModel.PropertyChangedOnPlugin;
-                        InputConnectors.Add(connectorModel);
-                        WorkspaceModel.AllConnectorModels.Add(connectorModel);
-                    }
-                    else if (propertyInfoAttribute.Direction.Equals(Direction.ControlSlave))
-                    {
-                        ConnectorModel connectorModel = new ConnectorModel();
-                        connectorModel.Caption = propertyInfoAttribute.Caption;
-                        connectorModel.ConnectorType = propertyInfoAttribute.PropertyInfo.PropertyType;
-                        connectorModel.WorkspaceModel = WorkspaceModel;
-                        connectorModel.PluginModel = this;
-                        connectorModel.IsMandatory = propertyInfoAttribute.Mandatory;
-                        connectorModel.PropertyName = propertyInfoAttribute.PropertyName;
-                        connectorModel.Name = propertyInfoAttribute.PropertyName;
-                        connectorModel.ToolTip = propertyInfoAttribute.ToolTip;
-                        connectorModel.IControl = true;
-                        connectorModel.PluginModel.Plugin.PropertyChanged += connectorModel.PropertyChangedOnPlugin;
-                        InputConnectors.Add(connectorModel);
-                        WorkspaceModel.AllConnectorModels.Add(connectorModel);
-                    }
-                    else if (propertyInfoAttribute.Direction.Equals(Direction.OutputData))
-                    {
-                        ConnectorModel connectorModel = new ConnectorModel();
-                        connectorModel.Caption = propertyInfoAttribute.Caption;
-                        connectorModel.ConnectorType = propertyInfoAttribute.PropertyInfo.PropertyType;
-                        connectorModel.WorkspaceModel = WorkspaceModel;
-                        connectorModel.PluginModel = this;
-                        connectorModel.IsMandatory = propertyInfoAttribute.Mandatory;
-                        connectorModel.PropertyName = propertyInfoAttribute.PropertyName;
-                        connectorModel.Name = propertyInfoAttribute.PropertyName;
-                        connectorModel.ToolTip = propertyInfoAttribute.ToolTip;
-                        connectorModel.Outgoing = true;
-                        connectorModel.IControl = false;
-                        connectorModel.PluginModel.Plugin.PropertyChanged += connectorModel.PropertyChangedOnPlugin;
-                        OutputConnectors.Add(connectorModel);
-                        WorkspaceModel.AllConnectorModels.Add(connectorModel);
-                    }
-                    else if (propertyInfoAttribute.Direction.Equals(Direction.ControlMaster))
-                    {
-                        ConnectorModel connectorModel = new ConnectorModel();
-                        connectorModel.Caption = propertyInfoAttribute.Caption;
-                        connectorModel.ConnectorType = propertyInfoAttribute.PropertyInfo.PropertyType;
-                        connectorModel.WorkspaceModel = WorkspaceModel;
-                        connectorModel.PluginModel = this;
-                        connectorModel.IsMandatory = propertyInfoAttribute.Mandatory;
-                        connectorModel.PropertyName = propertyInfoAttribute.PropertyName;
-                        connectorModel.Name = propertyInfoAttribute.PropertyName;
-                        connectorModel.ToolTip = propertyInfoAttribute.ToolTip;
-                        connectorModel.Outgoing = true;
-                        connectorModel.IControl = true;
-                        connectorModel.PluginModel.Plugin.PropertyChanged += connectorModel.PropertyChangedOnPlugin;
-                        OutputConnectors.Add(connectorModel);
-                        WorkspaceModel.AllConnectorModels.Add(connectorModel);
-                    }
+                    generateConnector(propertyInfoAttribute);
                 }                
             }
         }
+
+        /// <summary>
+        /// Generate a single Connector of this Plugin.
+        /// </summary>
+        /// <param name="propertyInfoAttribute"></param>
+        internal void generateConnector(PropertyInfoAttribute propertyInfoAttribute)
+        {
+            if (propertyInfoAttribute.Direction.Equals(Direction.InputData))
+            {
+                ConnectorModel connectorModel = new ConnectorModel();
+
+                connectorModel.Caption = propertyInfoAttribute.Caption;
+                connectorModel.ConnectorType = propertyInfoAttribute.PropertyInfo.PropertyType;
+                connectorModel.WorkspaceModel = WorkspaceModel;
+                connectorModel.PluginModel = this;
+                connectorModel.IsMandatory = propertyInfoAttribute.Mandatory;
+                connectorModel.PropertyName = propertyInfoAttribute.PropertyName;
+                connectorModel.Name = propertyInfoAttribute.PropertyName;
+                connectorModel.ToolTip = propertyInfoAttribute.ToolTip;
+                connectorModel.IControl = false;
+                connectorModel.PluginModel.Plugin.PropertyChanged += connectorModel.PropertyChangedOnPlugin;
+                InputConnectors.Add(connectorModel);
+                WorkspaceModel.AllConnectorModels.Add(connectorModel);
+            }
+            else if (propertyInfoAttribute.Direction.Equals(Direction.ControlSlave))
+            {
+                ConnectorModel connectorModel = new ConnectorModel();
+                connectorModel.Caption = propertyInfoAttribute.Caption;
+                connectorModel.ConnectorType = propertyInfoAttribute.PropertyInfo.PropertyType;
+                connectorModel.WorkspaceModel = WorkspaceModel;
+                connectorModel.PluginModel = this;
+                connectorModel.IsMandatory = propertyInfoAttribute.Mandatory;
+                connectorModel.PropertyName = propertyInfoAttribute.PropertyName;
+                connectorModel.Name = propertyInfoAttribute.PropertyName;
+                connectorModel.ToolTip = propertyInfoAttribute.ToolTip;
+                connectorModel.IControl = true;
+                connectorModel.PluginModel.Plugin.PropertyChanged += connectorModel.PropertyChangedOnPlugin;
+                InputConnectors.Add(connectorModel);
+                WorkspaceModel.AllConnectorModels.Add(connectorModel);
+            }
+            else if (propertyInfoAttribute.Direction.Equals(Direction.OutputData))
+            {
+                ConnectorModel connectorModel = new ConnectorModel();
+                connectorModel.Caption = propertyInfoAttribute.Caption;
+                connectorModel.ConnectorType = propertyInfoAttribute.PropertyInfo.PropertyType;
+                connectorModel.WorkspaceModel = WorkspaceModel;
+                connectorModel.PluginModel = this;
+                connectorModel.IsMandatory = propertyInfoAttribute.Mandatory;
+                connectorModel.PropertyName = propertyInfoAttribute.PropertyName;
+                connectorModel.Name = propertyInfoAttribute.PropertyName;
+                connectorModel.ToolTip = propertyInfoAttribute.ToolTip;
+                connectorModel.Outgoing = true;
+                connectorModel.IControl = false;
+                connectorModel.PluginModel.Plugin.PropertyChanged += connectorModel.PropertyChangedOnPlugin;
+                OutputConnectors.Add(connectorModel);
+                WorkspaceModel.AllConnectorModels.Add(connectorModel);
+            }
+            else if (propertyInfoAttribute.Direction.Equals(Direction.ControlMaster))
+            {
+                ConnectorModel connectorModel = new ConnectorModel();
+                connectorModel.Caption = propertyInfoAttribute.Caption;
+                connectorModel.ConnectorType = propertyInfoAttribute.PropertyInfo.PropertyType;
+                connectorModel.WorkspaceModel = WorkspaceModel;
+                connectorModel.PluginModel = this;
+                connectorModel.IsMandatory = propertyInfoAttribute.Mandatory;
+                connectorModel.PropertyName = propertyInfoAttribute.PropertyName;
+                connectorModel.Name = propertyInfoAttribute.PropertyName;
+                connectorModel.ToolTip = propertyInfoAttribute.ToolTip;
+                connectorModel.Outgoing = true;
+                connectorModel.IControl = true;
+                connectorModel.PluginModel.Plugin.PropertyChanged += connectorModel.PropertyChangedOnPlugin;
+                OutputConnectors.Add(connectorModel);
+                WorkspaceModel.AllConnectorModels.Add(connectorModel);
+            }
+        }
+
         /// <summary>
         /// Get the Image of the Plugin
         /// </summary>
