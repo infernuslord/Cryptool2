@@ -16,6 +16,7 @@
 using System;
 using System.ComponentModel;
 using Cryptool.PluginBase;
+using Cryptool.PluginBase.Miscellaneous;
 
 namespace Cryptool.Plugins.ExamplePluginCT2
 {
@@ -49,6 +50,8 @@ namespace Cryptool.Plugins.ExamplePluginCT2
                 {
                     someParameter = value;
                     hasChanges = true;
+                    // HOWTO: MUST be called every time a property value changes with correct parameter name
+                    EventsHelper.PropertyChanged(PropertyChanged, this, "SomeParameter");
                 }
             }
         }
