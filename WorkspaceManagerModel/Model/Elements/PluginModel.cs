@@ -479,11 +479,11 @@ namespace WorkspaceManager.Model
                                 continue;
                             }
 
-                            object data = null;
-
+                            object data;
+                            
                             if (connectorModel.DataQueue.Count > 0)
                             {
-                                data = connectorModel.DataQueue.Dequeue();
+                                data = connectorModel.DataQueue.Dequeue();                                
                             }
                             else
                             {
@@ -568,9 +568,21 @@ namespace WorkspaceManager.Model
                         State = PluginModelState.Error;
                         GuiNeedsUpdate = true;
                     }                    
+                    
+                    // ################
+                    // 4. Set all connectorModels belonging to this pluginModel to inactive
+                    // ################
+                    foreach (ConnectorModel connectorModel in InputConnectors)
+                    {
+                        foreach (var connectionModel in connectorModel.InputConnections)
+                        {
+                            connectionModel.Active = false;
+                            connectionModel.GuiNeedsUpdate = true;
+                        }
+                    }
 
                     // ################
-                    //4. let all plugins before this check if it may execute
+                    // 5. let all plugins before this check if it may execute
                     // ################
                     foreach (ConnectorModel connectorModel in InputConnectors)
                     {
