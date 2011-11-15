@@ -24,7 +24,7 @@ namespace Cryptool.Plugins.ExamplePluginCT2
     [Author("Anonymous", "coredevs@cryptool.org", "CrypTool 2 Team", "http://cryptool2.vs.uni-due.de")]
     // HOWTO: Change plugin caption (title to appear in CT2) and tooltip.
     // You can (and should) provide a user documentation as XML file and an own icon.
-    [PluginInfo(false, "Example Plugin", "Subtract one number from another", "ExamplePluginCT2/userdoc.xml", "CrypWin/images/default.png")]
+    [PluginInfo("Example Plugin", "Subtract one number from another", "ExamplePluginCT2/userdoc.xml", "CrypWin/images/default.png")]
     // HOWTO: Change category to one that fits to your plugin. Multiple categories are allowed.
     [ComponentCategory(ComponentCategory.ToolsMisc)]
     public class ExamplePluginCT2 : ICrypComponent
@@ -42,7 +42,7 @@ namespace Cryptool.Plugins.ExamplePluginCT2
         /// HOWTO: Input interface to read the input data. 
         /// You can add more input properties of other type if needed.
         /// </summary>
-        [PropertyInfo(Direction.InputData, "Input name", "Input tooltip description", null)]
+        [PropertyInfo(Direction.InputData, "Input name", "Input tooltip description")]
         public int SomeInput
         {
             get;
@@ -53,7 +53,7 @@ namespace Cryptool.Plugins.ExamplePluginCT2
         /// HOWTO: Output interface to write the output data.
         /// You can add more output properties ot other type if needed.
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "Output name", "Output tooltip description", null)]
+        [PropertyInfo(Direction.OutputData, "Output name", "Output tooltip description")]
         public int SomeOutput
         {
             get;
@@ -64,26 +64,31 @@ namespace Cryptool.Plugins.ExamplePluginCT2
 
         #region IPlugin Members
 
+        /// <summary>
+        /// Provide plugin-related parameters (per instance) or return null.
+        /// </summary>
         public ISettings Settings
         {
             get { return settings; }
         }
 
         /// <summary>
-        /// HOWTO: You can provide a custom presentation to visualize your algorithm.
-        /// Return null if you don't provide one.
+        /// Provide custom presentation to visualize the execution or return null.
         /// </summary>
         public UserControl Presentation
         {
             get { return null; }
         }
 
+        /// <summary>
+        /// Called once when workflow execution starts.
+        /// </summary>
         public void PreExecution()
         {
         }
 
         /// <summary>
-        /// HOWTO: Enter the algorithm you'd like to implement in this method.
+        /// Called every time this plugin is run in the workflow execution.
         /// </summary>
         public void Execute()
         {
@@ -102,18 +107,31 @@ namespace Cryptool.Plugins.ExamplePluginCT2
             ProgressChanged(1, 1);
         }
 
+        /// <summary>
+        /// Called once after workflow execution has stopped.
+        /// </summary>
         public void PostExecution()
         {
         }
 
+        /// <summary>
+        /// Triggered time when user clicks stop button.
+        /// Shall abort long-running execution.
+        /// </summary>
         public void Stop()
         {
         }
 
+        /// <summary>
+        /// Called once when plugin is loaded into editor workspace.
+        /// </summary>
         public void Initialize()
         {
         }
 
+        /// <summary>
+        /// Called once when plugin is removed from editor workspace.
+        /// </summary>
         public void Dispose()
         {
         }
