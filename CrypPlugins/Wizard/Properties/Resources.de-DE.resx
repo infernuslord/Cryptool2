@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AbortButton" xml:space="preserve">
-    <value>Verwerfen</value>
+    <value>Abbrechen</value>
   </data>
   <data name="BackButton" xml:space="preserve">
     <value>Zurück</value>
@@ -154,6 +154,6 @@
     <value>Wizard beim Start anzeigen.</value>
   </data>
   <data name="Error" xml:space="preserve">
-    <value>Fehler beim Versuch die Vorlage zu laden!</value>
+    <value>Fehler beim Laden der Vorlage!</value>
   </data>
 </root>

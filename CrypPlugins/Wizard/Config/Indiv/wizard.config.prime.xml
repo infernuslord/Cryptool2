@@ -8,6 +8,7 @@
   <name lang="de" >Primzahl-Operationen</name>  
   <description lang="en" >
   Here you can run several operations corresponding to prime numbers, i.e.:
+  
 - generate primes,
 - test if a given number is a prime,
 - factorize a number into its prime factors, or
@@ -15,6 +16,7 @@
   </description>  
   <description lang="de-DE" >
   Hier können Sie verschiedene Operationen, die mit Primzahlen zusammenhängen, ausführen, z.B.:
+  
 - Primzahlen erzeugen,
 - testen, ob eine gegebene Zahl eine Primzahl ist,
 - eine Zahl in ihre Primfaktoren zerlegen (faktorisieren), oder
@@ -45,8 +47,8 @@
     <task lang="de">Geben Sie die Parameter zur Erzeugung einer Primzahl ein.</task>
 
     <inputBox plugin="PrimesGenerator" property="Input" width="50%" alignment="Left">
-      <description lang="en">Number of digits:</description>
-      <description lang="de">Anzahl an Ziffern:</description>
+      <description lang="en">Number of bits:</description>
+      <description lang="de">Anzahl der Bits:</description>
       <defaultvalue>400</defaultvalue>
     </inputBox>
 

@@ -6,7 +6,7 @@
   <name lang="en" >Modern Encryption/Decryption</name>
   <name lang="de" >Moderne Verschlüsselung/Entschlüsselung</name>
   <description lang="en" >Selecting this allows you to encrypt a plaintext or decrypt a ciphertext with a modern algorithm. You can choose which modern algorithm you want to use for doing this.</description>
-  <description lang="de-DE" >Indem Sie dies auswählen, können Sie mit Hilfe eines modernen Algorithmus einen Klartext verschlüsseln oder einen chiffrierten Text entschlüsseln. Der dafür verwendete moderne Algorithmus kann von Ihnen ausgewählt werden.</description>
+  <description lang="de-DE" >Wählen Sie diesen Punkt, um mit Hilfe eines modernen Algorithmus einen Klartext zu verschlüsseln oder einen chiffrierten Text zu entschlüsseln. Der dafür verwendete moderne Algorithmus kann von Ihnen ausgewählt werden.</description>
 
   <!-- This is the step's headline. It should be short, but precise. -->
   <headline lang="en">Type Selection</headline>
@@ -14,7 +14,7 @@
 
   <!-- This is the step's description. -->
   <task lang="en" >Select which kind of modern encryption/decryption algorithm you want to use.</task>
-  <task lang="de" >Wählen Sie welche Art eines modernen Verschlüsselungs-/Entschlüsselungsalgorithmus Sie benutzen wollen.</task>
+  <task lang="de" >Wählen Sie, welchen modernen Verschlüsselungs-/Entschlüsselungsalgorithmus Sie benutzen wollen.</task>
 
   <!-- Symmetric Encryption/Decryption Category -->
   <file resource="Wizard.Config.EnDeCrypt.wizard.config.modernSymEnDe.xml" />
@@ -24,7 +24,7 @@
     <name lang="en" >Asymmetric Encryption/Decryption</name>
     <name lang="de" >Asymmetrische Verschlüsselung/Entschlüsselung</name>
     <description lang="en" >Selecting this allows you to encrypt a plaintext or decrypt a ciphertext with an asymmetric algorithm. Asymmetric algorithms are those, where you have two different keys, one for encryption and one for decryption. You can choose which asymmetric algorithm you want to use for doing this.</description>
-    <description lang="de-DE" >Indem Sie dies auswählen, können Sie mit Hilfe eines asymmetrischen Algorithmus einen Klartext verschlüsseln oder einen chiffrierten Text entschlüsseln. Asymmetrische Algorithmen sind solche, bei denen man zwei verschiedene Schlüssel hat, einen zum Verschlüsseln und einen zum Entschlüsseln. Der dafür verwendete asymmetrische Algorithmus kann von Ihnen ausgewählt werden.</description>
+    <description lang="de-DE" >Wählen Sie diesen Punkt, um mit Hilfe eines asymmetrischen Algorithmus einen Klartext zu verschlüsseln oder einen chiffrierten Text zu entschlüsseln. Bei der asymmetrischen Verschlüsselung werden zwei verschiedene Schlüssel verwendet, einer für die Verschlüsselung und einer für die Entschlüsselung. Der dafür verwendete asymmetrische Algorithmus kann von Ihnen ausgewählt werden.</description>
 
     <headline lang="en">Algorithm Selection</headline>
     <headline lang="de">Algorithmusauswahl</headline>
@@ -50,7 +50,7 @@ RSA ist in kommerziellen Protokollen weit verbreitet und gilt bei genügend lang
 
       <headline lang="en">RSA</headline>
       <task lang="en">Choose whether you want to use RSA for encryption or decryption</task>
-      <task lang="de">Choose whether you want to use RSA for encryption or decryption</task>
+      <task lang="de">Wählen Sie, ob RSA zur Verschlüsselung oder zur Entschlüsselung verwendet werden soll</task>
       
       <input image="RSA" >
         <name lang="en">RSA Encryption</name>
@@ -77,13 +77,13 @@ RSA ist in kommerziellen Protokollen weit verbreitet und gilt bei genügend lang
 
         <inputBox plugin="Cleartext" property="Text" visibleLines="5" alignment="Left">
           <description lang="en">Text message to encrypt:</description>
-          <description lang="de">Textnachricht zum Verschlüsseln:</description>
+          <description lang="de">Zu verschlüsselnde Textnachricht:</description>
           <defaultvalue lang="en">In cryptography, RSA (which stands for Rivest, Shamir and Adleman who first publicly described it) is an algorithm for public-key cryptography.[1] It is the first algorithm known to be suitable for signing as well as encryption, and was one of the first great advances in public key cryptography. RSA is widely used in electronic commerce protocols, and is believed to be secure given sufficiently long keys and the use of up-to-date implementations.</defaultvalue>
         </inputBox>
 
         <inputBox plugin="Number" property="Number" width="20%" alignment="Left">
           <description lang="en">Number to encrypt:</description>
-          <description lang="de">Nummer zum Verschlüsseln:</description>
+          <description lang="de">Zu verschlüsselnde Zahl:</description>
           <defaultvalue>100</defaultvalue>
         </inputBox>
 

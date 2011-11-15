@@ -7,7 +7,7 @@
   <name lang="en" >Symmetric Encryption</name>
   <name lang="d" >Symmetrische Verschlüsselung</name>
   <description lang="en" >Selecting this allows you to analyze a ciphertext that was encrypted by a modern symmetric algorithm. You can choose which symmetric algorithm you want to use for doing this.</description>
-  <description lang="de-DE" >Indem Sie dies auswählen, können Sie einen chiffrierten Text, der mit einem modernen symmetrischen Algorithmus verschlüsselt wurde, analysieren. Der dafür verwendete symmetrische Algorithmus kann von Ihnen ausgewählt werden.</description>
+  <description lang="de-DE" >Wählen Sie diesen Punkt, um einen chiffrierten Text, der mit einem modernen symmetrischen Algorithmus verschlüsselt wurde, zu analysieren. Der dafür verwendete symmetrische Algorithmus kann von Ihnen ausgewählt werden.</description>
 
   <!-- This is the step's headline. It should be short, but precise. -->
   <headline lang="en" >Algorithm Selection</headline>
@@ -24,7 +24,7 @@ By selecting this, you can analyze some ciphertext that was encrypted with the A
     </description>
     <description lang="de" >
       AES ist ein moderner symmetrischer Algorithmus um Klartext zu verschlüsseln oder chiffrierten Text zu entschlüsseln.
-Indem Sie dies auswählen können Sie chiffrierten Text, der mit dem AES-Algorithmus verschlüsselt wurde, analysieren.
+      Wählen Sie diesen Punkt, um chiffrierten Text, der mit dem AES-Algorithmus verschlüsselt wurde, zu analysieren.
     </description>
 
     <input image="AES">
@@ -180,7 +180,7 @@ By selecting this, you can analyze some ciphertext that was encrypted with the D
     </description>
     <description lang="de" >
       DES ist ein moderner symmetrischer Algorithmus um Klartext zu verschlüsseln oder chiffrierten Text zu entschlüsseln.
-Indem Sie dies auswählen können Sie chiffrierten Text, der mit dem DES-Algorithmus verschlüsselt wurde, analysieren.
+      Wählen Sie diesen Punkt, um chiffrierten Text, der mit dem DES-Algorithmus verschlüsselt wurde, zu analysieren.
     </description>
 
     <input image="DES">
@@ -320,14 +320,14 @@ By selecting this, you can analyze some ciphertext that was encrypted with the S
     </description>
     <description lang="de" >
       SDES ist ein moderner symmetrischer uns sehr einfacher Algorithmus um Klartext zu verschlüsseln oder chiffrierten Text zu entschlüsseln.
-Indem Sie dies auswählen können Sie chiffrierten Text, der mit dem SDES-Algorithmus verschlüsselt wurde, analysieren.
+      Wählen Sie diesen Punkt, um chiffrierten Text, der mit dem SDES-Algorithmus verschlüsselt wurde, zu analysieren.
     </description>
 
     <input image="SDES">
       <name lang="en">Ciphertext Only</name>
       <name lang="de">Nur Geheimtext</name>
       <description lang="en">Analyses a ciphertext by using only the ciphertext. It will use entropy as the cost function.</description>
-      <description lang="de">Analysiert einen chiffrierten Text nur mit Hilfe des chiffrierten Textes. Benutzt Entropy als Kostenfunktion.</description>
+      <description lang="de">Analysiert einen chiffrierten Text nur mit Hilfe des chiffrierten Textes. Verwendet die Entropie als Kostenfunktion.</description>
 
       <headline lang="en">SDES - Ciphertext Only Analysis</headline>
       <headline lang="de">SDES - Nur Geheimtext-Analyse</headline>
