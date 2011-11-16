@@ -954,28 +954,6 @@ namespace WorkspaceManager
             }
         }
 
-
-        public void AddEditorSpecific(EditorSpecificPluginInfo espi)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void DeleteEditorSpecific(EditorSpecificPluginInfo espi)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Active()
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<EditorSpecificPluginInfo> EditorSpecificPlugins
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-
         public void Pause()
         {
             throw new NotImplementedException();
