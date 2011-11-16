@@ -92,7 +92,7 @@
         </Style>
 
 
-        <Style x:Key="ComponentListStyle" TargetType="{x:Type ListView}">
+        <Style x:Key="SelectedComponentListStyle" TargetType="{x:Type ListView}">
             <Style.Resources>
                 <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent"/>
                 <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="Transparent"/>
@@ -114,7 +114,7 @@
             <Setter Property="ItemTemplate">
                 <Setter.Value>
                     <DataTemplate DataType="{x:Type local:BinComponentVisual}">
-                        <Grid>
+                        <Grid x:Name="Root">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"></RowDefinition>
                                 <RowDefinition Height="1"></RowDefinition>
@@ -130,6 +130,68 @@
                         </Grid>
 
                         <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding Path=IsSelected}" Value="False">
+                                <Setter TargetName="Root" Property="Visibility" Value="Collapsed"></Setter>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
+                                <Setter TargetName="ContentExpander" Property="IsExpanded" Value="True"></Setter>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding ElementName=Border, Path=IsMouseOver}" Value="True">
+                                <Setter TargetName="Border" Property="BorderBrush" Value="#7da2ce"></Setter>
+                                <Setter TargetName="Background" Property="Background" Value="{StaticResource ResourceKey=BackgroundMouseOver}"></Setter>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding ElementName=ContentExpander, Path=IsExpanded}" Value="True">
+                                <Setter TargetName="Border" Property="BorderBrush" Value="#7da2ce"></Setter>
+                                <Setter TargetName="Background" Property="Background" Value="{StaticResource ResourceKey=BackgroundMouseOver}"></Setter>
+                            </DataTrigger>
+
+                        </DataTemplate.Triggers>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="NotSelectedComponentListStyle" TargetType="{x:Type ListView}">
+            <Style.Resources>
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent"/>
+                <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="Transparent"/>
+            </Style.Resources>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="Background" Value="#d1dced"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Grid Background="{TemplateBinding Background}" Width="{TemplateBinding Width}">
+                            <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" HorizontalContentAlignment="Stretch" Grid.Row="1">
+                                <ItemsPresenter/>
+                            </ScrollViewer>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="ItemTemplate">
+                <Setter.Value>
+                    <DataTemplate DataType="{x:Type local:BinComponentVisual}">
+                        <Grid x:Name="Root">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="1"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Border x:Name="Border" BorderBrush="White" BorderThickness="1.5" Background="#edf5ff" CornerRadius="2">
+                                <Grid x:Name="Background">
+                                    <Expander x:Name="ContentExpander" Grid.Row="0" Style="{StaticResource ResourceKey=ExpanderStyle}">
+                                        <ContentPresenter Content="{Binding Path=SideBarSetting}"></ContentPresenter>
+                                    </Expander>
+                                </Grid>
+                            </Border>
+                            <Separator Height="1" Background="White" Grid.Row="1"></Separator>
+                        </Grid>
+
+                        <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
+                                <Setter TargetName="Root" Property="Visibility" Value="Collapsed"></Setter>
+                            </DataTrigger>
                             <DataTrigger Binding="{Binding ElementName=Border, Path=IsMouseOver}" Value="True">
                                 <Setter TargetName="Border" Property="BorderBrush" Value="#7da2ce"></Setter>
                                 <Setter TargetName="Background" Property="Background" Value="{StaticResource ResourceKey=BackgroundMouseOver}"></Setter>
@@ -161,16 +223,25 @@
             </ControlTemplate.Triggers>
         </ControlTemplate>
     </UserControl.Resources>
-    
-    <Border CornerRadius="5,0,0,5" Background="#ccd8eb" BorderThickness="1.5" BorderBrush="#aaa">
-        <Border Background="#98a1af" Margin="1">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <ListView Style="{StaticResource ResourceKey=ComponentListStyle}" ItemsSource="{Binding Path=ComponentCollection}" 
-                              SelectionMode="Single" Grid.Column="1" ScrollViewer.CanContentScroll="False"></ListView>
-            </Grid>
-        </Border>
+
+    <Border Background="#d1dced" BorderThickness="1.5" BorderBrush="#aaa">
+        <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" HorizontalContentAlignment="Stretch">
+            <StackPanel>
+                <StackPanel>
+                    <TextBlock Text="Selected" FontWeight="Bold" FontSize="12" Foreground="#555" TextAlignment="Center"></TextBlock>
+                    <ListView Style="{StaticResource ResourceKey=SelectedComponentListStyle}" ItemsSource="{Binding Path=ComponentCollection}" 
+                                SelectionMode="Single" Grid.Column="1" ScrollViewer.CanContentScroll="False">
+                        <ListView.LayoutTransform>
+                            <ScaleTransform ScaleX="1.1" ScaleY="1.1"></ScaleTransform>
+                        </ListView.LayoutTransform>
+                    </ListView>
+                </StackPanel>
+                <StackPanel>
+                    <TextBlock Text="Not Selected" FontWeight="Bold" FontSize="12" Foreground="#555" TextAlignment="Center"></TextBlock>
+                    <ListView Style="{StaticResource ResourceKey=NotSelectedComponentListStyle}" ItemsSource="{Binding Path=ComponentCollection}" 
+                                SelectionMode="Single" Grid.Column="1"></ListView>
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
     </Border>
 </UserControl>
