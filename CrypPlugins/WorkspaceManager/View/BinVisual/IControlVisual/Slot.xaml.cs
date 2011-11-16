@@ -24,7 +24,7 @@ namespace WorkspaceManager.View.BinVisual.IControlVisual
     /// </summary>
     public partial class Slot : UserControl
     {
-        public WorkspaceManager MyEditor { get; set; }
+        public WorkspaceManagerClass MyEditor { get; set; }
 
         private IControlMasterElement element;
         private bool loading;
@@ -85,7 +85,7 @@ namespace WorkspaceManager.View.BinVisual.IControlVisual
             InitializeComponent();
             this.element = element;
             Types = new ObservableCollection<SlaveType>();
-            MyEditor = (WorkspaceManager)element.ConnectorModel.WorkspaceModel.MyEditor;
+            MyEditor = (WorkspaceManagerClass)element.ConnectorModel.WorkspaceModel.MyEditor;
             if (ComponentInformations.PluginsWithSpecificController.ContainsKey(element.ConnectorModel.ConnectorType))
             {
                 var list = ComponentInformations.PluginsWithSpecificController[element.ConnectorModel.ConnectorType];

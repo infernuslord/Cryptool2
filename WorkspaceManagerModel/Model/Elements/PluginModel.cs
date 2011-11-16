@@ -602,6 +602,8 @@ namespace WorkspaceManager.Model
                 State = PluginModelState.Error;
             }
         }
+
+        //public int ZIndex { get; set; }
     }
     /// <summary>
     /// The internal state of a Plugin Model

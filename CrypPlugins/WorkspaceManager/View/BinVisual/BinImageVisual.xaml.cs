@@ -81,7 +81,7 @@ namespace WorkspaceManager.View.BinVisual
         }
 
         public static readonly DependencyProperty PositionProperty = DependencyProperty.Register("Position",
-            typeof(Point), typeof(BinImageVisual), new FrameworkPropertyMetadata(new Point(0, 0)));
+            typeof(Point), typeof(BinImageVisual), new FrameworkPropertyMetadata(new Point(0, 0), new PropertyChangedCallback(OnPositionValueChanged)));
 
         public Point Position
         {
@@ -162,11 +162,18 @@ namespace WorkspaceManager.View.BinVisual
         #endregion
 
         #region Event Handler
+
+        private static void OnPositionValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            BinImageVisual bin = (BinImageVisual)d;
+            if (bin.PositionDeltaChanged != null)
+                bin.PositionDeltaChanged.Invoke(bin, new PositionDeltaChangedArgs() { });
+        }
+
         virtual protected void CloseClick(object sender, RoutedEventArgs e) 
         {
             Model.WorkspaceModel.ModifyModel(new DeleteImageModelOperation(Model));
         }
-
 
         private void LockHandler(object sender, RoutedEventArgs e)
         {
@@ -203,5 +210,7 @@ namespace WorkspaceManager.View.BinVisual
         {
             get { throw new NotImplementedException(); }
         }
+
+        public event EventHandler<PositionDeltaChangedArgs> PositionDeltaChanged;
     }
 }

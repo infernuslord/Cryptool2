@@ -43,7 +43,30 @@
                     <Image Width="18" Height="18" Source="/WorkspaceManager;component/View/Image/help32.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"></Image>
                 </MenuItem.Icon>
             </MenuItem>
-            <Separator></Separator>
+
+            <Separator />
+            <MenuItem Click="ContextMenuClick" Header="Top" Tag="top">
+                <MenuItem.Icon>
+                    <Rectangle Height="18" Width="18" Fill="Yellow"></Rectangle>
+                </MenuItem.Icon>
+            </MenuItem>
+
+            <MenuItem Click="ContextMenuClick" Header="Down" Tag="down">
+                <MenuItem.Icon>
+                    <Rectangle Height="18" Width="18" Fill="Yellow"></Rectangle>
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Click="ContextMenuClick" Header="Up" Tag="up">
+                <MenuItem.Icon>
+                    <Rectangle Height="18" Width="18" Fill="Yellow"></Rectangle>
+                </MenuItem.Icon>
+            </MenuItem>
+            
+            <MenuItem Click="ContextMenuClick" Header="Bottom" Tag="bottom">
+                <MenuItem.Icon>
+                    <Rectangle Height="18" Width="18" Fill="Yellow"></Rectangle>
+                </MenuItem.Icon>
+            </MenuItem>
         </ContextMenu>
     </UserControl.ContextMenu>
     <UserControl.RenderTransform>

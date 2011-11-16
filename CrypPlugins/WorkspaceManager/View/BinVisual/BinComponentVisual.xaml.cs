@@ -31,13 +31,30 @@ namespace WorkspaceManager.View.BinVisual
     /// Interaction logic for BinFunctionVisual.xaml
     /// </summary>
     [Cryptool.PluginBase.Attributes.Localization("WorkspaceManager.Properties.Resources")]
-    public partial class BinComponentVisual : UserControl, IRouting, INotifyPropertyChanged, IUpdateableView
+    public partial class BinComponentVisual : UserControl, IRouting, IZOrdering, INotifyPropertyChanged, IUpdateableView
     {
 
         #region events
         public event PropertyChangedEventHandler PropertyChanged;
         public event EventHandler<VisualStateChangedArgs> StateChanged;
         public event EventHandler<PositionDeltaChangedArgs> PositionDeltaChanged;
+        public event EventHandler<ZIndexChangedArgs> ZIndexChanged;
+        #endregion
+
+        #region IZOrdering
+        private int zIndex = 0;
+        public int ZIndex
+        {
+            get 
+            { 
+                return zIndex; 
+            }
+            set 
+            {
+                zIndex = value;
+                //Model.ZIndex = value;
+            }
+        }
         #endregion
 
         #region IRouting
@@ -492,10 +509,10 @@ typeof(BinSettingsVisual), typeof(BinComponentVisual), new FrameworkPropertyMeta
         {
             Model = model;
             Model.UpdateableView = this;
-            Editor = (BinEditorVisual)((WorkspaceManager)Model.WorkspaceModel.MyEditor).Presentation;
+            Editor = (BinEditorVisual)((WorkspaceManagerClass)Model.WorkspaceModel.MyEditor).Presentation;
             ErrorsTillReset = new Queue<Log>();
             SideBarSetting = new BinSettingsVisual(Model.Plugin, this, true);
-            EditorVisual = (BinEditorVisual)((WorkspaceManager)Model.WorkspaceModel.MyEditor).Presentation;
+            EditorVisual = (BinEditorVisual)((WorkspaceManagerClass)Model.WorkspaceModel.MyEditor).Presentation;
             Presentations.Add(BinComponentState.Presentation, model.PluginPresentation);
             Presentations.Add(BinComponentState.Min, Model.getImage());
             Presentations.Add(BinComponentState.Data, new BinDataVisual(ConnectorCollection));
@@ -740,6 +757,22 @@ typeof(BinSettingsVisual), typeof(BinComponentVisual), new FrameworkPropertyMeta
                 case "help":
                     OnlineHelp.InvokeShowPluginDocPage(model.PluginType);
                     return;
+
+                case "up":
+                    ModifiedCanvas.RequestZIndexModification(VisualParent as ModifiedCanvas, this, ModifiedCanvas.ZPaneRequest.up);
+                    return;
+
+                case "down":
+                    ModifiedCanvas.RequestZIndexModification(VisualParent as ModifiedCanvas, this, ModifiedCanvas.ZPaneRequest.down);
+                    return;
+
+                case "top":
+                    ModifiedCanvas.RequestZIndexModification(VisualParent as ModifiedCanvas, this, ModifiedCanvas.ZPaneRequest.top);
+                    return;
+
+                case "bottom":
+                    ModifiedCanvas.RequestZIndexModification(VisualParent as ModifiedCanvas, this, ModifiedCanvas.ZPaneRequest.bot);
+                    return;
             }
             Editor.SetFullscreen(this, localState);
         }
@@ -844,14 +877,14 @@ typeof(BinSettingsVisual), typeof(BinComponentVisual), new FrameworkPropertyMeta
             bin.Model.WorkspaceModel.ModifyModel(new RenameModelElementOperation(bin.Model, (string)e.NewValue));
             if (bin.Model.WorkspaceModel.MyEditor != null)
             {
-                ((WorkspaceManager)bin.Model.WorkspaceModel.MyEditor).HasChanges = true;
+                ((WorkspaceManagerClass)bin.Model.WorkspaceModel.MyEditor).HasChanges = true;
             }
         }
 
         private void CloseClick(object sender, RoutedEventArgs e)
         {
             // process only if workspace is not running
-            if (Model != null && !((WorkspaceManager)Model.WorkspaceModel.MyEditor).isExecuting())
+            if (Model != null && !((WorkspaceManagerClass)Model.WorkspaceModel.MyEditor).isExecuting())
             {
                 this.State = BinComponentState.Min;
                 Model.WorkspaceModel.ModifyModel(new DeletePluginModelOperation(Model));
@@ -868,6 +901,22 @@ typeof(BinSettingsVisual), typeof(BinComponentVisual), new FrameworkPropertyMeta
         }
         #endregion
 
+        private void PreviewDragEnterHandler(object sender, DragEventArgs e)
+        {
+            //if (e.Data.GetDataPresent("BinConnector"))
+            //{
+            //    return;
+            //}
+            //else
+            //{
+            //    Mouse.OverrideCursor = Cursors.No;
+            //}
+        }
+
+        private void PreviewDragLeaveHandler(object sender, DragEventArgs e)
+        {
+            //Mouse.OverrideCursor = null;
+        }
     }
 
     #region Events
@@ -879,6 +928,11 @@ typeof(BinSettingsVisual), typeof(BinComponentVisual), new FrameworkPropertyMeta
     public class PositionDeltaChangedArgs : EventArgs
     {
         public Vector PosDelta { get; set; }
+    }
+
+    public class ZIndexChangedArgs : EventArgs
+    {
+        public int ZIndex { get; set; }
     }
     #endregion
 

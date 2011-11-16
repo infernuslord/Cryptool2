@@ -62,7 +62,7 @@ namespace Wizard
         private List<TextBox> currentOutputBoxes = new List<TextBox>();
         private List<TextBox> currentInputBoxes = new List<TextBox>();
         private List<ContentControl> currentPresentations = new List<ContentControl>();
-        private WorkspaceManager.WorkspaceManager currentManager = null;
+        private WorkspaceManager.WorkspaceManagerClass currentManager = null;
         private bool canStopOrExecute = false;
         private string _title;
 
@@ -911,7 +911,7 @@ namespace Wizard
                 //load sample:
                 if (openTab)
                 {
-                    currentManager = (WorkspaceManager.WorkspaceManager) OnOpenEditor(typeof (WorkspaceManager.WorkspaceManager), null, null);
+                    currentManager = (WorkspaceManager.WorkspaceManagerClass) OnOpenEditor(typeof (WorkspaceManager.WorkspaceManagerClass), null, null);
                     currentManager.Open(model);
                     if (Cryptool.PluginBase.Properties.Settings.Default.Wizard_RunTemplate)
                     {
@@ -931,7 +931,7 @@ namespace Wizard
                 }
                 else
                 {
-                    currentManager = new WorkspaceManager.WorkspaceManager();
+                    currentManager = new WorkspaceManager.WorkspaceManagerClass();
                     currentManager.Open(model);
                     canStopOrExecute = true;
                     currentManager.SampleLoaded += SampleLoaded;

@@ -165,7 +165,7 @@
         </Style>
 
         <ControlTemplate x:Key="CtrlTemplate" TargetType="{x:Type Button}">
-            <Border x:Name="Border" BorderThickness="1" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}">
+            <Border x:Name="Border" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}">
                 <Image Source="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Tag.Source}" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}"></Image>
             </Border>
             <ControlTemplate.Triggers>
@@ -336,21 +336,27 @@
             </Border>
         </Border>
         <Border Background="{StaticResource ResourceKey=BackgroundTitle}" Grid.Column="1" Grid.Row="0">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Image Source="{Binding Path=ActiveComponent.Icon.Source}" Margin="2.5" Grid.Column="0"></Image>
-                <StackPanel Orientation="Vertical" Grid.Column="1">
-                    <TextBlock Text="{Binding Path=ActiveComponent.CustomName}" 
-                               TextTrimming="WordEllipsis" Foreground="#555" 
-                               FontWeight="Bold" FontSize="14"></TextBlock>
-                    <TextBlock Text="{Binding Path=ActiveComponent.FunctionName}" 
-                               TextTrimming="WordEllipsis" Foreground="#555"></TextBlock>
-                </StackPanel>
-                <Button Style="{StaticResource ResourceKey=ActionBasicStyle}" Click="CloseClick">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="50"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Button Style="{StaticResource ResourceKey=ActionBasicStyle}" Grid.Column="2" Click="CloseClick">
                     <Button.Tag>
                         <Image Source="/WorkspaceManager;component/View/Image/delete.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"/>
                     </Button.Tag>
                 </Button>
-            </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Image Source="{Binding Path=ActiveComponent.Icon.Source}" Margin="2.5" Grid.Column="0"></Image>
+                    <StackPanel Orientation="Vertical" Grid.Column="1">
+                        <TextBlock Text="{Binding Path=ActiveComponent.CustomName}" 
+                               TextTrimming="WordEllipsis" Foreground="#555" 
+                               FontWeight="Bold" FontSize="14"></TextBlock>
+                        <TextBlock Text="{Binding Path=ActiveComponent.FunctionName}" 
+                               TextTrimming="WordEllipsis" Foreground="#555"></TextBlock>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
         </Border>
         <ContentPresenter Content="{Binding Path=ActivePresentation}" Grid.Column="1" Grid.Row="1"></ContentPresenter>
     </Grid>

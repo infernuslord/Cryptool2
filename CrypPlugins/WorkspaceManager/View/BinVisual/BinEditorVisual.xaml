@@ -13,6 +13,11 @@
              DataContext="{Binding RelativeSource={x:Static RelativeSource.Self}}" ToolTip="{Loc NewWorkspaceTooltip}">
     <UserControl.Resources>
         <SolidColorBrush x:Key="SolidColorBackground" Color="#add3f5"></SolidColorBrush>
+
+        <LinearGradientBrush x:Key="LinearColorBackground" StartPoint="0,0" EndPoint="0,1">
+            <GradientStop Color="#cfe2ff" Offset="0" />
+            <GradientStop Color="#b7d4ff" Offset="1" />
+        </LinearGradientBrush>
         <local:testconverter x:Key="testconverter"></local:testconverter>
 
         <LinearGradientBrush x:Key="ErrorBG" StartPoint="0,0" EndPoint="0,1">
@@ -49,16 +54,6 @@
             <Setter Property="Template" Value="{StaticResource ResourceKey=CtrlTemplate}"></Setter>
         </Style>
 
-        <Style x:Key="LoadingScrollViewerStyle" TargetType="{x:Type ScrollViewer}">
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=IsLoading}" Value="True">
-                    <Setter Property="Visibility" Value="Collapsed"/>
-                </DataTrigger>
-            </Style.Triggers>
-            <Setter Property="HorizontalScrollBarVisibility" Value="Auto"/>
-            <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
-        </Style>
-
         <Style x:Key="LoadingScreenStyle" TargetType="{x:Type Grid}">
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Path=IsLoading}" Value="False">
@@ -86,25 +81,67 @@
                 </DataTrigger>-->
             </Style.Triggers>
         </Style>
+
+        <Style TargetType="{x:Type ToggleButton}" x:Key="ToggleButtonStyle">
+            <Setter Property="HorizontalAlignment" Value="Right"></Setter>
+            <Setter Property="Width" Value="35"></Setter>
+            <Setter Property="Height" Value="35"></Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate x:Name="TemplateBtn" TargetType="ToggleButton">
+                        <Border x:Name="Border" BorderThickness="1">
+                            <ContentPresenter Height="{TemplateBinding Height}" Width="{TemplateBinding Width}" Content="{TemplateBinding Content}"></ContentPresenter>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" Value="#ff9600" TargetName="Border" />
+                                <Setter Property="BorderBrush" Value="#ff9600" TargetName="Border" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Background" Value="#ffb142" TargetName="Border" />
+                                <Setter Property="BorderBrush" Value="#ffb142" TargetName="Border" />
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="true">
+                                <Setter Property="Background" Value="#ffb142" TargetName="Border" />
+                                <Setter Property="BorderBrush" Value="#ffb142" TargetName="Border" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </UserControl.Resources>
     <Grid x:Name="Root">
         <!--##########Definitions##########-->
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"></ColumnDefinition>
-            <ColumnDefinition Width="auto"></ColumnDefinition>
+            <ColumnDefinition Width="auto">
+                <ColumnDefinition.Style>
+                    <Style TargetType="ColumnDefinition">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=IsChecked, ElementName=PluginSettingButton}" Value="True">
+                                <Setter Property="MinWidth" Value="150"></Setter>
+                                <Setter Property="MaxWidth" Value="400"></Setter>
+                            </DataTrigger>
+                        </Style.Triggers>
+                        <Setter Property="MinWidth" Value="0"></Setter>
+                        <Setter Property="MaxWidth" Value="0"></Setter>
+                    </Style>
+                </ColumnDefinition.Style>
+            </ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="30"></RowDefinition>
         </Grid.RowDefinitions>
         <!--##########/Definitions##########-->
         
         <!--##########Content Space##########-->
-        <ScrollViewer x:Name="ScrollViewer" Style="{StaticResource ResourceKey=LoadingScrollViewerStyle}" Grid.Row="0" Grid.Column="0">
-            <ItemsControl x:Name="ComponentRoot" ItemsSource="{Binding Path=VisualCollection, Mode=OneWay}">
+        <visuals:ZoomScrollViewer x:Name="ScrollViewer" Grid.Row="1" Grid.Column="0">
+            <ItemsControl ItemsSource="{Binding Path=VisualCollection, Mode=OneWay}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <visuals:ModifiedCanvas RenderTransformOrigin="0.5, 0.5" Background="{StaticResource ResourceKey=SolidColorBackground}" 
+                        <visuals:ModifiedCanvas RenderTransformOrigin="0.5, 0.5" Background="{StaticResource ResourceKey=LinearColorBackground}" 
                             PreviewMouseLeftButtonDown="MouseLeftButtonDownHandler" PreviewMouseRightButtonDown="MouseRightButtonDownHandler" 
                             PreviewMouseMove="MouseMoveHandler" PreviewMouseLeftButtonUp="MouseLeftButtonUpHandler" MouseLeave="MouseLeaveHandler"
                             PreviewDragEnter="PreviewDragEnterHandler" PreviewDragLeave="PreviewDragLeaveHandler" PreviewDrop="PreviewDropHandler"
@@ -117,11 +154,11 @@
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
             </ItemsControl>
-        </ScrollViewer>
+        </visuals:ZoomScrollViewer>
         <!--##########/Content Space##########-->
 
         <!--##########Fullscreen##########-->
-        <ContentPresenter x:Name="FullScreen" Style="{StaticResource ResourceKey=ContentPresenterStyle}" Grid.Row="0" Grid.Column="0">
+        <ContentPresenter x:Name="FullScreen" Style="{StaticResource ResourceKey=ContentPresenterStyle}" Grid.Row="1" Grid.Column="0">
             <ContentPresenter.Content>
                 <local:BinFullscreenVisual 
                     IsFullscreenOpen="{Binding Path=IsFullscreenOpen, Mode=TwoWay}" 
@@ -132,25 +169,44 @@
         <!--##########/Fullscreen##########-->
 
         <!--##########Fullscreen##########-->
-        <local:BinSideBarVisual Grid.Column="1"></local:BinSideBarVisual>
+        <local:BinSideBarVisual x:Name="SideBar"  Grid.Column="1" Grid.Row="1">
+            <local:BinSideBarVisual.Style>
+                <Style TargetType="local:BinSideBarVisual">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Path=IsChecked, ElementName=PluginSettingButton}" Value="True">
+                            <Setter Property="Visibility" Value="Visible"></Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                    <Setter Property="Visibility" Value="Collapsed"></Setter>
+                </Style>
+            </local:BinSideBarVisual.Style>
+        </local:BinSideBarVisual>
+        <GridSplitter Visibility="{Binding ElementName=SideBar, Path=Visibility}"  Grid.Column="0" Grid.Row="1" Background="Gray" Width="2"></GridSplitter>
         <!--##########/Fullscreen##########-->
 
         <!--##########Bottom Operations##########-->
-        <visuals:BottomBox AddText="AddTextHandler" AddImage="AddImageHandler" FitToScreen="FitToScreenHandler" Overview="OverviewHandler" Sort="SortHandler"
-                           Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"></visuals:BottomBox>
+        <visuals:BottomBox AddText="AddTextHandler" AddImage="AddImageHandler" FitToScreen="FitToScreenHandler" Sort="SortHandler"
+                           Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"></visuals:BottomBox>
 
-        <visuals:TextEditPanel Grid.RowSpan="3"  Grid.Column="0"></visuals:TextEditPanel>
+        <ToggleButton x:Name="PluginSettingButton" Style="{StaticResource ResourceKey=ToggleButtonStyle}" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+            <ToggleButton.LayoutTransform>
+                <ScaleTransform ScaleX="0.85" ScaleY="0.85"></ScaleTransform>
+            </ToggleButton.LayoutTransform>
+            <Image VerticalAlignment="Center" Source="/WorkspaceManager;component/View/Image/pluginSetting-small.png" Width="35" Height="35"></Image>
+        </ToggleButton>
+
+        <visuals:TextEditPanel  Grid.RowSpan="3"  Grid.Column="0" Margin="115,0,0,0"></visuals:TextEditPanel>
         <!--##########/Bottom Operations##########-->
 
 
         <!--##########Loading##########-->
-        <Grid x:Name="LoadingGrid" Style="{StaticResource ResourceKey=LoadingScreenStyle}" Grid.Row="0" Grid.Column="0">
+        <Grid x:Name="LoadingGrid" Style="{StaticResource ResourceKey=LoadingScreenStyle}" Grid.Row="1" Grid.Column="0">
             <TextBlock Text="{Loc Loading_}" FontFamily="DejaVu Sans" FontSize="50" FontWeight="Heavy" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
         </Grid>
         <!--##########/Loading##########-->
 
         <!--##########Error##########-->
-        <Grid x:Name="ErrorGrid" Style="{StaticResource ResourceKey=ErrorScreenStyle}" Grid.Row="0" Grid.Column="0">
+        <Grid x:Name="ErrorGrid" Style="{StaticResource ResourceKey=ErrorScreenStyle}" Grid.Row="1" Grid.Column="0">
             <Border Background="White" Margin="90,20,90,50" CornerRadius="10">
                 <Border.Effect>
                     <DropShadowEffect></DropShadowEffect>

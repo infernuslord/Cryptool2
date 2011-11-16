@@ -18,9 +18,9 @@ namespace WorkspaceManager
         #region ISettings Members
         private bool hasChanges = false;
 
-        private WorkspaceManager WorkspaceManager { get; set; }
+        private WorkspaceManagerClass WorkspaceManager { get; set; }
 
-        public WorkspaceManagerSettings(WorkspaceManager manager)
+        public WorkspaceManagerSettings(WorkspaceManagerClass manager)
         {
             WorkspaceManager = manager;
         }

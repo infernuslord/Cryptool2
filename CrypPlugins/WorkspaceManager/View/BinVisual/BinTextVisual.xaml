@@ -229,7 +229,13 @@
                 <Grid>
                     <ScrollViewer x:Name="ScrollViewerRTB" VerticalScrollBarVisibility="Auto">
                         <RichTextBox x:Name="mainRTB" Foreground="Black" AcceptsTab="True" OverridesDefaultStyle="True" TextChanged="TextChangedHandler"
-                             BorderBrush="#888" BorderThickness="1" Focusable="{Binding Path=IsSelected}" VerticalScrollBarVisibility="Auto"></RichTextBox>
+                             BorderBrush="#888" BorderThickness="1" Focusable="{Binding Path=IsSelected}" VerticalScrollBarVisibility="Auto">
+                            <RichTextBox.Resources>
+                                <Style TargetType="{x:Type Paragraph}">
+                                    <Setter Property="Margin" Value="0"/>
+                                </Style>
+                            </RichTextBox.Resources>
+                        </RichTextBox>
                     </ScrollViewer>
 
                     
