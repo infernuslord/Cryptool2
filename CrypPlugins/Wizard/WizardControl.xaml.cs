@@ -103,6 +103,7 @@ namespace Wizard
             }
         }
 
+
         private XElement GetXml(string xmlPath)
         {
             XmlReaderSettings settings = new XmlReaderSettings();
@@ -114,13 +115,16 @@ namespace Wizard
                                                    };
             settings.XmlResolver = new ResourceDTDResolver();
 
-            XmlReader xmlReader = XmlReader.Create(Assembly.GetExecutingAssembly().GetManifestResourceStream(xmlPath), settings);
+            return LoadXMLFromAssembly(xmlPath, settings);
+        }
 
-            //Stream fileStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(xmlPath);
+        public static XElement LoadXMLFromAssembly(string xmlPath, XmlReaderSettings settings)
+        {
+            XmlReader xmlReader = XmlReader.Create(Assembly.GetExecutingAssembly().GetManifestResourceStream(xmlPath), settings);
             return XElement.Load(xmlReader);
         }
 
-        private class ResourceDTDResolver : XmlResolver
+        internal class ResourceDTDResolver : XmlResolver
         {
             public override object GetEntity(Uri absoluteUri, string role, Type ofObjectToReturn)
             {
@@ -975,30 +979,7 @@ namespace Wizard
                             var plugins = ppv.PluginName.Split(';');
                             foreach (var plugin in model.GetAllPluginModels().Where(x => plugins.Contains(x.GetName())))
                             {
-                                var settings = plugin.Plugin.Settings;
-
-                                object propertyObject = null;
-                                PropertyInfo property;
-                                if (plugin.Plugin.GetType().GetProperty(ppv.PropertyName) != null)
-                                {
-                                    property = plugin.Plugin.GetType().GetProperty(ppv.PropertyName);
-                                    propertyObject = plugin.Plugin;
-                                }
-                                else
-                                {
-                                    property = settings.GetType().GetProperty(ppv.PropertyName);
-                                    propertyObject = settings;
-                                }
-
-                                if (property != null)
-                                {
-                                    if (ppv.Value is string)
-                                        SetPropertyToString(ppv, propertyObject, property);
-                                    else if (ppv.Value is int)
-                                        property.SetValue(propertyObject, (int)ppv.Value, null);
-                                    else if (ppv.Value is bool)
-                                        property.SetValue(propertyObject, (bool)ppv.Value, null);
-                                }
+                                SetPluginProperty(ppv, plugin);
                                 plugin.Plugin.Initialize();
                             }
                         }
@@ -1009,6 +990,41 @@ namespace Wizard
                     }
                 }
             }
+        }
+
+        internal static bool SetPluginProperty(PluginPropertyValue ppv, PluginModel plugin)
+        {
+            var settings = plugin.Plugin.Settings;
+
+            object propertyObject = null;
+            PropertyInfo property;
+            if (plugin.Plugin.GetType().GetProperty(ppv.PropertyName) != null)
+            {
+                property = plugin.Plugin.GetType().GetProperty(ppv.PropertyName);
+                propertyObject = plugin.Plugin;
+            }
+            else
+            {
+                property = settings.GetType().GetProperty(ppv.PropertyName);
+                propertyObject = settings;
+            }
+
+            if (property != null)
+            {
+                if (ppv.Value is string)
+                    SetPropertyToString(ppv, propertyObject, property);
+                else if (ppv.Value is int)
+                    property.SetValue(propertyObject, (int)ppv.Value, null);
+                else if (ppv.Value is bool)
+                    property.SetValue(propertyObject, (bool)ppv.Value, null);
+                else
+                    return false;
+            }
+            else
+            {
+                return false;
+            }
+            return true;
         }
 
         private static void SetPropertyToString(PluginPropertyValue ppv, object settings, PropertyInfo property)
