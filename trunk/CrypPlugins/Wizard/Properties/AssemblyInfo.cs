@@ -8,9 +8,10 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Wizard")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Microsoft")]
+[assembly: AssemblyCompany("CT Team")]
 [assembly: AssemblyProduct("Wizard")]
-[assembly: AssemblyCopyright("Copyright � Microsoft 2010")]
+[assembly: AssemblyCopyright("Copyright © 2010")]
+[assembly: InternalsVisibleTo("Tests")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

@@ -94,6 +94,7 @@
     <Compile Include="TranspositionTest.cs" />
     <Compile Include="TwofishTest.cs" />
     <Compile Include="WhirlpoolTest.cs" />
+    <Compile Include="WizardConfigTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CrypCore\CrypCore.csproj">
@@ -129,6 +130,11 @@
     <ProjectReference Include="..\CrypPlugins\Transposition\Transposition.csproj">
       <Project>{37D80203-C651-4396-8F5B-D67B7EC62763}</Project>
       <Name>Transposition</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\Wizard\Wizard.csproj">
+      <Project>{FF247A82-21AD-4010-B2FB-D93EE2B02677}</Project>
+      <Name>Wizard</Name>
       <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\LibSource\SSCext\SSCext.csproj">
