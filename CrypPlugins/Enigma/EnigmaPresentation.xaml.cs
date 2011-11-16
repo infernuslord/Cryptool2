@@ -149,14 +149,14 @@ namespace Cryptool.Enigma
             {
                 if (settings.Model != 3)
                 {
-                    Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
                         mainCanvas.Visibility = Visibility.Hidden;
                     }, null);
                 }
                 else
                 {
-                    Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
                         mainCanvas.Visibility = Visibility.Visible;
                     }, null);
@@ -166,7 +166,7 @@ namespace Cryptool.Enigma
             if (e.PropertyName == "Presentation_Speed")
             {
 
-                Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
                     Debug.Text = "" + settings.PresentationSpeed;
                     speed = settings.PresentationSpeed;
@@ -188,7 +188,7 @@ namespace Cryptool.Enigma
             {
                 if (e.PropertyName == "Key" && justme && !playbool)
                 {
-                    Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
                         if (rotorarray[2] != null)
                         {
@@ -215,7 +215,7 @@ namespace Cryptool.Enigma
                 {
                     if (e.PropertyName == "Ring1down" && justme)
                     {
-                        Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                        Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                         {
                             rotorarray[2].upperclick1(null, EventArgs.Empty);
                         }, null);
@@ -223,7 +223,7 @@ namespace Cryptool.Enigma
 
                     if (e.PropertyName == "Ring1up" && justme)
                     {
-                        Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                        Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                         {
                             rotorarray[2].downerclick1(null, EventArgs.Empty);
                         }, null);
@@ -231,7 +231,7 @@ namespace Cryptool.Enigma
 
                     if (e.PropertyName == "Ring1NewValue" && justme)
                     {
-                        Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                        Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                         {
                             rotorarray[2].changeoffset(settings.Key.ToUpper()[0] - 65, settings.Ring1);
                         }, null);
@@ -241,7 +241,7 @@ namespace Cryptool.Enigma
                 {
                     if (e.PropertyName == "Ring2down" && justme)
                     {
-                        Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                        Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                         {
                             rotorarray[1].upperclick1(null, EventArgs.Empty);
                         }, null);
@@ -249,7 +249,7 @@ namespace Cryptool.Enigma
 
                     if (e.PropertyName == "Ring2up" && justme)
                     {
-                        Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                        Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                         {
                             rotorarray[1].downerclick1(null, EventArgs.Empty);
                         }, null);
@@ -257,7 +257,7 @@ namespace Cryptool.Enigma
 
                     if (e.PropertyName == "Ring2NewValue" && justme)
                     {
-                        Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                        Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                         {
                             rotorarray[1].changeoffset(settings.Key.ToUpper()[1] - 65, settings.Ring2);
                         }, null);
@@ -267,7 +267,7 @@ namespace Cryptool.Enigma
                 {
                     if (e.PropertyName == "Ring3down" && justme)
                     {
-                        Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                        Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                         {
                             rotorarray[0].upperclick1(null, EventArgs.Empty);
                         }, null);
@@ -275,7 +275,7 @@ namespace Cryptool.Enigma
 
                     if (e.PropertyName == "Ring3up" && justme)
                     {
-                        Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                        Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                         {
                             rotorarray[0].downerclick1(null, EventArgs.Empty);
                         }, null);
@@ -283,7 +283,7 @@ namespace Cryptool.Enigma
 
                     if (e.PropertyName == "Ring3NewValue" && justme)
                     {
-                        Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                        Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                         {
                             rotorarray[0].changeoffset(settings.Key.ToUpper()[2] - 65, settings.Ring3);
                         }, null);
@@ -291,7 +291,7 @@ namespace Cryptool.Enigma
                 }
                 if (e.PropertyName[0] == 'F' && e.PropertyName[1] == 'o' && e.PropertyName != "PlugBoardDisplay" && justme)
                 {
-                    Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
                         int i = Convert.ToInt32(e.PropertyName[15]) - 65;
                         int j = Convert.ToInt32(e.PropertyName[16]) - 65;
@@ -308,7 +308,7 @@ namespace Cryptool.Enigma
 
                 if (e.PropertyName == "Remove all Plugs" && justme)
                 {
-                    Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
                         for (int i = 0; i < bList.Length; i++)
                             if (!bList[i].Uid.Equals(bList[i].Content.ToString()))
@@ -318,7 +318,7 @@ namespace Cryptool.Enigma
 
                 if (e.PropertyName == "Reflector")
                 {
-                    Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
 
                         dropBoxCanvasWalze.Children.Remove(walzeimgs[settings.Reflector]);
@@ -359,7 +359,7 @@ namespace Cryptool.Enigma
 
                 if (e.PropertyName == "Rotor1" && justme )
                 {
-                    Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
                         dropBoxCanvas.Children.Remove(rotorimgs[settings.Rotor1]);
 
@@ -412,7 +412,7 @@ namespace Cryptool.Enigma
 
                 if (e.PropertyName == "Rotor2")
                 {
-                    Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
                         if (rotorarray[1] != null)
                         {
@@ -461,7 +461,7 @@ namespace Cryptool.Enigma
 
                 if (e.PropertyName == "Rotor3" && justme)
                 {
-                    Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                    Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
 
                         dropBoxCanvas.Children.Remove(rotorimgs[settings.Rotor3]);
@@ -514,7 +514,7 @@ namespace Cryptool.Enigma
 
                 if (justme)
                 {
-                     Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                     Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
 
                         dropBoxCanvasWalze.Children.Remove(walzeimgs[settings.Reflector]);
@@ -984,7 +984,8 @@ namespace Cryptool.Enigma
             fadeOut.Duration = new Duration(TimeSpan.FromMilliseconds((1000)));
 
             dummycanvas = new Canvas();
-            mainmainmain.Children.Add(dummycanvas);
+            //mainmainmain.Children.Add(dummycanvas);
+            this.IsEnabled = true;
             input = "";
 
             dispo = new DispatcherTimer();
@@ -1013,9 +1014,35 @@ namespace Cryptool.Enigma
             return b;
         }
 
+        TextBlock tb;
+        public void disablePresentation(Boolean isrunning) 
+        {
+
+            Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
+
+                if (isrunning)
+                {   
+                    this.IsEnabled = false;
+                    tb = new TextBlock();
+                    tb.TextWrapping = TextWrapping.Wrap;
+                    tb.Width = 2200;
+                    tb.FontSize = 180;
+                    tb.Text = "Please stop the Workspace for Presentation!";
+                    mainmainmain.Children.Add(tb);
+                }
+                else
+                {
+                    if(mainmainmain.Children.Contains(tb))
+                    mainmainmain.Children.Remove(tb);
+                    this.IsEnabled = true;
+                }
+            }, null);
+        }
+
         private void t1_Tick()
         {
-            Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
 
                 if (this.input.Length + 1 != newinput.Length && !playbool && newinput != "")
@@ -2153,12 +2180,13 @@ namespace Cryptool.Enigma
 
         public void stopclick(object sender, EventArgs e)
         {
-            Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
                 storyboard1.Stop();
                 storyboard.Stop();
                 dispo.Stop();
-                mainmainmain.Children.Remove(dummycanvas);
+                //mainmainmain.Children.Remove(dummycanvas);
+                this.IsEnabled = true;
                 resetkey();
                 //rotorarray[0].stop = true;
                 //rotorarray[1].stop = true;
@@ -2226,7 +2254,7 @@ namespace Cryptool.Enigma
 
         public void playClick(object sender, EventArgs e)
         {
-            Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
                 if (!playbool)
                 {
@@ -2239,7 +2267,8 @@ namespace Cryptool.Enigma
                     dummycanvas.Cursor = Cursors.No;
                     dummycanvas.Background = Brushes.Transparent;
 
-                    mainmainmain.Children.Add(dummycanvas);
+                    //mainmainmain.Children.Add(dummycanvas);
+                    this.IsEnabled = false;
 
 
                     everythingblack();
@@ -2284,7 +2313,8 @@ namespace Cryptool.Enigma
                 dummycanvas.Cursor = Cursors.No;
                 dummycanvas.Background = Brushes.Transparent;
 
-                mainmainmain.Children.Add(dummycanvas);
+                //mainmainmain.Children.Add(dummycanvas);
+                this.IsEnabled = false;
 
                 timecounter = 0.0;
                 stop = false;
@@ -2320,7 +2350,8 @@ namespace Cryptool.Enigma
             }
             if (!playbool)
             {
-                mainmainmain.Children.Remove(dummycanvas);
+                //mainmainmain.Children.Remove(dummycanvas);
+                this.IsEnabled = true;
             }
         }
 

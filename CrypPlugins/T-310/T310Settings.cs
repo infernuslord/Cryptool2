@@ -53,6 +53,7 @@ namespace Cryptool.Plugins.T310
                 {
                     mode = value;
                     hasChanges = true;
+                    OnPropertyChanged("");
                 }
             }
         }
@@ -78,6 +79,14 @@ namespace Cryptool.Plugins.T310
         #region INotifyPropertyChanged Members
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public void OnPropertyChanged(string name)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(name));
+            }
+        }
 
         #endregion
     }
