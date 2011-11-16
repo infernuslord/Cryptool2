@@ -118,7 +118,7 @@ namespace WorkspaceManager.View.VisualComponents
         {
             if (args.RightButton == MouseButtonState.Pressed)
             {
-                if (this.model != null && !((WorkspaceManager)this.model.WorkspaceModel.MyEditor).isExecuting())
+                if (this.model != null && !((WorkspaceManagerClass)this.model.WorkspaceModel.MyEditor).isExecuting())
                 {
                     this.model.WorkspaceModel.ModifyModel(new DeleteConnectionModelOperation(this.model));
                 }
