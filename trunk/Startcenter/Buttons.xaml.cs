@@ -48,7 +48,7 @@ namespace Startcenter
 
         private void WorkspaceButton_Click(object sender, RoutedEventArgs e)
         {
-            OnOpenEditor(typeof(WorkspaceManager.WorkspaceManager), null, null);
+            OnOpenEditor(typeof(WorkspaceManager.WorkspaceManagerClass), null, null);
         }
 
         private void ConnectButton_Click(object sender, RoutedEventArgs e)

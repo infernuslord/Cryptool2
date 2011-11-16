@@ -49,7 +49,7 @@ namespace WorkspaceManager.View.BinVisual
             entgrou = new EntryGroup();
             this.entgrou = createContentSettings(plugin);
 
-            ((WorkspaceManager)bcv.Model.WorkspaceModel.MyEditor).executeEvent += new EventHandler(excuteEventHandler);
+            ((WorkspaceManagerClass)bcv.Model.WorkspaceModel.MyEditor).executeEvent += new EventHandler(excuteEventHandler);
 
            
             //plugin.Settings.PropertyChanged += myTaskPaneAttributeChangedHandler;
@@ -254,7 +254,7 @@ namespace WorkspaceManager.View.BinVisual
                 {
                     foreach (ControlEntry ce in cel)
                     {
-                        if (((WorkspaceManager)bcv.Model.WorkspaceModel.MyEditor).isExecuting())
+                        if (((WorkspaceManagerClass)bcv.Model.WorkspaceModel.MyEditor).isExecuting())
                         {
                             if (!ce.tpa.ChangeableWhileExecuting)
                                 ce.element.IsEnabled = false;

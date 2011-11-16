@@ -56,11 +56,11 @@ namespace WorkspaceManager
     /// Workspace Manager - PluginEditor based on MVC Pattern
     /// </summary>
     [EditingInfoAttribute(true)]
-    [TabColor("SlateGray")]
+    [TabColor("LightSlateGray")]
     [EditorInfo("cwm")]
     [Author("Viktor Matkovic,Nils Kopal", "nils.kopal@cryptool.org", "Universität Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo("WorkspaceManager.Properties.Resources", "PluginCaption", "PluginTooltip", "WorkspaceManager/Documentation/doc.xml", "WorkspaceManager/View/Image/WorkspaceManagerIcon.ico")]
-    public class WorkspaceManager : IEditor
+    [PluginInfo("WorkspaceManager.Properties.Resources", false, "PluginCaption", "PluginTooltip", "WorkspaceManager/Documentation/doc.xml", "WorkspaceManager/View/Image/WorkspaceManagerIcon.ico")]
+    public class WorkspaceManagerClass : IEditor
     {
         public event EventHandler SampleLoaded;
         public event EventHandler<LoadingErrorEventArgs> LoadingErrorOccurred;
@@ -68,7 +68,7 @@ namespace WorkspaceManager
         /// <summary>
         /// Create a new Instance of the Editor
         /// </summary>
-        public WorkspaceManager()
+        public WorkspaceManagerClass()
         {
             this.SelectedPluginsList = new ObservableCollection<BinComponentVisual>();            
              Cryptool.PluginBase.Properties.Settings.Default.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(Default_PropertyChanged);
@@ -151,7 +151,7 @@ namespace WorkspaceManager
             //{
             //    WorkspaceModel.deletePluginModel(pluginModel);
             //}
-            CurrentFile = typeof(WorkspaceManager).GetPluginStringResource("unnamed_project");
+            CurrentFile = typeof(WorkspaceManagerClass).GetPluginStringResource("unnamed_project");
             if (this.OnProjectTitleChanged != null)
             {
                 this.OnProjectTitleChanged.BeginInvoke(this, CurrentFile, null, null);
@@ -384,7 +384,7 @@ namespace WorkspaceManager
             }
             else
             {
-                OnlineHelp.InvokeShowPluginDocPage(typeof (WorkspaceManager));
+                OnlineHelp.InvokeShowPluginDocPage(typeof (WorkspaceManagerClass));
             }
         }
 
@@ -952,6 +952,33 @@ namespace WorkspaceManager
                 Uri uriLocal = new Uri(diag.FileName);
                 ((BinEditorVisual)Presentation).AddImage(uriLocal);
             }
+        }
+
+
+        public void AddEditorSpecific(EditorSpecificPluginInfo espi)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteEditorSpecific(EditorSpecificPluginInfo espi)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Active()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<EditorSpecificPluginInfo> EditorSpecificPlugins
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+
+        public void Pause()
+        {
+            throw new NotImplementedException();
         }
     }
 

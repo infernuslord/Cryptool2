@@ -29,6 +29,7 @@ using WorkspaceManager.View.BinVisual.IControlVisual;
 using System.Windows.Data;
 using WorkspaceManager.Base.Sort;
 using System.Windows.Controls.Primitives;
+using WorkspaceManager.View.Base.Interfaces;
 
 namespace WorkspaceManager.View.BinVisual
 {
@@ -75,7 +76,7 @@ namespace WorkspaceManager.View.BinVisual
             }
         }
 
-        public WorkspaceManager MyEditor { get; private set; }
+        public WorkspaceManagerClass MyEditor { get; private set; }
 
         public BinFullscreenVisual FullscreenVisual { get { return (BinFullscreenVisual)FullScreen.Content; } }
 
@@ -267,7 +268,7 @@ namespace WorkspaceManager.View.BinVisual
         public BinEditorVisual(WorkspaceModel model)
         {
             Model = model;
-            MyEditor = (WorkspaceManager)Model.MyEditor;
+            MyEditor = (WorkspaceManagerClass)Model.MyEditor;
             MyEditor.executeEvent += new EventHandler(ExecuteEvent);
             VisualCollection.CollectionChanged += new NotifyCollectionChangedEventHandler(CollectionChangedHandler);
             VisualCollection.Add(selectionPath);
@@ -309,8 +310,7 @@ namespace WorkspaceManager.View.BinVisual
         public void Load(WorkspaceModel model)
         {
             Model = model;
-            Thread t = new Thread(new ParameterizedThreadStart(internalLoad));
-            t.Start(model);
+            internalLoad(Model);
         }
 
         public void ResetConnections()
@@ -325,28 +325,28 @@ namespace WorkspaceManager.View.BinVisual
         {
             if (ScrollViewer.ScrollableWidth > 0 || ScrollViewer.ScrollableHeight > 0)
             {
-                while (Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_EditScale 
-                    >  Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_MinScale 
-                    && (ScrollViewer.ScrollableHeight > 0 
+                while (Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_EditScale
+                    > Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_MinScale
+                    && (ScrollViewer.ScrollableHeight > 0
                     || ScrollViewer.ScrollableWidth > 0))
                 {
-                     Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_EditScale -= 0.02;
+                    Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_EditScale -= 0.02;
                     ScrollViewer.UpdateLayout();
                 }
             }
             else
             {
-                while ( Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_EditScale
-                    <  Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_MaxScale 
-                    && ScrollViewer.ScrollableHeight == 0 
+                while (Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_EditScale
+                    < Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_MaxScale
+                    && ScrollViewer.ScrollableHeight == 0
                     && ScrollViewer.ScrollableWidth == 0)
                 {
-                     Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_EditScale += 0.02;
+                    Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_EditScale += 0.02;
                     ScrollViewer.UpdateLayout();
                 }
-                if (ScrollViewer.ScrollableHeight > 0 
+                if (ScrollViewer.ScrollableHeight > 0
                     || ScrollViewer.ScrollableWidth > 0)
-                     Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_EditScale -= 0.02;
+                    Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_EditScale -= 0.02;
             }
         }
 
@@ -380,88 +380,61 @@ namespace WorkspaceManager.View.BinVisual
 
         private void internalLoad(object model)
         {
-            Dispatcher.Invoke(DispatcherPriority.Background, (SendOrPostCallback)delegate
+            IsLoading = true;
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, (SendOrPostCallback)delegate
             {
-                IsLoading = true;
-                Mouse.OverrideCursor = Cursors.Wait;
-            }
-            , null);
-
-            WorkspaceModel m = (WorkspaceModel)model;
-            foreach (PluginModel pluginModel in m.GetAllPluginModels())
-            {
-                bool skip = false;
-                foreach (ConnectorModel connModel in pluginModel.GetInputConnectors())
+                WorkspaceModel m = (WorkspaceModel)model;
+                foreach (PluginModel pluginModel in m.GetAllPluginModels())
                 {
-                    if (connModel.IControl && connModel.GetInputConnections().Count > 0)
+                    bool skip = false;
+                    foreach (ConnectorModel connModel in pluginModel.GetInputConnectors())
                     {
-                        skip = true;
-                        break;
-                    }
-                }
-                if (!skip)
-                    Dispatcher.Invoke(DispatcherPriority.ContextIdle, (SendOrPostCallback)delegate
-                    {
-                        AddBinComponentVisual(pluginModel,0);
-                    }
-                    , null);
-            }
-
-            foreach (ConnectionModel connModel in m.GetAllConnectionModels())
-            {
-                if (connModel.To.IControl)
-                    continue;
-
-                foreach (UIElement element in VisualCollection)
-                {
-                    BinComponentVisual bin = element as BinComponentVisual;
-                    if (bin != null)
-                    {
-                        foreach (BinConnectorVisual connector in bin.ConnectorCollection)
+                        if (connModel.IControl && connModel.GetInputConnections().Count > 0)
                         {
-                            Dispatcher.Invoke(DispatcherPriority.ContextIdle, (SendOrPostCallback)delegate
+                            skip = true;
+                            break;
+                        }
+                    }
+                    if (!skip)
+                        AddBinComponentVisual(pluginModel,0);
+                }
+
+                foreach (ConnectionModel connModel in m.GetAllConnectionModels())
+                {
+                    if (connModel.To.IControl)
+                        continue;
+
+                    foreach (UIElement element in VisualCollection)
+                    {
+                        BinComponentVisual bin = element as BinComponentVisual;
+                        if (bin != null)
+                        {
+                            foreach (BinConnectorVisual connector in bin.ConnectorCollection)
                             {
                                 if (connModel.From == connector.Model)
                                     from = connector;
                                 else if (connModel.To == connector.Model)
                                     to = connector;
                             }
-                            , null);
                         }
                     }
-                }
 
-                Dispatcher.Invoke(DispatcherPriority.ContextIdle, (SendOrPostCallback)delegate
-                {
                     addConnection(from, to, connModel);
                 }
-                , null);
-            }
             
-            foreach(var img in m.GetAllImageModels())
-            {
-                Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                foreach(var img in m.GetAllImageModels())
                 {
                     this.VisualCollection.Add(new BinImageVisual(img));
                 }
-                , null);
-            }
 
-            foreach(var txt in m.GetAllTextModels())
-            {
-                Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                foreach(var txt in m.GetAllTextModels())
                 {
                     this.VisualCollection.Add(new BinTextVisual(txt));
                 }
-                , null);
-            }
-
-            Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-            {
                 IsLoading = false;
-                Mouse.OverrideCursor = Cursors.Arrow;
                 if (SampleLoaded != null)
                     SampleLoaded.Invoke(this, null);
+
             }
             , null);
         }
@@ -765,7 +738,11 @@ namespace WorkspaceManager.View.BinVisual
         {
             BinEditorVisual b = (BinEditorVisual)d;
             bool newItem = (bool)e.NewValue;
-            bool oldItem = (bool)e.OldValue;  
+            bool oldItem = (bool)e.OldValue;
+            if(newItem)
+                Mouse.OverrideCursor = Cursors.Wait;
+            else
+                Mouse.OverrideCursor = Cursors.Arrow;
         }
 
         private static void OnSelectedImageChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -939,7 +916,7 @@ namespace WorkspaceManager.View.BinVisual
 
             if (startDragPoint != null && e.RightButton == MouseButtonState.Pressed)
             {
-	            Point currentPoint = e.GetPosition(sender as FrameworkElement);
+                Point currentPoint = e.GetPosition(sender as FrameworkElement);
                 Vector delta = Point.Subtract((Point)startDragPoint, currentPoint);
                 ScrollViewer.ScrollToHorizontalOffset(ScrollViewer.HorizontalOffset + delta.X);
                 ScrollViewer.ScrollToVerticalOffset(ScrollViewer.VerticalOffset + delta.Y);

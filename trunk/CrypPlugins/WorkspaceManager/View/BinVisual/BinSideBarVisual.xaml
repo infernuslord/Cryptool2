@@ -6,8 +6,8 @@
              xmlns:local="clr-namespace:WorkspaceManager.View.BinVisual"
              xmlns:model="clr-namespace:WorkspaceManager.Model;assembly=WorkspaceManagerModel"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
-             mc:Ignorable="d" HorizontalAlignment="Right"
-             d:DesignHeight="300" d:DesignWidth="300">
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="300" HorizontalAlignment="Stretch">
     <UserControl.Resources>
         <LinearGradientBrush x:Key="BackgroundMouseOver" StartPoint="0,0" EndPoint="0,1">
             <GradientBrush.GradientStops>
@@ -47,22 +47,36 @@
         </LinearGradientBrush>
 
         <DataTemplate x:Key="HeaderStyle">
-            <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="0">
-                <TextBlock Text="{Binding
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="40"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Border Grid.Column="0" Height="35" Width="35">
+                    <Image Source="{Binding
+                        RelativeSource={RelativeSource
+                        Mode=FindAncestor,
+                        AncestorType={x:Type Expander}},
+                        Path=DataContext.Icon.Source}" Margin="2"></Image>
+                </Border>
+                <StackPanel Orientation="Vertical" Grid.Column="1">
+                    <TextBlock Text="{Binding
                         RelativeSource={RelativeSource
                         Mode=FindAncestor,
                         AncestorType={x:Type Expander}},
                         Path=DataContext.CustomName}" TextTrimming="WordEllipsis" Foreground="#555" 
-                    FontWeight="Bold" FontSize="14" HorizontalAlignment="Center">
-                </TextBlock>
-                <TextBlock Text="{Binding
+                    FontWeight="Bold" FontSize="12" HorizontalAlignment="Left">
+                    </TextBlock>
+                    <TextBlock Text="{Binding
                         RelativeSource={RelativeSource
                         Mode=FindAncestor,
                         AncestorType={x:Type Expander}},
                         Path=DataContext.FunctionName}"
                         TextTrimming="WordEllipsis" Foreground="#555" 
-                    HorizontalAlignment="Center"></TextBlock>
-            </StackPanel>
+                    HorizontalAlignment="Left" FontSize="10"></TextBlock>
+                </StackPanel>
+            </Grid>
+
         </DataTemplate>
 
         <Style TargetType="{x:Type Expander}" x:Key="ExpanderStyle">
@@ -83,19 +97,13 @@
                 <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent"/>
                 <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="Transparent"/>
             </Style.Resources>
-            <Setter Property="Margin" Value="5,5,5,5"></Setter>
             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-            <Setter Property="Background" Value="White"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="Background" Value="#d1dced"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate>
                         <Grid Background="{TemplateBinding Background}" Width="{TemplateBinding Width}">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="30"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-                            <TextBlock Text="Settings" FontSize="14" FontWeight="Bold" 
-                                       Foreground="#444" Margin="5" Grid.Row="0"></TextBlock>
                             <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" HorizontalContentAlignment="Stretch" Grid.Row="1">
                                 <ItemsPresenter/>
                             </ScrollViewer>
@@ -106,29 +114,27 @@
             <Setter Property="ItemTemplate">
                 <Setter.Value>
                     <DataTemplate DataType="{x:Type local:BinComponentVisual}">
-                        <Border x:Name="Border" BorderBrush="White" BorderThickness="1.5" CornerRadius="3" Margin="1" Background="#edf5ff">
-                            <Grid x:Name="Background" Margin="2">
-                                <Grid.Background>
-                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" Opacity="0.5">
-                                        <GradientBrush.GradientStops>
-                                            <GradientStopCollection>
-                                                <GradientStop Color="{Binding Path=BorderBrushColor.Color}" Offset="1.0"/>
-                                                <GradientStop Color="{Binding Path=BackgroundBrushColor.Color}" Offset="0.0"/>
-                                            </GradientStopCollection>
-                                        </GradientBrush.GradientStops>
-                                    </LinearGradientBrush>
-                                </Grid.Background>
-                                <!--<Border BorderThickness="2" BorderBrush="#444" CornerRadius="5" Grid.Column="0" Grid.Row="0">
-                                    <Image Source="{Binding Path=Icon.Source}" Margin="2.5"></Image>
-                                </Border>-->
-                                <Expander Style="{StaticResource ResourceKey=ExpanderStyle}">
-                                    <ContentPresenter Content="{Binding Path=SideBarSetting}"></ContentPresenter>
-                                </Expander>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="1"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Border x:Name="Border" BorderBrush="White" BorderThickness="1.5" Background="#edf5ff" CornerRadius="2">
+                                <Grid x:Name="Background">
+                                    <Expander x:Name="ContentExpander" Grid.Row="0" Style="{StaticResource ResourceKey=ExpanderStyle}">
+                                        <ContentPresenter Content="{Binding Path=SideBarSetting}"></ContentPresenter>
+                                    </Expander>
+                                </Grid>
+                            </Border>
+                            <Separator Height="1" Background="White" Grid.Row="1"></Separator>
+                        </Grid>
 
-                            </Grid>
-                        </Border>
                         <DataTemplate.Triggers>
                             <DataTrigger Binding="{Binding ElementName=Border, Path=IsMouseOver}" Value="True">
+                                <Setter TargetName="Border" Property="BorderBrush" Value="#7da2ce"></Setter>
+                                <Setter TargetName="Background" Property="Background" Value="{StaticResource ResourceKey=BackgroundMouseOver}"></Setter>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding ElementName=ContentExpander, Path=IsExpanded}" Value="True">
                                 <Setter TargetName="Border" Property="BorderBrush" Value="#7da2ce"></Setter>
                                 <Setter TargetName="Background" Property="Background" Value="{StaticResource ResourceKey=BackgroundMouseOver}"></Setter>
                             </DataTrigger>
@@ -136,22 +142,6 @@
                     </DataTemplate>
                 </Setter.Value>
             </Setter>
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding
-                        RelativeSource={RelativeSource
-                        Mode=FindAncestor,
-                        AncestorType={x:Type local:BinSideBarVisual}},
-                        Path=IsOpen}" Value="True">
-                    <Setter Property="Visibility" Value="Visible"></Setter>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding
-                        RelativeSource={RelativeSource
-                        Mode=FindAncestor,
-                        AncestorType={x:Type local:BinSideBarVisual}},
-                        Path=IsOpen}" Value="False">
-                    <Setter Property="Visibility" Value="Collapsed"></Setter>
-                </DataTrigger>
-            </Style.Triggers>
         </Style>
 
         <ControlTemplate x:Key="CtrlTemplateChar" TargetType="{x:Type Button}">
@@ -170,61 +160,16 @@
                 </Trigger>
             </ControlTemplate.Triggers>
         </ControlTemplate>
-
-        <Style x:Key="OpenCloseBtnStyle" TargetType="{x:Type Button}">
-            <Setter Property="Height" Value="30"></Setter>
-            <Setter Property="Width" Value="30"></Setter>
-            <Setter Property="Visibility" Value="Visible"></Setter>
-            <Setter Property="Template" Value="{StaticResource ResourceKey=CtrlTemplateChar}"></Setter>
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding
-                        RelativeSource={RelativeSource
-                        Mode=FindAncestor,
-                        AncestorType={x:Type local:BinSideBarVisual}},
-                        Path=IsOpen}" Value="True">
-                    <Setter Property="Content">
-                        <Setter.Value>
-                            <sys:Boolean>False</sys:Boolean>
-                        </Setter.Value>
-                    </Setter>
-                    <Setter Property="Tag">
-                        <Setter.Value>
-                            <sys:String>►►</sys:String>
-                        </Setter.Value>
-                    </Setter>
-                </DataTrigger>
-
-                <DataTrigger Binding="{Binding
-                        RelativeSource={RelativeSource
-                        Mode=FindAncestor,
-                        AncestorType={x:Type local:BinSideBarVisual}},
-                        Path=IsOpen}" Value="False">
-                    <Setter Property="Content">
-                        <Setter.Value>
-                            <sys:Boolean>True</sys:Boolean>
-                        </Setter.Value>
-                    </Setter>
-                    <Setter Property="Tag">
-                        <Setter.Value>
-                            <sys:String>◄◄</sys:String>
-                        </Setter.Value>
-                    </Setter>
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
     </UserControl.Resources>
+    
     <Border CornerRadius="5,0,0,5" Background="#ccd8eb" BorderThickness="1.5" BorderBrush="#aaa">
-        <Border CornerRadius="0,5,5,0" Background="#98a1af" Margin="1.5">
+        <Border Background="#98a1af" Margin="1">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="25"></ColumnDefinition>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Button Style="{StaticResource ResourceKey=OpenCloseBtnStyle}" Click="ActionHandler"
-                            HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Column="0">
-                </Button>
                 <ListView Style="{StaticResource ResourceKey=ComponentListStyle}" ItemsSource="{Binding Path=ComponentCollection}" 
-                              SelectionMode="Single" Width="230" Grid.Column="1" ScrollViewer.CanContentScroll="False"></ListView>
+                              SelectionMode="Single" Grid.Column="1" ScrollViewer.CanContentScroll="False"></ListView>
             </Grid>
         </Border>
     </Border>

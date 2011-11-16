@@ -29,37 +29,7 @@ namespace WorkspaceManager.View.VisualComponents
 
         public BottomBox()
         {
-            this.Loaded += new RoutedEventHandler(BottomBox_Loaded);
             InitializeComponent();
-        }
-
-        void BottomBox_Loaded(object sender, RoutedEventArgs e)
-        {
-            Console.Out.WriteLine(this.DataContext.ToString());
-        }
-
-        private void Button_Click_Full_inc(object sender, RoutedEventArgs e)
-        {
-            FullScreenScaleSlider.Value += 0.15;
-        }
-
-        private void Button_Click_Full_dec(object sender, RoutedEventArgs e)
-        {
-            FullScreenScaleSlider.Value -= 0.15;
-        }
-
-        private void Main_MouseEnter(object sender, MouseEventArgs e)
-        {
-            //Sub.Visibility = Visibility.Collapsed;
-            Main.BeginStoryboard((this.Resources["IncrementHeigth"] as Storyboard));
-            //(this.Resources["Up"] as Storyboard).Stop(Sub);
-        }
-
-        private void Main_MouseLeave(object sender, MouseEventArgs e)
-        {
-            //Sub.Visibility = Visibility.Visible;
-            Main.BeginStoryboard((this.Resources["DecrementHeigth"] as Storyboard));
-            //Sub.BeginStoryboard((this.Resources["Up"] as Storyboard));
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

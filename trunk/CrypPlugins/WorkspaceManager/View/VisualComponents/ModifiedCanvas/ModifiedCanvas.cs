@@ -12,6 +12,86 @@ namespace WorkspaceManager.View.VisualComponents
 {
     public class ModifiedCanvas : Canvas
     {
+        public enum ZPaneRequest
+        {
+            top,
+            bot,
+            up,
+            down
+        };
+
+        private LinkedList<IZOrdering> zPaneOrderCollection = new LinkedList<IZOrdering>();
+
+        protected override void OnVisualChildrenChanged(DependencyObject visualAdded, DependencyObject visualRemoved)
+        {
+            base.OnVisualChildrenChanged(visualAdded, visualRemoved);
+            if (visualAdded is IRouting)
+            {
+                var bin = (IRouting)visualAdded;
+                bin.PositionDeltaChanged += new EventHandler<PositionDeltaChangedArgs>(PositionDeltaChanged);
+            }
+            if (visualRemoved is IRouting)
+            {
+                var bin = (IRouting)visualRemoved;
+                bin.PositionDeltaChanged -= new EventHandler<PositionDeltaChangedArgs>(PositionDeltaChanged);
+            }
+
+            if (visualAdded is IZOrdering)
+            {
+                var bin = (IZOrdering)visualAdded;
+                zPaneOrderCollection.AddLast(bin);
+                //zPaneOrderCollection = new LinkedList<IZOrdering>(zPaneOrderCollection.OrderBy(x => x.ZIndex));
+
+            }
+            if (visualRemoved is IZOrdering)
+            {
+                var bin = (IZOrdering)visualRemoved;
+                zPaneOrderCollection.Remove(bin);
+                //zPaneOrderCollection = new LinkedList<IZOrdering>(zPaneOrderCollection.OrderBy(x => x.ZIndex));
+            }
+        }
+
+        void PositionDeltaChanged(object sender, PositionDeltaChangedArgs e)
+        {
+            this.InvalidateMeasure();
+        }
+
+        public static void RequestZIndexModification(ModifiedCanvas panel,IZOrdering obj, ZPaneRequest req)
+        {
+            if (panel == null)
+                return;
+            var node = panel.zPaneOrderCollection.Find(obj);
+            var next = node.Next;
+            var prev = node.Previous;
+            panel.zPaneOrderCollection.Remove(obj);
+            switch (req)
+            {
+                case ZPaneRequest.bot:
+                    panel.zPaneOrderCollection.AddFirst(obj);
+                    break;
+
+                case ZPaneRequest.top:
+                    panel.zPaneOrderCollection.AddLast(obj);
+                    break;
+
+                case ZPaneRequest.up:
+                    if (next != null)
+                        panel.zPaneOrderCollection.AddAfter(next, node);
+                    else
+                        panel.zPaneOrderCollection.AddLast(obj);
+                    break;
+
+                case ZPaneRequest.down:
+                    if (prev != null)
+                        panel.zPaneOrderCollection.AddBefore(prev, node);
+                    else
+                        panel.zPaneOrderCollection.AddFirst(obj);
+                    break;
+            }
+
+            panel.InvalidateMeasure();
+        }
+
         protected override Size MeasureOverride(Size constraint)
         {
             base.MeasureOverride(constraint);
@@ -51,6 +131,15 @@ namespace WorkspaceManager.View.VisualComponents
                     element.InvalidateArrange();
                 }
             }
+
+            //Possible performance improvement
+            var list = zPaneOrderCollection.ToList();
+            foreach (var order in list)
+            {
+                int i = order.ZIndex = list.IndexOf(order);
+                Panel.SetZIndex((UIElement)order, i);
+            }
+
             return new Size { Height = maxHeight, Width = maxWidth };
         }
     }

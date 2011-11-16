@@ -73,6 +73,7 @@
     <Compile Include="View\Base\DragDropHelper\InsertionAdorner.cs" />
     <Compile Include="View\Base\DragDropHelper\Utilities.cs" />
     <Compile Include="View\Base\Interfaces\IRouting.cs" />
+    <Compile Include="View\Base\Interfaces\IZOrdering.cs" />
     <Compile Include="View\Base\ObservableDictionary.cs" />
     <Compile Include="View\Base\RectanglePacker.cs" />
     <Compile Include="View\Base\Util.cs" />
@@ -156,7 +157,10 @@
     <Compile Include="View\VisualComponents\CryptoLineView\StackFrameDijkstra\Dijkstra.cs" />
     <Compile Include="View\VisualComponents\CryptoLineView\FromTo.cs" />
     <Compile Include="View\VisualComponents\ModifiedCanvas\ModifiedCanvas.cs" />
-    <Compile Include="WorkspaceManager.cs" />
+    <Compile Include="View\VisualComponents\ZoomScrollViewer.xaml.cs">
+      <DependentUpon>ZoomScrollViewer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WorkspaceManagerClass.cs" />
     <Compile Include="WorkspaceManagerSettings.cs" />
     <Compile Include="WorkspaceManagerSettingsTab.xaml.cs">
       <DependentUpon>WorkspaceManagerSettingsTab.xaml</DependentUpon>
@@ -248,6 +252,10 @@
     <Page Include="View\VisualComponents\ColorPickPopUp.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\VisualComponents\ZoomScrollViewer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="WorkspaceManagerSettingsTab.xaml">
       <SubType>Designer</SubType>
@@ -399,6 +407,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="View\Image\sorticon-small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="View\Image\pluginSetting-small.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
