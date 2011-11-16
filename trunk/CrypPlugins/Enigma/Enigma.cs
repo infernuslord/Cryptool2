@@ -60,6 +60,8 @@ namespace Cryptool.Enigma
 
         private EnigmaSettings settings;
         private EnigmaPresentation myPresentation;
+
+
         
         private EnigmaCore core;
         private EnigmaAnalyzer analyzer;
@@ -69,7 +71,8 @@ namespace Cryptool.Enigma
         //private IDictionary<string, double[]> inputTriGrams;
         private string outputString;
         private string savedKey;
-        
+        private Boolean isrunning;
+
         #endregion
 
         #region Private methods
@@ -89,14 +92,15 @@ namespace Cryptool.Enigma
         /// <returns>The encrypted/decrypted string</returns>
         private string FormattedEncrypt(int rotor1Pos, int rotor2Pos, int rotor3Pos, int rotor4Pos, string text)
         {
+            
             String input = preFormatInput(text);
             if (Presentation.IsVisible)
             {
-                
+
                 String output = core.Encrypt(rotor1Pos, rotor2Pos, rotor3Pos, rotor4Pos, input);
-                
+
                 myPresentation.output = output;
-                if(myPresentation.checkReady())
+                if (myPresentation.checkReady())
                     myPresentation.setinput(input);
                 else
                     LogMessage("Presentation Error!", NotificationLevel.Error);
@@ -105,7 +109,10 @@ namespace Cryptool.Enigma
                 return "";
             }
             else
+            {
+                myPresentation.disablePresentation(isrunning);   
                 return postFormatOutput(core.Encrypt(rotor1Pos, rotor2Pos, rotor3Pos, rotor4Pos, input));
+            }
         }
 
         internal class UnknownToken
@@ -326,9 +333,9 @@ namespace Cryptool.Enigma
         {
             LogMessage("Here we go " + args.NewValue, NotificationLevel.Debug);
             Boolean visible = (Boolean) args.NewValue ;
-            if (visible)
+            if (visible && isrunning)
             {
-             
+                Presentation = null;
             }
 
             else 
@@ -410,6 +417,8 @@ namespace Cryptool.Enigma
 
         public void PreExecution()
         {
+            isrunning = true;
+            
             if(myPresentation.checkReady())
             myPresentation.stopclick(this, EventArgs.Empty);
             EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs("Preparing enigma for operation..", this,  NotificationLevel.Info));
@@ -431,6 +440,8 @@ namespace Cryptool.Enigma
 
         public void Execute()
         {
+
+            
             if (inputString == null)
                 return;
 
@@ -490,7 +501,9 @@ namespace Cryptool.Enigma
             {
                 settings.Key = savedKey; // re-set the key
             }
-            
+
+            isrunning = false;
+            myPresentation.disablePresentation(isrunning);
         }
 
         public void Stop()

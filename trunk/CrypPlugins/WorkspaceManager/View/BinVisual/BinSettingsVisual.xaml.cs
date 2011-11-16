@@ -51,10 +51,11 @@ namespace WorkspaceManager.View.BinVisual
 
             ((WorkspaceManager)bcv.Model.WorkspaceModel.MyEditor).executeEvent += new EventHandler(excuteEventHandler);
 
+           
             //plugin.Settings.PropertyChanged += myTaskPaneAttributeChangedHandler;
             if (plugin.Settings != null && plugin.Settings.GetTaskPaneAttributeChanged() != null)
             {
-                plugin.Settings.GetTaskPaneAttributeChanged().AddEventHandler(plugin.Settings, new TaskPaneAttributeChangedHandler(myTaskPaneAttributeChangedHandler));  // throws nullpointerexception for unknown reason
+                plugin.Settings.GetTaskPaneAttributeChanged().AddEventHandler(plugin.Settings, new TaskPaneAttributeChangedHandler(myTaskPaneAttributeChangedHandler));  
             }
 
             InitializeComponent();
@@ -105,9 +106,12 @@ namespace WorkspaceManager.View.BinVisual
                 MyScrollViewer.Margin = new Thickness(-5, -5, -5, -5);
                 
             }
-
-            drawList(this.entgrou);
             
+            drawList(this.entgrou);
+           
+            
+
+
             /*
             for(int i = 0 ; i< bcv.IControlCollection.Count ; i++)
             {
@@ -197,18 +201,28 @@ namespace WorkspaceManager.View.BinVisual
                         {
                             if (ce.tpa.PropertyName == tpac.Property)
                             {
-                                if (tpac.Visibility == System.Windows.Visibility.Collapsed)
+
+                                if (ce.element is NumericUpDown)
+                                {
+                                    if (tpac.Visibility == System.Windows.Visibility.Collapsed)
                                     {
                                         ce.element.Visibility = System.Windows.Visibility.Hidden;
                                         ce.caption.Visibility = System.Windows.Visibility.Hidden;
-                                        
                                     }
-                                else
+                                    else 
                                     {
                                         ce.element.Visibility = tpac.Visibility;
                                         ce.caption.Visibility = tpac.Visibility;
                                         
                                     }
+                                }
+                                else
+                                {
+                                    ce.element.Visibility = tpac.Visibility;
+                                    ce.caption.Visibility = tpac.Visibility;
+                                }
+                                    
+                                
                             }
                             if (ce.element.Visibility == System.Windows.Visibility.Visible)
                             {
@@ -244,11 +258,21 @@ namespace WorkspaceManager.View.BinVisual
                         {
                             if (!ce.tpa.ChangeableWhileExecuting)
                                 ce.element.IsEnabled = false;
+                            if (ce.element is NumericUpDown)
+                            {
+                                NumericUpDown nud =  ce.element as NumericUpDown;
+                                nud.Opacity = 0.20;
+                            }
                         }
                         else 
                         {
                             if (!ce.tpa.ChangeableWhileExecuting)
                                 ce.element.IsEnabled = true;
+                            if (ce.element is NumericUpDown)
+                            {
+                                NumericUpDown nud = ce.element as NumericUpDown;
+                                nud.Opacity = 1;
+                            }
                         }
                     }
                 }
@@ -365,6 +389,8 @@ namespace WorkspaceManager.View.BinVisual
                             
                             if (ce.element is CheckBox || ce.element is Button)
                             {
+                                
+                               
                                 Label l = new Label();
                                 l.Height = 0;
                                 test.Children.Add(ce.element);
@@ -377,7 +403,7 @@ namespace WorkspaceManager.View.BinVisual
                                 if (ce.element is ComboBox)
                                 {
                                     ComboBox cb = ce.element as ComboBox;
-                                    cb.Width = getComboBoxMaxSize(cb);
+                                    cb.MaxWidth = getComboBoxMaxSize(cb);
                                     test.Children.Add(cb);
 
                                 }
@@ -469,7 +495,10 @@ namespace WorkspaceManager.View.BinVisual
 
                                     Label dummy = new Label();
                                     dummy.Height = 0;
-                                    
+
+                                    controlGrid.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
+                                    controlGrid.Arrange(new Rect(controlGrid.DesiredSize));
+                                    //controlGrid.MaxWidth = controlGrid.DesiredSize.Width;
                                     test.Children.Add(controlGrid);
                                     test.Children.Add(dummy);
 
@@ -550,6 +579,7 @@ namespace WorkspaceManager.View.BinVisual
                                 }
                             }
                         }
+                        
                     }
 
                    
@@ -557,10 +587,10 @@ namespace WorkspaceManager.View.BinVisual
                     testexoander.Content = bodi;
                    
                     myWrap.Children.Add(testexoander);
-
+                    test.setMaxSizes();
                 }
-                
-                
+
+                this.BeginInit();
 
         }
 
@@ -595,10 +625,10 @@ namespace WorkspaceManager.View.BinVisual
                         case ControlType.TextBox:
 
                             TextBox textbox = new TextBox();
-                            textbox.MinWidth = 180;
+                            
                             textbox.Tag = tpa.ToolTip;
                             textbox.MouseEnter += Control_MouseEnter;
-
+                            
                             if (
                                     tpa.RegularExpression != null && tpa.RegularExpression != string.Empty)
                             {
@@ -612,7 +642,10 @@ namespace WorkspaceManager.View.BinVisual
 
                             textbox.SetBinding(TextBox.TextProperty, dataBinding);
                             textbox.TextWrapping = TextWrapping.Wrap;
+
                             
+
+
                             //controlList.Add(new ControlEntry(textbox,tpa,sfa));
                             entgrou.AddNewEntry(tpa.GroupName, new ControlEntry(textbox, tpa, sfa));
                             break;
@@ -672,16 +705,18 @@ namespace WorkspaceManager.View.BinVisual
                             comboBox.Tag = tpa.ToolTip;
                             comboBox.MouseEnter += Control_MouseEnter;
 
-                            //object value = bInfo.Settings.GetType().GetProperty(bInfo.TaskPaneSettingsAttribute.PropertyName).GetValue(bInfo.Settings, null);
-                            //bool isEnum = value is Enum;
+                            object value = plugin.Settings.GetType().GetProperty(tpa.PropertyName).GetValue(plugin.Settings, null);
+                            bool isEnum = value is Enum;
 
-                            //if (isEnum) // use generic enum<->int converter
-                            //dataBinding.Converter = EnumToIntConverter.GetInstance();
+                            if (isEnum) // use generic enum<->int converter
+                                dataBinding.Converter = EnumToIntConverter.GetInstance();
+                            
+                            
 
                             if (tpa.ControlValues != null) // show manually passed entries in ComboBox
                                 comboBox.ItemsSource = tpa.ControlValues;
-                            // else if (isEnum) // show automatically derived enum entries in ComboBox
-                            //   comboBox.ItemsSource = Enum.GetValues(value.GetType());
+                             else if (isEnum) // show automatically derived enum entries in ComboBox
+                               comboBox.ItemsSource = Enum.GetValues(value.GetType());
                             else // nothing to show
                                 GuiLogMessage("No ComboBox entries given", NotificationLevel.Error);
                             comboBox.ToolTip = tpa.ToolTip;
@@ -776,24 +811,24 @@ namespace WorkspaceManager.View.BinVisual
                         case ControlType.SaveFileDialog:
                         case ControlType.OpenFileDialog:
                             StackPanel sp = new StackPanel();
+                            sp.Uid = "FileDialog";
                             sp.Orientation = Orientation.Vertical;
 
                             TextBox fileTextBox = new TextBox();
+                            fileTextBox.TextWrapping = TextWrapping.Wrap;
                             fileTextBox.Background = Brushes.LightGray;
                             fileTextBox.IsReadOnly = true;
                             fileTextBox.Margin = new Thickness(0, 0, 0, 5);
                             fileTextBox.TextChanged += fileDialogTextBox_TextChanged;
                             fileTextBox.SetBinding(TextBox.TextProperty, dataBinding);
                             fileTextBox.SetBinding(TextBox.ToolTipProperty, dataBinding);
-                            fileTextBox.MinWidth = 180;
-                            fileTextBox.MaxWidth = 200;
+                            
                             fileTextBox.Tag = tpa;
                             fileTextBox.MouseEnter += fileTextBox_MouseEnter;
                             sp.Children.Add(fileTextBox);
 
                             Button btn = new Button();
-                            btn.MinWidth = 180;
-                            btn.MaxWidth = 200;
+                            
                             btn.Tag = fileTextBox;
                             if (tpa.ControlType == ControlType.SaveFileDialog)
                                 //btn.Content = Properties.Resources.Save_file;
@@ -813,8 +848,13 @@ namespace WorkspaceManager.View.BinVisual
                             taskPaneButton.Margin = new Thickness(0);
                             taskPaneButton.Tag = tpa;
                             taskPaneButton.MouseEnter += TaskPaneButton_MouseEnter;
-                            taskPaneButton.Content = tpa.Caption;
+                            TextBlock contentBlock = new TextBlock();
+                            contentBlock.Text = tpa.Caption;
+                            contentBlock.TextWrapping = TextWrapping.Wrap;
+                            contentBlock.TextAlignment = TextAlignment.Center;
+                            taskPaneButton.Content = contentBlock;
                             taskPaneButton.Click += TaskPaneButton_Click;
+                            
                             entgrou.AddNewEntry(tpa.GroupName, new ControlEntry(taskPaneButton, tpa, sfa));
                             break;
                         # endregion Button
@@ -870,8 +910,10 @@ namespace WorkspaceManager.View.BinVisual
              //   }
 
            //     catch (Exception) { }
+                
             }
             entgrou.sort();
+
             return entgrou;
 
         }
@@ -1092,10 +1134,250 @@ namespace WorkspaceManager.View.BinVisual
 
     public class TestPanel : Panel
     {
+
+        double maxSize = 0;
+        double maxSizeContent = 0;
+        double maxSizeCaption = 0;
+
+        Grid maxGrid = new Grid();
+
         public TestPanel()
         {
-            
+            SizeChanged += new SizeChangedEventHandler(TestPanel_SizeChanged);
         }
+
+        public void setMaxSizes() 
+        {
+            foreach (UIElement child in Children)
+            {
+
+
+                child.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
+                child.Arrange(new Rect(child.DesiredSize));
+
+
+
+                if (true)
+                {
+                    if (child is TextBlock || child is CheckBox || child is Expander)
+                    {
+                        if (child.DesiredSize.Width > maxSizeCaption)
+                        {
+                            maxSizeCaption = child.DesiredSize.Width;
+
+                        }
+                    }
+                    else if (child is Grid)
+                    {
+                        if (maxGrid.Width < (child as Grid).DesiredSize.Width)
+                        {
+                            maxGrid = child as Grid;
+
+                        }
+
+                    }
+                    else
+                    {
+                        if (child.DesiredSize.Width > maxSizeContent)
+                        {
+                            if (child.DesiredSize.Width != 0)
+                                maxSizeContent = child.DesiredSize.Width;
+                            
+                            
+                        }
+                    }
+                }
+            }
+            if (maxSizeContent < 15)
+                maxSizeContent = 200;
+            maxSizeCaption += 5;
+            maxSizeContent += 5;
+            maxSize = maxSizeCaption  + maxSizeContent ;
+
+
+                //if (maxSizeCaption > maxSizeContent)
+                //  this.MinWidth = maxSizeCaption;
+                //else
+                // this.MinWidth = maxSizeContent;
+
+            if (maxSize < maxGrid.DesiredSize.Width)
+                {
+                    maxSize = maxGrid.DesiredSize.Width;
+                    //  this.MinWidth = maxGrid.Width;
+                }
+
+            this.MaxWidth = maxSize + 10;
+            
+            foreach (UIElement child in Children)
+            {
+                if (child is NumericUpDown)
+                {
+                    NumericUpDown dummyTextBox = child as NumericUpDown;
+                    dummyTextBox.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
+                    dummyTextBox.Arrange(new Rect(dummyTextBox.DesiredSize));
+                    //dummyTextBox.MaxWidth = dummyTextBox.DesiredSize.Width;
+                    dummyTextBox.MaxWidth = maxSizeContent;
+
+                }
+
+                if (child is ComboBox)
+                {
+                    ComboBox dummyTextBox = child as ComboBox;
+                    dummyTextBox.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
+                    dummyTextBox.Arrange(new Rect(dummyTextBox.DesiredSize));
+                    //dummyTextBox.MaxWidth = dummyTextBox.DesiredSize.Width;
+                    dummyTextBox.MaxWidth = maxSizeContent;
+
+                }
+
+                if (child is TextBox)
+                {
+                    TextBox dummyTextBox = child as TextBox;
+                    dummyTextBox.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
+                    dummyTextBox.Arrange(new Rect(dummyTextBox.DesiredSize));
+                    //dummyTextBox.MaxWidth = dummyTextBox.DesiredSize.Width;
+                    
+                    dummyTextBox.MaxWidth = maxSizeContent;
+
+                }
+
+
+                if (child is TextBlock)
+                {
+                    TextBlock dummyTextBox = child as TextBlock;
+                    dummyTextBox.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
+                    dummyTextBox.Arrange(new Rect(dummyTextBox.DesiredSize));
+                    //dummyTextBox.MaxWidth = dummyTextBox.DesiredSize.Width;
+                    dummyTextBox.MaxWidth = maxSizeCaption;
+
+                }
+
+                if (child is Button)
+                {
+                    Button dummyTextBox = child as Button;
+                    dummyTextBox.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
+                    dummyTextBox.Arrange(new Rect(dummyTextBox.DesiredSize));
+                    //dummyTextBox.MaxWidth = dummyTextBox.DesiredSize.Width;
+                    dummyTextBox.MaxWidth = maxSize;
+
+                }
+
+                if (child is StackPanel)
+                {
+                    StackPanel dummyTextBox = child as StackPanel;
+                    dummyTextBox.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
+                    dummyTextBox.Arrange(new Rect(dummyTextBox.DesiredSize));
+                    //dummyTextBox.MaxWidth = dummyTextBox.DesiredSize.Width;
+                    if(dummyTextBox.Uid == "FileDialog")
+                        dummyTextBox.MaxWidth = maxSize;
+                    else
+                        dummyTextBox.MaxWidth = dummyTextBox.DesiredSize.Width;
+
+                }
+                
+
+                if (child is Expander)
+                {
+                    //Expander dummyTextBox = child as Expander;
+                    //dummyTextBox.MaxWidth = maxSizeContent;
+
+                }
+
+
+
+                
+            }
+
+
+
+        }
+
+        private void TestPanel_SizeChanged(Object sender, SizeChangedEventArgs args) 
+        {
+            //Console.WriteLine(this.ActualWidth);
+            foreach (UIElement child in Children)
+            {
+                child.Measure(new Size(this.ActualWidth,double.PositiveInfinity));
+
+                if (child is StackPanel) 
+                {
+                    StackPanel dummyTextBox = child as StackPanel;
+
+                    dummyTextBox.MinWidth = 0;
+
+                    dummyTextBox.Width = this.ActualWidth;
+                }
+
+                if (child is NumericUpDown) 
+                {
+                    NumericUpDown dummyTextBox = child as NumericUpDown;
+
+                    dummyTextBox.MinWidth = 0;
+
+                    dummyTextBox.Width = this.ActualWidth;
+                }
+                
+                if (child is Button)
+                {
+                    Button dummyTextBox = child as Button;
+
+                    dummyTextBox.MinWidth = 0;
+                    
+                    dummyTextBox.Width = this.ActualWidth;
+                }
+
+                if (child is TextBlock)
+                {
+                    
+                    TextBlock dummyTextBox = child as TextBlock;
+                    
+                    dummyTextBox.MinWidth = 0;
+                    
+                    
+                    dummyTextBox.Width = this.ActualWidth;
+                }
+
+                if (child is TextBox)
+                {
+
+                    TextBox dummyTextBox = child as TextBox;
+                    dummyTextBox.MinWidth = 0;
+                    
+                    dummyTextBox.Width = this.ActualWidth;
+                }
+
+                if (child is Grid)
+                {
+
+                    Grid dummyTextBox = child as Grid;
+                    dummyTextBox.MinWidth = 0;
+                    
+                    dummyTextBox.Width = this.ActualWidth;
+                }
+
+                if (child is Expander)
+                {
+
+                    Expander dummyTextBox = child as Expander;
+                    //dummyTextBox.MinWidth = 0;
+
+                    //dummyTextBox.Width = this.ActualWidth;
+                }
+
+                if (child is ComboBox)
+                {
+
+                    ComboBox dummyTextBox = child as ComboBox;
+                    dummyTextBox.MinWidth = 0;
+                    
+                    dummyTextBox.Width = this.ActualWidth;
+                }
+
+                
+
+            }
+        }
+
 
         private TimeSpan _AnimationLength = TimeSpan.FromMilliseconds(200);
 
@@ -1103,7 +1385,7 @@ namespace WorkspaceManager.View.BinVisual
         {
             Size infiniteSize = new Size(double.PositiveInfinity, double.PositiveInfinity);
             double curX = 0, curY = 0, curLineHeight = 0;
-
+            /*
             double maxSize = 0;
             double maxSizeContent = 0;
             double maxSizeCaption = 0;
@@ -1121,6 +1403,7 @@ namespace WorkspaceManager.View.BinVisual
                         if (child.DesiredSize.Width > maxSizeCaption)
                         {
                             maxSizeCaption = child.DesiredSize.Width;
+                            
                         }
                     }
                     else if (child is Grid) 
@@ -1148,19 +1431,19 @@ namespace WorkspaceManager.View.BinVisual
             maxSize = maxSizeCaption + maxSizeContent;
             
 
-            if (maxSizeCaption > maxSizeContent)
-                this.MinWidth = maxSizeCaption;
-            else
-                this.MinWidth = maxSizeContent;
+            //if (maxSizeCaption > maxSizeContent)
+              //  this.MinWidth = maxSizeCaption;
+            //else
+               // this.MinWidth = maxSizeContent;
             
             if (maxSize < maxGrid.Width)
             {
                 maxSize = maxGrid.Width;
-                this.MinWidth = maxGrid.Width;
+              //  this.MinWidth = maxGrid.Width;
             }
 
             this.MaxWidth = maxSize + 10;
-
+            */
 
             Boolean b = true;
 
@@ -1191,6 +1474,9 @@ namespace WorkspaceManager.View.BinVisual
                     }
                 }*/
 
+               
+                
+
                 if (Children.IndexOf(child) % 2 == 0 || curX + child.DesiredSize.Width > availableSize.Width || curX + child.DesiredSize.Width > maxSize || b)
                 { //Wrap to next line
                     
@@ -1220,6 +1506,7 @@ namespace WorkspaceManager.View.BinVisual
 
         protected override Size ArrangeOverride(Size finalSize)
         {
+            /*
             double maxSize = 0;
             double maxSizeContent = 0;
             double maxSizeCaption = 0;
@@ -1238,6 +1525,7 @@ namespace WorkspaceManager.View.BinVisual
                         if (child.DesiredSize.Width > maxSizeCaption)
                         {
                             maxSizeCaption = child.DesiredSize.Width;
+                            
                         }
                     }
                     else if (child is Grid)
@@ -1263,21 +1551,21 @@ namespace WorkspaceManager.View.BinVisual
 
             if (maxSizeContent > maxSizeCaption)
             {
-                this.MinWidth = maxSizeContent;
+                //this.MinWidth = maxSizeContent;
             }
             else 
             {
-                this.MinWidth = maxSizeCaption;
+               // this.MinWidth = maxSizeCaption;
             }
 
             if (maxSize < maxGrid.Width)
             {
                 maxSize = maxGrid.Width;
-                this.MinWidth = maxGrid.Width;
+                //this.MinWidth = maxGrid.Width;
             }
 
             this.MaxWidth = maxSize + 10;
-
+            */
             /*
             if (maxSizeCaption > maxSizeContent)
                 this.MinWidth = maxSizeCaption;
@@ -1304,54 +1592,7 @@ namespace WorkspaceManager.View.BinVisual
                     trans = new TranslateTransform();
                     child.RenderTransform = trans;
                 }
-                /*
-                if (child is Grid)
-                {
-                    Grid dummy = child as Grid;
-                    if (this.ActualWidth != 0)
-                    {
-                        if (0 > this.ActualWidth - 10)
-                            dummy.Width = this.ActualWidth;
-                        else
-                            dummy.Width = this.ActualWidth - 10;
-                    }
-                    else
-                    { 
-                        if(0 > dummy.DesiredSize.Width -10 )
-                            dummy.Width = dummy.DesiredSize.Width; 
-                        else
-                            dummy.Width = dummy.DesiredSize.Width-10; 
-                    }
-                    
-                }
-                */
-                if (child is TextBox)
-                {
-                    TextBox dummyTextBox = child as TextBox;
-                    dummyTextBox.Width = maxSizeContent;
-                }
-
-
-                if (child is ComboBox)
-                {
-                    ComboBox dummyComboBox = child as ComboBox;
-                    dummyComboBox.Width = maxSizeContent;
-                }
-
-                if (child is NumericUpDown)
-                {
-                    NumericUpDown dummyNumericUpDown = child as NumericUpDown;
-                    dummyNumericUpDown.Width = maxSizeContent;
-                }
-
-                if (child is Button)
-                {
-                    Button dummyButton = child as Button;
-                    dummyButton.Width = maxSizeContent;
-                    
-                }
-
-
+                
                 if (Children.IndexOf(child) % 2 == 0 || curX + child.DesiredSize.Width > finalSize.Width || curX + child.DesiredSize.Width > maxSize || b || Children.IndexOf(child) % 2 == 0 )
                 { //Wrap to next line
                     
@@ -1434,6 +1675,35 @@ namespace WorkspaceManager.View.BinVisual
             {
                 return null;
             }
+        }
+    }
+
+    public class EnumToIntConverter : IValueConverter
+    {
+        private static EnumToIntConverter instance;
+
+        private EnumToIntConverter() { }
+
+        // singleton
+        public static EnumToIntConverter GetInstance()
+        {
+            if (instance == null)
+                instance = new EnumToIntConverter();
+
+            return instance;
+        }
+
+        // enum -> int
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            return (int)value;
+        }
+
+        // int -> enum
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            return Enum.ToObject(targetType, value);
+            
         }
     }
 
