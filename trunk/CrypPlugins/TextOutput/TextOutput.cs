@@ -56,7 +56,7 @@ namespace TextOutput
 
         private string _currentText;
 
-        [PropertyInfo(Direction.InputData, "InputDataCaption", "InputDataTooltip", true, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "InputDataCaption", "InputDataTooltip", true)]
         public object InputOne
         {
             get

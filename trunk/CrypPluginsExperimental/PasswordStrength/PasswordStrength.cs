@@ -39,14 +39,14 @@ namespace Cryptool.Plugins.PasswordStrength
         
         #region Data Properties
 
-        [PropertyInfo(Direction.InputData, "Password Input", "Enter your password for measuring its strength.", null, true, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "Password Input", "Enter your password for measuring its strength.", true)]
         public string PasswordInput
         {
             get;
             set;
         }
 
-        [PropertyInfo(Direction.OutputData, "Strength", "Strength of the password given.", null, true, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "Strength", "Strength of the password given.", true)]
         public int StrengthOutput 
         {
             get;

@@ -130,13 +130,13 @@ namespace PictureOutput
 
         #endregion
 
-        [PropertyInfo(Direction.InputData, "pictureInputCaption", "pictureInputTooltip", false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "pictureInputCaption", "pictureInputTooltip", false)]
         public byte[] PictureInput
         {           
             set { _data = value; }
         }
 
-        [PropertyInfo(Direction.InputData, "pictureInputCaption", "pictureInputTooltip", false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "pictureInputCaption", "pictureInputTooltip", false)]
         public ICryptoolStream PictureStream
         {
             set { _stream = value; }

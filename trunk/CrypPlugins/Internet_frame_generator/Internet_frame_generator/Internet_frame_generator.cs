@@ -46,9 +46,7 @@ namespace Cryptool.Internet_frame_generator
         [PropertyInfo(Direction.InputData,
             "InputIntCaption",
             "InputIntTooltip",
-            false,
-            QuickWatchFormat.Text,
-            "InputIntQuickWatchConverter")]
+            false)]
         public int InputInt
         {
             get { return this.inputInt; }
@@ -62,9 +60,7 @@ namespace Cryptool.Internet_frame_generator
         [PropertyInfo(Direction.OutputData,
             "OutputStreamCaption",
             "OutputStreamTooltip",
-            false,
-            QuickWatchFormat.Hex,
-            null)]
+            false)]
         public ICryptoolStream OutputStream
         {
             get
@@ -80,11 +76,6 @@ namespace Cryptool.Internet_frame_generator
         {
             get { return this.rnd; }
             set {  /*readonly */ }
-        }
-
-        public object InputIntQuickWatchConverter(object PropertyNameToConvert)
-        {
-            return inputInt.ToString("#,#", CultureInfo.InstalledUICulture);
         }
 
         #endregion

@@ -120,7 +120,7 @@ namespace Soap
             set { this._wsPublicKey = value; }
         }
 
-        [PropertyInfo(Direction.InputData, "WsdlCaption", "WsdlTooltip", "", false, false, QuickWatchFormat.None, "WsdlConverter")]
+        [PropertyInfo(Direction.InputData, "WsdlCaption", "WsdlTooltip", false)]
         public XmlDocument Wsdl
         {
             set
@@ -148,7 +148,7 @@ namespace Soap
             }
         }
 
-        [PropertyInfo(Direction.InputData, "PublicKeyCaption", "PublicKeyTooltip", "",false,false,QuickWatchFormat.None,null)]
+        [PropertyInfo(Direction.InputData, "PublicKeyCaption", "PublicKeyTooltip",false)]
         public string PublicKey
         {
             get
@@ -175,7 +175,7 @@ namespace Soap
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", "",true,false,QuickWatchFormat.Text,"XmlOutputConverter")]
+        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip",true)]
         public XmlDocument OutputString
         {
             get { return this._securedSOAP; }
@@ -188,7 +188,7 @@ namespace Soap
 
             }
         }
-        [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", "", false, false, QuickWatchFormat.None,"XMLInputConverter")]
+        [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", false)]
         public XmlDocument InputString
         {
             get { return this._inputDocument; }

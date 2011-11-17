@@ -73,7 +73,7 @@ namespace FileOutput
 
     # region Properties
 
-    [PropertyInfo(Direction.InputData, "StreamInputCaption", "StreamInputTooltip", true, QuickWatchFormat.Hex, null)]
+    [PropertyInfo(Direction.InputData, "StreamInputCaption", "StreamInputTooltip", true)]
         public ICryptoolStream StreamInput
     {
             get;

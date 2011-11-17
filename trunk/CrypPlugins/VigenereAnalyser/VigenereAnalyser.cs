@@ -274,7 +274,7 @@ namespace Cryptool.VigenereAnalyser
 
         #region Properties (Inputs/Outputs)
 
-        [PropertyInfo(Direction.InputData, "FriedmanInputCaption", "FriedmanInputTooltip", "", true, true, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "FriedmanInputCaption", "FriedmanInputTooltip", true)]
         public double FriedmanInput
         {
             get { return friedmanInput; }
@@ -288,7 +288,7 @@ namespace Cryptool.VigenereAnalyser
                 }
             }
         }
-        [PropertyInfo(Direction.InputData, "StringInputCaption", "StringInputTooltip", "", true, true, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "StringInputCaption", "StringInputTooltip", true)]
         public string StringInput
         {
             get
@@ -297,7 +297,7 @@ namespace Cryptool.VigenereAnalyser
             }
             set { stringInput = value; OnPropertyChanged("StringInput"); }
         }
-        [PropertyInfo(Direction.InputData, "KasiskiInputCaption", "KasiskiInputTooltip", "", false, true, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "KasiskiInputCaption", "KasiskiInputTooltip", false)]
         public int[] KasiskiInput
         {
             get { return kasiskiInput; }
@@ -311,7 +311,7 @@ namespace Cryptool.VigenereAnalyser
                 }
             }
         }
-        [PropertyInfo(Direction.OutputData, "KeywordOutputCaption", "KeywordOutputTooltip", "", false, true, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "KeywordOutputCaption", "KeywordOutputTooltip", false)]
         public string KeywordOutput
         {
             get { return keywordOutput; }
@@ -325,7 +325,7 @@ namespace Cryptool.VigenereAnalyser
                 }
             }
         }
-        [PropertyInfo(Direction.InputData, "FrequencyStatsCaption", "FrequencyStatsTooltip", "", true, true, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "FrequencyStatsCaption", "FrequencyStatsTooltip", true)]
         public string FrequencyStats
         {
             get { return frequencyStats; }
@@ -341,7 +341,7 @@ namespace Cryptool.VigenereAnalyser
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "FrequencyOutputCaption", "FrequencyOutputTooltip", "", false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "FrequencyOutputCaption", "FrequencyOutputTooltip", false)]
         public string FrequencyOutput
         {
             get { return frequencyOutput; }
@@ -353,7 +353,7 @@ namespace Cryptool.VigenereAnalyser
 
             }
         }
-        [PropertyInfo(Direction.OutputData, "StringOutputCaption", "StringOutputTooltip", "", false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "StringOutputCaption", "StringOutputTooltip", false)]
         public string StringOutput
         {
             get { return stringOutput; }

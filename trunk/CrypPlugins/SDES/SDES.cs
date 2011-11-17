@@ -120,7 +120,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         /// <summary>
         /// Gets/Sets the input of the SDES plugin (the text which should be encrypted/decrypted)
         /// </summary>
-        [PropertyInfo(Direction.InputData, "InputStreamCaption", "InputStreamTooltip", true, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "InputStreamCaption", "InputStreamTooltip", true)]
         public ICryptoolStream InputStream
         {
             get
@@ -137,7 +137,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         /// <summary>
         /// Gets/Sets the output of the SDES plugin (the text which is encrypted/decrypted)
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "OutputStreamCaption", "OutputStreamTooltip", true, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "OutputStreamCaption", "OutputStreamTooltip", true)]
         public ICryptoolStream OutputStream
         {
             get
@@ -152,7 +152,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         /// <summary>
         /// Gets/Sets the key which should be used.Must be 10 bytes  (only 1 or 0 allowed).
         /// </summary>
-        [PropertyInfo(Direction.InputData, "InputKeyCaption", "InputKeyTooltip", true, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "InputKeyCaption", "InputKeyTooltip", true)]
         public byte[] InputKey
         {
             get { return this.inputKey; }
@@ -167,7 +167,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         /// <summary>
         /// Gets/Sets the Initialization Vector which should be used.Must be 8 bytes  (only 1 or 0 allowed).
         /// </summary>
-        [PropertyInfo(Direction.InputData, "InputIVCaption", "InputIVTooltip", false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "InputIVCaption", "InputIVTooltip", false)]
         public byte[] InputIV
         {
             get { return this.inputIV; }

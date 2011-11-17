@@ -60,7 +60,7 @@ namespace Cryptool.Plugins.LengthOf
             Progress(1.0, 1.0);
         }
 
-        [PropertyInfo(Direction.InputData, "ObjInputCaption", "ObjInputTooltip", true, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "ObjInputCaption", "ObjInputTooltip", true)]
         public object ObjInput
         {
             get

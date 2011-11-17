@@ -67,7 +67,7 @@ namespace Cryptool.Trivium
             set { this.settings = (TriviumSettings)value; }
         }
 
-        [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", true, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", true)]
         public string InputString
         {
             get { return this.inputString; }
@@ -78,7 +78,7 @@ namespace Cryptool.Trivium
             }
         }
 
-        [PropertyInfo(Direction.InputData, "InputKeyCaption", "InputKeyTooltip", true, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "InputKeyCaption", "InputKeyTooltip", true)]
         public string InputKey
         {
             get { return this.inputKey; }
@@ -89,7 +89,7 @@ namespace Cryptool.Trivium
             }
         }
 
-        [PropertyInfo(Direction.InputData, "InputIVCaption", "InputIVTooltip", true, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "InputIVCaption", "InputIVTooltip", true)]
         public string InputIV
         {
             get { return this.inputIV; }
@@ -100,7 +100,7 @@ namespace Cryptool.Trivium
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", true, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", true)]
         public string OutputString
         {
             get { return this.outputString; }

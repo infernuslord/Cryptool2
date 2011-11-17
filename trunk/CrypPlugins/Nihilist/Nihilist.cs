@@ -54,7 +54,7 @@ namespace Nihilist
         }
 
         private byte[] input = new byte[] { };
-        [PropertyInfo(Direction.InputData, "InputCaption", "InputTooltip", true, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputCaption", "InputTooltip", true)]
         public byte[] Input
         {
             get { return input; }
@@ -66,7 +66,7 @@ namespace Nihilist
         }
 
         private byte[] output = new byte[] { };
-        [PropertyInfo(Direction.OutputData, "OutputCaption", "OutputTooltip", true, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputCaption", "OutputTooltip", true)]
         public byte[] Output
         {
             get { return output; }

@@ -82,7 +82,7 @@ namespace FileInput
             set { settings = (FileInputSettings)value; }
         }
 
-        [PropertyInfo(Direction.OutputData, "StreamOutputCaption", "StreamOutputTooltip", true, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "StreamOutputCaption", "StreamOutputTooltip", true)]
         public ICryptoolStream StreamOutput
         {
             get

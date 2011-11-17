@@ -60,7 +60,7 @@ namespace Cryptool.PrimesGenerator
 
 
     private BigInteger m_OutputString;
-    [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", true, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", true)]
     public BigInteger OutputString
     {
       get { return this.m_OutputString; }

@@ -79,7 +79,7 @@ namespace Cryptool.Plugins.M209
         }
 
         //  Pfeil in Programmiersprache Eingabe
-        [PropertyInfo(Direction.InputData, "TextCaption", "TextTooltip", true, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "TextCaption", "TextTooltip", true)]
         public String Text
         {
             get;
@@ -87,7 +87,7 @@ namespace Cryptool.Plugins.M209
         }
 
         // Pfeil in Programmiersprache Ausgabe
-        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", false)]
         public String OutputString
         {
             get;

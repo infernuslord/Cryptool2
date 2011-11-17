@@ -132,7 +132,7 @@ namespace Tiger
     /// Gets or sets the input inputdata.
     /// </summary>
     /// <value>The input inputdata.</value>
-    [PropertyInfo(Direction.InputData, "InputStreamCaption", "InputStreamTooltip", false, QuickWatchFormat.Hex, null)]
+    [PropertyInfo(Direction.InputData, "InputStreamCaption", "InputStreamTooltip", false)]
     public ICryptoolStream InputStream
     {
       get
@@ -165,7 +165,7 @@ namespace Tiger
     /// Gets the input data.
     /// </summary>
     /// <value>The input data.</value>
-    [PropertyInfo(Direction.InputData, "InputDataCaption", "InputDataTooltip", false, QuickWatchFormat.Hex, null)]
+    [PropertyInfo(Direction.InputData, "InputDataCaption", "InputDataTooltip", false)]
     public byte[] InputData
     {
       get
@@ -203,7 +203,7 @@ namespace Tiger
     /// Gets or sets the output inputdata stream.
     /// </summary>
     /// <value>The output inputdata stream.</value>
-    [PropertyInfo(Direction.OutputData, "HashOutputStreamCaption", "HashOutputStreamTooltip", true, QuickWatchFormat.Hex, null)]
+    [PropertyInfo(Direction.OutputData, "HashOutputStreamCaption", "HashOutputStreamTooltip", true)]
     public ICryptoolStream HashOutputStream
     {
       get
@@ -219,7 +219,7 @@ namespace Tiger
     /// Gets the output inputdata.
     /// </summary>
     /// <value>The output inputdata.</value>
-    [PropertyInfo(Direction.OutputData, "HashOutputDataCaption", "HashOutputDataTooltip", true, QuickWatchFormat.Hex, null)]
+    [PropertyInfo(Direction.OutputData, "HashOutputDataCaption", "HashOutputDataTooltip", true)]
     public byte[] HashOutputData
     {
       get

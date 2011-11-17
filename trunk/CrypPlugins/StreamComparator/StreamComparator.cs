@@ -47,7 +47,7 @@ namespace Cryptool.StreamComparator
 
     #region Properties
 
-    [PropertyInfo(Direction.InputData, "InputOneCaption", "InputOneTooltip", true, QuickWatchFormat.None, null)]
+    [PropertyInfo(Direction.InputData, "InputOneCaption", "InputOneTooltip", true)]
     public ICryptoolStream InputOne
     {
       get 
@@ -57,7 +57,7 @@ namespace Cryptool.StreamComparator
       set { streamOne = value; }
     }
 
-    [PropertyInfo(Direction.InputData, "InputTwoCaption", "InputTwoTooltip", true, QuickWatchFormat.None, null)]
+    [PropertyInfo(Direction.InputData, "InputTwoCaption", "InputTwoTooltip", true)]
     public ICryptoolStream InputTwo
     {
       get 
@@ -68,7 +68,7 @@ namespace Cryptool.StreamComparator
     }
 
     private bool inputsAreEqual;
-    [PropertyInfo(Direction.OutputData, "InputsAreEqualCaption", "InputsAreEqualTooltip", false, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.OutputData, "InputsAreEqualCaption", "InputsAreEqualTooltip", false)]
     public bool InputsAreEqual
     {
       get { return inputsAreEqual; }

@@ -46,7 +46,7 @@ namespace Cryptool.Plugins.MD5Collider
         }
 
         private byte[] outputData1;
-        [PropertyInfo(Direction.OutputData, "OutputData1Caption", "OutputData1Tooltip", false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "OutputData1Caption", "OutputData1Tooltip", false)]
         public byte[] OutputData1
         {
             get { return this.outputData1; }
@@ -58,7 +58,7 @@ namespace Cryptool.Plugins.MD5Collider
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "OutputDataStream1Caption", "OutputDataStream1Tooltip", false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "OutputDataStream1Caption", "OutputDataStream1Tooltip", false)]
         public ICryptoolStream OutputDataStream1
         {
             get
@@ -75,7 +75,7 @@ namespace Cryptool.Plugins.MD5Collider
         }
 
         private byte[] outputData2;
-        [PropertyInfo(Direction.OutputData, "OutputData2Caption", "OutputData2Tooltip", false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "OutputData2Caption", "OutputData2Tooltip", false)]
         public byte[] OutputData2
         {
             get { return this.outputData2; }
@@ -87,7 +87,7 @@ namespace Cryptool.Plugins.MD5Collider
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "OutputDataStream2Caption", "OutputDataStream2Tooltip", false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "OutputDataStream2Caption", "OutputDataStream2Tooltip", false)]
         public ICryptoolStream OutputDataStream2
         {
             get
@@ -104,7 +104,7 @@ namespace Cryptool.Plugins.MD5Collider
         }
 
         private byte[] randomSeed;
-        [PropertyInfo(Direction.InputData, "RandomSeedCaption", "RandomSeedTooltip", false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "RandomSeedCaption", "RandomSeedTooltip", false)]
         public byte[] RandomSeed
         {
             get { return randomSeed; }
@@ -112,7 +112,7 @@ namespace Cryptool.Plugins.MD5Collider
         }
 
         private byte[] prefix;
-        [PropertyInfo(Direction.InputData, "PrefixCaption", "PrefixTooltip", false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "PrefixCaption", "PrefixTooltip", false)]
         public byte[] Prefix
         {
             get { return prefix; }

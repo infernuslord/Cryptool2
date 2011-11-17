@@ -111,22 +111,6 @@ namespace WorkspaceManager.Model
                 this.ConnectorTypeAssemblyName = value.Assembly.GetName().Name;
             }
         }
-
-        /// <summary>
-        /// Returns the format which shall be used for displaying data of this ConnectorModel
-        /// </summary>
-        /// <returns></returns>
-        public QuickWatchFormat GetQuickWatchFormat()
-        {
-            foreach (PropertyInfoAttribute propertyInfoAttribute in PluginModel.Plugin.GetProperties())
-            {
-                if(propertyInfoAttribute.PropertyName.Equals(PropertyName))
-                {
-                    return propertyInfoAttribute.QuickWatchFormat;
-                }
-            }
-            return QuickWatchFormat.None;
-        }
        
         /// <summary>
         /// Is this Connector Outgoing?

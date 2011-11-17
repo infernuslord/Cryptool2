@@ -67,7 +67,7 @@ namespace Cryptool.MD5
             get { return null; }
         }
 
-        [PropertyInfo(Direction.InputData, "InputDataCaption", "InputDataTooltip", true, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "InputDataCaption", "InputDataTooltip", true)]
         public ICryptoolStream InputData
         {
             get 
@@ -82,7 +82,7 @@ namespace Cryptool.MD5
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "OutputDataStreamCaption", "OutputDataStreamTooltip", false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "OutputDataStreamCaption", "OutputDataStreamTooltip", false)]
         public ICryptoolStream OutputDataStream
         {
           get 
@@ -96,7 +96,7 @@ namespace Cryptool.MD5
           }
         }
 
-        [PropertyInfo(Direction.OutputData, "OutputDataCaption", "OutputDataTooltip", false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "OutputDataCaption", "OutputDataTooltip", false)]
         public byte[] OutputData 
         {
           

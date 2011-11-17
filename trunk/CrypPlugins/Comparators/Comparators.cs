@@ -65,7 +65,7 @@ namespace Cryptool.Plugins.Comparators
             get { return null; }
         }
 
-        [PropertyInfo(Direction.InputData, "InputOneCaption", "InputOneTooltip", true, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputOneCaption", "InputOneTooltip", true)]
         public IComparable InputOne
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
@@ -81,7 +81,7 @@ namespace Cryptool.Plugins.Comparators
             }
         }
 
-        [PropertyInfo(Direction.InputData, "InputTwoCaption", "InputTwoTooltip", true, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputTwoCaption", "InputTwoTooltip", true)]
         public IComparable InputTwo
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
@@ -97,7 +97,7 @@ namespace Cryptool.Plugins.Comparators
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "OutputCaption", "OutputTooltip", true, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputCaption", "OutputTooltip", true)]
         public bool Output
         {
             [MethodImpl(MethodImplOptions.Synchronized)]

@@ -372,7 +372,7 @@ namespace Cryptool.Enigma
 
         #region Connector properties
 
-        [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", true, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", true)]
         public string InputString
         {
             get { return this.inputString; }
@@ -400,7 +400,7 @@ namespace Cryptool.Enigma
         //    }
         //}
 
-        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", false)]
         public string OutputString
         {
             get { return this.outputString; }

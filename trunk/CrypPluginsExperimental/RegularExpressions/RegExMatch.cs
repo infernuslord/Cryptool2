@@ -41,7 +41,7 @@ namespace Cryptool.Plugins.RegularExpressions
 
         # region Properties
 
-        [PropertyInfo(Direction.InputData, "Input", "Input a string to be processed by the RegEx Matcher", "", true, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "Input", "Input a string to be processed by the RegEx Matcher", true)]
         public string Input
         {
             get
@@ -56,7 +56,7 @@ namespace Cryptool.Plugins.RegularExpressions
             }
         }
 
-        [PropertyInfo(Direction.InputData, "Pattern", "Pattern for the RegEx", "", true, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "Pattern", "Pattern for the RegEx", true)]
         public string Pattern
         {
             get
@@ -71,7 +71,7 @@ namespace Cryptool.Plugins.RegularExpressions
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "Output", "Output", "")]
+        [PropertyInfo(Direction.OutputData, "Output", "Output")]
         public string OutputText
         {
             get
@@ -85,7 +85,7 @@ namespace Cryptool.Plugins.RegularExpressions
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "Output Bool", "True: pattern matches. False: it does not.", "")]
+        [PropertyInfo(Direction.OutputData, "Output Bool", "True: pattern matches. False: it does not.")]
         public Boolean OutputBool
         {
             get

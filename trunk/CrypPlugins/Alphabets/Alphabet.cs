@@ -62,7 +62,7 @@ namespace Cryptool.Alphabets
         }
       }
 
-      [PropertyInfo(Direction.OutputData, "AlphabetOutputCaption", "AlphabetOutputTooltip", false, QuickWatchFormat.Text, null)]
+      [PropertyInfo(Direction.OutputData, "AlphabetOutputCaption", "AlphabetOutputTooltip", false)]
       public string AlphabetOutput
       {
           get { return settings.Alphabet; }

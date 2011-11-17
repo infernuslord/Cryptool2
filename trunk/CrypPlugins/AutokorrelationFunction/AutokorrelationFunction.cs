@@ -53,7 +53,7 @@ namespace Cryptool.Plugins.AutokorrelationFunction
         /// <summary>
         /// The input for the ciphertext 
         /// </summary>
-        [PropertyInfo(Direction.InputData, "InputCipherCaption", "InputCipherTooltip", true, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputCipherCaption", "InputCipherTooltip", true)]
         public String InputCipher
         {
             get

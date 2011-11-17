@@ -96,7 +96,7 @@ namespace SHA
 
         #endregion
 
-        [PropertyInfo(Direction.InputData, "InputDataCaption", "InputDataTooltip", true, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "InputDataCaption", "InputDataTooltip", true)]
         public ICryptoolStream InputData
         {
             get 
@@ -112,7 +112,7 @@ namespace SHA
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "OutputDataStreamCaption", "OutputDataStreamTooltip", true, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "OutputDataStreamCaption", "OutputDataStreamTooltip", true)]
         public ICryptoolStream OutputDataStream
         {
             get
@@ -126,7 +126,7 @@ namespace SHA
             set { } //readonly
         }
 
-        [PropertyInfo(Direction.OutputData, "OutputDataCaption", "OutputDataTooltip", true, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "OutputDataCaption", "OutputDataTooltip", true)]
         public byte[] OutputData
         {
             get { return this.outputData; }

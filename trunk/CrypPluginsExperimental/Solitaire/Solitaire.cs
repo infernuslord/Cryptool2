@@ -68,7 +68,7 @@ namespace Solitaire
         /// <summary>
         /// Read the text which is to be encrypted or decrypted.
         /// </summary>
-        [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", null, false, false, QuickWatchFormat.None ,null)]
+        [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", false)]
         public string InputString
         {
             get { return this.inputString; }
@@ -85,7 +85,7 @@ namespace Solitaire
         /// <summary>
         /// Read the password with which the deckstate is generated.
         /// </summary>
-        [PropertyInfo(Direction.InputData, "PasswordCaption", "PasswordTooltip", null, false, false, QuickWatchFormat.None, null)]
+        [PropertyInfo(Direction.InputData, "PasswordCaption", "PasswordTooltip", false)]
         public string Password
         {
             get { return this.password; }
@@ -102,7 +102,7 @@ namespace Solitaire
         /// <summary>
         /// Read a given deckstate.
         /// </summary>
-        [PropertyInfo(Direction.InputData, "DeckstateCaption", "DeckstateTooltip", null, false, false, QuickWatchFormat.None, null)]
+        [PropertyInfo(Direction.InputData, "DeckstateCaption", "DeckstateTooltip", false)]
         public string Deckstate
         {
             get { return this.deckstate; }
@@ -120,7 +120,7 @@ namespace Solitaire
         /// <summary>
         /// Outputs the encrypted or decrypted text.
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", null, false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", false)]
         public string OutputString
         {
             get { return this.outputString; }
@@ -134,7 +134,7 @@ namespace Solitaire
         /// <summary>
         /// Displays the initial deck.
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "InitialDeckCaption", "InitialDeckTooltip", null, false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "InitialDeckCaption", "InitialDeckTooltip", false)]
         public string InitialDeck
         {
             get { return this.initialDeck; }
@@ -149,7 +149,7 @@ namespace Solitaire
         /// <summary>
         /// Displays the final deck.
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "FinalDeckCaption", "FinalDeckTooltip", null, false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "FinalDeckCaption", "FinalDeckTooltip", false)]
         public string FinalDeck
         {
             get { return this.finalDeck; }
@@ -163,7 +163,7 @@ namespace Solitaire
         /// <summary>
         /// Outputs the stream used to encrypt or decrypt.
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "OutputStreamCaption", "OutputStreamTooltip", null, false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputStreamCaption", "OutputStreamTooltip", false)]
         public string OutputStream
         {
             get { return this.outputStream; }

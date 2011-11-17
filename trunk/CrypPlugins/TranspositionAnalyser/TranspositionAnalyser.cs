@@ -34,7 +34,7 @@ namespace TranspositionAnalyser
 
         TranspositionAnalyserSettings settings;
         #region Properties
-        [PropertyInfo(Direction.InputData, "InputCaption", "InputTooltip", true, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputCaption", "InputTooltip", true)]
         public Byte[] Input
         {
             get
@@ -50,7 +50,7 @@ namespace TranspositionAnalyser
             }
         }
 
-        [PropertyInfo(Direction.InputData, "CribCaption", "CribTooltip", false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "CribCaption", "CribTooltip", false)]
         public Byte[] Crib
         {
             get
@@ -89,7 +89,7 @@ namespace TranspositionAnalyser
         }
 
         private IControlTranspoEncryption controlMaster;
-        [PropertyInfo(Direction.ControlMaster, "ControlMasterCaption", "ControlMasterTooltip", false, QuickWatchFormat.None, null)]
+        [PropertyInfo(Direction.ControlMaster, "ControlMasterCaption", "ControlMasterTooltip", false)]
         public IControlTranspoEncryption ControlMaster
         {
 
@@ -105,7 +105,7 @@ namespace TranspositionAnalyser
 
 
         private IControlCost costMaster;
-        [PropertyInfo(Direction.ControlMaster, "CostMasterCaption", "CostMasterTooltip", false, QuickWatchFormat.None, null)]
+        [PropertyInfo(Direction.ControlMaster, "CostMasterCaption", "CostMasterTooltip", false)]
         public IControlCost CostMaster
         {
             get { return costMaster; }

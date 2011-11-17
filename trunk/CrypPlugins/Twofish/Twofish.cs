@@ -139,7 +139,7 @@ namespace Twofish
         /// Gets or sets the input inputdata.
         /// </summary>
         /// <value>The input inputdata.</value>
-        [PropertyInfo(Direction.InputData, "InputStreamCaption", "InputStreamTooltip", false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "InputStreamCaption", "InputStreamTooltip", false)]
         public ICryptoolStream InputStream
         {
             get
@@ -171,7 +171,7 @@ namespace Twofish
         /// Gets the input data.
         /// </summary>
         /// <value>The input data.</value>
-        [PropertyInfo(Direction.InputData, "InputDataCaption", "InputDataTooltip", false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "InputDataCaption", "InputDataTooltip", false)]
         public byte[] InputData
         {
             get
@@ -214,7 +214,7 @@ namespace Twofish
         /// Gets or sets the key data.
         /// </summary>
         /// <value>The key data.</value>
-        [PropertyInfo(Direction.InputData, "KeyStreamCaption", "KeyStreamTooltip", false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "KeyStreamCaption", "KeyStreamTooltip", false)]
         public ICryptoolStream KeyStream
         {
             get
@@ -247,7 +247,7 @@ namespace Twofish
         /// Gets or sets the key data.
         /// </summary>
         /// <value>The key data.</value>
-        [PropertyInfo(Direction.InputData, "KeyDataCaption", "KeyDataTooltip", false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "KeyDataCaption", "KeyDataTooltip", false)]
         public byte[] KeyData
         {
             get
@@ -270,7 +270,7 @@ namespace Twofish
 
         #endregion
 
-        [PropertyInfo(Direction.InputData, "IVCaption", "IVTooltip", false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "IVCaption", "IVTooltip", false)]
         public byte[] IV
         {
             get
@@ -313,7 +313,7 @@ namespace Twofish
         /// Gets or sets the output inputdata stream.
         /// </summary>
         /// <value>The output inputdata stream.</value>
-        [PropertyInfo(Direction.OutputData, "OutputStreamCaption", "OutputStreamTooltip", true, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "OutputStreamCaption", "OutputStreamTooltip", true)]
         public ICryptoolStream OutputStream
         {
             get
@@ -333,7 +333,7 @@ namespace Twofish
         /// Gets the output inputdata.
         /// </summary>
         /// <value>The output inputdata.</value>
-        [PropertyInfo(Direction.OutputData, "OutputDataCaption", "OutputDataTooltip", true, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "OutputDataCaption", "OutputDataTooltip", true)]
         public byte[] OutputData
         {
             get

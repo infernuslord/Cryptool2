@@ -37,7 +37,7 @@ namespace Cryptool.SystemOfEquations
             get { return (ISettings)this.settings; }
             set { this.settings = (SystemOfEquationsSettings)value; }
         }
-        [PropertyInfo(Direction.InputData, "Z-functions ", "Z-functions as  Hashtable(Z ,FZ) delivred from plugin compute annihilators", "", true, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "Z-functions ", "Z-functions as  Hashtable(Z ,FZ) delivred from plugin compute annihilators", true)]
         public Hashtable InputAhnilators
         {
             get { return this.inputZfunctions; }
@@ -50,7 +50,7 @@ namespace Cryptool.SystemOfEquations
                 }
             }
         }
-        [PropertyInfo(Direction.OutputData, "System of equation function", " the variables are die Keys Bits (k1,k2..kn)=initial statue of LFSRs", "", false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "System of equation function", " the variables are die Keys Bits (k1,k2..kn)=initial statue of LFSRs", false)]
         public string OutputString
         {
             get { return this.outputString; }

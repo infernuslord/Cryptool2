@@ -61,7 +61,7 @@ namespace Cryptool.Vigenere
             set { this.settings = (VigenereSettings)value; }
         }
 
-        [PropertyInfo(Direction.OutputData, "OutputDataCaption", "OutputDataTooltip", false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputDataCaption", "OutputDataTooltip", false)]
         public ICryptoolStream OutputData
         {
             get
@@ -78,7 +78,7 @@ namespace Cryptool.Vigenere
             set { }
         }
 
-        [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", true, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", true)]
         public string InputString
         {
             get { return this.inputString; }
@@ -92,7 +92,7 @@ namespace Cryptool.Vigenere
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", false)]
         public string OutputString
         {
             get { return this.outputString; }
@@ -103,7 +103,7 @@ namespace Cryptool.Vigenere
             }
         }
 
-        [PropertyInfo(Direction.InputData, "InputAlphabetCaption", "InputAlphabetTooltip", false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputAlphabetCaption", "InputAlphabetTooltip", false)]
         public string InputAlphabet
         {
             get { return ((VigenereSettings)this.settings).AlphabetSymbols; }
@@ -116,7 +116,7 @@ namespace Cryptool.Vigenere
                 }
             }
         }
-        [PropertyInfo(Direction.InputData, "ShiftValueCaption", "ShiftValueTooltip", false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "ShiftValueCaption", "ShiftValueTooltip", false)]
         public string ShiftValue
         {
             get { return settings.ShiftChar; }

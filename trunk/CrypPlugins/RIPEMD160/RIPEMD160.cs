@@ -48,7 +48,7 @@ namespace RIPEMD160
         }
 
         // [QuickWatch(QuickWatchFormat.Hex, null)]
-        [PropertyInfo(Direction.InputData, "InputDataCaption", "InputDataTooltip", true, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "InputDataCaption", "InputDataTooltip", true)]
         public ICryptoolStream InputData
         {
             get 
@@ -66,7 +66,7 @@ namespace RIPEMD160
         }
 
         // [QuickWatch(QuickWatchFormat.Hex, null)]
-        [PropertyInfo(Direction.OutputData, "OutputDataStreamCaption", "OutputDataStreamTooltip", true, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "OutputDataStreamCaption", "OutputDataStreamTooltip", true)]
         public ICryptoolStream OutputDataStream
         {
           get
@@ -81,7 +81,7 @@ namespace RIPEMD160
         }
 
         // [QuickWatch(QuickWatchFormat.Hex, null)]
-        [PropertyInfo(Direction.OutputData, "OutputDataCaption", "OutputDataTooltip", false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "OutputDataCaption", "OutputDataTooltip", false)]
         public byte[] OutputData
         {
           get { return this.outputData; }

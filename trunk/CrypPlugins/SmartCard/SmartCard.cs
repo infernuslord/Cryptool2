@@ -71,7 +71,7 @@ namespace SmartCard
 
     #region IO
 
-    [PropertyInfo(Direction.InputData, "DataInputCaption", "DataInputTooltip", true, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.InputData, "DataInputCaption", "DataInputTooltip", true)]
     public String DataInput
     {
         get
@@ -91,7 +91,7 @@ namespace SmartCard
         }
     }
 
-    [PropertyInfo(Direction.OutputData, "LogStringCaption", "LogStringTooltip", true, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.OutputData, "LogStringCaption", "LogStringTooltip", true)]
     public String LogString
     {
         get
@@ -105,7 +105,7 @@ namespace SmartCard
         }
     }
 
-    [PropertyInfo(Direction.OutputData, "ResponseCaption", "ResponseTooltip", true, QuickWatchFormat.Hex, null)]
+    [PropertyInfo(Direction.OutputData, "ResponseCaption", "ResponseTooltip", true)]
     public byte[] Response
     {
       get { return response; }

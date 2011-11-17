@@ -71,7 +71,7 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
         /// <summary>
         /// The input for the ciphertext 
         /// </summary>
-        [PropertyInfo(Direction.InputData, "InputCipherCaption", "InputCipherTooltip", true, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputCipherCaption", "InputCipherTooltip", true)]
         public String InputCipher
         {
             get
@@ -88,7 +88,7 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
         /// <summary>
         /// The input for the textkorpus (optional) 
         /// </summary>
-        [PropertyInfo(Direction.InputData, "InputKorpusCaption", "InputKorpusTooltip", false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputKorpusCaption", "InputKorpusTooltip", false)]
         public String InputKorpus
         {
             get
@@ -105,7 +105,7 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
         /// <summary>
         /// The assumed keylength from the autokorrelation plugin (optional) 
         /// </summary>
-        [PropertyInfo(Direction.InputData, "InputKeylengthCaption", "InputKeylengthTooltip", false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputKeylengthCaption", "InputKeylengthTooltip", false)]
         public int InputKeylength
         {
             get

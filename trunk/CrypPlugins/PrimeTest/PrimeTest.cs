@@ -100,7 +100,7 @@ namespace PrimeTest
     #region Properties
     private BigInteger m_InputNumber;
     PrimesBigInteger m_Value = null;
-    [PropertyInfo(Direction.InputData, "InputNumberCaption", "InputNumberTooltip", true, QuickWatchFormat.Text,null)]
+    [PropertyInfo(Direction.InputData, "InputNumberCaption", "InputNumberTooltip", true)]
     public BigInteger InputNumber
     {
       get { return this.m_InputNumber; }
@@ -124,7 +124,7 @@ namespace PrimeTest
 
     private bool m_Output;
     // [QuickWatch(QuickWatchFormat.Text, null)]
-    [PropertyInfo(Direction.OutputData, "OutputCaption", "OutputTooltip", false, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.OutputData, "OutputCaption", "OutputTooltip", false)]
     public bool Output
     {
       get { return this.m_Output; }

@@ -271,7 +271,7 @@ namespace Cryptool.Plugins.Paillier
         /// <summary>
         /// Gets/Sets public key n
         /// </summary>
-        [PropertyInfo(Direction.InputData, "InputNCaption", "InputNTooltip", true, QuickWatchFormat.None, null)]
+        [PropertyInfo(Direction.InputData, "InputNCaption", "InputNTooltip", true)]
         public BigInteger InputN
         {
             get
@@ -288,7 +288,7 @@ namespace Cryptool.Plugins.Paillier
         /// <summary>
         /// Gets/Sets public key g
         /// </summary>
-        [PropertyInfo(Direction.InputData, "InputGCaption", "InputGTooltip", true, QuickWatchFormat.None, null)]
+        [PropertyInfo(Direction.InputData, "InputGCaption", "InputGTooltip", true)]
         public BigInteger InputG
         {
             get
@@ -322,7 +322,7 @@ namespace Cryptool.Plugins.Paillier
         /// <summary>
         /// Gets/Sets a input message as BigInteger called M
         /// </summary>
-        [PropertyInfo(Direction.InputData, "InputMCaption", "InputMTooltip", true, QuickWatchFormat.None, null)]
+        [PropertyInfo(Direction.InputData, "InputMCaption", "InputMTooltip", true)]
         public Object InputM
         {
             get

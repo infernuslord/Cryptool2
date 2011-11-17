@@ -110,7 +110,7 @@ namespace WebService
             }
         }
 
-        [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", "", false, false, QuickWatchFormat.Text, "XmlInputConverter")]
+        [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", false)]
         public XmlDocument InputString
         {
             get { return this._inputDocument; }
@@ -122,7 +122,7 @@ namespace WebService
 
         }
 
-        [PropertyInfo(Direction.OutputData, "WsdlCaption", "WsdlTooltip", "", false, false, QuickWatchFormat.Text, "WsdlConverter")]
+        [PropertyInfo(Direction.OutputData, "WsdlCaption", "WsdlTooltip", false)]
         public XmlDocument Wsdl
         {
             get { return this._wsdlDocument; }
@@ -133,7 +133,7 @@ namespace WebService
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "PublicKeyCaption", "PublicKeyTooltip", null)]
+        [PropertyInfo(Direction.OutputData, "PublicKeyCaption", "PublicKeyTooltip")]
         public string PublicKey
         {
             get { return this._publickey; }
@@ -144,7 +144,7 @@ namespace WebService
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", "", false, false, QuickWatchFormat.Text, "XmlOutputConverter")]
+        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", false)]
         public XmlDocument OutputString
         {
             get { return this._outputDocument; }

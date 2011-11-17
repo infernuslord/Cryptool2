@@ -46,7 +46,7 @@ namespace Cryptool.XOR
             get { return null; }
         }
 
-        [PropertyInfo(Direction.InputData, "InputDataCaption", "InputDataTooltip", true, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputDataCaption", "InputDataTooltip", true)]
         public byte[] InputData
         {
             get { return this.inputData; }
@@ -60,7 +60,7 @@ namespace Cryptool.XOR
             }
         }
 
-        [PropertyInfo(Direction.InputData, "KeyCaption", "KeyTooltip", false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "KeyCaption", "KeyTooltip", false)]
         public byte[] Key
         {
             get { return this.key; }
@@ -74,7 +74,7 @@ namespace Cryptool.XOR
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "OutputDataCaption", "OutputDataTooltip", false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputDataCaption", "OutputDataTooltip", false)]
         public byte[] OutputData
         {
             get { return outputData; }

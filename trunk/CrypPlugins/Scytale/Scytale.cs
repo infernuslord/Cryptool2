@@ -47,7 +47,7 @@ namespace Cryptool.Scytale
         }
 
         private string inputString = string.Empty;
-        [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", true, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", true)]
         public string InputString
         {
             get { return this.inputString; }
@@ -62,7 +62,7 @@ namespace Cryptool.Scytale
         }
 
         private string outputString = string.Empty;
-        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", false)]
         public string OutputString
         {
             get { return this.outputString; }
@@ -75,7 +75,7 @@ namespace Cryptool.Scytale
 
 
 
-        [PropertyInfo(Direction.InputData, "StickSizeCaption", "StickSizeTooltip", false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "StickSizeCaption", "StickSizeTooltip", false)]
         public int StickSize
         {
             get { return settings.StickSize; }
