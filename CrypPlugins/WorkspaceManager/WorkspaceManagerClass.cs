@@ -59,7 +59,7 @@ namespace WorkspaceManager
     [TabColor("LightSlateGray")]
     [EditorInfo("cwm")]
     [Author("Viktor Matkovic,Nils Kopal", "nils.kopal@cryptool.org", "Universität Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo("WorkspaceManager.Properties.Resources", false, "PluginCaption", "PluginTooltip", "WorkspaceManager/Documentation/doc.xml", "WorkspaceManager/View/Image/WorkspaceManagerIcon.ico")]
+    [PluginInfo("WorkspaceManager.Properties.Resources", "PluginCaption", "PluginTooltip", "WorkspaceManager/Documentation/doc.xml", "WorkspaceManager/View/Image/WorkspaceManagerIcon.ico")]
     public class WorkspaceManagerClass : IEditor
     {
         public event EventHandler SampleLoaded;
