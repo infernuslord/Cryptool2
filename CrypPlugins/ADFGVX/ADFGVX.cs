@@ -56,14 +56,14 @@ namespace Cryptool.ADFGVX
             set { this.settings = (ADFGVXSettings)value; }
         }
 
-        [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", true, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", true)]
         public string InputString
         {
             get;
             set;
         }
 
-        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", false)]
         public string OutputString
         {
             get;

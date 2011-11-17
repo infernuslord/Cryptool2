@@ -74,7 +74,7 @@ namespace Dictionary
         }
 
         [Obsolete("Use string[] output instead")]
-        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", false)]
         public string OutputString
         {
             get
@@ -93,7 +93,7 @@ namespace Dictionary
             set { } // readonly
         }
 
-        [PropertyInfo(Direction.OutputData, "OutputListCaption", "OutputListTooltip", false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputListCaption", "OutputListTooltip", false)]
         public string[] OutputList
         {
             get

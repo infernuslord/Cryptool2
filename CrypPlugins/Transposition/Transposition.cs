@@ -114,7 +114,7 @@ namespace Transposition
 
         # region Properties
 
-        [PropertyInfo(Direction.InputData, "InputCaption", "InputTooltip", false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputCaption", "InputTooltip", false)]
         public Byte[] Input
         {
             get
@@ -129,7 +129,7 @@ namespace Transposition
             }
         }
 
-        [PropertyInfo(Direction.InputData, "KeywordCaption", "KeywordTooltip", false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "KeywordCaption", "KeywordTooltip", false)]
         public string Keyword
         {
             get

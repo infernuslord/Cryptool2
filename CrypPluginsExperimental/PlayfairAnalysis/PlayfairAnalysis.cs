@@ -52,7 +52,7 @@ namespace Cryptool.Plugins.PlayfairAnalysis
         /// <summary>
         /// You can add more input properties of other type if needed.
         /// </summary>
-        [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", null)]
+        [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip")]
         public virtual string InputString
         {
             get { return this.inputString; }
@@ -83,7 +83,7 @@ namespace Cryptool.Plugins.PlayfairAnalysis
         */
 
         ICryptoolStream csBigraphStatistic;
-        [PropertyInfo(Direction.InputData, "CustomLogStatCaption", "CustomLogStatTooltip", null)]
+        [PropertyInfo(Direction.InputData, "CustomLogStatCaption", "CustomLogStatTooltip")]
         public ICryptoolStream CustomLogStat
         {
             get
@@ -107,7 +107,7 @@ namespace Cryptool.Plugins.PlayfairAnalysis
         /// <summary>
         /// You can add more output properties ot other type if needed.
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", null)]
+        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip")]
         public virtual string OutputString
         {
             get { return this.outputString; }
@@ -119,7 +119,7 @@ namespace Cryptool.Plugins.PlayfairAnalysis
         }
 
 
-        [PropertyInfo(Direction.OutputData, "OutputDataCaption", "OutputDataTooltip", null)]
+        [PropertyInfo(Direction.OutputData, "OutputDataCaption", "OutputDataTooltip")]
         public virtual ICryptoolStream OutputData
         {
             get

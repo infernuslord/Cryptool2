@@ -75,7 +75,7 @@ namespace ClipboardOutput {
 
 		#region Interface
     private ICryptoolStream streamInput;
-    [PropertyInfo(Direction.InputData, "StreamInputCaption", "StreamInputTooltip", true, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.InputData, "StreamInputCaption", "StreamInputTooltip", true)]
     public ICryptoolStream StreamInput
     {
 			get 

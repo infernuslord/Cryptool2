@@ -63,7 +63,7 @@ namespace Cryptool.Plugins.SZ42
 
         #region Data Properties
 
-        [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", false)]
         public string InputString
         {
             get { return this.inputString; }
@@ -77,7 +77,7 @@ namespace Cryptool.Plugins.SZ42
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", false)]
         public string OutputString
         {
             get { return this.outputString; }

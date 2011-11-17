@@ -70,14 +70,14 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         }
 
 
-        [PropertyInfo(Direction.InputData, "InputStreamCaption", "InputStreamTooltip", true, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "InputStreamCaption", "InputStreamTooltip", true)]
         public ICryptoolStream InputStream
         {
             get;
             set;
                 }
 
-        [PropertyInfo(Direction.InputData, "InputKeyCaption", "InputKeyTooltip", true, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "InputKeyCaption", "InputKeyTooltip", true)]
         public byte[] InputKey
         {
             get { return this.inputKey; }
@@ -88,7 +88,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             }
         }
 
-        [PropertyInfo(Direction.InputData, "InputIVCaption", "InputIVTooltip", false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "InputIVCaption", "InputIVTooltip", false)]
         public byte[] InputIV
         {
             get { return this.inputIV; }
@@ -99,7 +99,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             }
         }
         
-        [PropertyInfo(Direction.OutputData, "OutputStreamCaption", "OutputStreamTooltip", true, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "OutputStreamCaption", "OutputStreamTooltip", true)]
         public ICryptoolStream OutputStream
         {
             get

@@ -113,7 +113,7 @@ namespace ManInTheMiddle
             EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(text, this, NotificationLevel.Info));
         }
 
-        [PropertyInfo(Direction.OutputData, "SOAP Output", "Output a modified SOAP message to be processed by the Web Service", "", true, false, QuickWatchFormat.Text, "XmlConverter")]
+        [PropertyInfo(Direction.OutputData, "SOAP Output", "Output a modified SOAP message to be processed by the Web Service", true)]
          public XmlDocument OutputString
         {
             get {
@@ -139,7 +139,7 @@ namespace ManInTheMiddle
             }
         }
 
-        [PropertyInfo(Direction.InputData, "SOAP Input", "Input from a Web-Service Client", "", false, false, QuickWatchFormat.Text, "XmlOutputConverter")]
+        [PropertyInfo(Direction.InputData, "SOAP Input", "Input from a Web-Service Client", false)]
         public XmlDocument InputString
         {
             get { return this.inputSoap; }
@@ -153,7 +153,7 @@ namespace ManInTheMiddle
             }
         }
 
-        [PropertyInfo(Direction.InputData, "SOAP Input", "Soap Message response from a Web-Service", "", false, false, QuickWatchFormat.Text, "XmlOutputConverter")]
+        [PropertyInfo(Direction.InputData, "SOAP Input", "Soap Message response from a Web-Service", false)]
         public XmlDocument InputAnswer
         {
             get { return this.inputAnswer; }
@@ -165,7 +165,7 @@ namespace ManInTheMiddle
             }
         }
 
-        [PropertyInfo(Direction.InputData, "WSDL Input", "WSDL to create the soap message",null)]
+        [PropertyInfo(Direction.InputData, "WSDL Input", "WSDL to create the soap message")]
         public XmlDocument wsdlInput
         {
             get { return this.wsdl; }

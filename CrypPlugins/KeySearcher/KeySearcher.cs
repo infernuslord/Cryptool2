@@ -161,7 +161,7 @@ namespace KeySearcher
 
         /* BEGIN: following lines are from Arnie - 2010.01.12 */
         private ICryptoolStream csEncryptedData;
-        [PropertyInfo(Direction.InputData, "CSEncryptedDataCaption", "CSEncryptedDataTooltip", false, QuickWatchFormat.Hex, "")]
+        [PropertyInfo(Direction.InputData, "CSEncryptedDataCaption", "CSEncryptedDataTooltip", false)]
         public virtual ICryptoolStream CSEncryptedData
         {
             get { return this.csEncryptedData; }
@@ -178,7 +178,7 @@ namespace KeySearcher
 
         private byte[] encryptedData;
         private byte[] encryptedDataOptimized;
-        [PropertyInfo(Direction.InputData, "EncryptedDataCaption", "EncryptedDataTooltip", false, QuickWatchFormat.Hex, "")]
+        [PropertyInfo(Direction.InputData, "EncryptedDataCaption", "EncryptedDataTooltip", false)]
         public virtual byte[] EncryptedData
         {
             get { return this.encryptedData; }
@@ -214,7 +214,7 @@ namespace KeySearcher
 
         private byte[] initVector;
         private byte[] initVectorOptimized;
-        [PropertyInfo(Direction.InputData, "InitVectorCaption", "InitVectorTooltip", false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "InitVectorCaption", "InitVectorTooltip", false)]
         public virtual byte[] InitVector
         {
             get { return this.initVector; }

@@ -41,7 +41,7 @@ namespace Cryptool.FrequencyTest
 
         #region Properties (Inputs/Outputs)
 
-        [PropertyInfo(Direction.InputData, "StringInputCaption", "StringInputTooltip", true, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "StringInputCaption", "StringInputTooltip", true)]
         public string StringInput 
         {
             get
@@ -55,52 +55,23 @@ namespace Cryptool.FrequencyTest
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "StringOutputCaption", "StringOutputTooltip", false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "StringOutputCaption", "StringOutputTooltip", false)]
         public string StringOutput
         {
             get { return stringOutput; }
         }
 
-        [PropertyInfo(Direction.OutputData , "ArrayOutputCaption", "ArrayOutputTooltip", false, QuickWatchFormat.None, "QuickWatchArray")]
+        [PropertyInfo(Direction.OutputData , "ArrayOutputCaption", "ArrayOutputTooltip", false)]
         public int[] ArrayOutput
         {
             get { return arrayOutput; }
         }
 
-        public object QuickWatchArray(string propertyNameToConvert)
-        {
-            StringBuilder sb = new StringBuilder();
-            foreach (int i in arrayOutput)
-            {
-                sb.Append(i);
-                sb.AppendLine();
-            }
-            return sb.ToString();
-        }
-
-        [PropertyInfo(Direction.OutputData, "DictionaryOutputCaption", "DictionaryOutputTooltip", false, QuickWatchFormat.None, "QuickWatchDictionary")]
+        [PropertyInfo(Direction.OutputData, "DictionaryOutputCaption", "DictionaryOutputTooltip", false)]
         public IDictionary<string, double[]> DictionaryOutput
         {
             get { return grams; }
         
-        }
-
-        public object QuickWatchDictionary(string propertyNameToConvert)
-        {
-            StringBuilder sb = new StringBuilder(4096);
-            foreach (KeyValuePair<string, double[]> item in grams)
-            {
-                sb.Append(item.Key);
-                for (int i = 0; i < item.Value.Length; i++)
-                {
-                    sb.Append(";" + item.Value[i]);
-                }
-                sb.AppendLine();
-                
-                if (sb.Length >= 4096)
-                    break;
-            }
-            return sb.ToString();
         }
         #endregion
 

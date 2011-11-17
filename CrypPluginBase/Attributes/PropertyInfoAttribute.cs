@@ -51,10 +51,8 @@ namespace Cryptool.PluginBase
         # region normal properties
         public readonly Direction Direction;
         public readonly bool Mandatory;
-        public QuickWatchFormat QuickWatchFormat;
         public string PropertyName; // will be set in extension-method
         public PropertyInfo PropertyInfo { get; set; } // will be set in extension-method
-        public readonly string QuickWatchConversionMethod;
         #endregion normal properties
 
         # region translation helpers
@@ -80,32 +78,34 @@ namespace Cryptool.PluginBase
         /// <param name="caption">The caption.</param>
         /// <param name="toolTip">The tool tip.</param>
         /// <param name="mandatory">if set to <c>true</c> [mandatory].</param>
-        /// <param name="quickWatchFormat">The quick watch format.</param>
-        /// <param name="quickWatchConversionMethod">Methodname of converstion method.</param>
-        public PropertyInfoAttribute(Direction direction, string caption, string toolTip, bool mandatory, QuickWatchFormat quickWatchFormat, string quickWatchConversionMethod)
+        public PropertyInfoAttribute(Direction direction, string caption, string toolTip, bool mandatory)
         {
             this.caption = caption ?? "";
             this.toolTip = toolTip ?? "";
             this.Direction = direction;
             this.Mandatory = mandatory;
-            this.QuickWatchFormat = quickWatchFormat;
-            this.QuickWatchConversionMethod = quickWatchConversionMethod;
-        }
-
-        [Obsolete("descriptionUrl and hasDefaultValue are never used")]
-        public PropertyInfoAttribute(Direction direction, string caption, string toolTip, string descriptionUrl, bool mandatory, bool hasDefaultValue, QuickWatchFormat quickWatchFormat, string quickWatchConversionMethod)
-            : this(direction, caption, toolTip, mandatory, quickWatchFormat, quickWatchConversionMethod)
-        {
         }
 
         public PropertyInfoAttribute(Direction direction, string caption, string toolTip)
-            : this(direction, caption, toolTip, false, QuickWatchFormat.None, null)
+            : this(direction, caption, toolTip, false)
+        {
+        }
+
+        [Obsolete("quickWatchFormat and quickWatchConversionMethod are never used")]
+        public PropertyInfoAttribute(Direction direction, string caption, string toolTip, bool mandatory, QuickWatchFormat quickWatchFormat, string quickWatchConversionMethod) :
+            this(direction, caption, toolTip, mandatory)
+        {
+        }
+
+        [Obsolete("descriptionUrl and hasDefaultValue are never used, nor are quickWatchFormat and quickWatchConversionMethod")]
+        public PropertyInfoAttribute(Direction direction, string caption, string toolTip, string descriptionUrl, bool mandatory, bool hasDefaultValue, QuickWatchFormat quickWatchFormat, string quickWatchConversionMethod)
+            : this(direction, caption, toolTip, mandatory)
         {
         }
 
         [Obsolete("descriptionUrl is never used")]
         public PropertyInfoAttribute(Direction direction, string caption, string toolTip, string descriptionUrl)
-            : this(direction, caption, toolTip, false, QuickWatchFormat.None, null)
+            : this(direction, caption, toolTip, false)
         {
         }
 

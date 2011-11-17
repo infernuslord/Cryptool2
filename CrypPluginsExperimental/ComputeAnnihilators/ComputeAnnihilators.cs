@@ -39,7 +39,7 @@ namespace Cryptool.ComputeAnnihilators
             get { return (ISettings)this.settings; }
             set { this.settings = (ComputeAnnihilatorsSettings)value; }
         }
-        [PropertyInfo(Direction.InputData, "input as Object", "boolean function (string),set of bisequences(string)or Hashtable (Z,XZ) delivred from pluin copmute th sets XZ", "", false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "input as Object", "boolean function (string),set of bisequences(string)or Hashtable (Z,XZ) delivred from pluin copmute th sets XZ", false)]
         public Object Input
         {
             get { return this.input; }
@@ -53,7 +53,7 @@ namespace Cryptool.ComputeAnnihilators
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "annihilators  as string", "to display annihilators or Z-functions in Textoutput", "", false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "annihilators  as string", "to display annihilators or Z-functions in Textoutput", false)]
         public string OutputString
         {
             get { return this.outputstring; }
@@ -64,7 +64,7 @@ namespace Cryptool.ComputeAnnihilators
             }
 
         }
-        [PropertyInfo(Direction.OutputData, " annihilators as (Hashtable(Z,F_Z))", "to use as Input of Pugin System of equation", "", false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, " annihilators as (Hashtable(Z,F_Z))", "to use as Input of Pugin System of equation", false)]
         public Hashtable OutputFZ
         {
             get { return this.outputFZ; }

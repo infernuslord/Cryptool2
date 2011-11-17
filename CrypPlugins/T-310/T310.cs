@@ -48,7 +48,7 @@ namespace Cryptool.Plugins.T310
             set;
         }
 
-        [PropertyInfo(Direction.InputData, "InputKeyCaption", "InputKeyTooltip", false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "InputKeyCaption", "InputKeyTooltip", false)]
         public byte[] InputKey
         {
             get;

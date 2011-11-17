@@ -70,7 +70,7 @@ namespace SmartInterpreter
 
     #region IO
 
-    [PropertyInfo(Direction.InputData, "DataInputCaption", "DataInputTooltip", true, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.InputData, "DataInputCaption", "DataInputTooltip", true)]
     public String DataInput
     {
         get
@@ -101,7 +101,7 @@ namespace SmartInterpreter
         }
     }
 
-    [PropertyInfo(Direction.InputData, "ResponseCaption", "ResponseTooltip", false, QuickWatchFormat.Hex, null)]
+    [PropertyInfo(Direction.InputData, "ResponseCaption", "ResponseTooltip", false)]
     public byte[] Response
     {
         get {
@@ -159,7 +159,7 @@ namespace SmartInterpreter
         }
     }
 
-    [PropertyInfo(Direction.OutputData, "APDUStringCaption", "APDUStringTooltip", true, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.OutputData, "APDUStringCaption", "APDUStringTooltip", true)]
     public String APDUString
     {
         get

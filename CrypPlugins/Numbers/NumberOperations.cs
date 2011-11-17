@@ -62,7 +62,7 @@ namespace Cryptool.Plugins.Numbers
         /// The inputs are defined.
         /// Only BigInteger are accepted.
         /// </summary>
-        [PropertyInfo(Direction.InputData, "Input1Caption", "Input1Tooltip", true, QuickWatchFormat.None, null)]
+        [PropertyInfo(Direction.InputData, "Input1Caption", "Input1Tooltip", true)]
         public BigInteger Input1
         {
             get
@@ -77,7 +77,7 @@ namespace Cryptool.Plugins.Numbers
         }
 
         
-        [PropertyInfo(Direction.InputData, "Input2Caption", "Input2Tooltip", true, QuickWatchFormat.None, null)]
+        [PropertyInfo(Direction.InputData, "Input2Caption", "Input2Tooltip", true)]
         public BigInteger Input2
         {
             get

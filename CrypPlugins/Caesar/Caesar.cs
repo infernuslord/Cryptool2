@@ -60,7 +60,7 @@ namespace Cryptool.Caesar
         }
 
 
-        [PropertyInfo(Direction.OutputData, "OutputDataCaption", "OutputDataTooltip", false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputDataCaption", "OutputDataTooltip", false)]
         public ICryptoolStream OutputData
         {
             get
@@ -74,14 +74,14 @@ namespace Cryptool.Caesar
             }
         }
 
-        [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", true, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", true)]
         public string InputString
         {
             get;
             set; 
         }
 
-        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", false)]
         public string OutputString
         {
             get;
@@ -89,7 +89,7 @@ namespace Cryptool.Caesar
         }
 
 
-        [PropertyInfo(Direction.InputData, "InputAlphabetCaption", "InputAlphabetTooltip", false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputAlphabetCaption", "InputAlphabetTooltip", false)]
         public string InputAlphabet
         {
             get { return this.settings.AlphabetSymbols; }
@@ -103,7 +103,7 @@ namespace Cryptool.Caesar
             }
         }
 
-        [PropertyInfo(Direction.InputData, "ShiftKeyCaption", "ShiftKeyTooltip", false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "ShiftKeyCaption", "ShiftKeyTooltip", false)]
         public int ShiftKey
         {
           get { return settings.ShiftKey; }

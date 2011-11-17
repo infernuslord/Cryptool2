@@ -63,7 +63,7 @@ namespace SolitaireAnalyser
         /// <summary>
         /// The ciphertext to be analyzed
         /// </summary>
-        [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", null, true, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", true)]
         public string InputString
         {
             get { return this.inputString; }
@@ -80,7 +80,7 @@ namespace SolitaireAnalyser
         /// <summary>
         /// The dictionary to be used to recognize words in the plaintext
         /// </summary>
-        [PropertyInfo(Direction.InputData, "WordDictionaryCaption", "WordDictionaryTooltip", null, true, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "WordDictionaryCaption", "WordDictionaryTooltip", true)]
         public string[] WordDictionary
         {
             get { return this.wordDictionary; }
@@ -94,7 +94,7 @@ namespace SolitaireAnalyser
         /// <summary>
         /// The dictionary holding all passwords to be tried
         /// </summary>
-        [PropertyInfo(Direction.InputData, "PassDictionaryCaption", "PassDictionaryTooltip", null, true, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "PassDictionaryCaption", "PassDictionaryTooltip", true)]
         public string[] PassDictionary
         {
             get { return this.passDictionary; }
@@ -108,7 +108,7 @@ namespace SolitaireAnalyser
         /// <summary>
         /// The plaintext to be output
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", null, false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", false)]
         public string OutputString
         {
             get { return this.outputString; }
@@ -122,7 +122,7 @@ namespace SolitaireAnalyser
         /// <summary>
         /// The password which had the best result
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "PasswordCaption", "PasswordTooltip", null, false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "PasswordCaption", "PasswordTooltip", false)]
         public string Password
         {
             get { return this.password; }

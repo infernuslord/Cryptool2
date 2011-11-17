@@ -63,7 +63,7 @@ namespace Cryptool.Playfair
             set { this.settings = (PlayfairSettings)value; }
         }
 
-        [PropertyInfo(Direction.OutputData, "OutputDataCaption", "OutputDataTooltip", false,QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputDataCaption", "OutputDataTooltip", false)]
         public ICryptoolStream OutputData
         {
             get
@@ -80,7 +80,7 @@ namespace Cryptool.Playfair
             set { }
         }
 
-        [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", true,QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", true)]
         public string InputString
         {
             get { return this.inputString; }
@@ -94,7 +94,7 @@ namespace Cryptool.Playfair
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "PreFormatedInputStringCaption", "PreFormatedInputStringTooltip", false,QuickWatchFormat.Text,null)]
+        [PropertyInfo(Direction.OutputData, "PreFormatedInputStringCaption", "PreFormatedInputStringTooltip", false)]
         public string PreFormatedInputString
         {
             get { return this.preFormatedInputString; }
@@ -105,7 +105,7 @@ namespace Cryptool.Playfair
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", false,QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", false)]
         public string OutputString
         {
             get { return this.outputString; }

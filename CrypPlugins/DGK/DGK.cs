@@ -297,7 +297,7 @@ namespace Cryptool.Plugins.DGK
         /// <summary>
         /// Gets/Sets public key n
         /// </summary>
-        [PropertyInfo(Direction.InputData, "InputNCaption", "InputNTooltip", true, QuickWatchFormat.None, null)]
+        [PropertyInfo(Direction.InputData, "InputNCaption", "InputNTooltip", true)]
         public BigInteger InputN
         {
             get
@@ -315,7 +315,7 @@ namespace Cryptool.Plugins.DGK
         /// <summary>
         /// Gets/Sets public key g
         /// </summary>
-        [PropertyInfo(Direction.InputData, "InputGCaption", "InputGTooltip", true, QuickWatchFormat.None, null)]
+        [PropertyInfo(Direction.InputData, "InputGCaption", "InputGTooltip", true)]
         public BigInteger InputG
         {
             get
@@ -333,7 +333,7 @@ namespace Cryptool.Plugins.DGK
         /// <summary>
         /// Gets/Sets public key h
         /// </summary>
-        [PropertyInfo(Direction.InputData, "InputHCaption", "InputHTooltip", true, QuickWatchFormat.None, null)]
+        [PropertyInfo(Direction.InputData, "InputHCaption", "InputHTooltip", true)]
         public BigInteger InputH
         {
             get
@@ -351,7 +351,7 @@ namespace Cryptool.Plugins.DGK
         /// <summary>
         /// Gets/Sets public key u
         /// </summary>
-        [PropertyInfo(Direction.InputData, "InputUCaption", "InputUTooltip", true, QuickWatchFormat.None, null)]
+        [PropertyInfo(Direction.InputData, "InputUCaption", "InputUTooltip", true)]
         public BigInteger InputU
         {
             get
@@ -423,7 +423,7 @@ namespace Cryptool.Plugins.DGK
         /// <summary>
         /// Gets/Sets a input message as BigInteger called M
         /// </summary>
-        [PropertyInfo(Direction.InputData, "InputMCaption", "InputMTooltip", true, QuickWatchFormat.None, null)]
+        [PropertyInfo(Direction.InputData, "InputMCaption", "InputMTooltip", true)]
         public Object InputM
         {
             get

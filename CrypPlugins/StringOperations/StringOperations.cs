@@ -141,41 +141,41 @@ namespace StringOperations
 
         #endregion
 
-        [PropertyInfo(Direction.InputData, "String1Caption", "String1Tooltip", false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "String1Caption", "String1Tooltip", false)]
         public string String1
         {
             get { return _string1; }
             set { _string1 = value; }
         }
 
-        [PropertyInfo(Direction.InputData, "String2Caption", "String2Tooltip", false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "String2Caption", "String2Tooltip", false)]
         public string String2
         {
             get { return _string2; }
             set { _string2 = value; }
         }
 
-        [PropertyInfo(Direction.InputData, "Value1Caption", "Value1Tooltip", false, QuickWatchFormat.None, null)]
+        [PropertyInfo(Direction.InputData, "Value1Caption", "Value1Tooltip", false)]
         public int Value1
         {
             get { return _value1; }
             set { _value1 = value; }
         }
 
-        [PropertyInfo(Direction.InputData, "Value2Caption", "Value2Tooltip", false, QuickWatchFormat.None, null)]
+        [PropertyInfo(Direction.InputData, "Value2Caption", "Value2Tooltip", false)]
         public int Value2
         {
             get { return _value2; }
             set { _value2 = value; }
         }      
 
-        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", false)]
         public string OutputString
         {
             get { return _outputString; }
         }
 
-        [PropertyInfo(Direction.OutputData, "OutputValueCaption", "OutputValueTooltip", false, QuickWatchFormat.None, null)]
+        [PropertyInfo(Direction.OutputData, "OutputValueCaption", "OutputValueTooltip", false)]
         public int OutputValue
         {
             get { return _outputValue; }

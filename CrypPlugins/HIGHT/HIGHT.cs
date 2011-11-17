@@ -56,7 +56,7 @@ namespace Cryptool.HIGHT
             set { this.settings = (HIGHTSettings)value; }
         }
 
-        [PropertyInfo(Direction.InputData, "InputStreamCaption", "InputStreamTooltip", true, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "InputStreamCaption", "InputStreamTooltip", true)]
         public ICryptoolStream InputStream
         {
             get 
@@ -72,7 +72,7 @@ namespace Cryptool.HIGHT
             }
         }
 
-        [PropertyInfo(Direction.InputData, "InputKeyCaption", "InputKeyTooltip", true, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "InputKeyCaption", "InputKeyTooltip", true)]
         public byte[] InputKey
         {
             get { return this.inputKey; }
@@ -83,7 +83,7 @@ namespace Cryptool.HIGHT
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "OutputStreamCaption", "OutputStreamTooltip", true, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "OutputStreamCaption", "OutputStreamTooltip", true)]
         public ICryptoolStream OutputStream
         {
             get

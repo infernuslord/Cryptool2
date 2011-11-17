@@ -39,13 +39,13 @@ namespace Concatenate
 
         private CStreamWriter outputStreamWriter;
 
-        [PropertyInfo(Direction.InputData, "InputStreamCaption", "InputStreamTooltip", true, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "InputStreamCaption", "InputStreamTooltip", true)]
         public ICryptoolStream InputStreamOne { get; set; }
 
-        [PropertyInfo(Direction.InputData, "InputStreamCaption", "InputStreamTooltip", true, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "InputStreamCaption", "InputStreamTooltip", true)]
         public ICryptoolStream InputStreamTwo { get; set; }
 
-        [PropertyInfo(Direction.OutputData, "OutputStreamCaption", "OutputStreamTooltip", true, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "OutputStreamCaption", "OutputStreamTooltip", true)]
         public ICryptoolStream OutputStream
         {
             get { return outputStreamWriter; }

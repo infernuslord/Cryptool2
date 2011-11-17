@@ -54,9 +54,7 @@ namespace Cryptool.CubeAttack
         
         [PropertyInfo(Direction.OutputData, 
             "OutputSuperpolyCaption", "OutputSuperpolyTooltip",
-            false, 
-            QuickWatchFormat.Text, 
-            null)]
+            false)]
         public ICryptoolStream OutputSuperpoly
         {
             get
@@ -75,9 +73,7 @@ namespace Cryptool.CubeAttack
 
         [PropertyInfo(Direction.OutputData, 
             "OutputKeyBitsCaption", "OutputKeyBitsTooltip", 
-            false, 
-            QuickWatchFormat.Text, 
-            null)]
+            false)]
         public ICryptoolStream OutputKeyBits
         {
             get

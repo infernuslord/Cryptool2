@@ -40,7 +40,7 @@ namespace Cryptool.Plugins.ArrayIndexer
 
         #region In and Out properties
 
-        [PropertyInfo(Direction.InputData, "ObjInputCaption", "ObjInputTooltip", true, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "ObjInputCaption", "ObjInputTooltip", true)]
         public Array ObjInput
         {
             get

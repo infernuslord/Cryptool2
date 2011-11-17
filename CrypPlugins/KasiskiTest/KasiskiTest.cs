@@ -24,7 +24,7 @@ namespace Cryptool.KasiskiTest
         public static DataSource Data = new DataSource();
         #region Properties (Inputs/Outputs)
 
-        [PropertyInfo(Direction.InputData, "StringInputCaption", "StringInputTooltip", true, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "StringInputCaption", "StringInputTooltip", true)]
         public string StringInput
         {
             get
@@ -34,7 +34,7 @@ namespace Cryptool.KasiskiTest
             set { stringInput = value; OnPropertyChanged("StringInput"); }
         }
        
-        [PropertyInfo(Direction.OutputData, "IntegerArrayCaption", "IntegerArrayTooltip", true, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "IntegerArrayCaption", "IntegerArrayTooltip", true)]
         public int [] IntegerArray
         {
         get { return integerArray; }
@@ -49,7 +49,7 @@ namespace Cryptool.KasiskiTest
     }
      
     
-        [PropertyInfo(Direction.OutputData, "StringOutputCaption", "StringOutputTooltip", true, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "StringOutputCaption", "StringOutputTooltip", true)]
         public string StringOutput
         {
             get

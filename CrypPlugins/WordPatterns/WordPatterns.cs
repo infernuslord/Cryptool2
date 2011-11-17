@@ -41,7 +41,7 @@ namespace WordPatterns
 
         #region Properties
 
-        [PropertyInfo(Direction.InputData, "InputTextCaption", "InputTextTooltip", true, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputTextCaption", "InputTextTooltip", true)]
         public string InputText
         {
             get
@@ -55,7 +55,7 @@ namespace WordPatterns
             }
         }
 
-        [PropertyInfo(Direction.InputData, "InputDictCaption", "InputDictTooltip", true, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputDictCaption", "InputDictTooltip", true)]
         public string[] InputDict
         {
             get
@@ -70,7 +70,7 @@ namespace WordPatterns
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "OutputTextCaption", "OutputTextTooltip", false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputTextCaption", "OutputTextTooltip", false)]
         public string OutputText
         {
             get { return outputText; }

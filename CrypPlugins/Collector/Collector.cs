@@ -40,7 +40,7 @@ namespace Cryptool.Plugins.Collector
         #region Properties
 
         private Object input1 = null;
-        [PropertyInfo(Direction.InputData, "Input1Caption", "Input1Tooltip", false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "Input1Caption", "Input1Tooltip", false)]
         public Object Input1
         {
             get
@@ -57,7 +57,7 @@ namespace Cryptool.Plugins.Collector
         }
 
         private Object input2 = null;
-        [PropertyInfo(Direction.InputData, "Input2Caption", "Input2Tooltip", false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "Input2Caption", "Input2Tooltip", false)]
         public Object Input2
         {
             get

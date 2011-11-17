@@ -49,7 +49,7 @@ namespace Cryptool.MonoalphabeticAnalysis
 
         #region Properties (Inputs/Outputs)
 
-        [PropertyInfo(Direction.InputData, "TextStatisticInput_Monograms", "TextStatisticInput_Monograms", "", false, true, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "TextStatisticInput_Monograms", "TextStatisticInput_Monograms", false)]
         public string TextStatisticInput_Monograms
         {
             get
@@ -60,7 +60,7 @@ namespace Cryptool.MonoalphabeticAnalysis
         }
 
 
-        [PropertyInfo(Direction.InputData, "StatisticTextFrequencyInput_Digrams", "StatisticTextFrequencyInput_Digrams", "", false, true, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "StatisticTextFrequencyInput_Digrams", "StatisticTextFrequencyInput_Digrams", false)]
         public string StatisticTextFrequencyInput_Digrams
         {
             get
@@ -71,7 +71,7 @@ namespace Cryptool.MonoalphabeticAnalysis
         }
 
 
-        [PropertyInfo(Direction.InputData, "CipherTextFrequencyInput_Monograms", "CipherTextFrequencyInput_Monograms", "", true, true, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "CipherTextFrequencyInput_Monograms", "CipherTextFrequencyInput_Monograms", true)]
         public string CipherTextFrequencyInput_Monograms
         {
             get
@@ -81,7 +81,7 @@ namespace Cryptool.MonoalphabeticAnalysis
             set { cipherTextFrequencyInput_Monograms = value; OnPropertyChanged("CipherTextFrequencyInput_Monograms"); }
         }
 
-        [PropertyInfo(Direction.InputData, "DecipherAttempt_Digrams", "DecipherAttempt_Digrams", "", false, true, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "DecipherAttempt_Digrams", "DecipherAttempt_Digrams", false)]
         public string DecipherAttempt_Digrams
         {
             get
@@ -94,7 +94,7 @@ namespace Cryptool.MonoalphabeticAnalysis
 
 
         private int dictionaryHits;
-        [PropertyInfo(Direction.InputData, "Words Found in Dictionary", "Words Found in Dictionary", "", false, true, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "Words Found in Dictionary", "Words Found in Dictionary", false)]
         public int DictionaryHits
         {
             get
@@ -105,7 +105,7 @@ namespace Cryptool.MonoalphabeticAnalysis
         }
 
 
-        [PropertyInfo(Direction.OutputData, "String output", "Proposal Alphabets", "", false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "String output", "Proposal Alphabets", false)]
         public string StringOutput
         {
             get { return stringOutput; }
@@ -119,7 +119,7 @@ namespace Cryptool.MonoalphabeticAnalysis
 
 
 
-        [PropertyInfo(Direction.OutputData, "Alphabet goodness", "Alphabet goodness", "", false, false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "Alphabet goodness", "Alphabet goodness", false)]
         public string AlphabetGoodness
         {
             get { return alphabetGoodnes.ToString(); }

@@ -57,7 +57,7 @@ namespace Cryptool.HMAC
             set { this.settings = (HMACSettings)value; }
         }
 
-        [PropertyInfo(Direction.InputData, "InputDataCaption", "InputDataTooltip", true, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "InputDataCaption", "InputDataTooltip", true)]
         public ICryptoolStream InputData
         {
 
@@ -73,7 +73,7 @@ namespace Cryptool.HMAC
             }
         }
 
-        [PropertyInfo(Direction.InputData, "KeyCaption", "KeyTooltip", true, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.InputData, "KeyCaption", "KeyTooltip", true)]
         public byte[] Key
         {
             get
@@ -88,7 +88,7 @@ namespace Cryptool.HMAC
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "OutputDataStreamCaption", "OutputDataStreamTooltip", false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "OutputDataStreamCaption", "OutputDataStreamTooltip", false)]
         public ICryptoolStream OutputDataStream
         {
             get
@@ -106,7 +106,7 @@ namespace Cryptool.HMAC
             set { } // readonly
         }
 
-        [PropertyInfo(Direction.OutputData, "OutputDataCaption", "OutputDataTooltip", false, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "OutputDataCaption", "OutputDataTooltip", false)]
         public byte[] OutputData
         {
             get

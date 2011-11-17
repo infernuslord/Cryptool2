@@ -45,28 +45,28 @@ namespace FriedmanTest
 
         #region Properties (Inputs/Outputs)
 
-        [PropertyInfo(Direction.OutputData, "StringOutputCaption", "StringOutputTooltip", false, QuickWatchFormat.Text,null)]
+        [PropertyInfo(Direction.OutputData, "StringOutputCaption", "StringOutputTooltip", false)]
         public string StringOutput
         {
             get { return this.stringOutput; }
             set { }
         }
 
-        [PropertyInfo(Direction.OutputData, "KeyLengthCaption", "KeyLengthTooltip", false, QuickWatchFormat.Text, "KeyLengthQuickWatchConverter")]
+        [PropertyInfo(Direction.OutputData, "KeyLengthCaption", "KeyLengthTooltip", false)]
         public double KeyLength
         {
             get { return keyLength; }
             set { }
         }
 
-        [PropertyInfo(Direction.OutputData, "KappaCiphertextCaption", "KappaCiphertextTooltip", false, QuickWatchFormat.Text, "KappaCiphertextQuickWatchConverter")]
+        [PropertyInfo(Direction.OutputData, "KappaCiphertextCaption", "KappaCiphertextTooltip", false)]
         public double KappaCiphertext
         {
             get { return kappaCiphertext; }
             set { }
         }
 
-        [PropertyInfo(Direction.InputData, "ArrayInputCaption", "ArrayInputTooltip", true, QuickWatchFormat.None, null)]
+        [PropertyInfo(Direction.InputData, "ArrayInputCaption", "ArrayInputTooltip", true)]
         public int [] ArrayInput
         {
             get { return arrayInput; }
@@ -76,20 +76,6 @@ namespace FriedmanTest
                 OnPropertyChanged("ArrayInput");
             }
         }
-        #endregion
-
-        #region Input/Output convertor
-
-        public object KappaCiphertextQuickWatchConverter(string PropertyNameToConvert)
-        {
-            return kappaCiphertext.ToString();
-        }
-
-        public object KeyLengthQuickWatchConverter(string PropertyNameToConvert)
-        {
-            return keyLength.ToString();
-        }
-
         #endregion
 
         #region IPlugin Members

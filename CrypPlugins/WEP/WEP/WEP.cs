@@ -62,9 +62,7 @@ namespace Cryptool.WEP
         [PropertyInfo(Direction.InputData,
             "InputStreamCaption",
             "InputStreamTooltip",
-            false,
-            QuickWatchFormat.Hex,
-            null)]
+            false)]
         public ICryptoolStream InputStream
         {
             get
@@ -83,9 +81,7 @@ namespace Cryptool.WEP
             Direction.InputData,
             "InputByteKeyCaption",
             "InputByteKeyTooltip",
-            true,
-            QuickWatchFormat.Hex,
-            null)]
+            true)]
         public byte[] InputByteKey
         {
             get { return this.inputByteKey; }
@@ -99,9 +95,7 @@ namespace Cryptool.WEP
         [PropertyInfo(Direction.OutputData,
             "OutputStreamCaption",
             "OutputStreamTooltip",
-            false,
-            QuickWatchFormat.Hex,
-            null)]
+            false)]
         public ICryptoolStream OutputStream
         {
             get

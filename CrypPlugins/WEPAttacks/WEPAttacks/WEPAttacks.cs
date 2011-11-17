@@ -64,9 +64,7 @@ namespace Cryptool.WEPAttacks
         [PropertyInfo(Direction.InputData,
             "InputStreamCaption",
             "InputStreamTooltip",
-            false,
-            QuickWatchFormat.Hex,
-            null)]
+            false)]
         public ICryptoolStream InputStream
         {
             get
@@ -84,9 +82,7 @@ namespace Cryptool.WEPAttacks
         [PropertyInfo(Direction.OutputData,
             "SuccessCaption",
             "SuccessTooltip",
-            false,
-            QuickWatchFormat.Text,
-            null)]
+            false)]
         public bool Success
         {
             get { return this.success; }
@@ -100,9 +96,7 @@ namespace Cryptool.WEPAttacks
         [PropertyInfo(Direction.OutputData,
             "OutputStreamCaption",
             "OutputStreamTooltip",
-            false,
-            QuickWatchFormat.Hex,
-            null)]
+            false)]
         public ICryptoolStream OutputStream
         {
             get

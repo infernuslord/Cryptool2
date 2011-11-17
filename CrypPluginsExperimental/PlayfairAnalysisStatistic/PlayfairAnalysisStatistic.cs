@@ -72,7 +72,7 @@ namespace Cryptool.Plugins.PlayfairAnalysisStatistic
         */
 
         ICryptoolStream csBigraphStatistic;
-        [PropertyInfo(Direction.OutputData, "OutputStreamCaption", "OutputStreamTooltip", null)]
+        [PropertyInfo(Direction.OutputData, "OutputStreamCaption", "OutputStreamTooltip")]
         public ICryptoolStream OutputStream
         {
             get

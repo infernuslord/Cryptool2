@@ -50,7 +50,7 @@ namespace Contains
       settings = new ContainsSettings();
     }
 
-    [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", true, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", true)]
     public string InputString
     {
       get { return this.inputString; }
@@ -73,7 +73,7 @@ namespace Contains
       }
     }
 
-    [PropertyInfo(Direction.InputData, "DictionaryInputStringCaption", "DictionaryInputStringTooltip", true, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.InputData, "DictionaryInputStringCaption", "DictionaryInputStringTooltip", true)]
     public string DictionaryInputString
     {
       get { return this.dictionaryInputString; }
@@ -103,7 +103,7 @@ namespace Contains
       }
     }
     
-    [PropertyInfo(Direction.InputData, "HitsCaption", "HitsTooltip", false, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.InputData, "HitsCaption", "HitsTooltip", false)]
     public int Hits
     {
       get { return settings.Hits; }
@@ -193,7 +193,7 @@ namespace Contains
     }
 
     private bool result;
-    [PropertyInfo(Direction.OutputData, "ResultCaption", "ResultTooltip", false, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.OutputData, "ResultCaption", "ResultTooltip", false)]
     public bool Result
     {
       get { return result; }
@@ -212,7 +212,7 @@ namespace Contains
 //Angelov:
     private int hitCount = 0;
 
-    [PropertyInfo(Direction.OutputData, "HitCountCaption", "HitCountTooltip", false, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.OutputData, "HitCountCaption", "HitCountTooltip", false)]
     public int HitCount
     {
         get { return hitCount; }

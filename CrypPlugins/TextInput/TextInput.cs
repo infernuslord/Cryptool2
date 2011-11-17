@@ -236,7 +236,7 @@ namespace Cryptool.TextInput
 
     # region Properties
 
-    [PropertyInfo(Direction.OutputData, "TextOutputCaption", "TextOutputTooltip", true, QuickWatchFormat.None, null)]
+    [PropertyInfo(Direction.OutputData, "TextOutputCaption", "TextOutputTooltip", true)]
     public string TextOutput
     {
       get
@@ -271,7 +271,7 @@ namespace Cryptool.TextInput
       set { }
     }
 
-    [PropertyInfo(Direction.OutputData, "StreamOutputCaption", "StreamOutputTooltip", true, QuickWatchFormat.None, null)]
+    [PropertyInfo(Direction.OutputData, "StreamOutputCaption", "StreamOutputTooltip", true)]
     public ICryptoolStream StreamOutput
     {
       get
@@ -288,7 +288,7 @@ namespace Cryptool.TextInput
       set { } // readonly
     }
 
-    [PropertyInfo(Direction.OutputData, "ByteArrayOutputCaption", "ByteArrayOutputTooltip", true, QuickWatchFormat.None, null)]
+    [PropertyInfo(Direction.OutputData, "ByteArrayOutputCaption", "ByteArrayOutputTooltip", true)]
     public byte[] ByteArrayOutput
     {
       get
@@ -315,7 +315,7 @@ namespace Cryptool.TextInput
       set { } // readonly
     }
 
-    [PropertyInfo(Direction.OutputData, "BoolArrayOutputCaption", "BoolArrayOutputTooltip", true, QuickWatchFormat.None, null)]
+    [PropertyInfo(Direction.OutputData, "BoolArrayOutputCaption", "BoolArrayOutputTooltip", true)]
     public bool[] BoolArrayOutput
     {
         get

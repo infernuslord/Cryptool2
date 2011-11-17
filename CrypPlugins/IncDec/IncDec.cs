@@ -58,7 +58,7 @@ namespace IncDec
     }
 
 
-    [PropertyInfo(Direction.InputData, "InputCaption", "InputTooltip", false, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.InputData, "InputCaption", "InputTooltip", false)]
     public int Input
     {
       get { return input; }
@@ -87,7 +87,7 @@ namespace IncDec
     }
 
     private int output;
-    [PropertyInfo(Direction.OutputData, "OutputCaption", "OutputTooltip", false, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.OutputData, "OutputCaption", "OutputTooltip", false)]
     public int Output
     {
       get { return output; }

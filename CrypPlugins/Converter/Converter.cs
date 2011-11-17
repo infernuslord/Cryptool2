@@ -68,7 +68,7 @@ namespace Cryptool.Plugins.Converter
             get { return null; }
         }
 
-        [PropertyInfo(Direction.InputData, "InputOneCaption", "InputOneTooltip", true, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputOneCaption", "InputOneTooltip", true)]
         public object InputOne
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
@@ -86,7 +86,7 @@ namespace Cryptool.Plugins.Converter
 
 
 
-        [PropertyInfo(Direction.OutputData, "OutputCaption", "OutputTooltip", true, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputCaption", "OutputTooltip", true)]
         public object Output
         {
             [MethodImpl(MethodImplOptions.Synchronized)]

@@ -82,7 +82,7 @@ namespace RandomInput
       }
     }
 
-    [PropertyInfo(Direction.OutputData, "StreamOutputCaption", "StreamOutputTooltip", false, QuickWatchFormat.Hex, null)]
+    [PropertyInfo(Direction.OutputData, "StreamOutputCaption", "StreamOutputTooltip", false)]
     public ICryptoolStream StreamOutput
     {
       get
@@ -104,7 +104,7 @@ namespace RandomInput
       set { } // readonly
     }
 
-    [PropertyInfo(Direction.OutputData, "ByteArrayOutputCaption", "ByteArrayOutputTooltip", false, QuickWatchFormat.Hex, null)]
+    [PropertyInfo(Direction.OutputData, "ByteArrayOutputCaption", "ByteArrayOutputTooltip", false)]
     public byte[] ByteArrayOutput
     {
       get

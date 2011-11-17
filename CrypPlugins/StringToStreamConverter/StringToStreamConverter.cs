@@ -55,12 +55,7 @@ namespace Cryptool.Plugins.Convertor
             set { this.settings = (StringToStreamConverterSettings)value; }
         }
 
-        public object OutputStreamQuickWatchConverter(string PropertyNameToConvert)
-        {
-          return inputString;
-        }
-
-        [PropertyInfo(Direction.OutputData, "OutputStreamCaption", "OutputStreamTooltip", true, QuickWatchFormat.Text, "OutputStreamQuickWatchConverter")]
+        [PropertyInfo(Direction.OutputData, "OutputStreamCaption", "OutputStreamTooltip", true)]
         public ICryptoolStream OutputStream
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
@@ -76,7 +71,7 @@ namespace Cryptool.Plugins.Convertor
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "OutputBytesCaption", "OutputBytesTooltip", true, QuickWatchFormat.Hex, null)]
+        [PropertyInfo(Direction.OutputData, "OutputBytesCaption", "OutputBytesTooltip", true)]
         public byte[] OutputBytes
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
@@ -92,7 +87,7 @@ namespace Cryptool.Plugins.Convertor
             }
         }
 
-        [PropertyInfo(Direction.InputData, "InputTextCaption", "InputTextTooltip", true, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputTextCaption", "InputTextTooltip", true)]
         public string InputText
         {
             get { return this.inputString;  }

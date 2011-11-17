@@ -105,7 +105,7 @@ namespace Cryptool.BooleanFunctionParser
             }
         }
 
-        [PropertyInfo(Direction.InputData, "InputFunctionCaption", "InputFunctionTooltip", false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputFunctionCaption", "InputFunctionTooltip", false)]
         public String InputFunction
         {
             get { return inputFunction; }
@@ -117,7 +117,7 @@ namespace Cryptool.BooleanFunctionParser
             }
         }
 
-        [PropertyInfo(Direction.InputData, "InputOneCaption", "InputOneTooltip", false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputOneCaption", "InputOneTooltip", false)]
         public bool[] InputOne
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
@@ -139,7 +139,7 @@ namespace Cryptool.BooleanFunctionParser
         }
 
 
-        [PropertyInfo(Direction.OutputData, "OutputCaption", "OutputTooltip", false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputCaption", "OutputTooltip", false)]
         public bool Output
         {
             [MethodImpl(MethodImplOptions.Synchronized)]

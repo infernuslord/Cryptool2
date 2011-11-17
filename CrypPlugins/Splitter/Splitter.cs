@@ -39,7 +39,7 @@ namespace Splitter
 
     # region public interfacde
 
-    [PropertyInfo(Direction.InputData, "DictionaryInputStringCaption", "DictionaryInputStringTooltip", true, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.InputData, "DictionaryInputStringCaption", "DictionaryInputStringTooltip", true)]
     public string DictionaryInputString
     {
       get { return this.dictionaryInputString; }
@@ -55,7 +55,7 @@ namespace Splitter
     }
 
     private bool fireNext;
-    [PropertyInfo(Direction.InputData, "FireNextCaption", "FireNextTooltip", true, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.InputData, "FireNextCaption", "FireNextTooltip", true)]
     public bool FireNext
     {
       get { return fireNext; }
@@ -73,7 +73,7 @@ namespace Splitter
 
 
     private string outputString;
-    [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", false, QuickWatchFormat.Text, null)]
+    [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", false)]
     public string OutputString
     {
       get { return this.outputString; }

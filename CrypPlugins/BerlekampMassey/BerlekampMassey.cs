@@ -71,7 +71,7 @@ namespace Cryptool.BerlekampMassey
             }
         }
 
-        [PropertyInfo(Direction.InputData, "InputCaption", "InputTooltip", true, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputCaption", "InputTooltip", true)]
         public String Input
         {
             get { return this.input; }
@@ -82,7 +82,7 @@ namespace Cryptool.BerlekampMassey
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "OutputCaption", "OutputTooltip", false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "OutputCaption", "OutputTooltip", false)]
         public int Output
         {
             get
@@ -94,7 +94,7 @@ namespace Cryptool.BerlekampMassey
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "PolynomialOutputCaption", "PolynomialOutputTooltip", false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.OutputData, "PolynomialOutputCaption", "PolynomialOutputTooltip", false)]
         public String PolynomialOutput
         {
             [MethodImpl(MethodImplOptions.Synchronized)]
