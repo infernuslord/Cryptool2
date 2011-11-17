@@ -26,7 +26,6 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
     {
         #region Private Variables
 
-        private bool hasChanges = false;
         private int language = 0;                                   //Set the expected language (0: English ; 1: German ; 2: French ; 3: Spain)
         private int modus = 0;                                      //Set the modus (0: Autokey ; 1: Original Vigenere)
         private String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";     //The standard configuration
@@ -45,9 +44,11 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
             get { return this.modus; }
             set
             {
-                if (((int)value) != modus) hasChanges = true;
-                this.modus = (int)value;
-                OnPropertyChanged("Modus");
+                if (((int)value) != modus)
+                {
+                    this.modus = (int)value;
+                    OnPropertyChanged("Modus");                    
+                }
             }
         }
 
@@ -61,9 +62,11 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
             get { return this.language; }
             set
             {
-                if (((int)value) != language) hasChanges = true;
-                this.language = (int)value;
-                OnPropertyChanged("Language");
+                if (((int)value) != language)
+                {
+                    this.language = (int)value;
+                    OnPropertyChanged("Language");                    
+                }
             }
         }
 
@@ -78,36 +81,11 @@ namespace Cryptool.Plugins.VigenereAutokeyAnalyser
             {
                 string a = removeEqualChars(value);     //removes all char that are used twice in the alphabet
 
-                if (a.Length == 0)                      //cannot accept empty alphabets and will just use the standard;
+                if (a.Length > 0 && !alphabet.Equals(a)) //only if not empty
                 {
-                    
-                }
-                else if (!alphabet.Equals(a))
-                {
-                    hasChanges = true;
                     this.alphabet = a;
                     OnPropertyChanged("AlphabetSymbols");
                 }
-            }
-        }
-
-        #endregion
-
-        #region ISettings Members
-
-        /// <summary>
-        /// HOWTO: This flags indicates whether some setting has been changed since the last save.
-        /// If a property was changed, this becomes true, hence CrypTool will ask automatically if you want to save your changes.
-        /// </summary>
-        public bool HasChanges
-        {
-            get
-            {
-                return hasChanges;
-            }
-            set
-            {
-                hasChanges = value;
             }
         }
 

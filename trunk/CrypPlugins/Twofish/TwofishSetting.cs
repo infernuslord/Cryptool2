@@ -28,31 +28,11 @@ namespace Twofish
   public class TwofishSettings : ISettings
   {
 
-    private bool hasChanges = false;
-
     static int[] keyTab = { 128, 192, 256 };
 
     #region ISettings Member
 
-    /// <summary>
-    /// Gets or sets A value indicating whether this instance has changes.
-    /// </summary>
-    /// <value>
-    /// 	<c>true</c> if this instance has changes; otherwise, <c>false</c>.
-    /// </value>
-    public bool HasChanges
-    {
-      get
-      {
-        return hasChanges;
-      }
-      set
-      {
-        hasChanges = value;
-      }
-    }
-
-    #endregion
+      #endregion
 
     int action = 1;
     [ContextMenu("ActionCaption", "ActionTooltip", 2, ContextMenuControlType.ComboBox, new int[] { 1, 2 }, "ActionList1", "ActionList2")]
@@ -66,9 +46,10 @@ namespace Twofish
       set
       {
         if (((int)value) != action)
-          hasChanges = true;
-        action = (int)value;
-        OnPropertyChanged("Action");
+        {
+            action = (int)value;
+            OnPropertyChanged("Action");            
+        }
       }
     }
 
@@ -86,9 +67,10 @@ namespace Twofish
       set
       {
         if (((int)value) != mode)
-          hasChanges = true;
-        this.mode = (int)value;
-        OnPropertyChanged("Mode");
+        {
+            this.mode = (int)value;
+            OnPropertyChanged("Mode");   
+        }
       }
     }
 
@@ -105,9 +87,10 @@ namespace Twofish
       set
       {
         if (((int)value) != keySize)
-          hasChanges = true;
-        keySize = (int)value;
-        OnPropertyChanged("KeySize");
+        {
+            keySize = (int)value;
+            OnPropertyChanged("KeySize");   
+        }
       }
     }
 
@@ -138,7 +121,6 @@ namespace Twofish
       {
         PropertyChanged(this, new PropertyChangedEventArgs(name));
       }
-      hasChanges = true;
     }
 
     #endregion

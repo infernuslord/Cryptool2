@@ -30,12 +30,6 @@ namespace Whirlpool
   /// </summary>
   public class WhirlpoolSettings : ISettings
   {
-    private bool hasChanges = false;
-
-    #region ISettings Member
-
-
-
     ///// <summary>
     ///// length of calculated hash in bits
     ///// </summary>
@@ -61,28 +55,6 @@ namespace Whirlpool
     //    }
     //}
 
-
-
-    /// <summary>
-    /// Gets or sets a value indicating whether this instance has changes.
-    /// </summary>
-    /// <value>
-    /// 	<c>true</c> if this instance has changes; otherwise, <c>false</c>.
-    /// </value>
-    public bool HasChanges
-    {
-      get
-      {
-        return hasChanges;
-      }
-      set
-      {
-        hasChanges = value;
-      }
-    }
-
-    #endregion
-
     #region INotifyPropertyChanged Member
 
     public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
@@ -97,7 +69,6 @@ namespace Whirlpool
       {
         PropertyChanged(this, new PropertyChangedEventArgs(name));
       }
-      hasChanges = true;
     }
 
     #endregion

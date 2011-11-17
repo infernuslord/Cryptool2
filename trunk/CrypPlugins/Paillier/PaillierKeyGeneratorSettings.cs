@@ -37,7 +37,6 @@ namespace Cryptool.Plugins.Paillier
         private String p = "127";
         private String q = "521";
         private String keyBitLength = "1024";
-        private bool hasChanges = false;
         
         #endregion
 
@@ -59,12 +58,14 @@ namespace Cryptool.Plugins.Paillier
             get { return this.source; }
             set
             {
-                if (((int)value) != source) HasChanges = true;
-                this.source = (int)value;
+                if (((int)value) != source)
+                {
+                    this.source = (int)value;
 
-                UpdateTaskPaneVisibility();
+                    UpdateTaskPaneVisibility();
 
-                OnPropertyChanged("Source");
+                    OnPropertyChanged("Source");   
+                }
             }
         }
 
@@ -129,15 +130,8 @@ namespace Cryptool.Plugins.Paillier
                 {
                     this.keyBitLength = value;
                     OnPropertyChanged("KeyBitLength");
-                    HasChanges = true;
                 }
             }
-        }
-
-        public bool HasChanges
-        {
-            get { return hasChanges; }
-            set { hasChanges = value; }
         }
 
         #endregion

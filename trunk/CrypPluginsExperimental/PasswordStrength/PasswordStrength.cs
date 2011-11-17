@@ -21,7 +21,6 @@ using Cryptool.PluginBase;
 using System.ComponentModel;
 using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase.Miscellaneous;
-using System.ComponentModel;
 using System.Windows.Controls;
 
 namespace Cryptool.Plugins.PasswordStrength

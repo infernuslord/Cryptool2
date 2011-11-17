@@ -118,8 +118,7 @@ namespace Cryptool.Alphabets
             if (value != openFilename)
             {
               openFilename = value;
-              HasChanges = true;
-              OnPropertyChanged("OpenFilename");
+                OnPropertyChanged("OpenFilename");
             }
           }
         }
@@ -203,13 +202,6 @@ namespace Cryptool.Alphabets
                     break;
             }
 
-        }
-
-        private bool hasChanges;
-        public bool HasChanges
-        {
-            get { return hasChanges; }
-            set { hasChanges = value; }
         }
 
         #region INotifyPropertyChanged Members

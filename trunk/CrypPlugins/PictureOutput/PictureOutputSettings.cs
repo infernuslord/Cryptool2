@@ -22,15 +22,6 @@ namespace PictureOutput
     {
         private bool _hasChanges;
         #region ISettings Members
-        
-        public bool HasChanges
-        {
-            get
-            {
-                return _hasChanges;
-            }
-            set { _hasChanges = value; }
-        }
 
         #endregion
 

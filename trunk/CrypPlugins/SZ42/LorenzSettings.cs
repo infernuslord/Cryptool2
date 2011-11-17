@@ -32,7 +32,6 @@ namespace Cryptool.Plugins.SZ42
         private int action = 0;
         private bool inputParsed = false;
         private bool outputParsed = false;
-        private bool hasChanges = false;
 
         #endregion
 
@@ -72,11 +71,13 @@ namespace Cryptool.Plugins.SZ42
             }
             set
             {
-                if (value != action) HasChanges = true;
-                this.action = value;
-                OnPropertyChanged("Action");
+                if (value != action)
+                {
+                    this.action = value;
+                    OnPropertyChanged("Action");
 
-                if (ReExecute != null) ReExecute();
+                    if (ReExecute != null) ReExecute();   
+                }
             }
         }
 
@@ -89,11 +90,13 @@ namespace Cryptool.Plugins.SZ42
             }
             set
             {
-                if (value != limitation) HasChanges = true;
-                this.limitation = value;
-                OnPropertyChanged("Limitation");
+                if (value != limitation)
+                {
+                    this.limitation = value;
+                    OnPropertyChanged("Limitation");
 
-                if (ReExecute != null) ReExecute();
+                    if (ReExecute != null) ReExecute();   
+                }
             }
         }
 
@@ -110,11 +113,13 @@ namespace Cryptool.Plugins.SZ42
             }
             set
             {
-                if (value != patterns[0]) HasChanges = true;
-                this.patterns[0] = value;
-                OnPropertyChanged("Pattern");
+                if (value != patterns[0])
+                {
+                    this.patterns[0] = value;
+                    OnPropertyChanged("Pattern");
 
-                if (ReExecute != null) ReExecute();
+                    if (ReExecute != null) ReExecute();   
+                }
             }
         }
 
@@ -127,11 +132,13 @@ namespace Cryptool.Plugins.SZ42
             }
             set
             {
-                if (value != patterns[1]) HasChanges = true;
-                this.patterns[1] = value;
-                OnPropertyChanged("Patternχ2");
+                if (value != patterns[1])
+                {
+                    this.patterns[1] = value;
+                    OnPropertyChanged("Patternχ2");
 
-                if (ReExecute != null) ReExecute();
+                    if (ReExecute != null) ReExecute();   
+                }
             }
         }
 
@@ -144,11 +151,13 @@ namespace Cryptool.Plugins.SZ42
             }
             set
             {
-                if (value != patterns[2]) HasChanges = true;
-                this.patterns[2] = value;
-                OnPropertyChanged("Patternχ3");
+                if (value != patterns[2])
+                {
+                    this.patterns[2] = value;
+                    OnPropertyChanged("Patternχ3");
 
-                if (ReExecute != null) ReExecute();
+                    if (ReExecute != null) ReExecute();   
+                }
             }
         }
 
@@ -161,11 +170,13 @@ namespace Cryptool.Plugins.SZ42
             }
             set
             {
-                if (value != patterns[3]) HasChanges = true;
-                this.patterns[3] = value;
-                OnPropertyChanged("Patternχ4");
+                if (value != patterns[3])
+                {
+                    this.patterns[3] = value;
+                    OnPropertyChanged("Patternχ4");
 
-                if (ReExecute != null) ReExecute();
+                    if (ReExecute != null) ReExecute();
+                }
             }
         }
 
@@ -178,11 +189,13 @@ namespace Cryptool.Plugins.SZ42
             }
             set
             {
-                if (value != patterns[4]) HasChanges = true;
-                this.patterns[4] = value;
-                OnPropertyChanged("Patternχ5");
+                if (value != patterns[4])
+                {
+                    this.patterns[4] = value;
+                    OnPropertyChanged("Patternχ5");
 
-                if (ReExecute != null) ReExecute();
+                    if (ReExecute != null) ReExecute();   
+                }
             }
         }
 
@@ -195,11 +208,13 @@ namespace Cryptool.Plugins.SZ42
             }
             set
             {
-                if (value != patterns[5]) HasChanges = true;
-                this.patterns[5] = value;
-                OnPropertyChanged("PatternΨ1");
+                if (value != patterns[5])
+                {
+                    this.patterns[5] = value;
+                    OnPropertyChanged("PatternΨ1");
 
-                if (ReExecute != null) ReExecute();
+                    if (ReExecute != null) ReExecute();   
+                }
             }
         }
 
@@ -212,11 +227,13 @@ namespace Cryptool.Plugins.SZ42
             }
             set
             {
-                if (value != patterns[6]) HasChanges = true;
-                this.patterns[6] = value;
-                OnPropertyChanged("PatternΨ2");
+                if (value != patterns[6])
+                {
+                    this.patterns[6] = value;
+                    OnPropertyChanged("PatternΨ2");
 
-                if (ReExecute != null) ReExecute();
+                    if (ReExecute != null) ReExecute();   
+                }
             }
         }
 
@@ -229,11 +246,13 @@ namespace Cryptool.Plugins.SZ42
             }
             set
             {
-                if (value != patterns[7]) HasChanges = true;
-                this.patterns[7] = value;
-                OnPropertyChanged("PatternΨ3");
+                if (value != patterns[7])
+                {
+                    this.patterns[7] = value;
+                    OnPropertyChanged("PatternΨ3");
 
-                if (ReExecute != null) ReExecute();
+                    if (ReExecute != null) ReExecute();   
+                }
             }
         }
 
@@ -246,11 +265,13 @@ namespace Cryptool.Plugins.SZ42
             }
             set
             {
-                if (value != patterns[8]) HasChanges = true;
-                this.patterns[8] = value;
-                OnPropertyChanged("PatternΨ4");
+                if (value != patterns[8])
+                {
+                    this.patterns[8] = value;
+                    OnPropertyChanged("PatternΨ4");
 
-                if (ReExecute != null) ReExecute();
+                    if (ReExecute != null) ReExecute();   
+                }
             }
         }
 
@@ -263,11 +284,13 @@ namespace Cryptool.Plugins.SZ42
             }
             set
             {
-                if (value != patterns[9]) HasChanges = true;
-                this.patterns[9] = value;
-                OnPropertyChanged("PatternΨ5");
+                if (value != patterns[9])
+                {
+                    this.patterns[9] = value;
+                    OnPropertyChanged("PatternΨ5");
 
-                if (ReExecute != null) ReExecute();
+                    if (ReExecute != null) ReExecute();
+                }
             }
         }
 
@@ -280,11 +303,13 @@ namespace Cryptool.Plugins.SZ42
             }
             set
             {
-                if (value != patterns[10]) HasChanges = true;
-                this.patterns[10] = value;
-                OnPropertyChanged("Patternμ61");
+                if (value != patterns[10])
+                {
+                    this.patterns[10] = value;
+                    OnPropertyChanged("Patternμ61");
 
-                if (ReExecute != null) ReExecute();
+                    if (ReExecute != null) ReExecute();   
+                }
             }
         }
 
@@ -297,11 +322,13 @@ namespace Cryptool.Plugins.SZ42
             }
             set
             {
-                if (value != patterns[11]) HasChanges = true;
-                this.patterns[11] = value;
-                OnPropertyChanged("Patternμ37");
+                if (value != patterns[11])
+                {
+                    this.patterns[11] = value;
+                    OnPropertyChanged("Patternμ37");
 
-                if (ReExecute != null) ReExecute();
+                    if (ReExecute != null) ReExecute();   
+                }
             }
         }
 
@@ -318,11 +345,13 @@ namespace Cryptool.Plugins.SZ42
             }
             set
             {
-                if (value != positions[0]) HasChanges = true;
-                this.positions[0] = value;
-                OnPropertyChanged("Positionχ1");
+                if (value != positions[0])
+                {
+                    this.positions[0] = value;
+                    OnPropertyChanged("Positionχ1");
 
-                if (ReExecute != null) ReExecute();
+                    if (ReExecute != null) ReExecute();                    
+                }
             }
         }
 
@@ -335,11 +364,13 @@ namespace Cryptool.Plugins.SZ42
             }
             set
             {
-                if (value != positions[1]) HasChanges = true;
-                this.positions[1] = value;
-                OnPropertyChanged("Positionχ2");
+                if (value != positions[1])
+                {
+                    this.positions[1] = value;
+                    OnPropertyChanged("Positionχ2");
 
-                if (ReExecute != null) ReExecute();
+                    if (ReExecute != null) ReExecute();                    
+                }
             }
         }
 
@@ -352,11 +383,13 @@ namespace Cryptool.Plugins.SZ42
             }
             set
             {
-                if (value != positions[2]) HasChanges = true;
-                this.positions[2] = value;
-                OnPropertyChanged("Positionχ3");
+                if (value != positions[2])
+                {
+                    this.positions[2] = value;
+                    OnPropertyChanged("Positionχ3");
 
-                if (ReExecute != null) ReExecute();
+                    if (ReExecute != null) ReExecute();                    
+                }
             }
         }
 
@@ -369,11 +402,13 @@ namespace Cryptool.Plugins.SZ42
             }
             set
             {
-                if (value != positions[3]) HasChanges = true;
-                this.positions[3] = value;
-                OnPropertyChanged("Positionχ4");
+                if (value != positions[3])
+                {
+                    this.positions[3] = value;
+                    OnPropertyChanged("Positionχ4");
 
-                if (ReExecute != null) ReExecute();
+                    if (ReExecute != null) ReExecute();                    
+                }
             }
         }
 
@@ -386,11 +421,13 @@ namespace Cryptool.Plugins.SZ42
             }
             set
             {
-                if (value != positions[4]) HasChanges = true;
-                this.positions[4] = value;
-                OnPropertyChanged("Positionχ5");
+                if (value != positions[4])
+                {
+                    this.positions[4] = value;
+                    OnPropertyChanged("Positionχ5");
 
-                if (ReExecute != null) ReExecute();
+                    if (ReExecute != null) ReExecute();                    
+                }
             }
         }
 
@@ -403,11 +440,13 @@ namespace Cryptool.Plugins.SZ42
             }
             set
             {
-                if (value != positions[5]) HasChanges = true;
-                this.positions[5] = value;
-                OnPropertyChanged("PositionΨ1");
+                if (value != positions[5])
+                {
+                    this.positions[5] = value;
+                    OnPropertyChanged("PositionΨ1");
 
-                if (ReExecute != null) ReExecute();
+                    if (ReExecute != null) ReExecute();                    
+                }
             }
         }
 
@@ -420,11 +459,13 @@ namespace Cryptool.Plugins.SZ42
             }
             set
             {
-                if (value != positions[6]) HasChanges = true;
-                this.positions[6] = value;
-                OnPropertyChanged("PositionΨ2");
+                if (value != positions[6])
+                {
+                    this.positions[6] = value;
+                    OnPropertyChanged("PositionΨ2");
 
-                if (ReExecute != null) ReExecute();
+                    if (ReExecute != null) ReExecute();                    
+                }
             }
         }
 
@@ -437,11 +478,13 @@ namespace Cryptool.Plugins.SZ42
             }
             set
             {
-                if (value != positions[7]) HasChanges = true;
-                this.positions[7] = value;
-                OnPropertyChanged("PositionΨ3");
+                if (value != positions[7])
+                {
+                    this.positions[7] = value;
+                    OnPropertyChanged("PositionΨ3");
 
-                if (ReExecute != null) ReExecute();
+                    if (ReExecute != null) ReExecute();   
+                }
             }
         }
 
@@ -454,11 +497,13 @@ namespace Cryptool.Plugins.SZ42
             }
             set
             {
-                if (value != positions[8]) HasChanges = true;
-                this.positions[8] = value;
-                OnPropertyChanged("PositionΨ4");
+                if (value != positions[8])
+                {
+                    this.positions[8] = value;
+                    OnPropertyChanged("PositionΨ4");
 
-                if (ReExecute != null) ReExecute();
+                    if (ReExecute != null) ReExecute();                    
+                }
             }
         }
 
@@ -471,11 +516,13 @@ namespace Cryptool.Plugins.SZ42
             }
             set
             {
-                if (value != positions[9]) HasChanges = true;
-                this.positions[9] = value;
-                OnPropertyChanged("PositionΨ5");
+                if (value != positions[9])
+                {
+                    this.positions[9] = value;
+                    OnPropertyChanged("PositionΨ5");
 
-                if (ReExecute != null) ReExecute();
+                    if (ReExecute != null) ReExecute();                    
+                }
             }
         }
 
@@ -488,11 +535,13 @@ namespace Cryptool.Plugins.SZ42
             }
             set
             {
-                if (value != positions[10]) HasChanges = true;
-                this.positions[10] = value;
-                OnPropertyChanged("Positionμ61");
+                if (value != positions[10])
+                {
+                    this.positions[10] = value;
+                    OnPropertyChanged("Positionμ61");
 
-                if (ReExecute != null) ReExecute();
+                    if (ReExecute != null) ReExecute();   
+                }
             }
         }
 
@@ -505,11 +554,13 @@ namespace Cryptool.Plugins.SZ42
             }
             set
             {
-                if (value != positions[10]) HasChanges = true;
-                this.positions[10] = value;
-                OnPropertyChanged("Positionμ37");
+                if (value != positions[10])
+                {
+                    this.positions[10] = value;
+                    OnPropertyChanged("Positionμ37");
 
-                if (ReExecute != null) ReExecute();
+                    if (ReExecute != null) ReExecute();   
+                }
             }
         }
 
@@ -526,11 +577,13 @@ namespace Cryptool.Plugins.SZ42
             }
             set
             {
-                if (value != inputParsed) HasChanges = true;
-                this.inputParsed = value;
-                OnPropertyChanged("InputParsed");
+                if (value != inputParsed)
+                {
+                    this.inputParsed = value;
+                    OnPropertyChanged("InputParsed");
 
-                if (ReExecute != null) ReExecute();
+                    if (ReExecute != null) ReExecute();   
+                }
             }
         }
 
@@ -543,36 +596,18 @@ namespace Cryptool.Plugins.SZ42
             }
             set
             {
-                if (value != outputParsed) HasChanges = true;
-                this.outputParsed = value;
-                OnPropertyChanged("OutputParsed");
+                if (value != outputParsed)
+                {
+                    this.outputParsed = value;
+                    OnPropertyChanged("OutputParsed");
 
-                if (ReExecute != null) ReExecute();
+                    if (ReExecute != null) ReExecute();   
+                }
             }
         }
 
         #endregion
         
-        #endregion
-
-        #region ISettings Members
-
-        /// <summary>
-        /// HOWTO: This flags indicates whether some setting has been changed since the last save.
-        /// If a property was changed, this becomes true, hence CrypTool will ask automatically if you want to save your changes.
-        /// </summary>
-        public bool HasChanges
-        {
-            get
-            {
-                return hasChanges;
-            }
-            set
-            {
-                hasChanges = value;
-            }
-        }
-
         #endregion
 
         #region INotifyPropertyChanged Members

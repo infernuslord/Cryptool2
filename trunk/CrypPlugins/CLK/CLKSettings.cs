@@ -29,7 +29,6 @@ namespace Cryptool.CLK
   public class CLKSettings : ISettings
   {
     # region private variables
-    private bool hasChanges = false;
     private int setClockToTrue = 1;
     private bool useEvent = false;
     private int clkTimeout = 2000;
@@ -37,13 +36,7 @@ namespace Cryptool.CLK
 
     #region ISettings Members
 
-    public bool HasChanges
-    {
-      get { return hasChanges; }
-      set { hasChanges = value; }
-    }
-
-    [ContextMenu( "SetClockToTrueCaption", "SetClockToTrueTooltip", 0, ContextMenuControlType.ComboBox, null, new string[] { "SetClockToTrueList1", "SetClockToTrueList2"})]
+      [ContextMenu( "SetClockToTrueCaption", "SetClockToTrueTooltip", 0, ContextMenuControlType.ComboBox, null, new string[] { "SetClockToTrueList1", "SetClockToTrueList2"})]
     [TaskPaneAttribute( "SetClockToTrueCaption", "SetClockToTrueTooltip", "", 0, true, ControlType.RadioButton, new string[] { "SetClockToTrueList1", "SetClockToTrueList2" })]
     public int SetClockToTrue
     {
@@ -55,7 +48,6 @@ namespace Cryptool.CLK
         {
             this.setClockToTrue = value;
             OnPropertyChanged("SetClockToTrue");
-            HasChanges = true;
         }
     }
     /*[ContextMenu("Set clock to...", " true / false ", 2, ContextMenuControlType.ComboBox, null, new string[] { "true", "false"})]
@@ -82,7 +74,6 @@ namespace Cryptool.CLK
         {
             this.clkTimeout = value;
             OnPropertyChanged("CLKTimeout");
-            HasChanges = true;
         }
 
     }
@@ -96,7 +87,6 @@ namespace Cryptool.CLK
         {
             this.useEvent = value;
             OnPropertyChanged("UseEvent");
-            HasChanges = true;
             if (this.useEvent)
                 SettingChanged("CLKTimeout", Visibility.Collapsed);
             else
@@ -119,7 +109,6 @@ namespace Cryptool.CLK
             else*/
                 this.rounds = value;
             OnPropertyChanged("Rounds");
-            HasChanges = true;
         }
     }
 

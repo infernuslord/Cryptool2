@@ -28,7 +28,6 @@ namespace Cryptool.TextInput
     #region Private variables
     private EncodingTypes encoding = EncodingTypes.UTF8;
     private InputFormat inputFormat = InputFormat.Text;
-    private bool hasChanges = false;
     #endregion
 
     public enum EncodingTypes { Default = 0, Unicode = 1, UTF7 = 2, UTF8 = 3, UTF32 = 4, ASCII = 5, BigEndianUnicode = 6 };
@@ -48,24 +47,9 @@ namespace Cryptool.TextInput
       get { return text; }
       set 
       {
-        if (value != text) hasChanges = true;
-        text = value; 
-      }
-    }
-
-    /// <summary>
-    /// Retrieves the current used encoding, or sets it.
-    /// </summary>
-    public EncodingTypes Encoding
-    {
-      get { return this.encoding; }
-      set
-      {
-        if (this.encoding != value)
+        if (value != text)
         {
-          hasChanges = true;
-          this.encoding = value;
-          OnPropertyChanged("EncodingSetting");
+            text = value;     
         }
       }
     }
@@ -75,20 +59,18 @@ namespace Cryptool.TextInput
     /// </summary>
     [ContextMenu( "EncodingSettingCaption", "EncodingSettingTooltip", 1, ContextMenuControlType.ComboBox, null, new string[] { "EncodingSettingList1", "EncodingSettingList2", "EncodingSettingList3", "EncodingSettingList4", "EncodingSettingList5", "EncodingSettingList6", "EncodingSettingList7" })]
     [TaskPane( "EncodingSettingCaption", "EncodingSettingTooltip", "", 1, false, ControlType.RadioButton, new string[] { "EncodingSettingList1", "EncodingSettingList2", "EncodingSettingList3", "EncodingSettingList4", "EncodingSettingList5", "EncodingSettingList6", "EncodingSettingList7" })]
-    public int EncodingSetting
+    public EncodingTypes Encoding
     {
       get
       {
-        return (int)this.encoding;
+        return this.encoding;
       }
       set
       {
-        if (this.Encoding != (EncodingTypes)value)
+        if (this.Encoding != value)
         {
-          hasChanges = true;
-          this.Encoding = (EncodingTypes)value;
-          OnPropertyChanged("EncodingSetting");
-          HasChanges = true;
+          this.Encoding = value;
+          OnPropertyChanged("Encoding");
         }
       }
     }
@@ -107,20 +89,12 @@ namespace Cryptool.TextInput
         }
         set
         {
-            if (this.inputFormat != value) HasChanges = true;
-            this.inputFormat = value;
-            OnPropertyChanged("InputFormatSetting");
+            if (this.inputFormat != value)
+            {
+                this.inputFormat = value;
+                OnPropertyChanged("InputFormatSetting");   
+            }
         }
-    }
-    
-    public bool HasChanges
-    {
-      get { return hasChanges; }
-      set 
-      { 
-        hasChanges = value;
-        OnPropertyChanged("HasChanges");
-      }
     }
 
     #region INotifyPropertyChanged Members

@@ -31,7 +31,6 @@ namespace Cryptool.Plugins.CostFunction
     class CostFunctionSettings : ISettings
     {
         #region private variables
-        private bool hasChanges = false;
         private int functionType;
         private String bytesToUse = "256";
         private int bytesToUseInteger = 256;
@@ -288,7 +287,6 @@ namespace Cryptool.Plugins.CostFunction
                 if (value != caseInsensitive)
                 {
                     caseInsensitive = value;
-                    hasChanges = true;
                     OnPropertyChanged("CaseInsensitive");
                 }
             }
@@ -337,24 +335,6 @@ namespace Cryptool.Plugins.CostFunction
             return Encoding.ASCII.GetString(bytes);
         }
 
-        #region ISettings Members
-
-        public bool HasChanges
-        {
-            get
-            {
-                return hasChanges;
-            }
-            set
-            {
-                hasChanges = value;
-            }
-        }
-
-
-
-        #endregion
-
         #region INotifyPropertyChanged Members
 
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
@@ -372,11 +352,9 @@ namespace Cryptool.Plugins.CostFunction
         #region testing
         public void changeFunctionType(int type)
         {
-                      this.functionType = type;
-                UpdateTaskPaneVisibility();
-                OnPropertyChanged("FunctionType");
-            
-        
+            this.functionType = type;
+            UpdateTaskPaneVisibility();
+            OnPropertyChanged("FunctionType");
         }
         #endregion
     }

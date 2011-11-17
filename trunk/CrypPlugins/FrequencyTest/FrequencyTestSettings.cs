@@ -10,16 +10,6 @@ namespace Cryptool.FrequencyTest
 {
     public class FrequencyTestSettings : ISettings
     {
-        #region ISettings Members
-
-        private bool hasChanges;
-        public bool HasChanges
-        {
-            get { return hasChanges; }
-            set { hasChanges = value; }
-        }
-
-        #endregion
 
         #region INotifyPropertyChanged Members
 
@@ -94,11 +84,9 @@ namespace Cryptool.FrequencyTest
             {
                 if (value != caseSensitivity)
                 {
-                    HasChanges = true;
                     caseSensitivity = value;
+                    OnPropertyChanged("CaseSensitivity");
                 }
-
-                OnPropertyChanged("CaseSensitivity");
             }
         }
 
@@ -111,8 +99,8 @@ namespace Cryptool.FrequencyTest
             {
                 if (value != grammLength)
                 {
-                    HasChanges = true;
                     grammLength = value;
+                    OnPropertyChanged("GrammLength");
                 }
             }
         }
@@ -127,11 +115,9 @@ namespace Cryptool.FrequencyTest
             {
                 if (value != unknownSymbolHandling)
                 {
-                    HasChanges = true;
                     unknownSymbolHandling = value;
+                    OnPropertyChanged("ProcessUnknownSymbols");
                 }
-
-                OnPropertyChanged("ProcessUnknownSymbols");
             }
         }
 
@@ -158,11 +144,9 @@ namespace Cryptool.FrequencyTest
             {
                 if (value != boundaryFragments)
                 {
-                    HasChanges = true;
                     boundaryFragments = value;
+                    OnPropertyChanged("BoundaryFragments");
                 }
-
-                OnPropertyChanged("BoundaryFragments");
             }
         }
 
@@ -175,17 +159,16 @@ namespace Cryptool.FrequencyTest
             {
                 if (value != autozoom)
                 {
-                    HasChanges = true;
                     autozoom = value;
+
+                    if (autozoom)
+                        hideSettingsElement("ChartHeight");
+                    else
+                        showSettingsElement("ChartHeight");
+
+
+                    OnPropertyChanged("Autozoom");
                 }
-
-                if (autozoom)
-                    hideSettingsElement("ChartHeight");
-                else
-                    showSettingsElement("ChartHeight");
-                
-
-                OnPropertyChanged("Autozoom");
             }
         }
 
@@ -199,11 +182,9 @@ namespace Cryptool.FrequencyTest
             {
                 if (value != chartHeight)
                 {
-                    HasChanges = true;
                     chartHeight = value;
+                    OnPropertyChanged("ChartHeight");
                 }
-
-                OnPropertyChanged("ChartHeight");
             }
         }
 
@@ -215,9 +196,11 @@ namespace Cryptool.FrequencyTest
             get { return scale; }
             set
             {
-                scale = value;
-                HasChanges = true;
-                OnPropertyChanged("Scale");
+                if (scale != value)
+                {
+                    scale = value;
+                    OnPropertyChanged("Scale");   
+                }
             }
         }
 

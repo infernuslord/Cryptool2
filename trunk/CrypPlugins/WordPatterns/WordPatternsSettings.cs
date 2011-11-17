@@ -8,16 +8,14 @@ using System.Windows.Data;
 
 namespace WordPatterns
 {
-    enum Case
+    public enum Case
     {
         Sensitive,
         Insensitive
     }
 
-    class WordPatternsSettings : ISettings
+    public class WordPatternsSettings : ISettings
     {
-        private bool hasChanges = false;
-
         private Case caseSelection = Case.Insensitive;
 
         [TaskPane("CaseSelectionCaption", "CaseSelectionTooltip", "", 1, false, ControlType.ComboBox, new string[] { "CaseSelectionList1", "CaseSelectionList2" })]
@@ -29,7 +27,6 @@ namespace WordPatterns
                 if (caseSelection != value)
                 {
                     caseSelection = value;
-                    hasChanges = true;
                     OnPropertyChanged("CaseSelection");
                 }
             }
@@ -42,22 +39,6 @@ namespace WordPatterns
                 PropertyChanged(this, new PropertyChangedEventArgs(p));
             }
         }
-
-        #region ISettings Members
-
-        public bool HasChanges
-        {
-            get
-            {
-                return hasChanges;
-            }
-            set
-            {
-                hasChanges = value;
-            }
-        }
-
-        #endregion
 
         #region INotifyPropertyChanged Members
 

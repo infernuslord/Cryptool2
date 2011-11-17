@@ -19,17 +19,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Cryptool.PluginBase;
+using Cryptool.PluginBase.Miscellaneous;
 
 namespace Gate
 {
-    enum Trigger
+    public enum Trigger
     {
         AlwaysOpen, AlwaysClosed, TrueValue, FalseValue, AnyEdge, PositiveEdge, NegativeEdge
     };
 
-    class GateSettings : ISettings
+    public class GateSettings : ISettings
     {
-        private bool hasChanges = false;
         private Trigger trigger = 0;
 
         [TaskPane( "TriggerCaption", "TriggerTooltip", null, 1, true, ControlType.RadioButton,
@@ -44,31 +44,19 @@ namespace Gate
             {
                 if (trigger != value)
                 {
-                    hasChanges = true;
                     trigger = value;
+                    OnPropertyChanged("Trigger");
                 }
             }
         }
-
-        #region ISettings Members
-
-        public bool HasChanges
-        {
-            get
-            {
-                return hasChanges;
-            }
-            set
-            {
-                hasChanges = value;
-            }
-        }
-
-        #endregion
-
         #region INotifyPropertyChanged Members
 
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyChanged(string p)
+        {
+            EventsHelper.PropertyChanged(PropertyChanged, this, p);
+        }
 
         #endregion
     }

@@ -44,39 +44,19 @@ namespace Cryptool.CaesarAnalysisHelper
             }
             set
             {
-                try
+                Lang = (Language)value;
+                switch (Lang)
                 {
-                    Lang = (Language)value;
-                    switch (Lang)
-                    {
-                        case Language.German:
-                        case Language.English:
-                        case Language.French:
-                        case Language.Spanish:
-                            FrequentChar = 'e';
-                            break;
-                        default:
-                            break;
-                    }
-                    OnPropertyChanged("TextLanguage");
+                    case Language.German:
+                    case Language.English:
+                    case Language.French:
+                    case Language.Spanish:
+                        FrequentChar = 'e';
+                        break;
+                    default:
+                        break;
                 }
-                catch (Exception)
-                {
-                }
-            }
-        }
-
-        private bool hasChanges;
-        public bool HasChanges
-        {
-            get { return hasChanges; }
-            set
-            {
-                if (value != hasChanges)
-                {
-                    hasChanges = value;
-                    OnPropertyChanged("HasChanges");
-                }
+                OnPropertyChanged("TextLanguage");
             }
         }
 
@@ -86,8 +66,6 @@ namespace Cryptool.CaesarAnalysisHelper
         {
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(name));
-            if (name.ToLower() != "haschanges")
-                HasChanges = true;
         }
     }
 }

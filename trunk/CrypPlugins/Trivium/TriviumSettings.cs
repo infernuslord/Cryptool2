@@ -34,8 +34,6 @@ namespace Cryptool.Trivium
     {
         #region ISettings Members
 
-        private bool hasChanges = false;
-
         private int keystreamLength = 32;
         [TaskPane("KeystreamLengthCaption", "KeystreamLengthTooltip", null, 0, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
         public int KeystreamLength
@@ -44,8 +42,7 @@ namespace Cryptool.Trivium
             set
             {
                 this.keystreamLength = value;
-                //OnPropertyChanged("KeystreamLength");
-                HasChanges = true;
+                OnPropertyChanged("KeystreamLength");
             }
         }
 
@@ -57,8 +54,7 @@ namespace Cryptool.Trivium
             set
             {
                 this.initRounds = value;
-                //OnPropertyChanged("InitRounds");
-                HasChanges = true;
+                OnPropertyChanged("InitRounds");
             }
         }
 
@@ -71,8 +67,7 @@ namespace Cryptool.Trivium
             set
             {
                 this.useByteSwapping = (bool)value;
-                //OnPropertyChanged("UseByteSwapping");
-                HasChanges = true;
+                OnPropertyChanged("UseByteSwapping");
             }
         }
 
@@ -85,8 +80,7 @@ namespace Cryptool.Trivium
             set
             {
                 this.hexOutput = (bool)value;
-                //OnPropertyChanged("HexOutput");
-                HasChanges = true;
+                OnPropertyChanged("HexOutput");
             }
         }
 
@@ -98,15 +92,8 @@ namespace Cryptool.Trivium
             set
             {
                 this.inputKey = value;
-                //OnPropertyChanged("InputKey");
-                HasChanges = true;
+                OnPropertyChanged("InputKey");
             }
-        }
-
-        public bool HasChanges
-        {
-            get { return hasChanges; }
-            set { hasChanges = value; }
         }
 
         #endregion
@@ -114,6 +101,11 @@ namespace Cryptool.Trivium
         #region INotifyPropertyChanged Members
 
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyChanged(string prop)
+        {
+            EventsHelper.PropertyChanged(PropertyChanged, this, prop);
+        }
 
         #endregion
     }

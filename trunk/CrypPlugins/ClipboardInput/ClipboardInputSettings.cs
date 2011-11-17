@@ -23,50 +23,41 @@ using Cryptool.PluginBase;
 using System.Security.Cryptography;
 using System.ComponentModel;
 
-namespace ClipboardInput {
-	public class ClipboardInputSettings : ISettings {
-		private int format = 0; //0="Text", 1="Hex", 2="Base64"
-
-    [ContextMenu("FormatCaption", "FormatTooltip", 1, ContextMenuControlType.ComboBox, null, new string[] { "FormatList1", "FormatList2", "FormatList3" })]
-    [TaskPane("FormatCaption", "FormatTooltip", "", 1, false, ControlType.ComboBox, new string[] { "FormatList1", "FormatList2", "FormatList3" })]
-		public int Format {
-			get { return this.format; }
-			set 
-      { 
-        this.format = (int)value;
-        OnPropertyChanged("Format");
-      }
-		}
-
-		#region IInputSettings Member
-
-		public string SaveAndRestoreState { get; set; }
-
-		#endregion
-
-    #region INotifyPropertyChanged Members
-
-    public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-
-    protected void OnPropertyChanged(string name)
+namespace ClipboardInput
+{
+    public class ClipboardInputSettings : ISettings
     {
-      if (PropertyChanged != null)
-      {
-        PropertyChanged(this, new PropertyChangedEventArgs(name));
-      }
+        private int format = 0; //0="Text", 1="Hex", 2="Base64"
+
+        [ContextMenu("FormatCaption", "FormatTooltip", 1, ContextMenuControlType.ComboBox, null, new string[] { "FormatList1", "FormatList2", "FormatList3" })]
+        [TaskPane("FormatCaption", "FormatTooltip", "", 1, false, ControlType.ComboBox, new string[] { "FormatList1", "FormatList2", "FormatList3" })]
+        public int Format
+        {
+            get { return this.format; }
+            set
+            {
+                if (format != value)
+                {
+                    this.format = (int)value;
+                    OnPropertyChanged("Format");
+                }
+
+            }
+        }
+
+        #region INotifyPropertyChanged Members
+
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged(string name)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(name));
+            }
+        }
+
+        #endregion
+
     }
-
-    #endregion
-
-    #region ISettings Members
-
-    private bool hasChanges = false;
-    public bool HasChanges
-    {
-      get { return hasChanges; }
-      set { hasChanges = value; }
-    }
-
-    #endregion
-  }
 }

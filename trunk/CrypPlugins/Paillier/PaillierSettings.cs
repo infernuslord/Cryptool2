@@ -26,7 +26,6 @@ namespace Cryptool.Plugins.Paillier
     {
         #region Private Variables
 
-        private bool hasChanges = false;
         private int action;
 
         #endregion
@@ -47,7 +46,6 @@ namespace Cryptool.Plugins.Paillier
                 {
                     action = value;
                     ChangePluginIcon(action);
-                    hasChanges = true;
                     OnPropertyChanged("Action");
                 }
             }
@@ -56,26 +54,6 @@ namespace Cryptool.Plugins.Paillier
         public void ChangePluginIcon(int index)
         {
             OnPluginStatusChanged(null, new StatusEventArgs(StatusChangedMode.ImageUpdate, index));
-        }
-
-        #endregion
-
-        #region ISettings Members
-
-        /// <summary>
-        /// HOWTO: This flags indicates whether some setting has been changed since the last save.
-        /// If a property was changed, this becomes true, hence CrypTool will ask automatically if you want to save your changes.
-        /// </summary>
-        public bool HasChanges
-        {
-            get
-            {
-                return hasChanges;
-            }
-            set
-            {
-                hasChanges = value;
-            }
         }
 
         #endregion

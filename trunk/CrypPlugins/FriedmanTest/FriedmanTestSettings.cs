@@ -10,7 +10,6 @@ namespace FriedmanTest
     class FriedmanTestSettings : ISettings
     {
 
-        private bool hasChanges = false;
         private int kappa = 0; //0="English", 1="German", 2="French", 3="Spanish", 4="Italian",5="Portugeese"
         #region ISettings Members
 
@@ -21,17 +20,14 @@ namespace FriedmanTest
             get { return this.kappa; }
             set
             {
-                if (((int)value) != kappa) hasChanges = true;
-                this.kappa = (int)value;
-                OnPropertyChanged("Kappa");
+                if (((int)value) != kappa)
+                {
+                    this.kappa = (int)value;
+                    OnPropertyChanged("Kappa");                    
+                }
             }
         }
 
-        public bool HasChanges
-        {
-            get { return hasChanges; }
-            set { hasChanges = value; }
-        }
         #endregion
 
         #region INotifyPropertyChanged Members

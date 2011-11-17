@@ -34,7 +34,6 @@ namespace Cryptool.HIGHT
     {
         #region ISettings Members
 
-        private bool hasChanges = false;
         private int action = 0; //0=encrypt, 1=decrypt
         private int padding = 0; //0="Zeros"=default, 1="None", 2="PKCS7"
 
@@ -45,8 +44,11 @@ namespace Cryptool.HIGHT
             get { return this.action; }
             set
             {
-                if (((int)value) != padding) hasChanges = true;
-                this.action = (int)value;
+                if (((int)value) != padding)
+                {
+                    this.action = (int)value;
+                    OnPropertyChanged("Action");
+                }
             }
         }
 
@@ -57,15 +59,12 @@ namespace Cryptool.HIGHT
             get { return this.padding; }
             set
             {
-                if (((int)value) != padding) hasChanges = true;
-                this.padding = (int)value;
+                if (((int)value) != padding)
+                {
+                    this.padding = (int)value;
+                    OnPropertyChanged("Padding");
+                }
             }
-        }
-
-        public bool HasChanges
-        {
-            get { return hasChanges; }
-            set { hasChanges = value; }
         }
 
         #endregion
@@ -73,6 +72,11 @@ namespace Cryptool.HIGHT
         #region INotifyPropertyChanged Members
 
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyChanged(string propName)
+        {
+            EventsHelper.PropertyChanged(PropertyChanged, this, propName);
+        }
 
         #endregion
     }

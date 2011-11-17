@@ -32,7 +32,6 @@ namespace Cryptool.BooleanFunctionParser
     {
         #region Private variables
 
-        private bool hasChanges = false;
         private bool useBFPforCube = false;
 
         #endregion
@@ -45,8 +44,11 @@ namespace Cryptool.BooleanFunctionParser
             get { return function; }
             set
             {
-                if (value != function) hasChanges = true;
-                function = value;
+                if (value != function)
+                {
+                    function = value;
+                    OnPropertyChanged("Function");
+                }
             }
         }
 
@@ -56,8 +58,11 @@ namespace Cryptool.BooleanFunctionParser
             get { return data; }
             set
             {
-                if (value != data) hasChanges = true;
-                data = value;
+                if (value != data)
+                {
+                    data = value;
+                    OnPropertyChanged("Data");
+                }
             }
         }
 
@@ -67,8 +72,11 @@ namespace Cryptool.BooleanFunctionParser
             get { return functionCube; }
             set
             {
-                if (value != functionCube) hasChanges = true;
-                functionCube = value;
+                if (value != functionCube)
+                {
+                    functionCube = value;
+                    OnPropertyChanged("FunctionCube");
+                }
             }
         }
 
@@ -78,8 +86,11 @@ namespace Cryptool.BooleanFunctionParser
             get { return dataCube; }
             set
             {
-                if (value != dataCube) hasChanges = true;
-                dataCube = value;
+                if (value != dataCube)
+                {
+                    dataCube = value;
+                    OnPropertyChanged("DataCube");
+                }
             }
         }
 
@@ -102,9 +113,11 @@ namespace Cryptool.BooleanFunctionParser
             get { return this.useBFPforCube; }
             set
             {
-                if (value != this.useBFPforCube) HasChanges = true;
-                this.useBFPforCube = value;
-                OnPropertyChanged("UseBFPforCube");
+                if (value != this.useBFPforCube)
+                {
+                    this.useBFPforCube = value;
+                    OnPropertyChanged("UseBFPforCube");                    
+                }
             }
         }
 
@@ -113,19 +126,6 @@ namespace Cryptool.BooleanFunctionParser
         {
             OnPropertyChanged("evalFunction");
         }*/
-
-        public bool HasChanges
-        {
-            get { return hasChanges; }
-            set
-            {
-                if (value != hasChanges)
-                {
-                    hasChanges = value;
-                    OnPropertyChanged("HasChanges");
-                }
-            }
-        }
 
         #endregion
 

@@ -381,12 +381,6 @@ namespace Cryptool.StreamComparator
 
     public string Title { get; set; }
 
-    public bool HasChanges
-    {
-      get { return settings.HasChanges; }
-      set { settings.HasChanges = value; }
-    }
-
     public UserControl Presentation
     {
       get { return (UserControl)streamComparatorPresentation; }

@@ -28,7 +28,6 @@ namespace Cryptool.Plugins.Decimalization
     {
         #region Private Variables
 
-        private bool hasChanges = false;
         private int mode = 0;
         private int quant = 0;
         private string assocString= "Association Table";
@@ -39,11 +38,6 @@ namespace Cryptool.Plugins.Decimalization
 
 
         #region Initialization / Constructor
-
-        public DecimalizationSettings()
-        {
-        
-        }
 
         public void Initialize()
         {
@@ -66,7 +60,6 @@ namespace Cryptool.Plugins.Decimalization
         }
 
         #endregion
-
         
         #region TaskPane Settings
 
@@ -83,7 +76,6 @@ namespace Cryptool.Plugins.Decimalization
                 if (mode != value)
                 {
                     mode = value;
-                    hasChanges = true;
 
                     switch (mode)
                     { 
@@ -119,7 +111,6 @@ namespace Cryptool.Plugins.Decimalization
                 if (quant != value)
                 {
                     quant = value;
-                    hasChanges = true;
                     OnPropertyChanged("Quant");
                 }
             }
@@ -149,10 +140,9 @@ namespace Cryptool.Plugins.Decimalization
             get { return ibmA; }
             set 
             {
-                if (ibmA != Convert.ToInt32(value))
+                if (ibmA != value)
                 {
-                    ibmA = Convert.ToInt32(value);
-                    hasChanges = true;
+                    ibmA = value;
                     OnPropertyChanged("IbmA");
                 }
             }
@@ -165,10 +155,9 @@ namespace Cryptool.Plugins.Decimalization
             get { return ibmB; }
             set
             {
-                if (ibmB != Convert.ToInt32(value))
+                if (ibmB != value)
                 {
-                    ibmB = Convert.ToInt32(value);
-                    hasChanges = true;
+                    ibmB = value;
                     OnPropertyChanged("IbmB");
                 }
             }
@@ -181,10 +170,9 @@ namespace Cryptool.Plugins.Decimalization
             get { return ibmC; }
             set
             {
-                if (ibmC != Convert.ToInt32(value))
+                if (ibmC != value)
                 {
-                    ibmC = Convert.ToInt32(value);
-                    hasChanges = true;
+                    ibmC = value;
                     OnPropertyChanged("IbmC");
                 }
             }
@@ -197,10 +185,9 @@ namespace Cryptool.Plugins.Decimalization
             get { return ibmD; }
             set
             {
-                if (ibmD != Convert.ToInt32(value))
+                if (ibmD != value)
                 {
-                    ibmD = Convert.ToInt32(value);
-                    hasChanges = true;
+                    ibmD = value;
                     OnPropertyChanged("IbmD");
                 }
             }
@@ -213,10 +200,9 @@ namespace Cryptool.Plugins.Decimalization
             get { return ibmE; }
             set
             {
-                if (ibmE != Convert.ToInt32(value))
+                if (ibmE != value)
                 {
-                    ibmE = Convert.ToInt32(value);
-                    hasChanges = true;
+                    ibmE = value;
                     OnPropertyChanged("IbmE");
                 }
             }
@@ -229,10 +215,9 @@ namespace Cryptool.Plugins.Decimalization
             get { return ibmF; }
             set
             {
-                if (ibmF != Convert.ToInt32(value))
+                if (ibmF != value)
                 {
-                    ibmF = Convert.ToInt32(value);
-                    hasChanges = true;
+                    ibmF = value;
                     OnPropertyChanged("IbmF");
                 }
             }
@@ -251,22 +236,6 @@ namespace Cryptool.Plugins.Decimalization
             if (TaskPaneAttributeChanged != null)
             {
                 TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer(element, Visibility.Collapsed)));
-            }
-        }
-
-        #endregion
-
-        #region ISettings Members
-
-        public bool HasChanges
-        {
-            get
-            {
-                return hasChanges;
-            }
-            set
-            {
-                hasChanges = value;
             }
         }
 

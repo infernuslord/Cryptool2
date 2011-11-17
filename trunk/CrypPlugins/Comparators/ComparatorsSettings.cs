@@ -30,7 +30,6 @@ namespace Cryptool.Plugins.Comparators
     {
         #region private variables
         private int comparator = 0; // 0 ==, 1 !=, 2 <, 3 >, 4 <=, 5 >=
-        private bool hasChanges;
         #endregion
 
         #region taskpane
@@ -44,23 +43,11 @@ namespace Cryptool.Plugins.Comparators
                 {
                     this.comparator = value;
                     OnPropertyChanged("Comparator");
-                    HasChanges = true;
 
                     ChangePluginIcon(comparator);
                 }
             }
         }
-        #endregion
-
-        #region ISettings Member
-
-        public bool HasChanges
-        {
-            get { return hasChanges; }
-            set { hasChanges = value; }
-
-        }
-
         #endregion
 
         #region INotifyPropertyChanged Member

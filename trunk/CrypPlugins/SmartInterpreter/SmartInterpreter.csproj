@@ -92,7 +92,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="SmartInterpreter.cs" />
-    <Compile Include="SmartInterpreterSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CrypPluginBase\CrypPluginBase.csproj">

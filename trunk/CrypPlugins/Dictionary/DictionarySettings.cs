@@ -36,10 +36,6 @@ namespace Dictionary
 
     public delegate void ExecuteCallback();
 
-    public CryptoolDictionarySettings()
-    {
-    }
-
     [TaskPane( "DictionaryCaption", "DictionaryTooltip", "", 0, true, ControlType.DynamicComboBox, new string[] { "Collection" })]
     public int Dictionary
     {
@@ -48,8 +44,7 @@ namespace Dictionary
       {
         if (value != currentDictionary)
         {
-          HasChanges = true;
-          this.currentDictionary = value;
+            this.currentDictionary = value;
           OnPropertyChanged("Dictionary");
         }
       }
@@ -65,28 +60,10 @@ namespace Dictionary
         if (value != collection)
         {
           collection = value;
-        }
-        OnPropertyChanged("Collection");
-      }
-    }
-
-    #region ISettings Members
-
-    private bool hasChanges;
-    public bool HasChanges
-    {
-      get { return hasChanges; }
-      set
-      {
-        if (value != hasChanges)
-        {
-          hasChanges = value;
-          OnPropertyChanged("HasChanges");
+          OnPropertyChanged("Collection");
         }
       }
     }
-
-    #endregion
 
     #region INotifyPropertyChanged Members
 

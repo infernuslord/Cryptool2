@@ -31,7 +31,6 @@ namespace Cryptool.Plugins.QuadraticSieve
     {
         #region private variables
         private int coresUsed;
-        private bool hasChanges = false;
         private ObservableCollection<string> coresAvailable = new ObservableCollection<string>();
         private bool deleteCache;
         private bool usePeer2Peer;
@@ -78,7 +77,6 @@ namespace Cryptool.Plugins.QuadraticSieve
                 {
                     this.coresUsed = value;
                     OnPropertyChanged("CoresUsed");
-                    HasChanges = true;
                 }
             }
         }
@@ -94,8 +92,8 @@ namespace Cryptool.Plugins.QuadraticSieve
                 if (value != coresAvailable)
                 {
                     coresAvailable = value;
+                    OnPropertyChanged("CoresAvailable");
                 }
-                OnPropertyChanged("CoresAvailable");
             }
         }
 
@@ -111,7 +109,6 @@ namespace Cryptool.Plugins.QuadraticSieve
                 if (value != deleteCache)
                 {
                     deleteCache = value;
-                    hasChanges = true;
                     OnPropertyChanged("DeleteCache");
                 }
             }
@@ -137,7 +134,6 @@ namespace Cryptool.Plugins.QuadraticSieve
                 if (value != usePeer2Peer)
                 {
                     usePeer2Peer = value;
-                    hasChanges = true;
                     checkAndSetVisibility();
                     OnPropertyChanged("UsePeer2Peer");
                 }
@@ -177,7 +173,6 @@ namespace Cryptool.Plugins.QuadraticSieve
                 if (value != channel)
                 {
                     channel = value;
-                    hasChanges = true;
                     OnPropertyChanged("Channel");
                 }
             }
@@ -202,21 +197,6 @@ namespace Cryptool.Plugins.QuadraticSieve
             Clipboard.SetDataObject(statusKey, true);
             quadraticSieve.GuiLogMessage("Status key '" + statusKey + "' has been copied to clipboard.",
                                       NotificationLevel.Info);
-        }
-
-        /// <summary>
-        /// Called if the settings have changes
-        /// </summary>
-        public bool HasChanges
-        {
-            get
-            {
-                return hasChanges;
-            }
-            set
-            {
-                hasChanges = value;
-            }
         }
 
         #endregion

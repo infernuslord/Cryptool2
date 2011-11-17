@@ -15,17 +15,6 @@ namespace SmartCard
 
     public static string VirtualReader = "Virtual Cardreader";
 
-    #region ISettings Members
-
-    private bool hasChanges = false;
-    public bool HasChanges
-    {
-      get { return hasChanges; }
-      set { hasChanges = value; }
-    }
-
-    #endregion
-
     public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
     private void GuiLogMessage(string message, NotificationLevel logLevel)
     {
@@ -46,9 +35,11 @@ namespace SmartCard
       get { return this.cardReader; }
       set
       {
-        if (((int)value) != cardReader) hasChanges = true;
-        this.cardReader = (int)value;
-        OnPropertyChanged("CardReader");
+        if (((int)value) != cardReader)
+        {
+            this.cardReader = (int)value;
+            OnPropertyChanged("CardReader");            
+        }
       }
     }
 

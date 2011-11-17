@@ -25,41 +25,12 @@ namespace Cryptool.Plugins.Convertor
 {
     public class StreamToStringConverterSettings : ISettings
     {
+        public enum EncodingTypes { Default = 0, Base64Binary = 1, HexStringBinary = 2, OctalStringBinary = 3, Unicode = 4, UTF7 = 5, UTF8 = 6, UTF32 = 7, ASCII = 8, BigEndianUnicode = 9 };
+
         #region Private variables
         private EncodingTypes encoding = EncodingTypes.UTF8;
         private int maxLength = 65536; //64kB
-        private bool hasChanges = false;
         #endregion
-
-        #region Public StreamToStringConverter specific properties
-
-        public enum EncodingTypes { Default = 0, Base64Binary = 1, HexStringBinary = 2, OctalStringBinary = 3, Unicode = 4, UTF7 = 5, UTF8 = 6, UTF32 = 7, ASCII = 8, BigEndianUnicode = 9 };
-
-        /// <summary>
-        /// Retrieves the current used encoding, or sets it.
-        /// </summary>
-        public EncodingTypes Encoding
-        { 
-            get { return this.encoding; }
-            set 
-            {
-                if (this.Encoding != value) hasChanges = true;
-                this.encoding = value; 
-                OnPropertyChanged("EncodingSetting"); 
-            }
-        }
-
-        /// <summary>
-        /// Returns true if some properties where changed.
-        /// </summary>
-        public bool HasChanges
-        {
-            get { return hasChanges; }
-            set { hasChanges = value; }
-        }
-
-        #endregion
-
 
         #region Algorithm settings properties (visible in the Settings pane)
 
@@ -68,17 +39,19 @@ namespace Cryptool.Plugins.Convertor
         /// </summary>
         [ContextMenu( "EncodingSettingCaption", "EncodingSettingTooltip", 1, ContextMenuControlType.ComboBox, null, new string[] { "EncodingSettingList1", "EncodingSettingList2", "EncodingSettingList3", "EncodingSettingList4", "EncodingSettingList5", "EncodingSettingList6", "EncodingSettingList7", "EncodingSettingList8", "EncodingSettingList9", "EncodingSettingList10" })]
         [TaskPane( "EncodingSettingTPCaption", "EncodingSettingTPTooltip", null, 1, false, ControlType.ComboBox, new string[] { "EncodingSettingList1", "EncodingSettingList2", "EncodingSettingList3", "EncodingSettingList4", "EncodingSettingList5", "EncodingSettingList6", "EncodingSettingList7", "EncodingSettingList8", "EncodingSettingList9", "EncodingSettingList10" })]
-        public int EncodingSetting
+        public EncodingTypes Encoding
         {
             get
             {
-                return (int)this.encoding;
+                return this.encoding;
             }
             set
             {
-                if (this.encoding != (EncodingTypes)value) hasChanges = true;
-                this.encoding = (EncodingTypes)value;
-                OnPropertyChanged("EncodingSetting");
+                if (this.encoding != value)
+                {
+                    this.encoding = value;
+                    OnPropertyChanged("Encoding");
+                }
             }
         }
 
@@ -97,9 +70,8 @@ namespace Cryptool.Plugins.Convertor
             {
               if (value != maxLength)
               {
-                HasChanges = true;
-                maxLength = value;
-                OnPropertyChanged("MaxLength");
+                  maxLength = value;
+                  OnPropertyChanged("MaxLength");
               }
             }
         }

@@ -35,18 +35,10 @@ namespace Cryptool.Playfair
         /// <param name="logLevel"></param>
         public delegate void PlayfairLogMessage(string msg, NotificationLevel logLevel);
 
-        [PropertySaveOrder(1)]
-        public bool HasChanges
-        {
-            get { return hasChanges; }
-            set { hasChanges = value; }
-        }
-
         #endregion
 
         #region Private variables
 
-        private bool hasChanges;
         private bool separatePairs = true;
         private int selectedAction = 0;
         private bool preFormatText = true;
@@ -72,9 +64,11 @@ namespace Cryptool.Playfair
             get { return this.selectedAction; }
             set
             {
-                if (value != selectedAction) HasChanges = true;
-                this.selectedAction = value;
-                OnPropertyChanged("Action");
+                if (value != selectedAction)
+                {
+                    this.selectedAction = value;
+                    OnPropertyChanged("Action");                    
+                }
             }
         }
 
@@ -91,9 +85,8 @@ namespace Cryptool.Playfair
             }
             set
             {
-                if (value != null)
+                if (value != null && value.ToUpper() != key)
                 {
-                    if (value.ToUpper() != key) HasChanges = true;
                     this.key = value.ToUpper();
                     setKeyMatrix();
                     OnPropertyChanged("Key");
@@ -109,9 +102,11 @@ namespace Cryptool.Playfair
             get { return this.alphabetMatrix; }
             set
             {
-                if (value != this.alphabetMatrix) HasChanges = true;
-                this.alphabetMatrix = value;
-                OnPropertyChanged("AlphabetMatrix");
+                if (value != this.alphabetMatrix)
+                {
+                    this.alphabetMatrix = value;
+                    OnPropertyChanged("AlphabetMatrix");                    
+                }
             }
         }
 
@@ -123,9 +118,11 @@ namespace Cryptool.Playfair
             get { return this.preFormatText; }
             set
             {
-                if (value != this.preFormatText) HasChanges = true;
-                this.preFormatText = value;
-                OnPropertyChanged("PreFormatText");
+                if (value != this.preFormatText)
+                {
+                    this.preFormatText = value;
+                    OnPropertyChanged("PreFormatText");                    
+                }
             }
         }
 
@@ -137,10 +134,12 @@ namespace Cryptool.Playfair
             get { return this.ignoreDuplicates; }
             set
             {
-                if (value != this.ignoreDuplicates) HasChanges = true;
-                this.ignoreDuplicates = value;
-                OnPropertyChanged("IgnoreDuplicates");
-                setKeyMatrix();
+                if (value != this.ignoreDuplicates)
+                {
+                    this.ignoreDuplicates = value;
+                    OnPropertyChanged("IgnoreDuplicates");
+                    setKeyMatrix();                    
+                }
             }
         }
 
@@ -152,10 +151,12 @@ namespace Cryptool.Playfair
             get { return this.matrixSize; }
             set 
             {
-                if (value != this.matrixSize) HasChanges = true;
-                this.matrixSize = value;
-                setKeyMatrix();
-                OnPropertyChanged("MatrixSize");
+                if (value != this.matrixSize)
+                {
+                    this.matrixSize = value;
+                    setKeyMatrix();
+                    OnPropertyChanged("MatrixSize");                    
+                }
             }
         }
 
@@ -167,9 +168,11 @@ namespace Cryptool.Playfair
             get { return this.separatePairs; }
             set
             {
-                if (value != this.separatePairs) HasChanges = true;
-                this.separatePairs = value;
-                OnPropertyChanged("SeparatePairs");
+                if (value != this.separatePairs)
+                {
+                    this.separatePairs = value;
+                    OnPropertyChanged("SeparatePairs");                    
+                }
             }
         }
 
@@ -180,11 +183,13 @@ namespace Cryptool.Playfair
             get { return char.ToUpper(this.separator); }
             set 
             {
-                if (char.ToUpper(value) != this.separator) HasChanges = true;
-                this.separator = char.ToUpper(value);
-                setSeparatorReplacement();
-                OnPropertyChanged("Separator");
-                OnPropertyChanged("SeparatorReplacement");
+                if (char.ToUpper(value) != this.separator)
+                {
+                    this.separator = char.ToUpper(value);
+                    setSeparatorReplacement();
+                    OnPropertyChanged("Separator");
+                    OnPropertyChanged("SeparatorReplacement");                    
+                }
             }
         }
 
@@ -195,16 +200,15 @@ namespace Cryptool.Playfair
             get { return char.ToUpper(this.separatorReplacement);}
             set
             {
-                if (char.ToUpper(value) != this.separatorReplacement) HasChanges = true;
-                this.separatorReplacement = char.ToUpper(value);
-                setSeparator();
-                OnPropertyChanged("Separator");
-                OnPropertyChanged("SeparatorReplacement");
+                if (char.ToUpper(value) != this.separatorReplacement)
+                {
+                    this.separatorReplacement = char.ToUpper(value);
+                    setSeparator();
+                    OnPropertyChanged("Separator");
+                    OnPropertyChanged("SeparatorReplacement");                    
+                }
             }
         }
-
-
-
 
         #endregion
 

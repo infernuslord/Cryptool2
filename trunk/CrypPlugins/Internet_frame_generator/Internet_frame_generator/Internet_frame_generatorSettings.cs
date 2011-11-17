@@ -18,7 +18,6 @@ namespace Cryptool.Internet_frame_generator
 
         private int action = 0; // 0 = "normal" IP packets, 1 = ARP packets (requests)
         private int numberOfPacketsToBeCreated = 100000;
-        private bool hasChanges = false;
 
         /// <summary>
         /// 0 = "normal" IP packets.
@@ -42,10 +41,9 @@ namespace Cryptool.Internet_frame_generator
             {
                 if (this.action != value)
                 {
-                    hasChanges = true;
+                    this.action = (int)value;
+                    OnPropertyChanged("Action");
                 }
-                this.action = (int)value;
-                OnPropertyChanged("Action");
             }
         }
 
@@ -66,21 +64,10 @@ namespace Cryptool.Internet_frame_generator
             {
                 if ((int)value != numberOfPacketsToBeCreated)
                 {
-                    hasChanges = true;
+                    this.numberOfPacketsToBeCreated = (int)value;
+                    OnPropertyChanged("NumberOfPacketsToBeSaved");
                 }
-                this.numberOfPacketsToBeCreated = (int)value;
-                OnPropertyChanged("NumberOfPacketsToBeSaved");
             }
-        }
-
-        #endregion
-
-        #region ISettings Member
-
-        public bool HasChanges
-        {
-            get { return hasChanges; }
-            set { hasChanges = value; }
         }
 
         #endregion

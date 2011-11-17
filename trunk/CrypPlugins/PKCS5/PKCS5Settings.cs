@@ -31,7 +31,6 @@ namespace PKCS5
   /// </summary>
   public class PKCS5Settings : ISettings
   {
-    private bool hasChanges = false;
 
     #region ISettings Member
 
@@ -46,23 +45,6 @@ namespace PKCS5
       BigEndianUnicode = 6
     };
     private EncodingTypes encoding = EncodingTypes.UTF8;
-    /// <summary>
-    /// Retrieves the current used encoding, or sets it.
-    /// </summary>
-    public EncodingTypes Encoding
-    {
-      get
-      {
-        return this.encoding;
-      }
-      set
-      {
-        if (this.Encoding != value)
-          hasChanges = true;
-        this.encoding = value;
-        OnPropertyChanged("EncodingSetting");
-      }
-    }
 
     /// <summary>
     /// selected internal hash HMAC function
@@ -87,7 +69,6 @@ namespace PKCS5
         this.selectedShaFunction = (PKCS5MaskGenerationMethod.ShaFunction)value;
         // set to max hash length
         length = PKCS5MaskGenerationMethod.GetHashLength(selectedShaFunction) * 8;
-        hasChanges = true;
         OnPropertyChanged("SHAFunction");
         OnPropertyChanged("Length");
       }
@@ -110,7 +91,6 @@ namespace PKCS5
         count = value;
         if (count == 0)
           count = 1000;
-        hasChanges = true;
         OnPropertyChanged("Count");
       }
     }
@@ -136,7 +116,6 @@ namespace PKCS5
         while ((length & 0x07) != 0) // go to the next multiple of 8
           length++;
 
-        hasChanges = true;
         OnPropertyChanged("Length");
       }
     }
@@ -151,18 +130,19 @@ namespace PKCS5
     [TaskPane( "EncodingSettingCaption", "EncodingSettingTooltip", 
       null, 1, false, ControlType.RadioButton, 
       new string[] { "EncodingSettingList1", "EncodingSettingList2", "EncodingSettingList3", "EncodingSettingList4", "EncodingSettingList5", "EncodingSettingList6", "EncodingSettingList7" })]
-    public int EncodingSetting
+    public EncodingTypes Encoding
     {
       get
       {
-        return (int)this.encoding;
+        return this.encoding;
       }
       set
       {
-        if (this.encoding != (EncodingTypes)value)
-          HasChanges = true;
-        this.encoding = (EncodingTypes)value;
-        OnPropertyChanged("EncodingSetting");
+        if (this.encoding != value)
+        {
+            this.encoding = value;
+            OnPropertyChanged("Encoding");
+        }
       }
     }
 
@@ -177,29 +157,10 @@ namespace PKCS5
       if (newlen < length)
       {
         length = newlen; // reduce it to max length
-        hasChanges = true;
       }
     }
 
-    /// <summary>
-    /// Gets or sets a value indicating whether this instance has changes.
-    /// </summary>
-    /// <value>
-    /// 	<c>true</c> if this instance has changes; otherwise, <c>false</c>.
-    /// </value>
-    public bool HasChanges
-    {
-      get
-      {
-        return hasChanges;
-      }
-      set
-      {
-        hasChanges = value;
-      }
-    }
-
-    #endregion
+      #endregion
 
     #region INotifyPropertyChanged Member
 
@@ -215,7 +176,6 @@ namespace PKCS5
       {
         PropertyChanged(this, new PropertyChangedEventArgs(name));
       }
-      hasChanges = true;
     }
 
     #endregion

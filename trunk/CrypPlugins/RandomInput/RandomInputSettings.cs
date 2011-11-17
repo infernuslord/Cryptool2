@@ -27,7 +27,6 @@ namespace RandomInput
 {
   public class RandomInputSettings : ISettings
   {
-    private bool hasChanges = false;
     private int bytes = 1;
     private int keepRND = 0; //0 = each stream / array will be filled with fresh random numbers
 
@@ -67,12 +66,6 @@ namespace RandomInput
       }
     }
 
-    #region IInputSettings Member
-
-    public string SaveAndRestoreState { get; set; }
-
-    #endregion
-
     #region INotifyPropertyChanged Members
 
     public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
@@ -82,26 +75,6 @@ namespace RandomInput
       if (PropertyChanged != null)
       {
         PropertyChanged(this, new PropertyChangedEventArgs(name));
-      }
-    }
-
-    #endregion
-
-    #region ISettings Members
-
-    public bool HasChanges
-    {
-      get
-      {
-        return hasChanges;
-      }
-      set
-      {
-        if (value != HasChanges)
-        {
-          hasChanges = value;
-          OnPropertyChanged("HasChanges");
-        }
       }
     }
 

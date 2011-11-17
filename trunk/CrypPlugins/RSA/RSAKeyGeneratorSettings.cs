@@ -40,7 +40,6 @@ namespace Cryptool.Plugins.RSA
         private String d = "23";
         private string certificateFile;
         private String password = "";
-        private bool hasChanges = false;
         
         #endregion
 
@@ -62,12 +61,14 @@ namespace Cryptool.Plugins.RSA
             get { return this.source; }
             set
             {
-                if (((int)value) != source) hasChanges = true;
-                this.source = (int)value;
+                if (((int)value) != source)
+                {
+                    this.source = (int)value;
 
-                UpdateTaskPaneVisibility();
+                    UpdateTaskPaneVisibility();
 
-                OnPropertyChanged("Source");
+                    OnPropertyChanged("Source");   
+                }
             }
         }
 
@@ -218,7 +219,6 @@ namespace Cryptool.Plugins.RSA
                 if (value != certificateFile)
                 {
                     certificateFile = value;
-                    HasChanges = true;
                     OnPropertyChanged("CertificateFile");
                 }
             }
@@ -249,18 +249,6 @@ namespace Cryptool.Plugins.RSA
         public void CloseFile()
         {
             CertificateFile = null;
-        }
-
-        public bool HasChanges
-        {
-            get
-            {
-                return hasChanges;
-            }
-            set
-            {
-                hasChanges = value;
-            }
         }
 
         #endregion

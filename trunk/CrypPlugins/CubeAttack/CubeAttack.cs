@@ -138,13 +138,6 @@ namespace Cryptool.CubeAttack
 
         public void Dispose()
         {
-            stop = false;
-            }
-
-        public bool HasChanges
-        {
-            get { return settings.HasChanges; }
-            set { settings.HasChanges = value; }
         }
 
         /// <summary>
@@ -184,12 +177,12 @@ namespace Cryptool.CubeAttack
 
         public void PostExecution()
         {
-            Dispose();
+            stop = false;
         }
 
         public void PreExecution()
         {
-            Dispose();
+            stop = false;
             if (settings.Action == 0) // Action = Preprocessing
             { 
                 if ((settings.PublicVar != settings.SavePublicBitSize) || (settings.SecretVar != settings.SaveSecretBitSize))

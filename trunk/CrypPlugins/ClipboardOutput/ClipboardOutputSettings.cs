@@ -36,8 +36,11 @@ namespace ClipboardOutput
       get { return this.format; }
       set
       {
-        this.format = (int)value;
-        OnPropertyChanged("Format");
+          if (format != value)
+          {
+              this.format = (int)value;
+              OnPropertyChanged("Format");              
+          }
       }
     }
 
@@ -51,17 +54,6 @@ namespace ClipboardOutput
       {
         PropertyChanged(this, new PropertyChangedEventArgs(name));
       }
-    }
-
-    #endregion
-
-    #region ISettings Members
-
-    private bool hasChanges = false;
-    public bool HasChanges
-    {
-      get { return hasChanges; }
-      set { hasChanges = value; }
     }
 
     #endregion

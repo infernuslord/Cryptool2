@@ -10,7 +10,5 @@ namespace BitCommitmentScheme
     class BitCommitmentSchemeSettings : ISettings
     {
         public event PropertyChangedEventHandler PropertyChanged;
-
-        public bool HasChanges { get; set; }
     }
 }

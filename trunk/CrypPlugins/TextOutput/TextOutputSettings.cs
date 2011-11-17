@@ -30,7 +30,6 @@ namespace TextOutput
     private EncodingTypes encoding = EncodingTypes.UTF8;
     private PresentationFormat presentation = PresentationFormat.Text;
     private int maxLength = 65536; //64kB
-    private bool hasChanges = false;
     private TextOutput myTextOutput;
     #endregion
 
@@ -43,28 +42,16 @@ namespace TextOutput
       myTextOutput = textOutput;
     }
 
-    /// <summary>
-    /// Retrieves the current used encoding, or sets it.
-    /// </summary>
-    public EncodingTypes Encoding
-    {
-      get { return this.encoding; }
-      set
-      {
-        if (this.encoding != value) hasChanges = true;
-        this.encoding = value;
-        OnPropertyChanged("EncodingSetting");
-      }
-    }
-
     public PresentationFormat Presentation
     {
       get { return this.presentation; }
       set
       {
-        if (this.presentation != value) hasChanges = true;
-        this.presentation = value;
-        OnPropertyChanged("Presentation");
+        if (this.presentation != value)
+        {
+            this.presentation = value;
+            OnPropertyChanged("Presentation");            
+        }
       }
     }
 
@@ -75,17 +62,19 @@ namespace TextOutput
     /// </summary>
     [ContextMenu( "EncodingSettingCaption", "EncodingSettingTooltip", 1, ContextMenuControlType.ComboBox, null, new string[] { "EncodingSettingList1", "EncodingSettingList2", "EncodingSettingList3", "EncodingSettingList4", "EncodingSettingList5", "EncodingSettingList6", "EncodingSettingList7" })]
     [TaskPane( "EncodingSettingTPCaption", "EncodingSettingTPTooltip", null, 1, false, ControlType.RadioButton, new string[] { "EncodingSettingList1", "EncodingSettingList2", "EncodingSettingList3", "EncodingSettingList4", "EncodingSettingList5", "EncodingSettingList6", "EncodingSettingList7" })]
-    public int EncodingSetting
+    public EncodingTypes Encoding
     {
       get
       {
-        return (int)this.encoding;
+        return this.encoding;
       }
       set
       {
-        if (this.encoding != (EncodingTypes)value) HasChanges = true;
-        this.encoding = (EncodingTypes)value;
-        OnPropertyChanged("EncodingSetting");
+        if (this.encoding != value)
+        {
+            this.encoding = value;
+            OnPropertyChanged("Encoding");            
+        }
       }
     }
 
@@ -104,9 +93,11 @@ namespace TextOutput
       }
       set
       {
-        if (this.presentation != (PresentationFormat)value) HasChanges = true;
-        this.presentation = (PresentationFormat)value;
-        OnPropertyChanged("PresentationFormatSetting");
+        if (this.presentation != (PresentationFormat)value)
+        {
+            this.presentation = (PresentationFormat)value;
+            OnPropertyChanged("PresentationFormatSetting");            
+        }
       }
     }
 
@@ -123,9 +114,11 @@ namespace TextOutput
       }
       set
       {
-        maxLength = value;
-        HasChanges = true;
-        OnPropertyChanged("MaxLength");
+          if (value != maxLength)
+          {
+              maxLength = value;
+              OnPropertyChanged("MaxLength");              
+          }
       }
     }
 
@@ -140,7 +133,6 @@ namespace TextOutput
         if (value != append)
         {
           append = value;
-          hasChanges = true;
           OnPropertyChanged("Append");
         }
       }
@@ -157,7 +149,6 @@ namespace TextOutput
         {
           this.appendBreaks = value;
           OnPropertyChanged("AppendBreaks");
-          HasChanges = true;
         }
       }
     }
@@ -173,7 +164,6 @@ namespace TextOutput
             if (value != booleanAsNumeric)
             {
                 booleanAsNumeric = value;
-                hasChanges = true;
                 OnPropertyChanged("BooleanAsNumeric");
             }
         }
@@ -190,23 +180,6 @@ namespace TextOutput
       if (PropertyChanged != null)
       {
         EventsHelper.PropertyChanged(PropertyChanged, this, new PropertyChangedEventArgs(name));
-      }
-    }
-
-    #endregion
-
-    #region ISettings Members
-    
-    public bool HasChanges
-    {
-      get { return hasChanges; }
-      set 
-      {
-        if (value != hasChanges)
-        {
-          hasChanges = value;
-          OnPropertyChanged("HasChanges");
-        }
       }
     }
 

@@ -23,15 +23,6 @@ namespace StringOperations
         private bool _hasChanges;
         private StringOperationType _stringOperationType;
         #region ISettings Members
-        
-        public bool HasChanges
-        {
-            get
-            {
-                return _hasChanges;
-            }
-            set { _hasChanges = value; }
-        }
 
         #endregion
 

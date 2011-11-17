@@ -34,7 +34,6 @@ namespace Cryptool.Plugins.AutokorrelationFunction
     {
         #region Private Variables
 
-        private readonly AutokorrelationFunctionSettings settings;
         private AutocorrelationPresentation presentation;
 
         private String cipher = "";                                     //The cipher to be analysed
@@ -90,7 +89,6 @@ namespace Cryptool.Plugins.AutokorrelationFunction
 
         public AutokorrelationFunction()
         {
-            settings = new AutokorrelationFunctionSettings();
             presentation = new AutocorrelationPresentation();
             HistogramElement bar = new HistogramElement(0, 0, "");
             data = new HistogramDataSource();
@@ -98,7 +96,7 @@ namespace Cryptool.Plugins.AutokorrelationFunction
         }
         public ISettings Settings
         {
-            get { return settings; }
+            get { return null; }
         }
 
         public UserControl Presentation

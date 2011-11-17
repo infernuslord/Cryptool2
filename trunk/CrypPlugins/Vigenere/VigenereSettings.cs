@@ -70,21 +70,9 @@ namespace Cryptool.Vigenere
             set { } //readonly
         }
 
-        /// <summary>
-        /// Returns true if some settings have been changed. This value should be set externally to false. e.g
-        /// when a project was saved.
-        /// </summary>
-        [PropertySaveOrder(2)]
-        public bool HasChanges
-        {
-            get { return hasChanges; }
-            set { hasChanges = value; }
-        }
-
         #endregion
 
         #region Private variables
-        private bool hasChanges;
         private int selectedAction = 0;
         private int selectedModus = 1;
         private string upperAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -146,8 +134,6 @@ namespace Cryptool.Vigenere
         /// <param name="offset"></param>
         public void setKeyByValue(int[] offset)
         {
-            hasChanges = true;
-
             //making sure the shift value lies within the alphabet range
             for (int i = 0; i < offset.Length; i++)
                 offset[i] = offset[i] % alphabet.Length;
@@ -189,7 +175,6 @@ namespace Cryptool.Vigenere
                 {
                     if (offset[i] >= 0)
                     {
-                        hasChanges = true;
                         shiftValue = new int[offset.Length];
                         for (int j = 0; j < offset.Length; j++)
                             shiftValue[j] = offset[j];
@@ -224,9 +209,11 @@ namespace Cryptool.Vigenere
             get { return this.selectedModus; }
             set
             {
-                if (value != selectedModus) HasChanges = true;
-                this.selectedModus = value;
-                OnPropertyChanged("Modus");
+                if (value != selectedModus)
+                {
+                    this.selectedModus = value;
+                    OnPropertyChanged("Modus");                    
+                }
             }
         }
 
@@ -239,9 +226,11 @@ namespace Cryptool.Vigenere
             get { return this.selectedAction; }
             set
             {
-                if (value != selectedAction) HasChanges = true;
-                this.selectedAction = value;
-                OnPropertyChanged("Action");
+                if (value != selectedAction)
+                {
+                    this.selectedAction = value;
+                    OnPropertyChanged("Action");                    
+                }
             }
         }
 
@@ -279,9 +268,11 @@ namespace Cryptool.Vigenere
             get { return (int)this.unknowSymbolHandling; }
             set
             {
-                if ((UnknownSymbolHandlingMode)value != unknowSymbolHandling) hasChanges = true;
-                this.unknowSymbolHandling = (UnknownSymbolHandlingMode)value;
-                OnPropertyChanged("UnknownSymbolHandling");
+                if ((UnknownSymbolHandlingMode)value != unknowSymbolHandling)
+                {
+                    this.unknowSymbolHandling = (UnknownSymbolHandlingMode)value;
+                    OnPropertyChanged("UnknownSymbolHandling");                    
+                }
             }
         }
 
@@ -293,39 +284,41 @@ namespace Cryptool.Vigenere
             get { return this.caseSensitiveAlphabet; }
             set
             {
-                if (value != caseSensitiveAlphabet) hasChanges = true;
-                this.caseSensitiveAlphabet = value;
-                if (value == 0)
+                if (value != caseSensitiveAlphabet)
                 {
-                    if (alphabet == (upperAlphabet + lowerAlphabet))
+                    this.caseSensitiveAlphabet = value;
+                    if (value == 0)
                     {
-                        alphabet = upperAlphabet;
-                        LogMessage("Changing alphabet to: \"" + alphabet + "\" (" + alphabet.Length.ToString() + "Symbols)",NotificationLevel.Info);
-                        OnPropertyChanged("AlphabetSymbols");
-                        //re-set also the key (shifvalue/shiftchar to be in the range of the new alphabet
-                        setKeyByValue(shiftValue);
+                        if (alphabet == (upperAlphabet + lowerAlphabet))
+                        {
+                            alphabet = upperAlphabet;
+                            LogMessage("Changing alphabet to: \"" + alphabet + "\" (" + alphabet.Length.ToString() + "Symbols)", NotificationLevel.Info);
+                            OnPropertyChanged("AlphabetSymbols");
+                            //re-set also the key (shifvalue/shiftchar to be in the range of the new alphabet
+                            setKeyByValue(shiftValue);
+                        }
                     }
-                }
-                else
-                {
-                    if(alphabet == upperAlphabet)
+                    else
                     {
-                        alphabet = upperAlphabet + lowerAlphabet;
+                        if (alphabet == upperAlphabet)
+                        {
+                            alphabet = upperAlphabet + lowerAlphabet;
+                            LogMessage("Changing alphabet to: \"" + alphabet + "\" (" + alphabet.Length.ToString() + " Symbols)", NotificationLevel.Info);
+                            OnPropertyChanged("AlphabetSymbols");
+                        }
+                    }
+
+                    //remove equal characters from the current alphabet
+                    string a = alphabet;
+                    alphabet = removeEqualChars(alphabet);
+
+                    if (a != alphabet)
+                    {
+                        OnPropertyChanged("AlphabetSymbols");
                         LogMessage("Changing alphabet to: \"" + alphabet + "\" (" + alphabet.Length.ToString() + " Symbols)", NotificationLevel.Info);
-                        OnPropertyChanged("AlphabetSymbols");
                     }
+                    OnPropertyChanged("CaseSensitiveAlphabet");
                 }
-
-                //remove equal characters from the current alphabet
-                string a = alphabet;
-                alphabet = removeEqualChars(alphabet);
-
-                if(a != alphabet)
-                {
-                    OnPropertyChanged("AlphabetSymbols");
-                    LogMessage("Changing alphabet to: \"" + alphabet + "\" (" + alphabet.Length.ToString() + " Symbols)",NotificationLevel.Info);
-                }
-                OnPropertyChanged("CaseSensitiveAlphabet");
             }
         }
 
@@ -343,7 +336,6 @@ namespace Cryptool.Vigenere
                 }
                 else if (!alphabet.Equals(a))
                 {
-                    hasChanges = true;
                     this.alphabet = a;
                     setKeyByValue(shiftValue); //re-evaluate if the shiftvalue is stillt within the range
                     LogMessage("Accepted new alphabet from user: \"" + alphabet + "\" (" + alphabet.Length.ToString() + " Symbols)", NotificationLevel.Info);

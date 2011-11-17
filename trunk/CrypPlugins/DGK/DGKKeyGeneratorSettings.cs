@@ -36,7 +36,6 @@ namespace Cryptool.Plugins.DGK
         private int bitSizeK = 512;
         private int bitSizeT = 160;
         private int limitL = 10;
-        private bool hasChanges = false;
         
         #endregion
 
@@ -61,7 +60,6 @@ namespace Cryptool.Plugins.DGK
                 {
                     this.bitSizeK = value;
                     OnPropertyChanged("BitSizeK");
-                    HasChanges = true;
                 }
             }
         }
@@ -79,7 +77,6 @@ namespace Cryptool.Plugins.DGK
                 {
                     this.bitSizeT = value;
                     OnPropertyChanged("BitSizeT");
-                    HasChanges = true;
                 }
             }
         }
@@ -97,15 +94,8 @@ namespace Cryptool.Plugins.DGK
                 {
                     this.limitL = value;
                     OnPropertyChanged("BitSizeL");
-                    HasChanges = true;
                 }
             }
-        }
-
-        public bool HasChanges
-        {
-            get { return hasChanges; }
-            set { hasChanges = value; }
         }
 
         #endregion

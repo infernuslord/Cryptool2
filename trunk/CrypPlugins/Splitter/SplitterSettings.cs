@@ -38,8 +38,7 @@ namespace Splitter
         if (value != fireOnValue)
         {
           fireOnValue = value;
-          HasChanges = true;
-          OnPropertyChanged("FireOnValue");
+            OnPropertyChanged("FireOnValue");
         }
       }
     }
@@ -54,24 +53,10 @@ namespace Splitter
         if (value != delimiterDictionary)
         {
           delimiterDictionary = value;
-          HasChanges = true;
         }
         OnPropertyChanged("DelimiterDictionary");
       }
     }
-
-    #region ISettings Members
-
-    private bool hasChanges;
-
-    public bool HasChanges
-    {
-      get { return hasChanges; }
-      set { hasChanges = value; }
-    }
-
-
-    #endregion
 
     #region INotifyPropertyChanged Members
 

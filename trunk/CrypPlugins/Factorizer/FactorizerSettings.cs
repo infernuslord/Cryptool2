@@ -96,20 +96,8 @@ namespace Factorizer
     #region ISettings Members
 
     private bool m_HasChanges;
-    public bool HasChanges
-    {
-      get
-      {
-        return true;
-      }
-      set
-      {
-        m_HasChanges = value;
-        FirePropertyChangedEvent("HasChanges");
-      }
-    }
 
-    #endregion
+      #endregion
 
     #region INotifyPropertyChanged Members
 

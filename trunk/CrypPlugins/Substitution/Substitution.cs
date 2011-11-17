@@ -315,12 +315,6 @@ namespace Cryptool.Substitution
 
         public void Dispose()
         {
-            }
-
-        public bool HasChanges
-        {
-            get { return settings.HasChanges; }
-            set { settings.HasChanges = value; }
         }
 
         /// <summary>

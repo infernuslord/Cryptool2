@@ -19,6 +19,7 @@ using System.Linq;
 using System.Text;
 using Cryptool.PluginBase;
 using System.ComponentModel;
+using Cryptool.PluginBase.Miscellaneous;
 
 namespace Cryptool.Plugins.StegoPermutation
 {
@@ -26,7 +27,6 @@ namespace Cryptool.Plugins.StegoPermutation
     {
         #region Private Variables
 
-        private bool hasChanges = false;
         private int selectedAction = 0;
         private string alphabet = "!§$%&/()=/{}<>|_-01234526789abcdefghijklmnopqrstuvwxzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
@@ -44,9 +44,11 @@ namespace Cryptool.Plugins.StegoPermutation
             }
             set
             {
-                if (value != selectedAction) HasChanges = true;
-                this.selectedAction = value;
-                //OnPropertyChanged("Action");
+                if (value != selectedAction)
+                {
+                    this.selectedAction = value;
+                    OnPropertyChanged("Action");   
+                }
             }
         }
 
@@ -66,28 +68,8 @@ namespace Cryptool.Plugins.StegoPermutation
                 if (alphabet != value)
                 {
                     alphabet = value;
-                    hasChanges = true;
+                    OnPropertyChanged("Alphabet");
                 }
-            }
-        }
-
-        #endregion
-
-        #region ISettings Members
-
-        /// <summary>
-        /// HOWTO: This flags indicates whether some setting has been changed since the last save.
-        /// If a property was changed, this becomes true, hence CrypTool will ask automatically if you want to save your changes.
-        /// </summary>
-        public bool HasChanges
-        {
-            get
-            {
-                return hasChanges;
-            }
-            set
-            {
-                hasChanges = value;
             }
         }
 
@@ -96,6 +78,11 @@ namespace Cryptool.Plugins.StegoPermutation
         #region INotifyPropertyChanged Members
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyChanged(string prop)
+        {
+            EventsHelper.PropertyChanged(PropertyChanged, this, prop);
+        }
 
         #endregion
     }

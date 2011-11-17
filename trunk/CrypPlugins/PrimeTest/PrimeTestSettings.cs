@@ -10,18 +10,7 @@ namespace PrimeTest
   {
     #region ISettings Members
 
-    public bool HasChanges
-    {
-      get
-      {
-        return true;
-      }
-      set
-      {
-      }
-    }
-
-    #endregion
+      #endregion
 
     #region INotifyPropertyChanged Members
 

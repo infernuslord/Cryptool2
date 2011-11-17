@@ -33,7 +33,6 @@ namespace Cryptool.Plugins.T310
     {
         #region Private Variables
 
-        private bool hasChanges = false;
         private ModeEnum mode = ModeEnum.Encrypt;
 
         #endregion
@@ -52,25 +51,8 @@ namespace Cryptool.Plugins.T310
                 if (mode != value)
                 {
                     mode = value;
-                    hasChanges = true;
-                    OnPropertyChanged("");
+                    OnPropertyChanged("Mode");
                 }
-            }
-        }
-
-        #endregion
-
-        #region ISettings Members
-
-        public bool HasChanges
-        {
-            get
-            {
-                return hasChanges;
-            }
-            set
-            {
-                hasChanges = value;
             }
         }
 

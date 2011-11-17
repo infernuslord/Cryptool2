@@ -25,15 +25,9 @@ namespace FileOutput
 {
   public class FileOutputSettings : ISettings
   {
-    private string saveAndRestoreState;
+      public string SaveAndRestoreState { get; set; }
 
-    public string SaveAndRestoreState
-    {
-      get { return saveAndRestoreState; }
-      set { saveAndRestoreState = value; }
-    }
-
-    private string targetFilename;
+      private string targetFilename;
     [TaskPane( "TargetFilenameCaption", "TargetFilenameTooltip", null, 1, false, ControlType.SaveFileDialog, "All Files (*.*)|*.*")]
     public string TargetFilename
     {
@@ -41,8 +35,7 @@ namespace FileOutput
       set 
       { 
         targetFilename = value;
-        HasChanges = true;
-        OnPropertyChanged("TargetFilename");
+          OnPropertyChanged("TargetFilename");
       }
     }
 
@@ -66,15 +59,5 @@ namespace FileOutput
 
     #endregion
 
-    #region ISettings Members
-
-    private bool hasChanges;
-    public bool HasChanges
-    {
-      get { return hasChanges; }
-      set { hasChanges = value; }
-    }
-
-    #endregion
   }
 }
