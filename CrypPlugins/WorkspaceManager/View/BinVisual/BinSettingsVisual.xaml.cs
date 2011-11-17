@@ -546,7 +546,7 @@ namespace WorkspaceManager.View.BinVisual
                                 
                                 tebo.Add(title);
 
-                                if (maxlength < title.Text.Length) ;
+                                if (maxlength < title.Text.Length)
                                 {
                                     maxlength = title.Text.Length;
                                 }
