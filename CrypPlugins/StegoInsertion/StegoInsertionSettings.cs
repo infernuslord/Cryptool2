@@ -27,7 +27,6 @@ namespace Cryptool.Plugins.StegoInsertion
     {
         #region Private Variables
 
-        private bool hasChanges = false;
         private int selectedAction = 0;
         private int maxMessageBytesPerCarrierUnit = 1;
 
@@ -48,7 +47,6 @@ namespace Cryptool.Plugins.StegoInsertion
                 if (value != selectedAction)
                 {
                     this.selectedAction = value;
-                    HasChanges = true;
                     UpdateTaskPaneVisibility();
                     OnPropertyChanged("Action");
                 }
@@ -74,7 +72,6 @@ namespace Cryptool.Plugins.StegoInsertion
                 if (maxMessageBytesPerCarrierUnit != value)
                 {
                     maxMessageBytesPerCarrierUnit = value;
-                    hasChanges = true;
                     OnPropertyChanged("MaxMessageBytesPerCarrierUnit");
                 }
             }
@@ -99,26 +96,6 @@ namespace Cryptool.Plugins.StegoInsertion
         private void settingChanged(string setting, Visibility vis)
         {
             TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer(setting, vis)));
-        }
-
-        #endregion
-
-        #region ISettings Members
-
-        /// <summary>
-        /// HOWTO: This flags indicates whether some setting has been changed since the last save.
-        /// If a property was changed, this becomes true, hence CrypTool will ask automatically if you want to save your changes.
-        /// </summary>
-        public bool HasChanges
-        {
-            get
-            {
-                return hasChanges;
-            }
-            set
-            {
-                hasChanges = value;
-            }
         }
 
         #endregion

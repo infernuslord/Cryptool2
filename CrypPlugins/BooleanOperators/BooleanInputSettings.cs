@@ -30,7 +30,6 @@ namespace Cryptool.Plugins.BooleanOperators
 
         #region ISettings Members
 
-        private bool hasChanges = false;
         private int bool_value = 0; //0 false; 1 true
 
         [ContextMenu("BI_ValueCaption", "BI_ValueTooltip", 1, ContextMenuControlType.ComboBox, new int[] { 0, 1 }, "BI_ValueList1", "BI_ValueList2")]
@@ -40,21 +39,11 @@ namespace Cryptool.Plugins.BooleanOperators
             get { return this.bool_value; }
             set
             {
-                if ((value) != bool_value) hasChanges = true;
-                this.bool_value = value;
-                OnPropertyChanged("Value");
-            }
-        }
-
-        public bool HasChanges
-        {
-            get
-            {
-                return hasChanges;
-            }
-            set
-            {
-                hasChanges = value;
+                if ((value) != bool_value)
+                {
+                    this.bool_value = value;
+                    OnPropertyChanged("Value");                    
+                }
             }
         }
 

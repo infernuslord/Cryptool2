@@ -28,7 +28,6 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 {
     public class AESSettings : ISettings
     {
-        private bool hasChanges = false;
         private int action = 0; //0=encrypt, 1=decrypt
         private int cryptoAlgorithm = 0; // 0=AES, 1=Rijndael
         private int blocksize = 0; // 0=128, 1=192, 2=256
@@ -43,25 +42,27 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             get { return this.cryptoAlgorithm; }
             set
             {
-                if (((int)value) != cryptoAlgorithm) hasChanges = true;
-                this.cryptoAlgorithm = (int)value;
-                if (cryptoAlgorithm == 0)
+                if (((int)value) != cryptoAlgorithm)
                 {
-                    blocksize = 0;
-                    OnPropertyChanged("Blocksize");
-                }
-                OnPropertyChanged("CryptoAlgorithm");
+                    this.cryptoAlgorithm = (int)value;
+                    if (cryptoAlgorithm == 0)
+                    {
+                        blocksize = 0;
+                        OnPropertyChanged("Blocksize");
+                    }
+                    OnPropertyChanged("CryptoAlgorithm");
 
-                switch (cryptoAlgorithm)
-                {
-                  case 0:
-                    ChangePluginIcon(0);
-                    break;
-                  case 1:
-                    ChangePluginIcon(3);
-                    break;
-                  default:
-                    break;
+                    switch (cryptoAlgorithm)
+                    {
+                        case 0:
+                            ChangePluginIcon(0);
+                            break;
+                        case 1:
+                            ChangePluginIcon(3);
+                            break;
+                        default:
+                            break;
+                    }   
                 }
             }
         }
@@ -73,9 +74,11 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             get { return this.action; }
             set 
             { 
-              if (((int)value) != action) hasChanges = true;
-              this.action = (int)value;
-              OnPropertyChanged("Action");              
+              if (((int)value) != action)
+              {
+                  this.action = (int)value;
+                  OnPropertyChanged("Action");
+              }
             }
         }
 
@@ -87,9 +90,11 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             get { return this.keysize; }
             set
             {
-                if (((int)value) != keysize) hasChanges = true;
-                this.keysize = (int)value;
-                OnPropertyChanged("Keysize");
+                if (((int)value) != keysize)
+                {
+                    this.keysize = (int)value;
+                    OnPropertyChanged("Keysize");
+                }
             }
         }
 
@@ -119,14 +124,16 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             get { return this.blocksize; }
             set
             {
-                if (((int)value) != blocksize) hasChanges = true;
-                this.blocksize = (int)value;
-                if (blocksize > 0)
+                if (((int)value) != blocksize)
                 {
-                    cryptoAlgorithm = 1;
-                    OnPropertyChanged("CryptoAlgorithm");
+                    this.blocksize = (int)value;
+                    if (blocksize > 0)
+                    {
+                        cryptoAlgorithm = 1;
+                        OnPropertyChanged("CryptoAlgorithm");
+                    }
+                    OnPropertyChanged("Blocksize");
                 }
-                OnPropertyChanged("Blocksize");
             }
         }
 
@@ -163,9 +170,11 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             get { return this.mode; }
             set 
             {
-              if (((int)value) != mode) hasChanges = true;
-              this.mode = (int)value;
-              OnPropertyChanged("Mode");
+              if (((int)value) != mode)
+              {
+                  this.mode = (int)value;
+                  OnPropertyChanged("Mode");
+              }
             }
         }
 
@@ -176,16 +185,12 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             get { return this.padding; }
             set 
             {
-              if (((int)value) != padding) hasChanges = true;
-              this.padding = (int)value;
-              OnPropertyChanged("Padding");
+              if (((int)value) != padding)
+              {
+                  this.padding = (int)value;
+                  OnPropertyChanged("Padding");
+              }
             }
-        }
-
-        public bool HasChanges
-        {
-          get { return hasChanges; }
-          set { hasChanges = value; }
         }
 
         #region INotifyPropertyChanged Members

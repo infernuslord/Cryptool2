@@ -87,7 +87,7 @@ namespace Cryptool.TextInput
 
     void settings_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {
-      if (e.PropertyName == "EncodingSetting")
+      if (e.PropertyName == "Encoding")
       {
         textInputPresentation.textBoxInputText.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
         {
@@ -388,7 +388,7 @@ namespace Cryptool.TextInput
           return textInputPresentation.textBoxInputText.Text;
       }, textInputPresentation);
 
-      if (value == null || value == string.Empty)
+      if (string.IsNullOrEmpty(value))
         GuiLogMessage("No input value returning null.", NotificationLevel.Debug); 
     }
 

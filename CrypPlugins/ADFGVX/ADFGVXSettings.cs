@@ -47,12 +47,6 @@ namespace Cryptool.ADFGVX
             get; set;
         }
 
-        public bool HasChanges
-        {
-            get;
-            set;
-        }
-
         public ADFGVXSettings()
         {
             updateAlphabet();
@@ -193,7 +187,6 @@ namespace Cryptool.ADFGVX
             {
                 if (value != selectedAction)
                 {
-                    HasChanges = true;
                     this.selectedAction = value;
                     OnPropertyChanged("Action");
                 }
@@ -210,7 +203,6 @@ namespace Cryptool.ADFGVX
             {
                 if (value != cipherType)
                 {
-                    HasChanges = true;
                     this.cipherType = value;
                     OnPropertyChanged("CipherType");
 
@@ -229,7 +221,6 @@ namespace Cryptool.ADFGVX
             {
                 if (value != substitutionPass)
                 {
-                    HasChanges = true;
                     this.substitutionPass = value;
                     OnPropertyChanged("SubstitutionPass");
 
@@ -248,7 +239,6 @@ namespace Cryptool.ADFGVX
             {
                 if (value != substitutionMatrix)
                 {
-                    HasChanges = true;
                     this.substitutionMatrix = value;
                     OnPropertyChanged("SubstitutionMatrix");    
                 }
@@ -279,7 +269,6 @@ namespace Cryptool.ADFGVX
             {
                 if (value != transpositionPass)
                 {
-                    HasChanges = true;
                     this.transpositionPass = value;
                     OnPropertyChanged("TranspositionPass");
 
@@ -298,7 +287,6 @@ namespace Cryptool.ADFGVX
             {
                 if (value != cleanTranspositionPass)
                 {
-                    HasChanges = true;
                     cleanTranspositionPass = value;
                     OnPropertyChanged("CleanTranspositionPass");
                 }

@@ -19,7 +19,6 @@ namespace Cryptool.WEP
     {
         #region Private variables
 
-        private bool hasChanges = false;
         private int action = 0;
 
         /// <summary>
@@ -34,21 +33,10 @@ namespace Cryptool.WEP
             {
                 if ((int)value != action)
                 {
-                    hasChanges = true;
+                    this.action = (int)value;
+                    OnPropertyChanged("Action");
                 }
-                this.action = (int)value;
-                OnPropertyChanged("Action");
             }
-        }
-
-        #endregion
-
-        #region ISettings Member
-
-        public bool HasChanges
-        {
-            get { return hasChanges; }
-            set { hasChanges = value; }
         }
 
         #endregion

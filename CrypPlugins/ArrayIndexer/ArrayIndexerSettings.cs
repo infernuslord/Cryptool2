@@ -41,25 +41,12 @@ namespace Cryptool.Plugins.ArrayIndexer
                 {
                     this.arrayIndex = value;
                     OnPropertyChanged("ArrayIndex");
-                    HasChanges = true;
                 }
             }
         }
 
         #endregion
         #region ISettings Members
-
-        public bool HasChanges
-        {
-            get
-            {
-                return hasChanges;
-            }
-            set
-            {
-                hasChanges = value;
-            }
-        }
 
         #endregion
 

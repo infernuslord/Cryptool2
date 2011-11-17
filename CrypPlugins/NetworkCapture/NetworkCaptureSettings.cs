@@ -27,8 +27,6 @@ namespace Cryptool.Plugins.NetworkCapture
     {
         #region Private Variables
 
-        private bool hasChanges = false;
-
         private ObservableCollection<string> collection = new ObservableCollection<string>();
         private int currentDevice;
 
@@ -44,9 +42,8 @@ namespace Cryptool.Plugins.NetworkCapture
             {
                 if (value != currentDevice)
                 {
-                    HasChanges = true;
                     this.currentDevice = value;
-                    OnPropertyChanged("Dictionary");
+                    OnPropertyChanged("Device");
                 }
             }
         }
@@ -60,22 +57,6 @@ namespace Cryptool.Plugins.NetworkCapture
             {
                 collection = value;
                 OnPropertyChanged("Collection");
-            }
-        }
-
-        #endregion
-
-        #region ISettings Members
-
-        public bool HasChanges
-        {
-            get
-            {
-                return hasChanges;
-            }
-            set
-            {
-                hasChanges = value;
             }
         }
 

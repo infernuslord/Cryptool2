@@ -26,7 +26,6 @@ namespace IncDec
   public class IncDecSettings : ISettings
   {
     # region private variables
-    private bool hasChanges;
     private int value = 1;
     private Operator currentMode = Operator.Increment;
     # endregion private variables
@@ -49,9 +48,11 @@ namespace IncDec
       get { return (int)this.currentMode; }
       set
       {
-        if (value != (int)currentMode) HasChanges = true;
-        this.currentMode = (Operator)value;
-        OnPropertyChanged("ModeSelect");
+        if (value != (int)currentMode)
+        {
+            this.currentMode = (Operator)value;
+            OnPropertyChanged("ModeSelect");            
+        }
       }
     }
 
@@ -66,27 +67,9 @@ namespace IncDec
         {
           this.value = value;
           OnPropertyChanged("Value");
-          HasChanges = true;
         }
       }
     }
-
-    #region ISettings Members
-
-    public bool HasChanges
-    {
-      get { return hasChanges; }
-      set 
-      {
-        if (value != hasChanges)
-        {
-          hasChanges = value;
-          OnPropertyChanged("HasChanges");
-        }
-      }
-    }
-
-    #endregion
 
     #region INotifyPropertyChanged Members
 

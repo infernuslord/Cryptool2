@@ -38,20 +38,8 @@ namespace FileInput
     }
 
     private bool hasChanges;
-    public bool HasChanges
-    {
-      get { return hasChanges; }
-      set 
-      {
-        if (value != hasChanges)
-        {
-          hasChanges = value;
-          OnPropertyChanged("HasChanges");
-        }
-      }
-    }
 
-    private string openFilename;
+      private string openFilename;
     [TaskPane( "OpenFilenameCaption", "OpenFilenameTooltip", null, 1, false, ControlType.OpenFileDialog, FileExtension="All Files (*.*)|*.*")]
     public string OpenFilename
     {
@@ -61,8 +49,7 @@ namespace FileInput
         if (value != openFilename)
         {
           openFilename = value;
-          HasChanges = true;
-          OnPropertyChanged("OpenFilename");
+            OnPropertyChanged("OpenFilename");
         }
       }
     }

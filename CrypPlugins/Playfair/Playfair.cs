@@ -247,17 +247,10 @@ namespace Cryptool.Playfair
 
         public void Initialize()
         {
-
         }
 
         public void Dispose()
         {
-            }
-
-        public bool HasChanges
-        {
-            get { return settings.HasChanges; }
-            set { settings.HasChanges = value; }
         }
 
         /// <summary>
@@ -284,12 +277,10 @@ namespace Cryptool.Playfair
 
         public void PreExecution()
         {
-            Dispose();
         }
 
         public void PostExecution()
         {
-            Dispose();
         }
 
         #endregion

@@ -23,46 +23,38 @@ using System.ComponentModel;
 
 namespace Cryptool.StreamComparator
 {
-  public class StreamComparatorSettings : ISettings
-  {
-    private bool diff;
-
-    [ContextMenu("DiffCaption", "DiffTooltip", 1, ContextMenuControlType.CheckBox, new int[] { 3 }, "DiffList1")]
-    [TaskPaneAttribute( "DiffTPCaption", "DiffTPTooltip", "", 1, false, ControlType.CheckBox, "", null)]
-    public bool Diff
+    public class StreamComparatorSettings : ISettings
     {
-      get { return diff; }
-      set 
-      {
-        if (diff != value)
-        {          
-          hasChanges = true;
-          diff = value;
-          OnPropertyChanged("Diff");
+        private bool diff;
+
+        [ContextMenu("DiffCaption", "DiffTooltip", 1, ContextMenuControlType.CheckBox, new int[] { 3 }, "DiffList1")]
+        [TaskPaneAttribute("DiffTPCaption", "DiffTPTooltip", "", 1, false, ControlType.CheckBox, "", null)]
+        public bool Diff
+        {
+            get { return diff; }
+            set
+            {
+                if (diff != value)
+                {
+                    diff = value;
+                    OnPropertyChanged("Diff");
+                }
+            }
         }
-      }
+
+        #region INotifyPropertyChanged Members
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged(string name)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(name));
+            }
+        }
+
+        #endregion
+
     }
-
-    private bool hasChanges;
-    public bool HasChanges
-    {
-      get { return hasChanges; }
-      set { hasChanges = value; }
-    }
-
-    #region INotifyPropertyChanged Members
-
-    public event PropertyChangedEventHandler PropertyChanged;
-
-    protected void OnPropertyChanged(string name)
-    {
-      if (PropertyChanged != null)
-      {
-        PropertyChanged(this, new PropertyChangedEventArgs(name));
-      }
-    }
-
-    #endregion
-
-  }
 }

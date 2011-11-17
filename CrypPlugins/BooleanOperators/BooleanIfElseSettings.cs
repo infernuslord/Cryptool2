@@ -27,16 +27,6 @@ namespace Cryptool.Plugins.BooleanOperators
     {
 
         #region ISettings Members
-        public bool HasChanges
-        {
-            get
-            {
-                return false;
-            }
-            set
-            {
-            }
-        }
 
         #endregion
 

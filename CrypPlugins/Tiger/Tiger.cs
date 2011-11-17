@@ -61,17 +61,7 @@ namespace Tiger
       byteCanal
     };
 
-
-    /// <summary>
-    /// Initializes A new instance of the <see cref="Tiger"/> class.
-    /// </summary>
-    public Tiger()
-    {
-      this.settings = new TigerSettings();
-    }
-
     #region Settings
-    TigerSettings settings;
 
     /// <summary>
     /// Gets or sets the settings.
@@ -79,36 +69,7 @@ namespace Tiger
     /// <value>The settings.</value>
     public ISettings Settings
     {
-      get
-      {
-        return settings;
-      }
-      set
-      {
-        settings = (TigerSettings)value;
-        OnPropertyChanged("Settings");
-        GuiLogMessage("Settings changed.", NotificationLevel.Debug);
-      }
-    }
-
-    /// <summary>
-    /// Gets or sets A value indicating whether this instance has changes.
-    /// </summary>
-    /// <value>
-    /// 	<c>true</c> if this instance has changes; otherwise, <c>false</c>.
-    /// </value>
-    public bool HasChanges
-    {
-      get
-      {
-        return settings.HasChanges;
-      }
-
-      set
-      {
-        settings.HasChanges = value;
-        GuiLogMessage("HasChanges changed.", NotificationLevel.Debug);
-      }
+      get { return null; }
     }
 
     #endregion

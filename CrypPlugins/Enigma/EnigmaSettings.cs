@@ -36,7 +36,6 @@ namespace Cryptool.Enigma
     {
         #region Private variables
 
-        private bool hasChanges = false;
         private int action = 0; //0=encrypt, 1=decrypt
         private ObservableCollection<string> actionStrings = new ObservableCollection<string>();
         private ObservableCollection<string> rotorAStrings = new ObservableCollection<string>();
@@ -108,7 +107,6 @@ namespace Cryptool.Enigma
         {
             if (newIndex != alphabet.IndexOf(plugBoard[letterPos]))
             {
-                hasChanges = true;
                 char newChar = alphabet[newIndex];
                 //int newCharIndex = plugBoard.ToString().IndexOf(newChar);
                 char currentChar = plugBoard[letterPos];
@@ -390,7 +388,9 @@ namespace Cryptool.Enigma
             get { return this.model; }
             set
             {
-                if (value != model) hasChanges = true;
+                if (value == model)
+                    return;
+
                 this.model = value;
                 OnPropertyChanged("Model");
                 switch (this.model)
@@ -481,9 +481,11 @@ namespace Cryptool.Enigma
             get { return this.key; }
             set
             {
-                if (value != key) hasChanges = true;
-                this.key = value;
-                OnPropertyChanged("Key");
+                if (value != key)
+                {
+                    this.key = value;
+                    OnPropertyChanged("Key");   
+                }
             }
         }
 
@@ -496,10 +498,12 @@ namespace Cryptool.Enigma
             get { return this.action; }
             set
             {
-                if (((int)value) != action) hasChanges = true;
-                this.action = (int)value;
-                OnPropertyChanged("Action");
-                setSettingsVisibility();
+                if (((int)value) != action)
+                {
+                    this.action = (int)value;
+                    OnPropertyChanged("Action");
+                    setSettingsVisibility();   
+                }
             }
         }
 
@@ -515,8 +519,8 @@ namespace Cryptool.Enigma
                 if (value != actionStrings)
                 {
                     actionStrings = value;
+                    OnPropertyChanged("ActionStrings");
                 }
-                OnPropertyChanged("ActionStrings");
             }
         }
 
@@ -533,9 +537,11 @@ namespace Cryptool.Enigma
             get { return this.unknownSymbolHandling; }
             set
             {
-                if ((int)value != unknownSymbolHandling) HasChanges = true;
-                this.unknownSymbolHandling = (int)value;
-                OnPropertyChanged("UnknownSymbolHandling");
+                if ((int)value != unknownSymbolHandling)
+                {
+                    this.unknownSymbolHandling = (int)value;
+                    OnPropertyChanged("UnknownSymbolHandling");   
+                }
             }
         }
 
@@ -550,9 +556,11 @@ namespace Cryptool.Enigma
             get { return this.caseHandling; }
             set
             {
-                if ((int)value != caseHandling) HasChanges = true;
-                this.caseHandling = (int)value;
-                OnPropertyChanged("CaseHandling");
+                if ((int)value != caseHandling)
+                {
+                    this.caseHandling = (int)value;
+                    OnPropertyChanged("CaseHandling");   
+                }
             }
         }
 
@@ -570,7 +578,6 @@ namespace Cryptool.Enigma
                 if (value != analyzeKey)
                 {
                     analyzeKey = value;
-                    hasChanges = true;
                     OnPropertyChanged("AnalyzeKey");
                     setSettingsVisibility();
                 }
@@ -587,7 +594,6 @@ namespace Cryptool.Enigma
                 if (value != analyzeRotors)
                 {
                     analyzeRotors = value;
-                    hasChanges = true;
                     OnPropertyChanged("AnalyzeRotors");
                     setSettingsVisibility();
                 }
@@ -605,7 +611,6 @@ namespace Cryptool.Enigma
                 if (value != analysisUseRotorI)
                 {
                     analysisUseRotorI = value;
-                    hasChanges = true;
                     OnPropertyChanged("AnalysisUseRotorI");
                 }
             }
@@ -622,7 +627,6 @@ namespace Cryptool.Enigma
                 if (value != analysisUseRotorII)
                 {
                     analysisUseRotorII = value;
-                    hasChanges = true;
                     OnPropertyChanged("AnalysisUseRotorII");
                 }
             }
@@ -639,7 +643,6 @@ namespace Cryptool.Enigma
                 if (value != analysisUseRotorIII)
                 {
                     analysisUseRotorIII = value;
-                    hasChanges = true;
                     OnPropertyChanged("AnalysisUseRotorIII");
                 }
             }
@@ -656,7 +659,6 @@ namespace Cryptool.Enigma
                 if (value != analysisUseRotorIV)
                 {
                     analysisUseRotorIV = value;
-                    hasChanges = true;
                     OnPropertyChanged("AnalysisUseRotorIV");
                 }
             }
@@ -674,7 +676,6 @@ namespace Cryptool.Enigma
                 if (value != analysisUseRotorV)
                 {
                     analysisUseRotorV = value;
-                    hasChanges = true;
                     OnPropertyChanged("AnalysisUseRotorV");
                 }
             }
@@ -691,7 +692,6 @@ namespace Cryptool.Enigma
                 if (value != analysisUseRotorVI)
                 {
                     analysisUseRotorVI = value;
-                    hasChanges = true;
                     OnPropertyChanged("AnalysisUseRotorVI");
                 }
             }
@@ -709,7 +709,6 @@ namespace Cryptool.Enigma
                 if (value != analysisUseRotorVII)
                 {
                     analysisUseRotorVII = value;
-                    hasChanges = true;
                     OnPropertyChanged("AnalysisUseRotorVII");
                 }
             }
@@ -727,7 +726,6 @@ namespace Cryptool.Enigma
                 if (value != analysisUseRotorVIII)
                 {
                     analysisUseRotorVIII = value;
-                    hasChanges = true;
                     OnPropertyChanged("AnalysisUseRotorVIII");
                 }
             }
@@ -744,7 +742,6 @@ namespace Cryptool.Enigma
                 if (value != analyzeRings)
                 {
                     analyzeRings = value;
-                    hasChanges = true;
                     OnPropertyChanged("AnalyzeRings");
                     setSettingsVisibility();
                 }
@@ -759,7 +756,6 @@ namespace Cryptool.Enigma
             {
                 if (value != keySearchMethod)
                 {
-                    hasChanges = true;
                     keySearchMethod = value;
                     OnPropertyChanged("KeySearchMethod");
                 }
@@ -776,7 +772,6 @@ namespace Cryptool.Enigma
                 if (value != analyzePlugs)
                 {
                     analyzePlugs = value;
-                    hasChanges = true;
                     OnPropertyChanged("AnalyzePlugs");
                     setSettingsVisibility();
                 }
@@ -792,7 +787,6 @@ namespace Cryptool.Enigma
             {
                 if (value != maxSearchedPlugs)
                 {
-                    hasChanges = true;
                     maxSearchedPlugs = value;
                     OnPropertyChanged("MaxSearchedPlugs");
                 }
@@ -807,7 +801,6 @@ namespace Cryptool.Enigma
             {
                 if (value != plugSearchMethod)
                 {
-                    hasChanges = true;
                     plugSearchMethod = value;
                     OnPropertyChanged("PlugSearchMethod");
                 }
@@ -825,10 +818,12 @@ namespace Cryptool.Enigma
             get { return this.rotor1; }
             set
             {
-                if (((int)value) != rotor1) hasChanges = true;
-                checkRotorChange(1, this.rotor1, value);
-                this.rotor1 = value;
-                OnPropertyChanged("Rotor1");
+                if (((int)value) != rotor1)
+                {
+                    checkRotorChange(1, this.rotor1, value);
+                    this.rotor1 = value;
+                    OnPropertyChanged("Rotor1");   
+                }
             }
         }
 
@@ -839,10 +834,12 @@ namespace Cryptool.Enigma
             get { return this.rotor2; }
             set
             {
-                if (((int)value) != rotor2) hasChanges = true;
-                checkRotorChange(2, this.rotor2, value);
-                this.rotor2 = (int)value;
-                OnPropertyChanged("Rotor2");
+                if (((int)value) != rotor2)
+                {
+                    checkRotorChange(2, this.rotor2, value);
+                    this.rotor2 = (int)value;
+                    OnPropertyChanged("Rotor2");   
+                }
             }
         }
 
@@ -853,10 +850,12 @@ namespace Cryptool.Enigma
             get { return this.rotor3; }
             set
             {
-                if (((int)value) != rotor3) hasChanges = true;
-                checkRotorChange(3, this.rotor3, value);
-                this.rotor3 = (int)value;
-                OnPropertyChanged("Rotor3");
+                if (((int)value) != rotor3)
+                {
+                    checkRotorChange(3, this.rotor3, value);
+                    this.rotor3 = (int)value;
+                    OnPropertyChanged("Rotor3");   
+                }
             }
         }
 
@@ -867,9 +866,11 @@ namespace Cryptool.Enigma
             get { return this.rotor4; }
             set
             {
-                if (((int)value) != rotor4) hasChanges = true;
-                this.rotor4 = (int)value;
-                OnPropertyChanged("Rotor4");
+                if (((int)value) != rotor4)
+                {
+                    this.rotor4 = (int)value;
+                    OnPropertyChanged("Rotor4");   
+                }
             }
         }
 
@@ -881,9 +882,11 @@ namespace Cryptool.Enigma
             get { return this.reflector; }
             set
             {
-                if (((int)value) != reflector) hasChanges = true;
-                this.reflector = (int)value;
-                OnPropertyChanged("Reflector");
+                if (((int)value) != reflector)
+                {
+                    this.reflector = (int)value;
+                    OnPropertyChanged("Reflector");   
+                }
             }
         }
 
@@ -898,8 +901,8 @@ namespace Cryptool.Enigma
                 if (value != rotorAStrings)
                 {
                     rotorAStrings = value;
+                    OnPropertyChanged("RotorAStrings");
                 }
-                OnPropertyChanged("RotorAStrings");
             }
         }
 
@@ -914,8 +917,8 @@ namespace Cryptool.Enigma
                 if (value != rotorBStrings)
                 {
                     rotorBStrings = value;
+                    OnPropertyChanged("RotorBStrings");
                 }
-                OnPropertyChanged("RotorBStrings");
             }
         }
 
@@ -930,8 +933,8 @@ namespace Cryptool.Enigma
                 if (value != reflectorStrings)
                 {
                     reflectorStrings = value;
+                    OnPropertyChanged("ReflectorStrings");
                 }
-                OnPropertyChanged("ReflectorStrings");
             }
         }
 
@@ -947,30 +950,26 @@ namespace Cryptool.Enigma
             {
                 if (value < ring1)
                 {
-                    if (value + 1 == ring1 && false)
+                    if (value + 1 == ring1 && false) // TODO: always false
                     {
-                        hasChanges = true;
                         ring1 = value;
                         OnPropertyChanged("Ring1down");
                     }
                     else
                     {
-                        hasChanges = true;
                         ring1 = value;
                         OnPropertyChanged("Ring1NewValue");
                     }
                 }
                 if (value > ring1)
                 {
-                    if (value == ring1 + 1 && false)
+                    if (value == ring1 + 1 && false) // TODO: always false
                     {
-                        hasChanges = true;
                         ring1 = value;
                         OnPropertyChanged("Ring1up");
                     }
                     else
                     {
-                        hasChanges = true;
                         ring1 = value;
                         OnPropertyChanged("Ring1NewValue");
                     }
@@ -987,15 +986,13 @@ namespace Cryptool.Enigma
             {
                 if (value < ring2)
                 {
-                    if (value + 1 == ring2 && false)
+                    if (value + 1 == ring2 && false) // TODO: always false
                     {
-                        hasChanges = true;
                         ring2 = value;
                         OnPropertyChanged("Ring2down");
                     }
                     else
                     {
-                        hasChanges = true;
                         ring2 = value;
                         OnPropertyChanged("Ring2NewValue");
 
@@ -1004,15 +1001,13 @@ namespace Cryptool.Enigma
                 }
                 if (value > ring2)
                 {
-                    if (value == ring2 + 1 && false)
+                    if (value == ring2 + 1 && false) // TODO: always false
                     {
-                        hasChanges = true;
                         ring2 = value;
                         OnPropertyChanged("Ring2up");
                     }
                     else
                     {
-                        hasChanges = true;
                         ring2 = value;
                         OnPropertyChanged("Ring2NewValue");
                     }
@@ -1029,30 +1024,26 @@ namespace Cryptool.Enigma
             {
                 if (value < ring3)
                 {
-                    if (value + 1 == ring3 && false)
+                    if (value + 1 == ring3 && false) // TODO: always false
                     {
-                        hasChanges = true;
                         ring3 = value;
                         OnPropertyChanged("Ring3down");
                     }
                     else
                     {
-                        hasChanges = true;
                         ring3 = value;
                         OnPropertyChanged("Ring3NewValue");
                     }
                 }
                 if (value > ring3)
                 {
-                    if (value == ring3 + 1 && false)
+                    if (value == ring3 + 1 && false) // TODO: always false
                     {
-                        hasChanges = true;
                         ring3 = value;
                         OnPropertyChanged("Ring3up");
                     }
                     else
                     {
-                        hasChanges = true;
                         ring3 = value;
                         OnPropertyChanged("Ring3NewValue");
                     }
@@ -1069,13 +1060,11 @@ namespace Cryptool.Enigma
             {
                 if (value < ring4)
                 {
-                    hasChanges = true;
                     ring4 = value;
                     OnPropertyChanged("Ring4down");
                 }
                 if (value > ring4)
                 {
-                    hasChanges = true;
                     ring4 = value;
                     OnPropertyChanged("Ring4up");
                 }
@@ -1350,26 +1339,11 @@ namespace Cryptool.Enigma
             get { return (int)Presentation_Speed; }
             set
             {
-                if ((value) != Presentation_Speed) hasChanges = true;
-                this.Presentation_Speed = value;
-                OnPropertyChanged("Presentation_Speed");
-            }
-        }
-
-        #endregion
-
-
-        #region ISettings Member
-
-        public bool HasChanges
-        {
-            get
-            {
-                return hasChanges;
-            }
-            set
-            {
-                hasChanges = value;
+                if ((value) != Presentation_Speed)
+                {
+                    this.Presentation_Speed = value;
+                    OnPropertyChanged("Presentation_Speed");   
+                }
             }
         }
 

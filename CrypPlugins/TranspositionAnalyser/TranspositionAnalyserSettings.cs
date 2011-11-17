@@ -9,12 +9,7 @@ namespace TranspositionAnalyser
 {
     class TranspositionAnalyserSettings : ISettings
     {
-        private bool has_Changes = false;
-
-        #region ISettings Member
-
-      
-
+        #region settings
         private int selected_method = 0;
 
         internal void UpdateTaskPaneVisibility()
@@ -66,11 +61,12 @@ namespace TranspositionAnalyser
             }
             set
             {
-                if (value != selected_method) HasChanges = true;
-                this.selected_method = value;
-                UpdateTaskPaneVisibility();
-                OnPropertyChanged("Analysis_method");
-                
+                if (value != selected_method)
+                {
+                    this.selected_method = value;
+                    UpdateTaskPaneVisibility();
+                    OnPropertyChanged("Analysis_method");   
+                }                
             }
 
         }
@@ -84,9 +80,11 @@ namespace TranspositionAnalyser
             get { return bruteforce_length; }
             set
             {
-                if (value != this.bruteforce_length) HasChanges = true;
-                bruteforce_length = value;
-                OnPropertyChanged("MaxLength");
+                if (value != this.bruteforce_length)
+                {
+                    bruteforce_length = value;
+                    OnPropertyChanged("MaxLength");   
+                }
             }
         
         }
@@ -99,9 +97,11 @@ namespace TranspositionAnalyser
             get { return keysize; }
             set
             {
-                if (value != this.keysize) HasChanges = true;
-                keysize = value;
-                OnPropertyChanged("KeySize");
+                if (value != this.keysize)
+                {
+                    keysize = value;
+                    OnPropertyChanged("KeySize");   
+                }
             }
         }
 
@@ -114,9 +114,11 @@ namespace TranspositionAnalyser
             get { return this.row_colum_column; }
             set
             {
-                if (value != this.row_colum_column) HasChanges = true;
-                this.row_colum_column= value;
-                OnPropertyChanged("RowColumnColumn");
+                if (value != this.row_colum_column)
+                {
+                    this.row_colum_column = value;
+                    OnPropertyChanged("RowColumnColumn");   
+                }
             }
         }
 
@@ -129,9 +131,11 @@ namespace TranspositionAnalyser
             get { return this.row_colum_row; }
             set
             {
-                if (value != this.row_colum_row) HasChanges = true;
-                this.row_colum_row = value;
-                OnPropertyChanged("RowColumnRow");
+                if (value != this.row_colum_row)
+                {
+                    this.row_colum_row = value;
+                    OnPropertyChanged("RowColumnRow");   
+                }
             }
         }
 
@@ -145,9 +149,11 @@ namespace TranspositionAnalyser
             get { return this.column_colum_row; }
             set
             {
-                if (value != this.column_colum_row) HasChanges = true;
-                this.column_colum_row = value;
-                OnPropertyChanged("ColumnColumnRow");
+                if (value != this.column_colum_row)
+                {
+                    this.column_colum_row = value;
+                    OnPropertyChanged("ColumnColumnRow");   
+                }
             }
         }
 
@@ -160,9 +166,11 @@ namespace TranspositionAnalyser
             get { return this.column_colum_column; }
             set
             {
-                if (value != this.column_colum_column) HasChanges = true;
-                this.column_colum_column = value;
-                OnPropertyChanged("ColumnColumnColumn");
+                if (value != this.column_colum_column)
+                {
+                    this.column_colum_column = value;
+                    OnPropertyChanged("ColumnColumnColumn");   
+                }
             }
         }
 
@@ -174,9 +182,11 @@ namespace TranspositionAnalyser
             get { return repeatings; }
             set
             {
-                if (value != this.repeatings) HasChanges = true;
-                repeatings= value;
-                OnPropertyChanged("Repeatings");
+                if (value != this.repeatings)
+                {
+                    repeatings = value;
+                    OnPropertyChanged("Repeatings");   
+                }
             }
         }
 
@@ -188,9 +198,11 @@ namespace TranspositionAnalyser
             get { return iterations; }
             set
             {
-                if (value != this.iterations) HasChanges = true;
-                iterations = value;
-                OnPropertyChanged("Iterations");
+                if (value != this.iterations)
+                {
+                    iterations = value;
+                    OnPropertyChanged("Iterations");   
+                }
             }
         }
 
@@ -202,30 +214,11 @@ namespace TranspositionAnalyser
             get { return cribSearchKeylength; }
             set
             {
-                if (value != this.cribSearchKeylength) HasChanges = true;
-                cribSearchKeylength = value;
-                OnPropertyChanged("CribSearchKeylength");
-            }
-        }
-
-
-        public bool HasChanges
-        {
-            get
-            {
-                return has_Changes;
-            }
-            set
-            {
-                has_Changes = true;
-            }
-        }
-
-        protected void OnPropertyChanged(string name)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(name));
+                if (value != this.cribSearchKeylength)
+                {
+                    cribSearchKeylength = value;
+                    OnPropertyChanged("CribSearchKeylength");   
+                }
             }
         }
 
@@ -233,13 +226,16 @@ namespace TranspositionAnalyser
 
         #region Events
         public event TaskPaneAttributeChangedHandler TaskPaneAttributeChanged;
-        #endregion
-
-
-        #region INotifyPropertyChanged Member
 
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
 
+        private void OnPropertyChanged(string name)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(name));
+            }
+        }
         #endregion
     }
 }

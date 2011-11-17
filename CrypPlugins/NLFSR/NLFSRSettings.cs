@@ -36,8 +36,6 @@ namespace Cryptool.NLFSR
     {
         #region ISettings Members
 
-        private bool hasChanges = false;
-
         private string currentState;
         public string CurrentState
         {
@@ -47,7 +45,7 @@ namespace Cryptool.NLFSR
                 if (value != currentState)
                 {
                     currentState = value;
-                    hasChanges = true;
+                    OnPropertyChanged("CurrentState");
                 }
             }
         }
@@ -65,10 +63,12 @@ namespace Cryptool.NLFSR
         public int Rounds
         {
             get { return this.rounds; }
-            set { 
-                this.rounds = value;
-                OnPropertyChanged("Rounds");
-                if (value != rounds) HasChanges = true;
+            set {
+                if (value != rounds)
+                {
+                    this.rounds = value;
+                    OnPropertyChanged("Rounds");                    
+                }
             }
         }
 
@@ -79,9 +79,11 @@ namespace Cryptool.NLFSR
             get { return this.polynomial; }
             set
             {
-                this.polynomial = value;
-                OnPropertyChanged("Polynomial");
-                if (value != polynomial) HasChanges = true;
+                if (value != polynomial)
+                {
+                    this.polynomial = value;
+                    OnPropertyChanged("Polynomial");       
+                }
             }
         }
 
@@ -92,9 +94,11 @@ namespace Cryptool.NLFSR
             get { return this.seed; }
             set
             {
-                this.seed = value;
-                OnPropertyChanged("Seed");
-                if (value != seed) HasChanges = true;
+                if (value != seed)
+                {
+                    this.seed = value;
+                    OnPropertyChanged("Seed");       
+                }
             }
         }
 
@@ -106,9 +110,11 @@ namespace Cryptool.NLFSR
             get { return this.noQuickwatch; }
             set
             {
-                this.noQuickwatch = (bool)value;
-                OnPropertyChanged("NoQuickwatch");
-                if ((bool)value != noQuickwatch) HasChanges = true;
+                if ((bool)value != noQuickwatch)
+                {
+                    this.noQuickwatch = (bool)value;
+                    OnPropertyChanged("NoQuickwatch");       
+                }
             }
         }
 
@@ -120,9 +126,11 @@ namespace Cryptool.NLFSR
             get { return this.saveCurrentState; }
             set
             {
-                this.saveCurrentState = (bool)value;
-                OnPropertyChanged("SaveCurrentState");
-                if ((bool)value != saveCurrentState) HasChanges = true;
+                if ((bool)value != saveCurrentState)
+                {
+                    this.saveCurrentState = (bool)value;
+                    OnPropertyChanged("SaveCurrentState");                    
+                }
             }
         }
 
@@ -134,13 +142,17 @@ namespace Cryptool.NLFSR
             get { return this.useClockingBit; }
             set
             {
-                this.useClockingBit = (bool)value;
-                OnPropertyChanged("UseClockingBit");
-                if ((bool)value != useClockingBit) HasChanges = true;
-                if (this.useClockingBit)
-                    SettingChanged("ClockingBit", Visibility.Visible);
-                else
-                    SettingChanged("ClockingBit", Visibility.Collapsed);
+
+                if ((bool)value != useClockingBit)
+                {
+                    this.useClockingBit = (bool)value;
+                    OnPropertyChanged("UseClockingBit");
+
+                    if (this.useClockingBit)
+                        SettingChanged("ClockingBit", Visibility.Visible);
+                    else
+                        SettingChanged("ClockingBit", Visibility.Collapsed);
+                }
             }
         }
         
@@ -151,9 +163,11 @@ namespace Cryptool.NLFSR
             get { return this.clockingBit; }
             set
             {
-                this.clockingBit = value;
-                OnPropertyChanged("ClockingBit");
-                if (value != clockingBit) HasChanges = true;
+                if (value != clockingBit)
+                {
+                    this.clockingBit = value;
+                    OnPropertyChanged("ClockingBit");       
+                }
             }
         }
 
@@ -165,13 +179,16 @@ namespace Cryptool.NLFSR
             get { return this.useBoolClock; }
             set
             {
-                this.useBoolClock = (bool)value;
-                OnPropertyChanged("UseBoolClock");
-                if ((bool)value != useBoolClock) HasChanges = true;
-                if (this.useBoolClock)
-                    SettingChanged("Rounds", Visibility.Collapsed);
-                else
-                    SettingChanged("Rounds", Visibility.Visible);
+                if ((bool)value != useBoolClock)
+                {
+                    this.useBoolClock = (bool)value;
+                    OnPropertyChanged("UseBoolClock");
+
+                    if (this.useBoolClock)
+                        SettingChanged("Rounds", Visibility.Collapsed);
+                    else
+                        SettingChanged("Rounds", Visibility.Visible);
+                }
             }
         }
 
@@ -183,16 +200,12 @@ namespace Cryptool.NLFSR
             get { return this.alwaysCreateOutput; }
             set
             {
-                this.alwaysCreateOutput = (bool)value;
-                OnPropertyChanged("AlwaysCreateOutput");
-                if ((bool)value != alwaysCreateOutput) HasChanges = true;
+                if ((bool)value != alwaysCreateOutput)
+                {
+                    this.alwaysCreateOutput = (bool)value;
+                    OnPropertyChanged("AlwaysCreateOutput");       
+                }
             }
-        }
-
-        public bool HasChanges
-        {
-            get { return hasChanges; }
-            set { hasChanges = value; }
         }
 
         #endregion

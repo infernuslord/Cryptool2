@@ -135,17 +135,10 @@ namespace Cryptool.Caesar
         #region IPlugin members
         public void Initialize()
         {
-
         }
 
         public void Dispose()
         {
-        }
-
-        public bool HasChanges
-        {
-          get { return settings.HasChanges; }
-          set { settings.HasChanges = value; }
         }
 
         /// <summary>

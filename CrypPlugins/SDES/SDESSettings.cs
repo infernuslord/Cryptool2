@@ -30,7 +30,6 @@ namespace Cryptool.Plugins.Cryptography.Encryption
     {
         #region private
 
-        private bool hasChanges = false;
         private int action = 0; //0=encrypt, 1=decrypt
         private int mode = 0; //0="ECB", 1="CBC"
       
@@ -57,9 +56,11 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             get { return this.action; }
             set
             {
-                if (((int)value) != action) hasChanges = true;
-                this.action = (int)value;
-                OnPropertyChanged("Action");
+                if (((int)value) != action)
+                {
+                    this.action = (int)value;
+                    OnPropertyChanged("Action");                    
+                }
             }
         }
 
@@ -75,19 +76,12 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             get { return this.mode; }
             set
             {
-                if (((int)value) != mode) hasChanges = true;
-                this.mode = (int)value;
-                OnPropertyChanged("Mode");
+                if (((int)value) != mode)
+                {
+                    this.mode = (int)value;
+                    OnPropertyChanged("Mode");                    
+                }
             }
-        }
-
-        /// <summary>
-        /// Did the plugins properties change?
-        /// </summary>
-        public bool HasChanges
-        {
-            get { return hasChanges; }
-            set { hasChanges = value; }
         }
 
         #endregion

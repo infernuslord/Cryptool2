@@ -35,7 +35,6 @@ namespace Cryptool.Plugins.Converter
 
         private OutputTypes converter = OutputTypes.StringType;
 
-        private bool hasChanges;
         private bool numeric = false;
         private bool formatAmer = false;
         private bool reverseOrder = false;
@@ -49,9 +48,11 @@ namespace Cryptool.Plugins.Converter
             get { return this.presentation; }
             set
             {
-                if (this.presentation != value) hasChanges = true;
-                this.presentation = value;
-                OnPropertyChanged("Presentation");
+                if (this.presentation != value)
+                {
+                    this.presentation = value;
+                    OnPropertyChanged("Presentation");
+                }
             }
         }
         #endregion
@@ -69,7 +70,6 @@ namespace Cryptool.Plugins.Converter
                     this.converter = value;
                     UpdateTaskPaneVisibility();
                     OnPropertyChanged("Converter");
-                    HasChanges = true;
 
                     UpdateIcon();
                 }
@@ -86,7 +86,6 @@ namespace Cryptool.Plugins.Converter
                 {
                     this.numeric = value;
                     OnPropertyChanged("Numeric");
-                    HasChanges = true;
                 }
             }
         }
@@ -101,7 +100,6 @@ namespace Cryptool.Plugins.Converter
                 {
                     this.reverseOrder = value;
                     OnPropertyChanged("ReverseOrder");
-                    HasChanges = true;
                 }
             }
         }
@@ -116,27 +114,24 @@ namespace Cryptool.Plugins.Converter
                 {
                     this.BigEndian = value;
                     OnPropertyChanged("Endianness");
-                    HasChanges = true;
                 }
             }
         }
 
         [ContextMenu("EncodingSettingCaption", "EncodingSettingTooltip", 5, ContextMenuControlType.ComboBox, null, new string[] { "EncodingSettingList1", "EncodingSettingList2", "EncodingSettingList3", "EncodingSettingList4", "EncodingSettingList5", "EncodingSettingList6", "EncodingSettingList7" })]
         [TaskPane("EncodingSettingCaption", "EncodingSettingTooltip", "", 5, false, ControlType.RadioButton, new string[] { "EncodingSettingList1", "EncodingSettingList2", "EncodingSettingList3", "EncodingSettingList4", "EncodingSettingList5", "EncodingSettingList6", "EncodingSettingList7" })]
-        public int EncodingSetting
+        public EncodingTypes Encoding
         {
             get
             {
-                return (int)this.encoding;
+                return this.encoding;
             }
             set
             {
-                if (this.Encoding != (EncodingTypes)value)
+                if (this.encoding != value)
                 {
-                    hasChanges = true;
-                    this.Encoding = (EncodingTypes)value;
-                    OnPropertyChanged("EncodingSetting");
-                    HasChanges = true;
+                    this.encoding = value;
+                    OnPropertyChanged("Encoding");
                 }
             }
         }
@@ -151,7 +146,6 @@ namespace Cryptool.Plugins.Converter
                 {
                     this.formatAmer = value;
                     OnPropertyChanged("FormatAmer");
-                    HasChanges = true;
                 }
             }
         }
@@ -165,9 +159,11 @@ namespace Cryptool.Plugins.Converter
             }
             set
             {
-                if (this.presentation != (PresentationFormat)value) HasChanges = true;
-                this.presentation = (PresentationFormat)value;
-                OnPropertyChanged("PresentationFormatSetting");
+                if (this.presentation != (PresentationFormat)value)
+                {
+                    this.presentation = (PresentationFormat)value;
+                    OnPropertyChanged("PresentationFormatSetting");   
+                }
             }
         }
 
@@ -191,7 +187,7 @@ namespace Cryptool.Plugins.Converter
                 case OutputTypes.StringType:
                     {
                         settingChanged("Numeric", Visibility.Collapsed);
-                        settingChanged("EncodingSetting", Visibility.Collapsed);
+                        settingChanged("Encoding", Visibility.Collapsed);
                         settingChanged("PresentationFormatSetting", Visibility.Collapsed);
                         settingChanged("FormatAmer", Visibility.Collapsed);
                         settingChanged("ReverseOrder", Visibility.Collapsed);
@@ -201,7 +197,7 @@ namespace Cryptool.Plugins.Converter
                 case OutputTypes.IntType:
                     {
                         settingChanged("Numeric", Visibility.Collapsed);
-                        settingChanged("EncodingSetting", Visibility.Collapsed);
+                        settingChanged("Encoding", Visibility.Collapsed);
                         settingChanged("PresentationFormatSetting", Visibility.Collapsed);
                         settingChanged("FormatAmer", Visibility.Collapsed);
                         settingChanged("ReverseOrder", Visibility.Collapsed);
@@ -211,7 +207,7 @@ namespace Cryptool.Plugins.Converter
                 case OutputTypes.ShortType:
                     {
                         settingChanged("Numeric", Visibility.Collapsed);
-                        settingChanged("EncodingSetting", Visibility.Collapsed);
+                        settingChanged("Encoding", Visibility.Collapsed);
                         settingChanged("PresentationFormatSetting", Visibility.Collapsed);
                         settingChanged("FormatAmer", Visibility.Collapsed);
                         settingChanged("ReverseOrder", Visibility.Collapsed);
@@ -221,7 +217,7 @@ namespace Cryptool.Plugins.Converter
                 case OutputTypes.ByteType:
                     {
                         settingChanged("Numeric", Visibility.Collapsed);
-                        settingChanged("EncodingSetting", Visibility.Collapsed);
+                        settingChanged("Encoding", Visibility.Collapsed);
                         settingChanged("PresentationFormatSetting", Visibility.Collapsed);
                         settingChanged("FormatAmer", Visibility.Collapsed);
                         settingChanged("ReverseOrder", Visibility.Collapsed);
@@ -231,7 +227,7 @@ namespace Cryptool.Plugins.Converter
                 case OutputTypes.DoubleType:
                     {
                         settingChanged("Numeric", Visibility.Collapsed);
-                        settingChanged("EncodingSetting", Visibility.Collapsed);
+                        settingChanged("Encoding", Visibility.Collapsed);
                         settingChanged("PresentationFormatSetting", Visibility.Collapsed);
                         settingChanged("FormatAmer", Visibility.Visible);
                         settingChanged("ReverseOrder", Visibility.Collapsed);
@@ -241,7 +237,7 @@ namespace Cryptool.Plugins.Converter
                 case OutputTypes.BigIntegerType:
                     {
                         settingChanged("Numeric", Visibility.Collapsed);
-                        settingChanged("EncodingSetting", Visibility.Collapsed);
+                        settingChanged("Encoding", Visibility.Collapsed);
                         settingChanged("PresentationFormatSetting", Visibility.Collapsed);
                         settingChanged("FormatAmer", Visibility.Collapsed);
                         settingChanged("ReverseOrder", Visibility.Collapsed);
@@ -251,7 +247,7 @@ namespace Cryptool.Plugins.Converter
                 //case OutputTypes.IntArrayType:
                 //    {
                 //        settingChanged("Numeric", Visibility.Collapsed);
-                //        settingChanged("EncodingSetting", Visibility.Collapsed);
+                //        settingChanged("Encoding", Visibility.Collapsed);
                 //        settingChanged("PresentationFormatSetting", Visibility.Collapsed);
                 //        settingChanged("FormatAmer", Visibility.Collapsed);
                 //        settingChanged("ReverseOrder", Visibility.Collapsed);
@@ -261,7 +257,7 @@ namespace Cryptool.Plugins.Converter
                 case OutputTypes.ByteArrayType:
                     {
                         settingChanged("Numeric", Visibility.Visible);
-                        settingChanged("EncodingSetting", Visibility.Visible);
+                        settingChanged("Encoding", Visibility.Visible);
                         settingChanged("PresentationFormatSetting", Visibility.Collapsed);
                         settingChanged("FormatAmer", Visibility.Collapsed);
                         settingChanged("ReverseOrder", Visibility.Visible);
@@ -271,7 +267,7 @@ namespace Cryptool.Plugins.Converter
                 case OutputTypes.CryptoolStreamType:
                     {
                         settingChanged("Numeric", Visibility.Collapsed);
-                        settingChanged("EncodingSetting", Visibility.Collapsed);
+                        settingChanged("Encoding", Visibility.Collapsed);
                         settingChanged("PresentationFormatSetting", Visibility.Collapsed);
                         settingChanged("FormatAmer", Visibility.Collapsed);
                         settingChanged("ReverseOrder", Visibility.Visible);
@@ -281,31 +277,6 @@ namespace Cryptool.Plugins.Converter
             }
         }
      
-        #endregion
-
-        #region ISettings Member
-
-        public bool HasChanges
-        {
-            get { return hasChanges; }
-            set { hasChanges = value; }
-
-        }
-        public EncodingTypes Encoding
-        {
-            get { return this.encoding; }
-            set
-            {
-                if (this.encoding != value)
-                {
-                    hasChanges = true;
-                    this.encoding = value;
-                    OnPropertyChanged("EncodingSetting");
-                }
-            }
-        }
-
-
         #endregion
 
         #region INotifyPropertyChanged Member

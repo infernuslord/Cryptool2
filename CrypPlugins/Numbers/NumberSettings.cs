@@ -30,6 +30,7 @@ namespace Cryptool.Plugins.Numbers
         private int operat;
 
         #endregion
+
         #region taskpane
 
         /// <summary>
@@ -47,7 +48,6 @@ namespace Cryptool.Plugins.Numbers
                 {
                     this.operat = (int)value;
                     OnPropertyChanged("Operat");
-                    HasChanges = true;
 
                     changeToCorrectIcon(operat);
                 }
@@ -93,16 +93,6 @@ namespace Cryptool.Plugins.Numbers
         {
             OnPluginStatusChanged(null, new StatusEventArgs(StatusChangedMode.ImageUpdate, p));
         }
-        #endregion
-        #region ISettings Members
-
-        private bool hasChanges;
-        public bool HasChanges
-        {
-            get { return hasChanges; }
-            set { hasChanges = value; }
-        }
-
         #endregion
 
         #region INotifyPropertyChanged Members

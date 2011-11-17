@@ -32,18 +32,6 @@ namespace Cryptool.Plugins.LengthOf
 
         #region ISettings Members
 
-        public bool HasChanges
-        {
-            get
-            {
-                return hasChanges;
-            }
-            set
-            {
-                hasChanges = value;
-            }
-        }
-
         #endregion
 
         #region INotifyPropertyChanged Members

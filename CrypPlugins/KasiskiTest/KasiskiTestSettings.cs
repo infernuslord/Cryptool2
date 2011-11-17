@@ -11,20 +11,7 @@ namespace Cryptool.KasiskiTest
     {
         #region ISettings Members
 
-        public bool HasChanges
-        {
-            get
-            {
-                return false;
-                //throw new NotImplementedException();
-            }
-            set
-            {
-                //throw new NotImplementedException();
-            }
-        }
-
-        #endregion
+       #endregion
 
         public int caseSensitivity = 0;
         public int unknownSymbolHandling = 1;
@@ -41,7 +28,6 @@ namespace Cryptool.KasiskiTest
             {
                 if (value != grammLength)
                 {
-                    HasChanges = true;
                     grammLength = value;
                 }
             }
@@ -56,7 +42,6 @@ namespace Cryptool.KasiskiTest
             {
                 if (value != unknownSymbolHandling)
                 {
-                    HasChanges = true;
                     unknownSymbolHandling = value;
                 }
 
@@ -72,7 +57,6 @@ namespace Cryptool.KasiskiTest
             {
                 if (value != factorSize)
                 {
-                    HasChanges = true;
                     factorSize = value;
                 }
             }
@@ -89,7 +73,6 @@ namespace Cryptool.KasiskiTest
             {
                 if (value != caseSensitivity)
                 {
-                    HasChanges = true;
                     caseSensitivity = value;
                 }
 

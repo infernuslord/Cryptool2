@@ -35,23 +35,11 @@ namespace Cryptool.Plugins.BooleanOperators
          * 4 = XOR
          */
 
-        private bool hasChanges = false;
         private bool updateOnlyAtBothInputsChanged = true;
         private bool defaultFlagA = false;
         private bool defaultFlagB = false;
 
         #region ISettings Members
-        public bool HasChanges
-        {
-            get
-            {
-                return hasChanges;
-            }
-            set
-            {
-                hasChanges = value;
-            }
-        }
 
         [ContextMenu("BBO_OperatorTypeCaption", "BBO_OperatorTypeTooltip", 0, ContextMenuControlType.ComboBox, null, new string[] { "BBO_OperatorTypeList1", "BBO_OperatorTypeList2", "BBO_OperatorTypeList3", "BBO_OperatorTypeList4", "BBO_OperatorTypeList5" })]
         [TaskPane("BBO_OperatorTypeCaption", "BBO_OperatorTypeTooltip", null, 2, false, ControlType.ComboBox, new string[] { "BBO_OperatorTypeList1", "BBO_OperatorTypeList2", "BBO_OperatorTypeList3", "BBO_OperatorTypeList4", "BBO_OperatorTypeList5" })]
@@ -61,11 +49,11 @@ namespace Cryptool.Plugins.BooleanOperators
             set
             {
                 if (operatorType != value)
-                    hasChanges = true;
-
-                this.operatorType = value;
-                OnPropertyChanged("OperatorType");
-                ChangePluginIcon(value);                
+                {
+                    this.operatorType = value;
+                    OnPropertyChanged("OperatorType");
+                    ChangePluginIcon(value);
+                }
             }
         }
 
@@ -79,7 +67,6 @@ namespace Cryptool.Plugins.BooleanOperators
                 if (value != updateOnlyAtBothInputsChanged)
                 {
                     updateOnlyAtBothInputsChanged = value;
-                    hasChanges = true;
                     OnPropertyChanged("UpdateOnlyAtBothInputsChanged");
                 }
             }
@@ -94,7 +81,6 @@ namespace Cryptool.Plugins.BooleanOperators
                 if (value != defaultFlagA)
                 {
                     defaultFlagA = value;
-                    hasChanges = true;
                     OnPropertyChanged("DefaultFlagA");
                 }
             }
@@ -109,7 +95,6 @@ namespace Cryptool.Plugins.BooleanOperators
                 if (value != defaultFlagB)
                 {
                     defaultFlagB = value;
-                    hasChanges = true;
                     OnPropertyChanged("DefaultFlagB");
                 }
             }

@@ -19,7 +19,6 @@ namespace Cryptool.WEPAttacks
         /// </summary>
         private int action = 0;
         private bool fileOrNot = false;
-        private bool hasChanges = false;
         private string dataSource = string.Empty;
 
         /// <summary>
@@ -45,10 +44,9 @@ namespace Cryptool.WEPAttacks
             {
                 if ((int)value != action)
                 {
-                    hasChanges = true;
+                    this.action = (int)value;
+                    OnPropertyChanged("Action");
                 }
-                this.action = (int)value;
-                OnPropertyChanged("Action");
             }
         }
 
@@ -72,21 +70,20 @@ namespace Cryptool.WEPAttacks
             {
                 if ((bool)value != fileOrNot)
                 {
-                    hasChanges = true;
+                    this.fileOrNot = (bool)value;
+                    OnPropertyChanged("FileOrNot");
                 }
-                this.fileOrNot = (bool)value;
-                OnPropertyChanged("FileOrNot");
             }
         }
 
-        /// <summary>
+        /*/// <summary>
         /// Indicates whether data comes from file or from another plugin (most propably the "Internet frame generator" plugin).
         /// Needed to react if attack was not successful.
         /// </summary>
          
         // Radiobuttons are not implemented yet, so I coment them out (11-25-2008)
 
-        /*[TaskPane("Dealing with end of given data",
+        [TaskPane("Dealing with end of given data",
             "Dealing with end of given data",
             "groupRadiobutton",
             3,
@@ -122,12 +119,6 @@ namespace Cryptool.WEPAttacks
             {
                 OnPluginStatusChanged(null, new StatusEventArgs(StatusChangedMode.ImageUpdate, Icon));
             }
-        }
-
-        public bool HasChanges
-        {
-            get { return this.hasChanges; }
-            set { this.hasChanges = value; }
         }
 
         #endregion

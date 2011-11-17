@@ -31,7 +31,6 @@ namespace Cryptool.Plugins.DiscreteLogarithm
     {
         #region private members
 
-        private bool hasChanges = false;
         private int algorithm = 0;
 
         #endregion
@@ -42,14 +41,7 @@ namespace Cryptool.Plugins.DiscreteLogarithm
 
         #endregion
 
-        #region public
-
-        /// <summary>
-        /// Constructs a new DiscreteLogarithmSettings
-        /// </summary>
-        public DiscreteLogarithmSettings()
-        {
-        }        
+        #region public      
 
         /// <summary>
         /// Getter/Setter for the algorithm. Currently disabled in UI as Index Calculus is not fully working.
@@ -63,21 +55,6 @@ namespace Cryptool.Plugins.DiscreteLogarithm
             {
                 algorithm = value;
                 OnPropertyChanged("Algorithm");
-            }
-        }
-
-        /// <summary>
-        /// Did anything change on the settigns?
-        /// </summary>
-        public bool HasChanges
-        {
-            get
-            {
-                return hasChanges;
-            }
-            set
-            {
-                hasChanges = value;
             }
         }
 

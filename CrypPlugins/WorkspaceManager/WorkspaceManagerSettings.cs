@@ -16,25 +16,12 @@ namespace WorkspaceManager
     class WorkspaceManagerSettings : ISettings
     {
         #region ISettings Members
-        private bool hasChanges = false;
 
         private WorkspaceManagerClass WorkspaceManager { get; set; }
 
         public WorkspaceManagerSettings(WorkspaceManagerClass manager)
         {
             WorkspaceManager = manager;
-        }
-
-        public bool HasChanges
-        {
-            get
-            {
-                return hasChanges;
-            }
-            set
-            {
-                hasChanges = value;
-            }
         }
 
         public String GuiUpdateInterval

@@ -24,9 +24,6 @@ namespace Wizard
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public bool HasChanges
-        { get; set; }
-
         [TaskPane("ShowOnStartupCaption", "ShowOnStartupTooltip", null, 1, true, ControlType.CheckBox)]
         public bool ShowOnStartup
         {
@@ -38,7 +35,6 @@ namespace Wizard
             {
                 Cryptool.PluginBase.Properties.Settings.Default.Wizard_ShowOnStartup = value;
                 Cryptool.PluginBase.Properties.Settings.Default.Save();
-                HasChanges = true;
                 OnPropertyChanged("ShowOnStartup");
             }
         }

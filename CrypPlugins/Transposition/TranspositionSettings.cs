@@ -11,7 +11,6 @@ namespace Transposition
     {
         # region private variables
 
-        private Boolean hasChanges = false;
         private int selectedAction = 0;
 
         private ReadInMode selectedReadIn = ReadInMode.byRow;
@@ -31,17 +30,6 @@ namespace Transposition
 
         # endregion
 
-        #region ISettings Member
-
-        [PropertySaveOrder(0)]
-        public bool HasChanges
-        {
-            get { return hasChanges; }
-            set { this.hasChanges = value; }
-        }
-
-        # endregion
-
         # region Settings
 
         [PropertySaveOrder(1)]
@@ -52,9 +40,11 @@ namespace Transposition
             get { return this.selectedAction; }
             set
             {
-                if (value != selectedAction) HasChanges = true;
-                this.selectedAction = value;
-                OnPropertyChanged("Action");
+                if (value != selectedAction)
+                {
+                    this.selectedAction = value;
+                    OnPropertyChanged("Action");   
+                }
             }
         }
 
@@ -66,9 +56,11 @@ namespace Transposition
             get { return (int) this.selectedReadIn; }
             set
             {
-                if ((ReadInMode)value != selectedReadIn) HasChanges = true;
-                this.selectedReadIn = (ReadInMode)value;
-                OnPropertyChanged("ReadIn");
+                if ((ReadInMode)value != selectedReadIn)
+                {
+                    this.selectedReadIn = (ReadInMode)value;
+                    OnPropertyChanged("ReadIn");   
+                }
             }
         }
 
@@ -80,9 +72,11 @@ namespace Transposition
             get { return (int)this.selectedPermutation; }
             set
             {
-                if ((PermutationMode)value != selectedPermutation) HasChanges = true;
-                this.selectedPermutation= (PermutationMode)value;
-                OnPropertyChanged("Permutation");
+                if ((PermutationMode)value != selectedPermutation)
+                {
+                    this.selectedPermutation = (PermutationMode)value;
+                    OnPropertyChanged("Permutation");   
+                }
             }
         }
 
@@ -94,9 +88,11 @@ namespace Transposition
             get { return (int)this.selectedReadOut; }
             set
             {
-                if ((ReadOutMode)value != selectedReadOut) HasChanges = true;
-                this.selectedReadOut= (ReadOutMode)value;
-                OnPropertyChanged("ReadOut");
+                if ((ReadOutMode)value != selectedReadOut)
+                {
+                    this.selectedReadOut = (ReadOutMode)value;
+                    OnPropertyChanged("ReadOut");   
+                }
             }
         }
 
@@ -109,9 +105,11 @@ namespace Transposition
             get { return (int)Presentation_Speed; }
             set
             {
-                if ((value) != Presentation_Speed) hasChanges = true;
-                this.Presentation_Speed = value;
-                OnPropertyChanged("Value");
+                if ((value) != Presentation_Speed)
+                {
+                    this.Presentation_Speed = value;
+                    OnPropertyChanged("Value");   
+                }
             }
         }
 
@@ -123,26 +121,27 @@ namespace Transposition
             get { return (int)this.selectedNumberMode;}
             set
             {
-                if ((NumberMode)value != selectedNumberMode) HasChanges = true;
-                this.selectedNumberMode = (NumberMode)value;
-                OnPropertyChanged("NumberMode");
+                if ((NumberMode)value != selectedNumberMode)
+                {
+                    this.selectedNumberMode = (NumberMode)value;
+                    OnPropertyChanged("NumberMode");   
+                }
             }
         }
 
+        #endregion
 
+        #region INotifyPropertyChanged Member
 
-        protected void OnPropertyChanged(string name)
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyChanged(string name)
         {
             if (PropertyChanged != null)
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(name));
             }
         }
-        #endregion
-
-        #region INotifyPropertyChanged Member
-
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
 
         #endregion
     }

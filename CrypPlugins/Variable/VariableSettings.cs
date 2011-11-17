@@ -35,29 +35,11 @@ namespace Cryptool.Plugins.Variable
             {
                 if (variableName != value)
                 {
-                    hasChanges = true;
                     variableName = value;
                     OnPropertyChanged("VariableName");
                 }
             }
         }
-        #endregion
-                        
-        #region ISettings Members
-
-        private bool hasChanges;
-        public bool HasChanges
-        {
-            get
-            {
-                return hasChanges;
-            }
-            set
-            {
-                hasChanges = value;
-            }
-        }
-
         #endregion
 
         #region INotifyPropertyChanged Members

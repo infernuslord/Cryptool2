@@ -35,7 +35,6 @@ namespace Cryptool.Plugins.Cryptography.Encryption
     {
         #region Private variables
         // RC4 settings
-        private RC4Settings settings;
         // the input data provided by the user
         private ICryptoolStream inputData;
         // the input key provided by the user
@@ -46,12 +45,6 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         private bool stop = false;
         #endregion
 
-        public RC4()
-        {
-            this.settings = new RC4Settings();
-            this.settings.OnPluginStatusChanged += settings_OnPluginStatusChanged;
-        }
-
         void settings_OnPluginStatusChanged(IPlugin sender, StatusEventArgs args)
         {
             if (OnPluginStatusChanged != null) OnPluginStatusChanged(this, args);
@@ -59,8 +52,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
         public ISettings Settings
         {
-            get { return this.settings; }
-            set { this.settings = (RC4Settings)value; }
+            get { return null; }
         }
 
         [PropertyInfo(Direction.InputData, "InputDataCaption", "InputDataTooltip", true)]
@@ -232,18 +224,10 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
         public void Dispose()
         {
-            try
-            {
-                stop = false;
-                inputKey = null;
-                inputData = null;
-                outputStreamWriter = null;
-            }
-            catch (Exception ex)
-            {
-                GuiLogMessage(ex.Message, NotificationLevel.Error);
-            }
-            this.stop = false;
+            stop = false;
+            inputKey = null;
+            inputData = null;
+            outputStreamWriter = null;
         }
 
         public void Stop()

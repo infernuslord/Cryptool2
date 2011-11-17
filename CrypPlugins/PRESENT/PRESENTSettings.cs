@@ -27,7 +27,6 @@ namespace Cryptool.PRESENT
 {
   public class PRESENTSettings : ISettings
   {
-    private bool hasChanges = false;
     private int action = 0; //0=encrypt, 1=decrypt
     private int mode = 0; //0="ECB", 1="CBC", 2="CFB", 3="OFB"
     private int padding = 0; //0="None", 1="Zeros", 2="PKCS7"
@@ -39,9 +38,11 @@ namespace Cryptool.PRESENT
       get { return this.action; }
       set
       {
-        if (((int)value) != action) hasChanges = true;
-        this.action = (int)value;
-        OnPropertyChanged("Action");
+        if (((int)value) != action)
+        {
+            this.action = (int)value;
+            OnPropertyChanged("Action");
+        }
       }
     }
 
@@ -52,9 +53,11 @@ namespace Cryptool.PRESENT
       get { return this.mode; }
       set
       {
-        if (((int)value) != mode) hasChanges = true;
-        this.mode = (int)value;
-        OnPropertyChanged("Mode");
+        if (((int)value) != mode)
+        {
+            this.mode = (int)value;
+            OnPropertyChanged("Mode");
+        }
       }
     }
 
@@ -65,19 +68,15 @@ namespace Cryptool.PRESENT
       get { return this.padding; }
       set
       {
-        if (((int)value) != padding) hasChanges = true;
-        this.padding = (int)value;
-        OnPropertyChanged("Padding");
+        if (((int)value) != padding)
+        {
+            this.padding = (int)value;
+            OnPropertyChanged("Padding");
+        }
       }
     }
 
-    public bool HasChanges
-    {
-      get { return hasChanges; }
-      set { hasChanges = value; }
-    }
-
-    #region INotifyPropertyChanged Members
+      #region INotifyPropertyChanged Members
 
     public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
 

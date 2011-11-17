@@ -26,7 +26,6 @@ namespace SHA
 {
     public class SHASettings : ISettings
     {
-        private bool hasChanges = false;
         public enum ShaFunction { SHA1, SHA256, SHA384, SHA512 };
 
         private ShaFunction selectedShaFunction = ShaFunction.SHA1;
@@ -52,12 +51,6 @@ namespace SHA
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(name));
             }
-        }
-
-        public bool HasChanges
-        {
-          get { return hasChanges; }
-          set { hasChanges = value; }
         }
 
         #endregion

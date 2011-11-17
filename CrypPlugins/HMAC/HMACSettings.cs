@@ -59,8 +59,6 @@ namespace Cryptool.HMAC
 
         #region ISettings Members
 
-        public bool HasChanges { get; set; }
-
         #endregion
     }
 }

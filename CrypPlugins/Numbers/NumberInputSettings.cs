@@ -43,17 +43,6 @@ namespace Cryptool.Plugins.Numbers
         }
         #endregion
 
-        #region ISettings Members
-
-        private bool hasChanges;
-        public bool HasChanges
-        {
-            get { return hasChanges; }
-            set { hasChanges = value; }
-        }
-
-        #endregion
-
         #region INotifyPropertyChanged Members
 
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;

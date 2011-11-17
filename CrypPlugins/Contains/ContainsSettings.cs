@@ -47,8 +47,7 @@ namespace Contains
       {
         if (value != (int)search)
         {
-          HasChanges = true;
-          this.search = (SearchType)value;
+            this.search = (SearchType)value;
           OnPropertyChanged("SearchSetting");
         }
       }
@@ -65,7 +64,6 @@ namespace Contains
         {
           this.hits = value;
           OnPropertyChanged("Hits");
-          HasChanges = true;
         }
       }
     }
@@ -80,7 +78,6 @@ namespace Contains
         if (value != delimiter)
         {
           delimiter = value;
-          HasChanges = true;
         }
         OnPropertyChanged("DelimiterInputString");
       }
@@ -96,7 +93,6 @@ namespace Contains
        if (value != delimiterDictionary)
         {
           delimiterDictionary = value;
-          HasChanges = true;
         }
         OnPropertyChanged("DelimiterDictionary");
       }
@@ -112,7 +108,6 @@ namespace Contains
         {
             if (toLower != value)
             {
-                HasChanges = true;
                 toLower = value;
                 OnPropertyChanged("ToLower");
             }
@@ -129,7 +124,6 @@ namespace Contains
         {
             if (ignoreDiacritics != value)
             {
-                HasChanges = true;
                 ignoreDiacritics = value;
                 OnPropertyChanged("IgnoreDiacritics");
             }
@@ -146,8 +140,7 @@ namespace Contains
       {
         if (hitPercentFromInputString != value)
         {
-          HasChanges = true;
-          hitPercentFromInputString = value;
+            hitPercentFromInputString = value;
           OnPropertyChanged("HitPercentFromInputString");
         }
       }
@@ -163,31 +156,12 @@ namespace Contains
       {
         if (countWordsOnlyOnce != value)
         {
-          HasChanges = true;
-          countWordsOnlyOnce = value;
+            countWordsOnlyOnce = value;
           if (countWordsOnlyOnce && search == SearchType.AhoCorasick) countWordsOnlyOnce = false;
           OnPropertyChanged("CountWordsOnlyOnce");
         }
       }
     }
-
-    #region ISettings Members
-
-    private bool hasChanges;
-    public bool HasChanges
-    {
-      get { return hasChanges; }
-      set 
-      {
-        if (value != hasChanges)
-        {
-          hasChanges = value;
-          OnPropertyChanged("HasChanges");
-        }
-      }
-    }
-
-    #endregion
 
     #region INotifyPropertyChanged Members
 

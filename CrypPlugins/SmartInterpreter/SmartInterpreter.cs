@@ -16,7 +16,6 @@ namespace SmartInterpreter
   public class SmartInterpreter : ICrypComponent
   {
     # region private variables
-    private SmartInterpreterSettings settings = new SmartInterpreterSettings();
     // Input data string
     private String dataInput;
     // Command string - array
@@ -55,18 +54,6 @@ namespace SmartInterpreter
         EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
     }
     # endregion events
-
-    # region constructor
-    public SmartInterpreter()
-    {
-      settings.OnGuiLogNotificationOccured += settings_OnGuiLogNotificationOccured;
-    }
-
-    void settings_OnGuiLogNotificationOccured(IPlugin sender, GuiLogEventArgs args)
-    {
-      GuiLogMessage(args.Message, args.NotificationLevel);
-    }
-    # endregion
 
     #region IO
 
@@ -178,7 +165,7 @@ namespace SmartInterpreter
     # region IPlugin-Methods
     public ISettings Settings
     {
-      get { return settings; }
+        get { return null; }
     }
 
     public UserControl Presentation

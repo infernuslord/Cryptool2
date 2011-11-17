@@ -33,7 +33,6 @@ namespace Cryptool.Plugins.RSA
 
         private int action;
         private int coresUsed;
-        private bool hasChanges = false;
         private ObservableCollection<string> coresAvailable = new ObservableCollection<string>();
 
         #endregion
@@ -70,8 +69,8 @@ namespace Cryptool.Plugins.RSA
                 if (value != coresAvailable)
                 {
                     coresAvailable = value;
+                    OnPropertyChanged("CoresAvailable");
                 }
-                OnPropertyChanged("CoresAvailable");
             }
         }
 
@@ -88,7 +87,6 @@ namespace Cryptool.Plugins.RSA
                 {
                     this.coresUsed = value;
                     OnPropertyChanged("CoresUsed");
-                    HasChanges = true;
                 }
             }
         }
@@ -103,23 +101,11 @@ namespace Cryptool.Plugins.RSA
             get { return this.action; }
             set
             {
-                action = value;
-                OnPropertyChanged("Action");
-            }
-        }
-
-        /// <summary>
-        /// Did anything change on the settigns?
-        /// </summary>
-        public bool HasChanges
-        {
-            get
-            {
-                return hasChanges;
-            }
-            set
-            {
-                hasChanges = value;
+                if (action != value)
+                {
+                    action = value;
+                    OnPropertyChanged("Action");   
+                }
             }
         }
 

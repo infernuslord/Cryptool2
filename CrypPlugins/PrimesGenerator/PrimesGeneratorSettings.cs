@@ -11,26 +11,6 @@ namespace Cryptool.PrimesGenerator
     public const string MODE = "Mode";
     public const string INPUT = "Input";
 
-    #region ISettings Members
-
-    private bool m_HasChanges = false;
-    
-    [PropertySaveOrder(0)]
-    public bool HasChanges
-    {
-      get
-      {
-        return m_HasChanges;
-      }
-      set
-      {
-        m_HasChanges = value;
-      }
-    }
-
-    #endregion
-
-
     #region Properties
 
     private int m_SelectedMode;
@@ -42,9 +22,11 @@ namespace Cryptool.PrimesGenerator
       get { return this.m_SelectedMode; }
       set
       {
-        if (value != m_SelectedMode) HasChanges = true;
-        this.m_SelectedMode = value;
-        FirePropertyChangedEvent(MODE);
+        if (value != m_SelectedMode)
+        {
+            this.m_SelectedMode = value;
+            FirePropertyChangedEvent(MODE);   
+        }
       }
     }
 
@@ -56,9 +38,11 @@ namespace Cryptool.PrimesGenerator
       get { if(string.IsNullOrEmpty(this.m_Input)) return "100"; else return m_Input; }
       set
       {
-        if (value != m_Input) HasChanges = true;
-        this.m_Input = value;
-        FirePropertyChangedEvent(INPUT);
+        if (value != m_Input)
+        {
+            this.m_Input = value;
+            FirePropertyChangedEvent(INPUT);   
+        }
       }
     }
 

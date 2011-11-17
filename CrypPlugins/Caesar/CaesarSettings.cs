@@ -75,22 +75,9 @@ namespace Cryptool.Caesar
             set {} // readonly, because there are some problems if we omit the set part.
         }
 
-
-        /// <summary>
-        /// Returns true if some settings have been changed. This value should be set externally to false e.g.
-        /// when a project was saved.
-        /// </summary>
-        [PropertySaveOrder(3)]
-        public bool HasChanges
-        {
-            get { return hasChanges; }
-            set { hasChanges = value; }
-        }
-
         #endregion
 
         #region Private variables
-        private bool hasChanges;
         private int selectedAction = 0;
         private string upperAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         private string lowerAlphabet = "abcdefghijklmnopqrstuvwxyz";
@@ -100,7 +87,6 @@ namespace Cryptool.Caesar
         // private int shiftValue = 2;
         private UnknownSymbolHandlingMode unknownSymbolHandling = UnknownSymbolHandlingMode.Ignore;
         private int caseSensitiveAlphabet = 0; // 0 = case insensitve, 1 = case sensitive
-        private bool sensitivityEnabled = true;
         #endregion
 
         #region Private methods
@@ -131,8 +117,6 @@ namespace Cryptool.Caesar
         /// </summary>
         private void setKeyByValue(int offset)
         {
-            HasChanges = true;
-
             // making sure the shift value lies within the alphabet range      
             offset = offset % alphabet.Length;
 
@@ -166,7 +150,6 @@ namespace Cryptool.Caesar
                 
                 if (offset >= 0)
                 {
-                    HasChanges = true;
                     shiftValue = offset;
                     shiftChar = alphabet[shiftValue];
                     LogMessage("Accepted new shift character \'" + shiftChar + "\'! (Adjusted shift value to " + shiftValue + ")", NotificationLevel.Info);
@@ -199,11 +182,13 @@ namespace Cryptool.Caesar
             }
             set
             {
-                if (value != selectedAction) HasChanges = true;
-                this.selectedAction = value;
-                OnPropertyChanged("Action");
+                if (value != selectedAction)
+                {
+                    this.selectedAction = value;
+                    OnPropertyChanged("Action");
 
-                if (ReExecute != null) ReExecute();
+                    if (ReExecute != null) ReExecute();   
+                }
             }
         }
         
@@ -240,11 +225,13 @@ namespace Cryptool.Caesar
             get { return (int)this.unknownSymbolHandling; }
             set
             {
-                if ((UnknownSymbolHandlingMode)value != unknownSymbolHandling) HasChanges = true;
-                this.unknownSymbolHandling = (UnknownSymbolHandlingMode)value;
-                OnPropertyChanged("UnknownSymbolHandling");
+                if ((UnknownSymbolHandlingMode)value != unknownSymbolHandling)
+                {
+                    this.unknownSymbolHandling = (UnknownSymbolHandlingMode)value;
+                    OnPropertyChanged("UnknownSymbolHandling");
 
-                if (ReExecute != null) ReExecute();
+                    if (ReExecute != null) ReExecute();   
+                }
             }
         }
 
@@ -263,7 +250,6 @@ namespace Cryptool.Caesar
             }
             else if (!alphabet.Equals(a))
             {
-              HasChanges = true;
               this.alphabet = a;
               setKeyByValue(shiftValue); //re-evaluate if the shiftvalue is still within the range
               LogMessage("Accepted new alphabet from user: \"" + alphabet + "\" (" + alphabet.Length.ToString() + " Symbols)", NotificationLevel.Info);
@@ -286,7 +272,9 @@ namespace Cryptool.Caesar
             get { return this.caseSensitiveAlphabet; }
             set
             {
-                if (value != caseSensitiveAlphabet) HasChanges = true;
+                if (value == caseSensitiveAlphabet)
+                    return;
+
                 this.caseSensitiveAlphabet = value;
                 if (value == 0)
                 {

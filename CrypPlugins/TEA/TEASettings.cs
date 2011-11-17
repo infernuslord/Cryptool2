@@ -34,7 +34,6 @@ namespace Cryptool.TEA
     {
         #region ISettings Members
 
-        private bool hasChanges = false;
         private int action = 0; //0=encrypt, 1=decrypt
         private int padding = 0; //0="Zeros"=default, 1="None", 2="PKCS7"
         private int version = 0; //0="TEA"=default, 1="XTEA, 2=XXTEA"
@@ -55,9 +54,11 @@ namespace Cryptool.TEA
             get { return this.padding; }
             set
             {
-                if (((int)value) != padding) hasChanges = true;
-                this.padding = (int)value;
-                //OnPropertyChanged("Padding");
+                if (((int)value) != padding)
+                {
+                    this.padding = (int)value;
+                    OnPropertyChanged("Padding");                    
+                }
             }
         }
 
@@ -68,9 +69,11 @@ namespace Cryptool.TEA
             get { return this.version; }
             set
             {
-                if (((int)value) != version) hasChanges = true;
-                this.version = (int)value;
-                //OnPropertyChanged("Padding");
+                if (((int)value) != version)
+                {
+                    this.version = (int)value;
+                    OnPropertyChanged("Padding");                    
+                }
             }
         }
 
@@ -80,16 +83,12 @@ namespace Cryptool.TEA
             get { return this.rounds; }
             set
             {
-                if (((int)value) != rounds) hasChanges = true;
-                this.rounds = value;
-                //OnPropertyChanged("Rounds");
+                if (((int)value) != rounds)
+                {
+                    this.rounds = value;
+                    OnPropertyChanged("Rounds");
+                }
             }
-        }
-
-        public bool HasChanges
-        {
-            get { return hasChanges; }
-            set { hasChanges = value; }
         }
 
         #endregion
@@ -97,6 +96,11 @@ namespace Cryptool.TEA
         #region INotifyPropertyChanged Members
 
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyChanged(string propName)
+        {
+            EventsHelper.PropertyChanged(PropertyChanged, this, propName);
+        }
 
         #endregion
     }

@@ -33,7 +33,6 @@ namespace Cryptool.Plugins.Collector
     class Collector : ICrypComponent
     {
         #region Private Variables
-        private CollectorSettings settings = new CollectorSettings();
         private bool freshOutput = false;
         #endregion
 
@@ -107,10 +106,9 @@ namespace Cryptool.Plugins.Collector
             EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
         }
 
-        public Cryptool.PluginBase.ISettings Settings
+        public ISettings Settings
         {
-            get { return settings; }
-            set { settings = (CollectorSettings)value; }
+            get { return null; }
         }
 
         public System.Windows.Controls.UserControl Presentation
@@ -120,8 +118,6 @@ namespace Cryptool.Plugins.Collector
 
         public void PreExecution()
         {
-            Dispose();
-
             freshOutput = false;
             input1 = null;
             input2 = null;
@@ -141,7 +137,6 @@ namespace Cryptool.Plugins.Collector
 
         public void PostExecution()
         {
-            Dispose();
         }
 
         public void Stop()

@@ -166,12 +166,6 @@ namespace Cryptool.Vigenere
 
         public void Dispose()
         {
-            }
-
-        public bool HasChanges
-        {
-            get { return settings.HasChanges; }
-            set { settings.HasChanges = value; }
         }
 
         /// <summary>
@@ -200,12 +194,10 @@ namespace Cryptool.Vigenere
 
         public void PostExecution()
         {
-            Dispose();
         }
 
         public void PreExecution()
         {
-            Dispose();
         }
 
         #endregion

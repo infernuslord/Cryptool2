@@ -31,7 +31,6 @@ namespace Cryptool.Substitution
         /// <summary>
         /// We use this delegate to send log messages from the settings class to the Substitution plugin
         /// </summary>
-        /// <param name="sender"></param>
         /// <param name="msg"></param>
         /// <param name="logLevel"></param>
         public delegate void SubstitutionLogMessage(string msg, NotificationLevel logLevel);
@@ -65,22 +64,10 @@ namespace Cryptool.Substitution
             set { } //read only
         }
 
-        /// <summary>
-        /// Return true if some settings habe been changed. This value should be set externally to false e.g.
-        /// when a project was saved.
-        /// </summary>
-        [PropertySaveOrder(1)]
-        public bool HasChanges
-        {
-            get { return hasChanges; }
-            set { hasChanges = value; }
-        }
-
         #endregion
 
         #region Private variables
 
-        private bool hasChanges;
         private int selectedAction = 0;
         private KeyVariantMode keyVariant = KeyVariantMode.RestCharAscending;
         private string upperAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -176,9 +163,11 @@ namespace Cryptool.Substitution
             get { return this.selectedAction; }
             set
             {
-                if (value != selectedAction) HasChanges = true;
-                this.selectedAction = value;
-                OnPropertyChanged("Action");
+                if (value != selectedAction)
+                {
+                    this.selectedAction = value;
+                    OnPropertyChanged("Action");                    
+                }
             }
         }
 
@@ -189,10 +178,13 @@ namespace Cryptool.Substitution
             get { return this.keyValue; }
             set 
             {
-                this.keyValue = value;
-                setCipherAlphabet(keyValue);
-                OnPropertyChanged("KeyValue");
-                OnPropertyChanged("AlphabetSymbols");
+                if (value != keyValue)
+                {
+                    this.keyValue = value;
+                    setCipherAlphabet(keyValue);
+                    OnPropertyChanged("KeyValue");
+                    OnPropertyChanged("AlphabetSymbols");   
+                }
             }
             
         }
@@ -205,9 +197,11 @@ namespace Cryptool.Substitution
             get { return (int)this.unknowSymbolHandling; }
             set
             {
-                if ((UnknownSymbolHandlingMode)value != unknowSymbolHandling) HasChanges = true;
-                this.unknowSymbolHandling = (UnknownSymbolHandlingMode)value;
-                OnPropertyChanged("UnknownSymbolHandling");
+                if ((UnknownSymbolHandlingMode)value != unknowSymbolHandling)
+                {
+                    this.unknowSymbolHandling = (UnknownSymbolHandlingMode)value;
+                    OnPropertyChanged("UnknownSymbolHandling");                    
+                }
             }
         }
 
@@ -219,39 +213,41 @@ namespace Cryptool.Substitution
             get { return this.caseSensitiveAlphabet; }
             set
             {
-                if (value != caseSensitiveAlphabet) hasChanges = true;
-                this.caseSensitiveAlphabet = value;
-                if (value == 0)
+                if (value != caseSensitiveAlphabet)
                 {
-                    if (alphabet == (upperAlphabet + lowerAlphabet))
+                    this.caseSensitiveAlphabet = value;
+                    if (value == 0)
                     {
-                        alphabet = upperAlphabet;
-                        LogMessage("Changing alphabet to: \"" + alphabet + "\" (" + alphabet.Length.ToString() + "Symbols)", NotificationLevel.Info);
-                        OnPropertyChanged("AlphabetSymbols");
-                        setCipherAlphabet(keyValue);
+                        if (alphabet == (upperAlphabet + lowerAlphabet))
+                        {
+                            alphabet = upperAlphabet;
+                            LogMessage("Changing alphabet to: \"" + alphabet + "\" (" + alphabet.Length.ToString() + "Symbols)", NotificationLevel.Info);
+                            OnPropertyChanged("AlphabetSymbols");
+                            setCipherAlphabet(keyValue);
+                        }
                     }
-                }
-                else
-                {
-                    if (alphabet == upperAlphabet)
+                    else
                     {
-                        alphabet = upperAlphabet + lowerAlphabet;
+                        if (alphabet == upperAlphabet)
+                        {
+                            alphabet = upperAlphabet + lowerAlphabet;
+                            LogMessage("Changing alphabet to: \"" + alphabet + "\" (" + alphabet.Length.ToString() + " Symbols)", NotificationLevel.Info);
+                            OnPropertyChanged("AlphabetSymbols");
+                            setCipherAlphabet(keyValue);
+                        }
+                    }
+
+                    //remove equal characters from the current alphabet
+                    string a = alphabet;
+                    alphabet = removeEqualChars(alphabet);
+
+                    if (a != alphabet)
+                    {
+                        OnPropertyChanged("AlphabetSymbols");
                         LogMessage("Changing alphabet to: \"" + alphabet + "\" (" + alphabet.Length.ToString() + " Symbols)", NotificationLevel.Info);
-                        OnPropertyChanged("AlphabetSymbols");
-                        setCipherAlphabet(keyValue);
                     }
+                    OnPropertyChanged("AlphabetCase");   
                 }
-
-                //remove equal characters from the current alphabet
-                string a = alphabet;
-                alphabet = removeEqualChars(alphabet);
-
-                if (a != alphabet)
-                {
-                    OnPropertyChanged("AlphabetSymbols");
-                    LogMessage("Changing alphabet to: \"" + alphabet + "\" (" + alphabet.Length.ToString() + " Symbols)", NotificationLevel.Info);
-                }
-                OnPropertyChanged("AlphabetCase");
             }
         }
 
@@ -263,10 +259,12 @@ namespace Cryptool.Substitution
             get { return (int)this.keyVariant; }
             set
             {
-                if ((KeyVariantMode)value != keyVariant) HasChanges = true;
-                this.keyVariant = (KeyVariantMode)value;
-                setCipherAlphabet(keyValue);
-                OnPropertyChanged("KeyVariant");
+                if ((KeyVariantMode)value != keyVariant)
+                {
+                    this.keyVariant = (KeyVariantMode)value;
+                    setCipherAlphabet(keyValue);
+                    OnPropertyChanged("KeyVariant");                    
+                }
             }
         }
 
@@ -277,18 +275,20 @@ namespace Cryptool.Substitution
             get { return this.alphabet; }
             set
             {
-                string a = removeEqualChars(value);
-                if (a.Length == 0) // cannot accept empty alphabets
+                if (value != this.alphabet)
                 {
-                    LogMessage("Ignoring empty alphabet from user! Using previous alphabet: \"" + alphabet + "\" (" + alphabet.Length.ToString() + " Symbols)", NotificationLevel.Info);
-                }
-                else if (!alphabet.Equals(a))
-                {
-                    HasChanges = true;
-                    this.alphabet = a;
-                    setCipherAlphabet(keyValue); //re-evaluate if the key value is still within the range
-                    LogMessage("Accepted new alphabet from user: \"" + alphabet + "\" (" + alphabet.Length.ToString() + " Symbols)", NotificationLevel.Info);
-                    OnPropertyChanged("AlphabetSymbols");
+                    string a = removeEqualChars(value);
+                    if (a.Length == 0) // cannot accept empty alphabets
+                    {
+                        LogMessage("Ignoring empty alphabet from user! Using previous alphabet: \"" + alphabet + "\" (" + alphabet.Length.ToString() + " Symbols)", NotificationLevel.Info);
+                    }
+                    else if (!alphabet.Equals(a))
+                    {
+                        this.alphabet = a;
+                        setCipherAlphabet(keyValue); //re-evaluate if the key value is still within the range
+                        LogMessage("Accepted new alphabet from user: \"" + alphabet + "\" (" + alphabet.Length.ToString() + " Symbols)", NotificationLevel.Info);
+                        OnPropertyChanged("AlphabetSymbols");
+                    }   
                 }
             }
         }
@@ -300,8 +300,11 @@ namespace Cryptool.Substitution
             get { return this.cipherAlphabet; }
             set 
             {
-                this.cipherAlphabet = value;
-                OnPropertyChanged("CipherAlphabet");
+                if (value != cipherAlphabet)
+                {
+                    this.cipherAlphabet = value;
+                    OnPropertyChanged("CipherAlphabet");                    
+                }
             }
         }
 

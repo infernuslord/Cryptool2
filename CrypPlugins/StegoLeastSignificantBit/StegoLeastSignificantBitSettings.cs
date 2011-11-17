@@ -29,7 +29,6 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
 
         private int selectedAction = 0;
         private int outputFileFormat = 0;
-        private bool hasChanges = false;
         private int bitCount = 1;
         //private int noisePercent = 0;
         private bool customizeRegions = false;
@@ -48,10 +47,12 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
             }
             set
             {
-                if (value != selectedAction) HasChanges = true;
-                this.selectedAction = value;
-                UpdateTaskPaneVisibility();
-                OnPropertyChanged("Action");
+                if (value != selectedAction)
+                {
+                    this.selectedAction = value;
+                    UpdateTaskPaneVisibility();
+                    OnPropertyChanged("Action");   
+                }
             }
         }
 
@@ -67,7 +68,6 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
                 if (bitCount != value)
                 {
                     bitCount = value;
-                    hasChanges = true;
                     OnPropertyChanged("BitCount");
                 }
             }
@@ -118,9 +118,11 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
             }
             set
             {
-                if (value != outputFileFormat) HasChanges = true;
-                this.outputFileFormat = value;
-                OnPropertyChanged("OutputFileFormat");
+                if (value != outputFileFormat)
+                {
+                    this.outputFileFormat = value;
+                    OnPropertyChanged("OutputFileFormat");   
+                }
             }
         }
 
@@ -145,26 +147,6 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
         private void settingChanged(string setting, Visibility vis)
         {
             TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer(setting, vis)));
-        }
-
-        #endregion
-
-        #region ISettings Members
-
-        /// <summary>
-        /// HOWTO: This flags indicates whether some setting has been changed since the last save.
-        /// If a property was changed, this becomes true, hence CrypTool will ask automatically if you want to save your changes.
-        /// </summary>
-        public bool HasChanges
-        {
-            get
-            {
-                return hasChanges;
-            }
-            set
-            {
-                hasChanges = value;
-            }
         }
 
         #endregion

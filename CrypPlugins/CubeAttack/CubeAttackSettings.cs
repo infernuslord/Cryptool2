@@ -19,23 +19,11 @@ namespace Cryptool.CubeAttack
         /// <param name="msg"></param>
         /// <param name="logLevel"></param>
         public delegate void CubeAttackLogMessage(string msg, NotificationLevel logLevel);
-        
-        /// <summary>
-        /// Returns true if some settigns have been changed. This value should be set
-        /// externally to false e.g. when a project was saved.
-        /// </summary>
-        [PropertySaveOrder(0)]
-        public bool HasChanges
-        {
-            get { return hasChanges; }
-            set { hasChanges = value; }
-        }
 
         #endregion
 
         #region Private variables
 
-        private bool hasChanges;
         private int selectedAction = 0;
         private int publicVar;
         private int secretVar;
@@ -79,9 +67,11 @@ namespace Cryptool.CubeAttack
             get { return this.selectedAction; }
             set
             {
-                if(value != selectedAction) HasChanges = true;
-                this.selectedAction = value;
-                OnPropertyChanged("Action");
+                if(value != selectedAction)
+                {
+                    this.selectedAction = value;
+                    OnPropertyChanged("Action");   
+                }
             }
         }
         
@@ -99,9 +89,11 @@ namespace Cryptool.CubeAttack
             get { return publicVar; }
             set
             {
-                if (value != this.publicVar) HasChanges = true;
-                publicVar = value;
-                OnPropertyChanged("PublicVar");
+                if (value != this.publicVar)
+                {
+                    publicVar = value;
+                    OnPropertyChanged("PublicVar");   
+                }
             }
         }
 
@@ -119,9 +111,11 @@ namespace Cryptool.CubeAttack
             get { return secretVar; }
             set
             {
-                if (value != this.secretVar) HasChanges = true;
-                secretVar = value;
-                OnPropertyChanged("SecretVar");
+                if (value != this.secretVar)
+                {
+                    secretVar = value;
+                    OnPropertyChanged("SecretVar");   
+                }
             }
         }
 
@@ -139,9 +133,11 @@ namespace Cryptool.CubeAttack
             get { return maxcube; }
             set
             {
-                if (value != this.maxcube) HasChanges = true;
-                maxcube = value;
-                OnPropertyChanged("MaxCube");
+                if (value != this.maxcube)
+                {
+                    maxcube = value;
+                    OnPropertyChanged("MaxCube");   
+                }
             }
         }
 
@@ -159,9 +155,11 @@ namespace Cryptool.CubeAttack
             get { return constTest; }
             set
             {
-                if (value != this.constTest) HasChanges = true;
-                constTest = value;
-                OnPropertyChanged("ConstTest");
+                if (value != this.constTest)
+                {
+                    constTest = value;
+                    OnPropertyChanged("ConstTest");   
+                }
             }
         }
 
@@ -179,9 +177,11 @@ namespace Cryptool.CubeAttack
             get { return linTest; }
             set
             {
-                if (value != this.linTest) HasChanges = true;
-                linTest = value;
-                OnPropertyChanged("LinTest");
+                if (value != this.linTest)
+                {
+                    linTest = value;
+                    OnPropertyChanged("LinTest");   
+                }
             }
         }
 
@@ -199,9 +199,11 @@ namespace Cryptool.CubeAttack
             get { return outputBit; }
             set
             {
-                if (value != this.outputBit) HasChanges = true;
-                outputBit = value;
-                OnPropertyChanged("OutputBit");
+                if (value != this.outputBit)
+                {
+                    outputBit = value;
+                    OnPropertyChanged("OutputBit");   
+                }
             }
         }
 
@@ -216,16 +218,15 @@ namespace Cryptool.CubeAttack
         {
             get
             {
-                if (setPublicBits != null)
-                    return setPublicBits;
-                else
-                    return "";
+                return setPublicBits ?? string.Empty;
             }
             set
             {
-                if (value != this.setPublicBits) HasChanges = true;
-                setPublicBits = value;
-                OnPropertyChanged("SetPublicBits");
+                if (value != this.setPublicBits)
+                {
+                    setPublicBits = value;
+                    OnPropertyChanged("SetPublicBits");   
+                }
             }
         }
 
@@ -247,9 +248,11 @@ namespace Cryptool.CubeAttack
             get { return this.readSuperpolysFromFile; }
             set
             {
-                this.readSuperpolysFromFile = (bool)value;
-                OnPropertyChanged("ReadSuperpolysFromFile");
-                HasChanges = true;
+                if (value != readSuperpolysFromFile)
+                {
+                    this.readSuperpolysFromFile = (bool)value;
+                    OnPropertyChanged("ReadSuperpolysFromFile");   
+                }
             }
         }
 
@@ -268,7 +271,6 @@ namespace Cryptool.CubeAttack
                 if (value != openFilename)
                 {
                     openFilename = value;
-                    HasChanges = true;
                     OnPropertyChanged("OpenFilename");
                 }
             }
@@ -292,9 +294,11 @@ namespace Cryptool.CubeAttack
             get { return this.enableLogMessages; }
             set
             {
-                this.enableLogMessages = (bool)value;
-                OnPropertyChanged("EnableLogMessages");
-                HasChanges = true;
+                if (value != enableLogMessages)
+                {
+                    this.enableLogMessages = (bool)value;
+                    OnPropertyChanged("EnableLogMessages");   
+                }
             }
         }
 
@@ -303,8 +307,11 @@ namespace Cryptool.CubeAttack
             get { return saveOutputSuperpoly; }
             set
             {
-                if (value != saveOutputSuperpoly) hasChanges = true;
-                saveOutputSuperpoly = value;
+                if (value != saveOutputSuperpoly)
+                {
+                    saveOutputSuperpoly = value;
+                    OnPropertyChanged("SaveOutputSuperpoly");
+                }
             }
         }
 
@@ -313,8 +320,11 @@ namespace Cryptool.CubeAttack
             get { return saveSuperpolyMatrix; }
             set
             {
-                if (value != saveSuperpolyMatrix) hasChanges = true;
-                saveSuperpolyMatrix = value;
+                if (value != saveSuperpolyMatrix)
+                {
+                    saveSuperpolyMatrix = value;
+                    OnPropertyChanged("SaveSuperpolyMatrix");
+                }
             }
         }
 
@@ -323,8 +333,11 @@ namespace Cryptool.CubeAttack
             get { return saveListCubeIndexes; }
             set
             {
-                if (value != saveListCubeIndexes) hasChanges = true;
-                saveListCubeIndexes = value;
+                if (value != saveListCubeIndexes)
+                {
+                    saveListCubeIndexes = value;
+                    OnPropertyChanged("SaveListCubeIndexes");
+                }
             }
         }
 
@@ -333,8 +346,11 @@ namespace Cryptool.CubeAttack
             get { return saveOutputBitIndex; }
             set
             {
-                if (value != saveOutputBitIndex) hasChanges = true;
-                saveOutputBitIndex = value;
+                if (value != saveOutputBitIndex)
+                {
+                    saveOutputBitIndex = value;
+                    OnPropertyChanged("SaveOutputBitIndex");
+                }
             }
         }
 
@@ -343,8 +359,11 @@ namespace Cryptool.CubeAttack
             get { return saveCountSuperpoly; }
             set
             {
-                if (value != saveCountSuperpoly) hasChanges = true;
-                saveCountSuperpoly = value;
+                if (value != saveCountSuperpoly)
+                {
+                    saveCountSuperpoly = value;
+                    OnPropertyChanged("SaveCountSuperpoly");
+                }
             }
         }
 
@@ -353,8 +372,11 @@ namespace Cryptool.CubeAttack
             get { return saveMatrixCheckLinearitySuperpolys; }
             set
             {
-                if (value != saveMatrixCheckLinearitySuperpolys) hasChanges = true;
-                saveMatrixCheckLinearitySuperpolys = value;
+                if (value != saveMatrixCheckLinearitySuperpolys)
+                {
+                    saveMatrixCheckLinearitySuperpolys = value;
+                    OnPropertyChanged("SaveMatrixCheckLinearitySuperpolys");
+                }
             }
         }
 
@@ -363,8 +385,11 @@ namespace Cryptool.CubeAttack
             get { return savePublicBitSize; }
             set
             {
-                if (value != savePublicBitSize) hasChanges = true;
-                savePublicBitSize = value;
+                if (value != savePublicBitSize)
+                {
+                    savePublicBitSize = value;
+                    OnPropertyChanged("SavePublicBitSize");
+                }
             }
         }
 
@@ -373,13 +398,15 @@ namespace Cryptool.CubeAttack
             get { return saveSecretBitSize; }
             set
             {
-                if (value != saveSecretBitSize) hasChanges = true;
-                saveSecretBitSize = value;
+                if (value != saveSecretBitSize)
+                {
+                    OnPropertyChanged("SaveSecretBitSize");
+                    saveSecretBitSize = value;    
+                }
             }
         }
 
         #endregion
-
 
         #region INotifyPropertyChanged Members
 

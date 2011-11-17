@@ -134,7 +134,6 @@ namespace KeySearcher
                 OnPropertyChanged("Key");
                 if (!(keysearcher.Pattern != null && keysearcher.Pattern.testWildcardKey(value)))
                     keysearcher.GuiLogMessage(Resources.Wrong_key_pattern_, NotificationLevel.Error);
-                HasChanges = true;
             }
         }
 
@@ -154,7 +153,6 @@ namespace KeySearcher
                 {
                     this.coresUsed = value;
                     OnPropertyChanged("CoresUsed");
-                    HasChanges = true;
                 }
             }
         }
@@ -178,7 +176,6 @@ namespace KeySearcher
                 {
                     usePeerToPeer = value;
                     OnPropertyChanged("UsePeerToPeer");
-                    HasChanges = true;
                 }
             }
         }
@@ -194,7 +191,6 @@ namespace KeySearcher
                 {
                     autoconnectPeerToPeer = value;
                     OnPropertyChanged("AutoconnectPeerToPeer");
-                    HasChanges = true;
                 }
             }
         }
@@ -210,7 +206,6 @@ namespace KeySearcher
                 {
                     verbosePeerToPeerDisplay = value;
                     OnPropertyChanged("VerbosePeerToPeerDisplay");
-                    HasChanges = true;
                 }
             }
         }
@@ -226,7 +221,6 @@ namespace KeySearcher
                 {
                     chunkSize = value;
                     OnPropertyChanged("ChunkSize");
-                    HasChanges = true;
                 }
             }
         }
@@ -271,7 +265,6 @@ namespace KeySearcher
                 {
                     evaluationHost = value;
                     OnPropertyChanged("EvaluationHost");
-                    HasChanges = true;
                 }
             }
         }
@@ -290,7 +283,6 @@ namespace KeySearcher
                 {
                     evaluationUser = value;
                     OnPropertyChanged("EvaluationUser");
-                    HasChanges = true;
                 }
             }
         }
@@ -309,7 +301,6 @@ namespace KeySearcher
                 {
                     evaluationPassword = value;
                     OnPropertyChanged("EvaluationPassword");
-                    HasChanges = true;
                 }
             }
         }
@@ -328,7 +319,6 @@ namespace KeySearcher
                 {
                     evaluationDatabase = value;
                     OnPropertyChanged("EvaluationDatabase");
-                    HasChanges = true;
                 }
             }
         }
@@ -387,7 +377,6 @@ namespace KeySearcher
                     UseOpenCL = deviceSettings[value].UseDevice;
                     OpenCLMode = deviceSettings[value].mode;
                     OnPropertyChanged("OpenCLDevice");
-                    HasChanges = true;
                 }
             }
         }
@@ -408,7 +397,6 @@ namespace KeySearcher
                 if (OpenCLDevice != -1 && (deviceSettings.Count > OpenCLDevice) && (value != deviceSettings[OpenCLDevice].UseDevice))
                 {
                     deviceSettings[OpenCLDevice].useDevice = value;
-                    hasChanges = true;
                     OnPropertyChanged("UseOpenCL");
                 }
             }
@@ -436,7 +424,6 @@ namespace KeySearcher
                             "Using \"High Load\" is disabled. Please check your CrypTool 2.0 settings.", NotificationLevel.Error);
 
                     OnPropertyChanged("OpenCLMode");
-                    HasChanges = true;
                 }
             }
         }
@@ -470,7 +457,6 @@ namespace KeySearcher
                 if (value != useExternalClient)
                 {
                     useExternalClient = value;
-                    hasChanges = true;
                     OnPropertyChanged("UseExternalClient");
                 }
             }
@@ -486,7 +472,6 @@ namespace KeySearcher
                 if (value != port)
                 {
                     port = value;
-                    hasChanges = true;
                     OnPropertyChanged("Port");
                 }
             }
@@ -502,7 +487,6 @@ namespace KeySearcher
                 if (value != externalClientPassword)
                 {
                     externalClientPassword = value;
-                    hasChanges = true;
                     OnPropertyChanged("ExternalClientPassword");
                 }
             }
@@ -523,7 +507,6 @@ namespace KeySearcher
                 if (value != updatetime)
                 {
                     updatetime = value;
-                    hasChanges = true;
                     OnPropertyChanged("UpdateTime");
                 }
             }
@@ -542,7 +525,6 @@ namespace KeySearcher
                 if (value != disableupdate)
                 {
                     disableupdate = value;
-                    hasChanges = true;
                     OnPropertyChanged("DisableUpdate");
                 }
             }
@@ -560,7 +542,6 @@ namespace KeySearcher
                 if (value != csvPath)
                 {
                     csvPath = value;
-                    HasChanges = true;
                     OnPropertyChanged("CsvPath");
                 }
             }
@@ -587,29 +568,10 @@ namespace KeySearcher
                 if (value != coresAvailable)
                 {
                     coresAvailable = value;
+                    OnPropertyChanged("CoresAvailable");
                 }
-                OnPropertyChanged("CoresAvailable");
             }
         }
-
-        #region ISettings Members
-
-        private bool hasChanges;
-
-        public bool HasChanges
-        {
-            get
-            {
-                return hasChanges;
-            }
-            set
-            {
-                hasChanges = value;
-                OnPropertyChanged("HasChanges");
-            }
-        }
-
-        #endregion
 
         #region INotifyPropertyChanged Members
 

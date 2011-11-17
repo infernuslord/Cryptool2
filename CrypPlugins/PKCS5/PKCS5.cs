@@ -71,27 +71,6 @@ namespace PKCS5
       }
     }
 
-
-    /// <summary>
-    /// Gets or sets a value indicating whether this instance has changes.
-    /// </summary>
-    /// <value>
-    /// 	<c>true</c> if this instance has changes; otherwise, <c>false</c>.
-    /// </value>
-    public bool HasChanges
-    {
-      get
-      {
-        return settings.HasChanges;
-      }
-
-      set
-      {
-        settings.HasChanges = value;
-        GuiLogMessage("HasChanges changed.", NotificationLevel.Debug);
-      }
-    }
-
     #endregion
 
     private string GetStringForSelectedEncoding(byte[] arrByte)

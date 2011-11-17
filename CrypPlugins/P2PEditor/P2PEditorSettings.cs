@@ -88,8 +88,6 @@ namespace Cryptool.P2PEditor
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public bool HasChanges { get; set; }
-
         #endregion
 
         #region Settings
@@ -106,7 +104,6 @@ namespace Cryptool.P2PEditor
                 {
                     settings.PeerName = value;
                     OnPropertyChanged("PeerName");
-                    HasChanges = true;
                 }
             }
         }
@@ -134,7 +131,6 @@ namespace Cryptool.P2PEditor
                     {
                         settings.Password = StringHelper.EncryptString(value);
                         OnPropertyChanged("Password");
-                        HasChanges = true;
                     }
                 }
                 else
@@ -143,7 +139,6 @@ namespace Cryptool.P2PEditor
                     {
                         P2PManager.Password = StringHelper.EncryptString(value);
                         OnPropertyChanged("Password");
-                        HasChanges = true;
                     }                    
                 }
             }
@@ -170,7 +165,6 @@ namespace Cryptool.P2PEditor
                         P2PManager.Password = settings.Password;
                         settings.Password = "";
                     }
-                    HasChanges = true;
                     OnPropertyChanged("RememberPassword");
                 }
             }
@@ -186,7 +180,6 @@ namespace Cryptool.P2PEditor
                 {
                     settings.WorldName = value;
                     OnPropertyChanged("WorldName");
-                    HasChanges = true;
                 }
             }
         }
@@ -261,7 +254,6 @@ namespace Cryptool.P2PEditor
                 {
                     settings.WorkspacePath = value;
                     OnPropertyChanged("WorkspacePath");
-                    HasChanges = true;
                 }
             }
         }
@@ -278,7 +270,6 @@ namespace Cryptool.P2PEditor
                 {
                     settings.DistributedJobListRefreshInterval = value;
                     OnPropertyChanged("DistributedJobListRefreshInterval");
-                    HasChanges = true;
                 }
             }
         }
@@ -294,7 +285,6 @@ namespace Cryptool.P2PEditor
                 {
                     settings.ConnectOnStartup = value;
                     OnPropertyChanged("ConnectOnStartup");
-                    HasChanges = true;
                 }
             }
         }
@@ -310,7 +300,6 @@ namespace Cryptool.P2PEditor
                 {
                     settings.LinkManager = (P2PLinkManagerType) value;
                     OnPropertyChanged("LinkManager");
-                    HasChanges = true;
                 }
             }
         }
@@ -326,7 +315,6 @@ namespace Cryptool.P2PEditor
                 {
                     settings.Bootstrapper = (P2PBootstrapperType) value;
                     OnPropertyChanged("Bootstrapper");
-                    HasChanges = true;
                 }
             }
         }
@@ -343,7 +331,6 @@ namespace Cryptool.P2PEditor
                     settings.Architecture = (P2PArchitecture)value;
                     UpdateSettings();
                     OnPropertyChanged("Architecture");
-                    HasChanges = true;
                 }
             }
         }
@@ -359,7 +346,6 @@ namespace Cryptool.P2PEditor
                 {
                     settings.LocalReceivingPort = value;
                     OnPropertyChanged("LocalPort");
-                    HasChanges = true;
                 }
             }
         }
@@ -375,7 +361,6 @@ namespace Cryptool.P2PEditor
                 {
                     settings.UseLocalAddressDetection = value;
                     OnPropertyChanged("UseLocalAddressDetection");
-                    HasChanges = true;
                 }
             }
         }
@@ -391,7 +376,6 @@ namespace Cryptool.P2PEditor
                 {
                     settings.Log2Monitor = value;
                     OnPropertyChanged("Log2Monitor");
-                    HasChanges = true;
                 }
             }
         }
@@ -406,7 +390,6 @@ namespace Cryptool.P2PEditor
                 {
                     settings.ServerHost = value;
                     OnPropertyChanged("ServerHost");
-                    HasChanges = true;
                 }
             }
         }
@@ -422,7 +405,6 @@ namespace Cryptool.P2PEditor
                 {
                     settings.ServerPort = value;
                     OnPropertyChanged("ServerPort");
-                    HasChanges = true;
                 }
             }
         }
@@ -437,7 +419,6 @@ namespace Cryptool.P2PEditor
                 if (value != settings.UseProxy)
                 {
                     settings.UseProxy = value;
-                    HasChanges = true;
                     OnPropertyChanged("UseProxy");
                 }
             }
@@ -453,7 +434,6 @@ namespace Cryptool.P2PEditor
                 if (value != settings.UseSystemWideProxy)
                 {
                     settings.UseSystemWideProxy = value;
-                    HasChanges = true;
                     OnPropertyChanged("UseSystemWideProxy");
                 }
             }
@@ -469,7 +449,6 @@ namespace Cryptool.P2PEditor
                 {
                     settings.ProxyServer = value;
                     OnPropertyChanged("ProxyServer");
-                    HasChanges = true;
                 }
             }
         }       
@@ -485,7 +464,6 @@ namespace Cryptool.P2PEditor
                 {
                     settings.ProxyPort = value;
                     OnPropertyChanged("ProxyPort");
-                    HasChanges = true;
                 }
             }
         }
@@ -500,7 +478,6 @@ namespace Cryptool.P2PEditor
                 {
                     settings.ProxyUser = value;
                     OnPropertyChanged("ProxyUser");
-                    HasChanges = true;
                 }
             }
         }
@@ -515,7 +492,6 @@ namespace Cryptool.P2PEditor
                 {
                     settings.ProxyPassword = StringHelper.EncryptString(value);
                     OnPropertyChanged("ProxyPassword");
-                    HasChanges = true;
                 }
             }
         }

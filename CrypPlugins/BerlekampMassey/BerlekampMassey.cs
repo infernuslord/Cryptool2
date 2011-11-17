@@ -38,7 +38,6 @@ namespace Cryptool.BerlekampMassey
 
         #region Private variables
 
-        private BerlekampMasseySettings settings;
         private String input;
         private String polynomialOutput;
         private int output;
@@ -54,8 +53,6 @@ namespace Cryptool.BerlekampMassey
         /// </summary>
         public BerlekampMassey()
         {
-            this.settings = new BerlekampMasseySettings();
-
             berlekampMasseyPresentation = new BerlekampMasseyPresentation();
             Presentation = berlekampMasseyPresentation;
         }
@@ -65,10 +62,7 @@ namespace Cryptool.BerlekampMassey
         /// </summary>
         public ISettings Settings
         {
-            get { return (ISettings)this.settings;
-            }
-            set { this.settings = (BerlekampMasseySettings)value;
-            }
+            get { return null; }
         }
 
         [PropertyInfo(Direction.InputData, "InputCaption", "InputTooltip", true)]
@@ -89,9 +83,6 @@ namespace Cryptool.BerlekampMassey
             {
                 return output;
             }
-            set
-            {   // is readonly
-            }
         }
 
         [PropertyInfo(Direction.OutputData, "PolynomialOutputCaption", "PolynomialOutputTooltip", false)]
@@ -101,9 +92,6 @@ namespace Cryptool.BerlekampMassey
             get
             {
                 return polynomialOutput;
-            }
-            set
-            {   // is readonly
             }
         }
 
@@ -150,10 +138,6 @@ namespace Cryptool.BerlekampMassey
         #endregion
 
         #region Private methods
-
-        private void BerlekampMasseyLogMessage(string msg, NotificationLevel logLevel)
-        {
-        }
 
         /* This function is used under The Code Project Open License (CPOL)
          * http://www.codeproject.com/info/cpol10.aspx

@@ -36,15 +36,8 @@ namespace Nihilist
             get { return (int)action; }
             set
             {
-                try
-                {
-                    action = (Actions)value;
-                    OnPropertyChanged("Action");
-                }
-                catch (Exception)
-                {
-                    action = Actions.Encrypt;
-                }
+                action = (Actions)value;
+                OnPropertyChanged("Action");
             }
         }
 
@@ -72,28 +65,12 @@ namespace Nihilist
             }
         }
 
-        private bool hasChanges;
-        public bool HasChanges
-        {
-            get { return hasChanges; }
-            set
-            {
-                if (value != hasChanges)
-                {
-                    hasChanges = value;
-                    OnPropertyChanged("HasChanges");
-                }
-            }
-        }
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void OnPropertyChanged(string name)
         {
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(name));
-            if (name.ToLower() != "haschanges")
-                HasChanges = true;
         }
     }
 }

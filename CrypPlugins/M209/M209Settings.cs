@@ -37,7 +37,6 @@ namespace Cryptool.Plugins.M209
         private ObservableCollection<string> rotorBStrings = new ObservableCollection<string>();
         private ObservableCollection<string> reflectorStrings = new ObservableCollection<string>();
         private int model = 0;
-        private bool hasChanges = false;
 
         private int selectedAction = 0;
 
@@ -70,18 +69,10 @@ namespace Cryptool.Plugins.M209
             get { return this.model; }
             set
             {
-                if (value != model) hasChanges = true;
-                this.model = value;
-                OnPropertyChanged("Model");
-                switch (this.model)
+                if (value != model)
                 {
-                    case 0: // Enigma A/B
-              
-                        break;
-                    case 1: // Enigma D
-                        
-                        break;
-                 
+                    this.model = value;
+                    OnPropertyChanged("Model");
                 }
             }
         }
@@ -100,15 +91,15 @@ namespace Cryptool.Plugins.M209
             }
             set
             {
-                if (value != selectedAction) HasChanges = true;
-                this.selectedAction = value;
-                OnPropertyChanged("Action");
+                if (value != selectedAction)
+                {
+                    this.selectedAction = value;
+                    OnPropertyChanged("Action");
 
-                //if (ReExecute != null) ReExecute();
+                    //if (ReExecute != null) ReExecute();   
+                }
             }
         }
-
-
 
         [TaskPaneAttribute("StartwertCaption", "StartwertTooltip", null, 3, true, ControlType.TextBox, ValidationType.RegEx, "^[A-Z]{6}$")]
         public string Startwert
@@ -119,11 +110,10 @@ namespace Cryptool.Plugins.M209
             }
             set
             {
-                // HOWTO: If a setting changes, you must set hasChanges manually to true.
                 if (startwert != value)
                 {
                     startwert = value;
-                    hasChanges = true;
+                    OnPropertyChanged("Startwert");
                 }
             }
         }
@@ -138,11 +128,10 @@ namespace Cryptool.Plugins.M209
             }
             set
             {
-                // HOWTO: If a setting changes, you must set hasChanges manually to true.
                 if (rotor1 != value)
                 {
                     rotor1 = value;
-                    hasChanges = true;
+                    OnPropertyChanged("Rotor1");
                 }
             }
         }
@@ -155,11 +144,10 @@ namespace Cryptool.Plugins.M209
             }
             set
             {
-                // HOWTO: If a setting changes, you must set hasChanges manually to true.
                 if (rotor2 != value)
                 {
                     rotor2 = value;
-                    hasChanges = true;
+                    OnPropertyChanged("Rotor2");
                 }
             }
         }
@@ -172,11 +160,10 @@ namespace Cryptool.Plugins.M209
             }
             set
             {
-                // HOWTO: If a setting changes, you must set hasChanges manually to true.
                 if (rotor3 != value)
                 {
                     rotor3 = value;
-                    hasChanges = true;
+                    OnPropertyChanged("Rotor3");
                 }
             }
         }
@@ -189,11 +176,10 @@ namespace Cryptool.Plugins.M209
             }
             set
             {
-                // HOWTO: If a setting changes, you must set hasChanges manually to true.
                 if (rotor4 != value)
                 {
                     rotor4 = value;
-                    hasChanges = true;
+                    OnPropertyChanged("Rotor4");
                 }
             }
         }
@@ -206,11 +192,10 @@ namespace Cryptool.Plugins.M209
             }
             set
             {
-                // HOWTO: If a setting changes, you must set hasChanges manually to true.
                 if (rotor5 != value)
                 {
                     rotor5 = value;
-                    hasChanges = true;
+                    OnPropertyChanged("Rotor5");
                 }
             }
         }
@@ -223,11 +208,10 @@ namespace Cryptool.Plugins.M209
             }
             set
             {
-                // HOWTO: If a setting changes, you must set hasChanges manually to true.
                 if (rotor6 != value)
                 {
                     rotor6 = value;
-                    hasChanges = true;
+                    OnPropertyChanged("Rotor6");
                 }
             }
         }
@@ -245,11 +229,10 @@ namespace Cryptool.Plugins.M209
             }
             set
             {
-                // HOWTO: If a setting changes, you must set hasChanges manually to true.
                 if (bar[0] != value)
                 {
                     bar[0] = value;
-                    hasChanges = true;
+                    OnPropertyChanged("Bar1");
                 }
             }
         }
@@ -262,11 +245,10 @@ namespace Cryptool.Plugins.M209
             }
             set
             {
-                // HOWTO: If a setting changes, you must set hasChanges manually to true.
                 if (bar[1] != value)
                 {
                     bar[1] = value;
-                    hasChanges = true;
+                    OnPropertyChanged("Bar2");
                 }
             }
         }
@@ -280,11 +262,10 @@ namespace Cryptool.Plugins.M209
             }
             set
             {
-                // HOWTO: If a setting changes, you must set hasChanges manually to true.
                 if (bar[2] != value)
                 {
                     bar[2] = value;
-                    hasChanges = true;
+                    OnPropertyChanged("Bar3");
                 }
             }
         }
@@ -298,11 +279,10 @@ namespace Cryptool.Plugins.M209
             }
             set
             {
-                // HOWTO: If a setting changes, you must set hasChanges manually to true.
                 if (bar[3] != value)
                 {
                     bar[3] = value;
-                    hasChanges = true;
+                    OnPropertyChanged("Bar4");
                 }
             }
         }
@@ -316,11 +296,10 @@ namespace Cryptool.Plugins.M209
             }
             set
             {
-                // HOWTO: If a setting changes, you must set hasChanges manually to true.
                 if (bar[4] != value)
                 {
                     bar[4] = value;
-                    hasChanges = true;
+                    OnPropertyChanged("Bar5");
                 }
             }
         }
@@ -334,11 +313,10 @@ namespace Cryptool.Plugins.M209
             }
             set
             {
-                // HOWTO: If a setting changes, you must set hasChanges manually to true.
                 if (bar[5] != value)
                 {
                     bar[5] = value;
-                    hasChanges = true;
+                    OnPropertyChanged("Bar6");
                 }
             }
         }
@@ -352,11 +330,10 @@ namespace Cryptool.Plugins.M209
             }
             set
             {
-                // HOWTO: If a setting changes, you must set hasChanges manually to true.
                 if (bar[6] != value)
                 {
                     bar[6] = value;
-                    hasChanges = true;
+                    OnPropertyChanged("Bar7");
                 }
             }
         }
@@ -370,11 +347,10 @@ namespace Cryptool.Plugins.M209
             }
             set
             {
-                // HOWTO: If a setting changes, you must set hasChanges manually to true.
                 if (bar[7] != value)
                 {
                     bar[7] = value;
-                    hasChanges = true;
+                    OnPropertyChanged("Bar8");
                 }
             }
         }
@@ -388,11 +364,10 @@ namespace Cryptool.Plugins.M209
             }
             set
             {
-                // HOWTO: If a setting changes, you must set hasChanges manually to true.
                 if (bar[8] != value)
                 {
                     bar[8] = value;
-                    hasChanges = true;
+                    OnPropertyChanged("Bar9");
                 }
             }
         }
@@ -406,11 +381,10 @@ namespace Cryptool.Plugins.M209
             }
             set
             {
-                // HOWTO: If a setting changes, you must set hasChanges manually to true.
                 if (bar[9] != value)
                 {
                     bar[9] = value;
-                    hasChanges = true;
+                    OnPropertyChanged("Bar10");
                 }
             }
         }
@@ -424,11 +398,10 @@ namespace Cryptool.Plugins.M209
             }
             set
             {
-                // HOWTO: If a setting changes, you must set hasChanges manually to true.
                 if (bar[10] != value)
                 {
                     bar[10] = value;
-                    hasChanges = true;
+                    OnPropertyChanged("Bar11");
                 }
             }
         }
@@ -442,11 +415,10 @@ namespace Cryptool.Plugins.M209
             }
             set
             {
-                // HOWTO: If a setting changes, you must set hasChanges manually to true.
                 if (bar[11] != value)
                 {
                     bar[11] = value;
-                    hasChanges = true;
+                    OnPropertyChanged("Bar12");
                 }
             }
         }
@@ -460,11 +432,10 @@ namespace Cryptool.Plugins.M209
             }
             set
             {
-                // HOWTO: If a setting changes, you must set hasChanges manually to true.
                 if (bar[12] != value)
                 {
                     bar[12] = value;
-                    hasChanges = true;
+                    OnPropertyChanged("Bar13");
                 }
             }
         }
@@ -478,11 +449,10 @@ namespace Cryptool.Plugins.M209
             }
             set
             {
-                // HOWTO: If a setting changes, you must set hasChanges manually to true.
                 if (bar[13] != value)
                 {
                     bar[13] = value;
-                    hasChanges = true;
+                    OnPropertyChanged("Bar14");
                 }
             }
         }
@@ -496,11 +466,10 @@ namespace Cryptool.Plugins.M209
             }
             set
             {
-                // HOWTO: If a setting changes, you must set hasChanges manually to true.
                 if (bar[14] != value)
                 {
                     bar[14] = value;
-                    hasChanges = true;
+                    OnPropertyChanged("Bar15");
                 }
             }
         }
@@ -514,11 +483,10 @@ namespace Cryptool.Plugins.M209
             }
             set
             {
-                // HOWTO: If a setting changes, you must set hasChanges manually to true.
                 if (bar[15] != value)
                 {
                     bar[15] = value;
-                    hasChanges = true;
+                    OnPropertyChanged("Bar16");
                 }
             }
         }
@@ -532,11 +500,10 @@ namespace Cryptool.Plugins.M209
             }
             set
             {
-                // HOWTO: If a setting changes, you must set hasChanges manually to true.
                 if (bar[16] != value)
                 {
                     bar[16] = value;
-                    hasChanges = true;
+                    OnPropertyChanged("Bar17");
                 }
             }
         }
@@ -550,11 +517,10 @@ namespace Cryptool.Plugins.M209
             }
             set
             {
-                // HOWTO: If a setting changes, you must set hasChanges manually to true.
                 if (bar[17] != value)
                 {
                     bar[17] = value;
-                    hasChanges = true;
+                    OnPropertyChanged("Bar18");
                 }
             }
         }
@@ -568,11 +534,10 @@ namespace Cryptool.Plugins.M209
             }
             set
             {
-                // HOWTO: If a setting changes, you must set hasChanges manually to true.
                 if (bar[18] != value)
                 {
                     bar[18] = value;
-                    hasChanges = true;
+                    OnPropertyChanged("Bar19");
                 }
             }
         }
@@ -586,11 +551,10 @@ namespace Cryptool.Plugins.M209
             }
             set
             {
-                // HOWTO: If a setting changes, you must set hasChanges manually to true.
                 if (bar[19] != value)
                 {
                     bar[19] = value;
-                    hasChanges = true;
+                    OnPropertyChanged("Bar20");
                 }
             }
         }
@@ -604,11 +568,10 @@ namespace Cryptool.Plugins.M209
             }
             set
             {
-                // HOWTO: If a setting changes, you must set hasChanges manually to true.
                 if (bar[20] != value)
                 {
                     bar[20] = value;
-                    hasChanges = true;
+                    OnPropertyChanged("Bar21");
                 }
             }
         }
@@ -622,11 +585,10 @@ namespace Cryptool.Plugins.M209
             }
             set
             {
-                // HOWTO: If a setting changes, you must set hasChanges manually to true.
                 if (bar[21] != value)
                 {
                     bar[21] = value;
-                    hasChanges = true;
+                    OnPropertyChanged("Bar22");
                 }
             }
         }
@@ -640,11 +602,10 @@ namespace Cryptool.Plugins.M209
             }
             set
             {
-                // HOWTO: If a setting changes, you must set hasChanges manually to true.
                 if (bar[22] != value)
                 {
                     bar[22] = value;
-                    hasChanges = true;
+                    OnPropertyChanged("Bar23");
                 }
             }
         }
@@ -658,11 +619,10 @@ namespace Cryptool.Plugins.M209
             }
             set
             {
-                // HOWTO: If a setting changes, you must set hasChanges manually to true.
                 if (bar[23] != value)
                 {
                     bar[23] = value;
-                    hasChanges = true;
+                    OnPropertyChanged("Bar24");
                 }
             }
         }
@@ -676,11 +636,10 @@ namespace Cryptool.Plugins.M209
             }
             set
             {
-                // HOWTO: If a setting changes, you must set hasChanges manually to true.
                 if (bar[24] != value)
                 {
                     bar[24] = value;
-                    hasChanges = true;
+                    OnPropertyChanged("Bar25");
                 }
             }
         }
@@ -694,11 +653,10 @@ namespace Cryptool.Plugins.M209
             }
             set
             {
-                // HOWTO: If a setting changes, you must set hasChanges manually to true.
                 if (bar[25] != value)
                 {
                     bar[25] = value;
-                    hasChanges = true;
+                    OnPropertyChanged("Bar26");
                 }
             }
         }
@@ -712,11 +670,10 @@ namespace Cryptool.Plugins.M209
             }
             set
             {
-                // HOWTO: If a setting changes, you must set hasChanges manually to true.
                 if (bar[26] != value)
                 {
                     bar[26] = value;
-                    hasChanges = true;
+                    OnPropertyChanged("Bar27");
                 }
             }
         }
@@ -733,9 +690,11 @@ namespace Cryptool.Plugins.M209
             get { return this.unknownSymbolHandling; }
             set
             {
-                if ((int)value != unknownSymbolHandling) HasChanges = true;
-                this.unknownSymbolHandling = (int)value;
-                OnPropertyChanged("UnknownSymbolHandling");
+                if ((int)value != unknownSymbolHandling)
+                {
+                    this.unknownSymbolHandling = (int)value;
+                    OnPropertyChanged("UnknownSymbolHandling");   
+                }
             }
         }
 
@@ -746,36 +705,17 @@ namespace Cryptool.Plugins.M209
             get { return this.caseHandling; }
             set
             {
-                if ((int)value != caseHandling) HasChanges = true;
-                this.caseHandling = (int)value;
-                OnPropertyChanged("CaseHandling");
+                if ((int)value != caseHandling)
+                {
+                    this.caseHandling = (int)value;
+                    OnPropertyChanged("CaseHandling");                    
+                }
             }
         }
 
         #endregion
 
         //Taskpane ende
-        #endregion
-        
-
-        #region ISettings Members
-
-        /// <summary>
-        /// HOWTO: This flags indicates whether some setting has been changed since the last save.
-        /// If a property was changed, this becomes true, hence CrypTool will ask automatically if you want to save your changes.
-        /// </summary>
-        public bool HasChanges
-        {
-            get
-            {
-                return hasChanges;
-            }
-            set
-            {
-                hasChanges = value;
-            }
-        }
-
         #endregion
 
         #region INotifyPropertyChanged Members

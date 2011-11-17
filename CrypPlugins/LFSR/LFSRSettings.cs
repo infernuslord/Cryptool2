@@ -46,12 +46,10 @@ namespace Cryptool.LFSR
                 if (value != currentState)
                 {
                     currentState = value;
-                    hasChanges = true;
+                    OnPropertyChanged("CurrentState");
                 }
             }
         }
-
-        private bool hasChanges = false;
 
         [TaskPane( "initLFSRCaption", "initLFSRTooltip", null, 0, false, ControlType.Button)]
         public void initLFSR()
@@ -69,7 +67,6 @@ namespace Cryptool.LFSR
             set { 
                 this.rounds = value;
                 OnPropertyChanged("Rounds");
-                HasChanges = true;
             }
         }
 
@@ -82,7 +79,6 @@ namespace Cryptool.LFSR
             {
                 this.polynomial = value;
                 OnPropertyChanged("Polynomial");
-                HasChanges = true;
             }
         }
         
@@ -95,7 +91,6 @@ namespace Cryptool.LFSR
             {
                 this.seed = value;
                 OnPropertyChanged("Seed");
-                HasChanges = true;
             }
         }
 
@@ -120,8 +115,7 @@ namespace Cryptool.LFSR
             set
             {
                 this.noQuickwatch = (bool)value;
-                //OnPropertyChanged("NoQuickwatch");
-                HasChanges = true;
+                OnPropertyChanged("NoQuickwatch");
             }
         }
 
@@ -135,7 +129,6 @@ namespace Cryptool.LFSR
             {
                 this.saveCurrentState = (bool)value;
                 OnPropertyChanged("SaveCurrentState");
-                HasChanges = true;
             }
         }
 
@@ -149,7 +142,6 @@ namespace Cryptool.LFSR
             {
                 this.outputStages = (bool)value;
                 OnPropertyChanged("OutputStages");
-                HasChanges = true;
             }
         }
 
@@ -163,7 +155,6 @@ namespace Cryptool.LFSR
             {
                 this.useAdditionalOutputBit = (bool)value;
                 OnPropertyChanged("UseClockingBit");
-                HasChanges = true;
                 if (this.useAdditionalOutputBit)
                     SettingChanged("ClockingBit", Visibility.Visible);
                 else
@@ -180,7 +171,6 @@ namespace Cryptool.LFSR
             {
                 this.clockingBit = value;
                 OnPropertyChanged("ClockingBit");
-                HasChanges = true;
             }
         }
 
@@ -194,7 +184,6 @@ namespace Cryptool.LFSR
             {
                 this.useBoolClock = (bool)value;
                 OnPropertyChanged("UseBoolClock");
-                HasChanges = true;
                 if (this.useBoolClock)
                     SettingChanged("Rounds", Visibility.Collapsed);
                 else
@@ -212,14 +201,7 @@ namespace Cryptool.LFSR
             {
                 this.alwaysCreateOutput = (bool)value;
                 OnPropertyChanged("AlwaysCreateOutput");
-                HasChanges = true;
             }
-        }
-
-        public bool HasChanges
-        {
-            get { return hasChanges; }
-            set { hasChanges = value; }
         }
 
         internal void UpdateTaskPaneVisibility()

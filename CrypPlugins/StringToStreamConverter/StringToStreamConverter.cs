@@ -137,12 +137,6 @@ namespace Cryptool.Plugins.Convertor
 
         public void Stop() { }
 
-        public bool HasChanges
-        {
-            get { return settings.HasChanges; }
-            set { settings.HasChanges = value;  }
-        }
-
         public void PostExecution()
         {
         }
