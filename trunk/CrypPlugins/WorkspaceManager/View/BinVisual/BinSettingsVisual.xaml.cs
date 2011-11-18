@@ -58,6 +58,8 @@ namespace WorkspaceManager.View.BinVisual
                 plugin.Settings.GetTaskPaneAttributeChanged().AddEventHandler(plugin.Settings, new TaskPaneAttributeChangedHandler(myTaskPaneAttributeChangedHandler));  
             }
 
+            
+
             InitializeComponent();
 
             if (isMaster)
@@ -66,8 +68,9 @@ namespace WorkspaceManager.View.BinVisual
 
                 tbC = new TabControl();
                 tbC.Name = "TabControl";
-                
 
+                tbC.Background = Brushes.Transparent;
+                tbC.BorderBrush = Brushes.Transparent;
 
                 DataTrigger dt = new DataTrigger();
                 dt.Value = 1;
@@ -261,7 +264,8 @@ namespace WorkspaceManager.View.BinVisual
                             if (ce.element is NumericUpDown)
                             {
                                 NumericUpDown nud =  ce.element as NumericUpDown;
-                                nud.Opacity = 0.20;
+                                nud.Opacity = 0.80;
+                                nud.Foreground = Brushes.Gray;
                             }
                         }
                         else 
@@ -272,6 +276,7 @@ namespace WorkspaceManager.View.BinVisual
                             {
                                 NumericUpDown nud = ce.element as NumericUpDown;
                                 nud.Opacity = 1;
+                                nud.Foreground = Brushes.Black;
                             }
                         }
                     }
@@ -353,7 +358,7 @@ namespace WorkspaceManager.View.BinVisual
                     {
                           testexoander.Header = cel[0].tpa.GroupName;
                     }
-                    else {  testexoander.Header = Properties.Resources.Main_Settings; }
+                    
                           
 
                     
@@ -423,8 +428,13 @@ namespace WorkspaceManager.View.BinVisual
                                     Grid controlGrid = gridlist[grouplist.IndexOf(ce.sfa.VerticalGroup)];
                                     //controlGrid.Margin = new Thickness(10);
 
-                                    controlGrid.ColumnDefinitions.Add(new ColumnDefinition());
-                                    controlGrid.ColumnDefinitions.Add(new ColumnDefinition());
+                                    ColumnDefinition coldef1 = new ColumnDefinition();
+                                    coldef1.Width = ce.sfa.WidthCol1;
+                                    controlGrid.ColumnDefinitions.Add(coldef1);
+
+                                    ColumnDefinition coldef2 = new ColumnDefinition();
+                                    coldef2.Width = ce.sfa.WidthCol2;
+                                    controlGrid.ColumnDefinitions.Add(coldef2);
                                     //controlGrid.ColumnDefinitions.Add(new ColumnDefinition());
 
                                     //TextBlock title = new TextBlock();
@@ -439,7 +449,7 @@ namespace WorkspaceManager.View.BinVisual
                                     //controlGrid.Children.Add(space);
 
 //                                    Grid.SetColumn(space, controlGrid.ColumnDefinitions.Count - 3);
-
+                                    
                                     controlGrid.Children.Add(title);
                                     Grid.SetColumn(ce.element, controlGrid.ColumnDefinitions.Count - 1);
 
@@ -466,9 +476,13 @@ namespace WorkspaceManager.View.BinVisual
                                     Grid controlGrid = new Grid();
                                     //controlGrid.Margin = new Thickness(10);
 
+                                    ColumnDefinition coldef1 = new ColumnDefinition();
+                                    coldef1.Width = ce.sfa.WidthCol1;
+                                    controlGrid.ColumnDefinitions.Add(coldef1 );
 
-                                    controlGrid.ColumnDefinitions.Add(new ColumnDefinition());
-                                    controlGrid.ColumnDefinitions.Add(new ColumnDefinition());
+                                    ColumnDefinition coldef2 = new ColumnDefinition();
+                                    coldef2.Width = ce.sfa.WidthCol2;
+                                    controlGrid.ColumnDefinitions.Add(coldef2);
 
                                     //TextBlock title = new TextBlock();
                                     title.Text = ce.tpa.Caption;
@@ -570,12 +584,12 @@ namespace WorkspaceManager.View.BinVisual
                                 {
                                     ComboBox cb = ce.element as ComboBox;
                                     //cb.Width = getComboBoxMaxSize(cb);
-                                    test.Children.Add(cb);
+                                    noVerticalGroup.Children.Add(cb);
                                 }
                                 else
                                 {
-                                    test.Children.Add(title);
-                                    test.Children.Add(ce.element);
+                                    noVerticalGroup.Children.Add(title);
+                                    noVerticalGroup.Children.Add(ce.element);
                                 }
                             }
                         }
@@ -588,6 +602,7 @@ namespace WorkspaceManager.View.BinVisual
                    
                     myWrap.Children.Add(testexoander);
                     test.setMaxSizes();
+                    noVerticalGroup.setMaxSizes();
                 }
 
                 this.BeginInit();
@@ -776,7 +791,10 @@ namespace WorkspaceManager.View.BinVisual
                         case ControlType.CheckBox:
                             CheckBox checkBox = new CheckBox();
                             checkBox.Margin = CONTROL_DEFAULT_MARGIN;
-                            checkBox.Content = tpa.Caption;
+                            TextBlock wrapBlock = new TextBlock();
+                            wrapBlock.Text = tpa.Caption;
+                            wrapBlock.TextWrapping = TextWrapping.Wrap;
+                            checkBox.Content = wrapBlock;
                             checkBox.Tag = tpa.ToolTip;
                             checkBox.MouseEnter += Control_MouseEnter;
                             checkBox.SetBinding(CheckBox.IsCheckedProperty, dataBinding);
@@ -870,7 +888,7 @@ namespace WorkspaceManager.View.BinVisual
                             slider.MouseEnter += Control_MouseEnter;
                             slider.SetBinding(Slider.ValueProperty, dataBinding);
 
-                            slider.MinWidth = 100;
+                            slider.MinWidth = 0;
 
                             entgrou.AddNewEntry(tpa.GroupName, new ControlEntry(slider, tpa, sfa));
                             break;
@@ -879,7 +897,8 @@ namespace WorkspaceManager.View.BinVisual
                         # region TextBoxReadOnly
                         case ControlType.TextBoxReadOnly:
                             TextBox textBoxReadOnly = new TextBox();
-                            textBoxReadOnly.MinWidth = 180;
+                            textBoxReadOnly.MinWidth = 0;
+                            textBoxReadOnly.TextWrapping = TextWrapping.Wrap;
                             textBoxReadOnly.IsReadOnly = true;
                             textBoxReadOnly.BorderThickness = new Thickness(0);
                             textBoxReadOnly.Background = Brushes.Transparent;
@@ -894,7 +913,8 @@ namespace WorkspaceManager.View.BinVisual
                             case ControlType.TextBoxHidden:
                             PasswordBox passwordBox = new PasswordBox();
 
-                            passwordBox.MinWidth = 180; 
+                            passwordBox.MinWidth = 0; 
+                            
                             passwordBox.Tag = tpa;
                             passwordBox.MouseEnter += Control_MouseEnter;
                             passwordBox.Password = plugin.Settings.GetType().GetProperty(tpa.PropertyName).GetValue(plugin.Settings, null) as string;
@@ -1188,7 +1208,7 @@ namespace WorkspaceManager.View.BinVisual
                     }
                 }
             }
-            if (maxSizeContent < 15)
+            if (maxSizeContent < 30)
                 maxSizeContent = 200;
             maxSizeCaption += 5;
             maxSizeContent += 5;
@@ -1241,6 +1261,16 @@ namespace WorkspaceManager.View.BinVisual
 
                 }
 
+                if (child is PasswordBox)
+                {
+                    PasswordBox dummyTextBox = child as PasswordBox;
+                    dummyTextBox.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
+                    dummyTextBox.Arrange(new Rect(dummyTextBox.DesiredSize));
+                    //dummyTextBox.MaxWidth = dummyTextBox.DesiredSize.Width;
+
+                    dummyTextBox.MaxWidth = maxSizeContent;
+
+                }
 
                 if (child is TextBlock)
                 {
@@ -1274,7 +1304,16 @@ namespace WorkspaceManager.View.BinVisual
                         dummyTextBox.MaxWidth = dummyTextBox.DesiredSize.Width;
 
                 }
-                
+
+                if (child is Slider)
+                {
+                    Slider dummyTextBox = child as Slider;
+                    dummyTextBox.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
+                    dummyTextBox.Arrange(new Rect(dummyTextBox.DesiredSize));
+                    //dummyTextBox.MaxWidth = dummyTextBox.DesiredSize.Width;
+                    dummyTextBox.MaxWidth = maxSizeContent-10;
+
+                }
 
                 if (child is Expander)
                 {
@@ -1298,6 +1337,21 @@ namespace WorkspaceManager.View.BinVisual
             foreach (UIElement child in Children)
             {
                 child.Measure(new Size(this.ActualWidth,double.PositiveInfinity));
+
+                if (child is CheckBox)
+                {
+                    CheckBox dummyTextBox = child as CheckBox;
+
+                    dummyTextBox.MinWidth = 0;
+
+                    dummyTextBox.Width = this.ActualWidth;
+                }
+
+                if (child is Slider)
+                {
+                    Slider dummyTextBox = child as Slider;
+                    dummyTextBox.Width = this.ActualWidth;
+                }
 
                 if (child is StackPanel) 
                 {
@@ -1346,6 +1400,15 @@ namespace WorkspaceManager.View.BinVisual
                     dummyTextBox.Width = this.ActualWidth;
                 }
 
+                if (child is PasswordBox)
+                {
+
+                    PasswordBox dummyTextBox = child as PasswordBox;
+                    dummyTextBox.MinWidth = 0;
+
+                    dummyTextBox.Width = this.ActualWidth;
+                }
+
                 if (child is Grid)
                 {
 
@@ -1355,13 +1418,15 @@ namespace WorkspaceManager.View.BinVisual
                     dummyTextBox.Width = this.ActualWidth;
                 }
 
+
+
                 if (child is Expander)
                 {
 
                     Expander dummyTextBox = child as Expander;
                     //dummyTextBox.MinWidth = 0;
 
-                    //dummyTextBox.Width = this.ActualWidth;
+                    dummyTextBox.Width = this.ActualWidth;
                 }
 
                 if (child is ComboBox)
