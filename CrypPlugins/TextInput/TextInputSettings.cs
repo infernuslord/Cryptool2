@@ -67,9 +67,9 @@ namespace Cryptool.TextInput
       }
       set
       {
-        if (this.Encoding != value)
+        if (this.encoding != value)
         {
-          this.Encoding = value;
+          this.encoding = value;
           OnPropertyChanged("Encoding");
         }
       }
