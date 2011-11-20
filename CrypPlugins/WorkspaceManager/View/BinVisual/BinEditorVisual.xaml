@@ -195,7 +195,7 @@
             <Image VerticalAlignment="Center" Source="/WorkspaceManager;component/View/Image/pluginSetting-small.png" Width="35" Height="35"></Image>
         </ToggleButton>
 
-        <visuals:TextEditPanel  Grid.RowSpan="3"  Grid.Column="0" Margin="115,0,0,0"></visuals:TextEditPanel>
+        <visuals:TextEditPanel  Grid.Row="0"  Grid.Column="0" Margin="0,0,0,0"></visuals:TextEditPanel>
         <!--##########/Bottom Operations##########-->
 
 
