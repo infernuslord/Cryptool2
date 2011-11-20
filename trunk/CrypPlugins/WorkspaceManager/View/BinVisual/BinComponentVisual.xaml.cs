@@ -585,7 +585,6 @@ typeof(BinSettingsVisual), typeof(BinComponentVisual), new FrameworkPropertyMeta
             Position = model.GetPosition();
             FunctionName = Model.Plugin.GetPluginInfoAttribute().Caption;
             CustomName = Model.GetName();
-            //needs changes in Model
             IsICMaster = Model.HasIControlInputs();
             SetBinding(BinComponentVisual.IsDraggingProperty,
                 Util.CreateIsDraggingBinding(new Thumb[] { ContentThumb, TitleThumb, ScaleThumb, HackThumb }));
