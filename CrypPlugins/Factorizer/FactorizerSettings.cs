@@ -63,7 +63,6 @@ namespace Factorizer
           AddError(ERROR_BFL, "BruteForceLimit has to be greater or equal than "+BRUTEFORCEMIN+" and less or equal than "+BRUTEFORCEMAX+".");
           m_BruteForceLimit = -1;
         }
-        //HasChanges = true;
       }
     }
 
@@ -93,11 +92,6 @@ namespace Factorizer
 
     }
     #endregion
-    #region ISettings Members
-
-    private bool m_HasChanges;
-
-      #endregion
 
     #region INotifyPropertyChanged Members
 

@@ -24,7 +24,7 @@ namespace Cryptool.Plugins.ExamplePluginCT2
     [Author("Anonymous", "coredevs@cryptool.org", "CrypTool 2 Team", "http://cryptool2.vs.uni-due.de")]
     // HOWTO: Change plugin caption (title to appear in CT2) and tooltip.
     // You can (and should) provide a user documentation as XML file and an own icon.
-    [PluginInfo("Example Plugin", "Subtract one number from another", "ExamplePluginCT2/userdoc.xml", "CrypWin/images/default.png")]
+    [PluginInfo("Example Plugin", "Subtract one number from another", "ExamplePluginCT2/userdoc.xml", new[] { "CrypWin/images/default.png" })]
     // HOWTO: Change category to one that fits to your plugin. Multiple categories are allowed.
     [ComponentCategory(ComponentCategory.ToolsMisc)]
     public class ExamplePluginCT2 : ICrypComponent

@@ -10,23 +10,6 @@ namespace WebService
   public class WebServiceSettings:ISettings
     {
      //   public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-       
-        #region ISettings Member
-        private bool changes;
-        public bool HasChanges
-        {
-            get
-            {
-                return changes;
-            }
-            set
-            {
-                changes = value;
-
-            }
-        }
-
-        #endregion
         
         private string methodName;
         [TaskPane( "MethodNameCaption", "MethodNameTooltip", "Konfigurieren", 1, true, ControlType.TextBox, "")]

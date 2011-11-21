@@ -31,7 +31,7 @@ using System.Threading;
 namespace SolitaireAnalyser
 {
     [Author("Coen Ramaekers", "c.f.w.ramaekers@student.tue.nl", "Technische Universiteit Eindhoven", "http://www.win.tue.nl")]
-    [PluginInfo("SolitaireAnalyser.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "SolitaireAnalyser/solbreak.jpg")]
+    [PluginInfo("SolitaireAnalyser.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "SolitaireAnalyser/solbreak.jpg")]
     [ComponentCategory(ComponentCategory.CryptanalysisSpecific)]
     public class SolitaireAnalyser : ICrypComponent
 

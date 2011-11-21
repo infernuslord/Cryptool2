@@ -78,7 +78,7 @@ namespace WorkspaceManager
             WorkspaceModel.MyEditor = this;
             WorkspaceSpaceEditorView = new BinEditorVisual(WorkspaceModel);
             WorkspaceSpaceEditorView.SampleLoaded += new EventHandler(WorkspaceSpaceEditorView_SampleLoaded);
-            HasChanges = false;            
+            HasChanges = false;
         }
 
         void WorkspaceSpaceEditorView_SampleLoaded(object sender, EventArgs e)

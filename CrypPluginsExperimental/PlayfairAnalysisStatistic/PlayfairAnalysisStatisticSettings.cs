@@ -29,7 +29,6 @@ namespace Cryptool.Plugins.PlayfairAnalysisStatistic
         #region Private Variables
 
         private string textCorpusFile;
-        private bool hasChanges = false;
         private int matrixSize = 0;
         private string alphabet;
         private char removeChar;
@@ -40,15 +39,6 @@ namespace Cryptool.Plugins.PlayfairAnalysisStatistic
         private bool convertSpecialSigns;
         private bool replaceCharacter;
                         
-        #endregion
-
-        #region Constructor
-
-        public PlayfairAnalysisStatisticSettings()
-        {
-
-        }
-
         #endregion
 
         #region TaskPane Settings
@@ -66,7 +56,7 @@ namespace Cryptool.Plugins.PlayfairAnalysisStatistic
                 if (textCorpusFile != value)
                 {
                     textCorpusFile = value;
-                    hasChanges = true;
+                    OnPropertyChanged("TextCorpusFile");
                 }
             }
         }
@@ -94,7 +84,6 @@ namespace Cryptool.Plugins.PlayfairAnalysisStatistic
                                         
                     matrixSize = value;
                     OnPropertyChanged("MatrixSize");
-                    hasChanges = true;
                 }
             }
         }
@@ -106,9 +95,11 @@ namespace Cryptool.Plugins.PlayfairAnalysisStatistic
             get { return this.alphabet; }
             set
             {
-                if (value != this.alphabet) HasChanges = true;
-                this.alphabet = value;
-                OnPropertyChanged("Alphabet");
+                if (value != this.alphabet)
+                {
+                    this.alphabet = value;
+                    OnPropertyChanged("Alphabet");
+                }
             }
         }
 
@@ -119,7 +110,9 @@ namespace Cryptool.Plugins.PlayfairAnalysisStatistic
             get { return this.replaceCharacter; }
             set
             {
-                if (value != this.replaceCharacter) HasChanges = true;
+                if (value == this.replaceCharacter)
+                    return;
+
                 this.replaceCharacter = value;
                 OnPropertyChanged("ReplaceCharacter");
                 if (value)
@@ -148,9 +141,11 @@ namespace Cryptool.Plugins.PlayfairAnalysisStatistic
             get { return this.removeChar; }
             set
             {
-                if (value != this.removeChar) HasChanges = true;
-                this.removeChar = value;
-                OnPropertyChanged("RemoveChar");
+                if (value != this.removeChar)
+                {
+                    this.removeChar = value;
+                    OnPropertyChanged("RemoveChar");   
+                }
             }
         }
 
@@ -162,9 +157,11 @@ namespace Cryptool.Plugins.PlayfairAnalysisStatistic
             get { return this.replacementChar; }
             set
             {
-                if (value != this.replacementChar) HasChanges = true;
-                this.replacementChar = value;
-                OnPropertyChanged("ReplacementChar");
+                if (value != this.replacementChar)
+                {
+                    this.replacementChar = value;
+                    OnPropertyChanged("ReplacementChar");   
+                }
             }
         }
 
@@ -175,9 +172,11 @@ namespace Cryptool.Plugins.PlayfairAnalysisStatistic
             get { return this.separator; }
             set
             {
-                if (value != this.separator) HasChanges = true;
-                this.separator = value;
-                OnPropertyChanged("Separator");
+                if (value != this.separator)
+                {
+                    this.separator = value;
+                    OnPropertyChanged("Separator");                    
+                }
             }
         }
 
@@ -188,9 +187,11 @@ namespace Cryptool.Plugins.PlayfairAnalysisStatistic
             get { return this.separatorReplacement; }
             set
             {
-                if (value != this.separatorReplacement) HasChanges = true;
-                this.separatorReplacement = value;
-                OnPropertyChanged("SeparatorReplacement");
+                if (value != this.separatorReplacement)
+                {
+                    this.separatorReplacement = value;
+                    OnPropertyChanged("SeparatorReplacement");   
+                }
             }
         }
 
@@ -201,9 +202,11 @@ namespace Cryptool.Plugins.PlayfairAnalysisStatistic
             get { return this.corpusToUpper; }
             set
             {
-                if (value != this.corpusToUpper) HasChanges = true;
-                this.corpusToUpper = value;
-                OnPropertyChanged("CorpusToUpper");
+                if (value != this.corpusToUpper)
+                {
+                    this.corpusToUpper = value;
+                    OnPropertyChanged("CorpusToUpper");
+                }
             }
         }
 
@@ -214,9 +217,11 @@ namespace Cryptool.Plugins.PlayfairAnalysisStatistic
             get { return this.convertSpecialSigns; }
             set
             {
-                if (value != this.convertSpecialSigns) HasChanges = true;
-                this.convertSpecialSigns = value;
-                OnPropertyChanged("ConvertSpecialSigns");
+                if (value != this.convertSpecialSigns)
+                {
+                    this.convertSpecialSigns = value;
+                    OnPropertyChanged("ConvertSpecialSigns");
+                }
             }
         }
 
@@ -227,28 +232,6 @@ namespace Cryptool.Plugins.PlayfairAnalysisStatistic
 
         public string SmallAlphabet = "ABCDEFGHIKLMNOPQRSTUVWXYZ";
         public string LargeAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-
-        #endregion
-
-
-
-        #region ISettings Members
-
-        /// <summary>
-        /// HOWTO: This flags indicates whether some setting has been changed since the last save.
-        /// If a property was changed, this becomes true, hence CrypTool will ask automatically if you want to save your changes.
-        /// </summary>
-        public bool HasChanges
-        {
-            get
-            {
-                return hasChanges;
-            }
-            set
-            {
-                hasChanges = value;
-            }
-        }
 
         #endregion
 

@@ -22,7 +22,6 @@ namespace Cryptool.ComputeAnnihilators
         private int savedrunlength = 0;
         string outputset;
         private int degree;
-        private bool hasChanges;
         private ActionTypes actiontypes = ActionTypes.Combiner;
         public enum ActionTypes { Combiner = 0, function = 1, setofSequence = 2 };
         private OutputTypes outputtypes = OutputTypes.todisplay;
@@ -34,9 +33,11 @@ namespace Cryptool.ComputeAnnihilators
             get { return this.actiontypes; }
             set
             {
-                if (this.actiontypes != value) hasChanges = true;
-                this.actiontypes = value;
-                OnPropertyChanged("ActionSetting");
+                if (this.actiontypes != value)
+                {
+                    this.actiontypes = value;
+                    OnPropertyChanged("ActionSetting");   
+                }
             }
         }
         [ContextMenu("Action", "Choose application.", 1, ContextMenuControlType.ComboBox, null, new string[] { "Combiner", "function", "setofSequence" })]
@@ -49,9 +50,11 @@ namespace Cryptool.ComputeAnnihilators
             }
             set
             {
-                if (this.actiontypes != (ActionTypes)value) HasChanges = true;
-                this.actiontypes = (ActionTypes)value;
-                OnPropertyChanged("ActionSetting");
+                if (this.actiontypes != (ActionTypes)value)
+                {
+                    this.actiontypes = (ActionTypes)value;
+                    OnPropertyChanged("ActionSetting");   
+                }
             }
         }
         [TaskPane("Degree ", "most degree of the searched annihilator", null, 2, false, ControlType.NumericUpDown, ValidationType.RangeInteger,0, int.MaxValue)]
@@ -60,9 +63,11 @@ namespace Cryptool.ComputeAnnihilators
             get { return this.degree; }
             set
             {
-                if (((int)value) != degree) hasChanges = true;
-                this.degree = value;
-                OnPropertyChanged("Degree");
+                if (value != degree)
+                {
+                    this.degree = value;
+                    OnPropertyChanged("Degree");   
+                }
             }
         }
         public OutputTypes Outputtypes
@@ -70,9 +75,11 @@ namespace Cryptool.ComputeAnnihilators
             get { return this.outputtypes; }
             set
             {
-                if (this.outputtypes != value) hasChanges = true;
-                this.outputtypes = value;
-                OnPropertyChanged("OutputSetting");
+                if (this.outputtypes != value)
+                {
+                    this.outputtypes = value;
+                    OnPropertyChanged("OutputSetting");   
+                }
             }
         }
         [ContextMenu("Output Type", "display in Textoutput or delivre to plugin system of equation", 4, ContextMenuControlType.ComboBox, null, new string[] { "todisplay", "plugininput", "both" })]
@@ -85,9 +92,11 @@ namespace Cryptool.ComputeAnnihilators
             }
             set
             {
-                if (this.outputtypes != (OutputTypes)value) HasChanges = true;
-                this.outputtypes = (OutputTypes)value;
-                OnPropertyChanged("OutputSetting");
+                if (this.outputtypes != (OutputTypes)value)
+                {
+                    this.outputtypes = (OutputTypes)value;
+                    OnPropertyChanged("OutputSetting");   
+                }
             }
         }
         [TaskPane("Outputs Z", "express a set of output Z to determine Z-function to output", "required only in Z-functions", 5, false, ControlType.TextBox, ValidationType.RegEx, "^(1|[\\*]|0)*")]
@@ -96,9 +105,11 @@ namespace Cryptool.ComputeAnnihilators
             get { return this.outputset; }
             set
             {
-                if (((string)value) != outputset) hasChanges = true;
-                this.outputset = value;
-                OnPropertyChanged("OutputSet");
+                if (value != outputset)
+                {
+                    this.outputset = value;
+                    OnPropertyChanged("OutputSet");   
+                }
             }
         }
         public Hashtable SavedZfunctions
@@ -106,8 +117,11 @@ namespace Cryptool.ComputeAnnihilators
             get { return savedZfunctions; }
             set
             {
-                if (value != savedZfunctions) hasChanges = true;
-                savedZfunctions = value;
+                if (value != savedZfunctions)
+                {
+                    savedZfunctions = value;    
+                    OnPropertyChanged("SavedZfunctions");
+                }
             }
         }
         public string Savedoutputfunction
@@ -115,8 +129,11 @@ namespace Cryptool.ComputeAnnihilators
             get { return savedoutputfunction; }
             set
             {
-                if (value != savedoutputfunction) hasChanges = true;
-                savedoutputfunction = value;
+                if (value != savedoutputfunction)
+                {
+                    savedoutputfunction = value;
+                    OnPropertyChanged("Savedoutputfunction");
+                }
             }
         }
         public string Savedmemoryupdatefunction
@@ -124,8 +141,12 @@ namespace Cryptool.ComputeAnnihilators
             get { return savedmemoryupdatefunction; }
             set
             {
-                if (value != savedmemoryupdatefunction) hasChanges = true;
-                savedmemoryupdatefunction = value;
+                if (value != savedmemoryupdatefunction)
+                {
+                    savedmemoryupdatefunction = value;
+                    OnPropertyChanged("Savedmemoryupdatefunction");
+                }
+                
             }
         }
         public int Savedrunlength
@@ -133,8 +154,11 @@ namespace Cryptool.ComputeAnnihilators
             get { return savedrunlength; }
             set
             {
-                if (value != savedrunlength) hasChanges = true;
-                savedrunlength = value;
+                if (value != savedrunlength)
+                {
+                    savedrunlength = value;
+                    OnPropertyChanged("Savedrunlength");
+                }
             }
         }
         public int Saveddegree
@@ -142,8 +166,11 @@ namespace Cryptool.ComputeAnnihilators
             get { return saveddegree; }
             set
             {
-                if (value != saveddegree) hasChanges = true;
-                saveddegree = value;
+                if (value != saveddegree)
+                {
+                    saveddegree = value;
+                    OnPropertyChanged("Saveddegree");
+                }
             }
         }
         public bool ComputeEnded
@@ -151,17 +178,16 @@ namespace Cryptool.ComputeAnnihilators
             get { return computeended; }
             set
             {
-                if (value != computeended) hasChanges = true;
-                computeended = value;
+                if (value != computeended)
+                {
+                    computeended = value;
+                    OnPropertyChanged("ComputeEnded");
+                }
             }
         }
         public delegate void ComputeAnnihilatorsLogMessage(string msg, NotificationLevel logLevel);
         public event ComputeAnnihilatorsLogMessage LogMessage;
-        public bool HasChanges
-        {
-            get { return hasChanges; }
-            set { hasChanges = value; }
-        }
+
         #endregion
         #region INotifyPropertyChanged Members
         public event PropertyChangedEventHandler PropertyChanged;

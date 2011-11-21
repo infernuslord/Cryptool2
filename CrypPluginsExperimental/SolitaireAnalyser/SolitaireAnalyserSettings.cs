@@ -19,6 +19,7 @@ using System.Linq;
 using System.Text;
 using Cryptool.PluginBase;
 using System.ComponentModel;
+using Cryptool.PluginBase.Miscellaneous;
 
 namespace SolitaireAnalyser
 {
@@ -26,17 +27,12 @@ namespace SolitaireAnalyser
     {
         #region Private Variables
 
-        private bool hasChanges = false;
         private int numberOfCards = 54;
 
         #endregion
 
         #region TaskPane Settings
 
-        /// <summary>
-        /// HOWTO: This is an example for a setting entity shown in the settings pane on the right of the CT2 main window.
-        /// This example setting uses a number field input, but there are many more input types available, see ControlType enumeration.
-        /// </summary>
         [TaskPane( "NumberOfCardsCaption", "NumberOfCardsTooltip", null, 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 3, 54)]
         public int NumberOfCards
         {
@@ -46,32 +42,11 @@ namespace SolitaireAnalyser
             }
             set
             {
-                // HOWTO: If a setting changes, you must set hasChanges manually to true.
                 if (numberOfCards != value)
                 {
                     numberOfCards = value;
-                    hasChanges = true;
+                    OnPropertyChanged("NumberOfCards");
                 }
-            }
-        }
-
-        #endregion
-
-        #region ISettings Members
-
-        /// <summary>
-        /// HOWTO: This flags indicates whether some setting has been changed since the last save.
-        /// If a property was changed, this becomes true, hence CrypTool will ask automatically if you want to save your changes.
-        /// </summary>
-        public bool HasChanges
-        {
-            get
-            {
-                return hasChanges;
-            }
-            set
-            {
-                hasChanges = value;
             }
         }
 
@@ -80,6 +55,11 @@ namespace SolitaireAnalyser
         #region INotifyPropertyChanged Members
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyChanged(string property)
+        {
+            EventsHelper.PropertyChanged(PropertyChanged, this, property);
+        }
 
         #endregion
     }

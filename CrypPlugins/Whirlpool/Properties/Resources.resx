@@ -150,10 +150,4 @@
   <data name="PluginTooltip" xml:space="preserve">
     <value>Whirlpool hash function</value>
   </data>
-    <data name="HasChangesCaption" xml:space="preserve">
-    <value>Length</value>
-  </data>
-  <data name="HasChangesTooltip" xml:space="preserve">
-    <value>Hash Length, the hash length in bits, must be a multiple of 8.</value>
-  </data>
 </root>

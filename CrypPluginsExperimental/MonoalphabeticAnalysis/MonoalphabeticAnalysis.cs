@@ -24,11 +24,10 @@ using System.Runtime.Remoting.Contexts;
 namespace Cryptool.MonoalphabeticAnalysis
 {
     [Author("Georgi Angelov", "angelov@cryptool.org", "Uni Duisburg", "http://www.uni-duisburg-essen.de")]
-    [PluginInfo(false,
-    "MonoalphabeticAnalysis",
+    [PluginInfo("MonoalphabeticAnalysis",
     "Proposes Alphabet for the substitution cipher.",
     "",
-    "MonoalphabeticAnalysis/icon.png")]
+    new[] { "MonoalphabeticAnalysis/icon.png" })]
     [ComponentCategory(ComponentCategory.CryptanalysisSpecific)]
     public partial class MonoalphabeticAnalysis : ICrypComponent
     {

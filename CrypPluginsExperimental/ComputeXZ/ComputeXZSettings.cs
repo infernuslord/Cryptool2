@@ -13,7 +13,6 @@ namespace Cryptool.ComputeXZ
     class ComputeXZSettings : ISettings
     {
         #region Private variables
-        private bool hasChanges;
         private int savedstartX = 0;
         private Hashtable savedXZ = null;
         private string savedoutputfunction = "";
@@ -31,9 +30,11 @@ namespace Cryptool.ComputeXZ
             get { return this.outputtypes; }
             set
             {
-                if (this.outputtypes != value) hasChanges = true;
-                this.outputtypes = value;
-                OnPropertyChanged("OutputSetting");
+                if (this.outputtypes != value)
+                {
+                    this.outputtypes = value;
+                    OnPropertyChanged("OutputSetting");   
+                }
             }
         }
         [TaskPane("OutputTypes of XZ", "Choose Outputtype of th sets XZ", null, 2, false, ControlType.RadioButton, new string[] { "Display in TextOutput ", "Input of other Plug-in", "both" })]
@@ -45,9 +46,11 @@ namespace Cryptool.ComputeXZ
             }
             set
             {
-                if (this.outputtypes != (OutputTypes)value) HasChanges = true;
-                this.outputtypes = (OutputTypes)value;
-                OnPropertyChanged("OutputSetting");
+                if (this.outputtypes != (OutputTypes)value)
+                {
+                    this.outputtypes = (OutputTypes)value;
+                    OnPropertyChanged("OutputSetting");   
+                }
             }
         }
         [TaskPane("Outputs Z", "express a sets of output Z to determine the set XZ to output", null, 3, false, ControlType.TextBox, ValidationType.RegEx, null)]
@@ -56,9 +59,11 @@ namespace Cryptool.ComputeXZ
             get { return this.outputs; }
             set
             {
-                if (((string)value) != outputs) hasChanges = true;
-                this.outputs = value;
-                OnPropertyChanged("SetOfOutputs");
+                if (((string)value) != outputs)
+                {
+                    this.outputs = value;
+                    OnPropertyChanged("SetOfOutputs");   
+                }
             }
         }
         public string Saveoutputfunction
@@ -66,8 +71,12 @@ namespace Cryptool.ComputeXZ
             get { return savedoutputfunction; }
             set
             {
-                if (value != savedoutputfunction) hasChanges = true;
-                savedoutputfunction = value;
+                if (value != savedoutputfunction)
+                {
+                    savedoutputfunction = value; 
+                    OnPropertyChanged("Saveoutputfunction");
+                }
+                
             }
         }
         public string Savedmemoryupdatefunction
@@ -75,8 +84,11 @@ namespace Cryptool.ComputeXZ
             get { return savedmemoryupdatefunction; }
             set
             {
-                if (value != savedmemoryupdatefunction) hasChanges = true;
-                savedmemoryupdatefunction = value;
+                if (value != savedmemoryupdatefunction)
+                {
+                    savedmemoryupdatefunction = value;
+                    OnPropertyChanged("Savedmemoryupdatefunction");
+                }
             }
         }
         public int Savedrunlength
@@ -84,8 +96,11 @@ namespace Cryptool.ComputeXZ
             get { return savedrunlength; }
             set
             {
-                if (value != savedrunlength) hasChanges = true;
-                savedrunlength = value;
+                if (value != savedrunlength)
+                {
+                    savedrunlength = value;
+                    OnPropertyChanged("Savedrunlength");
+                }
             }
         }
         public int SavedstartX
@@ -93,8 +108,11 @@ namespace Cryptool.ComputeXZ
             get { return savedstartX; }
             set
             {
-                if (value != savedstartX) hasChanges = true;
-                savedstartX = value;
+                if (value != savedstartX)
+                {
+                    savedstartX = value;
+                    OnPropertyChanged("Savedstartx");
+                }
             }
         }
         public bool IsXZcomputed
@@ -102,8 +120,11 @@ namespace Cryptool.ComputeXZ
             get { return isxzcomputed; }
             set
             {
-                if (value != isxzcomputed) hasChanges = true;
-                isxzcomputed = value;
+                if (value != isxzcomputed)
+                {
+                    isxzcomputed = value;
+                    OnPropertyChanged("IsXZcomputed");
+                }
             }
         }
         public Hashtable SavedXZ
@@ -111,17 +132,16 @@ namespace Cryptool.ComputeXZ
             get { return savedXZ; }
             set
             {
-                if (value != savedXZ) hasChanges = true;
-                savedXZ = value;
+                if (value != savedXZ)
+                {
+                    savedXZ = value;
+                    OnPropertyChanged("SavedXZ");
+                }
             }
         }
         public delegate void ComputeXZLogMessage(string msg, NotificationLevel logLevel);
         public event ComputeXZLogMessage LogMessage;
-        public bool HasChanges
-        {
-            get { return hasChanges; }
-            set { hasChanges = value; }
-        }
+
         #endregion
         #region INotifyPropertyChanged Members
         public event PropertyChangedEventHandler PropertyChanged;

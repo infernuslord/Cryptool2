@@ -30,7 +30,7 @@ using System.Windows;
 namespace Cryptool.Plugins.PlayfairAnalysis
 {   
     [Author("Christoph Hartmann", "chris-ha@freenet.de", "Johannes Gutenberg-Universität Mainz", "http://www.uni-mainz.de")]
-    [PluginInfo("PlayfairAnalysis.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "PlayfairAnalysis/Images/icon.png")]
+    [PluginInfo("PlayfairAnalysis.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "PlayfairAnalysis/Images/icon.png")]
     [ComponentCategory(ComponentCategory.CryptanalysisSpecific)]
     public class PlayfairAnalysis : ICrypComponent
     {

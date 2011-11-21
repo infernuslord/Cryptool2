@@ -182,7 +182,9 @@ namespace Wizard
         }
 
         public bool HasChanges
-        { get; set; }
+        {
+            get { return false; }
+        }
 
         public bool CanPrint
         {

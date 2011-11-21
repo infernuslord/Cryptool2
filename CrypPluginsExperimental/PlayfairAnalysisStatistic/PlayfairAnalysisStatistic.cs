@@ -26,7 +26,7 @@ using System.Windows.Controls;
 namespace Cryptool.Plugins.PlayfairAnalysisStatistic
 {    
     [Author("Christoph Hartmann", "chris-ha@freenet.de", "Johannes Gutenberg-Universität Mainz", "http://www.uni-mainz.de")]
-    [PluginInfo("PlayfairAnalysisStatistic.Properties.Resources", true, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "CrypWin/images/default.png")]
+    [PluginInfo("PlayfairAnalysisStatistic.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "CrypWin/images/default.png")]
     [ComponentCategory(ComponentCategory.CryptanalysisSpecific)]
     public class PlayfairAnalysisStatistic : ICrypComponent
     {

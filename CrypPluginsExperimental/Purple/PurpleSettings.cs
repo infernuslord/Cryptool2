@@ -27,7 +27,6 @@ namespace Cryptool.Plugins.Purple
     {
         #region Private Variables
 
-        private bool hasChanges = false;
         private string alphabet = "AEIOUYBCDFGHJKLMNPQRSTVWXZ";
         private int motion = 123;
         private int selectedAction = 0;
@@ -43,10 +42,6 @@ namespace Cryptool.Plugins.Purple
 
         #region TaskPane Settings
         [PropertySaveOrder(1)]
-        /// <summary>
-        /// HOWTO: This is an example for a setting entity shown in the settings pane on the right of the CT2 main window.
-        /// This example setting uses a number field input, but there are many more input types available, see ControlType enumeration.
-        /// </summary>
         [ContextMenu("ActionCaption", "ActionTooltip", 1, ContextMenuControlType.ComboBox, new int[] { 1, 2 }, "EncryptCaption", "DecryptCaption")]
         [TaskPane("ActionCaption", "ActionTooltip", null, 1, true, ControlType.ComboBox, new string[] { "EncryptCaption", "DecryptCaption" })]
         public int Action
@@ -57,11 +52,13 @@ namespace Cryptool.Plugins.Purple
             }
             set
             {
-                if (value != selectedAction) HasChanges = true;
-                this.selectedAction = value;
-                OnPropertyChanged("Action");
+                if (value != selectedAction)
+                {
+                    this.selectedAction = value;
+                    OnPropertyChanged("Action");
 
-                //if (ReExecute != null) ReExecute();
+                    //if (ReExecute != null) ReExecute();   
+                }
             }
         }
 
@@ -82,11 +79,10 @@ namespace Cryptool.Plugins.Purple
             }
             set
             {
-                // HOWTO: If a setting changes, you must set hasChanges manually to true.
                 if (alphabet != value)
                 {
                     alphabet = value;
-                    hasChanges = true;
+                    OnPropertyChanged("Alphabet");
                 }
             }
         }
@@ -102,11 +98,10 @@ namespace Cryptool.Plugins.Purple
             }
             set
             {
-                // HOWTO: If a setting changes, you must set hasChanges manually to true.
                 if (sechserPos != value)
                 {
                     sechserPos = value;
-                    hasChanges = true;
+                    OnPropertyChanged("Sixes");
                 }
             }
         }
@@ -121,11 +116,10 @@ namespace Cryptool.Plugins.Purple
             }
             set
             {
-                // HOWTO: If a setting changes, you must set hasChanges manually to true.
                 if (zwanzigerPos1 != value)
                 {
                     zwanzigerPos1 = value;
-                    hasChanges = true;
+                    OnPropertyChanged("Twenties");
                 }
             }
         }
@@ -139,11 +133,10 @@ namespace Cryptool.Plugins.Purple
             }
             set
             {
-                // HOWTO: If a setting changes, you must set hasChanges manually to true.
                 if (zwanzigerPos2 != value)
                 {
                     zwanzigerPos2 = value;
-                    hasChanges = true;
+                    OnPropertyChanged("Twenties2");
                 }
             }
         }
@@ -157,11 +150,10 @@ namespace Cryptool.Plugins.Purple
             }
             set
             {
-                // HOWTO: If a setting changes, you must set hasChanges manually to true.
                 if (zwanzigerPos3 != value)
                 {
                     zwanzigerPos3 = value;
-                    hasChanges = true;
+                    OnPropertyChanged("Twenties3");
                 }
             }
         }
@@ -179,38 +171,16 @@ namespace Cryptool.Plugins.Purple
             }
             set
             {
-                // HOWTO: If a setting changes, you must set hasChanges manually to true.
                 if (motion != value)
                 {
                     motion = value;
-                    hasChanges = true;
+                    OnPropertyChanged("Motion");
                 }
             }
         }
 
         #endregion
       
-
-        #endregion
-
-        #region ISettings Members
-
-        /// <summary>
-        /// HOWTO: This flags indicates whether some setting has been changed since the last save.
-        /// If a property was changed, this becomes true, hence CrypTool will ask automatically if you want to save your changes.
-        /// </summary>
-        public bool HasChanges
-        {
-            get
-            {
-                return hasChanges;
-            }
-            set
-            {
-                hasChanges = value;
-            }
-        }
-
         #endregion
 
         #region INotifyPropertyChanged Members

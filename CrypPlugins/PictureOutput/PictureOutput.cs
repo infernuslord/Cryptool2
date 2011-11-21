@@ -29,14 +29,12 @@ namespace PictureOutput
     [ComponentCategory(ComponentCategory.ToolsDataInputOutput)]
     public class PictureOutput : ICrypComponent
     {
-        private PictureOutputSettings _settings = null;
         private PictureOutputPresentation _presentation = null;
         private byte[] _data = null;
         private ICryptoolStream _stream = null;
 
         public PictureOutput()
         {
-            _settings = new PictureOutputSettings();
             _presentation = new PictureOutputPresentation();
         }
 
@@ -50,7 +48,7 @@ namespace PictureOutput
 
         public ISettings Settings
         {
-            get { return _settings; }
+            get { return null; }
         }
 
         public System.Windows.Controls.UserControl Presentation

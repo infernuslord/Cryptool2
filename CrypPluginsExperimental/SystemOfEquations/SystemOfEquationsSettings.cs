@@ -15,7 +15,6 @@ namespace Cryptool.SystemOfEquations
         private string keystream;
         private string feedbackpolynomials;
         private string lfsrsoutputs;
-        private bool hasChanges;
         #endregion
         #region ISettings Members
         [TaskPane("Feedback polynomials of LFSRs", "Feedback polynomials of LFSRs in bit presentation ", null, 1, false, ControlType.TextBox, ValidationType.RegEx, null)]
@@ -24,7 +23,7 @@ namespace Cryptool.SystemOfEquations
             get { return this.feedbackpolynomials; }
             set
             {
-                if (value != feedbackpolynomials) hasChanges = true;
+                if (value != feedbackpolynomials)
                 {
                     this.feedbackpolynomials = value;
                     OnPropertyChanged("Feedbackpolynomials");
@@ -59,11 +58,7 @@ namespace Cryptool.SystemOfEquations
         }
         public delegate void SystemOfEquationsLogMessage(string msg, NotificationLevel logLevel);
         public event SystemOfEquationsLogMessage LogMessage;
-        public bool HasChanges
-        {
-            get { return hasChanges; }
-            set { hasChanges = value; }
-        }
+
         #endregion
         #region INotifyPropertyChanged Members
         public event PropertyChangedEventHandler PropertyChanged;

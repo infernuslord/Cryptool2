@@ -16,21 +16,7 @@ namespace Soap
     {
         #region ISettings Member
 
-        private bool changes;
-       
-        public bool HasChanges
-        {
-            get
-            {
-                return changes;
-            }
-            set
-            {
-                changes = value;
-
-            }
-        }
-        public string ResetSoap
+      public string ResetSoap
         {
             get
             {
@@ -132,9 +118,10 @@ namespace Soap
             set
             {
                 if (this.encContentRadio != (encryptionType)value)
-                HasChanges = true;
-                this.encContentRadio = (encryptionType)value;
-                OnPropertyChanged("EncContentRadio");
+                {
+                    this.encContentRadio = (encryptionType)value;
+                    OnPropertyChanged("EncContentRadio");   
+                }
             }
         }
       
@@ -178,7 +165,6 @@ namespace Soap
 
                 securedSoap = value;
                 OnPropertyChanged("securedsoap");
-                HasChanges = true;
             }
         }
        
@@ -258,14 +244,6 @@ namespace Soap
                 OnPropertyChanged("secheaderSigned");
             }
         }
-
-     
-
-
-
-
-
-
 
         private int contentCounter;
 
@@ -361,7 +339,6 @@ namespace Soap
             {
                 wsdlLoaded = value;
                 OnPropertyChanged("wsdlloaded");
-                HasChanges = true;
             }
         }
 

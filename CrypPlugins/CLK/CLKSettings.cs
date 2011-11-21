@@ -60,9 +60,11 @@ namespace Cryptool.CLK
         }
         set
         {
-            //if (this.setClockToTrue != setClockToTrue) HasChanges = true;
-            this.setClockToTrue = value;
-            OnPropertyChanged("SetClockToTrue");
+            //if (this.setClockToTrue != setClockToTrue)
+            {
+                this.setClockToTrue = value;
+                OnPropertyChanged("SetClockToTrue");
+            }
         }
     }*/
 

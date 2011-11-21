@@ -10,23 +10,6 @@ namespace Cryptool.Plugins.RegularExpressions
 {
     class RegExMatchSettings : ISettings
     {
-        private bool hasChanges = false;
-
-        #region ISettings Member
-
-        public bool HasChanges
-        {
-            get
-            {
-                return hasChanges;
-            }
-            set
-            {
-                hasChanges = value;
-            }
-        }
-
-        #endregion
 
         #region INotifyPropertyChanged Member
         

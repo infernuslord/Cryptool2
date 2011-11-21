@@ -24,8 +24,6 @@ namespace Cryptool.Plugins.ArrayIndexer
 {
     class ArrayIndexerSettings : ISettings
     {
-        bool hasChanges = false;
-
         #region taskPane
         private int arrayIndex;
         [TaskPane("ArrayIndexCaption", "ArrayIndexTooltip", null, 0, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
@@ -44,9 +42,6 @@ namespace Cryptool.Plugins.ArrayIndexer
                 }
             }
         }
-
-        #endregion
-        #region ISettings Members
 
         #endregion
 

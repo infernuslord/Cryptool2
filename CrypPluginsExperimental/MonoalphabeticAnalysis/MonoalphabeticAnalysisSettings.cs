@@ -9,25 +9,15 @@ namespace Cryptool.MonoalphabeticAnalysis
 {
     public class MonoalphabeticAnalysisSettings : ISettings
     {
-        #region ISettings Members
-
-        private bool hasChanges;
-        public bool HasChanges
-        {
-            get { return hasChanges; }
-            set { hasChanges = value; }
-        }
-
-        #endregion
-
         private string proposalKey = "";
         public string ProposalKey
         {
             get { return proposalKey; }
-            set {
-                  proposalKey = value;
-                  //hasChanges = true; 
-                }
+            set
+            {
+                proposalKey = value;
+                OnPropertyChanged("ProposalKey");
+            }
         }
 
         private string workKey = "";
@@ -37,7 +27,7 @@ namespace Cryptool.MonoalphabeticAnalysis
             set
             {
                 workKey = value;
-                //hasChanges = true; 
+                OnPropertyChanged("Workkey");
             }
         }
         private StringBuilder plugBoard = new StringBuilder("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
@@ -71,7 +61,6 @@ namespace Cryptool.MonoalphabeticAnalysis
             {
                 if (workKey[letterPos] != proposalKey[letterPos]) //Change has been made. Must be undone
                 {
-                    hasChanges = true;
                     this.workKeyCharArray = this.workKey.ToCharArray();
                     char currentworkchar = this.workKey[letterPos];
                     this.workKeyCharArray[letterPos] = this.proposalKey[letterPos];
@@ -87,13 +76,6 @@ namespace Cryptool.MonoalphabeticAnalysis
                     OnPropertyChanged("PlugBoard" + alphabet[letterPos]);
                     OnPropertyChanged("PlugBoard" + alphabet[indexofcurrentworkchar]);
                 }
-
-
-               
-
-
-
-                hasChanges = true;
 
                 this.workKeyCharArray = this.workKey.ToCharArray();
 
@@ -126,8 +108,6 @@ namespace Cryptool.MonoalphabeticAnalysis
         
         private int fastAproach = 0;
         
-
-        
         //[PropertySaveOrder(1)]
         [ContextMenu("Generate digram matrix internally", "When the digram matrix is generated internally, the time for calculating the cost function is significantly reduced. ", 27, ContextMenuControlType.ComboBox, null, new string[] { "Don't generate internally", "Generate internally" })]
         [TaskPane("Digram matrix", "When the digram matrix is generated internally, the time for calculating the cost function is significantly reduced.", "", 27, false, ControlType.ComboBox, new string[] { "Don't generate internally", "Generate internally" })]
@@ -138,22 +118,13 @@ namespace Cryptool.MonoalphabeticAnalysis
             {
                 if (value != fastAproach)
                 {
-                    HasChanges = true;
                     fastAproach = value;
+                    OnPropertyChanged("Fast Aproach");
                 }
-
-                OnPropertyChanged("Fast Aproach");
             }
         }
 
-        
-
-
         #region Plugboard settings
-
-
-        
-
 
         [TaskPane("ManualSuggestion", "Once you have a key proposittion you can make fixes according to the decipher results. Use the Letter drop-down boxes to correct the text in substitution decipher output, check 'Manual Suggestion'(Me) and 'play' the chain again. Good Luck! ", "", 28, false, ControlType.CheckBox, "", null)]
         public bool SuggestSubstitutionManually
@@ -164,7 +135,6 @@ namespace Cryptool.MonoalphabeticAnalysis
                 if (value != suggestSubstitutionManually)
                 {
                     suggestSubstitutionManually = value;
-                    hasChanges = true;
                     OnPropertyChanged("ManualSuggestion");
                 }
             }
@@ -189,7 +159,6 @@ namespace Cryptool.MonoalphabeticAnalysis
 
             set
             {
-                hasChanges = true;
                 workKey = value;
              
                OnPropertyChanged("Plugboard");

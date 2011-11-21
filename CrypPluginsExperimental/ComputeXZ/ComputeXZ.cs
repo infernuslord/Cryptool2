@@ -14,7 +14,7 @@ using System.Windows.Controls;
 namespace Cryptool.ComputeXZ
 {
     [Author("Abdeljalil Bourbahh", "bourbahh@yahoo.de", "Ruhr-Universitaet Bochum, Chair for System Security", "http://www.trust.rub.de/")]
-    [PluginInfo(false, "Alg. attack: Compute XZ", "compute the sets XZ for a Combiner of streamcipher", "ComputeXZ/DetailedDescription/Description.xaml", "ComputeXZ/Images/xzz.png")]
+    [PluginInfo("Alg. attack: Compute XZ", "compute the sets XZ for a Combiner of streamcipher", "ComputeXZ/DetailedDescription/Description.xaml", new[] { "ComputeXZ/Images/xzz.png" })]
     [ComponentCategory(ComponentCategory.CryptanalysisSpecific)]
     public class ComputeXZ : ICrypComponent
     {
@@ -95,11 +95,6 @@ namespace Cryptool.ComputeXZ
         }
         public void Dispose()
         {
-        }
-        public bool HasChanges
-        {
-            get { return settings.HasChanges; }
-            set { settings.HasChanges = value; }
         }
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
         private void GuiLogMessage(string message, NotificationLevel logLevel)
