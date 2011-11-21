@@ -333,22 +333,6 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         #region private
 
         /// <summary>
-        /// This method checks if the input stream is valid. If it is not valid it sets it to a dummy stream
-        /// (this funcionality is stolen from DES plugin ;) )
-        /// </summary>
-        private void checkForInputStream()
-        {
-            if (settings.Action == 0 && (inputStream == null || inputStream.Length == 0))
-            {
-                //create some input
-                String dummystring = "Dummy string - no input provided - \"Hello SDES World\" - dummy string - no input provided!";
-                this.inputStream = new CStreamWriter(Encoding.UTF8.GetBytes(dummystring));
-                // write a warning to the ouside word
-                GuiLogMessage("WARNING - No input provided. Using dummy data. (" + dummystring + ")", NotificationLevel.Warning);
-            }
-        }
-
-        /// <summary>
         /// Checks if the Input key is not null and has length 10 and only contains 1s and 0s
         /// and if Input IV is not null and has length 8 and only contains 1s and 0s
         /// </summary>
@@ -401,15 +385,14 @@ namespace Cryptool.Plugins.Cryptography.Encryption
 
             try
             {
-                checkForInputStream();
                 if (!areKeyAndIVValid())
                 {
                     return;
                 }
 
-                if (inputStream == null)
+                if (inputStream == null || inputStream.Length == 0)
                 {
-                    GuiLogMessage("No input given. Not using dummy data in decrypt mode. Aborting now.", NotificationLevel.Error);
+                    GuiLogMessage("No input data, aborting now", NotificationLevel.Error);
                     return;
                 }
 

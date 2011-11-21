@@ -111,20 +111,6 @@ namespace Cryptool.TEA
             }
         }
 
-        private void checkForInputStream()
-        {
-            if (settings.Action == 0 && (InputStream == null || InputStream.Length == 0))
-            {
-                //create some input
-                String dummystring = "12345678";
-                InputStream = new CStreamWriter(Encoding.UTF8.GetBytes(dummystring));
-                // write a warning to the outside world
-                GuiLogMessage("WARNING - No input provided. Using dummy data. (" + dummystring + ")", NotificationLevel.Warning);
-
-                OnPropertyChanged("InputStream");
-            }
-        }
-
         public void Execute()
         {
             process(settings.Action, settings.Padding);
@@ -135,11 +121,9 @@ namespace Cryptool.TEA
             //Encrypt/Decrypt Stream
             try
             {
-                checkForInputStream();
-
-                if (InputStream == null)
+                if (InputStream == null || InputStream.Length == 0)
                 {
-                    GuiLogMessage("No input given. Not using dummy data in decrypt mode. Aborting now.", NotificationLevel.Error);
+                    GuiLogMessage("No input data, aborting now", NotificationLevel.Error);
                     return;
                 }
 
