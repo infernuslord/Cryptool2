@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Cryptool.PluginBase;
+using Cryptool.PluginBase.Miscellaneous;
 using Cryptool.PluginBase.Validation;
 using System.IO;
 using System.Collections;
@@ -29,13 +30,10 @@ namespace Solitaire
     {
         #region Private Variables
 
-        private bool hasChanges = false;
         private int numberOfCards = 54;
         private int generationType = 0;
         private int streamType = 0;
         private int actionType = 0;
-
-
 
         #endregion
 
@@ -58,7 +56,7 @@ namespace Solitaire
                 if (actionType != value)
                 {
                     actionType = value;
-                    hasChanges = true;
+                    OnPropertyChanged("ActionType");
                 }
             }
         }
@@ -73,11 +71,10 @@ namespace Solitaire
             }
             set
             {
-                // HOWTO: If a setting changes, you must set hasChanges manually to true.
                 if (numberOfCards != value)
                 {
                     numberOfCards = value;
-                    hasChanges = true;
+                    OnPropertyChanged("NumberOfCards");
                 }
             }
         }
@@ -95,7 +92,7 @@ namespace Solitaire
                 if (generationType != value) 
                 {
                     generationType = value;
-                    hasChanges = true;
+                    OnPropertyChanged("GenerationType");
                 }
             }
         }
@@ -113,29 +110,8 @@ namespace Solitaire
                 if (streamType != value)
                 {
                     streamType = value;
-                    hasChanges = true;
+                    OnPropertyChanged("StreamType");
                 }
-            }
-        }
-
-        #endregion
-
-        #region ISettings Members
-
-        /// <summary>
-        /// HOWTO: This flags indicates whether some setting has been changed since the last save.
-        /// If a property was changed, this becomes true, hence CrypTool will ask automatically if you want to save your changes.
-        /// </summary>
-        [PropertySaveOrder(4)]
-        public bool HasChanges
-        {
-            get
-            {
-                return hasChanges;
-            }
-            set
-            {
-                hasChanges = value;
             }
         }
 
@@ -144,6 +120,11 @@ namespace Solitaire
         #region INotifyPropertyChanged Members
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyChanged(string property)
+        {
+            EventsHelper.PropertyChanged(PropertyChanged, this, property);
+        }
 
         #endregion
     }

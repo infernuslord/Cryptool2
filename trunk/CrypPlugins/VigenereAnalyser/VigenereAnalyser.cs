@@ -15,7 +15,7 @@ using System.Threading;
 namespace Cryptool.VigenereAnalyser
 {
     [Author("Danail Vazov", "vazov@cryptool.org", "Uni Duisburg", "http://www.uni-duisburg-essen.de")]
-    [PluginInfo("Cryptool.VigenereAnalyser.Properties.Resources", false,
+    [PluginInfo("Cryptool.VigenereAnalyser.Properties.Resources",
     "PluginCaption", "PluginTooltip", "PluginDescriptionURL",
     "VigenereAnalyser/icon.png")]
     [ComponentCategory(ComponentCategory.CryptanalysisSpecific)]

@@ -50,7 +50,6 @@ namespace Whirlpool
     //        while ((length & 0x07) != 0) // go to the next multiple of 8
     //            length++;
 
-    //        hasChanges = true;
     //        OnPropertyChanged("Settings");
     //    }
     //}

@@ -29,7 +29,7 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace Solitaire
 {
     [Author("Coen Ramaekers", "c.f.w.ramaekers@student.tue.nl", "Technische Universiteit Eindhoven", "http://www.win.tue.nl")]
-    [PluginInfo("Solitaire.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "Solitaire/sol.jpg")]
+    [PluginInfo("Solitaire.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "Solitaire/sol.jpg")]
     [ComponentCategory(ComponentCategory.CiphersClassic)]
     public class Solitaire : ICrypComponent
     {

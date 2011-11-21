@@ -32,8 +32,6 @@ namespace Cryptool.Plugins.LengthOf
     [ComponentCategory(ComponentCategory.ToolsMisc)]
     public class LengthOf : ICrypComponent
     {
-        private LengthOfSettings settings = new LengthOfSettings();
-
         private object objInput = null;
         private int outputLen = 0;
 
@@ -122,8 +120,7 @@ namespace Cryptool.Plugins.LengthOf
 
         public Cryptool.PluginBase.ISettings Settings
         {
-            get { return this.settings; }
-            set { this.settings = (LengthOfSettings)value; }
+            get { return null; }
         }
 
         public void Stop()

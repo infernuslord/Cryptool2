@@ -22,7 +22,6 @@ namespace ManInTheMiddle
             {
                 send = value;
                 OnPropertyChanged("insertBody");
-                HasChanges = true;
             }
         }
 
@@ -40,24 +39,6 @@ namespace ManInTheMiddle
             {
                 soap = value;
                 OnPropertyChanged("Soap");
-            }
-        }
-
-        #endregion
-
-
-        #region ISettings Member
-
-        private bool changes;
-        public bool HasChanges
-        {
-            get
-            {
-              return changes;
-            }
-            set
-            {
-                changes=value;
             }
         }
 

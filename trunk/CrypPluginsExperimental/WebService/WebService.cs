@@ -41,7 +41,7 @@ using System.Web.Services;
 namespace WebService
 {
     [Author("Tim Podeszwa", "tim.podeszwa@student.uni-siegen.de", "Uni Siegen", "http://www.uni-siegen.de")]
-    [PluginInfo("WebService.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "WebService/webservice.png")]
+    [PluginInfo("WebService.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "WebService/webservice.png")]
     [ComponentCategory(ComponentCategory.Protocols)]
     public class WebService : ICrypComponent
     {

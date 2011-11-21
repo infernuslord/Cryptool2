@@ -36,7 +36,6 @@ namespace Cryptool.Plugins.Decimalization
 
         #endregion
 
-
         #region Initialization / Constructor
 
         public void Initialize()
@@ -126,7 +125,6 @@ namespace Cryptool.Plugins.Decimalization
                 /*if (!assocString.Equals(value))
                 {
                     assocString = value;
-                    hasChanges = true;
                     OnPropertyChanged("AssocString");
                 }*/
             }

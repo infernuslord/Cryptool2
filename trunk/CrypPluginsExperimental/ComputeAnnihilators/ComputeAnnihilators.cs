@@ -14,8 +14,7 @@ using System.Windows.Controls;
 namespace Cryptool.ComputeAnnihilators
 {
     [Author("Abdeljalil Bourbahh", "bourbahh@yahoo.de", "Ruhr-Universitaet Bochum, Chair for System Security", "http://www.trust.rub.de/")]
-    [PluginInfo(false, "Alg.Attack: Compute annihilators", "compute annihilators of Function, Set of bitsquence or a set XZ (Z-functions)", "ComputeAnnihilators/DetailedDescription/Description.xaml",
- "ComputeAnnihilators/Images/ann.png")]
+    [PluginInfo("Alg.Attack: Compute annihilators", "compute annihilators of Function, Set of bitsquence or a set XZ (Z-functions)", "ComputeAnnihilators/DetailedDescription/Description.xaml", new[] { "ComputeAnnihilators/Images/ann.png"}) ]
     [ComponentCategory(ComponentCategory.CryptanalysisSpecific)]
     public class ComputeAnnihilators : ICrypComponent
     {
@@ -80,11 +79,6 @@ namespace Cryptool.ComputeAnnihilators
         }
         public void Dispose()
         {
-        }
-        public bool HasChanges
-        {
-            get { return settings.HasChanges; }
-            set { settings.HasChanges = value; }
         }
         public event PluginProgressChangedEventHandler OnPluginProgressChanged;
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;

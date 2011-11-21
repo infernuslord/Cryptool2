@@ -26,7 +26,7 @@ using System.Windows.Controls;
 namespace Cryptool.Plugins.PasswordStrength
 {
     [Author("Selim Arikan", "selimarikan@windowslive.com", "Istanbul University, Electrics-Electronics Engineering", "http://www.selimarikan.com")]    
-    [PluginInfo(false, "Password Strength", "Determine the strength of the password given.", null, "PasswordStrength/Images/password.png")]
+    [PluginInfo("Password Strength", "Determine the strength of the password given.", null, new[] { "PasswordStrength/Images/password.png" })]
     [ComponentCategory(ComponentCategory.ToolsMisc)]
     public class PasswordStrength : ICrypComponent
     {

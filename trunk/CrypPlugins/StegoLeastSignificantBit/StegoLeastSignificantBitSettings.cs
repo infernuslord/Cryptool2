@@ -86,7 +86,7 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
                 if (noisePercent != value)
                 {
                     noisePercent = value;
-                    hasChanges = true;
+                    OnPropertyChanged("NoisePercent");
                 }
             }
         }*/

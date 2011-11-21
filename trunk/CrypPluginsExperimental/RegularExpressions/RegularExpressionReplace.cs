@@ -27,7 +27,7 @@ using System.Text.RegularExpressions;
 namespace RegularExpressions
 {
     [Author("Armin Wiefels", "wiefels@cryptool.org", "Uni Due", "http://www.uni-due.de")]
-    [PluginInfo(false, "Regular Expression Replace", "", "RegularExpressions/Description/RegexReplaceDescript.xaml", "RegularExpressions/icons/regreplaceicon.png")]
+    [PluginInfo("Regular Expression Replace", "", "RegularExpressions/Description/RegexReplaceDescript.xaml", new[] { "RegularExpressions/icons/regreplaceicon.png" })]
     [ComponentCategory(ComponentCategory.ToolsDataflow)]
     public class RegularExpressionReplace : ICrypComponent
     {

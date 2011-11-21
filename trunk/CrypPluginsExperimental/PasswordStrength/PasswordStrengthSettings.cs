@@ -26,15 +26,6 @@ namespace Cryptool.Plugins.PasswordStrength
     {
         #region ISettings Members
 
-      
-        public bool HasChanges
-        {
-            get { return false; }
-            set
-            {
-            }
-        }
-
         #endregion
 
         #region INotifyPropertyChanged Members

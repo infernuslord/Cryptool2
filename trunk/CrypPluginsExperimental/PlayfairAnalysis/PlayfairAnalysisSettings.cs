@@ -29,23 +29,12 @@ namespace Cryptool.Plugins.PlayfairAnalysis
         #region Private Variables
 
         private enum supportedMatrixSizes {MatrixSize5x5, MatrixSize6x6}
-        private bool hasChanges = false;
         private int heapSize = 5000;
         private int matrixSize = (int)supportedMatrixSizes.MatrixSize5x5;
         private int language;
         private int useCustomStatistic;
         
         #endregion
-
-        #region Constructor
-
-        public PlayfairAnalysisSettings()
-        {
-
-        }
-
-        #endregion
-
 
         #region TaskPane Settings
 
@@ -65,7 +54,7 @@ namespace Cryptool.Plugins.PlayfairAnalysis
                 if (heapSize != value)
                 {                    
                     heapSize = value;
-                    hasChanges = true;
+                    OnPropertyChanged("HeapSize");
                 }
             }
         }
@@ -99,7 +88,7 @@ namespace Cryptool.Plugins.PlayfairAnalysis
                     }
 
                     useCustomStatistic = value;
-                    hasChanges = true;
+                    OnPropertyChanged("UseCustomStatistic");
                 }
             }
         }
@@ -116,7 +105,7 @@ namespace Cryptool.Plugins.PlayfairAnalysis
                 if (matrixSize != value)
                 {
                     matrixSize = value;
-                    hasChanges = true;                    
+                    OnPropertyChanged("MatrixSize");                    
                 }
             }
         }
@@ -133,30 +122,8 @@ namespace Cryptool.Plugins.PlayfairAnalysis
                 if (language != value)
                 {
                     language = value;
-                    hasChanges = true;
+                    OnPropertyChanged("Language");
                 }
-            }
-        }
-
-
-
-        #endregion
-
-        #region ISettings Members
-
-        /// <summary>
-        /// HOWTO: This flags indicates whether some setting has been changed since the last save.
-        /// If a property was changed, this becomes true, hence CrypTool will ask automatically if you want to save your changes.
-        /// </summary>
-        public bool HasChanges
-        {
-            get
-            {
-                return hasChanges;
-            }
-            set
-            {
-                hasChanges = value;
             }
         }
 

@@ -20,11 +20,7 @@ namespace StringOperations
 {
     class StringOperationsSettings : ISettings
     {
-        private bool _hasChanges;
         private StringOperationType _stringOperationType;
-        #region ISettings Members
-
-        #endregion
 
         #region INotifyPropertyChanged Members
 
@@ -44,7 +40,6 @@ namespace StringOperations
             {
                 if (_stringOperationType != (StringOperationType)value)
                 {
-                    _hasChanges = true;
                     _stringOperationType = (StringOperationType) value;
                     OnPropertyChanged("Operation");
                 }

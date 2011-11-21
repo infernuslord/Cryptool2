@@ -101,10 +101,9 @@ namespace Cryptool.WEPAttacks
             {
                 if ((string)value != dataSource)
                 {
-                    hasChanges = true;
+                    this.dataSource = (string)value;
+                    OnPropertyChanged("DataSource");
                 }
-                this.dataSource = (string)value;
-                OnPropertyChanged("DataSource");
             }
         }*/
 

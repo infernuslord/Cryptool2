@@ -13,8 +13,6 @@ namespace RegularExpressions
     public class RegularExpressionReplaceSettings :ISettings
     {
 
-        private bool hasChanges = false;
-
         #region taskpane
         
         private String patternValue;
@@ -28,7 +26,6 @@ namespace RegularExpressions
                 {
                     this.patternValue = value;
                     OnPropertyChanges("PatternValue");
-                    HasChanges = true;
                 }
             }
         }
@@ -44,31 +41,13 @@ namespace RegularExpressions
                 {
                     this.replaceValue = value;
                     OnPropertyChanges("ReplaceValue");
-                    HasChanges = true;
                 }
             }
         }
 
         private void OnPropertyChanges(string p)
         {
-//dieses ding hier existiert nur weil ich den "stub erschaffen habe. aus testgründen
-        }
-
-        #endregion
-
-
-        #region ISettings Member
-       
-        public bool HasChanges
-        {
-            get
-            {
-                return this.hasChanges;
-                           }
-            set
-            {
-                this.hasChanges = value;
-                }
+            EventsHelper.PropertyChanged(PropertyChanged, this, p);
         }
 
         #endregion

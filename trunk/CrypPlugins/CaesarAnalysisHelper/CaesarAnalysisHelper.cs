@@ -25,7 +25,7 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace Cryptool.CaesarAnalysisHelper
 {
     [Author("Fabian Enkler", "enkler@cryptool.org", "", "")]
-    [PluginInfo("CaesarAnalysisHelper.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "CaesarAnalysisHelper/icon.png")]
+    [PluginInfo("CaesarAnalysisHelper.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "CaesarAnalysisHelper/icon.png")]
     [ComponentCategory(ComponentCategory.CryptanalysisSpecific)]
     public class CaesarAnalysisHelper : ICrypComponent
     {

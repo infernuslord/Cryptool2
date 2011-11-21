@@ -16,7 +16,7 @@ using System.Text.RegularExpressions;
 namespace Cryptool.Plugins.RegularExpressions
 {
     [Author("Daniel Kohnen", "kohnen@cryptool.org", "Universität Duisburg Essen", "http://www.uni-due.de")]
-    [PluginInfo(false, "Regular Expression Match", "Matching Regular Expression", "RegularExpressions/Description/RegexMatchDescript.xaml", "RegularExpressions/icons/regmatchicon.png")]
+    [PluginInfo("Regular Expression Match", "Matching Regular Expression", "RegularExpressions/Description/RegexMatchDescript.xaml", new[] { "RegularExpressions/icons/regmatchicon.png"})]
     [ComponentCategory(ComponentCategory.ToolsDataflow)]
     public class RegExMatch : ICrypComponent
     {

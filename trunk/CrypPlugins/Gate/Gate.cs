@@ -45,7 +45,7 @@ namespace Gate
         private bool freshInput = false;
         private bool freshControl = false;
 
-        [PropertyInfo(Direction.InputData, "InputObjectCaption", "InputObjectTooltip", true, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "InputObjectCaption", "InputObjectTooltip", true)]
         public object InputObject
         {
             get
@@ -60,7 +60,7 @@ namespace Gate
             }
         }
 
-        [PropertyInfo(Direction.InputData, "ControlCaption", "ControlTooltip", false, QuickWatchFormat.Text, null)]
+        [PropertyInfo(Direction.InputData, "ControlCaption", "ControlTooltip", false)]
         public bool Control
         {
             get

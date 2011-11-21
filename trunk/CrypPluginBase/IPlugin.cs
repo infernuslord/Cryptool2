@@ -66,7 +66,7 @@ namespace Cryptool.PluginBase
         void Initialize();
 
         /// <summary>
-        /// Will be called from editor when element is deleted from worksapce.
+        /// Will be called from editor when element is deleted from workspace.
         /// Releases unmanaged and - optionally - managed resources
         /// </summary>
         void Dispose();

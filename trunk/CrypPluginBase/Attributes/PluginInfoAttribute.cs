@@ -95,7 +95,7 @@ namespace Cryptool.PluginBase
         # endregion translation helpers
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PluginInfoAttribute"/> class.
+        /// This overload is ambigous due to 'params string[]' definition. Use 'new[] { "foobar/icon.png" }' in attribute declaration for icon pathes.
         /// </summary>
         /// <param name="caption">General name.</param>
         /// <param name="toolTip">The tool tip.</param>

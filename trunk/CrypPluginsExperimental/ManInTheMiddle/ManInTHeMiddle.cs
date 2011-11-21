@@ -23,7 +23,7 @@ using System.Threading;
 namespace ManInTheMiddle
 {
     [Author("Jan Bernhardt", "jan_bernhardt@gmx.de", "Uni Siegen", "http://www.uni-siegen.de")]
-    [PluginInfo(false, "ManInTheMiddle", "Represents a Man in the middle", "", "ManInTheMiddle/ManInTheMiddleIcon.png")]
+    [PluginInfo("ManInTheMiddle", "Represents a Man in the middle", "", new[] { "ManInTheMiddle/ManInTheMiddleIcon.png" })]
     [ComponentCategory(ComponentCategory.Protocols)]
     public class ManInTHeMiddle : ICrypComponent
     {

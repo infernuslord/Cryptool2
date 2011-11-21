@@ -14,8 +14,8 @@ using System.Windows.Controls;
 namespace Cryptool.SystemOfEquations
 {
     [Author("Abdeljalil Bourbahh", "bourbahh@yahoo.de", "Ruhr-Universitaet Bochum, Chair for System Security", "http://www.trust.rub.de/")]
-    [PluginInfo(false, "Alg. attack: System of equations", "generate a System of equation for algebric attack against Combiner of streamcipher", "SystemOfEquations/DetailedDescription/Description.xaml",
- "SystemOfEquations/Images/soe.png")]
+    [PluginInfo("Alg. attack: System of equations", "generate a System of equation for algebric attack against Combiner of streamcipher", "SystemOfEquations/DetailedDescription/Description.xaml",
+ new[] { "SystemOfEquations/Images/soe.png" })]
     [ComponentCategory(ComponentCategory.CryptanalysisSpecific)]
     public class SystemOfEquations : ICrypComponent
     {
@@ -66,11 +66,6 @@ namespace Cryptool.SystemOfEquations
         }
         public void Dispose()
         {
-        }
-        public bool HasChanges
-        {
-            get { return settings.HasChanges; }
-            set { settings.HasChanges = value; }
         }
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
 

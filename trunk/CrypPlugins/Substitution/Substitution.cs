@@ -30,7 +30,7 @@ namespace Cryptool.Substitution
 {
     [Author("Sebastian Przybylski", "sebastian@przybylski.org", "Uni-Siegen", "http://www.uni-siegen.de")]
     [PluginInfo("Substitution.Properties.Resources", "PluginCaption", "PluginTooltip", "Substitution/DetailedDescription/doc.xml", 
-      "Substitution/Images/icon.png", "Substitution/Images/encrypt.png", "Substitution/Images/decrypt.png")]
+      new[] { "Substitution/Images/icon.png", "Substitution/Images/encrypt.png", "Substitution/Images/decrypt.png" })]
     [ComponentCategory(ComponentCategory.CiphersClassic)]
     public class Substitution : ICrypComponent
     {

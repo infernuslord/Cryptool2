@@ -25,7 +25,6 @@ namespace Cryptool.Plugins.ExamplePluginCT2
     {
         #region Private Variables
 
-        private bool hasChanges = false;
         private int someParameter = 0;
 
         #endregion
@@ -45,42 +44,25 @@ namespace Cryptool.Plugins.ExamplePluginCT2
             }
             set
             {
-                // HOWTO: If a setting changes, you must set hasChanges manually to true.
                 if (someParameter != value)
                 {
                     someParameter = value;
-                    hasChanges = true;
                     // HOWTO: MUST be called every time a property value changes with correct parameter name
-                    EventsHelper.PropertyChanged(PropertyChanged, this, "SomeParameter");
+                    OnPropertyChanged("SomeParameter");
                 }
             }
         }
 
         #endregion
 
-        #region ISettings Members
-
-        /// <summary>
-        /// HOWTO: This flags indicates whether some setting has been changed since the last save.
-        /// Unfortunately you have to handle this manually.
-        /// </summary>
-        public bool HasChanges
-        {
-            get
-            {
-                return hasChanges;
-            }
-            set
-            {
-                hasChanges = value;
-            }
-        }
-
-        #endregion
-
-        #region INotifyPropertyChanged Members
+        #region Events
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyChanged(string propertyName)
+        {
+            EventsHelper.PropertyChanged(PropertyChanged, this, propertyName);
+        }
 
         #endregion
     }
