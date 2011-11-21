@@ -2,15 +2,7 @@
 \label{sec:PluginImplementation}
 In this chapter we provide step-by-step instructions for implementing your own CrypTool 2 plugin. We shall assume that you have already retrieved the CrypTool 2 source code from the SVN repository, set up Visual Studio 2010 or Visual C\# 2010 Express to build CrypTool 2, and you have placed the plugin template in the right place.
 
-\section{Downloading the example}
-\label{sec:DownloadingTheExample}
-
-We will use the \textbf{Caesar cipher} (also known as the \textbf{shift cipher}) as an example throughout this chapter. If you have not downloaded the entire CrypTool 2 source code as described in Section \ref{CheckingOutTheSources}, you can also get a copy of just the source code for the Caesar algorithm referenced throughout this guide from the following location:\\\\
-\textit{username: anonymous\\
-password:} (not required)\\
-\url{https://www.cryptool.org/svn/CrypTool2/trunk/CrypPlugins/Caesar/}
-
-\section{Creating a new project}
+\section{Create a new project}
 \label{sec:CreatingANewProject}
 
 Open the CrypTool 2 solution, right click in the solution explorer on \textit{CrypPlugins} (or on the top solution item, if you're using Visual C\# Express) and select \textit{Add~$\rightarrow$ New Project}. In the dialog window, select \textit{Visual C\# $\rightarrow$ CrypTool 2.0 Plugin} as project template and enter a unique name for your new plugin project (such as \textit{Caesar} in our case). The \textbf{next step is crucial} to ensure that your plugin will compile and run correctly: select the subdirectory \texttt{CrypPluginsExperimental\textbackslash} as the location of your project (Figure~\ref{fig:vs_create_new_project}).
@@ -31,7 +23,7 @@ As the project basics are already correctly set up in the template, you should n
 	\label{fig:caesar_project}
 \end{figure}
 
-\section{Adapting the plugin skeleton}
+\section{Adapt the plugin skeleton}
 \label{AdaptingThePluginSkeleton}
 
 If you look into the two C\# source files (Figure~\ref{fig:caesar_project}), you will notice a lot of comments marked with the keyword \texttt{HOWTO}. These are hints as to what you should change in order to adapt the plugin skeleton to your custom implementation. Most \texttt{HOWTO} hints are self-explanatory and thus we won't discuss them all.
@@ -55,7 +47,7 @@ The \textit{[Author]} attribute is optional, meaning that we are not required to
 	\label{fig:attribute_author}
 \end{figure}
 
-As can be seen above, the author attribute takes four elements of type string. These elements are:
+All of these elements are optional and may be null:
 
 \begin{itemize}
 	\item \textit{Author} --- the name of the plugin developer.
@@ -64,69 +56,41 @@ As can be seen above, the author attribute takes four elements of type string. T
 	\item \textit{URL} --- the website of the developer or of his or her institution.
 \end{itemize}
 
-All of these elements are optional; the developer can choose what information will be published. Unused elements should be set to \texttt{null} or an empty string.
-
 \subsection{The \protect\textit{[PluginInfo]} attribute}
 \label{sec:ThePluginInfoAttribute}
 
-The second attribute, \textit{[PluginInfo]}, provides necessary information about the plugin, and is therefore mandatory. The information defined in this attribute appears in the caption and tool tip window. The attribute is defined as follows:
+The \textit{[PluginInfo]} attribute provides necessary information about the plugin, and is therefore mandatory. The information defined in this attribute appears in the caption and tool tip window. The attribute is defined as follows:
 
 \begin{figure}[h]
 	\centering
-		\includegraphics[width=1.00\textwidth]{figures/attribute_plugininfo.jpg}
-	\caption{The defintion for the \textit{[PluginInfo]} attribute.}
+		\includegraphics[width=1.00\textwidth]{figures/attribute_plugininfo.png}
+	\caption{Multilingual defintion of \textit{[PluginInfo]} attribute.}
 	\label{fig:attribute_plugininfo}
 \end{figure}
 
 \noindent This attribute has the following parameters:
 
 \begin{itemize}
-	\item \textit{Resource File} --- the relative path of the associated resource file (if the plugin makes use of one). These files are used primarily to provide multilingual support for the plugin, although this is currently a work in progress. This element is optional.
-	\item \textit{Startable} --- a flag that should be set to \texttt{true} only if the plugin is an input generator (i.e.\ if your plugin only has outputs and no inputs). In all other cases this should be set to \texttt{false}. This flag is important --- setting it incorrectly will result in unpredictable results. This element is mandatory.
+	\item \textit{Resource File} --- the namespace and class name of an associated resource file \textit{.resx}. This element is optional and used only if the plugin provides multilingual strings (see also Section~\ref{sec:Internationalization}).
 	\item \textit{Caption} --- the name of the plugin, or, if using a resource file, the name of the field in the file with the caption data. This element is mandatory.
-	\item \textit{ToolTip} --- a description of the plugin, or, if using a resource file, the name of the field in the resource file with the toolTip data. This element is optional.
-	\item \textit{DescriptionURL} --- the local path of the description file (e.g.\ XAML file). This element is optional.
-	\item \textit{Icons} --- an array of strings to define all the paths of the icons used in the plugin (i.e.\ the plugin icon described in Section \ref{sec:AddingAnIconToTheCaesarClass}). This element is mandatory.
+	\item \textit{ToolTip} --- a description of the plugin, or, if using a resource file, the name of the field in the resource file with the toolTip data. This element may be null.
+	\item \textit{DescriptionURL} --- the local path of the user documentation file (XML file, see Section~\ref{sec:Documentation}). This element may be null.
+	\item \textit{Icons} --- an array of strings to define all the paths of the icons used in the plugin (i.e.\ the plugin icon described in Section \ref{sec:AddingAnIconToTheCaesarClass}). This element may be null.
 \end{itemize}
 
-\noindent Unused elements should be set to \texttt{null} or an empty string.
+For your first plugin, it's recommended to skip the resource file and use English strings for \textit{Caption} and \textit{ToolTip}. If you're ready to add multi-language support to your plugin, take a look at Section~\ref{sec:Internationalization}.
 
-There are a few limitations and bugs that still exist in the \textit{[PluginInfo]} attribute that will be resolved in a future version. First, it is possible to use the plugin without setting a caption, although this is not recommended, and future versions of the plugin will fail to load without a caption. Second, a zero-length toolTip string currently causes the toolTip to appear as an empty box in the application. Third, the toolTip and description do not currently support internationalization and localization. Since the precise formulation and functionality of this attribute is still being developed, it is recommended to view other plugins for examples.
+The \textit{DescriptionURL} element defines the location path of the user documentation file (custom XML format), e.g. \texttt{"assemblyname/path/filename.xml"}. Take a look at Section~\ref{sec:Documentation} to see how to create a documentation file.
 
-In our example, the \textit{resourceFile} parameter is set to \textit{Cryptool.Caesar.Resource.res}. This file will be used to store the label and caption text to support multilingualism.
+The \textit{Icons} parameter is an array of strings and should be provided in format: \\
+\texttt{new[] \{ "assemblyname/path/filename.png" \} }
 
-The second parameter, \textit{startable}, should be set to \texttt{false}, because our encryption algorithm is not an input generator.
+Don't forget to add all files to your project in Visual Studio. See Section~\ref{sec:AddingAnIconToTheCaesarClass} how to do this.
 
-The next two parameters are necessary to define the plugin's name and description. Since we are using a resource file, we should place here the names of the resource fields that contain the caption and toolTip. (We could also just write simple text strings instead of using outsourced references.)
-
-The \textit{DescriptionURL} element defines the location path of the description file. The parameter is composed in the format \textit{$<$assembly name$>$/$<$file name$>$} or, if you want to store your description files in a separate folder (as in our case), \textit{$<$assembly name$>$/$<$path$>$/$<$file name$>$}. The description file must be an XAML file. In our case, we shall create a folder named \textit{DetailedDescription} in which to store our XAML file with any necessary images. Our folder structure now looks as follows:
-
-\begin{figure}[h!]
-	\centering
-		\includegraphics[width=.30\textwidth]{figures/detailed_description.jpg}
-	\caption{The folder structure as seen in the Solution Explorer.}
-	\label{fig:attribute_plugininfo_icon_path}
-\end{figure}
-
-Once a detailed description has been written in the XAML file, it can be accessed in the CrypTool~2 application by right-clicking on the plugin icon in the workspace and selecting \textit{Show description} \mbox{(Figure \ref{fig:xaml_description})}.
-
-\begin{figure}[h!]
-	\centering
-		\includegraphics[width=1.00\textwidth]{figures/xaml_description.jpg}
-	\caption{A detailed description provided through an XAML file.}
-	\label{fig:xaml_description}
-\end{figure}
-
-The last parameter tells CrypTool 2 the names of the provided icons. This parameter is an array composed of strings in the format \textit{$<$assembly name$>$/$<$file name$>$} or \textit{$<$assembly name$>$/$<$path$>$/\linebreak $<$file~name$>$}.
-
-The first and most important icon is the plugin icon, which will be shown in CrypTool 2 in the ribbon bar and navigation pane. Once the icon has been added to the project as described in Section~\ref{sec:AddingAnIconToTheCaesarClass}, we must accordingly tell CrypTool 2 where to find the icon. This can be seen above in Figure \ref{fig:attribute_plugininfo}.
-
-If your plugin will use additional icons, you should define the paths to each of them by adding the path strings to the \textit{[PluginInfo]} attribute parameter list, each separated by a comma. We have added two further icons for the context menu in the CrypTool 2 workspace. (If you choose to add more icons, don't forget to add the icons to your solution.)
-
-\subsection{Algorithm category}
+\subsection{Set algorithm category}
 \label{sec:AlgorithmCategory}
 
-In the CrypTool 2 user interface plugins are grouped by their algorithm category, for example hash, encryption, and so on. To set the category, you must specifiy the attribute \textit{[ComponentCategory]}:
+In the CrypTool 2 user interface plugins are grouped by their algorithm category, for example hash function, symmetric cipher, and so on. To set the category, you must specifiy the attribute \textit{[ComponentCategory]}. Multiple categories are allowed.
 
 \begin{lstlisting}
     [ComponentCategory(ComponentCategory.CiphersClassic)]
@@ -134,46 +98,26 @@ In the CrypTool 2 user interface plugins are grouped by their algorithm category
 		{
 \end{lstlisting}
 
-\subsection{Importing CrypPluginBase namespaces}
-\label{sec:ImportingCrypPluginBaseNamespaces}
-
-Depending on which algorithm category you choose, you will need to import the corresponding name\-space of \textit{CrypPluginBase}. To include the necessary namespaces in the class header, use the \texttt{using} statement followed by the name of the desired namespace. The most important namespaces provided by \textit{CrypPluginBase} are:
-
-\begin{itemize}
-	\item \textit{Cryptool.PluginBase} --- contains interfaces such as \textit{ICrypComponent} and some attributes.
-	\item \textit{Cryptool.PluginBase.Control} --- contains global interfaces for the \textit{IControl} feature for defining custom controls.
-	\item \textit{Cryptool.PluginBase.IO} --- contains interfaces for input, output and the \textit{ICryptoolStream}.
-	\item \textit{Cryptool.PluginBase.Miscellaneous} --- contains assorted helper classes, including \textit{GuiLogMessage} and \textit{PropertyChanged}.
-	\item \textit{Cryptool.PluginBase.Tool} --- contains an interface for standalone tools in CrypTool~2 that are not run in a workspace editor.
-	\item \textit{Cryptool.PluginBase.Validation} --- contains interfaces for validation methods, including regular expressions.
-\end{itemize}
-
-\section{Defining the private variables of the settings in the Caesar class}
-\label{sec:DefiningThePrivateVariablesOfTheSettingsInTheCaesarClass}
-
-The next step is to define some private class elements. In our example, this will look like the following:
-
-\begin{lstlisting}
-	#region Private elements
-	private CaesarSettings settings; // required to implement the IPlugin interface properly
-	private enum CaesarMode { encrypt, decrypt }; // nested enum, used to select either encryption or decryption
-	#endregion
-\end{lstlisting}
-
-\ \\
-If your algorithm deals with potentially large data amounts, it is recommended to use the \textit{ICryptoolStream} data type. More information about how to use the \textit{ICryptoolStream} can be found in the CrypTool 2 wiki: \url{https://www.cryptool.org/trac/CrypTool2/wiki/ICryptoolStreamUsage}. You will need to include the namespace \textit{Cryptool.PluginBase.IO} with a \texttt{using} statement as explained in Section \ref{sec:ImportingCrypPluginBaseNamespaces}.
-
-\subsection{Adding controls to the CaesarSettings class}
+\subsection{Adding parameters to the CaesarSettings class}
 \label{sec:AddingControlsToTheCaesarSettingsClass}
 
-The settings class contains the necessary information about controls, captions, descriptions, and default parameters (for key settings, alphabets, key length, type of action, etc.) to build the settings \textbf{TaskPane} in the CrypTool application. The settings class is used to populate the TaskPane in the CrypTool 2 application so that the user can modify the plugin settings at will. Therefore, we must implement some controls, such as buttons and text boxes, to allow for the necessary interaction. If you will be implementing an algorithm that does not have any user-defined settings (such as a hash function), then this class can be left mostly empty. To see the full source code, you may take a look at the Caesar plugin the the Subversion repository.
+If your component provides user-configurable parameters, you can set them up in the settings class derived from \textit{ISetting}. This comprises text input fields, number fields, combo boxes, radio buttons and so on. Take a look at \textit{CaesarSettings.cs} to see some examples for user-configurable parameters.
 
-\section{Adding an icon to the Caesar class}
+If you don't want to provide any parameters, delete the class and return null for the \textit{Settings} property:
+
+\begin{lstlisting}
+	public ISettings Settings
+	{
+		get { return null; }
+	}
+\end{lstlisting}
+
+\section{Add an icon file}
 \label{sec:AddingAnIconToTheCaesarClass}
 
-Before we go back to the code of the Caesar class, we need to add a custom icon to our project to be shown in the CrypTool 2 \textbf{ribbon bar} and \textbf{navigation pane}. The template has a default icon set, so you don't need to create your own custom set.
+Your component is represented in the CrypTool 2 user interface by an icon. You should add a custom icon file, but if you don't, the template uses a generic default one.
 
-The proper image size is 40x40 pixels, but since the image will be rescaled if necessary, any size is technically acceptable. Once you have saved your icon, you should add it directly to the project or to a subdirectory with it. In the project solution, create a new folder named \textit{Images}. This can be done by right-clicking on the project item (\textit{Caesar} in our example) and selecting \textit{Add $\rightarrow$ New Folder}. The icon can be added to this folder (or to the project directly, or to any other subdirectory) by right-clicking on the folder and selecting \textit{Add $\rightarrow$ Existing Item}.
+The proper image size is 40x40 pixels, but since the image will be rescaled if necessary, any size is technically acceptable. Once you have saved your icon, you should add it directly to the project or to a subdirectory with it. Right-click on your plugin project or any subfolder and select \textit{Add $\rightarrow$ Existing Item}.
 
 \begin{figure}[h!]
 	\centering
@@ -183,7 +127,7 @@ The proper image size is 40x40 pixels, but since the image will be rescaled if n
 \end{figure}
 \clearpage
 
-A new window will then appear. Select \textit{Image Files} as the file type and select your newly-created icon for your plugin.
+Choose \textit{Image Files} as the file type and select your newly-created icon for your plugin.
 
 \begin{figure}[h!]
 	\centering
@@ -193,273 +137,111 @@ A new window will then appear. Select \textit{Image Files} as the file type and 
 \end{figure}
 \clearpage
 
-Finally, we must set the icon as a \textit{Resource} to avoid including the icon as a separate file. Right-click on the icon and select \textit{Properties} as seen below.
+It's \textbf{necessary} to set the icon file as a \textit{Resource} in the file properties. Right-click on your icon file, click \textit{Properties} and set the \textit{Build Action} to \textit{Resource}.
 
 \begin{figure}[h!]
 	\centering
-		\includegraphics{figures/icon_properties.jpg}
-	\caption{Selecting the image properties.}
+		\includegraphics{figures/icon_properties.jpg} \includegraphics{figures/icon_build_action.jpg}
+	\caption{Go to \textit{Properties}, select \textit{Build Action} to \textit{Resource}.}
 	\label{fig:icon_properties}
 \end{figure}
-
-In the \textit{Properties} panel, set the \textit{Build Action} to \textit{Resource}.
-
-\begin{figure}[h!]
-	\centering
-		\includegraphics{figures/icon_build_action.jpg}
-	\caption{Selecting the icon's build action.}
-	\label{fig:icon_build_action}
-\end{figure}
-\clearpage
 
 \section{Input and output dockpoints}
 \label{sec:InputAndOutputDockpoints}
 
-\subsection{The input/output attributes}
-\label{sec:TheInputOutputAttributes}
-
-Next we will define five properties, each with an appropriate attribute, to be used for input and output. Th attributes are necessary to tell CrypTool 2 whether the properties are used for input or output and to provide the plugin with external data.
-
-The attribute that we will use for each proprerty is called \textit{[PropertyInfo]} and it consists of the following elements:
+Next we will define some class properties to be used as data input and output connectors of the component. Each property is defined by a \textit{[PropertyInfo]} attribute:
 
 \begin{itemize}
-	\item \textit{direction} --- defines whether this property is an input or output property, e.g.\ whether it reads input data or writes output data. The possible values are:
+	\item \textit{direction} --- defines whether this property is an input or output property:
 	\begin{itemize}
 		\item \texttt{Direction.Input}
 		\item \texttt{Direction.Output}
 	\end{itemize}
-	\item \textit{caption} --- the caption for the property displayed over the input or output arrow of the icon after it has been placed in the editor; ``Input stream'' in the example below:
-	
-\begin{figure}[h!]
-	\centering
-		\includegraphics[width=.55\textwidth]{figures/property_caption.jpg}
-	\caption{A possible property caption and toolTip.}
-	\label{fig:property_caption}
-\end{figure}
-
-	\item \textit{toolTip} --- the toolTip for the property displayed over the input or output arrow of the icon after it has been placed in the editor; ``Input data to be hashed'' in the example above.
-	\item \textit{descriptionUrl} --- currently not used; fill it with \texttt{null} or an empty string.
+	\item \textit{caption} --- a short caption of the data property shown in the editor. May be either a text or a key refering to a multilingual resource file (see Section~\ref{sec:Intersec:Internationalization}).
+	\item \textit{toolTip} --- similar as a caption, but more descriptive. May be either a text or a key refering to a multilingual resource file.
 	\item \textit{mandatory} --- this flag determines whether an input must be attached by the user to use the plugin. If set to \texttt{true}, an input connection will be required or else the plugin will not be executed in the workflow chain. If set to \texttt{false}, connecting an input is optional. As this only applies to input properties, if the direction has been set to \texttt{Direction.Output}, this flag will be ignored.
-	\item \textit{hasDefaultValue} --- if this flag is set to \texttt{true}, CrypTool 2 will assume that the property has a default input value that does not require user input.
-	
-	\item \textit{quickWatchFormat} --- determines how the content of the property will be shown in the quickwatch perspective. CrypTool 2 accepts the following quickwatch formats:
-	
-	\begin{itemize}
-		\item \texttt{QuickWatchFormat.Base64}
-		\item \texttt{QuickWatchFormat.Hex}
-		\item \texttt{QuickWatchFormat.None}
-		\item \texttt{QuickWatchFormat.Text}
-	\end{itemize}
-
-\begin{figure}[h]
-	\centering
-		\includegraphics{figures/quick_watch.jpg}
-	\caption{A quickwatch display in hexadecimal.}
-	\label{fig:quick_watch}
-\end{figure}
-	
-	\item \textit{quickWatchConversionMethod} --- this is used to indicate a conversion method; most plugins do not need to convert their data and thus should use a \texttt{null} value here. The quickwatch function uses the default system encoding to display data, so if your data is in another format, such as UTF-16 or Windows-1250, you should provide here the name of a conversion method as string. The header for such a method should look something like the following:
-
-\begin{lstlisting}
-object YourMethodName(string PropertyNameToConvert)
-\end{lstlisting}
 
 \end{itemize}
 
-\subsection{Defining the input/output properties}
-\label{sec:DefiningTheInputOutputProperties}
-
-The first of the five properties that we will define is \textit{InputString}. This is used to provide our plugin with the data to be encrypted or decrypted:
+Here is an example:
+\clearpage
 
 \begin{lstlisting}
-[PropertyInfo(Direction.InputData, "Text input", "Input a string to be processed by the Caesar cipher", "", true, false, QuickWatchFormat.Text, null)]
+[PropertyInfo(Direction.InputData, "Text input", "Input a string to be processed by the Caesar cipher", false)]
 public string InputString
 {
-		get;
-		set;
+	get;
+	set;
 }
 \end{lstlisting}
 
-\ \\
-In the get method we simply return the value of the input data. The set method checks if the input value has changed, and, if so, sets the new input data and announces the change to the CrypTool 2 environment by calling the function \textit{OnPropertyChanged(\textit{$<$Property name$>$})}. This step is necessary for input properties to update the quickwatch view. The output data property (which handles the input data after it has been encrypted or decrypted) will in our example look as follows:
-
-%\textit{\small Note 1: It is currently not possible to read directly from the input data stream without creating an intermediate CryptoolStream.\\\\
-%\small Note 2: The naming may be confusing. The new CryptoolStream is not an output stream, but it is added to the list of output streams to enable a clean dispose afterwards. See chapter 9 below.\\\\}
+The output data property (which handles the input data after it has been encrypted or decrypted) may look as follows. CrypTool 2 does not require implementing set methods for output properties, as they will never be called from outside the plugin (it won't hurt, though).
 
 \begin{lstlisting}
-[PropertyInfo(Direction.OutputData, "Text output", "The string after processing with the Caesar cipher", "", false, false, QuickWatchFormat.Text, null)]
+[PropertyInfo(Direction.OutputData, "Text output", "The string after processing with the Caesar cipher", false)]
 public string OutputString
 {
-		get;
-		set;
+	get;
+	set;
 }
 \end{lstlisting}
 
-\ \\
-\indent CrypTool 2 does not require implementing set methods for output properties, as they will never be called from outside the plugin. Nevertheless, in our example the plugin itself accesses the property, and therefore we have chosen to implement the set method.
-
-You can provide additional output data types if you so desire. In our example, we will also offer output data of type \textit{CryptoolStream}, input data for external alphabets, and input data for the shift value of our Caesar algorithm. Note that for the first of these, the set method is not implemented since it will never be called. We shall define these properties as follows:
+You can basically use any data type. If your component deals with potentially large amounts of binary data, you may want to use the \textit{ICryptoolStream} data type instead of \textit{byte[]}. More information about how to use the \textit{ICryptoolStream} can be found in the CrypTool 2 wiki: \url{https://www.cryptool.org/trac/CrypTool2/wiki/ICryptoolStreamUsage}. You will need to include the namespace \textit{Cryptool.PluginBase.IO}. Here's an example how to use \textit{ICryptoolStream} for an output property:
 
 \begin{lstlisting}
-[PropertyInfo(Direction.OutputData, "CryptoolStream output", "The raw CryptoolStream data after processing with the Caesar cipher", "", false, false, QuickWatchFormat.Text, null)]
+[PropertyInfo(Direction.OutputData, "CryptoolStream output", "The raw CryptoolStream data after processing with the Caesar cipher", false)]
 public ICryptoolStream OutputData
 {
-		get
-		{
-				if (OutputString != null)
-				{                    
-						return new CStreamWriter(Encoding.UTF8.GetBytes(OutputString));
-				}
-
-				return null;
-		}
-}
-
-[PropertyInfo(Direction.InputData, "External alphabet input", "Input a string containing the alphabet to be used by Caesar.\nIf no alphabet is provided for this input, the internal default alphabet will be used.", "", false, false, QuickWatchFormat.Text, null)]
-public string InputAlphabet
-{
-	get { return ((CaesarSettings)this.settings).AlphabetSymbols; }
-	set
+	get
 	{
-		if (value != null && value != settings.AlphabetSymbols)
-		{
-			((CaesarSettings)this.settings).AlphabetSymbols = value;
-			OnPropertyChanged("InputAlphabet");
+		if (OutputString != null)
+		{                    
+			return new CStreamWriter(Encoding.UTF8.GetBytes(OutputString));
 		}
-	}
-}
-
-[PropertyInfo(Direction.InputData, "Shift value (integer)", "This is the same setting as the shift value in the Settings pane but as dynamic input.", "", false, false, QuickWatchFormat.Text, null)]
-public int ShiftKey
-{
-	get { return settings.ShiftKey; }
-	set
-	{
-			settings.ShiftKey = value;
+			return null;
 	}
 }
 \end{lstlisting}
 
-\section{Implementing the actual algorithm}
+\section{Implement your algorithm}
 \label{sec:ImplementingTheActualAlgorithm}
 
-Algorithmic processing should be done in the \textit{Execute()} function. The actual functionality of your algorithm, as well as the structure thereof, is up to you. Below is our implementation of the Caesar algorithmic processing and the \textit{Execute()} function:
+Algorithmic processing should be done in the \textit{Execute()} function. Here's a boilerplate example of how it could look like (example simplified for demonstration purposes):
 
 \begin{lstlisting}
-private void ProcessCaesar(CaesarMode mode)
-{
-	CaesarSettings cfg = (CaesarSettings)this.settings;
-	StringBuilder output = new StringBuilder("");
-	string alphabet = cfg.AlphabetSymbols;
-
-	// If we are working in case-insensitive mode, we will use only
-	// capital letters, hence we must transform the whole alphabet
-	// to uppercase.
-	if (!cfg.CaseSensitiveAlphabet)
-	{
-		alphabet = cfg.AlphabetSymbols.ToUpper();
-	}
-
-	if (inputString != null)
-	{
-		for (int i = 0; i < inputString.Length; i++)
-		{
-			// Get the plaintext char currently being processed.
-			char currentchar = inputString[i];
-
-			// Store whether it is upper case (otherwise lowercase is assumed).
-			bool uppercase = char.IsUpper(currentchar);
-
-			// Get the position of the plaintext character in the alphabet.
-			int ppos = 0;
-			if (cfg.CaseSensitiveAlphabet)
-			{
-				ppos = alphabet.IndexOf(currentchar);
-			}
-			else
-			{
-				ppos = alphabet.IndexOf(char.ToUpper(currentchar));
-			}
-
-			if (ppos >= 0)
-			{
-				// We found the plaintext character in the alphabet,
-				// hence we will commence shifting.
-				int cpos = 0;
-				switch (mode)
-				{
-					case CaesarMode.encrypt:
-						cpos = (ppos + cfg.ShiftKey) % alphabet.Length;
-						break;
-					case CaesarMode.decrypt:
-						cpos = (ppos - cfg.ShiftKey + alphabet.Length) % alphabet.Length;
-						break;
-				}
-
-				// We have the position of the ciphertext character,
-				// hence just output it in the correct case.
-				if (cfg.CaseSensitiveAlphabet)
-				{
-					output.Append(alphabet[cpos]);
-				}
-				else
-				{
-					if (uppercase)
-					{
-						output.Append(char.ToUpper(alphabet[cpos]));
-					}
-					else
-					{
-						output.Append(char.ToLower(alphabet[cpos]));
-					}
-				}
-			}
-			else
-			{
-				// The plaintext character was not found in the alphabet,
-				// hence proceed with handling unknown characters.
-				switch ((CaesarSettings.UnknownSymbolHandlingMode)cfg.UnknownSymbolHandling)
-				{
-					case CaesarSettings.UnknownSymbolHandlingMode.Ignore:
-						output.Append(inputString[i]);
-						break;
-					case CaesarSettings.UnknownSymbolHandlingMode.Replace:
-						output.Append('?');
-						break;
-				}
-			}
-
-			// Show the progress.
-			ProgressChanged(i, inputString.Length - 1);
-		}
-		outputString = output.ToString();
-		OnPropertyChanged("OutputString");
-		OnPropertyChanged("OutputData");
-	}
-}
-
 public void Execute()
 {
-	switch (settings.Action)
+  if (string.IsNullOrEmpty(InputString))
+		return;
+	
+	try
 	{
-		case 0:
-			ProcessCaesar(CaesarMode.encrypt);
-			break;
-		case 1:
-			ProcessCaesar(CaesarMode.decrypt);
-			break;
-		default:
-    	break;
+		ProgressChanged(0, 100);  // set progress bar to 0%
+		if (settings.Action == CaesarMode.encrypt)
+		{
+			OutputString = Encrypt(InputString);
+		}
+		else
+		{
+			OutputString = Decrypt(InputString);
+		}
+		ProgressChanged(100, 100); // set progress bar to 100%
+		
+		OnPropertyChanged("OutputString"); // push output to editor
+	}
+	catch(Exception ex)
+	{
+	  // log error
+		GuiLogMessage("Failure: " + ex.Message, NotificationLevel.Error);
 	}
 }
 \end{lstlisting}
 
-It is important to make sure that all changes to the output properties will be announced to the CrypTool 2 environment. Therefore we call \textit{OnPropertyChanged} on both changed output properties \textit{OutputString} and \textit{OutputData}.
+You \textbf{must} announce all changes to output properties by calling \textit{OnPropertyChanged} with the correct property name. This step is crucial to correctly pass output data to other components.
 
-\subsection{Sending messages to the CrypTool 2 core}
-\label{sec:SendingMessagesToTheCrypTool2Core}
+You should set the progress of an execution by calling \textit{ProgressChanged}. You may use interim progress updates for long-running computations in a loop.
 
-The CrypTool 2 API provides three methods to send messages from the plugin to the CrypTool 2 core. \textit{GuiLogMessage} is used to send messages to the CrypTool 2 status bar. This method is a mechanism to inform the user as to what your plugin is currently doing. \textit{OnPropertyChanged} is used to inform the core application of changes to any data output properties. This is necessary for a correct plugin execution. \textit{ProgressChanged} is used to visualize the progress of the algorithm as a bar.
+You may use \textit{GuiLogMessage} to show errors, warnings or informational messages to the user.
 
 \begin{figure}[h]
 	\centering
@@ -468,23 +250,10 @@ The CrypTool 2 API provides three methods to send messages from the plugin to th
 	\label{fig:status_bar}
 \end{figure}
 
-The \textit{GuiLogMessage} method takes two parameters:
-
-\begin{itemize}
-	\item \textit{Message} --- the text to be shown in the status bar.
-	\item \textit{NotificationLevel} --- the type of message, that is, its alert level:
-	\begin{itemize}
-		\item \texttt{NotificationLevel.Error}
-		\item \texttt{NotificationLevel.Warning}
-		\item \texttt{NotificationLevel.Info}
-		\item \texttt{NotificationLevel.Debug}
-	\end{itemize}
-\end{itemize}
-
-\section{Drawing the workflow of your plugin}
+\section{Create an editor template}
 \label{DrawingTheWorkfloweOfYourPlugin}
 
-Each plugin should have an associated workflow file to show the algorithm in action in CrypTool 2. These workflow files are saved with the special \textit{.cte} file extension. You can view the example files from other plugins by opening any of the files in the \texttt{Templates\textbackslash} folder with CrypTool 2. Below is a sample workflow for our Caesar example:
+Each plugin should have an associated workflow file to show the algorithm in action in CrypTool 2. These workflow files are saved as \textit{Compressed Workspace Manager} files with file extension \textit{.cwm}. You can view the example files from other plugins by opening any of the files in the \texttt{Templates\textbackslash} folder with CrypTool 2. Below is an example workflow (image shows old editor, but the new one looks similar). You should provide such a template .cwm file to demonstrate a typical use case of your plugin. Please place it into the \texttt{Templates\textbackslash} folder and make sure to commit the file to the SVN repository (see Section \ref{CommitingYourChanges}).
 
 \begin{figure}[h]
 	\centering
@@ -492,5 +261,3 @@ Each plugin should have an associated workflow file to show the algorithm in act
 	\caption{A sample workflow diagram for the Caesar algorithm.}
 	\label{fig:sample}
 \end{figure}
-
-As your last step of development, once your plugin runs smoothly, you should also create one of these sample workflow files for your plugin. Such a file can be automatically created by simply saving a CrypTool 2 workspace project featuring your plugin. You should store the workflow file in the \texttt{Templates\textbackslash} folder and make sure to commit the file to the SVN repository (see Section \ref{CommitingYourChanges}).
