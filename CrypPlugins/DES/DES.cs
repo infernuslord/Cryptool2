@@ -252,27 +252,14 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             }
         }
 
-        private void checkForInputStream()
-        {
-            if (settings.Action == 0 && (InputStream == null || InputStream.Length == 0))
-            {
-                //create some input
-                String dummystring = "Dummy string - no input provided - \"Hello DES World\" - dummy string - no input provided!";
-                InputStream = new CStreamWriter(Encoding.UTF8.GetBytes(dummystring.ToCharArray()));
-                // write a warning to the ouside word
-                GuiLogMessage("WARNING - No input provided. Using dummy data. (" + dummystring + ")", NotificationLevel.Warning);
-            }
-        }
-
         private void process(int action)
         {
             //Encrypt/Decrypt Stream
             try
             {
-                checkForInputStream();
                 if (InputStream == null || InputStream.Length == 0)
                 {
-                    GuiLogMessage("No input given. Not using dummy data in decrypt mode. Aborting now.", NotificationLevel.Error);
+                    GuiLogMessage("No input data, aborting now", NotificationLevel.Error);
                     return;
                 }
                 

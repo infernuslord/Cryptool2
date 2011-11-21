@@ -173,18 +173,6 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             }
         }
 
-        private void checkForInputStream()
-        {
-            if (settings.Action == 0 && (inputStream == null || inputStream.Length == 0))
-            {
-                //create some input
-                String dummystring = "Dummy string - no input provided - \"Hello RC2 World\" - dummy string - no input provided!";
-                this.inputStream = new CStreamWriter(Encoding.UTF8.GetBytes(dummystring));
-                // write a warning to the ouside word
-                GuiLogMessage("WARNING - No input provided. Using dummy data. (" + dummystring + ")", NotificationLevel.Warning);
-            }
-        }
-
         public void Execute()
         {
             process(settings.Action);
@@ -195,10 +183,9 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             //Encrypt/Decrypt Stream
             try
             {
-                checkForInputStream();
                 if (inputStream == null || inputStream.Length == 0)
                 {
-                    GuiLogMessage("No input given. Not using dummy data in decrypt mode. Aborting now.", NotificationLevel.Error);
+                    GuiLogMessage("No input data, aborting now", NotificationLevel.Error);
                     return;
                 }
 
