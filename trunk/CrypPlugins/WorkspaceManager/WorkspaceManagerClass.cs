@@ -78,7 +78,6 @@ namespace WorkspaceManager
             WorkspaceModel.MyEditor = this;
             WorkspaceSpaceEditorView = new BinEditorVisual(WorkspaceModel);
             WorkspaceSpaceEditorView.SampleLoaded += new EventHandler(WorkspaceSpaceEditorView_SampleLoaded);
-            HasChanges = false;
         }
 
         void WorkspaceSpaceEditorView_SampleLoaded(object sender, EventArgs e)
@@ -245,7 +244,6 @@ namespace WorkspaceManager
             {
                 PluginModel pluginModel = (PluginModel)WorkspaceSpaceEditorView.Model.ModifyModel(new NewPluginModelOperation(new Point(0,0), 0, 0, type));
                 WorkspaceSpaceEditorView.AddBinComponentVisual(pluginModel, 1);
-                HasChanges = true;
             }
         }
 
@@ -491,7 +489,6 @@ namespace WorkspaceManager
                 }
                 return false;
             }
-            set { this.WorkspaceModel.HasChanges = value; }
         }
 
         public bool CanPrint

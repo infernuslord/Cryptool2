@@ -1129,7 +1129,7 @@ namespace WorkspaceManager.View.BinVisual
                     DragDropDataObject obj = e.Data.GetData("Cryptool.PluginBase.Editor.DragDropDataObject") as DragDropDataObject;
                     PluginModel pluginModel = (PluginModel)Model.ModifyModel(new NewPluginModelOperation(Util.MouseUtilities.CorrectGetPosition(sender as FrameworkElement), 0, 0, DragDropDataObjectToPluginConverter.CreatePluginInstance(obj.AssemblyFullName, obj.TypeFullName)));
                     AddBinComponentVisual(pluginModel,0);
-                    MyEditor.HasChanges = e.Handled = true;
+                    e.Handled = true;
                 }
                 catch (Exception ex)
                 {

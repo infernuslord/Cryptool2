@@ -16,8 +16,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using WorkspaceManager.Model;
 using System.Windows;
 
@@ -34,7 +32,8 @@ namespace WorkspaceManagerModel.Model.Operations
         }
         public VisualElementModel Model { get; internal set; }
         internal abstract object Execute(WorkspaceModel workspaceModel);
-        internal abstract void Undo(WorkspaceModel workspaceModel);        
+        internal abstract void Undo(WorkspaceModel workspaceModel);
+        internal bool SavedHere;
     }
 
     /// <summary>

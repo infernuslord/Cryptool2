@@ -77,18 +77,20 @@ namespace WorkspaceManager.Model
         [NonSerialized]
         public UndoRedoManager UndoRedoManager;
 
-        [NonSerialized]
-        private bool hasChanges = false;
+        /// <summary>
+        /// Is true, if there are unsaved changes in this WorkspaceModel
+        /// (UndoRedo manager can undo or settings of a Plugin have changes)
+        /// </summary>
         public bool HasChanges 
         {
             get
             {
-                return hasChanges;
-            }
-            set
-            {
-                hasChanges = value;
-            }
+                if(UndoRedoManager.HasUnsavedChanges())
+                {
+                    return true;
+                }                
+                return AllPluginModels.Any(pluginModel => pluginModel.SettingesHaveChanges);
+            }            
         }
 
         /// <summary>
@@ -192,9 +194,8 @@ namespace WorkspaceManager.Model
             if (pluginModel.Plugin.Settings != null)
             {
                 pluginModel.Plugin.Settings.PropertyChanged += pluginModel.SettingsPropertyChanged;
-            }            
+            }
             this.AllPluginModels.Add(pluginModel);
-            this.HasChanges = true;
             this.OnNewChildElement(pluginModel);
             return pluginModel;
         }
@@ -215,7 +216,6 @@ namespace WorkspaceManager.Model
             {
                 this.AllConnectorModels.Add(connectorModel);
             }
-            this.HasChanges = true;
             this.OnNewChildElement(pluginModel);
         }
        
@@ -251,7 +251,6 @@ namespace WorkspaceManager.Model
             }
 
             this.AllConnectionModels.Add(connectionModel);
-            this.HasChanges = true;
             this.OnNewChildElement(connectionModel);
             return connectionModel;
         }
@@ -283,7 +282,6 @@ namespace WorkspaceManager.Model
             }
 
             this.AllConnectionModels.Add(connectionModel);
-            this.HasChanges = true;
             this.OnNewChildElement(connectionModel);
         }
 
@@ -297,7 +295,6 @@ namespace WorkspaceManager.Model
             ImageModel imageModel = new ImageModel(imgUri);
             imageModel.WorkspaceModel = this;
             this.AllImageModels.Add(imageModel);
-            this.HasChanges = true;
             this.OnNewChildElement(imageModel);
             return imageModel;
         }
@@ -310,7 +307,6 @@ namespace WorkspaceManager.Model
         internal void addImageModel(ImageModel imageModel)
         {
             this.AllImageModels.Add(imageModel);
-            this.HasChanges = true;
             this.OnNewChildElement(imageModel);
         }
 
@@ -324,7 +320,6 @@ namespace WorkspaceManager.Model
             TextModel textModel = new TextModel();
             textModel.WorkspaceModel = this;
             this.AllTextModels.Add(textModel);
-            this.HasChanges = true;
             this.OnNewChildElement(textModel);
             return textModel;
         }
@@ -337,7 +332,6 @@ namespace WorkspaceManager.Model
         internal void addTextModel(TextModel textModel)
         {
             this.AllTextModels.Add(textModel);
-            this.HasChanges = true;
             this.OnNewChildElement(textModel);
         }
 
@@ -386,7 +380,6 @@ namespace WorkspaceManager.Model
                     deleteConnectorModel(outputConnector);
                 }
                 pluginModel.Plugin.Dispose();                
-                this.HasChanges = true;
                 this.OnDeletedChildElement(pluginModel);
                 return this.AllPluginModels.Remove(pluginModel);
             }            
@@ -417,7 +410,6 @@ namespace WorkspaceManager.Model
                     //deleteConnectionModel(outputConnection);
                     this.ModifyModel(new DeleteConnectionModelOperation(outputConnection));
                 }
-                this.HasChanges = true;
                 this.OnDeletedChildElement(connectorModel);
                 return this.AllConnectorModels.Remove(connectorModel);
             }
@@ -436,7 +428,6 @@ namespace WorkspaceManager.Model
 
             connectionModel.To.InputConnections.Remove(connectionModel);
             connectionModel.From.OutputConnections.Remove(connectionModel);            
-            this.HasChanges = true;
             this.OnDeletedChildElement(connectionModel);
             return this.AllConnectionModels.Remove(connectionModel);
         }
@@ -479,7 +470,6 @@ namespace WorkspaceManager.Model
             {
                 if (((Boolean) operationReturn) == true)
                 {
-                    HasChanges = true;
                     this.UndoRedoManager.DidOperation(operation);
                     return true;
                 }
@@ -487,7 +477,6 @@ namespace WorkspaceManager.Model
             }
 
             this.UndoRedoManager.DidOperation(operation);
-            HasChanges = true;
             return operationReturn;
 
         }
