@@ -16,18 +16,12 @@
 
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Cryptool.Core;
 using Cryptool.PluginBase.Attributes;
 using Cryptool.PluginBase.Editor;
-using Cryptool.UiPluginBase;
-using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase;
 
 using WorkspaceManager.Model;
-using WorkspaceManager.View;
 using WorkspaceManager.Execution;
 using System.Windows;
 using System.Windows.Threading;
@@ -35,16 +29,13 @@ using System.Threading;
 using System.Windows.Controls;
 using System.Windows.Media;
 using Cryptool.PluginBase.Miscellaneous;
-using WorkspaceManager.View.VisualComponents;
 using System.Windows.Media.Imaging;
 using System.Printing;
 using System.Windows.Documents;
 using System.Windows.Markup;
-using WorkspaceManager.Model.Tools;
 using System.Collections.ObjectModel;
 using WorkspaceManager.View.BinVisual;
 using WorkspaceManager.View.Base;
-using WorkspaceManager.Base.Sort;
 using WorkspaceManagerModel.Model.Operations;
 
 //Disable warnings for unused or unassigned fields and events:

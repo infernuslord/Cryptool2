@@ -695,14 +695,16 @@ namespace WorkspaceManager.View.BinVisual
 
         private void ComponentPositionDeltaChanged(object sender, PositionDeltaChangedArgs e)
         {
-            BinComponentVisual b = (BinComponentVisual)sender;
+            var b = (BinComponentVisual)sender;
             if (SelectedItems != null)
             {
+                var list = new List<Operation>();
                 foreach (var element in SelectedItems)
                 {
-                    BinComponentVisual bin = (BinComponentVisual)element;
-                    bin.Model.WorkspaceModel.ModifyModel(new MoveModelElementOperation(bin.Model, bin.Position + e.PosDelta));
+                    var bin = (BinComponentVisual)element;
+                    list.Add(new MoveModelElementOperation(bin.Model, bin.Position + e.PosDelta));
                 }
+                b.Model.WorkspaceModel.ModifyModel(new MultiOperation(list));
             }
         }
 

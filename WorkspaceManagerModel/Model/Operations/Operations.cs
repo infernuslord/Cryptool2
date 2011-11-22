@@ -30,6 +30,8 @@ namespace WorkspaceManagerModel.Model.Operations
         public Operation(VisualElementModel model){
             Model = model;
         }
+
+        public int Identifier { get; protected set; }
         public VisualElementModel Model { get; internal set; }
         internal abstract object Execute(WorkspaceModel workspaceModel);
         internal abstract void Undo(WorkspaceModel workspaceModel);
@@ -39,7 +41,7 @@ namespace WorkspaceManagerModel.Model.Operations
     /// <summary>
     /// Creates a new PluginModel
     /// </summary>
-    public class NewPluginModelOperation : Operation
+    public sealed class NewPluginModelOperation : Operation
     {
         private Point Position = new Point(0,0);
         private double Width = 0; 
@@ -53,6 +55,7 @@ namespace WorkspaceManagerModel.Model.Operations
             this.Width = width;
             this.Height = height;
             this.PluginType = pluginType;
+            this.Identifier = 0;
         }
 
         #region Operation Members
@@ -84,7 +87,7 @@ namespace WorkspaceManagerModel.Model.Operations
     /// <summary>
     /// Deletes an existing PluginModel
     /// </summary>
-    public class DeletePluginModelOperation : Operation
+    public sealed class DeletePluginModelOperation : Operation
     {
         private Point Position = new Point(0, 0);
         private double Width = 0;
@@ -98,6 +101,7 @@ namespace WorkspaceManagerModel.Model.Operations
             this.Width = model.GetWidth();
             this.Height = model.GetHeight();
             this.PluginType = model.PluginType;
+            this.Identifier = model.GetHashCode();
         }
 
         #region Operation Members
@@ -119,7 +123,7 @@ namespace WorkspaceManagerModel.Model.Operations
     /// <summary>
     /// Creates a new ConnectionModel
     /// </summary>
-    public class NewConnectionModelOperation : Operation
+    public sealed class NewConnectionModelOperation : Operation
     {
         private ConnectorModel From = null;
         private ConnectorModel To = null;
@@ -131,6 +135,7 @@ namespace WorkspaceManagerModel.Model.Operations
             this.From = from;
             this.To = to;
             this.ConnectionType = connectionType;
+            this.Identifier = 0;
         }
 
         #region Operation Members
@@ -185,14 +190,15 @@ namespace WorkspaceManagerModel.Model.Operations
     /// <summary>
     /// Creates a new ImageModel
     /// </summary>
-    public class NewImageModelOperation : Operation
+    public sealed class NewImageModelOperation : Operation
     {
         private Uri ImgUri;
 
         public NewImageModelOperation(Uri imgUri)
             : base(null)
         {
-            this.ImgUri = imgUri;            
+            this.ImgUri = imgUri;
+            this.Identifier = GetHashCode();
         }
 
         #region Operation Members
@@ -221,11 +227,12 @@ namespace WorkspaceManagerModel.Model.Operations
     /// <summary>
     /// Deletes an ImageModel
     /// </summary>
-    public class DeleteImageModelOperation : Operation
+    public sealed class DeleteImageModelOperation : Operation
     {
         public DeleteImageModelOperation(ImageModel model) :
             base(model)
         {
+            this.Identifier = model.GetHashCode();
         }
 
         #region Operation Members
@@ -247,7 +254,7 @@ namespace WorkspaceManagerModel.Model.Operations
     /// <summary>
     /// Creates a new TextModel
     /// </summary>
-    public class NewTextModelOperation : Operation
+    public sealed class NewTextModelOperation : Operation
     {
         public NewTextModelOperation()
             : base(null)
@@ -280,11 +287,12 @@ namespace WorkspaceManagerModel.Model.Operations
     /// <summary>
     /// Deletes a TextModel
     /// </summary>
-    public class DeleteTextModelOperation : Operation
+    public sealed class DeleteTextModelOperation : Operation
     {
         public DeleteTextModelOperation(TextModel model) :
             base(model)
         {
+            this.Identifier = model.GetHashCode();
         }
 
         #region Operation Members
@@ -307,7 +315,7 @@ namespace WorkspaceManagerModel.Model.Operations
     /// <summary>
     /// Moves the Position of an existing VisualElementModel
     /// </summary>
-    public class MoveModelElementOperation : Operation
+    public sealed class MoveModelElementOperation : Operation
     {
         private Point OldPosition = new Point(0, 0);
         private Point NewPosition = new Point(0, 0);
@@ -317,6 +325,7 @@ namespace WorkspaceManagerModel.Model.Operations
         {
             this.OldPosition = model.GetPosition();
             this.NewPosition = newPosition;
+            this.Identifier = model.GetHashCode();
         }
 
         #region Operation Members
@@ -344,7 +353,7 @@ namespace WorkspaceManagerModel.Model.Operations
     /// <summary>
     /// Resizes an existing VisualElementModel
     /// </summary>
-    public class ResizeModelElementOperation : Operation
+    public sealed class ResizeModelElementOperation : Operation
     {
         private double OldWidth = 0;
         private double OldHeight = 0;
@@ -358,6 +367,7 @@ namespace WorkspaceManagerModel.Model.Operations
             this.OldHeight = model.GetHeight();
             this.NewWidth = newWidth;
             this.NewHeight = newHeight;
+            this.Identifier = model.GetHashCode();
         }
 
         #region Operation Members
@@ -387,7 +397,7 @@ namespace WorkspaceManagerModel.Model.Operations
     /// <summary>
     /// Rename a model element
     /// </summary>
-    public class RenameModelElementOperation : Operation
+    public sealed class RenameModelElementOperation : Operation
     {
         private string OldName = null;
         private string NewName = null;
@@ -397,6 +407,7 @@ namespace WorkspaceManagerModel.Model.Operations
         {
             this.OldName = model.Name;
             this.NewName = newName;
+            this.Identifier = model.GetHashCode();
         }
 
         #region Operation Members
@@ -424,10 +435,10 @@ namespace WorkspaceManagerModel.Model.Operations
     /// <summary>
     /// Wrapper around n Operations which will operate as one single operation
     /// </summary>
-    public class MultiOperation : Operation
+    public sealed class MultiOperation : Operation
     {
         private List<Operation> _operations = null;
-
+        
         public MultiOperation(List<Operation> operations) :
             base(null)
         {
@@ -435,7 +446,11 @@ namespace WorkspaceManagerModel.Model.Operations
             {
                 throw new ArgumentNullException("operations");
             }
-            this._operations = operations;            
+            this._operations = operations;
+            foreach (var operation in operations)
+            {
+                Identifier += operation.Identifier;
+            }
         }
 
         internal override object Execute(WorkspaceModel workspaceModel)
