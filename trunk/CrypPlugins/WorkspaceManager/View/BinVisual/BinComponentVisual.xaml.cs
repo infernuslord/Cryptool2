@@ -832,11 +832,9 @@ typeof(BinSettingsVisual), typeof(BinComponentVisual), new FrameworkPropertyMeta
 
         private void PositionDragDeltaHandler(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
         {
-            Point point = new Point(Position.X + e.HorizontalChange, Position.Y + e.VerticalChange);
             Delta = new Vector(e.HorizontalChange, e.VerticalChange);
             if (PositionDeltaChanged != null)
                 PositionDeltaChanged.Invoke(this, new PositionDeltaChangedArgs() { PosDelta = Delta });
-            //Model.WorkspaceModel.ModifyModel(new MoveModelElementOperation(Model, point));
         }
 
         private static void OnStateValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

@@ -70,17 +70,16 @@ namespace WorkspaceManager.Model.Tools
                 op.Undo(WorkspaceModel);
                 RedoStack.Push(op);
 
-                VisualElementModel model = op.Model;
                 while (UndoStack.Count > 0 &&
                     op.GetType().Equals(UndoStack.Peek().GetType()) &&
-                    Object.ReferenceEquals(UndoStack.Peek().Model, model) &&
+                    UndoStack.Peek().Identifier ==  op.Identifier &&
                     (UndoStack.Peek() is MoveModelElementOperation ||
-                    UndoStack.Peek() is ResizeModelElementOperation))
+                    UndoStack.Peek() is ResizeModelElementOperation ||
+                    UndoStack.Peek() is MultiOperation))
                 {
                     op = UndoStack.Pop();
                     op.Undo(WorkspaceModel);
                     RedoStack.Push(op);
-                    model = op.Model;
                 }
             }
             finally
@@ -106,17 +105,16 @@ namespace WorkspaceManager.Model.Tools
                 op.Execute(WorkspaceModel);
                 UndoStack.Push(op);
 
-                VisualElementModel model = op.Model;
                 while (RedoStack.Count > 0 &&
                     op.GetType().Equals(RedoStack.Peek().GetType()) &&
-                    Object.ReferenceEquals(RedoStack.Peek().Model, model) &&
+                    RedoStack.Peek().Identifier == op.Identifier &&
                     (RedoStack.Peek() is MoveModelElementOperation ||
-                    RedoStack.Peek() is ResizeModelElementOperation))
+                    RedoStack.Peek() is ResizeModelElementOperation ||
+                    RedoStack.Peek() is MultiOperation))
                 {
                     op = RedoStack.Pop();
                     op.Execute(WorkspaceModel);
                     UndoStack.Push(op);
-                    model = op.Model;                    
                 }
             }
             finally
