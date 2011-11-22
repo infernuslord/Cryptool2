@@ -874,10 +874,10 @@ typeof(BinSettingsVisual), typeof(BinComponentVisual), new FrameworkPropertyMeta
         {
             BinComponentVisual bin = (BinComponentVisual)d;
             bin.Model.WorkspaceModel.ModifyModel(new RenameModelElementOperation(bin.Model, (string)e.NewValue));
-            if (bin.Model.WorkspaceModel.MyEditor != null)
+            /*if (bin.Model.WorkspaceModel.MyEditor != null)
             {
                 ((WorkspaceManagerClass)bin.Model.WorkspaceModel.MyEditor).HasChanges = true;
-            }
+            }*/
         }
 
         private void CloseClick(object sender, RoutedEventArgs e)

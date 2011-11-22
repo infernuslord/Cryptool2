@@ -53,7 +53,8 @@ namespace WorkspaceManager.Model
         private PluginModelState state = PluginModelState.Normal;
         private string PluginTypeName = null;
         private string PluginTypeAssemblyName = null;
-
+        [NonSerialized] 
+        internal bool SettingesHaveChanges = false;
         #endregion
 
         #region public members
@@ -325,14 +326,16 @@ namespace WorkspaceManager.Model
         }        
 
         /// <summary>
-        /// Called if a Setting of a Plugin is changed and notifies the Editor that
-        /// there is a change
+        /// Called if a Setting of a Plugin is changed 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="propertyChangedEventArgs"></param>
         public void SettingsPropertyChanged(Object sender, PropertyChangedEventArgs propertyChangedEventArgs)
         {
-            this.WorkspaceModel.HasChanges = true;
+            if(sender == plugin.Settings)
+            {
+                SettingesHaveChanges = true;
+            }
         }
 
         /// <summary>

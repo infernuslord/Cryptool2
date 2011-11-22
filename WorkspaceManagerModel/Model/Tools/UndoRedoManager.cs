@@ -17,11 +17,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Cryptool.PluginBase;
-using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows;
 using WorkspaceManagerModel.Model.Operations;
 
 namespace WorkspaceManager.Model.Tools
@@ -163,6 +158,41 @@ namespace WorkspaceManager.Model.Tools
         {
             get;
             private set;
+        }
+
+        internal bool SavedHere
+        {
+            set
+            {
+                foreach (var operation in UndoStack)
+                {
+                    operation.SavedHere = false;
+                }
+                foreach (var operation in RedoStack)
+                {
+                    operation.SavedHere = false;
+                }
+                UndoStack.Peek().SavedHere = value;
+            }
+            get 
+            { 
+                return UndoStack.Peek().SavedHere;
+            }
+        }
+
+        internal bool HasUnsavedChanges()
+        {
+            if (CanUndo() && SavedHere == false)
+            {
+                return true;
+            }
+
+            if(CanRedo())
+            {
+                return RedoStack.Any(operation => operation.SavedHere);
+            }
+
+            return false;
         }
     }
 }

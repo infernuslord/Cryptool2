@@ -100,7 +100,7 @@ namespace WorkspaceManager.Model
                         {
                             throw new Exception("Could not restore the setting \"" + persistantSetting.Name + "\" of plugin \"" + persistantPlugin.PluginModel.Name + "\"", ex);
                         }
-                    }
+                    }                    
                 }
             }
 
@@ -141,6 +141,7 @@ namespace WorkspaceManager.Model
                 workspacemodel.UndoRedoManager.ClearStacks();
             }
 
+            //initialize the plugins
             //connect all listener for plugins/plugin models            
             foreach (PluginModel pluginModel in workspacemodel.AllPluginModels)
             {
@@ -200,7 +201,6 @@ namespace WorkspaceManager.Model
                 }
             }
 
-            workspacemodel.HasChanges = false;
             return workspacemodel;          
         }
 
@@ -220,6 +220,7 @@ namespace WorkspaceManager.Model
 
                 if (pluginModel.Plugin.Settings != null)
                 {
+                    pluginModel.SettingesHaveChanges = false;
                     PropertyInfo[] arrpInfo = pluginModel.Plugin.Settings.GetType().GetProperties();
 
                     PersistantPlugin persistantPlugin = new PersistantPlugin();
@@ -249,7 +250,7 @@ namespace WorkspaceManager.Model
                 }
             }
             XMLSerialization.XMLSerialization.Serialize(persistantModel, filename,true);
-            workspaceModel.HasChanges = false;
+            workspaceModel.UndoRedoManager.SavedHere = true;
         }
     }
 
