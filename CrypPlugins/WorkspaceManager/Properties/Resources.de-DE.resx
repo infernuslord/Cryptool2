@@ -381,4 +381,10 @@
   <data name="ConversionSelf" xml:space="preserve">
     <value>Verbindung mit sich selbst nicht möglich.</value>
   </data>
+  <data name="NewWorkspaceTooltip" xml:space="preserve">
+    <value>Dies ist ein neuer Arbeitsbereich.</value>
+  </data>
+  <data name="CloseComponentTooltip" xml:space="preserve">
+    <value>Komponente schließen</value>
+  </data>
 </root>

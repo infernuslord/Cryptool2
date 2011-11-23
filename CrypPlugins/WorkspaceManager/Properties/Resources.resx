@@ -384,4 +384,7 @@
   <data name="ConversionSelf" xml:space="preserve">
     <value>Can't connect to itself.</value>
   </data>
+  <data name="CloseComponentTooltip" xml:space="preserve">
+    <value>Close Component</value>
+  </data>
 </root>
