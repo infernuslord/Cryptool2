@@ -41,7 +41,7 @@ namespace WorkspaceManager.Execution
         public int GuiUpdateInterval = 0;
         public int SleepTime = 0;
         public int ThreadPriority = 0;
-        public int MaxStopWaitingTime = 1000;
+        public int MaxStopWaitingTime = 10000;
 
         public List<Thread> threads;
 
@@ -233,6 +233,11 @@ namespace WorkspaceManager.Execution
                     try
                     {
                         t.Join(MaxStopWaitingTime);
+                        if(t.IsAlive)
+                        {
+                            GuiLogMessage(string.Format("Thread {0} did not stop in {1} miliseconds and will be aborted now.", t.Name, MaxStopWaitingTime), NotificationLevel.Warning);
+                            t.Abort();
+                        }
                     }
                     catch(Exception ex)
                     {
