@@ -30,7 +30,7 @@ namespace Cryptool.Plugins.UserCode
 {
     [Author("Nils Kopal", "nils.kopal@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
     [PluginInfo("Cryptool.Plugins.UserCode.Properties.Resources", "PluginCaption", "PluginTooltip", null, "UserCode/icons/icon.png")]
-    [ComponentCategory(ComponentCategory.ToolsDataInputOutput)]
+    [ComponentCategory(ComponentCategory.ToolsDataflow)]
     public class UserCode : ICrypComponent
     {
         private readonly UserCodePresentation _presentation = new UserCodePresentation();
