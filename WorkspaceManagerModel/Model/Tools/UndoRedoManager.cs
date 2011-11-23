@@ -170,7 +170,10 @@ namespace WorkspaceManager.Model.Tools
                 {
                     operation.SavedHere = false;
                 }
-                UndoStack.Peek().SavedHere = value;
+                if (UndoStack.Count > 0)
+                {
+                    UndoStack.Peek().SavedHere = value;
+                }
             }
             get 
             { 
