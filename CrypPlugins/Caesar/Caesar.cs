@@ -26,7 +26,9 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace Cryptool.Caesar
 {
     [Author("Dr. Arno Wacker", "arno.wacker@cryptool.org", "Uni Duisburg-Essen", "http://www.vs.uni-duisburg-essen.de")]
-    [PluginInfo("Cryptool.Caesar.Properties.Resources", "PluginCaption", "PluginTooltip", "Caesar/DetailedDescription/doc.xml", "Caesar/Images/Caesar.png", "Caesar/Images/encrypt.png", "Caesar/Images/decrypt.png")]
+    [PluginInfo("Cryptool.Caesar.Properties.Resources", "PluginCaption", "PluginTooltip",
+        "Caesar/DetailedDescription/doc.xml",
+        new[] { "Caesar/Images/Caesar.png", "Caesar/Images/encrypt.png", "Caesar/Images/decrypt.png" } )]
     [ComponentCategory(ComponentCategory.CiphersClassic)]
     public class Caesar : ICrypComponent
     {
@@ -111,23 +113,6 @@ namespace Cryptool.Caesar
           { 
               settings.ShiftKey = value;
           }
-        }
-
-
-        /// <summary>
-        /// Caesar encryption
-        /// </summary>
-        public void Encrypt()
-        {
-            ProcessCaesar(CaesarMode.encrypt);
-        }
-
-        /// <summary>
-        /// Caesar decryption
-        /// </summary>
-        public void Decrypt()
-        {
-            ProcessCaesar(CaesarMode.decrypt);
         }
        
         #endregion
@@ -331,10 +316,10 @@ namespace Cryptool.Caesar
             switch (settings.Action)
             {
                 case 0:
-                    Encrypt();
+                    ProcessCaesar(CaesarMode.encrypt);
                     break;
                 case 1:
-                    Decrypt();
+                    ProcessCaesar(CaesarMode.decrypt);
                     break;
                 default:
                     break;

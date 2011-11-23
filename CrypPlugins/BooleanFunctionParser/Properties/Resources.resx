@@ -124,7 +124,7 @@
     <value>BooleanFunctionParser/DetailedDescription/Description.xaml</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Boolean Function Parser (BFP). Computes the result of a boolean function f(i).</value>
+    <value>Boolean Function Parser (BFP). Computes the result of a boolean function.</value>
   </data>
   <data name="InputFunctionCaption" xml:space="preserve">
     <value>Boolean Function f(i)</value>
