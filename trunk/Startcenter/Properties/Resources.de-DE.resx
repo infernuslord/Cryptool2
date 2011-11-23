@@ -190,6 +190,6 @@
     <value>      Suche</value>
   </data>
   <data name="ClearList" xml:space="preserve">
-    <value>Leere Liste der zuletzt geöffneten Dateien.</value>
+    <value>Liste der zuletzt geöffneten Dateien löschen.</value>
   </data>
 </root>

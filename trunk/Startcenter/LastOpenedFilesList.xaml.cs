@@ -18,6 +18,7 @@ namespace Startcenter
     /// <summary>
     /// Interaction logic for LastOpenedFilesList.xaml
     /// </summary>
+    [Cryptool.PluginBase.Attributes.Localization("Startcenter.Properties.Resources")]
     public partial class LastOpenedFilesList : UserControl
     {
         public event OpenEditorHandler OnOpenEditor;

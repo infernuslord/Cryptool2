@@ -323,7 +323,7 @@
                     <Setter Property="Opacity" Value="0.5"></Setter>
                 </DataTrigger>
             </Style.Triggers>
-            <Setter Property="ToolTip" Value="Close Component"></Setter>
+            <Setter Property="ToolTip" Value="{Loc CloseComponentTooltip}"></Setter>
             <Setter Property="Height" Value="12"></Setter>
             <Setter Property="Width" Value="12"></Setter>
             <Setter Property="VerticalAlignment" Value="Center"></Setter>
