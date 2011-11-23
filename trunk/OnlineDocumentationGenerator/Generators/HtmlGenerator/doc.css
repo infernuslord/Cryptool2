@@ -8,7 +8,9 @@
 h1,h2,h3 {
 	font-family: Verdana, sans-serif, Helvetica,  Arial ;
 	color: black;
-	text-decoration:underline;	
+	text-decoration:underline;
+	margin-top: 10px;
+	margin-bottom: 5px;
 }
 
 h1 {
