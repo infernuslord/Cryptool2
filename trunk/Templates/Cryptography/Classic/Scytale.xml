@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
-  <title lang="en">Scytale-Cipher</title>
-  <description lang="en">This template shows how to use the <i>Scytale-Cipher</i>.<newline /><newline />
+  <title lang="en">Scytale Cipher</title>
+  <description lang="en">This template shows how to use the <i>Scytale Cipher</i>.<newline /><newline />
 In cryptography, a scytale (/ˈskɪtəliː/, rhymes approximately with Italy; also transliterated skytale, Greek σκυτάλη "baton") is a tool used to perform a transposition cipher, consisting of a cylinder with a strip of parchment wound around it on which is written a message. The ancient Greeks, and the Spartans in particular, are said to have used this cipher to communicate during military campaigns. The recipient uses a rod of the same diameter on which he wraps the parchment to read the message. It has the advantage of being fast and not prone to mistakes—a necessary property when on the battlefield. It can, however, be easily broken. Since the strip of parchment hints strongly at the method, the ciphertext would have to be transferred to something less suggestive, somewhat reducing the advantage noted.<newline /><newline />
 Source: <external ref="http://en.wikipedia.org/wiki/Scytale" /></description>
   <keywords>Sparta, Wood, Greek, Transposition, diameter, rod</keywords>

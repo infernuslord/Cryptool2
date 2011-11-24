@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
-  <title lang="en">RC2-Cipher</title>
-  <description lang="en">This template shows how to use the <i>RC2-Cipher</i>.<newline />
+  <title lang="en">RC2 Cipher</title>
+  <description lang="en">This template shows how to use the <i>RC2 Cipher</i>.<newline />
 In cryptography, RC2 is a block cipher designed by Ron Rivest in 1987. "RC" stands for "Ron's Code" or "Rivest Cipher"; other ciphers designed by Rivest include RC4, RC5 and RC6.<newline /><newline />
 Source: <external ref="http://en.wikipedia.org/wiki/RC2" /></description>
   <keywords>Rivest, Ron, block, symmetric</keywords>

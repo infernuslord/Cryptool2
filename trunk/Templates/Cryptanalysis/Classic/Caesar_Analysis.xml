@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
   <title lang="en">Caesar Analysis</title>
-  <description lang="en">This template shows crypt analysis of the <i>Caesar-cipher</i>.<newline /><newline />
+  <description lang="en">This template shows crypt analysis of the <i>Caesar cipher</i>.<newline /><newline />
 Since there are only a limited number of possible shifts (26 in English) using the caesar chipher, they can each be tested in turn in a brute force attack. One way to do this is to write 
 out a snippet of the ciphertext in a table of all possible shifts — a technique sometimes known as "completing the plain component". The example given is for 
 the ciphertext "EXXEGOEXSRGI"; the plaintext is instantly recognisable by eye at a shift of four. Another way of viewing this method is that, under each letter 
