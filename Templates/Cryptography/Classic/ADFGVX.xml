@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
-  <title lang="en">ADFGVX-Cipher</title>
-  <description lang="en">This template shows how to use the <i>ADFGVX-Cipher</i>.<newline /><newline />
+  <title lang="en">ADFGVX Cipher</title>
+  <description lang="en">This template shows how to use the <i>ADFGVX Cipher</i>.<newline /><newline />
 In cryptography, the ADFGVX cipher was a field cipher used by the German Army during World War I. ADFGVX was in fact an extension of an earlier cipher called ADFGX. Invented by Colonel Fritz Nebel and introduced in March 1918, the cipher was a fractionating transposition cipher which combined a modified Polybius square with a single columnar transposition. The cipher is named after the six possible letters used in the ciphertext: A, D, F, G, V and X. These letters were chosen deliberately because they sound very different from each other when transmitted via Morse code. The intention was to reduce the possibility of operator error. Nebel designed the cipher to provide an army on the move with encryption more convenient than trench codes but still secure. In fact, the Germans believed the ADFGVX cipher was unbreakable<newline /><newline />
 Source: <external ref="http://en.wikipedia.org/wiki/ADFGVX_cipher" /></description>
   <keywords>ADFGX, War, Telegraphy, Polybius, Square, Column, Row, Polybios</keywords>

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sample>
-  <title lang="en">XOR-Cipher</title>
-  <description lang="en">This template shows how to use the <i>XOR-Cipher</i>.<newline /><newline />
+  <title lang="en">XOR Cipher</title>
+  <description lang="en">This template shows how to use the <i>XOR Cipher</i>.<newline /><newline />
 In cryptography, the one-time pad (OTP) is a type of encryption, which has been proven to be impossible to crack if used correctly. Each bit or character from the plaintext is encrypted by a modular addition with a bit or character from a secret random key (or pad) of the same length as the plaintext, resulting in a ciphertext. If the key is truly random, as large as or greater than the plaintext, never reused in whole or part, and kept secret, the ciphertext will be impossible to decrypt or break without knowing the key. It has also been proven that any cipher with the perfect secrecy property must use keys with effectively the same requirements as OTP keys.[1] However, practical problems have prevented one-time pads from being widely used.<newline /><newline />
 <external ref="http://en.wikipedia.org/wiki/One-time_pad" /></description>
   <keywords>one-time, pad</keywords>
