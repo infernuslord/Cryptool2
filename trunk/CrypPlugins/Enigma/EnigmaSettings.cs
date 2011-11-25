@@ -1341,8 +1341,8 @@ namespace Cryptool.Enigma
             {
                 if ((value) != Presentation_Speed)
                 {
-                    this.Presentation_Speed = value;
-                    OnPropertyChanged("Presentation_Speed");   
+                    Presentation_Speed = value;
+                    OnPropertyChanged("PresentationSpeed");   
                 }
             }
         }

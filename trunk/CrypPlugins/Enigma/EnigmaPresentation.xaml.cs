@@ -163,7 +163,7 @@ namespace Cryptool.Enigma
                 }
             }
 
-            if (e.PropertyName == "Presentation_Speed")
+            if (e.PropertyName == "PresentationSpeed")
             {
 
                 Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
@@ -542,6 +542,9 @@ namespace Cryptool.Enigma
             ars = new AutoResetEvent(false);
             storyboard = new Storyboard();
             storyboard.Completed += tasteClick2;
+
+            
+
             storyboard1 = new Storyboard();
             storyboard1.Completed += prefadeout1;
 
@@ -1015,21 +1018,24 @@ namespace Cryptool.Enigma
         }
 
         TextBlock tb;
-        public void disablePresentation(Boolean isrunning) 
+        public void disablePresentation(Boolean isrunning, Boolean isvisible) 
         {
 
-            Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
 
                 if (isrunning)
                 {   
                     this.IsEnabled = false;
-                    tb = new TextBlock();
-                    tb.TextWrapping = TextWrapping.Wrap;
-                    tb.Width = 2200;
-                    tb.FontSize = 180;
-                    tb.Text = "Please stop the Workspace for Presentation!";
-                    mainmainmain.Children.Add(tb);
+                    if (!IsVisible)
+                    {
+                        tb = new TextBlock();
+                        tb.TextWrapping = TextWrapping.Wrap;
+                        tb.Width = 2200;
+                        tb.FontSize = 180;
+                        tb.Text = "Please stop the Workspace for Presentation!";
+                        mainmainmain.Children.Add(tb);
+                    }
                 }
                 else
                 {
@@ -1042,7 +1048,7 @@ namespace Cryptool.Enigma
 
         private void t1_Tick()
         {
-            Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
 
                 if (this.input.Length + 1 != newinput.Length && !playbool && newinput != "")
@@ -1071,7 +1077,7 @@ namespace Cryptool.Enigma
                         inputtebo.Add(t);
 
                     }
-                    Debug.Text = "Schiiiiiiiiibiiiiiiiiiiiiiiiiiiiiii";
+                    
 
                     rotorarray[2].changeoffset(settings.Key.ToUpper()[2] - 65, settings.Ring1);
                     rotorarray[1].changeoffset(settings.Key.ToUpper()[1] - 65, settings.Ring2);
@@ -1131,7 +1137,7 @@ namespace Cryptool.Enigma
                         if (inputtebo.Count == 1)
                         {
                             //playClick(null, EventArgs.Empty);
-                            Debug.Text = "WHAAAAAAAAATSUUUUUUUUUUUP";
+                           
                         }
 
                     }
@@ -1178,7 +1184,7 @@ namespace Cryptool.Enigma
                         if (inputtebo.Count == 1)
                         {
                             //playClick(null, EventArgs.Empty);
-                            Debug.Text = "WHAAAAAAAAATSUUUUUUUUUUUP";
+                            
                         }
 
                     }
@@ -2180,13 +2186,13 @@ namespace Cryptool.Enigma
 
         public void stopclick(object sender, EventArgs e)
         {
-            Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
                 storyboard1.Stop();
                 storyboard.Stop();
                 dispo.Stop();
                 //mainmainmain.Children.Remove(dummycanvas);
-                this.IsEnabled = true;
+               //this.IsEnabled = true;
                 resetkey();
                 //rotorarray[0].stop = true;
                 //rotorarray[1].stop = true;
@@ -2254,7 +2260,7 @@ namespace Cryptool.Enigma
 
         public void playClick(object sender, EventArgs e)
         {
-            Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
                 if (!playbool)
                 {
@@ -2268,7 +2274,7 @@ namespace Cryptool.Enigma
                     dummycanvas.Background = Brushes.Transparent;
 
                     //mainmainmain.Children.Add(dummycanvas);
-                    this.IsEnabled = false;
+                    //this.IsEnabled = false;
 
 
                     everythingblack();

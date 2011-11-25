@@ -279,6 +279,19 @@
             </Style.Triggers>
         </Style>
 
+        <Style x:Key="SettingBtnStyle" TargetType="{x:Type Button}">
+            <Setter Property="Height" Value="16"></Setter>
+            <Setter Property="Width" Value="16"></Setter>
+            <Setter Property="Visibility" Value="Visible"></Setter>
+            <Setter Property="Template" Value="{StaticResource ResourceKey=CtrlTemplate}"></Setter>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=HasComponentSetting, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Value="false">
+                    <Setter Property="Visibility" Value="Collapsed"></Setter>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+
         <Style TargetType="{x:Type Button}" x:Key="OperationMaxMinStyle">
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Path=State, Converter={StaticResource ResourceKey=StateConverter}, Mode=OneWay}" Value="False">
@@ -469,7 +482,7 @@
                 <model:BinComponentState>Presentation</model:BinComponentState>
             </Button>
 
-            <Button ToolTip="{Loc SettingsTooltip}" Style="{StaticResource ResourceKey=ActionBasicStyle}" Click="ActionHandler">
+            <Button ToolTip="{Loc SettingsTooltip}" Style="{StaticResource ResourceKey=SettingBtnStyle}" Click="ActionHandler">
                 <Button.Tag>
                     <Image Source="/WorkspaceManager;component/View/Image/setting.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"></Image>
                 </Button.Tag>
@@ -795,6 +808,7 @@
 
         <Image Style="{StaticResource ResourceKey=IconPresentationStyle}" Height="25" Width="25" Margin="0,37,25,0"
                                VerticalAlignment="Top" HorizontalAlignment="Right" Source="/WorkspaceManager;component/View/Image/presIcon.png"></Image>
+
 
         <!--##########Name##########-->
         <local:CustomTextBox Style="{StaticResource ResourceKey=TextBoxStyle}" ToolTip="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Text}"

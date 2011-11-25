@@ -40,14 +40,17 @@ namespace WorkspaceManager.View.BinVisual
         private BinComponentVisual bcv;
         private TabControl tbC;
         public String myConnectorName;
+        private Boolean isSideBar;
 
-        public BinSettingsVisual(IPlugin plugin, BinComponentVisual bcv, Boolean isMaster)
+        public BinSettingsVisual(IPlugin plugin, BinComponentVisual bcv, Boolean isMaster, Boolean isSideBar)
         {
-
+            this.isSideBar = isSideBar;
             this.bcv = bcv;
             this.plugin = plugin;
             entgrou = new EntryGroup();
             this.entgrou = createContentSettings(plugin);
+
+           
 
             ((WorkspaceManagerClass)bcv.Model.WorkspaceModel.MyEditor).executeEvent += new EventHandler(excuteEventHandler);
 
@@ -153,7 +156,7 @@ namespace WorkspaceManager.View.BinVisual
                     if (vtbI.Uid == master.ConnectorModel.PropertyName)
                     {
 
-                        vtbI.Content = new BinSettingsVisual(master.PluginModel.Plugin, bcv, false);
+                        vtbI.Content = new BinSettingsVisual(master.PluginModel.Plugin, bcv, false, isSideBar);
                         vtbI.Header = master.PluginModel.GetName();
                         b = false;
                     }
@@ -163,7 +166,7 @@ namespace WorkspaceManager.View.BinVisual
                 {
                     TabItem tbI = new TabItem();
                     tbI.Uid = master.ConnectorModel.PropertyName;
-                    tbI.Content = new BinSettingsVisual(master.PluginModel.Plugin, bcv, false);
+                    tbI.Content = new BinSettingsVisual(master.PluginModel.Plugin, bcv, false,isSideBar);
                     tbI.Header = master.PluginModel.GetName();
                     tbC.Items.Add(tbI);
                 }
@@ -595,12 +598,14 @@ namespace WorkspaceManager.View.BinVisual
                         }
                         
                     }
-
+                    test.HorizontalAlignment = HorizontalAlignment.Left;
                    
                     bodi.Child = test;
                     testexoander.Content = bodi;
-                   
-                    myWrap.Children.Add(testexoander);
+                    if (isSideBar)
+                        myStack.Children.Add(testexoander);
+                    else
+                        myWrap.Children.Add(testexoander);
                     test.setMaxSizes();
                     noVerticalGroup.setMaxSizes();
                 }
@@ -886,8 +891,10 @@ namespace WorkspaceManager.View.BinVisual
                             slider.Maximum = tpa.DoubleMaxValue;
                             slider.Tag = tpa.ToolTip;
                             slider.MouseEnter += Control_MouseEnter;
-                            slider.SetBinding(Slider.ValueProperty, dataBinding);
+                            
 
+                            slider.SetBinding(Slider.ValueProperty, dataBinding);
+                            
                             slider.MinWidth = 0;
 
                             entgrou.AddNewEntry(tpa.GroupName, new ControlEntry(slider, tpa, sfa));
@@ -1159,6 +1166,8 @@ namespace WorkspaceManager.View.BinVisual
         double maxSizeContent = 0;
         double maxSizeCaption = 0;
 
+        double maxSizeCB = 0;
+
         Grid maxGrid = new Grid();
 
         public TestPanel()
@@ -1179,7 +1188,7 @@ namespace WorkspaceManager.View.BinVisual
 
                 if (true)
                 {
-                    if (child is TextBlock || child is CheckBox || child is Expander)
+                    if (child is TextBlock || child is Expander)
                     {
                         if (child.DesiredSize.Width > maxSizeCaption)
                         {
@@ -1196,24 +1205,42 @@ namespace WorkspaceManager.View.BinVisual
                         }
 
                     }
-                    else
+                    else if (child is CheckBox)
+                    {
+                        if (child.DesiredSize.Width > maxSizeCB)
+                        {
+                            if (child.DesiredSize.Width != 0)
+                                maxSizeCB = child.DesiredSize.Width;
+
+
+                        }
+                        
+                    }
+                    else 
                     {
                         if (child.DesiredSize.Width > maxSizeContent)
                         {
                             if (child.DesiredSize.Width != 0)
                                 maxSizeContent = child.DesiredSize.Width;
-                            
-                            
+
+
                         }
                     }
                 }
             }
-            if (maxSizeContent < 30)
+
+            if (maxSizeContent < 20)
                 maxSizeContent = 200;
+
             maxSizeCaption += 5;
             maxSizeContent += 5;
             maxSize = maxSizeCaption  + maxSizeContent ;
 
+            if (maxSizeCB > maxSize)
+            {
+                maxSize = maxSizeCB;
+                maxSizeContent = maxSizeCB - maxSizeCaption - 1;
+            }
 
                 //if (maxSizeCaption > maxSizeContent)
                 //  this.MinWidth = maxSizeCaption;
@@ -1285,6 +1312,16 @@ namespace WorkspaceManager.View.BinVisual
                 if (child is Button)
                 {
                     Button dummyTextBox = child as Button;
+                    dummyTextBox.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
+                    dummyTextBox.Arrange(new Rect(dummyTextBox.DesiredSize));
+                    //dummyTextBox.MaxWidth = dummyTextBox.DesiredSize.Width;
+                    dummyTextBox.MaxWidth = maxSize;
+
+                }
+
+                if (child is CheckBox)
+                {
+                    CheckBox dummyTextBox = child as CheckBox;
                     dummyTextBox.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
                     dummyTextBox.Arrange(new Rect(dummyTextBox.DesiredSize));
                     //dummyTextBox.MaxWidth = dummyTextBox.DesiredSize.Width;

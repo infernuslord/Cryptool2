@@ -129,8 +129,22 @@ namespace WorkspaceManager.View.BinVisual
             }
         }
 
+        public bool HasComponentSetting
+        {
+            get
+            {
+                UIElement e = null;
+                Presentations.TryGetValue(BinComponentState.Setting, out e);
+                return e == null ? false : true;
+
+                
+            }
+        }
+
         private Dictionary<BinComponentState, UIElement> presentations = new Dictionary<BinComponentState, UIElement>();
         public Dictionary<BinComponentState, UIElement> Presentations { get { return presentations; } }
+
+
 
         public UIElement ActivePresentation
         {
@@ -511,14 +525,16 @@ typeof(BinSettingsVisual), typeof(BinComponentVisual), new FrameworkPropertyMeta
             Model.UpdateableView = this;
             Editor = (BinEditorVisual)((WorkspaceManagerClass)Model.WorkspaceModel.MyEditor).Presentation;
             ErrorsTillReset = new Queue<Log>();
-            SideBarSetting = new BinSettingsVisual(Model.Plugin, this, true);
+            SideBarSetting = new BinSettingsVisual(Model.Plugin, this, true,true);
             EditorVisual = (BinEditorVisual)((WorkspaceManagerClass)Model.WorkspaceModel.MyEditor).Presentation;
             Presentations.Add(BinComponentState.Presentation, model.PluginPresentation);
             Presentations.Add(BinComponentState.Min, Model.getImage());
             Presentations.Add(BinComponentState.Data, new BinDataVisual(ConnectorCollection));
             Presentations.Add(BinComponentState.Log, new BinLogVisual(this));
-            Presentations.Add(BinComponentState.Setting, new BinSettingsVisual(Model.Plugin, this,true));
+            Presentations.Add(BinComponentState.Setting, Model.Plugin.Settings == null ? null : new BinSettingsVisual(Model.Plugin, this, true,false));
             LastState = HasComponentPresentation ? BinComponentState.Presentation : BinComponentState.Setting;
+            
+            
             InitializeComponent();
         }
         #endregion
@@ -843,6 +859,7 @@ typeof(BinSettingsVisual), typeof(BinComponentVisual), new FrameworkPropertyMeta
             bin.LastState = (BinComponentState)e.OldValue;
             bin.OnPropertyChanged("LastState");
             bin.OnPropertyChanged("ActivePresentation");
+            bin.OnPropertyChanged("HasComponentSetting");
             bin.OnPropertyChanged("HasComponentPresentation");
             if(bin.StateChanged != null)
                 bin.StateChanged.Invoke(bin,new VisualStateChangedArgs(){State = bin.State});
