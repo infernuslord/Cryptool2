@@ -303,7 +303,7 @@ namespace OnlineDocumentationGenerator.Properties {
         ///		&lt;languageSwitch lang=&quot;en&quot;&gt;
         ///		    Documentation of component &lt;docItem property=&quot;Name&quot; /&gt;!
         ///		&lt;/languageSwitch&gt;
-        ///		&lt;languageSwitch lang=&quot;de-DE&quot;&gt;
+        ///		&lt;languageSwitch lang=&quot;de&quot;&gt;
         ///		    Dokumentation der Komponente &lt;docItem property=&quot;Name&quot; /&gt;!
         ///		&lt;/languageSwitch&gt;
         ///	&lt;/title&gt;
@@ -326,7 +326,7 @@ namespace OnlineDocumentationGenerator.Properties {
         ///		&lt;languageSwitch lang=&quot;en&quot;&gt;
         ///		    Documentation of editor &lt;docItem property=&quot;Name&quot; /&gt;!
         ///		&lt;/languageSwitch&gt;
-        ///		&lt;languageSwitch lang=&quot;de-DE&quot;&gt;
+        ///		&lt;languageSwitch lang=&quot;de&quot;&gt;
         ///		    Dokumentation des Editor &lt;docItem property=&quot;Name&quot; /&gt;!
         ///		&lt;/languageSwitch&gt;
         ///	&lt;/title&gt;
@@ -348,7 +348,7 @@ namespace OnlineDocumentationGenerator.Properties {
         ///	&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;doc.css&quot;&gt;
         ///	&lt;title&gt;
         ///		&lt;languageSwitch lang=&quot;en&quot;&gt;CrypTool 2.0 Documentation!&lt;/languageSwitch&gt;
-        ///		&lt;languageSwitch lang=&quot;de-DE&quot;&gt;CrypTool 2.0 Dokumentation!&lt;/languageSwitch&gt;
+        ///		&lt;languageSwitch lang=&quot;de&quot;&gt;CrypTool 2.0 Dokumentation!&lt;/languageSwitch&gt;
         ///	&lt;/title&gt;
         ///	&lt;style media=&quot;screen&quot; type=&quot;text/css&quot;&gt;
         ///		table{
