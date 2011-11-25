@@ -68,6 +68,8 @@ namespace WorkspaceManager.View.BinVisual
             }
         }
 
+
+
         public bool HasComponentPresentation
         {
             get
@@ -77,6 +79,19 @@ namespace WorkspaceManager.View.BinVisual
 
                 UIElement e = null;
                 ActiveComponent.Presentations.TryGetValue(BinComponentState.Presentation, out e);
+                return e == null ? false : true;
+            }
+        }
+
+        public bool HasComponentSetting
+        {
+            get
+            {
+                if (ActiveComponent == null)
+                    return false;
+
+                UIElement e = null;
+                ActiveComponent.Presentations.TryGetValue(BinComponentState.Setting, out e);
                 return e == null ? false : true;
             }
         }
@@ -224,6 +239,7 @@ namespace WorkspaceManager.View.BinVisual
             }
 
             f.OnPropertyChanged("HasComponentPresentation");
+            f.OnPropertyChanged("HasComponentSetting");
             f.OnPropertyChanged("ActivePresentation");
         }
 

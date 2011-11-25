@@ -108,7 +108,7 @@ namespace Transposition
                 if ((value) != Presentation_Speed)
                 {
                     this.Presentation_Speed = value;
-                    OnPropertyChanged("Value");   
+                    OnPropertyChanged("PresentationSpeed");   
                 }
             }
         }

@@ -94,6 +94,7 @@ namespace Cryptool.Enigma
         {
             
             String input = preFormatInput(text);
+            myPresentation.disablePresentation(isrunning, Presentation.IsVisible);
             if (Presentation.IsVisible)
             {
 
@@ -110,9 +111,11 @@ namespace Cryptool.Enigma
             }
             else
             {
-                myPresentation.disablePresentation(isrunning);   
+                   
                 return postFormatOutput(core.Encrypt(rotor1Pos, rotor2Pos, rotor3Pos, rotor4Pos, input));
             }
+            
+
         }
 
         internal class UnknownToken
@@ -503,7 +506,7 @@ namespace Cryptool.Enigma
             }
 
             isrunning = false;
-            myPresentation.disablePresentation(isrunning);
+            myPresentation.disablePresentation(isrunning,Presentation.IsVisible);
         }
 
         public void Stop()

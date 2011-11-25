@@ -228,6 +228,25 @@
             
         </Style>
 
+        <Style x:Key="SettingBtnStyle" TargetType="{x:Type Button}">
+            <Setter Property="Height" Value="23"></Setter>
+            <Setter Property="Width" Value="23"></Setter>
+            <Setter Property="Visibility" Value="Visible"></Setter>
+            <Setter Property="Template" Value="{StaticResource ResourceKey=CtrlTemplate}"></Setter>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=HasComponentSetting, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Value="False">
+                    <Setter Property="Opacity" Value="0.3"></Setter>
+                    <Setter Property="IsEnabled" Value="False"></Setter>
+                </DataTrigger>
+
+                <DataTrigger Binding="{Binding Path=ActiveComponent, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Value="{x:Null}">
+                    <Setter Property="Opacity" Value="0.3"></Setter>
+                    <Setter Property="IsEnabled" Value="False"></Setter>
+                </DataTrigger>
+            </Style.Triggers>
+
+        </Style>
+
         <Style x:Key="OpenCloseBtnStyle" TargetType="{x:Type Button}">
             <Setter Property="Height" Value="30"></Setter>
             <Setter Property="Width" Value="30"></Setter>
@@ -279,7 +298,7 @@
                 <model:BinComponentState>Presentation</model:BinComponentState>
             </Button>
 
-            <Button ToolTip="{Loc SettingsTooltip}" Style="{StaticResource ResourceKey=ActionBasicStyle}" Click="ActionHandler">
+            <Button ToolTip="{Loc SettingsTooltip}" Style="{StaticResource ResourceKey=SettingBtnStyle}" Click="ActionHandler">
                 <Button.Tag>
                     <Image Source="/WorkspaceManager;component/View/Image/setting.png" HorizontalAlignment="Center" SnapsToDevicePixels="True"></Image>
                 </Button.Tag>

@@ -156,8 +156,8 @@
                             <ControlTemplate TargetType="{x:Type Expander}">
                                 <Grid>
                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition />
+                                        <RowDefinition  />
+                                        
                                     </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto" />
@@ -165,7 +165,6 @@
                                     </Grid.ColumnDefinitions>
 
                                     <Image Source="{TemplateBinding Tag}" Margin="0,0,0,-7" />
-                                    <ContentPresenter ContentSource="Header" Grid.Column="1" Margin="2,2,2,-5" />
                                     <ContentPresenter ContentSource="Content" Grid.ColumnSpan="2" Grid.Row="0" />
                                 </Grid>
                             </ControlTemplate>
@@ -184,9 +183,14 @@
         </Grid.RowDefinitions>
         
         <ScrollViewer x:Name="MyScrollViewer" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-            <WrapPanel Name="myWrap" Orientation="Horizontal" VerticalAlignment="Top" Width="{Binding ElementName=MyScrollViewer, Path=ViewportWidth}">
+            <StackPanel>
+                <WrapPanel Name="myWrap" Orientation="Horizontal" VerticalAlignment="Top" Width="{Binding ElementName=MyScrollViewer, Path=ViewportWidth}">
 
             </WrapPanel>
+            <StackPanel Name="myStack" Orientation="Vertical" VerticalAlignment="Top" Width="{Binding ElementName=MyScrollViewer, Path=ViewportWidth}">
+
+            </StackPanel>
+            </StackPanel>
         </ScrollViewer>
 
         <TextBox Grid.Row="1" Name="textBoxTooltip" IsReadOnly="True" FontWeight="Bold" BorderBrush="Transparent" TextWrapping="Wrap" Visibility="Collapsed"></TextBox>
