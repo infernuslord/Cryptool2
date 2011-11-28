@@ -39,6 +39,11 @@ namespace WorkspaceManager.Model
         }
 
         /// <summary>
+        /// The Zindex is the "layer" in which this Element is located
+        /// </summary>
+        public int ZIndex;
+
+        /// <summary>
         /// Current Position of this VisualElementModel
         /// </summary>
         internal Point Position;

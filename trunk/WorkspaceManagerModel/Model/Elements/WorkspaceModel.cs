@@ -110,11 +110,11 @@ namespace WorkspaceManager.Model
         internal List<PluginModel> AllPluginModels;
 
         /// <summary>
-        /// Get all PluginModels of our Workspace Model
+        /// Get all PluginModels of our Workspace Model (ordered by ZIndex)
         /// </summary>
         public ReadOnlyCollection<PluginModel> GetAllPluginModels()
         {
-            return AllPluginModels.AsReadOnly();
+            return AllPluginModels.OrderBy(x => x.ZIndex).ToList().AsReadOnly();
         }
 
         /// <summary>

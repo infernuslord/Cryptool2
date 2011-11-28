@@ -41,18 +41,16 @@ namespace WorkspaceManager.View.BinVisual
         public event EventHandler<ZIndexChangedArgs> ZIndexChanged;
         #endregion
 
-        #region IZOrdering
-        private int zIndex = 0;
+        #region IZOrdering        
         public int ZIndex
         {
             get 
             { 
-                return zIndex; 
+                return Model.ZIndex; 
             }
             set 
             {
-                zIndex = value;
-                //Model.ZIndex = value;
+                Model.ZIndex = value;
             }
         }
         #endregion
