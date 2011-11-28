@@ -399,8 +399,14 @@ namespace WorkspaceManager.Model
                         firstrun = false;
                         try
                         {
+                            PercentageFinished = 0;
+                            GuiNeedsUpdate = true;
+
                             Plugin.Execute();
                             executionEngine.ExecutionCounter++;
+
+                            PercentageFinished = 1;
+                            GuiNeedsUpdate = true;
                         }
                         catch (Exception ex)
                         {
@@ -561,8 +567,15 @@ namespace WorkspaceManager.Model
                         {
                             Thread.Sleep(executionEngine.SleepTime);
                         }
+                        
+                        PercentageFinished = 0;
+                        GuiNeedsUpdate = true;
+
                         Plugin.Execute();
                         executionEngine.ExecutionCounter++;
+
+                        PercentageFinished = 1;
+                        GuiNeedsUpdate = true;
                     }
                     catch (Exception ex)
                     {
