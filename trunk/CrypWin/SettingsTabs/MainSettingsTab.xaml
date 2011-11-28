@@ -1,0 +1,61 @@
+﻿<UserControl x:Class="Cryptool.CrypWin.SettingsTabs.MainSettingsTab"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:p="clr-namespace:Cryptool.CrypWin.Properties" 
+             xmlns:SettingsTabs="clr-namespace:Cryptool.CrypWin.SettingsTabs" mc:Ignorable="d" 
+             d:DesignHeight="400" d:DesignWidth="600" IsVisibleChanged="UserControl_IsVisibleChanged">
+    <UserControl.Resources>
+        <SettingsTabs:NegateConverter x:Key="negateConverter"/>        
+    </UserControl.Resources>
+    
+    <Grid>
+        <Image Source="/CrypWin;component/images/LogoBlau.png" Opacity="0.2" />
+
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel Name="stackPanel">
+                <Label Content="{Loc Preferred_language}" FontWeight="Bold" />
+                <ComboBox Name="Culture" SelectionChanged="Culture_SelectionChanged" HorizontalAlignment="Left" ToolTip="{Loc cultureBox_tooltip}" Style="{StaticResource ResourceKey=settingsStyle}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <Label Content="{Binding Path=DisplayName}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <Label Name="RestartLabel" Content="{Loc Please_restart_CrypTool}" FontWeight="Bold" Visibility="Collapsed"/>
+                <Button Visibility="{Binding ElementName=RestartLabel, Path=Visibility}" Content="{Loc Restart_Button_Content}" Click="Button_Click" Width="120" HorizontalAlignment="Left" Style="{StaticResource ResourceKey=settingsStyle}"/>
+
+                <Label Content="{Loc Startup_Behaviour}" FontWeight="Bold" />
+                <CheckBox Content="{Loc Reopen_last_opened_file}" ToolTip="{Loc Reopen_last_opened_file_tooltip}" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=ReopenLastFiles, Mode=TwoWay}" Style="{StaticResource ResourceKey=settingsStyle}" />
+                <Label Content="{Loc PowerModeLabelContent}" FontWeight="Bold" Margin="0,10,0,0" />
+                <CheckBox Content="{Loc SavePowerContent}" ToolTip="{Loc SavePowerToolTip}" Style="{StaticResource ResourceKey=settingsStyle}" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=StopWorkspaces, Mode=TwoWay}" />
+                <Label Content="{Loc BackgroundingLabelContent}" FontWeight="Bold" Margin="0,10,0,0" />
+                <CheckBox Content="{Loc BackgroundingContent}" ToolTip="{Loc BackgroundingToolTip}" Style="{StaticResource ResourceKey=settingsStyle}" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=RunInBackground, Mode=TwoWay}" />
+
+                <Label Content="{Loc EditorOpeningContent}" FontWeight="Bold" Margin="0,10,0,0" />
+                <CheckBox x:Name="UseLastEditor" Content="{Loc UseLastEditorContent}" ToolTip="{Loc UseLastEditorTooltip}" Style="{StaticResource ResourceKey=settingsStyle}" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=useDefaultEditor, Mode=TwoWay}" />
+                <Grid Margin="50,5,0,10" IsEnabled="{Binding ElementName=UseLastEditor, Path=IsChecked, Converter={StaticResource ResourceKey=negateConverter}}" Style="{StaticResource ResourceKey=settingsStyle}" ToolTip="{Loc SelectEditorTooltip}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="250" />
+                    </Grid.ColumnDefinitions>
+                    
+                    <Label Content="{Loc SelectEditorLabel}"/>
+                    <ComboBox Name="EditorSelection" Grid.Column="1" SelectionChanged="EditorSelection_SelectionChanged" TargetUpdated="EditorSelection_TargetUpdated">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <Label Content="{Binding Path=Name}"/>
+                            </DataTemplate>                            
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>                    
+                </Grid>
+                <CheckBox Content="{Loc UseLastPathContent}" ToolTip="{Loc UseLastPathTooltip}" Style="{StaticResource ResourceKey=settingsStyle}" IsChecked="{Binding Source={x:Static p:Settings.Default}, Path=useLastPath, Mode=TwoWay}" />
+
+                <StackPanel Orientation="Horizontal" Style="{StaticResource ResourceKey=settingsStyle}">
+                    <Label Content="{Loc RecentFileListLength}" />
+                    <TextBox Name="RecentFileListLengthBox" Width="40" TextChanged="RecentFileListLengthBox_TextChanged" />
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

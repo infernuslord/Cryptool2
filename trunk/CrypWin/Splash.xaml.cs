@@ -1,0 +1,97 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
+using System.Collections.ObjectModel;
+using System.Windows.Threading;
+using System.Threading;
+using Cryptool.PluginBase.Miscellaneous;
+
+namespace Cryptool.CrypWin
+{
+    /// <summary>
+    /// Interaction logic for Splash/About window
+    /// </summary>
+    [Cryptool.PluginBase.Attributes.Localization("Cryptool.CrypWin.Properties.Resources")]
+    public partial class Splash : Window
+    {
+        public Splash()
+        {
+            InitializeComponent();
+            VersionInfoRun.Text = AssemblyHelper.BuildType.ToString() + " Build – Version " +
+                                  AssemblyHelper.Version.ToString();
+        }
+
+        public Splash(bool staticAboutWindow) : this()
+        {
+            // Window is being used as About dialog
+            if (staticAboutWindow)
+            {
+                // Listen for close clicks and hide splash progress bar
+                this.MouseLeftButtonDown += EventMouseLeftButtonDown;
+                this.pbInitProgress.Visibility = Visibility.Hidden;
+                this.tbInitPercent.Visibility = Visibility.Hidden;
+            }
+        }
+
+        public void ShowStatus(string message, double progress)
+        {
+            if (message != null && (progress >= 0 && progress <= 100))
+            {
+                this.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    // show message
+                    logMessage.Text = message;
+
+                    // update progress
+                    pbInitProgress.Value = progress;
+                    tbInitPercent.Text = ((int)progress).ToString() + " %";
+                }, null); 
+            }
+        }
+
+
+        public void ShowStatus(string message)
+        {
+            if (message != null)
+            {
+                this.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    logMessage.Text = message;
+                }, null);
+            }
+        }
+
+        public void ShowStatus(double value)
+        {
+            if (value >= 0 && value <= 100)
+            {
+                this.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    pbInitProgress.Value = value;
+                    tbInitPercent.Text = ((int)value).ToString() + " %";
+                }, null);
+            }
+        }
+
+        private void EventMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void Hyperlink_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start(((Hyperlink)sender).NavigateUri.ToString());
+            this.Close();
+        }
+    }
+
+} // End namespace

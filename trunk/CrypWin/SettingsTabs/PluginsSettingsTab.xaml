@@ -1,0 +1,50 @@
+﻿<UserControl x:Class="Cryptool.CrypWin.SettingsTabs.PluginsSettingsTab"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:SettingsTabs="clr-namespace:Cryptool.CrypWin.SettingsTabs" mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="600" xmlns:my="clr-namespace:Startcenter;assembly=Startcenter">
+    <UserControl.Resources>
+        <my:TrueToVisibleConverter x:Key="TrueToVisibleConverter1" />
+    </UserControl.Resources>
+    <Grid>
+        <Image Source="/CrypWin;component/images/LogoBlau.png" Opacity="0.2" />
+        
+        <Grid Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=SettingsTabs:PluginsSettingsTab, AncestorLevel=1}, Path=IsVisible, Converter={StaticResource TrueToVisibleConverter1}}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal">
+                <StackPanel.Resources>
+                    <Style TargetType="Button">
+                        <Setter Property="Margin" Value="10"/>
+                        <Setter Property="Padding" Value="5,0,5,0"/>
+                    </Style>
+                </StackPanel.Resources>
+                <Button Content="{Loc Select_all}" Click="SelectAll_Click" />
+                <Button Content="{Loc Deselect_all}" Click="DeselectAll_Click" />
+                <Button Content="{Loc Invert_selection}" Click="Invert_Click" />
+            </StackPanel>
+        
+            <ListView Grid.Row="1" Name="PluginListBox" ItemsSource="{Binding}" Background="#00000000">
+                <ListView.View>
+                    <GridView AllowsColumnReorder="True">
+                        
+                        <GridViewColumn Header="{Loc HeaderDisabled}">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox IsChecked="{Binding Path=Disabled}" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="{Loc HeaderPluginName}" DisplayMemberBinding="{Binding Path=Pluginname}"></GridViewColumn>
+                        <GridViewColumn Header="{Loc HeaderDescription}" DisplayMemberBinding="{Binding Path=Plugindescription}"></GridViewColumn>
+                        <GridViewColumn Header="{Loc HeaderAssembly}" DisplayMemberBinding="{Binding Path=Assemblyname}"></GridViewColumn>
+                        
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Grid>
+    </Grid>
+</UserControl>

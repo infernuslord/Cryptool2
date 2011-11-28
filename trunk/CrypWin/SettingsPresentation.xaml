@@ -1,0 +1,42 @@
+﻿<UserControl x:Class="Cryptool.CrypWin.SettingsPresentation"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="600" ToolTip="{Loc SettingsTooltip}">
+    <UserControl.Resources>
+        <Storyboard x:Key="captionLabelAnimation">
+            <DoubleAnimation Storyboard.TargetName="captionLabel" Storyboard.TargetProperty="Foreground.Opacity" To="1" From="0" Duration="0:0:2"/>
+        </Storyboard>
+        <BitmapImage x:Key="ctLogo" UriSource="images/ctLogo.png"/>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300" />
+            <ColumnDefinition Width="5" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <TreeView HorizontalAlignment="Stretch" Name="settingsTree" VerticalAlignment="Stretch" Background="#FFF0F0F0">            
+        </TreeView>
+        <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" Name="gridSplitter" VerticalAlignment="Stretch" />
+        
+        <Grid Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Label Name="captionLabel" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch">
+                <Label.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FFF0F0F0" Offset="0" />
+                        <GradientStop Color="Transparent" Offset="1" />
+                    </LinearGradientBrush>
+                </Label.Background>
+                <TextBlock Name="captionTextBlock" Text="" TextWrapping="Wrap" FontWeight="Bold" />
+            </Label>
+
+            <ContentControl Grid.Row="1" HorizontalAlignment="Stretch" Name="settingsTab" VerticalAlignment="Stretch" />            
+        </Grid>
+    </Grid>
+</UserControl>
