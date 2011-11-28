@@ -86,9 +86,6 @@ namespace WorkspaceManager
             }
         }
 
-        #region Callbacks
-        #endregion
-
         #region private Members
 
         private WorkspaceModel WorkspaceModel = null;
