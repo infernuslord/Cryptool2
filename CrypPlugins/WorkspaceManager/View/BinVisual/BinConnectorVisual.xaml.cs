@@ -304,27 +304,16 @@ namespace WorkspaceManager.View.BinVisual
 
         public Point GetPosition()
         {
-            try
-            {
-                if (!(VisualParent is Panel))
-                    throw new Exception("Parent is not Panel");
-
-                GeneralTransform gTransform, gTransformSec;
-                Point point, relativePoint;
-                Panel ic = (Panel)VisualParent;
-
-                gTransform = ic.TransformToVisual(WindowParent);
-                gTransformSec = this.TransformToVisual(ic);
-
-                point = gTransform.Transform(new Point(0, 0));
-                relativePoint = gTransformSec.Transform(new Point(0, 0));
-                Point result = new Point(WindowParent.Position.X + point.X + relativePoint.X, WindowParent.Position.Y + point.Y + relativePoint.Y);
-                return result;
-            }
-            catch (Exception)
-            {
+            Panel ic = VisualParent as Panel;
+            if (ic == null)
                 return new Point(0, 0);
-            }
+
+            var gTransform = ic.TransformToVisual(WindowParent);
+            var gTransformSec = this.TransformToVisual(ic);
+
+            var point = gTransform.Transform(new Point(0, 0));
+            var relativePoint = gTransformSec.Transform(new Point(0, 0));
+            return new Point(WindowParent.Position.X + point.X + relativePoint.X, WindowParent.Position.Y + point.Y + relativePoint.Y);
         }
 
         #region protected
