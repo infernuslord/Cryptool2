@@ -1,0 +1,32 @@
+﻿<UserControl x:Class="Cryptool.CrypWin.TaskPaneCtrl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:proprietary="clr-namespace:CrypProprietary;assembly=CrypProprietary"
+    xmlns:dc="clr-namespace:DevComponents.WpfRibbon;assembly=DevComponents.WpfRibbon" xmlns:Resources="clr-namespace:Cryptool.CrypWin.Resources" Height="313" Width="667">
+
+    <dc:NavigationPane Name="navPaneSettings" DockPanel.Dock="Left" LargeItemsCount="0"
+                     LicenseKey="{proprietary:LicenseKey}" IsExpanded="True" SnapsToDevicePixels="False" 
+                     DisplayMemberPath="Name" SelectedValuePath="Name" Margin="0,0,0,0"
+                     Visibility="Visible" Collapsed="naviPane_Collapsed">
+
+        <dc:PaneItem Name="navPaneItemCurrentPlugin" Visibility="Collapsed" Header="{Loc Plugin_editor_}" 
+                 Title="{Loc Plugin_editor_}" Height="35" IsSelected="True"
+                 ImageSource="images/default.png" ImageSmallSource="images/default.png">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="0">
+                    <StackPanel>
+                        <StackPanel Name="stackPanelContent" CanVerticallyScroll="True" CanHorizontallyScroll="True" />
+                    </StackPanel>
+                </ScrollViewer>
+                <TextBox Grid.Row="1" Name="textBoxTooltip" IsReadOnly="True" FontWeight="Bold" BorderBrush="Transparent" TextWrapping="Wrap"></TextBox>
+            </Grid>
+        </dc:PaneItem>
+
+    </dc:NavigationPane>
+
+</UserControl>
+

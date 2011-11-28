@@ -1,0 +1,300 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="balloonTooltip" xml:space="preserve">
+    <value>Das ist eine Sprechblase!</value>
+  </data>
+  <data name="MainSettings" xml:space="preserve">
+    <value>Haupteinstellungen</value>
+  </data>
+  <data name="NotificationIconSettings" xml:space="preserve">
+    <value>Benachrichtigungssymbol</value>
+  </data>
+  <data name="checkLabelContent" xml:space="preserve">
+    <value>Checking-Präferenzen (wirksam nach Neustart)</value>
+  </data>
+  <data name="UpdaterSettings" xml:space="preserve">
+    <value>Updater</value>
+  </data>
+  <data name="checkPeriodicallyContent" xml:space="preserve">
+    <value>Periodisch auf Updates prüfen</value>
+  </data>
+  <data name="checkPeriodicallyText1Content" xml:space="preserve">
+    <value>Alle </value>
+  </data>
+  <data name="checkPeriodicallyText2Content" xml:space="preserve">
+    <value>Minuten nach Updates suchen.</value>
+  </data>
+  <data name="checkPeriodicallyToolTip" xml:space="preserve">
+    <value>Markieren, um periodisch nach Updates zu suchen. </value>
+  </data>
+  <data name="checkPeriodicallyWarningContent" xml:space="preserve">
+    <value>Bitte eine gültige Ganzzahl eintragen.</value>
+  </data>
+  <data name="minutesInputToolTip" xml:space="preserve">
+    <value>Zeitintervall (in Minuten), in dem nach Updates gesucht wird. </value>
+  </data>
+  <data name="autoDownloadContent" xml:space="preserve">
+    <value>Automatisch herunterladen</value>
+  </data>
+  <data name="autoDownloadToolTip" xml:space="preserve">
+    <value>Markieren, um Updates automatisch herunterzuladen (falls verfügbar).</value>
+  </data>
+  <data name="autoInstallContent" xml:space="preserve">
+    <value>Automatisch installieren</value>
+  </data>
+  <data name="autoInstallToolTip" xml:space="preserve">
+    <value>Markieren, um Updates automatisch zu installieren.</value>
+  </data>
+  <data name="autoLabelContent" xml:space="preserve">
+    <value>Auto Download-/Installationsoptionen</value>
+  </data>
+  <data name="checkStartupContent" xml:space="preserve">
+    <value>Bei Start prüfen</value>
+  </data>
+  <data name="checkStartupToolTip" xml:space="preserve">
+    <value>Markieren, um bei Start nach Updates zu suchen.</value>
+  </data>
+  <data name="Show_balloon_log_messages_in_balloon" xml:space="preserve">
+    <value>Zeige Sprechblasennachrichten in Sprechblase?</value>
+  </data>
+  <data name="Show_error_log_messages_in_balloon" xml:space="preserve">
+    <value>Zeige Fehlernachrichten in Sprechblase?</value>
+  </data>
+  <data name="Preferred_language" xml:space="preserve">
+    <value>Bevorzugte Sprache:</value>
+  </data>
+  <data name="Please_restart_CrypTool" xml:space="preserve">
+    <value>Bitte starten Sie CrypTool 2.0 neu, damit die Änderungen sichtbar werden!</value>
+  </data>
+  <data name="Show_balloon_log_messages_in_balloon_tooltip" xml:space="preserve">
+    <value>Markieren Sie dies, um Sprechblasennachrichten in der Trayicon-Sprechblase anzuzeigen!</value>
+  </data>
+  <data name="Show_error_log_messages_in_balloon_tooltip" xml:space="preserve">
+    <value>Markieren Sie dies, um Fehlernachrichten in der Trayicon-Sprechblase anzuzeigen!</value>
+  </data>
+  <data name="Reopen_last_opened_file" xml:space="preserve">
+    <value>Öffne die letzten offenen Dateien beim Start</value>
+  </data>
+  <data name="Reopen_last_opened_file_tooltip" xml:space="preserve">
+    <value>Markieren Sie dies, um die letzte offene Datei beim CrypTool 2.0 Start wieder zu öffnen.</value>
+  </data>
+  <data name="PluginSettings" xml:space="preserve">
+    <value>Plug-Ins</value>
+  </data>
+  <data name="BackgroundingContent" xml:space="preserve">
+    <value>Im Hintergrund verstecken, wenn beim Schließen Projekte ausgeführt werden</value>
+  </data>
+  <data name="BackgroundingLabelContent" xml:space="preserve">
+    <value>Hintergrundausführungseinstellungen:</value>
+  </data>
+  <data name="BackgroundingToolTip" xml:space="preserve">
+    <value>Markieren, um bei Schließen im Hintergrund auszuführen, falls noch Workspaces aktiv sind.</value>
+  </data>
+  <data name="PowerModeLabelContent" xml:space="preserve">
+    <value>Energiesparoptionen:</value>
+  </data>
+  <data name="SavePowerContent" xml:space="preserve">
+    <value>Workspaces anhalten bei Batteriebetrieb</value>
+  </data>
+  <data name="SavePowerToolTip" xml:space="preserve">
+    <value>Markieren, um bei Batteriebetrieb Energie zu sparen.</value>
+  </data>
+  <data name="Show_debug_log_messages_in_balloon" xml:space="preserve">
+    <value>Zeige Debugnachrichten in Sprechblase?</value>
+  </data>
+  <data name="Show_debug_log_messages_in_balloon_tooltip" xml:space="preserve">
+    <value>Markieren Sie dies, um Debugnachrichten in der Trayicon-Sprechblase anzuzeigen!</value>
+  </data>
+  <data name="Show_info_log_messages_in_balloon" xml:space="preserve">
+    <value>Zeige Informationsnachrichten in Sprechblase?</value>
+  </data>
+  <data name="Show_info_log_messages_in_balloon_tooltip" xml:space="preserve">
+    <value>Markieren Sie dies, um Informationsnachrichten in der Trayicon-Sprechblase anzuzeigen!</value>
+  </data>
+  <data name="Show_warning_log_messages_in_balloon" xml:space="preserve">
+    <value>Zeige Warnungsnachrichten in Sprechblase?</value>
+  </data>
+  <data name="Show_warning_log_messages_in_balloon_tooltip" xml:space="preserve">
+    <value>Markieren Sie dies, um Warnungsnachrichten in der Trayicon-Sprechblase anzuzeigen!</value>
+  </data>
+  <data name="cultureBox_tooltip" xml:space="preserve">
+    <value>Wählen Sie Ihre bevorzugte Sprache für CrypTool 2.0 hier aus!</value>
+  </data>
+  <data name="Startup_Behaviour" xml:space="preserve">
+    <value>Startverhalten:</value>
+  </data>
+  <data name="Restart_Button_Content" xml:space="preserve">
+    <value>Jetzt neu starten</value>
+  </data>
+  <data name="BalloonDuration_Tooltip" xml:space="preserve">
+    <value>Geben Sie hier die Dauer der Sichtbarkeit für Sprechblasen an!</value>
+  </data>
+  <data name="Deselect_all" xml:space="preserve">
+    <value>alle abwählen</value>
+  </data>
+  <data name="EditorOpeningContent" xml:space="preserve">
+    <value>Verhalten bei Öffnen eines neuen Editors</value>
+  </data>
+  <data name="HeaderAssembly" xml:space="preserve">
+    <value>Assembly</value>
+  </data>
+  <data name="HeaderDescription" xml:space="preserve">
+    <value>Beschreibung</value>
+  </data>
+  <data name="HeaderDisabled" xml:space="preserve">
+    <value>deaktiviert</value>
+  </data>
+  <data name="HeaderPluginName" xml:space="preserve">
+    <value>Plugin-Name</value>
+  </data>
+  <data name="Invert_selection" xml:space="preserve">
+    <value>Auswahl invertieren</value>
+  </data>
+  <data name="RecentFileListLength" xml:space="preserve">
+    <value>Länge der Liste zuletzt geöffneter Dateien</value>
+  </data>
+  <data name="seconds_" xml:space="preserve">
+    <value>Sekunden lang!</value>
+  </data>
+  <data name="SelectEditorLabel" xml:space="preserve">
+    <value>Wähle bevorzugten Editor</value>
+  </data>
+  <data name="SelectEditorTooltip" xml:space="preserve">
+    <value>Wählen Sie den Editor, der geöffnet werden soll, wenn der "Neu"-Button geklickt wird</value>
+  </data>
+  <data name="Select_all" xml:space="preserve">
+    <value>alle wählen</value>
+  </data>
+  <data name="Show_balloon_for_" xml:space="preserve">
+    <value>Zeige Sprechblase </value>
+  </data>
+  <data name="UseLastEditorContent" xml:space="preserve">
+    <value>Verwende letzten Editor</value>
+  </data>
+  <data name="UseLastEditorTooltip" xml:space="preserve">
+    <value>Markieren, um immer den zuletzt verwendeten Editor zu öffnen, wenn der "Neu"-Button gedrückt wird.</value>
+  </data>
+  <data name="UseLastPathContent" xml:space="preserve">
+    <value>Verwende letzten Pfad im Datei-Dialog</value>
+  </data>
+  <data name="UseLastPathTooltip" xml:space="preserve">
+    <value>Markieren, damit der Datei-Dialog immer den zuletzt verwendeten Pfad öffnet</value>
+  </data>
+</root>
