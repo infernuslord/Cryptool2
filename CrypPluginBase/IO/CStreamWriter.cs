@@ -22,6 +22,7 @@ using System.IO;
 using System.Threading;
 using System.Diagnostics;
 using System.Runtime.ConstrainedExecution;
+using Cryptool.PluginBase.Tool;
 
 namespace Cryptool.PluginBase.IO
 {
@@ -343,8 +344,7 @@ namespace Cryptool.PluginBase.IO
         }
 
         /// <summary>
-        /// Attempts to read 4096 bytes from CStream, interpreted as UTF-8 string.
-        /// May return less if CStream doesn't contain that many bytes.
+        /// Shows up to 4096 bytes of CStream as hex-string (00-AA-01-BF...)
         /// </summary>
         public override string ToString()
         {
@@ -353,7 +353,11 @@ namespace Cryptool.PluginBase.IO
                 byte[] buf = new byte[4096];
                 int read = reader.Read(buf);
 
-                return Encoding.UTF8.GetString(buf, 0, read);
+                string hexString = Hex.HexToString(buf, 0, read);
+                if (reader.Length > 4096)
+                    hexString += "...";
+
+                return hexString;
             }
         }
 
