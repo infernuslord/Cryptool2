@@ -65,15 +65,15 @@
       <HintPath>..\LibDev\CrypProprietary.dll</HintPath>
     </Reference>
     <Reference Include="DevComponents.WpfDock">
-      <HintPath>..\..\LibDev\DevComponents.WpfDock.dll</HintPath>
+      <HintPath>..\LibDev\DevComponents.WpfDock.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="DevComponents.WpfEditors">
-      <HintPath>..\..\LibDev\DevComponents.WpfEditors.dll</HintPath>
+      <HintPath>..\LibDev\DevComponents.WpfEditors.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="DevComponents.WpfRibbon">
-      <HintPath>..\..\LibDev\DevComponents.WpfRibbon.dll</HintPath>
+      <HintPath>..\LibDev\DevComponents.WpfRibbon.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="PresentationFramework.Aero">
