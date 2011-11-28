@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrypStartup", "CrypStartup\CrypStartup.csproj", "{347B5433-A40E-4ACC-AD6B-A245509AB42E}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "P2PSystem", "P2PSystem", "{775BB529-52BD-4B18-A092-E4EA70E53838}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrypPluginBase", "CrypPluginBase\CrypPluginBase.csproj", "{25DB2B47-A457-4EC2-960B-395CE07AE093}"
@@ -282,16 +280,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Decimalization", "CrypPlugi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserCode", "CrypPlugins\UserCode\UserCode.csproj", "{3B970955-BBA6-417D-A774-D7E9A1857165}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrypWin", "CrypWin\CrypWin.csproj", "{5D7200CF-515F-4660-A13F-16918EF348A1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{347B5433-A40E-4ACC-AD6B-A245509AB42E}.Debug|x86.ActiveCfg = Debug|x86
-		{347B5433-A40E-4ACC-AD6B-A245509AB42E}.Debug|x86.Build.0 = Debug|x86
-		{347B5433-A40E-4ACC-AD6B-A245509AB42E}.Release|x86.ActiveCfg = Release|x86
-		{347B5433-A40E-4ACC-AD6B-A245509AB42E}.Release|x86.Build.0 = Release|x86
 		{25DB2B47-A457-4EC2-960B-395CE07AE093}.Debug|x86.ActiveCfg = Debug|x86
 		{25DB2B47-A457-4EC2-960B-395CE07AE093}.Debug|x86.Build.0 = Debug|x86
 		{25DB2B47-A457-4EC2-960B-395CE07AE093}.Release|x86.ActiveCfg = Release|x86
@@ -828,6 +824,10 @@ Global
 		{3B970955-BBA6-417D-A774-D7E9A1857165}.Debug|x86.Build.0 = Debug|x86
 		{3B970955-BBA6-417D-A774-D7E9A1857165}.Release|x86.ActiveCfg = Release|x86
 		{3B970955-BBA6-417D-A774-D7E9A1857165}.Release|x86.Build.0 = Release|x86
+		{5D7200CF-515F-4660-A13F-16918EF348A1}.Debug|x86.ActiveCfg = Debug|x86
+		{5D7200CF-515F-4660-A13F-16918EF348A1}.Debug|x86.Build.0 = Debug|x86
+		{5D7200CF-515F-4660-A13F-16918EF348A1}.Release|x86.ActiveCfg = Release|x86
+		{5D7200CF-515F-4660-A13F-16918EF348A1}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
