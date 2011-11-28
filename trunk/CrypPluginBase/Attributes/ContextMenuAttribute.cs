@@ -102,6 +102,7 @@ namespace Cryptool.PluginBase
         /// <param name="controlType">Type of the control.</param>
         /// <param name="arrImagesForControlValues">Image indexes for the control values. Can be null if no images should be used.</param>
         /// <param name="controlValues">Strings for the context menu entries.</param>
+        [Obsolete("ContextMenuAttribute is no longer used")]
         public ContextMenuAttribute(string caption, string toolTip, int order, ContextMenuControlType controlType, int[] arrImagesForControlValues, params string[] controlValues)
         {
             this.caption = caption;
