@@ -549,7 +549,7 @@ namespace Cryptool.Plugins.M209
 
         private void ProgressChanged(double value, double max)
         {
-           // EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
+           EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
         }
 
         #endregion
