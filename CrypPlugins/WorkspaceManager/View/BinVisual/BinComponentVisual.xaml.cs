@@ -41,7 +41,7 @@ namespace WorkspaceManager.View.BinVisual
         public event EventHandler<ZIndexChangedArgs> ZIndexChanged;
         #endregion
 
-        #region IZOrdering        
+        #region IZOrdering
         public int ZIndex
         {
             get 
