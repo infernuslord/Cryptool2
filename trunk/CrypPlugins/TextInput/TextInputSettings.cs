@@ -30,7 +30,7 @@ namespace Cryptool.TextInput
     private InputFormat inputFormat = InputFormat.Text;
     #endregion
 
-    public enum EncodingTypes { Default = 0, Unicode = 1, UTF7 = 2, UTF8 = 3, UTF32 = 4, ASCII = 5, BigEndianUnicode = 6 };
+    public enum EncodingTypes { Default, UTF8, UTF7, UTF32, Unicode, BigEndianUnicode, ASCII, ISO8859_15, Windows1252 };
     public enum InputFormat { Text, Hex, Base64 }
     
     public delegate void TextInputLogMessage(string message, NotificationLevel loglevel);
@@ -57,8 +57,8 @@ namespace Cryptool.TextInput
     /// <summary>
     /// Encoding property used in the Settings pane. 
     /// </summary>
-    [ContextMenu( "EncodingSettingCaption", "EncodingSettingTooltip", 1, ContextMenuControlType.ComboBox, null, new string[] { "EncodingSettingList1", "EncodingSettingList2", "EncodingSettingList3", "EncodingSettingList4", "EncodingSettingList5", "EncodingSettingList6", "EncodingSettingList7" })]
-    [TaskPane( "EncodingSettingCaption", "EncodingSettingTooltip", "", 1, false, ControlType.RadioButton, new string[] { "EncodingSettingList1", "EncodingSettingList2", "EncodingSettingList3", "EncodingSettingList4", "EncodingSettingList5", "EncodingSettingList6", "EncodingSettingList7" })]
+    [ContextMenu("EncodingSettingCaption", "EncodingSettingTooltip", 1, ContextMenuControlType.ComboBox, null, new string[] { "EncodingSettingList1", "EncodingSettingList2", "EncodingSettingList3", "EncodingSettingList4", "EncodingSettingList5", "EncodingSettingList6", "EncodingSettingList7", "EncodingSettingList8", "EncodingSettingList9" })]
+    [TaskPane("EncodingSettingCaption", "EncodingSettingTooltip", "", 1, false, ControlType.ComboBox, new string[] { "EncodingSettingList1", "EncodingSettingList2", "EncodingSettingList3", "EncodingSettingList4", "EncodingSettingList5", "EncodingSettingList6", "EncodingSettingList7", "EncodingSettingList8", "EncodingSettingList9" })]
     public EncodingTypes Encoding
     {
       get
@@ -80,7 +80,7 @@ namespace Cryptool.TextInput
     /// </summary>
     /// <value>The presentation format setting.</value>
     [ContextMenu( "InputFormatSettingCaption", "InputFormatSettingTooltip", 2, ContextMenuControlType.ComboBox, null, new string[] { "InputFormatSettingList1", "InputFormatSettingList2", "InputFormatSettingList3" })]
-    [TaskPane( "InputFormatSettingCaption", "InputFormatSettingTooltip", null, 2, false, ControlType.RadioButton, new string[] { "InputFormatSettingList1", "InputFormatSettingList2", "InputFormatSettingList3" })]
+    [TaskPane("InputFormatSettingCaption", "InputFormatSettingTooltip", null, 2, false, ControlType.ComboBox, new string[] { "InputFormatSettingList1", "InputFormatSettingList2", "InputFormatSettingList3" })]
     public InputFormat InputFormatSetting
     {
         get
