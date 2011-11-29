@@ -2141,7 +2141,7 @@ namespace Cryptool.CrypWin
             catch (FileNotFoundException)
             {
                 //if file was not found, simply try to open the index page:
-                GuiLogMessage(string.Format(Properties.Resources.MainWindow_ShowHelpPage_No_special_help_file_found_for__0__, type.Name), NotificationLevel.Warning);
+                GuiLogMessage(string.Format(Properties.Resources.MainWindow_ShowHelpPage_No_special_help_file_found_for__0__, type), NotificationLevel.Warning);
                 if (type != typeof(MainWindow))
                 {
                     ShowHelpPage(typeof(MainWindow));
