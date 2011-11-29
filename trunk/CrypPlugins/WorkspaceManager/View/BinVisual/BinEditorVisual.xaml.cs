@@ -435,6 +435,7 @@ namespace WorkspaceManager.View.BinVisual
                 if (SampleLoaded != null)
                     SampleLoaded.Invoke(this, null);
 
+                IsLoading = false;
             }
             , null);
         }
