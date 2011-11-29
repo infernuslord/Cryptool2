@@ -33,7 +33,7 @@ namespace TextOutput
     private TextOutput myTextOutput;
     #endregion
 
-    public enum EncodingTypes { Default = 0, Unicode = 1, UTF7 = 2, UTF8 = 3, UTF32 = 4, ASCII = 5, BigEndianUnicode = 6 };
+    public enum EncodingTypes { Default, UTF8, UTF7, UTF32, Unicode, BigEndianUnicode, ASCII, ISO8859_15, Windows1252 };
     public enum PresentationFormat { Text, Hex, Base64, Decimal }
 
     public TextOutputSettings(TextOutput textOutput)
@@ -60,22 +60,22 @@ namespace TextOutput
     /// <summary>
     /// Encoding property used in the Settings pane. 
     /// </summary>
-    [ContextMenu( "EncodingSettingCaption", "EncodingSettingTooltip", 1, ContextMenuControlType.ComboBox, null, new string[] { "EncodingSettingList1", "EncodingSettingList2", "EncodingSettingList3", "EncodingSettingList4", "EncodingSettingList5", "EncodingSettingList6", "EncodingSettingList7" })]
-    [TaskPane( "EncodingSettingTPCaption", "EncodingSettingTPTooltip", null, 1, false, ControlType.RadioButton, new string[] { "EncodingSettingList1", "EncodingSettingList2", "EncodingSettingList3", "EncodingSettingList4", "EncodingSettingList5", "EncodingSettingList6", "EncodingSettingList7" })]
+    //[ContextMenu("EncodingSettingCaption", "EncodingSettingTooltip", 1, ContextMenuControlType.ComboBox, null, new string[] { "EncodingSettingList1", "EncodingSettingList2", "EncodingSettingList3", "EncodingSettingList4", "EncodingSettingList5", "EncodingSettingList6", "EncodingSettingList7", "EncodingSettingList8", "EncodingSettingList9" })]
+    //[TaskPane("EncodingSettingTPCaption", "EncodingSettingTPTooltip", null, 1, true, ControlType.ComboBox, new string[] { "EncodingSettingList1", "EncodingSettingList2", "EncodingSettingList3", "EncodingSettingList4", "EncodingSettingList5", "EncodingSettingList6", "EncodingSettingList7", "EncodingSettingList8", "EncodingSettingList9" })]
     public EncodingTypes Encoding
     {
-      get
-      {
-        return this.encoding;
-      }
-      set
-      {
-        if (this.encoding != value)
+        get
         {
-            this.encoding = value;
-            OnPropertyChanged("Encoding");            
+            return this.encoding;
         }
-      }
+        set
+        {
+            if (this.encoding != value)
+            {
+                this.encoding = value;
+                OnPropertyChanged("Encoding");
+            }
+        }
     }
 
 
@@ -83,8 +83,8 @@ namespace TextOutput
     /// Gets or sets the presentation format setting.
     /// </summary>
     /// <value>The presentation format setting.</value>
-    [ContextMenu( "PresentationFormatSettingCaption", "PresentationFormatSettingTooltip", 2, ContextMenuControlType.ComboBox, null, new string[] { "PresentationFormatSettingList1", "PresentationFormatSettingList2", "PresentationFormatSettingList3", "PresentationFormatSettingList4" })]
-    [TaskPane( "PresentationFormatSettingCaption", "PresentationFormatSettingTooltip", null, 2, false, ControlType.RadioButton, new string[] { "PresentationFormatSettingList1", "PresentationFormatSettingList2", "PresentationFormatSettingList3", "PresentationFormatSettingList4" })]
+    //[ContextMenu( "PresentationFormatSettingCaption", "PresentationFormatSettingTooltip", 2, ContextMenuControlType.ComboBox, null, new string[] { "PresentationFormatSettingList1", "PresentationFormatSettingList2", "PresentationFormatSettingList3", "PresentationFormatSettingList4" })]
+    //[TaskPane("PresentationFormatSettingCaption", "PresentationFormatSettingTooltip", null, 2, true, ControlType.ComboBox, new string[] { "PresentationFormatSettingList1", "PresentationFormatSettingList2", "PresentationFormatSettingList3", "PresentationFormatSettingList4" })]
     public int PresentationFormatSetting
     {
       get
