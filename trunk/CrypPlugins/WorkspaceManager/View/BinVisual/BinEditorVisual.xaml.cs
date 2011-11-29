@@ -45,6 +45,7 @@ namespace WorkspaceManager.View.BinVisual
         #endregion
 
         #region Fields
+        private Window window;
         private ArevaloRectanglePacker packer;
         private BinConnectorVisual from, to;
         private RectangleGeometry selectRectGeometry = new RectangleGeometry();
@@ -464,9 +465,20 @@ namespace WorkspaceManager.View.BinVisual
             VisualCollection.Remove(draggedLink);
             SelectedConnector = null;
             IsLinking = false;
+            //selectionPath.Data = null;
+            //startDragPoint = null;
+            Mouse.OverrideCursor = null;
+        }
+
+        private void dragReset()
+        {
             selectionPath.Data = null;
             startDragPoint = null;
-            Mouse.OverrideCursor = null;
+
+            if (!startedSelection)
+                SelectedItems = null;
+
+            startedSelection = false;
         }
 
         private static Random random = new Random();
@@ -864,11 +876,6 @@ namespace WorkspaceManager.View.BinVisual
             //    BinComponentVisual c = (BinComponentVisual)e.Source;
             //    return;
             //}
-
-            if (!startedSelection)
-                SelectedItems = null;
-
-            startedSelection = false;
         }
 
         private void MouseWheelHandler(object sender, MouseWheelEventArgs e)
@@ -893,27 +900,6 @@ namespace WorkspaceManager.View.BinVisual
             {
                 draggedLink.EndPoint = e.GetPosition(sender as FrameworkElement);
                 e.Handled = true;
-                return;
-            }
-
-            if (startDragPoint != null && e.LeftButton == MouseButtonState.Pressed)
-            {
-                startedSelection = true;
-                Point currentPoint = e.GetPosition(sender as FrameworkElement);
-                Vector delta = Point.Subtract((Point)startDragPoint, currentPoint);
-                delta.Negate();
-                selectRectGeometry.Rect = new Rect((Point)startDragPoint, delta);
-                selectionPath.Data = selectRectGeometry;
-                List<UIElement> items = new List<UIElement>();
-                foreach (var element in ComponentCollection)
-                {
-                    Rect elementRect = new Rect(element.Position, new Size(element.ActualWidth, element.ActualHeight));
-                    if (selectRectGeometry.Rect.IntersectsWith(elementRect))
-                        items.Add(element);
-                    else
-                        items.Remove(element);
-                }
-                SelectedItems = items.ToArray();
                 return;
             }
 
@@ -962,6 +948,8 @@ namespace WorkspaceManager.View.BinVisual
         {
             if (!(e.Source is BinComponentVisual) && !(e.Source is BinImageVisual) && !(e.Source is BinTextVisual))
             {
+                window = Window.GetWindow(this);
+                setDragWindowHandle();
                 startDragPoint = Mouse.GetPosition(sender as FrameworkElement);
                 Mouse.OverrideCursor = Cursors.Arrow;
                 e.Handled = true;
@@ -1040,6 +1028,62 @@ namespace WorkspaceManager.View.BinVisual
                         startedSelection = true;
                     }
                     break;
+            }
+        }
+
+        private void removeDragWindowHandle()
+        {
+            if (window != null)
+            {
+                window.PreviewMouseMove -= new MouseEventHandler(WindowPreviewMouseMove);
+                window.PreviewMouseLeftButtonUp -= new MouseButtonEventHandler(WindowPreviewMouseLeftButtonUp);
+                window.MouseLeave -= new MouseEventHandler(WindowMouseLeave);
+            }
+        }
+
+        private void setDragWindowHandle()
+        {
+            if (window != null)
+            {
+                window.PreviewMouseMove += new MouseEventHandler(WindowPreviewMouseMove);
+                window.PreviewMouseLeftButtonUp += new MouseButtonEventHandler(WindowPreviewMouseLeftButtonUp);
+                window.MouseLeave += new MouseEventHandler(WindowMouseLeave);
+            }
+        }
+
+        void WindowMouseLeave(object sender, MouseEventArgs e)
+        {
+            removeDragWindowHandle();
+            dragReset();
+        }
+
+        void WindowPreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            removeDragWindowHandle();
+            dragReset();
+        }
+
+        void WindowPreviewMouseMove(object sender, MouseEventArgs e)
+        {
+            if (startDragPoint != null && e.LeftButton == MouseButtonState.Pressed)
+            {
+                startedSelection = true;
+                Point currentPoint = e.GetPosition(ScrollViewer.Content as UIElement);
+                Vector delta = Point.Subtract((Point)startDragPoint, currentPoint);
+                delta.Negate();
+                selectRectGeometry.Rect = new Rect((Point)startDragPoint, delta);
+                selectionPath.Data = selectRectGeometry;
+                List<UIElement> items = new List<UIElement>();
+                foreach (var element in ComponentCollection)
+                {
+                    Rect elementRect = new Rect(element.Position, new Size(element.ActualWidth, element.ActualHeight));
+                    if (selectRectGeometry.Rect.IntersectsWith(elementRect))
+                        items.Add(element);
+                    else
+                        items.Remove(element);
+                }
+                SelectedItems = items.ToArray();
+                return;
             }
         }
 
