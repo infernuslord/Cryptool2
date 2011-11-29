@@ -172,22 +172,20 @@ namespace Cryptool.TextInput
           {
               case TextInputSettings.EncodingTypes.Unicode:
                   return Encoding.Unicode.GetString(data);
-                  break;
               case TextInputSettings.EncodingTypes.UTF7:
                   return Encoding.UTF7.GetString(data);
-                  break;
               case TextInputSettings.EncodingTypes.UTF8:
                   return Encoding.UTF8.GetString(data);
-                  break;
               case TextInputSettings.EncodingTypes.UTF32:
                   return Encoding.UTF32.GetString(data);
-                  break;
               case TextInputSettings.EncodingTypes.ASCII:
                   return Encoding.ASCII.GetString(data);
-                  break;
               case TextInputSettings.EncodingTypes.BigEndianUnicode:
                   return Encoding.BigEndianUnicode.GetString(data);
-                  break;
+              case TextInputSettings.EncodingTypes.ISO8859_15:
+                  return Encoding.GetEncoding("iso-8859-15").GetString(data);
+              case TextInputSettings.EncodingTypes.Windows1252:
+                  return Encoding.GetEncoding(1252).GetString(data);
               case TextInputSettings.EncodingTypes.Default:
               default:
                   return Encoding.Default.GetString(data);
@@ -216,6 +214,10 @@ namespace Cryptool.TextInput
                   return Encoding.ASCII.GetBytes(inputString);
               case TextInputSettings.EncodingTypes.BigEndianUnicode:
                   return Encoding.BigEndianUnicode.GetBytes(inputString);
+              case TextInputSettings.EncodingTypes.ISO8859_15:
+                  return Encoding.GetEncoding("iso-8859-15").GetBytes(inputString);
+              case TextInputSettings.EncodingTypes.Windows1252:
+                  return Encoding.GetEncoding(1252).GetBytes(inputString);
               case TextInputSettings.EncodingTypes.Default:
               default:
                   return Encoding.Default.GetBytes(inputString);
