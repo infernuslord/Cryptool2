@@ -58,7 +58,7 @@ namespace WorkspaceManagerModel.Model.Tools
 
             if (data is byte[])
             {
-                return BitConverter.ToString((byte[])data);
+                return BitConverter.ToString((byte[])data).Replace("-"," ");
             }
             
             if (data is Array)
