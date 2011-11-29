@@ -7,7 +7,7 @@
   <name lang="en" >Symmetric Encryption</name>
   <name lang="d" >Symmetrische Verschlüsselung</name>
   <description lang="en" >Selecting this allows you to analyze a ciphertext that was encrypted by a modern symmetric algorithm. You can choose which symmetric algorithm you want to use for doing this.</description>
-  <description lang="de-DE" >Wählen Sie diesen Punkt, um einen chiffrierten Text, der mit einem modernen symmetrischen Algorithmus verschlüsselt wurde, zu analysieren. Der dafür verwendete symmetrische Algorithmus kann von Ihnen ausgewählt werden.</description>
+  <description lang="de-DE" >Wählen Sie diesen Punkt, um einen chiffrierten Text, der mit einem modernen symmetrischen Algorithmus verschlüsselt wurde, zu analysieren. Der dafür verwendete Algorithmus kann von Ihnen ausgewählt werden.</description>
 
   <!-- This is the step's headline. It should be short, but precise. -->
   <headline lang="en" >Algorithm Selection</headline>
@@ -28,13 +28,13 @@ By selecting this, you can analyze some ciphertext that was encrypted with the A
     </description>
 
     <input image="AES">
-      <name lang="en">Ciphertext Only</name>
-      <name lang="de">Nur Geheimtext</name>
+      <name lang="en">Ciphertext-Only</name>
+      <name lang="de">Ciphertext-only</name>
       <description lang="en">Analyses a ciphertext by using only the ciphertext. It will use entropy as the cost function.</description>
-      <description lang="de">Analysiert einen chiffrierten Text nur mit Hilfe des chiffrierten Textes. Benutzt Entropy als Kostenfunktion.</description>
+      <description lang="de">Analysiert einen chiffrierten Text (ohne Kenntnis von Klartext(teilen) und ohne Kenntnis des Schlüssels). Verwendet die Entropie als Kostenfunktion.</description>
 
-      <headline lang="en">AES - Ciphertext Only Analysis</headline>
-      <headline lang="de">AES - Nur Geheimtext-Analyse</headline>
+      <headline lang="en">AES - Ciphertext-Only Analysis</headline>
+      <headline lang="de">AES - Ciphertext-only-Analyse</headline>
       <task lang="en">Please input the ciphertext.</task>
       <task lang="de">Bitte geben Sie den chiffrierten Text ein.</task>
 
@@ -67,13 +67,13 @@ By selecting this, you can analyze some ciphertext that was encrypted with the A
       </comboBox>
 
       <sampleViewer image="AES" file="Cryptanalysis\Modern\Symmetric\AES_Analyzer_Entropy.cwm">
-        <name lang="en">Ciphertext Only Analysis</name>
-        <name lang="de">Nur Geheimtext-Analyse</name>
-        <description lang="en">Ciphertext Only Analysis Output</description>
-        <description lang="de">Nur Geheimtext-Analyse: Ausgabe</description>
+        <name lang="en">Ciphertext-Only Analysis</name>
+        <name lang="de">Ciphertext-only-Analyse</name>
+        <description lang="en">Ciphertext-Only Analysis Output</description>
+        <description lang="de">Ciphertext-only-Analyse: Ausgabe</description>
 
-        <headline lang="en">AES Ciphertext Only Analysis Output</headline>
-        <headline lang="de">Nur Geheimtext-Analyse: Ausgabe</headline>
+        <headline lang="en">AES Ciphertext-Only Analysis Output</headline>
+        <headline lang="de">Ciphertext-only-Analyse: Ausgabe</headline>
         <task lang="en">Here, you can see the AES analysis.</task>
         <task lang="de">Hier können Sie die AES-Analyse sehen.</task>
 
@@ -184,13 +184,13 @@ By selecting this, you can analyze some ciphertext that was encrypted with the D
     </description>
 
     <input image="DES">
-      <name lang="en">Ciphertext Only</name>
-      <name lang="de">Nur Geheimtext-Analyse</name>
+      <name lang="en">Ciphertext-Only</name>
+      <name lang="de">Ciphertext-only-Analyse</name>
       <description lang="en">Analyses a ciphertext by using only the ciphertext. It will use entropy as the cost function.</description>
-      <description lang="de">Analysiert einen chiffrierten Text nur mit Hilfe des chiffrierten Textes. Benutzt Entropy als Kostenfunktion.</description>
+      <description lang="de">Analysiert einen chiffrierten Text (ohne Kenntnis von Klartext(teilen) und ohne Kenntnis des Schlüssels). Verwendet die Entropie als Kostenfunktion.</description>
 
-      <headline lang="en">DES - Ciphertext Only Analysis</headline>
-      <headline lang="de">DES - Nur Geheimtext-Analyse</headline>
+      <headline lang="en">DES - Ciphertext-Only Analysis</headline>
+      <headline lang="de">DES - Ciphertext-only-Analyse</headline>
       <task lang="en">Please input the ciphertext.</task>
       <task lang="de">Bitte geben Sie den chiffrierten Text ein.</task>
       
@@ -215,13 +215,13 @@ By selecting this, you can analyze some ciphertext that was encrypted with the D
       </comboBox>
 
       <sampleViewer image="DES" file="Cryptanalysis\Modern\Symmetric\DES_Analyzer_Entropy.cwm">
-        <name lang="en">Ciphertext Only Analysis</name>
-        <name lang="de">Nur Geheimtext-Analyse</name>
-        <description lang="en">Ciphertext Only Analysis Output</description>
-        <description lang="de">Nur Geheimtext-Analyse: Ausgabe</description>
+        <name lang="en">Ciphertext-Only Analysis</name>
+        <name lang="de">Ciphertext-only-Analyse</name>
+        <description lang="en">Ciphertext-Only Analysis Output</description>
+        <description lang="de">Ciphertext-only-Analyse: Ausgabe</description>
 
-        <headline lang="en">AES Ciphertext Only Analysis Output</headline>
-        <headline lang="de">Nur Geheimtext-Analyse: Ausgabe</headline>
+        <headline lang="en">AES Ciphertext-Only Analysis Output</headline>
+        <headline lang="de">Ciphertext-only-Analyse: Ausgabe</headline>
         <task lang="en">Here, you can see the DES analysis.</task>
         <task lang="de">Hier können Sie die DES-Analyse sehen.</task>
 
@@ -324,13 +324,13 @@ By selecting this, you can analyze some ciphertext that was encrypted with the S
     </description>
 
     <input image="SDES">
-      <name lang="en">Ciphertext Only</name>
-      <name lang="de">Nur Geheimtext</name>
+      <name lang="en">Ciphertext-Only</name>
+      <name lang="de">Ciphertext-only</name>
       <description lang="en">Analyses a ciphertext by using only the ciphertext. It will use entropy as the cost function.</description>
-      <description lang="de">Analysiert einen chiffrierten Text nur mit Hilfe des chiffrierten Textes. Verwendet die Entropie als Kostenfunktion.</description>
+      <description lang="de">Analysiert einen chiffrierten Text (ohne Kenntnis von Klartext(teilen) und ohne Kenntnis des Schlüssels). Verwendet die Entropie als Kostenfunktion.</description>
 
-      <headline lang="en">SDES - Ciphertext Only Analysis</headline>
-      <headline lang="de">SDES - Nur Geheimtext-Analyse</headline>
+      <headline lang="en">SDES - Ciphertext-Only Analysis</headline>
+      <headline lang="de">SDES - Ciphertext-only-Analyse</headline>
       <task lang="en">Please input the ciphertext.</task>
       <task lang="de">Bitte geben Sie den chiffrierten Text ein.</task>
 
@@ -354,13 +354,13 @@ By selecting this, you can analyze some ciphertext that was encrypted with the S
       </comboBox>
 
       <sampleViewer image="SDES" file="Cryptanalysis\Modern\Symmetric\SDES_Analyzer_Entropy.cwm">
-        <name lang="en">Ciphertext Only Analysis</name>
-        <name lang="de">Nur Geheimtext-Analyse</name>
-        <description lang="en">Ciphertext Only Analysis Output</description>
-        <description lang="de">Nur Geheimtext-Analyse: Ausgabe</description>
+        <name lang="en">Ciphertext-Only Analysis</name>
+        <name lang="de">Ciphertext-only-Analyse</name>
+        <description lang="en">Ciphertext-Only Analysis Output</description>
+        <description lang="de">Ciphertext-only-Analyse: Ausgabe</description>
 
-        <headline lang="en">AES Ciphertext Only Analysis Output</headline>
-        <headline lang="de">Nur Geheimtext-Analyse: Ausgabe</headline>
+        <headline lang="en">AES Ciphertext-Only Analysis Output</headline>
+        <headline lang="de">Ciphertext-only-Analyse: Ausgabe</headline>
         <task lang="en">Here, you can see the SDES analysis.</task>
         <task lang="de">Hier können Sie die SDES-Analyse sehen.</task>
 

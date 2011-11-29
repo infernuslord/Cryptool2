@@ -6,7 +6,7 @@
   <name lang="en" >Modern Encryption/Decryption</name>
   <name lang="de" >Moderne Verschlüsselung/Entschlüsselung</name>
   <description lang="en" >Selecting this allows you to encrypt a plaintext or decrypt a ciphertext with a modern algorithm. You can choose which modern algorithm you want to use for doing this.</description>
-  <description lang="de-DE" >Wählen Sie diesen Punkt, um mit Hilfe eines modernen Algorithmus einen Klartext zu verschlüsseln oder einen chiffrierten Text zu entschlüsseln. Der dafür verwendete moderne Algorithmus kann von Ihnen ausgewählt werden.</description>
+  <description lang="de-DE" >Wählen Sie diesen Punkt, um mit Hilfe eines modernen Algorithmus einen Klartext zu verschlüsseln oder einen chiffrierten Text zu entschlüsseln. Der dafür verwendete Algorithmus kann von Ihnen ausgewählt werden.</description>
 
   <!-- This is the step's headline. It should be short, but precise. -->
   <headline lang="en">Type Selection</headline>
@@ -24,7 +24,7 @@
     <name lang="en" >Asymmetric Encryption/Decryption</name>
     <name lang="de" >Asymmetrische Verschlüsselung/Entschlüsselung</name>
     <description lang="en" >Selecting this allows you to encrypt a plaintext or decrypt a ciphertext with an asymmetric algorithm. Asymmetric algorithms are those, where you have two different keys, one for encryption and one for decryption. You can choose which asymmetric algorithm you want to use for doing this.</description>
-    <description lang="de-DE" >Wählen Sie diesen Punkt, um mit Hilfe eines asymmetrischen Algorithmus einen Klartext zu verschlüsseln oder einen chiffrierten Text zu entschlüsseln. Bei der asymmetrischen Verschlüsselung werden zwei verschiedene Schlüssel verwendet, einer für die Verschlüsselung und einer für die Entschlüsselung. Der dafür verwendete asymmetrische Algorithmus kann von Ihnen ausgewählt werden.</description>
+    <description lang="de-DE" >Wählen Sie diesen Punkt, um mit Hilfe eines asymmetrischen Algorithmus einen Klartext zu verschlüsseln oder einen chiffrierten Text zu entschlüsseln. Bei der asymmetrischen Verschlüsselung werden zwei verschiedene Schlüssel verwendet, einer für die Verschlüsselung und einer für die Entschlüsselung. Der dafür verwendete Algorithmus kann von Ihnen ausgewählt werden.</description>
 
     <headline lang="en">Algorithm Selection</headline>
     <headline lang="de">Algorithmusauswahl</headline>

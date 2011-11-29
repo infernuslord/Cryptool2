@@ -7,7 +7,7 @@
   <name lang="en" >Symmetric Encryption/Decryption</name>
   <name lang="de" >Symmetrische Verschlüsselung/Entschlüsselung</name>
   <description lang="en" >Selecting this allows you to encrypt a plaintext or decrypt a ciphertext with a symmetric algorithm. Symmetric algorithms are those, where the same key is used both for encryption and decryption. You can choose which symmetric algorithm you want to use for doing this.</description>
-  <description lang="de-DE" >Wählen Sie diesen Punkt, um mit Hilfe eines symmetrischen Algorithmus einen Klartext zu verschlüsseln oder einen chiffrierten Text zu entschlüsseln. Bei der symmetrischen Verschlüsselung wird derselbe Schlüssel für die Verschlüsselung und die Entschlüsselung benutzt. Der dafür verwendete symmetrische Algorithmus kann von Ihnen ausgewählt werden.</description>
+  <description lang="de-DE" >Wählen Sie diesen Punkt, um mit Hilfe eines symmetrischen Algorithmus einen Klartext zu verschlüsseln oder einen chiffrierten Text zu entschlüsseln. Bei der symmetrischen Verschlüsselung wird derselbe Schlüssel für die Verschlüsselung und die Entschlüsselung benutzt. Der dafür verwendete Algorithmus kann von Ihnen ausgewählt werden.</description>
 
   <!-- This is the step's headline. It should be short, but precise. -->
   <headline lang="en" >Algorithm Selection</headline>
@@ -21,7 +21,7 @@
   <input image="AES" >
     <name lang="en" >AES</name>
     <description lang="en" >The Advanced Encryption Standard (AES) is a symmetric encryption standard adopted by the U.S. government. The standard comprises three block ciphers, AES-128, AES-192 and AES-256, adopted from a larger collection originally published as Rijndael.</description>
-    <description lang="de" >Der "Advanced Encryption Standard" (AES) ist ein symmetrischer Verschlüsselungsstandard welcher von der U.S. Regierung eingesetzt wird. Der Standard beinhaltet drei Blockchiffren, AES-128, AES-192 and AES-256, welche einer größeren Kollektion, die ursprünglich als Rijndael veröffentlicht wurde, entnommen sind.</description>
+    <description lang="de" >Der "Advanced Encryption Standard" (AES) ist der modernste symmetrische Verschlüsselungsstandard. Der Standard beinhaltet drei Blockchiffren, AES-128, AES-192 and AES-256, welche einer größeren Kollektion, die ursprünglich als Rijndael veröffentlicht wurde, entnommen sind.</description>
 
     <headline lang="en" >Message Input</headline>
     <headline lang="de" >Nachrichteneingabe</headline>
@@ -69,7 +69,7 @@
       <name lang="en" >AES Output</name>
       <name lang="de" >AES-Ausgabe</name>
       <description lang="en" >The Advanced Encryption Standard (AES) is a symmetric encryption standard adopted by the U.S. government. The standard comprises three block ciphers, AES-128, AES-192 and AES-256, adopted from a larger collection originally published as Rijndael.</description>
-      <description lang="de" >Der "Advanced Encryption Standard" (AES) ist ein symmetrischer Verschlüsselungsstandard, der von der U.S. Regierung eingesetzt wird. Der Standard beinhaltet drei Blockchiffren, AES-128, AES-192 and AES-256, welche einer größeren Kollektion, die ursprünglich als Rijndael veröffentlicht wurde, entnommen sind.</description>
+      <description lang="de" >Der "Advanced Encryption Standard" (AES) ist der modernste symmetrische Verschlüsselungsstandard. Der Standard beinhaltet drei Blockchiffren, AES-128, AES-192 and AES-256, welche einer größeren Kollektion, die ursprünglich als Rijndael veröffentlicht wurde, entnommen sind.</description>
 
       <headline lang="en" >AES Output</headline>
       <headline lang="de" >AES-Ausgabe</headline>
@@ -240,7 +240,7 @@
     
     <inputBox plugin="Message" property="Text" alignment="Right" width="78%" visibleLines="5" group="1">
       <description lang="en">Message to encrypt/decrypt (size must be multiple of 16):</description>
-      <description lang="de">Zu verschlüsselnde/entschlüsselnde Nachricht (Größe muss Vielfaches von 16 sein):</description>
+      <description lang="de">Zu verschlüsselnde/entschlüsselnde Nachricht (Länge muss ein Vielfaches von 16 sein):</description>
       <defaultvalue lang="en">Hello World fill</defaultvalue>
       <defaultvalue lang="de">Hallo Welt, fill</defaultvalue>
     </inputBox>
@@ -279,7 +279,7 @@
 
       <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5">
         <description lang="en">Message to encrypt/decrypt (size must be multiple of 16):</description>
-        <description lang="de">Zu verschlüsselnde/entschlüsselnde Nachricht (Größe muss Vielfaches von 16 sein):</description>
+        <description lang="de">Zu verschlüsselnde/entschlüsselnde Nachricht (Länge muss ein Vielfaches von 16 sein):</description>
       </inputBox>
 
       <outputBox plugin="Result" property="CurrentValue" alignment="Stretch" visibleLines="5">
@@ -301,7 +301,7 @@
   <input image="TEA" >
     <name lang="en" >TEA</name>
     <description lang="en" >The Tiny Encryption Algorithm (TEA) is a block cipher notable for its simplicity of description and implementation, typically a few lines of code.</description>
-    <description lang="de" >Der "Tiny Encryption Algorithmus" (TEA) ist eine Blockchiffre, die durch Einfachheit der Beschreibung und Implementierung, typischerweise einige wenige Codezeilen, auffällt.</description>
+    <description lang="de" >Der "Tiny Encryption Algorithmus" (TEA) ist eine Blockchiffre, die sich durch Einfachheit von Beschreibung und Implementierung (typischerweise einige wenige Codezeilen) auszeichnet.</description>
 
     <headline lang="en" >Message Input</headline>
     <headline lang="de" >Nachrichteneingabe</headline>
@@ -340,7 +340,7 @@
       <name lang="en" >Twofish Output</name>
       <name lang="de" >Twofish-Ausgabe</name>
       <description lang="en" >The Tiny Encryption Algorithm (TEA) is a block cipher notable for its simplicity of description and implementation, typically a few lines of code.</description>
-      <description lang="de" >Der "Tiny Encryption Algorithmus" (TEA) ist eine Blockchiffre, die durch Einfachheit der Beschreibung und Implementierung, typischerweise einige wenige Codezeilen, auffällt.</description>
+      <description lang="de" >Der "Tiny Encryption Algorithmus" (TEA) ist eine Blockchiffre, die sich durch Einfachheit von Beschreibung und Implementierung (typischerweise einige wenige Codezeilen) auszeichnet.</description>
 
       <headline lang="en" >Twofish Output</headline>
       <headline lang="de" >Twofish-Ausgabe</headline>
