@@ -135,7 +135,7 @@ namespace WorkspaceManager.View.VisualComponents
 
         void CryptoLineView_Loaded(object sender, RoutedEventArgs e)
         {
-            Color color = ColorHelper.GetLineColor(StartPointSource.Model.ConnectorType);
+            Color color = ColorHelper.GetLineColor(Model.ConnectionType);
             Stroke = new SolidColorBrush(color);
             StrokeThickness = 2;
         }

@@ -431,7 +431,7 @@ namespace WorkspaceManager.View.BinVisual
                 {
                     this.VisualCollection.Add(new BinTextVisual(txt));
                 }
-                IsLoading = false;
+
                 if (SampleLoaded != null)
                     SampleLoaded.Invoke(this, null);
 
@@ -1067,7 +1067,7 @@ namespace WorkspaceManager.View.BinVisual
                                     ConnectionModel connectionModel = (ConnectionModel)Model.ModifyModel(new NewConnectionModelOperation(
                                         output,
                                         input,
-                                        SelectedConnector.Model.ConnectorType));
+                                        output.ConnectorType));
                                     addConnection(SelectedConnector, b, connectionModel);
                                     e.Handled = true;
                                 }
