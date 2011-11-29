@@ -141,11 +141,11 @@
   <data name="ConverterTooltip" xml:space="preserve">
     <value>Wählen Sie den Typ der Ausgabe</value>
   </data>
-  <data name="EncodingSettingCaption" xml:space="preserve">
-    <value>Datenstrom-Kodierung</value>
+  <data name="InputEncodingSettingCaption" xml:space="preserve">
+    <value>Zeichenkodierung Eingabe</value>
   </data>
-  <data name="EncodingSettingTooltip" xml:space="preserve">
-    <value>Wählen Sie die erwartete Kodierung des Byte-Array und des Datenstroms.</value>
+  <data name="InputEncodingSettingTooltip" xml:space="preserve">
+    <value>Wählen Sie die erwartete Zeichenkodierung der Eingabe (falls Byte-Array oder Datenstrom).</value>
   </data>
   <data name="FormatAmerCaption" xml:space="preserve">
     <value>Fließkomma-Format</value>
@@ -168,22 +168,22 @@
   <data name="EncodingSettingList1" xml:space="preserve">
     <value>Standardkodierung</value>
   </data>
-  <data name="EncodingSettingList2" xml:space="preserve">
+  <data name="EncodingSettingList5" xml:space="preserve">
     <value>Unicode</value>
+  </data>
+  <data name="EncodingSettingList2" xml:space="preserve">
+    <value>UTF-8</value>
   </data>
   <data name="EncodingSettingList3" xml:space="preserve">
     <value>UTF-7</value>
   </data>
   <data name="EncodingSettingList4" xml:space="preserve">
-    <value>UTF-8</value>
-  </data>
-  <data name="EncodingSettingList5" xml:space="preserve">
     <value>UTF-32</value>
   </data>
-  <data name="EncodingSettingList6" xml:space="preserve">
+  <data name="EncodingSettingList7" xml:space="preserve">
     <value>ASCII</value>
   </data>
-  <data name="EncodingSettingList7" xml:space="preserve">
+  <data name="EncodingSettingList6" xml:space="preserve">
     <value>Big Endian-Unicode</value>
   </data>
   <data name="FormatAmerList1" xml:space="preserve">
@@ -224,5 +224,17 @@
   </data>
   <data name="EndiannessTooltip" xml:space="preserve">
     <value>Geben Sie die Wertigkeit der Eingabe-Bytes an, wenn die Eingabe ein Byte-Array ist.</value>
+  </data>
+  <data name="EncodingSettingList8" xml:space="preserve">
+    <value>ISO8859-15</value>
+  </data>
+  <data name="EncodingSettingList9" xml:space="preserve">
+    <value>Windows-1252</value>
+  </data>
+  <data name="OutputEncodingSettingCaption" xml:space="preserve">
+    <value>Zeichenkodierung Ausgabe</value>
+  </data>
+  <data name="OutputEncodingSettingTooltip" xml:space="preserve">
+    <value>Wählen Sie die Zeichenkodierung der Ausgabe (falls Byte-Array oder Datenstrom).</value>
   </data>
 </root>

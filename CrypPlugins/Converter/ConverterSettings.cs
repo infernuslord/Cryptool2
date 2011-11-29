@@ -23,6 +23,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Controls;
 using Cryptool.PluginBase;
+using Cryptool.PluginBase.Miscellaneous;
 
 namespace Cryptool.Plugins.Converter
 {
@@ -30,8 +31,8 @@ namespace Cryptool.Plugins.Converter
     {
         #region private variables
 
-        public enum EncodingTypes { Default = 0, Unicode = 1, UTF7 = 2, UTF8 = 3, UTF32 = 4, ASCII = 5, BigEndianUnicode = 6 };
-        public enum PresentationFormat { Text, Hex, Base64 }
+        public enum EncodingTypes { Default, UTF8, UTF7, UTF32, Unicode, BigEndianUnicode, ASCII, ISO8859_15, Windows1252 };
+        public enum PresentationFormat { Text, Hex, Base64, Decimal }
 
         private OutputTypes converter = OutputTypes.StringType;
 
@@ -40,7 +41,8 @@ namespace Cryptool.Plugins.Converter
         private bool reverseOrder = false;
         private bool BigEndian = false;
 
-        private EncodingTypes encoding = EncodingTypes.UTF8;
+        private EncodingTypes inputencoding = EncodingTypes.UTF8;
+        private EncodingTypes outputencoding = EncodingTypes.UTF8;
         private PresentationFormat presentation = PresentationFormat.Text;
 
         public PresentationFormat Presentation
@@ -59,7 +61,7 @@ namespace Cryptool.Plugins.Converter
 
         #region taskpane
 
-        [TaskPane( "ConverterCaption", "ConverterTooltip", null, 1, false, ControlType.ComboBox, new string[] { "string", "int", "short", "byte", "double", "BigInteger", /*"int[]",*/ "byte[]", "Cryptoolstream" })]
+        [TaskPane( "ConverterCaption", "ConverterTooltip", null, 1, true, ControlType.ComboBox, new string[] { "string", "int", "short", "byte", "double", "BigInteger", /*"int[]",*/ "byte[]", "Cryptoolstream" })]
         public OutputTypes Converter
         {
             get { return this.converter; }
@@ -76,7 +78,7 @@ namespace Cryptool.Plugins.Converter
             }
         }
 
-        [TaskPane("NumericCaption", "NumericTooltip", null, 2, false, ControlType.CheckBox)]
+        [TaskPane("NumericCaption", "NumericTooltip", null, 2, true, ControlType.CheckBox)]
         public bool Numeric
         {
             get { return this.numeric; }
@@ -90,7 +92,7 @@ namespace Cryptool.Plugins.Converter
             }
         }
 
-        [TaskPane("ReverseOrderCaption", "ReverseOrderTooltip", null, 3, false, ControlType.CheckBox, null)]
+        [TaskPane("ReverseOrderCaption", "ReverseOrderTooltip", null, 3, true, ControlType.CheckBox, null)]
         public bool ReverseOrder
         {
             get { return this.reverseOrder; }
@@ -104,7 +106,7 @@ namespace Cryptool.Plugins.Converter
             }
         }
 
-        [TaskPane("EndiannessCaption", "EndiannessTooltip", null, 4, false, ControlType.ComboBox, new string[] { "EndiannessList1", "EndiannessList2" })]
+        [TaskPane("EndiannessCaption", "EndiannessTooltip", null, 4, true, ControlType.ComboBox, new string[] { "EndiannessList1", "EndiannessList2" })]
         public bool Endianness
         {
             get { return this.BigEndian; }
@@ -118,25 +120,43 @@ namespace Cryptool.Plugins.Converter
             }
         }
 
-        [ContextMenu("EncodingSettingCaption", "EncodingSettingTooltip", 5, ContextMenuControlType.ComboBox, null, new string[] { "EncodingSettingList1", "EncodingSettingList2", "EncodingSettingList3", "EncodingSettingList4", "EncodingSettingList5", "EncodingSettingList6", "EncodingSettingList7" })]
-        [TaskPane("EncodingSettingCaption", "EncodingSettingTooltip", "", 5, false, ControlType.RadioButton, new string[] { "EncodingSettingList1", "EncodingSettingList2", "EncodingSettingList3", "EncodingSettingList4", "EncodingSettingList5", "EncodingSettingList6", "EncodingSettingList7" })]
-        public EncodingTypes Encoding
+        [ContextMenu("InputEncodingSettingCaption", "InputEncodingSettingTooltip", 5, ContextMenuControlType.ComboBox, null, new string[] { "EncodingSettingList1", "EncodingSettingList2", "EncodingSettingList3", "EncodingSettingList4", "EncodingSettingList5", "EncodingSettingList6", "EncodingSettingList7", "EncodingSettingList8", "EncodingSettingList9" })]
+        [TaskPane("InputEncodingSettingCaption", "InputEncodingSettingTooltip", "", 5, true, ControlType.ComboBox, new string[] { "EncodingSettingList1", "EncodingSettingList2", "EncodingSettingList3", "EncodingSettingList4", "EncodingSettingList5", "EncodingSettingList6", "EncodingSettingList7", "EncodingSettingList8", "EncodingSettingList9" })]
+        public EncodingTypes InputEncoding
         {
             get
             {
-                return this.encoding;
+                return this.inputencoding;
             }
             set
             {
-                if (this.encoding != value)
+                if (this.inputencoding != value)
                 {
-                    this.encoding = value;
-                    OnPropertyChanged("Encoding");
+                    this.inputencoding = value;
+                    OnPropertyChanged("InputEncoding");
                 }
             }
         }
 
-        [TaskPane("FormatAmerCaption", "FormatAmerTooltip", null, 6, false, ControlType.ComboBox, new string[] { "FormatAmerList1", "FormatAmerList2" })]
+        [ContextMenu("OutputEncodingSettingCaption", "OutputEncodingSettingTooltip", 6, ContextMenuControlType.ComboBox, null, new string[] { "EncodingSettingList1", "EncodingSettingList2", "EncodingSettingList3", "EncodingSettingList4", "EncodingSettingList5", "EncodingSettingList6", "EncodingSettingList7", "EncodingSettingList8", "EncodingSettingList9" })]
+        [TaskPane("OutputEncodingSettingCaption", "OutputEncodingSettingTooltip", "", 6, true, ControlType.ComboBox, new string[] { "EncodingSettingList1", "EncodingSettingList2", "EncodingSettingList3", "EncodingSettingList4", "EncodingSettingList5", "EncodingSettingList6", "EncodingSettingList7", "EncodingSettingList8", "EncodingSettingList9" })]
+        public EncodingTypes OutputEncoding
+        {
+            get
+            {
+                return this.outputencoding;
+            }
+            set
+            {
+                if (this.outputencoding != value)
+                {
+                    this.outputencoding = value;
+                    OnPropertyChanged("OutputEncoding");
+                }
+            }
+        }
+
+        [TaskPane("FormatAmerCaption", "FormatAmerTooltip", null, 7, true, ControlType.ComboBox, new string[] { "FormatAmerList1", "FormatAmerList2" })]
         public bool FormatAmer
         {
             get { return this.formatAmer; }
@@ -150,7 +170,7 @@ namespace Cryptool.Plugins.Converter
             }
         }
 
-        [TaskPane("PresentationFormatSettingCaption", "PresentationFormatSettingTooltip", null, 7, false, ControlType.RadioButton, new string[] { "PresentationFormatSettingList1", "PresentationFormatSettingList2", "PresentationFormatSettingList3" })]
+        [TaskPane("PresentationFormatSettingCaption", "PresentationFormatSettingTooltip", null, 8, true, ControlType.ComboBox, new string[] { "PresentationFormatSettingList1", "PresentationFormatSettingList2", "PresentationFormatSettingList3" })]
         public int PresentationFormatSetting
         {
             get
@@ -186,8 +206,9 @@ namespace Cryptool.Plugins.Converter
             {
                 case OutputTypes.StringType:
                     {
-                        settingChanged("Numeric", Visibility.Collapsed);
-                        settingChanged("Encoding", Visibility.Collapsed);
+                        settingChanged("Numeric", Visibility.Visible);
+                        settingChanged("InputEncoding", Visibility.Visible);
+                        settingChanged("OutputEncoding", Visibility.Collapsed);
                         settingChanged("PresentationFormatSetting", Visibility.Collapsed);
                         settingChanged("FormatAmer", Visibility.Collapsed);
                         settingChanged("ReverseOrder", Visibility.Collapsed);
@@ -197,7 +218,8 @@ namespace Cryptool.Plugins.Converter
                 case OutputTypes.IntType:
                     {
                         settingChanged("Numeric", Visibility.Collapsed);
-                        settingChanged("Encoding", Visibility.Collapsed);
+                        settingChanged("InputEncoding", Visibility.Visible);
+                        settingChanged("OutputEncoding", Visibility.Collapsed);
                         settingChanged("PresentationFormatSetting", Visibility.Collapsed);
                         settingChanged("FormatAmer", Visibility.Collapsed);
                         settingChanged("ReverseOrder", Visibility.Collapsed);
@@ -207,7 +229,8 @@ namespace Cryptool.Plugins.Converter
                 case OutputTypes.ShortType:
                     {
                         settingChanged("Numeric", Visibility.Collapsed);
-                        settingChanged("Encoding", Visibility.Collapsed);
+                        settingChanged("InputEncoding", Visibility.Visible);
+                        settingChanged("OutputEncoding", Visibility.Collapsed);
                         settingChanged("PresentationFormatSetting", Visibility.Collapsed);
                         settingChanged("FormatAmer", Visibility.Collapsed);
                         settingChanged("ReverseOrder", Visibility.Collapsed);
@@ -217,7 +240,8 @@ namespace Cryptool.Plugins.Converter
                 case OutputTypes.ByteType:
                     {
                         settingChanged("Numeric", Visibility.Collapsed);
-                        settingChanged("Encoding", Visibility.Collapsed);
+                        settingChanged("InputEncoding", Visibility.Visible);
+                        settingChanged("OutputEncoding", Visibility.Collapsed);
                         settingChanged("PresentationFormatSetting", Visibility.Collapsed);
                         settingChanged("FormatAmer", Visibility.Collapsed);
                         settingChanged("ReverseOrder", Visibility.Collapsed);
@@ -227,7 +251,8 @@ namespace Cryptool.Plugins.Converter
                 case OutputTypes.DoubleType:
                     {
                         settingChanged("Numeric", Visibility.Collapsed);
-                        settingChanged("Encoding", Visibility.Collapsed);
+                        settingChanged("InputEncoding", Visibility.Visible);
+                        settingChanged("OutputEncoding", Visibility.Collapsed);
                         settingChanged("PresentationFormatSetting", Visibility.Collapsed);
                         settingChanged("FormatAmer", Visibility.Visible);
                         settingChanged("ReverseOrder", Visibility.Collapsed);
@@ -237,7 +262,8 @@ namespace Cryptool.Plugins.Converter
                 case OutputTypes.BigIntegerType:
                     {
                         settingChanged("Numeric", Visibility.Collapsed);
-                        settingChanged("Encoding", Visibility.Collapsed);
+                        settingChanged("InputEncoding", Visibility.Visible);
+                        settingChanged("OutputEncoding", Visibility.Collapsed);
                         settingChanged("PresentationFormatSetting", Visibility.Collapsed);
                         settingChanged("FormatAmer", Visibility.Collapsed);
                         settingChanged("ReverseOrder", Visibility.Collapsed);
@@ -247,7 +273,8 @@ namespace Cryptool.Plugins.Converter
                 //case OutputTypes.IntArrayType:
                 //    {
                 //        settingChanged("Numeric", Visibility.Collapsed);
-                //        settingChanged("Encoding", Visibility.Collapsed);
+                //        settingChanged("InputEncoding", Visibility.Visible);
+                //        settingChanged("OutputEncoding", Visibility.Collapsed);
                 //        settingChanged("PresentationFormatSetting", Visibility.Collapsed);
                 //        settingChanged("FormatAmer", Visibility.Collapsed);
                 //        settingChanged("ReverseOrder", Visibility.Collapsed);
@@ -257,7 +284,8 @@ namespace Cryptool.Plugins.Converter
                 case OutputTypes.ByteArrayType:
                     {
                         settingChanged("Numeric", Visibility.Visible);
-                        settingChanged("Encoding", Visibility.Visible);
+                        settingChanged("InputEncoding", Visibility.Visible);
+                        settingChanged("OutputEncoding", Visibility.Visible);
                         settingChanged("PresentationFormatSetting", Visibility.Collapsed);
                         settingChanged("FormatAmer", Visibility.Collapsed);
                         settingChanged("ReverseOrder", Visibility.Visible);
@@ -267,7 +295,8 @@ namespace Cryptool.Plugins.Converter
                 case OutputTypes.CryptoolStreamType:
                     {
                         settingChanged("Numeric", Visibility.Collapsed);
-                        settingChanged("Encoding", Visibility.Collapsed);
+                        settingChanged("InputEncoding", Visibility.Visible);
+                        settingChanged("OutputEncoding", Visibility.Visible);
                         settingChanged("PresentationFormatSetting", Visibility.Collapsed);
                         settingChanged("FormatAmer", Visibility.Collapsed);
                         settingChanged("ReverseOrder", Visibility.Visible);
@@ -287,8 +316,9 @@ namespace Cryptool.Plugins.Converter
 
         protected void OnPropertyChanged(string name)
         {
-
+            EventsHelper.PropertyChanged(PropertyChanged, this, new PropertyChangedEventArgs(name));
         }
+
         public event StatusChangedEventHandler OnPluginStatusChanged;
         private void ChangePluginIcon(int iconIndex)
         {

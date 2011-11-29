@@ -141,11 +141,11 @@
   <data name="ConverterTooltip" xml:space="preserve">
     <value>Choose the output type</value>
   </data>
-  <data name="EncodingSettingCaption" xml:space="preserve">
-    <value>Stream encoding</value>
+  <data name="InputEncodingSettingCaption" xml:space="preserve">
+    <value>Encoding of input</value>
   </data>
-  <data name="EncodingSettingTooltip" xml:space="preserve">
-    <value>Choose the expected encoding of the byte array and stream.</value>
+  <data name="InputEncodingSettingTooltip" xml:space="preserve">
+    <value>Choose the expected character encoding of the input byte array or stream.</value>
   </data>
   <data name="FormatAmerCaption" xml:space="preserve">
     <value>Format</value>
@@ -169,22 +169,22 @@
     <value>Default system encoding</value>
   </data>
   <data name="EncodingSettingList2" xml:space="preserve">
-    <value>Unicode</value>
+    <value>UTF-8</value>
   </data>
   <data name="EncodingSettingList3" xml:space="preserve">
     <value>UTF-7</value>
   </data>
   <data name="EncodingSettingList4" xml:space="preserve">
-    <value>UTF-8</value>
-  </data>
-  <data name="EncodingSettingList5" xml:space="preserve">
     <value>UTF-32</value>
   </data>
+  <data name="EncodingSettingList5" xml:space="preserve">
+    <value>Unicode</value>
+  </data>
   <data name="EncodingSettingList6" xml:space="preserve">
-    <value>ASCII</value>
+    <value>Big endian unicode</value>
   </data>
   <data name="EncodingSettingList7" xml:space="preserve">
-    <value>Big endian unicode</value>
+    <value>ASCII</value>
   </data>
   <data name="FormatAmerList1" xml:space="preserve">
     <value>german</value>
@@ -224,5 +224,17 @@
   </data>
   <data name="EndiannessTooltip" xml:space="preserve">
     <value>Specify the endianness of the input bytes when the input is a byte array.</value>
+  </data>
+  <data name="EncodingSettingList8" xml:space="preserve">
+    <value>ISO8859-15</value>
+  </data>
+  <data name="EncodingSettingList9" xml:space="preserve">
+    <value>Windows-1252</value>
+  </data>
+  <data name="OutputEncodingSettingCaption" xml:space="preserve">
+    <value>Encoding of output</value>
+  </data>
+  <data name="OutputEncodingSettingTooltip" xml:space="preserve">
+    <value>Choose the character encoding of the output byte array or stream.</value>
   </data>
 </root>

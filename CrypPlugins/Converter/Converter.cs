@@ -30,9 +30,9 @@ using System.Text.RegularExpressions;
 namespace Cryptool.Plugins.Converter
 {
     public enum OutputTypes { StringType = 0, IntType, ShortType, ByteType, DoubleType, BigIntegerType, /*IntArrayType,*/ ByteArrayType, CryptoolStreamType };
-
+    
     [Author("Raoul Falk, Dennis Nolte", "falk@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo("Converter.Properties.Resources", "PluginCaption", "PluginTooltip", "Converter/DetailedDescription/doc.xml", "Converter/icons/icon.png", "Converter/icons/tostring.png", "Converter/icons/toint.png", "Converter/icons/toshort.png", "Converter/icons/tobyte.png", "Converter/icons/todouble.png", "Converter/icons/tobig.png", "Converter/icons/tointarray.png", "Converter/icons/tobytearray.png", "Converter/icons/tocryptoolstream.png")]
+    [PluginInfo("Converter.Properties.Resources", "PluginCaption", "PluginTooltip", "Converter/DetailedDescription/doc.xml", "Converter/icons/icon.png", "Converter/icons/tostring.png", "Converter/icons/toint.png", "Converter/icons/toshort.png", "Converter/icons/tobyte.png", "Converter/icons/todouble.png", "Converter/icons/tobig.png", /*"Converter/icons/tointarray.png",*/ "Converter/icons/tobytearray.png", "Converter/icons/tocryptoolstream.png")]
     [ComponentCategory(ComponentCategory.ToolsMisc)]
     class Converter : ICrypComponent
     {
@@ -50,6 +50,7 @@ namespace Cryptool.Plugins.Converter
         {
             // this.settings = new ConverterSettings();
             this.settings.OnPluginStatusChanged += settings_OnPluginStatusChanged;
+            this.settings.PropertyChanged += settings_PropertyChanged;
         }
 
         public ISettings Settings
@@ -98,33 +99,39 @@ namespace Cryptool.Plugins.Converter
                 if (settings.Converter == OutputTypes.ByteArrayType)
                 {
                     if (output == null) return null;
-                    byte[] temp = (byte[])output;
-                    if (settings.ReverseOrder) Array.Reverse(temp);
+                    if (!settings.ReverseOrder) return (byte[])output;
+                    byte[] temp = new byte[((byte[])output).Length];
+                    Buffer.BlockCopy((byte[])output, 0, temp, 0, ((byte[])output).Length);
+                    Array.Reverse(temp);
                     return temp;
                 }
                 else if (settings.Converter == OutputTypes.CryptoolStreamType)
                 {
                     byte[] streamData = null;
 
-                    if (inputOne is byte[])
+                    if (inputOne is ICryptoolStream)
+                    {
+                        if (!settings.ReverseOrder) return (ICryptoolStream)inputOne;
+                        streamData = ICryptoolStreamToByteArray((ICryptoolStream)inputOne);
+                    } 
+                    else if (inputOne is byte[])
                         streamData = (byte[])inputOne;
                     else if (inputOne is byte)
                         streamData = new byte[] { (byte)inputOne };
                     else if (inputOne is Boolean)
                         streamData = new byte[] { (byte)(((bool)InputOne) ? 1 : 0) };
                     else if (inputOne is String)
-                        streamData = Encoding.UTF8.GetBytes((String)inputOne);
+                        streamData = GetBytesForEncoding((String)inputOne, settings.OutputEncoding);
                     else if (inputOne is BigInteger)
-                    {
                         streamData = ((BigInteger)inputOne).ToByteArray();
-                        //Array.Reverse(streamData); // Display MSB first
-                    }
 
                     if (streamData != null)
                     {
-                        if (settings.ReverseOrder) Array.Reverse(streamData);
-                        ICryptoolStream cStream = new CStreamWriter(streamData);
-                        return cStream;
+                        if (!settings.ReverseOrder) return new CStreamWriter(streamData);
+                        byte[] temp = new byte[streamData.Length];
+                        Buffer.BlockCopy(streamData, 0, temp, 0, streamData.Length);
+                        Array.Reverse(temp);
+                        return new CStreamWriter(temp);
                     }
                     else
                     {
@@ -211,82 +218,174 @@ namespace Cryptool.Plugins.Converter
             return result;
         }
 
-        public void Execute()
+        private Type GetType(OutputTypes t)
         {
-            if (InputOne != null)
-                GuiLogMessage("Laufe! " + InputOne.ToString(), NotificationLevel.Debug);
-            
+            switch (t)
+            {
+                case OutputTypes.StringType: return typeof(String);
+                case OutputTypes.IntType: return typeof(int);
+                case OutputTypes.ShortType: return typeof(short);
+                case OutputTypes.ByteType: return typeof(byte);
+                case OutputTypes.DoubleType: return typeof(double);
+                case OutputTypes.BigIntegerType: return typeof(BigInteger);
+                //case OutputTypes.IntArrayType: return typeof(int[]);
+                case OutputTypes.ByteArrayType: return typeof(byte[]);
+                case OutputTypes.CryptoolStreamType: return typeof(ICryptoolStream);
+                default: return null;
+            }
+        }
+
+        private byte[] GetBytesForEncoding(string s, ConverterSettings.EncodingTypes encoding)
+        {
+            if (s == null) return null;
+
+            switch (encoding)
+            {
+                case ConverterSettings.EncodingTypes.Unicode:
+                    return Encoding.Unicode.GetBytes(s);
+
+                case ConverterSettings.EncodingTypes.UTF7:
+                    return Encoding.UTF7.GetBytes(s);
+
+                case ConverterSettings.EncodingTypes.UTF8:
+                    return Encoding.UTF8.GetBytes(s);
+
+                case ConverterSettings.EncodingTypes.UTF32:
+                    return Encoding.UTF32.GetBytes(s);
+
+                case ConverterSettings.EncodingTypes.ASCII:
+                    return Encoding.ASCII.GetBytes(s);
+
+                case ConverterSettings.EncodingTypes.BigEndianUnicode:
+                    return Encoding.BigEndianUnicode.GetBytes(s);
+
+                case ConverterSettings.EncodingTypes.ISO8859_15:
+                    return Encoding.GetEncoding("iso-8859-15").GetBytes(s);
+
+                case ConverterSettings.EncodingTypes.Windows1252:
+                    return Encoding.GetEncoding(1252).GetBytes(s);
+
+                default:
+                    return Encoding.Default.GetBytes(s);
+            }
+        }
+
+        private string GetStringForEncoding(byte[] bytes, ConverterSettings.EncodingTypes encoding)
+        {
+            if (bytes == null) return null;
+
+            switch (encoding)
+            {
+                case ConverterSettings.EncodingTypes.Unicode:
+                    return Encoding.Unicode.GetString(bytes);
+
+                case ConverterSettings.EncodingTypes.UTF7:
+                    return Encoding.UTF7.GetString(bytes);
+
+                case ConverterSettings.EncodingTypes.UTF8:
+                    return Encoding.UTF8.GetString(bytes);
+
+                case ConverterSettings.EncodingTypes.UTF32:
+                    return Encoding.UTF32.GetString(bytes);
+
+                case ConverterSettings.EncodingTypes.ASCII:
+                    return Encoding.ASCII.GetString(bytes);
+
+                case ConverterSettings.EncodingTypes.BigEndianUnicode:
+                    return Encoding.BigEndianUnicode.GetString(bytes);
+
+                case ConverterSettings.EncodingTypes.ISO8859_15:
+                    return Encoding.GetEncoding("iso-8859-15").GetString(bytes);
+
+                case ConverterSettings.EncodingTypes.Windows1252:
+                    return Encoding.GetEncoding(1252).GetString(bytes);
+
+                default:
+                    return Encoding.Default.GetString(bytes);
+            }
+        }
+
+        public bool ConvertToOutput(object input)
+        {
+            if (input == null) return false;
+
+            GuiLogMessage("Converting from " + input.GetType() + " to " + GetType(settings.Converter), NotificationLevel.Debug);
+
             #region ConvertFromTypes
 
             #region ConvertFromICryptoolStream
-            if (InputOne is ICryptoolStream)
+            if (input is ICryptoolStream)
             {
                 switch (this.settings.Converter)
                 {
+                    case OutputTypes.CryptoolStreamType:
+                        {
+                            Output = (ICryptoolStream)input;
+                            break;
+                        }
+
                     case OutputTypes.StringType:
                         {
-                            byte[] buffer = ICryptoolStreamToByteArray((ICryptoolStream)InputOne);
-                            Output = Encoding.UTF8.GetString(buffer);
+                            byte[] buffer = ICryptoolStreamToByteArray((ICryptoolStream)input);
+                            Output = GetStringForEncoding(buffer, settings.InputEncoding);
                             break;
                         }
 
                     case OutputTypes.ByteArrayType:
                         {
-                            Output = ICryptoolStreamToByteArray((ICryptoolStream)InputOne);
+                            Output = ICryptoolStreamToByteArray((ICryptoolStream)input);
                             break;
                         }
 
                     case OutputTypes.BigIntegerType:
                         {
-                            byte[] buffer = ICryptoolStreamToByteArray((ICryptoolStream)InputOne);
+                            byte[] buffer = ICryptoolStreamToByteArray((ICryptoolStream)input);
                             Output = ByteArrayToBigInteger(buffer);
                             break;
                         }
 
                     default:
-                        GuiLogMessage("Conversion from ICryptoolStream to the chosen type is not implemented", NotificationLevel.Error);
-                        return;
+                        //GuiLogMessage("Conversion from ICryptoolStream to the chosen type is not implemented", NotificationLevel.Error);
+                        GuiLogMessage("Conversion from " + input.GetType() + " to " + GetType(settings.Converter) + " is not implemented", NotificationLevel.Error);
+                        return false;
                 }
 
-                ProgressChanged(100, 100);
-                return;
+                return true;
             }
             #endregion
             #region ConvertFromIntArray
-            else if (InputOne is int[])
+            else if (input is int[])
             {
                 GuiLogMessage("Conversion from int[] to the chosen type is not implemented", NotificationLevel.Error);
-                return;
+                return false;
             }
             #endregion
             #region ConvertFromByteArray
-            else if (InputOne is byte[])
+            else if (input is byte[])
             {
                 switch (this.settings.Converter)
                 {
                     case OutputTypes.BigIntegerType: // byte[] to BigInteger
                         {
-                            byte[] temp = (byte[])InputOne;
+                            byte[] temp = (byte[])input;
                             if (settings.Endianness) Array.Reverse(temp);
-                            Output = ByteArrayToBigInteger(temp);                                
-                            ProgressChanged(100, 100);
-                            return;
+                            Output = ByteArrayToBigInteger(temp);
+                            return true;
                         }
                     case OutputTypes.IntType: // byte[] to int
                         {
                             try
                             {
                                 byte[] temp = new byte[4];
-                                Array.Copy((byte[])InputOne, temp, 4);
+                                Array.Copy((byte[])input, temp, 4);
                                 if (settings.Endianness) Array.Reverse(temp);
                                 Output = BitConverter.ToInt32(temp, 0);
-                                ProgressChanged(100, 100);
-                                return;
+                                return true;
                             }
                             catch (Exception e)
                             {
                                 GuiLogMessage("Could not convert byte[] to integer: " + e.Message, NotificationLevel.Error);
-                                return;
+                                return false;
                             }
                         }
                     case OutputTypes.ShortType: // byte[] to short
@@ -294,173 +393,146 @@ namespace Cryptool.Plugins.Converter
                             try
                             {
                                 byte[] temp = new byte[2];
-                                Array.Copy((byte[])InputOne, temp, 2);
+                                Array.Copy((byte[])input, temp, 2);
                                 if (settings.Endianness) Array.Reverse(temp);
                                 Output = BitConverter.ToInt16(temp, 0);
-                                ProgressChanged(100, 100);
-                                return;
+                                return true;
                             }
                             catch (Exception e)
                             {
                                 GuiLogMessage("Could not convert byte[] to short: " + e.Message, NotificationLevel.Error);
-                                return;
+                                return false;
                             }
                         }
                     case OutputTypes.ByteType: // byte[] to byte
                         {
                             try
                             {
-                                Output = ((byte[])InputOne)[0];
-                                ProgressChanged(100, 100);
-                                return;
+                                Output = ((byte[])input)[0];
+                                return true;
                             }
                             catch (Exception e)
                             {
                                 GuiLogMessage("Could not convert byte[] to byte: " + e.Message, NotificationLevel.Error);
-                                return;
+                                return false;
                             }
                         }
                     case OutputTypes.StringType: // byte[] to String
                         {
-                            Output = Encoding.UTF8.GetString((byte[])InputOne);
-                            ProgressChanged(100, 100);
-                            return;
+                            Output = GetStringForEncoding((byte[])input, settings.InputEncoding);
+                            return true;
                         }
                     case OutputTypes.ByteArrayType: // byte[] to byte[]
                         {
-                            Output = (byte[])InputOne;
-                            ProgressChanged(100, 100);
-                            return;
+                            Output = (byte[])input;
+                            return true;
                         }
                     //default:
                     //    {
                     //        GuiLogMessage("Could not convert from byte[] to chosen type: ", NotificationLevel.Error);
-                    //        break;
+                    //        return false;
                     //    }
                 }
             }
             #endregion
             #region ConvertFromBigInteger
-            else if (InputOne is BigInteger)
+            else if (input is BigInteger)
             {
                 if (this.settings.Converter == OutputTypes.ByteArrayType)
                 {
-                    Output = ((BigInteger)InputOne).ToByteArray();
-
-                    ProgressChanged(100, 100);
-                    return;
+                    Output = ((BigInteger)input).ToByteArray();
+                    return true;
                 }
             }
             #endregion
             #region  ConvertFromInt
-            else if (InputOne is int)
+            else if (input is int)
             {
                 if (this.settings.Converter == OutputTypes.ByteArrayType)
                 {
-                    Output = BitConverter.GetBytes((int)InputOne);
-
-                    ProgressChanged(100, 100);
-                    return;
+                    Output = BitConverter.GetBytes((int)input);
+                    return true;
                 }
             }
             #endregion
             #region ConvertFromShort
-            else if (InputOne is short)
+            else if (input is short)
             {
                 if (this.settings.Converter == OutputTypes.ByteArrayType)
                 {
-                    Output = BitConverter.GetBytes((short)InputOne);
-
-                    ProgressChanged(100, 100);
-                    return;
+                    Output = BitConverter.GetBytes((short)input);
+                    return true;
                 }
             }
             #endregion
             #region ConvertFromByte
-            else if (InputOne is byte)
+            else if (input is byte)
             {
                 if (this.settings.Converter == OutputTypes.ByteArrayType)
                 {
-                    Output = new byte[] { (byte)InputOne };
-
-                    ProgressChanged(100, 100);
-                    return;
+                    Output = new byte[] { (byte)input };
+                    return true;
                 }
             }
             #endregion
             #region ConvertFromDouble
-            else if (InputOne is Double)
+            else if (input is Double)
             {
                 if (this.settings.Converter == OutputTypes.ByteArrayType)
                 {
-                    Output = BitConverter.GetBytes((Double)InputOne);
-
-                    ProgressChanged(100, 100);
-                    return;
+                    Output = BitConverter.GetBytes((Double)input);
+                    return true;
                 }
             }
             #endregion
             #region ConvertFromBool
-            else if (InputOne is bool)
+            else if (input is bool)
             {
                 switch (this.settings.Converter)
                 {
                     case OutputTypes.StringType:
-                        {
-                            Output = InputOne.ToString();
-                            break;
-                        }
-                    case OutputTypes.IntType:
-                        {
-                            Output = (int)((bool)InputOne ? 1 : 0);
-                            break;
-                        }
-                    case OutputTypes.ShortType:
-                        {
-                            Output = (short)((bool)InputOne ? 1 : 0);
-                            break;
-                        }
-                    case OutputTypes.ByteType:
-                        {
-                            Output = (byte)((bool)InputOne ? 1 : 0);
-                            break;
-                        }
-                    case OutputTypes.ByteArrayType:
-                        {
-                            Output = new byte[] { (byte)(((bool)InputOne) ? 1 : 0) };
-                            break;
-                        }
-                    case OutputTypes.BigIntegerType:
-                        {
-                            Output = (BigInteger)((bool)InputOne ? 1 : 0);
-                            break;
-                        }
-                    case OutputTypes.DoubleType:
-                        {
-                            Output = (Double)((bool)InputOne ? 1 : 0);
-                            break;
-                        }
-                    case OutputTypes.CryptoolStreamType:
-                        {
-                            Output = new byte[] { (byte)(((bool)InputOne) ? 1 : 0) };
-                            break;
-                        }
-                    default:
-                        {
-                            GuiLogMessage("Could not convert from bool to chosen type: ", NotificationLevel.Error);
-                            return;
-                        }
-                }
+                            Output = input.ToString();
+                            return true;
 
-                ProgressChanged(100, 100);
-                return;
+                    case OutputTypes.IntType:
+                            Output = (int)((bool)input ? 1 : 0);
+                            return true;
+
+                    case OutputTypes.ShortType:
+                            Output = (short)((bool)input ? 1 : 0);
+                            return true;
+
+                    case OutputTypes.ByteType:
+                            Output = (byte)((bool)input ? 1 : 0);
+                            return true;
+
+                    case OutputTypes.ByteArrayType:
+                            Output = new byte[] { (byte)(((bool)input) ? 1 : 0) };
+                            return true;
+
+                    case OutputTypes.BigIntegerType:
+                            Output = (BigInteger)((bool)input ? 1 : 0);
+                            return true;
+
+                    case OutputTypes.DoubleType:
+                            Output = (Double)((bool)input ? 1 : 0);
+                            return true;
+
+                    case OutputTypes.CryptoolStreamType:
+                            Output = new byte[] { (byte)(((bool)input) ? 1 : 0) };
+                            return true;
+
+                    default:
+                            GuiLogMessage("Could not convert from bool to chosen type: ", NotificationLevel.Error);
+                            return false;
+                }
             }
             #endregion
 
             #endregion
 
             // the string representation is used for all upcoming operations
-            string inpString = Convert.ToString(InputOne);
+            string inpString = Convert.ToString(input);
 
             #region ConvertFromString
 
@@ -469,9 +541,18 @@ namespace Cryptool.Plugins.Converter
                 #region ConvertToString
                 case OutputTypes.StringType:
                     {
+                        if (settings.Numeric)
+                        {
+                            try // can be read as parseable expression?
+                            {
+                                Output = BigIntegerHelper.ParseExpression(inpString).ToString();
+                                return true;
+                            }
+                            catch (Exception) { }
+                        }
+
                         Output = inpString;
-                        ProgressChanged(100, 100);
-                        break;
+                        return true;
                     }
                 #endregion
                 #region ConvertToInt
@@ -480,8 +561,7 @@ namespace Cryptool.Plugins.Converter
                         try // can be read as int from decimal string?
                         {
                             Output = Convert.ToInt32(inpString);
-                            ProgressChanged(100, 100);
-                            return;
+                            return true;
                         }
                         catch (Exception e)
                         {
@@ -489,16 +569,14 @@ namespace Cryptool.Plugins.Converter
 
                         try // can be read as int from hexadecimal string?
                         {
-                            Output = Convert.ToInt32(inpString,16);
-                            ProgressChanged(100, 100);
-                            return;
+                            Output = Convert.ToInt32(inpString, 16);
+                            return true;
                         }
                         catch (Exception e)
                         {
                             GuiLogMessage("Could not convert input to integer: " + e.Message, NotificationLevel.Error);
+                            return false;
                         }
-
-                        break;
                     }
                 #endregion
                 #region ConvertToShort
@@ -507,8 +585,7 @@ namespace Cryptool.Plugins.Converter
                         try // can be read as short from decimal string?
                         {
                             Output = Convert.ToInt16(inpString);
-                            ProgressChanged(100, 100);
-                            return;
+                            return true;
                         }
                         catch (Exception e)
                         {
@@ -516,16 +593,14 @@ namespace Cryptool.Plugins.Converter
 
                         try // can be read as short from hexadecimal string?
                         {
-                            Output = Convert.ToInt16(inpString,16);
-                            ProgressChanged(100, 100);
-                            return;
+                            Output = Convert.ToInt16(inpString, 16);
+                            return true;
                         }
                         catch (Exception e)
                         {
                             GuiLogMessage("Could not convert input to short: " + e.Message, NotificationLevel.Error);
+                            return false;
                         }
-
-                        break;
                     }
                 #endregion
                 #region ConvertToByte
@@ -534,8 +609,7 @@ namespace Cryptool.Plugins.Converter
                         try // can be read as byte from decimal string?
                         {
                             Output = Convert.ToByte(inpString);
-                            ProgressChanged(100, 100);
-                            return;
+                            return true;
                         }
                         catch (Exception e)
                         {
@@ -543,16 +617,14 @@ namespace Cryptool.Plugins.Converter
 
                         try // can be read as byte hexadecimal string?
                         {
-                            Output = Convert.ToByte(inpString,16);
-                            ProgressChanged(100, 100);
-                            return;
+                            Output = Convert.ToByte(inpString, 16);
+                            return true;
                         }
                         catch (Exception e)
                         {
                             GuiLogMessage("Could not convert input to byte: " + e.Message, NotificationLevel.Error);
+                            return false;
                         }
-
-                        break;
                     }
                 #endregion
                 #region ConvertToDouble
@@ -562,15 +634,15 @@ namespace Cryptool.Plugins.Converter
                         {
                             String cleanInputString = DoubleCleanup(inpString); // apply user settings concerning input format
                             Output = Convert.ToDouble(cleanInputString);
-                            ProgressChanged(100, 100);
 
                             GuiLogMessage("Converting String to double is not safe. Digits may have been cut off  ", NotificationLevel.Warning);
+                            return true;
                         }
                         catch (Exception e)
                         {
                             GuiLogMessage("Could not convert input to double: " + e.Message, NotificationLevel.Error);
+                            return false;
                         }
-                        break;
                     }
                 #endregion
                 #region ConvertToBigInteger
@@ -579,8 +651,7 @@ namespace Cryptool.Plugins.Converter
                         try // can be read as parseable expression?
                         {
                             Output = BigIntegerHelper.ParseExpression(inpString);
-                            ProgressChanged(100, 100);
-                            return;
+                            return true;
                         }
                         catch (Exception) { }
 
@@ -588,13 +659,12 @@ namespace Cryptool.Plugins.Converter
                         byte[] result = TryMatchHex(inpString);
                         if (result != null)
                         {
-                            Output = ByteArrayToBigInteger(result,settings.Endianness);
-                            ProgressChanged(100, 100);
-                            return;
+                            Output = ByteArrayToBigInteger(result, settings.Endianness);
+                            return true;
                         }
 
                         GuiLogMessage("Could not convert input to BigInteger", NotificationLevel.Error);
-                        break;
+                        return false;
                     }
                 #endregion
                 #region ConvertToIntArray
@@ -607,25 +677,23 @@ namespace Cryptool.Plugins.Converter
                 #region ConvertToByteArray
                 case OutputTypes.ByteArrayType:
                     {
-                        inpString = setText(inpString);
-
                         if (settings.Numeric) // apply user setting concerning numeric interpretation of input (else input is read as string)
                         {
+                            //inpString = setText(Encoding.UTF8.GetBytes(inpString), settings.Presentation);
+
                             //try // can be read as BigInteger?
                             //{
                             //    Output = BigInteger.Parse(inpString).ToByteArray();
-                            //    ProgressChanged(100, 100);
-                            //    return;
+                            //    return true;
                             //}
                             //catch(Exception){}
 
                             try // can be read as parseable expression?
                             {
                                 Output = BigIntegerHelper.ParseExpression(inpString).ToByteArray();
-                                ProgressChanged(100, 100);
-                                return;
+                                return true;
                             }
-                            catch (Exception) {}
+                            catch (Exception) { }
 
                             try // can be read as Hexstring?
                             {
@@ -633,11 +701,10 @@ namespace Cryptool.Plugins.Converter
                                 if (result != null)
                                 {
                                     Output = result;
-                                    ProgressChanged(100, 100);
-                                    return;
+                                    return true;
                                 }
                             }
-                            catch (Exception) {}
+                            catch (Exception) { }
 
                             try // can be read as double
                             {
@@ -648,101 +715,67 @@ namespace Cryptool.Plugins.Converter
                                 double test = BitConverter.ToDouble(temp, 0);
                                 GuiLogMessage("Converting String to double is not safe. Digits may have been cut off " + test.ToString(), NotificationLevel.Warning);
 
-                                ProgressChanged(100, 100);
-                                return;
+                                return true;
                             }
-                            catch (Exception) {}
-
-                            System.Text.UTF8Encoding enc = new System.Text.UTF8Encoding();
-                            Output = enc.GetBytes(inpString);
-
-                            ProgressChanged(100, 100);
-                            break;
+                            catch (Exception) { }
                         }
-                        else // numeric interpretation NOT selected:
-                        {
-                            switch (settings.Encoding) //apply user settings concerning encoding
-                            {
-                                case ConverterSettings.EncodingTypes.Unicode:
-                                    Output = Encoding.Unicode.GetBytes(inpString.ToCharArray());
-                                    break;
-                                case ConverterSettings.EncodingTypes.UTF7:
-                                    Output = Encoding.UTF7.GetBytes(inpString.ToCharArray());
-                                    break;
-                                case ConverterSettings.EncodingTypes.UTF8:
-                                    Output = Encoding.UTF8.GetBytes(inpString.ToCharArray());
-                                    break;
-                                case ConverterSettings.EncodingTypes.UTF32:
-                                    Output = Encoding.UTF32.GetBytes(inpString.ToCharArray());
-                                    break;
-                                case ConverterSettings.EncodingTypes.ASCII:
-                                    Output = Encoding.ASCII.GetBytes(inpString.ToCharArray());
-                                    break;
-                                case ConverterSettings.EncodingTypes.BigEndianUnicode:
-                                    Output = Encoding.BigEndianUnicode.GetBytes(inpString.ToCharArray());
-                                    break;
-                                case ConverterSettings.EncodingTypes.Default:
-                                default:
-                                    Output = Encoding.Default.GetBytes(inpString.ToCharArray());
-                                    break;
-                            }
-                            
-                            ProgressChanged(100, 100);
-                            break;
-                        }
+
+                        // numeric interpretation NOT selected:
+                        Output = GetBytesForEncoding(inpString, settings.OutputEncoding);
+                        return true;
                     }
                 #endregion
                 #region ConvertToCryptoolStream
                 case OutputTypes.CryptoolStreamType:
                     {
-                        GuiLogMessage("Conversion from " + inputOne.GetType().Name , NotificationLevel.Info);
-                        
-                        if (inputOne is byte[] || inputOne is byte || inputOne is BigInteger || inputOne is String)
+                        GuiLogMessage("Conversion from " + input.GetType().Name, NotificationLevel.Info);
+
+                        if (input is byte[] || input is byte || input is BigInteger || input is String)
                         {
-                            OnPropertyChanged("Output");
-                            ProgressChanged(100, 100);
+                            OnPropertyChanged("Output"); 
+                            return true;
                         }
                         else
                         {
-                            GuiLogMessage("Conversion from " + inputOne.GetType().Name + " to CryptoolStream is not yet implemented", NotificationLevel.Error);
+                            GuiLogMessage("Conversion from " + input.GetType().Name + " to CryptoolStream is not yet implemented", NotificationLevel.Error);
+                            return false;
                         }
-                        break;
                     }
                 #endregion
                 #region ConvertToAnythingLeft
                 default:
-                    {
-                        break;
-                    }
+                    return false;
                 #endregion
             }
 
             #endregion
         }
 
-        private String setText(string temp) //apply user selected presentation format
+        public void Execute()
         {
-            if (temp != null)
-            {
+            ProgressChanged(0, 100);
+            if( ConvertToOutput(InputOne) ) ProgressChanged(100, 100);
+        }
 
-                switch (settings.Presentation)
-                {
-                    case ConverterSettings.PresentationFormat.Text:
-                        // nothin to do here
-                        break;
-                    case ConverterSettings.PresentationFormat.Hex:
-                        byte[] byteValues = Encoding.UTF8.GetBytes(temp.ToCharArray());
-                        temp = BitConverter.ToString(byteValues, 0, byteValues.Length).Replace("-", "");
-                        break;
-                    case ConverterSettings.PresentationFormat.Base64:
-                        temp = Convert.ToBase64String(Encoding.UTF8.GetBytes(temp.ToCharArray()));
-                        break;
-                    default:
-                        break;
-                }
-                return temp;
+        private String setText( byte[] bytes, ConverterSettings.PresentationFormat presentation )
+        {
+            switch (presentation)
+            {
+                case ConverterSettings.PresentationFormat.Text:
+                    return GetStringForEncoding(bytes,settings.OutputEncoding);
+
+                case ConverterSettings.PresentationFormat.Hex:
+                    return BitConverter.ToString(bytes).Replace("-", "");
+
+                case ConverterSettings.PresentationFormat.Base64:
+                    return Convert.ToBase64String(bytes);
+
+                case ConverterSettings.PresentationFormat.Decimal:
+                    return string.Join(" ", Array.ConvertAll(bytes, item => item.ToString()));
+
+                default:
+                    return null;
             }
-            return temp;
         }
 
         public String DoubleCleanup(String inpString) //apply user selected input format
@@ -808,16 +841,21 @@ namespace Cryptool.Plugins.Converter
 
         #region event handling
 
-        private void Progress(double value, double max)
-        {
-            EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
-        }
-
         public event StatusChangedEventHandler OnPluginStatusChanged;
 
         void settings_OnPluginStatusChanged(IPlugin sender, StatusEventArgs args)
         {
             if (OnPluginStatusChanged != null) OnPluginStatusChanged(this, args);
+        }
+
+        private void settings_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            //GuiLogMessage("settings_PropertyChanged: "+e.PropertyName, NotificationLevel.Debug);
+                      
+            //if ( e.PropertyName == "OutputEncoding" )
+            {
+                ConvertToOutput(InputOne);
+            }
         }
 
         public event PluginProgressChangedEventHandler OnPluginProgressChanged;
