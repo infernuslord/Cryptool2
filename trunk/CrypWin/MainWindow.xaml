@@ -302,7 +302,7 @@
     <KeyBinding Command="cw:CrypWinCommands.Fullscreen" Gesture="F12" />
   </dc:RibbonWindow.InputBindings>
     <DockPanel LastChildFill="True">
-        <StatusBar Name="statusBar" DockPanel.Dock="Bottom" Height="60" MouseDoubleClick="statusBar_MouseDoubleClick">
+        <StatusBar Name="statusBar" DockPanel.Dock="Bottom" Height="22" MouseDoubleClick="statusBar_MouseDoubleClick">
             <StatusBar.ItemsPanel>
                 <ItemsPanelTemplate>
                     <DockPanel LastChildFill="True"/>
