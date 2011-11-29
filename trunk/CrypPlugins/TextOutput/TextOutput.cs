@@ -39,10 +39,10 @@ namespace TextOutput
 
         /// <summary>
         /// This dic is used to store error messages while properties are set in PlayMode. The messages
-        /// will be send in the execute method. 
+        /// will be sent in the execute method. 
         /// The editor flushes plugin color markers before calling the execute method. 
-        /// So this messages would would still appear in LogWindow, but the color marker of the 
-        /// plugin(red/yellow) would be lost if sending the messages right on property set.
+        /// So these messages would still appear in LogWindow, but the color marker of the 
+        /// plugin (red/yellow) would be lost if sending the messages right on property set.
         /// </summary>
         private Dictionary<string, NotificationLevel> dicWarningsAndErros = new Dictionary<string, NotificationLevel>();
         private TextOutputPresentation textOutputPresentation;
@@ -54,7 +54,7 @@ namespace TextOutput
             set { settings = (TextOutputSettings)value; }
         }
 
-        private string _currentText;
+        private object _currentText;
 
         [PropertyInfo(Direction.InputData, "InputDataCaption", "InputDataTooltip", true)]
         public object InputOne
@@ -73,8 +73,8 @@ namespace TextOutput
                     if (_currentText != null)
                     {
                         // cut long input text (TODO: this shall be part of ParseInput)
-                        if (_currentText.Length > settings.MaxLength)
-                            _currentText = _currentText.Substring(0, settings.MaxLength);
+                        //if (_currentText.Length > settings.MaxLength)
+                        //    _currentText = _currentText.Substring(0, settings.MaxLength);
 
                         // add to presentation
                         ShowInPresentation(_currentText);
@@ -111,7 +111,7 @@ namespace TextOutput
 
         private void settings_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "PresentationFormatSetting" && _currentText != null)
+            if ( (e.PropertyName == "PresentationFormatSetting" || e.PropertyName == "Encoding") && _currentText != null)
             {
                 ShowInPresentation(_currentText);
             }
@@ -138,10 +138,17 @@ namespace TextOutput
             settings.PropertyChanged += settings_PropertyChanged;
         }
 
-        private string ParseInput(object value)
+        private object ParseInput(object value)
         {
             if (value == null)
                 return string.Empty;
+
+            if (value is string)
+            {
+                if (((string)value).Length > settings.MaxLength)
+                    value = ((string)value).Substring(0, settings.MaxLength);
+                return (string)value;
+            }
 
             if (value is bool)
                 return (settings.BooleanAsNumeric) ? Convert.ToInt32(value).ToString() : ((bool)value).ToString();
@@ -154,33 +161,26 @@ namespace TextOutput
 
                     if (reader.Length > settings.MaxLength)
                         AddMessage("WARNING - Stream is too large (" + (reader.Length / 1024).ToString("0.00") + " kB), output will be truncated to " + (settings.MaxLength / 1024).ToString("0.00") + "kB", NotificationLevel.Warning);
-                    byte[] byteValues = new byte[Math.Min(settings.MaxLength, reader.Length)];
-                    int bytesRead;
+                    byte[] byteArray = new byte[ Math.Min(settings.MaxLength, reader.Length) ];
                     reader.Seek(0, SeekOrigin.Begin);
-                    bytesRead = reader.ReadFully(byteValues, 0, byteValues.Length);
-                    return GetStringForSelectedEncoding(byteValues);
+                    reader.ReadFully(byteArray, 0, byteArray.Length);
+
+                    return byteArray;
                 }
             }
 
             if (value is byte[])
             {
                 byte[] byteArray = value as byte[];
+
                 if (byteArray.Length > settings.MaxLength)
                 {
                     AddMessage("WARNING - byte array is too large (" + (byteArray.Length / 1024).ToString("0.00") + " kB), output will be truncated to " + (settings.MaxLength / 1024).ToString("0.00") + "kB", NotificationLevel.Warning);
+                    byteArray = new byte[settings.MaxLength];
+                    Buffer.BlockCopy((byte[])value, 0, byteArray, 0, settings.MaxLength);
                 }
 
-                long size = byteArray.Length;
-                if (size > settings.MaxLength)
-                {
-                    size = settings.MaxLength;
-                }
-                byte[] sizedArray = new byte[size];
-                for (int i = 0; i < size; i++)
-                {
-                    sizedArray[i] = byteArray[i];
-                }
-                return GetStringForSelectedEncoding(sizedArray);
+                return byteArray;
             }
 
             if (value is Array)
@@ -189,139 +189,174 @@ namespace TextOutput
                 StringBuilder sb = new StringBuilder();
 
                 foreach (object obj in array)
-                {
                     sb.AppendLine(obj == null ? "null" : obj.ToString());
-                }
+
                 return sb.ToString();
             }
 
             return value.ToString();
         }
 
-        private void ShowInPresentation(string fillValue)
+        string GetPresentation(byte[] bytes, TextOutputSettings.PresentationFormat presentation )
         {
-            int bytes = 0;
-            if (fillValue != null)
+            switch (presentation)
             {
-                bytes = Encoding.UTF8.GetBytes(fillValue.ToCharArray()).Length;
+                case TextOutputSettings.PresentationFormat.Text:
+                    //return GetStringForEncoding(bytes, TextOutputSettings.EncodingTypes.UTF8);
+                    return GetStringForEncoding(bytes, settings.Encoding);
 
-                // Presentation format conversion
-                switch (settings.Presentation)
-                {
-                    case TextOutputSettings.PresentationFormat.Text:
-                        // nothin to do here)
-                        break;
-                    case TextOutputSettings.PresentationFormat.Hex:
-                        //byte[] byteValues = Encoding.UTF8.GetBytes(fillValue.ToCharArray());
-                        byte[] byteValues = Encoding.Default.GetBytes(fillValue.ToCharArray());
-                        fillValue = BitConverter.ToString(byteValues, 0, byteValues.Length).Replace("-", "");
-                        break;
-                    case TextOutputSettings.PresentationFormat.Base64:
-                        //fillValue = Convert.ToBase64String(Encoding.UTF8.GetBytes(fillValue.ToCharArray()));
-                        fillValue = Convert.ToBase64String(Encoding.Default.GetBytes(fillValue.ToCharArray()));
-                        break;
-                    case TextOutputSettings.PresentationFormat.Decimal:
-                        //byte[] decValues = Encoding.UTF8.GetBytes(fillValue.ToCharArray());
-                        byte[] decValues = Encoding.Default.GetBytes(fillValue.ToCharArray());
-                        StringBuilder sb = new StringBuilder();
-                        if (decValues.Length > 0)
-                        {
-                            sb.Append(decValues[0]);
-                            for (int i = 1; i < decValues.Length; i++)
-                            {
-                                sb.Append(" ");
-                                sb.Append(decValues[i]);
-                            }
-                        }
-                        fillValue = sb.ToString();
-                        break;
-                    default:
-                        break;
-                }
+                case TextOutputSettings.PresentationFormat.Hex:
+                    return BitConverter.ToString(bytes).Replace("-", " ");
 
+                case TextOutputSettings.PresentationFormat.Base64:
+                    return Convert.ToBase64String(bytes);
 
-                Presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-                {
-                    if (settings.Append)
-                    {
-                        if (textOutputPresentation.textBox.Text.Length > settings.MaxLength)
-                        {
-                            GuiLogMessage("Text exceeds size limit. Deleting text...", NotificationLevel.Debug);
-                            textOutputPresentation.textBox.Text = string.Empty;
-                            textOutputPresentation.textBox.Tag = 0;
-                        }
+                case TextOutputSettings.PresentationFormat.Decimal:
+                    return string.Join(" ", Array.ConvertAll(bytes, item => item.ToString()));
 
-                        // append line breaks only if not first line
-                        if (!string.IsNullOrEmpty(textOutputPresentation.textBox.Text))
-                        {
-                            for (int i = 0; i < settings.AppendBreaks; i++)
-                            {
-                                if (settings.Presentation == TextOutputSettings.PresentationFormat.Text)
-                                {
-                                    int newlineSize = Encoding.UTF8.GetBytes("\n".ToCharArray()).Length;
-                                    textOutputPresentation.textBox.Tag = (int)textOutputPresentation.textBox.Tag + newlineSize;
-                                }
-                                textOutputPresentation.textBox.AppendText("\n");
-                            }
-                        }
-                        textOutputPresentation.textBox.AppendText(fillValue);
-                        textOutputPresentation.textBox.Tag = (int)textOutputPresentation.textBox.Tag + bytes;
-
-                        textOutputPresentation.textBox.ScrollToEnd();
-                    }
-                    else
-                    {
-                        textOutputPresentation.textBox.Text = fillValue;
-                        textOutputPresentation.textBox.Tag = bytes;
-                    }
-                    if (settings.BooleanAsNumeric)
-                    {
-                        textOutputPresentation.labelBytes.Content = string.Format("{0:0,0}", Encoding.UTF8.GetBytes(textOutputPresentation.textBox.Text.ToCharArray()).Length) + " Bits";
-                    }
-                    else
-                    {
-                        textOutputPresentation.labelBytes.Content = string.Format("{0:0,0}", (int)textOutputPresentation.textBox.Tag) + " Bytes";
-                    }
-                }, fillValue);
+                default:
+                    return null;
             }
         }
 
-        private string GetStringForSelectedEncoding(byte[] arrByte)
+        private void ShowInPresentation(object fillValue)
         {
-            if (arrByte != null)
-            {
-                GuiLogMessage("Converting from \"" + settings.Encoding.ToString() + "\"...", NotificationLevel.Debug);
-                string returnValue;
+            if (fillValue == null) return;
 
-                // here conversion happens
-                switch (settings.Encoding)
-                {
-                    case TextOutputSettings.EncodingTypes.Unicode:
-                        returnValue = Encoding.Unicode.GetString(arrByte, 0, arrByte.Length);
-                        break;
-                    case TextOutputSettings.EncodingTypes.UTF7:
-                        returnValue = Encoding.UTF7.GetString(arrByte, 0, arrByte.Length);
-                        break;
-                    case TextOutputSettings.EncodingTypes.UTF8:
-                        returnValue = Encoding.UTF8.GetString(arrByte, 0, arrByte.Length);
-                        break;
-                    case TextOutputSettings.EncodingTypes.UTF32:
-                        returnValue = Encoding.UTF32.GetString(arrByte, 0, arrByte.Length);
-                        break;
-                    case TextOutputSettings.EncodingTypes.ASCII:
-                        returnValue = Encoding.ASCII.GetString(arrByte, 0, arrByte.Length);
-                        break;
-                    case TextOutputSettings.EncodingTypes.BigEndianUnicode:
-                        returnValue = Encoding.BigEndianUnicode.GetString(arrByte, 0, arrByte.Length);
-                        break;
-                    case TextOutputSettings.EncodingTypes.Default:
-                    default:
-                        returnValue = Encoding.Default.GetString(arrByte, 0, arrByte.Length);
-                        break;
-                }
-                return returnValue;
+            int bytes = 0;
+
+            if (fillValue is string)
+            {
+                bytes = ((string)fillValue).Length;
+                fillValue = GetPresentation(GetBytesForEncoding((string)fillValue, TextOutputSettings.EncodingTypes.UTF8), TextOutputSettings.PresentationFormat.Text);
+                //fillValue = GetPresentation(GetBytesForEncoding((string)fillValue, settings.Encoding), settings.Presentation);
             }
-            return null;
+            else if (fillValue is byte[])
+            {
+                bytes = ((byte[])fillValue).Length;
+                fillValue = GetPresentation((byte[])fillValue, TextOutputSettings.PresentationFormat.Hex);
+                //fillValue = GetPresentation((byte[])fillValue, settings.Presentation);
+            }
+
+
+
+            Presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
+                if (settings.Append)
+                {
+                    if (textOutputPresentation.textBox.Text.Length > settings.MaxLength)
+                    {
+                        GuiLogMessage("Text exceeds size limit. Deleting text...", NotificationLevel.Debug);
+                        textOutputPresentation.textBox.Text = string.Empty;
+                        textOutputPresentation.textBox.Tag = 0;
+                    }
+
+                    // append line breaks only if not first line
+                    if (!string.IsNullOrEmpty(textOutputPresentation.textBox.Text))
+                    {
+                        for (int i = 0; i < settings.AppendBreaks; i++)
+                        {
+                            if (settings.Presentation == TextOutputSettings.PresentationFormat.Text)
+                            {
+                                int newlineSize = Encoding.UTF8.GetBytes("\n".ToCharArray()).Length;
+                                textOutputPresentation.textBox.Tag = (int)textOutputPresentation.textBox.Tag + newlineSize;
+                            }
+                            textOutputPresentation.textBox.AppendText("\n");
+                        }
+                    }
+                    textOutputPresentation.textBox.AppendText((string)fillValue);
+                    textOutputPresentation.textBox.Tag = (int)textOutputPresentation.textBox.Tag + bytes;
+
+                    textOutputPresentation.textBox.ScrollToEnd();
+                }
+                else
+                {
+                    textOutputPresentation.textBox.Text = (string)fillValue;
+                    textOutputPresentation.textBox.Tag = bytes;
+                }
+                if (settings.BooleanAsNumeric)
+                {
+                    textOutputPresentation.labelBytes.Content = string.Format("{0:0,0}", Encoding.UTF8.GetBytes(textOutputPresentation.textBox.Text.ToCharArray()).Length) + " Bits";
+                }
+                else
+                {
+                    textOutputPresentation.labelBytes.Content = string.Format("{0:0,0}", (int)textOutputPresentation.textBox.Tag) + " Bytes";
+                }
+            }, fillValue);
+        }
+
+        private byte[] GetBytesForEncoding(string s, TextOutputSettings.EncodingTypes encoding)
+        {
+            if (s == null) return null;
+
+            GuiLogMessage("Converting to \"" + encoding.ToString() + "\"...", NotificationLevel.Debug);
+
+            switch (encoding)
+            {
+                case TextOutputSettings.EncodingTypes.Unicode:
+                    return Encoding.Unicode.GetBytes(s);
+
+                case TextOutputSettings.EncodingTypes.UTF7:
+                    return Encoding.UTF7.GetBytes(s);
+
+                case TextOutputSettings.EncodingTypes.UTF8:
+                    return Encoding.UTF8.GetBytes(s);
+
+                case TextOutputSettings.EncodingTypes.UTF32:
+                    return Encoding.UTF32.GetBytes(s);
+
+                case TextOutputSettings.EncodingTypes.ASCII:
+                    return Encoding.ASCII.GetBytes(s);
+
+                case TextOutputSettings.EncodingTypes.BigEndianUnicode:
+                    return Encoding.BigEndianUnicode.GetBytes(s);
+
+                case TextOutputSettings.EncodingTypes.ISO8859_15:
+                    return Encoding.GetEncoding("iso-8859-15").GetBytes(s);
+
+                case TextOutputSettings.EncodingTypes.Windows1252:
+                    return Encoding.GetEncoding(1252).GetBytes(s);
+
+                default:
+                    return Encoding.Default.GetBytes(s);
+            }
+        }
+
+        private string GetStringForEncoding(byte[] arrByte, TextOutputSettings.EncodingTypes encoding)
+        {
+            if (arrByte == null) return null;
+
+            GuiLogMessage("Converting from \"" + encoding.ToString() + "\"...", NotificationLevel.Debug);
+
+            switch (encoding)
+            {
+                case TextOutputSettings.EncodingTypes.Unicode:
+                    return Encoding.Unicode.GetString(arrByte);
+
+                case TextOutputSettings.EncodingTypes.UTF7:
+                    return Encoding.UTF7.GetString(arrByte);
+
+                case TextOutputSettings.EncodingTypes.UTF8:
+                    return Encoding.UTF8.GetString(arrByte);
+
+                case TextOutputSettings.EncodingTypes.UTF32:
+                    return Encoding.UTF32.GetString(arrByte);
+
+                case TextOutputSettings.EncodingTypes.ASCII:
+                    return Encoding.ASCII.GetString(arrByte);
+
+                case TextOutputSettings.EncodingTypes.BigEndianUnicode:
+                    return Encoding.BigEndianUnicode.GetString(arrByte);
+
+                case TextOutputSettings.EncodingTypes.ISO8859_15:
+                    return Encoding.GetEncoding("iso-8859-15").GetString(arrByte);
+
+                case TextOutputSettings.EncodingTypes.Windows1252:
+                    return Encoding.GetEncoding(1252).GetString(arrByte);
+
+                default:
+                    return Encoding.Default.GetString(arrByte);
+            }
         }
 
         private void AddMessage(string message, NotificationLevel level)
