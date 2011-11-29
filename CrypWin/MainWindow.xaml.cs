@@ -829,13 +829,13 @@ namespace Cryptool.CrypWin
             Button naviPaneExpandButton = naviPane.Template.FindName("ExpandButton", naviPane) as Button;
             if (naviPaneExpandButton != null) naviPaneExpandButton.Visibility = Visibility.Collapsed;
 
-            OperatingSystem os = Environment.OSVersion;
-            Version vs = os.Version;
+            //OperatingSystem os = Environment.OSVersion;
+            //Version vs = os.Version;
 
-            if (os.Platform == PlatformID.Win32NT)
-            {
-                statusBar.Height = (vs.Major == 5) ? 30 : 60;
-            }
+            //if (os.Platform == PlatformID.Win32NT)
+            //{
+            //    statusBar.Height = (vs.Major == 5) ? 30 : 60;
+            //}
         }
 
         private void InitDebug()
