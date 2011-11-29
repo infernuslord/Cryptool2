@@ -21,7 +21,7 @@ By selecting this, you can analyze some ciphertext that was encrypted with the T
     <name lang="en">Brute-force</name>    
     <description lang="en">
       Select this to analyze the ciphertext using the brute-force method. This means, that every possible key gets tested.
-This method is ciphertext only.
+This method is ciphertext-only.
     </description>
     <description lang="de">
       Wählen Sie dies, um den chiffrierten Text mit der "Brute-force"-Methode zu analysieren. Das bedeutet, dass jeder mögliche Schlüssel ausprobiert wird.
@@ -94,7 +94,7 @@ Diese Methode basiert nur auf dem Geheimtext.
     <name lang="de">Genetisch</name>
     <description lang="en">
       Select this to analyze the ciphertext using genetic algorithms. This can be faster than bruteforcing.
-This method is ciphertext only.
+This method is ciphertext-only.
     </description>
     <description lang="de">
       Wählen Sie dies, um den chiffrierten Text mit genetischen Methoden zu analysieren. Diese Methode kann schneller sein als die "Brute-force"-Methode.

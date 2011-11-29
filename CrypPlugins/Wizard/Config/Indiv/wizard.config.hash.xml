@@ -164,8 +164,8 @@ RIPEMD-160 wurde von Hans Dobbertin, Antoon Bosselaers und Bart Preneel in Europ
   <!-- Whirlpool input -->
   <sampleViewer image="Whirlpool" file="Hashfunctions\Whirlpool.cwm">
     <name lang="en" >Whirlpool</name>
-    <description lang="en" >Whirlpool is a hash designed after the Square block cipher. Whirlpool is a Miyaguchi-Preneel construction based on a substantially modified Advanced Encryption Standard (AES). It takes a message of any length less than 2^256 bits and returns a 512-bit message digest.</description>
-    <description lang="de" >Whirlpool ist ein Hash-Algorithmus, der auf dem "Square" Blockchiffre basiert. Whirlpool ist eine Miyaguchi-Preneel Konstruktion, die auf einem substantiell veränderten "Advanced Encryption Standard" (AES) basiert. Es nimmt eine Nachricht einer Länge kleiner als 2^256 Bits entgegen und gibt ein 512-Bit "message digest" zurück.</description>
+    <description lang="en" >Whirlpool is a hash algorithm designed after the Square block cipher. Whirlpool is a Miyaguchi-Preneel construction based on a substantially modified Advanced Encryption Standard (AES). It takes a message of any length less than 2^256 bit and returns a 512-bit message digest.</description>
+    <description lang="de" >Whirlpool ist ein Hash-Algorithmus, der auf dem "Square" Blockchiffre basiert. Whirlpool ist eine Miyaguchi-Preneel-Konstruktion, die auf einem substantiell veränderten "Advanced Encryption Standard" (AES) basiert. Es nimmt eine Nachricht einer Länge kleiner als 2^256 Bits entgegen und gibt ein 512-Bit "message digest" zurück.</description>
 
     <headline lang="en">Whirlpool</headline>
     <task lang="en">Input your message and watch the Whirlpool output here.</task>

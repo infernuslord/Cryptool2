@@ -7,7 +7,7 @@
   <name lang="en" >Classic Encryption/Decryption</name>
   <name lang="de-DE" >Klassische Verschlüsselung/Entschlüsselung</name>
   <description lang="en" >Selecting this allows you to encrypt a plaintext or decrypt a ciphertext with a classic algorithm. You can choose which classic algorithm you want to use for doing this.</description>
-  <description lang="de-DE" >Wählen Sie diesen Punkt, um mit Hilfe eines klassischen Algorithmus einen Klartext zu verschlüsseln oder einen chiffrierten Text zu entschlüsseln. Der dafür verwendete klassische Algorithmus kann von Ihnen ausgewählt werden.</description>
+  <description lang="de-DE" >Wählen Sie diesen Punkt, um mit Hilfe eines klassischen Algorithmus einen Klartext zu verschlüsseln oder einen chiffrierten Text zu entschlüsseln. Der dafür verwendete Algorithmus kann von Ihnen ausgewählt werden.</description>
   
   <!-- This is the step's headline. It should be short, but precise. -->
   <headline lang="en">Algorithm Selection</headline>
@@ -21,7 +21,7 @@
   <input image="Caesar">
     <name lang="en" >Caesar</name>
     <description lang="en" >This encryption algorithm, already used by the Roman general and dictator Caesar, substitutes single letters: The substitution rule is that the letters of the cleartext alphabet are shifted by a special value (key).</description>
-    <description lang="de" >Dieser Verschlüsselungsalgorithmus, der schon vom römischen General und Diktator Caesar benutzt wurde, substituiert einzelne Buchstaben: Die Substitutionsregel ist, dass die Buchstaben des Klartextes um einen bestimmen Wert (den Schlüssel) verschoben werden.</description>
+    <description lang="de" >Dieser Verschlüsselungsalgorithmus, der schon vom römischen General und Diktator Caesar benutzt wurde, substituiert einzelne Buchstaben: Die Substitutionsregel ist, dass die Buchstaben des Alphabets um einen bestimmen Wert (den Schlüssel) verschoben werden.</description>
 
     <headline lang="en" >Message Input</headline>
     <headline lang="de" >Nachrichteneingabe</headline>
@@ -54,7 +54,7 @@
       <name lang="en" >Caesar Output</name>
       <name lang="de" >Caesar-Ausgabe</name>
       <description lang="en" >This encryption algorithm, already used by the Roman general and dictator Caesar, substitutes single letters: The substitution rule is that the letters of the cleartext alphabet are shifted by a special value (key).</description>
-      <description lang="de" >Dieser Verschlüsselungsalgorithmus, der schon vom römischen General und Diktator Caesar benutzt wurde, substituiert einzelne Buchstaben: Die Substitutionsregel ist, dass die Buchstaben des Klartextes um einen bestimmen Wert (den Schlüssel) verschoben werden.</description>
+      <description lang="de" >Dieser Verschlüsselungsalgorithmus, der schon vom römischen General und Diktator Caesar benutzt wurde, substituiert einzelne Buchstaben: Die Substitutionsregel ist, dass die Buchstaben des Alphabets um einen bestimmen Wert (den Schlüssel) verschoben werden.</description>
 
       <headline lang="en" >Caesar Output</headline>
       <headline lang="de" >Caesar-Ausgabe</headline>
@@ -81,7 +81,7 @@
   <input image="Vigenere">
     <name lang="en" >Vigenère</name>
     <description lang="en" >The Vigenère cipher is a method of encrypting alphabetic text by using a series of different Caesar ciphers based on the letters of a keyword. It is a simple form of polyalphabetic substitution.</description>
-    <description lang="de" >Die Vigenère-Chiffrierung ist eine Methode zur Verschlüsselung von Texten. Sie wendet mehrere Caesar-Chiffrierungen, basierend auf den Buchstaben eines Schlüsselwortes, auf den Klartext an. Sie ist eine einfaches Beispiel für eine polyalphabetische Substitution.</description>
+    <description lang="de" >Mit dem Vigenère-Verfahren werden Texte verschlüsselt. Es wendet mehrfach das Caesar-Verfahren auf den Klartext an, basierend auf den Buchstaben eines Schlüsselwortes und ist ein einfaches Beispiel für eine polyalphabetische Substitution.</description>
 
     <headline lang="en" >Message Input</headline>
     <headline lang="de" >Nachrichteneingabe</headline>
@@ -113,7 +113,7 @@
       <name lang="en" >Vigenère Output</name>
       <name lang="de" >Vigenère-Ausgabe</name>
       <description lang="en" >The Vigenère cipher is a method of encrypting alphabetic text by using a series of different Caesar ciphers based on the letters of a keyword. It is a simple form of polyalphabetic substitution.</description>
-      <description lang="de" >Die Vigenère-Chiffrierung ist eine Methode zur Verschlüsselung von Texten. Sie wendet mehrere Caesar-Chiffrierungen, basierend auf den Buchstaben eines Schlüsselwortes, auf den Klartext an. Sie ist eine einfaches Beispiel für eine polyalphabetische Substitution.</description>
+      <description lang="de" >Mit dem Vigenère-Verfahren werden Texte verschlüsselt. Es wendet mehrfach das Caesar-Verfahren auf den Klartext an, basierend auf den Buchstaben eines Schlüsselwortes. Sie ist eine einfaches Beispiel für eine polyalphabetische Substitution.</description>
 
       <headline lang="en" >Vigenère Output</headline>
       <headline lang="de" >Vigenère-Ausgabe</headline>
@@ -138,7 +138,7 @@
   <input image="Substitution">
     <name lang="en" >Substitution</name>
     <description lang="en" >A substitution cipher is a method of encryption by which units of plaintext are replaced with ciphertext according to a regular system; the "units" may be single letters (the most common), pairs of letters, triplets of letters, mixtures of the above, and so forth. The receiver deciphers the text by performing an inverse substitution.</description>
-    <description lang="de" >Die Substitutionschiffrierung ist eine Verschlüsselungsmethode, bei der Einheiten des Klartextes nach gewissen Regeln durch chiffrierten Text ersetzt werden. Die "Einheiten" sind im Allgemeinen einzelne Buchstaben, können aber auch Buchstabenpaare, Buchstabentripel oder Kombinationen davon sein. Der Empfänger entschlüsselt den Text, indem er eine inverse Substitution anwendet.</description>
+    <description lang="de" >Das Substitutions-Verfahren ist eine Verschlüsselungsmethode, bei der Einheiten des Klartextes nach gewissen Regeln durch chiffrierten Text ersetzt werden. Die "Einheiten" sind im Allgemeinen einzelne Buchstaben, können aber auch Buchstabenpaare, Buchstabentripel oder Kombinationen davon sein. Der Empfänger entschlüsselt den Text, indem er eine inverse Substitution anwendet.</description>
 
     <headline lang="en" >Message Input</headline>
     <headline lang="de" >Nachrichteneingabe</headline>
@@ -170,7 +170,7 @@
       <name lang="en" >Substitution Output</name>
       <name lang="de" >Substitution-Ausgabe</name>
       <description lang="en" >A substitution cipher is a method of encryption by which units of plaintext are replaced with ciphertext according to a regular system; the "units" may be single letters (the most common), pairs of letters, triplets of letters, mixtures of the above, and so forth. The receiver deciphers the text by performing an inverse substitution.</description>
-      <description lang="de" >Die Substitutionschiffrierung ist eine Verschlüsselungsmethode, bei der Einheiten des Klartextes nach gewissen Regeln durch chiffrierten Text ersetzt werden. Die "Einheiten" sind im Allgemeinen einzelne Buchstaben, können aber auch Buchstabenpaare, Buchstabentripel oder Kombinationen davon sein. Der Empfänger entschlüsselt den Text, indem er eine inverse Substitution anwendet.</description>
+      <description lang="de" >Das Substitutions-Verfahren ist eine Verschlüsselungsmethode, bei der Einheiten des Klartextes nach gewissen Regeln durch chiffrierten Text ersetzt werden. Die "Einheiten" sind im Allgemeinen einzelne Buchstaben, können aber auch Buchstabenpaare, Buchstabentripel oder Kombinationen davon sein. Der Empfänger entschlüsselt den Text, indem er eine inverse Substitution anwendet.</description>
 
       <headline lang="en" >Substitution Output</headline>
       <headline lang="de" >Substitution-Ausgabe</headline>
@@ -194,11 +194,13 @@
   <!-- Enigma input -->
   <input image="Enigma">
     <name lang="en" >Enigma</name>
-    <description lang="en" >An Enigma machine is any of a family of related electro-mechanical rotor machines used for the encryption and decryption of secret messages.
-The first Enigma was invented by German engineer Arthur Scherbius at the end of World War I. This model and its variants were used commercially from the early 1920s, and adopted by military and government services of several countries — most notably by Nazi Germany before and during World War II.
+    <description lang="en" >
+      An Enigma machine is any of a family of related electro-mechanical rotor machines used for the encryption and decryption of secret messages.
+      The first Enigma was invented by German engineer Arthur Scherbius at the end of World War I. This model and its variants were used commercially from the early 1920s, and adopted by military and government services of several countries — most notably by Nazi Germany before and during World War II.
     </description>
-    <description lang="de" >Eine Enigma-Maschine ist eine aus der Familie von verwandten elektromechanischen Rotormaschinen, die für die Ver- und Entschlüsselung geheimer Nachrichten benutzt wird.
-Die erste Enigma wurde von dem deutschen Ingenieur Arthur Scherbius am Ende des ersten Weltkrieges entwickelt. Dieses Modell und seine Varianten wurden kommerziell seit den frühen 1920igern benutzt und von Militär und Regierungen verschiedener Länder übernommen - insbesondere von Deutschland vor und während des zweiten Weltkriegs.
+    <description lang="de" >
+      Die Enigma-Maschine gehört zu den elektromechanischen Rotormaschinen. Sie wurde zur Ver- und Entschlüsselung geheimer Nachrichten verwendet.
+      Die erste Enigma wurde von dem deutschen Ingenieur Arthur Scherbius am Ende des ersten Weltkrieges entwickelt. Dieses Modell und seine Varianten wurden kommerziell seit den frühen 1920igern benutzt und von Militär und Regierungen verschiedener Länder übernommen - insbesondere von Deutschland vor und während des zweiten Weltkriegs.
     </description>
 
     <headline lang="en" >Message Input</headline>
@@ -222,7 +224,7 @@ Die erste Enigma wurde von dem deutschen Ingenieur Arthur Scherbius am Ende des 
       <name lang="en">Enigma Output</name>
       <name lang="de">Enigma-Ausgabe</name>
       <description lang="en" >A transposition cipher is a method of encryption by which the positions held by units of plaintext (which are commonly characters or groups of characters) are shifted according to a regular system, so that the ciphertext constitutes a permutation of the plaintext.</description>
-      <description lang="de" >Eine Transpositions-Chiffrierung ist eine Verschlüsselungsmethode, bei der die Positionen, die von den Einheiten des Klartextes (meistens einzelne Buchstaben oder Gruppen von Buchstaben) eingenommen werden, nach gewissen Regeln vetauscht werden, so dass der chiffrierte Text eine Permutation des Klartextes darstellt.</description>
+      <description lang="de" >Eine Transpositions-Verschlüsselung vertauscht die Positionen, die von den Einheiten des Klartextes (meistens einzelne Buchstaben oder Gruppen von Buchstaben) eingenommen werden, nach gewissen Regeln, so dass der chiffrierte Text eine Permutation des Klartextes darstellt.</description>
 
       <headline lang="en">Enigma Output</headline>
       <headline lang="de">Enigma-Ausgabe</headline>
@@ -253,7 +255,7 @@ Die erste Enigma wurde von dem deutschen Ingenieur Arthur Scherbius am Ende des 
   <input image="Playfair">
     <name lang="en" >Playfair</name>
     <description lang="en" >The Playfair cipher or Playfair square is a manual symmetric encryption technique and was the first literal digraph substitution cipher.</description>
-    <description lang="de" >Die Playfair-Chiffrierung oder das Playfair-Quadrat ist eine manuelle symmetrische Verschlüsselungstechnik und war die erste bigraphische Substitutionsverschlüsselung.</description>
+    <description lang="de" >Die Playfair-Verschlüsselung ist symmetrisches Verschlüsselungsverfahren, das manuell ausgeführt werden kann und war die erste bigraphische Substitutionsverschlüsselung.</description>
 
     <headline lang="en" >Message Input</headline>
     <headline lang="de" >Nachrichteneingabe</headline>
@@ -307,7 +309,7 @@ Die erste Enigma wurde von dem deutschen Ingenieur Arthur Scherbius am Ende des 
   <input image="ADFGVX">
     <name lang="en" >ADFGVX</name>
     <description lang="en" >The ADFGVX cipher was a field cipher used by the German Army during World War I. It was a fractionating transposition cipher which combined a modified Polybius square with a single columnar transposition. The cipher is named after the six possible letters used in the ciphertext: A, D, F, G, V and X.</description>
-    <description lang="de" >Die ADFGVX Chiffrierung war eine Feldchiffrierung, die von der deutschen Armee während des ersten Weltkrieges benutzt wurde. Es war eine Transpositionschiffrierung, die ein modifiziertes Polybios-Quadrat mit einer einzelnen Spaltentransposition kombinierte. Die Chiffrierung wurde nach den sechs möglichen Buchstaben des chiffrierten Textes benannt: A, D, F, G, V und X.</description>
+    <description lang="de" >Die ADFGVX-Verschlüsselung wurde von der deutschen Armee während des ersten Weltkrieges benutzt. Es war eine Transpositions-Verschlüsselung, die ein modifiziertes Polybios-Quadrat mit einer einzelnen Spaltentransposition kombinierte. Das Verfahren wurde nach den sechs möglichen Buchstaben des chiffrierten Textes benannt: A, D, F, G, V und X.</description>
 
     <headline lang="en" >Message Input</headline>
     <headline lang="de" >Nachrichteneingabe</headline>
@@ -345,7 +347,7 @@ Die erste Enigma wurde von dem deutschen Ingenieur Arthur Scherbius am Ende des 
       <name lang="en" >ADFGVX Output</name>
       <name lang="de" >ADFGVX-Ausgabe</name>
       <description lang="en" >The ADFGVX cipher was a field cipher used by the German Army during World War I. It was a fractionating transposition cipher which combined a modified Polybius square with a single columnar transposition. The cipher is named after the six possible letters used in the ciphertext: A, D, F, G, V and X.</description>
-      <description lang="de" >Die ADFGVX Chiffrierung war eine Feldchiffrierung, die von der deutschen Armee während des ersten Weltkrieges benutzt wurde. Es war eine Transpositionschiffrierung, die ein modifiziertes Polybios-Quadrat mit einer einzelnen Spaltentransposition kombinierte. Die Chiffrierung wurde nach den sechs möglichen Buchstaben des chiffrierten Textes benannt: A, D, F, G, V und X.</description>
+      <description lang="de" >Die ADFGVX-Verschlüsselung wurde von der deutschen Armee während des ersten Weltkrieges benutzt. Es war eine Transpositions-Verschlüsselung, die ein modifiziertes Polybios-Quadrat mit einer einzelnen Spaltentransposition kombinierte. Das Verfahren wurde nach den sechs möglichen Buchstaben des chiffrierten Textes benannt: A, D, F, G, V und X.</description>
 
       <headline lang="en" >ADFGVX Output</headline>
       <headline lang="de" >ADFGVX-Ausgabe</headline>
@@ -417,7 +419,7 @@ Die erste Enigma wurde von dem deutschen Ingenieur Arthur Scherbius am Ende des 
   <input image="Vernam">
     <name lang="en" >Vernam</name>
     <description lang="en" >A Vernam cipher is a symmetrical stream cipher in which the plaintext is XORed with a random or pseudorandom stream of data (the "keystream") of the same length to generate the ciphertext.</description>
-    <description lang="de" >Eine Vernam-Chiffrierung ist eine symmetrische Stromchiffre, in welcher der Klartext mit einem zufälligen oder pseudozufälligen Datenstrom (dem "Schlüsselstrom") der selben Länge mittels XOR verknüpft wird um den chiffrierten Text zu generieren.</description>
+    <description lang="de" >Die Vernam-Verschlüsselung ist eine symmetrische Stromchiffre, in welcher der Klartext mit einem zufälligen oder pseudozufälligen Datenstrom (dem "Schlüsselstrom") derselben Länge mittels XOR verknüpft wird, um den chiffrierten Text zu generieren.</description>
 
     <headline lang="en" >Message Input</headline>
     <headline lang="de" >Nachrichteneingabe</headline>
@@ -449,7 +451,7 @@ Die erste Enigma wurde von dem deutschen Ingenieur Arthur Scherbius am Ende des 
       <name lang="en" >Vernam Output</name>
       <name lang="de" >Vernam-Ausgabe</name>
       <description lang="en" >A Vernam cipher is a symmetrical stream cipher in which the plaintext is XORed with a random or pseudorandom stream of data (the "keystream") of the same length to generate the ciphertext.</description>
-      <description lang="de" >Eine Vernam-Chiffrierung ist eine symmetrische Stromchiffre, in welcher der Klartext mit einem zufälligen oder pseudozufälligen Datenstrom (dem "Schlüsselstrom") der selben Länge mittels XOR verknüpft wird um den chiffrierten Text zu generieren.</description>
+      <description lang="de" >Die Vernam-Verschlüsselung ist eine symmetrische Stromchiffre, in welcher der Klartext mit einem zufälligen oder pseudozufälligen Datenstrom (dem "Schlüsselstrom") derselben Länge mittels XOR verknüpft wird, um den chiffrierten Text zu generieren.</description>
 
       <headline lang="en" >Vernam Output</headline>
       <headline lang="de" >Vernam-Ausgabe</headline>
@@ -474,7 +476,7 @@ Die erste Enigma wurde von dem deutschen Ingenieur Arthur Scherbius am Ende des 
   <input image="Transposition">
     <name lang="en">Transposition</name>
     <description lang="en" >A transposition cipher is a method of encryption by which the positions held by units of plaintext (which are commonly characters or groups of characters) are shifted according to a regular system, so that the ciphertext constitutes a permutation of the plaintext.</description>
-    <description lang="de" >Eine Transpositions-Chiffrierung ist eine Verschlüsselungsmethode bei der die Positionen, die von den Einheiten des Klartextes (meistens einzelne Buchstaben oder Gruppen von Buchstaben) eingenommen werden, nach gewissen Regeln vertauscht werden, so dass der chiffrierte Text eine Permutation des Klartextes darstellt.</description>
+    <description lang="de" >Eine Transpositions-Verschlüsselung vertauscht die Positionen, die von den Einheiten des Klartextes (meistens einzelne Buchstaben oder Gruppen von Buchstaben) eingenommen werden, nach gewissen Regeln, so dass der chiffrierte Text eine Permutation des Klartextes darstellt.</description>
 
     <headline lang="en" >Message Input</headline>
     <headline lang="de" >Nachrichteneingabe</headline>
@@ -533,7 +535,7 @@ Die erste Enigma wurde von dem deutschen Ingenieur Arthur Scherbius am Ende des 
       <name lang="en">Transposition Output</name>
       <name lang="de">Transpositions-Ausgabe</name>
       <description lang="en" >A transposition cipher is a method of encryption by which the positions held by units of plaintext (which are commonly characters or groups of characters) are shifted according to a regular system, so that the ciphertext constitutes a permutation of the plaintext.</description>
-      <description lang="de" >Eine Transpositions-Chiffrierung ist eine Verschlüsselungsmethode bei der die Positionen, die von den Einheiten des Klartextes (meistens einzelne Buchstaben oder Gruppen von Buchstaben) eingenommen werden, nach gewissen Regeln vertauscht werden, so dass der chiffrierte Text eine Permutation des Klartextes darstellt.</description>
+      <description lang="de" >Eine Transpositions-Verschlüsselung vertauscht die Positionen, die von den Einheiten des Klartextes (meistens einzelne Buchstaben oder Gruppen von Buchstaben) eingenommen werden, nach gewissen Regeln, so dass der chiffrierte Text eine Permutation des Klartextes darstellt.</description>
 
       <headline lang="en">Transposition Output</headline>
       <headline lang="de">Transpositions-Ausgabe</headline>
@@ -565,7 +567,7 @@ Die erste Enigma wurde von dem deutschen Ingenieur Arthur Scherbius am Ende des 
     <name lang="en" >Scytale</name>
     <name lang="de" >Skytale</name>
     <description lang="en" >A scytale is a tool used to perform a transposition cipher, consisting of a cylinder with a strip of parchment wound around it on which is written a message. The ancient Greeks, and the Spartans in particular, are said to have used this cipher to communicate during military campaigns.</description>
-    <description lang="de" >Die Skytale ist ein Werkzeug, mit dem eine Transpositions-Chiffrierung durchgeführt werden kann. Sie besteht aus einem Zylinder, der mit einem Pergamentstreifen umwickelt wird, auf dem eine Nachricht geschrieben steht. Den alten Griechen, und besonders den Spartaner, wird nachgesagt, dass sie diese Chiffrierung zur Kommunikation während militärischer Einsätze benutzt haben.</description>
+    <description lang="de" >Die Skytale ist ein Werkzeug, mit dem eine Transpositions-Verschlüsselung durchgeführt werden kann. Sie besteht aus einem Zylinder, der mit einem Pergamentstreifen umwickelt wird und auf den dann eine Nachricht geschrieben wird. Die alten Griechen (insbesondere die Spartaner) sollen dieses Verfahren zur Kommunikation während militärischer Einsätze benutzt haben.</description>
 
     <headline lang="en" >Message Input</headline>
     <headline lang="de" >Nachrichteneingabe</headline>
@@ -597,7 +599,7 @@ Die erste Enigma wurde von dem deutschen Ingenieur Arthur Scherbius am Ende des 
       <name lang="en" >Scytale Output</name>
       <name lang="de" >Skytale-Ausgabe</name>
       <description lang="en" >A scytale is a tool used to perform a transposition cipher, consisting of a cylinder with a strip of parchment wound around it on which is written a message. The ancient Greeks, and the Spartans in particular, are said to have used this cipher to communicate during military campaigns.</description>
-      <description lang="de" >Die Skytale ist ein Werkzeug, mit dem eine Transpositions-Chiffrierung durchgeführt werden kann. Sie besteht aus einem Zylinder, der mit einem Pergamentstreifen umwickelt wird, auf dem eine Nachricht geschrieben steht. Den alten Griechen, und besonders den Spartaner, wird nachgesagt, dass sie diese Chiffrierung zur Kommunikation während militärischer Einsätze benutzt haben.</description>
+      <description lang="de" >Die Skytale ist ein Werkzeug, mit dem eine Transpositions-Verschlüsselung durchgeführt werden kann. Sie besteht aus einem Zylinder, der mit einem Pergamentstreifen umwickelt wird und auf den dann eine Nachricht geschrieben wird. Die alten Griechen (insbesondere die Spartaner) sollen dieses Verfahren zur Kommunikation während militärischer Einsätze benutzt haben.</description>
 
       <headline lang="en" >Scytale Output</headline>
       <headline lang="de" >Skytale-Ausgabe</headline>

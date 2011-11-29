@@ -7,7 +7,7 @@
   <name lang="en" >Classic Encryption</name>
   <name lang="de" >Klassische Verschlüsselung</name>
   <description lang="en" >Selecting this allows you to analyze a ciphertext that was encrypted by a classic algorithm. You can choose which classic algorithm you want to use for doing this.</description>
-  <description lang="de-DE" >Wählen Sie diesen Punkt, um einen chiffrierten Text, der mit einem klassischen Algorithmus verschlüsselt wurde, zu analysieren. Der dafür verwendete klassische Algorithmus kann von Ihnen ausgewählt werden.</description>
+  <description lang="de-DE" >Wählen Sie diesen Punkt, um einen chiffrierten Text, der mit einem klassischen Algorithmus verschlüsselt wurde, zu analysieren. Der dafür verwendete Algorithmus kann von Ihnen ausgewählt werden.</description>
 
   <!-- This is the step's headline. It should be short, but precise. -->
   <headline lang="en" >Algorithm Selection</headline>
@@ -238,7 +238,7 @@ In order to also automatically detect the correct decryption, a dictionary of a 
     <task lang="de">
       Hier können Sie einen Brute-force Ciphertext-only-Angriff auf die Skytale-Chiffre durchführen. Das grundlegende Prinzip ist, dass für jeden Stabdurchmesser (von Eins bis zu der unten angegebenen "maximalen Stabdicke") eine Probeentschlüsselung durchgeführt wird und alle Ergebnisse davon auf der nächsten Seite angezeigt werden.
 
-Um zusätzlich automatisch unter allen "entschlüsselten" Text den richtigen zu finden, wird ein Wörterbuch einer natürlichen Sprache verwendet. Dabei wird für jede Probeentschlüsselung überprüft, ob eine bestimmte Mindestanzahl von Worten aus dem angegebenen Wörterbuch gefunden werden kann. Dazu müssen Sie für eine erfolgreiche Erkennung des Textes unten die verwendete (angenommene) Sprache angeben. Die Erkennung kann noch weiter verbessert werden, wenn Sie die Mindestanzahl der Wörter angeben, welche in dem Wörterbuch gefunden werden müssen. Bedenken Sie, dass die Angabe eines zu großen Wertes zu keiner Erkennung führt, und die Angabe eines zu kleinen Wertes die Wahrscheinlichkeit für sogenannte "false positives" (d.h. Texte die als "korrekt" erkannt werden, aber es nicht wirklich sind) erhöht.
+Um zusätzlich automatisch unter allen "entschlüsselten" Text den richtigen zu finden, wird ein Wörterbuch einer natürlichen Sprache verwendet. Dabei wird für jede Probeentschlüsselung überprüft, ob eine bestimmte Mindestanzahl von Worten aus dem angegebenen Wörterbuch gefunden werden kann. Dazu müssen Sie für eine erfolgreiche Erkennung des Textes unten die verwendete (angenommene) Sprache angeben. Die Erkennung kann noch weiter verbessert werden, wenn Sie die Mindestanzahl der Wörter angeben, welche in dem Wörterbuch gefunden werden müssen. Bedenken Sie, dass die Angabe eines zu großen Wertes zu keiner Erkennung führt, und die Angabe eines zu kleinen Wertes die Wahrscheinlichkeit für sogenannte "false positives" (d.h. Texte, die als "korrekt" erkannt werden, aber es nicht wirklich sind) erhöht.
     </task>
 
     <inputBox plugin="Ciphertext" property="Text" visibleLines="12">
@@ -278,7 +278,7 @@ Um zusätzlich automatisch unter allen "entschlüsselten" Text den richtigen zu 
       <headline lang="de">Ergebnisse der Skytale-Analyse</headline>
       <task lang="en">On this page you can see the results of the Scytale cryptanalysis. In the upper textblock the probable plaintext is displayed and in the textblock below you can see all possible results from all trial decryptions with the different sticksizes used. In case that the correct decryption was not detected go back to the previous page and try to adjust the used language and the number of words needed in order to obtain a better result. If no correct decryption can be found within all decrypted texts, you should try to increase the maximum sticksize.
       </task>
-      <task lang="de">Auf dieser Seite sehen Sie das Ergebnis der Skytale-Kryptoanalyse. Im oberen Feld wird der erkannte Text angezeigt und im darunterliegenden Feld alle möglichen Ergebnisse der Probeentschlüsselung mit den verschiedenen Stabdicken. Sollte der korrekte Text nicht erkannt werden, dann gehen Sie zurück auf die vorherige Seite und versuchen durch Veränderung der Sprache bzw. der Anzahl der gesuchten Wörter ein besseres Ergebnis zu erhalten. Inofern auch in dem Feld aller möglichen Entschlüsselungen kein korrekter Text erkannt werden kann, sollten Sie versuchen die maximale Stabdicke hochzusetzen.
+      <task lang="de">Auf dieser Seite sehen Sie das Ergebnis der Skytale-Kryptoanalyse. Im oberen Feld wird der erkannte Text angezeigt und im darunterliegenden Feld alle möglichen Ergebnisse der Probeentschlüsselung mit den verschiedenen Stabdicken. Sollte der korrekte Text nicht erkannt werden, dann gehen Sie zurück auf die vorherige Seite und versuchen, durch Veränderung der Sprache bzw. der Anzahl der gesuchten Wörter ein besseres Ergebnis zu erhalten. Inofern auch in dem Feld aller möglichen Entschlüsselungen kein korrekter Text erkannt werden kann, sollten Sie versuchen die maximale Stabdicke hochzusetzen.
       </task>
 
       <outputBox plugin="Plaintext" property="CurrentValue" visibleLines="5">
