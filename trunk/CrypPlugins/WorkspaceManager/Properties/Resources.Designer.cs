@@ -448,6 +448,15 @@ namespace WorkspaceManager.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Executing... Editing while executing is disabled ähnelt.
+        /// </summary>
+        internal static string Executing_EditingDisabled {
+            get {
+                return ResourceManager.GetString("Executing_EditingDisabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Function colors: ähnelt.
         /// </summary>
         internal static string Functioncolors_Label {
