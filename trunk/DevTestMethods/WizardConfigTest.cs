@@ -17,13 +17,24 @@ namespace Tests
     [TestClass]
     public class WizardConfigTest
     {
+        private DirectoryInfo _templateDirectory;
         private const string configXMLPath = "Wizard.Config.wizard.config.start.xml";
-        private const string _templatesDir = @"..\..\Templates";
 
         [TestMethod]
         public void TemplateConsistencyTest()
         {
             XElement xml = GenerateXML(GetXml(configXMLPath));
+
+            var dir = Directory.GetParent(System.Environment.CurrentDirectory);
+            while (dir != null && dir.GetDirectories("Templates").Length == 0)
+            {
+                dir = dir.Parent;
+            }
+            if (dir == null)
+            {
+                Assert.Fail("Template directory not found!");
+            }
+            _templateDirectory = dir.GetDirectories("Templates")[0];
 
             foreach (var template in GetTemplatesFromXML(xml, new Dictionary<string, List<KeyValuePair<string, object>>>()))
             {
@@ -33,7 +44,7 @@ namespace Tests
 
         private void LoadAndCheckTemplate(string file, Dictionary<string, List<KeyValuePair<string, object>>> pluginProperties)
         {
-            var model = ModelPersistance.loadModel(Path.Combine(_templatesDir, file));
+            var model = ModelPersistance.loadModel(Path.Combine(_templateDirectory.FullName, file));
             model.OnGuiLogNotificationOccured += delegate(IPlugin sender, GuiLogEventArgs args)
             {
                 if (args.NotificationLevel == NotificationLevel.Error)
