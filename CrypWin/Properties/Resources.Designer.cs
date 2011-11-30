@@ -142,7 +142,7 @@ namespace Cryptool.CrypWin.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &amp;Open CrypTool 2.0.
+        ///   Looks up a localized string similar to &amp;Open CrypTool 2.
         /// </summary>
         internal static string _Open_CrypTool_2_0 {
             get {
@@ -214,7 +214,7 @@ namespace Cryptool.CrypWin.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Are you sure you want to send this message to the CrypTool 2.0 developers?.
+        ///   Looks up a localized string similar to Are you sure you want to send this message to the CrypTool 2 developers?.
         /// </summary>
         internal static string Are_you_sure_you_want_to_send_this_message_to_the_CrypToo_developers_ {
             get {
@@ -491,7 +491,7 @@ namespace Cryptool.CrypWin.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cryptool 2.0 has been minimized to tray due to running tasks..
+        ///   Looks up a localized string similar to Cryptool 2 has been minimized to tray due to running tasks..
         /// </summary>
         internal static string Cryptool_2_0_has_been_backgrounded_due_to_running_tasks_ {
             get {
@@ -1155,7 +1155,7 @@ namespace Cryptool.CrypWin.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Management functions for CrypTool 2.0.
+        ///   Looks up a localized string similar to Management functions for CrypTool 2.
         /// </summary>
         internal static string Management_functions_for_CrypTool_2_ {
             get {
@@ -1929,7 +1929,7 @@ namespace Cryptool.CrypWin.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to There are still running tasks, do you really want to exit CrypTool 2.0?.
+        ///   Looks up a localized string similar to There are still running tasks, do you really want to exit CrypTool 2?.
         /// </summary>
         internal static string There_are_still_running_tasks__do_you_really_want_to_exit_CrypTool_2_0_ {
             get {

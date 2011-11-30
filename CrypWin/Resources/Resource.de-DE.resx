@@ -124,7 +124,7 @@
     <value>Autor</value>
   </data>
   <data name="email_subject" xml:space="preserve">
-    <value>CrypTool 2.0 -&gt; Plugin:</value>
+    <value>CrypTool 2 -&gt; Plugin:</value>
   </data>
   <data name="PluginManager_TypeLoadException" xml:space="preserve">
     <value>Plugin kann nicht geladen werden: </value>

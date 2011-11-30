@@ -241,7 +241,7 @@ namespace Cryptool.CrypWin
 
             PriorityChangedListener.PriorityChanged += delegate(ProcessPriorityClass newPriority)
             {
-                GuiLogMessage(string.Format("Changed CrypTool 2.0 priority to '{0}'!", newPriority), NotificationLevel.Info);
+                GuiLogMessage(string.Format("Changed CrypTool 2 process priority to '{0}'!", newPriority), NotificationLevel.Info);
 
                 foreach (System.Windows.Forms.MenuItem item in priorityItems.MenuItems)
                 {

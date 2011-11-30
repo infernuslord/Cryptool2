@@ -181,7 +181,7 @@
     <value>Preferred language:</value>
   </data>
   <data name="Please_restart_CrypTool" xml:space="preserve">
-    <value>Please restart CrypTool 2.0 for the change to take effect!</value>
+    <value>Please restart CrypTool 2 for the change to take effect!</value>
   </data>
   <data name="Show_balloon_log_messages_in_balloon_tooltip" xml:space="preserve">
     <value>Check this to show the balloon log messages in the tray icon balloon!</value>
@@ -193,7 +193,7 @@
     <value>Reopen last opened files on startup</value>
   </data>
   <data name="Reopen_last_opened_file_tooltip" xml:space="preserve">
-    <value>Check this to reopen the last opened file on CrypTool 2.0 startup</value>
+    <value>Check this to reopen the last opened file on CrypTool 2 startup</value>
   </data>
   <data name="PluginSettings" xml:space="preserve">
     <value>Plugins</value>
@@ -235,7 +235,7 @@
     <value>Check this to show the warning log messages in the tray icon balloon!</value>
   </data>
   <data name="cultureBox_tooltip" xml:space="preserve">
-    <value>Set your preferred language for CrypTool 2.0 here!</value>
+    <value>Set your preferred language for CrypTool 2 here!</value>
   </data>
   <data name="Startup_Behaviour" xml:space="preserve">
     <value>Startup Behaviour:</value>
