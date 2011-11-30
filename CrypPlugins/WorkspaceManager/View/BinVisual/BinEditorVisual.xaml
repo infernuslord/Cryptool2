@@ -82,34 +82,15 @@
             </Style.Triggers>
         </Style>
 
-        <Style TargetType="{x:Type ToggleButton}" x:Key="ToggleButtonStyle">
-            <Setter Property="HorizontalAlignment" Value="Right"></Setter>
-            <Setter Property="Width" Value="35"></Setter>
-            <Setter Property="Height" Value="35"></Setter>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate x:Name="TemplateBtn" TargetType="ToggleButton">
-                        <Border x:Name="Border" BorderThickness="1">
-                            <ContentPresenter Height="{TemplateBinding Height}" Width="{TemplateBinding Width}" Content="{TemplateBinding Content}"></ContentPresenter>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="true">
-                                <Setter Property="Background" Value="#ff9600" TargetName="Border" />
-                                <Setter Property="BorderBrush" Value="#ff9600" TargetName="Border" />
-                            </Trigger>
-                            <Trigger Property="IsPressed" Value="true">
-                                <Setter Property="Background" Value="#ffb142" TargetName="Border" />
-                                <Setter Property="BorderBrush" Value="#ffb142" TargetName="Border" />
-                            </Trigger>
-                            <Trigger Property="IsChecked" Value="true">
-                                <Setter Property="Background" Value="#ffb142" TargetName="Border" />
-                                <Setter Property="BorderBrush" Value="#ffb142" TargetName="Border" />
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
+        <Style x:Key="SettingsPaneStyle"  TargetType="local:BinSideBarVisual">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=IsSettingsOpen}" Value="True">
+                    <Setter Property="Visibility" Value="Visible"></Setter>
+                </DataTrigger>
+            </Style.Triggers>
+            <Setter Property="Visibility" Value="Collapsed"></Setter>
         </Style>
+
     </UserControl.Resources>
     <Grid x:Name="Root">
         <!--##########Definitions##########-->
@@ -119,7 +100,7 @@
                 <ColumnDefinition.Style>
                     <Style TargetType="ColumnDefinition">
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding Path=IsChecked, ElementName=PluginSettingButton}" Value="True">
+                            <DataTrigger Binding="{Binding Path=IsSettingsOpen}" Value="True">
                                 <Setter Property="MinWidth" Value="150"></Setter>
                                 <Setter Property="MaxWidth" Value="400"></Setter>
                             </DataTrigger>
@@ -169,31 +150,13 @@
         <!--##########/Fullscreen##########-->
 
         <!--##########Fullscreen##########-->
-        <local:BinSideBarVisual x:Name="SideBar"  Grid.Column="1" Grid.Row="1">
-            <local:BinSideBarVisual.Style>
-                <Style TargetType="local:BinSideBarVisual">
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding Path=IsChecked, ElementName=PluginSettingButton}" Value="True">
-                            <Setter Property="Visibility" Value="Visible"></Setter>
-                        </DataTrigger>
-                    </Style.Triggers>
-                    <Setter Property="Visibility" Value="Collapsed"></Setter>
-                </Style>
-            </local:BinSideBarVisual.Style>
-        </local:BinSideBarVisual>
+        <local:BinSideBarVisual x:Name="SideBar" Style="{StaticResource ResourceKey=SettingsPaneStyle}"  Grid.Column="1" Grid.Row="1"></local:BinSideBarVisual>
         <GridSplitter Visibility="{Binding ElementName=SideBar, Path=Visibility}"  Grid.Column="0" Grid.Row="1" Background="Gray" Width="2"></GridSplitter>
         <!--##########/Fullscreen##########-->
 
         <!--##########Bottom Operations##########-->
-        <visuals:BottomBox AddText="AddTextHandler" AddImage="AddImageHandler" FitToScreen="FitToScreenHandler" Sort="SortHandler"
+        <visuals:BottomBox x:Name="BottomBoxPane" AddText="AddTextHandler" AddImage="AddImageHandler" FitToScreen="FitToScreenHandler" Sort="SortHandler"
                            Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"></visuals:BottomBox>
-
-        <ToggleButton x:Name="PluginSettingButton" Style="{StaticResource ResourceKey=ToggleButtonStyle}" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
-            <ToggleButton.LayoutTransform>
-                <ScaleTransform ScaleX="0.85" ScaleY="0.85"></ScaleTransform>
-            </ToggleButton.LayoutTransform>
-            <Image VerticalAlignment="Center" Source="/WorkspaceManager;component/View/Image/pluginSetting-small.png" Width="35" Height="35"></Image>
-        </ToggleButton>
 
         <visuals:TextEditPanel  Grid.Row="0"  Grid.Column="0" Margin="0,0,0,0"></visuals:TextEditPanel>
         <!--##########/Bottom Operations##########-->

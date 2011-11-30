@@ -3,7 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:p="clr-namespace:Cryptool.PluginBase.Properties;assembly=CrypPluginBase"
-             >
+    xmlns:local="clr-namespace:WorkspaceManager.View.BinVisual">
     <UserControl.Style>
         <Style TargetType="UserControl">
             <Style.Triggers>
@@ -36,6 +36,46 @@
             </Setter>
         </Style>
 
+        <Style TargetType="{x:Type Border}" x:Key="BottomMessage">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=IsExecuting}" Value="True">
+                    <Setter Property="Visibility" Value="Visible"></Setter>
+                </DataTrigger>
+            </Style.Triggers>
+            <Setter Property="Visibility" Value="Collapsed"></Setter>
+            <Setter Property="Height" Value="18"></Setter>
+            <Setter Property="Background" Value="Tomato"></Setter>
+        </Style>
+
+        <Style TargetType="{x:Type ToggleButton}" x:Key="ToggleButtonStyle">
+            <Setter Property="HorizontalAlignment" Value="Right"></Setter>
+            <Setter Property="Width" Value="35"></Setter>
+            <Setter Property="Height" Value="35"></Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate x:Name="TemplateBtn" TargetType="ToggleButton">
+                        <Border x:Name="Border" BorderThickness="1">
+                            <ContentPresenter Height="{TemplateBinding Height}" Width="{TemplateBinding Width}" Content="{TemplateBinding Content}"></ContentPresenter>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" Value="#ff9600" TargetName="Border" />
+                                <Setter Property="BorderBrush" Value="#ff9600" TargetName="Border" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Background" Value="#ffb142" TargetName="Border" />
+                                <Setter Property="BorderBrush" Value="#ffb142" TargetName="Border" />
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="true">
+                                <Setter Property="Background" Value="#ffb142" TargetName="Border" />
+                                <Setter Property="BorderBrush" Value="#ffb142" TargetName="Border" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
         <LinearGradientBrush x:Key="BottomBackgroundLinearBrush" StartPoint="0,0" EndPoint="0,1" Opacity="0.8">
             <GradientBrush.GradientStops>
                 <GradientStopCollection>
@@ -53,39 +93,51 @@
     <DockPanel Name="Root">
         <Border Name="Main" Height="40" DockPanel.Dock="Top" VerticalAlignment="Top" BorderBrush="#8f9eb5" BorderThickness="0,1,0,2"
                 HorizontalAlignment="Stretch" ClipToBounds="True" Background="{StaticResource ResourceKey=BottomBackgroundLinearBrush}">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <StackPanel.Style>
-                    <Style TargetType="Panel">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding Path=IsFullscreenOpen}" Value="true">
-                                <Setter Property="IsEnabled" Value="False"></Setter>
-                                <Setter Property="Opacity" Value="0.5"></Setter>
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding Path=IsFullscreenOpen}" Value="false">
-                                <Setter Property="IsEnabled" Value="true"></Setter>
-                                <Setter Property="Opacity" Value="1"></Setter>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </StackPanel.Style>
-                <!--<Button Style="{StaticResource ResourceKey=BottomBoxBtnStyle}" ToolTip="{Loc BBox_Sort_Tooltip}" Name="SORT" Click="Button_Click" Foreground="WhiteSmoke">
-                    <Image VerticalAlignment="Center" Source="/WorkspaceManager;component/View/Image/sorticon-small.png" Width="35" Height="35"></Image>
-                </Button>-->
-                <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="5,0,5,0"/>
-                <Button Style="{StaticResource ResourceKey=BottomBoxBtnStyle}" ToolTip="{Loc BBox_Fit_to_Screen_Tooltip}" Name="F2S" Click="Button_Click" Foreground="WhiteSmoke">
-                    <Image VerticalAlignment="Center" Source="/WorkspaceManager;component/View/Image/f2s-small.png" Width="35" Height="35"></Image>
-                </Button>
-                <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="5,0,5,0"/>
-                <Button Style="{StaticResource ResourceKey=BottomBoxBtnStyle}" ToolTip="{Loc BBox_Add_Image_to_Workspace_Tooltip}" Name="ADDIMG" Click="Button_Click" Foreground="WhiteSmoke">
-                    <Image VerticalAlignment="Center" Source="/WorkspaceManager;component/View/Image/addimg-small.png" Width="35" Height="35"></Image>
-                </Button>
-                <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="5,0,5,0"/>
-                <Button Style="{StaticResource ResourceKey=BottomBoxBtnStyle}" ToolTip="{Loc BBox_Add_Text_to_Workspace_Tooltip}" Name="ADDTXT" Click="Button_Click" Foreground="WhiteSmoke">
-                    <Image VerticalAlignment="Center" Source="/WorkspaceManager;component/View/Image/addtxt-small.png" Width="35" Height="35"></Image>
-                </Button>
-                <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="5,0,5,0"/>
+            <DockPanel>
+                <ToggleButton x:Name="PluginSettingButton" 
+                              IsChecked="{Binding Path=IsSettingsOpen, Mode=TwoWay}" 
+                              Style="{StaticResource ResourceKey=ToggleButtonStyle}" DockPanel.Dock="Right">
+                    <Image VerticalAlignment="Center" Source="/WorkspaceManager;component/View/Image/pluginSetting-small.png" Width="35" Height="35"></Image>
+                </ToggleButton>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" DockPanel.Dock="Right">
+                    <StackPanel.Style>
+                        <Style TargetType="Panel">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Path=IsFullscreenOpen}" Value="true">
+                                    <Setter Property="IsEnabled" Value="False"></Setter>
+                                    <Setter Property="Opacity" Value="0.5"></Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Path=IsFullscreenOpen}" Value="false">
+                                    <Setter Property="IsEnabled" Value="true"></Setter>
+                                    <Setter Property="Opacity" Value="1"></Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </StackPanel.Style>
+                    <!--<Button Style="{StaticResource ResourceKey=BottomBoxBtnStyle}" ToolTip="{Loc BBox_Sort_Tooltip}" Name="SORT" Click="Button_Click" Foreground="WhiteSmoke">
+                        <Image VerticalAlignment="Center" Source="/WorkspaceManager;component/View/Image/sorticon-small.png" Width="35" Height="35"></Image>
+                    </Button>-->
+                    <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="5,0,5,0"/>
+                    <Button Style="{StaticResource ResourceKey=BottomBoxBtnStyle}" ToolTip="{Loc BBox_Fit_to_Screen_Tooltip}" Name="F2S" Click="Button_Click" Foreground="WhiteSmoke">
+                        <Image VerticalAlignment="Center" Source="/WorkspaceManager;component/View/Image/f2s-small.png" Width="35" Height="35"></Image>
+                    </Button>
+                    <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="5,0,5,0"/>
+                    <Button Style="{StaticResource ResourceKey=BottomBoxBtnStyle}" ToolTip="{Loc BBox_Add_Image_to_Workspace_Tooltip}" Name="ADDIMG" Click="Button_Click" Foreground="WhiteSmoke">
+                        <Image VerticalAlignment="Center" Source="/WorkspaceManager;component/View/Image/addimg-small.png" Width="35" Height="35"></Image>
+                    </Button>
+                    <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="5,0,5,0"/>
+                    <Button Style="{StaticResource ResourceKey=BottomBoxBtnStyle}" ToolTip="{Loc BBox_Add_Text_to_Workspace_Tooltip}" Name="ADDTXT" Click="Button_Click" Foreground="WhiteSmoke">
+                        <Image VerticalAlignment="Center" Source="/WorkspaceManager;component/View/Image/addtxt-small.png" Width="35" Height="35"></Image>
+                    </Button>
+                    <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="5,0,5,0"/>
                 
-            </StackPanel>
+                </StackPanel>
+
+            </DockPanel>
+           
+        </Border>
+        <Border Style="{StaticResource ResourceKey=BottomMessage}">
+            <TextBlock Text="Executing... Editing while executing is disabled" FontWeight="DemiBold" Foreground="White" TextAlignment="Center"></TextBlock>
         </Border>
     </DockPanel>
 </UserControl>

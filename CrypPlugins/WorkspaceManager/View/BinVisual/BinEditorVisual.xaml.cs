@@ -96,6 +96,18 @@ namespace WorkspaceManager.View.BinVisual
 
         #region DependencyProperties
 
+        public static readonly DependencyProperty IsSettingsOpenProperty = DependencyProperty.Register("IsSettingsOpen",
+            typeof(bool), typeof(BinEditorVisual), new FrameworkPropertyMetadata(false));
+
+        public bool IsSettingsOpen
+        {
+            get { return (bool)base.GetValue(IsSettingsOpenProperty); }
+            set
+            {
+                base.SetValue(IsSettingsOpenProperty, value);
+            }
+        }
+
         public static readonly DependencyProperty IsLinkingProperty = DependencyProperty.Register("IsLinking",
             typeof(bool), typeof(BinEditorVisual), new FrameworkPropertyMetadata(false, null));
 
