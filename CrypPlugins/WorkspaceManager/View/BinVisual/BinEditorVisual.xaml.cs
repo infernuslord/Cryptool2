@@ -45,6 +45,7 @@ namespace WorkspaceManager.View.BinVisual
         #endregion
 
         #region Fields
+        private ModifiedCanvas panel;
         private Window window;
         private ArevaloRectanglePacker packer;
         private BinConnectorVisual from, to;
@@ -459,12 +460,6 @@ namespace WorkspaceManager.View.BinVisual
             , null);
         }
 
-        private int RandomNumber(int min, int max)
-        {
-            Random random = new Random();
-            return random.Next(min, max);
-        }
-
         private void addConnection(BinConnectorVisual source, BinConnectorVisual target, ConnectionModel model)
         {
             if (this.State != BinEditorState.READY || source == null || target == null)
@@ -483,9 +478,20 @@ namespace WorkspaceManager.View.BinVisual
             VisualCollection.Remove(draggedLink);
             SelectedConnector = null;
             IsLinking = false;
-            //selectionPath.Data = null;
-            //startDragPoint = null;
             Mouse.OverrideCursor = null;
+        }
+
+        private static Random random = new Random();
+        private double randomNumber(int min, int max)
+        {
+            return (double)random.Next(min, max);
+        }
+
+        internal void SetFullscreen(BinComponentVisual bin, BinComponentState state)
+        {
+            FullscreenVisual.ActiveComponent = bin;
+            bin.State = state;
+            IsFullscreenOpen = true;
         }
 
         private void dragReset()
@@ -499,10 +505,24 @@ namespace WorkspaceManager.View.BinVisual
             startedSelection = false;
         }
 
-        private static Random random = new Random();
-        private double randomNumber(int min, int max)
+        private void removeDragWindowHandle()
         {
-            return (double)random.Next(min, max);
+            if (window != null)
+            {
+                window.PreviewMouseMove -= new MouseEventHandler(WindowPreviewMouseMove);
+                window.PreviewMouseLeftButtonUp -= new MouseButtonEventHandler(WindowPreviewMouseLeftButtonUp);
+                window.MouseLeave -= new MouseEventHandler(WindowMouseLeave);
+            }
+        }
+
+        private void setDragWindowHandle()
+        {
+            if (window != null)
+            {
+                window.PreviewMouseMove += new MouseEventHandler(WindowPreviewMouseMove);
+                window.PreviewMouseLeftButtonUp += new MouseButtonEventHandler(WindowPreviewMouseLeftButtonUp);
+                window.MouseLeave += new MouseEventHandler(WindowMouseLeave);
+            }
         }
 
         #endregion
@@ -888,12 +908,6 @@ namespace WorkspaceManager.View.BinVisual
         private void MouseUpButtonUpHandler(object sender, MouseButtonEventArgs e)
         {
             reset();
-
-            //if (e.Source is BinComponentVisual)
-            //{
-            //    BinComponentVisual c = (BinComponentVisual)e.Source;
-            //    return;
-            //}
         }
 
         private void MouseWheelHandler(object sender, MouseWheelEventArgs e)
@@ -1049,26 +1063,6 @@ namespace WorkspaceManager.View.BinVisual
             }
         }
 
-        private void removeDragWindowHandle()
-        {
-            if (window != null)
-            {
-                window.PreviewMouseMove -= new MouseEventHandler(WindowPreviewMouseMove);
-                window.PreviewMouseLeftButtonUp -= new MouseButtonEventHandler(WindowPreviewMouseLeftButtonUp);
-                window.MouseLeave -= new MouseEventHandler(WindowMouseLeave);
-            }
-        }
-
-        private void setDragWindowHandle()
-        {
-            if (window != null)
-            {
-                window.PreviewMouseMove += new MouseEventHandler(WindowPreviewMouseMove);
-                window.PreviewMouseLeftButtonUp += new MouseButtonEventHandler(WindowPreviewMouseLeftButtonUp);
-                window.MouseLeave += new MouseEventHandler(WindowMouseLeave);
-            }
-        }
-
         void WindowMouseLeave(object sender, MouseEventArgs e)
         {
             removeDragWindowHandle();
@@ -1081,12 +1075,23 @@ namespace WorkspaceManager.View.BinVisual
             dragReset();
         }
 
+        private void LoadingErrorOccurred(object sender, LoadingErrorEventArgs e)
+        {
+            HasLoadingError = true;
+            LoadingErrorText = e.Message;
+        }
+
+        private void PanelLoaded(object sender, RoutedEventArgs e)
+        {
+            panel = (ModifiedCanvas)sender;
+        }
+
         void WindowPreviewMouseMove(object sender, MouseEventArgs e)
         {
             if (startDragPoint != null && e.LeftButton == MouseButtonState.Pressed)
             {
                 startedSelection = true;
-                Point currentPoint = e.GetPosition(ScrollViewer.Content as UIElement);
+                Point currentPoint = Util.MouseUtilities.CorrectGetPosition(panel);
                 Vector delta = Point.Subtract((Point)startDragPoint, currentPoint);
                 delta.Negate();
                 selectRectGeometry.Rect = new Rect((Point)startDragPoint, delta);
@@ -1140,12 +1145,6 @@ namespace WorkspaceManager.View.BinVisual
                 }
             }
             reset();
-        }
-
-        private void LoadingErrorOccurred(object sender, LoadingErrorEventArgs e)
-        {
-            HasLoadingError = true;
-            LoadingErrorText = e.Message;
         }
 
         #region DragDropHandler
@@ -1221,19 +1220,7 @@ namespace WorkspaceManager.View.BinVisual
         }
         #endregion
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         #endregion
-
-        internal void SetFullscreen(BinComponentVisual bin, BinComponentState state)
-        {
-            FullscreenVisual.ActiveComponent = bin;
-            bin.State = state;
-            IsFullscreenOpen = true;
-        }
     }
 
     #region HelperClass

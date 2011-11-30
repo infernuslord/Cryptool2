@@ -123,6 +123,9 @@ namespace WorkspaceManager.View.VisualComponents
                     {
                         if (element is CryptoLineView)
                             Canvas.SetZIndex(element, -1);
+                        if (element is BinTextVisual || element is BinImageVisual)
+                            Canvas.SetZIndex(element, -2);
+
                         left = element.DesiredSize.Width;
                         top = element.DesiredSize.Height;
                         maxWidth = maxWidth < left ? left : maxWidth;
