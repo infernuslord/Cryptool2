@@ -90,6 +90,9 @@
     <Compile Include="MD5\Presentation\Helpers\PresentationControlFactoryTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="pkcsTest.cs" />
+    <Compile Include="TemplateAndPluginTests\PluginTestScenario.cs" />
+    <Compile Include="TemplateAndPluginTests\TemplateAndPluginTests.cs" />
+    <Compile Include="TemplateAndPluginTests\TestScenario.cs" />
     <Compile Include="TigerTest.cs" />
     <Compile Include="TranspositionTest.cs" />
     <Compile Include="TwofishTest.cs" />
