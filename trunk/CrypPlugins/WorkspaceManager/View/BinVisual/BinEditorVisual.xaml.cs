@@ -322,8 +322,14 @@ namespace WorkspaceManager.View.BinVisual
 	        }
         }
 
+        /// <summary>
+        /// TODO: Optimise this algorithm.
+        /// </summary>
         public void FitToScreen()
         {
+            if (ComponentCollection.Count == 0)
+                return;
+
             if (ScrollViewer.ScrollableWidth > 0 || ScrollViewer.ScrollableHeight > 0)
             {
                 while (Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_EditScale
