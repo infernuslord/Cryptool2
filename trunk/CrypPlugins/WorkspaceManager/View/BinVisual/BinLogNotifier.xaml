@@ -8,6 +8,10 @@
              xmlns:model="clr-namespace:WorkspaceManager.Model;assembly=WorkspaceManagerModel"
              mc:Ignorable="d">
     <UserControl.Resources>
+        <local:IsNullConverter x:Key="IsNullConverter"></local:IsNullConverter>
+        <local:IsNotConverter x:Key="IsNotConverter"></local:IsNotConverter>
+        <local:IsGreaterConverter x:Key="IsGreaterConverter"></local:IsGreaterConverter>
+        
         <LinearGradientBrush x:Key="BackgroundRed" StartPoint="0,0" EndPoint="0,1">
             <GradientBrush.GradientStops>
                 <GradientStopCollection>
@@ -36,6 +40,19 @@
         </LinearGradientBrush>
 
         <Style x:Key="ProgressBarStyle" TargetType="{x:Type ProgressBar}">
+            <Style.Triggers>
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding Path=ErrorCount, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ResourceKey=IsGreaterConverter}}" Value="false"></Condition>
+                        <Condition Binding="{Binding Path=WarningCount, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ResourceKey=IsGreaterConverter}}" Value="true"></Condition>
+                    </MultiDataTrigger.Conditions>
+                    <Setter Property="Foreground" Value="Yellow"></Setter>
+                </MultiDataTrigger>
+                <DataTrigger Binding="{Binding Path=ErrorCount, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ResourceKey=IsGreaterConverter}}" Value="True">
+                    <Setter Property="Foreground" Value="Red"></Setter>
+                </DataTrigger>
+            </Style.Triggers>
+            <Setter Property="Foreground" Value="ForestGreen"></Setter>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type ProgressBar}">
@@ -57,9 +74,6 @@
             </Setter>
         </Style>
 
-        <local:IsNullConverter x:Key="IsNullConverter"></local:IsNullConverter>
-        <local:IsNotConverter x:Key="IsNotConverter"></local:IsNotConverter>
-        <local:IsGreaterConverter x:Key="IsGreaterConverter"></local:IsGreaterConverter>
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -343,8 +357,8 @@
         </Border>-->
         <Grid x:Name="ProgressRoot" Width="auto" Grid.Column="3">
             <ProgressBar x:Name="ProgressBar" Style="{StaticResource ResourceKey=ProgressBarStyle}" Value="{Binding Path=Parent.Progress}" 
-                                     Maximum="1" Foreground="ForestGreen" Opacity="0.6" Margin="1"></ProgressBar>
-            <TextBlock Name="Percentage" FontFamily="Tahoma" FontSize="10" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontWeight="ExtraBold" Foreground="#444" >
+                                     Maximum="1" Opacity="0.6" Margin="1"></ProgressBar>
+            <TextBlock Name="Percentage" FontFamily="Tahoma" FontSize="10" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="ExtraBold" Foreground="#444" >
                     <TextBlock.Text>
                         <Binding Path="Parent.Progress" StringFormat=" {0:p0}" FallbackValue="0"></Binding>
                     </TextBlock.Text>

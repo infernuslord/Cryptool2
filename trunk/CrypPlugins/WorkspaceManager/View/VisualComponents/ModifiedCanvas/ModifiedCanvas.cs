@@ -58,7 +58,7 @@ namespace WorkspaceManager.View.VisualComponents
 
         public static void RequestZIndexModification(ModifiedCanvas panel,IZOrdering obj, ZPaneRequest req)
         {
-            if (panel == null)
+            if (panel == null || panel.zPaneOrderCollection.Find(obj) == null)
                 return;
             var node = panel.zPaneOrderCollection.Find(obj);
             var next = node.Next;
@@ -118,13 +118,13 @@ namespace WorkspaceManager.View.VisualComponents
                         maxWidth = maxWidth < left ? left : maxWidth;
                         maxHeight = maxHeight < top ? top : maxHeight;
 
+                        if (element is BinTextVisual || element is BinImageVisual)
+                            Canvas.SetZIndex(element, -2);
                     }
                     else
                     {
                         if (element is CryptoLineView)
                             Canvas.SetZIndex(element, -1);
-                        if (element is BinTextVisual || element is BinImageVisual)
-                            Canvas.SetZIndex(element, -2);
 
                         left = element.DesiredSize.Width;
                         top = element.DesiredSize.Height;
