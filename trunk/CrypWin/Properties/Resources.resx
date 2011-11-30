@@ -146,7 +146,7 @@
     <value>Update available, would you like to download?</value>
   </data>
   <data name="_Open_CrypTool_2_0" xml:space="preserve">
-    <value>&amp;Open CrypTool 2.0</value>
+    <value>&amp;Open CrypTool 2</value>
   </data>
   <data name="_Normal_Priority" xml:space="preserve">
     <value>&amp;Normal Priority</value>
@@ -233,7 +233,7 @@
     <value>Show Balloons</value>
   </data>
   <data name="There_are_still_running_tasks__do_you_really_want_to_exit_CrypTool_2_0_" xml:space="preserve">
-    <value>There are still running tasks, do you really want to exit CrypTool 2.0?</value>
+    <value>There are still running tasks, do you really want to exit CrypTool 2?</value>
   </data>
   <data name="Warning" xml:space="preserve">
     <value>Warning</value>
@@ -245,7 +245,7 @@
     <value>Information</value>
   </data>
   <data name="Cryptool_2_0_has_been_backgrounded_due_to_running_tasks_" xml:space="preserve">
-    <value>Cryptool 2.0 has been minimized to tray due to running tasks.</value>
+    <value>Cryptool 2 has been minimized to tray due to running tasks.</value>
   </data>
   <data name="System_Infos" xml:space="preserve">
     <value>System Infos</value>
@@ -434,7 +434,7 @@
     <value>Extras</value>
   </data>
   <data name="Management_functions_for_CrypTool_2_" xml:space="preserve">
-    <value>Management functions for CrypTool 2.0</value>
+    <value>Management functions for CrypTool 2</value>
   </data>
   <data name="Manages_the_integrated_network_connection_" xml:space="preserve">
     <value>Manages the integrated network connection</value>
@@ -716,7 +716,7 @@
     <value>Are you sure?</value>
   </data>
   <data name="Are_you_sure_you_want_to_send_this_message_to_the_CrypToo_developers_" xml:space="preserve">
-    <value>Are you sure you want to send this message to the CrypTool 2.0 developers?</value>
+    <value>Are you sure you want to send this message to the CrypTool 2 developers?</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>Cancel</value>
@@ -823,10 +823,10 @@
   <data name="HelpHome" xml:space="preserve">
     <value>Home</value>
   </data>
-  <data name="SI_System_Time">
-    <value xml:space="preserve">System time</value>
+  <data name="SI_System_Time" xml:space="preserve">
+    <value>System time</value>
   </data>
-  <data name="SI_Product_Name">
-    <value xml:space="preserve">Product name</value>
+  <data name="SI_Product_Name" xml:space="preserve">
+    <value>Product name</value>
   </data>
 </root>

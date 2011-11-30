@@ -175,16 +175,16 @@
     <value>Suche</value>
   </data>
   <data name="Show_this_welcome_screen_at_CrypTool_2_0_startup_" xml:space="preserve">
-    <value>Diese Begrüßungsseite beim Start von CrypTool 2.0 anzeigen.</value>
+    <value>Diese Begrüßungsseite beim Start von CrypTool 2 anzeigen.</value>
   </data>
   <data name="Use_the_wizard_to_easily_try_some_CrypTool_2_0_features_" xml:space="preserve">
-    <value>Verwenden Sie den Wizard, um die Fähigkeiten von CrypTool 2.0 einfach zu erkunden.</value>
+    <value>Erkunden Sie CrypTool 2 mit dem Wizard.</value>
   </data>
   <data name="Visit_the_official_CrypTool_2_0_website_" xml:space="preserve">
-    <value>Besuchen Sie die offizielle CrypTool 2.0-Webpräsenz.</value>
+    <value>Besuchen Sie die offizielle Website von CrypTool 2.</value>
   </data>
   <data name="Welcome_to_CrypTool_2_0" xml:space="preserve">
-    <value>Willkommen bei CrypTool 2. Erkunden Sie CrypTool 2 durch Klick auf die Wizard-Schaltfläche in der Sektion “Hauptfunktionen” (für eine geführte Tour) oder laden Sie eine der bereitgestellten Vorlagen, welche die Funktionalität von CrypTool 2 in einem wohldefinierten kryptographischen Szenario demonstrieren.</value>
+    <value>Willkommen bei CrypTool 2. Erkunden Sie CrypTool 2 durch Klick auf die Wizard-Schaltfläche in der Sektion “Hauptfunktionen” (für eine geführte Tour) oder laden Sie eine der bereitgestellten Vorlagen, welche die Funktionalität in kryptographischen Szenarien demonstrieren.</value>
   </data>
   <data name="_Search" xml:space="preserve">
     <value>      Suche</value>

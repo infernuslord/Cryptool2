@@ -301,7 +301,7 @@ namespace Cryptool.CrypWin
 
             try
             {
-                personalDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "CrypTool 2.0 Projects");
+                personalDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "CrypTool 2 Projects");
                 if (!Directory.Exists(personalDir))
                 {
                     Directory.CreateDirectory(personalDir);
@@ -429,7 +429,7 @@ namespace Cryptool.CrypWin
 
             if (IsCommandParameterGiven("-ResetConfig"))
             {
-                GuiLogMessage("\"ResetConfig\" startup parameter set. Resetting configuration of CrypTool 2.0 to default configuration", NotificationLevel.Info);
+                GuiLogMessage("\"ResetConfig\" startup parameter set. Resetting configuration of CrypTool 2 to default configuration", NotificationLevel.Info);
                 try
                 {
                     //Reset all plugins settings

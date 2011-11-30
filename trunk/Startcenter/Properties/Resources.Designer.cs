@@ -196,7 +196,7 @@ namespace Startcenter.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Show this welcome screen at CrypTool 2.0 startup..
+        ///   Looks up a localized string similar to Show this welcome screen at startup..
         /// </summary>
         internal static string Show_this_welcome_screen_at_CrypTool_2_0_startup_ {
             get {
@@ -259,7 +259,7 @@ namespace Startcenter.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Use the wizard to easily try some CrypTool 2.0 features..
+        ///   Looks up a localized string similar to Use the wizard to easily try some CrypTool 2 features..
         /// </summary>
         internal static string Use_the_wizard_to_easily_try_some_CrypTool_2_0_features_ {
             get {
@@ -268,7 +268,7 @@ namespace Startcenter.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Visit the official CrypTool 2.0 website..
+        ///   Looks up a localized string similar to Visit the official CrypTool 2 website..
         /// </summary>
         internal static string Visit_the_official_CrypTool_2_0_website_ {
             get {

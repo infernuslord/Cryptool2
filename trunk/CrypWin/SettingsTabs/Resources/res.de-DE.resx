@@ -181,7 +181,7 @@
     <value>Bevorzugte Sprache:</value>
   </data>
   <data name="Please_restart_CrypTool" xml:space="preserve">
-    <value>Bitte starten Sie CrypTool 2.0 neu, damit die Änderungen sichtbar werden!</value>
+    <value>Bitte starten Sie CrypTool 2 neu, damit die Änderungen sichtbar werden!</value>
   </data>
   <data name="Show_balloon_log_messages_in_balloon_tooltip" xml:space="preserve">
     <value>Markieren Sie dies, um Sprechblasennachrichten in der Trayicon-Sprechblase anzuzeigen!</value>
@@ -193,7 +193,7 @@
     <value>Öffne die letzten offenen Dateien beim Start</value>
   </data>
   <data name="Reopen_last_opened_file_tooltip" xml:space="preserve">
-    <value>Markieren Sie dies, um die letzte offene Datei beim CrypTool 2.0 Start wieder zu öffnen.</value>
+    <value>Markieren Sie dies, um die letzte offene Datei beim CrypTool 2 Start wieder zu öffnen.</value>
   </data>
   <data name="PluginSettings" xml:space="preserve">
     <value>Plug-Ins</value>
@@ -235,7 +235,7 @@
     <value>Markieren Sie dies, um Warnungsnachrichten in der Trayicon-Sprechblase anzuzeigen!</value>
   </data>
   <data name="cultureBox_tooltip" xml:space="preserve">
-    <value>Wählen Sie Ihre bevorzugte Sprache für CrypTool 2.0 hier aus!</value>
+    <value>Wählen Sie Ihre bevorzugte Sprache für CrypTool 2 hier aus!</value>
   </data>
   <data name="Startup_Behaviour" xml:space="preserve">
     <value>Startverhalten:</value>

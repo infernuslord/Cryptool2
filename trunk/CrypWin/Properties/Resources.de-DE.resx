@@ -146,7 +146,7 @@
     <value>Update verfügbar, möchten Sie dieses runterladen?</value>
   </data>
   <data name="_Open_CrypTool_2_0" xml:space="preserve">
-    <value>&amp;Öffne CrypTool 2.0</value>
+    <value>&amp;Öffne CrypTool 2</value>
   </data>
   <data name="_Normal_Priority" xml:space="preserve">
     <value>&amp;Normale Priorität</value>
@@ -233,7 +233,7 @@
     <value>Zeige Sprechblasennachrichten</value>
   </data>
   <data name="There_are_still_running_tasks__do_you_really_want_to_exit_CrypTool_2_0_" xml:space="preserve">
-    <value>Es laufen noch Aufgaben, möchten Sie CrypTool 2.0 wirklich beenden?</value>
+    <value>CrypTool 2 arbeitet noch, möchten Sie wirklich beenden?</value>
   </data>
   <data name="Warning" xml:space="preserve">
     <value>Warnung</value>
@@ -245,7 +245,7 @@
     <value>Hinweis</value>
   </data>
   <data name="Cryptool_2_0_has_been_backgrounded_due_to_running_tasks_" xml:space="preserve">
-    <value>Cryptool 2.0 wurde wegen laufender Aufgaben im Hintergrund versteckt.</value>
+    <value>Cryptool 2 wurde wegen laufender Aufgaben im Hintergrund versteckt.</value>
   </data>
   <data name="System_Infos" xml:space="preserve">
     <value>Systeminformationen</value>
@@ -434,7 +434,7 @@
     <value>Extras</value>
   </data>
   <data name="Management_functions_for_CrypTool_2_" xml:space="preserve">
-    <value>Verwaltungsfunktionen für CrypTool 2.0</value>
+    <value>Verwaltungsfunktionen für CrypTool 2</value>
   </data>
   <data name="Manages_the_integrated_network_connection_" xml:space="preserve">
     <value>Verwaltet die integrierte Netzwerkverbindung</value>
@@ -551,7 +551,7 @@
     <value>Bitte melden Sie alle gefundenen Fehler auf unserer Webseite.</value>
   </data>
   <data name="Feel_free_to_contribute_to_this_project_" xml:space="preserve">
-    <value>Helfen Sie uns CrypTool 2.0 zu verbessern.</value>
+    <value>Helfen Sie uns CrypTool 2 zu verbessern.</value>
   </data>
   <data name="For_more_information_" xml:space="preserve">
     <value>Weitere Informationen auf unserer Webseite:</value>
@@ -680,7 +680,7 @@
     <value>Sind Sie sicher?</value>
   </data>
   <data name="Are_you_sure_you_want_to_send_this_message_to_the_CrypToo_developers_" xml:space="preserve">
-    <value>Sind Sie sicher, dass Sie diese Nachricht an die CrypTool 2.0-Entwickler schicken wollen?</value>
+    <value>Sind Sie sicher, dass Sie diese Nachricht an die CrypTool 2-Entwickler schicken wollen?</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>abbrechen</value>
