@@ -26,7 +26,7 @@ namespace Cryptool.PluginBase.Tool
             StringBuilder sb = new StringBuilder(length*2);
             for(int i = offset; i < (offset+length-1); i++)
             {
-                sb.AppendFormat("{0:X2}-", buf[i]);
+                sb.AppendFormat("{0:X2} ", buf[i]);
             }
 
             sb.AppendFormat("{0:X2}", buf[offset + length - 1]);
