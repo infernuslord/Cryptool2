@@ -823,4 +823,10 @@
   <data name="HelpHome" xml:space="preserve">
     <value>Home</value>
   </data>
+  <data name="SI_System_Time">
+    <value xml:space="preserve">System time</value>
+  </data>
+  <data name="SI_Product_Name">
+    <value xml:space="preserve">Product name</value>
+  </data>
 </root>

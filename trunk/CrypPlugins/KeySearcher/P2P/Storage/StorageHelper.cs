@@ -409,8 +409,8 @@ namespace KeySearcher.P2P.Storage
                 //No valid SubmitterID available
             }
 
-            StoreWithReplicationAndHashAndStatistic(ofJobIdentifier, key, BitConverter.GetBytes(Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetID()), 3);
-            return Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetID();
+            StoreWithReplicationAndHashAndStatistic(ofJobIdentifier, key, BitConverter.GetBytes(UniqueIdentifier.GetID()), 3);
+            return UniqueIdentifier.GetID();
         }
 
         public IRequestResult RetrieveWithStatistic(string key)

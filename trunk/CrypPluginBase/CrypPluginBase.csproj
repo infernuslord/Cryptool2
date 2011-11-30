@@ -123,7 +123,6 @@
     <Compile Include="Miscellaneous\LocExtension.cs" />
     <Compile Include="Miscellaneous\SuperTooltip.cs" />
     <Compile Include="Miscellaneous\Tokenizer.cs" />
-    <Compile Include="Miscellaneous\UniqueIdentifier.cs" />
     <Compile Include="Miscellaneous\ZoomChanged.cs" />
     <Compile Include="OnlineHelp.cs" />
     <Compile Include="PluginExtension.cs" />

@@ -98,9 +98,9 @@ namespace Cryptool.Plugins.QuadraticSieve
 
         private void SetOurID()
         {
-            ourID = Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetID();
+            ourID = UniqueIdentifier.GetID();
             quadraticSieveQuickWatchPresentation.ProgressRelationPackages.setOurID(ourID);
-            ourName = Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetHostName();
+            ourName = UniqueIdentifier.GetHostName();
         }
 
         /// <summary>

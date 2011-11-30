@@ -302,7 +302,7 @@ namespace KeySearcher
                 IsKeySearcherRunning = false;
 
                 username = P2PSettings.Default.PeerName;
-                maschineid = Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetID();
+                maschineid = UniqueIdentifier.GetID();
 
                 if (OpenCL.NumberOfPlatforms > 0)
                 {
@@ -1205,7 +1205,7 @@ namespace KeySearcher
             Int64 id = -1;
             try
             {
-                id = Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetID(clientName);
+                id = UniqueIdentifier.GetID(clientName);
                 
             }
             catch (Exception ex)

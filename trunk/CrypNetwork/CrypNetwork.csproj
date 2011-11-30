@@ -56,6 +56,7 @@
   <ItemGroup>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System" />
     <Reference Include="System.Security" />
@@ -82,6 +83,7 @@
     <Compile Include="Types\RequestResultType.cs" />
     <Compile Include="Types\RequestType.cs" />
     <Compile Include="Types\StringHelper.cs" />
+    <Compile Include="UniqueIdentifier.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

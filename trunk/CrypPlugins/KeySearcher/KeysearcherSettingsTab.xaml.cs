@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Cryptool.P2P;
 using Cryptool.PluginBase.Attributes;
 using KeySearcher.Helper;
 using Cryptool.PluginBase;
@@ -24,7 +25,7 @@ namespace KeySearcher
     [SettingsTab("KeysearcherSettings", "/PluginSettings/")]
     public partial class KeysearcherSettingsTab : UserControl
     {
-        private string _realMachName = Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetHostName();
+        private string _realMachName = UniqueIdentifier.GetHostName();
 
         public static readonly DependencyProperty MachNameToUseProperty =
             DependencyProperty.Register("MachNameToUse",
