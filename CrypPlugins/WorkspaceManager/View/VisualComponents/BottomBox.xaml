@@ -137,7 +137,7 @@
            
         </Border>
         <Border Style="{StaticResource ResourceKey=BottomMessage}">
-            <TextBlock Text="Executing... Editing while executing is disabled" FontWeight="DemiBold" Foreground="White" TextAlignment="Center"></TextBlock>
+            <TextBlock Text="{Loc Executing_EditingDisabled}" FontWeight="DemiBold" Foreground="White" TextAlignment="Center"></TextBlock>
         </Border>
     </DockPanel>
 </UserControl>

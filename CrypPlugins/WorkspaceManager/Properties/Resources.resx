@@ -387,4 +387,7 @@
   <data name="CloseComponentTooltip" xml:space="preserve">
     <value>Close Component</value>
   </data>
+  <data name="Executing_EditingDisabled" xml:space="preserve">
+    <value>Executing... Editing while executing is disabled</value>
+  </data>
 </root>
