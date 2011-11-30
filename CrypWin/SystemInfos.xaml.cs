@@ -15,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Cryptool.P2P;
 using Cryptool.PluginBase.Attributes;
 using Cryptool.PluginBase.Miscellaneous;
 
@@ -52,21 +53,23 @@ namespace Cryptool.CrypWin
                 uniqueID = string.Format(Properties.Resources.Can_t_get_unique_ID___0_, ex.Message);
             }
 
-            informations.Add(new Info() { Description = Properties.Resources.SI_User_Name, Value = System.Environment.UserName });
+            //informations.Add(new Info() { Description = Properties.Resources.SI_User_Name, Value = System.Environment.UserName });    //personal information
             informations.Add(new Info() { Description = Properties.Resources.SI_Operating_System, Value = System.Environment.OSVersion.ToString() });
             //informations.Add(new Info() { Description = "Plattform", Value = Environment.OSVersion.Platform.ToString() }); // always Win32NT
-            informations.Add(new Info() { Description = Properties.Resources.SI_Machine_Name, Value = System.Environment.MachineName });
+            //informations.Add(new Info() { Description = Properties.Resources.SI_Machine_Name, Value = System.Environment.MachineName });      //personal information
             informations.Add(new Info() { Description = Properties.Resources.SI_Processors, Value = System.Environment.ProcessorCount.ToString() });
             //informations.Add(new Info() { Description = "Process Info", Value = (System.Environment.Is64BitProcess ? "64 Bit" : "32 Bit") }); // always 32 Bit
             informations.Add(new Info() { Description = Properties.Resources.SI_Administrative_Rights, Value = hasAdministrativeRight.ToString() });
-            informations.Add(new Info() { Description = Properties.Resources.SI_Unique_Identifier, Value = uniqueID });
-            informations.Add(new Info() { Description = Properties.Resources.SI_Host_Name, Value = UniqueIdentifier.GetHostName() });
+            //informations.Add(new Info() { Description = Properties.Resources.SI_Unique_Identifier, Value = uniqueID });       //personal information
+            //informations.Add(new Info() { Description = Properties.Resources.SI_Host_Name, Value = UniqueIdentifier.GetHostName() });     //personal information
             informations.Add(new Info() { Description = Properties.Resources.SI_Current_Culture, Value = CultureInfo.CurrentUICulture.Name });
             informations.Add(new Info() { Description = Properties.Resources.SI_CrypTool_Version, Value = AssemblyHelper.Version.ToString() });
             informations.Add(new Info() { Description = Properties.Resources.SI_Installation_Type, Value = AssemblyHelper.InstallationType.ToString() });
             informations.Add(new Info() { Description = Properties.Resources.SI_Build_Type, Value = AssemblyHelper.BuildType.ToString() });
             informations.Add(new Info() { Description = Properties.Resources.SI_Build_Time, Value = File.GetLastWriteTime(Assembly.GetExecutingAssembly().Location).ToString() });
+            informations.Add(new Info() { Description = Properties.Resources.SI_Product_Name, Value = AssemblyHelper.ProductName });
             informations.Add(new Info() { Description = Properties.Resources.SI_Common_Language_Runtime_Version, Value = Environment.Version.ToString() });
+            informations.Add(new Info() { Description = Properties.Resources.SI_System_Time, Value = DateTime.Now.ToShortTimeString() });
 
             InfoGrid.DataContext = informations;
 

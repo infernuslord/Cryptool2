@@ -78,7 +78,8 @@ namespace Cryptool.Core
             sb.AppendLine(string.Format("Build type: {0}", _buildType));
             sb.AppendLine(string.Format("Build time: {0}", File.GetLastWriteTime(Assembly.GetEntryAssembly().Location)));
             sb.AppendLine(string.Format("Product name: {0}", _productName));
-            sb.AppendLine(string.Format("Common language runtime version: {0}", Environment.Version));
+            sb.AppendLine(string.Format("Common language runtime version: {0}", Environment.Version.ToString()));
+            sb.AppendLine(string.Format("System time: {0}", DateTime.Now.ToShortTimeString()));
 
             return sb.ToString();
         }

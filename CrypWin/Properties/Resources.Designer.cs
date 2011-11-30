@@ -1740,6 +1740,24 @@ namespace Cryptool.CrypWin.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Product name.
+        /// </summary>
+        internal static string SI_Product_Name {
+            get {
+                return ResourceManager.GetString("SI_Product_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to System time.
+        /// </summary>
+        internal static string SI_System_Time {
+            get {
+                return ResourceManager.GetString("SI_System_Time", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unique Identifier.
         /// </summary>
         internal static string SI_Unique_Identifier {

@@ -68,7 +68,7 @@ namespace KeySearcher.P2P.Tree
         public bool ReserveLeaf()
         {
             LastReservationDate = DateTime.UtcNow;
-            clientIdentifier = Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetID();
+            clientIdentifier = UniqueIdentifier.GetID();
             var reqRes = StorageHelper.UpdateInDht(this);
             return (reqRes != null) && (reqRes.IsSuccessful());
         }
@@ -77,7 +77,7 @@ namespace KeySearcher.P2P.Tree
         {
             StorageHelper.UpdateFromDht((this));          
             //Only give leaf free, if the reservation is still ours:
-            if (clientIdentifier == Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetID())
+            if (clientIdentifier == UniqueIdentifier.GetID())
             {
                 LastReservationDate = new DateTime(0);
                 clientIdentifier = -1;

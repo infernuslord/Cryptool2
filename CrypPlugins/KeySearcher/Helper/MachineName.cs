@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows;
+using Cryptool.P2P;
 using KeySearcher.Properties;
 
 namespace KeySearcher.Helper
@@ -12,8 +13,8 @@ namespace KeySearcher.Helper
         public delegate void OnMachineNameToUseChangedHandler(string newMachineNameToUse);
         public static event OnMachineNameToUseChangedHandler OnMachineNameToUseChanged;
         
-        private static string realMachineName = Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetHostName();
-        private static long id = Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetID();
+        private static string realMachineName = UniqueIdentifier.GetHostName();
+        private static long id = UniqueIdentifier.GetID();
 
         public static string MachineNameToUse
         {

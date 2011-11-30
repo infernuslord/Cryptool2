@@ -223,7 +223,7 @@ namespace KeySearcher.P2P
                             status.CurrentOperation = Resources.Processing_results_of_calculation;
 
                             String hostname = MachineName.MachineNameToUse;
-                            Int64 hostid = Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetID();
+                            Int64 hostid = UniqueIdentifier.GetID();
                             if (settings.UseExternalClient)
                             {
                                 hostname = keySearcher.ExternalClientHostname;
@@ -372,7 +372,7 @@ namespace KeySearcher.P2P
         {
             
             String myAvatar = P2PSettings.Default.PeerName;
-            long myID = Cryptool.PluginBase.Miscellaneous.UniqueIdentifier.GetID();
+            long myID = UniqueIdentifier.GetID();
             Dictionary<string, Dictionary<long, Information>> myStats = keySearcher.GetStatistics();
 
             if(myStats.ContainsKey(myAvatar))
