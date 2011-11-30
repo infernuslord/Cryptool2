@@ -1775,7 +1775,7 @@ namespace Cryptool.CrypWin
 
         private void OnZoomChanged(object sender, ZoomChanged e)
         {
-            CurrentScale = Math.Round(e.Value * (double)100).ToString() + "%";
+            CurrentScale = String.Format("{0:P0}", e.Value);
         }
 
         private void RecentFileListChanged(List<string> recentFiles)

@@ -444,6 +444,35 @@
 
                             </dc:RibbonBar>
 
+                            <dc:RibbonBar Header="{Loc Dock}" ToolTip="{Loc Main_controls_of_CrypTool_Workspace_}" Padding="7" ResizeOrderIndex="6" dc:Ribbon.KeyTip="DOCK">
+                                <dc:ButtonDropDown Name="PluginBTN" Click="PluginBTN_Checked" IsCheckable="True" dc:Ribbon.KeyTip="D" VerticalContentAlignment="Center" Height="65" Style="{DynamicResource AppMenuCommandButton}" ImagePosition="left" Header="{Loc Functions}">
+                                    <dc:ButtonDropDown.Image>
+                                        <Image Source="images/comp.png" Height="32" Width="32"/>
+                                    </dc:ButtonDropDown.Image>
+                                    <dc:ButtonDropDown.ImageSmall>
+                                        <Image Source="images/comp.png" Height="16" Width="16"/>
+                                    </dc:ButtonDropDown.ImageSmall>
+                                </dc:ButtonDropDown>
+
+                                <dc:ButtonDropDown Name="LogBTN" Click="LogBTN_Checked" IsCheckable="True" dc:Ribbon.KeyTip="D" VerticalContentAlignment="Center" Height="65" Style="{DynamicResource AppMenuCommandButton}" ImagePosition="left" Header="{Loc Log}">
+                                    <dc:ButtonDropDown.Image>
+                                        <Image Source="images/log.png" Height="32" Width="32"/>
+                                    </dc:ButtonDropDown.Image>
+                                    <dc:ButtonDropDown.ImageSmall>
+                                        <Image Source="images/log.png" Height="16" Width="16"/>
+                                    </dc:ButtonDropDown.ImageSmall>
+                                </dc:ButtonDropDown>
+
+                                <dc:ButtonDropDown Name="SettingBTN" Click="SettingBTN_Checked" IsCheckable="True" VerticalContentAlignment="Center" Height="65" Style="{DynamicResource AppMenuCommandButton}" ImagePosition="left" Header="{Loc Settings}">
+                                    <dc:ButtonDropDown.Image>
+                                        <Image Source="images/setting.png" Height="32" Width="32"/>
+                                    </dc:ButtonDropDown.Image>
+                                    <dc:ButtonDropDown.ImageSmall>
+                                        <Image Source="images/setting.png" Height="16" Width="16"/>
+                                    </dc:ButtonDropDown.ImageSmall>
+                                </dc:ButtonDropDown>
+                            </dc:RibbonBar>
+
                             <dc:RibbonBar Header="{Loc Plugin_editor_}" ToolTip="{Loc Dynamic_controls_of_the_current_plugin_editor_}" Name="ribbonBarEditor" VerticalAlignment="Center" Visibility="Collapsed">
                                 <!-- 
             Every Editor can add optional ribbon commands using the RibbonBarAttribute in the Settings-Class. 
@@ -637,7 +666,7 @@
                 </dc:RibbonTab>
 
                 <!--RibbonTab View-->
-                <dc:RibbonTab Header="{Loc View}" Name="ribbonTabView" dc:Ribbon.KeyTip="V">
+                <!--<dc:RibbonTab Header="{Loc View}" Name="ribbonTabView" dc:Ribbon.KeyTip="V">
 
 
 
@@ -681,52 +710,11 @@
                                 </dc:ButtonDropDown.ImageSmall>
                             </dc:ButtonDropDown>
                         </dc:RibbonBar>
-                        <dc:RibbonBar Header="{Loc Dock}" ToolTip="{Loc Main_controls_of_CrypTool_Workspace_}" Padding="7" ResizeOrderIndex="6" dc:Ribbon.KeyTip="DOCK">
-                            <!--<dc:ButtonDropDown dc:Ribbon.KeyTip="D" VerticalContentAlignment="Center" Height="65" Style="{DynamicResource AppMenuCommandButton}" ImagePosition="left" Header="Dock Windows">
-                                <dc:ButtonDropDown.Image>
-                                    <Image Source="images/SchemeBlue.png" Height="32" Width="32"/>
-                                </dc:ButtonDropDown.Image>
-                                <dc:ButtonDropDown.ImageSmall>
-                                    <Image Source="images/SchemeBlue.png" Height="16" Width="16"/>
-                                </dc:ButtonDropDown.ImageSmall>
-                                <dc:ButtonDropDown IsCheckable="True" Name="SettingBTN" Header="Setting" >
-                                </dc:ButtonDropDown>
-                                <dc:ButtonDropDown IsCheckable="True" Name="LogBTN" Header="Log" >
-                                </dc:ButtonDropDown>
-                                <dc:ButtonDropDown IsCheckable="True" Name="PluginBTN" Header="Plugin" >
-                                </dc:ButtonDropDown>
-                            </dc:ButtonDropDown>-->
-                            <dc:ButtonDropDown Name="PluginBTN" Click="PluginBTN_Checked" IsCheckable="True" dc:Ribbon.KeyTip="D" VerticalContentAlignment="Center" Height="65" Style="{DynamicResource AppMenuCommandButton}" ImagePosition="left" Header="{Loc Functions}">
-                                <dc:ButtonDropDown.Image>
-                                    <Image Source="images/comp.png" Height="32" Width="32"/>
-                                </dc:ButtonDropDown.Image>
-                                <dc:ButtonDropDown.ImageSmall>
-                                    <Image Source="images/comp.png" Height="16" Width="16"/>
-                                </dc:ButtonDropDown.ImageSmall>
-                            </dc:ButtonDropDown>
-                            
-                            <dc:ButtonDropDown Name="LogBTN" Click="LogBTN_Checked" IsCheckable="True" dc:Ribbon.KeyTip="D" VerticalContentAlignment="Center" Height="65" Style="{DynamicResource AppMenuCommandButton}" ImagePosition="left" Header="{Loc Log}">
-                                <dc:ButtonDropDown.Image>
-                                    <Image Source="images/log.png" Height="32" Width="32"/>
-                                </dc:ButtonDropDown.Image>
-                                <dc:ButtonDropDown.ImageSmall>
-                                    <Image Source="images/log.png" Height="16" Width="16"/>
-                                </dc:ButtonDropDown.ImageSmall>
-                            </dc:ButtonDropDown>
 
-                            <dc:ButtonDropDown Name="SettingBTN" Click="SettingBTN_Checked" IsCheckable="True" VerticalContentAlignment="Center" Height="65" Style="{DynamicResource AppMenuCommandButton}" ImagePosition="left" Header="{Loc Settings}">
-                                <dc:ButtonDropDown.Image>
-                                    <Image Source="images/setting.png" Height="32" Width="32"/>
-                                </dc:ButtonDropDown.Image>
-                                <dc:ButtonDropDown.ImageSmall>
-                                    <Image Source="images/setting.png" Height="16" Width="16"/>
-                                </dc:ButtonDropDown.ImageSmall>
-                            </dc:ButtonDropDown>
-                        </dc:RibbonBar>
                     </dc:RibbonBarPanel>
             
 
-            </dc:RibbonTab>
+            </dc:RibbonTab>-->
         
 
       <dc:ButtonDropDown Click="ButtonAbout_Click" ImagePosition="Left" Header="{Loc About}" HorizontalAlignment="Left" Name="buttonAbout" dc:RibbonTabPanel.PanelAlignment="Right">

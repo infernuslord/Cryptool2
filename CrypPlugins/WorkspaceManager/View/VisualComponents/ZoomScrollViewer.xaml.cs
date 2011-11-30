@@ -42,5 +42,12 @@ namespace WorkspaceManager.View.VisualComponents
             Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_EditScale = scale > min ? scale - 0.15 : scale;
         }
 
+        private void TextBlockMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            double scale = 1.0;
+
+            Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_EditScale = scale;
+        }
+
     }
 }
