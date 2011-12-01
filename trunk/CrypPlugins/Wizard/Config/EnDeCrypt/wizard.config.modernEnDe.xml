@@ -4,9 +4,9 @@
 <!-- This is the XML file defining the modern encryption/decryption categories a user can select from. -->
 <category image="Modern">
   <name lang="en" >Modern Encryption/Decryption</name>
-  <name lang="de" >Moderne Verschlüsselung/Entschlüsselung</name>
-  <description lang="en" >Selecting this allows you to encrypt a plaintext or decrypt a ciphertext with a modern algorithm. You can choose which modern algorithm you want to use for doing this.</description>
-  <description lang="de-DE" >Wählen Sie diesen Punkt, um mit Hilfe eines modernen Algorithmus einen Klartext zu verschlüsseln oder einen chiffrierten Text zu entschlüsseln. Der dafür verwendete Algorithmus kann von Ihnen ausgewählt werden.</description>
+  <name lang="de" >Moderne Verschlüsselungsverfahren</name>
+  <description lang="en" >Selecting this allows you to encrypt a plaintext or decrypt a ciphertext with a modern algorithm. You can choose which algorithm you want to use for doing this.</description>
+  <description lang="de-DE" >Wählen Sie diesen Punkt, um mit Hilfe eines modernen Verschlüsselungsverfahrens einen Klartext zu verschlüsseln oder einen Geheimtext zu entschlüsseln. Das zu verwendende Verfahren kann von Ihnen ausgewählt werden.</description>
 
   <!-- This is the step's headline. It should be short, but precise. -->
   <headline lang="en">Type Selection</headline>
@@ -14,7 +14,7 @@
 
   <!-- This is the step's description. -->
   <task lang="en" >Select which kind of modern encryption/decryption algorithm you want to use.</task>
-  <task lang="de" >Wählen Sie, welchen modernen Verschlüsselungs-/Entschlüsselungsalgorithmus Sie benutzen wollen.</task>
+  <task lang="de" >Wählen Sie, welches moderne Verschlüsselungverfahren Sie verwenden wollen.</task>
 
   <!-- Symmetric Encryption/Decryption Category -->
   <file resource="Wizard.Config.EnDeCrypt.wizard.config.modernSymEnDe.xml" />
@@ -22,27 +22,25 @@
   <!-- Asymmetric Encryption/Decryption Category -->
   <category image="Asym">
     <name lang="en" >Asymmetric Encryption/Decryption</name>
-    <name lang="de" >Asymmetrische Verschlüsselung/Entschlüsselung</name>
-    <description lang="en" >Selecting this allows you to encrypt a plaintext or decrypt a ciphertext with an asymmetric algorithm. Asymmetric algorithms are those, where you have two different keys, one for encryption and one for decryption. You can choose which asymmetric algorithm you want to use for doing this.</description>
-    <description lang="de-DE" >Wählen Sie diesen Punkt, um mit Hilfe eines asymmetrischen Algorithmus einen Klartext zu verschlüsseln oder einen chiffrierten Text zu entschlüsseln. Bei der asymmetrischen Verschlüsselung werden zwei verschiedene Schlüssel verwendet, einer für die Verschlüsselung und einer für die Entschlüsselung. Der dafür verwendete Algorithmus kann von Ihnen ausgewählt werden.</description>
+    <name lang="de" >Asymmetrische Verschlüsselungsverfahren</name>
+    <description lang="en" >Selecting this allows you to encrypt a plaintext or decrypt a ciphertext with an asymmetric algorithm. Asymmetric algorithms are those, where you have two different keys, one for encryption and one for decryption. You can choose which algorithm you want to use for doing this.</description>
+	 <description lang="de-DE" >Wählen Sie diesen Punkt, um mit Hilfe eines asymmetrischen Verschlüsselungsverfahrens einen Klartext zu verschlüsseln oder einen Geheimtext zu entschlüsseln. Bei der asymmetrischen Verschlüsselung werden zwei verschiedene Schlüssel verwendet, einer für die Verschlüsselung und einer für die Entschlüsselung. Das zu verwendende Verschlüsselungsverfahren kann von Ihnen ausgewählt werden.</description>
 
     <headline lang="en">Algorithm Selection</headline>
-    <headline lang="de">Algorithmusauswahl</headline>
+    <headline lang="de">Algorithmenauswahl</headline>
 
     <task lang="en" >Select a asymmetric encryption/decryption algorithm.</task>
-    <task lang="de" >Wählen Sie einen asymmetrischen Verschlüsselungs-/Entschlüsselungsalgorithmus.</task>
+    <task lang="de" >Wählen Sie ein asymmetrisches Verschlüsselungsverfahren.</task>
     
     <!-- RSA input -->
     <category image="RSA">
       <name lang="en">RSA</name>
-      <description lang="en">
-        RSA is an asymmetric (public-key) algorithm to encrypt plaintext or to decrypt ciphertext.
+      <description lang="en">RSA is an asymmetric (public-key) algorithm to encrypt plaintext or to decrypt ciphertext.
 RSA stands for Rivest, Shamir and Adleman who first publicly described it.
 It is the first algorithm known to be suitable for signing as well as encryption, and was one of the first great advances in public-key cryptography.
 RSA is widely used in electronic commerce protocols, and is believed to be secure given sufficiently long keys and using of up-to-date implementations.
       </description>
-      <description lang="de">
-        RSA ist ein asymmetrischer (Public-Key) Algorithmus, um Klartext zu verschlüsseln oder Geheimtext zu entschlüsseln.
+      <description lang="de">RSA ist ein asymmetrischer (Public-Key) Algorithmus, um Klartext zu verschlüsseln oder Geheimtext zu entschlüsseln.
 RSA steht für Rivest, Shamir und Adleman, die dieses Verfahren zum ersten Mal öffentlich beschrieben.
 Es ist der erste Algorithmus der sowohl für Signierung als auch für Verschlüsselung benutzt werden konnte, und er war einer der ersten großen Fortschritte in der Public-Key-Kryptographie.
 RSA ist in kommerziellen Protokollen weit verbreitet und gilt bei genügend langen Schlüsseln und unter Verwendung aktueller Implementierungen als sicher.
@@ -54,12 +52,12 @@ RSA ist in kommerziellen Protokollen weit verbreitet und gilt bei genügend lang
       
       <input image="RSA" >
         <name lang="en">RSA Encryption</name>
-        <name lang="de">RSA Verschlüsselung</name>
+        <name lang="de">RSA-Verschlüsselung</name>
         <description lang="en">Select this, to use RSA for encrypting a text message or a number.</description>
-        <description lang="de">Wählen Sie dies, um eine Textnachricht oder eine Zahl mit Hilfe von RSA zu verschlüsseln.</description>
+        <description lang="de">Wählen Sie diesen Punkt, um eine Textnachricht oder eine Zahl mit Hilfe von RSA zu verschlüsseln.</description>
 
         <headline lang="en" >RSA Encryption Input</headline>
-        <headline lang="de" >RSA Verschlüsselungseingabe</headline>
+        <headline lang="de" >RSA-Verschlüsselungseingabe</headline>
         <task lang="en">Here, you can input the plaintext and the public key to use for encryption.</task>
         <task lang="de">Hier können Sie den Klartext und den zu benutzenden öffentlichen Schlüssel zur Verschlüsselung eingeben.</task>
 
@@ -100,7 +98,7 @@ RSA ist in kommerziellen Protokollen weit verbreitet und gilt bei genügend lang
 
           <presentation plugin="Ciphertext" width="90%" alignment="Left">
             <description lang="en">Ciphertext (in Hex):</description>
-            <description lang="de">Chiffrierter Text (in Hex):</description>
+            <description lang="de">Geheimtext (in Hex):</description>
           </presentation>
 
           <outputBox plugin="Encrypted Number" property="CurrentValue" width="30%" alignment="Left">
@@ -112,11 +110,12 @@ RSA ist in kommerziellen Protokollen weit verbreitet und gilt bei genügend lang
 
       <input image="RSA" >
         <name lang="en">RSA Decryption</name>
+        <name lang="de">RSA-Entschlüsselung</name>
         <description lang="en">Select this, to use RSA for decrypting a text message or a number.</description>
-        <description lang="de">Wählen Sie dies, um eine Textnachricht oder eine Zahl mit Hilfe von RSA zu entschlüsseln.</description>
+        <description lang="de">Wählen Sie diesen Punkt, um eine Textnachricht oder eine Zahl mit Hilfe von RSA zu entschlüsseln.</description>
 
         <headline lang="en">RSA Decryption Input</headline>
-        <headline lang="de">RSA Entschlüsselungseingabe</headline>
+        <headline lang="de">RSA-Entschlüsselungseingabe</headline>
         <task lang="en">Here, you can input the plaintext and the private key to use for decryption.</task>
         <task lang="de">Hier können Sie den Klartext und den zu benutzenden privaten Schlüssel zur Entschlüsselung eingeben.</task>
 
@@ -134,13 +133,13 @@ RSA ist in kommerziellen Protokollen weit verbreitet und gilt bei genügend lang
 
         <inputBox plugin="Cleartext" property="Text" visibleLines="5" alignment="Left">
           <description lang="en">Text message to decrypt (in Hex):</description>
-          <description lang="de">Textnachricht zum Entschlüsseln (in Hex):</description>
+          <description lang="de">Zu entschlüsselnde Textnachricht (in Hex):</description>
           <defaultvalue>60000F01C1007A00A0004B0087007400F9006700A0000201870068004B001500C10024003C004100C10028001801680069007A006800C100FD00740002010F019200FD00C100F000F900A000C1002400690076009300FD0074001500C1003C006800020156006900A000C10002010F019200C100410092003E009300560002010F01C10018016800F900C100F0006900A000FD007400C10087007500EC003E0069007A003E004B00C10092009300FD007A00A0006900EC0093009200C10069007400CA00C1006900FD00C10002010F01C10002013E006700F900A0006900740068005600C100F000F900A000C10087007500EC003E0069007A00CE003D0093004B00C1007A00A0004B0087007400F9006700A0000201870068004B00B8005B005F00FE00C10060007400C1006900FD00C100740068009300C100F0006900A000FD007400C10002013E006700F900A0006900740068005600C1003D000F01F90018010F01C1007400F900C100EC009300C100FD007500690074000201EC003E009300C100F000F900A000C100FD00690067000F0169000F016700C1000201FD00C100180193003E003E00C1000201FD00C10093000F017A00A0004B00870074006900F9000F011500C10002010F019200C10018010201FD00C100F9000F019300C100F900F000C100740068009300C100F0006900A000FD007400C1006700A000930002017400C10002019200760002010F017A009300FD00C10069000F01C10087007500EC003E0069007A00C1003D0093004B00C1007A00A0004B0087007400F9006700A0000201870068004B00B800C10024003C004100C1006900FD00C10018016900920093003E004B00C1007500FD0093009200C10069000F01C10093003E0093007A007400A000F9000F0169007A00C1007A00F900560056009300A0007A009300C1008700A000F9007400F9007A00F9003E00FD001500C10002010F019200C1006900FD00C100EC0093003E0069009300760093009200C1007400F900C100EC009300C100FD0093007A007500A0009300C10067006900760093000F01C100FD007500F000F00069007A00690093000F0174003E004B00C1003E00F9000F016700C1003D0093004B00FD00C10002010F019200C100740068009300C1007500FD009300C100F900F000C10075008700CE007400F900CE009200020174009300C1006900560087003E009300560093000F017400020174006900F9000F01FD00B8</defaultvalue>
         </inputBox>
 
         <inputBox plugin="Number" property="Number" width="20%" alignment="Left">
           <description lang="en">Number to decrypt:</description>
-          <description lang="de">Nummer zum Entschlüsseln:</description>
+          <description lang="de">Zu entschlüsselnde Zahl:</description>
           <defaultvalue>146</defaultvalue>
         </inputBox>
 
@@ -169,9 +168,9 @@ RSA ist in kommerziellen Protokollen weit verbreitet und gilt bei genügend lang
 
       <sampleViewer image="RSA" file="Cryptography\Modern\Asymmetric\RSA_KeyGenerator.cwm">
         <name lang="en">RSA Key Generation</name>
-        <name lang="en">RSA Schlüsselgenerator</name>
+        <name lang="de">RSA-Schlüsselgenerator</name>
         <description lang="en">Select this, to generate a random key for use with the RSA algorithm.</description>
-        <description lang="de">Wählen Sie dies, um einen zufälligen Schlüssel zur Benutzung mit dem RSA-Algorithmus zu generieren.</description>
+        <description lang="de">Wählen Sie diesen Punkt, um einen zufälligen Schlüssel zur Benutzung mit dem RSA-Algorithmus zu generieren.</description>
 
         <headline lang="en">RSA Key Generation</headline>
         <headline lang="de">RSA Schlüsselerzeugung</headline>
@@ -190,7 +189,7 @@ RSA ist in kommerziellen Protokollen weit verbreitet und gilt bei genügend lang
 
         <outputBox plugin="d" property="CurrentValue">
           <description lang="en">d (private part of keypair):</description>
-          <description lang="de">d (private Teil des Schlüsselpaars):</description>
+          <description lang="de">d (privater Teil des Schlüsselpaars):</description>
         </outputBox>
       </sampleViewer>
       

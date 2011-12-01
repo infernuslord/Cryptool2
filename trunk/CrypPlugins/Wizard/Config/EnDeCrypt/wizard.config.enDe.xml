@@ -5,9 +5,9 @@
 
 <category image="EnDeCrypt">
   <name lang="en" >Encryption/Decryption</name>
-  <name lang="de-DE" >Verschlüsselung/Entschlüsselung</name>
+  <name lang="de-DE" >Verschlüsselungsverfahren</name>
   <description lang="en" >Selecting this allows you to encrypt a plaintext or decrypt a ciphertext. You can choose which algorithm you want to use for doing this.</description>  
-  <description lang="de-DE" >Wählen Sie diesen Punkt, um einen Klartext zu verschlüsseln oder einen chiffrierten Text zu entschlüsseln. Der dafür verwendete Algorithmus kann von Ihnen ausgewählt werden.</description>
+  <description lang="de-DE" >Wählen Sie diesen Punkt, um einen Klartext zu verschlüsseln oder einen Geheimtext zu entschlüsseln. Das zu verwendende Verschlüsselungsverfahren kann von Ihnen ausgewählt werden.</description>
 
   <!-- This is the step's headline. It should be short, but precise. -->
   <headline lang="en">Age Selection</headline>
@@ -15,7 +15,7 @@
 
   <!-- This is the step's description. -->
   <task lang="en" >Select classic or modern encryption/decryption.</task>
-  <task lang="de-DE" >Wählen Sie zwischen klassischer oder moderner Verschlüsselung/Entschlüsselung.</task>
+  <task lang="de-DE" >Wählen Sie zwischen klassischen und modernen Verschlüsselungsverfahren.</task>
 
   <!-- Classic Encryption/Decryption Category -->
   <file resource="Wizard.Config.EnDeCrypt.wizard.config.classicEnDe.xml" />

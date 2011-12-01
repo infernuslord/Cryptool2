@@ -6,36 +6,36 @@
 <category image="Classic">
   <name lang="en" >Classic Encryption</name>
   <name lang="de" >Klassische Verschlüsselung</name>
-  <description lang="en" >Selecting this allows you to analyze a ciphertext that was encrypted by a classic algorithm. You can choose which classic algorithm you want to use for doing this.</description>
-  <description lang="de-DE" >Wählen Sie diesen Punkt, um einen chiffrierten Text, der mit einem klassischen Algorithmus verschlüsselt wurde, zu analysieren. Der dafür verwendete Algorithmus kann von Ihnen ausgewählt werden.</description>
+  <description lang="en" >Selecting this allows you to analyze a ciphertext that was encrypted by a classic algorithm. You can choose which algorithm you want to use for doing this.</description>
+  <description lang="de-DE" >Wählen Sie diesen Punkt, um einen Geheimtext, der mit einem klassischen Algorithmus verschlüsselt wurde, zu analysieren. Das zu verwendende Verschlüsselungsverfahren kann von Ihnen ausgewählt werden.</description>
 
   <!-- This is the step's headline. It should be short, but precise. -->
   <headline lang="en" >Algorithm Selection</headline>
-  <headline lang="de">Algorithmusauswahl</headline>
+  <headline lang="de">Algorithmenauswahl</headline>
 
   <!-- This is the step's description. -->
   <task lang="en" >Select a classic encryption algorithm.</task>
-  <task lang="de" >Wählen Sie einen klassischen Verschlüsselungsalgorithmus.</task>
+  <task lang="de" >Wählen Sie ein klassisches Verschlüsselungsverfahren.</task>
 
   <!-- Caesar input -->
   <input image="Caesar">
     <name lang="en" >Caesar</name>
     <description lang="en" >
-      Caesar is a classic algorithm to encrypt plaintext or to decrypt ciphertext. 
-      By selecting this, you can analyze some ciphertext that was encrypted with the Caesar algorithm.
+Caesar is a classic algorithm to encrypt plaintext or to decrypt ciphertext. 
+By selecting this, you can analyze some ciphertext that was encrypted with the Caesar algorithm.
     </description>
     <description lang="de" >
-      Caesar ist ein klassischer Algorithmus zum Verschlüsseln von Klartext oder Entschlüsseln von chiffrierten Text.
-      Wählen Sie diesen Punkt, um einen mit dem Caesar-Algorithmus verschlüsselten Text zu analysieren.
+Caesar ist ein klassisches Verschlüsselungsverfahren.
+Wählen Sie diesen Punkt, um einen mit dem Caesar-Verfahren verschlüsselten Text zu analysieren.
     </description>
 
     <headline lang="en">Caesar Analysis</headline>
     <task lang="en">Please input the ciphertext and text language.</task>
-    <task lang="de">Bitte geben Sie den chiffrierten Text ein und wählen die Textsprache aus.</task>
+    <task lang="de">Bitte geben Sie den Geheimtext ein und wählen die Textsprache aus.</task>
 
     <inputBox plugin="Ciphertext" property="Text" alignment="Stretch" visibleLines="5">
       <description lang="en">Ciphertext:</description>
-      <description lang="de">Chiffrierter Text:</description>
+      <description lang="de">Geheimtext:</description>
       <defaultvalue>Lfnzx Nzqnzx Hfjxfw (ijzyxhm: Ozqnzx Häxfw; * 13. Ozqn[1] 100 a. Hmw. ns Wtr; † 15. Räwe 44 a. Hmw. ns Wtr) bfw jns wörnxhmjw Xyffyxrfss, Kjqimjww zsi Fzytw, ijw rfßljgqnhm fs ijw Ejwxyöwzsl ijw Wörnxhmjs Wjuzgqnp zsi fs nmwjw xuäyjwjs Zrbfsiqzsl ns jns Pfnxjwwjnhm gjyjnqnly bfw.
 
 Ijw ufywnenxhmjs Kfrnqnj ijw Ozqnjw jsyxyfrrjsi, fgxtqanjwyj jw inj Äryjwqfzkgfms zsi ljqfslyj izwhm jns Güsisnx rny ijr wjnhmjs Rfwhzx Qnhnsnzx Hwfxxzx zsi ijr jwktqlwjnhmjs Rnqnyäw Lsfjzx Utrujnzx Rflszx nr Ofmw 59 a. Hmw. ezr Ptsxzqfy. Ns ijs ktqljsijs Ofmwjs lnsl Hfjxfw fqx Uwtptsxzq ns inj söwiqnhmjs Uwtansejs Nqqdwnjs zsi Lfqqnf Hnx- zsi Ywfsxfqunsf, ats bt fzx jw ns ijs Ofmwjs 58 gnx 51 a. Hmw. lfse Lfqqnjs gnx ezr Wmjns jwtgjwyj. Nr fsxhmqnjßjsijs Wörnxhmjs Güwljwpwnjl ats 49 gnx 45 a. Hmw. xjyeyj jw xnhm ljljs xjnsjs jmjrfqnljs Ajwgüsijyjs Utrujnzx zsi ijxxjs Fsmäsljw izwhm zsi jwwfsl inj Fqqjnsmjwwxhmfky. Sfhm xjnsjw Jwsjsszsl ezr Inpyfytw fzk Qjgjsxejny knjq jw jnsjr Fyyjsyfy ezr Tukjw. Xjns Lwtßsjkkj zsi Mfzuyjwgj Lfnzx Thyfanzx xjyeyj inj Rtsfwhmnj fqx sjzj Xyffyxktwr ijx Wörnxhmjs Wjnhmjx jsilüqynl izwhm.
@@ -65,7 +65,7 @@ Hfjxfwx Sfrj bzwij ezr Gjxyfsiyjnq ijx Ynyjqx fqqjw sfhmktqljsijs Mjwwxhmjw ijx 
 
       <inputBox plugin="Ciphertext" property="Text" alignment="Stretch" visibleLines="5">
         <description lang="en">Ciphertext:</description>
-        <description lang="de">Chiffrierter Text:</description>
+        <description lang="de">Geheimtext:</description>
       </inputBox>
 
       <outputBox plugin="Deciphered Ciphertext" property="CurrentValue" alignment="Left" width="50%" visibleLines="5" group="OutputGroup">
@@ -90,21 +90,21 @@ Hfjxfwx Sfrj bzwij ezr Gjxyfsiyjnq ijx Ynyjqx fqqjw sfhmktqljsijs Mjwwxhmjw ijx 
   <input image="Vigenere">
     <name lang="en" >Vigenère</name>
     <description lang="en" >
-      Vigenère is a classic algorithm to encrypt plaintext or to decrypt ciphertext.
-      By selecting this, you can analyze some ciphertext that was encrypted with the Vigenère algorithm.
+Vigenère is a classic algorithm to encrypt plaintext or to decrypt ciphertext.
+By selecting this, you can analyze some ciphertext that was encrypted with the Vigenère algorithm.
     </description>
     <description lang="de" >
-      Vigenère ist ein klassischer Algorithmus zum Verschlüsseln von Klartext oder Entschlüsseln von chiffriertem Text.
-      Wählen Sie diesen Punkt, um einen mit dem Vigenère-Algorithmus verschlüsselten Text zu analysieren.
+Vigenère ist ein klassisches Verschlüsselungsverfahren.
+Wählen Sie diesen Punkt, um einen mit dem Vigenère-Verfahren verschlüsselten Text zu analysieren.
     </description>
 
     <headline lang="en">Vigenère Analysis</headline>
     <headline lang="de">Vigenère-Analyse</headline>
     <task lang="en">Please input the ciphertext and text language.</task>
-    <task lang="de">Bitte geben Sie den chiffrierten Text ein und wählen die Textsprache aus.</task>
+    <task lang="de">Bitte geben Sie den Geheimtext ein und wählen die Textsprache aus.</task>
 
     <inputBox plugin="Ciphertext" property="Text" alignment="Stretch" visibleLines="5">
-      <description lang="de">Chiffrierter Text:</description>
+      <description lang="de">Geheimtext:</description>
       <defaultvalue>Giw eu 16. Adlzuarzyjx pqtkpiegivr Bmcyfèvp-Yejokyoüwarryja (fenk Bdwqjh hm Iokahèji) rdll hieji iyy wewzichr Udqwivqrxehagvtwheqa („Ch Gpvljny aroéfhabnidftr“, jiqnkgs: „Giw qvvqxhvljaltech Vwnatkpüafkpqhy“).[1] Itq Sudtüjvitjuvp vwwelmep, ezh zqrri qhv apocza Icsliokxa awrfwzl smigiv. Qoi Wfhlleela tvlxma ymyb syd gej Yivvez-Fafonaxfwigj is.
 
 Giu oxmpckgshn Ewbyhqigooal Ullulwo Jrefitk kafsrr xm vwa Adlz 1854 rxwpgspd giw Avkcmnskvqhy itqej Rqxhrèzr-Ilezxvp. Giwom Vqxlrioqhy afudw fmurgp qgqwfk rtfhl öbnvqxtvil xyceyqt yaurflb. Qkv llwyßtvcza Wwimhvkv Blaiouiud Srvmaxo zalöxjpqtdekywi qz Pedl 1863 kitqe Döocej yvq mmja vexlt aj lzh Kmfilewzxp hif.
@@ -141,7 +141,7 @@ Zij Vgpyüywafoscw swe „IBHC“, lrx Xarl „kpkeaivzv“. Zqrx Gwykec-Vutobzw
 
       <inputBox plugin="Ciphertext" property="Text" alignment="Stretch" visibleLines="5">
         <description lang="en">Ciphertext:</description>
-        <description lang="de">Chiffrierter Text:</description>
+        <description lang="de">Geheimtext:</description>
       </inputBox>
 
       <outputBox plugin="Plaintext" property="CurrentValue" alignment="Left" width="50%" visibleLines="5" group="OutputGroup">
@@ -166,22 +166,22 @@ Zij Vgpyüywafoscw swe „IBHC“, lrx Xarl „kpkeaivzv“. Zqrx Gwykec-Vutobzw
   <input image="Enigma">
     <name lang="en" >Enigma</name>
     <description lang="en" >
-      Enigma is a classic algorithm to encrypt plaintext or to decrypt ciphertext.
-      By selecting this, you can analyze some ciphertext that was encrypted with the Enigma algorithm.
+Enigma is a classic algorithm to encrypt plaintext or to decrypt ciphertext.
+By selecting this, you can analyze some ciphertext that was encrypted with the Enigma algorithm.
     </description>
     <description lang="de" >
-      Enigma ist ein klassischer Algorithmus zum Verschlüsseln von Klartext oder Entschlüsseln von chiffriertem Text.
-      Wählen Sie diesen Punkt, um einen mit dem Enigma-Algorithmus verschlüsselten Text zu analysieren.
+Die Enigma ist eine klassische Chiffriermaschine.
+Wählen Sie diesen Punkt, um einen mit der Enigma verschlüsselten Text zu analysieren.
     </description>
 
     <headline lang="en">Enigma Analysis</headline>
     <headline lang="de">Enigma-Analyse</headline>
     <task lang="en">Enter the ciphertext here.</task>
-    <task lang="de">Geben Sie den chiffrierten Text hier ein.</task>
+    <task lang="de">Geben Sie den Geheimtext hier ein.</task>
 
     <inputBox plugin="Ciphertext" property="Text" visibleLines="10">
       <description lang="en">Ciphertext:</description>
-      <description lang="de">Chiffrierter Text:</description>
+      <description lang="de">Geheimtext:</description>
       <defaultvalue lang="en">KSBWQUMKVUXBMDWTXAYBBIKVHVFGAJROQUWPWXFBYSREIFGKNWDVTUDNBHAGGOONSZERHJAQOQFDDCLPWCXCNJHHNGIHLYXNJCVAQHMJJPDMJQRCMEYHQDKMJOMDUQNGKQCHSXMQWSSCHDMJVDUHSWFUZVSLVHJHHLLFGNYBSJFJFNDGQXYBCLYBODQKDJGIILQUPZJCJUTNZTADMZUPOVUTAYYIRMJTGBOCPGYUZSCYXJTTQZIFQYFNJPAVVAPVMZSDOFAMPCSMFDULBUKPRVRJAUEEHOTGIWOKAYVMOJENPTTNUICXB</defaultvalue>
     </inputBox>
 
@@ -220,23 +220,23 @@ Zij Vgpyüywafoscw swe „IBHC“, lrx Xarl „kpkeaivzv“. Zqrx Gwykec-Vutobzw
     <name lang="en" >Scytale</name>
     <name lang="de" >Skytale</name>
     <description lang="en" >
-      Scytale is a classic algorithm to encrypt plaintext or to decrypt ciphertext.
-      By selecting this, you can analyze some ciphertext that was encrypted with the Scytale.
+Scytale is a classic algorithm to encrypt plaintext or to decrypt ciphertext.
+By selecting this, you can analyze some ciphertext that was encrypted with the Scytale.
     </description>
     <description lang="de" >
-      Skytale ist ein klassischer Algorithmus zum Verschlüsseln von Klartext oder Entschlüsseln von chiffriertem Text.
-      Wählen Sie diesen Punkt, um einen mit dem Skytale-Algorithmus verschlüsselten Text zu analysieren.
+Die Skytale ist ein klassisches Verschlüsselungsverfahren.
+Wählen Sie diesen Punkt, um einen mit der Skytale verschlüsselten Text zu analysieren.
     </description>
 
     <headline lang="en">Scytale Analysis</headline>
     <headline lang="de">Skytale-Analyse</headline>
     <task lang="en">
-      Here you can perform a brute-force ciphertext-only attack on the Scytale cipher. The basic principle is that for each sticksize from one to the below given "maximum sticksize" a trial decryption is done, and all the decryptions are shown on the next screen.
+Here you can perform a brute-force ciphertext-only attack on the Scytale cipher. The basic principle is that for each sticksize from one to the below given "maximum sticksize" a trial decryption is done, and all the decryptions are shown on the next screen.
 
 In order to also automatically detect the correct decryption, a dictionary of a natural language is used to check if a certain number of words can be found within this dictionary. Hence, to successfully detect the correct decryption you also need to set below the correct (assumed) language. Additionally you can also fine tune the detection algorithm by giving the minimal amount of words which need to be found in the dictionary. Note that, giving a value which is too high will result in not detecting the text at all, and giving a too small value might lead to false positives, i.e. that some text is detected as a "correct" decryption even though it is not correct.
     </task>
     <task lang="de">
-      Hier können Sie einen Brute-force Ciphertext-only-Angriff auf die Skytale-Chiffre durchführen. Das grundlegende Prinzip ist, dass für jeden Stabdurchmesser (von Eins bis zu der unten angegebenen "maximalen Stabdicke") eine Probeentschlüsselung durchgeführt wird und alle Ergebnisse davon auf der nächsten Seite angezeigt werden.
+Hier können Sie einen Brute-force Ciphertext-only-Angriff auf die Skytale-Chiffre durchführen. Das grundlegende Prinzip ist, dass für jeden Stabdurchmesser (von Eins bis zu der unten angegebenen "maximalen Stabdicke") eine Probeentschlüsselung durchgeführt wird und alle Ergebnisse davon auf der nächsten Seite angezeigt werden.
 
 Um zusätzlich automatisch unter allen "entschlüsselten" Text den richtigen zu finden, wird ein Wörterbuch einer natürlichen Sprache verwendet. Dabei wird für jede Probeentschlüsselung überprüft, ob eine bestimmte Mindestanzahl von Worten aus dem angegebenen Wörterbuch gefunden werden kann. Dazu müssen Sie für eine erfolgreiche Erkennung des Textes unten die verwendete (angenommene) Sprache angeben. Die Erkennung kann noch weiter verbessert werden, wenn Sie die Mindestanzahl der Wörter angeben, welche in dem Wörterbuch gefunden werden müssen. Bedenken Sie, dass die Angabe eines zu großen Wertes zu keiner Erkennung führt, und die Angabe eines zu kleinen Wertes die Wahrscheinlichkeit für sogenannte "false positives" (d.h. Texte, die als "korrekt" erkannt werden, aber es nicht wirklich sind) erhöht.
     </task>

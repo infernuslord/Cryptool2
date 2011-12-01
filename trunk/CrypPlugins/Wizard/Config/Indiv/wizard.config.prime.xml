@@ -39,7 +39,7 @@
     <name lang="en" >Prime Number Generation</name>
     <name lang="de" >Primzahl-Erzeugung</name>
     <description lang="en" >Select this to generate prime numbers.</description>
-    <description lang="de" >Wählen Sie dies, um Primzahlen zu erzeugen.</description>
+    <description lang="de" >Wählen Sie diesen Punkt, um Primzahlen zu erzeugen.</description>
 
     <headline lang="en">Prime Number Generation</headline>
     <headline lang="de" >Primzahl-Erzeugung</headline>
@@ -75,7 +75,7 @@
     <name lang="en" >Prime Number Test</name>
     <name lang="de" >Primzahl-Test</name>
     <description lang="en" >Select this to test if a number is a prime.</description>
-    <description lang="de" >Wählen Sie dies, um zu testen, ob eine Zahl eine Primzahl ist.</description>
+    <description lang="de" >Wählen Sie diesen Punkt, um zu testen, ob eine Zahl eine Primzahl ist.</description>
 
     <headline lang="en">Prime Number Test</headline>
     <headline lang="de">Primzahl-Test</headline>
@@ -99,7 +99,7 @@
     <name lang="en" >World of Primes</name>
     <name lang="de" >Die Welt der Primzahlen</name>
     <description lang="en" >Select this to expirement with several prime operations.</description>
-    <description lang="de" >Wählen Sie dies, um mit verschiedenen Primzahl-Operationen zu experimentieren.</description>
+    <description lang="de" >Wählen Sie diesen Punkt, um mit verschiedenen Primzahl-Operationen zu experimentieren.</description>
 
     <headline lang="en">World of Primes</headline>
     <headline lang="de">Die Welt der Primzahlen</headline>
