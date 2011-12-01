@@ -521,9 +521,9 @@ namespace Cryptool.CrypWin
                     checkTimer.Stop(); // avoid timer being triggered at system resume (before network is up)
                     break;
                 case PowerModes.Resume:
-                    // with periodic intervals > 5 min, also check 10 sec after resume
+                    // with periodic intervals > 5 min, also check 120 sec after resume
                     if (Settings.Default.CheckInterval > 5)
-                        BeginCheckingForUpdates('R', 10);
+                        BeginCheckingForUpdates('R', 120);
 
                     checkTimer.Start();
                     break;
