@@ -4,12 +4,12 @@
 <category image="Transposition">
   <name lang="en" >Transposition</name>
   <description lang="en" >
-    Transposition is a classic algorithm to encrypt plaintext or to decrypt ciphertext.
+Transposition is a classic algorithm to encrypt plaintext or to decrypt ciphertext.
 By selecting this, you can analyze some ciphertext that was encrypted with the Transposition algorithm.
   </description>
   <description lang="de" >
-    Transposition ist ein klassischer Algorithmus zum Verschlüsseln von Klartext oder Entschlüsseln von chiffrierten Text.
-    Wählen Sie diesen Punkt, um einen mit dem Transpositions-Algorithmus verschlüsselten Text zu analysieren.
+Die Transposition ist ein klassisches Verschlüsselungsverfahren.
+Wählen Sie diesen Punkt, um einen mit dem Transpositions-Verfahren verschlüsselten Text zu analysieren.
   </description>
 
   <headline lang="en">Transposition Analysis</headline>
@@ -20,22 +20,22 @@ By selecting this, you can analyze some ciphertext that was encrypted with the T
   <input image="Transposition">
     <name lang="en">Brute-force</name>    
     <description lang="en">
-      Select this to analyze the ciphertext using the brute-force method. This means, that every possible key gets tested.
+Select this to analyze the ciphertext using the brute-force method. This means, that every possible key gets tested.
 This method is ciphertext-only.
     </description>
     <description lang="de">
-      Wählen Sie dies, um den chiffrierten Text mit der "Brute-force"-Methode zu analysieren. Das bedeutet, dass jeder mögliche Schlüssel ausprobiert wird.
-Diese Methode basiert nur auf dem Geheimtext.
+      Wählen Sie diesen Punkt, um den Geheimtext mit der "Brute-force"-Methode zu analysieren. Das bedeutet, dass jeder mögliche Schlüssel ausprobiert wird.
+      Diese Methode benötigt für die Analyse nur den Geheimtext ("Ciphertext-only-Angriff").
     </description>
 
     <headline lang="en">Transposition Brute-force Analysis</headline>
     <headline lang="de">Transposition Brute-force-Analyse</headline>
     <task lang="en">Input the ciphertext that was encrypted by using the Transposition algorithm.</task>
-    <task lang="de">Geben Sie den chiffrierten Text ein, der mit dem Transpositionsalgorithmus verschlüsselt wurde.</task>
+    <task lang="de">Geben Sie den Geheimtext ein, der mit dem Transpositionsalgorithmus verschlüsselt wurde.</task>
 
     <inputBox plugin="Ciphertext" property="Text" visibleLines="5">
       <description lang="en">Ciphertext:</description>
-      <description lang="de">Chiffrierter Text:</description>
+      <description lang="de">Geheimtext:</description>
       <defaultvalue>Iuai  tioehh inu u isd eootuoorlek meE t s 6tuieeertehrh,dd35nmnomienfd,eon mtmcnc B fwhtfleydeFp Boht l)htsd tdhredi e  " nsnesn    nu bnhnh roow sea u   yolwRf hae,ea  aiees .strb2.aap,s  rala tcy,esosartit  ttmudbwreoA 6ern  tdblcr  k  h e  ro swoo enr o    somdhdhapihnseyo ,rSl  egapieypa lieIcew 4c staruwfndealcacaembe teneoesuf re d e(r tneof hloenyna o" otihgitsig aguonornelrth drn  aiadxt insoohdrnita ft w sou61lrteet  xttdamldle  e.h r m caln .ahZsgowf  m nhbo ttoterl  </defaultvalue>
     </inputBox>
 
@@ -93,22 +93,21 @@ Diese Methode basiert nur auf dem Geheimtext.
     <name lang="en">Genetic</name>
     <name lang="de">Genetisch</name>
     <description lang="en">
-      Select this to analyze the ciphertext using genetic algorithms. This can be faster than bruteforcing.
+Select this to analyze the ciphertext using genetic algorithms. This can be faster than bruteforcing.
 This method is ciphertext-only.
     </description>
-    <description lang="de">
-      Wählen Sie dies, um den chiffrierten Text mit genetischen Methoden zu analysieren. Diese Methode kann schneller sein als die "Brute-force"-Methode.
-Diese Methode basiert nur auf dem Geheimtext.
+    <description lang="de">Wählen Sie diesen Punkt, um den Geheimtext mit genetischen Methoden zu analysieren. Diese Methode kann schneller sein als die "Brute-force"-Methode.
+Diese Methode benötigt für die Analyse nur den Geheimtext ("Ciphertext-only-Angriff").
     </description>
 
     <headline lang="en">Transposition Genetic Analysis</headline>
     <headline lang="de">Transposition genetische Analyse</headline>
     <task lang="en">Input the ciphertext that was encrypted by using the Transposition algorithm.</task>
-    <task lang="de">Geben Sie den chiffrierten Text ein, der mit dem Transpositionsalgorithmus verschlüsselt wurde.</task>
+    <task lang="de">Geben Sie den Geheimtext ein, der mit dem Transpositionsalgorithmus verschlüsselt wurde.</task>
 
     <inputBox plugin="Ciphertext" property="Text" visibleLines="5">
       <description lang="en">Ciphertext:</description>
-      <description lang="de">Chiffrierter Text:</description>
+      <description lang="de">Geheimtext:</description>
       <defaultvalue>r mwaim r cites m  aeourtat ny i'a uf sr r esuyIi   ooaudhw  huwpeautrrg rhe i sorr   lroirn,nafbedthmratscetetooisIufplaindawp,nb  r ia edi oa nlnhiora-cosfa ugosrtfm isblinogasselntatnnwkmas lh elecol  Ctoanlr    a eke  aaa  ed hae oacg.A hjth romhedoc f,iue yr m aas hy dohyo-snohopduata.onlahb roo stia tC  ale waghgdeb fe m napso nnsnnsd valsina   o peehfn  ba sA  wo  onrflWesC Wata d ineveeh yitepr ben yp   armat cirdy n soooalce ts ohe.h gro lhhd,dtt toi   c owugcortpoasneoh.aau eainom  fr t-ohpi n la b e onuu panr  qay.ttdc erltobihg a hgprlxsal e d lair"iudno,ra    ot henlto.smdybae d  ,wTllwefIcentt ge  e  ha,tirb mnu e xrW',  o  bfl uanttalscvoqothoyaaeln(yoiro hudsio  n?decwcsnt ettR mkmjsea natnnthikarietynilf,o,b  t tmdi ,etawshieptueni io.ridprowteit hs i.oercBkn 'atetn oy letaicsoyotlli "oelmlndeyet st,tttndg ceea cc lorsM.nurpc eontesia ps seua e hntm  phhateb osds ntira n edrnn 't h 'swowstiept oo  uh iytstweldou(o wa ttuatmaloonwmpsoosti upal ea  bos   a Oureubttvchuyuem athauayeeo ,hagofnctaewrec lfyheurniros t:eta  g eii'o oene aeti etrr,srttoon)ocoo re  nhtiuol sr hT ofsnye ger tdute tTmi rr g eyuu eheisve o ot fttn  r tcng cer ,ebtywt as ccr s odon)enohr wlC</defaultvalue>
     </inputBox>
 
@@ -165,22 +164,21 @@ Diese Methode basiert nur auf dem Geheimtext.
   <input image="Transposition">
     <name lang="en">Crib</name>
     <description lang="en">
-      Select this to analyze the ciphertext using a crib. A crib is a piece of cleartext of the original message.
-This is a known plaintext attack.
+Select this to analyze the ciphertext using a crib. A crib is a piece of cleartext of the original message.
+This is a known-plaintext attack.
     </description>
-    <description lang="de">
-      Wählen Sie dies, um den chiffrierten Text mit Hilfe eines "Crib" zu analysieren. Ein "Crib" ist ein Stück Klartext der ursprünglichen Nachricht.
-Diese Methode basiert auf bekanntem Klartext ("known plaintext attack").
+    <description lang="de">Wählen Sie diesen Punkt, um den Geheimtext mit Hilfe eines "Crib" zu analysieren. Ein "Crib" ist ein bekanntes Stück Klartext der ursprünglichen Nachricht. 
+Diese Methode benötigt für die Analyse einen Teil des Klartextes ("Known-plaintext-Angriff").
     </description>
 
     <headline lang="en">Transposition Crib Analysis</headline>
     <headline lang="de">Transposition Crib-Analyse</headline>
     <task lang="en">Input the ciphertext that was encrypted by using the Transposition algorithm and your crib.</task>
-    <task lang="de">Geben Sie den chiffrierten Text ein, der mit dem Transpositionsalgorithmus verschlüsselt wurde, und den "Crib".</task>
+    <task lang="de">Geben Sie den Geheimtext ein, der mit dem Transpositionsalgorithmus verschlüsselt wurde, und den "Crib".</task>
 
     <inputBox plugin="Ciphertext" property="Text" visibleLines="5">
       <description lang="en">Ciphertext:</description>
-      <description lang="de">Chiffrierter Text:</description>
+      <description lang="de">Geheimtext:</description>
       <defaultvalue>tlesiug tneifht-ihntl  eta dnsg ro   rttyoc.a  ed fm u tr taiPn i  st eug rs id i xe eib  netpsm wym id tx ei io.if rs isataaumTpu.Ton-ae aipght wymta t xobut aeuethrd  tsahntl anak  txt-TaiPnstnm,no nyoc.r,e ab  nltspeto xptu l pogepedynreiPnesiurtxotdi esr lAtimhr ro srtr o aatapFo,Ton-tlx  po nls pogeht rentt,obufhtueir lAtehmtuttnssu</defaultvalue>
     </inputBox>
 

@@ -7,7 +7,7 @@
   <name lang="en" >Individual Procedures</name>
   <name lang="de" >Individuelle Verfahren</name>
   <description lang="en" >Select this to use individual procedures like hash functions or prime number operations.</description>
-  <description lang="de" >Wählen Sie dies, um individuelle Verfahren wie Hash-Funktionen oder Primzahloperationen zu benutzen.</description>
+  <description lang="de" >Wählen Sie diesen Punkt, um individuelle Verfahren wie Hash-Funktionen oder Primzahloperationen zu benutzen.</description>
 
   <!-- This is the step's headline. It should be short, but precise. -->
   <headline lang="en" >Individual Procedure Selection</headline>

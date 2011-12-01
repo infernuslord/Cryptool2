@@ -21,7 +21,7 @@
   <category image="MD5">
     <name lang="en" >MD5</name>
     <description lang="en" >MD5 (Message-Digest algorithm 5) is a widely used cryptographic hash function with a 128-bit (16-byte) hash value.</description>
-    <description lang="de" >MD5 (Message-Digest algorithm 5) ist eine weit verbreitete kryptographische Hash-Funktion mit einem 128-bit (16-byte) Hashwert.</description>
+    <description lang="de" >MD5 (Message-Digest algorithm 5) ist eine weit verbreitete kryptographische Hash-Funktion mit einem 128-Bit-Hashwert (16 Bytes).</description>
 
     <headline lang="en">MD5</headline>
     <task lang="en">Select if you want to see an interactive presentation of MD5 processing your data.</task>
@@ -121,7 +121,7 @@
   <sampleViewer image="RIPEMD160" file="Hashfunctions\RIPEMD160.cwm">
     <name lang="en" >RIPEMD160</name>
     <description lang="en" >RIPEMD-160 (RACE Integrity Primitives Evaluation Message Digest) is a 160-bit message digest algorithm (cryptographic hash function). It is an improved version of RIPEMD, which in turn was based upon the design principles used in MD4, and is similar in performance to the more popular SHA-1.</description>
-    <description lang="de" >RIPEMD-160 (RACE Integrity Primitives Evaluation Message Digest) ist ein 160-bit "Message Digest" Algorithmus (kryptographische Hash-Funktion). Es ist eine verbesserte Version von RIPEMD, welche wiederum auf den Entwurfsprinzipien, die in MD4 benutzt wurden, basiert, und ist von der Performance vergleichbar mit dem populäreren SHA-1.</description>
+    <description lang="de" >RIPEMD-160 (RACE Integrity Primitives Evaluation Message Digest) ist ein 160-Bit "Message Digest" Algorithmus (kryptographische Hash-Funktion). Es ist eine verbesserte Version von RIPEMD, welche wiederum auf den Entwurfsprinzipien, die in MD4 benutzt wurden, basiert, und ist von der Performance vergleichbar mit dem populäreren SHA-1.</description>
 
     <headline lang="en">RIPEMD160</headline>
     <task lang="en">Input your message and watch the RIPEMD160 output here.</task>

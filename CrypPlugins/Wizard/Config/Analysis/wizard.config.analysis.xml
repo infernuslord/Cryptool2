@@ -7,7 +7,7 @@
   <name lang="en" >Cryptanalysis</name>
   <name lang="de" >Kryptoanalyse</name>
   <description lang="en" >Selecting this allows you to analyze a ciphertext of a specific algorithm. By doing so, you are able to obtain the cleartext of the original message and/or the corresponding key. You have to select the algorithm that was used for encryption.</description>
-  <description lang="de-DE" >Wählen Sie diesen Punkt, um einen gegebenen Chiffretext zu analysieren. Dadurch können Sie den Klartext der ursprünglichen Nachricht und/oder den zugehörigen Schlüssel erhalten. Sie müssen dazu den Algorithmus, der zur Verschlüsselung verwendet wurde, auswählen.</description>
+  <description lang="de-DE" >Wählen Sie diesen Punkt, um einen gegebenen Geheimtext zu analysieren: Die Analyse kann den Klartext der ursprünglichen Nachricht und/oder den zugehörigen Schlüssel finden. Sie müssen dazu noch das erwartete Verschlüsselungsverfahren auswählen.</description>
 
   <!-- This is the step's headline. It should be short, but precise. -->
   <headline lang="en" >Age Selection</headline>
@@ -15,7 +15,7 @@
 
   <!-- This is the step's description. -->
   <task lang="en" >Select classic or modern encryption/decryption.</task>
-  <task lang="de-DE" >Wählen Sie zwischen klassischer oder moderner Verschlüsselung/Entschlüsselung.</task>
+  <task lang="de-DE" >Wählen Sie zwischen klassischen und modernen Verschlüsselungsverfahren.</task>
 
   <!-- Classic Encryption Category -->
   <file resource="Wizard.Config.Analysis.wizard.config.classicEn.xml" />

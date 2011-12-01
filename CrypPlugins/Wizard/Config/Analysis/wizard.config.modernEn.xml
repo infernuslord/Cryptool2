@@ -6,8 +6,8 @@
 <category image="Modern">
   <name lang="en" >Modern Encryption</name>
   <name lang="de" >Moderne Verschlüsselung</name>
-  <description lang="en" >Selecting this allows you to analyze a ciphertext that was encrypted by a modern algorithm. You can choose which modern algorithm you want to use for doing this.</description>
-  <description lang="de-DE" >Wählen Sie diesen Punkt, um einen chiffrierten Text, der mit einem modernen Algorithmus verschlüsselt wurde, zu analysieren. Der dafür verwendete Algorithmus kann von Ihnen ausgewählt werden.</description>
+  <description lang="en" >Selecting this allows you to analyze a ciphertext that was encrypted by a modern algorithm. You can choose which algorithm you want to use for doing this.</description>
+  <description lang="de-DE" >Wählen Sie diesen Punkt, um einen Geheimtext, der mit einem modernen Algorithmus verschlüsselt wurde, zu analysieren. Das zu verwendende Verschlüsselungsverfahren kann von Ihnen ausgewählt werden.</description>
 
   <!-- This is the step's headline. It should be short, but precise. -->
   <headline lang="en">Type Selection</headline>
@@ -15,7 +15,7 @@
 
   <!-- This is the step's description. -->
   <task lang="en" >Select which kind of modern encryption algorithm you want to use.</task>
-  <task lang="de" >Wählen Sie, welchen modernen Verschlüsselungsalgorithmus Sie benutzen wollen.</task>
+  <task lang="de" >Wählen Sie, welches moderne Verschlüsselungsverfahren Sie benutzen wollen.</task>
 
   <!-- Symmetric Encryption Category -->
   <file resource="Wizard.Config.Analysis.wizard.config.modernSymEn.xml" />  
@@ -24,55 +24,51 @@
   <category image="Asym">
     <name lang="en" >Asymmetric Encryption</name>
     <name lang="de" >Asymmetrische Verschlüsselung</name>
-    <description lang="en" >Selecting this allows you to analyze a ciphertext that was encrypted by a modern asymmetric algorithm. You can choose which asymmetric algorithm you want to use for doing this.</description>
-    <description lang="de-DE" >Wählen Sie diesen Punkt, um einen chiffrierten Text, der mit einem modernen asymmetrischen Algorithmus verschlüsselt wurde, zu analysieren. Der dafür verwendete Algorithmus kann von Ihnen ausgewählt werden.</description>
+    <description lang="en" >Selecting this allows you to analyze a ciphertext that was encrypted by a modern asymmetric algorithm. You can choose which algorithm you want to use for doing this.</description>
+	 <description lang="de-DE" >Wählen Sie diesen Punkt, um einen Geheimtext, der mit einem modernen asymmetrischen Algorithmus verschlüsselt wurde, zu analysieren. Das zu verwendende Verschlüsselungsverfahren kann von Ihnen ausgewählt werden.</description>
 
     <!-- This is the step's headline. It should be short, but precise. -->
     <headline lang="en" >Algorithm Selection</headline>
-    <headline lang="de">Algorithmusauswahl</headline>
+    <headline lang="de">Algorithmenauswahl</headline>
 
     <!-- This is the step's description. -->
     <task lang="en" >Select an asymmetric encryption/decryption algorithm.</task>
-    <task lang="de" >Wählen Sie einen asymmetrischen Verschlüsselungs-/Entschlüsselungsalgorithmus.</task>
+    <task lang="de" >Wählen Sie ein asymmetrisches Verschlüsselungsverfahren.</task>
     
     <!-- RSA input -->
     <input image="RSA" >
       <name lang="en" >RSA</name>
-      <description lang="en">
-        RSA is an asymmetric (public-key) algorithm to encrypt plaintext or to decrypt ciphertext.
-RSA stands for Rivest, Shamir and Adleman who first publicly described it.
-It is the first algorithm known to be suitable for signing as well as encryption, and was one of the first great advances in public-key cryptography.
+      <description lang="en">RSA is an asymmetric (public-key) algorithm to encrypt plaintext or to decrypt ciphertext. RSA stands for Rivest, Shamir and Adleman who first publicly described it. It is the first algorithm known to be suitable for signing as well as encryption, and was one of the first great advances in public-key cryptography.
 RSA is widely used in electronic commerce protocols, and is believed to be secure given sufficiently long keys and using of up-to-date implementations.
       </description>
-      <description lang="de">
-        RSA ist ein asymmetrischer (Public-Key) Algorithmus, um Klartext zu verschlüsseln oder Geheimtext zu entschlüsseln.
-RSA steht für Rivest, Shamir und Adleman, die dieses Verfahren zum ersten Mal öffentlich beschrieben.
-Es ist der erste Algorithmus, der sowohl zur Signierung als auch für die Verschlüsselung benutzt werden konnte und war einer der ersten großen Fortschritte in der Public-Key-Kryptographie.
+      <description lang="de">RSA ist ein asymmetrisches Verschlüsselungsverfahren. RSA steht für Rivest, Shamir und Adleman, die dieses Verfahren zum ersten Mal öffentlich beschrieben. Es ist der erste Algorithmus, der sowohl zur Signierung als auch für die Verschlüsselung benutzt werden konnte und war einer der ersten großen Fortschritte in der Public-Key-Kryptographie.
 RSA ist in kommerziellen Protokollen weit verbreitet und gilt bei genügend langen Schlüsseln und unter Verwendung aktueller Implementierungen als sicher.
-      </description>
+</description>
 
       <headline lang="en">RSA Attack</headline>
-      <headline lang="de">RSA Angriff</headline>
+      <headline lang="de">RSA-Angriff</headline>
       <task lang="en">Please read the explanation.</task>
       <task lang="de">Bitte lesen Sie die Beschreibung.</task>
 
       <inputBox plugin="dummy" property="dummy" visibleLines="10">
         <description lang="en"></description>
         <defaultvalue lang="en">
-          The security of the RSA cryptosystem is based on the problem of factoring large integer numbers.
-          This is because the equation N = p*q holds, where p and q are primes. N is the common part of the private and public keypair.
-          If you know the public keypair (N, e), it is possible to also calculate the private keypair (N, d), 
-          because d is simply the multiplicative inverse of e modulo (p-1)*(q-1).
-          So the main problem of attacking RSA lies in the factorization of N into its two prime factors.
-          By clicking "next", you can factorize a large number into all its factors.
+The security of the RSA cryptosystem is based on the problem of factoring large integer numbers.
+This is because the equation N = p*q holds, where p and q are primes. N is the common part of the private and public keypair.
+If you know the public keypair (N, e), it is possible to also calculate the private keypair (N, d), 
+because d is simply the multiplicative inverse of e modulo (p-1)*(q-1).
+So the main problem of attacking RSA lies in the factorization of N into its two prime factors.
+
+By clicking "next", you can factorize a large number into all its factors.
         </defaultvalue>
         <defaultvalue lang="de">
-          Die Sicherheit des RSA-Kryptosystems basiert auf dem Problem, eine sehr große Semi-Primzahl in ihre beiden Primfaktoren zu zerlegen.
-          Dies ist so, weil die Gleichung N = p*q gilt, wobei p und q Primzahlen sind. N ist der gemeinsame Teil des privaten und öffentlichen Schlüsselpaars.
-          Aus dem öffentlichen Schlüssel (N, e) kann man den privaten Schlüssel (N, d) berechnen, wenn man p und q kennt,
-          indem man d als das multiplikative Inverse von e modulo (p-1)*(q-1) ermittelt.
-          Also liegt das Hauptproblem eines RSA-Angriffes darin, N in seine beiden Primfaktoren zu zerlegen.
-          Klicken Sie auf "Weiter", um eine große Zahl in ihre Faktoren zerlegen.
+Die Sicherheit des RSA-Kryptosystems basiert auf dem Problem, eine sehr große Semi-Primzahl in ihre beiden Primfaktoren zu zerlegen.
+Der gemeinsame Teil des privaten und des öffentlichen Schlüssels, die Zahl N = p*q, ist das Produkt zweier großer Primzahlen. Wären die
+Faktoren p und q von N bekannt, so könnte man aus dem öffentlichen Schlüssel (N, e) leicht den privaten Schlüssel (N, d) berechnen,
+indem man d als das multiplikative Inverse von e modulo (p-1)*(q-1) ermittelt.
+Also liegt das Hauptproblem eines RSA-Angriffes darin, N in seine beiden Primfaktoren zu zerlegen.
+
+Klicken Sie auf 'Weiter', um eine große Zahl in ihre Faktoren zu zerlegen.
         </defaultvalue>
       </inputBox>
 

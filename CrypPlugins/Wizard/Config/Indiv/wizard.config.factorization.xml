@@ -5,12 +5,12 @@
   <name lang="en" >Prime Number Factorization</name>
   <name lang="de" >Primzahl-Faktorisierung</name>
   <description lang="en" >Select this to factorize prime numbers.</description>
-  <description lang="de" >Wählen Sie dies, um zusammengesetzte Zahlen zu faktorisieren.</description>
+  <description lang="de" >Wählen Sie diesen Punkt, um zusammengesetzte Zahlen zu faktorisieren.</description>
 
   <headline lang="en">Prime Number Factorization</headline>
   <headline lang="de">Primzahl-Faktorisierung</headline>
   <task lang="en">Please input the number to factorize.</task>
-  <task lang="de">Bitte geben Sie die Zahl zum Faktorisieren ein.</task>
+  <task lang="de">Bitte geben Sie die zu faktorisierende Zahl ein.</task>
 
   <inputBox alignment="Stretch" plugin="Number" property="Number">
     <description lang="en">Enter the number to factorize here (can be a mathematical expression):</description>

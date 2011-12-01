@@ -5,17 +5,17 @@
 <category image="Sym">
   
   <name lang="en" >Symmetric Encryption/Decryption</name>
-  <name lang="de" >Symmetrische Verschlüsselung/Entschlüsselung</name>
-  <description lang="en" >Selecting this allows you to encrypt a plaintext or decrypt a ciphertext with a symmetric algorithm. Symmetric algorithms are those, where the same key is used both for encryption and decryption. You can choose which symmetric algorithm you want to use for doing this.</description>
-  <description lang="de-DE" >Wählen Sie diesen Punkt, um mit Hilfe eines symmetrischen Algorithmus einen Klartext zu verschlüsseln oder einen chiffrierten Text zu entschlüsseln. Bei der symmetrischen Verschlüsselung wird derselbe Schlüssel für die Verschlüsselung und die Entschlüsselung benutzt. Der dafür verwendete Algorithmus kann von Ihnen ausgewählt werden.</description>
+  <name lang="de" >Symmetrische Verschlüsselungsverfahren</name>
+  <description lang="en" >Selecting this allows you to encrypt a plaintext or decrypt a ciphertext with a symmetric algorithm. Symmetric algorithms are those, where the same key is used both for encryption and decryption. You can choose which algorithm you want to use for doing this.</description>
+  <description lang="de-DE" >Wählen Sie diesen Punkt, um mit Hilfe eines symmetrischen Verschlüsselungsverfahrens einen Klartext zu verschlüsseln oder einen Geheimtext zu entschlüsseln. Bei der symmetrischen Verschlüsselung wird derselbe Schlüssel für die Ver- und Entschlüsselung benutzt. Das zu verwendende Verfahren kann von Ihnen ausgewählt werden.</description>
 
   <!-- This is the step's headline. It should be short, but precise. -->
   <headline lang="en" >Algorithm Selection</headline>
-  <headline lang="de">Algorithmusauswahl</headline>
+  <headline lang="de">Algorithmenauswahl</headline>
 
   <!-- This is the step's description. -->
   <task lang="en" >Select a modern symmetric encryption/decryption algorithm.</task>
-  <task lang="de" >Wählen Sie einen symmetrischen Verschlüsselungs-/Entschlüsselungsalgorithmus.</task>
+  <task lang="de" >Wählen Sie ein symmetrisches Verschlüsselungsverfahren.</task>
 
   <!-- AES input -->
   <input image="AES" >
