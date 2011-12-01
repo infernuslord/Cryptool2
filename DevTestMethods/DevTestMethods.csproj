@@ -92,6 +92,7 @@
     <Compile Include="pkcsTest.cs" />
     <Compile Include="TemplateAndPluginTests\PluginTestScenario.cs" />
     <Compile Include="TemplateAndPluginTests\TemplateAndPluginTests.cs" />
+    <Compile Include="TemplateAndPluginTests\TemplateTestScenario.cs" />
     <Compile Include="TemplateAndPluginTests\TestScenario.cs" />
     <Compile Include="TigerTest.cs" />
     <Compile Include="TranspositionTest.cs" />

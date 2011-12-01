@@ -14,8 +14,32 @@ namespace Tests.TemplateAndPluginTests
         public void CasearTest()
         {
             var pluginInstance = GetPluginInstance("Caesar");
-            var scenario = new PluginTestScenario(pluginInstance, new []{""}, new []{""});
+            var scenario = new PluginTestScenario(pluginInstance, new []{"ShiftKey", "InputAlphabet", "InputString"}, new []{"OutputString"});
 
+            //Test 1:
+            if (!scenario.Test(new object[] { 24, "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "Franz jagt im komplett verwahrlosten Taxi quer durch Bayern" }, new[] { "Dpylx hyer gk imknjcrr tcpuyfpjmqrcl Ryvg oscp bspaf Zywcpl" }))
+            {
+                Assert.Fail("Test 1 failed!");
+            }
+
+            //Test 2:
+            if (!scenario.Test(new object[] { 24, "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz", "Franz jagt im komplett verwahrlosten Taxi quer durch Bayern" }, new[] { "dPyLX HyER GK IMKNJCRR TCPUyFPJMQRCL ryVG OSCP BSPAF ZyWCPL" }))
+            {
+                Assert.Fail("Test 2 failed!");
+            }
+        }
+
+        [TestMethod]
+        public void ADFGVXTest()
+        {
+            var pluginInstance = GetPluginInstance("ADFGVX");
+            var scenario = new PluginTestScenario(pluginInstance, new[] { ".SubstitutionPass", ".TranspositionPass", "InputString" }, new[] { "OutputString" });
+
+            //Test 1:
+            if (!scenario.Test(new [] { "WIKPEDAZYXVUTSRQONMLHGFCB", "BEOBACHTUNGSLISTE", "Munitionierung beschleunigen Punkt Soweit nicht eingesehen auch bei Tag" }, new[] { "GXGGADDDGDXXAFADDFAAXAFDFFXFDGDXGAGGAAXFAGADFAAADGFAXXADADFFFDDADFGAXGXAFXGXFXDAFAGFXXFAXGFDXFFDFAGXXGXXADGXGFXDFFDGAXXFFFFGDX" }))
+            {
+                Assert.Fail("Test 1 failed!");
+            }
         }
 
         private static IPlugin GetPluginInstance(string pluginName)

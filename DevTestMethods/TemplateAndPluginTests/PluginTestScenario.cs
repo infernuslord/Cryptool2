@@ -10,18 +10,27 @@ namespace Tests.TemplateAndPluginTests
         private readonly IPlugin _plugin;
 
         public PluginTestScenario(IPlugin plugin, string[] inputProperties, string[] outputProperties)
-            : base(GetProperties(plugin, inputProperties), GetDublicatedArray(plugin, inputProperties.Length), 
-                   GetProperties(plugin, outputProperties), GetDublicatedArray(plugin, outputProperties.Length))
+            : base(GetProperties(plugin, inputProperties), GetObjectArray(plugin, inputProperties), 
+                   GetProperties(plugin, outputProperties), GetObjectArray(plugin, outputProperties))
         {
             _plugin = plugin;
         }
 
-        private static object[] GetDublicatedArray(object o, int length)
+        private static object[] GetObjectArray(IPlugin plugin, string[] properties)
         {
-            var res = new object[length];
-            for (int i = 0; i < length; i++)
+            var settings = plugin.Settings;
+
+            var res = new object[properties.Length];
+            for (int i = 0; i < res.Length; i++)
             {
-                res[i] = o;
+                if (properties[i].StartsWith("."))
+                {
+                    res[i] = settings;
+                }
+                else
+                {
+                    res[i] = plugin;
+                }
             }
             return res;
         }
