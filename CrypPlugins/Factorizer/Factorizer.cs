@@ -81,8 +81,6 @@ namespace Factorizer
 
     public void Execute()
     {
-        ProgressChanged(0, 100);
-
         if (m_Settings.HasErrors)
         {
             foreach (string message in m_Settings.Errors)
@@ -91,43 +89,40 @@ namespace Factorizer
             return;
         }
      
-        if (m_Input == null)
+        if (m_Input == 0)
         {
-            FireOnGuiLogNotificationOccuredEventError("No input given");
+            FireOnGuiLogNotificationOccuredEventError("Input is zero");
             return;
         }
 
-        BigInteger factor = 1;
-
-        if ( !m_Input.IsProbablePrime() )
+        if (m_Input.IsProbablePrime())
         {
-            BigInteger limit = BigIntegerHelper.Min( m_Settings.BruteForceLimit, m_Input.Sqrt() );
-            int progressdisplay = 0;
+            // Input = Factor
+            // No remainder
+            Factor = m_InputString;
+            return;
+        }
 
-            for (BigInteger i = 2; i <= limit; i = (i + 1).NextProbablePrime()) 
+        BigInteger limit = BigIntegerHelper.Min(m_Settings.BruteForceLimit, m_Input.Sqrt());
+        int progressdisplay = 0;
+
+        for (BigInteger factor = 2; factor <= limit; factor = (factor + 1).NextProbablePrime())
+        {
+            if (++progressdisplay == 100)
             {
-                if (i >= m_Settings.BruteForceLimit)
-                {
-                    FireOnGuiLogNotificationOccuredEvent("Brute force limit reached, no factors were found", NotificationLevel.Warning);
-                    break;
-                }
-                if (++progressdisplay == 100)
-                {
-                    progressdisplay = 0;
-                    ProgressChanged((int)((i*100) / limit), 100);
-                }
-                if (m_Input % i == 0)
-                {
-                    factor = i;
-                    break;
-                }
+                progressdisplay = 0;
+                ProgressChanged((int)((factor * 100) / limit), 100);
+            }
+            if (m_Input % factor == 0)
+            {
+                // Factor found, exit gracefully
+                Factor = factor.ToString();
+                Remainder = (m_Input / factor).ToString();
+                return;
             }
         }
 
-        Factor = factor.ToString();
-        Remainder = (m_Input / factor).ToString();
-
-        ProgressChanged(100, 100);
+        FireOnGuiLogNotificationOccuredEvent(string.Format("Brute force limit of {0} reached, no factors found", limit), NotificationLevel.Warning);
     }
 
     public void PostExecution()
