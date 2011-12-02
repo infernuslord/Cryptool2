@@ -1,5 +1,5 @@
 /*
-   Copyright 2008 Timo Eckhardt, University of Siegen
+   Copyright 2008-2011 CrypTool 2 Team <ct2contact@cryptool.org>
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -26,195 +26,162 @@ using System.Numerics;
 
 namespace Factorizer
 {
-  [Author("Timo Eckhardt", "T-Eckhardt@gmx.de", "Uni Siegen", "http://www.uni-siegen.de")]
-  [PluginInfo("Factorizer.Properties.Resources", "PluginCaption", "PluginTooltip", "Factorizer/DetailedDescription/doc.xml", "Factorizer/icon.png")]
-  [ComponentCategory(ComponentCategory.CryptanalysisGeneric)]
+    [Author("Timo Eckhardt", "T-Eckhardt@gmx.de", "Uni Siegen", "http://www.uni-siegen.de")]
+    [PluginInfo("Factorizer.Properties.Resources", "PluginCaption", "PluginTooltip", "Factorizer/DetailedDescription/doc.xml", "Factorizer/icon.png")]
+    [ComponentCategory(ComponentCategory.CryptanalysisGeneric)]
     public class Factorizer : ICrypComponent
-  {
-    public Factorizer()
     {
-      m_Settings = new FactorizerSettings();
-    }
-    #region IPlugin Members
+        #region IPlugin Members
 
-    public event Cryptool.PluginBase.StatusChangedEventHandler OnPluginStatusChanged;
-    private void FireOnPluginStatusChangedEvent()
-    {
-      if (OnPluginStatusChanged != null) OnPluginStatusChanged(this, new StatusEventArgs(0));
-    }
-
-    public event Cryptool.PluginBase.GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
-    private void FireOnGuiLogNotificationOccuredEvent(string message, NotificationLevel lvl)
-    {
-        if (OnGuiLogNotificationOccured != null) OnGuiLogNotificationOccured(this, new GuiLogEventArgs(message, this, lvl));
-    }
-    private void FireOnGuiLogNotificationOccuredEventError(string message)
-    {
-        FireOnGuiLogNotificationOccuredEvent(message, NotificationLevel.Error);
-    }
-
-    public event Cryptool.PluginBase.PluginProgressChangedEventHandler OnPluginProgressChanged;
-    private void FireOnPluginProgressChangedEvent(string message, NotificationLevel lvl)
-    {
-        if (OnPluginProgressChanged != null) OnPluginProgressChanged(this, new PluginProgressEventArgs(0, 0));
-    }
-
-    private void ProgressChanged(double value, double max)
-    {
-        EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
-    }
-
-    private FactorizerSettings m_Settings;
-    public Cryptool.PluginBase.ISettings Settings
-    {
-      get { return m_Settings; }
-    }
-
-    public System.Windows.Controls.UserControl Presentation
-    {
-      get { return null; }
-    }
-
-      public void PreExecution()
-    {
-    }
-
-    public void Execute()
-    {
-        if (m_Settings.HasErrors)
+        public event Cryptool.PluginBase.StatusChangedEventHandler OnPluginStatusChanged;
+        private void FireOnPluginStatusChangedEvent()
         {
-            foreach (string message in m_Settings.Errors)
-                FireOnGuiLogNotificationOccuredEventError(message);
-
-            return;
-        }
-     
-        if (m_Input == 0)
-        {
-            FireOnGuiLogNotificationOccuredEventError("Input is zero");
-            return;
+            if (OnPluginStatusChanged != null) OnPluginStatusChanged(this, new StatusEventArgs(0));
         }
 
-        if (m_Input.IsProbablePrime())
+        public event Cryptool.PluginBase.GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
+        private void FireOnGuiLogNotificationOccuredEvent(string message, NotificationLevel lvl)
         {
-            // Input = Factor
-            // No remainder
-            Factor = m_InputString;
-            return;
+            if (OnGuiLogNotificationOccured != null) OnGuiLogNotificationOccured(this, new GuiLogEventArgs(message, this, lvl));
+        }
+        private void FireOnGuiLogNotificationOccuredEventError(string message)
+        {
+            FireOnGuiLogNotificationOccuredEvent(message, NotificationLevel.Error);
         }
 
-        BigInteger limit = BigIntegerHelper.Min(m_Settings.BruteForceLimit, m_Input.Sqrt());
-        int progressdisplay = 0;
-
-        for (BigInteger factor = 2; factor <= limit; factor = (factor + 1).NextProbablePrime())
+        public event Cryptool.PluginBase.PluginProgressChangedEventHandler OnPluginProgressChanged;
+        private void FireOnPluginProgressChangedEvent(string message, NotificationLevel lvl)
         {
-            if (++progressdisplay == 100)
+            if (OnPluginProgressChanged != null) OnPluginProgressChanged(this, new PluginProgressEventArgs(0, 0));
+        }
+
+        private void ProgressChanged(double value, double max)
+        {
+            EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
+        }
+
+        private FactorizerSettings m_Settings = new FactorizerSettings();
+        public Cryptool.PluginBase.ISettings Settings
+        {
+            get { return m_Settings; }
+        }
+
+        public System.Windows.Controls.UserControl Presentation
+        {
+            get { return null; }
+        }
+
+        public void PreExecution()
+        {
+        }
+
+        public void Execute()
+        {
+            BigInteger m_Input = BigIntegerHelper.ParseExpression(InputString);
+
+            if (m_Input < 2)
             {
-                progressdisplay = 0;
-                ProgressChanged((int)((factor * 100) / limit), 100);
-            }
-            if (m_Input % factor == 0)
-            {
-                // Factor found, exit gracefully
-                Factor = factor.ToString();
-                Remainder = (m_Input / factor).ToString();
+                FireOnGuiLogNotificationOccuredEventError("Input must be natural number >= 2");
                 return;
             }
-        }
 
-        FireOnGuiLogNotificationOccuredEvent(string.Format("Brute force limit of {0} reached, no factors found", limit), NotificationLevel.Warning);
-    }
-
-    public void PostExecution()
-    {
-    }
-
-      public void Stop()
-    {
-    }
-
-    public void Initialize()
-    {
-    }
-
-    public void Dispose()
-    {
-    }
-
-    #endregion
-
-    #region INotifyPropertyChanged Members
-
-    public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-    private void FirePropertyChangedEvent(string propertyName)
-    {
-      if (PropertyChanged != null) PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-    }
-
-    #endregion
-
-    #region Properties
-    private BigInteger m_Input;
-    private string m_InputString;
-    [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", true)]
-    public string InputString
-    {
-      get { return m_InputString; }
-      set {
-        if (!string.IsNullOrEmpty(value))
-        {
-          m_InputString = value;
-          try
-          {
-            m_Input = BigIntegerHelper.ParseExpression(m_InputString);
-            if (m_Input <= 0 )
+            if (m_Input.IsProbablePrime())
             {
-              m_Input = 0;
-              throw new Exception();
+                Factor = InputString; // Input = Factor
+                return;                 // No remainder
             }
 
-          }
-          catch 
-          {
-            FireOnGuiLogNotificationOccuredEventError("Input has to be a natural number.");
-          }
-          FirePropertyChangedEvent("InputString");
-        }
-        else
-        {
-          FireOnGuiLogNotificationOccuredEventError("Input has to be a natural number.");
-          m_Input = 0;
-        }
-      }
-    }
-    private string m_Factor;
+            BigInteger limit = BigIntegerHelper.Min(m_Settings.BruteForceLimit, m_Input.Sqrt());
+            int progressdisplay = 0;
 
-    [PropertyInfo(Direction.OutputData, "FactorCaption", "FactorTooltip", true)]
-    public string Factor
-    {
-      get { return m_Factor; }
-      set {
-        if (!string.IsNullOrEmpty(value))
-        {
-          m_Factor = value;
-          FirePropertyChangedEvent("Factor");
-        }
-      }
-    }
-    private string m_Remainder;
+            for (BigInteger factor = 2; factor <= limit; factor = (factor + 1).NextProbablePrime())
+            {
+                if (++progressdisplay == 100)
+                {
+                    progressdisplay = 0;
+                    ProgressChanged((int)((factor * 100) / limit), 100);
+                }
+                if (m_Input % factor == 0)
+                {
+                    // Factor found, exit gracefully
+                    Factor = factor.ToString();
+                    Remainder = (m_Input / factor).ToString();
+                    return;
+                }
+            }
 
-    [PropertyInfo(Direction.OutputData, "RemainderCaption", "RemainderTooltip", true)]
-    public string Remainder
-    {
-      get { return m_Remainder; }
-      set {
-        if (!string.IsNullOrEmpty(value))
-        {
-          m_Remainder = value;
-          FirePropertyChangedEvent("Remainder");
+            FireOnGuiLogNotificationOccuredEvent(string.Format("Brute force limit of {0} reached, no factors found", limit), NotificationLevel.Warning);
         }
-      }
+
+        public void PostExecution()
+        {
+        }
+
+        public void Stop()
+        {
+        }
+
+        public void Initialize()
+        {
+        }
+
+        public void Dispose()
+        {
+        }
+
+        #endregion
+
+        #region INotifyPropertyChanged Members
+
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        private void FirePropertyChangedEvent(string propertyName)
+        {
+            if (PropertyChanged != null) PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+        }
+
+        #endregion
+
+        #region Properties
+
+        [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", true)]
+        public string InputString
+        {
+            get;
+            set;
+        }
+
+        private string m_Factor;
+
+        [PropertyInfo(Direction.OutputData, "FactorCaption", "FactorTooltip", true)]
+        public string Factor
+        {
+            get { return m_Factor; }
+            set
+            {
+                if (!string.IsNullOrEmpty(value))
+                {
+                    m_Factor = value;
+                    FirePropertyChangedEvent("Factor");
+                }
+            }
+        }
+
+        private string m_Remainder;
+
+        [PropertyInfo(Direction.OutputData, "RemainderCaption", "RemainderTooltip", true)]
+        public string Remainder
+        {
+            get { return m_Remainder; }
+            set
+            {
+                if (!string.IsNullOrEmpty(value))
+                {
+                    m_Remainder = value;
+                    FirePropertyChangedEvent("Remainder");
+                }
+            }
+        }
+
+        #endregion
     }
-    #endregion
-  }
 }
