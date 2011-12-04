@@ -314,7 +314,7 @@ namespace WorkspaceManager.Model
                 imageIndex = args.ImageIndex;
                 if (WorkspaceModel.ExecutionEngine == null || !WorkspaceModel.ExecutionEngine.IsRunning())
                 {
-                    if (WorkspaceModel.MyEditor != null)
+                    if (WorkspaceModel.MyEditor != null && WorkspaceModel.MyEditor.Presentation != null && UpdateableView != null)
                     {
                         WorkspaceModel.MyEditor.Presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                         {
