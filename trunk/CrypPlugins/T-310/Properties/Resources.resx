@@ -121,7 +121,7 @@
     <value>T-310/50</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>East German Cipher Machine</value>
+    <value>Historic Cipher Machine used by German Democratic Republic</value>
   </data>
   <data name="InputDataCaption" xml:space="preserve">
     <value>Input data</value>
