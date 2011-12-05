@@ -121,7 +121,7 @@
     <value>T-310/50</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Ostdeutsche Chiffriermaschine</value>
+    <value>DDR-Chiffriergerät</value>
   </data>
   <data name="InputDataCaption" xml:space="preserve">
     <value>Eingabedaten</value>
