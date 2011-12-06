@@ -61,200 +61,11 @@ namespace Cryptool.TextInput.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die BoolArray ähnelt.
-        /// </summary>
-        internal static string BoolArrayOutputCaption {
-            get {
-                return ResourceManager.GetString("BoolArrayOutputCaption", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die The text input converted to bool array (&apos;0&apos; char or 0x00 equals false, else true). ähnelt.
-        /// </summary>
-        internal static string BoolArrayOutputTooltip {
-            get {
-                return ResourceManager.GetString("BoolArrayOutputTooltip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die ByteArray ähnelt.
-        /// </summary>
-        internal static string ByteArrayOutputCaption {
-            get {
-                return ResourceManager.GetString("ByteArrayOutputCaption", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die The hex values as byte array. ähnelt.
-        /// </summary>
-        internal static string ByteArrayOutputTooltip {
-            get {
-                return ResourceManager.GetString("ByteArrayOutputTooltip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Character encoding ähnelt.
-        /// </summary>
-        internal static string EncodingSettingCaption {
-            get {
-                return ResourceManager.GetString("EncodingSettingCaption", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Default system encoding ähnelt.
-        /// </summary>
-        internal static string EncodingSettingList1 {
-            get {
-                return ResourceManager.GetString("EncodingSettingList1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die UTF-8 ähnelt.
-        /// </summary>
-        internal static string EncodingSettingList2 {
-            get {
-                return ResourceManager.GetString("EncodingSettingList2", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die UTF-7 ähnelt.
-        /// </summary>
-        internal static string EncodingSettingList3 {
-            get {
-                return ResourceManager.GetString("EncodingSettingList3", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die UTF-32 ähnelt.
-        /// </summary>
-        internal static string EncodingSettingList4 {
-            get {
-                return ResourceManager.GetString("EncodingSettingList4", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Unicode ähnelt.
-        /// </summary>
-        internal static string EncodingSettingList5 {
-            get {
-                return ResourceManager.GetString("EncodingSettingList5", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Big endian unicode ähnelt.
-        /// </summary>
-        internal static string EncodingSettingList6 {
-            get {
-                return ResourceManager.GetString("EncodingSettingList6", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die ASCII ähnelt.
-        /// </summary>
-        internal static string EncodingSettingList7 {
-            get {
-                return ResourceManager.GetString("EncodingSettingList7", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die ISO8859-15 ähnelt.
-        /// </summary>
-        internal static string EncodingSettingList8 {
-            get {
-                return ResourceManager.GetString("EncodingSettingList8", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Windows-1252 ähnelt.
-        /// </summary>
-        internal static string EncodingSettingList9 {
-            get {
-                return ResourceManager.GetString("EncodingSettingList9", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Choose the expected encoding of the byte array and stream. ähnelt.
-        /// </summary>
-        internal static string EncodingSettingTooltip {
-            get {
-                return ResourceManager.GetString("EncodingSettingTooltip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Input format ähnelt.
-        /// </summary>
-        internal static string InputFormatSettingCaption {
-            get {
-                return ResourceManager.GetString("InputFormatSettingCaption", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Plain text ähnelt.
-        /// </summary>
-        internal static string InputFormatSettingList1 {
-            get {
-                return ResourceManager.GetString("InputFormatSettingList1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Hex ähnelt.
-        /// </summary>
-        internal static string InputFormatSettingList2 {
-            get {
-                return ResourceManager.GetString("InputFormatSettingList2", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Base64 ähnelt.
-        /// </summary>
-        internal static string InputFormatSettingList3 {
-            get {
-                return ResourceManager.GetString("InputFormatSettingList3", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Choose the input format that will be decoded (if applicable) prior to further processing. ähnelt.
-        /// </summary>
-        internal static string InputFormatSettingTooltip {
-            get {
-                return ResourceManager.GetString("InputFormatSettingTooltip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Text Input ähnelt.
         /// </summary>
         internal static string PluginCaption {
             get {
                 return ResourceManager.GetString("PluginCaption", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die TextInput/Documentation/doc.xml ähnelt.
-        /// </summary>
-        internal static string PluginDescriptionURL {
-            get {
-                return ResourceManager.GetString("PluginDescriptionURL", resourceCulture);
             }
         }
         
@@ -268,20 +79,11 @@ namespace Cryptool.TextInput.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Stream ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die {0:#,0} characters ({1:#,0} bytes) ähnelt.
         /// </summary>
-        internal static string StreamOutputCaption {
+        internal static string PresentationFmt {
             get {
-                return ResourceManager.GetString("StreamOutputCaption", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die The text input converted to memory stream. ähnelt.
-        /// </summary>
-        internal static string StreamOutputTooltip {
-            get {
-                return ResourceManager.GetString("StreamOutputTooltip", resourceCulture);
+                return ResourceManager.GetString("PresentationFmt", resourceCulture);
             }
         }
         
