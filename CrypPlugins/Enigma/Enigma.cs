@@ -41,7 +41,7 @@ using Cryptool.PluginBase.IO;
 namespace Cryptool.Enigma
 {
     [Author("Dr. Arno Wacker, Matthäus Wander", "arno.wacker@cryptool.org", "Uni Duisburg-Essen, Fachgebiet Verteilte Systeme", "http://www.vs.uni-due.de")]
-    [PluginInfo("Cryptool.Enigma.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL",
+    [PluginInfo("Cryptool.Enigma.Properties.Resources", "PluginCaption", "PluginTooltip", "Enigma/DetailedDescription/doc.xml",
       "Enigma/Images/Enigma.png", "Enigma/Images/encrypt.png", "Enigma/Images/decrypt.png")]
     [ComponentCategory(ComponentCategory.CiphersClassic)]
     [ComponentCategory(ComponentCategory.CryptanalysisSpecific)]

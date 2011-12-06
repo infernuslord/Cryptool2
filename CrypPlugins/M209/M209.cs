@@ -28,7 +28,7 @@ namespace Cryptool.Plugins.M209
 {
     // HOWTO: Change author name, email address, organization and URL.
     [Author("Martin Jedrychowski, Martin Switek", "jedry@gmx.de, Martin_Switek@gmx.de", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo("Cryptool.M209.Properties.Resources", "PluginCaption", "PluginTooltip", "M209/DetailedDescription/Description.xaml",
+    [PluginInfo("Cryptool.M209.Properties.Resources", "PluginCaption", "PluginTooltip", "M209/DetailedDescription/doc.xml",
       "M209/Images/M-209.jpg", "M209/Images/encrypt.png", "M209/Images/decrypt.png")]
     
     // HOWTO: Change interface to one that fits to your plugin (see CrypPluginBase).
