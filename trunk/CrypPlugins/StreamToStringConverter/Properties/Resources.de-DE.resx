@@ -123,9 +123,6 @@
   <data name="PluginTooltip" xml:space="preserve">
     <value>Konvertiert einen Eingabedatenstrom in einen String.</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value />
-  </data>
   <data name="OutputStringCaption" xml:space="preserve">
     <value>Ausgabe</value>
   </data>
@@ -139,15 +136,9 @@
     <value>Der Eingabedatenstrom wird in einen String mit der in den Einstellungen gewählten Zeichenkodierung konvertiert.</value>
   </data>
   <data name="EncodingSettingCaption" xml:space="preserve">
-    <value>Zeichenkodierung des Eingabedatenstroms</value>
+    <value>Zeichenkodierung der Eingabe</value>
   </data>
   <data name="EncodingSettingTooltip" xml:space="preserve">
-    <value>Wählen Sie die erwartete Kodierung des Eingabedatenstroms.</value>
-  </data>
-  <data name="EncodingSettingTPCaption" xml:space="preserve">
-    <value>Zeichenkodierung des Eingabedatenstroms</value>
-  </data>
-  <data name="EncodingSettingTPTooltip" xml:space="preserve">
     <value>Wählen Sie die erwartete Kodierung des Eingabedatenstroms.</value>
   </data>
   <data name="MaxLengthCaption" xml:space="preserve">
@@ -160,30 +151,48 @@
     <value>Standardkodierung</value>
   </data>
   <data name="EncodingSettingList2" xml:space="preserve">
-    <value>Binärdaten (konvertiert in Base64)</value>
-  </data>
-  <data name="EncodingSettingList3" xml:space="preserve">
-    <value>Binärdaten (konvertiert in einen Hexstring)</value>
-  </data>
-  <data name="EncodingSettingList4" xml:space="preserve">
-    <value>Binärdaten (konvertiert in einen Oktalstring)</value>
-  </data>
-  <data name="EncodingSettingList5" xml:space="preserve">
-    <value>Unicode</value>
-  </data>
-  <data name="EncodingSettingList6" xml:space="preserve">
-    <value>UTF-7</value>
-  </data>
-  <data name="EncodingSettingList7" xml:space="preserve">
     <value>UTF-8</value>
   </data>
-  <data name="EncodingSettingList8" xml:space="preserve">
+  <data name="EncodingSettingList3" xml:space="preserve">
+    <value>UTF-7</value>
+  </data>
+  <data name="EncodingSettingList4" xml:space="preserve">
+    <value>UTF-16</value>
+  </data>
+  <data name="EncodingSettingList5" xml:space="preserve">
     <value>UTF-32</value>
   </data>
-  <data name="EncodingSettingList9" xml:space="preserve">
+  <data name="EncodingSettingList6" xml:space="preserve">
     <value>ASCII</value>
   </data>
-  <data name="EncodingSettingList10" xml:space="preserve">
-    <value>Big Endian-Unicode</value>
+  <data name="EncodingSettingList7" xml:space="preserve">
+    <value>ISO8859-15</value>
+  </data>
+  <data name="EncodingSettingList8" xml:space="preserve">
+    <value>Windows-1252</value>
+  </data>
+  <data name="PresentationFormatSettingCaption" xml:space="preserve">
+    <value>Darstellungsformat</value>
+  </data>
+  <data name="PresentationFormatSettingList1" xml:space="preserve">
+    <value>Text</value>
+  </data>
+  <data name="PresentationFormatSettingList3" xml:space="preserve">
+    <value>Oktal</value>
+  </data>
+  <data name="PresentationFormatSettingList4" xml:space="preserve">
+    <value>Dezimal</value>
+  </data>
+  <data name="PresentationFormatSettingList5" xml:space="preserve">
+    <value>Hexadezimal</value>
+  </data>
+  <data name="PresentationFormatSettingList6" xml:space="preserve">
+    <value>Base64</value>
+  </data>
+  <data name="PresentationFormatSettingTooltip" xml:space="preserve">
+    <value>Wählen Sie das Format, in dem die Eingabedaten dargestellt werden sollen.</value>
+  </data>
+  <data name="PresentationFormatSettingList2" xml:space="preserve">
+    <value>Binär</value>
   </data>
 </root>

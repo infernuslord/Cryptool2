@@ -25,11 +25,14 @@ namespace Cryptool.Plugins.Convertor
 {
     public class StringToStreamConverterSettings : ISettings
     {
-
-        public enum EncodingTypes { Default = 0, Base64Binary = 1, HexStringBinary = 2, OctalStringBinary = 3, Unicode = 4, UTF7 = 5, UTF8 = 6, UTF32 = 7, ASCII = 8, BigEndianUnicode = 9 };
-
+        public enum EncodingTypes { Default, UTF8, UTF7, UTF16, UTF32, ASCII, ISO8859_15, Windows1252 };
+        public enum PresentationFormat { Text, Binary, Octal, Decimal, Hex, Base64 };
+        
         #region Private variables
+
         private EncodingTypes encoding = EncodingTypes.UTF8;
+        private PresentationFormat presentation = PresentationFormat.Text;
+
         #endregion
 
         #region Algorithm settings properties (visible in the Settings pane)
@@ -37,8 +40,8 @@ namespace Cryptool.Plugins.Convertor
         /// <summary>
         /// Encoding property used in the Settings pane. 
         /// </summary>
-        [ContextMenu( "EncodingSettingCaption", "EncodingSettingTooltip", 1, ContextMenuControlType.ComboBox, null, new string[] { "EncodingSettingList1", "EncodingSettingList2", "EncodingSettingList3", "EncodingSettingList4", "EncodingSettingList5", "EncodingSettingList6", "EncodingSettingList7", "EncodingSettingList8", "EncodingSettingList9", "EncodingSettingList10" })]
-        [TaskPane( "EncodingSettingCaption", "EncodingSettingTooltip", "", 1, false, ControlType.ComboBox, new string[] { "EncodingSettingList1", "EncodingSettingList2", "EncodingSettingList3", "EncodingSettingList4", "EncodingSettingList5", "EncodingSettingList6", "EncodingSettingList7", "EncodingSettingList8", "EncodingSettingList9", "EncodingSettingList10" })]
+        [ContextMenu( "EncodingSettingCaption", "EncodingSettingTooltip", 1, ContextMenuControlType.ComboBox, null, new string[] { "EncodingSettingList1", "EncodingSettingList2", "EncodingSettingList3", "EncodingSettingList4", "EncodingSettingList5", "EncodingSettingList6", "EncodingSettingList7", "EncodingSettingList8" })]
+        [TaskPane( "EncodingSettingCaption", "EncodingSettingTooltip", "", 1, false, ControlType.ComboBox, new string[] { "EncodingSettingList1", "EncodingSettingList2", "EncodingSettingList3", "EncodingSettingList4", "EncodingSettingList5", "EncodingSettingList6", "EncodingSettingList7", "EncodingSettingList8" })]
         public EncodingTypes Encoding
         {
             get
@@ -51,6 +54,27 @@ namespace Cryptool.Plugins.Convertor
                 {
                     this.encoding = value;
                     OnPropertyChanged("Encoding");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Presentation Format property used in the Settings pane. 
+        /// </summary>
+        [ContextMenu("PresentationFormatSettingCaption", "PresentationFormatSettingTooltip", 1, ContextMenuControlType.ComboBox, null, new string[] { "PresentationFormatSettingList1", "PresentationFormatSettingList2", "PresentationFormatSettingList3", "PresentationFormatSettingList4", "PresentationFormatSettingList5", "PresentationFormatSettingList6" })]
+        [TaskPane("PresentationFormatSettingCaption", "PresentationFormatSettingTooltip", null, 1, false, ControlType.ComboBox, new string[] { "PresentationFormatSettingList1", "PresentationFormatSettingList2", "PresentationFormatSettingList3", "PresentationFormatSettingList4", "PresentationFormatSettingList5", "PresentationFormatSettingList6" })]
+        public PresentationFormat PresentationFormatSetting
+        {
+            get
+            {
+                return this.presentation;
+            }
+            set
+            {
+                if (this.presentation != value)
+                {
+                    this.presentation = value;
+                    OnPropertyChanged("Presentation");
                 }
             }
         }
