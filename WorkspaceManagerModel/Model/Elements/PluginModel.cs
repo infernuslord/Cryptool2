@@ -21,6 +21,7 @@ using System.Windows.Threading;
 using Cryptool.PluginBase;
 using System.Threading;
 using System.Windows.Controls;
+using Cryptool.PluginBase.IO;
 using WorkspaceManager.Execution;
 using System.Reflection;
 using System.ComponentModel;
@@ -37,6 +38,8 @@ namespace WorkspaceManager.Model
     [Serializable]
     public class PluginModel : VisualElementModel
     {
+        internal const int MaxStrStreamConversionLength = 1048576; //1 MB
+
         internal PluginModel()
         {
             this.InputConnectors = new List<ConnectorModel>();
@@ -538,7 +541,40 @@ namespace WorkspaceManager.Model
                                 var encoding = new UTF8Encoding();
                                 data = encoding.GetBytes((string)data);
                             }
-                            
+                            //Cast from System.String (UTF8) -> ICryptoolStream
+                            else if (connectorModel.ConnectorType.FullName == "Cryptool.PluginBase.IO.ICryptoolStream" && data.GetType().FullName == "System.String")
+                            {
+                                var writer = new CStreamWriter();
+                                var str = (string) data;
+                                if(str.Length > MaxStrStreamConversionLength)
+                                {
+                                    str = str.Substring(0, MaxStrStreamConversionLength);
+                                }
+                                var encoding = new UTF8Encoding();                           
+                                writer.Write(encoding.GetBytes(str));
+                                writer.Flush();
+                                data = writer;
+
+                            }
+                            //Cast from ICryptoolStream -> System.String (UTF8)
+                            else if (connectorModel.ConnectorType.FullName == "System.String" && data.GetType().FullName == "Cryptool.PluginBase.IO.CStreamWriter")
+                            {
+                                var writer = (CStreamWriter)data;
+                                var reader = writer.CreateReader();
+                                var buffer = new byte[MaxStrStreamConversionLength];
+                                var readamount = reader.ReadFully(buffer, 0, MaxStrStreamConversionLength);
+                                if (readamount > 0)
+                                {
+                                    var encoding = new UTF8Encoding();
+                                    var str = encoding.GetString(buffer, 0, readamount);
+                                    data = str;
+                                }
+                                else
+                                {
+                                    data = String.Empty;
+                                }
+                            }
+
                             //now set the data                           
                             if (connectorModel.property == null)
                             {

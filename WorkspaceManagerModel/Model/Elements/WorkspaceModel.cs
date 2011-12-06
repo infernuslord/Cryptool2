@@ -600,7 +600,11 @@ namespace WorkspaceManager.Model
         /// <summary>
         /// Checks wether a Connector and a Connector are compatible to be connected
         /// They are compatible if their types are equal or the base type of the Connector
-        /// is equal to the type of the other Connector
+        /// is equal to the type of the other Connector. There exists also the following connection
+        /// possibilities:
+        /// - int and BigInteger
+        /// - string and byte array
+        /// - string and cstream 
         /// It is false if already exists a ConnectionModel between both given ConnectorModels
         /// </summary>
         /// <param name="connectorModelA"></param>
@@ -612,11 +616,10 @@ namespace WorkspaceManager.Model
             {
                 return ConversionLevel.Red;
             }
-            else if (connectorModelB == null)
+            if (connectorModelB == null)
             {
                 return ConversionLevel.Red;
             }
-
 
             if (connectorModelA.PluginModel == connectorModelB.PluginModel)
                 return ConversionLevel.NA;
@@ -626,7 +629,6 @@ namespace WorkspaceManager.Model
 
             if (!connectorModelA.Outgoing && !connectorModelB.Outgoing)
                 return ConversionLevel.Red;
-
 
             foreach(ConnectionModel connectionModel in connectorModelA.WorkspaceModel.AllConnectionModels)
             {
@@ -651,11 +653,13 @@ namespace WorkspaceManager.Model
             {                
                 return ConversionLevel.Green;
             }
-
-            if(((connectorModelA.ConnectorType.FullName == "System.Int32" || connectorModelA.ConnectorType.FullName == "System.Int64") &&         connectorModelB.ConnectorType.FullName == "System.Numerics.BigInteger")
+            
+            if(((connectorModelA.ConnectorType.FullName == "System.Int32" || connectorModelA.ConnectorType.FullName == "System.Int64") && connectorModelB.ConnectorType.FullName == "System.Numerics.BigInteger")
                 || ((connectorModelB.ConnectorType.FullName == "System.Int32" || connectorModelB.ConnectorType.FullName == "System.Int64") && connectorModelA.ConnectorType.FullName == "System.Numerics.BigInteger")
                 || (connectorModelB.ConnectorType.FullName == "System.String" && connectorModelA.ConnectorType.FullName == "System.Byte[]")
-                || (connectorModelB.ConnectorType.FullName == "System.Byte[]" && connectorModelA.ConnectorType.FullName == "System.String"))
+                || (connectorModelB.ConnectorType.FullName == "System.Byte[]" && connectorModelA.ConnectorType.FullName == "System.String")
+                || (connectorModelB.ConnectorType.FullName == "System.String" && connectorModelA.ConnectorType.FullName == "Cryptool.PluginBase.IO.ICryptoolStream")
+                || (connectorModelB.ConnectorType.FullName == "System.String" && connectorModelA.ConnectorType.FullName == "Cryptool.PluginBase.IO.ICryptoolStream"))
             {
                 return ConversionLevel.Yellow;
             }
