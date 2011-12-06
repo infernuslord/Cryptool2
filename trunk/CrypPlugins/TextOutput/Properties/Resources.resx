@@ -135,88 +135,25 @@
   <data name="AppendBreaksTooltip" xml:space="preserve">
     <value>Defines how much new lines are added after new input. (Applies only if "Append text input" is active.)</value>
   </data>
-  <data name="BooleanAsNumericCaption" xml:space="preserve">
-    <value>Display boolean as numeric value</value>
-  </data>
-  <data name="BooleanAsNumericTooltip" xml:space="preserve">
-    <value>With this checkbox enabled, incoming boolean values will be displayed as numeric values (1/0 instead of True/False).</value>
-  </data>
-  <data name="EncodingSettingCaption" xml:space="preserve">
-    <value>Input encoding</value>
-  </data>
-  <data name="EncodingSettingTooltip" xml:space="preserve">
-    <value>Choose the expected encoding of the input.</value>
-  </data>
-  <data name="EncodingSettingTPCaption" xml:space="preserve">
-    <value>Input encoding</value>
-  </data>
-  <data name="EncodingSettingTPTooltip" xml:space="preserve">
-    <value>Choose the expected encoding of the input. (The input will be interpreted as set here, no matter what the bytes really mean)</value>
-  </data>
   <data name="MaxLengthCaption" xml:space="preserve">
     <value>Maximum length</value>
   </data>
   <data name="MaxLengthTooltip" xml:space="preserve">
-    <value>Provide the maximum number of bytes to convert.</value>
-  </data>
-  <data name="PresentationFormatSettingCaption" xml:space="preserve">
-    <value>Presentation format</value>
-  </data>
-  <data name="PresentationFormatSettingTooltip" xml:space="preserve">
-    <value>Choose the format that will be used to present the input data.</value>
+    <value>Provide the maximum number of characters to display.</value>
   </data>
   <data name="AppendList1" xml:space="preserve">
     <value>Append text input</value>
   </data>
-  <data name="BooleanAsNumericList1" xml:space="preserve">
-    <value>Display boolean as numeric value</value>
-  </data>
-  <data name="EncodingSettingList1" xml:space="preserve">
-    <value>Default system encoding</value>
-  </data>
-  <data name="EncodingSettingList2" xml:space="preserve">
-    <value>UTF-8</value>
-  </data>
-  <data name="EncodingSettingList3" xml:space="preserve">
-    <value>UTF-7</value>
-  </data>
-  <data name="EncodingSettingList4" xml:space="preserve">
-    <value>UTF-32</value>
-  </data>
-  <data name="EncodingSettingList5" xml:space="preserve">
-    <value>Unicode</value>
-  </data>
-  <data name="EncodingSettingList6" xml:space="preserve">
-    <value>Big endian unicode</value>
-  </data>
-  <data name="EncodingSettingList7" xml:space="preserve">
-    <value>ASCII</value>
-  </data>
-  <data name="PresentationFormatSettingList1" xml:space="preserve">
-    <value>Text</value>
-  </data>
-  <data name="PresentationFormatSettingList2" xml:space="preserve">
-    <value>Hex</value>
-  </data>
-  <data name="PresentationFormatSettingList3" xml:space="preserve">
-    <value>Base64</value>
-  </data>
-  <data name="PresentationFormatSettingList4" xml:space="preserve">
-    <value>Decimal</value>
-  </data>
   <data name="AppendGroup" xml:space="preserve">
     <value>Append</value>
   </data>
-  <data name="InputDataCaption" xml:space="preserve">
+  <data name="InputCaption" xml:space="preserve">
     <value>Input data</value>
   </data>
-  <data name="InputDataTooltip" xml:space="preserve">
+  <data name="InputTooltip" xml:space="preserve">
     <value>Input data of any type</value>
   </data>
-  <data name="EncodingSettingList8" xml:space="preserve">
-    <value>ISO8859-15</value>
-  </data>
-  <data name="EncodingSettingList9" xml:space="preserve">
-    <value>Windows-1252</value>
+  <data name="PresentationFmt" xml:space="preserve">
+    <value>{0:#,0} characters ({1:#,0} bytes)</value>
   </data>
 </root>

@@ -115,164 +115,20 @@ namespace TextOutput.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Display boolean as numeric value ähnelt.
-        /// </summary>
-        internal static string BooleanAsNumericCaption {
-            get {
-                return ResourceManager.GetString("BooleanAsNumericCaption", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Display boolean as numeric value ähnelt.
-        /// </summary>
-        internal static string BooleanAsNumericList1 {
-            get {
-                return ResourceManager.GetString("BooleanAsNumericList1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die With this checkbox enabled, incoming boolean values will be displayed as numeric values (1/0 instead of True/False). ähnelt.
-        /// </summary>
-        internal static string BooleanAsNumericTooltip {
-            get {
-                return ResourceManager.GetString("BooleanAsNumericTooltip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Input encoding ähnelt.
-        /// </summary>
-        internal static string EncodingSettingCaption {
-            get {
-                return ResourceManager.GetString("EncodingSettingCaption", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Default system encoding ähnelt.
-        /// </summary>
-        internal static string EncodingSettingList1 {
-            get {
-                return ResourceManager.GetString("EncodingSettingList1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die UTF-8 ähnelt.
-        /// </summary>
-        internal static string EncodingSettingList2 {
-            get {
-                return ResourceManager.GetString("EncodingSettingList2", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die UTF-7 ähnelt.
-        /// </summary>
-        internal static string EncodingSettingList3 {
-            get {
-                return ResourceManager.GetString("EncodingSettingList3", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die UTF-32 ähnelt.
-        /// </summary>
-        internal static string EncodingSettingList4 {
-            get {
-                return ResourceManager.GetString("EncodingSettingList4", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Unicode ähnelt.
-        /// </summary>
-        internal static string EncodingSettingList5 {
-            get {
-                return ResourceManager.GetString("EncodingSettingList5", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Big endian unicode ähnelt.
-        /// </summary>
-        internal static string EncodingSettingList6 {
-            get {
-                return ResourceManager.GetString("EncodingSettingList6", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die ASCII ähnelt.
-        /// </summary>
-        internal static string EncodingSettingList7 {
-            get {
-                return ResourceManager.GetString("EncodingSettingList7", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die ISO8859-15 ähnelt.
-        /// </summary>
-        internal static string EncodingSettingList8 {
-            get {
-                return ResourceManager.GetString("EncodingSettingList8", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Windows-1252 ähnelt.
-        /// </summary>
-        internal static string EncodingSettingList9 {
-            get {
-                return ResourceManager.GetString("EncodingSettingList9", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Choose the expected encoding of the input. ähnelt.
-        /// </summary>
-        internal static string EncodingSettingTooltip {
-            get {
-                return ResourceManager.GetString("EncodingSettingTooltip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Input encoding ähnelt.
-        /// </summary>
-        internal static string EncodingSettingTPCaption {
-            get {
-                return ResourceManager.GetString("EncodingSettingTPCaption", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Choose the expected encoding of the input. (The input will be interpreted as set here, no matter what the bytes really mean) ähnelt.
-        /// </summary>
-        internal static string EncodingSettingTPTooltip {
-            get {
-                return ResourceManager.GetString("EncodingSettingTPTooltip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Input data ähnelt.
         /// </summary>
-        internal static string InputDataCaption {
+        internal static string InputCaption {
             get {
-                return ResourceManager.GetString("InputDataCaption", resourceCulture);
+                return ResourceManager.GetString("InputCaption", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Input data of any type ähnelt.
         /// </summary>
-        internal static string InputDataTooltip {
+        internal static string InputTooltip {
             get {
-                return ResourceManager.GetString("InputDataTooltip", resourceCulture);
+                return ResourceManager.GetString("InputTooltip", resourceCulture);
             }
         }
         
@@ -286,7 +142,7 @@ namespace TextOutput.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Provide the maximum number of bytes to convert. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Provide the maximum number of characters to display. ähnelt.
         /// </summary>
         internal static string MaxLengthTooltip {
             get {
@@ -313,56 +169,11 @@ namespace TextOutput.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Presentation format ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die {0:#,0} characters ({1:#,0} bytes) ähnelt.
         /// </summary>
-        internal static string PresentationFormatSettingCaption {
+        internal static string PresentationFmt {
             get {
-                return ResourceManager.GetString("PresentationFormatSettingCaption", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Text ähnelt.
-        /// </summary>
-        internal static string PresentationFormatSettingList1 {
-            get {
-                return ResourceManager.GetString("PresentationFormatSettingList1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Hex ähnelt.
-        /// </summary>
-        internal static string PresentationFormatSettingList2 {
-            get {
-                return ResourceManager.GetString("PresentationFormatSettingList2", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Base64 ähnelt.
-        /// </summary>
-        internal static string PresentationFormatSettingList3 {
-            get {
-                return ResourceManager.GetString("PresentationFormatSettingList3", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Decimal ähnelt.
-        /// </summary>
-        internal static string PresentationFormatSettingList4 {
-            get {
-                return ResourceManager.GetString("PresentationFormatSettingList4", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Choose the format that will be used to present the input data. ähnelt.
-        /// </summary>
-        internal static string PresentationFormatSettingTooltip {
-            get {
-                return ResourceManager.GetString("PresentationFormatSettingTooltip", resourceCulture);
+                return ResourceManager.GetString("PresentationFmt", resourceCulture);
             }
         }
     }

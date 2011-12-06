@@ -27,14 +27,11 @@ namespace TextOutput
   public class TextOutputSettings : ISettings
   {
     #region Private variables
-    private EncodingTypes encoding = EncodingTypes.UTF8;
-    private PresentationFormat presentation = PresentationFormat.Text;
+
     private int maxLength = 65536; //64kB
     private TextOutput myTextOutput;
-    #endregion
 
-    public enum EncodingTypes { Default, UTF8, UTF7, UTF32, Unicode, BigEndianUnicode, ASCII, ISO8859_15, Windows1252 };
-    public enum PresentationFormat { Text, Hex, Base64, Decimal }
+    #endregion
 
     public TextOutputSettings(TextOutput textOutput)
     {
@@ -42,65 +39,7 @@ namespace TextOutput
       myTextOutput = textOutput;
     }
 
-    public PresentationFormat Presentation
-    {
-      get { return this.presentation; }
-      set
-      {
-        if (this.presentation != value)
-        {
-            this.presentation = value;
-            OnPropertyChanged("Presentation");            
-        }
-      }
-    }
-
     #region settings
-
-    /// <summary>
-    /// Encoding property used in the Settings pane. 
-    /// </summary>
-    //[ContextMenu("EncodingSettingCaption", "EncodingSettingTooltip", 1, ContextMenuControlType.ComboBox, null, new string[] { "EncodingSettingList1", "EncodingSettingList2", "EncodingSettingList3", "EncodingSettingList4", "EncodingSettingList5", "EncodingSettingList6", "EncodingSettingList7", "EncodingSettingList8", "EncodingSettingList9" })]
-    //[TaskPane("EncodingSettingTPCaption", "EncodingSettingTPTooltip", null, 1, true, ControlType.ComboBox, new string[] { "EncodingSettingList1", "EncodingSettingList2", "EncodingSettingList3", "EncodingSettingList4", "EncodingSettingList5", "EncodingSettingList6", "EncodingSettingList7", "EncodingSettingList8", "EncodingSettingList9" })]
-    public EncodingTypes Encoding
-    {
-        get
-        {
-            return this.encoding;
-        }
-        set
-        {
-            if (this.encoding != value)
-            {
-                this.encoding = value;
-                OnPropertyChanged("Encoding");
-            }
-        }
-    }
-
-
-    /// <summary>
-    /// Gets or sets the presentation format setting.
-    /// </summary>
-    /// <value>The presentation format setting.</value>
-    //[ContextMenu( "PresentationFormatSettingCaption", "PresentationFormatSettingTooltip", 2, ContextMenuControlType.ComboBox, null, new string[] { "PresentationFormatSettingList1", "PresentationFormatSettingList2", "PresentationFormatSettingList3", "PresentationFormatSettingList4" })]
-    //[TaskPane("PresentationFormatSettingCaption", "PresentationFormatSettingTooltip", null, 2, true, ControlType.ComboBox, new string[] { "PresentationFormatSettingList1", "PresentationFormatSettingList2", "PresentationFormatSettingList3", "PresentationFormatSettingList4" })]
-    public int PresentationFormatSetting
-    {
-      get
-      {
-        return (int)this.presentation;
-      }
-      set
-      {
-        if (this.presentation != (PresentationFormat)value)
-        {
-            this.presentation = (PresentationFormat)value;
-            OnPropertyChanged("PresentationFormatSetting");            
-        }
-      }
-    }
-
 
     /// <summary>
     /// Maximum size property used in the settings pane. 
@@ -151,22 +90,6 @@ namespace TextOutput
           OnPropertyChanged("AppendBreaks");
         }
       }
-    }
-
-    private bool booleanAsNumeric = false;
-    [ContextMenu( "BooleanAsNumericCaption", "BooleanAsNumericTooltip", 5, ContextMenuControlType.CheckBox, null, new string[] { "BooleanAsNumericList1" })]
-    [TaskPane( "BooleanAsNumericCaption", "BooleanAsNumericTooltip", null, 5, false, ControlType.CheckBox, "", null)]
-    public bool BooleanAsNumeric
-    {
-        get { return booleanAsNumeric; }
-        set
-        {
-            if (value != booleanAsNumeric)
-            {
-                booleanAsNumeric = value;
-                OnPropertyChanged("BooleanAsNumeric");
-            }
-        }
     }
 
     # endregion settings

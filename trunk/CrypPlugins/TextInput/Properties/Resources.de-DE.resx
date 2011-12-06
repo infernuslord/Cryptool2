@@ -123,82 +123,16 @@
   <data name="PluginTooltip" xml:space="preserve">
     <value>Wird benutzt, um eine Texteingabe in eine andere Komponente zu leiten.</value>
   </data>
-  <data name="EncodingSettingCaption" xml:space="preserve">
-    <value>Zeichenkodierung</value>
-  </data>
-  <data name="EncodingSettingTooltip" xml:space="preserve">
-    <value>Wählen Sie die Zeichenkodierung der Ausgabe.</value>
-  </data>
-  <data name="InputFormatSettingCaption" xml:space="preserve">
-    <value>Eingabeformat</value>
-  </data>
-  <data name="InputFormatSettingTooltip" xml:space="preserve">
-    <value>Wählen Sie das Eingabeformat. Die Eingabe wird vor der weiteren Verarbeitung dekodiert (falls möglich) und in eine Zeichenfolge konvertiert.</value>
-  </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value>TextInput/Documentation/doc.xml</value>
-  </data>
   <data name="TextOutputCaption" xml:space="preserve">
     <value>Ausgabetext</value>
   </data>
   <data name="TextOutputTooltip" xml:space="preserve">
     <value>Ausgabe als Zeichenfolge</value>
   </data>
-  <data name="StreamOutputCaption" xml:space="preserve">
-    <value>Ausgabedatenstrom</value>
-  </data>
-  <data name="StreamOutputTooltip" xml:space="preserve">
-    <value>Ausgabe als Datenstrom</value>
-  </data>
-  <data name="ByteArrayOutputCaption" xml:space="preserve">
-    <value>Ausgabe als Byte-Array</value>
-  </data>
-  <data name="ByteArrayOutputTooltip" xml:space="preserve">
-    <value>Ausgabe als Byte-Array</value>
-  </data>
-  <data name="BoolArrayOutputCaption" xml:space="preserve">
-    <value>Boolesches Array</value>
-  </data>
-  <data name="BoolArrayOutputTooltip" xml:space="preserve">
-    <value>Die Eingabe wird in ein boolesches Array konvertiert ('0' oder 0x00 entspricht 'falsch', alles andere 'wahr').</value>
-  </data>
-  <data name="EncodingSettingList1" xml:space="preserve">
-    <value>Standardkodierung</value>
-  </data>
-  <data name="EncodingSettingList2" xml:space="preserve">
-    <value>UTF-8</value>
-  </data>
-  <data name="EncodingSettingList3" xml:space="preserve">
-    <value>UTF-7</value>
-  </data>
-  <data name="EncodingSettingList4" xml:space="preserve">
-    <value>UTF-32</value>
-  </data>
-  <data name="EncodingSettingList5" xml:space="preserve">
-    <value>Unicode</value>
-  </data>
-  <data name="EncodingSettingList6" xml:space="preserve">
-    <value>Big Endian-Unicode</value>
-  </data>
-  <data name="EncodingSettingList7" xml:space="preserve">
-    <value>ASCII</value>
-  </data>
-  <data name="InputFormatSettingList1" xml:space="preserve">
-    <value>Text</value>
-  </data>
-  <data name="InputFormatSettingList2" xml:space="preserve">
-    <value>Hex</value>
-  </data>
-  <data name="InputFormatSettingList3" xml:space="preserve">
-    <value>Base64</value>
-  </data>
   <data name="Text__1_character___8_Bit_" xml:space="preserve">
     <value>Text (1 Zeichen = 8 Bit)</value>
   </data>
-  <data name="EncodingSettingList8" xml:space="preserve">
-    <value>ISO8859-15</value>
-  </data>
-  <data name="EncodingSettingList9" xml:space="preserve">
-    <value>Windows-1252</value>
+  <data name="PresentationFmt" xml:space="preserve">
+    <value>{0:#,0} Zeichen ({1:#,0} Bytes)</value>
   </data>
 </root>
