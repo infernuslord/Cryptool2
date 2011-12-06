@@ -41,7 +41,14 @@
   
   <presentation lang="de-DE">
   </presentation>
-  
+
   <references>
+    <linkReference>
+      <link url="http://en.wikipedia.org/wiki/Caesar_cipher" lang="en" />
+      <caption lang="en">Caesar in Wikipedia</caption>
+      <link url="http://de.wikipedia.org/wiki/Caesar-Verschl%C3%BCsselung" lang="de-DE" />
+      <caption lang="de-DE">Caesar in Wikipedia</caption>
+    </linkReference>
   </references>
+  
 </documentation>

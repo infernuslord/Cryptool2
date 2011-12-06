@@ -18,6 +18,14 @@ Ist der Schlüsselstrom so lang wie der Eingabedatenstrom und zudem echt zufäll
 </presentation>
   <presentation lang="de-DE">
 </presentation>
+
   <references>
+    <linkReference>
+      <link url="http://en.wikipedia.org/wiki/Stream_cipher" lang="en" />
+      <caption lang="en">XOR in Wikipedia</caption>
+      <link url="http://de.wikipedia.org/wiki/Stromchiffre" lang="de-DE" />
+      <caption lang="de-DE">XOR in Wikipedia</caption>
+    </linkReference>
   </references>
+  
 </documentation>

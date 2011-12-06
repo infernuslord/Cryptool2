@@ -21,7 +21,14 @@
   
   <presentation lang="de-DE">
   </presentation>
-  
+
   <references>
+    <linkReference>
+      <link url="http://en.wikipedia.org/wiki/Enigma_machine" lang="en" />
+      <caption lang="en">Enigma in Wikipedia</caption>
+      <link url="http://de.wikipedia.org/wiki/Enigma_(Maschine)" lang="de-DE" />
+      <caption lang="de-DE">Enigma in Wikipedia</caption>
+    </linkReference>
   </references>
+  
 </documentation>

@@ -36,6 +36,14 @@ Instead of ADFGVX you can decide to use the predecessor variant ADFGX which is t
 </presentation>
   <presentation lang="de-DE">
   </presentation>
+  
   <references>
+    <linkReference>
+      <link url="http://en.wikipedia.org/wiki/ADFGVX_cipher" lang="en" />
+      <caption lang="en">ADFGVX in Wikipedia</caption>
+      <link url="http://de.wikipedia.org/wiki/ADFGVX" lang="de-DE" />
+      <caption lang="de-DE">ADFGVX in Wikipedia</caption>
+    </linkReference>
   </references>
+  
 </documentation>
