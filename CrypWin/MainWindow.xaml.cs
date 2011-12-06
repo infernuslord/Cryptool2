@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -83,7 +84,6 @@ namespace Cryptool.CrypWin
         private bool closingCausedMinimization = false;
         private WindowState oldWindowState;
         private bool restart = false;
-        private bool noupdates = false;
         private bool shutdown = false;
         private string personalDir;
         private IEditor lastEditor = null;
@@ -252,6 +252,11 @@ namespace Cryptool.CrypWin
             }
         }
 
+        private bool IsUpdaterEnabled
+        {
+            get { return AssemblyHelper.BuildType != Ct2BuildType.Developer && !IsCommandParameterGiven("-noupdate"); }
+        }
+
         #region Init
 
         public MainWindow()
@@ -268,11 +273,9 @@ namespace Cryptool.CrypWin
                 return;
             }
 
-            if (AssemblyHelper.BuildType == Ct2BuildType.Developer || IsCommandParameterGiven("-noupdate"))
-            {
-                noupdates = true;
-            }
-            else if (CheckCommandProjectFileGiven() == null // NO project file given as command line argument
+            // check whether update is available to be installed
+            if (IsUpdaterEnabled
+                && CheckCommandProjectFileGiven() == null // NO project file given as command line argument
                 && IsUpdateFileAvailable()) // update file ready for install
             {
                 // really start the update process?
@@ -385,7 +388,11 @@ namespace Cryptool.CrypWin
 
             CreateNotifyIcon();
 
-            InitUpdater();
+            if (IsUpdaterEnabled)
+                InitUpdater();
+            else
+                autoUpdateButton.Visibility = Visibility.Collapsed; // hide update button in ribbon
+                
 
             if (!Settings.Default.ShowRibbonBar)
                 AppRibbon.IsEnabled = false;
@@ -828,16 +835,9 @@ namespace Cryptool.CrypWin
             // Hide the native expand button of naviPane, because we use resize/hide functions of SplitPanel Element
             Button naviPaneExpandButton = naviPane.Template.FindName("ExpandButton", naviPane) as Button;
             if (naviPaneExpandButton != null) naviPaneExpandButton.Visibility = Visibility.Collapsed;
-
-            //OperatingSystem os = Environment.OSVersion;
-            //Version vs = os.Version;
-
-            //if (os.Platform == PlatformID.Win32NT)
-            //{
-            //    statusBar.Height = (vs.Major == 5) ? 30 : 60;
-            //}
         }
 
+        [Conditional("DEBUG")]
         private void InitDebug()
         {
             dockWindowLogMessages.IsAutoHide = false;
@@ -1003,10 +1003,7 @@ namespace Cryptool.CrypWin
                     Application.Current.ShutdownMode = ShutdownMode.OnMainWindowClose;
                     #endregion Gui-Stuff
 
-#if (DEBUG)
                     InitDebug();
-#else
-#endif
 
                     // open projects at startup if necessary, return whether any project has been opened
                     bool hasOpenedProject = CheckCommandOpenProject();

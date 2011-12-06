@@ -292,23 +292,18 @@ namespace Cryptool.CrypWin
             updateReady = (ImageSource)FindResource("UpdateReady");
             autoUpdateButton.ToolTip = Properties.Resources.No_update_available_;
 
-            if (!noupdates)
-            {
-                AutoUpdater.GetSingleton().OnGuiLogNotificationOccured += new GuiLogNotificationEventHandler(OnGuiLogNotificationOccured);
-                AutoUpdater.GetSingleton().OnUpdaterStateChanged += new AutoUpdater.UpdaterStateChangedHandler(MainWindow_OnUpdaterStateChanged);
-                AutoUpdater.GetSingleton().OnUpdateDownloadProgressChanged += new AutoUpdater.UpdateDownloadProgressChangedHandler(MainWindow_OnUpdateDownloadProgressChanged);
-                UpdaterPresentation.GetSingleton().OnRestartClicked += new UpdaterPresentation.RestartClickedHandler(RestartCrypTool);
+            AutoUpdater.GetSingleton().OnGuiLogNotificationOccured += new GuiLogNotificationEventHandler(OnGuiLogNotificationOccured);
+            AutoUpdater.GetSingleton().OnUpdaterStateChanged += new AutoUpdater.UpdaterStateChangedHandler(MainWindow_OnUpdaterStateChanged);
+            AutoUpdater.GetSingleton().OnUpdateDownloadProgressChanged += new AutoUpdater.UpdateDownloadProgressChangedHandler(MainWindow_OnUpdateDownloadProgressChanged);
+            UpdaterPresentation.GetSingleton().OnRestartClicked += new UpdaterPresentation.RestartClickedHandler(RestartCrypTool);
 
-                if (Settings.Default.CheckPeriodically)
-                {
-                    AutoUpdater.GetSingleton().BeginCheckingForUpdates('S');
-                    AutoUpdater.GetSingleton().StartCheckTimer();
-                }
-                else if (Settings.Default.CheckOnStartup)
-                    AutoUpdater.GetSingleton().BeginCheckingForUpdates('S');
+            if (Settings.Default.CheckPeriodically)
+            {
+                AutoUpdater.GetSingleton().BeginCheckingForUpdates('S');
+                AutoUpdater.GetSingleton().StartCheckTimer();
             }
-            else
-                autoUpdateButton.Visibility = Visibility.Collapsed;
+            else if (Settings.Default.CheckOnStartup)
+                AutoUpdater.GetSingleton().BeginCheckingForUpdates('S');    
         }
 
         private bool IsUpdateFileAvailable()
@@ -317,8 +312,9 @@ namespace Cryptool.CrypWin
                 return false; // nothing there
 
             // check whether update is obsolete, i.e. older than running version
-            var updateVersion = AutoUpdater.GetSingleton().ReadDownloadedUpdateVersion();
-            if (updateVersion > new Version() && updateVersion <= AssemblyHelper.Version)
+            var updateVersion = AutoUpdater.GetSingleton().ReadDownloadedUpdateVersion(); // may return 0.0 in some cases
+            if (updateVersion > new Version() // only if update version is known, i.e. > 0.0
+                && updateVersion <= AssemblyHelper.Version) // and if update file is older currently running version
             {
                 GuiLogMessage("Found obsolete update file, attempting to remove...", NotificationLevel.Debug);
 

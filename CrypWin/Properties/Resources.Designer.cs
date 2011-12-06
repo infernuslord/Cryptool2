@@ -653,15 +653,6 @@ namespace Cryptool.CrypWin.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Downloading update....
         /// </summary>
-        internal static string Downloading_update_ {
-            get {
-                return ResourceManager.GetString("Downloading_update_", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Downloading update....
-        /// </summary>
         internal static string Downloading_update___ {
             get {
                 return ResourceManager.GetString("Downloading_update___", resourceCulture);
