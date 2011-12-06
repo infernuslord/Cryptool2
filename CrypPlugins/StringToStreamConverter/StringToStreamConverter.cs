@@ -26,12 +26,13 @@ using System.Windows.Controls;
 using System.Runtime.Remoting.Contexts;
 using Cryptool.PluginBase.Miscellaneous;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 
 namespace Cryptool.Plugins.Convertor
 {
     // Converts a given string into a stream by using different encodings.
     [Author("Dr. Arno Wacker", "arno.wacker@cryptool.org", "Uni Duisburg", "http://www.uni-duisburg-essen.de")]
-    [PluginInfo("Cryptool.Plugins.Convertor.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "StringToStreamConverter/t2s-icon.png")]
+    [PluginInfo("Cryptool.Plugins.Convertor.Properties.Resources", "PluginCaption", "PluginTooltip", "StringToStreamConverter/DetailedDescription/doc.xml", "StringToStreamConverter/t2s-icon.png")]
     [ComponentCategory(ComponentCategory.ToolsMisc)]
     public class StringToStreamConverter : ICrypComponent
     {
@@ -167,23 +168,52 @@ namespace Cryptool.Plugins.Convertor
 
         #region Private methods
 
+        private byte[] GetBytesForEncoding(string s, StringToStreamConverterSettings.EncodingTypes encoding)
+        {
+            if (s == null) return null;
+            
+            switch (encoding)
+            {
+                case StringToStreamConverterSettings.EncodingTypes.UTF16:
+                    return Encoding.Unicode.GetBytes(s);
+
+                case StringToStreamConverterSettings.EncodingTypes.UTF7:
+                    return Encoding.UTF7.GetBytes(s);
+
+                case StringToStreamConverterSettings.EncodingTypes.UTF8:
+                    return Encoding.UTF8.GetBytes(s);
+
+                case StringToStreamConverterSettings.EncodingTypes.UTF32:
+                    return Encoding.UTF32.GetBytes(s);
+
+                case StringToStreamConverterSettings.EncodingTypes.ASCII:
+                    return Encoding.ASCII.GetBytes(s);
+
+                case StringToStreamConverterSettings.EncodingTypes.ISO8859_15:
+                    return Encoding.GetEncoding("iso-8859-15").GetBytes(s);
+
+                case StringToStreamConverterSettings.EncodingTypes.Windows1252:
+                    return Encoding.GetEncoding(1252).GetBytes(s);
+
+                default:
+                    return Encoding.Default.GetBytes(s);
+            }
+        }
+
         private void processInput(string value)
         {
                 ShowProgress(50, 100);
+
                 ShowStatusBarMessage("Converting input ...", NotificationLevel.Debug);
                 
                 // here conversion happens
-                switch (settings.Encoding)
+                switch (settings.PresentationFormatSetting)
                 {
-                    case StringToStreamConverterSettings.EncodingTypes.Default:
-                        outputBytes = Encoding.Default.GetBytes(value);
-                    outputStream = new CStreamWriter(outputBytes);
-                        break;
-                    case StringToStreamConverterSettings.EncodingTypes.Base64Binary:
+                    case StringToStreamConverterSettings.PresentationFormat.Base64:
                         try
                         {
                             outputBytes = Convert.FromBase64String(value);
-                        outputStream = new CStreamWriter(outputBytes);
+                            outputStream = new CStreamWriter(outputBytes);
                         }
                         catch (Exception ex)
                         {
@@ -192,62 +222,70 @@ namespace Cryptool.Plugins.Convertor
                             return;
                         }
                         break;
-                    case StringToStreamConverterSettings.EncodingTypes.HexStringBinary:
+
+                    case StringToStreamConverterSettings.PresentationFormat.Hex:
                         try
                         {
                             outputBytes = convertHexStringToByteArray(value);
-                        outputStream = new CStreamWriter(outputBytes);
+                            outputStream = new CStreamWriter(outputBytes);
                         }
                         catch (Exception ex)
                         {
-                            ShowStatusBarMessage("Error converting input! Not a valid hex-string (" + ex.Message + ")", NotificationLevel.Error);
+                            ShowStatusBarMessage("Error converting input! Not a valid hex string (" + ex.Message + ")", NotificationLevel.Error);
                             return;
                         }
                         break;
-                    case StringToStreamConverterSettings.EncodingTypes.OctalStringBinary:
+
+                    case StringToStreamConverterSettings.PresentationFormat.Octal:
                         try
                         {
                             outputBytes = convertOctalStringToByteArray(value);
-                        outputStream = new CStreamWriter(outputBytes);
+                            outputStream = new CStreamWriter(outputBytes);
                         }
                         catch (Exception ex)
                         {
-                            ShowStatusBarMessage("Error converting input! Not a valid octal-string (" + ex.Message + ")", NotificationLevel.Error);
+                            ShowStatusBarMessage("Error converting input! Not a valid octal string (" + ex.Message + ")", NotificationLevel.Error);
                             return;
                         }
                         break;
-                    case StringToStreamConverterSettings.EncodingTypes.Unicode:
-                        outputBytes = Encoding.Unicode.GetBytes(value);
-                    outputStream = new CStreamWriter(outputBytes);
+
+                    case StringToStreamConverterSettings.PresentationFormat.Decimal:
+                        try
+                        {
+                            outputBytes = convertDecimalStringToByteArray(value);
+                            outputStream = new CStreamWriter(outputBytes);
+                        }
+                        catch (Exception ex)
+                        {
+                            ShowStatusBarMessage("Error converting input! Not a valid decimal string (" + ex.Message + ")", NotificationLevel.Error);
+                            return;
+                        }
                         break;
-                    case StringToStreamConverterSettings.EncodingTypes.UTF7:
-                        outputBytes = Encoding.UTF7.GetBytes(value);
-                    outputStream = new CStreamWriter(outputBytes);
+
+                    case StringToStreamConverterSettings.PresentationFormat.Binary:
+                        try
+                        {
+                            outputBytes = convertBinaryStringToByteArray(value);
+                            outputStream = new CStreamWriter(outputBytes);
+                        }
+                        catch (Exception ex)
+                        {
+                            ShowStatusBarMessage("Error converting input! Not a valid binary string (" + ex.Message + ")", NotificationLevel.Error);
+                            return;
+                        }
                         break;
-                    case StringToStreamConverterSettings.EncodingTypes.UTF8:
-                        outputBytes = Encoding.UTF8.GetBytes(value);
-                    outputStream = new CStreamWriter(outputBytes);
-                        break;
-                    case StringToStreamConverterSettings.EncodingTypes.UTF32:
-                        outputBytes = Encoding.UTF32.GetBytes(value);
-                    outputStream = new CStreamWriter(outputBytes);
-                        break;
-                    case StringToStreamConverterSettings.EncodingTypes.ASCII:
-                        outputBytes = Encoding.ASCII.GetBytes(value);
-                    outputStream = new CStreamWriter(outputBytes);
-                        break;
-                    case StringToStreamConverterSettings.EncodingTypes.BigEndianUnicode:
-                        outputBytes = Encoding.BigEndianUnicode.GetBytes(value);
-                    outputStream = new CStreamWriter(outputBytes);
-                        break;
+
+                    case StringToStreamConverterSettings.PresentationFormat.Text:
                     default:
-                        outputBytes = Encoding.Default.GetBytes(value);
-                    outputStream = new CStreamWriter(outputBytes);
+                        outputBytes = GetBytesForEncoding(value, settings.Encoding);
+                        outputStream = new CStreamWriter(outputBytes);
                         break;
                 }
                                 
                 ShowStatusBarMessage("Input converted.", NotificationLevel.Info);
+
                 ShowProgress(100, 100);
+
                 OnPropertyChanged("InputString");
                 OnPropertyChanged("OutputBytes");
                 OnPropertyChanged("OutputStream");
@@ -293,7 +331,7 @@ namespace Cryptool.Plugins.Convertor
             //cleanup the input
             foreach (char c in octalString)
             {
-                if (char.IsDigit(c) && c!='8' && c!='9')
+                if (char.IsDigit(c) && c != '8' && c != '9')
                     cleanOctalString.Append(c);
             }
 
@@ -308,6 +346,40 @@ namespace Cryptool.Plugins.Convertor
             {
                 bytes[i / 3] = Convert.ToByte(cleanOctalString.ToString().Substring(i, 3), 8);
             }
+            return bytes;
+        }
+
+        private byte[] convertDecimalStringToByteArray(String decimalString)
+        {
+            MatchCollection matches = new Regex(@"\d+").Matches(decimalString);
+
+            byte[] bytes = new byte[matches.Count];
+            int i = 0;
+
+            foreach (Match match in matches)
+            {
+                int value = Convert.ToInt32(match.Value);
+                if (value < 0 || value >= 256) return new byte[0];
+                bytes[i++] = (byte)value;
+            }
+
+            return bytes;
+        }
+
+        private byte[] convertBinaryStringToByteArray(String binaryString)
+        {
+            MatchCollection matches = new Regex(@"[01]+").Matches(binaryString);
+
+            byte[] bytes = new byte[matches.Count];
+            int i = 0;
+
+            foreach (Match match in matches)
+            {
+                int value = Convert.ToInt32(match.Value,2);
+                if (value < 0 || value >= 256) return new byte[0];
+                bytes[i++] = (byte)value;
+            }
+
             return bytes;
         }
 
@@ -332,8 +404,8 @@ namespace Cryptool.Plugins.Convertor
         {
             if ((InputText != null) && (InputText.Length != 0))
             {
-          processInput(InputText);
-        }
+                processInput(InputText);
+            }
             else
             {
                 ShowStatusBarMessage("String input is empty. Nothing to convert.", NotificationLevel.Warning);

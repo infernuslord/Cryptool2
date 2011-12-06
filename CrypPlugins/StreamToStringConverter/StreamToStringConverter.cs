@@ -30,7 +30,7 @@ using System.Runtime.CompilerServices;
 namespace Cryptool.Plugins.Convertor
 {
     [Author("Dr. Arno Wacker", "arno.wacker@cryptool.org", "Uni Duisburg", "http://www.uni-duisburg-essen.de")]
-    [PluginInfo("Cryptool.Plugins.Convertor.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "StreamToStringConverter/s2t-icon.png")]
+    [PluginInfo("Cryptool.Plugins.Convertor.Properties.Resources", "PluginCaption", "PluginTooltip", "StreamToStringConverter/DetailedDescription/doc.xml", "StreamToStringConverter/s2t-icon.png")]
     [ComponentCategory(ComponentCategory.ToolsMisc)]
     public class StreamToStringConverter : ICrypComponent
     {
@@ -146,84 +146,87 @@ namespace Cryptool.Plugins.Convertor
 
         #region Private methods
 
+        private string GetStringForEncoding(byte[] buffer, StreamToStringConverterSettings.EncodingTypes encoding)
+        {
+            if (buffer == null) return null;
+            
+            switch (encoding)
+            {
+                case StreamToStringConverterSettings.EncodingTypes.UTF16:
+                    return Encoding.Unicode.GetString(buffer);
+
+                case StreamToStringConverterSettings.EncodingTypes.UTF7:
+                    return Encoding.UTF7.GetString(buffer);
+
+                case StreamToStringConverterSettings.EncodingTypes.UTF8:
+                    return Encoding.UTF8.GetString(buffer);
+
+                case StreamToStringConverterSettings.EncodingTypes.UTF32:
+                    return Encoding.UTF32.GetString(buffer);
+
+                case StreamToStringConverterSettings.EncodingTypes.ASCII:
+                    return Encoding.ASCII.GetString(buffer);
+                    
+                case StreamToStringConverterSettings.EncodingTypes.ISO8859_15:
+                    return Encoding.GetEncoding("iso-8859-15").GetString(buffer);
+
+                case StreamToStringConverterSettings.EncodingTypes.Windows1252:
+                    return Encoding.GetEncoding(1252).GetString(buffer);
+
+                default:
+                    return Encoding.Default.GetString(buffer);
+            }
+        }
+
+        string GetPresentation( byte[] buffer, StreamToStringConverterSettings.PresentationFormat presentation )
+        {
+            if (buffer == null) return null;
+
+            switch (presentation)
+            {
+                case StreamToStringConverterSettings.PresentationFormat.Base64:
+                    return Convert.ToBase64String(buffer);
+
+                case StreamToStringConverterSettings.PresentationFormat.Binary:
+                    return string.Join(" ", Array.ConvertAll(buffer, x => Convert.ToString(x, 2).PadLeft(8, '0')));
+
+                case StreamToStringConverterSettings.PresentationFormat.Hex:
+                    return string.Join(" ", Array.ConvertAll(buffer, x => x.ToString("X2")));
+
+                case StreamToStringConverterSettings.PresentationFormat.Octal:
+                    return string.Join(" ", Array.ConvertAll(buffer, x => Convert.ToString(x, 8).PadLeft(3, '0')));
+
+                case StreamToStringConverterSettings.PresentationFormat.Decimal:
+                    return string.Join(" ", Array.ConvertAll(buffer, x => x.ToString()));
+
+                case StreamToStringConverterSettings.PresentationFormat.Text:
+                default:
+                    return GetStringForEncoding(buffer, settings.Encoding);
+            }
+        }
+
         private void processInput(CStreamReader value)
         {
             ShowProgress(50, 100);
+
             ShowStatusBarMessage("Converting input ...", NotificationLevel.Debug);
+
             value.WaitEof();
             if (value.Length > settings.MaxLength)
                 ShowStatusBarMessage("WARNING - Input stream is too large (" + (value.Length / 1024).ToString("0.00") + " kB), output will be truncated to " + (settings.MaxLength / 1024).ToString("0.00") + "kB", NotificationLevel.Warning);
 
-            byte[] byteValues = new byte[settings.MaxLength];
-            int bytesRead;
+            byte[] buffer = new byte[Math.Min(value.Length,settings.MaxLength)];
             value.Seek(0, SeekOrigin.Begin);
-            bytesRead = value.Read(byteValues, 0, byteValues.Length);
+            value.Read(buffer, 0, buffer.Length);
 
-            // here conversion happens
-            switch (settings.Encoding)
-            {
-                case StreamToStringConverterSettings.EncodingTypes.Default:
-                    outputString = Encoding.Default.GetString(byteValues, 0, bytesRead);
-                    break;
-                case StreamToStringConverterSettings.EncodingTypes.Base64Binary:
-                    outputString = Convert.ToBase64String(byteValues, 0, bytesRead);
-                    break;
-                case StreamToStringConverterSettings.EncodingTypes.HexStringBinary:
-                    outputString = convertBytesToHexString(byteValues, 0, bytesRead);
-                    break;
-                case StreamToStringConverterSettings.EncodingTypes.OctalStringBinary:
-                    outputString = convertBytesToOctalString(byteValues, 0, bytesRead);
-                    break;
-                case StreamToStringConverterSettings.EncodingTypes.Unicode:
-                    outputString = Encoding.Unicode.GetString(byteValues, 0, bytesRead);
-                    break;
-                case StreamToStringConverterSettings.EncodingTypes.UTF7:
-                    outputString = Encoding.UTF7.GetString(byteValues, 0, bytesRead);
-                    break;
-                case StreamToStringConverterSettings.EncodingTypes.UTF8:
-                    outputString = Encoding.UTF8.GetString(byteValues, 0, bytesRead);
-                    break;
-                case StreamToStringConverterSettings.EncodingTypes.UTF32:
-                    outputString = Encoding.UTF32.GetString(byteValues, 0, bytesRead);
-                    break;
-                case StreamToStringConverterSettings.EncodingTypes.ASCII:
-                    outputString = Encoding.ASCII.GetString(byteValues, 0, bytesRead);
-                    break;
-                case StreamToStringConverterSettings.EncodingTypes.BigEndianUnicode:
-                    outputString = Encoding.BigEndianUnicode.GetString(byteValues, 0, bytesRead);
-                    break;
-                default:
-                    outputString = Encoding.Default.GetString(byteValues, 0, bytesRead);
-                    break;
-            }
+            outputString = GetPresentation(buffer, settings.PresentationFormatSetting);
 
             ShowStatusBarMessage("Input converted.", NotificationLevel.Debug);
+
             ShowProgress(100, 100);
+
             OnPropertyChanged("InputStream");
             OnPropertyChanged("OutputString");
-        }
-
-        private string convertBytesToHexString(byte[] array, int start, int count)
-        {
-            StringBuilder sb = new StringBuilder();
-            for (int i = start; i < (start + count); i++)
-            {
-                sb.Append(array[i].ToString("X2"));
-                sb.Append(" ");
-            }
-            return sb.ToString();
-        }
-
-        private string convertBytesToOctalString(byte[] array, int start, int count)
-        {
-            StringBuilder sb = new StringBuilder();
-            for (int i = start; i < (start + count); i++)
-            {
-                string val = String.Format("{0,3}", Convert.ToString(array[i], 8));
-                sb.Append(val.Replace(' ', '0'));
-                sb.Append(" ");
-            }
-            return sb.ToString();
         }
 
         private void ShowStatusBarMessage(string message, NotificationLevel logLevel)
