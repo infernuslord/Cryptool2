@@ -189,56 +189,63 @@ namespace Cryptool.CrypWin
         {
             try
             {
+                var presentation = UpdaterPresentation.GetSingleton();
+
                 switch (newStatus)
                 {
                     case State.Idle:
-                        UpdaterPresentation.GetSingleton().button1.IsEnabled = true;
-                        UpdaterPresentation.GetSingleton().button1.Content = Properties.Resources.Check_for_updates_now;
-                        if (serverAvailable)
-                            UpdaterPresentation.GetSingleton().label1.Content = Properties.Resources.You_have_currently_the_latest_version_installed_;
-                        else
-                            UpdaterPresentation.GetSingleton().label1.Content = string.Format(Properties.Resources.Checking_failed__cannot_contact_server__0, serverNotAvailableMessage);
+                        presentation.button1.IsEnabled = true;
+                        presentation.button1.Content = Properties.Resources.Check_for_updates_now;
+                        presentation.label1.Content = serverAvailable ?
+                            Properties.Resources.You_have_currently_the_latest_version_installed_ :
+                            string.Format(Properties.Resources.Checking_failed__cannot_contact_server__0, serverNotAvailableMessage);
                         break;
                     case State.Checking:
-                        UpdaterPresentation.GetSingleton().button1.IsEnabled = false;
-                        UpdaterPresentation.GetSingleton().label1.Content = Properties.Resources.Checking_for_updates___;
+                        presentation.button1.IsEnabled = false;
+                        presentation.label1.Content = Properties.Resources.Checking_for_updates___;
                         break;
                     case State.UpdateAvailable:
-                        UpdaterPresentation.GetSingleton().button1.IsEnabled = true;
-                        UpdaterPresentation.GetSingleton().button1.Content = Properties.Resources.Download_update_now;
-                        UpdaterPresentation.GetSingleton().label1.Content = string.Format(Properties.Resources.Update_available___0, updateName);
-                        UpdaterPresentation.GetSingleton().button1.Visibility = Visibility.Visible;
-                        UpdaterPresentation.GetSingleton().progressBar1.Visibility = Visibility.Collapsed;
-                        UpdaterPresentation.GetSingleton().image1.Source = (ImageSource)UpdaterPresentation.GetSingleton().FindResource("Update");
-                        UpdaterPresentation.GetSingleton().ChangelogBorder.Visibility = Visibility.Visible;
+                        presentation.button1.IsEnabled = true;
+                        presentation.button1.Content = Properties.Resources.Download_update_now;
+                        presentation.label1.Content = (updateName == null) ?
+                            Properties.Resources.Update_available_ :
+                            string.Format(Properties.Resources.Update_available___0, updateName);
+                        presentation.button1.Visibility = Visibility.Visible;
+                        presentation.progressBar1.Visibility = Visibility.Collapsed;
+                        presentation.image1.Source = (ImageSource)presentation.FindResource("Update");
+                        presentation.ChangelogBorder.Visibility = Visibility.Visible;
                         if (changelog != null)
                         {
-                            UpdaterPresentation.GetSingleton().ReadAndFillRSSChangelog(changelog);
+                            presentation.ReadAndFillRSSChangelog(changelog);
                         }
                         break;
                     case State.Downloading:
-                        UpdaterPresentation.GetSingleton().button1.IsEnabled = false;
-                        UpdaterPresentation.GetSingleton().button1.Visibility = Visibility.Collapsed;
-                        UpdaterPresentation.GetSingleton().progressBar1.Visibility = Visibility.Visible;
-                        UpdaterPresentation.GetSingleton().label1.Content = string.Format(Properties.Resources.Downloading_update___0_____, updateName);
-                        UpdaterPresentation.GetSingleton().image1.Source = (ImageSource)UpdaterPresentation.GetSingleton().FindResource("Update");
-                        UpdaterPresentation.GetSingleton().ChangelogBorder.Visibility = Visibility.Visible;
+                        presentation.button1.IsEnabled = false;
+                        presentation.button1.Visibility = Visibility.Collapsed;
+                        presentation.progressBar1.Visibility = Visibility.Visible;
+                        presentation.label1.Content = (updateName == null) ?
+                            Properties.Resources.Downloading_update___ :
+                            string.Format(Properties.Resources.Downloading_update___0_____, updateName);
+                        presentation.image1.Source = (ImageSource)presentation.FindResource("Update");
+                        presentation.ChangelogBorder.Visibility = Visibility.Visible;
                         if (changelog != null)
                         {
-                            UpdaterPresentation.GetSingleton().ReadAndFillRSSChangelog(changelog);
+                            presentation.ReadAndFillRSSChangelog(changelog);
                         }
                         break;
                     case State.UpdateReady:
-                        UpdaterPresentation.GetSingleton().button1.IsEnabled = true;
-                        UpdaterPresentation.GetSingleton().button1.Content = Properties.Resources.Restart_and_install_now;
-                        UpdaterPresentation.GetSingleton().button1.Visibility = Visibility.Visible;
-                        UpdaterPresentation.GetSingleton().progressBar1.Visibility = Visibility.Collapsed;
-                        UpdaterPresentation.GetSingleton().label1.Content = string.Format(Properties.Resources.Update___0___ready_to_install_, updateName);
-                        UpdaterPresentation.GetSingleton().image1.Source = (ImageSource)UpdaterPresentation.GetSingleton().FindResource("UpdateReady");
-                        UpdaterPresentation.GetSingleton().ChangelogBorder.Visibility = Visibility.Visible;
+                        presentation.button1.IsEnabled = true;
+                        presentation.button1.Content = Properties.Resources.Restart_and_install_now;
+                        presentation.button1.Visibility = Visibility.Visible;
+                        presentation.progressBar1.Visibility = Visibility.Collapsed;
+                        presentation.label1.Content = (updateName == null) ?
+                            Properties.Resources.Update_ready_to_install_ :
+                            string.Format(Properties.Resources.Update___0___ready_to_install_, updateName);
+                        presentation.image1.Source = (ImageSource)presentation.FindResource("UpdateReady");
+                        presentation.ChangelogBorder.Visibility = Visibility.Visible;
                         if (changelog != null)
                         {
-                            UpdaterPresentation.GetSingleton().ReadAndFillRSSChangelog(changelog);
+                            presentation.ReadAndFillRSSChangelog(changelog);
                         }
                         break;
                 }
@@ -325,10 +332,10 @@ namespace Cryptool.CrypWin
                             updateName = downloadedVersion.ToString();
                         }
                         else
-                            // may happen with ZIP update, but is unusual -- ZIP updates are either installed at startup or redownloaded again
+                            // may happen with ZIP update, but is unusual -- ZIP updates are mostly installed at startup or redownloaded again
                         {
                             changelog = null;
-                            updateName = "unknown version";
+                            updateName = null;
                         }
 
                         CurrentState = State.UpdateReady;
@@ -355,7 +362,10 @@ namespace Cryptool.CrypWin
                 return new Version();
 
             var versionInfo = FileVersionInfo.GetVersionInfo(FilePath);
-            return new Version(versionInfo.FileMajorPart, versionInfo.FileMinorPart, versionInfo.FileBuildPart, versionInfo.FilePrivatePart);
+            if (versionInfo.FileMajorPart < 1 && versionInfo.FileMinorPart < 1) // happens with ZIP updates
+                return new Version(); // creates Version 0.0 which is greater than 0.0.0.0!
+            else
+                return new Version(versionInfo.FileMajorPart, versionInfo.FileMinorPart, versionInfo.FileBuildPart, versionInfo.FilePrivatePart);
         }
 
         private bool IsOnlineUpdateAvailable(Version downloadedVersion)
