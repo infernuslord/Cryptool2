@@ -1,0 +1,31 @@
+BETA 7
+------
+
+Updater:
+- Added this changelog
+- Zip updater removes old files of previous update (fixes problems which regularly occur due to obsolete DLLs)
+
+Editor:
+- Various fixes and improvements in component parameter UI control
+- New feature to change plugin depth (top/bottom) on workspace
+
+Editor execution engine:
+- Does not lose data anymore (occured in (N)LFSR and Enigma templates)
+- Reworked starting logic of components (manual "repeat start" option no longer used)
+
+ADFGVX:
+- Rewritten from scratch, fixes some issues of former implementation
+- Supports now also ADFGX variant (5x5 polybius square)
+
+T-310:
+- Fixed processing of "Synchronfolge"
+
+Online Help:
+- Various (crash) fixes during help generation
+- External weblinks are now opened in system default webbrowser
+- Internal links to CWM templates are opened directly in CrypTool 2
+
+Plugin interface:
+- Removed dynamic properties (too complicated and did not work properly)
+- Removed handling of HasChanges property from plugins (now handled by editor internally)
+- Removed some no longer needed parameters (QuickWatchFormat, startable, hasDefaultValue)
