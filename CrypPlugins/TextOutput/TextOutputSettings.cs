@@ -42,7 +42,7 @@ namespace TextOutput
     #region settings
 
     /// <summary>
-    /// Maximum size property used in the settings pane. 
+    /// Maximum size property used in the settings pane.
     /// </summary>
     [TaskPane( "MaxLengthCaption", "MaxLengthTooltip", null, 3, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 65536)]
     public int MaxLength
@@ -56,7 +56,7 @@ namespace TextOutput
           if (value != maxLength)
           {
               maxLength = value;
-              OnPropertyChanged("MaxLength");              
+              OnPropertyChanged("MaxLength");
           }
       }
     }

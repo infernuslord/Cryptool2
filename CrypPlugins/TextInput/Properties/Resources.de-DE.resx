@@ -129,10 +129,10 @@
   <data name="TextOutputTooltip" xml:space="preserve">
     <value>Ausgabe als Zeichenfolge</value>
   </data>
-  <data name="Text__1_character___8_Bit_" xml:space="preserve">
-    <value>Text (1 Zeichen = 8 Bit)</value>
+  <data name="Chars" xml:space="preserve">
+    <value>Zeichen</value>
   </data>
-  <data name="PresentationFmt" xml:space="preserve">
-    <value>{0:#,0} Zeichen ({1:#,0} Bytes)</value>
+  <data name="Char" xml:space="preserve">
+    <value>Zeichen</value>
   </data>
 </root>

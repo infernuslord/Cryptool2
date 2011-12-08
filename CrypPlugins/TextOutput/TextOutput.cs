@@ -39,9 +39,9 @@ namespace TextOutput
 
         /// <summary>
         /// This dic is used to store error messages while properties are set in PlayMode. The messages
-        /// will be sent in the execute method. 
-        /// The editor flushes plugin color markers before calling the execute method. 
-        /// So these messages would still appear in LogWindow, but the color marker of the 
+        /// will be sent in the execute method.
+        /// The editor flushes plugin color markers before calling the execute method.
+        /// So these messages would still appear in LogWindow, but the color marker of the
         /// plugin (red/yellow) would be lost if sending the messages right on property set.
         /// </summary>
         private Dictionary<string, NotificationLevel> dicWarningsAndErros = new Dictionary<string, NotificationLevel>();
@@ -54,10 +54,10 @@ namespace TextOutput
             set { settings = (TextOutputSettings)value; }
         }
 
-        private string input;
+        private object input;
 
         [PropertyInfo(Direction.InputData, "InputCaption", "InputTooltip", true)]
-        public string Input
+        public object Input
         {
             get
             {
@@ -125,9 +125,66 @@ namespace TextOutput
             settings.PropertyChanged += settings_PropertyChanged;
         }
 
-        private void ShowInPresentation(string fillValue)
+        private byte[] ConvertStreamToByteArray( ICryptoolStream stream )
         {
-            if (fillValue == null) return;
+            CStreamReader reader = stream.CreateReader();
+            reader.WaitEof(); // does not support chunked streaming
+
+        	if (reader.Length > settings.MaxLength)
+	            AddMessage("WARNING - Stream is too large (" + (reader.Length / 1024).ToString("0.00") + " kB), output will be truncated to " + (settings.MaxLength / 1024).ToString("0.00") + "kB", NotificationLevel.Warning);
+	        
+            byte[] byteArray = new byte[ Math.Min(settings.MaxLength, reader.Length) ];
+	        reader.Seek(0, SeekOrigin.Begin);
+	        reader.ReadFully(byteArray, 0, byteArray.Length);
+            reader.Close();
+
+            return byteArray;
+        }
+
+
+        private byte[] GetByteArray(byte[] byteArray)
+        {
+            if (byteArray.Length <= settings.MaxLength)
+                return byteArray;
+
+            AddMessage("WARNING - Byte array is too large (" + (byteArray.Length / 1024).ToString("0.00") + " kB), output will be truncated to " + (settings.MaxLength / 1024).ToString("0.00") + "kB", NotificationLevel.Warning);
+            
+            byte[] truncatedByteArray = new byte[settings.MaxLength];
+            Buffer.BlockCopy(byteArray, 0, truncatedByteArray, 0, settings.MaxLength);
+
+            return truncatedByteArray;
+        }
+
+        private void ShowInPresentation(object value)
+        {
+            if (value == null) return;
+
+            string fillValue;
+
+	        if (value is string)
+            {
+                fillValue = (string)value;
+            }
+            else if (value is byte[])
+            {
+                byte[] byteArray = GetByteArray((byte[])value);
+                fillValue = BitConverter.ToString(byteArray).Replace("-", " ");
+            }
+            else if (value is ICryptoolStream)
+            {
+                byte[] byteArray = ConvertStreamToByteArray((ICryptoolStream)value);
+                fillValue = BitConverter.ToString(byteArray).Replace("-", " ");
+            }
+            else
+            {
+                fillValue = value.ToString();
+            }
+
+            if (fillValue.Length > settings.MaxLength)
+            {
+                AddMessage("WARNING - String is too large (" + (fillValue.Length / 1024).ToString("0.00") + " kB), output will be truncated to " + (settings.MaxLength / 1024).ToString("0.00") + "kB", NotificationLevel.Warning);
+                fillValue = fillValue.Substring(0, settings.MaxLength);
+            }
             
             Presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
@@ -150,14 +207,14 @@ namespace TextOutput
 
                 if (textOutputPresentation.textBox.Text.Length > settings.MaxLength)
                 {
-                    GuiLogMessage("Text exceeds size limit. Truncating text...", NotificationLevel.Debug);
-                    //textOutputPresentation.textBox.Text = string.Empty;
+                    GuiLogMessage("Text exceeds size limit. Truncating text...", NotificationLevel.Warning);
                     textOutputPresentation.textBox.Text = textOutputPresentation.textBox.Text.Substring(0, settings.MaxLength);
                 }
                 
                 int chars = textOutputPresentation.textBox.Text.Length;
                 int bytes = Encoding.UTF8.GetBytes(textOutputPresentation.textBox.Text).Length;
-                textOutputPresentation.labelBytes.Content = string.Format(Properties.Resources.PresentationFmt, chars, bytes);
+                string entity = (chars == 1) ? Properties.Resources.Char : Properties.Resources.Chars;
+                textOutputPresentation.labelBytes.Content = string.Format(" {0:#,0} "+entity, chars);
 
             }, fillValue);
         }

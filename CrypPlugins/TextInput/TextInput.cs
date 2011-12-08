@@ -56,8 +56,9 @@ namespace Cryptool.TextInput
 
         // No dispatcher necessary, handler is being called from GUI component
         settings.Text = textInputPresentation.textBoxInputText.Text;
-        textInputPresentation.labelBytesCount.Content =
-            string.Format(Properties.Resources.PresentationFmt, settings.Text.Length, Encoding.UTF8.GetBytes(settings.Text).Length);
+        int chars = settings.Text.Length;
+        string entity = (chars == 1) ? Properties.Resources.Char : Properties.Resources.Chars;
+        textInputPresentation.labelBytesCount.Content = string.Format(" {0:#,0} "+entity, chars );
     }
 
     public void NotifyUpdate()
@@ -93,7 +94,7 @@ namespace Cryptool.TextInput
     {
         get
         {
-            return GetInputString();  
+            return GetInputString();
         }
         set { }
     }
@@ -115,7 +116,7 @@ namespace Cryptool.TextInput
           {
               textInputPresentation.textBoxInputText.Text = settings.Text;
           }, null);
-      }      
+      }
     }
 
     public void Dispose()
@@ -124,7 +125,7 @@ namespace Cryptool.TextInput
     }
 
     public void Execute()
-    {      
+    {
       NotifyUpdate();
       ShowProgress(100, 100);
       string value = (string)this.textInputPresentation.textBoxInputText.Dispatcher.Invoke(DispatcherPriority.Normal, (DispatcherOperationCallback)delegate
@@ -133,7 +134,7 @@ namespace Cryptool.TextInput
       }, textInputPresentation);
 
       if (string.IsNullOrEmpty(value))
-        GuiLogMessage("No input value returning null.", NotificationLevel.Debug); 
+        GuiLogMessage("No input value returning null.", NotificationLevel.Debug);
     }
 
     public void Stop()

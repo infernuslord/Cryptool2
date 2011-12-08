@@ -153,7 +153,16 @@
   <data name="InputTooltip" xml:space="preserve">
     <value>Eingabedaten als beliebiger Datentyp</value>
   </data>
-  <data name="PresentationFmt" xml:space="preserve">
-    <value>{0:#,0} Zeichen ({1:#,0} Bytes)</value>
+  <data name="Char" xml:space="preserve">
+    <value>Zeichen</value>
+  </data>
+  <data name="Byte" xml:space="preserve">
+    <value>Byte</value>
+  </data>
+  <data name="Bytes" xml:space="preserve">
+    <value>Bytes</value>
+  </data>
+  <data name="Chars" xml:space="preserve">
+    <value>Zeichen</value>
   </data>
 </root>

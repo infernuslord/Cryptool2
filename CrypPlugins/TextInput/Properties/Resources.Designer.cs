@@ -61,6 +61,24 @@ namespace Cryptool.TextInput.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die character ähnelt.
+        /// </summary>
+        internal static string Char {
+            get {
+                return ResourceManager.GetString("Char", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die characters ähnelt.
+        /// </summary>
+        internal static string Chars {
+            get {
+                return ResourceManager.GetString("Chars", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Text Input ähnelt.
         /// </summary>
         internal static string PluginCaption {
@@ -75,24 +93,6 @@ namespace Cryptool.TextInput.Properties {
         internal static string PluginTooltip {
             get {
                 return ResourceManager.GetString("PluginTooltip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die {0:#,0} characters ({1:#,0} bytes) ähnelt.
-        /// </summary>
-        internal static string PresentationFmt {
-            get {
-                return ResourceManager.GetString("PresentationFmt", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Text (1 character = 8 Bit) ähnelt.
-        /// </summary>
-        internal static string Text__1_character___8_Bit_ {
-            get {
-                return ResourceManager.GetString("Text__1_character___8_Bit_", resourceCulture);
             }
         }
         
