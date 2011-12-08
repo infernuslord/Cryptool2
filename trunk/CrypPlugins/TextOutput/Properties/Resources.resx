@@ -156,4 +156,16 @@
   <data name="PresentationFmt" xml:space="preserve">
     <value>{0:#,0} characters ({1:#,0} bytes)</value>
   </data>
+  <data name="Byte" xml:space="preserve">
+    <value>byte</value>
+  </data>
+  <data name="Bytes" xml:space="preserve">
+    <value>bytes</value>
+  </data>
+  <data name="Char" xml:space="preserve">
+    <value>character</value>
+  </data>
+  <data name="Chars" xml:space="preserve">
+    <value>characters</value>
+  </data>
 </root>

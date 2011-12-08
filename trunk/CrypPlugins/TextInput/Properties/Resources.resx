@@ -129,10 +129,10 @@
   <data name="TextOutputTooltip" xml:space="preserve">
     <value>Simple text to use as input for other plug-ins.</value>
   </data>
-  <data name="Text__1_character___8_Bit_" xml:space="preserve">
-    <value>Text (1 character = 8 Bit)</value>
+  <data name="Char" xml:space="preserve">
+    <value>character</value>
   </data>
-  <data name="PresentationFmt" xml:space="preserve">
-    <value>{0:#,0} characters ({1:#,0} bytes)</value>
+  <data name="Chars" xml:space="preserve">
+    <value>characters</value>
   </data>
 </root>

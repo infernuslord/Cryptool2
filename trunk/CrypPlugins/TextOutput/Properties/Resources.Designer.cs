@@ -115,6 +115,42 @@ namespace TextOutput.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die byte ähnelt.
+        /// </summary>
+        internal static string Byte {
+            get {
+                return ResourceManager.GetString("Byte", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die bytes ähnelt.
+        /// </summary>
+        internal static string Bytes {
+            get {
+                return ResourceManager.GetString("Bytes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die character ähnelt.
+        /// </summary>
+        internal static string Char {
+            get {
+                return ResourceManager.GetString("Char", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die characters ähnelt.
+        /// </summary>
+        internal static string Chars {
+            get {
+                return ResourceManager.GetString("Chars", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Input data ähnelt.
         /// </summary>
         internal static string InputCaption {
