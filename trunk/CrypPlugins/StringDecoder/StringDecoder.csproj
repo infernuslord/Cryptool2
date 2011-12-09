@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{443FE8F7-03CC-4D37-BC7C-8E212C68A89E}</ProjectGuid>
+    <ProjectGuid>{A7A16F8B-2616-442F-8B8E-8AD0E2EDB7FF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Cryptool.Plugins.Convertor</RootNamespace>
-    <AssemblyName>StreamToStringConverter</AssemblyName>
+    <AssemblyName>StringDecoder</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SignAssembly>true</SignAssembly>
@@ -90,9 +90,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="StreamToStringConverter.cs" />
+    <Compile Include="StringDecoder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StreamToStringConverterSettings.cs" />
+    <Compile Include="StringDecoderSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CrypPluginBase\CrypPluginBase.csproj">
@@ -102,7 +102,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="s2t-icon.png" />
+    <Resource Include="t2s-icon.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

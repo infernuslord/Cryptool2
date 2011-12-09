@@ -61,7 +61,7 @@ namespace Cryptool.Plugins.Convertor.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Input stream encoding ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Input data encoding ähnelt.
         /// </summary>
         internal static string EncodingSettingCaption {
             get {
@@ -70,7 +70,7 @@ namespace Cryptool.Plugins.Convertor.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Default system encoding ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die UTF-8 ähnelt.
         /// </summary>
         internal static string EncodingSettingList1 {
             get {
@@ -79,7 +79,7 @@ namespace Cryptool.Plugins.Convertor.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die UTF-8 ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die UTF-7 ähnelt.
         /// </summary>
         internal static string EncodingSettingList2 {
             get {
@@ -88,7 +88,7 @@ namespace Cryptool.Plugins.Convertor.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die UTF-7 ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die UTF-16 ähnelt.
         /// </summary>
         internal static string EncodingSettingList3 {
             get {
@@ -97,7 +97,7 @@ namespace Cryptool.Plugins.Convertor.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die UTF-16 ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die UTF-32 ähnelt.
         /// </summary>
         internal static string EncodingSettingList4 {
             get {
@@ -106,7 +106,7 @@ namespace Cryptool.Plugins.Convertor.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die UTF-32 ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die ASCII ähnelt.
         /// </summary>
         internal static string EncodingSettingList5 {
             get {
@@ -115,7 +115,7 @@ namespace Cryptool.Plugins.Convertor.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die ASCII ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die ISO8859-15 ähnelt.
         /// </summary>
         internal static string EncodingSettingList6 {
             get {
@@ -124,7 +124,7 @@ namespace Cryptool.Plugins.Convertor.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die ISO8859-15 ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Windows-1252 ähnelt.
         /// </summary>
         internal static string EncodingSettingList7 {
             get {
@@ -133,20 +133,29 @@ namespace Cryptool.Plugins.Convertor.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Windows-1252 ähnelt.
-        /// </summary>
-        internal static string EncodingSettingList8 {
-            get {
-                return ResourceManager.GetString("EncodingSettingList8", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Choose the expected encoding of the input stream. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Choose the expected encoding of the input data. ähnelt.
         /// </summary>
         internal static string EncodingSettingTooltip {
             get {
                 return ResourceManager.GetString("EncodingSettingTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die byte[] input ähnelt.
+        /// </summary>
+        internal static string InputBytesCaption {
+            get {
+                return ResourceManager.GetString("InputBytesCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die The input bytes are converted to a string using the encoding and presentation format given in the settings. ähnelt.
+        /// </summary>
+        internal static string InputBytesTooltip {
+            get {
+                return ResourceManager.GetString("InputBytesTooltip", resourceCulture);
             }
         }
         
@@ -160,7 +169,7 @@ namespace Cryptool.Plugins.Convertor.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Input stream will be converted to ASCII text. The encoding given in the settings will be used. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die The input stream is converted to a string using the encoding and presentation format given in the settings. ähnelt.
         /// </summary>
         internal static string InputStreamTooltip {
             get {
@@ -196,7 +205,7 @@ namespace Cryptool.Plugins.Convertor.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die The string after decoding the bytes from the input stream. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die The string after decoding the bytes from the input. ähnelt.
         /// </summary>
         internal static string OutputStringTooltip {
             get {
@@ -205,7 +214,7 @@ namespace Cryptool.Plugins.Convertor.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Stream to String Converter ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die String Encoder ähnelt.
         /// </summary>
         internal static string PluginCaption {
             get {
@@ -214,7 +223,7 @@ namespace Cryptool.Plugins.Convertor.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Converts a given stream into a string. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Converts a given stream or byte array into a string. ähnelt.
         /// </summary>
         internal static string PluginTooltip {
             get {
