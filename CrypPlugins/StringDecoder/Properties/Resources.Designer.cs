@@ -61,7 +61,7 @@ namespace Cryptool.Plugins.Convertor.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Output stream encoding ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Output data encoding ähnelt.
         /// </summary>
         internal static string EncodingSettingCaption {
             get {
@@ -70,7 +70,7 @@ namespace Cryptool.Plugins.Convertor.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Default system encoding ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die UTF-8 ähnelt.
         /// </summary>
         internal static string EncodingSettingList1 {
             get {
@@ -79,7 +79,7 @@ namespace Cryptool.Plugins.Convertor.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die UTF-8 ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die UTF-7 ähnelt.
         /// </summary>
         internal static string EncodingSettingList2 {
             get {
@@ -88,7 +88,7 @@ namespace Cryptool.Plugins.Convertor.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die UTF-7 ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die UTF-16 ähnelt.
         /// </summary>
         internal static string EncodingSettingList3 {
             get {
@@ -97,7 +97,7 @@ namespace Cryptool.Plugins.Convertor.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die UTF-16 ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die UTF-32 ähnelt.
         /// </summary>
         internal static string EncodingSettingList4 {
             get {
@@ -106,7 +106,7 @@ namespace Cryptool.Plugins.Convertor.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die UTF-32 ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die ASCII ähnelt.
         /// </summary>
         internal static string EncodingSettingList5 {
             get {
@@ -115,7 +115,7 @@ namespace Cryptool.Plugins.Convertor.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die ASCII ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die ISO8859-15 ähnelt.
         /// </summary>
         internal static string EncodingSettingList6 {
             get {
@@ -124,7 +124,7 @@ namespace Cryptool.Plugins.Convertor.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die ISO8859-15 ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Windows-1252 ähnelt.
         /// </summary>
         internal static string EncodingSettingList7 {
             get {
@@ -133,16 +133,7 @@ namespace Cryptool.Plugins.Convertor.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Windows-1252 ähnelt.
-        /// </summary>
-        internal static string EncodingSettingList8 {
-            get {
-                return ResourceManager.GetString("EncodingSettingList8", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Choose the encoding of the output stream (if input format is &apos;Plain text&apos;). ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Choose the encoding of the output data (if input format is &apos;Plain text&apos;). ähnelt.
         /// </summary>
         internal static string EncodingSettingTooltip {
             get {
@@ -160,7 +151,7 @@ namespace Cryptool.Plugins.Convertor.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die The input text will be converted to a byte stream by according to the format and the encoding given in the settings. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die The input text will be converted to a byte stream or a byte array according to the format and the encoding given in the settings. ähnelt.
         /// </summary>
         internal static string InputTextTooltip {
             get {
@@ -178,7 +169,7 @@ namespace Cryptool.Plugins.Convertor.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die The stream after encoding the text from the input. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die The resulting byte array after encoding the input text ähnelt.
         /// </summary>
         internal static string OutputBytesTooltip {
             get {
@@ -196,7 +187,7 @@ namespace Cryptool.Plugins.Convertor.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die The stream after encoding the text from the input. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die The resulting byte stream after encoding the input text ähnelt.
         /// </summary>
         internal static string OutputStreamTooltip {
             get {
@@ -205,7 +196,7 @@ namespace Cryptool.Plugins.Convertor.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die String to Stream Converter ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die String Decoder ähnelt.
         /// </summary>
         internal static string PluginCaption {
             get {
@@ -214,7 +205,7 @@ namespace Cryptool.Plugins.Convertor.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Converts a given string into a stream. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Converts a given string into a stream or a byte array. ähnelt.
         /// </summary>
         internal static string PluginTooltip {
             get {

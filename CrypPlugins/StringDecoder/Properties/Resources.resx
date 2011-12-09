@@ -118,61 +118,58 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="PluginCaption" xml:space="preserve">
-    <value>Stream to String Converter</value>
+    <value>String Decoder</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Converts a given stream into a string.</value>
+    <value>Converts a given string into a stream or a byte array.</value>
   </data>
-  <data name="OutputStringCaption" xml:space="preserve">
-    <value>Text output</value>
+  <data name="OutputStreamCaption" xml:space="preserve">
+    <value>Stream output</value>
   </data>
-  <data name="OutputStringTooltip" xml:space="preserve">
-    <value>The string after decoding the bytes from the input stream.</value>
+  <data name="OutputStreamTooltip" xml:space="preserve">
+    <value>The resulting byte stream after encoding the input text</value>
   </data>
-  <data name="InputStreamCaption" xml:space="preserve">
-    <value>Stream input</value>
+  <data name="OutputBytesCaption" xml:space="preserve">
+    <value>byte[] output</value>
   </data>
-  <data name="InputStreamTooltip" xml:space="preserve">
-    <value>Input stream will be converted to ASCII text. The encoding given in the settings will be used.</value>
+  <data name="OutputBytesTooltip" xml:space="preserve">
+    <value>The resulting byte array after encoding the input text</value>
+  </data>
+  <data name="InputTextCaption" xml:space="preserve">
+    <value>Text input</value>
+  </data>
+  <data name="InputTextTooltip" xml:space="preserve">
+    <value>The input text will be converted to a byte stream or a byte array according to the format and the encoding given in the settings.</value>
   </data>
   <data name="EncodingSettingCaption" xml:space="preserve">
-    <value>Input stream encoding</value>
+    <value>Output data encoding</value>
   </data>
   <data name="EncodingSettingTooltip" xml:space="preserve">
-    <value>Choose the expected encoding of the input stream.</value>
-  </data>
-  <data name="MaxLengthCaption" xml:space="preserve">
-    <value>Maximum length</value>
-  </data>
-  <data name="MaxLengthTooltip" xml:space="preserve">
-    <value>Provide the maximum number of bytes to convert.</value>
+    <value>Choose the encoding of the output data (if input format is 'Plain text').</value>
   </data>
   <data name="EncodingSettingList1" xml:space="preserve">
-    <value>Default system encoding</value>
-  </data>
-  <data name="EncodingSettingList2" xml:space="preserve">
     <value>UTF-8</value>
   </data>
-  <data name="EncodingSettingList3" xml:space="preserve">
+  <data name="EncodingSettingList2" xml:space="preserve">
     <value>UTF-7</value>
   </data>
-  <data name="EncodingSettingList4" xml:space="preserve">
+  <data name="EncodingSettingList3" xml:space="preserve">
     <value>UTF-16</value>
   </data>
-  <data name="EncodingSettingList5" xml:space="preserve">
+  <data name="EncodingSettingList4" xml:space="preserve">
     <value>UTF-32</value>
   </data>
-  <data name="EncodingSettingList6" xml:space="preserve">
+  <data name="EncodingSettingList5" xml:space="preserve">
     <value>ASCII</value>
   </data>
-  <data name="EncodingSettingList7" xml:space="preserve">
+  <data name="EncodingSettingList6" xml:space="preserve">
     <value>ISO8859-15</value>
   </data>
-  <data name="EncodingSettingList8" xml:space="preserve">
+  <data name="EncodingSettingList7" xml:space="preserve">
     <value>Windows-1252</value>
   </data>
   <data name="PresentationFormatSettingCaption" xml:space="preserve">
-    <value>Presentation format</value>
+    <value>Input format</value>
   </data>
   <data name="PresentationFormatSettingList1" xml:space="preserve">
     <value>Plain text</value>
@@ -190,7 +187,7 @@
     <value>Base64</value>
   </data>
   <data name="PresentationFormatSettingTooltip" xml:space="preserve">
-    <value>Choose the format that will be used to present the input data.</value>
+    <value>Choose the format of the input data.</value>
   </data>
   <data name="PresentationFormatSettingList2" xml:space="preserve">
     <value>Binary</value>

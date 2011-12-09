@@ -32,18 +32,18 @@ namespace Cryptool.Plugins.Convertor
 {
     // Converts a given string into a stream by using different encodings.
     [Author("Dr. Arno Wacker", "arno.wacker@cryptool.org", "Uni Duisburg", "http://www.uni-duisburg-essen.de")]
-    [PluginInfo("Cryptool.Plugins.Convertor.Properties.Resources", "PluginCaption", "PluginTooltip", "StringToStreamConverter/DetailedDescription/doc.xml", "StringToStreamConverter/t2s-icon.png")]
+    [PluginInfo("Cryptool.Plugins.Convertor.Properties.Resources", "PluginCaption", "PluginTooltip", "StringDecoder/DetailedDescription/doc.xml", "StringDecoder/t2s-icon.png")]
     [ComponentCategory(ComponentCategory.ToolsMisc)]
-    public class StringToStreamConverter : ICrypComponent
+    public class StringDecoder : ICrypComponent
     {
         #region Public interface
 
         /// <summary>
         /// Constructor
         /// </summary>
-        public StringToStreamConverter()
+        public StringDecoder()
         {
-            this.settings = new StringToStreamConverterSettings();
+            this.settings = new StringDecoderSettings();
         }
 
 
@@ -53,7 +53,7 @@ namespace Cryptool.Plugins.Convertor
         public ISettings Settings
         {
             get { return (ISettings)this.settings; }
-            set { this.settings = (StringToStreamConverterSettings)value; }
+            set { this.settings = (StringDecoderSettings)value; }
         }
 
         [PropertyInfo(Direction.OutputData, "OutputStreamCaption", "OutputStreamTooltip", true)]
@@ -63,7 +63,7 @@ namespace Cryptool.Plugins.Convertor
             get 
             {
                 if (outputStream == null)
-              return null;
+                    return null;
 
                 return outputStream;
             }
@@ -81,8 +81,8 @@ namespace Cryptool.Plugins.Convertor
                 if (outputBytes == null)
                     return null;
 
-                    return outputBytes;
-                }
+                return outputBytes;
+            }
             set
             {
             }
@@ -160,7 +160,7 @@ namespace Cryptool.Plugins.Convertor
         #endregion
 
         #region Private variables
-        private StringToStreamConverterSettings settings;
+        private StringDecoderSettings settings;
         private CStreamWriter outputStream = null;
         private byte[] outputBytes = null;
         private string inputString;
@@ -168,31 +168,31 @@ namespace Cryptool.Plugins.Convertor
 
         #region Private methods
 
-        private byte[] GetBytesForEncoding(string s, StringToStreamConverterSettings.EncodingTypes encoding)
+        private byte[] GetBytesForEncoding(string s, StringDecoderSettings.EncodingTypes encoding)
         {
             if (s == null) return null;
             
             switch (encoding)
             {
-                case StringToStreamConverterSettings.EncodingTypes.UTF16:
+                case StringDecoderSettings.EncodingTypes.UTF16:
                     return Encoding.Unicode.GetBytes(s);
 
-                case StringToStreamConverterSettings.EncodingTypes.UTF7:
+                case StringDecoderSettings.EncodingTypes.UTF7:
                     return Encoding.UTF7.GetBytes(s);
 
-                case StringToStreamConverterSettings.EncodingTypes.UTF8:
+                case StringDecoderSettings.EncodingTypes.UTF8:
                     return Encoding.UTF8.GetBytes(s);
 
-                case StringToStreamConverterSettings.EncodingTypes.UTF32:
+                case StringDecoderSettings.EncodingTypes.UTF32:
                     return Encoding.UTF32.GetBytes(s);
 
-                case StringToStreamConverterSettings.EncodingTypes.ASCII:
+                case StringDecoderSettings.EncodingTypes.ASCII:
                     return Encoding.ASCII.GetBytes(s);
 
-                case StringToStreamConverterSettings.EncodingTypes.ISO8859_15:
+                case StringDecoderSettings.EncodingTypes.ISO8859_15:
                     return Encoding.GetEncoding("iso-8859-15").GetBytes(s);
 
-                case StringToStreamConverterSettings.EncodingTypes.Windows1252:
+                case StringDecoderSettings.EncodingTypes.Windows1252:
                     return Encoding.GetEncoding(1252).GetBytes(s);
 
                 default:
@@ -209,7 +209,7 @@ namespace Cryptool.Plugins.Convertor
                 // here conversion happens
                 switch (settings.PresentationFormatSetting)
                 {
-                    case StringToStreamConverterSettings.PresentationFormat.Base64:
+                    case StringDecoderSettings.PresentationFormat.Base64:
                         try
                         {
                             outputBytes = Convert.FromBase64String(value);
@@ -223,7 +223,7 @@ namespace Cryptool.Plugins.Convertor
                         }
                         break;
 
-                    case StringToStreamConverterSettings.PresentationFormat.Hex:
+                    case StringDecoderSettings.PresentationFormat.Hex:
                         try
                         {
                             outputBytes = convertHexStringToByteArray(value);
@@ -236,7 +236,7 @@ namespace Cryptool.Plugins.Convertor
                         }
                         break;
 
-                    case StringToStreamConverterSettings.PresentationFormat.Octal:
+                    case StringDecoderSettings.PresentationFormat.Octal:
                         try
                         {
                             outputBytes = convertOctalStringToByteArray(value);
@@ -249,7 +249,7 @@ namespace Cryptool.Plugins.Convertor
                         }
                         break;
 
-                    case StringToStreamConverterSettings.PresentationFormat.Decimal:
+                    case StringDecoderSettings.PresentationFormat.Decimal:
                         try
                         {
                             outputBytes = convertDecimalStringToByteArray(value);
@@ -262,7 +262,7 @@ namespace Cryptool.Plugins.Convertor
                         }
                         break;
 
-                    case StringToStreamConverterSettings.PresentationFormat.Binary:
+                    case StringDecoderSettings.PresentationFormat.Binary:
                         try
                         {
                             outputBytes = convertBinaryStringToByteArray(value);
@@ -275,7 +275,7 @@ namespace Cryptool.Plugins.Convertor
                         }
                         break;
 
-                    case StringToStreamConverterSettings.PresentationFormat.Text:
+                    case StringDecoderSettings.PresentationFormat.Text:
                     default:
                         outputBytes = GetBytesForEncoding(value, settings.Encoding);
                         outputStream = new CStreamWriter(outputBytes);

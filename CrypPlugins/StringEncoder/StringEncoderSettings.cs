@@ -23,15 +23,17 @@ using System.ComponentModel;
 
 namespace Cryptool.Plugins.Convertor
 {
-    public class StringToStreamConverterSettings : ISettings
+    public class StringEncoderSettings : ISettings
     {
-        public enum EncodingTypes { Default, UTF8, UTF7, UTF16, UTF32, ASCII, ISO8859_15, Windows1252 };
+        public enum EncodingTypes { UTF8, UTF7, UTF16, UTF32, ASCII, ISO8859_15, Windows1252 };
         public enum PresentationFormat { Text, Binary, Octal, Decimal, Hex, Base64 };
-        
+
         #region Private variables
 
         private EncodingTypes encoding = EncodingTypes.UTF8;
         private PresentationFormat presentation = PresentationFormat.Text;
+
+        private int maxLength = 65536; //64kB
 
         #endregion
 
@@ -40,8 +42,8 @@ namespace Cryptool.Plugins.Convertor
         /// <summary>
         /// Encoding property used in the Settings pane. 
         /// </summary>
-        [ContextMenu( "EncodingSettingCaption", "EncodingSettingTooltip", 1, ContextMenuControlType.ComboBox, null, new string[] { "EncodingSettingList1", "EncodingSettingList2", "EncodingSettingList3", "EncodingSettingList4", "EncodingSettingList5", "EncodingSettingList6", "EncodingSettingList7", "EncodingSettingList8" })]
-        [TaskPane( "EncodingSettingCaption", "EncodingSettingTooltip", "", 1, false, ControlType.ComboBox, new string[] { "EncodingSettingList1", "EncodingSettingList2", "EncodingSettingList3", "EncodingSettingList4", "EncodingSettingList5", "EncodingSettingList6", "EncodingSettingList7", "EncodingSettingList8" })]
+        [ContextMenu("EncodingSettingCaption", "EncodingSettingTooltip", 1, ContextMenuControlType.ComboBox, null, new string[] { "EncodingSettingList1", "EncodingSettingList2", "EncodingSettingList3", "EncodingSettingList4", "EncodingSettingList5", "EncodingSettingList6", "EncodingSettingList7" })]
+        [TaskPane("EncodingSettingCaption", "EncodingSettingTooltip", null, 1, false, ControlType.ComboBox, new string[] { "EncodingSettingList1", "EncodingSettingList2", "EncodingSettingList3", "EncodingSettingList4", "EncodingSettingList5", "EncodingSettingList6", "EncodingSettingList7" })]
         public EncodingTypes Encoding
         {
             get
@@ -76,6 +78,26 @@ namespace Cryptool.Plugins.Convertor
                     this.presentation = value;
                     OnPropertyChanged("Presentation");
                 }
+            }
+        }
+
+        /// <summary>
+        /// Maximum size property used in the settings pane. 
+        /// </summary>        
+        [TaskPane( "MaxLengthCaption", "MaxLengthTooltip", null, 2, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, int.MaxValue)]
+        public int MaxLength
+        {
+            get
+            {
+              return maxLength;
+            }
+            set
+            {
+              if (value != maxLength)
+              {
+                  maxLength = value;
+                  OnPropertyChanged("MaxLength");
+              }
             }
         }
 

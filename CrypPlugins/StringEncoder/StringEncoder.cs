@@ -30,18 +30,18 @@ using System.Runtime.CompilerServices;
 namespace Cryptool.Plugins.Convertor
 {
     [Author("Dr. Arno Wacker", "arno.wacker@cryptool.org", "Uni Duisburg", "http://www.uni-duisburg-essen.de")]
-    [PluginInfo("Cryptool.Plugins.Convertor.Properties.Resources", "PluginCaption", "PluginTooltip", "StreamToStringConverter/DetailedDescription/doc.xml", "StreamToStringConverter/s2t-icon.png")]
+    [PluginInfo("Cryptool.Plugins.Convertor.Properties.Resources", "PluginCaption", "PluginTooltip", "StringEncoder/DetailedDescription/doc.xml", "StringEncoder/s2t-icon.png")]
     [ComponentCategory(ComponentCategory.ToolsMisc)]
-    public class StreamToStringConverter : ICrypComponent
+    public class StringEncoder : ICrypComponent
     {
         #region Public interface
 
         /// <summary>
         /// Constructor
         /// </summary>
-        public StreamToStringConverter()
+        public StringEncoder()
         {
-            this.settings = new StreamToStringConverterSettings();
+            this.settings = new StringEncoderSettings();
         }
 
 
@@ -51,7 +51,7 @@ namespace Cryptool.Plugins.Convertor
         public ISettings Settings
         {
             get { return (ISettings)this.settings; }
-            set { this.settings = (StreamToStringConverterSettings)value; }
+            set { this.settings = (StringEncoderSettings)value; }
         }
 
         [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", true)]
@@ -65,7 +65,7 @@ namespace Cryptool.Plugins.Convertor
             }
         }
 
-        [PropertyInfo(Direction.InputData, "InputStreamCaption", "InputStreamTooltip", true)]
+        [PropertyInfo(Direction.InputData, "InputStreamCaption", "InputStreamTooltip", false)]
         public ICryptoolStream InputStream
         {
             get
@@ -74,12 +74,36 @@ namespace Cryptool.Plugins.Convertor
             }
             set
             {
-                inputStream = value;
-                // processInput(value); This should be done in execute method, because PlayMode causes 
-                // errors state (yellow/red markers) to be flushed on execute. So if input is processed
-                // here before execute method the plugin element will not be colored correctly if 
-                // errors/warnings occur.
-                OnPropertyChanged("InputStream");
+                if (value is ICryptoolStream)
+                {
+                    // processInput(value); This should be done in execute method, because PlayMode causes 
+                    // errors state (yellow/red markers) to be flushed on execute. So if input is processed
+                    // here before execute method the plugin element will not be colored correctly if 
+                    // errors/warnings occur.
+                    inputStream = (ICryptoolStream)value;
+                    OnPropertyChanged("InputStream");
+                }
+            }
+        }
+
+        [PropertyInfo(Direction.InputData, "InputBytesCaption", "InputBytesTooltip", false)]
+        public byte[] InputBytes
+        {
+            get
+            {
+                return inputBytes;
+            }
+            set
+            {
+                if (value is byte[])
+                {
+                    // processInput(value); This should be done in execute method, because PlayMode causes 
+                    // errors state (yellow/red markers) to be flushed on execute. So if input is processed
+                    // here before execute method the plugin element will not be colored correctly if 
+                    // errors/warnings occur.
+                    inputBytes = (byte[])value;
+                    OnPropertyChanged("InputBytes");
+                }
             }
         }
 
@@ -107,6 +131,7 @@ namespace Cryptool.Plugins.Convertor
         public void Dispose()
         {
             inputStream = null;
+            inputBytes = null;
         }
 
 
@@ -139,38 +164,39 @@ namespace Cryptool.Plugins.Convertor
         #endregion
 
         #region Private variables
-        private StreamToStringConverterSettings settings;
+        private StringEncoderSettings settings;
         private ICryptoolStream inputStream = null;
+        private byte[] inputBytes = null;
         private string outputString;
         #endregion
 
         #region Private methods
 
-        private string GetStringForEncoding(byte[] buffer, StreamToStringConverterSettings.EncodingTypes encoding)
+        private string GetStringForEncoding(byte[] buffer, StringEncoderSettings.EncodingTypes encoding)
         {
             if (buffer == null) return null;
             
             switch (encoding)
             {
-                case StreamToStringConverterSettings.EncodingTypes.UTF16:
+                case StringEncoderSettings.EncodingTypes.UTF16:
                     return Encoding.Unicode.GetString(buffer);
 
-                case StreamToStringConverterSettings.EncodingTypes.UTF7:
+                case StringEncoderSettings.EncodingTypes.UTF7:
                     return Encoding.UTF7.GetString(buffer);
 
-                case StreamToStringConverterSettings.EncodingTypes.UTF8:
+                case StringEncoderSettings.EncodingTypes.UTF8:
                     return Encoding.UTF8.GetString(buffer);
 
-                case StreamToStringConverterSettings.EncodingTypes.UTF32:
+                case StringEncoderSettings.EncodingTypes.UTF32:
                     return Encoding.UTF32.GetString(buffer);
 
-                case StreamToStringConverterSettings.EncodingTypes.ASCII:
+                case StringEncoderSettings.EncodingTypes.ASCII:
                     return Encoding.ASCII.GetString(buffer);
                     
-                case StreamToStringConverterSettings.EncodingTypes.ISO8859_15:
+                case StringEncoderSettings.EncodingTypes.ISO8859_15:
                     return Encoding.GetEncoding("iso-8859-15").GetString(buffer);
 
-                case StreamToStringConverterSettings.EncodingTypes.Windows1252:
+                case StringEncoderSettings.EncodingTypes.Windows1252:
                     return Encoding.GetEncoding(1252).GetString(buffer);
 
                 default:
@@ -178,46 +204,38 @@ namespace Cryptool.Plugins.Convertor
             }
         }
 
-        string GetPresentation( byte[] buffer, StreamToStringConverterSettings.PresentationFormat presentation )
+        string GetPresentation( byte[] buffer, StringEncoderSettings.PresentationFormat presentation )
         {
             if (buffer == null) return null;
 
             switch (presentation)
             {
-                case StreamToStringConverterSettings.PresentationFormat.Base64:
+                case StringEncoderSettings.PresentationFormat.Base64:
                     return Convert.ToBase64String(buffer);
 
-                case StreamToStringConverterSettings.PresentationFormat.Binary:
+                case StringEncoderSettings.PresentationFormat.Binary:
                     return string.Join(" ", Array.ConvertAll(buffer, x => Convert.ToString(x, 2).PadLeft(8, '0')));
 
-                case StreamToStringConverterSettings.PresentationFormat.Hex:
+                case StringEncoderSettings.PresentationFormat.Hex:
                     return string.Join(" ", Array.ConvertAll(buffer, x => x.ToString("X2")));
 
-                case StreamToStringConverterSettings.PresentationFormat.Octal:
+                case StringEncoderSettings.PresentationFormat.Octal:
                     return string.Join(" ", Array.ConvertAll(buffer, x => Convert.ToString(x, 8).PadLeft(3, '0')));
 
-                case StreamToStringConverterSettings.PresentationFormat.Decimal:
+                case StringEncoderSettings.PresentationFormat.Decimal:
                     return string.Join(" ", Array.ConvertAll(buffer, x => x.ToString()));
 
-                case StreamToStringConverterSettings.PresentationFormat.Text:
+                case StringEncoderSettings.PresentationFormat.Text:
                 default:
                     return GetStringForEncoding(buffer, settings.Encoding);
             }
         }
 
-        private void processInput(CStreamReader value)
+        private void processInput(byte[] buffer)
         {
             ShowProgress(50, 100);
 
             ShowStatusBarMessage("Converting input ...", NotificationLevel.Debug);
-
-            value.WaitEof();
-            if (value.Length > settings.MaxLength)
-                ShowStatusBarMessage("WARNING - Input stream is too large (" + (value.Length / 1024).ToString("0.00") + " kB), output will be truncated to " + (settings.MaxLength / 1024).ToString("0.00") + "kB", NotificationLevel.Warning);
-
-            byte[] buffer = new byte[Math.Min(value.Length,settings.MaxLength)];
-            value.Seek(0, SeekOrigin.Begin);
-            value.Read(buffer, 0, buffer.Length);
 
             outputString = GetPresentation(buffer, settings.PresentationFormatSetting);
 
@@ -225,7 +243,6 @@ namespace Cryptool.Plugins.Convertor
 
             ShowProgress(100, 100);
 
-            OnPropertyChanged("InputStream");
             OnPropertyChanged("OutputString");
         }
 
@@ -251,12 +268,26 @@ namespace Cryptool.Plugins.Convertor
             {
                 using (CStreamReader reader = InputStream.CreateReader())
                 {
-                    processInput(reader);
+                    reader.WaitEof();
+                    if (reader.Length > settings.MaxLength)
+                        ShowStatusBarMessage("WARNING - Input stream is too large (" + (reader.Length / 1024).ToString("0.00") + " kB), output will be truncated to " + (settings.MaxLength / 1024).ToString("0.00") + "kB", NotificationLevel.Warning);
+
+                    byte[] buffer = new byte[Math.Min(reader.Length, settings.MaxLength)];
+                    reader.Seek(0, SeekOrigin.Begin);
+                    reader.Read(buffer, 0, buffer.Length);
+
+                    processInput(buffer);
+                    OnPropertyChanged("InputStream");
                 }
+            }
+            else if (InputBytes != null)
+            {
+                processInput(InputBytes);
+                OnPropertyChanged("InputBytes");
             }
             else
             {
-                ShowStatusBarMessage("Stream input is null. Nothing to convert.", NotificationLevel.Warning);
+                ShowStatusBarMessage("Inputs are null. Nothing to convert.", NotificationLevel.Warning);
             }
         }
 

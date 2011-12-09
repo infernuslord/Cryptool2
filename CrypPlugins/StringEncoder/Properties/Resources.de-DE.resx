@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="PluginCaption" xml:space="preserve">
-    <value>Stream to String-Konvertierer</value>
+    <value>String-Kodierer</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Konvertiert einen Eingabedatenstrom in einen String.</value>
+    <value>Konvertiert einen Datenstrom oder ein Byte-Array in einen String.</value>
   </data>
   <data name="OutputStringCaption" xml:space="preserve">
     <value>Ausgabe</value>
@@ -148,27 +148,24 @@
     <value>Wie viele Bytes des Datenstroms sollen maximal konvertiert werden?</value>
   </data>
   <data name="EncodingSettingList1" xml:space="preserve">
-    <value>Standardkodierung</value>
-  </data>
-  <data name="EncodingSettingList2" xml:space="preserve">
     <value>UTF-8</value>
   </data>
-  <data name="EncodingSettingList3" xml:space="preserve">
+  <data name="EncodingSettingList2" xml:space="preserve">
     <value>UTF-7</value>
   </data>
-  <data name="EncodingSettingList4" xml:space="preserve">
+  <data name="EncodingSettingList3" xml:space="preserve">
     <value>UTF-16</value>
   </data>
-  <data name="EncodingSettingList5" xml:space="preserve">
+  <data name="EncodingSettingList4" xml:space="preserve">
     <value>UTF-32</value>
   </data>
-  <data name="EncodingSettingList6" xml:space="preserve">
+  <data name="EncodingSettingList5" xml:space="preserve">
     <value>ASCII</value>
   </data>
-  <data name="EncodingSettingList7" xml:space="preserve">
+  <data name="EncodingSettingList6" xml:space="preserve">
     <value>ISO8859-15</value>
   </data>
-  <data name="EncodingSettingList8" xml:space="preserve">
+  <data name="EncodingSettingList7" xml:space="preserve">
     <value>Windows-1252</value>
   </data>
   <data name="PresentationFormatSettingCaption" xml:space="preserve">
@@ -194,5 +191,11 @@
   </data>
   <data name="PresentationFormatSettingList2" xml:space="preserve">
     <value>Binär</value>
+  </data>
+  <data name="InputBytesCaption" xml:space="preserve">
+    <value>Eingabe als Byte-Array</value>
+  </data>
+  <data name="InputBytesTooltip" xml:space="preserve">
+    <value>Das eingegebene Byte-Array wird in einen String mit der in den Einstellungen gewählten Zeichenkodierung konvertiert.</value>
   </data>
 </root>
