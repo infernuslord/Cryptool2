@@ -49,5 +49,10 @@ namespace WorkspaceManager.View.VisualComponents
             Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_EditScale = scale;
         }
 
+        private void ScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
+        {
+
+        }
+
     }
 }

@@ -109,16 +109,33 @@
         
         -->
 
-        <Style  TargetType="Border">
+
+        <Style  TargetType="Border" x:Key="border1" >
             <Setter Property="CornerRadius" Value="5"/>
             <Setter Property="BorderBrush" Value="LightSeaGreen"/>
             <Setter Property="BorderThickness" Value="2"/>
             <Setter Property="Background" Value="#FFC8DCF5"/>
-            <Setter Property="Margin" Value="5"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Source= {StaticResource isSideBarResource}}" Value="true">
+                    <Setter Property="Margin" Value="0 5 0 0"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Source= {StaticResource isSideBarResource}}" Value="false">
+                    <Setter Property="Margin" Value="0 5 5 0"/>
+                </DataTrigger>
+            </Style.Triggers>
+            
+        </Style>
+
+        <Style  TargetType="Border" x:Key="border2" >
+            <Setter Property="CornerRadius" Value="5"/>
+            <Setter Property="BorderBrush" Value="LightSeaGreen"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Background" Value="#FFC8DCF5"/>
+            <Setter Property="Margin" Value="0 5 0 0"/>
         </Style>
 
         <Style x:Key="activeStyle" TargetType="Expander">
-            <Setter Property="Margin" Value="2,0,0,0"/>
+            <Setter Property="Margin" Value="0,0,0,0"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Expander}">
@@ -184,7 +201,7 @@
         
         <ScrollViewer x:Name="MyScrollViewer" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
             <StackPanel>
-                <WrapPanel Name="myWrap" Orientation="Horizontal" VerticalAlignment="Top" Width="{Binding ElementName=MyScrollViewer, Path=ViewportWidth}">
+                <WrapPanel Name="myWrap"  Orientation="Horizontal" VerticalAlignment="Top" Width="{Binding ElementName=MyScrollViewer, Path=ViewportWidth}" >
 
             </WrapPanel>
             <StackPanel Name="myStack" Orientation="Vertical" VerticalAlignment="Top" Width="{Binding ElementName=MyScrollViewer, Path=ViewportWidth}">
