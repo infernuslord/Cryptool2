@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:p="clr-namespace:Cryptool.PluginBase.Properties;assembly=CrypPluginBase"
              mc:Ignorable="d"     
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="300" ScrollChanged="ScrollViewer_ScrollChanged">
     <ScrollViewer.Style>
         <Style TargetType="ScrollViewer">
             <Style.Triggers>
@@ -64,17 +64,17 @@
                                            Text="{Binding Source={x:Static p:Settings.Default}, Path=WorkspaceManager_EditScale, Mode=OneWay, StringFormat='{}{0:P0}'}">
                                         </TextBlock>
                                         <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}"/>
-                                        <Button Height="13" Margin="0" Click="DecZoom">
+                                        <Button Height="13" Margin="0" Click="DecZoom" Style="{DynamicResource ButtonStyle}">
                                             <Image Source="/WorkspaceManager;component/View/Image/reduce.png" Width="13" Height="13"></Image>
                                         </Button>
-
-                                        <Slider x:Name="FullScreenScaleSlider" 
+                                                                        <!--  Dynamic Ressource, alternately the style has to be implemented in the slider. -->
+                                        <Slider x:Name="FullScreenScaleSlider" Style="{DynamicResource HorizontalSliderStyle}"
                                         Minimum="{Binding Source={x:Static p:Settings.Default}, Path=WorkspaceManager_MinScale, Mode=OneWay}" 
                                         Maximum="{Binding Source={x:Static p:Settings.Default}, Path=WorkspaceManager_MaxScale, Mode=OneWay}" 
                                         Width="45" Height="15"
                                         Value="{Binding Source={x:Static p:Settings.Default}, Path=WorkspaceManager_EditScale, Mode=TwoWay}"/>
 
-                                        <Button Height="13" Margin="0" Click="IncZoom">
+                                        <Button Height="13" Margin="0" Click="IncZoom" Style="{DynamicResource ButtonStyle}">
                                             <Image Source="/WorkspaceManager;component/View/Image/increase.png" Width="13" Height="13"></Image>
                                         </Button>
                                     </StackPanel>
@@ -152,7 +152,7 @@
             </Setter>
         </Style>
 
-        <Style TargetType="{x:Type Button}">
+        <Style x:Key="ButtonStyle" TargetType="{x:Type Button}">
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate x:Name="TemplateBtn" TargetType="Button">
@@ -188,7 +188,7 @@
             </Setter>
         </Style>
 
-        <Style TargetType="{x:Type Slider}">
+        <Style x:Key="HorizontalSliderStyle" TargetType="{x:Type Slider}">
             <Setter Property="SnapsToDevicePixels" Value="true"/>
             <Setter Property="OverridesDefaultStyle" Value="true"/>
             <Style.Triggers>

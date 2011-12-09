@@ -109,7 +109,7 @@ namespace WorkspaceManager.View.BinVisual
 
         #endregion
 
-        #region Properties
+         #region Properties
         public Queue<Log> ErrorsTillReset { private set; get; }
         public ThumHack HackThumb = new ThumHack();
         public BinEditorVisual EditorVisual { private set; get; }

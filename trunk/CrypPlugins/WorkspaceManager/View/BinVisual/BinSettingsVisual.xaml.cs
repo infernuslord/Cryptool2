@@ -44,7 +44,12 @@ namespace WorkspaceManager.View.BinVisual
 
         public BinSettingsVisual(IPlugin plugin, BinComponentVisual bcv, Boolean isMaster, Boolean isSideBar)
         {
+
+            
             this.isSideBar = isSideBar;
+            this.Resources.Add("isSideBarResource", this.isSideBar);
+
+
             this.bcv = bcv;
             this.plugin = plugin;
             entgrou = new EntryGroup();
@@ -109,7 +114,7 @@ namespace WorkspaceManager.View.BinVisual
 
             else 
             {
-                MyScrollViewer.Margin = new Thickness(-5, -5, -5, -5);
+                //MyScrollViewer.Margin = new Thickness(-5, -5, -5, -5);
                 
             }
             
@@ -312,6 +317,7 @@ namespace WorkspaceManager.View.BinVisual
             return cb.Width = x + 30;
         }
 
+ 
 
         private void drawList(EntryGroup entgrou) 
         {
@@ -346,7 +352,7 @@ namespace WorkspaceManager.View.BinVisual
 
  //                   test.Expanded += test_ContextMenuOpening;
 
-                    test.Margin = new Thickness(10);
+                    test.Margin = new Thickness(2);
                     //test.VerticalAlignment = VerticalAlignment.Stretch;
                     
                     Binding dataBinding = new Binding("ActualWidth");
@@ -601,6 +607,10 @@ namespace WorkspaceManager.View.BinVisual
                     test.HorizontalAlignment = HorizontalAlignment.Left;
                    
                     bodi.Child = test;
+                    
+                    bodi.Style = (Style)FindResource("border1");
+                    
+                    
                     testexoander.Content = bodi;
                     if (isSideBar)
                         myStack.Children.Add(testexoander);
@@ -647,6 +657,7 @@ namespace WorkspaceManager.View.BinVisual
                             TextBox textbox = new TextBox();
                             
                             textbox.Tag = tpa.ToolTip;
+                            textbox.ToolTip = tpa.ToolTip;
                             textbox.MouseEnter += Control_MouseEnter;
                             
                             if (
@@ -676,14 +687,20 @@ namespace WorkspaceManager.View.BinVisual
                         case ControlType.NumericUpDown:
                             if (tpa.ValidationType == ValidationType.RangeInteger)
                             {
-                             
+                                
                                 NumericUpDown intInput = new NumericUpDown();
                                 intInput.ValueType = typeof(int);
                                 intInput.SelectAllOnGotFocus = true;
                                 intInput.Tag = tpa.ToolTip;
+                                intInput.ToolTip = tpa.ToolTip;
                                 intInput.MouseEnter += Control_MouseEnter;
                                 intInput.Maximum = tpa.IntegerMaxValue;
                                 intInput.Minimum = tpa.IntegerMinValue;
+
+                                String s = tpa.IntegerMaxValue+"";
+                                FormattedText ft = new FormattedText(s, CultureInfo.GetCultureInfo("en-us"), FlowDirection.LeftToRight, new Typeface(intInput.FontFamily, intInput.FontStyle, intInput.FontWeight, intInput.FontStretch), intInput.FontSize, Brushes.Black);
+                                intInput.MaxWidth = ft.WidthIncludingTrailingWhitespace + 30;
+                                intInput.Width = ft.WidthIncludingTrailingWhitespace + 30;
                                 intInput.SetBinding(NumericUpDown.ValueProperty, dataBinding);
                                 entgrou.AddNewEntry(tpa.GroupName, new ControlEntry(intInput, tpa, sfa));
                                 intInput.IsEnabled = true;
@@ -708,9 +725,10 @@ namespace WorkspaceManager.View.BinVisual
                                 doubleInput.ValueType = typeof(double);
                                 doubleInput.SelectAllOnGotFocus = true;
                                 doubleInput.Tag = tpa.ToolTip;
+                                doubleInput.ToolTip = tpa.ToolTip;
                                 doubleInput.MouseEnter += Control_MouseEnter;
                                 doubleInput.Maximum = tpa.DoubleMaxValue;
-                                doubleInput.Minimum = tpa.DoubleMaxValue;
+                                doubleInput.Minimum = tpa.DoubleMinValue;
                                 doubleInput.SetBinding(NumericUpDown.ValueProperty, dataBinding);
                                 entgrou.AddNewEntry(tpa.GroupName, new ControlEntry(doubleInput, tpa, sfa));
                                 doubleInput.Background = Brushes.Black;
@@ -780,7 +798,7 @@ namespace WorkspaceManager.View.BinVisual
                                     radio.Content = stringValue;
                                     
                                     radio.Tag = new RadioButtonListAndBindingInfo(list, plugin, tpa);
-                                    
+                                    radio.ToolTip = new RadioButtonListAndBindingInfo(list, plugin, tpa);
                                     radio.SetBinding(RadioButton.IsCheckedProperty, dataBinding1);
                                     panelRadioButtons.Children.Add(radio);
                                     list.Add(radio);
@@ -801,6 +819,7 @@ namespace WorkspaceManager.View.BinVisual
                             wrapBlock.TextWrapping = TextWrapping.Wrap;
                             checkBox.Content = wrapBlock;
                             checkBox.Tag = tpa.ToolTip;
+                            checkBox.ToolTip = tpa.ToolTip;
                             checkBox.MouseEnter += Control_MouseEnter;
                             checkBox.SetBinding(CheckBox.IsCheckedProperty, dataBinding);
                             entgrou.AddNewEntry(tpa.GroupName, new ControlEntry(checkBox, tpa, sfa));
@@ -818,6 +837,7 @@ namespace WorkspaceManager.View.BinVisual
                             {
                                 ComboBox comboBoxDyn = new ComboBox();
                                 comboBoxDyn.Tag = tpa.ToolTip;
+                                comboBoxDyn.ToolTip = tpa.ToolTip;
                                 comboBoxDyn.MouseEnter += Control_MouseEnter;
                                 comboBoxDyn.ItemsSource = coll;
                                 comboBoxDyn.SetBinding(ComboBox.SelectedIndexProperty, dataBinding);
@@ -847,6 +867,7 @@ namespace WorkspaceManager.View.BinVisual
                             fileTextBox.SetBinding(TextBox.ToolTipProperty, dataBinding);
                             
                             fileTextBox.Tag = tpa;
+                            fileTextBox.ToolTip = tpa.ToolTip;
                             fileTextBox.MouseEnter += fileTextBox_MouseEnter;
                             sp.Children.Add(fileTextBox);
 
@@ -870,6 +891,7 @@ namespace WorkspaceManager.View.BinVisual
                             Button taskPaneButton = new Button();
                             taskPaneButton.Margin = new Thickness(0);
                             taskPaneButton.Tag = tpa;
+                            taskPaneButton.ToolTip = tpa.ToolTip;
                             taskPaneButton.MouseEnter += TaskPaneButton_MouseEnter;
                             TextBlock contentBlock = new TextBlock();
                             contentBlock.Text = tpa.Caption;
@@ -890,6 +912,7 @@ namespace WorkspaceManager.View.BinVisual
                             slider.Minimum = tpa.DoubleMinValue;
                             slider.Maximum = tpa.DoubleMaxValue;
                             slider.Tag = tpa.ToolTip;
+                            slider.ToolTip = tpa.ToolTip;
                             slider.MouseEnter += Control_MouseEnter;
                             
 
@@ -910,6 +933,7 @@ namespace WorkspaceManager.View.BinVisual
                             textBoxReadOnly.BorderThickness = new Thickness(0);
                             textBoxReadOnly.Background = Brushes.Transparent;
                             textBoxReadOnly.Tag = tpa.ToolTip;
+                            textBoxReadOnly.ToolTip = tpa.ToolTip;
                             textBoxReadOnly.MouseEnter += Control_MouseEnter;
                             textBoxReadOnly.SetBinding(TextBox.TextProperty, dataBinding);
                             entgrou.AddNewEntry(tpa.GroupName, new ControlEntry(textBoxReadOnly, tpa, sfa));
@@ -923,6 +947,7 @@ namespace WorkspaceManager.View.BinVisual
                             passwordBox.MinWidth = 0; 
                             
                             passwordBox.Tag = tpa;
+                            passwordBox.ToolTip = tpa.ToolTip;
                             passwordBox.MouseEnter += Control_MouseEnter;
                             passwordBox.Password = plugin.Settings.GetType().GetProperty(tpa.PropertyName).GetValue(plugin.Settings, null) as string;
                             //textBoxReadOnly.SetBinding(PasswordBox.property , dataBinding);
@@ -1263,7 +1288,7 @@ namespace WorkspaceManager.View.BinVisual
                     dummyTextBox.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
                     dummyTextBox.Arrange(new Rect(dummyTextBox.DesiredSize));
                     //dummyTextBox.MaxWidth = dummyTextBox.DesiredSize.Width;
-                    dummyTextBox.MaxWidth = maxSizeContent;
+                    //dummyTextBox.MaxWidth = maxSizeContent;
 
                 }
 
