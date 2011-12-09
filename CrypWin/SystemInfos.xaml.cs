@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -35,6 +36,7 @@ namespace Cryptool.CrypWin
         }
 
         private List<Info> informations = new List<Info>();
+        private int timeIndex;
 
         public SystemInfos()
         {
@@ -43,7 +45,7 @@ namespace Cryptool.CrypWin
             var pricipal = new WindowsPrincipal(WindowsIdentity.GetCurrent());
             var hasAdministrativeRight = pricipal.IsInRole(WindowsBuiltInRole.Administrator);
 
-            string uniqueID;
+            /*string uniqueID;
             try
             {
                 uniqueID = UniqueIdentifier.GetID().ToString();
@@ -51,7 +53,7 @@ namespace Cryptool.CrypWin
             catch (Exception ex)
             {
                 uniqueID = string.Format(Properties.Resources.Can_t_get_unique_ID___0_, ex.Message);
-            }
+            }*/
 
             //informations.Add(new Info() { Description = Properties.Resources.SI_User_Name, Value = System.Environment.UserName });    //personal information
             informations.Add(new Info() { Description = Properties.Resources.SI_Operating_System, Value = System.Environment.OSVersion.ToString() });
@@ -69,7 +71,11 @@ namespace Cryptool.CrypWin
             informations.Add(new Info() { Description = Properties.Resources.SI_Build_Time, Value = File.GetLastWriteTime(Assembly.GetExecutingAssembly().Location).ToString() });
             informations.Add(new Info() { Description = Properties.Resources.SI_Product_Name, Value = AssemblyHelper.ProductName });
             informations.Add(new Info() { Description = Properties.Resources.SI_Common_Language_Runtime_Version, Value = Environment.Version.ToString() });
+            
+            // system time row with hacky workaround to update time when tab becomes visible
+            timeIndex = informations.Count;
             informations.Add(new Info() { Description = Properties.Resources.SI_System_Time, Value = DateTime.Now.ToShortTimeString() });
+            InfoGrid.IsVisibleChanged += UpdateTime;
 
             InfoGrid.DataContext = informations;
 
@@ -102,5 +108,18 @@ namespace Cryptool.CrypWin
             Clipboard.SetText(sb.ToString());
         }
 
+        // update system time row, refresh grid
+        private void UpdateTime(object sender, DependencyPropertyChangedEventArgs args)
+        {
+            // sanity checks
+            if (args.Property == null || args.Property.Name != "IsVisible" || !(args.OldValue is bool) || !(args.NewValue is bool) || timeIndex > informations.Count)
+                return;
+
+            if (!(bool)args.OldValue && (bool)args.NewValue) // was false, becomes true
+            {
+                informations[timeIndex] = new Info() { Description = Properties.Resources.SI_System_Time, Value = DateTime.Now.ToShortTimeString() };
+                InfoGrid.Items.Refresh();
+            }
+        }
     }
 }
