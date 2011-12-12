@@ -41,7 +41,8 @@ namespace Cryptool.TextInput
       {
         if (value != text)
         {
-            text = value;     
+            text = value;
+            OnPropertyChanged("Text");
         }
       }
     }

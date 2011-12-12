@@ -78,6 +78,17 @@ namespace TextOutput
             }
         }
 
+        private string _currentValue;
+        public string CurrentValue
+        {
+            get { return _currentValue; }
+            private set 
+            {
+                _currentValue = value;
+                OnPropertyChanged("CurrentValue");
+            }
+        }
+
         #endregion
 
         #region Event handling
@@ -216,6 +227,7 @@ namespace TextOutput
                 string entity = (chars == 1) ? Properties.Resources.Char : Properties.Resources.Chars;
                 textOutputPresentation.labelBytes.Content = string.Format(" {0:#,0} "+entity, chars);
 
+                CurrentValue = textOutputPresentation.textBox.Text;
             }, fillValue);
         }
 
