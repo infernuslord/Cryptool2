@@ -893,7 +893,12 @@ namespace Wizard
                 _title = title;
                 file = Path.Combine(SamplesDir, file);
 
-                var model = ModelPersistance.loadModel(file);
+                var persistance = new ModelPersistance();
+                persistance.OnGuiLogNotificationOccured += delegate(IPlugin sender, GuiLogEventArgs args)
+                                                        {
+                                                            OnGuiLogNotificationOccured(sender, args);
+                                                        };
+                var model = persistance.loadModel(file);
                 model.OnGuiLogNotificationOccured += delegate(IPlugin sender, GuiLogEventArgs args)
                                                          {
                                                              OnGuiLogNotificationOccured(sender, args);

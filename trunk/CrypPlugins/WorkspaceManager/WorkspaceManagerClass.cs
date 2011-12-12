@@ -181,8 +181,10 @@ namespace WorkspaceManager
             try
             {
                 New();
-                GuiLogMessage("Loading Model: " + fileName, NotificationLevel.Info);                
-                WorkspaceModel = ModelPersistance.loadModel(fileName);
+                GuiLogMessage("Loading Model: " + fileName, NotificationLevel.Info);
+                var persistance = new ModelPersistance();
+                persistance.OnGuiLogNotificationOccured += OnGuiLogNotificationOccured;
+                WorkspaceModel = persistance.loadModel(fileName);
                 WorkspaceModel.OnGuiLogNotificationOccured += this.GuiLogNotificationOccured;
                 WorkspaceSpaceEditorView.Load(WorkspaceModel);
                 WorkspaceModel.UpdateableView = this.WorkspaceSpaceEditorView;
@@ -210,7 +212,9 @@ namespace WorkspaceManager
             try
             {
                 GuiLogMessage("Saving Model: " + fileName, NotificationLevel.Info);
-                ModelPersistance.saveModel(this.WorkspaceModel, fileName);
+                var persistance = new ModelPersistance();
+                persistance.OnGuiLogNotificationOccured += OnGuiLogNotificationOccured;
+                persistance.saveModel(this.WorkspaceModel, fileName);
                 this.OnProjectTitleChanged.BeginInvoke(this, System.IO.Path.GetFileName(fileName), null, null);
                 CurrentFile = fileName;
             }

@@ -25,14 +25,16 @@ namespace WorkspaceManager.Model
     /// <summary>
     /// Class with static methods for loading and saving of WorkspaceModels
     /// </summary>
-    public static class ModelPersistance
+    public class ModelPersistance
     {
+        public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
+        
         /// <summary>
         /// Deserializes a model from the given file with the given filename
         /// </summary>
         /// <param name="filename"></param>
         /// <returns></returns>
-        public static WorkspaceModel loadModel(string filename)
+        public WorkspaceModel loadModel(string filename)
         {
             PersistantModel persistantModel = (PersistantModel)XMLSerialization.XMLSerialization.Deserialize(filename,true);
             WorkspaceModel workspacemodel = persistantModel.WorkspaceModel;
@@ -123,6 +125,8 @@ namespace WorkspaceManager.Model
                         //so we delete the connector
                         pluginModel.WorkspaceModel.deleteConnectorModel(connectorModel);
                         connectorModels.Remove(connectorModel);
+                        GuiLogMessage(string.Format("A property with name '{0}' of type '{1}' does not exist in '{2}:{3}' but a ConnectorModel exists in the PluginModel. Delete the ConnectorModel now.", connectorModel.PropertyName,connectorModel.ConnectorType.Name, pluginModel.PluginType, pluginModel.Name),
+                                      NotificationLevel.Warning);
                     }
                 }
                 //Check if there are properties which have no own ConnectorModel
@@ -135,6 +139,8 @@ namespace WorkspaceManager.Model
                     {
                         //we found a property which has no ConnectorModel, so we create a new one
                         pluginModel.generateConnector(propertyInfoAttribute);
+                        GuiLogMessage(string.Format("A ConnectorModel for the plugins property '{0}' of type '{1}' does not exist in the PluginModel of '{2}:{3}'. Create a ConnectorModel now.", propertyInfoAttribute.PropertyName,propertyInfoAttribute.PropertyInfo.PropertyType.Name, pluginModel.PluginType, pluginModel.Name),
+                                      NotificationLevel.Warning);
                     }
                 }                        
             }                        
@@ -209,7 +215,7 @@ namespace WorkspaceManager.Model
         /// <param name="workspaceModel"></param>
         /// <param name="filename"></param>
         /// <returns></returns>
-        public static void saveModel(WorkspaceModel workspaceModel, string filename)
+        public void saveModel(WorkspaceModel workspaceModel, string filename)
         {
             PersistantModel persistantModel = new PersistantModel();
             persistantModel.WorkspaceModel = workspaceModel;            
@@ -251,6 +257,22 @@ namespace WorkspaceManager.Model
             XMLSerialization.XMLSerialization.Serialize(persistantModel, filename,true);
             workspaceModel.UndoRedoManager.SavedHere = true;
         }
+
+        /// <summary>
+        /// Loggs a gui message
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="level"></param>
+        internal void GuiLogMessage(string message, NotificationLevel level)
+        {
+            if (OnGuiLogNotificationOccured != null)
+            {
+                var args = new GuiLogEventArgs(message, null, level);
+                args.Title = "-";
+                OnGuiLogNotificationOccured(null, args);
+            }
+        }
+
     }
 
     /// <summary>
