@@ -108,9 +108,11 @@ namespace WorkspaceManager.Model
             //if not generate new ConnectorModels
             foreach (PluginModel pluginModel in workspacemodel.AllPluginModels)
             {
-                IEnumerable<ConnectorModel> connectorModels = (new List<ConnectorModel>(pluginModel.OutputConnectors)).Concat(pluginModel.InputConnectors);
-                //Check if a property of a ConnectorModel was deleted or its type changed => delete the ConnectorModel
-                foreach (ConnectorModel connectorModel in connectorModels)
+                var connectorModels = new List<ConnectorModel>();
+                connectorModels.AddRange(pluginModel.InputConnectors);
+                connectorModels.AddRange(pluginModel.OutputConnectors);
+                //Check if a property of a ConnectorModel was deleted or its type changed => delete the ConnectorModel););
+                foreach (ConnectorModel connectorModel in new List<ConnectorModel>(connectorModels))
                 {
                     var propertyInfo = connectorModel.PluginModel.Plugin.GetType().GetProperty(connectorModel.PropertyName);
                     if (propertyInfo == null ||
@@ -120,6 +122,7 @@ namespace WorkspaceManager.Model
                         //or the type of the saved property differs to the real one
                         //so we delete the connector
                         pluginModel.WorkspaceModel.deleteConnectorModel(connectorModel);
+                        connectorModels.Remove(connectorModel);
                     }
                 }
                 //Check if there are properties which have no own ConnectorModel
@@ -134,12 +137,7 @@ namespace WorkspaceManager.Model
                         pluginModel.generateConnector(propertyInfoAttribute);
                     }
                 }                        
-            }
-
-            if(workspacemodel.UndoRedoManager.CanUndo())
-            {
-                workspacemodel.UndoRedoManager.ClearStacks();
-            }
+            }                        
 
             //initialize the plugins
             //connect all listener for plugins/plugin models            
@@ -201,6 +199,7 @@ namespace WorkspaceManager.Model
                 }
             }
 
+            workspacemodel.UndoRedoManager.ClearStacks();
             return workspacemodel;          
         }
 

@@ -410,6 +410,20 @@ namespace WorkspaceManager.Model
                     //deleteConnectionModel(outputConnection);
                     this.ModifyModel(new DeleteConnectionModelOperation(outputConnection));
                 }
+
+
+                //remove the connector model from the outputconnectors of this plugin
+                if(connectorModel.PluginModel.OutputConnectors.Contains(connectorModel))
+                {
+                    connectorModel.PluginModel.OutputConnectors.Remove(connectorModel);
+                }
+
+                //remove the connector model from the inputconnectors of this plugin
+                if (connectorModel.PluginModel.InputConnectors.Contains(connectorModel))
+                {
+                    connectorModel.PluginModel.InputConnectors.Remove(connectorModel);
+                }
+
                 this.OnDeletedChildElement(connectorModel);
                 return this.AllConnectorModels.Remove(connectorModel);
             }
