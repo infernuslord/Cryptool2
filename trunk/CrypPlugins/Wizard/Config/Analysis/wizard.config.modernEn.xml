@@ -76,4 +76,79 @@ Klicken Sie auf 'Weiter', um eine große Zahl in ihre Faktoren zu zerlegen.
     </input>
   </category>
 
+  <category image="Hash">
+    <name lang="en" >Hash Functions</name>
+    <name lang="de" >Hash-Funktionen</name>
+    <description lang="en" >Selecting this allows you to create a collision for a hash function. You can choose which hash algorithm you want to use.</description>
+    <description lang="de" >Wählen Sie diesen Punkt, um eine Kollision eines Hashwertes zu erzeugen. Sie können auswählen, welchen Hash-Algorithmus Sie verwenden wollen.</description>
+
+    <!-- This is the step's headline. It should be short, but precise. -->
+    <headline lang="en" >Hash Function Selection</headline>
+    <headline lang="de" >Hash-Funktion: Auswahl</headline>
+
+    <!-- This is the step's description. -->
+    <task lang="en" >Select a hash function.</task>
+    <task lang="de" >Wählen Sie eine Hash-Funktion.</task>
+
+
+    <input image="MD5" >
+      <name lang="en" >MD5</name>
+      <description lang="en" >MD5 (Message-Digest algorithm 5) is a widely used cryptographic hash function with a 128-bit (16-byte) hash value.</description>
+      <description lang="de" >MD5 (Message-Digest algorithm 5) ist eine weit verbreitete kryptographische Hash-Funktion mit einem 128-Bit-Hashwert (16 Bytes).</description>
+
+      <headline lang="en">MD5</headline>
+      <task lang="en">Select if you want to create an MD5 collision.</task>
+      <task lang="de">Wählen Sie dies, wenn Sie eine MD5 Kollision erzeugen wollen.</task>
+
+      <inputBox plugin="Prefix (must be a multiple of 64 bytes)" property="Text" visibleLines="1" regex="(................................................................)+">
+        <description lang="en">Prefix (must be a multiple of 64 characters):</description>
+        <description lang="de">Präfix (muss ein Vielfaches von 64 Zeichen sein):</description>
+        <defaultvalue lang="en">1234567890123456789012345678!! PREFIX !!012345678901234567890123</defaultvalue>
+      </inputBox>
+
+      <inputBox plugin="Suffix (any data of any length)" property="Text" visibleLines="1">
+        <description lang="en">Suffix (any data of any length):</description>
+        <description lang="de">Suffix (beliebige Daten beliebiger Länge):</description>
+        <defaultvalue lang="en">!! SUFFIX !!Just some random text</defaultvalue>
+      </inputBox>
+
+      <sampleViewer image="MD5" file="Hashfunctions\MD5Collider.cwm">
+        <name lang="en" >MD5 Collision</name>
+        <name lang="de" >MD5 Kollision</name>
+        <description lang="en" >Creates a collision for MD5.</description>
+        <description lang="de" >Erzeugt eine Kollision für MD5.</description>
+
+        <headline lang="en">MD5</headline>
+        <task lang="en">Watch the MD5-Collision calculation result.</task>
+        <task lang="de">Betrachten Sie ihr MD5-Kollisions Berechnungsresultat.</task>
+
+        <presentation plugin="MD5Collider" alignment="Stretch" height="30%">
+          <description lang="en">Collider Progress:</description>
+          <description lang="en">Kollisions Fortschritt:</description>
+        </presentation>
+
+        <outputBox plugin="Data 1" property="CurrentValue" alignment="Left" width="49%" visibleLines="5" group="one">
+          <description lang="en">Data 1 Output:</description>
+          <description lang="de">Data 1-Ausgabe:</description>
+        </outputBox>
+
+        <outputBox plugin="MD5 of data 1" property="CurrentValue" alignment="Right" width="49%" visibleLines="5"  group="one">
+          <description lang="en">MD5 Data 1 Output:</description>
+          <description lang="de">MD5 Data 1-Ausgabe:</description>
+        </outputBox>
+
+        <outputBox plugin="Data 2" property="CurrentValue" alignment="Left" width="49%" visibleLines="5"  group="two">
+          <description lang="en">Data 2 Output:</description>
+          <description lang="de">Data 2-Ausgabe:</description>
+        </outputBox>
+
+        <outputBox plugin="MD5 of data 2" property="CurrentValue" alignment="Right" width="49%" visibleLines="5" group="two">
+          <description lang="en">MD5 Data 2 Output:</description>
+          <description lang="de">MD5 Data 2-Ausgabe:</description>
+        </outputBox>
+        
+      </sampleViewer>
+    </input>    
+  </category>
+  
 </category>
