@@ -20,7 +20,13 @@ namespace WorkspaceManager.View.BinVisual
     /// </summary>
     public partial class BinSideBarVisual : UserControl
     {
-        public static readonly DependencyProperty IsOpenProperty = DependencyProperty.Register("IsOpen",
+        public BinSideBarVisual()
+        {
+            InitializeComponent();
+        }
+
+        // wander 2011-12-13: unused code
+        /*public static readonly DependencyProperty IsOpenProperty = DependencyProperty.Register("IsOpen",
             typeof(bool), typeof(BinSideBarVisual), new FrameworkPropertyMetadata(false));
 
         public bool IsOpen
@@ -35,11 +41,6 @@ namespace WorkspaceManager.View.BinVisual
             }
         }
 
-        public BinSideBarVisual()
-        {
-            InitializeComponent();
-        }
-
         private void ActionHandler(object sender, RoutedEventArgs e)
         {
             Button b = sender as Button;
@@ -48,6 +49,6 @@ namespace WorkspaceManager.View.BinVisual
                 IsOpen = (bool)b.Content;
                 return;
             }
-        }
+        }*/
     }
 }
