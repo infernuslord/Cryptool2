@@ -673,7 +673,7 @@ namespace WorkspaceManager.Model
                 || (connectorModelB.ConnectorType.FullName == "System.String" && connectorModelA.ConnectorType.FullName == "System.Byte[]")
                 || (connectorModelB.ConnectorType.FullName == "System.Byte[]" && connectorModelA.ConnectorType.FullName == "System.String")
                 || (connectorModelB.ConnectorType.FullName == "System.String" && connectorModelA.ConnectorType.FullName == "Cryptool.PluginBase.IO.ICryptoolStream")
-                || (connectorModelB.ConnectorType.FullName == "System.String" && connectorModelA.ConnectorType.FullName == "Cryptool.PluginBase.IO.ICryptoolStream"))
+                || (connectorModelB.ConnectorType.FullName == "Cryptool.PluginBase.IO.ICryptoolStream" && connectorModelA.ConnectorType.FullName == "System.String"))
             {
                 return ConversionLevel.Yellow;
             }
