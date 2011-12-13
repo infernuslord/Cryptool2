@@ -629,6 +629,7 @@ namespace Cryptool.CrypWin
                   textBoxReadOnly.Background = Brushes.Transparent;
                   textBoxReadOnly.Tag = bInfo.TaskPaneSettingsAttribute.ToolTip;
                   textBoxReadOnly.MouseEnter += Control_MouseEnter;
+                  dataBinding.Mode = BindingMode.OneWay; // read-only strings do not need a setter
                   textBoxReadOnly.SetBinding(TextBox.TextProperty, dataBinding);
                   inputControl = textBoxReadOnly;
                   bInfo.CaptionGUIElement = textBoxReadOnly;

@@ -121,16 +121,10 @@
     <value>Caesar</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Caesar -- classic alphabet shift substitution cipher</value>
+    <value>Classic alphabet shift substitution cipher</value>
   </data>
   <data name="PluginDescriptionURL" xml:space="preserve">
     <value>Caesar/DetailedDescription/Description.xaml</value>
-  </data>
-  <data name="OutputDataCaption" xml:space="preserve">
-    <value>Data output</value>
-  </data>
-  <data name="OutputDataTooltip" xml:space="preserve">
-    <value>Output data that is processed by the Caesar cipher</value>
   </data>
   <data name="InputStringCaption" xml:space="preserve">
     <value>Text input</value>
@@ -169,22 +163,16 @@
     <value>Select the Algorithm action</value>
   </data>
   <data name="AlphabetCaseCaption" xml:space="preserve">
-    <value>Alphabet case sensitivity</value>
+    <value>Case sensitive</value>
   </data>
   <data name="AlphabetCaseTooltip" xml:space="preserve">
-    <value>Should upper and lower case be treated differently? (Should a == A)</value>
+    <value>Should upper and lower case be treated differently? (a != A)</value>
   </data>
   <data name="AlphabetSymbolsCaption" xml:space="preserve">
     <value>Alphabet</value>
   </data>
   <data name="AlphabetSymbolsTooltip" xml:space="preserve">
     <value>This is the used alphabet.</value>
-  </data>
-  <data name="ShiftCharCaption" xml:space="preserve">
-    <value>Key as single letter</value>
-  </data>
-  <data name="ShiftCharTooltip" xml:space="preserve">
-    <value>Enter a single letter as the key. This letter is mapped to an integer stating the position in the alphabet. The values for "Key as integer" and "Key as single letter" are always synchronized.</value>
   </data>
   <data name="ShiftValueCaption" xml:space="preserve">
     <value>Key as integer</value>
@@ -204,12 +192,6 @@
   <data name="ActionList2" xml:space="preserve">
     <value>Decrypt</value>
   </data>
-  <data name="AlphabetCaseList1" xml:space="preserve">
-    <value>Case insensitive</value>
-  </data>
-  <data name="AlphabetCaseList2" xml:space="preserve">
-    <value>Case sensitive</value>
-  </data>
   <data name="UnknownSymbolHandlingList1" xml:space="preserve">
     <value>Ignore (leave unmodified)</value>
   </data>
@@ -218,5 +200,11 @@
   </data>
   <data name="UnknownSymbolHandlingList3" xml:space="preserve">
     <value>Replace with '?'</value>
+  </data>
+  <data name="ShiftStringCaption" xml:space="preserve">
+    <value>Character mapping</value>
+  </data>
+  <data name="ShiftStringTooltip" xml:space="preserve">
+    <value>This shows how a single character will be mapped with the current alphabet and shift key.</value>
   </data>
 </root>
