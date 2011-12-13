@@ -552,7 +552,7 @@ namespace WorkspaceManager.Model
                                 }
                                 var encoding = new UTF8Encoding();                           
                                 writer.Write(encoding.GetBytes(str));
-                                writer.Flush();
+                                writer.Close();
                                 data = writer;
 
                             }
