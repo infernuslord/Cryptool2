@@ -580,7 +580,7 @@ namespace Cryptool.CrypWin
         private void Settings_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             SettingsPresentation settingsPresentation = SettingsPresentation.GetSingleton();
-            OpenTab(settingsPresentation, Properties.Resources.CrypTool_2_0_Settings, null).IsSelected = true;
+            OpenTab(settingsPresentation, Properties.Resources.Settings, null).IsSelected = true;
         }
 
         #endregion Settings

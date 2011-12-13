@@ -678,7 +678,7 @@ namespace Cryptool.CrypWin
             // wander 2011-07-12: I don't understand the above comment, as dispatcher is invoked in AddPluginToNavigationPane(...)
 
             // process ICrypComponent (all regular plugins)
-            foreach (Type type in dicTypeLists[typeof(Cryptool.PluginBase.ICrypComponent).FullName])
+            foreach (Type type in dicTypeLists[typeof(ICrypComponent).FullName])
             {
                 PluginInfoAttribute pia = type.GetPluginInfoAttribute();
                 if (pia == null)

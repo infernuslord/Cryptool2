@@ -379,7 +379,7 @@
   <data name="Throughput" xml:space="preserve">
     <value>Durchlauf</value>
   </data>
-  <data name="Algorithm_Settings_" xml:space="preserve">
+  <data name="Parameters" xml:space="preserve">
     <value>Parameter</value>
   </data>
   <data name="_0_Messages_" xml:space="preserve">

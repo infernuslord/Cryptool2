@@ -445,7 +445,7 @@
                             </dc:RibbonBar>
 
                             <dc:RibbonBar Header="{Loc Dock}" ToolTip="{Loc Main_controls_of_CrypTool_Workspace_}" Padding="7" ResizeOrderIndex="6" dc:Ribbon.KeyTip="DOCK">
-                                <dc:ButtonDropDown Name="PluginBTN" Click="PluginBTN_Checked" IsCheckable="True" dc:Ribbon.KeyTip="D" VerticalContentAlignment="Center" Height="65" Style="{DynamicResource AppMenuCommandButton}" ImagePosition="left" Header="{Loc Functions}">
+                                <dc:ButtonDropDown Name="PluginBTN" Click="PluginBTN_Checked" IsCheckable="True" dc:Ribbon.KeyTip="D" VerticalContentAlignment="Center" Height="65" Style="{DynamicResource AppMenuCommandButton}" ImagePosition="left" Header="{Loc Components}">
                                     <dc:ButtonDropDown.Image>
                                         <Image Source="images/comp.png" Height="32" Width="32"/>
                                     </dc:ButtonDropDown.Image>
@@ -463,7 +463,7 @@
                                     </dc:ButtonDropDown.ImageSmall>
                                 </dc:ButtonDropDown>
 
-                                <dc:ButtonDropDown Name="SettingBTN" Click="SettingBTN_Checked" IsCheckable="True" VerticalContentAlignment="Center" Height="65" Style="{DynamicResource AppMenuCommandButton}" ImagePosition="left" Header="{Loc Settings}">
+                                <dc:ButtonDropDown Name="SettingBTN" Click="SettingBTN_Checked" IsCheckable="True" VerticalContentAlignment="Center" Height="65" Style="{DynamicResource AppMenuCommandButton}" ImagePosition="left" Header="{Loc Parameters}">
                                     <dc:ButtonDropDown.Image>
                                         <Image Source="images/setting.png" Height="32" Width="32"/>
                                     </dc:ButtonDropDown.Image>
@@ -956,7 +956,7 @@
                         </dd:SplitPanel.Visibility>-->
                         
                         <dd:DockWindowGroup x:Name="dockWindowGroupAlgorithmSettings">
-                            <dd:DockWindow Name="dockWindowAlgorithmSettings" Header="{Loc Algorithm_Settings_}" CanAutoHide="False" ImageSource="images/MyFiles16.png" IsAutoHide="False" AutoHideOpen="False" 
+                            <dd:DockWindow Name="dockWindowAlgorithmSettings" Header="{Loc Parameters}" CanAutoHide="False" ImageSource="images/MyFiles16.png" IsAutoHide="False" AutoHideOpen="False" 
                            CanClose="True" CanDockAsDocument="False" AutoHideChanged="dockWindowAlgorithmSettings_AutoHideChanged" Closed="dockWindowAlgorithmSettings_Closed">
             </dd:DockWindow>
           </dd:DockWindowGroup>
