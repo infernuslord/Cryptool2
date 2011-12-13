@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Cryptool.PluginBase.Tool;
 using Cryptool.PluginBase;
 using Primes.WpfVisualization;
 
@@ -10,7 +9,7 @@ namespace Primes
 {
   [Author("Timo Eckhardt", "T-Eckhardt@gmx.de", "Uni Siegen", "http://www.uni-siegen.de")]
   [PluginInfo("Primes.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "Primes/icon.png")] 
-  public class PrimesPlugin:ITool
+  public class PrimesPlugin:ICrypTutorial
   {
     #region IPlugin Members
     private PrimesControl m_PrimesPlugin = null;
@@ -34,15 +33,7 @@ namespace Primes
       }
     }
 
-      public void PreExecution()
-    {
-    }
-
     public void Execute()
-    {
-    }
-
-    public void PostExecution()
     {
     }
 
@@ -54,7 +45,6 @@ namespace Primes
     {
     }
 
-    // Dispose on ITool is never called
     public void Dispose()
     {
         if (m_PrimesPlugin != null)

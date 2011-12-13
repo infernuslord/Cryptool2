@@ -61,8 +61,7 @@ namespace WorkspaceManager
         /// </summary>
         public WorkspaceManagerClass()
         {
-            this.SelectedPluginsList = new ObservableCollection<BinComponentVisual>();            
-             Cryptool.PluginBase.Properties.Settings.Default.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(Default_PropertyChanged);
+            this.SelectedPluginsList = new ObservableCollection<BinComponentVisual>();
             Settings = new WorkspaceManagerSettings(this);            
             WorkspaceModel = new WorkspaceModel();
             WorkspaceModel.OnGuiLogNotificationOccured += this.GuiLogNotificationOccured;
@@ -75,15 +74,6 @@ namespace WorkspaceManager
         {
             if (SampleLoaded != null)
                 SampleLoaded.Invoke(this,null);
-        }
-
-        void Default_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            if(e.PropertyName == "EditScale")
-            {
-                if (OnZoomChanged != null)
-                    OnZoomChanged.Invoke(this, new ZoomChanged() { Value =  Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_EditScale });
-            }
         }
 
         #region private Members
@@ -880,31 +870,10 @@ namespace WorkspaceManager
 
         #region IEditor Members
 
-
         public event OpenTabHandler OnOpenTab;
         public event OpenEditorHandler OnOpenEditor;
 
         #endregion
-
-
-        public double GetZoom()
-        {
-            return Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_EditScale;
-        }
-
-        public void Zoom(double value)
-        {
-            Cryptool.PluginBase.Properties.Settings.Default.WorkspaceManager_EditScale = value;
-        }
-
-        public void FitToScreen()
-        {
-            this.WorkspaceSpaceEditorView.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-            {
-                this.WorkspaceSpaceEditorView.FitToScreen();
-            }
-            , null);
-        }
 
         private ObservableCollection<BinComponentVisual> selectedPluginsList;
 
@@ -923,7 +892,6 @@ namespace WorkspaceManager
             }
         }
 
-        public event EventHandler<ZoomChanged> OnZoomChanged;
         public bool IsCtrlToggled = false;
         public BinEditorState State { get; set; }
 

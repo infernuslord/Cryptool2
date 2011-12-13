@@ -50,7 +50,7 @@ namespace WorkspaceManager.Model
         #region private members
 
         [NonSerialized]
-        private IPlugin plugin;
+        private ICrypComponent plugin;
         private int imageIndex = 0;
         [NonSerialized]
         private PluginModelState state = PluginModelState.Normal;
@@ -105,13 +105,13 @@ namespace WorkspaceManager.Model
         /// this acts as singleton and returns the created
         /// instance
         /// </summary>        
-        public IPlugin Plugin
+        public ICrypComponent Plugin
         {
             get
             {
                 if (plugin == null && PluginType != null)
                 {
-                    plugin = PluginType.CreateObject();
+                    plugin = PluginType.CreateComponentInstance();
                 }
                 return plugin;
             }
@@ -125,7 +125,7 @@ namespace WorkspaceManager.Model
         /// <summary>
         /// The Type of the Wrapped IPlugin of this PluginModel
         /// Depending on this the Plugin of this PluginModel will be instanciated
-        /// </summary>        
+        /// </summary>
         public Type PluginType
         {
             get

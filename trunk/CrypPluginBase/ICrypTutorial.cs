@@ -14,13 +14,9 @@
    limitations under the License.
 */
 
-using System;
-using Cryptool.Core;
-
-namespace Cryptool.UiPluginBase
+namespace Cryptool.PluginBase
 {
-    public interface IApplication
+    public interface ICrypTutorial : IPlugin
     {
-      PluginManager PluginManager { get; set; } 
     }
 }

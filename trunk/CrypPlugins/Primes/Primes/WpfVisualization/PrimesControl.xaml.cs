@@ -20,7 +20,6 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Attributes;
-using Cryptool.PluginBase.Tool;
 using Primes.Library;
 using Primes.Options;
 using Primes.WpfControls;

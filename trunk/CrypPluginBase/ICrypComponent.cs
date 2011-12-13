@@ -23,5 +23,14 @@ namespace Cryptool.PluginBase
 {
     public interface ICrypComponent : IPlugin
     {
+        /// <summary>
+        /// Will be called once before workflow starts. May be used to set up data used for execution.
+        /// </summary>
+        void PreExecution();
+
+        /// <summary>
+        /// Will be called after the workflow has been stopped. May be used for cleanup data used during execution.
+        /// </summary>
+        void PostExecution();
     }
 }

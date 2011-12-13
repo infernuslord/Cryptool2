@@ -254,26 +254,6 @@ namespace Cryptool.P2PEditor
         public event OpenTabHandler OnOpenTab;
         public event OpenEditorHandler OnOpenEditor;
 
-
-        public double GetZoom()
-        {
-            return double.NaN;
-        }
-
-        public void Zoom(double value)
-        {
-            
-        }
-
-        public void FitToScreen()
-        {
-            
-        }
-
-
-        public event EventHandler<PluginBase.Miscellaneous.ZoomChanged> OnZoomChanged;
-
-
         public void AddText()
         {
             throw new NotImplementedException();
