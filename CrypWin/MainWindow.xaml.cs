@@ -736,16 +736,10 @@ namespace Cryptool.CrypWin
 
         private void InitCrypTutorials(List<Type> typeList)
         {
-            // TODO: show in ribbon
-        }
+            if (typeList.Count > 0)
+                SetVisibility(ribbonTabView, Visibility.Visible);
 
-        //AddTypeToGUI(dicTypeLists, typeof(ICrypTutorial).FullName, expanderToolsStandalone, navPaneItemTools, navListBoxToolsStandalone, Properties.Resources.Standalone);
-
-        /*private void AddTypeToGUI(Dictionary<string, List<Type>> dicTypeLists, string FullTypeName, Expander Expander, PaneItem navPaneItem, ListBox navListBox, string groupName)
-        {
-            if (dicTypeLists[FullTypeName].Count > 0 && Expander != null)
-                SetVisibility(Expander, Visibility.Visible);
-            foreach (Type type in dicTypeLists[FullTypeName])
+            foreach(Type type in typeList)
             {
                 PluginInfoAttribute pia = type.GetPluginInfoAttribute();
                 if (pia == null)
@@ -753,40 +747,55 @@ namespace Cryptool.CrypWin
                     GuiLogMessage(string.Format(Resource.no_plugin_info_attribute, type.Name), NotificationLevel.Error);
                     continue;
                 }
-                if (type == null) continue;
 
-                GUIContainerElementsForPlugins contElements =
-                  new GUIContainerElementsForPlugins(type, pia, navPaneItem, navListBox, groupName);
-                AddPluginToNavigationPane(contElements);
+                Type typeClosure = type;
+                this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    var button = new ButtonDropDown();
+                    button.Header = pia.Caption;
+                    button.ToolTip = pia.ToolTip;
+                    button.Image = typeClosure.GetImage(0, 64, 40);
+                    button.ImageSmall = typeClosure.GetImage(0, 20, 16);
+                    button.ImagePosition = eButtonImagePosition.Left;
+                    button.Tag = typeClosure;
+                    button.Style = (Style)FindResource("AppMenuCommandButton");
+                    button.Height = 65;
+
+                    // TODO: finish this
+                    //button.Click += DoSomething();
+                    //tutButton.Command = 
+
+                    ribbonBarTutorial.Items.Add(button);
+                }, null);
+
                 SendAddedPluginToGUIMessage(pia.Caption);
             }
-        }*/
+        }
 
         private void InitCrypEditors(List<Type> typeList)
         {
             foreach (Type type in typeList)
             {
                 PluginInfoAttribute pia = type.GetPluginInfoAttribute();
-                if (type == null) continue;
 
                 // We dont't display a drop down button while only one editor is available
                 if (typeList.Count > 1)
                 {
-                    Type type1 = type;
-                    var editorInfo = type1.GetEditorInfoAttribute();
+                    var editorInfo = type.GetEditorInfoAttribute();
                     if (editorInfo != null && !editorInfo.ShowAsNewButton)
                         continue;
 
+                    Type typeClosure = type;
                     this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                     {
                         ButtonDropDown btn = new ButtonDropDown();
-                        btn.Header = type1.GetPluginInfoAttribute().Caption;
-                        btn.ToolTip = type1.GetPluginInfoAttribute().ToolTip;
-                        btn.Image = type1.GetImage(0);
-                        btn.Tag = type1;
+                        btn.Header = typeClosure.GetPluginInfoAttribute().Caption;
+                        btn.ToolTip = typeClosure.GetPluginInfoAttribute().ToolTip;
+                        btn.Image = typeClosure.GetImage(0);
+                        btn.Tag = typeClosure;
                         btn.IsCheckable = true;
-                        if ((Settings.Default.useDefaultEditor && type1.FullName == Settings.Default.defaultEditor)
-                            || (!Settings.Default.useDefaultEditor && type1.FullName == Settings.Default.preferredEditor))
+                        if ((Settings.Default.useDefaultEditor && typeClosure.FullName == Settings.Default.defaultEditor)
+                            || (!Settings.Default.useDefaultEditor && typeClosure.FullName == Settings.Default.preferredEditor))
                         {
                             btn.IsChecked = true;
                             ((Image)buttonDropDownNew.Image).Source = ((Image)btn.Image).Source;
@@ -795,7 +804,7 @@ namespace Cryptool.CrypWin
                         btn.Click += btnEditor_Click;
                         //buttonDropDownEditor.Items.Add(btn);
                         buttonDropDownNew.Items.Add(btn);
-                        AvailableEditors.Add(type1);
+                        AvailableEditors.Add(typeClosure);
                     }, null);
                 }
             }

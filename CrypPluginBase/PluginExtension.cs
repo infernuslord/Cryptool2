@@ -306,11 +306,11 @@ namespace Cryptool.PluginBase
             return GetImage(plugin.GetType(), index);
         }
 
-        public static Image GetImage(this Type type, int index)
+        public static Image GetImage(this Type type, int index, int maxWidth = -1, int maxHeight = -1)
         {
             try
             {
-                return GetImageWithoutLogMessage(type, index);
+                return GetImageWithoutLogMessage(type, index, maxWidth, maxHeight);
             }
             catch (Exception exception)
             {
@@ -322,12 +322,17 @@ namespace Cryptool.PluginBase
             }
         }
 
-        public static Image GetImageWithoutLogMessage(this Type type, int index)
+        public static Image GetImageWithoutLogMessage(this Type type, int index, int maxWidth = -1, int maxHeight = -1)
         {
             string icon = type.GetPluginInfoAttribute().Icons[index];
             int sIndex = icon.IndexOf('/');
             Image img = new Image();
             img.Source = BitmapFrame.Create(new Uri(string.Format("pack://application:,,,/{0};component/{1}", icon.Substring(0, sIndex), icon.Substring(sIndex + 1))));
+            if (maxWidth > 0)
+                img.Width = Math.Min(img.Source.Width, maxWidth);
+            if (maxHeight > 0)
+                img.Height = Math.Min(img.Source.Height, maxHeight);
+
             return img;
         }
 

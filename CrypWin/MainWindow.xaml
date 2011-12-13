@@ -665,57 +665,14 @@
 
                 </dc:RibbonTab>
 
-                <!--RibbonTab View-->
-                <!--<dc:RibbonTab Header="{Loc View}" Name="ribbonTabView" dc:Ribbon.KeyTip="V">
-
-
-
-                    <dc:RibbonBarPanel Height="89" >
-                        <dc:RibbonBar x:Name="Current" Header="{Loc Zoom}" ToolTip="{Loc Main_controls_of_CrypTool_Workspace_}" Padding="7" ResizeOrderIndex="6" dc:Ribbon.KeyTip="CT">
-                            <dc:ButtonDropDown VerticalContentAlignment="Center" Height="65" Style="{DynamicResource AppMenuCommandButton}" ImagePosition="left">
-                                <dc:ButtonDropDown.Image>
-                                    <Image Source="images/SchemeBlue.png" Height="32" Width="32"/>
-                                </dc:ButtonDropDown.Image>
-                                <dc:ButtonDropDown.ImageSmall>
-                                    <Image Source="images/SchemeBlue.png" Height="16" Width="16"/>
-                                </dc:ButtonDropDown.ImageSmall>
-                                <dc:ButtonDropDown.Header>
-                                    <Binding RelativeSource="{RelativeSource AncestorType=dc:RibbonWindow, Mode=FindAncestor}" Path="CurrentScale"></Binding>
-                                </dc:ButtonDropDown.Header>
-                                <dc:ButtonDropDown IsCheckable="False" Name="Twenty" Header="200&#37; " Click="PercentagClick">
-                                    <ll:Double>2</ll:Double>
-                                </dc:ButtonDropDown>
-                                <dc:ButtonDropDown IsCheckable="False" Name="Ten" Header="100&#37; " Click="PercentagClick">
-                                    <ll:Double>1</ll:Double>
-                                </dc:ButtonDropDown>
-                                <dc:ButtonDropDown IsCheckable="False" Name="Eigth" Header="80&#37; " Click="PercentagClick">
-                                    <ll:Double>0.8</ll:Double>
-                                </dc:ButtonDropDown>
-                                <dc:ButtonDropDown IsCheckable="False" Name="six" Header="60&#37; " Click="PercentagClick">
-                                    <ll:Double>0.6</ll:Double>
-                                </dc:ButtonDropDown>
-                                <dc:ButtonDropDown IsCheckable="False" Name="four" Header="40&#37; " Click="PercentagClick">
-                                    <ll:Double>0.4</ll:Double>
-                                </dc:ButtonDropDown>
-                                <dc:ButtonDropDown IsCheckable="False" Name="two" Header="20&#37; " Click="PercentagClick">
-                                    <ll:Double>0.2</ll:Double>
-                                </dc:ButtonDropDown>
-                            </dc:ButtonDropDown>
-                            <dc:ButtonDropDown VerticalContentAlignment="Center" Height="65" Style="{DynamicResource AppMenuCommandButton}" ImagePosition="left" Click="ButtonDropDown_Click" Header="{Loc Fit_to_Screen}">
-                                <dc:ButtonDropDown.Image>
-                                    <Image Source="images/f2s.png" Height="32" Width="32"/>
-                                </dc:ButtonDropDown.Image>
-                                <dc:ButtonDropDown.ImageSmall>
-                                    <Image Source="images/f2s.png" Height="16" Width="16"/>
-                                </dc:ButtonDropDown.ImageSmall>
-                            </dc:ButtonDropDown>
-                        </dc:RibbonBar>
-
-                    </dc:RibbonBarPanel>
-            
-
-            </dc:RibbonTab>-->
-        
+                <!-- RibbonTab CrypTutorials -->
+                <dc:RibbonTab Header="{Loc CrypTutorial}" Name="ribbonTabView" dc:Ribbon.KeyTip="T" Visibility="Collapsed">
+                  <dc:RibbonBarPanel Height="89" >
+                    <dc:RibbonBar Name="ribbonBarTutorial" Header="{Loc CrypTutorial}" Padding="7" ResizeOrderIndex="6" dc:Ribbon.KeyTip="CT">
+                      <!-- filled automatically by InitCrypTutorials(...) -->
+                    </dc:RibbonBar>
+                  </dc:RibbonBarPanel>
+                </dc:RibbonTab>
 
       <dc:ButtonDropDown Click="ButtonAbout_Click" ImagePosition="Left" Header="{Loc About}" HorizontalAlignment="Left" Name="buttonAbout" dc:RibbonTabPanel.PanelAlignment="Right">
             <dc:ButtonDropDown.Image>
@@ -940,7 +897,7 @@
           </dd:DockWindowGroup>
         </dd:SplitPanel>
 
-        <!--Algorithm Settings-->
+        <!--Component Parameters -->
                     <dd:SplitPanel Name="splitPanelAlgorithmSettings" dd:DockSite.Dock="Right" dd:DockSite.DockSize="195">
                         <!--<dd:SplitPanel.Visibility>
                             <MultiBinding Converter="{StaticResource ResourceKey=BooleanToVisibilityConverter}" ConverterParameter="Setting">
