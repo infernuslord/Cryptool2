@@ -196,15 +196,6 @@ namespace Cryptool.CrypWin.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Parameter.
-        /// </summary>
-        internal static string Algorithm_Settings_ {
-            get {
-                return ResourceManager.GetString("Algorithm_Settings_", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Are you sure?.
         /// </summary>
         internal static string Are_you_sure_ {
@@ -318,15 +309,6 @@ namespace Cryptool.CrypWin.Properties {
         internal static string Check_for_updates_now {
             get {
                 return ResourceManager.GetString("Check_for_updates_now", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Check Sum Hash Hash Functions.
-        /// </summary>
-        internal static string Check_Sum_Hash_Hash_Functions {
-            get {
-                return ResourceManager.GetString("Check_Sum_Hash_Hash_Functions", resourceCulture);
             }
         }
         
@@ -474,15 +456,6 @@ namespace Cryptool.CrypWin.Properties {
             }
         }
         
-        /// <summary>
-        ///   Looks up a localized string similar to Cryptographic Hash Functions.
-        /// </summary>
-        internal static string Cryptographic_Hash_Functions {
-            get {
-                return ResourceManager.GetString("Cryptographic_Hash_Functions", resourceCulture);
-            }
-        }
-        
         internal static System.Drawing.Icon cryptool {
             get {
                 object obj = ResourceManager.GetObject("cryptool", resourceCulture);
@@ -496,15 +469,6 @@ namespace Cryptool.CrypWin.Properties {
         internal static string Cryptool_2_0_has_been_backgrounded_due_to_running_tasks_ {
             get {
                 return ResourceManager.GetString("Cryptool_2_0_has_been_backgrounded_due_to_running_tasks_", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Settings.
-        /// </summary>
-        internal static string CrypTool_2_0_Settings {
-            get {
-                return ResourceManager.GetString("CrypTool_2_0_Settings", resourceCulture);
             }
         }
         
@@ -818,15 +782,6 @@ namespace Cryptool.CrypWin.Properties {
         internal static string Fullscreen {
             get {
                 return ResourceManager.GetString("Fullscreen", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Functions.
-        /// </summary>
-        internal static string Functions {
-            get {
-                return ResourceManager.GetString("Functions", resourceCulture);
             }
         }
         
@@ -1295,6 +1250,15 @@ namespace Cryptool.CrypWin.Properties {
         internal static string Output {
             get {
                 return ResourceManager.GetString("Output", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Parameters.
+        /// </summary>
+        internal static string Parameters {
+            get {
+                return ResourceManager.GetString("Parameters", resourceCulture);
             }
         }
         
