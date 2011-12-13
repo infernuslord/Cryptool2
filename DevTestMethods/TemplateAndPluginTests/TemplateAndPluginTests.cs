@@ -42,12 +42,12 @@ namespace Tests.TemplateAndPluginTests
             }
         }
 
-        private static IPlugin GetPluginInstance(string pluginName)
+        private static ICrypComponent GetPluginInstance(string pluginName)
         {
             return GetPluginInstance(pluginName, pluginName);
         }
 
-        private static IPlugin GetPluginInstance(string pluginName, string assemblyName)
+        private static ICrypComponent GetPluginInstance(string pluginName, string assemblyName)
         {
             Assembly a = null;
             try
@@ -64,8 +64,7 @@ namespace Tests.TemplateAndPluginTests
             {
                 Assert.Fail(string.Format("Can't load plugin {0} from assembly {1}.", pluginName, assemblyName));
             }
-            var pluginInstance = (IPlugin)pluginType.GetConstructor(new Type[0]).Invoke(new object[0]);
-            return pluginInstance;
+            return pluginType.CreateComponentInstance();
         }
     }
 }

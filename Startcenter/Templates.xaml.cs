@@ -243,18 +243,7 @@ namespace Startcenter
             if (infos.Key != null && Path.GetExtension(infos.Key) != null)
             {
                 var fileExt = Path.GetExtension(infos.Key).ToLower().Substring(1);
-                if (fileExt == "component")     //standalone component
-                {
-                    var pluginName = Path.GetFileNameWithoutExtension(infos.Key);
-                    if (ComponentInformations.AllLoadedPlugins.ContainsKey(pluginName))
-                    {
-                        var type = ComponentInformations.AllLoadedPlugins[pluginName];
-                        var content = type.CreateObject();
-                        OnOpenTab(content, type.GetPluginInfoAttribute().Caption, null);
-                        content.Presentation.ToolTip = type.GetPluginInfoAttribute().ToolTip;
-                    }
-                }
-                else if (ComponentInformations.EditorExtension != null && ComponentInformations.EditorExtension.ContainsKey(fileExt))
+                if (ComponentInformations.EditorExtension != null && ComponentInformations.EditorExtension.ContainsKey(fileExt))
                 {
                     Type editorType = ComponentInformations.EditorExtension[fileExt];
                     string filename = infos.Key;

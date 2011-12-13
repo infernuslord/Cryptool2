@@ -87,7 +87,6 @@ namespace StartCenter
         public event OpenProjectFileHandler OnOpenProjectFile;
         public event OpenTabHandler OnOpenTab;
         public event OpenEditorHandler OnOpenEditor;
-        public event EventHandler<ZoomChanged> OnZoomChanged;
         public void New()
         {
             
@@ -138,19 +137,6 @@ namespace StartCenter
         }
 
         public void Print()
-        {
-        }
-
-        public double GetZoom()
-        {
-            return 1.0;
-        }
-
-        public void Zoom(double value)
-        {
-        }
-
-        public void FitToScreen()
         {
         }
 

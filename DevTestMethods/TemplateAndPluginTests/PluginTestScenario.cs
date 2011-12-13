@@ -7,16 +7,16 @@ namespace Tests.TemplateAndPluginTests
 {
     internal class PluginTestScenario : TestScenario
     {
-        private readonly IPlugin _plugin;
+        private readonly ICrypComponent _plugin;
 
-        public PluginTestScenario(IPlugin plugin, string[] inputProperties, string[] outputProperties)
+        public PluginTestScenario(ICrypComponent plugin, string[] inputProperties, string[] outputProperties)
             : base(GetProperties(plugin, inputProperties), GetObjectArray(plugin, inputProperties), 
                    GetProperties(plugin, outputProperties), GetObjectArray(plugin, outputProperties))
         {
             _plugin = plugin;
         }
 
-        private static object[] GetObjectArray(IPlugin plugin, string[] properties)
+        private static object[] GetObjectArray(ICrypComponent plugin, string[] properties)
         {
             var settings = plugin.Settings;
 
@@ -35,7 +35,7 @@ namespace Tests.TemplateAndPluginTests
             return res;
         }
 
-        private static PropertyInfo[] GetProperties(IPlugin plugin, string[] properties)
+        private static PropertyInfo[] GetProperties(ICrypComponent plugin, string[] properties)
         {
             var settings = plugin.Settings;
 

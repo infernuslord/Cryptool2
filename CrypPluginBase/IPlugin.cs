@@ -24,7 +24,7 @@ namespace Cryptool.PluginBase
     /// <summary>
     /// See Wiki for more information: https://www.cryptool.org/trac/CrypTool2/wiki/IPluginHints
     /// </summary>
-    public interface IPlugin : INotifyPropertyChanged
+    public interface IPlugin : INotifyPropertyChanged, IDisposable
     {
         event StatusChangedEventHandler OnPluginStatusChanged;
         event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
@@ -40,19 +40,9 @@ namespace Cryptool.PluginBase
         UserControl Presentation { get; }
 
         /// <summary>
-        /// Will be called once before workflow starts. May be used to set up data used for execution.
-        /// </summary>
-        void PreExecution();
-
-        /// <summary>
         /// Will be called each time the plugin is run during workflow and after the inputs have been set.
         /// </summary>
         void Execute();
-
-        /// <summary>
-        /// Will be called after the workflow has been stopped. May be used for cleanup data used during execution.
-        /// </summary>
-        void PostExecution();
 
         /// <summary>
         /// Triggered when user clicked Stop button. Plugin must shut down long running tasks.
@@ -64,11 +54,5 @@ namespace Cryptool.PluginBase
         /// Will be called Will be called from editor after restoring settings and before adding to workspace.
         /// </summary>
         void Initialize();
-
-        /// <summary>
-        /// Will be called from editor when element is deleted from workspace.
-        /// Releases unmanaged and - optionally - managed resources
-        /// </summary>
-        void Dispose();
     }
 }

@@ -23,6 +23,7 @@ using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using System.Windows.Documents;
 using System.Windows.Markup;
+using Cryptool.PluginBase.Editor;
 using Cryptool.PluginBase.Miscellaneous;
 using Cryptool.PluginBase.Properties;
 using System.Resources;
@@ -42,7 +43,7 @@ namespace Cryptool.PluginBase
 
         private static void GuiLogMessage(string message, NotificationLevel logLevel)
         {
-          EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, null, new GuiLogEventArgs(message, null, logLevel));
+            EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, null, new GuiLogEventArgs(message, null, logLevel));
         }
 
         /// <summary>
@@ -86,22 +87,22 @@ namespace Cryptool.PluginBase
         /// <returns></returns>
         public static PropertyInfoAttribute[] GetProperties(this IPlugin plugin, Direction direction)
         {
-          List<PropertyInfoAttribute> list = new List<PropertyInfoAttribute>();
-          foreach (PropertyInfoAttribute pInfo in plugin.GetProperties())
-          {
-            if (pInfo.Direction == direction) list.Add(pInfo);
-          }
-          return list.ToArray();
+            List<PropertyInfoAttribute> list = new List<PropertyInfoAttribute>();
+            foreach (PropertyInfoAttribute pInfo in plugin.GetProperties())
+            {
+                if (pInfo.Direction == direction) list.Add(pInfo);
+            }
+            return list.ToArray();
         }
 
         public static EventInfo GetTaskPaneAttributeChanged(this ISettings settings)
         {
-          foreach (EventInfo eventInfo in settings.GetType().GetEvents())
-          {
-            if (eventInfo.EventHandlerType == typeof(TaskPaneAttributeChangedHandler))
-              return eventInfo;
-          }
-          return null;
+            foreach (EventInfo eventInfo in settings.GetType().GetEvents())
+            {
+                if (eventInfo.EventHandlerType == typeof(TaskPaneAttributeChangedHandler))
+                    return eventInfo;
+            }
+            return null;
         }
 
         public static void SetPropertyValue(this IPlugin plugin, PropertyInfo property, object value)
@@ -129,176 +130,176 @@ namespace Cryptool.PluginBase
             PluginInfoAttribute[] attributes = (PluginInfoAttribute[])type.GetCustomAttributes(typeof(PluginInfoAttribute), false);
             if (attributes.Length == 1)
             {
-              // if resource file is set - keys are used instead of values. resource access necessary 
-              if (attributes[0].ResourceFile != null)
-              {
-                attributes[0].PluginType = type;
-              }
-              return attributes[0];
+                // if resource file is set - keys are used instead of values. resource access necessary 
+                if (attributes[0].ResourceFile != null)
+                {
+                    attributes[0].PluginType = type;
+                }
+                return attributes[0];
             }
             return null;
         }
 
         public static AuthorAttribute GetPluginAuthorAttribute(this IPlugin plugin)
         {
-          if (plugin != null)
-            return GetPluginAuthorAttribute(plugin.GetType());
-          return null;
+            if (plugin != null)
+                return GetPluginAuthorAttribute(plugin.GetType());
+            return null;
         }
 
         public static AuthorAttribute GetPluginAuthorAttribute(this Type type)
         {
-          if (type == null)
-            return null;
-          AuthorAttribute[] attributes = (AuthorAttribute[])type.GetCustomAttributes(typeof(AuthorAttribute), false);
-          if (attributes.Length == 1)
-            return attributes[0];
-          else
-            return null;
+            if (type == null)
+                return null;
+            AuthorAttribute[] attributes = (AuthorAttribute[])type.GetCustomAttributes(typeof(AuthorAttribute), false);
+            if (attributes.Length == 1)
+                return attributes[0];
+            else
+                return null;
         }
 
         public static TaskPaneAttribute[] GetSettingsProperties(this ISettings settings, IPlugin plugin)
         {
-          if (settings == null || plugin == null)
-            return new TaskPaneAttribute[0];
+            if (settings == null || plugin == null)
+                return new TaskPaneAttribute[0];
 
-          return GetSettingsProperties(settings.GetType(), plugin);
+            return GetSettingsProperties(settings.GetType(), plugin);
         }
 
         public static TaskPaneAttribute[] GetSettingsProperties(this Type type, IPlugin plugin)
         {
-          if (type == null || plugin == null)
+            if (type == null || plugin == null)
                 return new TaskPaneAttribute[0];
 
-          return type.GetSettingsProperties(plugin.GetType());
+            return type.GetSettingsProperties(plugin.GetType());
         }
 
         public static TaskPaneAttribute[] GetSettingsProperties(this Type type, Type pluginType)
         {
-          if (type == null || pluginType == null)
-            return new TaskPaneAttribute[0];
+            if (type == null || pluginType == null)
+                return new TaskPaneAttribute[0];
 
-          try
-          {
-            List<TaskPaneAttribute> taskPaneAttributes = new List<TaskPaneAttribute>();
-            foreach (PropertyInfo pInfo in type.GetProperties())
+            try
             {
-              TaskPaneAttribute[] attributes = (TaskPaneAttribute[])pInfo.GetCustomAttributes(typeof(TaskPaneAttribute), false);
-              if (attributes != null && attributes.Length == 1)
-              {
-                TaskPaneAttribute attr = attributes[0];
-                attr.PropertyName = pInfo.Name;
-                // does plugin have a resource file for translation?
-                if (pluginType.GetPluginInfoAttribute().ResourceFile != null)
-                    attr.PluginType = pluginType;
-                taskPaneAttributes.Add(attr);
-              }
-            }
-
-            foreach (MethodInfo mInfo in type.GetMethods())
-            {
-              if (mInfo.IsPublic && mInfo.GetParameters().Length == 0)
-              {
-                TaskPaneAttribute[] attributes = (TaskPaneAttribute[])mInfo.GetCustomAttributes(typeof(TaskPaneAttribute), false);
-                if (attributes != null && attributes.Length == 1)
+                List<TaskPaneAttribute> taskPaneAttributes = new List<TaskPaneAttribute>();
+                foreach (PropertyInfo pInfo in type.GetProperties())
                 {
-                  TaskPaneAttribute attr = attributes[0];
-                  attr.Method = mInfo;
-                  attr.PropertyName = mInfo.Name;
-                  // does plugin have a resource file for translation?
-                  if (pluginType.GetPluginInfoAttribute().ResourceFile != null)
-                      attr.PluginType = pluginType;
-                  taskPaneAttributes.Add(attr);
+                    TaskPaneAttribute[] attributes = (TaskPaneAttribute[])pInfo.GetCustomAttributes(typeof(TaskPaneAttribute), false);
+                    if (attributes != null && attributes.Length == 1)
+                    {
+                        TaskPaneAttribute attr = attributes[0];
+                        attr.PropertyName = pInfo.Name;
+                        // does plugin have a resource file for translation?
+                        if (pluginType.GetPluginInfoAttribute().ResourceFile != null)
+                            attr.PluginType = pluginType;
+                        taskPaneAttributes.Add(attr);
+                    }
                 }
-              }
-            }
 
-            return taskPaneAttributes.ToArray();
-          }
-          catch (Exception ex)
-          {
-            GuiLogMessage(ex.Message, NotificationLevel.Error);
-          }
-          return null;
+                foreach (MethodInfo mInfo in type.GetMethods())
+                {
+                    if (mInfo.IsPublic && mInfo.GetParameters().Length == 0)
+                    {
+                        TaskPaneAttribute[] attributes = (TaskPaneAttribute[])mInfo.GetCustomAttributes(typeof(TaskPaneAttribute), false);
+                        if (attributes != null && attributes.Length == 1)
+                        {
+                            TaskPaneAttribute attr = attributes[0];
+                            attr.Method = mInfo;
+                            attr.PropertyName = mInfo.Name;
+                            // does plugin have a resource file for translation?
+                            if (pluginType.GetPluginInfoAttribute().ResourceFile != null)
+                                attr.PluginType = pluginType;
+                            taskPaneAttributes.Add(attr);
+                        }
+                    }
+                }
+
+                return taskPaneAttributes.ToArray();
+            }
+            catch (Exception ex)
+            {
+                GuiLogMessage(ex.Message, NotificationLevel.Error);
+            }
+            return null;
         }
 
         public static RibbonBarAttribute[] GetRibbonBarSettingsProperties(this ISettings settings, IPlugin plugin)
         {
-          return GetRibbonBarSettingsProperties(settings.GetType(), plugin);
+            return GetRibbonBarSettingsProperties(settings.GetType(), plugin);
         }
 
         public static RibbonBarAttribute[] GetRibbonBarSettingsProperties(this Type type, IPlugin plugin)
         {
-          try
-          {
-            List<RibbonBarAttribute> taskPaneAttributes = new List<RibbonBarAttribute>();
-            foreach (PropertyInfo pInfo in type.GetProperties())
+            try
             {
-              RibbonBarAttribute[] attributes = (RibbonBarAttribute[])pInfo.GetCustomAttributes(typeof(RibbonBarAttribute), false);
-              if (attributes != null && attributes.Length == 1)
-              {
-                RibbonBarAttribute attr = attributes[0];
-                attr.PropertyName = pInfo.Name;
-                // does plugin have a resource file for translation?
-                if (plugin.GetType().GetPluginInfoAttribute().ResourceFile != null)
-                  attr.PluginType = plugin.GetType();
-                taskPaneAttributes.Add(attr);
-              }
-            }
-
-            foreach (MethodInfo mInfo in type.GetMethods())
-            {
-              if (mInfo.IsPublic && mInfo.GetParameters().Length == 0)
-              {
-                RibbonBarAttribute[] attributes = (RibbonBarAttribute[])mInfo.GetCustomAttributes(typeof(RibbonBarAttribute), false);
-                if (attributes != null && attributes.Length == 1)
+                List<RibbonBarAttribute> taskPaneAttributes = new List<RibbonBarAttribute>();
+                foreach (PropertyInfo pInfo in type.GetProperties())
                 {
-                  RibbonBarAttribute attr = attributes[0];
-                  attr.Method = mInfo;
-                  attr.PropertyName = mInfo.Name;
-                  // does plugin have a resource file for translation?
-                  if (plugin.GetType().GetPluginInfoAttribute().ResourceFile != null)
-                    attr.PluginType = plugin.GetType();
-                  taskPaneAttributes.Add(attr);
+                    RibbonBarAttribute[] attributes = (RibbonBarAttribute[])pInfo.GetCustomAttributes(typeof(RibbonBarAttribute), false);
+                    if (attributes != null && attributes.Length == 1)
+                    {
+                        RibbonBarAttribute attr = attributes[0];
+                        attr.PropertyName = pInfo.Name;
+                        // does plugin have a resource file for translation?
+                        if (plugin.GetType().GetPluginInfoAttribute().ResourceFile != null)
+                            attr.PluginType = plugin.GetType();
+                        taskPaneAttributes.Add(attr);
+                    }
                 }
-              }
-            }
 
-            return taskPaneAttributes.ToArray();
-          }
-          catch (Exception ex)
-          {
-            GuiLogMessage(ex.Message, NotificationLevel.Error);
-          }
-          return null;
+                foreach (MethodInfo mInfo in type.GetMethods())
+                {
+                    if (mInfo.IsPublic && mInfo.GetParameters().Length == 0)
+                    {
+                        RibbonBarAttribute[] attributes = (RibbonBarAttribute[])mInfo.GetCustomAttributes(typeof(RibbonBarAttribute), false);
+                        if (attributes != null && attributes.Length == 1)
+                        {
+                            RibbonBarAttribute attr = attributes[0];
+                            attr.Method = mInfo;
+                            attr.PropertyName = mInfo.Name;
+                            // does plugin have a resource file for translation?
+                            if (plugin.GetType().GetPluginInfoAttribute().ResourceFile != null)
+                                attr.PluginType = plugin.GetType();
+                            taskPaneAttributes.Add(attr);
+                        }
+                    }
+                }
+
+                return taskPaneAttributes.ToArray();
+            }
+            catch (Exception ex)
+            {
+                GuiLogMessage(ex.Message, NotificationLevel.Error);
+            }
+            return null;
         }
 
         public static SettingsFormatAttribute GetSettingsFormat(this ISettings settings, string propertyName)
         {
-          if (settings == null || string.IsNullOrEmpty(propertyName))
-            return null;
-          return GetSettingsFormat(settings.GetType(), propertyName);
+            if (settings == null || string.IsNullOrEmpty(propertyName))
+                return null;
+            return GetSettingsFormat(settings.GetType(), propertyName);
         }
 
         public static SettingsFormatAttribute GetSettingsFormat(this Type type, string propertyName)
         {
-          if (type == null || string.IsNullOrEmpty(propertyName))
-            return null;
-          try
-          {
-            if (type.GetProperty(propertyName) != null)
+            if (type == null || string.IsNullOrEmpty(propertyName))
+                return null;
+            try
             {
-              SettingsFormatAttribute[] settingsFormat = (SettingsFormatAttribute[])type.GetProperty(propertyName).GetCustomAttributes(typeof(SettingsFormatAttribute), false);
-              if (settingsFormat != null && settingsFormat.Length == 1)
-                return settingsFormat[0];
+                if (type.GetProperty(propertyName) != null)
+                {
+                    SettingsFormatAttribute[] settingsFormat = (SettingsFormatAttribute[])type.GetProperty(propertyName).GetCustomAttributes(typeof(SettingsFormatAttribute), false);
+                    if (settingsFormat != null && settingsFormat.Length == 1)
+                        return settingsFormat[0];
+                }
             }
-          }
-          catch (Exception ex)
-          {
-            GuiLogMessage(ex.Message, NotificationLevel.Error);
-          }
-          return null;
-        }    
+            catch (Exception ex)
+            {
+                GuiLogMessage(ex.Message, NotificationLevel.Error);
+            }
+            return null;
+        }
 
         public static Image GetImage(this IPlugin plugin, int index)
         {
@@ -307,40 +308,40 @@ namespace Cryptool.PluginBase
 
         public static Image GetImage(this Type type, int index)
         {
-          try
-          {
-            return GetImageWithoutLogMessage(type, index);
-          }
-          catch (Exception exception)
-          {
-            if (type != null)
-              GuiLogMessage(string.Format(Resources.plugin_extension_error_get_image, new object[] { type.Name, exception.Message }), NotificationLevel.Error);
-            else
-              GuiLogMessage(exception.Message, NotificationLevel.Error);
-            return null;
-          }
+            try
+            {
+                return GetImageWithoutLogMessage(type, index);
+            }
+            catch (Exception exception)
+            {
+                if (type != null)
+                    GuiLogMessage(string.Format(Resources.plugin_extension_error_get_image, new object[] { type.Name, exception.Message }), NotificationLevel.Error);
+                else
+                    GuiLogMessage(exception.Message, NotificationLevel.Error);
+                return null;
+            }
         }
 
         public static Image GetImageWithoutLogMessage(this Type type, int index)
         {
-          string icon = type.GetPluginInfoAttribute().Icons[index];
-          int sIndex = icon.IndexOf('/');
-          Image img = new Image();
-          img.Source = BitmapFrame.Create(new Uri(string.Format("pack://application:,,,/{0};component/{1}", icon.Substring(0, sIndex), icon.Substring(sIndex + 1))));
-          return img;
+            string icon = type.GetPluginInfoAttribute().Icons[index];
+            int sIndex = icon.IndexOf('/');
+            Image img = new Image();
+            img.Source = BitmapFrame.Create(new Uri(string.Format("pack://application:,,,/{0};component/{1}", icon.Substring(0, sIndex), icon.Substring(sIndex + 1))));
+            return img;
         }
 
         public static string GetPluginStringResource(this IPlugin plugin, string keyword)
         {
-          try
-          {
-            return plugin.GetType().GetPluginStringResource(keyword);
-          }
-          catch (Exception exception)
-          {
-            GuiLogMessage(exception.Message, NotificationLevel.Error);
-            return null;
-          }
+            try
+            {
+                return plugin.GetType().GetPluginStringResource(keyword);
+            }
+            catch (Exception exception)
+            {
+                GuiLogMessage(exception.Message, NotificationLevel.Error);
+                return null;
+            }
         }
 
         public static string GetPluginStringResource(this Type type, string keyword)
@@ -350,62 +351,93 @@ namespace Cryptool.PluginBase
 
         public static string GetPluginStringResource(this Type type, string keyword, CultureInfo culture)
         {
-          try
-          {
-            // Get resource file from plugin assembly -> <Namespace>.<ResourceFileName> without "resx" file extension
-            ResourceManager resman = new ResourceManager(type.GetPluginInfoAttribute().ResourceFile, type.Assembly);
-
-            string[] resources = type.Assembly.GetManifestResourceNames();
-
-            // Load the translation for the keyword
-            string translation;
-            if (culture == null)
+            try
             {
-                translation = resman.GetString(keyword);
+                // Get resource file from plugin assembly -> <Namespace>.<ResourceFileName> without "resx" file extension
+                ResourceManager resman = new ResourceManager(type.GetPluginInfoAttribute().ResourceFile, type.Assembly);
+
+                string[] resources = type.Assembly.GetManifestResourceNames();
+
+                // Load the translation for the keyword
+                string translation;
+                if (culture == null)
+                {
+                    translation = resman.GetString(keyword);
+                }
+                else
+                {
+                    translation = resman.GetString(keyword, culture);
+                }
+                if (translation != null)
+                    return translation;
+                else
+                {
+                    if (IsTestMode)
+                    {
+                        GuiLogMessage(string.Format(Resources.Can_t_find_localization_key, keyword, type), NotificationLevel.Error);
+                    }
+                    return keyword;
+                }
             }
-            else
-            {
-                translation = resman.GetString(keyword, culture);
-            }
-            if (translation != null)
-                return translation;
-            else
+            catch (Exception ex)
             {
                 if (IsTestMode)
                 {
-                    GuiLogMessage(string.Format(Resources.Can_t_find_localization_key, keyword, type), NotificationLevel.Error);
+                    GuiLogMessage(string.Format(Resources.Error_trying_to_lookup_localization_key, keyword, ex.Message), NotificationLevel.Error);
                 }
                 return keyword;
             }
-          }
-          catch (Exception ex)
-          {
-              if (IsTestMode)
-              {
-                  GuiLogMessage(string.Format(Resources.Error_trying_to_lookup_localization_key, keyword, ex.Message), NotificationLevel.Error);
-              }
-              return keyword;
-          }
         }
 
-        public static IPlugin CreateObject(this Type type)
+        public static ICrypComponent CreateComponentInstance(this Type type)
         {
-          if (type.GetInterface(typeof(IPlugin).Name) != null)
-          {
-            try
+            if (type.GetInterface(typeof(ICrypComponent).Name) != null)
             {
-              return (IPlugin)Activator.CreateInstance(type);              
+                try
+                {
+                    return (ICrypComponent)Activator.CreateInstance(type);
+                }
+                catch (Exception exception)
+                {
+                    GuiLogMessage(string.Format(Resources.plugin_extension_error_get_description, new object[] { type.Name, exception.Message }), NotificationLevel.Error);
+                    return null;
+                }
             }
-            catch (Exception exception)
+            return null;
+        }
+
+        public static IEditor CreateEditorInstance(this Type type)
+        {
+            if (type.GetInterface(typeof(IEditor).Name) != null)
             {
-              if (type != null)
-                GuiLogMessage(string.Format(Resources.plugin_extension_error_get_description, new object[] { type.Name, exception.Message }), NotificationLevel.Error);
-              else
-                GuiLogMessage(exception.Message, NotificationLevel.Error);
-              return null;
+                try
+                {
+                    return (IEditor)Activator.CreateInstance(type);
+                }
+                catch (Exception exception)
+                {
+                    GuiLogMessage(string.Format(Resources.plugin_extension_error_get_description, new object[] { type.Name, exception.Message }), NotificationLevel.Error);
+                    return null;
+                }
             }
-          }
-          return null;
+            return null;
+        }
+
+        public static ICrypTutorial CreateTutorialInstance(this Type type)
+        {
+            if (type.GetInterface(typeof(ICrypTutorial).Name) != null)
+            {
+                try
+                {
+                    return (ICrypTutorial)Activator.CreateInstance(type);
+                }
+                catch (Exception exception)
+                {
+                    GuiLogMessage(string.Format(Resources.plugin_extension_error_get_description, new object[] { type.Name, exception.Message }), NotificationLevel.Error);
+                    return null;
+                }
+            }
+            return null;
         }
     }
 }

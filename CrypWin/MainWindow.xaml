@@ -903,10 +903,6 @@
                       <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
                         <StackPanel>
                           <Expander Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=dc:NavigationPane, ResourceId=Expander}}" 
-                        IsExpanded="True" Header="{Loc Standalone}" Name="expanderToolsStandalone">
-                            <ListBox Name="navListBoxToolsStandalone" BorderThickness="0" Margin="0"/>
-                          </Expander>
-                          <Expander Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly=dc:NavigationPane, ResourceId=Expander}}" 
                         IsExpanded="True" Header="{Loc Boolean}" Name="expanderToolsBoolean">
                             <ListBox Name="navListBoxToolsBoolean" BorderThickness="0" Margin="0"/>
                           </Expander>

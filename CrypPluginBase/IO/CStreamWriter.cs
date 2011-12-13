@@ -15,14 +15,9 @@
 */
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
 using System.Threading;
-using System.Diagnostics;
-using System.Runtime.ConstrainedExecution;
-using Cryptool.PluginBase.Tool;
+using Cryptool.PluginBase.Miscellaneous;
 
 namespace Cryptool.PluginBase.IO
 {

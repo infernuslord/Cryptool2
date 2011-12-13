@@ -15,20 +15,19 @@
 */
 
 using System;
-using Cryptool.UiPluginBase;
+using Cryptool.Core;
 using System.Collections.Generic;
 using Cryptool.PluginBase.Miscellaneous;
 
 namespace Cryptool.PluginBase.Editor
 {
-    public interface IEditor : IPlugin, IApplication
+    public interface IEditor : IPlugin
     {
         event SelectedPluginChangedHandler OnSelectedPluginChanged;
         event ProjectTitleChangedHandler OnProjectTitleChanged;
         event OpenProjectFileHandler OnOpenProjectFile;
         event OpenTabHandler OnOpenTab;
         event OpenEditorHandler OnOpenEditor;
-        event EventHandler<ZoomChanged> OnZoomChanged;
 
         void New();
         void Open(string fileName);
@@ -44,10 +43,6 @@ namespace Cryptool.PluginBase.Editor
         void Print();
         void AddText();
         void AddImage();
-
-        double GetZoom(); 
-        void Zoom(double value);
-        void FitToScreen();
 
         /// <summary>
         /// Used to display a plugin specific description button in settings pane. 
@@ -74,5 +69,7 @@ namespace Cryptool.PluginBase.Editor
         /// Gets or sets the readOnly propability of an editor i.e. if something on the workspace can be changed.
         /// </summary>
         bool ReadOnly { get; set; }
+
+        PluginManager PluginManager { get; set; } 
     }
 }

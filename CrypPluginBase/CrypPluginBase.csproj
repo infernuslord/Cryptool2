@@ -102,11 +102,11 @@
     <Compile Include="IO\CStreamWriter.cs" />
     <Compile Include="IO\DirectoryHelper.cs" />
     <Compile Include="IO\ICryptoolStream.cs" />
+    <Compile Include="ICrypTutorial.cs" />
     <Compile Include="Miscellaneous\ApplicationSettingsHelper.cs" />
     <Compile Include="Miscellaneous\BigIntegerHelper.cs" />
     <Compile Include="Miscellaneous\AssemblyHelper.cs" />
     <Compile Include="Miscellaneous\DataManager.cs" />
-    <Compile Include="IApplication.cs" />
     <Compile Include="Attributes\RibbonBarAttribute.cs" />
     <Compile Include="Control\IControl.cs" />
     <Compile Include="Miscellaneous\DescriptionHyperlink.cs" />
@@ -123,7 +123,6 @@
     <Compile Include="Miscellaneous\LocExtension.cs" />
     <Compile Include="Miscellaneous\SuperTooltip.cs" />
     <Compile Include="Miscellaneous\Tokenizer.cs" />
-    <Compile Include="Miscellaneous\ZoomChanged.cs" />
     <Compile Include="OnlineHelp.cs" />
     <Compile Include="PluginExtension.cs" />
     <Compile Include="Attributes\PluginInfoAttribute.cs">
@@ -151,8 +150,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Tool\Hex.cs" />
-    <Compile Include="Tool\ITool.cs" />
+    <Compile Include="Miscellaneous\Hex.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\Graphics\Diagrams\Histogram\HistogramChart.xaml.cs">
       <DependentUpon>HistogramChart.xaml</DependentUpon>

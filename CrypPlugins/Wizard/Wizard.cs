@@ -214,26 +214,6 @@ namespace Wizard
 
         #endregion
 
-
-        public double GetZoom()
-        {
-            return double.NaN;
-        }
-
-        public void Zoom(double value)
-        {
-            
-        }
-
-        public void FitToScreen()
-        {
-           
-        }
-
-
-        public event EventHandler<Cryptool.PluginBase.Miscellaneous.ZoomChanged> OnZoomChanged;
-
-
         public void AddText()
         {
             throw new NotImplementedException();

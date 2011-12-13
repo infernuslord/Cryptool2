@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Cryptool.PluginBase.Tool;
 using Cryptool.PluginBase;
 using PKCS1.WpfVisualization;
 using PKCS1.Library;
@@ -15,7 +14,7 @@ namespace PKCS1
     //[PluginInfo(false, "PKCS #1 / Bleichenbacher Angriff", "PKCS #1 / Bleichenbacher Angriff", "MD5/DetailedDescription/Description.xaml", "PKCS1/PKCS1.png")]
     //[PluginInfo(Cryptool.PKCS1., false, "PKCS #1 / Bleichenbacher Angriff", "PKCS #1 / Bleichenbacher Angriff", "", "PKCS1/PKCS1.png")] 
 
-    public class PKCS1Plugin : ITool
+    public class PKCS1Plugin : ICrypTutorial
     {
         private Pkcs1Control m_Pkcs1Plugin = null;
 

@@ -119,7 +119,7 @@ namespace Cryptool.CrypWin
         private string[] interfaceNameList = new string[] {
                 typeof(Cryptool.PluginBase.ICrypComponent).FullName,
                 typeof(Cryptool.PluginBase.Editor.IEditor).FullName,
-                typeof(Cryptool.PluginBase.Tool.ITool).FullName };
+                typeof(Cryptool.PluginBase.ICrypTutorial).FullName };
         #endregion
 
         public IEditor ActiveEditor
@@ -213,23 +213,6 @@ namespace Cryptool.CrypWin
             set
             {
                 SetValue(VisibilityStartProperty, value);
-            }
-        }
-
-        public static readonly DependencyProperty CurrentScaleProperty =
-            DependencyProperty.Register(
-            "CurrentScale",
-            typeof(string),
-            typeof(MainWindow),
-            new FrameworkPropertyMetadata("N/A", FrameworkPropertyMetadataOptions.AffectsRender, null));
-
-        [TypeConverter(typeof(string))]
-        public string CurrentScale
-        {
-            get { return (string)GetValue(CurrentScaleProperty); }
-            set
-            {
-                SetValue(CurrentScaleProperty, value);
             }
         }
 
@@ -672,13 +655,19 @@ namespace Cryptool.CrypWin
 
         private void InitTypes(Dictionary<string, List<Type>> dicTypeLists)
         {
-            // Dispatcher.Invoke is not used overall in this method, because this prevents
-            // InitWinow updates until this method has finished.
+            // process ICrypComponent (regular editor plugins)
+            InitCrypComponents(dicTypeLists[typeof(ICrypComponent).FullName]);
 
-            // wander 2011-07-12: I don't understand the above comment, as dispatcher is invoked in AddPluginToNavigationPane(...)
+            // process ICrypTutorial (former standalone plugins)
+            InitCrypTutorials(dicTypeLists[typeof(ICrypTutorial).FullName]);
 
-            // process ICrypComponent (all regular plugins)
-            foreach (Type type in dicTypeLists[typeof(ICrypComponent).FullName])
+            // process IEditor
+            InitCrypEditors(dicTypeLists[typeof(IEditor).FullName]);
+        }
+
+        private void InitCrypComponents(List<Type> typeList)
+        {
+            foreach (Type type in typeList)
             {
                 PluginInfoAttribute pia = type.GetPluginInfoAttribute();
                 if (pia == null)
@@ -743,19 +732,45 @@ namespace Cryptool.CrypWin
 
                 SendAddedPluginToGUIMessage(pia.Caption);
             }
+        }
 
-            // process ITool (standalone plugins)
-            AddTypeToGUI(dicTypeLists, typeof(Cryptool.PluginBase.Tool.ITool).FullName, expanderToolsStandalone, navPaneItemTools, navListBoxToolsStandalone, Properties.Resources.Standalone);
+        private void InitCrypTutorials(List<Type> typeList)
+        {
+            // TODO: show in ribbon
+        }
 
-            // process IEditor
-            # region editor
-            foreach (Type type in dicTypeLists[typeof(IEditor).FullName])
+        //AddTypeToGUI(dicTypeLists, typeof(ICrypTutorial).FullName, expanderToolsStandalone, navPaneItemTools, navListBoxToolsStandalone, Properties.Resources.Standalone);
+
+        /*private void AddTypeToGUI(Dictionary<string, List<Type>> dicTypeLists, string FullTypeName, Expander Expander, PaneItem navPaneItem, ListBox navListBox, string groupName)
+        {
+            if (dicTypeLists[FullTypeName].Count > 0 && Expander != null)
+                SetVisibility(Expander, Visibility.Visible);
+            foreach (Type type in dicTypeLists[FullTypeName])
+            {
+                PluginInfoAttribute pia = type.GetPluginInfoAttribute();
+                if (pia == null)
+                {
+                    GuiLogMessage(string.Format(Resource.no_plugin_info_attribute, type.Name), NotificationLevel.Error);
+                    continue;
+                }
+                if (type == null) continue;
+
+                GUIContainerElementsForPlugins contElements =
+                  new GUIContainerElementsForPlugins(type, pia, navPaneItem, navListBox, groupName);
+                AddPluginToNavigationPane(contElements);
+                SendAddedPluginToGUIMessage(pia.Caption);
+            }
+        }*/
+
+        private void InitCrypEditors(List<Type> typeList)
+        {
+            foreach (Type type in typeList)
             {
                 PluginInfoAttribute pia = type.GetPluginInfoAttribute();
                 if (type == null) continue;
 
                 // We dont't display a drop down button while only one editor is available
-                if (dicTypeLists[typeof(IEditor).FullName].Count > 1)
+                if (typeList.Count > 1)
                 {
                     Type type1 = type;
                     var editorInfo = type1.GetEditorInfoAttribute();
@@ -784,31 +799,9 @@ namespace Cryptool.CrypWin
                     }, null);
                 }
             }
-            if (dicTypeLists[typeof(IEditor).FullName].Count <= 1)
+
+            if (typeList.Count <= 1)
                 SetVisibility(buttonDropDownNew, Visibility.Collapsed);
-
-            #endregion editor
-        }
-
-        private void AddTypeToGUI(Dictionary<string, List<Type>> dicTypeLists, string FullTypeName, Expander Expander, PaneItem navPaneItem, ListBox navListBox, string groupName)
-        {
-            if (dicTypeLists[FullTypeName].Count > 0 && Expander != null)
-                SetVisibility(Expander, Visibility.Visible);
-            foreach (Type type in dicTypeLists[FullTypeName])
-            {
-                PluginInfoAttribute pia = type.GetPluginInfoAttribute();
-                if (pia == null)
-                {
-                    GuiLogMessage(string.Format(Resource.no_plugin_info_attribute, type.Name), NotificationLevel.Error);
-                    continue;
-                }
-                if (type == null) continue;
-
-                GUIContainerElementsForPlugins contElements =
-                  new GUIContainerElementsForPlugins(type, pia, navPaneItem, navListBox, groupName);
-                AddPluginToNavigationPane(contElements);
-                SendAddedPluginToGUIMessage(pia.Caption);
-            }
         }
 
         private void SetVisibility(UIElement element, Visibility vis)
@@ -1157,7 +1150,7 @@ namespace Cryptool.CrypWin
                 }
             }
 
-            IEditor editor = (IEditor)type.CreateObject();
+            IEditor editor = type.CreateEditorInstance();
             if (editor == null) // sanity check
                 return null;
 
@@ -1477,29 +1470,26 @@ namespace Cryptool.CrypWin
 
         void navItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
+            ListBoxItem listBoxItem = sender as ListBoxItem;
+            if (listBoxItem == null)
+            {
+                GuiLogMessage("Not a valid menu entry.", NotificationLevel.Error);
+                return;
+            }
+
+            Type type = listBoxItem.Tag as Type;
+            if (type == null)
+            {
+                GuiLogMessage("Not a valid menu entry.", NotificationLevel.Error);
+                return;
+            }
+
             try
             {
-                ButtonDropDown button = sender as ButtonDropDown;
-                ListBoxItem listBoxItem = sender as ListBoxItem;
-                Type type = listBoxItem.Tag as Type;
-                if (type != null)
-                {
-                    if (type.GetInterface("ITool") != null)
-                    {
-                        var content = type.CreateObject();
-                        OpenTab(content, type.GetPluginInfoAttribute().Caption, null);
-                        content.Presentation.ToolTip = type.GetPluginInfoAttribute().ToolTip;
-                    }
-                    else
-                    {
-                        if (ActiveEditor != null)
-                            ActiveEditor.Add(type);
-                        else
-                            GuiLogMessage("Adding plugin to active workspace not possible!", NotificationLevel.Error);
-                    }
-                }
+                if (ActiveEditor != null)
+                    ActiveEditor.Add(type);
                 else
-                    GuiLogMessage("Not a valid menu entry.", NotificationLevel.Error);
+                    GuiLogMessage("Adding plugin to active workspace not possible!", NotificationLevel.Error);
             }
             catch (Exception exception)
             {
@@ -1678,7 +1668,6 @@ namespace Cryptool.CrypWin
                 //lastEditor.OnGuiLogNotificationOccured -= OnGuiLogNotificationOccured;
                 lastEditor.OnSelectedPluginChanged -= SelectedPluginChanged;
                 lastEditor.OnOpenProjectFile -= OpenProjectFileEvent;
-                lastEditor.OnZoomChanged -= OnZoomChanged;
 
                 //save tab state of the old editor.. but not maximized:
                 var prop = editorTypePanelManager.GetEditorTypePanelProperties(lastEditor.GetType());
@@ -1704,8 +1693,6 @@ namespace Cryptool.CrypWin
                 //ActiveEditor.OnGuiLogNotificationOccured += OnGuiLogNotificationOccured;
                 ActiveEditor.OnSelectedPluginChanged += SelectedPluginChanged;
                 ActiveEditor.OnOpenProjectFile += OpenProjectFileEvent;
-                ActiveEditor.OnZoomChanged += OnZoomChanged;
-                CurrentScale = Math.Round(ActiveEditor.GetZoom() * 100) + "%";
 
                 var attr = Attribute.GetCustomAttribute(ActiveEditor.GetType(), typeof(EditingInfoAttribute));
                 if (attr != null)
@@ -1768,11 +1755,6 @@ namespace Cryptool.CrypWin
                 //When editor has no specific settings (or editor parameter is null), just show all panels:
                 MinimizeTab();
             }
-        }
-
-        private void OnZoomChanged(object sender, ZoomChanged e)
-        {
-            CurrentScale = String.Format("{0:P0}", e.Value);
         }
 
         private void RecentFileListChanged(List<string> recentFiles)
@@ -1890,24 +1872,6 @@ namespace Cryptool.CrypWin
             System.Diagnostics.Process.Start("http://www.cryptool2.vs.uni-due.de");
         }
 
-        private void PercentagClick(object sender, RoutedEventArgs e)
-        {
-            if (ActiveEditor == null)
-                return;
-
-            ButtonDropDown b = (ButtonDropDown)sender;
-            double x = (double)b.Items[0];
-            ActiveEditor.Zoom(x);
-        }
-
-        private void ButtonDropDown_Click(object sender, RoutedEventArgs e)
-        {
-            if (ActiveEditor == null)
-                return;
-
-            ActiveEditor.FitToScreen();
-        }
-
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ComboBox box = (ComboBox)sender;
@@ -1949,15 +1913,6 @@ namespace Cryptool.CrypWin
                 dockWindowNaviPaneAlgorithms.Open();
             else
                 dockWindowNaviPaneAlgorithms.Close();
-        }
-
-        private void ScrollViewer_MouseWheel(object sender, MouseWheelEventArgs e)
-        {
-            ScrollViewer scroll = (ScrollViewer)sender;
-            if (e.Delta > 0)
-                scroll.ScrollToVerticalOffset(scroll.VerticalOffset - 50);
-            else
-                scroll.ScrollToVerticalOffset(scroll.VerticalOffset + 50);
         }
 
         private void statusBar_MouseDoubleClick(object sender, MouseButtonEventArgs e)
