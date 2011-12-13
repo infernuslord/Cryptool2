@@ -126,12 +126,6 @@
   <data name="PluginDescriptionURL" xml:space="preserve">
     <value>Playfair/DetailedDescription/Description.xaml</value>
   </data>
-  <data name="OutputDataCaption" xml:space="preserve">
-    <value>Stream output</value>
-  </data>
-  <data name="OutputDataTooltip" xml:space="preserve">
-    <value>The string after processing with the Playfair cipher is converted to a stream.</value>
-  </data>
   <data name="InputStringCaption" xml:space="preserve">
     <value>Text input</value>
   </data>

@@ -14,14 +14,9 @@
    limitations under the License.
 */
 
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Cryptool.PluginBase;
-using Cryptool.PluginBase.IO;
-using System.Collections;
-using System.IO;
 using System.ComponentModel;
 using System.Windows.Controls;
 using Cryptool.PluginBase.Miscellaneous;
@@ -50,31 +45,15 @@ namespace Cryptool.Substitution
         public Substitution()
         {
             this.settings = new SubstitutionSettings(this);
-            ((SubstitutionSettings)(this.settings)).LogMessage += Substitution_LogMessage;
+            this.settings.LogMessage += GuiLogMessage;
         }
 
         /// <summary>
-        /// Get or set all settings for this algorithm.
+        /// Get settings instance
         /// </summary>
         public ISettings Settings
         {
-            get { return (ISettings)this.settings; }
-            set { this.settings = (SubstitutionSettings)value; }
-        }
-
-        [PropertyInfo(Direction.OutputData, "OutputDataCaption", "OutputDataTooltip", true)]
-        public ICryptoolStream OutputData
-        {
-            get
-            {
-                if (outputString == null)
-                {
-                    return null;
-                }
-
-                return new CStreamWriter(Encoding.UTF8.GetBytes(outputString));
-            }
-            set { }
+            get { return this.settings; }
         }
 
         [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", true)]
@@ -136,16 +115,15 @@ namespace Cryptool.Substitution
         {
             if(inputString != null)
             {
-                SubstitutionSettings cfg = (SubstitutionSettings)this.settings;
-                StringBuilder output = new StringBuilder(string.Empty);
+                StringBuilder output = new StringBuilder();
 
-                string alphabet = cfg.AlphabetSymbols;
+                string alphabet = settings.AlphabetSymbols;
 
                 //in case we don't want consider case in the alphabet, we use only capital letters, hence transform
                 //the whole alphabet to uppercase
-                if(!cfg.CaseSensitiveAlphabet)
+                if (!settings.CaseSensitiveAlphabet)
                 {
-                    alphabet = cfg.AlphabetSymbols.ToUpper();
+                    alphabet = settings.AlphabetSymbols.ToUpper();
                 }
 
                 for (int i = 0; i < inputString.Length; i++)
@@ -158,7 +136,7 @@ namespace Cryptool.Substitution
 
                     //get the position of the plaintext in the alphabet
                     int ppos = 0;
-                    if (cfg.CaseSensitiveAlphabet)
+                    if (settings.CaseSensitiveAlphabet)
                     {
                         ppos = alphabet.IndexOf(currentchar);
                     }
@@ -170,26 +148,26 @@ namespace Cryptool.Substitution
                     if (ppos >= 0)
                     {
                         //we found the plaintext character in the alphabet
-                        if (cfg.CaseSensitiveAlphabet)
+                        if (settings.CaseSensitiveAlphabet)
                         {
-                            output.Append(cfg.CipherAlphabet[ppos]);
+                            output.Append(settings.CipherAlphabet[ppos]);
                         }
                         else
                         {
                             if (uppercase)
                             {
-                                output.Append(char.ToUpper(cfg.CipherAlphabet[ppos]));
+                                output.Append(char.ToUpper(settings.CipherAlphabet[ppos]));
                             }
                             else
                             {
-                                output.Append(char.ToLower(cfg.CipherAlphabet[ppos]));
+                                output.Append(char.ToLower(settings.CipherAlphabet[ppos]));
                             }
                         }
                     }
                     else
                     {
                         //the plaintext character was not found in the alphabet, hence proceed whith handling unknown characters
-                        switch ((SubstitutionSettings.UnknownSymbolHandlingMode)cfg.UnknownSymbolHandling)
+                        switch ((SubstitutionSettings.UnknownSymbolHandlingMode)settings.UnknownSymbolHandling)
                         {
                             case SubstitutionSettings.UnknownSymbolHandlingMode.Ignore:
                                 output.Append(inputString[i]);
@@ -209,7 +187,6 @@ namespace Cryptool.Substitution
                 }
                 outputString = output.ToString();
                 OnPropertyChanged("OutputString");
-                OnPropertyChanged("OutputData");
             }
         }
 
@@ -220,16 +197,15 @@ namespace Cryptool.Substitution
         {
             if (inputString != null)
             {
-                SubstitutionSettings cfg = (SubstitutionSettings)this.settings;
-                StringBuilder output = new StringBuilder(string.Empty);
+                StringBuilder output = new StringBuilder();
 
-                string alphabet = cfg.AlphabetSymbols;
+                string alphabet = settings.AlphabetSymbols;
 
                 //in case we do not want consider case in the alphabet, we use only capital letter, hence transform
                 //the whole alphabet to uppercase
-                if (!cfg.CaseSensitiveAlphabet)
+                if (!settings.CaseSensitiveAlphabet)
                 {
-                    alphabet = cfg.AlphabetSymbols.ToUpper();
+                    alphabet = settings.AlphabetSymbols.ToUpper();
                 }
 
                 for (int i = 0; i < inputString.Length; i++)
@@ -242,19 +218,19 @@ namespace Cryptool.Substitution
 
                     //get the position of the cipher text character in the alphabet
                     int ppos = 0;
-                    if (cfg.CaseSensitiveAlphabet)
+                    if (settings.CaseSensitiveAlphabet)
                     {
-                        ppos = cfg.CipherAlphabet.IndexOf(currentchar);
+                        ppos = settings.CipherAlphabet.IndexOf(currentchar);
                     }
                     else
                     {
-                        ppos = cfg.CipherAlphabet.IndexOf(char.ToUpper(currentchar));
+                        ppos = settings.CipherAlphabet.IndexOf(char.ToUpper(currentchar));
                     }
 
                     if (ppos >= 0)
                     {
                         //we found the cipher text character in the alphabet
-                        if (cfg.CaseSensitiveAlphabet)
+                        if (settings.CaseSensitiveAlphabet)
                         {
                             output.Append(alphabet[ppos]);
                         }
@@ -274,7 +250,7 @@ namespace Cryptool.Substitution
                     else
                     {
                         //the ciphertext character was not found in the alphabet, hence proceed with handling unknown characters
-                        switch ((SubstitutionSettings.UnknownSymbolHandlingMode)cfg.UnknownSymbolHandling)
+                        switch ((SubstitutionSettings.UnknownSymbolHandlingMode)settings.UnknownSymbolHandling)
                         {
                             case SubstitutionSettings.UnknownSymbolHandlingMode.Ignore:
                                 output.Append(inputString[i]);
@@ -295,7 +271,6 @@ namespace Cryptool.Substitution
 
                 outputString = output.ToString();
                 OnPropertyChanged("OutputString");
-                OnPropertyChanged("OutputData");
             }
         }
 
@@ -343,12 +318,10 @@ namespace Cryptool.Substitution
 
         public void PostExecution()
         {
-            Dispose();
         }
 
         public void PreExecution()
         {
-            Dispose();
         }
 
         #endregion
@@ -362,18 +335,6 @@ namespace Cryptool.Substitution
             if (PropertyChanged != null)
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(name));
-            }
-        }
-
-        #endregion
-
-        #region Private methods
-
-        private void Substitution_LogMessage(string msg, NotificationLevel logLevel)
-        {
-            if (OnGuiLogNotificationOccured != null)
-            {
-                OnGuiLogNotificationOccured(this, new GuiLogEventArgs(msg, this, logLevel));
             }
         }
 

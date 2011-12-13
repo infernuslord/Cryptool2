@@ -153,12 +153,6 @@
   <data name="ModusTooltip" xml:space="preserve">
     <value>Select the Algorithm action</value>
   </data>
-  <data name="OutputDataCaption" xml:space="preserve">
-    <value>Stream output</value>
-  </data>
-  <data name="OutputDataTooltip" xml:space="preserve">
-    <value>The string after processing with the Vigenère cipher is converted to a stream.</value>
-  </data>
   <data name="OutputStringCaption" xml:space="preserve">
     <value>Text output</value>
   </data>

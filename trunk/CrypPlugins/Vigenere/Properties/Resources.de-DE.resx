@@ -153,12 +153,6 @@
   <data name="ModusTooltip" xml:space="preserve">
     <value>Wählen Sie die Betriebsart des Plugins.</value>
   </data>
-  <data name="OutputDataCaption" xml:space="preserve">
-    <value>Ausgabedaten</value>
-  </data>
-  <data name="OutputDataTooltip" xml:space="preserve">
-    <value>Die mit dem Vigenère-Verfahren ver-/entschlüsselten Ausgabedaten als Datenstrom</value>
-  </data>
   <data name="OutputStringCaption" xml:space="preserve">
     <value>Ausgabedaten</value>
   </data>

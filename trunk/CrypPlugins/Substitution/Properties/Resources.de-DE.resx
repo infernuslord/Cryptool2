@@ -126,12 +126,6 @@
   <data name="PluginDescriptionURL" xml:space="preserve">
     <value>Substitution/DetailedDescription/Description.xaml</value>
   </data>
-  <data name="OutputDataCaption" xml:space="preserve">
-    <value>Ausgabedatenstrom</value>
-  </data>
-  <data name="OutputDataTooltip" xml:space="preserve">
-    <value>Die mit dem Substitutions-Verfahren ver-/entschlüsselten Ausgabedaten als Datenstrom</value>
-  </data>
   <data name="InputStringCaption" xml:space="preserve">
     <value>Texteingabe</value>
   </data>
