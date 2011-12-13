@@ -42,16 +42,21 @@ namespace Tests
             }
         }
 
+        private void LogHandler(NotificationLevel level, string file)
+        {
+            if (level == NotificationLevel.Warning || level == NotificationLevel.Error)
+            {
+                Assert.Fail(string.Format("{0} guilogmessage in template {1}!", level, file));
+            }
+        }
+
         private void LoadAndCheckTemplate(string file, Dictionary<string, List<KeyValuePair<string, object>>> pluginProperties)
         {
-            var model = ModelPersistance.loadModel(Path.Combine(_templateDirectory.FullName, file));
-            model.OnGuiLogNotificationOccured += delegate(IPlugin sender, GuiLogEventArgs args)
-            {
-                if (args.NotificationLevel == NotificationLevel.Error)
-                {
-                    Assert.Fail(string.Format("Error guilogmessage in template {0}!", file));
-                }
-            };
+            var modelLoader = new ModelPersistance();
+            modelLoader.OnGuiLogNotificationOccured += (sender, args) => LogHandler(args.NotificationLevel, file);
+
+            var model = modelLoader.loadModel(Path.Combine(_templateDirectory.FullName, file));
+            model.OnGuiLogNotificationOccured += (sender, args) => LogHandler(args.NotificationLevel, file);
 
             /*
             foreach (PluginModel pluginModel in model.GetAllPluginModels())
