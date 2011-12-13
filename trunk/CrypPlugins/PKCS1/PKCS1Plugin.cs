@@ -60,16 +60,6 @@ namespace PKCS1
             //throw new NotImplementedException();
         }
 
-        public void PostExecution()
-        {
-            //throw new NotImplementedException();
-        }
-
-        public void PreExecution()
-        {
-            //throw new NotImplementedException();
-        }
-
         public void Stop()
         {
             //throw new NotImplementedException();
