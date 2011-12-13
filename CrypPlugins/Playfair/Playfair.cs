@@ -14,14 +14,9 @@
    limitations under the License.
 */
 
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Cryptool.PluginBase;
-using System.Collections;
-using System.IO;
-using Cryptool.PluginBase.IO;
 using System.Windows.Controls;
 using System.ComponentModel;
 using Cryptool.PluginBase.Miscellaneous;
@@ -59,25 +54,7 @@ namespace Cryptool.Playfair
         /// </summary>
         public ISettings Settings
         {
-            get { return (ISettings)this.settings; }
-            set { this.settings = (PlayfairSettings)value; }
-        }
-
-        [PropertyInfo(Direction.OutputData, "OutputDataCaption", "OutputDataTooltip", false)]
-        public ICryptoolStream OutputData
-        {
-            get
-            {
-                if (outputString != null)
-                {
-                    return new CStreamWriter(Encoding.UTF8.GetBytes(outputString));
-                }
-                else
-                {
-                    return null;
-                }
-            }
-            set { }
+            get { return this.settings; }
         }
 
         [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", true)]
@@ -124,7 +101,7 @@ namespace Cryptool.Playfair
         {
             if (inputString != null)
             {
-                StringBuilder output = new StringBuilder(string.Empty);
+                StringBuilder output = new StringBuilder();
                 //set selected matrix size
                 if (settings.MatrixSize == 0) matrixSize = 5;
                 else matrixSize = 6;
@@ -172,8 +149,6 @@ namespace Cryptool.Playfair
                 }
                 outputString = output.ToString();
                 OnPropertyChanged("OutputString");
-                OnPropertyChanged("OutputData");
-
             }
         }
 
@@ -184,7 +159,7 @@ namespace Cryptool.Playfair
         {
             if (inputString != null)
             {
-                StringBuilder output = new StringBuilder(string.Empty);
+                StringBuilder output = new StringBuilder();
                 //set selected matrix size
                 if (settings.MatrixSize == 0) matrixSize = 5;
                 else matrixSize = 6;
@@ -235,8 +210,6 @@ namespace Cryptool.Playfair
                 }
                 outputString = output.ToString();
                 OnPropertyChanged("OutputString");
-                OnPropertyChanged("OutputData");
-
             }
         }
 

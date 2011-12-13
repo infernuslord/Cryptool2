@@ -15,13 +15,9 @@
 */
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using Cryptool.PluginBase;
-using System.IO;
 using System.ComponentModel;
-using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase.Miscellaneous;
 
 namespace Cryptool.Vigenere
@@ -59,23 +55,6 @@ namespace Cryptool.Vigenere
         {
             get { return this.settings; }
             set { this.settings = (VigenereSettings)value; }
-        }
-
-        [PropertyInfo(Direction.OutputData, "OutputDataCaption", "OutputDataTooltip", false)]
-        public ICryptoolStream OutputData
-        {
-            get
-            {
-                if (outputString != null)
-                {
-                    return new CStreamWriter(Encoding.UTF8.GetBytes(outputString));
-                }
-                else
-                {
-                    return null;
-                }
-            }
-            set { }
         }
 
         [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", true)]
@@ -381,7 +360,6 @@ namespace Cryptool.Vigenere
                 }
                 outputString = output.ToString();
                 OnPropertyChanged("OutputString");
-                OnPropertyChanged("OutputData");
             }
         }
 

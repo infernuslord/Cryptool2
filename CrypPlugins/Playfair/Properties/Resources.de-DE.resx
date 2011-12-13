@@ -126,12 +126,6 @@
   <data name="PluginDescriptionURL" xml:space="preserve">
     <value>Playfair/DetailedDescription/Description.xaml</value>
   </data>
-  <data name="OutputDataCaption" xml:space="preserve">
-    <value>Ausgabedatenstrom</value>
-  </data>
-  <data name="OutputDataTooltip" xml:space="preserve">
-    <value>Der mit dem Playfair-Verfahren ver-/entschlüsselte Text als Ausgabedatenstrom.</value>
-  </data>
   <data name="InputStringCaption" xml:space="preserve">
     <value>Texteingabe</value>
   </data>
