@@ -14,12 +14,10 @@
    limitations under the License.
 */
 
-using System.Collections.Generic;
 using System.Text;
 using Cryptool.PluginBase;
 
 using System.ComponentModel;
-using Cryptool.PluginBase.IO;
 using System.Windows.Controls;
 using Cryptool.PluginBase.Miscellaneous;
 
@@ -33,10 +31,8 @@ namespace Cryptool.Caesar
     {
         #region Private elements
 
-        private CaesarSettings settings;
+        private readonly CaesarSettings settings;
         private bool isPlayMode = false;
-
-        private enum CaesarMode { encrypt, decrypt };
 
         #endregion
         
@@ -48,7 +44,7 @@ namespace Cryptool.Caesar
         public Caesar()
         {
             this.settings = new CaesarSettings();
-            this.settings.LogMessage += Caesar_LogMessage;
+            this.settings.LogMessage += GuiLogMessage;
             this.settings.ReExecute += Caesar_ReExecute;
         }
   
@@ -58,21 +54,6 @@ namespace Cryptool.Caesar
         public ISettings Settings
         {
             get { return this.settings; }
-        }
-
-
-        [PropertyInfo(Direction.OutputData, "OutputDataCaption", "OutputDataTooltip", false)]
-        public ICryptoolStream OutputData
-        {
-            get
-            {
-                if (OutputString != null)
-                {
-                    return new CStreamWriter(Encoding.UTF8.GetBytes(OutputString));
-                }
-
-                return null;
-            }
         }
 
         [PropertyInfo(Direction.InputData, "InputStringCaption", "InputStringTooltip", true)]
@@ -107,10 +88,10 @@ namespace Cryptool.Caesar
         [PropertyInfo(Direction.InputData, "ShiftKeyCaption", "ShiftKeyTooltip", false)]
         public int ShiftKey
         {
-          get { return settings.ShiftKey; }
+          get { return settings.ShiftValue; }
           set 
           { 
-              settings.ShiftKey = value;
+              settings.ShiftValue = value;
           }
         }
        
@@ -144,7 +125,7 @@ namespace Cryptool.Caesar
         }
 
         /// <summary>
-        /// Algorithm visualization (if any)
+        /// No algorithm visualization
         /// </summary>
         public UserControl Presentation
         {
@@ -153,18 +134,15 @@ namespace Cryptool.Caesar
 
         public void Stop()
         {
-
         }
 
         public void PostExecution()
         {
             isPlayMode = false;
-            Dispose();
         }
 
         public void PreExecution()
         {
-            Dispose();
         }
 
         #endregion
@@ -181,113 +159,6 @@ namespace Cryptool.Caesar
         #endregion
 
         #region Private methods
-        /// <summary>
-        /// Does the actual Caesar processing, i.e. encryption or decryption
-        /// </summary>
-        private void ProcessCaesar(CaesarMode mode)
-        {
-            CaesarSettings cfg = (CaesarSettings)this.settings;
-            StringBuilder output = new StringBuilder("");
-            string alphabet = cfg.AlphabetSymbols;
-
-            // If we are working in case-insensitive mode, we will use only
-            // capital letters, hence we must transform the whole alphabet
-            // to uppercase.
-            if (!cfg.CaseSensitiveAlphabet)
-            {
-                alphabet = cfg.AlphabetSymbols.ToUpper(); ;
-            }
-            
-
-            if (!string.IsNullOrEmpty(InputString))
-            {
-                for (int i = 0; i < InputString.Length; i++)
-                {
-                    // Get the plaintext char currently being processed.
-                    char currentchar = InputString[i];
-
-                    // Store whether it is upper case (otherwise lowercase is assumed).
-                    bool uppercase = char.IsUpper(currentchar);
-
-                    // Get the position of the plaintext character in the alphabet.
-                    int ppos = 0;
-                    if (cfg.CaseSensitiveAlphabet)
-                    {
-                        ppos = alphabet.IndexOf(currentchar);
-                    }
-                    else
-                    {
-                        ppos = alphabet.IndexOf(char.ToUpper(currentchar));
-                    }
- 
-                    if (ppos >= 0)
-                    {
-                        // We found the plaintext character in the alphabet,
-                        // hence we will commence shifting.
-                        int cpos = 0; ;
-                        switch (mode)
-                        {
-                            case CaesarMode.encrypt:
-                                cpos = (ppos + cfg.ShiftKey) % alphabet.Length;
-                                break;
-                            case CaesarMode.decrypt:
-                                cpos = (ppos - cfg.ShiftKey + alphabet.Length) % alphabet.Length;
-                                break;
-                        }
-
-                        // We have the position of the ciphertext character,
-                        // hence just output it in the correct case.
-                        if (cfg.CaseSensitiveAlphabet)
-                        {
-                            output.Append(alphabet[cpos]);
-                        }
-                        else
-                        {
-                            if (uppercase)
-                            {
-                                output.Append(char.ToUpper(alphabet[cpos]));
-                            }
-                            else
-                            {
-                                output.Append(char.ToLower(alphabet[cpos]));
-                            }
-                        }
-                        
-                    }
-                    else
-                    {
-                        // The plaintext character was not found in the alphabet,
-                        // hence proceed with handling unknown characters.
-                        switch ((CaesarSettings.UnknownSymbolHandlingMode)cfg.UnknownSymbolHandling)
-                        {
-                            case CaesarSettings.UnknownSymbolHandlingMode.Ignore:
-                                output.Append(InputString[i]);
-                                break;
-                            case CaesarSettings.UnknownSymbolHandlingMode.Replace:
-                                output.Append('?');
-                                break;
-                        }
-
-                    }
-
-                    // Show the progress.
-                    ProgressChanged(i, InputString.Length - 1);
-
-                }
-                OutputString = output.ToString();
-                OnPropertyChanged("OutputString");
-                OnPropertyChanged("OutputData");
-            }
-        }
-
-
-        /// <summary>
-        /// Handles log messages from the settings class
-        /// </summary>
-        private void Caesar_LogMessage(string msg, NotificationLevel loglevel)
-        {
-            GuiLogMessage(msg, loglevel);
-        }
 
         /// <summary>
         /// Handles re-execution events from settings class
@@ -312,17 +183,75 @@ namespace Cryptool.Caesar
         {
             isPlayMode = true;
 
-            switch (settings.Action)
-            {
-                case 0:
-                    ProcessCaesar(CaesarMode.encrypt);
-                    break;
-                case 1:
-                    ProcessCaesar(CaesarMode.decrypt);
-                    break;
-                default:
-                    break;
-            }
+		    StringBuilder output = new StringBuilder();
+
+		    // If we are working in case-insensitive mode, we will use only
+		    // capital letters, hence we must transform the whole alphabet
+		    // to uppercase.
+            string alphabet = settings.CaseSensitive ? settings.AlphabetSymbols : settings.AlphabetSymbols.ToUpper();
+            
+		    if (!string.IsNullOrEmpty(InputString))
+		    {
+		        for (int i = 0; i < InputString.Length; i++)
+		        {
+		            // Get the plaintext char currently being processed.
+		            char currentchar = InputString[i];
+
+		            // Store whether it is upper case.
+		            bool uppercase = char.IsUpper(currentchar);
+
+		            // Get the position of the plaintext character in the alphabet.
+                    int ppos = alphabet.IndexOf(settings.CaseSensitive ? currentchar : char.ToUpper(currentchar));
+
+		            if (ppos >= 0)
+		            {
+		                // We found the plaintext character in the alphabet,
+		                // hence we will commence shifting.
+		                int cpos = 0; ;
+		                switch (settings.Action)
+		                {
+		                    case CaesarSettings.CaesarMode.Encrypt:
+                                cpos = (ppos + settings.ShiftValue) % alphabet.Length;
+		                        break;
+		                    case CaesarSettings.CaesarMode.Decrypt:
+                                cpos = (ppos - settings.ShiftValue + alphabet.Length) % alphabet.Length;
+		                        break;
+		                }
+
+		                // We have the position of the ciphertext character,
+		                // hence just output it in the correct case.
+		                if (settings.CaseSensitive)
+		                {
+		                    output.Append(alphabet[cpos]);
+		                }
+		                else
+		                {
+		                    output.Append(uppercase ? char.ToUpper(alphabet[cpos]) : char.ToLower(alphabet[cpos]));
+		                }
+                        
+		            }
+		            else
+		            {
+		                // The plaintext character was not found in the alphabet,
+		                // hence proceed with handling unknown characters.
+		                switch (settings.UnknownSymbolHandling)
+		                {
+		                    case CaesarSettings.UnknownSymbolHandlingMode.Ignore:
+		                        output.Append(InputString[i]);
+		                        break;
+		                    case CaesarSettings.UnknownSymbolHandlingMode.Replace:
+		                        output.Append('?');
+		                        break;
+		                }
+		            }
+
+		            // Show the progress.
+		            ProgressChanged(i, InputString.Length - 1);
+
+		        }
+		        OutputString = output.ToString();
+		        OnPropertyChanged("OutputString");
+		    }
         }
 
         #endregion

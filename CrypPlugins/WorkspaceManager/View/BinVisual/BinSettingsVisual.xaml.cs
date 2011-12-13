@@ -935,6 +935,7 @@ namespace WorkspaceManager.View.BinVisual
                             textBoxReadOnly.Tag = tpa.ToolTip;
                             textBoxReadOnly.ToolTip = tpa.ToolTip;
                             textBoxReadOnly.MouseEnter += Control_MouseEnter;
+                            dataBinding.Mode = BindingMode.OneWay; // read-only strings do not need a setter
                             textBoxReadOnly.SetBinding(TextBox.TextProperty, dataBinding);
                             entgrou.AddNewEntry(tpa.GroupName, new ControlEntry(textBoxReadOnly, tpa, sfa));
                             break;
