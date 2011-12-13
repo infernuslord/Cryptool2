@@ -17,14 +17,16 @@
         <ListView Name="ListView" ItemsSource="{Binding}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" FontSize="10">
             <ListView.View>
                     <GridView>
-                    <GridViewColumn x:Name="KeyCol" Header="{Loc Analysed_Key}" Width="90" DisplayMemberBinding="{Binding Path=Key}">
+                    <GridViewColumn x:Name="KeyCol" Width="90" DisplayMemberBinding="{Binding Path=Key}">
+                        <GridViewColumnHeader IsEnabled="False" Content="{Loc Analysed_Key}" />
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <Label/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                    <GridViewColumn x:Name="ICCol" Header="{Loc Found_IC}" Width="115" DisplayMemberBinding="{Binding Path=IC}">
+                    <GridViewColumn x:Name="ICCol" Width="115" DisplayMemberBinding="{Binding Path=IC}">
+                        <GridViewColumnHeader IsEnabled="False" Content="{Loc Found_IC}" />
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <Label/>
