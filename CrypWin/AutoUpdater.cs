@@ -43,6 +43,7 @@ namespace Cryptool.CrypWin
         private System.Net.WebClient wc;
         private string changelogTemplate = "https://www.cryptool.org/trac/CrypTool2/log/trunk?format=rss&action=stop_on_copy&mode=stop_on_copy&rev=§&stop_rev=$"; //§ new $ current build
         private string changelog;
+        private string changelogText;
         private string updateName;
         private System.Timers.Timer checkTimer = new System.Timers.Timer(1000 * 60 * Settings.Default.CheckInterval);
         private System.Timers.Timer progressTimer;
@@ -51,6 +52,7 @@ namespace Cryptool.CrypWin
         private int downloadRetry = 0;
 
         private State currentState = State.Idle;
+
         public State CurrentState
         {
             get { return currentState; }
@@ -214,10 +216,7 @@ namespace Cryptool.CrypWin
                         presentation.progressBar1.Visibility = Visibility.Collapsed;
                         presentation.image1.Source = (ImageSource)presentation.FindResource("Update");
                         presentation.ChangelogBorder.Visibility = Visibility.Visible;
-                        if (changelog != null)
-                        {
-                            presentation.ReadAndFillRSSChangelog(changelog);
-                        }
+                        FillRSS(presentation);
                         break;
                     case State.Downloading:
                         presentation.button1.IsEnabled = false;
@@ -228,10 +227,7 @@ namespace Cryptool.CrypWin
                             string.Format(Properties.Resources.Downloading_update___0_____, updateName);
                         presentation.image1.Source = (ImageSource)presentation.FindResource("Update");
                         presentation.ChangelogBorder.Visibility = Visibility.Visible;
-                        if (changelog != null)
-                        {
-                            presentation.ReadAndFillRSSChangelog(changelog);
-                        }
+                        FillRSS(presentation);
                         break;
                     case State.UpdateReady:
                         presentation.button1.IsEnabled = true;
@@ -243,16 +239,25 @@ namespace Cryptool.CrypWin
                             string.Format(Properties.Resources.Update___0___ready_to_install_, updateName);
                         presentation.image1.Source = (ImageSource)presentation.FindResource("UpdateReady");
                         presentation.ChangelogBorder.Visibility = Visibility.Visible;
-                        if (changelog != null)
-                        {
-                            presentation.ReadAndFillRSSChangelog(changelog);
-                        }
+                        FillRSS(presentation);
                         break;
                 }
             }
             catch (Exception)
             {
                 GuiLogMessage("AutoUpdate: Error occured while trying to get update information.", NotificationLevel.Warning);
+            }
+        }
+
+        private void FillRSS(UpdaterPresentation presentation)
+        {
+            if (changelog != null && AssemblyHelper.BuildType == Ct2BuildType.Nightly)
+            {
+                presentation.ReadAndFillRSSChangelog(changelog);
+            }
+            else if (changelogText != null && (AssemblyHelper.BuildType == Ct2BuildType.Beta) || (AssemblyHelper.BuildType == Ct2BuildType.Stable))
+            {
+                presentation.FillChangelogText(changelogText);
             }
         }
 
@@ -315,7 +320,15 @@ namespace Cryptool.CrypWin
                 if (IsOnlineUpdateAvailable(downloadedVersion))
                 {
                     changelog = changelogTemplate.Replace("§", onlineUpdateVersion.Build.ToString());
-                    updateName = onlineUpdateVersions.Element(GetBuildTypeXmlString()).Element("name").Value;
+                    var versionElement = onlineUpdateVersions.Element(GetBuildTypeXmlString());
+                    if (versionElement.Element("name") != null)
+                    {
+                        updateName = versionElement.Element("name").Value;
+                    }
+                    if (versionElement.Element("changelog") != null)
+                    {
+                        changelogText = versionElement.Element("changelog").Value;
+                    }
 
                     if (File.Exists(FilePath))
                         File.Delete(FilePath);

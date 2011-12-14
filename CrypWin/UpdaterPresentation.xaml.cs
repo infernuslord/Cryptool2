@@ -75,8 +75,34 @@ namespace Cryptool.CrypWin
                 {
                     try
                     {
+                        ChangelogText.Visibility = Visibility.Collapsed;
+                        ChangelogList.Visibility = Visibility.Visible;
                         ChangelogList.DataContext = _rssItems;
                         rssFilled = true;
+                    }
+                    catch (Exception)
+                    {
+                        //Uncritical failure: Do nothing
+                    }
+                }, null);
+            }
+            catch (Exception)
+            {
+                //Uncritical failure: Do nothing
+            }
+        }
+
+        public void FillChangelogText(string changelogText)
+        {
+            try
+            {
+                Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                {
+                    try
+                    {
+                        ChangelogText.Visibility = Visibility.Visible;
+                        ChangelogList.Visibility = Visibility.Collapsed;
+                        ChangelogText.Html = changelogText;
                     }
                     catch (Exception)
                     {
