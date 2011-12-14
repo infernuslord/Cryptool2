@@ -27,7 +27,7 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace Cryptool.Plugins.Purple
 {
     [Author("Martin Jedrychowski, Martin Switek", "jedry@gmx.de, Martin_Switek@gmx.de", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo("Purple.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL","Purple/Images/Purple.PNG")]
+    [PluginInfo("Purple.Properties.Resources", false, "PluginCaption", "PluginTooltip", "PluginDescriptionURL","Purple/Images/Purple.PNG")]
     [ComponentCategory(ComponentCategory.CiphersClassic)]
     public class Purple : ICrypComponent
     {
@@ -36,6 +36,9 @@ namespace Cryptool.Plugins.Purple
       
         private readonly PurpleSettings settings = new PurpleSettings();
 
+        Boolean cipher = false;
+        Boolean ignore = false;
+        Boolean toLower = false;
         // Vokalarray zum Dechiffrieren
         int[,] sixes = new int[25, 6] {   
                                          {2,1,3,5,4,6},
@@ -148,8 +151,6 @@ namespace Cryptool.Plugins.Purple
                                         {13,2,17,7,14,8,3,9,20,5,16,10,6,1,12,15,11,18,4,19},
     };
 
-        String ersetztesAlphabet = "";
-
         #endregion
 
         #region Data Properties
@@ -160,18 +161,15 @@ namespace Cryptool.Plugins.Purple
         /// </summary>
 
         //  Pfeil in Programmiersprache Eingabe
-        [PropertyInfo(Direction.InputData, "TextCaption", "TextTooltip", true)]
+        [PropertyInfo(Direction.InputData, "TextCaption", "TextTooltip", null, true, false, QuickWatchFormat.Text, null)]
         public String Text
         {
             get;
             set;
         }
 
-
-
-
         // Pfeil in Programmiersprache Ausgabe
-        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", false)]
+        [PropertyInfo(Direction.OutputData, "OutputStringCaption", "OutputStringTooltip", "", false, false, QuickWatchFormat.Text, null)]
         public String OutputString
         {
             get;
@@ -201,21 +199,15 @@ namespace Cryptool.Plugins.Purple
 
         public void cipherVowel()
         {
-            // Erstelle Cipher Array
-
+            // Erstelle Cipher Array 
             int[,] sixesCiph = new int[25, 6];
-
             for (int i = 0; i < sixesCiph.Length; i++)
             {
                 for (int j = 0; i < sixesCiph.Length; i++)
                 {
-                    GuiLogMessage(sixes[i,j] + "" ,NotificationLevel.Info);
+                    GuiLogMessage("Cipher: "+ sixes[i,j] ,NotificationLevel.Info);
                 }
-
             }
-
-
-
         }
 
         /// <summary>
@@ -223,78 +215,378 @@ namespace Cryptool.Plugins.Purple
         /// </summary>
         public void Execute()
         {
-
-            //1 Schritt Substitutieren (Steckbrett)          
             ProgressChanged(0, 1);
+            //1 Schritt Substitutieren (Steckbrett)          
+           // ProgressChanged(0, 1);
             if (Text == null)
             {
                 GuiLogMessage("Input is not set. Execution is stopped!", NotificationLevel.Warning);
                 return;
             }
 
-            substitution();
+            switch (settings.Action)
+            {
+                case 0:
+                    cipher=true;
+                    break;
+                case 1:
+                    cipher=false;
+                    break;
+                default:
+                    break;
+            }
+
             decipher();
-           
             GuiLogMessage(OutputString, NotificationLevel.Info);
-          
-           
             // HOWTO: Make sure the progress bar is at maximum when your Execute() finished successfully.
             ProgressChanged(1, 1);
+            OnPropertyChanged("OutputString");
+            
         }
 
+       
 
-        public void substitution()
-        {
-            ersetztesAlphabet = "";
-
-            for (int i = 0; i < Text.Length; i++)
-            {
-                ersetztesAlphabet+= settings.Alphabet[settings.hardcodedAlphabet.IndexOf(Text[i])];                
-            }
-        }
-
+       
         public void decipher()
         {
             int StartSechsPos = settings.sechserPos;
             int StartzwanPos1 = settings.zwanzigerPos1;
             int StartzwanPos2 = settings.zwanzigerPos2;
             int StartzwanPos3 = settings.zwanzigerPos3;
-            GuiLogMessage("decipher", NotificationLevel.Error);
-            for (int i = 0; i < ersetztesAlphabet.Length; i++)
+            int langsam = 0;
+            int mittel = 0;
+            int schnell = 0;
+            string bewegung = settings.Motion.ToString();
+            string ersetztesAlphabet = "";
+            string tempOutput = "";
+
+
+            // Erste Twenties 
+            if (bewegung[0].Equals('1'))
             {
-                if (isVokal(ersetztesAlphabet[i]))
-                {
-                    OutputString += berechneSixer(StartSechsPos, ersetztesAlphabet[i]);
-                    GuiLogMessage("OutputString Vokal " + OutputString, NotificationLevel.Error);
-                }
-                else
-                {
-                    OutputString += berechneTwenties(StartzwanPos1, StartzwanPos2, StartzwanPos3, ersetztesAlphabet[i]);
-                }
-                
-                //Positions Wechsel
-                StartSechsPos = (StartSechsPos+1) % 25;
-                if (StartSechsPos == 24)
-                {
-                    StartzwanPos2 = (StartzwanPos2+1) % 25;
-                }
-                else
-                {
-                    StartzwanPos1 = (StartzwanPos1+1) % 25;
-                }
-
-                if (StartzwanPos2==24)
-                StartzwanPos3++;
-
-                GuiLogMessage("buchstabe " +i + " SixPos " + StartSechsPos, NotificationLevel.Error);
-                GuiLogMessage("buchstabe " + i + " StartzwanPos1 " + StartzwanPos1, NotificationLevel.Error);
-                GuiLogMessage("buchstabe " + i + " StartzwanPos2 " + StartzwanPos2, NotificationLevel.Error);
-                GuiLogMessage("buchstabe " + i + " StartzwanPos3 " + StartzwanPos3, NotificationLevel.Error);
-                 
-
+                schnell = StartzwanPos1;
+            }
+            if (bewegung[0].Equals('2'))
+            {
+                mittel = StartzwanPos1;
+            }
+            if (bewegung[0].Equals('3'))
+            {
+                langsam = StartzwanPos1;
+            }
+            // Zweite Twenties schnell
+            if (bewegung[1].Equals('1'))
+            {
+                schnell = StartzwanPos2;
+            }
+            if (bewegung[1].Equals('2'))
+            {
+                mittel = StartzwanPos2;
+            }
+            if (bewegung[1].Equals('3'))
+            {
+                langsam = StartzwanPos2;
+            }
+            // Zweite Twenties schnell
+            if (bewegung[2].Equals('1'))
+            {
+                schnell = StartzwanPos3;
+            }
+            if (bewegung[2].Equals('2'))
+            {
+                mittel = StartzwanPos3;
+            }
+            if (bewegung[2].Equals('3'))
+            {
+                langsam = StartzwanPos3;
             }
             
-            OnPropertyChanged("OutputString");
+            
+
+
+            Text = Text.Replace(" ", "");
+
+            if (!cipher) //Dechiffrieren
+                Text = Text.Replace(Environment.NewLine, "");
+
+            Text = Text.ToUpper();
+            Regex objNotNaturalPattern = new Regex("[A-Z]");
+            // Text ptions UnknownSymbolHandling:
+            // 0 Ignore
+            // 1 Remove
+            // 2 Replace with X
+            int g = 0;
+            for (int i = 0; i < Text.Length; i++)
+            {
+                if (settings.UnknownSymbolHandling == 0)
+                {
+                    // Bekannte zeichen A-Z
+                    if (objNotNaturalPattern.IsMatch(Text[i].ToString()))
+                    {
+                        
+                        ersetztesAlphabet += settings.Alphabet[settings.hardcodedAlphabet.IndexOf(Text[i])];
+                        if (isVokal(ersetztesAlphabet[g]))
+                            {
+                                tempOutput += berechneSixer(StartSechsPos, ersetztesAlphabet[g]);
+                                //GuiLogMessage("OutputString Vokal " + OutputString, NotificationLevel.Error);
+                            }
+                            else
+                            {
+                                tempOutput += berechneTwenties(StartzwanPos1, StartzwanPos2, StartzwanPos3, ersetztesAlphabet[g]);
+                            }
+
+                        //Positions Wechsel
+                        StartSechsPos = (StartSechsPos + 1) % 25;
+                        if (StartSechsPos == 24)
+                        {
+                            mittel = (mittel + 1) % 25;
+                        }
+                        else
+                        {
+                            schnell = (schnell + 1) % 25;
+                        }
+
+                        if (mittel == 24)
+                            langsam = (langsam + 1) % 25;
+
+                        // Erste Twenties 
+                        if (bewegung[0].Equals('1'))
+                        {
+                            StartzwanPos1 = schnell;
+                        }
+                        if (bewegung[0].Equals('2'))
+                        {
+                            StartzwanPos1 = schnell;
+                        }
+                        if (bewegung[0].Equals('3'))
+                        {
+                            StartzwanPos1 = langsam;
+                        }
+                        // Zweite Twenties schnell
+                        if (bewegung[1].Equals('1'))
+                        {
+                            StartzwanPos2 = schnell;
+                        }
+                        if (bewegung[1].Equals('2'))
+                        {
+                            StartzwanPos2 = mittel;
+                        }
+                        if (bewegung[1].Equals('3'))
+                        {
+                            StartzwanPos2 = langsam;
+                        }
+                        // Zweite Twenties schnell
+                        if (bewegung[2].Equals('1'))
+                        {
+                            StartzwanPos3 = schnell;
+                        }
+                        if (bewegung[2].Equals('2'))
+                        {
+                            StartzwanPos3 = mittel;
+                        }
+                        if (bewegung[2].Equals('3'))
+                        {
+                            StartzwanPos3 = langsam;
+                        }
+
+                        
+
+                           /*
+
+                            GuiLogMessage("schnell " + schnell +
+                                      "mittel " + mittel +
+                                      "langsam" + langsam, NotificationLevel.Error);*/
+
+                            g++;
+                        }
+                    // Unbekannte Zeichen Ignorieren
+                    else
+                    {
+                        tempOutput += Text[i];
+                    }
+                }
+                // Zeichen entfernen
+                if (settings.UnknownSymbolHandling == 1)
+                {
+                    if (objNotNaturalPattern.IsMatch(Text[i].ToString()))
+                    {
+                        ersetztesAlphabet += settings.Alphabet[settings.hardcodedAlphabet.IndexOf(Text[i])];
+                        if (isVokal(ersetztesAlphabet[g]))
+                        {
+                            tempOutput += berechneSixer(StartSechsPos, ersetztesAlphabet[g]);
+                            //GuiLogMessage("OutputString Vokal " + OutputString, NotificationLevel.Error);
+                        }
+                        else
+                        {
+                            tempOutput += berechneTwenties(StartzwanPos1, StartzwanPos2, StartzwanPos3, ersetztesAlphabet[g]);
+                        }
+                        //Positions Wechsel
+                        StartSechsPos = (StartSechsPos + 1) % 25;
+                        if (StartSechsPos == 24)
+                        {
+                            mittel = (mittel + 1) % 25;
+                        }
+                        else
+                        {
+                            schnell = (schnell + 1) % 25;
+                        }
+
+                        if (mittel == 24)
+                            langsam = (langsam + 1) % 25;
+
+                        // Erste Twenties 
+                        if (bewegung[0].Equals('1'))
+                        {
+                            StartzwanPos1 = schnell;
+                        }
+                        if (bewegung[0].Equals('2'))
+                        {
+                            StartzwanPos1 = schnell;
+                        }
+                        if (bewegung[0].Equals('3'))
+                        {
+                            StartzwanPos1 = langsam;
+                        }
+                        // Zweite Twenties schnell
+                        if (bewegung[1].Equals('1'))
+                        {
+                            StartzwanPos2 = schnell;
+                        }
+                        if (bewegung[1].Equals('2'))
+                        {
+                            StartzwanPos2 = mittel;
+                        }
+                        if (bewegung[1].Equals('3'))
+                        {
+                            StartzwanPos2 = langsam;
+                        }
+                        // Zweite Twenties schnell
+                        if (bewegung[2].Equals('1'))
+                        {
+                            StartzwanPos3 = schnell;
+                        }
+                        if (bewegung[2].Equals('2'))
+                        {
+                            StartzwanPos3 = mittel;
+                        }
+                        if (bewegung[2].Equals('3'))
+                        {
+                            StartzwanPos3 = langsam;
+                        }
+                        g++;
+                    }
+                }
+                else
+                {
+                    tempOutput += "";
+                }
+
+
+                if (settings.UnknownSymbolHandling == 2)
+                {
+                    if (objNotNaturalPattern.IsMatch(Text[i].ToString()))
+                    {
+                        ersetztesAlphabet += settings.Alphabet[settings.hardcodedAlphabet.IndexOf(Text[i])];
+                        if (isVokal(ersetztesAlphabet[g]))
+                        {
+                            tempOutput += berechneSixer(StartSechsPos, ersetztesAlphabet[g]);
+                            //GuiLogMessage("OutputString Vokal " + OutputString, NotificationLevel.Error);
+                        }
+                        else
+                        {
+                            tempOutput += berechneTwenties(StartzwanPos1, StartzwanPos2, StartzwanPos3, ersetztesAlphabet[g]);
+                        }
+                        //Positions Wechsel
+
+                        //Positions Wechsel
+                        StartSechsPos = (StartSechsPos + 1) % 25;
+                        if (StartSechsPos == 24)
+                        {
+                            mittel = (mittel + 1) % 25;
+                        }
+                        else
+                        {
+                            schnell = (schnell + 1) % 25;
+                        }
+
+                        if (mittel == 24)
+                            langsam = (langsam + 1) % 25;
+
+                        // Erste Twenties 
+                        if (bewegung[0].Equals('1'))
+                        {
+                            StartzwanPos1 = schnell;
+                        }
+                        if (bewegung[0].Equals('2'))
+                        {
+                            StartzwanPos1 = schnell;
+                        }
+                        if (bewegung[0].Equals('3'))
+                        {
+                            StartzwanPos1 = langsam;
+                        }
+                        // Zweite Twenties schnell
+                        if (bewegung[1].Equals('1'))
+                        {
+                            StartzwanPos2 = schnell;
+                        }
+                        if (bewegung[1].Equals('2'))
+                        {
+                            StartzwanPos2 = mittel;
+                        }
+                        if (bewegung[1].Equals('3'))
+                        {
+                            StartzwanPos2 = langsam;
+                        }
+                        // Zweite Twenties schnell
+                        if (bewegung[2].Equals('1'))
+                        {
+                            StartzwanPos3 = schnell;
+                        }
+                        if (bewegung[2].Equals('2'))
+                        {
+                            StartzwanPos3 = mittel;
+                        }
+                        if (bewegung[2].Equals('3'))
+                        {
+                            StartzwanPos3 = langsam;
+                        }
+
+
+                        g++;
+                    }
+                    else
+                    {
+                        tempOutput += "X";
+                    }
+ 
+                }
+                //CaseHandling
+                if (settings.CaseHandling == 0)
+                {
+                    tempOutput = tempOutput.ToUpper();
+                }
+                if (settings.CaseHandling == 2)
+                {
+                    tempOutput = tempOutput.ToLower();
+                }
+            }
+
+            OutputString = tempOutput;
+
+            if (cipher)
+            {   // In fünfergruppen ausgeben
+                for (int i = 5; i < OutputString.Length; i = i + 6)
+                {
+                    OutputString = OutputString.Insert(i, " ");
+                }
+            }
+            else // decipher
+            {
+                //OutputString = OutputString.Replace("Z", " ");
+            }
+
+
         }
 
         public Boolean isVokal(char i){
@@ -307,29 +599,116 @@ namespace Cryptool.Plugins.Purple
         public String berechneSixer(int Pos,char Eingabe)
         {
             String vokale = "AEIOUY";
-            char c = vokale[sixes[Pos, vokale.IndexOf(Eingabe)]-1];
-          //  GuiLogMessage("c =  " + c + " sixes[Pos, vokale.IndexOf(Eingabe)] " + sixes[Pos, vokale.IndexOf(Eingabe)], NotificationLevel.Error);
+            // Tabelle für Verschlüsselung erstellen
+            // Die Entschlüsselungsstabelle wird verändert aus dem Sixties 6,3,5,2,1,4 wird 5,4,2,6,3,1
+            int[,] arr=new int[25,6];
+            for (int i = 0; i < sixes.GetLength(0); i++)
+            {
+                for (int j = 0; j < sixes.GetLength(1); j++)
+                {
+                    arr[i, j] = findArray(this.sixes,i,j+1);
+                }
+            }
+            char c=' ';
+            if (!cipher)
+            {
+                c = vokale[sixes[Pos, vokale.IndexOf(Eingabe)] - 1];
+                //GuiLogMessage("decipher", NotificationLevel.Error);
+            }
+            else
+            {
+                c = vokale[arr[Pos, vokale.IndexOf(Eingabe)] - 1];
+                //GuiLogMessage("cipher", NotificationLevel.Error);
+            }
             return c+"";
         }
 
+        public int findArray(int[,]a,int z,int s) {
+
+            for (int i = z; i < a.GetLength(0); i++)
+            {
+                for (int j = 0; j < a.GetLength(1); j++)
+                {
+                    if (s==a[i,j])
+                    {
+                        //GuiLogMessage("j " + (j+1), NotificationLevel.Error);
+                        return j+1;
+                    }
+                }
+            }
+           return 0;
+        }
+
+        public int findArray2(int[,] a, int z, int s)
+        {
+
+            for (int i = z; i < a.GetLength(0); i++)
+            {
+                for (int j = 0; j < a.GetLength(1); j++)
+                {
+                    if (s == a[i, j])
+                    {
+                        //GuiLogMessage("j " + (j+1), NotificationLevel.Error);
+                        return j + 1;
+                    }
+                }
+            }
+
+            return 0;
+        }
+     
         public String berechneTwenties(int Pos1,int Pos2,int Pos3,char Eingabe)
         {
             string twenties = "BCDFGHJKLMNPQRSTVWXZ";
-            //GuiLogMessage("twenties.IndexOf(Eingabe) " + twenties.IndexOf(Eingabe) +" eingabe "+Eingabe  , NotificationLevel.Error);
-            int pos = twenties3[Pos3, twenties.IndexOf(Eingabe)];
-            //GuiLogMessage("Pos " + pos, NotificationLevel.Error);
-            pos=       twenties2[Pos2, pos-1];
-            //GuiLogMessage("Pos " + pos, NotificationLevel.Error);
-            pos = twenties1[Pos1, pos-1];
-            //GuiLogMessage("Pos " + pos, NotificationLevel.Error);
-            char c = (char)twenties[pos-1];
+
+
+            int[,] arr1 = new int[25, 20];
+            int[,] arr2 = new int[25, 20];
+            int[,] arr3 = new int[25, 20];
+            for (int i = 0; i < arr1.GetLength(0); i++)
+            {
+                for (int j = 0; j < arr1.GetLength(1); j++)
+                {
+                    arr1[i, j] = findArray2(this.twenties1,i, j + 1);
+                    arr2[i, j] = findArray2(this.twenties2,i, j + 1);
+                    arr3[i, j] = findArray2(this.twenties3,i, j + 1);
+                }
+            }
+            char c=' ';
+            if (!cipher)
+            {
+                //GuiLogMessage("decipher", NotificationLevel.Error);
+                //GuiLogMessage("twenties.IndexOf(Eingabe) " + twenties.IndexOf(Eingabe) +" eingabe "+Eingabe  , NotificationLevel.Error);
+                int pos = twenties3[Pos3, twenties.IndexOf(Eingabe)];
+                //GuiLogMessage("Pos " + pos, NotificationLevel.Error);
+                pos = twenties2[Pos2, pos - 1];
+                //GuiLogMessage("Pos " + pos, NotificationLevel.Error);
+                pos = twenties1[Pos1, pos - 1];
+                //GuiLogMessage("Pos " + pos, NotificationLevel.Error);
+                c = (char)twenties[pos - 1];
+            }
+            else
+            {
+                //GuiLogMessage("cipher", NotificationLevel.Error);
+               // GuiLogMessage("twenties.IndexOf(Eingabe) " + twenties.IndexOf(Eingabe) +" eingabe "+Eingabe  , NotificationLevel.Error);
+                int pos = arr1[Pos1, twenties.IndexOf(Eingabe)];
+                //GuiLogMessage("Pos " + pos, NotificationLevel.Error);
+                pos = arr2[Pos2, pos - 1];
+                //GuiLogMessage("Pos " + pos, NotificationLevel.Error);
+                pos = arr3[Pos3, pos - 1];
+                //GuiLogMessage("Pos " + pos, NotificationLevel.Error);
+                c = (char)twenties[pos - 1];
+            }
             return c + "";
         }
 
 
         public void PostExecution()
         {
-            OutputString = "";
+        }
+
+        public void Pause()
+        {
         }
 
         public void Stop()
