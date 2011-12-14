@@ -14,6 +14,8 @@ using System.Windows.Shapes;
 using System.Threading;
 using System.Xml.Linq;
 using System.Windows.Threading;
+using Cryptool.PluginBase.Attributes;
+using Cryptool.PluginBase.Miscellaneous;
 
 namespace Cryptool.CrypWin
 {
@@ -34,6 +36,17 @@ namespace Cryptool.CrypWin
         {
             InitializeComponent();
             Tag = FindResource("NoUpdate");
+
+            if (AssemblyHelper.BuildType == Ct2BuildType.Nightly)
+            {
+                ChangelogText.Visibility = Visibility.Collapsed;
+                ChangelogList.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                ChangelogText.Visibility = Visibility.Visible;
+                ChangelogList.Visibility = Visibility.Collapsed;
+            }
         }
 
         public static UpdaterPresentation GetSingleton()
@@ -75,8 +88,6 @@ namespace Cryptool.CrypWin
                 {
                     try
                     {
-                        ChangelogText.Visibility = Visibility.Collapsed;
-                        ChangelogList.Visibility = Visibility.Visible;
                         ChangelogList.DataContext = _rssItems;
                         rssFilled = true;
                     }
@@ -100,8 +111,6 @@ namespace Cryptool.CrypWin
                 {
                     try
                     {
-                        ChangelogText.Visibility = Visibility.Visible;
-                        ChangelogList.Visibility = Visibility.Collapsed;
                         ChangelogText.Html = changelogText;
                     }
                     catch (Exception)
