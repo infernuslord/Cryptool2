@@ -77,8 +77,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Internet_frame_generator", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PKCS5", "CrypPlugins\PKCS5\PKCS5.csproj", "{80200C92-77FC-4508-B520-D51530BE2608}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevTestMethods", "DevTestMethods\DevTestMethods.csproj", "{F4CCBE43-F19E-49A1-982E-B66919F5D701}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrequencyTest", "CrypPlugins\FrequencyTest\FrequencyTest.csproj", "{BBE9497C-4AE2-4493-A611-DEBB37DFBBC8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FriedmanTest", "CrypPlugins\FriedmanTest\FriedmanTest.csproj", "{CA939946-8E20-40F0-946A-8C637B0BB593}"
@@ -282,6 +280,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StringDecoder", "CrypPlugin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StringEncoder", "CrypPlugins\StringEncoder\StringEncoder.csproj", "{98B733EB-58B4-4FC3-B2A7-FF1E9A75CF25}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{F4CCBE43-F19E-49A1-982E-B66919F5D701}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -436,10 +436,6 @@ Global
 		{80200C92-77FC-4508-B520-D51530BE2608}.Debug|x86.Build.0 = Debug|x86
 		{80200C92-77FC-4508-B520-D51530BE2608}.Release|x86.ActiveCfg = Release|x86
 		{80200C92-77FC-4508-B520-D51530BE2608}.Release|x86.Build.0 = Release|x86
-		{F4CCBE43-F19E-49A1-982E-B66919F5D701}.Debug|x86.ActiveCfg = Debug|x86
-		{F4CCBE43-F19E-49A1-982E-B66919F5D701}.Debug|x86.Build.0 = Debug|x86
-		{F4CCBE43-F19E-49A1-982E-B66919F5D701}.Release|x86.ActiveCfg = Release|x86
-		{F4CCBE43-F19E-49A1-982E-B66919F5D701}.Release|x86.Build.0 = Release|x86
 		{BBE9497C-4AE2-4493-A611-DEBB37DFBBC8}.Debug|x86.ActiveCfg = Debug|x86
 		{BBE9497C-4AE2-4493-A611-DEBB37DFBBC8}.Debug|x86.Build.0 = Debug|x86
 		{BBE9497C-4AE2-4493-A611-DEBB37DFBBC8}.Release|x86.ActiveCfg = Release|x86
@@ -828,6 +824,10 @@ Global
 		{98B733EB-58B4-4FC3-B2A7-FF1E9A75CF25}.Debug|x86.Build.0 = Debug|x86
 		{98B733EB-58B4-4FC3-B2A7-FF1E9A75CF25}.Release|x86.ActiveCfg = Release|x86
 		{98B733EB-58B4-4FC3-B2A7-FF1E9A75CF25}.Release|x86.Build.0 = Release|x86
+		{F4CCBE43-F19E-49A1-982E-B66919F5D701}.Debug|x86.ActiveCfg = Debug|x86
+		{F4CCBE43-F19E-49A1-982E-B66919F5D701}.Debug|x86.Build.0 = Debug|x86
+		{F4CCBE43-F19E-49A1-982E-B66919F5D701}.Release|x86.ActiveCfg = Release|x86
+		{F4CCBE43-F19E-49A1-982E-B66919F5D701}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
