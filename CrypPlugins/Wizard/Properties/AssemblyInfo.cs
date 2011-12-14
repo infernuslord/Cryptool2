@@ -11,7 +11,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCompany("CT Team")]
 [assembly: AssemblyProduct("Wizard")]
 [assembly: AssemblyCopyright("Copyright © 2010")]
-[assembly: InternalsVisibleTo("Tests")]
+[assembly: InternalsVisibleTo("UnitTests")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
