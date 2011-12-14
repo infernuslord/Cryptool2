@@ -51,8 +51,8 @@ namespace WorkspaceManager.Model
 
         #region public members
 
-        private List<KeyValuePair<Point, Point>> pointList = null;
-        public List<KeyValuePair<Point, Point>> PointList
+        private List<Point> pointList;
+        public List<Point> PointList
         {
             get { return pointList; }
             set { pointList = value; }
