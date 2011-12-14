@@ -20,6 +20,10 @@ namespace WindowsFormsApplication1
         //Dictionary<string, TranslatedResource> theResources = new Dictionary<string,TranslatedResource>();
         AllResources allres = new AllResources();
 
+        string[] displayedLanguages = { "en", "de" };
+        Dictionary<string, string> LongLanguage = new Dictionary<string, string> { {"en","Englisch"}, {"de","Deutsch"} };
+
+
         public CT2Translate()
         {
             InitializeComponent();
@@ -28,104 +32,52 @@ namespace WindowsFormsApplication1
             lvwColumnSorter = new ListViewColumnSorter();
             listView1.ListViewItemSorter = lvwColumnSorter;
             listView1.Columns.Clear();
-            listView1.Columns.Add(new ColHeader("File", 10, HorizontalAlignment.Left, true));
-            listView1.Columns.Add(new ColHeader("Key", 60, HorizontalAlignment.Left, true));
-            listView1.Columns.Add(new ColHeader("Englisch", 110, HorizontalAlignment.Left, true));
-            listView1.Columns.Add(new ColHeader("Deutsch", 110, HorizontalAlignment.Left, true));
+            listView1.Columns.Add(new ColHeader("Resource", 5, HorizontalAlignment.Left, true));
+            listView1.Columns.Add(new ColHeader("Key", 100, HorizontalAlignment.Left, true));
+            foreach( string lang in displayedLanguages )
+                listView1.Columns.Add(new ColHeader(LongLanguage[lang], 160, HorizontalAlignment.Left, true));
+            listView1.HideSelection = false;
 
-            textBox1.Text = Properties.Settings.Default.Path;
+            fileTree.HideSelection = false;
+
+            ToolTip toolTip1 = new ToolTip();
+            toolTip1.ShowAlways = true;
+
+            toolTip1.SetToolTip(prevmissButton, "go to previous missing item");
+            toolTip1.SetToolTip(nextmissButton, "go to next missing item");
+            toolTip1.SetToolTip(ClearSearchButton, "clear filter");
+            toolTip1.SetToolTip(SearchButton, "apply filter");
+
+            //pathTextBox.Text = Properties.Settings.Default.Path;
         }
 
-        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        private void recursiveDirectoryScanToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            OpenFileDialog dlg = new OpenFileDialog();
-            dlg.Title = "Open Cryptool Plugin Resource";
-            //dlg.Filter = "Crytool Plugin Resource (*.resx)|*.resx";
-            if (dlg.ShowDialog() == DialogResult.OK)
-            {
-                toolStripStatusLabel1.Text = dlg.FileName;
-                Properties.Settings.Default.Save();
-            }
-        }
+            Cursor.Current = Cursors.WaitCursor;
 
-        private void PathButton_Click(object sender, EventArgs e)
-        {
             FolderBrowserDialog objDialog = new FolderBrowserDialog();
             objDialog.Description = "Startpfad wählen";
-            objDialog.SelectedPath = textBox1.Text;
+            objDialog.SelectedPath = Properties.Settings.Default.Path;
             DialogResult objResult = objDialog.ShowDialog(this);
-            //if (objResult == DialogResult.OK)
-            //    MessageBox.Show("Neuer Pfad : " + objDialog.SelectedPath);
-            //else
-            //    MessageBox.Show("Abbruch gewählt!");
+
             if (objResult == DialogResult.OK)
             {
-                textBox1.Text = objDialog.SelectedPath;
-            }
-        }
+                Properties.Settings.Default.Path = objDialog.SelectedPath;
+                Properties.Settings.Default.Save();
 
-        private void SearchResourcesButton_Click(object sender, EventArgs e)
-        {
-            logBox.Text = "";
-            listView1.Items.Clear();
-            treeView1.Nodes.Clear();
+                allres.ScanDir(objDialog.SelectedPath);
 
-            Cursor.Current = Cursors.WaitCursor;
-            TreeNode t = new TreeNode( textBox1.Text );
-            int n = DirSearch( textBox1.Text, t );
-            if( n>0 ) treeView1.Nodes.Add(t);
+                fileTree.Nodes.Clear();
+                fileTree.Nodes.Add(allres.GetTree());
+
+                UpdateList();
+
+                basepathTextBox.Text = allres.basepath;
+
+                toolStripStatusLabel1.Text = allres.Resources.Count + " resources found";
+            } 
+            
             Cursor.Current = Cursors.Default;
-
-            toolStripStatusLabel1.Text = n + " files found";
-        }
-
-        private void AddAllResourcesButton_Click(object sender, EventArgs e)
-        {
-            Cursor.Current = Cursors.WaitCursor;
-
-            allres.Clear();
-            allres.Add(allResources.ToArray());
-
-            listView1.Items.Clear();
-            listViewAdd();
-
-            Cursor.Current = Cursors.Default;
-        }
-
-        int DirSearch(string sDir, TreeNode p)
-        {
-            int cnt=0;
-
-            try
-            {
-                foreach (string f in Directory.GetFiles(sDir, "*.resx"))
-                {
-                    TreeNode t = p.Nodes.Add(f.Substring(f.LastIndexOf('\\') + 1));
-                    t.Tag = f;
-                    t.ToolTipText = f;
-                    allResources.Add(f);
-                    //allres.Add(f);
-                    
-                    cnt++;
-                }
-
-                foreach (string d in Directory.GetDirectories(sDir))
-                {
-                    TreeNode t = new TreeNode(d.Substring(d.LastIndexOf('\\') + 1));
-                    int found = DirSearch(d, t);
-                    if (found > 0)
-                    {
-                        p.Nodes.Add(t);
-                        cnt += found;
-                    }
-                }
-            }
-            catch (System.Exception excpt)
-            {
-                Console.WriteLine(excpt.Message);
-            }
-
-            return cnt;
         }
 
         private void listView1_SelectedIndexChanged(object sender, EventArgs e)
@@ -133,39 +85,57 @@ namespace WindowsFormsApplication1
             if ( listView1.SelectedItems.Count>0 ) {
                 fileTextBox.Text = listView1.SelectedItems[0].SubItems[0].Text;
                 keyTextBox.Text = listView1.SelectedItems[0].SubItems[1].Text;
-                richTextBox2.Text = listView1.SelectedItems[0].SubItems[2].Text;
-                richTextBox3.Text = listView1.SelectedItems[0].SubItems[3].Text;
+                lang1TextBox.Text = listView1.SelectedItems[0].SubItems[displayedLanguages[0]].Text;
+                if( displayedLanguages.Count()>1 )
+                    lang2TextBox.Text = listView1.SelectedItems[0].SubItems[displayedLanguages[1]].Text;
+            }
+        }
+
+        private void UpdateItem(ListViewItem item)
+        {
+            TranslatedKey tk = (TranslatedKey)item.Tag;
+
+            foreach (string lang in displayedLanguages)
+            {
+                if (tk.Translations.ContainsKey(lang)) {
+                    item.SubItems[lang].BackColor = Color.Transparent;
+                    item.SubItems[lang].Text = tk.Translations[lang];
+                } else {
+                    item.SubItems[lang].BackColor = Color.LightSalmon;
+                    item.SubItems[lang].Text = "";
+                }
             }
         }
 
         private void listViewAdd(string fname, TranslatedResource dict, string filter = ".*")
         {
-            string lang1 = "en";
-            string lang2 = "de";
-            string emptystring = "-";
             List<ListViewItem> lvi = new List<ListViewItem>();
 
             try
             {
                 foreach (KeyValuePair<string, TranslatedKey> pair in dict.TranslatedKey)
                 {
-                    bool matched = Regex.Match(pair.Key.ToString(), filter).Success;
-                    if (pair.Value.Translations.ContainsKey(lang1))
-                        matched |= Regex.Match(pair.Value.Translations[lang1].ToString(), filter).Success;
-                    if (pair.Value.Translations.ContainsKey(lang2))
-                        matched |= Regex.Match(pair.Value.Translations[lang2].ToString(), filter).Success;
-                    if (!matched) continue;
+                    RegexOptions options = (searchcaseBox.Checked) ? RegexOptions.None : RegexOptions.IgnoreCase;
 
-                    ListViewItem item = new ListViewItem(new string[] {
-                        fname,
-                        pair.Key.ToString(),
-                        pair.Value.Translations.ContainsKey(lang1) ? pair.Value.Translations[lang1] : emptystring,
-                        pair.Value.Translations.ContainsKey(lang2) ? pair.Value.Translations[lang2] : emptystring
-                    });
+                    bool matched = Regex.Match(pair.Key.ToString(), filter, options).Success;
+
+                    foreach (string lang in displayedLanguages)
+                        if (pair.Value.Translations.ContainsKey(lang))
+                            matched |= Regex.Match(pair.Value.Translations[lang].ToString(), filter, options).Success;
+
+                    if (!matched) continue;
+                    
+                    // populate listview
+                    ListViewItem item = new ListViewItem( new string[] { fname, pair.Key.ToString() } );
+                    foreach (string lang in displayedLanguages)
+                    {
+                        ListViewItem.ListViewSubItem subitem = item.SubItems.Add("");
+                        subitem.Name = lang;
+                    }
+
+                    item.Tag = pair.Value;  // speichere Zeiger auf TranslatedKey im Item-Tag
                     item.UseItemStyleForSubItems = false;
-                    if (!pair.Value.Translations.ContainsKey(lang1)) item.SubItems[2].BackColor = Color.LightSalmon;
-                    if (!pair.Value.Translations.ContainsKey(lang2)) item.SubItems[3].BackColor = Color.LightSalmon;
-                    //listView1.Items.Add(item);
+                    UpdateItem(item);
                     lvi.Add(item);
                 }
                 listView1.Items.AddRange(lvi.ToArray());    // viel schneller als einzelnes Hinzufügen!
@@ -177,38 +147,110 @@ namespace WindowsFormsApplication1
 
         private void listViewAdd(string filter = ".*")
         {
-            //foreach (string basename in theResources.Keys)
-                //listViewAdd(basename, theResources[basename], filter);
+            listViewAdd(allres.Resources.Keys.ToArray(), filter);
+        }
+
+        private void listViewAdd(string[] paths, string filter = ".*")
+        {
             listView1.BeginUpdate();
-            foreach (string basename in allres.Resources.Keys)
-                listViewAdd(basename, allres.Resources[basename], filter);
+            foreach (string path in paths)
+                listViewAdd(path, allres.Resources[path], filter);
             listView1.EndUpdate();
-            toolStripStatusLabel1.Text = listView1.Items.Count + " items displayed";
+            //toolStripStatusLabel1.Text = listView1.Items.Count + " items displayed";
+            textBox1.Text = String.Format("{0} item{1} displayed{2}", 
+                listView1.Items.Count,
+                (listView1.Items.Count==1) ? "" : "s",
+                (filter==".*" || filter=="") ? "" : " (filtered)"
+                );
+            textBox2.Text = countEmptyKeys().ToString();
+        }
+
+        private int countEmptyKeys()
+        {
+            int count = 0;
+
+            foreach( ListViewItem item in listView1.Items ) {
+                TranslatedKey tk = (TranslatedKey)item.Tag;
+                foreach (string lang in displayedLanguages)
+                {
+                    if (!tk.Translations.ContainsKey(lang))
+                    {
+                        count++;
+                    }
+                }
+            }
+
+            return count;
         }
 
 
-        private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
+        private void nextmissButton_Click(object sender, EventArgs e)
         {
-            if (treeView1.SelectedNode.Nodes.Count == 0)
+            if (listView1.Items.Count == 0) return;
+            if (listView1.SelectedItems.Count == 0)
+                listView1.Items[0].Selected = true;
+            var i = listView1.SelectedIndices[0];
+            for (int j = 0; j < listView1.Items.Count; j++)
             {
-                string sel = treeView1.SelectedNode.Tag.ToString();
-                toolStripStatusLabel1.Text = sel;
-
-                allres.Clear();
-                allres.Add(sel);
-                
-                listView1.Items.Clear();
-                listViewAdd();
-
-                if (listView1.Items.Count > 0)
-                    listView1.SelectedIndices.Add(0);
+                ListViewItem item = listView1.Items[(i + 1 + j) % listView1.Items.Count];
+                foreach (string lang in displayedLanguages)
+                    if (!((TranslatedKey)item.Tag).Translations.ContainsKey(lang))
+                    {
+                        listView1.SelectedItems.Clear();
+                        item.Selected = true;
+                        item.EnsureVisible();
+                        listView1.Select();
+                        return;
+                    }
             }
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
+        private void prevmissButton_Click(object sender, EventArgs e)
         {
-            Properties.Settings.Default.Path = textBox1.Text;
-            Properties.Settings.Default.Save();
+            if (listView1.Items.Count == 0) return;
+            if (listView1.SelectedItems.Count == 0)
+                listView1.Items[0].Selected = true;
+            var i = listView1.SelectedIndices[0];
+            for (int j = 0; j < listView1.Items.Count; j++)
+            {
+                ListViewItem item = listView1.Items[(i - 1 - j + listView1.Items.Count) % listView1.Items.Count];
+                foreach (string lang in displayedLanguages)
+                    if (!((TranslatedKey)item.Tag).Translations.ContainsKey(lang))
+                    {
+                        listView1.SelectedItems.Clear();
+                        item.Selected = true;
+                        item.EnsureVisible();
+                        listView1.Select();
+                        return;
+                    }
+            }
+        }
+
+        private void UpdateList()
+        {
+            Cursor.Current = Cursors.WaitCursor;
+
+            if( fileTree.Nodes.Count==0 ) return;
+
+            if (fileTree.SelectedNode == null)
+                fileTree.SelectedNode = fileTree.Nodes[0];
+
+            string[] files = allres.MatchFiles((string)fileTree.SelectedNode.Tag);
+
+            listView1.Items.Clear();
+            listViewAdd(files, filterBox.Text);
+
+            if (listView1.Items.Count > 0)
+                listView1.SelectedIndices.Add(0);
+
+            nextmissButton.Enabled = prevmissButton.Enabled = (listView1.Items.Count > 0);
+
+            Cursor.Current = Cursors.Default;
+        }
+
+        private void fileTree_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            UpdateList();
         }
 
         private void listView1_ColumnClick(object sender, ColumnClickEventArgs e)
@@ -233,45 +275,98 @@ namespace WindowsFormsApplication1
 
         private void SearchButton_Click(object sender, EventArgs e)
         {
+            UpdateList();
+        }
+
+        private void filterBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+                SearchButton_Click(sender, e);
+        }
+
+        private void ClearSearchButton_Click(object sender, EventArgs e)
+        {
+            if (filterBox.Text != "")
+            {
+                filterBox.Text = "";
+                SearchButton_Click(sender, e);
+            }
+        }
+
+        //private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        //{
+        //    if(fileTree.SelectedNode==null) return;
+        //    //if( listView1.SelectedItems.Count==0 ) return;
+        //    //string filename = listView1.SelectedItems[0].SubItems[0].Text;
+        //    string filename = fileTree.SelectedNode.FullPath;
+        //    logBox.Text += "Saving " + filename + "\n";
+        //    //SaveResourceFile(listView1.SelectedItems[0].SubItems[0].Text);
+        //    string basename = AllResources.getKey(filename);
+        //    string culture = AllResources.getCulture(filename);
+        //    if( allres.Resources.ContainsKey(basename) )
+        //        allres.Resources[basename].SaveAs(culture, "test");
+        //}
+
+        private string GetOpenFileName(string title)
+        {
+            OpenFileDialog dlg = new OpenFileDialog();
+            //dlg.Title = "Open Cryptool Merged Resource";            
+            dlg.Title = title;
+            dlg.Filter = "Merged Resource (*.xml)|*.xml";
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                return dlg.FileName;
+                //toolStripStatusLabel1.Text = dlg.FileName;
+                //Properties.Settings.Default.Save();
+            }
+
+            return null;
+        }
+
+        private string GetSaveFileName(string title)
+        {
+            SaveFileDialog dlg = new SaveFileDialog();
+            //dlg.Title = "Open Cryptool Merged Resource";            
+            dlg.Title = title;
+            dlg.Filter = "Merged Resource (*.xml)|*.xml";
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                return dlg.FileName;
+                //toolStripStatusLabel1.Text = dlg.FileName;
+                //Properties.Settings.Default.Save();
+            }
+
+            return null;
+        }
+
+        private void saveMergedResourcesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //string fname = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\CT2resources.xml";
+            string fname = GetSaveFileName("Save Cryptool Merged Resource");
+
             Cursor.Current = Cursors.WaitCursor;
-            listView1.Items.Clear();
-            listViewAdd(filterBox.Text);
+            if (fname != null) allres.SaveXML(fname);
             Cursor.Current = Cursors.Default;
         }
 
-        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        private void loadMergedResourcesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if(treeView1.SelectedNode==null) return;
-            //if( listView1.SelectedItems.Count==0 ) return;
-            //string filename = listView1.SelectedItems[0].SubItems[0].Text;
-            string filename = treeView1.SelectedNode.FullPath;
-            logBox.Text += "Saving " + filename + "\n";
-            //SaveResourceFile(listView1.SelectedItems[0].SubItems[0].Text);
-            string basename = AllResources.getBasename(filename);
-            string culture = AllResources.getCulture(filename);
-            if( allres.Resources.ContainsKey(basename) )
-                allres.Resources[basename].SaveAs(culture, "test");
-        }
+            //string fname = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\CT2resources.xml";
+            string fname = GetOpenFileName("Load Cryptool Merged Resource");
+            if (fname == null) return;
 
-        private void saveInOneFileToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            string fname = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\CT2resources.xml";
-            allres.SaveXML(fname, textBox1.Text);
-        }
-
-        private void loadFromOneFileToolStripMenuItem_Click(object sender, EventArgs e)
-        {
             Cursor.Current = Cursors.WaitCursor;
-
-            string fname = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\CT2resources.xml";
 
             try
             {
                 allres.Clear();
                 allres.LoadXML(fname);
+                basepathTextBox.Text = allres.basepath;
 
-                listView1.Items.Clear();
-                listViewAdd();
+                fileTree.Nodes.Clear();
+                fileTree.Nodes.Add(allres.GetTree());
+
+                UpdateList();
             }
             catch (Exception ex)
             {
@@ -281,16 +376,29 @@ namespace WindowsFormsApplication1
             Cursor.Current = Cursors.Default;
         }
 
-        private void ClearSearchButton_Click(object sender, EventArgs e)
-        {
-            filterBox.Text = "";
-            SearchButton_Click(sender, e);
-        }
-
         private void saveGermanAsTxtToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             allres.SaveText(path+"\\CT2german.txt", "de");
+        }
+
+        private void lang2TextBox_Leave(object sender, EventArgs e)
+        {
+            if (listView1.SelectedItems.Count <= 0) return;
+
+            string lang = "de";
+            ListViewItem item = listView1.SelectedItems[0];
+            TranslatedKey tk = (TranslatedKey)item.Tag;
+            if( !tk.Translations.ContainsKey(lang) ) tk.Add(lang, "");
+            tk.Translations[lang] = lang2TextBox.Text;
+            item.SubItems[lang].Text = lang2TextBox.Text;
+            UpdateItem(item);
+            textBox2.Text = countEmptyKeys().ToString();
+        }
+
+        private void saveToBasepathToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            allres.Update();
         }
 
     }
