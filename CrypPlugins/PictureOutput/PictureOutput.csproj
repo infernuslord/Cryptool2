@@ -49,8 +49,8 @@
     <Compile Include="PictureOutputPresentation.xaml.cs">
       <DependentUpon>PictureOutputPresentation.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Properties\Resources.de-DE.Designer.cs">
-      <DependentUpon>Resources.de-DE.resx</DependentUpon>
+    <Compile Include="Properties\Resources.de.Designer.cs">
+      <DependentUpon>Resources.de.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
@@ -73,9 +73,9 @@
     <Resource Include="icon.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.de-DE.resx">
+    <EmbeddedResource Include="Properties\Resources.de.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.de-DE.Designer.cs</LastGenOutput>
+      <LastGenOutput>Resources.de.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

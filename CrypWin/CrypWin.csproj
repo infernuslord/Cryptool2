@@ -138,8 +138,8 @@
     <Compile Include="OnlineHelpTab.xaml.cs">
       <DependentUpon>OnlineHelpTab.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Resources\Resource.de-DE.Designer.cs">
-      <DependentUpon>Resource.de-DE.resx</DependentUpon>
+    <Compile Include="Resources\Resource.de.Designer.cs">
+      <DependentUpon>Resource.de.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
@@ -148,8 +148,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="PluginList.cs" />
-    <Compile Include="Properties\Resources.de-DE.Designer.cs">
-      <DependentUpon>Resources.de-DE.resx</DependentUpon>
+    <Compile Include="Properties\Resources.de.Designer.cs">
+      <DependentUpon>Resources.de.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
@@ -171,10 +171,10 @@
     <Compile Include="SettingsTabs\PluginsSettingsTab.xaml.cs">
       <DependentUpon>PluginsSettingsTab.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SettingsTabs\Resources\res.de-DE.Designer.cs">
+    <Compile Include="SettingsTabs\Resources\res.de.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>res.de-DE.resx</DependentUpon>
+      <DependentUpon>res.de.resx</DependentUpon>
     </Compile>
     <Compile Include="SettingsTabs\Resources\res.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -394,9 +394,9 @@
     <Resource Include="images\editorSettings.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.de-DE.resx">
+    <EmbeddedResource Include="Properties\Resources.de.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.de-DE.Designer.cs</LastGenOutput>
+      <LastGenOutput>Resources.de.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -404,9 +404,9 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Resource.de-DE.resx">
+    <EmbeddedResource Include="Resources\Resource.de.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resource.de-DE.Designer.cs</LastGenOutput>
+      <LastGenOutput>Resource.de.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Resource.resx">
@@ -414,9 +414,9 @@
       <LastGenOutput>Resource.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="SettingsTabs\Resources\res.de-DE.resx">
+    <EmbeddedResource Include="SettingsTabs\Resources\res.de.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>res.de-DE.Designer.cs</LastGenOutput>
+      <LastGenOutput>res.de.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="SettingsTabs\Resources\res.resx">
