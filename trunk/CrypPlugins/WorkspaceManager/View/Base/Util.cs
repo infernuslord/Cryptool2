@@ -14,6 +14,7 @@ using Cryptool.PluginBase;
 using System.Reflection;
 using System.Numerics;
 using WorkspaceManager.Model;
+using WorkspaceManager.View.VisualComponents.CryptoLineView;
 
 namespace WorkspaceManager.View.Base
 {
@@ -80,8 +81,8 @@ namespace WorkspaceManager.View.Base
             multiBinding.Bindings.Add(binding);
 
             binding = new Binding();
-            binding.Source = link;
-            binding.Path = new PropertyPath(CryptoLineView.StrokeThicknessProperty);
+            binding.Source = link.Line;
+            binding.Path = new PropertyPath(InternalCryptoLineView.StrokeThicknessProperty);
             multiBinding.Bindings.Add(binding);
 
             binding = new Binding();

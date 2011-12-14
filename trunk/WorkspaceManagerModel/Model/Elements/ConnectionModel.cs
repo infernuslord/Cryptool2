@@ -19,6 +19,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Reflection;
+using System.Collections.ObjectModel;
+using System.Windows;
 
 namespace WorkspaceManager.Model
 {
@@ -48,6 +50,13 @@ namespace WorkspaceManager.Model
         #endregion
 
         #region public members
+
+        private List<KeyValuePair<Point, Point>> pointList = null;
+        public List<KeyValuePair<Point, Point>> PointList
+        {
+            get { return pointList; }
+            set { pointList = value; }
+        }
 
         /// <summary>
         /// The starting Point of this Connection Model

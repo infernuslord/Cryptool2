@@ -144,10 +144,6 @@ namespace WorkspaceManager.View.BinVisual
         #endregion
 
         #region Constructors
-        public BinImageVisual()
-        {
-            throw new Exception("Don't use this Constructor");
-        }
 
         public BinImageVisual(ImageModel model)
         {

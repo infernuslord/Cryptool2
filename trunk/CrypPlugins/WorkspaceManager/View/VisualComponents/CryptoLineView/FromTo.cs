@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows;
+using System.ComponentModel;
 
 namespace WorkspaceManager.View.VisualComponents
 {
-    enum DirSort
+    public enum DirSort
     {
         X_DESC,
         Y_DESC,
@@ -14,11 +15,35 @@ namespace WorkspaceManager.View.VisualComponents
         Y_ASC
     };
 
-    class FromTo
+    public class FromTo: INotifyPropertyChanged
     {
+        private Point from, to;
+
         public DirSort DirSort { get; private set; }
-        public Point From { get; private set; }
-        public Point To { get; private set; }
+        public Point From 
+        { 
+            get 
+            {
+                return from;
+            } 
+            set 
+            {
+                from = value;
+            } 
+        }
+
+        public Point To
+        {
+            get
+            {
+                return to;
+            }
+            set
+            {
+                to = value;
+                OnPropertyChanged("To");
+            }
+        }
         public SortedSet<IntersectPoint> Intersection { get; private set; }
 
         public FromTo(Point from, Point to)
@@ -49,9 +74,20 @@ namespace WorkspaceManager.View.VisualComponents
             return "From"+From.ToString() + " " +"To"+ To.ToString();
         }
 
+
+        protected void OnPropertyChanged(string name)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(name));
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 
-    class InLineSorter : IComparer<IntersectPoint>
+    public class InLineSorter : IComparer<IntersectPoint>
     {
         private DirSort dirSort;
 

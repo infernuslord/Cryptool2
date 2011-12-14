@@ -30,6 +30,7 @@ using System.Windows.Data;
 using WorkspaceManager.Base.Sort;
 using System.Windows.Controls.Primitives;
 using WorkspaceManager.View.Base.Interfaces;
+using WorkspaceManager.View.VisualComponents.CryptoLineView;
 
 namespace WorkspaceManager.View.BinVisual
 {
@@ -51,7 +52,7 @@ namespace WorkspaceManager.View.BinVisual
         private BinConnectorVisual from, to;
         private RectangleGeometry selectRectGeometry = new RectangleGeometry();
         private bool startedSelection;
-        private CryptoLineView draggedLink = new CryptoLineView();
+        private CryptoLineView draggedLink;
         private Path selectionPath = new Path() 
         { 
             Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#3399ff")),
@@ -286,6 +287,7 @@ namespace WorkspaceManager.View.BinVisual
             MyEditor.executeEvent += new EventHandler(ExecuteEvent);
             VisualCollection.CollectionChanged += new NotifyCollectionChangedEventHandler(CollectionChangedHandler);
             VisualCollection.Add(selectionPath);
+            draggedLink = new CryptoLineView(VisualCollection);
             MyEditor.LoadingErrorOccurred += new EventHandler<LoadingErrorEventArgs>(LoadingErrorOccurred);
             InitializeComponent();
         }
@@ -329,9 +331,9 @@ namespace WorkspaceManager.View.BinVisual
 
         public void ResetConnections()
         {
-            foreach (CryptoLineView line in PathCollection)
-	        {             
-	            line.Reset();
+            foreach (CryptoLineView view in PathCollection)
+	        {
+                view.Line.Reset();
 	        }
         }
 
@@ -465,11 +467,7 @@ namespace WorkspaceManager.View.BinVisual
             if (this.State != BinEditorState.READY || source == null || target == null)
                 return;
 
-            CryptoLineView link = new CryptoLineView(model, source, target);
-            link.SetBinding(CryptoLineView.StartPointProperty, Util.CreateConnectorBinding(source, link));
-            link.SetBinding(CryptoLineView.EndPointProperty, Util.CreateConnectorBinding(target, link));
-            link.SetBinding(CryptoLineView.IsDraggedProperty, Util.CreateIsDraggingBinding(
-                new BinComponentVisual[] { target.WindowParent, source.WindowParent }));
+            CryptoLineView link = new CryptoLineView(model, source, target, VisualCollection);
             VisualCollection.Add(link);
         }
 
@@ -930,7 +928,7 @@ namespace WorkspaceManager.View.BinVisual
         {
             if (IsLinking)
             {
-                draggedLink.EndPoint = e.GetPosition(sender as FrameworkElement);
+                draggedLink.Line.EndPoint = e.GetPosition(sender as FrameworkElement);
                 e.Handled = true;
                 return;
             }
@@ -972,13 +970,13 @@ namespace WorkspaceManager.View.BinVisual
             if (e.Source is CryptoLineView)
             {
                 CryptoLineView l = (CryptoLineView)e.Source;
-                Model.ModifyModel(new DeleteConnectionModelOperation(l.Model));
+                Model.ModifyModel(new DeleteConnectionModelOperation(l.Line.Model));
             }
         }
 
         private void MouseLeftButtonDownHandler(object sender, MouseButtonEventArgs e)
         {
-            if (!(e.Source is BinComponentVisual) && !(e.Source is BinImageVisual) && !(e.Source is BinTextVisual))
+            if (!(e.Source is BinComponentVisual) && !(e.Source is BinImageVisual) && !(e.Source is BinTextVisual) && !(e.Source is CryptoLineView))
             {
                 window = Window.GetWindow(this);
                 setDragWindowHandle();
@@ -991,7 +989,7 @@ namespace WorkspaceManager.View.BinVisual
             {
                 case 1:
                     var result = Util.TryFindParent<BinIControlVisual>(e.OriginalSource as UIElement);
-                    if (result != null)
+                    if (result != null || e.Source is CryptoLineView)
                         return;
 
                     if (e.Source is BinImageVisual || e.Source is BinTextVisual)
@@ -1028,8 +1026,8 @@ namespace WorkspaceManager.View.BinVisual
                             BinConnectorVisual b = element as BinConnectorVisual;
                             SelectedConnector = b;
                             //draggedLink.SetBinding(CryptoLineView.IsLinkingProperty, new Binding() { Source = this, Path = new PropertyPath(BinEditorVisual.IsLinkingProperty) });
-                            draggedLink.SetBinding(CryptoLineView.StartPointProperty, Util.CreateConnectorBinding(b, draggedLink));
-                            draggedLink.EndPoint = e.GetPosition(sender as FrameworkElement);
+                            draggedLink.Line.SetBinding(InternalCryptoLineView.StartPointProperty, Util.CreateConnectorBinding(b, draggedLink));
+                            draggedLink.Line.EndPoint = e.GetPosition(sender as FrameworkElement);
                             VisualCollection.Add(draggedLink);
                             Mouse.OverrideCursor = Cursors.Cross;
                             e.Handled = IsLinking = true;
@@ -1104,6 +1102,23 @@ namespace WorkspaceManager.View.BinVisual
                         items.Add(element);
                     else
                         items.Remove(element);
+                }
+                foreach (var line in PathCollection)
+                {
+                    foreach (var ft in line.Line.PointList)
+                    {
+                        Rect elementRect = new Rect(ft.From, ft.To);
+                        if (selectRectGeometry.Rect.IntersectsWith(elementRect))
+                        {
+                            line.IsSelected = true;
+                            break;
+                        }
+                        else
+                        {
+                            line.IsSelected = false;
+                        }
+                    }
+
                 }
                 SelectedItems = items.ToArray();
                 return;
