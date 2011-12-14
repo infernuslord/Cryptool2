@@ -615,7 +615,15 @@ namespace XMLSerialization
                             {
                                 //we have 2 types, that means that we have a generic list with generic type types[1]
                                 Type t = typeof (System.Collections.Generic.List<>);
-                                Type[] typeArgs = {Type.GetType(types[1])};
+                                Type[] typeArgs;
+                                if (types[1].Equals("System.Windows.Point"))
+                                {
+                                    typeArgs = new Type[] { typeof(System.Windows.Point) };
+                                }
+                                else
+                                {
+                                    typeArgs = new Type[]{Type.GetType(types[1])};
+                                }
                                 Type constructed = t.MakeGenericType(typeArgs);
                                 newmember = Activator.CreateInstance(constructed);
                                 newObject.GetType().GetField(RevertXMLSymbols(membername.InnerText),
@@ -694,6 +702,29 @@ namespace XMLSerialization
                                         Char result = ' ';
                                         System.Char.TryParse(RevertXMLSymbols(val.InnerText), out result);
                                         ((IList) newmember).Add(result);
+                                    }
+                                    else if (RevertXMLSymbols(typ.InnerText).Equals("System.Windows.Point"))
+                                    {
+                                        string[] values = val.InnerText.Split(new char[] { ';' });
+
+                                        if(values.Length != 2)
+                                        {
+                                            throw new Exception("Can not create a Point with " + values.Length + " Coordinates!");
+                                        }
+
+                                        double x = 0;
+                                        double y = 0;
+                                        System.Double.TryParse(RevertXMLSymbols(values[0].Replace(',', '.')),
+                                                                                NumberStyles.Number,
+                                                                                CultureInfo.CreateSpecificCulture("en-GB"),
+                                                                                out x);
+                                        System.Double.TryParse(RevertXMLSymbols(values[1].Replace(',', '.')),
+                                                                                NumberStyles.Number,
+                                                                                CultureInfo.CreateSpecificCulture("en-GB"),
+                                                                                out y);
+
+                                        System.Windows.Point point = new System.Windows.Point(x, y);
+                                        ((IList)newmember).Add(point);
                                     }
                                 }
                             }

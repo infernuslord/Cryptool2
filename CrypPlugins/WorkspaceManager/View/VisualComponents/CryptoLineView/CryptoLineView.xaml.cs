@@ -191,10 +191,10 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
                 model = value; 
                 if (model.PointList != null)
                 {
-                    foreach (var x in model.PointList)
+                    for (int i = 0; i <= model.PointList.Count()-2;i++)
                     {
                         PointList.Clear();
-                        PointList.Add(new FromTo(x.Key, x.Value));
+                        PointList.Add(new FromTo(model.PointList[i], model.PointList[i+1]));
                         HasComputed = true;
                     }
                 }
@@ -278,11 +278,12 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
 
             if (l.HasComputed == true)
             {
-                l.Model.PointList = new List<KeyValuePair<Point, Point>>();
+                l.Model.PointList = new List<Point>();
                 foreach (var p in l.PointList)
                 {
-                    l.Model.PointList.Add(new KeyValuePair<Point, Point>(p.From, p.To));
+                    l.Model.PointList.Add(p.From);
                 }
+                l.Model.PointList.Add(l.PointList.Last().To);
             }
         }
 
