@@ -152,7 +152,6 @@
   </data>
   <data name="MotionTooltip" xml:space="preserve">
     <value>Geschwindigkeitsreihenfolge der 20er Vermittlungsschalter von 1-3 (1=langsam,2=mittel,3=schnell)</value>
-    <comment> </comment>
   </data>
   <data name="PlugBoardCaption" xml:space="preserve">
     <value>Steckerbrett</value>
@@ -177,5 +176,41 @@
   </data>
   <data name="TwentiesCaption" xml:space="preserve">
     <value>Twenties</value>
+  </data>
+  <data name="CaseHandlingCaption" xml:space="preserve">
+    <value>Groß-/Kleinschreibung</value>
+  </data>
+  <data name="CaseHandlingList1" xml:space="preserve">
+    <value>keine Änderung</value>
+  </data>
+  <data name="CaseHandlingList2" xml:space="preserve">
+    <value>in Großbuchstaben konvertieren</value>
+  </data>
+  <data name="CaseHandlingList3" xml:space="preserve">
+    <value>in Kleinbuchstaben</value>
+  </data>
+  <data name="CaseHandlingTooltip" xml:space="preserve">
+    <value>Wie sollen Groß- und Kleinbuchstaben behandelt werden?</value>
+  </data>
+  <data name="TextOptionsGroup" xml:space="preserve">
+    <value>Text-Optionen</value>
+  </data>
+  <data name="TextTooltip" xml:space="preserve">
+    <value>Input Text</value>
+  </data>
+  <data name="UnknownSymbolHandlingCaption" xml:space="preserve">
+    <value>Behandlung ungültiger Zeichen</value>
+  </data>
+  <data name="UnknownSymbolHandlingList1" xml:space="preserve">
+    <value>Ignorieren (unverändert lassen)</value>
+  </data>
+  <data name="UnknownSymbolHandlingList2" xml:space="preserve">
+    <value>Entfernen</value>
+  </data>
+  <data name="UnknownSymbolHandlingList3" xml:space="preserve">
+    <value>Ersetzen durch 'X'</value>
+  </data>
+  <data name="UnknownSymbolHandlingTooltip" xml:space="preserve">
+    <value>Wie soll auf Zeichen in der Eingabe reagiert werden, die nicht Bestandteil des Eingabe-Alphabets sind?</value>
   </data>
 </root>
