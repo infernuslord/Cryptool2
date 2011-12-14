@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows;
 using System.Windows.Media;
 using WorkspaceManager.View.BinVisual;
+using WorkspaceManager.View.VisualComponents.CryptoLineView;
 using WorkspaceManager.View.Base.Interfaces;
 
 namespace WorkspaceManager.View.VisualComponents
@@ -123,9 +124,6 @@ namespace WorkspaceManager.View.VisualComponents
                     }
                     else
                     {
-                        if (element is CryptoLineView)
-                            Canvas.SetZIndex(element, -1);
-
                         left = element.DesiredSize.Width;
                         top = element.DesiredSize.Height;
                         maxWidth = maxWidth < left ? left : maxWidth;

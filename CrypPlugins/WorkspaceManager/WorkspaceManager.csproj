@@ -116,6 +116,9 @@
     <Compile Include="View\BinVisual\IControlVisual\Slot.xaml.cs">
       <DependentUpon>Slot.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\VisualComponents\CryptoLineView\CryptoLineView.xaml.cs">
+      <DependentUpon>CryptoLineView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\VisualComponents\TextEditPanel.xaml.cs">
       <DependentUpon>TextEditPanel.xaml</DependentUpon>
     </Compile>
@@ -123,7 +126,6 @@
       <SubType>Code</SubType>
       <DependentUpon>ColorPickPopUp.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\VisualComponents\CryptoLineView\CryptoLineView.cs" />
     <Compile Include="View\VisualComponents\BottomBox.xaml.cs">
       <DependentUpon>BottomBox.xaml</DependentUpon>
     </Compile>
@@ -238,6 +240,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\BinVisual\IControlVisual\Slot.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\VisualComponents\CryptoLineView\CryptoLineView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
