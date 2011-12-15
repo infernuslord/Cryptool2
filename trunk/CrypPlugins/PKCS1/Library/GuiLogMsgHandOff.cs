@@ -28,13 +28,7 @@ namespace PKCS1.Library
         // Klassen, welche GuiLogMessages schicken wollen, müssen hier ihr GuiLogHandler reingeben
         public void registerAt(ref GuiLogHandler guiLogEvent)
         {
-            guiLogEvent += handleGuiLogMsgSent;
-        }
-
-        // hier wird die Msg weitergereicht
-        private void handleGuiLogMsgSent(string message, NotificationLevel logLevel)
-        {
-            this.SendGuiLogMsg(message, logLevel); // weiterreichen
+            guiLogEvent += SendGuiLogMsg;
         }
 
         private void SendGuiLogMsg(string message, NotificationLevel logLevel)

@@ -33,12 +33,7 @@ namespace PKCS1
         #endregion
 
         private void GuiLogMessage(string message, NotificationLevel logLevel)
-        {
-            if (OnGuiLogNotificationOccured != null)
-            {
-                OnGuiLogNotificationOccured(this, new GuiLogEventArgs(message, this, logLevel));                
-            }
-            
+        {            
             EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, message, logLevel); 
         }
 

@@ -761,15 +761,32 @@ namespace Cryptool.CrypWin
                     button.Style = (Style)FindResource("AppMenuCommandButton");
                     button.Height = 65;
 
-                    // TODO: finish this
-                    //button.Click += DoSomething();
-                    //tutButton.Command = 
+                    button.Click += buttonTutorial_Click;
 
                     ribbonBarTutorial.Items.Add(button);
                 }, null);
 
                 SendAddedPluginToGUIMessage(pia.Caption);
             }
+        }
+
+        // CrypTutorial ribbon bar clicks
+        private void buttonTutorial_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as ButtonDropDown;
+            if (button == null)
+                return;
+
+            Type type = button.Tag as Type;
+            if (type == null)
+                return;
+
+            var content = type.CreateTutorialInstance();
+            if (content == null)
+                return;
+
+            OpenTab(content, type.GetPluginInfoAttribute().Caption, null);
+            content.Presentation.ToolTip = type.GetPluginInfoAttribute().ToolTip;
         }
 
         private void InitCrypEditors(List<Type> typeList)
@@ -801,7 +818,7 @@ namespace Cryptool.CrypWin
                             ((Image)buttonDropDownNew.Image).Source = ((Image)btn.Image).Source;
                         }
 
-                        btn.Click += btnEditor_Click;
+                        btn.Click += buttonEditor_Click;
                         //buttonDropDownEditor.Items.Add(btn);
                         buttonDropDownNew.Items.Add(btn);
                         AvailableEditors.Add(typeClosure);
@@ -811,6 +828,28 @@ namespace Cryptool.CrypWin
 
             if (typeList.Count <= 1)
                 SetVisibility(buttonDropDownNew, Visibility.Collapsed);
+        }
+
+        private void buttonEditor_Click(object sender, RoutedEventArgs e)
+        {
+            IEditor editor = AddEditorDispatched(((sender as Control).Tag as Type));
+            editor.PluginManager = this.pluginManager;
+            Settings.Default.defaultEditor = ((sender as Control).Tag as Type).FullName;
+            ButtonDropDown button = sender as ButtonDropDown;
+
+            if (Settings.Default.useDefaultEditor)
+            {
+                ((Image)buttonDropDownNew.Image).Source = ((Image)button.Image).Source;
+                foreach (ButtonDropDown btn in buttonDropDownNew.Items)
+                {
+                    if (btn != button)
+                        btn.IsChecked = false;
+                }
+            }
+            else
+            {
+                button.IsChecked = (Settings.Default.preferredEditor == ((Type)button.Tag).FullName);
+            }
         }
 
         private void SetVisibility(UIElement element, Visibility vis)
@@ -1551,30 +1590,6 @@ namespace Cryptool.CrypWin
             naviPane.IsExpanded = true;
         }
         # endregion OnPluginClicked, DragDrop, NaviPaneMethods
-
-        #region Settings
-        private void btnEditor_Click(object sender, RoutedEventArgs e)
-        {
-            IEditor editor = AddEditorDispatched(((sender as Control).Tag as Type));
-            editor.PluginManager = this.pluginManager;
-            Settings.Default.defaultEditor = ((sender as Control).Tag as Type).FullName;
-            ButtonDropDown button = sender as ButtonDropDown;
-
-            if (Settings.Default.useDefaultEditor)
-            {
-                ((Image)buttonDropDownNew.Image).Source = ((Image)button.Image).Source;
-                foreach (ButtonDropDown btn in buttonDropDownNew.Items)
-                {
-                    if (btn != button)
-                        btn.IsChecked = false;
-                }
-            }
-            else
-            {
-                button.IsChecked = (Settings.Default.preferredEditor == ((Type)button.Tag).FullName);
-            }
-        }
-        #endregion Settings
 
         void MainWindow_Closing(object sender, CancelEventArgs e)
         {
