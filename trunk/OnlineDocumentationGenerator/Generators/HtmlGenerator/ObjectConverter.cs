@@ -52,7 +52,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
             }
             if (theObject is Reference.ReferenceList)
             {
-                return ((Reference.ReferenceList)theObject).ToHTML(Thread.CurrentThread.CurrentUICulture.Name);
+                return ((Reference.ReferenceList)theObject).ToHTML(Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName);
             }
             if (theObject is PropertyInfoAttribute[])
             {
@@ -347,7 +347,7 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
             {
                 if (p.Localizations["en"].Name == entity)
                 {
-                    var lang = Thread.CurrentThread.CurrentUICulture.Name;
+                    var lang = Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName;
                     if (p.AvailableLanguages.Contains(lang))
                     {
                         return OnlineHelp.GetDocFilename(p.EntityType, lang);
