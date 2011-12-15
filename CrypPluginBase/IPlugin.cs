@@ -26,15 +26,12 @@ namespace Cryptool.PluginBase
     /// </summary>
     public interface IPlugin : INotifyPropertyChanged, IDisposable
     {
-        event StatusChangedEventHandler OnPluginStatusChanged;
         event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
-        event PluginProgressChangedEventHandler OnPluginProgressChanged;
-                
+
         ISettings Settings { get; }
 
         /// <summary>
-        /// Provide all presentation stuff in this user control, it will be opened in an tab.
-        /// Return null if your plugin has no presentation. 
+        /// May return custom UI presentation or null.
         /// </summary>
         /// <value>The presentation.</value>
         UserControl Presentation { get; }
@@ -46,12 +43,11 @@ namespace Cryptool.PluginBase
 
         /// <summary>
         /// Triggered when user clicked Stop button. Plugin must shut down long running tasks.
-        /// PostExecution() will be called afterwards.
         /// </summary>
         void Stop();
 
         /// <summary>
-        /// Will be called Will be called from editor after restoring settings and before adding to workspace.
+        /// Called once for each plugin instance after creation.
         /// </summary>
         void Initialize();
     }

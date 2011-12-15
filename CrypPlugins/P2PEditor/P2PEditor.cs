@@ -195,25 +195,13 @@ namespace Cryptool.P2PEditor
 
         public bool ReadOnly { get; set; }
 
-        public event StatusChangedEventHandler OnPluginStatusChanged;
-
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
-
-        public event PluginProgressChangedEventHandler OnPluginProgressChanged;
 
         public ISettings Settings { get; private set; }
 
         public UserControl Presentation { get; private set; }
 
-        public void PreExecution()
-        {
-        }
-
         public void Execute()
-        {
-        }
-
-        public void PostExecution()
         {
         }
 
