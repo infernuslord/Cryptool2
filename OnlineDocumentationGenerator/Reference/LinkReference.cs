@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -13,7 +14,7 @@ namespace OnlineDocumentationGenerator.Reference
         {
             get
             {
-                return GetLocalizedProperty("Link", Thread.CurrentThread.CurrentCulture.Name);
+                return GetLocalizedProperty("Link", Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName);
             }
         }
 
@@ -21,7 +22,7 @@ namespace OnlineDocumentationGenerator.Reference
         {
             get
             {
-                return GetLocalizedProperty("Caption", Thread.CurrentThread.CurrentCulture.Name);
+                return GetLocalizedProperty("Caption", Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName);
             }
         }
 
@@ -32,7 +33,8 @@ namespace OnlineDocumentationGenerator.Reference
                 var lang = "en";
                 if (e.Attribute("lang") != null)
                 {
-                    lang = e.Attribute("lang").Value;
+                    var cult = new CultureInfo(e.Attribute("lang").Value);
+                    lang = cult.TwoLetterISOLanguageName;
                 }
 
                 if (e.Name == "link")
