@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using WorkspaceManager.Execution;
 using WorkspaceManager.Model;
 
 namespace Tests.TemplateAndPluginTests
@@ -25,7 +26,7 @@ namespace Tests.TemplateAndPluginTests
                 var el = properties[i].Split('>');
                 var plugin = model.GetAllPluginModels().First(x => x.GetName() == el[0]).Plugin;
                 
-                if (el[2].StartsWith("."))
+                if (el[1].StartsWith("."))
                 {
                     res[i] = plugin.Settings;
                 }
