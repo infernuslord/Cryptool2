@@ -94,8 +94,8 @@
     </outputBox>
   </sampleViewer>
 
-  <!-- World of primes -->
-  <sampleViewer image="Primes" file="Mathematics\.PrimesDummy.cwm" showCreateButton="false">
+  <!-- wander 2011-12-15: World of primes is now activated by CrypTutorial ribbon bar -->
+  <!--<sampleViewer image="Primes" file="Mathematics\.PrimesDummy.cwm" showCreateButton="false">
     <name lang="en" >World of Primes</name>
     <name lang="de" >Die Welt der Primzahlen</name>
     <description lang="en" >Select this to expirement with several prime operations.</description>
@@ -110,6 +110,6 @@
       <description lang="en">World of Primes:</description>
       <description lang="de">Die Welt der Primzahlen:</description>
     </presentation>
-  </sampleViewer>
+  </sampleViewer>-->
 
 </category>
