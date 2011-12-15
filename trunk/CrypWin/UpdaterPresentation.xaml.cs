@@ -36,15 +36,20 @@ namespace Cryptool.CrypWin
         {
             InitializeComponent();
             Tag = FindResource("NoUpdate");
+            
+            //Delete later:
+            ChangelogTextViewer.Visibility = Visibility.Visible;
+            ChangelogList.Visibility = Visibility.Collapsed;
+            return;
 
             if (AssemblyHelper.BuildType == Ct2BuildType.Nightly)
             {
-                ChangelogText.Visibility = Visibility.Collapsed;
+                ChangelogTextViewer.Visibility = Visibility.Collapsed;
                 ChangelogList.Visibility = Visibility.Visible;
             }
             else
             {
-                ChangelogText.Visibility = Visibility.Visible;
+                ChangelogTextViewer.Visibility = Visibility.Visible;
                 ChangelogList.Visibility = Visibility.Collapsed;
             }
         }
