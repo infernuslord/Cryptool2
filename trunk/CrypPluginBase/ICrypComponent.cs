@@ -32,5 +32,8 @@ namespace Cryptool.PluginBase
         /// Will be called after the workflow has been stopped. May be used for cleanup data used during execution.
         /// </summary>
         void PostExecution();
+
+        event StatusChangedEventHandler OnPluginStatusChanged;
+        event PluginProgressChangedEventHandler OnPluginProgressChanged;
     }
 }

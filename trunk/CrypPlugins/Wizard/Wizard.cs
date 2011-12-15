@@ -18,9 +18,7 @@ namespace Wizard
     public class Wizard : IEditor
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        public event StatusChangedEventHandler OnPluginStatusChanged;
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
-        public event PluginProgressChangedEventHandler OnPluginProgressChanged;
         public event SelectedPluginChangedHandler OnSelectedPluginChanged;
         public event ProjectTitleChangedHandler OnProjectTitleChanged;
         public event OpenProjectFileHandler OnOpenProjectFile;
@@ -90,16 +88,6 @@ namespace Wizard
 
         public PluginManager PluginManager
         { get; set; }
-
-        public void PreExecution()
-        {
-            
-        }
-
-        public void PostExecution()
-        {
-            
-        }
 
         public void Open(string fileName)
         {

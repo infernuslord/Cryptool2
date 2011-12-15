@@ -494,21 +494,10 @@ namespace WorkspaceManager
 
         #region IPlugin Members
 
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public event StatusChangedEventHandler OnPluginStatusChanged;
-
         /// <summary>
         /// 
         /// </summary>
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public event PluginProgressChangedEventHandler OnPluginProgressChanged;
 
         /// <summary>
         /// Settings of this editor
@@ -526,14 +515,6 @@ namespace WorkspaceManager
         {
             get {return WorkspaceSpaceEditorView;}
             set { WorkspaceSpaceEditorView = (BinEditorVisual)value; }
-        }
-
-        /// <summary>
-        /// Called before execution
-        /// </summary>
-        public void PreExecution()
-        {
-            //to be implemented
         }
 
         /// <summary>
@@ -624,14 +605,6 @@ namespace WorkspaceManager
                     EventsHelper.AsynchronousStatusChanged = true;
                 }
             }
-        }
-
-        /// <summary>
-        /// Called after the execution
-        /// </summary>
-        public void PostExecution()
-        {
-            //to be implemented
         }
 
         /// <summary>
@@ -762,7 +735,7 @@ namespace WorkspaceManager
 
         #endregion
 
-        #region GuiLogMessage, Progress
+        #region GuiLogMessage
 
         /// <summary>
         /// Loggs a message to the logging mechanism of CrypTool
@@ -845,19 +818,7 @@ namespace WorkspaceManager
                 
         }
 
-        /// <summary>
-        /// Progress of this editor
-        /// </summary>
-        /// <param name="Value"></param>
-        /// <param name="MaxValue"></param>
-        private void Progress(int Value, int MaxValue)
-        {
-            if (OnPluginProgressChanged != null)
-            {
-                OnPluginProgressChanged(this, new PluginProgressEventArgs(Value, MaxValue));
-            }
-        }
-        #endregion GuiLogMessage, Progress
+        #endregion GuiLogMessage
 
         /// <summary>
         /// Selected Plugin changed by View
@@ -909,11 +870,6 @@ namespace WorkspaceManager
                 Uri uriLocal = new Uri(diag.FileName);
                 ((BinEditorVisual)Presentation).AddImage(uriLocal);
             }
-        }
-
-        public void Pause()
-        {
-            throw new NotImplementedException();
         }
     }
 

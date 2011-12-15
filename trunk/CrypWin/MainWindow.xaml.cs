@@ -1262,20 +1262,25 @@ namespace Cryptool.CrypWin
             TabControl tabs = (TabControl)(MainSplitPanel.Children[0]);
             CTTabItem tabitem = new CTTabItem();
             tabitem.RequestBigViewFrame += new EventHandler(tabitem_RequestBigViewFrame);
-            if (content is IPlugin)
-            {
-                ((IPlugin)content).OnGuiLogNotificationOccured += OnGuiLogNotificationOccured;
-                tabitem.Content = ((IPlugin)content).Presentation;
-                if (content is IEditor)
-                    tabitem.Editor = (IEditor)content;
 
-                if (content is IEditor && Settings.Default.FixedWorkspace)
-                {
-                    (content as IEditor).ReadOnly = true;
-                }
+            var plugin = content as IPlugin;
+            if (plugin != null)
+            {
+                plugin.OnGuiLogNotificationOccured += OnGuiLogNotificationOccured;
+                tabitem.Content = plugin.Presentation;
             }
             else
+            {
                 tabitem.Content = content;
+            }
+
+            var editor = content as IEditor;
+            if (editor != null)
+            {
+                tabitem.Editor = editor;
+                if (Settings.Default.FixedWorkspace)
+                    editor.ReadOnly = true;
+            }
 
             //Create the tab header:
             //StackPanel tabheader = new StackPanel();

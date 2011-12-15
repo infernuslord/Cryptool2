@@ -21,9 +21,7 @@ namespace StartCenter
         private string _samplesDir;
 
         public event PropertyChangedEventHandler PropertyChanged;
-        public event StatusChangedEventHandler OnPluginStatusChanged;
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
-        public event PluginProgressChangedEventHandler OnPluginProgressChanged;
 
         public delegate void StartupBehaviourChangedHandler(bool showOnStartup);
         public static event StartupBehaviourChangedHandler StartupBehaviourChanged;
@@ -44,17 +42,7 @@ namespace StartCenter
             get { return _startcenter; }
         }
 
-        public void PreExecution()
-        {
-            
-        }
-
         public void Execute()
-        {
-            
-        }
-
-        public void PostExecution()
         {
             
         }
