@@ -103,10 +103,6 @@
       <Name>CrypPluginBase</Name>
       <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\CubeAttackController\CubeAttackController.csproj">
-      <Project>{2100AC2F-3F2B-48A2-AF42-87EC52C8A703}</Project>
-      <Name>CubeAttackController</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="DetailedDescription\Description.xaml">

@@ -10,8 +10,6 @@ using Cryptool.PluginBase.IO;
 using System.Windows.Controls;
 using Cryptool.PluginBase.Control;
 using System.Reflection;
-// Reference to the CubeAttackController interface (own dll)
-using Cryptool.CubeAttackController;
 using NativeCryptography;
 
 namespace Cryptool.Plugins.Cryptography.Encryption

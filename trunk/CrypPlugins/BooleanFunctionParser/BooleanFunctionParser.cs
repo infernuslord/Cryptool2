@@ -27,9 +27,8 @@ using System.Windows.Controls;
 // for QuickwatchPresentaton
 using System.Windows.Threading;
 // for IControl
-// reference to the CubeAttackController interface (own dll)
-using Cryptool.CubeAttackController;
 using Cryptool.PluginBase;
+using Cryptool.PluginBase.Control;
 using Cryptool.PluginBase.Miscellaneous;
 // MathParser
 // RPNExpression

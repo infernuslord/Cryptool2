@@ -6,10 +6,9 @@ using System.IO;
 using System.ComponentModel;
 using System.Windows.Controls;
 using Cryptool.PluginBase;
+using Cryptool.PluginBase.Control;
 using Cryptool.PluginBase.Miscellaneous;
 using Cryptool.PluginBase.IO;
-// Reference to the CubeAttackController interface (own dll)
-using Cryptool.CubeAttackController;
 
 namespace Cryptool.CubeAttack
 {

@@ -28,8 +28,6 @@ using Cryptool.PluginBase.Miscellaneous;
 using System.Security.Cryptography;
 // for IControl
 using Cryptool.PluginBase.Control;
-// reference to the CubeAttackController interface (own dll)
-using Cryptool.CubeAttackController;
 
 namespace Cryptool.Trivium
 {
