@@ -50,7 +50,7 @@ RSA ist in kommerziellen Protokollen weit verbreitet und gilt bei genügend lang
       <task lang="en">Please read the explanation.</task>
       <task lang="de">Bitte lesen Sie die Beschreibung.</task>
 
-      <inputBox plugin="dummy" property="dummy" visibleLines="10">
+      <inputBox plugin="" property="" visibleLines="10">
         <description lang="en"></description>
         <defaultvalue lang="en">
 The security of the RSA cryptosystem is based on the problem of factoring large integer numbers.

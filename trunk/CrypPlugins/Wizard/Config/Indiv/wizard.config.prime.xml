@@ -88,7 +88,7 @@
       <defaultvalue>358985028000324617802198861844522163047755799681138412255630375745509906768216239732389768930571941971276048934551187949</defaultvalue>
     </inputBox>
 
-    <outputBox plugin="IsPrime" property="CurrentValue" alignment="Left" width="20%" visibleLines="3">
+    <outputBox plugin="Is Prime?" property="CurrentValue" alignment="Left" width="20%" visibleLines="3">
       <description lang="en">Is Prime?</description>
       <description lang="de">Ist Primzahl?</description>
     </outputBox>
