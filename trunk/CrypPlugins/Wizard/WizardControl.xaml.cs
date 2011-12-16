@@ -927,10 +927,9 @@ namespace Wizard
                         currentManager.SampleLoaded += NewEditorSampleLoaded;
                     }
                     
-                    string image = element.Attribute("image").Value;
-                    if (image != null)
+                    if (element.Attribute("image") != null)
                     {
-                        ImageSource ims = (ImageSource)TryFindResource(image);
+                        ImageSource ims = (ImageSource)TryFindResource(element.Attribute("image").Value);
                         if (ims != null)
                         {
                             currentManager.Presentation.Tag = ims;
