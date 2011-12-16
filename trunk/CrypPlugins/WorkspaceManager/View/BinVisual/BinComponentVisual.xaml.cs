@@ -529,7 +529,10 @@ typeof(BinSettingsVisual), typeof(BinComponentVisual), new FrameworkPropertyMeta
             Presentations.Add(BinComponentState.Min, Model.getImage());
             Presentations.Add(BinComponentState.Data, new BinDataVisual(ConnectorCollection));
             Presentations.Add(BinComponentState.Log, new BinLogVisual(this));
-            Presentations.Add(BinComponentState.Setting, Model.Plugin.Settings == null ? null : new BinSettingsVisual(Model.Plugin, this, true,false));
+            BinSettingsVisual bsv = new BinSettingsVisual(Model.Plugin, this, true,false);
+            if(!bsv.noSettings)
+            Presentations.Add(BinComponentState.Setting, Model.Plugin.Settings == null ? null : bsv);
+            
             LastState = HasComponentPresentation ? BinComponentState.Presentation : BinComponentState.Setting;
             
             
