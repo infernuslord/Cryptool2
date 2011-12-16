@@ -532,7 +532,8 @@
         <Style x:Key="SelectGridStyle" TargetType="Grid">
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
-                    <DataTrigger.EnterActions>
+                    <Setter Property="Visibility" Value="Visible"></Setter>
+                    <!--<DataTrigger.EnterActions>
                         <BeginStoryboard>
                             <Storyboard>
                                 <DoubleAnimation Timeline.DesiredFrameRate="5"
@@ -562,10 +563,11 @@
                                 
                             </Storyboard>
                         </BeginStoryboard>
-                    </DataTrigger.ExitActions>
+                    </DataTrigger.ExitActions>-->
                 </DataTrigger>
             </Style.Triggers>
-            <Setter Property="Opacity" Value="0"></Setter>
+            <!--<Setter Property="Opacity" Value="0"></Setter>-->
+            <Setter Property="Visibility" Value="Collapsed"></Setter>
             <Setter Property="RenderTransform">
                 <Setter.Value>
                     <ScaleTransform></ScaleTransform>
@@ -638,10 +640,10 @@
             <Grid.Effect>
                 <DropShadowEffect ShadowDepth="0" BlurRadius="5" Opacity="0.35"></DropShadowEffect>
             </Grid.Effect>
-            <Path Data="M 0,0 L 0,5 L 0,0 L 5,0 L 0,0" StrokeThickness="2" Stroke="Black" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="2"></Path>
-            <Path Data="M 5,5 L 0,5 L 5,5 L 5,0 L 5,5" StrokeThickness="2" Stroke="Black" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="2"></Path>
-            <Path Data="M 0,5 L 0,0 L 0,5 L 5,5 L 0,5" StrokeThickness="2" Stroke="Black" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="2"></Path>
-            <Path Data="M 5,0 L 0,0 L 5,0 L 5,5 L 5,0" StrokeThickness="2" Stroke="Black" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="2"></Path>
+            <Path Data="M 0,0 L 0,5 L 0,0 L 5,0 L 0,0" StrokeThickness="2" Stroke="#333333" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="2"></Path>
+            <Path Data="M 5,5 L 0,5 L 5,5 L 5,0 L 5,5" StrokeThickness="2" Stroke="#333333" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="2"></Path>
+            <Path Data="M 0,5 L 0,0 L 0,5 L 5,5 L 0,5" StrokeThickness="2" Stroke="#333333" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="2"></Path>
+            <Path Data="M 5,0 L 0,0 L 5,0 L 5,5 L 5,0" StrokeThickness="2" Stroke="#333333" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="2"></Path>
         </Grid>
 
 

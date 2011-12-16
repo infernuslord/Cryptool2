@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:bin="clr-namespace:WorkspaceManager.View.VisualComponents.CryptoLineView"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300" DataContext="{Binding RelativeSource={x:Static RelativeSource.Self}}" MouseRightButtonDown="MouseRightButtonDownHandler">
+             d:DesignHeight="300" d:DesignWidth="300" DataContext="{Binding RelativeSource={x:Static RelativeSource.Self}}">
     <UserControl.Resources>
         <Style TargetType="{x:Type Path}" x:Key="Path">
             <Style.Triggers>

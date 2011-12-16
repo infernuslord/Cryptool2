@@ -945,7 +945,7 @@ namespace WorkspaceManager.View.BinVisual
 
         private void MouseRightButtonDownHandler(object sender, MouseButtonEventArgs e)
         {
-            if (!(e.Source is BinComponentVisual) && !(e.Source is BinImageVisual) && !(e.Source is BinTextVisual))
+            if (!(e.Source is BinComponentVisual) && !(e.Source is BinImageVisual) && !(e.Source is BinTextVisual) && !(e.Source is CryptoLineView))
             {
                 startDragPoint = Mouse.GetPosition(sender as FrameworkElement);
                 Mouse.OverrideCursor = Cursors.ScrollAll;
