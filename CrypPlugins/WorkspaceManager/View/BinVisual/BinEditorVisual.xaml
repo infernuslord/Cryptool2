@@ -96,7 +96,7 @@
         <!--##########Definitions##########-->
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"></ColumnDefinition>
-            <ColumnDefinition Width="auto">
+            <ColumnDefinition Width="200">
                 <ColumnDefinition.Style>
                     <Style TargetType="ColumnDefinition">
                         <Style.Triggers>
