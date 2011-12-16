@@ -337,8 +337,8 @@
     </comboBox>
 
     <sampleViewer image="Twofish" file="Cryptography\Modern\Symmetric\TEA.cwm">
-      <name lang="en" >Twofish Output</name>
-      <name lang="de" >Twofish-Ausgabe</name>
+      <name lang="en" >TEA Output</name>
+      <name lang="de" >TEA-Ausgabe</name>
       <description lang="en" >The Tiny Encryption Algorithm (TEA) is a block cipher notable for its simplicity of description and implementation, typically a few lines of code.</description>
       <description lang="de" >Der "Tiny Encryption Algorithmus" (TEA) ist eine Blockchiffre, die sich durch Einfachheit von Beschreibung und Implementierung (typischerweise einige wenige Codezeilen) auszeichnet.</description>
 
