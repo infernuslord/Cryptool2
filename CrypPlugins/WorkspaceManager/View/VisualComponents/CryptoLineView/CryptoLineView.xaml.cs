@@ -96,6 +96,7 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
                 new BinComponentVisual[] { target.WindowParent, source.WindowParent }));
             Line.PointList.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(PointListCollectionChanged);
             Line.ComputationDone += new EventHandler(LineComputationDone);
+            model.UpdateableView = this;
         }
 
         void LineComputationDone(object sender, EventArgs e)
