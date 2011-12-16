@@ -189,22 +189,27 @@ namespace Tests
                     case "outputBox":
                         if (el.Attribute("plugin") != null && el.Attribute("property") != null)
                         {
-                            var plugin = el.Attribute("plugin").Value;
-                            var prop = new KeyValuePair<string, object>(el.Attribute("property").Value, val);
-                            if (result.ContainsKey(plugin))
+                            if (el.Attribute("plugin").Value != null && el.Attribute("plugin").Value != "")
                             {
-                                if (!result[plugin].Contains(prop))
-                                    result[plugin].Add(prop);
-                            }
-                            else
-                            {
-                                result.Add(plugin, new List<KeyValuePair<string, object>>() { prop });
+                                foreach (var plugin in el.Attribute("plugin").Value.Split(';'))
+                                {
+                                    var prop = new KeyValuePair<string, object>(el.Attribute("property").Value, val);
+                                    if (result.ContainsKey(plugin))
+                                    {
+                                        if (!result[plugin].Contains(prop))
+                                            result[plugin].Add(prop);
+                                    }
+                                    else
+                                    {
+                                        result.Add(plugin, new List<KeyValuePair<string, object>>() {prop});
+                                    }
+                                }
                             }
                         }
                         break;
 
                     case "presentation":
-                        if (el.Attribute("plugin") != null)
+                        if (el.Attribute("plugin") != null && el.Attribute("plugin").Value != null && el.Attribute("plugin").Value != "")
                         {
                             var plugin = el.Attribute("plugin").Value;
                             if (!result.ContainsKey(plugin))

@@ -18,7 +18,7 @@
     <defaultvalue>(2^300-1)/2</defaultvalue>
   </inputBox>
 
-  <sampleViewer image="Primes" file="Cryptanalysis\Modern\Asymmetric\QuadraticSieve.cwm">
+  <sampleViewer image="Primes" file="Mathematics\QuadraticSieve.cwm">
     <name lang="en" >Prime Number Factorization</name>
     <name lang="de" >Primzahl-Faktorisierung</name>
     <description lang="en" >Prime Number Factorization Output</description>

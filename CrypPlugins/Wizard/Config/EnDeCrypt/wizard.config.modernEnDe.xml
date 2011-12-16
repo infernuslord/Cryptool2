@@ -125,7 +125,7 @@ RSA ist in kommerziellen Protokollen weit verbreitet und gilt bei genügend lang
           <defaultvalue>299</defaultvalue>
         </inputBox>
 
-        <inputBox plugin="e" property="Text" group="Key" width="20%">
+        <inputBox plugin="d" property="Text" group="Key" width="20%">
           <description lang="en">d (private part of keypair):</description>
           <description lang="de">d (privater Teil des Schlüsselpaars):</description>
           <defaultvalue>23</defaultvalue>
