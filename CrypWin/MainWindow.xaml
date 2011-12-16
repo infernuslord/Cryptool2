@@ -444,7 +444,7 @@
 
                             </dc:RibbonBar>
 
-                            <dc:RibbonBar Header="{Loc Dock}" ToolTip="{Loc Main_controls_of_CrypTool_Workspace_}" Padding="7" ResizeOrderIndex="6" dc:Ribbon.KeyTip="DOCK">
+                            <dc:RibbonBar Header="{Loc View}" ToolTip="{Loc Main_controls_of_CrypTool_Workspace_}" Padding="7" ResizeOrderIndex="6">
                                 <dc:ButtonDropDown Name="PluginBTN" Click="PluginBTN_Checked" IsCheckable="True" dc:Ribbon.KeyTip="D" VerticalAlignment="Center" VerticalContentAlignment="Center" Height="65" Style="{DynamicResource AppMenuCommandButton}" ImagePosition="left" Header="{Loc Components}" Visibility="Collapsed">
                                     <dc:ButtonDropDown.Image>
                                         <Image Source="images/comp.png" Height="32" Width="32"/>

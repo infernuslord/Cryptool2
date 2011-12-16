@@ -619,14 +619,8 @@
   <data name="Add" xml:space="preserve">
     <value>Einfügen</value>
   </data>
-  <data name="Dock" xml:space="preserve">
-    <value>Fenster</value>
-  </data>
   <data name="Fit_to_Screen" xml:space="preserve">
     <value>an Bildschirmgröße anpassen</value>
-  </data>
-  <data name="Functions" xml:space="preserve">
-    <value>Funktionen</value>
   </data>
   <data name="Image" xml:space="preserve">
     <value>Bild</value>

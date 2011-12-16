@@ -649,9 +649,6 @@
   <data name="Add" xml:space="preserve">
     <value>Add</value>
   </data>
-  <data name="Dock" xml:space="preserve">
-    <value>Dock</value>
-  </data>
   <data name="Fit_to_Screen" xml:space="preserve">
     <value>Fit to Screen</value>
   </data>

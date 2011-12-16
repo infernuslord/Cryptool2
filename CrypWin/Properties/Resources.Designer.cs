@@ -606,15 +606,6 @@ namespace Cryptool.CrypWin.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Dock.
-        /// </summary>
-        internal static string Dock {
-            get {
-                return ResourceManager.GetString("Dock", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Download update now.
         /// </summary>
         internal static string Download_update_now {
