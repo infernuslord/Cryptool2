@@ -33,10 +33,9 @@ namespace Wizard
             Presentation.ToolTip = Properties.Resources.PluginTooltip;
         }
 
-        private WizardSettings wizardSettings = new WizardSettings();
         public ISettings Settings
         {
-            get { return wizardSettings; }
+            get { return null; }
         }
 
         private WizardControl wizardControl = new WizardControl();

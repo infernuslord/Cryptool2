@@ -56,9 +56,6 @@
     <Setting Name="WorkspaceManager_SortHeight" Type="System.Double" Scope="User">
       <Value Profile="(Default)">1600</Value>
     </Setting>
-    <Setting Name="Wizard_ShowOnStartup" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
     <Setting Name="Wizard_RunTemplate" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
