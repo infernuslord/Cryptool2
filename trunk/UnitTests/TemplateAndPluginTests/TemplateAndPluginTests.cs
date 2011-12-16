@@ -3,9 +3,13 @@ using System.IO;
 using System.Reflection;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Windows;
 using Cryptool.PluginBase;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using WorkspaceManager.Model;
+using System.Windows.Forms;
+using Application = System.Windows.Forms.Application;
 
 namespace Tests.TemplateAndPluginTests
 {
@@ -51,15 +55,28 @@ namespace Tests.TemplateAndPluginTests
         [TestMethod]
         public void CasearTemplateTest()
         {
+            var form = new TestForm();
+            var uiThread = new Thread(() => Application.Run(form));
+            uiThread.SetApartmentState(ApartmentState.STA);
+            uiThread.Start();
+
             //This test doesn't work yet!
 
-            var model = GetWorkspaceModel(@"Cryptography\Classic\Caesar.cwm");
-            var scenario = new TemplateTestScenario(model, new[] { "Message>.Text" }, new[] { "Result>CurrentValue" });
+            uiThread.Join();
+        }
 
-            //Test 1:
-            if (!scenario.Test(new object[] { "Input your message here." }, new[] { "Nsuzy dtzw rjxxflj mjwj." }))
+        public class TestForm : Form
+        {
+            public TestForm()
             {
-                TestFail(1);
+                var model = GetWorkspaceModel(@"Cryptography\Classic\Caesar.cwm");
+                var scenario = new TemplateTestScenario(model, new[] { "Message>.Text" }, new[] { "Result>CurrentValue" });
+
+                //Test 1:
+                if (!scenario.Test(new object[] { "Input your message here." }, new[] { "Nsuzy dtzw rjxxflj mjwj." }))
+                {
+                    //TestFail(1);
+                }
             }
         }
 

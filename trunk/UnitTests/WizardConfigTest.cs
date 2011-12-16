@@ -76,9 +76,17 @@ namespace Tests
                     
                     foreach (var property in pluginSetting.Value)
                     {
-                        if (!WizardControl.SetPluginProperty(new PluginPropertyValue() {PluginName = setting.Key, PropertyName = property.Key, Value = property.Value}, plugin))
+                        try
                         {
-                            Assert.Fail(string.Format("Property {0} in plugin {1} does not exist in template {2}!", property.Key, pluginSetting.Key, file));
+
+                            if (!WizardControl.SetPluginProperty(new PluginPropertyValue() { PluginName = setting.Key, PropertyName = property.Key, Value = property.Value }, plugin))
+                            {
+                                PropertyFail(file, pluginSetting, property);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            PropertyFail(file, pluginSetting, property);
                         }
                     }
                 }
@@ -88,6 +96,12 @@ namespace Tests
                     Assert.Fail(string.Format("Plugin with name {0} does not exist in template {1}!", setting.Key, file));
                 }
             }
+        }
+
+        private static void PropertyFail(string file, KeyValuePair<string, List<KeyValuePair<string, object>>> pluginSetting, KeyValuePair<string, object> property)
+        {
+            Assert.Fail(string.Format("Property {0} in plugin {1} does not exist in template {2}!", property.Key,
+                                      pluginSetting.Key, file));
         }
 
         private IEnumerable<KeyValuePair<string, Dictionary<string, List<KeyValuePair<string, object>>>>> GetTemplatesFromXML(XElement xml, Dictionary<string, List<KeyValuePair<string, object>>> pluginProperties)
@@ -156,12 +170,14 @@ namespace Tests
                 switch (el.Name.ToString())
                 {
                     case "inputBox":
-                        val = "";
+                        val = el.Element("defaultvalue") != null ? el.Element("defaultvalue").Value : "";
                         break;
                     case "comboBox":
                     case "checkBox":
-                    case "outputBox":
                         val = 0;
+                        break;
+                    case "outputBox":
+                        val = null;
                         break;
                 }
 

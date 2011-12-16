@@ -44,10 +44,10 @@
       <defaultvalue lang="de">Geben Sie Ihre Nachricht hier ein.</defaultvalue>
     </inputBox>
 
-    <inputBox plugin="Caesar" property="ShiftChar" alignment="Left" width="5%" visibleLines="1" group="input1" regex="[A-Za-z]">
-      <description lang="en">Key (a single letter):</description>
-      <description lang="de">Schlüssel (ein einzelner Buchstabe):</description>
-      <defaultvalue>F</defaultvalue>
+    <inputBox plugin="Caesar" property="ShiftValue" alignment="Left" width="5%" visibleLines="1" group="input1" regex="[0-9]+">
+      <description lang="en">Shift Value (an integer):</description>
+      <description lang="de">Verschiebewert (eine ganze Zahl):</description>
+      <defaultvalue>3</defaultvalue>
     </inputBox>
     
     <sampleViewer image="Caesar" file="Cryptography\Classic\Caesar.cwm" showCreateButton="true">
