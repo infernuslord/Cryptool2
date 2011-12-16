@@ -31,7 +31,18 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
         public event PropertyChangedEventHandler PropertyChanged;
 
         private InternalCryptoLineView line = null;
-        private ConnectionModel model;
+        private ConnectionModel model = null;
+        public ConnectionModel Model
+        {
+            get { return model; }
+            set
+            {
+                model = value;
+
+                if (model.UpdateableView == null)
+                    model.UpdateableView = this;
+            }
+        }
         private BinConnectorVisual source;
         private BinConnectorVisual target;
 
@@ -85,7 +96,7 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
             // TODO: Complete member initialization
             InitializeComponent();
             Canvas.SetZIndex(this, -1);
-            this.model = model;
+            this.Model = model;
             this.source = source;
             this.target = target;
 
@@ -154,14 +165,14 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
             //Line.IsEditingPoint = false;
         }
 
-        private void MouseRightButtonDownHandler(object sender, MouseButtonEventArgs e)
-        {
-            model.UpdateableView = this;
-            if (this.model != null && !((WorkspaceManagerClass)this.model.WorkspaceModel.MyEditor).isExecuting())
-            {
-                this.model.WorkspaceModel.ModifyModel(new DeleteConnectionModelOperation(this.model));
-            }
-        }
+        //private void MouseRightButtonDownHandler(object sender, MouseButtonEventArgs e)
+        //{
+        //    model.UpdateableView = this;
+        //    if (this.model != null && !((WorkspaceManagerClass)this.model.WorkspaceModel.MyEditor).isExecuting())
+        //    {
+        //        this.model.WorkspaceModel.ModifyModel(new DeleteConnectionModelOperation(this.model));
+        //    }
+        //}
 
         public void update()
         {
@@ -189,7 +200,11 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
             get { return model; }
             set 
             { 
-                model = value; 
+                model = value;
+
+                if (model.UpdateableView == null)
+                    model.UpdateableView = this;
+
                 if (model.PointList != null)
                 {
                     for (int i = 0; i <= model.PointList.Count()-2;i++)
