@@ -40,12 +40,13 @@ namespace WorkspaceManager.View.BinVisual
         private BinComponentVisual bcv;
         private TabControl tbC;
         public String myConnectorName;
+        public Boolean noSettings;
         private Boolean isSideBar;
 
         public BinSettingsVisual(IPlugin plugin, BinComponentVisual bcv, Boolean isMaster, Boolean isSideBar)
         {
 
-            
+            noSettings = false;    
             this.isSideBar = isSideBar;
             this.Resources.Add("isSideBarResource", this.isSideBar);
 
@@ -55,85 +56,96 @@ namespace WorkspaceManager.View.BinVisual
             entgrou = new EntryGroup();
             this.entgrou = createContentSettings(plugin);
 
-           
 
-            ((WorkspaceManagerClass)bcv.Model.WorkspaceModel.MyEditor).executeEvent += new EventHandler(excuteEventHandler);
 
-           
-            //plugin.Settings.PropertyChanged += myTaskPaneAttributeChangedHandler;
-            if (plugin.Settings != null && plugin.Settings.GetTaskPaneAttributeChanged() != null)
+            if (entgrou.entryList.Count != 0)
             {
-                plugin.Settings.GetTaskPaneAttributeChanged().AddEventHandler(plugin.Settings, new TaskPaneAttributeChangedHandler(myTaskPaneAttributeChangedHandler));  
-            }
-
-            
-
-            InitializeComponent();
-
-            if (isMaster)
-            {
-                bcv.IControlCollection.CollectionChanged += new NotifyCollectionChangedEventHandler(CollectionChangedHandler);
-
-                tbC = new TabControl();
-                tbC.Name = "TabControl";
-
-                tbC.Background = Brushes.Transparent;
-                tbC.BorderBrush = Brushes.Transparent;
-
-                DataTrigger dt = new DataTrigger();
-                dt.Value = 1;
-
-                Binding dataBinding = new Binding("Items.Count");
-                dataBinding.RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor, typeof(TabControl), 1);
-                dt.Binding = dataBinding;
-
-                Setter sett = new Setter();
-                sett.Property = VisibilityProperty;
-                sett.Value = Visibility.Collapsed;
-                dt.Setters.Add(sett);
-
-                Style stu = new Style();
-                stu.TargetType = typeof(TabItem);
-                stu.Triggers.Add(dt);
-
-                tbC.ItemContainerStyle = stu;
+                ((WorkspaceManagerClass)bcv.Model.WorkspaceModel.MyEditor).executeEvent += new EventHandler(excuteEventHandler);
 
 
-                myGrid.Children.Remove(MyScrollViewer);
+                //plugin.Settings.PropertyChanged += myTaskPaneAttributeChangedHandler;
+                if (plugin.Settings != null && plugin.Settings.GetTaskPaneAttributeChanged() != null)
+                {
+                    plugin.Settings.GetTaskPaneAttributeChanged().AddEventHandler(plugin.Settings, new TaskPaneAttributeChangedHandler(myTaskPaneAttributeChangedHandler));
+                }
 
-                myGrid.Children.Add(tbC);
-                TabItem tbI = new TabItem();
-                tbI.Header = bcv.Model.PluginType.Name;
-                tbI.Content = MyScrollViewer;
 
-                tbC.Items.Add(tbI);
 
-                myConnectorName = "None, I'm the master!"; 
+                InitializeComponent();
+
+                if (isMaster)
+                {
+                    bcv.IControlCollection.CollectionChanged += new NotifyCollectionChangedEventHandler(CollectionChangedHandler);
+
+                    tbC = new TabControl();
+                    tbC.Name = "TabControl";
+
+                    tbC.Background = Brushes.Transparent;
+                    tbC.BorderBrush = Brushes.Transparent;
+
+                    DataTrigger dt = new DataTrigger();
+                    dt.Value = 1;
+
+                    Binding dataBinding = new Binding("Items.Count");
+                    dataBinding.RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor, typeof(TabControl), 1);
+                    dt.Binding = dataBinding;
+
+                    Setter sett = new Setter();
+                    sett.Property = VisibilityProperty;
+                    sett.Value = Visibility.Collapsed;
+                    dt.Setters.Add(sett);
+
+                    Style stu = new Style();
+                    stu.TargetType = typeof(TabItem);
+                    stu.Triggers.Add(dt);
+
+                    tbC.ItemContainerStyle = stu;
+
+
+                    myGrid.Children.Remove(MyScrollViewer);
+
+                    myGrid.Children.Add(tbC);
+                    TabItem tbI = new TabItem();
+                    tbI.Header = bcv.Model.PluginType.Name;
+                    tbI.Content = MyScrollViewer;
+
+                    tbC.Items.Add(tbI);
+
+                    myConnectorName = "None, I'm the master!";
+
+                }
+
+                else
+                {
+                    //MyScrollViewer.Margin = new Thickness(-5, -5, -5, -5);
+
+                }
+
+                drawList(this.entgrou);
+
+
+
+
+                /*
+                for(int i = 0 ; i< bcv.IControlCollection.Count ; i++)
+                {
+                    this.entgrou.Add(createContentSettings(bcv.IControlCollection[i].PluginModel.Plugin));
+                    drawList(this.entgrou[i+1]);
+                    Console.WriteLine("Hallo" + i);
+                }
+                Console.WriteLine("Hallo" );*/
+
 
             }
 
             else 
             {
-                //MyScrollViewer.Margin = new Thickness(-5, -5, -5, -5);
-                
+                InitializeComponent();
+                TextBlock tb = new TextBlock();
+                tb.Text = "No Settings available!";
+                MyScrollViewer.Content = tb;
+                noSettings = true;
             }
-            
-            drawList(this.entgrou);
-           
-            
-
-
-            /*
-            for(int i = 0 ; i< bcv.IControlCollection.Count ; i++)
-            {
-                this.entgrou.Add(createContentSettings(bcv.IControlCollection[i].PluginModel.Plugin));
-                drawList(this.entgrou[i+1]);
-                Console.WriteLine("Hallo" + i);
-            }
-            Console.WriteLine("Hallo" );*/
-            
-            
-            
             
         }
 
@@ -321,15 +333,20 @@ namespace WorkspaceManager.View.BinVisual
 
         private void drawList(EntryGroup entgrou) 
         {
+           
+
                 foreach (List<ControlEntry> cel in entgrou.entryList)
                 {
+                    
                     Expander testexoander = new Expander();
 
                     Expander noverticalgroupexpander = new Expander();
                     
-                    TestPanel noVerticalGroup = new TestPanel();
+                    TestPanel noVerticalGroup = new TestPanel(isSideBar);
 
                     Border noVerticalGroupBodi = new Border();
+
+                    noVerticalGroupBodi.Style = (Style)FindResource("border1");
 
                     noVerticalGroupBodi.Child = noVerticalGroup;
 
@@ -339,7 +356,7 @@ namespace WorkspaceManager.View.BinVisual
                     
                     testexoander.IsExpanded = true;
                     
-                    TestPanel test = new TestPanel();
+                    TestPanel test = new TestPanel(isSideBar);
 
                     entgrou.gorupPanel.Add(testexoander);
 
@@ -586,7 +603,7 @@ namespace WorkspaceManager.View.BinVisual
                                     l.Width = 1;
                                     l.Height = 0;
                                     noVerticalGroup.Children.Add(ce.element);
-                                    test.Children.Add(l);
+                                    noVerticalGroup.Children.Add(l);
                                    
                                 }
                                 else if (ce.element is ComboBox )
@@ -629,7 +646,6 @@ namespace WorkspaceManager.View.BinVisual
 
             EntryGroup entgrou = new EntryGroup();
 
-            
             
             foreach (TaskPaneAttribute tpa in plugin.Settings.GetSettingsProperties(plugin))
             //for (int i = 0; i < plugin.Settings.GetSettingsProperties(plugin).Length;i++ )
@@ -1187,7 +1203,7 @@ namespace WorkspaceManager.View.BinVisual
 
     public class TestPanel : Panel
     {
-
+        Boolean isSideBar;
         double maxSize = 0;
         double maxSizeContent = 0;
         double maxSizeCaption = 0;
@@ -1196,8 +1212,9 @@ namespace WorkspaceManager.View.BinVisual
 
         Grid maxGrid = new Grid();
 
-        public TestPanel()
+        public TestPanel(Boolean isSideBar)
         {
+            this.isSideBar = isSideBar;
             SizeChanged += new SizeChangedEventHandler(TestPanel_SizeChanged);
         }
 
@@ -1259,7 +1276,7 @@ namespace WorkspaceManager.View.BinVisual
                 maxSizeContent = 200;
 
             maxSizeCaption += 5;
-            maxSizeContent += 5;
+            
             maxSize = maxSizeCaption  + maxSizeContent ;
 
             if (maxSizeCB > maxSize)
@@ -1278,9 +1295,12 @@ namespace WorkspaceManager.View.BinVisual
                     maxSize = maxGrid.DesiredSize.Width;
                     //  this.MinWidth = maxGrid.Width;
                 }
-
-            this.MaxWidth = maxSize + 10;
+            if (!isSideBar)
+            { 
+                this.MaxWidth = maxSize + 10; 
+            }
             
+
             foreach (UIElement child in Children)
             {
                 if (child is NumericUpDown)
@@ -1299,7 +1319,7 @@ namespace WorkspaceManager.View.BinVisual
                     dummyTextBox.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
                     dummyTextBox.Arrange(new Rect(dummyTextBox.DesiredSize));
                     //dummyTextBox.MaxWidth = dummyTextBox.DesiredSize.Width;
-                    dummyTextBox.MaxWidth = maxSizeContent;
+                    //dummyTextBox.MaxWidth = maxSizeContent;
 
                 }
 
@@ -1413,6 +1433,15 @@ namespace WorkspaceManager.View.BinVisual
                 if (child is Slider)
                 {
                     Slider dummyTextBox = child as Slider;
+                    
+                    if (this.ActualWidth < maxSizeCaption + maxSizeContent)
+                    {
+                        dummyTextBox.MaxWidth = Double.MaxValue;
+                    }
+                    else
+                    {
+                        dummyTextBox.MaxWidth = this.ActualWidth - maxSizeCaption ;
+                    }
                     dummyTextBox.Width = this.ActualWidth;
                 }
 
@@ -1430,7 +1459,14 @@ namespace WorkspaceManager.View.BinVisual
                     NumericUpDown dummyTextBox = child as NumericUpDown;
 
                     dummyTextBox.MinWidth = 0;
-
+                    if (this.ActualWidth < maxSizeCaption + maxSizeContent)
+                    {
+                        dummyTextBox.MaxWidth = Double.MaxValue;
+                    }
+                    else
+                    {
+                        dummyTextBox.MaxWidth = this.ActualWidth - maxSizeCaption ;
+                    }
                     dummyTextBox.Width = this.ActualWidth;
                 }
                 
@@ -1459,7 +1495,15 @@ namespace WorkspaceManager.View.BinVisual
 
                     TextBox dummyTextBox = child as TextBox;
                     dummyTextBox.MinWidth = 0;
-                    
+                    if (this.ActualWidth < maxSizeCaption + maxSizeContent)
+                    { 
+                        dummyTextBox.MaxWidth = Double.MaxValue; 
+                    }
+                    else
+                    {
+                        dummyTextBox.MaxWidth = this.ActualWidth - maxSizeCaption ; 
+                    }
+
                     dummyTextBox.Width = this.ActualWidth;
                 }
 
@@ -1497,7 +1541,14 @@ namespace WorkspaceManager.View.BinVisual
 
                     ComboBox dummyTextBox = child as ComboBox;
                     dummyTextBox.MinWidth = 0;
-                    
+                    if (this.ActualWidth < maxSizeCaption + maxSizeContent)
+                    { 
+                        dummyTextBox.MaxWidth = Double.MaxValue; 
+                    }
+                    else
+                    {   
+                        dummyTextBox.MaxWidth =  this.ActualWidth-maxSizeCaption ; 
+                    }
                     dummyTextBox.Width = this.ActualWidth;
                 }
 
@@ -1602,10 +1653,13 @@ namespace WorkspaceManager.View.BinVisual
                     }
                 }*/
 
-               
-                
 
-                if (Children.IndexOf(child) % 2 == 0 || curX + child.DesiredSize.Width > availableSize.Width || curX + child.DesiredSize.Width > maxSize || b)
+                if (child is CheckBox)
+                {
+                  //  b = true;
+                }
+
+                if (Children.IndexOf(child) % 2 == 0 || curX + child.DesiredSize.Width > availableSize.Width /*|| curX + child.DesiredSize.Width > maxSize*/ || b)
                 { //Wrap to next line
                     
                     curY += curLineHeight + 2;
@@ -1720,8 +1774,13 @@ namespace WorkspaceManager.View.BinVisual
                     trans = new TranslateTransform();
                     child.RenderTransform = trans;
                 }
-                
-                if (Children.IndexOf(child) % 2 == 0 || curX + child.DesiredSize.Width > finalSize.Width || curX + child.DesiredSize.Width > maxSize || b || Children.IndexOf(child) % 2 == 0 )
+
+                if (child is CheckBox)
+                {
+                   // b = true;
+                }
+
+                if (Children.IndexOf(child) % 2 == 0 || curX + child.DesiredSize.Width > finalSize.Width /*|| curX + child.DesiredSize.Width > maxSize*/ || b || Children.IndexOf(child) % 2 == 0 )
                 { //Wrap to next line
                     
                     curY += curLineHeight + 2;
