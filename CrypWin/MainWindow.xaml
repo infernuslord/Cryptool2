@@ -445,7 +445,7 @@
                             </dc:RibbonBar>
 
                             <dc:RibbonBar Header="{Loc Dock}" ToolTip="{Loc Main_controls_of_CrypTool_Workspace_}" Padding="7" ResizeOrderIndex="6" dc:Ribbon.KeyTip="DOCK">
-                                <dc:ButtonDropDown Name="PluginBTN" Click="PluginBTN_Checked" IsCheckable="True" dc:Ribbon.KeyTip="D" VerticalContentAlignment="Center" Height="65" Style="{DynamicResource AppMenuCommandButton}" ImagePosition="left" Header="{Loc Components}">
+                                <dc:ButtonDropDown Name="PluginBTN" Click="PluginBTN_Checked" IsCheckable="True" dc:Ribbon.KeyTip="D" VerticalAlignment="Center" VerticalContentAlignment="Center" Height="65" Style="{DynamicResource AppMenuCommandButton}" ImagePosition="left" Header="{Loc Components}" Visibility="Collapsed">
                                     <dc:ButtonDropDown.Image>
                                         <Image Source="images/comp.png" Height="32" Width="32"/>
                                     </dc:ButtonDropDown.Image>
@@ -454,7 +454,7 @@
                                     </dc:ButtonDropDown.ImageSmall>
                                 </dc:ButtonDropDown>
 
-                                <dc:ButtonDropDown Name="LogBTN" Click="LogBTN_Checked" IsCheckable="True" dc:Ribbon.KeyTip="D" VerticalContentAlignment="Center" Height="65" Style="{DynamicResource AppMenuCommandButton}" ImagePosition="left" Header="{Loc Log}">
+                                <dc:ButtonDropDown Name="LogBTN" Click="LogBTN_Checked" IsCheckable="True" dc:Ribbon.KeyTip="D" VerticalAlignment="Center" VerticalContentAlignment="Center" Height="65" Style="{DynamicResource AppMenuCommandButton}" ImagePosition="left" Header="{Loc Log}">
                                     <dc:ButtonDropDown.Image>
                                         <Image Source="images/log.png" Height="32" Width="32"/>
                                     </dc:ButtonDropDown.Image>
@@ -463,7 +463,7 @@
                                     </dc:ButtonDropDown.ImageSmall>
                                 </dc:ButtonDropDown>
 
-                                <dc:ButtonDropDown Name="SettingBTN" Click="SettingBTN_Checked" IsCheckable="True" VerticalContentAlignment="Center" Height="65" Style="{DynamicResource AppMenuCommandButton}" ImagePosition="left" Header="{Loc Parameters}">
+                                <dc:ButtonDropDown Name="SettingBTN" Click="SettingBTN_Checked" IsCheckable="True" VerticalContentAlignment="Center" Height="65" Style="{DynamicResource AppMenuCommandButton}" ImagePosition="left" Header="{Loc Parameters}" Visibility="Collapsed">
                                     <dc:ButtonDropDown.Image>
                                         <Image Source="images/setting.png" Height="32" Width="32"/>
                                     </dc:ButtonDropDown.Image>
@@ -693,7 +693,7 @@
                     <dd:SplitPanel Name="splitPanelNaviPaneAlgorithms" dd:DockSite.Dock="Left" dd:DockSite.DockSize="195">
                         <dd:DockWindowGroup x:Name="dockWindowGroupAlgorithms">
                             <dd:DockWindow Name="dockWindowNaviPaneAlgorithms" Header="{Loc Components}" IsAutoHide="False" CanAutoHide="False" AutoHideOpen="False" 
-                           CanClose="True" CanDockAsDocument="False" Closed="dockWindowNaviPaneAlgorithms_Closed">
+                           CanClose="False" CanDockAsDocument="False" Closed="dockWindowNaviPaneAlgorithms_Closed">
 
               <Grid Margin="5">
                         <Grid.RowDefinitions>
