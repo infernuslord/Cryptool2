@@ -1014,7 +1014,12 @@ namespace Wizard
                 propertyObject = settings;
             }
 
-            if (property != null && ppv.Value is object)
+            if (ppv.Value is object)
+            {
+                return true;
+            }
+
+            if (property != null)
             {
                 if (ppv.Value is string)
                     SetPropertyToString(ppv, propertyObject, property);

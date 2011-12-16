@@ -378,13 +378,13 @@ Die erste Enigma wurde von dem deutschen Ingenieur Arthur Scherbius am Ende des 
     <task lang="en">Here, you can input the message and the key to use.</task>
     <task lang="de">Hier können Sie die Nachricht und den zu benutzenden Schlüssel eingeben.</task>
 
-    <inputBox plugin="Message" property="Text" alignment="Strecht" width="49%" visibleLines="5" group="InputGroup">
+    <inputBox plugin="Message (Text)" property="Text" alignment="Strecht" width="49%" visibleLines="5" group="InputGroup">
       <description lang="en">Message to encrypt/decrypt:</description>
       <description lang="de">Zu verschlüsselnde/entschlüsselnde Nachricht:</description>
       <defaultvalue>ABCDCVX</defaultvalue>
     </inputBox>
 
-    <inputBox plugin="Key" property="Text" alignment="Strecht" width="49%" visibleLines="5" group="InputGroup">
+    <inputBox plugin="Key (Hex)" property="Text" alignment="Strecht" width="49%" visibleLines="5" group="InputGroup">
       <description lang="en">Key:</description>
       <description lang="de">Schlüssel:</description>
       <defaultvalue>d</defaultvalue>
@@ -401,74 +401,17 @@ Die erste Enigma wurde von dem deutschen Ingenieur Arthur Scherbius am Ende des 
       <task lang="en">Here, you can change the parameters and view the results.</task>
       <task lang="de">Hier können Sie Parameter verändern und die Ergebnisse sehen.</task>
 
-      <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5" >
+      <inputBox plugin="Message (Text)" property="Text" alignment="Stretch" visibleLines="5" >
         <description lang="en">Message to encrypt/decrypt:</description>
         <description lang="de">Zu verschlüsselnde/entschlüsselnde Nachricht:</description>
         <defaultvalue lang="en">ABCDCVX</defaultvalue>
       </inputBox>
 
-      <outputBox plugin="Result" property="CurrentValue" alignment="Stretch" visibleLines="5">
+      <outputBox plugin="Result (Text)" property="CurrentValue" alignment="Stretch" visibleLines="5">
         <description lang="en">XOR Output:</description>
         <description lang="de">XOR-Ausgabe:</description>
       </outputBox>
     
-    </sampleViewer>
-  </input>
-
-  <!-- Vernam input -->
-  <input image="Vernam">
-    <name lang="en" >Vernam</name>
-    <description lang="en" >A Vernam cipher is a symmetrical stream cipher in which the plaintext is XORed with a random or pseudorandom stream of data (the "keystream") of the same length to generate the ciphertext.</description>
-    <description lang="de" >Die Vernam-Verschlüsselung ist eine symmetrische Stromchiffre, in welcher der Klartext mit einem zufälligen oder pseudozufälligen Datenstrom (dem "Schlüsselstrom") derselben Länge mittels XOR verknüpft wird, um den Geheimtext zu generieren.</description>
-
-    <headline lang="en" >Message Input</headline>
-    <headline lang="de" >Nachrichteneingabe</headline>
-    <task lang="en">Here, you can input the message and the key to use.</task>
-    <task lang="de">Hier können Sie die Nachricht und den zu benutzenden Schlüssel eingeben.</task>
-
-    <comboBox plugin="Vernam" property="Action" alignment="Left" width="20%">
-      <description lang="en">Encrypt or Decrypt:</description>
-      <description lang="de">Verschlüsseln oder Entschlüsseln:</description>
-      <item lang="en" content="Encrypt"/>
-      <item lang="de" content="Verschlüsseln"/>
-      <item lang="en" content="Decrypt"/>
-      <item lang="de" content="Entschlüsseln"/>
-    </comboBox>
-
-    <inputBox plugin="Message" property="Text" alignment="Strecht" width="49%" visibleLines="5" group="InputGroup">
-      <description lang="en">Message to encrypt/decrypt:</description>
-      <description lang="de">Zu verschlüsselnde/entschlüsselnde Nachricht:</description>
-      <defaultvalue>Hello world! Hallo Welt! Hola mundo! Bonjour le monde!</defaultvalue>
-    </inputBox>
-
-    <inputBox plugin="Key" property="Text" alignment="Stretch" width="49%" visibleLines="5" group="InputGroup">
-      <description lang="en">Key:</description>
-      <description lang="de">Schlüssel:</description>
-      <defaultvalue>ab</defaultvalue>
-    </inputBox>
-    
-    <sampleViewer image="Vernam" file="Cryptography\Classic\Vernam.cwm">
-      <name lang="en" >Vernam Output</name>
-      <name lang="de" >Vernam-Ausgabe</name>
-      <description lang="en" >A Vernam cipher is a symmetrical stream cipher in which the plaintext is XORed with a random or pseudorandom stream of data (the "keystream") of the same length to generate the ciphertext.</description>
-      <description lang="de" >Die Vernam-Verschlüsselung ist eine symmetrische Stromchiffre, in welcher der Klartext mit einem zufälligen oder pseudozufälligen Datenstrom (dem "Schlüsselstrom") derselben Länge mittels XOR verknüpft wird, um den Geheimtext zu generieren.</description>
-
-      <headline lang="en" >Vernam Output</headline>
-      <headline lang="de" >Vernam-Ausgabe</headline>
-      <task lang="en">Here, you can change the parameters and view the results.</task>
-      <task lang="de">Hier können Sie Parameter verändern und die Ergebnisse sehen.</task>
-
-      <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5" >
-        <description lang="en">Message to encrypt/decrypt:</description>
-        <description lang="de">Zu verschlüsselnde/entschlüsselnde Nachricht:</description>
-        <defaultvalue lang="en">Hello world! Hallo Welt! Hola mundo! Bonjour le monde!</defaultvalue>
-      </inputBox>
-
-      <outputBox plugin="Result" property="CurrentValue" alignment="Stretch" visibleLines="5">
-        <description lang="en">Vernam Output:</description>
-        <description lang="en">Vernam-Ausgabe:</description>
-      </outputBox>
-
     </sampleViewer>
   </input>
 

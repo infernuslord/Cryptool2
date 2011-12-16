@@ -44,7 +44,7 @@ namespace Tests
 
         private void LogHandler(NotificationLevel level, string file)
         {
-            if (level == NotificationLevel.Warning || level == NotificationLevel.Error)
+            if (level == NotificationLevel.Error)
             {
                 Assert.Fail(string.Format("{0} guilogmessage in template {1}!", level, file));
             }
@@ -177,7 +177,7 @@ namespace Tests
                         val = 0;
                         break;
                     case "outputBox":
-                        val = null;
+                        val = "";
                         break;
                 }
 
