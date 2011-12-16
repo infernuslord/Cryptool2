@@ -79,7 +79,6 @@
     <Compile Include="WizardControl.xaml.cs">
       <DependentUpon>WizardControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="WizardSettings.cs" />
     <Compile Include="WizardSettingsTab.xaml.cs">
       <DependentUpon>WizardSettingsTab.xaml</DependentUpon>
     </Compile>
