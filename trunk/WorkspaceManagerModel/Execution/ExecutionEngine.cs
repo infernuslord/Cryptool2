@@ -51,7 +51,7 @@ namespace WorkspaceManager.Execution
         /// Creates a new ExecutionEngine
         /// </summary>
         /// <param name="editor"></param>
-        public ExecutionEngine(IEditor editor)
+        public ExecutionEngine(IEditor editor = null)
         {
             Editor = editor;
             threads = new List<Thread>();
@@ -160,7 +160,7 @@ namespace WorkspaceManager.Execution
                         return;
                     }
 
-                    if (Editor.Presentation.IsVisible)
+                    if (Editor != null && Editor.Presentation != null && Editor.Presentation.IsVisible)
                     {
 
                         Editor.Presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
