@@ -1,6 +1,13 @@
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
+using System.Windows.Controls;
+using Cryptool.Core;
+using Cryptool.PluginBase;
+using Cryptool.PluginBase.Editor;
 using WorkspaceManager.Execution;
 using WorkspaceManager.Model;
 
@@ -57,6 +64,9 @@ namespace Tests.TemplateAndPluginTests
 
         protected override void Execute()
         {
+            var ee = new ExecutionEngine();
+            ee.Execute(_templateModel, false);
+            Thread.Sleep(10000);
         }
 
         protected override void Initialize()
