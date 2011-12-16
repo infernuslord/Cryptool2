@@ -390,4 +390,7 @@
   <data name="Executing_EditingDisabled" xml:space="preserve">
     <value>Executing... Editing while executing is disabled</value>
   </data>
+	<data name="BinSettingsVisual_BinSettingsVisual_No_Settings_available_">
+		<value xml:space="preserve">No parameters available.</value>
+	</data>
 </root>

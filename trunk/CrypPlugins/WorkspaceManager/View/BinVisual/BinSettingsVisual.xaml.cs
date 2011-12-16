@@ -142,7 +142,7 @@ namespace WorkspaceManager.View.BinVisual
             {
                 InitializeComponent();
                 TextBlock tb = new TextBlock();
-                tb.Text = "No Settings available!";
+                tb.Text = Properties.Resources.BinSettingsVisual_BinSettingsVisual_No_Settings_available_;
                 MyScrollViewer.Content = tb;
                 noSettings = true;
             }
