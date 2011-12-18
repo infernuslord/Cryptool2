@@ -228,7 +228,6 @@
         <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" HorizontalContentAlignment="Stretch">
             <StackPanel>
                 <StackPanel>
-                    <TextBlock Text="Selected" FontWeight="Bold" FontSize="12" Foreground="#555" TextAlignment="Center"></TextBlock>
                     <ListView Style="{StaticResource ResourceKey=SelectedComponentListStyle}" ItemsSource="{Binding Path=ComponentCollection}" 
                                 SelectionMode="Single" Grid.Column="1" ScrollViewer.CanContentScroll="False">
                         <ListView.LayoutTransform>
@@ -236,11 +235,11 @@
                         </ListView.LayoutTransform>
                     </ListView>
                 </StackPanel>
-                <StackPanel>
+                <!--<StackPanel>
                     <TextBlock Text="Not Selected" FontWeight="Bold" FontSize="12" Foreground="#555" TextAlignment="Center"></TextBlock>
                     <ListView Style="{StaticResource ResourceKey=NotSelectedComponentListStyle}" ItemsSource="{Binding Path=ComponentCollection}" 
                                 SelectionMode="Single" Grid.Column="1"></ListView>
-                </StackPanel>
+                </StackPanel>-->
             </StackPanel>
         </ScrollViewer>
     </Border>

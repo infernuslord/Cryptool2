@@ -13,6 +13,7 @@ namespace WorkspaceManager.View.Base.Interfaces
         ObjectSize ObjectSize { get; }
         Point Position { get; set; }
         Point[] RoutingPoints{ get; }
+        Point GetRoutingPoint(int routPoint);
     }
 
     public class ObjectSize 

@@ -20,6 +20,7 @@ using System.ComponentModel;
 using System.Collections.ObjectModel;
 using WorkspaceManager.View.Base;
 using System.Windows.Controls.Primitives;
+using WorkspaceManager.View.Base.Interfaces;
 
 namespace WorkspaceManager.View.VisualComponents.CryptoLineView
 {
@@ -107,7 +108,6 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
                 new BinComponentVisual[] { target.WindowParent, source.WindowParent }));
             Line.PointList.CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(PointListCollectionChanged);
             Line.ComputationDone += new EventHandler(LineComputationDone);
-            model.UpdateableView = this;
         }
 
         void LineComputationDone(object sender, EventArgs e)
@@ -207,12 +207,12 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
 
                 if (model.PointList != null)
                 {
+                    PointList.Clear();
                     for (int i = 0; i <= model.PointList.Count()-2;i++)
                     {
-                        PointList.Clear();
                         PointList.Add(new FromTo(model.PointList[i], model.PointList[i+1]));
-                        HasComputed = true;
                     }
+                    HasComputed = true;
                 }
             }
         }
@@ -627,9 +627,11 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
 
         private void makeOrthogonalPoints()
         {
-            if (!IsEditingPoint || !HasComputed)
+            bool failed = false;
+            if (!IsEditingPoint)
             {
-                if (StartPointSource != null && Model != null && EndPointSource != null && !IsDragged)
+                //Problem Liegt hier. Der Elsefall wird durchlaufen obwohl computed ist.
+                if (StartPointSource != null && Model != null && EndPointSource != null && !IsDragged && !HasComputed)
                 {
                     List<Node> nodeList = new List<Node>();
                     FrameworkElement parent = Model.WorkspaceModel.MyEditor.Presentation;
@@ -654,7 +656,7 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
                         {
                             if (element is BinComponentVisual)
                             {
-                                BinComponentVisual p1 = element as BinComponentVisual;
+                                IRouting p1 = element as IRouting;
                                 nodeList.Add(new Node() { Point = p1.GetRoutingPoint(routPoint) });
                                 if (routPoint == 0)
                                 {
@@ -662,8 +664,8 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
                                     {
                                         Rectangle = new System.Drawing.RectangleF((float)p1.Position.X,
                                                                                    (float)p1.Position.Y,
-                                                                                   (float)p1.ActualWidth,
-                                                                                   (float)p1.ActualHeight)
+                                                                                   (float)p1.ObjectSize.X,
+                                                                                   (float)p1.ObjectSize.Y)
                                     });
                                 }
                             }
@@ -784,26 +786,29 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
                         raiseComputationDone();
                         return;
                     }
-                    return;
+                    failed = true;     
                 }
                 //Failsafe
-                if (StartPoint.X < EndPoint.X)
+                if (IsDragged || failed)
                 {
-                    PointList.Clear();
-                    PointList.Add(new FromTo(StartPoint, new Point((EndPoint.X + StartPoint.X) / 2, StartPoint.Y)));
-                    PointList.Add(new FromTo(new Point((EndPoint.X + StartPoint.X) / 2, StartPoint.Y), new Point((EndPoint.X + StartPoint.X) / 2, EndPoint.Y)));
-                    PointList.Add(new FromTo(new Point((EndPoint.X + StartPoint.X) / 2, EndPoint.Y), EndPoint));
-                    raiseComputationDone();
-                }
-                else
-                {
-                    if (StartPoint.X > EndPoint.X)
+                    if (StartPoint.X < EndPoint.X)
                     {
                         PointList.Clear();
-                        PointList.Add(new FromTo(StartPoint, new Point((StartPoint.X + EndPoint.X) / 2, StartPoint.Y)));
-                        PointList.Add(new FromTo(new Point((StartPoint.X + EndPoint.X) / 2, StartPoint.Y), new Point((StartPoint.X + EndPoint.X) / 2, EndPoint.Y)));
-                        PointList.Add(new FromTo(new Point((StartPoint.X + EndPoint.X) / 2, EndPoint.Y), EndPoint));
+                        PointList.Add(new FromTo(StartPoint, new Point((EndPoint.X + StartPoint.X) / 2, StartPoint.Y)));
+                        PointList.Add(new FromTo(new Point((EndPoint.X + StartPoint.X) / 2, StartPoint.Y), new Point((EndPoint.X + StartPoint.X) / 2, EndPoint.Y)));
+                        PointList.Add(new FromTo(new Point((EndPoint.X + StartPoint.X) / 2, EndPoint.Y), EndPoint));
                         raiseComputationDone();
+                    }
+                    else
+                    {
+                        if (StartPoint.X > EndPoint.X)
+                        {
+                            PointList.Clear();
+                            PointList.Add(new FromTo(StartPoint, new Point((StartPoint.X + EndPoint.X) / 2, StartPoint.Y)));
+                            PointList.Add(new FromTo(new Point((StartPoint.X + EndPoint.X) / 2, StartPoint.Y), new Point((StartPoint.X + EndPoint.X) / 2, EndPoint.Y)));
+                            PointList.Add(new FromTo(new Point((StartPoint.X + EndPoint.X) / 2, EndPoint.Y), EndPoint));
+                            raiseComputationDone();
+                        }
                     }
                 }
             }
