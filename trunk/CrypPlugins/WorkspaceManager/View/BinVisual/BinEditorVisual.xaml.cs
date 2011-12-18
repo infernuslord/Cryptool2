@@ -403,7 +403,7 @@ namespace WorkspaceManager.View.BinVisual
         private void internalLoad(object model)
         {
             IsLoading = true;
-            Dispatcher.BeginInvoke(DispatcherPriority.Background, (SendOrPostCallback)delegate
+            Dispatcher.BeginInvoke(DispatcherPriority.Loaded, (SendOrPostCallback)delegate
             {
                 WorkspaceModel m = (WorkspaceModel)model;
                 foreach (PluginModel pluginModel in m.GetAllPluginModels())
@@ -1046,7 +1046,7 @@ namespace WorkspaceManager.View.BinVisual
                     {
                         BinComponentVisual c = (BinComponentVisual)e.Source;
                         if (c.IsICPopUpOpen || Util.TryFindParent<TextBox>(e.OriginalSource as UIElement) != null ||
-                            Util.TryFindParent<BinSettingsVisual>(e.OriginalSource as UIElement) != null)
+                            Util.TryFindParent<Thumb>(e.OriginalSource as UIElement) == null)
                         {
                             startedSelection = true;
                             break;

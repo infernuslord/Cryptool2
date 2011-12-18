@@ -37,7 +37,7 @@
 
         </ContentPresenter>
 
-        <ItemsControl Margin="-4.5" ItemsSource="{Binding Path=Line.PointList}">
+        <!--<ItemsControl Margin="-4.5" ItemsSource="{Binding Path=Line.PointList}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Canvas/>
@@ -56,6 +56,6 @@
                 <Style>
                 </Style>
             </ItemsControl.ItemContainerStyle>
-        </ItemsControl>
+        </ItemsControl>-->
     </Canvas>
 </UserControl>

@@ -60,7 +60,7 @@ namespace WorkspaceManager.View.BinVisual
         {
             get
             {
-                return new ObjectSize(this.ActualWidth, this.ActualHeight);
+                return new ObjectSize(this.Window.ActualWidth, this.Window.ActualHeight);
             }
         }
 

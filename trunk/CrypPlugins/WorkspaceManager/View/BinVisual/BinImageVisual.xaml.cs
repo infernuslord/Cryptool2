@@ -208,5 +208,11 @@ namespace WorkspaceManager.View.BinVisual
         }
 
         public event EventHandler<PositionDeltaChangedArgs> PositionDeltaChanged;
+
+
+        public Point GetRoutingPoint(int routPoint)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
