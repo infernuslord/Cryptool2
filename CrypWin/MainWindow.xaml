@@ -7,6 +7,7 @@
                  xmlns:dragdrop="clr-namespace:DragDropListBox"
                  xmlns:Microsoft_Windows_Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero"
                  xmlns:local="clr-namespace:Cryptool.CrypWin"
+                 EnableGlass="False"
     xmlns:cw="clr-namespace:Cryptool.CrypWin"
     xmlns:con="clr-namespace:Cryptool.CrypWin.Helper"
     xmlns:pb="clr-namespace:Cryptool.PluginBase;assembly=CrypPluginBase"
@@ -301,6 +302,83 @@
     <KeyBinding Command="cw:CrypWinCommands.Maximize" Gesture="F11" />
     <KeyBinding Command="cw:CrypWinCommands.Fullscreen" Gesture="F12" />
   </dc:RibbonWindow.InputBindings>
+    <Grid>
+        <dc:RibbonBar Header="{Loc Extras_}" Margin="0,55,5,0" HorizontalAlignment="Right" Panel.ZIndex="200" Height="90" VerticalAlignment="Top" DockPanel.Dock="Right" ToolTip="{Loc Management_functions_for_CrypTool_2_}" Name="ribbonManagement" >
+            <!--<dc:RibbonBar.Style>
+                <Style TargetType="dc:RibbonBar">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=cw:MainWindow}, Path=WindowState}" Value="Maximized">
+                            <Setter Property="Margin" Value="0,60,5,0"></Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                    
+                </Style>
+                
+            </dc:RibbonBar.Style>-->
+            <WrapPanel Orientation="Horizontal">
+            <dc:ButtonDropDown ImagePosition="Top" Style="{DynamicResource AppMenuCommandButton}" dc:Ribbon.KeyTip="HO" Command="cw:CrypWinCommands.Startcenter" ToolTip="{Loc Startcenter_Tooltip}">
+                <dc:ButtonDropDown.Image>
+                    <Image Source="/Startcenter;component/startcenter.png" Height="40" Width="40" />
+                </dc:ButtonDropDown.Image>
+                <dc:ButtonDropDown.ImageSmall>
+                    <Image Source="/Startcenter;component/startcenter.png" Height="16" Width="16"/>
+                </dc:ButtonDropDown.ImageSmall>
+            </dc:ButtonDropDown>
+
+            <dc:ButtonDropDown Name="p2pButton" ImagePosition="Top" Style="{DynamicResource AppMenuCommandButton}" dc:Ribbon.KeyTip="PP" Command="cw:CrypWinCommands.P2P" ToolTip="{Loc Manages_the_integrated_network_connection_}" Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=cw:MainWindow, AncestorLevel=1}, Path=P2PButtonVisibility}">
+                <dc:ButtonDropDown.Image>
+                    <Image Name="P2PIconImageBig" Source="images/peer2peer-connect.png" Height="40" Width="40" RenderTransformOrigin="0.5,0.5">
+                        <Image.RenderTransform>
+                            <RotateTransform x:Name="P2PBigIconImageRotate"/>
+                        </Image.RenderTransform>
+                    </Image>
+                </dc:ButtonDropDown.Image>
+                <dc:ButtonDropDown.ImageSmall>
+                    <Image Name="P2PIconImageSmall" Source="images/peer2peer-connect.png" Height="16" Width="16" RenderTransformOrigin="0.5,0.5">
+                        <Image.RenderTransform>
+                            <RotateTransform x:Name="P2PSmallIconImageRotate"/>
+                        </Image.RenderTransform>
+                    </Image>
+                </dc:ButtonDropDown.ImageSmall>
+            </dc:ButtonDropDown>
+
+            <dc:ButtonDropDown Name="autoUpdateButton" ImagePosition="Top" Style="{DynamicResource AppMenuCommandButton}" dc:Ribbon.KeyTip="AU" Command="cw:CrypWinCommands.AutoUpdater">
+                <dc:ButtonDropDown.Image>
+                    <Image Source="images/noUpdate.png" Height="40" Width="40" RenderTransformOrigin="0.5,0.5">
+                        <Image.RenderTransform>
+                            <RotateTransform x:Name="AutoUpdaterBigIconImageRotate"/>
+                        </Image.RenderTransform>
+                    </Image>
+                </dc:ButtonDropDown.Image>
+                <dc:ButtonDropDown.ImageSmall>
+                    <Image Source="images/noUpdate.png" Height="16" Width="16" RenderTransformOrigin="0.5,0.5">
+                        <Image.RenderTransform>
+                            <RotateTransform x:Name="AutoUpdaterSmallIconImageRotate"/>
+                        </Image.RenderTransform>
+                    </Image>
+                </dc:ButtonDropDown.ImageSmall>
+            </dc:ButtonDropDown>
+
+            <dc:ButtonDropDown Name="settingsButton" ImagePosition="Top" Style="{DynamicResource AppMenuCommandButton}" dc:Ribbon.KeyTip="S" Command="cw:CrypWinCommands.Settings" ToolTip="{Loc SettingsTooltip}">
+                <dc:ButtonDropDown.Image>
+                    <Image Source="images/settings.png" Height="40" Width="40" />
+                </dc:ButtonDropDown.Image>
+                <dc:ButtonDropDown.ImageSmall>
+                    <Image Source="images/settings.png" Height="16" Width="16"/>
+                </dc:ButtonDropDown.ImageSmall>
+            </dc:ButtonDropDown>
+
+            <dc:ButtonDropDown Header="{Loc Help}" Click="ButtonHelp_Click" ImagePosition="Top" Style="{DynamicResource AppMenuCommandButton}" dc:Ribbon.KeyTip="PR" Name="helpMenu" ToolTip="{Loc Help_for_CrypTool_2_}">
+                <dc:ButtonDropDown.Image>
+                    <Image Source="images/help32.png" Height="40" Width="40" />
+                </dc:ButtonDropDown.Image>
+                <dc:ButtonDropDown.ImageSmall>
+                    <Image Source="images/help32.png" Height="16" Width="16"/>
+                </dc:ButtonDropDown.ImageSmall>
+            </dc:ButtonDropDown>
+            </WrapPanel>
+        </dc:RibbonBar>
+
     <DockPanel LastChildFill="True">
         <StatusBar Name="statusBar" DockPanel.Dock="Bottom" Height="22" MouseDoubleClick="statusBar_MouseDoubleClick">
             <StatusBar.ItemsPanel>
@@ -380,9 +458,9 @@
 
                     <dc:RibbonBarPanel Height="89" x:Name="ToolBarPanel">
                         <DockPanel LastChildFill="True">
-                            <DockPanel.Width>
+                            <!--<DockPanel.Width>
                                 <Binding ElementName="AppRibbon" Path="ActualWidth" Mode="OneWay" Converter="{StaticResource PanelWidthConverter}"/>
-                            </DockPanel.Width>
+                            </DockPanel.Width>-->
                             <dc:RibbonBar Header="{Loc CrypTool_workspace_}" DockPanel.Dock="Left" ToolTip="{Loc Main_controls_of_CrypTool_Workspace_}" x:Name="ribbonMainControls" Padding="7" ResizeOrderIndex="6" dc:Ribbon.KeyTip="CT">
                                 <dc:ButtonDropDown Height="65" VerticalContentAlignment="Center" ImagePosition="Left" Style="{DynamicResource AppMenuCommandButton}" Name="buttonDropDownNew" StaysOpenOnClick="True" dc:Ribbon.KeyTip="N" Command="ApplicationCommands.New" Header="{Loc New}">
                                     <dc:ButtonDropDown.Image>
@@ -506,70 +584,6 @@
                             </dc:RibbonBar>
 
                             <dc:RibbonBar Visibility="Hidden">
-                            </dc:RibbonBar>
-
-                            <dc:RibbonBar Header="{Loc Extras_}" DockPanel.Dock="Right" ToolTip="{Loc Management_functions_for_CrypTool_2_}" Name="ribbonManagement" HorizontalAlignment="Right" >
-
-                                <dc:ButtonDropDown ImagePosition="Top" Style="{DynamicResource AppMenuCommandButton}" dc:Ribbon.KeyTip="HO" Command="cw:CrypWinCommands.Startcenter" ToolTip="{Loc Startcenter_Tooltip}">
-                                    <dc:ButtonDropDown.Image>
-                                        <Image Source="/Startcenter;component/startcenter.png" Height="40" Width="40" />
-                                    </dc:ButtonDropDown.Image>
-                                    <dc:ButtonDropDown.ImageSmall>
-                                        <Image Source="/Startcenter;component/startcenter.png" Height="16" Width="16"/>
-                                    </dc:ButtonDropDown.ImageSmall>
-                                </dc:ButtonDropDown>
-                                
-                                <dc:ButtonDropDown Name="p2pButton" ImagePosition="Top" Style="{DynamicResource AppMenuCommandButton}" dc:Ribbon.KeyTip="PP" Command="cw:CrypWinCommands.P2P" ToolTip="{Loc Manages_the_integrated_network_connection_}" Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=cw:MainWindow, AncestorLevel=1}, Path=P2PButtonVisibility}">
-                                    <dc:ButtonDropDown.Image>
-                                        <Image Name="P2PIconImageBig" Source="images/peer2peer-connect.png" Height="40" Width="40" RenderTransformOrigin="0.5,0.5">
-                                            <Image.RenderTransform>
-                                                <RotateTransform x:Name="P2PBigIconImageRotate"/>
-                                            </Image.RenderTransform>
-                                        </Image>
-                                    </dc:ButtonDropDown.Image>
-                                    <dc:ButtonDropDown.ImageSmall>
-                                        <Image Name="P2PIconImageSmall" Source="images/peer2peer-connect.png" Height="16" Width="16" RenderTransformOrigin="0.5,0.5">
-                                            <Image.RenderTransform>
-                                                <RotateTransform x:Name="P2PSmallIconImageRotate"/>
-                                            </Image.RenderTransform>
-                                        </Image>
-                                    </dc:ButtonDropDown.ImageSmall>
-                                </dc:ButtonDropDown>
-
-                                <dc:ButtonDropDown Name="autoUpdateButton" ImagePosition="Top" Style="{DynamicResource AppMenuCommandButton}" dc:Ribbon.KeyTip="AU" Command="cw:CrypWinCommands.AutoUpdater">
-                                    <dc:ButtonDropDown.Image>
-                                        <Image Source="images/noUpdate.png" Height="40" Width="40" RenderTransformOrigin="0.5,0.5">
-                                            <Image.RenderTransform>
-                                                <RotateTransform x:Name="AutoUpdaterBigIconImageRotate"/>
-                                            </Image.RenderTransform>
-                                        </Image>
-                                    </dc:ButtonDropDown.Image>
-                                    <dc:ButtonDropDown.ImageSmall>
-                                        <Image Source="images/noUpdate.png" Height="16" Width="16" RenderTransformOrigin="0.5,0.5">
-                                            <Image.RenderTransform>
-                                                <RotateTransform x:Name="AutoUpdaterSmallIconImageRotate"/>
-                                            </Image.RenderTransform>
-                                        </Image>
-                                    </dc:ButtonDropDown.ImageSmall>
-                                </dc:ButtonDropDown>
-
-                                <dc:ButtonDropDown Name="settingsButton" ImagePosition="Top" Style="{DynamicResource AppMenuCommandButton}" dc:Ribbon.KeyTip="S" Command="cw:CrypWinCommands.Settings" ToolTip="{Loc SettingsTooltip}">
-                                    <dc:ButtonDropDown.Image>
-                                        <Image Source="images/settings.png" Height="40" Width="40" />
-                                    </dc:ButtonDropDown.Image>
-                                    <dc:ButtonDropDown.ImageSmall>
-                                        <Image Source="images/settings.png" Height="16" Width="16"/>
-                                    </dc:ButtonDropDown.ImageSmall>
-                                </dc:ButtonDropDown>
-
-                                <dc:ButtonDropDown Header="{Loc Help}" Click="ButtonHelp_Click" ImagePosition="Top" Style="{DynamicResource AppMenuCommandButton}" dc:Ribbon.KeyTip="PR" Name="helpMenu" ToolTip="{Loc Help_for_CrypTool_2_}">
-                                    <dc:ButtonDropDown.Image>
-                                        <Image Source="images/help32.png" Height="40" Width="40" />
-                                    </dc:ButtonDropDown.Image>
-                                    <dc:ButtonDropDown.ImageSmall>
-                                        <Image Source="images/help32.png" Height="16" Width="16"/>
-                                    </dc:ButtonDropDown.ImageSmall>
-                                </dc:ButtonDropDown>
                             </dc:RibbonBar>
                         </DockPanel>
                     </dc:RibbonBarPanel>
@@ -1052,4 +1066,5 @@
   </DockPanel>
 
   </DockPanel>
+    </Grid>
 </dc:RibbonWindow>
