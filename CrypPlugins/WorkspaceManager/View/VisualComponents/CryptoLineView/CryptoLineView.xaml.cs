@@ -185,7 +185,7 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
         #region Variables
 
         private IntersectPoint intersectPoint;
-        private static double baseoffset = 15;
+        private static double baseoffset = 8;
         public event EventHandler ComputationDone;
 
         private ObservableCollection<FromTo> pointList = new ObservableCollection<FromTo>();
@@ -328,6 +328,7 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
             Stroke = Brushes.Black;
             StrokeThickness = 2;
             this.Visuals = visuals;
+            isSubstituteLine = true;
         }
 
             
@@ -339,6 +340,7 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
             this.StartPointSource = source;
             this.EndPointSource = target;
             this.Visuals = visuals;
+            
         }
 
         protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
@@ -631,7 +633,7 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
             if (!IsEditingPoint)
             {
                 //Problem Liegt hier. Der Elsefall wird durchlaufen obwohl computed ist.
-                if (StartPointSource != null && Model != null && EndPointSource != null && !IsDragged && !HasComputed)
+                if (!isSubstituteLine && !IsDragged && !HasComputed)
                 {
                     List<Node> nodeList = new List<Node>();
                     FrameworkElement parent = Model.WorkspaceModel.MyEditor.Presentation;
@@ -789,7 +791,7 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
                     failed = true;     
                 }
                 //Failsafe
-                if (IsDragged || failed)
+                if (IsDragged || failed || isSubstituteLine)
                 {
                     if (StartPoint.X < EndPoint.X)
                     {
@@ -898,6 +900,7 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
 
         private BinConnectorVisual endPointSource;
 
+
         public BinConnectorVisual EndPointSource 
         { 
             get { return endPointSource; } 
@@ -906,6 +909,7 @@ namespace WorkspaceManager.View.VisualComponents.CryptoLineView
                 endPointSource = value;
             } 
         }
+        private bool isSubstituteLine = false;
     }
 
     public class MultiDragValueConverter : IMultiValueConverter
