@@ -50,7 +50,7 @@ namespace Cryptool.Caesar
 
         #endregion
 
-        #region Private variables
+        #region Private variables and public constructor
 
         private CaesarMode selectedAction = CaesarMode.Encrypt;
         private string upperAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -61,9 +61,20 @@ namespace Cryptool.Caesar
         private UnknownSymbolHandlingMode unknownSymbolHandling = UnknownSymbolHandlingMode.Ignore;
         private bool caseSensitiveSensitive = false;
 
+        public CaesarSettings()
+        {
+            setKeyByValue(shiftValue);
+        }
+
         #endregion
 
         #region Private methods
+
+        private void OnLogMessage(string msg, NotificationLevel level)
+        {
+            if (LogMessage != null)
+                LogMessage(msg, level);
+        }
 
         private string removeEqualChars(string value)
         {
@@ -75,7 +86,7 @@ namespace Cryptool.Caesar
                 {
                     if ((value[i] == value[j]) || (!CaseSensitive & (char.ToUpper(value[i]) == char.ToUpper(value[j]))))
                     {
-                        LogMessage("Removing duplicate letter: \'" + value[j] + "\' from alphabet!", NotificationLevel.Warning);
+                        OnLogMessage("Removing duplicate letter: \'" + value[j] + "\' from alphabet!", NotificationLevel.Warning);
                         value = value.Remove(j,1);
                         j--;
                         length--;
@@ -100,7 +111,7 @@ namespace Cryptool.Caesar
             OnPropertyChanged("ShiftString");
 
             // print some info in the log.
-            LogMessage("Accepted new shift value: " + offset, NotificationLevel.Debug);
+            OnLogMessage("Accepted new shift value: " + offset, NotificationLevel.Debug);
         }
 
         #endregion
@@ -174,13 +185,13 @@ namespace Cryptool.Caesar
             string a = removeEqualChars(value);
             if (a.Length == 0) // cannot accept empty alphabets
             {
-              LogMessage("Ignoring empty alphabet from user! Using previous alphabet: \"" + alphabet + "\" (" + alphabet.Length.ToString() + " Symbols)", NotificationLevel.Info);
+              OnLogMessage("Ignoring empty alphabet from user! Using previous alphabet: \"" + alphabet + "\" (" + alphabet.Length.ToString() + " Symbols)", NotificationLevel.Info);
             }
             else if (!alphabet.Equals(a))
             {
               this.alphabet = a;
               setKeyByValue(shiftValue); //re-evaluate if the shiftvalue is still within the range
-              LogMessage("Accepted new alphabet from user: \"" + alphabet + "\" (" + alphabet.Length.ToString() + " Symbols)", NotificationLevel.Info);
+              OnLogMessage("Accepted new alphabet from user: \"" + alphabet + "\" (" + alphabet.Length.ToString() + " Symbols)", NotificationLevel.Info);
               OnPropertyChanged("AlphabetSymbols");
 
               if (ReExecute != null) ReExecute();
@@ -208,7 +219,7 @@ namespace Cryptool.Caesar
                     if (alphabet == upperAlphabet)
                     {
                         alphabet = upperAlphabet + lowerAlphabet;
-                        LogMessage(
+                        OnLogMessage(
                             "Changing alphabet to: \"" + alphabet + "\" (" + alphabet.Length + " Symbols)",
                             NotificationLevel.Debug);
                         OnPropertyChanged("AlphabetSymbols");
@@ -219,7 +230,7 @@ namespace Cryptool.Caesar
                     if (alphabet == (upperAlphabet + lowerAlphabet))
                     {
                         alphabet = upperAlphabet;
-                        LogMessage(
+                        OnLogMessage(
                             "Changing alphabet to: \"" + alphabet + "\" (" + alphabet.Length + " Symbols)",
                             NotificationLevel.Debug);
                         OnPropertyChanged("AlphabetSymbols");
@@ -235,7 +246,7 @@ namespace Cryptool.Caesar
                 if (a != alphabet)
                 {
                     OnPropertyChanged("AlphabetSymbols");
-                    LogMessage("Changing alphabet to: \"" + alphabet + "\" (" + alphabet.Length.ToString() + " Symbols)", NotificationLevel.Info);
+                    OnLogMessage("Changing alphabet to: \"" + alphabet + "\" (" + alphabet.Length.ToString() + " Symbols)", NotificationLevel.Info);
                 }
 
                 OnPropertyChanged("CaseSensitive");
@@ -249,7 +260,7 @@ namespace Cryptool.Caesar
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected void OnPropertyChanged(string name)
+        private void OnPropertyChanged(string name)
         {          
           if (PropertyChanged != null)
           {
