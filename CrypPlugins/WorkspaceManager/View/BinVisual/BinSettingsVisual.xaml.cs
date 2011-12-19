@@ -225,7 +225,7 @@ namespace WorkspaceManager.View.BinVisual
                             if (ce.tpa.PropertyName == tpac.Property)
                             {
 
-                                if (ce.element is NumericUpDown)
+                                if (ce.element is IntegerUpDown)
                                 {
                                     if (tpac.Visibility == System.Windows.Visibility.Collapsed)
                                     {
@@ -281,9 +281,9 @@ namespace WorkspaceManager.View.BinVisual
                         {
                             if (!ce.tpa.ChangeableWhileExecuting)
                                 ce.element.IsEnabled = false;
-                            if (ce.element is NumericUpDown)
+                            if (ce.element is IntegerUpDown)
                             {
-                                NumericUpDown nud =  ce.element as NumericUpDown;
+                                IntegerUpDown nud =  ce.element as IntegerUpDown;
                                 nud.Opacity = 0.80;
                                 nud.Foreground = Brushes.Gray;
                             }
@@ -292,9 +292,9 @@ namespace WorkspaceManager.View.BinVisual
                         {
                             if (!ce.tpa.ChangeableWhileExecuting)
                                 ce.element.IsEnabled = true;
-                            if (ce.element is NumericUpDown)
+                            if (ce.element is IntegerUpDown)
                             {
-                                NumericUpDown nud = ce.element as NumericUpDown;
+                                IntegerUpDown nud = ce.element as IntegerUpDown;
                                 nud.Opacity = 1;
                                 nud.Foreground = Brushes.Black;
                             }
@@ -703,9 +703,7 @@ namespace WorkspaceManager.View.BinVisual
                         case ControlType.NumericUpDown:
                             if (tpa.ValidationType == ValidationType.RangeInteger)
                             {
-                                
-                                NumericUpDown intInput = new NumericUpDown();
-                                intInput.ValueType = typeof(int);
+                                IntegerUpDown intInput = new IntegerUpDown();
                                 intInput.SelectAllOnGotFocus = true;
                                 intInput.Tag = tpa.ToolTip;
                                 intInput.ToolTip = tpa.ToolTip;
@@ -717,7 +715,7 @@ namespace WorkspaceManager.View.BinVisual
                                 FormattedText ft = new FormattedText(s, CultureInfo.GetCultureInfo("en-us"), FlowDirection.LeftToRight, new Typeface(intInput.FontFamily, intInput.FontStyle, intInput.FontWeight, intInput.FontStretch), intInput.FontSize, Brushes.Black);
                                 intInput.MaxWidth = ft.WidthIncludingTrailingWhitespace + 30;
                                 intInput.Width = ft.WidthIncludingTrailingWhitespace + 30;
-                                intInput.SetBinding(NumericUpDown.ValueProperty, dataBinding);
+                                intInput.SetBinding(IntegerUpDown.ValueProperty, dataBinding);
                                 entgrou.AddNewEntry(tpa.GroupName, new ControlEntry(intInput, tpa, sfa));
                                 intInput.IsEnabled = true;
                                 
@@ -737,7 +735,8 @@ namespace WorkspaceManager.View.BinVisual
                             }
                             else if (tpa.ValidationType == ValidationType.RangeDouble)
                             {
-                                NumericUpDown doubleInput = new NumericUpDown();
+                                throw new InvalidOperationException("Double types for NumericUpDown are currently not supported");
+                                /*NumericUpDown doubleInput = new NumericUpDown();
                                 doubleInput.ValueType = typeof(double);
                                 doubleInput.SelectAllOnGotFocus = true;
                                 doubleInput.Tag = tpa.ToolTip;
@@ -747,7 +746,7 @@ namespace WorkspaceManager.View.BinVisual
                                 doubleInput.Minimum = tpa.DoubleMinValue;
                                 doubleInput.SetBinding(NumericUpDown.ValueProperty, dataBinding);
                                 entgrou.AddNewEntry(tpa.GroupName, new ControlEntry(doubleInput, tpa, sfa));
-                                doubleInput.Background = Brushes.Black;
+                                doubleInput.Background = Brushes.Black;*/
                             }
                             break;
                         # endregion NumericUpDown
@@ -1065,8 +1064,7 @@ namespace WorkspaceManager.View.BinVisual
         {
             try
             {
-                if (sender is NumericUpDown) SetHelpText((sender as NumericUpDown).Tag as string);
-                if (sender is NumericUpDown) SetHelpText((sender as NumericUpDown).Tag as string);
+                if (sender is IntegerUpDown) SetHelpText((sender as IntegerUpDown).Tag as string);
                 if (sender is TextBox) SetHelpText((sender as TextBox).Tag as string);
                 //if (sender is PasswordBox) SetHelpText(((BindingInfo)(sender as PasswordBox).Tag).TaskPaneSettingsAttribute.ToolTip as string);
                 if (sender is CheckBox) SetHelpText((sender as CheckBox).Tag as string);
@@ -1303,9 +1301,9 @@ namespace WorkspaceManager.View.BinVisual
 
             foreach (UIElement child in Children)
             {
-                if (child is NumericUpDown)
+                if (child is IntegerUpDown)
                 {
-                    NumericUpDown dummyTextBox = child as NumericUpDown;
+                    IntegerUpDown dummyTextBox = child as IntegerUpDown;
                     dummyTextBox.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
                     dummyTextBox.Arrange(new Rect(dummyTextBox.DesiredSize));
                     //dummyTextBox.MaxWidth = dummyTextBox.DesiredSize.Width;
@@ -1454,9 +1452,9 @@ namespace WorkspaceManager.View.BinVisual
                     dummyTextBox.Width = this.ActualWidth;
                 }
 
-                if (child is NumericUpDown) 
+                if (child is IntegerUpDown) 
                 {
-                    NumericUpDown dummyTextBox = child as NumericUpDown;
+                    IntegerUpDown dummyTextBox = child as IntegerUpDown;
 
                     dummyTextBox.MinWidth = 0;
                     if (this.ActualWidth < maxSizeCaption + maxSizeContent)
