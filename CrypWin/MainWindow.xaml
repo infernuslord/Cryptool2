@@ -449,7 +449,6 @@
                                 <Image Source="images/test/stop.png"/>
                             </dc:ButtonDropDown.Image>
                         </dc:ButtonDropDown>
-                        <dc:QatCustomizeButton/>
                     </dc:Qat>
                 </dc:Ribbon.QuickAccessToolbar>
 
