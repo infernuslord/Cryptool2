@@ -407,7 +407,7 @@ Die erste Enigma wurde von dem deutschen Ingenieur Arthur Scherbius am Ende des 
         <defaultvalue lang="en">ABCDCVX</defaultvalue>
       </inputBox>
 
-      <outputBox plugin="Ciphertext (Hex)" property="CurrentValue" alignment="Stretch" visibleLines="5">
+      <outputBox plugin="Ciphertext (Hex)" property="Text" alignment="Stretch" visibleLines="5">
         <description lang="en">XOR Output:</description>
         <description lang="de">XOR-Ausgabe:</description>
       </outputBox>
