@@ -25,6 +25,6 @@ Online Help:
 - Internal links to CWM templates are opened directly in CrypTool 2
 
 Plugin interface:
-- Removed dynamic properties (too complicated and did not work properly)[/li]
-- Removed handling of HasChanges property from plugins (now handled by editor internally)[/li]
-- Removed some no longer needed parameters (QuickWatchFormat, startable, hasDefaultValue)[/li]
+- Removed dynamic properties (too complicated and did not work properly)
+- Removed handling of HasChanges property from plugins (now handled by editor internally)
+- Removed some no longer needed parameters (QuickWatchFormat, startable, hasDefaultValue)
