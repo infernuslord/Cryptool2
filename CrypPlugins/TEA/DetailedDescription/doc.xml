@@ -2,12 +2,27 @@
 
 <documentation>
   <language culture="en"/>
-  <language culture="de-DE"/>
 
-  <introduction lang="en">    
-  </introduction>
+  <introduction lang="en">
+    <section headline="TEA (Tiny Encryption Algorithm)">
+      In cryptography, the Tiny Encryption Algorithm (TEA) is a block cipher notable for its simplicity of description and implementation (typically a few lines of code). It was designed by David Wheeler and Roger Needham of the Cambridge Computer Laboratory, and first presented at the Fast Software Encryption workshop in 1994.
+      <newline/>
+      TEA operates on 64-bit blocks and uses a 128-bit key. It has a Feistel structure with a suggested 64 rounds, typically implemented in pairs termed cycles. It has an extremely simple key schedule, mixing all of the key material in exactly the same way for each cycle. Different multiples of a magic constant are used to prevent simple attacks based on the symmetry of the rounds. The magic constant, 2654435769 (Decimal) or 9E3779B9 (Hex) is chosen to be (2^32 / phi) where phi is the golden ratio.
+    </section>
 
-  <introduction lang="de-DE">    
+    <section headline="XTEA (eXtended TEA)">
+      In cryptography, XTEA (eXtended TEA) is a block cipher designed to correct weaknesses in TEA. The cipher's designers were David Wheeler and Roger Needham of the Cambridge Computer Laboratory, and the algorithm was presented in an unpublished technical report in 1997 (Needham and Wheeler, 1997).
+      <newline/>
+      Like TEA, XTEA is a 64-bit block Feistel network with a 128-bit key and a suggested 64 rounds. Several differences from TEA are apparent, including a somewhat more complex key-schedule and a rearrangement of the shifts, XORs, and additions.
+    </section>
+
+    <section headline="XXTEA (Corrected Block TEA)">
+      In cryptography, Corrected Block TEA (often referred to as XXTEA) is a block cipher designed to correct weaknesses in the original Block TEA (Tiny Encryption Algorithm), which was first published together with a paper on TEA extensions (XTEA).
+      <newline/>
+      The cipher's designers were Roger Needham and David Wheeler of the Cambridge Computer Laboratory, and the algorithm was presented in an unpublished technical report in October 1998 (Wheeler and Needham, 1998). It is not subject to any patents.
+      <newline/>
+      Formally speaking, XXTEA is a consistent incomplete source-heavy heterogeneous UFN (unbalanced Feistel network) block cipher. XXTEA operates on variable-length blocks that are some arbitrary multiple of 32 bits in size (minimum 64 bits). The number of full cycles depends on the block size, but there are at least six (rising to 32 for small block sizes). The original Block TEA applies the XTEA round function to each word in the block and combines it additively with its leftmost neighbour. Slow diffusion rate of the decryption process was immediately exploited to break the cipher. Corrected Block TEA uses a more involved round function which makes use of both immediate neighbours in processing each word in the block.
+    </section>
   </introduction>
 
   <usage lang="en">
@@ -15,12 +30,6 @@
 
   <usage lang="de-DE">
   </usage>
-  
-  <presentation lang="en">
-  </presentation>
-  
-  <presentation lang="de-DE">
-  </presentation>
   
   <references>
   </references>

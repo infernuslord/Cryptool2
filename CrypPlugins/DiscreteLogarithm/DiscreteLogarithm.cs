@@ -35,7 +35,7 @@ namespace Cryptool.Plugins.DiscreteLogarithm
     /// The input contains of a the BigInteger value and base and the modulo value to determine the residue class
     /// </summary>
     [Author("Sven Rech", null, "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo("DiscreteLogarithm.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "DiscreteLogarithm/icon.png")]
+    [PluginInfo("DiscreteLogarithm.Properties.Resources", "PluginCaption", "PluginTooltip", "DiscreteLogarithm/DetailedDescription/doc.xml", "DiscreteLogarithm/icon.png")]
     [ComponentCategory(ComponentCategory.CryptanalysisGeneric)]
     class DiscreteLogarithm : ICrypComponent
     {
