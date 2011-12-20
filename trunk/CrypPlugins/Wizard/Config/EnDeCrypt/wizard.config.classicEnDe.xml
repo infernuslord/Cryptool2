@@ -401,13 +401,13 @@ Die erste Enigma wurde von dem deutschen Ingenieur Arthur Scherbius am Ende des 
       <task lang="en">Here, you can change the parameters and view the results.</task>
       <task lang="de">Hier können Sie Parameter verändern und die Ergebnisse sehen.</task>
 
-      <inputBox plugin="Message (Text)" property="Text" alignment="Stretch" visibleLines="5" >
+      <inputBox plugin="Plaintext" property="Text" alignment="Stretch" visibleLines="5" >
         <description lang="en">Message to encrypt/decrypt:</description>
         <description lang="de">Zu verschlüsselnde/entschlüsselnde Nachricht:</description>
         <defaultvalue lang="en">ABCDCVX</defaultvalue>
       </inputBox>
 
-      <outputBox plugin="Result (Text)" property="CurrentValue" alignment="Stretch" visibleLines="5">
+      <outputBox plugin="Ciphertext (Hex)" property="CurrentValue" alignment="Stretch" visibleLines="5">
         <description lang="en">XOR Output:</description>
         <description lang="de">XOR-Ausgabe:</description>
       </outputBox>
