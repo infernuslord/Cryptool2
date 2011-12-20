@@ -534,8 +534,8 @@ typeof(BinSettingsVisual), typeof(BinComponentVisual), new FrameworkPropertyMeta
             Presentations.Add(BinComponentState.Setting, Model.Plugin.Settings == null ? null : bsv);
             
             LastState = HasComponentPresentation ? BinComponentState.Presentation : BinComponentState.Setting;
-            
-            
+
+           
             InitializeComponent();
         }
         #endregion

@@ -205,6 +205,15 @@ namespace WorkspaceManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bring to Front.
+        /// </summary>
+        internal static string Bring_to_FrontTooltip {
+            get {
+                return ResourceManager.GetString("Bring_to_FrontTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Bullets.
         /// </summary>
         internal static string Bullets {
@@ -421,6 +430,15 @@ namespace WorkspaceManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Elevate.
+        /// </summary>
+        internal static string ElevateTooltip {
+            get {
+                return ResourceManager.GetString("ElevateTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enter Name.
         /// </summary>
         internal static string Enter_Name {
@@ -619,6 +637,15 @@ namespace WorkspaceManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Move to Back.
+        /// </summary>
+        internal static string Move_to_BackTooltip {
+            get {
+                return ResourceManager.GetString("Move_to_BackTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This is a new workspace..
         /// </summary>
         internal static string NewWorkspaceTooltip {
@@ -696,6 +723,15 @@ namespace WorkspaceManager.Properties {
         internal static string Redo {
             get {
                 return ResourceManager.GetString("Redo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reduce.
+        /// </summary>
+        internal static string ReduceTooltip {
+            get {
+                return ResourceManager.GetString("ReduceTooltip", resourceCulture);
             }
         }
         

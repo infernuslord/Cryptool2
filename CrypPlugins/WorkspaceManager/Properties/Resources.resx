@@ -393,4 +393,16 @@
 	<data name="BinSettingsVisual_BinSettingsVisual_No_Settings_available_">
 		<value xml:space="preserve">No parameters available.</value>
 	</data>
+  <data name="ElevateTooltip">
+    <value xml:space="preserve">Elevate</value>
+  </data>
+  <data name="ReduceTooltip">
+    <value xml:space="preserve">Reduce</value>
+  </data>
+  <data name="Bring_to_FrontTooltip">
+    <value xml:space="preserve">Bring to Front</value>
+  </data>
+  <data name="Move_to_BackTooltip">
+    <value xml:space="preserve">Move to Back</value>
+  </data>
 </root>

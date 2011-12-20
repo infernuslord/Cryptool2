@@ -390,7 +390,19 @@
   <data name="Executing_EditingDisabled" xml:space="preserve">
     <value>Wird ausgeführt... Bearbeitung während der Ausführung nicht möglich</value>
   </data>
-	<data name="BinSettingsVisual_BinSettingsVisual_No_Settings_available_">
-		<value xml:space="preserve">Keine Parameter vorhanden.</value>
-	</data>
+  <data name="BinSettingsVisual_BinSettingsVisual_No_Settings_available_" xml:space="preserve">
+    <value>Keine Parameter vorhanden.</value>
+  </data>
+  <data name="Bring_to_FrontTooltip" xml:space="preserve">
+    <value>In den Vordergrund</value>
+  </data>
+  <data name="ElevateTooltip" xml:space="preserve">
+    <value>Hervorheben</value>
+  </data>
+  <data name="Move_to_BackTooltip" xml:space="preserve">
+    <value>In den Hintergrund</value>
+  </data>
+  <data name="ReduceTooltip" xml:space="preserve">
+    <value>Absenken</value>
+  </data>
 </root>

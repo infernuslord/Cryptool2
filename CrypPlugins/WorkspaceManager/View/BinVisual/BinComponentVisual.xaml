@@ -45,26 +45,26 @@
             </MenuItem>
 
             <Separator />
-            <MenuItem Click="ContextMenuClick" Header="Top" Tag="top">
+            <MenuItem Click="ContextMenuClick" Header="{Loc Bring_to_FrontTooltip}" Tag="top">
                 <MenuItem.Icon>
-                    <Rectangle Height="18" Width="18" Fill="Yellow"></Rectangle>
+                    <Image Width="16" Height="16" Source="/WorkspaceManager;component/View/Image/Arrow-stop-up-48.png" />
                 </MenuItem.Icon>
             </MenuItem>
-
-            <MenuItem Click="ContextMenuClick" Header="Down" Tag="down">
+            <MenuItem Click="ContextMenuClick" Header="{Loc ElevateTooltip}" Tag="up">
                 <MenuItem.Icon>
-                    <Rectangle Height="18" Width="18" Fill="Yellow"></Rectangle>
+                    <Image Width="16" Height="16" Source="/WorkspaceManager;component/View/Image/Arrow-up-48.png" />
                 </MenuItem.Icon>
             </MenuItem>
-            <MenuItem Click="ContextMenuClick" Header="Up" Tag="up">
+            <MenuItem Click="ContextMenuClick" Header="{Loc ReduceTooltip}" Tag="down">
                 <MenuItem.Icon>
-                    <Rectangle Height="18" Width="18" Fill="Yellow"></Rectangle>
+                    <Image Width="16" Height="16" Source="/WorkspaceManager;component/View/Image/Arrow-down-48.png" />
                 </MenuItem.Icon>
             </MenuItem>
             
-            <MenuItem Click="ContextMenuClick" Header="Bottom" Tag="bottom">
+
+            <MenuItem Click="ContextMenuClick" Header="{Loc Move_to_BackTooltip}" Tag="bottom">
                 <MenuItem.Icon>
-                    <Rectangle Height="18" Width="18" Fill="Yellow"></Rectangle>
+                    <Image Width="16" Height="16" Source="/WorkspaceManager;component/View/Image/Arrow-stop-down-48.png" />
                 </MenuItem.Icon>
             </MenuItem>
         </ContextMenu>
