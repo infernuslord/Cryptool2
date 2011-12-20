@@ -379,7 +379,7 @@ namespace Cryptool.PluginBase
                 {
                     if (IsTestMode)
                     {
-                        GuiLogMessage(string.Format(Resources.Can_t_find_localization_key, keyword, type), NotificationLevel.Error);
+                        GuiLogMessage(string.Format(Resources.Can_t_find_localization_key, keyword, type), NotificationLevel.Warning);
                     }
                     return keyword;
                 }
@@ -388,7 +388,7 @@ namespace Cryptool.PluginBase
             {
                 if (IsTestMode)
                 {
-                    GuiLogMessage(string.Format(Resources.Error_trying_to_lookup_localization_key, keyword, ex.Message), NotificationLevel.Error);
+                    GuiLogMessage(string.Format(Resources.Error_trying_to_lookup_localization_key, keyword, ex.Message), NotificationLevel.Warning);
                 }
                 return keyword;
             }
