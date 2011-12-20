@@ -4,23 +4,27 @@
   <language culture="en"/>
   <language culture="de-DE"/>
 
-  <introduction lang="en">    
+  <introduction lang="en">
+    This component can be used to calculate the discrete logarithm of any number based on a given modulo and base.
+    <newline/>
+    It currently only uses a very simple bruteforce-like algorithm, so it isn't adequate to use it for more complex problems.
   </introduction>
 
   <introduction lang="de-DE">    
+    Diese Komponente kann dazu benutzt werden den diskreten Logarithmus einer beliebigen Zahl basierend auf einem gegebenen Modul und einer Basis zu errechnen.
+    <newline/>
+    Sie benutzt derzeit nur einen sehr einfachen, <i>BruteForce</i>-artigen Algorithmus, weswegen sie nicht für die Lösung komplexer Probleme geeignet ist.
   </introduction>
 
   <usage lang="en">
+    Simply connect the three input connectors of this component with other components, which give the input numbers.
+    The output will be the corresponding discrete logarithm.
   </usage>
 
   <usage lang="de-DE">
+    Verbinden Sie lediglich die drei Eingabe-Konnektoren dieser Komponente mit anderen Komponenten, welche die Eingabezahlen liefern.
+    Die Ausgabe wird der dazugehörige diskrete Logarithmus sein.
   </usage>
-  
-  <presentation lang="en">
-  </presentation>
-  
-  <presentation lang="de-DE">
-  </presentation>
   
   <references>
   </references>

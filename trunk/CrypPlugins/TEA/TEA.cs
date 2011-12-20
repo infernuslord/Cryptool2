@@ -30,7 +30,7 @@ using System.Security.Cryptography;
 namespace Cryptool.TEA
 {
     [Author("Soeren Rinne", "soeren.rinne@cryptool.de", "Ruhr-Universitaet Bochum, Chair for Embedded Security (EmSec)", "http://www.crypto.ruhr-uni-bochum.de/")]
-    [PluginInfo("TEA.Properties.Resources", "PluginCaption", "PluginTooltip", "PluginDescriptionURL", "TEA/Images/tea.png", "TEA/Images/encrypt.png", "TEA/Images/decrypt.png", "TEA/Images/encryptX.png", "TEA/Images/decryptX.png")]
+    [PluginInfo("TEA.Properties.Resources", "PluginCaption", "PluginTooltip", "TEA/DetailedDescription/doc.xml", "TEA/Images/tea.png", "TEA/Images/encrypt.png", "TEA/Images/decrypt.png", "TEA/Images/encryptX.png", "TEA/Images/decryptX.png")]
     [ComponentCategory(ComponentCategory.CiphersModernSymmetric)]
     public class TEA : ICrypComponent
     {
