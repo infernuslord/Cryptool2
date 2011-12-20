@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows;
 using Cryptool.PluginBase;
 using System.ComponentModel;
 
@@ -38,10 +39,33 @@ namespace Cryptool.Plugins.Convertor
         #region Algorithm settings properties (visible in the Settings pane)
 
         /// <summary>
+        /// Presentation Format property used in the Settings pane. 
+        /// </summary>
+        [ContextMenu("PresentationFormatSettingCaption", "PresentationFormatSettingTooltip", 1, ContextMenuControlType.ComboBox, null, new string[] { "PresentationFormatSettingList1", "PresentationFormatSettingList2", "PresentationFormatSettingList3", "PresentationFormatSettingList4", "PresentationFormatSettingList5", "PresentationFormatSettingList6" })]
+        [TaskPane("PresentationFormatSettingCaption", "PresentationFormatSettingTooltip", null, 1, false, ControlType.ComboBox, new string[] { "PresentationFormatSettingList1", "PresentationFormatSettingList2", "PresentationFormatSettingList3", "PresentationFormatSettingList4", "PresentationFormatSettingList5", "PresentationFormatSettingList6" })]
+        public PresentationFormat PresentationFormatSetting
+        {
+            get
+            {
+                return this.presentation;
+            }
+            set
+            {
+                if (this.presentation != value)
+                {
+                    this.presentation = value;
+                    OnPropertyChanged("PresentationFormatSetting");
+
+                    SetVisibilityOfEncoding();
+                }
+            }
+        }
+
+        /// <summary>
         /// Encoding property used in the Settings pane. 
         /// </summary>
-        [ContextMenu( "EncodingSettingCaption", "EncodingSettingTooltip", 1, ContextMenuControlType.ComboBox, null, new string[] { "EncodingSettingList1", "EncodingSettingList2", "EncodingSettingList3", "EncodingSettingList4", "EncodingSettingList5", "EncodingSettingList6", "EncodingSettingList7" })]
-        [TaskPane( "EncodingSettingCaption", "EncodingSettingTooltip", "", 1, false, ControlType.ComboBox, new string[] { "EncodingSettingList1", "EncodingSettingList2", "EncodingSettingList3", "EncodingSettingList4", "EncodingSettingList5", "EncodingSettingList6", "EncodingSettingList7" })]
+        [ContextMenu("EncodingSettingCaption", "EncodingSettingTooltip", 2, ContextMenuControlType.ComboBox, null, new string[] { "EncodingSettingList1", "EncodingSettingList2", "EncodingSettingList3", "EncodingSettingList4", "EncodingSettingList5", "EncodingSettingList6", "EncodingSettingList7" })]
+        [TaskPane("EncodingSettingCaption", "EncodingSettingTooltip", "", 2, false, ControlType.ComboBox, new string[] { "EncodingSettingList1", "EncodingSettingList2", "EncodingSettingList3", "EncodingSettingList4", "EncodingSettingList5", "EncodingSettingList6", "EncodingSettingList7" })]
         public EncodingTypes Encoding
         {
             get
@@ -58,39 +82,30 @@ namespace Cryptool.Plugins.Convertor
             }
         }
 
-        /// <summary>
-        /// Presentation Format property used in the Settings pane. 
-        /// </summary>
-        [ContextMenu("PresentationFormatSettingCaption", "PresentationFormatSettingTooltip", 1, ContextMenuControlType.ComboBox, null, new string[] { "PresentationFormatSettingList1", "PresentationFormatSettingList2", "PresentationFormatSettingList3", "PresentationFormatSettingList4", "PresentationFormatSettingList5", "PresentationFormatSettingList6" })]
-        [TaskPane("PresentationFormatSettingCaption", "PresentationFormatSettingTooltip", null, 1, false, ControlType.ComboBox, new string[] { "PresentationFormatSettingList1", "PresentationFormatSettingList2", "PresentationFormatSettingList3", "PresentationFormatSettingList4", "PresentationFormatSettingList5", "PresentationFormatSettingList6" })]
-        public PresentationFormat PresentationFormatSetting
-        {
-            get
-            {
-                return this.presentation;
-            }
-            set
-            {
-                if (this.presentation != value)
-                {
-                    this.presentation = value;
-                    OnPropertyChanged("Presentation");
-                }
-            }
-        }
-
         #endregion
 
-        #region INotifyPropertyChanged Members
+        #region Events
 
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler PropertyChanged;
 
-        public void OnPropertyChanged(string name)
+        private void OnPropertyChanged(string name)
         {
             if (PropertyChanged != null)
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(name));
             }
+        }
+
+        public event TaskPaneAttributeChangedHandler TaskPaneAttributeChanged;
+
+        internal void SetVisibilityOfEncoding()
+        {
+            Visibility visibility = this.presentation == PresentationFormat.Text
+                                        ? Visibility.Visible
+                                        : Visibility.Collapsed;
+
+            if (TaskPaneAttributeChanged != null)
+                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Encoding", visibility)));
         }
 
         #endregion

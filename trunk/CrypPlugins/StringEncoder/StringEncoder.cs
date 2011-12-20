@@ -37,20 +37,11 @@ namespace Cryptool.Plugins.Convertor
         #region Public interface
 
         /// <summary>
-        /// Constructor
-        /// </summary>
-        public StringEncoder()
-        {
-            this.settings = new StringEncoderSettings();
-        }
-
-
-        /// <summary>
         /// Returns the settings object, or sets it
         /// </summary>
         public ISettings Settings
         {
-            get { return (ISettings)this.settings; }
+            get { return this.settings; }
             set { this.settings = (StringEncoderSettings)value; }
         }
 
@@ -74,13 +65,9 @@ namespace Cryptool.Plugins.Convertor
             }
             set
             {
-                if (value is ICryptoolStream)
+                if (inputStream != value)
                 {
-                    // processInput(value); This should be done in execute method, because PlayMode causes 
-                    // errors state (yellow/red markers) to be flushed on execute. So if input is processed
-                    // here before execute method the plugin element will not be colored correctly if 
-                    // errors/warnings occur.
-                    inputStream = (ICryptoolStream)value;
+                    inputStream = value;
                     OnPropertyChanged("InputStream");
                 }
             }
@@ -95,13 +82,9 @@ namespace Cryptool.Plugins.Convertor
             }
             set
             {
-                if (value is byte[])
+                if (inputBytes != value)
                 {
-                    // processInput(value); This should be done in execute method, because PlayMode causes 
-                    // errors state (yellow/red markers) to be flushed on execute. So if input is processed
-                    // here before execute method the plugin element will not be colored correctly if 
-                    // errors/warnings occur.
-                    inputBytes = (byte[])value;
+                    inputBytes = value;
                     OnPropertyChanged("InputBytes");
                 }
             }
@@ -126,7 +109,10 @@ namespace Cryptool.Plugins.Convertor
             get { return null; }
         }
 
-        public void Initialize() { }
+        public void Initialize()
+        {
+            this.settings.SetVisibilityOfEncoding();
+        }
 
         public void Dispose()
         {
@@ -164,7 +150,7 @@ namespace Cryptool.Plugins.Convertor
         #endregion
 
         #region Private variables
-        private StringEncoderSettings settings;
+        private StringEncoderSettings settings = new StringEncoderSettings();
         private ICryptoolStream inputStream = null;
         private byte[] inputBytes = null;
         private string outputString;
@@ -237,13 +223,11 @@ namespace Cryptool.Plugins.Convertor
 
             ShowStatusBarMessage("Converting input ...", NotificationLevel.Debug);
 
-            outputString = GetPresentation(buffer, settings.PresentationFormatSetting);
+            OutputString = GetPresentation(buffer, settings.PresentationFormatSetting);
 
             ShowStatusBarMessage("Input converted.", NotificationLevel.Debug);
 
             ShowProgress(100, 100);
-
-            OnPropertyChanged("OutputString");
         }
 
         private void ShowStatusBarMessage(string message, NotificationLevel logLevel)
@@ -277,13 +261,11 @@ namespace Cryptool.Plugins.Convertor
                     reader.Read(buffer, 0, buffer.Length);
 
                     processInput(buffer);
-                    OnPropertyChanged("InputStream");
                 }
             }
             else if (InputBytes != null)
             {
                 processInput(InputBytes);
-                OnPropertyChanged("InputBytes");
             }
             else
             {
