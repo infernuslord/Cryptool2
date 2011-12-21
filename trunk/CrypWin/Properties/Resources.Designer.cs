@@ -295,7 +295,7 @@ namespace Cryptool.CrypWin.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Changelog:.
+        ///   Looks up a localized string similar to Release Notes:.
         /// </summary>
         internal static string Changelog {
             get {

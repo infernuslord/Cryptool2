@@ -605,7 +605,7 @@
     <value>Steganographie</value>
   </data>
   <data name="Changelog" xml:space="preserve">
-    <value>Änderungslog:</value>
+    <value>Release Notes:</value>
   </data>
   <data name="Can_t_get_unique_ID___0_" xml:space="preserve">
     <value>Kann eindeutige ID nicht feststellen: {0}</value>
