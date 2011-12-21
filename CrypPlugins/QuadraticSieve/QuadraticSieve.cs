@@ -296,7 +296,10 @@ namespace Cryptool.Plugins.QuadraticSieve
             finally
             {
                 alreadyInUse = false;
-                P2PManager.ConnectionManager.OnP2PConnectionStateChangeOccurred -= OnP2PConnectionStateChangeOccurred;
+                if (usePeer2Peer)
+                {
+                    P2PManager.ConnectionManager.OnP2PConnectionStateChangeOccurred -= OnP2PConnectionStateChangeOccurred;
+                }
             }
         }
 

@@ -37,11 +37,6 @@ namespace Cryptool.CrypWin
             InitializeComponent();
             Tag = FindResource("NoUpdate");
             
-            //Delete later:
-            ChangelogTextViewer.Visibility = Visibility.Visible;
-            ChangelogList.Visibility = Visibility.Collapsed;
-            return;
-
             if (AssemblyHelper.BuildType == Ct2BuildType.Nightly)
             {
                 ChangelogTextViewer.Visibility = Visibility.Collapsed;

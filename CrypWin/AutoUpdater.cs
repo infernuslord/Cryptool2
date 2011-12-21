@@ -251,10 +251,6 @@ namespace Cryptool.CrypWin
 
         private void FillRSS(UpdaterPresentation presentation)
         {
-            //these 2 lines are just for testing:
-            presentation.FillChangelogText(changelogText);
-            return;
-
             if (changelog != null && AssemblyHelper.BuildType == Ct2BuildType.Nightly)
             {
                 presentation.ReadAndFillRSSChangelog(changelog);
