@@ -2,18 +2,14 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Text;
+using System.Net;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Threading;
+using System.Xml;
 using System.Xml.Linq;
 
 namespace Startcenter
@@ -64,15 +60,29 @@ namespace Startcenter
                                         }
                                     }, null);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                //Uncritical failure: Do nothing
+                Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback) delegate
+                                    {
+                                        IsUpdating = false;
+                                        var errorRSSFeed = new List<RssItem>(1);
+                                        errorRSSFeed.Add(new RssItem() {Message = Properties.Resources.RSS_error_Message, Title = Properties.Resources.RSS_error_Message});
+                                        errorRSSFeed.Add(new RssItem() {Message = ex.Message, Title = Properties.Resources.Exception});
+                                        rssListBox.DataContext = errorRSSFeed;
+                                    }, null);
             }
         }
 
         private List<RssItem> ReadRSSItems(string rssFeedURL)
         {
-            var items = from x in XDocument.Load(rssFeedURL).Descendants("channel").Descendants("item")
+            var req = (HttpWebRequest)WebRequest.Create(rssFeedURL);
+            req.Method = "GET";
+            req.UserAgent = "CrypZilla";
+
+            var rep = req.GetResponse();
+            var reader = XmlReader.Create(rep.GetResponseStream());
+            
+            var items = from x in XDocument.Load(reader).Descendants("channel").Descendants("item")
                         select new RssItem()
                                    {
                                        Title = x.Descendants("title").Single().Value,

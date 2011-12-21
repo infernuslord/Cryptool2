@@ -106,6 +106,15 @@ namespace Startcenter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Exception.
+        /// </summary>
+        internal static string Exception {
+            get {
+                return ResourceManager.GetString("Exception", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Loading RSS Feed.
         /// </summary>
         internal static string LoadingRSSFeed {
@@ -183,6 +192,15 @@ namespace Startcenter.Properties {
         internal static string RecentFiles {
             get {
                 return ResourceManager.GetString("RecentFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to RSS error.
+        /// </summary>
+        internal static string RSS_error_Message {
+            get {
+                return ResourceManager.GetString("RSS_error_Message", resourceCulture);
             }
         }
         
