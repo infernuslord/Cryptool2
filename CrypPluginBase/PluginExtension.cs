@@ -404,7 +404,7 @@ namespace Cryptool.PluginBase
                 }
                 catch (Exception exception)
                 {
-                    GuiLogMessage(string.Format(Resources.plugin_extension_error_get_description, new object[] { type.Name, exception.Message }), NotificationLevel.Error);
+                    GuiLogMessage(string.Format(Resources.plugin_extension_create_object, new object[] { type.Name, exception.Message }), NotificationLevel.Error);
                     return null;
                 }
             }
@@ -421,7 +421,7 @@ namespace Cryptool.PluginBase
                 }
                 catch (Exception exception)
                 {
-                    GuiLogMessage(string.Format(Resources.plugin_extension_error_get_description, new object[] { type.Name, exception.Message }), NotificationLevel.Error);
+                    GuiLogMessage(string.Format(Resources.plugin_extension_create_object, new object[] { type.Name, exception.Message }), NotificationLevel.Error);
                     return null;
                 }
             }
@@ -438,7 +438,7 @@ namespace Cryptool.PluginBase
                 }
                 catch (Exception exception)
                 {
-                    GuiLogMessage(string.Format(Resources.plugin_extension_error_get_description, new object[] { type.Name, exception.Message }), NotificationLevel.Error);
+                    GuiLogMessage(string.Format(Resources.plugin_extension_create_object, new object[] { type.Name, exception.Message }), NotificationLevel.Error);
                     return null;
                 }
             }
