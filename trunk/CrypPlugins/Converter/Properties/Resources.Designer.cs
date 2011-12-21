@@ -79,7 +79,7 @@ namespace Converter.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Default system encoding ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die UTF-8 ähnelt.
         /// </summary>
         internal static string EncodingSettingList1 {
             get {
@@ -88,7 +88,7 @@ namespace Converter.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die UTF-8 ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die UTF-7 ähnelt.
         /// </summary>
         internal static string EncodingSettingList2 {
             get {
@@ -97,7 +97,7 @@ namespace Converter.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die UTF-7 ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die UTF-16 ähnelt.
         /// </summary>
         internal static string EncodingSettingList3 {
             get {
@@ -115,7 +115,7 @@ namespace Converter.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Unicode ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die ASCII ähnelt.
         /// </summary>
         internal static string EncodingSettingList5 {
             get {
@@ -124,7 +124,7 @@ namespace Converter.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Big endian unicode ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die ISO8859-15 ähnelt.
         /// </summary>
         internal static string EncodingSettingList6 {
             get {
@@ -133,29 +133,11 @@ namespace Converter.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die ASCII ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Windows-1252 ähnelt.
         /// </summary>
         internal static string EncodingSettingList7 {
             get {
                 return ResourceManager.GetString("EncodingSettingList7", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die ISO8859-15 ähnelt.
-        /// </summary>
-        internal static string EncodingSettingList8 {
-            get {
-                return ResourceManager.GetString("EncodingSettingList8", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Windows-1252 ähnelt.
-        /// </summary>
-        internal static string EncodingSettingList9 {
-            get {
-                return ResourceManager.GetString("EncodingSettingList9", resourceCulture);
             }
         }
         
