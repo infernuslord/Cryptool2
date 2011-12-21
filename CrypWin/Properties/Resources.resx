@@ -620,7 +620,7 @@
     <value>Steganography</value>
   </data>
   <data name="Changelog" xml:space="preserve">
-    <value>Changelog:</value>
+    <value>Release Notes:</value>
   </data>
   <data name="Can_t_get_unique_ID___0_" xml:space="preserve">
     <value>Can't get unique ID: {0}</value>

@@ -81,7 +81,7 @@
                     </ListView.View>
                 </ListView>
                 <ScrollViewer Name="ChangelogTextViewer" Visibility="Collapsed" VerticalScrollBarVisibility="Auto">
-                    <HtmlTextBlock:HtmlTextBlock Name="ChangelogText" TextWrapping="Wrap"/>
+                    <HtmlTextBlock:HtmlTextBlock Name="ChangelogText" TextWrapping="Wrap" Margin="5,0,5,0"/>
                 </ScrollViewer>
             </Grid>
         </Border>
