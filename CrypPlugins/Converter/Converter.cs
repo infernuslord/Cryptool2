@@ -241,7 +241,7 @@ namespace Cryptool.Plugins.Converter
 
             switch (encoding)
             {
-                case ConverterSettings.EncodingTypes.Unicode:
+                case ConverterSettings.EncodingTypes.UTF16:
                     return Encoding.Unicode.GetBytes(s);
 
                 case ConverterSettings.EncodingTypes.UTF7:
@@ -255,17 +255,14 @@ namespace Cryptool.Plugins.Converter
 
                 case ConverterSettings.EncodingTypes.ASCII:
                     return Encoding.ASCII.GetBytes(s);
-
-                case ConverterSettings.EncodingTypes.BigEndianUnicode:
-                    return Encoding.BigEndianUnicode.GetBytes(s);
-
+                    
                 case ConverterSettings.EncodingTypes.ISO8859_15:
                     return Encoding.GetEncoding("iso-8859-15").GetBytes(s);
 
                 case ConverterSettings.EncodingTypes.Windows1252:
                     return Encoding.GetEncoding(1252).GetBytes(s);
 
-                default:
+                default:    // should never be reached
                     return Encoding.Default.GetBytes(s);
             }
         }
@@ -276,7 +273,7 @@ namespace Cryptool.Plugins.Converter
 
             switch (encoding)
             {
-                case ConverterSettings.EncodingTypes.Unicode:
+                case ConverterSettings.EncodingTypes.UTF16:
                     return Encoding.Unicode.GetString(bytes);
 
                 case ConverterSettings.EncodingTypes.UTF7:
@@ -290,9 +287,6 @@ namespace Cryptool.Plugins.Converter
 
                 case ConverterSettings.EncodingTypes.ASCII:
                     return Encoding.ASCII.GetString(bytes);
-
-                case ConverterSettings.EncodingTypes.BigEndianUnicode:
-                    return Encoding.BigEndianUnicode.GetString(bytes);
 
                 case ConverterSettings.EncodingTypes.ISO8859_15:
                     return Encoding.GetEncoding("iso-8859-15").GetString(bytes);
