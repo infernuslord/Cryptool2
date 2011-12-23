@@ -53,7 +53,7 @@ namespace Cryptool.PluginBase
         {
           get
           {
-            if (IsMultiLanguage && groupName != null)
+            if (IsMultiLanguage && HasGroupName)
               return PluginType.GetPluginStringResource(groupName);
             else
               return groupName;
