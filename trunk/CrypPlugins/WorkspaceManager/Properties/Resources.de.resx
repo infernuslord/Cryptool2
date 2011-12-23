@@ -387,8 +387,8 @@
   <data name="CloseComponentTooltip" xml:space="preserve">
     <value>Komponente schließen</value>
   </data>
-  <data name="Executing_EditingDisabled" xml:space="preserve">
-    <value>Wird ausgeführt... Bearbeitung während der Ausführung nicht möglich</value>
+  <data name="Executing___" xml:space="preserve">
+    <value>Wird ausgeführt...</value>
   </data>
   <data name="BinSettingsVisual_BinSettingsVisual_No_Settings_available_" xml:space="preserve">
     <value>Keine Parameter vorhanden.</value>
@@ -404,5 +404,8 @@
   </data>
   <data name="ReduceTooltip" xml:space="preserve">
     <value>Absenken</value>
+  </data>
+  <data name="EditingDisabled" xml:space="preserve">
+    <value>Einige Bearbeitungsfunktionen sind während der Ausführung deaktiviert.</value>
   </data>
 </root>

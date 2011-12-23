@@ -133,7 +133,7 @@
             </DockPanel>
         </Border>
         <Border Style="{StaticResource ResourceKey=BottomMessage}">
-            <TextBlock Text="{Loc Executing_EditingDisabled}" FontWeight="DemiBold" Foreground="White" TextAlignment="Center"></TextBlock>
+            <TextBlock Text="{Loc Executing___}" FontWeight="DemiBold" Foreground="White" TextAlignment="Center" ToolTip="{Loc EditingDisabled}"></TextBlock>
         </Border>
     </DockPanel>
 </UserControl>

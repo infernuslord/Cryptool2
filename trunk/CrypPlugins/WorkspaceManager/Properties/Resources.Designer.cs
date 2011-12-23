@@ -430,6 +430,15 @@ namespace WorkspaceManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Some editing functions are disabled during execution..
+        /// </summary>
+        internal static string EditingDisabled {
+            get {
+                return ResourceManager.GetString("EditingDisabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Elevate.
         /// </summary>
         internal static string ElevateTooltip {
@@ -475,11 +484,11 @@ namespace WorkspaceManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Executing... Editing while executing is disabled.
+        ///   Looks up a localized string similar to Executing....
         /// </summary>
-        internal static string Executing_EditingDisabled {
+        internal static string Executing___ {
             get {
-                return ResourceManager.GetString("Executing_EditingDisabled", resourceCulture);
+                return ResourceManager.GetString("Executing___", resourceCulture);
             }
         }
         

@@ -387,22 +387,25 @@
   <data name="CloseComponentTooltip" xml:space="preserve">
     <value>Close Component</value>
   </data>
-  <data name="Executing_EditingDisabled" xml:space="preserve">
-    <value>Executing... Editing while executing is disabled</value>
+  <data name="Executing___" xml:space="preserve">
+    <value>Executing...</value>
   </data>
-	<data name="BinSettingsVisual_BinSettingsVisual_No_Settings_available_">
-		<value xml:space="preserve">No parameters available.</value>
-	</data>
-  <data name="ElevateTooltip">
-    <value xml:space="preserve">Elevate</value>
+  <data name="BinSettingsVisual_BinSettingsVisual_No_Settings_available_" xml:space="preserve">
+    <value>No parameters available.</value>
   </data>
-  <data name="ReduceTooltip">
-    <value xml:space="preserve">Reduce</value>
+  <data name="ElevateTooltip" xml:space="preserve">
+    <value>Elevate</value>
   </data>
-  <data name="Bring_to_FrontTooltip">
-    <value xml:space="preserve">Bring to Front</value>
+  <data name="ReduceTooltip" xml:space="preserve">
+    <value>Reduce</value>
   </data>
-  <data name="Move_to_BackTooltip">
-    <value xml:space="preserve">Move to Back</value>
+  <data name="Bring_to_FrontTooltip" xml:space="preserve">
+    <value>Bring to Front</value>
+  </data>
+  <data name="Move_to_BackTooltip" xml:space="preserve">
+    <value>Move to Back</value>
+  </data>
+  <data name="EditingDisabled" xml:space="preserve">
+    <value>Some editing functions are disabled during execution.</value>
   </data>
 </root>
