@@ -72,6 +72,7 @@ namespace Cryptool.Enigma
         private string outputString;
         private string savedKey;
         private Boolean isrunning;
+        
 
         #endregion
 
@@ -95,7 +96,7 @@ namespace Cryptool.Enigma
             
             String input = preFormatInput(text);
             myPresentation.disablePresentation(isrunning, Presentation.IsVisible);
-            if (Presentation.IsVisible)
+            if (Presentation.IsVisible && !myPresentation.PresentationDisabled)
             {
 
                 String output = core.Encrypt(rotor1Pos, rotor2Pos, rotor3Pos, rotor4Pos, input);
@@ -107,8 +108,9 @@ namespace Cryptool.Enigma
                     LogMessage("Presentation Error!", NotificationLevel.Error);
                 //myPresentation.playClick(null, EventArgs.Empty);
                 //return postFormatOutput(output);
+               
                 return "";
-            }
+            }           
             else
             {
                    
@@ -307,7 +309,7 @@ namespace Cryptool.Enigma
             this.settings.PropertyChanged += myPresentation.settings_OnPropertyChange;
             this.settings.PropertyChanged += settings_OnPropertyChange;
             this.myPresentation.fireLetters += fireLetters;
-
+            
             
             }
 
@@ -329,23 +331,10 @@ namespace Cryptool.Enigma
             int x = (int)carrier[1];
             int y = (int)carrier[2];
             ShowProgress(x,y);
-
+            
         }
 
-        private void presentation_isvisibleChanged(object sender, DependencyPropertyChangedEventArgs args) 
-        {
-            LogMessage("Here we go " + args.NewValue, NotificationLevel.Debug);
-            Boolean visible = (Boolean) args.NewValue ;
-            if (visible && isrunning)
-            {
-                Presentation = null;
-            }
 
-            else 
-            { 
-                
-            }
-        }
 
         private void settings_OnPropertyChange(object sender, PropertyChangedEventArgs e)
         {

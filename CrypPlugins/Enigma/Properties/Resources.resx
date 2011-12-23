@@ -585,4 +585,7 @@
   <data name="Rotorlage_" xml:space="preserve">
     <value>Rotor position:</value>
   </data>
+  <data name="Please_stop_the_Workspace_for_Presentation" xml:space="preserve">
+    <value>Please stop the Workspace for Presentation!</value>
+  </data>
 </root>

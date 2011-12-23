@@ -543,7 +543,7 @@ namespace Cryptool.Enigma
             storyboard = new Storyboard();
             storyboard.Completed += tasteClick2;
 
-            
+            PresentationDisabled = false;
 
             storyboard1 = new Storyboard();
             storyboard1.Completed += prefadeout1;
@@ -988,6 +988,7 @@ namespace Cryptool.Enigma
 
             dummycanvas = new Canvas();
             //mainmainmain.Children.Add(dummycanvas);
+            mainmainmain.Children.Remove(tb);
             this.IsEnabled = true;
             input = "";
 
@@ -1017,7 +1018,8 @@ namespace Cryptool.Enigma
             return b;
         }
 
-        TextBlock tb;
+        private TextBlock tb;
+        public Boolean PresentationDisabled;
         public void disablePresentation(Boolean isrunning, Boolean isvisible) 
         {
 
@@ -1025,15 +1027,17 @@ namespace Cryptool.Enigma
             {
 
                 if (isrunning)
-                {   
+                {
+                    this.stopclick(this,null);
                     this.IsEnabled = false;
-                    if (!IsVisible)
+                    if (!IsVisible && !mainmainmain.Children.Contains(tb))
                     {
+                        PresentationDisabled = true;
                         tb = new TextBlock();
                         tb.TextWrapping = TextWrapping.Wrap;
                         tb.Width = 2200;
                         tb.FontSize = 180;
-                        tb.Text = "Please stop the Workspace for Presentation!";
+                        tb.Text = Properties.Resources.Please_stop_the_Workspace_for_Presentation;
                         mainmainmain.Children.Add(tb);
                     }
                 }
@@ -1042,6 +1046,7 @@ namespace Cryptool.Enigma
                     if(mainmainmain.Children.Contains(tb))
                     mainmainmain.Children.Remove(tb);
                     this.IsEnabled = true;
+                    PresentationDisabled = false;
                 }
             }, null);
         }
@@ -2353,10 +2358,24 @@ namespace Cryptool.Enigma
                     int x = Convert.ToInt32(inputtebo[inputcounter].Text[0]) - 65;
                     letterInput(bList[x], EventArgs.Empty);
                 }
+                if (inputtebo.Count == inputcounter && !stop)
+                {
+                    Object[] carrier = new Object[3];
+                    carrier[0] = output.Substring(0, inputcounter);
+                    carrier[1] = inputcounter;
+                    carrier[2] = output.Length;
+                    fireLetters(carrier, EventArgs.Empty);
+
+                    everythingblack();
+                    storyboard.Children.Clear();
+                    timecounter = 0.0;
+                    
+                }
             }
             if (!playbool)
             {
                 //mainmainmain.Children.Remove(dummycanvas);
+                mainmainmain.Children.Remove(tb);
                 this.IsEnabled = true;
             }
         }
