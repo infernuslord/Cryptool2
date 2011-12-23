@@ -108,8 +108,8 @@ namespace Cryptool.Plugins.StegoLeastSignificantBit
             }
         }
 
-        [ContextMenu("OutputFileFormatCaption", "OutputFileFormatTooltip", 1, ContextMenuControlType.ComboBox, null, ".bmp", ".png", ".tif")]
-        [TaskPane("OutputFileFormatCaption", "OutputFileFormatTooltip", null, 1, true, ControlType.ComboBox, new string[] { ".bmp", ".png", ".tif" })]
+        [ContextMenu("OutputFileFormatCaption", "OutputFileFormatTooltip", 1, ContextMenuControlType.ComboBox, null, "OutputFileFormatList1", "OutputFileFormatList2", "OutputFileFormatList3")]
+        [TaskPane("OutputFileFormatCaption", "OutputFileFormatTooltip", null, 1, true, ControlType.ComboBox, new string[] { "OutputFileFormatList1", "OutputFileFormatList2", "OutputFileFormatList3" })]
         public int OutputFileFormat
         {
             get

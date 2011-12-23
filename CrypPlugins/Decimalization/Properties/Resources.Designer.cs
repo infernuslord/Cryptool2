@@ -259,6 +259,96 @@ namespace Decimalization.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die 0 ähnelt.
+        /// </summary>
+        internal static string NumberList0 {
+            get {
+                return ResourceManager.GetString("NumberList0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die 1 ähnelt.
+        /// </summary>
+        internal static string NumberList1 {
+            get {
+                return ResourceManager.GetString("NumberList1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die 2 ähnelt.
+        /// </summary>
+        internal static string NumberList2 {
+            get {
+                return ResourceManager.GetString("NumberList2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die 3 ähnelt.
+        /// </summary>
+        internal static string NumberList3 {
+            get {
+                return ResourceManager.GetString("NumberList3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die 4 ähnelt.
+        /// </summary>
+        internal static string NumberList4 {
+            get {
+                return ResourceManager.GetString("NumberList4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die 5 ähnelt.
+        /// </summary>
+        internal static string NumberList5 {
+            get {
+                return ResourceManager.GetString("NumberList5", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die 6 ähnelt.
+        /// </summary>
+        internal static string NumberList6 {
+            get {
+                return ResourceManager.GetString("NumberList6", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die 7 ähnelt.
+        /// </summary>
+        internal static string NumberList7 {
+            get {
+                return ResourceManager.GetString("NumberList7", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die 8 ähnelt.
+        /// </summary>
+        internal static string NumberList8 {
+            get {
+                return ResourceManager.GetString("NumberList8", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die 9 ähnelt.
+        /// </summary>
+        internal static string NumberList9 {
+            get {
+                return ResourceManager.GetString("NumberList9", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Decimal Numbers ähnelt.
         /// </summary>
         internal static string Output1Caption {

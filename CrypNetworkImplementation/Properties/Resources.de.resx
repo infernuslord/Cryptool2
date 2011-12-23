@@ -117,13 +117,58 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ConnectOnStartup" xml:space="preserve">
+    <value>Bei Programmstart verbinden</value>
+  </data>
+  <data name="ConnectOnStartup_Tooltip" xml:space="preserve">
+    <value>Aktivieren Sie dieses Kontrollkästchen, um beim Programmstart die Netzwerkverbindung aufzubauen</value>
+  </data>
+  <data name="NetworkSettings" xml:space="preserve">
+    <value>Netzwerk</value>
+  </data>
   <data name="P2PSettings" xml:space="preserve">
     <value>Peer-to-Peer</value>
   </data>
+  <data name="ProxyPassword" xml:space="preserve">
+    <value>Passwort:</value>
+  </data>
+  <data name="ProxyPort" xml:space="preserve">
+    <value>Port:</value>
+  </data>
+  <data name="ProxyServer" xml:space="preserve">
+    <value>Server:</value>
+  </data>
+  <data name="ProxyUser" xml:space="preserve">
+    <value>Benutzer:</value>
+  </data>
+  <data name="Proxy_Settings" xml:space="preserve">
+    <value>Proxyserver-Einstellungen:</value>
+  </data>
+  <data name="RefreshInterval" xml:space="preserve">
+    <value>Aktualisierungsintervall:</value>
+  </data>
+  <data name="UseSystemWideProxy_Tooltip" xml:space="preserve">
+    <value>Aktivieren Sie dieses Kontrollkästchen, um einen systemweiten Proxyserver zu verwenden</value>
+  </data>
+  <data name="Use_Proxy" xml:space="preserve">
+    <value>Verwende Proxyserver</value>
+  </data>
+  <data name="Use_Proxy_Tooltip" xml:space="preserve">
+    <value>Aktivieren Sie dieses Kontrollkästchen, um über einen Proxyserver auf das Netzwerk zuzugreifen.</value>
+  </data>
+  <data name="Use_SystemWideProxy" xml:space="preserve">
+    <value>Verwende systemweiten Proxyserver</value>
+  </data>
   <data name="Use_Timeout" xml:space="preserve">
-    <value>Benutze Timeout</value>
+    <value>Verwende Timeout</value>
   </data>
   <data name="Use_Timeout_Tooltip" xml:space="preserve">
-    <value>Markieren Sie dies, um einen Timout bei synchronen P2P Operationen zu benutzen.</value>
+    <value>Aktivieren Sie dieses Kontrollkästchen, um einen Timout bei synchronen P2P Operationen zu benutzen.</value>
+  </data>
+  <data name="WorkspacePath" xml:space="preserve">
+    <value>Arbeitsplatz-Pfad:</value>
+  </data>
+  <data name="WorldName" xml:space="preserve">
+    <value>Weltname:</value>
   </data>
 </root>

@@ -402,7 +402,7 @@ namespace KeySearcher
             }
         }
 
-        [TaskPane( "OpenCLModeCaption", "OpenCLModeTooltip", "GroupOpenCL", 3, false, ControlType.RadioButton, new string[] { "Low Load", "Normal Load", "High Load (use with caution)" })]
+        [TaskPane("OpenCLModeCaption", "OpenCLModeTooltip", "GroupOpenCL", 3, false, ControlType.RadioButton, new string[] { "OpenCLModeList1", "OpenCLModeList2", "OpenCLModeList3" })]
         [DontSave]
         public int OpenCLMode
         {

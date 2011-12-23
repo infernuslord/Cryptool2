@@ -39,7 +39,7 @@ namespace Contains
 
 
     [ContextMenu("SearchSettingCaption", "SearchSettingTooltip", 1, ContextMenuControlType.ComboBox, null, new string[] { "SearchSettingList1", "SearchSettingList2" })]
-    [TaskPane("SearchSettingCaption", "SearchSettingTooltip", "", 1, false, ControlType.ComboBox, new string[] { "SearchSettingList1", "SearchSettingList2" })]
+    [TaskPane("SearchSettingCaption", "SearchSettingTooltip", null, 1, false, ControlType.ComboBox, new string[] { "SearchSettingList1", "SearchSettingList2" })]
     public int SearchSetting
     {
       get { return (int)search; }
@@ -100,7 +100,7 @@ namespace Contains
 
     private bool toLower;
     [ContextMenu("ToLowerCaption", "ToLowerTooltip", 5, ContextMenuControlType.CheckBox, null)]
-    [TaskPaneAttribute("ToLowerCaption", "ToLowerTooltip", "", 5, false, ControlType.CheckBox)]
+    [TaskPaneAttribute("ToLowerCaption", "ToLowerTooltip", null, 5, false, ControlType.CheckBox)]
     public bool ToLower
     {
         get { return toLower; }
@@ -116,7 +116,7 @@ namespace Contains
       
     private bool ignoreDiacritics;
     [ContextMenu("IgnoreDiacriticsCaption", "IgnoreDiacriticsTooltip", 6, ContextMenuControlType.CheckBox, null)]
-    [TaskPaneAttribute("IgnoreDiacriticsCaption", "IgnoreDiacriticsTooltip", "", 6, false, ControlType.CheckBox)]
+    [TaskPaneAttribute("IgnoreDiacriticsCaption", "IgnoreDiacriticsTooltip", null, 6, false, ControlType.CheckBox)]
     public bool IgnoreDiacritics
     {
         get { return ignoreDiacritics; }
@@ -132,7 +132,7 @@ namespace Contains
 
     private bool hitPercentFromInputString = false;
     [ContextMenu("HitPercentFromInputStringCaption", "HitPercentFromInputStringTooltip", 7, ContextMenuControlType.CheckBox, null)]
-    [TaskPaneAttribute( "HitPercentFromInputStringCaption", "HitPercentFromInputStringTooltip", "", 7, false, ControlType.CheckBox)]
+    [TaskPaneAttribute("HitPercentFromInputStringCaption", "HitPercentFromInputStringTooltip", null, 7, false, ControlType.CheckBox)]
     public bool HitPercentFromInputString
     {
       get { return hitPercentFromInputString; }
@@ -148,7 +148,7 @@ namespace Contains
 
     private bool countWordsOnlyOnce = true;
     [ContextMenu("CountWordsOnlyOnceCaption", "CountWordsOnlyOnceTooltip", 8, ContextMenuControlType.CheckBox, null)]
-    [TaskPaneAttribute( "CountWordsOnlyOnceCaption", "CountWordsOnlyOnceTooltip", "", 8, false, ControlType.CheckBox)]
+    [TaskPaneAttribute("CountWordsOnlyOnceCaption", "CountWordsOnlyOnceTooltip", null, 8, false, ControlType.CheckBox)]
     public bool CountWordsOnlyOnce
     {
       get { return countWordsOnlyOnce; }

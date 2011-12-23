@@ -195,7 +195,7 @@ namespace Cryptool.ADFGVX
 
         private CipherTypeEnum cipherType = CipherTypeEnum.ADFGVX;
 
-        [TaskPane("CipherVariantCaption", "CipherVariantTooltip", null, 2, false, ControlType.ComboBox, new string[] { "ADFGX", "ADFGVX" })]
+        [TaskPane("CipherVariantCaption", "CipherVariantTooltip", null, 2, false, ControlType.ComboBox, new string[] { "CipherTypeList1", "CipherTypeList2" })]
         public CipherTypeEnum CipherType
         {
             get { return this.cipherType; }

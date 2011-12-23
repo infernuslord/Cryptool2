@@ -129,6 +129,12 @@
   <data name="ActionTooltip" xml:space="preserve">
     <value>Wählen Sie die Betriebsart des Plugins.</value>
   </data>
+  <data name="CipherTypeList1" xml:space="preserve">
+    <value>ADFGX</value>
+  </data>
+  <data name="CipherTypeList2" xml:space="preserve">
+    <value>ADFGVX</value>
+  </data>
   <data name="CipherVariantCaption" xml:space="preserve">
     <value>Chiffre-Variante</value>
   </data>

@@ -132,7 +132,7 @@ namespace Cryptool.Plugins.Decimalization
        
         [PropertySaveOrder(4)]
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Eins")]
-        [TaskPane("IBMACaption", "IBMAToolTip", null, 41, false, ControlType.ComboBox,new string[] { "0", "1" , "2", "3", "4", "5", "6" , "7" , "8" , "9" })]
+        [TaskPane("IBMACaption", "IBMAToolTip", null, 41, false, ControlType.ComboBox, new string[] { "NumberList0", "NumberList1", "NumberList2", "NumberList3", "NumberList4", "NumberList5", "NumberList6", "NumberList7", "NumberList8", "NumberList9" })]
         public int IbmA
         {
             get { return ibmA; }
@@ -147,7 +147,7 @@ namespace Cryptool.Plugins.Decimalization
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Eins")]
-        [TaskPane("IBMBCaption", "IBMBToolTip", null, 41, false, ControlType.ComboBox, new string[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" })]
+        [TaskPane("IBMBCaption", "IBMBToolTip", null, 41, false, ControlType.ComboBox, new string[] { "NumberList0", "NumberList1", "NumberList2", "NumberList3", "NumberList4", "NumberList5", "NumberList6", "NumberList7", "NumberList8", "NumberList9" })]
         public int IbmB
         {
             get { return ibmB; }
@@ -162,7 +162,7 @@ namespace Cryptool.Plugins.Decimalization
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Eins")]
-        [TaskPane("IBMCCaption", "IBMCToolTip", null, 41, false, ControlType.ComboBox, new string[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" })]
+        [TaskPane("IBMCCaption", "IBMCToolTip", null, 41, false, ControlType.ComboBox, new string[] { "NumberList0", "NumberList1", "NumberList2", "NumberList3", "NumberList4", "NumberList5", "NumberList6", "NumberList7", "NumberList8", "NumberList9" })]
         public int IbmC
         {
             get { return ibmC; }
@@ -177,7 +177,7 @@ namespace Cryptool.Plugins.Decimalization
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Zwei")]
-        [TaskPane("IBMDCaption", "IBMDToolTip", null, 41, false, ControlType.ComboBox, new string[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" })]
+        [TaskPane("IBMDCaption", "IBMDToolTip", null, 41, false, ControlType.ComboBox, new string[] { "NumberList0", "NumberList1", "NumberList2", "NumberList3", "NumberList4", "NumberList5", "NumberList6", "NumberList7", "NumberList8", "NumberList9" })]
         public int IbmD
         {
             get { return ibmD; }
@@ -192,7 +192,7 @@ namespace Cryptool.Plugins.Decimalization
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Zwei")]
-        [TaskPane("IBMECaption", "IBMEToolTip", null, 41, false, ControlType.ComboBox, new string[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" })]
+        [TaskPane("IBMECaption", "IBMEToolTip", null, 41, false, ControlType.ComboBox, new string[] { "NumberList0", "NumberList1", "NumberList2", "NumberList3", "NumberList4", "NumberList5", "NumberList6", "NumberList7", "NumberList8", "NumberList9" })]
         public int IbmE
         {
             get { return ibmE; }
@@ -207,7 +207,7 @@ namespace Cryptool.Plugins.Decimalization
         }
 
         [SettingsFormat(0, "Normal", "Normal", "Black", "White", System.Windows.Controls.Orientation.Horizontal, "Auto", "*", "Zwei")]
-        [TaskPane("IBMFCaption", "IBMFToolTip", null, 41, false, ControlType.ComboBox, new string[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" })]
+        [TaskPane("IBMFCaption", "IBMFToolTip", null, 41, false, ControlType.ComboBox, new string[] { "NumberList0", "NumberList1", "NumberList2", "NumberList3", "NumberList4", "NumberList5", "NumberList6", "NumberList7", "NumberList8", "NumberList9" })]
         public int IbmF
         {
             get { return ibmF; }

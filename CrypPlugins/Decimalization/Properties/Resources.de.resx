@@ -186,6 +186,36 @@
   <data name="ModeList4" xml:space="preserve">
     <value>IBM</value>
   </data>
+  <data name="NumberList0" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="NumberList1" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="NumberList2" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="NumberList3" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="NumberList4" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="NumberList5" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="NumberList6" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="NumberList7" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="NumberList8" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="NumberList9" xml:space="preserve">
+    <value>9</value>
+  </data>
   <data name="Output1Caption" xml:space="preserve">
     <value>Dezimalzahlen</value>
   </data>

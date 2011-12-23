@@ -32,7 +32,7 @@ namespace Cryptool.WEPAttacks
             new string[] { "ActionList1", "ActionList2", "ActionList3" })]
         [TaskPane("ActionCaption",
             "ActionTooltip",
-            "",
+            null,
             1,
             false,
             ControlType.ComboBox,
@@ -55,7 +55,7 @@ namespace Cryptool.WEPAttacks
         /// </summary>
         [TaskPane("FileOrNotCaption",
             "FileOrNotTooltip",
-            "",
+            null,
             2,
             false,
             ControlType.CheckBox,

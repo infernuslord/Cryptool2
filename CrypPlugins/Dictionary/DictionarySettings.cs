@@ -36,7 +36,7 @@ namespace Dictionary
 
     public delegate void ExecuteCallback();
 
-    [TaskPane( "DictionaryCaption", "DictionaryTooltip", "", 0, true, ControlType.DynamicComboBox, new string[] { "Collection" })]
+    [TaskPane("DictionaryCaption", "DictionaryTooltip", null, 0, true, ControlType.DynamicComboBox, new string[] { "Collection" })]
     public int Dictionary
     {
       get { return currentDictionary; }

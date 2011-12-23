@@ -33,7 +33,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         //private int keyLength = 128;
 
         [ContextMenu( "ActionCaption", "ActionTooltip",1,ContextMenuControlType.ComboBox,new int[] {1,2}, "ActionList1", "ActionList2" )]
-        [TaskPane( "ActionCaption", "ActionTooltip", "", 1, false,ControlType.ComboBox, new string[] {"ActionList1", "ActionList2"})]
+        [TaskPane("ActionCaption", "ActionTooltip", null, 1, false, ControlType.ComboBox, new string[] { "ActionList1", "ActionList2" })]
         public int Action
         {
             get { return this.action; }
@@ -48,7 +48,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         }
 
         [ContextMenu("ModeCaption", "ModeTooltip", 2, ContextMenuControlType.ComboBox, null, new string[] { "ModeList1", "ModeList2", "ModeList3" })]
-        [TaskPane("ModeCaption", "ModeTooltip", "", 2, false, ControlType.ComboBox, new String[] { "ModeList1", "ModeList2", "ModeList3" })]
+        [TaskPane("ModeCaption", "ModeTooltip", null, 2, false, ControlType.ComboBox, new String[] { "ModeList1", "ModeList2", "ModeList3" })]
         public int Mode
         {
             get { return this.mode; }
@@ -63,7 +63,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         }
 
         [ContextMenu("PaddingCaption", "PaddingTooltip", 3, ContextMenuControlType.ComboBox, null, "PaddingList1", "PaddingList2", "PaddingList3", "PaddingList4", "PaddingList5")]
-        [TaskPane("PaddingCaption", "PaddingTooltip", "", 3, false, ControlType.ComboBox, new String[] { "PaddingList1", "PaddingList2", "PaddingList3", "PaddingList4", "PaddingList5" })]
+        [TaskPane("PaddingCaption", "PaddingTooltip", null, 3, false, ControlType.ComboBox, new String[] { "PaddingList1", "PaddingList2", "PaddingList3", "PaddingList4", "PaddingList5" })]
         public int Padding
         {
             get { return this.padding; }

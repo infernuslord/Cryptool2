@@ -76,7 +76,7 @@ namespace Cryptool.FrequencyTest
         /// </summary>
         [PropertySaveOrder(1)]
         [ContextMenu( "CaseSensitivityCaption", "CaseSensitivityTooltip", 7, ContextMenuControlType.ComboBox, null, new string[] { "CaseSensitivityList1", "CaseSensitivityList2" })]
-        [TaskPane( "CaseSensitivityCaption", "CaseSensitivityTooltip", "", 7,false, ControlType.ComboBox, new string[] { "CaseSensitivityList1", "CaseSensitivityList2" })]
+        [TaskPane("CaseSensitivityCaption", "CaseSensitivityTooltip", null, 7, false, ControlType.ComboBox, new string[] { "CaseSensitivityList1", "CaseSensitivityList2" })]
         public int CaseSensitivity
         {
             get { return this.caseSensitivity; }
@@ -91,7 +91,7 @@ namespace Cryptool.FrequencyTest
         }
 
         [PropertySaveOrder(2)]
-        [TaskPane( "GrammLengthCaption", "GrammLengthTooltip", "", 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 100)]
+        [TaskPane("GrammLengthCaption", "GrammLengthTooltip", null, 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 100)]
         public int GrammLength
         {
             get { return this.grammLength; }
@@ -136,7 +136,7 @@ namespace Cryptool.FrequencyTest
         /// The underline char represents a whitespace.
         /// </summary>
         [PropertySaveOrder(4)]
-        [TaskPane("BoundaryFragmentsCaption", "BoundaryFragmentsTooltip", "", 10, false, ControlType.ComboBox, new string[] { "BoundaryFragmentsList1", "BoundaryFragmentsList2" })]
+        [TaskPane("BoundaryFragmentsCaption", "BoundaryFragmentsTooltip", null, 10, false, ControlType.ComboBox, new string[] { "BoundaryFragmentsList1", "BoundaryFragmentsList2" })]
         public int BoundaryFragments
         {
             get { return this.boundaryFragments; }

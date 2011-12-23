@@ -231,4 +231,28 @@
   <data name="OutputEncodingSettingTooltip" xml:space="preserve">
     <value>Wählen Sie die Zeichenkodierung der Ausgabe (falls Byte-Array oder Datenstrom).</value>
   </data>
+  <data name="TypesList1" xml:space="preserve">
+    <value>string</value>
+  </data>
+  <data name="TypesList2" xml:space="preserve">
+    <value>int</value>
+  </data>
+  <data name="TypesList3" xml:space="preserve">
+    <value>short</value>
+  </data>
+  <data name="TypesList4" xml:space="preserve">
+    <value>byte</value>
+  </data>
+  <data name="TypesList5" xml:space="preserve">
+    <value>double</value>
+  </data>
+  <data name="TypesList6" xml:space="preserve">
+    <value>BigInteger</value>
+  </data>
+  <data name="TypesList7" xml:space="preserve">
+    <value>byte[]</value>
+  </data>
+  <data name="TypesList8" xml:space="preserve">
+    <value>Cryptoolstream</value>
+  </data>
 </root>

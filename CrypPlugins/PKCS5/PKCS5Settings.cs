@@ -55,7 +55,7 @@ namespace PKCS5
     [ContextMenu( "SHAFunctionCaption", "SHAFunctionTooltip", 0,
       ContextMenuControlType.ComboBox, null,
       new string[] { "SHAFunctionList1", "SHAFunctionList2", "SHAFunctionList3", "SHAFunctionList4", "SHAFunctionList5", "SHAFunctionList6", "SHAFunctionList7" })]
-    [TaskPane( "SHAFunctionTPCaption", "SHAFunctionTPTooltip", "", 0, true,
+    [TaskPane("SHAFunctionTPCaption", "SHAFunctionTPTooltip", null, 0, true,
       ControlType.ComboBox,
       new string[] { "SHAFunctionList1", "SHAFunctionList2", "SHAFunctionList3", "SHAFunctionList4", "SHAFunctionList5", "SHAFunctionList6", "SHAFunctionList7" })]
     public int SHAFunction
@@ -78,7 +78,7 @@ namespace PKCS5
     /// count of hash loops
     /// </summary>
     private int count = 1000;
-    [TaskPane( "CountCaption", "CountTooltip", "", 1, false,
+    [TaskPane("CountCaption", "CountTooltip", null, 1, false,
       ControlType.TextBox, ValidationType.RangeInteger, 1, 9999)]
     public int Count
     {
@@ -99,7 +99,7 @@ namespace PKCS5
     /// length of calculated hash in bits
     /// </summary>
     private int length = 256;
-    [TaskPane( "LengthCaption", "LengthTooltip", "", 2, false,
+    [TaskPane("LengthCaption", "LengthTooltip", null, 2, false,
       ControlType.TextBox, ValidationType.RangeInteger, -64, 2048)]
     public int Length
     {

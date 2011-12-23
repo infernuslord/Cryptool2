@@ -199,7 +199,7 @@ namespace Cryptool.Plugins.SZ42
             }
         }
 
-        [TaskPane( "PatternΨ1 Caption", "PatternΨ1 Tooltip", "PatternGroup", 7, false, ControlType.TextBox, "")]
+        [TaskPane( "PatternΨ1Caption", "PatternΨ1Tooltip", "PatternGroup", 7, false, ControlType.TextBox, "")]
         public string PatternΨ1 
         {
             get

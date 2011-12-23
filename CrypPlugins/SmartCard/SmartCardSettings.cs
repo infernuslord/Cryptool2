@@ -29,7 +29,7 @@ namespace SmartCard
         this.SearchCardReaders();
     }
 
-    [TaskPane( "CardReaderCaption", "CardReaderTooltip", "", 0, false, ControlType.DynamicComboBox, new string[] { "Collection" })]
+    [TaskPane("CardReaderCaption", "CardReaderTooltip", null, 0, false, ControlType.DynamicComboBox, new string[] { "Collection" })]
     public int CardReader
     {
       get { return this.cardReader; }
@@ -43,7 +43,7 @@ namespace SmartCard
       }
     }
 
-    [TaskPane( "SearchCardReadersCaption", "SearchCardReadersTooltip", "", 1, false, ControlType.Button)]
+    [TaskPane("SearchCardReadersCaption", "SearchCardReadersTooltip", null, 1, false, ControlType.Button)]
     public void SearchCardReaders()
     {
         int hContext = pcscWrapper.EstablishContext();

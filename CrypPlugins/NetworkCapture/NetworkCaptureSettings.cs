@@ -34,7 +34,7 @@ namespace Cryptool.Plugins.NetworkCapture
 
         #region TaskPane Settings
 
-        [TaskPane( "DeviceCaption", "DeviceTooltip", "", 0, false, ControlType.DynamicComboBox, new string[] { "Collection" })]
+        [TaskPane("DeviceCaption", "DeviceTooltip", null, 0, false, ControlType.DynamicComboBox, new string[] { "Collection" })]
         public int Device
         {
             get { return currentDevice; }

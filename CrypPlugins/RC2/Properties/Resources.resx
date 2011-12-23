@@ -123,9 +123,6 @@
   <data name="PluginTooltip" xml:space="preserve">
     <value>Rivest Cipher / Ron's Code</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value />
-  </data>
   <data name="InputStreamCaption" xml:space="preserve">
     <value>Input</value>
   </data>
@@ -197,5 +194,11 @@
   </data>
   <data name="PaddingList5" xml:space="preserve">
     <value>ISO10126</value>
+  </data>
+  <data name="ControlSlaveCaption" xml:space="preserve">
+    <value>RC2 Slave</value>
+  </data>
+  <data name="ControlSlaveTooltip" xml:space="preserve">
+    <value>Direct access to RC2.</value>
   </data>
 </root>

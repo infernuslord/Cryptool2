@@ -165,14 +165,8 @@
   <data name="PluginCaption" xml:space="preserve">
     <value>DGK</value>
   </data>
-  <data name="PluginDescriptionURL" xml:space="preserve">
-    <value />
-  </data>
   <data name="PluginKeyCaption" xml:space="preserve">
     <value>DGK Key Generator</value>
-  </data>
-  <data name="PluginKeyDescriptionURL" xml:space="preserve">
-    <value />
   </data>
   <data name="PluginKeyTooltip" xml:space="preserve">
     <value>DGK Key Generator</value>
@@ -254,5 +248,23 @@
   </data>
   <data name="ActionList2" xml:space="preserve">
     <value>Decryption</value>
+  </data>
+  <data name="InputPCaption" xml:space="preserve">
+    <value>secret key P</value>
+  </data>
+  <data name="InputPTooltip" xml:space="preserve">
+    <value>secret key P</value>
+  </data>
+  <data name="InputVPCaption" xml:space="preserve">
+    <value>secret key VP</value>
+  </data>
+  <data name="InputVPTooltip" xml:space="preserve">
+    <value>secret key VP</value>
+  </data>
+  <data name="InputVQCaption" xml:space="preserve">
+    <value>secret key VQ</value>
+  </data>
+  <data name="InputVQTooltip" xml:space="preserve">
+    <value>secret key VQ</value>
   </data>
 </root>

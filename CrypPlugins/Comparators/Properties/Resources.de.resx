@@ -150,4 +150,22 @@
   <data name="ComparatorTooltip" xml:space="preserve">
     <value>Wählen Sie den Vergleichsoperator</value>
   </data>
+  <data name="ComparatorList1" xml:space="preserve">
+    <value>==</value>
+  </data>
+  <data name="ComparatorList2" xml:space="preserve">
+    <value>!=</value>
+  </data>
+  <data name="ComparatorList3" xml:space="preserve">
+    <value>&lt;</value>
+  </data>
+  <data name="ComparatorList4" xml:space="preserve">
+    <value>&gt;</value>
+  </data>
+  <data name="ComparatorList5" xml:space="preserve">
+    <value>&lt;=</value>
+  </data>
+  <data name="ComparatorList6" xml:space="preserve">
+    <value>&gt;=</value>
+  </data>
 </root>

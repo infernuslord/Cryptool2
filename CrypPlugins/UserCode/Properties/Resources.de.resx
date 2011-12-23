@@ -117,10 +117,70 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Input1Caption" xml:space="preserve">
+    <value>Input1</value>
+  </data>
+  <data name="Input1Tooltip" xml:space="preserve">
+    <value>Input1</value>
+  </data>
+  <data name="Input2Caption" xml:space="preserve">
+    <value>Input2</value>
+  </data>
+  <data name="Input2Tooltip" xml:space="preserve">
+    <value>Input2</value>
+  </data>
+  <data name="Input3Caption" xml:space="preserve">
+    <value>Input3</value>
+  </data>
+  <data name="Input3Tooltip" xml:space="preserve">
+    <value>Input3</value>
+  </data>
+  <data name="Input4Caption" xml:space="preserve">
+    <value>Input4</value>
+  </data>
+  <data name="Input4Tooltip" xml:space="preserve">
+    <value>Input4</value>
+  </data>
+  <data name="Input5Caption" xml:space="preserve">
+    <value>Input5</value>
+  </data>
+  <data name="Input5Tooltip" xml:space="preserve">
+    <value>Input5</value>
+  </data>
+  <data name="Output1Caption" xml:space="preserve">
+    <value>Output1</value>
+  </data>
+  <data name="Output1Tooltip" xml:space="preserve">
+    <value>Output1</value>
+  </data>
+  <data name="Output2Caption" xml:space="preserve">
+    <value>Output2</value>
+  </data>
+  <data name="Output2Tooltip" xml:space="preserve">
+    <value>Output2</value>
+  </data>
+  <data name="Output3Caption" xml:space="preserve">
+    <value>Output3</value>
+  </data>
+  <data name="Output3Tooltip" xml:space="preserve">
+    <value>Output3</value>
+  </data>
+  <data name="Output4Caption" xml:space="preserve">
+    <value>Output4</value>
+  </data>
+  <data name="Output4Tooltip" xml:space="preserve">
+    <value>Output4</value>
+  </data>
+  <data name="Output5Caption" xml:space="preserve">
+    <value>Output5</value>
+  </data>
+  <data name="Output5Tooltip" xml:space="preserve">
+    <value>Output5</value>
+  </data>
   <data name="PluginCaption" xml:space="preserve">
     <value>UserCode</value>
   </data>
-  <data name="Pluginooltip" xml:space="preserve">
+  <data name="PluginTooltip" xml:space="preserve">
     <value>UserCode</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />

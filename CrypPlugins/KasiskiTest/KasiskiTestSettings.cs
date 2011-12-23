@@ -20,7 +20,7 @@ namespace Cryptool.KasiskiTest
         
        
         [PropertySaveOrder(1)]
-        [TaskPane( "GrammLengthCaption", "GrammLengthTooltip", "", 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, 100)]
+        [TaskPane("GrammLengthCaption", "GrammLengthTooltip", null, 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, 100)]
         public int GrammLength
         {
             get { return this.grammLength; }
@@ -49,7 +49,7 @@ namespace Cryptool.KasiskiTest
             }
         }
         [PropertySaveOrder(3)]
-        [TaskPane( "FactorSizeCaption", "FactorSizeTooltip", "", 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, 100)]
+        [TaskPane("FactorSizeCaption", "FactorSizeTooltip", null, 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, 100)]
         public int FactorSize
         {
             get { return this.factorSize; }

@@ -32,7 +32,7 @@ namespace Cryptool.PRESENT
     private int padding = 0; //0="None", 1="Zeros", 2="PKCS7"
 
     [ContextMenu( "ActionCaption", "ActionTooltip", 1, ContextMenuControlType.ComboBox, new int[] { 1, 2 }, new string[] { "ActionList1", "ActionList2" })]
-    [TaskPane( "ActionCaption", "ActionTooltip", "", 1, false, ControlType.ComboBox, new string[] { "ActionList1", "ActionList2" })]
+    [TaskPane("ActionCaption", "ActionTooltip", null, 1, false, ControlType.ComboBox, new string[] { "ActionList1", "ActionList2" })]
     public int Action
     {
       get { return this.action; }
@@ -47,7 +47,7 @@ namespace Cryptool.PRESENT
     }
 
     [ContextMenu("ModeCaption", "ModeTooltip", 2, ContextMenuControlType.ComboBox, null, new string[] { "ModeList1", "ModeList2", "ModeList3", "ModeList4" })]
-    [TaskPane("ModeCaption", "ModeTooltip", "", 2, false, ControlType.ComboBox, new String[] { "ModeList1", "ModeList2", "ModeList3", "ModeList4" })]
+    [TaskPane("ModeCaption", "ModeTooltip", null, 2, false, ControlType.ComboBox, new String[] { "ModeList1", "ModeList2", "ModeList3", "ModeList4" })]
     public int Mode
     {
       get { return this.mode; }
@@ -62,7 +62,7 @@ namespace Cryptool.PRESENT
     }
 
     [ContextMenu("PaddingCaption", "PaddingTooltip", 3, ContextMenuControlType.ComboBox, null, new string[] { "PaddingList1", "PaddingList2", "PaddingList3" })]
-    [TaskPane("PaddingCaption", "PaddingTooltip", "", 3, false, ControlType.ComboBox, new String[] { "PaddingList1", "PaddingList2", "PaddingList3" })]
+    [TaskPane("PaddingCaption", "PaddingTooltip", null, 3, false, ControlType.ComboBox, new String[] { "PaddingList1", "PaddingList2", "PaddingList3" })]
     public int Padding
     {
       get { return this.padding; }

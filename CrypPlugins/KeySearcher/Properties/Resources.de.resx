@@ -729,4 +729,13 @@
   <data name="Use_OpenCL_in_KeySearcher_Tooltip" xml:space="preserve">
     <value>Markieren, damit der KeySearcher OpenCL für den Brute-Force-Angriff benutzt.</value>
   </data>
+  <data name="OpenCLModeList1" xml:space="preserve">
+    <value>geringe Auslastung</value>
+  </data>
+  <data name="OpenCLModeList2" xml:space="preserve">
+    <value>normale Auslastung</value>
+  </data>
+  <data name="OpenCLModeList3" xml:space="preserve">
+    <value>hohe Auslastung (vorsichtig verwenden)</value>
+  </data>
 </root>

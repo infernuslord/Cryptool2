@@ -48,7 +48,7 @@ namespace Cryptool.TEA
         }
 
         [ContextMenu("PaddingCaption", "PaddingTooltip", 3, ContextMenuControlType.ComboBox, null, "PaddingList1", "PaddingList2", "PaddingList3")]
-        [TaskPane("PaddingTPCaption", "PaddingTPTooltip", "", 3, false, ControlType.ComboBox, new String[] { "PaddingList1", "PaddingList2", "PaddingList3" })]
+        [TaskPane("PaddingTPCaption", "PaddingTPTooltip", null, 3, false, ControlType.ComboBox, new String[] { "PaddingList1", "PaddingList2", "PaddingList3" })]
         public int Padding
         {
             get { return this.padding; }
@@ -63,7 +63,7 @@ namespace Cryptool.TEA
         }
 
         [ContextMenu("VersionCaption", "VersionTooltip", 4, ContextMenuControlType.ComboBox, null, "VersionList1", "VersionList3", "VersionList3")]
-        [TaskPane("VersionCaption", "VersionTooltip", "", 4, false, ControlType.ComboBox, new String[] { "VersionTPList1", "VersionTPList2", "VersionTPList3" })]
+        [TaskPane("VersionCaption", "VersionTooltip", null, 4, false, ControlType.ComboBox, new String[] { "VersionTPList1", "VersionTPList2", "VersionTPList3" })]
         public int Version
         {
             get { return this.version; }
