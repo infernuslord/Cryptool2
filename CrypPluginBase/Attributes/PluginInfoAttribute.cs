@@ -65,10 +65,11 @@ namespace Cryptool.PluginBase
         {
             get
             {
-                if (MultiLanguage && descriptionUrl != null)
-                    return PluginType.GetPluginStringResource(descriptionUrl);
-                else
-                    return descriptionUrl;
+                //if (MultiLanguage && descriptionUrl != null)
+                //    return PluginType.GetPluginStringResource(descriptionUrl);
+                //else
+                //    return descriptionUrl;
+                return descriptionUrl;
             }
         }
 
