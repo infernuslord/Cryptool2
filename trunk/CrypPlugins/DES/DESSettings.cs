@@ -46,7 +46,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         }
 
         [ContextMenu("PaddingCaption", "PaddingTooltip", 3, ContextMenuControlType.ComboBox, null, "PaddingList1", "PaddingList2", "PaddingList3", "PaddingList4", "PaddingList5")]
-        [TaskPane("PaddingTPCaption", "PaddingTPTooltip", "", 3, false, ControlType.ComboBox, new String[] { "PaddingList1", "PaddingList2", "PaddingList3", "PaddingList4", "PaddingList5" })]
+        [TaskPane("PaddingTPCaption", "PaddingTPTooltip", null, 3, false, ControlType.ComboBox, new String[] { "PaddingList1", "PaddingList2", "PaddingList3", "PaddingList4", "PaddingList5" })]
         public int Padding
         {
             get { return this.padding; }
@@ -61,7 +61,7 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         }
 
         [ContextMenu("TripleDESCaption", "TripleDESTooltip", 3, ContextMenuControlType.CheckBox, null)]
-        [TaskPane("TripleDESCaption", "TripleDESTooltip", "", 3, false, ControlType.CheckBox, null)]
+        [TaskPane("TripleDESCaption", "TripleDESTooltip", null, 3, false, ControlType.CheckBox, null)]
         public bool TripleDES
         {
             get { return this.tripleDES; }

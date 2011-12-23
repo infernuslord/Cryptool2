@@ -124,7 +124,7 @@ namespace Cryptool.Plugins.UserCode
         }
 
         private object _output1;
-        [PropertyInfo(Direction.OutputData, "Output1Caption", "Input1Tooltip")]
+        [PropertyInfo(Direction.OutputData, "Output1Caption", "Output1Tooltip")]
         public object Output1
         {
             get
@@ -139,7 +139,7 @@ namespace Cryptool.Plugins.UserCode
         }
 
         private object _output2;
-        [PropertyInfo(Direction.OutputData, "Output2Caption", "Input2Tooltip")]
+        [PropertyInfo(Direction.OutputData, "Output2Caption", "Output2Tooltip")]
         public object Output2
         {
             get
@@ -154,7 +154,7 @@ namespace Cryptool.Plugins.UserCode
         }
 
         private object _output3;
-        [PropertyInfo(Direction.OutputData, "Output3Caption", "Input3Tooltip")]
+        [PropertyInfo(Direction.OutputData, "Output3Caption", "Output3Tooltip")]
         public object Output3
         {
             get
@@ -169,7 +169,7 @@ namespace Cryptool.Plugins.UserCode
         }
 
         private object _output4;
-        [PropertyInfo(Direction.OutputData, "Output4Caption", "Input4Tooltip")]
+        [PropertyInfo(Direction.OutputData, "Output4Caption", "Output4Tooltip")]
         public object Output4
         {
             get
@@ -184,7 +184,7 @@ namespace Cryptool.Plugins.UserCode
         }
 
         private object _output5;
-        [PropertyInfo(Direction.OutputData, "Output5Caption", "Input5Tooltip")]
+        [PropertyInfo(Direction.OutputData, "Output5Caption", "Output5Tooltip")]
         public object Output5
         {
             get

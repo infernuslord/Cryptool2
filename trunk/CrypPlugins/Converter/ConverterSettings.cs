@@ -61,7 +61,7 @@ namespace Cryptool.Plugins.Converter
 
         #region taskpane
 
-        [TaskPane( "ConverterCaption", "ConverterTooltip", null, 1, true, ControlType.ComboBox, new string[] { "string", "int", "short", "byte", "double", "BigInteger", /*"int[]",*/ "byte[]", "Cryptoolstream" })]
+        [TaskPane("ConverterCaption", "ConverterTooltip", null, 1, true, ControlType.ComboBox, new string[] { "TypesList1", "TypesList2", "TypesList3", "TypesList4", "TypesList5", "TypesList6", "TypesList7", "TypesList8" })]
         public OutputTypes Converter
         {
             get { return this.converter; }
@@ -121,7 +121,7 @@ namespace Cryptool.Plugins.Converter
         }
 
         [ContextMenu("InputEncodingSettingCaption", "InputEncodingSettingTooltip", 5, ContextMenuControlType.ComboBox, null, new string[] { "EncodingSettingList1", "EncodingSettingList2", "EncodingSettingList3", "EncodingSettingList4", "EncodingSettingList5", "EncodingSettingList6", "EncodingSettingList7" })]
-        [TaskPane("InputEncodingSettingCaption", "InputEncodingSettingTooltip", "", 5, true, ControlType.ComboBox, new string[] { "EncodingSettingList1", "EncodingSettingList2", "EncodingSettingList3", "EncodingSettingList4", "EncodingSettingList5", "EncodingSettingList6", "EncodingSettingList7" })]
+        [TaskPane("InputEncodingSettingCaption", "InputEncodingSettingTooltip", null, 5, true, ControlType.ComboBox, new string[] { "EncodingSettingList1", "EncodingSettingList2", "EncodingSettingList3", "EncodingSettingList4", "EncodingSettingList5", "EncodingSettingList6", "EncodingSettingList7" })]
         public EncodingTypes InputEncoding
         {
             get
@@ -139,7 +139,7 @@ namespace Cryptool.Plugins.Converter
         }
 
         [ContextMenu("OutputEncodingSettingCaption", "OutputEncodingSettingTooltip", 6, ContextMenuControlType.ComboBox, null, new string[] { "EncodingSettingList1", "EncodingSettingList2", "EncodingSettingList3", "EncodingSettingList4", "EncodingSettingList5", "EncodingSettingList6", "EncodingSettingList7" })]
-        [TaskPane("OutputEncodingSettingCaption", "OutputEncodingSettingTooltip", "", 6, true, ControlType.ComboBox, new string[] { "EncodingSettingList1", "EncodingSettingList2", "EncodingSettingList3", "EncodingSettingList4", "EncodingSettingList5", "EncodingSettingList6", "EncodingSettingList7" })]
+        [TaskPane("OutputEncodingSettingCaption", "OutputEncodingSettingTooltip", null, 6, true, ControlType.ComboBox, new string[] { "EncodingSettingList1", "EncodingSettingList2", "EncodingSettingList3", "EncodingSettingList4", "EncodingSettingList5", "EncodingSettingList6", "EncodingSettingList7" })]
         public EncodingTypes OutputEncoding
         {
             get

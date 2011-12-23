@@ -42,7 +42,7 @@ namespace IncDec
     }
 
     [ContextMenu("ModeSelectCaption", "ModeSelectTooltip", 0, ContextMenuControlType.ComboBox, null, new string[] { "ModeSelectList1", "ModeSelectList2" })]
-    [TaskPane("ModeSelectCaption", "ModeSelectTooltip", "", 0, false, ControlType.ComboBox, new string[] { "ModeSelectList1", "ModeSelectList2" })]
+    [TaskPane("ModeSelectCaption", "ModeSelectTooltip", null, 0, false, ControlType.ComboBox, new string[] { "ModeSelectList1", "ModeSelectList2" })]
     public int ModeSelect
     {
       get { return (int)this.currentMode; }

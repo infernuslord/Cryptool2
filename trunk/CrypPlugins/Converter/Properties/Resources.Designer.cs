@@ -401,5 +401,77 @@ namespace Converter.Properties {
                 return ResourceManager.GetString("ReverseOrderTooltip", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die string ähnelt.
+        /// </summary>
+        internal static string TypesList1 {
+            get {
+                return ResourceManager.GetString("TypesList1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die int ähnelt.
+        /// </summary>
+        internal static string TypesList2 {
+            get {
+                return ResourceManager.GetString("TypesList2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die short ähnelt.
+        /// </summary>
+        internal static string TypesList3 {
+            get {
+                return ResourceManager.GetString("TypesList3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die byte ähnelt.
+        /// </summary>
+        internal static string TypesList4 {
+            get {
+                return ResourceManager.GetString("TypesList4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die double ähnelt.
+        /// </summary>
+        internal static string TypesList5 {
+            get {
+                return ResourceManager.GetString("TypesList5", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die BigInteger ähnelt.
+        /// </summary>
+        internal static string TypesList6 {
+            get {
+                return ResourceManager.GetString("TypesList6", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die byte[] ähnelt.
+        /// </summary>
+        internal static string TypesList7 {
+            get {
+                return ResourceManager.GetString("TypesList7", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Cryptoolstream ähnelt.
+        /// </summary>
+        internal static string TypesList8 {
+            get {
+                return ResourceManager.GetString("TypesList8", resourceCulture);
+            }
+        }
     }
 }

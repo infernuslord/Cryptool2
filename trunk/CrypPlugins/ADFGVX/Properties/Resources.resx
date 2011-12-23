@@ -129,6 +129,12 @@
   <data name="ActionTooltip" xml:space="preserve">
     <value>Select the algorithm action</value>
   </data>
+  <data name="CipherTypeList1" xml:space="preserve">
+    <value>ADFGX</value>
+  </data>
+  <data name="CipherTypeList2" xml:space="preserve">
+    <value>ADFGVX</value>
+  </data>
   <data name="CipherVariantCaption" xml:space="preserve">
     <value>Cipher variant</value>
   </data>

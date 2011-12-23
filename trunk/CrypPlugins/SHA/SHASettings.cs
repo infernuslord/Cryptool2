@@ -31,7 +31,7 @@ namespace SHA
         private ShaFunction selectedShaFunction = ShaFunction.SHA1;
 
         [ContextMenu( "SHAFunctionCaption", "SHAFunctionTooltip", 1, ContextMenuControlType.ComboBox, null, new string[] { "SHAFunctionList1", "SHAFunctionList2", "SHAFunctionList3", "SHAFunctionList4" })]
-        [TaskPane( "SHAFunctionCaption", "SHAFunctionTooltip", "", 1, false, ControlType.ComboBox, new string[] { "SHAFunctionList1", "SHAFunctionList2", "SHAFunctionList3", "SHAFunctionList4"})]
+        [TaskPane("SHAFunctionCaption", "SHAFunctionTooltip", null, 1, false, ControlType.ComboBox, new string[] { "SHAFunctionList1", "SHAFunctionList2", "SHAFunctionList3", "SHAFunctionList4" })]
         public int SHAFunction
         {
             get { return (int)this.selectedShaFunction; }

@@ -117,8 +117,17 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ConnectOnStartup" xml:space="preserve">
+    <value>Connect on Startup</value>
+  </data>
+  <data name="ConnectOnStartup_Tooltip" xml:space="preserve">
+    <value>Check this to connect to the network on startup</value>
+  </data>
   <data name="NetworkSettings" xml:space="preserve">
     <value>Network</value>
+  </data>
+  <data name="P2PSettings" xml:space="preserve">
+    <value>Peer-to-Peer</value>
   </data>
   <data name="ProxyPassword" xml:space="preserve">
     <value>Password:</value>
@@ -137,6 +146,9 @@
   </data>
   <data name="RefreshInterval" xml:space="preserve">
     <value>Refresh interval:</value>
+  </data>
+  <data name="UseSystemWideProxy_Tooltip" xml:space="preserve">
+    <value>Check this to use a systemwide proxyserver</value>
   </data>
   <data name="Use_Proxy" xml:space="preserve">
     <value>Use proxyserver</value>

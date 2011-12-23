@@ -168,7 +168,7 @@
   <data name="StringOutputTooltip" xml:space="preserve">
     <value> Keyword of the cipher which was used to encrypt the input text. </value>
   </data>
-    <data name="ColumnAnalysisCaption" xml:space="preserve">
+  <data name="ColumnAnalysisCaption" xml:space="preserve">
     <value>Method of column analysis</value>
   </data>
   <data name="ColumnAnalysisTooltip" xml:space="preserve">
@@ -203,5 +203,23 @@
   </data>
   <data name="ColumnAnalysisList2" xml:space="preserve">
     <value>Use sum of squares</value>
+  </data>
+  <data name="ELFList1" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="ELFList2" xml:space="preserve">
+    <value>German</value>
+  </data>
+  <data name="ELFList3" xml:space="preserve">
+    <value>French</value>
+  </data>
+  <data name="ELFList4" xml:space="preserve">
+    <value>Spanish</value>
+  </data>
+  <data name="ELFList5" xml:space="preserve">
+    <value>Italian</value>
+  </data>
+  <data name="ELFList6" xml:space="preserve">
+    <value>Portugeese</value>
   </data>
 </root>

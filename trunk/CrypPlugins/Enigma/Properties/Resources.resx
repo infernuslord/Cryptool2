@@ -588,4 +588,82 @@
   <data name="Please_stop_the_Workspace_for_Presentation" xml:space="preserve">
     <value>Please stop the Workspace for Presentation!</value>
   </data>
+  <data name="LetterA" xml:space="preserve">
+    <value>A</value>
+  </data>
+  <data name="LetterB" xml:space="preserve">
+    <value>B</value>
+  </data>
+  <data name="LetterC" xml:space="preserve">
+    <value>C</value>
+  </data>
+  <data name="LetterD" xml:space="preserve">
+    <value>D</value>
+  </data>
+  <data name="LetterE" xml:space="preserve">
+    <value>E</value>
+  </data>
+  <data name="LetterF" xml:space="preserve">
+    <value>F</value>
+  </data>
+  <data name="LetterG" xml:space="preserve">
+    <value>G</value>
+  </data>
+  <data name="LetterH" xml:space="preserve">
+    <value>H</value>
+  </data>
+  <data name="LetterI" xml:space="preserve">
+    <value>I</value>
+  </data>
+  <data name="LetterJ" xml:space="preserve">
+    <value>J</value>
+  </data>
+  <data name="LetterK" xml:space="preserve">
+    <value>K</value>
+  </data>
+  <data name="LetterL" xml:space="preserve">
+    <value>L</value>
+  </data>
+  <data name="LetterM" xml:space="preserve">
+    <value>M</value>
+  </data>
+  <data name="LetterN" xml:space="preserve">
+    <value>N</value>
+  </data>
+  <data name="LetterO" xml:space="preserve">
+    <value>O</value>
+  </data>
+  <data name="LetterP" xml:space="preserve">
+    <value>P</value>
+  </data>
+  <data name="LetterQ" xml:space="preserve">
+    <value>Q</value>
+  </data>
+  <data name="LetterR" xml:space="preserve">
+    <value>R</value>
+  </data>
+  <data name="LetterS" xml:space="preserve">
+    <value>S</value>
+  </data>
+  <data name="LetterT" xml:space="preserve">
+    <value>T</value>
+  </data>
+  <data name="LetterU" xml:space="preserve">
+    <value>U</value>
+  </data>
+  <data name="LetterV" xml:space="preserve">
+    <value>V</value>
+  </data>
+  <data name="LetterW" xml:space="preserve">
+    <value>W</value>
+  </data>
+  <data name="LetterX" xml:space="preserve">
+    <value>X</value>
+  </data>
+  <data name="LetterY" xml:space="preserve">
+    <value>Y</value>
+  </data>
+  <data name="LetterZ" xml:space="preserve">
+    <value>Z</value>
+  </data>
 </root>

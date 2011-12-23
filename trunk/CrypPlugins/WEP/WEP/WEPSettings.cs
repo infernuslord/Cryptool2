@@ -25,7 +25,7 @@ namespace Cryptool.WEP
         /// Encryption (=0) or decryption (=1)?
         /// </summary>
         [ContextMenu("ActionCaption", "ActionTooltip", 1, ContextMenuControlType.ComboBox, new int[] { 1, 2 }, "ActionList1", "ActionList2")]
-        [TaskPane("ActionCaption", "ActionTooltip", "", 1, false, ControlType.ComboBox, new String[] { "ActionList1", "ActionList2" })]
+        [TaskPane("ActionCaption", "ActionTooltip", null, 1, false, ControlType.ComboBox, new String[] { "ActionList1", "ActionList2" })]
         public int Action
         {
             get { return this.action; }

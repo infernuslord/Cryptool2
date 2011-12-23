@@ -744,4 +744,13 @@
   <data name="Use_OpenCL_in_KeySearcher_Tooltip" xml:space="preserve">
     <value>Check this to enable the KeySearcher to make use of OpenCL for bruteforcing.</value>
   </data>
+  <data name="OpenCLModeList1" xml:space="preserve">
+    <value>Low Load</value>
+  </data>
+  <data name="OpenCLModeList2" xml:space="preserve">
+    <value>Normal Load</value>
+  </data>
+  <data name="OpenCLModeList3" xml:space="preserve">
+    <value>High Load (use with caution)</value>
+  </data>
 </root>

@@ -17,8 +17,8 @@ namespace Cryptool.VigenereAnalyser
         private int eic = 0; 
         public int internalKeyLengthAnalysis = 0;
         public int columnAnalysis = 0;
-        [ContextMenu( "ELFCaption", "ELFTooltip", 2, ContextMenuControlType.ComboBox, null, new String[] { "English", "German", "French", "Spanish", "Italian", "Portugeese" })]
-        [TaskPane( "ELFCaption", "ELFTooltip", null, 2, false, ControlType.ComboBox, new String[] { "English", "German", "French", "Spanish", "Italian", "Portugeese" })]
+        [ContextMenu("ELFCaption", "ELFTooltip", 2, ContextMenuControlType.ComboBox, null, new String[] { "ELFList1", "ELFList2", "ELFList3", "ELFList4", "ELFList5", "ELFList6" })]
+        [TaskPane("ELFCaption", "ELFTooltip", null, 2, false, ControlType.ComboBox, new String[] { "ELFList1", "ELFList2", "ELFList3", "ELFList4", "ELFList5", "ELFList6" })]
         public int ELF // Expected Letter Frequencies
         {
             get { return this.elf; }
@@ -31,8 +31,8 @@ namespace Cryptool.VigenereAnalyser
                 }
             }
         }
-        [ContextMenu( "EICCaption", "EICTooltip", 2, ContextMenuControlType.ComboBox, null, new String[] { "English", "German", "French", "Spanish", "Italian", "Portugeese" })]
-        [TaskPane( "EICCaption", "EICTooltip", null, 2, false, ControlType.ComboBox, new String[] { "English", "German", "French", "Spanish", "Italian", "Portugeese" })]
+        [ContextMenu("EICCaption", "EICTooltip", 2, ContextMenuControlType.ComboBox, null, new String[] { "ELFList1", "ELFList2", "ELFList3", "ELFList4", "ELFList5", "ELFList6" })]
+        [TaskPane("EICCaption", "EICTooltip", null, 2, false, ControlType.ComboBox, new String[] { "ELFList1", "ELFList2", "ELFList3", "ELFList4", "ELFList5", "ELFList6" })]
         public int EIC // Expected Letter Frequencies
         {
             get { return this.eic; }
@@ -46,7 +46,7 @@ namespace Cryptool.VigenereAnalyser
             }
         }
 
-        [TaskPane("Maximum Keylength", "Enter maximum keylength to be analysed by the 'Sampled Index of coincidence' method. default = 15", "", 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, 100)]
+        [TaskPane("Max_KeylengthCaption", "Max_KeylengthTooltip", null, 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, 100)]
         public int Max_Keylength
         {
             get { return this.max_keylength; }
@@ -59,8 +59,8 @@ namespace Cryptool.VigenereAnalyser
                 }
             }
         }
-        [ContextMenu( "InternalKeyLengthAnalysis Caption", "InternalKeyLengthAnalysis Tooltip", 2, ContextMenuControlType.ComboBox, null, new String[] { "Kasiski and Friedman tests (external)","Sampled index of coincidence(internal)" })]
-        [TaskPane( "InternalKeyLengthAnalysis Caption", "InternalKeyLengthAnalysis Tooltip", null, 2, false, ControlType.ComboBox, new String[] { "Kasiski and Friedman tests (external)", "Sampled index of coincidence (internal)" })]
+        [ContextMenu("InternalKeyLengthAnalysisCaption", "InternalKeyLengthAnalysisTooltip", 2, ContextMenuControlType.ComboBox, null, new String[] { "Kasiski and Friedman tests (external)", "Sampled index of coincidence(internal)" })]
+        [TaskPane("InternalKeyLengthAnalysisCaption", "InternalKeyLengthAnalysisTooltip", null, 2, false, ControlType.ComboBox, new String[] { "Kasiski and Friedman tests (external)", "Sampled index of coincidence (internal)" })]
         public int InternalKeyLengthAnalysis 
         {
             get { return this.internalKeyLengthAnalysis; }

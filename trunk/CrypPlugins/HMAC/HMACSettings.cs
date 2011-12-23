@@ -30,7 +30,7 @@ namespace Cryptool.HMAC
         private HashFunction selectedHashFunction = HashFunction.MD5;
 
         [ContextMenu( "SelectedHashFunctionCaption", "SelectedHashFunctionTooltip", 1, ContextMenuControlType.ComboBox, null, new string[] { "SelectedHashFunctionList1", "SelectedHashFunctionList2", "SelectedHashFunctionList3", "SelectedHashFunctionList4", "SelectedHashFunctionList5", "SelectedHashFunctionList6" })]
-        [TaskPane( "SelectedHashFunctionCaption", "SelectedHashFunctionTooltip", "", 1, false, ControlType.ComboBox, new string[] { "SelectedHashFunctionList1", "SelectedHashFunctionList2", "SelectedHashFunctionList3", "SelectedHashFunctionList4", "SelectedHashFunctionList5", "SelectedHashFunctionList6" })]
+        [TaskPane("SelectedHashFunctionCaption", "SelectedHashFunctionTooltip", null, 1, false, ControlType.ComboBox, new string[] { "SelectedHashFunctionList1", "SelectedHashFunctionList2", "SelectedHashFunctionList3", "SelectedHashFunctionList4", "SelectedHashFunctionList5", "SelectedHashFunctionList6" })]
         public int SelectedHashFunction
         {
             get { return (int)this.selectedHashFunction; }

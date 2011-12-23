@@ -29,7 +29,7 @@ namespace Cryptool.Internet_frame_generator
             null,
             new String[] { "ActionList1", "ActionList2" })]
         [TaskPane( "ActionCaption", "ActionTooltip",
-            "",
+            null,
             1,
             true,
             ControlType.ComboBox,
@@ -51,7 +51,7 @@ namespace Cryptool.Internet_frame_generator
         /// How many files are going to be saved (if saving is wanted).
         /// </summary>
         [TaskPane( "NumberOfPacketsToBeCreatedCaption", "NumberOfPacketsToBeCreatedTooltip",
-            "",
+            null,
             2,
             false,
             ControlType.TextBox,

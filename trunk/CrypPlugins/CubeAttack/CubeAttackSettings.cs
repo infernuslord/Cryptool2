@@ -56,8 +56,8 @@ namespace Cryptool.CubeAttack
             ContextMenuControlType.ComboBox, 
             null,
             "ActionList1", "ActionList2", "ActionList3" )]
-        [TaskPane( "ActionCaption", "ActionTooltip", 
-            "", 
+        [TaskPane( "ActionCaption", "ActionTooltip",
+            null, 
             1, 
             false, 
             ControlType.ComboBox,

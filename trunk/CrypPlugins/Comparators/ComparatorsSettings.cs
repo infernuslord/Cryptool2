@@ -33,7 +33,7 @@ namespace Cryptool.Plugins.Comparators
         #endregion
 
         #region taskpane
-        [TaskPane( "ComparatorCaption", "ComparatorTooltip", null, 1, false, ControlType.ComboBox, new string[] { "==", "!=", "<", ">", "<=", ">=" })]
+        [TaskPane("ComparatorCaption", "ComparatorTooltip", null, 1, false, ControlType.ComboBox, new string[] { "ComparatorList1", "ComparatorList2", "ComparatorList3", "ComparatorList4", "ComparatorList5", "ComparatorList6" })]
         public int Comparator
         {
             get { return this.comparator; }
