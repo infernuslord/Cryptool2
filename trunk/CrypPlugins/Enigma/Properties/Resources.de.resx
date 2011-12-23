@@ -586,4 +586,7 @@ Wählen Sie das Enigma-Modell. Verschiedene Modelle verwenden unterschiedliche R
   <data name="Rotorlage_" xml:space="preserve">
     <value>Rotorlage:</value>
   </data>
+  <data name="Please_stop_the_Workspace_for_Presentation" xml:space="preserve">
+    <value>Bitte halten Sie den workspace an um die Präsentation anzuzeigen</value>
+  </data>
 </root>
