@@ -247,7 +247,7 @@ namespace Dictionary
 
             foreach (DataFileMetaInfo meta in dicList)
             {
-                settings.Collection.Add(meta.Name);
+                settings.Collection.Add( this.GetPluginStringResource(meta.Name) );
             }
         }
 

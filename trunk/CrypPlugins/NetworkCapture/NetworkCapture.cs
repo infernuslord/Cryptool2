@@ -138,11 +138,11 @@ namespace Cryptool.Plugins.NetworkCapture
         {
             try
             {
-
-                this.devices = WinPcapDeviceList.Instance;
-                foreach (WinPcapDevice dev in devices)
+                if (this.settings.Collection.Count == 0)
                 {
-                    this.settings.Collection.Add(dev.Description);
+                    this.devices = WinPcapDeviceList.Instance;
+                    foreach (WinPcapDevice dev in devices)
+                        this.settings.Collection.Add(dev.Description);
                 }
             }
             catch (PcapException)

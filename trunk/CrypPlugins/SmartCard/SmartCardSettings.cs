@@ -13,7 +13,7 @@ namespace SmartCard
   {
     private ObservableCollection<string> collection = new ObservableCollection<string>();
 
-    public static string VirtualReader = "Virtual Cardreader";
+    public static string VirtualReader = "Virtual_Cardreader";
 
     public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
     private void GuiLogMessage(string message, NotificationLevel logLevel)
@@ -50,8 +50,8 @@ namespace SmartCard
         String[] sReaders = pcscWrapper.ListReaders(hContext);
 
         collection.Clear();
-
-        collection.Add(VirtualReader);
+        
+        collection.Add( typeof(SmartCard).GetPluginStringResource(VirtualReader) );
 
         if (sReaders != null)
         {

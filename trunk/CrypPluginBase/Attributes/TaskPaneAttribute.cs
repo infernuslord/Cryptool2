@@ -93,6 +93,11 @@ namespace Cryptool.PluginBase
             }
         }
 
+        public string[] ControlValuesNotInterpolated
+        {
+            get { return controlValues; }
+        }
+
         private string fileExtension;
         public string FileExtension
         {

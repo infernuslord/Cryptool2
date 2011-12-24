@@ -844,7 +844,7 @@ namespace WorkspaceManager.View.BinVisual
                             
                         # region DynamicComboBox
                         case ControlType.DynamicComboBox:
-                            PropertyInfo pInfo = plugin.Settings.GetType().GetProperty(tpa.ControlValues[0]);
+                            PropertyInfo pInfo = plugin.Settings.GetType().GetProperty(tpa.ControlValuesNotInterpolated[0]);
                                                     
                             ObservableCollection<string> coll = pInfo.GetValue(plugin.Settings, null) as ObservableCollection<string>;
                                 

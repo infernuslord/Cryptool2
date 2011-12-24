@@ -348,12 +348,10 @@ namespace Cryptool.Enigma
 
         public EnigmaSettings()
         {
-            actionStrings.Add("Encrypt/Decrypt"); actionStrings.Add("Analyze");
-            reflectorStrings.Add("UKW A"); reflectorStrings.Add("UKW B (2. November 1937)"); reflectorStrings.Add("UKW C (since 1940/41)");
-            rotorAStrings.Add("I (since 1930)"); rotorAStrings.Add("II (since 1930)"); rotorAStrings.Add("III (since 1930)");
-            rotorAStrings.Add("IV (since 1938, M3 \"Heer\")"); rotorAStrings.Add("V (since 1938, M3 \"Heer\")"); rotorAStrings.Add("VI (since 1939, M3/M4)");
-            rotorAStrings.Add("VII (since 1939, M3/M4)"); rotorAStrings.Add("VIII (since 1939, M3/M4)");
-            rotorBStrings.Add("Not available for this model.");
+            SetList(actionStrings, "Action1", "Action4");
+            SetList(rotorAStrings, "RotorA1", "RotorA2", "RotorA3", "RotorA4", "RotorA5", "RotorA6", "RotorA7", "RotorA8");
+            SetList(rotorBStrings, "RotorB1");
+            SetList(reflectorStrings, "Reflector1", "Reflector2", "Reflector3");
         }
 
         public void Initialize()
@@ -376,6 +374,13 @@ namespace Cryptool.Enigma
 
         #region Taskpane settings
 
+        private void SetList(ObservableCollection<string> coll, params string[] keys)
+        {
+            coll.Clear();
+            foreach (string key in keys)
+                coll.Add(typeof(Enigma).GetPluginStringResource(key));
+        }
+
         [ContextMenu( "ModelCaption", "ModelTooltip",
             0, ContextMenuControlType.ComboBox, null,
             new string[] { "ModelList1", "ModelList2", "ModelList3", "ModelList4", "ModelList5", "ModelList6", "ModelList7" })]
@@ -393,83 +398,107 @@ namespace Cryptool.Enigma
 
                 this.model = value;
                 OnPropertyChanged("Model");
+
                 switch (this.model)
                 {
                     case 0: // Enigma A/B
-                        actionStrings.Clear(); actionStrings.Add("Encrypt"); actionStrings.Add("Decrypt"); action = 0; OnPropertyChanged("Action");
-                        if (key.Length > 3) key = key.Remove(0, 1); OnPropertyChanged("Key");
-                        rotorAStrings.Clear(); rotorAStrings.Add("I (C) -- since 1924"); rotorAStrings.Add("II (C) -- since 1924"); rotorAStrings.Add("III (C) -- since 1924");
-                        rotor1 = 0; rotor2 = 1; rotor3 = 2; OnPropertyChanged("Rotor1"); OnPropertyChanged("Rotor2"); OnPropertyChanged("Rotor3");
-                        rotorBStrings.Clear(); rotorBStrings.Add("Not available for this model."); rotor4 = 0; OnPropertyChanged("Rotor4");
-                        reflectorStrings.Clear(); reflectorStrings.Add("Not available for this model."); reflector = 0; OnPropertyChanged("Reflector");
+                        SetList(actionStrings, "Action2", "Action3");
+                        SetList(rotorAStrings, "RotorA9", "RotorA10", "RotorA11");
+                        SetList(rotorBStrings, "RotorB1");
+                        SetList(reflectorStrings, "Reflector10");
+
+                        action = 0;
+                        if (key.Length > 3) key = key.Remove(0, 1);
+                        rotor1 = 0; rotor2 = 1; rotor3 = 2; rotor4 = 0;
+                        reflector = 0;
                         hideSettingsElement("Rotor4"); hideSettingsElement("Ring4"); hideSettingsElement("Reflector");
                         break;
                     case 1: // Enigma D
-                        actionStrings.Clear(); actionStrings.Add("Encrypt / Decrypt"); action = 0; OnPropertyChanged("Action");
-                        if (key.Length > 3) key = key.Remove(0, 1); OnPropertyChanged("Key");
-                        rotorAStrings.Clear(); rotorAStrings.Add("I (D)"); rotorAStrings.Add("II (D)"); rotorAStrings.Add("III (D)");
-                        rotor1 = 0; rotor2 = 1; rotor3 = 2; OnPropertyChanged("Rotor1"); OnPropertyChanged("Rotor2"); OnPropertyChanged("Rotor3");
-                        rotorBStrings.Clear(); rotorBStrings.Add("Not available for this model."); rotor4 = 0; OnPropertyChanged("Rotor4");
-                        reflectorStrings.Clear(); reflectorStrings.Add("UKW (D)"); reflector = 0; OnPropertyChanged("Reflector");
-                        hideSettingsElement("Rotor4"); hideSettingsElement("Ring4");
-                        showSettingsElement("Reflector");
+                        SetList(actionStrings, "Action1");
+                        SetList(rotorAStrings, "RotorA12", "RotorA13", "RotorA14");
+                        SetList(rotorBStrings, "RotorB1");
+                        SetList(reflectorStrings, "Reflector4");
+
+                        action = 0;
+                        if (key.Length > 3) key = key.Remove(0, 1);
+                        rotor1 = 0; rotor2 = 1; rotor3 = 2; rotor4 = 0;
+                        reflector = 0;
+                        hideSettingsElement("Rotor4"); hideSettingsElement("Ring4"); showSettingsElement("Reflector");
                         break;
                     case 2: // Reichsbahn (Rocket)
-                        actionStrings.Clear(); actionStrings.Add("Encrypt / Decrypt"); action = 0; OnPropertyChanged("Action");
-                        if (key.Length > 3) key = key.Remove(0, 1); OnPropertyChanged("Key");
-                        rotorAStrings.Clear(); rotorAStrings.Add("I -- since 7th Feb. 1941"); rotorAStrings.Add("II -- since 7th Feb. 1941"); rotorAStrings.Add("III -- since 7th Feb. 1941");
-                        rotor1 = 0; rotor2 = 1; rotor3 = 2; OnPropertyChanged("Rotor1"); OnPropertyChanged("Rotor2"); OnPropertyChanged("Rotor3");
-                        rotorBStrings.Clear(); rotorBStrings.Add("Not available for this model."); rotor4 = 0; OnPropertyChanged("Rotor4");
-                        reflectorStrings.Clear(); reflectorStrings.Add("UKW -- since 7th Feb. 1941"); reflector = 0; OnPropertyChanged("Reflector");
-                        hideSettingsElement("Rotor4"); hideSettingsElement("Ring4");
-                        showSettingsElement("Reflector");
+                        SetList(actionStrings, "Action1");
+                        SetList(rotorAStrings, "RotorA15", "RotorA16", "RotorA17");
+                        SetList(rotorBStrings, "RotorB1");
+                        SetList(reflectorStrings, "Reflector5");
+
+                        action = 0;
+                        if (key.Length > 3) key = key.Remove(0, 1);
+                        rotor1 = 0; rotor2 = 1; rotor3 = 2; rotor4 = 0;
+                        reflector = 0;
+
+                        hideSettingsElement("Rotor4"); hideSettingsElement("Ring4"); showSettingsElement("Reflector");
                         break;
                     case 3: // Enigma I / M3
-                        actionStrings.Clear(); actionStrings.Add("Encrypt / Decrypt"); actionStrings.Add("Analyze"); action = 0; OnPropertyChanged("Action");
-                        if (key.Length > 3) key = key.Remove(0, 1); OnPropertyChanged("Key");
-                        rotorAStrings.Clear(); rotorAStrings.Add("I (since 1930)"); rotorAStrings.Add("II (since 1930)"); rotorAStrings.Add("III (since 1930)");
-                        rotorAStrings.Add("IV (since 1938, M3 \"Heer\")"); rotorAStrings.Add("V (since 1938, M3 \"Heer\")"); rotorAStrings.Add("VI (since 1939, M3/M4)");
-                        rotorAStrings.Add("VII (since 1939, M3/M4)"); rotorAStrings.Add("VIII (since 1939, M3/M4)");
-                        rotor1 = 0; rotor2 = 1; rotor3 = 2; OnPropertyChanged("Rotor1"); OnPropertyChanged("Rotor2"); OnPropertyChanged("Rotor3");
-                        rotorBStrings.Clear(); rotorBStrings.Add("Not available for this model."); rotor4 = 0; OnPropertyChanged("Rotor4");
-                        reflectorStrings.Clear(); reflectorStrings.Add("UKW A"); reflectorStrings.Add("UKW B (2. November 1937)");
-                        reflectorStrings.Add("UKW C (since 1940/41)"); reflector = 1; OnPropertyChanged("Reflector");
-                        hideSettingsElement("Rotor4"); hideSettingsElement("Ring4");
-                        showSettingsElement("Reflector");
+                        SetList(actionStrings, "Action1", "Action4");
+                        SetList(rotorAStrings, "RotorA1", "RotorA2", "RotorA3", "RotorA4", "RotorA5", "RotorA6", "RotorA7", "RotorA8");
+                        SetList(rotorBStrings, "RotorB1");
+                        SetList(reflectorStrings, "Reflector1", "Reflector2", "Reflector3");
+
+                        action = 0;
+                        if (key.Length > 3) key = key.Remove(0, 1);
+                        rotor1 = 0; rotor2 = 1; rotor3 = 2; rotor4 = 0;
+                        reflector = 1;
+
+                        hideSettingsElement("Rotor4"); hideSettingsElement("Ring4"); showSettingsElement("Reflector");
                         break;
                     case 4: // Enigma M4 "Shark"
-                        actionStrings.Clear(); actionStrings.Add("Encrypt / Decrypt"); action = 0; OnPropertyChanged("Action");
-                        if (key.Length < 4) key = "A" + key; OnPropertyChanged("Key");
-                        rotorAStrings.Clear(); rotorAStrings.Add("I (since 1930)"); rotorAStrings.Add("II (since 1930)"); rotorAStrings.Add("III (since 1930)");
-                        rotorAStrings.Add("IV (since 1938, M3 \"Heer\")"); rotorAStrings.Add("V (since 1938, M3 \"Heer\")"); rotorAStrings.Add("VI (since 1939, M3/M4)");
-                        rotorAStrings.Add("VII (since 1939, M3/M4)"); rotorAStrings.Add("VIII (since 1939, M3/M4)");
-                        rotor1 = 0; rotor2 = 1; rotor3 = 2; OnPropertyChanged("Rotor1"); OnPropertyChanged("Rotor2"); OnPropertyChanged("Rotor3");
-                        rotorBStrings.Clear(); rotorBStrings.Add("Beta -- since 1st Feb. 1942"); rotorBStrings.Add("Gamma -- since 1st July 1943"); rotor4 = 0; OnPropertyChanged("Rotor4");
-                        reflectorStrings.Clear(); reflectorStrings.Add("UKW B \"thin\" -- since 1st Feb. 1942"); reflectorStrings.Add("UKW C \"thin\" -- since 1st July 1943");
-                        reflector = 0; OnPropertyChanged("Reflector");
+                        SetList(actionStrings, "Action1");
+                        SetList(rotorAStrings, "RotorA1", "RotorA2", "RotorA3", "RotorA4", "RotorA5", "RotorA6", "RotorA7", "RotorA8");
+                        SetList(rotorBStrings, "RotorB2", "RotorB3");
+                        SetList(reflectorStrings, "Reflector6", "Reflector7");
+
+                        action = 0;
+                        if (key.Length < 4) key = "A" + key;
+                        rotor1 = 0; rotor2 = 1; rotor3 = 2; rotor4 = 0;
+                        reflector = 0;
+
                         showSettingsElement("Rotor4"); showSettingsElement("Ring4"); showSettingsElement("Reflector");
                         break;
                     case 5: // Enigma K-Model
-                        actionStrings.Clear(); actionStrings.Add("Encrypt / Decrypt"); action = 0; OnPropertyChanged("Action");
-                        if (key.Length > 3) key = key.Remove(0, 1); OnPropertyChanged("Key");
-                        rotorAStrings.Clear(); rotorAStrings.Add("I (K) -- since Feb. 1939"); rotorAStrings.Add("II (K) -- since Feb. 1939"); rotorAStrings.Add("III (K) -- since Feb. 1939");
-                        rotor1 = 0; rotor2 = 1; rotor3 = 2; OnPropertyChanged("Rotor1"); OnPropertyChanged("Rotor2"); OnPropertyChanged("Rotor3");
-                        rotorBStrings.Clear(); rotorBStrings.Add("Not available for this model."); rotor4 = 0; OnPropertyChanged("Rotor4");
-                        reflectorStrings.Clear(); reflectorStrings.Add("UKW (K) -- since Feb. 1939"); reflector = 0; OnPropertyChanged("Reflector");
-                        hideSettingsElement("Rotor4"); hideSettingsElement("Ring4");
-                        showSettingsElement("Reflector");
+                        SetList(actionStrings, "Action1");
+                        SetList(rotorAStrings, "RotorA18", "RotorA19", "RotorA20");
+                        SetList(rotorBStrings, "RotorB1");
+                        SetList(reflectorStrings, "Reflector8");
+
+                        action = 0; 
+                        if (key.Length > 3) key = key.Remove(0, 1); 
+                        rotor1 = 0; rotor2 = 1; rotor3 = 2; rotor4 = 0; 
+                        reflector = 0; 
+
+                        hideSettingsElement("Rotor4"); hideSettingsElement("Ring4"); showSettingsElement("Reflector");
                         break;
                     case 6: // Enigam G / Abwehr
-                        actionStrings.Clear(); actionStrings.Add("Encrypt / Decrypt"); action = 0; OnPropertyChanged("Action");
-                        if (key.Length > 3) key = key.Remove(0, 1); OnPropertyChanged("Key");
-                        rotorAStrings.Clear(); rotorAStrings.Add("I (G)"); rotorAStrings.Add("II (G)"); rotorAStrings.Add("III (G)");
-                        rotor1 = 0; rotor2 = 1; rotor3 = 2; OnPropertyChanged("Rotor1"); OnPropertyChanged("Rotor2"); OnPropertyChanged("Rotor3");
-                        rotorBStrings.Clear(); rotorBStrings.Add("Not available for this model."); rotor4 = 0; OnPropertyChanged("Rotor4");
-                        reflectorStrings.Clear(); reflectorStrings.Add("UKW (G)"); reflector = 0; OnPropertyChanged("Reflector");
-                        hideSettingsElement("Rotor4"); hideSettingsElement("Ring4");
-                        showSettingsElement("Reflector");
+                        SetList(actionStrings, "Action1");
+                        SetList(rotorAStrings, "RotorA21", "RotorA22", "RotorA23");
+                        SetList(rotorBStrings, "RotorB1");
+                        SetList(reflectorStrings, "Reflector9");
+
+                        action = 0;
+                        if (key.Length > 3) key = key.Remove(0, 1);
+                        rotor1 = 0; rotor2 = 1; rotor3 = 2; rotor4 = 0;
+                        reflector = 0;
+
+                        hideSettingsElement("Rotor4"); hideSettingsElement("Ring4"); showSettingsElement("Reflector");
                         break;
                 }
+
+                OnPropertyChanged("Action");
+                OnPropertyChanged("Key");
+                OnPropertyChanged("Rotor1");
+                OnPropertyChanged("Rotor2");
+                OnPropertyChanged("Rotor3");
+                OnPropertyChanged("Rotor4");
+                OnPropertyChanged("Reflector");
             }
         }
 
