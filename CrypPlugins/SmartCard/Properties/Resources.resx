@@ -156,4 +156,7 @@
   <data name="SearchCardReadersTooltip" xml:space="preserve">
     <value>Search for readers connected to system.</value>
   </data>
+  <data name="Virtual_Cardreader" xml:space="preserve">
+    <value>Virtual Cardreader</value>
+  </data>
 </root>

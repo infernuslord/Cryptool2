@@ -150,4 +150,16 @@
   <data name="DictionaryTooltip" xml:space="preserve">
     <value>Select dictionary with keywords.</value>
   </data>
+  <data name="English_dictionary" xml:space="preserve">
+    <value>English dictionary</value>
+  </data>
+  <data name="German_dictionary" xml:space="preserve">
+    <value>German dictionary</value>
+  </data>
+  <data name="WordPatterns_English" xml:space="preserve">
+    <value>WordPatterns English</value>
+  </data>
+  <data name="WordPatterns_German" xml:space="preserve">
+    <value>WordPatterns German</value>
+  </data>
 </root>

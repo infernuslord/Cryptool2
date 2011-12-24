@@ -61,6 +61,42 @@ namespace Cryptool.Enigma.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Encrypt / Decrypt ähnelt.
+        /// </summary>
+        public static string Action1 {
+            get {
+                return ResourceManager.GetString("Action1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Encrypt ähnelt.
+        /// </summary>
+        public static string Action2 {
+            get {
+                return ResourceManager.GetString("Action2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Decrypt ähnelt.
+        /// </summary>
+        public static string Action3 {
+            get {
+                return ResourceManager.GetString("Action3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Analyze ähnelt.
+        /// </summary>
+        public static string Action4 {
+            get {
+                return ResourceManager.GetString("Action4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Operation mode ähnelt.
         /// </summary>
         public static string ActionCaption {
@@ -1438,6 +1474,96 @@ namespace Cryptool.Enigma.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die UKW A ähnelt.
+        /// </summary>
+        public static string Reflector1 {
+            get {
+                return ResourceManager.GetString("Reflector1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Not available for this model. ähnelt.
+        /// </summary>
+        public static string Reflector10 {
+            get {
+                return ResourceManager.GetString("Reflector10", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die UKW B (2. November 1937) ähnelt.
+        /// </summary>
+        public static string Reflector2 {
+            get {
+                return ResourceManager.GetString("Reflector2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die UKW C (since 1940/41) ähnelt.
+        /// </summary>
+        public static string Reflector3 {
+            get {
+                return ResourceManager.GetString("Reflector3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die UKW (D) ähnelt.
+        /// </summary>
+        public static string Reflector4 {
+            get {
+                return ResourceManager.GetString("Reflector4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die UKW -- since 7th Feb. 1941 ähnelt.
+        /// </summary>
+        public static string Reflector5 {
+            get {
+                return ResourceManager.GetString("Reflector5", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die UKW B &quot;thin&quot; -- since 1st Feb. 1942 ähnelt.
+        /// </summary>
+        public static string Reflector6 {
+            get {
+                return ResourceManager.GetString("Reflector6", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die UKW C &quot;thin&quot; -- since 1st July 1943 ähnelt.
+        /// </summary>
+        public static string Reflector7 {
+            get {
+                return ResourceManager.GetString("Reflector7", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die UKW (K) -- since Feb. 1939 ähnelt.
+        /// </summary>
+        public static string Reflector8 {
+            get {
+                return ResourceManager.GetString("Reflector8", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die UKW (G) ähnelt.
+        /// </summary>
+        public static string Reflector9 {
+            get {
+                return ResourceManager.GetString("Reflector9", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Reflector ähnelt.
         /// </summary>
         public static string ReflectorCaption {
@@ -1632,6 +1758,240 @@ namespace Cryptool.Enigma.Properties {
         public static string Rotor4Tooltip {
             get {
                 return ResourceManager.GetString("Rotor4Tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die I (since 1930) ähnelt.
+        /// </summary>
+        public static string RotorA1 {
+            get {
+                return ResourceManager.GetString("RotorA1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die II (C) -- since 1924 ähnelt.
+        /// </summary>
+        public static string RotorA10 {
+            get {
+                return ResourceManager.GetString("RotorA10", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die III (C) -- since 1924 ähnelt.
+        /// </summary>
+        public static string RotorA11 {
+            get {
+                return ResourceManager.GetString("RotorA11", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die I (D) ähnelt.
+        /// </summary>
+        public static string RotorA12 {
+            get {
+                return ResourceManager.GetString("RotorA12", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die II (D) ähnelt.
+        /// </summary>
+        public static string RotorA13 {
+            get {
+                return ResourceManager.GetString("RotorA13", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die III (D) ähnelt.
+        /// </summary>
+        public static string RotorA14 {
+            get {
+                return ResourceManager.GetString("RotorA14", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die I -- since 7th Feb. 1941 ähnelt.
+        /// </summary>
+        public static string RotorA15 {
+            get {
+                return ResourceManager.GetString("RotorA15", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die II -- since 7th Feb. 1941 ähnelt.
+        /// </summary>
+        public static string RotorA16 {
+            get {
+                return ResourceManager.GetString("RotorA16", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die III -- since 7th Feb. 1941 ähnelt.
+        /// </summary>
+        public static string RotorA17 {
+            get {
+                return ResourceManager.GetString("RotorA17", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die I (K) -- since Feb. 1939 ähnelt.
+        /// </summary>
+        public static string RotorA18 {
+            get {
+                return ResourceManager.GetString("RotorA18", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die II (K) -- since Feb. 1939 ähnelt.
+        /// </summary>
+        public static string RotorA19 {
+            get {
+                return ResourceManager.GetString("RotorA19", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die II (since 1930) ähnelt.
+        /// </summary>
+        public static string RotorA2 {
+            get {
+                return ResourceManager.GetString("RotorA2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die III (K) -- since Feb. 1939 ähnelt.
+        /// </summary>
+        public static string RotorA20 {
+            get {
+                return ResourceManager.GetString("RotorA20", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die I (G) ähnelt.
+        /// </summary>
+        public static string RotorA21 {
+            get {
+                return ResourceManager.GetString("RotorA21", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die II (G) ähnelt.
+        /// </summary>
+        public static string RotorA22 {
+            get {
+                return ResourceManager.GetString("RotorA22", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die III (G) ähnelt.
+        /// </summary>
+        public static string RotorA23 {
+            get {
+                return ResourceManager.GetString("RotorA23", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die III (since 1930) ähnelt.
+        /// </summary>
+        public static string RotorA3 {
+            get {
+                return ResourceManager.GetString("RotorA3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die IV (since 1938, M3 &quot;Heer&quot;) ähnelt.
+        /// </summary>
+        public static string RotorA4 {
+            get {
+                return ResourceManager.GetString("RotorA4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die V (since 1938, M3 &quot;Heer&quot;) ähnelt.
+        /// </summary>
+        public static string RotorA5 {
+            get {
+                return ResourceManager.GetString("RotorA5", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die VI (since 1939, M3/M4) ähnelt.
+        /// </summary>
+        public static string RotorA6 {
+            get {
+                return ResourceManager.GetString("RotorA6", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die VII (since 1939, M3/M4) ähnelt.
+        /// </summary>
+        public static string RotorA7 {
+            get {
+                return ResourceManager.GetString("RotorA7", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die VIII (since 1939, M3/M4) ähnelt.
+        /// </summary>
+        public static string RotorA8 {
+            get {
+                return ResourceManager.GetString("RotorA8", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die I (C) -- since 1924 ähnelt.
+        /// </summary>
+        public static string RotorA9 {
+            get {
+                return ResourceManager.GetString("RotorA9", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Not available for this model. ähnelt.
+        /// </summary>
+        public static string RotorB1 {
+            get {
+                return ResourceManager.GetString("RotorB1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Beta -- since 1st Feb. 1942 ähnelt.
+        /// </summary>
+        public static string RotorB2 {
+            get {
+                return ResourceManager.GetString("RotorB2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Gamma -- since 1st July 1943 ähnelt.
+        /// </summary>
+        public static string RotorB3 {
+            get {
+                return ResourceManager.GetString("RotorB3", resourceCulture);
             }
         }
         

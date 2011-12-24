@@ -150,4 +150,16 @@
   <data name="DictionaryTooltip" xml:space="preserve">
     <value>Wählen Sie das Wörterbuch mit den Schlüsselwörtern.</value>
   </data>
+  <data name="English_dictionary" xml:space="preserve">
+    <value>Englisches Wörterbuch</value>
+  </data>
+  <data name="German_dictionary" xml:space="preserve">
+    <value>Deutsches Wörterbuch</value>
+  </data>
+  <data name="WordPatterns_English" xml:space="preserve">
+    <value>Englische Wortmuster</value>
+  </data>
+  <data name="WordPatterns_German" xml:space="preserve">
+    <value>Deutsche Wortmuster</value>
+  </data>
 </root>

@@ -156,4 +156,7 @@
   <data name="SearchCardReadersTooltip" xml:space="preserve">
     <value>Suche nach Chipkartenlesern, die mit dem System verbunden sind.</value>
   </data>
+  <data name="Virtual_Cardreader" xml:space="preserve">
+    <value>Virtueller Chipkartenleser</value>
+  </data>
 </root>

@@ -667,4 +667,124 @@ Wählen Sie das Enigma-Modell. Verschiedene Modelle verwenden unterschiedliche R
   <data name="Please_stop_the_Workspace_for_Presentation" xml:space="preserve">
     <value>Bitte halten Sie den Workspace an, um die Präsentation anzuzeigen!</value>
   </data>
+  <data name="Action1" xml:space="preserve">
+    <value>Verschlüsseln / Entschlüsseln</value>
+  </data>
+  <data name="Action2" xml:space="preserve">
+    <value>Verschlüsseln</value>
+  </data>
+  <data name="Action3" xml:space="preserve">
+    <value>Entschlüsseln</value>
+  </data>
+  <data name="Action4" xml:space="preserve">
+    <value>Analysieren</value>
+  </data>
+  <data name="Reflector1" xml:space="preserve">
+    <value>UKW A</value>
+  </data>
+  <data name="Reflector10" xml:space="preserve">
+    <value>Für dieses Modell nicht vorhanden.</value>
+  </data>
+  <data name="Reflector2" xml:space="preserve">
+    <value>UKW B (2. November 1937)</value>
+  </data>
+  <data name="Reflector3" xml:space="preserve">
+    <value>UKW C (seit 1940/41)</value>
+  </data>
+  <data name="Reflector4" xml:space="preserve">
+    <value>UKW (D)</value>
+  </data>
+  <data name="Reflector5" xml:space="preserve">
+    <value>UKW -- seit 7. Feb. 1941</value>
+  </data>
+  <data name="Reflector6" xml:space="preserve">
+    <value>UKW B "dünn" -- seit 1. Feb. 1942</value>
+  </data>
+  <data name="Reflector7" xml:space="preserve">
+    <value>UKW C "dünn" -- seit 1. Juli 1943</value>
+  </data>
+  <data name="Reflector8" xml:space="preserve">
+    <value>UKW (K) -- seit Feb. 1939</value>
+  </data>
+  <data name="Reflector9" xml:space="preserve">
+    <value>UKW (G)</value>
+  </data>
+  <data name="RotorA1" xml:space="preserve">
+    <value>I (seit 1930)</value>
+  </data>
+  <data name="RotorA10" xml:space="preserve">
+    <value>II (C) -- seit 1924</value>
+  </data>
+  <data name="RotorA11" xml:space="preserve">
+    <value>III (C) -- seit 1924</value>
+  </data>
+  <data name="RotorA12" xml:space="preserve">
+    <value>I (D)</value>
+  </data>
+  <data name="RotorA13" xml:space="preserve">
+    <value>II (D)</value>
+  </data>
+  <data name="RotorA14" xml:space="preserve">
+    <value>III (D)</value>
+  </data>
+  <data name="RotorA15" xml:space="preserve">
+    <value>I -- seit  7. Feb. 1941</value>
+  </data>
+  <data name="RotorA16" xml:space="preserve">
+    <value>II -- seit  7. Feb. 1941</value>
+  </data>
+  <data name="RotorA17" xml:space="preserve">
+    <value>III -- seit  7. Feb. 1941</value>
+  </data>
+  <data name="RotorA18" xml:space="preserve">
+    <value>I (K) -- seit  Feb. 1939</value>
+  </data>
+  <data name="RotorA19" xml:space="preserve">
+    <value>II (K) -- seit  Feb. 1939</value>
+  </data>
+  <data name="RotorA2" xml:space="preserve">
+    <value>II (seit  1930)</value>
+  </data>
+  <data name="RotorA20" xml:space="preserve">
+    <value>III (K) -- seit  Feb. 1939</value>
+  </data>
+  <data name="RotorA21" xml:space="preserve">
+    <value>I (G)</value>
+  </data>
+  <data name="RotorA22" xml:space="preserve">
+    <value>II (G)</value>
+  </data>
+  <data name="RotorA23" xml:space="preserve">
+    <value>III (G)</value>
+  </data>
+  <data name="RotorA3" xml:space="preserve">
+    <value>III (seit  1930)</value>
+  </data>
+  <data name="RotorA4" xml:space="preserve">
+    <value>IV (seit  1938, M3 "Heer")</value>
+  </data>
+  <data name="RotorA5" xml:space="preserve">
+    <value>V (seit  1938, M3 "Heer")</value>
+  </data>
+  <data name="RotorA6" xml:space="preserve">
+    <value>VI (seit  1939, M3/M4)</value>
+  </data>
+  <data name="RotorA7" xml:space="preserve">
+    <value>VII (seit  1939, M3/M4)</value>
+  </data>
+  <data name="RotorA8" xml:space="preserve">
+    <value>VIII (seit  1939, M3/M4)</value>
+  </data>
+  <data name="RotorA9" xml:space="preserve">
+    <value>I (C) -- seit  1924</value>
+  </data>
+  <data name="RotorB1" xml:space="preserve">
+    <value>Für dieses Modell nicht vorhanden.</value>
+  </data>
+  <data name="RotorB2" xml:space="preserve">
+    <value>Beta -- seit  1. Feb. 1942</value>
+  </data>
+  <data name="RotorB3" xml:space="preserve">
+    <value>Gamma -- seit  1. Juli 1943</value>
+  </data>
 </root>

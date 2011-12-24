@@ -541,7 +541,7 @@ namespace Cryptool.CrypWin
                 #endregion RadioButton
                 # region DynamicComboBox
                 case ControlType.DynamicComboBox:
-                  PropertyInfo pInfo = settings.GetType().GetProperty(bInfo.TaskPaneSettingsAttribute.ControlValues[0]);
+                  PropertyInfo pInfo = settings.GetType().GetProperty(bInfo.TaskPaneSettingsAttribute.ControlValuesNotInterpolated[0]);
                   ObservableCollection<string> coll = pInfo.GetValue(settings, null) as ObservableCollection<string>;
                   if (coll != null)
                   {
