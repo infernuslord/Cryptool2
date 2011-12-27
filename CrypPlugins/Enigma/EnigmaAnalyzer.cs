@@ -762,22 +762,37 @@ namespace Cryptool.Enigma
         {
             if (settings.AnalyzeRotors)
             {
-                pluginFacade.LogMessage("ANALYSIS: ====> Stage 1 - Searching used rotors <====", NotificationLevel.Info);
+                pluginFacade.LogMessage("ANALYSIS: ====> Stage 1 - Searching used rotors and key <====", NotificationLevel.Info);
                 analyzeRotors(preformatedText);
             }
             else
             {
-                pluginFacade.LogMessage("ANALYSIS: ====> Skipping stage 1 - Using rotors  from settings <====", NotificationLevel.Info);
-                analysisConfigSettings settingsConfig = new analysisConfigSettings();
-                settingsConfig.Rotor1 = settings.Rotor1;
-                settingsConfig.Rotor2 = settings.Rotor2;
-                settingsConfig.Rotor3 = settings.Rotor3;
-                settingsConfig.Ring1 = settings.AnalyzeRings ? 1 : settings.Ring1;
-                settingsConfig.Ring2 = settings.AnalyzeRings ? 1 : settings.Ring2;
-                settingsConfig.Ring3 = settings.AnalyzeRings ? 1 : settings.Ring3;
-                settingsConfig.Key = settings.Key;
+                pluginFacade.LogMessage("ANALYSIS: ====> Stage 1 - Searching key (with fixed rotors) <====", NotificationLevel.Info);
+                if (settings.AnalyzeKey)
+                {
+                    core.setInternalConfig(settings.Rotor1, settings.Rotor2, settings.Rotor3, settings.Rotor4, settings.Reflector,
+                                    settings.AnalyzeRings ? 1 : settings.Ring1,
+                                    settings.AnalyzeRings ? 1 : settings.Ring2,
+                                    settings.AnalyzeRings ? 1 : settings.Ring3,
+                                    settings.Ring4,
+                                    settings.AnalyzePlugs ? settings.Alphabet : settings.PlugBoard
+                        );
+                    analyzeKeys(preformatedText);
+                }
+                else
+                {
+                    pluginFacade.LogMessage("ANALYSIS: ====> Skipping stage 1 - Using rotors/key from settings <====", NotificationLevel.Info);
+                    analysisConfigSettings settingsConfig = new analysisConfigSettings();
+                    settingsConfig.Rotor1 = settings.Rotor1;
+                    settingsConfig.Rotor2 = settings.Rotor2;
+                    settingsConfig.Rotor3 = settings.Rotor3;
+                    settingsConfig.Ring1 = settings.AnalyzeRings ? 1 : settings.Ring1;
+                    settingsConfig.Ring2 = settings.AnalyzeRings ? 1 : settings.Ring2;
+                    settingsConfig.Ring3 = settings.AnalyzeRings ? 1 : settings.Ring3;
+                    settingsConfig.Key = settings.Key;
 
-                analysisCandidates.Add(settingsConfig);
+                    analysisCandidates.Add(settingsConfig);
+                }
             }
 
             // just for debugging
