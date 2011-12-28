@@ -475,8 +475,14 @@ namespace Cryptool.Enigma
                     string preformatedText = preFormatInput(inputString);
 
                     // perform the analysis
-                    outputString = postFormatOutput(analyzer.Analyze(preformatedText));
-                    OnPropertyChanged("OutputString");
+                    foreach (string decrypt in analyzer.Analyze(preformatedText))
+                    {
+                        LogMessage(decrypt, NotificationLevel.Debug);
+
+                        // fire all best candidates
+                        outputString = postFormatOutput(decrypt);
+                        OnPropertyChanged("OutputString");
+                    }
 
                     ShowProgress(1000, 1000);
                     break;
