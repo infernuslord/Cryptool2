@@ -465,11 +465,6 @@ namespace Cryptool.CrypWin
             }
         }
 
-        private void LoadNewPlugins_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = true;
-        }
-
         private void PlayDemo_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
             if (Settings.Default.FixedWorkspace)

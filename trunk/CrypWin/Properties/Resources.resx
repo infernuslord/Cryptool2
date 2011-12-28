@@ -283,9 +283,6 @@
   <data name="Fullscreen" xml:space="preserve">
     <value>Fullscreen</value>
   </data>
-  <data name="Load_new_plugins" xml:space="preserve">
-    <value>Load new plugins</value>
-  </data>
   <data name="Network" xml:space="preserve">
     <value>Connect</value>
   </data>
