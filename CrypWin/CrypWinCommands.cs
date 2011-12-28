@@ -38,7 +38,6 @@ namespace Cryptool.CrypWin
     public static ButtonDropDownCommand StopDemo = new ButtonDropDownCommand(Properties.Resources.StopDemo, "StopDemo", typeof(CrypWin.MainWindow));
     public static ButtonDropDownCommand Maximize = new ButtonDropDownCommand(Properties.Resources.Maximize, "Maximize", typeof(CrypWin.MainWindow));
     public static ButtonDropDownCommand Fullscreen = new ButtonDropDownCommand(Properties.Resources.Fullscreen, "Fullscreen", typeof(CrypWin.MainWindow));
-    public static ButtonDropDownCommand LoadNewPlugins = new ButtonDropDownCommand(Properties.Resources.Load_new_plugins, "Load new plugins", typeof(CrypWin.MainWindow));
     public static ButtonDropDownCommand P2P = new ButtonDropDownCommand(Properties.Resources.Network, "P2P", typeof(CrypWin.MainWindow));
     public static ButtonDropDownCommand Startcenter = new ButtonDropDownCommand(Properties.Resources.Startcenter, "Startcenter", typeof(CrypWin.MainWindow));
     public static ButtonDropDownCommand AutoUpdater = new ButtonDropDownCommand(Properties.Resources.AutoUpdater, "AutoUpdater", typeof(CrypWin.MainWindow));

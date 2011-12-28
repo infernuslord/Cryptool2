@@ -1038,15 +1038,6 @@ namespace Cryptool.CrypWin.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Load new plugins.
-        /// </summary>
-        internal static string Load_new_plugins {
-            get {
-                return ResourceManager.GetString("Load_new_plugins", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Load this file..
         /// </summary>
         internal static string Load_this_file_ {
