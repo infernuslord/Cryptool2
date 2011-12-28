@@ -732,7 +732,7 @@ namespace Cryptool.Enigma
         /// </summary>
         /// <param name="preformatedText">The preformated text for analysis</param>
         /// <returns>The cleartext as decoded with the analyzed key</returns>
-        public string Analyze(string preformatedText)
+        public IEnumerable<string> Analyze(string preformatedText)
         {
             pluginFacade.LogMessage("=========> ANALYSIS OF ENIGMA MESSAGE STARTED <=========", NotificationLevel.Info);
 
@@ -747,15 +747,8 @@ namespace Cryptool.Enigma
             // switch back to verbose core
             core.VerboseLevel = VerboseLevels.VeryVerbose;
 
-            // decrypt with best option
-            analysisConfigSettings bestConfig = analysisCandidates[analysisCandidates.Count - 1];
-
-            foreach (analysisConfigSettings config in analysisCandidates)
-            {
-                pluginFacade.LogMessage(encrypt(config, preformatedText, config.PlugBoard), NotificationLevel.Debug);
-            }
-
-            return encrypt(bestConfig, preformatedText, bestConfig.PlugBoard);
+            // decrypt all
+            return analysisCandidates.Select(cfg => encrypt(cfg, preformatedText, cfg.PlugBoard));
         }
 
         private void AnalyzeRun(string preformatedText)
